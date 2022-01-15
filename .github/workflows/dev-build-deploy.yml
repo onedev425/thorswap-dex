@@ -82,4 +82,4 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'THORSwap V2 development app has been deployed. - https://thorswap-dev-app-v2.netlify.app'
+          args: 'THORSwap V2 development app has been deployed. - App: https://thorswap-dev-app-v2.netlify.app Storybook: https://thorswap-prod-app-v2.netlify.app/storybook'
