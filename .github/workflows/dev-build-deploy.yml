@@ -41,7 +41,7 @@ jobs:
       - name: Build project
         env:
           CI: false
-        run: yarn build
+        run: yarn build:dev
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v2
