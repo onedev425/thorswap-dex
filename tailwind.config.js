@@ -1,8 +1,10 @@
 module.exports = {
+  darkMode: 'class',
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     colors: {
       // common colors
+      transparent: 'transparent',
       purple: '#7B48E8',
       yellow: '#FFB359',
       pink: '#ED6B82',
@@ -16,7 +18,7 @@ module.exports = {
         'bg-primary': '#F7F8FA',
         'bg-secondary': '#FCFCFC',
         'typo-primary': '#121526',
-        'typo-secondary': '#7C859F',
+        'typo-gray': '#7C859F',
         'btn-primary': '#39BBF3',
         'btn-secondary': '#4DC5B8',
         'chart-bg': '#39BBF3',
@@ -27,7 +29,7 @@ module.exports = {
         'bg-primary': '#121526',
         'bg-secondary': '#232E42',
         'typo-primary': '#E2EBFB',
-        'typo-secondary': '#75849D',
+        'typo-gray': '#75849D',
         'btn-primary': '#4DBAD6',
         'btn-secondary': '#46B2A7',
         'chart-bg': '#348CF4',
