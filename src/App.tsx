@@ -1,6 +1,9 @@
 import React from 'react'
 
+import { Button } from 'components/Button'
+
 import logo from './logo.svg'
+
 import './App.css'
 
 function App() {
@@ -8,7 +11,10 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p className="font-primary font-extralight bg-dark-chart-bg">
+        <Button bgColor="purple" size="small" outline>
+          Button Test
+        </Button>
+        <p className="bg-light-btn-secondary font-primary font-extralight">
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
         <a
