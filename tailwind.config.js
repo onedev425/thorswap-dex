@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
   darkMode: 'class',
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
@@ -37,6 +39,61 @@ module.exports = {
     },
     fontFamily: {
       primary: ['Poppins', 'sans-serif'],
+    },
+    fontSize: {
+      ...defaultTheme.fontSize,
+      h1: [
+        '48px',
+        {
+          letterSpacing: '-0.04em',
+          fontWeight: 500,
+        },
+      ],
+      h2: [
+        '28px',
+        {
+          letterSpacing: '0.02em',
+          lineHeight: '42px',
+          fontWeight: 600,
+        },
+      ],
+      h3: [
+        '24px',
+        {
+          letterSpacing: '0.02em',
+          lineHeight: '36px',
+          fontWeight: 600,
+        },
+      ],
+      h4: [
+        '21px',
+        {
+          letterSpacing: '-0.01em',
+          lineHeight: '24px',
+        },
+      ],
+      h5: [
+        '17px',
+        {
+          letterSpacing: '-0.02em',
+          lineHeight: '24px',
+        },
+      ],
+      body: [
+        '14px',
+        {
+          letterSpacing: '0.03em',
+          lineHeight: '16px',
+        },
+      ],
+      caption: [
+        '11px',
+        {
+          letterSpacing: '0.03em',
+          lineHeight: '18px',
+          fontWeight: 700,
+        },
+      ],
     },
     extend: {},
   },
