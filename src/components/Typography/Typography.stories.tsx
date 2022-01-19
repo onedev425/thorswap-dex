@@ -12,7 +12,9 @@ export default {
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
 } as ComponentMeta<typeof Typography>
 
-export const All = ({ color, fontWeight, component }: TypographyProps) => {
+export const All = (props: TypographyProps) => {
+  const { color, fontWeight, component } = props
+
   return (
     <div className="flex flex-col bg-light-bg-primary dark:bg-dark-bg-primary p-4">
       <Typography
