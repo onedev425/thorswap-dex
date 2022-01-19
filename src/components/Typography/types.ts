@@ -1,3 +1,5 @@
+import React from 'react'
+
 export type TypographyVariant =
   | 'h1'
   | 'h2'
@@ -28,6 +30,8 @@ export type Color =
   | 'green'
   | 'orange'
   | 'cyan'
+
+export type TextTransform = 'none' | 'capitalize' | 'uppercase' | 'lowercase'
 
 export const variantClasses: Record<TypographyVariant, string> = {
   h1: 'text-h1',
@@ -63,6 +67,13 @@ export const colorClasses: Record<Color, string> = {
   cyan: 'text-cyan',
 }
 
+export const transformClasses: Record<TextTransform, string> = {
+  none: 'normal-case',
+  capitalize: 'capitalize',
+  uppercase: 'uppercase',
+  lowercase: 'lowercase',
+}
+
 export type Props = {
   className?: string
   component?: keyof React.ReactHTML
@@ -70,4 +81,5 @@ export type Props = {
   variant?: TypographyVariant
   fontWeight?: TypographyWeight
   children?: React.ReactNode
+  transform?: TextTransform
 }

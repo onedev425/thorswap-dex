@@ -1,6 +1,6 @@
 import './preview.css'
 
-export const globalTypes = {
+export const globals = {
   darkMode: true,
 }
 

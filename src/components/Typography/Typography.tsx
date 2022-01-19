@@ -2,7 +2,13 @@ import React from 'react'
 
 import classNames from 'classnames'
 
-import { Props, colorClasses, variantClasses, weightClasses } from './types'
+import {
+  Props,
+  colorClasses,
+  variantClasses,
+  transformClasses,
+  weightClasses,
+} from './types'
 
 export const Typography: React.FC<Props> = (props: Props) => {
   const {
@@ -10,7 +16,8 @@ export const Typography: React.FC<Props> = (props: Props) => {
     className = '',
     color = 'primary',
     variant = 'body',
-    fontWeight = 'normal',
+    transform = 'none',
+    fontWeight,
     children,
   } = props
 
@@ -19,7 +26,8 @@ export const Typography: React.FC<Props> = (props: Props) => {
       className={classNames(
         colorClasses[color],
         variantClasses[variant],
-        weightClasses[fontWeight],
+        transformClasses[transform],
+        fontWeight ? weightClasses[fontWeight] : '',
         className,
         'font-primary',
       )}
