@@ -98,7 +98,7 @@ module.exports = {
     extend: {
       transitionDuration: {
         DEFAULT: '300ms',
-      }
+      },
     },
   },
   corePlugins: {
