@@ -68,7 +68,7 @@ export const Button: React.FC<ButtonProps> = (props): JSX.Element => {
         outline ? bgClasses[bgColor][0] : bgClasses[bgColor][1],
         size === 'small' ? 'h-10' : 'h-12 min-w-[180px]',
         size === 'small' ? 'rounded-2xl' : 'rounded-3xl',
-        'px-4 border border-solid font-primary outline-none cursor-pointer',
+        'px-4 border border-solid font-primary outline-none cursor-pointer transition',
         className,
       )}
       {...rest}

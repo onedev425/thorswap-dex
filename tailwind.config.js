@@ -95,7 +95,11 @@ module.exports = {
         },
       ],
     },
-    extend: {},
+    extend: {
+      transitionDuration: {
+        DEFAULT: '300ms',
+      }
+    },
   },
   corePlugins: {
     preflight: false,
