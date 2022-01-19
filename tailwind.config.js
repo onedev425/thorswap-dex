@@ -14,6 +14,7 @@ module.exports = {
       green: '#5DD39B',
       orange: '#E98566',
       cyan: '#2AC6DB',
+      gray: '#273855',
 
       // light mode
       light: {

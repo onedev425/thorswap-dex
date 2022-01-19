@@ -8,3 +8,4 @@ export type ColorType =
   | 'green'
   | 'orange'
   | 'cyan'
+  | 'gray'
