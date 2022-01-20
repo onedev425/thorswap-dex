@@ -29,6 +29,8 @@ export const Button: React.FC<Props> = (props): JSX.Element => {
     outline = false,
     borderless = false,
     disabled = false,
+    startIcon,
+    endIcon,
     children,
     ...rest
   } = props
@@ -47,18 +49,21 @@ export const Button: React.FC<Props> = (props): JSX.Element => {
         outline && disabled ? 'hover:bg-opacity-0' : '',
         size === 'small' ? 'h-10' : 'h-12 min-w-[180px]',
         size === 'small' ? 'rounded-2xl' : 'rounded-3xl',
-        'px-4 border-solid font-primary outline-none transition',
+        'flex items-center justify-center px-4 border-solid font-primary outline-none transition',
         className,
       )}
       {...rest}
     >
+      {startIcon && startIcon}
       <Typography
+        className={classNames(startIcon ? 'ml-1' : '', endIcon ? 'mr-1' : '')}
         variant="caption"
         transform={size === 'large' ? 'uppercase' : 'capitalize'}
         color={textColor}
       >
         {children}
       </Typography>
+      {endIcon && endIcon}
     </button>
   )
 }
