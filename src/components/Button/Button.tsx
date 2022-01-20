@@ -20,7 +20,7 @@ const getBgClassNames = (
   return bgClasses[bgColor][1]
 }
 
-export const Button: React.FC<Props> = (props): JSX.Element => {
+export const Button = (props: Props) => {
   const {
     className = '',
     bgColor = 'primary',

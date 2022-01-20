@@ -27,7 +27,7 @@ export type Props = {
   onClick?: () => void
 }
 
-export const Icon: React.FC<Props> = (props): JSX.Element => {
+export const Icon = (props: Props) => {
   const { className, color = 'primary', name, size = 24, onClick } = props
   const IconComp = IconList[name]
 

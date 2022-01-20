@@ -10,7 +10,7 @@ import {
   weightClasses,
 } from './types'
 
-export const Typography: React.FC<Props> = (props: Props) => {
+export const Typography = (props: Props) => {
   const {
     component: Component = 'div',
     className = '',
