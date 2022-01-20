@@ -13,6 +13,7 @@ export type Props = {
   endIcon?: React.ReactNode
   borderless?: boolean
   disabled?: boolean
+  children?: React.ReactNode
 
   onClick?: () => void
 }
