@@ -15,6 +15,7 @@ module.exports = {
       orange: '#E98566',
       cyan: '#2AC6DB',
       gray: '#273855',
+      red: '#ff2357',
 
       // light mode
       light: {
@@ -100,6 +101,13 @@ module.exports = {
       transitionDuration: {
         DEFAULT: '300ms',
       },
+      borderRadius: {
+        box: '2rem', //32px
+        'box-lg': '2.5rem' //40px
+      },
+      dropShadow: {
+        'box': '0 5px 15px rgba(0,0,0,.05)'
+      }
     },
   },
   corePlugins: {
