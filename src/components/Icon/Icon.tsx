@@ -1,5 +1,3 @@
-import React from 'react'
-
 import classNames from 'classnames'
 
 import { ColorType } from 'types/global'
@@ -19,7 +17,7 @@ export const colorClasses: Record<ColorType, string> = {
   gray: 'text-gray',
 }
 
-export type Props = {
+export type IconProps = {
   className?: string
   color?: ColorType
   name: IconName
@@ -27,7 +25,7 @@ export type Props = {
   onClick?: () => void
 }
 
-export const Icon = (props: Props) => {
+export const Icon = (props: IconProps) => {
   const { className, color = 'primary', name, size = 24, onClick } = props
   const IconComp = IconList[name]
 

@@ -1,8 +1,6 @@
-import React from 'react'
-
 import { ComponentMeta } from '@storybook/react'
 
-import { Icon, Props as IconProps } from './Icon'
+import { Icon, IconProps } from './Icon'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
