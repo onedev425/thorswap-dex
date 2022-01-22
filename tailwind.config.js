@@ -26,6 +26,7 @@ module.exports = {
         'btn-primary': '#39BBF3',
         'btn-secondary': '#4DC5B8',
         'chart-bg': '#39BBF3',
+        'border-primary': '#E6E9F5',
       },
 
       // dark
@@ -37,6 +38,7 @@ module.exports = {
         'btn-primary': '#4DBAD6',
         'btn-secondary': '#46B2A7',
         'chart-bg': '#348CF4',
+        'border-primary': '#273855',
       },
     },
     fontFamily: {
@@ -103,11 +105,11 @@ module.exports = {
       },
       borderRadius: {
         box: '2rem', //32px
-        'box-lg': '2.5rem' //40px
+        'box-lg': '2.5rem', //40px
       },
       dropShadow: {
-        'box': '0 5px 15px rgba(0,0,0,.05)'
-      }
+        box: '0 5px 15px rgba(0,0,0,.05)',
+      },
     },
   },
   corePlugins: {

@@ -54,6 +54,7 @@ module.exports = {
     'react/jsx-filename-extension': 0,
     'react/jsx-props-no-spreading': 0,
     'react/jsx-wrap-multilines': 1,
+    'react/react-in-jsx-scope': 0,
     'react/no-array-index-key': 1,
     'react/jsx-one-expression-per-line': 0,
     'react/jsx-indent': 0,

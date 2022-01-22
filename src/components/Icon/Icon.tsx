@@ -1,12 +1,11 @@
 import classNames from 'classnames'
 
-import { ColorType } from 'types/global'
-
 import IconList, { IconName } from './iconList'
 
-export const colorClasses: Record<ColorType, string> = {
+export const colorClasses = {
   primary: 'text-light-typo-primary dark:text-dark-typo-primary',
   secondary: 'text-light-typo-gray dark:text-dark-typo-gray',
+  tertiary: 'text-light-typo-primary dark:text-dark-typo-gray',
   purple: 'text-purple',
   yellow: 'text-yellow',
   pink: 'text-pink',
@@ -15,11 +14,11 @@ export const colorClasses: Record<ColorType, string> = {
   orange: 'text-orange',
   cyan: 'text-cyan',
   gray: 'text-gray',
-}
+} as const
 
 export type IconProps = {
   className?: string
-  color?: ColorType
+  color?: keyof typeof colorClasses
   name: IconName
   size?: number
   onClick?: () => void
