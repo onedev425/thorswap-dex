@@ -1,8 +1,6 @@
-import React from 'react'
-
 import { ComponentMeta } from '@storybook/react'
 
-import { Icon, Props as IconProps } from './Icon'
+import { Icon, IconProps } from './Icon'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -35,9 +33,9 @@ export const All = () => {
         <Icon name="telegram" color="blue" size={ICON_LG} />
         <Icon name="twitter" color="cyan" size={ICON_LG} />
         <Icon name="chartPie" color="green" size={ICON_LG} />
-        <Icon name="chartArea" color="purple" size={ICON_LG} />
-        <Icon name="chartArea2" color="yellow" size={ICON_LG} />
-        <Icon name="chartCandle" color="cyan" size={ICON_LG} />
+        <Icon name="chartArea" color="primary" size={ICON_LG} />
+        <Icon name="chartArea2" color="secondary" size={ICON_LG} />
+        <Icon name="chartCandle" color="tertiary" size={ICON_LG} />
         <Icon name="refresh" color="pink" size={ICON_LG} />
         <Icon name="wifi" color="cyan" size={ICON_LG} />
       </div>
