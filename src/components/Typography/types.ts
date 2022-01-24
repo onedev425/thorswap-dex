@@ -53,6 +53,7 @@ export const colorClasses: Record<ColorType, string> = {
   yellow: 'text-yellow',
   pink: 'text-pink',
   blue: 'text-blue',
+  blueLight: 'text-blue-light',
   green: 'text-green',
   orange: 'text-orange',
   cyan: 'text-cyan',

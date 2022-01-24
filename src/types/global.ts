@@ -5,6 +5,7 @@ export type ColorType =
   | 'yellow'
   | 'pink'
   | 'blue'
+  | 'blueLight'
   | 'green'
   | 'orange'
   | 'cyan'

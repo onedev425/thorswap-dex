@@ -11,6 +11,7 @@ module.exports = {
       yellow: '#FFB359',
       pink: '#ED6B82',
       blue: '#2A7DFA',
+      'blue-light': '#3397F2',
       green: '#5DD39B',
       orange: '#E98566',
       cyan: '#2AC6DB',
@@ -104,8 +105,8 @@ module.exports = {
         DEFAULT: '300ms',
       },
       borderRadius: {
-        box: '2rem', //32px
-        'box-lg': '2.5rem', //40px
+        box: '2rem',
+        'box-lg': '2.5rem',
       },
       dropShadow: {
         box: '0 5px 15px rgba(0,0,0,.05)',

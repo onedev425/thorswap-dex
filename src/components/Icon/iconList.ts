@@ -5,14 +5,19 @@ import {
   BsTelegram,
   BsTwitter,
 } from 'react-icons/bs'
-import { FaChartPie, FaWifi, FaChartArea, FaEthereum } from 'react-icons/fa'
+import {
+  FaChartPie,
+  FaWifi,
+  FaChartArea,
+  FaEthereum,
+  FaFire,
+} from 'react-icons/fa'
 import { FiRefreshCw } from 'react-icons/fi'
 import { GrBitcoin } from 'react-icons/gr'
-import { IconType } from 'react-icons/lib'
 import { MdAreaChart } from 'react-icons/md'
 import { SiBinance } from 'react-icons/si'
 
-import { ChartCandle } from './custom/ChartCandle'
+import { SvgIcons } from './svg/svgIconList'
 
 export type IconName = keyof typeof Icons
 
@@ -25,12 +30,13 @@ const Icons = {
   chartPie: FaChartPie,
   chartArea: MdAreaChart,
   chartArea2: FaChartArea,
-  chartCandle: ChartCandle as IconType,
   refresh: FiRefreshCw,
   wifi: FaWifi,
+  fire: FaFire,
   bitcoin: GrBitcoin,
   ethereum: FaEthereum,
   binance: SiBinance,
+  ...SvgIcons,
 } as const
 
 export default Icons

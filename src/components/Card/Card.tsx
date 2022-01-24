@@ -15,7 +15,7 @@ export const Card = (props: CardProps) => {
   return (
     <div
       className={classNames(
-        'rounded-box bg-light-bg-secondary dark:bg-dark-bg-secondary drop-shadow-box',
+        'rounded-box bg-light-bg-secondary dark:bg-dark-bg-secondary drop-shadow-box box-border',
         stretch ? 'flex flex-1' : 'inline-flex',
         sizeVariants[size],
         className,

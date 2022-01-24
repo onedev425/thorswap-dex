@@ -26,6 +26,8 @@ export const All = () => {
         <Icon name="chartCandle" size={ICON_MD} />
         <Icon name="refresh" size={ICON_MD} />
         <Icon name="wifi" size={ICON_MD} />
+        <Icon name="lightning" size={ICON_MD} />
+        <Icon name="fire" size={ICON_MD} />
         <Icon name="bitcoin" size={ICON_MD} />
         <Icon name="ethereum" size={ICON_MD} />
       </div>
@@ -40,6 +42,8 @@ export const All = () => {
         <Icon name="chartCandle" color="tertiary" size={ICON_LG} />
         <Icon name="refresh" color="pink" size={ICON_LG} />
         <Icon name="wifi" color="cyan" size={ICON_LG} />
+        <Icon name="lightning" color="blueLight" size={ICON_LG} />
+        <Icon name="fire" color="red" size={ICON_LG} />
         <Icon name="bitcoin" color="orange" size={ICON_LG} />
         <Icon name="ethereum" color="purple" size={ICON_LG} />
       </div>
