@@ -1,5 +1,3 @@
-import React from 'react'
-
 import classNames from 'classnames'
 
 import { Card } from '../Card'
@@ -10,6 +8,7 @@ import { StatsType, statsBgClasses } from './types'
 
 export const Stats = (props: StatsType) => {
   const { color, iconName, label, value } = props
+
   return (
     <Card
       className={classNames(
@@ -31,7 +30,7 @@ export const Stats = (props: StatsType) => {
           className="group-hover:text-dark-typo-primary transition"
         />
       </div>
-      <div className="flex-col flex justify-center gap-4">
+      <div className="flex flex-col justify-center gap-4">
         <Typography
           className="group-hover:text-dark-typo-primary transition"
           fontWeight="semibold"
