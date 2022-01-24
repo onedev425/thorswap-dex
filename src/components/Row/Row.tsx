@@ -1,9 +1,7 @@
 import classNames from 'classnames'
 import { Box } from 'rebass'
 
-import { bgClasses, borderClasses } from 'components/Button/types'
-
-import { alignClasses, justifyClasses, Props } from './types'
+import { Props, bgClasses, alignClasses, justifyClasses } from './types'
 
 export const Row = (props: Props) => {
   const {
@@ -11,7 +9,6 @@ export const Row = (props: Props) => {
     align = 'center',
     justify = 'start',
     background,
-    borderColor,
     children,
     ...rest
   } = props
@@ -20,12 +17,10 @@ export const Row = (props: Props) => {
     <Box
       className={classNames(
         className,
-        'flex border-solid',
-        borderColor ? 'border' : '',
+        'flex',
         alignClasses[align],
         justifyClasses[justify],
         background ? bgClasses[background] : '',
-        borderColor ? borderClasses[borderColor] : '',
       )}
       {...rest}
     >

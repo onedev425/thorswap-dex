@@ -17,7 +17,6 @@ export type Props = {
   align?: AlignType
   justify?: JustifyType
   background?: ColorType
-  borderColor?: ColorType
 } & Omit<BoxProps, 'css' | 'bg'>
 
 export const alignClasses: Record<AlignType, string> = {
@@ -35,21 +34,6 @@ export const justifyClasses: Record<JustifyType, string> = {
   between: 'justify-between',
   around: 'justify-around',
   evenly: 'justify-evenly',
-}
-
-export const borderClasses: Record<ColorType, string> = {
-  primary: 'border-light-btn-primary dark:border-dark-btn-primary',
-  secondary: 'border-light-btn-secondary dark:border-dark-btn-secondary',
-  purple: 'border-purple',
-  yellow: 'border-yellow',
-  pink: 'border-pink',
-  blue: 'border-blue',
-  blueLight: 'blue-light',
-  green: 'border-green',
-  orange: 'border-orange',
-  cyan: 'border-cyan',
-  gray: 'border-gray',
-  red: 'border-red',
 }
 
 export const bgClasses: Record<ColorType, string[]> = {
