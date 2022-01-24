@@ -14,6 +14,7 @@ export const colorClasses = {
   orange: 'text-orange',
   cyan: 'text-cyan',
   gray: 'text-gray',
+  red: 'text-red',
 } as const
 
 export type IconProps = {

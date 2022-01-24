@@ -1,0 +1,54 @@
+import { Button } from '../Button'
+import { Card } from '../Card'
+import { Icon } from '../Icon'
+import { Typography } from '../Typography'
+import { PoolCardProps } from './types'
+
+export const PoolCard = (props: PoolCardProps) => {
+  const { coinSymbol, iconName, color, price, change } = props
+
+  return (
+    <Card size="lg" className="overflow-hidden">
+      <div className="grid w-full grid-rows-2 auto-rows-min gap-y-3">
+        <div className="grid grid-cols-3">
+          <div className="col-span-1">
+            <Typography
+              transform="uppercase"
+              fontWeight="bold"
+              variant="h3"
+              className="mb-4"
+            >
+              {coinSymbol}
+            </Typography>
+            <Typography variant="h5" className="mb-2">
+              {price}
+            </Typography>
+            <Typography variant="h5" color={change >= 0 ? 'green' : 'red'}>
+              {change}%
+            </Typography>
+          </div>
+          <div className="text-right col-span-2">
+            <Icon name={iconName} color={color} size={120} />
+            <Icon
+              name={iconName}
+              color={color}
+              size={130}
+              className="absolute -z-1 top-16 right-16 blur-md opacity-50"
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-x-2 items-end">
+          <Button outline={true} bgColor="green" className="col-span-1">
+            Swap
+          </Button>
+          <Button outline={true} className="col-span-2">
+            Add Liquidity
+          </Button>
+        </div>
+      </div>
+      <div
+        className={`absolute w-4/5 h-4/5 top-0 right-0 blur-3xl translate-x-1/2 -translate-y-1/2 bg-${color} opacity-30`}
+      ></div>
+    </Card>
+  )
+}

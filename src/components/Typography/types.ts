@@ -57,6 +57,7 @@ export const colorClasses: Record<ColorType, string> = {
   orange: 'text-orange',
   cyan: 'text-cyan',
   gray: 'text-gray',
+  red: 'text-red',
 }
 
 export const transformClasses: Record<TextTransform, string> = {
