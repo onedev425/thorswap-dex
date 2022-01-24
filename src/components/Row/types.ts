@@ -48,6 +48,7 @@ export const borderClasses: Record<ColorType, string> = {
   orange: 'border-orange',
   cyan: 'border-cyan',
   gray: 'border-gray',
+  red: 'border-red',
 }
 
 export const bgClasses: Record<ColorType, string[]> = {
@@ -67,4 +68,5 @@ export const bgClasses: Record<ColorType, string[]> = {
   orange: ['bg-transparent hover:bg-orange', 'bg-orange hover:opacity-90'],
   cyan: ['bg-transparent hover:bg-cyan', 'bg-cyan hover:opacity-90'],
   gray: ['bg-transparent', 'bg-gray hover:opacity-90'],
+  red: ['bg-transparent hover:bg-red', 'bg-red hover:opacity-90'],
 }
