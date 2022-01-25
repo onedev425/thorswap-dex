@@ -2,25 +2,10 @@ import React from 'react'
 
 import { ColorType } from 'types/global'
 
-export type Props = {
-  className?: string
-  bgColor?: ColorType
-  textColor?: ColorType
-  size?: 'small' | 'large'
-  outline?: boolean
-  isLoading?: boolean
-  startIcon?: React.ReactNode
-  endIcon?: React.ReactNode
-  borderless?: boolean
-  disabled?: boolean
-  children?: React.ReactNode
-
-  onClick?: () => void
-}
-
-export const borderClasses: Record<ColorType, string> = {
+export const borderClasses = {
   primary: 'border-light-btn-primary dark:border-dark-btn-primary',
   secondary: 'border-light-btn-secondary dark:border-dark-btn-secondary',
+  tertiary: 'border-light-border-primary dark:border-dark-border-primary',
   purple: 'border-purple',
   yellow: 'border-yellow',
   pink: 'border-pink',
@@ -33,7 +18,7 @@ export const borderClasses: Record<ColorType, string> = {
   red: 'border-red',
 }
 
-export const bgClasses: Record<ColorType, string[]> = {
+export const bgClasses = {
   primary: [
     'bg-transparent hover:bg-light-btn-primary dark:hover:bg-dark-btn-primary',
     'bg-light-btn-primary dark:bg-dark-btn-primary hover:opacity-90',
@@ -41,6 +26,10 @@ export const bgClasses: Record<ColorType, string[]> = {
   secondary: [
     'bg-transparent hover:bg-light-btn-secondary dark:hover:bg-dark-btn-secondary',
     'bg-light-btn-secondary dark:bg-dark-btn-secondary hover:opacity-90',
+  ],
+  tertiary: [
+    'bg-transparent hover:bg-light-bg-secondary dark:hover:bg-dark-bg-secondary',
+    'bg-light-bg-secondary dark:bg-dark-bg-secondary hover:opacity-90',
   ],
   purple: ['bg-transparent hover:bg-purple', 'bg-purple hover:opacity-90'],
   yellow: ['bg-transparent hover:bg-yellow', 'bg-yellow hover:opacity-90'],
@@ -55,4 +44,22 @@ export const bgClasses: Record<ColorType, string[]> = {
   cyan: ['bg-transparent hover:bg-cyan', 'bg-cyan hover:opacity-90'],
   gray: ['bg-transparent', 'bg-gray hover:opacity-90'],
   red: ['bg-transparent', 'bg-red hover:opacity-90'],
+}
+
+export type ExtendedColorType = keyof typeof bgClasses
+
+export type Props = {
+  className?: string
+  bgColor?: ExtendedColorType
+  textColor?: ColorType
+  size?: 'small' | 'large'
+  outline?: boolean
+  isLoading?: boolean
+  startIcon?: React.ReactNode
+  endIcon?: React.ReactNode
+  borderless?: boolean
+  disabled?: boolean
+  children?: React.ReactNode
+
+  onClick?: () => void
 }

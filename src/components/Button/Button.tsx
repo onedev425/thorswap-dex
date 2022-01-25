@@ -2,12 +2,10 @@ import classNames from 'classnames'
 
 import { Typography } from 'components/Typography'
 
-import { ColorType } from 'types/global'
-
-import { Props, bgClasses, borderClasses } from './types'
+import { ExtendedColorType, Props, bgClasses, borderClasses } from './types'
 
 const getBgClassNames = (
-  bgColor: ColorType,
+  bgColor: ExtendedColorType,
   outline: boolean,
   borderless: boolean,
 ) => {
