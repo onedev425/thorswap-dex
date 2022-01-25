@@ -7,24 +7,25 @@ import { InformationProps } from './types'
 export const Information = (props: InformationProps) => {
   const { label, value, showBorder = true } = props
   const borderClasses =
-    'border-0 border-b-2 border-dashed border-bottom border-gray'
+    'border-0 border-b-2 border-dashed border-bottom border-light-typo-gray dark:border-dark-typo-gray'
 
   return (
     <Row
-      className={classNames('justify-between m-0 px-2 py-4', {
+      className={classNames('pt-4 pb-3', {
         [borderClasses]: showBorder,
       })}
       align="center"
+      justify="between"
     >
-      <Typography variant="body" fontWeight="bold" color="secondary">
+      <Typography variant="caption" fontWeight="bold" color="secondary">
         {label}
       </Typography>
       {typeof value === 'string' ? (
         <Typography
-          variant="body"
+          className="text-right"
+          variant="caption"
           fontWeight="bold"
-          color="secondary"
-          className=" text-right"
+          color="primary"
         >
           {value}
         </Typography>
