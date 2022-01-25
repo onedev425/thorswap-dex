@@ -3,3 +3,4 @@
 @tailwind utilities;
 
 @import '@fontsource/poppins/latin.css';
+@import '../src/styles/tooltip.css';

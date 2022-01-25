@@ -1,6 +1,5 @@
-import React from 'react'
-
 import { Button } from 'components/Button'
+import { TooltipPortal } from 'components/Tooltip'
 
 import logo from './logo.svg'
 
@@ -26,6 +25,8 @@ function App() {
           Learn React
         </a>
       </header>
+
+      <TooltipPortal />
     </div>
   )
 }

@@ -3,6 +3,7 @@
 @import 'tailwindcss/utilities';
 
 @import '@fontsource/poppins/latin.css';
+@import './styles/tooltip.css';
 
 body {
   margin: 0;
