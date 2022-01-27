@@ -1,4 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
+const plugin = require('tailwindcss/plugin')
 
 module.exports = {
   darkMode: 'class',
@@ -146,10 +147,51 @@ module.exports = {
       dropShadow: {
         box: '0 5px 15px rgba(0,0,0,.05)',
       },
+      borderSpacing: ({ theme }) => ({
+        ...theme('spacing'),
+      }),
     },
   },
   corePlugins: {
     preflight: false,
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addDefaults, addUtilities, matchUtilities, theme }) {
+      addDefaults('borderSpacing', {
+        '--tw-border-spacing-x': '0',
+        '--tw-border-spacing-y': '0',
+      })
+      addUtilities({
+        '.border-collapse': { 'border-collapse': 'collapse' },
+        '.border-separate': {
+          'border-collapse': 'separate',
+          'border-spacing':
+            'var(--tw-border-spacing-x) var(--tw-border-spacing-y)',
+        },
+      })
+      matchUtilities(
+        {
+          'border-spacing': (value) => {
+            value = value === '0' ? '0px' : value
+
+            return {
+              '--tw-border-spacing-x': value,
+              '--tw-border-spacing-y': value,
+            }
+          },
+          'border-spacing-x': (value) => {
+            value = value === '0' ? '0px' : value
+
+            return { '--tw-border-spacing-x': value }
+          },
+          'border-spacing-y': (value) => {
+            value = value === '0' ? '0px' : value
+
+            return { '--tw-border-spacing-y': value }
+          },
+        },
+        { values: theme('borderSpacing') },
+      )
+    }),
+  ],
 }

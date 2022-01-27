@@ -11,6 +11,8 @@ import {
   FaChartArea,
   FaEthereum,
   FaFire,
+  FaSortUp,
+  FaSortDown,
 } from 'react-icons/fa'
 import { FiRefreshCw } from 'react-icons/fi'
 import { GrBitcoin } from 'react-icons/gr'
@@ -36,6 +38,8 @@ const Icons = {
   bitcoin: GrBitcoin,
   ethereum: FaEthereum,
   binance: SiBinance,
+  sortUp: FaSortUp,
+  sortDown: FaSortDown,
   ...SvgIcons,
 } as const
 
