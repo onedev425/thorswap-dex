@@ -23,7 +23,7 @@
     "paths": {
       "components/*": ["components/*"],
       "types/*": ["types/*"],
-      "styles/*": ["styles/*"],
+      "styles/*": ["styles/*"]
     }
   },
   "include": ["src"]
