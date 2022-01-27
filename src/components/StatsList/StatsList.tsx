@@ -1,4 +1,5 @@
-import { Stats } from '../Stats'
+import { Stats } from 'components/Stats'
+
 import { StatsListScrollable } from './StatsListScrollable'
 import { StatsListProps } from './types'
 

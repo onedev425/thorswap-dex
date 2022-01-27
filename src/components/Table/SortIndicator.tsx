@@ -1,4 +1,5 @@
-import { Icon } from '../Icon'
+import { Icon } from 'components/Icon'
+
 import { SortType } from './types'
 
 type Props = {

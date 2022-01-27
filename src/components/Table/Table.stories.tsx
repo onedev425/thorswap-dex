@@ -1,10 +1,9 @@
 import { ComponentMeta } from '@storybook/react'
 
-import { FixmeType } from 'types/global'
+import { Button } from 'components/Button'
+import { Icon } from 'components/Icon'
+import { Row } from 'components/Row'
 
-import { Button } from '../Button'
-import { Icon } from '../Icon'
-import { Row } from '../Row'
 import { Table } from './Table'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -18,9 +17,7 @@ const columns = [
   {
     Header: 'Asset',
     accessor: 'asset',
-    Cell: ({ cell: { value } }: FixmeType) => (
-      <Icon name={value.icon} size={40} />
-    ),
+    Cell: ({ cell: { value } }: FixMe) => <Icon name={value.icon} size={40} />,
     disableSortBy: true,
   },
   {

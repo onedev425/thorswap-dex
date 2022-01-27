@@ -1,5 +1,6 @@
-import { ColorType, FixedLengthArray } from '../../types/global'
-import { IconName } from '../Icon'
+import { IconName } from 'components/Icon'
+
+import { ColorType } from 'types/global'
 
 export enum Position {
   TopLeft = 'top-left',

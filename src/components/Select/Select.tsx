@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 
-import { Button } from '../Button'
-import { Row } from '../Row'
+import { Button } from 'components/Button'
+import { Row } from 'components/Row'
 
 export type Props = {
   options: string[]

@@ -1,7 +1,8 @@
-import { Button } from '../Button'
-import { Card } from '../Card'
-import { Icon } from '../Icon'
-import { Typography } from '../Typography'
+import { Button } from 'components/Button'
+import { Card } from 'components/Card'
+import { Icon } from 'components/Icon'
+import { Typography } from 'components/Typography'
+
 import { PoolCardProps } from './types'
 
 export const PoolCard = (props: PoolCardProps) => {

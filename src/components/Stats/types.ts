@@ -1,6 +1,6 @@
-import { ColorType } from 'types/global'
+import { IconName } from 'components/Icon'
 
-import { IconName } from '../Icon'
+import { ColorType } from 'types/global'
 
 export type StatsType = {
   color: ColorType

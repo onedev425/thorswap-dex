@@ -1,8 +1,9 @@
 import { ComponentMeta } from '@storybook/react'
 
-import { Information } from '.'
-import { Icon } from '../Icon'
-import { Typography } from '../Typography'
+import { Icon } from 'components/Icon'
+import { Typography } from 'components/Typography'
+
+import { Information } from './Information'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

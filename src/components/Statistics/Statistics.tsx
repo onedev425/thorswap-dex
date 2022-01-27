@@ -1,5 +1,6 @@
-import { Row } from '../Row'
-import { Typography } from '../Typography'
+import { Row } from 'components/Row'
+import { Typography } from 'components/Typography'
+
 import { StatisticsType } from './types'
 
 export const Statistics = (props: StatisticsType) => {

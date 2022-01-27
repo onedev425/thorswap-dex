@@ -1,7 +1,8 @@
 import classNames from 'classnames'
 
-import { genericBgClasses } from '../constants'
-import { Typography } from '../Typography'
+import { genericBgClasses } from 'components/constants'
+import { Typography } from 'components/Typography'
+
 import { TableCellType } from './types'
 
 type Props = {

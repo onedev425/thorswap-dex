@@ -1,7 +1,8 @@
 import classNames from 'classnames'
 
-import { Row } from '../Row'
-import { Typography } from '../Typography'
+import { Row } from 'components/Row'
+import { Typography } from 'components/Typography'
+
 import { InformationProps } from './types'
 
 export const Information = (props: InformationProps) => {

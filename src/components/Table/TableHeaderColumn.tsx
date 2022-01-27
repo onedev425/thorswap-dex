@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 
-import { Typography } from '../Typography'
+import { Typography } from 'components/Typography'
+
 import { SortIndicator } from './SortIndicator'
 import { SortType, TableHeaderGroupType } from './types'
 

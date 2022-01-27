@@ -1,7 +1,8 @@
 import { ComponentMeta } from '@storybook/react'
 
-import { Icon } from '../Icon'
-import { Typography } from '../Typography'
+import { Icon } from 'components/Icon'
+import { Typography } from 'components/Typography'
+
 import { Row } from './Row'
 import { Props as RowProps } from './types'
 

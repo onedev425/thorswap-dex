@@ -1,7 +1,8 @@
 import classNames from 'classnames'
 
-import { genericBgClasses } from '../constants'
-import { Icon } from '../Icon'
+import { genericBgClasses } from 'components/constants'
+import { Icon } from 'components/Icon'
+
 import StatsLeaf from './StatsLeaf'
 import { StatsGroupProps, borderPositions } from './types'
 

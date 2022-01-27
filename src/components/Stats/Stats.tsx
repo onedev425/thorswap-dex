@@ -1,9 +1,10 @@
 import classNames from 'classnames'
 
-import { Card } from '../Card'
-import { genericBgClasses } from '../constants'
-import { Icon } from '../Icon'
-import { Typography } from '../Typography'
+import { Card } from 'components/Card'
+import { genericBgClasses } from 'components/constants'
+import { Icon } from 'components/Icon'
+import { Typography } from 'components/Typography'
+
 import { StatsType, statsBgClasses } from './types'
 
 export const Stats = (props: StatsType) => {

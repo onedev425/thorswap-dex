@@ -1,8 +1,7 @@
-import React from 'react'
-
 import { ComponentMeta } from '@storybook/react'
 
-import { Icon } from '../Icon'
+import { Icon } from 'components/Icon'
+
 import { Button } from './Button'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

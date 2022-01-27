@@ -1,5 +1,5 @@
-import { PoolCard } from '../PoolCard'
-import { PoolCardProps } from '../PoolCard/types'
+import { PoolCard } from 'components/PoolCard'
+import { PoolCardProps } from 'components/PoolCard/types'
 
 export const PoolCardList = () => {
   const Data: PoolCardProps[] = [
