@@ -33,7 +33,6 @@ export const Stats = (props: StatsType) => {
       <div className="flex flex-col justify-center gap-4">
         <Typography
           className="group-hover:text-dark-typo-primary transition"
-          fontWeight="semibold"
           variant="caption"
           color="secondary"
         >
@@ -42,8 +41,7 @@ export const Stats = (props: StatsType) => {
         <Typography
           className="group-hover:text-dark-typo-primary transition"
           transform="uppercase"
-          fontWeight="bold"
-          variant="h5"
+          variant="subtitle1"
         >
           {value}
         </Typography>

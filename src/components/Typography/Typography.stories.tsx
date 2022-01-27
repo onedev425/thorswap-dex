@@ -37,11 +37,20 @@ export const All = () => {
       <Typography variant="h5" color="yellow" fontWeight="medium">
         H5 - Yellow - Medium
       </Typography>
+      <Typography variant="subtitle1" color="orange" fontWeight="medium">
+        Subtitle1 - Orange - Medium
+      </Typography>
+      <Typography variant="subtitle2" color="green">
+        Subtitle2 - Green - Medium
+      </Typography>
       <Typography variant="body" color="cyan" fontWeight="semibold">
         Body - Cyan - Semibold
       </Typography>
       <Typography variant="caption" color="blue" fontWeight="extrabold">
         Caption - Blue - Extra Bold
+      </Typography>
+      <Typography variant="caption-xs" color="red" fontWeight="extrabold">
+        Caption XS - Red - Extra Bold
       </Typography>
     </div>
   )

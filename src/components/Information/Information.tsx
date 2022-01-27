@@ -17,13 +17,13 @@ export const Information = (props: InformationProps) => {
       align="center"
       justify="between"
     >
-      <Typography variant="caption" fontWeight="bold" color="secondary">
+      <Typography variant="caption-xs" fontWeight="bold" color="secondary">
         {label}
       </Typography>
       {typeof value === 'string' ? (
         <Typography
           className="text-right"
-          variant="caption"
+          variant="caption-xs"
           fontWeight="bold"
           color="primary"
         >

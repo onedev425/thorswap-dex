@@ -53,7 +53,7 @@ export const Button = (props: Props) => {
       {startIcon && startIcon}
       <Typography
         className={classNames(startIcon ? 'ml-1' : '', endIcon ? 'mr-1' : '')}
-        variant="caption"
+        variant={size === 'large' ? 'caption' : 'caption-xs'}
         transform={size === 'large' ? 'uppercase' : 'capitalize'}
         color={textColor}
       >

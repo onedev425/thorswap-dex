@@ -6,6 +6,7 @@ import {
   variantClasses,
   transformClasses,
   weightClasses,
+  defaultWeightClasses,
 } from './types'
 
 export const Typography = (props: Props) => {
@@ -25,7 +26,7 @@ export const Typography = (props: Props) => {
         colorClasses[color],
         variantClasses[variant],
         transformClasses[transform],
-        fontWeight ? weightClasses[fontWeight] : '',
+        fontWeight ? weightClasses[fontWeight] : defaultWeightClasses[variant],
         className,
         'font-primary',
       )}

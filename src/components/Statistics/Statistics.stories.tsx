@@ -3,7 +3,7 @@ import { ComponentMeta } from '@storybook/react'
 import { Statistics } from './Statistics'
 
 export default {
-  title: 'Components/statistics',
+  title: 'Components/Statistics',
   component: Statistics,
   argTypes: {},
 } as ComponentMeta<typeof Statistics>

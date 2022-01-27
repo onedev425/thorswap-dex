@@ -33,7 +33,7 @@ export const Tooltip = (props: Props) => {
       )}
       data-tip={ReactDOM.renderToStaticMarkup(
         <div className="bg-light-bg-primary border border-light-border-primary border-solid dark:bg-dark-bg-primary dark:border-dark-border-primary px-5 py-2 rounded-2xl">
-          <Typography variant="caption" className="font-bold">
+          <Typography variant="caption-xs" className="font-bold">
             {content}
           </Typography>
         </div>,

@@ -15,15 +15,18 @@ export const PoolCard = (props: PoolCardProps) => {
             <Typography
               transform="uppercase"
               fontWeight="bold"
-              variant="h3"
+              variant="h2"
               className="mb-4"
             >
               {coinSymbol}
             </Typography>
-            <Typography variant="h5" className="mb-2">
+            <Typography className="mb-2" fontWeight="semibold">
               {price}
             </Typography>
-            <Typography variant="h5" color={change >= 0 ? 'green' : 'red'}>
+            <Typography
+              color={change >= 0 ? 'green' : 'red'}
+              fontWeight="semibold"
+            >
               {change}%
             </Typography>
           </div>

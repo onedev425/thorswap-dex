@@ -2,39 +2,33 @@ import React from 'react'
 
 import { ColorType } from 'types/global'
 
-export type TypographyVariant =
-  | 'h1'
-  | 'h2'
-  | 'h3'
-  | 'h4'
-  | 'h5'
-  | 'body'
-  | 'caption'
-
-export type TypographyWeight =
-  | 'thin'
-  | 'extralight'
-  | 'light'
-  | 'normal'
-  | 'medium'
-  | 'semibold'
-  | 'bold'
-  | 'extrabold'
-  | 'black'
-
-export type TextTransform = 'none' | 'capitalize' | 'uppercase' | 'lowercase'
-
-export const variantClasses: Record<TypographyVariant, string> = {
+export const variantClasses = {
   h1: 'text-h1',
   h2: 'text-h2',
   h3: 'text-h3',
   h4: 'text-h4',
   h5: 'text-h5',
+  subtitle1: 'text-subtitle1',
+  subtitle2: 'text-subtitle2',
   body: 'text-body',
   caption: 'text-caption',
+  'caption-xs': 'text-caption-xs',
 }
 
-export const weightClasses: Record<TypographyWeight, string> = {
+export const defaultWeightClasses = {
+  h1: 'font-medium',
+  h2: 'font-semibold',
+  h3: 'font-extrabold',
+  h4: 'font-extrabold',
+  h5: 'font-extrabold',
+  subtitle1: 'font-extrabold',
+  subtitle2: 'font-semibold',
+  body: 'font-medium',
+  caption: 'font-bold',
+  'caption-xs': 'font-bold',
+}
+
+export const weightClasses = {
   thin: 'font-thin',
   extralight: 'font-extralight',
   light: 'font-light',
@@ -61,12 +55,18 @@ export const colorClasses: Record<ColorType, string> = {
   red: 'text-red',
 }
 
-export const transformClasses: Record<TextTransform, string> = {
+export const transformClasses = {
   none: 'normal-case',
   capitalize: 'capitalize',
   uppercase: 'uppercase',
   lowercase: 'lowercase',
 }
+
+export type TypographyVariant = keyof typeof variantClasses
+
+export type TypographyWeight = keyof typeof weightClasses
+
+export type TextTransform = keyof typeof transformClasses
 
 export type Props = {
   className?: string
