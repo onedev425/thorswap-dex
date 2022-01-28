@@ -13,8 +13,9 @@ import {
   FaFire,
   FaSortUp,
   FaSortDown,
+  FaCheck,
 } from 'react-icons/fa'
-import { FiRefreshCw } from 'react-icons/fi'
+import { FiRefreshCw, FiXCircle } from 'react-icons/fi'
 import { GrBitcoin } from 'react-icons/gr'
 import { MdAreaChart } from 'react-icons/md'
 import { SiBinance } from 'react-icons/si'
@@ -24,22 +25,24 @@ import { SvgIcons } from './svg/svgIconList'
 export type IconName = keyof typeof Icons
 
 const Icons = {
-  search: BsSearch,
+  binance: SiBinance,
+  bitcoin: GrBitcoin,
+  chartArea2: FaChartArea,
+  chartArea: MdAreaChart,
+  chartPie: FaChartPie,
+  checkmark: FaCheck,
   discord: BsDiscord,
+  ethereum: FaEthereum,
+  fire: FaFire,
   medium: BsMedium,
+  refresh: FiRefreshCw,
+  search: BsSearch,
+  sortDown: FaSortDown,
+  sortUp: FaSortUp,
   telegram: BsTelegram,
   twitter: BsTwitter,
-  chartPie: FaChartPie,
-  chartArea: MdAreaChart,
-  chartArea2: FaChartArea,
-  refresh: FiRefreshCw,
   wifi: FaWifi,
-  fire: FaFire,
-  bitcoin: GrBitcoin,
-  ethereum: FaEthereum,
-  binance: SiBinance,
-  sortUp: FaSortUp,
-  sortDown: FaSortDown,
+  xCircle: FiXCircle,
   ...SvgIcons,
 } as const
 

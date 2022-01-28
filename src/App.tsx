@@ -1,4 +1,5 @@
 import { Button } from 'components/Button'
+import { ToastPortal } from 'components/Toast'
 import { TooltipPortal } from 'components/Tooltip'
 
 import logo from './logo.svg'
@@ -27,6 +28,7 @@ function App() {
       </header>
 
       <TooltipPortal />
+      <ToastPortal />
     </div>
   )
 }
