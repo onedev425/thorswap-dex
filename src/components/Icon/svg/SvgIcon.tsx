@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { SvgIconName, Svgs } from './svgIconList'
+
 export type CustomIconProps = {
   size?: number
   className?: string
@@ -7,11 +9,12 @@ export type CustomIconProps = {
 }
 
 type SvgIconProps = {
-  svg: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
+  name: SvgIconName
 } & CustomIconProps
 
 export const SvgIcon = (props: SvgIconProps) => {
-  const { size, svg: IconComp, className, onClick } = props
+  const { size, name, className, onClick } = props
+  const IconComp = Svgs[name]
 
   return (
     <IconComp

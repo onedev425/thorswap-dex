@@ -2,8 +2,11 @@ import classNames from 'classnames'
 
 import IconList, { IconName } from './iconList'
 
+export type IconColor = keyof typeof colorClasses
+
 export const colorClasses = {
   primary: 'text-light-typo-primary dark:text-dark-typo-primary',
+  light: 'text-dark-typo-primary',
   secondary: 'text-light-typo-gray dark:text-dark-typo-gray',
   tertiary: 'text-light-typo-primary dark:text-dark-typo-gray',
   purple: 'text-purple',
