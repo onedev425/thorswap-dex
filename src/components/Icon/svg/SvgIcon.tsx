@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { SvgIconName, Svgs } from './svgIconList'
 
 export type CustomIconProps = {
