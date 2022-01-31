@@ -11,7 +11,9 @@
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
     "release-storybook": "build-storybook -o ./build/storybook",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint": "eslint --ext .ts,.tsx .",
+    "typescript": "tsc --noEmit"
   },
   "dependencies": {
     "@fontsource/poppins": "^4.5.0",
