@@ -15,7 +15,7 @@ import {
   FaSortDown,
   FaCheck,
 } from 'react-icons/fa'
-import { FiRefreshCw, FiXCircle, FiChevronDown } from 'react-icons/fi'
+import { FiRefreshCw, FiXCircle, FiChevronDown, FiX } from 'react-icons/fi'
 import { GrBitcoin } from 'react-icons/gr'
 import { MdAreaChart } from 'react-icons/md'
 import { SiBinance } from 'react-icons/si'
@@ -31,6 +31,8 @@ const Icons = {
   chartArea: MdAreaChart,
   chartPie: FaChartPie,
   checkmark: FaCheck,
+  chevronDown: FiChevronDown,
+  close: FiX,
   discord: BsDiscord,
   ethereum: FaEthereum,
   fire: FaFire,
@@ -43,7 +45,6 @@ const Icons = {
   twitter: BsTwitter,
   wifi: FaWifi,
   xCircle: FiXCircle,
-  chevronDown: FiChevronDown,
   ...SvgIcons,
 } as const
 
