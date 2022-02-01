@@ -21,5 +21,5 @@ export type SidebarItemProps = {
 }
 
 export type SidebarProps = {
-  options: SidebarItemProps[]
+  options?: SidebarItemProps[]
 }

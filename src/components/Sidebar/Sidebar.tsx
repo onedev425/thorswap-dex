@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 
 import { Icon } from '../Icon'
+import { navbarOptions } from './data'
 import { NavItem } from './NavItem'
 import { SidebarProps, SidebarItemProps, Variant } from './types'
 
@@ -49,13 +50,13 @@ const renderChildren = (children: SidebarItemProps[], variant: Variant) => {
 }
 
 export const Sidebar = (props: SidebarProps) => {
-  const { options } = props
+  const { options = navbarOptions } = props
 
   return (
-    <nav className="flex flex-col items-center justify-between max-w-[72px] min-h-screen bg-light-bg-secondary dark:bg-dark-bg-secondary pt-8 px-2.5 pb-6 rounded-3xl border-box sticky top-0">
+    <nav className="flex flex-col items-center justify-between max-w-[72px] min-h-screen bg-light-bg-secondary dark:bg-dark-bg-secondary px-2.5 rounded-3xl border-box sticky top-0">
       <div
         className={classNames(
-          'inline-flex justify-center items-center box-border min-w-[48px] min-h-[48px] rounded-2xl border border-solid',
+          'inline-flex justify-center items-center box-border min-w-[48px] min-h-[48px] rounded-2xl border border-solid mt-8',
           'border-light-border-primary dark:border-dark-border-primary bg-light-bg-secondary dark:bg-dark-bg-secondary',
         )}
       >
@@ -66,11 +67,11 @@ export const Sidebar = (props: SidebarProps) => {
 
       {renderChildren(options, 'primary')}
 
-      <ul className="p-0 m-0 list-none flex flex-col items-center">
+      <ul className="flex flex-col items-center p-0 m-0 mb-6 list-none">
         <li className="flex justify-center items-center box-border min-w-[40px] min-h-[40px] border border-solid border-light-border-primary dark:border-dark-border-primary p-1 rounded-2xl">
           <a
             href="/"
-            className="w-full min-h-full inline-flex justify-center items-center"
+            className="inline-flex items-center justify-center w-full min-h-full"
           >
             <Icon
               name="threedots"

@@ -7,7 +7,7 @@ export type LayoutProp = {
 export const Layout = ({ children }: LayoutProp) => {
   return (
     <div className="relative flex w-full mx-auto my-0 max-w-8xl">
-      <Sidebar options={[]} />
+      <Sidebar />
       {children}
     </div>
   )
