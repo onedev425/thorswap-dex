@@ -12,10 +12,7 @@ export const Dropdown = (props: Props) => {
 
   return (
     <Listbox
-      className={classNames(
-        'relative text-left inline-block self-start',
-        className,
-      )}
+      className={classNames('relative text-left inline-block', className)}
       as="div"
       disabled={disabled}
       value={value}

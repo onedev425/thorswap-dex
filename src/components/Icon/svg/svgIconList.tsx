@@ -1,11 +1,15 @@
 import { ReactComponent as App } from './app.svg'
 import { ReactComponent as ChartCandle } from './chartCandle.svg'
 import { ReactComponent as Cloud } from './cloud.svg'
+import { ReactComponent as Gwei } from './gwei.svg'
 import { ReactComponent as InIcon } from './inIcon.svg'
 import { ReactComponent as Lightning } from './lightningThorswap.svg'
 import { ReactComponent as List } from './list.svg'
+import { ReactComponent as Moon } from './moon.svg'
+import { ReactComponent as Refresh } from './refresh.svg'
 import { ReactComponent as Settings } from './settings.svg'
 import { ReactComponent as Sputnik } from './sputnik.svg'
+import { ReactComponent as Sun } from './sun.svg'
 import { CustomIconProps, SvgIcon } from './SvgIcon'
 import { ReactComponent as Swap } from './swap.svg'
 import { ReactComponent as ThreeDots } from './threedots.svg'
@@ -29,6 +33,10 @@ export const Svgs = {
   cloud: Cloud,
   settings: Settings,
   threedots: ThreeDots,
+  gwei: Gwei,
+  sun: Sun,
+  moon: Moon,
+  refresh: Refresh,
 }
 
 export const SvgIcons = {
@@ -54,4 +62,8 @@ export const SvgIcons = {
   threedots: (props: CustomIconProps) => (
     <SvgIcon name="threedots" {...props} />
   ),
+  gwei: (props: CustomIconProps) => <SvgIcon name="gwei" {...props} />,
+  sun: (props: CustomIconProps) => <SvgIcon name="sun" {...props} />,
+  moon: (props: CustomIconProps) => <SvgIcon name="moon" {...props} />,
+  refresh: (props: CustomIconProps) => <SvgIcon name="refresh" {...props} />,
 } as const

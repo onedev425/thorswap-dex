@@ -27,7 +27,7 @@ export const DropdownButton = (props: Props) => {
                   !disabled,
               },
               disabled ? 'cursor-not-allowed' : 'cursor-pointer',
-              'inline-flex justify-between rounded items-center px-3 py-2',
+              'inline-flex justify-between rounded-2xl items-center px-3 py-2 transition-all',
             )}
           >
             {Component ? Component : <Typography>{label}</Typography>}

@@ -5,6 +5,7 @@ import {
   BsTelegram,
   BsTwitter,
 } from 'react-icons/bs'
+import { CgMenu } from 'react-icons/cg'
 import {
   FaChartPie,
   FaWifi,
@@ -15,7 +16,7 @@ import {
   FaSortDown,
   FaCheck,
 } from 'react-icons/fa'
-import { FiRefreshCw, FiXCircle, FiChevronDown, FiX } from 'react-icons/fi'
+import { FiXCircle, FiChevronDown, FiX } from 'react-icons/fi'
 import { GrBitcoin } from 'react-icons/gr'
 import { MdAreaChart } from 'react-icons/md'
 import { SiBinance } from 'react-icons/si'
@@ -37,7 +38,6 @@ const Icons = {
   ethereum: FaEthereum,
   fire: FaFire,
   medium: BsMedium,
-  refresh: FiRefreshCw,
   search: BsSearch,
   sortDown: FaSortDown,
   sortUp: FaSortUp,
@@ -45,6 +45,7 @@ const Icons = {
   twitter: BsTwitter,
   wifi: FaWifi,
   xCircle: FiXCircle,
+  menu: CgMenu,
   ...SvgIcons,
 } as const
 
