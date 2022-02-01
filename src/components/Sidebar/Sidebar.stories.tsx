@@ -1,5 +1,7 @@
 import { ComponentMeta } from '@storybook/react'
 
+import { TooltipPortal } from 'components/Tooltip'
+
 import { Sidebar as SidebarComp } from './Sidebar'
 import { SidebarItemProps } from './types'
 
@@ -31,6 +33,7 @@ export const Sidebar = () => {
           label: 'tradeLightning',
           isExternal: true,
           hasSub: false,
+          tooltip: 'Trade Lightning',
         },
         {
           iconName: 'swap',
@@ -38,6 +41,7 @@ export const Sidebar = () => {
           label: 'swap',
           isExternal: false,
           hasSub: false,
+          tooltip: 'Swap',
         },
         {
           iconName: 'inIcon',
@@ -85,7 +89,12 @@ export const Sidebar = () => {
     },
   ]
 
-  return <SidebarComp options={props} />
+  return (
+    <div>
+      <TooltipPortal />
+      <SidebarComp options={props} />
+    </div>
+  )
 }
 
 export const SidebarWithoutSecondary = () => {

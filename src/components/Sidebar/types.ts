@@ -2,20 +2,21 @@ import { IconName } from '../Icon'
 
 export type Variant = 'primary' | 'secondary'
 
-export type NavItemProps = {
+type ItemProps = {
   iconName: IconName
   href: string
+  isExternal?: boolean
+  tooltip?: string
+}
+
+export type NavItemProps = ItemProps & {
   variant?: Variant
   spaced?: boolean
   className?: string
-  isExternal?: boolean
 }
 
-export type SidebarItemProps = {
-  iconName: IconName
+export type SidebarItemProps = ItemProps & {
   label: string
-  isExternal?: boolean
-  href: string
   hasSub?: boolean
   children?: SidebarItemProps[]
 }

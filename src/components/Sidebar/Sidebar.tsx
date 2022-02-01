@@ -23,10 +23,8 @@ const renderChildren = (children: SidebarItemProps[], variant: Variant) => {
           return (
             <>
               <NavItem
+                {...child}
                 key={child.label}
-                iconName={child.iconName}
-                href={child.href}
-                isExternal={child.isExternal}
                 variant={variant}
                 spaced={index !== children.length - 1}
               />
@@ -36,10 +34,8 @@ const renderChildren = (children: SidebarItemProps[], variant: Variant) => {
         }
         return (
           <NavItem
+            {...child}
             key={child.label}
-            iconName={child.iconName}
-            href={child.href}
-            isExternal={child.isExternal}
             variant={variant}
             spaced={index !== children.length - 1}
           />

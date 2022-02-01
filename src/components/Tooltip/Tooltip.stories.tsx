@@ -1,5 +1,7 @@
 import { ComponentMeta } from '@storybook/react'
 
+import { Button } from 'components/Button'
+
 import { Tooltip, TooltipPortal } from './Tooltip'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -24,6 +26,13 @@ export const All = () => {
       <div className="p-5">
         <Tooltip place="bottom" content="Tooltip" iconName="twitter" />
       </div>
+
+      <div className="p-5">
+        <Tooltip place="bottom" content="Tooltip for button">
+          <Button>Button</Button>
+        </Tooltip>
+      </div>
+
       <TooltipPortal />
     </div>
   )
