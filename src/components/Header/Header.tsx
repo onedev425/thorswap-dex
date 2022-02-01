@@ -49,7 +49,7 @@ export const Header = ({
           className="hidden cursor-auto md:flex hover:bg-transparent dark:hover:bg-transparent"
           outline
           bgColor="tertiary"
-          startIcon={<Icon className="mr-2" name="gwei" />}
+          startIcon={<Icon className="mr-2" name="gwei" size={18} />}
         >
           {gweiLabel || '-'}
         </Button>
