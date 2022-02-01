@@ -27,6 +27,7 @@ export const Button = (props: Props) => {
     disabled = false,
     startIcon,
     endIcon,
+    transform,
     children,
     ...rest
   } = props
@@ -45,7 +46,7 @@ export const Button = (props: Props) => {
         outline && disabled ? 'hover:bg-opacity-0' : '',
         size === 'small' ? 'h-10' : 'h-12 min-w-[180px]',
         size === 'small' ? 'rounded-2xl' : 'rounded-3xl',
-        'flex items-center justify-center px-4 border-solid font-primary outline-none transition',
+        'flex items-center justify-center px-4 border-solid font-primary outline-none transition group',
         className,
       )}
       {...rest}
@@ -54,7 +55,7 @@ export const Button = (props: Props) => {
       <Typography
         className={classNames(startIcon ? 'ml-1' : '', endIcon ? 'mr-1' : '')}
         variant={size === 'large' ? 'caption' : 'caption-xs'}
-        transform={size === 'large' ? 'uppercase' : 'capitalize'}
+        transform={transform || size === 'large' ? 'uppercase' : 'capitalize'}
         color={textColor}
       >
         {children}

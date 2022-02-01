@@ -8,7 +8,7 @@ const sizeVariants: Record<CardSize, string> = {
 }
 
 export const Card = (props: CardProps) => {
-  const { size = 'md', stretch = false, children, className } = props
+  const { className, size = 'md', stretch = false, children, onClick } = props
 
   return (
     <div
@@ -18,6 +18,7 @@ export const Card = (props: CardProps) => {
         sizeVariants[size],
         className,
       )}
+      onClick={onClick}
     >
       {children}
     </div>

@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { TextTransform } from 'components/Typography'
+
 import { ColorType } from 'types/global'
 
 export const borderClasses = {
@@ -59,6 +61,7 @@ export type Props = {
   endIcon?: React.ReactNode
   borderless?: boolean
   disabled?: boolean
+  transform?: TextTransform
   children?: React.ReactNode
 
   onClick?: () => void
