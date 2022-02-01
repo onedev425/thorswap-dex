@@ -137,6 +137,10 @@ module.exports = {
         },
       ],
     },
+    maxWidth: {
+      ...defaultTheme.maxWidth,
+      '8xl': '90rem',
+    },
     extend: {
       transitionDuration: {
         DEFAULT: '300ms',

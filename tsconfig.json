@@ -22,6 +22,7 @@
     "target": "ES5",
     "paths": {
       "components/*": ["components/*"],
+      "views/*": ["views/*"],
       "types/*": ["types/*"],
       "styles/*": ["styles/*"]
     }
