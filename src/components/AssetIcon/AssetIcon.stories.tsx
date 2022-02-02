@@ -72,9 +72,21 @@ export const FallbackIcon = () => {
   return (
     <div className="flex flex-col space-y-2 bg-light-bg-primary dark:bg-dark-bg-primary p-4">
       <div className="flex space-x-2">
-        <AssetIcon name={'OMG' as any} bgColor="yellow" size={ICON_MD} />
-        <AssetIcon name={'BTCC' as any} bgColor="orange" size={ICON_MD} />
-        <AssetIcon name={'MOON' as any} bgColor="purple" size={ICON_MD} />
+        <AssetIcon
+          name={'OMG' as Inexpressible}
+          bgColor="yellow"
+          size={ICON_MD}
+        />
+        <AssetIcon
+          name={'BTCC' as Inexpressible}
+          bgColor="orange"
+          size={ICON_MD}
+        />
+        <AssetIcon
+          name={'MOON' as Inexpressible}
+          bgColor="purple"
+          size={ICON_MD}
+        />
       </div>
     </div>
   )

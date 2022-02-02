@@ -4,7 +4,7 @@ export type AssetSelectProps = {
   assets: AssetSelectType[]
   commonAssets: AssetSelectType[]
   onSelect: (asset: AssetTickerType) => void
-  onClose: () => void
+  onClose?: () => void
 }
 
 export type AssetSelectType = {

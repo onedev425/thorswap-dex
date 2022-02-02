@@ -14,3 +14,6 @@ export const genericBgClasses: Record<ColorType, string> = {
   gray: 'bg-gray',
   red: 'bg-red',
 }
+
+export const styledScrollbarClass =
+  'scrollbar scrollbar-track-light-bg-primary dark:scrollbar-track-dark-bg-primary scrollbar-thumb-light-gray-light dark:scrollbar-thumb-dark-gray-light'

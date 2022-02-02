@@ -5,7 +5,7 @@ import { Icon } from 'components/Icon'
 
 type Props = {
   onClick: () => void
-  selected: AssetTickerType | null
+  selected?: Maybe<AssetTickerType>
 }
 
 export const AssetSelectButton = ({ onClick, selected }: Props) => {
@@ -17,8 +17,8 @@ export const AssetSelectButton = ({ onClick, selected }: Props) => {
 
   return (
     <Button
-      size="large"
       className="pl-8 pr-4"
+      size="large"
       outline
       bgColor="secondary"
       transform="uppercase"
@@ -26,9 +26,9 @@ export const AssetSelectButton = ({ onClick, selected }: Props) => {
         <Icon
           className="ml-4 text-light-btn-secondary dark:text-dark-btn-secondary group-hover:text-light-typo-primary dark:group-hover:text-dark-typo-primary transition"
           name="chevronDown"
-          onClick={onClick}
         />
       }
+      onClick={onClick}
     >
       Select a token
     </Button>

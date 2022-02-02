@@ -62,7 +62,7 @@ export const Modal = (props: Props) => {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <div className="max-w-md w-full inline-block overflow-hidden drop-shadow-2xl text-left align-middle transition-all transform">
+              <div className="max-w-md inline-block overflow-hidden drop-shadow-2xl text-left align-middle transition-all transform">
                 <div className="m-5 flex flex-row align-items justify-between">
                   <Dialog.Title>
                     <Typography variant="h3">{title}</Typography>

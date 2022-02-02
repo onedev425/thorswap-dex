@@ -18,7 +18,6 @@ module.exports = {
       orange: '#E98566',
       cyan: '#2AC6DB',
       gray: '#273855',
-      'gray-light': '#2E3C56',
       red: '#ff2357',
       white: '#fff',
 
@@ -33,6 +32,7 @@ module.exports = {
         'navy-primary': '#39BBF3',
         'gray-primary': '#7C859F',
         'border-primary': '#E6E9F5',
+        'gray-light': '#E5E5E5'
       },
 
       // dark
@@ -46,6 +46,7 @@ module.exports = {
         'navy-primary': '#348CF4',
         'gray-primary': '#75849D',
         'border-primary': '#273855',
+        'gray-light': '#2E3C56',
       },
     },
     fontFamily: {
@@ -161,6 +162,11 @@ module.exports = {
       }),
     },
   },
+  variants: {
+    extend: {
+      scrollbar: ['dark'],
+    }
+  },
   corePlugins: {
     preflight: false,
   },
@@ -202,5 +208,6 @@ module.exports = {
         { values: theme('borderSpacing') },
       )
     }),
+    require('tailwind-scrollbar'),
   ],
 }

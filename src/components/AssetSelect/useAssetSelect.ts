@@ -18,7 +18,7 @@ export function useAssetSelect(props: AssetSelectProps) {
   const resetSearch = () => setSearch('')
 
   const close = () => {
-    onClose()
+    onClose?.()
     resetSearch()
   }
 
