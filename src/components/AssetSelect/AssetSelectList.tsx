@@ -51,7 +51,7 @@ export const AssetSelectList = (props: AssetSelectProps) => {
       </div>
       <div
         className={classNames(
-          'h-full overflow-y-auto p-10 pb-0',
+          'h-full overflow-y-auto mx-4 px-4 py-10 pb-0',
           styledScrollbarClass,
         )}
       >
