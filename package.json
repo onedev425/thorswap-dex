@@ -13,6 +13,7 @@
     "release-storybook": "build-storybook -o ./build/storybook",
     "prepare": "husky install",
     "lint": "eslint --ext .ts,.tsx .",
+    "lint:fix": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json,css}' && yarn lint --fix",
     "typescript": "tsc --noEmit"
   },
   "dependencies": {
@@ -89,7 +90,7 @@
     "webpack": "5.0.0"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,json,css}": [
+    "src/**/*.{ts,tsx,js,jsx,json,css}": [
       "prettier --write"
     ]
   },

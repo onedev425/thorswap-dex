@@ -158,13 +158,13 @@ module.exports = {
     'prettier/prettier': [
       'error',
       {
+        endOfLine: "auto",
         printWidth: 80,
-        singleQuote: true,
         semi: false,
-        trailingComma: 'all',
+        singleQuote: true,
         tabWidth: 2,
+        trailingComma: "all",
         useTabs: false,
-        endOfLine: 'auto',
       },
     ],
   },
