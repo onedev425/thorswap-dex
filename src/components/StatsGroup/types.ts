@@ -26,7 +26,7 @@ export const borderPositions = [
 export type LeafProps = {
   label: string
   value: number | string
-  borderNonePosition: Position
+  bnPosition: Position // border-none position
 }
 
 export type StatsGroupProps = {

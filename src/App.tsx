@@ -6,7 +6,7 @@ import Router from './router'
 function App() {
   return (
     <div className="dark">
-      <div className=" bg-light-bg-primary dark:bg-dark-bg-primary">
+      <div className="bg-light-bg-primary dark:bg-dark-bg-primary">
         <Router />
         <TooltipPortal />
         <ToastPortal />

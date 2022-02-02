@@ -1,7 +1,4 @@
-import classNames from 'classnames'
-
 import { Button } from 'components/Button'
-import { genericBgClasses } from 'components/constants'
 import { DropdownMenu, DropdownMenuItems } from 'components/Dropdown'
 import { Icon } from 'components/Icon'
 import { Row } from 'components/Row'
@@ -29,43 +26,40 @@ export const Header = ({
   connectWallet,
 }: Props) => {
   return (
-    <Row
-      className={classNames(
-        'mb-10 px-4 flex flex-row min-h-[70px] bg-white flex-1 items-center justify-between',
-        genericBgClasses.primary,
-      )}
-    >
-      <Row className="gap-x-4">
-        <ThemeSwitch />
-        <Button
-          className="hidden cursor-auto md:flex hover:bg-transparent dark:hover:bg-transparent"
-          outline
-          bgColor="tertiary"
-        >
-          {priceLabel || '-'}
-        </Button>
+    <header className="mb-10">
+      <Row className="min-h-[70px]" justify="between">
+        <Row className="mt-auto shrink-0 gap-x-4">
+          <ThemeSwitch />
+          <Button
+            className="hidden cursor-auto md:flex hover:bg-transparent dark:hover:bg-transparent"
+            outline
+            bgColor="tertiary"
+          >
+            {priceLabel || '-'}
+          </Button>
 
-        <Button
-          className="hidden cursor-auto md:flex hover:bg-transparent dark:hover:bg-transparent"
-          outline
-          bgColor="tertiary"
-          startIcon={<Icon className="mr-2" name="gwei" size={18} />}
-        >
-          {gweiLabel || '-'}
-        </Button>
-        <DropdownMenu
-          menuItems={currencyOptions}
-          value={currency}
-          onChange={selectCurrency}
-        />
+          <Button
+            className="hidden cursor-auto md:flex hover:bg-transparent dark:hover:bg-transparent"
+            outline
+            bgColor="tertiary"
+            startIcon={<Icon className="mr-2" name="gwei" size={18} />}
+          >
+            {gweiLabel || '-'}
+          </Button>
+          <DropdownMenu
+            menuItems={currencyOptions}
+            value={currency}
+            onChange={selectCurrency}
+          />
+        </Row>
+        <Row className="inline-flex items-center mt-auto shrink-0 gap-x-4">
+          <Button outline onClick={connectWallet}>
+            Connect Wallet
+          </Button>
+          <Icon name="refresh" color="secondary" size={18} onClick={refresh} />
+          <Icon name="menu" color="secondary" size={18} onClick={openDrawer} />
+        </Row>
       </Row>
-      <Row className="gap-x-2 md:gap-x-6">
-        <Button outline onClick={connectWallet}>
-          Connect Wallet
-        </Button>
-        <Icon name="refresh" color="secondary" size={18} onClick={refresh} />
-        <Icon name="menu" color="secondary" size={18} onClick={openDrawer} />
-      </Row>
-    </Row>
+    </header>
   )
 }

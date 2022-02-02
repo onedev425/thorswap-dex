@@ -1,6 +1,6 @@
-/* eslint-disable react/jsx-no-target-blank */
 import classNames from 'classnames'
 
+import { Link } from 'components/Link'
 import { Tooltip } from 'components/Tooltip'
 
 import { Icon } from '../Icon'
@@ -17,34 +17,26 @@ const iconClasses = {
 }
 
 export const NavItem = ({
+  className = '',
   iconName,
   href,
   isExternal = false,
   variant = 'primary',
-  spaced = true,
-  className = '',
   tooltip,
 }: NavItemProps) => {
   return (
-    <div
-      className={classNames({
-        'mb-2': spaced && variant === 'secondary',
-        'mb-8': spaced && variant === 'primary',
-      })}
-    >
+    <li className={className}>
       <Tooltip content={tooltip} place="right">
-        <li
+        <div
           className={classNames(
-            'w-8 h-8 p-1 inline-flex items-center justify-center rounded-2xl group transition',
+            'w-10 h-10 p-[5px] box-border flex items-center justify-center rounded-2xl group transition',
             itemClasses[variant],
-            className,
           )}
         >
-          <a
-            target={isExternal ? '_blank' : undefined}
-            rel={isExternal ? 'noopener noreferrer' : undefined}
-            href={href}
-            className="w-full h-full inline-flex justify-center items-center"
+          <Link
+            className="flex items-center justify-center w-full h-full"
+            isExternal={isExternal}
+            to={href}
           >
             <Icon
               name={iconName}
@@ -54,9 +46,9 @@ export const NavItem = ({
               )}
               size={18}
             />
-          </a>
-        </li>
+          </Link>
+        </div>
       </Tooltip>
-    </div>
+    </li>
   )
 }

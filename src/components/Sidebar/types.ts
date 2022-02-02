@@ -11,7 +11,6 @@ type ItemProps = {
 
 export type NavItemProps = ItemProps & {
   variant?: Variant
-  spaced?: boolean
   className?: string
 }
 

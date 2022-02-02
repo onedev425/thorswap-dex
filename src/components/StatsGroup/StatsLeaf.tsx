@@ -6,15 +6,15 @@ import { Typography } from 'components/Typography'
 import { LeafProps, borderClasses } from './types'
 
 const StatsLeaf = (props: LeafProps) => {
-  const { label, value, borderNonePosition } = props
+  const { label, value, bnPosition } = props
 
   return (
     <div
       className={classNames(
-        'group flex flex-inline max-w-[150px] w-[calc(50%-2px)] min-h-[160px] rounded-[48px] text-center px-5',
+        'group flex flex-inline w-[calc(50%-2px)] min-h-[160px] rounded-[48px] text-center',
         'drop-shadow-box hover:bg-light-typo-gray hover:dark:bg-dark-typo-gray transition',
         genericBgClasses.secondary,
-        borderClasses[borderNonePosition],
+        borderClasses[bnPosition],
       )}
     >
       <div className="flex flex-col justify-center w-full gap-y-3">
