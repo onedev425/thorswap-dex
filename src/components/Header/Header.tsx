@@ -2,7 +2,7 @@ import { Button } from 'components/Button'
 import { DropdownMenu, DropdownMenuItems } from 'components/Dropdown'
 import { Icon } from 'components/Icon'
 import { Row } from 'components/Row'
-import { ThemeSwitch } from 'components/ThemeSwitch/ThemeSwitch'
+import { ThemeSwitch } from 'components/Theme/ThemeSwitch'
 
 type Props = {
   currencyOptions: DropdownMenuItems
