@@ -3,8 +3,11 @@ import { ReactComponent as ChartCandle } from './chartCandle.svg'
 import { ReactComponent as Cloud } from './cloud.svg'
 import { ReactComponent as Gwei } from './gwei.svg'
 import { ReactComponent as InIcon } from './inIcon.svg'
+import { ReactComponent as Keystore } from './keystore.svg'
+import { ReactComponent as Ledger } from './ledger.svg'
 import { ReactComponent as Lightning } from './lightningThorswap.svg'
 import { ReactComponent as List } from './list.svg'
+import { ReactComponent as Metamask } from './metamask.svg'
 import { ReactComponent as Moon } from './moon.svg'
 import { ReactComponent as Refresh } from './refresh.svg'
 import { ReactComponent as Settings } from './settings.svg'
@@ -15,7 +18,9 @@ import { ReactComponent as Swap } from './swap.svg'
 import { ReactComponent as ThreeDots } from './threedots.svg'
 import { ReactComponent as TradeLightning } from './tradeLightning.svg'
 import { ReactComponent as Wallet } from './wallet.svg'
+import { ReactComponent as WalletConnect } from './walletConnect.svg'
 import { ReactComponent as Watch } from './watch.svg'
+import { ReactComponent as XDefi } from './xdefi.svg'
 
 export type SvgIconName = keyof typeof Svgs
 
@@ -33,6 +38,11 @@ export const Svgs = {
   cloud: Cloud,
   settings: Settings,
   threedots: ThreeDots,
+  xdefi: XDefi,
+  ledger: Ledger,
+  metamask: Metamask,
+  keystore: Keystore,
+  walletConnect: WalletConnect,
   gwei: Gwei,
   sun: Sun,
   moon: Moon,
@@ -61,6 +71,13 @@ export const SvgIcons = {
   settings: (props: CustomIconProps) => <SvgIcon name="settings" {...props} />,
   threedots: (props: CustomIconProps) => (
     <SvgIcon name="threedots" {...props} />
+  ),
+  xdefi: (props: CustomIconProps) => <SvgIcon name="xdefi" {...props} />,
+  keystore: (props: CustomIconProps) => <SvgIcon name="keystore" {...props} />,
+  metamask: (props: CustomIconProps) => <SvgIcon name="metamask" {...props} />,
+  ledger: (props: CustomIconProps) => <SvgIcon name="ledger" {...props} />,
+  walletConnect: (props: CustomIconProps) => (
+    <SvgIcon name="walletConnect" {...props} />
   ),
   gwei: (props: CustomIconProps) => <SvgIcon name="gwei" {...props} />,
   sun: (props: CustomIconProps) => <SvgIcon name="sun" {...props} />,
