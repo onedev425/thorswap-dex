@@ -63,7 +63,7 @@ const getPoolColumns = () => {
 export const PoolTable = ({ data }: PoolTableProps) => {
   const columns = getPoolColumns()
   return (
-    <div className="flex flex-col bg-light-bg-primary dark:bg-dark-bg-primary p-4">
+    <div className="flex flex-col bg-light-bg-primary dark:bg-dark-bg-primary">
       <Table columns={columns} data={data} sortable />
     </div>
   )

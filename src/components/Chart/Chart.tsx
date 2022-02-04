@@ -20,6 +20,7 @@ import {
   Tooltip,
   SubTitle,
 } from 'chart.js'
+import classNames from 'classnames'
 
 ChartJS.register(
   ArcElement,
@@ -44,8 +45,7 @@ ChartJS.register(
 import chartConfig from './config/chartConfig'
 import { ChartProps } from './types'
 
-export const Chart = (props: ChartProps) => {
-  const { type, data } = props
+export const Chart = ({ type, data, className }: ChartProps) => {
   const { options, chartData } = chartConfig(type, data) as FixMe
 
   const renderChart = () => {
@@ -61,5 +61,5 @@ export const Chart = (props: ChartProps) => {
     }
   }
 
-  return <div className="w-full">{renderChart()}</div>
+  return <div className={classNames('w-full', className)}>{renderChart()}</div>
 }
