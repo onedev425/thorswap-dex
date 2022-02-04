@@ -1,6 +1,7 @@
 export enum ROUTES {
   Home = '/',
-  Swap = '/swap',
-  Stats = '/stats',
   Nodes = '/nodes',
+  Stake = '/stake',
+  Stats = '/stats',
+  Swap = '/swap',
 }

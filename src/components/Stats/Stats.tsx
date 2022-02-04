@@ -13,14 +13,16 @@ export const Stats = (props: StatsType) => {
   return (
     <Card
       className={classNames(
-        'w-[185px] flex-initial gap-4 group transition',
+        'w-[225px] h-[120px] flex-initial gap-4 group transition',
         statsBgClasses[color],
       )}
       stretch
     >
       <div
         className={classNames(
-          'w-10 h-[72px] flex items-center justify-center rounded-box group-hover:bg-light-bg-secondary dark:group-hover:bg-dark-bg-secondary transition',
+          'w-10 h-[72px] flex self-center items-center justify-center',
+          'rounded-box group-hover:bg-light-bg-secondary',
+          'dark:group-hover:bg-dark-bg-secondary transition',
           genericBgClasses[color],
           'bg-opacity-10 group-hover:bg-opacity-10 dark:group-hover:bg-opacity-10',
         )}

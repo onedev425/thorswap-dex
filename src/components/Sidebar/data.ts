@@ -44,6 +44,13 @@ export const navbarOptions: SidebarItemProps[] = [
         hasSub: false,
       },
       {
+        iconName: 'lightning',
+        href: '/stake',
+        label: 'Thor Stake',
+        isExternal: false,
+        hasSub: false,
+      },
+      {
         iconName: 'watch',
         href: '/',
         label: 'Pending Liquidity',

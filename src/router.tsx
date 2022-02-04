@@ -20,12 +20,12 @@ const routes: RouteType = [
     element: HomeView,
   },
   {
-    path: ROUTES.Stats,
-    element: StatsView,
-  },
-  {
     path: ROUTES.Nodes,
     element: NodesView,
+  },
+  {
+    path: ROUTES.Stats,
+    element: StatsView,
   },
   {
     path: ROUTES.Swap,
