@@ -5,7 +5,7 @@ import { genericBgClasses } from 'components/constants'
 import { Icon } from 'components/Icon'
 import { Typography } from 'components/Typography'
 
-import { StatsType, statsBgClasses } from './types'
+import { StatsType, statsBgClasses, statsWidthClass } from './types'
 
 export const Stats = (props: StatsType) => {
   const { color, iconName, label, value } = props
@@ -13,8 +13,9 @@ export const Stats = (props: StatsType) => {
   return (
     <Card
       className={classNames(
-        'w-[225px] h-[120px] flex-initial gap-4 group transition',
+        'h-[120px] flex-initial gap-4 group transition',
         statsBgClasses[color],
+        statsWidthClass,
       )}
       stretch
     >

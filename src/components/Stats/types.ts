@@ -23,3 +23,5 @@ export const statsBgClasses: Record<ColorType, string> = {
   gray: 'hover:bg-gray hover:dark:bg-gray',
   red: 'hover:bg-red hover:dark:bg-red',
 }
+
+export const statsWidthClass = '!w-[225px]'
