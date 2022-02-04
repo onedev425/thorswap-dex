@@ -11,3 +11,8 @@ export type ColorType =
   | 'cyan'
   | 'gray'
   | 'red'
+
+export enum ThemeType {
+  DARK = 'DARK',
+  LIGHT = 'LIGHT',
+}

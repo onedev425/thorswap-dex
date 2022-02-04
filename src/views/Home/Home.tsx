@@ -1,5 +1,9 @@
+import { useMidgard } from 'redux/midgard/hooks'
+
 const Home = () => {
-  return <div>Home route</div>
+  const { pools } = useMidgard()
+
+  return <div>{JSON.stringify(pools)}</div>
 }
 
 export default Home
