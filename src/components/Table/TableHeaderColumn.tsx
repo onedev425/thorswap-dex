@@ -26,7 +26,7 @@ export const TableHeaderColumn = (props: Props) => {
       {...column.getHeaderProps(column.getSortByToggleProps())}
     >
       <Typography
-        variant="caption"
+        variant="caption-xs"
         color="secondary"
         className={classNames('inline-flex items-center gap-1 transition', {
           'hover:text-light-typo-primary dark:hover:text-dark-typo-primary':
