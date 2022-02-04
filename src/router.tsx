@@ -1,11 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import HomeView from 'views/Home'
+import NodesView from 'views/Nodes'
 import StatsView from 'views/Stats/Stats'
 
 import { Layout } from 'components/Layout'
 
-import { HOME_ROUTE, STATS_ROUTE } from 'settings/constants'
+import { HOME_ROUTE, STATS_ROUTE, NODES_ROUTE } from 'settings/constants'
 
 export type RouteType = {
   path?: string
@@ -20,6 +21,10 @@ const routes: RouteType = [
   {
     path: STATS_ROUTE,
     element: StatsView,
+  },
+  {
+    path: NODES_ROUTE,
+    element: NodesView,
   },
 ]
 

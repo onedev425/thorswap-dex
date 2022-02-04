@@ -12,7 +12,7 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof StatsList>
 
-const STATS_LIST: StatsType[] = [
+export const STATS_LIST: StatsType[] = [
   {
     iconName: 'chartPie',
     color: 'yellow',
