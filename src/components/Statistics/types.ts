@@ -1,8 +1,9 @@
 import React from 'react'
 
 export type StatisticsType = {
-  title: string | React.ReactNode
   amount: number
   change: number
+  percentage?: boolean
+  title: string | React.ReactNode
   value: number
 }

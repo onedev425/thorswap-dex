@@ -42,3 +42,17 @@ export const Positive = () => {
     </div>
   )
 }
+
+export const Percentage = () => {
+  return (
+    <div className="p-4 bg-light-bg-primary dark:bg-dark-bg-primary">
+      <Statistics
+        amount={2000.04}
+        change={44.3}
+        percentage
+        title="Liquidity"
+        value={1003}
+      />
+    </div>
+  )
+}

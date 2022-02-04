@@ -1,10 +1,22 @@
+import { useState } from 'react'
+
 import { Row } from 'components/Row'
 import { Typography } from 'components/Typography'
 
 import { StatisticsType } from './types'
 
-export const Statistics = (props: StatisticsType) => {
-  const { title, amount, change, value } = props
+export const Statistics = ({
+  title,
+  amount,
+  change,
+  value,
+  percentage,
+}: StatisticsType) => {
+  const [prevChange, setPreviousChange] = useState(false)
+
+  if (prevChange !== change >= 0) {
+    setPreviousChange(change >= 0)
+  }
 
   return (
     <div>
@@ -19,8 +31,9 @@ export const Statistics = (props: StatisticsType) => {
       </Row>
       <Row className="gap-x-1" align="start">
         <Typography variant="h1">{amount}</Typography>
-        <Typography color={change >= 0 ? 'green' : 'red'} fontWeight="semibold">
-          {change !== 0 && (change > 0 ? '+' : '-')}${Math.abs(change)}
+        <Typography color={prevChange ? 'green' : 'red'} fontWeight="semibold">
+          {prevChange ? '+' : '-'}
+          {percentage ? `${Math.abs(change)}%` : `$${Math.abs(change)}`}
         </Typography>
         <Typography color="secondary" fontWeight="semibold">
           (${value})
