@@ -24,7 +24,7 @@ export const navbarOptions: SidebarItemProps[] = [
       },
       {
         iconName: 'swap',
-        href: '/',
+        href: '/swap',
         label: 'Swap',
         isExternal: false,
         hasSub: false,

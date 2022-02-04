@@ -7,13 +7,19 @@ const sizeVariants: Record<CardSize, string> = {
   lg: 'p-10 rounded-box-lg',
 }
 
-export const Card = (props: CardProps) => {
-  const { className, size = 'md', stretch = false, children, onClick } = props
-
+export const Card = ({
+  className,
+  size = 'md',
+  stretch = false,
+  children,
+  shadow = true,
+  onClick,
+}: CardProps) => {
   return (
     <div
       className={classNames(
-        'rounded-box bg-light-bg-secondary dark:bg-dark-bg-secondary drop-shadow-box box-border',
+        'bg-light-bg-secondary dark:bg-dark-bg-secondary',
+        { 'drop-shadow-box box-border': shadow },
         stretch ? 'flex flex-1' : 'inline-flex',
         sizeVariants[size],
         className,

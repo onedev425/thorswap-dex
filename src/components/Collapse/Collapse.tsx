@@ -9,7 +9,12 @@ import { Typography } from 'components/Typography'
 
 import { CollapseProps } from './types'
 
-export const Collapse = ({ title, children }: CollapseProps) => {
+export const Collapse = ({
+  children,
+  className,
+  shadow = true,
+  title,
+}: CollapseProps) => {
   const [active, setActive] = useState(false)
 
   const contentSpace = useRef<HTMLDivElement>(null)
@@ -19,7 +24,11 @@ export const Collapse = ({ title, children }: CollapseProps) => {
   }, [active])
 
   return (
-    <Card size="md" className="flex flex-col h-max">
+    <Card
+      shadow={shadow}
+      size="md"
+      className={classNames('flex flex-col h-max', className)}
+    >
       <div
         className="box-border w-full appearance-none cursor-pointer focus:outline-none"
         onClick={toggleAccordion}
@@ -41,6 +50,7 @@ export const Collapse = ({ title, children }: CollapseProps) => {
           />
         </Row>
       </div>
+
       <div
         className="overflow-auto overflow-y-hidden duration-300 ease-in-out transition-max-height"
         ref={contentSpace}

@@ -1,3 +1,4 @@
+import { AiOutlineLineChart } from 'react-icons/ai'
 import {
   BsSearch,
   BsDiscord,
@@ -5,7 +6,7 @@ import {
   BsTelegram,
   BsTwitter,
 } from 'react-icons/bs'
-import { CgMenu } from 'react-icons/cg'
+import { CgMenu, CgArrowsExchangeAltV } from 'react-icons/cg'
 import {
   FaChartPie,
   FaWifi,
@@ -18,6 +19,7 @@ import {
 } from 'react-icons/fa'
 import { FiXCircle, FiChevronDown, FiX, FiInfo } from 'react-icons/fi'
 import { GrBitcoin } from 'react-icons/gr'
+import { HiOutlineCog } from 'react-icons/hi'
 import { MdAreaChart } from 'react-icons/md'
 import { SiBinance } from 'react-icons/si'
 
@@ -28,15 +30,19 @@ export type IconName = keyof typeof Icons
 const Icons = {
   binance: SiBinance,
   bitcoin: GrBitcoin,
+  chart: AiOutlineLineChart,
   chartArea2: FaChartArea,
   chartArea: MdAreaChart,
   chartPie: FaChartPie,
   checkmark: FaCheck,
   chevronDown: FiChevronDown,
   close: FiX,
+  cog: HiOutlineCog,
   discord: BsDiscord,
   ethereum: FaEthereum,
+  exchange: CgArrowsExchangeAltV,
   fire: FaFire,
+  info: FiInfo,
   medium: BsMedium,
   search: BsSearch,
   sortDown: FaSortDown,

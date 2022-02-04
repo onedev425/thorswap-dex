@@ -50,6 +50,11 @@ export const All = () => {
   return (
     <div className="flex flex-row gap-x-6 bg-light-bg-primary dark:bg-dark-bg-primary p-2">
       <Collapse title="This is a string title">{InnerData}</Collapse>
+
+      <Collapse title="This one is without shadow" shadow={false}>
+        {InnerData}
+      </Collapse>
+
       <Collapse
         title={
           <CollapseIconTitle

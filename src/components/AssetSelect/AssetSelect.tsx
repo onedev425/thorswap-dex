@@ -8,9 +8,10 @@ import { Modal } from 'components/Modal'
 
 type Props = {
   selected?: AssetTickerType | null
+  className?: string
 } & AssetSelectProps
 
-export const AssetSelect = ({ selected, ...restProps }: Props) => {
+export const AssetSelect = ({ selected, className, ...restProps }: Props) => {
   const [isOpened, setIsOpened] = useState(false)
 
   return (
@@ -18,6 +19,7 @@ export const AssetSelect = ({ selected, ...restProps }: Props) => {
       <AssetSelectButton
         onClick={() => setIsOpened(true)}
         selected={selected}
+        className={className}
       />
 
       <Modal
@@ -25,7 +27,7 @@ export const AssetSelect = ({ selected, ...restProps }: Props) => {
         isOpened={isOpened}
         onClose={() => setIsOpened(false)}
       >
-        <div className="-m-10 flex flex-1 max-w-sm overflow-hidden max-h-[80%] h-[772px]">
+        <div className="flex flex-1 max-w-sm overflow-hidden max-h-[80%] h-[772px]">
           <AssetSelectList {...restProps} onClose={() => setIsOpened(false)} />
         </div>
       </Modal>

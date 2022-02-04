@@ -9,6 +9,8 @@ export type AssetSelectProps = {
 
 export type AssetSelectType = {
   name: AssetTickerType
-  type: string
-  balance?: number | null
+  type?: string
+  value: string
+  balance: string
+  change: string
 }

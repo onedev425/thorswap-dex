@@ -8,29 +8,32 @@ type Props = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
 > & {
+  borderless?: boolean
   icon?: IconName
   stretch?: boolean
 }
 
 const DEFAULT_ICON_SIZE = 16
 
-export const Input = (props: Props) => {
+export const Input = ({
+  borderless = false,
+  className,
+  icon,
+  onChange,
+  placeholder,
+  stretch,
+  value,
+  ...restProps
+}: Props) => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const {
-    className,
-    placeholder,
-    icon,
-    onChange,
-    value,
-    stretch,
-    ...restProps
-  } = props
 
   return (
     <div
       onClick={() => inputRef.current?.focus()}
       className={classNames(
-        'flex flex-row border-b border-l-0 border-r-0 border-solid border-t-0 py-2 border-light-border-primary focus-within:border-dark-typo-gray dark:border-dark-border-primary hover:border-dark-typo-gray dark:hover:border-dark-typo-gray focus-within::hover:border-dark-typo-gray transition-colors',
+        'flex flex-row py-2 transition-colors',
+        'border-light-border-primary focus-within:border-dark-typo-gray dark:border-dark-border-primary hover:border-dark-typo-gray dark:hover:border-dark-typo-gray focus-within::hover:border-dark-typo-gray',
+        { 'border-b border-t-0 border-x-0 border-solid': !borderless },
         stretch ? 'w-full' : 'w-fit',
       )}
     >

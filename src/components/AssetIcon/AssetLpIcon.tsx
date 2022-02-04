@@ -19,7 +19,7 @@ export const AssetLpIcon = (props: AssetLpIconProps) => {
     <div className="flex">
       <div
         className={classNames(
-          'z-10 relative border-2 border-solid rounded-full border-light-bg-primary dark:border-dark-bg-primary',
+          'rounded-full border-light-bg-primary dark:border-dark-bg-primary',
           { '-translate-y-2': !inline },
         )}
       >
@@ -28,10 +28,10 @@ export const AssetLpIcon = (props: AssetLpIconProps) => {
 
       <div style={{ marginLeft: -pairIconOffset }}>
         <AssetIcon
+          {...styleProps}
           name={asset2Name}
           bgColor={asset2BgColor}
-          {...styleProps}
-          className={classNames('relative', { 'translate-y-2': !inline })}
+          className={classNames({ 'translate-y-2': !inline })}
         />
       </div>
     </div>

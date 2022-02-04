@@ -21,16 +21,16 @@ export default {
 } as ComponentMeta<typeof AssetSelectList>
 
 const assets = [
-  { name: 'ETH', type: 'Native token', balance: 0 },
-  { name: 'BTC', type: 'Native token', balance: 4.7 },
-  { name: 'RUNE', type: 'Native token', balance: 11 },
-  { name: 'BNB', type: 'Native token', balance: 0 },
-  { name: 'DOGE', type: 'Doge coin', balance: 38 },
-  { name: 'SXP', type: '-', balance: 0 },
-  { name: 'WETH', type: '-', balance: 0 },
-  { name: 'BUSD', type: '-', balance: 0 },
-  { name: 'STYL', type: '-', balance: 0 },
-  { name: 'DAI', type: '-', balance: 0 },
+  { name: 'ETH', type: 'Native token', balance: '0' },
+  { name: 'BTC', type: 'Native token', balance: '4.7' },
+  { name: 'RUNE', type: 'Native token', balance: '11' },
+  { name: 'BNB', type: 'Native token', balance: '0' },
+  { name: 'DOGE', type: 'Doge coin', balance: '38' },
+  { name: 'SXP', type: '-', balance: '0' },
+  { name: 'WETH', type: '-', balance: '0' },
+  { name: 'BUSD', type: '-', balance: '0' },
+  { name: 'STYL', type: '-', balance: '0' },
+  { name: 'DAI', type: '-', balance: '0' },
 ] as AssetSelectType[]
 
 const commonAssets = assets.slice(0, 3)

@@ -15,6 +15,7 @@ const MainApp = () => {
 
   return (
     <div className="bg-light-bg-primary dark:bg-dark-bg-primary">
+      <div id="headlessui-portal-root" />
       <Router />
       <TooltipPortal />
       <ToastPortal />

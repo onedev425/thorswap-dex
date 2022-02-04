@@ -6,21 +6,19 @@ import { genericBgClasses } from '../constants'
 import { AssetIconProps } from './types'
 import { getAssetIconUrl, getSecondaryIconPlacementStyle } from './utils'
 
-export const AssetIcon = (props: AssetIconProps) => {
-  const {
-    className,
-    size = 40,
-    bgColor = 'blue',
-    name,
-    secondaryIconName,
-    secondaryIconPlacement = 'bl',
-  } = props
-
+export const AssetIcon = ({
+  className,
+  size = 40,
+  bgColor = 'blue',
+  name,
+  secondaryIconName,
+  secondaryIconPlacement = 'bl',
+}: AssetIconProps) => {
   const iconUrl = getAssetIconUrl(name)
   const secondaryIconSize = secondaryIconName ? size * 0.4 : 0
 
   return (
-    <div className="flex relative">
+    <div className="flex">
       <div
         style={{ width: size, height: size }}
         className={classNames(
@@ -40,6 +38,7 @@ export const AssetIcon = (props: AssetIconProps) => {
           <Typography variant="caption">{name}</Typography>
         )}
       </div>
+
       {secondaryIconName && (
         <div
           className="absolute"

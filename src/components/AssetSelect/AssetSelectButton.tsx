@@ -1,23 +1,32 @@
+import classNames from 'classnames'
+
 import { AssetTickerType } from 'components/AssetIcon/types'
 import { AssetButton } from 'components/AssetSelect/AssetButton'
 import { Button } from 'components/Button'
 import { Icon } from 'components/Icon'
 
 type Props = {
+  className?: string
   onClick: () => void
   selected?: Maybe<AssetTickerType>
 }
 
-export const AssetSelectButton = ({ onClick, selected }: Props) => {
+export const AssetSelectButton = ({ className, onClick, selected }: Props) => {
   if (selected) {
     return (
-      <AssetButton onClick={onClick} name={selected} size="large" withChevron />
+      <AssetButton
+        onClick={onClick}
+        name={selected}
+        className={className}
+        size="large"
+        withChevron
+      />
     )
   }
 
   return (
     <Button
-      className="pl-8 pr-4"
+      className={classNames('pl-8 pr-4', className)}
       size="large"
       outline
       bgColor="secondary"
