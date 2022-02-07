@@ -1,4 +1,5 @@
 import { Chart } from 'components/Chart'
+import { ChartType } from 'components/Chart/types'
 import { StatsGroup } from 'components/StatsGroup'
 import { Typography } from 'components/Typography'
 
@@ -46,7 +47,7 @@ const Stats = () => {
             </Typography>
           </div>
           <div className="flex flex-row pb-8">
-            <Chart type="curved-line" data={sampleData} />
+            <Chart type={ChartType.CurvedLine} data={sampleData} />
           </div>
           <StatsGroup
             iconName="lightning"
@@ -96,7 +97,7 @@ const Stats = () => {
             </Typography>
           </div>
           <div className="flex flex-row pb-8">
-            <Chart type="curved-line" data={sampleData} />
+            <Chart type={ChartType.CurvedLine} data={sampleData} />
           </div>
           <StatsGroup
             iconName="chartArea"
@@ -146,7 +147,7 @@ const Stats = () => {
             </Typography>
           </div>
           <div className="flex flex-row pb-8">
-            <Chart type="curved-line" data={sampleData} />
+            <Chart type={ChartType.CurvedLine} data={sampleData} />
           </div>
           <StatsGroup
             iconName="wallet"
@@ -198,7 +199,7 @@ const Stats = () => {
             </Typography>
           </div>
           <div className="flex flex-row pb-8">
-            <Chart type="curved-line" data={sampleData} />
+            <Chart type={ChartType.CurvedLine} data={sampleData} />
           </div>
           <StatsGroup
             iconName="fire"
@@ -248,7 +249,7 @@ const Stats = () => {
             </Typography>
           </div>
           <div className="flex flex-row pb-8">
-            <Chart type="curved-line" data={sampleData} />
+            <Chart type={ChartType.CurvedLine} data={sampleData} />
           </div>
           <StatsGroup
             iconName="chartPie"
@@ -298,7 +299,7 @@ const Stats = () => {
             </Typography>
           </div>
           <div className="flex flex-row pb-8">
-            <Chart type="curved-line" data={sampleData} />
+            <Chart type={ChartType.CurvedLine} data={sampleData} />
           </div>
           <StatsGroup
             iconName="chartArea2"

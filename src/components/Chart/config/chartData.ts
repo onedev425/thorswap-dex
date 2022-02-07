@@ -1,12 +1,14 @@
 import * as colors from 'components/Chart/styles/colors'
-import { ChartType, DataPoint } from 'components/Chart/types'
+import { ChartDataType, ChartType, DataPoint } from 'components/Chart/types'
 
 import { getBackgroundColor, getLabelsAndValuesFromData } from './utils'
 
-const getDataForBarChart = (data: DataPoint[], dataLabels: string[]) => {
+const getDataForBarChart = (
+  data: DataPoint[],
+  dataLabels: string[],
+): ChartDataType[ChartType.Bar] => {
   return {
-    type: 'bar',
-    label: dataLabels,
+    labels: dataLabels,
     datasets: [
       {
         label: '',
@@ -24,10 +26,12 @@ const getDataForBarChart = (data: DataPoint[], dataLabels: string[]) => {
   }
 }
 
-const getDataForAreaChart = (data: DataPoint[], dataLabels: string[]) => {
+const getDataForAreaChart = (
+  data: DataPoint[],
+  dataLabels: string[],
+): ChartDataType[ChartType.Area] => {
   return {
-    type: 'line',
-    label: dataLabels,
+    labels: dataLabels,
     datasets: [
       {
         label: '',
@@ -55,9 +59,11 @@ const getDataForAreaChart = (data: DataPoint[], dataLabels: string[]) => {
   }
 }
 
-const getDataForLineChart = (dataLabels: string[], dataValues: number[]) => {
+const getDataForLineChart = (
+  dataLabels: string[],
+  dataValues: number[],
+): ChartDataType[ChartType.Line] => {
   return {
-    type: 'line',
     labels: dataLabels,
     datasets: [
       {
@@ -89,9 +95,8 @@ const getDataForLineChart = (dataLabels: string[], dataValues: number[]) => {
 const getDataForCurvedLineChart = (
   dataLabels: string[],
   dataValues: number[],
-) => {
+): ChartDataType[ChartType.CurvedLine] => {
   return {
-    type: 'line',
     labels: dataLabels,
     datasets: [
       {
@@ -124,7 +129,7 @@ const getDataForCurvedLineChart = (
 export const getChartData = (type: ChartType, data: DataPoint[]) => {
   const { dataLabels, dataValues } = getLabelsAndValuesFromData(data)
   switch (type) {
-    case 'bar':
+    case ChartType.Bar:
       return getDataForBarChart(data, dataLabels)
     case 'area':
       return getDataForAreaChart(data, dataLabels)

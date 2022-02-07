@@ -123,7 +123,7 @@ export const dashboardMockData: DashboardMockData = {
     },
     liquidity: {
       amount: 2000.04,
-      change: 44.3,
+      change: 12.3,
       value: 1003,
       chartData: [
         { x: 'January', y: 90 },

@@ -42,24 +42,56 @@ ChartJS.register(
   SubTitle,
 )
 
+import { Box } from 'components/Box'
+
 import chartConfig from './config/chartConfig'
-import { ChartProps } from './types'
+import { ChartDataType, ChartProps, ChartType } from './types'
 
 export const Chart = ({ type, data, className }: ChartProps) => {
-  const { options, chartData } = chartConfig(type, data) as FixMe
+  const { options, chartData } = chartConfig(type, data)
 
   const renderChart = () => {
+    if (!chartData) {
+      return null
+    }
+
     switch (type) {
       case 'bar':
-        return <Bar options={options} data={chartData} />
+        return (
+          <Bar
+            options={options}
+            data={chartData as ChartDataType[ChartType.Bar]}
+          />
+        )
       case 'area':
+        return (
+          <Line
+            options={options}
+            data={chartData as ChartDataType[ChartType.Area]}
+          />
+        )
       case 'line':
+        return (
+          <Line
+            options={options}
+            data={chartData as ChartDataType[ChartType.Line]}
+          />
+        )
       case 'curved-line':
-        return <Line options={options} data={chartData} />
+        return (
+          <Line
+            options={options}
+            data={chartData as ChartDataType[ChartType.CurvedLine]}
+          />
+        )
       default:
         return <></>
     }
   }
 
-  return <div className={classNames('w-full', className)}>{renderChart()}</div>
+  return (
+    <Box className={classNames('w-full h-full', className)}>
+      {renderChart()}
+    </Box>
+  )
 }

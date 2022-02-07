@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import HomeView from 'views/Home'
 import NodesView from 'views/Nodes'
+import StakeView from 'views/Stake/Stake'
 import StatsView from 'views/Stats/Stats'
 import SwapView from 'views/Swap/Swap'
 
@@ -30,6 +31,10 @@ const routes: RouteType = [
   {
     path: ROUTES.Swap,
     element: SwapView,
+  },
+  {
+    path: ROUTES.Stake,
+    element: StakeView,
   },
 ]
 

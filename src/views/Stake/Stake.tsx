@@ -1,4 +1,6 @@
+import { Box } from 'components/Box'
 import { Chart } from 'components/Chart'
+import { ChartType } from 'components/Chart/types'
 import { StakingCard } from 'components/StakingCard'
 import { StatsType } from 'components/Stats'
 import { StatsList } from 'components/StatsList'
@@ -103,7 +105,7 @@ const Stake = () => {
         <div className="w-5/12 h-auto">
           <StatsList list={list} />
         </div>
-        <div className="w-7/12">
+        <Box className="w-7/12" col>
           <div className="flex-row">
             <Typography variant="h3" color="primary" fontWeight="extrabold">
               THORSwap Token ($THOR)
@@ -114,10 +116,10 @@ const Stake = () => {
               +10%
             </Typography>
           </div>
-          <div className="flex-row">
-            <Chart type="area" data={sampleData} />
-          </div>
-        </div>
+          <Box className="flex-1">
+            <Chart type={ChartType.Area} data={sampleData} />
+          </Box>
+        </Box>
       </div>
       <div className="flex space-x-6">
         <div className="w-1/3 h-auto">

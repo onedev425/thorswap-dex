@@ -5,7 +5,7 @@ import { getChartOptions } from './chartOptions'
 const chartConfig = (type: ChartType, data: DataPoint[]) => {
   return {
     chartData: getChartData(type, data),
-    options: getChartOptions(type),
+    options: getChartOptions(),
   }
 }
 

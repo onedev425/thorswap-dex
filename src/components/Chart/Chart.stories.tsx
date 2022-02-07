@@ -1,6 +1,7 @@
 import { ComponentMeta } from '@storybook/react'
 
 import { Card } from 'components/Card'
+import { ChartType } from 'components/Chart/types'
 
 import { Chart } from './Chart'
 
@@ -59,7 +60,7 @@ export const BarChart = () => {
 
   return (
     <Card className="w-full">
-      <Chart type="bar" data={sampleData} />
+      <Chart type={ChartType.Bar} data={sampleData} />
     </Card>
   )
 }
@@ -109,7 +110,7 @@ export const AreaChart = () => {
 
   return (
     <Card className="w-full">
-      <Chart type="area" data={sampleData} />
+      <Chart type={ChartType.Area} data={sampleData} />
     </Card>
   )
 }
@@ -132,7 +133,7 @@ export const LineChart = () => {
 
   return (
     <Card className="w-full">
-      <Chart type="line" data={sampleData} />
+      <Chart type={ChartType.Line} data={sampleData} />
     </Card>
   )
 }
@@ -155,7 +156,7 @@ export const CurvedLineChart = () => {
 
   return (
     <Card className="w-full">
-      <Chart type="curved-line" data={sampleData} />
+      <Chart type={ChartType.CurvedLine} data={sampleData} />
     </Card>
   )
 }

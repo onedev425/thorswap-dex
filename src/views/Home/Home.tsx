@@ -1,11 +1,12 @@
 import { dashboardMockData } from 'views/Home/mockData'
 import { useHome } from 'views/Home/useHome'
 
+import { Box } from 'components/Box'
 import { Chart } from 'components/Chart'
+import { ChartType } from 'components/Chart/types'
 import { Input } from 'components/Input'
 import { PoolCard } from 'components/PoolCard'
 import { PoolTable } from 'components/PoolTable'
-import { Row } from 'components/Row'
 import { Select } from 'components/Select'
 import { Statistics } from 'components/Statistics'
 import { StatsList } from 'components/StatsList'
@@ -20,12 +21,13 @@ const Home = () => {
   const { chainAssetFilterIndex, setChainAssetFilterIndex } = useHome()
 
   return (
-    <div className="flex flex-col gap-12 overflow-x-hidden">
+    <Box className="gap-12 overflow-x-hidden" col>
       <StatsList list={dashboardMockData.statsList} scrollable />
 
-      <div className="grid grid-cols-2 gap-10">
-        <div className="flex flex-col gap-8">
+      <Box className="gap-10">
+        <Box className="gap-8 flex-1" col>
           <Statistics
+            percentage
             title="Volume"
             amount={dashboardMockData.stats.volume.amount}
             change={dashboardMockData.stats.volume.change}
@@ -33,13 +35,14 @@ const Home = () => {
           />
           <Chart
             className="min-h-[235px]"
-            type="bar"
+            type={ChartType.Bar}
             data={dashboardMockData.stats.volume.chartData}
           />
-        </div>
+        </Box>
 
-        <div className="flex flex-col gap-8">
+        <Box className="gap-8 flex-1" col>
           <Statistics
+            percentage
             title="Liquidity"
             amount={dashboardMockData.stats.liquidity.amount}
             change={dashboardMockData.stats.liquidity.change}
@@ -47,15 +50,15 @@ const Home = () => {
           />
           <Chart
             className="min-h-[235px]"
-            type="curved-line"
-            data={dashboardMockData.stats.volume.chartData}
+            type={ChartType.CurvedLine}
+            data={dashboardMockData.stats.liquidity.chartData}
           />
-        </div>
-      </div>
+        </Box>
+      </Box>
 
-      <div className="flex flex-col gap-8">
+      <Box className="gap-8" col>
         <Typography variant="h3">Swap cross chain assets</Typography>
-        <div className="flex flex-wrap gap-6 justify-center">
+        <Box className="flex-wrap gap-6" justifyCenter>
           {dashboardMockData.featuredPools.map((p) => (
             <PoolCard
               key={p.ticker}
@@ -66,22 +69,22 @@ const Home = () => {
               change={p.change}
             />
           ))}
-        </div>
-      </div>
+        </Box>
+      </Box>
 
-      <div className="flex flex-col gap-8">
+      <Box className="gap-8" col>
         <Typography variant="h3">Liquidity Pools</Typography>
-        <Row justify="between">
+        <Box justify="between">
           <Input placeholder="Search" icon="search" />
           <Select
             options={['All', 'Native', 'ERC20', 'BEP2']}
             activeIndex={chainAssetFilterIndex}
             onChange={setChainAssetFilterIndex}
           />
-        </Row>
+        </Box>
         <PoolTable data={dashboardMockData.pools} />
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }
 
