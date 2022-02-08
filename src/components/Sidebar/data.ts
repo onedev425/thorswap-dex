@@ -61,7 +61,7 @@ export const navbarOptions: SidebarItemProps[] = [
   },
   {
     iconName: 'wallet',
-    href: '/',
+    href: '/wallet',
     label: 'Wallet',
     isExternal: false,
     hasSub: false,

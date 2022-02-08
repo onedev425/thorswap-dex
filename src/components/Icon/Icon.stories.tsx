@@ -1,5 +1,9 @@
 import { ComponentMeta } from '@storybook/react'
 
+import { IconName } from 'components/Icon'
+import Icons from 'components/Icon/iconList'
+import { Typography } from 'components/Typography'
+
 import { Icon, IconProps } from './Icon'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -55,6 +59,21 @@ export const Random = (args: IconProps) => {
   return (
     <div className="flex flex-col space-y-2 bg-light-bg-primary dark:bg-dark-bg-primary p-4">
       <Icon {...args} />
+    </div>
+  )
+}
+
+export const List = () => {
+  return (
+    <div className="flex flex-col space-y-2 bg-light-bg-primary dark:bg-dark-bg-primary p-4">
+      {Object.keys(Icons).map((icon) => {
+        return (
+          <div key={icon} className="flex">
+            <Icon name={icon as IconName} size={ICON_MD} />
+            <Typography className="ml-2">{icon}</Typography>
+          </div>
+        )
+      })}
     </div>
   )
 }

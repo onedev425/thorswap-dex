@@ -23,6 +23,7 @@ import { FiXCircle, FiChevronDown, FiX, FiInfo } from 'react-icons/fi'
 import { GrBitcoin } from 'react-icons/gr'
 import { HiOutlineCog } from 'react-icons/hi'
 import { MdAreaChart } from 'react-icons/md'
+import { RiShareBoxLine } from 'react-icons/ri'
 import { SiBinance } from 'react-icons/si'
 
 import { SvgIcons } from './svg/svgIconList'
@@ -30,6 +31,7 @@ import { SvgIcons } from './svg/svgIconList'
 export type IconName = keyof typeof Icons
 
 const Icons = {
+  arrowBack: BiArrowBack,
   binance: SiBinance,
   bitcoin: GrBitcoin,
   chart: AiOutlineLineChart,
@@ -45,19 +47,19 @@ const Icons = {
   exchange: CgArrowsExchangeAltV,
   fire: FaFire,
   info: FiInfo,
+  infoCircle: FiInfo,
   medium: BsMedium,
+  menu: CgMenu,
+  question: BsQuestion,
   search: BsSearch,
+  share: RiShareBoxLine,
   sortDown: FaSortDown,
   sortUp: FaSortUp,
   telegram: BsTelegram,
   twitter: BsTwitter,
+  unlock: AiOutlineUnlock,
   wifi: FaWifi,
   xCircle: FiXCircle,
-  menu: CgMenu,
-  infoCircle: FiInfo,
-  question: BsQuestion,
-  unlock: AiOutlineUnlock,
-  arrowBack: BiArrowBack,
   ...SvgIcons,
 } as const
 

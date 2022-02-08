@@ -27,66 +27,65 @@ import { ReactComponent as XDefi } from './xdefi.svg'
 export type SvgIconName = keyof typeof Svgs
 
 export const Svgs = {
-  lightning: Lightning,
-  chartCandle: ChartCandle,
   app: App,
-  list: List,
-  tradeLightning: TradeLightning,
-  swap: Swap,
-  inIcon: InIcon,
-  sputnik: Sputnik,
-  watch: Watch,
-  wallet: Wallet,
+  chartCandle: ChartCandle,
   cloud: Cloud,
-  settings: Settings,
-  threedots: ThreeDots,
-  xdefi: XDefi,
-  ledger: Ledger,
-  metamask: Metamask,
-  keystore: Keystore,
-  walletConnect: WalletConnect,
   gwei: Gwei,
-  sun: Sun,
+  inIcon: InIcon,
+  keystore: Keystore,
+  ledger: Ledger,
+  lightning: Lightning,
+  list: List,
+  metamask: Metamask,
   moon: Moon,
   refresh: Refresh,
-  usdt: Usdt,
+  settings: Settings,
+  sputnik: Sputnik,
+  sun: Sun,
+  swap: Swap,
+  threedots: ThreeDots,
+  tradeLightning: TradeLightning,
   upload: Upload,
+  usdt: Usdt,
+  wallet: Wallet,
+  walletConnect: WalletConnect,
+  watch: Watch,
+  xdefi: XDefi,
 }
 
 export const SvgIcons = {
+  app: (props: CustomIconProps) => <SvgIcon name={'app'} {...props} />,
   chartCandle: (props: CustomIconProps) => (
     <SvgIcon name="chartCandle" {...props} />
   ),
+  cloud: (props: CustomIconProps) => <SvgIcon name="cloud" {...props} />,
+  gwei: (props: CustomIconProps) => <SvgIcon name="gwei" {...props} />,
+  inIcon: (props: CustomIconProps) => <SvgIcon name="inIcon" {...props} />,
+  keystore: (props: CustomIconProps) => <SvgIcon name="keystore" {...props} />,
+  ledger: (props: CustomIconProps) => <SvgIcon name="ledger" {...props} />,
   lightning: (props: CustomIconProps) => (
     <SvgIcon name="lightning" {...props} />
   ),
-
-  app: (props: CustomIconProps) => <SvgIcon name={'app'} {...props} />,
   list: (props: CustomIconProps) => <SvgIcon name={'list'} {...props} />,
-  tradeLightning: (props: CustomIconProps) => (
-    <SvgIcon name="tradeLightning" {...props} />
-  ),
-  swap: (props: CustomIconProps) => <SvgIcon name="swap" {...props} />,
-  inIcon: (props: CustomIconProps) => <SvgIcon name="inIcon" {...props} />,
-  sputnik: (props: CustomIconProps) => <SvgIcon name="sputnik" {...props} />,
-  watch: (props: CustomIconProps) => <SvgIcon name="watch" {...props} />,
-  wallet: (props: CustomIconProps) => <SvgIcon name="wallet" {...props} />,
-  cloud: (props: CustomIconProps) => <SvgIcon name="cloud" {...props} />,
+  metamask: (props: CustomIconProps) => <SvgIcon name="metamask" {...props} />,
+  moon: (props: CustomIconProps) => <SvgIcon name="moon" {...props} />,
+  refresh: (props: CustomIconProps) => <SvgIcon name="refresh" {...props} />,
   settings: (props: CustomIconProps) => <SvgIcon name="settings" {...props} />,
+  sputnik: (props: CustomIconProps) => <SvgIcon name="sputnik" {...props} />,
+  sun: (props: CustomIconProps) => <SvgIcon name="sun" {...props} />,
+  swap: (props: CustomIconProps) => <SvgIcon name="swap" {...props} />,
   threedots: (props: CustomIconProps) => (
     <SvgIcon name="threedots" {...props} />
   ),
-  xdefi: (props: CustomIconProps) => <SvgIcon name="xdefi" {...props} />,
-  keystore: (props: CustomIconProps) => <SvgIcon name="keystore" {...props} />,
-  metamask: (props: CustomIconProps) => <SvgIcon name="metamask" {...props} />,
-  ledger: (props: CustomIconProps) => <SvgIcon name="ledger" {...props} />,
+  tradeLightning: (props: CustomIconProps) => (
+    <SvgIcon name="tradeLightning" {...props} />
+  ),
+  upload: (props: CustomIconProps) => <SvgIcon name="upload" {...props} />,
+  usdt: (props: CustomIconProps) => <SvgIcon name="usdt" {...props} />,
+  wallet: (props: CustomIconProps) => <SvgIcon name="wallet" {...props} />,
   walletConnect: (props: CustomIconProps) => (
     <SvgIcon name="walletConnect" {...props} />
   ),
-  gwei: (props: CustomIconProps) => <SvgIcon name="gwei" {...props} />,
-  sun: (props: CustomIconProps) => <SvgIcon name="sun" {...props} />,
-  moon: (props: CustomIconProps) => <SvgIcon name="moon" {...props} />,
-  refresh: (props: CustomIconProps) => <SvgIcon name="refresh" {...props} />,
-  usdt: (props: CustomIconProps) => <SvgIcon name="usdt" {...props} />,
-  upload: (props: CustomIconProps) => <SvgIcon name="upload" {...props} />,
+  watch: (props: CustomIconProps) => <SvgIcon name="watch" {...props} />,
+  xdefi: (props: CustomIconProps) => <SvgIcon name="xdefi" {...props} />,
 } as const

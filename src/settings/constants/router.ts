@@ -4,4 +4,5 @@ export enum ROUTES {
   Stake = '/stake',
   Stats = '/stats',
   Swap = '/swap',
+  Wallet = '/wallet',
 }

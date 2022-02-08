@@ -2,9 +2,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import HomeView from 'views/Home'
 import NodesView from 'views/Nodes'
-import StakeView from 'views/Stake/Stake'
-import StatsView from 'views/Stats/Stats'
-import SwapView from 'views/Swap/Swap'
+import StakeView from 'views/Stake'
+import StatsView from 'views/Stats'
+import SwapView from 'views/Swap'
+import WalletView from 'views/Wallet'
 
 import { Layout } from 'components/Layout'
 
@@ -25,6 +26,10 @@ const routes: RouteType = [
     element: NodesView,
   },
   {
+    path: ROUTES.Stake,
+    element: StakeView,
+  },
+  {
     path: ROUTES.Stats,
     element: StatsView,
   },
@@ -33,8 +38,8 @@ const routes: RouteType = [
     element: SwapView,
   },
   {
-    path: ROUTES.Stake,
-    element: StakeView,
+    path: ROUTES.Wallet,
+    element: WalletView,
   },
 ]
 
