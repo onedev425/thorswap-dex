@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react'
 
 import { batch } from 'react-redux'
 
-import { ActionListParams, HistoryInterval } from '@thorswap-lib/midgard-api'
+import { ActionListParams, HistoryInterval } from '@thorswap-lib/midgard-sdk'
 
 import * as actions from 'redux/midgard/actions'
 import { useAppDispatch, useAppSelector } from 'redux/store'

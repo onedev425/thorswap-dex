@@ -16,7 +16,7 @@ import {
   LastblockItem,
   THORNode,
   PoolDetail,
-} from '@thorswap-lib/midgard-api'
+} from '@thorswap-lib/midgard-sdk'
 
 export type MimirData = {
   CHURNINTERVAL?: number

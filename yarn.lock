@@ -3159,10 +3159,10 @@
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-"@thorswap-lib/midgard-api@^0.0.2":
+"@thorswap-lib/midgard-sdk@^0.0.2":
   version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-api/-/midgard-api-0.0.2.tgz#d99b18c2e2169e15b03ae69662f92af6bc689e09"
-  integrity sha512-klW+GEYTMU6wOSTvbFKXwWK4uEwlo+Samu2G6emNu7EB4eSLWHjyZG2T/GdWNb9xGcwsuUFLtf7ZdjVNBIvfwg==
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.0.2.tgz#4899c1246441aa352bd24f412d90db4010cb3fb9"
+  integrity sha512-IjlkFRy7xpkyQI9ADQP5xMo/JLYWseJRbcmKMe2qKxbGr08KvShZLFcbkaOV55qASOnu5a4tOWnHlZnyuL8njg==
 
 "@tootallnate/once@1":
   version "1.1.2"
