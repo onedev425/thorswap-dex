@@ -13,7 +13,7 @@ import { Typography } from 'components/Typography'
 
 const Wallet = () => {
   return (
-    <div className="container">
+    <div className="container bg-elliptical">
       <Box className="pb-8">
         <Statistics
           amount={100.34554}

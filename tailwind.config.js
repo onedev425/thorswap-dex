@@ -158,6 +158,10 @@ module.exports = {
       dropShadow: {
         box: '0 5px 15px rgba(0,0,0,.05)',
       },
+      backgroundImage: {
+        elliptical: "radial-gradient(ellipse at 50% 50%, rgba(46, 92, 106," +
+          " 30%) 0%, rgba(18, 21, 38, 1) 60%)"
+      },
       borderSpacing: ({ theme }) => ({
         ...theme('spacing'),
       }),
