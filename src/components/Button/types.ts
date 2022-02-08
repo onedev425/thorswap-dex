@@ -18,6 +18,7 @@ export const borderClasses = {
   cyan: 'border-cyan',
   gray: 'border-gray',
   red: 'border-red',
+  navy: 'border-navy',
 }
 
 export const bgClasses = {
@@ -46,6 +47,7 @@ export const bgClasses = {
   cyan: ['bg-transparent hover:bg-cyan', 'bg-cyan hover:opacity-90'],
   gray: ['bg-transparent', 'bg-gray hover:opacity-90'],
   red: ['bg-transparent', 'bg-red hover:opacity-90'],
+  navy: ['bg-transparent hover:bg-navy', 'bg-navy hover:opacity-90'],
 }
 
 export type ExtendedColorType = keyof typeof bgClasses

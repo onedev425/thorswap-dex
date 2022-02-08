@@ -1,10 +1,11 @@
-import { AiOutlineLineChart } from 'react-icons/ai'
+import { AiOutlineLineChart, AiOutlineUnlock } from 'react-icons/ai'
 import {
   BsSearch,
   BsDiscord,
   BsMedium,
   BsTelegram,
   BsTwitter,
+  BsQuestion,
 } from 'react-icons/bs'
 import { CgMenu, CgArrowsExchangeAltV } from 'react-icons/cg'
 import {
@@ -53,6 +54,8 @@ const Icons = {
   xCircle: FiXCircle,
   menu: CgMenu,
   infoCircle: FiInfo,
+  question: BsQuestion,
+  unlock: AiOutlineUnlock,
   ...SvgIcons,
 } as const
 
