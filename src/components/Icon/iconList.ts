@@ -1,4 +1,5 @@
 import { AiOutlineLineChart, AiOutlineUnlock } from 'react-icons/ai'
+import { BiArrowBack } from 'react-icons/bi'
 import {
   BsSearch,
   BsDiscord,
@@ -56,6 +57,7 @@ const Icons = {
   infoCircle: FiInfo,
   question: BsQuestion,
   unlock: AiOutlineUnlock,
+  arrowBack: BiArrowBack,
   ...SvgIcons,
 } as const
 
