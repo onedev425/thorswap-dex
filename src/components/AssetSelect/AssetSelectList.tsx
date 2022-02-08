@@ -15,7 +15,7 @@ export const AssetSelectList = (props: AssetSelectProps) => {
   return (
     <div
       className={classNames(
-        'flex flex-col flex-1 pb-10 rounded-box-lg',
+        'flex flex-col flex-1 pb-10 rounded-box-lg dark:bg-dark-asset-select bg-light-bg-secondary',
         genericBgClasses.primary,
       )}
     >
@@ -51,14 +51,15 @@ export const AssetSelectList = (props: AssetSelectProps) => {
       </div>
       <div
         className={classNames(
-          'h-full overflow-y-auto mx-4 px-4 py-10 pb-0',
+          'h-full overflow-y-auto mx-4 px-6 py-10 pb-0 bg-light-bg-secondary dark:bg-dark-asset-select',
           styledScrollbarClass,
+          'scrollbar-track-light-bg-secondary dark:scrollbar-track-dark-asset-select',
         )}
       >
         <div className="flex flex-col flex-1 gap-2">
           {filteredAssets.map((asset) => (
             <Card
-              className="flex flex-row items-center gap-5 cursor-pointer hover:opacity-80 bg-light-gray-light dark:bg-dark-gray-light bg-opacity-70 dark:bg-opacity-70"
+              className="flex flex-row items-center gap-5 cursor-pointer hover:opacity-80 bg-light-gray-light dark:bg-dark-gray-light !rounded-3xl"
               onClick={() => select(asset)}
               key={asset.name}
             >

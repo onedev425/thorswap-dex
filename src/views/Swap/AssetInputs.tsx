@@ -21,16 +21,16 @@ type Props = {
 }
 
 const assets = [
-  { name: 'ETH', balance: '0', change: '0.5' },
-  { name: 'BTC', balance: '4.7', change: '0.5' },
-  { name: 'RUNE', balance: '11', change: '0.5' },
-  { name: 'BNB', balance: '0', change: '0.5' },
-  { name: 'DOGE', balance: '38', change: '0.5' },
-  { name: 'SXP', balance: '0', change: '0.5' },
-  { name: 'WETH', balance: '0', change: '0.5' },
-  { name: 'BUSD', balance: '0', change: '0.5' },
-  { name: 'STYL', balance: '0', change: '0.5' },
-  { name: 'DAI', balance: '0', change: '0.5' },
+  { name: 'ETH', type: 'native', balance: '0', change: '0.5' },
+  { name: 'BTC', type: 'native', balance: '4.7', change: '0.5' },
+  { name: 'RUNE', type: '-', balance: '11', change: '0.5' },
+  { name: 'BNB', type: 'native', balance: '0', change: '0.5' },
+  { name: 'DOGE', type: 'native', balance: '38', change: '0.5' },
+  { name: 'SXP', type: 'native', balance: '0', change: '0.5' },
+  { name: 'WETH', type: 'wrapped', balance: '0', change: '0.5' },
+  { name: 'BUSD', type: 'erc 20', balance: '0', change: '0.5' },
+  { name: 'STYL', type: 'native', balance: '0', change: '0.5' },
+  { name: 'DAI', type: '-', balance: '0', change: '0.5' },
 ] as AssetSelectType[]
 
 const commonAssets = assets.slice(0, 3)

@@ -26,6 +26,7 @@ export const AssetSelect = ({ selected, className, ...restProps }: Props) => {
         title="Select a token"
         isOpened={isOpened}
         onClose={() => setIsOpened(false)}
+        withBody={false}
       >
         <div className="flex flex-1 max-w-sm overflow-hidden max-h-[80%] h-[772px]">
           <AssetSelectList {...restProps} onClose={() => setIsOpened(false)} />

@@ -32,7 +32,7 @@ module.exports = {
         'navy-primary': '#39BBF3',
         'gray-primary': '#7C859F',
         'border-primary': '#E6E9F5',
-        'gray-light': '#E5E5E5'
+        'gray-light': '#E5E5E5',
       },
 
       // dark
@@ -47,6 +47,7 @@ module.exports = {
         'gray-primary': '#75849D',
         'border-primary': '#273855',
         'gray-light': '#2E3C56',
+        'asset-select': '#202a3d',
       },
     },
     fontFamily: {
@@ -165,7 +166,7 @@ module.exports = {
   variants: {
     extend: {
       scrollbar: ['dark'],
-    }
+    },
   },
   corePlugins: {
     preflight: false,
@@ -210,74 +211,84 @@ module.exports = {
     }),
     plugin(function ({ addUtilities, matchUtilities, theme }) {
       const scrollbarTrackColorValue = (value) => ({
-          '--scrollbar-track': value,
-          '&::-webkit-scrollbar-track': {
-              "background-color": value
-          }
+        '--scrollbar-track': value,
+        '&::-webkit-scrollbar-track': {
+          'background-color': value,
+        },
       })
       const scrollbarTrackRoundedValue = (value) => ({
-          '&::-webkit-scrollbar-track': {
-              "border-radius": value
-          }
-      });
+        '&::-webkit-scrollbar-track': {
+          'border-radius': value,
+        },
+      })
       const scrollbarThumbColorValue = (value) => ({
-          '--scrollbar-thumb': value,
-          '&::-webkit-scrollbar-thumb': {
-              "background-color": value
-          }
-      });
+        '--scrollbar-thumb': value,
+        '&::-webkit-scrollbar-thumb': {
+          'background-color': value,
+        },
+      })
       const scrollbarThumbRoundedValue = (value) => ({
-          '&::-webkit-scrollbar-thumb': {
-              "border-radius": value
-          }
-      });
+        '&::-webkit-scrollbar-thumb': {
+          'border-radius': value,
+        },
+      })
       addUtilities({
-          '.scrollbar': {
-              '&::-webkit-scrollbar': {
-                  'width': 'var(--scrollbar-width)'
-              }
+        '.scrollbar': {
+          '&::-webkit-scrollbar': {
+            width: 'var(--scrollbar-width)',
           },
-          '.scrollbar-thin': {
-              '--scrollbar-width': '8px',
-              'scrollbar-width': 'thin'
-          }
-      });
+        },
+        '.scrollbar-thin': {
+          '--scrollbar-width': '8px',
+          'scrollbar-width': 'thin',
+        },
+      })
       Object.entries(theme('colors')).forEach(([colorName, color]) => {
-          switch (typeof color) {
-              case 'object':
-                  matchUtilities(
-                      {
-                          [`scrollbar-track-${colorName}`]: (value) => (scrollbarTrackColorValue(value)),
-                          [`scrollbar-thumb-${colorName}`]: (value) => (scrollbarThumbColorValue(value))
-                      },
-                      {
-                          values: color
-                      }
-                  )
-                  break;
-              case 'function':
-                  addUtilities({
-                      [`.scrollbar-track-${colorName}`]: scrollbarTrackColorValue(color({})),
-                      [`.scrollbar-thumb-${colorName}`]: scrollbarThumbColorValue(color({}))
-                  })
-                  break;
-              case 'string':
-                  addUtilities({
-                      [`.scrollbar-track-${colorName}`]: scrollbarTrackColorValue(color),
-                      [`.scrollbar-thumb-${colorName}`]: scrollbarThumbColorValue(color)
-                  })
-                  break;
-          }
-      });
+        switch (typeof color) {
+          case 'object':
+            matchUtilities(
+              {
+                [`scrollbar-track-${colorName}`]: (value) =>
+                  scrollbarTrackColorValue(value),
+                [`scrollbar-thumb-${colorName}`]: (value) =>
+                  scrollbarThumbColorValue(value),
+              },
+              {
+                values: color,
+              },
+            )
+            break
+          case 'function':
+            addUtilities({
+              [`.scrollbar-track-${colorName}`]: scrollbarTrackColorValue(
+                color({}),
+              ),
+              [`.scrollbar-thumb-${colorName}`]: scrollbarThumbColorValue(
+                color({}),
+              ),
+            })
+            break
+          case 'string':
+            addUtilities({
+              [`.scrollbar-track-${colorName}`]:
+                scrollbarTrackColorValue(color),
+              [`.scrollbar-thumb-${colorName}`]:
+                scrollbarThumbColorValue(color),
+            })
+            break
+        }
+      })
       matchUtilities(
-          {
-              'scrollbar-track-rounded': (value) => (scrollbarTrackRoundedValue(value)),
-              'scrollbar-thumb-rounded': (value) => (scrollbarThumbRoundedValue(value))
-          },
-          {
-              values: theme('borderRadius')
-          }
+        {
+          'scrollbar-track-rounded': (value) =>
+            scrollbarTrackRoundedValue(value),
+          'scrollbar-thumb-rounded': (value) =>
+            scrollbarThumbRoundedValue(value),
+        },
+        {
+          values: theme('borderRadius'),
+        },
       )
-  })
+    }),
   ],
 }

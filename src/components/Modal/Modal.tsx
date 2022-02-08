@@ -13,9 +13,16 @@ type Props = {
   onClose: () => void
   title: string
   children: React.ReactNode
+  withBody?: boolean
 }
 
-export const Modal = ({ title, isOpened, onClose, children }: Props) => {
+export const Modal = ({
+  title,
+  isOpened,
+  withBody = true,
+  onClose,
+  children,
+}: Props) => {
   useLayoutEffect(() => {
     if (isOpened) {
       /**
@@ -79,10 +86,13 @@ export const Modal = ({ title, isOpened, onClose, children }: Props) => {
                   />
                 </div>
               </div>
-
-              <Card className="justify-center items-center" stretch size="lg">
-                {children}
-              </Card>
+              {withBody ? (
+                <Card className="justify-center items-center" stretch size="lg">
+                  {children}
+                </Card>
+              ) : (
+                children
+              )}
             </div>
           </Transition.Child>
         </div>
