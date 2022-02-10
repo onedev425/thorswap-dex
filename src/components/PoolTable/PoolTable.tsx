@@ -6,6 +6,8 @@ import { Table } from 'components/Table'
 import { TableColumns } from 'components/Table/types'
 import { Typography } from 'components/Typography'
 
+import { t } from 'services/i18n'
+
 const getPoolColumns = () => {
   return [
     {
@@ -49,10 +51,10 @@ const getPoolColumns = () => {
       Cell: () => (
         <Row className="gap-2" justify="end">
           <Button bgColor="secondary" outline onClick={() => {}}>
-            Swap
+            {t('common.swap')}
           </Button>
           <Button bgColor="primary" outline onClick={() => {}}>
-            Add Liquidity
+            {t('common.addLiquidity')}
           </Button>
         </Row>
       ),

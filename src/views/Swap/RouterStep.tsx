@@ -34,7 +34,7 @@ export const RouterStep = ({ assets, commission }: RouterStepProps) => {
       )}
 
       <Typography className="ml-2" color="secondary">
-        {commission}%
+        {`${commission}%`}
       </Typography>
     </div>
   )

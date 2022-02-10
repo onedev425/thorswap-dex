@@ -99,6 +99,9 @@ const list: StatsType[] = [
   },
 ]
 const Stake = () => {
+  const change = '+10%'
+  const token = 'THORSwap Token ($THOR)'
+
   return (
     <div className="container mx-auto">
       <div className="flex mb-16">
@@ -108,12 +111,12 @@ const Stake = () => {
         <Box className="w-7/12" col>
           <div className="flex-row">
             <Typography variant="h3" color="primary" fontWeight="extrabold">
-              THORSwap Token ($THOR)
+              {token}
             </Typography>
           </div>
           <div className="flex-row">
             <Typography variant="h2" color="green" fontWeight="medium">
-              +10%
+              {change}
             </Typography>
           </div>
           <Box className="flex-1">

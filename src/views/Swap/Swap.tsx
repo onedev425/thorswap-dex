@@ -11,6 +11,8 @@ import { Card } from 'components/Card'
 import { Icon } from 'components/Icon'
 import { Typography } from 'components/Typography'
 
+import { t } from 'services/i18n'
+
 import { AssetInputs } from './AssetInputs'
 import { SwapInfo } from './SwapInfo'
 import { swapReducer } from './swapReducer'
@@ -81,7 +83,7 @@ const Swap = () => {
   return (
     <div className="mx-auto w-2/3 max-w[1200px]">
       <div className="flex items-center">
-        <Typography variant="h2">Swap</Typography>
+        <Typography variant="h2">{t('common.swap')}</Typography>
 
         <Icon color="secondary" name="chart" className="ml-auto" />
         <Icon color="secondary" name="cog" className="ml-6" />
@@ -116,7 +118,7 @@ const Swap = () => {
 
         <div className="flex mt-2">
           <Button className="px-20" size="large">
-            Connect Wallet
+            {t('common.connectWallet')}
           </Button>
         </div>
       </Card>

@@ -11,7 +11,10 @@ import { Statistics } from 'components/Statistics'
 import { Table } from 'components/Table'
 import { Typography } from 'components/Typography'
 
+import { t } from 'services/i18n'
+
 const Wallet = () => {
+  const token = { name: 'Bitcoin', ticker: 'BTC', change: '+10% ($ 1.500)' }
   return (
     <div className="container bg-elliptical">
       <Box className="pb-8">
@@ -26,10 +29,10 @@ const Wallet = () => {
         <AssetIcon bgColor="orange" name="BTC" />
         <Box alignCenter>
           <Typography variant="h5" className="ml-4" fontWeight="normal">
-            Bitcoin
+            {token.name}
           </Typography>
           <Typography variant="h5" className="ml-1" fontWeight="normal">
-            (BTC)
+            {`(${token.ticker})`}
           </Typography>
           <Typography
             variant="h5"
@@ -37,7 +40,7 @@ const Wallet = () => {
             fontWeight="normal"
             color="green"
           >
-            +10% ($ 1.500)
+            {token.change}
           </Typography>
         </Box>
       </Box>
@@ -51,14 +54,16 @@ const Wallet = () => {
       <Box col className="pb-16">
         <Row justify="between">
           <Box>
-            <Typography variant="h3">Manage Portfolio</Typography>
+            <Typography variant="h3">
+              {t('views.wallet.managePortfolio')}
+            </Typography>
             <Typography
               variant="h3"
               className="ml-1"
               fontWeight="light"
               color="secondary"
             >
-              (3)
+              {'(3)'}
             </Typography>
             <Box className="pl-12">
               <Input placeholder="Search" icon="search" />
@@ -70,14 +75,16 @@ const Wallet = () => {
       </Box>
       <Box col>
         <Box>
-          <Typography variant="h3">Transaction History</Typography>
+          <Typography variant="h3">
+            {t('views.wallet.transactionHistory')}
+          </Typography>
           <Typography
             variant="h3"
             className="ml-1"
             fontWeight="light"
             color="secondary"
           >
-            (3)
+            {'(3)'}
           </Typography>
           <Box className="pl-12">
             <Input placeholder="Search" icon="search" />
@@ -179,13 +186,13 @@ const TableAllocationColumns = [
     Cell: () => (
       <Row className="gap-2" justify="end">
         <Button bgColor="purple" outline>
-          send
+          {t('common.send')}
         </Button>
         <Button bgColor="primary" outline>
-          receive
+          {t('common.receive')}
         </Button>
         <Button bgColor="secondary" outline>
-          swap
+          {t('common.swap')}
         </Button>
       </Row>
     ),

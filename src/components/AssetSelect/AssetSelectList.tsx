@@ -9,6 +9,8 @@ import { genericBgClasses, styledScrollbarClass } from 'components/constants'
 import { Input } from 'components/Input'
 import { Typography } from 'components/Typography'
 
+import { t } from 'services/i18n'
+
 export const AssetSelectList = (props: AssetSelectProps) => {
   const { filteredAssets, search, setSearch, select } = useAssetSelect(props)
 
@@ -73,7 +75,9 @@ export const AssetSelectList = (props: AssetSelectProps) => {
           ))}
           {!filteredAssets.length && (
             <div className="flex justify-center">
-              <Typography>No results found</Typography>
+              <Typography>
+                {t('components.assetSelect.noResultsFound')}
+              </Typography>
             </div>
           )}
         </div>

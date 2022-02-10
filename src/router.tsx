@@ -12,7 +12,7 @@ import { Layout } from 'components/Layout'
 import { ROUTES } from 'settings/constants'
 
 export type RouteType = {
-  path?: string
+  path: string
   element?: FixMe
 }[]
 
@@ -47,12 +47,12 @@ const PublicRoutes = () => {
   return (
     <Router>
       <Routes>
-        {routes.map((route, index) => {
+        {routes.map((route) => {
           const Component = route.element
 
           return (
             <Route
-              key={index}
+              key={route.path}
               path={route.path}
               element={
                 <Layout>

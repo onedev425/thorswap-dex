@@ -23,7 +23,7 @@ export const Select = (props: Props) => {
     <Row className="gap-2">
       {options.map((option, index) => (
         <Button
-          key={`${option}${index}`}
+          key={option}
           bgColor="tertiary"
           textColor="secondary"
           outline={activeIndex !== index}

@@ -30,7 +30,7 @@ export const SwapInfo = memo(
             </Typography>
 
             <Typography variant="caption" color="secondary" fontWeight="normal">
-              ($ {secondAsset.value})
+              {`($ ${secondAsset.value})`}
             </Typography>
           </div>
         }
@@ -45,7 +45,7 @@ export const SwapInfo = memo(
           label="Price Impact"
           value={
             <Typography color={priceImpact >= 0 ? 'green' : 'red'}>
-              {priceImpact}%
+              {`${priceImpact}%`}
             </Typography>
           }
         />

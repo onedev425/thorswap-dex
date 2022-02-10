@@ -1,0 +1,62 @@
+{
+  "common": {
+    "liquidityPools": "Liquidity Pools",
+    "connectWallet": "Connect Wallet",
+    "deposit": "Deposit",
+    "receive": "Receive",
+    "send": "Send",
+    "withdraw": "Withdraw",
+    "claim": "Claim",
+    "swap": "Swap",
+    "addLiquidity": "Add liquidity",
+    "manage": "Manage",
+    "volume": "Volume",
+    "APY": "APY",
+    "exchange": "Exchange",
+    "staking": "Staking",
+    "totalVol": "Total Vol",
+    "liquidity": "Liquidity",
+    "liquidityAPY": "Liquidity APY",
+    "totalValueLocked": "Total Value Locked",
+    "transactions": "Transactions"
+  },
+  "components": {
+    "assetSelect": {
+      "selectAToken": "Select a token",
+      "noResultsFound": "No results found"
+    },
+    "connectKeystore": {
+      "selectKeystoreFile": "Please Select Keystore File",
+      "decryptionPassword": "Decryption Password",
+      "unlock": "Unlock",
+      "createWallet": "Create wallet"
+    },
+    "connectWallet": {
+      "createKeystore": "Create Keystore",
+      "importPhrase": "Import Phrase"
+    }
+  },
+  "views": {
+    "home": {
+      "swapCrossChainAssets": "Swap cross chain assets"
+    },
+    "nodes": {
+      "watchList": "Watch List"
+    },
+    "stats": {
+      "dailyBlockRewards": "Daily Block Rewards",
+      "network": "Network",
+      "rewards": "Rewards",
+      "swapCount": "SWAP Count",
+      "totalTransactions": "Total Transactions",
+      "users": "Users"
+    },
+    "swap": {
+      "autoRouter": "Auto Router"
+    },
+    "wallet": {
+      "managePortfolio": "Manage Portfolio",
+      "transactionHistory": "Transaction History"
+    }
+  }
+}

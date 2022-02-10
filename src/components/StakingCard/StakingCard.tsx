@@ -1,3 +1,5 @@
+import { t } from 'services/i18n'
+
 import { Button } from '../Button'
 import { Card } from '../Card'
 import { Icon } from '../Icon'
@@ -8,7 +10,7 @@ export const StakingCard = () => {
   return (
     <Card size="lg" className="flex-col max-w-[406px] pb-12">
       <Typography variant="h2" fontWeight="semibold" color="primary">
-        $THOR Staking
+        {`$THOR ${t('common.staking')}`}
       </Typography>
       <div className="grid sm:grid-rows-2 sm:grid-cols-auto md:grid-cols-12 gap-y-1 md:gap-y-0 md:grid-rows-1 p-2 mt-12 mb-6">
         <div className="sm:col-span-12 md:col-span-2 text-center md:text-left">
@@ -16,7 +18,7 @@ export const StakingCard = () => {
         </div>
         <div className="grid grid-cols-2 gap-1 md:auto-rows-max sm:col-span-12 md:col-span-10">
           <Typography variant="body" fontWeight="bold" color="secondary">
-            Exchange
+            {t('common.exchange')}
           </Typography>
           <Typography
             variant="body"
@@ -24,10 +26,10 @@ export const StakingCard = () => {
             color="secondary"
             className="text-right"
           >
-            APY
+            {t('common.APY')}
           </Typography>
           <Typography variant="h4" color="primary" fontWeight="bold">
-            THORSwap
+            {'THORSwap'}
           </Typography>
           <Typography
             variant="h4"
@@ -35,7 +37,7 @@ export const StakingCard = () => {
             color="primary"
             className="text-right"
           >
-            130%
+            {'130%'}
           </Typography>
         </div>
       </div>
@@ -50,7 +52,7 @@ export const StakingCard = () => {
                 fontWeight="bold"
                 variant="caption-xs"
               >
-                0x991A9B64805260c02702B3bCDF8c269dA98563aB
+                {'0x991A9B64805260c02702B3bCDF8c269dA98563aB'}
               </Typography>
             </div>
             <div className="col-span-1 ">
@@ -70,13 +72,13 @@ export const StakingCard = () => {
 
       <div className="grid sm:grid-cols-1 gap-2 md:grid-cols-3 mt-7">
         <Button outline bgColor="green" className="col-span-1">
-          Deposit
+          {t('common.deposit')}
         </Button>
         <Button outline className="col-span-1">
-          Withdraw
+          {t('common.withdraw')}
         </Button>
         <Button outline bgColor="purple" className="col-span-1">
-          Claim
+          {t('common.claim')}
         </Button>
       </div>
     </Card>

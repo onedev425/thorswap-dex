@@ -4,6 +4,8 @@ import { Button } from 'components/Button'
 import { Icon } from 'components/Icon'
 import { Modal } from 'components/Modal'
 
+import { t } from 'services/i18n'
+
 import { WalletOptions } from './types'
 
 export type Props = {
@@ -50,7 +52,7 @@ export const ConnectWallet = (props: Props) => {
             outline
             onClick={() => onHandleChange('create-keystore')}
           >
-            Create KeyStore
+            {t('components.connectWallet.createKeystore')}
           </Button>
           <Button
             size="large"
@@ -58,7 +60,7 @@ export const ConnectWallet = (props: Props) => {
             outline
             onClick={() => onHandleChange('import-phrase')}
           >
-            Import Phrase
+            {t('components.connectWallet.importPhrase')}
           </Button>
         </div>
       </div>

@@ -57,6 +57,7 @@ export const Modal = ({
           <span
             className="inline-block h-screen align-middle"
             aria-hidden="true"
+            // eslint-disable-next-line react/jsx-no-literals
           >
             &#8203;
           </span>

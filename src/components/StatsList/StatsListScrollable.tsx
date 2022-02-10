@@ -12,8 +12,8 @@ export const StatsListScrollable = (props: StatsListProps) => {
   return (
     <div className="overflow-hidden">
       <Swiper spaceBetween={16} slidesPerView="auto">
-        {list.map((item, idx) => (
-          <SwiperSlide key={idx} className={statsWidthClass}>
+        {list.map((item) => (
+          <SwiperSlide key={item.value} className={statsWidthClass}>
             <Stats {...item} />
           </SwiperSlide>
         ))}

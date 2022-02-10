@@ -15,7 +15,7 @@ export const CollapseIconTitle = ({
         {title}
       </Typography>
       <Typography variant="subtitle1" color="secondary" fontWeight="normal">
-        ({subTitle})
+        {`(${subTitle})`}
       </Typography>
     </div>
   )

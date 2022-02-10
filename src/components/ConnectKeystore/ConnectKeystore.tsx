@@ -8,6 +8,8 @@ import { Modal } from 'components/Modal'
 import { Tooltip } from 'components/Tooltip'
 import { Typography } from 'components/Typography'
 
+import { t } from 'services/i18n'
+
 import { ConnectKeyStoreProps } from './types'
 
 export const ConnectKeystore = ({
@@ -24,7 +26,7 @@ export const ConnectKeystore = ({
     <Modal title="Connect Wallet" isOpened={isOpened} onClose={onClose}>
       <div>
         <Typography variant="h5" className="mb-[26px]" fontWeight="semibold">
-          Please Select Keystore File
+          {t('components.connectKeystore.selectKeystoreFile')}
         </Typography>
         <label className="flex border justify-between px-6 py-[10px] cursor-pointer rounded-[16px] border-solid border-light-border-primary dark:border-dark-border-primary mb-[42px]">
           <input className="hidden" type="file" onChange={onFileUpload} />
@@ -44,7 +46,9 @@ export const ConnectKeystore = ({
           />
         </label>
         <div className="flex justify-between mb-[26px]">
-          <Typography variant="subtitle2">Decryption Password</Typography>
+          <Typography variant="subtitle2">
+            {t('components.connectKeystore.decryptionPassword')}
+          </Typography>
           <div>
             <Tooltip
               place="top"
@@ -78,7 +82,7 @@ export const ConnectKeystore = ({
               />
             }
           >
-            Unlock
+            {t('components.connectKeystore.unlock')}
           </Button>
           <Button
             size="small"
@@ -94,7 +98,7 @@ export const ConnectKeystore = ({
               />
             }
           >
-            Create wallet
+            {t('components.connectKeystore.createWallet')}
           </Button>
         </Box>
       </div>

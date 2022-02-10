@@ -3,6 +3,8 @@ import { Card } from 'components/Card'
 import { Icon } from 'components/Icon'
 import { Typography } from 'components/Typography'
 
+import { t } from 'services/i18n'
+
 import { PoolCardProps } from './types'
 
 export const PoolCard = (props: PoolCardProps) => {
@@ -28,7 +30,7 @@ export const PoolCard = (props: PoolCardProps) => {
               color={change >= 0 ? 'green' : 'red'}
               fontWeight="semibold"
             >
-              {change}%
+              {`${change}%`}
             </Typography>
           </div>
           <div className="text-right col-span-2">
@@ -43,10 +45,10 @@ export const PoolCard = (props: PoolCardProps) => {
         </div>
         <div className="grid grid-cols-3 gap-x-2 items-end">
           <Button outline={true} bgColor="green" className="col-span-1">
-            Swap
+            {t('common.swap')}
           </Button>
           <Button outline={true} className="col-span-2">
-            Add Liquidity
+            {t('common.addLiquidity')}
           </Button>
         </div>
       </div>

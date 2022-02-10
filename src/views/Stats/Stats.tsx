@@ -3,6 +3,8 @@ import { ChartType } from 'components/Chart/types'
 import { StatsGroup } from 'components/StatsGroup'
 import { Typography } from 'components/Typography'
 
+import { t } from 'services/i18n'
+
 const sampleData = [
   { x: 'January', y: 90 },
   { x: 'February', y: 100 },
@@ -19,13 +21,20 @@ const sampleData = [
 ]
 
 const Stats = () => {
+  const change = '-13.29%'
+  const liquidityChange = '7.51%'
+  const swapChange = '34.76%'
+  const tvlChange = '3.69%'
+  const dbrChange = '-8.27%'
+  const totalTransactionChange = '4.91%'
+
   return (
     <div className="flex flex-wrap">
       <div className="grid grid-cols-3 gap-8 mb-16">
         <div>
           <div className="flex flex-row pb-8">
             <Typography variant="h3" color="primary" fontWeight="extrabold">
-              Volume
+              {t('common.volume')}
             </Typography>
           </div>
           <div className="flex flex-row justify-between">
@@ -35,7 +44,7 @@ const Stats = () => {
               color="secondary"
               fontWeight="semibold"
             >
-              Total Vol
+              {t('common.totalVol')}
             </Typography>
             <Typography
               className="group-hover:text-white dark:group-hover:text-white"
@@ -43,7 +52,7 @@ const Stats = () => {
               color="red"
               fontWeight="semibold"
             >
-              -13.29%
+              {change}
             </Typography>
           </div>
           <div className="flex flex-row pb-8">
@@ -75,7 +84,7 @@ const Stats = () => {
         <div>
           <div className="flex flex-row pb-8">
             <Typography variant="h3" color="primary" fontWeight="extrabold">
-              Liquidity
+              {t('common.liquidity')}
             </Typography>
           </div>
           <div className="flex flex-row justify-between">
@@ -85,7 +94,7 @@ const Stats = () => {
               color="secondary"
               fontWeight="semibold"
             >
-              Liquidity APY
+              {t('common.liquidityAPY')}
             </Typography>
             <Typography
               className="group-hover:text-white dark:group-hover:text-white"
@@ -93,7 +102,7 @@ const Stats = () => {
               color="green"
               fontWeight="semibold"
             >
-              7.51%
+              {liquidityChange}
             </Typography>
           </div>
           <div className="flex flex-row pb-8">
@@ -125,7 +134,7 @@ const Stats = () => {
         <div>
           <div className="flex flex-row pb-8">
             <Typography variant="h3" color="primary" fontWeight="extrabold">
-              Users
+              {t('views.stats.users')}
             </Typography>
           </div>
           <div className="flex flex-row justify-between">
@@ -135,7 +144,7 @@ const Stats = () => {
               color="secondary"
               fontWeight="semibold"
             >
-              SWAP Count
+              {t('views.stats.swapCount')}
             </Typography>
             <Typography
               className="group-hover:text-white dark:group-hover:text-white"
@@ -143,7 +152,7 @@ const Stats = () => {
               color="green"
               fontWeight="semibold"
             >
-              34.76%
+              {swapChange}
             </Typography>
           </div>
           <div className="flex flex-row pb-8">
@@ -177,7 +186,7 @@ const Stats = () => {
         <div>
           <div className="flex flex-row pb-8">
             <Typography variant="h3" color="primary" fontWeight="extrabold">
-              Network
+              {t('views.stats.network')}
             </Typography>
           </div>
           <div className="flex flex-row justify-between">
@@ -187,7 +196,7 @@ const Stats = () => {
               color="secondary"
               fontWeight="semibold"
             >
-              Totoal Value Locked (TVL)
+              {`${t('common.totalValueLocked')} (TVL)`}
             </Typography>
             <Typography
               className="group-hover:text-white dark:group-hover:text-white"
@@ -195,7 +204,7 @@ const Stats = () => {
               color="green"
               fontWeight="semibold"
             >
-              3.69%
+              {tvlChange}
             </Typography>
           </div>
           <div className="flex flex-row pb-8">
@@ -227,7 +236,7 @@ const Stats = () => {
         <div>
           <div className="flex flex-row pb-8">
             <Typography variant="h3" color="primary" fontWeight="extrabold">
-              Rewards
+              {t('views.stats.rewards')}
             </Typography>
           </div>
           <div className="flex flex-row justify-between">
@@ -237,7 +246,7 @@ const Stats = () => {
               color="secondary"
               fontWeight="semibold"
             >
-              Daily Block Rewards
+              {t('views.stats.dailyBlockRewards')}
             </Typography>
             <Typography
               className="group-hover:text-white dark:group-hover:text-white"
@@ -245,7 +254,7 @@ const Stats = () => {
               color="red"
               fontWeight="semibold"
             >
-              -8.27%
+              {dbrChange}
             </Typography>
           </div>
           <div className="flex flex-row pb-8">
@@ -277,7 +286,7 @@ const Stats = () => {
         <div>
           <div className="flex flex-row pb-8">
             <Typography variant="h3" color="primary" fontWeight="extrabold">
-              Transactions
+              {t('common.transactions')}
             </Typography>
           </div>
           <div className="flex flex-row justify-between">
@@ -287,7 +296,7 @@ const Stats = () => {
               color="secondary"
               fontWeight="semibold"
             >
-              Total Transactions
+              {t('views.stats.dailyBlockRewards')}
             </Typography>
             <Typography
               className="group-hover:text-white dark:group-hover:text-white"
@@ -295,7 +304,7 @@ const Stats = () => {
               color="green"
               fontWeight="semibold"
             >
-              4.91%
+              {totalTransactionChange}
             </Typography>
           </div>
           <div className="flex flex-row pb-8">

@@ -5,6 +5,8 @@ import { AssetButton } from 'components/AssetSelect/AssetButton'
 import { Button } from 'components/Button'
 import { Icon } from 'components/Icon'
 
+import { t } from 'services/i18n'
+
 type Props = {
   className?: string
   onClick: () => void
@@ -39,7 +41,7 @@ export const AssetSelectButton = ({ className, onClick, selected }: Props) => {
       }
       onClick={onClick}
     >
-      Select a token
+      {t('components.assetSelect.selectAToken')}
     </Button>
   )
 }

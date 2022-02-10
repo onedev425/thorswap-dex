@@ -42,7 +42,7 @@ export const AssetInput = memo(
 
           <div className="flex items-center">
             <Typography color="secondary" variant="caption">
-              $ {assetValue.toFixed(2)}
+              {'$'} {assetValue.toFixed(2)}
             </Typography>
 
             {showChange && selectedAsset && (
@@ -51,7 +51,7 @@ export const AssetInput = memo(
                 fontWeight="semibold"
                 className="ml-2"
               >
-                ({selectedAsset.change}%)
+                {`(${selectedAsset.change}%)`}
               </Typography>
             )}
           </div>

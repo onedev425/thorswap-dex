@@ -1,3 +1,3 @@
 export const Liquidity = () => {
-  return <div>Liquidity route</div>
+  return <div>{'Liquidity route'}</div>
 }

@@ -4,6 +4,8 @@ import { Icon } from 'components/Icon'
 import { Row } from 'components/Row'
 import { ThemeSwitch } from 'components/Theme'
 
+import { t } from 'services/i18n'
+
 type Props = {
   currencyOptions: DropdownMenuItems
   priceLabel: string
@@ -54,7 +56,7 @@ export const Header = ({
         </Row>
         <Row className="inline-flex items-center mt-auto shrink-0 gap-x-4">
           <Button outline onClick={connectWallet}>
-            Connect Wallet
+            {t('common.connectWallet')}
           </Button>
           <Icon name="refresh" color="secondary" size={18} onClick={refresh} />
           <Icon name="menu" color="secondary" size={18} onClick={openDrawer} />

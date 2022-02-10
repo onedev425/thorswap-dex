@@ -7,6 +7,8 @@ import { AssetTickerType } from 'components/AssetIcon/types'
 import { Icon } from 'components/Icon'
 import { Typography } from 'components/Typography'
 
+import { t } from 'services/i18n'
+
 import { DashedDivider } from './DashedDivider'
 import { RouterStep } from './RouterStep'
 
@@ -31,7 +33,7 @@ export const AutoRouterInfo = memo(
       <div className="self-stretch rounded-2xl px-6 py-4 m-8 bg-light-gray-light dark:bg-dark-gray-light">
         <div className="flex items-center">
           <Icon className="mr-4" name="chartCandle" size={24} />
-          <Typography>Auto Router</Typography>
+          <Typography>{t('views.swap.autoRouter')}</Typography>
 
           <Icon
             color="secondary"

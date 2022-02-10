@@ -36,7 +36,7 @@ export const Statistics = ({
           {percentage ? `${Math.abs(change)}%` : `$${Math.abs(change)}`}
         </Typography>
         <Typography color="secondary" fontWeight="semibold">
-          (${value})
+          {`($${value})`}
         </Typography>
       </Row>
     </div>

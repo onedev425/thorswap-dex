@@ -8,6 +8,8 @@ import { StatsListScrollable } from 'components/StatsList/StatsListScrollable'
 import { Table } from 'components/Table'
 import { Typography } from 'components/Typography'
 
+import { t } from 'services/i18n'
+
 const Nodes = () => {
   const [value, setValue] = useState('')
 
@@ -15,14 +17,14 @@ const Nodes = () => {
     <div className="flex flex-col">
       <StatsListScrollable list={STATS_DATA} />
       <Typography className="my-[40px]" variant="h2" fontWeight="semibold">
-        Watch List
+        {t('views.nodes.watchList')}
         <Typography
           className="inline-block ml-[10px]"
           color="secondary"
           variant="h2"
           fontWeight="semibold"
         >
-          (5)
+          {'(5)'}
         </Typography>
       </Typography>
       <Table data={data} columns={columns} />
@@ -51,7 +53,7 @@ const Nodes = () => {
           </div>
         </div>
         <Button size="small" bgColor="gray" outline>
-          Manage
+          {t('common.manage')}
         </Button>
       </div>
       <Table data={[...data, ...data]} columns={columns} />

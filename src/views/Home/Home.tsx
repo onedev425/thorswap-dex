@@ -14,6 +14,8 @@ import { Typography } from 'components/Typography'
 
 import { useMidgard } from 'redux/midgard/hooks'
 
+import { t } from 'services/i18n'
+
 const Home = () => {
   const { pools } = useMidgard()
   console.log('🔥 midgard pools:', JSON.stringify(pools))
@@ -57,7 +59,9 @@ const Home = () => {
       </Box>
 
       <Box className="gap-8" col>
-        <Typography variant="h3">Swap cross chain assets</Typography>
+        <Typography variant="h3">
+          {t('views.home.swapCrossChainAssets')}
+        </Typography>
         <Box className="flex-wrap gap-6" justifyCenter>
           {dashboardMockData.featuredPools.map((p) => (
             <PoolCard
@@ -73,7 +77,7 @@ const Home = () => {
       </Box>
 
       <Box className="gap-8" col>
-        <Typography variant="h3">Liquidity Pools</Typography>
+        <Typography variant="h3">{t('common.liquidityPools')}</Typography>
         <Box justify="between">
           <Input placeholder="Search" icon="search" />
           <Select
