@@ -21,7 +21,7 @@ import {
 } from 'react-icons/fa'
 import { FiXCircle, FiChevronDown, FiX, FiInfo } from 'react-icons/fi'
 import { GrBitcoin } from 'react-icons/gr'
-import { HiOutlineCog } from 'react-icons/hi'
+import { HiOutlineCog, HiOutlinePlus } from 'react-icons/hi'
 import { MdAreaChart } from 'react-icons/md'
 import { RiShareBoxLine } from 'react-icons/ri'
 import { SiBinance } from 'react-icons/si'
@@ -60,6 +60,7 @@ const Icons = {
   unlock: AiOutlineUnlock,
   wifi: FaWifi,
   xCircle: FiXCircle,
+  plus: HiOutlinePlus,
   ...SvgIcons,
 } as const
 

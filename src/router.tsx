@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import HomeView from 'views/Home'
+import { AddLiquidity } from 'views/Liquidity/addLiquidity/AddLiquidity'
 import NodesView from 'views/Nodes'
 import StakeView from 'views/Stake'
 import StatsView from 'views/Stats'
@@ -40,6 +41,10 @@ const routes: RouteType = [
   {
     path: ROUTES.Wallet,
     element: WalletView,
+  },
+  {
+    path: ROUTES.AddLiquidity,
+    element: AddLiquidity,
   },
 ]
 

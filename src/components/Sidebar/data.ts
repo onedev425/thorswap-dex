@@ -31,7 +31,7 @@ export const navbarOptions: SidebarItemProps[] = [
       },
       {
         iconName: 'inIcon',
-        href: '/',
+        href: '/add-liquidity',
         label: 'Add Liquidity',
         isExternal: false,
         hasSub: false,

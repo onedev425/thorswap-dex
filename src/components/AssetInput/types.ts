@@ -16,4 +16,5 @@ export type AssetInputProps = {
   onAssetChange: (asset: AssetTickerType) => void
   secondary?: boolean
   showChange?: boolean
+  secondaryLabel?: string
 }

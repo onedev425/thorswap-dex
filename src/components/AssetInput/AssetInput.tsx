@@ -17,6 +17,7 @@ export const AssetInput = memo(
     onValueChange,
     onAssetChange,
     secondary,
+    secondaryLabel,
   }: AssetInputProps) => {
     const assetValue =
       parseFloat(selectedAsset?.value || '0') *
@@ -35,14 +36,14 @@ export const AssetInput = memo(
           <Input
             stretch
             borderless
-            className="text-2xl"
+            className="!text-2xl"
             onChange={(event) => onValueChange(event.target.value)}
             value={selectedAsset?.balance}
           />
 
           <div className="flex items-center">
             <Typography color="secondary" variant="caption">
-              {'$'} {assetValue.toFixed(2)}
+              {secondaryLabel || '$'}&nbsp;{assetValue.toFixed(2)}
             </Typography>
 
             {showChange && selectedAsset && (
