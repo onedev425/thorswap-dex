@@ -159,8 +159,13 @@ module.exports = {
         box: '0 5px 15px rgba(0,0,0,.05)',
       },
       backgroundImage: {
-        elliptical: "radial-gradient(ellipse at 50% 50%, rgba(46, 92, 106," +
-          " 30%) 0%, rgba(18, 21, 38, 1) 60%)"
+        elliptical:
+          'radial-gradient(ellipse at 50% 50%, rgba(46, 92, 106,' +
+          ' 30%) 0%, rgba(18, 21, 38, 1) 60%)',
+        'card-before':
+          'radial-gradient(100% 6920.83% at 35.19% 0%, #12324F 0%, rgba(35, 46, 66, 0) 100%)',
+        'card-after':
+          ' radial-gradient(100% 13612.5% at 50% 100%, #005A2F 0%, rgba(18, 22, 39, 0) 100%)',
       },
       borderSpacing: ({ theme }) => ({
         ...theme('spacing'),
