@@ -29,8 +29,8 @@ export const Layout = ({ children }: LayoutProp) => {
         openDrawer={() => {}}
         refresh={() => {}}
       />
-      <div className="flex flex-col md:flex-row flex-1">
-        <aside className="bg-fuchsia-100 w-full md:w-60 fixed">
+      <div className="flex flex-col flex-1">
+        <aside className="bg-fuchsia-100 w-full fixed">
           <Sidebar />
         </aside>
         <main className="flex max-w-[calc(100%-148px)] pl-[148px]">
