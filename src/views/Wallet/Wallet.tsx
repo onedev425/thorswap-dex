@@ -16,7 +16,7 @@ import { t } from 'services/i18n'
 const Wallet = () => {
   const token = { name: 'Bitcoin', ticker: 'BTC', change: '+10% ($ 1.500)' }
   return (
-    <div className="container bg-elliptical">
+    <div className="container">
       <Box className="pb-8">
         <Statistics
           amount={100.34554}

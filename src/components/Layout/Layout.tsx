@@ -33,7 +33,7 @@ export const Layout = ({ children }: LayoutProp) => {
         <aside className="bg-fuchsia-100 w-full fixed">
           <Sidebar />
         </aside>
-        <main className="flex max-w-[calc(100%-148px)] pl-[148px]">
+        <main className="flex max-w-[calc(100%-148px)] pl-[148px] bg-elliptical">
           {children}
         </main>
       </div>
