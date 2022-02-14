@@ -18,22 +18,22 @@ export const Layout = ({ children }: LayoutProp) => {
   const [currency, setCurrency] = useState('USDT')
 
   return (
-    <div className="min-h-screen flex flex-col relative flex w-full mx-auto my-0 max-w-8xl">
-      <Header
-        currencyOptions={menuItems}
-        currency={currency}
-        selectCurrency={setCurrency}
-        priceLabel="1ᚱ = $ 10.04"
-        gweiLabel="156 GWEI"
-        connectWallet={() => {}}
-        openDrawer={() => {}}
-        refresh={() => {}}
-      />
+    <div className="relative flex flex-col w-full min-h-screen mx-auto my-0 max-w-8xl">
       <div className="flex flex-col flex-1">
-        <aside className="bg-fuchsia-100 w-full fixed">
+        <aside className="fixed bg-fuchsia-100">
           <Sidebar />
         </aside>
-        <main className="flex max-w-[calc(100%-148px)] pl-[148px] bg-elliptical">
+        <main className="flex flex-col ml-[92px] max-w-[calc(100%-148px)] px-10 py-5 dark:bg-elliptical">
+          <Header
+            currencyOptions={menuItems}
+            currency={currency}
+            selectCurrency={setCurrency}
+            priceLabel="1ᚱ = $ 10.04"
+            gweiLabel="156 GWEI"
+            connectWallet={() => {}}
+            openDrawer={() => {}}
+            refresh={() => {}}
+          />
           {children}
         </main>
       </div>

@@ -28,7 +28,7 @@ export const Header = ({
   connectWallet,
 }: Props) => {
   return (
-    <header className="mb-10">
+    <header className="mb-5">
       <Row className="min-h-[70px]" justify="between">
         <Row className="mt-auto shrink-0 gap-x-4">
           <ThemeSwitch />
