@@ -1,4 +1,4 @@
-import { AiOutlineLineChart, AiOutlineUnlock } from 'react-icons/ai'
+import { AiOutlineLineChart } from 'react-icons/ai'
 import { BiArrowBack } from 'react-icons/bi'
 import {
   BsSearch,
@@ -22,7 +22,12 @@ import {
 import { FiXCircle, FiChevronDown, FiX, FiInfo } from 'react-icons/fi'
 import { GrBitcoin } from 'react-icons/gr'
 import { HiOutlineCog, HiOutlinePlus } from 'react-icons/hi'
-import { MdAreaChart, MdKeyboardArrowUp } from 'react-icons/md'
+import {
+  MdAreaChart,
+  MdOutlineLock,
+  MdKeyboardArrowUp,
+  MdOutlineLockOpen,
+} from 'react-icons/md'
 import { RiShareBoxLine } from 'react-icons/ri'
 import { SiBinance } from 'react-icons/si'
 
@@ -49,6 +54,7 @@ const Icons = {
   fire: FaFire,
   info: FiInfo,
   infoCircle: FiInfo,
+  lock: MdOutlineLock,
   medium: BsMedium,
   menu: CgMenu,
   question: BsQuestion,
@@ -58,7 +64,7 @@ const Icons = {
   sortUp: FaSortUp,
   telegram: BsTelegram,
   twitter: BsTwitter,
-  unlock: AiOutlineUnlock,
+  unlock: MdOutlineLockOpen,
   wifi: FaWifi,
   xCircle: FiXCircle,
   plus: HiOutlinePlus,

@@ -1,4 +1,4 @@
-import { useCallback, useReducer } from 'react'
+import { useCallback, useReducer, useState } from 'react'
 
 import { useParams } from 'react-router'
 
@@ -8,7 +8,9 @@ import { AssetTickerType } from 'components/AssetIcon/types'
 import { AssetSelectType } from 'components/AssetSelect/types'
 import { Button } from 'components/Button'
 import { Card } from 'components/Card'
+import { ConfirmSwapItem } from 'components/ConfirmSwapItem'
 import { Icon } from 'components/Icon'
+import { Modal } from 'components/Modal'
 import { Typography } from 'components/Typography'
 
 import { t } from 'services/i18n'
@@ -35,6 +37,7 @@ const initialSecondAsset = {
 const priceImpact = -0.06
 
 const Swap = () => {
+  const [isOpened, setIsOpened] = useState(false)
   const { firstTicker, secondTicker } =
     useParams<{ firstTicker: AssetTickerType; secondTicker: AssetTickerType }>()
 
@@ -117,9 +120,24 @@ const Swap = () => {
         />
 
         <div className="flex mt-2">
-          <Button className="px-20" size="large">
+          <Button
+            onClick={() => setIsOpened((visible) => !visible)}
+            className="px-20"
+            size="large"
+          >
             {t('common.connectWallet')}
           </Button>
+          {isOpened && (
+            <Modal
+              title="Confirm Swap"
+              isOpened={isOpened}
+              onClose={() => setIsOpened(false)}
+            >
+              <div>
+                <ConfirmSwapItem />
+              </div>
+            </Modal>
+          )}
         </div>
       </Card>
     </div>
