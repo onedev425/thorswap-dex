@@ -8,6 +8,7 @@ import { store as reduxStore } from 'redux/store'
 
 import { useGlobalRefresh } from 'hooks/useGlobalRefresh'
 
+import DrawerProvider from './hooks/useDrawer'
 import Router from './router'
 
 const MainApp = () => {
@@ -16,7 +17,9 @@ const MainApp = () => {
   return (
     <div className="bg-light-bg-primary dark:bg-dark-bg-primary overflow-x-hidden">
       <div id="headlessui-portal-root" />
-      <Router />
+      <DrawerProvider>
+        <Router />
+      </DrawerProvider>
       <TooltipPortal />
       <ToastPortal />
     </div>

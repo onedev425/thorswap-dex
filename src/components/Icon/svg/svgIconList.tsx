@@ -13,6 +13,7 @@ import { ReactComponent as Moon } from './moon.svg'
 import { ReactComponent as Refresh } from './refresh.svg'
 import { ReactComponent as Settings } from './settings.svg'
 import { ReactComponent as Sputnik } from './sputnik.svg'
+import { ReactComponent as Squares } from './squares.svg'
 import { ReactComponent as Sun } from './sun.svg'
 import { CustomIconProps, SvgIcon } from './SvgIcon'
 import { ReactComponent as Swap } from './swap.svg'
@@ -44,6 +45,7 @@ export const Svgs = {
   settings: Settings,
   sputnik: Sputnik,
   sun: Sun,
+  squares: Squares,
   swap: Swap,
   threedots: ThreeDots,
   tradeLightning: TradeLightning,
@@ -77,6 +79,7 @@ export const SvgIcons = {
   settings: (props: CustomIconProps) => <SvgIcon name="settings" {...props} />,
   sputnik: (props: CustomIconProps) => <SvgIcon name="sputnik" {...props} />,
   sun: (props: CustomIconProps) => <SvgIcon name="sun" {...props} />,
+  squares: (props: CustomIconProps) => <SvgIcon name="squares" {...props} />,
   swap: (props: CustomIconProps) => <SvgIcon name="swap" {...props} />,
   threedots: (props: CustomIconProps) => (
     <SvgIcon name="threedots" {...props} />

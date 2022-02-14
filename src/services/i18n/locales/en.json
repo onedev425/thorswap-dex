@@ -64,6 +64,11 @@
       "managePortfolio": "Manage Portfolio",
       "transactionHistory": "Transaction History"
     },
+    "walletDrawer": {
+      "openWalletPage": "Open Wallet Page",
+      "disconnectAll": "Disconnect All",
+      "connectAnotherWallet": "Connect Another Wallet"
+    },
     "liquidity": {
       "addButton": "Add",
       "amountToRemove": "Amount to remove",

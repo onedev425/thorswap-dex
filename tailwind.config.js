@@ -148,6 +148,19 @@ module.exports = {
       '8xl': '90rem',
     },
     extend: {
+      animation: {
+        'slide-left': 'fade-in-left 0.5s ease-in-out',
+      },
+      keyframes: {
+        "fade-in-left": {
+          '0%': {
+            opacity: 0,
+            transform: 'translateX(20px)' },
+          '100%': {
+            opacity: 1,
+            transform: 'translateX(0)' },
+        }
+      },
       transitionDuration: {
         DEFAULT: '0ms',
       },
@@ -159,6 +172,8 @@ module.exports = {
         box: '0 5px 15px rgba(0,0,0,.05)',
       },
       backgroundImage: {
+        'gradient-primary':
+          'linear-gradient(180deg, rgba(45, 58, 82, 0) 0%, #2A374D 48.2%)',
         elliptical:
           'radial-gradient(ellipse at 50% 50%, rgba(46, 92, 106,' +
           ' 30%) 0%, rgba(18, 21, 38, 1) 60%)',

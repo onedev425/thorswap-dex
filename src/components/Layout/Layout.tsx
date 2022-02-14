@@ -1,13 +1,19 @@
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
+
+import classNames from 'classnames'
 
 import { Header } from 'components/Header'
 import { Sidebar } from 'components/Sidebar'
 
+import { useToggle } from '../../hooks/useDrawer'
+
 export type LayoutProp = {
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export const Layout = ({ children }: LayoutProp) => {
+  const [onOff, setOnOff] = useToggle()
+
   const menuItems = [
     { label: 'USDT', value: 'USDT' },
     { label: 'RUNE', value: 'RUNE' },
@@ -17,13 +23,22 @@ export const Layout = ({ children }: LayoutProp) => {
 
   const [currency, setCurrency] = useState('USDT')
 
+  const connectWallet = () => {
+    setOnOff()
+  }
+
   return (
     <div className="relative flex flex-col w-full min-h-screen mx-auto my-0 max-w-8xl">
       <div className="flex flex-col flex-1">
         <aside className="fixed bg-fuchsia-100">
           <Sidebar />
         </aside>
-        <main className="flex flex-col ml-[92px] max-w-[calc(100%-148px)] px-10 py-5 dark:bg-elliptical">
+        <main
+          className={classNames(
+            'flex flex-col ml-[92px] max-w-[calc(100%-148px)] px-10 py-5 dark:bg-elliptical',
+            { 'blur-md pointer-events-none': onOff },
+          )}
+        >
           <Header
             currencyOptions={menuItems}
             currency={currency}
@@ -31,7 +46,7 @@ export const Layout = ({ children }: LayoutProp) => {
             priceLabel="1ᚱ = $ 10.04"
             gweiLabel="156 GWEI"
             connectWallet={() => {}}
-            openDrawer={() => {}}
+            openDrawer={connectWallet}
             refresh={() => {}}
           />
           {children}

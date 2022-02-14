@@ -9,10 +9,14 @@ import StakeView from 'views/Stake'
 import StatsView from 'views/Stats'
 import SwapView from 'views/Swap'
 import WalletView from 'views/Wallet'
+import WalletBalance from 'views/WalletBalance'
 
+import { Drawer } from 'components/Drawer/Drawer'
 import { Layout } from 'components/Layout'
 
 import { ROUTES } from 'settings/constants'
+
+import { useToggle } from './hooks/useDrawer'
 
 export type RouteType = {
   path: string
@@ -59,6 +63,8 @@ const routes: RouteType = [
 ]
 
 const PublicRoutes = () => {
+  const [onOff] = useToggle()
+
   return (
     <Router>
       <Routes>
@@ -70,9 +76,12 @@ const PublicRoutes = () => {
               key={route.path}
               path={route.path}
               element={
-                <Layout>
-                  <Component />
-                </Layout>
+                <>
+                  {onOff && <Drawer children={<WalletBalance />} />}
+                  <Layout>
+                    <Component />
+                  </Layout>
+                </>
               }
             />
           )

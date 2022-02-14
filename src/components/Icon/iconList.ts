@@ -1,37 +1,38 @@
 import { AiOutlineLineChart } from 'react-icons/ai'
 import { BiArrowBack } from 'react-icons/bi'
 import {
-  BsSearch,
   BsDiscord,
   BsMedium,
+  BsQuestion,
+  BsSearch,
   BsTelegram,
   BsTwitter,
-  BsQuestion,
 } from 'react-icons/bs'
 import { CgMenu, CgArrowsExchangeAltV } from 'react-icons/cg'
 import {
-  FaChartPie,
-  FaWifi,
   FaChartArea,
+  FaChartPie,
+  FaCheck,
   FaEthereum,
   FaFire,
-  FaSortUp,
   FaSortDown,
-  FaCheck,
+  FaSortUp,
+  FaWifi,
 } from 'react-icons/fa'
 import {
-  FiXCircle,
-  FiChevronDown,
-  FiX,
-  FiInfo,
   FiArrowDown,
+  FiChevronDown,
+  FiInfo,
+  FiSend,
+  FiX,
+  FiXCircle,
 } from 'react-icons/fi'
 import { GrBitcoin } from 'react-icons/gr'
 import { HiOutlineCog, HiOutlinePlus } from 'react-icons/hi'
 import {
   MdAreaChart,
-  MdOutlineLock,
   MdKeyboardArrowUp,
+  MdOutlineLock,
   MdOutlineLockOpen,
 } from 'react-icons/md'
 import { RiShareBoxLine } from 'react-icons/ri'
@@ -43,6 +44,7 @@ export type IconName = keyof typeof Icons
 
 const Icons = {
   arrowBack: BiArrowBack,
+  arrowDown: FiArrowDown,
   arrowUp: MdKeyboardArrowUp,
   binance: SiBinance,
   bitcoin: GrBitcoin,
@@ -63,8 +65,10 @@ const Icons = {
   lock: MdOutlineLock,
   medium: BsMedium,
   menu: CgMenu,
+  plus: HiOutlinePlus,
   question: BsQuestion,
   search: BsSearch,
+  send: FiSend,
   share: RiShareBoxLine,
   sortDown: FaSortDown,
   sortUp: FaSortUp,
@@ -73,8 +77,6 @@ const Icons = {
   unlock: MdOutlineLockOpen,
   wifi: FaWifi,
   xCircle: FiXCircle,
-  plus: HiOutlinePlus,
-  arrowDown: FiArrowDown,
   ...SvgIcons,
 } as const
 
