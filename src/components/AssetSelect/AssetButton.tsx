@@ -23,25 +23,19 @@ export function AssetButton({
 }: Props) {
   return (
     <Button
-      className={classNames(className, 'pl-1 pr-4 justify-between')}
+      className={classNames(className, 'pl-1 pr-4 !rounded-lg justify-between')}
       size={size}
       bgColor="tertiary"
       transform="uppercase"
       onClick={onClick}
-      startIcon={
-        <AssetIcon
-          name={name}
-          className="mr-3"
-          size={size === 'small' ? 32 : 40}
-        />
-      }
+      startIcon={<AssetIcon name={name} size={size === 'small' ? 28 : 40} />}
       endIcon={
         withChevron ? (
           <Icon className="ml-4" name="chevronDown" color="secondary" />
         ) : null
       }
     >
-      <Typography variant="h4" fontWeight="normal" transform="uppercase">
+      <Typography variant="h5" fontWeight="medium" transform="uppercase">
         {name}
       </Typography>
     </Button>

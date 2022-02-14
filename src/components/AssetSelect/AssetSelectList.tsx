@@ -4,7 +4,7 @@ import { AssetIcon } from 'components/AssetIcon/AssetIcon'
 import { AssetButton } from 'components/AssetSelect/AssetButton'
 import { AssetSelectProps } from 'components/AssetSelect/types'
 import { useAssetSelect } from 'components/AssetSelect/useAssetSelect'
-import { Card } from 'components/Card'
+import { Box } from 'components/Box'
 import { genericBgClasses, styledScrollbarClass } from 'components/constants'
 import { Input } from 'components/Input'
 import { Typography } from 'components/Typography'
@@ -28,20 +28,20 @@ export const AssetSelectList = (props: AssetSelectProps) => {
         )}
       >
         <Input
-          icon="search"
           placeholder="Search name or paste address..."
           onChange={(e) => setSearch(e.target.value)}
           value={search}
           stretch
           autoFocus
+          className="flex-1 border"
         />
 
         {props.commonAssets?.length > 0 && (
-          <div className="flex flex-row flex-wrap pt-6 gap-2">
+          <div className="flex flex-row flex-wrap pt-6 gap-5">
             {props.commonAssets.map((asset) => (
               <div key={asset.name}>
                 <AssetButton
-                  className="bg-light-gray-light dark:bg-dark-gray-light bg-opacity-70 dark:bg-opacity-70"
+                  className="bg-light-gray-light  bg-opacity-70 dark:bg-opacity-70"
                   onClick={() => select(asset)}
                   name={asset.name}
                   size="small"
@@ -53,34 +53,43 @@ export const AssetSelectList = (props: AssetSelectProps) => {
       </div>
       <div
         className={classNames(
-          'h-full overflow-y-auto mx-4 px-6 py-10 pb-0 bg-light-bg-secondary dark:bg-dark-asset-select',
+          'h-full overflow-y-auto py-6 pb-0 bg-light-bg-secondary dark:bg-dark-asset-select',
           styledScrollbarClass,
           'scrollbar-track-light-bg-secondary dark:scrollbar-track-dark-asset-select',
         )}
       >
-        <div className="flex flex-col flex-1 gap-2">
+        <Box className="flex-1" col>
           {filteredAssets.map((asset) => (
-            <Card
-              className="flex flex-row items-center gap-5 cursor-pointer hover:opacity-80 bg-light-gray-light dark:bg-dark-gray-light !rounded-3xl"
+            <Box
               onClick={() => select(asset)}
               key={asset.name}
+              alignCenter
+              className="gap-3 px-6 py-2 cursor-pointer dark:hover:bg-dark-bg-secondary hover:bg-light-gray-light"
             >
-              <AssetIcon name={asset.name} />
-              <div className="flex flex-col flex-1">
-                <Typography>{asset.name}</Typography>
-                <Typography color="secondary">{asset.type}</Typography>
-              </div>
+              <AssetIcon size={28} name={asset.name} />
+              <Box className="flex-1" col>
+                <Typography fontWeight="medium" variant="h5">
+                  {asset.name}
+                </Typography>
+                <Typography
+                  variant="caption-xs"
+                  fontWeight="light"
+                  color="secondary"
+                >
+                  {asset.type}
+                </Typography>
+              </Box>
               <Typography color="secondary">{asset.balance}</Typography>
-            </Card>
+            </Box>
           ))}
           {!filteredAssets.length && (
-            <div className="flex justify-center">
+            <Box justifyCenter>
               <Typography>
                 {t('components.assetSelect.noResultsFound')}
               </Typography>
-            </div>
+            </Box>
           )}
-        </div>
+        </Box>
       </div>
     </div>
   )
