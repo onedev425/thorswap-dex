@@ -17,6 +17,7 @@ import { ReactComponent as Sun } from './sun.svg'
 import { CustomIconProps, SvgIcon } from './SvgIcon'
 import { ReactComponent as Swap } from './swap.svg'
 import { ReactComponent as ThreeDots } from './threedots.svg'
+import { ReactComponent as Tick } from './tick.svg'
 import { ReactComponent as TradeLightning } from './tradeLightning.svg'
 import { ReactComponent as Upload } from './upload.svg'
 import { ReactComponent as Usdt } from './usdt.svg'
@@ -53,6 +54,7 @@ export const Svgs = {
   watch: Watch,
   xdefi: XDefi,
   bulb: Bulb,
+  tick: Tick,
 }
 
 export const SvgIcons = {
@@ -91,4 +93,5 @@ export const SvgIcons = {
   watch: (props: CustomIconProps) => <SvgIcon name="watch" {...props} />,
   xdefi: (props: CustomIconProps) => <SvgIcon name="xdefi" {...props} />,
   bulb: (props: CustomIconProps) => <SvgIcon name="bulb" {...props} />,
+  tick: (props: CustomIconProps) => <SvgIcon name="tick" {...props} />,
 } as const
