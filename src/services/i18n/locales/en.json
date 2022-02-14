@@ -18,7 +18,9 @@
     "liquidity": "Liquidity",
     "liquidityAPY": "Liquidity APY",
     "totalValueLocked": "Total Value Locked",
-    "transactions": "Transactions"
+    "transactions": "Transactions",
+    "liquidityPosition": "My Liquidity Position",
+    "liquidityProvider": "Liquidity Provider Rewards"
   },
   "components": {
     "assetSelect": {
@@ -57,6 +59,15 @@
     "wallet": {
       "managePortfolio": "Manage Portfolio",
       "transactionHistory": "Transaction History"
+    },
+    "liquidity": {
+      "assetTicker": "THOR/ETH",
+      "collapse": "Manage",
+      "tip": "Liquidity providers earn a 0.25% fee on all trades proportional to their share of the pool. Fees added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.",
+      "addButton": "Add",
+      "removeButton": "Remove",
+      "poolToken": "Your total pool tokens",
+      "poolShare": "Your pool share"
     }
   }
 }

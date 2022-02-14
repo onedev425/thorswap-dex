@@ -22,7 +22,7 @@ import {
 import { FiXCircle, FiChevronDown, FiX, FiInfo } from 'react-icons/fi'
 import { GrBitcoin } from 'react-icons/gr'
 import { HiOutlineCog, HiOutlinePlus } from 'react-icons/hi'
-import { MdAreaChart } from 'react-icons/md'
+import { MdAreaChart, MdKeyboardArrowUp } from 'react-icons/md'
 import { RiShareBoxLine } from 'react-icons/ri'
 import { SiBinance } from 'react-icons/si'
 
@@ -32,6 +32,7 @@ export type IconName = keyof typeof Icons
 
 const Icons = {
   arrowBack: BiArrowBack,
+  arrowUp: MdKeyboardArrowUp,
   binance: SiBinance,
   bitcoin: GrBitcoin,
   chart: AiOutlineLineChart,

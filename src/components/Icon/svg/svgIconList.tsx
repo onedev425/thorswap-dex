@@ -1,4 +1,5 @@
 import { ReactComponent as App } from './app.svg'
+import { ReactComponent as Bulb } from './bulb.svg'
 import { ReactComponent as ChartCandle } from './chartCandle.svg'
 import { ReactComponent as Cloud } from './cloud.svg'
 import { ReactComponent as Gwei } from './gwei.svg'
@@ -51,6 +52,7 @@ export const Svgs = {
   walletConnect: WalletConnect,
   watch: Watch,
   xdefi: XDefi,
+  bulb: Bulb,
 }
 
 export const SvgIcons = {
@@ -88,4 +90,5 @@ export const SvgIcons = {
   ),
   watch: (props: CustomIconProps) => <SvgIcon name="watch" {...props} />,
   xdefi: (props: CustomIconProps) => <SvgIcon name="xdefi" {...props} />,
+  bulb: (props: CustomIconProps) => <SvgIcon name="bulb" {...props} />,
 } as const

@@ -6,4 +6,5 @@ export enum ROUTES {
   Swap = '/swap',
   Wallet = '/wallet',
   AddLiquidity = '/add-liquidity',
+  ManageLiquidity = '/manage-liquidity',
 }

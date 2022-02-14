@@ -38,7 +38,7 @@ export const navbarOptions: SidebarItemProps[] = [
       },
       {
         iconName: 'sputnik',
-        href: '/',
+        href: '/manage-liquidity',
         label: 'Manage Liquidity',
         isExternal: false,
         hasSub: false,
