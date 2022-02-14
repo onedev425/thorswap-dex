@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import HomeView from 'views/Home'
-import { AddLiquidity } from 'views/Liquidity/addLiquidity/AddLiquidity'
+import AddLiquidity from 'views/Liquidity/AddLiquidity'
 import ManageLiquidityView from 'views/Liquidity/ManageLiquidity'
+import WithdrawLiquidity from 'views/Liquidity/WithdrawLiquidity'
 import NodesView from 'views/Nodes'
 import StakeView from 'views/Stake'
 import StatsView from 'views/Stats'
@@ -50,6 +51,10 @@ const routes: RouteType = [
   {
     path: ROUTES.ManageLiquidity,
     element: ManageLiquidityView,
+  },
+  {
+    path: ROUTES.WithdrawLiquidity,
+    element: WithdrawLiquidity,
   },
 ]
 

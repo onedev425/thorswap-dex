@@ -2,10 +2,6 @@ import { useCallback, useReducer } from 'react'
 
 import { useParams } from 'react-router'
 
-import { addLiquidityReducer } from 'views/Liquidity/addLiquidity/addLiquidityReducer'
-import { AssetInputs } from 'views/Liquidity/addLiquidity/AssetInputs'
-import { PoolInfo } from 'views/Liquidity/addLiquidity/PoolInfo'
-
 import { AssetTickerType } from 'components/AssetIcon/types'
 import { AssetSelectType } from 'components/AssetSelect/types'
 import { Box } from 'components/Box'
@@ -15,6 +11,10 @@ import { Icon } from 'components/Icon'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { t } from 'services/i18n'
+
+import { addLiquidityReducer } from './addLiquidityReducer'
+import { AssetInputs } from './AssetInputs'
+import { PoolInfo } from './PoolInfo'
 
 const initialFirstAsset = {
   name: 'ETH',

@@ -6,6 +6,6 @@ export type AssetDataType = {
   title: string
   assetTicker: AssetTickerType
   amount: string
-  infoIcon: any
+  infoIcon?: IconName
   icon: AssetTickerType
 }

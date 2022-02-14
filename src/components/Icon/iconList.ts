@@ -19,7 +19,13 @@ import {
   FaSortDown,
   FaCheck,
 } from 'react-icons/fa'
-import { FiXCircle, FiChevronDown, FiX, FiInfo } from 'react-icons/fi'
+import {
+  FiXCircle,
+  FiChevronDown,
+  FiX,
+  FiInfo,
+  FiArrowDown,
+} from 'react-icons/fi'
 import { GrBitcoin } from 'react-icons/gr'
 import { HiOutlineCog, HiOutlinePlus } from 'react-icons/hi'
 import {
@@ -68,6 +74,7 @@ const Icons = {
   wifi: FaWifi,
   xCircle: FiXCircle,
   plus: HiOutlinePlus,
+  arrowDown: FiArrowDown,
   ...SvgIcons,
 } as const
 
