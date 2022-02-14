@@ -149,7 +149,7 @@ module.exports = {
     },
     extend: {
       transitionDuration: {
-        DEFAULT: '300ms',
+        DEFAULT: '0ms',
       },
       borderRadius: {
         box: '2rem',
