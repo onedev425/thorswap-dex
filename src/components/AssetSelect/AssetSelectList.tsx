@@ -17,13 +17,13 @@ export const AssetSelectList = (props: AssetSelectProps) => {
   return (
     <div
       className={classNames(
-        'flex flex-col flex-1 pb-10 rounded-box-lg dark:bg-dark-asset-select bg-light-bg-secondary',
-        genericBgClasses.primary,
+        'flex flex-col flex-1 pb-8 lg:pb-10 rounded-box-lg',
+        genericBgClasses.secondary,
       )}
     >
       <div
         className={classNames(
-          'flex p-10 pb-6 flex-col rounded-t-box-lg',
+          'flex px-4 py-6 pb-3 lg:p-10 lg:pb-6 flex-col rounded-t-box-lg',
           genericBgClasses.secondary,
         )}
       >
@@ -37,7 +37,7 @@ export const AssetSelectList = (props: AssetSelectProps) => {
         />
 
         {props.commonAssets?.length > 0 && (
-          <div className="flex flex-row flex-wrap pt-6 gap-5">
+          <div className="flex flex-row flex-wrap pt-3 lg:pt-6 gap-5">
             {props.commonAssets.map((asset) => (
               <div key={asset.name}>
                 <AssetButton
@@ -53,7 +53,7 @@ export const AssetSelectList = (props: AssetSelectProps) => {
       </div>
       <div
         className={classNames(
-          'h-full overflow-y-auto py-6 pb-0 bg-light-bg-secondary dark:bg-dark-asset-select',
+          'h-full overflow-y-auto pt-3 lg:pt-6 bg-light-bg-secondary dark:bg-dark-asset-select',
           styledScrollbarClass,
           'scrollbar-track-light-bg-secondary dark:scrollbar-track-dark-asset-select',
         )}

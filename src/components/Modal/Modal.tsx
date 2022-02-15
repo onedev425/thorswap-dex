@@ -37,65 +37,69 @@ export const Modal = ({
   return (
     <Transition appear show={isOpened} as={Fragment}>
       <Dialog as={Fragment} onClose={onClose}>
-        <div className="fixed inset-0 z-10 overflow-y-auto min-h-screen px-4 text-center">
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <Dialog.Overlay className="fixed inset-0 backdrop-blur-md" />
-          </Transition.Child>
+        <div className="fixed inset-0 z-10">
+          <div className="relative flex p-2 lg:p-4 items-center justify-center min-h-screen text-center">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Dialog.Overlay className="fixed inset-0 backdrop-blur-md" />
+            </Transition.Child>
 
-          {/*
+            {/*
               https://headlessui.dev/react/dialog#dialog-overlay
               This element is to trick the browser into centering the modal contents.
             */}
-          <span
-            className="inline-block h-screen align-middle"
-            aria-hidden="true"
-            // eslint-disable-next-line react/jsx-no-literals
-          >
-            &#8203;
-          </span>
+            <span
+              className="inline-block h-screen align-middle"
+              aria-hidden="true"
+              // eslint-disable-next-line react/jsx-no-literals
+            >
+              &#8203;
+            </span>
 
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="max-w-md inline-block overflow-hidden drop-shadow-2xl text-left transition-all transform">
-              <div className="m-5 flex flex-row align-items justify-between">
-                <Dialog.Title>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="max-w-md inline-block overflow-y-auto mx-auto drop-shadow-2xl text-left transition-all transform max-h-[90vh]">
+                <div className="my-2 lg:m-5 flex flex-row align-items justify-between">
                   <Typography variant="h3">{title}</Typography>
-                </Dialog.Title>
 
-                <div className="h-10 w-10 flex self-center align-items justify-center border border-solid border-light-border-primary dark:border-dark-border-primary rounded-2xl">
-                  <Icon
-                    onClick={onClose}
-                    name="close"
-                    className="self-center"
-                    color="secondary"
-                    size={24}
-                  />
+                  <div className="h-10 w-10 flex self-center align-items justify-center border border-solid border-light-border-primary dark:border-dark-border-primary rounded-2xl">
+                    <Icon
+                      onClick={onClose}
+                      name="close"
+                      className="self-center"
+                      color="secondary"
+                      size={24}
+                    />
+                  </div>
                 </div>
+                {withBody ? (
+                  <Card
+                    className="justify-center items-center flex"
+                    stretch
+                    size="lg"
+                  >
+                    {children}
+                  </Card>
+                ) : (
+                  children
+                )}
               </div>
-              {withBody ? (
-                <Card className="justify-center items-center" stretch size="lg">
-                  {children}
-                </Card>
-              ) : (
-                children
-              )}
-            </div>
-          </Transition.Child>
+            </Transition.Child>
+          </div>
         </div>
       </Dialog>
     </Transition>

@@ -28,7 +28,7 @@ export const AssetSelect = ({ selected, className, ...restProps }: Props) => {
         onClose={() => setIsOpened(false)}
         withBody={false}
       >
-        <div className="flex flex-1 max-w-sm overflow-hidden max-h-[80%] h-[772px]">
+        <div className="flex flex-1 max-w-sm overflow-hidden max-h-[80%] h-[80vh] lg:h-[40rem]">
           <AssetSelectList {...restProps} onClose={() => setIsOpened(false)} />
         </div>
       </Modal>
