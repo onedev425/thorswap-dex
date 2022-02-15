@@ -1,36 +1,40 @@
 import * as styles from 'components/Chart/styles/styles'
 
-const DEFAULT_OPTIONS = {
-  responsive: true,
-  maintainAspectRatio: false,
-  resizeDelay: 500,
-  plugins: {
-    legend: {
-      display: false,
-    },
-  },
-  scales: {
-    x: {
-      grid: {
-        display: true,
-        drawBorder: false,
-        drawOnChartArea: false,
-        drawTicks: false,
+export const getChartOptions = (hideLabel: boolean) => {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    resizeDelay: 500,
+    plugins: {
+      legend: {
+        display: false,
       },
-      ticks: styles.chartXTicksStyles,
     },
-    y: {
-      grid: {
-        display: true,
-        drawBorder: false,
-        drawOnChartArea: false,
-        drawTicks: false,
+    scales: {
+      x: {
+        grid: {
+          display: true,
+          drawBorder: false,
+          drawOnChartArea: false,
+          drawTicks: false,
+        },
+        ticks: {
+          ...styles.chartXTicksStyles,
+          display: hideLabel ? false : true,
+        },
       },
-      ticks: styles.chartYTicksStyles,
+      y: {
+        grid: {
+          display: true,
+          drawBorder: false,
+          drawOnChartArea: false,
+          drawTicks: false,
+        },
+        ticks: {
+          ...styles.chartYTicksStyles,
+          display: hideLabel ? false : true,
+        },
+      },
     },
-  },
-}
-
-export const getChartOptions = () => {
-  return DEFAULT_OPTIONS
+  }
 }

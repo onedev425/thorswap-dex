@@ -47,8 +47,13 @@ import { Box } from 'components/Box'
 import chartConfig from './config/chartConfig'
 import { ChartDataType, ChartProps, ChartType } from './types'
 
-export const Chart = ({ type, data, className }: ChartProps) => {
-  const { options, chartData } = chartConfig(type, data)
+export const Chart = ({
+  className,
+  type,
+  data,
+  hideLabel = false,
+}: ChartProps) => {
+  const { options, chartData } = chartConfig(type, data, hideLabel)
 
   const renderChart = () => {
     if (!chartData) {

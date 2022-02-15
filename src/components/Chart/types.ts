@@ -19,4 +19,5 @@ export type ChartProps = {
   className?: string
   type: ChartType
   data: DataPoint[]
+  hideLabel?: boolean
 }

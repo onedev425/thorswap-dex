@@ -9,19 +9,12 @@ export const navbarOptions: SidebarItemProps[] = [
     hasSub: false,
   },
   {
-    iconName: 'list',
+    iconName: 'tradeLightning',
     href: '/',
-    label: 'app',
+    label: 'Trade',
     isExternal: false,
     hasSub: true,
     children: [
-      {
-        iconName: 'tradeLightning',
-        href: 'https://thorswap.finance/',
-        label: 'Trade',
-        isExternal: true,
-        hasSub: false,
-      },
       {
         iconName: 'swap',
         href: '/swap',

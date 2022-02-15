@@ -9,17 +9,12 @@ import { navbarOptions } from './data'
 import { NavItem } from './NavItem'
 import { SidebarProps, SidebarItemProps, Variant } from './types'
 
-const listClasses = {
-  primary: 'rounded-2xl',
-  secondary: 'rounded-2xl bg-green bg-opacity-10 mb-6',
-}
-
 const renderMenu = (options: SidebarItemProps[], variant: Variant) => {
   return (
     <ul
       className={classNames(
-        'p-0 m-0 list-none flex flex-col items-center',
-        listClasses[variant],
+        'flex flex-col items-center rounded-2xl p-0 m-0 list-none',
+        { 'bg-green bg-opacity-10 mb-6': variant === 'secondary' },
       )}
     >
       {options.map(({ hasSub, label, children, ...rest }: SidebarItemProps) => {

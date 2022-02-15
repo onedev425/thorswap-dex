@@ -56,7 +56,7 @@ const Stats = () => {
             </Typography>
           </div>
           <div className="flex flex-row pb-8">
-            <Chart type={ChartType.CurvedLine} data={sampleData} />
+            <Chart type={ChartType.CurvedLine} data={sampleData} hideLabel />
           </div>
           <StatsGroup
             iconName="lightning"
@@ -106,7 +106,7 @@ const Stats = () => {
             </Typography>
           </div>
           <div className="flex flex-row pb-8">
-            <Chart type={ChartType.CurvedLine} data={sampleData} />
+            <Chart type={ChartType.CurvedLine} data={sampleData} hideLabel />
           </div>
           <StatsGroup
             iconName="chartArea"
@@ -156,7 +156,7 @@ const Stats = () => {
             </Typography>
           </div>
           <div className="flex flex-row pb-8">
-            <Chart type={ChartType.CurvedLine} data={sampleData} />
+            <Chart type={ChartType.CurvedLine} data={sampleData} hideLabel />
           </div>
           <StatsGroup
             iconName="wallet"
@@ -208,7 +208,7 @@ const Stats = () => {
             </Typography>
           </div>
           <div className="flex flex-row pb-8">
-            <Chart type={ChartType.CurvedLine} data={sampleData} />
+            <Chart type={ChartType.CurvedLine} data={sampleData} hideLabel />
           </div>
           <StatsGroup
             iconName="fire"
@@ -258,7 +258,7 @@ const Stats = () => {
             </Typography>
           </div>
           <div className="flex flex-row pb-8">
-            <Chart type={ChartType.CurvedLine} data={sampleData} />
+            <Chart type={ChartType.CurvedLine} data={sampleData} hideLabel />
           </div>
           <StatsGroup
             iconName="chartPie"
@@ -308,7 +308,7 @@ const Stats = () => {
             </Typography>
           </div>
           <div className="flex flex-row pb-8">
-            <Chart type={ChartType.CurvedLine} data={sampleData} />
+            <Chart type={ChartType.CurvedLine} data={sampleData} hideLabel />
           </div>
           <StatsGroup
             iconName="chartArea2"
