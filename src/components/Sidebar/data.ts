@@ -61,9 +61,9 @@ export const navbarOptions: SidebarItemProps[] = [
   },
   {
     iconName: 'cloud',
-    href: 'https://google.com',
+    href: '/nodes',
     label: 'Thornode',
-    isExternal: true,
+    isExternal: false,
     hasSub: false,
   },
   {
