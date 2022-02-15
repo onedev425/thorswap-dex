@@ -172,8 +172,10 @@ module.exports = {
         box: '0 5px 15px rgba(0,0,0,.05)',
       },
       backgroundImage: {
-        'gradient-primary':
+        'gradient-primary-dark':
           'linear-gradient(180deg, rgba(45, 58, 82, 0) 0%, #2A374D 48.2%)',
+        'gradient-primary-light':
+          'linear-gradient(180deg, rgba(45, 58, 82, 0) 0%, #f1f1f1 48.2%)',
         elliptical:
           'radial-gradient(ellipse at 50% 50%, rgba(46, 92, 106,' +
           ' 30%) 0%, rgba(18, 21, 38, 1) 60%)',

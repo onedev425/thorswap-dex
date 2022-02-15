@@ -3,6 +3,7 @@ import {
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from 'react'
 
@@ -13,22 +14,26 @@ type Props = {
 }
 
 const DrawerProvider = ({ children }: Props) => {
-  const [onOff, setOnOff] = useState(false)
+  const [isOpened, setIsOpened] = useState(false)
+
+  useEffect(() => {
+    document.body.style.overflow = isOpened ? 'hidden' : 'unset'
+  }, [isOpened])
 
   const toggle = useCallback(() => {
-    setOnOff(!onOff)
-  }, [setOnOff, onOff])
+    setIsOpened((v) => !v)
+  }, [])
 
   return (
-    <ToggleContext.Provider value={[onOff, toggle]}>
+    <ToggleContext.Provider value={[isOpened, toggle]}>
       {children}
     </ToggleContext.Provider>
   )
 }
 
 export const useToggle = () => {
-  const [onOff, toggle] = useContext(ToggleContext)
-  return [onOff, toggle] as [boolean, () => void]
+  const [isOpened, toggle] = useContext(ToggleContext)
+  return [isOpened, toggle] as [boolean, () => void]
 }
 
 export default DrawerProvider

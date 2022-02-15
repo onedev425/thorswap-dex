@@ -20,6 +20,7 @@ export const colorClasses = {
   gray: 'text-gray',
   red: 'text-red',
   white: 'text-white',
+  primaryBtn: 'text-light-btn-primary dark:text-dark-btn-primary',
 } as const
 
 export type IconProps = {

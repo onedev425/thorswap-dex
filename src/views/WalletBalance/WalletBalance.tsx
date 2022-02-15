@@ -11,12 +11,18 @@ const WalletBalance = () => {
     <div>
       <Box alignCenter className="justify-between pb-12 px-[40px]">
         <Button
-          className="hidden cursor-auto md:flex hover:bg-transparent dark:hover:bg-transparent"
+          className="px-2.5 hidden cursor-auto md:flex hover:bg-transparent dark:hover:bg-transparent"
           outline
           bgColor="tertiary"
-        >
-          <Icon name="refresh" color="green" size={18} onClick={() => {}} />
-        </Button>
+          startIcon={
+            <Icon
+              name="refresh"
+              color="primaryBtn"
+              size={18}
+              onClick={() => {}}
+            />
+          }
+        ></Button>
         <Typography> {t('views.walletDrawer.openWalletPage')}</Typography>
       </Box>
       <Box alignCenter className="justify-between px-[40px]">
@@ -26,19 +32,17 @@ const WalletBalance = () => {
           outline
           onClick={() => {}}
         >
-          <Typography> {t('views.walletDrawer.disconnectAll')}</Typography>
+          {t('views.walletDrawer.disconnectAll')}
         </Button>
         <Button outline onClick={() => {}}>
-          <Typography>
-            {t('views.walletDrawer.connectAnotherWallet')}
-          </Typography>
+          {t('views.walletDrawer.connectAnotherWallet')}
         </Button>
       </Box>
       <ul className="list-none p-0">
         {balanceData.map((item) => (
           <li
             key={item.address}
-            className="px-[40px] min-h-[155px] bg-gradient-primary rounded-b-[24px]"
+            className="px-[40px] min-h-[155px] bg-gradient-primary-light dark:bg-gradient-primary-dark rounded-b-[24px]"
           >
             <Box className="border-0 border-b-2 border-dashed border-bottom border-light-typo-gray dark:border-dark-typo-gray justify-between py-6">
               <Box>
@@ -130,9 +134,12 @@ const WalletBalance = () => {
                 </Typography>
               </Box>
               <Box>
-                <Button outline onClick={() => {}}>
-                  <Icon name="send" size={18} onClick={() => {}} />
-                </Button>
+                <Button
+                  className="px-2.5"
+                  outline
+                  onClick={() => {}}
+                  startIcon={<Icon name="send" size={18} onClick={() => {}} />}
+                ></Button>
               </Box>
             </Box>
           </li>
