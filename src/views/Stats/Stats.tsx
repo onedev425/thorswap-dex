@@ -30,7 +30,7 @@ const Stats = () => {
 
   return (
     <div className="flex flex-wrap">
-      <div className="grid grid-cols-3 gap-8 mb-16">
+      <div className="grid grid-cols-1 gap-8 mb-8 md:grid-cols-2 lg:grid-cols-3">
         <div>
           <div className="flex flex-row pb-8">
             <Typography variant="h3" color="primary" fontWeight="extrabold">
@@ -181,8 +181,7 @@ const Stats = () => {
             ]}
           />
         </div>
-      </div>
-      <div className="grid grid-cols-3 gap-8">
+
         <div>
           <div className="flex flex-row pb-8">
             <Typography variant="h3" color="primary" fontWeight="extrabold">
