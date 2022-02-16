@@ -60,12 +60,12 @@ export const AssetInputs = memo(
           )}
         >
           <Icon
+            className={classNames('-scale-x-100 transition-all duration-300', {
+              'rotate-180': iconRotate,
+            })}
             name="exchange"
             size={36}
             color="white"
-            className={classNames('-scale-x-100 transition-all', {
-              'rotate-180': iconRotate,
-            })}
           />
         </div>
 
