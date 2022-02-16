@@ -26,6 +26,8 @@ export const All = () => {
       <Input placeholder="Placeholder without icon" />
       <Input icon="chartPie" />
       <Input />
+      <Input borderless placeholder="Borderless" />
+      <Input borderless placeholder="Borderless" icon="bitcoin" />
     </div>
   )
 }
