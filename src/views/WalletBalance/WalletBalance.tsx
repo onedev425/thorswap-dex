@@ -9,7 +9,7 @@ import { t } from 'services/i18n'
 const WalletBalance = () => {
   return (
     <div>
-      <Box alignCenter className="justify-between pb-12 px-[40px]">
+      <Box alignCenter className="justify-between pb-6 px-[40px]">
         <Button
           className="px-2.5 hidden cursor-auto md:flex hover:bg-transparent dark:hover:bg-transparent"
           outline
@@ -25,7 +25,11 @@ const WalletBalance = () => {
         />
         <Typography> {t('views.walletDrawer.openWalletPage')}</Typography>
       </Box>
-      <Box alignCenter className="justify-between px-[40px]">
+      <Box
+        alignCenter
+        className="justify-between px-[40px] md:flex-row gap-4"
+        col
+      >
         <Button
           bgColor="tertiary"
           textColor="secondary"

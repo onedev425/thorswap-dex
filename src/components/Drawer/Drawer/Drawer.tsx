@@ -15,7 +15,7 @@ export const Drawer = ({ children }: Props) => {
   return (
     <div
       ref={drawerRef}
-      className="overflow-y-auto animate-slide-left bg-light-bg-secondary dark:bg-dark-bg-secondary h-full fixed right-0 z-10 w-[440px] shadow-inner rounded-l-[40px] py-[40px]"
+      className="overflow-y-auto animate-slide-left bg-light-bg-secondary dark:bg-dark-bg-secondary h-full fixed right-0 z-10  w-[300px] md:w-[440px] shadow-inner rounded-l-[40px] py-[40px]"
     >
       {children}
     </div>
