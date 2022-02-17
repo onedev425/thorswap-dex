@@ -49,6 +49,7 @@ export const Header = ({
             {gweiLabel || '-'}
           </Button>
           <DropdownMenu
+            className="z-10"
             menuItems={currencyOptions}
             value={currency}
             onChange={selectCurrency}
