@@ -26,9 +26,10 @@ const Home = () => {
     <Box className="gap-12 overflow-x-hidden" col>
       <StatsList list={dashboardMockData.statsList} scrollable />
 
-      <Box className="gap-10">
-        <Box className="gap-8 flex-1" col>
+      <Box className="flex-wrap">
+        <Box className="w-full lg:w-1/2" col>
           <Statistics
+            className="mb-8"
             percentage
             title="Volume"
             amount={dashboardMockData.stats.volume.amount}
@@ -42,8 +43,9 @@ const Home = () => {
           />
         </Box>
 
-        <Box className="gap-8 flex-1" col>
+        <Box className="w-full lg:w-1/2" col>
           <Statistics
+            className="mb-8"
             percentage
             title="Liquidity"
             amount={dashboardMockData.stats.liquidity.amount}
@@ -62,7 +64,7 @@ const Home = () => {
         <Typography variant="h3">
           {t('views.home.swapCrossChainAssets')}
         </Typography>
-        <Box className="flex-wrap gap-6" justifyCenter>
+        <Box className="flex-wrap gap-6">
           {dashboardMockData.featuredPools.map((p) => (
             <PoolCard
               key={p.ticker}
@@ -78,8 +80,9 @@ const Home = () => {
 
       <Box className="gap-8" col>
         <Typography variant="h3">{t('common.liquidityPools')}</Typography>
-        <Box justify="between">
+        <Box justify="between" className="flex-wrap gap-8">
           <Input placeholder="Search" icon="search" />
+
           <Select
             options={['All', 'Native', 'ERC20', 'BEP2']}
             activeIndex={chainAssetFilterIndex}

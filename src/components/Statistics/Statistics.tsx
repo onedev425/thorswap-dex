@@ -1,16 +1,19 @@
 import { useState } from 'react'
 
+import classNames from 'classnames'
+
 import { Row } from 'components/Row'
 import { Typography } from 'components/Typography'
 
 import { StatisticsType } from './types'
 
 export const Statistics = ({
-  title,
   amount,
   change,
-  value,
+  className,
   percentage,
+  title,
+  value,
 }: StatisticsType) => {
   const [prevChange, setPreviousChange] = useState(false)
 
@@ -19,7 +22,7 @@ export const Statistics = ({
   }
 
   return (
-    <div>
+    <div className={classNames(className)}>
       <Row marginBottom="16px">
         {typeof title === 'string' ? (
           <Typography variant="h3" fontWeight="extrabold">
