@@ -20,7 +20,9 @@ export const TableCell = (props: Props) => {
       )}
       {...cell.getCellProps()}
     >
-      <Typography>{cell.render('Cell')}</Typography>
+      <Typography className="text-caption md:text-body">
+        {cell.render('Cell')}
+      </Typography>
     </td>
   )
 }

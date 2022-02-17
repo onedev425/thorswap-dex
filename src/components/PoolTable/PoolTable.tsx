@@ -3,8 +3,10 @@ import { Icon } from 'components/Icon'
 import { PoolTableProps } from 'components/PoolTable/types'
 import { Row } from 'components/Row'
 import { Table } from 'components/Table'
-import { TableColumns } from 'components/Table/types'
+import { TableColumnsConfig } from 'components/Table/types'
 import { Typography } from 'components/Typography'
+
+import { BreakPoint } from 'hooks/useWindowSize'
 
 import { t } from 'services/i18n'
 
@@ -25,6 +27,7 @@ const getPoolColumns = () => {
       Header: 'Network',
       accessor: 'network',
       disableSortBy: true,
+      minScreenSize: BreakPoint.lg,
     },
     {
       Header: 'USD Price',
@@ -59,8 +62,9 @@ const getPoolColumns = () => {
         </Row>
       ),
       disableSortBy: true,
+      minScreenSize: BreakPoint.md,
     },
-  ] as TableColumns
+  ] as TableColumnsConfig
 }
 export const PoolTable = ({ data }: PoolTableProps) => {
   const columns = getPoolColumns()

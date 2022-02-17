@@ -1,9 +1,13 @@
+import { useEffect } from 'react'
+
 import { useTable, useSortBy } from 'react-table'
+
+import useWindowSize from 'hooks/useWindowSize'
 
 import { TableHeaderGroup } from './TableHeaderGroup'
 import { TableRow } from './TableRow'
 import {
-  TableColumns,
+  TableColumnsConfig,
   TableData,
   TableHeaderGroupType,
   TableRowType,
@@ -11,16 +15,37 @@ import {
 
 export type TableProps = {
   data: TableData[]
-  columns: TableColumns
+  columns: TableColumnsConfig
   sortable?: boolean
 }
 
-export const Table = (props: TableProps) => {
-  const { columns, data, sortable } = props
+export const Table = ({
+  columns: columnsConfig,
+  data,
+  sortable,
+}: TableProps) => {
+  const { isVisible } = useWindowSize()
+  const table = useTable(
+    { columns: columnsConfig, data, disableSortBy: !sortable },
+    useSortBy,
+  )
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    setHiddenColumns,
+    columns,
+  } = table
 
-  const table = useTable({ columns, data, disableSortBy: !sortable }, useSortBy)
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    table
+  useEffect(() => {
+    const hidden = columns
+      .filter((_, i) => !isVisible(columnsConfig[i].minScreenSize))
+      .map((column) => column.id)
+
+    setHiddenColumns(hidden)
+  }, [columns, columnsConfig, isVisible, setHiddenColumns])
 
   return (
     <table className="border-separate border-spacing-y-4" {...getTableProps()}>
