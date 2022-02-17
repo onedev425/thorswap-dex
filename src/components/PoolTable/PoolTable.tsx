@@ -18,7 +18,9 @@ const getPoolColumns = () => {
       Cell: ({ cell: { value } }: FixMe) => (
         <div className="flex flex-row items-center">
           <Icon name={value.icon} color={value.iconColor} size={40} />
-          <Typography className="pl-4 h4">{value.name}</Typography>
+          <Typography className="pl-4 h4 hidden md:block">
+            {value.name}
+          </Typography>
         </div>
       ),
       disableSortBy: true,
@@ -42,6 +44,7 @@ const getPoolColumns = () => {
       Header: '24h Vol',
       accessor: 'volume',
       disableSortBy: true,
+      minScreenSize: BreakPoint.lg,
     },
     {
       Header: 'APY',

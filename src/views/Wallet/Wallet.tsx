@@ -13,6 +13,8 @@ import { Typography } from 'components/Typography'
 
 import { t } from 'services/i18n'
 
+import { BreakPoint } from '../../hooks/useWindowSize'
+
 const Wallet = () => {
   const token = { name: 'Bitcoin', ticker: 'BTC', change: '+10% ($ 1.500)' }
   return (
@@ -203,6 +205,7 @@ const TableAllocationColumns = [
   {
     Header: 'Address',
     accessor: 'address',
+    minScreenSize: BreakPoint.lg,
   },
   {
     Header: 'Action',
@@ -220,6 +223,7 @@ const TableAllocationColumns = [
         </Button>
       </Row>
     ),
+    minScreenSize: BreakPoint.lg,
     disableSortBy: true,
   },
 ]
@@ -247,10 +251,12 @@ const TableTransactionsColumns = [
   {
     Header: 'Recipient address',
     accessor: 'recipient',
+    minScreenSize: BreakPoint.lg,
   },
   {
     Header: 'Transaction hash',
     accessor: 'hash',
+    minScreenSize: BreakPoint.lg,
   },
   {
     Header: 'Action',
