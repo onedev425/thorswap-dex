@@ -53,43 +53,67 @@ const Wallet = () => {
       </Box>
       <Box col className="pb-16">
         <Row justify="between">
-          <Box>
-            <Typography variant="h3">
-              {t('views.wallet.managePortfolio')}
-            </Typography>
-            <Typography
-              variant="h3"
-              className="ml-1"
-              fontWeight="light"
-              color="secondary"
+          <Box
+            className="flex-wrap gap-4 md:flex-row md:justify-between flex-1"
+            col
+          >
+            <Box>
+              <Typography variant="h3">
+                {t('views.wallet.managePortfolio')}
+              </Typography>
+              <Typography
+                variant="h3"
+                className="ml-1"
+                fontWeight="light"
+                color="secondary"
+              >
+                {'(3)'}
+              </Typography>
+            </Box>
+            <Box
+              className="gap-4 md:flex-grow md:flex-row md:justify-between"
+              col
             >
-              {'(3)'}
-            </Typography>
-            <Box className="pl-12">
-              <Input placeholder="Search" icon="search" />
+              <Box>
+                <Input placeholder="Search" icon="search" />
+              </Box>
+              <Box>
+                <Select options={['Show All Tokens', 'Disconnect']} />
+              </Box>
             </Box>
           </Box>
-          <Select options={['Show All Tokens', 'Disconnect']} />
         </Row>
         <Table data={TableAllocationData} columns={TableAllocationColumns} />
       </Box>
       <Box col>
-        <Box>
-          <Typography variant="h3">
-            {t('views.wallet.transactionHistory')}
-          </Typography>
-          <Typography
-            variant="h3"
-            className="ml-1"
-            fontWeight="light"
-            color="secondary"
+        <Row justify="between">
+          <Box
+            className="flex-wrap gap-4 md:flex-row md:justify-between flex-1"
+            col
           >
-            {'(3)'}
-          </Typography>
-          <Box className="pl-12">
-            <Input placeholder="Search" icon="search" />
+            <Box>
+              <Typography variant="h3">
+                {t('views.wallet.transactionHistory')}
+              </Typography>
+              <Typography
+                variant="h3"
+                className="ml-1"
+                fontWeight="light"
+                color="secondary"
+              >
+                {'(3)'}
+              </Typography>
+            </Box>
+            <Box
+              className="gap-4 md:flex-grow md:flex-row md:justify-between"
+              col
+            >
+              <Box>
+                <Input placeholder="Search" icon="search" />
+              </Box>
+            </Box>
           </Box>
-        </Box>
+        </Row>
         <Table
           data={TableTransactionsData}
           columns={TableTransactionsColumns}
