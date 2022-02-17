@@ -26,7 +26,7 @@ export const AssetInput = memo(
     return (
       <div
         className={classNames(
-          'flex flex-row items-center mb-1 rounded-3xl py-4 px-6',
+          'flex flex-row items-center mb-1 rounded-3xl py-6 md:py-4 px-3 md:px-6',
           secondary
             ? 'bg-light-gray-light dark:bg-dark-gray-light'
             : 'bg-light-bg-primary dark:bg-dark-bg-primary',
@@ -57,9 +57,8 @@ export const AssetInput = memo(
             )}
           </div>
         </div>
-
         <AssetSelect
-          className="ml-auto"
+          className="ml-4 md:ml-auto"
           selected={selectedAsset?.name}
           assets={assets}
           commonAssets={commonAssets}

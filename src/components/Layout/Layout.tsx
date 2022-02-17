@@ -46,7 +46,7 @@ export const Layout = ({ children }: LayoutProp) => {
         </aside>
         <main
           className={classNames(
-            'flex flex-col ml-0 md:ml-[92px] md:max-w-[calc(100%-148px)] px-10 py-5 dark:bg-elliptical',
+            'flex flex-col ml-0 md:ml-[92px] md:max-w-[calc(100%-148px)] px-3 md:px-10 py-5 dark:bg-elliptical',
             { 'blur-md pointer-events-none': onOff },
           )}
         >

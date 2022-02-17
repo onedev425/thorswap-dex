@@ -84,7 +84,7 @@ const Swap = () => {
   }, [])
 
   return (
-    <div className="mx-auto w-2/3 max-w[1200px]">
+    <div className="self-center w-full md:w-2/3 max-w[1200px]">
       <div className="flex items-center">
         <Typography variant="h2">{t('common.swap')}</Typography>
 
@@ -95,9 +95,13 @@ const Swap = () => {
       <Card
         size="lg"
         stretch
-        className="flex-col items-center mt-12 p-0 pb-10 shadow-lg"
+        className="flex-col items-center md:w-full mt-4 md:mt-12 !p-0 md:h-auto md:pb-10 shadow-lg"
       >
-        <Card size="lg" className="flex-col items-center shadow-lg w-full">
+        <Card
+          stretch
+          size="lg"
+          className="flex-col items-center shadow-lg md:w-full self-stretch"
+        >
           <AssetInputs
             firstAsset={firstAsset}
             secondAsset={secondAsset}
@@ -114,12 +118,14 @@ const Swap = () => {
           />
         </Card>
 
-        <AutoRouterInfo
-          firstAssetName={firstAsset.name}
-          secondAssetName={secondAsset.name}
-        />
+        <div className="hidden lg:block w-full items-stretch">
+          <AutoRouterInfo
+            firstAssetName={firstAsset.name}
+            secondAssetName={secondAsset.name}
+          />
+        </div>
 
-        <div className="flex mt-2">
+        <div className="flex my-3">
           <Button
             onClick={() => setIsOpened((visible) => !visible)}
             className="px-20"

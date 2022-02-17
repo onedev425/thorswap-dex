@@ -51,7 +51,7 @@ export const AssetInputs = memo(
     }
 
     return (
-      <div className="relative self-stretch">
+      <div className="relative md:w-full md:self-stretch">
         <div
           onClick={handleAssetSwap}
           className={classNames(

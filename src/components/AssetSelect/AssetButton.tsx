@@ -2,6 +2,7 @@ import classNames from 'classnames'
 
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
 import { AssetTickerType } from 'components/AssetIcon/types'
+import { Box } from 'components/Box'
 import { Button } from 'components/Button'
 import { Icon } from 'components/Icon'
 import { Typography } from 'components/Typography'
@@ -23,7 +24,10 @@ export function AssetButton({
 }: Props) {
   return (
     <Button
-      className={classNames(className, 'pl-1 pr-4 !rounded-lg justify-between')}
+      className={classNames(
+        className,
+        'pl-1 pr-4 !rounded-lg justify-between min-w-[120px] md:min-w-[180px]',
+      )}
       size={size}
       bgColor="tertiary"
       transform="uppercase"
@@ -31,7 +35,9 @@ export function AssetButton({
       startIcon={<AssetIcon name={name} size={size === 'small' ? 28 : 40} />}
       endIcon={
         withChevron ? (
-          <Icon className="ml-4" name="chevronDown" color="secondary" />
+          <Box center className="min-w-[20px]">
+            <Icon name="chevronDown" color="secondary" />
+          </Box>
         ) : null
       }
     >
