@@ -7,6 +7,7 @@ import {
   BsSearch,
   BsTelegram,
   BsTwitter,
+  BsEmojiSmile,
 } from 'react-icons/bs'
 import { CgMenu, CgArrowsExchangeAltV } from 'react-icons/cg'
 import {
@@ -77,6 +78,7 @@ const Icons = {
   unlock: MdOutlineLockOpen,
   wifi: FaWifi,
   xCircle: FiXCircle,
+  smile: BsEmojiSmile,
   ...SvgIcons,
 } as const
 

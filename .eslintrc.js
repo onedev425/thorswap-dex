@@ -45,6 +45,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 1,
     '@typescript-eslint/explicit-module-boundary-types': 0,
     '@typescript-eslint/ban-types': 0,
+    '@typescript-eslint/default-param-last': 0,
     'react/display-name': 0,
     'react/prop-types': 0,
     'react/no-children-prop': 0,
