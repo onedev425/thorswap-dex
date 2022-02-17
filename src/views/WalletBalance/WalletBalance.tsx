@@ -22,7 +22,7 @@ const WalletBalance = () => {
               onClick={() => {}}
             />
           }
-        ></Button>
+        />
         <Typography> {t('views.walletDrawer.openWalletPage')}</Typography>
       </Box>
       <Box alignCenter className="justify-between px-[40px]">
@@ -139,7 +139,7 @@ const WalletBalance = () => {
                   outline
                   onClick={() => {}}
                   startIcon={<Icon name="send" size={18} onClick={() => {}} />}
-                ></Button>
+                />
               </Box>
             </Box>
           </li>

@@ -52,14 +52,17 @@ export const Button = (props: Props) => {
       {...rest}
     >
       {startIcon && startIcon}
-      <Typography
-        className={classNames(startIcon ? 'ml-1' : '', endIcon ? 'mr-1' : '')}
-        variant={size === 'large' ? 'caption' : 'caption-xs'}
-        transform={transform || size === 'large' ? 'uppercase' : 'capitalize'}
-        color={textColor}
-      >
-        {children}
-      </Typography>
+      {children && (
+        <Typography
+          className={classNames(startIcon ? 'ml-1' : '', endIcon ? 'mr-1' : '')}
+          variant={size === 'large' ? 'caption' : 'caption-xs'}
+          transform={transform || size === 'large' ? 'uppercase' : 'capitalize'}
+          color={textColor}
+        >
+          {children}
+        </Typography>
+      )}
+
       {endIcon && endIcon}
     </button>
   )
