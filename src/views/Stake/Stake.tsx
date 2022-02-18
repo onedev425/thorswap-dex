@@ -4,6 +4,7 @@ import { ChartType } from 'components/Chart/types'
 import { StakingCard } from 'components/StakingCard'
 import { StatsType } from 'components/Stats'
 import { StatsList } from 'components/StatsList'
+import { StatsListScrollable } from 'components/StatsList/StatsListScrollable'
 import { Typography } from 'components/Typography'
 
 const sampleData = [
@@ -104,11 +105,14 @@ const Stake = () => {
 
   return (
     <div className="container mx-auto">
+      <Box className="w-full xl:hidden pb-8">
+        <StatsListScrollable list={list} />
+      </Box>
       <div className="flex mb-16">
-        <div className="w-5/12 h-auto">
+        <div className="w-[500px] h-auto hidden xl:block">
           <StatsList list={list} />
         </div>
-        <Box className="w-7/12" col>
+        <Box className="flex-1 w-auto" col>
           <div className="flex-row">
             <Typography variant="h3" color="primary" fontWeight="extrabold">
               {token}
@@ -120,20 +124,20 @@ const Stake = () => {
             </Typography>
           </div>
           <Box className="flex-1">
-            <Chart type={ChartType.Area} data={sampleData} />
+            <Chart
+              type={ChartType.Area}
+              data={sampleData}
+              className="mh-[450px]"
+            />
           </Box>
         </Box>
       </div>
       <div className="flex space-x-6">
-        <div className="w-1/3 h-auto">
-          <StakingCard />
-        </div>
-        <div className="w-1/3 h-auto">
-          <StakingCard />
-        </div>
-        <div className="w-1/3 h-auto">
-          <StakingCard />
-        </div>
+        <Box className="flex-wrap gap-4">
+          <StakingCard className="h-auto" />
+          <StakingCard className="h-auto" />
+          <StakingCard className="h-auto" />
+        </Box>
       </div>
     </div>
   )

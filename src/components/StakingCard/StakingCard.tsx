@@ -1,3 +1,5 @@
+import classNames from 'classnames'
+
 import { t } from 'services/i18n'
 
 import { Button } from '../Button'
@@ -6,9 +8,16 @@ import { Icon } from '../Icon'
 import { Information } from '../Information'
 import { Typography } from '../Typography'
 
-export const StakingCard = () => {
+type Props = {
+  className?: string
+}
+
+export const StakingCard = ({ className }: Props) => {
   return (
-    <Card size="lg" className="flex-col max-w-[406px] pb-12">
+    <Card
+      size="lg"
+      className={classNames('flex-col max-w-[406px] pb-12', className)}
+    >
       <Typography variant="h2" fontWeight="semibold" color="primary">
         {`$THOR ${t('common.staking')}`}
       </Typography>
