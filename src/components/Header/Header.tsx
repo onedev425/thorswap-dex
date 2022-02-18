@@ -1,37 +1,27 @@
+import { AppPopoverMenu } from 'components/AppPopoverMenu'
 import { Button } from 'components/Button'
-import { DropdownMenu, DropdownMenuItems } from 'components/Dropdown'
 import { Icon } from 'components/Icon'
 import { Row } from 'components/Row'
-import { ThemeSwitch } from 'components/Theme'
 
 import { t } from 'services/i18n'
 
 type Props = {
-  currencyOptions: DropdownMenuItems
   priceLabel: string
   gweiLabel: string
-  currency: string
-  selectCurrency: (value: string) => void
-  refresh: () => void
   openDrawer: () => void
   connectWallet: () => void
 }
 
 export const Header = ({
-  currencyOptions,
-  currency,
   priceLabel,
   gweiLabel,
-  selectCurrency,
-  refresh,
-  openDrawer,
+  // openDrawer,
   connectWallet,
 }: Props) => {
   return (
     <header className="mb-5">
       <Row className="min-h-[70px]" justify="between">
         <Row className="mt-auto shrink-0 gap-x-4">
-          <ThemeSwitch />
           <Button
             className="hidden cursor-auto md:flex hover:bg-transparent dark:hover:bg-transparent"
             outline
@@ -48,19 +38,12 @@ export const Header = ({
           >
             {gweiLabel || '-'}
           </Button>
-          <DropdownMenu
-            className="z-10"
-            menuItems={currencyOptions}
-            value={currency}
-            onChange={selectCurrency}
-          />
         </Row>
         <Row className="inline-flex items-center mt-auto shrink-0 gap-x-4">
           <Button outline onClick={connectWallet}>
             {t('common.connectWallet')}
           </Button>
-          <Icon name="refresh" color="secondary" size={18} onClick={refresh} />
-          <Icon name="menu" color="secondary" size={18} onClick={openDrawer} />
+          <AppPopoverMenu />
         </Row>
       </Row>
     </header>

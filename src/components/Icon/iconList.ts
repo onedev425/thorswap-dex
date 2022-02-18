@@ -8,6 +8,8 @@ import {
   BsTelegram,
   BsTwitter,
   BsEmojiSmile,
+  BsThreeDots,
+  BsCurrencyDollar,
 } from 'react-icons/bs'
 import { CgMenu, CgArrowsExchangeAltV } from 'react-icons/cg'
 import {
@@ -35,6 +37,7 @@ import {
   MdKeyboardArrowUp,
   MdOutlineLock,
   MdOutlineLockOpen,
+  MdLanguage,
 } from 'react-icons/md'
 import { RiShareBoxLine } from 'react-icons/ri'
 import { SiBinance } from 'react-icons/si'
@@ -79,6 +82,9 @@ const Icons = {
   wifi: FaWifi,
   xCircle: FiXCircle,
   smile: BsEmojiSmile,
+  threeDotsHorizontal: BsThreeDots,
+  currencyDollar: BsCurrencyDollar,
+  language: MdLanguage,
   ...SvgIcons,
 } as const
 

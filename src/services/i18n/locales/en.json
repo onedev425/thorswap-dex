@@ -26,6 +26,13 @@
     "volume": "Volume",
     "withdraw": "Withdraw"
   },
+  "appMenu": {
+    "lightTheme": "Light Theme",
+    "darkTheme": "Dark Theme",
+    "currency": "Currency",
+    "language": "Language",
+    "refresh": "Refresh data"
+  },
   "components": {
     "assetSelect": {
       "selectAToken": "Select a token",

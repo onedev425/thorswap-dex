@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react'
+import { ReactNode } from 'react'
 
 import { Scrollbars } from 'react-custom-scrollbars'
 
@@ -15,15 +15,6 @@ export type LayoutProp = {
 
 export const Layout = ({ children }: LayoutProp) => {
   const [onOff, setOnOff] = useToggle()
-
-  const menuItems = [
-    { label: 'USDT', value: 'USDT' },
-    { label: 'RUNE', value: 'RUNE' },
-    { label: 'BTC', value: 'BTC' },
-    { label: 'ETH', value: 'ETH' },
-  ]
-
-  const [currency, setCurrency] = useState('USDT')
 
   const connectWallet = () => {
     setOnOff()
@@ -51,14 +42,10 @@ export const Layout = ({ children }: LayoutProp) => {
           )}
         >
           <Header
-            currencyOptions={menuItems}
-            currency={currency}
-            selectCurrency={setCurrency}
             priceLabel="1ᚱ = $ 10.04"
             gweiLabel="156 GWEI"
             connectWallet={() => {}}
             openDrawer={connectWallet}
-            refresh={() => {}}
           />
           {children}
         </main>

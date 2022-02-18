@@ -6,8 +6,10 @@ import { LinkProps } from './types'
 
 export const Link = (props: LinkProps) => {
   const { className, to, children, isExternal } = props
+  const externalHref =
+    isExternal || /^((http|https|ftp):\/\/)/.test(to.trim?.())
 
-  if (isExternal)
+  if (externalHref)
     return (
       <a
         className={classNames(className, 'no-underline')}
