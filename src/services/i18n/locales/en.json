@@ -62,7 +62,8 @@
     },
     "wallet": {
       "managePortfolio": "Manage Portfolio",
-      "transactionHistory": "Transaction History"
+      "transactionHistory": "Transaction History",
+      "yourAssets": "Your Assets"
     },
     "walletDrawer": {
       "openWalletPage": "Open Wallet Page",
