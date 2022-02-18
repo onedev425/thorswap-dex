@@ -17,6 +17,8 @@ export const MenuOption = (props: DropdownMenuItem) => {
             {
               [genericBgClasses.green]: selected,
               [genericBgClasses.secondary]: active && !selected,
+              'hover:bg-light-gray-light dark:hover:bg-dark-bg-secondary':
+                !disabled,
               'opacity-80': disabled,
             },
             disabled ? 'cursor-not-allowed' : 'cursor-pointer',
