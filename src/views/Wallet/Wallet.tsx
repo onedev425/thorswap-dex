@@ -103,7 +103,7 @@ const Wallet = () => {
               col
             >
               <Box>
-                <Input placeholder="Search" icon="search" />
+                <Input border="rounded" placeholder="Search" icon="search" />
               </Box>
               <Box>
                 <Select options={['Show All Tokens', 'Disconnect']} />
@@ -137,7 +137,7 @@ const Wallet = () => {
               col
             >
               <Box>
-                <Input placeholder="Search" icon="search" />
+                <Input border="rounded" placeholder="Search" icon="search" />
               </Box>
             </Box>
           </Box>

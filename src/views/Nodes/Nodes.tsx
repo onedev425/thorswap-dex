@@ -43,6 +43,7 @@ const Nodes = () => {
           })}
           <div className="mx-[40px]">
             <Input
+              border="rounded"
               icon="search"
               placeholder="Search by address"
               onChange={(e) => setValue(e.target.value)}

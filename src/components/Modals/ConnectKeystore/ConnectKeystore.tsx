@@ -72,6 +72,7 @@ export const ConnectKeystore = ({
         </div>
         <div className="mb-12">
           <Input
+            border="rounded"
             type="password"
             name="password"
             placeholder="Password"

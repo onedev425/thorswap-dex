@@ -79,7 +79,7 @@ const Home = () => {
       <Box className="gap-8" col>
         <Typography variant="h3">{t('common.liquidityPools')}</Typography>
         <Box justify="between" className="flex-wrap gap-8">
-          <Input placeholder="Search" icon="search" />
+          <Input border="rounded" placeholder="Search" icon="search" />
 
           <Select
             options={['All', 'Native', 'ERC20', 'BEP2']}

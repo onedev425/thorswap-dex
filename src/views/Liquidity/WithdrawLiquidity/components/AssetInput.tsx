@@ -51,8 +51,8 @@ export const AssetInput = memo(
             </Typography>
           </Box>
           <Input
+            border="rounded"
             stretch
-            borderless
             className="!text-2xl"
             onChange={(event) => onAmountChange(event.target.value)}
             value={amount}

@@ -39,7 +39,6 @@ export const AssetInput = memo(
         <div>
           <Input
             stretch
-            borderless
             className="!text-2xl"
             onChange={(event) => onValueChange(event.target.value)}
             value={selectedAsset?.balance}

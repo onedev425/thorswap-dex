@@ -17,17 +17,19 @@ export const All = () => {
   return (
     <div className="flex flex-col bg-light-bg-primary dark:bg-dark-bg-primary p-4">
       <Input
+        border="rounded"
         icon="search"
         placeholder="Input with icon"
         onChange={(e) => setValue(e.target.value)}
         value={value}
       />
-      <Input onChange={() => {}} value="Input With value" />
-      <Input placeholder="Placeholder without icon" />
-      <Input icon="chartPie" />
-      <Input />
-      <Input borderless placeholder="Borderless" />
-      <Input borderless placeholder="Borderless" icon="bitcoin" />
+      <Input border="rounded" onChange={() => {}} value="Input With value" />
+      <Input border="rounded" placeholder="Placeholder without icon" />
+      <Input border="rounded" icon="chartPie" />
+      <Input border="rounded" />
+      <Input border="bottom" suffix="Minutes" />
+      <Input placeholder="Borderless" />
+      <Input placeholder="Borderless" icon="bitcoin" />
     </div>
   )
 }

@@ -2,25 +2,29 @@ import { DetailedHTMLProps, InputHTMLAttributes, useRef } from 'react'
 
 import classNames from 'classnames'
 
-import { Icon, IconName } from 'components/Atomic'
+import { Icon, IconName, Typography } from 'components/Atomic'
 
 type Props = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
 > & {
-  borderless?: boolean
+  border?: 'bottom' | 'rounded'
   icon?: IconName
   stretch?: boolean
+  prefix?: string
+  suffix?: string
 }
 
 const DEFAULT_ICON_SIZE = 16
 
 export const Input = ({
-  borderless = false,
+  border,
   className,
   icon,
   onChange,
   placeholder,
+  prefix,
+  suffix,
   stretch,
   value,
   ...restProps
@@ -33,14 +37,20 @@ export const Input = ({
       className={classNames(
         'flex flex-row py-3 transition-colors',
         'border-light-border-primary focus-within:border-dark-typo-gray dark:border-dark-border-primary hover:border-dark-typo-gray dark:hover:border-dark-typo-gray focus-within::hover:border-dark-typo-gray',
-        { 'border-b border-t border-x border-solid rounded-2xl': !borderless },
+        { 'border-none': !border },
+        {
+          'border-b border-t border-x border-solid rounded-2xl':
+            border === 'rounded',
+        },
+        { 'border-b border-t-0 border-x-0 border-solid': border === 'bottom' },
         stretch ? 'w-full' : 'w-fit',
       )}
     >
+      {prefix}
       {icon && (
         <Icon
           className={classNames('pr-4', {
-            'pl-3': !borderless,
+            'pl-3': border === 'rounded',
           })}
           color="tertiary"
           size={DEFAULT_ICON_SIZE}
@@ -61,6 +71,11 @@ export const Input = ({
         placeholder={placeholder}
         {...restProps}
       />
+      {suffix && (
+        <Typography variant="caption-xs" color="secondary">
+          {suffix}
+        </Typography>
+      )}
     </div>
   )
 }
