@@ -7,7 +7,7 @@ import { Icon } from '../Icon'
 import { NavItemProps } from './types'
 
 const itemClasses = {
-  primary: 'hover:bg-light-btn-primary hover:dark:bg-dark-btn-primary',
+  primary: 'hover:bg-btn-primary hover:dark:bg-btn-primary',
   secondary: 'hover:bg-light-btn-secondary hover:dark:bg-dark-btn-secondary',
 }
 

@@ -12,14 +12,17 @@ export const Box = ({
   justifyCenter,
   align,
   justify,
+  row,
   ...rest
 }: BoxProps) => {
   return (
     <RebassBox
+      {...rest}
       className={classNames(
         'flex',
         {
           'flex-col': col,
+          'flex-row': row,
           'items-center': alignCenter || center,
           'justify-center': justifyCenter || center,
         },
@@ -27,7 +30,6 @@ export const Box = ({
         justify && justifyClasses[justify],
         className,
       )}
-      {...rest}
     >
       {children}
     </RebassBox>

@@ -3,6 +3,7 @@ import { memo } from 'react'
 import classNames from 'classnames'
 
 import { AssetSelect } from 'components/AssetSelect'
+import { Box } from 'components/Box'
 import { Input } from 'components/Input'
 import { Typography } from 'components/Typography'
 
@@ -24,9 +25,13 @@ export const AssetInput = memo(
       parseFloat(selectedAsset?.balance || '0')
 
     return (
-      <div
+      <Box
+        row
+        alignCenter
+        justify="between"
+        mb={1}
         className={classNames(
-          'flex flex-row items-center mb-1 rounded-3xl py-6 md:py-4 px-3 md:px-6',
+          'rounded-3xl py-6 md:py-4 px-3 md:px-6',
           secondary
             ? 'bg-light-gray-light dark:bg-dark-gray-light'
             : 'bg-light-bg-primary dark:bg-dark-bg-primary',
@@ -57,6 +62,7 @@ export const AssetInput = memo(
             )}
           </div>
         </div>
+
         <AssetSelect
           className="ml-4 md:ml-auto"
           selected={selectedAsset?.name}
@@ -64,7 +70,7 @@ export const AssetInput = memo(
           commonAssets={commonAssets}
           onSelect={onAssetChange}
         />
-      </div>
+      </Box>
     )
   },
 )

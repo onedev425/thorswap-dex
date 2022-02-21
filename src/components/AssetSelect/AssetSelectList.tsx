@@ -41,10 +41,10 @@ export const AssetSelectList = (props: AssetSelectProps) => {
             {props.commonAssets.map((asset) => (
               <div key={asset.name}>
                 <AssetButton
-                  className="bg-light-gray-light  bg-opacity-70 dark:bg-opacity-70"
+                  className="bg-opacity-70 dark:bg-opacity-70"
                   onClick={() => select(asset)}
                   name={asset.name}
-                  size="small"
+                  size="sm"
                 />
               </div>
             ))}

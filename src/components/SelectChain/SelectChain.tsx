@@ -26,7 +26,7 @@ export const SelectChain = ({
             className={classNames(
               'border-solid border-2 flex flex-row items-center gap-32 cursor-pointer hover:opacity-80 bg-light-gray-light dark:bg-dark-gray-light !rounded-3xl',
               isConnected
-                ? 'border-light-btn-primary dark:border-dark-btn-primary'
+                ? 'border-btn-primary dark:border-btn-primary'
                 : 'border-transparent',
             )}
             onClick={() => handleChainSelected(name)}
@@ -45,7 +45,7 @@ export const SelectChain = ({
           </Card>
         ))}
         <Box mt={30} justify="around">
-          <Button size="large" outline onClick={() => handleConnnect()}>
+          <Button type="outline" onClick={() => handleConnnect()}>
             {t('common.connect')}
           </Button>
         </Box>

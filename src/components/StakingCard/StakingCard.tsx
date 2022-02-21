@@ -80,13 +80,13 @@ export const StakingCard = ({ className }: Props) => {
       <Information label="Staking token" value="to be set" showBorder={false} />
 
       <div className="grid sm:grid-cols-1 gap-2 md:grid-cols-3 mt-7">
-        <Button outline bgColor="green" className="col-span-1">
+        <Button type="outline" className="col-span-1">
           {t('common.deposit')}
         </Button>
-        <Button outline className="col-span-1">
+        <Button type="outline" variant="secondary" className="col-span-1">
           {t('common.withdraw')}
         </Button>
-        <Button outline bgColor="purple" className="col-span-1">
+        <Button type="outline" variant="tertiary" className="col-span-1">
           {t('common.claim')}
         </Button>
       </div>

@@ -11,9 +11,9 @@ const WalletBalance = () => {
     <div>
       <Box alignCenter className="justify-between pb-6 px-[40px]">
         <Button
-          className="px-2.5 hidden cursor-auto md:flex hover:bg-transparent dark:hover:bg-transparent"
-          outline
-          bgColor="tertiary"
+          className="px-3.5 hidden cursor-auto md:flex hover:bg-transparent dark:hover:bg-transparent"
+          type="outline"
+          variant="tint"
           startIcon={
             <Icon
               name="refresh"
@@ -31,14 +31,14 @@ const WalletBalance = () => {
         col
       >
         <Button
-          bgColor="tertiary"
+          variant="tertiary"
           textColor="secondary"
-          outline
+          type="outline"
           onClick={() => {}}
         >
           {t('views.walletDrawer.disconnectAll')}
         </Button>
-        <Button outline onClick={() => {}}>
+        <Button type="outline" onClick={() => {}}>
           {t('views.walletDrawer.connectAnotherWallet')}
         </Button>
       </Box>
@@ -139,8 +139,8 @@ const WalletBalance = () => {
               </Box>
               <Box>
                 <Button
-                  className="px-2.5"
-                  outline
+                  className="px-3.5"
+                  type="outline"
                   onClick={() => {}}
                   startIcon={<Icon name="send" size={18} onClick={() => {}} />}
                 />

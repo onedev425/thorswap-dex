@@ -55,7 +55,7 @@ export const AssetInputs = memo(
         <div
           onClick={handleAssetSwap}
           className={classNames(
-            'absolute flex items-center justify-center top-1/2 p-2 rounded-3xl left-1/2 -translate-x-1/2 -translate-y-1/2',
+            'absolute flex items-center justify-center -mt-0.5 top-1/2 p-2 rounded-3xl left-1/2 -translate-x-1/2 -translate-y-1/2',
             'border-10 border-solid bg-blue dark:border-dark-border-primary border-light-border-primary',
           )}
         >

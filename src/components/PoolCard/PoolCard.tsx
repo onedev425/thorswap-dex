@@ -44,10 +44,10 @@ export const PoolCard = (props: PoolCardProps) => {
           </div>
         </div>
         <div className="grid grid-cols-3 gap-x-2 items-end">
-          <Button outline={true} bgColor="green" className="col-span-1">
+          <Button type="outline" className="col-span-1">
             {t('common.swap')}
           </Button>
-          <Button outline={true} className="col-span-2">
+          <Button type="outline" className="col-span-2">
             {t('common.addLiquidity')}
           </Button>
         </div>

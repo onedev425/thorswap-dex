@@ -34,7 +34,7 @@ export const Announcement = ({
             {subTitle}
           </Typography>
         </Box>
-        <Button textColor="cyan" size="large" onClick={action} borderless>
+        <Button textColor="cyan" onClick={action} type="borderless">
           {buttonText}
         </Button>
       </Box>

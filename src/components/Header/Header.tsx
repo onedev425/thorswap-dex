@@ -23,24 +23,24 @@ export const Header = ({
       <Row className="min-h-[70px]" justify="between">
         <Row className="mt-auto shrink-0 gap-x-4">
           <Button
-            className="hidden cursor-auto md:flex hover:bg-transparent dark:hover:bg-transparent"
-            outline
-            bgColor="tertiary"
+            className="hidden cursor-auto md:flex"
+            type="outline"
+            variant="tint"
           >
             {priceLabel || '-'}
           </Button>
 
           <Button
-            className="hidden cursor-auto md:flex hover:bg-transparent dark:hover:bg-transparent"
-            outline
-            bgColor="tertiary"
+            className="hidden cursor-auto md:flex"
+            type="outline"
+            variant="tint"
             startIcon={<Icon className="mr-2" name="gwei" size={18} />}
           >
             {gweiLabel || '-'}
           </Button>
         </Row>
         <Row className="inline-flex items-center mt-auto shrink-0 gap-x-4">
-          <Button outline onClick={connectWallet}>
+          <Button type="outline" onClick={connectWallet}>
             {t('common.connectWallet')}
           </Button>
           <AppPopoverMenu />

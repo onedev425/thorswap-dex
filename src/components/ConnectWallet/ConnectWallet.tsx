@@ -35,9 +35,8 @@ export const ConnectWallet = (props: Props) => {
           return (
             <Button
               key={id}
-              size="large"
-              outline
-              bgColor="tertiary"
+              type="outline"
+              variant="tertiary"
               onClick={() => onHandleChange(id)}
               className="justify-between w-full mb-1"
               endIcon={<Icon name={icon} color="purple" />}
@@ -48,16 +47,14 @@ export const ConnectWallet = (props: Props) => {
         })}
         <div className="flex justify-between mt-[40px]">
           <Button
-            size="large"
-            outline
+            type="outline"
             onClick={() => onHandleChange('create-keystore')}
           >
             {t('components.connectWallet.createKeystore')}
           </Button>
           <Button
-            size="large"
-            bgColor="secondary"
-            outline
+            variant="secondary"
+            type="outline"
             onClick={() => onHandleChange('import-phrase')}
           >
             {t('components.connectWallet.importPhrase')}

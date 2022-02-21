@@ -9,7 +9,7 @@ import { Typography } from 'components/Typography'
 
 type Props = {
   className?: string
-  size?: 'small' | 'large'
+  size?: 'sm' | 'md'
   onClick?: () => void
   name: AssetTickerType
   withChevron?: boolean
@@ -29,10 +29,10 @@ export function AssetButton({
         'pl-1 pr-4 !rounded-lg justify-between min-w-[120px] md:min-w-[180px]',
       )}
       size={size}
-      bgColor="tertiary"
+      variant="tint"
       transform="uppercase"
       onClick={onClick}
-      startIcon={<AssetIcon name={name} size={size === 'small' ? 28 : 40} />}
+      startIcon={<AssetIcon name={name} size={size === 'sm' ? 28 : 40} />}
       endIcon={
         withChevron ? (
           <Box center className="min-w-[20px]">

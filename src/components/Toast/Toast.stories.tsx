@@ -11,29 +11,20 @@ export const All = () => {
   return (
     <div className="bg-light-bg-primary dark:bg-dark-bg-primary p-10">
       <div className="p-5">
-        <Button
-          size="large"
-          bgColor="blue"
-          onClick={() => showToast('Test Toast')}
-        >
+        <Button variant="secondary" onClick={() => showToast('Test Toast')}>
           Show info toast
         </Button>
       </div>
 
       <div className="p-5">
-        <Button
-          size="large"
-          bgColor="green"
-          onClick={() => showToast('Success Toast', ToastType.Success)}
-        >
+        <Button onClick={() => showToast('Success Toast', ToastType.Success)}>
           Show success toast
         </Button>
       </div>
 
       <div className="p-5">
         <Button
-          size="large"
-          bgColor="red"
+          variant="tint"
           onClick={() => showToast('Error Toast', ToastType.Error)}
         >
           Show error toast
@@ -42,8 +33,7 @@ export const All = () => {
 
       <div className="p-5">
         <Button
-          size="large"
-          bgColor="red"
+          variant="tertiary"
           onClick={() => showLongToast('Error Toast', ToastType.Error)}
         >
           Show error toast
@@ -52,8 +42,7 @@ export const All = () => {
 
       <div className="p-5">
         <Button
-          size="large"
-          bgColor="red"
+          variant="accent"
           onClick={() =>
             showToast('Error Toast', ToastType.Error, {
               duration: 1000,

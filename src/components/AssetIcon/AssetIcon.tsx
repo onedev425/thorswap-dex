@@ -9,7 +9,7 @@ import { getAssetIconUrl, getSecondaryIconPlacementStyle } from './utils'
 export const AssetIcon = ({
   className,
   size = 40,
-  bgColor = 'blue',
+  bgColor,
   name,
   secondaryIconName,
   secondaryIconPlacement = 'bl',
@@ -24,7 +24,7 @@ export const AssetIcon = ({
         className={classNames(
           className,
           'flex rounded-full items-center justify-center p-2 box-border overflow-hidden relative',
-          { [genericBgClasses[bgColor]]: bgColor },
+          { [genericBgClasses[bgColor as 'blue']]: bgColor },
         )}
       >
         {iconUrl ? (

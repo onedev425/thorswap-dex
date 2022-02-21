@@ -20,28 +20,26 @@ export const AssetSelectButton = ({ className, onClick, selected }: Props) => {
         onClick={onClick}
         name={selected}
         className={className}
-        size="large"
         withChevron
       />
     )
   }
 
   return (
-    <Button
-      className={classNames('pl-8 pr-4', className)}
-      size="large"
-      outline
-      bgColor="secondary"
-      transform="uppercase"
-      endIcon={
-        <Icon
-          className="ml-4 text-light-btn-secondary dark:text-dark-btn-secondary group-hover:text-light-typo-primary dark:group-hover:text-dark-typo-primary transition"
-          name="chevronDown"
-        />
-      }
-      onClick={onClick}
-    >
-      {t('components.assetSelect.selectAToken')}
-    </Button>
+    <div className={classNames('pl-8 pr-4', className)}>
+      <Button
+        variant="secondary"
+        transform="uppercase"
+        endIcon={
+          <Icon
+            className="ml-4 text-light-btn-secondary dark:text-dark-btn-secondary group-hover:text-light-typo-primary dark:group-hover:text-dark-typo-primary transition"
+            name="chevronDown"
+          />
+        }
+        onClick={onClick}
+      >
+        {t('components.assetSelect.selectAToken')}
+      </Button>
+    </div>
   )
 }

@@ -236,13 +236,11 @@ const TableAllocationColumns = [
     accessor: 'action',
     Cell: () => (
       <Row className="gap-2" justify="end">
-        <Button bgColor="purple" outline>
+        <Button variant="tertiary" type="outline">
           {t('common.send')}
         </Button>
-        <Button bgColor="primary" outline>
-          {t('common.receive')}
-        </Button>
-        <Button bgColor="secondary" outline>
+        <Button type="outline">{t('common.receive')}</Button>
+        <Button variant="secondary" type="outline">
           {t('common.swap')}
         </Button>
       </Row>

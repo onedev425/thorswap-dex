@@ -24,9 +24,8 @@ export const Select = (props: Props) => {
       {options.map((option, index) => (
         <Button
           key={option}
-          bgColor="tertiary"
-          textColor="secondary"
-          outline={activeIndex !== index}
+          variant="tint"
+          type={activeIndex !== index ? 'outline' : 'default'}
           onClick={() => onHandleChange(index)}
         >
           {option}

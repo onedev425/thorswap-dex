@@ -35,9 +35,9 @@ const Nodes = () => {
               <Button
                 key={item.name}
                 className="mx-1"
-                size="small"
-                bgColor="gray"
-                outline
+                size="sm"
+                variant="tint"
+                type="outline"
               >
                 {item.name}
               </Button>
@@ -52,7 +52,7 @@ const Nodes = () => {
             />
           </div>
         </div>
-        <Button size="small" bgColor="gray" outline>
+        <Button size="sm" variant="tint" type="outline">
           {t('common.manage')}
         </Button>
       </div>

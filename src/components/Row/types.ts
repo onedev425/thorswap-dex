@@ -38,8 +38,8 @@ export const justifyClasses: Record<JustifyType, string> = {
 
 export const bgClasses: Record<ColorType, string[]> = {
   primary: [
-    'bg-transparent hover:bg-light-btn-primary dark:hover:bg-dark-btn-primary',
-    'bg-light-btn-primary dark:bg-dark-btn-primary hover:opacity-90',
+    'bg-transparent hover:bg-btn-primary dark:hover:bg-btn-primary',
+    'bg-btn-primary dark:bg-btn-primary hover:opacity-90',
   ],
   secondary: [
     'bg-transparent hover:bg-light-btn-secondary dark:hover:bg-dark-btn-secondary',

@@ -2,8 +2,7 @@ import classNames from 'classnames'
 
 import { Link } from 'components/Link'
 
-import LogoImg from 'assets/images/logo.png'
-
+import Logo from '../Announcement/assets/images/logo.png'
 import { Icon } from '../Icon'
 import { navbarOptions } from './data'
 import { NavItem } from './NavItem'
@@ -44,7 +43,7 @@ export const Sidebar = (props: SidebarProps) => {
     <nav className="flex flex-col items-center justify-between max-w-[72px] min-w-[72px] min-h-screen max-h-screen w-full h-full bg-light-bg-primary dark:bg-dark-bg-primary px-2.5 border-box sticky top-0">
       <div className="mt-8 min-w-[48px] h-12 transition-colors cursor-pointer">
         <a href="/">
-          <img className="w-12 h-12" src={LogoImg} alt="Logo" />
+          <img className="w-12 h-12" src={Logo} alt="Logo" />
         </a>
       </div>
 

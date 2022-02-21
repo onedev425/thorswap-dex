@@ -38,9 +38,8 @@ export const ConfirmSwapItem = () => {
         <Box className="gap-4" col center>
           <Button
             className="px-7 h-[40px] mb-8 mt-3 !rounded-xl"
-            bgColor="tertiary"
-            size="large"
-            outline
+            variant="tertiary"
+            type="outline"
           >
             <Box className="space-x-44" alignCenter justify="between">
               <Typography
@@ -54,7 +53,7 @@ export const ConfirmSwapItem = () => {
               <Icon size={22} name="lock" className="ml-2" />
             </Box>
           </Button>
-          <Button className="px-32" size="large" outline>
+          <Button className="px-32" type="outline">
             {t('common.confirm')}
           </Button>
         </Box>

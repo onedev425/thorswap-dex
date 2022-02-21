@@ -22,6 +22,7 @@ type JustifyProps = {
 export type BoxProps = {
   className?: string
   col?: boolean
+  row?: boolean
 } & Omit<RebassBoxProps, 'css' | 'bg' | 'justifyContent' | 'alignItems'> &
   (
     | ({

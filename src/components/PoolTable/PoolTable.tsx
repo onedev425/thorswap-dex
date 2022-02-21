@@ -56,10 +56,10 @@ const getPoolColumns = () => {
       accessor: 'action',
       Cell: () => (
         <Row className="gap-2" justify="end">
-          <Button bgColor="secondary" outline onClick={() => {}}>
+          <Button variant="secondary" type="outline" onClick={() => {}}>
             {t('common.swap')}
           </Button>
-          <Button bgColor="primary" outline onClick={() => {}}>
+          <Button type="outline" onClick={() => {}}>
             {t('common.addLiquidity')}
           </Button>
         </Row>

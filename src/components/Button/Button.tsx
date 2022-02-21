@@ -1,69 +1,90 @@
+import { MouseEvent, useRef } from 'react'
+
 import classNames from 'classnames'
 
+import { useButtonClasses } from 'components/Button/useButtonClasses'
 import { Typography } from 'components/Typography'
 
-import { ExtendedColorType, Props, bgClasses, borderClasses } from './types'
+import { ButtonProps } from './types'
 
-const getBgClassNames = (
-  bgColor: ExtendedColorType,
-  outline: boolean,
-  borderless: boolean,
-) => {
-  if (borderless) return 'border-none bg-transparent dark:bg-transparent'
-
-  if (outline) return bgClasses[bgColor][0]
-
-  return bgClasses[bgColor][1]
-}
-
-export const Button = (props: Props) => {
+export const Button = ({
+  children,
+  className = '',
+  disabled = false,
+  endIcon,
+  size = 'md',
+  startIcon,
+  textColor,
+  transform = 'capitalize',
+  type = 'default',
+  variant = 'primary',
+  onClick,
+  ...rest
+}: ButtonProps) => {
+  const buttonRef = useRef<HTMLButtonElement>(null)
   const {
-    className = '',
-    bgColor = 'primary',
-    textColor = 'primary',
-    size = 'small',
-    outline = false,
-    borderless = false,
-    disabled = false,
-    startIcon,
-    endIcon,
-    transform,
-    children,
-    ...rest
-  } = props
+    backgroundActiveClass,
+    backgroundClass,
+    buttonClass,
+    outlinedClass,
+    typographyOutlineClass,
+    typographyVariant,
+  } = useButtonClasses({ size, variant })
 
-  const bgClassNames = getBgClassNames(bgColor, outline, borderless)
+  const isOutlined = type === 'outline'
+  const isBorderless = type === 'borderless'
+
+  // It helps to remove focus state from button focus styles be applied only on `tab` select
+  const handleClick = (
+    event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+  ) => {
+    onClick?.(event)
+    buttonRef.current?.blur()
+  }
 
   return (
-    <button
-      className={classNames(
-        borderClasses[bgColor],
-        disabled
-          ? 'cursor-not-allowed bg-opacity-30 border-opacity-30'
-          : 'cursor-pointer',
-        borderless ? '' : 'border',
-        bgClassNames,
-        outline && disabled ? 'hover:bg-opacity-0' : '',
-        size === 'small' ? 'h-10' : 'h-12 min-w-[180px]',
-        size === 'small' ? 'rounded-2xl' : 'rounded-3xl',
-        'flex items-center justify-center px-4 border-solid font-primary outline-none transition group',
-        className,
-      )}
-      {...rest}
-    >
-      {startIcon && startIcon}
-      {children && (
-        <Typography
-          className={classNames(startIcon ? 'ml-1' : '', endIcon ? 'mr-1' : '')}
-          variant={size === 'large' ? 'caption' : 'caption-xs'}
-          transform={transform || size === 'large' ? 'uppercase' : 'capitalize'}
-          color={textColor}
-        >
-          {children}
-        </Typography>
-      )}
-
-      {endIcon && endIcon}
-    </button>
+    <div className="group">
+      <button
+        {...rest}
+        ref={buttonRef}
+        onClick={handleClick}
+        disabled={disabled}
+        className={classNames(
+          'flex flex-1 border-2 items-center justify-center outline-none p-0 duration-[160ms] disabled:opacity-75',
+          buttonClass,
+          className,
+          isBorderless || isOutlined
+            ? 'bg-transparent active:bg-transparent'
+            : backgroundClass,
+          {
+            [outlinedClass]: isOutlined,
+            'cursor-not-allowed': disabled,
+            'border-transparent': isBorderless || !isOutlined,
+            [`cursor-pointer ${backgroundActiveClass}`]: !(
+              disabled ||
+              isBorderless ||
+              isOutlined
+            ),
+          },
+        )}
+      >
+        {startIcon && startIcon}
+        {children && (
+          <Typography
+            className={classNames('text-white duration-[160ms]', {
+              [typographyOutlineClass]: ['outline', 'borderless'].includes(
+                type,
+              ),
+            })}
+            variant={typographyVariant}
+            transform={transform}
+            color={textColor}
+          >
+            {children}
+          </Typography>
+        )}
+        {endIcon && endIcon}
+      </button>
+    </div>
   )
 }

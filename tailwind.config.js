@@ -21,33 +21,43 @@ module.exports = {
       red: '#ff2357',
       white: '#fff',
 
+      btn: {
+        // TODO: check if those are correct because design does not include them
+        tint: '#273855',
+        'tint-active': '#273855',
+
+        primary: '#4DBAD6',
+        'primary-active': "#5DD39B",
+        secondary: '#46B2A7',
+        'secondary-active': "#39BBF3",
+        tertiary: '#7B48E8',
+        'tertiary-active': "#348CF4",
+        accent: "#348CF4",
+        'accent-active': "#7B48E8"
+      },
+
       // light mode
       light: {
+        'asset-select': '#202a3d',
         'bg-primary': '#F7F8FA',
         'bg-secondary': '#FCFCFC',
-        'typo-primary': '#121526',
-        'typo-gray': '#7C859F',
-        'btn-primary': '#39BBF3',
-        'btn-secondary': '#4DC5B8',
-        'navy-primary': '#39BBF3',
-        'gray-primary': '#7C859F',
         'border-primary': '#E6E9F5',
         'gray-light': '#E5E5E5',
+        'gray-primary': '#7C859F',
+        'typo-gray': '#7C859F',
+        'typo-primary': '#121526',
       },
 
       // dark
       dark: {
+        'asset-select': '#202a3d',
         'bg-primary': '#121526',
         'bg-secondary': '#232E42',
-        'typo-primary': '#E2EBFB',
-        'typo-gray': '#75849D',
-        'btn-primary': '#4DBAD6',
-        'btn-secondary': '#46B2A7',
-        'navy-primary': '#348CF4',
-        'gray-primary': '#75849D',
         'border-primary': '#273855',
         'gray-light': '#2E3C56',
-        'asset-select': '#202a3d',
+        'gray-primary': '#75849D',
+        'typo-gray': '#75849D',
+        'typo-primary': '#E2EBFB',
       },
     },
     fontFamily: {
@@ -152,14 +162,16 @@ module.exports = {
         'slide-left': 'fade-in-left 0.5s ease-in-out',
       },
       keyframes: {
-        "fade-in-left": {
+        'fade-in-left': {
           '0%': {
             opacity: 0,
-            transform: 'translateX(20px)' },
+            transform: 'translateX(20px)',
+          },
           '100%': {
             opacity: 1,
-            transform: 'translateX(0)' },
-        }
+            transform: 'translateX(0)',
+          },
+        },
       },
       transitionDuration: {
         DEFAULT: '0ms',

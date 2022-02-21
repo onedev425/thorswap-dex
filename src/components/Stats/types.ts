@@ -10,7 +10,7 @@ export type StatsType = {
 }
 
 export const statsBgClasses: Record<ColorType, string> = {
-  primary: 'hover:bg-light-btn-primary dark:hover:bg-dark-btn-primary',
+  primary: 'hover:bg-btn-primary dark:hover:bg-btn-primary',
   secondary: 'hover:bg-light-btn-secondary dark:bg-dark-btn-secondary',
   purple: 'hover:bg-purple dark:hover:bg-purple',
   yellow: 'hover:bg-yellow hover:dark:bg-yellow',

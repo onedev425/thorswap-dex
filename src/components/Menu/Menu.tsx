@@ -32,7 +32,7 @@ export const Menu = ({
               '!border-light-typo-gray dark:!border-dark-typo-gray': open,
             })}
             startIcon={<Icon name={openIcon} />}
-            bgColor="tertiary"
+            variant="tint"
           />
         )}
       </Popover.Button>

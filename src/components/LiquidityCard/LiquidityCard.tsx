@@ -93,10 +93,8 @@ export const LiquidityCard = ({ data }: LiquidityCardProps) => {
         }}
       >
         <Box className="space-x-6" pt={3} mb={4} justifyCenter>
-          <Button bgColor="primary" size="large">
-            {t('views.liquidity.addButton')}
-          </Button>
-          <Button bgColor="secondary" size="large">
+          <Button>{t('views.liquidity.addButton')}</Button>
+          <Button variant="secondary">
             {t('views.liquidity.removeButton')}
           </Button>
         </Box>

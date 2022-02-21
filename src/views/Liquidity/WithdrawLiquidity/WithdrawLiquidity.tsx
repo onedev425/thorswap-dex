@@ -59,8 +59,8 @@ export const WithdrawLiquidity = () => {
         />
 
         <Box justify="end" className="gap-4" my={32}>
-          <Button size="large">{t('views.liquidity.approve')}</Button>
-          <Button size="large" bgColor="secondary">
+          <Button>{t('views.liquidity.approve')}</Button>
+          <Button variant="secondary">
             {t('views.liquidity.enterAmount')}
           </Button>
         </Box>

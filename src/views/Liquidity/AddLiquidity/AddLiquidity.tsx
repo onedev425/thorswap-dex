@@ -100,9 +100,7 @@ export const AddLiquidity = () => {
         </Card>
 
         <Box mt={40}>
-          <Button className="px-20" size="large">
-            {t('common.connectWallet')}
-          </Button>
+          <Button className="px-20">{t('common.connectWallet')}</Button>
         </Box>
       </Card>
     </div>

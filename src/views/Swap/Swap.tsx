@@ -129,7 +129,6 @@ const Swap = () => {
           <Button
             onClick={() => setIsOpened((visible) => !visible)}
             className="px-20"
-            size="large"
           >
             {t('common.connectWallet')}
           </Button>

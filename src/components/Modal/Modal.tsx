@@ -3,7 +3,9 @@ import { Fragment, useLayoutEffect } from 'react'
 import ReactTooltip from 'react-tooltip'
 
 import { Dialog, Transition } from '@headlessui/react'
+import classNames from 'classnames'
 
+import { Box } from 'components/Box'
 import { Card } from 'components/Card'
 import { Icon } from 'components/Icon'
 import { Typography } from 'components/Typography'
@@ -76,7 +78,13 @@ export const Modal = ({
                 <div className="my-2 lg:m-5 flex flex-row align-items justify-between">
                   <Typography variant="h3">{title}</Typography>
 
-                  <div className="h-10 w-10 flex self-center align-items justify-center border border-solid border-light-border-primary dark:border-dark-border-primary rounded-2xl">
+                  <Box
+                    center
+                    className={classNames(
+                      'h-10 w-10 rounded-2xl self-center border border-solid',
+                      'border-light-gray-light dark:border-dark-typo-gray',
+                    )}
+                  >
                     <Icon
                       onClick={onClose}
                       name="close"
@@ -84,7 +92,7 @@ export const Modal = ({
                       color="secondary"
                       size={24}
                     />
-                  </div>
+                  </Box>
                 </div>
                 {withBody ? (
                   <Card

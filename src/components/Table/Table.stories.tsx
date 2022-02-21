@@ -41,15 +41,13 @@ const columns = [
     accessor: 'action',
     Cell: () => (
       <Row className="gap-2" justify="end">
-        <Button bgColor="purple" outline>
+        <Button variant="tertiary" type="outline">
           send
         </Button>
-        <Button bgColor="blue" outline>
+        <Button variant="secondary" type="outline">
           receive
         </Button>
-        <Button bgColor="green" outline>
-          swap
-        </Button>
+        <Button type="outline">swap</Button>
       </Row>
     ),
     disableSortBy: true,

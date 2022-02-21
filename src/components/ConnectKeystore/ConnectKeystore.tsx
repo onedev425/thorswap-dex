@@ -70,9 +70,9 @@ export const ConnectKeystore = ({
 
         <Box className="gap-x-4">
           <Button
-            size="small"
-            outline
-            bgColor="navy"
+            size="sm"
+            variant="accent"
+            type="outline"
             className="group"
             onClick={onUnlock}
             endIcon={
@@ -85,9 +85,8 @@ export const ConnectKeystore = ({
             {t('components.connectKeystore.unlock')}
           </Button>
           <Button
-            size="small"
-            outline
-            bgColor="primary"
+            size="sm"
+            type="outline"
             className="group"
             onClick={onCreateWallet}
             endIcon={
