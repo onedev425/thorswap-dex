@@ -30,7 +30,7 @@ export const AssetInput = memo(
         justify="between"
         mb={1}
         className={classNames(
-          'rounded-3xl py-6 md:py-4 px-3 md:px-6',
+          'flex flex-row items-center mb-1 rounded-3xl py-6 md:py-4 px-1 md:px-6',
           secondary
             ? 'bg-light-gray-light dark:bg-dark-gray-light'
             : 'bg-light-bg-primary dark:bg-dark-bg-primary',

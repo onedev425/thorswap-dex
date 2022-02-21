@@ -37,7 +37,7 @@ const commonAssets = assets.slice(0, 3)
 export const AssetInputs = memo(
   ({ firstAsset, secondAsset, onBalanceChange, onAssetChange }: Props) => {
     return (
-      <div className="relative self-stretch">
+      <div className="relative w-80 md:w-full md:self-stretch">
         <div
           className={classNames(
             'absolute flex items-center justify-center top-1/2 p-2 rounded-3xl left-1/2 -translate-x-1/2 -translate-y-1/2',
@@ -46,7 +46,6 @@ export const AssetInputs = memo(
         >
           <Icon name="plus" size={36} color="white" />
         </div>
-
         <AssetInput
           selectedAsset={firstAsset}
           onAssetChange={onAssetChange('first')}

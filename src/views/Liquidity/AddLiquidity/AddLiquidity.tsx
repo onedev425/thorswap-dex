@@ -68,39 +68,45 @@ export const AddLiquidity = () => {
   )
 
   return (
-    <div className="mx-auto w-2/3 max-w[1200px]">
-      <ViewHeader
-        withBack
-        title="Add Liquidity"
-        actionsComponent={<Icon name="cog" color="secondary" />}
-      />
+    <Box className="w-96 md:w-2/3 md:max-w[1200px] self-center" col>
+      <Box className="w-96 md:w-full" col>
+        <ViewHeader
+          withBack
+          title="Add Liquidity"
+          actionsComponent={<Icon name="cog" color="secondary" />}
+        />
+      </Box>
 
       <Card
         size="lg"
         stretch
-        className="flex-col items-center mt-12 p-0 pb-10 shadow-lg"
+        className="flex-col w-96 items-center mt-12 !p-0 mb-0 md:h-full md:w-full shadow-lg"
       >
-        <Card size="lg" className="flex-col items-center shadow-lg w-full">
+        <Card
+          size="lg"
+          className="flex-col md:h-full w-full items-center shadow-lg md:w-full"
+        >
           <AssetInputs
             firstAsset={firstAsset}
             secondAsset={secondAsset}
             onAssetChange={handleAssetChange}
             onBalanceChange={handleBalanceChange}
           />
-
-          <PoolInfo
-            firstAsset={firstAsset}
-            secondAsset={secondAsset}
-            poolShare={poolShare}
-            firstToSecondRate={assetRate}
-          />
+          <Box className="hidden md:flex-col" col>
+            <PoolInfo
+              firstAsset={firstAsset}
+              secondAsset={secondAsset}
+              poolShare={poolShare}
+              firstToSecondRate={assetRate}
+            />
+          </Box>
         </Card>
 
-        <Box mt={40}>
+        <Box mt={[10, 40]} mb={10} col>
           <Button className="px-20">{t('common.connectWallet')}</Button>
         </Box>
       </Card>
-    </div>
+    </Box>
   )
 }
 
