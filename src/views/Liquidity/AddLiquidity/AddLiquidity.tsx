@@ -80,7 +80,7 @@ export const AddLiquidity = () => {
       <Card
         size="lg"
         stretch
-        className="flex-col w-96 items-center mt-12 !p-0 mb-0 md:h-full md:w-full shadow-lg"
+        className="flex-col items-center mt-12 !p-0 !pb-10 shadow-lg"
       >
         <Card
           size="lg"

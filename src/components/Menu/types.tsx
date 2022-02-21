@@ -5,4 +5,7 @@ export type MenuItemType = {
   icon?: IconName
   href?: string
   onClick?: () => void
+  hasSubmenu?: boolean
+  isSelected?: boolean
+  value?: string
 }

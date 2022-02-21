@@ -15,7 +15,6 @@ import { CgMenu, CgArrowsExchangeAltV } from 'react-icons/cg'
 import {
   FaChartArea,
   FaChartPie,
-  FaCheck,
   FaEthereum,
   FaFire,
   FaSortDown,
@@ -25,10 +24,13 @@ import {
 import {
   FiArrowDown,
   FiChevronDown,
+  FiChevronLeft,
+  FiChevronRight,
   FiInfo,
   FiSend,
   FiX,
   FiXCircle,
+  FiCheck,
 } from 'react-icons/fi'
 import { GrBitcoin } from 'react-icons/gr'
 import { HiOutlineCog, HiOutlinePlus } from 'react-icons/hi'
@@ -54,8 +56,10 @@ const Icons = {
   chartArea2: FaChartArea,
   chartArea: MdAreaChart,
   chartPie: FaChartPie,
-  checkmark: FaCheck,
+  checkmark: FiCheck,
   chevronDown: FiChevronDown,
+  chevronLeft: FiChevronLeft,
+  chevronRight: FiChevronRight,
   close: FiX,
   cog: HiOutlineCog,
   discord: BsDiscord,

@@ -1,4 +1,4 @@
-// import { Fragment } from 'react'
+import { useRef } from 'react'
 
 import { Popover } from '@headlessui/react'
 import classNames from 'classnames'
@@ -11,8 +11,9 @@ import { MenuItemType } from 'components/Menu/types'
 type Props = {
   items: MenuItemType[]
   stickToSide?: 'left' | 'right'
-  onBack?: () => void
   openIcon?: IconName
+  onBack?: () => void
+  onClose?: () => void
 }
 
 export const Menu = ({
@@ -20,30 +21,41 @@ export const Menu = ({
   openIcon = 'threeDotsHorizontal',
   stickToSide = 'right',
   onBack,
+  onClose,
 }: Props) => {
+  const prevOpenStateRef = useRef(false)
+
   return (
     <Popover className="relative">
       <Popover.Button as="div">
-        {({ open }) => (
-          <Button
-            className={classNames('px-2.5', {
-              '!border-light-typo-gray dark:!border-dark-typo-gray': open,
-            })}
-            startIcon={<Icon name={openIcon} />}
-            variant="tint"
-          />
-        )}
+        {({ open }) => {
+          if (!open && prevOpenStateRef.current) {
+            onClose?.()
+          }
+
+          prevOpenStateRef.current = open
+
+          return (
+            <Button
+              className={classNames('px-2.5', {
+                '!border-light-typo-gray dark:!border-dark-typo-gray': open,
+              })}
+              startIcon={<Icon name={openIcon} />}
+              variant="tint"
+            />
+          )
+        }}
       </Popover.Button>
 
       <Popover.Panel
         className={classNames(
-          'absolute z-10 top-[105%]',
+          'absolute z-10 top-[50px]',
           stickToSide === 'left' ? 'left-0' : 'right-0',
         )}
       >
         <div
           className={classNames(
-            'min-w-[200px] max-h-[350px]',
+            'min-w-[200px] max-h-[350px] border border-solid !border-light-border-primary dark:!border-dark-border-primary',
             'overflow-y-auto flex flex-col py-2 drop-shadow-lg rounded-2xl',
             genericBgClasses.secondary,
           )}
@@ -57,7 +69,7 @@ export const Menu = ({
               alignCenter
               onClick={onBack}
             >
-              <Icon className="rotate-90" name="chevronDown" size={16} />
+              <Icon name="chevronLeft" size={16} />
             </Box>
           )}
           {items.map((item) => (
