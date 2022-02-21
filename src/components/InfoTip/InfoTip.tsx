@@ -11,7 +11,7 @@ type Props = {
 
 export function InfoTip({ className, title, content, onClose }: Props) {
   return (
-    <div className={classNames('items-center mx-12 my-4', className)}>
+    <div className={classNames('items-center mx-4 md:mx-12 my-4', className)}>
       <Box className="my-3" alignCenter>
         <Icon name="bulb" size={20} />
         <Typography className="mx-2">{title}</Typography>
