@@ -11,12 +11,12 @@ import SwapView from 'views/Swap'
 import WalletView from 'views/Wallet'
 import WalletBalance from 'views/WalletBalance'
 
-import { Drawer } from 'components/Drawer/Drawer'
+import { Drawer } from 'components/Drawer'
 import { Layout } from 'components/Layout'
 
 import { ROUTES } from 'settings/constants'
 
-import { useToggle } from './hooks/useDrawer'
+import { useWalletDrawer } from './hooks/useWalletDrawer'
 
 export type RouteType = {
   path: string
@@ -63,7 +63,7 @@ const routes: RouteType = [
 ]
 
 const PublicRoutes = () => {
-  const [onOff] = useToggle()
+  const [isWalletDrawerVisible] = useWalletDrawer()
 
   return (
     <Router>
@@ -77,7 +77,11 @@ const PublicRoutes = () => {
               path={route.path}
               element={
                 <>
-                  {onOff && <Drawer children={<WalletBalance />} />}
+                  {isWalletDrawerVisible && (
+                    <Drawer>
+                      <WalletBalance />
+                    </Drawer>
+                  )}
                   <Layout>
                     <Component />
                   </Layout>

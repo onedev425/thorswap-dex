@@ -8,7 +8,7 @@ import { store as reduxStore } from 'redux/store'
 
 import { useGlobalRefresh } from 'hooks/useGlobalRefresh'
 
-import DrawerProvider from './hooks/useDrawer'
+import DrawerProvider from './hooks/useWalletDrawer'
 import Router from './router'
 
 const MainApp = () => {

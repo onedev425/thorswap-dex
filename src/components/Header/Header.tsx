@@ -8,14 +8,16 @@ import { t } from 'services/i18n'
 type Props = {
   priceLabel: string
   gweiLabel: string
-  openDrawer: () => void
+  openWalletDrawer: () => void
   connectWallet: () => void
+  openMenu: () => void
 }
 
 export const Header = ({
   priceLabel,
   gweiLabel,
-  // openDrawer,
+  // openWalletDrawer,
+  openMenu,
   connectWallet,
 }: Props) => {
   return (
@@ -38,7 +40,15 @@ export const Header = ({
           >
             {gweiLabel || '-'}
           </Button>
+
+          <Button
+            className="flex md:hidden"
+            borderless
+            onClick={openMenu}
+            startIcon={<Icon color="secondary" name="menu" size={24} />}
+          />
         </Row>
+
         <Row className="inline-flex items-center mt-auto shrink-0 gap-x-4">
           <Button type="outline" onClick={connectWallet}>
             {t('common.connectWallet')}

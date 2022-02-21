@@ -4,8 +4,7 @@ import classNames from 'classnames'
 
 import { LinkProps } from './types'
 
-export const Link = (props: LinkProps) => {
-  const { className, to, children, isExternal } = props
+export const Link = ({ className, to, children, isExternal }: LinkProps) => {
   const externalHref =
     isExternal || /^((http|https|ftp):\/\/)/.test(to.trim?.())
 

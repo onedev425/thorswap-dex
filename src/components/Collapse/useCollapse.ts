@@ -10,7 +10,7 @@ export const useCollapse = () => {
   }, [])
 
   const maxHeight = contentRef.current?.scrollHeight || 0
-  console.log('🔥ss', contentRef.current?.scrollHeight)
+
   const maxHeightStyle = {
     maxHeight: `${isActive ? maxHeight : 0}px`,
   }

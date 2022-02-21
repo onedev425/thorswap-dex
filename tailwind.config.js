@@ -27,13 +27,13 @@ module.exports = {
         'tint-active': '#273855',
 
         primary: '#4DBAD6',
-        'primary-active': "#5DD39B",
+        'primary-active': '#5DD39B',
         secondary: '#46B2A7',
-        'secondary-active': "#39BBF3",
+        'secondary-active': '#39BBF3',
         tertiary: '#7B48E8',
-        'tertiary-active': "#348CF4",
-        accent: "#348CF4",
-        'accent-active': "#7B48E8"
+        'tertiary-active': '#348CF4',
+        accent: '#348CF4',
+        'accent-active': '#7B48E8',
       },
 
       // light mode
@@ -159,18 +159,17 @@ module.exports = {
     },
     extend: {
       animation: {
+        'drawer-slide': 'drawer-keyframe 0.3s ease-in-out',
         'slide-left': 'fade-in-left 0.5s ease-in-out',
       },
       keyframes: {
         'fade-in-left': {
-          '0%': {
-            opacity: 0,
-            transform: 'translateX(20px)',
-          },
-          '100%': {
-            opacity: 1,
-            transform: 'translateX(0)',
-          },
+          '0%': { opacity: 0, transform: 'translateX(20px)' },
+          '100%': { opacity: 1, transform: 'translateX(0)' },
+        },
+        'drawer-keyframe': {
+          '0%': { opacity: 0, transform: 'translateX(-240px)' },
+          '100%': { opacity: 1, transform: 'translateX(0)' },
         },
       },
       transitionDuration: {
