@@ -5,10 +5,7 @@ import { PoolInfo } from 'views/Liquidity/WithdrawLiquidity/components/PoolInfo'
 import { PoolAsset } from 'views/Liquidity/WithdrawLiquidity/types'
 import { withdrawLiquidityReducer } from 'views/Liquidity/WithdrawLiquidity/withdrawLiquidityReducer'
 
-import { Box } from 'components/Box'
-import { Button } from 'components/Button'
-import { Card } from 'components/Card'
-import { Icon } from 'components/Icon'
+import { Button, Card, Box, Icon } from 'components/Atomic'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { t } from 'services/i18n'

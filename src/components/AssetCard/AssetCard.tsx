@@ -1,7 +1,6 @@
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
-import { Box } from 'components/Box'
+import { Box, Typography } from 'components/Atomic'
 import { AssetDataType } from 'components/LiquidityCard/types'
-import { Typography } from 'components/Typography'
 
 export const AssetCard = ({
   assetTicker,

@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 
+import { Icon } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
-import { Icon } from 'components/Icon'
 
 import StatsLeaf from './StatsLeaf'
 import { StatsGroupProps, borderPositions } from './types'

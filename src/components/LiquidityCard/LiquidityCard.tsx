@@ -4,13 +4,15 @@ import { DashedDivider } from 'views/Swap/DashedDivider'
 
 import { AssetCard } from 'components/AssetCard'
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon'
-import { Box } from 'components/Box'
-import { Button } from 'components/Button'
-import { Card } from 'components/Card'
-import { useCollapse } from 'components/Collapse/useCollapse'
-import { Icon } from 'components/Icon'
+import {
+  Button,
+  useCollapse,
+  Card,
+  Box,
+  Typography,
+  Icon,
+} from 'components/Atomic'
 import { AssetDataType } from 'components/LiquidityCard/types'
-import { Typography } from 'components/Typography'
 
 import { t } from 'services/i18n'
 

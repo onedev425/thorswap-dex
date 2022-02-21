@@ -1,8 +1,6 @@
 import classNames from 'classnames'
 
-import { Box } from 'components/Box'
-import { Icon } from 'components/Icon'
-import { Typography } from 'components/Typography'
+import { Box, Typography, Icon } from 'components/Atomic'
 
 type Props = {
   className?: string

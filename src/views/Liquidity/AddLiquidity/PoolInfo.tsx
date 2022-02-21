@@ -1,6 +1,5 @@
 import { AssetInputType } from 'components/AssetInput/types'
-import { Box } from 'components/Box'
-import { Typography } from 'components/Typography'
+import { Box, Typography } from 'components/Atomic'
 
 type Props = {
   firstAsset: AssetInputType

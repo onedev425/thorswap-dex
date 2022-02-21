@@ -2,7 +2,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 import { ComponentMeta } from '@storybook/react'
 
-import { Icon } from 'components/Icon'
+import { Icon } from 'components/Atomic'
 
 import { ViewHeader } from './ViewHeader'
 

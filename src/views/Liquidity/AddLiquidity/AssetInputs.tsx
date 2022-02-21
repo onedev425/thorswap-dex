@@ -6,7 +6,7 @@ import { AssetTickerType } from 'components/AssetIcon/types'
 import { AssetInput } from 'components/AssetInput'
 import { AssetInputType } from 'components/AssetInput/types'
 import { AssetSelectType } from 'components/AssetSelect/types'
-import { Icon } from 'components/Icon'
+import { Icon } from 'components/Atomic'
 
 type Props = {
   onAssetChange: (

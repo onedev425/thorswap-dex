@@ -1,6 +1,6 @@
-import { ColorType } from 'types/global'
+import { IconColor } from 'components/Atomic'
 
-import { IconColor } from '../Icon'
+import { ColorType } from 'types/global'
 
 export type AssetTickerType =
   | 'ABCD'

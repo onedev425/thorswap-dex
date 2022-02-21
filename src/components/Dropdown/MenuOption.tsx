@@ -1,9 +1,9 @@
 import { Listbox } from '@headlessui/react'
 import classNames from 'classnames'
 
+import { Typography } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
 import { DropdownMenuItem } from 'components/Dropdown/types'
-import { Typography } from 'components/Typography'
 
 export const MenuOption = (props: DropdownMenuItem) => {
   const { label, value, Component, disabled } = props

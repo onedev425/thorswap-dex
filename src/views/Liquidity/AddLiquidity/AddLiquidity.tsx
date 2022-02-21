@@ -4,10 +4,7 @@ import { useParams } from 'react-router'
 
 import { AssetTickerType } from 'components/AssetIcon/types'
 import { AssetSelectType } from 'components/AssetSelect/types'
-import { Box } from 'components/Box'
-import { Button } from 'components/Button'
-import { Card } from 'components/Card'
-import { Icon } from 'components/Icon'
+import { Button, Card, Box, Icon } from 'components/Atomic'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { t } from 'services/i18n'

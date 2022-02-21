@@ -2,9 +2,7 @@ import { Toaster, ToastOptions, toast, ToastBar } from 'react-hot-toast'
 
 import classNames from 'classnames'
 
-import { Icon } from 'components/Icon'
-import { Row } from 'components/Row'
-import { Typography } from 'components/Typography'
+import { Row, Typography, Icon } from 'components/Atomic'
 
 export enum ToastType {
   Info = 'info',

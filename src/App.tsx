@@ -1,8 +1,8 @@
 import { Provider as ReduxProvider } from 'react-redux'
 
+import { TooltipPortal } from 'components/Atomic'
 import { ThemeProvider } from 'components/Theme/ThemeContext'
 import { ToastPortal } from 'components/Toast'
-import { TooltipPortal } from 'components/Tooltip'
 
 import { store as reduxStore } from 'redux/store'
 

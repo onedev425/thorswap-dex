@@ -1,6 +1,6 @@
 import { ComponentMeta } from '@storybook/react'
 
-import { TooltipPortal } from 'components/Tooltip'
+import { TooltipPortal } from 'components/Atomic'
 
 import { Sidebar as SidebarComp } from './Sidebar'
 import { SidebarItemProps } from './types'

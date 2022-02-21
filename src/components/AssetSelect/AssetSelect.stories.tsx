@@ -5,7 +5,7 @@ import { ComponentMeta } from '@storybook/react'
 import { AssetTickerType } from 'components/AssetIcon/types'
 import { AssetSelect } from 'components/AssetSelect/AssetSelect'
 import { AssetSelectType } from 'components/AssetSelect/types'
-import { Typography } from 'components/Typography'
+import { Typography } from 'components/Atomic'
 
 import { AssetSelectButton as AssetSelectButtonComp } from './AssetSelectButton'
 import { AssetSelectList } from './AssetSelectList'

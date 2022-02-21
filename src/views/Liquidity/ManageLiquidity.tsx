@@ -1,8 +1,6 @@
 import { useState } from 'react'
 
-import { Box } from 'components/Box'
-import { Card } from 'components/Card'
-import { Icon } from 'components/Icon'
+import { Card, Box, Icon } from 'components/Atomic'
 import { InfoTip } from 'components/InfoTip'
 import { LiquidityCard } from 'components/LiquidityCard'
 import { AssetDataType } from 'components/LiquidityCard/types'

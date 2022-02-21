@@ -2,10 +2,7 @@ import classNames from 'classnames'
 
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
 import { AssetTickerType } from 'components/AssetIcon/types'
-import { Box } from 'components/Box'
-import { Button } from 'components/Button'
-import { Icon } from 'components/Icon'
-import { Typography } from 'components/Typography'
+import { Button, Box, Typography, Icon } from 'components/Atomic'
 
 type Props = {
   className?: string

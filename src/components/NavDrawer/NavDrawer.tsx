@@ -2,7 +2,7 @@ import { useRef } from 'react'
 
 import classNames from 'classnames'
 
-import { Box } from 'components/Box'
+import { Box } from 'components/Atomic'
 import { navbarOptions } from 'components/Sidebar/data'
 import { SidebarItemProps } from 'components/Sidebar/types'
 

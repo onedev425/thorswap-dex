@@ -1,12 +1,9 @@
 import { shortenAddress } from 'utils/shortenAddress'
 
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
-import { Box } from 'components/Box'
-import { Button } from 'components/Button'
+import { Button, Box, Typography, Icon } from 'components/Atomic'
 import { swapItem } from 'components/ConfirmSwapItem/SwapAssetsData'
-import { Icon } from 'components/Icon'
 import { Information } from 'components/Information'
-import { Typography } from 'components/Typography'
 
 import { t } from 'services/i18n'
 

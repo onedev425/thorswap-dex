@@ -1,9 +1,6 @@
 import classNames from 'classnames'
 
-import { Box } from 'components/Box'
-import { Button } from 'components/Button'
-import { Card } from 'components/Card'
-import { Typography } from 'components/Typography'
+import { Box, Card, Typography, Button } from 'components/Atomic'
 
 import { AnnouncementProps } from './types'
 

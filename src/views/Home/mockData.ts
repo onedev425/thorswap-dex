@@ -1,5 +1,5 @@
+import { IconName } from 'components/Atomic'
 import { DataPoint } from 'components/Chart/types'
-import { IconName } from 'components/Icon'
 import { PoolData } from 'components/PoolTable/types'
 import { StatsType } from 'components/Stats'
 

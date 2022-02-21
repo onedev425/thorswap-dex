@@ -1,17 +1,19 @@
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
-import { Box } from 'components/Box'
-import { Button } from 'components/Button'
+import {
+  Button,
+  Select,
+  Row,
+  Box,
+  Table,
+  Typography,
+  Icon,
+} from 'components/Atomic'
 import { Chart } from 'components/Chart'
 import { ChartType } from 'components/Chart/types'
-import { Icon } from 'components/Icon'
 import { Input } from 'components/Input'
 import { PieChart } from 'components/PieChart'
 import { PieChartData } from 'components/PieChart/types'
-import { Row } from 'components/Row'
-import { Select } from 'components/Select'
 import { Statistics } from 'components/Statistics'
-import { Table } from 'components/Table'
-import { Typography } from 'components/Typography'
 
 import { t } from 'services/i18n'
 

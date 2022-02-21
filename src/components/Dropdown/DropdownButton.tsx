@@ -1,9 +1,8 @@
 import { Listbox } from '@headlessui/react'
 import classNames from 'classnames'
 
+import { Icon, Typography } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
-import { Icon } from 'components/Icon'
-import { Typography } from 'components/Typography'
 
 type Props = {
   label?: string

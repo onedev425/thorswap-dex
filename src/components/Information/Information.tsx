@@ -1,7 +1,6 @@
 import classNames from 'classnames'
 
-import { Row } from 'components/Row'
-import { Typography } from 'components/Typography'
+import { Row, Typography } from 'components/Atomic'
 
 import { InformationProps } from './types'
 

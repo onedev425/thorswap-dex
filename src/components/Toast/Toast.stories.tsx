@@ -1,4 +1,4 @@
-import { Button } from 'components/Button'
+import { Button } from 'components/Atomic'
 
 import { ToastPortal, showLongToast, showToast, ToastType } from './Toast'
 

@@ -2,8 +2,7 @@ import { PoolAsset } from 'views/Liquidity/WithdrawLiquidity/types'
 
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon'
-import { Box } from 'components/Box'
-import { Typography } from 'components/Typography'
+import { Box, Typography } from 'components/Atomic'
 
 import { t } from 'services/i18n'
 

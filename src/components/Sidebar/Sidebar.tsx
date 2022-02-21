@@ -1,9 +1,8 @@
 import classNames from 'classnames'
 
-import { Link } from 'components/Link'
+import { Icon, Link } from 'components/Atomic'
 
 import Logo from '../Announcement/assets/images/logo.png'
-import { Icon } from '../Icon'
 import { navbarOptions } from './data'
 import { NavItem } from './NavItem'
 import { SidebarProps, SidebarItemProps, Variant } from './types'

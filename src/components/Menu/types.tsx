@@ -1,4 +1,4 @@
-import { IconName } from 'components/Icon'
+import { IconName } from 'components/Atomic'
 
 export type MenuItemType = {
   label: string

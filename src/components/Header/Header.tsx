@@ -1,7 +1,5 @@
 import { AppPopoverMenu } from 'components/AppPopoverMenu'
-import { Button } from 'components/Button'
-import { Icon } from 'components/Icon'
-import { Row } from 'components/Row'
+import { Button, Row, Icon } from 'components/Atomic'
 
 import { t } from 'services/i18n'
 

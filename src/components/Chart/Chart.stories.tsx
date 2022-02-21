@@ -1,6 +1,6 @@
 import { ComponentMeta } from '@storybook/react'
 
-import { Card } from 'components/Card'
+import { Card } from 'components/Atomic'
 import { ChartType } from 'components/Chart/types'
 
 import { Chart } from './Chart'

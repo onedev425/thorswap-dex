@@ -4,7 +4,7 @@ import { AssetTickerType } from 'components/AssetIcon/types'
 import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton'
 import { AssetSelectList } from 'components/AssetSelect/AssetSelectList'
 import { AssetSelectProps } from 'components/AssetSelect/types'
-import { Modal } from 'components/Modal'
+import { Modal } from 'components/Atomic'
 
 type Props = {
   selected?: AssetTickerType | null

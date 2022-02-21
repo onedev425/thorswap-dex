@@ -2,11 +2,9 @@ import { useState } from 'react'
 
 import { buttons, columns, data, STATS_DATA } from 'views/Nodes/data'
 
-import { Button } from 'components/Button'
+import { Button, Table, Typography } from 'components/Atomic'
 import { Input } from 'components/Input'
 import { StatsListScrollable } from 'components/StatsList/StatsListScrollable'
-import { Table } from 'components/Table'
-import { Typography } from 'components/Typography'
 
 import { t } from 'services/i18n'
 

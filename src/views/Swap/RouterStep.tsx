@@ -2,7 +2,7 @@ import classNames from 'classnames'
 
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon'
 import { AssetTickerType } from 'components/AssetIcon/types'
-import { Typography } from 'components/Typography'
+import { Typography } from 'components/Atomic'
 
 import { RouterStepProps } from './types'
 

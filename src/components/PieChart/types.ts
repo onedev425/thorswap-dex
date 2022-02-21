@@ -1,4 +1,4 @@
-import { IconColor, IconName } from 'components/Icon'
+import { IconColor, IconName } from 'components/Atomic'
 
 export type PieChartData = {
   value: number

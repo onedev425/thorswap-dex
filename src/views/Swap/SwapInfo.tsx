@@ -1,10 +1,8 @@
 import { memo } from 'react'
 
 import { AssetInputType } from 'components/AssetInput/types'
-import { Collapse } from 'components/Collapse'
-import { Icon } from 'components/Icon'
+import { Collapse, Icon, Typography } from 'components/Atomic'
 import { Information } from 'components/Information'
-import { Typography } from 'components/Typography'
 
 type Props = {
   firstAsset: AssetInputType

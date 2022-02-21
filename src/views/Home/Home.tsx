@@ -1,16 +1,14 @@
 import { dashboardMockData } from 'views/Home/mockData'
 import { useHome } from 'views/Home/useHome'
 
-import { Box } from 'components/Box'
+import { Select, Box, Typography } from 'components/Atomic'
 import { Chart } from 'components/Chart'
 import { ChartType } from 'components/Chart/types'
 import { Input } from 'components/Input'
 import { PoolCard } from 'components/PoolCard'
 import { PoolTable } from 'components/PoolTable'
-import { Select } from 'components/Select'
 import { Statistics } from 'components/Statistics'
 import { StatsList } from 'components/StatsList'
-import { Typography } from 'components/Typography'
 
 import { useMidgard } from 'redux/midgard/hooks'
 

@@ -5,10 +5,8 @@ import classNames from 'classnames'
 import { AssetAmountBox } from 'views/Liquidity/WithdrawLiquidity/components/AssetAmountBox'
 import { PoolAsset } from 'views/Liquidity/WithdrawLiquidity/types'
 
-import { Box } from 'components/Box'
-import { Icon } from 'components/Icon'
+import { Box, Typography, Icon } from 'components/Atomic'
 import { Input } from 'components/Input'
-import { Typography } from 'components/Typography'
 
 import { t } from 'services/i18n'
 

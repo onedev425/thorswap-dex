@@ -4,8 +4,7 @@ import { RouterStepProps } from 'views/Swap/types'
 
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
 import { AssetTickerType } from 'components/AssetIcon/types'
-import { Icon } from 'components/Icon'
-import { Typography } from 'components/Typography'
+import { Icon, Typography } from 'components/Atomic'
 
 import { t } from 'services/i18n'
 

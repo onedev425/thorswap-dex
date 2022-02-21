@@ -1,6 +1,7 @@
 import { ComponentMeta } from '@storybook/react'
 
-import { Typography } from '../Typography'
+import { Typography } from 'components/Atomic'
+
 import { AssetIcon } from './AssetIcon'
 import { AssetLpIcon } from './AssetLpIcon'
 import { AssetIconProps } from './types'

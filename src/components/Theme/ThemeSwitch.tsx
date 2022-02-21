@@ -1,4 +1,4 @@
-import { Icon } from 'components/Icon'
+import { Icon } from 'components/Atomic'
 import { useTheme } from 'components/Theme/ThemeContext'
 
 export const ThemeSwitch = () => {

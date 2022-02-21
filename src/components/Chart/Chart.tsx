@@ -42,7 +42,7 @@ ChartJS.register(
   SubTitle,
 )
 
-import { Box } from 'components/Box'
+import { Box } from 'components/Atomic'
 
 import chartConfig from './config/chartConfig'
 import { ChartDataType, ChartProps, ChartType } from './types'

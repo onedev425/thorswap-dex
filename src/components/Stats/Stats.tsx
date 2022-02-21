@@ -1,9 +1,7 @@
 import classNames from 'classnames'
 
-import { Card } from 'components/Card'
+import { Card, Icon, Typography } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
-import { Icon } from 'components/Icon'
-import { Typography } from 'components/Typography'
 
 import { StatsType, statsBgClasses, statsWidthClass } from './types'
 

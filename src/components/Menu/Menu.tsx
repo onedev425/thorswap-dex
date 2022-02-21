@@ -3,10 +3,8 @@
 import { Popover } from '@headlessui/react'
 import classNames from 'classnames'
 
-import { Box } from 'components/Box'
-import { Button } from 'components/Button'
+import { Button, Box, Icon, IconName } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
-import { Icon, IconName } from 'components/Icon'
 import { MenuItem } from 'components/Menu/MenuItem'
 import { MenuItemType } from 'components/Menu/types'
 

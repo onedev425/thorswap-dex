@@ -1,9 +1,7 @@
 import classNames from 'classnames'
 
-import { Link } from 'components/Link'
-import { Tooltip } from 'components/Tooltip'
+import { Tooltip, Icon, Link } from 'components/Atomic'
 
-import { Icon } from '../Icon'
 import { NavItemProps } from './types'
 
 const itemClasses = {

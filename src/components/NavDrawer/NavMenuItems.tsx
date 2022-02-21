@@ -1,10 +1,7 @@
 import { ElementRef, useRef } from 'react'
 
-import { Box } from 'components/Box'
-import { Collapse } from 'components/Collapse'
-import { Link } from 'components/Link'
+import { Box, Collapse, Typography, Link } from 'components/Atomic'
 import { SidebarItemProps } from 'components/Sidebar/types'
-import { Typography } from 'components/Typography'
 
 type Props = {
   to: string

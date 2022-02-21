@@ -1,10 +1,12 @@
-import { Button } from 'components/Button'
-import { Icon } from 'components/Icon'
+import {
+  Row,
+  TableColumnsConfig,
+  Table,
+  Typography,
+  Icon,
+  Button,
+} from 'components/Atomic'
 import { PoolTableProps } from 'components/PoolTable/types'
-import { Row } from 'components/Row'
-import { Table } from 'components/Table'
-import { TableColumnsConfig } from 'components/Table/types'
-import { Typography } from 'components/Typography'
 
 import { BreakPoint } from 'hooks/useWindowSize'
 

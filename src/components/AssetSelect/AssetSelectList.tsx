@@ -4,10 +4,9 @@ import { AssetIcon } from 'components/AssetIcon/AssetIcon'
 import { AssetButton } from 'components/AssetSelect/AssetButton'
 import { AssetSelectProps } from 'components/AssetSelect/types'
 import { useAssetSelect } from 'components/AssetSelect/useAssetSelect'
-import { Box } from 'components/Box'
+import { Box, Typography } from 'components/Atomic'
 import { genericBgClasses, styledScrollbarClass } from 'components/constants'
 import { Input } from 'components/Input'
-import { Typography } from 'components/Typography'
 
 import { t } from 'services/i18n'
 

@@ -5,8 +5,7 @@ import { Doughnut } from 'react-chartjs-2'
 import { ChartData, ScriptableContext } from 'chart.js'
 import classNames from 'classnames'
 
-import { Icon } from 'components/Icon'
-import { Typography } from 'components/Typography'
+import { Icon, Typography } from 'components/Atomic'
 
 import { pieChartReducer } from './pieChartReducer'
 import { PieChartProps } from './types'

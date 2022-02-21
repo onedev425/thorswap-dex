@@ -2,11 +2,9 @@ import { useMemo } from 'react'
 
 import classNames from 'classnames'
 
+import { Icon, Typography, Link } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
-import { Icon } from 'components/Icon'
-import { Link } from 'components/Link'
 import { MenuItemType } from 'components/Menu/types'
-import { Typography } from 'components/Typography'
 
 type Props = {
   item: MenuItemType

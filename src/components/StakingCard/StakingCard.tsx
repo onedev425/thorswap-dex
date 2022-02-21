@@ -1,12 +1,10 @@
 import classNames from 'classnames'
 
+import { Typography, Card, Icon, Button } from 'components/Atomic'
+
 import { t } from 'services/i18n'
 
-import { Button } from '../Button'
-import { Card } from '../Card'
-import { Icon } from '../Icon'
 import { Information } from '../Information'
-import { Typography } from '../Typography'
 
 type Props = {
   className?: string

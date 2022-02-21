@@ -1,4 +1,4 @@
-import { IconName } from '../Icon'
+import { IconName } from 'components/Atomic'
 
 export type Variant = 'primary' | 'secondary'
 

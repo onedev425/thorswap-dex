@@ -1,11 +1,10 @@
-import { Box } from 'components/Box'
+import { Box, Typography } from 'components/Atomic'
 import { Chart } from 'components/Chart'
 import { ChartType } from 'components/Chart/types'
 import { StakingCard } from 'components/StakingCard'
 import { StatsType } from 'components/Stats'
 import { StatsList } from 'components/StatsList'
 import { StatsListScrollable } from 'components/StatsList/StatsListScrollable'
-import { Typography } from 'components/Typography'
 
 const sampleData = [
   { x: 'Sep 1', y: 0 },

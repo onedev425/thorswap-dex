@@ -6,12 +6,8 @@ import { AutoRouterInfo } from 'views/Swap/AutoRouterInfo'
 
 import { AssetTickerType } from 'components/AssetIcon/types'
 import { AssetSelectType } from 'components/AssetSelect/types'
-import { Button } from 'components/Button'
-import { Card } from 'components/Card'
+import { Button, Modal, Card, Icon, Typography } from 'components/Atomic'
 import { ConfirmSwapItem } from 'components/ConfirmSwapItem'
-import { Icon } from 'components/Icon'
-import { Modal } from 'components/Modal'
-import { Typography } from 'components/Typography'
 
 import { t } from 'services/i18n'
 

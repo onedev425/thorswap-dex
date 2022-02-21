@@ -2,8 +2,7 @@ import classNames from 'classnames'
 
 import { AssetTickerType } from 'components/AssetIcon/types'
 import { AssetButton } from 'components/AssetSelect/AssetButton'
-import { Button } from 'components/Button'
-import { Icon } from 'components/Icon'
+import { Icon, Button } from 'components/Atomic'
 
 import { t } from 'services/i18n'
 

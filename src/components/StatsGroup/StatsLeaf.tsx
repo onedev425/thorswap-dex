@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 
+import { Typography } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
-import { Typography } from 'components/Typography'
 
 import { LeafProps, borderClasses } from './types'
 

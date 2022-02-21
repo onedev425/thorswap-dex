@@ -2,9 +2,7 @@ import { ReactNode } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
-import { Box } from 'components/Box'
-import { Icon } from 'components/Icon'
-import { Typography } from 'components/Typography'
+import { Box, Icon, Typography } from 'components/Atomic'
 
 type Props = {
   title: string

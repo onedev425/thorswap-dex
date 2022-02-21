@@ -1,6 +1,5 @@
 import { AssetTickerType } from 'components/AssetIcon/types'
-import Icons from 'components/Icon/iconList'
-export type IconName = keyof typeof Icons
+import { IconName } from 'components/Atomic'
 
 export type AssetDataType = {
   title: string

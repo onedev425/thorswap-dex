@@ -1,7 +1,7 @@
+import { Typography } from 'components/Atomic'
 import { Chart } from 'components/Chart'
 import { ChartType } from 'components/Chart/types'
 import { StatsGroup } from 'components/StatsGroup'
-import { Typography } from 'components/Typography'
 
 import { t } from 'services/i18n'
 

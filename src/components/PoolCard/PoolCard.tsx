@@ -1,7 +1,4 @@
-import { Button } from 'components/Button'
-import { Card } from 'components/Card'
-import { Icon } from 'components/Icon'
-import { Typography } from 'components/Typography'
+import { Button, Card, Icon, Typography } from 'components/Atomic'
 
 import { t } from 'services/i18n'
 

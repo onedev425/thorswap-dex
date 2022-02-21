@@ -2,7 +2,7 @@ import { DetailedHTMLProps, InputHTMLAttributes, useRef } from 'react'
 
 import classNames from 'classnames'
 
-import { Icon, IconName } from 'components/Icon'
+import { Icon, IconName } from 'components/Atomic'
 
 type Props = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,

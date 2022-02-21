@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 
-import { Typography } from 'components/Typography'
+import { Typography } from 'components/Atomic'
 
 import { genericBgClasses } from '../constants'
 import { AssetIconProps } from './types'

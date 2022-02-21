@@ -3,9 +3,8 @@ import { memo } from 'react'
 import classNames from 'classnames'
 
 import { AssetSelect } from 'components/AssetSelect'
-import { Box } from 'components/Box'
+import { Box, Typography } from 'components/Atomic'
 import { Input } from 'components/Input'
-import { Typography } from 'components/Typography'
 
 import { AssetInputProps } from './types'
 

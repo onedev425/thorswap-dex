@@ -2,8 +2,7 @@ import { useState } from 'react'
 
 import { ComponentMeta } from '@storybook/react'
 
-import { Icon } from 'components/Icon'
-import { Typography } from 'components/Typography'
+import { Icon, Typography } from 'components/Atomic'
 
 import { Dropdown, Menu, MenuOption, DropdownButton } from './'
 import { DropdownMenu as DropdownMenuComponent } from './DropdownMenu'

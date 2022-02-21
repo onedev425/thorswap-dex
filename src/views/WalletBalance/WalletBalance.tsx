@@ -1,8 +1,5 @@
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
-import { Box } from 'components/Box'
-import { Button } from 'components/Button'
-import { Icon } from 'components/Icon'
-import { Typography } from 'components/Typography'
+import { Box, Button, Icon, Typography } from 'components/Atomic'
 
 import { t } from 'services/i18n'
 
