@@ -46,6 +46,7 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 0,
     '@typescript-eslint/ban-types': 0,
     '@typescript-eslint/default-param-last': 0,
+    '@typescript-eslint/no-var-requires': 0,
     'react/display-name': 0,
     'react/prop-types': 0,
     'react/no-children-prop': 0,
@@ -158,7 +159,11 @@ module.exports = {
     ],
     'no-restricted-imports': [
       'error',
-      { name: 'i18next', message: 'Please use our translation service (`t`) from services/i18n instead.' },
+      {
+        name: 'i18next',
+        message:
+          'Please use our translation service (`t`) from services/i18n instead.',
+      },
     ],
     'prettier/prettier': [
       'error',
@@ -175,10 +180,10 @@ module.exports = {
   },
   overrides: [
     {
-      'files': ['*.stories.{ts,tsx}'],
-      'rules': {
-        'react/jsx-no-literals': 0
-      }
+      files: ['*.stories.{ts,tsx}'],
+      rules: {
+        'react/jsx-no-literals': 0,
+      },
     },
-  ]
+  ],
 }

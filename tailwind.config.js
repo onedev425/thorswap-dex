@@ -24,16 +24,16 @@ module.exports = {
       btn: {
         // TODO: check if those are correct because design does not include them
         tint: '#273855',
-        'tint-active': '#273855',
+        'tint-active': '#374151',
 
-        primary: '#4DBAD6',
-        'primary-active': '#5DD39B',
-        secondary: '#46B2A7',
-        'secondary-active': '#39BBF3',
+        primary: '#02AABD',
+        'primary-active': '#00CDAC',
+        secondary: '#2E3192',
+        'secondary-active': '#5145CD',
         tertiary: '#7B48E8',
-        'tertiary-active': '#348CF4',
-        accent: '#348CF4',
-        'accent-active': '#7B48E8',
+        'tertiary-active': '#3f83f8',
+        accent: '#E74694',
+        'accent-active': '#9061F9',
       },
 
       // light mode
@@ -103,13 +103,6 @@ module.exports = {
           letterSpacing: '-0.01em',
           lineHeight: '17px',
           fontWeight: 800,
-        },
-      ],
-      h5: [
-        '17px',
-        {
-          letterSpacing: '-0.02em',
-          lineHeight: '24px',
         },
       ],
       subtitle1: [

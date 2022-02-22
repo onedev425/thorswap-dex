@@ -15,7 +15,7 @@ export default {
 } as ComponentMeta<typeof Button>
 
 const sizes = ['sm', 'md'] as const
-const variants = ['primary', 'secondary', 'tertiary', 'accent'] as const
+const variants = ['primary', 'secondary', 'tertiary', 'accent', 'tint'] as const
 const customProps = [
   { key: 'outline', type: 'outline' },
   { key: 'borderless', type: 'borderless' },
@@ -24,30 +24,29 @@ const customProps = [
 
 export const All = () => {
   return (
-    <div className="flex flex-col space-y-2 bg-light-bg-primary dark:bg-dark-bg-primary p-4">
+    <div className="flex flex-col p-4 space-y-2 bg-light-bg-primary dark:bg-dark-bg-primary">
       {sizes.map((size) => (
         <div key={size}>
           <Typography>Size: "{size}"</Typography>
           {variants.map((variant) => (
-            <div
-              key={variant}
-              className="flex space-x-2 space-y-2 items-center"
-            >
-              <Button size={size} variant={variant} transform="capitalize">
-                {variant}
-              </Button>
-
-              {customProps.map(({ key, ...restProps }) => (
-                <Button
-                  {...restProps}
-                  key={key}
-                  size={size}
-                  variant={variant}
-                  transform="capitalize"
-                >
-                  {key}
+            <div key={variant} className="flex my-2">
+              <div className="flex space-x-2">
+                <Button size={size} variant={variant} transform="capitalize">
+                  {variant}
                 </Button>
-              ))}
+
+                {customProps.map(({ key, ...restProps }) => (
+                  <Button
+                    {...restProps}
+                    key={key}
+                    size={size}
+                    variant={variant}
+                    transform="capitalize"
+                  >
+                    {key}
+                  </Button>
+                ))}
+              </div>
             </div>
           ))}
         </div>

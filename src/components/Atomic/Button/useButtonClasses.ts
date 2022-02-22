@@ -5,8 +5,8 @@ import { TypographyVariant } from 'components/Atomic'
 import { ButtonSizes, ButtonVariants } from './types'
 
 const buttonClasses: Record<ButtonSizes, string> = {
-  md: 'h-[48px] px-7 rounded-3xl',
-  sm: 'h-[40px] px-5 rounded-xl',
+  md: 'h-12 px-7 rounded-3xl',
+  sm: 'h-10 px-4 rounded-2xl',
 }
 
 const typographyVariants: Record<ButtonSizes, TypographyVariant> = {
@@ -15,11 +15,15 @@ const typographyVariants: Record<ButtonSizes, TypographyVariant> = {
 }
 
 const backgroundClasses: Record<ButtonVariants, string> = {
-  primary: 'bg-btn-primary',
-  secondary: 'bg-btn-secondary',
-  tertiary: 'bg-btn-tertiary',
-  accent: 'bg-btn-accent',
-  tint: 'dark:bg-btn-tint',
+  primary:
+    'border-none bg-btn-primary hover:bg-gradient-to-r hover:from-btn-primary hover:to-btn-primary-active',
+  secondary:
+    'border-none bg-btn-secondary hover:bg-gradient-to-r hover:from-btn-secondary hover:to-btn-secondary-active',
+  tertiary:
+    'border-none bg-btn-tertiary hover:bg-gradient-to-r hover:from-btn-tertiary hover:to-btn-tertiary-active',
+  accent:
+    'border-none bg-btn-accent hover:bg-gradient-to-r hover:from-btn-accent hover:to-btn-accent-active',
+  tint: 'border-none bg-btn-tint hover:bg-btn-tint-active',
 }
 
 const backgroundActiveClasses: Record<ButtonVariants, string> = {
@@ -30,38 +34,17 @@ const backgroundActiveClasses: Record<ButtonVariants, string> = {
   tint: 'focus:bg-btn-tint-active active:bg-btn-tint-active',
 }
 
-const typographyOutlineClasses: Record<ButtonVariants, string> = {
-  primary:
-    'group-focus:text-btn-primary-active group-active:text-btn-primary-active',
-  secondary:
-    'group-focus:text-btn-secondary-active group-active:text-btn-secondary-active',
-  tertiary:
-    'group-focus:text-btn-tertiary-active group-active:text-btn-tertiary-active',
-  accent:
-    'group-focus:text-btn-accent-active group-active:text-btn-accent-active',
-  tint: 'group-focus:text-btn-tint-active group-active:text-btn-tint-active',
-}
-
 const outlinedClasses: Record<ButtonVariants, string> = {
   primary:
-    'border-btn-primary group-focus:border-btn-primary-active group-active:border-btn-primary-active',
+    'border-solid hover:border-transparent border-btn-primary group-focus:border-btn-primary group-active:border-btn-primary hover:bg-gradient-to-r hover:from-btn-primary hover:to-btn-primary-active',
   secondary:
-    'border-btn-secondary group-focus:border-btn-secondary-active group-active:border-btn-secondary-active',
+    'border-solid hover:border-transparent border-btn-secondary group-focus:border-btn-secondary group-active:border-btn-secondary hover:bg-gradient-to-r hover:from-btn-secondary hover:to-btn-secondary-active',
   tertiary:
-    'border-btn-tertiary group-focus:border-btn-tertiary-active group-active:border-btn-tertiary-active',
+    'border-solid hover:border-transparent border-btn-tertiary group-focus:border-btn-tertiary group-active:border-btn-tertiary hover:bg-gradient-to-r hover:from-btn-tertiary hover:to-btn-tertiary-active',
   accent:
-    'border-btn-accent group-focus:border-btn-accent-active group-active:border-btn-accent-active',
-  tint: 'border-btn-tint group-focus:border-btn-tint-active group-active:border-btn-tint-active',
+    'border-solid hover:border-transparent border-btn-accent group-focus:border-btn-accent group-active:border-btn-accent hover:bg-gradient-to-r hover:from-btn-accent hover:to-btn-accent-active',
+  tint: 'border-solid hover:border-transparent border-btn-tint group-focus:border-btn-tint group-active:border-btn-tint hover:bg-btn-tint-active',
 }
-
-// TODO: Add radial gradients on hover based on those ranges per variant
-// const gradientColors: Record<ButtonVariants, [string, string]> = {
-//   primary: ['#5DD39B', '#4DBAD6'],
-//   secondary: ['#39BBF3', '#46B2A7'],
-//   tertiary: ['#348CF4', '#7B48E8'],
-//   accent: ['#7B48E8', '#348CF4'],
-//   tint: ['#273855', '#273855'],
-// }
 
 export const useButtonClasses = ({
   size,
@@ -76,7 +59,6 @@ export const useButtonClasses = ({
       backgroundClass: backgroundClasses[variant],
       buttonClass: buttonClasses[size],
       outlinedClass: outlinedClasses[variant],
-      typographyOutlineClass: typographyOutlineClasses[variant],
       typographyVariant: typographyVariants[size],
     }),
     [size, variant],

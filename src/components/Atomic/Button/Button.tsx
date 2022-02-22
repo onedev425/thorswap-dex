@@ -8,16 +8,16 @@ import { ButtonProps } from './types'
 import { useButtonClasses } from './useButtonClasses'
 
 export const Button = ({
-  children,
   className = '',
   disabled = false,
-  endIcon,
-  size = 'md',
+  size = 'sm',
   startIcon,
+  endIcon,
   textColor,
   transform = 'capitalize',
   type = 'default',
   variant = 'primary',
+  children,
   onClick,
   ...rest
 }: ButtonProps) => {
@@ -27,7 +27,6 @@ export const Button = ({
     backgroundClass,
     buttonClass,
     outlinedClass,
-    typographyOutlineClass,
     typographyVariant,
   } = useButtonClasses({ size, variant })
 
@@ -45,37 +44,29 @@ export const Button = ({
   return (
     <div className="group">
       <button
-        {...rest}
         ref={buttonRef}
-        onClick={handleClick}
-        disabled={disabled}
         className={classNames(
-          'flex flex-1 border-2 items-center justify-center outline-none p-0 duration-[160ms] disabled:opacity-75',
+          'flex flex-1 border items-center justify-center outline-none p-0 duration-[160ms] disabled:opacity-75 hover:duration-300',
           buttonClass,
           className,
+          disabled ? 'cursor-not-allowed' : 'cursor-pointer',
           isBorderless || isOutlined
             ? 'bg-transparent active:bg-transparent'
             : backgroundClass,
           {
-            [outlinedClass]: isOutlined,
-            'cursor-not-allowed': disabled,
             'border-transparent': isBorderless || !isOutlined,
-            [`cursor-pointer ${backgroundActiveClass}`]: !(
-              disabled ||
-              isBorderless ||
-              isOutlined
-            ),
+            [outlinedClass]: isOutlined,
+            [backgroundActiveClass]: !(disabled || isBorderless || isOutlined),
           },
         )}
+        disabled={disabled}
+        onClick={handleClick}
+        {...rest}
       >
         {startIcon && startIcon}
         {children && (
           <Typography
-            className={classNames('text-white duration-[160ms]', {
-              [typographyOutlineClass]: ['outline', 'borderless'].includes(
-                type,
-              ),
-            })}
+            className="text-white duration-[160ms]"
             variant={typographyVariant}
             transform={transform}
             color={textColor}
