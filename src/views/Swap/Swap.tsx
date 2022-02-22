@@ -3,11 +3,13 @@ import { useCallback, useReducer, useState } from 'react'
 import { useParams } from 'react-router'
 
 import { AutoRouterInfo } from 'views/Swap/AutoRouterInfo'
+import { SwapSettings } from 'views/Swap/SwapSettings'
 
 import { AssetTickerType } from 'components/AssetIcon/types'
 import { AssetSelectType } from 'components/AssetSelect/types'
 import { Button, Modal, Card, Icon, Typography } from 'components/Atomic'
 import { ConfirmSwapItem } from 'components/ConfirmSwapItem'
+import { Popover } from 'components/Popover'
 
 import { t } from 'services/i18n'
 
@@ -33,10 +35,11 @@ const initialSecondAsset = {
 const priceImpact = -0.06
 
 const Swap = () => {
+  const [autoRouter, setAutoRouter] = useState(true)
+  const [expertMode, setExpertMode] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
   const { firstTicker, secondTicker } =
     useParams<{ firstTicker: AssetTickerType; secondTicker: AssetTickerType }>()
-
   const [{ firstAsset, secondAsset, slippage }, dispatch] = useReducer(
     swapReducer,
     {
@@ -83,9 +86,26 @@ const Swap = () => {
     <div className="self-center w-full md:w-2/3 max-w[1200px]">
       <div className="flex items-center">
         <Typography variant="h2">{t('common.swap')}</Typography>
-
         <Icon color="secondary" name="chart" className="ml-auto" />
-        <Icon color="secondary" name="cog" className="ml-6" />
+        <Popover
+          trigger={
+            <Icon
+              color="secondary"
+              name="cog"
+              className="ml-6"
+              onClick={() => {}}
+            />
+          }
+        >
+          <SwapSettings
+            slippage={0.5}
+            deadline="30"
+            autoRouter={autoRouter}
+            onAutoRouterChange={setAutoRouter}
+            expertMode={expertMode}
+            onExpertModeChange={setExpertMode}
+          />
+        </Popover>
       </div>
 
       <Card

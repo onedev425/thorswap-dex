@@ -2,6 +2,7 @@
   "common": {
     "APY": "APY",
     "addLiquidity": "Add liquidity",
+    "auto": "Auto",
     "claim": "Claim",
     "confirm": "Confirm",
     "connect": "Connect",
@@ -15,6 +16,7 @@
     "liquidityProvider": "Liquidity Provider Rewards",
     "locked": "Locked",
     "manage": "Manage",
+    "minutes": "Minutes",
     "notConnected": "Not Connected",
     "receive": "Receive",
     "send": "Send",
@@ -65,7 +67,13 @@
       "users": "Users"
     },
     "swap": {
-      "autoRouter": "Auto Router"
+      "autoRouter": "Auto Router",
+      "transactionSettings": "Transaction Settings",
+      "slippageTolerance": "Slippage Tolerance",
+      "transactionDeadline": "Transaction Deadline",
+      "interfaceSettings": "Interface Settings",
+      "autoRouterApi": "Auto Router API",
+      "expertMode": "Expert Mode"
     },
     "wallet": {
       "managePortfolio": "Manage Portfolio",

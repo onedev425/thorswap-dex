@@ -10,6 +10,7 @@ import {
   BsEmojiSmile,
   BsThreeDots,
   BsCurrencyDollar,
+  BsQuestionCircle,
 } from 'react-icons/bs'
 import { CgMenu, CgArrowsExchangeAltV } from 'react-icons/cg'
 import {
@@ -73,6 +74,7 @@ const Icons = {
   menu: CgMenu,
   plus: HiOutlinePlus,
   question: BsQuestion,
+  questionCircle: BsQuestionCircle,
   search: BsSearch,
   send: FiSend,
   share: RiShareBoxLine,

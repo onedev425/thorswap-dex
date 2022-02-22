@@ -10,9 +10,10 @@ type Props = DetailedHTMLProps<
 > & {
   border?: 'bottom' | 'rounded'
   icon?: IconName
-  stretch?: boolean
   prefix?: string
+  stretch?: boolean
   suffix?: string
+  symbol?: string
 }
 
 const DEFAULT_ICON_SIZE = 16
@@ -24,8 +25,9 @@ export const Input = ({
   onChange,
   placeholder,
   prefix,
-  suffix,
   stretch,
+  suffix,
+  symbol,
   value,
   ...restProps
 }: Props) => {
@@ -57,13 +59,12 @@ export const Input = ({
           name={icon}
         />
       )}
-
       <input
         ref={inputRef}
         className={classNames(
           'bg-transparent border-none dark:placeholder-dark-typo-gray dark:text-dark-typo-primary font-bold font-primary placeholder-light-typo-gray text-light-typo-primary text-xs focus:outline-none',
           stretch ? 'w-full' : 'w-52',
-          { 'w-48': icon && !stretch, 'px-4': !icon },
+          { 'w-48': icon && !stretch },
           className,
         )}
         value={value}
@@ -71,6 +72,11 @@ export const Input = ({
         placeholder={placeholder}
         {...restProps}
       />
+      {symbol && (
+        <Typography variant="caption-xs" className="pr-2">
+          {symbol}
+        </Typography>
+      )}
       {suffix && (
         <Typography variant="caption-xs" color="secondary">
           {suffix}
