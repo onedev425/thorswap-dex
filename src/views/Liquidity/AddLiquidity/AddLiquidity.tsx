@@ -68,11 +68,10 @@ export const AddLiquidity = () => {
   )
 
   return (
-    <Box className="w-96 md:w-2/3 md:max-w[1200px] self-center" col>
-      <Box className="w-96 md:w-full" col>
+    <Box className="w-full max-w-[600px] self-center" col>
+      <Box className="w-full mx-2" col>
         <ViewHeader
-          withBack
-          title="Add Liquidity"
+          title={t('common.addLiquidity')}
           actionsComponent={<Icon name="cog" color="secondary" />}
         />
       </Box>
@@ -80,11 +79,11 @@ export const AddLiquidity = () => {
       <Card
         size="lg"
         stretch
-        className="flex-col items-center mt-12 !p-0 !pb-10 shadow-lg"
+        className="flex-col items-center md:w-full mt-4 md:mt-8 !p-0 md:h-auto md:pb-10 shadow-lg"
       >
         <Card
           size="lg"
-          className="flex-col md:h-full w-full items-center shadow-lg md:w-full"
+          className="flex-col items-center w-full shadow-lg md:h-full md:w-full"
         >
           <AssetInputs
             firstAsset={firstAsset}

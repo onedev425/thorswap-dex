@@ -39,25 +39,28 @@ const ManageLiquidity = () => {
   const [tipVisible, setTipVisible] = useState(true)
 
   return (
-    <Box className="md:px-40" alignSelf="center" alignCenter col>
-      <Box col>
+    <Box className="self-center w-full max-w-[600px]" col>
+      <Box className="w-full mx-2" col>
         <ViewHeader
           title={t('common.liquidityPosition')}
-          withBack
           actionsComponent={<Icon name="cog" color="secondary" />}
         />
       </Box>
-      <Card size="lg" stretch className="flex-col mt-12 px-0 pb-10 shadow-lg">
+      <Card
+        size="lg"
+        stretch
+        className="flex-col items-center p-6 mt-4 shadow-lg md:w-full md:mt-8 md:p-10 md:h-auto md:pb-10"
+      >
         {tipVisible && (
           <InfoTip
-            className="mt-0 mb-0"
+            className="w-full mt-0 mb-4"
             title={t('common.liquidityProvider')}
             content={t('views.liquidity.tip')}
             onClose={() => setTipVisible(false)}
           />
         )}
 
-        <Box className="p-4 md:p-8 pb-0 gap-3 md:w-full" col>
+        <Box className="w-full gap-3" col>
           {Data.map((d) => (
             <LiquidityCard
               key={`${d[0].assetName}-${d[1].assetName}`}

@@ -7,9 +7,10 @@ import { SwapSettings } from 'views/Swap/SwapSettings'
 
 import { AssetTickerType } from 'components/AssetIcon/types'
 import { AssetSelectType } from 'components/AssetSelect/types'
-import { Button, Modal, Card, Icon, Typography } from 'components/Atomic'
+import { Button, Modal, Card, Icon, Box } from 'components/Atomic'
 import { ConfirmSwapItem } from 'components/ConfirmSwapItem'
 import { Popover } from 'components/Popover'
+import { ViewHeader } from 'components/ViewHeader'
 
 import { t } from 'services/i18n'
 
@@ -83,40 +84,46 @@ const Swap = () => {
   }, [])
 
   return (
-    <div className="self-center w-full md:w-2/3 max-w[1200px]">
-      <div className="flex items-center">
-        <Typography variant="h2">{t('common.swap')}</Typography>
-        <Icon color="secondary" name="chart" className="ml-auto" />
-        <Popover
-          trigger={
-            <Icon
-              color="secondary"
-              name="cog"
-              className="ml-6"
-              onClick={() => {}}
-            />
+    <Box className="self-center w-full max-w-[600px]" col>
+      <Box className="w-full mx-2" col>
+        <ViewHeader
+          title={t('common.swap')}
+          actionsComponent={
+            <Box row>
+              <Icon color="secondary" name="chart" className="ml-auto" />
+              <Popover
+                trigger={
+                  <Icon
+                    color="secondary"
+                    name="cog"
+                    className="ml-6"
+                    onClick={() => {}}
+                  />
+                }
+              >
+                <SwapSettings
+                  slippage={0.5}
+                  deadline="30"
+                  autoRouter={autoRouter}
+                  onAutoRouterChange={setAutoRouter}
+                  expertMode={expertMode}
+                  onExpertModeChange={setExpertMode}
+                />
+              </Popover>
+            </Box>
           }
-        >
-          <SwapSettings
-            slippage={0.5}
-            deadline="30"
-            autoRouter={autoRouter}
-            onAutoRouterChange={setAutoRouter}
-            expertMode={expertMode}
-            onExpertModeChange={setExpertMode}
-          />
-        </Popover>
-      </div>
+        />
+      </Box>
 
       <Card
         size="lg"
         stretch
-        className="flex-col items-center md:w-full mt-4 md:mt-12 !p-0 md:h-auto md:pb-10 shadow-lg"
+        className="flex-col items-center md:w-full mt-4 md:mt-8 !p-0 md:h-auto md:pb-10 shadow-lg"
       >
         <Card
           stretch
           size="lg"
-          className="flex-col items-center shadow-lg md:w-full self-stretch"
+          className="flex-col items-center self-stretch shadow-lg md:w-full"
         >
           <AssetInputs
             firstAsset={firstAsset}
@@ -134,7 +141,7 @@ const Swap = () => {
           />
         </Card>
 
-        <div className="hidden lg:block w-full items-stretch">
+        <div className="items-stretch hidden w-full lg:block">
           <AutoRouterInfo
             firstAssetName={firstAsset.name}
             secondAssetName={secondAsset.name}
@@ -161,7 +168,7 @@ const Swap = () => {
           )}
         </div>
       </Card>
-    </div>
+    </Box>
   )
 }
 

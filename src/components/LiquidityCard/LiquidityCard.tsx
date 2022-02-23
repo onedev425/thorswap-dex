@@ -27,8 +27,8 @@ export const LiquidityCard = ({ data }: LiquidityCardProps) => {
 
   return (
     <Box justifyCenter col>
-      <Card className="flex flex-col !bg-dark-gray-light mx-3">
-        <Box className="mx-4 md:mx-2 my-4" alignCenter justify="between">
+      <Card className="flex flex-col !bg-dark-gray-light">
+        <Box className="mx-4 my-4 md:mx-2" alignCenter justify="between">
           <Box className="my-1" center>
             <Box className="mx-2" col>
               <AssetLpIcon
@@ -38,7 +38,7 @@ export const LiquidityCard = ({ data }: LiquidityCardProps) => {
             </Box>
             <Typography
               fontWeight="normal"
-              className="mx-3 sm:mx-1 md:text-xl ml-4"
+              className="mx-3 ml-4 sm:mx-1 md:text-xl"
             >
               {data[0].assetTicker}
               {' / '}
@@ -60,7 +60,7 @@ export const LiquidityCard = ({ data }: LiquidityCardProps) => {
         </Box>
 
         <div
-          className="flex flex-col transition-max-height overflow-hidden duration-300 ease-in-out transition-max-height"
+          className="flex flex-col overflow-hidden duration-300 ease-in-out transition-max-height"
           ref={contentRef}
           style={maxHeightStyle}
         >
@@ -94,7 +94,7 @@ export const LiquidityCard = ({ data }: LiquidityCardProps) => {
           maxHeight: `${isActive ? maxButtonHeight : 0}px`,
         }}
       >
-        <Box className="space-x-6 md:pr-0" pt={3} mb={4} justifyCenter>
+        <Box className="space-x-6 md:pr-0" pt={3} justifyCenter>
           <Button className="px-8 md:px-12" variant="primary" size="sm">
             {t('views.liquidity.addButton')}
           </Button>
