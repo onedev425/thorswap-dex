@@ -15,6 +15,7 @@ export const colorClasses = {
   pink: 'text-pink',
   blue: 'text-blue',
   blueLight: 'text-blue-light',
+  greenLight: 'text-green-light',
   green: 'text-green',
   orange: 'text-orange',
   cyan: 'text-cyan',

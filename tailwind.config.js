@@ -15,6 +15,7 @@ module.exports = {
       'blue-light': '#3397F2',
       navy: '#348CF4',
       green: '#5DD39B',
+      'green-light': '#4CC920',
       orange: '#E98566',
       cyan: '#2AC6DB',
       gray: '#273855',
@@ -174,6 +175,15 @@ module.exports = {
       },
       dropShadow: {
         box: '0 5px 15px rgba(0,0,0,.05)',
+        '3xl': '0 35px 35px rgba(0, 0, 0, 0.25)',
+        '4xl': [
+          '0 35px 35px rgba(0, 0, 0, 0.25)',
+          '0 45px 65px rgba(0, 0, 0, 0.15)',
+        ],
+      },
+      boxShadow: {
+        leftTicker: '10px 20px 50px 0px rgb(51 227 181 / 65%)',
+        rightTicker: '-10px 20px 50px 0px rgba(249 167 69 / 65%)',
       },
       backgroundImage: {
         'gradient-primary-dark':

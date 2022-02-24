@@ -1,16 +1,16 @@
 import { AiOutlineLineChart } from 'react-icons/ai'
 import { BiArrowBack } from 'react-icons/bi'
 import {
+  BsCurrencyDollar,
   BsDiscord,
+  BsEmojiSmile,
   BsMedium,
   BsQuestion,
+  BsQuestionCircle,
   BsSearch,
   BsTelegram,
-  BsTwitter,
-  BsEmojiSmile,
   BsThreeDots,
-  BsCurrencyDollar,
-  BsQuestionCircle,
+  BsTwitter,
 } from 'react-icons/bs'
 import { CgMenu, CgArrowsExchangeAltV } from 'react-icons/cg'
 import {
@@ -24,6 +24,7 @@ import {
 } from 'react-icons/fa'
 import {
   FiArrowDown,
+  FiCheck,
   FiChevronDown,
   FiChevronLeft,
   FiChevronRight,
@@ -31,16 +32,18 @@ import {
   FiSend,
   FiX,
   FiXCircle,
-  FiCheck,
 } from 'react-icons/fi'
 import { GrBitcoin } from 'react-icons/gr'
 import { HiOutlineCog, HiOutlinePlus } from 'react-icons/hi'
 import {
   MdAreaChart,
+  MdKeyboardArrowDown,
+  MdKeyboardArrowLeft,
+  MdKeyboardArrowRight,
   MdKeyboardArrowUp,
+  MdLanguage,
   MdOutlineLock,
   MdOutlineLockOpen,
-  MdLanguage,
 } from 'react-icons/md'
 import { RiShareBoxLine } from 'react-icons/ri'
 import { SiBinance } from 'react-icons/si'
@@ -51,6 +54,10 @@ const Icons = {
   arrowBack: BiArrowBack,
   arrowDown: FiArrowDown,
   arrowUp: MdKeyboardArrowUp,
+  arrowUpLine: MdKeyboardArrowUp,
+  arrowDownLine: MdKeyboardArrowDown,
+  arrowLeftLine: MdKeyboardArrowLeft,
+  arrowRightLine: MdKeyboardArrowRight,
   binance: SiBinance,
   bitcoin: GrBitcoin,
   chart: AiOutlineLineChart,
@@ -63,12 +70,14 @@ const Icons = {
   chevronRight: FiChevronRight,
   close: FiX,
   cog: HiOutlineCog,
+  currencyDollar: BsCurrencyDollar,
   discord: BsDiscord,
   ethereum: FaEthereum,
   exchange: CgArrowsExchangeAltV,
   fire: FaFire,
   info: FiInfo,
   infoCircle: FiInfo,
+  language: MdLanguage,
   lock: MdOutlineLock,
   medium: BsMedium,
   menu: CgMenu,
@@ -78,17 +87,15 @@ const Icons = {
   search: BsSearch,
   send: FiSend,
   share: RiShareBoxLine,
+  smile: BsEmojiSmile,
   sortDown: FaSortDown,
   sortUp: FaSortUp,
   telegram: BsTelegram,
+  threeDotsHorizontal: BsThreeDots,
   twitter: BsTwitter,
   unlock: MdOutlineLockOpen,
   wifi: FaWifi,
   xCircle: FiXCircle,
-  smile: BsEmojiSmile,
-  threeDotsHorizontal: BsThreeDots,
-  currencyDollar: BsCurrencyDollar,
-  language: MdLanguage,
   ...SvgIcons,
 } as const
 

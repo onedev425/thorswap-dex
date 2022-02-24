@@ -17,6 +17,7 @@ export const statsBgClasses: Record<ColorType, string> = {
   pink: 'hover:bg-pink hover:dark:bg-pink',
   blue: 'hover:bg-blue hover:dark:bg-blue',
   blueLight: 'hover:bg-blue-light hover:dark:bg-blue-light',
+  greenLight: 'hover:bg-green-light hover:dark:bg-green-light',
   green: 'hover:bg-green hover:dark:bg-green',
   orange: 'hover:bg-orange hover:dark:bg-orange',
   cyan: 'hover:bg-cyan hover:dark:bg-cyan',

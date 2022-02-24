@@ -8,6 +8,7 @@ export const genericBgClasses: Record<ColorType, string> = {
   pink: 'bg-pink',
   blue: 'bg-blue',
   blueLight: 'bg-blue-light',
+  greenLight: 'bg-green-light',
   green: 'bg-green',
   orange: 'bg-orange',
   cyan: 'bg-cyan',

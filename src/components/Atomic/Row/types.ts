@@ -53,6 +53,10 @@ export const bgClasses: Record<ColorType, string[]> = {
     'bg-transparent hover:bg-blue-light',
     'bg-blue-light hover:opacity-90',
   ],
+  greenLight: [
+    'bg-transparent hover:bg-green-light',
+    'bg-green-light hover:opacity-90',
+  ],
   green: ['bg-transparent hover:bg-green', 'bg-green hover:opacity-90'],
   orange: ['bg-transparent hover:bg-orange', 'bg-orange hover:opacity-90'],
   cyan: ['bg-transparent hover:bg-cyan', 'bg-cyan hover:opacity-90'],

@@ -32,6 +32,7 @@ export type SvgIconName = keyof typeof Svgs
 
 export const Svgs = {
   app: App,
+  bulb: Bulb,
   chartCandle: ChartCandle,
   cloud: Cloud,
   gwei: Gwei,
@@ -43,12 +44,14 @@ export const Svgs = {
   metamask: Metamask,
   moon: Moon,
   refresh: Refresh,
+  router: Router,
   settings: Settings,
   sputnik: Sputnik,
-  sun: Sun,
   squares: Squares,
+  sun: Sun,
   swap: Swap,
   threedots: ThreeDots,
+  tick: Tick,
   tradeLightning: TradeLightning,
   upload: Upload,
   usdt: Usdt,
@@ -56,9 +59,6 @@ export const Svgs = {
   walletConnect: WalletConnect,
   watch: Watch,
   xdefi: XDefi,
-  bulb: Bulb,
-  tick: Tick,
-  router: Router,
 }
 
 export const SvgIcons = {
