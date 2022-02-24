@@ -1,10 +1,10 @@
 import {
-  Row,
   TableColumnsConfig,
   Table,
   Typography,
   Icon,
   Button,
+  Box,
 } from 'components/Atomic'
 import { PoolTableProps } from 'components/PoolTable/types'
 
@@ -52,19 +52,22 @@ const getPoolColumns = () => {
       Header: 'APY',
       accessor: 'apy',
       disableSortBy: true,
+      Cell: ({ cell }) => {
+        return <Box className="justify-end md:justify-start">{cell.value}</Box>
+      },
     },
     {
       Header: 'Action',
       accessor: 'action',
       Cell: () => (
-        <Row className="gap-2" justify="end">
+        <Box row className="gap-2" justify="end">
           <Button variant="secondary" type="outline" onClick={() => {}}>
             {t('common.swap')}
           </Button>
           <Button type="outline" onClick={() => {}}>
             {t('common.addLiquidity')}
           </Button>
-        </Row>
+        </Box>
       ),
       disableSortBy: true,
       minScreenSize: BreakPoint.md,
@@ -73,6 +76,7 @@ const getPoolColumns = () => {
 }
 export const PoolTable = ({ data }: PoolTableProps) => {
   const columns = getPoolColumns()
+
   return (
     <div className="flex flex-col">
       <Table columns={columns} data={data} sortable />

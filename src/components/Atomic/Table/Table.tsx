@@ -57,7 +57,8 @@ export const Table = ({
           />
         ))}
       </thead>
-      <tbody {...getTableBodyProps}>
+
+      <tbody {...getTableBodyProps()}>
         {rows.map((row: TableRowType) => {
           prepareRow(row)
           return <TableRow key={row.getRowProps().key} row={row} />

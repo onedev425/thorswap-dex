@@ -18,11 +18,6 @@ import { AssetInputs } from './AssetInputs'
 import { SwapInfo } from './SwapInfo'
 import { swapReducer } from './swapReducer'
 
-/**
- * TODO: Connect to the API to get the values
- * *     Add radial gradient to the card background
- */
-
 const initialFirstAsset = {
   name: 'ETH',
   balance: '0',

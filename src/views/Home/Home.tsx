@@ -62,7 +62,8 @@ const Home = () => {
         <Typography variant="h3">
           {t('views.home.swapCrossChainAssets')}
         </Typography>
-        <Box className="flex-wrap gap-4">
+
+        <Box center className="flex-wrap gap-4">
           {dashboardMockData.featuredPools.map((p) => (
             <PoolCard
               key={p.ticker}
@@ -87,6 +88,7 @@ const Home = () => {
             onChange={setChainAssetFilterIndex}
           />
         </Box>
+
         <PoolTable data={dashboardMockData.pools} />
       </Box>
     </Box>
