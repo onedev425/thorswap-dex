@@ -25,49 +25,50 @@ export const AssetInput = memo(
 
     return (
       <Box
-        row
         alignCenter
         justify="between"
         mb={1}
         className={classNames(
-          'flex flex-row items-center mb-1 rounded-3xl py-6 md:py-4 px-1 md:px-6',
+          'flex-1 items-center rounded-3xl px-2 gap-2 py-6 md:px-6',
           secondary
             ? 'bg-light-gray-light dark:bg-dark-gray-light'
             : 'bg-light-bg-primary dark:bg-dark-bg-primary',
         )}
       >
-        <div>
+        <Box className="flex-1 px-4" col>
           <Input
-            stretch
-            className="!text-2xl"
+            className="!text-2xl text-left font-normal -ml-1"
+            containerClassName="py-0"
             onChange={(event) => onValueChange(event.target.value)}
             value={selectedAsset?.balance}
+            stretch
           />
 
-          <div className="flex items-center">
-            <Typography color="secondary" variant="caption">
+          <Box className="pt-1 pb-1" alignCenter>
+            <Typography color="secondary" fontWeight="semibold">
               {secondaryLabel || '$'}&nbsp;{assetValue.toFixed(2)}
             </Typography>
 
             {showChange && selectedAsset && (
               <Typography
                 color={(selectedAsset?.change || 0) >= 0 ? 'green' : 'red'}
-                fontWeight="semibold"
-                className="ml-2"
+                className="px-1"
               >
                 {`(${selectedAsset.change}%)`}
               </Typography>
             )}
-          </div>
-        </div>
+          </Box>
+        </Box>
 
-        <AssetSelect
-          className="ml-4 md:ml-auto"
-          selected={selectedAsset?.name}
-          assets={assets}
-          commonAssets={commonAssets}
-          onSelect={onAssetChange}
-        />
+        <Box className="pr-2" col>
+          <AssetSelect
+            className="-ml-4 md:-ml-0"
+            selected={selectedAsset?.name}
+            assets={assets}
+            commonAssets={commonAssets}
+            onSelect={onAssetChange}
+          />
+        </Box>
       </Box>
     )
   },

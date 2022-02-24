@@ -11,6 +11,7 @@ import { ReactComponent as List } from './list.svg'
 import { ReactComponent as Metamask } from './metamask.svg'
 import { ReactComponent as Moon } from './moon.svg'
 import { ReactComponent as Refresh } from './refresh.svg'
+import { ReactComponent as Router } from './router.svg'
 import { ReactComponent as Settings } from './settings.svg'
 import { ReactComponent as Sputnik } from './sputnik.svg'
 import { ReactComponent as Squares } from './squares.svg'
@@ -57,6 +58,7 @@ export const Svgs = {
   xdefi: XDefi,
   bulb: Bulb,
   tick: Tick,
+  router: Router,
 }
 
 export const SvgIcons = {
@@ -97,4 +99,5 @@ export const SvgIcons = {
   xdefi: (props: CustomIconProps) => <SvgIcon name="xdefi" {...props} />,
   bulb: (props: CustomIconProps) => <SvgIcon name="bulb" {...props} />,
   tick: (props: CustomIconProps) => <SvgIcon name="tick" {...props} />,
+  router: (props: CustomIconProps) => <SvgIcon name="router" {...props} />,
 } as const

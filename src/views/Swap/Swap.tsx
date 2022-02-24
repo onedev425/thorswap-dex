@@ -123,7 +123,7 @@ const Swap = () => {
         <Card
           stretch
           size="lg"
-          className="flex-col items-center self-stretch shadow-lg md:w-full"
+          className="flex-col items-center self-stretch shadow-lg md:w-full !pb-0"
         >
           <AssetInputs
             firstAsset={firstAsset}
@@ -141,14 +141,12 @@ const Swap = () => {
           />
         </Card>
 
-        <div className="items-stretch hidden w-full lg:block">
-          <AutoRouterInfo
-            firstAssetName={firstAsset.name}
-            secondAssetName={secondAsset.name}
-          />
-        </div>
+        <AutoRouterInfo
+          firstAssetName={firstAsset.name}
+          secondAssetName={secondAsset.name}
+        />
 
-        <div className="flex my-3">
+        <Box className="py-5 md:py-10">
           <Button
             onClick={() => setIsOpened((visible) => !visible)}
             className="px-20"
@@ -166,7 +164,7 @@ const Swap = () => {
               </div>
             </Modal>
           )}
-        </div>
+        </Box>
       </Card>
     </Box>
   )

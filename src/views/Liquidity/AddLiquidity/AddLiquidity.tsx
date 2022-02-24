@@ -79,12 +79,9 @@ export const AddLiquidity = () => {
       <Card
         size="lg"
         stretch
-        className="flex-col items-center md:w-full mt-4 md:mt-8 !p-0 md:h-auto md:pb-10 shadow-lg"
+        className="flex-col items-center mt-4 md:mt-8 !p-0 md:h-auto md:pb-10 shadow-lg"
       >
-        <Card
-          size="lg"
-          className="flex-col items-center w-full shadow-lg md:h-full md:w-full"
-        >
+        <Card size="lg" className="flex-col shadow-lg self-stretch">
           <AssetInputs
             firstAsset={firstAsset}
             secondAsset={secondAsset}
@@ -101,7 +98,7 @@ export const AddLiquidity = () => {
           </Box>
         </Card>
 
-        <Box mt={[10, 40]} mb={10} col>
+        <Box className="py-5 md:py-10" col>
           <Button className="px-20">{t('common.connectWallet')}</Button>
         </Box>
       </Card>

@@ -6,7 +6,7 @@ import { AssetTickerType } from 'components/AssetIcon/types'
 import { AssetInput } from 'components/AssetInput'
 import { AssetInputType } from 'components/AssetInput/types'
 import { AssetSelectType } from 'components/AssetSelect/types'
-import { Icon } from 'components/Atomic'
+import { Box, Icon } from 'components/Atomic'
 
 type Props = {
   onAssetChange: (
@@ -37,7 +37,7 @@ const commonAssets = assets.slice(0, 3)
 export const AssetInputs = memo(
   ({ firstAsset, secondAsset, onBalanceChange, onAssetChange }: Props) => {
     return (
-      <div className="relative w-80 md:w-full md:self-stretch">
+      <Box className="relative" col>
         <div
           className={classNames(
             'absolute flex items-center justify-center top-1/2 p-2 rounded-3xl left-1/2 -translate-x-1/2 -translate-y-1/2',
@@ -64,7 +64,7 @@ export const AssetInputs = memo(
           secondary
           secondaryLabel="Balance"
         />
-      </div>
+      </Box>
     )
   },
 )

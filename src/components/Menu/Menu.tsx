@@ -49,7 +49,7 @@ export const Menu = ({
 
       <Popover.Panel
         className={classNames(
-          'absolute z-10 top-[50px]',
+          'absolute z-20 top-[50px]',
           stickToSide === 'left' ? 'left-0' : 'right-0',
         )}
       >

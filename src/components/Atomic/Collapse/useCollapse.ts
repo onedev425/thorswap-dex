@@ -1,5 +1,7 @@
 import { useCallback, useRef, useState } from 'react'
 
+const collapseClasses = 'duration-300 ease-in-out transition-max-height'
+
 export const useCollapse = () => {
   const [isActive, setIsActive] = useState(false)
 
@@ -13,7 +15,15 @@ export const useCollapse = () => {
 
   const maxHeightStyle = {
     maxHeight: `${isActive ? maxHeight : 0}px`,
+    overflow: 'hidden',
   }
 
-  return { contentRef, toggle, isActive, maxHeight, maxHeightStyle }
+  return {
+    contentRef,
+    toggle,
+    isActive,
+    maxHeight,
+    maxHeightStyle,
+    collapseClasses,
+  }
 }

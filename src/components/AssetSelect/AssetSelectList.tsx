@@ -36,7 +36,7 @@ export const AssetSelectList = (props: AssetSelectProps) => {
         />
 
         {props.commonAssets?.length > 0 && (
-          <div className="flex flex-row flex-wrap pt-3 lg:pt-6 gap-5">
+          <div className="flex flex-row flex-wrap pt-3 lg:pt-6 gap-2 md:gap-5">
             {props.commonAssets.map((asset) => (
               <div key={asset.name}>
                 <AssetButton

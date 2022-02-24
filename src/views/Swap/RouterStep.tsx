@@ -2,7 +2,7 @@ import classNames from 'classnames'
 
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon'
 import { AssetTickerType } from 'components/AssetIcon/types'
-import { Typography } from 'components/Atomic'
+import { Box, Typography } from 'components/Atomic'
 
 import { RouterStepProps } from './types'
 
@@ -10,10 +10,11 @@ export const RouterStep = ({ assets, commission }: RouterStepProps) => {
   const [firstAssetOrRouter, secondAsset] = assets
 
   return (
-    <div
+    <Box
       className={classNames(
-        'p-1 flex pr-4 rounded-full items-center bg-light-bg-secondary dark:bg-dark-bg-secondary',
+        'p-1 pr-2 md:pr-4 rounded-full bg-light-bg-secondary dark:bg-dark-bg-secondary',
       )}
+      alignCenter
     >
       {secondAsset ? (
         <AssetLpIcon
@@ -36,6 +37,6 @@ export const RouterStep = ({ assets, commission }: RouterStepProps) => {
       <Typography className="ml-2" color="secondary">
         {`${commission}%`}
       </Typography>
-    </div>
+    </Box>
   )
 }

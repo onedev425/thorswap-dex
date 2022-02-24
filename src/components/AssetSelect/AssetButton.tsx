@@ -23,7 +23,11 @@ export function AssetButton({
     <Button
       className={classNames(
         className,
-        'pl-1 pr-4 !rounded-lg justify-between min-w-[120px] md:min-w-[180px]',
+        '!pl-1 !rounded-full justify-between gap-1',
+        size === 'sm' ? '!h-10' : '!h-12',
+        withChevron
+          ? 'min-w-[120px] md:min-w-[160px]'
+          : 'min-w-[90px] md:min-w-[110px] ',
       )}
       size={size}
       variant="tint"

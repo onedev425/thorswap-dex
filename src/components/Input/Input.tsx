@@ -14,6 +14,7 @@ type Props = DetailedHTMLProps<
   stretch?: boolean
   suffix?: string
   symbol?: string
+  containerClassName?: string
 }
 
 const DEFAULT_ICON_SIZE = 16
@@ -21,6 +22,7 @@ const DEFAULT_ICON_SIZE = 16
 export const Input = ({
   border,
   className,
+  containerClassName,
   icon,
   onChange,
   placeholder,
@@ -46,6 +48,7 @@ export const Input = ({
         },
         { 'border-b border-t-0 border-x-0 border-solid': border === 'bottom' },
         stretch ? 'w-full' : 'w-fit',
+        containerClassName,
       )}
     >
       {prefix}
