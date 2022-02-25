@@ -28,7 +28,7 @@ export const PoolInfo = ({
       col
     >
       <Box
-        className="border-0 border-dotted border-b border-light-typo-gray dark:border-dark-typo-gray"
+        className="flex-wrap gap-x-2 gap-y-4 border-0 border-dotted border-b border-light-typo-gray dark:border-dark-typo-gray"
         pb={24}
         justify="between"
       >
@@ -43,19 +43,23 @@ export const PoolInfo = ({
             {secondAsset.name}
           </Typography>
         </Box>
-        <Box>
+        <Box alignCenter>
           <Typography variant="h5" fontWeight="semibold">
             {lpAmount}
           </Typography>
-          <Typography variant="h5" color="secondary" fontWeight="semibold">
-            {'&nbsp;'}
+          <Typography
+            variant="subtitle1"
+            color="secondary"
+            fontWeight="semibold"
+          >
+            &nbsp;
             {t('views.liquidity.poolTokens')}
           </Typography>
         </Box>
       </Box>
 
-      <Box className="gap-4" col mt={32}>
-        <Box className="w-full" alignCenter justify="between">
+      <Box className="gap-2" col mt={24}>
+        <Box className="w-full h-8" alignCenter justify="between">
           <Typography color="secondary">
             {t('views.liquidity.yourPoolShare')}
             {':'}
@@ -65,7 +69,7 @@ export const PoolInfo = ({
             {'%'}
           </Typography>
         </Box>
-        <Box className="w-full" alignCenter justify="between">
+        <Box className="w-full h-8" alignCenter justify="between">
           <Typography color="secondary">
             {firstAsset.name}
             {':'}
@@ -75,7 +79,7 @@ export const PoolInfo = ({
             <AssetIcon className="ml-2" name={firstAsset.name} size={32} />
           </Box>
         </Box>
-        <Box className="w-full" alignCenter justify="between">
+        <Box className="w-full h-8" alignCenter justify="between">
           <Typography color="secondary">
             {secondAsset.name}
             {':'}

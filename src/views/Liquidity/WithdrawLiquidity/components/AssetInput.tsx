@@ -39,50 +39,59 @@ export const AssetInput = memo(
 
         <Box
           className={
-            '!mb-1 rounded-3xl py-6 px-6 bg-light-gray-light dark:bg-dark-gray-light'
+            'flex-col md:flex-row !mb-1 rounded-3xl py-6 px-6 bg-light-gray-light dark:bg-dark-gray-light items-end md:items-center'
           }
-          alignCenter
           minHeight={100}
         >
-          <Box minWidth={170}>
-            <Typography color="secondary" variant="h5">
+          <Box className="flex-1">
+            <Typography
+              className="inline-flex"
+              color="secondary"
+              variant="subtitle1"
+            >
               {t('views.liquidity.amountToRemove')}
               {':'}
             </Typography>
           </Box>
-          <Input
-            border="rounded"
-            stretch
-            className="!text-2xl"
-            onChange={(event) => onAmountChange(event.target.value)}
-            value={amount}
-          />
-          <Typography
-            className="whitespace-nowrap"
-            color="secondary"
-            variant="h4"
-          >
-            {percentage}
-            {'%'}
-          </Typography>
+          <Box className="flex-1" alignCenter>
+            <Box className="flex-1">
+              <Input
+                stretch
+                className="!text-2xl text-right mr-3"
+                containerClassName="py-1"
+                onChange={(event) => onAmountChange(event.target.value)}
+                value={amount}
+              />
+            </Box>
+            <Typography
+              className="whitespace-nowrap"
+              color="secondary"
+              variant="h4"
+            >
+              {percentage}
+              {'%'}
+            </Typography>
+          </Box>
         </Box>
 
         <Box
           className={
-            'rounded-3xl py-4 px-6 bg-light-gray-light dark:bg-dark-gray-light'
+            'flex-col md:flex-row rounded-3xl py-4 px-6 bg-light-gray-light dark:bg-dark-gray-light items-end md:items-center'
           }
-          alignCenter
-          justify="between"
           minHeight={100}
         >
           <Box alignCenter>
-            <Typography color="secondary" variant="h5">
+            <Typography
+              className="inline-flex"
+              color="secondary"
+              variant="subtitle1"
+            >
               {t('views.liquidity.youWillReceive')}
               {':'}
             </Typography>
           </Box>
 
-          <Box className="gap-4">
+          <Box className="gap-2 md:gap-4 py-1 w-full" justify="end">
             <AssetAmountBox asset={firstAsset} amount="-" />
             <AssetAmountBox asset={secondAsset} amount="-" />
           </Box>

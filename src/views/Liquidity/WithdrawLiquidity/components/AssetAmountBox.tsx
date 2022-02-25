@@ -14,9 +14,10 @@ type Props = {
 export const AssetAmountBox = ({ asset, amount }: Props) => {
   return (
     <Box
-      className={classNames('rounded-full', genericBgClasses.secondary)}
-      p={12}
-      width={160}
+      className={classNames(
+        'p-1 rounded-full flex-1 max-w-[150px] w-full self-stretch',
+        genericBgClasses.secondary,
+      )}
       alignCenter
     >
       <AssetIcon name={asset.name} />

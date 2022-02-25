@@ -38,7 +38,7 @@ export const WithdrawLiquidity = () => {
   }, [])
 
   return (
-    <div className="mx-auto w-2/3 max-w[1200px]">
+    <div className="mx-auto w-full max-w-[600px]">
       <ViewHeader
         withBack
         title="View Liquidity Position"

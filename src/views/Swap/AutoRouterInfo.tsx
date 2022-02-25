@@ -1,4 +1,4 @@
-import { Fragment, memo, useMemo } from 'react'
+import { memo, useMemo } from 'react'
 
 import classNames from 'classnames'
 
@@ -68,19 +68,25 @@ export const AutoRouterInfo = memo(
           ref={contentRef}
           style={maxHeightStyle}
         >
-          <Box className="pt-5 flex-wrap" alignCenter justify="between">
+          <Box className="pt-5 flex-wrap gap-y-2" alignCenter>
             <AssetIcon className="ml-1" name={firstAssetName} />
-            <DashedDivider />
 
             {routerPath.map(({ assets, commission }) => (
-              <Fragment key={assets.join()}>
-                <RouterStep commission={commission} assets={assets} />
-
+              <Box
+                className="flex-1 !min-w-[120px] !max-w-[130px] md:!max-w-[200px]"
+                key={assets.join()}
+                alignCenter
+                justify="between"
+              >
                 <DashedDivider />
-              </Fragment>
+                <RouterStep commission={commission} assets={assets} />
+              </Box>
             ))}
 
-            <AssetIcon name={secondAssetName} />
+            <Box className="flex-1 max-w-[70px] md:!max-w-[150px]" alignCenter>
+              <DashedDivider />
+              <AssetIcon name={secondAssetName} />
+            </Box>
           </Box>
         </div>
       </Card>
