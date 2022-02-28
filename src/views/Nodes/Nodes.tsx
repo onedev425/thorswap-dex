@@ -4,7 +4,7 @@ import { buttons, columns, data, STATS_DATA } from 'views/Nodes/data'
 
 import { Button, Link, Table, Typography } from 'components/Atomic'
 import { Input } from 'components/Input'
-import { StatsListScrollable } from 'components/StatsList/StatsListScrollable'
+import { StatsList } from 'components/StatsList/StatsList'
 
 import { t } from 'services/i18n'
 
@@ -13,7 +13,7 @@ const Nodes = () => {
 
   return (
     <div className="flex flex-col">
-      <StatsListScrollable list={STATS_DATA} />
+      <StatsList list={STATS_DATA} />
       <Typography className="my-[40px]" variant="h2" fontWeight="semibold">
         {t('views.nodes.watchList')}
         <Typography

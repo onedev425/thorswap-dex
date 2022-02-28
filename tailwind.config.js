@@ -24,9 +24,14 @@ module.exports = {
 
       btn: {
         // TODO: check if those are correct because design does not include them
-        tint: '#273855',
-        'tint-active': '#374151',
-
+        light: {
+          tint: '#FCFCFC',
+          'tint-active': '#E6E9F5',
+        },
+        dark: {
+          tint: '#273855',
+          'tint-active': '#374151',
+        },
         primary: '#02AABD',
         'primary-active': '#00CDAC',
         secondary: '#2E3192',

@@ -4,6 +4,7 @@ import { useHome } from 'views/Home/useHome'
 import { Select, Box, Typography } from 'components/Atomic'
 import { Chart } from 'components/Chart'
 import { ChartType } from 'components/Chart/types'
+import { HorizontalSlider } from 'components/HorizontalSlider'
 import { Input } from 'components/Input'
 import { PoolCard } from 'components/PoolCard'
 import { PoolTable } from 'components/PoolTable'
@@ -64,16 +65,18 @@ const Home = () => {
         </Typography>
 
         <Box center className="flex-wrap gap-4">
-          {dashboardMockData.featuredPools.map((p) => (
-            <PoolCard
-              key={p.ticker}
-              coinSymbol={p.ticker}
-              iconName={p.iconName}
-              price={p.price}
-              color={p.color}
-              change={p.change}
-            />
-          ))}
+          <HorizontalSlider itemWidth={302}>
+            {dashboardMockData.featuredPools.map((p) => (
+              <PoolCard
+                key={p.ticker}
+                coinSymbol={p.ticker}
+                iconName={p.iconName}
+                price={p.price}
+                color={p.color}
+                change={p.change}
+              />
+            ))}
+          </HorizontalSlider>
         </Box>
       </Box>
 

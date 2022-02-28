@@ -3,7 +3,7 @@ import { Chart } from 'components/Chart'
 import { ChartType } from 'components/Chart/types'
 import { StakingCard } from 'components/StakingCard'
 import { StatsType } from 'components/Stats'
-import { StatsListScrollable } from 'components/StatsList/StatsListScrollable'
+import { StatsList } from 'components/StatsList/StatsList'
 
 const sampleData = [
   { x: 'Sep 1', y: 0 },
@@ -152,7 +152,7 @@ const Stake = () => {
       </div>
       <Box className="w-full" marginBottom={40} alignCenter>
         <Box>
-          <StatsListScrollable list={list} />
+          <StatsList list={list} />
         </Box>
       </Box>
       <div className="flex space-x-6">

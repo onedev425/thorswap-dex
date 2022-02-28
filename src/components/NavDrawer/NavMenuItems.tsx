@@ -23,7 +23,7 @@ type CollapseLinkItem = {
 }
 
 const NavLink = ({ to, onClick, label }: LinkItem) => (
-  <Link key={label} to={to}>
+  <Link className="no-underline" key={label} to={to}>
     <Box px={3} py={3} onClick={onClick}>
       <Typography>{label}</Typography>
     </Box>

@@ -1,13 +1,18 @@
+import { HorizontalSlider } from 'components/HorizontalSlider'
 import { Stats } from 'components/Stats'
+import { statsWidth } from 'components/Stats/types'
 
-import { StatsListScrollable } from './StatsListScrollable'
 import { StatsListProps } from './types'
 
-export const StatsList = (props: StatsListProps) => {
-  const { list, scrollable } = props
-
+export const StatsList = ({ list, scrollable = true }: StatsListProps) => {
   if (scrollable) {
-    return <StatsListScrollable {...props} />
+    return (
+      <HorizontalSlider itemWidth={statsWidth}>
+        {list.map((item) => (
+          <Stats key={item.value} {...item} />
+        ))}
+      </HorizontalSlider>
+    )
   }
 
   return (

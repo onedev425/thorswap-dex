@@ -43,7 +43,7 @@ export const Header = ({
             className="flex md:hidden"
             borderless
             onClick={openMenu}
-            startIcon={<Icon color="secondary" name="menu" size={24} />}
+            startIcon={<Icon color="white" name="menu" size={24} />}
           />
         </Row>
 
