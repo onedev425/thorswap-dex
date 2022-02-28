@@ -56,7 +56,11 @@
       "swapCrossChainAssets": "Swap cross chain assets"
     },
     "nodes": {
-      "watchList": "Watch List"
+      "watchList": "Watch List",
+      "bondAmount": "Bond Amount:",
+      "unbondAmount": "Unbond Amount",
+      "assetTicker": "(R):",
+      "complete": "Complete"
     },
     "stats": {
       "dailyBlockRewards": "Daily Block Rewards",

@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { buttons, columns, data, STATS_DATA } from 'views/Nodes/data'
 
-import { Button, Table, Typography } from 'components/Atomic'
+import { Button, Link, Table, Typography } from 'components/Atomic'
 import { Input } from 'components/Input'
 import { StatsListScrollable } from 'components/StatsList/StatsListScrollable'
 
@@ -51,9 +51,11 @@ const Nodes = () => {
             />
           </div>
         </div>
-        <Button size="sm" variant="tint" type="outline">
-          {t('common.manage')}
-        </Button>
+        <Link className="no-underline" to="/node-manager">
+          <Button size="sm" variant="tint" type="outline">
+            {t('common.manage')}
+          </Button>
+        </Link>
       </div>
       <Table data={[...data, ...data]} columns={columns} />
     </div>

@@ -5,6 +5,7 @@ import AddLiquidity from 'views/Liquidity/AddLiquidity'
 import ManageLiquidityView from 'views/Liquidity/ManageLiquidity'
 import WithdrawLiquidity from 'views/Liquidity/WithdrawLiquidity'
 import NodesView from 'views/Nodes'
+import NodeManager from 'views/Nodes/NodeManager'
 import StakeView from 'views/Stake'
 import StatsView from 'views/Stats'
 import SwapView from 'views/Swap'
@@ -59,6 +60,10 @@ const routes: RouteType = [
   {
     path: ROUTES.WithdrawLiquidity,
     element: WithdrawLiquidity,
+  },
+  {
+    path: ROUTES.NodeManager,
+    element: NodeManager,
   },
 ]
 

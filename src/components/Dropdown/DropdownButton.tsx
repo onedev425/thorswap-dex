@@ -22,8 +22,7 @@ export const DropdownButton = (props: Props) => {
               genericBgClasses.primary,
               {
                 'rounded-b-none': open,
-                'hover:bg-light-bg-secondary dark:hover:bg-dark-bg-secondary':
-                  !disabled,
+                'hover:bg-light-bg-secondary': !disabled,
               },
               disabled ? 'cursor-not-allowed' : 'cursor-pointer',
               'inline-flex justify-between rounded-2xl items-center px-3 py-2 transition-all',

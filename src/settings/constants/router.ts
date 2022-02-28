@@ -8,4 +8,5 @@ export enum ROUTES {
   AddLiquidity = '/add-liquidity',
   ManageLiquidity = '/manage-liquidity',
   WithdrawLiquidity = '/withdraw-liquidity',
+  NodeManager = '/node-manager',
 }
