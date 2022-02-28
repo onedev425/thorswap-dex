@@ -1,5 +1,9 @@
+import { useCallback } from 'react'
+
 import { AppPopoverMenu } from 'components/AppPopoverMenu'
 import { Button, Row, Icon } from 'components/Atomic'
+
+import { useWallet } from 'redux/wallet/hooks'
 
 import { t } from 'services/i18n'
 
@@ -16,8 +20,13 @@ export const Header = ({
   gweiLabel,
   // openWalletDrawer,
   openMenu,
-  connectWallet,
 }: Props) => {
+  const { setIsConnectModalOpen } = useWallet()
+
+  const handleClickWalletBtn = useCallback(() => {
+    setIsConnectModalOpen(true)
+  }, [setIsConnectModalOpen])
+
   return (
     <header className="mb-5">
       <Row className="min-h-[70px]" justify="between">
@@ -48,7 +57,7 @@ export const Header = ({
         </Row>
 
         <Row className="inline-flex items-center mt-auto shrink-0 gap-x-4">
-          <Button type="outline" onClick={connectWallet}>
+          <Button type="outline" onClick={handleClickWalletBtn}>
             {t('common.connectWallet')}
           </Button>
           <AppPopoverMenu />

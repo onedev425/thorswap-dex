@@ -1,5 +1,4 @@
-import { MultiChain } from '@thorswap-lib/multichain-sdk'
-import { setGlobalConfig } from '@thorswap-lib/multichain-sdk/lib/config'
+import { MultiChain, setGlobalConfig } from '@thorswap-lib/multichain-sdk'
 
 import { NETWORK } from './config'
 

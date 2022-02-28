@@ -1,10 +1,23 @@
 const { whenProd } = require('@craco/craco')
 const cssnano = require('cssnano')
 const CracoAlias = require('craco-alias')
+const webpack = require('webpack')
 
 module.exports = {
   eslint: {
     mode: 'file',
+  },
+  webpack: {
+    plugins: {
+      add: [
+        new webpack.ProvidePlugin({
+          Buffer: ['buffer', 'Buffer'],
+        }),
+        new webpack.ProvidePlugin({
+          process: 'process/browser',
+        }),
+      ],
+    },
   },
   plugins: [
     {
@@ -13,8 +26,48 @@ module.exports = {
         source: 'tsconfig',
         baseUrl: './src',
         tsConfigPath: './tsconfig.json',
-      }
-    }
+      },
+    },
+    {
+      plugin: {
+        overrideWebpackConfig: ({ webpackConfig }) => {
+          // const minimizerIndex = webpackConfig.optimization.minimizer.findIndex(
+          //   (item) => item.options.terserOptions,
+          // )
+
+          webpackConfig.resolve.fallback = {
+            ...webpackConfig.resolve.fallback,
+            crypto: false,
+            fs: false,
+            http: false,
+            https: false,
+            net: false,
+            os: false,
+            path: false,
+            stream: require.resolve('readable-stream'),
+            tls: false,
+            zlib: false,
+          }
+
+          // do not mangle problematic modules of bitcoinjs-lib
+          // webpackConfig.optimization.minimizer[
+          //   minimizerIndex
+          // ].options.terserOptions.mangle = {
+          //   ...webpackConfig.optimization.minimizer[minimizerIndex].options
+          //     .terserOptions.mangle,
+          //   reserved: ['BigInteger', 'ECPair', 'Point'],
+          // }
+
+          // // allow parallel running for minimizer
+          // // https://support.circleci.com/hc/en-us/articles/360053201771-Resolving-Failed-to-minify-the-bundle-Errors
+          // webpackConfig.optimization.minimizer[
+          //   minimizerIndex
+          // ].options.parallel = true
+
+          return webpackConfig
+        },
+      },
+    },
   ],
   style: {
     postcss: {

@@ -37,7 +37,7 @@ export const Modal = ({
     <Transition appear show={isOpened} as={Fragment}>
       <Dialog as={Fragment} onClose={onClose}>
         <div className="fixed inset-0 z-10">
-          <div className="relative flex p-2 lg:p-4 items-center justify-center min-h-screen text-center">
+          <div className="relative flex items-center justify-center min-h-screen p-2 text-center lg:p-4">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -72,7 +72,7 @@ export const Modal = ({
               leaveTo="opacity-0"
             >
               <div className="max-w-md inline-block overflow-y-auto mx-auto drop-shadow-2xl text-left transition-all transform max-h-[90vh]">
-                <div className="my-2 lg:m-5 flex flex-row align-items justify-between">
+                <div className="flex flex-row justify-between my-2 lg:m-5 align-items">
                   <Typography variant="h3">{title}</Typography>
 
                   <Box
@@ -93,7 +93,7 @@ export const Modal = ({
                 </div>
                 {withBody ? (
                   <Card
-                    className="justify-center items-center flex"
+                    className="flex items-center justify-center"
                     stretch
                     size="lg"
                   >

@@ -7,6 +7,7 @@ import classNames from 'classnames'
 import { Header } from 'components/Header'
 import { NavDrawer } from 'components/NavDrawer'
 import { Sidebar } from 'components/Sidebar'
+import { WalletModal } from 'components/WalletModal'
 
 import { useWalletDrawer } from '../../hooks/useWalletDrawer'
 
@@ -65,6 +66,7 @@ export const Layout = ({ children }: LayoutProp) => {
           />
           {children}
         </main>
+        <WalletModal />
       </div>
     </Scrollbars>
   )

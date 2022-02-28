@@ -61,7 +61,7 @@ module.exports = {
     'react/jsx-indent': 0,
     'react/jsx-curly-newline': 0,
     'react/jsx-wrap-multilines': 0,
-    'react/jsx-no-literals': 2,
+    'react/jsx-no-literals': 0,
     'react/no-array-index-key': 2,
     'jsx-a11y/click-events-have-key-events': 0,
     'jsx-a11y/no-static-element-interactions': 0,
