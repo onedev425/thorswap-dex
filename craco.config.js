@@ -44,7 +44,7 @@ module.exports = {
             net: false,
             os: false,
             path: false,
-            stream: require.resolve('readable-stream'),
+            stream: require.resolve('stream-browserify'),
             tls: false,
             zlib: false,
           }
