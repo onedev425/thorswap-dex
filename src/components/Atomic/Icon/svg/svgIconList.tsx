@@ -10,6 +10,7 @@ import { ReactComponent as Lightning } from './lightningThorswap.svg'
 import { ReactComponent as List } from './list.svg'
 import { ReactComponent as Metamask } from './metamask.svg'
 import { ReactComponent as Moon } from './moon.svg'
+import { ReactComponent as Onboard } from './onboard.svg'
 import { ReactComponent as Refresh } from './refresh.svg'
 import { ReactComponent as Router } from './router.svg'
 import { ReactComponent as Settings } from './settings.svg'
@@ -43,6 +44,7 @@ export const Svgs = {
   list: List,
   metamask: Metamask,
   moon: Moon,
+  onboard: Onboard,
   refresh: Refresh,
   router: Router,
   settings: Settings,
@@ -77,6 +79,7 @@ export const SvgIcons = {
   list: (props: CustomIconProps) => <SvgIcon name={'list'} {...props} />,
   metamask: (props: CustomIconProps) => <SvgIcon name="metamask" {...props} />,
   moon: (props: CustomIconProps) => <SvgIcon name="moon" {...props} />,
+  onboard: (props: CustomIconProps) => <SvgIcon name="onboard" {...props} />,
   refresh: (props: CustomIconProps) => <SvgIcon name="refresh" {...props} />,
   settings: (props: CustomIconProps) => <SvgIcon name="settings" {...props} />,
   sputnik: (props: CustomIconProps) => <SvgIcon name="sputnik" {...props} />,
