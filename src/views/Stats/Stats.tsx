@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import { Amount } from '@thorswap-lib/multichain-sdk'
 
 import { Typography } from 'components/Atomic'
+import { Helmet } from 'components/Helmet'
 import { StatsGroup } from 'components/StatsGroup'
 
 import { useGlobalState } from 'redux/hooks'
@@ -246,6 +247,7 @@ const Stats = () => {
 
   return statsGroupData.map(({ title, statsData }) => (
     <div className="flex flex-wrap" key={title}>
+      <Helmet title="Stats" content="Stats" />
       <div className="grid grid-cols-1 gap-8 mb-8 md:grid-cols-2 lg:grid-cols-3">
         <div>
           <div className="flex flex-row pb-8">

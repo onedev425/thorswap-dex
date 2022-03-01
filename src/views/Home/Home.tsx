@@ -5,6 +5,7 @@ import { Box, Typography } from 'components/Atomic'
 import { Chart } from 'components/Chart'
 import { ChartType } from 'components/Chart/types'
 import { GlobalStats } from 'components/GlobalStats'
+import { Helmet } from 'components/Helmet'
 import { HorizontalSlider } from 'components/HorizontalSlider'
 import { PoolCard } from 'components/PoolCard'
 import { Statistics } from 'components/Statistics'
@@ -14,6 +15,10 @@ import { t } from 'services/i18n'
 const Home = () => {
   return (
     <Box className="gap-12 overflow-x-hidden" col>
+      <Helmet
+        title="THORSwap"
+        content="THORSwap is world's first multi-chain dex powered by THORChain"
+      />
       <GlobalStats />
       <Box className="flex-wrap">
         <Box className="w-full lg:w-1/2" col>

@@ -11,6 +11,7 @@ import {
   Select,
   TableColumnsConfig,
 } from 'components/Atomic'
+import { Helmet } from 'components/Helmet'
 import { Input } from 'components/Input'
 
 import { useMidgard } from 'redux/midgard/hooks'
@@ -109,6 +110,8 @@ const Nodes = () => {
 
   return (
     <Box col>
+      <Helmet title="Node Manager" content="Node Manager" />
+
       <NodeStats />
       <Box
         className="md:my-8 gap-4 !my-4 flex-grow lg:flex-row lg:justify-between"

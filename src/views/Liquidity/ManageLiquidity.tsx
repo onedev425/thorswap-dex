@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Asset } from '@thorswap-lib/multichain-sdk'
 
 import { Card, Box, Icon } from 'components/Atomic'
+import { Helmet } from 'components/Helmet'
 import { InfoTip } from 'components/InfoTip'
 import { LiquidityCard } from 'components/LiquidityCard'
 import { AssetDataType } from 'components/LiquidityCard/types'
@@ -42,6 +43,7 @@ const ManageLiquidity = () => {
 
   return (
     <Box className="self-center w-full max-w-[600px]" col>
+      <Helmet title="Liquidity" content="Your Liquidity" />
       <Box className="w-full mx-2" col>
         <ViewHeader
           title={t('common.liquidityPosition')}

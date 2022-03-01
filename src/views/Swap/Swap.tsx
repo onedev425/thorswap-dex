@@ -8,6 +8,7 @@ import { SwapSettings } from 'views/Swap/SwapSettings'
 import { AssetSelectType } from 'components/AssetSelect/types'
 import { Button, Modal, Card, Icon, Box } from 'components/Atomic'
 import { ConfirmSwapItem } from 'components/ConfirmSwapItem'
+import { Helmet } from 'components/Helmet'
 import { Popover } from 'components/Popover'
 import { ViewHeader } from 'components/ViewHeader'
 
@@ -77,6 +78,8 @@ const Swap = () => {
 
   return (
     <Box className="self-center w-full max-w-[600px]" col>
+      <Helmet title="Swap" content="Swap" />
+
       <Box className="w-full mx-2" col>
         <ViewHeader
           title={t('common.swap')}

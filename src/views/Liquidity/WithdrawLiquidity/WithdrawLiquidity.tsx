@@ -8,6 +8,7 @@ import { PoolAsset } from 'views/Liquidity/WithdrawLiquidity/types'
 import { withdrawLiquidityReducer } from 'views/Liquidity/WithdrawLiquidity/withdrawLiquidityReducer'
 
 import { Button, Card, Box, Icon } from 'components/Atomic'
+import { Helmet } from 'components/Helmet'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { t } from 'services/i18n'
@@ -41,6 +42,7 @@ export const WithdrawLiquidity = () => {
 
   return (
     <div className="mx-auto w-full max-w-[600px]">
+      <Helmet title="Withdraw Liquidity" content="Withdraw Liquidity" />
       <ViewHeader
         withBack
         title="View Liquidity Position"

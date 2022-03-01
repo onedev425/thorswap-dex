@@ -4,6 +4,7 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 
 import { AssetSelectType } from 'components/AssetSelect/types'
 import { Button, Card, Box, Icon } from 'components/Atomic'
+import { Helmet } from 'components/Helmet'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { t } from 'services/i18n'
@@ -65,6 +66,7 @@ export const AddLiquidity = () => {
 
   return (
     <Box className="w-full max-w-[600px] self-center" col>
+      <Helmet title="Add Liquidity" content="Add Liquidity" />
       <Box className="w-full mx-2" col>
         <ViewHeader
           title={t('common.addLiquidity')}
