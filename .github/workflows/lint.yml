@@ -1,6 +1,8 @@
 name: Lint & Unit tests
 
 on: [push]
+    branches:
+      - xxxxx
 
 jobs:
   tests_and_lint:

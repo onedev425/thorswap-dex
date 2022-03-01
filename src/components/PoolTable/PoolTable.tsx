@@ -22,8 +22,6 @@ import { t } from 'services/i18n'
 export const PoolTable = ({ data }: PoolTableProps) => {
   const { runeToCurrency } = useGlobalState()
 
-  console.log('data', data)
-
   const columns = useMemo(() => {
     return [
       {

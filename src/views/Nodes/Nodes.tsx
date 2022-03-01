@@ -1,31 +1,115 @@
-import { useState } from 'react'
+import { useEffect, useState, useMemo, useCallback } from 'react'
 
-import { buttons, columns, data, STATS_DATA } from 'views/Nodes/data'
+import { THORNode } from '@thorswap-lib/midgard-sdk'
+import { Amount } from '@thorswap-lib/multichain-sdk'
 
-import { Box, Button, Link, Table, Typography } from 'components/Atomic'
+import {
+  Box,
+  Button,
+  Link,
+  Table,
+  Select,
+  TableColumnsConfig,
+} from 'components/Atomic'
 import { Input } from 'components/Input'
-import { StatsList } from 'components/StatsList/StatsList'
+
+import { useMidgard } from 'redux/midgard/hooks'
 
 import { t } from 'services/i18n'
 
+import { truncateAddress } from 'helpers/string'
+
+import { NodeStats } from './NodeStats'
+import { nodeStatusOptions } from './types'
+
 const Nodes = () => {
-  const [value, setValue] = useState('')
+  const { getNodes, nodes } = useMidgard()
+
+  const [nodeStatusType, setNodeStatusType] = useState(0)
+
+  const [keyword, setKeyword] = useState('')
+
+  useEffect(() => {
+    getNodes()
+  }, [getNodes])
+
+  const handleChangeKeyword = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setKeyword(e.target.value)
+    },
+    [],
+  )
+
+  const filteredNodes = useMemo(() => {
+    // filter by status
+    const nodeByStatus = nodes.filter(
+      (node) => node.status === nodeStatusOptions[nodeStatusType],
+    )
+
+    // filter by keyword
+    if (keyword) {
+      return nodeByStatus.filter((node) => {
+        const nodeStatus = node.node_address.toLowerCase()
+        return nodeStatus.includes(keyword.toLowerCase())
+      })
+    }
+
+    return nodeByStatus
+  }, [nodes, keyword, nodeStatusType])
+
+  const columns = useMemo(() => {
+    return [
+      {
+        id: 'Address',
+        Header: 'Address',
+        accessor: (row: THORNode) => row,
+        Cell: ({ cell: { value } }: { cell: { value: THORNode } }) =>
+          truncateAddress(value.node_address),
+      },
+      {
+        id: 'Version',
+        Header: 'Version',
+        accessor: 'version',
+      },
+      {
+        id: 'IP',
+        Header: 'IP',
+        accessor: 'ip_address',
+      },
+      {
+        id: 'Rewards',
+        Header: 'Rewards',
+        accessor: (row: THORNode) => row,
+        Cell: ({ cell: { value } }: { cell: { value: THORNode } }) =>
+          Amount.fromMidgard(value.current_award).toFixed(0),
+      },
+      {
+        id: 'Slash',
+        Header: 'Slash',
+        accessor: (row: THORNode) => row,
+        Cell: ({ cell: { value } }: { cell: { value: THORNode } }) =>
+          Amount.fromNormalAmount(value.slash_points).toFixed(0),
+      },
+      {
+        id: 'Bond',
+        Header: 'Bond',
+        accessor: (row: THORNode) => row,
+        Cell: ({ cell: { value } }: { cell: { value: THORNode } }) =>
+          Amount.fromMidgard(value.bond).toFixed(0),
+      },
+      {
+        id: 'ActiveBlock',
+        Header: 'Active Block',
+        accessor: (row: THORNode) => row,
+        Cell: ({ cell: { value } }: { cell: { value: THORNode } }) =>
+          Amount.fromNormalAmount(value.active_block_height).toFixed(0),
+      },
+    ] as TableColumnsConfig
+  }, [])
 
   return (
     <Box col>
-      <StatsList scrollable list={STATS_DATA} />
-      <Typography className="my-[40px]" variant="h2" fontWeight="semibold">
-        {t('views.nodes.watchList')}
-        <Typography
-          className="inline-block ml-[10px]"
-          color="secondary"
-          variant="h2"
-          fontWeight="semibold"
-        >
-          {'(5)'}
-        </Typography>
-      </Typography>
-      <Table data={data} columns={columns} />
+      <NodeStats />
       <Box
         className="md:my-8 gap-4 !my-4 flex-grow lg:flex-row lg:justify-between"
         justify="between"
@@ -37,9 +121,9 @@ const Nodes = () => {
             <Input
               border="rounded"
               icon="search"
-              placeholder="Search by address"
-              onChange={(e) => setValue(e.target.value)}
-              value={value}
+              placeholder="Search node address"
+              value={keyword}
+              onChange={handleChangeKeyword}
             />
           </div>
           <Link className="no-underline" to="/node-manager">
@@ -50,22 +134,14 @@ const Nodes = () => {
         </Box>
 
         <div className="flex mx-[10px]">
-          {buttons.map((item) => {
-            return (
-              <Button
-                key={item.name}
-                className="mx-1"
-                size="sm"
-                variant="tint"
-                type="outline"
-              >
-                {item.name}
-              </Button>
-            )
-          })}
+          <Select
+            options={nodeStatusOptions}
+            activeIndex={nodeStatusType}
+            onChange={setNodeStatusType}
+          />
         </div>
       </Box>
-      <Table data={[...data, ...data]} columns={columns} />
+      <Table data={filteredNodes} columns={columns} sortable />
     </Box>
   )
 }

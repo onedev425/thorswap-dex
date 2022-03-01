@@ -1,52 +1,4 @@
-import { StatsType } from 'components/Stats'
-
 import { BreakPoint } from 'hooks/useWindowSize'
-
-export const STATS_DATA: StatsType[] = [
-  {
-    iconName: 'chartPie',
-    color: 'yellow',
-    label: '24h Volume',
-    value: '$46,82.56',
-  },
-  {
-    iconName: 'chartArea',
-    color: 'purple',
-    label: 'Total Liquidity',
-    value: '$509,82b',
-  },
-  {
-    iconName: 'chartCandle',
-    color: 'blue',
-    label: 'Liquidity APY',
-    value: '100,50%',
-  },
-  {
-    iconName: 'refresh',
-    color: 'blueLight',
-    label: 'Transactions',
-    value: '$46,82.3',
-  },
-  { iconName: 'wifi', color: 'red', label: 'Total Fees', value: '$46,82.56' },
-  {
-    iconName: 'chartArea2',
-    color: 'green',
-    label: 'IL Paid',
-    value: '$46,82.56',
-  },
-  {
-    iconName: 'lightning',
-    color: 'pink',
-    label: 'Total Vol',
-    value: '$46,82.3',
-  },
-  {
-    iconName: 'fire',
-    color: 'blueLight',
-    label: 'Funds Cap (i)',
-    value: '100.2%',
-  },
-]
 
 export const columns = [
   {
@@ -117,17 +69,5 @@ export const data = [
     bond: '1.478.897',
     activeBlock: '2.798.153',
     action: '-',
-  },
-]
-
-export const buttons = [
-  {
-    name: 'Active',
-  },
-  {
-    name: 'Standby',
-  },
-  {
-    name: 'Disabled',
   },
 ]

@@ -2,7 +2,12 @@ import { Percent, Amount } from '@thorswap-lib/multichain-sdk'
 
 import { useMidgard } from 'redux/midgard/hooks'
 
-import { getTVL, getTotalBond, getTotalActiveBond } from 'helpers/network'
+import {
+  getTVL,
+  getTotalBond,
+  getTotalActiveBond,
+  getTotalStandbyBond,
+} from 'helpers/network'
 
 export const useGlobalStats = () => {
   const { stats, networkData, volume24h } = useMidgard()
@@ -10,6 +15,7 @@ export const useGlobalStats = () => {
   const totalBond = getTotalBond(networkData)
   const tvlInRune = getTVL(networkData)
   const totalActiveBond = getTotalActiveBond(networkData)
+  const totalStandbyBond = getTotalStandbyBond(networkData)
 
   const bondingAPYLabel = new Percent(networkData?.bondingAPY ?? 0).toFixed(2)
   const liquidityAPYLabel = new Percent(networkData?.liquidityAPY ?? 0).toFixed(
@@ -31,6 +37,7 @@ export const useGlobalStats = () => {
     totalBond,
     tvlInRune,
     totalActiveBond,
+    totalStandbyBond,
     liquidityAPYLabel,
     swapVolume,
     addLiquidityVolume,
