@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { buttons, columns, data, STATS_DATA } from 'views/Nodes/data'
 
-import { Button, Link, Table, Typography } from 'components/Atomic'
+import { Box, Button, Link, Table, Typography } from 'components/Atomic'
 import { Input } from 'components/Input'
 import { StatsList } from 'components/StatsList/StatsList'
 
@@ -12,8 +12,8 @@ const Nodes = () => {
   const [value, setValue] = useState('')
 
   return (
-    <div className="flex flex-col">
-      <StatsList list={STATS_DATA} />
+    <Box col>
+      <StatsList scrollable list={STATS_DATA} />
       <Typography className="my-[40px]" variant="h2" fontWeight="semibold">
         {t('views.nodes.watchList')}
         <Typography
@@ -26,8 +26,30 @@ const Nodes = () => {
         </Typography>
       </Typography>
       <Table data={data} columns={columns} />
-      <div className="flex justify-between my-[32px]">
-        <div className="flex justify-between">
+      <Box
+        className="md:my-8 gap-4 !my-4 flex-grow lg:flex-row lg:justify-between"
+        justify="between"
+        align="start"
+        col
+      >
+        <Box alignCenter justify="between">
+          <div className="mx-2.5">
+            <Input
+              border="rounded"
+              icon="search"
+              placeholder="Search by address"
+              onChange={(e) => setValue(e.target.value)}
+              value={value}
+            />
+          </div>
+          <Link className="no-underline" to="/node-manager">
+            <Button size="sm" variant="tint" type="outline">
+              {t('common.manage')}
+            </Button>
+          </Link>
+        </Box>
+
+        <div className="flex mx-[10px]">
           {buttons.map((item) => {
             return (
               <Button
@@ -41,24 +63,10 @@ const Nodes = () => {
               </Button>
             )
           })}
-          <div className="mx-[40px]">
-            <Input
-              border="rounded"
-              icon="search"
-              placeholder="Search by address"
-              onChange={(e) => setValue(e.target.value)}
-              value={value}
-            />
-          </div>
         </div>
-        <Link className="no-underline" to="/node-manager">
-          <Button size="sm" variant="tint" type="outline">
-            {t('common.manage')}
-          </Button>
-        </Link>
-      </div>
+      </Box>
       <Table data={[...data, ...data]} columns={columns} />
-    </div>
+    </Box>
   )
 }
 

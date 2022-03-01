@@ -1,5 +1,7 @@
 import { StatsType } from 'components/Stats'
 
+import { BreakPoint } from 'hooks/useWindowSize'
+
 export const STATS_DATA: StatsType[] = [
   {
     iconName: 'chartPie',
@@ -54,10 +56,12 @@ export const columns = [
   {
     Header: 'Version',
     accessor: 'version',
+    minScreenSize: BreakPoint.lg,
   },
   {
     Header: 'IP',
     accessor: 'ip',
+    minScreenSize: BreakPoint.md,
   },
   {
     Header: 'Rewards',
@@ -74,10 +78,12 @@ export const columns = [
   {
     Header: 'Active Block',
     accessor: 'activeBlock',
+    minScreenSize: BreakPoint.md,
   },
   {
     Header: 'Action',
     accessor: 'action',
+    minScreenSize: BreakPoint.lg,
   },
 ]
 
