@@ -45,10 +45,6 @@
       "decryptionPassword": "Decryption Password",
       "unlock": "Unlock",
       "createWallet": "Create wallet"
-    },
-    "connectWallet": {
-      "createKeystore": "Create Keystore",
-      "importPhrase": "Import Phrase"
     }
   },
   "views": {
@@ -104,8 +100,20 @@
       "yourPoolShare": "Your Pool share"
     },
     "walletModal": {
+      "connectWallet": "Connect Wallet",
+      "selectChain": "Select Chain",
+      "connectXdefi": "Connect XDEFI Wallet",
       "installXdefi": "Install XDEFI Wallet",
-      "connectXdefi": "Connect XDEFI Wallet"
+      "prioritiseXdefi": "Prioritise XDEFI Wallet",
+      "walletConnect": "WalletConnect",
+      "connectMetaMask": "Connect MetaMask Wallet",
+      "disableXdefi": "Disable XDEFI Wallet",
+      "installMetaMask": "Install MetaMask Wallet",
+      "connectLedger": "Connect Ledger",
+      "connectOnboard": "Ethereum Wallets",
+      "connectKeystore": "Connect Keystore",
+      "createKeystore": "Create Keystore",
+      "importPhrase": "Import Phrase"
     }
   }
 }

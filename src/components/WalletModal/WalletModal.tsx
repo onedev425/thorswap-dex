@@ -1,21 +1,97 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { Box, Card, Icon, Modal } from 'components/Atomic'
+import {
+  MetaMaskWalletStatus,
+  SupportedChain,
+  XdefiWalletStatus,
+} from '@thorswap-lib/multichain-sdk'
+import { Chain } from '@thorswap-lib/xchain-util'
+
+import { Box, Card, Icon, Modal, Typography } from 'components/Atomic'
 
 import { useWallet } from 'redux/wallet/hooks'
 
 import { t } from 'services/i18n'
+import { metamask } from 'services/metamask'
 import { xdefi } from 'services/xdefi'
 
-import { WalletStage } from './types'
+import { ChainOption } from './ChainOption'
+import { WalletMode, WalletStage, availableChainsByWallet } from './types'
 import { WalletOption } from './WalletOption'
 
 export const WalletModal = () => {
-  const [walletStage] = useState<WalletStage>(WalletStage.WalletSelect)
+  const [walletMode, setWalletMode] = useState<WalletMode>(WalletMode.Select)
+  const [walletStage, setWalletStage] = useState<WalletStage>(
+    WalletStage.WalletSelect,
+  )
+  const [pendingChains, setPendingChains] = useState<SupportedChain[]>([])
 
   const { isConnectModalOpen, setIsConnectModalOpen } = useWallet()
 
-  const xdefiInstalled = useMemo(() => xdefi.isWalletDetected(), [])
+  console.log('pending - ', pendingChains)
+
+  useEffect(() => {
+    if (isConnectModalOpen) setWalletMode(WalletMode.Select)
+  }, [isConnectModalOpen])
+
+  const metamaskStatus = useMemo(() => metamask.isWalletDetected(), [])
+  const xdefiStatus = useMemo(() => xdefi.isWalletDetected(), [])
+  const modalTitle = useMemo(() => {
+    if (walletStage === WalletStage.WalletSelect)
+      return t('views.walletModal.connectWallet')
+
+    if (walletStage === WalletStage.ChainSelect)
+      return t('views.walletModal.selectChain')
+
+    return t('views.walletModal.connectWallet')
+  }, [walletStage])
+
+  const handleChainSelect = useCallback(
+    (selectedWallet: WalletMode) => {
+      if (selectedWallet === WalletMode.Xdefi) {
+        if (xdefiStatus === XdefiWalletStatus.XdefiNotInstalled) {
+          window.open('https://xdefi.io')
+          return
+        }
+
+        if (xdefiStatus === XdefiWalletStatus.XdefiNotPrioritized) {
+          // TODO: Should show alert to prioritize the XDEFI wallet
+          return
+        }
+      }
+
+      if (selectedWallet === WalletMode.MetaMask) {
+        if (metamaskStatus === MetaMaskWalletStatus.NoWeb3Provider) {
+          window.open('https://metamask.io')
+          return
+        }
+
+        if (metamaskStatus === MetaMaskWalletStatus.XdefiDetected) {
+          // TODO: Should disable xdefi wallet
+          return
+        }
+      }
+
+      setWalletMode(selectedWallet)
+
+      if (
+        selectedWallet === WalletMode.TrustWallet ||
+        selectedWallet === WalletMode.Xdefi ||
+        selectedWallet === WalletMode.Ledger ||
+        selectedWallet === WalletMode.Keystore ||
+        selectedWallet === WalletMode.MetaMask
+      ) {
+        setWalletStage(WalletStage.ChainSelect)
+
+        if (selectedWallet === WalletMode.Ledger) {
+          setPendingChains([Chain.Binance])
+        } else {
+          setPendingChains(availableChainsByWallet[selectedWallet])
+        }
+      } else setWalletStage(WalletStage.Final)
+    },
+    [metamaskStatus, xdefiStatus],
+  )
 
   const handleCloseModal = useCallback(() => {
     setIsConnectModalOpen(false)
@@ -24,33 +100,89 @@ export const WalletModal = () => {
   const renderMainPanel = useMemo(() => {
     return (
       <Box className="w-full space-y-3" col>
-        <WalletOption
-          title={
-            xdefiInstalled
-              ? t('views.walletModal.connectXdefi')
-              : t('views.walletModal.installXdefi')
-          }
-          icon={<Icon name="xdefi" />}
-        />
-        <WalletOption
-          title="WalletConnect"
-          icon={<Icon name="walletConnect" />}
-        />
-        <WalletOption title="Connect XDEFI" icon={<Icon name="metamask" />} />
-        <WalletOption title="Connect XDEFI" icon={<Icon name="metamask" />} />
+        <WalletOption onClick={() => handleChainSelect(WalletMode.Xdefi)}>
+          {xdefiStatus === XdefiWalletStatus.XdefiPrioritized && (
+            <Typography>{t('views.walletModal.connectXdefi')}</Typography>
+          )}
+          {xdefiStatus === XdefiWalletStatus.XdefiNotPrioritized && (
+            <Typography>{t('views.walletModal.prioritiseXdefi')}</Typography>
+          )}
+          {xdefiStatus === XdefiWalletStatus.XdefiNotInstalled && (
+            <Typography>{t('views.walletModal.installXdefi')}</Typography>
+          )}
+          <Icon name="xdefi" />
+        </WalletOption>
+        <WalletOption>
+          <Typography>{t('views.walletModal.walletConnect')}</Typography>
+          <Icon name="walletConnect" />
+        </WalletOption>
+        <WalletOption>
+          {metamaskStatus === MetaMaskWalletStatus.MetaMaskDetected && (
+            <Typography>{t('views.walletModal.connectMetaMask')}</Typography>
+          )}
+          {metamaskStatus === MetaMaskWalletStatus.XdefiDetected && (
+            <Typography>{t('views.walletModal.disableXdefi')}</Typography>
+          )}
+          {metamaskStatus === MetaMaskWalletStatus.NoWeb3Provider && (
+            <Typography>{t('views.walletModal.installMetaMask')}</Typography>
+          )}
+          <Icon name="metamask" />
+        </WalletOption>
+        <WalletOption>
+          <Typography>{t('views.walletModal.connectLedger')}</Typography>
+          <Icon name="ledger" />
+        </WalletOption>
+        <WalletOption>
+          <Typography>{t('views.walletModal.connectOnboard')}</Typography>
+          <Icon name="onboard" />
+        </WalletOption>
+        <WalletOption>
+          <Typography>{t('views.walletModal.connectKeystore')}</Typography>
+          <Icon name="keystore" />
+        </WalletOption>
+        <WalletOption>
+          <Typography>{t('views.walletModal.createKeystore')}</Typography>
+          <Icon name="keystore" />
+        </WalletOption>
+        <WalletOption>
+          <Typography>{t('views.walletModal.importPhrase')}</Typography>
+          <Icon name="keystore" />
+        </WalletOption>
       </Box>
     )
-  }, [xdefiInstalled])
+  }, [metamaskStatus, xdefiStatus, handleChainSelect])
+
+  const renderChainSelectPanel = useMemo(() => {
+    if (
+      walletMode === WalletMode.Create ||
+      walletMode === WalletMode.Select ||
+      walletMode === WalletMode.Phrase
+    )
+      return <></>
+
+    return (
+      <Box className="w-full space-y-3" col>
+        {availableChainsByWallet[walletMode].map((chain) => {
+          return (
+            <ChainOption key={chain}>
+              <Typography>{chain}</Typography>
+            </ChainOption>
+          )
+        })}
+      </Box>
+    )
+  }, [walletMode])
 
   return (
     <Modal
-      title="Connect Wallet"
+      title={modalTitle}
       isOpened={isConnectModalOpen}
       withBody={false}
       onClose={handleCloseModal}
     >
       <Card className="w-[85vw] max-w-[420px] md:w-[65vw]" stretch size="lg">
         {walletStage === WalletStage.WalletSelect && renderMainPanel}
+        {walletStage === WalletStage.ChainSelect && renderChainSelectPanel}
       </Card>
     </Modal>
   )

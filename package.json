@@ -25,7 +25,7 @@
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.2.1",
     "@thorswap-lib/midgard-sdk": "^0.0.2",
-    "@thorswap-lib/multichain-sdk": "^0.0.8",
+    "@thorswap-lib/multichain-sdk": "^0.0.10",
     "axios": "^0.25.0",
     "babel-loader": "8.1.0",
     "bech32": "^2.0.0",
