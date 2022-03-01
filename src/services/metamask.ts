@@ -1,6 +1,6 @@
 import { MetaMaskClient } from '@thorswap-lib/multichain-sdk'
 
-import { NETWORK } from './config'
+import { NETWORK } from '../settings/config'
 
 const metamask = new MetaMaskClient(NETWORK)
 

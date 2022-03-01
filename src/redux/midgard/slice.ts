@@ -267,6 +267,17 @@ const midgardSlice = createSlice({
           state.inboundData = payload
         },
       )
+      // get thorchain mimir
+      .addCase(midgardActions.getMimir.pending, (state) => {
+        state.mimirLoading = true
+      })
+      .addCase(midgardActions.getMimir.fulfilled, (state, action) => {
+        state.mimirLoading = false
+        state.mimir = action.payload
+      })
+      .addCase(midgardActions.getMimir.rejected, (state) => {
+        state.mimirLoading = true
+      })
   },
 })
 

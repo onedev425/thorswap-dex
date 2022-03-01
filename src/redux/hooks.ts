@@ -17,12 +17,28 @@ export const useGlobalState = () => {
   const { actions, pools } = useMidgard()
 
   const loadInitialData = useCallback(() => {
+    dispatch(actions.getVolume24h())
     dispatch(actions.getPools())
+    dispatch(actions.getStats())
+    dispatch(actions.getNetworkData())
+    dispatch(actions.getLastblock())
+    dispatch(actions.getMimir())
+    dispatch(actions.getQueue())
   }, [dispatch, actions])
 
-  const refreshPage = useCallback(() => {
-    dispatch(actions.getPools())
-  }, [dispatch, actions])
+  const refreshPage = useCallback(
+    (route = undefined) => {
+      console.log('route: ', route?.pathname)
+      if (!route) {
+        loadInitialData()
+      } else {
+        dispatch(actions.getPools())
+        dispatch(actions.getMimir())
+        dispatch(actions.getStats())
+      }
+    },
+    [loadInitialData, dispatch, actions],
+  )
 
   const runeToCurrency = useCallback(
     (runeAmount: Amount): Price => {

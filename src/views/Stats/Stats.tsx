@@ -1,340 +1,263 @@
+import { useMemo } from 'react'
+
+import { Amount } from '@thorswap-lib/multichain-sdk'
+
 import { Typography } from 'components/Atomic'
-import { Chart } from 'components/Chart'
-import { ChartType } from 'components/Chart/types'
 import { StatsGroup } from 'components/StatsGroup'
 
-import { t } from 'services/i18n'
+import { useGlobalState } from 'redux/hooks'
+import { useMidgard } from 'redux/midgard/hooks'
 
-const sampleData = [
-  { x: 'January', y: 90 },
-  { x: 'February', y: 100 },
-  { x: 'March', y: 40 },
-  { x: 'April', y: 60 },
-  { x: 'May', y: 180 },
-  { x: 'June', y: 100 },
-  { x: 'July', y: 50 },
-  { x: 'August', y: 70 },
-  { x: 'September', y: 80 },
-  { x: 'October', y: 90 },
-  { x: 'November', y: 140 },
-  { x: 'December', y: 100 },
-]
+import { useGlobalStats } from 'hooks/useGlobalStats'
+import { useMimir } from 'hooks/useMimir'
+
+// import { t } from 'services/i18n'
+
+import { StatsGroupType } from './types'
 
 const Stats = () => {
-  const change = '-13.29%'
-  const liquidityChange = '7.51%'
-  const swapChange = '34.76%'
-  const tvlChange = '3.69%'
-  const dbrChange = '-8.27%'
-  const totalTransactionChange = '4.91%'
+  const { stats, lastBlock } = useMidgard()
+  const { runeToCurrency } = useGlobalState()
+  const { maxLiquidityRune } = useMimir()
 
-  return (
-    <div className="flex flex-wrap">
+  const {
+    tvlInRune,
+    totalActiveBond,
+    bondingAPYLabel,
+    liquidityAPYLabel,
+    totalVolume,
+    totalTx,
+    totalBond,
+    networkData,
+  } = useGlobalStats()
+
+  const statsGroupData: StatsGroupType[] = useMemo(
+    () => [
+      {
+        title: 'Volume',
+        statsData: {
+          iconName: 'lightning',
+          iconColor: 'pink',
+          stats: [
+            {
+              label: 'Total Volume',
+              value: runeToCurrency(totalVolume).toCurrencyFormat(2),
+            },
+            {
+              label: 'Swap Volume',
+              value: runeToCurrency(
+                Amount.fromMidgard(stats?.swapVolume),
+              ).toCurrencyFormat(2),
+            },
+            {
+              label: 'Deposit Volume',
+              value: runeToCurrency(
+                Amount.fromMidgard(stats?.addLiquidityVolume),
+              ).toCurrencyFormat(2),
+            },
+            {
+              label: 'Withdraw Volume',
+              value: runeToCurrency(
+                Amount.fromMidgard(stats?.withdrawVolume),
+              ).toCurrencyFormat(2),
+            },
+          ],
+        },
+      },
+      {
+        title: 'Liquidity',
+        statsData: {
+          iconName: 'lightning',
+          iconColor: 'pink',
+          stats: [
+            {
+              label: 'Total Liquidity',
+              value: runeToCurrency(
+                Amount.fromMidgard(stats?.runeDepth).mul(2),
+              ).toCurrencyFormat(2),
+            },
+            {
+              label: 'Total Pooled RUNE',
+              value: `${Amount.fromMidgard(
+                networkData?.totalPooledRune,
+              ).toAbbreviate()} RUNE`,
+            },
+            {
+              label: 'Max RUNE Liquidity',
+              value: `${maxLiquidityRune?.toAbbreviate() ?? 'N/A'} RUNE`,
+            },
+            {
+              label: 'Liquidity APY',
+              value: liquidityAPYLabel,
+            },
+          ],
+        },
+      },
+      {
+        title: 'Network',
+        statsData: {
+          iconName: 'lightning',
+          iconColor: 'pink',
+          stats: [
+            {
+              label: 'TVL',
+              value: runeToCurrency(tvlInRune).toCurrencyFormat(2),
+              tooltip:
+                'Total Value Locked amount in the network (Total Liquidity + Total Node Bond)',
+            },
+            {
+              label: 'Upgraded RUNE',
+              value: `${Amount.fromMidgard(
+                stats?.switchedRune,
+              ).toAbbreviate()} RUNE`,
+            },
+            {
+              label: 'Current Block Height',
+              value: Amount.fromNormalAmount(lastBlock?.[0]?.thorchain).toFixed(
+                0,
+              ),
+            },
+            {
+              label: 'Next Churn Height',
+              value: Amount.fromNormalAmount(
+                networkData?.nextChurnHeight,
+              ).toFixed(0),
+            },
+          ],
+        },
+      },
+      {
+        title: 'Node',
+        statsData: {
+          iconName: 'lightning',
+          iconColor: 'pink',
+          stats: [
+            {
+              label: 'Total Active Bond',
+              value: `${runeToCurrency(totalActiveBond).toCurrencyFormat(
+                2,
+              )} (${totalActiveBond.toAbbreviate(1)} ᚱ)`,
+              tooltip: 'Total Bond Amounts by Active Nodes',
+            },
+            {
+              label: 'Total Bond',
+              value: `${runeToCurrency(totalBond).toCurrencyFormat(
+                2,
+              )} (${totalBond.toAbbreviate(1)} ᚱ)`,
+              tooltip: 'Total Amount Bonded by Nodes',
+            },
+            {
+              label: 'Bonding APY',
+              value: bondingAPYLabel,
+            },
+            {
+              label: 'Active Node Count',
+              value: Amount.fromNormalAmount(
+                networkData?.activeNodeCount,
+              ).toFixed(0),
+            },
+          ],
+        },
+      },
+      {
+        title: 'Block Rewards',
+        statsData: {
+          iconName: 'lightning',
+          iconColor: 'pink',
+          stats: [
+            {
+              label: 'Total Reserve',
+              value: runeToCurrency(
+                Amount.fromMidgard(networkData?.totalReserve),
+              ).toCurrencyFormat(2),
+            },
+            {
+              label: 'Daily Block Rewards',
+              value: `${runeToCurrency(
+                Amount.fromMidgard(networkData?.blockRewards?.blockReward).mul(
+                  14400,
+                ),
+              ).toCurrencyFormat(2)} `,
+            },
+            {
+              label: 'Daily LP Rewards',
+              value: `${runeToCurrency(
+                Amount.fromMidgard(networkData?.blockRewards?.poolReward).mul(
+                  14400,
+                ),
+              ).toCurrencyFormat(2)} `,
+            },
+            {
+              label: 'Daily Bond Rewards',
+              value: `${runeToCurrency(
+                Amount.fromMidgard(networkData?.blockRewards?.bondReward).mul(
+                  14400,
+                ),
+              ).toCurrencyFormat(2)} `,
+            },
+          ],
+        },
+      },
+      {
+        title: 'Usage',
+        statsData: {
+          iconName: 'lightning',
+          iconColor: 'pink',
+          stats: [
+            {
+              label: 'Total Tx',
+              value: totalTx.toFixed(),
+            },
+            {
+              label: 'Swap Count 24H',
+              value: Amount.fromNormalAmount(stats?.swapCount24h).toFixed(0),
+            },
+            {
+              label: 'Monthly Active Users',
+              value: Amount.fromNormalAmount(stats?.monthlyActiveUsers).toFixed(
+                0,
+              ),
+            },
+            {
+              label: 'Daily Active Users',
+              value: Amount.fromNormalAmount(stats?.dailyActiveUsers).toFixed(
+                0,
+              ),
+            },
+          ],
+        },
+      },
+    ],
+    [
+      runeToCurrency,
+      totalVolume,
+      stats,
+      networkData,
+      maxLiquidityRune,
+      liquidityAPYLabel,
+      tvlInRune,
+      lastBlock,
+      totalActiveBond,
+      totalBond,
+      bondingAPYLabel,
+      totalTx,
+    ],
+  )
+
+  return statsGroupData.map(({ title, statsData }) => (
+    <div className="flex flex-wrap" key={title}>
       <div className="grid grid-cols-1 gap-8 mb-8 md:grid-cols-2 lg:grid-cols-3">
         <div>
           <div className="flex flex-row pb-8">
             <Typography variant="h3" color="primary" fontWeight="extrabold">
-              {t('common.volume')}
+              {title}
             </Typography>
           </div>
-          <div className="flex flex-row justify-between">
-            <Typography
-              className="group-hover:text-white dark:group-hover:text-white"
-              variant="h5"
-              color="secondary"
-              fontWeight="semibold"
-            >
-              {t('common.totalVol')}
-            </Typography>
-            <Typography
-              className="group-hover:text-white dark:group-hover:text-white"
-              variant="h5"
-              color="red"
-              fontWeight="semibold"
-            >
-              {change}
-            </Typography>
-          </div>
-          <div className="flex flex-row pb-8">
-            <Chart type={ChartType.CurvedLine} data={sampleData} hideLabel />
-          </div>
-          <StatsGroup
-            iconName="lightning"
-            iconColor="pink"
-            stats={[
-              {
-                label: 'Total Volume',
-                value: '$ 2.01 B',
-              },
-              {
-                label: 'Deposit Volume',
-                value: '$ 275.63 M',
-              },
-              {
-                label: 'Swap Volume',
-                value: '$ 1.54 B',
-              },
-              {
-                label: 'Withdraw Volume',
-                value: '$ 191.86 M',
-              },
-            ]}
-          />
-        </div>
-        <div>
-          <div className="flex flex-row pb-8">
-            <Typography variant="h3" color="primary" fontWeight="extrabold">
-              {t('common.liquidity')}
-            </Typography>
-          </div>
-          <div className="flex flex-row justify-between">
-            <Typography
-              className="group-hover:text-white dark:group-hover:text-white"
-              variant="h5"
-              color="secondary"
-              fontWeight="semibold"
-            >
-              {t('common.liquidityAPY')}
-            </Typography>
-            <Typography
-              className="group-hover:text-white dark:group-hover:text-white"
-              variant="h5"
-              color="green"
-              fontWeight="semibold"
-            >
-              {liquidityChange}
-            </Typography>
-          </div>
-          <div className="flex flex-row pb-8">
-            <Chart type={ChartType.CurvedLine} data={sampleData} hideLabel />
-          </div>
-          <StatsGroup
-            iconName="chartArea"
-            iconColor="blue"
-            stats={[
-              {
-                label: 'Total Liquidity',
-                value: '$ 179.43 M',
-              },
-              {
-                label: 'Max RUNE Liquidity',
-                value: '15.5 M Rune',
-              },
-              {
-                label: 'Upgraded RUNE',
-                value: '154.2 M Rune',
-              },
-              {
-                label: 'Liquidity APY',
-                value: '13.29 %',
-              },
-            ]}
-          />
-        </div>
-        <div>
-          <div className="flex flex-row pb-8">
-            <Typography variant="h3" color="primary" fontWeight="extrabold">
-              {t('views.stats.users')}
-            </Typography>
-          </div>
-          <div className="flex flex-row justify-between">
-            <Typography
-              className="group-hover:text-white dark:group-hover:text-white"
-              variant="h5"
-              color="secondary"
-              fontWeight="semibold"
-            >
-              {t('views.stats.swapCount')}
-            </Typography>
-            <Typography
-              className="group-hover:text-white dark:group-hover:text-white"
-              variant="h5"
-              color="green"
-              fontWeight="semibold"
-            >
-              {swapChange}
-            </Typography>
-          </div>
-          <div className="flex flex-row pb-8">
-            <Chart type={ChartType.CurvedLine} data={sampleData} hideLabel />
-          </div>
-          <StatsGroup
-            iconName="wallet"
-            iconColor="green"
-            stats={[
-              {
-                label: 'Swap Count 30D',
-                value: '$ 179.43 M',
-              },
-              {
-                label: 'Add Liquidity Count',
-                value: '$509,82b',
-              },
-              {
-                label: 'Withdraw Count',
-                value: '$ 179.43 M',
-              },
-              {
-                label: 'Dily Active Users',
-                value: '$46,82.3',
-              },
-            ]}
-          />
-        </div>
-
-        <div>
-          <div className="flex flex-row pb-8">
-            <Typography variant="h3" color="primary" fontWeight="extrabold">
-              {t('views.stats.network')}
-            </Typography>
-          </div>
-          <div className="flex flex-row justify-between">
-            <Typography
-              className="group-hover:text-white dark:group-hover:text-white"
-              variant="h5"
-              color="secondary"
-              fontWeight="semibold"
-            >
-              {`${t('common.totalValueLocked')} (TVL)`}
-            </Typography>
-            <Typography
-              className="group-hover:text-white dark:group-hover:text-white"
-              variant="h5"
-              color="green"
-              fontWeight="semibold"
-            >
-              {tvlChange}
-            </Typography>
-          </div>
-          <div className="flex flex-row pb-8">
-            <Chart type={ChartType.CurvedLine} data={sampleData} hideLabel />
-          </div>
-          <StatsGroup
-            iconName="fire"
-            iconColor="purple"
-            stats={[
-              {
-                label: 'TVL',
-                value: '$2.10m',
-              },
-              {
-                label: 'Total Active Bounds',
-                value: '$509,82b',
-              },
-              {
-                label: 'Total Bond',
-                value: '$ 178.98 M',
-              },
-              {
-                label: 'Bonding APY',
-                value: '$ 191.86 M',
-              },
-            ]}
-          />
-        </div>
-        <div>
-          <div className="flex flex-row pb-8">
-            <Typography variant="h3" color="primary" fontWeight="extrabold">
-              {t('views.stats.rewards')}
-            </Typography>
-          </div>
-          <div className="flex flex-row justify-between">
-            <Typography
-              className="group-hover:text-white dark:group-hover:text-white"
-              variant="h5"
-              color="secondary"
-              fontWeight="semibold"
-            >
-              {t('views.stats.dailyBlockRewards')}
-            </Typography>
-            <Typography
-              className="group-hover:text-white dark:group-hover:text-white"
-              variant="h5"
-              color="red"
-              fontWeight="semibold"
-            >
-              {dbrChange}
-            </Typography>
-          </div>
-          <div className="flex flex-row pb-8">
-            <Chart type={ChartType.CurvedLine} data={sampleData} hideLabel />
-          </div>
-          <StatsGroup
-            iconName="chartPie"
-            iconColor="yellow"
-            stats={[
-              {
-                label: 'Total Reserve',
-                value: '$3.650m',
-              },
-              {
-                label: 'Daily Block Rewards',
-                value: '$ 179.43 M',
-              },
-              {
-                label: 'Daily LP Rewards',
-                value: '$46,82.3',
-              },
-              {
-                label: 'Daily Bound Rewards',
-                value: '$46,667.4',
-              },
-            ]}
-          />
-        </div>
-        <div>
-          <div className="flex flex-row pb-8">
-            <Typography variant="h3" color="primary" fontWeight="extrabold">
-              {t('common.transactions')}
-            </Typography>
-          </div>
-          <div className="flex flex-row justify-between">
-            <Typography
-              className="group-hover:text-white dark:group-hover:text-white"
-              variant="h5"
-              color="secondary"
-              fontWeight="semibold"
-            >
-              {t('views.stats.dailyBlockRewards')}
-            </Typography>
-            <Typography
-              className="group-hover:text-white dark:group-hover:text-white"
-              variant="h5"
-              color="green"
-              fontWeight="semibold"
-            >
-              {totalTransactionChange}
-            </Typography>
-          </div>
-          <div className="flex flex-row pb-8">
-            <Chart type={ChartType.CurvedLine} data={sampleData} hideLabel />
-          </div>
-          <StatsGroup
-            iconName="chartArea2"
-            iconColor="blueLight"
-            stats={[
-              {
-                label: 'Total Transactions',
-                value: '$ 179.43 M',
-              },
-              {
-                label: 'Swap Count',
-                value: '$509,82b',
-              },
-              {
-                label: 'Unique Swappers',
-                value: '$ 179.43 M',
-              },
-              {
-                label: 'Swap Count 24h',
-                value: '$46,82.3',
-              },
-            ]}
-          />
+          <StatsGroup {...statsData} />
         </div>
       </div>
     </div>
-  )
+  ))
 }
 
 export default Stats

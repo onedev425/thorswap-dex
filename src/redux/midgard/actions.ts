@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
 import { midgardApi } from 'services/midgard'
+import { getThorchainMimir } from 'services/thornode'
 
 export const getPools = createAsyncThunk(
   'midgard/getPools',
@@ -70,6 +71,15 @@ export const getDepthHistory = createAsyncThunk(
 export const getMemberDetail = createAsyncThunk(
   'midgard/getMemberDetail',
   midgardApi.getMemberDetail,
+)
+
+export const getMimir = createAsyncThunk(
+  'thorchain/getThorchainMimir',
+  async () => {
+    const { data } = await getThorchainMimir()
+
+    return data
+  },
 )
 
 // Node

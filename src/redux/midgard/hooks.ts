@@ -1,11 +1,11 @@
 import { useCallback, useMemo } from 'react'
 
-import { batch } from 'react-redux'
+import { batch, useSelector } from 'react-redux'
 
 import { ActionListParams, HistoryInterval } from '@thorswap-lib/midgard-sdk'
 
 import * as actions from 'redux/midgard/actions'
-import { useAppDispatch, useAppSelector } from 'redux/store'
+import { useAppDispatch, useAppSelector, RootState } from 'redux/store'
 
 import { TX_PUBLIC_PAGE_LIMIT } from 'settings/constants/global'
 
@@ -14,17 +14,16 @@ const PER_DAY = 'day' as HistoryInterval
 
 export const useMidgard = () => {
   const dispatch = useAppDispatch()
-  const {
-    pools,
-    earningsHistoryLoading,
-    liquidityHistoryLoading,
-    swapHistoryLoading,
-  } = useAppSelector(({ midgard }) => midgard)
+  const midgardState = useSelector((state: RootState) => state.midgard)
+
+  const { pools } = useAppSelector(({ midgard }) => midgard)
 
   const isGlobalHistoryLoading = useMemo(
     () =>
-      earningsHistoryLoading || swapHistoryLoading || liquidityHistoryLoading,
-    [earningsHistoryLoading, liquidityHistoryLoading, swapHistoryLoading],
+      midgardState.earningsHistoryLoading ||
+      midgardState.swapHistoryLoading ||
+      midgardState.liquidityHistoryLoading,
+    [midgardState],
   )
 
   // get earnings, swap, liquidity history
@@ -74,6 +73,7 @@ export const useMidgard = () => {
   }, [dispatch])
 
   return {
+    ...midgardState,
     actions,
     pools,
     isGlobalHistoryLoading,

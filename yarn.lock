@@ -19951,9 +19951,9 @@ unbox-primitive@^1.0.1:
     has-symbols "^1.0.2"
     which-boxed-primitive "^1.0.2"
 
-"undefined@git+https://github.com/cryptocoinjs/coininfo.git":
+"undefined@https://github.com/cryptocoinjs/coininfo.git":
   version "5.2.0"
-  resolved "git+https://github.com/cryptocoinjs/coininfo.git#4bb73a7c9efe36f7a9eb4122a75e7e7d9c191a56"
+  resolved "https://github.com/cryptocoinjs/coininfo.git#4bb73a7c9efe36f7a9eb4122a75e7e7d9c191a56"
   dependencies:
     safe-buffer "^5.1.1"
 

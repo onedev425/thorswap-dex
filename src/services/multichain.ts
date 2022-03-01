@@ -1,6 +1,6 @@
 import { MultiChain, setGlobalConfig } from '@thorswap-lib/multichain-sdk'
 
-import { NETWORK } from './config'
+import { NETWORK } from 'settings/config'
 
 setGlobalConfig({
   etherscanApiKey: process.env.REACT_APP_ETHERSCAN_API_KEY || '',
