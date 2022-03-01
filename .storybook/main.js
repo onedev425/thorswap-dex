@@ -19,6 +19,22 @@ module.exports = {
         ...(baseConfig.module ?? {}),
         rules: [...(baseConfig.module?.rules ?? [])],
       },
+      resolve: {
+        ...(baseConfig.resolve ?? {}),
+        fallback: {
+          ...(baseConfig.resolve.fallback ?? {}),
+          crypto: false,
+          fs: false,
+          http: false,
+          https: false,
+          net: false,
+          os: false,
+          path: false,
+          stream: require.resolve('stream-browserify'),
+          tls: false,
+          zlib: false,
+        },
+      },
     }
 
     if (options.configType === 'DEVELOPMENT') {
