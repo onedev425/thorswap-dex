@@ -1,81 +1,109 @@
+import { useMemo } from 'react'
+
+import { Pool, Amount, Percent } from '@thorswap-lib/multichain-sdk'
+import { chainToString } from '@thorswap-lib/xchain-util'
+
+import { AssetIcon, AssetTickerType } from 'components/AssetIcon'
 import {
   TableColumnsConfig,
   Table,
   Typography,
-  Icon,
   Button,
   Box,
 } from 'components/Atomic'
 import { PoolTableProps } from 'components/PoolTable/types'
 
+import { useGlobalState } from 'redux/hooks'
+
 import { BreakPoint } from 'hooks/useWindowSize'
 
 import { t } from 'services/i18n'
 
-const getPoolColumns = () => {
-  return [
-    {
-      Header: 'Pool',
-      accessor: 'asset',
-      Cell: ({ cell: { value } }: FixMe) => (
-        <div className="flex flex-row items-center">
-          <Icon name={value.icon} color={value.iconColor} size={40} />
-          <Typography className="pl-4 h4 hidden md:block">
-            {value.name}
-          </Typography>
-        </div>
-      ),
-      disableSortBy: true,
-    },
-    {
-      Header: 'Network',
-      accessor: 'network',
-      disableSortBy: true,
-      minScreenSize: BreakPoint.lg,
-    },
-    {
-      Header: 'USD Price',
-      accessor: 'price',
-      disableSortBy: true,
-    },
-    {
-      Header: 'Liquidity',
-      accessor: 'liquidity',
-    },
-    {
-      Header: '24h Vol',
-      accessor: 'volume',
-      disableSortBy: true,
-      minScreenSize: BreakPoint.lg,
-    },
-    {
-      Header: 'APY',
-      accessor: 'apy',
-      disableSortBy: true,
-      Cell: ({ cell }) => {
-        return <Box className="justify-end md:justify-start">{cell.value}</Box>
-      },
-    },
-    {
-      Header: 'Action',
-      accessor: 'action',
-      Cell: () => (
-        <Box row className="gap-2" justify="end">
-          <Button variant="secondary" type="outline" onClick={() => {}}>
-            {t('common.swap')}
-          </Button>
-          <Button type="outline" onClick={() => {}}>
-            {t('common.addLiquidity')}
-          </Button>
-        </Box>
-      ),
-      disableSortBy: true,
-      minScreenSize: BreakPoint.md,
-    },
-  ] as TableColumnsConfig
-}
 export const PoolTable = ({ data }: PoolTableProps) => {
-  const columns = getPoolColumns()
+  const { runeToCurrency } = useGlobalState()
+
+  console.log('data', data)
+
+  const columns = useMemo(() => {
+    return [
+      {
+        id: 'Pool',
+        Header: 'Pool',
+        accessor: (row: Pool) => row,
+        Cell: ({ cell: { value } }: { cell: { value: Pool } }) => (
+          <div className="flex flex-row items-center">
+            <AssetIcon name={value.asset.ticker as AssetTickerType} size={40} />
+            <Typography className="pl-4 h4 hidden md:block">
+              {value.asset.ticker}
+            </Typography>
+          </div>
+        ),
+      },
+      {
+        id: 'Network',
+        Header: 'Network',
+        accessor: (row: Pool) => row,
+        Cell: ({ cell: { value } }: { cell: { value: Pool } }) =>
+          chainToString(value.asset.chain),
+        minScreenSize: BreakPoint.lg,
+      },
+      {
+        id: 'price',
+        Header: 'USD Price',
+        accessor: (row: Pool) => row,
+        Cell: ({ cell: { value } }: { cell: { value: Pool } }) =>
+          `$${Amount.fromAssetAmount(value.detail.assetPriceUSD, 8).toFixed(
+            3,
+          )}`,
+      },
+      {
+        id: 'Liquidity',
+        Header: 'Liquidity',
+        accessor: (row: Pool) => row,
+        Cell: ({ cell: { value } }: { cell: { value: Pool } }) =>
+          runeToCurrency(
+            Amount.fromMidgard(value.detail.runeDepth).mul(2),
+          ).toCurrencyFormat(2),
+      },
+      {
+        id: 'volume24h',
+        Header: 'Volume24H',
+        accessor: (row: Pool) => row,
+        Cell: ({ cell: { value } }: { cell: { value: Pool } }) =>
+          runeToCurrency(
+            Amount.fromMidgard(value.detail.volume24h),
+          ).toCurrencyFormat(2),
+        minScreenSize: BreakPoint.lg,
+      },
+      {
+        id: 'APY',
+        Header: 'APY',
+        accessor: (row: Pool) => row,
+        Cell: ({ cell: { value } }: { cell: { value: Pool } }) => {
+          return (
+            <Box className="justify-end md:justify-start">{`${new Percent(
+              value.detail.poolAPY,
+            ).toFixed(0)}`}</Box>
+          )
+        },
+      },
+      {
+        Header: 'Action',
+        Cell: () => (
+          <Box row className="gap-2" justify="end">
+            <Button variant="secondary" type="outline" onClick={() => {}}>
+              {t('common.swap')}
+            </Button>
+            <Button type="outline" onClick={() => {}}>
+              {t('common.addLiquidity')}
+            </Button>
+          </Box>
+        ),
+        disableSortBy: true,
+        minScreenSize: BreakPoint.md,
+      },
+    ] as TableColumnsConfig
+  }, [runeToCurrency])
 
   return (
     <div className="flex flex-col">

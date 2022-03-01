@@ -24,7 +24,8 @@
       "components/*": ["components/*"],
       "views/*": ["views/*"],
       "types/*": ["types/*"],
-      "styles/*": ["styles/*"]
+      "styles/*": ["styles/*"],
+      "settings/*": ["settings/*"]
     }
   },
   "include": ["src"]

@@ -1,6 +1,5 @@
 import { IconName } from 'components/Atomic'
 import { DataPoint } from 'components/Chart/types'
-import { PoolData } from 'components/PoolTable/types'
 import { StatsType } from 'components/Stats'
 
 import { ColorType } from 'types/global'
@@ -25,7 +24,7 @@ type DashboardMockData = {
     iconName: IconName
     change: number
   }[]
-  pools: PoolData[]
+  pools: FixMe[]
 }
 
 export const dashboardMockData: DashboardMockData = {

@@ -15,8 +15,8 @@ import {
   TVLHistory,
   LastblockItem,
   THORNode,
-  PoolDetail,
 } from '@thorswap-lib/midgard-sdk'
+import { Pool } from '@thorswap-lib/multichain-sdk'
 
 export type MimirData = {
   CHURNINTERVAL?: number
@@ -93,7 +93,7 @@ export type LiquidityProvider = {
 export type PendingLP = Record<string, LiquidityProvider>
 
 export interface State {
-  pools: PoolDetail[]
+  pools: Pool[]
   poolLoading: boolean
   memberDetails: MemberDetails
   memberDetailsLoading: boolean

@@ -1,7 +1,5 @@
 import { ComponentMeta } from '@storybook/react'
 
-import { PoolData } from 'components/PoolTable/types'
-
 import { PoolTable } from './PoolTable'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -12,7 +10,7 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof PoolTable>
 
-const data: PoolData[] = [
+const data: FixMe[] = [
   {
     asset: { name: 'BTC', icon: 'bitcoin', iconColor: 'yellow' },
     network: 'Bitcoin',

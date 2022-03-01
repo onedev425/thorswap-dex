@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { Pool } from '@thorswap-lib/multichain-sdk'
 
 import * as midgardActions from './actions'
 import { State } from './types'
@@ -53,8 +54,16 @@ const midgardSlice = createSlice({
       .addCase(midgardActions.getPools.pending, (state) => {
         state.poolLoading = true
       })
-      .addCase(midgardActions.getPools.fulfilled, (state, { payload }) => {
-        state.pools = payload
+      .addCase(midgardActions.getPools.fulfilled, (state, action) => {
+        const pools = action.payload
+
+        state.pools = pools.reduce((res: Pool[], poolDetail) => {
+          const poolObj = Pool.fromPoolData(poolDetail)
+          if (poolObj) {
+            res.push(poolObj)
+          }
+          return res
+        }, [])
 
         state.poolLoading = false
       })

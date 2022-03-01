@@ -1,26 +1,17 @@
 import { dashboardMockData } from 'views/Home/mockData'
-import { useHome } from 'views/Home/useHome'
+import { PoolListView } from 'views/PoolListView'
 
-import { Select, Box, Typography } from 'components/Atomic'
+import { Box, Typography } from 'components/Atomic'
 import { Chart } from 'components/Chart'
 import { ChartType } from 'components/Chart/types'
 import { HorizontalSlider } from 'components/HorizontalSlider'
-import { Input } from 'components/Input'
 import { PoolCard } from 'components/PoolCard'
-import { PoolTable } from 'components/PoolTable'
 import { Statistics } from 'components/Statistics'
 import { StatsList } from 'components/StatsList'
-
-import { useMidgard } from 'redux/midgard/hooks'
 
 import { t } from 'services/i18n'
 
 const Home = () => {
-  const { pools } = useMidgard()
-  console.log('🔥 midgard pools:', JSON.stringify(pools))
-
-  const { chainAssetFilterIndex, setChainAssetFilterIndex } = useHome()
-
   return (
     <Box className="gap-12 overflow-x-hidden" col>
       <StatsList list={dashboardMockData.statsList} scrollable />
@@ -78,21 +69,8 @@ const Home = () => {
             ))}
           </HorizontalSlider>
         </Box>
-      </Box>
 
-      <Box className="gap-8" col>
-        <Typography variant="h3">{t('common.liquidityPools')}</Typography>
-        <Box justify="between" className="flex-wrap gap-8">
-          <Input border="rounded" placeholder="Search" icon="search" />
-
-          <Select
-            options={['All', 'Native', 'ERC20', 'BEP2']}
-            activeIndex={chainAssetFilterIndex}
-            onChange={setChainAssetFilterIndex}
-          />
-        </Box>
-
-        <PoolTable data={dashboardMockData.pools} />
+        <PoolListView />
       </Box>
     </Box>
   )

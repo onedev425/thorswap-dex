@@ -48,7 +48,7 @@ export const Table = ({
   }, [columns, columnsConfig, isVisible, setHiddenColumns])
 
   return (
-    <table className="border-separate border-spacing-y-4" {...getTableProps()}>
+    <table className="border-separate border-spacing-y-1" {...getTableProps()}>
       <thead>
         {headerGroups.map((headerGroup: TableHeaderGroupType) => (
           <TableHeaderGroup
