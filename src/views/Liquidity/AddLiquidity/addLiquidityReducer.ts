@@ -1,4 +1,5 @@
-import { AssetTickerType } from 'components/AssetIcon/types'
+import { Asset } from '@thorswap-lib/multichain-sdk'
+
 import { AssetInputType } from 'components/AssetInput/types'
 
 export type AddLiquidityState = {
@@ -7,7 +8,7 @@ export type AddLiquidityState = {
 }
 
 export type AddLiquidityActions =
-  | { type: 'setSecondAsset' | 'setFirstAsset'; payload: AssetTickerType }
+  | { type: 'setSecondAsset' | 'setFirstAsset'; payload: Asset }
   | {
       type: 'setSecondAssetBalance' | 'setFirstAssetBalance'
       payload: string
@@ -21,9 +22,9 @@ export const addLiquidityReducer = (
     case 'setFirstAsset':
       return {
         ...state,
-        firstAsset: { ...state.firstAsset, name: actions.payload },
+        firstAsset: { ...state.firstAsset, asset: actions.payload },
         secondAsset:
-          state.secondAsset.name === actions.payload
+          state.secondAsset.asset === actions.payload
             ? state.firstAsset
             : state.secondAsset,
       }
@@ -43,9 +44,9 @@ export const addLiquidityReducer = (
     case 'setSecondAsset':
       return {
         ...state,
-        secondAsset: { ...state.secondAsset, name: actions.payload },
+        secondAsset: { ...state.secondAsset, asset: actions.payload },
         firstAsset:
-          state.secondAsset.name === actions.payload
+          state.secondAsset.asset === actions.payload
             ? state.firstAsset
             : state.secondAsset,
       }

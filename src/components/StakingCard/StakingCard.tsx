@@ -1,3 +1,4 @@
+import { Asset } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
@@ -20,7 +21,7 @@ export const StakingCard = ({ className }: Props) => {
         </Typography>
       </Box>
       <Box>
-        <Card className="shadow-2xl drop-shadow-4xl flex-col">
+        <Card className="flex-col shadow-2xl drop-shadow-4xl">
           <div className="flex justify-center absolute m-auto left-0 right-0 top-[-28px] ">
             <div
               style={{
@@ -30,7 +31,7 @@ export const StakingCard = ({ className }: Props) => {
               }}
             >
               <AssetIcon
-                name="RUNE"
+                asset={Asset.RUNE()}
                 bgColor="yellow"
                 size={56}
                 className="shadow-leftTicker"
@@ -38,14 +39,14 @@ export const StakingCard = ({ className }: Props) => {
             </div>
             <div style={{ border: '8px solid #232e42', borderRadius: '50%' }}>
               <AssetIcon
-                name="BTC"
+                asset={Asset.BTC()}
                 bgColor="purple"
                 size={56}
                 className="shadow-rightTicker"
               />
             </div>
           </div>
-          <Box className="justify-between flex-row">
+          <Box className="flex-row justify-between">
             <Box col className="p-4">
               <Typography
                 variant="caption-xs"
@@ -82,10 +83,10 @@ export const StakingCard = ({ className }: Props) => {
             <Information
               label="Staking token"
               value={
-                <div className="grid grid-cols-12 items-center pl-10">
+                <div className="grid items-center grid-cols-12 pl-10">
                   <div className="col-span-11">
                     <Typography
-                      className="text-ellipsis overflow-hidden whitespace-nowrap"
+                      className="overflow-hidden text-ellipsis whitespace-nowrap"
                       color="primary"
                       fontWeight="bold"
                       variant="caption-xs"
@@ -112,7 +113,7 @@ export const StakingCard = ({ className }: Props) => {
               showBorder={false}
             />
           </Box>
-          <div className="py-1 mt-4 w-full grid overflow-hidden grid-cols-3 grid-rows-1 gap-2 justify-items-center">
+          <div className="grid w-full grid-cols-3 grid-rows-1 gap-2 py-1 mt-4 overflow-hidden justify-items-center">
             <Button type="outline" variant="primary" className="col-start-1">
               {t('common.deposit')}
             </Button>

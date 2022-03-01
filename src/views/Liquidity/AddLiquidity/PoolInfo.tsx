@@ -22,24 +22,24 @@ export const PoolInfo = ({
       </Box>
       <Box>
         <Box
-          className="flex-1 gap-4 border-0 border-light-typo-gray dark:border-dark-typo-gray border-dotted border-r"
+          className="flex-1 gap-4 border-0 border-r border-dotted border-light-typo-gray dark:border-dark-typo-gray"
           col
         >
           <Typography variant="caption" color="secondary">
-            {firstAsset.name}
+            {firstAsset.asset.symbol}
             {' per '}
-            {secondAsset.name}
+            {secondAsset.asset.symbol}
           </Typography>
           <Typography variant="h4">{firstToSecondRate}</Typography>
         </Box>
         <Box
-          className="flex-1 gap-4 text-center border-0 border-light-typo-gray dark:border-dark-typo-gray border-dotted border-r"
+          className="flex-1 gap-4 text-center border-0 border-r border-dotted border-light-typo-gray dark:border-dark-typo-gray"
           col
         >
           <Typography variant="caption" color="secondary">
-            {secondAsset.name}
+            {secondAsset.asset.symbol}
             {' per '}
-            {firstAsset.name}
+            {firstAsset.asset.symbol}
           </Typography>
           <Typography variant="h4">{1 / firstToSecondRate}</Typography>
         </Box>

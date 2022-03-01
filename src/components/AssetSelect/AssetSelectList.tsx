@@ -36,13 +36,13 @@ export const AssetSelectList = (props: AssetSelectProps) => {
         />
 
         {props.commonAssets?.length > 0 && (
-          <div className="flex flex-row flex-wrap pt-3 lg:pt-6 gap-2 md:gap-5">
-            {props.commonAssets.map((asset) => (
-              <div key={asset.name}>
+          <div className="flex flex-row flex-wrap gap-2 pt-3 lg:pt-6 md:gap-5">
+            {props.commonAssets.map((commonItem) => (
+              <div key={commonItem.asset.symbol}>
                 <AssetButton
                   className="bg-opacity-70 dark:bg-opacity-70"
-                  onClick={() => select(asset)}
-                  name={asset.name}
+                  onClick={() => select(commonItem)}
+                  asset={commonItem.asset}
                   size="sm"
                 />
               </div>
@@ -58,27 +58,27 @@ export const AssetSelectList = (props: AssetSelectProps) => {
         )}
       >
         <Box className="flex-1" col>
-          {filteredAssets.map((asset) => (
+          {filteredAssets.map((filteredItem) => (
             <Box
-              onClick={() => select(asset)}
-              key={asset.name}
-              alignCenter
               className="gap-3 px-6 py-2 cursor-pointer dark:hover:bg-dark-bg-secondary hover:bg-light-gray-light"
+              key={filteredItem.asset.symbol}
+              alignCenter
+              onClick={() => select(filteredItem)}
             >
-              <AssetIcon size={28} name={asset.name} />
+              <AssetIcon size={28} asset={filteredItem.asset} />
               <Box className="flex-1" col>
                 <Typography fontWeight="medium" variant="h5">
-                  {asset.name}
+                  {filteredItem.asset.symbol}
                 </Typography>
                 <Typography
                   variant="caption-xs"
                   fontWeight="light"
                   color="secondary"
                 >
-                  {asset.type}
+                  {filteredItem.type}
                 </Typography>
               </Box>
-              <Typography color="secondary">{asset.balance}</Typography>
+              <Typography color="secondary">{filteredItem.balance}</Typography>
             </Box>
           ))}
           {!filteredAssets.length && (

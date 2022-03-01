@@ -28,19 +28,16 @@ export const PoolInfo = ({
       col
     >
       <Box
-        className="flex-wrap gap-x-2 gap-y-4 border-0 border-dotted border-b border-light-typo-gray dark:border-dark-typo-gray"
+        className="flex-wrap border-0 border-b border-dotted gap-x-2 gap-y-4 border-light-typo-gray dark:border-dark-typo-gray"
         pb={24}
         justify="between"
       >
         <Box alignCenter>
-          <AssetLpIcon
-            asset1Name={firstAsset.name}
-            asset2Name={secondAsset.name}
-          />
+          <AssetLpIcon asset1={firstAsset.asset} asset2={secondAsset.asset} />
           <Typography className="ml-4" fontWeight="normal" variant="h5">
-            {firstAsset.name}
+            {firstAsset.asset.symbol}
             {' / '}
-            {secondAsset.name}
+            {secondAsset.asset.symbol}
           </Typography>
         </Box>
         <Box alignCenter>
@@ -71,22 +68,22 @@ export const PoolInfo = ({
         </Box>
         <Box className="w-full h-8" alignCenter justify="between">
           <Typography color="secondary">
-            {firstAsset.name}
+            {firstAsset.asset.symbol}
             {':'}
           </Typography>
           <Box center>
             <Typography>{firstAsset.balance}</Typography>
-            <AssetIcon className="ml-2" name={firstAsset.name} size={32} />
+            <AssetIcon className="ml-2" asset={firstAsset.asset} size={32} />
           </Box>
         </Box>
         <Box className="w-full h-8" alignCenter justify="between">
           <Typography color="secondary">
-            {secondAsset.name}
+            {secondAsset.asset.symbol}
             {':'}
           </Typography>
           <Box center>
             <Typography>{secondAsset.balance}</Typography>
-            <AssetIcon className="ml-2" name={secondAsset.name} size={32} />
+            <AssetIcon className="ml-2" asset={secondAsset.asset} size={32} />
           </Box>
         </Box>
       </Box>

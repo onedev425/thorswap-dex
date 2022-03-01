@@ -1,10 +1,10 @@
-import { AssetTickerType } from 'components/AssetIcon/types'
+import { Asset } from '@thorswap-lib/multichain-sdk'
+
 import { IconName } from 'components/Atomic'
 
 export type AssetDataType = {
   title: string
-  assetTicker: AssetTickerType
+  asset: Asset
   amount: string
   infoIcon?: IconName
-  icon: AssetTickerType
 }

@@ -1,8 +1,8 @@
 import { memo, useState } from 'react'
 
+import { Asset } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
-import { AssetTickerType } from 'components/AssetIcon/types'
 import { AssetInput } from 'components/AssetInput'
 import { AssetInputType } from 'components/AssetInput/types'
 import { AssetSelectType } from 'components/AssetSelect/types'
@@ -10,9 +10,7 @@ import { Icon } from 'components/Atomic'
 
 type Props = {
   onAssetsSwap: () => void
-  onAssetChange: (
-    assetPosition: 'first' | 'second',
-  ) => (asset: AssetTickerType) => void
+  onAssetChange: (assetPosition: 'first' | 'second') => (asset: Asset) => void
   onBalanceChange: (
     assetPosition: 'first' | 'second',
   ) => (balance: string) => void
@@ -21,16 +19,12 @@ type Props = {
 }
 
 const assets = [
-  { name: 'ETH', type: 'native', balance: '0', change: '0.5' },
-  { name: 'BTC', type: 'native', balance: '4.7', change: '0.5' },
-  { name: 'RUNE', type: '-', balance: '11', change: '0.5' },
-  { name: 'BNB', type: 'native', balance: '0', change: '0.5' },
-  { name: 'DOGE', type: 'native', balance: '38', change: '0.5' },
-  { name: 'SXP', type: 'native', balance: '0', change: '0.5' },
-  { name: 'WETH', type: 'wrapped', balance: '0', change: '0.5' },
-  { name: 'BUSD', type: 'erc 20', balance: '0', change: '0.5' },
-  { name: 'STYL', type: 'native', balance: '0', change: '0.5' },
-  { name: 'DAI', type: '-', balance: '0', change: '0.5' },
+  { asset: Asset.ETH(), type: 'native', balance: '0', change: '0.5' },
+  { asset: Asset.BTC(), type: 'native', balance: '4.7', change: '0.5' },
+  { asset: Asset.RUNE(), type: '-', balance: '11', change: '0.5' },
+  { asset: Asset.BNB(), type: 'native', balance: '0', change: '0.5' },
+  { asset: Asset.DOGE(), type: 'native', balance: '38', change: '0.5' },
+  { asset: Asset.LUNA(), type: 'native', balance: '0', change: '0.5' },
 ] as AssetSelectType[]
 
 const commonAssets = assets.slice(0, 3)
@@ -71,11 +65,11 @@ export const AssetInputs = memo(
 
         <AssetInput
           selectedAsset={firstAsset}
-          onAssetChange={onAssetChange('first')}
-          onValueChange={onBalanceChange('first')}
           assets={assets}
           commonAssets={commonAssets}
           secondary
+          onAssetChange={onAssetChange('first')}
+          onValueChange={onBalanceChange('first')}
         />
         <AssetInput
           showChange

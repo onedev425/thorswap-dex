@@ -1,6 +1,6 @@
-import { AssetTickerType } from 'components/AssetIcon/types'
+import { Asset } from '@thorswap-lib/multichain-sdk'
 
 export type PoolAsset = {
-  name: AssetTickerType
+  asset: Asset
   balance: string
 }

@@ -1,4 +1,4 @@
-import { AssetIcon } from 'components/AssetIcon/AssetIcon'
+// import { AssetIcon } from 'components/AssetIcon/AssetIcon'
 import { Box, Button, Icon, Typography } from 'components/Atomic'
 
 import { t } from 'services/i18n'
@@ -39,13 +39,13 @@ const WalletBalance = () => {
           {t('views.walletDrawer.connectAnotherWallet')}
         </Button>
       </Box>
-      <ul className="list-none p-0">
+      <ul className="p-0 list-none">
         {balanceData.map((item) => (
           <li
             key={item.address}
             className="px-[40px] min-h-[155px] bg-gradient-primary-light dark:bg-gradient-primary-dark rounded-b-[24px]"
           >
-            <Box className="border-0 border-b-2 border-dashed border-bottom border-light-typo-gray dark:border-dark-typo-gray justify-between py-6">
+            <Box className="justify-between py-6 border-0 border-b-2 border-dashed border-bottom border-light-typo-gray dark:border-dark-typo-gray">
               <Box>
                 <Icon
                   name="refresh"
@@ -83,7 +83,7 @@ const WalletBalance = () => {
                 />
               </Box>
             </Box>
-            <Box className="border-0 border-b-2 border-dashed border-bottom border-light-typo-gray dark:border-dark-typo-gray justify-between py-6">
+            <Box className="justify-between py-6 border-0 border-b-2 border-dashed border-bottom border-light-typo-gray dark:border-dark-typo-gray">
               <Box>
                 <Icon
                   name="refresh"
@@ -123,7 +123,7 @@ const WalletBalance = () => {
             </Box>
             <Box alignCenter className="justify-between py-4">
               <Box>
-                <AssetIcon name={item.asset.name as Inexpressible} />
+                {/* <AssetIcon asset={item.asset} /> */}
                 <div className="flex flex-col flex-1 ml-2">
                   <Typography>{'BTC'}</Typography>
                   <Typography color="secondary">{'Native'}</Typography>

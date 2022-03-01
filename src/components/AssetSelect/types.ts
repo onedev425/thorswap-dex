@@ -1,14 +1,14 @@
-import { AssetTickerType } from 'components/AssetIcon/types'
+import { Asset } from '@thorswap-lib/multichain-sdk'
 
 export type AssetSelectProps = {
   assets: AssetSelectType[]
   commonAssets: AssetSelectType[]
-  onSelect: (asset: AssetTickerType) => void
+  onSelect: (asset: Asset) => void
   onClose?: () => void
 }
 
 export type AssetSelectType = {
-  name: AssetTickerType
+  asset: Asset
   type?: string
   value: string
   balance: string

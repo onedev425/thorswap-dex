@@ -1,3 +1,5 @@
+import { Asset } from '@thorswap-lib/multichain-sdk'
+
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
 import {
   Button,
@@ -23,7 +25,7 @@ const Wallet = () => {
   const token = { name: 'Bitcoin', ticker: 'BTC', change: '+10% ($ 1.500)' }
   return (
     <div className="container">
-      <Box className="pb-8 sm:pb-0 gap-6 xl:flex-row" col>
+      <Box className="gap-6 pb-8 sm:pb-0 xl:flex-row" col>
         <Box className="w-full xl:w-1/2" col>
           <Box className="pb-8">
             <Statistics
@@ -34,7 +36,7 @@ const Wallet = () => {
             />
           </Box>
           <Box className="pb-8">
-            <AssetIcon bgColor="orange" name="BTC" />
+            <AssetIcon bgColor="orange" asset={Asset.BTC()} />
             <Box alignCenter>
               <Typography variant="h5" className="ml-4" fontWeight="normal">
                 {token.name}
@@ -82,7 +84,7 @@ const Wallet = () => {
       <Box col className="pb-16">
         <Row justify="between">
           <Box
-            className="flex-wrap gap-4 md:flex-row md:justify-between flex-1"
+            className="flex-wrap flex-1 gap-4 md:flex-row md:justify-between"
             col
           >
             <Box>
@@ -116,7 +118,7 @@ const Wallet = () => {
       <Box col>
         <Row justify="between">
           <Box
-            className="flex-wrap gap-4 md:flex-row md:justify-between flex-1"
+            className="flex-wrap flex-1 gap-4 md:flex-row md:justify-between"
             col
           >
             <Box>
@@ -169,7 +171,7 @@ const sampleData = [
 ]
 const TableAllocationData = [
   {
-    asset: { name: 'BTC', icon: 'bitcoin', iconColor: 'yellow' },
+    asset: Asset.BTC(),
     price: '$ 1.500',
     allocation: '10%',
     amount: '$ 100.34554',
@@ -177,7 +179,7 @@ const TableAllocationData = [
     action: '-',
   },
   {
-    asset: { name: 'ETH', icon: 'ethereum', iconColor: 'purple' },
+    asset: Asset.ETH(),
     price: '$ 1.500',
     allocation: '10%',
     amount: '$ 100.34554',
@@ -187,7 +189,7 @@ const TableAllocationData = [
 ]
 const TableTransactionsData = [
   {
-    asset: { name: 'BTC', icon: 'bitcoin', iconColor: 'yellow' },
+    asset: Asset.BTC(),
     type: 'SEND',
     date: '18/1/2022',
     recipient: 'ad12345ajshd173634655',
@@ -195,7 +197,7 @@ const TableTransactionsData = [
     action: '-',
   },
   {
-    asset: { name: 'ETH', icon: 'ethereum', iconColor: 'purple' },
+    asset: Asset.ETH(),
     type: 'RECEIVE',
     date: '20/1/2022',
     recipient: 'bc12345ajshd173634655',
@@ -210,8 +212,8 @@ const TableAllocationColumns = [
     accessor: 'asset',
     Cell: ({ cell: { value } }: FixMe) => (
       <div className="flex items-center gap-2">
-        <AssetIcon name={value.name} size={40} />
-        <Typography color="secondary">{value.name}</Typography>
+        <AssetIcon asset={value} size={40} />
+        <Typography color="secondary">{value.symbol}</Typography>
       </div>
     ),
     disableSortBy: true,
@@ -258,8 +260,8 @@ const TableTransactionsColumns = [
     accessor: 'asset',
     Cell: ({ cell: { value } }: FixMe) => (
       <div className="flex items-center gap-2">
-        <AssetIcon name={value.name} size={40} />
-        <Typography color="secondary">{value.name}</Typography>
+        <AssetIcon asset={value} size={40} />
+        <Typography color="secondary">{value.symbol}</Typography>
       </div>
     ),
     disableSortBy: true,
@@ -327,8 +329,8 @@ const AssetsColumns = [
     accessor: 'asset',
     Cell: ({ cell: { value } }: FixMe) => (
       <div className="flex items-center gap-2">
-        <AssetIcon name={value.name} size={40} />
-        <Typography color="secondary">{value.name}</Typography>
+        <AssetIcon asset={value.asset} size={40} />
+        <Typography color="secondary">{value.symbol}</Typography>
       </div>
     ),
     disableSortBy: true,

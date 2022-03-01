@@ -1,6 +1,6 @@
+import { Asset } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
-import { AssetTickerType } from 'components/AssetIcon/types'
 import { AssetButton } from 'components/AssetSelect/AssetButton'
 import { Icon, Button } from 'components/Atomic'
 
@@ -9,7 +9,7 @@ import { t } from 'services/i18n'
 type Props = {
   className?: string
   onClick: () => void
-  selected?: Maybe<AssetTickerType>
+  selected?: Maybe<Asset>
 }
 
 export const AssetSelectButton = ({ className, onClick, selected }: Props) => {
@@ -17,7 +17,7 @@ export const AssetSelectButton = ({ className, onClick, selected }: Props) => {
     return (
       <AssetButton
         onClick={onClick}
-        name={selected}
+        asset={selected}
         className={className}
         withChevron
       />
@@ -31,7 +31,7 @@ export const AssetSelectButton = ({ className, onClick, selected }: Props) => {
         transform="uppercase"
         endIcon={
           <Icon
-            className="ml-4 text-light-btn-secondary dark:text-dark-btn-secondary group-hover:text-light-typo-primary dark:group-hover:text-dark-typo-primary transition"
+            className="ml-4 transition text-light-btn-secondary dark:text-dark-btn-secondary group-hover:text-light-typo-primary dark:group-hover:text-dark-typo-primary"
             name="chevronDown"
           />
         }

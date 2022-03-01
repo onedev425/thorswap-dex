@@ -1,5 +1,7 @@
 import { useCallback, useReducer } from 'react'
 
+import { Asset } from '@thorswap-lib/multichain-sdk'
+
 import { AssetInput } from 'views/Liquidity/WithdrawLiquidity/components/AssetInput'
 import { PoolInfo } from 'views/Liquidity/WithdrawLiquidity/components/PoolInfo'
 import { PoolAsset } from 'views/Liquidity/WithdrawLiquidity/types'
@@ -17,11 +19,11 @@ const poolData: {
   poolShare: string
 } = {
   firstAsset: {
-    name: 'ETH',
+    asset: Asset.RUNE(),
     balance: '0.005',
   },
   secondAsset: {
-    name: 'RUNE',
+    asset: Asset.RUNE(),
     balance: '60.2',
   },
   lpTokens: '0.4225',
@@ -45,7 +47,7 @@ export const WithdrawLiquidity = () => {
         actionsComponent={<Icon name="cog" color="secondary" />}
       />
 
-      <Card size="lg" stretch className="flex-col mt-12 pb-10 shadow-lg">
+      <Card size="lg" stretch className="flex-col pb-10 mt-12 shadow-lg">
         <AssetInput
           firstAsset={poolData.firstAsset}
           secondAsset={poolData.secondAsset}

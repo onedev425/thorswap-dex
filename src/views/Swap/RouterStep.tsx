@@ -1,7 +1,6 @@
 import classNames from 'classnames'
 
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon'
-import { AssetTickerType } from 'components/AssetIcon/types'
 import { Box, Typography } from 'components/Atomic'
 
 import { RouterStepProps } from './types'
@@ -19,8 +18,8 @@ export const RouterStep = ({ assets, commission }: RouterStepProps) => {
       {secondAsset ? (
         <AssetLpIcon
           inline
-          asset1Name={firstAssetOrRouter as AssetTickerType}
-          asset2Name={secondAsset}
+          asset1={firstAssetOrRouter}
+          asset2={secondAsset}
           size={32}
         />
       ) : (

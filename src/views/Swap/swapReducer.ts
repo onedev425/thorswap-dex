@@ -1,4 +1,5 @@
-import { AssetTickerType } from 'components/AssetIcon/types'
+import { Asset } from '@thorswap-lib/multichain-sdk'
+
 import { AssetInputType } from 'components/AssetInput/types'
 
 export type SwapState = {
@@ -10,7 +11,7 @@ export type SwapState = {
 export type SwapActions =
   | { type: 'swapAssets' }
   | { type: 'setSlippage'; payload: number }
-  | { type: 'setSecondAsset' | 'setFirstAsset'; payload: AssetTickerType }
+  | { type: 'setSecondAsset' | 'setFirstAsset'; payload: Asset }
   | {
       type: 'setSecondAssetBalance' | 'setFirstAssetBalance'
       payload: string
@@ -31,9 +32,9 @@ export const swapReducer = (
     case 'setFirstAsset':
       return {
         ...state,
-        firstAsset: { ...state.firstAsset, name: actions.payload },
+        firstAsset: { ...state.firstAsset, asset: actions.payload },
         secondAsset:
-          state.secondAsset.name === actions.payload
+          state.secondAsset.asset === actions.payload
             ? state.firstAsset
             : state.secondAsset,
       }
@@ -53,9 +54,9 @@ export const swapReducer = (
     case 'setSecondAsset':
       return {
         ...state,
-        secondAsset: { ...state.secondAsset, name: actions.payload },
+        secondAsset: { ...state.secondAsset, asset: actions.payload },
         firstAsset:
-          state.secondAsset.name === actions.payload
+          state.secondAsset.asset === actions.payload
             ? state.firstAsset
             : state.secondAsset,
       }

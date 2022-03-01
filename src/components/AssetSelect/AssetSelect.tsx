@@ -1,13 +1,14 @@
 import { useState } from 'react'
 
-import { AssetTickerType } from 'components/AssetIcon/types'
+import { Asset } from '@thorswap-lib/multichain-sdk'
+
 import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton'
 import { AssetSelectList } from 'components/AssetSelect/AssetSelectList'
 import { AssetSelectProps } from 'components/AssetSelect/types'
 import { Modal } from 'components/Atomic'
 
 type Props = {
-  selected?: AssetTickerType | null
+  selected?: Asset | null
   className?: string
 } & AssetSelectProps
 

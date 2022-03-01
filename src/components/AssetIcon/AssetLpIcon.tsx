@@ -5,8 +5,8 @@ import { AssetLpIconProps } from './types'
 
 export const AssetLpIcon = (props: AssetLpIconProps) => {
   const {
-    asset1Name,
-    asset2Name,
+    asset1,
+    asset2,
     asset1BgColor = 'blue',
     asset2BgColor = 'green',
     inline,
@@ -23,15 +23,15 @@ export const AssetLpIcon = (props: AssetLpIconProps) => {
           { '-translate-y-2': !inline },
         )}
       >
-        <AssetIcon name={asset1Name} bgColor={asset1BgColor} {...styleProps} />
+        <AssetIcon asset={asset1} bgColor={asset1BgColor} {...styleProps} />
       </div>
 
       <div style={{ marginLeft: -pairIconOffset }}>
         <AssetIcon
-          {...styleProps}
-          name={asset2Name}
-          bgColor={asset2BgColor}
           className={classNames({ 'translate-y-2': !inline })}
+          asset={asset2}
+          bgColor={asset2BgColor}
+          {...styleProps}
         />
       </div>
     </div>

@@ -1,21 +1,44 @@
-import { assetIconMap, customIconMap } from './iconList'
-import { AssetTickerType, SecondaryIconPlacement } from './types'
+import { Asset } from '@thorswap-lib/multichain-sdk'
+
+import { multichain } from 'services/multichain'
+
+import { IS_TESTNET } from 'settings/config'
+
+import {
+  assetIconMap,
+  customIconMap,
+  BepIconType,
+  CustomIconType,
+} from './iconList'
+import { SecondaryIconPlacement } from './types'
 
 const LOGO_SOURCE_URL =
   'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/assets/LOGO_SYMBOL/logo.png'
 
-export const getAssetIconUrl = (assetName: AssetTickerType) => {
-  const customIcon = customIconMap[assetName]
-  if (customIcon) {
-    return customIcon
+export const getAssetIconUrl = (asset: Asset) => {
+  if (Object.keys(customIconMap).includes(asset.ticker)) {
+    return customIconMap[asset.ticker as CustomIconType]
   }
 
-  const logoSymbol = assetIconMap[assetName]
+  if (asset.chain === 'ETH' && asset.ticker !== 'ETH') {
+    if (!IS_TESTNET) {
+      const contract = multichain.eth.getCheckSumAddress(asset)
+
+      return `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${contract}/logo.png`
+    }
+
+    // ethereum logos
+    if (asset.ticker === 'WETH') {
+      return 'https://assets.coingecko.com/coins/images/2518/large/weth.png'
+    }
+  }
+
+  const logoSymbol = assetIconMap[asset.ticker as BepIconType]
   if (logoSymbol) {
     return LOGO_SOURCE_URL.replace('LOGO_SYMBOL', logoSymbol)
   }
 
-  return null
+  return `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/assets/${asset.symbol}/logo.png`
 }
 
 export const getSecondaryIconPlacementStyle = (

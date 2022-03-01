@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+import { Asset } from '@thorswap-lib/multichain-sdk'
+
 import { Card, Box, Icon } from 'components/Atomic'
 import { InfoTip } from 'components/InfoTip'
 import { LiquidityCard } from 'components/LiquidityCard'
@@ -12,24 +14,24 @@ const Data = [
   [
     {
       assetName: 'Pooled THOR',
-      assetTicker: 'RUNE',
+      asset: Asset.RUNE(),
       amount: '37.9033',
     },
     {
       assetName: 'Pooled ETH',
-      assetTicker: 'ETH',
+      asset: Asset.ETH(),
       amount: '0.00546842',
     },
   ] as AssetDataType[],
   [
     {
       assetName: 'Pooled THOR',
-      assetTicker: 'RUNE',
+      asset: Asset.RUNE(),
       amount: '37.9033',
     },
     {
       assetName: 'Pooled Doge',
-      assetTicker: 'DOGE',
+      asset: Asset.DOGE(),
       amount: '0.00546842',
     },
   ] as AssetDataType[],

@@ -1,20 +1,20 @@
+import { Asset } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
-import { AssetTickerType } from 'components/AssetIcon/types'
 import { Button, Box, Typography, Icon } from 'components/Atomic'
 
 type Props = {
   className?: string
   size?: 'sm' | 'md'
   onClick?: () => void
-  name: AssetTickerType
+  asset: Asset
   withChevron?: boolean
 }
 
 export function AssetButton({
   className,
-  name,
+  asset,
   size,
   withChevron,
   onClick,
@@ -33,7 +33,7 @@ export function AssetButton({
       variant="tint"
       transform="uppercase"
       onClick={onClick}
-      startIcon={<AssetIcon name={name} size={size === 'sm' ? 28 : 40} />}
+      startIcon={<AssetIcon asset={asset} size={size === 'sm' ? 28 : 40} />}
       endIcon={
         withChevron ? (
           <Box center className="min-w-[20px]">
@@ -43,7 +43,7 @@ export function AssetButton({
       }
     >
       <Typography variant="h5" fontWeight="medium" transform="uppercase">
-        {name}
+        {asset.symbol}
       </Typography>
     </Button>
   )

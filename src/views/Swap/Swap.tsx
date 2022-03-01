@@ -1,11 +1,10 @@
 import { useCallback, useReducer, useState } from 'react'
 
-import { useParams } from 'react-router'
+import { Asset } from '@thorswap-lib/multichain-sdk'
 
 import { AutoRouterInfo } from 'views/Swap/AutoRouterInfo'
 import { SwapSettings } from 'views/Swap/SwapSettings'
 
-import { AssetTickerType } from 'components/AssetIcon/types'
 import { AssetSelectType } from 'components/AssetSelect/types'
 import { Button, Modal, Card, Icon, Box } from 'components/Atomic'
 import { ConfirmSwapItem } from 'components/ConfirmSwapItem'
@@ -19,12 +18,12 @@ import { SwapInfo } from './SwapInfo'
 import { swapReducer } from './swapReducer'
 
 const initialFirstAsset = {
-  name: 'ETH',
+  asset: Asset.RUNE(),
   balance: '0',
   change: '0.5',
 } as AssetSelectType
 const initialSecondAsset = {
-  name: 'BTC',
+  asset: Asset.BTC(),
   balance: '4.7',
   change: '0.5',
 } as AssetSelectType
@@ -34,20 +33,18 @@ const Swap = () => {
   const [autoRouter, setAutoRouter] = useState(true)
   const [expertMode, setExpertMode] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
-  const { firstTicker, secondTicker } =
-    useParams<{ firstTicker: AssetTickerType; secondTicker: AssetTickerType }>()
   const [{ firstAsset, secondAsset, slippage }, dispatch] = useReducer(
     swapReducer,
     {
       slippage: 0.5,
       firstAsset: {
-        name: firstTicker || initialFirstAsset.name,
+        asset: initialFirstAsset.asset,
         change: initialFirstAsset.change,
         balance: initialFirstAsset.balance,
         value: '5',
       },
       secondAsset: {
-        name: secondTicker || initialSecondAsset.name,
+        asset: initialSecondAsset.asset,
         change: initialSecondAsset.change,
         balance: initialSecondAsset.balance,
         value: '10',
@@ -56,10 +53,10 @@ const Swap = () => {
   )
 
   const handleAssetChange = useCallback(
-    (asset: 'first' | 'second') => (assetTicker: AssetTickerType) => {
+    (asset: 'first' | 'second') => (payload: Asset) => {
       const actionType = asset === 'first' ? 'setFirstAsset' : 'setSecondAsset'
 
-      dispatch({ type: actionType, payload: assetTicker })
+      dispatch({ type: actionType, payload })
     },
     [],
   )
@@ -137,8 +134,8 @@ const Swap = () => {
         </Card>
 
         <AutoRouterInfo
-          firstAssetName={firstAsset.name}
-          secondAssetName={secondAsset.name}
+          firstAsset={firstAsset.asset}
+          secondAsset={secondAsset.asset}
         />
 
         <Box className="py-5 md:py-10">

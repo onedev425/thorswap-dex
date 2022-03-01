@@ -10,8 +10,8 @@ export function useAssetSelect(props: AssetSelectProps) {
       return assets
     }
 
-    return assets.filter((a) =>
-      a.name.toLocaleLowerCase().includes(search.toLowerCase()),
+    return assets.filter(({ asset }) =>
+      asset.symbol.toLocaleLowerCase().includes(search.toLowerCase()),
     )
   }, [assets, search])
 
@@ -22,8 +22,8 @@ export function useAssetSelect(props: AssetSelectProps) {
     resetSearch()
   }
 
-  const select = (asset: AssetSelectType) => {
-    onSelect(asset.name)
+  const select = ({ asset }: AssetSelectType) => {
+    onSelect(asset)
     close()
   }
 

@@ -1,17 +1,18 @@
 import { ComponentMeta } from '@storybook/react'
+import { Asset } from '@thorswap-lib/multichain-sdk'
 
 import { AssetCard } from 'components/AssetCard'
 import { AssetDataType } from 'components/LiquidityCard/types'
 
-const Data = [
+const mockData = [
   {
     assetName: 'Pooled THOR',
-    assetTicker: 'RUNE',
+    asset: Asset.RUNE(),
     amount: '37.9033',
   },
   {
     assetName: 'Pooled ETH',
-    assetTicker: 'ETH',
+    asset: Asset.ETH(),
     amount: '0.00546842',
   },
 ] as AssetDataType[]
@@ -24,6 +25,6 @@ export default {
 
 export const Default = () => {
   {
-    Data.map((item) => <AssetCard key={item.assetTicker} {...item} />)
+    mockData.map((item) => <AssetCard key={item.asset.symbol} {...item} />)
   }
 }

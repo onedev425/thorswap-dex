@@ -1,17 +1,18 @@
 import { ComponentMeta } from '@storybook/react'
+import { Asset } from '@thorswap-lib/multichain-sdk'
 
 import { LiquidityCard } from 'components/LiquidityCard'
 import { AssetDataType } from 'components/LiquidityCard/types'
 
-const Data = [
+const mockData = [
   {
     assetName: 'Pooled THOR',
-    assetTicker: 'RUNE',
+    asset: Asset.RUNE(),
     amount: '37.9033',
   },
   {
     assetName: 'Pooled ETH',
-    assetTicker: 'ETH',
+    asset: Asset.ETH(),
     amount: '0.00546842',
   },
 ] as AssetDataType[]
@@ -22,4 +23,4 @@ export default {
   component: LiquidityCard,
 } as ComponentMeta<typeof LiquidityCard>
 
-export const Default = () => <LiquidityCard data={Data} />
+export const Default = () => <LiquidityCard data={mockData} />

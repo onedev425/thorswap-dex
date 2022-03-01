@@ -1,8 +1,7 @@
 import { useCallback, useReducer } from 'react'
 
-import { useParams } from 'react-router'
+import { Asset } from '@thorswap-lib/multichain-sdk'
 
-import { AssetTickerType } from 'components/AssetIcon/types'
 import { AssetSelectType } from 'components/AssetSelect/types'
 import { Button, Card, Box, Icon } from 'components/Atomic'
 import { ViewHeader } from 'components/ViewHeader'
@@ -14,12 +13,12 @@ import { AssetInputs } from './AssetInputs'
 import { PoolInfo } from './PoolInfo'
 
 const initialFirstAsset = {
-  name: 'ETH',
+  asset: Asset.RUNE(),
   balance: '10',
   change: '0.5',
 } as AssetSelectType
 const initialSecondAsset = {
-  name: 'RUNE',
+  asset: Asset.ETH(),
   balance: '300',
   change: '0.5',
 } as AssetSelectType
@@ -27,20 +26,17 @@ const assetRate = 0.0016
 const poolShare = 1.65
 
 export const AddLiquidity = () => {
-  const { firstTicker, secondTicker } =
-    useParams<{ firstTicker: AssetTickerType; secondTicker: AssetTickerType }>()
-
   const [{ firstAsset, secondAsset }, dispatch] = useReducer(
     addLiquidityReducer,
     {
       firstAsset: {
-        name: firstTicker || initialFirstAsset.name,
+        asset: initialFirstAsset.asset,
         change: initialFirstAsset.change,
         balance: initialFirstAsset.balance,
         value: '5',
       },
       secondAsset: {
-        name: secondTicker || initialSecondAsset.name,
+        asset: initialSecondAsset.asset,
         change: initialSecondAsset.change,
         balance: initialSecondAsset.balance,
         value: '10',
@@ -49,10 +45,10 @@ export const AddLiquidity = () => {
   )
 
   const handleAssetChange = useCallback(
-    (asset: 'first' | 'second') => (assetTicker: AssetTickerType) => {
+    (asset: 'first' | 'second') => (payload: Asset) => {
       const actionType = asset === 'first' ? 'setFirstAsset' : 'setSecondAsset'
 
-      dispatch({ type: actionType, payload: assetTicker })
+      dispatch({ type: actionType, payload })
     },
     [],
   )
@@ -81,7 +77,7 @@ export const AddLiquidity = () => {
         stretch
         className="flex-col items-center mt-4 md:mt-8 !p-0 md:h-auto md:pb-10 shadow-lg"
       >
-        <Card size="lg" className="flex-col shadow-lg self-stretch">
+        <Card size="lg" className="flex-col self-stretch shadow-lg">
           <AssetInputs
             firstAsset={firstAsset}
             secondAsset={secondAsset}

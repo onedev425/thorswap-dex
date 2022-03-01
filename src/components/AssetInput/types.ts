@@ -1,8 +1,9 @@
-import { AssetTickerType } from 'components/AssetIcon/types'
+import { Asset } from '@thorswap-lib/multichain-sdk'
+
 import { AssetSelectType } from 'components/AssetSelect/types'
 
 export type AssetInputType = {
-  name: AssetTickerType
+  asset: Asset
   value: string
   balance: string
   change?: string
@@ -12,9 +13,9 @@ export type AssetInputProps = {
   selectedAsset: AssetInputType
   assets: AssetSelectType[]
   commonAssets: AssetSelectType[]
-  onValueChange: (assetValue: string) => void
-  onAssetChange: (asset: AssetTickerType) => void
   secondary?: boolean
   showChange?: boolean
   secondaryLabel?: string
+  onAssetChange: (asset: Asset) => void
+  onValueChange: (assetValue: string) => void
 }

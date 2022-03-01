@@ -20,9 +20,9 @@ export const ConfirmSwapItem = () => {
                   {item.title === 'Recipent Address'
                     ? shortenAddress(item.amount)
                     : item.amount}
-                  {item.assetTicker}
+                  {item.asset.symbol}
                 </Typography>
-                {item.icon && <AssetIcon size={28} name={item.icon} />}
+                {item.asset && <AssetIcon size={28} asset={item.asset} />}
                 {item.infoIcon && (
                   <Icon color="secondary" size={22} name={item.infoIcon} />
                 )}

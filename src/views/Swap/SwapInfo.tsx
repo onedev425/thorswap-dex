@@ -15,16 +15,16 @@ export const SwapInfo = memo(
   ({ priceImpact, slippage, secondAsset, firstAsset }: Props) => {
     return (
       <Collapse
-        shadow={false}
         className="self-stretch"
+        shadow={false}
         title={
           <div className="flex flex-row gap-x-2">
             <Icon name="info" size={16} color="secondary" />
 
             <Typography variant="caption" color="primary" fontWeight="normal">
-              {`1 ${secondAsset.name} = ${
+              {`1 ${secondAsset.asset.symbol} = ${
                 parseFloat(firstAsset.value) / parseFloat(secondAsset.value)
-              } ${firstAsset.name}`}
+              } ${firstAsset.asset.symbol}`}
             </Typography>
 
             <Typography variant="caption" color="secondary" fontWeight="normal">
@@ -36,7 +36,7 @@ export const SwapInfo = memo(
         <Information
           showBorder={false}
           label="Expected Output"
-          value={`${secondAsset.balance} ${secondAsset.name}`}
+          value={`${secondAsset.balance} ${secondAsset.asset.symbol}`}
         />
 
         <Information
@@ -53,7 +53,7 @@ export const SwapInfo = memo(
           label={`Minimum receiver after slippage (${slippage.toFixed(2)}%)`}
           value={`${
             parseFloat(secondAsset?.balance || '0') * (1 - slippage / 100)
-          } ${secondAsset.name}`}
+          } ${secondAsset.asset.symbol}`}
         />
       </Collapse>
     )

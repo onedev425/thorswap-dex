@@ -1,3 +1,5 @@
+import { Asset } from '@thorswap-lib/multichain-sdk'
+
 import { IconColor } from 'components/Atomic'
 
 import { ColorType } from 'types/global'
@@ -175,15 +177,15 @@ type AssetStyleType = {
 }
 
 export type AssetIconProps = {
-  name: AssetTickerType
-  secondaryIconName?: AssetTickerType
+  asset: Asset
+  chainAsset?: Asset
   secondaryIconPlacement?: SecondaryIconPlacement
   bgColor?: ColorType
 } & AssetStyleType
 
 export type AssetLpIconProps = {
-  asset1Name: AssetTickerType
-  asset2Name: AssetTickerType
+  asset1: Asset
+  asset2: Asset
   asset1BgColor?: ColorType
   asset2BgColor?: ColorType
   inline?: boolean

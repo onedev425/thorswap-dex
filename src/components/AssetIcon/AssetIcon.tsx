@@ -8,14 +8,14 @@ import { getAssetIconUrl, getSecondaryIconPlacementStyle } from './utils'
 
 export const AssetIcon = ({
   className,
+  asset,
   size = 40,
   bgColor,
-  name,
-  secondaryIconName,
+  chainAsset,
   secondaryIconPlacement = 'bl',
 }: AssetIconProps) => {
-  const iconUrl = getAssetIconUrl(name)
-  const secondaryIconSize = secondaryIconName ? size * 0.4 : 0
+  const iconUrl = getAssetIconUrl(asset)
+  const secondaryIconSize = chainAsset ? size * 0.4 : 0
 
   return (
     <div className="flex">
@@ -32,14 +32,14 @@ export const AssetIcon = ({
             style={{ width: size, height: size }}
             className="absolute inset-0 object-cover"
             src={iconUrl}
-            alt={name}
+            alt={asset.symbol}
           />
         ) : (
-          <Typography variant="caption">{name}</Typography>
+          <Typography variant="caption">{asset.symbol}</Typography>
         )}
       </div>
 
-      {secondaryIconName && (
+      {chainAsset && (
         <div
           className="absolute"
           style={getSecondaryIconPlacementStyle(
@@ -47,7 +47,7 @@ export const AssetIcon = ({
             secondaryIconSize,
           )}
         >
-          <AssetIcon name={secondaryIconName} size={secondaryIconSize} />
+          <AssetIcon asset={chainAsset} size={secondaryIconSize} />
         </div>
       )}
     </div>

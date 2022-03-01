@@ -1,17 +1,17 @@
+import { Asset } from '@thorswap-lib/multichain-sdk'
+
 import { AssetDataType } from 'components/ConfirmSwapItem/types'
 
 export const swapItem = [
   {
     title: 'Send',
     amount: '1',
-    assetTicker: 'RUNE',
-    icon: 'RUNE',
+    asset: Asset.RUNE(),
   },
   {
     title: 'Receive',
     amount: '0.013219',
-    assetTicker: 'BTC',
-    icon: 'BTC',
+    asset: Asset.BTC(),
   },
   {
     title: 'Recipent Address',
@@ -26,13 +26,13 @@ export const swapItem = [
   {
     title: 'Min Received',
     amount: '0.0130868',
-    assetTicker: 'BTC',
+    asset: Asset.BTC(),
     infoIcon: 'info',
   },
   {
     title: 'Network Fee',
     amount: '0.001125',
-    assetTicker: 'BTC',
+    asset: Asset.BTC(),
     infoIcon: 'info',
   },
   {

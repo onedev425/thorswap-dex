@@ -20,11 +20,11 @@ export const AssetAmountBox = ({ asset, amount }: Props) => {
       )}
       alignCenter
     >
-      <AssetIcon name={asset.name} />
+      <AssetIcon asset={asset.asset} />
       <Box col ml={12}>
         <Typography>{amount || '-'}</Typography>
         <Typography fontWeight="normal" color="secondary">
-          {asset.name}
+          {asset.asset}
         </Typography>
       </Box>
     </Box>

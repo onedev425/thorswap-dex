@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { Pool, Amount, Percent } from '@thorswap-lib/multichain-sdk'
 import { chainToString } from '@thorswap-lib/xchain-util'
 
-import { AssetIcon, AssetTickerType } from 'components/AssetIcon'
+import { AssetIcon } from 'components/AssetIcon'
 import {
   TableColumnsConfig,
   Table,
@@ -32,8 +32,8 @@ export const PoolTable = ({ data }: PoolTableProps) => {
         accessor: (row: Pool) => row,
         Cell: ({ cell: { value } }: { cell: { value: Pool } }) => (
           <div className="flex flex-row items-center">
-            <AssetIcon name={value.asset.ticker as AssetTickerType} size={40} />
-            <Typography className="pl-4 h4 hidden md:block">
+            <AssetIcon asset={value.asset} size={40} />
+            <Typography className="hidden pl-4 h4 md:block">
               {value.asset.ticker}
             </Typography>
           </div>

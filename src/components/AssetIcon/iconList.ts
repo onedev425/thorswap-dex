@@ -1,18 +1,17 @@
+import alcxIcon from './assets/asset-alcx.png'
 import bnbIcon from './assets/asset-bnb.svg'
+import dogeIcon from './assets/asset-dogecoin.png'
 import runeIcon from './assets/asset-rune.svg'
-import dogeIcon from './assets/dogecoin.png'
-import tgtIcon from './assets/tgt_logo.png'
+import tgtIcon from './assets/asset-tgt.png'
 import { AssetTickerType } from './types'
 
 export const customIconMap: Partial<Record<AssetTickerType, string>> = {
+  ALCX: alcxIcon,
   BNB: bnbIcon,
-  RUNE: runeIcon,
   DOGE: dogeIcon,
+  RUNE: runeIcon,
   TGT: tgtIcon,
-  ALCX: 'https://etherscan.io/token/images/Alchemix_32.png',
-  XRUNE: 'https://etherscan.io/token/images/xrunetoken_32.png',
   WETH: 'https://assets.coingecko.com/coins/images/2518/large/weth.png',
-  DAI: 'https://raw.githubusercontent.com/compound-finance/token-list/master/assets/asset_DAI.svg',
 }
 
 export const assetIconMap: Partial<Record<AssetTickerType, string>> = {
@@ -173,3 +172,7 @@ export const assetIconMap: Partial<Record<AssetTickerType, string>> = {
   XTZ: 'XTZ-F7A',
   ZEBI: 'ZEBI-84F',
 }
+
+export type CustomIconType = keyof typeof customIconMap
+
+export type BepIconType = keyof typeof assetIconMap
