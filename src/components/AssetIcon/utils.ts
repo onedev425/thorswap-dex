@@ -2,8 +2,6 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 
 import { multichain } from 'services/multichain'
 
-import { IS_TESTNET } from 'settings/config'
-
 import {
   assetIconMap,
   customIconMap,
@@ -21,16 +19,13 @@ export const getAssetIconUrl = (asset: Asset) => {
   }
 
   if (asset.chain === 'ETH' && asset.ticker !== 'ETH') {
-    if (!IS_TESTNET) {
-      const contract = multichain.eth.getCheckSumAddress(asset)
-
-      return `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${contract}/logo.png`
-    }
-
-    // ethereum logos
     if (asset.ticker === 'WETH') {
       return 'https://assets.coingecko.com/coins/images/2518/large/weth.png'
     }
+
+    const contract = multichain.eth.getCheckSumAddress(asset)
+
+    return `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${contract}/logo.png`
   }
 
   const logoSymbol = assetIconMap[asset.ticker as BepIconType]

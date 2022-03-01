@@ -3,6 +3,7 @@ import { ReactComponent as Bulb } from './bulb.svg'
 import { ReactComponent as ChartCandle } from './chartCandle.svg'
 import { ReactComponent as Cloud } from './cloud.svg'
 import { ReactComponent as Gwei } from './gwei.svg'
+import { ReactComponent as Import } from './import.svg'
 import { ReactComponent as InIcon } from './inIcon.svg'
 import { ReactComponent as Keystore } from './keystore.svg'
 import { ReactComponent as Ledger } from './ledger.svg'
@@ -11,6 +12,7 @@ import { ReactComponent as List } from './list.svg'
 import { ReactComponent as Metamask } from './metamask.svg'
 import { ReactComponent as Moon } from './moon.svg'
 import { ReactComponent as Onboard } from './onboard.svg'
+import { ReactComponent as Plus } from './plus.svg'
 import { ReactComponent as Refresh } from './refresh.svg'
 import { ReactComponent as Router } from './router.svg'
 import { ReactComponent as Settings } from './settings.svg'
@@ -37,6 +39,7 @@ export const Svgs = {
   chartCandle: ChartCandle,
   cloud: Cloud,
   gwei: Gwei,
+  import: Import,
   inIcon: InIcon,
   keystore: Keystore,
   ledger: Ledger,
@@ -45,6 +48,7 @@ export const Svgs = {
   metamask: Metamask,
   moon: Moon,
   onboard: Onboard,
+  plus: Plus,
   refresh: Refresh,
   router: Router,
   settings: Settings,
@@ -70,6 +74,7 @@ export const SvgIcons = {
   ),
   cloud: (props: CustomIconProps) => <SvgIcon name="cloud" {...props} />,
   gwei: (props: CustomIconProps) => <SvgIcon name="gwei" {...props} />,
+  import: (props: CustomIconProps) => <SvgIcon name="import" {...props} />,
   inIcon: (props: CustomIconProps) => <SvgIcon name="inIcon" {...props} />,
   keystore: (props: CustomIconProps) => <SvgIcon name="keystore" {...props} />,
   ledger: (props: CustomIconProps) => <SvgIcon name="ledger" {...props} />,
@@ -80,6 +85,7 @@ export const SvgIcons = {
   metamask: (props: CustomIconProps) => <SvgIcon name="metamask" {...props} />,
   moon: (props: CustomIconProps) => <SvgIcon name="moon" {...props} />,
   onboard: (props: CustomIconProps) => <SvgIcon name="onboard" {...props} />,
+  plus: (props: CustomIconProps) => <SvgIcon name="plus" {...props} />,
   refresh: (props: CustomIconProps) => <SvgIcon name="refresh" {...props} />,
   settings: (props: CustomIconProps) => <SvgIcon name="settings" {...props} />,
   sputnik: (props: CustomIconProps) => <SvgIcon name="sputnik" {...props} />,

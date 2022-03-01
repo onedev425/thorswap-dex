@@ -34,7 +34,7 @@ import {
   FiXCircle,
 } from 'react-icons/fi'
 import { GrBitcoin } from 'react-icons/gr'
-import { HiOutlineCog, HiOutlinePlus } from 'react-icons/hi'
+import { HiOutlineCog } from 'react-icons/hi'
 import {
   MdAreaChart,
   MdKeyboardArrowDown,
@@ -81,7 +81,6 @@ const Icons = {
   lock: MdOutlineLock,
   medium: BsMedium,
   menu: CgMenu,
-  plus: HiOutlinePlus,
   question: BsQuestion,
   questionCircle: BsQuestionCircle,
   search: BsSearch,

@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import {
+  chainToSigAsset,
   MetaMaskWalletStatus,
   SupportedChain,
   XdefiWalletStatus,
 } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
 
+import { AssetIcon } from 'components/AssetIcon'
 import { Box, Card, Icon, Modal, Typography } from 'components/Atomic'
 
 import { useWallet } from 'redux/wallet/hooks'
@@ -142,11 +144,11 @@ export const WalletModal = () => {
         </WalletOption>
         <WalletOption>
           <Typography>{t('views.walletModal.createKeystore')}</Typography>
-          <Icon name="keystore" />
+          <Icon name="plus" />
         </WalletOption>
         <WalletOption>
           <Typography>{t('views.walletModal.importPhrase')}</Typography>
-          <Icon name="keystore" />
+          <Icon name="import" />
         </WalletOption>
       </Box>
     )
@@ -165,6 +167,7 @@ export const WalletModal = () => {
         {availableChainsByWallet[walletMode].map((chain) => {
           return (
             <ChainOption key={chain}>
+              <AssetIcon asset={chainToSigAsset(chain)} />
               <Typography>{chain}</Typography>
             </ChainOption>
           )
