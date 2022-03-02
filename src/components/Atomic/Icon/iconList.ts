@@ -40,6 +40,11 @@ import {
 import { GrBitcoin } from 'react-icons/gr'
 import { HiOutlineCog } from 'react-icons/hi'
 import {
+  IoCheckmarkCircleOutline,
+  IoCloseCircleOutline,
+  IoWalletOutline,
+} from 'react-icons/io5'
+import {
   MdAreaChart,
   MdKeyboardArrowDown,
   MdKeyboardArrowLeft,
@@ -86,6 +91,7 @@ const Icons = {
   fire: FaFire,
   info: FiInfo,
   infoCircle: FiInfo,
+  invalid: IoCloseCircleOutline,
   language: MdLanguage,
   lock: MdOutlineLock,
   medium: BsMedium,
@@ -104,6 +110,8 @@ const Icons = {
   threeDotsHorizontal: BsThreeDots,
   twitter: BsTwitter,
   unlock: MdOutlineLockOpen,
+  valid: IoCheckmarkCircleOutline,
+  wallet: IoWalletOutline,
   wifi: FaWifi,
   xCircle: FiXCircle,
   ...SvgIcons,

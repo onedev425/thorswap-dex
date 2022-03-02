@@ -73,6 +73,10 @@ export const Button = ({
               ? 'text-light-typo-primary dark:text-dark-typo-primary'
               : 'text-white',
             { [typographyOutlineClass]: isOutlined || isBorderless },
+            {
+              'ml-2': startIcon,
+              'mr-2': endIcon,
+            },
           )}
           variant={typographyVariant}
           transform={transform}

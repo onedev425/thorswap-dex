@@ -124,7 +124,8 @@
       "importPhrase": "Import Phrase",
       "notConnected": "Not Connected",
       "connectedWith": "Connected With",
-      "ledgerIndex": "Ledger Index"
+      "ledgerIndex": "Ledger Index",
+      "invalidKeystore": "Invalid Keystore File"
     },
     "addLiquidity": {
       "pricesAndPoolShare": "Prices and Pool Share",

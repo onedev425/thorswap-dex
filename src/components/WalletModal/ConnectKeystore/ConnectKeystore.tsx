@@ -1,6 +1,6 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
-import { FilePicker } from 'react-file-picker'
+import { useFilePicker } from 'react-sage'
 
 import { decryptFromKeystore, Keystore } from '@thorswap-lib/xchain-crypto'
 import classNames from 'classnames'
@@ -9,6 +9,8 @@ import { Box, Icon, Tooltip, Typography, Button } from 'components/Atomic'
 import { Input } from 'components/Input'
 
 import { t } from 'services/i18n'
+
+import { loadFile } from './utils'
 
 type Props = {
   isLoading?: boolean
@@ -23,30 +25,25 @@ export const KeystoreView = ({ isLoading, onConnect, onCreate }: Props) => {
   const [keystoreError, setKeystoreError] = useState('')
   const [processing, setProcessing] = useState(false)
 
-  const onChangeFile = useCallback((file: Blob) => {
-    const reader = new FileReader()
-    const onLoadHandler = () => {
-      try {
-        const key = JSON.parse(reader.result as string)
-        if (!('version' in key) || !('crypto' in key)) {
-          setKeystoreError('Not a valid keystore file')
-        } else {
-          setKeystoreError('')
-          setKeystore(key)
-        }
-      } catch {
-        setKeystoreError('Not a valid json file')
+  const { files, onClick, HiddenFileInput } = useFilePicker()
+
+  const onLoadHandler = useCallback((reader: FileReader) => {
+    try {
+      const key = JSON.parse(reader.result as string)
+
+      if (!('version' in key) || !('crypto' in key)) {
+        setKeystoreError('Not a valid keystore file')
+      } else {
+        setKeystoreError('')
+        setKeystore(key)
       }
-    }
-    reader.addEventListener('load', onLoadHandler)
-    reader.readAsText(file)
-    return () => {
-      reader.removeEventListener('load', onLoadHandler)
+    } catch {
+      setKeystoreError('Not a valid json file')
     }
   }, [])
 
-  const onErrorFile = useCallback((error: Error) => {
-    setKeystoreError(`Selecting a key file failed: ${error}`)
+  const onErrorFile = useCallback(() => {
+    setKeystoreError('Selecting a key file failed')
   }, [])
 
   const onPasswordChange = useCallback(
@@ -78,90 +75,104 @@ export const KeystoreView = ({ isLoading, onConnect, onCreate }: Props) => {
     }
   }, [keystore, password, onConnect])
 
+  useEffect(() => {
+    if (files) {
+      loadFile(files[0], onLoadHandler, onErrorFile)
+    }
+  }, [files, onErrorFile, onLoadHandler])
+
   const ready = password.length > 0 && !keystoreError && !processing
 
   return (
-    <Box className="w-full space-y-3" col>
-      <div>
-        <Typography variant="h5" className="mb-[26px]" fontWeight="semibold">
-          {t('components.modal.keystore.selectKeystore')}
+    <Box className="w-full" col>
+      <Typography className="mb-2" variant="subtitle2" fontWeight="semibold">
+        {t('components.modal.keystore.selectKeystore')}
+      </Typography>
+      <Box
+        className="h-10 px-3 border border-solid cursor-pointer rounded-2xl border-light-border-primary dark:border-dark-border-primary"
+        alignCenter
+        onClick={onClick}
+      >
+        <HiddenFileInput multiple={false} />
+        {!keystore && !keystoreError && <Icon name="upload" size={18} />}
+        {keystore && !keystoreError && (
+          <Icon name="valid" color="green" size={18} />
+        )}
+        {keystoreError && <Icon name="invalid" color="red" size={18} />}
+        <Typography
+          className={classNames('text-[11px] opacity-80 ml-2', {
+            'opacity-100': keystore && !keystoreError,
+          })}
+          variant="caption-xs"
+        >
+          Choose File To Upload
         </Typography>
-        <div className="flex border justify-between px-6 py-[10px] cursor-pointer rounded-[16px] border-solid border-light-border-primary dark:border-dark-border-primary mb-[42px]">
-          <FilePicker onChange={onChangeFile} onError={onErrorFile}>
-            {keystore && !keystoreError && <Icon name="upload" size={18} />}
-            <Typography
-              className={classNames('text-[11px] opacity-80', {
-                'opacity-100': keystore && !keystoreError,
-              })}
-            >
-              Choose File To Upload
-            </Typography>
-          </FilePicker>
-        </div>
-        <div className="flex justify-between mb-[26px]">
-          <Typography variant="subtitle2">
-            {t('components.modal.keystore.keystorePassword')}
-          </Typography>
-          <div>
-            <Tooltip
-              place="top"
-              content="Password for recovery"
-              iconName="question"
-            />
-          </div>
-        </div>
-        <div className="mb-12">
-          <Input
-            border="rounded"
-            type="password"
-            name="password"
-            placeholder="Password"
-            stretch
-            value={password}
-            onChange={onPasswordChange}
-          />
-          {invalidStatus && (
-            <Typography color="red">
-              {t('components.modal.keystore.wrongPassword')}
-            </Typography>
-          )}
-        </div>
+      </Box>
+      <Typography className="mt-2 ml-3" color="red" variant="caption">
+        {keystoreError ? t('views.walletModal.invalidKeystore') : ''}
+      </Typography>
+      <Box className="space-x-2" row mt={24} mb={2}>
+        <Typography variant="subtitle2">
+          {t('components.modal.keystore.keystorePassword')}
+        </Typography>
+        <Tooltip
+          place="top"
+          content="Password for recovery"
+          iconName="question"
+        />
+      </Box>
+      <Box className="w-full">
+        <Input
+          border="rounded"
+          name="password"
+          type="password"
+          placeholder="Password"
+          stretch
+          value={password}
+          onChange={onPasswordChange}
+        />
+      </Box>
+      {invalidStatus && (
+        <Typography className="mt-2 ml-3" color="red" variant="caption">
+          {t('components.modal.keystore.wrongPassword')}
+        </Typography>
+      )}
 
-        <Box className="gap-x-4">
-          <Button
-            className="group"
-            size="sm"
-            variant="accent"
-            type="outline"
-            disabled={!ready}
-            isLoading={processing || isLoading}
-            endIcon={
-              <Icon
-                name="unlock"
-                className="ml-4 transition group-hover:text-white"
-              />
-            }
-            onClick={unlockKeystore}
-          >
-            {t('components.modal.keystore.unlock')}
-          </Button>
-          <Button
-            className="group"
-            size="sm"
-            type="outline"
-            endIcon={
-              <Icon
-                name="wallet"
-                color="primary"
-                className="ml-4 transition group-hover:text-white"
-              />
-            }
-            onClick={onCreate}
-          >
-            {t('components.modal.keystore.createWallet')}
-          </Button>
-        </Box>
-      </div>
+      <Box className="gap-x-4" mt={24}>
+        <Button
+          className="flex-1 group"
+          size="sm"
+          type="outline"
+          disabled={!ready}
+          isLoading={processing || isLoading}
+          endIcon={
+            <Icon
+              className="transition group-hover:text-white"
+              name="unlock"
+              size={18}
+            />
+          }
+          onClick={unlockKeystore}
+        >
+          {t('components.modal.keystore.unlock')}
+        </Button>
+        <Button
+          className="flex-1 group"
+          size="sm"
+          variant="accent"
+          type="outline"
+          endIcon={
+            <Icon
+              className="transition group-hover:text-white"
+              name="wallet"
+              size={18}
+            />
+          }
+          onClick={onCreate}
+        >
+          {t('components.modal.keystore.createWallet')}
+        </Button>
+      </Box>
     </Box>
   )
 }

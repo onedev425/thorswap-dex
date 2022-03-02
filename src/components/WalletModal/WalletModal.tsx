@@ -81,7 +81,6 @@ export const WalletModal = () => {
   }, [setIsConnectModalOpen])
 
   const handleBack = useCallback(() => {
-    setPendingChains([])
     if (walletStage === WalletStage.Final)
       setWalletStage(WalletStage.ChainSelect)
     else if (walletStage === WalletStage.ChainSelect)

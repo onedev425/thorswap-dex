@@ -193,30 +193,3 @@ const WalletBalance = () => {
 }
 
 export default WalletBalance
-
-// const balanceData = [
-//   {
-//     asset: { name: 'BTC', icon: 'bitcoin', iconColor: 'yellow' },
-//     address: '3f4njkncevw3nsdD0AD0E0ACD',
-//   },
-//   {
-//     asset: { name: 'THOR', icon: 'thorchain', iconColor: 'purple' },
-//     address: '3f4njknceaw3nsdD0AD0E0A6D',
-//   },
-//   {
-//     asset: { name: 'ETH', icon: 'ethereum', iconColor: 'purple' },
-//     address: '3f4njkncew3nsdD0AD0E69vCD',
-//   },
-//   {
-//     asset: { name: 'BTC', icon: 'bitcoin', iconColor: 'yellow' },
-//     address: '3f4njkncew3nsdD0vAD0A69CD',
-//   },
-//   {
-//     asset: { name: 'THOR', icon: 'thorchain', iconColor: 'purple' },
-//     address: '3f4njknceaw3nsdD0AD0A69CD',
-//   },
-//   {
-//     asset: { name: 'ETH', icon: 'ethereum', iconColor: 'purple' },
-//     address: '3f4najkncew3nsdD0AD0E69CD',
-//   },
-// ]

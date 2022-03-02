@@ -37,7 +37,7 @@ module.exports = {
 
           webpackConfig.resolve.fallback = {
             ...webpackConfig.resolve.fallback,
-            crypto: false,
+            crypto: require.resolve('crypto-browserify'),
             fs: false,
             http: false,
             https: false,

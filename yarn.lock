@@ -17265,6 +17265,11 @@ react-router@6.2.2, react-router@^6.0.0, react-router@^6.2.1:
   dependencies:
     history "^5.2.0"
 
+react-sage@^0.3.16:
+  version "0.3.16"
+  resolved "https://registry.yarnpkg.com/react-sage/-/react-sage-0.3.16.tgz#bd8ba2735ed2bceb0b1e2226ad8588c2acd58dac"
+  integrity sha512-oVVmwiEH+iS0+ZWnfwWEnx1TKVcHDlleqo1fluQKlG7JAtZpgU+a0RPLdT2wGcNcPecrOaELuSz5VL9GKbtiXw==
+
 react-scripts@5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/react-scripts/-/react-scripts-5.0.0.tgz#6547a6d7f8b64364ef95273767466cc577cb4b60"

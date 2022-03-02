@@ -103,7 +103,6 @@ export const SvgIcons = {
   ),
   upload: (props: CustomIconProps) => <SvgIcon name="upload" {...props} />,
   usdt: (props: CustomIconProps) => <SvgIcon name="usdt" {...props} />,
-  wallet: (props: CustomIconProps) => <SvgIcon name="wallet" {...props} />,
   walletConnect: (props: CustomIconProps) => (
     <SvgIcon name="walletConnect" {...props} />
   ),
