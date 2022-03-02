@@ -168,6 +168,8 @@ export type AssetTickerType =
   | 'TGT'
   | 'ALCX'
   | 'XRUNE'
+  | 'LUNA'
+  | 'UST'
   | 'WETH'
 
 type AssetStyleType = {

@@ -18,6 +18,7 @@ import { ReactComponent as Router } from './router.svg'
 import { ReactComponent as Settings } from './settings.svg'
 import { ReactComponent as Sputnik } from './sputnik.svg'
 import { ReactComponent as Squares } from './squares.svg'
+import { ReactComponent as Station } from './station.svg'
 import { ReactComponent as Sun } from './sun.svg'
 import { CustomIconProps, SvgIcon } from './SvgIcon'
 import { ReactComponent as Swap } from './swap.svg'
@@ -54,6 +55,7 @@ export const Svgs = {
   settings: Settings,
   sputnik: Sputnik,
   squares: Squares,
+  station: Station,
   sun: Sun,
   swap: Swap,
   threedots: ThreeDots,
@@ -89,6 +91,7 @@ export const SvgIcons = {
   refresh: (props: CustomIconProps) => <SvgIcon name="refresh" {...props} />,
   settings: (props: CustomIconProps) => <SvgIcon name="settings" {...props} />,
   sputnik: (props: CustomIconProps) => <SvgIcon name="sputnik" {...props} />,
+  station: (props: CustomIconProps) => <SvgIcon name="station" {...props} />,
   sun: (props: CustomIconProps) => <SvgIcon name="sun" {...props} />,
   squares: (props: CustomIconProps) => <SvgIcon name="squares" {...props} />,
   swap: (props: CustomIconProps) => <SvgIcon name="swap" {...props} />,

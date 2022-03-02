@@ -1,23 +1,29 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
+import { ConnectType as TerraConnectType } from '@terra-money/wallet-provider'
 import {
   chainToSigAsset,
   MetaMaskWalletStatus,
   SupportedChain,
   XdefiWalletStatus,
 } from '@thorswap-lib/multichain-sdk'
+import { Keystore as KeystoreType } from '@thorswap-lib/xchain-crypto'
 import { Chain } from '@thorswap-lib/xchain-util'
 
 import { AssetIcon } from 'components/AssetIcon'
-import { Box, Card, Icon, Modal, Typography } from 'components/Atomic'
+import { Box, Button, Card, Icon, Modal, Typography } from 'components/Atomic'
+import { Input } from 'components/Input'
 
 import { useWallet } from 'redux/wallet/hooks'
+
+import { useTerraWallet } from 'hooks/useTerraWallet'
 
 import { t } from 'services/i18n'
 import { metamask } from 'services/metamask'
 import { xdefi } from 'services/xdefi'
 
 import { ChainOption } from './ChainOption'
+import { KeystoreView as ConnectKeystoreView } from './ConnectKeystore'
 import { WalletMode, WalletStage, availableChainsByWallet } from './types'
 import { WalletOption } from './WalletOption'
 
@@ -27,10 +33,27 @@ export const WalletModal = () => {
     WalletStage.WalletSelect,
   )
   const [pendingChains, setPendingChains] = useState<SupportedChain[]>([])
+  const [ledgerIndex, setLedgerIndex] = useState(0)
 
-  const { isConnectModalOpen, setIsConnectModalOpen } = useWallet()
+  console.log('LEDGER - ', ledgerIndex, setLedgerIndex)
 
-  console.log('pending - ', pendingChains)
+  const {
+    isConnectModalOpen,
+    walletLoading,
+    unlockWallet,
+    connectXdefiWallet,
+    connectMetamask,
+    connectTrustWallet,
+    // connectLedger,
+    connectTerraStation,
+    setIsConnectModalOpen,
+  } = useWallet()
+
+  const {
+    isTerraStationAvailable,
+    isTerraStationInstalled,
+    installTerraWallet,
+  } = useTerraWallet()
 
   useEffect(() => {
     if (isConnectModalOpen) setWalletMode(WalletMode.Select)
@@ -47,6 +70,79 @@ export const WalletModal = () => {
 
     return t('views.walletModal.connectWallet')
   }, [walletStage])
+
+  const clearStatus = useCallback(() => {
+    setIsConnectModalOpen(false)
+
+    // init all states after closing modal
+    setTimeout(() => {
+      setPendingChains([])
+      setWalletMode(WalletMode.Select)
+      setWalletStage(WalletStage.WalletSelect)
+    }, 1000)
+  }, [setIsConnectModalOpen])
+
+  const handleConnectTerraWallet = useCallback(() => {
+    connectTerraStation()
+    // close modal
+    clearStatus()
+  }, [clearStatus, connectTerraStation])
+
+  const handleConnectTrustWallet = useCallback(
+    async (chains: SupportedChain[]) => {
+      try {
+        await connectTrustWallet(chains)
+      } catch (error) {
+        // TODO: show notification about error
+        console.log(error)
+      }
+      clearStatus()
+    },
+    [connectTrustWallet, clearStatus],
+  )
+
+  const handleConnectMetaMask = useCallback(async () => {
+    if (metamaskStatus === MetaMaskWalletStatus.NoWeb3Provider) {
+      window.open('https://metamask.io')
+    } else if (metamaskStatus === MetaMaskWalletStatus.XdefiDetected) {
+      // TODO: Should disable xdefi wallet
+    } else {
+      try {
+        await connectMetamask()
+      } catch (error) {
+        // TODO: show notification about error
+      }
+
+      clearStatus()
+    }
+  }, [metamaskStatus, connectMetamask, clearStatus])
+
+  const handleConnectXdefi = useCallback(
+    async (chains: SupportedChain[]) => {
+      if (xdefiStatus === XdefiWalletStatus.XdefiNotInstalled) {
+        window.open('https://xdefi.io')
+      } else if (xdefiStatus === XdefiWalletStatus.XdefiNotPrioritized) {
+        // TODO: show notification to prioritise the XDEFI wallet
+      } else {
+        try {
+          await connectXdefiWallet(chains)
+        } catch (error) {
+          // TODO: show notification for error while connecting the wallet
+        }
+        clearStatus()
+      }
+    },
+    [xdefiStatus, clearStatus, connectXdefiWallet],
+  )
+
+  const handleConnect = useCallback(
+    async (keystore: KeystoreType, phrase: string) => {
+      await unlockWallet(keystore, phrase, pendingChains)
+
+      clearStatus()
+    },
+    [pendingChains, clearStatus, unlockWallet],
+  )
 
   const handleChainSelect = useCallback(
     (selectedWallet: WalletMode) => {
@@ -74,6 +170,17 @@ export const WalletModal = () => {
         }
       }
 
+      // install or connect terra wallet
+      if (selectedWallet === WalletMode.Terra) {
+        if (!isTerraStationInstalled) {
+          installTerraWallet(TerraConnectType.EXTENSION)
+        } else {
+          handleConnectTerraWallet()
+        }
+
+        return
+      }
+
       setWalletMode(selectedWallet)
 
       if (
@@ -92,12 +199,57 @@ export const WalletModal = () => {
         }
       } else setWalletStage(WalletStage.Final)
     },
-    [metamaskStatus, xdefiStatus],
+    [
+      isTerraStationInstalled,
+      metamaskStatus,
+      xdefiStatus,
+      handleConnectTerraWallet,
+      installTerraWallet,
+    ],
+  )
+
+  const handleConnectWallet = useCallback(() => {
+    if (walletMode === WalletMode.TrustWallet) {
+      handleConnectTrustWallet(pendingChains)
+    } else if (walletMode === WalletMode.Keystore) {
+      setWalletStage(WalletStage.Final)
+    } else if (walletMode === WalletMode.Xdefi) {
+      handleConnectXdefi(pendingChains)
+    } else if (walletMode === WalletMode.Ledger) {
+      // handleConnectLedger(pendingChains[0], ledgerIndex.assetAmount.toNumber())
+    } else if (walletMode === WalletMode.MetaMask) {
+      handleConnectMetaMask()
+    }
+  }, [
+    // ledgerIndex,
+    pendingChains,
+    walletMode,
+    // handleConnectLedger,
+    handleConnectMetaMask,
+    handleConnectTrustWallet,
+    handleConnectXdefi,
+  ])
+
+  const handlePendingChain = useCallback(
+    (chain: SupportedChain) => {
+      if (walletMode === WalletMode.Ledger) {
+        setPendingChains([chain])
+        return
+      }
+
+      if (pendingChains.includes(chain)) {
+        const newPendingChains = pendingChains.filter((item) => item !== chain)
+        setPendingChains(newPendingChains)
+      } else {
+        setPendingChains([...pendingChains, chain])
+      }
+    },
+    [pendingChains, walletMode],
   )
 
   const handleCloseModal = useCallback(() => {
-    setIsConnectModalOpen(false)
-  }, [setIsConnectModalOpen])
+    clearStatus()
+  }, [clearStatus])
 
   const renderMainPanel = useMemo(() => {
     return (
@@ -114,11 +266,22 @@ export const WalletModal = () => {
           )}
           <Icon name="xdefi" />
         </WalletOption>
-        <WalletOption>
+        {isTerraStationAvailable && (
+          <WalletOption onClick={() => handleChainSelect(WalletMode.Terra)}>
+            {isTerraStationInstalled && (
+              <Typography>{t('views.walletModal.connectStation')}</Typography>
+            )}
+            {!isTerraStationInstalled && (
+              <Typography>{t('views.walletModal.installStation')}</Typography>
+            )}
+            <Icon name="station" />
+          </WalletOption>
+        )}
+        <WalletOption onClick={() => handleChainSelect(WalletMode.TrustWallet)}>
           <Typography>{t('views.walletModal.walletConnect')}</Typography>
           <Icon name="walletConnect" />
         </WalletOption>
-        <WalletOption>
+        <WalletOption onClick={() => handleChainSelect(WalletMode.MetaMask)}>
           {metamaskStatus === MetaMaskWalletStatus.MetaMaskDetected && (
             <Typography>{t('views.walletModal.connectMetaMask')}</Typography>
           )}
@@ -130,29 +293,31 @@ export const WalletModal = () => {
           )}
           <Icon name="metamask" />
         </WalletOption>
-        <WalletOption>
+        <WalletOption onClick={() => handleChainSelect(WalletMode.Ledger)}>
           <Typography>{t('views.walletModal.connectLedger')}</Typography>
           <Icon name="ledger" />
         </WalletOption>
-        <WalletOption>
-          <Typography>{t('views.walletModal.connectOnboard')}</Typography>
-          <Icon name="onboard" />
-        </WalletOption>
-        <WalletOption>
+        <WalletOption onClick={() => handleChainSelect(WalletMode.Keystore)}>
           <Typography>{t('views.walletModal.connectKeystore')}</Typography>
           <Icon name="keystore" />
         </WalletOption>
-        <WalletOption>
+        <WalletOption onClick={() => handleChainSelect(WalletMode.Create)}>
           <Typography>{t('views.walletModal.createKeystore')}</Typography>
           <Icon name="plus" />
         </WalletOption>
-        <WalletOption>
+        <WalletOption onClick={() => handleChainSelect(WalletMode.Phrase)}>
           <Typography>{t('views.walletModal.importPhrase')}</Typography>
           <Icon name="import" />
         </WalletOption>
       </Box>
     )
-  }, [metamaskStatus, xdefiStatus, handleChainSelect])
+  }, [
+    isTerraStationAvailable,
+    isTerraStationInstalled,
+    metamaskStatus,
+    xdefiStatus,
+    handleChainSelect,
+  ])
 
   const renderChainSelectPanel = useMemo(() => {
     if (
@@ -165,16 +330,51 @@ export const WalletModal = () => {
     return (
       <Box className="w-full space-y-3" col>
         {availableChainsByWallet[walletMode].map((chain) => {
+          const isChainSelected = pendingChains.includes(chain)
+
           return (
-            <ChainOption key={chain}>
-              <AssetIcon asset={chainToSigAsset(chain)} />
-              <Typography>{chain}</Typography>
+            <ChainOption
+              key={chain}
+              isSelected={isChainSelected}
+              onClick={() => handlePendingChain(chain)}
+            >
+              <Box row>
+                <AssetIcon asset={chainToSigAsset(chain)} />
+                <Box className="pl-2" col>
+                  <Typography>{chain}</Typography>
+                  <Typography variant="caption-xs">Not Connected</Typography>
+                </Box>
+              </Box>
+              {isChainSelected ? (
+                <Icon name="checkmark" color="primaryBtn" size={20} />
+              ) : null}
             </ChainOption>
           )
         })}
+
+        <Box alignCenter justify="between">
+          <Typography>{t('views.walletModal.ledgerIndex')}:</Typography>
+          <Input
+            placeholder={t('views.walletModal.ledgerIndex')}
+            border="rounded"
+            value={10}
+            onChange={() => {}}
+          />
+        </Box>
+
+        <Box className="w-full" alignCenter justifyCenter>
+          <Button
+            className="w-1/2 mt-2"
+            size="md"
+            disabled={pendingChains.length === 0}
+            onClick={handleConnectWallet}
+          >
+            {t('common.connect')}
+          </Button>
+        </Box>
       </Box>
     )
-  }, [walletMode])
+  }, [pendingChains, walletMode, handleConnectWallet, handlePendingChain])
 
   return (
     <Modal
@@ -186,6 +386,17 @@ export const WalletModal = () => {
       <Card className="w-[85vw] max-w-[420px] md:w-[65vw]" stretch size="lg">
         {walletStage === WalletStage.WalletSelect && renderMainPanel}
         {walletStage === WalletStage.ChainSelect && renderChainSelectPanel}
+        {walletStage === WalletStage.Final && (
+          <>
+            {walletMode === WalletMode.Keystore && (
+              <ConnectKeystoreView
+                isLoading={walletLoading}
+                onConnect={handleConnect}
+                onCreate={() => setWalletMode(WalletMode.Create)}
+              />
+            )}
+          </>
+        )}
       </Card>
     </Modal>
   )

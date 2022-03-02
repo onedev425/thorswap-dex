@@ -10,12 +10,16 @@ import {
 } from './iconList'
 import { SecondaryIconPlacement } from './types'
 
-const LOGO_SOURCE_URL =
-  'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/assets/LOGO_SYMBOL/logo.png'
+const twBaseUri =
+  'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains'
 
 export const getAssetIconUrl = (asset: Asset) => {
   if (Object.keys(customIconMap).includes(asset.ticker)) {
     return customIconMap[asset.ticker as CustomIconType]
+  }
+
+  if (Object.keys(customIconMap).includes(asset.symbol)) {
+    return customIconMap[asset.symbol as CustomIconType]
   }
 
   if (asset.chain === 'ETH' && asset.ticker !== 'ETH') {
@@ -25,15 +29,15 @@ export const getAssetIconUrl = (asset: Asset) => {
 
     const contract = multichain.eth.getCheckSumAddress(asset)
 
-    return `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${contract}/logo.png`
+    return `${twBaseUri}/ethereum/assets/${contract}/logo.png`
   }
 
   const logoSymbol = assetIconMap[asset.ticker as BepIconType]
   if (logoSymbol) {
-    return LOGO_SOURCE_URL.replace('LOGO_SYMBOL', logoSymbol)
+    return `${twBaseUri}/binance/assets/${logoSymbol}/logo.png`
   }
 
-  return `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/assets/${asset.symbol}/logo.png`
+  return `${twBaseUri}/binance/assets/${asset.symbol}/logo.png`
 }
 
 export const getSecondaryIconPlacementStyle = (

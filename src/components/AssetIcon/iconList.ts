@@ -1,16 +1,20 @@
 import alcxIcon from './assets/asset-alcx.png'
 import bnbIcon from './assets/asset-bnb.svg'
 import dogeIcon from './assets/asset-dogecoin.png'
+import lunaIcon from './assets/asset-luna.png'
 import runeIcon from './assets/asset-rune.svg'
 import tgtIcon from './assets/asset-tgt.png'
+import ustIcon from './assets/asset-ust.png'
 import { AssetTickerType } from './types'
 
 export const customIconMap: Partial<Record<AssetTickerType, string>> = {
   ALCX: alcxIcon,
   BNB: bnbIcon,
   DOGE: dogeIcon,
+  LUNA: lunaIcon,
   RUNE: runeIcon,
   TGT: tgtIcon,
+  UST: ustIcon,
   WETH: 'https://assets.coingecko.com/coins/images/2518/large/weth.png',
 }
 

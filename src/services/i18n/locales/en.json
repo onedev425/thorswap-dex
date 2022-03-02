@@ -18,7 +18,6 @@
     "locked": "Locked",
     "manage": "Manage",
     "minutes": "Minutes",
-    "notConnected": "Not Connected",
     "receive": "Receive",
     "send": "Send",
     "staking": "Staking",
@@ -42,11 +41,14 @@
       "selectAToken": "Select a token",
       "noResultsFound": "No results found"
     },
-    "connectKeystore": {
-      "selectKeystoreFile": "Please Select Keystore File",
-      "decryptionPassword": "Decryption Password",
-      "unlock": "Unlock",
-      "createWallet": "Create wallet"
+    "modal": {
+      "keystore": {
+        "selectKeystore": "Please Select Keystore File",
+        "keystorePassword": "Decryption Password",
+        "unlock": "Unlock",
+        "createWallet": "Create Wallet",
+        "wrongPassword": "Password is wrong"
+      }
     }
   },
   "views": {
@@ -107,6 +109,8 @@
       "connectXdefi": "Connect XDEFI Wallet",
       "installXdefi": "Install XDEFI Wallet",
       "prioritiseXdefi": "Prioritise XDEFI Wallet",
+      "connectStation": "Connect Terra Station",
+      "installStation": "Install Terra Station",
       "walletConnect": "WalletConnect",
       "connectMetaMask": "Connect MetaMask Wallet",
       "disableXdefi": "Disable XDEFI Wallet",
@@ -115,7 +119,10 @@
       "connectOnboard": "Ethereum Wallets",
       "connectKeystore": "Connect Keystore",
       "createKeystore": "Create Keystore",
-      "importPhrase": "Import Phrase"
+      "importPhrase": "Import Phrase",
+      "notConnected": "Not Connected",
+      "connectedWith": "Connected With",
+      "ledgerIndex": "Ledger Index"
     },
     "addLiquidity": {
       "pricesAndPoolShare": "Prices and Pool Share",

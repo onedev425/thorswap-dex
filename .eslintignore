@@ -1,3 +1,4 @@
 /public
 craco.config.js
+*.css
 *.json

@@ -39,7 +39,7 @@ export const ConnectKeystore = ({
     <Modal title="Connect Wallet" isOpened={isOpened} onClose={onClose}>
       <div>
         <Typography variant="h5" className="mb-[26px]" fontWeight="semibold">
-          {t('components.connectKeystore.selectKeystoreFile')}
+          {t('components.modal.keystore.selectKeystore')}
         </Typography>
         <label className="flex border justify-between px-6 py-[10px] cursor-pointer rounded-[16px] border-solid border-light-border-primary dark:border-dark-border-primary mb-[42px]">
           <input className="hidden" type="file" onChange={onFileUpload} />
@@ -60,7 +60,7 @@ export const ConnectKeystore = ({
         </label>
         <div className="flex justify-between mb-[26px]">
           <Typography variant="subtitle2">
-            {t('components.connectKeystore.decryptionPassword')}
+            {t('components.modal.keystore.keystorePassword')}
           </Typography>
           <div>
             <Tooltip
@@ -92,11 +92,11 @@ export const ConnectKeystore = ({
             endIcon={
               <Icon
                 name="unlock"
-                className="ml-4 group-hover:text-white transition"
+                className="ml-4 transition group-hover:text-white"
               />
             }
           >
-            {t('components.connectKeystore.unlock')}
+            {t('components.modal.keystore.unlock')}
           </Button>
           <Button
             size="sm"
@@ -107,11 +107,11 @@ export const ConnectKeystore = ({
               <Icon
                 name="wallet"
                 color="primary"
-                className="ml-4 group-hover:text-white transition"
+                className="ml-4 transition group-hover:text-white"
               />
             }
           >
-            {t('components.connectKeystore.createWallet')}
+            {t('components.modal.keystore.createWallet')}
           </Button>
         </Box>
       </div>

@@ -43,48 +43,46 @@ export const Button = ({
   }
 
   return (
-    <div className="group">
-      <button
-        ref={buttonRef}
-        className={classNames(
-          'flex flex-1 border items-center justify-center outline-none p-0 disabled:opacity-75 duration-300',
-          buttonClass,
-          className,
-          disabled ? 'cursor-not-allowed' : 'cursor-pointer',
-          isBorderless || isOutlined
-            ? 'bg-transparent active:bg-transparent'
-            : backgroundClass,
-          {
-            'border-transparent': isBorderless,
-            [outlinedClass]: isOutlined,
-            [backgroundActiveClass]: !(disabled || isBorderless || isOutlined),
-          },
-        )}
-        disabled={disabled}
-        onClick={handleClick}
-        {...rest}
-      >
-        {startIcon && startIcon}
+    <button
+      ref={buttonRef}
+      className={classNames(
+        'flex border items-center justify-center outline-none p-0 disabled:opacity-75 duration-300',
+        buttonClass,
+        className,
+        disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+        isBorderless || isOutlined
+          ? 'bg-transparent active:bg-transparent'
+          : backgroundClass,
+        {
+          'border-transparent': isBorderless,
+          [outlinedClass]: isOutlined,
+          [backgroundActiveClass]: !(disabled || isBorderless || isOutlined),
+        },
+      )}
+      disabled={disabled}
+      onClick={handleClick}
+      {...rest}
+    >
+      {startIcon && startIcon}
 
-        {children && (
-          <Typography
-            className={classNames(
-              'duration-150',
-              isOutlined || isBorderless
-                ? 'text-light-typo-primary dark:text-dark-typo-primary'
-                : 'text-white',
-              { [typographyOutlineClass]: isOutlined || isBorderless },
-            )}
-            variant={typographyVariant}
-            transform={transform}
-            color={textColor}
-          >
-            {children}
-          </Typography>
-        )}
+      {children && (
+        <Typography
+          className={classNames(
+            'duration-150',
+            isOutlined || isBorderless
+              ? 'text-light-typo-primary dark:text-dark-typo-primary'
+              : 'text-white',
+            { [typographyOutlineClass]: isOutlined || isBorderless },
+          )}
+          variant={typographyVariant}
+          transform={transform}
+          color={textColor}
+        >
+          {children}
+        </Typography>
+      )}
 
-        {endIcon && endIcon}
-      </button>
-    </div>
+      {endIcon && endIcon}
+    </button>
   )
 }
