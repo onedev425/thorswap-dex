@@ -81,11 +81,13 @@ export const WalletModal = () => {
   }, [setIsConnectModalOpen])
 
   const handleBack = useCallback(() => {
-    if (walletStage === WalletStage.Final)
-      setWalletStage(WalletStage.ChainSelect)
-    else if (walletStage === WalletStage.ChainSelect)
+    if (walletStage === WalletStage.Final) {
+      if (walletMode === WalletMode.Create || walletMode === WalletMode.Phrase)
+        setWalletStage(WalletStage.WalletSelect)
+      else setWalletStage(WalletStage.ChainSelect)
+    } else if (walletStage === WalletStage.ChainSelect)
       setWalletStage(WalletStage.WalletSelect)
-  }, [walletStage])
+  }, [walletMode, walletStage])
 
   const handleConnectTerraWallet = useCallback(() => {
     connectTerraStation()
