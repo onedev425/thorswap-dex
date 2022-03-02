@@ -20,8 +20,8 @@ export const NodeStats = () => {
     bondingAPYLabel,
   } = useGlobalStats()
 
-  const statsData: StatsType[] = useMemo(() => {
-    return [
+  const statsData: StatsType[] = useMemo(
+    () => [
       {
         iconName: 'chartPie',
         color: 'yellow',
@@ -69,15 +69,16 @@ export const NodeStats = () => {
         label: 'Next Churn Height',
         value: Amount.fromNormalAmount(networkData?.nextChurnHeight).toFixed(0),
       },
-    ]
-  }, [
-    runeToCurrency,
-    totalBond,
-    totalActiveBond,
-    totalStandbyBond,
-    bondingAPYLabel,
-    networkData,
-  ])
+    ],
+    [
+      runeToCurrency,
+      totalBond,
+      totalActiveBond,
+      totalStandbyBond,
+      bondingAPYLabel,
+      networkData,
+    ],
+  )
 
   return <StatsList list={statsData} scrollable />
 }

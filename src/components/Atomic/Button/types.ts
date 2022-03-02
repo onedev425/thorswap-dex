@@ -20,7 +20,6 @@ export type ButtonProps = Omit<
   DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>,
   'type'
 > & {
-  borderless?: boolean
   children?: React.ReactNode
   className?: string
   disabled?: boolean

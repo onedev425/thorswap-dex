@@ -1,51 +1,53 @@
 import { SidebarItemProps } from 'components/Sidebar/types'
 
+import { ROUTES } from 'settings/constants'
+
 export const navbarOptions: SidebarItemProps[] = [
   {
     iconName: 'app',
-    href: '/',
+    href: ROUTES.Home,
     label: 'Dashboard',
     isExternal: false,
     hasSub: false,
   },
   {
     iconName: 'tradeLightning',
-    href: '/',
+    href: ROUTES.Home,
     label: 'Trade',
     isExternal: false,
     hasSub: true,
     children: [
       {
         iconName: 'swap',
-        href: '/swap',
+        href: ROUTES.Swap,
         label: 'Swap',
         isExternal: false,
         hasSub: false,
       },
       {
         iconName: 'inIcon',
-        href: '/add-liquidity',
+        href: ROUTES.AddLiquidity,
         label: 'Add Liquidity',
         isExternal: false,
         hasSub: false,
       },
       {
         iconName: 'sputnik',
-        href: '/manage-liquidity',
+        href: ROUTES.ManageLiquidity,
         label: 'Manage Liquidity',
         isExternal: false,
         hasSub: false,
       },
       {
         iconName: 'lightning',
-        href: '/stake',
+        href: ROUTES.Stake,
         label: 'Thor Stake',
         isExternal: false,
         hasSub: false,
       },
       {
         iconName: 'watch',
-        href: '/',
+        href: ROUTES.Home,
         label: 'Pending Liquidity',
         isExternal: false,
         hasSub: false,
@@ -54,21 +56,21 @@ export const navbarOptions: SidebarItemProps[] = [
   },
   {
     iconName: 'wallet',
-    href: '/wallet',
+    href: ROUTES.Wallet,
     label: 'Wallet',
     isExternal: false,
     hasSub: false,
   },
   {
     iconName: 'cloud',
-    href: '/nodes',
+    href: ROUTES.Nodes,
     label: 'Thornode',
     isExternal: false,
     hasSub: false,
   },
   {
     iconName: 'settings',
-    href: '/stats',
+    href: ROUTES.Stats,
     label: 'Stats',
     isExternal: false,
     hasSub: false,

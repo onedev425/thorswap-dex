@@ -1,5 +1,7 @@
 import { useRef } from 'react'
 
+import { useNavigate } from 'react-router-dom'
+
 import classNames from 'classnames'
 
 import { Box } from 'components/Atomic'
@@ -7,6 +9,8 @@ import { navbarOptions } from 'components/Sidebar/data'
 import { SidebarItemProps } from 'components/Sidebar/types'
 
 import useOnClickOutside from 'hooks/useClickOutside'
+
+import { ROUTES } from 'settings/constants'
 
 import LogoImg from '../Announcement/assets/images/logo.png'
 import { NavMenuItems } from './NavMenuItems'
@@ -18,6 +22,7 @@ type NavDrawerProps = {
 
 export const NavDrawer = ({ isVisible, hideMenu }: NavDrawerProps) => {
   const navRef = useRef<HTMLElement>(null)
+  const navigate = useNavigate()
   useOnClickOutside(navRef, () => isVisible && hideMenu())
 
   return (
@@ -35,10 +40,8 @@ export const NavDrawer = ({ isVisible, hideMenu }: NavDrawerProps) => {
           col
           className="w-[300px] p-4 h-full bg-light-bg-secondary dark:bg-dark-bg-secondary shadow-2xl border-box"
         >
-          <Box center py={4}>
-            <a href="/">
-              <img className="w-12 h-12" src={LogoImg} alt="Logo" />
-            </a>
+          <Box center py={4} onClick={() => navigate(ROUTES.Home)}>
+            <img className="w-12 h-12" src={LogoImg} alt="Logo" />
           </Box>
 
           {navbarOptions.map(({ children, label, href }: SidebarItemProps) => (

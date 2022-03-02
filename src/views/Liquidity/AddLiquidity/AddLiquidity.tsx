@@ -70,7 +70,11 @@ export const AddLiquidity = () => {
       <Box className="w-full mx-2" col>
         <ViewHeader
           title={t('common.addLiquidity')}
-          actionsComponent={<Icon name="cog" color="secondary" />}
+          actionsComponent={
+            <Box row>
+              <Icon size={26} name="cog" color="secondary" />
+            </Box>
+          }
         />
       </Box>
 

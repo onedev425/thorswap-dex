@@ -18,7 +18,7 @@ export const StatsList = ({ list, scrollable = true }: StatsListProps) => {
   return (
     <div className="flex flex-row flex-wrap gap-4">
       {list.map((item) => (
-        <Stats {...item} key={item.label} />
+        <Stats key={item.label} {...item} />
       ))}
     </div>
   )

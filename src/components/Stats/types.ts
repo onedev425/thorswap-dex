@@ -4,6 +4,7 @@ import { ColorType } from 'types/global'
 
 export type StatsType = {
   color: ColorType
+  tooltip?: string
   iconName: IconName
   label: string
   value: string

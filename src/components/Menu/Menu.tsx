@@ -18,7 +18,7 @@ type Props = {
 
 export const Menu = ({
   items,
-  openIcon = 'threeDotsHorizontal',
+  openIcon = 'cog',
   stickToSide = 'right',
   onBack,
   onClose,

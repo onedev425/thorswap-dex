@@ -3,9 +3,7 @@ import ReactTooltip from 'react-tooltip'
 import classNames from 'classnames'
 import ReactDOM from 'react-dom/server'
 
-import { Icon, IconName } from 'components/Atomic'
-
-import { Typography } from '..'
+import { Typography, Icon, IconName } from 'components/Atomic'
 
 type Props = {
   place?: 'top' | 'bottom' | 'left' | 'right'

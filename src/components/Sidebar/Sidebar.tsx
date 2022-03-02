@@ -1,6 +1,10 @@
+import { useNavigate } from 'react-router-dom'
+
 import classNames from 'classnames'
 
 import { Icon, Link } from 'components/Atomic'
+
+import { ROUTES } from 'settings/constants'
 
 import Logo from '../Announcement/assets/images/logo.png'
 import { navbarOptions } from './data'
@@ -10,6 +14,7 @@ import { SidebarProps, SidebarItemProps, Variant } from './types'
 const renderMenu = (options: SidebarItemProps[], variant: Variant) => {
   return (
     <ul
+      key={variant}
       className={classNames(
         'flex flex-col items-center rounded-2xl p-0 m-0 list-none',
         { 'bg-green bg-opacity-10 mb-6': variant === 'secondary' },
@@ -36,6 +41,8 @@ const renderMenu = (options: SidebarItemProps[], variant: Variant) => {
 }
 
 export const Sidebar = ({ options = navbarOptions }: SidebarProps) => {
+  const navigate = useNavigate()
+
   return (
     <nav
       className={classNames(
@@ -44,10 +51,11 @@ export const Sidebar = ({ options = navbarOptions }: SidebarProps) => {
         'bg-light-bg-primary dark:bg-dark-bg-primary border-box sticky top-0',
       )}
     >
-      <div className="mt-8 min-w-[48px] h-12 transition-colors cursor-pointer">
-        <a href="/">
-          <img className="w-12 h-12" src={Logo} alt="Logo" />
-        </a>
+      <div
+        onClick={() => navigate(ROUTES.Home)}
+        className="mt-8 min-w-[48px] h-12 transition-colors cursor-pointer"
+      >
+        <img className="w-12 h-12" src={Logo} alt="Logo" />
       </div>
 
       {renderMenu(options, 'primary')}

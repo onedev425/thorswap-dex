@@ -8,6 +8,8 @@ import { AssetInputType } from 'components/AssetInput/types'
 import { AssetSelectType } from 'components/AssetSelect/types'
 import { Box, Icon } from 'components/Atomic'
 
+import { t } from 'services/i18n'
+
 type Props = {
   onAssetChange: (assetPosition: 'first' | 'second') => (asset: Asset) => void
   onBalanceChange: (
@@ -35,12 +37,13 @@ export const AssetInputs = memo(
       <Box className="relative" col>
         <div
           className={classNames(
-            'absolute flex items-center justify-center top-1/2 p-2 rounded-3xl left-1/2 -translate-x-1/2 -translate-y-1/2',
+            'absolute flex items-center justify-center -mt-0.5 top-1/2 p-3.5 rounded-3xl left-1/2 -translate-x-1/2 -translate-y-1/2',
             'border-10 border-solid bg-blue dark:border-dark-border-primary border-light-border-primary',
           )}
         >
-          <Icon name="plus" size={36} color="white" />
+          <Icon name="plus" size={24} color="white" />
         </div>
+
         <AssetInput
           selectedAsset={firstAsset}
           onAssetChange={onAssetChange('first')}
@@ -48,7 +51,7 @@ export const AssetInputs = memo(
           assets={assets}
           commonAssets={commonAssets}
           secondary
-          secondaryLabel="Balance"
+          secondaryLabel={t('common.balance')}
         />
         <AssetInput
           selectedAsset={secondAsset}
@@ -57,7 +60,7 @@ export const AssetInputs = memo(
           assets={assets}
           commonAssets={commonAssets}
           secondary
-          secondaryLabel="Balance"
+          secondaryLabel={t('common.balance')}
         />
       </Box>
     )

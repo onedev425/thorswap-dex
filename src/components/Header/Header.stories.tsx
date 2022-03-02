@@ -16,7 +16,6 @@ export const Default = () => {
         priceLabel="1ᚱ = $ 10.04"
         gweiLabel="156 GWEI"
         connectWallet={() => {}}
-        openWalletDrawer={() => {}}
         openMenu={() => {}}
       />
     </div>

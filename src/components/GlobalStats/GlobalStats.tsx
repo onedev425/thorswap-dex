@@ -61,7 +61,7 @@ export const GlobalStats = () => {
               2,
             )
           : '-',
-        tooltip: '24H Volume for Swap, Add, Withdraw)',
+        tooltip: '24H Volume for Swap, Add, Withdraw',
       },
       {
         iconName: 'chartArea2',

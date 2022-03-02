@@ -85,10 +85,16 @@ const Swap = () => {
           title={t('common.swap')}
           actionsComponent={
             <Box row>
-              <Icon color="secondary" name="chart" className="ml-auto" />
+              <Icon
+                size={26}
+                color="secondary"
+                name="chart"
+                className="ml-auto"
+              />
               <Popover
                 trigger={
                   <Icon
+                    size={26}
                     color="secondary"
                     name="cog"
                     className="ml-6"

@@ -150,11 +150,11 @@ const Stake = () => {
           </Box>
         </Box>
       </div>
+
       <Box className="w-full" marginBottom={40} alignCenter>
-        <Box>
-          <StatsList list={list} />
-        </Box>
+        <StatsList list={list} />
       </Box>
+
       <div className="flex space-x-6">
         <Box className="flex-wrap gap-8">
           <StakingCard className="h-auto" />

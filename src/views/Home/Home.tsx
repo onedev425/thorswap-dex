@@ -19,7 +19,9 @@ const Home = () => {
         title="THORSwap"
         content="THORSwap is world's first multi-chain dex powered by THORChain"
       />
+
       <GlobalStats />
+
       <Box className="flex-wrap">
         <Box className="w-full lg:w-1/2" col>
           <Statistics

@@ -30,6 +30,7 @@ export type LeafProps = {
 }
 
 export type StatsGroupProps = {
+  title: string
   stats: FixedLengthArray<{ label: string; value: number | string }, 4>
   iconName: IconName
   iconColor: ColorType

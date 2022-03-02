@@ -12,6 +12,7 @@ export const List = () => {
   return (
     <div className="flex flex-row bg-light-bg-primary dark:bg-dark-bg-primary p-4 gap-3">
       <StatsGroup
+        title="Group"
         iconName="bitcoin"
         iconColor="yellow"
         stats={[
@@ -34,6 +35,7 @@ export const List = () => {
         ]}
       />
       <StatsGroup
+        title="Group"
         iconName="ethereum"
         iconColor="blue"
         stats={[
@@ -63,6 +65,7 @@ export const Bitcoin = () => {
   return (
     <div className="flex flex-row bg-light-bg-primary dark:bg-dark-bg-primary p-4 gap-3">
       <StatsGroup
+        title="Group"
         iconName="bitcoin"
         iconColor="yellow"
         stats={[
@@ -91,6 +94,7 @@ export const Bitcoin = () => {
 export const Ethereum = () => {
   return (
     <StatsGroup
+      title="Group"
       iconName="ethereum"
       iconColor="blue"
       stats={[

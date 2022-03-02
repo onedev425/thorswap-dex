@@ -7,14 +7,21 @@ import { ViewHeader } from 'components/ViewHeader'
 
 import { t } from 'services/i18n'
 
-const menuItems = [
-  { label: 'BOND', value: 'BOND' },
-  { label: 'UNBOND', value: 'UNBOND' },
-  { label: 'LEAVE', value: 'LEAVE' },
-]
+enum Types {
+  Bond = 'BOND',
+  Leave = 'LEAVE',
+  Unbound = 'UNBOUND',
+}
+
+const menuItems = Object.values(Types).map((type) => ({
+  label: type,
+  value: type,
+})) as { label: Types; value: Types }[]
 
 const NodeManager = () => {
-  const [value, setValue] = useState('BOND')
+  const [amount, setAmount] = useState('0')
+  const [type, setType] = useState(Types.Bond)
+
   return (
     <div className="self-center shrink  mx-auto md:mx-0 md:w-fit md:max-w[1200px]">
       <ViewHeader withBack title="Node Manager" />
@@ -34,17 +41,18 @@ const NodeManager = () => {
               <div className="pl-3 md:pl-0">
                 <DropdownMenu
                   menuItems={menuItems}
-                  value={value}
-                  onChange={(v) => setValue(v)}
-                  openLabel={value}
+                  value={type}
+                  onChange={(v) => setType(v as Types)}
+                  openLabel={type}
                 />
               </div>
             </Box>
           </Box>
-          {value !== 'LEAVE' && (
+
+          {type !== Types.Leave && (
             <Box className="bg-light-gray-light dark:bg-dark-gray-light rounded-xl px-3">
               <Box className="py-2 md:gap-x-40" alignCenter justify="between">
-                {value === 'BOND' ? (
+                {type === Types.Bond ? (
                   <Typography
                     fontWeight="medium"
                     variant="body"
@@ -59,18 +67,20 @@ const NodeManager = () => {
                   </Typography>
                 )}
 
-                <Box className="pl-11 md:pl-0" alignCenter>
+                <Box className="pl-11 md:pl-0" justify="end">
                   <Input
-                    type={'number'}
-                    className="md:px-5 text-lg text-left font-normal w-28 md:w-full border-none"
+                    type="number"
+                    className="md:px-5 text-lg text-right font-normal w-28 md:w-full border-none"
                     placeholder="Amount"
-                    autoFocus
+                    onChange={(event) => setAmount(event.target.value)}
+                    value={amount}
                   />
                 </Box>
               </Box>
             </Box>
           )}
         </Card>
+
         <Box className="py-5 md:py-10" col>
           <Button className="px-20">{t('views.nodes.complete')}</Button>
         </Box>

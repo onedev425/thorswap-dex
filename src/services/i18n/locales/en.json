@@ -3,6 +3,7 @@
     "APY": "APY",
     "addLiquidity": "Add liquidity",
     "auto": "Auto",
+    "balance": "Balance",
     "claim": "Claim",
     "confirm": "Confirm",
     "connect": "Connect",
@@ -26,7 +27,8 @@
     "totalVol": "Total Vol",
     "transactions": "Transactions",
     "volume": "Volume",
-    "withdraw": "Withdraw"
+    "withdraw": "Withdraw",
+    "per": "per"
   },
   "appMenu": {
     "lightTheme": "Light Theme",
@@ -114,6 +116,10 @@
       "connectKeystore": "Connect Keystore",
       "createKeystore": "Create Keystore",
       "importPhrase": "Import Phrase"
+    },
+    "addLiquidity": {
+      "pricesAndPoolShare": "Prices and Pool Share",
+      "shareOfPool": "Share of Pool"
     }
   }
 }

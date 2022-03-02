@@ -1,5 +1,7 @@
 import { useMemo } from 'react'
 
+import { useNavigate } from 'react-router-dom'
+
 import { Pool, Amount, Percent } from '@thorswap-lib/multichain-sdk'
 import { chainToString } from '@thorswap-lib/xchain-util'
 
@@ -19,7 +21,10 @@ import { BreakPoint } from 'hooks/useWindowSize'
 
 import { t } from 'services/i18n'
 
+import { ROUTES } from 'settings/constants'
+
 export const PoolTable = ({ data }: PoolTableProps) => {
+  const navigate = useNavigate()
   const { runeToCurrency } = useGlobalState()
 
   const columns = useMemo(() => {
@@ -89,10 +94,17 @@ export const PoolTable = ({ data }: PoolTableProps) => {
         Header: 'Action',
         Cell: () => (
           <Box row className="gap-2" justify="end">
-            <Button variant="secondary" type="outline" onClick={() => {}}>
+            <Button
+              variant="secondary"
+              type="outline"
+              onClick={() => navigate(ROUTES.Swap)}
+            >
               {t('common.swap')}
             </Button>
-            <Button type="outline" onClick={() => {}}>
+            <Button
+              type="outline"
+              onClick={() => navigate(ROUTES.AddLiquidity)}
+            >
               {t('common.addLiquidity')}
             </Button>
           </Box>
@@ -101,7 +113,7 @@ export const PoolTable = ({ data }: PoolTableProps) => {
         minScreenSize: BreakPoint.md,
       },
     ] as TableColumnsConfig
-  }, [runeToCurrency])
+  }, [navigate, runeToCurrency])
 
   return (
     <div className="flex flex-col">

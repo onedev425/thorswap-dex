@@ -1,13 +1,17 @@
 import classNames from 'classnames'
 
-import { Card, Icon, Typography } from 'components/Atomic'
+import { Box, Card, Icon, Tooltip, Typography } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
 
 import { StatsType, statsBgClasses } from './types'
 
-export const Stats = (props: StatsType) => {
-  const { color, iconName, label, value } = props
-
+export const Stats = ({
+  tooltip,
+  color,
+  iconName,
+  label,
+  value,
+}: StatsType) => {
   return (
     <Card
       className={classNames(
@@ -31,14 +35,27 @@ export const Stats = (props: StatsType) => {
           className="group-hover:text-dark-typo-primary transition"
         />
       </div>
-      <div className="flex flex-col justify-center gap-4">
-        <Typography
-          className="group-hover:text-dark-typo-primary transition"
-          variant="caption"
-          color="secondary"
-        >
-          {label}
-        </Typography>
+
+      <Box justifyCenter col className="gap-4">
+        <Box row className="gap-x-1">
+          <Typography
+            className="group-hover:text-dark-typo-primary transition"
+            variant="caption"
+            color="secondary"
+          >
+            {label}
+          </Typography>
+
+          <Tooltip content={tooltip}>
+            <Icon
+              size={16}
+              className="group-hover:text-dark-typo-primary"
+              color="secondary"
+              name="infoCircle"
+            />
+          </Tooltip>
+        </Box>
+
         <Typography
           className="group-hover:text-dark-typo-primary transition"
           transform="uppercase"
@@ -46,7 +63,7 @@ export const Stats = (props: StatsType) => {
         >
           {value}
         </Typography>
-      </div>
+      </Box>
     </Card>
   )
 }

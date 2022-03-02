@@ -10,17 +10,11 @@ import { t } from 'services/i18n'
 type Props = {
   priceLabel: string
   gweiLabel: string
-  openWalletDrawer: () => void
   connectWallet: () => void
   openMenu: () => void
 }
 
-export const Header = ({
-  priceLabel,
-  gweiLabel,
-  // openWalletDrawer,
-  openMenu,
-}: Props) => {
+export const Header = ({ priceLabel, gweiLabel, openMenu }: Props) => {
   const { setIsConnectModalOpen } = useWallet()
 
   const handleClickWalletBtn = useCallback(() => {
@@ -50,7 +44,6 @@ export const Header = ({
 
           <Button
             className="flex md:hidden"
-            borderless
             onClick={openMenu}
             startIcon={<Icon color="white" name="menu" size={24} />}
           />

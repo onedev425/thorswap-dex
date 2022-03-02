@@ -1,3 +1,5 @@
+import { memo } from 'react'
+
 import classNames from 'classnames'
 
 import { Typography } from 'components/Atomic'
@@ -5,9 +7,7 @@ import { genericBgClasses } from 'components/constants'
 
 import { LeafProps, borderClasses } from './types'
 
-const StatsLeaf = (props: LeafProps) => {
-  const { label, value, bnPosition } = props
-
+export const StatsLeaf = memo(({ label, value, bnPosition }: LeafProps) => {
   return (
     <div
       className={classNames(
@@ -35,6 +35,4 @@ const StatsLeaf = (props: LeafProps) => {
       </div>
     </div>
   )
-}
-
-export default StatsLeaf
+})

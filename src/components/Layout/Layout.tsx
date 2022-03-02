@@ -9,19 +9,12 @@ import { NavDrawer } from 'components/NavDrawer'
 import { Sidebar } from 'components/Sidebar'
 import { WalletModal } from 'components/WalletModal'
 
-import { useWalletDrawer } from '../../hooks/useWalletDrawer'
-
 export type LayoutProp = {
   children: ReactNode
 }
 
 export const Layout = ({ children }: LayoutProp) => {
   const [isMenuVisible, setMenuVisible] = useState(false)
-  const [isVisible, toggleVisibility] = useWalletDrawer()
-
-  const connectWallet = () => {
-    toggleVisibility()
-  }
 
   const openMenu = () => {
     setMenuVisible(true)
@@ -54,14 +47,12 @@ export const Layout = ({ children }: LayoutProp) => {
         <main
           className={classNames(
             'flex flex-col md:ml-[92px] md:max-w-[calc(100%-148px)] mx-3 md:px-10 py-5 dark:bg-elliptical',
-            { 'blur-md pointer-events-none': isVisible },
           )}
         >
           <Header
             priceLabel="1ᚱ = $ 10.04"
             gweiLabel="156 GWEI"
             connectWallet={() => {}}
-            openWalletDrawer={connectWallet}
             openMenu={openMenu}
           />
           {children}

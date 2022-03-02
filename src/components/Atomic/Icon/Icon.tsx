@@ -33,8 +33,13 @@ export type IconProps = {
   onClick?: () => void
 }
 
-export const Icon = (props: IconProps) => {
-  const { className, color = 'primary', name, size = 24, onClick } = props
+export const Icon = ({
+  className,
+  color = 'primary',
+  name,
+  size = 24,
+  onClick,
+}: IconProps) => {
   const IconComp = IconList[name]
 
   return (

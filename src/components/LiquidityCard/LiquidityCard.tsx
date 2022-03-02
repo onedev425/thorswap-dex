@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom'
+
 import classNames from 'classnames'
 
 import { DashedDivider } from 'views/Swap/DashedDivider'
@@ -16,11 +18,14 @@ import { AssetDataType } from 'components/LiquidityCard/types'
 
 import { t } from 'services/i18n'
 
+import { ROUTES } from 'settings/constants'
+
 interface LiquidityCardProps {
   data: AssetDataType[]
 }
 
 export const LiquidityCard = ({ data }: LiquidityCardProps) => {
+  const navigate = useNavigate()
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse()
   const { contentRef: buttonsContentRef, maxHeight: maxButtonHeight } =
     useCollapse()
@@ -92,7 +97,12 @@ export const LiquidityCard = ({ data }: LiquidityCardProps) => {
         }}
       >
         <Box className="space-x-6 md:pr-0" pt={3} justifyCenter>
-          <Button className="px-8 md:px-12" variant="primary" size="sm">
+          <Button
+            onClick={() => navigate(ROUTES.AddLiquidity)}
+            className="px-8 md:px-12"
+            variant="primary"
+            size="sm"
+          >
             {t('views.liquidity.addButton')}
           </Button>
           <Button className="px-8 md:px-12" variant="secondary" size="sm">

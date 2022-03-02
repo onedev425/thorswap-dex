@@ -1,11 +1,21 @@
+import { useNavigate } from 'react-router-dom'
+
 import { Box, Button, Card, Icon, Typography } from 'components/Atomic'
 
 import { t } from 'services/i18n'
 
+import { ROUTES } from 'settings/constants'
+
 import { PoolCardProps } from './types'
 
-export const PoolCard = (props: PoolCardProps) => {
-  const { coinSymbol, iconName, color, price, change } = props
+export const PoolCard = ({
+  coinSymbol,
+  iconName,
+  color,
+  price,
+  change,
+}: PoolCardProps) => {
+  const navigate = useNavigate()
 
   return (
     <Card
@@ -46,9 +56,15 @@ export const PoolCard = (props: PoolCardProps) => {
       </Box>
 
       <Box mt={5} align="end" justify="between" className="gap-x-2">
-        <Button type="outline">{t('common.swap')}</Button>
+        <Button onClick={() => navigate(ROUTES.Swap)} type="outline">
+          {t('common.swap')}
+        </Button>
 
-        <Button variant="tertiary" type="outline">
+        <Button
+          onClick={() => navigate(ROUTES.AddLiquidity)}
+          variant="tertiary"
+          type="outline"
+        >
           {t('common.addLiquidity')}
         </Button>
       </Box>
