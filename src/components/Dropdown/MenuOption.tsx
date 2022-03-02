@@ -13,7 +13,7 @@ export const MenuOption = (props: DropdownMenuItem) => {
       {({ active, selected }) => (
         <div
           className={classNames(
-            'px-3 py-2',
+            'p-2',
             {
               [genericBgClasses.green]: selected,
               [genericBgClasses.secondary]: active && !selected,

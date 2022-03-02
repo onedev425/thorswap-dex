@@ -12,7 +12,7 @@ export const Menu = (props: Props) => {
   return (
     <Listbox.Options
       className={classNames(
-        'absolute left-0 origin-top-right bg-white rounded-b-2xl overflow-hidden focus:outline-none drop-shadow-box min-w-full',
+        'absolute left-0 origin-top-right rounded-b-2xl overflow-hidden focus:outline-none shadow-2xl min-w-full',
         genericBgClasses.primary,
       )}
       as="div"

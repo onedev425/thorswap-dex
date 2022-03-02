@@ -7,17 +7,15 @@ import { DropdownMenuProps } from 'components/Dropdown/types'
 
 import { Dropdown } from './Dropdown'
 
-export const DropdownMenu = (props: DropdownMenuProps) => {
-  const {
-    className,
-    disabled,
-    openLabel,
-    menuItems,
-    value,
-    OpenComponent,
-    onChange,
-  } = props
-
+export const DropdownMenu = ({
+  className,
+  disabled,
+  openLabel,
+  menuItems,
+  value,
+  OpenComponent,
+  onChange,
+}: DropdownMenuProps) => {
   const defaultOpenLabel =
     menuItems.find((i) => i.value === value)?.label || '-'
 
