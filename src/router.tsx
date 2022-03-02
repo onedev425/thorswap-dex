@@ -68,7 +68,7 @@ const routes: RouteType = [
 ]
 
 const PublicRoutes = () => {
-  const [isWalletDrawerVisible] = useWalletDrawer()
+  const { isVisible: isWalletDrawerVisible } = useWalletDrawer()
 
   return (
     <Router>

@@ -1,5 +1,10 @@
-import { AiOutlineLineChart } from 'react-icons/ai'
-import { BiArrowBack } from 'react-icons/bi'
+import {
+  AiOutlineLineChart,
+  AiOutlineSend,
+  AiOutlineSwap,
+  AiOutlineQrcode,
+} from 'react-icons/ai'
+import { BiArrowBack, BiLinkExternal } from 'react-icons/bi'
 import {
   BsCurrencyDollar,
   BsDiscord,
@@ -29,7 +34,6 @@ import {
   FiChevronLeft,
   FiChevronRight,
   FiInfo,
-  FiSend,
   FiX,
   FiXCircle,
 } from 'react-icons/fi'
@@ -47,10 +51,12 @@ import {
 } from 'react-icons/md'
 import { RiShareBoxLine } from 'react-icons/ri'
 import { SiBinance } from 'react-icons/si'
+import { VscAdd, VscCopy, VscSignOut } from 'react-icons/vsc'
 
 import { SvgIcons } from './svg/svgIconList'
 
 const Icons = {
+  add: VscAdd,
   arrowBack: BiArrowBack,
   arrowDown: FiArrowDown,
   arrowUp: MdKeyboardArrowUp,
@@ -70,10 +76,13 @@ const Icons = {
   chevronRight: FiChevronRight,
   close: FiX,
   cog: HiOutlineCog,
+  copy: VscCopy,
   currencyDollar: BsCurrencyDollar,
+  disconnect: VscSignOut,
   discord: BsDiscord,
   ethereum: FaEthereum,
   exchange: CgArrowsExchangeAltV,
+  external: BiLinkExternal,
   fire: FaFire,
   info: FiInfo,
   infoCircle: FiInfo,
@@ -81,14 +90,16 @@ const Icons = {
   lock: MdOutlineLock,
   medium: BsMedium,
   menu: CgMenu,
+  qrcode: AiOutlineQrcode,
   question: BsQuestion,
   questionCircle: BsQuestionCircle,
   search: BsSearch,
-  send: FiSend,
+  send: AiOutlineSend,
   share: RiShareBoxLine,
   smile: BsEmojiSmile,
   sortDown: FaSortDown,
   sortUp: FaSortUp,
+  switch: AiOutlineSwap,
   telegram: BsTelegram,
   threeDotsHorizontal: BsThreeDots,
   twitter: BsTwitter,

@@ -9,16 +9,18 @@ import { Box, Card, Icon, Typography } from 'components/Atomic'
 
 type Props = {
   isOpened: boolean
-  onClose: () => void
   title: string
   children: React.ReactNode
   withBody?: boolean
+  onBack?: () => void
+  onClose: () => void
 }
 
 export const Modal = ({
   title,
   isOpened,
   withBody = true,
+  onBack,
   onClose,
   children,
 }: Props) => {
@@ -72,8 +74,18 @@ export const Modal = ({
               leaveTo="opacity-0"
             >
               <div className="max-w-md inline-block overflow-y-auto mx-auto drop-shadow-2xl text-left transition-all transform max-h-[90vh]">
-                <div className="flex flex-row justify-between my-2 lg:m-5 align-items">
-                  <Typography variant="h3">{title}</Typography>
+                <div className="flex flex-row items-center justify-between my-2 lg:m-5">
+                  <Box alignCenter row>
+                    {onBack && (
+                      <Icon
+                        className="mr-2"
+                        name="arrowBack"
+                        color="secondary"
+                        onClick={onBack}
+                      />
+                    )}
+                    <Typography variant="h3">{title}</Typography>
+                  </Box>
 
                   <Box
                     center
@@ -83,11 +95,11 @@ export const Modal = ({
                     )}
                   >
                     <Icon
-                      onClick={onClose}
-                      name="close"
                       className="self-center"
+                      name="close"
                       color="secondary"
                       size={24}
+                      onClick={onClose}
                     />
                   </Box>
                 </div>

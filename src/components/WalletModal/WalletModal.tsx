@@ -35,8 +35,6 @@ export const WalletModal = () => {
   const [pendingChains, setPendingChains] = useState<SupportedChain[]>([])
   const [ledgerIndex, setLedgerIndex] = useState(0)
 
-  console.log('LEDGER - ', ledgerIndex, setLedgerIndex)
-
   const {
     isConnectModalOpen,
     walletLoading,
@@ -44,7 +42,7 @@ export const WalletModal = () => {
     connectXdefiWallet,
     connectMetamask,
     connectTrustWallet,
-    // connectLedger,
+    connectLedger,
     connectTerraStation,
     setIsConnectModalOpen,
   } = useWallet()
@@ -82,6 +80,14 @@ export const WalletModal = () => {
     }, 1000)
   }, [setIsConnectModalOpen])
 
+  const handleBack = useCallback(() => {
+    setPendingChains([])
+    if (walletStage === WalletStage.Final)
+      setWalletStage(WalletStage.ChainSelect)
+    else if (walletStage === WalletStage.ChainSelect)
+      setWalletStage(WalletStage.WalletSelect)
+  }, [walletStage])
+
   const handleConnectTerraWallet = useCallback(() => {
     connectTerraStation()
     // close modal
@@ -99,6 +105,20 @@ export const WalletModal = () => {
       clearStatus()
     },
     [connectTrustWallet, clearStatus],
+  )
+
+  const handleConnectLedger = useCallback(
+    async (chain: Chain, index: number) => {
+      try {
+        // TODO: show connecting progress: `Connecting ${chainName} Ledger #...`
+        await connectLedger(chain, index)
+      } catch (error) {
+        // TODO: show error
+        console.error(error)
+      }
+      clearStatus()
+    },
+    [connectLedger, clearStatus],
   )
 
   const handleConnectMetaMask = useCallback(async () => {
@@ -216,15 +236,15 @@ export const WalletModal = () => {
     } else if (walletMode === WalletMode.Xdefi) {
       handleConnectXdefi(pendingChains)
     } else if (walletMode === WalletMode.Ledger) {
-      // handleConnectLedger(pendingChains[0], ledgerIndex.assetAmount.toNumber())
+      handleConnectLedger(pendingChains[0], ledgerIndex)
     } else if (walletMode === WalletMode.MetaMask) {
       handleConnectMetaMask()
     }
   }, [
-    // ledgerIndex,
+    ledgerIndex,
     pendingChains,
     walletMode,
-    // handleConnectLedger,
+    handleConnectLedger,
     handleConnectMetaMask,
     handleConnectTrustWallet,
     handleConnectXdefi,
@@ -352,15 +372,19 @@ export const WalletModal = () => {
           )
         })}
 
-        <Box alignCenter justify="between">
-          <Typography>{t('views.walletModal.ledgerIndex')}:</Typography>
-          <Input
-            placeholder={t('views.walletModal.ledgerIndex')}
-            border="rounded"
-            value={10}
-            onChange={() => {}}
-          />
-        </Box>
+        {walletMode === WalletMode.Ledger && (
+          <Box alignCenter justify="between">
+            <Typography>{t('views.walletModal.ledgerIndex')}:</Typography>
+            <Input
+              border="rounded"
+              type="number"
+              value={ledgerIndex}
+              onChange={(e) => {
+                setLedgerIndex(parseInt(e.target.value))
+              }}
+            />
+          </Box>
+        )}
 
         <Box className="w-full" alignCenter justifyCenter>
           <Button
@@ -374,7 +398,13 @@ export const WalletModal = () => {
         </Box>
       </Box>
     )
-  }, [pendingChains, walletMode, handleConnectWallet, handlePendingChain])
+  }, [
+    ledgerIndex,
+    pendingChains,
+    walletMode,
+    handleConnectWallet,
+    handlePendingChain,
+  ])
 
   return (
     <Modal
@@ -382,6 +412,9 @@ export const WalletModal = () => {
       isOpened={isConnectModalOpen}
       withBody={false}
       onClose={handleCloseModal}
+      {...(walletStage !== WalletStage.WalletSelect
+        ? { onBack: handleBack }
+        : {})}
     >
       <Card className="w-[85vw] max-w-[420px] md:w-[65vw]" stretch size="lg">
         {walletStage === WalletStage.WalletSelect && renderMainPanel}

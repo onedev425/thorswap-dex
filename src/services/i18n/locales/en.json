@@ -8,6 +8,8 @@
     "confirm": "Confirm",
     "connect": "Connect",
     "connectWallet": "Connect Wallet",
+    "loading": "Loading...",
+    "wallet": "Wallet",
     "deposit": "Deposit",
     "exchange": "Exchange",
     "liquidity": "Liquidity",

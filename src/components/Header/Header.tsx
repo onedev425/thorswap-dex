@@ -1,9 +1,13 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
+
+import { hasConnectedWallet } from '@thorswap-lib/multichain-sdk'
 
 import { AppPopoverMenu } from 'components/AppPopoverMenu'
 import { Button, Row, Icon } from 'components/Atomic'
 
 import { useWallet } from 'redux/wallet/hooks'
+
+import { useWalletDrawer } from 'hooks/useWalletDrawer'
 
 import { t } from 'services/i18n'
 
@@ -15,11 +19,26 @@ type Props = {
 }
 
 export const Header = ({ priceLabel, gweiLabel, openMenu }: Props) => {
-  const { setIsConnectModalOpen } = useWallet()
+  const { isWalletLoading, wallet, setIsConnectModalOpen } = useWallet()
+  const { setIsDrawerVisible } = useWalletDrawer()
+
+  const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet])
+
+  const walletBtnText = useMemo(() => {
+    if (isWalletLoading) return t('common.loading')
+
+    if (!isConnected) return t('common.connectWallet')
+
+    return t('common.wallet')
+  }, [isConnected, isWalletLoading])
 
   const handleClickWalletBtn = useCallback(() => {
-    setIsConnectModalOpen(true)
-  }, [setIsConnectModalOpen])
+    if (!isConnected && !isWalletLoading) {
+      setIsConnectModalOpen(true)
+    } else {
+      setIsDrawerVisible(true)
+    }
+  }, [isConnected, isWalletLoading, setIsConnectModalOpen, setIsDrawerVisible])
 
   return (
     <header className="mb-5">
@@ -51,7 +70,7 @@ export const Header = ({ priceLabel, gweiLabel, openMenu }: Props) => {
 
         <Row className="inline-flex items-center mt-auto shrink-0 gap-x-4">
           <Button type="outline" onClick={handleClickWalletBtn}>
-            {t('common.connectWallet')}
+            {walletBtnText}
           </Button>
           <AppPopoverMenu />
         </Row>

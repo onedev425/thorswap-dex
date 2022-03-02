@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   createContext,
   ReactNode,
@@ -7,7 +8,11 @@ import {
   useState,
 } from 'react'
 
-export const WalletDrawerContext = createContext([false, () => {}])
+export const WalletDrawerContext = createContext([
+  false,
+  (_visible: boolean) => {},
+  () => {},
+])
 
 type Props = {
   children?: ReactNode
@@ -24,16 +29,28 @@ const WalletDrawerProvider = ({ children }: Props) => {
     setIsOpened((v) => !v)
   }, [])
 
+  const setIsDrawerVisible = useCallback((visible: boolean) => {
+    setIsOpened(visible)
+  }, [])
+
   return (
-    <WalletDrawerContext.Provider value={[isOpened, toggle]}>
+    <WalletDrawerContext.Provider
+      value={[isOpened, setIsDrawerVisible, toggle]}
+    >
       {children}
     </WalletDrawerContext.Provider>
   )
 }
 
 export const useWalletDrawer = () => {
-  const [isVisible, toggleVisibility] = useContext(WalletDrawerContext)
-  return [isVisible, toggleVisibility] as [boolean, () => void]
+  const [isVisible, setIsDrawerVisible, onToggle] =
+    useContext(WalletDrawerContext)
+
+  return { isVisible, setIsDrawerVisible, onToggle } as {
+    isVisible: boolean
+    setIsDrawerVisible: (visible: boolean) => void
+    onToggle: () => void
+  }
 }
 
 export default WalletDrawerProvider
