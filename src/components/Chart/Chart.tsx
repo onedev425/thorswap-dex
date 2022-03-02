@@ -43,60 +43,46 @@ ChartJS.register(
 )
 
 import { Box } from 'components/Atomic'
+import { getChartData } from 'components/Chart/config/chartData'
+import { getChartOptions } from 'components/Chart/config/chartOptions'
 
-import chartConfig from './config/chartConfig'
-import { ChartDataType, ChartProps, ChartType } from './types'
+import {
+  ChartProps,
+  ChartType,
+  BarChartType,
+  AreaChartType,
+  LineChartType,
+  CurvedLineChartType,
+} from './types'
 
 export const Chart = ({
   className,
   type,
   data,
   hideLabel = false,
+  hasGird = false,
 }: ChartProps) => {
-  const { options, chartData } = chartConfig(type, data, hideLabel)
+  const chartData = getChartData(type, data)
+  const options = getChartOptions(hideLabel, hasGird)
 
   const renderChart = () => {
-    if (!chartData) {
-      return null
-    }
-
     switch (type) {
-      case 'bar':
+      case ChartType.Bar:
+        return <Bar options={options} data={chartData as BarChartType} />
+      case ChartType.Area:
+        return <Line options={options} data={chartData as AreaChartType} />
+      case ChartType.Line:
+        return <Line options={options} data={chartData as LineChartType} />
+      case ChartType.CurvedLine:
         return (
-          <Bar
-            options={options}
-            data={chartData as ChartDataType[ChartType.Bar]}
-          />
+          <Line options={options} data={chartData as CurvedLineChartType} />
         )
-      case 'area':
-        return (
-          <Line
-            options={options}
-            data={chartData as ChartDataType[ChartType.Area]}
-          />
-        )
-      case 'line':
-        return (
-          <Line
-            options={options}
-            data={chartData as ChartDataType[ChartType.Line]}
-          />
-        )
-      case 'curved-line':
-        return (
-          <Line
-            options={options}
-            data={chartData as ChartDataType[ChartType.CurvedLine]}
-          />
-        )
-      default:
-        return <></>
     }
   }
 
   return (
     <Box className={classNames('w-full h-full', className)}>
-      {renderChart()}
+      {chartData.datasets.length > 0 ? renderChart() : null}
     </Box>
   )
 }

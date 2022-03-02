@@ -1,21 +1,36 @@
 import * as colors from 'components/Chart/styles/colors'
-import { ChartDataType, ChartType, DataPoint } from 'components/Chart/types'
+import {
+  AreaChartType,
+  BarChartType,
+  ChartType,
+  CurvedLineChartType,
+  DataPoint,
+  LineChartType,
+} from 'components/Chart/types'
 
-import { getBackgroundColor, getLabelsAndValuesFromData } from './utils'
+import { getColor, getLabelsAndValuesFromData } from './utils'
+
+const StrokeColors = [
+  colors.StrokeColor1,
+  colors.StrokeColor2,
+  colors.StrokeColor3,
+  colors.StrokeColor4,
+  colors.StrokeColor5,
+]
 
 const getDataForBarChart = (
   data: DataPoint[],
   dataLabels: string[],
-): ChartDataType[ChartType.Bar] => {
+): BarChartType => {
   return {
     labels: dataLabels,
     datasets: [
       {
         label: '',
         data: data,
-        backgroundColor: getBackgroundColor(
-          colors.barChartGradientColor1,
-          colors.barChartGradientColor2,
+        backgroundColor: getColor(
+          [colors.barChartGradientColor1, colors.barChartGradientColor2],
+          'background',
         ),
         borderWidth: 0,
         borderRadius: 100,
@@ -29,18 +44,18 @@ const getDataForBarChart = (
 const getDataForAreaChart = (
   data: DataPoint[],
   dataLabels: string[],
-): ChartDataType[ChartType.Area] => {
+): AreaChartType => {
   return {
     labels: dataLabels,
     datasets: [
       {
         label: '',
         data: data,
-        backgroundColor: getBackgroundColor(
-          colors.areaChartGradientColor1,
-          colors.areaChartGradientColor2,
+        backgroundColor: getColor(
+          [colors.areaChartGradientColor2, colors.areaChartGradientColor1],
+          'background',
         ),
-        borderColor: colors.areaChartBorderColor,
+        borderColor: getColor(StrokeColors, 'stroke'),
         borderWidth: 3,
         fill: true,
         cubicInterpolationMode: 'monotone',
@@ -62,18 +77,18 @@ const getDataForAreaChart = (
 const getDataForLineChart = (
   dataLabels: string[],
   dataValues: number[],
-): ChartDataType[ChartType.Line] => {
+): LineChartType => {
   return {
     labels: dataLabels,
     datasets: [
       {
         data: dataValues,
         label: '',
-        backgroundColor: getBackgroundColor(
-          colors.lineChartGradientColor1,
-          colors.lineChartGradientColor2,
+        backgroundColor: getColor(
+          [colors.lineChartGradientColor1, colors.lineChartGradientColor2],
+          'background',
         ),
-        borderColor: colors.lineChartBorderColor,
+        borderColor: getColor(StrokeColors, 'stroke'),
         borderWidth: 3,
         fill: true,
         cubicInterpolationMode: 'default',
@@ -95,17 +110,20 @@ const getDataForLineChart = (
 const getDataForCurvedLineChart = (
   dataLabels: string[],
   dataValues: number[],
-): ChartDataType[ChartType.CurvedLine] => {
+): CurvedLineChartType => {
   return {
     labels: dataLabels,
     datasets: [
       {
         label: '',
-        backgroundColor: getBackgroundColor(
-          colors.curvedLineChartGradientColor1,
-          colors.curvedLineChartGradientColor2,
+        backgroundColor: getColor(
+          [
+            colors.curvedLineChartGradientColor1,
+            colors.curvedLineChartGradientColor2,
+          ],
+          'background',
         ),
-        borderColor: colors.curvedLineChartBorderColor,
+        borderColor: getColor(StrokeColors, 'stroke'),
         borderWidth: 3,
         data: dataValues,
         fill: true,
@@ -128,16 +146,15 @@ const getDataForCurvedLineChart = (
 
 export const getChartData = (type: ChartType, data: DataPoint[]) => {
   const { dataLabels, dataValues } = getLabelsAndValuesFromData(data)
+
   switch (type) {
     case ChartType.Bar:
       return getDataForBarChart(data, dataLabels)
-    case 'area':
+    case ChartType.Area:
       return getDataForAreaChart(data, dataLabels)
-    case 'line':
+    case ChartType.Line:
       return getDataForLineChart(dataLabels, dataValues)
-    case 'curved-line':
+    case ChartType.CurvedLine:
       return getDataForCurvedLineChart(dataLabels, dataValues)
-    default:
-      return null
   }
 }

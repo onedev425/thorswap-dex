@@ -1,3 +1,11 @@
+// Common colors
+export const gridLinesColor = '#2E3C56'
+export const StrokeColor1 = '#346ba0'
+export const StrokeColor2 = '#4594c7'
+export const StrokeColor3 = '#4cbee3'
+export const StrokeColor4 = '#75e9ed'
+export const StrokeColor5 = '#5cd29c'
+
 // Colors used in the Bar Chart Component
 export const barChartGradientColor1 = '#348CF4'
 export const barChartGradientColor2 = '#4DBAD6'

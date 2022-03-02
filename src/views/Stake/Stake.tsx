@@ -145,6 +145,7 @@ const Stake = () => {
             <Chart
               type={ChartType.Area}
               data={sampleData}
+              hasGird
               className="mh-[450px]"
             />
           </Box>

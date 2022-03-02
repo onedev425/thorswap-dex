@@ -2,9 +2,11 @@ import { Chart } from 'chart.js'
 
 import { DataPoint } from 'components/Chart/types'
 
+type ColorType = 'background' | 'stroke'
+
 const getGradientInstance = (
-  gradientColor1: string,
-  gradientColor2: string,
+  gradientColors: string[],
+  colorType: ColorType,
 ) => {
   let width: number
   let height: number
@@ -19,9 +21,20 @@ const getGradientInstance = (
     if (!gradient || width !== chartWidth || height !== chartHeight) {
       width = chartWidth
       height = chartHeight
-      gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top)
-      gradient.addColorStop(0, gradientColor1)
-      gradient.addColorStop(1, gradientColor2)
+
+      const isBackground: boolean = colorType === 'background'
+
+      const bottom: number = isBackground ? chartArea.bottom : 0
+      const top: number = isBackground ? chartArea.top : 0
+      const strokeWidth: number = isBackground ? 0 : width
+
+      gradient = ctx.createLinearGradient(0, bottom, strokeWidth, top)
+      for (let i = 0; i < gradientColors.length; i++) {
+        const stopValue =
+          i === gradientColors.length - 1 ? 1 : i / gradientColors.length
+
+        gradient.addColorStop(stopValue, gradientColors[i])
+      }
     }
     return gradient
   }
@@ -41,16 +54,13 @@ export const getLabelsAndValuesFromData = (data: DataPoint[]) => {
   return { dataLabels, dataValues }
 }
 
-export const getBackgroundColor = (
-  gradientColor1: string,
-  gradientColor2: string,
-) => {
+export const getColor = (gradientColors: string[], colorType: ColorType) => {
   return (context: { chart: Chart }) => {
     const {
       chart: { ctx, chartArea },
     } = context
     if (chartArea) {
-      return getGradientInstance(gradientColor1, gradientColor2)(ctx, chartArea)
+      return getGradientInstance(gradientColors, colorType)(ctx, chartArea)
     }
   }
 }

@@ -110,7 +110,7 @@ export const AreaChart = () => {
 
   return (
     <Card className="w-full">
-      <Chart type={ChartType.Area} data={sampleData} />
+      <Chart type={ChartType.Area} hasGird data={sampleData} />
     </Card>
   )
 }
@@ -133,7 +133,7 @@ export const LineChart = () => {
 
   return (
     <Card className="w-full">
-      <Chart type={ChartType.Line} data={sampleData} />
+      <Chart type={ChartType.Line} hasGird data={sampleData} />
     </Card>
   )
 }
