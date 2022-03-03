@@ -45,6 +45,7 @@ export const AssetInputs = memo(
         </div>
 
         <AssetInput
+          className="!mb-1"
           selectedAsset={firstAsset}
           onAssetChange={onAssetChange('first')}
           onValueChange={onBalanceChange('first')}

@@ -18,9 +18,9 @@ export const AssetSelect = ({ selected, className, ...restProps }: Props) => {
   return (
     <>
       <AssetSelectButton
-        onClick={() => setIsOpened(true)}
-        selected={selected}
         className={className}
+        selected={selected}
+        onClick={() => setIsOpened(true)}
       />
 
       <Modal

@@ -68,6 +68,7 @@ export const AssetInputs = memo(
         </Box>
 
         <AssetInput
+          className="!mb-1"
           selectedAsset={firstAsset}
           assets={assets}
           commonAssets={commonAssets}

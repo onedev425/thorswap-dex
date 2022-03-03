@@ -2,9 +2,6 @@ import { useCallback, useReducer, useState } from 'react'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
 
-import { AutoRouterInfo } from 'views/Swap/AutoRouterInfo'
-import { SwapSettings } from 'views/Swap/SwapSettings'
-
 import { AssetSelectType } from 'components/AssetSelect/types'
 import { Button, Modal, Card, Icon, Box } from 'components/Atomic'
 import { ConfirmSwapItem } from 'components/ConfirmSwapItem'
@@ -15,8 +12,10 @@ import { ViewHeader } from 'components/ViewHeader'
 import { t } from 'services/i18n'
 
 import { AssetInputs } from './AssetInputs'
+import { AutoRouterInfo } from './AutoRouterInfo'
 import { SwapInfo } from './SwapInfo'
 import { swapReducer } from './swapReducer'
+import { SwapSettings } from './SwapSettings'
 
 const initialFirstAsset = {
   asset: Asset.RUNE(),
@@ -124,7 +123,7 @@ const Swap = () => {
         <Card
           stretch
           size="lg"
-          className="flex-col items-center self-stretch shadow-lg md:w-full !pb-0"
+          className="flex-col items-center self-stretch space-y-2 shadow-lg md:w-full"
         >
           <AssetInputs
             firstAsset={firstAsset}
@@ -142,28 +141,31 @@ const Swap = () => {
           />
         </Card>
 
-        <AutoRouterInfo
-          firstAsset={firstAsset.asset}
-          secondAsset={secondAsset.asset}
-        />
+        <Box className="w-full !px-4 md:!px-10" col>
+          <AutoRouterInfo
+            firstAsset={firstAsset.asset}
+            secondAsset={secondAsset.asset}
+          />
 
-        <Box className="py-5 md:py-10">
-          <Button
-            onClick={() => setIsOpened((visible) => !visible)}
-            className="px-20"
-          >
-            {t('common.connectWallet')}
-          </Button>
-
-          {isOpened && (
-            <Modal
-              title="Confirm Swap"
-              isOpened={isOpened}
-              onClose={() => setIsOpened(false)}
+          <Box className="w-full pt-5 pb-5 md:pb-10">
+            <Button
+              stretch
+              size="lg"
+              onClick={() => setIsOpened((visible) => !visible)}
             >
-              <ConfirmSwapItem />
-            </Modal>
-          )}
+              {t('common.connectWallet')}
+            </Button>
+
+            {isOpened && (
+              <Modal
+                title="Confirm Swap"
+                isOpened={isOpened}
+                onClose={() => setIsOpened(false)}
+              >
+                <ConfirmSwapItem />
+              </Modal>
+            )}
+          </Box>
         </Box>
       </Card>
     </Box>

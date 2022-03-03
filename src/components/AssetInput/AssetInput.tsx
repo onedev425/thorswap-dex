@@ -7,6 +7,7 @@ import { Input } from 'components/Input'
 import { AssetInputProps } from './types'
 
 export const AssetInput = ({
+  className,
   showChange,
   selectedAsset,
   assets,
@@ -24,21 +25,22 @@ export const AssetInput = ({
     <Box
       col
       justify="between"
-      mb={1}
       className={classNames(
-        'rounded-3xl md:px-6 pb-3 md:py-4 md:gap-2',
+        className,
+        'rounded-3xl md:px-6 pb-3 md:py-4 md:gap-2 border border-solid border-transparent hover:border-light-gray-primary dark:hover:border-dark-gray-primary',
         secondary
           ? 'bg-light-gray-light dark:bg-dark-gray-light'
           : 'bg-light-bg-primary dark:bg-dark-bg-primary',
       )}
     >
-      <Box flex={1} className="pl-4">
+      <Box className="pl-4" flex={1} alignCenter>
         <Input
-          className="text-xl md:text-2xl text-left font-normal -ml-1"
-          containerClassName="py-0"
-          onChange={(event) => onValueChange(event.target.value)}
-          value={selectedAsset?.balance}
+          className="-ml-1 !text-2xl font-normal text-left"
+          placeholder="0.0"
+          containerClassName="!py-0"
           stretch
+          value={selectedAsset?.balance}
+          onChange={(event) => onValueChange(event.target.value)}
         />
 
         <AssetSelect

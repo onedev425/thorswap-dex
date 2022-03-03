@@ -5,7 +5,7 @@ import { TextTransform } from 'components/Atomic'
 import { ColorType } from 'types/global'
 
 export type ButtonTypes = 'default' | 'outline' | 'borderless'
-export type ButtonSizes = 'sm' | 'md'
+export type ButtonSizes = 'sm' | 'md' | 'lg'
 export type ButtonVariants =
   | 'primary'
   | 'secondary'
@@ -29,6 +29,7 @@ export type ButtonProps = Omit<
   textColor?: ColorType
   transform?: TextTransform
   type?: ButtonTypes
+  stretch?: boolean
   variant?: ButtonVariants
   startIcon?: ReactNode
   endIcon?: ReactNode

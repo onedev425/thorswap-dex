@@ -1,7 +1,7 @@
 import { memo } from 'react'
 
 import { AssetInputType } from 'components/AssetInput/types'
-import { Collapse, Icon, Typography } from 'components/Atomic'
+import { Box, Collapse, Icon, Typography } from 'components/Atomic'
 import { Information } from 'components/Information'
 
 type Props = {
@@ -15,7 +15,7 @@ export const SwapInfo = memo(
   ({ priceImpact, slippage, secondAsset, firstAsset }: Props) => {
     return (
       <Collapse
-        className="self-stretch"
+        className="!py-2 self-stretch mt-5 bg-light-gray-light dark:bg-dark-gray-light !rounded-2xl flex-col"
         shadow={false}
         title={
           <div className="flex flex-row gap-x-2">
@@ -33,28 +33,34 @@ export const SwapInfo = memo(
           </div>
         }
       >
-        <Information
-          showBorder={false}
-          label="Expected Output"
-          value={`${secondAsset.balance} ${secondAsset.asset.symbol}`}
-        />
+        <Box className="w-full space-y-1" col>
+          <Information
+            showBorder={false}
+            label="Expected Output"
+            value={`${secondAsset.balance} ${secondAsset.asset.symbol}`}
+          />
 
-        <Information
-          label="Price Impact"
-          value={
-            <Typography color={priceImpact >= 0 ? 'green' : 'red'}>
-              {`${priceImpact}%`}
-            </Typography>
-          }
-        />
+          <Information
+            label="Price Impact"
+            value={
+              <Typography
+                variant="caption-xs"
+                fontWeight="semibold"
+                color={priceImpact >= 0 ? 'green' : 'red'}
+              >
+                {`${priceImpact}%`}
+              </Typography>
+            }
+          />
 
-        <Information
-          showBorder={false}
-          label={`Minimum receiver after slippage (${slippage.toFixed(2)}%)`}
-          value={`${
-            parseFloat(secondAsset?.balance || '0') * (1 - slippage / 100)
-          } ${secondAsset.asset.symbol}`}
-        />
+          <Information
+            showBorder={false}
+            label={`Minimum receiver after slippage (${slippage.toFixed(2)}%)`}
+            value={`${
+              parseFloat(secondAsset?.balance || '0') * (1 - slippage / 100)
+            } ${secondAsset.asset.symbol}`}
+          />
+        </Box>
       </Collapse>
     )
   },

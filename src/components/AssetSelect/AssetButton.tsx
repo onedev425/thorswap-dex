@@ -15,7 +15,7 @@ type Props = {
 export function AssetButton({
   className,
   asset,
-  size,
+  size = 'md',
   withChevron,
   onClick,
 }: Props) {
@@ -23,21 +23,16 @@ export function AssetButton({
     <Button
       className={classNames(
         className,
-        'w-fit !pl-1 !rounded-full justify-between gap-1',
-        size === 'sm' ? '!h-10' : '!h-12',
+        'pl-1 pr-2 !rounded-full !h-10 !hover:bg-light-gray-primary border !border-solid !border-opacity-40 dark:border-dark-gray-primary dark:!hover:bg-dark-gray-primary',
       )}
       size={size}
       variant="tint"
       transform="uppercase"
-      onClick={onClick}
-      startIcon={<AssetIcon asset={asset} size={size === 'sm' ? 28 : 40} />}
+      startIcon={<AssetIcon asset={asset} size={28} />}
       endIcon={withChevron ? <Icon name="chevronDown" color="primary" /> : null}
+      onClick={onClick}
     >
-      <Typography
-        className="md:text-h5"
-        fontWeight="medium"
-        transform="uppercase"
-      >
+      <Typography fontWeight="medium" variant="subtitle2" transform="uppercase">
         {asset.symbol}
       </Typography>
     </Button>

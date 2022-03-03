@@ -10,6 +10,7 @@ export type AssetInputType = {
 }
 
 export type AssetInputProps = {
+  className?: string
   selectedAsset: AssetInputType
   assets: AssetSelectType[]
   commonAssets: AssetSelectType[]

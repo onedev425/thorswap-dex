@@ -29,24 +29,24 @@ export const AutoRouterInfo = memo(({ firstAsset, secondAsset }: Props) => {
 
   return (
     <Collapse
+      className="!py-2 self-stretch mt-5 bg-light-gray-light dark:bg-dark-gray-light !rounded-2xl flex-col"
       shadow={false}
       title={
         <Box className="cursor-pointer" alignCenter justify="between">
           <Box mr={2} alignCenter>
-            <Icon className="mr-4" name="router" size={24} />
+            <Icon className="mr-2" name="router" size={18} />
             <Typography className="!text-transparent bg-clip-text bg-gradient-to-br from-blue to-cyan">
               {t('views.swap.autoRouter')}
             </Typography>
           </Box>
 
           <Tooltip place="right" content="Auto router tooltip">
-            <Icon color="secondary" name="infoCircle" size={20} />
+            <Icon color="secondary" name="infoCircle" size={18} />
           </Tooltip>
         </Box>
       }
-      className="hidden md:block self-stretch mt-5 mx-10 bg-light-gray-light dark:bg-dark-gray-light !rounded-2xl flex-col"
     >
-      <div className="self-stretch rounded-2xl py-4 w-full">
+      <div className="self-stretch w-full py-4 rounded-2xl">
         <Box alignCenter justify="between">
           <AssetIcon className="ml-1" asset={firstAsset} />
           <DashedDivider />

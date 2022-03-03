@@ -16,10 +16,10 @@ export const AssetSelectButton = ({ className, onClick, selected }: Props) => {
   if (selected) {
     return (
       <AssetButton
-        onClick={onClick}
         asset={selected}
         className={className}
         withChevron
+        onClick={onClick}
       />
     )
   }

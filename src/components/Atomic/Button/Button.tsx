@@ -16,6 +16,7 @@ export const Button = ({
   textColor,
   transform = 'capitalize',
   type = 'default',
+  stretch = false,
   variant = 'primary',
   children,
   onClick,
@@ -55,6 +56,7 @@ export const Button = ({
           : backgroundClass,
         {
           'border-transparent': isBorderless,
+          'w-full': stretch,
           [outlinedClass]: isOutlined,
           [backgroundActiveClass]: !(disabled || isBorderless || isOutlined),
         },
@@ -80,6 +82,7 @@ export const Button = ({
           )}
           variant={typographyVariant}
           transform={transform}
+          fontWeight="bold"
           color={textColor}
         >
           {children}

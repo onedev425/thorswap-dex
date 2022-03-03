@@ -5,11 +5,13 @@ import { TypographyVariant } from 'components/Atomic'
 import { ButtonSizes, ButtonVariants } from './types'
 
 const buttonClasses: Record<ButtonSizes, string> = {
+  lg: 'h-14 px-7 rounded-full',
   md: 'h-12 px-7 rounded-3xl',
   sm: 'h-10 px-4 rounded-2xl',
 }
 
 const typographyVariants: Record<ButtonSizes, TypographyVariant> = {
+  lg: 'body',
   md: 'caption',
   sm: 'caption-xs',
 }

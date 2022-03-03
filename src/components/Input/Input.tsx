@@ -37,7 +37,6 @@ export const Input = ({
 
   return (
     <div
-      onClick={() => inputRef.current?.focus()}
       className={classNames(
         'flex flex-row py-3 transition-colors',
         'border-light-border-primary focus-within:border-dark-typo-gray dark:border-dark-border-primary hover:border-dark-typo-gray dark:hover:border-dark-typo-gray focus-within::hover:border-dark-typo-gray',
@@ -51,6 +50,7 @@ export const Input = ({
         stretch ? 'w-full' : 'w-fit',
         containerClassName,
       )}
+      onClick={() => inputRef.current?.focus()}
     >
       {prefix}
       {icon && (
