@@ -44,7 +44,7 @@ export const getSecondaryIconPlacementStyle = (
   placement: SecondaryIconPlacement,
   size: number,
 ) => {
-  const offset = size * 0.4
+  const offset = size * 0.3
 
   switch (placement) {
     case 'tl': {

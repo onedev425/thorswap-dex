@@ -40,27 +40,27 @@ export const All = () => {
       <div className="flex gap-3 space-x-2">
         <AssetIcon
           asset={Asset.ETH()}
-          chainAsset={Asset.BNB()}
+          hasChainIcon
           bgColor="yellow"
           size={ICON_LG}
         />
         <AssetIcon
           asset={Asset.BTC()}
-          chainAsset={Asset.ETH()}
+          hasChainIcon
           secondaryIconPlacement="tl"
           bgColor="purple"
           size={ICON_LG}
         />
         <AssetIcon
           asset={Asset.BTC()}
-          chainAsset={Asset.ETH()}
+          hasChainIcon
           secondaryIconPlacement="tr"
           bgColor="purple"
           size={ICON_LG}
         />
         <AssetIcon
           asset={Asset.ETH()}
-          chainAsset={Asset.BNB()}
+          hasChainIcon
           secondaryIconPlacement="br"
           bgColor="yellow"
           size={ICON_LG}

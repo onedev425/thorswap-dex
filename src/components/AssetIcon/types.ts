@@ -180,7 +180,7 @@ type AssetStyleType = {
 
 export type AssetIconProps = {
   asset: Asset
-  chainAsset?: Asset
+  hasChainIcon?: boolean
   secondaryIconPlacement?: SecondaryIconPlacement
   bgColor?: ColorType
 } & AssetStyleType

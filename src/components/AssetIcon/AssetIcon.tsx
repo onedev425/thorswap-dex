@@ -1,3 +1,4 @@
+import { chainToSigAsset, SupportedChain } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
 import { Typography } from 'components/Atomic'
@@ -11,14 +12,15 @@ export const AssetIcon = ({
   asset,
   size = 40,
   bgColor,
-  chainAsset,
-  secondaryIconPlacement = 'bl',
+  hasChainIcon = false,
+  secondaryIconPlacement = 'br',
 }: AssetIconProps) => {
   const iconUrl = getAssetIconUrl(asset)
-  const secondaryIconSize = chainAsset ? size * 0.4 : 0
+  const sigAsset = chainToSigAsset(asset.chain as SupportedChain)
+  const secondaryIconSize = hasChainIcon ? size * 0.4 : 0
 
   return (
-    <div className="flex">
+    <div className="relative flex">
       <div
         style={{ width: size, height: size }}
         className={classNames(
@@ -39,7 +41,7 @@ export const AssetIcon = ({
         )}
       </div>
 
-      {chainAsset && (
+      {hasChainIcon && asset.type !== 'Native' && (
         <div
           className="absolute"
           style={getSecondaryIconPlacementStyle(
@@ -47,7 +49,7 @@ export const AssetIcon = ({
             secondaryIconSize,
           )}
         >
-          <AssetIcon asset={chainAsset} size={secondaryIconSize} />
+          <AssetIcon asset={sigAsset} size={secondaryIconSize} />
         </div>
       )}
     </div>
