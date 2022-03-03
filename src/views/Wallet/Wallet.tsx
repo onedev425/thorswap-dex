@@ -212,7 +212,7 @@ const TableAllocationColumns = [
     accessor: 'asset',
     Cell: ({ cell: { value } }: FixMe) => (
       <div className="flex items-center gap-2">
-        <AssetIcon asset={value} size={40} />
+        {/* <AssetIcon asset={value} size={40} /> */}
         <Typography color="secondary">{value.symbol}</Typography>
       </div>
     ),
@@ -260,7 +260,7 @@ const TableTransactionsColumns = [
     accessor: 'asset',
     Cell: ({ cell: { value } }: FixMe) => (
       <div className="flex items-center gap-2">
-        <AssetIcon asset={value} size={40} />
+        {/* <AssetIcon asset={value} size={40} /> */}
         <Typography color="secondary">{value.symbol}</Typography>
       </div>
     ),
@@ -329,7 +329,7 @@ const AssetsColumns = [
     accessor: 'asset',
     Cell: ({ cell: { value } }: FixMe) => (
       <div className="flex items-center gap-2">
-        <AssetIcon asset={value.asset} size={40} />
+        {/* <AssetIcon asset={value.asset} size={40} /> */}
         <Typography color="secondary">{value.symbol}</Typography>
       </div>
     ),

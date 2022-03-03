@@ -41,7 +41,7 @@ export const AssetInputs = memo(
             'border-10 border-solid bg-blue dark:border-dark-border-primary border-light-border-primary',
           )}
         >
-          <Icon name="plus" size={24} color="white" />
+          <Icon name="add" size={24} color="white" />
         </div>
 
         <AssetInput
