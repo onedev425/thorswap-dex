@@ -4,6 +4,8 @@ import { hasConnectedWallet } from '@thorswap-lib/multichain-sdk'
 
 import { AppPopoverMenu } from 'components/AppPopoverMenu'
 import { Button, Row, Icon } from 'components/Atomic'
+import { GasTracker } from 'components/GasTracker'
+import { StatusDropdown } from 'components/StatusDropdown'
 
 import { useWallet } from 'redux/wallet/hooks'
 
@@ -51,6 +53,8 @@ export const Header = ({ priceLabel, openMenu }: Props) => {
             {priceLabel || '-'}
           </Button>
 
+          <StatusDropdown />
+          <GasTracker />
           <Button
             className="flex md:hidden"
             onClick={openMenu}

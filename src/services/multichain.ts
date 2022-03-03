@@ -2,7 +2,7 @@ import { MultiChain, setGlobalConfig } from '@thorswap-lib/multichain-sdk'
 
 import { NETWORK } from 'settings/config'
 
-setGlobalConfig({
+export const globalConfig = {
   etherscanApiKey: process.env.REACT_APP_ETHERSCAN_API_KEY || '',
   ethplorerApiKey: process.env.REACT_APP_ETHPLORER_API_KEY || '',
   infuraProjectId: process.env.REACT_APP_INFURA_PROJECT_ID || '',
@@ -17,6 +17,8 @@ setGlobalConfig({
   ethRpcUrl: process.env.REACT_APP_RPC_URL || '',
   ethNetworkId: Number(process.env.REACT_APP_ETHEREUM_NETWORK_ID),
   blocknativeApiKey: process.env.REACT_APP_BLOCKNATIVE_API_KEY || '',
-})
+}
+
+setGlobalConfig(globalConfig)
 
 export const multichain = new MultiChain({ network: NETWORK })

@@ -1,9 +1,9 @@
 import { Transition } from '@headlessui/react'
 
-import { DropdownButton } from 'components/Dropdown'
-import { Menu } from 'components/Dropdown/Menu'
-import { MenuOption } from 'components/Dropdown/MenuOption'
-import { DropdownMenuProps } from 'components/Dropdown/types'
+import { DropdownButton } from 'components/Atomic/Dropdown'
+import { Menu } from 'components/Atomic/Dropdown/Menu'
+import { MenuOption } from 'components/Atomic/Dropdown/MenuOption'
+import { DropdownMenuProps } from 'components/Atomic/Dropdown/types'
 
 import { Dropdown } from './Dropdown'
 

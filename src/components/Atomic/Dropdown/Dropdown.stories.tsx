@@ -4,7 +4,7 @@ import { ComponentMeta } from '@storybook/react'
 
 import { Icon, Typography } from 'components/Atomic'
 
-import { Dropdown, Menu, MenuOption, DropdownButton } from './'
+import { Dropdown, Menu, MenuOption, DropdownButton } from '.'
 import { DropdownMenu as DropdownMenuComponent } from './DropdownMenu'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

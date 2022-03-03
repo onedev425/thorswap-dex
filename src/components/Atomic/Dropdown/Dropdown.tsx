@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 import { Listbox } from '@headlessui/react'
 import classNames from 'classnames'
 
-import { DropdownOptions } from 'components/Dropdown/types'
+import { DropdownOptions } from 'components/Atomic/Dropdown/types'
 
 type Props = { children: ReactNode } & DropdownOptions
 

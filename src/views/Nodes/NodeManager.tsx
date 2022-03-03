@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import { Box, Button, Card, Typography } from 'components/Atomic'
-import { DropdownMenu } from 'components/Dropdown'
+import { DropdownMenu } from 'components/Atomic/Dropdown'
 import { Input } from 'components/Input'
 import { ViewHeader } from 'components/ViewHeader'
 

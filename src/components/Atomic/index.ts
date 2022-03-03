@@ -10,6 +10,7 @@ export { Switch } from './Switch/Switch'
 export { Select } from './Select/Select'
 export { Button } from './Button/Button'
 export { Modal } from './Modal/Modal'
+export * from './Dropdown'
 
 // Collapse
 export { Collapse } from './Collapse/Collapse'
