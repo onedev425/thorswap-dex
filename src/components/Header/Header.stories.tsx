@@ -14,7 +14,6 @@ export const Default = () => {
     <div className="flex flex-row flex-wrap gap-3 p-4 bg-gray">
       <Header
         priceLabel="1ᚱ = $ 10.04"
-        gweiLabel="156 GWEI"
         connectWallet={() => {}}
         openMenu={() => {}}
       />

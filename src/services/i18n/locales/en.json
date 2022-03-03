@@ -29,7 +29,8 @@
     "transactions": "Transactions",
     "volume": "Volume",
     "withdraw": "Withdraw",
-    "per": "per"
+    "per": "per",
+    "settings": "Global Settings"
   },
   "appMenu": {
     "lightTheme": "Light Theme",

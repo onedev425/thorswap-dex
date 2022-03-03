@@ -15,6 +15,7 @@ export const Popover = ({ trigger, children }: PopoverProps) => {
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     placement: 'bottom-end',
   })
+
   return (
     <HeadlessPopover>
       {({ open }) => (

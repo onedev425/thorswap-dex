@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import classNames from 'classnames'
 
-import { Row, Typography } from 'components/Atomic'
+import { Box, Typography } from 'components/Atomic'
 
 import { StatisticsType } from './types'
 
@@ -22,17 +22,17 @@ export const Statistics = ({
 
   return (
     <div className={classNames(className)}>
-      <Row marginBottom="16px">
+      <Box mb={2}>
         {typeof title === 'string' ? (
-          <Typography variant="h3" fontWeight="extrabold">
+          <Typography variant="h5" fontWeight="extrabold">
             {title}
           </Typography>
         ) : (
           title
         )}
-      </Row>
-      <Row className="gap-x-1" align="start">
-        <Typography variant="h1">{amount}</Typography>
+      </Box>
+      <Box className="gap-x-1" row alignCenter>
+        <Typography variant="h2">{amount}</Typography>
         <Typography color={prevChange ? 'green' : 'red'} fontWeight="semibold">
           {prevChange ? '+' : '-'}
           {percentage ? `${Math.abs(change)}%` : `$${Math.abs(change)}`}
@@ -40,7 +40,7 @@ export const Statistics = ({
         <Typography color="secondary" fontWeight="semibold">
           {`($${value})`}
         </Typography>
-      </Row>
+      </Box>
     </div>
   )
 }

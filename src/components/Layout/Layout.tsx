@@ -51,7 +51,6 @@ export const Layout = ({ children }: LayoutProp) => {
         >
           <Header
             priceLabel="1ᚱ = $ 10.04"
-            gweiLabel="156 GWEI"
             connectWallet={() => {}}
             openMenu={openMenu}
           />

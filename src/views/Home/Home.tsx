@@ -25,7 +25,7 @@ const Home = () => {
       <Box className="flex-wrap">
         <Box className="w-full lg:w-1/2" col>
           <Statistics
-            className="mb-8"
+            className="mb-4"
             percentage
             title="Volume"
             amount={dashboardMockData.stats.volume.amount}
@@ -41,7 +41,7 @@ const Home = () => {
 
         <Box className="w-full lg:w-1/2" col>
           <Statistics
-            className="mb-8"
+            className="mb-4"
             percentage
             title="Liquidity"
             amount={dashboardMockData.stats.liquidity.amount}

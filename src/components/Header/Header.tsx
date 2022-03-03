@@ -13,12 +13,11 @@ import { t } from 'services/i18n'
 
 type Props = {
   priceLabel: string
-  gweiLabel: string
   connectWallet: () => void
   openMenu: () => void
 }
 
-export const Header = ({ priceLabel, gweiLabel, openMenu }: Props) => {
+export const Header = ({ priceLabel, openMenu }: Props) => {
   const { isWalletLoading, wallet, setIsConnectModalOpen } = useWallet()
   const { setIsDrawerVisible } = useWalletDrawer()
 
@@ -50,15 +49,6 @@ export const Header = ({ priceLabel, gweiLabel, openMenu }: Props) => {
             variant="tint"
           >
             {priceLabel || '-'}
-          </Button>
-
-          <Button
-            className="hidden cursor-auto md:flex"
-            type="outline"
-            variant="tint"
-            startIcon={<Icon className="mr-2" name="gwei" size={18} />}
-          >
-            {gweiLabel || '-'}
           </Button>
 
           <Button
