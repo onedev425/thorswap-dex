@@ -14,6 +14,13 @@ import {
   Box,
 } from 'components/Atomic'
 import { PoolTableProps } from 'components/PoolTable/types'
+import {
+  sortApyColumn,
+  sortLiquidityColumn,
+  sortPoolColumn,
+  sortPriceColumn,
+  sortVolume24Column,
+} from 'components/PoolTable/utils'
 
 import { useGlobalState } from 'redux/hooks'
 
@@ -24,13 +31,14 @@ import { t } from 'services/i18n'
 import { ROUTES } from 'settings/constants'
 
 export const PoolTable = ({ data }: PoolTableProps) => {
+  console.log('🔥 pool table', data)
   const navigate = useNavigate()
   const { runeToCurrency } = useGlobalState()
 
   const columns = useMemo(() => {
     return [
       {
-        id: 'Pool',
+        id: 'pool',
         Header: 'Pool',
         accessor: (row: Pool) => row,
         Cell: ({ cell: { value } }: { cell: { value: Pool } }) => (
@@ -41,54 +49,53 @@ export const PoolTable = ({ data }: PoolTableProps) => {
             </Typography>
           </div>
         ),
+        sortType: sortPoolColumn,
       },
       {
-        id: 'Network',
+        id: 'network',
         Header: 'Network',
-        accessor: (row: Pool) => row,
-        Cell: ({ cell: { value } }: { cell: { value: Pool } }) =>
-          chainToString(value.asset.chain),
+        accessor: (row: Pool) => chainToString(row.asset.chain),
         minScreenSize: BreakPoint.lg,
       },
       {
         id: 'price',
         Header: 'USD Price',
-        accessor: (row: Pool) => row,
-        Cell: ({ cell: { value } }: { cell: { value: Pool } }) =>
-          `$${Amount.fromAssetAmount(value.detail.assetPriceUSD, 8).toFixed(
-            3,
-          )}`,
+        accessor: (row: Pool) =>
+          Amount.fromAssetAmount(row.detail.assetPriceUSD, 8),
+        align: 'right',
+        Cell: ({ cell: { value } }: { cell: { value: Amount } }) =>
+          `$${value.toFixed(3)}`,
+        sortType: sortPriceColumn,
       },
       {
-        id: 'Liquidity',
+        id: 'liquidity',
         Header: 'Liquidity',
-        accessor: (row: Pool) => row,
-        Cell: ({ cell: { value } }: { cell: { value: Pool } }) =>
-          runeToCurrency(
-            Amount.fromMidgard(value.detail.runeDepth).mul(2),
-          ).toCurrencyFormat(2),
+        accessor: (row: Pool) =>
+          Amount.fromMidgard(row.detail.runeDepth).mul(2),
+        align: 'right',
+        Cell: ({ cell: { value } }: { cell: { value: Amount } }) =>
+          runeToCurrency(value).toCurrencyFormat(2),
+        sortType: sortLiquidityColumn,
       },
       {
         id: 'volume24h',
         Header: 'Volume24H',
-        accessor: (row: Pool) => row,
-        Cell: ({ cell: { value } }: { cell: { value: Pool } }) =>
-          runeToCurrency(
-            Amount.fromMidgard(value.detail.volume24h),
-          ).toCurrencyFormat(2),
+        accessor: (row: Pool) => Amount.fromMidgard(row.detail.volume24h),
+        align: 'right',
+        Cell: ({ cell: { value } }: { cell: { value: Amount } }) =>
+          runeToCurrency(value).toCurrencyFormat(2),
         minScreenSize: BreakPoint.lg,
+        sortType: sortVolume24Column,
       },
       {
-        id: 'APY',
+        id: 'apy',
         Header: 'APY',
-        accessor: (row: Pool) => row,
-        Cell: ({ cell: { value } }: { cell: { value: Pool } }) => {
-          return (
-            <Box className="justify-end md:justify-start">{`${new Percent(
-              value.detail.poolAPY,
-            ).toFixed(0)}`}</Box>
-          )
+        accessor: (row: Pool) => new Percent(row.detail.poolAPY),
+        align: 'right',
+        Cell: ({ cell: { value } }: { cell: { value: Percent } }) => {
+          return value.toFixed(0)
         },
+        sortType: sortApyColumn,
       },
       {
         Header: 'Action',

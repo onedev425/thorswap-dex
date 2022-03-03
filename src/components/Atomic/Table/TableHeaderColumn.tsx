@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { Typography } from 'components/Atomic'
 
 import { SortIndicator } from './SortIndicator'
-import { SortType, TableHeaderGroupType } from './types'
+import { columnAlignClasses, SortType, TableHeaderGroupType } from './types'
 
 type Props = {
   column: TableHeaderGroupType
@@ -22,7 +22,10 @@ export const TableHeaderColumn = (props: Props) => {
 
   return (
     <th
-      className="px-1.5 first:pl-4 last:pr-4 last:text-right"
+      className={classNames(
+        'px-1.5 first:pl-4 last:pr-4 last:text-right',
+        columnAlignClasses[column.align || 'left'],
+      )}
       {...column.getHeaderProps(column.getSortByToggleProps())}
     >
       <Typography

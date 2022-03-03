@@ -9,7 +9,7 @@ export const StatsList = ({ list, scrollable = true }: StatsListProps) => {
     return (
       <HorizontalSlider itemWidth={statsWidth}>
         {list.map((item) => (
-          <Stats key={item.value} {...item} />
+          <Stats key={item.label} {...item} />
         ))}
       </HorizontalSlider>
     )

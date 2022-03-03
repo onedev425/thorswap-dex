@@ -16,3 +16,9 @@ export enum SortType {
   Desc = 'desc',
   None = 'none',
 }
+
+export const columnAlignClasses = {
+  left: 'text-left',
+  center: 'text-center',
+  right: 'text-right',
+}

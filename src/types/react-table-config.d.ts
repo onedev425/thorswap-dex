@@ -106,7 +106,9 @@ declare module 'react-table' {
       UseGlobalFiltersColumnOptions<D>,
       UseGroupByColumnOptions<D>,
       UseResizeColumnsColumnOptions<D>,
-      UseSortByColumnOptions<D> {}
+      UseSortByColumnOptions<D> {
+    align?: 'left' | 'center' | 'right'
+  }
 
   export interface ColumnInstance<
     D extends Record<string, unknown> = Record<string, unknown>,

@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { Typography } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
 
-import { TableCellType } from './types'
+import { columnAlignClasses, TableCellType } from './types'
 
 type Props = {
   cell: TableCellType
@@ -20,7 +20,12 @@ export const TableCell = (props: Props) => {
       )}
       {...cell.getCellProps()}
     >
-      <Typography className="text-caption md:text-body">
+      <Typography
+        className={classNames(
+          'text-caption md:text-body',
+          columnAlignClasses[cell.column.align || 'left'],
+        )}
+      >
         {cell.render('Cell')}
       </Typography>
     </td>
