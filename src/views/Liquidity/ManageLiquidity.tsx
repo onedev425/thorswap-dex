@@ -50,10 +50,11 @@ const ManageLiquidity = () => {
           actionsComponent={<Icon name="cog" color="secondary" />}
         />
       </Box>
+
       <Card
         size="lg"
         stretch
-        className="flex-col items-center p-6 mt-4 shadow-lg md:w-full md:mt-8 md:p-10 md:h-auto md:pb-10"
+        className="flex-col items-center md:w-full mt-4 md:mt-8 md:h-auto md:pb-10 shadow-lg"
       >
         {tipVisible && (
           <InfoTip

@@ -16,7 +16,7 @@ export const Popover = ({ trigger, children }: PopoverProps) => {
     placement: 'bottom-end',
   })
   return (
-    <HeadlessPopover className="z-10">
+    <HeadlessPopover>
       {({ open }) => (
         <>
           <HeadlessPopover.Button as="div" ref={setReferenceElement}>
@@ -24,6 +24,7 @@ export const Popover = ({ trigger, children }: PopoverProps) => {
           </HeadlessPopover.Button>
           {open && (
             <HeadlessPopover.Panel
+              className="z-10"
               ref={setPopperElement}
               style={styles.popper}
               {...attributes.popper}

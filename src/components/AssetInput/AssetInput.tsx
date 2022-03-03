@@ -22,26 +22,36 @@ export const AssetInput = ({
 
   return (
     <Box
-      alignCenter
+      col
       justify="between"
       mb={1}
       className={classNames(
-        'flex-1 items-center rounded-3xl px-2 gap-2 py-6 md:px-6',
+        'rounded-3xl md:px-6 pb-3 md:py-4 md:gap-2',
         secondary
           ? 'bg-light-gray-light dark:bg-dark-gray-light'
           : 'bg-light-bg-primary dark:bg-dark-bg-primary',
       )}
     >
-      <Box className="flex-1 px-4" col>
+      <Box flex={1} className="pl-4">
         <Input
-          className="!text-2xl text-left font-normal -ml-1"
+          className="text-xl md:text-2xl text-left font-normal -ml-1"
           containerClassName="py-0"
           onChange={(event) => onValueChange(event.target.value)}
           value={selectedAsset?.balance}
           stretch
         />
 
-        <Box className="pt-1 pb-1" alignCenter>
+        <AssetSelect
+          className="m-2 md:m-0"
+          assets={assets}
+          selected={selectedAsset?.asset}
+          commonAssets={commonAssets}
+          onSelect={onAssetChange}
+        />
+      </Box>
+
+      <Box col className="pl-4">
+        <Box>
           <Typography color="secondary" fontWeight="semibold">
             {secondaryLabel || '$'}&nbsp;{assetValue.toFixed(2)}
           </Typography>
@@ -49,22 +59,12 @@ export const AssetInput = ({
           {showChange && selectedAsset && (
             <Typography
               color={(selectedAsset?.change || 0) >= 0 ? 'green' : 'red'}
-              className="px-1"
+              className="pl-1"
             >
               {`(${selectedAsset.change}%)`}
             </Typography>
           )}
         </Box>
-      </Box>
-
-      <Box className="pr-2" col>
-        <AssetSelect
-          className="-ml-4 md:-ml-0"
-          assets={assets}
-          selected={selectedAsset?.asset}
-          commonAssets={commonAssets}
-          onSelect={onAssetChange}
-        />
       </Box>
     </Box>
   )

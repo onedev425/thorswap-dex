@@ -36,8 +36,13 @@ export const LiquidityCard = ({ data }: LiquidityCardProps) => {
         <Box className="mx-4 my-4 md:mx-2" alignCenter justify="between">
           <Box className="my-1" center>
             <Box className="mx-2" col>
-              <AssetLpIcon asset1={data[0].asset} asset2={data[1].asset} />
+              <AssetLpIcon
+                inline
+                asset1={data[0].asset}
+                asset2={data[1].asset}
+              />
             </Box>
+
             <Typography
               fontWeight="normal"
               className="mx-3 ml-4 sm:mx-1 md:text-xl"
@@ -47,6 +52,7 @@ export const LiquidityCard = ({ data }: LiquidityCardProps) => {
               {data[1].asset.symbol}
             </Typography>
           </Box>
+
           <Box className="cursor-pointer" center onClick={toggle}>
             <Typography className="!text-blue">
               {t('views.liquidity.collapse')}
@@ -66,20 +72,21 @@ export const LiquidityCard = ({ data }: LiquidityCardProps) => {
           ref={contentRef}
           style={maxHeightStyle}
         >
-          <Box className="gap-1" col>
-            <Box className="pt-4">
-              <DashedDivider />
-            </Box>
-            <Box className="h-8" mt={26} alignCenter justify="between">
+          <DashedDivider className="my-4" />
+
+          <Box col className="gap-1">
+            <Box justify="between">
               <Typography className="!text-dark-gray-primary">
                 {t('views.liquidity.poolToken')}
               </Typography>
               <Typography>{'0.4207'}</Typography>
             </Box>
+
             {data.map((item) => (
               <AssetCard key={item.asset.symbol} {...item} />
             ))}
-            <Box className="h-8" alignCenter justify="between">
+
+            <Box justify="between">
               <Typography className="!text-dark-gray-primary">
                 {t('views.liquidity.poolShare')}
               </Typography>

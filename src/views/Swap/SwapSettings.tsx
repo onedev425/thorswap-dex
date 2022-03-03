@@ -21,6 +21,7 @@ export const SwapSettings = ({
   onExpertModeChange,
 }: SwapSettingsProps) => {
   const [slippage, setSlippage] = useState(3)
+
   return (
     <Card className="w-[350px] p-8 shadow-2xl">
       <Box className="gap-4 w-full" col>
@@ -45,7 +46,6 @@ export const SwapSettings = ({
             symbol="%"
             value={slippage}
             onChange={(e) => setSlippage(Number(e.target.value))}
-            defaultValue={0.1}
             placeholder="Percentage"
             border="rounded"
             stretch

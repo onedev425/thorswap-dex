@@ -154,15 +154,14 @@ const Swap = () => {
           >
             {t('common.connectWallet')}
           </Button>
+
           {isOpened && (
             <Modal
               title="Confirm Swap"
               isOpened={isOpened}
               onClose={() => setIsOpened(false)}
             >
-              <div>
-                <ConfirmSwapItem />
-              </div>
+              <ConfirmSwapItem />
             </Modal>
           )}
         </Box>

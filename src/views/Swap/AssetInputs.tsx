@@ -6,7 +6,7 @@ import classNames from 'classnames'
 import { AssetInput } from 'components/AssetInput'
 import { AssetInputType } from 'components/AssetInput/types'
 import { AssetSelectType } from 'components/AssetSelect/types'
-import { Icon } from 'components/Atomic'
+import { Box, Icon } from 'components/Atomic'
 
 type Props = {
   onAssetsSwap: () => void
@@ -46,22 +46,26 @@ export const AssetInputs = memo(
 
     return (
       <div className="relative self-stretch md:w-full">
-        <div
+        <Box
+          center
           onClick={handleAssetSwap}
           className={classNames(
-            'absolute flex items-center justify-center -mt-0.5 top-1/2 p-2 rounded-3xl left-1/2 -translate-x-1/2 -translate-y-1/2',
+            'absolute -mt-0.5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+            'p-1 md:p-2 rounded-2xl md:rounded-3xl',
             'border-10 border-solid bg-blue dark:border-dark-border-primary border-light-border-primary',
           )}
         >
           <Icon
-            className={classNames('-scale-x-100 transition-all duration-300', {
-              'rotate-180': iconRotate,
-            })}
+            className={classNames(
+              'w-[24px] h-[24px] -scale-x-100 transition-all duration-300',
+              {
+                'rotate-180': iconRotate,
+              },
+            )}
             name="exchange"
-            size={36}
             color="white"
           />
-        </div>
+        </Box>
 
         <AssetInput
           selectedAsset={firstAsset}
