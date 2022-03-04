@@ -14,7 +14,7 @@ export const DropdownButton = (props: Props) => {
   const { label, component } = props
 
   return (
-    <Listbox.Button className="relative p-0 bg-transparent border-none outline-none">
+    <Listbox.Button className="relative p-0 bg-transparent border-none outline-none -z-1">
       {({ open, disabled }) => {
         return (
           <div
