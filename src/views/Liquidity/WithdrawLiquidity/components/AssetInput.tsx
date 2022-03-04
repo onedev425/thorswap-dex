@@ -11,7 +11,7 @@ import { Input } from 'components/Input'
 import { t } from 'services/i18n'
 
 type Props = {
-  onAmountChange: (balance: string) => void
+  onAmountChange: (value: string) => void
   firstAsset: PoolAsset
   secondAsset: PoolAsset
   lpAmount: string

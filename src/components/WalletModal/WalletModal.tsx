@@ -324,7 +324,7 @@ export const WalletModal = () => {
         </WalletOption>
         <WalletOption onClick={() => handleChainSelect(WalletMode.Create)}>
           <Typography>{t('views.walletModal.createKeystore')}</Typography>
-          <Icon name="plus" />
+          <Icon name="plusCircle" />
         </WalletOption>
         <WalletOption onClick={() => handleChainSelect(WalletMode.Phrase)}>
           <Typography>{t('views.walletModal.importPhrase')}</Typography>

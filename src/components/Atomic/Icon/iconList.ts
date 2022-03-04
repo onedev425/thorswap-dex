@@ -34,6 +34,7 @@ import {
   FiChevronLeft,
   FiChevronRight,
   FiInfo,
+  FiPlus,
   FiX,
   FiXCircle,
 } from 'react-icons/fi'
@@ -99,6 +100,7 @@ const Icons = {
   qrcode: AiOutlineQrcode,
   question: BsQuestion,
   questionCircle: BsQuestionCircle,
+  plus: FiPlus,
   search: BsSearch,
   send: AiOutlineSend,
   share: RiShareBoxLine,

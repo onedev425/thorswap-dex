@@ -1,18 +1,28 @@
 import classNames from 'classnames'
 
-import { Row, Typography } from 'components/Atomic'
+import { Box, Typography } from 'components/Atomic'
 
-import { InformationProps } from './types'
+type InformationProps = {
+  className?: string
+  label: string
+  value: string | React.ReactNode
+  showBorder?: boolean
+}
 
-export const Information = (props: InformationProps) => {
-  const { label, value, showBorder = true } = props
+export const Information = ({
+  label,
+  value,
+  className,
+  showBorder = true,
+}: InformationProps) => {
   const borderClasses =
     'pb-1 border-0 border-b border-solid border-bottom border-light-typo-gray dark:border-dark-typo-gray !border-opacity-50'
 
   return (
-    <Row
-      className={classNames({ [borderClasses]: showBorder })}
-      align="center"
+    <Box
+      row
+      className={classNames(className, { [borderClasses]: showBorder })}
+      alignCenter
       justify="between"
     >
       <Typography variant="caption" fontWeight="medium" color="secondary">
@@ -30,6 +40,6 @@ export const Information = (props: InformationProps) => {
       ) : (
         value
       )}
-    </Row>
+    </Box>
   )
 }

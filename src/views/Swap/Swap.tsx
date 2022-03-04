@@ -19,12 +19,12 @@ import { SwapSettings } from './SwapSettings'
 
 const initialFirstAsset = {
   asset: Asset.RUNE(),
-  balance: '0',
+  value: '0',
   change: '0.5',
 } as AssetSelectType
 const initialSecondAsset = {
   asset: Asset.BTC(),
-  balance: '4.7',
+  value: '4.7',
   change: '0.5',
 } as AssetSelectType
 const priceImpact = -0.06
@@ -40,14 +40,16 @@ const Swap = () => {
       firstAsset: {
         asset: initialFirstAsset.asset,
         change: initialFirstAsset.change,
-        balance: initialFirstAsset.balance,
-        value: '5',
+        value: '0',
+        balance: initialSecondAsset.balance,
+        price: '5',
       },
       secondAsset: {
         asset: initialSecondAsset.asset,
         change: initialSecondAsset.change,
+        value: '0',
         balance: initialSecondAsset.balance,
-        value: '10',
+        price: '10',
       },
     },
   )
@@ -61,10 +63,10 @@ const Swap = () => {
     [],
   )
 
-  const handleBalanceChange = useCallback(
+  const handleValueChange = useCallback(
     (asset: 'first' | 'second') => (value: string) => {
       const actionType =
-        asset === 'first' ? 'setFirstAssetBalance' : 'setSecondAssetBalance'
+        asset === 'first' ? 'setFirstAssetValue' : 'setSecondAssetValue'
 
       dispatch({ type: actionType, payload: value })
     },
@@ -129,7 +131,7 @@ const Swap = () => {
             firstAsset={firstAsset}
             secondAsset={secondAsset}
             onAssetChange={handleAssetChange}
-            onBalanceChange={handleBalanceChange}
+            onValueChange={handleValueChange}
             onAssetsSwap={handleAssetsSwap}
           />
 

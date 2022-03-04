@@ -4,8 +4,9 @@ import { AssetSelectType } from 'components/AssetSelect/types'
 
 export type AssetInputType = {
   asset: Asset
-  value: string
+  price: string
   balance: string
+  value: string
   change?: string
 }
 

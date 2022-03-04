@@ -6,6 +6,7 @@ import ManageLiquidityView from 'views/Liquidity/ManageLiquidity'
 import WithdrawLiquidity from 'views/Liquidity/WithdrawLiquidity'
 import NodesView from 'views/Nodes'
 import NodeManager from 'views/Nodes/NodeManager'
+import SendView from 'views/Send'
 import StakeView from 'views/Stake'
 import StatsView from 'views/Stats'
 import SwapView from 'views/Swap'
@@ -25,46 +26,17 @@ export type RouteType = {
 }[]
 
 const routes: RouteType = [
-  {
-    path: ROUTES.Home,
-    element: HomeView,
-  },
-  {
-    path: ROUTES.Nodes,
-    element: NodesView,
-  },
-  {
-    path: ROUTES.Stake,
-    element: StakeView,
-  },
-  {
-    path: ROUTES.Stats,
-    element: StatsView,
-  },
-  {
-    path: ROUTES.Swap,
-    element: SwapView,
-  },
-  {
-    path: ROUTES.Wallet,
-    element: WalletView,
-  },
-  {
-    path: ROUTES.AddLiquidity,
-    element: AddLiquidity,
-  },
-  {
-    path: ROUTES.ManageLiquidity,
-    element: ManageLiquidityView,
-  },
-  {
-    path: ROUTES.WithdrawLiquidity,
-    element: WithdrawLiquidity,
-  },
-  {
-    path: ROUTES.NodeManager,
-    element: NodeManager,
-  },
+  { path: ROUTES.Home, element: HomeView },
+  { path: ROUTES.Nodes, element: NodesView },
+  { path: ROUTES.Stake, element: StakeView },
+  { path: ROUTES.Stats, element: StatsView },
+  { path: ROUTES.Swap, element: SwapView },
+  { path: ROUTES.Send, element: SendView },
+  { path: ROUTES.Wallet, element: WalletView },
+  { path: ROUTES.AddLiquidity, element: AddLiquidity },
+  { path: ROUTES.ManageLiquidity, element: ManageLiquidityView },
+  { path: ROUTES.WithdrawLiquidity, element: WithdrawLiquidity },
+  { path: ROUTES.NodeManager, element: NodeManager },
 ]
 
 const PublicRoutes = () => {

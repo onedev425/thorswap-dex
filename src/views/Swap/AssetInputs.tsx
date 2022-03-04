@@ -2,39 +2,26 @@ import { memo, useState } from 'react'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
+import { assetsFixture, commonAssets } from 'utils/assetsFixture'
 
 import { AssetInput } from 'components/AssetInput'
 import { AssetInputType } from 'components/AssetInput/types'
-import { AssetSelectType } from 'components/AssetSelect/types'
 import { Box, Icon } from 'components/Atomic'
 
 type Props = {
   onAssetsSwap: () => void
   onAssetChange: (assetPosition: 'first' | 'second') => (asset: Asset) => void
-  onBalanceChange: (
-    assetPosition: 'first' | 'second',
-  ) => (balance: string) => void
+  onValueChange: (assetPosition: 'first' | 'second') => (value: string) => void
   firstAsset: AssetInputType
   secondAsset: AssetInputType
 }
-
-const assets = [
-  { asset: Asset.ETH(), type: 'native', balance: '0', change: '0.5' },
-  { asset: Asset.BTC(), type: 'native', balance: '4.7', change: '0.5' },
-  { asset: Asset.RUNE(), type: '-', balance: '11', change: '0.5' },
-  { asset: Asset.BNB(), type: 'native', balance: '0', change: '0.5' },
-  { asset: Asset.DOGE(), type: 'native', balance: '38', change: '0.5' },
-  { asset: Asset.LUNA(), type: 'native', balance: '0', change: '0.5' },
-] as AssetSelectType[]
-
-const commonAssets = assets.slice(0, 3)
 
 export const AssetInputs = memo(
   ({
     firstAsset,
     secondAsset,
     onAssetsSwap,
-    onBalanceChange,
+    onValueChange,
     onAssetChange,
   }: Props) => {
     const [iconRotate, setIconRotate] = useState(false)
@@ -57,10 +44,8 @@ export const AssetInputs = memo(
         >
           <Icon
             className={classNames(
-              'w-[24px] h-[24px] -scale-x-100 transition-all duration-300',
-              {
-                'rotate-180': iconRotate,
-              },
+              'w-[24px] h-[24px] md:w-[36px] md:h-[36px] -scale-x-100 transition-all duration-300',
+              { 'rotate-180': iconRotate },
             )}
             name="exchange"
             color="white"
@@ -70,18 +55,18 @@ export const AssetInputs = memo(
         <AssetInput
           className="!mb-1"
           selectedAsset={firstAsset}
-          assets={assets}
+          assets={assetsFixture}
           commonAssets={commonAssets}
           secondary
           onAssetChange={onAssetChange('first')}
-          onValueChange={onBalanceChange('first')}
+          onValueChange={onValueChange('first')}
         />
         <AssetInput
           showChange
           selectedAsset={secondAsset}
           onAssetChange={onAssetChange('second')}
-          onValueChange={onBalanceChange('second')}
-          assets={assets}
+          onValueChange={onValueChange('second')}
+          assets={assetsFixture}
           commonAssets={commonAssets}
           secondary
         />

@@ -1,54 +1,56 @@
 import { SidebarItemProps } from 'components/Sidebar/types'
 
+import { t } from 'services/i18n'
+
 import { ROUTES } from 'settings/constants'
 
 export const navbarOptions: SidebarItemProps[] = [
   {
     iconName: 'app',
     href: ROUTES.Home,
-    label: 'Dashboard',
+    label: t('components.sidebar.dashboard'),
     isExternal: false,
     hasSub: false,
   },
   {
     iconName: 'tradeLightning',
     href: ROUTES.Home,
-    label: 'Trade',
+    label: t('components.sidebar.trade'),
     isExternal: false,
     hasSub: true,
     children: [
       {
         iconName: 'swap',
         href: ROUTES.Swap,
-        label: 'Swap',
+        label: t('components.sidebar.swap'),
         isExternal: false,
         hasSub: false,
       },
       {
         iconName: 'inIcon',
         href: ROUTES.AddLiquidity,
-        label: 'Add Liquidity',
+        label: t('components.sidebar.addLiquidity'),
         isExternal: false,
         hasSub: false,
       },
       {
         iconName: 'sputnik',
         href: ROUTES.ManageLiquidity,
-        label: 'Manage Liquidity',
+        label: t('components.sidebar.manageLiquidity'),
         isExternal: false,
         hasSub: false,
       },
       {
         iconName: 'lightning',
         href: ROUTES.Stake,
-        label: 'Thor Stake',
+        label: t('components.sidebar.thorStake'),
         isExternal: false,
         hasSub: false,
       },
       {
         iconName: 'watch',
         href: ROUTES.Home,
-        label: 'Pending Liquidity',
+        label: t('components.sidebar.pendingLiquidity'),
         isExternal: false,
         hasSub: false,
       },
@@ -57,21 +59,21 @@ export const navbarOptions: SidebarItemProps[] = [
   {
     iconName: 'wallet',
     href: ROUTES.Wallet,
-    label: 'Wallet',
+    label: t('components.sidebar.wallet'),
     isExternal: false,
     hasSub: false,
   },
   {
     iconName: 'cloud',
     href: ROUTES.Nodes,
-    label: 'Thornode',
+    label: t('components.sidebar.thornode'),
     isExternal: false,
     hasSub: false,
   },
   {
     iconName: 'settings',
     href: ROUTES.Stats,
-    label: 'Stats',
+    label: t('components.sidebar.stats'),
     isExternal: false,
     hasSub: false,
   },

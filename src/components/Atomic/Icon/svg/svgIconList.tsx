@@ -12,7 +12,7 @@ import { ReactComponent as List } from './list.svg'
 import { ReactComponent as Metamask } from './metamask.svg'
 import { ReactComponent as Moon } from './moon.svg'
 import { ReactComponent as Onboard } from './onboard.svg'
-import { ReactComponent as Plus } from './plus.svg'
+import { ReactComponent as PlusCircle } from './plus.svg'
 import { ReactComponent as Refresh } from './refresh.svg'
 import { ReactComponent as Router } from './router.svg'
 import { ReactComponent as Settings } from './settings.svg'
@@ -49,7 +49,7 @@ export const Svgs = {
   metamask: Metamask,
   moon: Moon,
   onboard: Onboard,
-  plus: Plus,
+  plusCircle: PlusCircle,
   refresh: Refresh,
   router: Router,
   settings: Settings,
@@ -87,7 +87,9 @@ export const SvgIcons = {
   metamask: (props: CustomIconProps) => <SvgIcon name="metamask" {...props} />,
   moon: (props: CustomIconProps) => <SvgIcon name="moon" {...props} />,
   onboard: (props: CustomIconProps) => <SvgIcon name="onboard" {...props} />,
-  plus: (props: CustomIconProps) => <SvgIcon name="plus" {...props} />,
+  plusCircle: (props: CustomIconProps) => (
+    <SvgIcon name="plusCircle" {...props} />
+  ),
   refresh: (props: CustomIconProps) => <SvgIcon name="refresh" {...props} />,
   settings: (props: CustomIconProps) => <SvgIcon name="settings" {...props} />,
   sputnik: (props: CustomIconProps) => <SvgIcon name="sputnik" {...props} />,

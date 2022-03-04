@@ -15,12 +15,12 @@ import { PoolInfo } from './PoolInfo'
 
 const initialFirstAsset = {
   asset: Asset.RUNE(),
-  balance: '10',
+  value: '10',
   change: '0.5',
 } as AssetSelectType
 const initialSecondAsset = {
   asset: Asset.ETH(),
-  balance: '300',
+  value: '300',
   change: '0.5',
 } as AssetSelectType
 const assetRate = 0.0016
@@ -33,14 +33,16 @@ export const AddLiquidity = () => {
       firstAsset: {
         asset: initialFirstAsset.asset,
         change: initialFirstAsset.change,
-        balance: initialFirstAsset.balance,
-        value: '5',
+        value: '0',
+        balance: initialSecondAsset.balance,
+        price: '5',
       },
       secondAsset: {
         asset: initialSecondAsset.asset,
         change: initialSecondAsset.change,
+        value: '0',
         balance: initialSecondAsset.balance,
-        value: '10',
+        price: '10',
       },
     },
   )
@@ -54,10 +56,10 @@ export const AddLiquidity = () => {
     [],
   )
 
-  const handleBalanceChange = useCallback(
+  const handleValueChange = useCallback(
     (asset: 'first' | 'second') => (value: string) => {
       const actionType =
-        asset === 'first' ? 'setFirstAssetBalance' : 'setSecondAssetBalance'
+        asset === 'first' ? 'setFirstAssetValue' : 'setSecondAssetValue'
 
       dispatch({ type: actionType, payload: value })
     },
@@ -70,11 +72,7 @@ export const AddLiquidity = () => {
       <Box className="w-full mx-2" col>
         <ViewHeader
           title={t('common.addLiquidity')}
-          actionsComponent={
-            <Box row>
-              <Icon size={26} name="cog" color="secondary" />
-            </Box>
-          }
+          actionsComponent={<Icon size={26} name="cog" color="secondary" />}
         />
       </Box>
 
@@ -88,7 +86,7 @@ export const AddLiquidity = () => {
             firstAsset={firstAsset}
             secondAsset={secondAsset}
             onAssetChange={handleAssetChange}
-            onBalanceChange={handleBalanceChange}
+            onValueChange={handleValueChange}
           />
           <Box className="hidden md:flex-col" col>
             <PoolInfo

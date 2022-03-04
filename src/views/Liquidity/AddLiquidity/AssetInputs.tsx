@@ -2,66 +2,57 @@ import { memo } from 'react'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
+import { assetsFixture, commonAssets } from 'utils/assetsFixture'
 
 import { AssetInput } from 'components/AssetInput'
 import { AssetInputType } from 'components/AssetInput/types'
-import { AssetSelectType } from 'components/AssetSelect/types'
 import { Box, Icon } from 'components/Atomic'
 
 import { t } from 'services/i18n'
 
 type Props = {
   onAssetChange: (assetPosition: 'first' | 'second') => (asset: Asset) => void
-  onBalanceChange: (
-    assetPosition: 'first' | 'second',
-  ) => (balance: string) => void
+  onValueChange: (assetPosition: 'first' | 'second') => (value: string) => void
   firstAsset: AssetInputType
   secondAsset: AssetInputType
 }
 
-const assets = [
-  { asset: Asset.RUNE(), type: 'native', balance: '0', change: '0.5' },
-  { asset: Asset.ETH(), type: 'native', balance: '4.7', change: '0.5' },
-  { asset: Asset.THOR(), type: '-', balance: '11', change: '0.5' },
-  { asset: Asset.BTC(), type: 'native', balance: '0', change: '0.5' },
-  { asset: Asset.LUNA(), type: 'native', balance: '38', change: '0.5' },
-  { asset: Asset.DOGE(), type: 'native', balance: '0', change: '0.5' },
-  { asset: Asset.UST(), type: 'native', balance: '0', change: '0.5' },
-] as AssetSelectType[]
-
-const commonAssets = assets.slice(0, 3)
-
 export const AssetInputs = memo(
-  ({ firstAsset, secondAsset, onBalanceChange, onAssetChange }: Props) => {
+  ({ firstAsset, secondAsset, onValueChange, onAssetChange }: Props) => {
     return (
       <Box className="relative" col>
-        <div
+        <Box
           className={classNames(
-            'absolute flex items-center justify-center -mt-0.5 top-1/2 p-3.5 rounded-3xl left-1/2 -translate-x-1/2 -translate-y-1/2',
+            'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+            'p-1 md:p-2 rounded-2xl md:rounded-3xl',
             'border-10 border-solid bg-blue dark:border-dark-border-primary border-light-border-primary',
           )}
         >
-          <Icon name="add" size={24} color="white" />
-        </div>
+          <Icon
+            className={classNames('w-[24px] h-[24px] md:w-[36px] md:h-[36px]')}
+            name="plus"
+            color="white"
+          />
+        </Box>
 
         <AssetInput
           className="!mb-1"
           selectedAsset={firstAsset}
           onAssetChange={onAssetChange('first')}
-          onValueChange={onBalanceChange('first')}
-          assets={assets}
+          onValueChange={onValueChange('first')}
+          assets={assetsFixture}
           commonAssets={commonAssets}
           secondary
-          secondaryLabel={t('common.balance')}
+          secondaryLabel={t('common.value')}
         />
         <AssetInput
           selectedAsset={secondAsset}
           onAssetChange={onAssetChange('second')}
-          onValueChange={onBalanceChange('second')}
-          assets={assets}
+          onValueChange={onValueChange('second')}
+          assets={assetsFixture}
           commonAssets={commonAssets}
           secondary
-          secondaryLabel={t('common.balance')}
+          secondaryLabel={t('common.value')}
         />
       </Box>
     )

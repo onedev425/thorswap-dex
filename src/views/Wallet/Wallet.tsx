@@ -1,15 +1,7 @@
 import { Asset } from '@thorswap-lib/multichain-sdk'
 
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
-import {
-  Button,
-  Select,
-  Row,
-  Box,
-  Table,
-  Typography,
-  Icon,
-} from 'components/Atomic'
+import { Select, Row, Box, Table, Typography, Icon } from 'components/Atomic'
 import { Chart } from 'components/Chart'
 import { ChartType } from 'components/Chart/types'
 import { Input } from 'components/Input'
@@ -20,6 +12,7 @@ import { Statistics } from 'components/Statistics'
 import { t } from 'services/i18n'
 
 import { BreakPoint } from '../../hooks/useWindowSize'
+import { ActionButtonsCell } from './ActionButtonsCell'
 
 const Wallet = () => {
   const token = { name: 'Bitcoin', ticker: 'BTC', change: '+10% ($ 1.500)' }
@@ -212,42 +205,20 @@ const TableAllocationColumns = [
     accessor: 'asset',
     Cell: ({ cell: { value } }: FixMe) => (
       <div className="flex items-center gap-2">
-        {/* <AssetIcon asset={value} size={40} /> */}
         <Typography color="secondary">{value.symbol}</Typography>
       </div>
     ),
     disableSortBy: true,
   },
-  {
-    Header: 'Price',
-    accessor: 'price',
-  },
-  {
-    Header: 'Allocation',
-    accessor: 'allocation',
-  },
-  {
-    Header: 'Amount',
-    accessor: 'amount',
-  },
-  {
-    Header: 'Address',
-    accessor: 'address',
-    minScreenSize: BreakPoint.lg,
-  },
+  { Header: 'Price', accessor: 'price' },
+  { Header: 'Allocation', accessor: 'allocation' },
+  { Header: 'Amount', accessor: 'amount' },
+  { Header: 'Address', accessor: 'address', minScreenSize: BreakPoint.lg },
   {
     Header: 'Action',
     accessor: 'action',
-    Cell: () => (
-      <Row className="gap-2" justify="end">
-        <Button variant="tertiary" type="outline">
-          {t('common.send')}
-        </Button>
-        <Button type="outline">{t('common.receive')}</Button>
-        <Button variant="secondary" type="outline">
-          {t('common.swap')}
-        </Button>
-      </Row>
+    Cell: ({ cell: { row } }: FixMe) => (
+      <ActionButtonsCell asset={row.original.asset} />
     ),
     minScreenSize: BreakPoint.lg,
     disableSortBy: true,
@@ -266,14 +237,8 @@ const TableTransactionsColumns = [
     ),
     disableSortBy: true,
   },
-  {
-    Header: 'Type',
-    accessor: 'type',
-  },
-  {
-    Header: 'Date',
-    accessor: 'date',
-  },
+  { Header: 'Type', accessor: 'type' },
+  { Header: 'Date', accessor: 'date' },
   {
     Header: 'Recipient address',
     accessor: 'recipient',
@@ -335,15 +300,8 @@ const AssetsColumns = [
     ),
     disableSortBy: true,
   },
-
-  {
-    Header: 'Amount %',
-    accessor: 'amount',
-  },
-  {
-    Header: 'Allocation',
-    accessor: 'allocation',
-  },
+  { Header: 'Amount %', accessor: 'amount' },
+  { Header: 'Allocation', accessor: 'allocation' },
 ]
 
 const assetsTableData = [

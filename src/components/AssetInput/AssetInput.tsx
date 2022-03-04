@@ -4,6 +4,8 @@ import { AssetSelect } from 'components/AssetSelect'
 import { Box, Typography } from 'components/Atomic'
 import { Input } from 'components/Input'
 
+import { t } from 'services/i18n'
+
 import { AssetInputProps } from './types'
 
 export const AssetInput = ({
@@ -18,8 +20,8 @@ export const AssetInput = ({
   onValueChange,
 }: AssetInputProps) => {
   const assetValue =
-    parseFloat(selectedAsset?.value || '0') *
-    parseFloat(selectedAsset?.balance || '0')
+    parseFloat(selectedAsset?.price || '0') *
+    parseFloat(selectedAsset?.value || '0')
 
   return (
     <Box
@@ -33,14 +35,14 @@ export const AssetInput = ({
           : 'bg-light-bg-primary dark:bg-dark-bg-primary',
       )}
     >
-      <Box className="pl-4" flex={1} alignCenter>
+      <Box flex={1} className="pl-4 pb-2" alignCenter>
         <Input
-          className="-ml-1 !text-2xl font-normal text-left"
           placeholder="0.0"
+          className="text-xl md:text-2xl text-left font-normal -ml-1"
           containerClassName="!py-0"
-          stretch
-          value={selectedAsset?.balance}
           onChange={(event) => onValueChange(event.target.value)}
+          value={selectedAsset?.value}
+          stretch
         />
 
         <AssetSelect
@@ -52,7 +54,7 @@ export const AssetInput = ({
         />
       </Box>
 
-      <Box col className="pl-4">
+      <Box justify="between" className="pl-4">
         <Box>
           <Typography color="secondary" fontWeight="semibold">
             {secondaryLabel || '$'}&nbsp;{assetValue.toFixed(2)}
@@ -67,6 +69,10 @@ export const AssetInput = ({
             </Typography>
           )}
         </Box>
+
+        <Typography className="pr-4 md:pr-0" color="secondary">
+          {t('common.balance')}: {selectedAsset.balance || 0}
+        </Typography>
       </Box>
     </Box>
   )

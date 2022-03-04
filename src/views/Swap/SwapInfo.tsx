@@ -23,12 +23,12 @@ export const SwapInfo = memo(
 
             <Typography variant="caption" color="primary" fontWeight="normal">
               {`1 ${secondAsset.asset.symbol} = ${
-                parseFloat(firstAsset.value) / parseFloat(secondAsset.value)
+                parseFloat(firstAsset.price) / parseFloat(secondAsset.price)
               } ${firstAsset.asset.symbol}`}
             </Typography>
 
             <Typography variant="caption" color="secondary" fontWeight="normal">
-              {`($ ${secondAsset.value})`}
+              {`($ ${secondAsset.price})`}
             </Typography>
           </div>
         }
@@ -37,7 +37,7 @@ export const SwapInfo = memo(
           <Information
             showBorder={false}
             label="Expected Output"
-            value={`${secondAsset.balance} ${secondAsset.asset.symbol}`}
+            value={`${secondAsset.value} ${secondAsset.asset.symbol}`}
           />
 
           <Information
@@ -57,7 +57,7 @@ export const SwapInfo = memo(
             showBorder={false}
             label={`Minimum receiver after slippage (${slippage.toFixed(2)}%)`}
             value={`${
-              parseFloat(secondAsset?.balance || '0') * (1 - slippage / 100)
+              parseFloat(secondAsset?.value || '0') * (1 - slippage / 100)
             } ${secondAsset.asset.symbol}`}
           />
         </Box>

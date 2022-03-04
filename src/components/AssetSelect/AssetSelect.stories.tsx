@@ -2,9 +2,9 @@ import { useState } from 'react'
 
 import { ComponentMeta } from '@storybook/react'
 import { Asset } from '@thorswap-lib/multichain-sdk'
+import { assetsFixture, commonAssets } from 'utils/assetsFixture'
 
 import { AssetSelect } from 'components/AssetSelect/AssetSelect'
-import { AssetSelectType } from 'components/AssetSelect/types'
 import { Typography } from 'components/Atomic'
 
 import { AssetSelectButton as AssetSelectButtonComp } from './AssetSelectButton'
@@ -20,22 +20,12 @@ export default {
   },
 } as ComponentMeta<typeof AssetSelectList>
 
-const assets = [
-  { asset: Asset.ETH(), type: 'Native token', balance: '0' },
-  { asset: Asset.BTC(), type: 'Native token', balance: '4.7' },
-  { asset: Asset.RUNE(), type: 'Native token', balance: '11' },
-  { asset: Asset.BNB(), type: 'Native token', balance: '0' },
-  { asset: Asset.DOGE(), type: 'Doge coin', balance: '38' },
-] as AssetSelectType[]
-
-const commonAssets = assets.slice(0, 3)
-
 export const AssetSelectComponent = () => {
   return (
     <div className="flex flex-col h-screen p-4 space-y-2 bg-gray">
       <div className="flex items-center h-full max-w-lg space-x-2">
         <AssetSelectList
-          assets={assets}
+          assets={assetsFixture}
           onClose={() => {}}
           onSelect={() => {}}
           commonAssets={commonAssets}
@@ -68,7 +58,7 @@ export const AssetSelectWithModal = () => {
     <div className="flex flex-col p-4 space-y-2 bg-light-bg-primary dark:bg-dark-bg-primary">
       <div className="flex flex-col items-start gap-3 space-x-2">
         <AssetSelect
-          assets={assets}
+          assets={assetsFixture}
           commonAssets={commonAssets}
           onSelect={setSelected}
           selected={selected}

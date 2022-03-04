@@ -10,7 +10,7 @@ export type AddLiquidityState = {
 export type AddLiquidityActions =
   | { type: 'setSecondAsset' | 'setFirstAsset'; payload: Asset }
   | {
-      type: 'setSecondAssetBalance' | 'setFirstAssetBalance'
+      type: 'setSecondAssetValue' | 'setFirstAssetValue'
       payload: string
     }
 
@@ -29,15 +29,15 @@ export const addLiquidityReducer = (
             : state.secondAsset,
       }
 
-    case 'setFirstAssetBalance': {
-      const secondAssetBalance =
-        (parseFloat(actions.payload) * parseFloat(state.firstAsset.value)) /
-          parseFloat(state.secondAsset.value) || 0
+    case 'setFirstAssetValue': {
+      const secondAssetValue =
+        (parseFloat(actions.payload) * parseFloat(state.firstAsset.price)) /
+          parseFloat(state.secondAsset.price) || 0
 
       return {
         ...state,
-        firstAsset: { ...state.firstAsset, balance: actions.payload },
-        secondAsset: { ...state.secondAsset, balance: `${secondAssetBalance}` },
+        firstAsset: { ...state.firstAsset, value: actions.payload },
+        secondAsset: { ...state.secondAsset, value: `${secondAssetValue}` },
       }
     }
 
@@ -51,15 +51,15 @@ export const addLiquidityReducer = (
             : state.secondAsset,
       }
 
-    case 'setSecondAssetBalance': {
-      const firstAssetBalance =
-        (parseFloat(actions.payload) * parseFloat(state.secondAsset.value)) /
-          parseFloat(state.firstAsset.value) || 0
+    case 'setSecondAssetValue': {
+      const firstAssetValue =
+        (parseFloat(actions.payload) * parseFloat(state.secondAsset.price)) /
+          parseFloat(state.firstAsset.price) || 0
 
       return {
         ...state,
-        secondAsset: { ...state.secondAsset, balance: actions.payload },
-        firstAsset: { ...state.firstAsset, balance: `${firstAssetBalance}` },
+        secondAsset: { ...state.secondAsset, value: actions.payload },
+        firstAsset: { ...state.firstAsset, value: `${firstAssetValue}` },
       }
     }
 
