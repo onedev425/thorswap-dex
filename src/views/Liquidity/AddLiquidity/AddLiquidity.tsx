@@ -67,7 +67,7 @@ export const AddLiquidity = () => {
   )
 
   return (
-    <Box className="w-full max-w-[600px] self-center" col>
+    <Box className="w-full max-w-[540px] self-center" col>
       <Helmet title="Add Liquidity" content="Add Liquidity" />
       <Box className="w-full mx-2" col>
         <ViewHeader
@@ -77,29 +77,28 @@ export const AddLiquidity = () => {
       </Box>
 
       <Card
+        className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-4 space-y-1 shadow-lg md:w-full md:mt-8 md:h-auto"
         size="lg"
         stretch
-        className="flex-col items-center mt-4 md:mt-8 !p-0 md:h-auto md:pb-10 shadow-lg"
       >
-        <Card size="lg" className="flex-col self-stretch shadow-lg">
-          <AssetInputs
-            firstAsset={firstAsset}
-            secondAsset={secondAsset}
-            onAssetChange={handleAssetChange}
-            onValueChange={handleValueChange}
-          />
-          <Box className="hidden md:flex-col" col>
-            <PoolInfo
-              firstAsset={firstAsset}
-              secondAsset={secondAsset}
-              poolShare={poolShare}
-              firstToSecondRate={assetRate}
-            />
-          </Box>
-        </Card>
+        <AssetInputs
+          firstAsset={firstAsset}
+          secondAsset={secondAsset}
+          onAssetChange={handleAssetChange}
+          onValueChange={handleValueChange}
+        />
 
-        <Box className="py-5 md:py-10" col>
-          <Button className="px-20">{t('common.connectWallet')}</Button>
+        <PoolInfo
+          firstAsset={firstAsset}
+          secondAsset={secondAsset}
+          poolShare={poolShare}
+          firstToSecondRate={assetRate}
+        />
+
+        <Box className="w-full pt-5">
+          <Button stretch size="lg">
+            {t('common.connectWallet')}
+          </Button>
         </Box>
       </Card>
     </Box>

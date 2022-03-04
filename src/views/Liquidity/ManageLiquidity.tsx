@@ -42,7 +42,7 @@ const ManageLiquidity = () => {
   const [tipVisible, setTipVisible] = useState(true)
 
   return (
-    <Box className="self-center w-full max-w-[600px]" col>
+    <Box className="self-center w-full max-w-[540px]" col>
       <Helmet title="Liquidity" content="Your Liquidity" />
       <Box className="w-full mx-2" col>
         <ViewHeader
@@ -52,9 +52,9 @@ const ManageLiquidity = () => {
       </Box>
 
       <Card
+        className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-4 space-y-1 shadow-lg md:w-full md:mt-8 md:h-auto"
         size="lg"
         stretch
-        className="flex-col items-center md:w-full mt-4 md:mt-8 md:h-auto md:pb-10 shadow-lg"
       >
         {tipVisible && (
           <InfoTip

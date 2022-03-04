@@ -8,8 +8,6 @@ import { AssetInput } from 'components/AssetInput'
 import { AssetInputType } from 'components/AssetInput/types'
 import { Box, Icon } from 'components/Atomic'
 
-import { t } from 'services/i18n'
-
 type Props = {
   onAssetChange: (assetPosition: 'first' | 'second') => (asset: Asset) => void
   onValueChange: (assetPosition: 'first' | 'second') => (value: string) => void
@@ -20,7 +18,7 @@ type Props = {
 export const AssetInputs = memo(
   ({ firstAsset, secondAsset, onValueChange, onAssetChange }: Props) => {
     return (
-      <Box className="relative" col>
+      <Box className="relative self-stretch w-full" col>
         <Box
           className={classNames(
             'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
@@ -29,7 +27,7 @@ export const AssetInputs = memo(
           )}
         >
           <Icon
-            className={classNames('w-[24px] h-[24px] md:w-[36px] md:h-[36px]')}
+            className={classNames('w-6 h-6 md:w-9 md:h-9')}
             name="plus"
             color="white"
           />
@@ -43,7 +41,6 @@ export const AssetInputs = memo(
           assets={assetsFixture}
           commonAssets={commonAssets}
           secondary
-          secondaryLabel={t('common.value')}
         />
         <AssetInput
           selectedAsset={secondAsset}
@@ -52,7 +49,6 @@ export const AssetInputs = memo(
           assets={assetsFixture}
           commonAssets={commonAssets}
           secondary
-          secondaryLabel={t('common.value')}
         />
       </Box>
     )

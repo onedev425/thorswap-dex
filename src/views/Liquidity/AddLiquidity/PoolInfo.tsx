@@ -1,5 +1,5 @@
 import { AssetInputType } from 'components/AssetInput/types'
-import { Box, Typography } from 'components/Atomic'
+import { Box, Collapse, Icon, Typography } from 'components/Atomic'
 
 import { t } from 'services/i18n'
 
@@ -17,17 +17,25 @@ export const PoolInfo = ({
   firstToSecondRate,
 }: Props) => {
   return (
-    <Box className="self-stretch" col>
-      <Box my={40}>
-        <Typography>{t('views.addLiquidity.pricesAndPoolShare')}</Typography>
-      </Box>
+    <Collapse
+      className="!py-2 self-stretch mt-5 bg-light-gray-light dark:bg-dark-gray-light !rounded-2xl flex-col"
+      shadow={false}
+      title={
+        <div className="flex flex-row gap-x-2">
+          <Icon name="info" size={16} color="secondary" />
 
-      <Box>
+          <Typography variant="caption" color="primary" fontWeight="normal">
+            {t('views.addLiquidity.pricesAndPoolShare')}
+          </Typography>
+        </div>
+      }
+    >
+      <Box className="w-full" row>
         <Box
-          className="flex-1 gap-4 border-0 border-r border-dotted border-light-typo-gray dark:border-dark-typo-gray"
+          className="flex-1 gap-2 border-0 border-r border-dotted border-light-typo-gray dark:border-dark-typo-gray"
           col
         >
-          <Typography variant="caption" color="secondary">
+          <Typography variant="caption" color="secondary" fontWeight="semibold">
             {firstAsset.asset.symbol}
             {` ${t('common.per')} `}
             {secondAsset.asset.symbol}
@@ -36,10 +44,10 @@ export const PoolInfo = ({
         </Box>
 
         <Box
-          className="flex-1 gap-4 text-center border-0 border-r border-dotted border-light-typo-gray dark:border-dark-typo-gray"
+          className="flex-1 gap-2 text-center border-0 border-r border-dotted border-light-typo-gray dark:border-dark-typo-gray"
           col
         >
-          <Typography variant="caption" color="secondary">
+          <Typography variant="caption" color="secondary" fontWeight="semibold">
             {secondAsset.asset.symbol}
             {` ${t('common.per')} `}
             {firstAsset.asset.symbol}
@@ -47,13 +55,13 @@ export const PoolInfo = ({
           <Typography variant="h4">{1 / firstToSecondRate}</Typography>
         </Box>
 
-        <Box className="flex-1 gap-4 text-right" col>
-          <Typography variant="caption" color="secondary">
+        <Box className="flex-1 gap-2 text-right" col>
+          <Typography variant="caption" color="secondary" fontWeight="semibold">
             {t('views.addLiquidity.shareOfPool')}
           </Typography>
           <Typography variant="h4">{`${poolShare}%`}</Typography>
         </Box>
       </Box>
-    </Box>
+    </Collapse>
   )
 }

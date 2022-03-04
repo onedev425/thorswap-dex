@@ -78,7 +78,7 @@ const Swap = () => {
   }, [])
 
   return (
-    <Box className="self-center w-full max-w-[600px]" col>
+    <Box className="self-center w-full max-w-[540px]" col>
       <Helmet title="Swap" content="Swap" />
 
       <Box className="w-full mx-2" col>
@@ -118,56 +118,48 @@ const Swap = () => {
       </Box>
 
       <Card
+        className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-4 space-y-1 shadow-lg md:w-full md:mt-8 md:h-auto"
         size="lg"
         stretch
-        className="flex-col items-center md:w-full mt-4 md:mt-8 !p-0 md:h-auto md:pb-10 shadow-lg"
       >
-        <Card
-          stretch
-          size="lg"
-          className="flex-col items-center self-stretch space-y-2 shadow-lg md:w-full"
-        >
-          <AssetInputs
-            firstAsset={firstAsset}
-            secondAsset={secondAsset}
-            onAssetChange={handleAssetChange}
-            onValueChange={handleValueChange}
-            onAssetsSwap={handleAssetsSwap}
-          />
+        <AssetInputs
+          firstAsset={firstAsset}
+          secondAsset={secondAsset}
+          onAssetChange={handleAssetChange}
+          onValueChange={handleValueChange}
+          onAssetsSwap={handleAssetsSwap}
+        />
 
-          <SwapInfo
-            firstAsset={firstAsset}
-            secondAsset={secondAsset}
-            priceImpact={priceImpact}
-            slippage={slippage}
-          />
-        </Card>
+        <SwapInfo
+          firstAsset={firstAsset}
+          secondAsset={secondAsset}
+          priceImpact={priceImpact}
+          slippage={slippage}
+        />
 
-        <Box className="w-full !px-4 md:!px-10" col>
-          <AutoRouterInfo
-            firstAsset={firstAsset.asset}
-            secondAsset={secondAsset.asset}
-          />
+        <AutoRouterInfo
+          firstAsset={firstAsset.asset}
+          secondAsset={secondAsset.asset}
+        />
 
-          <Box className="w-full pt-5 pb-5 md:pb-10">
-            <Button
-              stretch
-              size="lg"
-              onClick={() => setIsOpened((visible) => !visible)}
+        <Box className="w-full pt-5">
+          <Button
+            stretch
+            size="lg"
+            onClick={() => setIsOpened((visible) => !visible)}
+          >
+            {t('common.connectWallet')}
+          </Button>
+
+          {isOpened && (
+            <Modal
+              title="Confirm Swap"
+              isOpened={isOpened}
+              onClose={() => setIsOpened(false)}
             >
-              {t('common.connectWallet')}
-            </Button>
-
-            {isOpened && (
-              <Modal
-                title="Confirm Swap"
-                isOpened={isOpened}
-                onClose={() => setIsOpened(false)}
-              >
-                <ConfirmSwapItem />
-              </Modal>
-            )}
-          </Box>
+              <ConfirmSwapItem />
+            </Modal>
+          )}
         </Box>
       </Card>
     </Box>

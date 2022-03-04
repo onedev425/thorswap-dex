@@ -44,7 +44,7 @@ export const AssetInputs = memo(
         >
           <Icon
             className={classNames(
-              'w-[24px] h-[24px] md:w-[36px] md:h-[36px] -scale-x-100 transition-all duration-300',
+              'w-6 h-6 md:w-9 md:h-9 -scale-x-100 transition-all duration-300',
               { 'rotate-180': iconRotate },
             )}
             name="exchange"

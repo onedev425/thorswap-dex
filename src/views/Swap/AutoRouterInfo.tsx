@@ -5,7 +5,7 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import { RouterStepProps } from 'views/Swap/types'
 
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
-import { Box, Collapse, Icon, Tooltip, Typography } from 'components/Atomic'
+import { Box, Collapse, Icon, Typography } from 'components/Atomic'
 
 import { t } from 'services/i18n'
 
@@ -34,15 +34,15 @@ export const AutoRouterInfo = memo(({ firstAsset, secondAsset }: Props) => {
       title={
         <Box className="cursor-pointer" alignCenter justify="between">
           <Box mr={2} alignCenter>
-            <Icon className="mr-2" name="router" size={18} />
-            <Typography className="!text-transparent bg-clip-text bg-gradient-to-br from-blue to-cyan">
+            <Icon className="mr-2" name="router" size={16} />
+            <Typography
+              className="!text-transparent bg-clip-text bg-gradient-to-br from-blue to-cyan"
+              variant="caption"
+              fontWeight="normal"
+            >
               {t('views.swap.autoRouter')}
             </Typography>
           </Box>
-
-          <Tooltip place="right" content="Auto router tooltip">
-            <Icon color="secondary" name="infoCircle" size={18} />
-          </Tooltip>
         </Box>
       }
     >

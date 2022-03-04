@@ -29,16 +29,16 @@ export const AssetInput = ({
       justify="between"
       className={classNames(
         className,
-        'rounded-3xl md:px-6 pb-3 md:py-4 md:gap-2 border border-solid border-transparent hover:border-light-gray-primary dark:hover:border-dark-gray-primary',
+        'rounded-2xl md:rounded-3xl md:px-6 pb-3 md:py-4 md:gap-2 border border-solid border-transparent hover:border-light-gray-primary dark:hover:border-dark-gray-primary',
         secondary
           ? 'bg-light-gray-light dark:bg-dark-gray-light'
           : 'bg-light-bg-primary dark:bg-dark-bg-primary',
       )}
     >
-      <Box flex={1} className="pl-4 pb-2" alignCenter>
+      <Box flex={1} className="pb-1 pl-4 md:pl-2" alignCenter>
         <Input
           placeholder="0.0"
-          className="text-xl md:text-2xl text-left font-normal -ml-1"
+          className="-ml-1 text-2xl font-normal text-left"
           containerClassName="!py-0"
           onChange={(event) => onValueChange(event.target.value)}
           value={selectedAsset?.value}
@@ -54,7 +54,7 @@ export const AssetInput = ({
         />
       </Box>
 
-      <Box justify="between" className="pl-4">
+      <Box justify="between" className="pl-4 md:pl-2">
         <Box>
           <Typography color="secondary" fontWeight="semibold">
             {secondaryLabel || '$'}&nbsp;{assetValue.toFixed(2)}
