@@ -49,11 +49,7 @@ export const Layout = ({ children }: LayoutProp) => {
             'flex flex-col md:ml-[92px] md:max-w-[calc(100%-148px)] mx-3 md:px-10 py-5 dark:bg-elliptical',
           )}
         >
-          <Header
-            priceLabel="1ᚱ = $ 10.04"
-            connectWallet={() => {}}
-            openMenu={openMenu}
-          />
+          <Header openMenu={openMenu} />
           {children}
         </main>
         <WalletModal />

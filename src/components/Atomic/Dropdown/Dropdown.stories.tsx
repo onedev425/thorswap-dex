@@ -77,7 +77,7 @@ export const DropdownMenu = () => {
           menuItems={menuItemsComponents}
           value={value}
           onChange={(v) => setValue(v)}
-          OpenComponent={<Icon name="lightning" />}
+          openComponent={<Icon name="lightning" />}
         />
       </div>
     </div>

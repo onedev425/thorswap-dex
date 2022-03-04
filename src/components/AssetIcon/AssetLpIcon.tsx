@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 
 import { AssetIcon } from './AssetIcon'
-import { AssetLpIconProps } from './types'
+import { iconSizes, AssetLpIconProps } from './types'
 
 export const AssetLpIcon = (props: AssetLpIconProps) => {
   const {
@@ -10,10 +10,11 @@ export const AssetLpIcon = (props: AssetLpIconProps) => {
     asset1BgColor = 'blue',
     asset2BgColor = 'green',
     inline,
+    size = 40,
     ...styleProps
   } = props
-  const size = props?.size || 40
-  const pairIconOffset = size * 0.45
+  const iconSize = typeof size === 'number' ? size : iconSizes[size]
+  const pairIconOffset = iconSize * 0.45
 
   return (
     <div className="flex">

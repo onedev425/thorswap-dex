@@ -6,10 +6,15 @@ import { DropdownMenuItem } from 'components/Atomic/Dropdown/types'
 import { genericBgClasses } from 'components/constants'
 
 export const MenuOption = (props: DropdownMenuItem) => {
-  const { label, value, Component, disabled } = props
+  const { className, label, value, Component, disabled } = props
 
   return (
-    <Listbox.Option as="span" value={value} disabled={disabled}>
+    <Listbox.Option
+      className={className}
+      as="div"
+      value={value}
+      disabled={disabled}
+    >
       {({ active, selected }) => (
         <div
           className={classNames(

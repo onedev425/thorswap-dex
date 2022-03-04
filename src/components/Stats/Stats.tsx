@@ -32,14 +32,14 @@ export const Stats = ({
         <Icon
           color={color}
           name={iconName}
-          className="group-hover:text-dark-typo-primary transition"
+          className="transition group-hover:text-dark-typo-primary"
         />
       </div>
 
       <Box justifyCenter col className="gap-4">
         <Box row className="gap-x-1">
           <Typography
-            className="group-hover:text-dark-typo-primary transition"
+            className="transition group-hover:text-dark-typo-primary"
             variant="caption"
             color="secondary"
           >
@@ -57,7 +57,7 @@ export const Stats = ({
         </Box>
 
         <Typography
-          className="group-hover:text-dark-typo-primary transition"
+          className="transition group-hover:text-dark-typo-primary"
           transform="uppercase"
           variant="subtitle1"
         >

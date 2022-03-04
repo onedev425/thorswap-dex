@@ -12,7 +12,7 @@ export const GasUnitLabel: Record<Chain, string> = {
   [Chain.Bitcoin]: 'Sats',
   [Chain.Ethereum]: 'Gwei',
   [Chain.THORChain]: 'Rune',
-  [Chain.Binance]: 'BNB',
+  [Chain.Binance]: 'Jager', // https://academy.binance.com/en/glossary/jager
   [Chain.Doge]: 'Sats',
   [Chain.Litecoin]: 'Sats',
   [Chain.BitcoinCash]: 'Sats',
@@ -50,7 +50,6 @@ export const useGasRate = () => {
             chain: chain as Chain,
             feeOptionType,
           }) /
-            10 ** 8 /
             3) *
           2
       } else {

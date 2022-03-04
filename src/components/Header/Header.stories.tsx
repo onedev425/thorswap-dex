@@ -12,11 +12,7 @@ export default {
 export const Default = () => {
   return (
     <div className="flex flex-row flex-wrap gap-3 p-4 bg-gray">
-      <Header
-        priceLabel="1ᚱ = $ 10.04"
-        connectWallet={() => {}}
-        openMenu={() => {}}
-      />
+      <Header openMenu={() => {}} />
     </div>
   )
 }

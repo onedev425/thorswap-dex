@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { Typography } from 'components/Atomic'
 
 import { genericBgClasses } from '../constants'
-import { AssetIconProps } from './types'
+import { iconSizes, AssetIconProps } from './types'
 import { getAssetIconUrl, getSecondaryIconPlacementStyle } from './utils'
 
 export const AssetIcon = ({
@@ -15,14 +15,15 @@ export const AssetIcon = ({
   hasChainIcon = false,
   secondaryIconPlacement = 'br',
 }: AssetIconProps) => {
+  const iconSize = typeof size === 'number' ? size : iconSizes[size]
   const iconUrl = getAssetIconUrl(asset)
   const sigAsset = chainToSigAsset(asset.chain as SupportedChain)
-  const secondaryIconSize = hasChainIcon ? size * 0.4 : 0
+  const secondaryIconSize = hasChainIcon ? iconSize * 0.4 : 0
 
   return (
     <div className="relative flex">
       <div
-        style={{ width: size, height: size }}
+        style={{ width: iconSize, height: iconSize }}
         className={classNames(
           className,
           'flex rounded-full items-center justify-center p-2 box-border overflow-hidden relative',
@@ -31,7 +32,7 @@ export const AssetIcon = ({
       >
         {iconUrl ? (
           <img
-            style={{ width: size, height: size }}
+            style={{ width: iconSize, height: iconSize }}
             className="absolute inset-0 object-cover"
             src={iconUrl}
             alt={asset.symbol}

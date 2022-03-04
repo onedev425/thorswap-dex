@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 
-import { DropdownMenu, Icon } from 'components/Atomic'
+import { Box, DropdownMenu, Typography } from 'components/Atomic'
+import { StatusBadge } from 'components/StatusBadge'
 
 import { useMimir } from 'hooks/useMimir'
 import { useNetwork, StatusType } from 'hooks/useNetwork'
@@ -10,7 +11,7 @@ import { globalConfig } from 'services/multichain'
 
 import { getHostnameFromUrl } from 'helpers/url'
 
-import { StatusItem, statusColorOptions } from './types'
+import { StatusItem } from './types'
 
 export const StatusDropdown = () => {
   const { statusType, outboundQueue, outboundQueueLevel } = useNetwork()
@@ -127,15 +128,26 @@ export const StatusDropdown = () => {
     return menuItemData.map(({ label, value, statusType: type }) => {
       return {
         Component: (
-          <div>
-            <Icon
-              name="valid"
-              color={statusColorOptions[type || StatusType.Normal]}
-            />
-            {label}
-            <br />
-            {value}
-          </div>
+          <Box minWidth="200px" row alignCenter>
+            <StatusBadge status={type || StatusType.Normal} />
+            <Box ml={2} col>
+              <Typography
+                variant="caption"
+                fontWeight="bold"
+                transform="uppercase"
+              >
+                {label}
+              </Typography>
+              <Typography
+                variant="caption-xs"
+                color="secondary"
+                fontWeight="normal"
+                transform="uppercase"
+              >
+                {value}
+              </Typography>
+            </Box>
+          </Box>
         ),
         value: label,
       }
@@ -146,7 +158,7 @@ export const StatusDropdown = () => {
     <DropdownMenu
       menuItems={menuItems}
       value="Network Status"
-      OpenComponent={<Icon name="lightning" />}
+      openComponent={<StatusBadge status={statusType} />}
       onChange={() => {}}
     />
   )

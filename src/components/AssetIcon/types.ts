@@ -172,9 +172,19 @@ export type AssetTickerType =
   | 'UST'
   | 'WETH'
 
+export const iconSizes = {
+  large: 72,
+  big: 55,
+  normal: 40,
+  small: 32,
+  tiny: 24,
+}
+
+export type IconSize = keyof typeof iconSizes
+
 type AssetStyleType = {
   color?: IconColor
-  size?: number
+  size?: IconSize | number
   className?: string
 }
 

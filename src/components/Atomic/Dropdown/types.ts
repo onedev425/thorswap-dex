@@ -1,6 +1,7 @@
 export type DropdownMenuItemValue = string
 
 export type DropdownMenuItem = {
+  className?: string
   value: DropdownMenuItemValue
   label?: string
   Component?: JSX.Element
@@ -17,8 +18,9 @@ export type DropdownOptions = {
 }
 
 export type DropdownMenuProps = {
-  menuItems: DropdownMenuItems
   className?: string
+  menuClassName?: string
+  menuItems: DropdownMenuItems
   openLabel?: string
-  OpenComponent?: JSX.Element
+  openComponent?: JSX.Element
 } & DropdownOptions

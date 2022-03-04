@@ -6,15 +6,15 @@ import { genericBgClasses } from 'components/constants'
 
 type Props = {
   label?: string
-  Component?: JSX.Element
+  component?: JSX.Element
   disabled?: boolean
 }
 
 export const DropdownButton = (props: Props) => {
-  const { label, Component } = props
+  const { label, component } = props
 
   return (
-    <Listbox.Button className="outline-none border-none bg-transparent relative p-0">
+    <Listbox.Button className="relative p-0 bg-transparent border-none outline-none">
       {({ open, disabled }) => {
         return (
           <div
@@ -25,10 +25,10 @@ export const DropdownButton = (props: Props) => {
                 'hover:bg-light-bg-secondary': !disabled,
               },
               disabled ? 'cursor-not-allowed' : 'cursor-pointer',
-              'inline-flex justify-between rounded-2xl items-center px-3 py-2 transition-all',
+              'h-10 inline-flex justify-between rounded-2xl items-center px-3 transition-all',
             )}
           >
-            {Component ? Component : <Typography>{label}</Typography>}
+            {component ? component : <Typography>{label}</Typography>}
             <Icon
               className={classNames('w-5 h-5 ml-2 -mr-1 transition', {
                 'rotate-180': open,

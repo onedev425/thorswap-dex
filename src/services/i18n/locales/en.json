@@ -33,6 +33,7 @@
     "volume": "Volume",
     "withdraw": "Withdraw",
     "per": "per",
+    "gasTracker": "Gas Tracker",
     "settings": "Global Settings"
   },
   "appMenu": {
