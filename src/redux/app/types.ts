@@ -1,12 +1,13 @@
 import { FeeOption } from '@thorswap-lib/xchain-client'
 
-import { ThemeType } from 'types/global'
+import { SupportedLanguages, ThemeType } from 'types/global'
 
 export interface State {
   themeType: ThemeType
   baseCurrency: string
   isSettingOpen: boolean
   isAnnOpen: boolean
+  language: SupportedLanguages
   // for only mobile version (not desktop version)
   isSidebarOpen: boolean
   isSidebarCollapsed: boolean

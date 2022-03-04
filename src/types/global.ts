@@ -17,3 +17,5 @@ export enum ThemeType {
   DARK = 'DARK',
   LIGHT = 'LIGHT',
 }
+
+export type SupportedLanguages = 'en' | 'es'

@@ -1,0 +1,152 @@
+{
+  "common": {
+    "APY": "APY",
+    "addLiquidity": "Add liquidity",
+    "auto": "Auto",
+    "balance": "Balance",
+    "claim": "Claim",
+    "confirm": "Confirm",
+    "connect": "Connect",
+    "connectWallet": "Connect Wallet",
+    "loading": "Loading...",
+    "wallet": "Wallet",
+    "deposit": "Deposit",
+    "exchange": "Exchange",
+    "liquidity": "Liquidity",
+    "liquidityAPY": "Liquidity APY",
+    "liquidityPools": "Liquidity Pools",
+    "liquidityPosition": "My Liquidity Position",
+    "liquidityProvider": "Liquidity Provider Rewards",
+    "locked": "Locked",
+    "manage": "Manage",
+    "memo": "Memo",
+    "minutes": "Minutes",
+    "receive": "Receive",
+    "recipient": "Recipient",
+    "send": "Send",
+    "staking": "Staking",
+    "swap": "Swap",
+    "totalValueLocked": "Total Value Locked",
+    "totalVol": "Total Vol",
+    "transactions": "Transactions",
+    "value": "Value",
+    "volume": "Volume",
+    "withdraw": "Withdraw",
+    "per": "per",
+    "settings": "Global Settings"
+  },
+  "appMenu": {
+    "lightTheme": "Light Theme",
+    "darkTheme": "Dark Theme",
+    "currency": "Divisa",
+    "language": "Idioma",
+    "refresh": "Refresh data"
+  },
+  "components": {
+    "assetSelect": {
+      "selectAToken": "Select a token",
+      "noResultsFound": "No results found"
+    },
+    "modal": {
+      "keystore": {
+        "selectKeystore": "Please Select Keystore File",
+        "keystorePassword": "Decryption Password",
+        "unlock": "Unlock",
+        "createWallet": "Create Wallet",
+        "wrongPassword": "Password is wrong"
+      }
+    },
+    "sidebar": {
+      "addLiquidity": "Add Liquidity",
+      "dashboard": "Dashboard",
+      "manageLiquidity": "Manage Liquidity",
+      "pendingLiquidity": "Pending Liquidity",
+      "send": "Send",
+      "stats": "Stats",
+      "swap": "Swap",
+      "thorStake": "Thor Stake",
+      "thornode": "Thornode",
+      "trade": "Trade",
+      "wallet": "Wallet"
+    }
+  },
+  "views": {
+    "home": {
+      "swapCrossChainAssets": "Swap cross chain assets"
+    },
+    "nodes": {
+      "watchList": "Watch List",
+      "bondAmount": "Bond Amount:",
+      "unbondAmount": "Unbond Amount",
+      "assetTicker": "(R):",
+      "complete": "Complete"
+    },
+    "stats": {
+      "dailyBlockRewards": "Daily Block Rewards",
+      "network": "Network",
+      "rewards": "Rewards",
+      "swapCount": "Swap Count",
+      "totalTransactions": "Total Transactions",
+      "users": "Users"
+    },
+    "swap": {
+      "autoRouter": "Auto Router",
+      "transactionSettings": "Transaction Settings",
+      "slippageTolerance": "Slippage Tolerance",
+      "transactionDeadline": "Transaction Deadline",
+      "interfaceSettings": "Interface Settings",
+      "autoRouterApi": "Auto Router API",
+      "expertMode": "Expert Mode"
+    },
+    "wallet": {
+      "managePortfolio": "Manage Portfolio",
+      "transactionHistory": "Transaction History",
+      "yourAssets": "Your Assets"
+    },
+    "walletDrawer": {
+      "openWalletPage": "Open Wallet Page",
+      "disconnectAll": "Disconnect All",
+      "connectAnotherWallet": "Connect Another Wallet"
+    },
+    "liquidity": {
+      "addButton": "Add",
+      "amountToRemove": "Amount to remove",
+      "approve": "Approve",
+      "collapse": "Manage",
+      "enterAmount": "Enter an amount",
+      "poolShare": "Your pool share",
+      "poolToken": "Your total pool tokens",
+      "poolTokens": "Pool tokens",
+      "removeButton": "Remove",
+      "tip": "Liquidity providers earn a 0.25% fee on all trades proportional to their share of the pool. Fees added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.",
+      "youWillReceive": "You will receive",
+      "yourPoolShare": "Your Pool share"
+    },
+    "walletModal": {
+      "connectWallet": "Connect Wallet",
+      "selectChain": "Select Chain",
+      "connectXdefi": "Connect XDEFI Wallet",
+      "installXdefi": "Install XDEFI Wallet",
+      "prioritiseXdefi": "Prioritise XDEFI Wallet",
+      "connectStation": "Connect Terra Station",
+      "installStation": "Install Terra Station",
+      "walletConnect": "WalletConnect",
+      "connectMetaMask": "Connect MetaMask Wallet",
+      "disableXdefi": "Disable XDEFI Wallet",
+      "installMetaMask": "Install MetaMask Wallet",
+      "connectLedger": "Connect Ledger",
+      "connectOnboard": "Ethereum Wallets",
+      "connectKeystore": "Connect Keystore",
+      "createKeystore": "Create Keystore",
+      "importPhrase": "Import Phrase",
+      "notConnected": "Not Connected",
+      "connectedWith": "Connected With",
+      "ledgerIndex": "Ledger Index",
+      "invalidKeystore": "Invalid Keystore File"
+    },
+    "addLiquidity": {
+      "pricesAndPoolShare": "Prices and Pool Share",
+      "shareOfPool": "Share of Pool"
+    }
+  }
+}

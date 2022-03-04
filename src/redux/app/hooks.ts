@@ -10,7 +10,7 @@ import { RootState, useAppDispatch, useAppSelector } from 'redux/store'
 
 import { multichain } from 'services/multichain'
 
-import { ThemeType } from 'types/global'
+import { SupportedLanguages, ThemeType } from 'types/global'
 
 import { ExpertOptions } from './types'
 
@@ -99,22 +99,30 @@ export const useApp = () => {
     [dispatch],
   )
 
+  const setLanguage = useCallback(
+    (language: SupportedLanguages) => {
+      dispatch(actions.setLanguage(language))
+    },
+    [dispatch],
+  )
+
   return {
     ...appState,
-    isLightTheme,
     ExpertOptions,
-    toggleTheme,
     baseCurrencyAsset,
-    setTheme,
+    isLightTheme,
+    setAnnStatus,
     setBaseCurrency,
+    setExpertMode,
+    setFeeOptionType,
+    setLanguage,
+    setReadStatus,
+    setSlippage,
+    setTheme,
+    setWatchList,
     toggleSettings,
     toggleSidebar,
     toggleSidebarCollapse,
-    setSlippage,
-    setAnnStatus,
-    setFeeOptionType,
-    setReadStatus,
-    setExpertMode,
-    setWatchList,
+    toggleTheme,
   }
 }

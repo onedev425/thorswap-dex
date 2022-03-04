@@ -3,35 +3,27 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { Asset } from '@thorswap-lib/multichain-sdk'
 import { FeeOption } from '@thorswap-lib/xchain-client'
 
-import {
-  saveBaseCurrency,
-  getBaseCurrency,
-  getReadStatus,
-  setReadStatus,
-  setAnnViewStatus,
-  getNodeWatchList,
-  setNodeWatchList,
-  getAnnViewStatus,
-} from 'helpers/storage'
+import { getFromStorage, saveInStorage } from 'helpers/storage'
 
 import { DEFAULT_SLIPPAGE_TOLERANCE } from 'settings/constants/global'
 
-import { ThemeType } from 'types/global'
+import { SupportedLanguages, ThemeType } from 'types/global'
 
 import { ExpertOptions, State } from './types'
 
 const initialState: State = {
   themeType: ThemeType.DARK,
-  showAnnouncement: !getReadStatus(),
-  baseCurrency: getBaseCurrency(),
+  language: 'en',
+  showAnnouncement: !getFromStorage('readStatus') as boolean,
+  baseCurrency: getFromStorage('baseCurrency') as string,
   isSettingOpen: false,
-  isAnnOpen: !getAnnViewStatus(),
+  isAnnOpen: !getFromStorage('annViewStatus') as boolean,
   isSidebarOpen: false,
   isSidebarCollapsed: false,
   slippageTolerance: DEFAULT_SLIPPAGE_TOLERANCE,
   feeOptionType: FeeOption.Fast,
   expertMode: ExpertOptions.off,
-  nodeWatchList: getNodeWatchList(),
+  nodeWatchList: getFromStorage('nodeWatchList') as string[],
 }
 
 const appSlice = createSlice({
@@ -46,7 +38,7 @@ const appSlice = createSlice({
       const assetString = action.payload.toString()
       state.baseCurrency = assetString
 
-      saveBaseCurrency(assetString)
+      saveInStorage({ key: 'baseCurrency', value: assetString })
     },
     setSettingsOpen(state, action: PayloadAction<boolean>) {
       state.isSettingOpen = action.payload
@@ -74,15 +66,19 @@ const appSlice = createSlice({
     },
     setReadStatus(state, action: PayloadAction<boolean>) {
       state.showAnnouncement = !action.payload
-      setReadStatus(action.payload)
+      saveInStorage({ key: 'readStatus', value: action.payload })
     },
     setAnnStatus(state, action: PayloadAction<boolean>) {
       state.isAnnOpen = !action.payload
-      setAnnViewStatus(action.payload)
+      saveInStorage({ key: 'annViewStatus', value: action.payload })
     },
     setWatchList(state, action: PayloadAction<string[]>) {
       state.nodeWatchList = action.payload
-      setNodeWatchList(action.payload)
+      saveInStorage({ key: 'nodeWatchList', value: action.payload })
+    },
+    setLanguage(state, action: PayloadAction<SupportedLanguages>) {
+      state.language = action.payload
+      saveInStorage({ key: 'language', value: action.payload })
     },
   },
 })

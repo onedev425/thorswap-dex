@@ -4,11 +4,17 @@ import { initReactI18next } from 'react-i18next'
 import i18n, {
   use as initializeI18n,
   t as translate,
+  changeLanguage,
   StringMap,
   TOptions,
 } from 'i18next'
 
+import { getFromStorage } from 'helpers/storage'
+
+import { SupportedLanguages } from 'types/global'
+
 import en from './locales/en.json'
+import es from './locales/es.json'
 
 type PathImpl<T, K extends keyof T> = K extends string
   ? T[K] extends Record<string, NotWorthIt>
@@ -31,9 +37,10 @@ const parseMissingKeyHandler = (key: string) => key.split('.').pop()
 initializeI18n(initReactI18next).init({
   debug: process.env.NODE_ENV === 'development',
   resources: {
+    es: { translation: es },
     en: { translation: en },
   },
-  lng: 'en',
+  lng: getFromStorage('language') as SupportedLanguages,
   fallbackLng: 'en',
   parseMissingKeyHandler,
   interpolation: {
@@ -52,3 +59,6 @@ export const t = (
 }
 
 export const currentLocale = () => i18n.languages[0]
+export const changeAppLanguage = (language: SupportedLanguages) => {
+  changeLanguage(language)
+}

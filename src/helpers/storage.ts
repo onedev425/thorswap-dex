@@ -1,104 +1,98 @@
 import { Asset } from '@thorswap-lib/multichain-sdk'
 import { Keystore } from '@thorswap-lib/xchain-crypto'
 
-const THORSWAP_ANNOUNCEMENT = 'THORSWAP_ANNOUNCEMENT'
-
-const ANN_VIEW_STATUS = 'ANN_VIEW_STATUS'
-const TRADING_HALT_ANN = 'TRADING_HALT_ANN'
-const THORSWAP_MULTICHAIN_KEYSTORE = 'THORSWAP_MULTICHAIN_KEYSTORE'
-const THORSWAP_MULTICHAIN_ADDR = 'THORSWAP_MULTICHAIN_ADDR'
-const THORSWAP_XDEFI_STATUS = 'THORSWAP_XDEFI_STATUS'
-
-const BASE_CURRENCY = 'BASE_CURRENCY'
-const NODE_WATCHLIST = 'NODE_WATCHLIST'
-
-export const saveBaseCurrency = (currency: string) => {
-  localStorage.setItem(BASE_CURRENCY, currency)
+type StorageType = {
+  annViewStatus: boolean
+  baseCurrency: string
+  language: string
+  nodeWatchList: string[]
+  readStatus: boolean
+  thorswapAddress: string | null
+  thorswapKeystore: Keystore | null
+  tradingHaltStatus: boolean
+  xDefiConnected: boolean
 }
 
-export const getBaseCurrency = (): string => {
-  return (
-    (localStorage.getItem(BASE_CURRENCY) as string) || Asset.USD().toString()
-  )
+type StoragePayload =
+  | {
+      key: 'language' | 'baseCurrency' | 'thorswapKeystore' | 'thorswapAddress'
+      value: string
+    }
+  | { key: 'nodeWatchList'; value: string[] }
+  | {
+      key:
+        | 'annViewStatus'
+        | 'tradingHaltStatus'
+        | 'readStatus'
+        | 'xDefiConnected'
+      value: boolean
+    }
+
+const defaultValues: StorageType = {
+  annViewStatus: false,
+  baseCurrency: Asset.USD().toString(),
+  language: 'en',
+  nodeWatchList: [] as string[],
+  readStatus: false,
+  thorswapAddress: null,
+  thorswapKeystore: null,
+  tradingHaltStatus: false,
+  xDefiConnected: false,
 }
 
-export const saveKeystore = (keystore: Keystore) => {
-  sessionStorage.setItem(THORSWAP_MULTICHAIN_KEYSTORE, JSON.stringify(keystore))
-}
+export const saveInStorage = ({ key, value }: StoragePayload) => {
+  switch (key) {
+    case 'nodeWatchList':
+      localStorage.setItem(key, JSON.stringify(value))
+      break
 
-export const getKeystore = (): Keystore | null => {
-  const item = sessionStorage.getItem(THORSWAP_MULTICHAIN_KEYSTORE)
+    case 'annViewStatus':
+    case 'tradingHaltStatus':
+    case 'readStatus':
+    case 'xDefiConnected':
+      localStorage.setItem(key, value.toString())
+      break
 
-  if (item) {
-    return JSON.parse(item) as Keystore
+    case 'thorswapAddress':
+      sessionStorage.setItem(key, value)
+      break
+
+    case 'thorswapKeystore':
+      sessionStorage.setItem(key, JSON.stringify(value))
+      break
+
+    default:
+      localStorage.setItem(key, value)
+      break
   }
-
-  return null
 }
 
-// save xdefi status to localstorage
-export const saveXdefiConnected = (connected: boolean) => {
-  if (connected) {
-    localStorage.setItem(THORSWAP_XDEFI_STATUS, 'connected')
-  } else {
-    localStorage.removeItem(THORSWAP_XDEFI_STATUS)
+export const getFromStorage = (
+  key: keyof StorageType,
+): StorageType[keyof StorageType] => {
+  switch (key) {
+    case 'nodeWatchList': {
+      const item = localStorage.getItem(key)
+      return item ? JSON.parse(item) : defaultValues[key]
+    }
+
+    case 'annViewStatus':
+    case 'tradingHaltStatus':
+    case 'readStatus':
+    case 'xDefiConnected': {
+      const item = localStorage.getItem(key)
+      return item === 'true'
+    }
+
+    case 'thorswapAddress':
+      return sessionStorage.getItem('thorswapAddress')
+
+    case 'thorswapKeystore': {
+      const item = sessionStorage.getItem('thorswapKeystore')
+      return item ? JSON.parse(item) : defaultValues[key]
+    }
+
+    default:
+      return localStorage.getItem(key) || defaultValues[key]
   }
-}
-
-export const getXdefiConnected = (): boolean => {
-  return localStorage.getItem(THORSWAP_XDEFI_STATUS) === 'connected'
-}
-
-export const saveAddress = (address: string) => {
-  sessionStorage.setItem(THORSWAP_MULTICHAIN_ADDR, address)
-}
-
-export const getAddress = (): string | null => {
-  const item = sessionStorage.getItem(THORSWAP_MULTICHAIN_ADDR)
-
-  if (item) {
-    return item
-  }
-  return null
-}
-
-export const setReadStatus = (read: boolean) => {
-  localStorage.setItem(THORSWAP_ANNOUNCEMENT, read.toString())
-}
-
-export const getReadStatus = (): boolean => {
-  const read = localStorage.getItem(THORSWAP_ANNOUNCEMENT) === 'true'
-  return read
-}
-
-export const setTradingHaltStatus = (read: boolean) => {
-  localStorage.setItem(TRADING_HALT_ANN, read.toString())
-}
-
-export const getAnnViewStatus = () => {
-  const read = localStorage.getItem(ANN_VIEW_STATUS) === 'true'
-  return read
-}
-
-export const setAnnViewStatus = (read: boolean) => {
-  localStorage.setItem(ANN_VIEW_STATUS, read.toString())
-}
-
-export const getTradingHaltStatus = (): boolean => {
-  const read = localStorage.getItem(TRADING_HALT_ANN) === 'true'
-  return read
-}
-
-export const setNodeWatchList = (watchList: string[]) => {
-  localStorage.setItem(NODE_WATCHLIST, JSON.stringify(watchList))
-}
-
-export const getNodeWatchList = (): string[] => {
-  const watchList = localStorage.getItem(NODE_WATCHLIST)
-
-  if (!watchList) {
-    return []
-  }
-
-  return JSON.parse(watchList)
 }
