@@ -5,15 +5,19 @@ import classNames from 'classnames'
 import { Box, Button, Typography } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
 
-export type Props = {
+type Props = {
+  className?: string
   options: string[]
   activeIndex?: number
   onChange?: (selectedIndex: number) => void
 }
 
-export const Select = (props: Props) => {
-  const { options, activeIndex = 0, onChange } = props
-
+export const Select = ({
+  className,
+  options,
+  activeIndex = 0,
+  onChange,
+}: Props) => {
   const onHandleChange = useCallback(
     (selectedIndex: number) => {
       if (onChange) onChange(selectedIndex)
@@ -23,7 +27,7 @@ export const Select = (props: Props) => {
 
   return (
     <>
-      <Box className="hidden md:flex gap-2">
+      <Box className={classNames('hidden md:flex gap-2', className)}>
         {options.map((option, index) => (
           <Button
             key={option}
@@ -36,11 +40,15 @@ export const Select = (props: Props) => {
         ))}
       </Box>
 
-      <Box className="md:hidden">
+      <Box
+        className={classNames(
+          'px-3 py-2 border border-solid rounded-2xl focus:border-transparent mr-5 md:hidden',
+          'border-light-border-primary dark:border-dark-border-primary focus:border-light-border-primary dark:focus:border-dark-border-primary',
+        )}
+      >
         <select
           className={classNames(
-            'block w-full pl-3 pr-5 py-2 text-base border focus:outline-none focus:ring-none focus:border-transparent sm:text-sm rounded-2xl text-light-typo-primary dark:text-dark-typo-primary',
-            'border-light-border-primary dark:border-dark-border-primary focus:border-light-border-primary dark:focus:border-dark-border-primary',
+            'w-full border-none text-base sm:text-sm text-light-typo-primary focus:outline-none focus:ring-none dark:text-dark-typo-primary',
             genericBgClasses.secondary,
           )}
           value={activeIndex}

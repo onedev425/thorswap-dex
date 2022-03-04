@@ -57,6 +57,13 @@ export const navbarOptions: SidebarItemProps[] = [
     ],
   },
   {
+    iconName: 'chartPie',
+    href: ROUTES.Vesting,
+    label: t('components.sidebar.vesting'),
+    isExternal: false,
+    hasSub: false,
+  },
+  {
     iconName: 'wallet',
     href: ROUTES.Wallet,
     label: t('components.sidebar.wallet'),

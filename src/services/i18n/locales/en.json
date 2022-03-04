@@ -67,6 +67,7 @@
       "thorStake": "Thor Stake",
       "thornode": "Thornode",
       "trade": "Trade",
+      "vesting": "Vesting",
       "wallet": "Wallet"
     }
   },
@@ -147,6 +148,16 @@
     "addLiquidity": {
       "pricesAndPoolShare": "Prices and Pool Share",
       "shareOfPool": "Share of Pool"
+    },
+    "vesting": {
+      "claimAmount": "Claim Amount",
+      "claimableAmount": "Claimable Amount",
+      "cliff": "Cliff",
+      "linearVesting": "Linear Vesting",
+      "totalClaimed": "Total Claimed",
+      "totalVested": "Total Vested",
+      "vestingPeriod": "Vesting Period",
+      "vestingStartTime": "Vesting Start Time"
     }
   }
 }
