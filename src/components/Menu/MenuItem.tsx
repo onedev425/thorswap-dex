@@ -23,14 +23,12 @@ export const MenuItem = ({ item }: Props) => {
     return (
       <button
         className={classNames(
-          'outline-none border-none relative p-0 flex flex-row w-full justify-between items-center cursor-pointer px-4 py-2 hover:brightness-95 dark:hover:brightness-125 gap-3',
+          'outline-none border-none rounded-md relative flex flex-row w-full justify-between items-center cursor-pointer px-4 py-3 hover:brightness-95 dark:hover:brightness-125 gap-3',
           genericBgClasses.secondary,
         )}
         onClick={item.onClick}
       >
-        <Typography className="mr-2" variant="caption">
-          {item.label}
-        </Typography>
+        <Typography className="mr-2">{item.label}</Typography>
         <Box center>
           {!!item.value && <Typography>{item.value}</Typography>}
           {showIcon && <Icon name={iconName} size={16} />}

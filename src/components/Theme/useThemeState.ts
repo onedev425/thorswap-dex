@@ -1,18 +1,23 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 
 import { ThemeMode } from 'components/Theme/types'
 
-export const useThemeState = () => {
-  const getTheme = () => {
-    const isDark =
-      localStorage.theme === ThemeMode.Dark ||
-      (!('theme' in localStorage) &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches)
+import { useApp } from 'redux/app/hooks'
 
+import { ThemeType } from 'types/global'
+
+export const useThemeState = () => {
+  const { themeType } = useApp()
+
+  const getThemeMode = (type: ThemeType) => {
+    const isDark =
+      type === ThemeType.Dark ||
+      (type === ThemeType.Auto &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
     return isDark ? ThemeMode.Dark : ThemeMode.Light
   }
-  const [theme, setTheme] = useState<ThemeMode>(getTheme)
-  const isLight = theme === ThemeMode.Light
+  const [activeTheme, setActiveTheme] = useState<ThemeMode | null>(null)
+  const isLight = activeTheme === ThemeMode.Light
 
   const activateTheme = (updatedTheme: ThemeMode) => {
     if (updatedTheme === ThemeMode.Light) {
@@ -20,17 +25,13 @@ export const useThemeState = () => {
     } else if (!document.documentElement.classList.contains(ThemeMode.Dark)) {
       document.documentElement.classList.add(ThemeMode.Dark)
     }
-
-    localStorage.theme = updatedTheme
+    console.log('🔥', 'updated themne:', updatedTheme)
+    setActiveTheme(updatedTheme)
   }
 
-  const toggleTheme = useCallback(() => {
-    setTheme(isLight ? ThemeMode.Dark : ThemeMode.Light)
-  }, [isLight])
-
   useEffect(() => {
-    activateTheme(theme)
-  }, [theme])
+    activateTheme(getThemeMode(themeType))
+  }, [themeType])
 
-  return { theme, isLight, toggleTheme }
+  return { theme: activeTheme, isLight }
 }

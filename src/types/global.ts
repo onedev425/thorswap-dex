@@ -14,8 +14,15 @@ export type ColorType =
   | 'greenLight'
 
 export enum ThemeType {
-  DARK = 'DARK',
-  LIGHT = 'LIGHT',
+  Dark = 'dark',
+  Light = 'light',
+  Auto = 'auto',
+}
+
+export enum ThousandSeparator {
+  Space = 'space',
+  Comma = 'comma',
+  None = 'none',
 }
 
 export type SupportedLanguages = 'en' | 'es'

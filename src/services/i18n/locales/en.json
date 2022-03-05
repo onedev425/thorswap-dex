@@ -34,14 +34,25 @@
     "withdraw": "Withdraw",
     "per": "per",
     "gasTracker": "Gas Tracker",
-    "settings": "Global Settings"
+    "settings": "Global Settings",
+    "langSettings": "App "
   },
   "appMenu": {
     "lightTheme": "Light Theme",
     "darkTheme": "Dark Theme",
+    "theme": "App Theme",
+    "automaticTheme": "Automatic Theme",
     "currency": "Currency",
     "language": "Language",
-    "refresh": "Refresh data"
+    "refresh": "Refresh data",
+    "thousandSeparator": "Thousand Separator",
+    "separatorSpace": "Space",
+    "separatorComma": "Comma",
+    "separatorNone": "None",
+    "languageDesc": "Choose language",
+    "themeDesc": "Theme for the app",
+    "separatorDesc": "Thousand Separator",
+    "currencyDesc": "Base app currency"
   },
   "components": {
     "assetSelect": {

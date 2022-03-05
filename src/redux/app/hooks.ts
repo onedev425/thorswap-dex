@@ -6,11 +6,11 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import { FeeOption } from '@thorswap-lib/xchain-client'
 
 import { actions } from 'redux/app/slice'
-import { RootState, useAppDispatch, useAppSelector } from 'redux/store'
+import { RootState, useAppDispatch } from 'redux/store'
 
 import { multichain } from 'services/multichain'
 
-import { SupportedLanguages, ThemeType } from 'types/global'
+import { SupportedLanguages, ThemeType, ThousandSeparator } from 'types/global'
 
 import { ExpertOptions } from './types'
 
@@ -18,20 +18,12 @@ export const useApp = () => {
   const dispatch = useAppDispatch()
   const appState = useSelector((state: RootState) => state.app)
 
-  const themeType = useAppSelector(({ app }) => app.themeType)
-
-  const isLightTheme = themeType === ThemeType.LIGHT
-
   const setTheme = useCallback(
     (theme: ThemeType) => {
       dispatch(actions.setThemeType(theme))
     },
     [dispatch],
   )
-
-  const toggleTheme = useCallback(() => {
-    setTheme(isLightTheme ? ThemeType.DARK : ThemeType.LIGHT)
-  }, [isLightTheme, setTheme])
 
   const baseCurrencyAsset =
     Asset.fromAssetString(appState.baseCurrency) || Asset.USD()
@@ -106,11 +98,17 @@ export const useApp = () => {
     [dispatch],
   )
 
+  const setThousandSeparator = useCallback(
+    (val: ThousandSeparator) => {
+      dispatch(actions.setThousandSeparator(val))
+    },
+    [dispatch],
+  )
+
   return {
     ...appState,
     ExpertOptions,
     baseCurrencyAsset,
-    isLightTheme,
     setAnnStatus,
     setBaseCurrency,
     setExpertMode,
@@ -123,6 +121,6 @@ export const useApp = () => {
     toggleSettings,
     toggleSidebar,
     toggleSidebarCollapse,
-    toggleTheme,
+    setThousandSeparator,
   }
 }

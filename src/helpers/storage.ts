@@ -1,9 +1,13 @@
 import { Asset } from '@thorswap-lib/multichain-sdk'
 import { Keystore } from '@thorswap-lib/xchain-crypto'
 
+import { ThemeType, ThousandSeparator } from './../types/global'
+
 type StorageType = {
   annViewStatus: boolean
   baseCurrency: string
+  thousandSeparator: string
+  themeType: string
   language: string
   nodeWatchList: string[]
   readStatus: boolean
@@ -15,7 +19,13 @@ type StorageType = {
 
 type StoragePayload =
   | {
-      key: 'language' | 'baseCurrency' | 'thorswapKeystore' | 'thorswapAddress'
+      key:
+        | 'language'
+        | 'baseCurrency'
+        | 'thorswapKeystore'
+        | 'thorswapAddress'
+        | 'thousandSeparator'
+        | 'themeType'
       value: string
     }
   | { key: 'nodeWatchList'; value: string[] }
@@ -31,6 +41,8 @@ type StoragePayload =
 const defaultValues: StorageType = {
   annViewStatus: false,
   baseCurrency: Asset.USD().toString(),
+  thousandSeparator: ThousandSeparator.Space as string,
+  themeType: ThemeType.Auto as string,
   language: 'en',
   nodeWatchList: [] as string[],
   readStatus: false,

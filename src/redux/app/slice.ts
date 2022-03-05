@@ -7,15 +7,16 @@ import { getFromStorage, saveInStorage } from 'helpers/storage'
 
 import { DEFAULT_SLIPPAGE_TOLERANCE } from 'settings/constants/global'
 
-import { SupportedLanguages, ThemeType } from 'types/global'
+import { SupportedLanguages, ThemeType, ThousandSeparator } from 'types/global'
 
 import { ExpertOptions, State } from './types'
 
 const initialState: State = {
-  themeType: ThemeType.DARK,
+  themeType: getFromStorage('themeType') as ThemeType,
   language: 'en',
   showAnnouncement: !getFromStorage('readStatus') as boolean,
   baseCurrency: getFromStorage('baseCurrency') as string,
+  thousandSeparator: getFromStorage('thousandSeparator') as ThousandSeparator,
   isSettingOpen: false,
   isAnnOpen: !getFromStorage('annViewStatus') as boolean,
   isSidebarOpen: false,
@@ -32,6 +33,7 @@ const appSlice = createSlice({
   reducers: {
     setThemeType(state, { payload }: PayloadAction<ThemeType>) {
       state.themeType = payload
+      saveInStorage({ key: 'themeType', value: payload })
     },
 
     setBaseCurrency(state, action: PayloadAction<Asset>) {
@@ -79,6 +81,10 @@ const appSlice = createSlice({
     setLanguage(state, action: PayloadAction<SupportedLanguages>) {
       state.language = action.payload
       saveInStorage({ key: 'language', value: action.payload })
+    },
+    setThousandSeparator(state, action: PayloadAction<ThousandSeparator>) {
+      state.thousandSeparator = action.payload
+      saveInStorage({ key: 'thousandSeparator', value: action.payload })
     },
   },
 })

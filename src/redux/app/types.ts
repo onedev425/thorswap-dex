@@ -1,10 +1,11 @@
 import { FeeOption } from '@thorswap-lib/xchain-client'
 
-import { SupportedLanguages, ThemeType } from 'types/global'
+import { SupportedLanguages, ThemeType, ThousandSeparator } from 'types/global'
 
 export interface State {
   themeType: ThemeType
   baseCurrency: string
+  thousandSeparator: ThousandSeparator
   isSettingOpen: boolean
   isAnnOpen: boolean
   language: SupportedLanguages

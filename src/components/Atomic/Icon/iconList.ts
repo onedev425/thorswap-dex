@@ -55,6 +55,7 @@ import {
   MdLanguage,
   MdOutlineLock,
   MdOutlineLockOpen,
+  MdSpaceBar,
 } from 'react-icons/md'
 import { RiShareBoxLine } from 'react-icons/ri'
 import { SiBinance } from 'react-icons/si'
@@ -118,6 +119,7 @@ const Icons = {
   wallet: IoWalletOutline,
   wifi: FaWifi,
   xCircle: FiXCircle,
+  spaceBar: MdSpaceBar,
   ...SvgIcons,
 } as const
 

@@ -8,15 +8,13 @@ type Props = {
 }
 
 export type ThemeContextType = {
-  theme: ThemeMode
+  theme: ThemeMode | null
   isLight: boolean
-  toggleTheme: () => void
 }
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: ThemeMode.Light,
-  isLight: true,
-  toggleTheme: () => {},
+  theme: null,
+  isLight: false,
 } as ThemeContextType)
 
 export const useTheme = () => useContext(ThemeContext)
