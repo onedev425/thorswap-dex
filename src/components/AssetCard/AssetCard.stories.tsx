@@ -25,6 +25,8 @@ export default {
 
 export const Default = () => {
   {
-    mockData.map((item) => <AssetCard key={item.asset.symbol} {...item} />)
+    return mockData.map((item) => (
+      <AssetCard key={item.asset.symbol} {...item} />
+    ))
   }
 }
