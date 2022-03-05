@@ -18,12 +18,19 @@ export const AppPopoverMenu = () => {
           <Icon name="cog" />
         </Box>
       }
+      onClose={onBack}
     >
       <Card className="mt-2 w-[90%] sm:w-[420px] border border-solid border-btn-primary">
         <Box className="w-full" col margin={2}>
           <Box row alignCenter>
             {menuType !== 'main' && (
-              <Icon className="mr-2" name="chevronLeft" onClick={onBack} />
+              <Box
+                onClick={onBack}
+                className="p-2.5 !mr-2 rounded-2xl hover:bg-btn-light-tint-active dark:hover:bg-btn-dark-tint-active cursor-pointer"
+                center
+              >
+                <Icon name="chevronLeft" />
+              </Box>
             )}
             <Typography variant="subtitle2">{menus[menuType].title}</Typography>
           </Box>

@@ -128,28 +128,28 @@ const useCurrencyMenu = (onBack: () => void) => {
     onBack()
     setBaseCurrency(val)
   }
-  const isCurrencySelected = (val: string) => val === baseCurrency
+  const isCurrencySelected = (val: Asset) => val.toString() === baseCurrency
 
   const currencyMenu: MenuItemType[] = [
     {
       label: 'USD',
       onClick: () => onCurrencyClick(Asset.USD()),
-      isSelected: isCurrencySelected('USD'),
+      isSelected: isCurrencySelected(Asset.USD()),
     },
     {
       label: 'RUNE',
       onClick: () => onCurrencyClick(Asset.RUNE()),
-      isSelected: isCurrencySelected('RUNE'),
+      isSelected: isCurrencySelected(Asset.RUNE()),
     },
     {
       label: 'BTC',
       onClick: () => onCurrencyClick(Asset.BTC()),
-      isSelected: isCurrencySelected('BTC'),
+      isSelected: isCurrencySelected(Asset.BTC()),
     },
     {
       label: 'ETH',
       onClick: () => onCurrencyClick(Asset.ETH()),
-      isSelected: isCurrencySelected('ETH'),
+      isSelected: isCurrencySelected(Asset.ETH()),
     },
   ]
 
