@@ -1,7 +1,8 @@
-import { chainToSigAsset, SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
 import { Typography } from 'components/Atomic'
+import { ChainIcon } from 'components/ChainIcon'
 
 import { genericBgClasses } from '../constants'
 import { iconSizes, AssetIconProps } from './types'
@@ -17,7 +18,6 @@ export const AssetIcon = ({
 }: AssetIconProps) => {
   const iconSize = typeof size === 'number' ? size : iconSizes[size]
   const iconUrl = getAssetIconUrl(asset)
-  const sigAsset = chainToSigAsset(asset.chain as SupportedChain)
   const secondaryIconSize = hasChainIcon ? iconSize * 0.4 : 0
 
   return (
@@ -50,7 +50,10 @@ export const AssetIcon = ({
             secondaryIconSize,
           )}
         >
-          <AssetIcon asset={sigAsset} size={secondaryIconSize} />
+          <ChainIcon
+            chain={asset.chain as SupportedChain}
+            size={secondaryIconSize}
+          />
         </div>
       )}
     </div>

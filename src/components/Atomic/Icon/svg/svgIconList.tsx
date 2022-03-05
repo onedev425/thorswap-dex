@@ -1,3 +1,13 @@
+// Chain Icons
+import { ReactComponent as BitcoinCash } from 'assets/images/svg/bch.svg'
+import { ReactComponent as Bitcoin } from 'assets/images/svg/bitcoin.svg'
+import { ReactComponent as Bnb } from 'assets/images/svg/bnb.svg'
+import { ReactComponent as Dogecoin } from 'assets/images/svg/dogecoin.svg'
+import { ReactComponent as Ethereum } from 'assets/images/svg/ethereum.svg'
+import { ReactComponent as Litecoin } from 'assets/images/svg/litecoin.svg'
+import { ReactComponent as Terra } from 'assets/images/svg/terra.svg'
+import { ReactComponent as Thorchain } from 'assets/images/svg/thorchain.svg'
+
 import { ReactComponent as App } from './app.svg'
 import { ReactComponent as Bulb } from './bulb.svg'
 import { ReactComponent as ChartCandle } from './chartCandle.svg'
@@ -35,6 +45,16 @@ import { ReactComponent as XDefi } from './xdefi.svg'
 export type SvgIconName = keyof typeof Svgs
 
 export const Svgs = {
+  // chain icons
+  bch: BitcoinCash,
+  btc: Bitcoin,
+  bnb: Bnb,
+  doge: Dogecoin,
+  eth: Ethereum,
+  ltc: Litecoin,
+  terra: Terra,
+  thor: Thorchain,
+  // other icons
   app: App,
   bulb: Bulb,
   chartCandle: ChartCandle,
@@ -70,7 +90,17 @@ export const Svgs = {
 }
 
 export const SvgIcons = {
-  app: (props: CustomIconProps) => <SvgIcon name={'app'} {...props} />,
+  // chain icons
+  bch: (props: CustomIconProps) => <SvgIcon name="bch" {...props} />,
+  btc: (props: CustomIconProps) => <SvgIcon name="btc" {...props} />,
+  bnb: (props: CustomIconProps) => <SvgIcon name="bnb" {...props} />,
+  doge: (props: CustomIconProps) => <SvgIcon name="doge" {...props} />,
+  eth: (props: CustomIconProps) => <SvgIcon name="eth" {...props} />,
+  ltc: (props: CustomIconProps) => <SvgIcon name="ltc" {...props} />,
+  terra: (props: CustomIconProps) => <SvgIcon name="terra" {...props} />,
+  thor: (props: CustomIconProps) => <SvgIcon name="thor" {...props} />,
+  // other icons
+  app: (props: CustomIconProps) => <SvgIcon name="app" {...props} />,
   chartCandle: (props: CustomIconProps) => (
     <SvgIcon name="chartCandle" {...props} />
   ),
@@ -83,7 +113,7 @@ export const SvgIcons = {
   lightning: (props: CustomIconProps) => (
     <SvgIcon name="lightning" {...props} />
   ),
-  list: (props: CustomIconProps) => <SvgIcon name={'list'} {...props} />,
+  list: (props: CustomIconProps) => <SvgIcon name="list" {...props} />,
   metamask: (props: CustomIconProps) => <SvgIcon name="metamask" {...props} />,
   moon: (props: CustomIconProps) => <SvgIcon name="moon" {...props} />,
   onboard: (props: CustomIconProps) => <SvgIcon name="onboard" {...props} />,
