@@ -35,7 +35,8 @@
     "per": "per",
     "gasTracker": "Gas Tracker",
     "settings": "Global Settings",
-    "langSettings": "App "
+    "langSettings": "App",
+    "defaultErrMsg": "Something went wrong"
   },
   "appMenu": {
     "lightTheme": "Light Theme",
@@ -70,7 +71,11 @@
         "wrongPassword": "Password is wrong",
         "inputPassword": "Input Password",
         "enterPassword": "Enter Password",
-        "confirmPassword": "Confirm Password"
+        "confirmPassword": "Confirm Password",
+        "phrase": "Phrase",
+        "enterSeed": "Please Enter 12 Seed Phrase",
+        "invalidPhrase": "Phrase is invalid",
+        "backupKeystore": "Backup Keystore"
       }
     },
     "sidebar": {

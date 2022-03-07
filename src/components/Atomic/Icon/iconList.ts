@@ -59,7 +59,13 @@ import {
 } from 'react-icons/md'
 import { RiShareBoxLine } from 'react-icons/ri'
 import { SiBinance } from 'react-icons/si'
-import { VscAdd, VscCopy, VscKey, VscSignOut } from 'react-icons/vsc'
+import {
+  VscAdd,
+  VscCloudUpload,
+  VscCopy,
+  VscKey,
+  VscSignOut,
+} from 'react-icons/vsc'
 
 import { SvgIcons } from './svg/svgIconList'
 
@@ -72,6 +78,7 @@ const Icons = {
   arrowDownLine: MdKeyboardArrowDown,
   arrowLeftLine: MdKeyboardArrowLeft,
   arrowRightLine: MdKeyboardArrowRight,
+  backup: VscCloudUpload,
   binance: SiBinance,
   bitcoin: GrBitcoin,
   chart: AiOutlineLineChart,

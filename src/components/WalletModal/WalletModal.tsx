@@ -25,6 +25,7 @@ import { xdefi } from 'services/xdefi'
 import { ChainOption } from './ChainOption'
 import { ConnectKeystoreView } from './ConnectKeystore'
 import { CreateKeystoreView } from './CreateKeystore'
+import { PhraseView } from './Phrase'
 import { WalletMode, WalletStage, availableChainsByWallet } from './types'
 import { WalletOption } from './WalletOption'
 
@@ -67,8 +68,19 @@ export const WalletModal = () => {
     if (walletStage === WalletStage.ChainSelect)
       return t('views.walletModal.selectChain')
 
+    if (walletStage === WalletStage.Final) {
+      if (walletMode === WalletMode.Create)
+        return t('views.walletModal.createKeystore')
+
+      if (walletMode === WalletMode.Keystore)
+        return t('views.walletModal.connectKeystore')
+
+      if (walletMode === WalletMode.Phrase)
+        return t('views.walletModal.importPhrase')
+    }
+
     return t('views.walletModal.connectWallet')
-  }, [walletStage])
+  }, [walletMode, walletStage])
 
   const clearStatus = useCallback(() => {
     setIsConnectModalOpen(false)
@@ -436,6 +448,7 @@ export const WalletModal = () => {
                 onKeystore={() => setWalletMode(WalletMode.Keystore)}
               />
             )}
+            {walletMode === WalletMode.Phrase && <PhraseView />}
           </>
         )}
       </Card>
