@@ -3,7 +3,7 @@ import { useCallback, useMemo } from 'react'
 import { Amount, hasConnectedWallet } from '@thorswap-lib/multichain-sdk'
 
 import { AppPopoverMenu } from 'components/AppPopoverMenu'
-import { Button, Row, Icon } from 'components/Atomic'
+import { Button, Row, Icon, Box } from 'components/Atomic'
 import { GasTracker } from 'components/GasTracker'
 import { StatusDropdown } from 'components/StatusDropdown'
 
@@ -67,6 +67,14 @@ export const Header = ({ openMenu }: Props) => {
           <Button type="outline" onClick={handleClickWalletBtn}>
             {walletBtnText}
           </Button>
+          <Box
+            className="p-2.5 cursor-pointer rounded-2xl hover:bg-btn-light-tint-active dark:hover:bg-btn-dark-tint-active"
+            alignCenter
+            justifyCenter
+            onClick={() => console.warn('button clicked!')}
+          >
+            <Icon name="refresh" size={20} />
+          </Box>
           <AppPopoverMenu />
         </Row>
       </Row>
