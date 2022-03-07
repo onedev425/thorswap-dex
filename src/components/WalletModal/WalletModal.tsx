@@ -23,7 +23,8 @@ import { metamask } from 'services/metamask'
 import { xdefi } from 'services/xdefi'
 
 import { ChainOption } from './ChainOption'
-import { KeystoreView as ConnectKeystoreView } from './ConnectKeystore'
+import { ConnectKeystoreView } from './ConnectKeystore'
+import { CreateKeystoreView } from './CreateKeystore'
 import { WalletMode, WalletStage, availableChainsByWallet } from './types'
 import { WalletOption } from './WalletOption'
 
@@ -427,6 +428,12 @@ export const WalletModal = () => {
                 isLoading={walletLoading}
                 onConnect={handleConnect}
                 onCreate={() => setWalletMode(WalletMode.Create)}
+              />
+            )}
+            {walletMode === WalletMode.Create && (
+              <CreateKeystoreView
+                onConnect={handleConnect}
+                onKeystore={() => setWalletMode(WalletMode.Keystore)}
               />
             )}
           </>

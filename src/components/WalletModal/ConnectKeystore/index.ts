@@ -1,1 +1,1 @@
-export { KeystoreView } from './ConnectKeystore'
+export { KeystoreView as ConnectKeystoreView } from './ConnectKeystore'

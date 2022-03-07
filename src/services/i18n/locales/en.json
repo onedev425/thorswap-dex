@@ -64,8 +64,13 @@
         "selectKeystore": "Please Select Keystore File",
         "keystorePassword": "Decryption Password",
         "unlock": "Unlock",
+        "create": "Create",
         "createWallet": "Create Wallet",
-        "wrongPassword": "Password is wrong"
+        "connectWallet": "Connect Wallet",
+        "wrongPassword": "Password is wrong",
+        "inputPassword": "Input Password",
+        "enterPassword": "Enter Password",
+        "confirmPassword": "Confirm Password"
       }
     },
     "sidebar": {

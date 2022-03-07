@@ -89,7 +89,7 @@ export const KeystoreView = ({ isLoading, onConnect, onCreate }: Props) => {
         {t('components.modal.keystore.selectKeystore')}
       </Typography>
       <Box
-        className="h-10 px-3 border border-solid cursor-pointer rounded-2xl border-light-border-primary dark:border-dark-border-primary"
+        className="h-10 px-3 border border-solid cursor-pointer rounded-2xl border-light-border-primary dark:border-dark-border-primary hover:border-light-typo-gray dark:hover:border-dark-typo-gray"
         alignCenter
         onClick={onClick}
       >
@@ -108,7 +108,12 @@ export const KeystoreView = ({ isLoading, onConnect, onCreate }: Props) => {
           Choose File To Upload
         </Typography>
       </Box>
-      <Typography className="mt-2 ml-3" color="red" variant="caption">
+      <Typography
+        className="mt-2 ml-3"
+        color="red"
+        variant="caption"
+        fontWeight="normal"
+      >
         {keystoreError ? t('views.walletModal.invalidKeystore') : ''}
       </Typography>
       <Box className="space-x-2" row mt={24} mb={2}>
@@ -142,7 +147,6 @@ export const KeystoreView = ({ isLoading, onConnect, onCreate }: Props) => {
         <Button
           className="flex-1 group"
           size="sm"
-          type="outline"
           disabled={!ready}
           isLoading={processing || isLoading}
           endIcon={
