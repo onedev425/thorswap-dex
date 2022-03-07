@@ -38,7 +38,7 @@ export const Modal = ({
   return (
     <Transition appear show={isOpened} as={Fragment}>
       <Dialog as={Fragment} onClose={onClose}>
-        <div className="fixed inset-0 z-10">
+        <div className="fixed inset-0 z-20">
           <div className="relative flex items-center justify-center min-h-screen p-2 text-center lg:p-4">
             <Transition.Child
               as={Fragment}

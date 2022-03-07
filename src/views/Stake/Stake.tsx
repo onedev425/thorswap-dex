@@ -115,7 +115,7 @@ const Stake = () => {
             className="justify-between sm:flex-row"
             col
           >
-            <Box className="pb-4 justify-items-start sm:justify-items-end w-full  sm:w-auto">
+            <Box className="w-full pb-4 justify-items-start sm:justify-items-end sm:w-auto">
               <Typography variant="h3" color="primary" fontWeight="extrabold">
                 {token.name}
               </Typography>
@@ -143,7 +143,7 @@ const Stake = () => {
 
           <Box className="min-h-[400px]">
             <Chart
-              type={ChartType.Area}
+              type={ChartType.CurvedLine}
               data={sampleData}
               hasGird
               className="mh-[450px]"

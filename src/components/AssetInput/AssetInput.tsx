@@ -38,7 +38,7 @@ export const AssetInput = ({
       <Box flex={1} className="pb-1 pl-4 md:pl-2" alignCenter>
         <Input
           placeholder="0.0"
-          className="-ml-1 text-2xl font-normal text-left"
+          className="-ml-1 !text-2xl font-normal text-left"
           containerClassName="!py-0"
           onChange={(event) => onValueChange(event.target.value)}
           value={selectedAsset?.value}
