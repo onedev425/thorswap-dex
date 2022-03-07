@@ -21,7 +21,6 @@ export const DropdownButton = (props: Props) => {
             className={classNames(
               genericBgClasses.primary,
               {
-                'rounded-b-none': open,
                 'hover:bg-light-bg-secondary': !disabled,
               },
               disabled ? 'cursor-not-allowed' : 'cursor-pointer',
@@ -30,9 +29,12 @@ export const DropdownButton = (props: Props) => {
           >
             {component ? component : <Typography>{label}</Typography>}
             <Icon
-              className={classNames('w-5 h-5 ml-2 -mr-1 transition', {
-                'rotate-180': open,
-              })}
+              className={classNames(
+                'w-5 h-5 ml-2 -mr-1 transition-all duration-300 ease-in-out',
+                {
+                  'rotate-180': open,
+                },
+              )}
               name="chevronDown"
               color="secondary"
               size={12}

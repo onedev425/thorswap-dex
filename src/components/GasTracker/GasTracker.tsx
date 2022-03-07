@@ -22,7 +22,7 @@ export const GasTracker = () => {
               asset={chainToSigAsset(chain as SupportedChain)}
               size="tiny"
             />
-            <Typography>{`${gasRate} ${gasUnit}`}</Typography>
+            <Typography variant="caption">{`${gasRate} ${gasUnit}`}</Typography>
           </Box>
         ),
         value: chain,
@@ -35,9 +35,9 @@ export const GasTracker = () => {
       menuItems={menuItems}
       value="Network Status"
       openComponent={
-        <Box className="gap-2 !min-w-[110px]" alignCenter row>
-          <Icon name="gas" size={18} />
-          <Typography>{t('common.gasTracker')}</Typography>
+        <Box className="gap-2" alignCenter row>
+          <Icon name="gas" size={16} />
+          <Typography variant="caption">{t('common.gasTracker')}</Typography>
         </Box>
       }
       onChange={() => {}}
