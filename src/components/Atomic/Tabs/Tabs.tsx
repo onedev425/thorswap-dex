@@ -10,15 +10,15 @@ type Props = {
 
 export const Tabs = ({ tabs }: Props) => {
   return (
-    <Box col>
+    <Box className="w-full" col>
       <Tab.Group>
-        <Tab.List className="flex p-1 space-x-1 bg-light-secondary dark:bg-dark-secondary rounded-xl border border-solid !border-opacity-40 border-dark-gray-primary">
+        <Tab.List className="flex p-1 space-x-1 bg-light-secondary dark:bg-dark-secondary rounded-2xl border border-solid !border-opacity-40 border-dark-gray-primary">
           {tabs.map((t) => (
             <Tab
               key={t.label}
               className={({ selected }) =>
                 classNames(
-                  'w-full py-1.5 rounded-lg focus:outline-none focus:ring-0 border-none cursor-pointer',
+                  'w-full py-1.5 rounded-xl focus:outline-none focus:ring-0 border-none cursor-pointer',
                   selected
                     ? 'bg-liggh-bg-secondary dark:bg-gray'
                     : 'bg-transparent',

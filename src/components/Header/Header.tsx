@@ -54,8 +54,11 @@ export const Header = ({ openMenu }: Props) => {
             {priceLabel || '-'}
           </Button>
 
-          <GasTracker />
-          <StatusDropdown />
+          <Box className="hidden md:flex gap-x-2">
+            <GasTracker />
+            <StatusDropdown />
+          </Box>
+
           <Button
             className="flex md:hidden"
             onClick={openMenu}

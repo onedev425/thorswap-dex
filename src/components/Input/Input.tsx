@@ -2,7 +2,7 @@ import { DetailedHTMLProps, InputHTMLAttributes, useRef } from 'react'
 
 import classNames from 'classnames'
 
-import { Icon, IconName, Typography } from 'components/Atomic'
+import { Box, Icon, IconName, Typography } from 'components/Atomic'
 
 type Props = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
@@ -36,7 +36,7 @@ export const Input = ({
   const inputRef = useRef<HTMLInputElement>(null)
 
   return (
-    <div
+    <Box
       className={classNames(
         'flex flex-row py-3 transition-colors',
         'border-light-border-primary focus-within:border-dark-typo-gray dark:border-dark-border-primary hover:border-dark-typo-gray dark:hover:border-dark-typo-gray focus-within::hover:border-dark-typo-gray',
@@ -86,6 +86,6 @@ export const Input = ({
           {suffix}
         </Typography>
       )}
-    </div>
+    </Box>
   )
 }

@@ -23,9 +23,9 @@ export const AssetSelectList = (props: AssetSelectProps) => {
         genericBgClasses.secondary,
       )}
     >
-      <div
+      <Box
         className={classNames(
-          'flex px-4 py-6 pb-3 lg:p-10 lg:pb-6 flex-col rounded-t-box-lg',
+          'flex px-4 py-6 pb-3 lg:p-10 lg:pb-6 flex-col rounded-t-box-lg gap-2',
           genericBgClasses.secondary,
         )}
       >
@@ -35,11 +35,13 @@ export const AssetSelectList = (props: AssetSelectProps) => {
           value={search}
           stretch
           autoFocus
-          className="flex-1 border"
+          className="!text-md p-1.5 flex-1 border"
+          containerClassName="bg-light-gray-light dark:bg-dark-gray-light bg-opacity-40"
+          border="rounded"
         />
 
         <Tabs tabs={tabs} />
-      </div>
+      </Box>
       <div
         className={classNames(
           'h-full overflow-y-auto pt-3 lg:pt-6 bg-light-bg-secondary dark:bg-dark-asset-select',
