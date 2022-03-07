@@ -9,6 +9,8 @@ import { Helmet } from 'components/Helmet'
 import { Popover } from 'components/Popover'
 import { ViewHeader } from 'components/ViewHeader'
 
+import { useAssets } from 'redux/assets/hooks'
+
 import { t } from 'services/i18n'
 
 import { AssetInputs } from './AssetInputs'
@@ -53,6 +55,15 @@ const Swap = () => {
       },
     },
   )
+
+  const { addFrequent } = useAssets()
+  const handleSwap = () => {
+    addFrequent(firstAsset.asset.toString())
+    addFrequent(secondAsset.asset.toString())
+
+    // TEMP:
+    setIsOpened((visible) => !visible)
+  }
 
   const handleAssetChange = useCallback(
     (asset: 'first' | 'second') => (payload: Asset) => {
@@ -143,11 +154,7 @@ const Swap = () => {
         />
 
         <Box className="w-full pt-5">
-          <Button
-            stretch
-            size="lg"
-            onClick={() => setIsOpened((visible) => !visible)}
-          >
+          <Button stretch size="lg" onClick={handleSwap}>
             {t('common.connectWallet')}
           </Button>
 

@@ -1,17 +1,20 @@
 import classNames from 'classnames'
 
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
-import { AssetButton } from 'components/AssetSelect/AssetButton'
 import { AssetSelectProps } from 'components/AssetSelect/types'
 import { useAssetSelect } from 'components/AssetSelect/useAssetSelect'
+import { useAssetSelectTabs } from 'components/AssetSelect/useAssetSelectTabs'
 import { Box, Typography } from 'components/Atomic'
+import { Tabs } from 'components/Atomic/Tabs'
 import { genericBgClasses, styledScrollbarClass } from 'components/constants'
+import { FeaturedAssetIcon } from 'components/FeaturedAssetIcon/FeaturedAssetIcon'
 import { Input } from 'components/Input'
 
 import { t } from 'services/i18n'
 
 export const AssetSelectList = (props: AssetSelectProps) => {
   const { filteredAssets, search, setSearch, select } = useAssetSelect(props)
+  const tabs = useAssetSelectTabs(props.commonAssets, select)
 
   return (
     <div
@@ -35,20 +38,7 @@ export const AssetSelectList = (props: AssetSelectProps) => {
           className="flex-1 border"
         />
 
-        {props.commonAssets?.length > 0 && (
-          <div className="flex flex-row flex-wrap gap-2 pt-3 lg:pt-6 md:gap-5">
-            {props.commonAssets.map((commonItem) => (
-              <div key={commonItem.asset.symbol}>
-                <AssetButton
-                  className="bg-opacity-70 dark:bg-opacity-70"
-                  onClick={() => select(commonItem)}
-                  asset={commonItem.asset}
-                  size="sm"
-                />
-              </div>
-            ))}
-          </div>
-        )}
+        <Tabs tabs={tabs} />
       </div>
       <div
         className={classNames(
@@ -63,12 +53,13 @@ export const AssetSelectList = (props: AssetSelectProps) => {
               className="gap-3 px-6 py-2 cursor-pointer dark:hover:bg-dark-bg-secondary hover:bg-light-gray-light"
               key={filteredItem.asset.symbol}
               alignCenter
-              onClick={() => select(filteredItem)}
+              onClick={() => select(filteredItem.asset)}
             >
-              <AssetIcon size={28} asset={filteredItem.asset} />
+              <FeaturedAssetIcon assetString={filteredItem.asset.toString()} />
+              <AssetIcon size={32} asset={filteredItem.asset} />
               <Box className="flex-1" col>
                 <Typography fontWeight="medium" variant="h5">
-                  {filteredItem.asset.symbol}
+                  {filteredItem.asset.ticker}
                 </Typography>
                 <Typography
                   variant="caption-xs"

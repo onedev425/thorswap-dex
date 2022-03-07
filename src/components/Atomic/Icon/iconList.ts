@@ -3,6 +3,8 @@ import {
   AiOutlineSend,
   AiOutlineSwap,
   AiOutlineQrcode,
+  AiFillStar,
+  AiOutlineStar,
 } from 'react-icons/ai'
 import { BiArrowBack, BiLinkExternal } from 'react-icons/bi'
 import {
@@ -128,6 +130,8 @@ const Icons = {
   wifi: FaWifi,
   xCircle: FiXCircle,
   spaceBar: MdSpaceBar,
+  starFilled: AiFillStar,
+  starEmpty: AiOutlineStar,
   ...SvgIcons,
 } as const
 

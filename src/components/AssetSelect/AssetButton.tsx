@@ -23,7 +23,7 @@ export function AssetButton({
     <Button
       className={classNames(
         className,
-        'pl-1 pr-2 !rounded-full !h-10 !hover:bg-light-gray-primary border !border-solid !border-opacity-40 dark:border-dark-gray-primary dark:!hover:bg-dark-gray-primary',
+        'pl-1 pr-2 !rounded-full !h-10 !hover:bg-light-gray-primary border !border-solid !border-opacity-40 border-dark-gray-primary !hover:bg-dark-gray-primary',
       )}
       size={size}
       variant="tint"
@@ -33,7 +33,7 @@ export function AssetButton({
       onClick={onClick}
     >
       <Typography fontWeight="medium" variant="subtitle2" transform="uppercase">
-        {asset.symbol}
+        {asset.ticker}
       </Typography>
     </Button>
   )

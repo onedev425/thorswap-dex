@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react'
 
-import { AssetSelectProps, AssetSelectType } from 'components/AssetSelect/types'
+import { Asset } from '@thorswap-lib/multichain-sdk'
+
+import { AssetSelectProps } from 'components/AssetSelect/types'
 
 export function useAssetSelect(props: AssetSelectProps) {
   const { assets, onSelect, onClose } = props
@@ -22,7 +24,7 @@ export function useAssetSelect(props: AssetSelectProps) {
     resetSearch()
   }
 
-  const select = ({ asset }: AssetSelectType) => {
+  const select = (asset: Asset) => {
     onSelect(asset)
     close()
   }

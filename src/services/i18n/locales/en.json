@@ -119,7 +119,12 @@
       "transactionDeadline": "Transaction Deadline",
       "interfaceSettings": "Interface Settings",
       "autoRouterApi": "Auto Router API",
-      "expertMode": "Expert Mode"
+      "expertMode": "Expert Mode",
+      "tabsFrequent": "Frequent",
+      "tabsCommon": "Common",
+      "tabsFeatured": "Featured",
+      "emptyFrequent": "No frequent assets",
+      "emptyFeatured": "No featured assets"
     },
     "wallet": {
       "managePortfolio": "Manage Portfolio",

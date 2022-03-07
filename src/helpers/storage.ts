@@ -10,6 +10,8 @@ type StorageType = {
   themeType: string
   language: string
   nodeWatchList: string[]
+  featuredAssets: string[]
+  frequentAssets: string[]
   readStatus: boolean
   thorswapAddress: string | null
   thorswapKeystore: Keystore | null
@@ -28,7 +30,10 @@ type StoragePayload =
         | 'themeType'
       value: string
     }
-  | { key: 'nodeWatchList'; value: string[] }
+  | {
+      key: 'nodeWatchList' | 'frequentAssets' | 'featuredAssets'
+      value: string[]
+    }
   | {
       key:
         | 'annViewStatus'
@@ -45,6 +50,8 @@ const defaultValues: StorageType = {
   themeType: ThemeType.Auto as string,
   language: 'en',
   nodeWatchList: [] as string[],
+  featuredAssets: [] as string[],
+  frequentAssets: [] as string[],
   readStatus: false,
   thorswapAddress: null,
   thorswapKeystore: null,
@@ -55,6 +62,8 @@ const defaultValues: StorageType = {
 export const saveInStorage = ({ key, value }: StoragePayload) => {
   switch (key) {
     case 'nodeWatchList':
+    case 'frequentAssets':
+    case 'featuredAssets':
       localStorage.setItem(key, JSON.stringify(value))
       break
 
@@ -83,7 +92,9 @@ export const getFromStorage = (
   key: keyof StorageType,
 ): StorageType[keyof StorageType] => {
   switch (key) {
-    case 'nodeWatchList': {
+    case 'nodeWatchList':
+    case 'featuredAssets':
+    case 'frequentAssets': {
       const item = localStorage.getItem(key)
       return item ? JSON.parse(item) : defaultValues[key]
     }
