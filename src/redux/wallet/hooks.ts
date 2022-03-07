@@ -141,6 +141,13 @@ export const useWallet = () => {
     [dispatch],
   )
 
+  const refreshWalletByChain = useCallback(
+    (chain: SupportedChain) => {
+      dispatch(walletActions.getWalletByChain(chain))
+    },
+    [dispatch],
+  )
+
   return {
     ...walletState,
     ...walletActions,
@@ -154,5 +161,6 @@ export const useWallet = () => {
     connectTrustWallet,
     connectLedger,
     connectTerraStation,
+    refreshWalletByChain,
   }
 }

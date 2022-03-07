@@ -59,8 +59,8 @@ export const useStatsData = () => {
       },
       {
         title: 'Liquidity',
-        iconName: 'lightning',
-        iconColor: 'pink',
+        iconName: 'chartArea',
+        iconColor: 'blue',
         stats: [
           {
             label: 'Total Liquidity',
@@ -86,8 +86,8 @@ export const useStatsData = () => {
       },
       {
         title: 'Network',
-        iconName: 'lightning',
-        iconColor: 'pink',
+        iconName: 'fire',
+        iconColor: 'purple',
         stats: [
           {
             label: 'TVL',
@@ -117,8 +117,8 @@ export const useStatsData = () => {
       },
       {
         title: 'Node',
-        iconName: 'lightning',
-        iconColor: 'pink',
+        iconName: 'node',
+        iconColor: 'green',
         stats: [
           {
             label: 'Total Active Bond',
@@ -148,8 +148,8 @@ export const useStatsData = () => {
       },
       {
         title: 'Block Rewards',
-        iconName: 'lightning',
-        iconColor: 'pink',
+        iconName: 'chartPie',
+        iconColor: 'orange',
         stats: [
           {
             label: 'Total Reserve',
@@ -185,8 +185,8 @@ export const useStatsData = () => {
       },
       {
         title: 'Usage',
-        iconName: 'lightning',
-        iconColor: 'pink',
+        iconName: 'dashboard',
+        iconColor: 'cyan',
         stats: [
           {
             label: 'Total Tx',

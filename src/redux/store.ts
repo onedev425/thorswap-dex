@@ -13,7 +13,9 @@ const middlewares = process.env.NODE_ENV !== 'production' ? [logger] : []
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(middlewares),
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(middlewares),
   devTools: process.env.NODE_ENV === 'development',
 })
 

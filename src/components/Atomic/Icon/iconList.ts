@@ -65,8 +65,10 @@ import {
   VscAdd,
   VscCloudUpload,
   VscCopy,
+  VscHistory,
   VscKey,
   VscSignOut,
+  VscSymbolMethod,
 } from 'react-icons/vsc'
 
 import { SvgIcons } from './svg/svgIconList'
@@ -95,6 +97,7 @@ const Icons = {
   cog: HiOutlineCog,
   copy: VscCopy,
   currencyDollar: BsCurrencyDollar,
+  dashboard: VscHistory,
   disconnect: VscSignOut,
   discord: BsDiscord,
   ethereum: FaEthereum,
@@ -110,6 +113,7 @@ const Icons = {
   lock: MdOutlineLock,
   medium: BsMedium,
   menu: CgMenu,
+  node: VscSymbolMethod,
   qrcode: AiOutlineQrcode,
   question: BsQuestion,
   questionCircle: BsQuestionCircle,

@@ -28,6 +28,7 @@ export const colorClasses = {
 export type IconProps = {
   className?: string
   color?: keyof typeof colorClasses
+  spin?: boolean
   name: IconName
   size?: number
   onClick?: () => void
@@ -36,6 +37,7 @@ export type IconProps = {
 export const Icon = ({
   className,
   color = 'primary',
+  spin = false,
   name,
   size = 24,
   onClick,
@@ -47,6 +49,7 @@ export const Icon = ({
       className={classNames(
         className,
         colorClasses[color],
+        spin ? 'animate-spin' : 'animate-none',
         onClick ? 'cursor-pointer' : '',
       )}
       size={size}
