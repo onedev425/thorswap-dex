@@ -1,3 +1,5 @@
+import { BrowserRouter } from 'react-router-dom'
+
 import { ComponentMeta } from '@storybook/react'
 
 import { TooltipPortal } from 'components/Atomic'
@@ -13,9 +15,11 @@ export default {
 
 export const Sidebar = () => {
   return (
-    <div>
+    <>
       <TooltipPortal />
-      <SidebarComp options={navbarOptions} />
-    </div>
+      <BrowserRouter>
+        <SidebarComp options={navbarOptions} />
+      </BrowserRouter>
+    </>
   )
 }

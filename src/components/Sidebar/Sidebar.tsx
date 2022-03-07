@@ -47,7 +47,7 @@ export const Sidebar = ({ options = navbarOptions }: SidebarProps) => {
     <nav
       className={classNames(
         'flex flex-col items-center justify-between px-2.5',
-        'max-w-[72px] min-w-[72px] min-h-screen max-h-screen w-full h-full',
+        'max-w-[72px] min-w-[72px] min-h-screen w-full h-full',
         'bg-light-bg-primary dark:bg-dark-bg-primary border-box sticky top-0',
       )}
     >
