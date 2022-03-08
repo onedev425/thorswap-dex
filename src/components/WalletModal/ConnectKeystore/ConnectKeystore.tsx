@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import { useFilePicker } from 'react-sage'
 
@@ -46,14 +46,6 @@ export const KeystoreView = ({ isLoading, onConnect, onCreate }: Props) => {
     setKeystoreError('Selecting a key file failed')
   }, [])
 
-  const onPasswordChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setPassword(e.target.value)
-      setInvalidStatus(false)
-    },
-    [],
-  )
-
   const unlockKeystore = useCallback(async () => {
     if (keystore) {
       setProcessing(true)
@@ -74,6 +66,23 @@ export const KeystoreView = ({ isLoading, onConnect, onCreate }: Props) => {
       }
     }
   }, [keystore, password, onConnect])
+
+  const onPasswordChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setPassword(e.target.value)
+      setInvalidStatus(false)
+    },
+    [],
+  )
+
+  const onPasswordKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        unlockKeystore()
+      }
+    },
+    [unlockKeystore],
+  )
 
   useEffect(() => {
     if (files) {
@@ -135,6 +144,7 @@ export const KeystoreView = ({ isLoading, onConnect, onCreate }: Props) => {
           stretch
           value={password}
           onChange={onPasswordChange}
+          onKeyDown={onPasswordKeyDown}
         />
       </Box>
       {invalidStatus && (

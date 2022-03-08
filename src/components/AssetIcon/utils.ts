@@ -48,9 +48,7 @@ export const getAssetIconUrl = (asset: Asset) => {
     }
 
     const contract = multichain.eth.getCheckSumAddress(asset)
-    const logoUrl = `${twBaseUri}/ethereum/assets/${contract}/logo.png`
-
-    return checkIfImageExists(logoUrl) ? logoUrl : ''
+    return `${twBaseUri}/ethereum/assets/${contract}/logo.png`
   }
 
   const logoSymbol = assetIconMap[asset.ticker as BepIconType]
@@ -58,8 +56,7 @@ export const getAssetIconUrl = (asset: Asset) => {
     return `${twBaseUri}/binance/assets/${logoSymbol}/logo.png`
   }
 
-  const bep2LogoUrl = `${twBaseUri}/binance/assets/${asset.symbol}/logo.png`
-  return checkIfImageExists(bep2LogoUrl) ? bep2LogoUrl : ''
+  return `${twBaseUri}/binance/assets/${asset.symbol}/logo.png`
 }
 
 export const getSecondaryIconPlacementStyle = (
