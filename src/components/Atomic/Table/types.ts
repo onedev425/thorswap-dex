@@ -10,6 +10,10 @@ export type TableColumnsConfig = (Column<TableData> & {
 export type TableRowType = Row<TableData>
 export type TableCellType = Cell<TableData, FixMe>
 export type TableHeaderGroupType = HeaderGroup<TableData>
+export type InitialTableSort = {
+  id: string
+  desc?: boolean
+}[]
 
 export enum SortType {
   Asc = 'asc',

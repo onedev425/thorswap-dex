@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { useTable, useSortBy } from 'react-table'
 
@@ -7,6 +7,7 @@ import useWindowSize from 'hooks/useWindowSize'
 import { TableHeaderGroup } from './TableHeaderGroup'
 import { TableRow } from './TableRow'
 import {
+  InitialTableSort,
   TableColumnsConfig,
   TableData,
   TableHeaderGroupType,
@@ -17,16 +18,26 @@ export type TableProps = {
   data: TableData[]
   columns: TableColumnsConfig
   sortable?: boolean
+  initialSort?: InitialTableSort
 }
 
 export const Table = ({
   columns: columnsConfig,
   data,
   sortable,
+  initialSort,
 }: TableProps) => {
   const { isVisible } = useWindowSize()
+  const sortBy = useMemo(() => initialSort, [initialSort])
   const table = useTable(
-    { columns: columnsConfig, data, disableSortBy: !sortable },
+    {
+      columns: columnsConfig,
+      data,
+      disableSortBy: !sortable,
+      initialState: {
+        sortBy,
+      },
+    },
     useSortBy,
   )
   const {

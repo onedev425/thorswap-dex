@@ -30,6 +30,8 @@ import { t } from 'services/i18n'
 
 import { ROUTES } from 'settings/constants'
 
+const initialSort = [{ id: 'liquidity', desc: true }]
+
 export const PoolTable = ({ data }: PoolTableProps) => {
   const navigate = useNavigate()
   const { runeToCurrency } = useGlobalState()
@@ -125,7 +127,7 @@ export const PoolTable = ({ data }: PoolTableProps) => {
 
   return (
     <div className="flex flex-col">
-      <Table columns={columns} data={data} sortable />
+      <Table columns={columns} data={data} sortable initialSort={initialSort} />
     </div>
   )
 }
