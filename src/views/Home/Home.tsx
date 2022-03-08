@@ -64,14 +64,7 @@ const Home = () => {
         <Box center className="flex-wrap gap-4">
           <HorizontalSlider itemWidth={302}>
             {dashboardMockData.featuredPools.map((p) => (
-              <PoolCard
-                key={p.ticker}
-                coinSymbol={p.ticker}
-                iconName={p.iconName}
-                price={p.price}
-                color={p.color}
-                change={p.change}
-              />
+              <PoolCard key={p.asset.ticker} {...p} />
             ))}
           </HorizontalSlider>
         </Box>

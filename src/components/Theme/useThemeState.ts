@@ -25,7 +25,6 @@ export const useThemeState = () => {
     } else if (!document.documentElement.classList.contains(ThemeMode.Dark)) {
       document.documentElement.classList.add(ThemeMode.Dark)
     }
-    console.log('🔥', 'updated themne:', updatedTheme)
     setActiveTheme(updatedTheme)
   }
 

@@ -1,4 +1,5 @@
 import { ComponentMeta } from '@storybook/react'
+import { Asset } from '@thorswap-lib/multichain-sdk'
 
 import { PoolCard } from './PoolCard'
 
@@ -14,7 +15,7 @@ export const All = () => {
   return (
     <div className="grid sm:grid-cols-1  md:grid-cols-3 lg:grid-cols-4 bg-light-bg-primary dark:bg-dark-bg-primary p-4 gap-5">
       <PoolCard
-        coinSymbol="btc"
+        asset={Asset.BTC()}
         price={65000}
         color="orange"
         iconName="bitcoin"
@@ -22,21 +23,21 @@ export const All = () => {
       />
 
       <PoolCard
-        coinSymbol="eth"
+        asset={Asset.ETH()}
         iconName="ethereum"
         price={3400.54}
         color="purple"
         change={-1.5}
       />
       <PoolCard
-        coinSymbol="eth"
+        asset={Asset.ETH()}
         iconName="ethereum"
         price={3400.54}
         color="purple"
         change={-1.5}
       />
       <PoolCard
-        coinSymbol="eth"
+        asset={Asset.ETH()}
         iconName="ethereum"
         price={3400.54}
         color="purple"
@@ -49,7 +50,7 @@ export const All = () => {
 export const Bitcoin = () => {
   return (
     <PoolCard
-      coinSymbol="btc"
+      asset={Asset.BTC()}
       price={65000}
       color="orange"
       iconName="bitcoin"
@@ -61,7 +62,7 @@ export const Bitcoin = () => {
 export const Ethereum = () => {
   return (
     <PoolCard
-      coinSymbol="eth"
+      asset={Asset.ETH()}
       iconName="ethereum"
       price={3400.54}
       color="purple"

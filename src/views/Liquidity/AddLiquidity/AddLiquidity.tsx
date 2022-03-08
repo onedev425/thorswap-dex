@@ -1,6 +1,9 @@
-import { useCallback, useReducer } from 'react'
+import { useCallback, useMemo, useReducer } from 'react'
+
+import { useSearchParams } from 'react-router-dom'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
+import { assetsFixture } from 'utils/assetsFixture'
 
 import { AssetSelectType } from 'components/AssetSelect/types'
 import { Button, Card, Box, Icon } from 'components/Atomic'
@@ -13,35 +16,56 @@ import { addLiquidityReducer } from './addLiquidityReducer'
 import { AssetInputs } from './AssetInputs'
 import { PoolInfo } from './PoolInfo'
 
-const initialFirstAsset = {
-  asset: Asset.RUNE(),
-  value: '10',
+const defaultFirstAsset = {
+  asset: Asset.BTC(),
+  value: '4.7',
   change: '0.5',
 } as AssetSelectType
-const initialSecondAsset = {
-  asset: Asset.ETH(),
-  value: '300',
+const defaultSecondAsset = {
+  asset: Asset.RUNE(),
+  value: '0',
   change: '0.5',
 } as AssetSelectType
 const assetRate = 0.0016
 const poolShare = 1.65
 
 export const AddLiquidity = () => {
+  const [searchParams] = useSearchParams()
+  const { inputAsset, outputAsset } = useMemo(() => {
+    const input = searchParams.get('input') || Asset.BTC()
+    const output = searchParams.get('output') || Asset.RUNE()
+
+    const inputParamsAsset = assetsFixture.find(
+      ({ asset }) => asset.toString() === input,
+    )
+    const outputParamsAsset = assetsFixture.find(
+      ({ asset }) => asset.toString() === output,
+    )
+    const firstAsset = inputParamsAsset || defaultFirstAsset
+    const secondAsset =
+      outputParamsAsset || firstAsset.asset === defaultSecondAsset.asset
+        ? defaultFirstAsset
+        : defaultSecondAsset
+
+    return {
+      inputAsset: firstAsset,
+      outputAsset: secondAsset,
+    }
+  }, [searchParams])
+
   const [{ firstAsset, secondAsset }, dispatch] = useReducer(
     addLiquidityReducer,
     {
       firstAsset: {
-        asset: initialFirstAsset.asset,
-        change: initialFirstAsset.change,
-        value: '0',
-        balance: initialSecondAsset.balance,
+        asset: inputAsset.asset,
+        change: inputAsset.change,
+        value: inputAsset.value,
         price: '5',
       },
       secondAsset: {
-        asset: initialSecondAsset.asset,
-        change: initialSecondAsset.change,
-        value: '0',
-        balance: initialSecondAsset.balance,
+        asset: outputAsset.asset,
+        change: outputAsset.change,
+        value: outputAsset.value,
         price: '10',
       },
     },

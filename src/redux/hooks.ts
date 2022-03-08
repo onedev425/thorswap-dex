@@ -28,7 +28,6 @@ export const useGlobalState = () => {
 
   const refreshPage = useCallback(
     (route = undefined) => {
-      console.log('route: ', route?.pathname)
       if (!route) {
         loadInitialData()
       } else {

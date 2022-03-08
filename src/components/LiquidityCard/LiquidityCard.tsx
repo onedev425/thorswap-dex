@@ -105,7 +105,11 @@ export const LiquidityCard = ({ data }: LiquidityCardProps) => {
       >
         <Box className="space-x-6 md:pr-0" pt={3} justifyCenter>
           <Button
-            onClick={() => navigate(ROUTES.AddLiquidity)}
+            onClick={() =>
+              navigate(
+                `${ROUTES.AddLiquidity}?input=${data[0].asset}&output=${data[1].asset}`,
+              )
+            }
             className="px-8 md:px-12"
             variant="primary"
             size="sm"

@@ -1,3 +1,5 @@
+import { Asset } from '@thorswap-lib/multichain-sdk'
+
 import { IconName } from 'components/Atomic'
 import { DataPoint } from 'components/Chart/types'
 import { StatsType } from 'components/Stats'
@@ -18,7 +20,7 @@ type DashboardMockData = {
     volume: DashboardStatistics
   }
   featuredPools: {
-    ticker: string
+    asset: Asset
     price: number
     color: ColorType
     iconName: IconName
@@ -142,28 +144,28 @@ export const dashboardMockData: DashboardMockData = {
   },
   featuredPools: [
     {
-      ticker: 'btc',
+      asset: Asset.BTC(),
       price: 65000,
       color: 'orange',
       iconName: 'bitcoin',
       change: 5,
     },
     {
-      ticker: 'eth',
+      asset: Asset.ETH(),
       price: 2800,
       color: 'purple',
       iconName: 'ethereum',
       change: -1.5,
     },
     {
-      ticker: 'bnb',
+      asset: Asset.BNB(),
       price: 450,
       color: 'yellow',
       iconName: 'binance',
       change: 1.5,
     },
     {
-      ticker: 'usdt',
+      asset: Asset.UST(),
       price: 1,
       color: 'blue',
       iconName: 'usdt',

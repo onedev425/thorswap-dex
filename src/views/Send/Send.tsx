@@ -1,6 +1,6 @@
 import { ChangeEventHandler, useCallback, useReducer } from 'react'
 
-import { useParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
 import { assetsFixture, commonAssets } from 'utils/assetsFixture'
@@ -27,11 +27,11 @@ import { sendReducer } from './sendReducer'
 const [initialAsset] = assetsFixture
 
 const Send = () => {
-  const { address: initialAddress } = useParams()
+  const [searchParams] = useSearchParams()
   const [{ memo, address, asset, isOpened }, dispatch] = useReducer(
     sendReducer,
     {
-      address: initialAddress || '',
+      address: searchParams.get('address') || '',
       isOpened: false,
       memo: '',
       asset: {

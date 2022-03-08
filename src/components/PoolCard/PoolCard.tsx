@@ -9,13 +9,21 @@ import { ROUTES } from 'settings/constants'
 import { PoolCardProps } from './types'
 
 export const PoolCard = ({
-  coinSymbol,
+  asset,
   iconName,
   color,
   price,
   change,
 }: PoolCardProps) => {
   const navigate = useNavigate()
+
+  const handleSwapNavigate = () => {
+    navigate(`${ROUTES.Swap}?input=${asset}`)
+  }
+
+  const handleAddLiquidityNavigate = () => {
+    navigate(`${ROUTES.AddLiquidity}?input=${asset}`)
+  }
 
   return (
     <Card
@@ -31,7 +39,7 @@ export const PoolCard = ({
             variant="h2"
             className="mb-4"
           >
-            {coinSymbol}
+            {asset.ticker}
           </Typography>
 
           <Typography className="mb-2" fontWeight="semibold">
@@ -56,12 +64,12 @@ export const PoolCard = ({
       </Box>
 
       <Box mt={5} align="end" justify="between" className="gap-x-2">
-        <Button onClick={() => navigate(ROUTES.Swap)} type="outline">
+        <Button onClick={handleSwapNavigate} type="outline">
           {t('common.swap')}
         </Button>
 
         <Button
-          onClick={() => navigate(ROUTES.AddLiquidity)}
+          onClick={handleAddLiquidityNavigate}
           variant="tertiary"
           type="outline"
         >

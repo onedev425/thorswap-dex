@@ -31,7 +31,6 @@ import { t } from 'services/i18n'
 import { ROUTES } from 'settings/constants'
 
 export const PoolTable = ({ data }: PoolTableProps) => {
-  console.log('🔥 pool table', data)
   const navigate = useNavigate()
   const { runeToCurrency } = useGlobalState()
 
@@ -99,18 +98,20 @@ export const PoolTable = ({ data }: PoolTableProps) => {
       },
       {
         Header: 'Action',
-        Cell: () => (
+        Cell: ({ row: { original } }) => (
           <Box row className="gap-2" justify="end">
             <Button
               variant="secondary"
               type="outline"
-              onClick={() => navigate(ROUTES.Swap)}
+              onClick={() => navigate(`${ROUTES.Swap}?input=${original.asset}`)}
             >
               {t('common.swap')}
             </Button>
             <Button
               type="outline"
-              onClick={() => navigate(ROUTES.AddLiquidity)}
+              onClick={() =>
+                navigate(`${ROUTES.AddLiquidity}?input=${original.asset}`)
+              }
             >
               {t('common.addLiquidity')}
             </Button>

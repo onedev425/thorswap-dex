@@ -28,7 +28,6 @@ export const All = () => {
 
   const handlePassword = (event: React.ChangeEvent) => {
     const value = (event.target as HTMLInputElement)?.value
-    console.log(value, 'value')
     setPassword(value)
   }
 

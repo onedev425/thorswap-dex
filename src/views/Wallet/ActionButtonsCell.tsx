@@ -11,7 +11,6 @@ type Props = {
 }
 
 export const ActionButtonsCell = ({ asset }: Props) => {
-  console.log(asset)
   const navigate = useNavigate()
 
   const handleSendPress = () => {
