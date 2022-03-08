@@ -24,6 +24,7 @@ export type ButtonProps = Omit<
   className?: string
   disabled?: boolean
   isLoading?: boolean
+  tooltip?: string
   onClick?: () => void
   size?: ButtonSizes
   textColor?: ColorType

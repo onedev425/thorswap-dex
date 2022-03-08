@@ -3,6 +3,7 @@ import { MouseEvent, useRef } from 'react'
 import classNames from 'classnames'
 
 import { Typography } from 'components/Atomic'
+import { Tooltip } from 'components/Atomic/Tooltip/Tooltip'
 
 import { ButtonProps } from './types'
 import { useButtonClasses } from './useButtonClasses'
@@ -20,6 +21,7 @@ export const Button = ({
   variant = 'primary',
   children,
   onClick,
+  tooltip,
   ...rest
 }: ButtonProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
@@ -44,52 +46,54 @@ export const Button = ({
   }
 
   return (
-    <button
-      ref={buttonRef}
-      className={classNames(
-        'flex border items-center justify-center outline-none p-0 disabled:opacity-75 duration-300',
-        buttonClass,
-        className,
-        disabled ? 'cursor-not-allowed' : 'cursor-pointer',
-        isBorderless || isOutlined
-          ? 'bg-transparent active:bg-transparent'
-          : backgroundClass,
-        {
-          'border-transparent': isBorderless,
-          'w-full': stretch,
-          [outlinedClass]: isOutlined,
-          [backgroundActiveClass]: !(disabled || isBorderless || isOutlined),
-        },
-      )}
-      disabled={disabled}
-      onClick={handleClick}
-      {...rest}
-    >
-      {startIcon && startIcon}
+    <Tooltip content={tooltip}>
+      <button
+        ref={buttonRef}
+        className={classNames(
+          'flex border items-center justify-center outline-none p-0 disabled:opacity-75 duration-300',
+          buttonClass,
+          className,
+          disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+          isBorderless || isOutlined
+            ? 'bg-transparent active:bg-transparent'
+            : backgroundClass,
+          {
+            'border-transparent': isBorderless,
+            'w-full': stretch,
+            [outlinedClass]: isOutlined,
+            [backgroundActiveClass]: !(disabled || isBorderless || isOutlined),
+          },
+        )}
+        disabled={disabled}
+        onClick={handleClick}
+        {...rest}
+      >
+        {startIcon && startIcon}
 
-      {children && (
-        <Typography
-          className={classNames(
-            'duration-150',
-            isOutlined || isBorderless
-              ? 'text-light-typo-primary dark:text-dark-typo-primary'
-              : 'text-white',
-            { [typographyOutlineClass]: isOutlined || isBorderless },
-            {
-              'ml-2': startIcon,
-              'mr-2': endIcon,
-            },
-          )}
-          variant={typographyVariant}
-          transform={transform}
-          fontWeight="bold"
-          color={textColor}
-        >
-          {children}
-        </Typography>
-      )}
+        {children && (
+          <Typography
+            className={classNames(
+              'duration-150',
+              isOutlined || isBorderless
+                ? 'text-light-typo-primary dark:text-dark-typo-primary'
+                : 'text-white',
+              { [typographyOutlineClass]: isOutlined || isBorderless },
+              {
+                'ml-2': startIcon,
+                'mr-2': endIcon,
+              },
+            )}
+            variant={typographyVariant}
+            transform={transform}
+            fontWeight="bold"
+            color={textColor}
+          >
+            {children}
+          </Typography>
+        )}
 
-      {endIcon && endIcon}
-    </button>
+        {endIcon && endIcon}
+      </button>
+    </Tooltip>
   )
 }

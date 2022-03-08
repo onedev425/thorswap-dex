@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import ReactTooltip from 'react-tooltip'
 
 import classNames from 'classnames'
@@ -32,6 +34,11 @@ export const Tooltip = ({
   iconName,
   content,
 }: Props) => {
+  useEffect(() => {
+    // https://github.com/wwayne/react-tooltip/issues/40#issuecomment-147552438
+    setTimeout(ReactTooltip.rebuild, 50)
+  }, [])
+
   return content ? (
     <div
       data-for="tooltip"

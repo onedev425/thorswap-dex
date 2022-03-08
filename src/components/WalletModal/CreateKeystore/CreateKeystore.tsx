@@ -142,6 +142,7 @@ export const KeystoreView = ({ onConnect, onKeystore }: Props) => {
         >
           {t('components.modal.keystore.create')}
         </Button>
+
         <Button
           className="flex-1 group"
           size="sm"

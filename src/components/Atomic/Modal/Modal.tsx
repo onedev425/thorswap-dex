@@ -1,6 +1,4 @@
-import { Fragment, useLayoutEffect } from 'react'
-
-import ReactTooltip from 'react-tooltip'
+import { Fragment } from 'react'
 
 import { Dialog, Transition } from '@headlessui/react'
 import classNames from 'classnames'
@@ -24,17 +22,6 @@ export const Modal = ({
   onClose,
   children,
 }: Props) => {
-  useLayoutEffect(() => {
-    if (isOpened) {
-      /**
-       * TODO: Refactor Tooltip to some other library as it's not working with Dialog without
-       * running rebuild in next event loop
-       * https://github.com/wwayne/react-tooltip/issues/40#issuecomment-147552438
-       */
-      setTimeout(ReactTooltip.rebuild, 0)
-    }
-  }, [isOpened])
-
   return (
     <Transition appear show={isOpened} as={Fragment}>
       <Dialog as={Fragment} onClose={onClose}>
