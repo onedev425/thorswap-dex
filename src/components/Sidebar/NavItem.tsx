@@ -20,33 +20,49 @@ export const NavItem = ({
   href,
   isExternal = false,
   variant = 'primary',
-  tooltip,
+  label,
+  showTooltip = false,
 }: NavItemProps) => {
-  return (
-    <li className={className}>
-      <Tooltip content={tooltip} place="right">
-        <div
+  const renderItem = () => {
+    return (
+      <div
+        className={classNames(
+          'h-10 p-[5px] box-border flex items-center justify-center rounded-2xl group transition',
+          itemClasses[variant],
+          { 'w-10': showTooltip },
+        )}
+      >
+        <Link
           className={classNames(
-            'w-10 h-10 p-[5px] box-border flex items-center justify-center rounded-2xl group transition',
-            itemClasses[variant],
+            'flex items-center w-full h-full no-underline',
+            {
+              'justify-center': showTooltip,
+            },
           )}
+          isExternal={isExternal}
+          to={href}
         >
-          <Link
-            className="flex items-center justify-center w-full h-full"
-            isExternal={isExternal}
-            to={href}
-          >
-            <Icon
-              name={iconName}
-              className={classNames(
-                'transition group-hover:stroke-white',
-                iconClasses[variant],
-              )}
-              size={18}
-            />
-          </Link>
-        </div>
-      </Tooltip>
-    </li>
-  )
+          <Icon
+            name={iconName}
+            className={classNames(
+              'transition group-hover:stroke-white',
+              iconClasses[variant],
+            )}
+            size={18}
+          />
+          {!showTooltip && <span className="px-3 text-white">{label}</span>}
+        </Link>
+      </div>
+    )
+  }
+  if (showTooltip) {
+    return (
+      <li className={className}>
+        <Tooltip content={label} place="right">
+          {renderItem()}
+        </Tooltip>
+      </li>
+    )
+  }
+  return <li className={className}>{renderItem()}</li>
 }

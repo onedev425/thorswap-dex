@@ -11,17 +11,24 @@ import { navbarOptions } from './data'
 import { NavItem } from './NavItem'
 import { SidebarProps, SidebarItemProps, Variant } from './types'
 
-const renderMenu = (options: SidebarItemProps[], variant: Variant) => {
+const renderMenu = (
+  options: SidebarItemProps[],
+  variant: Variant,
+  collapsed = false,
+) => {
   return (
     <ul
       key={variant}
       className={classNames(
-        'flex flex-col items-center rounded-2xl p-0 m-0 list-none',
+        'flex flex-col rounded-2xl p-0 list-none',
         { 'bg-green bg-opacity-10 mb-6': variant === 'secondary' },
+        { 'items-center m-0': collapsed },
+        { 'w-full mt-2.5 ': !collapsed },
       )}
     >
       {options.map(({ hasSub, label, children, ...rest }: SidebarItemProps) => {
-        if (hasSub && children) return renderMenu(children, 'secondary')
+        if (hasSub && children)
+          return renderMenu(children, 'secondary', collapsed)
 
         return (
           <NavItem
@@ -31,7 +38,8 @@ const renderMenu = (options: SidebarItemProps[], variant: Variant) => {
               'last-of-type:mb-0',
             )}
             variant={variant}
-            tooltip={label}
+            label={label}
+            showTooltip={collapsed}
             {...rest}
           />
         )
@@ -40,15 +48,20 @@ const renderMenu = (options: SidebarItemProps[], variant: Variant) => {
   )
 }
 
-export const Sidebar = ({ options = navbarOptions }: SidebarProps) => {
+export const Sidebar = ({
+  options = navbarOptions,
+  collapsed = false,
+}: SidebarProps) => {
   const navigate = useNavigate()
 
   return (
     <nav
       className={classNames(
         'flex flex-col items-center justify-between px-2.5',
-        'max-w-[72px] min-w-[72px] min-h-screen w-full h-full',
+        'min-h-screen w-full h-full',
         'bg-light-bg-primary dark:bg-dark-bg-primary border-box sticky top-0',
+        { 'max-w-[72px] min-w-[72px]': collapsed },
+        { 'max-w-[200px] min-w-[200px]': !collapsed },
       )}
     >
       <div
@@ -58,7 +71,7 @@ export const Sidebar = ({ options = navbarOptions }: SidebarProps) => {
         <img className="w-12 h-12" src={Logo} alt="Logo" />
       </div>
 
-      {renderMenu(options, 'primary')}
+      {renderMenu(options, 'primary', collapsed)}
 
       <Link className="flex items-center justify-center w-10 h-10 mb-6" to="/">
         <Icon

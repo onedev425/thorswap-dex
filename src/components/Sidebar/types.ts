@@ -6,12 +6,13 @@ type ItemProps = {
   iconName: IconName
   href: string
   isExternal?: boolean
-  tooltip?: string
+  label?: string
 }
 
 export type NavItemProps = ItemProps & {
   variant?: Variant
   className?: string
+  showTooltip?: boolean
 }
 
 export type SidebarItemProps = ItemProps & {
@@ -22,4 +23,5 @@ export type SidebarItemProps = ItemProps & {
 
 export type SidebarProps = {
   options?: SidebarItemProps[]
+  collapsed?: boolean
 }

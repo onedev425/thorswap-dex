@@ -37,7 +37,7 @@ export const Layout = ({ children }: LayoutProp) => {
     >
       <div className="relative flex flex-col w-full min-h-screen mx-auto my-0 max-w-8xl">
         <aside className="fixed hidden md:block">
-          <Sidebar />
+          <Sidebar collapsed />
         </aside>
 
         <aside className="md:hidden">
