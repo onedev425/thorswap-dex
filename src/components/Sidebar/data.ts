@@ -49,7 +49,7 @@ export const navbarOptions: SidebarItemProps[] = [
       },
       {
         iconName: 'watch',
-        href: ROUTES.Home,
+        href: ROUTES.PendingLiquidity,
         label: t('components.sidebar.pendingLiquidity'),
         isExternal: false,
         hasSub: false,

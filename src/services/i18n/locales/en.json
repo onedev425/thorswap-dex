@@ -185,6 +185,15 @@
       "totalVested": "Total Vested",
       "vestingPeriod": "Vesting Period",
       "vestingStartTime": "Vesting Start Time"
+    },
+    "pendingLiquidity": {
+      "pending": "Pending",
+      "insufficientAmount": "Insufficient Amount",
+      "pendingLiquidity": "Pending Liquidity",
+      "assetTicker": "RUNE",
+      "complete": "Complete",
+      "withdraw": "Withdraw",
+      "addToComplete": "Add to complete"
     }
   }
 }
