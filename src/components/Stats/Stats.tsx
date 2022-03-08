@@ -55,14 +55,15 @@ export const Stats = ({
             />
           </Tooltip>
         </Box>
-
-        <Typography
-          className="transition group-hover:text-dark-typo-primary"
-          transform="uppercase"
-          variant="subtitle1"
-        >
-          {value}
-        </Typography>
+        <div className="grid">
+          <Typography
+            className="transition group-hover:text-dark-typo-primary overflow-hidden text-ellipsis whitespace-nowrap"
+            transform="uppercase"
+            variant="subtitle1"
+          >
+            {value}
+          </Typography>
+        </div>
       </Box>
     </Card>
   )
