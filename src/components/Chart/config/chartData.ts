@@ -8,7 +8,7 @@ import {
   LineChartType,
 } from 'components/Chart/types'
 
-import { getColor, getLabelsAndValuesFromData } from './utils'
+import { getColor } from './utils'
 
 const StrokeColors = [
   colors.StrokeColor1,
@@ -33,9 +33,9 @@ const getDataForBarChart = (
           'background',
         ),
         borderWidth: 0,
-        borderRadius: 100,
+        borderRadius: 0,
         borderSkipped: false,
-        barThickness: 6,
+        barThickness: dataLabels.length < 10 ? 20 : 3,
       },
     ],
   }
@@ -144,8 +144,15 @@ const getDataForCurvedLineChart = (
   }
 }
 
-export const getChartData = (type: ChartType, data: DataPoint[]) => {
-  const { dataLabels, dataValues } = getLabelsAndValuesFromData(data)
+export const getChartData = (
+  type: ChartType,
+  dataLabels: string[],
+  dataValues: number[],
+) => {
+  const data = dataLabels.map((label, index) => ({
+    x: label,
+    y: dataValues[index],
+  }))
 
   switch (type) {
     case ChartType.Bar:

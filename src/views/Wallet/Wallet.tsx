@@ -2,8 +2,6 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
 import { Select, Row, Box, Table, Typography, Icon } from 'components/Atomic'
-import { Chart } from 'components/Chart'
-import { ChartType } from 'components/Chart/types'
 import { Input } from 'components/Input'
 import { PieChart } from 'components/PieChart'
 import { PieChartData } from 'components/PieChart/types'
@@ -46,13 +44,6 @@ const Wallet = () => {
                 {token.change}
               </Typography>
             </Box>
-          </Box>
-          <Box className="pb-4">
-            <Chart
-              className="min-h-[189px]"
-              type={ChartType.CurvedLine}
-              data={sampleData}
-            />
           </Box>
         </Box>
         <Box
@@ -148,20 +139,6 @@ const Wallet = () => {
 
 export default Wallet
 
-const sampleData = [
-  { x: 'January', y: 90 },
-  { x: 'February', y: 100 },
-  { x: 'March', y: 40 },
-  { x: 'April', y: 60 },
-  { x: 'May', y: 180 },
-  { x: 'June', y: 100 },
-  { x: 'July', y: 50 },
-  { x: 'August', y: 70 },
-  { x: 'September', y: 80 },
-  { x: 'October', y: 90 },
-  { x: 'November', y: 140 },
-  { x: 'December', y: 100 },
-]
 const TableAllocationData = [
   {
     asset: Asset.BTC(),

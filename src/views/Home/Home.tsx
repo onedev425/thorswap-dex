@@ -2,13 +2,11 @@ import { dashboardMockData } from 'views/Home/mockData'
 import { PoolListView } from 'views/PoolListView'
 
 import { Box, Typography } from 'components/Atomic'
-import { Chart } from 'components/Chart'
-import { ChartType } from 'components/Chart/types'
+import { GlobalChart } from 'components/GlobalChart'
 import { GlobalStats } from 'components/GlobalStats'
 import { Helmet } from 'components/Helmet'
 import { HorizontalSlider } from 'components/HorizontalSlider'
 import { PoolCard } from 'components/PoolCard'
-import { Statistics } from 'components/Statistics'
 
 import { t } from 'services/i18n'
 
@@ -22,39 +20,7 @@ const Home = () => {
 
       <GlobalStats />
 
-      <Box className="flex-wrap">
-        <Box className="w-full lg:w-1/2" col>
-          <Statistics
-            className="mb-4"
-            percentage
-            title="Volume"
-            amount={dashboardMockData.stats.volume.amount}
-            change={dashboardMockData.stats.volume.change}
-            value={dashboardMockData.stats.volume.value}
-          />
-          <Chart
-            className="min-h-[235px]"
-            type={ChartType.Bar}
-            data={dashboardMockData.stats.volume.chartData}
-          />
-        </Box>
-
-        <Box className="w-full lg:w-1/2" col>
-          <Statistics
-            className="mb-4"
-            percentage
-            title="Liquidity"
-            amount={dashboardMockData.stats.liquidity.amount}
-            change={dashboardMockData.stats.liquidity.change}
-            value={dashboardMockData.stats.liquidity.value}
-          />
-          <Chart
-            className="min-h-[235px]"
-            type={ChartType.CurvedLine}
-            data={dashboardMockData.stats.liquidity.chartData}
-          />
-        </Box>
-      </Box>
+      <GlobalChart />
 
       <Box className="gap-8" col>
         <Typography variant="h3">

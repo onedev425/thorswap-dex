@@ -60,6 +60,10 @@
       "selectAToken": "Select a token",
       "noResultsFound": "No results found"
     },
+    "chart": {
+      "week": "Week",
+      "all": "All"
+    },
     "modal": {
       "keystore": {
         "selectKeystore": "Please Select Keystore File",
@@ -95,7 +99,18 @@
   },
   "views": {
     "home": {
-      "swapCrossChainAssets": "Swap cross chain assets"
+      "swapCrossChainAssets": "Swap cross chain assets",
+      "chart": {
+        "volume": "Volume",
+        "liquidity": "Liquidity",
+        "total": "Total",
+        "swap": "Swap",
+        "add": "Add",
+        "withdraw": "Withdraw",
+        "lpEarning": "LP Earning",
+        "bondEarning": "Bond Earning",
+        "runePrice": "$RUNE Price"
+      }
     },
     "nodes": {
       "watchList": "Watch List",
