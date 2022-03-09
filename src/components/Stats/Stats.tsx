@@ -38,13 +38,15 @@ export const Stats = ({
 
       <Box justifyCenter col className="gap-4">
         <Box row className="gap-x-1">
-          <Typography
-            className="transition group-hover:text-dark-typo-primary"
-            variant="caption"
-            color="secondary"
-          >
-            {label}
-          </Typography>
+          <div className="grid">
+            <Typography
+              className="transition group-hover:text-dark-typo-primary overflow-hidden text-ellipsis whitespace-nowrap"
+              variant="caption"
+              color="secondary"
+            >
+              {label}
+            </Typography>
+          </div>
 
           <Tooltip content={tooltip}>
             <Icon

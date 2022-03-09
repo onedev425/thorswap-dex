@@ -1,9 +1,8 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import classNames from 'classnames'
 
-import { Box, Button, Typography } from 'components/Atomic'
-import { genericBgClasses } from 'components/constants'
+import { Box, Button, DropdownMenu, Typography } from 'components/Atomic'
 
 type Props = {
   className?: string
@@ -24,6 +23,13 @@ export const Select = ({
     },
     [onChange],
   )
+  const dropdownOptions = useMemo(
+    () => options.map((o, idx) => ({ value: String(idx), label: o })),
+    [options],
+  )
+  const onDropdownChange = (value: string) => {
+    onChange?.(Number(value))
+  }
 
   return (
     <>
@@ -40,30 +46,17 @@ export const Select = ({
         ))}
       </Box>
 
-      <Box
-        className={classNames(
-          'px-3 py-2 border border-solid rounded-2xl focus:border-transparent mr-5 md:hidden',
-          'border-light-border-primary dark:border-dark-border-primary focus:border-light-border-primary dark:focus:border-dark-border-primary',
-        )}
-      >
-        <select
-          className={classNames(
-            'w-full border-none text-base sm:text-sm text-light-typo-primary focus:outline-none focus:ring-none dark:text-dark-typo-primary',
-            genericBgClasses.secondary,
-          )}
-          value={activeIndex}
-          onChange={(e) => onHandleChange(Number(e.target.value))}
-        >
-          {options.map((option, index) => (
-            <option
-              className="text-dark-typo-primary"
-              value={index}
-              key={option}
-            >
-              {option}
-            </option>
-          ))}
-        </select>
+      <Box className="md:hidden">
+        <DropdownMenu
+          menuItems={dropdownOptions}
+          value={options[activeIndex]}
+          openComponent={
+            <Box className="gap-2" alignCenter row>
+              <Typography variant="caption">{options[activeIndex]}</Typography>
+            </Box>
+          }
+          onChange={onDropdownChange}
+        />
       </Box>
     </>
   )

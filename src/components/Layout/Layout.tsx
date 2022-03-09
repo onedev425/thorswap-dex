@@ -35,7 +35,7 @@ export const Layout = ({ children }: LayoutProp) => {
       )}
       style={{ height: '100vh' }}
     >
-      <div className="relative flex flex-col w-full min-h-screen mx-auto my-0 max-w-8xl">
+      <div className="relative flex flex-col w-full min-h-screen mx-auto my-0 max-w-8xl z-10">
         <aside className="fixed hidden md:block">
           <Sidebar collapsed />
         </aside>
@@ -46,7 +46,7 @@ export const Layout = ({ children }: LayoutProp) => {
 
         <main
           className={classNames(
-            'flex flex-col md:ml-[92px] md:max-w-[calc(100%-148px)] mx-3 md:px-10 py-5 dark:bg-elliptical',
+            'flex flex-col md:ml-[92px] md:max-w-[calc(100%-148px)] mx-3 md:px-10 py-5',
           )}
         >
           <Header openMenu={openMenu} />
@@ -54,6 +54,8 @@ export const Layout = ({ children }: LayoutProp) => {
         </main>
         <WalletModal />
       </div>
+
+      <div className="fixed inset-0 z-0 bg-elliptical-light dark:bg-elliptical"></div>
     </Scrollbars>
   )
 }

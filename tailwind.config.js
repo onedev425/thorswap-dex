@@ -202,6 +202,9 @@ module.exports = {
         elliptical:
           'radial-gradient(ellipse at 50% 50%, rgba(46, 92, 106,' +
           ' 30%) 0%, rgba(18, 21, 38, 1) 60%)',
+        'elliptical-light':
+          'radial-gradient(ellipse at 50% 50%, rgba(45, 58, 82,' +
+          ' 10%) 0%, #f1f1f1 60%)',
         'card-before':
           'radial-gradient(100% 6920.83% at 35.19% 0%, #12324F 0%, rgba(35, 46, 66, 0) 100%)',
         'card-after':
