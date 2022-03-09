@@ -138,21 +138,16 @@ export const Chart = ({
     }
   }
 
-  if (isChartLoading) {
-    return (
-      <Box center>
-        <Icon name="refresh" spin />
-      </Box>
-    )
-  }
-
   return (
     <Box className={classNames('w-full h-full', className)} col>
       <Box alignCenter justify="between" row>
         <Box className="gap-y-1" ml={2} col>
           <Box className="space-x-2" row>
-            <Typography variant="h2">
-              {title} - {abbreviateNumber(values[values.length - 1], 2)}
+            <Typography variant="h3">
+              {title}{' '}
+              <span className="text-btn-primary">
+                {abbreviateNumber(values?.[values.length - 1] ?? 0, 2)}
+              </span>
             </Typography>
             <Box className="hidden lg:flex gap-x-1" row alignCenter>
               <Typography
@@ -197,9 +192,15 @@ export const Chart = ({
         />
       </Box>
       <div className="w-full my-4 border border-solid !border-opacity-25 dark:border-dark-border-primary" />
-      <Box className="min-h-[280px] max-h-[300px]">
-        {parsedChartData.datasets.length > 0 ? renderChart() : null}
-      </Box>
+      {isChartLoading ? (
+        <Box className="min-h-[280px] max-h-[300px]" center>
+          <Icon name="refresh" color="primary" spin size={16} />
+        </Box>
+      ) : (
+        <Box className="min-h-[280px] max-h-[300px]">
+          {parsedChartData.datasets.length > 0 ? renderChart() : null}
+        </Box>
+      )}
     </Box>
   )
 }
