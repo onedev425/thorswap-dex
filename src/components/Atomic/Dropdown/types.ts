@@ -13,8 +13,8 @@ export type DropdownMenuItems = DropdownMenuItem[]
 export type DropdownOptions = {
   className?: string
   value: DropdownMenuItemValue
-  onChange: (value: DropdownMenuItemValue) => void
   disabled?: boolean
+  onChange: (value: DropdownMenuItemValue) => void
 }
 
 export type DropdownMenuProps = {

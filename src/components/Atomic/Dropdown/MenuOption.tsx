@@ -25,6 +25,7 @@ export const MenuOption = (props: DropdownMenuItem) => {
               'hover:bg-light-gray-light dark:hover:bg-dark-bg-secondary':
                 !disabled,
               'opacity-80': disabled,
+              'bg-opacity-60': selected,
             },
             disabled ? 'cursor-not-allowed' : 'cursor-pointer',
           )}
