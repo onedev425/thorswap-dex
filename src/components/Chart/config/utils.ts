@@ -1,4 +1,6 @@
 import { Chart } from 'chart.js'
+import { random } from 'lodash'
+import moment from 'moment'
 
 type ColorType = 'background' | 'stroke'
 
@@ -48,5 +50,43 @@ export const getColor = (gradientColors: string[], colorType: ColorType) => {
     if (chartArea) {
       return getGradientInstance(gradientColors, colorType)(ctx, chartArea)
     }
+  }
+}
+
+export const generateRandomTimeSeries = (
+  minValue: number,
+  maxValue: number,
+) => {
+  const series = []
+  for (
+    let itr = moment().subtract(30, 'days');
+    itr.isBefore(moment.now());
+    itr = itr.add(1, 'day')
+  ) {
+    series.push({
+      time: itr.unix(),
+      value: (
+        minValue +
+        (random(100) / 100) * (maxValue - minValue)
+      ).toString(),
+    })
+  }
+  return series
+}
+
+export const getRandomChartData = () => {
+  const randomSeries = generateRandomTimeSeries(0, 100)
+
+  const labels: Array<string> = randomSeries.map((data) => {
+    return moment.unix(data.time).format('MMM DD')
+  })
+
+  const values: Array<number> = randomSeries.map((data) =>
+    Number(data.value.split(',').join('')),
+  )
+
+  return {
+    labels,
+    values,
   }
 }

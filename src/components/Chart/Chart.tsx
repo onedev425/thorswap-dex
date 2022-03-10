@@ -29,6 +29,9 @@ import moment from 'moment'
 import { Box, Icon, Select, Typography } from 'components/Atomic'
 import { getChartData } from 'components/Chart/config/chartData'
 import { getChartOptions } from 'components/Chart/config/chartOptions'
+import { getRandomChartData } from 'components/Chart/config/utils'
+
+import { t } from 'services/i18n'
 
 import { abbreviateNumber } from 'helpers/number'
 
@@ -70,7 +73,6 @@ export const Chart = ({
   chartIndexes = [],
   chartData,
   selectedIndex,
-  isChartIndexCombo = false,
   hideLabel = false,
   hasGrid = false,
   selectChart,
@@ -82,15 +84,9 @@ export const Chart = ({
   const selectedChartType = selectedChartData?.type ?? ChartType.CurvedLine
   const selectedChartValues = selectedChartData?.values
   const unit = selectedChartData?.unit ?? ''
+  const options = getChartOptions(hideLabel, hasGrid, unit)
 
-  console.log(
-    chartIndexes,
-    isChartIndexCombo,
-    selectChart,
-    setChartTimeframe,
-    isChartLoading,
-    unit,
-  )
+  const randomData = useMemo(() => getRandomChartData(), [])
 
   const filteredByTime: ChartValues = useMemo(() => {
     if (chartTimeframe === ChartTimeFrame.AllTime) {
@@ -113,22 +109,54 @@ export const Chart = ({
       ? (values[values.length - 1] / values[values.length - 2]) * 100 - 100
       : 0
 
-  const parsedChartData = getChartData(selectedChartType, labels, values)
-  const options = getChartOptions(hideLabel, hasGrid)
+  const parsedChartData = useMemo(
+    () => getChartData(selectedChartType, labels, values),
+    [selectedChartType, labels, values],
+  )
 
-  const renderChart = () => {
+  const getRandomSeries = useMemo(
+    () => getChartData(selectedChartType, randomData.labels, randomData.values),
+    [selectedChartType, randomData],
+  )
+
+  const renderLoadingChart = useMemo(() => {
+    return (
+      <>
+        <Box className="w-full h-full">
+          {selectedChartType === ChartType.Bar ? (
+            <Bar options={options} data={getRandomSeries as BarChartType} />
+          ) : (
+            <Line
+              options={options}
+              data={getRandomSeries as CurvedLineChartType}
+            />
+          )}
+        </Box>
+        <Box className="absolute w-full h-full backdrop-blur-sm" center col>
+          <Icon name="refresh" color="primary" spin size={16} />
+          <Typography className="mt-2">{t('common.loading')}</Typography>
+        </Box>
+      </>
+    )
+  }, [selectedChartType, getRandomSeries, options])
+
+  const renderChart = useMemo(() => {
     switch (selectedChartType) {
       case ChartType.Bar:
         return <Bar options={options} data={parsedChartData as BarChartType} />
+
       case ChartType.Area:
         return (
           <Line options={options} data={parsedChartData as AreaChartType} />
         )
+
       case ChartType.Line:
         return (
           <Line options={options} data={parsedChartData as LineChartType} />
         )
+
       case ChartType.CurvedLine:
+      default:
         return (
           <Line
             options={options}
@@ -136,7 +164,7 @@ export const Chart = ({
           />
         )
     }
-  }
+  }, [selectedChartType, options, parsedChartData])
 
   return (
     <Box className={classNames('w-full h-full', className)} col>
@@ -193,12 +221,12 @@ export const Chart = ({
       </Box>
       <div className="w-full my-4 border border-solid !border-opacity-25 dark:border-dark-border-primary" />
       {isChartLoading ? (
-        <Box className="min-h-[280px] max-h-[300px]" center>
-          <Icon name="refresh" color="primary" spin size={16} />
+        <Box className="relative min-h-[280px] max-h-[300px]" center>
+          {renderLoadingChart}
         </Box>
       ) : (
         <Box className="min-h-[280px] max-h-[300px]">
-          {parsedChartData.datasets.length > 0 ? renderChart() : null}
+          {parsedChartData.datasets.length > 0 ? renderChart : null}
         </Box>
       )}
     </Box>

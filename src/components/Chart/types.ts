@@ -51,7 +51,6 @@ export type ChartProps = {
   chartData: ChartData
   chartIndexes: string[]
   selectedIndex: string
-  isChartIndexCombo?: boolean
   hideLabel?: boolean
   hasGrid?: boolean
   selectChart: (value: string) => void
