@@ -1,4 +1,4 @@
-import { PoolAsset } from 'views/Liquidity/WithdrawLiquidity/types'
+import { PoolAsset } from 'views/WithdrawLiquidity/types'
 
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon'

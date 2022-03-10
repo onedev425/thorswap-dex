@@ -2,8 +2,8 @@ import { memo } from 'react'
 
 import classNames from 'classnames'
 
-import { AssetAmountBox } from 'views/Liquidity/WithdrawLiquidity/components/AssetAmountBox'
-import { PoolAsset } from 'views/Liquidity/WithdrawLiquidity/types'
+import { AssetAmountBox } from 'views/WithdrawLiquidity/components/AssetAmountBox'
+import { PoolAsset } from 'views/WithdrawLiquidity/types'
 
 import { Box, Typography, Icon } from 'components/Atomic'
 import { Input } from 'components/Input'

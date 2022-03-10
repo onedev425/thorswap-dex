@@ -1,6 +1,6 @@
-import { AddDeposit } from 'views/Liquidity/PendingLiquidity/AddDeposit'
-import { PendingDeposit } from 'views/Liquidity/PendingLiquidity/PendingDeposit'
-import { PendingTile } from 'views/Liquidity/PendingLiquidity/PendingTile'
+import { AddDeposit } from 'views/PendingLiquidity/AddDeposit'
+import { PendingDeposit } from 'views/PendingLiquidity/PendingDeposit'
+import { PendingTile } from 'views/PendingLiquidity/PendingTile'
 
 import { Box, Button, Card, Icon } from 'components/Atomic'
 import { ViewHeader } from 'components/ViewHeader'

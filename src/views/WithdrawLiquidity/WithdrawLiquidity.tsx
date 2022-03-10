@@ -2,10 +2,10 @@ import { useCallback, useReducer } from 'react'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
 
-import { AssetInput } from 'views/Liquidity/WithdrawLiquidity/components/AssetInput'
-import { PoolInfo } from 'views/Liquidity/WithdrawLiquidity/components/PoolInfo'
-import { PoolAsset } from 'views/Liquidity/WithdrawLiquidity/types'
-import { withdrawLiquidityReducer } from 'views/Liquidity/WithdrawLiquidity/withdrawLiquidityReducer'
+import { AssetInput } from 'views/WithdrawLiquidity/components/AssetInput'
+import { PoolInfo } from 'views/WithdrawLiquidity/components/PoolInfo'
+import { PoolAsset } from 'views/WithdrawLiquidity/types'
+import { withdrawLiquidityReducer } from 'views/WithdrawLiquidity/withdrawLiquidityReducer'
 
 import { Button, Card, Box, Icon } from 'components/Atomic'
 import { Helmet } from 'components/Helmet'
