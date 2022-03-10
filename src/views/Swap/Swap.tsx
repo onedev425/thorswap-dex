@@ -113,7 +113,7 @@ const Swap = () => {
   }, [])
 
   return (
-    <Box className="self-center w-full max-w-[540px]" col>
+    <Box className="self-center w-full max-w-[480px]" col>
       <Helmet title="Swap" content="Swap" />
 
       <Box className="w-full mx-2" col>

@@ -42,7 +42,7 @@ const ManageLiquidity = () => {
   const [tipVisible, setTipVisible] = useState(true)
 
   return (
-    <Box className="self-center w-full max-w-[540px]" col>
+    <Box className="self-center w-full max-w-[480px]" col>
       <Helmet title="Liquidity" content="Your Liquidity" />
       <Box className="w-full mx-2" col>
         <ViewHeader

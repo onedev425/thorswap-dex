@@ -91,7 +91,7 @@ export const AddLiquidity = () => {
   )
 
   return (
-    <Box className="w-full max-w-[540px] self-center" col>
+    <Box className="w-full max-w-[480px] self-center" col>
       <Helmet title="Add Liquidity" content="Add Liquidity" />
       <Box className="w-full mx-2" col>
         <ViewHeader
