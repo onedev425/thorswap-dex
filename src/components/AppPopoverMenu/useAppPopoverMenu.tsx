@@ -7,12 +7,9 @@ import { useTheme } from 'components/Theme/ThemeContext'
 
 import { useApp } from 'redux/app/hooks'
 
-import { t } from 'services/i18n'
-import { changeAppLanguage } from 'services/i18n/i18nService'
+import { t, changeAppLanguage, getLanguageFlag } from 'services/i18n'
 
 import { SupportedLanguages, ThemeType, ThousandSeparator } from 'types/global'
-
-import { getLanguageFlag } from '../../services/i18n/getLanguageFlag'
 
 type MenuType = 'main' | 'language' | 'currency' | 'theme' | 'thousandSeparator'
 

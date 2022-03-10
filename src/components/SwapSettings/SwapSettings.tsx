@@ -1,30 +1,25 @@
-import { useState } from 'react'
-
 import { Button, Box, Card, Icon, Typography, Switch } from 'components/Atomic'
 import { Input } from 'components/Input'
 
-import { t } from '../../services/i18n'
+import { useApp } from 'redux/app/hooks'
 
-interface SwapSettingsProps {
-  autoRouter: boolean
-  deadline: string
-  expertMode: boolean
-  onAutoRouterChange: (autoRouter: boolean) => void
-  onExpertModeChange: (expertMode: boolean) => void
-  slippage: number
-}
+import { t } from 'services/i18n'
 
-export const SwapSettings = ({
-  autoRouter,
-  expertMode,
-  onAutoRouterChange,
-  onExpertModeChange,
-}: SwapSettingsProps) => {
-  const [slippage, setSlippage] = useState(3)
+export const SwapSettings = () => {
+  const {
+    slippageTolerance,
+    transactionDeadline,
+    autoRouter,
+    expertMode,
+    setSlippage,
+    setAutoRouter,
+    setExpertMode,
+    setTransactionDeadline,
+  } = useApp()
 
   return (
     <Card className="w-[350px] p-8 shadow-2xl">
-      <Box className="gap-4 w-full" col>
+      <Box className="w-full gap-4" col>
         <Box>
           <Typography variant="caption">
             {t('views.swap.transactionSettings')}
@@ -35,48 +30,46 @@ export const SwapSettings = ({
             {t('views.swap.slippageTolerance')}
           </Typography>
           <Icon
+            className="ml-auto"
             color="secondary"
             size={16}
             name="questionCircle"
-            className="ml-auto"
           />
         </Box>
-        <Box className="justify-around">
+        <Box className="w-full space-x-2">
           <Input
+            className="text-right"
+            containerClassName="bg-light-gray-light dark:bg-dark-gray-light bg-opacity-40"
             symbol="%"
-            value={slippage}
-            onChange={(e) => setSlippage(Number(e.target.value))}
+            value={slippageTolerance}
             placeholder="Percentage"
             border="rounded"
             stretch
-            className="text-right"
+            onChange={(e) => setSlippage(Number(e.target.value))}
           />
           <Button
+            size="sm"
+            type={slippageTolerance === 0.5 ? 'outline' : 'default'}
+            variant="tint"
             onClick={() => setSlippage(0.5)}
-            size="sm"
-            type={slippage === 0.5 ? 'default' : 'outline'}
-            variant="accent"
-            className="ml-2"
           >
-            {'0.5%'}
+            <Typography variant="caption-xs">0.5%</Typography>
           </Button>
           <Button
+            size="sm"
+            type={slippageTolerance === 1 ? 'outline' : 'default'}
+            variant="tint"
             onClick={() => setSlippage(1)}
-            size="sm"
-            type={slippage === 1 ? 'default' : 'outline'}
-            variant="accent"
-            className="ml-2"
           >
-            {'1%'}
+            <Typography variant="caption-xs">1%</Typography>
           </Button>
           <Button
-            onClick={() => setSlippage(3)}
             size="sm"
-            type={slippage === 3 ? 'default' : 'outline'}
-            variant="accent"
-            className="ml-2"
+            variant="tint"
+            type={slippageTolerance == 3 ? 'outline' : 'default'}
+            onClick={() => setSlippage(3)}
           >
-            {'3%'}
+            <Typography variant="caption-xs">3%</Typography>
           </Button>
         </Box>
         <Box className="justify-between">
@@ -84,63 +77,58 @@ export const SwapSettings = ({
             {t('views.swap.transactionDeadline')}
           </Typography>
           <Icon
+            className="ml-auto"
             color="secondary"
             size={16}
             name="questionCircle"
-            className="ml-auto"
           />
         </Box>
-        <Box marginBottom={30}>
+        <Box marginBottom={30} alignCenter>
           <Input
-            border="bottom"
-            suffix={t('common.minutes')}
-            defaultValue="30"
+            className="w-16 text-right"
+            containerClassName="bg-light-gray-light dark:bg-dark-gray-light bg-opacity-40"
+            border="rounded"
+            value={transactionDeadline}
+            onChange={(e) => setTransactionDeadline(Number(e.target.value))}
           />
+          <Typography className="ml-2" color="secondary" variant="caption-xs">
+            {t('common.minutes')}
+          </Typography>
         </Box>
         <Box>
           <Typography variant="caption">
             {t('views.swap.interfaceSettings')}
           </Typography>
         </Box>
-        <Box className="justify-between items-center">
-          <Box>
+        <Box alignCenter justify="between">
+          <Box className="space-x-2">
             <Typography variant="caption-xs" color="secondary">
               {t('views.swap.autoRouterApi')}
             </Typography>
-            <Icon
-              color="secondary"
-              size={16}
-              name="questionCircle"
-              className="ml-2"
-            />
+            <Icon color="secondary" size={16} name="questionCircle" />
           </Box>
           <Box>
             <Switch
               selectedText="ON"
               unselectedText="OFF"
               checked={autoRouter}
-              onChange={() => onAutoRouterChange(!autoRouter)}
+              onChange={() => setAutoRouter(!autoRouter)}
             />
           </Box>
         </Box>
-        <Box className="justify-between items-center">
-          <Box>
+        <Box alignCenter justify="between">
+          <Box className="space-x-2">
             <Typography variant="caption-xs" color="secondary">
               {t('views.swap.expertMode')}
             </Typography>
-            <Icon
-              color="secondary"
-              size={16}
-              name="questionCircle"
-              className="ml-2"
-            />
+            <Icon color="secondary" size={16} name="questionCircle" />
           </Box>
           <Box>
             <Switch
               selectedText="ON"
               unselectedText="OFF"
               checked={expertMode}
-              onChange={() => onExpertModeChange(!expertMode)}
+              onChange={() => setExpertMode(!expertMode)}
             />
           </Box>
         </Box>

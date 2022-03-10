@@ -1,6 +1,7 @@
 import { Asset } from '@thorswap-lib/multichain-sdk'
 import { Keystore } from '@thorswap-lib/xchain-crypto'
 
+import { DEFAULT_SLIPPAGE_TOLERANCE } from './../settings/constants/global'
 import { ThemeType, ThousandSeparator } from './../types/global'
 
 type StorageType = {
@@ -17,6 +18,10 @@ type StorageType = {
   thorswapKeystore: Keystore | null
   tradingHaltStatus: boolean
   xDefiConnected: boolean
+  slippageTolerance: string
+  transactionDeadline: string
+  autoRouter: boolean
+  expertMode: boolean
 }
 
 type StoragePayload =
@@ -28,6 +33,8 @@ type StoragePayload =
         | 'thorswapAddress'
         | 'thousandSeparator'
         | 'themeType'
+        | 'slippageTolerance'
+        | 'transactionDeadline'
       value: string
     }
   | {
@@ -40,6 +47,8 @@ type StoragePayload =
         | 'tradingHaltStatus'
         | 'readStatus'
         | 'xDefiConnected'
+        | 'autoRouter'
+        | 'expertMode'
       value: boolean
     }
 
@@ -57,6 +66,10 @@ const defaultValues: StorageType = {
   thorswapKeystore: null,
   tradingHaltStatus: false,
   xDefiConnected: false,
+  expertMode: false,
+  autoRouter: true,
+  slippageTolerance: String(DEFAULT_SLIPPAGE_TOLERANCE),
+  transactionDeadline: '30',
 }
 
 export const saveInStorage = ({ key, value }: StoragePayload) => {
@@ -71,6 +84,8 @@ export const saveInStorage = ({ key, value }: StoragePayload) => {
     case 'tradingHaltStatus':
     case 'readStatus':
     case 'xDefiConnected':
+    case 'expertMode':
+    case 'autoRouter':
       localStorage.setItem(key, value.toString())
       break
 
@@ -102,7 +117,9 @@ export const getFromStorage = (
     case 'annViewStatus':
     case 'tradingHaltStatus':
     case 'readStatus':
-    case 'xDefiConnected': {
+    case 'xDefiConnected':
+    case 'autoRouter':
+    case 'expertMode': {
       const item = localStorage.getItem(key)
       return item === 'true'
     }

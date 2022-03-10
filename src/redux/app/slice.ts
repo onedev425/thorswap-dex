@@ -5,11 +5,9 @@ import { FeeOption } from '@thorswap-lib/xchain-client'
 
 import { getFromStorage, saveInStorage } from 'helpers/storage'
 
-import { DEFAULT_SLIPPAGE_TOLERANCE } from 'settings/constants/global'
-
 import { SupportedLanguages, ThemeType, ThousandSeparator } from 'types/global'
 
-import { ExpertOptions, State } from './types'
+import { State } from './types'
 
 const initialState: State = {
   themeType: getFromStorage('themeType') as ThemeType,
@@ -21,9 +19,11 @@ const initialState: State = {
   isAnnOpen: !getFromStorage('annViewStatus') as boolean,
   isSidebarOpen: false,
   isSidebarCollapsed: false,
-  slippageTolerance: DEFAULT_SLIPPAGE_TOLERANCE,
   feeOptionType: FeeOption.Fast,
-  expertMode: ExpertOptions.off,
+  slippageTolerance: Number(getFromStorage('slippageTolerance') as string),
+  transactionDeadline: Number(getFromStorage('transactionDeadline') as string),
+  expertMode: getFromStorage('expertMode') as boolean,
+  autoRouter: getFromStorage('autoRouter') as boolean,
   nodeWatchList: getFromStorage('nodeWatchList') as string[],
 }
 
@@ -59,12 +59,31 @@ const appSlice = createSlice({
         action.payload > 100 ? 100 : action.payload < 0 ? 0 : action.payload
 
       state.slippageTolerance = slippage
+      saveInStorage({ key: 'slippageTolerance', value: String(slippage) })
+    },
+    setTransactionDeadline(state, action: PayloadAction<number>) {
+      state.transactionDeadline = action.payload
+      saveInStorage({
+        key: 'transactionDeadline',
+        value: String(action.payload),
+      })
     },
     setFeeOptionType(state, action: PayloadAction<FeeOption>) {
       state.feeOptionType = action.payload
     },
-    setExpertMode(state, action: PayloadAction<ExpertOptions>) {
+    setExpertMode(state, action: PayloadAction<boolean>) {
       state.expertMode = action.payload
+      saveInStorage({
+        key: 'expertMode',
+        value: action.payload,
+      })
+    },
+    setAutoRouter(state, action: PayloadAction<boolean>) {
+      state.autoRouter = action.payload
+      saveInStorage({
+        key: 'autoRouter',
+        value: action.payload,
+      })
     },
     setReadStatus(state, action: PayloadAction<boolean>) {
       state.showAnnouncement = !action.payload

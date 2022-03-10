@@ -15,11 +15,8 @@ export interface State {
   slippageTolerance: number
   feeOptionType: FeeOption
   showAnnouncement: boolean
-  expertMode: ExpertOptions
+  expertMode: boolean
   nodeWatchList: string[]
-}
-
-export enum ExpertOptions {
-  'on' = 'on',
-  'off' = 'off',
+  autoRouter: boolean
+  transactionDeadline: number
 }

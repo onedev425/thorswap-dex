@@ -12,8 +12,6 @@ import { multichain } from 'services/multichain'
 
 import { SupportedLanguages, ThemeType, ThousandSeparator } from 'types/global'
 
-import { ExpertOptions } from './types'
-
 export const useApp = () => {
   const dispatch = useAppDispatch()
   const appState = useSelector((state: RootState) => state.app)
@@ -54,6 +52,13 @@ export const useApp = () => {
     [dispatch],
   )
 
+  const setTransactionDeadline = useCallback(
+    (slip: number) => {
+      dispatch(actions.setTransactionDeadline(slip))
+    },
+    [dispatch],
+  )
+
   const setFeeOptionType = useCallback(
     (feeOption: FeeOption) => {
       // set feeOption for multichain client
@@ -64,8 +69,15 @@ export const useApp = () => {
   )
 
   const setExpertMode = useCallback(
-    (mode: ExpertOptions) => {
-      dispatch(actions.setExpertMode(mode))
+    (isActive: boolean) => {
+      dispatch(actions.setExpertMode(isActive))
+    },
+    [dispatch],
+  )
+
+  const setAutoRouter = useCallback(
+    (isActive: boolean) => {
+      dispatch(actions.setAutoRouter(isActive))
     },
     [dispatch],
   )
@@ -107,15 +119,16 @@ export const useApp = () => {
 
   return {
     ...appState,
-    ExpertOptions,
     baseCurrencyAsset,
     setAnnStatus,
     setBaseCurrency,
     setExpertMode,
+    setAutoRouter,
     setFeeOptionType,
     setLanguage,
     setReadStatus,
     setSlippage,
+    setTransactionDeadline,
     setTheme,
     setWatchList,
     toggleSettings,

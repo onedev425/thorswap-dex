@@ -9,7 +9,7 @@ import { AssetSelectType } from 'components/AssetSelect/types'
 import { Button, Modal, Card, Icon, Box } from 'components/Atomic'
 import { ConfirmSwapItem } from 'components/ConfirmSwapItem'
 import { Helmet } from 'components/Helmet'
-import { Popover } from 'components/Popover'
+import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useAssets } from 'redux/assets/hooks'
@@ -20,7 +20,6 @@ import { AssetInputs } from './AssetInputs'
 import { AutoRouterInfo } from './AutoRouterInfo'
 import { SwapInfo } from './SwapInfo'
 import { swapReducer } from './swapReducer'
-import { SwapSettings } from './SwapSettings'
 
 const defaultFirstAsset = {
   asset: Asset.BTC(),
@@ -58,27 +57,25 @@ const Swap = () => {
     }
   }, [searchParams])
 
-  const [
-    { isOpened, expertMode, autoRouter, firstAsset, secondAsset, slippage },
-    dispatch,
-  ] = useReducer(swapReducer, {
-    isOpened: false,
-    expertMode: false,
-    autoRouter: true,
-    slippage: 0.5,
-    firstAsset: {
-      asset: inputAsset.asset,
-      change: inputAsset.change,
-      value: inputAsset.value,
-      price: '5',
-    },
-    secondAsset: {
-      asset: outputAsset.asset,
-      change: outputAsset.change,
-      value: outputAsset.value,
-      price: '10',
-    },
-  })
+  const [{ isOpened, firstAsset, secondAsset, slippage }, dispatch] =
+    useReducer(swapReducer, {
+      isOpened: false,
+      expertMode: false,
+      autoRouter: true,
+      slippage: 0.5,
+      firstAsset: {
+        asset: inputAsset.asset,
+        change: inputAsset.change,
+        value: inputAsset.value,
+        price: '5',
+      },
+      secondAsset: {
+        asset: outputAsset.asset,
+        change: outputAsset.change,
+        value: outputAsset.value,
+        price: '10',
+      },
+    })
 
   const { addFrequent } = useAssets()
   const handleSwap = () => {
@@ -120,37 +117,9 @@ const Swap = () => {
         <ViewHeader
           title={t('common.swap')}
           actionsComponent={
-            <Box row>
-              <Icon
-                size={26}
-                color="secondary"
-                name="chart"
-                className="ml-auto"
-              />
-              <Popover
-                trigger={
-                  <Icon
-                    size={26}
-                    color="secondary"
-                    name="cog"
-                    className="ml-6"
-                    onClick={() => {}}
-                  />
-                }
-              >
-                <SwapSettings
-                  slippage={0.5}
-                  deadline="30"
-                  autoRouter={autoRouter}
-                  onAutoRouterChange={(payload) =>
-                    dispatch({ type: 'setAutoRouter', payload })
-                  }
-                  expertMode={expertMode}
-                  onExpertModeChange={(payload) =>
-                    dispatch({ type: 'setExpertMode', payload })
-                  }
-                />
-              </Popover>
+            <Box row className="space-x-4">
+              <Icon color="secondary" name="chart" className="ml-auto" />
+              <SwapSettingsPopover />
             </Box>
           }
         />

@@ -6,8 +6,9 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import { assetsFixture } from 'utils/assetsFixture'
 
 import { AssetSelectType } from 'components/AssetSelect/types'
-import { Button, Card, Box, Icon } from 'components/Atomic'
+import { Button, Card, Box } from 'components/Atomic'
 import { Helmet } from 'components/Helmet'
+import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { t } from 'services/i18n'
@@ -96,7 +97,7 @@ export const AddLiquidity = () => {
       <Box className="w-full mx-2" col>
         <ViewHeader
           title={t('common.addLiquidity')}
-          actionsComponent={<Icon size={26} name="cog" color="secondary" />}
+          actionsComponent={<SwapSettingsPopover />}
         />
       </Box>
 

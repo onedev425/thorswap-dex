@@ -1,1 +1,2 @@
-export { t } from './i18nService'
+export * from './getLanguageFlag'
+export * from './i18nService'
