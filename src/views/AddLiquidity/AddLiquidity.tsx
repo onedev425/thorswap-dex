@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useReducer } from 'react'
+import { useCallback, useMemo, useReducer, useState } from 'react'
 
 import { useSearchParams } from 'react-router-dom'
 
@@ -8,6 +8,8 @@ import { assetsFixture } from 'utils/assetsFixture'
 import { AssetSelectType } from 'components/AssetSelect/types'
 import { Button, Card, Box } from 'components/Atomic'
 import { Helmet } from 'components/Helmet'
+import { LiquidityType } from 'components/LiquidityType/LiquidityType'
+import { LiquidityTypeOption } from 'components/LiquidityType/types'
 import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
 
@@ -32,6 +34,7 @@ const poolShare = 1.65
 
 export const AddLiquidity = () => {
   const [searchParams] = useSearchParams()
+  const [liquidityType, setLiquidityType] = useState(LiquidityTypeOption.Asset)
   const { inputAsset, outputAsset } = useMemo(() => {
     const input = searchParams.get('input') || Asset.BTC()
     const output = searchParams.get('output') || Asset.RUNE()
@@ -106,6 +109,11 @@ export const AddLiquidity = () => {
         size="lg"
         stretch
       >
+        <LiquidityType
+          assetName={firstAsset.asset.name}
+          selected={liquidityType}
+          onChange={setLiquidityType}
+        />
         <AssetInputs
           firstAsset={firstAsset}
           secondAsset={secondAsset}
