@@ -51,6 +51,7 @@ export type ChartProps = {
   chartData: ChartData
   chartIndexes: string[]
   selectedIndex: string
+  previewChartType?: ChartType
   hideLabel?: boolean
   hasGrid?: boolean
   selectChart: (value: string) => void

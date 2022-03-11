@@ -250,6 +250,7 @@ export const GlobalChart = () => {
           chartIndexes={liquidityChartIndexes}
           chartData={liquidityChartData}
           selectedIndex={liquidityChartIndex}
+          previewChartType={ChartType.CurvedLine}
           selectChart={setLiquidityChartIndex}
         />
       </Box>

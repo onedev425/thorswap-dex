@@ -75,6 +75,7 @@ export const Chart = ({
   selectedIndex,
   hideLabel = false,
   hasGrid = false,
+  previewChartType = ChartType.Bar,
   selectChart,
 }: ChartProps) => {
   const [chartTimeframe, setChartTimeframe] = useState(ChartTimeFrame.AllTime)
@@ -115,15 +116,15 @@ export const Chart = ({
   )
 
   const getRandomSeries = useMemo(
-    () => getChartData(selectedChartType, randomData.labels, randomData.values),
-    [selectedChartType, randomData],
+    () => getChartData(previewChartType, randomData.labels, randomData.values),
+    [previewChartType, randomData],
   )
 
   const renderLoadingChart = useMemo(() => {
     return (
       <>
         <Box className="w-full h-full">
-          {selectedChartType === ChartType.Bar ? (
+          {previewChartType === ChartType.Bar ? (
             <Bar options={options} data={getRandomSeries as BarChartType} />
           ) : (
             <Line
@@ -138,7 +139,7 @@ export const Chart = ({
         </Box>
       </>
     )
-  }, [selectedChartType, getRandomSeries, options])
+  }, [previewChartType, getRandomSeries, options])
 
   const renderChart = useMemo(() => {
     switch (selectedChartType) {
@@ -165,6 +166,8 @@ export const Chart = ({
         )
     }
   }, [selectedChartType, options, parsedChartData])
+
+  console.log(isChartLoading, renderChart)
 
   return (
     <Box className={classNames('w-full h-full', className)} col>
