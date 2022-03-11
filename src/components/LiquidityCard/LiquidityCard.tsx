@@ -27,13 +27,16 @@ interface LiquidityCardProps {
 export const LiquidityCard = ({ data }: LiquidityCardProps) => {
   const navigate = useNavigate()
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse()
-  const { contentRef: buttonsContentRef, maxHeight: maxButtonHeight } =
-    useCollapse()
 
   return (
     <Box justifyCenter col>
       <Card className="flex flex-col !bg-dark-gray-light">
-        <Box className="mx-4 my-4 md:mx-2" alignCenter justify="between">
+        <Box
+          className="mx-4 my-4 md:mx-2 cursor-pointer"
+          alignCenter
+          justify="between"
+          onClick={toggle}
+        >
           <Box className="my-1" center>
             <Box className="mx-2" col>
               <AssetLpIcon
@@ -53,7 +56,7 @@ export const LiquidityCard = ({ data }: LiquidityCardProps) => {
             </Typography>
           </Box>
 
-          <Box className="cursor-pointer" center onClick={toggle}>
+          <Box center>
             <Typography className="!text-blue">
               {t('views.liquidity.collapse')}
             </Typography>
@@ -93,34 +96,25 @@ export const LiquidityCard = ({ data }: LiquidityCardProps) => {
               <Typography>{'<0.01%'}</Typography>
             </Box>
           </Box>
+          <Box className="space-x-6 md:pr-0" pt={3} justifyCenter>
+            <Button
+              onClick={() =>
+                navigate(
+                  `${ROUTES.AddLiquidity}?input=${data[0].asset}&output=${data[1].asset}`,
+                )
+              }
+              className="px-8 md:px-12"
+              variant="primary"
+              size="sm"
+            >
+              {t('views.liquidity.addButton')}
+            </Button>
+            <Button className="px-8 md:px-12" variant="secondary" size="sm">
+              {t('views.liquidity.removeButton')}
+            </Button>
+          </Box>
         </div>
       </Card>
-
-      <div
-        className="overflow-hidden duration-300 ease-in-out transition-max-height"
-        ref={buttonsContentRef}
-        style={{
-          maxHeight: `${isActive ? maxButtonHeight : 0}px`,
-        }}
-      >
-        <Box className="space-x-6 md:pr-0" pt={3} justifyCenter>
-          <Button
-            onClick={() =>
-              navigate(
-                `${ROUTES.AddLiquidity}?input=${data[0].asset}&output=${data[1].asset}`,
-              )
-            }
-            className="px-8 md:px-12"
-            variant="primary"
-            size="sm"
-          >
-            {t('views.liquidity.addButton')}
-          </Button>
-          <Button className="px-8 md:px-12" variant="secondary" size="sm">
-            {t('views.liquidity.removeButton')}
-          </Button>
-        </Box>
-      </div>
     </Box>
   )
 }
