@@ -19,6 +19,7 @@ export const AssetIcon = ({
   size = 40,
   bgColor,
   hasChainIcon = false,
+  hasShadow = false,
   secondaryIconPlacement = 'br',
 }: AssetIconProps) => {
   const iconSize = typeof size === 'number' ? size : iconSizes[size]
@@ -32,7 +33,13 @@ export const AssetIcon = ({
   // )}, ${rainbowStop(tickerNums[1])})`
 
   return (
-    <div className={classNames('relative flex', className)}>
+    <div
+      className={classNames(
+        'relative flex rounded-full',
+        { 'shadow-rightTicker': hasShadow },
+        className,
+      )}
+    >
       <Box
         className={classNames(
           'rounded-full box-border overflow-hidden relative',

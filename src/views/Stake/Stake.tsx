@@ -1,7 +1,11 @@
+import { ThorchainLPCard } from 'views/Stake/ThorchainLPCard'
+
 import { Box } from 'components/Atomic'
 import { StakingCard } from 'components/StakingCard'
 import { StatsType } from 'components/Stats'
 import { StatsList } from 'components/StatsList/StatsList'
+
+import { farmData } from './farmData'
 
 const list: StatsType[] = [
   {
@@ -61,13 +65,37 @@ const Stake = () => {
         <StatsList list={list} />
       </Box>
 
-      <div className="flex space-x-6">
-        <Box className="flex-wrap gap-8">
-          <StakingCard className="h-auto" />
-          <StakingCard className="h-auto" />
-          <StakingCard className="h-auto" />
-        </Box>
-      </div>
+      <Box className="flex-col gap-4 md:flex-row">
+        {farmData.map((farmInfo) => {
+          const {
+            exchange,
+            farmName,
+            assets,
+            lpAsset,
+            lpToken,
+            stakeAddr,
+            contractType,
+            lpContractType,
+          } = farmInfo
+
+          if (!farmName) return <></>
+
+          return (
+            <StakingCard
+              key={lpToken}
+              farmName={farmName}
+              stakingToken={lpToken}
+              assets={assets}
+              lpAsset={lpAsset}
+              contractType={contractType}
+              lpContractType={lpContractType}
+              stakeAddr={stakeAddr}
+              exchange={exchange}
+            />
+          )
+        })}
+        <ThorchainLPCard />
+      </Box>
     </div>
   )
 }

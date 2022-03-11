@@ -1,3 +1,5 @@
+import { Asset } from '@thorswap-lib/multichain-sdk'
+
 export enum ROUTES {
   Home = '/',
 
@@ -13,4 +15,12 @@ export enum ROUTES {
   Vesting = '/vesting',
   Wallet = '/wallet',
   WithdrawLiquidity = '/withdraw-liquidity',
+}
+
+export const getAddLiquidityRoute = (asset: Asset) => {
+  return `${ROUTES.AddLiquidity}/${asset.toURLEncoded()}`
+}
+
+export const getWithdrawRoute = (asset: Asset) => {
+  return `${ROUTES.WithdrawLiquidity}/${asset.toURLEncoded()}`
 }

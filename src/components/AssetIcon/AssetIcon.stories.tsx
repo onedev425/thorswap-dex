@@ -78,8 +78,6 @@ export const AssetLPIcon = () => {
         <AssetLpIcon
           asset1={Asset.RUNE()}
           asset2={Asset.LUNA()}
-          asset1BgColor="green"
-          asset2BgColor="blue"
           size={ICON_MD}
         />
       </div>
@@ -88,8 +86,6 @@ export const AssetLPIcon = () => {
         <AssetLpIcon
           asset1={Asset.RUNE()}
           asset2={Asset.BTC()}
-          asset1BgColor="orange"
-          asset2BgColor="purple"
           size={ICON_LG}
         />
       </div>
@@ -100,8 +96,6 @@ export const AssetLPIcon = () => {
         <AssetLpIcon
           asset1={Asset.RUNE()}
           asset2={Asset.BNB()}
-          asset1BgColor="yellow"
-          asset2BgColor="blue"
           size={ICON_MD}
           inline
         />
@@ -111,8 +105,6 @@ export const AssetLPIcon = () => {
         <AssetLpIcon
           asset1={Asset.RUNE()}
           asset2={Asset.BCH()}
-          asset1BgColor="orange"
-          asset2BgColor="green"
           size={ICON_LG}
           inline
         />

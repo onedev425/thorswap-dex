@@ -191,8 +191,8 @@ module.exports = {
         ],
       },
       boxShadow: {
-        leftTicker: '10px 20px 50px 0px rgb(51 227 181 / 65%)',
-        rightTicker: '-10px 20px 50px 0px rgba(249 167 69 / 65%)',
+        leftTicker: '10px 20px 50px 0px rgb(255 255 255 / 35%)',
+        rightTicker: '-10px 20px 50px 0px rgba(255 255 255 / 35%)',
       },
       backgroundImage: {
         'gradient-primary-dark':

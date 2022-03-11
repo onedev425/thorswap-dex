@@ -7,10 +7,9 @@ export const AssetLpIcon = (props: AssetLpIconProps) => {
   const {
     asset1,
     asset2,
-    asset1BgColor = 'blue',
-    asset2BgColor = 'green',
     inline,
     size = 40,
+    hasShadow = false,
     ...styleProps
   } = props
   const iconSize = typeof size === 'number' ? size : iconSizes[size]
@@ -20,18 +19,28 @@ export const AssetLpIcon = (props: AssetLpIconProps) => {
     <div className="flex">
       <div
         className={classNames(
-          'rounded-full border-light-bg-primary dark:border-dark-bg-primary',
+          'border-light-bg-primary dark:border-dark-bg-primary',
           { '-translate-y-2': !inline },
         )}
       >
-        <AssetIcon asset={asset1} bgColor={asset1BgColor} {...styleProps} />
+        <AssetIcon
+          className={classNames('rounded-full', {
+            'shadow-leftTicker': hasShadow,
+          })}
+          asset={asset1}
+          size={size}
+          {...styleProps}
+        />
       </div>
 
       <div style={{ marginLeft: -pairIconOffset }}>
         <AssetIcon
-          className={classNames({ 'translate-y-2': !inline })}
+          className={classNames('rounded-full', {
+            'translate-y-2': !inline,
+            'shadow-rightTicker': hasShadow,
+          })}
           asset={asset2}
-          bgColor={asset2BgColor}
+          size={size}
           {...styleProps}
         />
       </div>

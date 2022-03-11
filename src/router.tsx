@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import AddLiquidity from 'views/AddLiquidity'
 import HomeView from 'views/Home'
-import ManageLiquidityView from 'views/ManageLiquidity/ManageLiquidity'
+import ManageLiquidityView from 'views/ManageLiquidity'
 import NodesView from 'views/Nodes'
 import NodeManager from 'views/Nodes/NodeManager'
 import PendingLiquidity from 'views/PendingLiquidity'

@@ -174,7 +174,7 @@ export type AssetTickerType =
 
 export const iconSizes = {
   large: 72,
-  big: 55,
+  big: 56,
   normal: 40,
   small: 32,
   tiny: 24,
@@ -192,15 +192,15 @@ export type AssetIconProps = {
   asset: Asset
   hasChainIcon?: boolean
   secondaryIconPlacement?: SecondaryIconPlacement
+  hasShadow?: boolean
   bgColor?: ColorType
 } & AssetStyleType
 
 export type AssetLpIconProps = {
   asset1: Asset
   asset2: Asset
-  asset1BgColor?: ColorType
-  asset2BgColor?: ColorType
   inline?: boolean
+  hasShadow?: boolean
 } & AssetStyleType
 
 export type SecondaryIconPlacement = 'tl' | 'tr' | 'bl' | 'br'

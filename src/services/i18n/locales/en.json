@@ -1,6 +1,8 @@
 {
   "common": {
+    "THORSwap": "THORSwap",
     "APY": "APY",
+    "APR": "APR",
     "addLiquidity": "Add liquidity",
     "auto": "Auto",
     "balance": "Balance",
@@ -118,6 +120,14 @@
       "unbondAmount": "Unbond Amount",
       "assetTicker": "(R):",
       "complete": "Complete"
+    },
+    "staking": {
+      "stakingToken": "Staking Token",
+      "tokenBalance": "Token Balance",
+      "tokenStaked": "Token Staked",
+      "claimable": "Claimable",
+      "stakingContract": "Staking Contract",
+      "tcStakingDesc": "Provide THOR-RUNE Liquidity on THORChain"
     },
     "stats": {
       "dailyBlockRewards": "Daily Block Rewards",
