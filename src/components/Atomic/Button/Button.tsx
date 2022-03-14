@@ -76,7 +76,7 @@ export const Button = ({
               'duration-150',
               isOutlined || isBorderless
                 ? 'text-light-typo-primary dark:text-dark-typo-primary'
-                : 'text-white',
+                : 'text-light-typo-secondary dark:text-dark-typo-secondary',
               { [typographyOutlineClass]: isOutlined || isBorderless },
               {
                 'ml-2': startIcon,
