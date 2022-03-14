@@ -35,7 +35,7 @@ export const Table = ({
       data,
       disableSortBy: !sortable,
       initialState: {
-        sortBy,
+        sortBy: initialSort ? sortBy : [],
       },
     },
     useSortBy,
