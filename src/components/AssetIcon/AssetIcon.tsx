@@ -1,17 +1,15 @@
+import { useState } from 'react'
+
 import { SupportedChain } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
+import { FallbackIcon } from 'components/AssetIcon/FallbackIcon'
 import { Box } from 'components/Atomic'
 import { ChainIcon } from 'components/ChainIcon'
 
 import { genericBgClasses } from '../constants'
 import { iconSizes, AssetIconProps } from './types'
-import {
-  getAssetIconUrl,
-  // getIntFromName,
-  getSecondaryIconPlacementStyle,
-  // rainbowStop,
-} from './utils'
+import { getAssetIconUrl, getSecondaryIconPlacementStyle } from './utils'
 
 export const AssetIcon = ({
   className,
@@ -22,15 +20,10 @@ export const AssetIcon = ({
   hasShadow = false,
   secondaryIconPlacement = 'br',
 }: AssetIconProps) => {
+  const [hasError, setHasError] = useState(false)
   const iconSize = typeof size === 'number' ? size : iconSizes[size]
   const iconUrl = getAssetIconUrl(asset)
   const secondaryIconSize = hasChainIcon ? iconSize * 0.4 : 0
-
-  // fallback icon
-  // const tickerNums = getIntFromName(asset.ticker)
-  // const fallbackBgImg = `linear-gradient(45deg, ${rainbowStop(
-  //   tickerNums[0],
-  // )}, ${rainbowStop(tickerNums[1])})`
 
   return (
     <div
@@ -40,23 +33,27 @@ export const AssetIcon = ({
         className,
       )}
     >
-      <Box
-        className={classNames(
-          'rounded-full box-border overflow-hidden relative',
-          { [genericBgClasses[bgColor as 'blue']]: bgColor },
-        )}
-        center
-        width={iconSize}
-        height={iconSize}
-      >
-        <img
-          style={{ width: iconSize, height: iconSize }}
-          className="absolute inset-0 object-cover"
-          src={iconUrl}
-          alt={asset.symbol}
-        />
-      </Box>
-
+      {iconUrl && !hasError ? (
+        <Box
+          className={classNames(
+            'rounded-full box-border overflow-hidden relative',
+            { [genericBgClasses[bgColor || 'secondary']]: bgColor },
+          )}
+          center
+          width={iconSize}
+          height={iconSize}
+        >
+          <img
+            className="absolute inset-0 object-cover"
+            src={iconUrl}
+            alt={asset.symbol}
+            style={{ width: iconSize, height: iconSize }}
+            onError={() => setHasError(true)}
+          />
+        </Box>
+      ) : (
+        <FallbackIcon ticker={asset.ticker} size={iconSize} />
+      )}
       {hasChainIcon && asset.type !== 'Native' && (
         <div
           className="absolute"
