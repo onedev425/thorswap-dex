@@ -9,10 +9,13 @@ module.exports = {
       // common colors
       transparent: 'transparent',
       purple: '#7B48E8',
+      'discord-purple': '#5E6BFF',
       yellow: '#FFB359',
       pink: '#ED6B82',
       blue: '#2A7DFA',
       'blue-light': '#3397F2',
+      'twitter-blue': '#55B6FF',
+      'telegram-blue': '#42C8FD',
       navy: '#348CF4',
       green: '#5DD39B',
       'green-light': '#4CC920',
@@ -21,6 +24,7 @@ module.exports = {
       gray: '#273855',
       red: '#ff2357',
       white: '#fff',
+      black: '#000',
 
       btn: {
         // TODO: check if those are correct because design does not include them
