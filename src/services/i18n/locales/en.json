@@ -38,7 +38,8 @@
     "gasTracker": "Gas Tracker",
     "settings": "Global Settings",
     "langSettings": "App",
-    "defaultErrMsg": "Something went wrong"
+    "defaultErrMsg": "Something went wrong",
+    "refresh": "Refresh data"
   },
   "appMenu": {
     "lightTheme": "Light Theme",
@@ -47,7 +48,6 @@
     "automaticTheme": "Automatic Theme",
     "currency": "Currency",
     "language": "Language",
-    "refresh": "Refresh data",
     "thousandSeparator": "Thousand Separator",
     "separatorSpace": "Space",
     "separatorComma": "Comma",
@@ -159,7 +159,9 @@
     "walletDrawer": {
       "openWalletPage": "Open Wallet Page",
       "disconnectAll": "Disconnect All",
-      "connectAnotherWallet": "Connect Another Wallet"
+      "connectAnotherWallet": "Connect Another Wallet",
+      "connectAnother": "Connect another wallet",
+      "disconnect": "Disconnect all"
     },
     "liquidity": {
       "addButton": "Add",

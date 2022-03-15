@@ -22,6 +22,7 @@ export const Button = ({
   children,
   onClick,
   tooltip,
+  tooltipPlacemenet,
   ...rest
 }: ButtonProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
@@ -46,7 +47,7 @@ export const Button = ({
   }
 
   return (
-    <Tooltip content={tooltip}>
+    <Tooltip content={tooltip} place={tooltipPlacemenet}>
       <button
         ref={buttonRef}
         className={classNames(

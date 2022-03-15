@@ -119,16 +119,22 @@ const WalletBalance = () => {
             className="px-3 hover:bg-transparent dark:hover:bg-transparent"
             variant="tint"
             startIcon={<Icon name="refresh" color="primaryBtn" size={16} />}
+            tooltip={t('common.refresh')}
+            tooltipPlacemenet={'left'}
           />
           <Button
             className="px-3 hover:bg-transparent dark:hover:bg-transparent"
             variant="tint"
             startIcon={<Icon name="add" color="primaryBtn" size={16} />}
+            tooltip={t('views.walletDrawer.connectAnother')}
+            tooltipPlacemenet={'left'}
           />
           <Button
             className="px-3 hover:bg-transparent dark:hover:bg-transparent"
             variant="tint"
             startIcon={<Icon name="disconnect" color="primaryBtn" size={16} />}
+            tooltip={t('views.walletDrawer.disconnect')}
+            tooltipPlacemenet={'left'}
           />
         </Box>
       </Box>

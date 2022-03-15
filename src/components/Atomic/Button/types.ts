@@ -1,6 +1,7 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from 'react'
 
 import { TextTransform } from 'components/Atomic'
+import { TooltipPlacement } from 'components/Atomic/Tooltip/types'
 
 import { ColorType } from 'types/global'
 
@@ -25,6 +26,7 @@ export type ButtonProps = Omit<
   disabled?: boolean
   isLoading?: boolean
   tooltip?: string
+  tooltipPlacemenet?: TooltipPlacement
   onClick?: () => void
   size?: ButtonSizes
   textColor?: ColorType

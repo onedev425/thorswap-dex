@@ -15,12 +15,10 @@ import WalletView from 'views/Wallet'
 import WalletBalance from 'views/WalletBalance'
 import WithdrawLiquidity from 'views/WithdrawLiquidity'
 
-import { Drawer } from 'components/Drawer'
 import { Layout } from 'components/Layout'
+import { WalletDrawer } from 'components/WalletDrawer'
 
 import { ROUTES } from 'settings/constants'
-
-import { useWalletDrawer } from './hooks/useWalletDrawer'
 
 export type RouteType = {
   path: string
@@ -44,8 +42,6 @@ const routes: RouteType = [
 ]
 
 const PublicRoutes = () => {
-  const { isVisible: isWalletDrawerVisible } = useWalletDrawer()
-
   return (
     <Router>
       <Routes>
@@ -58,11 +54,10 @@ const PublicRoutes = () => {
               path={route.path}
               element={
                 <>
-                  {isWalletDrawerVisible && (
-                    <Drawer>
-                      <WalletBalance />
-                    </Drawer>
-                  )}
+                  <WalletDrawer>
+                    <WalletBalance />
+                  </WalletDrawer>
+
                   <Layout>
                     <Component />
                   </Layout>

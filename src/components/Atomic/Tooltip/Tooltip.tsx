@@ -6,9 +6,10 @@ import classNames from 'classnames'
 import ReactDOM from 'react-dom/server'
 
 import { Typography, Icon, IconName } from 'components/Atomic'
+import { TooltipPlacement } from 'components/Atomic/Tooltip/types'
 
 type Props = {
-  place?: 'top' | 'bottom' | 'left' | 'right'
+  place?: TooltipPlacement
   content?: string
   className?: string
 } & (
