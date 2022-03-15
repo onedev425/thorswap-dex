@@ -6,6 +6,7 @@
     "addLiquidity": "Add liquidity",
     "auto": "Auto",
     "balance": "Balance",
+    "cancel": "Cancel",
     "claim": "Claim",
     "confirm": "Confirm",
     "connect": "Connect",
@@ -165,7 +166,8 @@
       "disconnectAll": "Disconnect All",
       "connectAnotherWallet": "Connect Another Wallet",
       "connectAnother": "Connect another wallet",
-      "disconnect": "Disconnect all"
+      "disconnect": "Disconnect all",
+      "confirmDisconnect": "Are you sure you want to disconnect your wallet?"
     },
     "liquidity": {
       "addButton": "Add",

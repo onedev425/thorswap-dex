@@ -1,6 +1,5 @@
 import { useCallback } from 'react'
 
-// import { AssetIcon } from 'components/AssetIcon/AssetIcon'
 import {
   Amount,
   AssetAmount,
@@ -12,14 +11,14 @@ import {
   SupportedChain,
 } from '@thorswap-lib/multichain-sdk'
 
+import { WalletHeader } from 'views/WalletBalance/WalletHeader'
+
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, Button, Icon, Typography } from 'components/Atomic'
 import { Scrollbar } from 'components/Scrollbar'
 
 import { useMidgard } from 'redux/midgard/hooks'
 import { useWallet } from 'redux/wallet/hooks'
-
-import { t } from 'services/i18n'
 
 import { ChainHeader } from './ChainHeader'
 import { sortedChains } from './types'
@@ -112,32 +111,7 @@ const WalletBalance = () => {
 
   return (
     <Scrollbar>
-      <Box className="pt-6 pb-4 pl-4 pr-2" alignCenter justify="between">
-        <Typography variant="h5">{t('common.wallet')}</Typography>
-        <Box className="space-x-1" row>
-          <Button
-            className="px-3 hover:bg-transparent dark:hover:bg-transparent"
-            variant="tint"
-            startIcon={<Icon name="refresh" color="primaryBtn" size={16} />}
-            tooltip={t('common.refresh')}
-            tooltipPlacemenet={'left'}
-          />
-          <Button
-            className="px-3 hover:bg-transparent dark:hover:bg-transparent"
-            variant="tint"
-            startIcon={<Icon name="add" color="primaryBtn" size={16} />}
-            tooltip={t('views.walletDrawer.connectAnother')}
-            tooltipPlacemenet={'left'}
-          />
-          <Button
-            className="px-3 hover:bg-transparent dark:hover:bg-transparent"
-            variant="tint"
-            startIcon={<Icon name="disconnect" color="primaryBtn" size={16} />}
-            tooltip={t('views.walletDrawer.disconnect')}
-            tooltipPlacemenet={'left'}
-          />
-        </Box>
-      </Box>
+      <WalletHeader />
       <Box col>
         {wallet &&
           sortedChains.map((chain) => {

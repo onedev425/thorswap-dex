@@ -9,12 +9,12 @@ type Props = {
 }
 
 export const WalletDrawer = ({ children }: Props) => {
-  const { setIsDrawerVisible, isVisible } = useWalletDrawer()
+  const { setIsDrawerVisible, isOpened } = useWalletDrawer()
 
   return (
-    <Transition show={isVisible}>
+    <Transition show={isOpened}>
       <Dialog onClose={() => setIsDrawerVisible(false)}>
-        <div className="fixed top-0 right-0 bottom-0 z-40">
+        <div className="fixed top-0 right-0 bottom-0 z-20">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"

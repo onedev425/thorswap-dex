@@ -8,11 +8,19 @@ import {
   useState,
 } from 'react'
 
-export const WalletDrawerContext = createContext([
-  false,
-  (_visible: boolean) => {},
-  () => {},
-])
+type WalletDrawerContextType = {
+  isOpened: boolean
+  setIsDrawerVisible: (visible: boolean) => void
+  onToggle: () => void
+  close: () => void
+}
+
+export const WalletDrawerContext = createContext({
+  isOpened: false,
+  setIsDrawerVisible: (_: boolean) => {},
+  onToggle: () => {},
+  close: () => {},
+} as WalletDrawerContextType)
 
 type Props = {
   children?: ReactNode
@@ -25,7 +33,7 @@ const WalletDrawerProvider = ({ children }: Props) => {
     document.body.style.overflow = isOpened ? 'hidden' : 'unset'
   }, [isOpened])
 
-  const toggle = useCallback(() => {
+  const onToggle = useCallback(() => {
     setIsOpened((v) => !v)
   }, [])
 
@@ -33,9 +41,13 @@ const WalletDrawerProvider = ({ children }: Props) => {
     setIsOpened(visible)
   }, [])
 
+  const close = useCallback(() => {
+    setIsOpened(false)
+  }, [])
+
   return (
     <WalletDrawerContext.Provider
-      value={[isOpened, setIsDrawerVisible, toggle]}
+      value={{ isOpened, setIsDrawerVisible, onToggle, close }}
     >
       {children}
     </WalletDrawerContext.Provider>
@@ -43,14 +55,7 @@ const WalletDrawerProvider = ({ children }: Props) => {
 }
 
 export const useWalletDrawer = () => {
-  const [isVisible, setIsDrawerVisible, onToggle] =
-    useContext(WalletDrawerContext)
-
-  return { isVisible, setIsDrawerVisible, onToggle } as {
-    isVisible: boolean
-    setIsDrawerVisible: (visible: boolean) => void
-    onToggle: () => void
-  }
+  return useContext(WalletDrawerContext)
 }
 
 export default WalletDrawerProvider
