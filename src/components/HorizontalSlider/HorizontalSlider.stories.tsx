@@ -62,7 +62,7 @@ const STATS_LIST: StatsType[] = [
 export const Default = () => {
   return (
     <div className="flex flex-row bg-light-bg-primary dark:bg-dark-bg-primary p-4 gap-3">
-      <HorizontalSlider itemWidth={300}>
+      <HorizontalSlider itemWidth={300} fadeOut>
         {STATS_LIST.map((item) => (
           <Card className="flex-grow" key={item.value}>
             <Typography>{item.label}</Typography>

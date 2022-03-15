@@ -7,7 +7,7 @@ import { StatsListProps } from './types'
 export const StatsList = ({ list, scrollable = true }: StatsListProps) => {
   if (scrollable) {
     return (
-      <HorizontalSlider itemWidth={statsWidth}>
+      <HorizontalSlider itemWidth={statsWidth} fadeOut>
         {list.map((item) => (
           <Stats key={item.label} {...item} />
         ))}

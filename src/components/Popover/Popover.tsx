@@ -34,7 +34,7 @@ export const Popover = ({ trigger, children, onClose }: PopoverProps) => {
             </HeadlessPopover.Button>
             {open && (
               <HeadlessPopover.Panel
-                className="z-10"
+                className="z-20"
                 ref={setPopperElement}
                 style={styles.popper}
                 {...attributes.popper}
