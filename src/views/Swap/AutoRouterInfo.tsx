@@ -29,7 +29,7 @@ export const AutoRouterInfo = memo(({ firstAsset, secondAsset }: Props) => {
 
   return (
     <Collapse
-      className="!py-2 self-stretch mt-5 bg-light-gray-light dark:bg-dark-gray-light !rounded-2xl flex-col"
+      className="!py-2 self-stretch mt-5 !bg-light-gray-light dark:!bg-dark-gray-light !rounded-2xl flex-col"
       shadow={false}
       title={
         <Box className="cursor-pointer" alignCenter justify="between">

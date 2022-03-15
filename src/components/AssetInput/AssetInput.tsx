@@ -55,7 +55,7 @@ export const AssetInput = ({
 
         {singleAsset ? (
           <AssetSelectButton
-            className="m-2 pr-3 md:m-0"
+            className="pr-3 m-2 md:m-0"
             selected={selectedAsset?.asset}
           />
         ) : (
@@ -87,7 +87,7 @@ export const AssetInput = ({
 
         <Box center row>
           <Button
-            className="px-2 h-6 mr-2"
+            className="h-6 px-2 mr-2"
             size="sm"
             type="outline"
             transform="uppercase"

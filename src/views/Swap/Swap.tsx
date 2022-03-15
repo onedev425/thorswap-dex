@@ -17,7 +17,7 @@ import { useAssets } from 'redux/assets/hooks'
 import { t } from 'services/i18n'
 
 import { AssetInputs } from './AssetInputs'
-import { AutoRouterInfo } from './AutoRouterInfo'
+// import { AutoRouterInfo } from './AutoRouterInfo'
 import { SwapInfo } from './SwapInfo'
 import { swapReducer } from './swapReducer'
 
@@ -145,10 +145,10 @@ const Swap = () => {
           slippage={slippage}
         />
 
-        <AutoRouterInfo
+        {/* <AutoRouterInfo
           firstAsset={firstAsset.asset}
           secondAsset={secondAsset.asset}
-        />
+        /> */}
 
         <Box className="w-full pt-5">
           <Button stretch size="lg" onClick={handleSwap}>
