@@ -13,11 +13,21 @@ export type AssetInputType = {
 export type AssetInputProps = {
   className?: string
   selectedAsset: AssetInputType
-  assets: AssetSelectType[]
-  commonAssets: AssetSelectType[]
   secondary?: boolean
   showChange?: boolean
   secondaryLabel?: string
-  onAssetChange: (asset: Asset) => void
   onValueChange: (assetValue: string) => void
-}
+} & (
+  | {
+      assets?: undefined
+      commonAssets?: undefined
+      onAssetChange?: undefined
+      singleAsset: true
+    }
+  | {
+      assets: AssetSelectType[]
+      commonAssets: AssetSelectType[]
+      onAssetChange: (asset: Asset) => void
+      singleAsset?: undefined
+    }
+)

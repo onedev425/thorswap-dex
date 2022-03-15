@@ -1,7 +1,10 @@
+import { useCallback } from 'react'
+
 import classNames from 'classnames'
 
 import { AssetSelect } from 'components/AssetSelect'
-import { Box, Typography } from 'components/Atomic'
+import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton'
+import { Box, Button, Typography } from 'components/Atomic'
 import { Input } from 'components/Input'
 
 import { t } from 'services/i18n'
@@ -9,6 +12,7 @@ import { t } from 'services/i18n'
 import { AssetInputProps } from './types'
 
 export const AssetInput = ({
+  singleAsset,
   className,
   showChange,
   selectedAsset,
@@ -22,6 +26,10 @@ export const AssetInput = ({
   const assetValue =
     parseFloat(selectedAsset?.price || '0') *
     parseFloat(selectedAsset?.value || '0')
+
+  const handleMaxClick = useCallback(() => {
+    onValueChange(selectedAsset.balance || '0')
+  }, [onValueChange, selectedAsset.balance])
 
   return (
     <Box
@@ -45,13 +53,20 @@ export const AssetInput = ({
           stretch
         />
 
-        <AssetSelect
-          className="m-2 md:m-0"
-          assets={assets}
-          selected={selectedAsset?.asset}
-          commonAssets={commonAssets}
-          onSelect={onAssetChange}
-        />
+        {singleAsset ? (
+          <AssetSelectButton
+            className="m-2 pr-3 md:m-0"
+            selected={selectedAsset?.asset}
+          />
+        ) : (
+          <AssetSelect
+            className="m-2 md:m-0"
+            assets={assets}
+            selected={selectedAsset?.asset}
+            commonAssets={commonAssets}
+            onSelect={onAssetChange}
+          />
+        )}
       </Box>
 
       <Box justify="between" className="pl-4 md:pl-2">
@@ -70,9 +85,20 @@ export const AssetInput = ({
           )}
         </Box>
 
-        <Typography className="pr-4 md:pr-0" color="secondary">
-          {t('common.balance')}: {selectedAsset.balance || 0}
-        </Typography>
+        <Box center row>
+          <Button
+            className="px-2 h-6 mr-2"
+            size="sm"
+            type="outline"
+            transform="uppercase"
+            onClick={handleMaxClick}
+          >
+            {t('common.max')}
+          </Button>
+          <Typography className="pr-4 md:pr-0" color="secondary">
+            {t('common.balance')}: {selectedAsset.balance || 0}
+          </Typography>
+        </Box>
       </Box>
     </Box>
   )

@@ -10,6 +10,7 @@ import SendView from 'views/Send'
 import StakeView from 'views/Stake'
 import StatsView from 'views/Stats'
 import SwapView from 'views/Swap'
+import UpgradeRuneView from 'views/UpgradeRune'
 import VestingView from 'views/Vesting'
 import WalletView from 'views/Wallet'
 import WalletBalance from 'views/WalletBalance'
@@ -39,6 +40,7 @@ const routes: RouteType = [
   { path: ROUTES.Vesting, element: VestingView },
   { path: ROUTES.Wallet, element: WalletView },
   { path: ROUTES.WithdrawLiquidity, element: WithdrawLiquidity },
+  { path: ROUTES.UpgradeRune, element: UpgradeRuneView },
 ]
 
 const PublicRoutes = () => {

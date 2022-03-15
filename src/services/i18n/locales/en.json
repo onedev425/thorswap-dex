@@ -39,7 +39,11 @@
     "settings": "Global Settings",
     "langSettings": "App",
     "defaultErrMsg": "Something went wrong",
-    "refresh": "Refresh data"
+    "refresh": "Refresh data",
+    "upgrade": "Upgrade",
+    "max": "Max",
+    "transactionFee": "Transaction Fee",
+    "recipientAddress": "Recipient Address"
   },
   "appMenu": {
     "lightTheme": "Light Theme",

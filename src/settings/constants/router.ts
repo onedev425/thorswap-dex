@@ -15,6 +15,7 @@ export enum ROUTES {
   Vesting = '/vesting',
   Wallet = '/wallet',
   WithdrawLiquidity = '/withdraw-liquidity',
+  UpgradeRune = '/upgrade-rune',
 }
 
 export const getAddLiquidityRoute = (asset: Asset) => {

@@ -114,7 +114,7 @@ const Send = () => {
         <Box row flex={1} mt={3}>
           <Information
             className="flex-1"
-            label="Transaction Fee"
+            label={t('common.transactionFee')}
             value="0.00675 ETH ($20)"
           />
 
@@ -158,7 +158,7 @@ const Send = () => {
               <Box row flex={1}>
                 <Information
                   className="flex-1"
-                  label="Transaction Fee"
+                  label={t('common.transactionFee')}
                   value="0.00675 ETH ($20)"
                 />
 

@@ -12,7 +12,7 @@ import { t } from 'services/i18n'
 const data = [
   { title: 'Slip', amount: '0.54' },
   { title: 'Pool Share Estimated', amount: '8.248' },
-  { title: 'Transaction Fee', amount: '0.02 RUNE ($0.30)' },
+  { title: t('common.transactionFee'), amount: '0.02 RUNE' },
 ]
 
 export const PendingTile = memo(() => {

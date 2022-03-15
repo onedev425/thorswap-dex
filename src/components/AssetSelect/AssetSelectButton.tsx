@@ -8,7 +8,7 @@ import { t } from 'services/i18n'
 
 type Props = {
   className?: string
-  onClick: () => void
+  onClick?: () => void
   selected?: Maybe<Asset>
 }
 
@@ -18,7 +18,7 @@ export const AssetSelectButton = ({ className, onClick, selected }: Props) => {
       <AssetButton
         asset={selected}
         className={className}
-        withChevron
+        withChevron={Boolean(onClick)}
         onClick={onClick}
       />
     )
