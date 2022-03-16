@@ -290,7 +290,9 @@ export const WalletModal = () => {
   )
 
   const toggleChains = useCallback(() => {
-    setPendingChains(pendingChains.length ? availableChainsByWallet[walletMode] : [])
+    setPendingChains(
+      pendingChains.length ? availableChainsByWallet[walletMode] : [],
+    )
   }, [walletMode, pendingChains])
 
   const handleCloseModal = useCallback(() => {
