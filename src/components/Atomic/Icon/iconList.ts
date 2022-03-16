@@ -8,7 +8,7 @@ import {
   AiOutlineHeart,
   AiFillHeart,
 } from 'react-icons/ai'
-import { BiArrowBack, BiLinkExternal } from 'react-icons/bi'
+import { BiArrowBack, BiLinkExternal, BiSelectMultiple } from 'react-icons/bi'
 import {
   BsCurrencyDollar,
   BsDiscord,
@@ -135,6 +135,7 @@ const Icons = {
   wallet: IoWalletOutline,
   wifi: FaWifi,
   xCircle: FiXCircle,
+  selectAll: BiSelectMultiple,
   spaceBar: MdSpaceBar,
   starFilled: AiFillStar,
   starEmpty: AiOutlineStar,

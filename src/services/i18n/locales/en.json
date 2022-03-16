@@ -209,7 +209,8 @@
       "notConnected": "Not Connected",
       "connectedWith": "Connected With",
       "ledgerIndex": "Ledger Index",
-      "invalidKeystore": "Invalid Keystore File"
+      "invalidKeystore": "Invalid Keystore File",
+      "selectAll": "Select All / Deselect All"
     },
     "addLiquidity": {
       "pricesAndPoolShare": "Prices and Pool Share",
