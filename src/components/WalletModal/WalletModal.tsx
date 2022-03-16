@@ -291,9 +291,9 @@ export const WalletModal = () => {
 
   const toggleChains = useCallback(() => {
     setPendingChains(
-      pendingChains.length ? availableChainsByWallet[walletMode] : [],
+      pendingChains.length > 0 ? [] : availableChainsByWallet[walletMode],
     )
-  }, [walletMode, pendingChains])
+  }, [pendingChains.length, walletMode])
 
   const handleCloseModal = useCallback(() => {
     clearStatus()
@@ -377,17 +377,19 @@ export const WalletModal = () => {
 
     return (
       <Box className="w-full space-y-3" col>
-        {availableChainsByWallet[walletMode].length > 0 && (
-          <Box row justify="end">
-            <Tooltip content={t('views.walletModal.selectAll')}>
-              <Icon
-                name="selectAll"
-                onClick={toggleChains}
-                color="primaryBtn"
-              />
-            </Tooltip>
-          </Box>
-        )}
+        {walletMode !== WalletMode.Ledger &&
+          walletMode !== WalletMode.TrustWallet &&
+          availableChainsByWallet[walletMode].length > 0 && (
+            <Box row justify="end">
+              <Tooltip content={t('views.walletModal.selectAll')}>
+                <Icon
+                  name="selectAll"
+                  onClick={toggleChains}
+                  color="primaryBtn"
+                />
+              </Tooltip>
+            </Box>
+          )}
         {availableChainsByWallet[walletMode].map((chain) => {
           const isChainSelected = pendingChains.includes(chain)
 
