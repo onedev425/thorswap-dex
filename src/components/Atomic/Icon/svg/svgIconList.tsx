@@ -12,6 +12,7 @@ import { ReactComponent as App } from './app.svg'
 import { ReactComponent as Bulb } from './bulb.svg'
 import { ReactComponent as ChartCandle } from './chartCandle.svg'
 import { ReactComponent as Cloud } from './cloud.svg'
+import { ReactComponent as Collapse } from './collapse.svg'
 import { ReactComponent as Gwei } from './gwei.svg'
 import { ReactComponent as Import } from './import.svg'
 import { ReactComponent as InIcon } from './inIcon.svg'
@@ -87,6 +88,7 @@ export const Svgs = {
   walletConnect: WalletConnect,
   watch: Watch,
   xdefi: XDefi,
+  collapse: Collapse,
 }
 
 export const SvgIcons = {
@@ -143,4 +145,5 @@ export const SvgIcons = {
   bulb: (props: CustomIconProps) => <SvgIcon name="bulb" {...props} />,
   tick: (props: CustomIconProps) => <SvgIcon name="tick" {...props} />,
   router: (props: CustomIconProps) => <SvgIcon name="router" {...props} />,
+  collapse: (props: CustomIconProps) => <SvgIcon name="collapse" {...props} />,
 } as const

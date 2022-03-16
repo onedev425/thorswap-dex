@@ -90,18 +90,21 @@
       }
     },
     "sidebar": {
-      "addLiquidity": "Add Liquidity",
       "dashboard": "Dashboard",
-      "manageLiquidity": "Manage Liquidity",
-      "pendingLiquidity": "Pending Liquidity",
-      "send": "Send",
-      "stats": "Stats",
-      "swap": "Swap",
-      "thorStake": "Thor Stake",
-      "thornode": "Thornode",
       "trade": "Trade",
+      "swap": "Swap",
+      "addLiquidity": "Deposit",
+      "manageLiquidity": "Liquidity",
+      "pendingLiquidity": "Pending",
+      "send": "Send",
+      "thor": "Thor",
+      "thorStake": "Stake",
       "vesting": "Vesting",
-      "wallet": "Wallet"
+      "thornode": "Thornode",
+      "wallet": "Wallet",
+      "stats": "Stats",
+      "collapse": "Collapse",
+      "uncollapse": "Uncollapse"
     }
   },
   "views": {

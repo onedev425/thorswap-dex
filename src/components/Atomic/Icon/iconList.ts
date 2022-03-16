@@ -44,7 +44,7 @@ import {
   FiXCircle,
 } from 'react-icons/fi'
 import { GrBitcoin } from 'react-icons/gr'
-import { HiOutlineCog } from 'react-icons/hi'
+import { HiOutlineCog, HiOutlineChartPie } from 'react-icons/hi'
 import {
   IoCheckmarkCircleOutline,
   IoCloseCircleOutline,
@@ -91,6 +91,7 @@ const Icons = {
   chartArea2: FaChartArea,
   chartArea: MdAreaChart,
   chartPie: FaChartPie,
+  chartPieOutline: HiOutlineChartPie,
   checkmark: FiCheck,
   chevronDown: FiChevronDown,
   chevronLeft: FiChevronLeft,

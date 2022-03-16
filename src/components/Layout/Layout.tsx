@@ -1,11 +1,10 @@
 import { ReactNode, useState } from 'react'
 
-import { Scrollbars } from 'react-custom-scrollbars'
-
 import classNames from 'classnames'
 
 import { Header } from 'components/Header'
 import { NavDrawer } from 'components/NavDrawer'
+import { Scrollbar } from 'components/Scrollbar'
 import { Sidebar } from 'components/Sidebar'
 import { WalletModal } from 'components/WalletModal'
 
@@ -15,7 +14,7 @@ export type LayoutProp = {
 
 export const Layout = ({ children }: LayoutProp) => {
   const [isMenuVisible, setMenuVisible] = useState(false)
-
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const openMenu = () => {
     setMenuVisible(true)
   }
@@ -25,19 +24,13 @@ export const Layout = ({ children }: LayoutProp) => {
   }
 
   return (
-    <Scrollbars
-      autoHide
-      renderThumbVertical={({ style, ...scrollProps }) => (
-        <div
-          style={{ ...style, backgroundColor: '#00d2ff', width: '4px' }}
-          {...scrollProps}
-        />
-      )}
-      style={{ height: '100vh' }}
-    >
-      <div className="relative flex flex-col w-full min-h-screen mx-auto my-0 max-w-8xl z-10">
+    <Scrollbar>
+      <div className="relative z-10 flex flex-col w-full min-h-screen mx-auto my-0 max-w-8xl">
         <aside className="fixed hidden md:block">
-          <Sidebar collapsed />
+          <Sidebar
+            collapsed={sidebarCollapsed}
+            toggle={() => setSidebarCollapsed((v) => !v)}
+          />
         </aside>
 
         <aside className="md:hidden">
@@ -46,7 +39,8 @@ export const Layout = ({ children }: LayoutProp) => {
 
         <main
           className={classNames(
-            'flex flex-col md:ml-[92px] md:max-w-[calc(100%-148px)] mx-3 md:px-10 py-5',
+            'flex flex-col md:max-w-[calc(100%-148px)] mx-3 md:px-10 py-5 transition-all duration-300 ease-in-out',
+            sidebarCollapsed ? 'md:ml-24' : 'md:ml-56',
           )}
         >
           <Header openMenu={openMenu} />
@@ -56,6 +50,6 @@ export const Layout = ({ children }: LayoutProp) => {
       </div>
 
       <div className="fixed inset-0 z-0 bg-elliptical-light dark:bg-elliptical"></div>
-    </Scrollbars>
+    </Scrollbar>
   )
 }

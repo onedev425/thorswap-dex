@@ -14,7 +14,7 @@ export const navbarOptions: SidebarItemProps[] = [
   },
   {
     iconName: 'tradeLightning',
-    href: ROUTES.Home,
+    href: ROUTES.Swap,
     label: t('components.sidebar.trade'),
     isExternal: false,
     hasSub: true,
@@ -41,13 +41,6 @@ export const navbarOptions: SidebarItemProps[] = [
         hasSub: false,
       },
       {
-        iconName: 'lightning',
-        href: ROUTES.Stake,
-        label: t('components.sidebar.thorStake'),
-        isExternal: false,
-        hasSub: false,
-      },
-      {
         iconName: 'watch',
         href: ROUTES.PendingLiquidity,
         label: t('components.sidebar.pendingLiquidity'),
@@ -57,11 +50,27 @@ export const navbarOptions: SidebarItemProps[] = [
     ],
   },
   {
-    iconName: 'chartPie',
-    href: ROUTES.Vesting,
-    label: t('components.sidebar.vesting'),
+    iconName: 'tradeLightning',
+    href: ROUTES.Stake,
+    label: t('components.sidebar.thor'),
     isExternal: false,
-    hasSub: false,
+    hasSub: true,
+    children: [
+      {
+        iconName: 'tradeLightning',
+        href: ROUTES.Stake,
+        label: t('components.sidebar.thorStake'),
+        isExternal: false,
+        hasSub: false,
+      },
+      {
+        iconName: 'chartPieOutline',
+        href: ROUTES.Vesting,
+        label: t('components.sidebar.vesting'),
+        isExternal: false,
+        hasSub: false,
+      },
+    ],
   },
   {
     iconName: 'wallet',

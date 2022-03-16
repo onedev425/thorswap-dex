@@ -12,7 +12,7 @@ type ItemProps = {
 export type NavItemProps = ItemProps & {
   variant?: Variant
   className?: string
-  showTooltip?: boolean
+  collapsed?: boolean
 }
 
 export type SidebarItemProps = ItemProps & {
@@ -22,6 +22,8 @@ export type SidebarItemProps = ItemProps & {
 }
 
 export type SidebarProps = {
+  className?: string
   options?: SidebarItemProps[]
   collapsed?: boolean
+  toggle?: () => void
 }

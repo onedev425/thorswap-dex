@@ -59,6 +59,8 @@ module.exports = {
         'dark-gray': 'rgba(247, 247, 252, 0.72)',
         'typo-gray': '#7C859F',
         'typo-primary': '#121526',
+        'green-light': '#6A8E8B',
+        'green-lighter': '#46b2a71f',
       },
 
       // dark
@@ -72,6 +74,8 @@ module.exports = {
         'dark-gray': '#29354a',
         'typo-gray': '#75849D',
         'typo-primary': '#E2EBFB',
+        'green-light': '#6A8E8B',
+        'green-lighter': '#46b2a71f',
       },
     },
     fontFamily: {
@@ -217,6 +221,9 @@ module.exports = {
       borderSpacing: ({ theme }) => ({
         ...theme('spacing'),
       }),
+      height: {
+        sidebar: 'calc(100vh - 32px)',
+      },
     },
   },
   variants: {
