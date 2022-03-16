@@ -6,9 +6,9 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import { assetsFixture } from 'utils/assetsFixture'
 
 import { AssetSelectType } from 'components/AssetSelect/types'
-import { Button, Modal, Card, Icon, Box } from 'components/Atomic'
+import { Button, Modal, Icon, Box } from 'components/Atomic'
 import { ConfirmSwapItem } from 'components/ConfirmSwapItem'
-import { Helmet } from 'components/Helmet'
+import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
 
@@ -110,10 +110,9 @@ const Swap = () => {
   }, [])
 
   return (
-    <Box className="self-center w-full max-w-[480px]" col>
-      <Helmet title="Swap" content="Swap" />
-
-      <Box className="w-full mx-2" col>
+    <PanelView
+      title="Swap"
+      header={
         <ViewHeader
           title={t('common.swap')}
           actionsComponent={
@@ -123,50 +122,44 @@ const Swap = () => {
             </Box>
           }
         />
-      </Box>
+      }
+    >
+      <AssetInputs
+        firstAsset={firstAsset}
+        secondAsset={secondAsset}
+        onAssetChange={handleAssetChange}
+        onValueChange={handleValueChange}
+        onAssetsSwap={handleAssetsSwap}
+      />
 
-      <Card
-        className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-4 space-y-1 shadow-lg md:w-full md:mt-8 md:h-auto"
-        size="lg"
-        stretch
-      >
-        <AssetInputs
-          firstAsset={firstAsset}
-          secondAsset={secondAsset}
-          onAssetChange={handleAssetChange}
-          onValueChange={handleValueChange}
-          onAssetsSwap={handleAssetsSwap}
-        />
+      <SwapInfo
+        firstAsset={firstAsset}
+        secondAsset={secondAsset}
+        priceImpact={priceImpact}
+        slippage={slippage}
+      />
 
-        <SwapInfo
-          firstAsset={firstAsset}
-          secondAsset={secondAsset}
-          priceImpact={priceImpact}
-          slippage={slippage}
-        />
-
-        {/* <AutoRouterInfo
+      {/* <AutoRouterInfo
           firstAsset={firstAsset.asset}
           secondAsset={secondAsset.asset}
         /> */}
 
-        <Box className="w-full pt-5">
-          <Button stretch size="lg" onClick={handleSwap}>
-            {t('common.connectWallet')}
-          </Button>
+      <Box className="w-full pt-5">
+        <Button stretch size="lg" onClick={handleSwap}>
+          {t('common.connectWallet')}
+        </Button>
 
-          {isOpened && (
-            <Modal
-              title="Confirm Swap"
-              isOpened={isOpened}
-              onClose={() => dispatch({ type: 'setIsOpened', payload: false })}
-            >
-              <ConfirmSwapItem />
-            </Modal>
-          )}
-        </Box>
-      </Card>
-    </Box>
+        {isOpened && (
+          <Modal
+            title="Confirm Swap"
+            isOpened={isOpened}
+            onClose={() => dispatch({ type: 'setIsOpened', payload: false })}
+          >
+            <ConfirmSwapItem />
+          </Modal>
+        )}
+      </Box>
+    </PanelView>
   )
 }
 

@@ -9,15 +9,14 @@ import { AssetInput } from 'components/AssetInput'
 import {
   Button,
   Modal,
-  Card,
   Box,
   Typography,
   Tooltip,
   Icon,
 } from 'components/Atomic'
-import { Helmet } from 'components/Helmet'
 import { Information } from 'components/Information'
 import { Input } from 'components/Input'
+import { PanelView } from 'components/PanelView'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { t } from 'services/i18n'
@@ -63,33 +62,27 @@ const Send = () => {
     }
 
   return (
-    <Box className="self-center w-full max-w-[600px]" col>
-      <Helmet title="Send" content="Send" />
-
-      <Box className="w-full mx-2" col>
+    <PanelView
+      title="Send"
+      header={
         <ViewHeader
           title={t('common.send')}
           actionsComponent={<Icon size={26} name="cog" color="secondary" />}
         />
-      </Box>
+      }
+    >
+      <AssetInput
+        selectedAsset={asset}
+        assets={assetsFixture}
+        commonAssets={commonAssets}
+        secondary
+        onAssetChange={handleAssetChange}
+        onValueChange={handleValueChange}
+      />
 
-      <Card
-        size="lg"
-        stretch
-        className="flex-col md:w-full mt-4 md:mt-8 md:h-auto shadow-lg"
-      >
-        <AssetInput
-          selectedAsset={asset}
-          assets={assetsFixture}
-          commonAssets={commonAssets}
-          secondary
-          onAssetChange={handleAssetChange}
-          onValueChange={handleValueChange}
-        />
+      <Box className="w-full space-y-2" mt={16} col>
+        <Typography variant="h4">{t('common.recipient')}</Typography>
 
-        <div className="mt-6 mb-4">
-          <Typography variant="h4">{t('common.recipient')}</Typography>
-        </div>
         <Input
           border="bottom"
           className="text-lg"
@@ -99,12 +92,11 @@ const Send = () => {
           onChange={handleChange('setAddress')}
         />
 
-        <div className="mt-6 mb-4">
-          <Typography variant="h4">{t('common.memo')}</Typography>
-        </div>
+        <Typography variant="h4">{t('common.memo')}</Typography>
+
         <Input
-          border="bottom"
           className="text-lg"
+          border="bottom"
           value={memo}
           stretch
           placeholder={t('common.memo')}
@@ -120,20 +112,20 @@ const Send = () => {
 
           <Tooltip content="Transaction fee tooltip">
             <Icon
-              className="ml-2 mt-2"
+              className="mt-2 ml-2"
               size={20}
               color="secondary"
               name="infoCircle"
             />
           </Tooltip>
         </Box>
+      </Box>
 
-        <Box center className="pt-5 md:pt-10">
-          <Button onClick={() => setModalVisibility(true)} className="px-20">
-            {t('common.send')}
-          </Button>
-        </Box>
-      </Card>
+      <Box center className="pt-5 md:pt-10">
+        <Button onClick={() => setModalVisibility(true)} className="px-20">
+          {t('common.send')}
+        </Button>
+      </Box>
 
       {isOpened && (
         <Modal
@@ -164,7 +156,7 @@ const Send = () => {
 
                 <Tooltip content="Transaction fee tooltip">
                   <Icon
-                    className="ml-2 mt-2"
+                    className="mt-2 ml-2"
                     size={20}
                     color="secondary"
                     name="infoCircle"
@@ -177,7 +169,7 @@ const Send = () => {
           </div>
         </Modal>
       )}
-    </Box>
+    </PanelView>
   )
 }
 export default Send

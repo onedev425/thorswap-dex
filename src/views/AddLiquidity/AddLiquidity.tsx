@@ -6,10 +6,10 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import { assetsFixture } from 'utils/assetsFixture'
 
 import { AssetSelectType } from 'components/AssetSelect/types'
-import { Button, Card, Box } from 'components/Atomic'
-import { Helmet } from 'components/Helmet'
+import { Button, Box } from 'components/Atomic'
 import { LiquidityType } from 'components/LiquidityType/LiquidityType'
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
+import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
 
@@ -95,46 +95,40 @@ export const AddLiquidity = () => {
   )
 
   return (
-    <Box className="w-full max-w-[480px] self-center" col>
-      <Helmet title="Add Liquidity" content="Add Liquidity" />
-      <Box className="w-full mx-2" col>
+    <PanelView
+      title="Add Liquidity"
+      header={
         <ViewHeader
           title={t('common.addLiquidity')}
           actionsComponent={<SwapSettingsPopover />}
         />
+      }
+    >
+      <LiquidityType
+        assetName={firstAsset.asset.name}
+        selected={liquidityType}
+        onChange={setLiquidityType}
+      />
+      <AssetInputs
+        firstAsset={firstAsset}
+        secondAsset={secondAsset}
+        onAssetChange={handleAssetChange}
+        onValueChange={handleValueChange}
+      />
+
+      <PoolInfo
+        firstAsset={firstAsset}
+        secondAsset={secondAsset}
+        poolShare={poolShare}
+        firstToSecondRate={assetRate}
+      />
+
+      <Box className="w-full pt-5">
+        <Button stretch size="lg">
+          {t('common.connectWallet')}
+        </Button>
       </Box>
-
-      <Card
-        className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-4 space-y-1 shadow-lg md:w-full md:mt-8 md:h-auto"
-        size="lg"
-        stretch
-      >
-        <LiquidityType
-          assetName={firstAsset.asset.name}
-          selected={liquidityType}
-          onChange={setLiquidityType}
-        />
-        <AssetInputs
-          firstAsset={firstAsset}
-          secondAsset={secondAsset}
-          onAssetChange={handleAssetChange}
-          onValueChange={handleValueChange}
-        />
-
-        <PoolInfo
-          firstAsset={firstAsset}
-          secondAsset={secondAsset}
-          poolShare={poolShare}
-          firstToSecondRate={assetRate}
-        />
-
-        <Box className="w-full pt-5">
-          <Button stretch size="lg">
-            {t('common.connectWallet')}
-          </Button>
-        </Box>
-      </Card>
-    </Box>
+    </PanelView>
   )
 }
 

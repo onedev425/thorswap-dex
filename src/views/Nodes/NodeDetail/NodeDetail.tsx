@@ -2,16 +2,15 @@ import { useReducer, useCallback } from 'react'
 
 import {
   Button,
-  Card,
   Box,
   Icon,
   Collapse,
   Select,
   Typography,
 } from 'components/Atomic'
-import { Helmet } from 'components/Helmet'
 import { Information } from 'components/Information'
 import { Input } from 'components/Input'
+import { PanelView } from 'components/PanelView'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { t } from 'services/i18n'
@@ -58,9 +57,9 @@ export const NodeDetail = () => {
   }, [])
 
   return (
-    <Box className="w-full max-w-[600px] self-center" col>
-      <Helmet title="Node Detail" content="Node Detail" />
-      <Box className="w-full mx-2" col>
+    <PanelView
+      title="Node Detail"
+      header={
         <ViewHeader
           withBack
           title={t('views.nodes.detail.nodeInformation')}
@@ -69,56 +68,46 @@ export const NodeDetail = () => {
               <Icon
                 size={26}
                 name={favorite ? 'heartFilled' : 'heart'}
-                color={favorite ? 'red' : 'secondary'}
+                color={favorite ? 'pink' : 'secondary'}
                 onClick={handleFavoriteChange}
               />
             </Box>
           }
         />
+      }
+    >
+      <Box className="w-full" col>
+        {data.map((item) => (
+          <Information key={item.label} label={item.label} value={item.value} />
+        ))}
       </Box>
-
-      <Card
-        size="lg"
-        stretch
-        className="flex-col items-center mt-4 md:mt-8 !p-0 md:h-auto md:pb-10 shadow-lg"
-      >
-        <Card size="lg" className="flex-col self-stretch shadow-lg">
-          {data.map((item) => (
-            <Information
-              key={item.label}
-              label={item.label}
-              value={item.value}
+      <Collapse title="Actions" className="w-full mt-4">
+        <Select
+          options={options}
+          activeIndex={actionIndex}
+          onChange={handleActionChange}
+        />
+        {actionIndex !== 2 && (
+          <Box justify="between" className="!mt-2" justifyCenter alignCenter>
+            <Typography>
+              {options[actionIndex]} {t('views.nodes.detail.amount')}{' '}
+              {actionIndex === 1 ? '(ᚱ)' : ''}:
+            </Typography>
+            <Input
+              placeholder={t('views.nodes.detail.enterAmount')}
+              value={amount}
+              border="rounded"
+              onChange={handleInputChange}
+              type="number"
             />
-          ))}
-        </Card>
-        <Collapse title="Actions" className="mt-4 px-5 md:px-10 pb-10 w-full">
-          <Select
-            options={options}
-            activeIndex={actionIndex}
-            onChange={handleActionChange}
-          />
-          {actionIndex !== 2 && (
-            <Box justify="between" className="!mt-2" justifyCenter alignCenter>
-              <Typography>
-                {options[actionIndex]} {t('views.nodes.detail.amount')}{' '}
-                {actionIndex === 1 ? '(ᚱ)' : ''}:
-              </Typography>
-              <Input
-                placeholder={t('views.nodes.detail.enterAmount')}
-                value={amount}
-                border="rounded"
-                onChange={handleInputChange}
-                type="number"
-              />
-            </Box>
-          )}
-
-          <Box className="pt-5 md:pt-10" col>
-            <Button>{t('views.nodes.detail.complete')}</Button>
           </Box>
-        </Collapse>
-      </Card>
-    </Box>
+        )}
+
+        <Box className="pt-5 md:pt-10" col>
+          <Button>{t('views.nodes.detail.complete')}</Button>
+        </Box>
+      </Collapse>
+    </PanelView>
   )
 }
 

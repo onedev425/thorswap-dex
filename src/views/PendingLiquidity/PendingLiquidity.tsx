@@ -2,15 +2,17 @@ import { AddDeposit } from 'views/PendingLiquidity/AddDeposit'
 import { PendingDeposit } from 'views/PendingLiquidity/PendingDeposit'
 import { PendingTile } from 'views/PendingLiquidity/PendingTile'
 
-import { Box, Button, Card, Icon } from 'components/Atomic'
+import { Box, Button, Icon } from 'components/Atomic'
+import { PanelView } from 'components/PanelView'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { t } from 'services/i18n'
 
 export const PendingLiquidity = () => {
   return (
-    <Box className="self-center w-full max-w-[600px]" col>
-      <Box className="w-full mx-2" col>
+    <PanelView
+      title="Pending Liquidity"
+      header={
         <ViewHeader
           title={t('views.pendingLiquidity.pendingLiquidity')}
           actionsComponent={
@@ -20,23 +22,17 @@ export const PendingLiquidity = () => {
             </Box>
           }
         />
+      }
+    >
+      <PendingDeposit />
+      <AddDeposit />
+      <PendingTile />
+
+      <Box className="py-5 md:pt-10">
+        <Button stretch size="lg">
+          {t('views.pendingLiquidity.insufficientAmount')}
+        </Button>
       </Box>
-
-      <Card
-        size="lg"
-        stretch
-        className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-4 space-y-1 shadow-lg md:w-full md:mt-8 md:h-auto"
-      >
-        <PendingDeposit />
-        <AddDeposit />
-        <PendingTile />
-
-        <Box className="py-5 md:pt-10">
-          <Button stretch size="lg">
-            {t('views.pendingLiquidity.insufficientAmount')}
-          </Button>
-        </Box>
-      </Card>
-    </Box>
+    </PanelView>
   )
 }
