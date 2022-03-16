@@ -378,7 +378,6 @@ export const WalletModal = () => {
     return (
       <Box className="w-full space-y-3" col>
         {walletMode !== WalletMode.Ledger &&
-          walletMode !== WalletMode.TrustWallet &&
           availableChainsByWallet[walletMode].length > 0 && (
             <Box row justify="end">
               <Tooltip content={t('views.walletModal.selectAll')}>
