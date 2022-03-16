@@ -38,7 +38,7 @@ export const AssetInputs = memo(
           onClick={handleAssetSwap}
           className={classNames(
             'absolute -mt-0.5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-            'p-1 md:p-2 rounded-2xl md:rounded-3xl',
+            'p-1 md:p-2 rounded-2xl md:rounded-3xl cursor-pointer',
             'border-10 border-solid bg-blue dark:border-dark-border-primary border-light-border-primary',
           )}
         >
