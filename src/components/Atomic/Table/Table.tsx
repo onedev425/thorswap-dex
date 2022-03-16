@@ -19,6 +19,7 @@ export type TableProps = {
   columns: TableColumnsConfig
   sortable?: boolean
   initialSort?: InitialTableSort
+  onRowClick?: Function
 }
 
 export const Table = ({
@@ -26,6 +27,7 @@ export const Table = ({
   data,
   sortable,
   initialSort,
+  onRowClick,
 }: TableProps) => {
   const { isVisible } = useWindowSize()
   const sortBy = useMemo(() => initialSort, [initialSort])
@@ -72,7 +74,13 @@ export const Table = ({
       <tbody {...getTableBodyProps()}>
         {rows.map((row: TableRowType) => {
           prepareRow(row)
-          return <TableRow key={row.getRowProps().key} row={row} />
+          return (
+            <TableRow
+              key={row.getRowProps().key}
+              onRowClick={onRowClick}
+              row={row}
+            />
+          )
         })}
       </tbody>
     </table>

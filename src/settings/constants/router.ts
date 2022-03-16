@@ -15,6 +15,7 @@ export enum ROUTES {
   Vesting = '/vesting',
   Wallet = '/wallet',
   WithdrawLiquidity = '/withdraw-liquidity',
+  NodeDetail = '/nodes/:id',
   UpgradeRune = '/upgrade-rune',
 }
 

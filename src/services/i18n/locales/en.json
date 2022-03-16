@@ -124,7 +124,13 @@
       "bondAmount": "Bond Amount:",
       "unbondAmount": "Unbond Amount",
       "assetTicker": "(R):",
-      "complete": "Complete"
+      "complete": "Complete",
+      "detail": {
+        "nodeInformation": "Node Information",
+        "complete": "Complete",
+        "amount": "Amount",
+        "enterAmount": "Enter an amount"
+      }
     },
     "staking": {
       "stakingToken": "Staking Token",

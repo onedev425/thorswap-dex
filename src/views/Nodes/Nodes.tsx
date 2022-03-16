@@ -1,5 +1,7 @@
 import { useEffect, useState, useMemo, useCallback } from 'react'
 
+import { useNavigate } from 'react-router-dom'
+
 import { THORNode } from '@thorswap-lib/midgard-sdk'
 import { Amount } from '@thorswap-lib/multichain-sdk'
 
@@ -29,6 +31,7 @@ const Nodes = () => {
   const [nodeStatusType, setNodeStatusType] = useState(0)
 
   const [keyword, setKeyword] = useState('')
+  const navigate = useNavigate()
 
   useEffect(() => {
     getNodes()
@@ -108,6 +111,10 @@ const Nodes = () => {
     ] as TableColumnsConfig
   }, [])
 
+  const onRowClick = (index: number) => {
+    navigate(`/nodes/${filteredNodes[index].node_address}`)
+  }
+
   return (
     <Box col>
       <Helmet title="Node Manager" content="Node Manager" />
@@ -144,7 +151,12 @@ const Nodes = () => {
           />
         </div>
       </Box>
-      <Table data={filteredNodes} columns={columns} sortable />
+      <Table
+        data={filteredNodes}
+        columns={columns}
+        onRowClick={onRowClick}
+        sortable
+      />
     </Box>
   )
 }

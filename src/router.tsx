@@ -4,6 +4,7 @@ import AddLiquidity from 'views/AddLiquidity'
 import HomeView from 'views/Home'
 import ManageLiquidityView from 'views/ManageLiquidity'
 import NodesView from 'views/Nodes'
+import NodeDetail from 'views/Nodes/NodeDetail'
 import NodeManager from 'views/Nodes/NodeManager'
 import PendingLiquidity from 'views/PendingLiquidity'
 import SendView from 'views/Send'
@@ -33,10 +34,11 @@ const routes: RouteType = [
   { path: ROUTES.NodeManager, element: NodeManager },
   { path: ROUTES.Nodes, element: NodesView },
   { path: ROUTES.PendingLiquidity, element: PendingLiquidity },
-  { path: ROUTES.Send, element: SendView },
   { path: ROUTES.Stake, element: StakeView },
+  { path: ROUTES.NodeDetail, element: NodeDetail },
   { path: ROUTES.Stats, element: StatsView },
   { path: ROUTES.Swap, element: SwapView },
+  { path: ROUTES.Send, element: SendView },
   { path: ROUTES.Vesting, element: VestingView },
   { path: ROUTES.Wallet, element: WalletView },
   { path: ROUTES.WithdrawLiquidity, element: WithdrawLiquidity },

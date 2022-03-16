@@ -5,6 +5,8 @@ import {
   AiOutlineQrcode,
   AiFillStar,
   AiOutlineStar,
+  AiOutlineHeart,
+  AiFillHeart,
 } from 'react-icons/ai'
 import { BiArrowBack, BiLinkExternal } from 'react-icons/bi'
 import {
@@ -136,6 +138,8 @@ const Icons = {
   spaceBar: MdSpaceBar,
   starFilled: AiFillStar,
   starEmpty: AiOutlineStar,
+  heart: AiOutlineHeart,
+  heartFilled: AiFillHeart,
   ...SvgIcons,
 } as const
 
