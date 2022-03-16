@@ -4661,6 +4661,11 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.0.2.tgz#4899c1246441aa352bd24f412d90db4010cb3fb9"
   integrity sha512-IjlkFRy7xpkyQI9ADQP5xMo/JLYWseJRbcmKMe2qKxbGr08KvShZLFcbkaOV55qASOnu5a4tOWnHlZnyuL8njg==
 
+"@thorswap-lib/midgard-sdk@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.0.tgz#b51b49e2fc5af1c0449c5fb92b99f1ea5add43cf"
+  integrity sha512-XE6ldODzdAM+7XZ1F6h0ClW29B6jsW0ZX4GOolYtiIV2dnfwK0awH8WT42nlxzD6RDXUugRvR5hkniOpvTXewA==
+
 "@thorswap-lib/multichain-sdk@^0.0.10":
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.0.10.tgz#43b828413aacc13e5fac7ebed6c614ecc83ca201"

@@ -1,12 +1,12 @@
 import {
-  AiOutlineLineChart,
-  AiOutlineSend,
-  AiOutlineSwap,
-  AiOutlineQrcode,
-  AiFillStar,
-  AiOutlineStar,
-  AiOutlineHeart,
   AiFillHeart,
+  AiFillStar,
+  AiOutlineHeart,
+  AiOutlineLineChart,
+  AiOutlineQrcode,
+  AiOutlineSend,
+  AiOutlineStar,
+  AiOutlineSwap,
 } from 'react-icons/ai'
 import { BiArrowBack, BiLinkExternal, BiSelectMultiple } from 'react-icons/bi'
 import {

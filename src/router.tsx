@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import AddLiquidity from 'views/AddLiquidity'
 import HomeView from 'views/Home'
 import ManageLiquidityView from 'views/ManageLiquidity'
-import NodesView from 'views/Nodes'
+import Nodes from 'views/Nodes'
 import NodeDetail from 'views/Nodes/NodeDetail'
 import NodeManager from 'views/Nodes/NodeManager'
 import PendingLiquidity from 'views/PendingLiquidity'
@@ -32,7 +32,7 @@ const routes: RouteType = [
   { path: ROUTES.Home, element: HomeView },
   { path: ROUTES.ManageLiquidity, element: ManageLiquidityView },
   { path: ROUTES.NodeManager, element: NodeManager },
-  { path: ROUTES.Nodes, element: NodesView },
+  { path: ROUTES.Nodes, element: Nodes },
   { path: ROUTES.PendingLiquidity, element: PendingLiquidity },
   { path: ROUTES.Stake, element: StakeView },
   { path: ROUTES.NodeDetail, element: NodeDetail },

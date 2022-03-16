@@ -1,3 +1,5 @@
+import { MouseEventHandler } from 'react'
+
 import classNames from 'classnames'
 
 import IconList from './iconList'
@@ -31,7 +33,7 @@ export type IconProps = {
   spin?: boolean
   name: IconName
   size?: number
-  onClick?: () => void
+  onClick?: (() => void) | MouseEventHandler
 }
 
 export const Icon = ({

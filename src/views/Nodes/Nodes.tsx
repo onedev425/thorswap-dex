@@ -8,10 +8,13 @@ import { Amount } from '@thorswap-lib/multichain-sdk'
 import {
   Box,
   Button,
+  Icon,
   Link,
-  Table,
   Select,
+  Table,
   TableColumnsConfig,
+  Tooltip,
+  Typography,
 } from 'components/Atomic'
 import { Helmet } from 'components/Helmet'
 import { Input } from 'components/Input'
@@ -22,14 +25,14 @@ import { t } from 'services/i18n'
 
 import { truncateAddress } from 'helpers/string'
 
+import { useApp } from '../../redux/app/hooks'
 import { NodeStats } from './NodeStats'
 import { nodeStatusOptions } from './types'
 
 const Nodes = () => {
   const { getNodes, nodes } = useMidgard()
-
+  const { setWatchList, nodeWatchList } = useApp()
   const [nodeStatusType, setNodeStatusType] = useState(0)
-
   const [keyword, setKeyword] = useState('')
   const navigate = useNavigate()
 
@@ -44,10 +47,16 @@ const Nodes = () => {
     [],
   )
 
+  const watchListData = useMemo(() => {
+    return nodes.filter((node) => nodeWatchList.includes(node.node_address))
+  }, [nodes, nodeWatchList])
+
   const filteredNodes = useMemo(() => {
     // filter by status
     const nodeByStatus = nodes.filter(
-      (node) => node.status === nodeStatusOptions[nodeStatusType],
+      (node) =>
+        node.status === nodeStatusOptions[nodeStatusType] &&
+        !nodeWatchList.includes(node.node_address),
     )
 
     // filter by keyword
@@ -59,10 +68,61 @@ const Nodes = () => {
     }
 
     return nodeByStatus
-  }, [nodes, keyword, nodeStatusType])
+  }, [nodes, keyword, nodeStatusType, nodeWatchList])
 
+  const handleAddToWatchList = useCallback(
+    (address: string) => {
+      const isSelected = nodeWatchList.includes(address)
+      if (!isSelected) {
+        setWatchList([address, ...nodeWatchList])
+      } else {
+        const newList = nodeWatchList.filter((addr) => addr !== address)
+        setWatchList(newList)
+      }
+    },
+    [setWatchList, nodeWatchList],
+  )
   const columns = useMemo(() => {
     return [
+      {
+        id: 'Bookmark',
+        Header: () => (
+          <Icon
+            onClick={() => {
+              getNodes()
+            }}
+            size={12}
+            className="group-hover:text-dark-typo-primary"
+            color="secondary"
+            name={'refresh'}
+          />
+        ),
+        align: 'center',
+        disableSortBy: true,
+        accessor: (row: THORNode) => row,
+        Cell: ({ cell: { value } }: { cell: { value: THORNode } }) => {
+          const isSelected = nodeWatchList.includes(value.node_address)
+          return (
+            <Tooltip
+              content={
+                isSelected ? 'Remove from watch list' : 'Add to watch list'
+              }
+            >
+              <Icon
+                onClick={(e) => {
+                  handleAddToWatchList(value.node_address)
+                  e.stopPropagation()
+                  e.preventDefault()
+                }}
+                size={16}
+                className="group-hover:text-dark-typo-primary"
+                color="secondary"
+                name={isSelected ? 'heartFilled' : 'heart'}
+              />
+            </Tooltip>
+          )
+        },
+      },
       {
         id: 'Address',
         Header: 'Address',
@@ -109,7 +169,7 @@ const Nodes = () => {
           Amount.fromNormalAmount(value.active_block_height).toFixed(0),
       },
     ] as TableColumnsConfig
-  }, [])
+  }, [nodeWatchList, handleAddToWatchList, getNodes])
 
   const onRowClick = (index: number) => {
     navigate(`/nodes/${filteredNodes[index].node_address}`)
@@ -120,6 +180,14 @@ const Nodes = () => {
       <Helmet title="Node Manager" content="Node Manager" />
 
       <NodeStats />
+      {watchListData?.length > 0 && (
+        <Box marginTop={4} marginBottom={4} col>
+          <Typography className="mb-2 text-dark-typo-primary">
+            {`${t('views.nodes.watchList')} (${watchListData.length})`}
+          </Typography>
+          <Table data={watchListData} columns={columns} sortable />
+        </Box>
+      )}
       <Box
         className="md:my-8 gap-4 !my-4 flex-grow lg:flex-row lg:justify-between"
         justify="between"

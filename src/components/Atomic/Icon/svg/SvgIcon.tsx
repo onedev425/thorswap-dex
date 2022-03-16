@@ -1,9 +1,11 @@
+import { MouseEventHandler } from 'react'
+
 import { SvgIconName, Svgs } from './svgIconList'
 
 export type CustomIconProps = {
   size?: number
   className?: string
-  onClick?: () => void
+  onClick?: (() => void) | MouseEventHandler
 }
 
 type SvgIconProps = {
