@@ -5,7 +5,12 @@ import { FeeOption } from '@thorswap-lib/xchain-client'
 
 import { getFromStorage, saveInStorage } from 'helpers/storage'
 
-import { SupportedLanguages, ThemeType, ThousandSeparator } from 'types/global'
+import {
+  SupportedLanguages,
+  ThemeType,
+  ThousandSeparator,
+  ViewMode,
+} from 'types/global'
 
 import { State } from './types'
 
@@ -25,6 +30,7 @@ const initialState: State = {
   expertMode: getFromStorage('expertMode') as boolean,
   autoRouter: getFromStorage('autoRouter') as boolean,
   nodeWatchList: getFromStorage('nodeWatchList') as string[],
+  walletViewMode: getFromStorage('walletViewMode') as ViewMode,
 }
 
 const appSlice = createSlice({
@@ -104,6 +110,11 @@ const appSlice = createSlice({
     setThousandSeparator(state, action: PayloadAction<ThousandSeparator>) {
       state.thousandSeparator = action.payload
       saveInStorage({ key: 'thousandSeparator', value: action.payload })
+    },
+    setWalletViewMode(state, action: PayloadAction<ViewMode>) {
+      state.walletViewMode = action.payload
+
+      saveInStorage({ key: 'walletViewMode', value: action.payload })
     },
   },
 })

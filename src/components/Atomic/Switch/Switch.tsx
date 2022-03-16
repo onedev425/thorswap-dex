@@ -4,17 +4,15 @@ import { Typography } from 'components/Atomic'
 
 import { SwitchProps } from './types'
 
-export const Switch = (props: SwitchProps) => {
-  const {
-    className = '',
-    selectedText = '',
-    unselectedText = '',
-    disabled = false,
-    checked = false,
-    onChange,
-    ...rest
-  } = props
-
+export const Switch = ({
+  className = '',
+  selectedText = '',
+  unselectedText = '',
+  disabled = false,
+  checked = false,
+  onChange,
+  ...rest
+}: SwitchProps) => {
   return (
     <span
       className={classNames(
@@ -45,6 +43,7 @@ export const Switch = (props: SwitchProps) => {
             {checked ? selectedText : unselectedText}
           </Typography>
         </span>
+
         <span className="flex items-center justify-around h-full opacity-60">
           <Typography
             className={classNames({ invisible: checked })}
@@ -53,6 +52,7 @@ export const Switch = (props: SwitchProps) => {
           >
             {selectedText}
           </Typography>
+
           <Typography
             className={classNames({ invisible: !checked })}
             color="secondary"
@@ -62,6 +62,7 @@ export const Switch = (props: SwitchProps) => {
           </Typography>
         </span>
       </span>
+
       <input
         className={classNames(
           'absolute w-full h-full z-10 m-0 rounded-lg top-0 opacity-0',

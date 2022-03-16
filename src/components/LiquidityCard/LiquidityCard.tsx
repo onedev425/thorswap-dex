@@ -2,13 +2,12 @@ import { useNavigate } from 'react-router-dom'
 
 import classNames from 'classnames'
 
-import { DashedDivider } from 'views/Swap/DashedDivider'
-
 import { AssetCard } from 'components/AssetCard'
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon'
 import {
   Button,
   useCollapse,
+  DashedDivider,
   Card,
   Box,
   Typography,

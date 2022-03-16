@@ -10,7 +10,12 @@ import { RootState, useAppDispatch } from 'redux/store'
 
 import { multichain } from 'services/multichain'
 
-import { SupportedLanguages, ThemeType, ThousandSeparator } from 'types/global'
+import {
+  SupportedLanguages,
+  ThemeType,
+  ThousandSeparator,
+  ViewMode,
+} from 'types/global'
 
 export const useApp = () => {
   const dispatch = useAppDispatch()
@@ -117,6 +122,13 @@ export const useApp = () => {
     [dispatch],
   )
 
+  const setWalletViewMode = useCallback(
+    (val: ViewMode) => {
+      dispatch(actions.setWalletViewMode(val))
+    },
+    [dispatch],
+  )
+
   return {
     ...appState,
     baseCurrencyAsset,
@@ -135,5 +147,6 @@ export const useApp = () => {
     toggleSidebar,
     toggleSidebarCollapse,
     setThousandSeparator,
+    setWalletViewMode,
   }
 }

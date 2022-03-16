@@ -5,11 +5,16 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import { RouterStepProps } from 'views/Swap/types'
 
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
-import { Box, Collapse, Icon, Typography } from 'components/Atomic'
+import {
+  DashedDivider,
+  Box,
+  Collapse,
+  Icon,
+  Typography,
+} from 'components/Atomic'
 
 import { t } from 'services/i18n'
 
-import { DashedDivider } from './DashedDivider'
 import { RouterStep } from './RouterStep'
 
 type Props = {

@@ -2,7 +2,7 @@ import { Toaster, ToastOptions, toast, ToastBar } from 'react-hot-toast'
 
 import classNames from 'classnames'
 
-import { Row, Typography, Icon } from 'components/Atomic'
+import { Typography, Icon, Box } from 'components/Atomic'
 
 export enum ToastType {
   Info = 'info',
@@ -41,7 +41,8 @@ export const showToast: ShowToastFunction = (
   const duration = options.duration || type === ToastType.Error ? 10000 : 5000
 
   toast.custom(
-    <Row
+    <Box
+      row
       className={classNames(
         'py-2 px-4 m-20 rounded-xl',
         'border border-solid border-light-border-primary dark:border-dark-border-primary bg-light-bg-primary dark:bg-dark-bg-secondary',
@@ -51,7 +52,7 @@ export const showToast: ShowToastFunction = (
         {message}
       </Typography>
       {icon}
-    </Row>,
+    </Box>,
     { ...options, duration },
   )
 }

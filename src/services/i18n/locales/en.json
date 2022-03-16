@@ -10,6 +10,7 @@
     "claim": "Claim",
     "confirm": "Confirm",
     "connect": "Connect",
+    "disconnect": "Disconnect",
     "connectWallet": "Connect Wallet",
     "loading": "Loading...",
     "wallet": "Wallet",
@@ -166,9 +167,14 @@
       "emptyFeatured": "No featured assets"
     },
     "wallet": {
+      "totalBalance": "Total Balance",
+      "search": "Search",
       "managePortfolio": "Manage Portfolio",
       "transactionHistory": "Transaction History",
-      "yourAssets": "Your Assets"
+      "yourAssets": "Your Assets",
+      "noDataToShow": "No data to show",
+      "hideTokens": "Hide Tokens",
+      "showAllTokens": "Show All Tokens"
     },
     "walletDrawer": {
       "openWalletPage": "Open Wallet Page",

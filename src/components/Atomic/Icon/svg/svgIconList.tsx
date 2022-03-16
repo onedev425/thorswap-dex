@@ -19,13 +19,14 @@ import { ReactComponent as InIcon } from './inIcon.svg'
 import { ReactComponent as Keystore } from './keystore.svg'
 import { ReactComponent as Ledger } from './ledger.svg'
 import { ReactComponent as Lightning } from './lightningThorswap.svg'
-import { ReactComponent as List } from './list.svg'
 import { ReactComponent as Metamask } from './metamask.svg'
 import { ReactComponent as Moon } from './moon.svg'
 import { ReactComponent as Onboard } from './onboard.svg'
 import { ReactComponent as PlusCircle } from './plus.svg'
+import { ReactComponent as Receive } from './receive.svg'
 import { ReactComponent as Refresh } from './refresh.svg'
 import { ReactComponent as Router } from './router.svg'
+import { ReactComponent as Send } from './send.svg'
 import { ReactComponent as Settings } from './settings.svg'
 import { ReactComponent as Sputnik } from './sputnik.svg'
 import { ReactComponent as Squares } from './squares.svg'
@@ -66,14 +67,15 @@ export const Svgs = {
   keystore: Keystore,
   ledger: Ledger,
   lightning: Lightning,
-  list: List,
   metamask: Metamask,
   moon: Moon,
   onboard: Onboard,
   plusCircle: PlusCircle,
+  receive: Receive,
   refresh: Refresh,
   router: Router,
   settings: Settings,
+  send: Send,
   sputnik: Sputnik,
   squares: Squares,
   station: Station,
@@ -115,14 +117,15 @@ export const SvgIcons = {
   lightning: (props: CustomIconProps) => (
     <SvgIcon name="lightning" {...props} />
   ),
-  list: (props: CustomIconProps) => <SvgIcon name="list" {...props} />,
   metamask: (props: CustomIconProps) => <SvgIcon name="metamask" {...props} />,
   moon: (props: CustomIconProps) => <SvgIcon name="moon" {...props} />,
   onboard: (props: CustomIconProps) => <SvgIcon name="onboard" {...props} />,
   plusCircle: (props: CustomIconProps) => (
     <SvgIcon name="plusCircle" {...props} />
   ),
+  receive: (props: CustomIconProps) => <SvgIcon name="receive" {...props} />,
   refresh: (props: CustomIconProps) => <SvgIcon name="refresh" {...props} />,
+  // send: (props: CustomIconProps) => <SvgIcon name="send" {...props} />,
   settings: (props: CustomIconProps) => <SvgIcon name="settings" {...props} />,
   sputnik: (props: CustomIconProps) => <SvgIcon name="sputnik" {...props} />,
   station: (props: CustomIconProps) => <SvgIcon name="station" {...props} />,

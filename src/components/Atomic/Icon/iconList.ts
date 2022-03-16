@@ -3,6 +3,7 @@ import {
   AiFillStar,
   AiOutlineHeart,
   AiOutlineLineChart,
+  AiOutlineMenu,
   AiOutlineQrcode,
   AiOutlineSend,
   AiOutlineStar,
@@ -21,7 +22,7 @@ import {
   BsThreeDots,
   BsTwitter,
 } from 'react-icons/bs'
-import { CgMenu, CgArrowsExchangeAltV } from 'react-icons/cg'
+import { CgMenu, CgArrowsExchangeAltV, CgEye } from 'react-icons/cg'
 import {
   FaChartArea,
   FaChartPie,
@@ -106,6 +107,7 @@ const Icons = {
   ethereum: FaEthereum,
   exchange: CgArrowsExchangeAltV,
   external: BiLinkExternal,
+  eye: CgEye,
   fire: FaFire,
   gas: FaGasPump,
   info: FiInfo,
@@ -113,6 +115,7 @@ const Icons = {
   invalid: IoCloseCircleOutline,
   key: VscKey,
   language: MdLanguage,
+  list: AiOutlineMenu,
   lock: MdOutlineLock,
   medium: BsMedium,
   menu: CgMenu,

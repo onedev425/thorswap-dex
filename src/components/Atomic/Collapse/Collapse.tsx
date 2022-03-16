@@ -2,7 +2,8 @@ import { forwardRef, useImperativeHandle } from 'react'
 
 import classNames from 'classnames'
 
-import { Card, Row, Typography, Icon } from '..'
+import { Box, Card, Typography, Icon } from 'components/Atomic'
+
 import { CollapseProps } from './types'
 import { useCollapse } from './useCollapse'
 
@@ -22,7 +23,7 @@ export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
           className="box-border w-full appearance-none cursor-pointer focus:outline-none"
           onClick={toggle}
         >
-          <Row align="center" justify="between">
+          <Box row alignCenter justify="between">
             {typeof title === 'string' ? (
               <Typography
                 variant="subtitle1"
@@ -44,7 +45,7 @@ export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
                 },
               )}
             />
-          </Row>
+          </Box>
         </div>
 
         <div

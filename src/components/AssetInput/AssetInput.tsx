@@ -87,7 +87,7 @@ export const AssetInput = ({
 
         <Box center row>
           <Button
-            className="h-6 px-2 mr-2"
+            className="!h-6 !px-2 mr-2"
             size="sm"
             type="outline"
             transform="uppercase"
@@ -95,6 +95,7 @@ export const AssetInput = ({
           >
             {t('common.max')}
           </Button>
+
           <Typography className="pr-4 md:pr-0" color="secondary">
             {t('common.balance')}: {selectedAsset.balance || 0}
           </Typography>

@@ -1,8 +1,9 @@
 import { Asset } from '@thorswap-lib/multichain-sdk'
 import { Keystore } from '@thorswap-lib/xchain-crypto'
 
-import { DEFAULT_SLIPPAGE_TOLERANCE } from './../settings/constants/global'
-import { ThemeType, ThousandSeparator } from './../types/global'
+import { DEFAULT_SLIPPAGE_TOLERANCE } from 'settings/constants/global'
+
+import { ThemeType, ThousandSeparator, ViewMode } from 'types/global'
 
 type StorageType = {
   annViewStatus: boolean
@@ -22,6 +23,7 @@ type StorageType = {
   transactionDeadline: string
   autoRouter: boolean
   expertMode: boolean
+  walletViewMode: ViewMode
 }
 
 type StoragePayload =
@@ -35,6 +37,7 @@ type StoragePayload =
         | 'themeType'
         | 'slippageTolerance'
         | 'transactionDeadline'
+        | 'walletViewMode'
       value: string
     }
   | {
@@ -70,6 +73,7 @@ const defaultValues: StorageType = {
   autoRouter: true,
   slippageTolerance: String(DEFAULT_SLIPPAGE_TOLERANCE),
   transactionDeadline: '30',
+  walletViewMode: ViewMode.CARD,
 }
 
 export const saveInStorage = ({ key, value }: StoragePayload) => {
@@ -95,6 +99,10 @@ export const saveInStorage = ({ key, value }: StoragePayload) => {
 
     case 'thorswapKeystore':
       sessionStorage.setItem(key, JSON.stringify(value))
+      break
+
+    case 'walletViewMode':
+      localStorage.setItem(key, value as string)
       break
 
     default:
@@ -130,6 +138,14 @@ export const getFromStorage = (
     case 'thorswapKeystore': {
       const item = sessionStorage.getItem('thorswapKeystore')
       return item ? JSON.parse(item) : defaultValues[key]
+    }
+
+    case 'walletViewMode': {
+      const walletViewMode = localStorage.getItem('walletViewMode')
+
+      if (walletViewMode !== ViewMode.LIST) return ViewMode.CARD
+
+      return walletViewMode ? (walletViewMode as ViewMode) : ViewMode.CARD
     }
 
     default:

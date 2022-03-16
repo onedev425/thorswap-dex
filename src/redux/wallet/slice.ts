@@ -14,7 +14,7 @@ import {
 } from '@thorswap-lib/xchain-util'
 
 import * as walletActions from './actions'
-import { State } from './types'
+import { State, GeckoData } from './types'
 
 const initialWallet = {
   [BTCChain]: null,
@@ -42,6 +42,8 @@ const initialState: State = {
     [DOGEChain]: false,
     [TERRAChain]: false,
   },
+  geckoData: {},
+  geckoDataLoading: {},
 }
 
 const slice = createSlice({
@@ -104,6 +106,18 @@ const slice = createSlice({
           ...state.chainWalletLoading,
           [chain]: false,
         }
+      })
+      .addCase(walletActions.getCoingeckoData.pending, (state, action) => {
+        state.geckoDataLoading[action.meta.arg.symbol] = true
+      })
+      .addCase(walletActions.getCoingeckoData.fulfilled, (state, action) => {
+        const { symbol, data } = action.payload
+
+        state.geckoDataLoading[symbol] = false
+        state.geckoData[symbol] = data as GeckoData
+      })
+      .addCase(walletActions.getCoingeckoData.rejected, (state, action) => {
+        state.geckoDataLoading[action.meta.arg.symbol] = false
       })
   },
 })

@@ -1,6 +1,11 @@
 import { FeeOption } from '@thorswap-lib/xchain-client'
 
-import { SupportedLanguages, ThemeType, ThousandSeparator } from 'types/global'
+import {
+  SupportedLanguages,
+  ThemeType,
+  ThousandSeparator,
+  ViewMode,
+} from 'types/global'
 
 export interface State {
   themeType: ThemeType
@@ -19,4 +24,5 @@ export interface State {
   nodeWatchList: string[]
   autoRouter: boolean
   transactionDeadline: number
+  walletViewMode: ViewMode
 }

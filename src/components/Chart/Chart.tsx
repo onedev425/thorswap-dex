@@ -167,8 +167,6 @@ export const Chart = ({
     }
   }, [selectedChartType, options, parsedChartData])
 
-  console.log(isChartLoading, renderChart)
-
   return (
     <Box className={classNames('w-full h-full', className)} col>
       <Box alignCenter justify="between" row>

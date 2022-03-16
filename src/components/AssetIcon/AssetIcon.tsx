@@ -26,13 +26,15 @@ export const AssetIcon = ({
   const secondaryIconSize = hasChainIcon ? iconSize * 0.4 : 0
 
   return (
-    <div
-      className={classNames(
-        'relative flex rounded-full',
-        { 'shadow-rightTicker': hasShadow },
-        className,
+    <div className={classNames('relative flex rounded-full', className)}>
+      {hasShadow && (
+        <img
+          style={{ width: iconSize, height: iconSize }}
+          className="absolute blur-xl -top-2 -left-2"
+          src={iconUrl}
+          alt={asset.symbol}
+        />
       )}
-    >
       {iconUrl && !hasError ? (
         <Box
           className={classNames(

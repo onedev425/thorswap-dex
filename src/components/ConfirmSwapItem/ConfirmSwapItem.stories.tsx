@@ -1,10 +1,8 @@
 import { ComponentMeta } from '@storybook/react'
 import { shortenAddress } from 'utils/shortenAddress'
 
-import { DashedDivider } from 'views/Swap/DashedDivider'
-
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
-import { Icon, Typography } from 'components/Atomic'
+import { DashedDivider, Icon, Typography } from 'components/Atomic'
 import { ConfirmSwapItem } from 'components/ConfirmSwapItem'
 
 import { swapItem } from './SwapAssetsData'
