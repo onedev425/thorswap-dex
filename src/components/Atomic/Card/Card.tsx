@@ -18,11 +18,11 @@ export const Card = ({
   return (
     <div
       className={classNames(
-        className,
         'bg-light-bg-secondary dark:bg-dark-bg-secondary',
         { 'drop-shadow-box box-border': shadow },
         stretch ? 'flex flex-1' : 'inline-flex',
         sizeVariants[size],
+        className,
       )}
       onClick={onClick}
     >
