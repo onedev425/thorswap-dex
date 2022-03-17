@@ -29,7 +29,7 @@ export const LiquidityCard = ({ data }: LiquidityCardProps) => {
 
   return (
     <Box justifyCenter col>
-      <Card className="flex flex-col !bg-dark-gray-light">
+      <Card className="flex flex-col bg-light-gray-light dark:bg-dark-gray-light">
         <Box
           className="mx-4 my-4 md:mx-2 cursor-pointer"
           alignCenter

@@ -39,7 +39,7 @@ export const Input = ({
     <Box
       className={classNames(
         'flex flex-row py-3 transition-colors',
-        'border-light-border-primary focus-within:border-dark-typo-gray dark:border-dark-border-primary hover:border-dark-typo-gray dark:hover:border-dark-typo-gray focus-within::hover:border-dark-typo-gray',
+        'border-dark-typo-gray focus-within:border-dark-typo-gray dark:border-dark-border-primary hover:border-dark-typo-gray dark:hover:border-dark-typo-gray focus-within::hover:border-dark-typo-gray',
         { 'border-none': !border },
         { 'px-2': border === 'rounded' },
         {

@@ -51,9 +51,9 @@ export const Header = ({ openMenu }: Props) => {
       <Row className="min-h-[70px]" justify="between">
         <Row className="mt-auto shrink-0 gap-x-2">
           <Button
-            value="primary"
+            variant="tint"
             type="outline"
-            className="hidden !bg-transparent !border-1 !border-solid cursor-auto md:flex border-light-bg-primary dark:border-btn-primary"
+            className="hidden !bg-transparent !border-1 !border-solid cursor-auto md:flex dark:border-btn-primary"
           >
             {priceLabel || '-'}
           </Button>

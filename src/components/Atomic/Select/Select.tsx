@@ -36,6 +36,9 @@ export const Select = ({
       <Box className={classNames('hidden md:flex gap-2', className)}>
         {options.map((option, index) => (
           <Button
+            className={classNames({
+              'light:bg-gray-300': index === activeIndex,
+            })}
             key={option}
             variant="tint"
             type={activeIndex !== index ? 'outline' : 'default'}

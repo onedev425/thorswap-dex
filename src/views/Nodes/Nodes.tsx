@@ -182,7 +182,7 @@ const Nodes = () => {
       <NodeStats />
       {watchListData?.length > 0 && (
         <Box marginTop={4} marginBottom={4} col>
-          <Typography className="mb-2 text-dark-typo-primary">
+          <Typography className="mb-2 text-light-typo-primary dark:text-dark-typo-primary">
             {`${t('views.nodes.watchList')} (${watchListData.length})`}
           </Typography>
           <Table data={watchListData} columns={columns} sortable />

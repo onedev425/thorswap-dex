@@ -25,7 +25,7 @@ const backgroundClasses: Record<ButtonVariants, string> = {
     'border-none bg-btn-tertiary group-hover:bg-gradient-to-r group-hover:from-btn-tertiary group-hover:to-btn-tertiary-active',
   accent:
     'border-none bg-btn-accent group-hover:bg-gradient-to-r group-hover:from-btn-accent group-hover:to-btn-accent-active',
-  tint: 'border-none bg-btn-light-tint hover:bg-btn-light-tint-active dark:bg-btn-dark-tint dark:hover:bg-btn-dark-tint-active',
+  tint: 'border-none bg-btn-light-tint-active hover:bg-btn-light-tint-active dark:bg-btn-dark-tint dark:hover:bg-btn-dark-tint-active',
 }
 
 const backgroundActiveClasses: Record<ButtonVariants, string> = {

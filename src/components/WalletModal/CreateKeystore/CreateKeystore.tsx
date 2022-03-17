@@ -133,7 +133,7 @@ export const KeystoreView = ({ onConnect, onKeystore }: Props) => {
           isLoading={processing}
           endIcon={
             <Icon
-              className="transition group-hover:text-white"
+              className="transition dark:group-hover:text-white"
               name="key"
               size={18}
             />
@@ -150,7 +150,7 @@ export const KeystoreView = ({ onConnect, onKeystore }: Props) => {
           type="outline"
           endIcon={
             <Icon
-              className="transition group-hover:text-white"
+              className="transition dark:group-hover:text-white"
               name="wallet"
               size={18}
             />
