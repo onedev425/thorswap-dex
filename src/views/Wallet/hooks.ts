@@ -61,17 +61,17 @@ export const useAccountData = (chain: SupportedChain) => {
   }
 
   const { activeAsset24hChange, activeAssetPrice } = useMemo(() => {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    const { price_change_percentage_24h, current_price } = geckoData[
-      sigAsset.symbol
-    ] || {
+    const {
+      price_change_percentage_24h: price24hChangePercent,
+      current_price: currentPrice,
+    } = geckoData[sigAsset.symbol] || {
       price_change_percentage_24h: 0,
       current_price: 0,
     }
 
     return {
-      activeAsset24hChange: price_change_percentage_24h,
-      activeAssetPrice: current_price,
+      activeAsset24hChange: price24hChangePercent,
+      activeAssetPrice: currentPrice,
     }
   }, [geckoData, sigAsset.symbol])
 

@@ -40,7 +40,7 @@ export const Layout = ({ children }: LayoutProp) => {
         <main
           className={classNames(
             'flex flex-col md:max-w-[calc(100%-148px)] mx-3 md:px-10 py-5 transition-all duration-300 ease-in-out',
-            sidebarCollapsed ? 'md:ml-24' : 'md:ml-56',
+            sidebarCollapsed ? 'md:ml-24' : 'md:ml-48',
           )}
         >
           <Header openMenu={openMenu} />

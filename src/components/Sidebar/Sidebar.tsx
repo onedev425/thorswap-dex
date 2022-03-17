@@ -25,11 +25,10 @@ const renderMenu = (
     <ul
       key={variant}
       className={classNames(
-        'flex flex-col rounded-2xl p-0 list-none',
-        collapsed ? 'items-center m-0' : 'w-full',
-        { 'mb-5': variant === 'secondary' },
+        'flex flex-col rounded-2xl m-0 p-0 list-none',
+        collapsed ? 'items-center' : 'w-full',
         {
-          'bg-light-green-lighter dark:.dark .dark:bg-dark-bg-secondary':
+          'mb-5 bg-light-green-lighter dark:.dark .dark:bg-dark-bg-secondary':
             variant === 'secondary',
         },
       )}
@@ -41,10 +40,7 @@ const renderMenu = (
               <div
                 className={classNames(
                   'transition-all duration-300 overflow-hidden',
-                  {
-                    'scale-0 max-h-0': collapsed,
-                    'scale-1 max-h-[20px]': !collapsed,
-                  },
+                  collapsed ? 'scale-0 max-h-0' : 'scale-1 max-h-[20px]',
                 )}
               >
                 <Typography
@@ -114,37 +110,35 @@ export const Sidebar = ({
   return (
     <nav
       className={classNames(
-        'flex flex-col items-center my-4 transition-all duration-300 overflow-hidden ml-4',
-        'h-sidebar',
+        'flex flex-col items-center my-4 transition-all duration-300 overflow-hidden ml-4 h-sidebar',
         'rounded-3xl border-box sticky top-0 bg-light-bg-secondary dark:bg-dark-bg-secondary !bg-opacity-30',
-        { 'w-[72px]': collapsed },
-        { 'w-[200px]': !collapsed },
+        'border-opacity-30 border border-solid border-light-typo-gray dark:border-none',
+        collapsed ? 'w-[72px]' : 'w-[180px]',
         className,
       )}
     >
       <div
         onClick={() => navigate(ROUTES.Home)}
-        className="my-4 min-w-[48px] h-12 transition-colors cursor-pointer"
+        className="my-8 min-w-[48px] h-12 transition-colors cursor-pointer"
       >
         <img className="w-12 h-12" src={Logo} alt="Logo" />
       </div>
 
-      <Scrollbar customStyle={{ right: '-2px' }}>
-        <div className="left-2 right-2 absolute top-[10%]">
-          {renderMenu(options, 'primary', collapsed)}
-        </div>
-      </Scrollbar>
+      <div className="w-full h-sidebar-content">
+        <Scrollbar height="calc(100vh - 192px)">
+          <div className="mx-2">
+            {renderMenu(options, 'primary', collapsed)}
+          </div>
+        </Scrollbar>
+      </div>
 
       {!!toggle && (
         <Box
           className="p-2.5 cursor-pointer w-full border-0 border-t border-solid border-light-typo-gray dark:border-dark-typo-gray !border-opacity-30"
-          alignCenter
-          justifyCenter
+          center
           onClick={toggle}
         >
-          <Tooltip
-            content={collapsed ? t('components.sidebar.uncollapse') : ''}
-          >
+          <Tooltip content={collapsed ? t('components.sidebar.expand') : ''}>
             <div>
               <Icon
                 className={classNames({ '-scale-x-100': collapsed })}

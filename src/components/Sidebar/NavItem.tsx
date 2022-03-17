@@ -48,7 +48,6 @@ export const NavItem = ({
             'bg-btn-secondary dark:bg-btn-secondary':
               isActive && variant === 'secondary',
           },
-          { '!bg-opacity-20': isActive },
         )}
       >
         <Link
@@ -61,7 +60,7 @@ export const NavItem = ({
           <Icon
             name={iconName}
             className={classNames(
-              'transition dark:group-hover:stroke-white font-bold',
+              'transition group-hover:stroke-white font-bold',
               iconClasses[variant],
               { 'stroke-white': isActive },
             )}
@@ -70,10 +69,12 @@ export const NavItem = ({
           {!collapsed && (
             <Typography
               className={classNames(
-                'px-3 dark:group-hover:text-white font-bold',
+                'px-2 group-hover:text-white font-bold',
                 iconClasses[variant],
                 { 'text-white dark:text-white': isActive },
               )}
+              variant="caption"
+              fontWeight="semibold"
               transform="uppercase"
             >
               {label}

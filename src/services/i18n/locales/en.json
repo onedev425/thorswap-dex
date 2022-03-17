@@ -105,7 +105,7 @@
       "wallet": "Wallet",
       "stats": "Stats",
       "collapse": "Collapse",
-      "uncollapse": "Uncollapse"
+      "expand": "Expand"
     }
   },
   "views": {
