@@ -130,21 +130,25 @@ const useCurrencyMenu = (onBack: () => void) => {
   const currencyMenu: MenuItemType[] = [
     {
       label: 'USD',
+      icon: 'currencyDollar',
       onClick: () => onCurrencyClick(Asset.USD()),
       isSelected: isCurrencySelected(Asset.USD()),
     },
     {
       label: 'RUNE',
+      icon: 'thor',
       onClick: () => onCurrencyClick(Asset.RUNE()),
       isSelected: isCurrencySelected(Asset.RUNE()),
     },
     {
       label: 'BTC',
+      icon: 'btc',
       onClick: () => onCurrencyClick(Asset.BTC()),
       isSelected: isCurrencySelected(Asset.BTC()),
     },
     {
       label: 'ETH',
+      icon: 'eth',
       onClick: () => onCurrencyClick(Asset.ETH()),
       isSelected: isCurrencySelected(Asset.ETH()),
     },
@@ -164,16 +168,19 @@ const useThemeMenu = (onBack: () => void) => {
 
   const menu: MenuItemType[] = [
     {
+      icon: 'sun',
       label: t('appMenu.lightTheme'),
       onClick: () => onThemeClick(ThemeType.Light),
       isSelected: isThemeSelected(ThemeType.Light),
     },
     {
+      icon: 'moon',
       label: t('appMenu.darkTheme'),
       onClick: () => onThemeClick(ThemeType.Dark),
       isSelected: isThemeSelected(ThemeType.Dark),
     },
     {
+      icon: 'auto',
       label: t('appMenu.automaticTheme'),
       onClick: () => onThemeClick(ThemeType.Auto),
       isSelected: isThemeSelected(ThemeType.Auto),

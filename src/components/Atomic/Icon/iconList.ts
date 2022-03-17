@@ -61,6 +61,7 @@ import {
   MdOutlineLock,
   MdOutlineLockOpen,
   MdSpaceBar,
+  MdOutlineHdrAuto,
 } from 'react-icons/md'
 import { RiShareBoxLine } from 'react-icons/ri'
 import { SiBinance } from 'react-icons/si'
@@ -85,6 +86,7 @@ const Icons = {
   arrowDownLine: MdKeyboardArrowDown,
   arrowLeftLine: MdKeyboardArrowLeft,
   arrowRightLine: MdKeyboardArrowRight,
+  auto: MdOutlineHdrAuto,
   backup: VscCloudUpload,
   binance: SiBinance,
   bitcoin: GrBitcoin,
