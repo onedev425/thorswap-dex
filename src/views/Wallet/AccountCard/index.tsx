@@ -1,5 +1,7 @@
 import { memo, useCallback } from 'react'
 
+import { useNavigate } from 'react-router-dom'
+
 import { chainToSigAsset, SupportedChain } from '@thorswap-lib/multichain-sdk'
 import { chainToString } from '@thorswap-lib/xchain-util'
 import { shortenAddress } from 'utils/shortenAddress'
@@ -12,6 +14,8 @@ import { Scrollbar } from 'components/Scrollbar'
 
 import { t } from 'services/i18n'
 
+import { ROUTES } from 'settings/constants'
+
 import { ViewMode } from 'types/global'
 
 import { useAccountData } from '../hooks'
@@ -23,6 +27,7 @@ type Props = {
 }
 
 export const AccountCard = memo(({ chain }: Props) => {
+  const navigate = useNavigate()
   const {
     activeAsset24hChange,
     activeAssetPrice,
@@ -112,7 +117,7 @@ export const AccountCard = memo(({ chain }: Props) => {
           )}
         </Box>
 
-        <Box mt={3} col>
+        <Box mt={2} col>
           <Box alignCenter flex={1} justify="between">
             <Typography variant="h3">${activeAssetPrice}</Typography>
 
@@ -126,7 +131,11 @@ export const AccountCard = memo(({ chain }: Props) => {
             )}
           </Box>
 
-          <Typography variant="caption" color="red" fontWeight="semibold">
+          <Typography
+            variant="caption"
+            color={activeAsset24hChange >= 0 ? 'green' : 'red'}
+            fontWeight="semibold"
+          >
             {activeAsset24hChange.toFixed(2)}%
           </Typography>
         </Box>
@@ -140,25 +149,25 @@ export const AccountCard = memo(({ chain }: Props) => {
           <AccountCardButton
             icon="receive"
             label={t('common.send')}
-            onClick={() => {}}
+            onClick={() => navigate(ROUTES.Send)}
             className="rotate-180"
           />
 
           <AccountCardButton
             icon="receive"
             label={t('common.receive')}
-            onClick={() => {}}
+            onClick={() => navigate(ROUTES.Send)}
           />
           <AccountCardButton
             icon="swap"
             label={t('common.swap')}
-            onClick={() => {}}
+            onClick={() => navigate(`${ROUTES.Swap}?input=${sigAsset}`)}
           />
         </Box>
 
         <Box className="h-24 md:h-36">
           {chainInfo.length > 0 ? (
-            <Box col flex={1}>
+            <Box flex={1} col className="!-mb-6">
               <Scrollbar>
                 {chainInfo.map((info) => (
                   <ChainInfo

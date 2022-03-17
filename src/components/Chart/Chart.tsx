@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 
 import { Bar, Line } from 'react-chartjs-2'
 
@@ -49,22 +49,22 @@ import {
 
 ChartJS.register(
   ArcElement,
-  LineElement,
-  BarElement,
-  PointElement,
   BarController,
-  LineController,
+  BarElement,
   CategoryScale,
-  LinearScale,
-  LogarithmicScale,
-  TimeScale,
-  TimeSeriesScale,
   Decimation,
   Filler,
   Legend,
+  LineController,
+  LineElement,
+  LinearScale,
+  LogarithmicScale,
+  PointElement,
+  SubTitle,
+  TimeScale,
+  TimeSeriesScale,
   Title,
   Tooltip,
-  SubTitle,
 )
 
 export const Chart = ({
@@ -173,11 +173,13 @@ export const Chart = ({
         <Box className="gap-y-1" ml={2} col>
           <Box className="space-x-2" row>
             <Typography variant="h3">
-              {title}{' '}
+              {title}
+
               <span className="text-btn-primary">
-                {abbreviateNumber(values?.[values.length - 1] ?? 0, 2)}
+                {` ${abbreviateNumber(values?.[values.length - 1] ?? 0, 2)}`}
               </span>
             </Typography>
+
             <Box className="hidden lg:flex gap-x-1" row alignCenter>
               <Typography
                 color={changePercentage > 0 ? 'green' : 'red'}
@@ -191,9 +193,10 @@ export const Chart = ({
               </Typography>
             </Box>
           </Box>
+
           <Box className="space-x-2" row>
             {chartIndexes.map((chartIndex, index) => (
-              <>
+              <Fragment key={chartIndex}>
                 {index !== 0 && <Typography> / </Typography>}
                 <div
                   key={chartIndex}
@@ -210,10 +213,11 @@ export const Chart = ({
                     {chartIndex}
                   </Typography>
                 </div>
-              </>
+              </Fragment>
             ))}
           </Box>
         </Box>
+
         <Select
           options={chartTimeFrame}
           activeIndex={chartTimeframe}

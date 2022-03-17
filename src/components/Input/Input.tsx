@@ -40,13 +40,12 @@ export const Input = ({
       className={classNames(
         'flex flex-row py-3 transition-colors',
         'border-dark-typo-gray focus-within:border-dark-typo-gray dark:border-dark-border-primary hover:border-dark-typo-gray dark:hover:border-dark-typo-gray focus-within::hover:border-dark-typo-gray',
-        { 'border-none': !border },
-        { 'px-2': border === 'rounded' },
         {
-          'border-b border-t border-x border-solid rounded-2xl':
-            border === 'rounded',
+          'border-none': !border,
+          'border-solid': border,
+          'px-2 border rounded-2xl': border === 'rounded',
+          'border-0 border-b': border === 'bottom',
         },
-        { 'border-b border-t-0 border-x-0 border-solid': border === 'bottom' },
         stretch ? 'w-full' : 'w-fit',
         containerClassName,
       )}
@@ -63,6 +62,7 @@ export const Input = ({
           name={icon}
         />
       )}
+
       <input
         ref={inputRef}
         className={classNames(
@@ -76,6 +76,7 @@ export const Input = ({
         placeholder={placeholder}
         {...restProps}
       />
+
       {symbol && (
         <Typography variant="caption-xs" className="pr-2">
           {symbol}

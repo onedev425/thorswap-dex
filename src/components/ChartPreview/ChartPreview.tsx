@@ -2,56 +2,35 @@ import { memo, useMemo } from 'react'
 
 import { Line } from 'react-chartjs-2'
 
-import {
-  Chart as ChartJS,
-  LineElement,
-  BarElement,
-  PointElement,
-  BarController,
-  LineController,
-  CategoryScale,
-  LinearScale,
-  LogarithmicScale,
-  TimeScale,
-  TimeSeriesScale,
-  Decimation,
-  Title,
-  Tooltip,
-  SubTitle,
-} from 'chart.js'
 import classNames from 'classnames'
-
-ChartJS.register(
-  LineElement,
-  BarElement,
-  PointElement,
-  BarController,
-  LineController,
-  CategoryScale,
-  LinearScale,
-  LogarithmicScale,
-  TimeScale,
-  TimeSeriesScale,
-  Decimation,
-  Title,
-  Tooltip,
-  SubTitle,
-)
 
 import { Box } from 'components/Atomic'
 
-import { getChartData } from './config/chartData'
+import { getDataForCurvedLineChart } from './config/chartData'
 import { getChartOptions } from './config/chartOptions'
-import { ChartProps } from './types'
+
+type ChartProps = {
+  className?: string
+  label: string
+  values: number[]
+  hideLabel?: boolean
+  hasGrid?: boolean
+}
 
 export const ChartPreview = memo(
-  ({ className, data, hideLabel = false, hasGird = false }: ChartProps) => {
+  ({
+    className,
+    label,
+    values,
+    hideLabel = false,
+    hasGrid = false,
+  }: ChartProps) => {
     const { chartData, options } = useMemo(
       () => ({
-        chartData: getChartData(data),
-        options: getChartOptions(hideLabel, hasGird),
+        chartData: getDataForCurvedLineChart([label], values),
+        options: getChartOptions(hideLabel, hasGrid),
       }),
-      [data, hasGird, hideLabel],
+      [hasGrid, hideLabel, label, values],
     )
 
     return (

@@ -61,6 +61,7 @@ export const useAccountData = (chain: SupportedChain) => {
   }
 
   const { activeAsset24hChange, activeAssetPrice } = useMemo(() => {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const { price_change_percentage_24h, current_price } = geckoData[
       sigAsset.symbol
     ] || {
@@ -123,8 +124,10 @@ export const useChartData = (chain: SupportedChain) => {
   )
 
   const chartData = useMemo(
-    () =>
-      prices.slice(-prices.length / 2).map((item) => ({ x: 'Price', y: item })),
+    () => ({
+      label: `${chain} Price`,
+      values: prices.slice(-prices.length / 2),
+    }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [prices.length],
   )

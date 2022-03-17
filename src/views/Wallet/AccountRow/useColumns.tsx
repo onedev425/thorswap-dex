@@ -1,5 +1,7 @@
 import { useMemo } from 'react'
 
+import { useNavigate } from 'react-router-dom'
+
 import {
   Asset,
   AssetAmount,
@@ -23,9 +25,12 @@ import { BreakPoint } from 'hooks/useWindowSize'
 
 import { t } from 'services/i18n'
 
+import { ROUTES } from 'settings/constants'
+
 import { ViewMode } from 'types/global'
 
 export const useColumns = () => {
+  const navigate = useNavigate()
   const { geckoData } = useWallet()
 
   const columns = useMemo(
@@ -97,9 +102,13 @@ export const useColumns = () => {
           ),
         },
         {
+          accessor: (row) => row.asset,
+          id: 'actions',
           Header: 'Actions',
           align: 'right',
-          Cell: () => (
+          disableSortBy: true,
+          minScreenSize: BreakPoint.md,
+          Cell: ({ cell: { value } }: { cell: { value: Asset } }) => (
             <Box row className="gap-2" justify="end">
               <Button
                 variant="tint"
@@ -128,17 +137,15 @@ export const useColumns = () => {
                 variant="tint"
                 type="outline"
                 startIcon={<Icon color="secondary" size={20} name="swap" />}
-                onClick={() => {}}
+                onClick={() => navigate(`${ROUTES.Swap}?input=${value}`)}
               >
                 {t('common.swap')}
               </Button>
             </Box>
           ),
-          disableSortBy: true,
-          minScreenSize: BreakPoint.md,
         },
       ] as TableColumnsConfig,
-    [geckoData],
+    [geckoData, navigate],
   )
 
   return columns

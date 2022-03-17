@@ -9,17 +9,16 @@ import {
   defaultWeightClasses,
 } from './types'
 
-export const Typography = (props: Props) => {
-  const {
-    component: Component = 'div',
-    className = '',
-    color = 'primary',
-    variant = 'body',
-    transform = 'none',
-    fontWeight,
-    children,
-  } = props
-
+export const Typography = ({
+  component: Component = 'div',
+  className = '',
+  color = 'primary',
+  variant = 'body',
+  transform = 'none',
+  fontWeight,
+  children,
+  ...rest
+}: Props) => {
   return (
     <Component
       className={classNames(
@@ -30,6 +29,7 @@ export const Typography = (props: Props) => {
         className,
         'font-primary',
       )}
+      {...rest}
     >
       {children}
     </Component>

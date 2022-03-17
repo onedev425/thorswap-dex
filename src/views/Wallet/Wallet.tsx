@@ -46,7 +46,7 @@ const Wallet = () => {
       />
 
       <Box className="w-full" mt={4}>
-        <AccountType keyword={keyword} />
+        <AccountType onlyConnected={onlyConnected} keyword={keyword} />
       </Box>
     </Box>
   )

@@ -174,7 +174,8 @@
       "yourAssets": "Your Assets",
       "noDataToShow": "No data to show",
       "hideTokens": "Hide Tokens",
-      "showAllTokens": "Show All Tokens"
+      "showAllTokens": "Show All Tokens",
+      "showOnlyConnectedChains": "Show only connected chains"
     },
     "walletDrawer": {
       "openWalletPage": "Open Wallet Page",

@@ -7,12 +7,21 @@ type InformationProps = {
   label: string
   value: string | React.ReactNode
   showBorder?: boolean
+  size?: 'sm' | 'md' | 'lg'
 }
+
+const labelVariant = {
+  sm: 'caption-xs',
+  md: 'caption',
+  lg: 'body',
+} as const
+const valueVariant = { sm: 'caption-xs', md: 'caption-xs', lg: 'body' } as const
 
 export const Information = ({
   label,
   value,
   className,
+  size = 'md',
   showBorder = true,
 }: InformationProps) => {
   const borderClasses =
@@ -25,13 +34,18 @@ export const Information = ({
       alignCenter
       justify="between"
     >
-      <Typography variant="caption" fontWeight="medium" color="secondary">
+      <Typography
+        variant={labelVariant[size]}
+        fontWeight="medium"
+        color="secondary"
+      >
         {label}
       </Typography>
+
       {typeof value === 'string' ? (
         <Typography
           className="text-right"
-          variant="caption-xs"
+          variant={valueVariant[size]}
           fontWeight="semibold"
           color="primary"
         >

@@ -16,17 +16,19 @@ type Props = {
 }
 
 export const AssetChart = memo(({ chain, mode }: Props) => {
-  const chartData = useChartData(chain)
+  const { label, values } = useChartData(chain)
 
   return (
     <Box
       height={mode === ViewMode.CARD ? 100 : 60}
       mb={3}
-      className={classNames('opacity-0 transition-opacity duration-1000', {
-        '!opacity-100': chartData.length > 0,
+      className={classNames('opacity-0 transition-opacity duration-500', {
+        '!opacity-100': values.length > 0,
       })}
     >
-      <ChartPreview data={chartData} hideLabel />
+      {values.length > 0 && (
+        <ChartPreview label={label} values={values} hideLabel />
+      )}
     </Box>
   )
 })

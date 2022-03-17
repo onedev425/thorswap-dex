@@ -1,7 +1,5 @@
 import { Chart } from 'chart.js'
 
-import { DataPoint } from 'components/Chart/types'
-
 type ColorType = 'background' | 'stroke'
 
 const getGradientInstance = (
@@ -40,18 +38,6 @@ const getGradientInstance = (
   }
 
   return getGradient
-}
-
-export const getLabelsAndValuesFromData = (data: DataPoint[]) => {
-  const dataLabels: string[] = []
-  const dataValues: number[] = []
-
-  data.forEach((point: DataPoint) => {
-    dataLabels.push(point.x)
-    dataValues.push(point.y)
-  })
-
-  return { dataLabels, dataValues }
 }
 
 export const getColor = (gradientColors: string[], colorType: ColorType) => {

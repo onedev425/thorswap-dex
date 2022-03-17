@@ -11,6 +11,7 @@ import { AccountRow } from 'views/Wallet/AccountRow'
 import { Box } from 'components/Atomic'
 
 import { useApp } from 'redux/app/hooks'
+import { useWallet } from 'redux/wallet/hooks'
 
 import { ViewMode } from 'types/global'
 
@@ -18,9 +19,11 @@ import { AccountCard } from './AccountCard'
 
 type Props = {
   keyword: string
+  onlyConnected: boolean
 }
 
-export const AccountType = memo(({ keyword }: Props) => {
+export const AccountType = memo(({ onlyConnected, keyword }: Props) => {
+  const { wallet } = useWallet()
   const { walletViewMode } = useApp()
 
   const filteredChains = useMemo(
@@ -36,9 +39,11 @@ export const AccountType = memo(({ keyword }: Props) => {
           chainName.toLowerCase(),
         ].some((item) => item.includes(lowerKeyword))
 
-        return isSupported
+        return (
+          isSupported && (onlyConnected ? !!wallet?.[chain]?.address : true)
+        )
       }),
-    [keyword],
+    [keyword, onlyConnected, wallet],
   )
 
   switch (walletViewMode) {

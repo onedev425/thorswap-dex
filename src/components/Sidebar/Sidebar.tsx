@@ -1,3 +1,5 @@
+import { Fragment } from 'react'
+
 import { useNavigate } from 'react-router-dom'
 
 import classNames from 'classnames'
@@ -35,7 +37,7 @@ const renderMenu = (
       {options.map(({ hasSub, label, children, ...rest }: SidebarItemProps) => {
         if (hasSub && children)
           return (
-            <>
+            <Fragment key={label}>
               <div
                 className={classNames(
                   'transition-all duration-300 overflow-hidden',
@@ -57,11 +59,11 @@ const renderMenu = (
               </div>
 
               {renderMenu(children, 'secondary', collapsed)}
-            </>
+            </Fragment>
           )
 
         return (
-          <>
+          <Fragment key={label}>
             {variant === 'primary' && (
               <div
                 className={classNames(
@@ -94,7 +96,7 @@ const renderMenu = (
               collapsed={collapsed}
               {...rest}
             />
-          </>
+          </Fragment>
         )
       })}
     </ul>

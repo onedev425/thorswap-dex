@@ -25,6 +25,8 @@ import { t } from 'services/i18n'
 
 import { truncateAddress } from 'helpers/string'
 
+import { ROUTES } from 'settings/constants'
+
 import { useApp } from '../../redux/app/hooks'
 import { NodeStats } from './NodeStats'
 import { nodeStatusOptions } from './types'
@@ -172,7 +174,7 @@ const Nodes = () => {
   }, [nodeWatchList, handleAddToWatchList, getNodes])
 
   const onRowClick = (index: number) => {
-    navigate(`/nodes/${filteredNodes[index].node_address}`)
+    navigate(`${ROUTES.Nodes}/${filteredNodes[index].node_address}`)
   }
 
   return (

@@ -1,6 +1,6 @@
 import { memo } from 'react'
 
-import { Box, Icon } from 'components/Atomic'
+import { Box, Checkbox, Icon } from 'components/Atomic'
 import { Input } from 'components/Input'
 
 import { t } from 'services/i18n'
@@ -17,7 +17,14 @@ type Props = {
 }
 
 export const SearchAndFilters = memo(
-  ({ walletViewMode, setWalletViewMode, keyword, setKeyword }: Props) => {
+  ({
+    setOnlyConnected,
+    onlyConnected,
+    walletViewMode,
+    setWalletViewMode,
+    keyword,
+    setKeyword,
+  }: Props) => {
     return (
       <Box className="w-full" alignCenter justify="between">
         <Input
@@ -29,6 +36,13 @@ export const SearchAndFilters = memo(
         />
 
         <Box className="space-x-6" alignCenter>
+          <Checkbox
+            value={onlyConnected}
+            onValueChange={setOnlyConnected}
+            className="hidden md:flex md:pr-10"
+            label={t('views.wallet.showOnlyConnectedChains')}
+          />
+
           <Icon
             name="app"
             size={20}

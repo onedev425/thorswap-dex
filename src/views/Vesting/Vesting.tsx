@@ -38,37 +38,54 @@ const Vesting = () => {
       <Card
         size="lg"
         stretch
-        className="flex-col items-center md:w-full mt-4 md:mt-8 md:h-auto md:pb-10 shadow-lg"
+        className="flex-col items-center md:w-full mt-4 md:mt-8 md:h-auto shadow-lg"
       >
         <Box className="w-full gap-5" col>
-          <Information value="N/A" label={t('views.vesting.totalVested')} />
-          <Information value="N/A" label={t('views.vesting.totalClaimed')} />
           <Information
+            size="lg"
+            value="N/A"
+            label={t('views.vesting.totalVested')}
+          />
+          <Information
+            size="lg"
+            value="N/A"
+            label={t('views.vesting.totalClaimed')}
+          />
+          <Information
+            size="lg"
             value="Not Eligible"
             label={t('views.vesting.vestingStartTime')}
           />
-          <Information value="0 months" label={t('views.vesting.cliff')} />
           <Information
+            size="lg"
+            value="0 months"
+            label={t('views.vesting.cliff')}
+          />
+          <Information
+            size="lg"
             value="0 years"
             label={t('views.vesting.vestingPeriod')}
           />
           <Information
+            size="lg"
             value={`${claimableAmount} THOR`}
             label={t('views.vesting.claimableAmount')}
           />
 
           <Box row justify="between" alignCenter mx={4} my={2}>
-            <Typography>{t('views.vesting.claimAmount')}</Typography>
+            <Typography variant="subtitle2" className="min-w-fit pr-4">
+              {t('views.vesting.claimAmount')}
+            </Typography>
 
             <Input
+              stretch
               onChange={(event) => setClaimAmount(event.target.value)}
               border="bottom"
               type="number"
-              className="!text-right w-32 !text-base"
+              className="!text-right !text-base"
               value={claimAmount}
             />
           </Box>
-
           <Select
             className="!mx-8 justify-between"
             options={percentageOptions.map((option) => `${option}%`)}
@@ -76,7 +93,7 @@ const Vesting = () => {
             onChange={handlePercentagePress}
           />
 
-          <Button stretch size="lg">
+          <Button stretch size="lg" className="mt-4">
             {t('common.connectWallet')}
           </Button>
         </Box>

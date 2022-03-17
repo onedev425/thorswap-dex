@@ -9,10 +9,3 @@ export enum ChartType {
 }
 
 export type CurvedLineChartType = ChartData<ChartType.Line, number[], string>
-
-export type ChartProps = {
-  className?: string
-  data: DataPoint[]
-  hideLabel?: boolean
-  hasGird?: boolean
-}

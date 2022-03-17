@@ -28,7 +28,12 @@ export const ViewHeader = ({ title, withBack, actionsComponent }: Props) => {
           {title}
         </Typography>
       </Box>
-      {!!actionsComponent && <Box center>{actionsComponent}</Box>}
+
+      {!!actionsComponent && (
+        <Box center pr={2}>
+          {actionsComponent}
+        </Box>
+      )}
     </Box>
   )
 }

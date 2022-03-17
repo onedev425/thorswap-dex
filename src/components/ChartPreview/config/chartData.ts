@@ -1,6 +1,6 @@
 import * as colors from '../styles/colors'
-import { CurvedLineChartType, DataPoint } from '../types'
-import { getColor, getLabelsAndValuesFromData } from './utils'
+import { CurvedLineChartType } from '../types'
+import { getColor } from './utils'
 
 const primaryStrokeColors = [
   colors.StrokeColor1,
@@ -12,7 +12,7 @@ const primaryStrokeColors = [
 
 const secondaryStrokeColors = [colors.StrokeColor6, colors.StrokeColor7]
 
-const getDataForCurvedLineChart = (
+export const getDataForCurvedLineChart = (
   dataLabels: string[],
   dataValues: number[],
 ): CurvedLineChartType => {
@@ -32,7 +32,10 @@ const getDataForCurvedLineChart = (
       ]
 
   return {
-    labels: dataLabels,
+    labels:
+      dataLabels.length === 1
+        ? Array(dataValues.length).fill(dataLabels[0])
+        : dataLabels,
     datasets: [
       {
         label: '',
@@ -56,10 +59,4 @@ const getDataForCurvedLineChart = (
       },
     ],
   }
-}
-
-export const getChartData = (data: DataPoint[]) => {
-  const { dataLabels, dataValues } = getLabelsAndValuesFromData(data)
-
-  return getDataForCurvedLineChart(dataLabels, dataValues)
 }
