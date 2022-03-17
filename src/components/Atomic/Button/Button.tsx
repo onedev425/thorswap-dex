@@ -32,7 +32,6 @@ export const Button = ({
     buttonClass,
     outlinedClass,
     typographyVariant,
-    typographyOutlineClass,
   } = useButtonClasses({ size, variant })
 
   const isOutlined = type === 'outline'
@@ -55,14 +54,13 @@ export const Button = ({
           buttonClass,
           className,
           disabled ? 'cursor-not-allowed' : 'cursor-pointer',
-          isBorderless || isOutlined
-            ? 'bg-transparent active:bg-transparent'
-            : backgroundClass,
+
           {
-            'border-transparent': isBorderless,
+            [backgroundClass]: type === 'default',
+            [outlinedClass]: isOutlined || isBorderless,
+            [backgroundActiveClass]: !disabled,
             'w-full': stretch,
-            [outlinedClass]: isOutlined,
-            [backgroundActiveClass]: !(disabled || isBorderless || isOutlined),
+            '!border-transparent': !isOutlined,
           },
         )}
         disabled={disabled}
@@ -78,7 +76,6 @@ export const Button = ({
               isOutlined || isBorderless
                 ? 'text-light-typo-primary dark:text-dark-typo-primary'
                 : 'text-light-typo-secondary dark:text-dark-typo-secondary',
-              { [typographyOutlineClass]: isOutlined || isBorderless },
               {
                 'ml-2': startIcon,
                 'mr-2': endIcon,

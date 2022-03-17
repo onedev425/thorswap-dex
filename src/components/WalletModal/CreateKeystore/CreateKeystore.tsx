@@ -146,15 +146,9 @@ export const KeystoreView = ({ onConnect, onKeystore }: Props) => {
         <Button
           className="flex-1 group"
           size="sm"
-          variant="accent"
+          variant="tint"
           type="outline"
-          endIcon={
-            <Icon
-              className="transition dark:group-hover:text-white"
-              name="wallet"
-              size={18}
-            />
-          }
+          endIcon={<Icon name="wallet" size={18} />}
           onClick={onKeystore}
         >
           {t('components.modal.keystore.connectWallet')}

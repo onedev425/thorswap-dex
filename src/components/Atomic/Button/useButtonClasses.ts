@@ -17,43 +17,40 @@ const typographyVariants: Record<ButtonSizes, TypographyVariant> = {
 }
 
 const backgroundClasses: Record<ButtonVariants, string> = {
-  primary:
-    'border-none bg-btn-primary group-hover:bg-gradient-to-r group-hover:from-btn-primary group-hover:to-btn-primary-active',
-  secondary:
-    'border-none bg-btn-secondary group-hover:bg-gradient-to-r group-hover:from-btn-secondary group-hover:to-btn-secondary-active',
-  tertiary:
-    'border-none bg-btn-tertiary group-hover:bg-gradient-to-r group-hover:from-btn-tertiary group-hover:to-btn-tertiary-active',
-  accent:
-    'border-none bg-btn-accent group-hover:bg-gradient-to-r group-hover:from-btn-accent group-hover:to-btn-accent-active',
-  tint: 'border-none bg-btn-light-tint-active hover:bg-btn-light-tint-active dark:bg-btn-dark-tint dark:hover:bg-btn-dark-tint-active',
+  primary: 'bg-btn-primary',
+  secondary: 'bg-btn-secondary',
+  tertiary: 'bg-btn-tertiary',
+  tint: 'bg-btn-light-tint-active hover:!bg-btn-light-tint-active dark:bg-btn-dark-tint dark:hover:!bg-btn-dark-tint-active',
 }
 
 const backgroundActiveClasses: Record<ButtonVariants, string> = {
   primary: 'focus:bg-btn-primary-active active:bg-btn-primary-active',
   secondary: 'focus:bg-btn-secondary-active active:bg-btn-secondary-active',
   tertiary: 'focus:bg-btn-tertiary-active active:bg-btn-tertiary-active',
-  accent: 'focus:bg-btn-accent-active active:bg-btn-accent-active',
   tint: 'focus:bg-btn-tint-active active:bg-btn-tint-active',
 }
 
 const outlinedClasses: Record<ButtonVariants, string> = {
-  primary:
-    'border-solid group-hover:border-btn-primary-active border-btn-primary group-focus:border-btn-primary group-active:border-btn-primary',
-  secondary:
-    'border-solid group-hover:border-btn-secondary-active border-btn-secondary group-focus:border-btn-secondary group-active:border-btn-secondary',
-  tertiary:
-    'border-solid group-hover:border-btn-tertiary-active border-btn-tertiary group-focus:border-btn-tertiary group-active:border-btn-tertiary',
-  accent:
-    'border-solid group-hover:border-btn-accent-active border-btn-accent group-focus:border-btn-accent group-active:border-btn-accent',
-  tint: 'border-solid group-hover:border-btn-tint-active border-btn-tint group-focus:border-btn-tint group-active:border-btn-tint',
+  primary: 'border-btn-primary',
+  secondary: 'border-btn-secondary',
+  tertiary: 'border-btn-tertiary',
+  tint: 'border-light-border-primary dark:border-dark-border-primary !bg-opacity-0 hover:bg-opacity-20',
 }
 
-const typographyOutlineClasses: Record<ButtonVariants, string> = {
-  primary: 'group-focus:text-btn-primary group-active:text-btn-primary',
-  secondary: 'group-focus:text-btn-secondary group-active:text-btn-secondary',
-  tertiary: 'group-focus:text-btn-tertiary group-active:text-btn-tertiary',
-  accent: 'group-focus:text-btn-accent group-active:text-btn-accent',
-  tint: 'group-focus:text-btn-tint group-active:text-btn-tint',
+const getBgClass = (variant: ButtonVariants) => {
+  const commonClasses = 'border-transparent hover:bg-opacity-80'
+  const variantClasses = backgroundClasses[variant]
+
+  return `${commonClasses} ${variantClasses}`
+}
+
+const getOutlinedClass = (variant: ButtonVariants) => {
+  const commonClasses =
+    'border-solid bg-opacity-0 hover:bg-opacity-20 active:bg-opacity-50'
+  const variantClasses = outlinedClasses[variant]
+  const variantBgClasses = backgroundClasses[variant]
+
+  return `${commonClasses}  ${variantBgClasses} ${variantClasses}`
 }
 
 export const useButtonClasses = ({
@@ -66,10 +63,9 @@ export const useButtonClasses = ({
   const computedClasses = useMemo(
     () => ({
       backgroundActiveClass: backgroundActiveClasses[variant],
-      backgroundClass: backgroundClasses[variant],
+      backgroundClass: getBgClass(variant),
       buttonClass: buttonClasses[size],
-      outlinedClass: outlinedClasses[variant],
-      typographyOutlineClass: typographyOutlineClasses[variant],
+      outlinedClass: getOutlinedClass(variant),
       typographyVariant: typographyVariants[size],
     }),
     [size, variant],

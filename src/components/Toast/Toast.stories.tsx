@@ -42,7 +42,7 @@ export const All = () => {
 
       <div className="p-5">
         <Button
-          variant="accent"
+          variant="tint"
           onClick={() =>
             showToast('Error Toast', ToastType.Error, {
               duration: 1000,

@@ -85,16 +85,11 @@ export const ConnectKeystore = ({
         <Box className="gap-x-4">
           <Button
             size="sm"
-            variant="accent"
+            variant="tint"
             type="outline"
             className="group"
             onClick={onUnlock}
-            endIcon={
-              <Icon
-                name="unlock"
-                className="ml-4 transition group-hover:text-white"
-              />
-            }
+            endIcon={<Icon name="unlock" />}
           >
             {t('components.modal.keystore.unlock')}
           </Button>

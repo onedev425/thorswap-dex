@@ -15,7 +15,7 @@ export default {
 } as ComponentMeta<typeof Button>
 
 const sizes = ['sm', 'md'] as const
-const variants = ['primary', 'secondary', 'tertiary', 'accent', 'tint'] as const
+const variants = ['primary', 'secondary', 'tertiary', 'tint'] as const
 const customProps = [
   { key: 'outline', type: 'outline' },
   { key: 'borderless', type: 'borderless' },
