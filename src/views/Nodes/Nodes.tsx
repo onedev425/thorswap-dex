@@ -30,7 +30,7 @@ import { NodeStats } from './NodeStats'
 import { nodeStatusOptions } from './types'
 
 const Nodes = () => {
-  const { getNodes, nodes } = useMidgard()
+  const { getNodes, nodes, nodeLoading } = useMidgard()
   const { setWatchList, nodeWatchList } = useApp()
   const [nodeStatusType, setNodeStatusType] = useState(0)
   const [keyword, setKeyword] = useState('')
@@ -220,8 +220,9 @@ const Nodes = () => {
         </div>
       </Box>
       <Table
-        data={filteredNodes}
         columns={columns}
+        data={filteredNodes}
+        loading={nodeLoading}
         onRowClick={onRowClick}
         sortable
       />
