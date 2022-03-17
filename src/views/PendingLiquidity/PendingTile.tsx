@@ -20,7 +20,7 @@ export const PendingTile = memo(() => {
     useCollapse()
 
   return (
-    <Card className="self-stretch md:mx-4 bg-light-gray-light dark:bg-dark-gray-light !rounded-2xl flex-col">
+    <Card className="self-stretch md:mx-4 bg-light-gray-light dark:!bg-dark-gray-light  !rounded-2xl flex-col">
       <Box className="cursor-pointer" alignCenter justify="between">
         <Box col>
           <Typography variant="subtitle1" fontWeight="medium">

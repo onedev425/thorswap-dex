@@ -9,7 +9,7 @@ import { t } from 'services/i18n'
 
 export const PendingDeposit = memo(() => {
   return (
-    <Card className="self-stretch px-4 md:mx-4 md:mt-4 bg-light-gray-light dark:bg-dark-gray-light !rounded-2xl flex-col">
+    <Card className="self-stretch px-4 md:mx-4 md:mt-4 bg-light-gray-light dark:!bg-dark-gray-light !rounded-2xl flex-col">
       <Box className="cursor-pointer" alignCenter justify="between">
         <Box alignCenter>
           <AssetIcon className="mr-4" asset={Asset.RUNE()} size={32} />

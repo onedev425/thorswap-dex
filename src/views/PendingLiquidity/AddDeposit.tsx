@@ -10,7 +10,7 @@ import { t } from 'services/i18n'
 
 export const AddDeposit = memo(() => {
   return (
-    <Card className="self-stretch md:mx-4 bg-light-gray-light dark:bg-dark-gray-light !rounded-2xl flex-col">
+    <Card className="self-stretch md:mx-4 bg-light-gray-light dark:!bg-dark-gray-light  !rounded-2xl flex-col">
       <Box alignCenter>
         <Box flex={1} col>
           <Typography
