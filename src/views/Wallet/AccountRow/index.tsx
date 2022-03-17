@@ -1,7 +1,7 @@
 import { memo, useCallback } from 'react'
 
 import { SupportedChain } from '@thorswap-lib/multichain-sdk'
-import { chainToString } from '@thorswap-lib/xchain-util'
+import { Chain, chainToString } from '@thorswap-lib/xchain-util'
 import classNames from 'classnames'
 import { shortenAddress } from 'utils/shortenAddress'
 
@@ -15,6 +15,13 @@ import { ChainInfoTable } from './ChainInfoTable'
 type Props = {
   chain: SupportedChain
 }
+
+export const subtokenChains: SupportedChain[] = [
+  Chain.Ethereum,
+  Chain.Binance,
+  Chain.Terra,
+  Chain.THORChain,
+]
 
 export const AccountRow = memo(({ chain }: Props) => {
   const {
@@ -34,7 +41,7 @@ export const AccountRow = memo(({ chain }: Props) => {
   }, [chainAddress, setIsConnectModalOpen])
 
   return (
-    <Card className="!p-6 mb-2 flex overflow-hidden">
+    <Card className="!p-4 mb-2 flex overflow-hidden">
       <Box flex={1} className="w-full min-w-fit" col>
         <Box
           className={classNames({
@@ -45,7 +52,7 @@ export const AccountRow = memo(({ chain }: Props) => {
           alignCenter
           justify="between"
         >
-          <Box className="space-x-1 flex-col md:flex-row">
+          <Box className="flex-col space-x-1 md:flex-row">
             <Typography variant="subtitle2">{chainToString(chain)}</Typography>
 
             {chainAddress && (
@@ -103,7 +110,12 @@ export const AccountRow = memo(({ chain }: Props) => {
           </Box>
         </Box>
 
-        {chainInfo.length > 0 && <ChainInfoTable chainInfo={chainInfo} />}
+        {chainInfo.length > 0 && (
+          <ChainInfoTable
+            hasSubToken={subtokenChains.includes(chain)}
+            chainInfo={chainInfo}
+          />
+        )}
       </Box>
     </Card>
   )

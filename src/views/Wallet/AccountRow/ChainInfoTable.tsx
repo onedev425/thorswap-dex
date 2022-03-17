@@ -9,10 +9,11 @@ import { t } from 'services/i18n'
 import { useColumns } from './useColumns'
 
 type Props = {
+  hasSubToken: boolean
   chainInfo: AssetAmount[]
 }
 
-export const ChainInfoTable = ({ chainInfo }: Props) => {
+export const ChainInfoTable = ({ hasSubToken, chainInfo }: Props) => {
   const [showAllTokens, setShowAllTokens] = useState(false)
 
   const handleToggleTokens = useCallback(() => {
@@ -28,11 +29,13 @@ export const ChainInfoTable = ({ chainInfo }: Props) => {
         columns={columns}
         sortable
       />
-      <Button type="outline" onClick={handleToggleTokens}>
-        {showAllTokens
-          ? t('views.wallet.hideTokens')
-          : t('views.wallet.showAllTokens')}
-      </Button>
+      {hasSubToken && (
+        <Button type="outline" onClick={handleToggleTokens}>
+          {showAllTokens
+            ? t('views.wallet.hideTokens')
+            : t('views.wallet.showAllTokens')}
+        </Button>
+      )}
     </Box>
   )
 }

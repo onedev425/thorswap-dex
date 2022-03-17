@@ -58,9 +58,9 @@ export const AccountCard = memo(({ chain }: Props) => {
           justify="between"
         >
           <Box center className="space-x-1">
-            <Typography variant="subtitle2">{chainToString(chain)}</Typography>
+            <Typography>{chainToString(chain)}</Typography>
             <Typography color="secondary">
-              {chainAddress && ` ($${balance.toFixed(2)})`}
+              {chainAddress && `($${balance.toFixed(2)})`}
             </Typography>
           </Box>
 
@@ -143,7 +143,7 @@ export const AccountCard = memo(({ chain }: Props) => {
         <AssetChart chain={chain} mode={ViewMode.CARD} />
 
         <Box
-          className="pb-4 gap-8 border-0 border-b-2 border-solid border-light-border-primary dark:border-dark-border-primary"
+          className="gap-8 pb-4 border-0 border-b-2 border-solid border-light-border-primary dark:border-dark-border-primary"
           center
         >
           <AccountCardButton

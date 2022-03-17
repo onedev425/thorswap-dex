@@ -41,7 +41,7 @@ export const getDataForCurvedLineChart = (
         label: '',
         backgroundColor: getColor(activeBgColors, 'background'),
         borderColor: getColor(activeStrokeColors, 'stroke'),
-        borderWidth: 1,
+        borderWidth: 2,
         data: dataValues,
         fill: true,
         cubicInterpolationMode: 'default',

@@ -6,8 +6,8 @@ export const StrokeColor3 = '#4cbee3'
 export const StrokeColor4 = '#75e9ed'
 export const StrokeColor5 = '#5cd29c'
 
-export const StrokeColor6 = '#ed6b82'
-export const StrokeColor7 = '#7b48e8'
+export const StrokeColor6 = '#7b48e8'
+export const StrokeColor7 = '#ed6b82'
 
 // Colors used in the Bar Chart Component
 export const barChartGradientColor1 = '#348CF4'

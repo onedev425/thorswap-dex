@@ -28,7 +28,7 @@ export const PendingLiquidity = () => {
       <AddDeposit />
       <PendingTile />
 
-      <Box className="py-5 md:pt-10">
+      <Box className="w-full pt-5">
         <Button stretch size="lg">
           {t('views.pendingLiquidity.insufficientAmount')}
         </Button>

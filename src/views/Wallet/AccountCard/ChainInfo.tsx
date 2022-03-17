@@ -31,7 +31,7 @@ export const ChainInfo = memo(
         <Box>
           <AssetIcon asset={asset} />
           <Box pl={2} col>
-            <Typography variant="subtitle2">{asset.name}</Typography>
+            <Typography>{asset.name}</Typography>
             <Typography
               variant="caption"
               fontWeight="semibold"
@@ -43,9 +43,7 @@ export const ChainInfo = memo(
         </Box>
 
         <Box col align="end">
-          <Typography variant="subtitle2">
-            ${currentPrice.toFixed(2)}
-          </Typography>
+          <Typography>${currentPrice.toFixed(2)}</Typography>
           <Typography
             variant="caption"
             fontWeight="semibold"
