@@ -20,17 +20,23 @@ type Props = {
 }
 
 const fadeOutClass =
-  'absolute top-0 h-full w-12 overflow-hidden from-[#f1f1f1] dark:from-dark-bg-primary z-10 pointer-events-none'
+  'absolute top-0 h-full w-10 overflow-hidden from-[#f1f1f1] dark:from-dark-bg-primary z-10 pointer-events-none'
 
 export const HorizontalSlider = ({ children, itemWidth, fadeOut }: Props) => {
   return (
-    <div className="overflow-hidden relative">
+    <div
+      className={classNames('relative overflow-hidden', {
+        '-mx-[16px]': fadeOut,
+      })}
+    >
       <Swiper
         spaceBetween={16}
         slidesPerView="auto"
         mousewheel={{
           forceToAxis: true,
         }}
+        slidesOffsetAfter={fadeOut ? 16 : 0}
+        slidesOffsetBefore={fadeOut ? 16 : 0}
       >
         {Children.map(children, (child) => (
           <SwiperSlide style={{ width: itemWidth }}>
