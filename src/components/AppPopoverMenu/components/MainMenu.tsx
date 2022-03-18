@@ -12,7 +12,7 @@ export const MainMenu = ({ items }: Props) => {
         <Box
           key={item.label}
           className={
-            'p-4 cursor-pointer rounded-2xl bg-light-gray-light dark:bg-dark-gray-light'
+            'p-4 cursor-pointer rounded-2xl bg-light-gray-light dark:bg-dark-gray-light hover:brightness-95 dark:hover:brightness-125'
           }
           col
           onClick={item.onClick}

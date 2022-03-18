@@ -3,6 +3,8 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import { AssetInputType } from 'components/AssetInput/types'
 
 export type SwapState = {
+  address: string
+  addressDisabled: boolean
   isOpened: boolean
   expertMode: boolean
   autoRouter: boolean
@@ -15,12 +17,16 @@ export type SwapActions =
   | { type: 'swapAssets' }
   | { type: 'setSlippage'; payload: number }
   | {
-      type: 'setAutoRouter' | 'setExpertMode' | 'setIsOpened'
+      type:
+        | 'setAddressDisabled'
+        | 'setAutoRouter'
+        | 'setExpertMode'
+        | 'setIsOpened'
       payload: boolean
     }
   | { type: 'setSecondAsset' | 'setFirstAsset'; payload: Asset }
   | {
-      type: 'setSecondAssetValue' | 'setFirstAssetValue'
+      type: 'setAddress' | 'setSecondAssetValue' | 'setFirstAssetValue'
       payload: string
     }
 
@@ -80,21 +86,18 @@ export const swapReducer = (
       }
     }
 
-    case 'setSlippage': {
+    case 'setSlippage':
       return { ...state, slippage: actions.payload }
-    }
-
-    case 'setAutoRouter': {
+    case 'setAutoRouter':
       return { ...state, autoRouter: actions.payload }
-    }
-
-    case 'setExpertMode': {
+    case 'setExpertMode':
       return { ...state, expertMode: actions.payload }
-    }
-
-    case 'setIsOpened': {
+    case 'setIsOpened':
       return { ...state, isOpened: actions.payload }
-    }
+    case 'setAddress':
+      return { ...state, address: actions.payload }
+    case 'setAddressDisabled':
+      return { ...state, addressDisabled: actions.payload }
 
     default:
       return state

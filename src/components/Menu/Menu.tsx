@@ -63,7 +63,7 @@ export const Menu = ({
           {!!onBack && (
             <Box
               className={classNames(
-                'w-full  px-4 py-2 hover:brightness-95 dark:hover:brightness-125 cursor-pointer',
+                'w-full px-4 py-2 hover:brightness-95 dark:hover:brightness-125 cursor-pointer',
                 genericBgClasses.secondary,
               )}
               alignCenter
@@ -72,6 +72,7 @@ export const Menu = ({
               <Icon name="chevronLeft" size={16} />
             </Box>
           )}
+
           {items.map((item) => (
             <MenuItem key={item.label} item={item} />
           ))}

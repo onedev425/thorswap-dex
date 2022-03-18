@@ -45,7 +45,8 @@
     "upgrade": "Upgrade",
     "max": "Max",
     "transactionFee": "Transaction Fee",
-    "recipientAddress": "Recipient Address"
+    "recipientAddress": "Recipient Address",
+    "here": "Here"
   },
   "appMenu": {
     "lightTheme": "Light Theme",

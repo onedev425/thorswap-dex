@@ -3,11 +3,13 @@ import { useCallback, useMemo, useReducer } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
+import copy from 'copy-to-clipboard'
 import { assetsFixture } from 'utils/assetsFixture'
 
 import { AssetSelectType } from 'components/AssetSelect/types'
-import { Button, Modal, Icon, Box } from 'components/Atomic'
+import { Button, Modal, Icon, Box, Typography } from 'components/Atomic'
 import { ConfirmSwapItem } from 'components/ConfirmSwapItem'
+import { Input } from 'components/Input'
 import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
@@ -57,25 +59,29 @@ const Swap = () => {
     }
   }, [searchParams])
 
-  const [{ isOpened, firstAsset, secondAsset, slippage }, dispatch] =
-    useReducer(swapReducer, {
-      isOpened: false,
-      expertMode: false,
-      autoRouter: true,
-      slippage: 0.5,
-      firstAsset: {
-        asset: inputAsset.asset,
-        change: inputAsset.change,
-        value: inputAsset.value,
-        price: '5',
-      },
-      secondAsset: {
-        asset: outputAsset.asset,
-        change: outputAsset.change,
-        value: outputAsset.value,
-        price: '10',
-      },
-    })
+  const [
+    { address, addressDisabled, isOpened, firstAsset, secondAsset, slippage },
+    dispatch,
+  ] = useReducer(swapReducer, {
+    address: '',
+    addressDisabled: false,
+    isOpened: false,
+    expertMode: false,
+    autoRouter: true,
+    slippage: 0.5,
+    firstAsset: {
+      asset: inputAsset.asset,
+      change: inputAsset.change,
+      value: inputAsset.value,
+      price: '5',
+    },
+    secondAsset: {
+      asset: outputAsset.asset,
+      change: outputAsset.change,
+      value: outputAsset.value,
+      price: '10',
+    },
+  })
 
   const { addFrequent } = useAssets()
   const handleSwap = () => {
@@ -109,6 +115,16 @@ const Swap = () => {
     dispatch({ type: 'swapAssets' })
   }, [])
 
+  const handleAddressDisabledToggle = useCallback(() => {
+    dispatch({ type: 'setAddressDisabled', payload: !addressDisabled })
+  }, [addressDisabled])
+
+  const handleCopyAddress = useCallback(() => {
+    copy(address)
+
+    // TODO: show notification
+  }, [address])
+
   return (
     <PanelView
       title="Swap"
@@ -131,6 +147,40 @@ const Swap = () => {
         onValueChange={handleValueChange}
         onAssetsSwap={handleAssetsSwap}
       />
+
+      <Box
+        col
+        className="p-4 md:px-8 self-stretch !bg-light-gray-light dark:!bg-dark-gray-light !rounded-2xl"
+      >
+        <Box justify="between">
+          <Typography variant="subtitle1">
+            {t('common.recipientAddress')}
+          </Typography>
+
+          <Box row className="gap-x-3">
+            <Icon
+              onClick={handleAddressDisabledToggle}
+              color="secondary"
+              name={addressDisabled ? 'lock' : 'edit'}
+              size={18}
+            />
+            <Icon
+              onClick={handleCopyAddress}
+              color="secondary"
+              name="copy"
+              size={18}
+            />
+            <Icon onClick={() => {}} color="secondary" name="share" size={18} />
+          </Box>
+        </Box>
+
+        <Input
+          disabled={addressDisabled}
+          placeholder={`${t('common.recipientAddress')} ${t('common.here')}`}
+          border="bottom"
+          value={address}
+        />
+      </Box>
 
       <SwapInfo
         firstAsset={firstAsset}

@@ -23,6 +23,7 @@ export const Input = ({
   border,
   className,
   containerClassName,
+  disabled,
   icon,
   onChange,
   placeholder,
@@ -64,11 +65,12 @@ export const Input = ({
       )}
 
       <input
+        disabled={disabled}
         ref={inputRef}
         className={classNames(
           'bg-transparent border-none dark:placeholder-dark-typo-gray dark:text-dark-typo-primary font-bold font-primary placeholder-light-typo-gray text-light-typo-primary text-xs focus:outline-none',
           stretch ? 'w-full' : 'w-52',
-          { 'w-48': icon && !stretch },
+          { 'w-48': icon && !stretch, 'cursor-not-allowed': disabled },
           className,
         )}
         value={value}
