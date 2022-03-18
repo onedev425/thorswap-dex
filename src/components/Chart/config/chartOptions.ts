@@ -21,6 +21,26 @@ export const getChartOptions = (
       legend: {
         display: false,
       },
+      tooltip: {
+        titleFont: {
+          size: 20,
+        },
+        titleSpacing: 20,
+        titleMarginBottom: 20,
+        padding: 16,
+        bodyFont: {
+          size: 16,
+        },
+        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+        boxPadding: 5,
+
+        width: 500,
+        caretSize: 10,
+        cornerRadius: 15,
+        bodySpacing: 10,
+        footerMarginTop: 10,
+        borderWidth: 5,
+      },
     },
     scales: {
       x: {
