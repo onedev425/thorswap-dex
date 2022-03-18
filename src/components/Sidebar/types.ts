@@ -27,3 +27,15 @@ export type SidebarProps = {
   collapsed?: boolean
   toggle?: () => void
 }
+
+export const itemClasses = {
+  primary:
+    'hover:bg-btn-primary-translucent hover:dark:bg-btn-primary-translucent',
+  secondary:
+    'hover:bg-btn-secondary-translucent hover:dark:bg-btn-secondary-translucent',
+}
+
+export const iconClasses = {
+  primary: 'text-light-gray-primary dark:text-dark-gray-primary',
+  secondary: 'text-light-green-light dark:text-dark-green-light',
+}

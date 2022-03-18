@@ -4,21 +4,9 @@ import ReactTooltip from 'react-tooltip'
 
 import classNames from 'classnames'
 
-import { Tooltip, Icon, Link, Typography } from 'components/Atomic'
+import { Box, Icon, Link, Tooltip, Typography } from 'components/Atomic'
 
-import { NavItemProps } from './types'
-
-export const itemClasses = {
-  primary:
-    'hover:bg-btn-primary-translucent hover:dark:bg-btn-primary-translucent',
-  secondary:
-    'hover:bg-btn-secondary-translucent hover:dark:bg-btn-secondary-translucent',
-}
-
-export const iconClasses = {
-  primary: 'text-light-gray-primary dark:text-dark-gray-primary',
-  secondary: 'text-light-green-light dark:text-dark-green-light',
-}
+import { NavItemProps, iconClasses, itemClasses } from './types'
 
 export const NavItem = ({
   className = '',
@@ -40,9 +28,9 @@ export const NavItem = ({
   return (
     <li className={className}>
       <Tooltip content={collapsed ? label : ''} place="right">
-        <div
+        <Box
           className={classNames(
-            'h-10 box-border flex items-center justify-center rounded-2xl group transition',
+            'h-10 box-border rounded-2xl group transition',
             itemClasses[variant],
             {
               'bg-btn-primary dark:bg-btn-primary':
@@ -51,6 +39,7 @@ export const NavItem = ({
                 isActive && variant === 'secondary',
             },
           )}
+          center
         >
           <Link
             className={classNames(
@@ -73,7 +62,7 @@ export const NavItem = ({
                 className={classNames(
                   'px-2 group-hover:text-white',
                   iconClasses[variant],
-                  { 'text-white dark:text-white': isActive },
+                  { 'text-white': isActive },
                 )}
                 variant="caption"
                 fontWeight="semibold"
@@ -83,7 +72,7 @@ export const NavItem = ({
               </Typography>
             )}
           </Link>
-        </div>
+        </Box>
       </Tooltip>
     </li>
   )
