@@ -3,4 +3,5 @@ export type LinkProps = {
   children?: React.ReactNode
   className?: string
   isExternal?: boolean
+  onClick?: () => void
 }

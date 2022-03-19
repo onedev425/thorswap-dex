@@ -1,6 +1,6 @@
-import { ChangeEventHandler, useCallback, useReducer } from 'react'
+import { ChangeEventHandler, useCallback, useEffect, useReducer } from 'react'
 
-import { useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
 import { assetsFixture, commonAssets } from 'utils/assetsFixture'
@@ -27,6 +27,8 @@ const [initialAsset] = assetsFixture
 
 const Send = () => {
   const [searchParams] = useSearchParams()
+  const { assetParam } = useParams<{ assetParam: string }>()
+
   const [{ memo, address, asset, isOpened }, dispatch] = useReducer(
     sendReducer,
     {
@@ -60,6 +62,19 @@ const Send = () => {
     (event) => {
       dispatch({ type, payload: event.target.value })
     }
+
+  useEffect(() => {
+    const getSendAsset = async () => {
+      const assetObj = Asset.decodeFromURL(assetParam || '')
+
+      if (assetObj) {
+        await assetObj.setDecimal()
+        handleAssetChange(assetObj)
+      }
+    }
+
+    getSendAsset()
+  }, [assetParam, handleAssetChange])
 
   return (
     <PanelView

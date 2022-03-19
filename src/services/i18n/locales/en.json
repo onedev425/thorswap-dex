@@ -46,6 +46,7 @@
     "max": "Max",
     "transactionFee": "Transaction Fee",
     "recipientAddress": "Recipient Address",
+    "addressCopied": "Address copied",
     "here": "Here"
   },
   "appMenu": {

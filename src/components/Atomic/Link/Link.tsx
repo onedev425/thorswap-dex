@@ -4,7 +4,13 @@ import classNames from 'classnames'
 
 import { LinkProps } from './types'
 
-export const Link = ({ className, to, children, isExternal }: LinkProps) => {
+export const Link = ({
+  className,
+  to,
+  children,
+  isExternal,
+  onClick,
+}: LinkProps) => {
   const externalHref =
     isExternal || /^((http|https|ftp):\/\/)/.test(to.trim?.())
 
@@ -15,13 +21,14 @@ export const Link = ({ className, to, children, isExternal }: LinkProps) => {
         target="_blank"
         rel="noopener noreferrer"
         href={to}
+        onClick={onClick}
       >
         {children}
       </a>
     )
 
   return (
-    <NavLink className={className} to={to}>
+    <NavLink className={className} to={to} onClick={onClick}>
       {children}
     </NavLink>
   )

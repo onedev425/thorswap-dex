@@ -14,11 +14,13 @@ import {
 import { WalletHeader } from 'views/WalletBalance/WalletHeader'
 
 import { AssetIcon } from 'components/AssetIcon'
-import { Box, Button, Icon, Typography } from 'components/Atomic'
+import { Box, Button, Icon, Link, Typography } from 'components/Atomic'
 import { Scrollbar } from 'components/Scrollbar'
 
 import { useMidgard } from 'redux/midgard/hooks'
 import { useWallet } from 'redux/wallet/hooks'
+
+import { useWalletDrawer } from 'hooks/useWalletDrawer'
 
 import { ChainHeader } from './ChainHeader'
 import { sortedChains } from './types'
@@ -26,6 +28,7 @@ import { sortedChains } from './types'
 const WalletBalance = () => {
   const { pools } = useMidgard()
   const { chainWalletLoading, wallet } = useWallet()
+  const { close } = useWalletDrawer()
 
   const renderBalance = useCallback(
     (chain: SupportedChain, balance: AssetAmount[]) => {
@@ -72,16 +75,18 @@ const WalletBalance = () => {
                 startIcon={<Icon name="switch" color="primaryBtn" size={16} />}
               />
             )}
-            <Button
-              className="px-3 hover:bg-transparent dark:hover:bg-transparent"
-              variant="tint"
-              startIcon={<Icon name="send" color="primaryBtn" size={16} />}
-            />
+            <Link to={`/send/${data.asset.toURLEncoded()}`} onClick={close}>
+              <Button
+                className="px-3 hover:bg-transparent dark:hover:bg-transparent"
+                variant="tint"
+                startIcon={<Icon name="send" color="primaryBtn" size={16} />}
+              />
+            </Link>
           </Box>
         </Box>
       ))
     },
-    [],
+    [close],
   )
 
   const renderChainBalance = useCallback(
@@ -92,7 +97,7 @@ const WalletBalance = () => {
       const { walletType } = chainBalance
 
       return (
-        <Box className="mt-2" col>
+        <Box className="mt-2" key={chain.toString()} col>
           <ChainHeader
             chain={chain}
             address={address}

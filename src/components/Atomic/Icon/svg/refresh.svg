@@ -1,21 +1,11 @@
-<svg
-  width="20"
-  height="20"
-  viewBox="0 0 20 20"
-  stroke="currentColor"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
->
-<path
-    d="M19 8.8729C18.7249 6.88944 17.8065 5.05163 16.3862 3.64256C14.966 2.23349 13.1227 1.33134 11.1404 1.07508C9.15803 0.818812 7.14658 1.22265 5.41585 2.22438C3.68513 3.22611 2.33116 4.77016 1.5625 6.61868M1 2.11026V6.61868H5.5"
-    stroke-width="1.5"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
-<path
-    d="M1 11.127C1.27513 13.1104 2.19355 14.9482 3.61378 16.3573C5.03402 17.7664 6.87727 18.6685 8.85962 18.9248C10.842 19.181 12.8534 18.7772 14.5841 17.7755C16.3149 16.7737 17.6688 15.2297 18.4375 13.3812M19 17.8896V13.3812H14.5"
-    stroke-width="1.5"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 20 20" style="enable-background:new 0 0 20 20;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+</style>
+<path class="st0" d="M18.4,6.6c-0.8-1.8-2.1-3.4-3.9-4.4c-1.7-1-3.7-1.4-5.7-1.1C6.9,1.3,5,2.2,3.6,3.6C2.2,5.1,1.3,6.9,1,8.9
+	 M14.5,6.6H19V2.1"/>
+<path class="st0" d="M1.6,13.4c0.8,1.8,2.1,3.4,3.9,4.4c1.7,1,3.7,1.4,5.7,1.1c2-0.3,3.8-1.2,5.2-2.6c1.4-1.4,2.3-3.2,2.6-5.2
+	 M5.5,13.4H1v4.5"/>
 </svg>

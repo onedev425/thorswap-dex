@@ -39,6 +39,7 @@ const routes: RouteType = [
   { path: ROUTES.Stats, element: StatsView },
   { path: ROUTES.Swap, element: SwapView },
   { path: ROUTES.Send, element: SendView },
+  { path: ROUTES.SendAsset, element: SendView },
   { path: ROUTES.Vesting, element: VestingView },
   { path: ROUTES.Wallet, element: WalletView },
   { path: ROUTES.WithdrawLiquidity, element: WithdrawLiquidity },

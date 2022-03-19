@@ -9,6 +9,7 @@ export enum ROUTES {
   Nodes = '/nodes',
   PendingLiquidity = '/pending-liquidity',
   Send = '/send',
+  SendAsset = '/send/:assetParam',
   Stake = '/stake',
   Stats = '/stats',
   Swap = '/swap',
