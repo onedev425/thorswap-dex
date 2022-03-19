@@ -61,8 +61,9 @@ export const NavItem = ({
               <Typography
                 className={classNames(
                   'px-2 group-hover:text-white',
-                  iconClasses[variant],
-                  { 'text-white': isActive },
+                  isActive
+                    ? 'text-white dark:text-white'
+                    : iconClasses[variant],
                 )}
                 variant="caption"
                 fontWeight="semibold"
