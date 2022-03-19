@@ -3,6 +3,7 @@ import { Submenu } from 'components/AppPopoverMenu/components/Submenu'
 import { useAppPopoverMenu } from 'components/AppPopoverMenu/useAppPopoverMenu'
 import { Box, Card, Icon, Typography } from 'components/Atomic'
 import { Popover } from 'components/Popover'
+import SocialIcons from 'components/SocialIcons'
 
 export const AppPopoverMenu = () => {
   const { menus, menuType, onBack } = useAppPopoverMenu()
@@ -36,7 +37,10 @@ export const AppPopoverMenu = () => {
           </Box>
 
           {menuType === 'main' ? (
-            <MainMenu items={menus.main.items} />
+            <Box className="gap-4" col>
+              <MainMenu items={menus.main.items} />
+              <SocialIcons />
+            </Box>
           ) : (
             <Submenu items={menus[menuType].items} />
           )}
