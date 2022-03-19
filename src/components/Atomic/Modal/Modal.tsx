@@ -75,9 +75,10 @@ export const Modal = ({
                   </Box>
 
                   <Box
+                    onClick={onClose}
                     center
                     className={classNames(
-                      'h-10 w-10 rounded-2xl self-center border border-solid',
+                      'h-10 w-10 rounded-2xl self-center border border-solid cursor-pointer hover:brightness-95 dark:hover:brightness-125',
                       'border-light-gray-light dark:border-dark-typo-gray',
                     )}
                   >
@@ -86,10 +87,10 @@ export const Modal = ({
                       name="close"
                       color="secondary"
                       size={24}
-                      onClick={onClose}
                     />
                   </Box>
                 </div>
+
                 {withBody ? (
                   <Card
                     className="flex items-center justify-center"

@@ -51,9 +51,16 @@ export const Header = ({ openMenu }: Props) => {
       <Row className="min-h-[70px]" justify="between">
         <Row className="mt-auto shrink-0 gap-x-2">
           <Button
+            className="flex !p-1 !mr-2 md:hidden"
+            onClick={openMenu}
+            type="borderless"
+            startIcon={<Icon color="white" name="menu" size={24} />}
+          />
+
+          <Button
             variant="tint"
             type="outline"
-            className="hidden !bg-transparent !border-1 !border-solid cursor-auto md:flex dark:border-btn-primary"
+            className="!bg-transparent !border-1 !p-2 md:!px-4 !border-solid cursor-auto dark:border-btn-primary"
           >
             {priceLabel || '-'}
           </Button>
@@ -62,12 +69,6 @@ export const Header = ({ openMenu }: Props) => {
             <GasTracker />
             <StatusDropdown />
           </Box>
-
-          <Button
-            className="flex md:hidden"
-            onClick={openMenu}
-            startIcon={<Icon color="white" name="menu" size={24} />}
-          />
         </Row>
 
         <Row className="inline-flex items-center mt-auto shrink-0 gap-x-2">
