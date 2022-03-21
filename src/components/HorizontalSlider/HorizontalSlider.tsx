@@ -1,6 +1,5 @@
 import { ReactNode, Children } from 'react'
 
-import classNames from 'classnames'
 import SwiperCore, { Mousewheel } from 'swiper'
 // Issue related to this was closed without any notice
 // https://github.com/nolimits4web/swiper/issues/5058
@@ -16,27 +15,19 @@ SwiperCore.use([Mousewheel])
 type Props = {
   children: ReactNode[]
   itemWidth: number
-  fadeOut?: boolean
 }
 
-const fadeOutClass =
-  'absolute top-0 h-full w-10 overflow-hidden from-[#f1f1f1] dark:from-dark-bg-primary z-10 pointer-events-none'
-
-export const HorizontalSlider = ({ children, itemWidth, fadeOut }: Props) => {
+export const HorizontalSlider = ({ children, itemWidth }: Props) => {
   return (
-    <div
-      className={classNames('relative overflow-hidden', {
-        '-mx-[16px]': fadeOut,
-      })}
-    >
+    <div className="relative overflow-hidden faded-horizontal -mx-[16px]">
       <Swiper
         spaceBetween={16}
         slidesPerView="auto"
         mousewheel={{
           forceToAxis: true,
         }}
-        slidesOffsetAfter={fadeOut ? 16 : 0}
-        slidesOffsetBefore={fadeOut ? 16 : 0}
+        slidesOffsetAfter={16}
+        slidesOffsetBefore={16}
       >
         {Children.map(children, (child) => (
           <SwiperSlide style={{ width: itemWidth }}>
@@ -44,16 +35,6 @@ export const HorizontalSlider = ({ children, itemWidth, fadeOut }: Props) => {
           </SwiperSlide>
         ))}
       </Swiper>
-      {fadeOut && (
-        <>
-          <div
-            className={classNames(fadeOutClass, 'left-0  bg-gradient-to-r')}
-          />
-          <div
-            className={classNames(fadeOutClass, 'right-0  bg-gradient-to-l')}
-          />
-        </>
-      )}
     </div>
   )
 }

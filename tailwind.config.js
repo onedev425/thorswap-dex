@@ -238,6 +238,14 @@ module.exports = {
     preflight: false,
   },
   plugins: [
+    plugin(function ({ addUtilities }) {
+      addUtilities({
+        '.faded-horizontal': {
+          'mask-image':
+            'linear-gradient(to left, transparent 0%, rgba(0,0,0,1) 4%, rgba(0,0,0,1) 96%, transparent 100%)',
+        },
+      })
+    }),
     plugin(function ({ addDefaults, addUtilities, matchUtilities, theme }) {
       addDefaults('borderSpacing', {
         '--tw-border-spacing-x': '0',
