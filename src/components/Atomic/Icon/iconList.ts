@@ -26,7 +26,6 @@ import { CgMenu, CgArrowsExchangeAltV, CgEye } from 'react-icons/cg'
 import {
   FaChartArea,
   FaChartPie,
-  FaEthereum,
   FaFire,
   FaGasPump,
   FaSortDown,
@@ -45,7 +44,6 @@ import {
   FiX,
   FiXCircle,
 } from 'react-icons/fi'
-import { GrBitcoin } from 'react-icons/gr'
 import { HiOutlineCog, HiOutlineChartPie } from 'react-icons/hi'
 import {
   IoCheckmarkCircleOutline,
@@ -65,7 +63,6 @@ import {
   MdOutlineHdrAuto,
 } from 'react-icons/md'
 import { RiShareBoxLine } from 'react-icons/ri'
-import { SiBinance } from 'react-icons/si'
 import {
   VscAdd,
   VscCloudUpload,
@@ -89,8 +86,6 @@ const Icons = {
   arrowRightLine: MdKeyboardArrowRight,
   auto: MdOutlineHdrAuto,
   backup: VscCloudUpload,
-  binance: SiBinance,
-  bitcoin: GrBitcoin,
   chart: AiOutlineLineChart,
   chartArea2: FaChartArea,
   chartArea: MdAreaChart,
@@ -108,7 +103,6 @@ const Icons = {
   disconnect: VscSignOut,
   discord: BsDiscord,
   edit: FiEdit,
-  ethereum: FaEthereum,
   exchange: CgArrowsExchangeAltV,
   external: BiLinkExternal,
   eye: CgEye,

@@ -9,10 +9,13 @@ import { ReactComponent as Terra } from 'assets/images/svg/terra.svg'
 import { ReactComponent as Thorchain } from 'assets/images/svg/thorchain.svg'
 
 import { ReactComponent as App } from './app.svg'
+import { ReactComponent as Binance3d } from './binance.svg'
+import { ReactComponent as Bitcoin3d } from './bitcoin.svg'
 import { ReactComponent as Bulb } from './bulb.svg'
 import { ReactComponent as ChartCandle } from './chartCandle.svg'
 import { ReactComponent as Cloud } from './cloud.svg'
 import { ReactComponent as Collapse } from './collapse.svg'
+import { ReactComponent as Ethereum3d } from './ethereum.svg'
 import { ReactComponent as Gwei } from './gwei.svg'
 import { ReactComponent as Import } from './import.svg'
 import { ReactComponent as InIcon } from './inIcon.svg'
@@ -58,9 +61,13 @@ export const Svgs = {
   thor: Thorchain,
   // other icons
   app: App,
+  binance: Binance3d,
+  bitcoin: Bitcoin3d,
   bulb: Bulb,
   chartCandle: ChartCandle,
   cloud: Cloud,
+  collapse: Collapse,
+  ethereum: Ethereum3d,
   gwei: Gwei,
   import: Import,
   inIcon: InIcon,
@@ -90,7 +97,6 @@ export const Svgs = {
   walletConnect: WalletConnect,
   watch: Watch,
   xdefi: XDefi,
-  collapse: Collapse,
 }
 
 export const SvgIcons = {
@@ -105,10 +111,13 @@ export const SvgIcons = {
   thor: (props: CustomIconProps) => <SvgIcon name="thor" {...props} />,
   // other icons
   app: (props: CustomIconProps) => <SvgIcon name="app" {...props} />,
+  binance: (props: CustomIconProps) => <SvgIcon name="binance" {...props} />,
+  bitcoin: (props: CustomIconProps) => <SvgIcon name="bitcoin" {...props} />,
   chartCandle: (props: CustomIconProps) => (
     <SvgIcon name="chartCandle" {...props} />
   ),
   cloud: (props: CustomIconProps) => <SvgIcon name="cloud" {...props} />,
+  ethereum: (props: CustomIconProps) => <SvgIcon name="ethereum" {...props} />,
   gwei: (props: CustomIconProps) => <SvgIcon name="gwei" {...props} />,
   import: (props: CustomIconProps) => <SvgIcon name="import" {...props} />,
   inIcon: (props: CustomIconProps) => <SvgIcon name="inIcon" {...props} />,
