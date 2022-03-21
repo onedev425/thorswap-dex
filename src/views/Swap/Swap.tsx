@@ -9,6 +9,7 @@ import { assetsFixture } from 'utils/assetsFixture'
 import { AssetSelectType } from 'components/AssetSelect/types'
 import { Button, Modal, Icon, Box, Typography } from 'components/Atomic'
 import { ConfirmSwapItem } from 'components/ConfirmSwapItem'
+import { baseHoverClass } from 'components/constants'
 import { Input } from 'components/Input'
 import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
@@ -149,36 +150,47 @@ const Swap = () => {
       />
 
       <Box
+        className="pt-4 pb-2 px-4 md:px-6 self-stretch !bg-light-gray-light dark:!bg-dark-gray-light !rounded-2xl border border-transparent border-solid hover:border-light-gray-primary dark:hover:border-dark-gray-primary"
         col
-        className="p-4 md:px-8 self-stretch !bg-light-gray-light dark:!bg-dark-gray-light !rounded-2xl"
       >
-        <Box justify="between">
-          <Typography variant="subtitle1">
+        <Box alignCenter justify="between">
+          <Typography variant="subtitle1" fontWeight="semibold">
             {t('common.recipientAddress')}
           </Typography>
 
-          <Box row className="gap-x-3">
-            <Icon
-              onClick={handleAddressDisabledToggle}
-              color="secondary"
-              name={addressDisabled ? 'lock' : 'edit'}
-              size={18}
-            />
-            <Icon
-              onClick={handleCopyAddress}
-              color="secondary"
-              name="copy"
-              size={18}
-            />
-            <Icon onClick={() => {}} color="secondary" name="share" size={18} />
+          <Box row>
+            <Box className={baseHoverClass}>
+              <Icon
+                color="secondary"
+                name={addressDisabled ? 'lock' : 'edit'}
+                size={16}
+                onClick={handleAddressDisabledToggle}
+              />
+            </Box>
+            <Box className={baseHoverClass}>
+              <Icon
+                color="secondary"
+                name="copy"
+                size={16}
+                onClick={handleCopyAddress}
+              />
+            </Box>
+            <Box className={baseHoverClass}>
+              <Icon
+                color="secondary"
+                name="share"
+                size={16}
+                onClick={() => {}}
+              />
+            </Box>
           </Box>
         </Box>
 
         <Input
-          disabled={addressDisabled}
           placeholder={`${t('common.recipientAddress')} ${t('common.here')}`}
-          border="bottom"
-          value={address}
+          stretch
+          disabled={addressDisabled}
+          value={'thor123123123123'}
         />
       </Box>
 

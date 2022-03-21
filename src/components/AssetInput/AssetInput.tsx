@@ -43,7 +43,7 @@ export const AssetInput = ({
           : 'bg-light-bg-primary dark:bg-dark-bg-primary',
       )}
     >
-      <Box flex={1} className="pb-1 pl-4 md:pl-2" alignCenter>
+      <Box flex={1} className="pb-1 pl-4 md:pl-0" alignCenter>
         <Input
           placeholder="0.0"
           className="-ml-1 !text-2xl font-normal text-left"
@@ -69,7 +69,7 @@ export const AssetInput = ({
         )}
       </Box>
 
-      <Box justify="between" className="pl-4 md:pl-2">
+      <Box className="pl-4 md:pl-0" alignCenter justify="between">
         <Box>
           <Typography color="secondary" fontWeight="semibold">
             {secondaryLabel || '$'}&nbsp;{assetValue.toFixed(2)}
