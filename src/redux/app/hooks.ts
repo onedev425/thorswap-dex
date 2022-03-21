@@ -46,6 +46,10 @@ export const useApp = () => {
     dispatch(actions.toggleSidebar())
   }, [dispatch])
 
+  const toggleDashboardStats = useCallback(() => {
+    dispatch(actions.toggleDashboardStats())
+  }, [dispatch])
+
   const toggleSidebarCollapse = useCallback(() => {
     dispatch(actions.toggleSidebarCollapse())
   }, [dispatch])
@@ -133,20 +137,21 @@ export const useApp = () => {
     ...appState,
     baseCurrencyAsset,
     setAnnStatus,
+    setAutoRouter,
     setBaseCurrency,
     setExpertMode,
-    setAutoRouter,
     setFeeOptionType,
     setLanguage,
     setReadStatus,
     setSlippage,
-    setTransactionDeadline,
     setTheme,
+    setThousandSeparator,
+    setTransactionDeadline,
+    setWalletViewMode,
     setWatchList,
+    toggleDashboardStats,
     toggleSettings,
     toggleSidebar,
     toggleSidebarCollapse,
-    setThousandSeparator,
-    setWalletViewMode,
   }
 }

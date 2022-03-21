@@ -47,7 +47,8 @@
     "transactionFee": "Transaction Fee",
     "recipientAddress": "Recipient Address",
     "addressCopied": "Address copied",
-    "here": "Here"
+    "here": "Here",
+    "showStats": "Show Stats"
   },
   "appMenu": {
     "lightTheme": "Light Theme",

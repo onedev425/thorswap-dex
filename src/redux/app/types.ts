@@ -8,21 +8,22 @@ import {
 } from 'types/global'
 
 export interface State {
-  themeType: ThemeType
-  baseCurrency: string
-  thousandSeparator: ThousandSeparator
-  isSettingOpen: boolean
-  isAnnOpen: boolean
-  language: SupportedLanguages
   // for only mobile version (not desktop version)
-  isSidebarOpen: boolean
-  isSidebarCollapsed: boolean
-  slippageTolerance: number
-  feeOptionType: FeeOption
-  showAnnouncement: boolean
-  expertMode: boolean
-  nodeWatchList: string[]
   autoRouter: boolean
+  baseCurrency: string
+  expertMode: boolean
+  feeOptionType: FeeOption
+  isAnnOpen: boolean
+  isSettingOpen: boolean
+  isSidebarCollapsed: boolean
+  isSidebarOpen: boolean
+  language: SupportedLanguages
+  nodeWatchList: string[]
+  showAnnouncement: boolean
+  showDashboardStats: boolean
+  slippageTolerance: number
+  themeType: ThemeType
+  thousandSeparator: ThousandSeparator
   transactionDeadline: number
   walletViewMode: ViewMode
 }

@@ -15,21 +15,22 @@ import {
 import { State } from './types'
 
 const initialState: State = {
-  themeType: getFromStorage('themeType') as ThemeType,
-  language: 'en',
-  showAnnouncement: !getFromStorage('readStatus') as boolean,
-  baseCurrency: getFromStorage('baseCurrency') as string,
-  thousandSeparator: getFromStorage('thousandSeparator') as ThousandSeparator,
-  isSettingOpen: false,
-  isAnnOpen: !getFromStorage('annViewStatus') as boolean,
-  isSidebarOpen: false,
-  isSidebarCollapsed: false,
-  feeOptionType: FeeOption.Fast,
-  slippageTolerance: Number(getFromStorage('slippageTolerance') as string),
-  transactionDeadline: Number(getFromStorage('transactionDeadline') as string),
-  expertMode: getFromStorage('expertMode') as boolean,
   autoRouter: getFromStorage('autoRouter') as boolean,
+  baseCurrency: getFromStorage('baseCurrency') as string,
+  expertMode: getFromStorage('expertMode') as boolean,
+  feeOptionType: FeeOption.Fast,
+  isAnnOpen: !getFromStorage('annViewStatus') as boolean,
+  isSettingOpen: false,
+  isSidebarCollapsed: false,
+  isSidebarOpen: false,
+  language: 'en',
   nodeWatchList: getFromStorage('nodeWatchList') as string[],
+  showAnnouncement: !getFromStorage('readStatus') as boolean,
+  showDashboardStats: true,
+  slippageTolerance: Number(getFromStorage('slippageTolerance') as string),
+  themeType: getFromStorage('themeType') as ThemeType,
+  thousandSeparator: getFromStorage('thousandSeparator') as ThousandSeparator,
+  transactionDeadline: Number(getFromStorage('transactionDeadline') as string),
   walletViewMode: getFromStorage('walletViewMode') as ViewMode,
 }
 
@@ -56,6 +57,9 @@ const appSlice = createSlice({
     },
     toggleSidebar(state) {
       state.isSidebarOpen = !state.isSidebarOpen
+    },
+    toggleDashboardStats(state) {
+      state.showDashboardStats = !state.showDashboardStats
     },
     toggleSidebarCollapse(state) {
       state.isSidebarCollapsed = !state.isSidebarCollapsed

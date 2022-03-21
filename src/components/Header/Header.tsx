@@ -3,10 +3,12 @@ import { useCallback, useMemo } from 'react'
 import { Amount, hasConnectedWallet } from '@thorswap-lib/multichain-sdk'
 
 import { AppPopoverMenu } from 'components/AppPopoverMenu'
-import { Button, Row, Icon, Box } from 'components/Atomic'
+import { Button, Row, Icon, Box, Typography } from 'components/Atomic'
+import { SwitchToggle } from 'components/Atomic/SwitchToggle'
 import { GasTracker } from 'components/GasTracker'
 import { StatusDropdown } from 'components/StatusDropdown'
 
+import { useApp } from 'redux/app/hooks'
 import { useMidgard } from 'redux/midgard/hooks'
 import { useWallet } from 'redux/wallet/hooks'
 
@@ -19,9 +21,10 @@ type Props = {
 }
 
 export const Header = ({ openMenu }: Props) => {
+  const { showDashboardStats, toggleDashboardStats } = useApp()
+  const { stats } = useMidgard()
   const { isWalletLoading, wallet, setIsConnectModalOpen } = useWallet()
   const { setIsDrawerVisible } = useWalletDrawer()
-  const { stats } = useMidgard()
 
   const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet])
 
@@ -68,6 +71,18 @@ export const Header = ({ openMenu }: Props) => {
           <Box className="hidden md:flex gap-x-2">
             <GasTracker />
             <StatusDropdown />
+          </Box>
+
+          <Box
+            className="hidden h-10 px-3 transition-all cursor-pointer md:flex bg-light-bg-primary dark:bg-dark-bg-secondary hover:bg-light-bg-secondary rounded-2xl"
+            alignCenter
+            justify="between"
+          >
+            <Typography variant="caption">{t('common.showStats')}</Typography>
+            <SwitchToggle
+              checked={showDashboardStats}
+              onChange={toggleDashboardStats}
+            />
           </Box>
         </Row>
 

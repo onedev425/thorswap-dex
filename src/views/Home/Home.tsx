@@ -8,17 +8,20 @@ import { Helmet } from 'components/Helmet'
 import { HorizontalSlider } from 'components/HorizontalSlider'
 import { PoolCard } from 'components/PoolCard'
 
+import { useApp } from 'redux/app/hooks'
+
 import { t } from 'services/i18n'
 
 const Home = () => {
+  const { showDashboardStats } = useApp()
+
   return (
     <Box className="gap-12" col>
       <Helmet
         title="THORSwap"
         content="THORSwap is world's first multi-chain dex powered by THORChain"
       />
-
-      <GlobalStats />
+      {showDashboardStats && <GlobalStats />}
 
       <GlobalChart />
 
