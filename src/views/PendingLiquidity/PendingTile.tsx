@@ -5,7 +5,7 @@ import classNames from 'classnames'
 
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
 import { Box, Card, Icon, Typography, useCollapse } from 'components/Atomic'
-import { Information } from 'components/Information'
+import { InfoRow } from 'components/InfoRow'
 
 import { t } from 'services/i18n'
 
@@ -67,7 +67,7 @@ export const PendingTile = memo(() => {
       <div className={collapseClasses} ref={contentRef} style={maxHeightStyle}>
         <Box className="pt-4 gap-y-2" col>
           {data.map((item) => (
-            <Information
+            <InfoRow
               key={item.title}
               label={item.title}
               value={

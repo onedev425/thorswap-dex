@@ -7,7 +7,7 @@ import { BigNumber } from 'ethers'
 
 import { AssetIcon, AssetLpIcon } from 'components/AssetIcon'
 import { Typography, Card, Icon, Button, Box, Link } from 'components/Atomic'
-import { Information } from 'components/Information'
+import { InfoRow } from 'components/InfoRow'
 
 import { useWallet } from 'redux/wallet/hooks'
 
@@ -231,7 +231,7 @@ export const StakingCard = ({
             </Box>
           </Box>
           <Box className="flex-col px-4 space-y-2">
-            <Information
+            <InfoRow
               label={t('views.staking.stakingToken')}
               value={
                 <Box className="space-x-1" alignCenter row>
@@ -249,7 +249,7 @@ export const StakingCard = ({
                 </Box>
               }
             />
-            <Information
+            <InfoRow
               label={t('views.staking.stakingContract')}
               value={
                 <Box className="space-x-1" alignCenter row>
@@ -267,15 +267,15 @@ export const StakingCard = ({
                 </Box>
               }
             />
-            <Information
+            <InfoRow
               label={t('views.staking.tokenBalance')}
               value={ethAddr ? lpTokenBal.toLocaleString() : 'N/A'}
             />
-            <Information
+            <InfoRow
               label={t('views.staking.tokenStaked')}
               value={ethAddr ? stakedAmount.toFixed(4) : 'N/A'}
             />
-            <Information
+            <InfoRow
               label={t('views.staking.claimable')}
               value={ethAddr ? pendingRewardDebt.toFixed(2) : 'N/A'}
             />

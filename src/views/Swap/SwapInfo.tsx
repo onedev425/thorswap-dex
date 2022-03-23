@@ -2,7 +2,7 @@ import { memo } from 'react'
 
 import { AssetInputType } from 'components/AssetInput/types'
 import { Box, Collapse, Icon, Typography } from 'components/Atomic'
-import { Information } from 'components/Information'
+import { InfoRow } from 'components/InfoRow'
 
 type Props = {
   firstAsset: AssetInputType
@@ -34,13 +34,13 @@ export const SwapInfo = memo(
         }
       >
         <Box className="w-full space-y-1" col>
-          <Information
+          <InfoRow
             showBorder={false}
             label="Expected Output"
             value={`${secondAsset.value} ${secondAsset.asset.symbol}`}
           />
 
-          <Information
+          <InfoRow
             label="Price Impact"
             value={
               <Typography
@@ -53,7 +53,7 @@ export const SwapInfo = memo(
             }
           />
 
-          <Information
+          <InfoRow
             showBorder={false}
             label={`Minimum receiver after slippage (${slippage.toFixed(2)}%)`}
             value={`${

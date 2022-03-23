@@ -2,20 +2,20 @@ import { ComponentMeta } from '@storybook/react'
 
 import { Icon, Typography } from 'components/Atomic'
 
-import { Information } from './Information'
+import { InfoRow } from './InfoRow'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Components/Information',
-  component: Information,
+  title: 'Components/InfoRow',
+  component: InfoRow,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {},
-} as ComponentMeta<typeof Information>
+} as ComponentMeta<typeof InfoRow>
 
 export const InformationSingle = () => {
   return (
     <div className="flex flex-col bg-light-bg-primary dark:bg-dark-bg-primary p-4">
-      <Information label="Slip" value="0%" />
+      <InfoRow label="Slip" value="0%" />
     </div>
   )
 }
@@ -23,7 +23,7 @@ export const InformationSingle = () => {
 export const InformationJSXValue = () => {
   return (
     <div className="flex flex-col bg-light-bg-primary dark:bg-dark-bg-primary p-4">
-      <Information
+      <InfoRow
         label="Total Fee"
         value={<Typography color="secondary">Passed from parent</Typography>}
       />
@@ -34,7 +34,7 @@ export const InformationJSXValue = () => {
 export const InformationJSXValueNoBorder = () => {
   return (
     <div className="flex flex-col bg-light-bg-primary dark:bg-dark-bg-primary p-4">
-      <Information
+      <InfoRow
         label="Total Fee"
         value={<Typography color="secondary">Passed from parent</Typography>}
         showBorder={false}
@@ -46,7 +46,7 @@ export const InformationJSXValueNoBorder = () => {
 export const InformationCustomIconValue = () => {
   return (
     <div className="flex flex-col bg-light-bg-primary dark:bg-dark-bg-primary p-4">
-      <Information
+      <InfoRow
         label="Total Fee"
         value={
           <div className="grid grid-cols-12 items-center ml-6">
@@ -70,12 +70,12 @@ export const InformationCustomIconValue = () => {
 
 export const InformationMultiple = () => {
   return (
-    <div className="flex flex-col bg-light-bg-primary dark:bg-dark-bg-primary p-4">
-      <Information label="Slip" value="0%" />
-      <Information label="Pool share estimated" value="0%" />
-      <Information label="ETH Fee" value="0%" />
-      <Information label="Rune Fee" value="0%" />
-      <Information label="Total Fee" value="0%" showBorder={false} />
+    <div className="flex flex-col flex-1 bg-light-bg-primary dark:bg-dark-bg-primary p-4">
+      <InfoRow label="Slip" value="0%" />
+      <InfoRow label="Pool share estimated" value="0%" />
+      <InfoRow label="ETH Fee" value="0%" />
+      <InfoRow label="Rune Fee" value="0%" />
+      <InfoRow label="Total Fee" value="0%" showBorder={false} />
     </div>
   )
 }

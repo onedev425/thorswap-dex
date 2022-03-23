@@ -8,7 +8,7 @@ import {
   Select,
   Typography,
 } from 'components/Atomic'
-import { Information } from 'components/Information'
+import { InfoRow } from 'components/InfoRow'
 import { Input } from 'components/Input'
 import { PanelView } from 'components/PanelView'
 import { ViewHeader } from 'components/ViewHeader'
@@ -78,7 +78,7 @@ export const NodeDetail = () => {
     >
       <Box className="w-full" col>
         {data.map((item) => (
-          <Information key={item.label} label={item.label} value={item.value} />
+          <InfoRow key={item.label} label={item.label} value={item.value} />
         ))}
       </Box>
       <Collapse title="Actions" className="w-full mt-4">

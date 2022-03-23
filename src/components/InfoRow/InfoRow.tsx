@@ -1,36 +1,40 @@
 import classNames from 'classnames'
 
 import { Box, Typography } from 'components/Atomic'
-
-type InformationProps = {
-  className?: string
-  label: string
-  value: string | React.ReactNode
-  showBorder?: boolean
-  size?: 'sm' | 'md' | 'lg'
-}
+import { InfoRowProps } from 'components/InfoRow/types'
 
 const labelVariant = {
   sm: 'caption-xs',
   md: 'caption',
   lg: 'body',
 } as const
-const valueVariant = { sm: 'caption-xs', md: 'caption-xs', lg: 'body' } as const
+const valueVariant = { sm: 'caption-xs', md: 'caption', lg: 'body' } as const
+const heightVariant = {
+  sm: 'min-h-[35px]',
+  md: 'min-h-[43px]',
+  lg: 'min-h-[52px]',
+} as const
 
-export const Information = ({
+export const InfoRow = ({
   label,
   value,
   className,
   size = 'md',
   showBorder = true,
-}: InformationProps) => {
+}: InfoRowProps) => {
   const borderClasses =
-    'pb-1 border-0 border-b border-solid border-bottom border-light-typo-gray dark:border-dark-typo-gray !border-opacity-50'
+    'border-0 border-b border-solid border-bottom border-light-typo-gray dark:border-dark-typo-gray !border-opacity-20'
 
   return (
     <Box
       row
-      className={classNames(className, { [borderClasses]: showBorder })}
+      className={classNames(
+        className,
+        {
+          [borderClasses]: showBorder,
+        },
+        heightVariant[size],
+      )}
       alignCenter
       justify="between"
     >

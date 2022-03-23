@@ -3,7 +3,7 @@ import { shortenAddress } from 'utils/shortenAddress'
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
 import { Button, Box, Typography, Icon } from 'components/Atomic'
 import { swapItem } from 'components/ConfirmSwapItem/SwapAssetsData'
-import { Information } from 'components/Information'
+import { InfoRow } from 'components/InfoRow'
 
 import { t } from 'services/i18n'
 
@@ -12,7 +12,7 @@ export const ConfirmSwapItem = () => {
     <div className="flex-1">
       {swapItem.map((item) => (
         <>
-          <Information
+          <InfoRow
             label={item.title}
             value={
               <Box justify="between" alignCenter>

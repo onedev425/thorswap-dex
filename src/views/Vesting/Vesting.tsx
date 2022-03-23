@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { Card, Box, Icon, Typography, Select, Button } from 'components/Atomic'
 import { Helmet } from 'components/Helmet'
-import { Information } from 'components/Information'
+import { InfoRow } from 'components/InfoRow'
 import { Input } from 'components/Input'
 import { ViewHeader } from 'components/ViewHeader'
 
@@ -41,32 +41,32 @@ const Vesting = () => {
         className="flex-col items-center md:w-full mt-4 md:mt-8 md:h-auto shadow-lg"
       >
         <Box className="w-full gap-5" col>
-          <Information
+          <InfoRow
             size="lg"
             value="N/A"
             label={t('views.vesting.totalVested')}
           />
-          <Information
+          <InfoRow
             size="lg"
             value="N/A"
             label={t('views.vesting.totalClaimed')}
           />
-          <Information
+          <InfoRow
             size="lg"
             value="Not Eligible"
             label={t('views.vesting.vestingStartTime')}
           />
-          <Information
+          <InfoRow
             size="lg"
             value="0 months"
             label={t('views.vesting.cliff')}
           />
-          <Information
+          <InfoRow
             size="lg"
             value="0 years"
             label={t('views.vesting.vestingPeriod')}
           />
-          <Information
+          <InfoRow
             size="lg"
             value={`${claimableAmount} THOR`}
             label={t('views.vesting.claimableAmount')}

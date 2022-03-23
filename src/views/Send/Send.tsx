@@ -14,7 +14,7 @@ import {
   Tooltip,
   Icon,
 } from 'components/Atomic'
-import { Information } from 'components/Information'
+import { InfoRow } from 'components/InfoRow'
 import { Input } from 'components/Input'
 import { PanelView } from 'components/PanelView'
 import { ViewHeader } from 'components/ViewHeader'
@@ -119,7 +119,7 @@ const Send = () => {
         />
 
         <Box row flex={1} mt={3}>
-          <Information
+          <InfoRow
             className="flex-1"
             label={t('common.transactionFee')}
             value="0.00675 ETH ($20)"
@@ -150,20 +150,16 @@ const Send = () => {
         >
           <div className="my-3">
             <Box className="gap-4" col>
-              <Information
+              <InfoRow
                 className="flex-1"
                 label="Send"
                 value={`${asset.value} ${asset.asset}`}
               />
 
-              <Information
-                className="flex-1"
-                label="Recipient"
-                value={address}
-              />
+              <InfoRow className="flex-1" label="Recipient" value={address} />
 
               <Box row flex={1}>
-                <Information
+                <InfoRow
                   className="flex-1"
                   label={t('common.transactionFee')}
                   value="0.00675 ETH ($20)"

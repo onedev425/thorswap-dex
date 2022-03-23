@@ -1,7 +1,7 @@
 import { ComponentMeta } from '@storybook/react'
 
 import { Typography } from 'components/Atomic'
-import { Information } from 'components/Information'
+import { InfoRow } from 'components/InfoRow'
 
 import { Collapse } from './Collapse'
 import { CollapseIconTitle } from './CollapseIconTitle'
@@ -16,12 +16,8 @@ export default {
 
 const InnerData = (
   <>
-    <Information
-      label="Expected Output"
-      value="12117 USDT"
-      showBorder={false}
-    />
-    <Information
+    <InfoRow label="Expected Output" value="12117 USDT" showBorder={false} />
+    <InfoRow
       label="Price Impact"
       value={
         <Typography
@@ -34,7 +30,7 @@ const InnerData = (
         </Typography>
       }
     />
-    <Information
+    <InfoRow
       label="Minimum received after slippage (0.50%)"
       showBorder={false}
       value={

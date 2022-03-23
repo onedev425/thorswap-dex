@@ -6,7 +6,7 @@ import { AssetInput } from 'components/AssetInput'
 import { AssetInputType } from 'components/AssetInput/types'
 import { Button, Modal, Card, Icon, Box } from 'components/Atomic'
 import { Helmet } from 'components/Helmet'
-import { Information } from 'components/Information'
+import { InfoRow } from 'components/InfoRow'
 import { Input } from 'components/Input'
 import { ViewHeader } from 'components/ViewHeader'
 
@@ -50,7 +50,7 @@ const UpgradeRune = () => {
             secondary
           />
 
-          <Information label={t('common.transactionFee')} value="0.00075 BNB" />
+          <InfoRow label={t('common.transactionFee')} value="0.00075 BNB" />
 
           <Box col>
             <Input
