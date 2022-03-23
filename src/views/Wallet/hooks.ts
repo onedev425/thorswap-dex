@@ -71,7 +71,7 @@ export const useAccountData = (chain: SupportedChain) => {
 
   const chainInfo = useMemo(
     () =>
-      walletBalance.reduce((acc, item) => {
+      (walletBalance as AssetAmount[]).reduce((acc, item) => {
         if (item.asset.eq(sigAsset)) {
           acc.unshift(item)
         } else {

@@ -75,7 +75,7 @@ export const Button = ({
         {children && (
           <Typography
             className={classNames(
-              'duration-150',
+              'duration-150  !no-underline',
               isOutlined || isBorderless
                 ? 'text-light-typo-primary dark:text-dark-typo-primary'
                 : 'text-light-typo-secondary dark:text-dark-typo-secondary',

@@ -24,3 +24,9 @@ export const baseHoverClass =
 
 export const baseBorderClass =
   'border border-solid border-light-border-primary dark:border-dark-border-primary'
+
+export const borderHighlightClass =
+  'border-light-gray-primary dark:border-dark-gray-primary'
+
+export const borderHoverHighlightClass =
+  'border border-transparent border-solid hover:border-light-gray-primary dark:hover:border-dark-gray-primary transition'

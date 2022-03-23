@@ -28,7 +28,11 @@ export const Link = ({
     )
 
   return (
-    <NavLink className={className} to={to} onClick={onClick}>
+    <NavLink
+      className={classNames(className, 'no-underline')}
+      to={to}
+      onClick={onClick}
+    >
       {children}
     </NavLink>
   )

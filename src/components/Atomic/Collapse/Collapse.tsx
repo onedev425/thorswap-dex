@@ -7,6 +7,9 @@ import { Box, Card, Typography, Icon } from 'components/Atomic'
 import { CollapseProps } from './types'
 import { useCollapse } from './useCollapse'
 
+export const maxHeightTransitionClass =
+  'duration-300 ease-in-out transition-max-height overflow-auto overflow-y-hidden'
+
 export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
   ({ children, className, shadow = true, title }, collapseRef) => {
     const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse()
@@ -49,7 +52,7 @@ export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
         </div>
 
         <div
-          className="overflow-auto overflow-y-hidden duration-300 ease-in-out transition-max-height"
+          className={maxHeightTransitionClass}
           ref={contentRef}
           style={maxHeightStyle}
         >

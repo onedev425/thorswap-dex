@@ -6,4 +6,5 @@ export type InfoTableProps = {
   items: InfoTableRows
   size?: InfoRowSize
   showBorder?: boolean
+  horizontalInset?: boolean
 }

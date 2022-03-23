@@ -1,4 +1,10 @@
-import { ChangeEventHandler, useCallback, useEffect, useReducer } from 'react'
+import {
+  ChangeEventHandler,
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+} from 'react'
 
 import { useParams, useSearchParams } from 'react-router-dom'
 
@@ -7,8 +13,8 @@ import { assetsFixture, commonAssets } from 'utils/assetsFixture'
 
 import { AssetInput } from 'components/AssetInput'
 import { Button, Box, Tooltip, Icon, Typography } from 'components/Atomic'
-import { InfoRow } from 'components/InfoRow'
-import { SwapConfirm } from 'components/Modals/SwapConfirm'
+import { InfoTable } from 'components/InfoTable'
+import { SendConfirm } from 'components/Modals/SendConfirm'
 import { PanelInput } from 'components/PanelInput'
 import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
@@ -71,6 +77,23 @@ const Send = () => {
     getSendAsset()
   }, [assetParam, handleAssetChange])
 
+  const summary = useMemo(
+    () => [
+      {
+        label: t('common.transactionFee'),
+        value: (
+          <Box className="gap-2" center>
+            <Typography variant="caption">0.00675 ETH ($20)</Typography>
+            <Tooltip content="Transaction fee tooltip">
+              <Icon size={20} color="secondary" name="infoCircle" />
+            </Tooltip>
+          </Box>
+        ),
+      },
+    ],
+    [],
+  )
+
   return (
     <PanelView
       title={t('common.send')}
@@ -98,26 +121,14 @@ const Send = () => {
       />
 
       <PanelInput
+        collapsible
         title={t('common.memo')}
         placeholder={t('common.memo')}
         onChange={handleChange('setMemo')}
         value={memo}
       />
 
-      <Box className="self-stretch px-1.5 pt-2">
-        <InfoRow
-          className="flex-1"
-          label={t('common.transactionFee')}
-          value={
-            <Box className="gap-2" center>
-              <Typography variant="caption">0.00675 ETH ($20)</Typography>
-              <Tooltip content="Transaction fee tooltip">
-                <Icon size={20} color="secondary" name="infoCircle" />
-              </Tooltip>
-            </Box>
-          }
-        />
-      </Box>
+      <InfoTable horizontalInset items={summary} />
 
       <Box center className="pt-5 md:pt-10">
         <Button onClick={() => setModalVisibility(true)} className="px-20">
@@ -126,7 +137,7 @@ const Send = () => {
       </Box>
 
       {isOpened && (
-        <SwapConfirm
+        <SendConfirm
           isOpened={isOpened}
           address={address}
           asset={asset}

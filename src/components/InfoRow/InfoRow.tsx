@@ -27,8 +27,8 @@ export const InfoRow = ({
 
   return (
     <Box
-      row
       className={classNames(
+        'gap-4',
         className,
         {
           [borderClasses]: showBorder,

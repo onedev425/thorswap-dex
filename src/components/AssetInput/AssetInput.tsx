@@ -22,6 +22,7 @@ export const AssetInput = ({
   secondaryLabel,
   onAssetChange,
   onValueChange,
+  hideMaxButton,
 }: AssetInputProps) => {
   const assetValue =
     parseFloat(selectedAsset?.price || '0') *
@@ -85,20 +86,27 @@ export const AssetInput = ({
           )}
         </Box>
 
-        <Box center row>
-          <Button
-            className="!h-6 !px-2 mr-2"
-            size="sm"
-            type="outline"
-            transform="uppercase"
-            onClick={handleMaxClick}
+        <Box className="gap-1" center row>
+          <Typography
+            className="pr-4 md:pr-0"
+            color="secondary"
+            fontWeight="semibold"
           >
-            {t('common.max')}
-          </Button>
-
-          <Typography className="pr-4 md:pr-0" color="secondary">
             {t('common.balance')}: {selectedAsset.balance || 0}
           </Typography>
+
+          {!hideMaxButton && (
+            <Button
+              className="!h-5 !px-1.5"
+              size="sm"
+              type="borderless"
+              variant="secondary"
+              transform="uppercase"
+              onClick={handleMaxClick}
+            >
+              {t('common.max')}
+            </Button>
+          )}
         </Box>
       </Box>
     </Box>

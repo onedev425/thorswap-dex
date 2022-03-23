@@ -1,1 +1,0 @@
-export { SwapConfirm } from './SwapConfirm'

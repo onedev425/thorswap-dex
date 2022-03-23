@@ -17,6 +17,7 @@ export type AssetInputProps = {
   showChange?: boolean
   secondaryLabel?: string
   onValueChange: (assetValue: string) => void
+  hideMaxButton?: boolean
 } & (
   | {
       assets?: undefined
