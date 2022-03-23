@@ -5,6 +5,8 @@ import { Amount, Asset, Price, runeToAsset } from '@thorswap-lib/multichain-sdk'
 import { useMidgard } from 'redux/midgard/hooks'
 import { useAppDispatch } from 'redux/store'
 
+import { getThorchainMimir } from 'services/thornode'
+
 import { useApp } from './app/hooks'
 
 /**
@@ -22,7 +24,7 @@ export const useGlobalState = () => {
     dispatch(actions.getStats())
     dispatch(actions.getNetworkData())
     dispatch(actions.getLastblock())
-    dispatch(actions.getMimir())
+    dispatch(actions.getMimir(getThorchainMimir))
     dispatch(actions.getQueue())
   }, [dispatch, actions])
 
@@ -32,7 +34,7 @@ export const useGlobalState = () => {
         loadInitialData()
       } else {
         dispatch(actions.getPools())
-        dispatch(actions.getMimir())
+        dispatch(actions.getMimir(getThorchainMimir))
         dispatch(actions.getStats())
       }
     },

@@ -1,3 +1,1 @@
-import { Midgard } from '@thorswap-lib/midgard-sdk'
-
-export const midgardApi = new Midgard({ network: 'mainnet' })
+export * from '@thorswap-lib/thorswap-client/lib/services/midgard'
