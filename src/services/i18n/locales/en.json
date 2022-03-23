@@ -48,6 +48,7 @@
     "recipientAddress": "Recipient Address",
     "addressCopied": "Address copied",
     "here": "Here",
+    "password": "password",
     "showStats": "Show Stats"
   },
   "appMenu": {
@@ -88,6 +89,7 @@
         "enterPassword": "Enter Password",
         "confirmPassword": "Confirm Password",
         "phrase": "Phrase",
+        "viewPhrase": "View Phrase",
         "enterSeed": "Please Enter 12 Seed Phrase",
         "invalidPhrase": "Phrase is invalid",
         "backupKeystore": "Backup Keystore"

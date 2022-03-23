@@ -12,7 +12,7 @@ export const AppPopoverMenu = () => {
     <Popover
       trigger={
         <Button
-          className="px-1.5"
+          className="!px-2"
           type="borderless"
           variant="tint"
           startIcon={<Icon name="cog" />}

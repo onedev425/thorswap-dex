@@ -1,7 +1,7 @@
 import { ColorType } from 'types/global'
 
 export const genericBgClasses: Record<ColorType, string> = {
-  primary: 'bg-light-bg-primary dark:bg-dark-bg-secondary',
+  primary: 'bg-light-bg-primary dark:bg-dark-bg-primary',
   secondary: 'bg-light-bg-secondary dark:bg-dark-bg-secondary',
   purple: 'bg-purple',
   yellow: 'bg-yellow',

@@ -6,6 +6,7 @@ import { baseHoverClass } from 'components/constants'
 type Props = {
   walletType: WalletOption
   size?: number
+  onClick?: () => void
 }
 
 const walletIcons: Record<WalletOption, IconName> = {
@@ -18,9 +19,9 @@ const walletIcons: Record<WalletOption, IconName> = {
   [WalletOption.TERRASTATION]: 'terra',
 }
 
-export const WalletIcon = ({ walletType, size }: Props) => {
+export const WalletIcon = ({ walletType, size, onClick }: Props) => {
   return (
-    <Box className={baseHoverClass}>
+    <Box onClick={onClick} className={baseHoverClass}>
       <Icon name={walletIcons[walletType]} size={size} />
     </Box>
   )

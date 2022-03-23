@@ -8,6 +8,7 @@ import { useWalletDrawerActions } from 'views/WalletBalance/hooks/useWalletDrawe
 
 import { Box, Icon, Tooltip, Typography } from 'components/Atomic'
 import { baseHoverClass } from 'components/constants'
+import { PhraseModal } from 'components/Modals/PhraseModal'
 import { QRCodeModal } from 'components/Modals/QRCodeModal'
 import { WalletIcon } from 'components/WalletIcon/WalletIcon'
 
@@ -32,19 +33,21 @@ type QrCodeData = {
 
 const EMPTY_QR_DATA = { chain: '', address: '' }
 
-export const ChainHeader = (props: ChainHeaderProps) => {
-  const {
-    chain,
-    address,
-    walletType,
-    // viewPhrase = () => {},
-    walletLoading = false,
-  } = props
-
+export const ChainHeader = ({
+  chain,
+  address,
+  walletType,
+  walletLoading = false,
+}: ChainHeaderProps) => {
   const { handleRefreshChain } = useWalletDrawerActions()
   const { handleCopyAddress, miniAddress } = useAddressUtils(address)
 
   const [qrData, setQrData] = useState<QrCodeData>(EMPTY_QR_DATA)
+  const [isPhraseModalVisible, setIsPhraseModalVisible] = useState(false)
+
+  const handleClosePhraseModal = () => {
+    setIsPhraseModalVisible(false)
+  }
 
   const handleViewQRCode = useCallback(() => {
     setQrData({
@@ -57,16 +60,17 @@ export const ChainHeader = (props: ChainHeaderProps) => {
     () => multichain.getExplorerAddressUrl(chain, address),
     [chain, address],
   )
-  // const handleClickWalletIcon = useCallback(async () => {
-  //   if (walletType === WalletOption.KEYSTORE) {
-  //     viewPhrase()
-  //   }
 
-  //   if (walletType === WalletOption.LEDGER && chain === 'THOR') {
-  //     // const addr = await multichain.thor.verifyLedgerAddress()
-  //     // TODO: show notification to verify ledger address
-  //   }
-  // }, [viewPhrase, walletType, chain])
+  const handleClickWalletIcon = useCallback(async () => {
+    if (walletType === WalletOption.KEYSTORE) {
+      setIsPhraseModalVisible(true)
+    }
+
+    if (walletType === WalletOption.LEDGER && chain === 'THOR') {
+      // const addr = await multichain.thor.verifyLedgerAddress()
+      // TODO: show notification to verify ledger address
+    }
+  }, [walletType, chain])
 
   const walletTooltip = useMemo(() => {
     if (walletType === WalletOption.KEYSTORE) {
@@ -99,7 +103,11 @@ export const ChainHeader = (props: ChainHeaderProps) => {
           </Box>
         </Tooltip>
         <Tooltip content={walletTooltip}>
-          <WalletIcon walletType={walletType} size={16} />
+          <WalletIcon
+            onClick={handleClickWalletIcon}
+            walletType={walletType}
+            size={16}
+          />
         </Tooltip>
         <Typography className="ml-2" variant="caption">
           {chainToString(chain)}
@@ -150,6 +158,10 @@ export const ChainHeader = (props: ChainHeaderProps) => {
         chain={qrData.chain}
         address={qrData.address}
         onCancel={() => setQrData(EMPTY_QR_DATA)}
+      />
+      <PhraseModal
+        isOpen={isPhraseModalVisible}
+        onCancel={handleClosePhraseModal}
       />
     </Box>
   )
