@@ -1244,7 +1244,7 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@commitlint/cli@^16.1.0", "@commitlint/cli@^16.2.3":
+"@commitlint/cli@^16.2.3":
   version "16.2.3"
   resolved "https://registry.yarnpkg.com/@commitlint/cli/-/cli-16.2.3.tgz#6c250ce7a660a08a3ac35dd2ec5039421fb831df"
   integrity sha512-VsJBQLvhhlOgEfxs/Z5liYuK0dXqLE5hz1VJzLBxiOxG31kL/X5Q4OvK292BmO7IGZcm1yJE3XQPWSiFaEHbWA==
@@ -1259,7 +1259,7 @@
     resolve-global "1.0.0"
     yargs "^17.0.0"
 
-"@commitlint/config-conventional@^16.0.0", "@commitlint/config-conventional@^16.2.1":
+"@commitlint/config-conventional@^16.2.1":
   version "16.2.1"
   resolved "https://registry.yarnpkg.com/@commitlint/config-conventional/-/config-conventional-16.2.1.tgz#2cf47b505fb259777c063538c8498d8fd9b47779"
   integrity sha512-cP9gArx7gnaj4IqmtCIcHdRjTYdRUi6lmGE+lOzGGjGe45qGOS8nyQQNvkNy2Ey2VqoSWuXXkD8zCUh6EHf1Ww==
@@ -3240,7 +3240,7 @@
   dependencies:
     "@psf/bitcoincash-ops" "^2.0.0"
 
-"@reduxjs/toolkit@^1.7.2", "@reduxjs/toolkit@^1.8.0":
+"@reduxjs/toolkit@^1.8.0":
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@reduxjs/toolkit/-/toolkit-1.8.0.tgz#8ae875e481ed97e4a691aafa034f876bfd0413c4"
   integrity sha512-cdfHWfcvLyhBUDicoFwG1u32JqvwKDxLxDd7zSmSoFw/RhYLOygIRtmaMjPRUUHmVmmAGAvquLLsKKU/677kSQ==
@@ -4586,20 +4586,15 @@
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-"@thorswap-lib/midgard-sdk@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.0.2.tgz#4899c1246441aa352bd24f412d90db4010cb3fb9"
-  integrity sha512-IjlkFRy7xpkyQI9ADQP5xMo/JLYWseJRbcmKMe2qKxbGr08KvShZLFcbkaOV55qASOnu5a4tOWnHlZnyuL8njg==
-
 "@thorswap-lib/midgard-sdk@^0.1.0":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.0.tgz#b51b49e2fc5af1c0449c5fb92b99f1ea5add43cf"
   integrity sha512-XE6ldODzdAM+7XZ1F6h0ClW29B6jsW0ZX4GOolYtiIV2dnfwK0awH8WT42nlxzD6RDXUugRvR5hkniOpvTXewA==
 
-"@thorswap-lib/multichain-sdk@0.0.11":
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.0.11.tgz#62eebdedaadd59b9fb8b6baadd6f4788814adae2"
-  integrity sha512-jilgriUf+RTZp8ITGAZEcf9dV9O86GmwGtrStq26FbpDL1r4JWUiEQIOGNJAyFO5Q7OoIwLgTZcl4XGd8ToVrQ==
+"@thorswap-lib/multichain-sdk@0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.0.12.tgz#0f9b50c4bb314747674f9e63c6799b3a9dac1ad1"
+  integrity sha512-hr3UOsi82Yhlj9skOIwZ0wlJMNz737oP1PgMW78sHO++dVy9Jguq1TwKVf/Lpj7JVPfj7GPajRAPzTpSlBSuEA==
   dependencies:
     "@binance-chain/javascript-sdk" "2.16.4"
     "@ledgerhq/hw-app-btc" "^6.7.0"
@@ -4610,7 +4605,7 @@
     "@terra-dev/wallet-types" "^3.7.0"
     "@terra-money/terra.js" "^3.0.4"
     "@terra-money/wallet-provider" "^3.7.1"
-    "@thorswap-lib/midgard-sdk" "^0.0.2"
+    "@thorswap-lib/midgard-sdk" "^0.1.0"
     "@thorswap-lib/xchain-binance" "^5.3.1"
     "@thorswap-lib/xchain-bitcoin" "^0.17.3"
     "@thorswap-lib/xchain-bitcoincash" "^0.12.5"
@@ -4644,18 +4639,10 @@
     ethers "^5.0.9"
     tiny-invariant "^1.1.0"
 
-"@thorswap-lib/thorswap-client@0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/thorswap-client/-/thorswap-client-0.0.2.tgz#47cb111b6f4ffb9fb0eb2db8f23f568b9d88e3f0"
-  integrity sha512-SA0a+ij+IgNWhZvZZF8l3LGdIPFb02eCKMW/2mR03NIIVuRBq/ChaAQ1hC9Wg1dR8Zfklm/xNNu1iHW9NhGa2Q==
-  dependencies:
-    "@commitlint/cli" "^16.1.0"
-    "@commitlint/config-conventional" "^16.0.0"
-    "@reduxjs/toolkit" "^1.7.2"
-    "@thorswap-lib/midgard-sdk" "^0.1.0"
-    "@thorswap-lib/multichain-sdk" "0.0.11"
-    react-redux "^7.2.6"
-    redux "^4.1.2"
+"@thorswap-lib/thorswap-client@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/thorswap-client/-/thorswap-client-0.0.3.tgz#96e3c1b8d34a5c52434a971b4cadc12b710a2f9e"
+  integrity sha512-mjA5Ai9wsP4LGQhzbNsk4bWWi6bGTn/xa9Z225R+0++21LB/NtiJfQ1qr4QXdN8T4A542vF/7lQi8RucFvt9fw==
 
 "@thorswap-lib/xchain-binance@^5.3.1":
   version "5.4.0"
