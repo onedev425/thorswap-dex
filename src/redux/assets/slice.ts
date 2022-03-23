@@ -17,10 +17,8 @@ const assetsSlice = createSlice({
   initialState,
   reducers: {
     addFrequent(state, { payload }: PayloadAction<string>) {
-      const frequent = [payload, ...state.frequent].slice(
-        0,
-        MAX_FEATURED_ASSETS,
-      )
+      const merged = [payload, ...state.frequent]
+      const frequent = Array.from(new Set(merged)).slice(0, MAX_FEATURED_ASSETS)
       state.frequent = frequent
       saveInStorage({ key: 'frequentAssets', value: frequent })
     },

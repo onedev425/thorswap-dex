@@ -6,17 +6,12 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import { assetsFixture, commonAssets } from 'utils/assetsFixture'
 
 import { AssetInput } from 'components/AssetInput'
-import {
-  Button,
-  Modal,
-  Box,
-  Typography,
-  Tooltip,
-  Icon,
-} from 'components/Atomic'
+import { Button, Box, Tooltip, Icon, Typography } from 'components/Atomic'
 import { InfoRow } from 'components/InfoRow'
-import { Input } from 'components/Input'
+import { SwapConfirm } from 'components/Modals/SwapConfirm'
+import { PanelInput } from 'components/PanelInput'
 import { PanelView } from 'components/PanelView'
+import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { t } from 'services/i18n'
@@ -78,11 +73,11 @@ const Send = () => {
 
   return (
     <PanelView
-      title="Send"
+      title={t('common.send')}
       header={
         <ViewHeader
           title={t('common.send')}
-          actionsComponent={<Icon size={26} name="cog" color="secondary" />}
+          actionsComponent={<SwapSettingsPopover />}
         />
       }
     >
@@ -95,45 +90,33 @@ const Send = () => {
         onValueChange={handleValueChange}
       />
 
-      <Box className="w-full space-y-2" mt={16} col>
-        <Typography variant="h4">{t('common.recipient')}</Typography>
+      <PanelInput
+        title={t('common.recipientAddress')}
+        placeholder={`${t('common.recipientAddress')} ${t('common.here')}`}
+        onChange={handleChange('setAddress')}
+        value={address}
+      />
 
-        <Input
-          border="bottom"
-          className="text-lg"
-          value={address}
-          stretch
-          placeholder={t('common.recipient')}
-          onChange={handleChange('setAddress')}
+      <PanelInput
+        title={t('common.memo')}
+        placeholder={t('common.memo')}
+        onChange={handleChange('setMemo')}
+        value={memo}
+      />
+
+      <Box className="self-stretch px-1.5 pt-2">
+        <InfoRow
+          className="flex-1"
+          label={t('common.transactionFee')}
+          value={
+            <Box className="gap-2" center>
+              <Typography variant="caption">0.00675 ETH ($20)</Typography>
+              <Tooltip content="Transaction fee tooltip">
+                <Icon size={20} color="secondary" name="infoCircle" />
+              </Tooltip>
+            </Box>
+          }
         />
-
-        <Typography variant="h4">{t('common.memo')}</Typography>
-
-        <Input
-          className="text-lg"
-          border="bottom"
-          value={memo}
-          stretch
-          placeholder={t('common.memo')}
-          onChange={handleChange('setMemo')}
-        />
-
-        <Box row flex={1} mt={3}>
-          <InfoRow
-            className="flex-1"
-            label={t('common.transactionFee')}
-            value="0.00675 ETH ($20)"
-          />
-
-          <Tooltip content="Transaction fee tooltip">
-            <Icon
-              className="mt-2 ml-2"
-              size={20}
-              color="secondary"
-              name="infoCircle"
-            />
-          </Tooltip>
-        </Box>
       </Box>
 
       <Box center className="pt-5 md:pt-10">
@@ -143,42 +126,15 @@ const Send = () => {
       </Box>
 
       {isOpened && (
-        <Modal
-          title="Confirm"
+        <SwapConfirm
           isOpened={isOpened}
+          address={address}
+          asset={asset}
           onClose={() => setModalVisibility(false)}
-        >
-          <div className="my-3">
-            <Box className="gap-4" col>
-              <InfoRow
-                className="flex-1"
-                label="Send"
-                value={`${asset.value} ${asset.asset}`}
-              />
-
-              <InfoRow className="flex-1" label="Recipient" value={address} />
-
-              <Box row flex={1}>
-                <InfoRow
-                  className="flex-1"
-                  label={t('common.transactionFee')}
-                  value="0.00675 ETH ($20)"
-                />
-
-                <Tooltip content="Transaction fee tooltip">
-                  <Icon
-                    className="mt-2 ml-2"
-                    size={20}
-                    color="secondary"
-                    name="infoCircle"
-                  />
-                </Tooltip>
-              </Box>
-
-              <Button className="px-32 mx-4 mt-8">{t('common.confirm')}</Button>
-            </Box>
-          </div>
-        </Modal>
+          onConfirm={() => {
+            console.log('Swap confirmed.')
+          }}
+        />
       )}
     </PanelView>
   )

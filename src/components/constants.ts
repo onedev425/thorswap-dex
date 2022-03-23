@@ -21,3 +21,6 @@ export const styledScrollbarClass =
 
 export const baseHoverClass =
   'p-1.5 cursor-pointer rounded-2xl hover:bg-btn-light-tint-active dark:hover:bg-btn-dark-tint-active transition duration-300'
+
+export const baseBorderClass =
+  'border border-solid border-light-border-primary dark:border-dark-border-primary'

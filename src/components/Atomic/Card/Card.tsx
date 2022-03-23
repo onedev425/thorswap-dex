@@ -1,5 +1,7 @@
 import classNames from 'classnames'
 
+import { baseBorderClass } from 'components/constants'
+
 import { CardProps, CardSize } from './types'
 
 const sizeVariants: Record<CardSize, string> = {
@@ -14,12 +16,14 @@ export const Card = ({
   children,
   shadow = true,
   onClick,
+  withBorder,
 }: CardProps) => {
   return (
     <div
       className={classNames(
         'bg-light-bg-secondary dark:bg-dark-bg-secondary',
         { 'drop-shadow-box box-border': shadow },
+        { [baseBorderClass]: withBorder },
         stretch ? 'flex flex-1' : 'inline-flex',
         sizeVariants[size],
         className,

@@ -7,10 +7,10 @@ import copy from 'copy-to-clipboard'
 import { assetsFixture } from 'utils/assetsFixture'
 
 import { AssetSelectType } from 'components/AssetSelect/types'
-import { Button, Modal, Icon, Box, Typography } from 'components/Atomic'
+import { Button, Modal, Icon, Box } from 'components/Atomic'
 import { ConfirmSwapItem } from 'components/ConfirmSwapItem'
 import { baseHoverClass } from 'components/constants'
-import { Input } from 'components/Input'
+import { PanelInput, PanelInputTitle } from 'components/PanelInput'
 import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
@@ -149,50 +149,44 @@ const Swap = () => {
         onAssetsSwap={handleAssetsSwap}
       />
 
-      <Box
-        className="pt-4 pb-2 px-4 md:px-6 self-stretch !bg-light-gray-light dark:!bg-dark-gray-light !rounded-2xl border border-transparent border-solid hover:border-light-gray-primary dark:hover:border-dark-gray-primary"
-        col
-      >
-        <Box alignCenter justify="between">
-          <Typography variant="subtitle1" fontWeight="semibold">
-            {t('common.recipientAddress')}
-          </Typography>
+      <PanelInput
+        placeholder={`${t('common.recipientAddress')} ${t('common.here')}`}
+        stretch
+        disabled={addressDisabled}
+        value={'thor123123123123'}
+        titleComponent={
+          <Box flex={1} alignCenter justify="between">
+            <PanelInputTitle> {t('common.recipientAddress')}</PanelInputTitle>
 
-          <Box row>
-            <Box className={baseHoverClass}>
-              <Icon
-                color="secondary"
-                name={addressDisabled ? 'lock' : 'edit'}
-                size={16}
-                onClick={handleAddressDisabledToggle}
-              />
-            </Box>
-            <Box className={baseHoverClass}>
-              <Icon
-                color="secondary"
-                name="copy"
-                size={16}
-                onClick={handleCopyAddress}
-              />
-            </Box>
-            <Box className={baseHoverClass}>
-              <Icon
-                color="secondary"
-                name="share"
-                size={16}
-                onClick={() => {}}
-              />
+            <Box row>
+              <Box className={baseHoverClass}>
+                <Icon
+                  color="secondary"
+                  name={addressDisabled ? 'lock' : 'edit'}
+                  size={16}
+                  onClick={handleAddressDisabledToggle}
+                />
+              </Box>
+              <Box className={baseHoverClass}>
+                <Icon
+                  color="secondary"
+                  name="copy"
+                  size={16}
+                  onClick={handleCopyAddress}
+                />
+              </Box>
+              <Box className={baseHoverClass}>
+                <Icon
+                  color="secondary"
+                  name="share"
+                  size={16}
+                  onClick={() => {}}
+                />
+              </Box>
             </Box>
           </Box>
-        </Box>
-
-        <Input
-          placeholder={`${t('common.recipientAddress')} ${t('common.here')}`}
-          stretch
-          disabled={addressDisabled}
-          value={'thor123123123123'}
-        />
-      </Box>
+        }
+      />
 
       <SwapInfo
         firstAsset={firstAsset}

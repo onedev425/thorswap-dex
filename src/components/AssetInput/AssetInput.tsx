@@ -37,7 +37,7 @@ export const AssetInput = ({
       justify="between"
       className={classNames(
         className,
-        'rounded-2xl md:rounded-3xl md:px-6 pb-3 md:py-4 md:gap-2 border border-solid border-transparent hover:border-light-gray-primary dark:hover:border-dark-gray-primary',
+        'rounded-2xl md:rounded-3xl md:px-6 pb-3 md:py-4 md:gap-2 border border-solid border-transparent hover:border-light-gray-primary dark:hover:border-dark-gray-primary transition duration-300',
         secondary
           ? 'bg-light-gray-light dark:bg-dark-gray-light'
           : 'bg-light-bg-primary dark:bg-dark-bg-primary',

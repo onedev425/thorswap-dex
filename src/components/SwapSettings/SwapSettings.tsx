@@ -18,7 +18,7 @@ export const SwapSettings = () => {
   } = useApp()
 
   return (
-    <Card className="w-[350px] p-8 shadow-2xl">
+    <Card className="w-[350px] p-8 shadow-2xl" withBorder>
       <Box className="w-full gap-4" col>
         <Box>
           <Typography variant="caption">

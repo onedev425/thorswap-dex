@@ -7,4 +7,5 @@ export type CardProps = {
   stretch?: boolean
   children?: React.ReactNode
   onClick?: () => void
+  withBorder?: boolean
 }

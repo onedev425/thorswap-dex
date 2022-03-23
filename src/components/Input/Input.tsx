@@ -1,31 +1,13 @@
-import {
-  DetailedHTMLProps,
-  InputHTMLAttributes,
-  useRef,
-  forwardRef,
-  RefObject,
-} from 'react'
+import { useRef, forwardRef, RefObject } from 'react'
 
 import classNames from 'classnames'
 
-import { Box, Icon, IconName, Typography } from 'components/Atomic'
-
-type Props = DetailedHTMLProps<
-  InputHTMLAttributes<HTMLInputElement>,
-  HTMLInputElement
-> & {
-  border?: 'bottom' | 'rounded'
-  icon?: IconName
-  prefix?: string
-  stretch?: boolean
-  suffix?: string
-  symbol?: string
-  containerClassName?: string
-}
+import { Box, Icon, Typography } from 'components/Atomic'
+import { InputProps } from 'components/Input/types'
 
 const DEFAULT_ICON_SIZE = 16
 
-export const Input = forwardRef<HTMLInputElement, Props>(
+export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
       border,
@@ -41,7 +23,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
       symbol,
       value,
       ...restProps
-    }: Props,
+    }: InputProps,
     ref,
   ) => {
     const inputRef = useRef<HTMLInputElement>(null)
