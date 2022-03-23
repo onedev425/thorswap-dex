@@ -43,7 +43,7 @@ export const NavItem = ({
         >
           <Link
             className={classNames(
-              'flex items-center w-full h-full no-underline px-2.5 py-2 ',
+              'flex items-center w-full h-full no-underline px-4 py-2 ',
             )}
             isExternal={isExternal}
             to={href}

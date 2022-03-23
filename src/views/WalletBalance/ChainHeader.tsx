@@ -81,7 +81,7 @@ export const ChainHeader = (props: ChainHeaderProps) => {
 
   return (
     <Box
-      className="p-2 bg-btn-light-tint dark:bg-btn-dark-tint"
+      className="py-2 px-4 bg-btn-light-tint dark:bg-btn-dark-tint"
       justify="between"
     >
       <Box alignCenter>

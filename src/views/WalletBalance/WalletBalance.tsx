@@ -45,7 +45,7 @@ const WalletBalance = () => {
       return walletBalance.map((data: AssetAmount) => (
         <Box
           key={data.asset.symbol}
-          className="p-2 bg-light-bg-secondary dark:bg-dark-bg-secondary"
+          className="p-4 bg-light-bg-secondary dark:bg-dark-bg-secondary"
           alignCenter
           justify="between"
           onClick={() => {}}

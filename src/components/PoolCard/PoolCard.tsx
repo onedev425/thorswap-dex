@@ -28,12 +28,8 @@ export const PoolCard = ({
   }, [asset, navigate])
 
   return (
-    <Card
-      className="flex-col overflow-hidden min-w-fit max-w-[288px]"
-      stretch
-      size="lg"
-    >
-      <Box justify="between">
+    <Card className="flex-col overflow-hidden min-w-fit max-w-[288px] " stretch>
+      <Box justify="between" className="px-6 pt-6">
         <Box col>
           <Typography
             className="mb-4"
@@ -61,7 +57,7 @@ export const PoolCard = ({
 
         <Icon name={iconName} color={color} size={110} />
         <Icon
-          className="absolute opacity-50 -z-10 top-12 right-12 blur-md"
+          className="absolute opacity-50 -z-10 top-9 right-8 blur-sm"
           name={iconName}
           color={color}
           size={120}
@@ -69,11 +65,12 @@ export const PoolCard = ({
       </Box>
 
       <Box className="gap-x-2" mt={5} align="end" justifyCenter>
-        <Button type="outline" onClick={handleSwapNavigate}>
+        <Button type="outline" onClick={handleSwapNavigate} stretch>
           {t('common.swap')}
         </Button>
 
         <Button
+          stretch
           variant="tertiary"
           type="outline"
           onClick={handleAddLiquidityNavigate}

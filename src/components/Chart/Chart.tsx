@@ -208,7 +208,13 @@ export const Chart = ({
                       chartIndex === selectedIndex ? 'primary' : 'secondary'
                     }
                     variant="body"
-                    fontWeight="semibold"
+                    fontWeight="bold"
+                    className={classNames(
+                      'hover:underline underline-offset-4',
+                      {
+                        underline: chartIndex === selectedIndex,
+                      },
+                    )}
                   >
                     {chartIndex}
                   </Typography>
