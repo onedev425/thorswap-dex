@@ -20,6 +20,8 @@ import { BigNumber } from 'bignumber.js'
 import { useWallet } from 'redux/wallet/hooks'
 import { GeckoData } from 'redux/wallet/types'
 
+import { formatPrice } from 'helpers/formatPrice'
+
 const emptyWallet = {
   [BTCChain]: null,
   [BNBChain]: null,
@@ -43,7 +45,7 @@ const getBalanceByChain = (
     total = total.plus(amount.assetAmount.multipliedBy(usdPrice))
   })
 
-  return total
+  return formatPrice(total.toNumber())
 }
 
 export const useAccountData = (chain: SupportedChain) => {
@@ -55,29 +57,21 @@ export const useAccountData = (chain: SupportedChain) => {
     setIsConnectModalOpen,
   } = useWallet()
   const wallet = reduxWallet || emptyWallet
-  const { balance, address: chainAddress } = wallet[chain] || {
+  const { balance: walletBalance, address: chainAddress } = wallet[chain] || {
     balance: [] as AssetAmount[],
     address: '',
   }
-
-  const { activeAsset24hChange, activeAssetPrice } = useMemo(() => {
-    const {
-      price_change_percentage_24h: price24hChangePercent,
-      current_price: currentPrice,
-    } = geckoData[sigAsset.symbol] || {
-      price_change_percentage_24h: 0,
-      current_price: 0,
-    }
-
-    return {
-      activeAsset24hChange: price24hChangePercent,
-      activeAssetPrice: currentPrice,
-    }
-  }, [geckoData, sigAsset.symbol])
+  const {
+    price_change_percentage_24h: price24hChangePercent,
+    current_price: currentPrice,
+  } = geckoData[sigAsset.symbol] || {
+    price_change_percentage_24h: 0,
+    current_price: 0,
+  }
 
   const chainInfo = useMemo(
     () =>
-      balance.reduce((acc, item) => {
+      walletBalance.reduce((acc, item) => {
         if (item.asset.eq(sigAsset)) {
           acc.unshift(item)
         } else {
@@ -86,14 +80,14 @@ export const useAccountData = (chain: SupportedChain) => {
 
         return acc as AssetAmount[]
       }, [] as AssetAmount[]),
-    [balance, sigAsset],
+    [walletBalance, sigAsset],
   )
 
   const data = useMemo(
     () => ({
-      activeAsset24hChange,
-      activeAssetPrice,
-      balance: getBalanceByChain(balance, geckoData),
+      activeAsset24hChange: price24hChangePercent,
+      activeAssetPrice: formatPrice(currentPrice),
+      balance: getBalanceByChain(walletBalance, geckoData),
       chainAddress,
       chainInfo,
       chainWalletLoading,
@@ -101,14 +95,14 @@ export const useAccountData = (chain: SupportedChain) => {
       setIsConnectModalOpen,
     }),
     [
-      activeAsset24hChange,
-      activeAssetPrice,
-      balance,
       chainAddress,
       chainInfo,
       chainWalletLoading,
+      currentPrice,
       geckoData,
+      price24hChangePercent,
       setIsConnectModalOpen,
+      walletBalance,
     ],
   )
 

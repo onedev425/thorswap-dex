@@ -28,6 +28,8 @@ import { BreakPoint } from 'hooks/useWindowSize'
 
 import { t } from 'services/i18n'
 
+import { formatPrice } from 'helpers/formatPrice'
+
 import { ROUTES } from 'settings/constants'
 
 const initialSort = [{ id: 'liquidity', desc: true }]
@@ -66,7 +68,7 @@ export const PoolTable = ({ data }: PoolTableProps) => {
             Amount.fromAssetAmount(row.detail.assetPriceUSD, 8),
           align: 'right',
           Cell: ({ cell: { value } }: { cell: { value: Amount } }) =>
-            `$${value.toFixed(3)}`,
+            formatPrice(value),
           sortType: sortPriceColumn,
         },
         {
@@ -94,9 +96,8 @@ export const PoolTable = ({ data }: PoolTableProps) => {
           Header: 'APY',
           accessor: (row: Pool) => new Percent(row.detail.poolAPY),
           align: 'right',
-          Cell: ({ cell: { value } }: { cell: { value: Percent } }) => {
-            return value.toFixed(0)
-          },
+          Cell: ({ cell: { value } }: { cell: { value: Percent } }) =>
+            value.toFixed(0),
           sortType: sortApyColumn,
         },
         {

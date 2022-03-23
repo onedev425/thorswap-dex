@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import {
+  Amount,
   Asset,
   AssetAmount,
   SupportedChain,
@@ -24,6 +25,8 @@ import { useWallet } from 'redux/wallet/hooks'
 import { BreakPoint } from 'hooks/useWindowSize'
 
 import { t } from 'services/i18n'
+
+import { formatPrice } from 'helpers/formatPrice'
 
 import { ROUTES } from 'settings/constants'
 
@@ -55,7 +58,7 @@ export const useColumns = () => {
           id: 'amount',
           Header: 'Amount',
           align: 'right',
-          accessor: (row: AssetAmount) => row.assetAmount,
+          accessor: (row: Amount) => row.assetAmount,
           Cell: ({ cell: { value } }: { cell: { value: AssetAmount } }) => (
             <Typography fontWeight="bold">{value.toFixed(2)}</Typography>
           ),
@@ -67,7 +70,7 @@ export const useColumns = () => {
           accessor: (row: AssetAmount) => row.asset.ticker,
           Cell: ({ cell: { value } }: { cell: { value: string } }) => (
             <Typography fontWeight="bold">
-              ${(geckoData[value]?.current_price || 0).toFixed(2)}
+              {formatPrice(geckoData[value]?.current_price || 0)}
             </Typography>
           ),
         },

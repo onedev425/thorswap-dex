@@ -7,6 +7,8 @@ import { Box, Typography } from 'components/Atomic'
 
 import { GeckoData } from 'redux/wallet/types'
 
+import { formatPrice } from 'helpers/formatPrice'
+
 type Props = {
   info: AssetAmount
   geckoData: Record<string, GeckoData>
@@ -43,7 +45,7 @@ export const ChainInfo = memo(
         </Box>
 
         <Box col align="end">
-          <Typography>${currentPrice.toFixed(2)}</Typography>
+          <Typography>{formatPrice(currentPrice)}</Typography>
           <Typography
             variant="caption"
             fontWeight="semibold"

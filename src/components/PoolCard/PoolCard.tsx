@@ -6,6 +6,8 @@ import { Box, Button, Card, Icon, Typography } from 'components/Atomic'
 
 import { t } from 'services/i18n'
 
+import { formatPrice } from 'helpers/formatPrice'
+
 import { ROUTES } from 'settings/constants'
 
 import { PoolCardProps } from './types'
@@ -41,10 +43,7 @@ export const PoolCard = ({
           </Typography>
 
           <Typography className="mb-2" color="secondary" fontWeight="semibold">
-            {new Intl.NumberFormat('en-EN', {
-              style: 'currency',
-              currency: 'USD',
-            }).format(price)}
+            {formatPrice(price)}
           </Typography>
 
           <Typography

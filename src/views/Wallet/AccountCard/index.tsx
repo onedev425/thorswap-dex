@@ -59,9 +59,7 @@ export const AccountCard = memo(({ chain }: Props) => {
         >
           <Box center className="space-x-1">
             <Typography>{chainToString(chain)}</Typography>
-            <Typography color="secondary">
-              {chainAddress && `($${balance.toFixed(2)})`}
-            </Typography>
+            <Typography color="secondary">{chainAddress && balance}</Typography>
           </Box>
 
           <Button
@@ -119,7 +117,7 @@ export const AccountCard = memo(({ chain }: Props) => {
 
         <Box mt={2} col>
           <Box alignCenter flex={1} justify="between">
-            <Typography variant="h3">${activeAssetPrice}</Typography>
+            <Typography variant="h3">{activeAssetPrice}</Typography>
 
             {chainAddress && (
               <Box center className="gap-x-2">
