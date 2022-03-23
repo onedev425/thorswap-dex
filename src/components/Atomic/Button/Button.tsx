@@ -1,4 +1,4 @@
-import { MouseEvent, useRef } from 'react'
+import { MouseEvent, useLayoutEffect, useRef } from 'react'
 
 import classNames from 'classnames'
 
@@ -26,31 +26,35 @@ export const Button = ({
   ...rest
 }: ButtonProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
-  const {
-    backgroundActiveClass,
-    backgroundClass,
-    buttonClass,
-    outlinedClass,
-    typographyVariant,
-  } = useButtonClasses({ size, variant })
+  const { backgroundClass, buttonClass, outlinedClass, typographyVariant } =
+    useButtonClasses({ size, variant })
 
   const isOutlined = type === 'outline'
   const isBorderless = type === 'borderless'
+
+  const timeoutBlur = (timeout = 0) => {
+    setTimeout(() => buttonRef.current?.blur(), timeout)
+  }
+
+  useLayoutEffect(() => {
+    timeoutBlur(0)
+  }, [])
 
   // It helps to remove focus state from button focus styles be applied only on `tab` select
   const handleClick = (
     event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
   ) => {
     onClick?.(event)
-    buttonRef.current?.blur()
+    timeoutBlur()
   }
 
   return (
     <Tooltip content={tooltip} place={tooltipPlacemenet}>
       <button
+        onMouseDown={() => timeoutBlur(300)}
         ref={buttonRef}
         className={classNames(
-          'flex border items-center justify-center outline-none p-0 disabled:opacity-75 duration-300',
+          'flex border border-solid items-center justify-center outline-none p-0 disabled:opacity-75 duration-300',
           buttonClass,
           className,
           disabled ? 'cursor-not-allowed' : 'cursor-pointer',
@@ -58,7 +62,6 @@ export const Button = ({
           {
             [backgroundClass]: type === 'default',
             [outlinedClass]: isOutlined || isBorderless,
-            [backgroundActiveClass]: !disabled,
             'w-full': stretch,
             '!border-transparent': !isOutlined,
           },

@@ -49,7 +49,7 @@ export const SwapSettings = () => {
           />
           <Button
             size="sm"
-            type={slippageTolerance === 0.5 ? 'outline' : 'default'}
+            type={slippageTolerance === 0.5 ? 'default' : 'outline'}
             variant="tint"
             onClick={() => setSlippage(0.5)}
           >
@@ -57,7 +57,7 @@ export const SwapSettings = () => {
           </Button>
           <Button
             size="sm"
-            type={slippageTolerance === 1 ? 'outline' : 'default'}
+            type={slippageTolerance === 1 ? 'default' : 'outline'}
             variant="tint"
             onClick={() => setSlippage(1)}
           >
@@ -66,7 +66,7 @@ export const SwapSettings = () => {
           <Button
             size="sm"
             variant="tint"
-            type={slippageTolerance == 3 ? 'outline' : 'default'}
+            type={slippageTolerance == 3 ? 'default' : 'outline'}
             onClick={() => setSlippage(3)}
           >
             <Typography variant="caption-xs">3%</Typography>

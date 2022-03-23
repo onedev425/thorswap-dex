@@ -20,25 +20,19 @@ const backgroundClasses: Record<ButtonVariants, string> = {
   primary: 'bg-btn-primary',
   secondary: 'bg-btn-secondary',
   tertiary: 'bg-btn-tertiary',
-  tint: 'bg-btn-light-tint-active hover:!bg-btn-light-tint-active dark:bg-btn-dark-tint dark:hover:!bg-btn-dark-tint-active',
-}
-
-const backgroundActiveClasses: Record<ButtonVariants, string> = {
-  primary: 'focus:bg-btn-primary-active active:bg-btn-primary-active',
-  secondary: 'focus:bg-btn-secondary-active active:bg-btn-secondary-active',
-  tertiary: 'focus:bg-btn-tertiary-active active:bg-btn-tertiary-active',
-  tint: 'focus:bg-btn-tint-active active:bg-btn-tint-active',
+  tint: 'bg-btn-light-tint hover:!bg-btn-light-tint-active dark:bg-btn-dark-tint dark:hover:!bg-btn-dark-tint-active hover:!bg-opacity-100 active:!bg-opacity-50 dark:hover:!bg-opacity-100 dark:active:!bg-opacity-50',
 }
 
 const outlinedClasses: Record<ButtonVariants, string> = {
   primary: 'border-btn-primary',
   secondary: 'border-btn-secondary',
   tertiary: 'border-btn-tertiary',
-  tint: 'border-light-border-primary dark:border-dark-border-primary !bg-opacity-0 hover:bg-opacity-20',
+  tint: 'border-light-border-primary dark:border-dark-border-primary !bg-opacity-0 hover:!bg-opacity-100 active:!bg-opacity-50 dark:hover:!bg-opacity-100 dark:active:!bg-opacity-50',
 }
 
 const getBgClass = (variant: ButtonVariants) => {
-  const commonClasses = 'border-transparent hover:bg-opacity-80'
+  const commonClasses =
+    'border-transparent hover:bg-opacity-80 active:bg-opacity-100'
   const variantClasses = backgroundClasses[variant]
 
   return `${commonClasses} ${variantClasses}`
@@ -62,7 +56,6 @@ export const useButtonClasses = ({
 }) => {
   const computedClasses = useMemo(
     () => ({
-      backgroundActiveClass: backgroundActiveClasses[variant],
       backgroundClass: getBgClass(variant),
       buttonClass: buttonClasses[size],
       outlinedClass: getOutlinedClass(variant),

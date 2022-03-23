@@ -32,25 +32,16 @@ export const ConfirmSwapItem = () => {
         </>
       ))}
       <div className="my-3">
-        <Box className="gap-4" col center>
+        <Box className="gap-4" col>
           <Button
-            className="px-7 h-[40px] mb-8 mt-3 !rounded-xl"
+            stretch
             variant="tertiary"
             type="outline"
+            endIcon={<Icon size={22} name="lock" className="ml-2" />}
           >
-            <Box className="space-x-44" alignCenter justify="between">
-              <Typography
-                fontWeight="semibold"
-                className="mr-4"
-                color="secondary"
-                variant="body"
-              >
-                {t('common.locked')}
-              </Typography>
-              <Icon size={22} name="lock" className="ml-2" />
-            </Box>
+            {t('common.locked')}
           </Button>
-          <Button className="px-32" type="outline">
+          <Button stretch type="outline">
             {t('common.confirm')}
           </Button>
         </Box>
