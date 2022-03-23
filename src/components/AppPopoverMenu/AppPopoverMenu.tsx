@@ -1,7 +1,7 @@
 import { MainMenu } from 'components/AppPopoverMenu/components/MainMenu'
 import { Submenu } from 'components/AppPopoverMenu/components/Submenu'
 import { useAppPopoverMenu } from 'components/AppPopoverMenu/useAppPopoverMenu'
-import { Box, Card, Icon, Typography } from 'components/Atomic'
+import { Box, Button, Card, Icon, Typography } from 'components/Atomic'
 import { Popover } from 'components/Popover'
 import SocialIcons from 'components/SocialIcons'
 
@@ -11,13 +11,12 @@ export const AppPopoverMenu = () => {
   return (
     <Popover
       trigger={
-        <Box
-          className="p-2 cursor-pointer rounded-2xl hover:bg-btn-light-tint-active dark:hover:bg-btn-dark-tint-active"
-          alignCenter
-          justifyCenter
-        >
-          <Icon name="cog" />
-        </Box>
+        <Button
+          className="px-1.5"
+          type="borderless"
+          variant="tint"
+          startIcon={<Icon name="cog" />}
+        />
       }
       onClose={onBack}
     >

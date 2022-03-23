@@ -1,14 +1,18 @@
 import { useCallback, useMemo } from 'react'
 
+import { useLocation } from 'react-router-dom'
+
 import { Amount, hasConnectedWallet } from '@thorswap-lib/multichain-sdk'
 
 import { AppPopoverMenu } from 'components/AppPopoverMenu'
 import { Button, Row, Icon, Box, Typography } from 'components/Atomic'
 import { SwitchToggle } from 'components/Atomic/SwitchToggle'
 import { GasTracker } from 'components/GasTracker'
+import { Refresh } from 'components/Refresh'
 import { StatusDropdown } from 'components/StatusDropdown'
 
 import { useApp } from 'redux/app/hooks'
+import { useGlobalState } from 'redux/hooks'
 import { useMidgard } from 'redux/midgard/hooks'
 import { useWallet } from 'redux/wallet/hooks'
 
@@ -22,9 +26,11 @@ type Props = {
 
 export const Header = ({ openMenu }: Props) => {
   const { showDashboardStats, toggleDashboardStats } = useApp()
-  const { stats } = useMidgard()
   const { isWalletLoading, wallet, setIsConnectModalOpen } = useWallet()
   const { setIsDrawerVisible } = useWalletDrawer()
+  const { stats } = useMidgard()
+  const { refreshPage } = useGlobalState()
+  const location = useLocation()
 
   const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet])
 
@@ -90,14 +96,7 @@ export const Header = ({ openMenu }: Props) => {
           <Button type="outline" onClick={handleClickWalletBtn}>
             {walletBtnText}
           </Button>
-          <Box
-            className="p-2.5 cursor-pointer rounded-2xl hover:bg-btn-light-tint-active dark:hover:bg-btn-dark-tint-active"
-            alignCenter
-            justifyCenter
-            onClick={() => console.warn('button clicked!')}
-          >
-            <Icon name="refresh" size={20} />
-          </Box>
+          <Refresh onRefresh={() => refreshPage(location)} />
           <AppPopoverMenu />
         </Row>
       </Row>
