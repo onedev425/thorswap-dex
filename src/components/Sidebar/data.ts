@@ -27,6 +27,13 @@ export const navbarOptions: SidebarItemProps[] = [
         hasSub: false,
       },
       {
+        iconName: 'send',
+        href: ROUTES.Send,
+        label: t('components.sidebar.send'),
+        isExternal: false,
+        hasSub: false,
+      },
+      {
         iconName: 'inIcon',
         href: ROUTES.AddLiquidity,
         label: t('components.sidebar.addLiquidity'),
@@ -37,13 +44,6 @@ export const navbarOptions: SidebarItemProps[] = [
         iconName: 'sputnik',
         href: ROUTES.ManageLiquidity,
         label: t('components.sidebar.manageLiquidity'),
-        isExternal: false,
-        hasSub: false,
-      },
-      {
-        iconName: 'watch',
-        href: ROUTES.PendingLiquidity,
-        label: t('components.sidebar.pendingLiquidity'),
         isExternal: false,
         hasSub: false,
       },

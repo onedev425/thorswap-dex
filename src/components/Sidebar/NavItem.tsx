@@ -33,6 +33,7 @@ export const NavItem = ({
             'h-10 box-border rounded-2xl group transition',
             itemClasses[variant],
             {
+              'w-10': collapsed,
               'bg-btn-primary dark:bg-btn-primary':
                 isActive && variant === 'primary',
               'bg-btn-secondary dark:bg-btn-secondary':
@@ -51,9 +52,9 @@ export const NavItem = ({
             <Icon
               name={iconName}
               className={classNames(
-                'transition group-hover:stroke-white font-bold',
+                'transition group-hover:stroke-white group-hover:text-white font-bold',
                 iconClasses[variant],
-                { 'stroke-white': isActive },
+                { 'stroke-white !text-white': isActive },
               )}
               size={18}
             />

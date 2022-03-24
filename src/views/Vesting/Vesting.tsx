@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
-import { Card, Box, Icon, Typography, Select, Button } from 'components/Atomic'
-import { Helmet } from 'components/Helmet'
+import { Box, Button, Icon, Typography, Select } from 'components/Atomic'
 import { InfoRow } from 'components/InfoRow'
 import { Input } from 'components/Input'
+import { PanelView } from 'components/PanelView'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { t } from 'services/i18n'
@@ -26,79 +26,55 @@ const Vesting = () => {
   )
 
   return (
-    <Box className="self-center w-full max-w-[600px]" col>
-      <Helmet title="Liquidity" content="Your Liquidity" />
-      <Box className="w-full mx-2" col>
+    <PanelView
+      title="Liquidity"
+      header={
         <ViewHeader
           title={t('views.vesting.linearVesting')}
           actionsComponent={<Icon name="refresh" color="secondary" />}
         />
-      </Box>
+      }
+    >
+      <Box className="w-full" col>
+        <InfoRow value="N/A" label={t('views.vesting.totalVested')} />
+        <InfoRow value="N/A" label={t('views.vesting.totalClaimed')} />
+        <InfoRow
+          value="Not Eligible"
+          label={t('views.vesting.vestingStartTime')}
+        />
+        <InfoRow value="0 months" label={t('views.vesting.cliff')} />
+        <InfoRow value="0 years" label={t('views.vesting.vestingPeriod')} />
+        <InfoRow
+          value={`${claimableAmount} THOR`}
+          label={t('views.vesting.claimableAmount')}
+        />
 
-      <Card
-        size="lg"
-        stretch
-        className="flex-col items-center md:w-full mt-4 md:mt-8 md:h-auto shadow-lg"
-      >
-        <Box className="w-full gap-5" col>
-          <InfoRow
-            size="lg"
-            value="N/A"
-            label={t('views.vesting.totalVested')}
-          />
-          <InfoRow
-            size="lg"
-            value="N/A"
-            label={t('views.vesting.totalClaimed')}
-          />
-          <InfoRow
-            size="lg"
-            value="Not Eligible"
-            label={t('views.vesting.vestingStartTime')}
-          />
-          <InfoRow
-            size="lg"
-            value="0 months"
-            label={t('views.vesting.cliff')}
-          />
-          <InfoRow
-            size="lg"
-            value="0 years"
-            label={t('views.vesting.vestingPeriod')}
-          />
-          <InfoRow
-            size="lg"
-            value={`${claimableAmount} THOR`}
-            label={t('views.vesting.claimableAmount')}
-          />
+        <Box row justify="between" alignCenter mx={4} my={2}>
+          <Typography variant="subtitle2" className="pr-4 min-w-fit">
+            {t('views.vesting.claimAmount')}
+          </Typography>
 
-          <Box row justify="between" alignCenter mx={4} my={2}>
-            <Typography variant="subtitle2" className="min-w-fit pr-4">
-              {t('views.vesting.claimAmount')}
-            </Typography>
-
-            <Input
-              stretch
-              onChange={(event) => setClaimAmount(event.target.value)}
-              border="bottom"
-              type="number"
-              className="!text-right !text-base"
-              value={claimAmount}
-            />
-          </Box>
-          <Select
-            className="!mx-8 justify-between"
-            options={percentageOptions.map((option) => `${option}%`)}
-            activeIndex={activeIndex}
-            onChange={handlePercentagePress}
+          <Input
+            stretch
+            onChange={(event) => setClaimAmount(event.target.value)}
+            border="bottom"
+            type="number"
+            className="!text-right !text-base"
+            value={claimAmount}
           />
-
-          <Button stretch size="lg" className="mt-4">
-            {t('common.connectWallet')}
-          </Button>
         </Box>
-      </Card>
-    </Box>
+        <Select
+          className="!mx-8 justify-between"
+          options={percentageOptions.map((option) => `${option}%`)}
+          activeIndex={activeIndex}
+          onChange={handlePercentagePress}
+        />
+
+        <Button stretch size="lg" className="mt-4">
+          {t('common.connectWallet')}
+        </Button>
+      </Box>
+    </PanelView>
   )
 }
 

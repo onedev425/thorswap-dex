@@ -130,8 +130,8 @@ const Send = () => {
 
       <InfoTable horizontalInset items={summary} />
 
-      <Box center className="pt-5 md:pt-10">
-        <Button onClick={() => setModalVisibility(true)} className="px-20">
+      <Box center className="w-full pt-5">
+        <Button stretch size="lg" onClick={() => setModalVisibility(true)}>
           {t('common.send')}
         </Button>
       </Box>
