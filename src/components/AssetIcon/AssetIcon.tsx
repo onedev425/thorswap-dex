@@ -30,7 +30,7 @@ export const AssetIcon = ({
       {hasShadow && (
         <img
           style={{ width: iconSize, height: iconSize }}
-          className="absolute blur-xl -top-2 -left-2"
+          className="absolute blur-xl -top-2 -left-2 transition-all"
           src={iconUrl}
           alt={asset.symbol}
         />
@@ -38,7 +38,7 @@ export const AssetIcon = ({
       {iconUrl && !hasError ? (
         <Box
           className={classNames(
-            'rounded-full box-border overflow-hidden relative',
+            'rounded-full box-border overflow-hidden relative transition-all',
             { [genericBgClasses[bgColor || 'secondary']]: bgColor },
           )}
           center
@@ -46,7 +46,7 @@ export const AssetIcon = ({
           height={iconSize}
         >
           <img
-            className="absolute inset-0 object-cover"
+            className="absolute inset-0 object-cover transition-all"
             src={iconUrl}
             alt={asset.symbol}
             style={{ width: iconSize, height: iconSize }}

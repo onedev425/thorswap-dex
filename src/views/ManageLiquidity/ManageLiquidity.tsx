@@ -2,11 +2,12 @@ import { useState } from 'react'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
 
-import { Box, Icon } from 'components/Atomic'
+import { Box } from 'components/Atomic'
 import { InfoTip } from 'components/InfoTip'
 import { LiquidityCard } from 'components/LiquidityCard'
 import { AssetDataType } from 'components/LiquidityCard/types'
 import { PanelView } from 'components/PanelView'
+import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { t } from 'services/i18n'
@@ -14,26 +15,26 @@ import { t } from 'services/i18n'
 const Data = [
   [
     {
-      assetName: 'Pooled THOR',
-      asset: Asset.RUNE(),
-      amount: '37.9033',
-    },
-    {
       assetName: 'Pooled ETH',
       asset: Asset.ETH(),
       amount: '0.00546842',
     },
-  ] as AssetDataType[],
-  [
     {
-      assetName: 'Pooled THOR',
+      assetName: 'Pooled RUNE',
       asset: Asset.RUNE(),
       amount: '37.9033',
     },
+  ] as AssetDataType[],
+  [
     {
       assetName: 'Pooled Doge',
       asset: Asset.DOGE(),
       amount: '0.00546842',
+    },
+    {
+      assetName: 'Pooled RUNE',
+      asset: Asset.RUNE(),
+      amount: '37.9033',
     },
   ] as AssetDataType[],
 ]
@@ -47,7 +48,7 @@ const ManageLiquidity = () => {
       header={
         <ViewHeader
           title={t('common.liquidityPosition')}
-          actionsComponent={<Icon name="cog" color="secondary" />}
+          actionsComponent={<SwapSettingsPopover />}
         />
       }
     >
@@ -60,7 +61,7 @@ const ManageLiquidity = () => {
         />
       )}
 
-      <Box className="w-full gap-3" col>
+      <Box className="w-full gap-1" col>
         {Data.map((d) => (
           <LiquidityCard key={`${d[0].assetName}-${d[1].assetName}`} data={d} />
         ))}

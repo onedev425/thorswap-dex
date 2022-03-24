@@ -13,10 +13,17 @@ type Props = {
   onValueChange: (assetPosition: 'first' | 'second') => (value: string) => void
   firstAsset: AssetInputType
   secondAsset: AssetInputType
+  secondDisabled?: boolean
 }
 
 export const AssetInputs = memo(
-  ({ firstAsset, secondAsset, onValueChange, onAssetChange }: Props) => {
+  ({
+    firstAsset,
+    secondAsset,
+    secondDisabled,
+    onValueChange,
+    onAssetChange,
+  }: Props) => {
     return (
       <Box className="relative self-stretch w-full" col>
         <Box
@@ -42,14 +49,23 @@ export const AssetInputs = memo(
           commonAssets={commonAssets}
           secondary
         />
-        <AssetInput
-          selectedAsset={secondAsset}
-          onAssetChange={onAssetChange('second')}
-          onValueChange={onValueChange('second')}
-          assets={assetsFixture}
-          commonAssets={commonAssets}
-          secondary
-        />
+        {secondDisabled ? (
+          <AssetInput
+            selectedAsset={secondAsset}
+            onValueChange={onValueChange('second')}
+            secondary
+            singleAsset
+          />
+        ) : (
+          <AssetInput
+            selectedAsset={secondAsset}
+            onAssetChange={onAssetChange('second')}
+            onValueChange={onValueChange('second')}
+            assets={assetsFixture}
+            commonAssets={commonAssets}
+            secondary
+          />
+        )}
       </Box>
     )
   },

@@ -49,10 +49,11 @@ export const Icon = ({
   return (
     <IconComp
       className={classNames(
-        className,
+        'transition',
         colorClasses[color],
         spin ? 'animate-spin' : 'animate-none',
         onClick ? 'cursor-pointer' : '',
+        className,
       )}
       size={size}
       onClick={onClick}

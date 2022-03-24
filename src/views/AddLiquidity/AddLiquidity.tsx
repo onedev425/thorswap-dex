@@ -37,19 +37,14 @@ export const AddLiquidity = () => {
   const [liquidityType, setLiquidityType] = useState(LiquidityTypeOption.Asset)
   const { inputAsset, outputAsset } = useMemo(() => {
     const input = searchParams.get('input') || Asset.BTC()
-    const output = searchParams.get('output') || Asset.RUNE()
 
     const inputParamsAsset = assetsFixture.find(
       ({ asset }) => asset.toString() === input,
     )
-    const outputParamsAsset = assetsFixture.find(
-      ({ asset }) => asset.toString() === output,
-    )
+
     const firstAsset = inputParamsAsset || defaultFirstAsset
-    const secondAsset =
-      outputParamsAsset || firstAsset.asset === defaultSecondAsset.asset
-        ? defaultFirstAsset
-        : defaultSecondAsset
+    // 2nd asset is always RUNE
+    const secondAsset = defaultSecondAsset
 
     return {
       inputAsset: firstAsset,
@@ -114,6 +109,7 @@ export const AddLiquidity = () => {
         secondAsset={secondAsset}
         onAssetChange={handleAssetChange}
         onValueChange={handleValueChange}
+        secondDisabled
       />
 
       <PoolInfo

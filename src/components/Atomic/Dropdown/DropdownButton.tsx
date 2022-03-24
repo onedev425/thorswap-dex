@@ -2,7 +2,7 @@ import { Listbox } from '@headlessui/react'
 import classNames from 'classnames'
 
 import { Icon, Typography } from 'components/Atomic'
-import { genericBgClasses } from 'components/constants'
+import { baseHoverClass, genericBgClasses } from 'components/constants'
 
 type Props = {
   label?: string
@@ -20,11 +20,9 @@ export const DropdownButton = (props: Props) => {
           <div
             className={classNames(
               genericBgClasses.primary,
-              {
-                'hover:bg-light-bg-secondary': !disabled,
-              },
+              baseHoverClass,
               disabled ? 'cursor-not-allowed' : 'cursor-pointer',
-              'h-10 inline-flex justify-between rounded-2xl items-center px-3 transition-all',
+              'h-10 inline-flex justify-between rounded-2xl items-center px-3 !py-0 transition-all',
             )}
           >
             {component ? component : <Typography>{label}</Typography>}

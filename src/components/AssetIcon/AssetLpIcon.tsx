@@ -19,7 +19,7 @@ export const AssetLpIcon = (props: AssetLpIconProps) => {
     <div className="flex">
       <div
         className={classNames(
-          'border-light-bg-primary dark:border-dark-bg-primary',
+          'border-light-bg-primary dark:border-dark-bg-primary z-10',
           { '-translate-y-2': !inline },
         )}
       >
@@ -33,7 +33,7 @@ export const AssetLpIcon = (props: AssetLpIconProps) => {
         />
       </div>
 
-      <div style={{ marginLeft: -pairIconOffset }}>
+      <div className="transition-all" style={{ marginLeft: -pairIconOffset }}>
         <AssetIcon
           className={classNames('rounded-full', {
             'translate-y-2': !inline,

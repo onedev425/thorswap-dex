@@ -24,7 +24,7 @@ export const AssetAmountBox = ({ asset, amount }: Props) => {
       <Box col ml={12}>
         <Typography>{amount || '-'}</Typography>
         <Typography fontWeight="normal" color="secondary">
-          {asset.asset}
+          {asset.asset.symbol}
         </Typography>
       </Box>
     </Box>

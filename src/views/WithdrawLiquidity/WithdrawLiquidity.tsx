@@ -20,7 +20,7 @@ const poolData: {
   poolShare: string
 } = {
   firstAsset: {
-    asset: Asset.RUNE(),
+    asset: Asset.BTC(),
     balance: '0.005',
   },
   secondAsset: {

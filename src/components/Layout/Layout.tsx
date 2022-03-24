@@ -49,7 +49,7 @@ export const Layout = ({ children }: LayoutProp) => {
         <WalletModal />
       </div>
 
-      <div className="fixed inset-0 z-0 bg-elliptical-light dark:bg-elliptical"></div>
+      <div className="fixed inset-0 z-0 bg-elliptical-light dark:bg-elliptical transition-all"></div>
     </Scrollbar>
   )
 }

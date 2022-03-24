@@ -1,10 +1,25 @@
-import { Icon } from 'components/Atomic'
+import { Button, Icon } from 'components/Atomic'
 import { Popover } from 'components/Popover'
 import { SwapSettings } from 'components/SwapSettings'
 
 export const SwapSettingsPopover = () => {
   return (
-    <Popover trigger={<Icon color="secondary" name="cog" onClick={() => {}} />}>
+    <Popover
+      trigger={
+        <Button
+          className="px-2 group"
+          type="borderless"
+          variant="tint"
+          startIcon={
+            <Icon
+              className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
+              color="secondary"
+              name="cog"
+            />
+          }
+        />
+      }
+    >
       <SwapSettings />
     </Popover>
   )

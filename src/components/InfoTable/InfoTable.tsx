@@ -12,7 +12,7 @@ export const InfoTable = ({
 }: InfoTableProps) => {
   return (
     <Box
-      className={classNames('self-stretch', {
+      className={classNames('self-stretch flex-1', {
         'px-1.5': horizontalInset,
       })}
       col

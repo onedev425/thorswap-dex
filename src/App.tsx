@@ -15,7 +15,7 @@ const MainApp = () => {
   useGlobalRefresh()
 
   return (
-    <div className="bg-light-bg-primary dark:bg-dark-bg-primary overflow-x-hidden">
+    <div className="bg-light-bg-primary dark:bg-dark-bg-primary overflow-x-hidden transition-all">
       <div id="headlessui-portal-root" />
       <DrawerProvider>
         <Router />
