@@ -27,6 +27,7 @@ import { truncateAddress } from 'helpers/string'
 
 import { ROUTES } from 'settings/constants'
 
+import { BreakPoint } from '../../hooks/useWindowSize'
 import { useApp } from '../../redux/app/hooks'
 import { NodeStats } from './NodeStats'
 import { nodeStatusOptions } from './types'
@@ -141,6 +142,7 @@ const Nodes = () => {
         id: 'IP',
         Header: 'IP',
         accessor: 'ip_address',
+        minScreenSize: BreakPoint.md,
       },
       {
         id: 'Rewards',
@@ -148,6 +150,7 @@ const Nodes = () => {
         accessor: (row: THORNode) => row,
         Cell: ({ cell: { value } }: { cell: { value: THORNode } }) =>
           Amount.fromMidgard(value.current_award).toFixed(0),
+        minScreenSize: BreakPoint.md,
       },
       {
         id: 'Slash',
@@ -155,6 +158,7 @@ const Nodes = () => {
         accessor: (row: THORNode) => row,
         Cell: ({ cell: { value } }: { cell: { value: THORNode } }) =>
           Amount.fromNormalAmount(value.slash_points).toFixed(0),
+        minScreenSize: BreakPoint.md,
       },
       {
         id: 'Bond',
@@ -169,6 +173,7 @@ const Nodes = () => {
         accessor: (row: THORNode) => row,
         Cell: ({ cell: { value } }: { cell: { value: THORNode } }) =>
           Amount.fromNormalAmount(value.active_block_height).toFixed(0),
+        minScreenSize: BreakPoint.md,
       },
     ] as TableColumnsConfig
   }, [nodeWatchList, handleAddToWatchList, getNodes])

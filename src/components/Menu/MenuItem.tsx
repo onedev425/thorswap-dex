@@ -15,14 +15,14 @@ export const MenuItem = ({ item }: Props) => {
     return (
       <button
         className={classNames(
-          'outline-none border-none rounded-md relative flex flex-row w-full justify-between items-center cursor-pointer px-4 py-3 hover:brightness-95 dark:hover:brightness-125 gap-3',
+          'outline-none border-none rounded-md relative flex flex-row w-full justify-between items-center cursor-pointer px-2 py-3 hover:brightness-95 dark:hover:brightness-125',
           genericBgClasses.secondary,
         )}
         onClick={item.onClick}
       >
         <Box alignCenter className="gap-6">
           {item.icon && <Icon name={item.icon as IconName} size={16} />}
-          <Typography className="mr-2">{item.label}</Typography>
+          <Typography className="mx-2">{item.label}</Typography>
         </Box>
         <Box center>
           {!!item.value && <Typography>{item.value}</Typography>}

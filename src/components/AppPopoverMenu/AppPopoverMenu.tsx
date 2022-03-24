@@ -20,7 +20,7 @@ export const AppPopoverMenu = () => {
       }
       onClose={onBack}
     >
-      <Card className="mt-2 w-[90%] sm:w-[420px] border border-solid border-btn-primary">
+      <Card className="mt-2 min-w-[160px] sm:w-[420px] border border-solid border-btn-primary">
         <Box className="w-full" col margin={2}>
           <Box row alignCenter>
             {menuType !== 'main' && (

@@ -111,7 +111,7 @@ export const Sidebar = ({
     <nav
       className={classNames(
         'flex flex-col items-center my-4 transition-all duration-300 overflow-hidden ml-4 h-sidebar',
-        'rounded-3xl border-box sticky top-0 bg-light-bg-secondary dark:bg-dark-bg-secondary !bg-opacity-30',
+        'rounded-3xl border-box sticky top-0 bg-light-bg-secondary dark:bg-dark-bg-secondary md:!bg-opacity-30',
         'border-opacity-30 border border-solid border-light-typo-gray dark:border-none',
         collapsed ? 'w-[72px]' : 'w-[180px]',
         className,

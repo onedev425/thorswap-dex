@@ -38,6 +38,7 @@ export const SwapSettings = () => {
         </Box>
         <Box className="w-full space-x-2">
           <Input
+            type="number"
             className="text-right"
             containerClassName="bg-light-gray-light dark:bg-dark-gray-light bg-opacity-40"
             symbol="%"
