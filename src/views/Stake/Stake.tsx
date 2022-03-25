@@ -58,6 +58,7 @@ const list: StatsType[] = [
     value: '$ 181.35M',
   },
 ]
+
 const Stake = () => {
   return (
     <div className="container mx-auto">

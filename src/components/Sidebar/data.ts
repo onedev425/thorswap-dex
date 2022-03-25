@@ -49,29 +49,29 @@ export const navbarOptions: SidebarItemProps[] = [
       },
     ],
   },
-  {
-    iconName: 'tradeLightning',
-    href: ROUTES.Stake,
-    label: t('components.sidebar.thor'),
-    isExternal: false,
-    hasSub: true,
-    children: [
-      {
-        iconName: 'tradeLightning',
-        href: ROUTES.Stake,
-        label: t('components.sidebar.thorStake'),
-        isExternal: false,
-        hasSub: false,
-      },
-      {
-        iconName: 'chartPieOutline',
-        href: ROUTES.Vesting,
-        label: t('components.sidebar.vesting'),
-        isExternal: false,
-        hasSub: false,
-      },
-    ],
-  },
+  // {
+  //   iconName: 'tradeLightning',
+  //   href: ROUTES.Stake,
+  //   label: t('components.sidebar.thor'),
+  //   isExternal: false,
+  //   hasSub: true,
+  //   children: [
+  //     {
+  //       iconName: 'tradeLightning',
+  //       href: ROUTES.Stake,
+  //       label: t('components.sidebar.thorStake'),
+  //       isExternal: false,
+  //       hasSub: false,
+  //     },
+  //     {
+  //       iconName: 'chartPieOutline',
+  //       href: ROUTES.Vesting,
+  //       label: t('components.sidebar.vesting'),
+  //       isExternal: false,
+  //       hasSub: false,
+  //     },
+  //   ],
+  // },
   {
     iconName: 'wallet',
     href: ROUTES.Wallet,
@@ -79,13 +79,13 @@ export const navbarOptions: SidebarItemProps[] = [
     isExternal: false,
     hasSub: false,
   },
-  {
-    iconName: 'cloud',
-    href: ROUTES.Nodes,
-    label: t('components.sidebar.thornode'),
-    isExternal: false,
-    hasSub: false,
-  },
+  // {
+  //   iconName: 'cloud',
+  //   href: ROUTES.Nodes,
+  //   label: t('components.sidebar.thornode'),
+  //   isExternal: false,
+  //   hasSub: false,
+  // },
   {
     iconName: 'settings',
     href: ROUTES.Stats,
