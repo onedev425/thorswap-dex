@@ -9,7 +9,12 @@ import {
   AiOutlineStar,
   AiOutlineSwap,
 } from 'react-icons/ai'
-import { BiArrowBack, BiLinkExternal, BiSelectMultiple } from 'react-icons/bi'
+import {
+  BiDollarCircle,
+  BiArrowBack,
+  BiLinkExternal,
+  BiSelectMultiple,
+} from 'react-icons/bi'
 import {
   BsCurrencyDollar,
   BsDiscord,
@@ -49,6 +54,7 @@ import {
   IoCheckmarkCircleOutline,
   IoCloseCircleOutline,
   IoWalletOutline,
+  IoLanguage,
 } from 'react-icons/io5'
 import {
   MdAreaChart,
@@ -102,6 +108,7 @@ const Icons = {
   dashboard: VscHistory,
   disconnect: VscSignOut,
   discord: BsDiscord,
+  dollarOutlined: BiDollarCircle,
   edit: FiEdit,
   exchange: CgArrowsExchangeAltV,
   external: BiLinkExternal,
@@ -113,6 +120,7 @@ const Icons = {
   invalid: IoCloseCircleOutline,
   key: VscKey,
   language: MdLanguage,
+  languageLetters: IoLanguage,
   list: AiOutlineMenu,
   lock: MdOutlineLock,
   medium: BsMedium,

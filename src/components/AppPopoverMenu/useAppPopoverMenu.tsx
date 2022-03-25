@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
 
+import { AssetIcon } from 'components/AssetIcon'
 import { MenuItemType } from 'components/Menu/types'
 import { useTheme } from 'components/Theme/ThemeContext'
 
@@ -51,6 +52,7 @@ export const useAppPopoverMenu = () => {
 const useMainMenu = (setMenuType: (val: MenuType) => void) => {
   const { isLight } = useTheme()
   const { themeType, thousandSeparator, language, baseCurrency } = useApp()
+  const currencyAsset = Asset.fromAssetString(baseCurrency)
 
   const mainMenu: MenuItemType[] = [
     {
@@ -63,10 +65,7 @@ const useMainMenu = (setMenuType: (val: MenuType) => void) => {
       label: getLanguageLabel(language),
       desc: t('appMenu.languageDesc'),
       onClick: () => setMenuType('language'),
-      icon: 'language',
-      iconComponent: (
-        <span className="text-2xl leading-6">{getLanguageFlag(language)}</span>
-      ),
+      icon: 'languageLetters',
       hasSubmenu: true,
       value: language,
     },
@@ -79,12 +78,14 @@ const useMainMenu = (setMenuType: (val: MenuType) => void) => {
       value: thousandSeparator,
     },
     {
-      label:
-        Asset.fromAssetString(baseCurrency)?.currencySymbol() ||
-        t('appMenu.currency'),
+      label: currencyAsset?.currencySymbol() || t('appMenu.currency'),
       desc: t('appMenu.currencyDesc'),
       onClick: () => setMenuType('currency'),
-      icon: 'currencyDollar',
+      icon: 'dollarOutlined',
+      iconComponent:
+        !currencyAsset || currencyAsset?.name === 'USD' ? null : (
+          <AssetIcon asset={currencyAsset} hasChainIcon size={25} />
+        ),
       hasSubmenu: true,
       value: baseCurrency,
     },
@@ -105,12 +106,12 @@ const useLanguageMenu = (onBack: () => void) => {
 
   const languageMenu: MenuItemType[] = [
     {
-      label: `${getLanguageFlag('en')} English`,
+      label: `${getLanguageFlag('en')} English (US)`,
       onClick: () => onLanguageClick('en'),
       isSelected: isLanguageSelected('en'),
     },
     {
-      label: `${getLanguageFlag('es')} Español`,
+      label: `${getLanguageFlag('es')} Español (ESP)`,
       onClick: () => onLanguageClick('es'),
       isSelected: isLanguageSelected('es'),
     },
@@ -236,9 +237,9 @@ const getThemeLabel = (val: ThemeType) => {
 const getLanguageLabel = (val: SupportedLanguages) => {
   switch (val) {
     case 'en':
-      return 'English'
+      return 'English (US)'
     case 'es':
-      return 'Español'
+      return 'Español (ESP)'
     default:
       return t('appMenu.language')
   }
@@ -253,6 +254,6 @@ const getSeparatorLabel = (val: ThousandSeparator) => {
     case ThousandSeparator.None:
       return `${t('appMenu.separatorNone')} (1000)`
     default:
-      return t('appMenu.thousandSeparator')
+      return t('appMenu.separatorComma')
   }
 }
