@@ -32,8 +32,8 @@ export const NodeStats = () => {
         tooltip: 'Total Bond Amounts by Active, Standby Nodes',
       },
       {
-        iconName: 'chartPie',
-        color: 'yellow',
+        iconName: 'lightning',
+        color: 'pink',
         label: 'Active Bond',
         value: `${runeToCurrency(totalActiveBond).toCurrencyFormat(
           2,
@@ -41,31 +41,31 @@ export const NodeStats = () => {
         tooltip: 'Total Bond Amounts by Active Nodes',
       },
       {
-        iconName: 'chartPie',
-        color: 'yellow',
-        label: 'Standby Bond',
+        iconName: 'wifi',
+        color: 'red',
+        label: 'Standbye Bond',
         value: `${runeToCurrency(totalStandbyBond).toCurrencyFormat(
           2,
         )} (${totalStandbyBond.toAbbreviate(1)} ᚱ)`,
         tooltip: 'Total Bond Amounts by Standby Nodes',
       },
       {
-        iconName: 'chartPie',
-        color: 'yellow',
+        iconName: 'chartArea',
+        color: 'purple',
         label: 'Bonding APY',
         value: bondingAPYLabel,
       },
       {
-        iconName: 'chartPie',
-        color: 'yellow',
+        iconName: 'chartArea2',
+        color: 'green',
         label: 'Daily Bond Rewards',
         value: `${runeToCurrency(
           Amount.fromMidgard(networkData?.blockRewards?.bondReward).mul(14400),
         ).toCurrencyFormat(2)} `,
       },
       {
-        iconName: 'chartPie',
-        color: 'yellow',
+        iconName: 'fire',
+        color: 'blueLight',
         label: 'Next Churn Height',
         value: Amount.fromNormalAmount(networkData?.nextChurnHeight).toFixed(0),
       },
@@ -80,5 +80,5 @@ export const NodeStats = () => {
     ],
   )
 
-  return <StatsList list={statsData} scrollable />
+  return <StatsList list={statsData} scrollable itemWidth={265} />
 }
