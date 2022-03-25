@@ -1,4 +1,4 @@
-import { DetailedHTMLProps, InputHTMLAttributes } from 'react'
+import { DetailedHTMLProps, InputHTMLAttributes, ReactNode } from 'react'
 
 import { IconName } from 'components/Atomic'
 
@@ -10,7 +10,7 @@ export type InputProps = DetailedHTMLProps<
   icon?: IconName
   prefix?: string
   stretch?: boolean
-  suffix?: string
-  symbol?: string
+  suffix?: string | ReactNode
+  symbol?: string | ReactNode
   containerClassName?: string
 }

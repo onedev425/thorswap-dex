@@ -45,7 +45,7 @@ const useWindowSize = () => {
 
   const [screenSize, setScreenSize] = useState(getSize)
 
-  const isVisible = useCallback(
+  const isSizeActive = useCallback(
     (minSize?: BreakPoint) => {
       if (!minSize || minSize === BreakPoint.sm) {
         return true
@@ -89,7 +89,12 @@ const useWindowSize = () => {
     return () => window.removeEventListener('resize', handleResize)
   }, [getSize, isClient])
 
-  return { size: screenSize, isVisible }
+  return {
+    size: screenSize,
+    isSizeActive,
+    isMdActive: isSizeActive(BreakPoint.md),
+    isLgActive: isSizeActive(BreakPoint.lg),
+  }
 }
 
 export default useWindowSize

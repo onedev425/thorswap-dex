@@ -84,7 +84,7 @@ const Send = () => {
         value: (
           <Box className="gap-2" center>
             <Typography variant="caption">0.00675 ETH ($20)</Typography>
-            <Tooltip content="Transaction fee tooltip">
+            <Tooltip content={t('views.send.txFeeTooltip')}>
               <Icon size={20} color="secondary" name="infoCircle" />
             </Tooltip>
           </Box>

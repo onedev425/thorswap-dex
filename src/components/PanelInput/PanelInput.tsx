@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from 'react'
+import { ReactNode, useEffect } from 'react'
 
 import classNames from 'classnames'
 
@@ -6,6 +6,7 @@ import { Box, Icon, useCollapse } from 'components/Atomic'
 import { maxHeightTransitionClass } from 'components/Atomic/Collapse/Collapse'
 import { borderHighlightClass } from 'components/constants'
 import { Input } from 'components/Input'
+import { useInputFocusState } from 'components/Input/hooks/useInputFocusState'
 import { InputProps } from 'components/Input/types'
 import { PanelInputTitle } from 'components/PanelInput/PanelInputTitle'
 
@@ -21,19 +22,18 @@ export const PanelInput = ({
   collapsible,
   ...inputProps
 }: Props) => {
-  const [isFocused, setIsFocused] = useState(false)
-  const inputRef = useRef<HTMLInputElement>(null)
+  const { ref, isFocused, focus, blur, onFocus, onBlur } = useInputFocusState()
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse()
 
   useEffect(() => {
     if (!isActive) {
-      inputRef.current?.blur()
+      blur()
     }
-  }, [isActive])
+  }, [blur, isActive])
 
   return (
     <Box
-      onClick={() => inputRef.current?.focus()}
+      onClick={focus}
       className={classNames(
         'py-4 px-4 md:px-6 self-stretch !bg-light-gray-light dark:!bg-dark-gray-light !rounded-2xl transition-all duration-300',
         'border border-transparent border-solid hover:border-light-gray-primary dark:hover:border-dark-gray-primary',
@@ -72,10 +72,10 @@ export const PanelInput = ({
         <Input
           {...inputProps}
           containerClassName="pyt-2 pb-0"
-          ref={inputRef}
+          ref={ref}
           stretch
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
+          onFocus={onFocus}
+          onBlur={onBlur}
         />
       </div>
     </Box>

@@ -7,16 +7,25 @@ import { genericBgClasses } from 'components/constants'
 import { PoolAsset } from '../types'
 
 type Props = {
+  className?: string
   asset: PoolAsset
   amount: string
+  stretch?: boolean
 }
 
-export const AssetAmountBox = ({ asset, amount }: Props) => {
+export const AssetAmountBox = ({
+  className,
+  asset,
+  amount,
+  stretch,
+}: Props) => {
   return (
     <Box
       className={classNames(
-        'p-1 rounded-full flex-1 max-w-[150px] w-full self-stretch',
+        'p-1 rounded-full flex-1 w-full self-stretch',
+        { 'max-w-[150px]': !stretch },
         genericBgClasses.secondary,
+        className,
       )}
       alignCenter
     >

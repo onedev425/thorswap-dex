@@ -202,7 +202,10 @@
       "removeButton": "Remove",
       "tip": "Liquidity providers earn a 0.25% fee on all trades proportional to their share of the pool. Fees added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.",
       "youWillReceive": "You will receive",
-      "yourPoolShare": "Your Pool share"
+      "yourPoolShare": "Your Pool share",
+      "withdrawLiquidity": "Withdraw Liquidity",
+      "lastAdded": "Last Added",
+      "gasFeeTooltip": "Gas fee used for submitting the transaction"
     },
     "walletModal": {
       "connectWallet": "Connect Wallet",
@@ -249,6 +252,9 @@
       "complete": "Complete",
       "withdraw": "Withdraw",
       "addToComplete": "Add to complete"
+    },
+    "send": {
+      "txFeeTooltip": "Gas fee to send the transaction, There's no extra charges from THORChain Protocol"
     }
   }
 }

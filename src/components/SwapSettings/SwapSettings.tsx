@@ -36,7 +36,7 @@ export const SwapSettings = () => {
             name="questionCircle"
           />
         </Box>
-        <Box className="w-full space-x-2">
+        <Box className="w-full space-x-2" alignCenter>
           <Input
             type="number"
             className="text-right"

@@ -63,7 +63,11 @@ const ManageLiquidity = () => {
 
       <Box className="w-full gap-1" col>
         {Data.map((d) => (
-          <LiquidityCard key={`${d[0].assetName}-${d[1].assetName}`} data={d} />
+          <LiquidityCard
+            key={`${d[0].assetName}-${d[1].assetName}`}
+            data={d}
+            withFooter
+          />
         ))}
       </Box>
     </PanelView>

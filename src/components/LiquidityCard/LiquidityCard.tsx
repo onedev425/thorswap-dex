@@ -15,19 +15,22 @@ import { borderHoverHighlightClass } from 'components/constants'
 import { InfoTable } from 'components/InfoTable'
 import { AssetDataType } from 'components/LiquidityCard/types'
 
+import useWindowSize from 'hooks/useWindowSize'
+
 import { t } from 'services/i18n'
 
 import { ROUTES } from 'settings/constants'
 
 interface LiquidityCardProps {
   data: AssetDataType[]
+  withFooter?: boolean
 }
 
-export const LiquidityCard = ({ data }: LiquidityCardProps) => {
+export const LiquidityCard = ({ data, withFooter }: LiquidityCardProps) => {
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse()
+  const { isMdActive } = useWindowSize()
 
   const summary = [
-    { label: t('views.liquidity.poolToken'), value: '0.4207' },
     {
       label: data[0].asset.symbol,
       value: (
@@ -47,6 +50,7 @@ export const LiquidityCard = ({ data }: LiquidityCardProps) => {
       ),
     },
     { label: t('views.liquidity.poolShare'), value: '<0.01%' },
+    { label: t('views.liquidity.lastAdded'), value: '2022-01-12' },
   ]
 
   return (
@@ -64,19 +68,21 @@ export const LiquidityCard = ({ data }: LiquidityCardProps) => {
           onClick={toggle}
         >
           <Box center>
-            <Box className="mx-2" col>
+            <Box col>
               <AssetLpIcon
                 inline
                 asset1={data[0].asset}
                 asset2={data[1].asset}
-                size={isActive ? 40 : 32}
+                size={isActive && isMdActive ? 40 : 32}
               />
             </Box>
 
             <Typography
-              variant={isActive ? 'subtitle1' : 'body'}
-              fontWeight="normal"
-              className="mx-3 ml-4 transition-all"
+              className={classNames(
+                '!text-body mx-1 md:mx-3 transition-all',
+                isActive ? 'text-body md:!text-subtitle1' : '!text-body',
+              )}
+              fontWeight="semibold"
             >
               {data[0].asset.symbol}
               {' / '}
@@ -84,7 +90,15 @@ export const LiquidityCard = ({ data }: LiquidityCardProps) => {
             </Typography>
           </Box>
 
-          <Box center>
+          <Box className="gap-2" center>
+            <Box className="gap-1" center>
+              <Typography variant="subtitle1" fontWeight="bold">
+                0.45
+              </Typography>
+              <Typography variant="caption" fontWeight="normal">
+                &nbsp;LP tokens
+              </Typography>
+            </Box>
             <Icon
               className={classNames('transform duration-300 ease', {
                 '-rotate-180': isActive,
@@ -104,31 +118,33 @@ export const LiquidityCard = ({ data }: LiquidityCardProps) => {
             <InfoTable items={summary} horizontalInset />
           </Box>
 
-          <Box className="space-x-6 md:pr-0 pt-5 md:pt-10" justifyCenter>
-            <Link
-              className="w-full"
-              to={`${ROUTES.AddLiquidity}?input=${data[0].asset}`}
-            >
-              <Button
-                className="px-8 md:px-12"
-                variant="primary"
-                size="sm"
-                stretch
+          {withFooter && (
+            <Box className="space-x-6 md:pr-0 pt-5 md:pt-10" justifyCenter>
+              <Link
+                className="w-full"
+                to={`${ROUTES.AddLiquidity}?input=${data[0].asset}`}
               >
-                {t('views.liquidity.addButton')}
-              </Button>
-            </Link>
-            <Link className="w-full" to="/withdraw-liquidity">
-              <Button
-                className="px-8 md:px-12"
-                variant="tint"
-                size="sm"
-                stretch
-              >
-                {t('common.withdraw')}
-              </Button>
-            </Link>
-          </Box>
+                <Button
+                  className="px-8 md:px-12"
+                  variant="primary"
+                  size="sm"
+                  stretch
+                >
+                  {t('views.liquidity.addButton')}
+                </Button>
+              </Link>
+              <Link className="w-full" to={ROUTES.WithdrawLiquidity}>
+                <Button
+                  className="px-8 md:px-12"
+                  variant="tint"
+                  size="sm"
+                  stretch
+                >
+                  {t('common.withdraw')}
+                </Button>
+              </Link>
+            </Box>
+          )}
         </div>
       </Card>
     </Box>

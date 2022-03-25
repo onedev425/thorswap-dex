@@ -8,7 +8,7 @@ type Props = {
 
 export const PanelInputTitle = ({ children }: Props) => {
   return (
-    <Typography transform="uppercase" variant="caption" fontWeight="semibold">
+    <Typography transform="uppercase" fontWeight="semibold">
       {children}
     </Typography>
   )

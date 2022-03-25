@@ -35,7 +35,7 @@ export const Table = ({
   initialSort,
   onRowClick,
 }: TableProps) => {
-  const { isVisible } = useWindowSize()
+  const { isSizeActive } = useWindowSize()
   const sortBy = useMemo(() => initialSort, [initialSort])
   const table = useTable(
     {
@@ -60,11 +60,11 @@ export const Table = ({
 
   useEffect(() => {
     const hidden = columns
-      .filter((_, i) => !isVisible(columnsConfig[i].minScreenSize))
+      .filter((_, i) => !isSizeActive(columnsConfig[i].minScreenSize))
       .map((column) => column.id)
 
     setHiddenColumns(hidden)
-  }, [columns, columnsConfig, isVisible, setHiddenColumns])
+  }, [columns, columnsConfig, isSizeActive, setHiddenColumns])
 
   return (
     <table

@@ -1,7 +1,6 @@
 import { useCallback } from 'react'
 
-import classNames from 'classnames'
-
+import { AssetInputContainer } from 'components/AssetInputContainer'
 import { AssetSelect } from 'components/AssetSelect'
 import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton'
 import { Box, Button, Typography } from 'components/Atomic'
@@ -18,7 +17,6 @@ export const AssetInput = ({
   selectedAsset,
   assets,
   commonAssets,
-  secondary,
   secondaryLabel,
   onAssetChange,
   onValueChange,
@@ -33,17 +31,7 @@ export const AssetInput = ({
   }, [onValueChange, selectedAsset.balance])
 
   return (
-    <Box
-      col
-      justify="between"
-      className={classNames(
-        className,
-        'rounded-2xl md:rounded-3xl md:px-6 pb-3 md:py-4 md:gap-2 border border-solid border-transparent hover:border-light-gray-primary dark:hover:border-dark-gray-primary transition duration-300',
-        secondary
-          ? 'bg-light-gray-light dark:bg-dark-gray-light'
-          : 'bg-light-bg-primary dark:bg-dark-bg-primary',
-      )}
-    >
+    <AssetInputContainer className={className}>
       <Box flex={1} className="pb-1 pl-4 md:pl-0" alignCenter>
         <Input
           placeholder="0.0"
@@ -109,6 +97,6 @@ export const AssetInput = ({
           )}
         </Box>
       </Box>
-    </Box>
+    </AssetInputContainer>
   )
 }

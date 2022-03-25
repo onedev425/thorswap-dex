@@ -31,9 +31,9 @@ import {
   FaSortDown,
   FaSortUp,
   FaWifi,
+  FaArrowDown,
 } from 'react-icons/fa'
 import {
-  FiArrowDown,
   FiCheck,
   FiChevronDown,
   FiChevronLeft,
@@ -78,7 +78,7 @@ import { SvgIcons } from './svg/svgIconList'
 const Icons = {
   add: VscAdd,
   arrowBack: BiArrowBack,
-  arrowDown: FiArrowDown,
+  arrowDown: FaArrowDown,
   arrowUp: MdKeyboardArrowUp,
   arrowUpLine: MdKeyboardArrowUp,
   arrowDownLine: MdKeyboardArrowDown,
