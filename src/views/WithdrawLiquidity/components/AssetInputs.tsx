@@ -5,8 +5,8 @@ import classNames from 'classnames'
 import { AssetAmountBox } from 'views/WithdrawLiquidity/components/AssetAmountBox'
 import { PoolAsset } from 'views/WithdrawLiquidity/types'
 
-import { AssetInputContainer } from 'components/AssetInputContainer'
 import { Box, Typography, Icon } from 'components/Atomic'
+import { HighlightCard } from 'components/HighlightCard'
 import { Input } from 'components/Input'
 import { useInputFocusState } from 'components/Input/hooks/useInputFocusState'
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
@@ -44,8 +44,8 @@ export const AssetInputs = memo(
           <Icon name="arrowDown" size={20} color="white" />
         </div>
 
-        <AssetInputContainer
-          className="p-4 !mb-1 flex-col md:flex-row items-end md:items-center"
+        <HighlightCard
+          className="min-h-[107px] p-4 !mb-1 flex-col md:flex-row items-end md:items-center"
           isFocused={isFocused}
           onClick={focus}
         >
@@ -70,9 +70,9 @@ export const AssetInputs = memo(
               />
             </Box>
           </Box>
-        </AssetInputContainer>
+        </HighlightCard>
 
-        <AssetInputContainer className="p-4 flex-col md:flex-row items-end md:items-center gap-2">
+        <HighlightCard className="min-h-[107px] p-4 flex-col md:flex-row items-end md:items-center gap-2">
           <Box>
             <Typography className="whitespace-nowrap">
               {t('views.liquidity.youWillReceive')}
@@ -100,7 +100,7 @@ export const AssetInputs = memo(
               <AssetAmountBox asset={secondAsset} amount="-" stretch />
             </Box>
           </Box>
-        </AssetInputContainer>
+        </HighlightCard>
       </div>
     )
   },

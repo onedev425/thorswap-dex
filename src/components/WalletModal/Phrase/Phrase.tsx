@@ -115,7 +115,7 @@ export const PhraseView = () => {
           className="flex-1 group"
           size="sm"
           disabled={!ready}
-          isLoading={processing}
+          loading={processing}
           endIcon={
             <Icon
               className="transition group-hover:text-white"

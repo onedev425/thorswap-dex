@@ -13,6 +13,7 @@ type Props = {
   children: ReactNode
   isFocused?: boolean
   onClick?: () => void
+  minHeight?: number
 }
 
 export const HighlightCard = ({

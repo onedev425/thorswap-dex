@@ -13,12 +13,12 @@ import { t } from 'services/i18n'
 import { loadFile } from './utils'
 
 type Props = {
-  isLoading?: boolean
+  loading?: boolean
   onConnect: (keystore: Keystore, phrase: string) => void
   onCreate: () => void
 }
 
-export const KeystoreView = ({ isLoading, onConnect, onCreate }: Props) => {
+export const KeystoreView = ({ loading, onConnect, onCreate }: Props) => {
   const [keystore, setKeystore] = useState<Keystore>()
   const [password, setPassword] = useState<string>('')
   const [invalidStatus, setInvalidStatus] = useState(false)
@@ -158,7 +158,7 @@ export const KeystoreView = ({ isLoading, onConnect, onCreate }: Props) => {
           className="flex-1 group"
           size="sm"
           disabled={!ready}
-          isLoading={processing || isLoading}
+          loading={processing || loading}
           endIcon={
             <Icon
               className="transition group-hover:text-white"

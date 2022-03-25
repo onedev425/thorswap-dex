@@ -130,7 +130,7 @@ export const KeystoreView = ({ onConnect, onKeystore }: Props) => {
           className="flex-1 group"
           size="sm"
           disabled={!ready}
-          isLoading={processing}
+          loading={processing}
           endIcon={
             <Icon
               className="transition dark:group-hover:text-white"

@@ -26,7 +26,6 @@ const initialState: State = {
   language: 'en',
   nodeWatchList: getFromStorage('nodeWatchList') as string[],
   showAnnouncement: !getFromStorage('readStatus') as boolean,
-  showDashboardStats: true,
   slippageTolerance: Number(getFromStorage('slippageTolerance') as string),
   themeType: getFromStorage('themeType') as ThemeType,
   thousandSeparator: getFromStorage('thousandSeparator') as ThousandSeparator,
@@ -57,9 +56,6 @@ const appSlice = createSlice({
     },
     toggleSidebar(state) {
       state.isSidebarOpen = !state.isSidebarOpen
-    },
-    toggleDashboardStats(state) {
-      state.showDashboardStats = !state.showDashboardStats
     },
     toggleSidebarCollapse(state) {
       state.isSidebarCollapsed = !state.isSidebarCollapsed

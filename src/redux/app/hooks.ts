@@ -46,10 +46,6 @@ export const useApp = () => {
     dispatch(actions.toggleSidebar())
   }, [dispatch])
 
-  const toggleDashboardStats = useCallback(() => {
-    dispatch(actions.toggleDashboardStats())
-  }, [dispatch])
-
   const toggleSidebarCollapse = useCallback(() => {
     dispatch(actions.toggleSidebarCollapse())
   }, [dispatch])
@@ -149,7 +145,6 @@ export const useApp = () => {
     setTransactionDeadline,
     setWalletViewMode,
     setWatchList,
-    toggleDashboardStats,
     toggleSettings,
     toggleSidebar,
     toggleSidebarCollapse,

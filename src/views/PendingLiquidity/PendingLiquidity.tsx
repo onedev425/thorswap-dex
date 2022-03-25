@@ -1,14 +1,39 @@
-import { AddDeposit } from 'views/PendingLiquidity/AddDeposit'
-import { PendingDeposit } from 'views/PendingLiquidity/PendingDeposit'
-import { PendingTile } from 'views/PendingLiquidity/PendingTile'
+import { useState } from 'react'
 
+import { Asset } from '@thorswap-lib/multichain-sdk'
+
+import { PendingDeposit } from 'views/PendingLiquidity/PendingDeposit'
+
+import { AssetInput } from 'components/AssetInput'
 import { Box, Button, Icon } from 'components/Atomic'
+import { InfoTable } from 'components/InfoTable'
 import { PanelView } from 'components/PanelView'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { t } from 'services/i18n'
 
+import { formatPrice } from 'helpers/formatPrice'
+
+const data = [
+  { label: 'Slip', value: '0.54' },
+  { label: 'Pool Share Estimated', value: '8.248' },
+  { label: t('common.transactionFee'), value: '0.02 RUNE' },
+]
+
 export const PendingLiquidity = () => {
+  const [value, setValue] = useState('0')
+
+  const runeAsset = {
+    asset: Asset.RUNE(),
+    value: 'Pending $(335.39K)',
+    price: '0',
+  }
+  const thorAsset = {
+    asset: Asset.THOR(),
+    value: '0',
+    price: '0',
+  }
+
   return (
     <PanelView
       title="Pending Liquidity"
@@ -24,9 +49,29 @@ export const PendingLiquidity = () => {
         />
       }
     >
+      <Button stretch type="outline" className="mb-2">
+        {t('views.pendingLiquidity.checkPendingLiquidity')}
+      </Button>
+
       <PendingDeposit />
-      <AddDeposit />
-      <PendingTile />
+
+      <AssetInput
+        secondaryLabel={`Add to Complete (${formatPrice(parseFloat(value))})`}
+        className="self-stretch"
+        selectedAsset={thorAsset}
+        singleAsset
+        onValueChange={setValue}
+      />
+      <AssetInput
+        secondaryLabel={formatPrice(22212.2, { prefix: '' })}
+        className="self-stretch"
+        selectedAsset={runeAsset}
+        singleAsset
+        inputClassName="!text-xl md:!text-2xl"
+        onValueChange={() => {}}
+      />
+
+      <InfoTable items={data} />
 
       <Box className="w-full pt-5">
         <Button stretch size="lg">

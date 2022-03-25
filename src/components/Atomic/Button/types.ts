@@ -19,9 +19,9 @@ export type ButtonProps = Omit<
   children?: React.ReactNode
   className?: string
   disabled?: boolean
-  isLoading?: boolean
+  loading?: boolean
   tooltip?: string
-  tooltipPlacemenet?: TooltipPlacement
+  tooltipPlacement?: TooltipPlacement
   onClick?: () => void
   size?: ButtonSizes
   textColor?: ColorType

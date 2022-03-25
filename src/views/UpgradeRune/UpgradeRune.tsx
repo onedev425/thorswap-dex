@@ -47,7 +47,6 @@ const UpgradeRune = () => {
             onValueChange={setValue}
             className="!mb-1"
             selectedAsset={asset}
-            secondary
           />
 
           <InfoRow label={t('common.transactionFee')} value="0.00075 BNB" />

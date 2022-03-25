@@ -245,6 +245,7 @@
       "vestingStartTime": "Vesting Start Time"
     },
     "pendingLiquidity": {
+      "checkPendingLiquidity": "Check Pending Liquidity",
       "pending": "Pending",
       "insufficientAmount": "Insufficient Amount",
       "pendingLiquidity": "Pending Liquidity",

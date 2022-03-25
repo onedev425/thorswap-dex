@@ -1,5 +1,6 @@
 import { useLayoutEffect } from 'react'
 
+import { useLocation } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
 
 import classNames from 'classnames'
@@ -12,28 +13,28 @@ export const NavItem = ({
   className = '',
   iconName,
   href,
-  isExternal = false,
   variant = 'primary',
   label,
   collapsed = false,
 }: NavItemProps) => {
+  const location = useLocation()
   useLayoutEffect(() => {
     if (collapsed) {
       setTimeout(ReactTooltip.rebuild, 0)
     }
   }, [collapsed])
 
-  const isActive = window.location.pathname === href
+  const isActive = location.pathname === href
 
   return (
     <li className={className}>
       <Tooltip content={collapsed ? label : ''} place="right">
         <Box
           className={classNames(
-            'h-10 box-border rounded-2xl group transition',
+            'h-10 box-border rounded-2xl group transition-transform',
             itemClasses[variant],
             {
-              'w-10': collapsed,
+              'items-center': collapsed,
               'bg-btn-primary dark:bg-btn-primary':
                 isActive && variant === 'primary',
               'bg-btn-secondary dark:bg-btn-secondary':
@@ -46,7 +47,6 @@ export const NavItem = ({
             className={classNames(
               'flex items-center w-full h-full no-underline px-4 py-2 ',
             )}
-            isExternal={isExternal}
             to={href}
           >
             <Icon
@@ -58,6 +58,7 @@ export const NavItem = ({
               )}
               size={18}
             />
+
             {!collapsed && (
               <Typography
                 className={classNames(

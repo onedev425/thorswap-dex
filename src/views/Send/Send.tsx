@@ -66,7 +66,7 @@ const Send = () => {
 
   useEffect(() => {
     const getSendAsset = async () => {
-      const assetObj = Asset.decodeFromURL(assetParam || '')
+      const assetObj = assetParam ? Asset.decodeFromURL(assetParam) : ''
 
       if (assetObj) {
         await assetObj.setDecimal()
@@ -108,7 +108,6 @@ const Send = () => {
         selectedAsset={asset}
         assets={assetsFixture}
         commonAssets={commonAssets}
-        secondary
         onAssetChange={handleAssetChange}
         onValueChange={handleValueChange}
       />

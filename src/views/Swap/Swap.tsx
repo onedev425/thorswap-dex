@@ -153,6 +153,7 @@ const Swap = () => {
         placeholder={`${t('common.recipientAddress')} ${t('common.here')}`}
         stretch
         disabled={addressDisabled}
+        onChange={() => {}}
         value={'thor123123123123'}
         titleComponent={
           <Box flex={1} alignCenter justify="between">

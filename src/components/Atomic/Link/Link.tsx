@@ -2,7 +2,13 @@ import { NavLink } from 'react-router-dom'
 
 import classNames from 'classnames'
 
-import { LinkProps } from './types'
+type LinkProps = {
+  to: string
+  children?: React.ReactNode
+  className?: string
+  isExternal?: boolean
+  onClick?: () => void
+}
 
 export const Link = ({
   className,

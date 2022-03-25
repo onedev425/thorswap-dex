@@ -1,10 +1,10 @@
 import { Asset } from '@thorswap-lib/multichain-sdk'
 
 export enum ROUTES {
-  Home = '/',
-
   AddLiquidity = '/add-liquidity',
+  Home = '/dashboard',
   ManageLiquidity = '/manage-liquidity',
+  NodeDetail = '/nodes/:id',
   NodeManager = '/node-manager',
   Nodes = '/nodes',
   PendingLiquidity = '/pending-liquidity',
@@ -13,11 +13,10 @@ export enum ROUTES {
   Stake = '/stake',
   Stats = '/stats',
   Swap = '/swap',
+  UpgradeRune = '/upgrade-rune',
   Vesting = '/vesting',
   Wallet = '/wallet',
   WithdrawLiquidity = '/withdraw-liquidity',
-  NodeDetail = '/nodes/:id',
-  UpgradeRune = '/upgrade-rune',
 }
 
 export const getAddLiquidityRoute = (asset: Asset) => {

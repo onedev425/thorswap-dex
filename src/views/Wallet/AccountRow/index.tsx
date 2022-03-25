@@ -9,6 +9,8 @@ import { Box, Button, Card, Icon, Typography } from 'components/Atomic'
 
 import { t } from 'services/i18n'
 
+import { formatPrice } from 'helpers/formatPrice'
+
 import { useAccountData } from '../hooks'
 import { ChainInfoTable } from './ChainInfoTable'
 
@@ -57,7 +59,9 @@ export const AccountRow = memo(({ chain }: Props) => {
 
             {chainAddress && (
               <Box className="flex-col items-center md:justify-center md:flex-row gap-x-2">
-                <Typography color="secondary">({balance})</Typography>
+                <Typography color="secondary">
+                  ({formatPrice(balance)})
+                </Typography>
 
                 <Box center pl={2} className="gap-x-2">
                   <Icon name="eye" color="secondary" />

@@ -4,6 +4,11 @@ import BigNumber from 'bignumber.js'
 
 import { useApp } from 'redux/app/hooks'
 
+type FormatOptions = {
+  prefix?: string
+  decimalSeparator?: string
+}
+
 const useGroupSeparator = () => {
   const { thousandSeparator } = useApp()
 
@@ -34,15 +39,18 @@ const getNumberOfDecimals = (amount: Amount | number) => {
   }
 }
 
-const useFormat = (): BigNumber.Config['FORMAT'] => ({
-  prefix: '$',
+const useFormat = (options?: FormatOptions): BigNumber.Config['FORMAT'] => ({
+  prefix: options?.prefix || '$',
   groupSeparator: useGroupSeparator(),
   groupSize: 3,
-  decimalSeparator: '.',
+  decimalSeparator: options?.decimalSeparator || '.',
 })
 
-export const formatPrice = (amount: Amount | number) => {
-  const format = useFormat()
+export const formatPrice = (
+  amount: Amount | number,
+  options?: FormatOptions,
+) => {
+  const format = useFormat(options)
   const decimals = getNumberOfDecimals(amount)
 
   if (typeof amount === 'number') {

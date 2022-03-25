@@ -22,7 +22,8 @@ export const Button = ({
   children,
   onClick,
   tooltip,
-  tooltipPlacemenet,
+  tooltipPlacement,
+  loading,
   ...rest
 }: ButtonProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
@@ -49,7 +50,7 @@ export const Button = ({
   }
 
   return (
-    <Tooltip content={tooltip} place={tooltipPlacemenet}>
+    <Tooltip content={tooltip} place={tooltipPlacement}>
       <button
         onMouseDown={() => timeoutBlur(300)}
         ref={buttonRef}
@@ -57,8 +58,7 @@ export const Button = ({
           'flex border border-solid items-center justify-center outline-none p-0 disabled:opacity-75 duration-300',
           buttonClass,
           className,
-          disabled ? 'cursor-not-allowed' : 'cursor-pointer',
-
+          disabled || loading ? 'cursor-not-allowed' : 'cursor-pointer',
           {
             [backgroundClass]: type === 'default',
             [outlinedClass]: isOutlined || isBorderless,
@@ -66,7 +66,7 @@ export const Button = ({
             '!border-transparent': !isOutlined,
           },
         )}
-        disabled={disabled}
+        disabled={disabled || loading}
         onClick={handleClick}
         {...rest}
       >

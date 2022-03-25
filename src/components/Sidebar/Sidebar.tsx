@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { useMemo } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -7,97 +7,16 @@ import classNames from 'classnames'
 import { Box, Icon, Tooltip, Typography } from 'components/Atomic'
 import { Scrollbar } from 'components/Scrollbar'
 
+import { useMidgard } from 'redux/midgard/hooks'
+
 import { t } from 'services/i18n'
 
 import { ROUTES } from 'settings/constants'
 
 import Logo from '../Announcement/assets/images/logo.png'
 import { navbarOptions } from './data'
-import { NavItem } from './NavItem'
-import { SidebarProps, SidebarItemProps, Variant } from './types'
-
-const renderMenu = (
-  options: SidebarItemProps[],
-  variant: Variant,
-  collapsed = false,
-) => {
-  return (
-    <ul
-      key={variant}
-      className={classNames(
-        'flex flex-col rounded-2xl m-0 p-0 list-none',
-        collapsed ? 'items-center' : 'w-full',
-        {
-          'mb-5 bg-light-green-lighter dark:.dark .dark:bg-dark-bg-secondary':
-            variant === 'secondary',
-        },
-      )}
-    >
-      {options.map(({ hasSub, label, children, ...rest }: SidebarItemProps) => {
-        if (hasSub && children)
-          return (
-            <Fragment key={label}>
-              <div
-                className={classNames(
-                  'transition-all duration-300 overflow-hidden',
-                  collapsed ? 'scale-0 max-h-0' : 'scale-1 max-h-[20px]',
-                )}
-              >
-                <Typography
-                  className="mb-1 ml-2"
-                  color="secondary"
-                  variant="caption-xs"
-                  fontWeight="semibold"
-                  transform="uppercase"
-                >
-                  {label}
-                </Typography>
-              </div>
-
-              {renderMenu(children, 'secondary', collapsed)}
-            </Fragment>
-          )
-
-        return (
-          <Fragment key={label}>
-            {variant === 'primary' && (
-              <div
-                className={classNames(
-                  'transition-all duration-300 overflow-hidden',
-                  {
-                    'scale-0 max-h-0': collapsed,
-                    'scale-1 max-h-[20px]': !collapsed,
-                  },
-                )}
-              >
-                <Typography
-                  className="ml-2"
-                  color="secondary"
-                  variant="caption-xs"
-                  fontWeight="semibold"
-                  transform="uppercase"
-                >
-                  {label}
-                </Typography>
-              </div>
-            )}
-            <NavItem
-              key={label}
-              className={classNames(
-                variant === 'primary' ? 'mb-4' : 'mb-2',
-                'last-of-type:mb-0',
-              )}
-              variant={variant}
-              label={label}
-              collapsed={collapsed}
-              {...rest}
-            />
-          </Fragment>
-        )
-      })}
-    </ul>
-  )
-}
+import { SidebarItem } from './SidebarItem'
+import { SidebarProps } from './types'
 
 export const Sidebar = ({
   className,
@@ -105,12 +24,18 @@ export const Sidebar = ({
   collapsed = false,
   toggle,
 }: SidebarProps) => {
+  const { stats } = useMidgard()
   const navigate = useNavigate()
+
+  const runeLabel = useMemo(
+    () => `1ᚱ = $${parseFloat(stats?.runePriceUSD || '').toFixed(2)}`,
+    [stats],
+  )
 
   return (
     <nav
       className={classNames(
-        'flex flex-col items-center my-4 transition-all duration-300 overflow-hidden ml-4 h-sidebar',
+        'flex flex-col items-center my-4 transition-all overflow-hidden ml-4 h-sidebar',
         'rounded-3xl border-box sticky top-0 bg-light-bg-secondary dark:bg-dark-bg-secondary md:!bg-opacity-30',
         'border-opacity-30 border border-solid border-light-typo-gray dark:border-none',
         collapsed ? 'w-[72px]' : 'w-[180px]',
@@ -125,12 +50,24 @@ export const Sidebar = ({
       </div>
 
       <div className="w-full h-sidebar-content">
-        <Scrollbar height="calc(100vh - 192px)">
-          <div className="mx-2">
-            {renderMenu(options, 'primary', collapsed)}
-          </div>
+        <Scrollbar height="calc(100vh - 220px)">
+          <SidebarItem
+            options={options}
+            variant="primary"
+            collapsed={collapsed}
+          />
         </Scrollbar>
       </div>
+
+      <Box center>
+        <Typography
+          variant={collapsed ? 'caption-xs' : 'body'}
+          className="pb-2 transition-[font-size]"
+          fontWeight="semibold"
+        >
+          {runeLabel}
+        </Typography>
+      </Box>
 
       {!!toggle && (
         <Box

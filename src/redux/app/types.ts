@@ -20,7 +20,6 @@ export interface State {
   language: SupportedLanguages
   nodeWatchList: string[]
   showAnnouncement: boolean
-  showDashboardStats: boolean
   slippageTolerance: number
   themeType: ThemeType
   thousandSeparator: ThousandSeparator

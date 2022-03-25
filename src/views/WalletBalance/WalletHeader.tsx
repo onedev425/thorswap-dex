@@ -34,7 +34,7 @@ export const WalletHeader = () => {
             />
           }
           tooltip={t('common.refresh')}
-          tooltipPlacemenet={'left'}
+          tooltipPlacement="left"
           onClick={handleRefresh}
         />
         <Button
@@ -42,7 +42,7 @@ export const WalletHeader = () => {
           variant="tint"
           startIcon={<Icon name="add" color="primaryBtn" size={16} />}
           tooltip={t('views.walletDrawer.connectAnother')}
-          tooltipPlacemenet={'left'}
+          tooltipPlacement="left"
           onClick={handleAddConnectWallet}
         />
         <Button
@@ -50,7 +50,7 @@ export const WalletHeader = () => {
           variant="tint"
           startIcon={<Icon name="disconnect" color="primaryBtn" size={16} />}
           tooltip={t('views.walletDrawer.disconnect')}
-          tooltipPlacemenet={'left'}
+          tooltipPlacement="left"
           onClick={openDisconnectConfirmModal}
         />
       </Box>

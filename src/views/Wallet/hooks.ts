@@ -20,8 +20,6 @@ import { BigNumber } from 'bignumber.js'
 
 import { useWallet } from 'redux/wallet/hooks'
 
-import { formatPrice } from 'helpers/formatPrice'
-
 const emptyWallet = {
   [BTCChain]: null,
   [BNBChain]: null,
@@ -45,7 +43,7 @@ const getBalanceByChain = (
     total = total.plus(amount.assetAmount.multipliedBy(usdPrice))
   })
 
-  return formatPrice(total.toNumber())
+  return total.toNumber()
 }
 
 export const useAccountData = (chain: SupportedChain) => {
@@ -86,7 +84,7 @@ export const useAccountData = (chain: SupportedChain) => {
   const data = useMemo(
     () => ({
       activeAsset24hChange: price24hChangePercent,
-      activeAssetPrice: formatPrice(currentPrice),
+      activeAssetPrice: currentPrice,
       balance: getBalanceByChain(walletBalance, geckoData),
       chainAddress,
       chainInfo,

@@ -43,9 +43,7 @@ export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
               color="secondary"
               className={classNames(
                 'transform duration-300 ease inline-block',
-                {
-                  '-rotate-180': isActive,
-                },
+                { '-rotate-180': isActive },
               )}
             />
           </Box>

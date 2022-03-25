@@ -27,7 +27,7 @@ export const Typography = ({
         transformClasses[transform],
         fontWeight ? weightClasses[fontWeight] : defaultWeightClasses[variant],
         className,
-        'font-primary',
+        'font-primary transition-colors',
       )}
       {...rest}
     >

@@ -12,8 +12,8 @@ export type AssetInputType = {
 
 export type AssetInputProps = {
   className?: string
+  inputClassName?: string
   selectedAsset: AssetInputType
-  secondary?: boolean
   showChange?: boolean
   secondaryLabel?: string
   onValueChange: (assetValue: string) => void

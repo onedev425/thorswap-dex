@@ -57,7 +57,6 @@ export const AssetInputs = memo(
           selectedAsset={firstAsset}
           assets={assetsFixture}
           commonAssets={commonAssets}
-          secondary
           onAssetChange={onAssetChange('first')}
           onValueChange={onValueChange('first')}
         />
@@ -68,7 +67,6 @@ export const AssetInputs = memo(
           onValueChange={onValueChange('second')}
           assets={assetsFixture}
           commonAssets={commonAssets}
-          secondary
         />
       </div>
     )

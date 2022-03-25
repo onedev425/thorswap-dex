@@ -1,16 +1,15 @@
 import { IconName } from 'components/Atomic'
 
-export type Variant = 'primary' | 'secondary'
+export type SidebarVariant = 'primary' | 'secondary'
 
 type ItemProps = {
   iconName: IconName
   href: string
-  isExternal?: boolean
   label?: string
 }
 
 export type NavItemProps = ItemProps & {
-  variant?: Variant
+  variant?: SidebarVariant
   className?: string
   collapsed?: boolean
 }

@@ -1,9 +1,11 @@
 import { useCallback } from 'react'
 
-import { AssetInputContainer } from 'components/AssetInputContainer'
+import classNames from 'classnames'
+
 import { AssetSelect } from 'components/AssetSelect'
 import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton'
 import { Box, Button, Typography } from 'components/Atomic'
+import { HighlightCard } from 'components/HighlightCard'
 import { Input } from 'components/Input'
 
 import { t } from 'services/i18n'
@@ -21,6 +23,7 @@ export const AssetInput = ({
   onAssetChange,
   onValueChange,
   hideMaxButton,
+  inputClassName,
 }: AssetInputProps) => {
   const assetValue =
     parseFloat(selectedAsset?.price || '0') *
@@ -31,11 +34,14 @@ export const AssetInput = ({
   }, [onValueChange, selectedAsset.balance])
 
   return (
-    <AssetInputContainer className={className}>
+    <HighlightCard className={classNames('min-h-[107px]', className)}>
       <Box flex={1} className="pb-1 pl-4 md:pl-0" alignCenter>
         <Input
           placeholder="0.0"
-          className="-ml-1 !text-2xl font-normal text-left"
+          className={classNames(
+            '-ml-1 !text-2xl font-normal text-left',
+            inputClassName,
+          )}
           containerClassName="!py-0"
           onChange={(event) => onValueChange(event.target.value)}
           value={selectedAsset?.value}
@@ -61,7 +67,7 @@ export const AssetInput = ({
       <Box className="pl-4 md:pl-0" alignCenter justify="between">
         <Box>
           <Typography color="secondary" fontWeight="semibold">
-            {secondaryLabel || '$'}&nbsp;{assetValue.toFixed(2)}
+            {secondaryLabel || `$ ${assetValue.toFixed(2)}`}
           </Typography>
 
           {showChange && selectedAsset && (
@@ -97,6 +103,6 @@ export const AssetInput = ({
           )}
         </Box>
       </Box>
-    </AssetInputContainer>
+    </HighlightCard>
   )
 }

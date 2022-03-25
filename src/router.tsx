@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import {
+  Navigate,
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from 'react-router-dom'
 
 import AddLiquidity from 'views/AddLiquidity'
 import HomeView from 'views/Home'
@@ -45,6 +50,8 @@ const PublicRoutes = () => {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Navigate to="/swap" />} />
+
         {routes.map((route) => {
           const Component = route.element
 

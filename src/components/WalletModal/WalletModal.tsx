@@ -464,7 +464,7 @@ export const WalletModal = () => {
           <>
             {walletMode === WalletMode.Keystore && (
               <ConnectKeystoreView
-                isLoading={walletLoading}
+                loading={walletLoading}
                 onConnect={handleConnect}
                 onCreate={() => setWalletMode(WalletMode.Create)}
               />

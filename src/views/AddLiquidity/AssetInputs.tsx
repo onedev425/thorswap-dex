@@ -47,13 +47,11 @@ export const AssetInputs = memo(
           onValueChange={onValueChange('first')}
           assets={assetsFixture}
           commonAssets={commonAssets}
-          secondary
         />
         {secondDisabled ? (
           <AssetInput
             selectedAsset={secondAsset}
             onValueChange={onValueChange('second')}
-            secondary
             singleAsset
           />
         ) : (
@@ -63,7 +61,6 @@ export const AssetInputs = memo(
             onValueChange={onValueChange('second')}
             assets={assetsFixture}
             commonAssets={commonAssets}
-            secondary
           />
         )}
       </Box>

@@ -2,18 +2,15 @@ import { useCallback, useMemo } from 'react'
 
 import { useLocation } from 'react-router-dom'
 
-import { Amount, hasConnectedWallet } from '@thorswap-lib/multichain-sdk'
+import { hasConnectedWallet } from '@thorswap-lib/multichain-sdk'
 
 import { AppPopoverMenu } from 'components/AppPopoverMenu'
-import { Button, Row, Icon, Box, Typography } from 'components/Atomic'
-import { SwitchToggle } from 'components/Atomic/SwitchToggle'
+import { Button, Row, Icon, Box } from 'components/Atomic'
 import { GasTracker } from 'components/GasTracker'
 import { Refresh } from 'components/Refresh'
 import { StatusDropdown } from 'components/StatusDropdown'
 
-import { useApp } from 'redux/app/hooks'
 import { useGlobalState } from 'redux/hooks'
-import { useMidgard } from 'redux/midgard/hooks'
 import { useWallet } from 'redux/wallet/hooks'
 
 import { useWalletDrawer } from 'hooks/useWalletDrawer'
@@ -25,19 +22,12 @@ type Props = {
 }
 
 export const Header = ({ openMenu }: Props) => {
-  const { showDashboardStats, toggleDashboardStats } = useApp()
   const { isWalletLoading, wallet, setIsConnectModalOpen } = useWallet()
   const { setIsDrawerVisible } = useWalletDrawer()
-  const { stats } = useMidgard()
   const { refreshPage } = useGlobalState()
   const location = useLocation()
 
   const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet])
-
-  const priceLabel = useMemo(
-    () => `1ᚱ = $${Amount.fromNormalAmount(stats?.runePriceUSD).toFixed(2)}`,
-    [stats],
-  )
 
   const walletBtnText = useMemo(() => {
     if (isWalletLoading) return t('common.loading')
@@ -66,29 +56,9 @@ export const Header = ({ openMenu }: Props) => {
             startIcon={<Icon color="white" name="menu" size={24} />}
           />
 
-          <Button
-            variant="tint"
-            type="outline"
-            className="!bg-transparent !border-1 !p-2 md:!px-4 !border-solid cursor-auto dark:border-btn-primary"
-          >
-            {priceLabel || '-'}
-          </Button>
-
           <Box className="hidden md:flex gap-x-2">
             <GasTracker />
             <StatusDropdown />
-          </Box>
-
-          <Box
-            className="hidden h-10 px-3 transition-all cursor-pointer md:flex bg-light-bg-primary dark:bg-dark-bg-secondary hover:bg-light-bg-secondary rounded-2xl"
-            alignCenter
-            justify="between"
-          >
-            <Typography variant="caption">{t('common.showStats')}</Typography>
-            <SwitchToggle
-              checked={showDashboardStats}
-              onChange={toggleDashboardStats}
-            />
           </Box>
         </Row>
 
