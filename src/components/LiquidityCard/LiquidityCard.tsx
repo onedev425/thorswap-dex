@@ -127,7 +127,7 @@ export const LiquidityCard = ({ data, withFooter }: LiquidityCardProps) => {
                 <Button
                   className="px-8 md:px-12"
                   variant="primary"
-                  size="sm"
+                  size="lg"
                   stretch
                 >
                   {t('views.liquidity.addButton')}
@@ -136,8 +136,8 @@ export const LiquidityCard = ({ data, withFooter }: LiquidityCardProps) => {
               <Link className="w-full" to={ROUTES.WithdrawLiquidity}>
                 <Button
                   className="px-8 md:px-12"
-                  variant="tint"
-                  size="sm"
+                  variant="secondary"
+                  size="lg"
                   stretch
                 >
                   {t('common.withdraw')}
