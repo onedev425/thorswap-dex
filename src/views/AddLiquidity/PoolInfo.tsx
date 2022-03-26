@@ -18,7 +18,7 @@ export const PoolInfo = ({
 }: Props) => {
   return (
     <Collapse
-      className="!py-2 self-stretch mt-5 !bg-light-gray-light dark:!bg-dark-gray-light !rounded-2xl flex-col"
+      className="!py-2 self-stretch !mt-0 !bg-light-gray-light dark:!bg-dark-gray-light !rounded-2xl flex-col"
       shadow={false}
       title={
         <div className="flex flex-row gap-x-2">

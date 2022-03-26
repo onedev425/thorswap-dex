@@ -13,8 +13,8 @@ import { t } from 'services/i18n'
 import { AssetInputProps } from './types'
 
 export const AssetInput = ({
-  singleAsset,
   className,
+  singleAsset,
   showChange,
   selectedAsset,
   assets,
@@ -93,7 +93,7 @@ export const AssetInput = ({
             <Button
               className="!h-5 !px-1.5"
               size="sm"
-              type="borderless"
+              type="outline"
               variant="secondary"
               transform="uppercase"
               onClick={handleMaxClick}

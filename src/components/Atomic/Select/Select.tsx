@@ -37,11 +37,11 @@ export const Select = ({
         {options.map((option, index) => (
           <Button
             className={classNames({
-              'light:bg-gray-300': index === activeIndex,
+              '!bg-opacity-50': index === activeIndex,
             })}
             key={option}
-            variant="tint"
-            type={activeIndex !== index ? 'outline' : 'default'}
+            variant={activeIndex === index ? 'primary' : 'tint'}
+            type={activeIndex === index ? 'default' : 'outline'}
             onClick={() => onHandleChange(index)}
           >
             <Typography variant="caption-xs">{option}</Typography>

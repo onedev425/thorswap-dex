@@ -7,22 +7,23 @@ import { assetsFixture, commonAssets } from 'utils/assetsFixture'
 import { AssetInput } from 'components/AssetInput'
 import { AssetInputType } from 'components/AssetInput/types'
 import { Box, Icon } from 'components/Atomic'
+import { LiquidityTypeOption } from 'components/LiquidityType/types'
 
 type Props = {
   onAssetChange: (assetPosition: 'first' | 'second') => (asset: Asset) => void
   onValueChange: (assetPosition: 'first' | 'second') => (value: string) => void
   firstAsset: AssetInputType
   secondAsset: AssetInputType
-  secondDisabled?: boolean
+  liquidityType: LiquidityTypeOption
 }
 
 export const AssetInputs = memo(
   ({
     firstAsset,
     secondAsset,
-    secondDisabled,
     onValueChange,
     onAssetChange,
+    liquidityType,
   }: Props) => {
     return (
       <Box className="relative self-stretch w-full" col>
@@ -31,6 +32,11 @@ export const AssetInputs = memo(
             'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
             'p-1 md:p-2 rounded-2xl md:rounded-3xl',
             'border-10 border-solid bg-blue dark:border-dark-border-primary border-light-border-primary',
+            'opacity-100 scale-100 transition-all',
+            {
+              '!scale-0 !opacity-0':
+                liquidityType !== LiquidityTypeOption.Symmetrical,
+            },
           )}
         >
           <Icon
@@ -40,29 +46,33 @@ export const AssetInputs = memo(
           />
         </Box>
 
-        <AssetInput
-          className="!mb-1"
-          selectedAsset={firstAsset}
-          onAssetChange={onAssetChange('first')}
-          onValueChange={onValueChange('first')}
-          assets={assetsFixture}
-          commonAssets={commonAssets}
-        />
-        {secondDisabled ? (
+        <Box
+          className={classNames('overflow-hidden h-[111px] transition-all', {
+            '!h-[0px]': liquidityType === LiquidityTypeOption.Rune,
+          })}
+        >
           <AssetInput
+            className="!mb-1"
+            selectedAsset={firstAsset}
+            onAssetChange={onAssetChange('first')}
+            onValueChange={onValueChange('first')}
+            assets={assetsFixture}
+            commonAssets={commonAssets}
+          />
+        </Box>
+
+        <Box
+          className={classNames('overflow-hidden h-[111px] transition-all', {
+            '!h-[0px]': liquidityType === LiquidityTypeOption.Asset,
+          })}
+        >
+          <AssetInput
+            className="!mb-1 flex-1"
             selectedAsset={secondAsset}
             onValueChange={onValueChange('second')}
             singleAsset
           />
-        ) : (
-          <AssetInput
-            selectedAsset={secondAsset}
-            onAssetChange={onAssetChange('second')}
-            onValueChange={onValueChange('second')}
-            assets={assetsFixture}
-            commonAssets={commonAssets}
-          />
-        )}
+        </Box>
       </Box>
     )
   },

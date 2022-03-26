@@ -109,7 +109,7 @@ export const AddLiquidity = () => {
         secondAsset={secondAsset}
         onAssetChange={handleAssetChange}
         onValueChange={handleValueChange}
-        secondDisabled
+        liquidityType={liquidityType}
       />
 
       <PoolInfo
