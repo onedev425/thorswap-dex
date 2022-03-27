@@ -15,8 +15,8 @@ export const GlobalChart = () => {
   const { volumeChartData, liquidityChartData } = useGlobalChartInfo()
 
   return (
-    <Box className="flex-col flex-wrap lg:space-x-8 lg:flex-row">
-      <Box className="flex-1">
+    <Box col className="lg:space-x-8 lg:flex-row">
+      <Box flex={1}>
         <Chart
           title={t('views.home.chart.volume')}
           chartIndexes={volumeChartIndexes}
@@ -25,7 +25,8 @@ export const GlobalChart = () => {
           selectChart={setVolumeChartIndex}
         />
       </Box>
-      <Box className="flex-1">
+
+      <Box flex={1}>
         <Chart
           title={t('views.home.chart.liquidity')}
           chartIndexes={liquidityChartIndexes}

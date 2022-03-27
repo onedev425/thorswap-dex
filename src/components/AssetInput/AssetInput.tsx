@@ -80,19 +80,14 @@ export const AssetInput = ({
           )}
         </Box>
 
-        <Box className="gap-1" center row>
-          <Typography
-            className="pr-4 md:pr-0"
-            color="secondary"
-            fontWeight="semibold"
-          >
+        <Box className="pr-2 md:pr-0 gap-1" center row>
+          <Typography color="secondary" fontWeight="semibold">
             {t('common.balance')}: {selectedAsset.balance || 0}
           </Typography>
 
           {!hideMaxButton && (
             <Button
               className="!h-5 !px-1.5"
-              size="sm"
               type="outline"
               variant="secondary"
               transform="uppercase"

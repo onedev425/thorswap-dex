@@ -74,19 +74,18 @@ export const generateRandomTimeSeries = (
   return series
 }
 
+export const parseChartData = (chartData: { value: string; time: number }[]) =>
+  chartData.reduce(
+    (acc, { time, value }) => {
+      acc.labels.push(moment.unix(time).format('MMM DD'))
+      acc.values.push(Number(value.split(',').join('')))
+      return acc
+    },
+    { labels: [] as string[], values: [] as number[] },
+  )
+
 export const getRandomChartData = () => {
   const randomSeries = generateRandomTimeSeries(0, 100)
 
-  const labels: Array<string> = randomSeries.map((data) => {
-    return moment.unix(data.time).format('MMM DD')
-  })
-
-  const values: Array<number> = randomSeries.map((data) =>
-    Number(data.value.split(',').join('')),
-  )
-
-  return {
-    labels,
-    values,
-  }
+  return parseChartData(randomSeries)
 }

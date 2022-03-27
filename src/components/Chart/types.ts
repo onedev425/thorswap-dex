@@ -40,7 +40,7 @@ export enum ChartTimeFrame {
   AllTime = 1,
 }
 
-export const chartTimeFrame = [
+export const chartTimeFrames = [
   t('components.chart.week'),
   t('components.chart.all'),
 ]

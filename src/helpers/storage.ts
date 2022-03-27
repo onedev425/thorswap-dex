@@ -58,8 +58,8 @@ type StoragePayload =
 const defaultValues: StorageType = {
   annViewStatus: false,
   baseCurrency: Asset.USD().toString(),
-  thousandSeparator: ThousandSeparator.Space as string,
-  themeType: ThemeType.Auto as string,
+  thousandSeparator: ThousandSeparator.Comma,
+  themeType: ThemeType.Auto,
   language: 'en',
   nodeWatchList: [] as string[],
   featuredAssets: [] as string[],
@@ -71,7 +71,7 @@ const defaultValues: StorageType = {
   xDefiConnected: false,
   expertMode: false,
   autoRouter: true,
-  slippageTolerance: String(DEFAULT_SLIPPAGE_TOLERANCE),
+  slippageTolerance: `${DEFAULT_SLIPPAGE_TOLERANCE}`,
   transactionDeadline: '30',
   walletViewMode: ViewMode.CARD,
 }

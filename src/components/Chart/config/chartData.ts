@@ -18,6 +18,7 @@ const StrokeColors = [
   colors.StrokeColor5,
 ]
 
+// TODO: Unify and refactor those getters
 const getDataForBarChart = (
   data: DataPoint[],
   dataLabels: string[],
@@ -144,8 +145,8 @@ const getDataForCurvedLineChart = (
   }
 }
 
-export const getChartData = (
-  type: ChartType,
+export const getChartData = <T extends ChartType>(
+  type: T,
   dataLabels: string[],
   dataValues: number[],
 ) => {

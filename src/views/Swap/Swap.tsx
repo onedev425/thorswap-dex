@@ -133,8 +133,8 @@ const Swap = () => {
         <ViewHeader
           title={t('common.swap')}
           actionsComponent={
-            <Box row className="space-x-4">
-              <Icon color="secondary" name="chart" className="ml-auto" />
+            <Box center row className="space-x-4">
+              <Icon color="secondary" name="chart" />
               <SwapSettingsPopover />
             </Box>
           }
