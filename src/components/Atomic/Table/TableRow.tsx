@@ -16,7 +16,7 @@ export const TableRow = ({ row, onRowClick = () => {} }: Props) => {
         { 'cursor-pointer': onRowClick },
       )}
       {...row.getRowProps()}
-      onClick={() => onRowClick(row.index)}
+      onClick={() => onRowClick(row)}
     >
       {row.cells.map((cell: TableCellType) => (
         <TableCell key={cell.getCellProps().key} cell={cell} />

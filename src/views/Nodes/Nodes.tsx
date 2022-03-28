@@ -119,7 +119,7 @@ const Nodes = () => {
                 }}
                 size={16}
                 className="group-hover:text-dark-typo-primary"
-                color="secondary"
+                color={isSelected ? 'pink' : 'secondary'}
                 name={isSelected ? 'heartFilled' : 'heart'}
               />
             </Tooltip>
@@ -178,8 +178,8 @@ const Nodes = () => {
     ] as TableColumnsConfig
   }, [nodeWatchList, handleAddToWatchList, getNodes])
 
-  const onRowClick = (index: number) => {
-    navigate(`${ROUTES.Nodes}/${filteredNodes[index].node_address}`)
+  const onRowClick = ({ original }: { original: THORNode }) => {
+    navigate(`${ROUTES.Nodes}/${original.node_address}`)
   }
 
   return (
@@ -192,7 +192,13 @@ const Nodes = () => {
           <Typography className="mb-2 text-light-typo-primary dark:text-dark-typo-primary">
             {`${t('views.nodes.watchList')} (${watchListData.length})`}
           </Typography>
-          <Table data={watchListData} columns={columns} sortable />
+          <Table
+            columns={columns}
+            data={watchListData}
+            loading={nodeLoading}
+            onRowClick={onRowClick}
+            sortable
+          />
         </Box>
       )}
       <Box

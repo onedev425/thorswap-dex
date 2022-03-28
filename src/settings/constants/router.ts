@@ -4,7 +4,7 @@ export enum ROUTES {
   AddLiquidity = '/add-liquidity',
   Home = '/dashboard',
   ManageLiquidity = '/manage-liquidity',
-  NodeDetail = '/nodes/:id',
+  NodeDetail = '/nodes/:nodeAddress',
   NodeManager = '/node-manager',
   Nodes = '/nodes',
   PendingLiquidity = '/pending-liquidity',

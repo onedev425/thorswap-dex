@@ -230,7 +230,7 @@ export const StakingCard = ({
               </Typography>
             </Box>
           </Box>
-          <Box className="flex-col px-4 space-y-2">
+          <Box className="flex-col px-4 space-y-3">
             <InfoRow
               label={t('views.staking.stakingToken')}
               value={

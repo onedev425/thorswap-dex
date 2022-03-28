@@ -14,7 +14,7 @@ export const useAddressUtils = (address: string) => {
 
   const handleCopyAddress = useCallback(() => {
     copy(address)
-    showToast(t('common.addressCopied'), ToastType.Success)
+    showToast({ message: t('common.addressCopied') }, ToastType.Success)
   }, [address])
 
   return {

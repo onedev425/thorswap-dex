@@ -24,16 +24,19 @@ const getToastIcon = (type: ToastType) => {
 }
 
 type ShowToastFunction = (
-  message: string,
+  content: {
+    message: string
+    description?: string | React.ReactNode
+  },
   type?: ToastType,
   options?: Pick<ToastOptions, 'position' | 'duration' | 'style' | 'className'>,
 ) => void
 
-export const showLongToast: ShowToastFunction = (message, type, options) =>
-  showToast(message, type, { ...options, duration: 60 * 1000 })
+export const showLongToast: ShowToastFunction = (content, type, options) =>
+  showToast(content, type, { ...options, duration: 60 * 1000 })
 
 export const showToast: ShowToastFunction = (
-  message,
+  content,
   type = ToastType.Info,
   options = {},
 ) => {
@@ -45,12 +48,26 @@ export const showToast: ShowToastFunction = (
       row
       className={classNames(
         'py-2 px-4 m-20 rounded-xl',
-        'border border-solid border-light-border-primary dark:border-dark-border-primary bg-light-bg-primary dark:bg-dark-bg-secondary',
+        'border border-solid border-light-border-primary dark:border-dark-border-primary bg-light-bg-primary' +
+          ' dark:bg-dark-bg-secondary items-center',
       )}
     >
-      <Typography className={classNames({ 'pr-2': icon })} variant="caption">
-        {message}
-      </Typography>
+      <Box col className="max-w-[240px]">
+        <Typography className={classNames({ 'pr-2': icon })} variant="caption">
+          {content.message}
+        </Typography>
+        {content.description && typeof content.description === 'string' ? (
+          <Typography
+            className={classNames({ 'pr-2': icon })}
+            variant="caption-xs"
+            fontWeight="light"
+          >
+            {content.description}
+          </Typography>
+        ) : (
+          content.description
+        )}
+      </Box>
       {icon}
     </Box>,
     { ...options, duration },

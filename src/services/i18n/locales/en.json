@@ -138,7 +138,32 @@
         "nodeInformation": "Node Information",
         "complete": "Complete",
         "amount": "Amount",
-        "enterAmount": "Enter an amount"
+        "enterAmount": "Enter an amount",
+        "WalletNotConnected": "Wallet Not Connected",
+        "ConnectThorChainAgainPlease": "Please connect THORChain wallet and try again.",
+        "InvalidNodeAction": "Invalid node action",
+        "AddressDonNotMatch": "Node bonder address does not match to your address",
+        "ViewBondTx": "View Bond Tx",
+        "ViewUnBondTx": "View Unbond Tx",
+        "ViewLeaveTx": "View Leave Tx",
+        "transactionSentSuccessfully": "Transaction sent successfully!",
+        "ViewTransaction": "View Transaction",
+        "TransactionFailed": "Transaction failed."
+      },
+      "info": {
+        "ActiveBlock": "Active Block",
+        "Address": "Address",
+        "Bond": "Bond",
+        "BondAddress": "Bond Address",
+        "CurrentReward": "Current Reward",
+        "ForcedToLeave": "Forced to Leave",
+        "IPAddress": "IP Address",
+        "JailNodeAddress": "Jail Node Address",
+        "LeaveHeight": "Leave Height",
+        "RequestedToLeave": "Requested to Leave",
+        "SlashPoints": "Slash Points",
+        "Status": "Status",
+        "Version": "Version"
       }
     },
     "staking": {

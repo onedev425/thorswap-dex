@@ -43,7 +43,7 @@ const routes: RouteType = [
   // { path: ROUTES.Vesting, element: VestingView },
   // { path: ROUTES.Nodes, element: Nodes },
   // { path: ROUTES.NodeManager, element: NodeManager },
-  // { path: ROUTES.NodeDetail, element: NodeDetail },
+  // { path: ROUTES.NodeDetail, element: NodeDetails },
 ]
 
 const PublicRoutes = () => {

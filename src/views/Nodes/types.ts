@@ -4,6 +4,12 @@ export enum NodeStatus {
   Whitelisted = 'Whitelisted',
 }
 
+export enum NodeAction {
+  BOND = 'BOND',
+  UNBOND = 'UNBOND',
+  LEAVE = 'LEAVE',
+}
+
 export const nodeStatusOptions = [
   NodeStatus.Active,
   NodeStatus.Standby,
