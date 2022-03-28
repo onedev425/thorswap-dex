@@ -12,6 +12,7 @@ type Props = {
   place?: TooltipPlacement
   content?: string
   className?: string
+  disabled?: boolean
 } & (
   | { iconName: IconName; children?: undefined }
   | { children: React.ReactNode; iconName?: undefined }
@@ -34,6 +35,7 @@ export const Tooltip = ({
   place,
   iconName,
   content,
+  disabled = false,
 }: Props) => {
   useEffect(() => {
     // https://github.com/wwayne/react-tooltip/issues/40#issuecomment-147552438
@@ -45,6 +47,7 @@ export const Tooltip = ({
       data-for="tooltip"
       data-html
       data-place={place}
+      data-tip-disable={disabled}
       className={classNames(
         'flex items-center justify-center',
         {

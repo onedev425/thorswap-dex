@@ -29,7 +29,7 @@ export type SidebarProps = {
 
 export const itemClasses = {
   primary:
-    'hover:bg-btn-primary-translucent hover:dark:bg-btn-primary-translucent',
+    'hover:bg-btn-primary-translucent hover:dark:bg-btn-primary-translucent !mx-1',
   secondary:
     'hover:bg-btn-secondary-translucent hover:dark:bg-btn-secondary-translucent',
 }

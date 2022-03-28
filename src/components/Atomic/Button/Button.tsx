@@ -55,7 +55,7 @@ export const Button = ({
         onMouseDown={() => timeoutBlur(300)}
         ref={buttonRef}
         className={classNames(
-          'flex border border-solid items-center justify-center outline-none p-0 disabled:opacity-75',
+          'flex border border-solid items-center justify-center outline-none p-0 disabled:opacity-75 transition',
           buttonClass,
           className,
           disabled || loading ? 'cursor-not-allowed' : 'cursor-pointer',
@@ -75,7 +75,7 @@ export const Button = ({
         {children && (
           <Typography
             className={classNames(
-              'duration-150  !no-underline',
+              'transition !no-underline',
               isOutlined || isBorderless
                 ? 'text-light-typo-primary dark:text-dark-typo-primary'
                 : 'text-light-typo-secondary dark:text-dark-typo-secondary',

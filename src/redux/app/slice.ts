@@ -23,7 +23,7 @@ const initialState: State = {
   isSettingOpen: false,
   isSidebarCollapsed: false,
   isSidebarOpen: false,
-  language: 'en',
+  language: getFromStorage('language') as SupportedLanguages,
   nodeWatchList: getFromStorage('nodeWatchList') as string[],
   showAnnouncement: !getFromStorage('readStatus') as boolean,
   slippageTolerance: Number(getFromStorage('slippageTolerance') as string),

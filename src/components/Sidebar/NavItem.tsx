@@ -28,10 +28,10 @@ export const NavItem = ({
 
   return (
     <li className={className}>
-      <Tooltip content={collapsed ? label : ''} place="right">
+      <Tooltip content={label} disabled={!collapsed} place="right">
         <Box
           className={classNames(
-            'h-10 box-border rounded-2xl group transition-transform',
+            'w-full h-10 box-border rounded-2xl group transition-all',
             itemClasses[variant],
             {
               'items-center': collapsed,
@@ -45,35 +45,46 @@ export const NavItem = ({
         >
           <Link
             className={classNames(
-              'flex items-center w-full h-full no-underline px-4 py-2 ',
+              'flex items-center w-full h-full no-underline py-2 ',
             )}
             to={href}
           >
-            <Icon
-              name={iconName}
-              className={classNames(
-                'transition group-hover:stroke-white group-hover:text-white font-bold',
-                iconClasses[variant],
-                { 'stroke-white !text-white': isActive },
-              )}
-              size={18}
-            />
+            <Box className={classNames('px-4 justify-center')}>
+              <div className="min-w-[18px] min-h-[18px]">
+                <Box center>
+                  <Icon
+                    name={iconName}
+                    className={classNames(
+                      'transition group-hover:stroke-white group-hover:text-white font-bold',
+                      iconClasses[variant],
+                      { 'stroke-white !text-white': isActive },
+                    )}
+                    size={18}
+                  />
+                </Box>
+              </div>
 
-            {!collapsed && (
-              <Typography
+              <Box
                 className={classNames(
-                  'px-2 group-hover:text-white',
-                  isActive
-                    ? 'text-white dark:text-white'
-                    : iconClasses[variant],
+                  'overflow-hidden transition-all',
+                  collapsed ? 'w-[0%]' : 'w-full',
                 )}
-                variant="caption"
-                fontWeight="semibold"
-                transform="uppercase"
               >
-                {label}
-              </Typography>
-            )}
+                <Typography
+                  className={classNames(
+                    'px-2 group-hover:text-white transition-all whitespace-nowrap',
+                    isActive
+                      ? 'text-white dark:text-white'
+                      : iconClasses[variant],
+                  )}
+                  variant="caption"
+                  fontWeight="semibold"
+                  transform="uppercase"
+                >
+                  {label}
+                </Typography>
+              </Box>
+            </Box>
           </Link>
         </Box>
       </Tooltip>

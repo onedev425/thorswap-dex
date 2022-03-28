@@ -13,6 +13,14 @@ export const useCollapse = () => {
     setIsActive((v) => !v)
   }, [])
 
+  const expand = useCallback(() => {
+    setIsActive(true)
+  }, [])
+
+  const collapse = useCallback(() => {
+    setIsActive(false)
+  }, [])
+
   const measure = useCallback(() => {
     const height = contentRef.current?.scrollHeight || 0
     if (height !== maxHeightRef.current) {
@@ -32,8 +40,10 @@ export const useCollapse = () => {
 
   return {
     contentRef,
-    toggle,
     isActive,
+    toggle,
+    expand,
+    collapse,
     maxHeight,
     maxHeightStyle,
     collapseClasses,

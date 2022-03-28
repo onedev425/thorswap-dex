@@ -19,7 +19,7 @@ module.exports = {
         }),
       ],
     },
-    configure: (webpackConfig, { mode }) => {
+    configure: (webpackConfig, { env }) => {
       webpackConfig.resolve.fallback = {
         ...webpackConfig.resolve.fallback,
         crypto: require.resolve('crypto-browserify'),
@@ -35,7 +35,7 @@ module.exports = {
       }
 
       webpackConfig.optimization = {
-        minimize: mode === 'production',
+        minimize: env === 'production',
         minimizer: [
           new TerserPlugin({
             terserOptions: {

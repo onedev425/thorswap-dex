@@ -57,16 +57,12 @@ export const LiquidityCard = ({ data, withFooter }: LiquidityCardProps) => {
     <Box justifyCenter col>
       <Card
         className={classNames(
-          'flex flex-col bg-light-gray-light dark:!bg-dark-gray-light !rounded-2xl',
+          'flex flex-col bg-light-gray-light dark:!bg-dark-gray-light !rounded-2xl cursor-pointer',
           borderHoverHighlightClass,
         )}
+        onClick={toggle}
       >
-        <Box
-          className="mx-4 my-4 md:mx-2 cursor-pointer"
-          alignCenter
-          justify="between"
-          onClick={toggle}
-        >
+        <Box className="mx-4 my-4 md:mx-2" alignCenter justify="between">
           <Box center>
             <Box col>
               <AssetLpIcon
@@ -79,7 +75,7 @@ export const LiquidityCard = ({ data, withFooter }: LiquidityCardProps) => {
 
             <Typography
               className={classNames(
-                '!text-body mx-1 md:mx-3 transition-all',
+                'mx-1 md:mx-3 !transition-all',
                 isActive ? 'text-body md:!text-subtitle1' : '!text-body',
               )}
               fontWeight="semibold"

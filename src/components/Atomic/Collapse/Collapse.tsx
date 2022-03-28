@@ -18,14 +18,12 @@ export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
 
     return (
       <Card
+        className={classNames('flex flex-col h-max cursor-pointer', className)}
         shadow={shadow}
         size="md"
-        className={classNames('flex flex-col h-max', className)}
+        onClick={toggle}
       >
-        <div
-          className="box-border w-full appearance-none cursor-pointer focus:outline-none"
-          onClick={toggle}
-        >
+        <div className="box-border w-full appearance-none focus:outline-none">
           <Box row alignCenter justify="between">
             {typeof title === 'string' ? (
               <Typography

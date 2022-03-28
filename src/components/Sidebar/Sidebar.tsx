@@ -2,8 +2,10 @@ import { useMemo } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
+import { Asset } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
+import { AssetIcon } from 'components/AssetIcon'
 import { Box, Icon, Tooltip, Typography } from 'components/Atomic'
 import { Scrollbar } from 'components/Scrollbar'
 
@@ -28,7 +30,10 @@ export const Sidebar = ({
   const navigate = useNavigate()
 
   const runeLabel = useMemo(
-    () => `1ᚱ = $${parseFloat(stats?.runePriceUSD || '').toFixed(2)}`,
+    () =>
+      stats?.runePriceUSD
+        ? `$${parseFloat(stats.runePriceUSD || '').toFixed(2)}`
+        : '$ -',
     [stats],
   )
 
@@ -59,10 +64,17 @@ export const Sidebar = ({
         </Scrollbar>
       </div>
 
-      <Box center>
+      <Box
+        className={classNames(
+          'gap-1 transition-all',
+          collapsed ? 'pb-3' : 'pb-2.5',
+        )}
+        center
+      >
+        <AssetIcon asset={Asset.RUNE()} size={collapsed ? 16 : 24} />
         <Typography
           variant={collapsed ? 'caption-xs' : 'body'}
-          className="pb-2 transition-[font-size]"
+          className="transition-[font-size]"
           fontWeight="semibold"
         >
           {runeLabel}
@@ -75,7 +87,10 @@ export const Sidebar = ({
           center
           onClick={toggle}
         >
-          <Tooltip content={collapsed ? t('components.sidebar.expand') : ''}>
+          <Tooltip
+            content={t('components.sidebar.expand')}
+            disabled={!collapsed}
+          >
             <div>
               <Icon
                 className={classNames({ '-scale-x-100': collapsed })}
@@ -83,7 +98,12 @@ export const Sidebar = ({
               />
             </div>
 
-            {!collapsed && (
+            <Box
+              className={classNames(
+                'overflow-hidden transition-all',
+                collapsed ? 'w-[0%]' : 'w-full',
+              )}
+            >
               <Typography
                 className={classNames(
                   'px-3 dark:group-hover:text-white font-bold opacity-60',
@@ -93,7 +113,7 @@ export const Sidebar = ({
               >
                 {t('components.sidebar.collapse')}
               </Typography>
-            )}
+            </Box>
           </Tooltip>
         </Box>
       )}
