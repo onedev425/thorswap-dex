@@ -36,6 +36,7 @@
     "value": "Value",
     "volume": "Volume",
     "withdraw": "Withdraw",
+    "add": "Add",
     "per": "per",
     "gasTracker": "Gas Tracker",
     "settings": "Global Settings",
@@ -49,7 +50,9 @@
     "addressCopied": "Address copied",
     "here": "Here",
     "password": "password",
-    "showStats": "Show Stats"
+    "showStats": "Show Stats",
+    "fee": "Fee",
+    "slippage": "Slippage"
   },
   "appMenu": {
     "lightTheme": "Light Theme",
@@ -239,10 +242,16 @@
       "removeButton": "Remove",
       "tip": "Liquidity providers earn a 0.25% fee on all trades proportional to their share of the pool. Fees added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.",
       "youWillReceive": "You will receive",
-      "yourPoolShare": "Your Pool share",
       "withdrawLiquidity": "Withdraw Liquidity",
       "lastAdded": "Last Added",
-      "gasFeeTooltip": "Gas fee used for submitting the transaction"
+      "gasFeeTooltip": "Gas fee used for submitting the transaction using the thorchain protocol",
+      "chainFeeTooltip": "Gas fee used for submitting %{chain} transaction.",
+      "depositAmount": "Deposit amount",
+      "withdrawAmount": "Withdraw amount",
+      "poolShareEstimated": "Pool Share Estimated",
+      "poolShareTooltip": "Estimated percentage of your pool share after providing the liquidity",
+      "confirmDeposit": "Confirm deposit",
+      "confirmWithdraw": "Confirm withdraw"
     },
     "walletModal": {
       "connectWallet": "Connect Wallet",

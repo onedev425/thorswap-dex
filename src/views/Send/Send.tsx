@@ -14,7 +14,7 @@ import { assetsFixture, commonAssets } from 'utils/assetsFixture'
 import { AssetInput } from 'components/AssetInput'
 import { Button, Box, Tooltip, Icon, Typography } from 'components/Atomic'
 import { InfoTable } from 'components/InfoTable'
-import { SendConfirm } from 'components/Modals/SendConfirm'
+import { ConfirmSend } from 'components/Modals/ConfirmSend'
 import { PanelInput } from 'components/PanelInput'
 import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
@@ -136,12 +136,13 @@ const Send = () => {
       </Box>
 
       {isOpened && (
-        <SendConfirm
+        <ConfirmSend
           isOpened={isOpened}
           address={address}
           asset={asset}
           onClose={() => setModalVisibility(false)}
           onConfirm={() => {
+            setModalVisibility(false)
             console.log('Swap confirmed.')
           }}
         />

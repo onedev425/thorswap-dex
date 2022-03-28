@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { AssetInputType } from 'components/AssetInput/types'
 import {
@@ -10,6 +10,7 @@ import {
   Typography,
 } from 'components/Atomic'
 import { InfoTable } from 'components/InfoTable'
+import { PasswordInput } from 'components/PasswordInput'
 
 import { t } from 'services/i18n'
 
@@ -19,15 +20,24 @@ type Props = {
   onConfirm: () => void
   address: string
   asset: AssetInputType
+  showPassword?: boolean
 }
 
-export const SendConfirm = ({
+export const ConfirmSend = ({
   isOpened,
   address,
   asset,
+  showPassword = true,
   onConfirm,
   onClose,
 }: Props) => {
+  const [password, setPassword] = useState('')
+
+  const handleConfirmPress = useCallback(() => {
+    setPassword('')
+    onConfirm()
+  }, [onConfirm])
+
   const summary = useMemo(
     () => [
       {
@@ -51,10 +61,18 @@ export const SendConfirm = ({
   )
 
   return (
-    <Modal title="Confirm" isOpened={isOpened} onClose={onClose}>
-      <Box className="!w-[350px]" col>
+    <Modal title={t('common.confirm')} isOpened={isOpened} onClose={onClose}>
+      <Box className="gap-y-4 md:gap-y-8 md:!min-w-[350px]" col>
         <InfoTable items={summary} />
-        <Button stretch className="mt-8" onClick={onConfirm}>
+
+        {showPassword && (
+          <PasswordInput
+            value={password}
+            onChange={({ target }) => setPassword(target.value)}
+          />
+        )}
+
+        <Button stretch onClick={handleConfirmPress}>
           {t('common.confirm')}
         </Button>
       </Box>

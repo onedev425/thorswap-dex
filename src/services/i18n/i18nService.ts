@@ -5,7 +5,6 @@ import i18n, {
   use as initializeI18n,
   t as translate,
   changeLanguage,
-  StringMap,
   TOptions,
 } from 'i18next'
 
@@ -50,13 +49,13 @@ initializeI18n(initReactI18next).init({
   },
 })
 
-export const t = (
-  key: Path<DefaultDictionary>,
-  params?: string,
-  options?: TOptions<StringMap> | string,
-) => {
-  return translate(key, params, options)
-}
+export const t = <T>(
+  key: Path<DefaultDictionary> | T,
+  params?: TOptions,
+  options?: TOptions,
+) =>
+  // @ts-expect-error
+  translate(key, params, options) /* i18next-extract-disable-line */
 
 export const currentLocale = () => i18n.languages[0]
 export const changeAppLanguage = (language: SupportedLanguages) => {

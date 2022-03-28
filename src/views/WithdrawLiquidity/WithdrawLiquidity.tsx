@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useReducer, useState } from 'react'
+import { useCallback, useReducer, useState } from 'react'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
 
@@ -6,12 +6,12 @@ import { AssetInputs } from 'views/WithdrawLiquidity/components/AssetInputs'
 import { PoolAsset } from 'views/WithdrawLiquidity/types'
 import { withdrawLiquidityReducer } from 'views/WithdrawLiquidity/withdrawLiquidityReducer'
 
-import { Button, Box, Typography, Tooltip, Icon } from 'components/Atomic'
-import { InfoTable } from 'components/InfoTable'
+import { Button, Box } from 'components/Atomic'
 import { LiquidityCard } from 'components/LiquidityCard'
 import { AssetDataType } from 'components/LiquidityCard/types'
 import { LiquidityType } from 'components/LiquidityType/LiquidityType'
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
+import { ConfirmWithdrawLiquidity } from 'components/Modals/ConfirmWithdrawLiquidity'
 import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
@@ -46,6 +46,16 @@ export const WithdrawLiquidity = () => {
   const [liquidityType, setLiquidityType] = useState(
     LiquidityTypeOption.Symmetrical,
   )
+  const [isLiquidityModalVisible, setIsLiquidityModalVisible] = useState(false)
+
+  const handleCloseLiquidityModal = () => {
+    setIsLiquidityModalVisible(false)
+  }
+
+  const handleOpenLiquidityModal = () => {
+    setIsLiquidityModalVisible(true)
+  }
+
   const [{ amount }, dispatch] = useReducer(withdrawLiquidityReducer, {
     amount: '0',
   })
@@ -53,23 +63,6 @@ export const WithdrawLiquidity = () => {
   const handleAmountChange = useCallback((value: string) => {
     dispatch({ type: 'setAmount', payload: value })
   }, [])
-
-  const summary = useMemo(
-    () => [
-      {
-        label: t('common.transactionFee'),
-        value: (
-          <Box className="gap-2" center>
-            <Typography variant="caption">0.00675 ETH ($20)</Typography>
-            <Tooltip content={t('views.liquidity.gasFeeTooltip')}>
-              <Icon size={20} color="secondary" name="infoCircle" />
-            </Tooltip>
-          </Box>
-        ),
-      },
-    ],
-    [],
-  )
 
   return (
     <PanelView
@@ -101,17 +94,30 @@ export const WithdrawLiquidity = () => {
         <LiquidityCard data={liquidityCardData} />
       </Box>
 
-      <InfoTable horizontalInset items={summary} />
-
       <Box className="gap-4 pt-5 self-stretch">
         <Button size="lg" stretch>
           {t('views.liquidity.approve')}
         </Button>
-        <Button size="lg" stretch variant="secondary">
+        <Button
+          size="lg"
+          stretch
+          variant="secondary"
+          onClick={handleOpenLiquidityModal}
+        >
           {t('common.withdraw')}
           {/* {t('views.liquidity.enterAmount')} */}
         </Button>
       </Box>
+      <ConfirmWithdrawLiquidity
+        // Assets data should be based on liquidityType option
+        assets={[
+          { asset: poolData.firstAsset.asset, value: '123' },
+          { asset: poolData.secondAsset.asset, value: '1.23' },
+        ]}
+        fee=""
+        isOpen={isLiquidityModalVisible}
+        onCancel={handleCloseLiquidityModal}
+      />
     </PanelView>
   )
 }

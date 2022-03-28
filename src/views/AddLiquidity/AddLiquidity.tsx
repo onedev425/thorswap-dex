@@ -9,6 +9,7 @@ import { AssetSelectType } from 'components/AssetSelect/types'
 import { Button, Box } from 'components/Atomic'
 import { LiquidityType } from 'components/LiquidityType/LiquidityType'
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
+import { ConfirmDepositLiquidity } from 'components/Modals/ConfirmDepositLiquidity'
 import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
@@ -35,6 +36,16 @@ const poolShare = 1.65
 export const AddLiquidity = () => {
   const [searchParams] = useSearchParams()
   const [liquidityType, setLiquidityType] = useState(LiquidityTypeOption.Asset)
+  const [isLiquidityModalVisible, setIsLiquidityModalVisible] = useState(false)
+
+  const handleCloseLiquidityModal = () => {
+    setIsLiquidityModalVisible(false)
+  }
+
+  const handleOpenLiquidityModal = () => {
+    setIsLiquidityModalVisible(true)
+  }
+
   const { inputAsset, outputAsset } = useMemo(() => {
     const input = searchParams.get('input') || Asset.BTC()
 
@@ -120,10 +131,28 @@ export const AddLiquidity = () => {
       />
 
       <Box className="w-full pt-5">
-        <Button stretch size="lg">
+        <Button stretch size="lg" onClick={handleOpenLiquidityModal}>
           {t('common.connectWallet')}
         </Button>
       </Box>
+
+      <ConfirmDepositLiquidity
+        // Assets data should be based on liquidityType option
+        assets={[
+          { asset: firstAsset.asset, value: '123' },
+          { asset: secondAsset.asset, value: '1.23' },
+        ]}
+        fees={[
+          { chain: 'ETH', fee: '0.03' },
+          { chain: 'RUNE', fee: '0.002' },
+        ]}
+        totalFee=""
+        poolShare={1.5}
+        slippage={0.5}
+        estimatedTime="<15s"
+        isOpen={isLiquidityModalVisible}
+        onCancel={handleCloseLiquidityModal}
+      />
     </PanelView>
   )
 }
