@@ -50,6 +50,8 @@ export const AccountCard = memo(({ chain }: Props) => {
     }
   }, [chainAddress, setIsConnectModalOpen])
 
+  const accountBalance = formatPrice(balance)
+
   return (
     <Card className="!p-6 overflow-hidden">
       <Box className="w-full min-w-fit" col>
@@ -61,8 +63,9 @@ export const AccountCard = memo(({ chain }: Props) => {
         >
           <Box center className="space-x-1">
             <Typography>{chainToString(chain)}</Typography>
+
             <Typography color="secondary">
-              {chainAddress && formatPrice(balance)}
+              {chainAddress && accountBalance}
             </Typography>
           </Box>
 

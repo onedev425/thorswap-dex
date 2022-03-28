@@ -50,8 +50,6 @@ const PublicRoutes = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to="/swap" />} />
-
         {routes.map((route) => {
           const Component = route.element
 
@@ -73,6 +71,8 @@ const PublicRoutes = () => {
             />
           )
         })}
+
+        <Route path="*" element={<Navigate to="/swap" />} />
       </Routes>
     </Router>
   )

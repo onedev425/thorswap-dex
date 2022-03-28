@@ -42,6 +42,8 @@ export const AccountRow = memo(({ chain }: Props) => {
     }
   }, [chainAddress, setIsConnectModalOpen])
 
+  const accountBalance = formatPrice(balance)
+
   return (
     <Card className="!p-4 mb-2 flex overflow-hidden">
       <Box flex={1} className="w-full min-w-fit" col>
@@ -59,9 +61,7 @@ export const AccountRow = memo(({ chain }: Props) => {
 
             {chainAddress && (
               <Box className="flex-col items-center md:justify-center md:flex-row gap-x-2">
-                <Typography color="secondary">
-                  ({formatPrice(balance)})
-                </Typography>
+                <Typography color="secondary">({accountBalance})</Typography>
 
                 <Box center pl={2} className="gap-x-2">
                   <Icon name="eye" color="secondary" />
