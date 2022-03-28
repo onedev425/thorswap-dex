@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useReducer } from 'react'
+import { ChangeEventHandler, useCallback, useMemo, useReducer } from 'react'
 
 import { useSearchParams } from 'react-router-dom'
 
@@ -7,9 +7,9 @@ import copy from 'copy-to-clipboard'
 import { assetsFixture } from 'utils/assetsFixture'
 
 import { AssetSelectType } from 'components/AssetSelect/types'
-import { Button, Modal, Icon, Box } from 'components/Atomic'
-import { ConfirmSwapItem } from 'components/ConfirmSwapItem'
+import { Button, Icon, Box } from 'components/Atomic'
 import { baseHoverClass } from 'components/constants'
+import { ConfirmSwap } from 'components/Modals/ConfirmSwap'
 import { PanelInput, PanelInputTitle } from 'components/PanelInput'
 import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
@@ -64,7 +64,7 @@ const Swap = () => {
     { address, addressDisabled, isOpened, firstAsset, secondAsset, slippage },
     dispatch,
   ] = useReducer(swapReducer, {
-    address: '',
+    address: 'thor123123123123',
     addressDisabled: false,
     isOpened: false,
     expertMode: false,
@@ -85,13 +85,6 @@ const Swap = () => {
   })
 
   const { addFrequent } = useAssets()
-  const handleSwap = () => {
-    addFrequent(firstAsset.asset.toString())
-    addFrequent(secondAsset.asset.toString())
-
-    // TODO:
-    dispatch({ type: 'setIsOpened', payload: true })
-  }
 
   const handleAssetChange = useCallback(
     (asset: 'first' | 'second') => (payload: Asset) => {
@@ -120,11 +113,29 @@ const Swap = () => {
     dispatch({ type: 'setAddressDisabled', payload: !addressDisabled })
   }, [addressDisabled])
 
+  const handleAddressChange: ChangeEventHandler<HTMLInputElement> = useCallback(
+    ({ target }) => {
+      dispatch({ type: 'setAddress', payload: target.value })
+    },
+    [],
+  )
+
   const handleCopyAddress = useCallback(() => {
     copy(address)
 
     // TODO: show notification
   }, [address])
+
+  const handleSwap = useCallback(() => {
+    addFrequent(firstAsset.asset.toString())
+    addFrequent(secondAsset.asset.toString())
+
+    dispatch({ type: 'setIsOpened', payload: true })
+  }, [addFrequent, firstAsset.asset, secondAsset.asset])
+
+  const handleConfirmSwapClose = useCallback(() => {
+    dispatch({ type: 'setIsOpened', payload: false })
+  }, [])
 
   return (
     <PanelView
@@ -153,8 +164,8 @@ const Swap = () => {
         placeholder={`${t('common.recipientAddress')} ${t('common.here')}`}
         stretch
         disabled={addressDisabled}
-        onChange={() => {}}
-        value={'thor123123123123'}
+        onChange={handleAddressChange}
+        value={address}
         titleComponent={
           <Box flex={1} alignCenter justify="between">
             <PanelInputTitle> {t('common.recipientAddress')}</PanelInputTitle>
@@ -206,15 +217,20 @@ const Swap = () => {
           {t('common.connectWallet')}
         </Button>
 
-        {isOpened && (
-          <Modal
-            title="Confirm Swap"
-            isOpened={isOpened}
-            onClose={() => dispatch({ type: 'setIsOpened', payload: false })}
-          >
-            <ConfirmSwapItem />
-          </Modal>
-        )}
+        <ConfirmSwap
+          send={{ symbol: firstAsset.asset.symbol, value: firstAsset.value }}
+          receive={{
+            symbol: secondAsset.asset.symbol,
+            value: secondAsset.value,
+          }}
+          fee=""
+          totalFee=""
+          estimatedTime="<5s"
+          slippage={slippage}
+          address={address}
+          isOpened={isOpened}
+          onClose={handleConfirmSwapClose}
+        />
       </Box>
     </PanelView>
   )

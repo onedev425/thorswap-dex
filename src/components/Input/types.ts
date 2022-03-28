@@ -6,6 +6,7 @@ export type InputProps = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
 > & {
+  error?: string
   border?: 'bottom' | 'rounded'
   icon?: IconName
   prefix?: string

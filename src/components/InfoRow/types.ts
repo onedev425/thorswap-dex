@@ -3,6 +3,7 @@ export type InfoRowSize = 'sm' | 'md' | 'lg'
 export type InfoRowConfig = {
   label: string
   value: string | React.ReactNode
+  size?: InfoRowSize
 }
 
 export type InfoRowType = {

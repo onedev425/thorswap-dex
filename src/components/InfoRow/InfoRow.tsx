@@ -30,9 +30,7 @@ export const InfoRow = ({
       className={classNames(
         'gap-4',
         className,
-        {
-          [borderClasses]: showBorder,
-        },
+        { [borderClasses]: showBorder },
         heightVariant[size],
       )}
       alignCenter

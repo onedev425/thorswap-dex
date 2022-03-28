@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { THORNode } from '@thorswap-lib/midgard-sdk'
 import { Amount } from '@thorswap-lib/multichain-sdk'
+import { shortenAddress } from 'utils/shortenAddress'
 
 import {
   Box,
@@ -22,8 +23,6 @@ import { Input } from 'components/Input'
 import { useMidgard } from 'redux/midgard/hooks'
 
 import { t } from 'services/i18n'
-
-import { truncateAddress } from 'helpers/string'
 
 import { ROUTES } from 'settings/constants'
 
@@ -131,7 +130,7 @@ const Nodes = () => {
         Header: 'Address',
         accessor: (row: THORNode) => row,
         Cell: ({ cell: { value } }: { cell: { value: THORNode } }) =>
-          truncateAddress(value.node_address),
+          shortenAddress(value.node_address),
       },
       {
         id: 'Version',

@@ -197,15 +197,27 @@
       "emptyFeatured": "No featured assets"
     },
     "wallet": {
-      "totalBalance": "Total Balance",
-      "search": "Search",
+      "confirmSwap": "Confirm Swap",
+      "estimatedTime": "Estimated Time",
+      "hideTokens": "Hide Tokens",
       "managePortfolio": "Manage Portfolio",
+      "minReceived": "Min Received",
+      "networkFee": "Network Fee",
+      "noDataToShow": "No data to show",
+      "search": "Search",
+      "showAllTokens": "Show All Tokens",
+      "showOnlyConnectedChains": "Show only connected chains",
+      "slip": "Slip",
+      "totalBalance": "Total Balance",
+      "totalFee": "Total Fee",
       "transactionHistory": "Transaction History",
       "yourAssets": "Your Assets",
-      "noDataToShow": "No data to show",
-      "hideTokens": "Hide Tokens",
-      "showAllTokens": "Show All Tokens",
-      "showOnlyConnectedChains": "Show only connected chains"
+      "slippageTooltip": "The difference between the market price and estimated price due to trade size.",
+      "minReceivedTooltip": "Your transaction will revert if there is a large, unfavorable price movement before it is confirmed.",
+      "transactionFeeTooltip": "Gas fee used for submitting the transaction",
+      "networkFeeTooltip": "Thorchain network fee used to pay outbound transaction",
+      "totalFeeTooltip": "Sum of both transaction fee and network fee",
+      "estimatedTimeTooltip": "Estimated time to process the transaction"
     },
     "walletDrawer": {
       "openWalletPage": "Open Wallet Page",
@@ -282,5 +294,8 @@
     "send": {
       "txFeeTooltip": "Gas fee to send the transaction, There's no extra charges from THORChain Protocol"
     }
+  },
+  "validation": {
+    "invalidPassword": "Invalid Password"
   }
 }

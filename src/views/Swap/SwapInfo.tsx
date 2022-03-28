@@ -19,7 +19,7 @@ export const SwapInfo = memo(
         shadow={false}
         title={
           <div className="flex flex-row gap-x-2">
-            <Icon name="info" size={16} color="secondary" />
+            <Icon name="infoCircle" size={16} color="secondary" />
 
             <Typography variant="caption" color="primary" fontWeight="normal">
               {`1 ${secondAsset.asset.symbol} = ${

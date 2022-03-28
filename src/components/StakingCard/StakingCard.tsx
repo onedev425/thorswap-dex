@@ -4,6 +4,7 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
 import classNames from 'classnames'
 import { BigNumber } from 'ethers'
+import { shortenAddress } from 'utils/shortenAddress'
 
 import { AssetIcon, AssetLpIcon } from 'components/AssetIcon'
 import { Typography, Card, Icon, Button, Box, Link } from 'components/Atomic'
@@ -24,7 +25,6 @@ import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
 import { getAPR } from 'helpers/staking'
-import { truncateAddress } from 'helpers/string'
 
 type Props = {
   className?: string
@@ -241,7 +241,7 @@ export const StakingCard = ({
                     fontWeight="bold"
                     variant="caption-xs"
                   >
-                    {truncateAddress(stakingToken)}
+                    {shortenAddress(stakingToken)}
                   </Typography>
                   <Link to={getAccountUrl(stakingToken)} isExternal>
                     <Icon name="share" color="cyan" size={16} />
@@ -259,7 +259,7 @@ export const StakingCard = ({
                     fontWeight="bold"
                     variant="caption-xs"
                   >
-                    {truncateAddress(stakeAddr)}
+                    {shortenAddress(stakeAddr)}
                   </Typography>
                   <Link to={getAccountUrl(stakeAddr)} isExternal>
                     <Icon name="share" color="cyan" size={16} />

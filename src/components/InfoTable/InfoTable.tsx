@@ -33,7 +33,7 @@ export const InfoTable = ({
           key={item.label}
           label={item.label}
           value={item.value}
-          size={size}
+          size={item.size || size}
           showBorder={showBorder}
         />
       ))}
