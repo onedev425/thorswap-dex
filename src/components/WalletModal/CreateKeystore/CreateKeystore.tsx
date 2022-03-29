@@ -140,7 +140,7 @@ export const KeystoreView = ({ onConnect, onKeystore }: Props) => {
           }
           onClick={handleCreate}
         >
-          {t('components.modal.keystore.create')}
+          {t('common.create')}
         </Button>
 
         <Button

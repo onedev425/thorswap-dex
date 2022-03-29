@@ -1,11 +1,12 @@
 import { useCallback, useMemo } from 'react'
 
-import { batch, useSelector } from 'react-redux'
+import { batch } from 'react-redux'
 
 import { ActionListParams, HistoryInterval } from '@thorswap-lib/midgard-sdk'
+import { SupportedChain } from '@thorswap-lib/multichain-sdk'
 
 import * as actions from 'redux/midgard/actions'
-import { useAppDispatch, useAppSelector, RootState } from 'redux/store'
+import { useAppDispatch, useAppSelector } from 'redux/store'
 
 import { TX_PUBLIC_PAGE_LIMIT } from 'settings/constants/global'
 
@@ -14,9 +15,9 @@ const PER_DAY = 'day' as HistoryInterval
 
 export const useMidgard = () => {
   const dispatch = useAppDispatch()
-  const midgardState = useSelector((state: RootState) => state.midgard)
-
-  const { pools } = useAppSelector(({ midgard }) => midgard)
+  const { midgardState, walletState } = useAppSelector(
+    ({ midgard, wallet }) => ({ midgardState: midgard, walletState: wallet }),
+  )
 
   const isGlobalHistoryLoading = useMemo(
     () =>
@@ -56,6 +57,34 @@ export const useMidgard = () => {
     [dispatch],
   )
 
+  // get pool member details for a specific chain
+  const getMemberDetailsByChain = useCallback(
+    (chain: SupportedChain) => {
+      if (!walletState.wallet) return
+
+      const chainWalletAddr = walletState.wallet?.[chain]?.address
+
+      if (chainWalletAddr) {
+        dispatch(
+          actions.getPoolMemberDetailByChain({
+            chain,
+            address: chainWalletAddr,
+          }),
+        )
+      }
+    },
+    [dispatch, walletState.wallet],
+  )
+
+  // get pool member details for all chains
+  const getAllMemberDetails = useCallback(() => {
+    if (!walletState.wallet) return
+
+    Object.keys(walletState.wallet).forEach((chain) => {
+      getMemberDetailsByChain(chain as SupportedChain)
+    })
+  }, [getMemberDetailsByChain, walletState.wallet])
+
   // get tx data
   const getTxData = useCallback(
     ({ limit = TX_PUBLIC_PAGE_LIMIT, ...otherParams }: ActionListParams) => {
@@ -75,8 +104,8 @@ export const useMidgard = () => {
   return {
     ...midgardState,
     actions,
-    pools,
     isGlobalHistoryLoading,
+    getAllMemberDetails,
     getPoolHistory,
     getGlobalHistory,
     getTxData,

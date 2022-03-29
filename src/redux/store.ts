@@ -3,19 +3,17 @@ import type { TypedUseSelectorHook } from 'react-redux'
 
 import { configureStore } from '@reduxjs/toolkit'
 import type { Action } from '@reduxjs/toolkit'
-import logger from 'redux-logger'
+// import logger from 'redux-logger'
 import type { ThunkAction } from 'redux-thunk'
 
 import rootReducer from './rootReducer'
 
-const middlewares = process.env.NODE_ENV !== 'production' ? [logger] : []
+const middlewares = process.env.NODE_ENV !== 'production' ? [] : []
 
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }).concat(middlewares),
+    getDefaultMiddleware({ serializableCheck: false }).concat(middlewares),
   devTools: process.env.NODE_ENV === 'development',
 })
 

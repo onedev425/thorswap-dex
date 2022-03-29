@@ -56,9 +56,9 @@ export type MimirData = {
 export type ShareType = 'sym' | 'runeAsym' | 'assetAsym'
 
 export enum PoolShareType {
-  'SYM' = 'SYM',
-  'RUNE_ASYM' = 'RUNE_ASYM',
-  'ASSET_ASYM' = 'ASSET_ASYM',
+  SYM = 'sym',
+  RUNE_ASYM = 'runeAsym',
+  ASSET_ASYM = 'assetAsym',
 }
 
 // Pool Member Data for sym, runeAsym, assetAsym

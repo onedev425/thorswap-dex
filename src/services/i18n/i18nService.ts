@@ -54,7 +54,7 @@ export const t = <T>(
   params?: TOptions,
   options?: TOptions,
 ) =>
-  // @ts-expect-error
+  // @ts-expect-error This is false positive
   translate(key, params, options) /* i18next-extract-disable-line */
 
 export const currentLocale = () => i18n.languages[0]

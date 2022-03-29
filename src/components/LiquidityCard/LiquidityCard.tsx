@@ -1,4 +1,10 @@
+import { useMemo } from 'react'
+
+import { Amount, Asset, Liquidity } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
+import moment from 'moment'
+
+import { ChainPoolData } from 'views/ManageLiquidity/types'
 
 import { AssetIcon } from 'components/AssetIcon'
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon'
@@ -12,8 +18,10 @@ import {
   Link,
 } from 'components/Atomic'
 import { borderHoverHighlightClass } from 'components/constants'
+import { InfoRowConfig } from 'components/InfoRow/types'
 import { InfoTable } from 'components/InfoTable'
-import { AssetDataType } from 'components/LiquidityCard/types'
+
+import { PoolShareType } from 'redux/midgard/types'
 
 import useWindowSize from 'hooks/useWindowSize'
 
@@ -21,37 +29,77 @@ import { t } from 'services/i18n'
 
 import { ROUTES } from 'settings/constants'
 
-interface LiquidityCardProps {
-  data: AssetDataType[]
+type LiquidityCardProps = ChainPoolData & {
   withFooter?: boolean
 }
 
-export const LiquidityCard = ({ data, withFooter }: LiquidityCardProps) => {
+const RuneAsset = Asset.RUNE()
+
+export const LiquidityCard = ({
+  dateLastAdded,
+  pool,
+  shareType,
+  withFooter,
+  liquidityUnits,
+}: LiquidityCardProps) => {
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse()
   const { isMdActive } = useWindowSize()
 
-  const summary = [
-    {
-      label: data[0].asset.symbol,
-      value: (
-        <Box className="gap-2" center>
-          <Typography>{data[0].amount}</Typography>
-          <AssetIcon size={27} asset={data[0].asset} />
-        </Box>
-      ),
-    },
-    {
-      label: data[1].asset.symbol,
-      value: (
-        <Box className="gap-2" center>
-          <Typography>{data[1].amount}</Typography>
-          <AssetIcon size={27} asset={data[1].asset} />
-        </Box>
-      ),
-    },
-    { label: t('views.liquidity.poolShare'), value: '<0.01%' },
-    { label: t('views.liquidity.lastAdded'), value: '2022-01-12' },
-  ]
+  const { poolShare, assetShare, runeShare } = useMemo(
+    () => new Liquidity(pool, Amount.fromMidgard(liquidityUnits)),
+    [liquidityUnits, pool],
+  )
+
+  const summary = useMemo(() => {
+    const infoFields: InfoRowConfig[] = [
+      { label: t('views.liquidity.poolShare'), value: poolShare.toFixed(4) },
+      {
+        label: t('views.liquidity.lastAdded'),
+        value: moment.unix(Number(dateLastAdded)).format('YYYY-MM-DD'),
+      },
+    ]
+
+    if ([PoolShareType.SYM, PoolShareType.ASSET_ASYM].includes(shareType)) {
+      infoFields.unshift({
+        label: pool.asset.ticker,
+        value: (
+          <Box className="gap-2" center>
+            <Typography>
+              {`${assetShare.toFixed(4)} ${pool.asset.ticker}`}
+            </Typography>
+            <AssetIcon size={27} asset={pool.asset} />
+          </Box>
+        ),
+      })
+    }
+
+    if ([PoolShareType.SYM, PoolShareType.RUNE_ASYM].includes(shareType)) {
+      infoFields.unshift({
+        label: RuneAsset.symbol,
+        value: (
+          <Box className="gap-2" center>
+            <Typography>
+              {`${runeShare.toFixed(4)} ${RuneAsset.symbol}`}
+            </Typography>
+            <AssetIcon size={27} asset={RuneAsset} />
+          </Box>
+        ),
+      })
+    }
+
+    return infoFields
+  }, [assetShare, dateLastAdded, pool.asset, poolShare, runeShare, shareType])
+
+  const poolAssetsInfo = useMemo(() => {
+    switch (shareType) {
+      case PoolShareType.SYM:
+        return `RUNE + ${pool.asset.ticker} LP`
+      case PoolShareType.ASSET_ASYM:
+        return `${pool.asset.ticker} LP`
+      case PoolShareType.RUNE_ASYM:
+        return 'RUNE LP'
+    }
+  }, [pool.asset.ticker, shareType])
 
   return (
     <Box justifyCenter col>
@@ -67,8 +115,8 @@ export const LiquidityCard = ({ data, withFooter }: LiquidityCardProps) => {
             <Box col>
               <AssetLpIcon
                 inline
-                asset1={data[0].asset}
-                asset2={data[1].asset}
+                asset1={pool.asset}
+                asset2={RuneAsset}
                 size={isActive && isMdActive ? 40 : 32}
               />
             </Box>
@@ -80,17 +128,18 @@ export const LiquidityCard = ({ data, withFooter }: LiquidityCardProps) => {
               )}
               fontWeight="semibold"
             >
-              {data[0].asset.symbol}
+              {pool.asset.ticker}
               {' / '}
-              {data[1].asset.symbol}
+              {RuneAsset.symbol}
             </Typography>
           </Box>
 
           <Box className="gap-2" center>
             <Box className="gap-1" center>
               <Typography variant="subtitle1" fontWeight="bold">
-                0.45
+                {Amount.fromMidgard(liquidityUnits).toFixed(2)}
               </Typography>
+
               <Typography variant="caption" fontWeight="normal">
                 &nbsp;LP tokens
               </Typography>
@@ -110,7 +159,11 @@ export const LiquidityCard = ({ data, withFooter }: LiquidityCardProps) => {
           ref={contentRef}
           style={maxHeightStyle}
         >
-          <Box className="pt-5 self-stretch">
+          <Box col className="pt-5 self-stretch">
+            <Typography className="px-2" color="cyan" variant="caption">
+              {poolAssetsInfo}
+            </Typography>
+
             <InfoTable items={summary} horizontalInset />
           </Box>
 
@@ -118,7 +171,7 @@ export const LiquidityCard = ({ data, withFooter }: LiquidityCardProps) => {
             <Box className="space-x-6 md:pr-0 pt-5 md:pt-10" justifyCenter>
               <Link
                 className="w-full"
-                to={`${ROUTES.AddLiquidity}?input=${data[0].asset}`}
+                to={`${ROUTES.AddLiquidity}?input=${pool.asset}`}
               >
                 <Button
                   className="px-8 md:px-12"

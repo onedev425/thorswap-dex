@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { Pool } from '@thorswap-lib/multichain-sdk'
 
+import { getChainMemberDetails } from 'redux/midgard/utils'
+
 import * as midgardActions from './actions'
 import { State } from './types'
 
@@ -102,6 +104,34 @@ const midgardSlice = createSlice({
           state.chainMemberDetailsLoading = {
             ...state.chainMemberDetailsLoading,
             [chain]: true,
+          }
+        },
+      )
+      /**
+       * NOTE: need to fetch pool member data for both chain address and thorchain address
+       * get sym, assetAsym share from the MemberPool Data with non-thorchain address
+       * get runeAsym share from the MemberPool Data with thorchain address
+       */
+      .addCase(
+        midgardActions.getPoolMemberDetailByChain.fulfilled,
+        (state, action) => {
+          const {
+            arg: { chain },
+          } = action.meta
+
+          const { pools: memPools } = action.payload
+
+          const fetchedChainMemberDetails = getChainMemberDetails({
+            chain,
+            memPools,
+            chainMemberDetails: state.chainMemberDetails,
+          })
+
+          state.chainMemberDetails = fetchedChainMemberDetails
+
+          state.chainMemberDetailsLoading = {
+            ...state.chainMemberDetailsLoading,
+            [chain]: false,
           }
         },
       )

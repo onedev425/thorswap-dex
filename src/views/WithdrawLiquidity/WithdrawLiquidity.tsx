@@ -7,8 +7,7 @@ import { PoolAsset } from 'views/WithdrawLiquidity/types'
 import { withdrawLiquidityReducer } from 'views/WithdrawLiquidity/withdrawLiquidityReducer'
 
 import { Button, Box } from 'components/Atomic'
-import { LiquidityCard } from 'components/LiquidityCard'
-import { AssetDataType } from 'components/LiquidityCard/types'
+// import { LiquidityCard } from 'components/LiquidityCard'
 import { LiquidityType } from 'components/LiquidityType/LiquidityType'
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
 import { ConfirmWithdrawLiquidity } from 'components/Modals/ConfirmWithdrawLiquidity'
@@ -35,12 +34,6 @@ const poolData: {
   lpTokens: '0.4225',
   poolShare: '1.5',
 }
-
-// TODO - fix types whem real data will be integrated
-const liquidityCardData = [
-  poolData.firstAsset,
-  poolData.secondAsset,
-] as unknown as AssetDataType[]
 
 export const WithdrawLiquidity = () => {
   const [liquidityType, setLiquidityType] = useState(
@@ -91,7 +84,7 @@ export const WithdrawLiquidity = () => {
       />
 
       <Box className="w-full gap-1" col>
-        <LiquidityCard data={liquidityCardData} />
+        {/* <LiquidityCard data={liquidityCardData} /> */}
       </Box>
 
       <Box className="gap-4 pt-5 self-stretch">
