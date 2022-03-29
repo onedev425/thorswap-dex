@@ -1,10 +1,11 @@
 import { memo } from 'react'
 
 import { AssetAmount } from '@thorswap-lib/multichain-sdk'
-import { GeckoData } from '@thorswap-lib/thorswap-client/lib/redux/wallet/types'
 
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, Typography } from 'components/Atomic'
+
+import { GeckoData } from 'redux/wallet/types'
 
 import { formatPrice } from 'helpers/formatPrice'
 

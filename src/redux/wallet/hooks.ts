@@ -44,7 +44,7 @@ export const useWallet = () => {
 
       dispatch(actions.connectKeystore(keystore))
       chains.map((chain: SupportedChain) => {
-        dispatch(walletActions.getWalletByChain({ chain, multichain }))
+        dispatch(walletActions.getWalletByChain(chain))
       })
     },
     [dispatch],
@@ -69,12 +69,7 @@ export const useWallet = () => {
     async (chain: Chain, addressIndex: number) => {
       await multichain.connectLedger({ chain, addressIndex })
 
-      dispatch(
-        walletActions.getWalletByChain({
-          chain: chain as SupportedChain,
-          multichain,
-        }),
-      )
+      dispatch(walletActions.getWalletByChain(chain as SupportedChain))
     },
     [dispatch],
   )
@@ -84,7 +79,7 @@ export const useWallet = () => {
       await multichain.connectXDefiWallet(chains)
 
       chains.forEach((chain) => {
-        dispatch(walletActions.getWalletByChain({ chain, multichain }))
+        dispatch(walletActions.getWalletByChain(chain))
       })
     },
     [dispatch],
@@ -93,7 +88,7 @@ export const useWallet = () => {
   const connectMetamask = useCallback(async () => {
     await multichain.connectMetamask()
 
-    dispatch(walletActions.getWalletByChain({ chain: ETHChain, multichain }))
+    dispatch(walletActions.getWalletByChain(ETHChain))
   }, [dispatch])
 
   const connectTerraStation = useCallback(async () => {
@@ -115,7 +110,7 @@ export const useWallet = () => {
 
     await multichain.connectTerraStation(connectedWallet, address)
 
-    dispatch(walletActions.getWalletByChain({ chain: TERRAChain, multichain }))
+    dispatch(walletActions.getWalletByChain(TERRAChain))
   }, [
     dispatch,
     terraWallets,
@@ -133,7 +128,7 @@ export const useWallet = () => {
       })
 
       chains.forEach((chain) => {
-        dispatch(walletActions.getWalletByChain({ chain, multichain }))
+        dispatch(walletActions.getWalletByChain(chain))
       })
     },
     [dispatch, disconnectWallet],
@@ -148,7 +143,7 @@ export const useWallet = () => {
 
   const refreshWalletByChain = useCallback(
     (chain: SupportedChain) => {
-      dispatch(walletActions.getWalletByChain({ chain, multichain }))
+      dispatch(walletActions.getWalletByChain(chain))
     },
     [dispatch],
   )

@@ -5,7 +5,6 @@ import {
   chainToSigAsset,
   SupportedChain,
 } from '@thorswap-lib/multichain-sdk'
-import { GeckoData } from '@thorswap-lib/thorswap-client/lib/redux/wallet/types'
 import {
   BTCChain,
   BNBChain,
@@ -19,6 +18,7 @@ import {
 import { BigNumber } from 'bignumber.js'
 
 import { useWallet } from 'redux/wallet/hooks'
+import { GeckoData } from 'redux/wallet/types'
 
 const emptyWallet = {
   [BTCChain]: null,

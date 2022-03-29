@@ -4639,11 +4639,6 @@
     ethers "^5.0.9"
     tiny-invariant "^1.1.0"
 
-"@thorswap-lib/thorswap-client@0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/thorswap-client/-/thorswap-client-0.0.3.tgz#96e3c1b8d34a5c52434a971b4cadc12b710a2f9e"
-  integrity sha512-mjA5Ai9wsP4LGQhzbNsk4bWWi6bGTn/xa9Z225R+0++21LB/NtiJfQ1qr4QXdN8T4A542vF/7lQi8RucFvt9fw==
-
 "@thorswap-lib/xchain-binance@^5.3.1":
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-binance/-/xchain-binance-5.4.0.tgz#653a3e16fafc5276a210d0f22bb883dfecb545b4"
