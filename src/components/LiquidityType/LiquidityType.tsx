@@ -29,11 +29,11 @@ export const LiquidityType = ({
 
 const optionToIndex = (val: LiquidityTypeOption) => {
   switch (val) {
-    case LiquidityTypeOption.Asset:
+    case LiquidityTypeOption.ASSET:
       return 0
-    case LiquidityTypeOption.Symmetrical:
+    case LiquidityTypeOption.SYMMETRICAL:
       return 1
-    case LiquidityTypeOption.Rune:
+    case LiquidityTypeOption.RUNE:
       return 2
   }
 }
@@ -41,10 +41,10 @@ const optionToIndex = (val: LiquidityTypeOption) => {
 const indexToOption = (val: number) => {
   switch (val) {
     case 0:
-      return LiquidityTypeOption.Asset
+      return LiquidityTypeOption.ASSET
     case 1:
-      return LiquidityTypeOption.Symmetrical
+      return LiquidityTypeOption.SYMMETRICAL
     case 2:
-      return LiquidityTypeOption.Rune
+      return LiquidityTypeOption.RUNE
   }
 }

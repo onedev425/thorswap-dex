@@ -84,18 +84,18 @@ export const AssetInputs = memo(
             <Box
               className={classNames(
                 'overflow-hidden transition-all origin-left',
-                { 'scale-x-0': liquidityType === LiquidityTypeOption.Rune },
+                { 'scale-x-0': liquidityType === LiquidityTypeOption.RUNE },
               )}
-              flex={liquidityType === LiquidityTypeOption.Rune ? 0 : 1}
+              flex={liquidityType === LiquidityTypeOption.RUNE ? 0 : 1}
             >
               <AssetAmountBox asset={firstAsset} amount="-" stretch />
             </Box>
             <Box
               className={classNames(
                 'overflow-hidden transition-all origin-right',
-                { 'scale-x-0': liquidityType === LiquidityTypeOption.Asset },
+                { 'scale-x-0': liquidityType === LiquidityTypeOption.ASSET },
               )}
-              flex={liquidityType === LiquidityTypeOption.Asset ? 0 : 1}
+              flex={liquidityType === LiquidityTypeOption.ASSET ? 0 : 1}
             >
               <AssetAmountBox asset={secondAsset} amount="-" stretch />
             </Box>

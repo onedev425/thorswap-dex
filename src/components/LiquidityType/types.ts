@@ -1,7 +1,7 @@
 export enum LiquidityTypeOption {
-  Rune = 'rune',
-  Asset = 'asset',
-  Symmetrical = 'symmetrical',
+  'RUNE' = 'RUNE',
+  'ASSET' = 'ASSET',
+  'SYMMETRICAL' = 'SYMMETRICAL',
 }
 
 export type LiquidityTypeProps = {

@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-sdk'
+import { Asset, Amount } from '@thorswap-lib/multichain-sdk'
 
 export type AssetSelectProps = {
   assets: AssetSelectType[]
@@ -9,8 +9,5 @@ export type AssetSelectProps = {
 
 export type AssetSelectType = {
   asset: Asset
-  type?: string
-  value: string
-  balance: string
-  change: string
+  balance?: Amount
 }

@@ -1,15 +1,17 @@
+import { useCallback, useEffect, useMemo, useState } from 'react'
+
+import { useParams, useNavigate } from 'react-router-dom'
+
 import {
-  ChangeEventHandler,
-  useCallback,
-  useEffect,
-  useMemo,
-  useReducer,
-} from 'react'
-
-import { useParams, useSearchParams } from 'react-router-dom'
-
-import { Asset } from '@thorswap-lib/multichain-sdk'
-import { assetsFixture, commonAssets } from 'utils/assetsFixture'
+  getWalletAssets,
+  Amount,
+  Asset,
+  Price,
+  AssetAmount,
+  getAssetBalance,
+  hasWalletConnected,
+} from '@thorswap-lib/multichain-sdk'
+import { commonAssets } from 'utils/assetsFixture'
 
 import { AssetInput } from 'components/AssetInput'
 import { Button, Box, Tooltip, Icon, Typography } from 'components/Atomic'
@@ -20,62 +22,205 @@ import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
 
+import { useMidgard } from 'redux/midgard/hooks'
+import { useWallet } from 'redux/wallet/hooks'
+
+import { useBalance } from 'hooks/useBalance'
+import { useNetworkFee } from 'hooks/useNetworkFee'
+
 import { t } from 'services/i18n'
+import { multichain } from 'services/multichain'
 
-import { sendReducer } from './sendReducer'
+import { getSendRoute } from 'settings/constants'
 
-const [initialAsset] = assetsFixture
-
+// TODO: refactor useReducer
 const Send = () => {
-  const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
+
   const { assetParam } = useParams<{ assetParam: string }>()
 
-  const [{ memo, address, asset, isOpened }, dispatch] = useReducer(
-    sendReducer,
-    {
-      address: searchParams.get('address') || '',
-      isOpened: false,
-      memo: '',
-      asset: {
-        asset: initialAsset.asset,
-        change: initialAsset.change,
-        balance: initialAsset.balance,
-        value: '0',
-        price: '5',
-      },
-    },
+  const [sendAsset, setSendAsset] = useState<Asset>(Asset.RUNE())
+
+  const [sendAmount, setSendAmount] = useState<Amount>(
+    Amount.fromAssetAmount(0, 8),
   )
 
-  const handleAssetChange = useCallback((payload: Asset) => {
-    dispatch({ type: 'setAsset', payload })
-  }, [])
+  const [memo, setMemo] = useState('')
+  const [recipientAddress, setRecipientAddress] = useState('')
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
 
-  const handleValueChange = useCallback((value: string) => {
-    dispatch({ type: 'setAssetValue', payload: value })
-  }, [])
+  const { wallet } = useWallet()
+  const { pools } = useMidgard()
+  const { getMaxBalance } = useBalance()
+  const { inboundFee, totalFeeInUSD } = useNetworkFee({ inputAsset: sendAsset })
 
-  const setModalVisibility = (payload: boolean) => {
-    dispatch({ type: 'setIsOpened', payload })
-  }
-
-  const handleChange =
-    (type: 'setAddress' | 'setMemo'): ChangeEventHandler<HTMLInputElement> =>
-    (event) => {
-      dispatch({ type, payload: event.target.value })
-    }
+  const maxSpendableBalance: Amount = useMemo(
+    () => getMaxBalance(sendAsset),
+    [sendAsset, getMaxBalance],
+  )
 
   useEffect(() => {
     const getSendAsset = async () => {
-      const assetObj = assetParam ? Asset.decodeFromURL(assetParam) : ''
+      if (!assetParam) {
+        // set RUNE as a default asset
+        setSendAsset(Asset.RUNE())
+      } else {
+        const assetObj = Asset.decodeFromURL(assetParam)
 
-      if (assetObj) {
-        await assetObj.setDecimal()
-        handleAssetChange(assetObj)
+        if (assetObj) {
+          await assetObj.setDecimal()
+          setSendAsset(assetObj)
+        } else {
+          setSendAsset(Asset.RUNE())
+        }
       }
     }
 
     getSendAsset()
-  }, [assetParam, handleAssetChange])
+  }, [assetParam])
+
+  const isWalletConnected = useMemo(
+    () => sendAsset && hasWalletConnected({ wallet, inputAssets: [sendAsset] }),
+    [wallet, sendAsset],
+  )
+
+  const walletAssets = useMemo(() => getWalletAssets(wallet), [wallet])
+
+  const assetBalance: Amount = useMemo(() => {
+    if (wallet) {
+      return getAssetBalance(sendAsset, wallet).amount
+    }
+    return Amount.fromAssetAmount(0, 8)
+  }, [sendAsset, wallet])
+
+  const assetPriceInUSD = useMemo(
+    () =>
+      new Price({
+        baseAsset: sendAsset,
+        pools,
+        priceAmount: assetBalance,
+      }),
+    [sendAsset, assetBalance, pools],
+  )
+
+  const handleSelectAsset = useCallback(
+    (selected: Asset) => {
+      navigate(getSendRoute(selected))
+    },
+    [navigate],
+  )
+
+  const handleChangeSendAmount = useCallback(
+    (amount: Amount) => {
+      if (amount.gt(maxSpendableBalance)) {
+        setSendAmount(maxSpendableBalance)
+      } else {
+        setSendAmount(amount)
+      }
+    },
+    [maxSpendableBalance],
+  )
+
+  const handleChangeRecipient = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const addr = e.target.value
+      setRecipientAddress(addr)
+    },
+    [],
+  )
+
+  const handleChangeMemo = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setMemo(e.target.value)
+    },
+    [],
+  )
+
+  const handleConfirmSend = useCallback(async () => {
+    setIsOpenConfirmModal(false)
+
+    if (sendAsset) {
+      const assetAmount = new AssetAmount(sendAsset, sendAmount)
+
+      try {
+        const txHash = await multichain.send({
+          assetAmount,
+          recipient: recipientAddress,
+          memo,
+        })
+
+        console.log('txHash', txHash)
+
+        const txURL = multichain.getExplorerTxUrl(sendAsset.L1Chain, txHash)
+
+        console.log('txURL', txURL)
+
+        // TODO: notification
+        // Notification({
+        //   type: 'open',
+        //   message: 'View Send Tx.',
+        //   description: 'Transaction sent successfully!',
+        //   btn: (
+        //     <a href={txURL} target="_blank" rel="noopener noreferrer">
+        //       View Transaction
+        //     </a>
+        //   ),
+        //   duration: 20,
+        // })
+      } catch (error) {
+        console.log('error', error)
+
+        // TODO: notification
+        // Notification({
+        //   type: 'error',
+        //   message: 'Send Transaction Failed.',
+        //   description: error?.toString(),
+        //   duration: 20,
+        // })
+      }
+    }
+  }, [sendAsset, sendAmount, recipientAddress, memo])
+
+  const handleCancelSend = useCallback(() => {
+    setIsOpenConfirmModal(false)
+  }, [])
+
+  const handleSend = useCallback(() => {
+    if (
+      !multichain.validateAddress({
+        chain: sendAsset.L1Chain,
+        address: recipientAddress,
+      })
+    ) {
+      // TODO: notification
+      // Notification({
+      //   type: 'warning',
+      //   message: `Recipient Address is not valid ${sendAsset.L1Chain} Address, please check your address again.`,
+      //   duration: 20,
+      // })
+    } else {
+      setIsOpenConfirmModal(true)
+    }
+  }, [sendAsset, recipientAddress])
+
+  const assetInput = useMemo(
+    () => ({
+      asset: sendAsset,
+      value: sendAmount,
+      balance: maxSpendableBalance,
+      usdPrice: assetPriceInUSD,
+    }),
+    [sendAsset, sendAmount, maxSpendableBalance, assetPriceInUSD],
+  )
+
+  const assetInputList = useMemo(
+    () =>
+      walletAssets.map((asset: Asset) => ({
+        asset,
+        balance: getMaxBalance(asset),
+      })),
+    [walletAssets, getMaxBalance],
+  )
 
   const summary = useMemo(
     () => [
@@ -83,7 +228,7 @@ const Send = () => {
         label: t('common.transactionFee'),
         value: (
           <Box className="gap-2" center>
-            <Typography variant="caption">0.00675 ETH ($20)</Typography>
+            <Typography variant="caption">{`${inboundFee.toCurrencyFormat()} (${totalFeeInUSD.toCurrencyFormat()})`}</Typography>
             <Tooltip content={t('views.send.txFeeTooltip')}>
               <Icon size={20} color="secondary" name="infoCircle" />
             </Tooltip>
@@ -91,7 +236,7 @@ const Send = () => {
         ),
       },
     ],
-    [],
+    [inboundFee, totalFeeInUSD],
   )
 
   return (
@@ -105,51 +250,50 @@ const Send = () => {
       }
     >
       <AssetInput
-        selectedAsset={asset}
-        assets={assetsFixture}
+        selectedAsset={assetInput}
+        assets={assetInputList}
         commonAssets={commonAssets}
-        onAssetChange={handleAssetChange}
-        onValueChange={handleValueChange}
+        onAssetChange={handleSelectAsset}
+        onValueChange={handleChangeSendAmount}
       />
 
       <PanelInput
         title={t('common.recipientAddress')}
         placeholder={`${t('common.recipientAddress')} ${t('common.here')}`}
-        onChange={handleChange('setAddress')}
-        value={address}
+        onChange={handleChangeRecipient}
+        value={recipientAddress}
       />
 
       <PanelInput
         collapsible
         title={t('common.memo')}
         placeholder={t('common.memo')}
-        onChange={handleChange('setMemo')}
+        onChange={handleChangeMemo}
         value={memo}
       />
 
       <InfoTable horizontalInset items={summary} />
 
       <Box center className="w-full pt-5">
-        <Button
-          isFancy
-          stretch
-          size="lg"
-          onClick={() => setModalVisibility(true)}
-        >
-          {t('common.send')}
-        </Button>
+        {isWalletConnected && (
+          <Button stretch size="lg" onClick={handleSend}>
+            {t('common.send')}
+          </Button>
+        )}
+        {!isWalletConnected && (
+          <Button stretch size="lg" onClick={() => setIsOpenConfirmModal(true)}>
+            Connect Wallet
+          </Button>
+        )}
       </Box>
 
-      {isOpened && (
+      {isOpenConfirmModal && (
         <ConfirmSend
-          isOpened={isOpened}
-          address={address}
-          asset={asset}
-          onClose={() => setModalVisibility(false)}
-          onConfirm={() => {
-            setModalVisibility(false)
-            console.log('Swap confirmed.')
-          }}
+          isOpened={isOpenConfirmModal}
+          address={recipientAddress}
+          asset={assetInput}
+          onClose={handleCancelSend}
+          onConfirm={handleConfirmSend}
         />
       )}
     </PanelView>

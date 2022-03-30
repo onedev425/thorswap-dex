@@ -68,10 +68,12 @@ export const AssetSelectList = (props: AssetSelectProps) => {
                   fontWeight="light"
                   color="secondary"
                 >
-                  {filteredItem.type}
+                  {filteredItem.asset.type}
                 </Typography>
               </Box>
-              <Typography color="secondary">{filteredItem.balance}</Typography>
+              <Typography color="secondary">
+                {filteredItem.balance?.toSignificant(6) ?? ''}
+              </Typography>
             </Box>
           ))}
           {!filteredAssets.length && (

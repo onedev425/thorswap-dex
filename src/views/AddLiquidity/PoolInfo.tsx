@@ -4,17 +4,19 @@ import { Box, Collapse, Icon, Typography } from 'components/Atomic'
 import { t } from 'services/i18n'
 
 type Props = {
-  firstAsset: AssetInputType
-  secondAsset: AssetInputType
-  poolShare: number
-  firstToSecondRate: number
+  poolAsset: AssetInputType
+  runeAsset: AssetInputType
+  poolShare: string | null
+  slippage: string | null
+  rate: string | null
 }
 
 export const PoolInfo = ({
-  firstAsset,
-  secondAsset,
+  poolAsset,
+  runeAsset,
   poolShare,
-  firstToSecondRate,
+  slippage,
+  rate,
 }: Props) => {
   return (
     <Collapse
@@ -36,11 +38,11 @@ export const PoolInfo = ({
           col
         >
           <Typography variant="caption" color="secondary" fontWeight="semibold">
-            {firstAsset.asset.symbol}
+            {poolAsset.asset.ticker}
             {` ${t('common.per')} `}
-            {secondAsset.asset.symbol}
+            {runeAsset.asset.ticker}
           </Typography>
-          <Typography variant="h4">{firstToSecondRate}</Typography>
+          <Typography variant="h4">{rate || 'N/A'}</Typography>
         </Box>
 
         <Box
@@ -48,18 +50,17 @@ export const PoolInfo = ({
           col
         >
           <Typography variant="caption" color="secondary" fontWeight="semibold">
-            {secondAsset.asset.symbol}
-            {` ${t('common.per')} `}
-            {firstAsset.asset.symbol}
+            {/* TODO: i18n */}
+            Slip
           </Typography>
-          <Typography variant="h4">{1 / firstToSecondRate}</Typography>
+          <Typography variant="h4">{slippage || 'N/A'}</Typography>
         </Box>
 
         <Box className="flex-1 gap-2 text-right" col>
           <Typography variant="caption" color="secondary" fontWeight="semibold">
             {t('views.addLiquidity.shareOfPool')}
           </Typography>
-          <Typography variant="h4">{`${poolShare}%`}</Typography>
+          <Typography variant="h4">{`${poolShare || 'N/A'}%`}</Typography>
         </Box>
       </Box>
     </Collapse>

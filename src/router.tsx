@@ -28,14 +28,17 @@ export type RouteType = {
 }[]
 
 const routes: RouteType = [
-  { path: ROUTES.AddLiquidity, element: AddLiquidity },
   { path: ROUTES.Home, element: HomeView },
   { path: ROUTES.Swap, element: SwapView },
+  { path: ROUTES.SwapPair, element: SwapView },
+  { path: ROUTES.AddLiquidity, element: AddLiquidity },
+  { path: ROUTES.AddLiquidityPool, element: AddLiquidity },
   { path: ROUTES.Send, element: SendView },
   { path: ROUTES.SendAsset, element: SendView },
   { path: ROUTES.ManageLiquidity, element: ManageLiquidityView },
   { path: ROUTES.PendingLiquidity, element: PendingLiquidity },
   { path: ROUTES.WithdrawLiquidity, element: WithdrawLiquidity },
+  { path: ROUTES.WithdrawLiquidityPool, element: WithdrawLiquidity },
   { path: ROUTES.Wallet, element: WalletView },
   { path: ROUTES.Stats, element: StatsView },
   { path: ROUTES.UpgradeRune, element: UpgradeRuneView },

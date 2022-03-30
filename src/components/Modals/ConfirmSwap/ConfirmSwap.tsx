@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react'
 
+import { AssetInputType } from 'components/AssetInput/types'
 import { Box, Button, Modal } from 'components/Atomic'
 import { InfoTable } from 'components/InfoTable'
 import { useConfirmInfoItems } from 'components/Modals/ConfirmSwap/useConfirmInfoItems'
@@ -8,44 +9,49 @@ import { PasswordInput } from 'components/PasswordInput'
 import { t } from 'services/i18n'
 
 type Props = {
-  address: string
+  inputAsset: AssetInputType
+  outputAsset: AssetInputType
+  recipient: string
   estimatedTime: string
-  fee: string
   isOpened: boolean
-  onClose: () => void
-  receive: { value: string; symbol: string }
-  send: { value: string; symbol: string }
   showPassword?: boolean
-  slippage: number
+  slippage: string
+  minReceive: string
+  isValidSlip?: boolean
   totalFee?: string
+  onClose: () => void
+  onConfirm: () => void
 }
 
 export const ConfirmSwap = ({
-  address,
+  inputAsset,
+  outputAsset,
+  recipient,
   estimatedTime,
-  fee,
   isOpened,
-  onClose,
-  receive,
-  send,
   showPassword = true,
+  isValidSlip = true,
   slippage,
+  minReceive,
   totalFee,
+  onConfirm,
+  onClose,
 }: Props) => {
   const [password, setPassword] = useState('')
   const handleConfirmPress = useCallback(() => {
     setPassword('')
-    onClose()
-  }, [onClose])
+    onConfirm()
+  }, [onConfirm])
 
   const confirmInfoItems = useConfirmInfoItems({
-    address,
-    send,
-    receive,
-    fee,
-    totalFee,
+    inputAsset,
+    outputAsset,
+    recipient,
     estimatedTime,
     slippage,
+    isValidSlip,
+    minReceive,
+    totalFee,
   })
 
   return (

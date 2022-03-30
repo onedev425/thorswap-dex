@@ -1,18 +1,31 @@
 import { memo } from 'react'
 
+import { Price } from '@thorswap-lib/multichain-sdk'
+
 import { AssetInputType } from 'components/AssetInput/types'
 import { Box, Collapse, Icon, Typography } from 'components/Atomic'
 import { InfoRow } from 'components/InfoRow'
 
 type Props = {
-  firstAsset: AssetInputType
-  secondAsset: AssetInputType
-  priceImpact: number
-  slippage: number
+  price: Price
+  inputAsset: AssetInputType
+  outputAsset: AssetInputType
+  minReceive: string
+  slippage: string
+  isValidSlip?: boolean
+  networkFee: string
 }
 
 export const SwapInfo = memo(
-  ({ priceImpact, slippage, secondAsset, firstAsset }: Props) => {
+  ({
+    price,
+    inputAsset,
+    outputAsset,
+    minReceive,
+    slippage,
+    isValidSlip = true,
+    networkFee,
+  }: Props) => {
     return (
       <Collapse
         className="!py-2 self-stretch mt-5 !bg-light-gray-light dark:!bg-dark-gray-light !rounded-2xl flex-col"
@@ -22,13 +35,13 @@ export const SwapInfo = memo(
             <Icon name="infoCircle" size={16} color="secondary" />
 
             <Typography variant="caption" color="primary" fontWeight="normal">
-              {`1 ${secondAsset.asset.symbol} = ${
-                parseFloat(firstAsset.price) / parseFloat(secondAsset.price)
-              } ${firstAsset.asset.symbol}`}
+              {`1 ${inputAsset.asset.ticker} = ${price.toFixedInverted(6)} ${
+                outputAsset.asset.ticker
+              }`}
             </Typography>
 
             <Typography variant="caption" color="secondary" fontWeight="normal">
-              {`($ ${secondAsset.price})`}
+              {`(${inputAsset.usdPrice?.toCurrencyFormat(2)})`}
             </Typography>
           </div>
         }
@@ -37,7 +50,9 @@ export const SwapInfo = memo(
           <InfoRow
             showBorder={false}
             label="Expected Output"
-            value={`${secondAsset.value} ${secondAsset.asset.symbol}`}
+            value={`${outputAsset?.value?.toSignificant(
+              6,
+            )} ${outputAsset.asset.name.toUpperCase()}`}
           />
 
           <InfoRow
@@ -46,20 +61,19 @@ export const SwapInfo = memo(
               <Typography
                 variant="caption-xs"
                 fontWeight="semibold"
-                color={priceImpact >= 0 ? 'green' : 'red'}
+                color={isValidSlip ? 'green' : 'red'}
               >
-                {`${priceImpact}%`}
+                {slippage}
               </Typography>
             }
           />
 
           <InfoRow
-            showBorder={false}
-            label={`Minimum receiver after slippage (${slippage.toFixed(2)}%)`}
-            value={`${
-              parseFloat(secondAsset?.value || '0') * (1 - slippage / 100)
-            } ${secondAsset.asset.symbol}`}
+            label={`Minimum receiver after slippage (${slippage})`}
+            value={minReceive}
           />
+
+          <InfoRow showBorder={false} label="Network Fee" value={networkFee} />
         </Box>
       </Collapse>
     )

@@ -1,12 +1,13 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 
+import { Amount } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
 import { AssetSelect } from 'components/AssetSelect'
 import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton'
 import { Box, Button, Typography } from 'components/Atomic'
 import { HighlightCard } from 'components/HighlightCard'
-import { Input } from 'components/Input'
+import { InputAmount } from 'components/InputAmount'
 
 import { t } from 'services/i18n'
 
@@ -15,36 +16,41 @@ import { AssetInputProps } from './types'
 export const AssetInput = ({
   className,
   singleAsset,
-  showChange,
   selectedAsset,
-  assets,
-  commonAssets,
+  assets = [],
+  commonAssets = [],
   secondaryLabel,
   onAssetChange,
   onValueChange,
   hideMaxButton,
   inputClassName,
 }: AssetInputProps) => {
-  const assetValue =
-    parseFloat(selectedAsset?.price || '0') *
-    parseFloat(selectedAsset?.value || '0')
+  const {
+    asset,
+    value = Amount.fromAssetAmount(0, asset.decimal),
+    usdPrice,
+    balance,
+  } = selectedAsset
+
+  const assetPriceInUSD = useMemo(() => {
+    return usdPrice?.toCurrencyFormat(2)
+  }, [usdPrice])
 
   const handleMaxClick = useCallback(() => {
-    onValueChange(selectedAsset.balance || '0')
-  }, [onValueChange, selectedAsset.balance])
+    onValueChange?.(balance || Amount.fromAssetAmount(0, asset.decimal))
+  }, [onValueChange, asset, balance])
 
   return (
     <HighlightCard className={classNames('min-h-[107px]', className)}>
       <Box flex={1} className="pb-1 pl-4 md:pl-0" alignCenter>
-        <Input
-          placeholder="0.0"
+        <InputAmount
           className={classNames(
             '-ml-1 !text-2xl font-normal text-left',
             inputClassName,
           )}
           containerClassName="!py-0"
-          onChange={(event) => onValueChange(event.target.value)}
-          value={selectedAsset?.value}
+          onAmountChange={onValueChange}
+          amountValue={value}
           stretch
         />
 
@@ -66,26 +72,21 @@ export const AssetInput = ({
 
       <Box className="pl-4 md:pl-0" alignCenter justify="between">
         <Box>
-          <Typography color="secondary" fontWeight="semibold">
-            {secondaryLabel || `$ ${assetValue.toFixed(2)}`}
-          </Typography>
-
-          {showChange && selectedAsset && (
-            <Typography
-              color={(selectedAsset?.change || 0) >= 0 ? 'green' : 'red'}
-              className="pl-1"
-            >
-              {`(${selectedAsset.change}%)`}
+          {assetPriceInUSD && (
+            <Typography color="secondary" fontWeight="semibold">
+              {secondaryLabel || `${assetPriceInUSD}`}
             </Typography>
           )}
         </Box>
 
         <Box className="pr-2 md:pr-0 gap-1" center row>
-          <Typography color="secondary" fontWeight="semibold">
-            {t('common.balance')}: {selectedAsset.balance || 0}
-          </Typography>
+          {balance && (
+            <Typography color="secondary" fontWeight="semibold">
+              {t('common.balance')}: {balance?.toSignificant(6) || '0'}
+            </Typography>
+          )}
 
-          {!hideMaxButton && (
+          {balance && !hideMaxButton && (
             <Button
               className="!h-5 !px-1.5"
               type="outline"

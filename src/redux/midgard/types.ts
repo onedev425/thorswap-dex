@@ -18,6 +18,26 @@ import {
 } from '@thorswap-lib/midgard-sdk'
 import { Pool } from '@thorswap-lib/multichain-sdk'
 
+export enum TxTrackerStatus {
+  Submitting = 'Submitting',
+  Pending = 'Pending',
+  Success = 'Success',
+  Failed = 'Failed',
+}
+
+// TxTrackerType has additional Approve value
+export enum TxTrackerType {
+  Approve = 'Approve',
+  Swap = 'swap',
+  AddLiquidity = 'addLiquidity',
+  Withdraw = 'withdraw',
+  Donate = 'donate',
+  Refund = 'refund',
+  Switch = 'switch',
+  Mint = 'mint',
+  Redeem = 'redeem',
+}
+
 export type MimirData = {
   CHURNINTERVAL?: number
   FUNDMIGRATIONINTERVAL?: number

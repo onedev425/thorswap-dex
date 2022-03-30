@@ -1,8 +1,8 @@
 import { memo } from 'react'
 
-import { Asset } from '@thorswap-lib/multichain-sdk'
+import { Asset, Amount } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
-import { assetsFixture, commonAssets } from 'utils/assetsFixture'
+import { commonAssets } from 'utils/assetsFixture'
 
 import { AssetInput } from 'components/AssetInput'
 import { AssetInputType } from 'components/AssetInput/types'
@@ -10,19 +10,23 @@ import { Box, Icon } from 'components/Atomic'
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
 
 type Props = {
-  onAssetChange: (assetPosition: 'first' | 'second') => (asset: Asset) => void
-  onValueChange: (assetPosition: 'first' | 'second') => (value: string) => void
-  firstAsset: AssetInputType
-  secondAsset: AssetInputType
+  onPoolChange: (asset: Asset) => void
+  onAssetAmountChange: (value: Amount) => void
+  onRuneAmountChange: (value: Amount) => void
+  poolAsset: AssetInputType
+  runeAsset: AssetInputType
+  poolAssetList: AssetInputType[]
   liquidityType: LiquidityTypeOption
 }
 
 export const AssetInputs = memo(
   ({
-    firstAsset,
-    secondAsset,
-    onValueChange,
-    onAssetChange,
+    poolAsset,
+    runeAsset,
+    poolAssetList,
+    onAssetAmountChange,
+    onRuneAmountChange,
+    onPoolChange,
     liquidityType,
   }: Props) => {
     return (
@@ -35,7 +39,7 @@ export const AssetInputs = memo(
             'opacity-100 scale-100 transition-all',
             {
               '!scale-0 !opacity-0':
-                liquidityType !== LiquidityTypeOption.Symmetrical,
+                liquidityType !== LiquidityTypeOption.SYMMETRICAL,
             },
           )}
         >
@@ -48,28 +52,28 @@ export const AssetInputs = memo(
 
         <Box
           className={classNames('overflow-hidden h-[111px] transition-all', {
-            '!h-[0px]': liquidityType === LiquidityTypeOption.Rune,
+            '!h-[0px]': liquidityType === LiquidityTypeOption.RUNE,
           })}
         >
           <AssetInput
             className="!mb-1"
-            selectedAsset={firstAsset}
-            onAssetChange={onAssetChange('first')}
-            onValueChange={onValueChange('first')}
-            assets={assetsFixture}
+            selectedAsset={poolAsset}
+            onAssetChange={onPoolChange}
+            onValueChange={onAssetAmountChange}
+            assets={poolAssetList}
             commonAssets={commonAssets}
           />
         </Box>
 
         <Box
           className={classNames('overflow-hidden h-[111px] transition-all', {
-            '!h-[0px]': liquidityType === LiquidityTypeOption.Asset,
+            '!h-[0px]': liquidityType === LiquidityTypeOption.ASSET,
           })}
         >
           <AssetInput
             className="!mb-1 flex-1"
-            selectedAsset={secondAsset}
-            onValueChange={onValueChange('second')}
+            selectedAsset={runeAsset}
+            onValueChange={onRuneAmountChange}
             singleAsset
           />
         </Box>

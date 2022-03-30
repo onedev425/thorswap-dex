@@ -1,39 +1,53 @@
 import { shortenAddress } from 'utils/shortenAddress'
 
+import { AssetInputType } from 'components/AssetInput/types'
 import { InfoRowConfig } from 'components/InfoRow/types'
 import { InfoWithTooltip } from 'components/Modals/ConfirmSwap/InfoWithTooltip'
 
 import { t } from 'services/i18n'
 
 type Params = {
-  address: string
+  inputAsset: AssetInputType
+  outputAsset: AssetInputType
+  recipient: string
   estimatedTime: string
-  fee: string
-  receive: { value: string; symbol: string }
-  send: { value: string; symbol: string }
-  slippage: number
+  slippage: string
+  isValidSlip?: boolean
+  minReceive: string
   totalFee?: string
 }
 
 export const useConfirmInfoItems = ({
-  fee,
-  totalFee,
-  address,
-  send,
-  receive,
-  slippage,
+  inputAsset,
+  outputAsset,
+  recipient,
   estimatedTime,
+  slippage,
+  minReceive,
+  totalFee,
 }: Params) => {
   const confirmInfoItems: InfoRowConfig[] = [
-    { label: t('common.send'), value: `${send.value} ${send.symbol}` },
-    { label: t('common.receive'), value: `${receive.value} ${receive.symbol}` },
+    {
+      label: t('common.send'),
+      value: `${inputAsset.value?.toSignificant(
+        6,
+      )} ${inputAsset.asset.name.toUpperCase()}`,
+    },
+    {
+      label: t('common.receive'),
+
+      value: `${outputAsset.value?.toSignificant(
+        6,
+      )} ${outputAsset.asset.name.toUpperCase()}`,
+    },
     {
       label: t('common.recipientAddress'),
-      value: shortenAddress(address, 6),
+      value: shortenAddress(recipient, 6),
       size: 'lg',
     },
     {
       label: t('views.wallet.slip'),
+      // TODO: warning color for invalid slippage
       value: (
         <InfoWithTooltip
           value={`${slippage}`}
@@ -45,26 +59,8 @@ export const useConfirmInfoItems = ({
       label: t('views.wallet.minReceived'),
       value: (
         <InfoWithTooltip
-          value={`${parseFloat(receive.value) * (1 - slippage / 100)}`}
+          value={minReceive}
           tooltip={t('views.wallet.minReceivedTooltip')}
-        />
-      ),
-    },
-    {
-      label: t('common.transactionFee'),
-      value: (
-        <InfoWithTooltip
-          tooltip={t('views.wallet.transactionFeeTooltip')}
-          value={fee}
-        />
-      ),
-    },
-    {
-      label: t('views.wallet.networkFee'),
-      value: (
-        <InfoWithTooltip
-          tooltip={t('views.wallet.networkFeeTooltip')}
-          value={fee}
         />
       ),
     },

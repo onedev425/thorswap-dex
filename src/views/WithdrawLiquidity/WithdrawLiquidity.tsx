@@ -37,7 +37,7 @@ const poolData: {
 
 export const WithdrawLiquidity = () => {
   const [liquidityType, setLiquidityType] = useState(
-    LiquidityTypeOption.Symmetrical,
+    LiquidityTypeOption.SYMMETRICAL,
   )
   const [isLiquidityModalVisible, setIsLiquidityModalVisible] = useState(false)
 

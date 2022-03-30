@@ -1,33 +1,39 @@
 import { memo, useState } from 'react'
 
-import { Asset } from '@thorswap-lib/multichain-sdk'
+import { Asset, Amount } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
-import { assetsFixture, commonAssets } from 'utils/assetsFixture'
+import { commonAssets } from 'utils/assetsFixture'
 
 import { AssetInput } from 'components/AssetInput'
 import { AssetInputType } from 'components/AssetInput/types'
 import { Box, Icon } from 'components/Atomic'
 
 type Props = {
-  onAssetsSwap: () => void
-  onAssetChange: (assetPosition: 'first' | 'second') => (asset: Asset) => void
-  onValueChange: (assetPosition: 'first' | 'second') => (value: string) => void
-  firstAsset: AssetInputType
-  secondAsset: AssetInputType
+  onSwitchPair: () => void
+  onInputAssetChange: (asset: Asset) => void
+  onOutputAssetChange: (asset: Asset) => void
+  onInputAmountChange: (value: Amount) => void
+  inputAsset: AssetInputType
+  outputAsset: AssetInputType
+  inputAssetList: AssetInputType[]
+  outputAssetList: AssetInputType[]
 }
 
 export const AssetInputs = memo(
   ({
-    firstAsset,
-    secondAsset,
-    onAssetsSwap,
-    onValueChange,
-    onAssetChange,
+    inputAsset,
+    outputAsset,
+    inputAssetList,
+    outputAssetList,
+    onInputAssetChange,
+    onOutputAssetChange,
+    onInputAmountChange,
+    onSwitchPair,
   }: Props) => {
     const [iconRotate, setIconRotate] = useState(false)
 
     const handleAssetSwap = () => {
-      onAssetsSwap()
+      onSwitchPair()
       setIconRotate((rotate) => !rotate)
     }
 
@@ -54,19 +60,18 @@ export const AssetInputs = memo(
 
         <AssetInput
           className="!mb-1"
-          selectedAsset={firstAsset}
-          assets={assetsFixture}
+          selectedAsset={inputAsset}
+          assets={inputAssetList}
           commonAssets={commonAssets}
-          onAssetChange={onAssetChange('first')}
-          onValueChange={onValueChange('first')}
+          onAssetChange={onInputAssetChange}
+          onValueChange={onInputAmountChange}
         />
         <AssetInput
-          showChange
-          selectedAsset={secondAsset}
-          onAssetChange={onAssetChange('second')}
-          onValueChange={onValueChange('second')}
-          assets={assetsFixture}
+          selectedAsset={outputAsset}
+          onAssetChange={onOutputAssetChange}
+          assets={outputAssetList}
           commonAssets={commonAssets}
+          hideMaxButton
         />
       </div>
     )

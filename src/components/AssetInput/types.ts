@@ -1,22 +1,20 @@
-import { Asset } from '@thorswap-lib/multichain-sdk'
+import { Asset, Amount, Price } from '@thorswap-lib/multichain-sdk'
 
 import { AssetSelectType } from 'components/AssetSelect/types'
 
 export type AssetInputType = {
   asset: Asset
-  price: string
-  balance?: string
-  value: string
-  change?: string
+  usdPrice?: Price
+  balance?: Amount
+  value?: Amount
 }
 
 export type AssetInputProps = {
   className?: string
   inputClassName?: string
   selectedAsset: AssetInputType
-  showChange?: boolean
   secondaryLabel?: string
-  onValueChange: (assetValue: string) => void
+  onValueChange?: (assetValue: Amount) => void
   hideMaxButton?: boolean
 } & (
   | {
@@ -27,7 +25,7 @@ export type AssetInputProps = {
     }
   | {
       assets: AssetSelectType[]
-      commonAssets: AssetSelectType[]
+      commonAssets?: AssetSelectType[]
       onAssetChange: (asset: Asset) => void
       singleAsset?: undefined
     }

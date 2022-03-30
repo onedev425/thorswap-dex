@@ -1,10 +1,10 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 
-import { Asset } from '@thorswap-lib/multichain-sdk'
+// import { Asset } from '@thorswap-lib/multichain-sdk'
 
 import { PendingDeposit } from 'views/PendingLiquidity/PendingDeposit'
 
-import { AssetInput } from 'components/AssetInput'
+// import { AssetInput } from 'components/AssetInput'
 import { Box, Button, Icon } from 'components/Atomic'
 import { InfoTable } from 'components/InfoTable'
 import { PanelView } from 'components/PanelView'
@@ -12,7 +12,7 @@ import { ViewHeader } from 'components/ViewHeader'
 
 import { t } from 'services/i18n'
 
-import { formatPrice } from 'helpers/formatPrice'
+// import { formatPrice } from 'helpers/formatPrice'
 
 const data = [
   { label: 'Slip', value: '0.54' },
@@ -21,18 +21,18 @@ const data = [
 ]
 
 export const PendingLiquidity = () => {
-  const [value, setValue] = useState('0')
+  // const [value, setValue] = useState('0')
 
-  const runeAsset = {
-    asset: Asset.RUNE(),
-    value: 'Pending $(335.39K)',
-    price: '0',
-  }
-  const thorAsset = {
-    asset: Asset.THOR(),
-    value: '0',
-    price: '0',
-  }
+  // const runeAsset = {
+  //   asset: Asset.RUNE(),
+  //   value: 'Pending $(335.39K)',
+  //   price: '0',
+  // }
+  // const thorAsset = {
+  //   asset: Asset.THOR(),
+  //   value: '0',
+  //   price: '0',
+  // }
 
   return (
     <PanelView
@@ -54,7 +54,7 @@ export const PendingLiquidity = () => {
       </Button>
 
       <PendingDeposit />
-
+      {/* 
       <AssetInput
         secondaryLabel={`Add to Complete (${formatPrice(parseFloat(value))})`}
         className="self-stretch"
@@ -69,7 +69,7 @@ export const PendingLiquidity = () => {
         singleAsset
         inputClassName="!text-xl md:!text-2xl"
         onValueChange={() => {}}
-      />
+      /> */}
 
       <InfoTable items={data} />
 

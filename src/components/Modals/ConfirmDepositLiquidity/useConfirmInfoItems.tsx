@@ -10,9 +10,9 @@ import { t } from 'services/i18n'
 type Params = {
   assets: { asset: Asset; value: string }[]
   fees: { chain: string; fee: string }[]
-  totalFee: string
-  poolShare: number
-  slippage: number
+  totalFee: string | null
+  poolShare: string | null
+  slippage: string | null
   estimatedTime: string
 }
 
@@ -20,9 +20,9 @@ export const useConfirmInfoItems = ({
   assets,
   fees,
   totalFee,
-  estimatedTime,
   poolShare,
   slippage,
+  estimatedTime,
 }: Params) => {
   const assetsInfo = assets.map((data) => ({
     label: `${t('views.liquidity.depositAmount')} ${data.asset.symbol}`,
@@ -55,7 +55,7 @@ export const useConfirmInfoItems = ({
       value: (
         <InfoWithTooltip
           tooltip={t('views.wallet.slippageTooltip')}
-          value={`${slippage}%`}
+          value={slippage || 'N/A'}
         />
       ),
     },
@@ -74,7 +74,7 @@ export const useConfirmInfoItems = ({
       value: (
         <InfoWithTooltip
           tooltip={t('views.wallet.totalFeeTooltip')}
-          value={totalFee}
+          value={totalFee || 'N/A'}
         />
       ),
     },

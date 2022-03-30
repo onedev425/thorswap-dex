@@ -1,22 +1,25 @@
 import { Asset } from '@thorswap-lib/multichain-sdk'
 
 export enum ROUTES {
-  AddLiquidity = '/add-liquidity',
   Home = '/dashboard',
-  ManageLiquidity = '/manage-liquidity',
+  ManageLiquidity = '/liquidity',
   NodeDetail = '/nodes/:nodeAddress',
   NodeManager = '/node-manager',
   Nodes = '/nodes',
-  PendingLiquidity = '/pending-liquidity',
+  PendingLiquidity = '/pending',
   Send = '/send',
   SendAsset = '/send/:assetParam',
   Stake = '/stake',
   Stats = '/stats',
   Swap = '/swap',
-  UpgradeRune = '/upgrade-rune',
+  SwapPair = '/swap/:pair',
+  AddLiquidity = '/add',
+  AddLiquidityPool = '/add/:asset',
+  WithdrawLiquidity = '/withdraw',
+  WithdrawLiquidityPool = '/withdraw/:asset',
+  UpgradeRune = '/upgrade',
   Vesting = '/vesting',
   Wallet = '/wallet',
-  WithdrawLiquidity = '/withdraw-liquidity',
 }
 
 export const getAddLiquidityRoute = (asset: Asset) => {
@@ -25,4 +28,20 @@ export const getAddLiquidityRoute = (asset: Asset) => {
 
 export const getWithdrawRoute = (asset: Asset) => {
   return `${ROUTES.WithdrawLiquidity}/${asset.toURLEncoded()}`
+}
+
+export const getSendRoute = (asset: Asset) => {
+  return `${ROUTES.Send}/${asset.toURLEncoded()}`
+}
+
+export const getSwapRoute = (input: Asset, output: Asset) => {
+  return `${ROUTES.Swap}/${input.toURLEncoded()}_${output.toURLEncoded()}`
+}
+
+export const getPoolDetailRouteFromAsset = (asset: Asset) => {
+  return `https://app.thoryield.com/token/${asset.toURLEncoded()}`
+}
+
+export const getNodeDetailRoute = (address: string) => {
+  return `${ROUTES.Nodes}/${address}`
 }

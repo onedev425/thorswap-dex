@@ -13,9 +13,9 @@ type Props = {
   isOpen: boolean
   assets: { asset: Asset; value: string }[]
   fees: { chain: string; fee: string }[]
-  totalFee: string
-  poolShare: number
-  slippage: number
+  totalFee: string | null
+  poolShare: string | null
+  slippage: string | null
   estimatedTime: string
   showPassword?: boolean
   onCancel?: () => void
@@ -26,10 +26,10 @@ export const ConfirmDepositLiquidity = ({
   isOpen,
   assets,
   fees,
-  totalFee,
+  totalFee = 'N/A',
   estimatedTime,
-  poolShare,
-  slippage,
+  poolShare = 'N/A',
+  slippage = 'N/A',
   showPassword = true,
   onConfirm,
   onCancel = () => {},
@@ -45,9 +45,9 @@ export const ConfirmDepositLiquidity = ({
     assets,
     fees,
     totalFee,
-    estimatedTime,
     poolShare,
     slippage,
+    estimatedTime,
   })
 
   return (
