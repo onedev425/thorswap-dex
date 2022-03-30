@@ -3,12 +3,15 @@ import {
   AiFillLock,
   AiFillSignal,
   AiFillStar,
+  AiOutlineArrowLeft,
+  AiOutlineArrowRight,
   AiOutlineHeart,
   AiOutlineHistory,
   AiOutlineInfo,
   AiOutlineInfoCircle,
   AiOutlineLineChart,
   AiOutlineMenu,
+  AiOutlineMenuFold,
   AiOutlinePercentage,
   AiOutlineQrcode,
   AiOutlineSend,
@@ -20,6 +23,7 @@ import {
   BiArrowBack,
   BiLinkExternal,
   BiSelectMultiple,
+  BiUndo,
 } from 'react-icons/bi'
 import {
   BsCurrencyDollar,
@@ -32,6 +36,7 @@ import {
   BsTelegram,
   BsThreeDots,
   BsTwitter,
+  BsTrash,
 } from 'react-icons/bs'
 import { CgMenu, CgArrowsExchangeAltV, CgEye } from 'react-icons/cg'
 import {
@@ -64,8 +69,6 @@ import {
 import {
   MdAreaChart,
   MdKeyboardArrowDown,
-  MdKeyboardArrowLeft,
-  MdKeyboardArrowRight,
   MdKeyboardArrowUp,
   MdLanguage,
   MdOutlineLockOpen,
@@ -81,6 +84,7 @@ import {
   VscLock,
   VscSignOut,
   VscSymbolMethod,
+  VscLoading,
 } from 'react-icons/vsc'
 
 import { SvgIcons } from './svg/svgIconList'
@@ -92,8 +96,8 @@ const Icons = {
   arrowUp: MdKeyboardArrowUp,
   arrowUpLine: MdKeyboardArrowUp,
   arrowDownLine: MdKeyboardArrowDown,
-  arrowLeftLine: MdKeyboardArrowLeft,
-  arrowRightLine: MdKeyboardArrowRight,
+  arrowLeft: AiOutlineArrowLeft,
+  arrowRight: AiOutlineArrowRight,
   auto: MdOutlineHdrAuto,
   backup: VscCloudUpload,
   barchart: AiFillSignal,
@@ -127,10 +131,12 @@ const Icons = {
   language: MdLanguage,
   languageLetters: IoLanguage,
   list: AiOutlineMenu,
+  loader: VscLoading,
   lock: VscLock,
   lockFill: AiFillLock,
   medium: BsMedium,
   menu: CgMenu,
+  menuFold: AiOutlineMenuFold,
   node: VscSymbolMethod,
   percent: AiOutlinePercentage,
   plus: FiPlus,
@@ -158,6 +164,8 @@ const Icons = {
   starEmpty: AiOutlineStar,
   heart: AiOutlineHeart,
   heartFilled: AiFillHeart,
+  trash: BsTrash,
+  revert: BiUndo,
   ...SvgIcons,
 } as const
 

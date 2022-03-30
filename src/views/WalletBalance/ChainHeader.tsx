@@ -85,7 +85,7 @@ export const ChainHeader = ({
 
   return (
     <Box
-      className="py-2 px-4 bg-btn-light-tint dark:bg-btn-dark-tint"
+      className="py-1 px-4 bg-btn-light-tint dark:bg-btn-dark-tint"
       justify="between"
     >
       <Box alignCenter>

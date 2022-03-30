@@ -1,4 +1,4 @@
-export type CardSize = 'md' | 'lg'
+export type CardSize = 'sm' | 'md' | 'lg'
 
 export type CardProps = {
   className?: string

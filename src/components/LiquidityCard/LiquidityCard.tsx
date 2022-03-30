@@ -155,7 +155,7 @@ export const LiquidityCard = ({
         </Box>
 
         <div
-          className="flex flex-col overflow-hidden duration-300 ease-in-out transition-max-height"
+          className="flex flex-col overflow-hidden ease-in-out transition-max-height"
           ref={contentRef}
           style={maxHeightStyle}
         >

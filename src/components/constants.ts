@@ -20,7 +20,7 @@ export const styledScrollbarClass =
   'scrollbar scrollbar-thin scrollbar-thumb-rounded scrollbar-track-light-bg-primary dark:scrollbar-track-dark-bg-primary scrollbar-thumb-light-gray-light dark:scrollbar-thumb-dark-gray-light'
 
 export const baseHoverClass =
-  'p-1.5 cursor-pointer rounded-2xl hover:bg-btn-light-tint-active dark:hover:bg-btn-dark-tint-active transition duration-300'
+  'p-1.5 cursor-pointer rounded-2xl hover:bg-btn-light-tint-active dark:hover:bg-btn-dark-tint-active transition hover:!text-light-typo-primary dark:hover:!text-dark-typo-primary'
 
 export const baseBorderClass =
   'border border-solid border-light-border-primary dark:border-dark-border-primary'

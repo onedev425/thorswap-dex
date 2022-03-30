@@ -2,6 +2,8 @@ import React from 'react'
 
 import { ColorType } from 'types/global'
 
+export type TypographyColorType = ColorType | 'primaryBtn' | 'secondaryBtn'
+
 export const variantClasses = {
   h1: 'text-h1',
   h2: 'text-h2',
@@ -40,7 +42,7 @@ export const weightClasses = {
   black: 'font-black',
 }
 
-export const colorClasses: Record<ColorType, string> = {
+export const colorClasses: Record<TypographyColorType, string> = {
   primary: 'text-light-typo-primary dark:text-dark-typo-primary',
   secondary: 'text-light-typo-gray dark:text-dark-typo-gray',
   purple: 'text-purple',
@@ -54,6 +56,8 @@ export const colorClasses: Record<ColorType, string> = {
   cyan: 'text-cyan',
   gray: 'text-gray',
   red: 'text-red',
+  primaryBtn: 'text-btn-primary dark:text-btn-primary',
+  secondaryBtn: 'text-btn-secondary dark:text-btn-secondary',
 }
 
 export const transformClasses = {
@@ -72,7 +76,7 @@ export type TextTransform = keyof typeof transformClasses
 export type Props = {
   className?: string
   component?: keyof React.ReactHTML
-  color?: ColorType
+  color?: TypographyColorType
   variant?: TypographyVariant
   fontWeight?: TypographyWeight
   children?: React.ReactNode

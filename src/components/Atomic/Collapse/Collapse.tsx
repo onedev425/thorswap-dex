@@ -2,7 +2,8 @@ import { forwardRef, useImperativeHandle } from 'react'
 
 import classNames from 'classnames'
 
-import { Box, Card, Typography, Icon } from 'components/Atomic'
+import { Box, Card, Typography } from 'components/Atomic'
+import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron'
 
 import { CollapseProps } from './types'
 import { useCollapse } from './useCollapse'
@@ -11,7 +12,10 @@ export const maxHeightTransitionClass =
   'duration-300 ease-in-out transition-max-height overflow-auto overflow-y-hidden'
 
 export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
-  ({ children, className, shadow = true, title }, collapseRef) => {
+  (
+    { children, className, contentClassName, shadow = true, title },
+    collapseRef,
+  ) => {
     const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse()
 
     useImperativeHandle(collapseRef, () => ({ toggle }), [toggle])
@@ -36,14 +40,7 @@ export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
             ) : (
               title
             )}
-            <Icon
-              name="chevronDown"
-              color="secondary"
-              className={classNames(
-                'transform duration-300 ease inline-block',
-                { '-rotate-180': isActive },
-              )}
-            />
+            <CollapseChevron isActive={isActive} />
           </Box>
         </div>
 
@@ -52,7 +49,7 @@ export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
           ref={contentRef}
           style={maxHeightStyle}
         >
-          <div className="pt-4">{children}</div>
+          <div className={classNames('pt-4', contentClassName)}>{children}</div>
         </div>
       </Card>
     )

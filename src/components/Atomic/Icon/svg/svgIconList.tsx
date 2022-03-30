@@ -37,6 +37,7 @@ import { ReactComponent as Station } from './station.svg'
 import { ReactComponent as Sun } from './sun.svg'
 import { CustomIconProps, SvgIcon } from './SvgIcon'
 import { ReactComponent as Swap } from './swap.svg'
+import { ReactComponent as Thoryield } from './thoryield.svg'
 import { ReactComponent as ThreeDots } from './threedots.svg'
 import { ReactComponent as Tick } from './tick.svg'
 import { ReactComponent as TradeLightning } from './tradeLightning.svg'
@@ -59,6 +60,7 @@ export const Svgs = {
   ltc: Litecoin,
   terra: Terra,
   thor: Thorchain,
+  thoryield: Thoryield,
   // other icons
   app: App,
   binance: Binance3d,
@@ -109,6 +111,9 @@ export const SvgIcons = {
   ltc: (props: CustomIconProps) => <SvgIcon name="ltc" {...props} />,
   terra: (props: CustomIconProps) => <SvgIcon name="terra" {...props} />,
   thor: (props: CustomIconProps) => <SvgIcon name="thor" {...props} />,
+  thoryield: (props: CustomIconProps) => (
+    <SvgIcon name="thoryield" {...props} />
+  ),
   // other icons
   app: (props: CustomIconProps) => <SvgIcon name="app" {...props} />,
   binance: (props: CustomIconProps) => <SvgIcon name="binance" {...props} />,

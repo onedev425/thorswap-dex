@@ -1,22 +1,50 @@
 import {
-  StatsData,
-  Network,
+  Action,
+  ActionsList,
+  Coin,
   Constants,
-  Queue,
-  PoolStatsDetail,
   DepthHistory,
   EarningsHistory,
-  SwapHistory,
+  InboundAddressesItem,
+  LastblockItem,
   LiquidityHistory,
-  ActionsList,
   MemberDetails,
   MemberPool,
-  InboundAddressesItem,
-  TVLHistory,
-  LastblockItem,
+  Network,
+  PoolStatsDetail,
+  Queue,
+  StatsData,
+  SwapHistory,
   THORNode,
+  TVLHistory,
 } from '@thorswap-lib/midgard-sdk'
 import { Pool } from '@thorswap-lib/multichain-sdk'
+import { Chain } from '@thorswap-lib/xchain-util'
+export interface SubmitTx {
+  inAssets?: Coin[]
+  outAssets?: Coin[]
+  txID?: string
+  submitDate?: Date
+  recipient?: string
+  poolAsset?: string
+  addTx?: {
+    runeTxID?: string
+    assetTxID?: string
+  }
+  withdrawChain?: Chain // chain for asset used for withdraw tx
+}
+
+export interface TxTracker {
+  uuid: string
+  type: TxTrackerType
+  status: TxTrackerStatus
+  submitTx: SubmitTx
+  action: Action | null
+  refunded: boolean | null
+}
+
+// Record<asset, tracker status>
+export type ApproveStatus = Record<string, TxTrackerStatus>
 
 export enum TxTrackerStatus {
   Submitting = 'Submitting',

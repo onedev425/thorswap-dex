@@ -5,6 +5,7 @@ export type CollapseProps = {
   children?: React.ReactNode
   shadow?: boolean
   className?: string
+  contentClassName?: string
 }
 
 export type CollapseTitleProps = {

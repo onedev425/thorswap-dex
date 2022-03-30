@@ -5,6 +5,8 @@ import { Box, Button, Card, Icon, Typography } from 'components/Atomic'
 import { Popover } from 'components/Popover'
 import SocialIcons from 'components/SocialIcons'
 
+import { t } from 'services/i18n'
+
 export const AppPopoverMenu = () => {
   const { menus, menuType, onBack } = useAppPopoverMenu()
 
@@ -16,11 +18,15 @@ export const AppPopoverMenu = () => {
           type="borderless"
           variant="tint"
           startIcon={<Icon name="cog" />}
+          tooltip={t('common.globalSettings')}
         />
       }
       onClose={onBack}
     >
-      <Card className="mt-2 min-w-[160px] sm:w-[420px] border border-solid border-btn-primary">
+      <Card
+        className="mt-2 min-w-[160px] sm:w-[420px] border border-solid border-btn-primary"
+        size="sm"
+      >
         <Box className="w-full" col margin={2}>
           <Box row alignCenter>
             {menuType !== 'main' && (

@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState, useLayoutEffect } from 'react'
 
-const collapseClasses = 'duration-300 ease-in-out transition-max-height'
+const collapseClasses = 'ease-in-out transition-all'
 
 export const useCollapse = () => {
   const [isActive, setIsActive] = useState(false)

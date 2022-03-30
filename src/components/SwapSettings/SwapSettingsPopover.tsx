@@ -7,7 +7,7 @@ export const SwapSettingsPopover = () => {
     <Popover
       trigger={
         <Button
-          className="px-2 group"
+          className="px-1.5 group"
           type="borderless"
           variant="tint"
           startIcon={

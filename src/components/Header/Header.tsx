@@ -9,6 +9,7 @@ import { Button, Row, Icon, Box } from 'components/Atomic'
 import { GasTracker } from 'components/GasTracker'
 import { Refresh } from 'components/Refresh'
 import { StatusDropdown } from 'components/StatusDropdown'
+import { TxManager } from 'components/TxManager'
 
 import { useGlobalState } from 'redux/hooks'
 import { useWallet } from 'redux/wallet/hooks'
@@ -62,12 +63,13 @@ export const Header = ({ openMenu }: Props) => {
           </Box>
         </Row>
 
-        <Row className="inline-flex items-center mt-auto shrink-0 gap-x-2">
+        <Row className="inline-flex items-center mt-auto shrink-0 gap-x-1">
           <Button type="outline" onClick={handleClickWalletBtn}>
             {walletBtnText}
           </Button>
           <Refresh onRefresh={() => refreshPage(location)} />
           <AppPopoverMenu />
+          <TxManager />
         </Row>
       </Row>
     </header>
