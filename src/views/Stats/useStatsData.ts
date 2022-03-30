@@ -185,7 +185,7 @@ export const useStatsData = () => {
       },
       {
         title: 'Usage',
-        iconName: 'dashboard',
+        iconName: 'history',
         iconColor: 'cyan',
         stats: [
           {

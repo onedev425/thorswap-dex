@@ -40,7 +40,7 @@ export const Stats = ({
         <Box row className="gap-x-1">
           <div className="grid">
             <Typography
-              className="transition group-hover:text-dark-typo-primary overflow-hidden text-ellipsis whitespace-nowrap"
+              className="overflow-hidden transition group-hover:text-dark-typo-primary text-ellipsis whitespace-nowrap"
               variant="caption"
               color="secondary"
             >
@@ -48,18 +48,20 @@ export const Stats = ({
             </Typography>
           </div>
 
-          <Tooltip content={tooltip}>
-            <Icon
-              size={16}
-              className="group-hover:text-dark-typo-primary"
-              color="secondary"
-              name="infoCircle"
-            />
-          </Tooltip>
+          {tooltip && (
+            <Tooltip content={tooltip}>
+              <Icon
+                size={16}
+                className="group-hover:text-dark-typo-primary"
+                color="secondary"
+                name="infoCircle"
+              />
+            </Tooltip>
+          )}
         </Box>
         <div className="grid">
           <Typography
-            className="transition group-hover:text-dark-typo-primary overflow-hidden text-ellipsis whitespace-nowrap"
+            className="overflow-hidden transition group-hover:text-dark-typo-primary text-ellipsis whitespace-nowrap"
             transform="uppercase"
             variant="subtitle1"
           >
