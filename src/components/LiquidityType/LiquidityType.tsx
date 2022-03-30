@@ -15,7 +15,7 @@ export const LiquidityType = ({
       onChange(option)
     }
   }
-  const liquidityTypeOptions = [assetName, assetName + ' + RUNE', 'RUNE']
+  const liquidityTypeOptions = [assetName + ' + RUNE', assetName, 'RUNE']
   return (
     <Box className="self-stretch">
       <Select
@@ -29,9 +29,9 @@ export const LiquidityType = ({
 
 const optionToIndex = (val: LiquidityTypeOption) => {
   switch (val) {
-    case LiquidityTypeOption.ASSET:
-      return 0
     case LiquidityTypeOption.SYMMETRICAL:
+      return 0
+    case LiquidityTypeOption.ASSET:
       return 1
     case LiquidityTypeOption.RUNE:
       return 2
@@ -41,9 +41,9 @@ const optionToIndex = (val: LiquidityTypeOption) => {
 const indexToOption = (val: number) => {
   switch (val) {
     case 0:
-      return LiquidityTypeOption.ASSET
-    case 1:
       return LiquidityTypeOption.SYMMETRICAL
+    case 1:
+      return LiquidityTypeOption.ASSET
     case 2:
       return LiquidityTypeOption.RUNE
   }

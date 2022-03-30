@@ -56,7 +56,7 @@ export const AssetInputs = memo(
           })}
         >
           <AssetInput
-            className="!mb-1"
+            className="!mb-1 flex-1"
             selectedAsset={poolAsset}
             onAssetChange={onPoolChange}
             onValueChange={onAssetAmountChange}
