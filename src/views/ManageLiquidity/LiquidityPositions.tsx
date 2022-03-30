@@ -64,7 +64,7 @@ export const LiquidityPositions = memo(() => {
         />
       )}
 
-      <Box className="w-full gap-x-8 pb-4" justify="between">
+      <Box className="w-full pb-4 gap-x-8" justify="between">
         <Button size="lg" stretch onClick={() => navigate(ROUTES.AddLiquidity)}>
           {t('common.add')}
         </Button>

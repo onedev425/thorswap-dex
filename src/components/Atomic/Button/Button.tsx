@@ -24,11 +24,12 @@ export const Button = ({
   tooltip,
   tooltipPlacement,
   loading,
+  isFancy = false,
   ...rest
 }: ButtonProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const { backgroundClass, buttonClass, outlinedClass, typographyVariant } =
-    useButtonClasses({ size, variant })
+    useButtonClasses({ size, variant, isFancy })
 
   const isOutlined = type === 'outline'
   const isBorderless = type === 'borderless'
@@ -78,7 +79,7 @@ export const Button = ({
               'transition !no-underline',
               isOutlined || isBorderless
                 ? 'text-light-typo-primary dark:text-dark-typo-primary'
-                : 'text-light-typo-secondary dark:text-dark-typo-secondary',
+                : 'text-dark-typo-primary',
               {
                 'ml-2': startIcon,
                 'mr-2': endIcon,
@@ -86,7 +87,7 @@ export const Button = ({
             )}
             variant={typographyVariant}
             transform={transform}
-            fontWeight="bold"
+            fontWeight={isFancy ? 'semibold' : 'bold'}
             color={textColor}
           >
             {children}

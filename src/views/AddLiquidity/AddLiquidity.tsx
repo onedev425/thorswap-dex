@@ -131,7 +131,7 @@ export const AddLiquidity = () => {
       />
 
       <Box className="w-full pt-5">
-        <Button stretch size="lg" onClick={handleOpenLiquidityModal}>
+        <Button isFancy stretch size="lg" onClick={handleOpenLiquidityModal}>
           {t('common.connectWallet')}
         </Button>
       </Box>

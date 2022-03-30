@@ -48,6 +48,13 @@ module.exports = {
         'accent-active': '#7B48E8',
         alert: '#ED6B82',
         'alert-active': '#7B48E8',
+
+        fancy: {
+          'primary-start': '#46B2A7',
+          'primary-end': '#3B82F6',
+          'primary-start-hover': '#46B2A7DD',
+          'primary-end-hover': '#3B82F6DD',
+        },
       },
 
       // light mode

@@ -11,7 +11,7 @@ const buttonClasses: Record<ButtonSizes, string> = {
 }
 
 const typographyVariants: Record<ButtonSizes, TypographyVariant> = {
-  lg: 'body',
+  lg: 'subtitle2',
   md: 'caption',
   sm: 'caption-xs',
 }
@@ -30,7 +30,11 @@ const outlinedClasses: Record<ButtonVariants, string> = {
   tint: 'border-light-border-primary dark:border-dark-border-primary !bg-opacity-0 hover:!bg-opacity-100 active:!bg-opacity-50 dark:hover:!bg-opacity-100 dark:active:!bg-opacity-50',
 }
 
-const getBgClass = (variant: ButtonVariants) => {
+const getBgClass = (variant: ButtonVariants, isFancy: boolean) => {
+  if (isFancy) {
+    return 'border-none bg-gradient-to-r from-btn-fancy-primary-start to-btn-fancy-primary-end hover:from-btn-fancy-primary-start-hover hover:to-btn-fancy-primary-end-hover'
+  }
+
   const commonClasses =
     'border-transparent hover:bg-opacity-80 active:bg-opacity-100'
   const variantClasses = backgroundClasses[variant]
@@ -50,18 +54,20 @@ const getOutlinedClass = (variant: ButtonVariants) => {
 export const useButtonClasses = ({
   size,
   variant,
+  isFancy,
 }: {
   size: ButtonSizes
   variant: ButtonVariants
+  isFancy: boolean
 }) => {
   const computedClasses = useMemo(
     () => ({
-      backgroundClass: getBgClass(variant),
+      backgroundClass: getBgClass(variant, isFancy),
       buttonClass: buttonClasses[size],
       outlinedClass: getOutlinedClass(variant),
       typographyVariant: typographyVariants[size],
     }),
-    [size, variant],
+    [size, variant, isFancy],
   )
 
   return computedClasses

@@ -213,7 +213,7 @@ const Swap = () => {
         /> */}
 
       <Box className="w-full pt-5">
-        <Button stretch size="lg" onClick={handleSwap}>
+        <Button isFancy stretch size="lg" onClick={handleSwap}>
           {t('common.connectWallet')}
         </Button>
 
