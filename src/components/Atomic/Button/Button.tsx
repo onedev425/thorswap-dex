@@ -56,7 +56,7 @@ export const Button = ({
         onMouseDown={() => timeoutBlur(300)}
         ref={buttonRef}
         className={classNames(
-          'flex border border-solid items-center justify-center outline-none p-0 disabled:opacity-75 transition',
+          'flex border border-solid items-center justify-center outline-none p-0 disabled:opacity-75 transition group',
           buttonClass,
           className,
           disabled || loading ? 'cursor-not-allowed' : 'cursor-pointer',

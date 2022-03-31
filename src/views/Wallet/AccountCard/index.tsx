@@ -81,7 +81,8 @@ export const AccountCard = memo(({ chain }: Props) => {
             {chainAddress && (
               <Button
                 className="px-3"
-                variant="tint"
+                variant="primary"
+                type="outline"
                 startIcon={
                   <Icon
                     name="refresh"
@@ -98,10 +99,9 @@ export const AccountCard = memo(({ chain }: Props) => {
             {chainAddress ? (
               <Button
                 className="px-3"
-                variant="tint"
-                startIcon={
-                  <Icon name="disconnect" color="primaryBtn" size={16} />
-                }
+                variant="warn"
+                type="outline"
+                startIcon={<Icon name="disconnect" color="orange" size={16} />}
                 tooltip={t('common.disconnect')}
                 onClick={handleConnect}
               />
@@ -172,7 +172,7 @@ export const AccountCard = memo(({ chain }: Props) => {
         <AssetChart chain={chain} mode={ViewMode.CARD} />
 
         <Box
-          className="gap-8 pb-4 border-0 border-b-2 border-solid border-light-border-primary dark:border-dark-border-primary"
+          className="gap-3 pb-4 border-0 border-b-2 border-solid border-light-border-primary dark:border-dark-border-primary"
           center
         >
           <AccountCardButton

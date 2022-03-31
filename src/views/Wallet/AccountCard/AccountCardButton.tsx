@@ -1,5 +1,7 @@
 import { memo } from 'react'
 
+import classNames from 'classnames'
+
 import { Box, Button, Icon, IconName, Typography } from 'components/Atomic'
 
 type Props = {
@@ -15,17 +17,19 @@ export const AccountCardButton = memo(
       <Box col center className="gap-y-2">
         <Button
           onClick={onClick}
-          type="outline"
+          size="md"
           startIcon={
             <Icon
-              className={className}
+              className={classNames(
+                'group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary',
+                className,
+              )}
               color="secondary"
               size={20}
               name={icon}
             />
           }
           variant="tint"
-          className="!h-12 px-4 rounded-box"
         />
         <Typography variant="caption">{label}</Typography>
       </Box>

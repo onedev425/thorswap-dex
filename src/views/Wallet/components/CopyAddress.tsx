@@ -29,7 +29,7 @@ export const CopyAddress = ({ type = 'icon', address }: Props) => {
   const displayAddress = type === 'mini' ? miniAddress : shortAddress
 
   return (
-    <Tooltip content="Copy">
+    <Tooltip content={t('views.wallet.copyAddress')}>
       <Box onClick={handleCopyAddress}>
         <Typography
           className={baseHoverClass}

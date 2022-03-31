@@ -20,6 +20,7 @@ const backgroundClasses: Record<ButtonVariants, string> = {
   primary: 'bg-btn-primary',
   secondary: 'bg-btn-secondary',
   tertiary: 'bg-btn-tertiary',
+  warn: 'bg-orange',
   tint: 'bg-btn-light-tint hover:!bg-btn-light-tint-active dark:bg-btn-dark-tint dark:hover:!bg-btn-dark-tint-active hover:!bg-opacity-100 active:!bg-opacity-50 dark:hover:!bg-opacity-100 dark:active:!bg-opacity-50',
 }
 
@@ -27,6 +28,7 @@ const outlinedClasses: Record<ButtonVariants, string> = {
   primary: 'border-btn-primary',
   secondary: 'border-btn-secondary',
   tertiary: 'border-btn-tertiary',
+  warn: 'border-orange',
   tint: 'border-light-border-primary dark:border-dark-border-primary !bg-opacity-0 hover:!bg-opacity-100 active:!bg-opacity-50 dark:hover:!bg-opacity-100 dark:active:!bg-opacity-50',
 }
 

@@ -7,7 +7,12 @@ import { ColorType } from 'types/global'
 
 export type ButtonTypes = 'default' | 'outline' | 'borderless'
 export type ButtonSizes = 'sm' | 'md' | 'lg'
-export type ButtonVariants = 'primary' | 'secondary' | 'tertiary' | 'tint'
+export type ButtonVariants =
+  | 'primary'
+  | 'secondary'
+  | 'tertiary'
+  | 'tint'
+  | 'warn'
 
 export type VariantClasses = Record<ButtonVariants, string>
 export type SizeClasses = Record<ButtonSizes, string>

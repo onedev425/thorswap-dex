@@ -20,11 +20,12 @@ export const WalletHeader = () => {
 
   return (
     <Box className="pt-6 pb-4 pl-4 pr-2" alignCenter justify="between">
-      <Typography variant="h5">{t('common.wallet')}</Typography>
-      <Box className="space-x-1" row>
+      <Box className="gap-2" alignCenter>
+        <Typography variant="h5">{t('common.wallet')}</Typography>
         <Button
           className="px-3"
-          variant="tint"
+          variant="primary"
+          type="outline"
           startIcon={
             <Icon
               className={classNames({ '!animate-spin': isRefreshing })}
@@ -37,18 +38,22 @@ export const WalletHeader = () => {
           tooltipPlacement="left"
           onClick={handleRefresh}
         />
+      </Box>
+      <Box className="gap-2">
         <Button
           className="px-3"
-          variant="tint"
-          startIcon={<Icon name="add" color="primaryBtn" size={16} />}
+          variant="secondary"
+          type="outline"
+          startIcon={<Icon name="add" color="secondaryBtn" size={16} />}
           tooltip={t('views.walletDrawer.connectAnother')}
           tooltipPlacement="left"
           onClick={handleAddConnectWallet}
         />
         <Button
           className="px-3"
-          variant="tint"
-          startIcon={<Icon name="disconnect" color="primaryBtn" size={16} />}
+          variant="warn"
+          type="outline"
+          startIcon={<Icon name="disconnect" color="orange" size={16} />}
           tooltip={t('views.walletDrawer.disconnect')}
           tooltipPlacement="left"
           onClick={openDisconnectConfirmModal}
