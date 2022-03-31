@@ -32,11 +32,23 @@ export const useBalance = () => {
     dispatch(walletActions.loadAllWallets())
   }, [dispatch])
 
+  const isWalletAssetConnected = useCallback(
+    (asset: Asset) => {
+      return !!wallet?.[asset.L1Chain as SupportedChain]
+    },
+    [wallet],
+  )
+
   const getMaxBalance = useCallback(
-    (asset: Asset): Amount => {
+    (asset: Asset, virtualBalance = true): Amount => {
       if (!wallet?.[asset.L1Chain as SupportedChain]) {
         // allow max amount for emulation if wallet is not connected
-        return Amount.fromAssetAmount(10 ** 8, 8)
+
+        if (virtualBalance) {
+          return Amount.fromAssetAmount(10 ** 8, 8)
+        }
+
+        return Amount.fromAssetAmount(0, 8)
       }
 
       // calculate inbound fee
@@ -73,6 +85,7 @@ export const useBalance = () => {
   )
 
   return {
+    isWalletAssetConnected,
     getMaxBalance,
     reloadAllBalance,
     reloadBalanceByChain,

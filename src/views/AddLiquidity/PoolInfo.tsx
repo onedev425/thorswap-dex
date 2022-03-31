@@ -60,7 +60,7 @@ export const PoolInfo = ({
           <Typography variant="caption" color="secondary" fontWeight="semibold">
             {t('views.addLiquidity.shareOfPool')}
           </Typography>
-          <Typography variant="h4">{`${poolShare || 'N/A'}%`}</Typography>
+          <Typography variant="h4">{`${poolShare || 'N/A'}`}</Typography>
         </Box>
       </Box>
     </Collapse>

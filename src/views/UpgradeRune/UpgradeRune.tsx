@@ -4,26 +4,18 @@ import {
   Asset,
   Amount,
   hasWalletConnected,
-  getAssetBalance,
   Price,
   AssetAmount,
+  getRuneToUpgrade,
 } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
 
 import { AssetInput } from 'components/AssetInput'
-import {
-  Button,
-  Modal,
-  Card,
-  Icon,
-  Box,
-  Typography,
-  Tooltip,
-} from 'components/Atomic'
+import { Button, Card, Icon, Box, Typography, Tooltip } from 'components/Atomic'
 import { Helmet } from 'components/Helmet'
-import { InfoRow } from 'components/InfoRow'
 import { InfoTable } from 'components/InfoTable'
 import { Input } from 'components/Input'
+import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useMidgard } from 'redux/midgard/hooks'
@@ -45,14 +37,20 @@ const UpgradeRune = () => {
     multichain.getWalletAddressByChain(Chain.THORChain) || ''
   const [recipientAddress, setRecipientAddress] = useState(thorchainAddr)
 
-  const { wallet } = useWallet()
-  const { getMaxBalance } = useBalance()
+  const { wallet, setIsConnectModalOpen } = useWallet()
+  const { getMaxBalance, isWalletAssetConnected } = useBalance()
   const { pools } = useMidgard()
 
   const [selectedAsset, setSelectedAsset] = useState<Asset>(oldRunes[0])
   const [upgradeAmount, setUpgradeAmount] = useState<Amount>(
     Amount.fromAssetAmount(0, selectedAsset.decimal),
   )
+  const runeToUpgrade = useMemo(() => {
+    const runes = getRuneToUpgrade(wallet)
+
+    if (runes && runes.length > 0) return runes
+    return oldRunes
+  }, [wallet])
 
   const maxSpendableBalance: Amount = useMemo(
     () => getMaxBalance(selectedAsset),
@@ -76,21 +74,14 @@ const UpgradeRune = () => {
     return isChainTradingHalted?.[selectedAsset.chain] ?? false
   }, [isChainTradingHalted, selectedAsset])
 
-  const assetBalance: Amount = useMemo(() => {
-    if (wallet) {
-      return getAssetBalance(selectedAsset, wallet).amount
-    }
-    return Amount.fromAssetAmount(0, 8)
-  }, [selectedAsset, wallet])
-
   const assetPriceInUSD = useMemo(
     () =>
       new Price({
         baseAsset: Asset.RUNE(),
         pools,
-        priceAmount: assetBalance,
+        priceAmount: upgradeAmount,
       }),
-    [assetBalance, pools],
+    [upgradeAmount, pools],
   )
 
   const handleChangeUpgradeAmount = useCallback(
@@ -221,19 +212,29 @@ const UpgradeRune = () => {
     () => ({
       asset: selectedAsset,
       value: upgradeAmount,
-      balance: maxSpendableBalance,
+      balance: isWalletAssetConnected(selectedAsset)
+        ? maxSpendableBalance
+        : undefined,
       usdPrice: assetPriceInUSD,
     }),
-    [selectedAsset, upgradeAmount, maxSpendableBalance, assetPriceInUSD],
+    [
+      selectedAsset,
+      upgradeAmount,
+      maxSpendableBalance,
+      assetPriceInUSD,
+      isWalletAssetConnected,
+    ],
   )
 
   const assetInputList = useMemo(
     () =>
-      oldRunes.map((asset: Asset) => ({
+      runeToUpgrade.map((asset: Asset) => ({
         asset,
-        balance: getMaxBalance(asset),
+        balance: isWalletAssetConnected(asset)
+          ? getMaxBalance(asset)
+          : undefined,
       })),
-    [getMaxBalance],
+    [runeToUpgrade, getMaxBalance, isWalletAssetConnected],
   )
 
   const summary = useMemo(
@@ -242,7 +243,9 @@ const UpgradeRune = () => {
         label: t('common.transactionFee'),
         value: (
           <Box className="gap-2" center>
-            <Typography variant="caption">{`${inboundFee.toCurrencyFormat()} (${totalFeeInUSD.toCurrencyFormat()})`}</Typography>
+            <Typography variant="caption">{`${inboundFee.toCurrencyFormat()} (${totalFeeInUSD.toCurrencyFormat(
+              2,
+            )})`}</Typography>
             <Tooltip content={t('views.send.txFeeTooltip')}>
               <Icon size={20} color="secondary" name="infoCircle" />
             </Tooltip>
@@ -254,6 +257,9 @@ const UpgradeRune = () => {
   )
 
   // TODO: add more validations
+
+  console.log('wallet', wallet?.BNB?.balance)
+  console.log('asset', Asset.BNB_RUNE())
 
   return (
     <Box className="self-center w-full max-w-[480px]" col>
@@ -285,8 +291,6 @@ const UpgradeRune = () => {
             className="!mb-1"
           />
 
-          <InfoRow label={t('common.transactionFee')} value="0.00075 BNB" />
-
           <Box col>
             <Input
               border="bottom"
@@ -308,19 +312,24 @@ const UpgradeRune = () => {
             </Button>
           )}
           {!isWalletConnected && (
-            <Button stretch size="lg" onClick={() => setIsOpened(true)}>
+            <Button
+              stretch
+              size="lg"
+              onClick={() => setIsConnectModalOpen(true)}
+            >
               Connect Wallet
             </Button>
           )}
 
           {isOpened && (
-            <Modal
-              title={`Upgrade ${selectedAsset.network} RUNE`}
+            <ConfirmModal
+              inputAssets={[selectedAsset]}
               isOpened={isOpened}
-              onClose={handleConfirmUpgrade} // TODO: fix
+              onConfirm={handleConfirmUpgrade}
+              onClose={() => setIsOpened(false)}
             >
-              {/*  */}
-            </Modal>
+              {/** TODO: UI */}
+            </ConfirmModal>
           )}
         </Box>
       </Card>

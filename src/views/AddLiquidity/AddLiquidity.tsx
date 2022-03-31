@@ -17,13 +17,15 @@ import {
   SupportedChain,
   hasConnectedWallet,
   hasWalletConnected,
+  getEstimatedTxTime,
 } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
 
 import { Button, Box } from 'components/Atomic'
+import { InfoTable } from 'components/InfoTable'
 import { LiquidityType } from 'components/LiquidityType/LiquidityType'
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
-import { ConfirmDepositLiquidity } from 'components/Modals/ConfirmDepositLiquidity'
+import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
@@ -46,6 +48,7 @@ import { getAddLiquidityRoute } from 'settings/constants'
 
 import { AssetInputs } from './AssetInputs'
 import { PoolInfo } from './PoolInfo'
+import { useConfirmInfoItems } from './useConfirmInfoItems'
 import { getMaxSymAmounts } from './utils'
 
 // TODO: refactor useState -> useReducer
@@ -68,7 +71,7 @@ export const AddLiquidity = () => {
   const dispatch = useDispatch()
 
   ///
-  const { getMaxBalance } = useBalance()
+  const { getMaxBalance, isWalletAssetConnected } = useBalance()
   const { wallet, setIsConnectModalOpen } = useWallet()
   const { isFundsCapReached, isChainPauseLPAction } = useMimir()
   const isLPActionPaused: boolean = useMemo(() => {
@@ -126,6 +129,7 @@ export const AddLiquidity = () => {
       if (!assetParam) {
         return
       }
+
       const assetEntity = Asset.decodeFromURL(assetParam)
 
       if (assetEntity) {
@@ -443,6 +447,9 @@ export const AddLiquidity = () => {
         const runeTxHash = txRes?.runeTx
         const assetTxHash = txRes?.assetTx
 
+        console.log('runeTxHash', runeTxHash)
+        console.log('assetTxHash', assetTxHash)
+
         if (runeTxHash || assetTxHash) {
           // TODO: add tx tracker
           // start polling
@@ -572,7 +579,19 @@ export const AddLiquidity = () => {
     return inboundRuneFee.totalPriceIn(Asset.USD(), pools).toCurrencyFormat()
   }, [liquidityType, inboundRuneFee, inboundAssetFee, pools])
 
-  const depositAssets = useMemo(() => {
+  const depositAssets: Asset[] = useMemo(() => {
+    if (liquidityType === LiquidityTypeOption.RUNE) {
+      return [Asset.RUNE()]
+    }
+
+    if (liquidityType === LiquidityTypeOption.ASSET) {
+      return [poolAsset]
+    }
+
+    return [poolAsset, Asset.RUNE()]
+  }, [liquidityType, poolAsset])
+
+  const depositAssetInputs = useMemo(() => {
     if (liquidityType === LiquidityTypeOption.RUNE) {
       return [
         {
@@ -742,9 +761,11 @@ export const AddLiquidity = () => {
     () =>
       inputAssets.map((inputAsset: Asset) => ({
         asset: inputAsset,
-        balance: getMaxBalance(inputAsset),
+        balance: isWalletAssetConnected(inputAsset)
+          ? getMaxBalance(inputAsset)
+          : undefined,
       })),
-    [inputAssets, getMaxBalance],
+    [inputAssets, isWalletAssetConnected, getMaxBalance],
   )
 
   const title = useMemo(() => `Add ${poolAsset.ticker} Liquidity`, [poolAsset])
@@ -756,6 +777,35 @@ export const AddLiquidity = () => {
 
     return 'Add Liquidity'
   }, [isValidDeposit, isApproveRequired])
+
+  const estimatedTime = useMemo(() => {
+    return liquidityType === LiquidityTypeOption.RUNE
+      ? getEstimatedTxTime({
+          chain: Chain.THORChain,
+          amount: runeAmount,
+        })
+      : getEstimatedTxTime({
+          chain: poolAsset.chain as SupportedChain,
+          amount: assetAmount,
+        })
+  }, [liquidityType, assetAmount, runeAmount, poolAsset])
+
+  const confirmInfo = useConfirmInfoItems({
+    assets: depositAssetInputs,
+    poolShare: poolShareEst,
+    slippage: addLiquiditySlip || 'N/A',
+    estimatedTime,
+    totalFee: totalFeeInUSD,
+    fees: [
+      { chain: poolAsset.L1Chain, fee: inboundAssetFee.toCurrencyFormat() },
+      { chain: Chain.THORChain, fee: inboundRuneFee.toCurrencyFormat() },
+    ],
+  })
+
+  const renderConfirmModalContent = useMemo(
+    () => <InfoTable items={confirmInfo} />,
+    [confirmInfo],
+  )
 
   return (
     <PanelView
@@ -806,20 +856,14 @@ export const AddLiquidity = () => {
         </Box>
       )}
 
-      <ConfirmDepositLiquidity
-        assets={depositAssets}
-        fees={[
-          { chain: poolAsset.L1Chain, fee: inboundAssetFee.toCurrencyFormat() },
-          { chain: Chain.THORChain, fee: inboundRuneFee.toCurrencyFormat() },
-        ]}
-        totalFee={totalFeeInUSD}
-        poolShare={poolShareEst}
-        slippage={addLiquiditySlip}
-        estimatedTime="<15s"
-        isOpen={visibleConfirmModal}
-        onCancel={() => setVisibleConfirmModal(false)}
+      <ConfirmModal
+        inputAssets={depositAssets}
+        isOpened={visibleConfirmModal}
         onConfirm={handleConfirmAdd}
-      />
+        onClose={() => setVisibleConfirmModal(false)}
+      >
+        {renderConfirmModalContent}
+      </ConfirmModal>
     </PanelView>
   )
 }

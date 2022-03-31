@@ -64,7 +64,7 @@ export const useConfirmInfoItems = ({
       value: (
         <InfoWithTooltip
           tooltip={t('views.liquidity.poolShareTooltip')}
-          value={`${poolShare}%`}
+          value={`${poolShare}`}
         />
       ),
     },

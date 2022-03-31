@@ -22,6 +22,8 @@ import { useWallet } from 'redux/wallet/hooks'
 
 import { useWalletDrawer } from 'hooks/useWalletDrawer'
 
+import { ROUTES } from 'settings/constants'
+
 import { ChainHeader } from './ChainHeader'
 import { sortedChains } from './types'
 
@@ -69,11 +71,15 @@ const WalletBalance = () => {
 
           <Box className="space-x-1" row>
             {isOldRune(data.asset) && (
-              <Button
-                className="px-3 hover:bg-transparent dark:hover:bg-transparent"
-                variant="tint"
-                startIcon={<Icon name="switch" color="primaryBtn" size={16} />}
-              />
+              <Link to={ROUTES.UpgradeRune}>
+                <Button
+                  className="px-3 hover:bg-transparent dark:hover:bg-transparent"
+                  variant="tint"
+                  startIcon={
+                    <Icon name="switch" color="primaryBtn" size={16} />
+                  }
+                />
+              </Link>
             )}
             <Link to={`/send/${data.asset.toURLEncoded()}`} onClick={close}>
               <Button
