@@ -35,7 +35,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     }
 
     return (
-      <div>
+      <Box className={classNames(stretch ? 'w-full' : 'w-fit')}>
         <Box
           className={classNames(
             'flex flex-row py-1.5 transition-colors',
@@ -96,15 +96,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
         {error && (
           <Typography
+            className="pt-2 pl-2"
             fontWeight="semibold"
-            className="pl-2 pt-2"
             variant="caption"
             color="red"
           >
             {error}
           </Typography>
         )}
-      </div>
+      </Box>
     )
   },
 )

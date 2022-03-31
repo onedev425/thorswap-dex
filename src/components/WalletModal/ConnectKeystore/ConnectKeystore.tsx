@@ -135,7 +135,7 @@ export const KeystoreView = ({ loading, onConnect, onCreate }: Props) => {
           iconName="question"
         />
       </Box>
-      <Box className="w-full">
+      <Box className="flex-1 w-full">
         <Input
           border="rounded"
           name="password"
