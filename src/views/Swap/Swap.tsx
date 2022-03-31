@@ -21,7 +21,8 @@ import copy from 'copy-to-clipboard'
 
 import { Button, Icon, Box } from 'components/Atomic'
 import { baseHoverClass } from 'components/constants'
-import { ConfirmSwap } from 'components/Modals/ConfirmSwap'
+import { InfoTable } from 'components/InfoTable'
+import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { PanelInput, PanelInputTitle } from 'components/PanelInput'
 import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
@@ -48,6 +49,7 @@ import { multichain } from 'services/multichain'
 import { IS_SYNTH_ACTIVE } from 'settings/config'
 import { getSwapRoute } from 'settings/constants'
 
+import { useConfirmInfoItems } from '../../components/Modals/ConfirmModal/useConfirmInfoItems'
 import { AssetInputs } from './AssetInputs'
 import { SwapInfo } from './SwapInfo'
 import { Pair } from './types'
@@ -657,6 +659,24 @@ const SwapView = () => {
     [outputAssets, getMaxBalance],
   )
 
+  const swapConfirmInfo = useConfirmInfoItems({
+    inputAsset: inputAssetProps,
+    outputAsset: outputAssetProps,
+    recipient,
+    estimatedTime,
+    slippage: slipPercent.toFixed(3),
+    isValidSlip,
+    minReceive: `${minReceive.toSignificant(
+      6,
+    )} ${outputAsset.name.toUpperCase()}`,
+    totalFee: totalFeeInUSD.toCurrencyFormat(2),
+  })
+
+  const renderConfirmModalContent = useMemo(
+    () => <InfoTable items={swapConfirmInfo} />,
+    [swapConfirmInfo],
+  )
+
   return (
     <PanelView
       title={title}
@@ -767,21 +787,14 @@ const SwapView = () => {
           </Button>
         )}
 
-        <ConfirmSwap
-          inputAsset={inputAssetProps}
-          outputAsset={outputAssetProps}
-          totalFee={totalFeeInUSD.toCurrencyFormat(2)}
-          estimatedTime={estimatedTime}
-          slippage={slipPercent.toFixed(3)}
-          isValidSlip={isValidSlip}
-          minReceive={`${minReceive.toSignificant(
-            6,
-          )} ${outputAsset.name.toUpperCase()}`}
-          recipient={recipient}
+        <ConfirmModal
+          inputAssets={[inputAsset]}
           isOpened={visibleConfirmModal}
           onClose={() => setVisibleConfirmModal(false)}
           onConfirm={handleConfirm}
-        />
+        >
+          {renderConfirmModalContent}
+        </ConfirmModal>
       </Box>
     </PanelView>
   )

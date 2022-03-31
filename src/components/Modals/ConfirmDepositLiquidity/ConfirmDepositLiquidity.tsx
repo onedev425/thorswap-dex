@@ -4,10 +4,11 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 
 import { Box, Button, Modal } from 'components/Atomic'
 import { InfoTable } from 'components/InfoTable'
-import { useConfirmInfoItems } from 'components/Modals/ConfirmDepositLiquidity/useConfirmInfoItems'
 import { PasswordInput } from 'components/PasswordInput'
 
 import { t } from 'services/i18n'
+
+import { useConfirmInfoItems } from './useConfirmInfoItems'
 
 type Props = {
   isOpen: boolean

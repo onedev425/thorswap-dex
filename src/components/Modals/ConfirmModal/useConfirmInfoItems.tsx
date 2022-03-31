@@ -2,7 +2,7 @@ import { shortenAddress } from 'utils/shortenAddress'
 
 import { AssetInputType } from 'components/AssetInput/types'
 import { InfoRowConfig } from 'components/InfoRow/types'
-import { InfoWithTooltip } from 'components/Modals/ConfirmSwap/InfoWithTooltip'
+import { InfoWithTooltip } from 'components/InfoWithTooltip'
 
 import { t } from 'services/i18n'
 

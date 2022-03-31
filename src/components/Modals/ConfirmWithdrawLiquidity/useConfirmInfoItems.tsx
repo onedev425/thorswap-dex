@@ -3,7 +3,7 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, Typography } from 'components/Atomic'
 import { InfoRowConfig } from 'components/InfoRow/types'
-import { InfoWithTooltip } from 'components/Modals/ConfirmSwap/InfoWithTooltip'
+import { InfoWithTooltip } from 'components/InfoWithTooltip'
 
 import { t } from 'services/i18n'
 
