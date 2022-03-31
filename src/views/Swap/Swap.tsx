@@ -28,11 +28,13 @@ import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useApp } from 'redux/app/hooks'
-// import { useAssets } from 'redux/assets/hooks'
 import { useMidgard } from 'redux/midgard/hooks'
-// import { TxTrackerStatus, TxTrackerType } from 'redux/midgard/types'
+import { useWallet } from 'redux/wallet/hooks'
+// import { useAssets } from 'redux/assets/hooks'
 
+// import { TxTrackerStatus, TxTrackerType } from 'redux/midgard/types'
 // import { useApprove } from 'hooks/useApprove'
+
 import { useBalance } from 'hooks/useBalance'
 import { useCheckExchangeBNB } from 'hooks/useCheckExchangeBNB'
 import { useNetworkFee } from 'hooks/useNetworkFee'
@@ -78,7 +80,8 @@ const SwapView = () => {
 
   const { inputAsset, outputAsset } = swapPair
 
-  const { wallet, getMaxBalance } = useBalance()
+  const { getMaxBalance } = useBalance()
+  const { wallet, setIsConnectModalOpen } = useWallet()
   const { pools: allPools, poolLoading, inboundData } = useMidgard()
   const { slippageTolerance } = useApp()
 
@@ -754,13 +757,7 @@ const SwapView = () => {
 
       <Box className="w-full pt-5">
         {isWalletRequired && (
-          <Button
-            stretch
-            size="lg"
-            onClick={() => {
-              /** connect wallet */
-            }}
-          >
+          <Button stretch size="lg" onClick={() => setIsConnectModalOpen(true)}>
             {t('common.connectWallet')}
           </Button>
         )}

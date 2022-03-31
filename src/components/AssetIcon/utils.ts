@@ -1,6 +1,7 @@
-import { Asset } from '@thorswap-lib/multichain-sdk'
-
-import { multichain } from 'services/multichain'
+import {
+  Asset,
+  getContractAddressFromAsset,
+} from '@thorswap-lib/multichain-sdk'
 
 import {
   assetIconMap,
@@ -47,8 +48,12 @@ export const getAssetIconUrl = (asset: Asset) => {
       return 'https://assets.coingecko.com/coins/images/2518/large/weth.png'
     }
 
-    const contract = multichain.eth.getCheckSumAddress(asset)
-    return `${twBaseUri}/ethereum/assets/${contract}/logo.png`
+    try {
+      const contract = getContractAddressFromAsset(asset)
+      return `${twBaseUri}/ethereum/assets/${contract}/logo.png`
+    } catch (error) {
+      return undefined
+    }
   }
 
   const logoSymbol = assetIconMap[asset.ticker as BepIconType]

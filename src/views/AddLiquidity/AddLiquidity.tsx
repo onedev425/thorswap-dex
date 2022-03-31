@@ -31,6 +31,7 @@ import { ViewHeader } from 'components/ViewHeader'
 import { useApp } from 'redux/app/hooks'
 import * as actions from 'redux/midgard/actions'
 import { RootState } from 'redux/store'
+import { useWallet } from 'redux/wallet/hooks'
 
 import { useBalance } from 'hooks/useBalance'
 import { useMimir } from 'hooks/useMimir'
@@ -67,7 +68,8 @@ export const AddLiquidity = () => {
   const dispatch = useDispatch()
 
   ///
-  const { wallet, getMaxBalance } = useBalance()
+  const { getMaxBalance } = useBalance()
+  const { wallet, setIsConnectModalOpen } = useWallet()
   const { isFundsCapReached, isChainPauseLPAction } = useMimir()
   const isLPActionPaused: boolean = useMemo(() => {
     return isChainPauseLPAction(poolAsset.chain)
@@ -788,12 +790,21 @@ export const AddLiquidity = () => {
         rate={pool?.assetPriceInRune?.toSignificant(6) ?? null}
       />
 
-      <Box className="w-full pt-5">
-        <Button stretch size="lg" onClick={handleAddLiquidity}>
-          {/* {t('common.connectWallet')} */}
-          {btnLabel}
-        </Button>
-      </Box>
+      {isWalletConnected && (
+        <Box className="w-full pt-5">
+          <Button stretch size="lg" onClick={handleAddLiquidity}>
+            {btnLabel}
+          </Button>
+        </Box>
+      )}
+
+      {!isWalletConnected && (
+        <Box className="w-full pt-5">
+          <Button stretch size="lg" onClick={() => setIsConnectModalOpen(true)}>
+            Connect Wallet
+          </Button>
+        </Box>
+      )}
 
       <ConfirmDepositLiquidity
         assets={depositAssets}

@@ -8,7 +8,6 @@ import {
   Asset,
   Price,
   AssetAmount,
-  getAssetBalance,
   hasWalletConnected,
 } from '@thorswap-lib/multichain-sdk'
 import { commonAssets } from 'utils/assetsFixture'
@@ -16,7 +15,7 @@ import { commonAssets } from 'utils/assetsFixture'
 import { AssetInput } from 'components/AssetInput'
 import { Button, Box, Tooltip, Icon, Typography } from 'components/Atomic'
 import { InfoTable } from 'components/InfoTable'
-import { ConfirmSend } from 'components/Modals/ConfirmSend'
+import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { PanelInput } from 'components/PanelInput'
 import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
@@ -49,7 +48,7 @@ const Send = () => {
   const [recipientAddress, setRecipientAddress] = useState('')
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
 
-  const { wallet } = useWallet()
+  const { wallet, setIsConnectModalOpen } = useWallet()
   const { pools } = useMidgard()
   const { getMaxBalance } = useBalance()
   const { inboundFee, totalFeeInUSD } = useNetworkFee({ inputAsset: sendAsset })
@@ -86,21 +85,14 @@ const Send = () => {
 
   const walletAssets = useMemo(() => getWalletAssets(wallet), [wallet])
 
-  const assetBalance: Amount = useMemo(() => {
-    if (wallet) {
-      return getAssetBalance(sendAsset, wallet).amount
-    }
-    return Amount.fromAssetAmount(0, 8)
-  }, [sendAsset, wallet])
-
   const assetPriceInUSD = useMemo(
     () =>
       new Price({
         baseAsset: sendAsset,
         pools,
-        priceAmount: assetBalance,
+        priceAmount: sendAmount,
       }),
-    [sendAsset, assetBalance, pools],
+    [sendAsset, sendAmount, pools],
   )
 
   const handleSelectAsset = useCallback(
@@ -207,10 +199,16 @@ const Send = () => {
     () => ({
       asset: sendAsset,
       value: sendAmount,
-      balance: maxSpendableBalance,
+      balance: isWalletConnected ? maxSpendableBalance : undefined,
       usdPrice: assetPriceInUSD,
     }),
-    [sendAsset, sendAmount, maxSpendableBalance, assetPriceInUSD],
+    [
+      sendAsset,
+      sendAmount,
+      maxSpendableBalance,
+      assetPriceInUSD,
+      isWalletConnected,
+    ],
   )
 
   const assetInputList = useMemo(
@@ -239,6 +237,33 @@ const Send = () => {
     [inboundFee, totalFeeInUSD],
   )
 
+  const confirmModalInfo = useMemo(
+    () => [
+      {
+        label: t('common.send'),
+        value: `${sendAmount?.toSignificant(6)} ${sendAsset.name}`,
+      },
+      { label: t('common.recipient'), value: recipientAddress },
+      {
+        label: t('common.transactionFee'),
+        value: (
+          <Box className="gap-2" center>
+            <Typography variant="caption">{`${inboundFee.toCurrencyFormat()} (${totalFeeInUSD.toCurrencyFormat()})`}</Typography>
+            <Tooltip content={t('views.send.txFeeTooltip')}>
+              <Icon size={20} color="secondary" name="infoCircle" />
+            </Tooltip>
+          </Box>
+        ),
+      },
+    ],
+    [recipientAddress, sendAsset, sendAmount, inboundFee, totalFeeInUSD],
+  )
+
+  const renderConfirmModalContent = useMemo(
+    () => <InfoTable items={confirmModalInfo} />,
+    [confirmModalInfo],
+  )
+
   return (
     <PanelView
       title={t('common.send')}
@@ -259,7 +284,7 @@ const Send = () => {
 
       <PanelInput
         title={t('common.recipientAddress')}
-        placeholder={`${t('common.recipientAddress')} ${t('common.here')}`}
+        placeholder=""
         onChange={handleChangeRecipient}
         value={recipientAddress}
       />
@@ -267,7 +292,6 @@ const Send = () => {
       <PanelInput
         collapsible
         title={t('common.memo')}
-        placeholder={t('common.memo')}
         onChange={handleChangeMemo}
         value={memo}
       />
@@ -281,20 +305,21 @@ const Send = () => {
           </Button>
         )}
         {!isWalletConnected && (
-          <Button stretch size="lg" onClick={() => setIsOpenConfirmModal(true)}>
+          <Button stretch size="lg" onClick={() => setIsConnectModalOpen(true)}>
             Connect Wallet
           </Button>
         )}
       </Box>
 
       {isOpenConfirmModal && (
-        <ConfirmSend
+        <ConfirmModal
+          inputAssets={[sendAsset]}
           isOpened={isOpenConfirmModal}
-          address={recipientAddress}
-          asset={assetInput}
-          onClose={handleCancelSend}
           onConfirm={handleConfirmSend}
-        />
+          onClose={handleCancelSend}
+        >
+          {renderConfirmModalContent}
+        </ConfirmModal>
       )}
     </PanelView>
   )

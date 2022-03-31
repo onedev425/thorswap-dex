@@ -1,1 +1,0 @@
-export { ConfirmSend } from './ConfirmSend'
