@@ -4,13 +4,18 @@ import { useNavigate } from 'react-router-dom'
 
 import { chainToSigAsset, SupportedChain } from '@thorswap-lib/multichain-sdk'
 import { chainToString } from '@thorswap-lib/xchain-util'
-import { shortenAddress } from 'utils/shortenAddress'
+import classNames from 'classnames'
 
 import { AssetChart } from 'views/Wallet/AssetChart'
+import { CopyAddress } from 'views/Wallet/components/CopyAddress'
+import { GoToAccount } from 'views/Wallet/components/GoToAccount'
+import { ShowQrCode } from 'views/Wallet/components/ShowQrCode'
 
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, Button, Card, Icon, Typography } from 'components/Atomic'
+import { borderHoverHighlightClass } from 'components/constants'
 import { Scrollbar } from 'components/Scrollbar'
+import { WalletIcon } from 'components/WalletIcon/WalletIcon'
 
 import { t } from 'services/i18n'
 
@@ -20,7 +25,7 @@ import { ROUTES } from 'settings/constants'
 
 import { ViewMode } from 'types/global'
 
-import { useAccountData } from '../hooks'
+import { useAccountData, useWalletChainActions } from '../hooks'
 import { AccountCardButton } from './AccountCardButton'
 import { ChainInfo } from './ChainInfo'
 
@@ -36,12 +41,12 @@ export const AccountCard = memo(({ chain }: Props) => {
     balance,
     chainAddress,
     chainInfo,
-    chainWalletLoading,
     geckoData,
     setIsConnectModalOpen,
+    chainWallet,
   } = useAccountData(chain)
 
-  const isChainLoading = chainWalletLoading[chain]
+  const { isLoading, handleRefreshChain } = useWalletChainActions(chain)
   const sigAsset = chainToSigAsset(chain)
 
   const handleConnect = useCallback(() => {
@@ -53,7 +58,7 @@ export const AccountCard = memo(({ chain }: Props) => {
   const accountBalance = formatPrice(balance)
 
   return (
-    <Card className="!p-6 overflow-hidden">
+    <Card className={classNames('overflow-hidden', borderHoverHighlightClass)}>
       <Box className="w-full min-w-fit" col>
         <Box
           className="pb-4 border-0 border-b-2 border-solid border-light-border-primary dark:border-dark-border-primary"
@@ -62,25 +67,56 @@ export const AccountCard = memo(({ chain }: Props) => {
           justify="between"
         >
           <Box center className="space-x-1">
+            {!!chainWallet && (
+              <WalletIcon walletType={chainWallet?.walletType} size={16} />
+            )}
             <Typography>{chainToString(chain)}</Typography>
 
-            <Typography color="secondary">
+            <Typography color="primaryBtn" fontWeight="semibold">
               {chainAddress && accountBalance}
             </Typography>
           </Box>
 
-          <Button
-            disabled={isChainLoading}
-            type={chainAddress ? 'outline' : 'default'}
-            onClick={handleConnect}
-          >
-            <Box center className="gap-x-2">
-              {isChainLoading && (
-                <Icon name="refresh" color="primary" size={16} spin />
-              )}
-              {chainAddress ? t('common.disconnect') : t('common.connect')}
-            </Box>
-          </Button>
+          <Box className="gap-2">
+            {chainAddress && (
+              <Button
+                className="px-3"
+                variant="tint"
+                startIcon={
+                  <Icon
+                    name="refresh"
+                    color="primaryBtn"
+                    size={16}
+                    spin={isLoading}
+                  />
+                }
+                tooltip={t('common.refresh')}
+                onClick={handleRefreshChain}
+              />
+            )}
+
+            {chainAddress ? (
+              <Button
+                className="px-3"
+                variant="tint"
+                startIcon={
+                  <Icon name="disconnect" color="primaryBtn" size={16} />
+                }
+                tooltip={t('common.disconnect')}
+                onClick={handleConnect}
+              />
+            ) : (
+              <Button
+                disabled={isLoading}
+                type={chainAddress ? 'outline' : 'default'}
+                onClick={handleConnect}
+              >
+                <Box center className="gap-x-2">
+                  {t('common.connect')}
+                </Box>
+              </Button>
+            )}
+          </Box>
         </Box>
 
         <Box mt={3} alignCenter justify="between">
@@ -100,42 +136,28 @@ export const AccountCard = memo(({ chain }: Props) => {
 
           {chainAddress && (
             <Box center row className="gap-x-3">
-              <Icon
-                onClick={() => {}}
-                color="secondary"
-                name="refresh"
-                size={18}
-              />
-              <Icon
-                onClick={() => {}}
-                color="secondary"
-                name="qrcode"
-                size={18}
-              />
-              <Icon
-                onClick={() => {}}
-                color="secondary"
-                name="import"
-                size={18}
-              />
+              <Box alignCenter>
+                <CopyAddress address={chainAddress} type="short" />
+                <CopyAddress address={chainAddress} type="icon" />
+                <ShowQrCode chain={chain} address={chainAddress} />
+                <GoToAccount chain={chain} address={chainAddress} />
+              </Box>
             </Box>
           )}
-        </Box>
 
-        <Box mt={2} col>
-          <Box alignCenter flex={1} justify="between">
-            <Typography variant="h3">
-              {formatPrice(activeAssetPrice)}
-            </Typography>
-
-            {chainAddress && (
+          {/* TODO - view keystore phrase */}
+          {/* {chainAddress && (
               <Box center className="gap-x-2">
                 <Icon name="eye" color="secondary" />
-                <Typography variant="caption">
-                  {shortenAddress(chainAddress, 8, 5)}
-                </Typography>
               </Box>
-            )}
+            )} */}
+        </Box>
+
+        <Box mt={2} col center>
+          <Box alignCenter flex={1} justify="between">
+            <Typography variant="h3" fontWeight="semibold">
+              {formatPrice(activeAssetPrice)}
+            </Typography>
           </Box>
 
           <Typography
@@ -187,7 +209,7 @@ export const AccountCard = memo(({ chain }: Props) => {
             </Box>
           ) : (
             <Box flex={1} center>
-              <Typography variant="subtitle1">
+              <Typography variant="subtitle2" color="secondary">
                 {t('views.wallet.noDataToShow')}
               </Typography>
             </Box>

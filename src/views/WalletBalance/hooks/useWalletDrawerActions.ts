@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { SupportedChain, SUPPORTED_CHAINS } from '@thorswap-lib/multichain-sdk'
+import { SUPPORTED_CHAINS } from '@thorswap-lib/multichain-sdk'
 
 import { useWallet } from 'redux/wallet/hooks'
 
@@ -46,16 +46,9 @@ export const useWalletDrawerActions = () => {
     }
   }
 
-  const handleRefreshChain = (chain: SupportedChain) => {
-    if (wallet?.[chain]) {
-      refreshWalletByChain(chain)
-    }
-  }
-
   return {
     handleAddConnectWallet,
     handleRefresh,
-    handleRefreshChain,
     isDisconnectModalOpened,
     openDisconnectConfirmModal,
     onCancelDisconnect,

@@ -260,7 +260,13 @@
       "transactionFeeTooltip": "Gas fee used for submitting the transaction",
       "networkFeeTooltip": "Thorchain network fee used to pay outbound transaction",
       "totalFeeTooltip": "Sum of both transaction fee and network fee",
-      "estimatedTimeTooltip": "Estimated time to process the transaction"
+      "estimatedTimeTooltip": "Estimated time to process the transaction",
+      "listView": "View as list",
+      "gridView": "View as grid",
+      "walletTypeConnected": "%{walletType} Connected",
+      "goToAccount": "Go to account",
+      "showQRCode": "Show QR code",
+      "copyAddress": "Copy Address"
     },
     "walletDrawer": {
       "openWalletPage": "Open Wallet Page",

@@ -6,8 +6,8 @@ import { CardProps, CardSize } from './types'
 
 const sizeVariants: Record<CardSize, string> = {
   sm: 'p-2 rounded-2xl',
-  md: 'p-4 rounded-box',
-  lg: 'p-8 md:p-10 rounded-box-lg',
+  md: 'p-4 rounded-3xl',
+  lg: 'p-8 md:p-10 rounded-3xl',
 }
 
 export const Card = ({

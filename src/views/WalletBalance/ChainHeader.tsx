@@ -2,19 +2,16 @@ import { useCallback, useMemo, useState } from 'react'
 
 import { SupportedChain, WalletOption } from '@thorswap-lib/multichain-sdk'
 import { chainToString } from '@thorswap-lib/xchain-util'
-import classNames from 'classnames'
 
-import { useWalletDrawerActions } from 'views/WalletBalance/hooks/useWalletDrawerActions'
+import { CopyAddress } from 'views/Wallet/components/CopyAddress'
+import { GoToAccount } from 'views/Wallet/components/GoToAccount'
+import { ShowQrCode } from 'views/Wallet/components/ShowQrCode'
+import { useWalletChainActions } from 'views/Wallet/hooks'
 
 import { Box, Icon, Tooltip, Typography } from 'components/Atomic'
 import { baseHoverClass } from 'components/constants'
 import { PhraseModal } from 'components/Modals/PhraseModal'
-import { QRCodeModal } from 'components/Modals/QRCodeModal'
 import { WalletIcon } from 'components/WalletIcon/WalletIcon'
-
-import { useAddressUtils } from 'hooks/useAddressUtils'
-
-import { multichain } from 'services/multichain'
 
 export type ChainHeaderProps = {
   chain: SupportedChain
@@ -26,40 +23,19 @@ export type ChainHeaderProps = {
   walletType: WalletOption
 }
 
-type QrCodeData = {
-  chain: string
-  address: string
-}
-
-const EMPTY_QR_DATA = { chain: '', address: '' }
-
 export const ChainHeader = ({
   chain,
   address,
   walletType,
   walletLoading = false,
 }: ChainHeaderProps) => {
-  const { handleRefreshChain } = useWalletDrawerActions()
-  const { handleCopyAddress, miniAddress } = useAddressUtils(address)
+  const { handleRefreshChain } = useWalletChainActions(chain)
 
-  const [qrData, setQrData] = useState<QrCodeData>(EMPTY_QR_DATA)
   const [isPhraseModalVisible, setIsPhraseModalVisible] = useState(false)
 
   const handleClosePhraseModal = () => {
     setIsPhraseModalVisible(false)
   }
-
-  const handleViewQRCode = useCallback(() => {
-    setQrData({
-      chain: chainToString(chain),
-      address,
-    })
-  }, [chain, address])
-
-  const accountUrl = useMemo(
-    () => multichain.getExplorerAddressUrl(chain, address),
-    [chain, address],
-  )
 
   const handleClickWalletIcon = useCallback(async () => {
     if (walletType === WalletOption.KEYSTORE) {
@@ -90,15 +66,12 @@ export const ChainHeader = ({
     >
       <Box alignCenter>
         <Tooltip content="Refresh">
-          <Box
-            onClick={() => handleRefreshChain(chain)}
-            className={baseHoverClass}
-          >
+          <Box onClick={handleRefreshChain} className={baseHoverClass}>
             <Icon
-              className={classNames({ '!animate-spin': walletLoading })}
               name="refresh"
               color="secondary"
               size={16}
+              spin={walletLoading}
             />
           </Box>
         </Tooltip>
@@ -114,51 +87,12 @@ export const ChainHeader = ({
         </Typography>
       </Box>
       <Box alignCenter>
-        <Tooltip content="Copy">
-          <Box onClick={handleCopyAddress}>
-            <Typography
-              className={baseHoverClass}
-              variant="caption"
-              fontWeight="semibold"
-            >
-              {miniAddress}
-            </Typography>
-          </Box>
-        </Tooltip>
-        <Tooltip content="Copy">
-          <Icon
-            className={baseHoverClass}
-            name="copy"
-            color="secondary"
-            size={18}
-            onClick={handleCopyAddress}
-          />
-        </Tooltip>
-        <Tooltip content="QRCode">
-          <Icon
-            className={baseHoverClass}
-            name="qrcode"
-            color="secondary"
-            size={18}
-            onClick={handleViewQRCode}
-          />
-        </Tooltip>
-        <Tooltip content="Go to account">
-          <a href={accountUrl} target="_blank" rel="noopener noreferrer">
-            <Icon
-              className={baseHoverClass}
-              name="external"
-              color="secondary"
-              size={18}
-            />
-          </a>
-        </Tooltip>
+        <CopyAddress address={address} type="mini" />
+        <CopyAddress address={address} type="icon" />
+        <ShowQrCode address={address} chain={chain} />
+        <GoToAccount chain={chain} address={address} />
       </Box>
-      <QRCodeModal
-        chain={qrData.chain}
-        address={qrData.address}
-        onCancel={() => setQrData(EMPTY_QR_DATA)}
-      />
+
       <PhraseModal
         isOpen={isPhraseModalVisible}
         onCancel={handleClosePhraseModal}

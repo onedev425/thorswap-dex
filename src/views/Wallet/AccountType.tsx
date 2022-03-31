@@ -49,7 +49,7 @@ export const AccountType = memo(({ onlyConnected, keyword }: Props) => {
   switch (walletViewMode) {
     case ViewMode.CARD:
       return (
-        <Box className="grid flex-col w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 md:flex-row">
+        <Box className="grid flex-col w-full grid-cols-1 gap-2.5 lg:grid-cols-2 xl:grid-cols-3 md:flex-row">
           {filteredChains.map((chain) => (
             <AccountCard key={chain} chain={chain} />
           ))}

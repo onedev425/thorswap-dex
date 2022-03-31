@@ -55,6 +55,7 @@ export const useAccountData = (chain: SupportedChain) => {
     setIsConnectModalOpen,
   } = useWallet()
   const wallet = reduxWallet || emptyWallet
+  const chainWallet = wallet[chain]
   const { balance: walletBalance, address: chainAddress } = wallet[chain] || {
     balance: [] as AssetAmount[],
     address: '',
@@ -91,6 +92,7 @@ export const useAccountData = (chain: SupportedChain) => {
       chainWalletLoading,
       geckoData,
       setIsConnectModalOpen,
+      chainWallet,
     }),
     [
       chainAddress,
@@ -101,6 +103,7 @@ export const useAccountData = (chain: SupportedChain) => {
       price24hChangePercent,
       setIsConnectModalOpen,
       walletBalance,
+      chainWallet,
     ],
   )
 
@@ -125,4 +128,18 @@ export const useChartData = (chain: SupportedChain) => {
   )
 
   return chartData
+}
+
+export const useWalletChainActions = (chain: SupportedChain) => {
+  const { wallet, refreshWalletByChain, chainWalletLoading } = useWallet()
+
+  const isLoading = chainWalletLoading?.[chain]
+
+  const handleRefreshChain = () => {
+    if (wallet?.[chain]) {
+      refreshWalletByChain(chain)
+    }
+  }
+
+  return { handleRefreshChain, isLoading }
 }
