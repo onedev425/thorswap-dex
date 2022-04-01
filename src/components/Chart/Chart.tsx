@@ -70,6 +70,7 @@ export const Chart = memo(
     hasGrid = false,
     previewChartType = ChartType.Bar,
     selectChart,
+    unit = '$',
   }: ChartProps) => {
     const [chartTimeFrame, setChartTimeFrame] = useState(ChartTimeFrame.AllTime)
 
@@ -109,7 +110,7 @@ export const Chart = memo(
       <Box className={classNames('w-full h-full', className)} col>
         <Box alignCenter justify="between" row>
           <Box className="gap-y-1" ml={2} col>
-            <ChartHeader title={title} values={values} />
+            <ChartHeader unit={unit} title={title} values={values} />
 
             <ChartTypeSelect
               chartTypeIndexes={chartIndexes}

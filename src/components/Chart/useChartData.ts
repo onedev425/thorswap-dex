@@ -2,6 +2,8 @@ import { useMemo } from 'react'
 
 import { takeRight } from 'lodash'
 
+import { useFormatPrice } from 'helpers/formatPrice'
+
 import { getChartData } from './config/chartData'
 import { getChartOptions } from './config/chartOptions'
 import { parseChartData } from './config/utils'
@@ -28,6 +30,7 @@ export const useChartData = ({
     unit,
     values: selectedChartValues = [],
   } = chartData?.[selectedIndex] || {}
+  const formatter = useFormatPrice({ prefix: unit })
 
   const slicedByTime = useMemo(
     () =>
@@ -49,7 +52,7 @@ export const useChartData = ({
 
   return {
     isChartLoading: loading,
-    options: getChartOptions(hideLabel, hasGrid, unit),
+    options: getChartOptions({ formatter, hideLabel, hasGrid, unit }),
     parsedChartData,
     selectedChartType: type,
     values: chartValues,

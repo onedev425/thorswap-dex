@@ -5,16 +5,29 @@ import * as styles from 'components/Chart/styles/styles'
 
 import { abbreviateNumber } from 'helpers/number'
 
-const parseTooltipLabel =
-  (unit: string): TooltipCallbacks<'line' | 'bar'>['label'] =>
-  ({ formattedValue }) =>
-    `${unit}${formattedValue}`
+type Params = {
+  hideLabel: boolean
+  hasGrid: boolean
+  unit?: string
+  formatter?: (value: number) => string
+}
 
-export const getChartOptions = (
-  hideLabel: boolean,
-  hasGrid: boolean,
+const parseTooltipLabel =
+  (
+    unit: string,
+    formatter?: (value: number) => string,
+  ): TooltipCallbacks<'line' | 'bar'>['label'] =>
+  ({ formattedValue }) =>
+    formatter
+      ? formatter(parseFloat(`${formattedValue}`.replace(/[^0-9.]/g, '')))
+      : `${unit}${formattedValue}`
+
+export const getChartOptions = ({
+  formatter,
+  hideLabel,
+  hasGrid,
   unit = '$',
-) => {
+}: Params) => {
   return {
     responsive: true,
     maintainAspectRatio: false,
@@ -42,7 +55,7 @@ export const getChartOptions = (
         titleMarginBottom: 20,
         titleSpacing: 20,
         width: 500,
-        callbacks: { label: parseTooltipLabel(unit) },
+        callbacks: { label: parseTooltipLabel(unit, formatter) },
       },
     },
     scales: {

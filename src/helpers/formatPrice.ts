@@ -1,4 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { useCallback } from 'react'
+
 import { Amount } from '@thorswap-lib/multichain-sdk'
 import BigNumber from 'bignumber.js'
 
@@ -49,11 +51,10 @@ const useFormat = (
     'decimalSeparator' in options ? options.decimalSeparator : '.',
 })
 
-export const formatPrice = (
+const formatter = (
   amount: Amount | number,
-  options?: FormatOptions,
+  format: BigNumber.Config['FORMAT'],
 ) => {
-  const format = useFormat(options)
   const decimals = getNumberOfDecimals(amount)
 
   if (typeof amount === 'number') {
@@ -63,4 +64,23 @@ export const formatPrice = (
   } else {
     return amount.toFixedDecimal(decimals, format)
   }
+}
+
+export const formatPrice = (
+  amount: Amount | number,
+  options?: FormatOptions,
+) => {
+  const format = useFormat(options)
+  return formatter(amount, format)
+}
+
+export const useFormatPrice = (options?: FormatOptions) => {
+  const format = useFormat(options)
+
+  return useCallback(
+    (amount: Amount | number) => {
+      return formatter(amount, format)
+    },
+    [format],
+  )
 }

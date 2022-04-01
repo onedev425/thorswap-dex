@@ -46,13 +46,14 @@ export const chartTimeFrames = [
 ]
 
 export type ChartProps = {
-  className?: string
-  title: string
   chartData: ChartData
   chartIndexes: string[]
-  selectedIndex: string
-  previewChartType?: ChartType
-  hideLabel?: boolean
+  className?: string
   hasGrid?: boolean
+  hideLabel?: boolean
+  previewChartType?: ChartType
   selectChart: (value: string) => void
+  selectedIndex: string
+  title: string
+  unit?: string
 }

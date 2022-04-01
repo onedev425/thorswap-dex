@@ -52,6 +52,11 @@ export const Sidebar = ({
         onClick={() => navigate(ROUTES.Home)}
         className="my-8 min-w-[48px] h-12 transition-colors cursor-pointer"
       >
+        <img
+          className="w-16 h-16 absolute blur-xl dark:blur-md -z-10 transition-all -translate-x-2 -translate-y-2"
+          src={Logo}
+          alt="Logo-glow"
+        />
         <img className="w-12 h-12" src={Logo} alt="Logo" />
       </div>
 
