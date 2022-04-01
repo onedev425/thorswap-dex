@@ -15,7 +15,8 @@ import { t } from 'services/i18n'
 
 import { ROUTES } from 'settings/constants'
 
-import Logo from '../Announcement/assets/images/logo.png'
+import Logo from 'assets/images/logo.png'
+
 import { navbarOptions } from './data'
 import { SidebarItem } from './SidebarItem'
 import { SidebarProps } from './types'

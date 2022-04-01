@@ -2,13 +2,21 @@ import { MouseEventHandler } from 'react'
 
 import classNames from 'classnames'
 
-import { Icon, IconColor, IconName, Link, Tooltip } from 'components/Atomic'
+import {
+  Box,
+  Icon,
+  IconColor,
+  IconName,
+  Link,
+  Tooltip,
+} from 'components/Atomic'
 import { baseHoverClass } from 'components/constants'
 
 type Props = {
   className?: string
   tooltip?: string
   size?: number
+  spin?: boolean
   iconName: IconName
   color?: IconColor
   onClick?: (() => void) | MouseEventHandler
@@ -23,6 +31,7 @@ export const HoverIcon = ({ href, ...props }: Props) => {
       </Link>
     )
   }
+
   return <IconComponent {...props} />
 }
 
@@ -32,15 +41,22 @@ const IconComponent = ({
   iconName,
   color = 'secondary',
   size = 16,
+  spin = false,
   onClick,
 }: Props) => (
   <Tooltip content={tooltip}>
-    <Icon
-      className={classNames(baseHoverClass, className)}
-      name={iconName}
-      color={color}
-      size={size}
-      onClick={onClick}
-    />
+    <Box className={classNames(baseHoverClass, 'group')}>
+      <Icon
+        className={classNames(
+          className,
+          'group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary',
+        )}
+        name={iconName}
+        color={color}
+        size={size}
+        spin={spin}
+        onClick={onClick}
+      />
+    </Box>
   </Tooltip>
 )

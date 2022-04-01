@@ -8,10 +8,12 @@ import { GoToAccount } from 'views/Wallet/components/GoToAccount'
 import { ShowQrCode } from 'views/Wallet/components/ShowQrCode'
 import { useWalletChainActions } from 'views/Wallet/hooks'
 
-import { Box, Icon, Tooltip, Typography } from 'components/Atomic'
-import { baseHoverClass } from 'components/constants'
+import { Box, Tooltip, Typography } from 'components/Atomic'
+import { HoverIcon } from 'components/HoverIcon'
 import { PhraseModal } from 'components/Modals/PhraseModal'
 import { WalletIcon } from 'components/WalletIcon/WalletIcon'
+
+import { t } from 'services/i18n'
 
 export type ChainHeaderProps = {
   chain: SupportedChain
@@ -61,20 +63,17 @@ export const ChainHeader = ({
 
   return (
     <Box
-      className="py-1 px-4 bg-btn-light-tint dark:bg-btn-dark-tint"
+      className="px-2 py-1 bg-btn-light-tint dark:bg-btn-dark-tint"
       justify="between"
     >
       <Box alignCenter>
-        <Tooltip content="Refresh">
-          <Box onClick={handleRefreshChain} className={baseHoverClass}>
-            <Icon
-              name="refresh"
-              color="secondary"
-              size={16}
-              spin={walletLoading}
-            />
-          </Box>
-        </Tooltip>
+        <HoverIcon
+          iconName="refresh"
+          tooltip={t('common.refresh')}
+          size={16}
+          spin={walletLoading}
+          onClick={handleRefreshChain}
+        />
         <Tooltip content={walletTooltip}>
           <WalletIcon
             onClick={handleClickWalletIcon}
@@ -82,7 +81,7 @@ export const ChainHeader = ({
             size={16}
           />
         </Tooltip>
-        <Typography className="ml-2" variant="caption">
+        <Typography className="ml-1" variant="caption">
           {chainToString(chain)}
         </Typography>
       </Box>

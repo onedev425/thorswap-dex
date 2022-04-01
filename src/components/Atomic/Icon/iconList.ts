@@ -21,6 +21,7 @@ import {
 import {
   BiDollarCircle,
   BiArrowBack,
+  BiCopy,
   BiLinkExternal,
   BiSelectMultiple,
   BiUndo,
@@ -79,7 +80,6 @@ import { RiShareBoxLine } from 'react-icons/ri'
 import {
   VscAdd,
   VscCloudUpload,
-  VscCopy,
   VscKey,
   VscLock,
   VscSignOut,
@@ -112,7 +112,7 @@ const Icons = {
   chevronRight: FiChevronRight,
   close: FiX,
   cog: HiOutlineCog,
-  copy: VscCopy,
+  copy: BiCopy,
   currencyDollar: BsCurrencyDollar,
   disconnect: VscSignOut,
   discord: BsDiscord,

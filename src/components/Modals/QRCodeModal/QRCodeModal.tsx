@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react'
 
-import QRCode from 'react-qr-code'
+import QRCode from 'qrcode-react'
 
 import { Box, Modal, Icon, Tooltip, Typography } from 'components/Atomic'
+import { baseHoverClass } from 'components/constants'
 
 import { useAddressUtils } from 'hooks/useAddressUtils'
+
+import Logo from 'assets/images/logo.png'
 
 type Props = {
   address: string
@@ -15,7 +18,7 @@ type Props = {
 
 export const QRCodeModal = ({ title, address, onCancel, chain }: Props) => {
   const [isOpened, setIsOpened] = useState(false)
-  const { handleCopyAddress, miniAddress } = useAddressUtils(address)
+  const { shortAddress, handleCopyAddress } = useAddressUtils(address)
 
   useEffect(() => {
     if (address) {
@@ -32,20 +35,22 @@ export const QRCodeModal = ({ title, address, onCancel, chain }: Props) => {
   return (
     <Modal title={title || ''} isOpened={isOpened} onClose={onClose}>
       <Box center col>
-        <Typography>{chain}</Typography>
-        <Box className="gap-3" mt={16}>
-          <QRCode value={address} />
+        <Typography variant="subtitle2">{chain}</Typography>
+        <Box className="gap-3 p-2 bg-white rounded-xl" mt={16}>
+          <QRCode size={256} value={address} logo={Logo} logoWidth={64} />
         </Box>
-        <Box alignCenter mt={3}>
-          <Typography>{miniAddress}</Typography>
+        <Box className="space-x-2" alignCenter mt={3}>
+          <Typography>{shortAddress}</Typography>
           <Tooltip content="Copy">
-            <Icon
-              className="p-1.5 ml-2 cursor-pointer rounded-2xl hover:bg-btn-light-tint-active dark:hover:bg-btn-dark-tint-active"
-              name="copy"
-              color="secondary"
-              size={18}
-              onClick={handleCopyAddress}
-            />
+            <Box className={baseHoverClass}>
+              <Icon
+                className="cursor-pointer"
+                name="copy"
+                color="cyan"
+                size={18}
+                onClick={handleCopyAddress}
+              />
+            </Box>
           </Tooltip>
         </Box>
       </Box>

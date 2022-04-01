@@ -132,52 +132,6 @@ const WalletBalance = () => {
 
             return renderChainBalance(chain as SupportedChain, chainBalance)
           })}
-        {/* {balanceData.map((item) => (
-          <Box
-            key={item.address}
-            className="px-4 bg-gradient-primary-light dark:bg-gradient-primary-dark rounded-b-xl"
-            col
-          >
-            <Box
-              className="py-4 border-0 border-b border-dashed border-light-typo-gray dark:border-dark-typo-gray"
-              justify="between"
-            >
-              <Box>
-                <Icon name="refresh" color="secondary" size={18} />
-                <Typography color="secondary" className="ml-2">
-                  {item.asset.name}
-                </Typography>
-              </Box>
-              <Box className="space-x-2">
-                <Icon name="copy" color="secondary" size={18} />
-                <Icon name="qrcode" color="secondary" size={18} />
-                <Icon name="external" color="secondary" size={18} />
-              </Box>
-            </Box>
-
-            <Box alignCenter justify="between" className="py-4">
-              <Box>
-                <div className="flex flex-col flex-1 ml-2">
-                  <Typography>{'BTC'}</Typography>
-                  <Typography color="secondary">{'Native'}</Typography>
-                </div>
-              </Box>
-              <Box>
-                <Typography color="primary" className="ml-2">
-                  {0}
-                </Typography>
-              </Box>
-              <Box>
-                <Button
-                  className="px-3.5"
-                  type="outline"
-                  onClick={() => {}}
-                  startIcon={<Icon name="send" size={18} onClick={() => {}} />}
-                />
-              </Box>
-            </Box>
-          </Box>
-        ))} */}
       </Box>
     </Scrollbar>
   )

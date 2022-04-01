@@ -20,12 +20,12 @@ export const WalletHeader = () => {
 
   return (
     <Box className="pt-6 pb-4 pl-4 pr-2" alignCenter justify="between">
-      <Box className="gap-2" alignCenter>
+      <Box className="gap-1" alignCenter>
         <Typography variant="h5">{t('common.wallet')}</Typography>
         <Button
           className="px-3"
           variant="primary"
-          type="outline"
+          type="borderless"
           startIcon={
             <Icon
               className={classNames({ '!animate-spin': isRefreshing })}
@@ -35,7 +35,7 @@ export const WalletHeader = () => {
             />
           }
           tooltip={t('common.refresh')}
-          tooltipPlacement="left"
+          tooltipPlacement="bottom"
           onClick={handleRefresh}
         />
       </Box>
