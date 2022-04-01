@@ -61,6 +61,7 @@ import {
   FiXCircle,
 } from 'react-icons/fi'
 import { HiOutlineCog, HiOutlineChartPie } from 'react-icons/hi'
+import { ImBlocked } from 'react-icons/im'
 import {
   IoCheckmarkCircleOutline,
   IoCloseCircleOutline,
@@ -100,6 +101,7 @@ const Icons = {
   arrowRight: AiOutlineArrowRight,
   auto: MdOutlineHdrAuto,
   backup: VscCloudUpload,
+  blocked: ImBlocked,
   barchart: AiFillSignal,
   chart: AiOutlineLineChart,
   chartArea2: FaChartArea,

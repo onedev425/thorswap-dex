@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Asset } from '@thorswap-lib/multichain-sdk'
 
 import { AssetIcon } from 'components/AssetIcon'
+import { IconName } from 'components/Atomic'
 import { MenuItemType } from 'components/Menu/types'
 import { useTheme } from 'components/Theme/ThemeContext'
 
@@ -13,6 +14,12 @@ import { t, changeAppLanguage, getLanguageFlag } from 'services/i18n'
 import { SupportedLanguages, ThemeType, ThousandSeparator } from 'types/global'
 
 type MenuType = 'main' | 'language' | 'currency' | 'theme' | 'thousandSeparator'
+
+const separatorIcons: Record<ThousandSeparator, IconName> = {
+  [ThousandSeparator.Space]: 'spaceBar',
+  [ThousandSeparator.Comma]: 'comma',
+  [ThousandSeparator.None]: 'blocked',
+}
 
 export const useAppPopoverMenu = () => {
   const [menuType, setMenuType] = useState<MenuType>('main')
@@ -73,7 +80,7 @@ const useMainMenu = (setMenuType: (val: MenuType) => void) => {
       label: getSeparatorLabel(thousandSeparator),
       desc: t('appMenu.separatorDesc'),
       onClick: () => setMenuType('thousandSeparator'),
-      icon: 'spaceBar',
+      icon: separatorIcons[thousandSeparator],
       hasSubmenu: true,
       value: thousandSeparator,
     },
@@ -202,16 +209,19 @@ const useThousandSeparatorMenu = (onBack: () => void) => {
 
   const menu: MenuItemType[] = [
     {
+      icon: 'spaceBar',
       label: t('appMenu.separatorSpace'),
       onClick: () => onClick(ThousandSeparator.Space),
       isSelected: isThemeSelected(ThousandSeparator.Space),
     },
     {
+      icon: 'comma',
       label: t('appMenu.separatorComma'),
       onClick: () => onClick(ThousandSeparator.Comma),
       isSelected: isThemeSelected(ThousandSeparator.Comma),
     },
     {
+      icon: 'blocked',
       label: t('appMenu.separatorNone'),
       onClick: () => onClick(ThousandSeparator.None),
       isSelected: isThemeSelected(ThousandSeparator.None),
