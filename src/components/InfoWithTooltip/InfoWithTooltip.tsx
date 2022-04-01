@@ -1,6 +1,7 @@
 import { memo } from 'react'
 
-import { Box, Tooltip, Typography } from 'components/Atomic'
+import { Box, Icon, Tooltip, Typography } from 'components/Atomic'
+import { baseTextHoverClass } from 'components/constants'
 
 type Props = {
   value: string
@@ -19,7 +20,14 @@ export const InfoWithTooltip = memo(({ value, tooltip }: Props) => {
         {value}
       </Typography>
 
-      <Tooltip iconName="info" content={tooltip} />
+      <Tooltip content={tooltip}>
+        <Icon
+          className={baseTextHoverClass}
+          name="infoCircle"
+          color="secondary"
+          size={20}
+        />
+      </Tooltip>
     </Box>
   )
 })

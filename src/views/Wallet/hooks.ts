@@ -1,6 +1,8 @@
 import { useMemo } from 'react'
 
 import {
+  Amount,
+  Asset,
   AssetAmount,
   chainToSigAsset,
   SupportedChain,
@@ -68,9 +70,9 @@ export const useAccountData = (chain: SupportedChain) => {
     current_price: 0,
   }
 
-  const chainInfo = useMemo(
-    () =>
-      (walletBalance as AssetAmount[]).reduce((acc, item) => {
+  const chainInfo = useMemo(() => {
+    const info: AssetAmount[] = (walletBalance as AssetAmount[]).reduce(
+      (acc, item) => {
         if (item.asset.eq(sigAsset)) {
           acc.unshift(item)
         } else {
@@ -78,9 +80,16 @@ export const useAccountData = (chain: SupportedChain) => {
         }
 
         return acc as AssetAmount[]
-      }, [] as AssetAmount[]),
-    [walletBalance, sigAsset],
-  )
+      },
+      [] as AssetAmount[],
+    )
+
+    if (chainAddress && !info.length) {
+      info.push(getNoBalanceAsset(sigAsset))
+    }
+
+    return info
+  }, [walletBalance, sigAsset, chainAddress])
 
   const data = useMemo(
     () => ({
@@ -142,4 +151,8 @@ export const useWalletChainActions = (chain: SupportedChain) => {
   }
 
   return { handleRefreshChain, isLoading }
+}
+
+const getNoBalanceAsset = (asset: Asset): AssetAmount => {
+  return new AssetAmount(asset, Amount.fromNormalAmount(0))
 }

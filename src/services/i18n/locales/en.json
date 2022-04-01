@@ -240,6 +240,7 @@
       "emptyFeatured": "No featured assets"
     },
     "wallet": {
+      "wallet": "Wallet",
       "confirmSwap": "Confirm Swap",
       "estimatedTime": "Estimated Time",
       "hideTokens": "Hide Tokens",
@@ -266,7 +267,8 @@
       "walletTypeConnected": "%{walletType} Connected",
       "goToAccount": "Go to account",
       "showQRCode": "Show QR code",
-      "copyAddress": "Copy Address"
+      "copyAddress": "Copy Address",
+      "viewKeystorePhrase": "View keystore phrase"
     },
     "walletDrawer": {
       "openWalletPage": "Open Wallet Page",

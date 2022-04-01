@@ -22,7 +22,7 @@ import {
 
 import { useWallet } from 'redux/wallet/hooks'
 
-import { BreakPoint } from 'hooks/useWindowSize'
+import useWindowSize, { BreakPoint } from 'hooks/useWindowSize'
 
 import { t } from 'services/i18n'
 
@@ -35,6 +35,7 @@ import { ViewMode } from 'types/global'
 export const useColumns = () => {
   const navigate = useNavigate()
   const { geckoData } = useWallet()
+  const { isLgActive } = useWindowSize()
 
   const columns = useMemo(
     () =>
@@ -58,6 +59,7 @@ export const useColumns = () => {
           id: 'amount',
           Header: 'Amount',
           align: 'right',
+          minScreenSize: BreakPoint.md,
           accessor: (row: Amount) => row.assetAmount,
           Cell: ({ cell: { value } }: { cell: { value: AssetAmount } }) => (
             <Typography fontWeight="bold">{value.toFixed(2)}</Typography>
@@ -67,6 +69,7 @@ export const useColumns = () => {
           id: 'price',
           Header: 'Price',
           align: 'right',
+          minScreenSize: BreakPoint.md,
           accessor: (row: AssetAmount) => row.asset.ticker,
           Cell: ({ cell: { value } }: { cell: { value: string } }) => (
             <Typography fontWeight="bold">
@@ -79,7 +82,7 @@ export const useColumns = () => {
           Header: '24h%',
           align: 'right',
           accessor: (row: AssetAmount) => row.asset.ticker,
-          minScreenSize: BreakPoint.lg,
+          minScreenSize: BreakPoint.md,
           Cell: ({ cell: { value } }: { cell: { value: string } }) => (
             <Typography
               color={
@@ -107,18 +110,16 @@ export const useColumns = () => {
         {
           accessor: (row) => row.asset,
           id: 'actions',
-          Header: 'Actions',
+          Header: '',
           align: 'right',
           disableSortBy: true,
-          minScreenSize: BreakPoint.md,
           Cell: ({ cell: { value } }: { cell: { value: Asset } }) => (
             <Box row className="gap-2" justify="end">
               <Button
                 variant="tint"
-                type="outline"
                 startIcon={
                   <Icon
-                    className="rotate-180"
+                    className="rotate-180 group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
                     color="secondary"
                     size={20}
                     name="receive"
@@ -126,29 +127,41 @@ export const useColumns = () => {
                 }
                 onClick={() => {}}
               >
-                {t('common.send')}
+                {isLgActive ? t('common.send') : null}
               </Button>
               <Button
                 variant="tint"
-                type="outline"
-                startIcon={<Icon color="secondary" size={20} name="receive" />}
+                startIcon={
+                  <Icon
+                    className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
+                    color="secondary"
+                    size={20}
+                    name="receive"
+                  />
+                }
                 onClick={() => {}}
               >
-                {t('common.receive')}
+                {isLgActive ? t('common.receive') : null}
               </Button>
               <Button
                 variant="tint"
-                type="outline"
-                startIcon={<Icon color="secondary" size={20} name="swap" />}
+                startIcon={
+                  <Icon
+                    className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
+                    color="secondary"
+                    size={20}
+                    name="swap"
+                  />
+                }
                 onClick={() => navigate(`${ROUTES.Swap}?input=${value}`)}
               >
-                {t('common.swap')}
+                {isLgActive ? t('common.swap') : null}
               </Button>
             </Box>
           ),
         },
       ] as TableColumnsConfig,
-    [geckoData, navigate],
+    [geckoData, isLgActive, navigate],
   )
 
   return columns

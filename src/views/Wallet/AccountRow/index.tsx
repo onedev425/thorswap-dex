@@ -1,40 +1,36 @@
 import { memo, useCallback } from 'react'
 
 import { SupportedChain } from '@thorswap-lib/multichain-sdk'
-import { Chain, chainToString } from '@thorswap-lib/xchain-util'
 import classNames from 'classnames'
-import { shortenAddress } from 'utils/shortenAddress'
 
-import { Box, Button, Card, Icon, Typography } from 'components/Atomic'
+import { ConnectionActions } from 'views/Wallet/components/ConnectionActions'
+import { CopyAddress } from 'views/Wallet/components/CopyAddress'
+import { GoToAccount } from 'views/Wallet/components/GoToAccount'
+import { HeaderChainInfo } from 'views/Wallet/components/HeaderChainInfo'
+import { ShowQrCode } from 'views/Wallet/components/ShowQrCode'
 
-import { t } from 'services/i18n'
+import { Box, Card } from 'components/Atomic'
+import { borderHoverHighlightClass } from 'components/constants'
 
 import { formatPrice } from 'helpers/formatPrice'
 
-import { useAccountData } from '../hooks'
+import { useAccountData, useWalletChainActions } from '../hooks'
 import { ChainInfoTable } from './ChainInfoTable'
 
 type Props = {
   chain: SupportedChain
 }
 
-export const subtokenChains: SupportedChain[] = [
-  Chain.Ethereum,
-  Chain.Binance,
-  Chain.Terra,
-  Chain.THORChain,
-]
-
 export const AccountRow = memo(({ chain }: Props) => {
   const {
     balance,
     chainAddress,
     chainInfo,
-    chainWalletLoading,
     setIsConnectModalOpen,
+    chainWallet,
   } = useAccountData(chain)
 
-  const isChainLoading = chainWalletLoading[chain]
+  const { isLoading, handleRefreshChain } = useWalletChainActions(chain)
 
   const handleConnect = useCallback(() => {
     if (!chainAddress) {
@@ -45,7 +41,7 @@ export const AccountRow = memo(({ chain }: Props) => {
   const accountBalance = formatPrice(balance)
 
   return (
-    <Card className="!p-4 mb-2 flex overflow-hidden">
+    <Card className={classNames('overflow-hidden', borderHoverHighlightClass)}>
       <Box flex={1} className="w-full min-w-fit" col>
         <Box
           className={classNames({
@@ -56,67 +52,32 @@ export const AccountRow = memo(({ chain }: Props) => {
           alignCenter
           justify="between"
         >
-          <Box className="flex-col space-x-1 md:flex-row">
-            <Typography variant="subtitle2">{chainToString(chain)}</Typography>
-
+          <Box className="gap-3 flex-1 flex-wrap" justify="between">
+            <HeaderChainInfo
+              chain={chain}
+              chainWallet={chainWallet}
+              balance={accountBalance}
+            />
             {chainAddress && (
-              <Box className="flex-col items-center md:justify-center md:flex-row gap-x-2">
-                <Typography color="secondary">({accountBalance})</Typography>
-
-                <Box center pl={2} className="gap-x-2">
-                  <Icon name="eye" color="secondary" />
-                  <Typography color="secondary" variant="caption">
-                    {shortenAddress(chainAddress, 8, 5)}
-                  </Typography>
-                </Box>
+              <Box className="!mr-4" alignCenter>
+                <CopyAddress address={chainAddress} type="short" />
+                <CopyAddress address={chainAddress} type="icon" />
+                <ShowQrCode chain={chain} address={chainAddress} />
+                <GoToAccount chain={chain} address={chainAddress} />
               </Box>
             )}
           </Box>
 
-          <Box>
-            {chainAddress && (
-              <Box center pr={3} className="gap-x-3">
-                <Icon
-                  onClick={() => {}}
-                  color="secondary"
-                  name="refresh"
-                  size={18}
-                />
-                <Icon
-                  onClick={() => {}}
-                  color="secondary"
-                  name="qrcode"
-                  size={18}
-                />
-                <Icon
-                  onClick={() => {}}
-                  color="secondary"
-                  name="import"
-                  size={18}
-                />
-              </Box>
-            )}
-
-            <Button
-              disabled={isChainLoading}
-              type={chainAddress ? 'outline' : 'default'}
-              onClick={handleConnect}
-            >
-              <Box center className="gap-x-2">
-                {isChainLoading && (
-                  <Icon name="refresh" color="primary" size={16} spin />
-                )}
-                {chainAddress ? t('common.disconnect') : t('common.connect')}
-              </Box>
-            </Button>
-          </Box>
+          <ConnectionActions
+            isLoading={isLoading}
+            isConnected={!!chainAddress}
+            handleRefreshChain={handleRefreshChain}
+            handleConnect={handleConnect}
+          />
         </Box>
 
         {chainInfo.length > 0 && (
-          <ChainInfoTable
-            hasSubToken={subtokenChains.includes(chain)}
-            chainInfo={chainInfo}
-          />
+          <ChainInfoTable chainInfo={chainInfo} chain={chain} />
         )}
       </Box>
     </Card>

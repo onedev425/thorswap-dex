@@ -58,7 +58,7 @@ export const AccountType = memo(({ onlyConnected, keyword }: Props) => {
 
     case ViewMode.LIST:
       return (
-        <Box flex={1} col>
+        <Box className="gap-1.5" flex={1} col>
           {filteredChains.map((chain) => (
             <AccountRow key={chain} chain={chain} />
           ))}

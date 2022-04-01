@@ -1,36 +1,55 @@
 import { useCallback, useState } from 'react'
 
-import { AssetAmount } from '@thorswap-lib/multichain-sdk'
+import {
+  Amount,
+  AssetAmount,
+  chainToSigAsset,
+  SupportedChain,
+} from '@thorswap-lib/multichain-sdk'
 
 import { Box, Button, Table } from 'components/Atomic'
+import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron'
 
 import { t } from 'services/i18n'
 
 import { useColumns } from './useColumns'
 
 type Props = {
-  hasSubToken: boolean
   chainInfo: AssetAmount[]
+  chain: SupportedChain
 }
 
-export const ChainInfoTable = ({ hasSubToken, chainInfo }: Props) => {
+export const ChainInfoTable = ({ chainInfo, chain }: Props) => {
   const [showAllTokens, setShowAllTokens] = useState(false)
+  const sigAsset = chainToSigAsset(chain)
+
+  const altAssets = chainInfo.filter((item) => !item.asset.eq(sigAsset))
+  const sigAssetAmount =
+    chainInfo.find((item) => item.asset.eq(sigAsset)) ||
+    new AssetAmount(sigAsset, Amount.fromNormalAmount(0))
 
   const handleToggleTokens = useCallback(() => {
     setShowAllTokens((v) => !v)
   }, [])
 
   const columns = useColumns()
+  const tableData = showAllTokens
+    ? [sigAssetAmount, ...altAssets]
+    : [sigAssetAmount]
 
   return (
     <Box col className="transition-all">
       <Table
-        data={chainInfo.slice(0, showAllTokens ? undefined : 1)}
+        data={tableData}
         columns={columns}
-        sortable
+        sortable={tableData.length > 1}
       />
-      {hasSubToken && (
-        <Button type="outline" onClick={handleToggleTokens}>
+      {!!altAssets.length && (
+        <Button
+          variant="tint"
+          onClick={handleToggleTokens}
+          startIcon={<CollapseChevron isActive={showAllTokens} />}
+        >
           {showAllTokens
             ? t('views.wallet.hideTokens')
             : t('views.wallet.showAllTokens')}

@@ -12,9 +12,12 @@ import { AccountType } from 'views/Wallet/AccountType'
 import { SearchAndFilters } from 'views/Wallet/SearchAndFilters'
 
 import { Box } from 'components/Atomic'
+import { Helmet } from 'components/Helmet'
 
 import { useApp } from 'redux/app/hooks'
 import { useWallet } from 'redux/wallet/hooks'
+
+import { t } from 'services/i18n'
 
 const Wallet = () => {
   const [keyword, setKeyword] = useState('')
@@ -36,6 +39,10 @@ const Wallet = () => {
 
   return (
     <Box className="w-full" col>
+      <Helmet
+        title={t('views.wallet.wallet')}
+        content={t('views.wallet.wallet')}
+      />
       <SearchAndFilters
         walletViewMode={walletViewMode}
         setKeyword={setKeyword}

@@ -3,19 +3,19 @@ import { memo, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { chainToSigAsset, SupportedChain } from '@thorswap-lib/multichain-sdk'
-import { chainToString } from '@thorswap-lib/xchain-util'
 import classNames from 'classnames'
 
 import { AssetChart } from 'views/Wallet/AssetChart'
+import { ConnectionActions } from 'views/Wallet/components/ConnectionActions'
 import { CopyAddress } from 'views/Wallet/components/CopyAddress'
 import { GoToAccount } from 'views/Wallet/components/GoToAccount'
+import { HeaderChainInfo } from 'views/Wallet/components/HeaderChainInfo'
 import { ShowQrCode } from 'views/Wallet/components/ShowQrCode'
 
 import { AssetIcon } from 'components/AssetIcon'
-import { Box, Button, Card, Icon, Typography } from 'components/Atomic'
+import { Box, Card, Typography } from 'components/Atomic'
 import { borderHoverHighlightClass } from 'components/constants'
 import { Scrollbar } from 'components/Scrollbar'
-import { WalletIcon } from 'components/WalletIcon/WalletIcon'
 
 import { t } from 'services/i18n'
 
@@ -66,57 +66,18 @@ export const AccountCard = memo(({ chain }: Props) => {
           alignCenter
           justify="between"
         >
-          <Box center className="space-x-1">
-            {!!chainWallet && (
-              <WalletIcon walletType={chainWallet?.walletType} size={16} />
-            )}
-            <Typography>{chainToString(chain)}</Typography>
+          <HeaderChainInfo
+            chain={chain}
+            chainWallet={chainWallet}
+            balance={accountBalance}
+          />
 
-            <Typography color="primaryBtn" fontWeight="semibold">
-              {chainAddress && accountBalance}
-            </Typography>
-          </Box>
-
-          <Box className="gap-2">
-            {chainAddress && (
-              <Button
-                className="px-3"
-                variant="primary"
-                type="outline"
-                startIcon={
-                  <Icon
-                    name="refresh"
-                    color="primaryBtn"
-                    size={16}
-                    spin={isLoading}
-                  />
-                }
-                tooltip={t('common.refresh')}
-                onClick={handleRefreshChain}
-              />
-            )}
-
-            {chainAddress ? (
-              <Button
-                className="px-3"
-                variant="warn"
-                type="outline"
-                startIcon={<Icon name="disconnect" color="orange" size={16} />}
-                tooltip={t('common.disconnect')}
-                onClick={handleConnect}
-              />
-            ) : (
-              <Button
-                disabled={isLoading}
-                type={chainAddress ? 'outline' : 'default'}
-                onClick={handleConnect}
-              >
-                <Box center className="gap-x-2">
-                  {t('common.connect')}
-                </Box>
-              </Button>
-            )}
-          </Box>
+          <ConnectionActions
+            isLoading={isLoading}
+            isConnected={!!chainAddress}
+            handleRefreshChain={handleRefreshChain}
+            handleConnect={handleConnect}
+          />
         </Box>
 
         <Box mt={3} alignCenter justify="between">
@@ -135,22 +96,13 @@ export const AccountCard = memo(({ chain }: Props) => {
           </Box>
 
           {chainAddress && (
-            <Box center row className="gap-x-3">
-              <Box alignCenter>
-                <CopyAddress address={chainAddress} type="short" />
-                <CopyAddress address={chainAddress} type="icon" />
-                <ShowQrCode chain={chain} address={chainAddress} />
-                <GoToAccount chain={chain} address={chainAddress} />
-              </Box>
+            <Box alignCenter>
+              <CopyAddress address={chainAddress} type="short" />
+              <CopyAddress address={chainAddress} type="icon" />
+              <ShowQrCode chain={chain} address={chainAddress} />
+              <GoToAccount chain={chain} address={chainAddress} />
             </Box>
           )}
-
-          {/* TODO - view keystore phrase */}
-          {/* {chainAddress && (
-              <Box center className="gap-x-2">
-                <Icon name="eye" color="secondary" />
-              </Box>
-            )} */}
         </Box>
 
         <Box mt={2} col center>

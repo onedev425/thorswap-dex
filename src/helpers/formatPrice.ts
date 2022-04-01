@@ -39,11 +39,14 @@ const getNumberOfDecimals = (amount: Amount | number) => {
   }
 }
 
-const useFormat = (options?: FormatOptions): BigNumber.Config['FORMAT'] => ({
-  prefix: options?.prefix || '$',
+const useFormat = (
+  options: FormatOptions = {},
+): BigNumber.Config['FORMAT'] => ({
+  prefix: 'prefix' in options ? options.prefix : '$',
   groupSeparator: useGroupSeparator(),
   groupSize: 3,
-  decimalSeparator: options?.decimalSeparator || '.',
+  decimalSeparator:
+    'decimalSeparator' in options ? options.decimalSeparator : '.',
 })
 
 export const formatPrice = (
@@ -55,9 +58,8 @@ export const formatPrice = (
 
   if (typeof amount === 'number') {
     const bigNumber = new BigNumber(amount.toFixed(decimals))
-    BigNumber.config({ FORMAT: format })
 
-    return bigNumber.toFormat()
+    return format ? bigNumber.toFormat(format) : bigNumber.toFormat()
   } else {
     return amount.toFixedDecimal(decimals, format)
   }
