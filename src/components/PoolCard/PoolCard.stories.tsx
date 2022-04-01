@@ -1,5 +1,5 @@
 import { ComponentMeta } from '@storybook/react'
-import { Asset } from '@thorswap-lib/multichain-sdk'
+import { Pool } from '@thorswap-lib/multichain-sdk'
 
 import { PoolCard } from './PoolCard'
 
@@ -11,62 +11,61 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof PoolCard>
 
+// @ts-expect-error TODO: Properly mock Pool data
+const pool = {
+  asset: {
+    isSynth: false,
+    chain: 'BTC',
+    symbol: 'BTC',
+    ticker: 'BTC',
+    type: 'Native',
+    name: 'BTC',
+    network: 'Bitcoin',
+    decimal: 8,
+  },
+  runeDepth: {
+    decimal: 8,
+    baseAmount: '486788975744885',
+    assetAmount: '4867889.75744885',
+  },
+  assetDepth: {
+    decimal: 8,
+    baseAmount: '121682981174',
+    assetAmount: '1216.82981174',
+  },
+  detail: {
+    asset: 'BTC.BTC',
+    assetDepth: '121682981174',
+    assetPrice: '4000.4688498616206',
+    assetPriceUSD: '45181.47191374788',
+    liquidityUnits: '446874264970602',
+    poolAPY: '0.18252958110256157',
+    runeDepth: '486788975744885',
+    status: 'available',
+    synthSupply: '4195803531',
+    synthUnits: '7839592648810',
+    units: '454713857619412',
+    volume24h: '37761766139090',
+  },
+  assetUSDPrice: {
+    decimal: 8,
+    assetAmount: '45181.47191374788',
+    baseAmount: '4518147191374',
+  },
+} as Pool
+
 export const All = () => {
   return (
     <div className="grid sm:grid-cols-1  md:grid-cols-3 lg:grid-cols-4 bg-light-bg-primary dark:bg-dark-bg-primary p-4 gap-5">
-      <PoolCard
-        asset={Asset.BTC()}
-        price={65000}
-        color="orange"
-        iconName="bitcoin"
-        change={5}
-      />
-
-      <PoolCard
-        asset={Asset.ETH()}
-        iconName="ethereum"
-        price={3400.54}
-        color="purple"
-        change={-1.5}
-      />
-      <PoolCard
-        asset={Asset.ETH()}
-        iconName="ethereum"
-        price={3400.54}
-        color="purple"
-        change={-1.5}
-      />
-      <PoolCard
-        asset={Asset.ETH()}
-        iconName="ethereum"
-        price={3400.54}
-        color="purple"
-        change={-1.5}
-      />
+      <PoolCard change={2} pool={pool} color="orange" iconName="bitcoin" />
     </div>
   )
 }
 
 export const Bitcoin = () => {
-  return (
-    <PoolCard
-      asset={Asset.BTC()}
-      price={65000}
-      color="orange"
-      iconName="bitcoin"
-      change={5}
-    />
-  )
+  return <PoolCard change={-5} pool={pool} color="orange" iconName="bitcoin" />
 }
 
 export const Ethereum = () => {
-  return (
-    <PoolCard
-      asset={Asset.ETH()}
-      iconName="ethereum"
-      price={3400.54}
-      color="purple"
-      change={-1.5}
-    />
-  )
+  return <PoolCard change={-5} pool={pool} iconName="ethereum" color="purple" />
 }

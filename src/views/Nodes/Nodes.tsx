@@ -14,6 +14,7 @@ import {
   Select,
   Table,
   TableColumnsConfig,
+  TableRowType,
   Tooltip,
   Typography,
 } from 'components/Atomic'
@@ -177,7 +178,7 @@ const Nodes = () => {
     ] as TableColumnsConfig
   }, [nodeWatchList, handleAddToWatchList, getNodes])
 
-  const onRowClick = ({ original }: { original: THORNode }) => {
+  const onRowClick = ({ original }: TableRowType) => {
     navigate(`${ROUTES.Nodes}/${original.node_address}`)
   }
 

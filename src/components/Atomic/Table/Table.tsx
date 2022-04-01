@@ -24,7 +24,7 @@ export type TableProps = {
   sortable?: boolean
   loading?: boolean
   initialSort?: InitialTableSort
-  onRowClick?: Function
+  onRowClick?: (row: TableRowType) => void
 }
 
 export const Table = ({

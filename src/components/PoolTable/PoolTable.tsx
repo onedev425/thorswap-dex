@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -12,6 +12,7 @@ import {
   Typography,
   Button,
   Box,
+  TableRowType,
 } from 'components/Atomic'
 import { PoolTableProps } from 'components/PoolTable/types'
 import {
@@ -30,13 +31,21 @@ import { t } from 'services/i18n'
 
 import { formatPrice } from 'helpers/formatPrice'
 
-import { ROUTES } from 'settings/constants'
+import {
+  getPoolDetailRouteFromAsset,
+  navigateToExternalLink,
+  ROUTES,
+} from 'settings/constants'
 
 const initialSort = [{ id: 'liquidity', desc: true }]
 
 export const PoolTable = ({ data }: PoolTableProps) => {
   const navigate = useNavigate()
   const { runeToCurrency } = useGlobalState()
+
+  const navigateToPoolInfo = useCallback(({ original }: TableRowType) => {
+    navigateToExternalLink(getPoolDetailRouteFromAsset(original.asset))
+  }, [])
 
   const columns = useMemo(
     () =>
@@ -132,7 +141,13 @@ export const PoolTable = ({ data }: PoolTableProps) => {
 
   return (
     <div className="flex flex-col">
-      <Table columns={columns} data={data} sortable initialSort={initialSort} />
+      <Table
+        onRowClick={navigateToPoolInfo}
+        columns={columns}
+        data={data}
+        sortable
+        initialSort={initialSort}
+      />
     </div>
   )
 }

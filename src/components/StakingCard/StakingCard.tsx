@@ -243,7 +243,7 @@ export const StakingCard = ({
                   >
                     {shortenAddress(stakingToken)}
                   </Typography>
-                  <Link to={getAccountUrl(stakingToken)} isExternal>
+                  <Link to={getAccountUrl(stakingToken)} external>
                     <Icon name="share" color="cyan" size={16} />
                   </Link>
                 </Box>
@@ -261,7 +261,7 @@ export const StakingCard = ({
                   >
                     {shortenAddress(stakeAddr)}
                   </Typography>
-                  <Link to={getAccountUrl(stakeAddr)} isExternal>
+                  <Link to={getAccountUrl(stakeAddr)} external>
                     <Icon name="share" color="cyan" size={16} />
                   </Link>
                 </Box>

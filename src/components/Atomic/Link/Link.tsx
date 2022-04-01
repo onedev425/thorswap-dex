@@ -8,7 +8,7 @@ type LinkProps = {
   to: string
   children?: React.ReactNode
   className?: string
-  isExternal?: boolean
+  external?: boolean
   onClick?: MouseEventHandler<HTMLAnchorElement>
 }
 
@@ -16,11 +16,10 @@ export const Link = ({
   className,
   to,
   children,
-  isExternal,
+  external,
   onClick,
 }: LinkProps) => {
-  const externalHref =
-    isExternal || /^((http|https|ftp):\/\/)/.test(to.trim?.())
+  const externalHref = external || /^((http|https|ftp):\/\/)/.test(to.trim?.())
 
   if (externalHref)
     return (

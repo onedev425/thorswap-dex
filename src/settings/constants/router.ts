@@ -45,3 +45,7 @@ export const getPoolDetailRouteFromAsset = (asset: Asset) => {
 export const getNodeDetailRoute = (address: string) => {
   return `${ROUTES.Nodes}/${address}`
 }
+
+export const navigateToExternalLink = (url: string) => {
+  window.open(url, '_blank noreferrer noopener')
+}

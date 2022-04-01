@@ -48,7 +48,11 @@ import { multichain } from 'services/multichain'
 // import { truncateAddress } from 'helpers/string'
 
 import { IS_SYNTH_ACTIVE } from 'settings/config'
-import { getSwapRoute } from 'settings/constants'
+import {
+  getPoolDetailRouteFromAsset,
+  getSwapRoute,
+  navigateToExternalLink,
+} from 'settings/constants'
 
 import { AssetInputs } from './AssetInputs'
 import { SwapInfo } from './SwapInfo'
@@ -677,6 +681,12 @@ const SwapView = () => {
     [swapConfirmInfo],
   )
 
+  const navigateToPoolInfo = useCallback(() => {
+    const asset = inputAsset.isRUNE() ? outputAsset : inputAsset
+
+    navigateToExternalLink(getPoolDetailRouteFromAsset(asset))
+  }, [inputAsset, outputAsset])
+
   return (
     <PanelView
       title={title}
@@ -686,6 +696,7 @@ const SwapView = () => {
           actionsComponent={
             <Box center row className="space-x-2">
               <Button
+                onClick={navigateToPoolInfo}
                 className="px-1.5 group"
                 type="borderless"
                 variant="tint"

@@ -2,7 +2,16 @@ import { useCallback } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
-import { Box, Button, Card, Icon, Typography } from 'components/Atomic'
+import { Pool } from '@thorswap-lib/multichain-sdk'
+
+import {
+  Box,
+  Button,
+  Card,
+  Icon,
+  IconName,
+  Typography,
+} from 'components/Atomic'
 
 import { t } from 'services/i18n'
 
@@ -10,24 +19,25 @@ import { formatPrice } from 'helpers/formatPrice'
 
 import { ROUTES } from 'settings/constants'
 
-import { PoolCardProps } from './types'
+import { ColorType } from 'types/global'
 
-export const PoolCard = ({
-  asset,
-  iconName,
-  color,
-  price,
-  change,
-}: PoolCardProps) => {
+type PoolCardProps = {
+  pool: Pool
+  iconName: IconName
+  color: ColorType
+  change: number
+}
+
+export const PoolCard = ({ change, pool, iconName, color }: PoolCardProps) => {
   const navigate = useNavigate()
 
   const handleSwapNavigate = useCallback(() => {
-    navigate(`${ROUTES.Swap}?input=${asset}`)
-  }, [asset, navigate])
+    navigate(`${ROUTES.Swap}?input=${pool.asset}`)
+  }, [navigate, pool.asset])
 
   const handleAddLiquidityNavigate = useCallback(() => {
-    navigate(`${ROUTES.AddLiquidity}?input=${asset}`)
-  }, [asset, navigate])
+    navigate(`${ROUTES.AddLiquidity}?input=${pool.asset}`)
+  }, [navigate, pool.asset])
 
   return (
     <Card className="flex-col overflow-hidden min-w-fit max-w-[288px] " stretch>
@@ -39,18 +49,18 @@ export const PoolCard = ({
             fontWeight="bold"
             transform="uppercase"
           >
-            {asset.ticker}
+            {pool.asset.ticker}
           </Typography>
 
           <Typography className="mb-2" color="secondary" fontWeight="semibold">
-            {formatPrice(price)}
+            {formatPrice(pool.assetUSDPrice)}
           </Typography>
 
           <Typography
             color={change >= 0 ? 'green' : 'red'}
             fontWeight="semibold"
           >
-            {`${change >= 0 ? '+' : ''}${change}%`}
+            {`${change >= 0 ? '+' : ''}${change.toFixed(2)}%`}
           </Typography>
         </Box>
 
