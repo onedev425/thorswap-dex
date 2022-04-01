@@ -108,16 +108,30 @@ const slice = createSlice({
         }
       })
       .addCase(walletActions.getCoingeckoData.pending, (state, action) => {
-        state.geckoDataLoading[action.meta.arg.symbol] = true
+        const { arg: pendingSymbols } = action.meta
+
+        pendingSymbols.forEach((symbol) => {
+          state.geckoDataLoading[symbol] = true
+        })
       })
       .addCase(walletActions.getCoingeckoData.fulfilled, (state, action) => {
-        const { symbol, data } = action.payload
+        const { arg: pendingSymbols } = action.meta
+        const { data: geckoInfo } = <{ data: GeckoData[] }>action.payload
 
-        state.geckoDataLoading[symbol] = false
-        state.geckoData[symbol] = data as GeckoData
+        pendingSymbols.forEach((symbol) => {
+          state.geckoDataLoading[symbol] = false
+        })
+
+        geckoInfo.forEach((geckoData) => {
+          state.geckoData[geckoData.symbol.toUpperCase()] = geckoData
+        })
       })
       .addCase(walletActions.getCoingeckoData.rejected, (state, action) => {
-        state.geckoDataLoading[action.meta.arg.symbol] = false
+        const { arg: pendingSymbols } = action.meta
+
+        pendingSymbols.forEach((symbol) => {
+          state.geckoDataLoading[symbol] = true
+        })
       })
   },
 })

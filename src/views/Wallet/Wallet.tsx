@@ -25,17 +25,17 @@ const Wallet = () => {
 
   const dispatch = useDispatch()
   const { walletViewMode, setWalletViewMode } = useApp()
-  const { geckoData, geckoDataLoading, getCoingeckoData } = useWallet()
+  const { getCoingeckoData } = useWallet()
 
   useEffect(() => {
-    supportedChains.forEach((chain) => {
+    const sigSymbols = supportedChains.map((chain) => {
       const asset = chainToSigAsset(chain as SupportedChain)
 
-      if (!geckoData?.[asset.symbol]) {
-        dispatch(getCoingeckoData({ symbol: asset.symbol }))
-      }
+      return asset.symbol
     })
-  }, [dispatch, geckoData, geckoDataLoading, getCoingeckoData])
+
+    dispatch(getCoingeckoData(sigSymbols))
+  }, [dispatch, getCoingeckoData])
 
   return (
     <Box className="w-full" col>

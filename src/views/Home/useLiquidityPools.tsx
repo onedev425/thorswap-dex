@@ -1,7 +1,5 @@
 import { useEffect, useMemo } from 'react'
 
-import { batch } from 'react-redux'
-
 import { chainToString } from '@thorswap-lib/xchain-util'
 
 import { IconName } from 'components/Atomic'
@@ -102,15 +100,16 @@ export const useLiquidityPools = ({
   }, [geckoData, poolsByStatus])
 
   useEffect(() => {
-    if (featuredPools.length > 0) {
-      batch(() => {
-        featuredPools.forEach(({ pool }) => {
-          if (!geckoData?.[pool.asset.symbol]) {
-            dispatch(getCoingeckoData({ symbol: pool.asset.symbol }))
-          }
-        })
-      })
-    }
+    const missingPools =
+      featuredPools.length > 0
+        ? featuredPools.filter(({ pool }) => {
+            if (!geckoData?.[pool.asset.symbol]) return true
+            return false
+          })
+        : []
+    const missingSymbols = missingPools.map(({ pool }) => pool.asset.symbol)
+
+    dispatch(getCoingeckoData(missingSymbols))
   }, [dispatch, featuredPools, geckoData])
 
   return { filteredPools, featuredPools }

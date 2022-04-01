@@ -23,8 +23,8 @@ export const getWalletByChain = createAsyncThunk(
 
 export const getCoingeckoData = createAsyncThunk(
   'coingecko/coinInfo',
-  async ({ symbol }: { symbol: string }) => {
-    const data = await getGeckoData(symbol)
+  async (symbols: string[]) => {
+    const data = await getGeckoData(symbols)
 
     return data
   },
