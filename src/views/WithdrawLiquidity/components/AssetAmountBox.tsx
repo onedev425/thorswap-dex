@@ -1,14 +1,13 @@
+import { Asset } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
 import { Box, Typography } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
 
-import { PoolAsset } from '../types'
-
 type Props = {
   className?: string
-  asset: PoolAsset
+  asset: Asset
   amount: string
   stretch?: boolean
 }
@@ -29,11 +28,11 @@ export const AssetAmountBox = ({
       )}
       alignCenter
     >
-      <AssetIcon asset={asset.asset} />
+      <AssetIcon asset={asset} />
       <Box col ml={12}>
         <Typography>{amount || '-'}</Typography>
         <Typography fontWeight="normal" color="secondary">
-          {asset.asset.symbol}
+          {asset.ticker}
         </Typography>
       </Box>
     </Box>

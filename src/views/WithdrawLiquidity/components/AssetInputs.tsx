@@ -1,37 +1,49 @@
-import { memo } from 'react'
+import { useCallback, memo } from 'react'
 
+import { Asset, Amount } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
-
-import { AssetAmountBox } from 'views/WithdrawLiquidity/components/AssetAmountBox'
-import { PoolAsset } from 'views/WithdrawLiquidity/types'
 
 import { Box, Typography, Icon } from 'components/Atomic'
 import { HighlightCard } from 'components/HighlightCard'
-import { Input } from 'components/Input'
 import { useInputFocusState } from 'components/Input/hooks/useInputFocusState'
+import { InputAmount } from 'components/InputAmount'
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
 
-import { t } from 'services/i18n'
+// import { t } from 'services/i18n'
+
+import { AssetAmountBox } from './AssetAmountBox'
 
 type Props = {
-  onAmountChange: (value: string) => void
-  firstAsset: PoolAsset
-  secondAsset: PoolAsset
-  lpAmount: string
-  amount: string
-  poolShare: string
+  poolAsset: Asset
+  percent: Amount
+  runeAmount: Amount
+  assetAmount: Amount
+  onPercentChange: (value: Amount) => void
   liquidityType: LiquidityTypeOption
 }
 
 export const AssetInputs = memo(
   ({
-    onAmountChange,
-    amount,
-    firstAsset,
-    secondAsset,
+    onPercentChange,
+    percent,
+    poolAsset,
+    runeAmount,
+    assetAmount,
     liquidityType,
   }: Props) => {
     const { ref, isFocused, focus, onFocus, onBlur } = useInputFocusState()
+
+    const handlePercentChange = useCallback(
+      (value: Amount) => {
+        // max percent is 100%
+        if (value.gt(100)) {
+          onPercentChange(Amount.fromNormalAmount(100))
+        } else {
+          onPercentChange(value)
+        }
+      },
+      [onPercentChange],
+    )
 
     return (
       <div className="relative self-stretch md:w-full">
@@ -51,19 +63,19 @@ export const AssetInputs = memo(
         >
           <Box className="flex-1">
             <Typography className="inline-flex">
-              {t('views.liquidity.amountToRemove')}
+              Withdraw Percent
               {':'}
             </Typography>
           </Box>
           <Box className="flex-1" alignCenter>
             <Box className="flex-1">
-              <Input
+              <InputAmount
                 ref={ref}
                 stretch
                 className="!text-2xl text-right mr-3"
                 containerClassName="py-1"
-                onChange={(event) => onAmountChange(event.target.value)}
-                value={amount}
+                onAmountChange={handlePercentChange}
+                amountValue={percent}
                 suffix={<Typography variant="subtitle1">%</Typography>}
                 onFocus={onFocus}
                 onBlur={onBlur}
@@ -75,7 +87,7 @@ export const AssetInputs = memo(
         <HighlightCard className="min-h-[107px] p-4 flex-col md:flex-row items-end md:items-center gap-2">
           <Box>
             <Typography className="whitespace-nowrap">
-              {t('views.liquidity.youWillReceive')}
+              Receive
               {':'}
             </Typography>
           </Box>
@@ -88,7 +100,11 @@ export const AssetInputs = memo(
               )}
               flex={liquidityType === LiquidityTypeOption.RUNE ? 0 : 1}
             >
-              <AssetAmountBox asset={firstAsset} amount="-" stretch />
+              <AssetAmountBox
+                asset={poolAsset}
+                amount={assetAmount.toFixed(2)}
+                stretch
+              />
             </Box>
             <Box
               className={classNames(
@@ -97,7 +113,11 @@ export const AssetInputs = memo(
               )}
               flex={liquidityType === LiquidityTypeOption.ASSET ? 0 : 1}
             >
-              <AssetAmountBox asset={secondAsset} amount="-" stretch />
+              <AssetAmountBox
+                asset={Asset.RUNE()}
+                amount={runeAmount.toFixed(2)}
+                stretch
+              />
             </Box>
           </Box>
         </HighlightCard>

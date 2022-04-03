@@ -105,6 +105,7 @@ const midgardSlice = createSlice({
             ...state.chainMemberDetailsLoading,
             [chain]: true,
           }
+          state.memberDetailsLoading = true
         },
       )
       /**
@@ -129,6 +130,7 @@ const midgardSlice = createSlice({
 
           state.chainMemberDetails = fetchedChainMemberDetails
 
+          state.memberDetailsLoading = true
           state.chainMemberDetailsLoading = {
             ...state.chainMemberDetailsLoading,
             [chain]: false,
@@ -144,6 +146,7 @@ const midgardSlice = createSlice({
             ...state.chainMemberDetailsLoading,
             [chain]: false,
           }
+          state.memberDetailsLoading = true
         },
       )
       // used for getting pool share for a specific chain

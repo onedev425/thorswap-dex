@@ -1,3 +1,7 @@
+import { useMemo, useCallback } from 'react'
+
+import { Asset } from '@thorswap-lib/multichain-sdk'
+
 import { Select, Box } from 'components/Atomic'
 import {
   LiquidityTypeOption,
@@ -5,46 +9,70 @@ import {
 } from 'components/LiquidityType/types'
 
 export const LiquidityType = ({
-  assetName,
+  poolAsset,
   onChange,
   selected,
+  options,
 }: LiquidityTypeProps) => {
-  const onSelectChange = (index: number) => {
-    const option = indexToOption(index)
-    if (option) {
-      onChange(option)
-    }
-  }
-  const liquidityTypeOptions = [assetName + ' + RUNE', assetName, 'RUNE']
+  const lpOptions = useMemo(
+    () => getOptionsProp(options, poolAsset),
+    [options, poolAsset],
+  )
+
+  const onSelectChange = useCallback(
+    (index: number) => {
+      const option = indexToOption(index, lpOptions, poolAsset)
+      if (option) {
+        onChange(option)
+      }
+    },
+    [lpOptions, poolAsset, onChange],
+  )
+
   return (
     <Box className="self-stretch">
       <Select
-        options={liquidityTypeOptions}
-        activeIndex={optionToIndex(selected)}
+        options={lpOptions}
+        activeIndex={optionToIndex(selected, options)}
         onChange={onSelectChange}
       />
     </Box>
   )
 }
 
-const optionToIndex = (val: LiquidityTypeOption) => {
-  switch (val) {
-    case LiquidityTypeOption.SYMMETRICAL:
-      return 0
-    case LiquidityTypeOption.ASSET:
-      return 1
-    case LiquidityTypeOption.RUNE:
-      return 2
+const getOptionsProp = (types: LiquidityTypeOption[], asset: Asset) => {
+  const options: string[] = []
+  if (types.includes(LiquidityTypeOption.ASSET)) {
+    options.push(`${asset.ticker}`)
   }
+  if (types.includes(LiquidityTypeOption.SYMMETRICAL)) {
+    options.push(`${asset.ticker}+RUNE`)
+  }
+  if (types.includes(LiquidityTypeOption.RUNE)) {
+    options.push('RUNE')
+  }
+
+  return options
 }
 
-const indexToOption = (val: number) => {
-  switch (val) {
-    case 0:
-      return LiquidityTypeOption.SYMMETRICAL
-    case 1:
-      return LiquidityTypeOption.ASSET
-    case 2:
-      return LiquidityTypeOption.RUNE
+const optionToIndex = (
+  val: LiquidityTypeOption,
+  options: LiquidityTypeOption[],
+) => {
+  if (options.includes(val)) return options.indexOf(val)
+
+  return 0
+}
+
+const indexToOption = (val: number, options: string[], asset: Asset) => {
+  const selected = options[val]
+
+  if (selected === `${asset.ticker}`) {
+    return LiquidityTypeOption.ASSET
   }
+  if (selected === `${asset.ticker}+RUNE`) {
+    return LiquidityTypeOption.SYMMETRICAL
+  }
+
+  return LiquidityTypeOption.RUNE
 }

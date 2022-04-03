@@ -818,9 +818,14 @@ export const AddLiquidity = () => {
       }
     >
       <LiquidityType
-        assetName={poolAsset.ticker}
+        poolAsset={poolAsset}
         selected={liquidityType}
         onChange={handleSelectLiquidityType}
+        options={[
+          LiquidityTypeOption.ASSET,
+          LiquidityTypeOption.SYMMETRICAL,
+          LiquidityTypeOption.RUNE,
+        ]}
       />
       <AssetInputs
         poolAsset={poolAssetInput}

@@ -27,7 +27,7 @@ import useWindowSize from 'hooks/useWindowSize'
 
 import { t } from 'services/i18n'
 
-import { ROUTES } from 'settings/constants'
+import { getAddLiquidityRoute, getWithdrawRoute } from 'settings/constants'
 
 type LiquidityCardProps = ChainPoolData & {
   withFooter?: boolean
@@ -52,7 +52,10 @@ export const LiquidityCard = ({
 
   const summary = useMemo(() => {
     const infoFields: InfoRowConfig[] = [
-      { label: t('views.liquidity.poolShare'), value: poolShare.toFixed(4) },
+      {
+        label: t('views.liquidity.poolShare'),
+        value: poolShare.toFixed(4),
+      },
       {
         label: t('views.liquidity.lastAdded'),
         value: moment.unix(Number(dateLastAdded)).format('YYYY-MM-DD'),
@@ -137,11 +140,11 @@ export const LiquidityCard = ({
           <Box className="gap-2" center>
             <Box className="gap-1" center>
               <Typography variant="subtitle1" fontWeight="bold">
-                {Amount.fromMidgard(liquidityUnits).toFixed(2)}
+                {poolShare.toFixed(4)}
               </Typography>
 
               <Typography variant="caption" fontWeight="normal">
-                &nbsp;LP tokens
+                &nbsp;Pool Share
               </Typography>
             </Box>
             <Icon
@@ -169,10 +172,7 @@ export const LiquidityCard = ({
 
           {withFooter && (
             <Box className="space-x-6 md:pr-0 pt-5 md:pt-10" justifyCenter>
-              <Link
-                className="w-full"
-                to={`${ROUTES.AddLiquidity}?input=${pool.asset}`}
-              >
+              <Link className="w-full" to={getAddLiquidityRoute(pool.asset)}>
                 <Button
                   className="px-8 md:px-12"
                   variant="primary"
@@ -182,7 +182,7 @@ export const LiquidityCard = ({
                   {t('views.liquidity.addButton')}
                 </Button>
               </Link>
-              <Link className="w-full" to={ROUTES.WithdrawLiquidity}>
+              <Link className="w-full" to={getWithdrawRoute(pool.asset)}>
                 <Button
                   className="px-8 md:px-12"
                   variant="secondary"

@@ -4,6 +4,7 @@ import { batch } from 'react-redux'
 
 import { ActionListParams, HistoryInterval } from '@thorswap-lib/midgard-sdk'
 import { SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { Chain } from '@thorswap-lib/xchain-util'
 
 import * as actions from 'redux/midgard/actions'
 import { useAppDispatch, useAppSelector } from 'redux/store'
@@ -18,6 +19,7 @@ export const useMidgard = () => {
   const { midgardState, walletState } = useAppSelector(
     ({ midgard, wallet }) => ({ midgardState: midgard, walletState: wallet }),
   )
+  const wallet = useMemo(() => walletState.wallet, [walletState])
 
   const isGlobalHistoryLoading = useMemo(
     () =>
@@ -55,6 +57,30 @@ export const useMidgard = () => {
       })
     },
     [dispatch],
+  )
+
+  /**
+   * reload pool member details for a specific chain
+   * 1. fetch pool member data for chain wallet addr (asset asymm share, symm share)
+   * 2. fetch pool member data for thorchain wallet addr (rune asymm share)
+   */
+  const loadMemberDetailsByChain = useCallback(
+    (chain: SupportedChain) => {
+      if (!wallet) return
+
+      const assetChainAddress = wallet?.[chain]?.address
+      const thorchainAddress = wallet?.[Chain.THORChain]?.address
+      if (assetChainAddress && thorchainAddress) {
+        dispatch(
+          actions.reloadPoolMemberDetailByChain({
+            chain,
+            thorchainAddress,
+            assetChainAddress,
+          }),
+        )
+      }
+    },
+    [dispatch, wallet],
   )
 
   // get pool member details for a specific chain
@@ -111,5 +137,6 @@ export const useMidgard = () => {
     getTxData,
     getInboundData,
     getNodes,
+    loadMemberDetailsByChain,
   }
 }
