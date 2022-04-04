@@ -10,17 +10,20 @@ type Props = {
   error?: boolean
 }
 
-export const PasswordInput = memo(({ error, onChange, value }: Props) => {
-  return (
-    <Input
-      onChange={onChange}
-      value={value}
-      type="password"
-      error={error ? t('validation.invalidPassword') : undefined}
-      stretch
-      icon="lock"
-      placeholder={t('common.password')}
-      border="rounded"
-    />
-  )
-})
+export const PasswordInput = memo(
+  ({ error, onChange, value, ...restProps }: Props) => {
+    return (
+      <Input
+        onChange={onChange}
+        value={value}
+        type="password"
+        error={error ? t('validation.invalidPassword') : undefined}
+        stretch
+        icon="lock"
+        placeholder={t('common.password')}
+        border="rounded"
+        {...restProps}
+      />
+    )
+  },
+)

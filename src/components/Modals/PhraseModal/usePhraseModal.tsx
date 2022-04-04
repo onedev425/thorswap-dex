@@ -2,8 +2,13 @@ import { useCallback, useEffect, useState } from 'react'
 
 import { useForm } from 'react-hook-form'
 
+import copy from 'copy-to-clipboard'
+
+import { showToast, ToastType } from 'components/Toast'
+
 import { useWallet } from 'redux/wallet/hooks'
 
+import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
 export const usePhraseModal = (isOpen: boolean) => {
@@ -52,11 +57,20 @@ export const usePhraseModal = (isOpen: boolean) => {
 
   const submit = handleSubmit(handleConfirm)
 
+  const handleCopyPhrase = useCallback(() => {
+    copy(multichain.getPhrase())
+    showToast(
+      { message: t('components.modal.keystore.phraseCopied') },
+      ToastType.Success,
+    )
+  }, [])
+
   return {
     handleConfirm,
     showPhrase,
     errors,
     submit,
     passwordField,
+    handleCopyPhrase,
   }
 }

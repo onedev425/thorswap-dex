@@ -19,7 +19,7 @@ type Props = {
 
 export const HorizontalSlider = ({ children, itemWidth }: Props) => {
   return (
-    <div className="relative overflow-hidden faded-horizontal -mx-[16px]">
+    <div className="relative overflow-hidden faded-horizontal md:-mx-[16px]">
       <Swiper
         spaceBetween={16}
         slidesPerView="auto"

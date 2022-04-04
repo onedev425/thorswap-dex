@@ -135,7 +135,10 @@
         "viewPhrase": "View Phrase",
         "enterSeed": "Please Enter 12 Seed Phrase",
         "invalidPhrase": "Phrase is invalid",
-        "backupKeystore": "Backup Keystore"
+        "backupKeystore": "Backup Keystore",
+        "enterKeystorePassword": "Confirm keystore password",
+        "copyPhrase": "Copy phrase",
+        "phraseCopied": "Phrase copied"
       }
     },
     "sidebar": {

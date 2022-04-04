@@ -68,7 +68,7 @@ export const PoolTable = ({ data }: PoolTableProps) => {
           id: 'network',
           Header: 'Network',
           accessor: (row: Pool) => chainToString(row.asset.chain),
-          minScreenSize: BreakPoint.lg,
+          minScreenSize: BreakPoint.xl,
         },
         {
           id: 'price',

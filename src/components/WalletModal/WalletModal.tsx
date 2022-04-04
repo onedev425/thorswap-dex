@@ -11,15 +11,7 @@ import { Keystore as KeystoreType } from '@thorswap-lib/xchain-crypto'
 import { Chain } from '@thorswap-lib/xchain-util'
 
 import { AssetIcon } from 'components/AssetIcon'
-import {
-  Box,
-  Button,
-  Card,
-  Icon,
-  Modal,
-  Tooltip,
-  Typography,
-} from 'components/Atomic'
+import { Box, Button, Card, Icon, Modal, Typography } from 'components/Atomic'
 import { Input } from 'components/Input'
 
 import { useWallet } from 'redux/wallet/hooks'
@@ -375,18 +367,27 @@ export const WalletModal = () => {
     )
       return <></>
 
+    const allSelected =
+      pendingChains?.length === availableChainsByWallet[walletMode]?.length
+
     return (
       <Box className="w-full space-y-3" col>
         {walletMode !== WalletMode.Ledger &&
           availableChainsByWallet[walletMode].length > 0 && (
             <Box row justify="end">
-              <Tooltip content={t('views.walletModal.selectAll')}>
-                <Icon
-                  name="selectAll"
-                  onClick={toggleChains}
-                  color="primaryBtn"
-                />
-              </Tooltip>
+              <Button
+                type="borderless"
+                variant="tint"
+                endIcon={
+                  <Icon
+                    name="selectAll"
+                    color={allSelected ? 'primaryBtn' : 'primary'}
+                  />
+                }
+                onClick={toggleChains}
+              >
+                {t('views.walletModal.selectAll')}
+              </Button>
             </Box>
           )}
         {availableChainsByWallet[walletMode].map((chain) => {

@@ -113,7 +113,11 @@ export const ConfirmModal = ({
   )
 
   return (
-    <Modal title={t('common.confirm')} isOpened={isOpened} onClose={onClose}>
+    <Modal
+      title={t('common.confirm')}
+      isOpened={isOpened}
+      onClose={handleCancel}
+    >
       <Box className="gap-y-4 md:gap-y-8 md:!min-w-[350px]" col>
         {children && <div>{children}</div>}
         {isKeystoreSigningRequired && renderKeystoreSignMode}
@@ -122,9 +126,6 @@ export const ConfirmModal = ({
             {t('common.confirm')}
           </Button>
         )}
-        <Button stretch onClick={handleCancel}>
-          Cancel
-        </Button>
       </Box>
     </Modal>
   )

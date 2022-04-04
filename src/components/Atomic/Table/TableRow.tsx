@@ -1,5 +1,3 @@
-import { memo } from 'react'
-
 import classNames from 'classnames'
 
 import { TableCell } from './TableCell'
@@ -10,7 +8,7 @@ type Props = {
   onRowClick?: (row: TableRowType) => void
 }
 
-export const TableRow = memo(({ row, onRowClick }: Props) => {
+export const TableRow = ({ row, onRowClick }: Props) => {
   return (
     <tr
       {...row.getRowProps()}
@@ -25,4 +23,4 @@ export const TableRow = memo(({ row, onRowClick }: Props) => {
       ))}
     </tr>
   )
-})
+}
