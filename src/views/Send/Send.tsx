@@ -300,7 +300,7 @@ const Send = () => {
 
       <Box center className="w-full pt-5">
         {isWalletConnected && (
-          <Button stretch size="lg" onClick={handleSend}>
+          <Button isFancy stretch size="lg" onClick={handleSend}>
             {t('common.send')}
           </Button>
         )}

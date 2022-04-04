@@ -54,6 +54,10 @@ module.exports = {
           'primary-end': '#3B82F6',
           'primary-start-hover': '#46B2A7DD',
           'primary-end-hover': '#3B82F6DD',
+          'error-start': '#3B82F6',
+          'error-end': '#F537C3',
+          'error-start-hover': '#3B82F6DD',
+          'error-end-hover': '#F537C3DD',
         },
       },
 

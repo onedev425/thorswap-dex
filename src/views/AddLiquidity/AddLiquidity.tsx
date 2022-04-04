@@ -847,7 +847,13 @@ export const AddLiquidity = () => {
 
       {isWalletConnected && (
         <Box className="w-full pt-5">
-          <Button stretch size="lg" onClick={handleAddLiquidity}>
+          <Button
+            stretch
+            size="lg"
+            isFancy
+            error={!isValidDeposit.valid}
+            onClick={handleAddLiquidity}
+          >
             {btnLabel}
           </Button>
         </Box>
@@ -855,7 +861,12 @@ export const AddLiquidity = () => {
 
       {!isWalletConnected && (
         <Box className="w-full pt-5">
-          <Button stretch size="lg" onClick={() => setIsConnectModalOpen(true)}>
+          <Button
+            isFancy
+            stretch
+            size="lg"
+            onClick={() => setIsConnectModalOpen(true)}
+          >
             Connect Wallet
           </Button>
         </Box>
