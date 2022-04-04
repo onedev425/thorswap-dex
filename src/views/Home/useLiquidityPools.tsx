@@ -103,13 +103,13 @@ export const useLiquidityPools = ({
     const missingPools =
       featuredPools.length > 0
         ? featuredPools.filter(({ pool }) => {
-            if (!geckoData?.[pool.asset.symbol]) return true
+            if (!geckoData?.[pool.asset.ticker]) return true
             return false
           })
         : []
     const missingSymbols = missingPools.map(({ pool }) => pool.asset.symbol)
 
-    dispatch(getCoingeckoData(missingSymbols))
+    if (missingSymbols.length > 0) dispatch(getCoingeckoData(missingSymbols))
   }, [dispatch, featuredPools, geckoData])
 
   return { filteredPools, featuredPools }

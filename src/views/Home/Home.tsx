@@ -14,7 +14,6 @@ const Home = () => {
       />
       <GlobalStats />
       <GlobalChart />
-
       <PoolListView />
     </Box>
   )
