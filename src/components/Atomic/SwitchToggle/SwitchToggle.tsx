@@ -22,8 +22,8 @@ export const SwitchToggle = memo(
         className={classNames(
           'inline-flex items-center h-6 border-0 rounded-full w-12 transition-colors cursor-pointer',
           checked
-            ? 'bg-light-bg-secondary dark:bg-dark-bg-secondary'
-            : 'bg-light-border-primary dark:bg-dark-gray-primary',
+            ? 'bg-btn-light-tint-active dark:bg-dark-bg-secondary'
+            : 'bg-light-gray-light dark:bg-dark-gray-primary',
           { 'grayscale opacity-50': disabled },
           className,
         )}

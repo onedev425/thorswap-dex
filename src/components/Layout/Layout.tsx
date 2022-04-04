@@ -24,7 +24,7 @@ export const Layout = ({ children }: LayoutProp) => {
   }
 
   return (
-    <Scrollbar>
+    <Scrollbar className="bg-light-bg-primary dark:bg-dark-bg-primary transition-all">
       <div className="relative z-10 flex flex-col w-full min-h-screen mx-auto my-0 max-w-8xl">
         <aside className="fixed hidden md:block">
           <Sidebar
@@ -39,7 +39,7 @@ export const Layout = ({ children }: LayoutProp) => {
 
         <main
           className={classNames(
-            'flex flex-col md:max-w-[calc(100%-148px)] mx-3 md:px-10 py-5 transition-all duration-300 ease-in-out',
+            'flex flex-col md:max-w-[calc(100%-148px)] mx-3 md:px-10 py-5 ease-in-out',
             sidebarCollapsed ? 'md:ml-24' : 'md:ml-48',
           )}
         >
@@ -49,7 +49,7 @@ export const Layout = ({ children }: LayoutProp) => {
         <WalletModal />
       </div>
 
-      <div className="fixed inset-0 z-0 bg-elliptical-light dark:bg-elliptical transition-all"></div>
+      <div className="bg-elliptical-light dark:bg-elliptical transition-colors fixed inset-0 z-0"></div>
     </Scrollbar>
   )
 }

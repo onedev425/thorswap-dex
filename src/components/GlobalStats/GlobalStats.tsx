@@ -1,5 +1,7 @@
 import { memo, useState } from 'react'
 
+import classNames from 'classnames'
+
 import { Box, SwitchToggle, Typography } from 'components/Atomic'
 import { StatsList } from 'components/StatsList'
 
@@ -12,13 +14,18 @@ export const GlobalStats = memo(() => {
   const statsData = useGlobalStatsData()
 
   return (
-    <div>
-      <Box alignCenter className="pl-2 gap-x-2 pb-6 rounded-2xl">
+    <Box col>
+      <Box
+        alignCenter
+        className={classNames('pl-2 gap-x-2 rounded-2xl', { 'pb-6': !visible })}
+      >
         <SwitchToggle checked={visible} onChange={setVisible} />
-        <Typography variant="caption">{t('common.showStats')}</Typography>
+        <Typography variant="caption">
+          {visible ? t('common.hideStats') : t('common.showStats')}
+        </Typography>
       </Box>
 
       {visible && <StatsList list={statsData} scrollable />}
-    </div>
+    </Box>
   )
 })

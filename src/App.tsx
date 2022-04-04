@@ -15,11 +15,13 @@ const MainApp = () => {
   useGlobalRefresh()
 
   return (
-    <div className="bg-light-bg-primary dark:bg-dark-bg-primary overflow-x-hidden transition-all">
+    <div className="overflow-x-hidden">
       <div id="headlessui-portal-root" />
+
       <DrawerProvider>
         <Router />
       </DrawerProvider>
+
       <TooltipPortal />
       <ToastPortal />
     </div>

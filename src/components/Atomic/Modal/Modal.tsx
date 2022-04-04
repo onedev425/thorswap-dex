@@ -78,7 +78,7 @@ export const Modal = ({
                     onClick={onClose}
                     center
                     className={classNames(
-                      'h-10 w-10 rounded-2xl self-center border border-solid cursor-pointer hover:brightness-95 dark:hover:brightness-125',
+                      'h-10 w-10 rounded-2xl self-center border border-solid cursor-pointer hover:brightness-90 dark:hover:brightness-110',
                       'border-light-gray-light dark:border-dark-typo-gray',
                     )}
                   >

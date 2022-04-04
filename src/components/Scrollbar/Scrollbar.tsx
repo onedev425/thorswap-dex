@@ -1,17 +1,12 @@
 import Scrollbars from 'react-custom-scrollbars'
 
 type ScrollbarProps = {
-  customStyle?: Record<string, string | number>
   children: React.ReactNode
+  className?: string
+  customStyle?: Record<string, string | number>
   height?: string
   maxHeight?: number
   minHeight?: number
-}
-
-type CustomScrollbarProps = {
-  autoHeightMax?: number
-  autoHeightMin?: number
-  autoHeight?: boolean
 }
 
 export const Scrollbar = ({
@@ -20,25 +15,17 @@ export const Scrollbar = ({
   maxHeight,
   children,
   customStyle = {},
+  className,
 }: ScrollbarProps) => {
   const autoHeight = !!maxHeight || !!minHeight
 
-  const customProps: CustomScrollbarProps = {}
-  if (autoHeight) {
-    customProps.autoHeight = true
-    if (minHeight) {
-      customProps.autoHeightMin = minHeight
-    }
-
-    if (maxHeight) {
-      customProps.autoHeightMax = maxHeight
-    }
-  }
-
   return (
     <Scrollbars
+      className={className}
+      autoHeight={autoHeight}
+      autoHeightMin={minHeight}
+      autoHeightMax={maxHeight}
       autoHide
-      {...customProps}
       renderThumbVertical={({ style, ...scrollProps }) => (
         <div
           style={{

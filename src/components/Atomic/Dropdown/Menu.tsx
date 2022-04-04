@@ -1,11 +1,11 @@
-import { ReactNode } from 'react'
+import { PropsWithChildren } from 'react'
 
 import { Listbox } from '@headlessui/react'
 import classNames from 'classnames'
 
 import { genericBgClasses } from 'components/constants'
 
-type Props = { className?: string; children: ReactNode }
+type Props = PropsWithChildren<{ className?: string }>
 
 export const Menu = ({ className, children }: Props) => {
   return (

@@ -17,6 +17,7 @@ import WalletView from 'views/Wallet'
 import WalletBalance from 'views/WalletBalance'
 import WithdrawLiquidity from 'views/WithdrawLiquidity'
 
+import { Box } from 'components/Atomic'
 import { Layout } from 'components/Layout'
 import { WalletDrawer } from 'components/WalletDrawer'
 
@@ -61,7 +62,10 @@ const PublicRoutes = () => {
               key={route.path}
               path={route.path}
               element={
-                <>
+                <Box
+                  flex={1}
+                  className="bg-light-bg-primary dark:bg-dark-bg-primary transition-colors"
+                >
                   <WalletDrawer>
                     <WalletBalance />
                   </WalletDrawer>
@@ -69,7 +73,7 @@ const PublicRoutes = () => {
                   <Layout>
                     <Component />
                   </Layout>
-                </>
+                </Box>
               }
             />
           )

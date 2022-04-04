@@ -1,11 +1,18 @@
 import { Transition } from '@headlessui/react'
 
-import { DropdownButton } from 'components/Atomic/Dropdown'
-import { Menu } from 'components/Atomic/Dropdown/Menu'
-import { MenuOption } from 'components/Atomic/Dropdown/MenuOption'
-import { DropdownMenuProps } from 'components/Atomic/Dropdown/types'
-
 import { Dropdown } from './Dropdown'
+import { DropdownButton } from './DropdownButton'
+import { Menu } from './Menu'
+import { MenuOption } from './MenuOption'
+import { DropdownMenuItem, DropdownOptions } from './types'
+
+type DropdownMenuProps = {
+  className?: string
+  menuClassName?: string
+  menuItems: DropdownMenuItem[]
+  openLabel?: string
+  openComponent?: JSX.Element
+} & DropdownOptions
 
 export const DropdownMenu = ({
   className,
@@ -28,10 +35,10 @@ export const DropdownMenu = ({
       onChange={onChange}
     >
       <DropdownButton
-        label={openLabel || defaultOpenLabel}
-        component={openComponent}
+        label={openComponent || openLabel || defaultOpenLabel}
         disabled={disabled}
       />
+
       <Transition
         enter="transition duration-100 ease-out"
         enterFrom="transform scale-y-50 opacity-0"

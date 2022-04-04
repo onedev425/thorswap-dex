@@ -22,7 +22,7 @@ export const Card = ({
   return (
     <div
       className={classNames(
-        'bg-light-bg-secondary dark:bg-dark-bg-secondary',
+        'bg-light-bg-secondary dark:bg-dark-bg-secondary transition-colors',
         { 'drop-shadow-box box-border': shadow },
         { [baseBorderClass]: withBorder },
         stretch ? 'flex flex-1' : 'inline-flex',

@@ -126,7 +126,7 @@ export const Chart = memo(
           />
         </Box>
 
-        <div className="w-full my-4 border border-solid !border-opacity-25 dark:border-dark-border-primary" />
+        <div className="w-full my-4 border-0 border-b-2 border-solid !border-opacity-25 dark:border-dark-border-primary" />
 
         <Box
           center={isChartLoading}

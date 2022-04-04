@@ -30,12 +30,12 @@ export const PoolListView = () => {
   )
 
   return (
-    <Box className="gap-8" col>
+    <Box col>
       <Typography variant="h3">
         {t('views.home.swapCrossChainAssets')}
       </Typography>
 
-      <Box center className="flex-wrap gap-4">
+      <Box center className="flex-wrap">
         <HorizontalSlider itemWidth={302}>
           {featuredPools.map(({ iconName, ...rest }) => (
             <PoolCard key={iconName} iconName={iconName} {...rest} />
@@ -45,25 +45,35 @@ export const PoolListView = () => {
 
       <Box className="gap-8" col>
         <Typography variant="h3">{t('common.liquidityPools')}</Typography>
-        <Box justify="between" className="flex-wrap gap-8">
-          <Input
-            value={keyword}
-            onChange={handleChangeKeyword}
-            border="rounded"
-            placeholder="Search"
-            icon="search"
-          />
 
-          <Select
-            options={poolTypeOptions}
-            activeIndex={selectedPoolType}
-            onChange={setSelectedPoolType}
-          />
-          <Select
-            options={poolStatusOptions}
-            activeIndex={selectedPoolStatus}
-            onChange={setSelectedPoolStatus}
-          />
+        <Box
+          alignCenter
+          justify="between"
+          flexWrap="wrap"
+          className="gap-2 lg:flex-row"
+        >
+          <Box className="w-fit">
+            <Input
+              value={keyword}
+              onChange={handleChangeKeyword}
+              border="rounded"
+              placeholder="Search"
+              icon="search"
+            />
+          </Box>
+
+          <Box className="w-fit gap-x-8 justify-end">
+            <Select
+              options={poolTypeOptions}
+              activeIndex={selectedPoolType}
+              onChange={setSelectedPoolType}
+            />
+            <Select
+              options={poolStatusOptions}
+              activeIndex={selectedPoolStatus}
+              onChange={setSelectedPoolStatus}
+            />
+          </Box>
         </Box>
 
         <PoolTable data={filteredPools} />

@@ -40,7 +40,7 @@ export const PoolCard = ({ change, pool, iconName, color }: PoolCardProps) => {
   }, [navigate, pool.asset])
 
   return (
-    <Card className="flex-col overflow-hidden min-w-fit max-w-[288px] " stretch>
+    <Card className="flex-col overflow-clip min-w-fit max-w-[288px]" stretch>
       <Box justify="between" className="px-6 pt-6">
         <Box col>
           <Typography

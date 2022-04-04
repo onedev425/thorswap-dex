@@ -54,7 +54,7 @@ export const Select = ({
           menuItems={dropdownOptions}
           value={options[activeIndex]}
           openComponent={
-            <Box className="gap-2" alignCenter row>
+            <Box className="w-fit gap-2" alignCenter>
               <Typography variant="caption">{options[activeIndex]}</Typography>
             </Box>
           }

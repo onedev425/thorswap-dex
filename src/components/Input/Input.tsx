@@ -38,21 +38,21 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       <Box className={classNames(stretch ? 'w-full' : 'w-fit')}>
         <Box
           className={classNames(
-            'flex flex-row py-1.5 transition-colors',
+            'flex flex-row py-1.5 transition-all',
             'border-dark-typo-gray focus-within:border-dark-typo-gray dark:border-dark-border-primary hover:border-dark-typo-gray dark:hover:border-dark-typo-gray focus-within::hover:border-dark-typo-gray',
+            border ? 'border-solid' : 'border-none',
+            stretch ? 'w-full' : 'w-fit',
             {
-              'border-none': !border,
-              'border-solid': border,
               'px-2 border rounded-2xl': border === 'rounded',
               'border-0 border-b': border === 'bottom',
             },
-            stretch ? 'w-full' : 'w-fit',
             containerClassName,
           )}
           onClick={focus}
           alignCenter
         >
           {prefix}
+
           {icon && (
             <Icon
               className={classNames('pr-4', {
@@ -68,9 +68,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             disabled={disabled}
             ref={ref || inputRef}
             className={classNames(
-              'bg-transparent border-none dark:placeholder-dark-typo-gray dark:text-dark-typo-primary font-bold text-base placeholder-light-typo-gray text-light-typo-primary focus:outline-none',
-              stretch ? 'w-full' : 'w-52',
-              { 'w-48': icon && !stretch, 'cursor-not-allowed': disabled },
+              'bg-transparent dark:placeholder-dark-typo-gray dark:text-dark-typo-primary placeholder-light-typo-gray text-light-typo-primary transition-all',
+              ' border-none font-bold text-base focus:outline-none',
+              stretch ? 'w-full' : 'md:w-52',
+              { 'md:w-48': icon && !stretch, 'cursor-not-allowed': disabled },
               className,
             )}
             value={value}

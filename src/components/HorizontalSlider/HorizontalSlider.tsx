@@ -19,18 +19,16 @@ type Props = {
 
 export const HorizontalSlider = ({ children, itemWidth }: Props) => {
   return (
-    <div className="relative overflow-hidden faded-horizontal md:-mx-[16px]">
+    <div className="overflow-hidden faded-horizontal md:-mx-[16px]">
       <Swiper
         spaceBetween={16}
         slidesPerView="auto"
-        mousewheel={{
-          forceToAxis: true,
-        }}
+        mousewheel={{ forceToAxis: true }}
         slidesOffsetAfter={16}
         slidesOffsetBefore={16}
       >
         {Children.map(children, (child) => (
-          <SwiperSlide style={{ width: itemWidth }}>
+          <SwiperSlide className="py-8" style={{ width: itemWidth }}>
             <Box style={{ width: itemWidth }}>{child}</Box>
           </SwiperSlide>
         ))}

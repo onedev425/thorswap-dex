@@ -59,6 +59,7 @@ export const Stats = ({
             </Tooltip>
           )}
         </Box>
+
         <div className="grid">
           <Typography
             className="overflow-hidden transition group-hover:text-dark-typo-primary text-ellipsis whitespace-nowrap"
