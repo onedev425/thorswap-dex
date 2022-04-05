@@ -28,18 +28,19 @@ import { ROUTES } from 'settings/constants'
 import { ChainPoolData } from './types'
 
 const ManageLiquidity = () => {
+  const navigate = useNavigate()
   const { wallet, setIsConnectModalOpen } = useWallet()
 
-  const isWalletConnected = useMemo(() => hasConnectedWallet(wallet), [wallet])
-
-  const navigate = useNavigate()
   const {
     pools,
     chainMemberDetails,
     getAllMemberDetails,
     memberDetailsLoading,
   } = useMidgard()
+
   const [tipVisible, setTipVisible] = useState(true)
+
+  const isWalletConnected = useMemo(() => hasConnectedWallet(wallet), [wallet])
 
   useEffect(() => {
     getAllMemberDetails()
@@ -74,7 +75,7 @@ const ManageLiquidity = () => {
 
   return (
     <PanelView
-      title="Liquidity"
+      title={t('common.liquidity')}
       header={
         <ViewHeader
           title={t('common.liquidityPosition')}
@@ -82,7 +83,7 @@ const ManageLiquidity = () => {
             <>
               <ReloadButton
                 loading={memberDetailsLoading}
-                onLoad={() => getAllMemberDetails()}
+                onLoad={getAllMemberDetails}
               />
               <SwapSettingsPopover />
             </>
@@ -98,14 +99,8 @@ const ManageLiquidity = () => {
           onClose={() => setTipVisible(false)}
         />
       )}
-      {!isWalletConnected && (
-        <Box className="w-full pb-4 gap-x-8" justify="between">
-          <Button size="lg" stretch onClick={() => setIsConnectModalOpen(true)}>
-            Connect Wallet
-          </Button>
-        </Box>
-      )}
-      {isWalletConnected && (
+
+      {isWalletConnected ? (
         <>
           <Box className="w-full pb-4 gap-x-8" justify="between">
             <Button
@@ -113,7 +108,7 @@ const ManageLiquidity = () => {
               stretch
               onClick={() => navigate(ROUTES.AddLiquidity)}
             >
-              Deposit
+              {t('common.deposit')}
             </Button>
 
             <Button size="lg" stretch>
@@ -131,6 +126,12 @@ const ManageLiquidity = () => {
             ))}
           </Box>
         </>
+      ) : (
+        <Box className="w-full pb-4 gap-x-8" justify="between">
+          <Button size="lg" stretch onClick={() => setIsConnectModalOpen(true)}>
+            {t('common.connectWallet')}
+          </Button>
+        </Box>
       )}
     </PanelView>
   )

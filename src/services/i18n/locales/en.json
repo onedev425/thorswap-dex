@@ -303,7 +303,8 @@
       "poolShareEstimated": "Pool Share Estimated",
       "poolShareTooltip": "Estimated percentage of your pool share after providing the liquidity",
       "confirmDeposit": "Confirm deposit",
-      "confirmWithdraw": "Confirm withdraw"
+      "confirmWithdraw": "Confirm withdraw",
+      "checkPoolDetail": "Check pool detail"
     },
     "walletModal": {
       "connectWallet": "Connect Wallet",

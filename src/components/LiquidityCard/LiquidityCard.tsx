@@ -6,28 +6,15 @@ import moment from 'moment'
 
 import { ChainPoolData } from 'views/ManageLiquidity/types'
 
-import { AssetIcon } from 'components/AssetIcon'
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon'
-import {
-  Button,
-  useCollapse,
-  Card,
-  Box,
-  Typography,
-  Icon,
-  Link,
-} from 'components/Atomic'
+import { useCollapse, Card, Box, Typography, Icon } from 'components/Atomic'
 import { borderHoverHighlightClass } from 'components/constants'
-import { InfoRowConfig } from 'components/InfoRow/types'
-import { InfoTable } from 'components/InfoTable'
-
-import { PoolShareType } from 'redux/midgard/types'
 
 import useWindowSize from 'hooks/useWindowSize'
 
 import { t } from 'services/i18n'
 
-import { getAddLiquidityRoute, getWithdrawRoute } from 'settings/constants'
+import { LiquidityInfo } from './LiquidityInfo'
 
 type LiquidityCardProps = ChainPoolData & {
   withFooter?: boolean
@@ -50,70 +37,21 @@ export const LiquidityCard = ({
     [liquidityUnits, pool],
   )
 
-  const summary = useMemo(() => {
-    const infoFields: InfoRowConfig[] = [
-      {
-        label: t('views.liquidity.poolShare'),
-        value: poolShare.toFixed(4),
-      },
-      {
-        label: t('views.liquidity.lastAdded'),
-        value: moment.unix(Number(dateLastAdded)).format('YYYY-MM-DD'),
-      },
-    ]
-
-    if ([PoolShareType.SYM, PoolShareType.ASSET_ASYM].includes(shareType)) {
-      infoFields.unshift({
-        label: pool.asset.ticker,
-        value: (
-          <Box className="gap-2" center>
-            <Typography>
-              {`${assetShare.toFixed(4)} ${pool.asset.ticker}`}
-            </Typography>
-            <AssetIcon size={27} asset={pool.asset} />
-          </Box>
-        ),
-      })
-    }
-
-    if ([PoolShareType.SYM, PoolShareType.RUNE_ASYM].includes(shareType)) {
-      infoFields.unshift({
-        label: RuneAsset.symbol,
-        value: (
-          <Box className="gap-2" center>
-            <Typography>
-              {`${runeShare.toFixed(4)} ${RuneAsset.symbol}`}
-            </Typography>
-            <AssetIcon size={27} asset={RuneAsset} />
-          </Box>
-        ),
-      })
-    }
-
-    return infoFields
-  }, [assetShare, dateLastAdded, pool.asset, poolShare, runeShare, shareType])
-
-  const poolAssetsInfo = useMemo(() => {
-    switch (shareType) {
-      case PoolShareType.SYM:
-        return `RUNE + ${pool.asset.ticker} LP`
-      case PoolShareType.ASSET_ASYM:
-        return `${pool.asset.ticker} LP`
-      case PoolShareType.RUNE_ASYM:
-        return 'RUNE LP'
-    }
-  }, [pool.asset.ticker, shareType])
-
   return (
     <Box justifyCenter col>
       <Card
+        stretch
         className={classNames(
-          'flex flex-col bg-light-gray-light dark:!bg-dark-gray-light !rounded-2xl cursor-pointer',
+          'flex-col bg-light-gray-light dark:!bg-dark-gray-light !rounded-2xl',
           borderHoverHighlightClass,
         )}
-        onClick={toggle}
       >
-        <Box className="mx-4 my-4 md:mx-2" alignCenter justify="between">
+        <Box
+          onClick={toggle}
+          className="cursor-pointer mx-4 my-4 md:mx-2"
+          alignCenter
+          justify="between"
+        >
           <Box center>
             <Box col>
               <AssetLpIcon
@@ -138,15 +76,28 @@ export const LiquidityCard = ({
           </Box>
 
           <Box className="gap-2" center>
-            <Box className="gap-1" center>
-              <Typography variant="subtitle1" fontWeight="bold">
-                {poolShare.toFixed(4)}
+            <Box col align="end">
+              <Typography
+                className={classNames(
+                  '!transition-all',
+                  isActive ? '!text-body' : '!text-caption',
+                )}
+                fontWeight="normal"
+              >
+                {` ${t('views.liquidity.poolShare')}`}
               </Typography>
 
-              <Typography variant="caption" fontWeight="normal">
-                &nbsp;Pool Share
+              <Typography
+                className={classNames(
+                  '!transition-all',
+                  isActive ? '!text-subtitle1' : '!text-body',
+                )}
+                fontWeight="bold"
+              >
+                {poolShare.toFixed(4)}
               </Typography>
             </Box>
+
             <Icon
               className={classNames('transform duration-300 ease', {
                 '-rotate-180': isActive,
@@ -157,44 +108,19 @@ export const LiquidityCard = ({
           </Box>
         </Box>
 
-        <div
-          className="flex flex-col overflow-hidden ease-in-out transition-max-height"
-          ref={contentRef}
-          style={maxHeightStyle}
-        >
-          <Box col className="pt-5 self-stretch">
-            <Typography className="px-2" color="cyan" variant="caption">
-              {poolAssetsInfo}
-            </Typography>
-
-            <InfoTable items={summary} horizontalInset />
-          </Box>
-
-          {withFooter && (
-            <Box className="space-x-6 md:pr-0 pt-5 md:pt-10" justifyCenter>
-              <Link className="w-full" to={getAddLiquidityRoute(pool.asset)}>
-                <Button
-                  className="px-8 md:px-12"
-                  variant="primary"
-                  size="lg"
-                  stretch
-                >
-                  {t('views.liquidity.addButton')}
-                </Button>
-              </Link>
-              <Link className="w-full" to={getWithdrawRoute(pool.asset)}>
-                <Button
-                  className="px-8 md:px-12"
-                  variant="secondary"
-                  size="lg"
-                  stretch
-                >
-                  {t('common.withdraw')}
-                </Button>
-              </Link>
-            </Box>
-          )}
-        </div>
+        <LiquidityInfo
+          lastAddedDate={moment
+            .unix(Number(dateLastAdded))
+            .format('YYYY-MM-DD')}
+          poolShare={poolShare}
+          assetShare={assetShare}
+          runeShare={runeShare}
+          asset={pool.asset}
+          contentRef={contentRef}
+          maxHeightStyle={maxHeightStyle}
+          withFooter={withFooter}
+          shareType={shareType}
+        />
       </Card>
     </Box>
   )

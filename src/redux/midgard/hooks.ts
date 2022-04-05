@@ -7,6 +7,7 @@ import { SupportedChain } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
 
 import * as actions from 'redux/midgard/actions'
+import { setMemberDetailsLoading } from 'redux/midgard/slice'
 import { useAppDispatch, useAppSelector } from 'redux/store'
 
 import { TX_PUBLIC_PAGE_LIMIT } from 'settings/constants/global'
@@ -85,13 +86,13 @@ export const useMidgard = () => {
 
   // get pool member details for a specific chain
   const getMemberDetailsByChain = useCallback(
-    (chain: SupportedChain) => {
+    async (chain: SupportedChain) => {
       if (!walletState.wallet) return
 
       const chainWalletAddr = walletState.wallet?.[chain]?.address
 
       if (chainWalletAddr) {
-        dispatch(
+        await dispatch(
           actions.getPoolMemberDetailByChain({
             chain,
             address: chainWalletAddr,
@@ -103,13 +104,16 @@ export const useMidgard = () => {
   )
 
   // get pool member details for all chains
-  const getAllMemberDetails = useCallback(() => {
+  const getAllMemberDetails = useCallback(async () => {
     if (!walletState.wallet) return
 
-    Object.keys(walletState.wallet).forEach((chain) => {
-      getMemberDetailsByChain(chain as SupportedChain)
-    })
-  }, [getMemberDetailsByChain, walletState.wallet])
+    const walletChains = Object.keys(walletState.wallet)
+    for (const chain of walletChains) {
+      await getMemberDetailsByChain(chain as SupportedChain)
+    }
+
+    dispatch(setMemberDetailsLoading(false))
+  }, [dispatch, getMemberDetailsByChain, walletState.wallet])
 
   // get tx data
   const getTxData = useCallback(

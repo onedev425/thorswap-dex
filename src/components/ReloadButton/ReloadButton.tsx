@@ -4,12 +4,14 @@ export type ReloadProps = {
   loading: boolean
   onLoad: () => void
   tooltip?: string
+  size?: number
 }
 
 export const ReloadButton = ({
   loading,
   onLoad,
   tooltip = 'Reload',
+  size = 20,
 }: ReloadProps): JSX.Element => {
   return (
     <Button
@@ -17,7 +19,7 @@ export const ReloadButton = ({
       type="borderless"
       variant="tint"
       onClick={onLoad}
-      startIcon={<Icon name="refresh" size={20} spin={loading} />}
+      startIcon={<Icon name="refresh" size={size} spin={loading} />}
       tooltip={tooltip}
     />
   )
