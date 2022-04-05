@@ -17464,6 +17464,11 @@ react-chartjs-2@^4.0.1:
   resolved "https://registry.yarnpkg.com/react-chartjs-2/-/react-chartjs-2-4.0.1.tgz#38ed1d5b6e2f789408450c981e9e8e1d78b2e015"
   integrity sha512-q8bgWzKoFvBvD7YcjT/hXG8jt55TaMAuJ1dmI3tKFJ7CijUWYz4pIfOhkTI6PBTwqu/pmeWsClBRd/7HiWzN1g==
 
+react-countdown-circle-timer@^3.0.9:
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/react-countdown-circle-timer/-/react-countdown-circle-timer-3.0.9.tgz#9bdf127c63f9c67dc12bc83cb8029765512b1f5f"
+  integrity sha512-2rE2NklqgtArbvM9RVR3NctiKQ8+lY8PEjUZ2S1pKowD8CmaXUGqIaCbFBcygYH2aZQs9qPIQA49Z+9Jc2TOiQ==
+
 react-custom-scrollbars@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/react-custom-scrollbars/-/react-custom-scrollbars-4.2.1.tgz#830fd9502927e97e8a78c2086813899b2a8b66db"

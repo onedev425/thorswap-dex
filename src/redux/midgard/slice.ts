@@ -40,6 +40,7 @@ const initialState: State = {
   mimirLoading: false,
   mimir: {},
   volume24h: null,
+  inboundLoading: false,
   inboundData: [],
   pendingLP: {},
   pendingLPLoading: false,
@@ -336,12 +337,19 @@ const midgardSlice = createSlice({
         state.volume24h = payload
       })
       // get thornode inbound addresses
+      .addCase(midgardActions.getThorchainInboundData.pending, (state) => {
+        state.inboundLoading = true
+      })
       .addCase(
         midgardActions.getThorchainInboundData.fulfilled,
         (state, { payload }) => {
           state.inboundData = payload
+          state.inboundLoading = false
         },
       )
+      .addCase(midgardActions.getThorchainInboundData.rejected, (state) => {
+        state.inboundLoading = false
+      })
       // get thorchain mimir
       .addCase(midgardActions.getMimir.pending, (state) => {
         state.mimirLoading = true

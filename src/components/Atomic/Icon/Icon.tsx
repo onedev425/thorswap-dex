@@ -50,7 +50,7 @@ export const Icon = ({
   return (
     <IconComp
       className={classNames(
-        'transition',
+        'transition-all',
         colorClasses[color],
         spin ? 'animate-spin' : 'animate-none',
         onClick ? 'cursor-pointer' : '',

@@ -20,6 +20,7 @@ import { Chain } from '@thorswap-lib/xchain-util'
 import copy from 'copy-to-clipboard'
 
 import { Button, Icon, Box } from 'components/Atomic'
+import { CountDownIndicator } from 'components/CountDownIndicator'
 import { HoverIcon } from 'components/HoverIcon'
 import { InfoTable } from 'components/InfoTable'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
@@ -88,7 +89,12 @@ const SwapView = () => {
 
   const { getMaxBalance } = useBalance()
   const { wallet, setIsConnectModalOpen } = useWallet()
-  const { pools: allPools, poolLoading, inboundData } = useMidgard()
+  const {
+    pools: allPools,
+    poolLoading,
+    inboundData,
+    inboundLoading,
+  } = useMidgard()
   const { slippageTolerance } = useApp()
 
   const isInputWalletConnected = useMemo(
@@ -695,6 +701,11 @@ const SwapView = () => {
           title={t('common.swap')}
           actionsComponent={
             <Box center row className="space-x-2">
+              <CountDownIndicator
+                duration={9}
+                resetIndicator={inboundLoading}
+              />
+
               <Button
                 onClick={navigateToPoolInfo}
                 className="px-1.5 group"
