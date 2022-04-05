@@ -793,7 +793,13 @@ const SwapView = () => {
           </Button>
         )}
         {!isWalletRequired && (
-          <Button stretch size="lg" onClick={handleSwap}>
+          <Button
+            isFancy
+            error={!isValidSwap.valid}
+            stretch
+            size="lg"
+            onClick={handleSwap}
+          >
             {btnLabel}
           </Button>
         )}

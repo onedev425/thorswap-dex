@@ -49,11 +49,11 @@ export const SearchAndFilters = memo(
             <SwitchToggle checked={onlyConnected} onChange={setOnlyConnected} />
           </Box>
 
-          <Box className="gap-2" center>
+          <Box center>
             <Button
               onClick={() => setWalletViewMode(ViewMode.CARD)}
               startIcon={<Icon name="app" size={20} />}
-              className={classNames('px-2.5', {
+              className={classNames('px-2.5 !rounded-r-none', {
                 '!bg-opacity-50': walletViewMode === ViewMode.CARD,
               })}
               variant={walletViewMode === ViewMode.CARD ? 'primary' : 'tint'}
@@ -64,7 +64,7 @@ export const SearchAndFilters = memo(
             <Button
               onClick={() => setWalletViewMode(ViewMode.LIST)}
               startIcon={<Icon name="list" size={20} />}
-              className={classNames('px-2.5', {
+              className={classNames('px-2.5 !rounded-l-none', {
                 '!bg-opacity-50': walletViewMode === ViewMode.LIST,
               })}
               variant={walletViewMode === ViewMode.LIST ? 'primary' : 'tint'}

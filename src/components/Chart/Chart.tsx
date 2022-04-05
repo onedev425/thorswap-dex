@@ -109,20 +109,20 @@ export const Chart = memo(
     return (
       <Box className={classNames('w-full h-full', className)} col>
         <Box alignCenter justify="between" row>
-          <Box className="gap-y-1" ml={2} col>
-            <ChartHeader unit={unit} title={title} values={values} />
-
-            <ChartTypeSelect
-              chartTypeIndexes={chartIndexes}
-              selectChartTypeIndex={selectChart}
-              selectedChartTypeIndex={selectedIndex}
-            />
-          </Box>
+          <ChartHeader unit={unit} title={title} values={values} />
 
           <Select
             options={chartTimeFrames}
             activeIndex={chartTimeFrame}
             onChange={setChartTimeFrame}
+          />
+        </Box>
+
+        <Box alignCenter>
+          <ChartTypeSelect
+            chartTypeIndexes={chartIndexes}
+            selectChartTypeIndex={selectChart}
+            selectedChartTypeIndex={selectedIndex}
           />
         </Box>
 

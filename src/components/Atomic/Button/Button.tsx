@@ -25,11 +25,12 @@ export const Button = ({
   tooltipPlacement,
   loading,
   isFancy = false,
+  error = false,
   ...rest
 }: ButtonProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const { backgroundClass, buttonClass, outlinedClass, typographyVariant } =
-    useButtonClasses({ size, variant, isFancy })
+    useButtonClasses({ size, variant, isFancy, error })
 
   const isOutlined = type === 'outline'
   const isBorderless = type === 'borderless'

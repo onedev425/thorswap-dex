@@ -37,4 +37,5 @@ export type ButtonProps = Omit<
   startIcon?: ReactNode
   endIcon?: ReactNode
   isFancy?: boolean
+  error?: boolean
 }

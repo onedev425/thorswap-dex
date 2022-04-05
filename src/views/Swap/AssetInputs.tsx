@@ -44,15 +44,14 @@ export const AssetInputs = memo(
           onClick={handleAssetSwap}
           className={classNames(
             'absolute -mt-0.5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-            'p-1 md:p-2 rounded-2xl md:rounded-3xl cursor-pointer',
-            'border-10 border-solid bg-blue dark:border-dark-border-primary border-light-border-primary',
+            'p-1 md:p-2 rounded-xl md:rounded-[16px] cursor-pointer',
+            'border-10 border-solid bg-blue dark:border-dark-border-primary border-light-border-primary hover:brightness-125 transition',
           )}
         >
           <Icon
-            className={classNames(
-              'w-6 h-6 md:w-9 md:h-9 -scale-x-100 transition-all duration-300',
-              { 'rotate-180': iconRotate },
-            )}
+            className={classNames('w-7 h-7 -scale-x-100 transition-all', {
+              'rotate-180': iconRotate,
+            })}
             name="exchange"
             color="white"
           />

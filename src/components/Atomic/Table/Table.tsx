@@ -68,7 +68,7 @@ export const Table = ({
 
   return (
     <table
-      className="border-separate border-spacing-y-1 relative"
+      className="relative border-separate border-spacing-y-1"
       {...getTableProps()}
     >
       {loading && (
