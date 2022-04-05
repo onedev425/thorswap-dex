@@ -73,6 +73,16 @@ jobs:
           enable-commit-comment: true
           overwrites-pull-request-comment: true
         env:
+          CI: false
+          REACT_APP_NETWORK: ${{ secrets.REACT_APP_NETWORK }}
+          REACT_APP_MAINNET_THORCHAIN_RPC: ${{ secrets.REACT_APP_MAINNET_THORCHAIN_RPC }}
+          REACT_APP_MAINNET_THORNODE: ${{ secrets.REACT_APP_MAINNET_THORNODE }}
+          REACT_APP_IS_SYNTH_ACTIVE: true
+          REACT_APP_DOGENODE_API_KEY: ${{ secrets.REACT_APP_DOGENODE_API_KEY }}
+          REACT_APP_ETHERSCAN_API_KEY: ${{ secrets.REACT_APP_ETHERSCAN_API_KEY }}
+          REACT_APP_ETHPLORER_API_KEY: ${{ secrets.REACT_APP_ETHPLORER_API_KEY }}
+          REACT_APP_INFURA_PROJECT_ID: ${{ secrets.REACT_APP_INFURA_PROJECT_ID }}
+          REACT_APP_IS_NETWORK_ONLINE: ${{ secrets.REACT_APP_IS_NETWORK_ONLINE }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_DEV_SITE_ID }}
         timeout-minutes: 1
@@ -82,4 +92,4 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'THORSwap V2 development app has been deployed. - App: https://thorswap-dev-app-v2.netlify.app Storybook: https://thorswap-dev-app-v2.netlify.app/storybook'
+          args: 'THORSwap V2 development app has been deployed. - https://dev.thorswap.finance'
