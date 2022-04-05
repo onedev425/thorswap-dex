@@ -234,7 +234,7 @@ module.exports = {
       }),
       height: {
         sidebar: 'calc(100vh - 32px)',
-        'sidebar-content': 'calc(100vh - 227px)',
+        'sidebar-content': 'calc(100vh - 192px)',
       },
     },
   },

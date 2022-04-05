@@ -1,15 +1,9 @@
-import { useMemo } from 'react'
-
 import { useNavigate } from 'react-router-dom'
 
-import { Asset } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
-import { AssetIcon } from 'components/AssetIcon'
 import { Box, Icon, Tooltip, Typography } from 'components/Atomic'
 import { Scrollbar } from 'components/Scrollbar'
-
-import { useMidgard } from 'redux/midgard/hooks'
 
 import { t } from 'services/i18n'
 
@@ -27,16 +21,7 @@ export const Sidebar = ({
   collapsed = false,
   toggle,
 }: SidebarProps) => {
-  const { stats } = useMidgard()
   const navigate = useNavigate()
-
-  const runeLabel = useMemo(
-    () =>
-      stats?.runePriceUSD
-        ? `$${parseFloat(stats.runePriceUSD || '').toFixed(2)}`
-        : '$ -',
-    [stats],
-  )
 
   return (
     <nav
@@ -53,7 +38,7 @@ export const Sidebar = ({
         className="my-8 min-w-[48px] h-12 transition-colors cursor-pointer"
       >
         <img
-          className="w-16 h-16 absolute blur-xl dark:blur-md -z-10 transition-all -translate-x-2 -translate-y-2"
+          className="absolute w-16 h-16 transition-all -translate-x-2 -translate-y-2 blur-xl dark:blur-md -z-10"
           src={Logo}
           alt="Logo-glow"
         />
@@ -69,23 +54,6 @@ export const Sidebar = ({
           />
         </Scrollbar>
       </div>
-
-      <Box
-        className={classNames(
-          'gap-1 transition-all',
-          collapsed ? 'pb-3' : 'pb-2.5',
-        )}
-        center
-      >
-        <AssetIcon asset={Asset.RUNE()} size={collapsed ? 16 : 24} />
-        <Typography
-          variant={collapsed ? 'caption-xs' : 'body'}
-          className="transition-[font-size]"
-          fontWeight="semibold"
-        >
-          {runeLabel}
-        </Typography>
-      </Box>
 
       {!!toggle && (
         <Box
