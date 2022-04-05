@@ -305,8 +305,13 @@ const Send = () => {
           </Button>
         )}
         {!isWalletConnected && (
-          <Button stretch size="lg" onClick={() => setIsConnectModalOpen(true)}>
-            Connect Wallet
+          <Button
+            isFancy
+            stretch
+            size="lg"
+            onClick={() => setIsConnectModalOpen(true)}
+          >
+            {t('common.connectWallet')}
           </Button>
         )}
       </Box>

@@ -12,7 +12,7 @@ type Props = {
 }
 
 export const CopyAddress = ({ type = 'icon', address }: Props) => {
-  const { handleCopyAddress, miniAddress, shortAddress } =
+  const { miniAddress, shortAddress, handleCopyAddress } =
     useAddressUtils(address)
 
   if (type === 'icon') {
@@ -20,8 +20,8 @@ export const CopyAddress = ({ type = 'icon', address }: Props) => {
       <HoverIcon
         iconName="copy"
         tooltip={t('views.wallet.copyAddress')}
-        onClick={handleCopyAddress}
         size={16}
+        onClick={handleCopyAddress}
       />
     )
   }

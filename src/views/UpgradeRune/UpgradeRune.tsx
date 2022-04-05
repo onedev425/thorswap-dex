@@ -313,11 +313,12 @@ const UpgradeRune = () => {
           )}
           {!isWalletConnected && (
             <Button
+              isFancy
               stretch
               size="lg"
               onClick={() => setIsConnectModalOpen(true)}
             >
-              Connect Wallet
+              {t('common.connectWallet')}
             </Button>
           )}
 

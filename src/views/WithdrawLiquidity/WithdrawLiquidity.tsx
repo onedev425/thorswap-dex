@@ -670,7 +670,7 @@ const WithdrawPanel = ({
       <Box className="w-full gap-1" col>
         {/* <LiquidityCard data={liquidityCardData} /> */}
       </Box>
-      <Box className="gap-4 pt-5 self-stretch">
+      <Box className="self-stretch gap-4 pt-5">
         {isWalletConnected && !isLPActionPaused && (
           <Button
             size="lg"
@@ -684,11 +684,12 @@ const WithdrawPanel = ({
         {!isWalletConnected && (
           <Button
             size="lg"
+            isFancy
             stretch
             variant="secondary"
             onClick={() => setIsConnectModalOpen(true)}
           >
-            Connect Wallet
+            {t('common.connectWallet')}
           </Button>
         )}
         {isLPActionPaused && (

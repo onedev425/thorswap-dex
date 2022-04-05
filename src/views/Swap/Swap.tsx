@@ -20,7 +20,7 @@ import { Chain } from '@thorswap-lib/xchain-util'
 import copy from 'copy-to-clipboard'
 
 import { Button, Icon, Box } from 'components/Atomic'
-import { baseHoverClass } from 'components/constants'
+import { HoverIcon } from 'components/HoverIcon'
 import { InfoTable } from 'components/InfoTable'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { useConfirmInfoItems } from 'components/Modals/ConfirmModal/useConfirmInfoItems'
@@ -734,33 +734,20 @@ const SwapView = () => {
           value={recipient}
           titleComponent={
             <Box flex={1} alignCenter justify="between">
-              <PanelInputTitle> {t('common.recipientAddress')}</PanelInputTitle>
+              <PanelInputTitle>{t('common.recipientAddress')}</PanelInputTitle>
 
               <Box row>
-                <Box className={baseHoverClass}>
-                  <Icon
-                    color="secondary"
-                    name={addressDisabled ? 'lock' : 'edit'}
-                    size={16}
-                    onClick={toggleAddressDisabled}
-                  />
-                </Box>
-                <Box className={baseHoverClass}>
-                  <Icon
-                    color="secondary"
-                    name="copy"
-                    size={16}
-                    onClick={handleCopyAddress}
-                  />
-                </Box>
-                <Box className={baseHoverClass}>
-                  <Icon
-                    color="secondary"
-                    name="share"
-                    size={16}
-                    onClick={() => {}}
-                  />
-                </Box>
+                <HoverIcon
+                  iconName={addressDisabled ? 'edit' : 'lock'}
+                  size={16}
+                  onClick={toggleAddressDisabled}
+                />
+                <HoverIcon
+                  iconName="copy"
+                  size={16}
+                  onClick={handleCopyAddress}
+                />
+                <HoverIcon iconName="share" size={16} onClick={() => {}} />
               </Box>
             </Box>
           }
@@ -788,7 +775,12 @@ const SwapView = () => {
 
       <Box className="w-full pt-5">
         {isWalletRequired && (
-          <Button stretch size="lg" onClick={() => setIsConnectModalOpen(true)}>
+          <Button
+            isFancy
+            stretch
+            size="lg"
+            onClick={() => setIsConnectModalOpen(true)}
+          >
             {t('common.connectWallet')}
           </Button>
         )}

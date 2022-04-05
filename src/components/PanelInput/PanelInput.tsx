@@ -71,7 +71,8 @@ export const PanelInput = ({
       >
         <Input
           {...inputProps}
-          containerClassName="pyt-2 pb-0"
+          className="!font-medium"
+          containerClassName="pt-2 pb-0"
           ref={ref}
           stretch
           onFocus={onFocus}

@@ -45,30 +45,24 @@ export const showToast: ShowToastFunction = (
 
   toast.custom(
     <Box
+      className="items-center px-4 py-2 m-20 border border-solid drop-shadow-md rounded-xl border-light-border-primary dark:border-dark-border-primary bg-light-bg-primary dark:bg-dark-bg-secondary"
       row
-      className={classNames(
-        'py-2 px-4 m-20 rounded-xl',
-        'border border-solid border-light-border-primary dark:border-dark-border-primary bg-light-bg-primary' +
-          ' dark:bg-dark-bg-secondary items-center',
-      )}
     >
       <Box col className="max-w-[240px]">
-        <Typography className={classNames({ 'pr-2': icon })} variant="caption">
-          {content.message}
-        </Typography>
-        {content.description && typeof content.description === 'string' ? (
-          <Typography
-            className={classNames({ 'pr-2': icon })}
-            variant="caption-xs"
-            fontWeight="light"
-          >
-            {content.description}
-          </Typography>
-        ) : (
-          content.description
-        )}
+        <Box alignCenter row>
+          {icon}
+          <Box className={classNames({ 'pl-2': icon })} col>
+            <Typography variant="caption">{content.message}</Typography>
+            {content.description && typeof content.description === 'string' ? (
+              <Typography variant="caption-xs" fontWeight="light">
+                {content.description}
+              </Typography>
+            ) : (
+              content.description
+            )}
+          </Box>
+        </Box>
       </Box>
-      {icon}
     </Box>,
     { ...options, duration },
   )

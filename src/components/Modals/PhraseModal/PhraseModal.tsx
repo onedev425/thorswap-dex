@@ -26,7 +26,7 @@ export const PhraseModal = ({
 
   return (
     <Modal
-      title={t('components.modal.keystore.phrase')}
+      title={t('views.walletModal.phrase')}
       isOpened={isOpen}
       onClose={onCancel}
     >
@@ -40,7 +40,7 @@ export const PhraseModal = ({
                 endIcon={<Icon name="copy" color="primaryBtn" />}
                 onClick={handleCopyPhrase}
               >
-                {t('components.modal.keystore.copyPhrase')}
+                {t('views.walletModal.copyPhrase')}
               </Button>
             </Box>
             <Box
@@ -65,7 +65,7 @@ export const PhraseModal = ({
           <Box className="gap-1.5" col flex={1}>
             <Box className="px-1.5">
               <Typography>
-                {t('components.modal.keystore.enterKeystorePassword')}
+                {t('views.walletModal.enterKeystorePassword')}
               </Typography>
             </Box>
             <Input
@@ -82,13 +82,13 @@ export const PhraseModal = ({
             {errors.password && (
               <Box className="px-1.5">
                 <Typography color="red">
-                  {t('components.modal.keystore.wrongPassword')}
+                  {t('views.walletModal.wrongPassword')}
                 </Typography>
               </Box>
             )}
             <Box justifyCenter mt={4}>
               <Button onClick={submit} stretch>
-                {t('components.modal.keystore.viewPhrase')}
+                {t('views.walletModal.viewPhrase')}
               </Button>
             </Box>
           </Box>

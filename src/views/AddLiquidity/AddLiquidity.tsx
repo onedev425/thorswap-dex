@@ -867,7 +867,7 @@ export const AddLiquidity = () => {
             size="lg"
             onClick={() => setIsConnectModalOpen(true)}
           >
-            Connect Wallet
+            {t('common.connectWallet')}
           </Button>
         </Box>
       )}

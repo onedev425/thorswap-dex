@@ -84,7 +84,7 @@ export const KeystoreView = ({ onConnect, onKeystore }: Props) => {
       <Helmet title="Create Wallet" content="Create Wallet" />
       <Box className="space-x-2" row>
         <Typography className="mb-2" variant="subtitle2" fontWeight="semibold">
-          {t('components.modal.keystore.inputPassword')}
+          {t('views.walletModal.inputPassword')}
         </Typography>
         <Tooltip
           place="top"
@@ -97,7 +97,7 @@ export const KeystoreView = ({ onConnect, onKeystore }: Props) => {
           border="rounded"
           name="password"
           type="password"
-          placeholder={t('components.modal.keystore.enterPassword')}
+          placeholder={t('views.walletModal.enterPassword')}
           stretch
           value={password}
           onChange={handlePasswordChange}
@@ -105,7 +105,7 @@ export const KeystoreView = ({ onConnect, onKeystore }: Props) => {
       </Box>
       <Box className="space-x-2" row mt={24} mb={2}>
         <Typography variant="subtitle2">
-          {t('components.modal.keystore.confirmPassword')}
+          {t('views.walletModal.confirmPassword')}
         </Typography>
       </Box>
       <Box className="w-full">
@@ -113,7 +113,7 @@ export const KeystoreView = ({ onConnect, onKeystore }: Props) => {
           border="rounded"
           name="password"
           type="password"
-          placeholder={t('components.modal.keystore.confirmPassword')}
+          placeholder={t('views.walletModal.confirmPassword')}
           stretch
           value={confirmPassword}
           onChange={handleConfirmPasswordChange}
@@ -121,7 +121,7 @@ export const KeystoreView = ({ onConnect, onKeystore }: Props) => {
       </Box>
       {invalidStatus && (
         <Typography className="mt-2 ml-3" color="red" variant="caption">
-          {t('components.modal.keystore.wrongPassword')}
+          {t('views.walletModal.wrongPassword')}
         </Typography>
       )}
 
@@ -151,7 +151,7 @@ export const KeystoreView = ({ onConnect, onKeystore }: Props) => {
           endIcon={<Icon name="wallet" size={18} />}
           onClick={onKeystore}
         >
-          {t('components.modal.keystore.connectWallet')}
+          {t('views.walletModal.connectWallet')}
         </Button>
       </Box>
     </Box>

@@ -69,14 +69,14 @@ export const PhraseView = () => {
       <Helmet title="Import Phrase" content="Import Phrase" />
       <Box className="space-x-2" row>
         <Typography className="mb-2" variant="subtitle2" fontWeight="semibold">
-          {t('components.modal.keystore.enterSeed')}
+          {t('views.walletModal.enterSeed')}
         </Typography>
       </Box>
       <Box className="w-full">
         <Input
           border="rounded"
           name="phrase"
-          placeholder={t('components.modal.keystore.phrase')}
+          placeholder={t('views.walletModal.phrase')}
           stretch
           value={phrase}
           onChange={handlePhraseChange}
@@ -84,12 +84,12 @@ export const PhraseView = () => {
       </Box>
       {invalidPhrase && (
         <Typography className="mt-2 ml-3" color="red" variant="caption">
-          {t('components.modal.keystore.invalidPhrase')}
+          {t('views.walletModal.invalidPhrase')}
         </Typography>
       )}
       <Box className="space-x-2" row mt={24} mb={2}>
         <Typography variant="subtitle2">
-          {t('components.modal.keystore.keystorePassword')}
+          {t('views.walletModal.keystorePassword')}
         </Typography>
       </Box>
       <Box className="w-full">
@@ -97,7 +97,7 @@ export const PhraseView = () => {
           border="rounded"
           name="password"
           type="password"
-          placeholder={t('components.modal.keystore.confirmPassword')}
+          placeholder={t('views.walletModal.confirmPassword')}
           stretch
           disabled={!phrase}
           value={password}
@@ -125,7 +125,7 @@ export const PhraseView = () => {
           }
           onClick={handleBackupKeystore}
         >
-          {t('components.modal.keystore.backupKeystore')}
+          {t('views.walletModal.backupKeystore')}
         </Button>
       </Box>
     </Box>

@@ -95,7 +95,7 @@ export const KeystoreView = ({ loading, onConnect, onCreate }: Props) => {
   return (
     <Box className="w-full" col>
       <Typography className="mb-2" variant="subtitle2" fontWeight="semibold">
-        {t('components.modal.keystore.selectKeystore')}
+        {t('views.walletModal.selectKeystore')}
       </Typography>
       <Box
         className="h-10 px-3 border border-solid cursor-pointer rounded-2xl border-light-border-primary dark:border-dark-border-primary hover:border-light-typo-gray dark:hover:border-dark-typo-gray"
@@ -127,7 +127,7 @@ export const KeystoreView = ({ loading, onConnect, onCreate }: Props) => {
       </Typography>
       <Box className="space-x-2" row mt={24} mb={2}>
         <Typography variant="subtitle2">
-          {t('components.modal.keystore.keystorePassword')}
+          {t('views.walletModal.keystorePassword')}
         </Typography>
         <Tooltip
           place="top"
@@ -149,7 +149,7 @@ export const KeystoreView = ({ loading, onConnect, onCreate }: Props) => {
       </Box>
       {invalidStatus && (
         <Typography className="mt-2 ml-3" color="red" variant="caption">
-          {t('components.modal.keystore.wrongPassword')}
+          {t('views.walletModal.wrongPassword')}
         </Typography>
       )}
 
@@ -168,7 +168,7 @@ export const KeystoreView = ({ loading, onConnect, onCreate }: Props) => {
           }
           onClick={unlockKeystore}
         >
-          {t('components.modal.keystore.unlock')}
+          {t('views.walletModal.unlock')}
         </Button>
         <Button
           className="flex-1 group"
@@ -178,7 +178,7 @@ export const KeystoreView = ({ loading, onConnect, onCreate }: Props) => {
           endIcon={<Icon name="wallet" size={18} />}
           onClick={onCreate}
         >
-          {t('components.modal.keystore.createWallet')}
+          {t('views.walletModal.createWallet')}
         </Button>
       </Box>
     </Box>

@@ -60,7 +60,7 @@ export const usePhraseModal = (isOpen: boolean) => {
   const handleCopyPhrase = useCallback(() => {
     copy(multichain.getPhrase())
     showToast(
-      { message: t('components.modal.keystore.phraseCopied') },
+      { message: t('views.walletModal.phraseCopied') },
       ToastType.Success,
     )
   }, [])

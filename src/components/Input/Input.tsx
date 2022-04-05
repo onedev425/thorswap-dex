@@ -68,7 +68,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             disabled={disabled}
             ref={ref || inputRef}
             className={classNames(
-              'bg-transparent dark:placeholder-dark-typo-gray dark:text-dark-typo-primary placeholder-light-typo-gray text-light-typo-primary transition-colors',
+              'font-primary bg-transparent dark:placeholder-dark-typo-gray dark:text-dark-typo-primary placeholder-light-typo-gray text-light-typo-primary transition-colors',
               ' border-none font-bold text-base focus:outline-none',
               stretch ? 'w-full' : 'md:w-52',
               { 'md:w-48': icon && !stretch, 'cursor-not-allowed': disabled },

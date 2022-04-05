@@ -121,27 +121,6 @@
       "week": "Week",
       "all": "All"
     },
-    "modal": {
-      "keystore": {
-        "selectKeystore": "Please Select Keystore File",
-        "keystorePassword": "Decryption Password",
-        "unlock": "Unlock",
-        "createWallet": "Create Wallet",
-        "connectWallet": "Connect Wallet",
-        "wrongPassword": "Password is wrong",
-        "inputPassword": "Input Password",
-        "enterPassword": "Enter Password",
-        "confirmPassword": "Confirm Password",
-        "phrase": "Phrase",
-        "viewPhrase": "View Phrase",
-        "enterSeed": "Please Enter 12 Seed Phrase",
-        "invalidPhrase": "Phrase is invalid",
-        "backupKeystore": "Backup Keystore",
-        "enterKeystorePassword": "Confirm keystore password",
-        "copyPhrase": "Copy phrase",
-        "phraseCopied": "Phrase copied"
-      }
-    },
     "sidebar": {
       "dashboard": "Dashboard",
       "trade": "Trade",
@@ -327,7 +306,23 @@
       "connectedWith": "Connected With",
       "ledgerIndex": "Ledger Index",
       "invalidKeystore": "Invalid Keystore File",
-      "selectAll": "Select All / Deselect All"
+      "selectAll": "Select All / Deselect All",
+      "selectKeystore": "Please Select Keystore File",
+      "keystorePassword": "Decryption Password",
+      "unlock": "Unlock",
+      "createWallet": "Create Wallet",
+      "wrongPassword": "Password is wrong",
+      "inputPassword": "Input Password",
+      "enterPassword": "Enter Password",
+      "confirmPassword": "Confirm Password",
+      "phrase": "Phrase",
+      "viewPhrase": "View Phrase",
+      "enterSeed": "Please Enter 12 Seed Phrase",
+      "invalidPhrase": "Phrase is invalid",
+      "backupKeystore": "Backup Keystore",
+      "enterKeystorePassword": "Confirm keystore password",
+      "copyPhrase": "Copy phrase",
+      "phraseCopied": "Phrase copied"
     },
     "addLiquidity": {
       "pricesAndPoolShare": "Prices and Pool Share",
