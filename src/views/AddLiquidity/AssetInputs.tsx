@@ -34,7 +34,7 @@ export const AssetInputs = memo(
         <Box
           className={classNames(
             'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-            'p-1 md:p-2 rounded-2xl md:rounded-3xl',
+            'p-1 md:p-2 rounded-xl md:rounded-[16px]',
             'border-10 border-solid bg-blue dark:border-dark-border-primary border-light-border-primary',
             'opacity-100 scale-100 transition-all',
             {
@@ -43,11 +43,7 @@ export const AssetInputs = memo(
             },
           )}
         >
-          <Icon
-            className={classNames('w-6 h-6 md:w-9 md:h-9')}
-            name="plus"
-            color="white"
-          />
+          <Icon className={classNames('w-7 h-7')} name="plus" color="white" />
         </Box>
 
         <Box
