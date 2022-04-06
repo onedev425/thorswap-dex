@@ -34,7 +34,7 @@ export const getSendRoute = (asset: Asset) => {
   return `${ROUTES.Send}/${asset.toURLEncoded()}`
 }
 
-export const getSwapRoute = (input: Asset, output: Asset) => {
+export const getSwapRoute = (input: Asset, output: Asset = Asset.RUNE()) => {
   return `${ROUTES.Swap}/${input.toURLEncoded()}_${output.toURLEncoded()}`
 }
 

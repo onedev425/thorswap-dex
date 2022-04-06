@@ -28,9 +28,12 @@ export const WalletIcon = ({
   tooltipDisabled,
   onClick,
 }: Props) => {
-  const tooltipContent = t('views.wallet.walletTypeConnected', {
-    walletType,
-  })
+  const tooltipContent =
+    walletType === WalletOption.KEYSTORE
+      ? t('views.walletModal.viewPhrase')
+      : t('views.wallet.walletTypeConnected', {
+          walletType,
+        })
 
   return (
     <Tooltip content={tooltipContent} disabled={tooltipDisabled}>

@@ -1,4 +1,9 @@
-import { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from 'react'
+import {
+  ButtonHTMLAttributes,
+  DetailedHTMLProps,
+  MouseEventHandler,
+  ReactNode,
+} from 'react'
 
 import { TextTransform } from 'components/Atomic'
 import { TooltipPlacement } from 'components/Atomic/Tooltip/types'
@@ -27,7 +32,7 @@ export type ButtonProps = Omit<
   loading?: boolean
   tooltip?: string
   tooltipPlacement?: TooltipPlacement
-  onClick?: () => void
+  onClick?: MouseEventHandler<HTMLButtonElement>
   size?: ButtonSizes
   textColor?: ColorType
   transform?: TextTransform

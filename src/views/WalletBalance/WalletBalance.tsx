@@ -10,11 +10,13 @@ import {
   isOldRune,
   SupportedChain,
 } from '@thorswap-lib/multichain-sdk'
+import classNames from 'classnames'
 
 import { WalletHeader } from 'views/WalletBalance/WalletHeader'
 
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, Button, Icon, Link, Typography } from 'components/Atomic'
+import { baseBgHoverClass } from 'components/constants'
 import { Scrollbar } from 'components/Scrollbar'
 
 import { useMidgard } from 'redux/midgard/hooks'
@@ -22,7 +24,9 @@ import { useWallet } from 'redux/wallet/hooks'
 
 import { useWalletDrawer } from 'hooks/useWalletDrawer'
 
-import { ROUTES } from 'settings/constants'
+import { t } from 'services/i18n'
+
+import { getSendRoute, getSwapRoute, ROUTES } from 'settings/constants'
 
 import { ChainHeader } from './ChainHeader'
 import { sortedChains } from './types'
@@ -43,53 +47,60 @@ const WalletBalance = () => {
         ...balance,
         ...(balance.length === 0 ? [sigBalance] : []),
       ]
-
       return walletBalance.map((data: AssetAmount) => (
-        <Box
+        <Link
           key={data.asset.symbol}
-          className="p-4 bg-light-bg-secondary dark:bg-dark-bg-secondary"
-          alignCenter
-          justify="between"
-          onClick={() => {}}
+          to={getSwapRoute(data.asset)}
+          onClick={close}
         >
-          <Box className="flex-1" row alignCenter>
-            <AssetIcon asset={data.asset} size={36} />
-            <Box className="pl-2 w-[80px]" col>
-              <Typography>{data.asset.ticker}</Typography>
-              <Typography
-                variant="caption-xs"
-                color="secondary"
-                fontWeight="medium"
-              >
-                {data.asset.type}
+          <Box
+            className={classNames(
+              'p-4 cursor-pointer bg-light-bg-secondary dark:bg-dark-bg-secondary !bg-opacity-80',
+              baseBgHoverClass,
+            )}
+            alignCenter
+            justify="between"
+          >
+            <Box className="flex-1" row alignCenter>
+              <AssetIcon asset={data.asset} size={36} />
+              <Box className="pl-2 w-[80px]" col>
+                <Typography>{data.asset.ticker}</Typography>
+                <Typography
+                  variant="caption-xs"
+                  color="secondary"
+                  fontWeight="medium"
+                >
+                  {data.asset.type}
+                </Typography>
+              </Box>
+              <Typography color="primary">
+                {data.amount.toSignificant(6)}
               </Typography>
             </Box>
-            <Typography color="primary">
-              {data.amount.toSignificant(6)}
-            </Typography>
-          </Box>
 
-          <Box className="space-x-1" row>
-            {isOldRune(data.asset) && (
-              <Link to={ROUTES.UpgradeRune}>
+            <Box className="space-x-1" row>
+              {isOldRune(data.asset) && (
+                <Link to={ROUTES.UpgradeRune}>
+                  <Button
+                    className="px-3 hover:bg-transparent dark:hover:bg-transparent"
+                    variant="tint"
+                    startIcon={
+                      <Icon name="switch" color="primaryBtn" size={16} />
+                    }
+                  />
+                </Link>
+              )}
+              <Link to={getSendRoute(data.asset)} onClick={close}>
                 <Button
                   className="px-3 hover:bg-transparent dark:hover:bg-transparent"
                   variant="tint"
-                  startIcon={
-                    <Icon name="switch" color="primaryBtn" size={16} />
-                  }
+                  startIcon={<Icon name="send" color="primaryBtn" size={16} />}
+                  tooltip={t('common.send')}
                 />
               </Link>
-            )}
-            <Link to={`/send/${data.asset.toURLEncoded()}`} onClick={close}>
-              <Button
-                className="px-3 hover:bg-transparent dark:hover:bg-transparent"
-                variant="tint"
-                startIcon={<Icon name="send" color="primaryBtn" size={16} />}
-              />
-            </Link>
+            </Box>
           </Box>
-        </Box>
+        </Link>
       ))
     },
     [close],

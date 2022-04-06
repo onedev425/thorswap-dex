@@ -32,9 +32,10 @@ import { t } from 'services/i18n'
 import { formatPrice } from 'helpers/formatPrice'
 
 import {
+  getAddLiquidityRoute,
   getPoolDetailRouteFromAsset,
+  getSwapRoute,
   navigateToExternalLink,
-  ROUTES,
 } from 'settings/constants'
 
 const initialSort = [{ id: 'liquidity', desc: true }]
@@ -116,17 +117,19 @@ export const PoolTable = ({ data }: PoolTableProps) => {
               <Button
                 variant="secondary"
                 type="outline"
-                onClick={() =>
-                  navigate(`${ROUTES.Swap}?input=${original.asset}`)
-                }
+                onClick={(e) => {
+                  navigate(getSwapRoute(original.asset))
+                  e.stopPropagation()
+                }}
               >
                 {t('common.swap')}
               </Button>
               <Button
                 type="outline"
-                onClick={() =>
-                  navigate(`${ROUTES.AddLiquidity}?input=${original.asset}`)
-                }
+                onClick={(e) => {
+                  navigate(getAddLiquidityRoute(original.asset))
+                  e.stopPropagation()
+                }}
               >
                 {t('common.addLiquidity')}
               </Button>
