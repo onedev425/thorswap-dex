@@ -1,9 +1,21 @@
 import axios from 'axios'
 
+import { GeckoData, GeckoDataWithSymbols } from 'redux/wallet/types'
+
 import { geckoCoinIndex } from './coinIndex'
 
-export const getGeckoData = async (symbols: string[]) => {
-  const parsedSymbols = symbols.map((symbol) => symbol.split('-')[0])
+export const getGeckoData = async (
+  symbols: string[],
+): Promise<{ data: GeckoDataWithSymbols[] }> => {
+  const symbolsMap: Record<string, string> = {}
+  const parsedSymbols: string[] = []
+
+  symbols.forEach((symbol) => {
+    const coinSymbol = symbol.split('-')[0]
+    parsedSymbols.push(coinSymbol)
+    symbolsMap[coinSymbol] = symbol
+  })
+
   const coinIds = parsedSymbols.map((parsedSymbol) => {
     const coinId = geckoCoinIndex.find(
       (coin) => coin.symbol === parsedSymbol.toLowerCase(),
@@ -16,9 +28,18 @@ export const getGeckoData = async (symbols: string[]) => {
 
   const connectedCoinId = coinIds.map((coinId) => coinId?.id).join(',')
 
-  const { data } = await axios.get(
+  const { data } = await axios.get<GeckoData[]>(
     `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${connectedCoinId}&sparkline=true`,
   )
 
-  return data.length > 0 ? { data } : { data: [] }
+  if (data?.length) {
+    const dataWithSymbols = data.map((geckoData) => ({
+      symbol: symbolsMap[geckoData.symbol.toUpperCase()],
+      geckoData,
+    }))
+
+    return { data: dataWithSymbols }
+  }
+
+  return { data: [] }
 }

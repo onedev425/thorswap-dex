@@ -17,9 +17,10 @@ import { useColumns } from './useColumns'
 type Props = {
   chainInfo: AssetAmount[]
   chain: SupportedChain
+  isConnected: boolean
 }
 
-export const ChainInfoTable = ({ chainInfo, chain }: Props) => {
+export const ChainInfoTable = ({ chainInfo, chain, isConnected }: Props) => {
   const [showAllTokens, setShowAllTokens] = useState(false)
   const sigAsset = chainToSigAsset(chain)
 
@@ -32,7 +33,7 @@ export const ChainInfoTable = ({ chainInfo, chain }: Props) => {
     setShowAllTokens((v) => !v)
   }, [])
 
-  const columns = useColumns()
+  const columns = useColumns(isConnected)
   const tableData = showAllTokens
     ? [sigAssetAmount, ...altAssets]
     : [sigAssetAmount]

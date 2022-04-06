@@ -121,7 +121,7 @@ export const AccountCard = memo(({ chain }: Props) => {
           </Typography>
         </Box>
 
-        <AssetChart chain={chain} mode={ViewMode.CARD} />
+        <AssetChart asset={sigAsset} mode={ViewMode.CARD} />
 
         <Box
           className="gap-3 pb-4 border-0 border-b-2 border-solid border-light-border-primary dark:border-dark-border-primary"

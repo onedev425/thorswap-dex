@@ -1,21 +1,13 @@
-import { useEffect, useState } from 'react'
-
-import { useDispatch } from 'react-redux'
-
-import {
-  chainToSigAsset,
-  SupportedChain,
-  SUPPORTED_CHAINS as supportedChains,
-} from '@thorswap-lib/multichain-sdk'
+import { useState } from 'react'
 
 import { AccountType } from 'views/Wallet/AccountType'
+import { useLoadWalletAssetsInfo } from 'views/Wallet/hooks'
 import { SearchAndFilters } from 'views/Wallet/SearchAndFilters'
 
 import { Box } from 'components/Atomic'
 import { Helmet } from 'components/Helmet'
 
 import { useApp } from 'redux/app/hooks'
-import { useWallet } from 'redux/wallet/hooks'
 
 import { t } from 'services/i18n'
 
@@ -23,19 +15,8 @@ const Wallet = () => {
   const [keyword, setKeyword] = useState('')
   const [onlyConnected, setOnlyConnected] = useState(false)
 
-  const dispatch = useDispatch()
   const { walletViewMode, setWalletViewMode } = useApp()
-  const { getCoingeckoData } = useWallet()
-
-  useEffect(() => {
-    const sigSymbols = supportedChains.map((chain) => {
-      const asset = chainToSigAsset(chain as SupportedChain)
-
-      return asset.symbol
-    })
-
-    dispatch(getCoingeckoData(sigSymbols))
-  }, [dispatch, getCoingeckoData])
+  useLoadWalletAssetsInfo()
 
   return (
     <Box className="w-full" col>

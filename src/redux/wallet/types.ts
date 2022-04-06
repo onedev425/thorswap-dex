@@ -29,6 +29,8 @@ export interface GeckoData {
   }
 }
 
+export type GeckoDataWithSymbols = { geckoData: GeckoData; symbol: string }
+
 export interface State {
   isConnectModalOpen: boolean
   keystore: Keystore | null

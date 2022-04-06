@@ -2,12 +2,7 @@ import { useMemo } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
-import {
-  Amount,
-  Asset,
-  AssetAmount,
-  SupportedChain,
-} from '@thorswap-lib/multichain-sdk'
+import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-sdk'
 
 import { AssetChart } from 'views/Wallet/AssetChart'
 
@@ -32,7 +27,7 @@ import { ROUTES } from 'settings/constants'
 
 import { ViewMode } from 'types/global'
 
-export const useColumns = () => {
+export const useColumns = (isConnected: boolean) => {
   const navigate = useNavigate()
   const { geckoData } = useWallet()
   const { isLgActive } = useWindowSize()
@@ -62,7 +57,9 @@ export const useColumns = () => {
           minScreenSize: BreakPoint.md,
           accessor: (row: Amount) => row.assetAmount,
           Cell: ({ cell: { value } }: { cell: { value: AssetAmount } }) => (
-            <Typography fontWeight="bold">{value.toFixed(2)}</Typography>
+            <Typography fontWeight="bold">
+              {isConnected ? value.toFixed(2) : '-'}
+            </Typography>
           ),
         },
         {
@@ -102,9 +99,9 @@ export const useColumns = () => {
           minScreenSize: BreakPoint.lg,
           align: 'center',
           disableSortBy: true,
-          accessor: (row: AssetAmount) => row.asset.chain,
-          Cell: ({ cell: { value } }: { cell: { value: SupportedChain } }) => (
-            <AssetChart mode={ViewMode.LIST} chain={value} />
+          accessor: (row: AssetAmount) => row.asset,
+          Cell: ({ cell: { value } }: { cell: { value: Asset } }) => (
+            <AssetChart mode={ViewMode.LIST} asset={value} />
           ),
         },
         {
@@ -161,7 +158,7 @@ export const useColumns = () => {
           ),
         },
       ] as TableColumnsConfig,
-    [geckoData, isLgActive, navigate],
+    [geckoData, isConnected, isLgActive, navigate],
   )
 
   return columns
