@@ -19,12 +19,12 @@ export const Scrollbar = ({
   className,
   autoHeight,
 }: ScrollbarProps) => {
-  const useAutheight = !!maxHeight || !!minHeight || autoHeight
+  const useAutoHeight = !!maxHeight || !!minHeight || autoHeight
 
   return (
     <Scrollbars
       className={className}
-      autoHeight={useAutheight}
+      autoHeight={useAutoHeight}
       autoHeightMin={minHeight}
       autoHeightMax={maxHeight}
       autoHide
@@ -39,7 +39,7 @@ export const Scrollbar = ({
           {...scrollProps}
         />
       )}
-      style={useAutheight ? {} : { height: height || '100vh' }}
+      style={useAutoHeight ? {} : { height: height || '100vh' }}
     >
       {children}
     </Scrollbars>

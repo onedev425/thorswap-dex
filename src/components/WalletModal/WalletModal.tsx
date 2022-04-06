@@ -14,6 +14,7 @@ import { AssetIcon } from 'components/AssetIcon'
 import { Box, Button, Card, Icon, Modal, Typography } from 'components/Atomic'
 import { Input } from 'components/Input'
 import { Scrollbar } from 'components/Scrollbar'
+import { WalletIcon } from 'components/WalletIcon/WalletIcon'
 
 import { useWallet } from 'redux/wallet/hooks'
 
@@ -41,6 +42,7 @@ export const WalletModal = () => {
   const {
     isConnectModalOpen,
     walletLoading,
+    wallet,
     unlockWallet,
     connectXdefiWallet,
     connectMetamask,
@@ -295,7 +297,7 @@ export const WalletModal = () => {
   const renderMainPanel = useMemo(() => {
     return (
       <Scrollbar maxHeight="60vh" customStyle={{ marginRight: '-12px' }}>
-        <Box className="w-full space-y-3 pr-3" col>
+        <Box className="w-full pr-3 space-y-3" col>
           <WalletOption onClick={() => handleChainSelect(WalletMode.Xdefi)}>
             {xdefiStatus === XdefiWalletStatus.XdefiPrioritized && (
               <Typography>{t('views.walletModal.connectXdefi')}</Typography>
@@ -398,6 +400,7 @@ export const WalletModal = () => {
         <Scrollbar maxHeight="60vh" customStyle={{ marginRight: '-12px' }}>
           <Box className="flex-1 gap-2 pr-3" col>
             {availableChainsByWallet[walletMode].map((chain) => {
+              const chainWallet = wallet?.[chain]
               const isChainSelected = pendingChains.includes(chain)
 
               return (
@@ -410,9 +413,25 @@ export const WalletModal = () => {
                     <AssetIcon asset={chainToSigAsset(chain)} />
                     <Box className="pl-2" col>
                       <Typography>{chain}</Typography>
-                      <Typography variant="caption-xs">
-                        Not Connected
-                      </Typography>
+                      {chainWallet ? (
+                        <Box className="space-x-1" alignCenter row>
+                          <Typography
+                            variant="caption-xs"
+                            color="primary"
+                            fontWeight="normal"
+                          >
+                            {t('views.walletModal.connectedWith')}
+                          </Typography>
+                          <WalletIcon
+                            size={16}
+                            walletType={chainWallet.walletType}
+                          />
+                        </Box>
+                      ) : (
+                        <Typography variant="caption-xs" fontWeight="normal">
+                          {t('views.walletModal.notConnected')}
+                        </Typography>
+                      )}
                     </Box>
                   </Box>
                   {isChainSelected ? (
@@ -451,12 +470,13 @@ export const WalletModal = () => {
       </Box>
     )
   }, [
-    handleConnectWallet,
-    handlePendingChain,
     ledgerIndex,
     pendingChains,
-    toggleChains,
+    wallet,
     walletMode,
+    handleConnectWallet,
+    handlePendingChain,
+    toggleChains,
   ])
 
   return (
