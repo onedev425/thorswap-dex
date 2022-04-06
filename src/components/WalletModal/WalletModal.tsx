@@ -13,6 +13,7 @@ import { Chain } from '@thorswap-lib/xchain-util'
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, Button, Card, Icon, Modal, Typography } from 'components/Atomic'
 import { Input } from 'components/Input'
+import { Scrollbar } from 'components/Scrollbar'
 
 import { useWallet } from 'redux/wallet/hooks'
 
@@ -293,63 +294,67 @@ export const WalletModal = () => {
 
   const renderMainPanel = useMemo(() => {
     return (
-      <Box className="w-full space-y-3" col>
-        <WalletOption onClick={() => handleChainSelect(WalletMode.Xdefi)}>
-          {xdefiStatus === XdefiWalletStatus.XdefiPrioritized && (
-            <Typography>{t('views.walletModal.connectXdefi')}</Typography>
-          )}
-          {xdefiStatus === XdefiWalletStatus.XdefiNotPrioritized && (
-            <Typography>{t('views.walletModal.prioritiseXdefi')}</Typography>
-          )}
-          {xdefiStatus === XdefiWalletStatus.XdefiNotInstalled && (
-            <Typography>{t('views.walletModal.installXdefi')}</Typography>
-          )}
-          <Icon name="xdefi" />
-        </WalletOption>
-        {isTerraStationAvailable && (
-          <WalletOption onClick={() => handleChainSelect(WalletMode.Terra)}>
-            {isTerraStationInstalled && (
-              <Typography>{t('views.walletModal.connectStation')}</Typography>
+      <Scrollbar maxHeight="60vh" customStyle={{ marginRight: '-12px' }}>
+        <Box className="w-full space-y-3 pr-3" col>
+          <WalletOption onClick={() => handleChainSelect(WalletMode.Xdefi)}>
+            {xdefiStatus === XdefiWalletStatus.XdefiPrioritized && (
+              <Typography>{t('views.walletModal.connectXdefi')}</Typography>
             )}
-            {!isTerraStationInstalled && (
-              <Typography>{t('views.walletModal.installStation')}</Typography>
+            {xdefiStatus === XdefiWalletStatus.XdefiNotPrioritized && (
+              <Typography>{t('views.walletModal.prioritiseXdefi')}</Typography>
             )}
-            <Icon name="station" />
+            {xdefiStatus === XdefiWalletStatus.XdefiNotInstalled && (
+              <Typography>{t('views.walletModal.installXdefi')}</Typography>
+            )}
+            <Icon name="xdefi" />
           </WalletOption>
-        )}
-        <WalletOption onClick={() => handleChainSelect(WalletMode.TrustWallet)}>
-          <Typography>{t('views.walletModal.walletConnect')}</Typography>
-          <Icon name="walletConnect" />
-        </WalletOption>
-        <WalletOption onClick={() => handleChainSelect(WalletMode.MetaMask)}>
-          {metamaskStatus === MetaMaskWalletStatus.MetaMaskDetected && (
-            <Typography>{t('views.walletModal.connectMetaMask')}</Typography>
+          {isTerraStationAvailable && (
+            <WalletOption onClick={() => handleChainSelect(WalletMode.Terra)}>
+              {isTerraStationInstalled && (
+                <Typography>{t('views.walletModal.connectStation')}</Typography>
+              )}
+              {!isTerraStationInstalled && (
+                <Typography>{t('views.walletModal.installStation')}</Typography>
+              )}
+              <Icon name="station" />
+            </WalletOption>
           )}
-          {metamaskStatus === MetaMaskWalletStatus.XdefiDetected && (
-            <Typography>{t('views.walletModal.disableXdefi')}</Typography>
-          )}
-          {metamaskStatus === MetaMaskWalletStatus.NoWeb3Provider && (
-            <Typography>{t('views.walletModal.installMetaMask')}</Typography>
-          )}
-          <Icon name="metamask" />
-        </WalletOption>
-        <WalletOption onClick={() => handleChainSelect(WalletMode.Ledger)}>
-          <Typography>{t('views.walletModal.connectLedger')}</Typography>
-          <Icon name="ledger" />
-        </WalletOption>
-        <WalletOption onClick={() => handleChainSelect(WalletMode.Keystore)}>
-          <Typography>{t('views.walletModal.connectKeystore')}</Typography>
-          <Icon name="keystore" />
-        </WalletOption>
-        <WalletOption onClick={() => handleChainSelect(WalletMode.Create)}>
-          <Typography>{t('views.walletModal.createKeystore')}</Typography>
-          <Icon name="plusCircle" />
-        </WalletOption>
-        <WalletOption onClick={() => handleChainSelect(WalletMode.Phrase)}>
-          <Typography>{t('views.walletModal.importPhrase')}</Typography>
-          <Icon name="import" />
-        </WalletOption>
-      </Box>
+          <WalletOption
+            onClick={() => handleChainSelect(WalletMode.TrustWallet)}
+          >
+            <Typography>{t('views.walletModal.walletConnect')}</Typography>
+            <Icon name="walletConnect" />
+          </WalletOption>
+          <WalletOption onClick={() => handleChainSelect(WalletMode.MetaMask)}>
+            {metamaskStatus === MetaMaskWalletStatus.MetaMaskDetected && (
+              <Typography>{t('views.walletModal.connectMetaMask')}</Typography>
+            )}
+            {metamaskStatus === MetaMaskWalletStatus.XdefiDetected && (
+              <Typography>{t('views.walletModal.disableXdefi')}</Typography>
+            )}
+            {metamaskStatus === MetaMaskWalletStatus.NoWeb3Provider && (
+              <Typography>{t('views.walletModal.installMetaMask')}</Typography>
+            )}
+            <Icon name="metamask" />
+          </WalletOption>
+          <WalletOption onClick={() => handleChainSelect(WalletMode.Ledger)}>
+            <Typography>{t('views.walletModal.connectLedger')}</Typography>
+            <Icon name="ledger" />
+          </WalletOption>
+          <WalletOption onClick={() => handleChainSelect(WalletMode.Keystore)}>
+            <Typography>{t('views.walletModal.connectKeystore')}</Typography>
+            <Icon name="keystore" />
+          </WalletOption>
+          <WalletOption onClick={() => handleChainSelect(WalletMode.Create)}>
+            <Typography>{t('views.walletModal.createKeystore')}</Typography>
+            <Icon name="plusCircle" />
+          </WalletOption>
+          <WalletOption onClick={() => handleChainSelect(WalletMode.Phrase)}>
+            <Typography>{t('views.walletModal.importPhrase')}</Typography>
+            <Icon name="import" />
+          </WalletOption>
+        </Box>
+      </Scrollbar>
     )
   }, [
     isTerraStationAvailable,
@@ -390,28 +395,34 @@ export const WalletModal = () => {
               </Button>
             </Box>
           )}
-        {availableChainsByWallet[walletMode].map((chain) => {
-          const isChainSelected = pendingChains.includes(chain)
+        <Scrollbar maxHeight="60vh" customStyle={{ marginRight: '-12px' }}>
+          <Box className="flex-1 gap-2 pr-3" col>
+            {availableChainsByWallet[walletMode].map((chain) => {
+              const isChainSelected = pendingChains.includes(chain)
 
-          return (
-            <ChainOption
-              key={chain}
-              isSelected={isChainSelected}
-              onClick={() => handlePendingChain(chain)}
-            >
-              <Box row>
-                <AssetIcon asset={chainToSigAsset(chain)} />
-                <Box className="pl-2" col>
-                  <Typography>{chain}</Typography>
-                  <Typography variant="caption-xs">Not Connected</Typography>
-                </Box>
-              </Box>
-              {isChainSelected ? (
-                <Icon name="checkmark" color="primaryBtn" size={20} />
-              ) : null}
-            </ChainOption>
-          )
-        })}
+              return (
+                <ChainOption
+                  key={chain}
+                  isSelected={isChainSelected}
+                  onClick={() => handlePendingChain(chain)}
+                >
+                  <Box row>
+                    <AssetIcon asset={chainToSigAsset(chain)} />
+                    <Box className="pl-2" col>
+                      <Typography>{chain}</Typography>
+                      <Typography variant="caption-xs">
+                        Not Connected
+                      </Typography>
+                    </Box>
+                  </Box>
+                  {isChainSelected ? (
+                    <Icon name="checkmark" color="primaryBtn" size={20} />
+                  ) : null}
+                </ChainOption>
+              )
+            })}
+          </Box>
+        </Scrollbar>
 
         {walletMode === WalletMode.Ledger && (
           <Box alignCenter justify="between">

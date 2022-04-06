@@ -60,7 +60,7 @@ export const Modal = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <div className="max-w-md inline-block overflow-y-auto mx-auto drop-shadow-2xl text-left transition-all transform max-h-[90vh]">
+              <div className="max-w-md inline-block overflow-y-auto mx-auto drop-shadow-2xl text-left transition-all transform">
                 <div className="flex flex-row items-center justify-between my-2 lg:m-5">
                   <Box alignCenter row>
                     {onBack && (
@@ -90,18 +90,19 @@ export const Modal = ({
                     />
                   </Box>
                 </div>
-
-                {withBody ? (
-                  <Card
-                    className="flex items-center justify-center"
-                    stretch
-                    size="lg"
-                  >
-                    {children}
-                  </Card>
-                ) : (
-                  children
-                )}
+                <Box className="max-h-[80vh]">
+                  {withBody ? (
+                    <Card
+                      className="flex items-center justify-center"
+                      stretch
+                      size="lg"
+                    >
+                      {children}
+                    </Card>
+                  ) : (
+                    children
+                  )}
+                </Box>
               </div>
             </Transition.Child>
           </div>

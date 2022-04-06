@@ -5,8 +5,9 @@ type ScrollbarProps = {
   className?: string
   customStyle?: Record<string, string | number>
   height?: string
-  maxHeight?: number
-  minHeight?: number
+  maxHeight?: number | string
+  minHeight?: number | string
+  autoHeight?: boolean
 }
 
 export const Scrollbar = ({
@@ -16,13 +17,14 @@ export const Scrollbar = ({
   children,
   customStyle = {},
   className,
+  autoHeight,
 }: ScrollbarProps) => {
-  const autoHeight = !!maxHeight || !!minHeight
+  const useAutheight = !!maxHeight || !!minHeight || autoHeight
 
   return (
     <Scrollbars
       className={className}
-      autoHeight={autoHeight}
+      autoHeight={useAutheight}
       autoHeightMin={minHeight}
       autoHeightMax={maxHeight}
       autoHide
@@ -37,7 +39,7 @@ export const Scrollbar = ({
           {...scrollProps}
         />
       )}
-      style={autoHeight ? {} : { height: height || '100vh' }}
+      style={useAutheight ? {} : { height: height || '100vh' }}
     >
       {children}
     </Scrollbars>
