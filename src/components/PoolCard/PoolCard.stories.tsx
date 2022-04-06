@@ -56,16 +56,16 @@ const pool = {
 
 export const All = () => {
   return (
-    <div className="grid sm:grid-cols-1  md:grid-cols-3 lg:grid-cols-4 bg-light-bg-primary dark:bg-dark-bg-primary p-4 gap-5">
-      <PoolCard change={2} pool={pool} color="orange" iconName="bitcoin" />
+    <div className="grid gap-5 p-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 bg-light-bg-primary dark:bg-dark-bg-primary">
+      <PoolCard pool={pool} color="orange" />
     </div>
   )
 }
 
 export const Bitcoin = () => {
-  return <PoolCard change={-5} pool={pool} color="orange" iconName="bitcoin" />
+  return <PoolCard pool={pool} color="orange" />
 }
 
 export const Ethereum = () => {
-  return <PoolCard change={-5} pool={pool} iconName="ethereum" color="purple" />
+  return <PoolCard pool={pool} color="purple" />
 }

@@ -2,20 +2,14 @@ import { useCallback } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
-import { Pool } from '@thorswap-lib/multichain-sdk'
+import { Amount, Percent, Pool } from '@thorswap-lib/multichain-sdk'
 
-import {
-  Box,
-  Button,
-  Card,
-  Icon,
-  IconName,
-  Typography,
-} from 'components/Atomic'
+import { AssetIcon } from 'components/AssetIcon'
+import { Box, Button, Card, Typography } from 'components/Atomic'
+
+import { useGlobalState } from 'redux/hooks'
 
 import { t } from 'services/i18n'
-
-import { formatPrice } from 'helpers/formatPrice'
 
 import { ROUTES } from 'settings/constants'
 
@@ -23,13 +17,12 @@ import { ColorType } from 'types/global'
 
 type PoolCardProps = {
   pool: Pool
-  iconName: IconName
   color: ColorType
-  change: number
 }
 
-export const PoolCard = ({ change, pool, iconName, color }: PoolCardProps) => {
+export const PoolCard = ({ pool, color }: PoolCardProps) => {
   const navigate = useNavigate()
+  const { runeToCurrency } = useGlobalState()
 
   const handleSwapNavigate = useCallback(() => {
     navigate(`${ROUTES.Swap}?input=${pool.asset}`)
@@ -53,24 +46,17 @@ export const PoolCard = ({ change, pool, iconName, color }: PoolCardProps) => {
           </Typography>
 
           <Typography className="mb-2" color="secondary" fontWeight="semibold">
-            {formatPrice(pool.assetUSDPrice)}
+            {runeToCurrency(
+              Amount.fromMidgard(pool.detail.runeDepth).mul(2),
+            ).toCurrencyFormat(2)}
           </Typography>
 
-          <Typography
-            color={change >= 0 ? 'green' : 'red'}
-            fontWeight="semibold"
-          >
-            {`${change >= 0 ? '+' : ''}${change.toFixed(2)}%`}
+          <Typography color="green" fontWeight="semibold">
+            {`${new Percent(pool.detail.poolAPY).toFixed(0)}`}
           </Typography>
         </Box>
 
-        <Icon name={iconName} color={color} size={110} />
-        <Icon
-          className="absolute opacity-50 -z-10 top-9 right-8 blur-sm"
-          name={iconName}
-          color={color}
-          size={120}
-        />
+        <AssetIcon asset={pool.asset} size={110} />
       </Box>
 
       <Box className="gap-x-2" mt={5} align="end" justifyCenter>

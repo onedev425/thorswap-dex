@@ -31,14 +31,12 @@ export const PoolListView = () => {
 
   return (
     <Box col>
-      <Typography variant="h3">
-        {t('views.home.swapCrossChainAssets')}
-      </Typography>
+      <Typography variant="h3">{t('views.home.featuredPools')}</Typography>
 
       <Box center className="flex-wrap">
         <HorizontalSlider itemWidth={302}>
-          {featuredPools.map(({ iconName, ...rest }) => (
-            <PoolCard key={iconName} iconName={iconName} {...rest} />
+          {featuredPools.map(({ pool, ...rest }) => (
+            <PoolCard key={pool.asset.ticker} pool={pool} {...rest} />
           ))}
         </HorizontalSlider>
       </Box>
@@ -62,7 +60,7 @@ export const PoolListView = () => {
             />
           </Box>
 
-          <Box className="w-fit gap-x-8 justify-end">
+          <Box className="justify-end w-fit gap-x-8">
             <Select
               options={poolTypeOptions}
               activeIndex={selectedPoolType}

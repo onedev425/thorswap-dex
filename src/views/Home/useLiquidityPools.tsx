@@ -1,14 +1,10 @@
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 
 import { chainToString } from '@thorswap-lib/xchain-util'
 
-import { IconName } from 'components/Atomic'
 import { sortAmounts } from 'components/PoolTable/utils'
 
 import { useMidgard } from 'redux/midgard/hooks'
-import { useAppDispatch } from 'redux/store'
-import { getCoingeckoData } from 'redux/wallet/actions'
-import { useWallet } from 'redux/wallet/hooks'
 
 import { ColorType } from 'types/global'
 
@@ -20,18 +16,12 @@ type Params = {
   selectedPoolStatus: number
 }
 
-const iconMapping = {
-  BTC: 'bitcoin',
-  ETH: 'ethereum',
-  BNB: 'binance',
-  USDT: 'usdt',
-} as Record<string, IconName>
-
 const colorMapping = {
   BTC: 'orange',
   ETH: 'purple',
-  BNB: 'yellow',
-  USDT: 'blue',
+  BUSD: 'yellow',
+  LUNA: 'yellow',
+  UST: 'blue',
 } as Record<string, ColorType>
 
 export const useLiquidityPools = ({
@@ -39,9 +29,7 @@ export const useLiquidityPools = ({
   selectedPoolType,
   keyword,
 }: Params) => {
-  const dispatch = useAppDispatch()
   const { pools } = useMidgard()
-  const { geckoData } = useWallet()
 
   const poolsByStatus = useMemo(() => {
     const selectedPoolStatusValue = poolStatusOptions[selectedPoolStatus]
@@ -81,36 +69,26 @@ export const useLiquidityPools = ({
   }, [selectedPoolType, poolsByStatus, keyword])
 
   const featuredPools = useMemo(() => {
-    const featured = poolsByStatus.filter(
-      (pool) =>
-        pool.asset.isBTC() ||
-        pool.asset.isETH() ||
-        pool.asset.isBNB() ||
-        pool.asset.ticker === 'USDT',
-    )
+    const featured = poolsByStatus.filter((pool) => {
+      const { asset } = pool
+      const ticker = pool.asset.ticker.toLowerCase()
+
+      return (
+        asset.isBTC() ||
+        asset.isETH() ||
+        ticker === 'luna' ||
+        ticker === 'ust' ||
+        ticker === 'busd'
+      )
+    })
 
     return featured
       .map((pool) => ({
         pool,
-        iconName: iconMapping[pool.asset.ticker as 'BTC'],
-        color: colorMapping[pool.asset.ticker as 'BTC'],
-        change: geckoData[pool.asset.ticker]?.price_change_percentage_24h || 0,
+        color: colorMapping[pool.asset.ticker as keyof typeof colorMapping],
       }))
       .sort((a, b) => sortAmounts(b.pool.runeDepth, a.pool.runeDepth))
-  }, [geckoData, poolsByStatus])
-
-  useEffect(() => {
-    const missingPools =
-      featuredPools.length > 0
-        ? featuredPools.filter(({ pool }) => {
-            if (!geckoData?.[pool.asset.ticker]) return true
-            return false
-          })
-        : []
-    const missingSymbols = missingPools.map(({ pool }) => pool.asset.symbol)
-
-    if (missingSymbols.length > 0) dispatch(getCoingeckoData(missingSymbols))
-  }, [dispatch, featuredPools, geckoData])
+  }, [poolsByStatus])
 
   return { filteredPools, featuredPools }
 }

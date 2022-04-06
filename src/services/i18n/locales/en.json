@@ -141,7 +141,7 @@
   },
   "views": {
     "home": {
-      "swapCrossChainAssets": "Swap cross chain assets",
+      "featuredPools": "Featured Pools",
       "chart": {
         "volume": "Volume",
         "liquidity": "Liquidity",
