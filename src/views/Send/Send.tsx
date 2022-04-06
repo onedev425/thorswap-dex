@@ -22,10 +22,12 @@ import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useMidgard } from 'redux/midgard/hooks'
+import { TxTrackerType } from 'redux/midgard/types'
 import { useWallet } from 'redux/wallet/hooks'
 
 import { useBalance } from 'hooks/useBalance'
 import { useNetworkFee } from 'hooks/useNetworkFee'
+import { useTxTracker } from 'hooks/useTxTracker'
 
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
@@ -35,6 +37,7 @@ import { getSendRoute } from 'settings/constants'
 // TODO: refactor useReducer
 const Send = () => {
   const navigate = useNavigate()
+  const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
 
   const { assetParam } = useParams<{ assetParam: string }>()
 
@@ -134,6 +137,19 @@ const Send = () => {
     if (sendAsset) {
       const assetAmount = new AssetAmount(sendAsset, sendAmount)
 
+      // register to tx tracker
+      const trackId = submitTransaction({
+        type: TxTrackerType.Send,
+        submitTx: {
+          inAssets: [
+            {
+              asset: sendAsset.toString(),
+              amount: sendAmount.toSignificant(6),
+            },
+          ],
+        },
+      })
+
       try {
         const txHash = await multichain.send({
           assetAmount,
@@ -146,21 +162,25 @@ const Send = () => {
         const txURL = multichain.getExplorerTxUrl(sendAsset.L1Chain, txHash)
 
         console.log('txURL', txURL)
-
-        // TODO: notification
-        // Notification({
-        //   type: 'open',
-        //   message: 'View Send Tx.',
-        //   description: 'Transaction sent successfully!',
-        //   btn: (
-        //     <a href={txURL} target="_blank" rel="noopener noreferrer">
-        //       View Transaction
-        //     </a>
-        //   ),
-        //   duration: 20,
-        // })
+        if (txHash) {
+          // start polling
+          pollTransaction({
+            type: TxTrackerType.Send,
+            uuid: trackId,
+            submitTx: {
+              inAssets: [
+                {
+                  asset: sendAsset.toString(),
+                  amount: sendAmount.toSignificant(6),
+                },
+              ],
+              txID: txHash,
+            },
+          })
+        }
       } catch (error) {
         console.log('error', error)
+        setTxFailed(trackId)
 
         // TODO: notification
         // Notification({
@@ -171,7 +191,15 @@ const Send = () => {
         // })
       }
     }
-  }, [sendAsset, sendAmount, recipientAddress, memo])
+  }, [
+    sendAsset,
+    sendAmount,
+    recipientAddress,
+    memo,
+    pollTransaction,
+    setTxFailed,
+    submitTransaction,
+  ])
 
   const handleCancelSend = useCallback(() => {
     setIsOpenConfirmModal(false)

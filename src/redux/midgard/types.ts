@@ -55,6 +55,7 @@ export enum TxTrackerStatus {
 
 // TxTrackerType has additional Approve value
 export enum TxTrackerType {
+  Send = 'Send',
   Approve = 'Approve',
   Swap = 'swap',
   AddLiquidity = 'addLiquidity',
@@ -178,4 +179,6 @@ export interface State {
   lastBlock: LastblockItem[]
   nodes: THORNode[]
   nodeLoading: boolean
+  txTrackers: TxTracker[]
+  approveStatus: ApproveStatus
 }

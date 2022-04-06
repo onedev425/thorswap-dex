@@ -13,6 +13,7 @@ import {
   SupportedChain,
   hasWalletConnected,
 } from '@thorswap-lib/multichain-sdk'
+import { Chain } from '@thorswap-lib/xchain-util'
 
 import { AssetInputs } from 'views/WithdrawLiquidity/components/AssetInputs'
 
@@ -30,12 +31,13 @@ import { useMidgard } from 'redux/midgard/hooks'
 import {
   PoolMemberData,
   PoolShareType,
-  // TxTrackerType,
+  TxTrackerType,
 } from 'redux/midgard/types'
 import { useWallet } from 'redux/wallet/hooks'
 
 import { useMimir } from 'hooks/useMimir'
 import { useNetworkFee } from 'hooks/useNetworkFee'
+import { useTxTracker } from 'hooks/useTxTracker'
 
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
@@ -146,6 +148,7 @@ const WithdrawPanel = ({
   const { wallet, setIsConnectModalOpen } = useWallet()
 
   const poolAsset = useMemo(() => pool.asset, [pool])
+  const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
 
   const { isChainPauseLPAction } = useMimir()
 
@@ -299,31 +302,31 @@ const WithdrawPanel = ({
     setVisibleConfirmModal(false)
 
     if (wallet) {
-      // const poolAssetString = pool.asset.toString()
-      // let trackId = ''
+      const poolAssetString = pool.asset.toString()
+      let trackId = ''
       try {
         if (lpType === PoolShareType.SYM) {
           if (withdrawType === LiquidityTypeOption.SYMMETRICAL) {
-            // const outAssets = [
-            //   {
-            //     asset: Asset.RUNE().toString(),
-            //     amount: runeAmount.toSignificant(6),
-            //   },
-            //   {
-            //     asset: pool.asset.toString(),
-            //     amount: assetAmount.toSignificant(6),
-            //   },
-            // ]
+            const outAssets = [
+              {
+                asset: Asset.RUNE().toString(),
+                amount: runeAmount.toSignificant(6),
+              },
+              {
+                asset: pool.asset.toString(),
+                amount: assetAmount.toSignificant(6),
+              },
+            ]
 
             // register to tx tracker
-            // trackId = submitTransaction({
-            //   type: TxTrackerType.Withdraw,
-            //   submitTx: {
-            //     inAssets: [],
-            //     outAssets,
-            //     poolAsset: poolAssetString,
-            //   },
-            // })
+            trackId = submitTransaction({
+              type: TxTrackerType.Withdraw,
+              submitTx: {
+                inAssets: [],
+                outAssets,
+                poolAsset: poolAssetString,
+              },
+            })
 
             const txID = await multichain.withdraw({
               pool,
@@ -334,34 +337,34 @@ const WithdrawPanel = ({
             console.log('txID', txID)
 
             // start polling
-            // pollTransaction({
-            //   type: TxTrackerType.Withdraw,
-            //   uuid: trackId,
-            //   submitTx: {
-            //     inAssets: [],
-            //     outAssets,
-            //     poolAsset: poolAssetString,
-            //     txID,
-            //     withdrawChain: Chain.THORChain,
-            //   },
-            // })
+            pollTransaction({
+              type: TxTrackerType.Withdraw,
+              uuid: trackId,
+              submitTx: {
+                inAssets: [],
+                outAssets,
+                poolAsset: poolAssetString,
+                txID,
+                withdrawChain: Chain.THORChain,
+              },
+            })
           } else if (withdrawType === LiquidityTypeOption.RUNE) {
-            // const outAssets = [
-            //   {
-            //     asset: Asset.RUNE().toString(),
-            //     amount: runeAmount.toSignificant(6),
-            //   },
-            // ]
+            const outAssets = [
+              {
+                asset: Asset.RUNE().toString(),
+                amount: runeAmount.toSignificant(6),
+              },
+            ]
 
             // register to tx tracker
-            // trackId = submitTransaction({
-            //   type: TxTrackerType.Withdraw,
-            //   submitTx: {
-            //     inAssets: [],
-            //     outAssets,
-            //     poolAsset: poolAssetString,
-            //   },
-            // })
+            trackId = submitTransaction({
+              type: TxTrackerType.Withdraw,
+              submitTx: {
+                inAssets: [],
+                outAssets,
+                poolAsset: poolAssetString,
+              },
+            })
 
             const txID = await multichain.withdraw({
               pool,
@@ -371,36 +374,35 @@ const WithdrawPanel = ({
             })
             console.log('txID', txID)
 
-            // TODO: add tracker
             // start polling
-            // pollTransaction({
-            //   type: TxTrackerType.Withdraw,
-            //   uuid: trackId,
-            //   submitTx: {
-            //     inAssets: [],
-            //     outAssets,
-            //     txID,
-            //     poolAsset: poolAssetString,
-            //     withdrawChain: Chain.THORChain,
-            //   },
-            // })
+            pollTransaction({
+              type: TxTrackerType.Withdraw,
+              uuid: trackId,
+              submitTx: {
+                inAssets: [],
+                outAssets,
+                txID,
+                poolAsset: poolAssetString,
+                withdrawChain: Chain.THORChain,
+              },
+            })
           } else if (withdrawType === LiquidityTypeOption.ASSET) {
-            // const outAssets = [
-            //   {
-            //     asset: pool.asset.toString(),
-            //     amount: assetAmount.toSignificant(6),
-            //   },
-            // ]
+            const outAssets = [
+              {
+                asset: pool.asset.toString(),
+                amount: assetAmount.toSignificant(6),
+              },
+            ]
 
             // register to tx tracker
-            // trackId = submitTransaction({
-            //   type: TxTrackerType.Withdraw,
-            //   submitTx: {
-            //     inAssets: [],
-            //     outAssets,
-            //     poolAsset: poolAssetString,
-            //   },
-            // })
+            trackId = submitTransaction({
+              type: TxTrackerType.Withdraw,
+              submitTx: {
+                inAssets: [],
+                outAssets,
+                poolAsset: poolAssetString,
+              },
+            })
 
             const txID = await multichain.withdraw({
               pool,
@@ -410,38 +412,36 @@ const WithdrawPanel = ({
             })
             console.log('txID', txID)
 
-            // TODO: add tx tracker
             // start polling
-            // pollTransaction({
-            //   type: TxTrackerType.Withdraw,
-            //   uuid: trackId,
-            //   submitTx: {
-            //     inAssets: [],
-            //     outAssets,
-            //     txID,
-            //     poolAsset: poolAssetString,
-            //     withdrawChain: Chain.THORChain,
-            //   },
-            // })
+            pollTransaction({
+              type: TxTrackerType.Withdraw,
+              uuid: trackId,
+              submitTx: {
+                inAssets: [],
+                outAssets,
+                txID,
+                poolAsset: poolAssetString,
+                withdrawChain: Chain.THORChain,
+              },
+            })
           }
         } else if (lpType === PoolShareType.ASSET_ASYM) {
-          // const outAssets = [
-          //   {
-          //     asset: pool.asset.toString(),
-          //     amount: assetAmount.toSignificant(6),
-          //   },
-          // ]
+          const outAssets = [
+            {
+              asset: pool.asset.toString(),
+              amount: assetAmount.toSignificant(6),
+            },
+          ]
 
-          // TODO: add tracker
           // register to tx tracker
-          // trackId = submitTransaction({
-          //   type: TxTrackerType.Withdraw,
-          //   submitTx: {
-          //     inAssets: [],
-          //     outAssets,
-          //     poolAsset: poolAssetString,
-          //   },
-          // })
+          trackId = submitTransaction({
+            type: TxTrackerType.Withdraw,
+            submitTx: {
+              inAssets: [],
+              outAssets,
+              poolAsset: poolAssetString,
+            },
+          })
 
           const txID = await multichain.withdraw({
             pool,
@@ -452,38 +452,35 @@ const WithdrawPanel = ({
 
           console.log('txID', txID)
 
-          // TODO: add tx tracker
-
-          // // start polling
-          // pollTransaction({
-          //   type: TxTrackerType.Withdraw,
-          //   uuid: trackId,
-          //   submitTx: {
-          //     inAssets: [],
-          //     outAssets,
-          //     txID,
-          //     poolAsset: poolAssetString,
-          //     withdrawChain: pool.asset.chain,
-          //   },
-          // })
+          // start polling
+          pollTransaction({
+            type: TxTrackerType.Withdraw,
+            uuid: trackId,
+            submitTx: {
+              inAssets: [],
+              outAssets,
+              txID,
+              poolAsset: poolAssetString,
+              withdrawChain: pool.asset.chain,
+            },
+          })
         } else if (lpType === PoolShareType.RUNE_ASYM) {
-          // const outAssets = [
-          //   {
-          //     asset: Asset.RUNE().toString(),
-          //     amount: runeAmount.toSignificant(6),
-          //   },
-          // ]
+          const outAssets = [
+            {
+              asset: Asset.RUNE().toString(),
+              amount: runeAmount.toSignificant(6),
+            },
+          ]
 
-          // TODO: add tx tracker
           // register to tx tracker
-          // trackId = submitTransaction({
-          //   type: TxTrackerType.Withdraw,
-          //   submitTx: {
-          //     inAssets: [],
-          //     outAssets,
-          //     poolAsset: poolAssetString,
-          //   },
-          // })
+          trackId = submitTransaction({
+            type: TxTrackerType.Withdraw,
+            submitTx: {
+              inAssets: [],
+              outAssets,
+              poolAsset: poolAssetString,
+            },
+          })
 
           const txID = await multichain.withdraw({
             pool,
@@ -494,25 +491,22 @@ const WithdrawPanel = ({
 
           console.log('txID', txID)
 
-          // TODO: add tx tracker
-
-          // // start polling
-          // pollTransaction({
-          //   type: TxTrackerType.Withdraw,
-          //   uuid: trackId,
-          //   submitTx: {
-          //     inAssets: [],
-          //     outAssets,
-          //     txID,
-          //     poolAsset: poolAssetString,
-          //     withdrawChain: Chain.THORChain,
-          //   },
-          // })
+          // start polling
+          pollTransaction({
+            type: TxTrackerType.Withdraw,
+            uuid: trackId,
+            submitTx: {
+              inAssets: [],
+              outAssets,
+              txID,
+              poolAsset: poolAssetString,
+              withdrawChain: Chain.THORChain,
+            },
+          })
         }
       } catch (error) {
         console.log(error)
-        // TODO: add tx tracker
-        // setTxFailed(trackId)
+        setTxFailed(trackId)
 
         // TODO: add notification
         // Notification({
@@ -529,11 +523,11 @@ const WithdrawPanel = ({
     wallet,
     pool,
     percent,
-    // runeAmount,
-    // assetAmount,
-    // submitTransaction,
-    // pollTransaction,
-    // setTxFailed,
+    runeAmount,
+    assetAmount,
+    submitTransaction,
+    pollTransaction,
+    setTxFailed,
   ])
 
   const handleWithdrawLiquidity = useCallback(() => {

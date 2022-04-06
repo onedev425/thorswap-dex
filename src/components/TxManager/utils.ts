@@ -237,6 +237,21 @@ export const getApproveTxUrl = (txTracker: TxTracker): string => {
   return '#'
 }
 
+export const getSendTxUrl = (txTracker: TxTracker): string => {
+  const { submitTx } = txTracker
+
+  if (submitTx?.txID) {
+    const { inAssets = [], txID } = submitTx
+    const asset = Asset.fromAssetString(inAssets[0].asset)
+
+    if (asset) {
+      return multichain.getExplorerTxUrl(asset.chain, txID)
+    }
+  }
+
+  return '#'
+}
+
 export const getTxTrackerUrl = (txId: string) => {
   if (!txId) {
     return ''

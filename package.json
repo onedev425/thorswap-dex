@@ -68,6 +68,7 @@
     "redux-logger": "^3.0.6",
     "stream-browserify": "^3.0.0",
     "swiper": "^8.0.7",
+    "uuid": "^8.3.2",
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
@@ -95,6 +96,7 @@
     "@types/rebass": "^4.0.10",
     "@types/redux": "^3.6.0",
     "@types/redux-logger": "^3.0.9",
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.16.0",
     "@typescript-eslint/parser": "^5.16.0",
     "autoprefixer": "^10.4.4",

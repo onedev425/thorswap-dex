@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { ActionStatusEnum, ActionTypeEnum } from '@thorswap-lib/midgard-sdk'
 import { Pool } from '@thorswap-lib/multichain-sdk'
 import { THORChain } from '@thorswap-lib/xchain-util'
+import moment from 'moment'
 
 import { getChainMemberDetails } from 'redux/midgard/utils'
 
 import * as midgardActions from './actions'
-import { State } from './types'
+import { State, TxTracker, TxTrackerStatus } from './types'
 
 const initialState: State = {
   pools: [],
@@ -47,12 +49,41 @@ const initialState: State = {
   lastBlock: [],
   nodes: [],
   nodeLoading: false,
+  approveStatus: {},
+  txTrackers: [],
 }
 
 const midgardSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
+    addNewTxTracker(state, action: PayloadAction<TxTracker>) {
+      state.txTrackers = [...state.txTrackers, action.payload]
+      state.txCollapsed = false
+    },
+    updateTxTracker(
+      state,
+      action: PayloadAction<{ uuid: string; txTracker: Partial<TxTracker> }>,
+    ) {
+      const { uuid, txTracker } = action.payload
+
+      state.txTrackers = state.txTrackers.map((tracker: TxTracker) => {
+        if (tracker.uuid === uuid) {
+          return {
+            ...tracker,
+            ...txTracker,
+          }
+        }
+
+        return tracker
+      })
+    },
+    clearTxTrackers(state) {
+      state.txTrackers = []
+    },
+    setTxCollapsed(state, action: PayloadAction<boolean>) {
+      state.txCollapsed = action.payload
+    },
     setMemberDetailsLoading: (state, { payload }: PayloadAction<boolean>) => {
       state.memberDetailsLoading = payload
     },
@@ -361,10 +392,107 @@ const midgardSlice = createSlice({
       .addCase(midgardActions.getMimir.rejected, (state) => {
         state.mimirLoading = true
       })
+      // poll Tx
+      .addCase(midgardActions.pollTx.fulfilled, (state, action) => {
+        const { arg: txTracker } = action.meta
+        const { actions } = action.payload
+        const txData = actions?.[0]
+
+        if (txData) {
+          state.txTrackers = state.txTrackers.map((tracker: TxTracker) => {
+            if (tracker.uuid === txTracker.uuid) {
+              const status =
+                txData.status === ActionStatusEnum.Pending
+                  ? TxTrackerStatus.Pending
+                  : TxTrackerStatus.Success
+
+              const refunded =
+                status === TxTrackerStatus.Success &&
+                txData.type === ActionTypeEnum.Refund
+
+              return {
+                ...tracker,
+                action: txData,
+                status,
+                refunded,
+              }
+            }
+
+            return tracker
+          })
+        }
+      })
+      // poll Upgrade Tx
+      .addCase(midgardActions.pollUpgradeTx.fulfilled, (state, action) => {
+        const { arg: txTracker } = action.meta
+        const { actions } = action.payload
+        const txData = actions?.[0]
+        const {
+          submitTx: { submitDate },
+        } = txTracker
+
+        if (submitDate && txData) {
+          const { date } = txData
+
+          if (
+            moment.unix(Number(date) / 1000000000).isAfter(moment(submitDate))
+          ) {
+            state.txTrackers = state.txTrackers.map((tracker: TxTracker) => {
+              if (tracker.uuid === txTracker.uuid) {
+                const status =
+                  txData.status === ActionStatusEnum.Pending
+                    ? TxTrackerStatus.Pending
+                    : TxTrackerStatus.Success
+
+                const refunded =
+                  status === TxTrackerStatus.Success &&
+                  txData.type === ActionTypeEnum.Refund
+
+                return {
+                  ...tracker,
+                  action: txData,
+                  status,
+                  refunded,
+                }
+              }
+
+              return tracker
+            })
+          }
+        }
+      })
+      // poll Approve Tx
+      .addCase(midgardActions.pollApprove.fulfilled, (state, action) => {
+        const { asset, approved } = action.payload
+        const { arg: txTracker } = action.meta
+
+        if (asset) {
+          state.txTrackers = state.txTrackers.map((tracker: TxTracker) => {
+            if (tracker.uuid === txTracker.uuid) {
+              const status = approved
+                ? TxTrackerStatus.Success
+                : TxTrackerStatus.Pending
+
+              // save approve status to state
+              state.approveStatus = {
+                ...state.approveStatus,
+                [asset.toString()]: status,
+              }
+
+              return {
+                ...tracker,
+                status,
+              }
+            }
+
+            return tracker
+          })
+        }
+      })
   },
 })
 
-export const { reducer } = midgardSlice
+export const { reducer, actions } = midgardSlice
 export const { setMemberDetailsLoading } = midgardSlice.actions
 
 export default midgardSlice

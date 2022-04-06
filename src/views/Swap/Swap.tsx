@@ -24,6 +24,7 @@ import { CountDownIndicator } from 'components/CountDownIndicator'
 import { HoverIcon } from 'components/HoverIcon'
 import { InfoTable } from 'components/InfoTable'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
+import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems'
 import { useConfirmInfoItems } from 'components/Modals/ConfirmModal/useConfirmInfoItems'
 import { PanelInput, PanelInputTitle } from 'components/PanelInput'
 import { PanelView } from 'components/PanelView'
@@ -32,15 +33,15 @@ import { ViewHeader } from 'components/ViewHeader'
 
 import { useApp } from 'redux/app/hooks'
 import { useMidgard } from 'redux/midgard/hooks'
+import { TxTrackerStatus, TxTrackerType } from 'redux/midgard/types'
 import { useWallet } from 'redux/wallet/hooks'
 // import { useAssets } from 'redux/assets/hooks'
 
-// import { TxTrackerStatus, TxTrackerType } from 'redux/midgard/types'
-// import { useApprove } from 'hooks/useApprove'
-
+import { useApprove } from 'hooks/useApprove'
 import { useBalance } from 'hooks/useBalance'
 import { useCheckExchangeBNB } from 'hooks/useCheckExchangeBNB'
 import { useNetworkFee } from 'hooks/useNetworkFee'
+import { useTxTracker } from 'hooks/useTxTracker'
 
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
@@ -58,7 +59,7 @@ import {
 import { AssetInputs } from './AssetInputs'
 import { SwapInfo } from './SwapInfo'
 import { Pair } from './types'
-import { getSwapPair } from './utils'
+import { getSwapPair, getSwapTrackerType } from './utils'
 
 const SwapView = () => {
   const navigate = useNavigate()
@@ -96,6 +97,7 @@ const SwapView = () => {
     inboundLoading,
   } = useMidgard()
   const { slippageTolerance } = useApp()
+  const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
 
   const isInputWalletConnected = useMemo(
     () =>
@@ -109,8 +111,10 @@ const SwapView = () => {
     [wallet, outputAsset],
   )
 
-  // TODO: implement approve
-  // const { isApproved, assetApproveStatus } = useApprove(inputAsset, !!wallet)
+  const { isApproved, assetApproveStatus } = useApprove(
+    inputAsset,
+    isInputWalletConnected,
+  )
 
   const isTradingHalted: boolean = useMemo(() => {
     const inTradeInboundData = inboundData.find(
@@ -180,7 +184,7 @@ const SwapView = () => {
   const [addressDisabled, setAddressDisabled] = useState(true)
   const [recipient, setRecipient] = useState('')
   const [visibleConfirmModal, setVisibleConfirmModal] = useState(false)
-  // const [visibleApproveModal, setVisibleApproveModal] = useState(false)
+  const [visibleApproveModal, setVisibleApproveModal] = useState(false)
 
   const isWalletRequired = useMemo(() => {
     if (!isInputWalletConnected) return true
@@ -382,55 +386,53 @@ const SwapView = () => {
     setVisibleConfirmModal(false)
 
     if (wallet && swap) {
-      // TODO: add tracker
-      // const trackerType = getSwapTrackerType(swap)
+      const trackerType = getSwapTrackerType(swap)
 
-      // // register to tx tracker
-      // const trackId = submitTransaction({
-      //   type: trackerType,
-      //   submitTx: {
-      //     inAssets: [
-      //       {
-      //         asset: swap.inputAsset.toString(),
-      //         amount: swap.inputAmount.toSignificant(6),
-      //       },
-      //     ],
-      //     outAssets: [
-      //       {
-      //         asset: swap.outputAsset.toString(),
-      //         amount: swap.outputAmountAfterFee.toSignificant(6),
-      //       },
-      //     ],
-      //   },
-      // })
+      // register to tx tracker
+      const trackId = submitTransaction({
+        type: trackerType,
+        submitTx: {
+          inAssets: [
+            {
+              asset: swap.inputAsset.toString(),
+              amount: swap.inputAmount.toSignificant(6),
+            },
+          ],
+          outAssets: [
+            {
+              asset: swap.outputAsset.toString(),
+              amount: swap.outputAmountAfterFee.toSignificant(6),
+            },
+          ],
+        },
+      })
 
       try {
         const txHash = await multichain.swap(swap, recipient)
 
         console.log('txHash', txHash)
         // start polling
-        // pollTransaction({
-        //   type: trackerType,
-        //   uuid: trackId,
-        //   submitTx: {
-        //     inAssets: [
-        //       {
-        //         asset: swap.inputAsset.toString(),
-        //         amount: swap.inputAmount.toSignificant(6),
-        //       },
-        //     ],
-        //     outAssets: [
-        //       {
-        //         asset: swap.outputAsset.toString(),
-        //         amount: swap.outputAmountAfterFee.toSignificant(6),
-        //       },
-        //     ],
-        //     txID: txHash,
-        //   },
-        // })
+        pollTransaction({
+          type: trackerType,
+          uuid: trackId,
+          submitTx: {
+            inAssets: [
+              {
+                asset: swap.inputAsset.toString(),
+                amount: swap.inputAmount.toSignificant(6),
+              },
+            ],
+            outAssets: [
+              {
+                asset: swap.outputAsset.toString(),
+                amount: swap.outputAmountAfterFee.toSignificant(6),
+              },
+            ],
+            txID: txHash,
+          },
+        })
       } catch (error: any) {
-        // TODO: add tracker
-        // setTxFailed(trackId)
+        setTxFailed(trackId)
 
         // TODO: add notification
         // handle better error message
@@ -444,68 +446,62 @@ const SwapView = () => {
         console.log(error)
       }
     }
+  }, [wallet, swap, recipient, submitTransaction, pollTransaction, setTxFailed])
+
+  const handleConfirmApprove = useCallback(async () => {
+    setVisibleApproveModal(false)
+
+    if (isInputWalletConnected) {
+      // register to tx tracker
+      const trackId = submitTransaction({
+        type: TxTrackerType.Approve,
+        submitTx: {
+          inAssets: [
+            {
+              asset: inputAsset.toString(),
+              amount: '0', // not needed for approve tx
+            },
+          ],
+        },
+      })
+
+      try {
+        const txHash = await multichain.approveAsset(inputAsset)
+        console.log('approve txhash', txHash)
+        if (txHash) {
+          // start polling
+          pollTransaction({
+            type: TxTrackerType.Approve,
+            uuid: trackId,
+            submitTx: {
+              inAssets: [
+                {
+                  asset: inputAsset.toString(),
+                  amount: '0', // not needed for approve tx
+                },
+              ],
+              txID: txHash,
+            },
+          })
+        }
+      } catch (error) {
+        // TODO: notification
+        setTxFailed(trackId)
+        // Notification({
+        //   type: 'open',
+        //   message: 'Approve Failed.',
+        //   duration: 20,
+        // })
+        console.log(error)
+      }
+    }
   }, [
-    wallet,
-    swap,
-    recipient,
-    // isCustomRecipient,
-    // inputAssetPriceInUSD,
-    // submitTransaction,
-    // pollTransaction,
-    // setTxFailed,
+    inputAsset,
+    isInputWalletConnected,
+    pollTransaction,
+    setTxFailed,
+    submitTransaction,
   ])
-
-  // TODO: add approve
-  // const handleConfirmApprove = useCallback(async () => {
-  //   // setVisibleApproveModal(false)
-
-  //   if (wallet) {
-  //     // TODO: add tx tracker
-  //     // register to tx tracker
-  //     // const trackId = submitTransaction({
-  //     //   type: TxTrackerType.Approve,
-  //     //   submitTx: {
-  //     //     inAssets: [
-  //     //       {
-  //     //         asset: inputAsset.toString(),
-  //     //         amount: '0', // not needed for approve tx
-  //     //       },
-  //     //     ],
-  //     //   },
-  //     // })
-
-  //     try {
-  //       const txHash = await multichain.approveAsset(inputAsset)
-  //       console.log('approve txhash', txHash)
-  //       if (txHash) {
-  //         // TODO: add tx tracker
-  //         // start polling
-  //         // pollTransaction({
-  //         //   type: TxTrackerType.Swap,
-  //         //   uuid: trackId,
-  //         //   submitTx: {
-  //         //     inAssets: [
-  //         //       {
-  //         //         asset: inputAsset.toString(),
-  //         //         amount: '0', // not needed for approve tx
-  //         //       },
-  //         //     ],
-  //         //     txID: txHash,
-  //         //   },
-  //         // })
-  //       }
-  //     } catch (error) {
-  //       // TODO: add tx tracker
-  //       // setTxFailed(trackId)
-  //       // Notification({
-  //       //   type: 'open',
-  //       //   message: 'Approve Failed.',
-  //       //   duration: 20,
-  //       // })
-  //       console.log(error)
-  //     }
-  //   }
-  // }, [inputAsset, wallet])
 
   const handleSwap = useCallback(() => {
     if (walletConnected && swap) {
@@ -570,18 +566,18 @@ const SwapView = () => {
     outputAssetPriceInUSD,
   ])
 
-  // TODO: add approve
-  // const handleApprove = useCallback(() => {
-  //   if (walletConnected && swap) {
-  //     setVisibleApproveModal(true)
-  //   } else {
-  //     Notification({
-  //       type: 'info',
-  //       message: 'Wallet Not Found',
-  //       description: 'Please connect wallet',
-  //     })
-  //   }
-  // }, [walletConnected, swap])
+  const handleApprove = useCallback(() => {
+    if (isInputWalletConnected && swap) {
+      setVisibleApproveModal(true)
+    } else {
+      // todo: add notification
+      // Notification({
+      //   type: 'info',
+      //   message: 'Wallet Not Found',
+      //   description: 'Please connect wallet',
+      // })
+    }
+  }, [isInputWalletConnected, swap])
 
   const isValidSwap = useMemo(() => {
     if (isTradingHalted) {
@@ -687,11 +683,31 @@ const SwapView = () => {
     [swapConfirmInfo],
   )
 
+  const approveConfirmInfo = useApproveInfoItems({
+    inputAsset: inputAssetProps,
+    fee: totalFeeInUSD.toCurrencyFormat(2),
+  })
+
+  const renderApproveModalContent = useMemo(
+    () => <InfoTable items={approveConfirmInfo} />,
+    [approveConfirmInfo],
+  )
+
   const navigateToPoolInfo = useCallback(() => {
     const asset = inputAsset.isRUNE() ? outputAsset : inputAsset
 
     navigateToExternalLink(getPoolDetailRouteFromAsset(asset))
   }, [inputAsset, outputAsset])
+
+  const isApproveRequired = useMemo(
+    () => isInputWalletConnected && isApproved === false,
+    [isInputWalletConnected, isApproved],
+  )
+
+  const isSwapAvailable = useMemo(
+    () => isInputWalletConnected && !isApproveRequired,
+    [isInputWalletConnected, isApproveRequired],
+  )
 
   return (
     <PanelView
@@ -785,6 +801,24 @@ const SwapView = () => {
         /> */}
 
       <Box className="w-full pt-5">
+        {isApproveRequired && (
+          <Button
+            isFancy
+            stretch
+            size="lg"
+            onClick={handleApprove}
+            disabled={
+              assetApproveStatus === TxTrackerStatus.Pending ||
+              assetApproveStatus === TxTrackerStatus.Submitting
+            }
+            loading={
+              assetApproveStatus === TxTrackerStatus.Pending ||
+              assetApproveStatus === TxTrackerStatus.Submitting
+            }
+          >
+            Approve
+          </Button>
+        )}
         {isWalletRequired && (
           <Button
             isFancy
@@ -795,7 +829,7 @@ const SwapView = () => {
             {t('common.connectWallet')}
           </Button>
         )}
-        {!isWalletRequired && (
+        {isSwapAvailable && (
           <Button
             isFancy
             error={!isValidSwap.valid}
@@ -814,6 +848,15 @@ const SwapView = () => {
           onConfirm={handleConfirm}
         >
           {renderConfirmModalContent}
+        </ConfirmModal>
+
+        <ConfirmModal
+          inputAssets={[inputAsset]}
+          isOpened={visibleApproveModal}
+          onClose={() => setVisibleApproveModal(false)}
+          onConfirm={handleConfirmApprove}
+        >
+          {renderApproveModalContent}
         </ConfirmModal>
       </Box>
     </PanelView>

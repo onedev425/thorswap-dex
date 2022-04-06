@@ -11,6 +11,7 @@ import { t } from 'services/i18n'
 import {
   getAddTxUrl,
   getApproveTxUrl,
+  getSendTxUrl,
   getSwapInTxUrl,
   getSwapOutTxData,
   getSwapOutTxUrl,
@@ -77,6 +78,10 @@ const getTxDetails = (
 
   if (txTracker.type === TxTrackerType.Approve) {
     return getApproveDetails(txTracker)
+  }
+
+  if (txTracker.type === TxTrackerType.Send) {
+    return getSendDetails(txTracker)
   }
 
   return null
@@ -288,6 +293,43 @@ const getApproveDetails = (txTracker: TxTracker): TxDetails => {
             asset: Asset.fromAssetString(approveAsset)?.ticker,
           }),
       url: status === TxTrackerStatus.Success ? getApproveTxUrl(txTracker) : '',
+    },
+  ]
+
+  return txDetails
+}
+
+const getSendDetails = (txTracker: TxTracker): TxDetails => {
+  const { status, submitTx } = txTracker
+  const { inAssets = [] } = submitTx
+  const { asset: sendAsset, amount } = inAssets[0]
+  const isPending = status !== TxTrackerStatus.Success
+
+  if (status === TxTrackerStatus.Failed) {
+    return [
+      {
+        status: 'failed',
+        label: t('txManager.sendFailed', {
+          asset: Asset.fromAssetString(sendAsset)?.ticker,
+          amount,
+        }),
+      },
+    ]
+  }
+
+  const txDetails: TxDetails = [
+    {
+      status: isPending ? 'pending' : 'success',
+      label: isPending
+        ? t('txManager.sendAmountAsset', {
+            asset: Asset.fromAssetString(sendAsset)?.ticker,
+            amount,
+          })
+        : t('txManager.sendFinished', {
+            asset: Asset.fromAssetString(sendAsset)?.ticker,
+            amount,
+          }),
+      url: status === TxTrackerStatus.Success ? getSendTxUrl(txTracker) : '',
     },
   ]
 

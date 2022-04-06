@@ -1,4 +1,4 @@
-import { ElementRef, useEffect, useRef } from 'react'
+import { ElementRef, useEffect, useRef, useState } from 'react'
 
 import classNames from 'classnames'
 
@@ -16,22 +16,36 @@ import { Scrollbar } from 'components/Scrollbar'
 import { TxPanel } from 'components/TxManager/components/TxPanel'
 import { TxManagerOpenButton } from 'components/TxManager/TxManagerOpenButton'
 
+import { TxTrackerStatus } from 'redux/midgard/types'
+
+import { useTxManager } from 'hooks/useTxManager'
+
 import { t } from 'services/i18n'
 
-import { useTxTracker } from './mockData'
-
 export const TxManager = () => {
-  const {
-    txData,
-    filteredTxData,
-    clearTxHistory,
-    onlyPending,
-    setOnlyPending,
-  } = useTxTracker()
+  const [onlyPending, setOnlyPending] = useState(false)
+
+  const { txTrackers, clearTxTrackers } = useTxManager()
+  const [filteredTxData, setFilteredTxData] = useState(txTrackers)
+
+  useEffect(() => {
+    if (!onlyPending) {
+      setFilteredTxData(txTrackers)
+      return
+    }
+
+    const filteredData = txTrackers.filter(
+      (item) => item.status === TxTrackerStatus.Pending,
+    )
+    console.log('🔥', filteredData)
+
+    setFilteredTxData(filteredData)
+  }, [onlyPending, txTrackers])
+
   const popoverRef = useRef<ElementRef<typeof Popover>>(null)
 
   useEffect(() => {
-    if (!txData.length) {
+    if (!txTrackers.length) {
       popoverRef.current?.close()
     }
   })
@@ -39,8 +53,8 @@ export const TxManager = () => {
   return (
     <Popover
       ref={popoverRef}
-      disabled={!txData?.length}
-      trigger={<TxManagerOpenButton txData={txData} />}
+      disabled={!txTrackers?.length}
+      trigger={<TxManagerOpenButton txData={txTrackers} />}
     >
       <Card
         className="mt-2 !px-0 min-w-[160px] md:w-[320px] border border-solid border-btn-primary"
@@ -76,7 +90,7 @@ export const TxManager = () => {
                   name="trash"
                   color="secondary"
                   size={18}
-                  onClick={clearTxHistory}
+                  onClick={clearTxTrackers}
                 />
               </Tooltip>
             </Box>

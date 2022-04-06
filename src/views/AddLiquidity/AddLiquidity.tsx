@@ -26,18 +26,22 @@ import { InfoTable } from 'components/InfoTable'
 import { LiquidityType } from 'components/LiquidityType/LiquidityType'
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
+import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems'
 import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useApp } from 'redux/app/hooks'
 import * as actions from 'redux/midgard/actions'
+import { TxTrackerStatus, TxTrackerType } from 'redux/midgard/types'
 import { RootState } from 'redux/store'
 import { useWallet } from 'redux/wallet/hooks'
 
+import { useApprove } from 'hooks/useApprove'
 import { useBalance } from 'hooks/useBalance'
 import { useMimir } from 'hooks/useMimir'
 import { useNetworkFee, getSumAmountInUSD } from 'hooks/useNetworkFee'
+import { useTxTracker } from 'hooks/useTxTracker'
 
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
@@ -192,12 +196,11 @@ export const AddLiquidity = () => {
   const [runeAmount, setRuneAmount] = useState<Amount>(
     Amount.fromAssetAmount(0, 8),
   )
+
+  const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
+
   const [visibleConfirmModal, setVisibleConfirmModal] = useState(false)
-
-  // TODO: add approve modal
-  // const [visibleApproveModal, setVisibleApproveModal] = useState(false)
-
-  const [isApproved, setApproved] = useState<boolean | null>(null)
+  const [visibleApproveModal, setVisibleApproveModal] = useState(false)
 
   const { inboundFee: inboundAssetFee } = useNetworkFee({
     inputAsset: poolAsset,
@@ -256,18 +259,10 @@ export const AddLiquidity = () => {
     )
   }, [wallet, poolAsset, liquidityType])
 
-  useEffect(() => {
-    const checkApproved = async () => {
-      const approved = await multichain.isAssetApproved(poolAsset)
-      setApproved(approved)
-    }
-
-    if (isWalletConnected) {
-      checkApproved()
-    } else {
-      setApproved(true)
-    }
-  }, [poolAsset, wallet, isWalletConnected])
+  const { isApproved, assetApproveStatus } = useApprove(
+    poolAsset,
+    isWalletConnected,
+  )
 
   const poolAssetPriceInUSD = useMemo(
     () =>
@@ -426,16 +421,15 @@ export const AddLiquidity = () => {
         })
       }
 
-      // TODO: add tx tracker
       // register to tx tracker
-      // const trackId = submitTransaction({
-      //   type: TxTrackerType.AddLiquidity,
-      //   submitTx: {
-      //     inAssets,
-      //     outAssets: [],
-      //     poolAsset: poolAsset.ticker,
-      //   },
-      // })
+      const trackId = submitTransaction({
+        type: TxTrackerType.AddLiquidity,
+        submitTx: {
+          inAssets,
+          outAssets: [],
+          poolAsset: poolAsset.ticker,
+        },
+      })
 
       try {
         const txRes = await multichain.addLiquidity({
@@ -451,26 +445,25 @@ export const AddLiquidity = () => {
         console.log('assetTxHash', assetTxHash)
 
         if (runeTxHash || assetTxHash) {
-          // TODO: add tx tracker
           // start polling
-          // pollTransaction({
-          //   type: TxTrackerType.AddLiquidity,
-          //   uuid: trackId,
-          //   submitTx: {
-          //     inAssets,
-          //     outAssets: [],
-          //     txID: runeTxHash || assetTxHash,
-          //     addTx: {
-          //       runeTxID: runeTxHash,
-          //       assetTxID: assetTxHash,
-          //     },
-          //     poolAsset: poolAsset.ticker,
-          //   },
-          // })
+          pollTransaction({
+            type: TxTrackerType.AddLiquidity,
+            uuid: trackId,
+            submitTx: {
+              inAssets,
+              outAssets: [],
+              txID: runeTxHash || assetTxHash,
+              addTx: {
+                runeTxID: runeTxHash,
+                assetTxID: assetTxHash,
+              },
+              poolAsset: poolAsset.ticker,
+            },
+          })
         }
       } catch (error: any) {
         // TODO: add tx tracker
-        // setTxFailed(trackId)
+        setTxFailed(trackId)
 
         // handle better error message
         const description = translateErrorMsg(error?.toString())
@@ -493,38 +486,70 @@ export const AddLiquidity = () => {
     runeAmount,
     assetAmount,
     liquidityType,
-    // submitTransaction,
-    // pollTransaction,
-    // setTxFailed,
+    submitTransaction,
+    pollTransaction,
+    setTxFailed,
   ])
 
-  // TODO: approve
-  // const handleConfirmApprove = useCallback(async () => {
-  //   setVisibleApproveModal(false)
+  const handleConfirmApprove = useCallback(async () => {
+    setVisibleApproveModal(false)
 
-  //   if (wallet) {
-  //     const txHash = await multichain.approveAsset(poolAsset)
+    if (isWalletAssetConnected(poolAsset)) {
+      // register to tx tracker
+      const trackId = submitTransaction({
+        type: TxTrackerType.Approve,
+        submitTx: {
+          inAssets: [
+            {
+              asset: poolAsset.toString(),
+              amount: '0', // not needed for approve tx
+            },
+          ],
+        },
+      })
 
-  //     if (txHash) {
-  //       const txURL = multichain.getExplorerTxUrl(poolAsset.chain, txHash)
+      try {
+        const txHash = await multichain.approveAsset(poolAsset)
 
-  //       console.log('txURL', txURL)
+        if (txHash) {
+          const txURL = multichain.getExplorerTxUrl(poolAsset.chain, txHash)
 
-  //       // TODO: add notification
-  //       // Notification({
-  //       //   type: 'open',
-  //       //   message: 'View Approve Tx.',
-  //       //   description: 'Transaction submitted successfully!',
-  //       //   btn: (
-  //       //     <a href={txURL} target="_blank" rel="noopener noreferrer">
-  //       //       View Transaction
-  //       //     </a>
-  //       //   ),
-  //       //   duration: 20,
-  //       // })
-  //     }
-  //   }
-  // }, [poolAsset, wallet])
+          console.log('txURL', txURL)
+          if (txHash) {
+            // start polling
+            pollTransaction({
+              type: TxTrackerType.Approve,
+              uuid: trackId,
+              submitTx: {
+                inAssets: [
+                  {
+                    asset: poolAsset.toString(),
+                    amount: '0', // not needed for approve tx
+                  },
+                ],
+                txID: txHash,
+              },
+            })
+          }
+        }
+      } catch (error) {
+        setTxFailed(trackId)
+
+        // TODO: notification
+        // Notification({
+        //   type: 'open',
+        //   message: 'Approve Failed.',
+        //   duration: 20,
+        // })
+      }
+    }
+  }, [
+    poolAsset,
+    isWalletAssetConnected,
+    pollTransaction,
+    setTxFailed,
+    submitTransaction,
+  ])
 
   const handleAddLiquidity = useCallback(() => {
     if (!isWalletConnected) {
@@ -551,19 +576,18 @@ export const AddLiquidity = () => {
     setVisibleConfirmModal(true)
   }, [isWalletConnected, isFundsCapReached])
 
-  // TODO: implement approve
-  // const handleApprove = useCallback(() => {
-  //   if (wallet) {
-  //     setVisibleApproveModal(true)
-  //   } else {
-  //     // TODO: add notification
-  //     // Notification({
-  //     //   type: 'info',
-  //     //   message: 'Wallet Not Found',
-  //     //   description: 'Please connect wallet',
-  //     // })
-  //   }
-  // }, [wallet])
+  const handleApprove = useCallback(() => {
+    if (wallet) {
+      setVisibleApproveModal(true)
+    } else {
+      // TODO: add notification
+      // Notification({
+      //   type: 'info',
+      //   message: 'Wallet Not Found',
+      //   description: 'Please connect wallet',
+      // })
+    }
+  }, [wallet])
 
   const totalFeeInUSD = useMemo(() => {
     if (liquidityType === LiquidityTypeOption.SYMMETRICAL) {
@@ -649,7 +673,7 @@ export const AddLiquidity = () => {
       if (!runeAmount.gt(minRuneAmount) || !assetAmount.gt(minAssetAmount)) {
         return {
           valid: false,
-          msg: 'Insufficient Amount',
+          msg: 'Invalid Amount',
         }
       }
 
@@ -807,6 +831,24 @@ export const AddLiquidity = () => {
     [confirmInfo],
   )
 
+  const approveConfirmInfo = useApproveInfoItems({
+    inputAsset: {
+      asset: poolAsset,
+      value: assetAmount,
+    },
+    fee: inboundAssetFee.toCurrencyFormat(),
+  })
+
+  const renderApproveModalContent = useMemo(
+    () => <InfoTable items={approveConfirmInfo} />,
+    [approveConfirmInfo],
+  )
+
+  const isDepositAvailable = useMemo(
+    () => isWalletConnected && !isApproveRequired,
+    [isWalletConnected, isApproveRequired],
+  )
+
   return (
     <PanelView
       title={title}
@@ -845,7 +887,28 @@ export const AddLiquidity = () => {
         rate={pool?.assetPriceInRune?.toSignificant(6) ?? null}
       />
 
-      {isWalletConnected && (
+      {isApproveRequired && (
+        <Box className="w-full pt-5">
+          <Button
+            stretch
+            size="lg"
+            isFancy
+            onClick={handleApprove}
+            disabled={
+              assetApproveStatus === TxTrackerStatus.Pending ||
+              assetApproveStatus === TxTrackerStatus.Submitting
+            }
+            loading={
+              assetApproveStatus === TxTrackerStatus.Pending ||
+              assetApproveStatus === TxTrackerStatus.Submitting
+            }
+          >
+            Approve
+          </Button>
+        </Box>
+      )}
+
+      {isDepositAvailable && (
         <Box className="w-full pt-5">
           <Button
             stretch
@@ -879,6 +942,15 @@ export const AddLiquidity = () => {
         onClose={() => setVisibleConfirmModal(false)}
       >
         {renderConfirmModalContent}
+      </ConfirmModal>
+
+      <ConfirmModal
+        inputAssets={[poolAsset]}
+        isOpened={visibleApproveModal}
+        onClose={() => setVisibleApproveModal(false)}
+        onConfirm={handleConfirmApprove}
+      >
+        {renderApproveModalContent}
       </ConfirmModal>
     </PanelView>
   )

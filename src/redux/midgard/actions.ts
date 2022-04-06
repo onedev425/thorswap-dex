@@ -1,7 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { ActionTypeEnum } from '@thorswap-lib/midgard-sdk'
+import { Asset } from '@thorswap-lib/multichain-sdk'
 
 import { midgardApi } from 'services/midgard'
+import { multichain } from 'services/multichain'
 import { getThorchainMimir } from 'services/thornode'
+
+import { TxTracker } from './types'
 
 export const getPools = createAsyncThunk(
   'midgard/getPools',
@@ -145,4 +150,63 @@ export const getVolume24h = createAsyncThunk(
 export const getThorchainInboundData = createAsyncThunk(
   'midgard/getInboundAddresses',
   midgardApi.getInboundAddresses,
+)
+
+export const pollUpgradeTx = createAsyncThunk(
+  'midgard/pollUpgradeTx',
+  async (txTracker: TxTracker) => {
+    const {
+      submitTx: { recipient },
+    } = txTracker
+
+    if (recipient) {
+      const response = await midgardApi.getActions({
+        limit: 1,
+        offset: 0,
+        address: recipient,
+        type: ActionTypeEnum.Switch,
+      })
+      return response
+    }
+
+    throw Error('no recipient')
+  },
+)
+
+export const pollTx = createAsyncThunk(
+  'midgard/pollTx',
+  async (txTracker: TxTracker) => {
+    let txId = txTracker.submitTx?.txID
+
+    if (txId && txId.includes('0x')) {
+      txId = txId.slice(2)
+    }
+
+    const response = await midgardApi.getActions({
+      limit: 1,
+      offset: 0,
+      txId,
+    })
+    return response
+  },
+)
+
+export const pollApprove = createAsyncThunk(
+  'midgard/pollApprove',
+  async (txTracker: TxTracker) => {
+    const assetString = txTracker.submitTx?.inAssets?.[0]?.asset
+
+    if (!assetString) throw Error('invalid asset string')
+
+    const asset = Asset.fromAssetString(assetString)
+
+    if (!asset) throw Error('invalid asset')
+
+    const approved = await multichain.isAssetApproved(asset)
+
+    return {
+      asset,
+      approved,
+    }
+  },
 )

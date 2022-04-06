@@ -93,6 +93,7 @@
     "failed": "Failed",
     "sendAmountAsset": "Send %{amount} %{asset}",
     "sendFailed": "Send %{amount} %{asset} Failed",
+    "sendFinished": "Send %{amount} %{asset} Success",
     "burnAmountAsset": "Burn %{amount} %{asset}",
     "refunded": "Refunded",
     "submitWithdrawTx": "Submit Withdraw TX",

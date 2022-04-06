@@ -11,7 +11,9 @@ type Props = {
 export const TxManagerOpenButton = ({ txData }: Props) => {
   const hasHistory = !!txData.length
   const pendingCount = txData.filter(
-    (tx) => tx.status === TxTrackerStatus.Pending,
+    (tx) =>
+      tx.status === TxTrackerStatus.Pending ||
+      tx.status === TxTrackerStatus.Submitting,
   ).length
 
   return (

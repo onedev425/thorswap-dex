@@ -15,6 +15,21 @@ type Props = {
 export const TxHeader = ({ txInfo }: Props) => {
   const { type, submitTx } = txInfo
 
+  if (type === TxTrackerType.Send) {
+    const { inAssets = [] } = submitTx
+    const { asset: sendAsset } = inAssets[0]
+
+    return (
+      <Box className="gap-x-1" alignCenter row>
+        <Typography variant="caption" color="secondary" fontWeight="semibold">
+          {t('txManager.send', {
+            token: Asset.fromAssetString(sendAsset)?.ticker,
+          })}
+        </Typography>
+      </Box>
+    )
+  }
+
   if (type === TxTrackerType.Approve) {
     const { inAssets = [] } = submitTx
     const { asset: approveAsset } = inAssets[0]

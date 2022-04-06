@@ -19,11 +19,13 @@ import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useMidgard } from 'redux/midgard/hooks'
+import { TxTrackerType } from 'redux/midgard/types'
 import { useWallet } from 'redux/wallet/hooks'
 
 import { useBalance } from 'hooks/useBalance'
 import { useMimir } from 'hooks/useMimir'
 import { useNetworkFee } from 'hooks/useNetworkFee'
+import { useTxTracker } from 'hooks/useTxTracker'
 
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
@@ -40,6 +42,7 @@ const UpgradeRune = () => {
   const { wallet, setIsConnectModalOpen } = useWallet()
   const { getMaxBalance, isWalletAssetConnected } = useBalance()
   const { pools } = useMidgard()
+  const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
 
   const [selectedAsset, setSelectedAsset] = useState<Asset>(oldRunes[0])
   const [upgradeAmount, setUpgradeAmount] = useState<Amount>(
@@ -101,26 +104,25 @@ const UpgradeRune = () => {
     if (selectedAsset && recipientAddress) {
       const runeAmount = new AssetAmount(selectedAsset, upgradeAmount)
 
-      // TODO: tx tracker
       // register to tx tracker
-      // const trackId = submitTransaction({
-      //   type: TxTrackerType.Switch,
-      //   submitTx: {
-      //     inAssets: [
-      //       {
-      //         asset: selectedAsset.toString(),
-      //         amount: upgradeAmount.toSignificant(6),
-      //       },
-      //     ],
-      //     outAssets: [
-      //       {
-      //         asset: Asset.RUNE().toString(),
-      //         amount: upgradeAmount.toSignificant(6),
-      //       },
-      //     ],
-      //     recipient: recipientAddress,
-      //   },
-      // })
+      const trackId = submitTransaction({
+        type: TxTrackerType.Switch,
+        submitTx: {
+          inAssets: [
+            {
+              asset: selectedAsset.toString(),
+              amount: upgradeAmount.toSignificant(6),
+            },
+          ],
+          outAssets: [
+            {
+              asset: Asset.RUNE().toString(),
+              amount: upgradeAmount.toSignificant(6),
+            },
+          ],
+          recipient: recipientAddress,
+        },
+      })
 
       try {
         const txHash = await multichain.upgrade({
@@ -129,32 +131,30 @@ const UpgradeRune = () => {
         })
         console.log('txHash', txHash)
 
-        // TODO: tx tracker
         // start polling
-        // pollTransaction({
-        //   type: TxTrackerType.Switch,
-        //   uuid: trackId,
-        //   submitTx: {
-        //     inAssets: [
-        //       {
-        //         asset: selectedAsset.toString(),
-        //         amount: upgradeAmount.toSignificant(6),
-        //       },
-        //     ],
-        //     outAssets: [
-        //       {
-        //         asset: Asset.RUNE().toString(),
-        //         amount: upgradeAmount.toSignificant(6),
-        //       },
-        //     ],
-        //     txID: txHash,
-        //     submitDate: new Date(),
-        //     recipient: recipientAddress,
-        //   },
-        // })
+        pollTransaction({
+          type: TxTrackerType.Switch,
+          uuid: trackId,
+          submitTx: {
+            inAssets: [
+              {
+                asset: selectedAsset.toString(),
+                amount: upgradeAmount.toSignificant(6),
+              },
+            ],
+            outAssets: [
+              {
+                asset: Asset.RUNE().toString(),
+                amount: upgradeAmount.toSignificant(6),
+              },
+            ],
+            txID: txHash,
+            submitDate: new Date(),
+            recipient: recipientAddress,
+          },
+        })
       } catch (error) {
-        // TODO: tx tracker
-        // setTxFailed(trackId)
+        setTxFailed(trackId)
 
         // TODO: notification
         // Notification({
@@ -168,10 +168,10 @@ const UpgradeRune = () => {
   }, [
     selectedAsset,
     upgradeAmount,
-    // submitTransaction,
-    // pollTransaction,
+    submitTransaction,
+    pollTransaction,
     recipientAddress,
-    // setTxFailed,
+    setTxFailed,
   ])
 
   const handleUpgrade = useCallback(() => {

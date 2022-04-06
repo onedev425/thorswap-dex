@@ -5,6 +5,7 @@ import { t } from 'services/i18n'
 import { TypographyColorType } from './../Atomic/Typography/types'
 
 export const txType: Record<TxTrackerType, string> = {
+  [TxTrackerType.Send]: 'Send', // TODO: i18n
   [TxTrackerType.Approve]: t('txManager.approve'),
   [TxTrackerType.Swap]: t('txManager.swap'),
   [TxTrackerType.AddLiquidity]: t('txManager.addLiquidity'),
