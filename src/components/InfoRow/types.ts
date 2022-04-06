@@ -1,7 +1,7 @@
 export type InfoRowSize = 'sm' | 'md' | 'lg'
 
 export type InfoRowConfig = {
-  label: string
+  label: string | React.ReactNode
   value: string | React.ReactNode
   size?: InfoRowSize
 }

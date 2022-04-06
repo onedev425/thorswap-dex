@@ -59,7 +59,8 @@
     "globalSettings": "Global Settings",
     "noTxHistory": "No transactions in history",
     "pendingTransactions": "Pending Transactions",
-    "clearHistory": "Clear History"
+    "clearHistory": "Clear History",
+    "viewOnThoryield": "View on Thoryield.com ↗"
   },
   "appMenu": {
     "lightTheme": "Light Theme",
@@ -97,7 +98,6 @@
     "submitWithdrawTx": "Submit Withdraw TX",
     "onlyPending": "Show pending only",
     "noTxToDisplay": "No transactions to display",
-    "viewOnThoryield": "View on Thoryield.com",
     "receivedAmountAsset": "Received %{amount} %{asset}",
     "mintedAmountAsset": "Minted %{amount} %{asset}",
     "redeemedAmountAsset": "Redeemed %{amount} %{asset}",

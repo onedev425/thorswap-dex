@@ -1,5 +1,7 @@
 import { useMemo } from 'react'
 
+import { useNavigate } from 'react-router-dom'
+
 import { Amount, Asset, Liquidity } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 import moment from 'moment'
@@ -7,12 +9,21 @@ import moment from 'moment'
 import { ChainPoolData } from 'views/ManageLiquidity/types'
 
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon'
-import { useCollapse, Card, Box, Typography, Icon } from 'components/Atomic'
+import {
+  useCollapse,
+  Card,
+  Box,
+  Typography,
+  Icon,
+  Button,
+} from 'components/Atomic'
 import { borderHoverHighlightClass } from 'components/constants'
 
 import useWindowSize from 'hooks/useWindowSize'
 
 import { t } from 'services/i18n'
+
+import { getAddLiquidityRoute, getWithdrawRoute } from 'settings/constants'
 
 import { LiquidityInfo } from './LiquidityInfo'
 
@@ -29,6 +40,7 @@ export const LiquidityCard = ({
   withFooter,
   liquidityUnits,
 }: LiquidityCardProps) => {
+  const navigate = useNavigate()
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse()
   const { isMdActive } = useWindowSize()
 
@@ -48,7 +60,7 @@ export const LiquidityCard = ({
       >
         <Box
           onClick={toggle}
-          className="cursor-pointer mx-4 my-4 md:mx-2"
+          className="cursor-pointer"
           alignCenter
           justify="between"
         >
@@ -118,9 +130,30 @@ export const LiquidityCard = ({
           asset={pool.asset}
           contentRef={contentRef}
           maxHeightStyle={maxHeightStyle}
-          withFooter={withFooter}
           shareType={shareType}
         />
+
+        {withFooter && (
+          <Box className="space-x-6 md:pr-0 pt-2 md:pt-4" justifyCenter>
+            <Button
+              onClick={() => navigate(getAddLiquidityRoute(pool.asset))}
+              className="px-8 md:px-12"
+              variant="primary"
+              stretch
+            >
+              {t('views.liquidity.addButton')}
+            </Button>
+
+            <Button
+              onClick={() => navigate(getWithdrawRoute(pool.asset))}
+              className="px-8 md:px-12"
+              variant="secondary"
+              stretch
+            >
+              {t('common.withdraw')}
+            </Button>
+          </Box>
+        )}
       </Card>
     </Box>
   )

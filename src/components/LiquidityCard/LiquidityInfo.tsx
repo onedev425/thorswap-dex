@@ -1,26 +1,15 @@
-import { memo, RefObject, useCallback, useMemo } from 'react'
-
-import { useNavigate } from 'react-router-dom'
+import { memo, RefObject, useMemo } from 'react'
 
 import { Amount, Asset, Percent } from '@thorswap-lib/multichain-sdk'
 
 import { AssetIcon } from 'components/AssetIcon'
-import { Box, Button, Icon, Typography } from 'components/Atomic'
+import { Box, Typography } from 'components/Atomic'
 import { InfoRowConfig } from 'components/InfoRow/types'
 import { InfoTable } from 'components/InfoTable'
-import { ReloadButton } from 'components/ReloadButton'
 
-import { useMidgard } from 'redux/midgard/hooks'
 import { PoolShareType } from 'redux/midgard/types'
 
 import { t } from 'services/i18n'
-
-import {
-  getAddLiquidityRoute,
-  getPoolDetailRouteFromAsset,
-  getWithdrawRoute,
-  navigateToExternalLink,
-} from 'settings/constants'
 
 type Props = {
   assetShare: Amount
@@ -46,20 +35,7 @@ export const LiquidityInfo = memo(
     poolShare,
     runeShare,
     shareType,
-    withFooter,
   }: Props) => {
-    const { loadMemberDetailsByChain, chainMemberDetailsLoading } = useMidgard()
-    const navigate = useNavigate()
-
-    const reloadChainPoolDetails = useCallback(() => {
-      // @ts-expect-error mistyped in Asset
-      loadMemberDetailsByChain(asset.chain)
-    }, [asset.chain, loadMemberDetailsByChain])
-
-    const navigateToPoolDetail = useCallback(() => {
-      navigateToExternalLink(getPoolDetailRouteFromAsset(asset))
-    }, [asset])
-
     const summary = useMemo(() => {
       const infoFields: InfoRowConfig[] = [
         { label: t('views.liquidity.poolShare'), value: poolShare.toFixed(4) },
@@ -118,56 +94,15 @@ export const LiquidityInfo = memo(
         ref={contentRef}
         style={maxHeightStyle}
       >
-        <Box col className="pt-5 self-stretch">
+        <Box col className="pt-5 self-stretch pb-2 md:pb-6">
           <Box alignCenter row justify="between">
             <Typography className="px-1.5" color="cyan" variant="caption">
               {poolAssetsInfo}
             </Typography>
-
-            <Box className="gap-x-2">
-              <Button
-                className="px-2.5"
-                type="borderless"
-                variant="tint"
-                tooltip={t('views.liquidity.checkPoolDetail')}
-                onClick={navigateToPoolDetail}
-                startIcon={<Icon size={16} name="chart" />}
-              />
-
-              <ReloadButton
-                size={16}
-                loading={chainMemberDetailsLoading[asset.chain]}
-                onLoad={reloadChainPoolDetails}
-              />
-            </Box>
           </Box>
 
           <InfoTable items={summary} horizontalInset />
         </Box>
-
-        {withFooter && (
-          <Box className="space-x-6 md:pr-0 pt-5 md:pt-10" justifyCenter>
-            <Button
-              onClick={() => navigate(getAddLiquidityRoute(asset))}
-              className="px-8 md:px-12"
-              variant="primary"
-              size="lg"
-              stretch
-            >
-              {t('views.liquidity.addButton')}
-            </Button>
-
-            <Button
-              onClick={() => navigate(getWithdrawRoute(asset))}
-              className="px-8 md:px-12"
-              variant="secondary"
-              size="lg"
-              stretch
-            >
-              {t('common.withdraw')}
-            </Button>
-          </Box>
-        )}
       </Box>
     )
   },

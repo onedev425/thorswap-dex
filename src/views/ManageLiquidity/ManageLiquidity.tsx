@@ -4,38 +4,34 @@ import { useNavigate } from 'react-router-dom'
 
 import {
   hasConnectedWallet,
-  Asset,
-  Pool,
   SupportedChain,
 } from '@thorswap-lib/multichain-sdk'
 
+import { ChainLiquidityPanel } from 'views/ManageLiquidity/components/ChainLiquidityPanel'
+
 import { Button, Box } from 'components/Atomic'
 import { InfoTip } from 'components/InfoTip'
-import { LiquidityCard } from 'components/LiquidityCard'
 import { PanelView } from 'components/PanelView'
 import { ReloadButton } from 'components/ReloadButton'
 import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useMidgard } from 'redux/midgard/hooks'
-import { ChainMemberData } from 'redux/midgard/types'
 import { useWallet } from 'redux/wallet/hooks'
 
 import { t } from 'services/i18n'
 
 import { ROUTES } from 'settings/constants'
 
-import { ChainPoolData } from './types'
-
 const ManageLiquidity = () => {
   const navigate = useNavigate()
   const { wallet, setIsConnectModalOpen } = useWallet()
 
   const {
-    pools,
     chainMemberDetails,
     getAllMemberDetails,
     memberDetailsLoading,
+    chainMemberDetailsLoading,
   } = useMidgard()
 
   const [tipVisible, setTipVisible] = useState(true)
@@ -45,33 +41,6 @@ const ManageLiquidity = () => {
   useEffect(() => {
     getAllMemberDetails()
   }, [getAllMemberDetails])
-
-  const liquidityPools = useMemo(() => {
-    const chains = Object.keys(chainMemberDetails) as SupportedChain[]
-    if (chains.length === 0) return []
-
-    return chains.reduce((acc, chain) => {
-      const chainMembers = chainMemberDetails[chain] as ChainMemberData
-      const poolStrings = Object.keys(chainMembers)
-
-      const chainPools = poolStrings.map((poolString) => {
-        const poolMemberData = chainMembers[poolString]
-
-        const poolAsset = Asset.fromAssetString(poolString)
-        if (!poolAsset) return null
-
-        const pool = Pool.byAsset(poolAsset, pools)
-        if (!pool) return null
-
-        const [shareType, memberPool] = Object.entries(poolMemberData)[0] || []
-        if (!memberPool) return null
-
-        return { ...memberPool, shareType, pool }
-      })
-
-      return acc.concat(chainPools.filter(Boolean) as ChainPoolData[])
-    }, [] as ChainPoolData[])
-  }, [chainMemberDetails, pools])
 
   return (
     <PanelView
@@ -116,12 +85,13 @@ const ManageLiquidity = () => {
             </Button>
           </Box>
 
-          <Box className="w-full gap-1" col>
-            {liquidityPools.map((liquidityPool) => (
-              <LiquidityCard
-                {...liquidityPool}
-                key={liquidityPool.pool.asset.ticker}
-                withFooter
+          <Box className="w-full gap-2" col>
+            {Object.keys(chainMemberDetails).map((chain) => (
+              <ChainLiquidityPanel
+                key={chain}
+                chain={chain as SupportedChain}
+                data={chainMemberDetails[chain]}
+                isLoading={chainMemberDetailsLoading?.[chain] ?? false}
               />
             ))}
           </Box>

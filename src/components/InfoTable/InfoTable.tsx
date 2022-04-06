@@ -30,7 +30,7 @@ export const InfoTable = ({
     >
       {items.map((item) => (
         <InfoRow
-          key={item.label}
+          key={item.label?.toString()}
           label={item.label}
           value={item.value}
           size={item.size || size}

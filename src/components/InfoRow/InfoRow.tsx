@@ -36,13 +36,17 @@ export const InfoRow = ({
       alignCenter
       justify="between"
     >
-      <Typography
-        variant={labelVariant[size]}
-        fontWeight="medium"
-        color="secondary"
-      >
-        {label}
-      </Typography>
+      {typeof label === 'string' ? (
+        <Typography
+          variant={labelVariant[size]}
+          fontWeight="medium"
+          color="secondary"
+        >
+          {label}
+        </Typography>
+      ) : (
+        label
+      )}
 
       {typeof value === 'string' ? (
         <Typography

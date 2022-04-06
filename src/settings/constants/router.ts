@@ -1,4 +1,5 @@
 import { Asset } from '@thorswap-lib/multichain-sdk'
+import { Chain } from '@thorswap-lib/xchain-util'
 
 export enum ROUTES {
   Home = '/dashboard',
@@ -49,3 +50,11 @@ export const getNodeDetailRoute = (address: string) => {
 export const navigateToExternalLink = (url: string) => {
   window.open(url, '_blank noreferrer noopener')
 }
+
+export const getThorYieldInfoRoute = ({
+  chain,
+  address,
+}: {
+  chain: Chain
+  address: string
+}) => `https://app.thoryield.com/accounts?${chain.toLowerCase()}=${address}`

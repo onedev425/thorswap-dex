@@ -83,7 +83,7 @@ export const TxPanel = ({ txTracker }: Props) => {
             to={txUrl}
             onClick={(e) => e.stopPropagation()}
           >
-            <Tooltip content={t('txManager.viewOnThoryield')}>
+            <Tooltip content={t('common.viewOnThoryield')}>
               <Icon
                 className={baseHoverClass}
                 name="thoryield"
