@@ -26,6 +26,17 @@ module.exports = {
       white: '#fff',
       black: '#000',
 
+      chain: {
+        btc: '#E98566',
+        eth: '#7B48E8',
+        bch: '#76C85A',
+        doge: '#CE935C',
+        terra: '#5493F7',
+        ltc: '#346FC6',
+        bnb: '#DCAC50',
+        thor: '#5DD39B',
+      },
+
       btn: {
         // TODO: check if those are correct because design does not include them
         light: {

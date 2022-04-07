@@ -102,9 +102,23 @@ export const ConfirmModal = ({
           value={password}
           onChange={({ target }) => setPassword(target.value)}
         />
-        {invalidPassword && <Typography>Password is wrong.</Typography>}
+        {invalidPassword && (
+          <Typography
+            className="ml-2"
+            color="orange"
+            variant="caption"
+            fontWeight="medium"
+          >
+            {t('views.walletModal.wrongPassword')}
+          </Typography>
+        )}
 
-        <Button stretch onClick={handleClickConfirm} loading={validating}>
+        <Button
+          isFancy
+          stretch
+          onClick={handleClickConfirm}
+          loading={validating}
+        >
           {t('common.confirm')}
         </Button>
       </>
@@ -118,11 +132,11 @@ export const ConfirmModal = ({
       isOpened={isOpened}
       onClose={handleCancel}
     >
-      <Box className="gap-y-4 md:gap-y-8 md:!min-w-[350px]" col>
+      <Box className="gap-y-4 md:!min-w-[350px]" col>
         {children && <div>{children}</div>}
         {isKeystoreSigningRequired && renderKeystoreSignMode}
         {!isKeystoreSigningRequired && (
-          <Button stretch onClick={handleProceed} loading={validating}>
+          <Button isFancy stretch onClick={handleProceed} loading={validating}>
             {t('common.confirm')}
           </Button>
         )}

@@ -20,12 +20,12 @@ import { Chain } from '@thorswap-lib/xchain-util'
 import copy from 'copy-to-clipboard'
 
 import { Button, Icon, Box, Typography } from 'components/Atomic'
+import { ConfirmContent } from 'components/ConfirmModalConent'
 import { CountDownIndicator } from 'components/CountDownIndicator'
 import { HoverIcon } from 'components/HoverIcon'
 import { InfoTable } from 'components/InfoTable'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems'
-import { useConfirmInfoItems } from 'components/Modals/ConfirmModal/useConfirmInfoItems'
 import { PanelInput } from 'components/PanelInput'
 import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
@@ -665,22 +665,32 @@ const SwapView = () => {
     [outputAssets, getMaxBalance],
   )
 
-  const swapConfirmInfo = useConfirmInfoItems({
-    inputAsset: inputAssetProps,
-    outputAsset: outputAssetProps,
-    recipient,
-    estimatedTime,
-    slippage: slipPercent.toFixed(3),
-    isValidSlip,
-    minReceive: `${minReceive.toSignificant(
-      6,
-    )} ${outputAsset.name.toUpperCase()}`,
-    totalFee: totalFeeInUSD.toCurrencyFormat(2),
-  })
-
   const renderConfirmModalContent = useMemo(
-    () => <InfoTable items={swapConfirmInfo} />,
-    [swapConfirmInfo],
+    () => (
+      <ConfirmContent
+        inputAsset={inputAssetProps}
+        outputAsset={outputAssetProps}
+        recipient={recipient}
+        estimatedTime={estimatedTime}
+        slippage={slipPercent.toFixed(3)}
+        isValidSlip={isValidSlip}
+        minReceive={`${minReceive.toSignificant(
+          4,
+        )} ${outputAsset.name.toUpperCase()}`}
+        totalFee={totalFeeInUSD.toCurrencyFormat(2)}
+      />
+    ),
+    [
+      inputAssetProps,
+      outputAssetProps,
+      recipient,
+      estimatedTime,
+      slipPercent,
+      isValidSlip,
+      minReceive,
+      outputAsset,
+      totalFeeInUSD,
+    ],
   )
 
   const approveConfirmInfo = useApproveInfoItems({

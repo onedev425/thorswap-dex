@@ -81,7 +81,7 @@ export const PhraseModal = ({
             />
             {errors.password && (
               <Box className="px-1.5">
-                <Typography color="red">
+                <Typography color="orange">
                   {t('views.walletModal.wrongPassword')}
                 </Typography>
               </Box>

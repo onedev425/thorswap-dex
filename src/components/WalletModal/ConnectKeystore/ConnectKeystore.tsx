@@ -151,7 +151,7 @@ export const KeystoreView = ({ loading, onConnect, onCreate }: Props) => {
         />
       </Box>
       {invalidStatus && (
-        <Typography className="mt-2 ml-3" color="red" variant="caption">
+        <Typography className="mt-2 ml-3" color="orange" variant="caption">
           {t('views.walletModal.wrongPassword')}
         </Typography>
       )}

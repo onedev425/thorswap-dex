@@ -94,9 +94,9 @@ export const AssetInput = ({
           )}
         </Box>
 
-        <Box className="pr-2 md:pr-0 gap-1" center row>
+        <Box className="gap-1 pr-2 md:pr-0" center row>
           {balance && (
-            <Typography color="secondary" fontWeight="semibold">
+            <Typography color="secondary" fontWeight="medium">
               {t('common.balance')}: {balance?.toSignificant(6) || '0'}
             </Typography>
           )}
