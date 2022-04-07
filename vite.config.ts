@@ -1,9 +1,9 @@
+import nodePolyfills from 'rollup-plugin-polyfill-node'
+import react from '@vitejs/plugin-react'
+import svgr from 'vite-plugin-svgr'
+import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
-import svgr from 'vite-plugin-svgr'
-import react from '@vitejs/plugin-react'
-import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
-import nodePolyfills from 'rollup-plugin-polyfill-node'
 
 export default defineConfig({
   base: './',
@@ -23,10 +23,10 @@ export default defineConfig({
       utils: resolve(__dirname, 'src/utils'),
       views: resolve(__dirname, 'src/views'),
 
+      'readable-stream': 'vite-compatible-readable-stream',
       crypto: 'crypto-browserify',
       os: 'os-browserify/browser',
       stream: 'vite-compatible-readable-stream',
-      'readable-stream': 'vite-compatible-readable-stream',
       util: 'util',
     },
   },

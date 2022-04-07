@@ -20,7 +20,6 @@
     "@headlessui/react": "^1.5.0",
     "@popperjs/core": "2.11.5",
     "@reduxjs/toolkit": "^1.8.1",
-    "@rollup/plugin-inject": "^4.0.4",
     "@terra-money/terra.js": "3.0.7",
     "@terra-money/wallet-provider": "3.8.0",
     "@testing-library/jest-dom": "^5.16.4",

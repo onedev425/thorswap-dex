@@ -14,6 +14,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Save build date
+        run: echo "BUILD_DATE=$(date +"%Y-%m-%d")" > $GITHUB_ENV
+
       - name: Read .nvmrc
         run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
         id: nvm
@@ -38,7 +41,7 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@v2
         with:
           find: 'DEVELOPMENT_BUILD'
-          replace: '$(date --rfc-3339=date)'
+          replace: ${{ env.BUILD_DATE }}
           include: 'src/config/constants.ts'
 
       # `--prefer-offline` gives cache priority
