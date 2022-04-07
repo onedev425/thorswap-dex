@@ -25,6 +25,7 @@ type Props = {
   runePending: Amount
   assetPending: Amount
   maxHeightStyle: { maxHeight: string; overflow: string }
+  tickerPending?: string
 }
 
 const RuneAsset = Asset.RUNE()
@@ -43,6 +44,7 @@ export const LiquidityInfo = memo(
     assetAdded,
     runePending,
     assetPending,
+    tickerPending,
   }: Props) => {
     const summary = useMemo(() => {
       const infoFields: InfoRowConfig[] = [
@@ -136,6 +138,11 @@ export const LiquidityInfo = memo(
         ref={contentRef}
         style={maxHeightStyle}
       >
+        {!!tickerPending && (
+          <Typography className="opacity-80" color="yellow" variant="caption">
+            {t('pendingLiquidity.content', { asset: tickerPending })}
+          </Typography>
+        )}
         <Box col className="pt-5 self-stretch pb-2 md:pb-6">
           <Box alignCenter row justify="between">
             <Typography className="px-1.5" color="cyan" variant="caption">

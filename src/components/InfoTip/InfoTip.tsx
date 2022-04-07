@@ -1,19 +1,35 @@
 import classNames from 'classnames'
 
 import { Box, Typography, Icon } from 'components/Atomic'
+import { HighlightCard } from 'components/HighlightCard'
+import { CardStyleType } from 'components/HighlightCard/types'
 
 type Props = {
   className?: string
   title: string
   content: string
   onClose?: () => void
+  type?: CardStyleType
 }
 
-export function InfoTip({ className, title, content, onClose }: Props) {
+export function InfoTip({
+  className,
+  title,
+  content,
+  type = 'info',
+  onClose,
+}: Props) {
   return (
-    <div className={classNames('items-center mx-4 md:mx-12 my-4', className)}>
+    <HighlightCard
+      className={classNames('items-center !px-2 !pt-4 !pb-2', className)}
+      type={type}
+    >
       <Box className="my-3" alignCenter>
-        <Icon name="bulb" size={20} />
+        {type === 'warn' ? (
+          <Icon name="warn" size={20} color="yellow" />
+        ) : (
+          <Icon name="bulb" size={20} />
+        )}
         <Typography className="mx-2">{title}</Typography>
         {!!onClose && (
           <Icon
@@ -26,12 +42,13 @@ export function InfoTip({ className, title, content, onClose }: Props) {
         )}
       </Box>
       <Typography
+        color={type === 'warn' ? 'yellow' : 'secondary'}
         variant="caption"
         fontWeight="semibold"
-        className="!text-dark-gray-primary px-2 py-2"
+        className="px-2 py-2 opacity-80"
       >
         {content}
       </Typography>
-    </div>
+    </HighlightCard>
   )
 }

@@ -5,7 +5,7 @@ import classNames from 'classnames'
 
 import { AssetSelect } from 'components/AssetSelect'
 import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton'
-import { Box, Button, Typography } from 'components/Atomic'
+import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic'
 import { HighlightCard } from 'components/HighlightCard'
 import { InputAmount } from 'components/InputAmount'
 
@@ -25,6 +25,8 @@ export const AssetInput = ({
   hideMaxButton,
   inputClassName,
   disabled = false,
+  warning,
+  maxButtonLabel,
 }: AssetInputProps) => {
   const {
     asset,
@@ -56,6 +58,13 @@ export const AssetInput = ({
           amountValue={value}
           stretch
           disabled={disabled}
+          customPrefix={
+            warning ? (
+              <Tooltip content={warning}>
+                <Icon className="mr-2" name="warn" color="yellow" size={24} />
+              </Tooltip>
+            ) : null
+          }
         />
 
         {singleAsset ? (
@@ -92,7 +101,7 @@ export const AssetInput = ({
             </Typography>
           )}
 
-          {balance && !hideMaxButton && (
+          {balance && !hideMaxButton && !disabled && (
             <Button
               className="!h-5 !px-1.5"
               type="outline"
@@ -100,7 +109,7 @@ export const AssetInput = ({
               transform="uppercase"
               onClick={handleMaxClick}
             >
-              {t('common.max')}
+              {maxButtonLabel || t('common.max')}
             </Button>
           )}
         </Box>

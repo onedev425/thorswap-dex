@@ -18,7 +18,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       icon,
       onChange,
       placeholder,
-      prefix,
+      customPrefix,
       stretch,
       suffix,
       symbol,
@@ -51,7 +51,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           onClick={focus}
           alignCenter
         >
-          {prefix}
+          {customPrefix &&
+            (typeof customPrefix === 'string' ? (
+              <Typography variant="caption-xs" color="secondary">
+                {customPrefix}
+              </Typography>
+            ) : (
+              customPrefix
+            ))}
 
           {icon && (
             <Icon

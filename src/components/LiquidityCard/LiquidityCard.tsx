@@ -11,13 +11,13 @@ import { ChainPoolData } from 'views/ManageLiquidity/types'
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon'
 import {
   useCollapse,
-  Card,
   Box,
   Typography,
   Icon,
   Button,
+  Tooltip,
 } from 'components/Atomic'
-import { borderHoverHighlightClass } from 'components/constants'
+import { HighlightCard } from 'components/HighlightCard'
 
 import useWindowSize from 'hooks/useWindowSize'
 
@@ -54,20 +54,20 @@ export const LiquidityCard = ({
   )
 
   const isPendingLP = useMemo(
-    () => Number(runePending) > 0 || Number(assetPending),
+    () => !!(Number(runePending) > 0 || Number(assetPending)),
     [runePending, assetPending],
   )
 
-  // TODO(Epicode): if Liquidity card is for pending LP, change the color style and add warning icon or so
+  const tickerPending =
+    (isPendingLP &&
+      (Number(runePending) > 0 ? pool.asset.ticker : Asset.RUNE().ticker)) ||
+    ''
 
   return (
-    <Box justifyCenter col>
-      <Card
-        stretch
-        className={classNames(
-          'flex-col bg-light-gray-light dark:!bg-dark-gray-light !rounded-2xl',
-          borderHoverHighlightClass,
-        )}
+    <Box className="self-stretch" justifyCenter col>
+      <HighlightCard
+        className="!rounded-2xl"
+        type={isPendingLP ? 'warn' : 'info'}
       >
         <Box
           onClick={toggle}
@@ -76,6 +76,12 @@ export const LiquidityCard = ({
           justify="between"
         >
           <Box center>
+            {isPendingLP && (
+              <Tooltip content={t('pendingLiquidity.pendingLiquidity')}>
+                <Icon className="mr-3" name="warn" size={24} color="yellow" />
+              </Tooltip>
+            )}
+
             <Box col>
               <AssetLpIcon
                 inline
@@ -146,6 +152,7 @@ export const LiquidityCard = ({
           assetAdded={Amount.fromMidgard(assetAdded)}
           runePending={Amount.fromMidgard(runePending)}
           assetPending={Amount.fromMidgard(assetPending)}
+          tickerPending={tickerPending}
         />
 
         {withFooter && (
@@ -171,7 +178,7 @@ export const LiquidityCard = ({
             </Button>
           </Box>
         )}
-      </Card>
+      </HighlightCard>
     </Box>
   )
 }

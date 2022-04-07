@@ -415,7 +415,12 @@ export const AddLiquidity = () => {
       }
 
       const maxAmount = isSymDeposit ? maxSymAssetAmount : maxPoolAssetBalance
-
+      console.log(
+        '🔥',
+        isSymDeposit,
+        maxSymAssetAmount.toFixed(4),
+        maxAmount.toFixed(4),
+      )
       if (amount.gt(maxAmount)) {
         setAssetAmount(maxAmount)
 

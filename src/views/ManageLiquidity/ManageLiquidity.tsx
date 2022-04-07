@@ -48,8 +48,6 @@ const ManageLiquidity = () => {
     [chainMemberDetails],
   )
 
-  console.log('chainMemberDetails', chainMemberDetails)
-
   return (
     <PanelView
       title={t('common.liquidity')}
@@ -68,55 +66,57 @@ const ManageLiquidity = () => {
         />
       }
     >
-      {hasPending && tipVisible && (
-        // TODO(EPICODE): update warning color to yellow or so
-        <InfoTip
-          className="w-full mt-0 mb-4"
-          title={t('pendingLiquidity.title', { asset: '' })}
-          content={t('pendingLiquidity.content', { asset: '' })}
-          onClose={() => setTipVisible(false)}
-        />
-      )}
+      <Box className="gap-3 self-stretch" col>
+        {hasPending && tipVisible && (
+          <InfoTip
+            className="w-full mt-0 mb-4"
+            title={t('pendingLiquidity.pendingInfoTitle')}
+            content={t('pendingLiquidity.pendingInfoGeneral')}
+            onClose={() => setTipVisible(false)}
+            type="warn"
+          />
+        )}
 
-      {isWalletConnected ? (
-        <>
+        {isWalletConnected ? (
+          <>
+            <Box className="w-full pb-4 gap-x-8" justify="between">
+              <Button
+                size="lg"
+                stretch
+                onClick={() => navigate(ROUTES.AddLiquidity)}
+              >
+                {t('common.deposit')}
+              </Button>
+
+              <Button size="lg" stretch>
+                {t('common.create')}
+              </Button>
+            </Box>
+
+            <Box className="w-full gap-2" col>
+              {Object.keys(chainMemberDetails).map((chain) => (
+                <ChainLiquidityPanel
+                  key={chain}
+                  chain={chain as SupportedChain}
+                  data={chainMemberDetails[chain]}
+                  isLoading={chainMemberDetailsLoading?.[chain] ?? false}
+                />
+              ))}
+            </Box>
+          </>
+        ) : (
           <Box className="w-full pb-4 gap-x-8" justify="between">
             <Button
+              isFancy
               size="lg"
               stretch
-              onClick={() => navigate(ROUTES.AddLiquidity)}
+              onClick={() => setIsConnectModalOpen(true)}
             >
-              {t('common.deposit')}
-            </Button>
-
-            <Button size="lg" stretch>
-              {t('common.create')}
+              {t('common.connectWallet')}
             </Button>
           </Box>
-
-          <Box className="w-full gap-2" col>
-            {Object.keys(chainMemberDetails).map((chain) => (
-              <ChainLiquidityPanel
-                key={chain}
-                chain={chain as SupportedChain}
-                data={chainMemberDetails[chain]}
-                isLoading={chainMemberDetailsLoading?.[chain] ?? false}
-              />
-            ))}
-          </Box>
-        </>
-      ) : (
-        <Box className="w-full pb-4 gap-x-8" justify="between">
-          <Button
-            isFancy
-            size="lg"
-            stretch
-            onClick={() => setIsConnectModalOpen(true)}
-          >
-            {t('common.connectWallet')}
-          </Button>
-        </Box>
-      )}
+        )}
+      </Box>
     </PanelView>
   )
 }

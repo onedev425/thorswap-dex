@@ -9,6 +9,8 @@ import { AssetInputType } from 'components/AssetInput/types'
 import { Box, Icon } from 'components/Atomic'
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
 
+import { t } from 'services/i18n'
+
 type Props = {
   onPoolChange: (asset: Asset) => void
   onAssetAmountChange: (value: Amount) => void
@@ -63,6 +65,12 @@ export const AssetInputs = memo(
             assets={poolAssetList}
             commonAssets={commonAssets}
             disabled={isAssetPending}
+            warning={
+              isAssetPending
+                ? t('pendingLiquidity.content', { asset: Asset.RUNE().ticker })
+                : ''
+            }
+            maxButtonLabel={isRunePending ? t('pendingLiquidity.complete') : ''}
           />
         </Box>
 
@@ -77,6 +85,16 @@ export const AssetInputs = memo(
             onValueChange={onRuneAmountChange}
             singleAsset
             disabled={isRunePending}
+            warning={
+              isRunePending
+                ? t('pendingLiquidity.content', {
+                    asset: poolAsset.asset.ticker,
+                  })
+                : ''
+            }
+            maxButtonLabel={
+              isAssetPending ? t('pendingLiquidity.complete') : ''
+            }
           />
         </Box>
       </Box>

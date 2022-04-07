@@ -63,7 +63,10 @@
     "viewOnThoryield": "View on Thoryield.com ↗"
   },
   "pendingLiquidity": {
-    "title": "You have Pending Deposit Transaction for %{asset} pool.",
+    "complete": "complete",
+    "pendingLiquidity": "Pending Liquidity",
+    "pendingInfoGeneral": "Pending Deposit Transactions must be completed by adding missing asset symmetrically",
+    "pendingInfoTitle": "You have Pending Deposit Transaction for pool.",
     "content": "Pending Deposit Transactions must be completed by adding %{asset} symmetrically.",
     "withdrawWarning": "Withdraw transaction will result the withdrawal of your existing LP position in the same pool, Please choose to complete if you don't want to withdraw your existing LP."
   },

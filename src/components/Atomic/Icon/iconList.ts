@@ -38,6 +38,7 @@ import {
   BsThreeDots,
   BsTwitter,
   BsTrash,
+  BsExclamationCircle,
 } from 'react-icons/bs'
 import { CgMenu, CgArrowsExchangeAltV, CgEye } from 'react-icons/cg'
 import {
@@ -168,6 +169,7 @@ const Icons = {
   heartFilled: AiFillHeart,
   trash: BsTrash,
   revert: BiUndo,
+  warn: BsExclamationCircle,
   ...SvgIcons,
 } as const
 

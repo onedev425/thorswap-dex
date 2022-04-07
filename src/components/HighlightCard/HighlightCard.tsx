@@ -7,6 +7,7 @@ import {
   borderHighlightClass,
   borderHoverHighlightClass,
 } from 'components/constants'
+import { CardStyleType } from 'components/HighlightCard/types'
 
 type Props = {
   className?: string
@@ -15,6 +16,7 @@ type Props = {
   onClick?: () => void
   minHeight?: number
   disabled?: boolean
+  type?: CardStyleType
 }
 
 export const HighlightCard = ({
@@ -22,6 +24,7 @@ export const HighlightCard = ({
   disabled,
   children,
   isFocused,
+  type = 'info',
   onClick,
 }: Props) => {
   return (
@@ -34,7 +37,10 @@ export const HighlightCard = ({
         {
           [borderHighlightClass]: isFocused,
           [borderHoverHighlightClass]: !disabled,
+          'border-yellow hover:!border-yellow border-opacity-50 hover:border-opacity-100 !bg-yellow !bg-opacity-10':
+            type === 'warn',
         },
+
         className,
       )}
       onClick={onClick}

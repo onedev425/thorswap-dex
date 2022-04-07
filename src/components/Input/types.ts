@@ -9,8 +9,8 @@ export type InputProps = DetailedHTMLProps<
   error?: string
   border?: 'bottom' | 'rounded'
   icon?: IconName
-  prefix?: string
   stretch?: boolean
+  customPrefix?: string | ReactNode
   suffix?: string | ReactNode
   symbol?: string | ReactNode
   containerClassName?: string
