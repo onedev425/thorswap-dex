@@ -79,7 +79,7 @@ const ManageLiquidity = () => {
 
         {isWalletConnected ? (
           <>
-            <Box className="w-full pb-4 gap-x-8" justify="between">
+            <Box className="w-full gap-x-8" justify="between">
               <Button
                 size="lg"
                 stretch
@@ -93,19 +93,21 @@ const ManageLiquidity = () => {
               </Button>
             </Box>
 
-            <Box className="w-full gap-2" col>
-              {Object.keys(chainMemberDetails).map((chain) => (
-                <ChainLiquidityPanel
-                  key={chain}
-                  chain={chain as SupportedChain}
-                  data={chainMemberDetails[chain]}
-                  isLoading={chainMemberDetailsLoading?.[chain] ?? false}
-                />
-              ))}
-            </Box>
+            {!!Object.keys(chainMemberDetails).length && (
+              <Box className="w-full gap-2" col>
+                {Object.keys(chainMemberDetails).map((chain) => (
+                  <ChainLiquidityPanel
+                    key={chain}
+                    chain={chain as SupportedChain}
+                    data={chainMemberDetails[chain]}
+                    isLoading={chainMemberDetailsLoading?.[chain] ?? false}
+                  />
+                ))}
+              </Box>
+            )}
           </>
         ) : (
-          <Box className="w-full pb-4 gap-x-8" justify="between">
+          <Box className="w-full gap-x-8" justify="between">
             <Button
               isFancy
               size="lg"
