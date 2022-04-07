@@ -2,7 +2,8 @@ import { useMemo, useCallback } from 'react'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
 
-import { Select, Box } from 'components/Atomic'
+import { Box } from 'components/Atomic'
+import { TabsSelect } from 'components/TabsSelect'
 
 import { PoolShareType } from 'redux/midgard/types'
 
@@ -13,62 +14,55 @@ export const LPTypeSelector = ({
   onChange,
   selected,
   options,
+  title,
 }: LPTypeSelectorProps) => {
   const lpOptions = useMemo(
     () => getOptionsProp(options, poolAsset),
     [options, poolAsset],
   )
 
-  const onSelectChange = useCallback(
-    (index: number) => {
-      const option = indexToOption(index, lpOptions, poolAsset)
-      if (option) {
-        onChange(option)
-      }
+  const onSelect = useCallback(
+    (val: string) => {
+      onChange(val as PoolShareType)
     },
-    [lpOptions, poolAsset, onChange],
+    [onChange],
   )
 
   return (
     <Box className="self-stretch">
-      <Select
-        options={lpOptions}
-        activeIndex={optionToIndex(selected, lpOptions)}
-        onChange={onSelectChange}
+      <TabsSelect
+        tabs={lpOptions}
+        value={selected}
+        onChange={onSelect}
+        title={title}
+        titleWidth="20%"
+        tabWidth="33%"
       />
     </Box>
   )
 }
 
 const getOptionsProp = (types: PoolShareType[], asset: Asset) => {
-  const options: string[] = []
+  const options: { label: string; value: string }[] = []
   if (types.includes(PoolShareType.ASSET_ASYM)) {
-    options.push(`${asset.ticker} LP`)
+    options.push({
+      value: PoolShareType.ASSET_ASYM,
+      label: `${asset.ticker} LP`,
+    })
   }
+
   if (types.includes(PoolShareType.SYM)) {
-    options.push(`${asset.ticker}+RUNE LP`)
+    options.push({
+      value: PoolShareType.SYM,
+      label: `${asset.ticker}+RUNE LP`,
+    })
   }
   if (types.includes(PoolShareType.RUNE_ASYM)) {
-    options.push('RUNE LP')
+    options.push({
+      value: PoolShareType.RUNE_ASYM,
+      label: 'RUNE LP',
+    })
   }
 
   return options
-}
-
-const optionToIndex = (val: PoolShareType, options: string[]) => {
-  if (options.includes(val as string)) return options.indexOf(val)
-
-  return 0
-}
-
-const indexToOption = (val: number, options: string[], asset: Asset) => {
-  const selected = options[val]
-
-  if (selected === `${asset.ticker} LP`) {
-    return PoolShareType.ASSET_ASYM
-  }
-  if (selected === `${asset.ticker}+RUNE LP`) {
-    return PoolShareType.SYM
-  }
-  return PoolShareType.RUNE_ASYM
 }

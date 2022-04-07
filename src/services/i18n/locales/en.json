@@ -299,7 +299,10 @@
       "poolShareTooltip": "Estimated percentage of your pool share after providing the liquidity",
       "confirmDeposit": "Confirm deposit",
       "confirmWithdraw": "Confirm withdraw",
-      "checkPoolDetail": "Check pool detail"
+      "checkPoolDetail": "Check pool detail",
+      "noLiquidityToWithdraw": "You don't have LP to withdraw",
+      "withdraw": "Withdraw",
+      "from": "From"
     },
     "walletModal": {
       "connectWallet": "Connect Wallet",

@@ -11,4 +11,5 @@ export type LiquidityTypeProps = {
   onChange: (val: LiquidityTypeOption) => void
   selected: LiquidityTypeOption
   options: LiquidityTypeOption[]
+  title?: string
 }

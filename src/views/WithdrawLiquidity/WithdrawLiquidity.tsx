@@ -127,7 +127,7 @@ export const WithdrawLiquidity = () => {
         />
       }
     >
-      You don't have LP to withdraw.
+      <Typography>{t('views.liquidity.noLiquidityToWithdraw')}</Typography>
     </PanelView>
   )
 }
@@ -639,19 +639,20 @@ const WithdrawPanel = ({
         />
       }
     >
-      <Typography>Withdraw</Typography>
       <LiquidityType
         poolAsset={poolAsset}
         selected={withdrawType}
         options={withdrawOptions}
         onChange={setWithdrawType}
+        title={`${t('views.liquidity.withdraw')}:`}
       />
-      <Typography>From</Typography>
+
       <LPTypeSelector
         poolAsset={poolAsset}
         selected={lpType}
         options={shareTypes}
         onChange={handleSetLPType}
+        title={`${t('views.liquidity.from')}:`}
       />
       <AssetInputs
         poolAsset={poolAsset}

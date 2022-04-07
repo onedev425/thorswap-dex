@@ -7,4 +7,5 @@ export type LPTypeSelectorProps = {
   onChange: (val: PoolShareType) => void
   selected: PoolShareType
   options: PoolShareType[]
+  title?: string
 }
