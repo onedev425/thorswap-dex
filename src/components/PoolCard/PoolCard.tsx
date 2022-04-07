@@ -52,7 +52,7 @@ export const PoolCard = ({ pool, color }: PoolCardProps) => {
           </Typography>
 
           <Typography color="green" fontWeight="semibold">
-            {`${new Percent(pool.detail.poolAPY).toFixed(0)}`}
+            APY: {`${new Percent(pool.detail.poolAPY).toFixed(0)}`}
           </Typography>
         </Box>
 

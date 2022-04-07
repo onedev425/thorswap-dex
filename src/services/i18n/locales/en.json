@@ -62,6 +62,11 @@
     "clearHistory": "Clear History",
     "viewOnThoryield": "View on Thoryield.com ↗"
   },
+  "pendingLiquidity": {
+    "title": "You have Pending Deposit Transaction for %{asset} pool.",
+    "content": "Pending Deposit Transactions must be completed by adding %{asset} symmetrically.",
+    "withdrawWarning": "Withdraw transaction will result the withdrawal of your existing LP position in the same pool, Please choose to complete if you don't want to withdraw your existing LP."
+  },
   "appMenu": {
     "lightTheme": "Light Theme",
     "darkTheme": "Dark Theme",
@@ -265,11 +270,12 @@
     },
     "liquidity": {
       "addButton": "Add",
+      "completeButton": "Complete",
       "amountToRemove": "Amount to remove",
       "approve": "Approve",
       "collapse": "Manage",
       "enterAmount": "Enter an amount",
-      "poolShare": "Your pool share",
+      "poolShare": "Pool share",
       "poolToken": "Your total pool tokens",
       "poolTokens": "Pool tokens",
       "removeButton": "Remove",
@@ -277,6 +283,10 @@
       "youWillReceive": "You will receive",
       "withdrawLiquidity": "Withdraw Liquidity",
       "lastAdded": "Last Added",
+      "runeAdded": "Rune Added",
+      "assetAdded": "Asset Added",
+      "runePending": "Rune Pending",
+      "assetPending": "Asset Pending",
       "gasFeeTooltip": "Gas fee used for submitting the transaction using the thorchain protocol",
       "chainFeeTooltip": "Gas fee used for submitting %{chain} transaction.",
       "depositAmount": "Deposit amount",

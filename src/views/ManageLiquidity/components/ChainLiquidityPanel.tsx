@@ -56,6 +56,8 @@ export const ChainLiquidityPanel = ({ chain, data, isLoading }: Props) => {
     return chainPools.filter(Boolean) as ChainPoolData[]
   }, [data, pools])
 
+  console.log('liquidityPools', liquidityPools)
+
   return (
     <Box className="gap-1" col>
       <InfoRow

@@ -20,6 +20,10 @@ type Props = {
   shareType: PoolShareType
   asset: Asset
   lastAddedDate: string
+  runeAdded: Amount
+  assetAdded: Amount
+  runePending: Amount
+  assetPending: Amount
   maxHeightStyle: { maxHeight: string; overflow: string }
 }
 
@@ -35,15 +39,37 @@ export const LiquidityInfo = memo(
     poolShare,
     runeShare,
     shareType,
+    runeAdded,
+    assetAdded,
+    runePending,
+    assetPending,
   }: Props) => {
     const summary = useMemo(() => {
       const infoFields: InfoRowConfig[] = [
         { label: t('views.liquidity.poolShare'), value: poolShare.toFixed(4) },
         {
-          label: t('views.liquidity.lastAdded'),
-          value: lastAddedDate,
+          label: t('views.liquidity.runeAdded'),
+          value: runeAdded.toFixed(2),
+        },
+        {
+          label: t('views.liquidity.assetAdded'),
+          value: assetAdded.toFixed(2),
         },
       ]
+
+      if (runePending.gt(0)) {
+        infoFields.push({
+          label: t('views.liquidity.runePending'),
+          value: runePending.toFixed(2),
+        })
+      }
+
+      if (assetPending.gt(0)) {
+        infoFields.push({
+          label: t('views.liquidity.assetPending'),
+          value: assetPending.toFixed(2),
+        })
+      }
 
       if ([PoolShareType.SYM, PoolShareType.ASSET_ASYM].includes(shareType)) {
         infoFields.unshift({
@@ -73,8 +99,24 @@ export const LiquidityInfo = memo(
         })
       }
 
+      infoFields.push({
+        label: t('views.liquidity.lastAdded'),
+        value: lastAddedDate,
+      })
+
       return infoFields
-    }, [asset, assetShare, lastAddedDate, poolShare, runeShare, shareType])
+    }, [
+      asset,
+      assetShare,
+      lastAddedDate,
+      poolShare,
+      runeShare,
+      shareType,
+      runeAdded,
+      assetAdded,
+      runePending,
+      assetPending,
+    ])
 
     const poolAssetsInfo = useMemo(() => {
       switch (shareType) {

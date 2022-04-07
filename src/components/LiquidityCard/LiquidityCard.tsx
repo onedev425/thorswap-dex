@@ -39,6 +39,10 @@ export const LiquidityCard = ({
   shareType,
   withFooter,
   liquidityUnits,
+  runeAdded,
+  assetAdded,
+  runePending,
+  assetPending,
 }: LiquidityCardProps) => {
   const navigate = useNavigate()
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse()
@@ -48,6 +52,13 @@ export const LiquidityCard = ({
     () => new Liquidity(pool, Amount.fromMidgard(liquidityUnits)),
     [liquidityUnits, pool],
   )
+
+  const isPendingLP = useMemo(
+    () => Number(runePending) > 0 || Number(assetPending),
+    [runePending, assetPending],
+  )
+
+  // TODO(Epicode): if Liquidity card is for pending LP, change the color style and add warning icon or so
 
   return (
     <Box justifyCenter col>
@@ -131,6 +142,10 @@ export const LiquidityCard = ({
           contentRef={contentRef}
           maxHeightStyle={maxHeightStyle}
           shareType={shareType}
+          runeAdded={Amount.fromMidgard(runeAdded)}
+          assetAdded={Amount.fromMidgard(assetAdded)}
+          runePending={Amount.fromMidgard(runePending)}
+          assetPending={Amount.fromMidgard(assetPending)}
         />
 
         {withFooter && (
@@ -141,7 +156,9 @@ export const LiquidityCard = ({
               variant="primary"
               stretch
             >
-              {t('views.liquidity.addButton')}
+              {isPendingLP
+                ? t('views.liquidity.completeButton')
+                : t('views.liquidity.addButton')}
             </Button>
 
             <Button

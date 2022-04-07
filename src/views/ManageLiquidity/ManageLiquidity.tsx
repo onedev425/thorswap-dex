@@ -17,6 +17,7 @@ import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useMidgard } from 'redux/midgard/hooks'
+import { hasPendingLP } from 'redux/midgard/utils'
 import { useWallet } from 'redux/wallet/hooks'
 
 import { t } from 'services/i18n'
@@ -42,6 +43,13 @@ const ManageLiquidity = () => {
     getAllMemberDetails()
   }, [getAllMemberDetails])
 
+  const hasPending = useMemo(
+    () => hasPendingLP(chainMemberDetails),
+    [chainMemberDetails],
+  )
+
+  console.log('chainMemberDetails', chainMemberDetails)
+
   return (
     <PanelView
       title={t('common.liquidity')}
@@ -60,11 +68,12 @@ const ManageLiquidity = () => {
         />
       }
     >
-      {tipVisible && (
+      {hasPending && tipVisible && (
+        // TODO(EPICODE): update warning color to yellow or so
         <InfoTip
           className="w-full mt-0 mb-4"
-          title={t('common.liquidityProvider')}
-          content={t('views.liquidity.tip')}
+          title={t('pendingLiquidity.title', { asset: '' })}
+          content={t('pendingLiquidity.content', { asset: '' })}
           onClose={() => setTipVisible(false)}
         />
       )}

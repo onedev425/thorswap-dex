@@ -174,8 +174,6 @@ export interface State {
   volume24h: number | null
   inboundLoading: boolean
   inboundData: InboundAddressesItem[]
-  pendingLP: PendingLP
-  pendingLPLoading: boolean
   lastBlock: LastblockItem[]
   nodes: THORNode[]
   nodeLoading: boolean

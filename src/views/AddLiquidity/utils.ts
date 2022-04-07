@@ -1,5 +1,9 @@
 import { Amount, Pool } from '@thorswap-lib/multichain-sdk'
 
+import { LiquidityTypeOption } from 'components/LiquidityType/types'
+
+import { PoolShareType } from 'redux/midgard/types'
+
 export const getMaxSymAmounts = ({
   assetAmount,
   runeAmount,
@@ -27,4 +31,12 @@ export const getMaxSymAmounts = ({
     maxSymAssetAmount,
     maxSymRuneAmount,
   }
+}
+
+export const liquidityToPoolShareType = (
+  type: LiquidityTypeOption,
+): PoolShareType => {
+  if (type === LiquidityTypeOption.ASSET) return PoolShareType.ASSET_ASYM
+  if (type === LiquidityTypeOption.RUNE) return PoolShareType.RUNE_ASYM
+  return PoolShareType.SYM
 }

@@ -24,6 +24,7 @@ export const AssetInput = ({
   onValueChange,
   hideMaxButton,
   inputClassName,
+  disabled = false,
 }: AssetInputProps) => {
   const {
     asset,
@@ -54,6 +55,7 @@ export const AssetInput = ({
           onAmountChange={onValueChange}
           amountValue={value}
           stretch
+          disabled={disabled}
         />
 
         {singleAsset ? (

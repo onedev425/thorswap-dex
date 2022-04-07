@@ -44,8 +44,6 @@ const initialState: State = {
   volume24h: null,
   inboundLoading: false,
   inboundData: [],
-  pendingLP: {},
-  pendingLPLoading: false,
   lastBlock: [],
   nodes: [],
   nodeLoading: false,

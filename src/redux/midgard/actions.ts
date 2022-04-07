@@ -103,27 +103,6 @@ export const getPoolMemberDetailByChain = createAsyncThunk(
   },
 )
 
-// NOTE: pass chain, thorchain address, chain wallet address for wallet
-export const reloadPoolMemberDetailByChain = createAsyncThunk(
-  'midgard/reloadPoolMemberDetailByChain',
-  async ({
-    thorchainAddress,
-    assetChainAddress,
-  }: {
-    chain: ToDo
-    thorchainAddress: string
-    assetChainAddress: string
-  }) => {
-    const runeMemberData = await midgardApi.getMemberDetail(thorchainAddress)
-    const assetMemberData = await midgardApi.getMemberDetail(assetChainAddress)
-
-    return {
-      runeMemberData,
-      assetMemberData,
-    }
-  },
-)
-
 // get 24h volume
 export const getVolume24h = createAsyncThunk(
   'midgard/getVolume24h',
@@ -150,6 +129,27 @@ export const getVolume24h = createAsyncThunk(
 export const getThorchainInboundData = createAsyncThunk(
   'midgard/getInboundAddresses',
   midgardApi.getInboundAddresses,
+)
+
+// NOTE: pass chain, thorchain address, chain wallet address for wallet
+export const reloadPoolMemberDetailByChain = createAsyncThunk(
+  'midgard/reloadPoolMemberDetailByChain',
+  async ({
+    thorchainAddress,
+    assetChainAddress,
+  }: {
+    chain: ToDo
+    thorchainAddress: string
+    assetChainAddress: string
+  }) => {
+    const runeMemberData = await midgardApi.getMemberDetail(thorchainAddress)
+    const assetMemberData = await midgardApi.getMemberDetail(assetChainAddress)
+
+    return {
+      runeMemberData,
+      assetMemberData,
+    }
+  },
 )
 
 export const pollUpgradeTx = createAsyncThunk(

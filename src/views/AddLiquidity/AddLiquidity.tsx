@@ -23,6 +23,7 @@ import { Chain } from '@thorswap-lib/xchain-util'
 
 import { Button, Box } from 'components/Atomic'
 import { InfoTable } from 'components/InfoTable'
+import { LiquidityCard } from 'components/LiquidityCard'
 import { LiquidityType } from 'components/LiquidityType/LiquidityType'
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
@@ -34,6 +35,7 @@ import { ViewHeader } from 'components/ViewHeader'
 import { useApp } from 'redux/app/hooks'
 import * as actions from 'redux/midgard/actions'
 import { TxTrackerStatus, TxTrackerType } from 'redux/midgard/types'
+import { isPendingLP } from 'redux/midgard/utils'
 import { RootState } from 'redux/store'
 import { useWallet } from 'redux/wallet/hooks'
 
@@ -53,7 +55,7 @@ import { getAddLiquidityRoute } from 'settings/constants'
 import { AssetInputs } from './AssetInputs'
 import { PoolInfo } from './PoolInfo'
 import { useConfirmInfoItems } from './useConfirmInfoItems'
-import { getMaxSymAmounts } from './utils'
+import { getMaxSymAmounts, liquidityToPoolShareType } from './utils'
 
 // TODO: refactor useState -> useReducer
 export const AddLiquidity = () => {
@@ -221,6 +223,34 @@ export const AddLiquidity = () => {
     return memberData?.assetAsym
   }, [memberData, liquidityType])
 
+  // TODO(Epicode): display warning if pending LP exists
+
+  // if pending LP exists, only allow complete deposit
+  const isPendingDeposit = useMemo(() => {
+    if (
+      liquidityType === LiquidityTypeOption.SYMMETRICAL &&
+      poolMemberDetail &&
+      isPendingLP(poolMemberDetail)
+    ) {
+      return true
+    }
+    return false
+  }, [liquidityType, poolMemberDetail])
+
+  const isAssetPending: boolean = useMemo(() => {
+    return (
+      isPendingDeposit &&
+      Amount.fromMidgard(poolMemberDetail?.assetPending ?? 0).gt(0)
+    )
+  }, [isPendingDeposit, poolMemberDetail])
+
+  const isRunePending: boolean = useMemo(() => {
+    return (
+      isPendingDeposit &&
+      Amount.fromMidgard(poolMemberDetail?.runePending ?? 0).gt(0)
+    )
+  }, [isPendingDeposit, poolMemberDetail])
+
   const liquidityUnits = useMemo(() => {
     if (!poolMemberDetail) return Amount.fromMidgard(0)
 
@@ -264,25 +294,35 @@ export const AddLiquidity = () => {
     isWalletConnected,
   )
 
-  const poolAssetPriceInUSD = useMemo(
-    () =>
-      new Price({
+  const poolAssetPriceInUSD = useMemo(() => {
+    if (isAssetPending && poolMemberDetail) {
+      return new Price({
         baseAsset: poolAsset,
         pools,
-        priceAmount: assetAmount,
-      }),
-    [poolAsset, assetAmount, pools],
-  )
+        priceAmount: Amount.fromMidgard(poolMemberDetail.assetPending),
+      })
+    }
+    return new Price({
+      baseAsset: poolAsset,
+      pools,
+      priceAmount: assetAmount,
+    })
+  }, [poolAsset, assetAmount, pools, isAssetPending, poolMemberDetail])
 
-  const runeAssetPriceInUSD = useMemo(
-    () =>
-      new Price({
+  const runeAssetPriceInUSD = useMemo(() => {
+    if (isRunePending && poolMemberDetail) {
+      return new Price({
         baseAsset: Asset.RUNE(),
         pools,
-        priceAmount: runeAmount,
-      }),
-    [runeAmount, pools],
-  )
+        priceAmount: Amount.fromMidgard(poolMemberDetail.runePending),
+      })
+    }
+    new Price({
+      baseAsset: Asset.RUNE(),
+      pools,
+      priceAmount: runeAmount,
+    })
+  }, [runeAmount, pools, isRunePending, poolMemberDetail])
 
   const poolAssetBalance: Amount = useMemo(() => {
     if (wallet) {
@@ -320,12 +360,35 @@ export const AddLiquidity = () => {
       }
     }
 
+    if (isAssetPending && poolMemberDetail) {
+      return getMaxSymAmounts({
+        runeAmount: maxRuneBalance,
+        assetAmount: Amount.fromMidgard(poolMemberDetail?.assetPending),
+        pool,
+      })
+    }
+
+    if (isRunePending && poolMemberDetail) {
+      return getMaxSymAmounts({
+        runeAmount: Amount.fromMidgard(poolMemberDetail?.runePending),
+        assetAmount: maxPoolAssetBalance,
+        pool,
+      })
+    }
+
     return getMaxSymAmounts({
       runeAmount: maxRuneBalance,
       assetAmount: maxPoolAssetBalance,
       pool,
     })
-  }, [pool, maxRuneBalance, maxPoolAssetBalance])
+  }, [
+    pool,
+    maxRuneBalance,
+    maxPoolAssetBalance,
+    isAssetPending,
+    poolMemberDetail,
+    isRunePending,
+  ])
 
   const handleSelectLiquidityType = useCallback((type: LiquidityTypeOption) => {
     if (type === LiquidityTypeOption.ASSET) {
@@ -407,14 +470,17 @@ export const AddLiquidity = () => {
           : undefined
 
       const inAssets = []
-      if (liquidityType !== LiquidityTypeOption.ASSET) {
+
+      // if rune is pending, don't deposit rune
+      if (liquidityType !== LiquidityTypeOption.ASSET && !isRunePending) {
         inAssets.push({
           asset: Asset.RUNE().toString(),
           amount: runeAmount.toSignificant(6),
         })
       }
 
-      if (liquidityType !== LiquidityTypeOption.RUNE) {
+      // if asset is pending, dont deposit asset
+      if (liquidityType !== LiquidityTypeOption.RUNE && !isAssetPending) {
         inAssets.push({
           asset: poolAsset.toString(),
           amount: assetAmount.toSignificant(6),
@@ -432,11 +498,44 @@ export const AddLiquidity = () => {
       })
 
       try {
-        const txRes = await multichain.addLiquidity({
-          pool,
-          runeAmount: runeAssetAmount,
-          assetAmount: poolAssetAmount,
-        })
+        let txRes: any = {
+          runeTx: '#',
+          assetTx: '#',
+        }
+        if (isAssetPending) {
+          // deposit only rune if asset is pending
+          // NOTE: important to pass sym_rune and asset address param
+          txRes = await multichain.addLiquidity(
+            {
+              pool,
+              runeAmount: runeAssetAmount,
+              assetAmount: undefined,
+              runeAddr: poolMemberDetail?.runeAddress,
+              assetAddr: poolMemberDetail?.assetAddress,
+            },
+            'sym_rune',
+          )
+        } else if (isRunePending) {
+          // deposit only rune if asset is pending
+          // NOTE: important to pass sym_asset and rune address param
+          txRes = await multichain.addLiquidity(
+            {
+              pool,
+              runeAmount: undefined,
+              assetAmount: poolAssetAmount,
+              runeAddr: poolMemberDetail?.runeAddress,
+              assetAddr: poolMemberDetail?.assetAddress,
+            },
+            'sym_asset',
+          )
+        } else {
+          // no pending
+          txRes = await multichain.addLiquidity({
+            pool,
+            runeAmount: runeAssetAmount,
+            assetAmount: poolAssetAmount,
+          })
+        }
 
         const runeTxHash = txRes?.runeTx
         const assetTxHash = txRes?.assetTx
@@ -480,6 +579,9 @@ export const AddLiquidity = () => {
       }
     }
   }, [
+    poolMemberDetail,
+    isAssetPending,
+    isRunePending,
     wallet,
     pool,
     poolAsset,
@@ -761,25 +863,52 @@ export const AddLiquidity = () => {
     return false
   }, [isApproved, liquidityType])
 
-  const poolAssetInput = useMemo(
-    () => ({
+  const poolAssetInput = useMemo(() => {
+    if (isAssetPending && poolMemberDetail) {
+      return {
+        asset: poolAsset,
+        value: Amount.fromMidgard(poolMemberDetail.assetPending),
+        balance: poolAssetBalance,
+        usdPrice: poolAssetPriceInUSD,
+      }
+    }
+    return {
       asset: poolAsset,
       value: assetAmount,
       balance: poolAssetBalance,
       usdPrice: poolAssetPriceInUSD,
-    }),
-    [poolAsset, assetAmount, poolAssetBalance, poolAssetPriceInUSD],
-  )
+    }
+  }, [
+    poolAsset,
+    assetAmount,
+    poolAssetBalance,
+    poolAssetPriceInUSD,
+    isAssetPending,
+    poolMemberDetail,
+  ])
 
-  const runeAssetInput = useMemo(
-    () => ({
+  const runeAssetInput = useMemo(() => {
+    if (isRunePending && poolMemberDetail) {
+      return {
+        asset: Asset.RUNE(),
+        value: Amount.fromMidgard(poolMemberDetail.runePending),
+        balance: runeBalance,
+        usdPrice: runeAssetPriceInUSD,
+      }
+    }
+    return {
       asset: Asset.RUNE(),
       value: runeAmount,
       balance: runeBalance,
       usdPrice: runeAssetPriceInUSD,
-    }),
-    [runeAmount, runeBalance, runeAssetPriceInUSD],
-  )
+    }
+  }, [
+    runeAmount,
+    runeBalance,
+    runeAssetPriceInUSD,
+    isRunePending,
+    poolMemberDetail,
+  ])
 
   const poolAssetList = useMemo(
     () =>
@@ -877,6 +1006,8 @@ export const AddLiquidity = () => {
         onRuneAmountChange={handleChangeRuneAmount}
         onPoolChange={handleSelectPoolAsset}
         liquidityType={liquidityType}
+        isAssetPending={isAssetPending}
+        isRunePending={isRunePending}
       />
 
       <PoolInfo
@@ -886,6 +1017,13 @@ export const AddLiquidity = () => {
         poolShare={poolShareEst}
         rate={pool?.assetPriceInRune?.toSignificant(6) ?? null}
       />
+      {poolMemberDetail && pool && (
+        <LiquidityCard
+          {...poolMemberDetail}
+          pool={pool}
+          shareType={liquidityToPoolShareType(liquidityType)}
+        />
+      )}
 
       {isApproveRequired && (
         <Box className="w-full pt-5">

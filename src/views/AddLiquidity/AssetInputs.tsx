@@ -17,6 +17,8 @@ type Props = {
   runeAsset: AssetInputType
   poolAssetList: AssetInputType[]
   liquidityType: LiquidityTypeOption
+  isRunePending: boolean
+  isAssetPending: boolean
 }
 
 export const AssetInputs = memo(
@@ -28,6 +30,8 @@ export const AssetInputs = memo(
     onRuneAmountChange,
     onPoolChange,
     liquidityType,
+    isAssetPending,
+    isRunePending,
   }: Props) => {
     return (
       <Box className="relative self-stretch w-full" col>
@@ -58,6 +62,7 @@ export const AssetInputs = memo(
             onValueChange={onAssetAmountChange}
             assets={poolAssetList}
             commonAssets={commonAssets}
+            disabled={isAssetPending}
           />
         </Box>
 
@@ -71,6 +76,7 @@ export const AssetInputs = memo(
             selectedAsset={runeAsset}
             onValueChange={onRuneAmountChange}
             singleAsset
+            disabled={isRunePending}
           />
         </Box>
       </Box>
