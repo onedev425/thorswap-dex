@@ -38,7 +38,7 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@v2
         with:
           find: 'DEVELOPMENT_BUILD'
-          replace: 'date --rfc-3339=date'
+          replace: '$(date --rfc-3339=date)'
           include: 'src/config/constants.ts'
 
       # `--prefer-offline` gives cache priority
