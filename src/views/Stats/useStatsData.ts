@@ -4,8 +4,8 @@ import { Amount } from '@thorswap-lib/multichain-sdk'
 
 import { StatsGroupProps } from 'components/StatsGroup/types'
 
-import { useGlobalState } from 'redux/hooks'
-import { useMidgard } from 'redux/midgard/hooks'
+import { useGlobalState } from 'store/hooks'
+import { useMidgard } from 'store/midgard/hooks'
 
 import { useGlobalStats } from 'hooks/useGlobalStats'
 import { useMimir } from 'hooks/useMimir'

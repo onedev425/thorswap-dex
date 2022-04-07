@@ -1,4 +1,4 @@
-import { SupportedLanguages } from 'types/global'
+import { SupportedLanguages } from 'types/app'
 
 const FLAGS: Record<SupportedLanguages, string> = {
   en: '🇺🇸',

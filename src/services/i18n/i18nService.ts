@@ -10,7 +10,7 @@ import i18n, {
 
 import { getFromStorage } from 'helpers/storage'
 
-import { SupportedLanguages } from 'types/global'
+import { SupportedLanguages } from 'types/app'
 
 import en from './locales/en.json'
 import es from './locales/es.json'
@@ -49,13 +49,12 @@ initializeI18n(initReactI18next).init({
   },
 })
 
-export const t = <T>(
-  key: Path<DefaultDictionary> | T,
+export const t = <T extends Path<DefaultDictionary>>(
+  key: T,
   params?: TOptions,
   options?: TOptions,
-) =>
   // @ts-expect-error This is false positive
-  translate(key, params, options) /* i18next-extract-disable-line */
+) => translate(key, params, options) /* i18next-extract-disable-line */
 
 export const currentLocale = () => i18n.languages[0]
 export const changeAppLanguage = (language: SupportedLanguages) => {

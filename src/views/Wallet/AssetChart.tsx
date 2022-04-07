@@ -8,7 +8,7 @@ import { useChartData } from 'views/Wallet/hooks'
 import { Box } from 'components/Atomic'
 import { ChartPreview } from 'components/ChartPreview'
 
-import { ViewMode } from 'types/global'
+import { ViewMode } from 'types/app'
 
 type Props = {
   asset: Asset

@@ -5,7 +5,7 @@ import { AssetAmount } from '@thorswap-lib/multichain-sdk'
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, Typography } from 'components/Atomic'
 
-import { GeckoData } from 'redux/wallet/types'
+import { GeckoData } from 'store/wallet/types'
 
 import { formatPrice } from 'helpers/formatPrice'
 

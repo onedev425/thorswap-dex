@@ -2,7 +2,7 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 
 import { IconColor } from 'components/Atomic'
 
-import { ColorType } from 'types/global'
+import { ColorType } from 'types/app'
 
 export type AssetTickerType =
   | 'ABCD'

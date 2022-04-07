@@ -4,7 +4,7 @@ import { TooltipPortal } from 'components/Atomic'
 import { ThemeProvider } from 'components/Theme/ThemeContext'
 import { ToastPortal } from 'components/Toast'
 
-import { store as reduxStore } from 'redux/store'
+import { store as reduxStore } from 'store/store'
 
 import { useGlobalRefresh } from 'hooks/useGlobalRefresh'
 

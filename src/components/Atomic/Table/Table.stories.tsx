@@ -1,6 +1,6 @@
 import { ComponentMeta } from '@storybook/react'
 
-import { Row, Icon, Button } from 'components/Atomic'
+import { Box, Icon, Button } from 'components/Atomic'
 
 import { Table } from './Table'
 
@@ -38,7 +38,7 @@ const columns = [
     Header: 'Action',
     accessor: 'action',
     Cell: () => (
-      <Row className="gap-2" justify="end">
+      <Box row className="gap-2" justify="end">
         <Button variant="tertiary" type="outline">
           send
         </Button>
@@ -46,7 +46,7 @@ const columns = [
           receive
         </Button>
         <Button type="outline">swap</Button>
-      </Row>
+      </Box>
     ),
     disableSortBy: true,
   },

@@ -19,8 +19,8 @@ import { Box, Button, Icon, Link, Typography } from 'components/Atomic'
 import { baseBgHoverClass } from 'components/constants'
 import { Scrollbar } from 'components/Scrollbar'
 
-import { useMidgard } from 'redux/midgard/hooks'
-import { useWallet } from 'redux/wallet/hooks'
+import { useMidgard } from 'store/midgard/hooks'
+import { useWallet } from 'store/wallet/hooks'
 
 import { useWalletDrawer } from 'hooks/useWalletDrawer'
 

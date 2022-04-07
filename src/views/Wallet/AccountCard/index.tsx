@@ -23,7 +23,7 @@ import { formatPrice } from 'helpers/formatPrice'
 
 import { ROUTES } from 'settings/constants'
 
-import { ViewMode } from 'types/global'
+import { ViewMode } from 'types/app'
 
 import { useAccountData, useWalletChainActions } from '../hooks'
 import { AccountCardButton } from './AccountCardButton'

@@ -1,6 +1,6 @@
 import { Button, Icon, Tooltip } from 'components/Atomic'
 
-import { TxTracker, TxTrackerStatus } from 'redux/midgard/types'
+import { TxTracker, TxTrackerStatus } from 'store/midgard/types'
 
 import { t } from 'services/i18n'
 

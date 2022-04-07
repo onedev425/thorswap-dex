@@ -4,7 +4,7 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 
 import { TxProgressStatus } from 'components/TxManager/types'
 
-import { TxTracker, TxTrackerStatus, TxTrackerType } from 'redux/midgard/types'
+import { TxTracker, TxTrackerStatus, TxTrackerType } from 'store/midgard/types'
 
 import { t } from 'services/i18n'
 

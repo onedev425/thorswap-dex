@@ -27,13 +27,13 @@ import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
 
-import { useMidgard } from 'redux/midgard/hooks'
+import { useMidgard } from 'store/midgard/hooks'
 import {
   PoolMemberData,
   PoolShareType,
   TxTrackerType,
-} from 'redux/midgard/types'
-import { useWallet } from 'redux/wallet/hooks'
+} from 'store/midgard/types'
+import { useWallet } from 'store/wallet/hooks'
 
 import { useMimir } from 'hooks/useMimir'
 import { useNetworkFee } from 'hooks/useNetworkFee'

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { ChangeEvent, useCallback, useMemo, useState } from 'react'
 
 import { useParams } from 'react-router-dom'
 
@@ -27,7 +27,7 @@ import { ViewHeader } from 'components/ViewHeader'
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
-import { useWallet } from '../../../redux/wallet/hooks'
+import { useWallet } from '../../../store/wallet/hooks'
 
 const options = [NodeAction.BOND, NodeAction.UNBOND, NodeAction.LEAVE]
 
@@ -58,12 +58,9 @@ export const NodeDetails = () => {
     setBondMode(options[index])
   }, [])
 
-  const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setAmount(Amount.fromNormalAmount(e.target.value))
-    },
-    [],
-  )
+  const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setAmount(Amount.fromNormalAmount(e.target.value))
+  }, [])
 
   const handleComplete = useCallback(async () => {
     /**

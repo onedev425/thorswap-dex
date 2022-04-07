@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, ReactNode } from 'react'
 
 import { Dialog, Transition } from '@headlessui/react'
 import classNames from 'classnames'
@@ -8,7 +8,7 @@ import { Box, Card, Icon, Typography } from 'components/Atomic'
 type Props = {
   isOpened: boolean
   title: string
-  children: React.ReactNode
+  children: ReactNode
   withBody?: boolean
   onBack?: () => void
   onClose: () => void

@@ -5,7 +5,7 @@ import {
   ThemeType,
   ThousandSeparator,
   ViewMode,
-} from 'types/global'
+} from 'types/app'
 
 export interface State {
   // for only mobile version (not desktop version)

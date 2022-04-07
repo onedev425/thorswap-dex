@@ -7,7 +7,7 @@ import { SupportedChain } from '@thorswap-lib/multichain-sdk'
 import { Keystore } from '@thorswap-lib/xchain-crypto'
 import { Chain, ETHChain, TERRAChain } from '@thorswap-lib/xchain-util'
 
-import { RootState } from 'redux/store'
+import { RootState } from 'store/store'
 
 import { useTerraWallet } from 'hooks/useTerraWallet'
 

@@ -7,13 +7,13 @@ import { Amount, Percent, Pool } from '@thorswap-lib/multichain-sdk'
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, Button, Card, Typography } from 'components/Atomic'
 
-import { useGlobalState } from 'redux/hooks'
+import { useGlobalState } from 'store/hooks'
 
 import { t } from 'services/i18n'
 
 import { ROUTES } from 'settings/constants'
 
-import { ColorType } from 'types/global'
+import { ColorType } from 'types/app'
 
 type PoolCardProps = {
   pool: Pool

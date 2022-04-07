@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 
 import { useFilePicker } from 'react-sage'
 
@@ -67,16 +73,13 @@ export const KeystoreView = ({ loading, onConnect, onCreate }: Props) => {
     }
   }, [keystore, password, onConnect])
 
-  const onPasswordChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setPassword(e.target.value)
-      setInvalidStatus(false)
-    },
-    [],
-  )
+  const onPasswordChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value)
+    setInvalidStatus(false)
+  }, [])
 
   const onPasswordKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
+    (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
         unlockKeystore()
       }

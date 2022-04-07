@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useEffect, useState } from 'react'
+import { useCallback, useMemo, useEffect, useState, ChangeEvent } from 'react'
 
 import { useNavigate, useParams } from 'react-router'
 
@@ -31,11 +31,11 @@ import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
 
-import { useApp } from 'redux/app/hooks'
-import { useMidgard } from 'redux/midgard/hooks'
-import { TxTrackerStatus, TxTrackerType } from 'redux/midgard/types'
-import { useWallet } from 'redux/wallet/hooks'
-// import { useAssets } from 'redux/assets/hooks'
+import { useApp } from 'store/app/hooks'
+import { useMidgard } from 'store/midgard/hooks'
+import { TxTrackerStatus, TxTrackerType } from 'store/midgard/types'
+import { useWallet } from 'store/wallet/hooks'
+// import { useAssets } from 'store/assets/hooks'
 
 import { useApprove } from 'hooks/useApprove'
 import { useBalance } from 'hooks/useBalance'
@@ -214,7 +214,7 @@ const SwapView = () => {
   }, [addressDisabled])
 
   const handleChangeRecipient = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       setRecipient(e.target.value)
     },
     [],

@@ -2,8 +2,8 @@ import { useCallback } from 'react'
 
 import { v4 as uuidv4 } from 'uuid'
 
-import { useMidgard } from 'redux/midgard/hooks'
-import { TxTrackerStatus, SubmitTx, TxTrackerType } from 'redux/midgard/types'
+import { useMidgard } from 'store/midgard/hooks'
+import { TxTrackerStatus, SubmitTx, TxTrackerType } from 'store/midgard/types'
 
 /**
  * 1. send transaction and get txHash

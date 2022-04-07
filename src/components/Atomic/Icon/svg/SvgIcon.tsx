@@ -12,8 +12,7 @@ type SvgIconProps = {
   name: SvgIconName
 } & CustomIconProps
 
-export const SvgIcon = (props: SvgIconProps) => {
-  const { size, name, className, onClick } = props
+export const SvgIcon = ({ size, name, className, onClick }: SvgIconProps) => {
   const IconComp = Svgs[name]
 
   return (

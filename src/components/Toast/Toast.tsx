@@ -1,3 +1,5 @@
+import { ReactNode } from 'react'
+
 import { Toaster, ToastOptions, toast, ToastBar } from 'react-hot-toast'
 
 import classNames from 'classnames'
@@ -26,7 +28,7 @@ const getToastIcon = (type: ToastType) => {
 type ShowToastFunction = (
   content: {
     message: string
-    description?: string | React.ReactNode
+    description?: string | ReactNode
   },
   type?: ToastType,
   options?: Pick<ToastOptions, 'position' | 'duration' | 'style' | 'className'>,

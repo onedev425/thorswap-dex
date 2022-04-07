@@ -3,8 +3,8 @@ import { useMemo } from 'react'
 import { BNBChain, THORChain } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
 
-import { useApp } from 'redux/app/hooks'
-import { useMidgard } from 'redux/midgard/hooks'
+import { useApp } from 'store/app/hooks'
+import { useMidgard } from 'store/midgard/hooks'
 
 import { getGasRateByFeeOption } from 'helpers/networkFee'
 

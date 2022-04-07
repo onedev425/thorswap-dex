@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 
 import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-sdk'
 
-import { TxTrackerType } from 'redux/midgard/types'
+import { TxTrackerType } from 'store/midgard/types'
 
 import { useTxTracker } from 'hooks/useTxTracker'
 

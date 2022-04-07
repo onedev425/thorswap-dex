@@ -1,4 +1,4 @@
-import { MouseEventHandler } from 'react'
+import { MouseEventHandler, ReactNode } from 'react'
 
 import { NavLink } from 'react-router-dom'
 
@@ -6,7 +6,7 @@ import classNames from 'classnames'
 
 type LinkProps = {
   to: string
-  children?: React.ReactNode
+  children?: ReactNode
   className?: string
   external?: boolean
   onClick?: MouseEventHandler<HTMLAnchorElement>

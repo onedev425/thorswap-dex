@@ -1,11 +1,11 @@
-import { useCallback, useMemo, useState, useEffect } from 'react'
+import { useCallback, useMemo, useState, useEffect, ReactNode } from 'react'
 
 import { Asset, isKeystoreSignRequired } from '@thorswap-lib/multichain-sdk'
 
 import { Box, Button, Modal, Typography } from 'components/Atomic'
 import { PasswordInput } from 'components/PasswordInput'
 
-import { useWallet } from 'redux/wallet/hooks'
+import { useWallet } from 'store/wallet/hooks'
 
 import useTimeout from 'hooks/useTimeout'
 
@@ -19,7 +19,7 @@ type Props = {
   isOpened: boolean
   onClose: () => void
   onConfirm: () => void
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 export const ConfirmModal = ({

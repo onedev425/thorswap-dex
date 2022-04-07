@@ -1,7 +1,7 @@
 import { InboundAddressesItem } from '@thorswap-lib/midgard-sdk'
 import axios, { AxiosResponse } from 'axios'
 
-import { LiquidityProvider } from 'redux/midgard/types'
+import { LiquidityProvider } from 'store/midgard/types'
 
 import {
   MIDGARD_MAINNET_API_URI,

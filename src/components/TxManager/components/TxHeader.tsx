@@ -2,7 +2,7 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 
 import { Box, Icon, Typography } from 'components/Atomic'
 
-import { TxTracker, TxTrackerType } from 'redux/midgard/types'
+import { TxTracker, TxTrackerType } from 'store/midgard/types'
 
 import { t } from 'services/i18n'
 

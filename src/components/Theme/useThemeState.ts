@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 
 import { ThemeMode } from 'components/Theme/types'
 
-import { useApp } from 'redux/app/hooks'
+import { useApp } from 'store/app/hooks'
 
-import { ThemeType } from 'types/global'
+import { ThemeType } from 'types/app'
 
 export const useThemeState = () => {
   const { themeType } = useApp()

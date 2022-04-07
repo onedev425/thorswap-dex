@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux'
 import { Asset } from '@thorswap-lib/multichain-sdk'
 import { FeeOption } from '@thorswap-lib/xchain-client'
 
-import { actions } from 'redux/app/slice'
-import { RootState, useAppDispatch } from 'redux/store'
+import { actions } from 'store/app/slice'
+import { RootState, useAppDispatch } from 'store/store'
 
 import { multichain } from 'services/multichain'
 
@@ -15,7 +15,7 @@ import {
   ThemeType,
   ThousandSeparator,
   ViewMode,
-} from 'types/global'
+} from 'types/app'
 
 export const useApp = () => {
   const dispatch = useAppDispatch()

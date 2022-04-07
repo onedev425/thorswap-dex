@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 
 import { Asset, Pool } from '@thorswap-lib/multichain-sdk'
 
-import { useMidgard } from 'redux/midgard/hooks'
+import { useMidgard } from 'store/midgard/hooks'
 
 import { getAPY } from 'helpers/staking'
 

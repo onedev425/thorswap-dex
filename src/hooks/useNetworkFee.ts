@@ -8,8 +8,8 @@ import {
   Pool,
 } from '@thorswap-lib/multichain-sdk'
 
-import { useApp } from 'redux/app/hooks'
-import { useMidgard } from 'redux/midgard/hooks'
+import { useApp } from 'store/app/hooks'
+import { useMidgard } from 'store/midgard/hooks'
 
 import { getGasRateByChain, getGasRateByFeeOption } from 'helpers/networkFee'
 

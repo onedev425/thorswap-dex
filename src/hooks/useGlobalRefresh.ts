@@ -1,5 +1,5 @@
-import { useGlobalState } from 'redux/hooks'
-import { useMidgard } from 'redux/midgard/hooks'
+import { useGlobalState } from 'store/hooks'
+import { useMidgard } from 'store/midgard/hooks'
 
 import useInterval from 'hooks/useInterval'
 

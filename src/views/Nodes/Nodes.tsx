@@ -1,10 +1,9 @@
-import { useEffect, useState, useMemo, useCallback } from 'react'
+import { useEffect, useState, useMemo, useCallback, ChangeEvent } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
 import { THORNode } from '@thorswap-lib/midgard-sdk'
 import { Amount } from '@thorswap-lib/multichain-sdk'
-import { shortenAddress } from 'utils/shortenAddress'
 
 import {
   Box,
@@ -21,14 +20,16 @@ import {
 import { Helmet } from 'components/Helmet'
 import { Input } from 'components/Input'
 
-import { useMidgard } from 'redux/midgard/hooks'
+import { useMidgard } from 'store/midgard/hooks'
 
 import { t } from 'services/i18n'
+
+import { shortenAddress } from 'helpers/shortenAddress'
 
 import { ROUTES } from 'settings/constants'
 
 import { BreakPoint } from '../../hooks/useWindowSize'
-import { useApp } from '../../redux/app/hooks'
+import { useApp } from '../../store/app/hooks'
 import { NodeStats } from './NodeStats'
 import { nodeStatusOptions } from './types'
 
@@ -44,7 +45,7 @@ const Nodes = () => {
   }, [getNodes])
 
   const handleChangeKeyword = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       setKeyword(e.target.value)
     },
     [],

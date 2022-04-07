@@ -5,7 +5,7 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import { AssetFilterOptionType } from 'components/AssetSelect/assetTypes'
 import { AssetSelectProps } from 'components/AssetSelect/types'
 
-import { useAssets } from 'redux/assets/hooks'
+import { useAssets } from 'store/assets/hooks'
 
 export function useAssetSelect({
   assets,

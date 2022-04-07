@@ -2,9 +2,9 @@ import { useEffect, useState, useMemo } from 'react'
 
 import { Asset, hasConnectedWallet } from '@thorswap-lib/multichain-sdk'
 
-import { useMidgard } from 'redux/midgard/hooks'
-import { TxTrackerStatus } from 'redux/midgard/types'
-import { useWallet } from 'redux/wallet/hooks'
+import { useMidgard } from 'store/midgard/hooks'
+import { TxTrackerStatus } from 'store/midgard/types'
+import { useWallet } from 'store/wallet/hooks'
 
 import { multichain } from 'services/multichain'
 

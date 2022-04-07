@@ -115,7 +115,7 @@ module.exports = {
           },
           {
             group: 'internal',
-            pattern: 'redux/**',
+            pattern: 'store/**',
             position: 'after',
           },
           {

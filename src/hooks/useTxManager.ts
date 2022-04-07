@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
-import { useMidgard } from 'redux/midgard/hooks'
-import { TxTracker, TxTrackerStatus, TxTrackerType } from 'redux/midgard/types'
+import { useMidgard } from 'store/midgard/hooks'
+import { TxTracker, TxTrackerStatus, TxTrackerType } from 'store/midgard/types'
 
 import useInterval from 'hooks/useInterval'
 

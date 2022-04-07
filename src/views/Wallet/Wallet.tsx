@@ -7,7 +7,7 @@ import { SearchAndFilters } from 'views/Wallet/SearchAndFilters'
 import { Box } from 'components/Atomic'
 import { Helmet } from 'components/Helmet'
 
-import { useApp } from 'redux/app/hooks'
+import { useApp } from 'store/app/hooks'
 
 import { t } from 'services/i18n'
 

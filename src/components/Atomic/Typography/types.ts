@@ -1,6 +1,6 @@
-import React from 'react'
+import { ReactHTML, ReactNode } from 'react'
 
-import { ColorType } from 'types/global'
+import { ColorType } from 'types/app'
 
 export type TypographyColorType = ColorType | 'primaryBtn' | 'secondaryBtn'
 
@@ -75,10 +75,10 @@ export type TextTransform = keyof typeof transformClasses
 
 export type Props = {
   className?: string
-  component?: keyof React.ReactHTML
+  component?: keyof ReactHTML
   color?: TypographyColorType
   variant?: TypographyVariant
   fontWeight?: TypographyWeight
-  children?: React.ReactNode
+  children?: ReactNode
   transform?: TextTransform
 }

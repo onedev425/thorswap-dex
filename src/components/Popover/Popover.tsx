@@ -1,12 +1,18 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react'
+import {
+  forwardRef,
+  ReactNode,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react'
 
 import { usePopper } from 'react-popper'
 
 import { Popover as HeadlessPopover } from '@headlessui/react'
 
 interface PopoverProps {
-  children: React.ReactNode
-  trigger: React.ReactNode
+  trigger: ReactNode
+  children: ReactNode
   disabled?: boolean
   onClose?: () => void
 }

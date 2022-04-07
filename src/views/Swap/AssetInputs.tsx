@@ -2,11 +2,12 @@ import { memo, useState } from 'react'
 
 import { Asset, Amount } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
-import { commonAssets } from 'utils/assetsFixture'
 
 import { AssetInput } from 'components/AssetInput'
 import { AssetInputType } from 'components/AssetInput/types'
 import { Box, Icon } from 'components/Atomic'
+
+import { commonAssets } from 'helpers/assetsFixture'
 
 type Props = {
   onSwitchPair: () => void

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { GeckoData, GeckoDataWithSymbols } from 'redux/wallet/types'
+import { GeckoData, GeckoDataWithSymbols } from 'store/wallet/types'
 
 import { geckoCoinIndex } from './coinIndex'
 

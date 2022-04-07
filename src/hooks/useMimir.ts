@@ -14,7 +14,7 @@ import {
   TERRAChain,
 } from '@thorswap-lib/xchain-util'
 
-import { useMidgard } from 'redux/midgard/hooks'
+import { useMidgard } from 'store/midgard/hooks'
 
 export const useMimir = () => {
   const { networkData, mimir } = useMidgard()

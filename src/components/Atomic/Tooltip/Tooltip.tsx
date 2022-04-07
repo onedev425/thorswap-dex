@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { ReactNode, useEffect } from 'react'
 
 import ReactTooltip from 'react-tooltip'
 
@@ -15,7 +15,7 @@ type Props = {
   disabled?: boolean
 } & (
   | { iconName: IconName; children?: undefined }
-  | { children: React.ReactNode; iconName?: undefined }
+  | { children: ReactNode; iconName?: undefined }
 )
 
 const TOOLTIP_ICON = 14

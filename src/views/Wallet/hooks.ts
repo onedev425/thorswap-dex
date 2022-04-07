@@ -22,8 +22,8 @@ import {
 } from '@thorswap-lib/xchain-util'
 import { BigNumber } from 'bignumber.js'
 
-import { useWallet } from 'redux/wallet/hooks'
-import { GeckoData } from 'redux/wallet/types'
+import { useWallet } from 'store/wallet/hooks'
+import { GeckoData } from 'store/wallet/types'
 
 const emptyWallet = {
   [BTCChain]: null,

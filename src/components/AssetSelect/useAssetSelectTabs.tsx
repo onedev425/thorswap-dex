@@ -3,7 +3,7 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import { AssetsPanel } from 'components/AssetSelect/AssetsPanel'
 import { TabsConfig } from 'components/Atomic/Tabs'
 
-import { useAssets } from 'redux/assets/hooks'
+import { useAssets } from 'store/assets/hooks'
 
 import { t } from 'services/i18n'
 

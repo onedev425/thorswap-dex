@@ -9,8 +9,8 @@ import {
   ChartValues,
 } from 'components/Chart/types'
 
-import { useApp } from 'redux/app/hooks'
-import { useMidgard } from 'redux/midgard/hooks'
+import { useApp } from 'store/app/hooks'
+import { useMidgard } from 'store/midgard/hooks'
 
 import { volumeChartIndexes, liquidityChartIndexes } from './types'
 

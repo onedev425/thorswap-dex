@@ -1,7 +1,9 @@
+import { ReactNode } from 'react'
+
 import { Box } from 'components/Atomic'
 
 type WalletOptionProps = {
-  children: React.ReactNode
+  children: ReactNode
   onClick?: () => void
 }
 

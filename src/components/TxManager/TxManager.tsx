@@ -16,7 +16,7 @@ import { Scrollbar } from 'components/Scrollbar'
 import { TxPanel } from 'components/TxManager/components/TxPanel'
 import { TxManagerOpenButton } from 'components/TxManager/TxManagerOpenButton'
 
-import { TxTrackerStatus } from 'redux/midgard/types'
+import { TxTrackerStatus } from 'store/midgard/types'
 
 import { useTxManager } from 'hooks/useTxManager'
 

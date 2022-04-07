@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { ChangeEvent, useCallback, useState } from 'react'
 
 import { validatePhrase, encryptToKeyStore } from '@thorswap-lib/xchain-crypto'
 
@@ -19,20 +19,17 @@ export const PhraseView = () => {
   const [processing, setProcessing] = useState(false)
 
   const handlePasswordChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       setPassword(e.target.value)
       setInvalidStatus(false)
     },
     [],
   )
 
-  const handlePhraseChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setInvalidPhrase(false)
-      setPhrase(e.target.value)
-    },
-    [],
-  )
+  const handlePhraseChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setInvalidPhrase(false)
+    setPhrase(e.target.value)
+  }, [])
 
   const handleBackupKeystore = useCallback(async () => {
     if (phrase && password) {

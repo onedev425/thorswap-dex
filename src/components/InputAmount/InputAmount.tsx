@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect, memo } from 'react'
+import { useCallback, useState, useEffect, memo, ChangeEvent } from 'react'
 
 import { Amount } from '@thorswap-lib/multichain-sdk'
 
@@ -24,7 +24,7 @@ export const InputAmount = memo(
     )
 
     const handleChange = useCallback(
-      ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+      ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
         if (!amountValue) {
           handleRawValueChange(value)
           return

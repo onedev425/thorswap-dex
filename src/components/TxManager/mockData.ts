@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import { TxTracker, TxTrackerStatus, TxTrackerType } from 'redux/midgard/types'
+import { TxTracker, TxTrackerStatus, TxTrackerType } from 'store/midgard/types'
 
 export const mockTxData: TxTracker[] = [
   {

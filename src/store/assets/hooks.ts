@@ -2,8 +2,8 @@ import { useCallback } from 'react'
 
 import { useSelector } from 'react-redux'
 
-import { actions } from 'redux/assets/slice'
-import { RootState, useAppDispatch } from 'redux/store'
+import { actions } from 'store/assets/slice'
+import { RootState, useAppDispatch } from 'store/store'
 
 export const useAssets = () => {
   const dispatch = useAppDispatch()

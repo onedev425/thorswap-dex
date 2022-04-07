@@ -1,6 +1,6 @@
 import { Percent, Amount } from '@thorswap-lib/multichain-sdk'
 
-import { useMidgard } from 'redux/midgard/hooks'
+import { useMidgard } from 'store/midgard/hooks'
 
 import {
   getTVL,

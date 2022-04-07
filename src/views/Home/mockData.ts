@@ -4,7 +4,7 @@ import { IconName } from 'components/Atomic'
 import { DataPoint } from 'components/Chart/types'
 import { StatsType } from 'components/Stats'
 
-import { ColorType } from 'types/global'
+import { ColorType } from 'types/app'
 
 type DashboardStatistics = {
   amount: number

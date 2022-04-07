@@ -4,13 +4,12 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
 import classNames from 'classnames'
 import { BigNumber } from 'ethers'
-import { shortenAddress } from 'utils/shortenAddress'
 
 import { AssetIcon, AssetLpIcon } from 'components/AssetIcon'
 import { Typography, Card, Icon, Button, Box, Link } from 'components/Atomic'
 import { InfoRow } from 'components/InfoRow'
 
-import { useWallet } from 'redux/wallet/hooks'
+import { useWallet } from 'store/wallet/hooks'
 
 import {
   ContractType,
@@ -24,6 +23,7 @@ import {
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
+import { shortenAddress } from 'helpers/shortenAddress'
 import { getAPR } from 'helpers/staking'
 
 type Props = {

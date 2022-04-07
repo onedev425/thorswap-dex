@@ -1,4 +1,4 @@
-import { TxTrackerType } from 'redux/midgard/types'
+import { TxTrackerType } from 'store/midgard/types'
 
 import { t } from 'services/i18n'
 
