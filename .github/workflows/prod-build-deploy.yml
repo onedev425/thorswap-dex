@@ -47,7 +47,6 @@ jobs:
 
       - name: Build project
         env:
-        env:
           CI: false
           VITE_NETWORK: ${{ secrets.VITE_NETWORK }}
           VITE_MAINNET_THORCHAIN_RPC: ${{ secrets.VITE_MAINNET_THORCHAIN_RPC }}
