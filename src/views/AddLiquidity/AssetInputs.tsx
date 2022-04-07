@@ -34,7 +34,7 @@ export const AssetInputs = memo(
         <Box
           className={classNames(
             'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-            'p-1 md:p-2 rounded-xl md:rounded-[16px]',
+            'p-1 md:p-2 rounded-xl md:rounded-[18px]',
             'border-10 border-solid bg-blue dark:border-dark-border-primary border-light-border-primary',
             'opacity-100 scale-100 transition-all',
             {

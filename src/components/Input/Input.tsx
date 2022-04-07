@@ -69,7 +69,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref || inputRef}
             className={classNames(
               'font-primary bg-transparent dark:placeholder-dark-typo-gray dark:text-dark-typo-primary placeholder-light-typo-gray text-light-typo-primary transition-colors',
-              ' border-none font-bold text-base focus:outline-none',
+              ' border-none font-bold text-base focus:outline-none placeholder:font-semibold',
               stretch ? 'w-full' : 'md:w-52',
               { 'md:w-48': icon && !stretch, 'cursor-not-allowed': disabled },
               className,

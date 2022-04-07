@@ -2,20 +2,44 @@ import { useMemo, useState } from 'react'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
 
+import { AssetFilterOptionType } from 'components/AssetSelect/assetTypes'
 import { AssetSelectProps } from 'components/AssetSelect/types'
 
-export function useAssetSelect(props: AssetSelectProps) {
-  const { assets, onSelect, onClose } = props
-  const [search, setSearch] = useState('')
-  const filteredAssets = useMemo(() => {
-    if (!search) {
-      return assets
-    }
+import { useAssets } from 'redux/assets/hooks'
 
-    return assets.filter(({ asset }) =>
-      asset.symbol.toLocaleLowerCase().includes(search.toLowerCase()),
+export function useAssetSelect({
+  assets,
+  onSelect,
+  onClose,
+}: AssetSelectProps) {
+  const [search, setSearch] = useState('')
+  const [typeFilter, setTypeFilter] = useState<AssetFilterOptionType>('all')
+  const { featured } = useAssets()
+  const featuredAssets = featured
+    .map((ticker) => Asset.fromAssetString(ticker))
+    .filter(Boolean) as Asset[]
+
+  const filteredAssets = useMemo(() => {
+    let filteredAssetData = !search
+      ? assets
+      : assets.filter(({ asset }) =>
+          asset.symbol.toLocaleLowerCase().includes(search.toLowerCase()),
+        )
+
+    filteredAssetData =
+      typeFilter === 'all'
+        ? filteredAssetData
+        : filteredAssetData.filter(
+            ({ asset }) =>
+              asset.type.toLowerCase() === typeFilter.toLowerCase(),
+          )
+    filteredAssetData.sort((a, b) => a.asset.sortsBefore(b.asset))
+    filteredAssetData.sort((a) =>
+      featuredAssets.some((fa) => fa.eq(a.asset)) ? -1 : 1,
     )
-  }, [assets, search])
+
+    return filteredAssetData
+  }, [assets, featuredAssets, search, typeFilter])
 
   const resetSearch = () => setSearch('')
 
@@ -29,5 +53,17 @@ export function useAssetSelect(props: AssetSelectProps) {
     close()
   }
 
-  return { search, setSearch, filteredAssets, select, close }
+  const setTypeFilterOption = (val: string) => {
+    setTypeFilter(val as AssetFilterOptionType)
+  }
+
+  return {
+    search,
+    setSearch,
+    filteredAssets,
+    select,
+    close,
+    typeFilter,
+    setTypeFilterOption,
+  }
 }

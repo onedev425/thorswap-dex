@@ -116,7 +116,8 @@
   "components": {
     "assetSelect": {
       "selectAToken": "Select a token",
-      "noResultsFound": "No results found"
+      "noResultsFound": "No results found",
+      "searchTokenName": "Search token name..."
     },
     "chart": {
       "week": "Week",

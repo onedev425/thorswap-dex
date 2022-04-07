@@ -1,20 +1,26 @@
 import classNames from 'classnames'
 
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
+import { assetFilterTypes } from 'components/AssetSelect/assetTypes'
 import { AssetSelectProps } from 'components/AssetSelect/types'
 import { useAssetSelect } from 'components/AssetSelect/useAssetSelect'
-import { useAssetSelectTabs } from 'components/AssetSelect/useAssetSelectTabs'
-import { Box, Typography } from 'components/Atomic'
-import { Tabs } from 'components/Atomic/Tabs'
+import { Box, Icon, Typography } from 'components/Atomic'
 import { genericBgClasses, styledScrollbarClass } from 'components/constants'
 import { FeaturedAssetIcon } from 'components/FeaturedAssetIcon/FeaturedAssetIcon'
 import { Input } from 'components/Input'
+import { TabsSelect } from 'components/TabsSelect'
 
 import { t } from 'services/i18n'
 
 export const AssetSelectList = (props: AssetSelectProps) => {
-  const { filteredAssets, search, setSearch, select } = useAssetSelect(props)
-  const tabs = useAssetSelectTabs(props.commonAssets, select)
+  const {
+    filteredAssets,
+    search,
+    setSearch,
+    select,
+    typeFilter,
+    setTypeFilterOption,
+  } = useAssetSelect(props)
 
   return (
     <div
@@ -30,17 +36,32 @@ export const AssetSelectList = (props: AssetSelectProps) => {
         )}
       >
         <Input
-          placeholder="Search name or paste address..."
+          placeholder={t('components.assetSelect.searchTokenName')}
           onChange={(e) => setSearch(e.target.value)}
           value={search}
           stretch
           autoFocus
           className="!text-md p-1.5 flex-1 border"
-          containerClassName="bg-light-gray-light dark:bg-dark-gray-light bg-opacity-40"
+          containerClassName="bg-light-gray-light dark:bg-dark-gray-light !bg-opacity-80"
           border="rounded"
+          suffix={
+            search ? (
+              <Icon
+                name="close"
+                color="secondary"
+                onClick={() => setSearch('')}
+              />
+            ) : (
+              ''
+            )
+          }
         />
 
-        <Tabs tabs={tabs} />
+        <TabsSelect
+          tabs={assetFilterTypes}
+          value={typeFilter}
+          onChange={setTypeFilterOption}
+        />
       </Box>
       <div
         className={classNames(
@@ -53,7 +74,7 @@ export const AssetSelectList = (props: AssetSelectProps) => {
           {filteredAssets.map((filteredItem) => (
             <Box
               className="gap-3 px-6 py-2 cursor-pointer dark:hover:bg-dark-bg-secondary hover:bg-light-gray-light"
-              key={filteredItem.asset.symbol}
+              key={`${filteredItem.asset.symbol}${filteredItem.asset.type}`}
               alignCenter
               onClick={() => select(filteredItem.asset)}
             >
@@ -66,7 +87,10 @@ export const AssetSelectList = (props: AssetSelectProps) => {
                 <Typography
                   variant="caption-xs"
                   fontWeight="light"
-                  color="secondary"
+                  color={
+                    filteredItem.asset.isSynth ? 'primaryBtn' : 'secondary'
+                  }
+                  transform="uppercase"
                 >
                   {filteredItem.asset.type}
                 </Typography>

@@ -10,9 +10,15 @@ type Props = {
   className?: string
   onClick?: () => void
   selected?: Maybe<Asset>
+  showAssetType?: boolean
 }
 
-export const AssetSelectButton = ({ className, onClick, selected }: Props) => {
+export const AssetSelectButton = ({
+  className,
+  onClick,
+  selected,
+  showAssetType,
+}: Props) => {
   if (selected) {
     return (
       <AssetButton
@@ -20,6 +26,7 @@ export const AssetSelectButton = ({ className, onClick, selected }: Props) => {
         className={className}
         withChevron={Boolean(onClick)}
         onClick={onClick}
+        showAssetType={showAssetType}
       />
     )
   }

@@ -60,6 +60,7 @@ export const AssetInput = ({
           <AssetSelectButton
             className="pr-3 m-2 md:m-0"
             selected={selectedAsset?.asset}
+            showAssetType
           />
         ) : (
           <AssetSelect
@@ -68,6 +69,7 @@ export const AssetInput = ({
             selected={selectedAsset?.asset}
             commonAssets={commonAssets}
             onSelect={onAssetChange}
+            showAssetType
           />
         )}
       </Box>
