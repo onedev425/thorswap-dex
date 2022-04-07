@@ -4,9 +4,9 @@ import { chainToString } from '@thorswap-lib/xchain-util'
 
 import { sortAmounts } from 'components/PoolTable/utils'
 
-import { useMidgard } from 'redux/midgard/hooks'
+import { useMidgard } from 'store/midgard/hooks'
 
-import { ColorType } from 'types/global'
+import { ColorType } from 'types/app'
 
 import { PoolTypeOption, poolTypeOptions, poolStatusOptions } from './types'
 

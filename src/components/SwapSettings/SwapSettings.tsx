@@ -1,7 +1,7 @@
 import { Button, Box, Card, Icon, Typography, Switch } from 'components/Atomic'
 import { Input } from 'components/Input'
 
-import { useApp } from 'redux/app/hooks'
+import { useApp } from 'store/app/hooks'
 
 import { t } from 'services/i18n'
 

@@ -2,8 +2,8 @@ import { useCallback } from 'react'
 
 import { Amount, Asset, Price, runeToAsset } from '@thorswap-lib/multichain-sdk'
 
-import { useMidgard } from 'redux/midgard/hooks'
-import { useAppDispatch } from 'redux/store'
+import { useMidgard } from 'store/midgard/hooks'
+import { useAppDispatch } from 'store/store'
 
 import { useApp } from './app/hooks'
 

@@ -1,8 +1,10 @@
+import { ReactNode } from 'react'
+
 import { IconName } from 'components/Atomic'
 
 export type CollapseProps = {
-  title: string | React.ReactNode
-  children?: React.ReactNode
+  title: string | ReactNode
+  children?: ReactNode
   shadow?: boolean
   className?: string
   contentClassName?: string

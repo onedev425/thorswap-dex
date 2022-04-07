@@ -1,10 +1,10 @@
-import React from 'react'
+import { ChangeEventHandler } from 'react'
 
 export type SwitchProps = {
   className?: string
   selectedText?: string
   unselectedText?: string
   disabled?: boolean
-  onChange?: React.ChangeEventHandler<HTMLInputElement>
+  onChange?: ChangeEventHandler<HTMLInputElement>
   checked?: boolean
 }

@@ -1,9 +1,9 @@
 import { Asset } from '@thorswap-lib/multichain-sdk'
 import { Keystore } from '@thorswap-lib/xchain-crypto'
 
-import { DEFAULT_SLIPPAGE_TOLERANCE } from 'settings/constants/global'
+import { DEFAULT_SLIPPAGE_TOLERANCE } from 'settings/constants/values'
 
-import { ThemeType, ThousandSeparator, ViewMode } from 'types/global'
+import { ThemeType, ThousandSeparator, ViewMode } from 'types/app'
 
 type StorageType = {
   annViewStatus: boolean

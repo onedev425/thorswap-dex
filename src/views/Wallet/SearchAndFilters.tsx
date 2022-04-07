@@ -7,7 +7,7 @@ import { Input } from 'components/Input'
 
 import { t } from 'services/i18n'
 
-import { ViewMode } from 'types/global'
+import { ViewMode } from 'types/app'
 
 type Props = {
   walletViewMode: ViewMode

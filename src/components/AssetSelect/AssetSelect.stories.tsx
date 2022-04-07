@@ -2,10 +2,11 @@ import { useState } from 'react'
 
 import { ComponentMeta } from '@storybook/react'
 import { Asset } from '@thorswap-lib/multichain-sdk'
-import { assetsFixture, commonAssets } from 'utils/assetsFixture'
 
 import { AssetSelect } from 'components/AssetSelect/AssetSelect'
 import { Typography } from 'components/Atomic'
+
+import { assetsFixture, commonAssets } from 'helpers/assetsFixture'
 
 import { AssetSelectButton as AssetSelectButtonComp } from './AssetSelectButton'
 import { AssetSelectList } from './AssetSelectList'

@@ -7,11 +7,11 @@ import { IconName } from 'components/Atomic'
 import { MenuItemType } from 'components/Menu/types'
 import { useTheme } from 'components/Theme/ThemeContext'
 
-import { useApp } from 'redux/app/hooks'
+import { useApp } from 'store/app/hooks'
 
 import { t, changeAppLanguage, getLanguageFlag } from 'services/i18n'
 
-import { SupportedLanguages, ThemeType, ThousandSeparator } from 'types/global'
+import { SupportedLanguages, ThemeType, ThousandSeparator } from 'types/app'
 
 type MenuType = 'main' | 'language' | 'currency' | 'theme' | 'thousandSeparator'
 

@@ -18,9 +18,9 @@ import { Input } from 'components/Input'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { ViewHeader } from 'components/ViewHeader'
 
-import { useMidgard } from 'redux/midgard/hooks'
-import { TxTrackerType } from 'redux/midgard/types'
-import { useWallet } from 'redux/wallet/hooks'
+import { useMidgard } from 'store/midgard/hooks'
+import { TxTrackerType } from 'store/midgard/types'
+import { useWallet } from 'store/wallet/hooks'
 
 import { useBalance } from 'hooks/useBalance'
 import { useMimir } from 'hooks/useMimir'

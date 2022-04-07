@@ -19,13 +19,19 @@
     "skipLibCheck": true,
     "strict": true,
     "strictNullChecks": true,
-    "target": "ES5",
+    "target": "ESNext",
+    "types": ["vite-plugin-svgr/client"],
     "paths": {
+      "assets/*": ["assets/*"],
       "components/*": ["components/*"],
-      "views/*": ["views/*"],
+      "config/*": ["config/*"],
+      "helpers/*": ["helpers/*"],
+      "hooks/*": ["hooks/*"],
+      "store/*": ["store/*"],
+      "services/*": ["services/*"],
+      "settings/*": ["settings/*"],
       "types/*": ["types/*"],
-      "styles/*": ["styles/*"],
-      "settings/*": ["settings/*"]
+      "views/*": ["views/*"]
     }
   },
   "include": ["src"]

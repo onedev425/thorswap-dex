@@ -6,9 +6,9 @@ import classNames from 'classnames'
 
 import { Box } from 'components/Atomic'
 
-import { useApp } from 'redux/app/hooks'
+import { useApp } from 'store/app/hooks'
 
-import { ThemeType } from 'types/global'
+import { ThemeType } from 'types/app'
 
 type Props = {
   duration?: number

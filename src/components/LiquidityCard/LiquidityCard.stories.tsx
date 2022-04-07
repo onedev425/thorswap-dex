@@ -3,7 +3,7 @@ import { Amount, Asset } from '@thorswap-lib/multichain-sdk'
 
 import { LiquidityCard } from 'components/LiquidityCard'
 
-import { PoolShareType } from 'redux/midgard/types'
+import { PoolShareType } from 'store/midgard/types'
 
 const pool = {
   asset: Asset.RUNE(),

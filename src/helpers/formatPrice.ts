@@ -4,7 +4,7 @@ import { useCallback } from 'react'
 import { Amount } from '@thorswap-lib/multichain-sdk'
 import BigNumber from 'bignumber.js'
 
-import { useApp } from 'redux/app/hooks'
+import { useApp } from 'store/app/hooks'
 
 type Value = Amount | number | string
 

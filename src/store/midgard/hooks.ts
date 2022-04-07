@@ -13,15 +13,15 @@ import {
 import { Asset, SupportedChain } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
 
-import * as actions from 'redux/midgard/actions'
+import * as actions from 'store/midgard/actions'
 import {
   setMemberDetailsLoading,
   actions as sliceActions,
-} from 'redux/midgard/slice'
-import { useAppDispatch, useAppSelector } from 'redux/store'
-import * as walletActions from 'redux/wallet/actions'
+} from 'store/midgard/slice'
+import { useAppDispatch, useAppSelector } from 'store/store'
+import * as walletActions from 'store/wallet/actions'
 
-import { TX_PUBLIC_PAGE_LIMIT } from 'settings/constants/global'
+import { TX_PUBLIC_PAGE_LIMIT } from 'settings/constants/values'
 
 import { SubmitTx, TxTracker, TxTrackerType } from './types'
 

@@ -4,7 +4,7 @@ import { Amount, Percent } from '@thorswap-lib/multichain-sdk'
 
 import { StatsType } from 'components/Stats'
 
-import { useGlobalState } from 'redux/hooks'
+import { useGlobalState } from 'store/hooks'
 
 import { useGlobalStats } from 'hooks/useGlobalStats'
 import { useMimir } from 'hooks/useMimir'

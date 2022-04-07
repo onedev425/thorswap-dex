@@ -16,7 +16,7 @@ import { Input } from 'components/Input'
 import { Scrollbar } from 'components/Scrollbar'
 import { WalletIcon } from 'components/WalletIcon/WalletIcon'
 
-import { useWallet } from 'redux/wallet/hooks'
+import { useWallet } from 'store/wallet/hooks'
 
 import { useTerraWallet } from 'hooks/useTerraWallet'
 

@@ -1,10 +1,12 @@
+import { ReactNode } from 'react'
+
 import { Box, Card } from 'components/Atomic'
 import { Helmet } from 'components/Helmet'
 
 export type Props = {
   title: string
-  header: React.ReactNode
-  children: React.ReactNode
+  header: ReactNode
+  children: ReactNode
 }
 
 export const PanelView = ({ title, header, children }: Props) => {

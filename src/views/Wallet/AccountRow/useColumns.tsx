@@ -15,7 +15,7 @@ import {
   Typography,
 } from 'components/Atomic'
 
-import { useWallet } from 'redux/wallet/hooks'
+import { useWallet } from 'store/wallet/hooks'
 
 import useWindowSize, { BreakPoint } from 'hooks/useWindowSize'
 
@@ -25,7 +25,7 @@ import { formatPrice } from 'helpers/formatPrice'
 
 import { ROUTES } from 'settings/constants'
 
-import { ViewMode } from 'types/global'
+import { ViewMode } from 'types/app'
 
 export const useColumns = (isConnected: boolean) => {
   const navigate = useNavigate()

@@ -6,7 +6,7 @@ import copy from 'copy-to-clipboard'
 
 import { showToast, ToastType } from 'components/Toast'
 
-import { useWallet } from 'redux/wallet/hooks'
+import { useWallet } from 'store/wallet/hooks'
 
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'

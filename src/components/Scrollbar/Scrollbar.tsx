@@ -1,7 +1,9 @@
-import Scrollbars from 'react-custom-scrollbars'
+import { ReactNode } from 'react'
+
+import Scrollbars from 'react-custom-scrollbars-2'
 
 type ScrollbarProps = {
-  children: React.ReactNode
+  children: ReactNode
   className?: string
   customStyle?: Record<string, string | number>
   height?: string

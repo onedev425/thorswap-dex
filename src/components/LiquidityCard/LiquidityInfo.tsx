@@ -7,7 +7,7 @@ import { Box, Typography } from 'components/Atomic'
 import { InfoRowConfig } from 'components/InfoRow/types'
 import { InfoTable } from 'components/InfoTable'
 
-import { PoolShareType } from 'redux/midgard/types'
+import { PoolShareType } from 'store/midgard/types'
 
 import { t } from 'services/i18n'
 

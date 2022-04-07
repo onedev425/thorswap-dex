@@ -10,8 +10,8 @@ import { InfoRow } from 'components/InfoRow'
 import { LiquidityCard } from 'components/LiquidityCard'
 import { ReloadButton } from 'components/ReloadButton'
 
-import { useMidgard } from 'redux/midgard/hooks'
-import { ChainMemberData } from 'redux/midgard/types'
+import { useMidgard } from 'store/midgard/hooks'
+import { ChainMemberData } from 'store/midgard/types'
 
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'

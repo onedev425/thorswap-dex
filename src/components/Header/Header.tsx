@@ -3,13 +3,13 @@ import { useCallback, useMemo } from 'react'
 import { hasConnectedWallet } from '@thorswap-lib/multichain-sdk'
 
 import { AppPopoverMenu } from 'components/AppPopoverMenu'
-import { Button, Row, Icon, Box, Typography } from 'components/Atomic'
+import { Button, Icon, Box, Typography } from 'components/Atomic'
 import { GasTracker } from 'components/GasTracker'
 import { StatusDropdown } from 'components/StatusDropdown'
 import { TxManager } from 'components/TxManager'
 
-import { useMidgard } from 'redux/midgard/hooks'
-import { useWallet } from 'redux/wallet/hooks'
+import { useMidgard } from 'store/midgard/hooks'
+import { useWallet } from 'store/wallet/hooks'
 
 import { useWalletDrawer } from 'hooks/useWalletDrawer'
 
@@ -52,8 +52,8 @@ export const Header = ({ openMenu }: Props) => {
 
   return (
     <header className="mb-5">
-      <Row className="min-h-[70px]" justify="between">
-        <Row className="mt-auto shrink-0 gap-x-2">
+      <Box row className="min-h-[70px]" justify="between">
+        <Box row className="mt-auto shrink-0 gap-x-2">
           <Button
             className="flex !p-1 md:hidden"
             onClick={openMenu}
@@ -78,16 +78,16 @@ export const Header = ({ openMenu }: Props) => {
             <GasTracker />
             <StatusDropdown />
           </Box>
-        </Row>
+        </Box>
 
-        <Row className="inline-flex items-center mt-auto shrink-0 gap-x-1">
+        <Box row className="inline-flex items-center mt-auto shrink-0 gap-x-1">
           <Button type="outline" onClick={handleClickWalletBtn}>
             {walletBtnText}
           </Button>
           <AppPopoverMenu />
           <TxManager />
-        </Row>
-      </Row>
+        </Box>
+      </Box>
     </header>
   )
 }

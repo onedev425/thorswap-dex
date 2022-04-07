@@ -120,7 +120,8 @@
     "receivedAmountNativeRune": "Received %{amount} Native RUNE",
     "approveAssetFailed": "Approve %{asset} failed",
     "approveAsset": "Approve %{asset}",
-    "approvedAsset": "Approved %{asset}"
+    "approvedAsset": "Approved %{asset}",
+    "approveToken": "Approve %{token}"
   },
   "components": {
     "assetSelect": {

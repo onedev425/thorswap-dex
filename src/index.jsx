@@ -1,19 +1,20 @@
-import React from 'react'
+import { StrictMode } from 'react'
 
 import ReactDOM from 'react-dom'
 
 import { getChainOptions, WalletProvider } from '@terra-money/wallet-provider'
 
 import './index.css'
+
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 
 getChainOptions().then((chainOptions) => {
   ReactDOM.render(
     <WalletProvider {...chainOptions}>
-      <React.StrictMode>
+      <StrictMode>
         <App />
-      </React.StrictMode>
+      </StrictMode>
     </WalletProvider>,
     document.getElementById('root'),
   )

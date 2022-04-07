@@ -2,7 +2,7 @@ import { Box } from 'components/Atomic'
 import { TxInfoRow } from 'components/TxManager/components/TxInfoRow'
 import { useTxDetails } from 'components/TxManager/hooks/useTxDetails'
 
-import { TxTracker } from 'redux/midgard/types'
+import { TxTracker } from 'store/midgard/types'
 
 type Props = {
   txTracker: TxTracker

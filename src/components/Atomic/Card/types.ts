@@ -1,3 +1,5 @@
+import { ReactNode } from 'react'
+
 export type CardSize = 'sm' | 'md' | 'lg'
 
 export type CardProps = {
@@ -5,7 +7,7 @@ export type CardProps = {
   shadow?: boolean
   size?: CardSize
   stretch?: boolean
-  children?: React.ReactNode
+  children?: ReactNode
   onClick?: () => void
   withBorder?: boolean
 }

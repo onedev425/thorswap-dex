@@ -1,6 +1,6 @@
 import { Pool } from '@thorswap-lib/multichain-sdk'
 
-import { PoolShareType } from 'redux/midgard/types'
+import { PoolShareType } from 'store/midgard/types'
 
 export type ChainPoolData = {
   pool: Pool

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
 
 import { useParams, useNavigate } from 'react-router-dom'
 
@@ -9,7 +9,6 @@ import {
   Price,
   hasWalletConnected,
 } from '@thorswap-lib/multichain-sdk'
-import { commonAssets } from 'utils/assetsFixture'
 
 import { useConfirmSend } from 'views/Send/useConfirmSend'
 
@@ -22,14 +21,16 @@ import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
 
-import { useMidgard } from 'redux/midgard/hooks'
-import { useWallet } from 'redux/wallet/hooks'
+import { useMidgard } from 'store/midgard/hooks'
+import { useWallet } from 'store/wallet/hooks'
 
 import { useBalance } from 'hooks/useBalance'
 import { useNetworkFee } from 'hooks/useNetworkFee'
 
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
+
+import { commonAssets } from 'helpers/assetsFixture'
 
 import { getSendRoute } from 'settings/constants'
 
@@ -116,14 +117,14 @@ const Send = () => {
   )
 
   const handleChangeRecipient = useCallback(
-    ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+    ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
       setRecipientAddress(value)
     },
     [],
   )
 
   const handleChangeMemo = useCallback(
-    ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+    ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
       setMemo(value)
     },
     [],

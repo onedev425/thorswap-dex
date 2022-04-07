@@ -8,7 +8,7 @@ import {
 import { TextTransform } from 'components/Atomic'
 import { TooltipPlacement } from 'components/Atomic/Tooltip/types'
 
-import { ColorType } from 'types/global'
+import { ColorType } from 'types/app'
 
 export type ButtonTypes = 'default' | 'outline' | 'borderless'
 export type ButtonSizes = 'sm' | 'md' | 'lg'

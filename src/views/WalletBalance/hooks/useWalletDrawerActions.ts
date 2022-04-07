@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { SUPPORTED_CHAINS } from '@thorswap-lib/multichain-sdk'
 
-import { useWallet } from 'redux/wallet/hooks'
+import { useWallet } from 'store/wallet/hooks'
 
 import { useWalletDrawer } from 'hooks/useWalletDrawer'
 

@@ -16,9 +16,9 @@ import { ReloadButton } from 'components/ReloadButton'
 import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
 
-import { useMidgard } from 'redux/midgard/hooks'
-import { hasPendingLP } from 'redux/midgard/utils'
-import { useWallet } from 'redux/wallet/hooks'
+import { useMidgard } from 'store/midgard/hooks'
+import { hasPendingLP } from 'store/midgard/utils'
+import { useWallet } from 'store/wallet/hooks'
 
 import { t } from 'services/i18n'
 

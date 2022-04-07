@@ -5,7 +5,7 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import { Box } from 'components/Atomic'
 import { TabsSelect } from 'components/TabsSelect'
 
-import { PoolShareType } from 'redux/midgard/types'
+import { PoolShareType } from 'store/midgard/types'
 
 import { LPTypeSelectorProps } from './types'
 

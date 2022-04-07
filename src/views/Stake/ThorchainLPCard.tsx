@@ -5,7 +5,7 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import { AssetLpIcon } from 'components/AssetIcon'
 import { Box, Button, Card, Link, Typography } from 'components/Atomic'
 
-import { useWallet } from 'redux/wallet/hooks'
+import { useWallet } from 'store/wallet/hooks'
 
 import { useThorAPY } from 'hooks/useThorAPY'
 

@@ -2,7 +2,7 @@ import { Amount, Pool } from '@thorswap-lib/multichain-sdk'
 
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
 
-import { PoolShareType } from 'redux/midgard/types'
+import { PoolShareType } from 'store/midgard/types'
 
 export const getMaxSymAmounts = ({
   assetAmount,

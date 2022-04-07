@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { ChangeEvent, useCallback, useMemo, useState } from 'react'
 
 import {
   validatePhrase,
@@ -32,7 +32,7 @@ export const KeystoreView = ({ onConnect, onKeystore }: Props) => {
   )
 
   const handlePasswordChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       setPassword(e.target.value)
       setInvalidStatus(false)
     },
@@ -40,7 +40,7 @@ export const KeystoreView = ({ onConnect, onKeystore }: Props) => {
   )
 
   const handleConfirmPasswordChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       setConfirmPassword(e.target.value)
       if (password !== e.target.value) {
         setInvalidStatus(true)

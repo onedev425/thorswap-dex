@@ -10,10 +10,10 @@ import { AccountRow } from 'views/Wallet/AccountRow'
 
 import { Box } from 'components/Atomic'
 
-import { useApp } from 'redux/app/hooks'
-import { useWallet } from 'redux/wallet/hooks'
+import { useApp } from 'store/app/hooks'
+import { useWallet } from 'store/wallet/hooks'
 
-import { ViewMode } from 'types/global'
+import { ViewMode } from 'types/app'
 
 import { AccountCard } from './AccountCard'
 

@@ -1,6 +1,6 @@
 import { IconName } from 'components/Atomic'
 
-import { ColorType } from 'types/global'
+import { ColorType } from 'types/app'
 
 export enum Position {
   TopLeft = 'top-left',

@@ -3,9 +3,9 @@ import { useCallback, useEffect, useMemo } from 'react'
 import { THORNode } from '@thorswap-lib/midgard-sdk'
 import { Amount } from '@thorswap-lib/multichain-sdk'
 
-import { useApp } from '../../redux/app/hooks'
-import { useMidgard } from '../../redux/midgard/hooks'
 import { t } from '../../services/i18n'
+import { useApp } from '../../store/app/hooks'
+import { useMidgard } from '../../store/midgard/hooks'
 
 export const useNodeDetailInfo = (nodeAddress: string | undefined) => {
   const { nodes, getNodes, nodeLoading } = useMidgard()

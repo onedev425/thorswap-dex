@@ -4,7 +4,7 @@ import { Pool } from '@thorswap-lib/multichain-sdk'
 import { THORChain } from '@thorswap-lib/xchain-util'
 import moment from 'moment'
 
-import { getChainMemberDetails } from 'redux/midgard/utils'
+import { getChainMemberDetails } from 'store/midgard/utils'
 
 import * as midgardActions from './actions'
 import { State, TxTracker, TxTrackerStatus } from './types'
@@ -491,6 +491,6 @@ const midgardSlice = createSlice({
 })
 
 export const { reducer, actions } = midgardSlice
-export const { setMemberDetailsLoading } = midgardSlice.actions
+export const { setMemberDetailsLoading } = actions
 
 export default midgardSlice

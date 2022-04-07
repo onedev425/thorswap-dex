@@ -1,10 +1,12 @@
+import { ReactNode } from 'react'
+
 import classNames from 'classnames'
 
 import { Box } from 'components/Atomic'
 
 type ChainOptionProps = {
   isSelected: boolean
-  children: React.ReactNode
+  children: ReactNode
   onClick?: () => void
 }
 

@@ -10,7 +10,7 @@ import {
   ThemeType,
   ThousandSeparator,
   ViewMode,
-} from 'types/global'
+} from 'types/app'
 
 import { State } from './types'
 

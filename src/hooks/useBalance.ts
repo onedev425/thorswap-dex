@@ -10,8 +10,8 @@ import {
   SupportedChain,
 } from '@thorswap-lib/multichain-sdk'
 
-import { RootState } from 'redux/store'
-import * as walletActions from 'redux/wallet/actions'
+import { RootState } from 'store/store'
+import * as walletActions from 'store/wallet/actions'
 
 import { getGasRateByFeeOption } from 'helpers/networkFee'
 

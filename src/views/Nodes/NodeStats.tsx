@@ -5,7 +5,7 @@ import { Amount } from '@thorswap-lib/multichain-sdk'
 import { StatsType } from 'components/Stats/types'
 import { StatsList } from 'components/StatsList'
 
-import { useGlobalState } from 'redux/hooks'
+import { useGlobalState } from 'store/hooks'
 
 import { useGlobalStats } from 'hooks/useGlobalStats'
 

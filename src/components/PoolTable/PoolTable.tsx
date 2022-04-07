@@ -23,7 +23,7 @@ import {
   sortVolume24Column,
 } from 'components/PoolTable/utils'
 
-import { useGlobalState } from 'redux/hooks'
+import { useGlobalState } from 'store/hooks'
 
 import { BreakPoint } from 'hooks/useWindowSize'
 

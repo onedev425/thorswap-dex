@@ -1,6 +1,6 @@
 import { Asset, Swap, SynthType } from '@thorswap-lib/multichain-sdk'
 
-import { TxTrackerType } from 'redux/midgard/types'
+import { TxTrackerType } from 'store/midgard/types'
 
 import { Pair } from './types'
 

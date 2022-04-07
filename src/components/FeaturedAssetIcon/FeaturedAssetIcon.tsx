@@ -1,6 +1,6 @@
 import { Icon } from 'components/Atomic'
 
-import { useAssets } from 'redux/assets/hooks'
+import { useAssets } from 'store/assets/hooks'
 
 type Props = {
   assetString: string

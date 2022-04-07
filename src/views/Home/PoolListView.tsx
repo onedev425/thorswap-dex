@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { ChangeEvent, useCallback, useState } from 'react'
 
 import { Select, Box, Typography } from 'components/Atomic'
 import { HorizontalSlider } from 'components/HorizontalSlider'
@@ -23,7 +23,7 @@ export const PoolListView = () => {
   })
 
   const handleChangeKeyword = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       setKeyword(e.target.value)
     },
     [],
