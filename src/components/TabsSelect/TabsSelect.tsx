@@ -44,6 +44,7 @@ export const TabsSelect = ({
               })}
               key={tab.value}
               variant={tab.value === value ? 'primary' : 'tint'}
+              type={tab.value === value ? 'default' : 'borderless'}
               onClick={() => onChange(tab.value)}
             >
               <Typography variant="caption-xs">{tab.label}</Typography>
