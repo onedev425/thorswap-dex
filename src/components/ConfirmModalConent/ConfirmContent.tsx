@@ -1,11 +1,11 @@
-import { shortenAddress } from 'utils/shortenAddress'
-
 import { AssetIcon } from 'components/AssetIcon'
 import { AssetInputType } from 'components/AssetInput/types'
 import { Box, Icon, Typography } from 'components/Atomic'
 import { ChainBadge } from 'components/ChainBadge'
 
 import { t } from 'services/i18n'
+
+import { shortenAddress } from 'helpers/shortenAddress'
 
 type Props = {
   inputAsset: AssetInputType

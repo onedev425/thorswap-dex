@@ -35,8 +35,6 @@ export const IS_MAINNET = !IS_STAGENET && !IS_TESTNET
 export const IS_SYNTH_ACTIVE =
   safeEnv('false', import.meta.env.VITE_IS_SYNTH_ACTIVE) === 'true'
 
-export const IS_PRODUCTION = process.env.NODE_ENV === 'production'
-
 export const IS_NETWORK_ONLINE =
   safeEnv('false', import.meta.env.VITE_IS_NETWORK_ONLINE) === 'true'
 

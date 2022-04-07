@@ -26,6 +26,7 @@ export default defineConfig({
       crypto: 'crypto-browserify',
       os: 'os-browserify/browser',
       stream: 'vite-compatible-readable-stream',
+      'readable-stream': 'vite-compatible-readable-stream',
       util: 'util',
     },
   },
@@ -38,7 +39,7 @@ export default defineConfig({
     rollupOptions: {
       plugins: [
         // @ts-expect-error
-        nodePolyfills(),
+        nodePolyfills({ sourceMap: false }),
       ],
     },
   },

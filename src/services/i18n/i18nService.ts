@@ -34,7 +34,7 @@ type DefaultDictionary = typeof en
 const parseMissingKeyHandler = (key: string) => key.split('.').pop()
 
 initializeI18n(initReactI18next).init({
-  debug: process.env.NODE_ENV === 'development',
+  debug: import.meta.env.DEV,
   resources: {
     es: { translation: es },
     en: { translation: en },

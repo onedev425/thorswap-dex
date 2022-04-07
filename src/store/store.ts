@@ -8,13 +8,11 @@ import type { ThunkAction } from 'redux-thunk'
 
 import rootReducer from './rootReducer'
 
-const middlewares = process.env.NODE_ENV !== 'production' ? [] : []
-
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ serializableCheck: false }).concat(middlewares),
-  devTools: process.env.NODE_ENV === 'development',
+    getDefaultMiddleware({ serializableCheck: false }),
+  devTools: import.meta.env.DEV,
 })
 
 export type RootState = ReturnType<typeof store.getState>
