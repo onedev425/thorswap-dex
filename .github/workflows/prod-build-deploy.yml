@@ -47,7 +47,17 @@ jobs:
 
       - name: Build project
         env:
+        env:
           CI: false
+          VITE_NETWORK: ${{ secrets.VITE_NETWORK }}
+          VITE_MAINNET_THORCHAIN_RPC: ${{ secrets.VITE_MAINNET_THORCHAIN_RPC }}
+          VITE_MAINNET_THORNODE: ${{ secrets.VITE_MAINNET_THORNODE }}
+          VITE_IS_SYNTH_ACTIVE: true
+          VITE_DOGENODE_API_KEY: ${{ secrets.VITE_DOGENODE_API_KEY }}
+          VITE_ETHERSCAN_API_KEY: ${{ secrets.VITE_ETHERSCAN_API_KEY }}
+          VITE_ETHPLORER_API_KEY: ${{ secrets.VITE_ETHPLORER_API_KEY }}
+          VITE_INFURA_PROJECT_ID: ${{ secrets.VITE_INFURA_PROJECT_ID }}
+          VITE_IS_NETWORK_ONLINE: ${{ secrets.VITE_IS_NETWORK_ONLINE }}
         run: yarn build
 
       - name: Upload production-ready build files
