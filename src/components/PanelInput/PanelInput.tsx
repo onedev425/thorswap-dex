@@ -2,26 +2,19 @@ import { ReactNode, useEffect } from 'react'
 
 import classNames from 'classnames'
 
-import { Box, Icon, useCollapse } from 'components/Atomic'
+import { Box, Icon, Typography, useCollapse } from 'components/Atomic'
 import { maxHeightTransitionClass } from 'components/Atomic/Collapse/Collapse'
 import { borderHighlightClass } from 'components/constants'
 import { Input } from 'components/Input'
 import { useInputFocusState } from 'components/Input/hooks/useInputFocusState'
 import { InputProps } from 'components/Input/types'
-import { PanelInputTitle } from 'components/PanelInput/PanelInputTitle'
 
-type Props = {
-  title?: string
-  titleComponent?: ReactNode
+type Props = Omit<InputProps, 'title'> & {
+  title: string | ReactNode
   collapsible?: boolean
-} & InputProps
+}
 
-export const PanelInput = ({
-  title,
-  titleComponent,
-  collapsible,
-  ...inputProps
-}: Props) => {
+export const PanelInput = ({ title, collapsible, ...inputProps }: Props) => {
   const { ref, isFocused, focus, blur, onFocus, onBlur } = useInputFocusState()
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse()
 
@@ -50,8 +43,14 @@ export const PanelInput = ({
         justify="between"
         onClick={toggle}
       >
-        {title && !titleComponent && <PanelInputTitle>{title}</PanelInputTitle>}
-        {titleComponent || null}
+        {typeof title === 'string' ? (
+          <Typography variant="caption" fontWeight="normal">
+            {title}
+          </Typography>
+        ) : (
+          title
+        )}
+
         {collapsible && (
           <Icon
             size={20}

@@ -6,6 +6,8 @@ import BigNumber from 'bignumber.js'
 
 import { useApp } from 'redux/app/hooks'
 
+type Value = Amount | number | string
+
 type FormatOptions = {
   prefix?: string
   decimalSeparator?: string
@@ -26,11 +28,11 @@ const useGroupSeparator = () => {
   }
 }
 
-const getNumberOfDecimals = (amount: Amount | number) => {
+const getNumberOfDecimals = (amount: Value) => {
   const price =
-    typeof amount === 'number'
-      ? amount
-      : parseFloat(amount.assetAmount.toFixed(2))
+    typeof amount === 'object'
+      ? parseFloat(amount.assetAmount.toFixed(2))
+      : amount
 
   if (price > 9) {
     return 2
@@ -41,35 +43,32 @@ const getNumberOfDecimals = (amount: Amount | number) => {
   }
 }
 
-const useFormat = (
-  options: FormatOptions = {},
-): BigNumber.Config['FORMAT'] => ({
-  prefix: 'prefix' in options ? options.prefix : '$',
-  groupSeparator: useGroupSeparator(),
-  groupSize: 3,
-  decimalSeparator:
-    'decimalSeparator' in options ? options.decimalSeparator : '.',
-})
+const useFormat = (options: FormatOptions = {}): BigNumber.Config['FORMAT'] => {
+  const groupSeparator = useGroupSeparator()
 
-const formatter = (
-  amount: Amount | number,
-  format: BigNumber.Config['FORMAT'],
-) => {
-  const decimals = getNumberOfDecimals(amount)
-
-  if (typeof amount === 'number') {
-    const bigNumber = new BigNumber(amount.toFixed(decimals))
-
-    return format ? bigNumber.toFormat(format) : bigNumber.toFormat()
-  } else {
-    return amount.toFixedDecimal(decimals, format)
+  return {
+    prefix: 'prefix' in options ? options.prefix : '$',
+    groupSeparator,
+    groupSize: 3,
+    decimalSeparator:
+      'decimalSeparator' in options ? options.decimalSeparator : '.',
   }
 }
 
-export const formatPrice = (
-  amount: Amount | number,
-  options?: FormatOptions,
-) => {
+const formatter = (amount: Value, format: BigNumber.Config['FORMAT']) => {
+  const decimals = getNumberOfDecimals(amount)
+
+  if (typeof amount === 'object') {
+    return amount.toFixedDecimal(decimals, format)
+  } else {
+    const number = typeof amount === 'string' ? parseFloat(amount) : amount
+    const bigNumber = new BigNumber(number.toFixed(decimals))
+
+    return format ? bigNumber.toFormat(format) : bigNumber.toFormat()
+  }
+}
+
+export const formatPrice = (amount: Value, options?: FormatOptions) => {
   const format = useFormat(options)
   return formatter(amount, format)
 }
@@ -78,7 +77,7 @@ export const useFormatPrice = (options?: FormatOptions) => {
   const format = useFormat(options)
 
   return useCallback(
-    (amount: Amount | number) => {
+    (amount: Value) => {
       return formatter(amount, format)
     },
     [format],

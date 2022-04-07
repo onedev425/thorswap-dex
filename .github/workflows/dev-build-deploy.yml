@@ -34,6 +34,13 @@ jobs:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ steps.nvm.outputs.NODE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
 
+      - name: Save action build number
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          find: 'DEVELOPMENT_BUILD'
+          replace: 'date --rfc-3339=date'
+          include: 'src/config/constants.ts'
+
       # `--prefer-offline` gives cache priority
       - name: Install dependencies
         run: yarn install --prefer-offline --frozen-lockfile

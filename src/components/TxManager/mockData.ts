@@ -23,7 +23,7 @@ export const mockTxData: TxTracker[] = [
     status: TxTrackerStatus.Failed,
     submitTx: {
       inAssets: [{ amount: '100', asset: 'ETH.USDC-0x1928739' }],
-      outAssets: [{ amount: '1000', asset: 'ETH.THOR-0x1928739' }],
+      outAssets: [{ amount: '1234.12345678', asset: 'ETH.THOR-0x1928739' }],
     },
     action: null,
     refunded: null,

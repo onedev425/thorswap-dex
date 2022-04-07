@@ -59,7 +59,7 @@ export const Tooltip = ({
       data-tip={ReactDOM.renderToStaticMarkup(
         <div
           className={classNames(
-            'px-5 py-2 rounded-2xl max-w-[260px]',
+            'hidden sm:block px-5 py-2 rounded-2xl max-w-[260px]',
             'bg-light-bg-primary border border-light-border-primary border-solid dark:bg-dark-bg-primary dark:border-dark-border-primary',
           )}
         >

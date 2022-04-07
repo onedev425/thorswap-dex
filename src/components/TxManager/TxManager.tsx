@@ -56,7 +56,7 @@ export const TxManager = () => {
       trigger={<TxManagerOpenButton txData={txTrackers} />}
     >
       <Card
-        className="mt-2 !px-0 min-w-[160px] md:w-[320px] border border-solid border-btn-primary"
+        className="mt-2 !px-0 md:w-[350px] border border-solid border-btn-primary"
         size="sm"
       >
         <Box className="w-full gap-4 !my-2" col>

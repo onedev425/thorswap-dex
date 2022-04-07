@@ -7,10 +7,11 @@ import {
   Amount,
   Asset,
   Price,
-  AssetAmount,
   hasWalletConnected,
 } from '@thorswap-lib/multichain-sdk'
 import { commonAssets } from 'utils/assetsFixture'
+
+import { useConfirmSend } from 'views/Send/useConfirmSend'
 
 import { AssetInput } from 'components/AssetInput'
 import { Button, Box, Tooltip, Icon, Typography } from 'components/Atomic'
@@ -22,12 +23,10 @@ import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useMidgard } from 'redux/midgard/hooks'
-import { TxTrackerType } from 'redux/midgard/types'
 import { useWallet } from 'redux/wallet/hooks'
 
 import { useBalance } from 'hooks/useBalance'
 import { useNetworkFee } from 'hooks/useNetworkFee'
-import { useTxTracker } from 'hooks/useTxTracker'
 
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
@@ -37,8 +36,6 @@ import { getSendRoute } from 'settings/constants'
 // TODO: refactor useReducer
 const Send = () => {
   const navigate = useNavigate()
-  const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
-
   const { assetParam } = useParams<{ assetParam: string }>()
 
   const [sendAsset, setSendAsset] = useState<Asset>(Asset.RUNE())
@@ -56,6 +53,14 @@ const Send = () => {
   const { getMaxBalance } = useBalance()
   const { inboundFee, totalFeeInUSD } = useNetworkFee({ inputAsset: sendAsset })
 
+  const handleConfirmSend = useConfirmSend({
+    setIsOpenConfirmModal,
+    sendAmount,
+    sendAsset,
+    recipientAddress,
+    memo,
+  })
+
   const maxSpendableBalance: Amount = useMemo(
     () => getMaxBalance(sendAsset),
     [sendAsset, getMaxBalance],
@@ -64,7 +69,6 @@ const Send = () => {
   useEffect(() => {
     const getSendAsset = async () => {
       if (!assetParam) {
-        // set RUNE as a default asset
         setSendAsset(Asset.RUNE())
       } else {
         const assetObj = Asset.decodeFromURL(assetParam)
@@ -99,107 +103,31 @@ const Send = () => {
   )
 
   const handleSelectAsset = useCallback(
-    (selected: Asset) => {
-      navigate(getSendRoute(selected))
-    },
+    (selected: Asset) => navigate(getSendRoute(selected)),
     [navigate],
   )
 
   const handleChangeSendAmount = useCallback(
-    (amount: Amount) => {
-      if (amount.gt(maxSpendableBalance)) {
-        setSendAmount(maxSpendableBalance)
-      } else {
-        setSendAmount(amount)
-      }
-    },
+    (amount: Amount) =>
+      setSendAmount(
+        amount.gt(maxSpendableBalance) ? maxSpendableBalance : amount,
+      ),
     [maxSpendableBalance],
   )
 
   const handleChangeRecipient = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const addr = e.target.value
-      setRecipientAddress(addr)
+    ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+      setRecipientAddress(value)
     },
     [],
   )
 
   const handleChangeMemo = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setMemo(e.target.value)
+    ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+      setMemo(value)
     },
     [],
   )
-
-  const handleConfirmSend = useCallback(async () => {
-    setIsOpenConfirmModal(false)
-
-    if (sendAsset) {
-      const assetAmount = new AssetAmount(sendAsset, sendAmount)
-
-      // register to tx tracker
-      const trackId = submitTransaction({
-        type: TxTrackerType.Send,
-        submitTx: {
-          inAssets: [
-            {
-              asset: sendAsset.toString(),
-              amount: sendAmount.toSignificant(6),
-            },
-          ],
-        },
-      })
-
-      try {
-        const txHash = await multichain.send({
-          assetAmount,
-          recipient: recipientAddress,
-          memo,
-        })
-
-        console.log('txHash', txHash)
-
-        const txURL = multichain.getExplorerTxUrl(sendAsset.L1Chain, txHash)
-
-        console.log('txURL', txURL)
-        if (txHash) {
-          // start polling
-          pollTransaction({
-            type: TxTrackerType.Send,
-            uuid: trackId,
-            submitTx: {
-              inAssets: [
-                {
-                  asset: sendAsset.toString(),
-                  amount: sendAmount.toSignificant(6),
-                },
-              ],
-              txID: txHash,
-            },
-          })
-        }
-      } catch (error) {
-        console.log('error', error)
-        setTxFailed(trackId)
-
-        // TODO: notification
-        // Notification({
-        //   type: 'error',
-        //   message: 'Send Transaction Failed.',
-        //   description: error?.toString(),
-        //   duration: 20,
-        // })
-      }
-    }
-  }, [
-    sendAsset,
-    sendAmount,
-    recipientAddress,
-    memo,
-    pollTransaction,
-    setTxFailed,
-    submitTransaction,
-  ])
 
   const handleCancelSend = useCallback(() => {
     setIsOpenConfirmModal(false)
@@ -287,11 +215,6 @@ const Send = () => {
     [recipientAddress, sendAsset, sendAmount, inboundFee, totalFeeInUSD],
   )
 
-  const renderConfirmModalContent = useMemo(
-    () => <InfoTable items={confirmModalInfo} />,
-    [confirmModalInfo],
-  )
-
   return (
     <PanelView
       title={t('common.send')}
@@ -312,7 +235,7 @@ const Send = () => {
 
       <PanelInput
         title={t('common.recipientAddress')}
-        placeholder=""
+        placeholder={`${assetInput.asset.network} ${t('common.address')}`}
         onChange={handleChangeRecipient}
         value={recipientAddress}
       />
@@ -351,10 +274,11 @@ const Send = () => {
           onConfirm={handleConfirmSend}
           onClose={handleCancelSend}
         >
-          {renderConfirmModalContent}
+          <InfoTable items={confirmModalInfo} />
         </ConfirmModal>
       )}
     </PanelView>
   )
 }
+
 export default Send

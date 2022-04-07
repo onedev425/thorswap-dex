@@ -58,7 +58,7 @@ export const Header = ({ openMenu }: Props) => {
             className="flex !p-1 md:hidden"
             onClick={openMenu}
             type="borderless"
-            startIcon={<Icon color="white" name="menu" size={24} />}
+            startIcon={<Icon name="menu" size={24} />}
           />
 
           <Box

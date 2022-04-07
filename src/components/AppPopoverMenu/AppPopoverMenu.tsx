@@ -1,3 +1,5 @@
+import { BUILD_NUMBER } from 'config/constants'
+
 import { MainMenu } from 'components/AppPopoverMenu/components/MainMenu'
 import { Submenu } from 'components/AppPopoverMenu/components/Submenu'
 import { useAppPopoverMenu } from 'components/AppPopoverMenu/useAppPopoverMenu'
@@ -6,6 +8,8 @@ import { Popover } from 'components/Popover'
 import SocialIcons from 'components/SocialIcons'
 
 import { t } from 'services/i18n'
+
+import packageJson from '../../../package.json'
 
 export const AppPopoverMenu = () => {
   const { menus, menuType, onBack } = useAppPopoverMenu()
@@ -24,8 +28,8 @@ export const AppPopoverMenu = () => {
       onClose={onBack}
     >
       <Card
-        className="mt-2 min-w-[160px] sm:w-[420px] border border-solid border-btn-primary"
         size="sm"
+        className="flex-col mt-2 pr-6 min-w-[160px] sm:w-[420px] border border-solid border-btn-primary"
       >
         <Box className="w-full" col margin={2}>
           <Box row alignCenter>
@@ -49,6 +53,12 @@ export const AppPopoverMenu = () => {
           ) : (
             <Submenu items={menus[menuType].items} />
           )}
+        </Box>
+
+        <Box justify="end">
+          <Typography variant="caption-xs" color="secondary">
+            {`v${packageJson.version} (${BUILD_NUMBER})`}
+          </Typography>
         </Box>
       </Card>
     </Popover>

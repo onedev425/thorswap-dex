@@ -19,14 +19,14 @@ import {
 import { Chain } from '@thorswap-lib/xchain-util'
 import copy from 'copy-to-clipboard'
 
-import { Button, Icon, Box } from 'components/Atomic'
+import { Button, Icon, Box, Typography } from 'components/Atomic'
 import { CountDownIndicator } from 'components/CountDownIndicator'
 import { HoverIcon } from 'components/HoverIcon'
 import { InfoTable } from 'components/InfoTable'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems'
 import { useConfirmInfoItems } from 'components/Modals/ConfirmModal/useConfirmInfoItems'
-import { PanelInput, PanelInputTitle } from 'components/PanelInput'
+import { PanelInput } from 'components/PanelInput'
 import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
@@ -759,9 +759,11 @@ const SwapView = () => {
           disabled={addressDisabled}
           onChange={handleChangeRecipient}
           value={recipient}
-          titleComponent={
+          title={
             <Box flex={1} alignCenter justify="between">
-              <PanelInputTitle>{t('common.recipientAddress')}</PanelInputTitle>
+              <Typography variant="caption" fontWeight="normal">
+                {t('common.recipientAddress')}
+              </Typography>
 
               <Box row>
                 <HoverIcon
