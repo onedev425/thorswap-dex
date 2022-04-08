@@ -78,7 +78,7 @@ const SwapView = () => {
   const { wallet, setIsConnectModalOpen } = useWallet()
   const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
   const { totalFeeInUSD } = useNetworkFee({ inputAsset, outputAsset })
-  const { poolLoading, inboundData } = useMidgard()
+  const { poolLoading, inboundData, getPools } = useMidgard()
 
   const { outputAssets, inputAssets, pools } = useSwapAssets()
   const swap = useSwap({
@@ -584,12 +584,12 @@ const SwapView = () => {
               <CountDownIndicator
                 duration={POLL_GET_POOLS_INTERVAL / 1000}
                 resetIndicator={poolLoading}
-                // TODO: onClick={() => getPools()}
+                onClick={() => getPools()}
               />
 
               <Button
                 onClick={navigateToPoolInfo}
-                className="px-1.5 group"
+                className="w-10 px-1.5 group"
                 type="borderless"
                 variant="tint"
                 startIcon={
