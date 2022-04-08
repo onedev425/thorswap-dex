@@ -26,7 +26,7 @@ import { t } from 'services/i18n'
 
 import { shortenAddress } from 'helpers/shortenAddress'
 
-import { ROUTES } from 'settings/constants'
+import { getNodeDetailRoute } from 'settings/constants'
 
 import { BreakPoint } from '../../hooks/useWindowSize'
 import { useApp } from '../../store/app/hooks'
@@ -180,7 +180,7 @@ const Nodes = () => {
   }, [nodeWatchList, handleAddToWatchList, getNodes])
 
   const onRowClick = ({ original }: TableRowType) => {
-    navigate(`${ROUTES.Nodes}/${original.node_address}`)
+    navigate(getNodeDetailRoute(original.node_address))
   }
 
   return (

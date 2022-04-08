@@ -9,8 +9,7 @@ export const getSwapPair = async (pair: string): Promise<Pair | null> => {
     return null
   }
 
-  const input = pair.split('_')?.[0]
-  const output = pair.split('_')?.[1]
+  const [input, output] = pair.split('_')
 
   if (!input || !output) return null
 
@@ -22,18 +21,19 @@ export const getSwapPair = async (pair: string): Promise<Pair | null> => {
   await inputAsset.setDecimal()
   await outputAsset.setDecimal()
 
-  return {
-    inputAsset,
-    outputAsset,
-  }
+  return { inputAsset, outputAsset }
 }
 
-export const getSwapTrackerType = (swap: Swap): TxTrackerType => {
-  if (swap.inputAsset.isSynth || swap.outputAsset.isSynth) {
-    if (swap.synthType === SynthType.MINT) {
+export const getSwapTrackerType = ({
+  inputAsset,
+  outputAsset,
+  synthType,
+}: Swap): TxTrackerType => {
+  if (inputAsset.isSynth || outputAsset.isSynth) {
+    if (synthType === SynthType.MINT) {
       return TxTrackerType.Mint
     }
-    if (swap.synthType === SynthType.REDEEM) {
+    if (synthType === SynthType.REDEEM) {
       return TxTrackerType.Redeem
     }
   }

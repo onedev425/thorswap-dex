@@ -11,7 +11,7 @@ import { useGlobalState } from 'store/hooks'
 
 import { t } from 'services/i18n'
 
-import { ROUTES } from 'settings/constants'
+import { getAddLiquidityRoute, getSwapRoute } from 'settings/constants'
 
 import { ColorType } from 'types/app'
 
@@ -25,11 +25,11 @@ export const PoolCard = ({ pool, color }: PoolCardProps) => {
   const { runeToCurrency } = useGlobalState()
 
   const handleSwapNavigate = useCallback(() => {
-    navigate(`${ROUTES.Swap}?input=${pool.asset}`)
+    navigate(getSwapRoute(pool.asset))
   }, [navigate, pool.asset])
 
   const handleAddLiquidityNavigate = useCallback(() => {
-    navigate(`${ROUTES.AddLiquidity}?input=${pool.asset}`)
+    navigate(getAddLiquidityRoute(pool.asset))
   }, [navigate, pool.asset])
 
   return (

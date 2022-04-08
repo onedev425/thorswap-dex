@@ -3,21 +3,20 @@ import { useCallback, useMemo, useEffect, useState, ChangeEvent } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
 import {
-  getInputAssets,
   Amount,
   Asset,
-  AssetAmount,
   getWalletAddressByChain,
-  Swap,
   Percent,
   Price,
   getEstimatedTxTime,
   SupportedChain,
   hasWalletConnected,
-  hasConnectedWallet,
 } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
 import copy from 'copy-to-clipboard'
+
+import { useSwap } from 'views/Swap/useSwap'
+import { useSwapAssets } from 'views/Swap/useSwapAssets'
 
 import { Button, Icon, Box, Typography } from 'components/Atomic'
 import { ConfirmContent } from 'components/ConfirmModalConent'
@@ -29,13 +28,12 @@ import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveIn
 import { PanelInput } from 'components/PanelInput'
 import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
+import { showToast, ToastType } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
-import { useApp } from 'store/app/hooks'
 import { useMidgard } from 'store/midgard/hooks'
 import { TxTrackerStatus, TxTrackerType } from 'store/midgard/types'
 import { useWallet } from 'store/wallet/hooks'
-// import { useAssets } from 'store/assets/hooks'
 
 import { useApprove } from 'hooks/useApprove'
 import { useBalance } from 'hooks/useBalance'
@@ -46,10 +44,8 @@ import { useTxTracker } from 'hooks/useTxTracker'
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
-// import { translateErrorMsg } from 'helpers/error'
-// import { truncateAddress } from 'helpers/string'
+import { translateErrorMsg } from 'helpers/error'
 
-import { IS_SYNTH_ACTIVE } from 'settings/config'
 import {
   getPoolDetailRouteFromAsset,
   getSwapRoute,
@@ -58,20 +54,40 @@ import {
 } from 'settings/constants'
 
 import { AssetInputs } from './AssetInputs'
+import { getSwapPair, getSwapTrackerType } from './helpers'
 import { SwapInfo } from './SwapInfo'
 import { Pair } from './types'
-import { getSwapPair, getSwapTrackerType } from './utils'
 
 const SwapView = () => {
   const navigate = useNavigate()
   const { pair } = useParams<{ pair: string }>()
 
-  const [swapPair, setSwapPair] = useState<Pair>({
+  const [{ inputAsset, outputAsset }, setSwapPair] = useState<Pair>({
     inputAsset: Asset.BTC(),
     outputAsset: Asset.RUNE(),
   })
+  const [inputAmount, setInputAmount] = useState<Amount>(
+    Amount.fromAssetAmount(0, 8),
+  )
+  const [addressDisabled, setAddressDisabled] = useState(true)
+  const [recipient, setRecipient] = useState('')
+  const [visibleConfirmModal, setVisibleConfirmModal] = useState(false)
+  const [visibleApproveModal, setVisibleApproveModal] = useState(false)
 
-  // const { addFrequent } = useAssets()
+  const { getMaxBalance } = useBalance()
+  const { wallet, setIsConnectModalOpen } = useWallet()
+  const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
+  const { totalFeeInUSD } = useNetworkFee({ inputAsset, outputAsset })
+  const { poolLoading, inboundData } = useMidgard()
+
+  const { outputAssets, inputAssets, pools } = useSwapAssets()
+  const swap = useSwap({
+    poolLoading,
+    inputAmount,
+    inputAsset,
+    pools,
+    outputAsset,
+  })
 
   useEffect(() => {
     const getPair = async () => {
@@ -87,13 +103,12 @@ const SwapView = () => {
     getPair()
   }, [pair])
 
-  const { inputAsset, outputAsset } = swapPair
-
-  const { getMaxBalance } = useBalance()
-  const { wallet, setIsConnectModalOpen } = useWallet()
-  const { pools: allPools, poolLoading, inboundData } = useMidgard()
-  const { slippageTolerance } = useApp()
-  const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
+  useEffect(() => {
+    if (wallet) {
+      const address = getWalletAddressByChain(wallet, outputAsset.L1Chain)
+      setRecipient(address || '')
+    }
+  }, [wallet, outputAsset])
 
   const isInputWalletConnected = useMemo(
     () =>
@@ -114,10 +129,10 @@ const SwapView = () => {
 
   const isTradingHalted: boolean = useMemo(() => {
     const inTradeInboundData = inboundData.find(
-      (data) => data.chain === inputAsset.chain,
+      ({ chain }) => chain === inputAsset.chain,
     )
     const outTradeInboundData = inboundData.find(
-      (data) => data.chain === outputAsset.chain,
+      ({ chain }) => chain === outputAsset.chain,
     )
 
     const haltedStatus =
@@ -127,60 +142,10 @@ const SwapView = () => {
     return haltedStatus
   }, [inboundData, inputAsset, outputAsset])
 
-  const { inboundFee, outboundFee, totalFeeInUSD } = useNetworkFee({
-    inputAsset,
-    outputAsset,
-  })
-
   const walletConnected = useMemo(
     () => hasWalletConnected({ wallet, inputAssets: [inputAsset] }),
     [wallet, inputAsset],
   )
-
-  const pools = useMemo(
-    () => allPools.filter((data) => data.detail.status === 'available'),
-    [allPools],
-  )
-  const poolAssets = useMemo(() => {
-    const assets = pools.map((pool) => pool.asset)
-    assets.push(Asset.RUNE())
-
-    return assets
-  }, [pools])
-
-  const synthAssets = useMemo(() => {
-    return pools.map((pool) => {
-      const { asset } = pool
-      const synthAsset = new Asset(asset.chain, asset.symbol, true)
-      synthAsset.isSynth = true
-
-      return synthAsset
-    })
-  }, [pools])
-
-  const outputAssets = useMemo(() => {
-    if (IS_SYNTH_ACTIVE) {
-      return [...poolAssets, ...synthAssets]
-    }
-    return poolAssets
-  }, [poolAssets, synthAssets])
-
-  const inputAssets = useMemo(
-    () =>
-      hasConnectedWallet(wallet)
-        ? getInputAssets({ wallet, pools })
-        : outputAssets,
-    [wallet, pools, outputAssets],
-  )
-
-  const [inputAmount, setInputAmount] = useState<Amount>(
-    Amount.fromAssetAmount(0, 8),
-  )
-
-  const [addressDisabled, setAddressDisabled] = useState(true)
-  const [recipient, setRecipient] = useState('')
-  const [visibleConfirmModal, setVisibleConfirmModal] = useState(false)
-  const [visibleApproveModal, setVisibleApproveModal] = useState(false)
 
   const isWalletRequired = useMemo(() => {
     if (!isInputWalletConnected) return true
@@ -192,13 +157,9 @@ const SwapView = () => {
   const handleCopyAddress = useCallback(() => {
     copy(recipient)
 
-    // TODO: add notification
-    // Notification({
-    //   type: 'info',
-    //   message: 'Address Copied',
-    //   duration: 3,
-    //   placement: 'bottomRight',
-    // })
+    showToast({ message: 'Address Copied' }, ToastType.Success, {
+      position: 'bottom-right',
+    })
   }, [recipient])
 
   const { isExchangeBNBAddress } = useCheckExchangeBNB(
@@ -210,9 +171,8 @@ const SwapView = () => {
   }, [addressDisabled])
 
   const handleChangeRecipient = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      setRecipient(e.target.value)
-    },
+    ({ target: { value } }: ChangeEvent<HTMLInputElement>) =>
+      setRecipient(value),
     [],
   )
 
@@ -227,6 +187,7 @@ const SwapView = () => {
         address: recipient,
       })
     } catch (error) {
+      console.error(error)
       return false
     }
   }, [outputAsset, recipient, isExchangeBNBAddress])
@@ -237,67 +198,11 @@ const SwapView = () => {
   //   return getWalletAddressByChain(wallet, outputAsset.L1Chain) === recipient
   // }, [wallet, outputAsset, recipient])
 
-  const swap: Swap | null = useMemo(() => {
-    if (poolLoading) return null
-
-    try {
-      const inputAssetAmount = new AssetAmount(inputAsset, inputAmount)
-
-      const inboundFeeInInputAsset = new AssetAmount(
-        inputAsset,
-        Amount.fromAssetAmount(
-          inboundFee.totalPriceIn(inputAsset, pools).price,
-          inputAsset.decimal,
-        ),
-      )
-
-      const outboundFeeInOutputAsset = outboundFee
-        ? new AssetAmount(
-            outputAsset,
-            Amount.fromAssetAmount(
-              outboundFee.totalPriceIn(outputAsset, pools).price,
-              outputAsset.decimal,
-            ),
-          )
-        : new AssetAmount(
-            outputAsset,
-            Amount.fromAssetAmount(0, outputAsset.decimal),
-          )
-
-      // should create a new instance to update the state
-      return new Swap({
-        inputAsset,
-        outputAsset,
-        pools,
-        amount: inputAssetAmount,
-        slip: slippageTolerance,
-        fee: {
-          inboundFee: inboundFeeInInputAsset,
-          outboundFee: outboundFeeInOutputAsset,
-        },
-      })
-    } catch (error) {
-      console.log(error)
-      return null
-    }
-  }, [
-    inputAsset,
-    outputAsset,
-    pools,
-    inputAmount,
-    slippageTolerance,
-    poolLoading,
-    inboundFee,
-    outboundFee,
-  ])
-
-  const outputAmount: Amount = useMemo(() => {
-    if (swap) {
-      return swap.outputAmountAfterFee.amount
-    }
-
-    return Amount.fromAssetAmount(0, 8)
-  }, [swap])
+  const outputAmount: Amount = useMemo(
+    () =>
+      swap ? swap.outputAmountAfterFee.amount : Amount.fromAssetAmount(0, 8),
+    [swap],
+  )
 
   const slipPercent: Percent = useMemo(
     () => (swap ? swap.slip : new Percent(0)),
@@ -310,31 +215,15 @@ const SwapView = () => {
   )
 
   const inputAssetPriceInUSD = useMemo(
-    () =>
-      new Price({
-        baseAsset: inputAsset,
-        pools,
-        priceAmount: inputAmount,
-      }),
+    () => new Price({ baseAsset: inputAsset, pools, priceAmount: inputAmount }),
     [inputAsset, inputAmount, pools],
   )
 
   const outputAssetPriceInUSD = useMemo(
     () =>
-      new Price({
-        baseAsset: outputAsset,
-        pools,
-        priceAmount: outputAmount,
-      }),
+      new Price({ baseAsset: outputAsset, pools, priceAmount: outputAmount }),
     [outputAsset, outputAmount, pools],
   )
-
-  useEffect(() => {
-    if (wallet) {
-      const address = getWalletAddressByChain(wallet, outputAsset.L1Chain)
-      setRecipient(address || '')
-    }
-  }, [wallet, outputAsset])
 
   const maxInputBalance: Amount = useMemo(
     () => getMaxBalance(inputAsset),
@@ -349,18 +238,24 @@ const SwapView = () => {
     return getMaxBalance(inputAsset)
   }, [inputAsset, isInputWalletConnected, getMaxBalance])
 
-  const handleSelectInputAsset = useCallback(
-    (input: Asset) => {
-      navigate(getSwapRoute(input, outputAsset))
-    },
-    [navigate, outputAsset],
-  )
+  const handleSelectAsset = useCallback(
+    (type: 'input' | 'output') => (asset: Asset) => {
+      const input =
+        type === 'output'
+          ? asset.ticker === inputAsset.ticker
+            ? outputAsset
+            : inputAsset
+          : asset
+      const output =
+        type === 'input'
+          ? asset.ticker === outputAsset.ticker
+            ? inputAsset
+            : outputAsset
+          : asset
 
-  const handleSelectOutputAsset = useCallback(
-    (output: Asset) => {
-      navigate(getSwapRoute(inputAsset, output))
+      navigate(getSwapRoute(input, output))
     },
-    [navigate, inputAsset],
+    [inputAsset, navigate, outputAsset],
   )
 
   const handleSwitchPair = useCallback(() => {
@@ -368,15 +263,27 @@ const SwapView = () => {
   }, [navigate, inputAsset, outputAsset])
 
   const handleChangeInputAmount = useCallback(
-    (amount: Amount) => {
-      if (amount.gt(maxInputBalance)) {
-        setInputAmount(maxInputBalance)
-      } else {
-        setInputAmount(amount)
-      }
-    },
+    (amount: Amount) =>
+      setInputAmount(amount.gt(maxInputBalance) ? maxInputBalance : amount),
     [maxInputBalance],
   )
+
+  const navigateToPoolInfo = useCallback(() => {
+    const asset = inputAsset.isRUNE() ? outputAsset : inputAsset
+
+    navigateToExternalLink(getPoolDetailRouteFromAsset(asset))
+  }, [inputAsset, outputAsset])
+
+  const handleApprove = useCallback(() => {
+    if (isInputWalletConnected && swap) {
+      setVisibleApproveModal(true)
+    } else {
+      showToast({
+        message: 'Wallet Not Found',
+        description: 'Please connect wallet',
+      })
+    }
+  }, [isInputWalletConnected, swap])
 
   const handleConfirm = useCallback(async () => {
     setVisibleConfirmModal(false)
@@ -406,7 +313,6 @@ const SwapView = () => {
       try {
         const txHash = await multichain.swap(swap, recipient)
 
-        console.log('txHash', txHash)
         // start polling
         pollTransaction({
           type: trackerType,
@@ -427,19 +333,19 @@ const SwapView = () => {
             txID: txHash,
           },
         })
-      } catch (error: any) {
+      } catch (error: NotWorthIt) {
         setTxFailed(trackId)
+        const description = translateErrorMsg(error?.toString())
 
-        // TODO: add notification
-        // handle better error message
-        // const description = translateErrorMsg(error?.toString())
-        // Notification({
-        //   type: 'error',
-        //   message: 'Submit Transaction Failed.',
-        //   description,
-        //   duration: 20,
-        // })
-        console.log(error)
+        showToast(
+          { description, message: 'Submit Transaction Failed.' },
+          ToastType.Error,
+          {
+            duration: 20000,
+          },
+        )
+
+        console.error(error)
       }
     }
   }, [wallet, swap, recipient, submitTransaction, pollTransaction, setTxFailed])
@@ -463,7 +369,7 @@ const SwapView = () => {
 
       try {
         const txHash = await multichain.approveAsset(inputAsset)
-        console.log('approve txhash', txHash)
+
         if (txHash) {
           // start polling
           pollTransaction({
@@ -481,14 +387,11 @@ const SwapView = () => {
           })
         }
       } catch (error) {
-        // TODO: notification
         setTxFailed(trackId)
-        // Notification({
-        //   type: 'open',
-        //   message: 'Approve Failed.',
-        //   duration: 20,
-        // })
-        console.log(error)
+        showToast({ message: 'Approve Failed.' }, ToastType.Error, {
+          duration: 20000,
+        })
+        console.error(error)
       }
     }
   }, [
@@ -499,60 +402,52 @@ const SwapView = () => {
     submitTransaction,
   ])
 
-  const handleSwap = useCallback(() => {
+  const showSwapConfirmationModal = useCallback(() => {
     if (walletConnected && swap) {
       if (
         swap.outputAsset.chain === 'ETH' &&
         outputAssetPriceInUSD.raw().lt(50)
       ) {
-        // TODO: add notify
-        // Notification({
-        //   type: 'info',
-        //   message: 'Swap Output Amount is too small',
-        //   description:
-        //     'Swap output amount is small and can be slashed out by ethereum gas fee',
-        // })
-        return
+        return showToast({
+          message: 'Swap Output Amount is too small',
+          description:
+            'Swap output amount is small and can be slashed out by ethereum gas fee',
+        })
       }
 
       if (swap.hasInSufficientFee) {
-        // TODO: add notify
-        // Notification({
-        //   type: 'info',
-        //   message: 'Swap Insufficient Fee',
-        //   description: 'Input amount is not enough to cover the fee',
-        // })
-        return
+        return showToast({
+          message: 'Swap Insufficient Fee',
+          description: 'Input amount is not enough to cover the fee',
+        })
       }
 
       if (isExchangeBNBAddress) {
-        // TODO: add notify
-        // Notification({
-        //   type: 'error',
-        //   message: 'Exchange BNB Address',
-        //   description: 'Cannot swap into an Exchange address.',
-        // })
-        return
+        return showToast(
+          {
+            message: 'Exchange BNB Address',
+            description: 'Cannot swap into an Exchange address.',
+          },
+          ToastType.Error,
+        )
       }
 
       if (!isValidAddress) {
-        // TODO: add notify
-        // Notification({
-        //   type: 'error',
-        //   message: 'Invalid Recipient Address',
-        //   description: 'Recipient address should be a valid address.',
-        // })
-        return
+        return showToast(
+          {
+            message: 'Invalid Recipient Address',
+            description: 'Recipient address should be a valid address.',
+          },
+          ToastType.Error,
+        )
       }
 
       setVisibleConfirmModal(true)
     } else {
-      // TODO: add notify
-      // Notification({
-      //   type: 'info',
-      //   message: 'Wallet Not Found',
-      //   description: 'Please connect wallet',
-      // })
+      return showToast({
+        message: 'Wallet Not Found',
+        description: 'Please connect wallet',
+      })
     }
   }, [
     isValidAddress,
@@ -562,29 +457,13 @@ const SwapView = () => {
     outputAssetPriceInUSD,
   ])
 
-  const handleApprove = useCallback(() => {
-    if (isInputWalletConnected && swap) {
-      setVisibleApproveModal(true)
-    } else {
-      // todo: add notification
-      // Notification({
-      //   type: 'info',
-      //   message: 'Wallet Not Found',
-      //   description: 'Please connect wallet',
-      // })
-    }
-  }, [isInputWalletConnected, swap])
-
-  const isValidSwap = useMemo(() => {
-    if (isTradingHalted) {
-      return {
-        valid: false,
-        msg: 'Swap not available',
-      }
-    }
-
-    return swap?.isValid() ?? { valid: false }
-  }, [swap, isTradingHalted])
+  const isValidSwap = useMemo(
+    () =>
+      isTradingHalted
+        ? { valid: false, msg: 'Swap not available' }
+        : swap?.isValid() ?? { valid: false },
+    [swap, isTradingHalted],
+  )
 
   const isValidSlip = useMemo(() => swap?.isSlipValid() ?? true, [swap])
 
@@ -613,16 +492,6 @@ const SwapView = () => {
       }),
     [inputAsset, inputAmount],
   )
-
-  const title = useMemo(
-    () => `Swap ${inputAsset.name} >> ${outputAsset.name}`,
-    [inputAsset, outputAsset],
-  )
-
-  // const poolAsset = useMemo(
-  //   () => (inputAsset.isRUNE() ? outputAsset : inputAsset),
-  //   [inputAsset, outputAsset],
-  // )
 
   const inputAssetProps = useMemo(
     () => ({
@@ -661,49 +530,10 @@ const SwapView = () => {
     [outputAssets, getMaxBalance],
   )
 
-  const renderConfirmModalContent = useMemo(
-    () => (
-      <ConfirmContent
-        inputAsset={inputAssetProps}
-        outputAsset={outputAssetProps}
-        recipient={recipient}
-        estimatedTime={estimatedTime}
-        slippage={slipPercent.toFixed(3)}
-        isValidSlip={isValidSlip}
-        minReceive={`${minReceive.toSignificant(
-          4,
-        )} ${outputAsset.name.toUpperCase()}`}
-        totalFee={totalFeeInUSD.toCurrencyFormat(2)}
-      />
-    ),
-    [
-      inputAssetProps,
-      outputAssetProps,
-      recipient,
-      estimatedTime,
-      slipPercent,
-      isValidSlip,
-      minReceive,
-      outputAsset,
-      totalFeeInUSD,
-    ],
-  )
-
   const approveConfirmInfo = useApproveInfoItems({
     inputAsset: inputAssetProps,
     fee: totalFeeInUSD.toCurrencyFormat(2),
   })
-
-  const renderApproveModalContent = useMemo(
-    () => <InfoTable items={approveConfirmInfo} />,
-    [approveConfirmInfo],
-  )
-
-  const navigateToPoolInfo = useCallback(() => {
-    const asset = inputAsset.isRUNE() ? outputAsset : inputAsset
-
-    navigateToExternalLink(getPoolDetailRouteFromAsset(asset))
-  }, [inputAsset, outputAsset])
 
   const isApproveRequired = useMemo(
     () => isInputWalletConnected && isApproved === false,
@@ -714,6 +544,16 @@ const SwapView = () => {
     () => !isWalletRequired && !isApproveRequired,
     [isWalletRequired, isApproveRequired],
   )
+
+  const buttonLoading = useMemo(
+    () =>
+      [TxTrackerStatus.Pending, TxTrackerStatus.Submitting].includes(
+        assetApproveStatus,
+      ),
+    [assetApproveStatus],
+  )
+
+  const title = `Swap ${inputAsset.name} >> ${outputAsset.name}`
 
   return (
     <PanelView
@@ -753,8 +593,8 @@ const SwapView = () => {
         outputAsset={outputAssetProps}
         inputAssetList={inputAssetList}
         outputAssetList={outputAssetList}
-        onInputAssetChange={handleSelectInputAsset}
-        onOutputAssetChange={handleSelectOutputAsset}
+        onInputAssetChange={handleSelectAsset('input')}
+        onOutputAssetChange={handleSelectAsset('output')}
         onInputAmountChange={handleChangeInputAmount}
         onSwitchPair={handleSwitchPair}
       />
@@ -772,7 +612,7 @@ const SwapView = () => {
                 {t('common.recipientAddress')}
               </Typography>
 
-              <Box row>
+              <Box>
                 <HoverIcon
                   iconName={addressDisabled ? 'edit' : 'lock'}
                   size={16}
@@ -783,7 +623,7 @@ const SwapView = () => {
                   size={16}
                   onClick={handleCopyAddress}
                 />
-                <HoverIcon iconName="share" size={16} onClick={() => {}} />
+                {/* <HoverIcon iconName="share" size={16} onClick={() => {}} /> */}
               </Box>
             </Box>
           }
@@ -802,11 +642,6 @@ const SwapView = () => {
         networkFee={totalFeeInUSD.toCurrencyFormat(2)}
       />
 
-      {/* <AutoRouterInfo
-          firstAsset={firstAsset.asset}
-          secondAsset={secondAsset.asset}
-        /> */}
-
       <Box className="w-full pt-5">
         {isApproveRequired && (
           <Button
@@ -814,18 +649,12 @@ const SwapView = () => {
             stretch
             size="lg"
             onClick={handleApprove}
-            disabled={
-              assetApproveStatus === TxTrackerStatus.Pending ||
-              assetApproveStatus === TxTrackerStatus.Submitting
-            }
-            loading={
-              assetApproveStatus === TxTrackerStatus.Pending ||
-              assetApproveStatus === TxTrackerStatus.Submitting
-            }
+            loading={buttonLoading}
           >
-            Approve
+            {t('txManager.approve')}
           </Button>
         )}
+
         {isWalletRequired && (
           <Button
             isFancy
@@ -836,36 +665,48 @@ const SwapView = () => {
             {t('common.connectWallet')}
           </Button>
         )}
+
         {isSwapAvailable && (
           <Button
             isFancy
             error={!isValidSwap.valid}
             stretch
             size="lg"
-            onClick={handleSwap}
+            onClick={showSwapConfirmationModal}
           >
             {btnLabel}
           </Button>
         )}
-
-        <ConfirmModal
-          inputAssets={[inputAsset]}
-          isOpened={visibleConfirmModal}
-          onClose={() => setVisibleConfirmModal(false)}
-          onConfirm={handleConfirm}
-        >
-          {renderConfirmModalContent}
-        </ConfirmModal>
-
-        <ConfirmModal
-          inputAssets={[inputAsset]}
-          isOpened={visibleApproveModal}
-          onClose={() => setVisibleApproveModal(false)}
-          onConfirm={handleConfirmApprove}
-        >
-          {renderApproveModalContent}
-        </ConfirmModal>
       </Box>
+
+      <ConfirmModal
+        inputAssets={[inputAsset]}
+        isOpened={visibleConfirmModal}
+        onClose={() => setVisibleConfirmModal(false)}
+        onConfirm={handleConfirm}
+      >
+        <ConfirmContent
+          inputAsset={inputAssetProps}
+          outputAsset={outputAssetProps}
+          recipient={recipient}
+          estimatedTime={estimatedTime}
+          slippage={slipPercent.toFixed(3)}
+          isValidSlip={isValidSlip}
+          minReceive={`${minReceive.toSignificant(
+            4,
+          )} ${outputAsset.name.toUpperCase()}`}
+          totalFee={totalFeeInUSD.toCurrencyFormat(2)}
+        />
+      </ConfirmModal>
+
+      <ConfirmModal
+        inputAssets={[inputAsset]}
+        isOpened={visibleApproveModal}
+        onClose={() => setVisibleApproveModal(false)}
+        onConfirm={handleConfirmApprove}
+      >
+        <InfoTable items={approveConfirmInfo} />
+      </ConfirmModal>
     </PanelView>
   )
 }

@@ -21,7 +21,7 @@ import { t } from 'services/i18n'
 
 import { formatPrice } from 'helpers/formatPrice'
 
-import { ROUTES } from 'settings/constants'
+import { getSendRoute, getSwapRoute } from 'settings/constants'
 
 import { ViewMode } from 'types/app'
 
@@ -130,19 +130,19 @@ export const AccountCard = memo(({ chain }: Props) => {
           <AccountCardButton
             icon="receive"
             label={t('common.send')}
-            onClick={() => navigate(ROUTES.Send)}
+            onClick={() => navigate(getSendRoute())}
             className="rotate-180"
           />
 
           <AccountCardButton
             icon="receive"
             label={t('common.receive')}
-            onClick={() => navigate(ROUTES.Send)}
+            onClick={() => navigate(getSendRoute())}
           />
           <AccountCardButton
             icon="swap"
             label={t('common.swap')}
-            onClick={() => navigate(`${ROUTES.Swap}?input=${sigAsset}`)}
+            onClick={() => navigate(getSwapRoute(sigAsset))}
           />
         </Box>
 

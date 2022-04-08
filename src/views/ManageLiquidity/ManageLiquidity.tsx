@@ -24,7 +24,7 @@ import { t } from 'services/i18n'
 
 import { sortChains } from 'helpers/chains'
 
-import { ROUTES } from 'settings/constants'
+import { getAddLiquidityRoute } from 'settings/constants'
 
 const ManageLiquidity = () => {
   const navigate = useNavigate()
@@ -85,7 +85,7 @@ const ManageLiquidity = () => {
               <Button
                 size="lg"
                 stretch
-                onClick={() => navigate(ROUTES.AddLiquidity)}
+                onClick={() => navigate(getAddLiquidityRoute())}
               >
                 {t('common.deposit')}
               </Button>

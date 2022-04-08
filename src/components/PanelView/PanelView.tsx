@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { memo, ReactNode } from 'react'
 
 import { Box, Card } from 'components/Atomic'
 import { Helmet } from 'components/Helmet'
@@ -9,7 +9,7 @@ export type Props = {
   children: ReactNode
 }
 
-export const PanelView = ({ title, header, children }: Props) => {
+export const PanelView = memo(({ title, header, children }: Props) => {
   return (
     <Box className="self-center w-full max-w-[480px]" col>
       <Helmet title={title} content={title} />
@@ -27,4 +27,4 @@ export const PanelView = ({ title, header, children }: Props) => {
       </Card>
     </Box>
   )
-}
+})

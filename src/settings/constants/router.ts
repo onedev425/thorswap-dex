@@ -23,16 +23,16 @@ export enum ROUTES {
   Wallet = '/wallet',
 }
 
-export const getAddLiquidityRoute = (asset: Asset) => {
-  return `${ROUTES.AddLiquidity}/${asset.toURLEncoded()}`
+export const getAddLiquidityRoute = (asset?: Asset) => {
+  return `${ROUTES.AddLiquidity}${asset ? `/${asset.toURLEncoded()}` : ''}`
 }
 
-export const getWithdrawRoute = (asset: Asset) => {
-  return `${ROUTES.WithdrawLiquidity}/${asset.toURLEncoded()}`
+export const getWithdrawRoute = (asset?: Asset) => {
+  return `${ROUTES.WithdrawLiquidity}${asset ? `/${asset.toURLEncoded()}` : ''}`
 }
 
-export const getSendRoute = (asset: Asset) => {
-  return `${ROUTES.Send}/${asset.toURLEncoded()}`
+export const getSendRoute = (asset?: Asset) => {
+  return `${ROUTES.Send}${asset ? `/${asset.toURLEncoded()}` : ''}`
 }
 
 export const getSwapRoute = (input: Asset, output: Asset = Asset.RUNE()) => {

@@ -1,3 +1,5 @@
+import { memo } from 'react'
+
 import classNames from 'classnames'
 
 import { Box } from 'components/Atomic'
@@ -12,31 +14,33 @@ type InfoTableProps = {
   className?: string
 }
 
-export const InfoTable = ({
-  items,
-  size = 'md',
-  showBorder,
-  horizontalInset,
-  className,
-}: InfoTableProps) => {
-  return (
-    <Box
-      className={classNames(
-        'self-stretch flex-1',
-        { 'px-1.5': horizontalInset },
-        className,
-      )}
-      col
-    >
-      {items.map((item) => (
-        <InfoRow
-          key={item.label?.toString()}
-          label={item.label}
-          value={item.value}
-          size={item.size || size}
-          showBorder={showBorder}
-        />
-      ))}
-    </Box>
-  )
-}
+export const InfoTable = memo(
+  ({
+    items,
+    size = 'md',
+    showBorder,
+    horizontalInset,
+    className,
+  }: InfoTableProps) => {
+    return (
+      <Box
+        col
+        className={classNames(
+          'self-stretch flex-1',
+          { 'px-1.5': horizontalInset },
+          className,
+        )}
+      >
+        {items.map((item) => (
+          <InfoRow
+            key={item.label?.toString()}
+            label={item.label}
+            value={item.value}
+            size={item.size || size}
+            showBorder={showBorder}
+          />
+        ))}
+      </Box>
+    )
+  },
+)

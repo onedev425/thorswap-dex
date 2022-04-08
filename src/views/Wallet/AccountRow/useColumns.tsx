@@ -23,7 +23,7 @@ import { t } from 'services/i18n'
 
 import { formatPrice } from 'helpers/formatPrice'
 
-import { ROUTES } from 'settings/constants'
+import { getSwapRoute } from 'settings/constants'
 
 import { ViewMode } from 'types/app'
 
@@ -150,7 +150,7 @@ export const useColumns = (isConnected: boolean) => {
                     name="swap"
                   />
                 }
-                onClick={() => navigate(`${ROUTES.Swap}?input=${value}`)}
+                onClick={() => navigate(getSwapRoute(value))}
               >
                 {isLgActive ? t('common.swap') : null}
               </Button>

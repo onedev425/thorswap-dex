@@ -7,7 +7,7 @@ import { Box, Collapse, Icon, Typography } from 'components/Atomic'
 import { InfoRow } from 'components/InfoRow'
 
 type Props = {
-  price: Price | undefined
+  price?: Price
   inputAsset: AssetInputType
   outputAsset: AssetInputType
   minReceive: string
@@ -31,7 +31,7 @@ export const SwapInfo = memo(
         className="!py-2 self-stretch mt-5 !bg-light-gray-light dark:!bg-dark-gray-light !rounded-2xl flex-col"
         shadow={false}
         title={
-          <div className="flex flex-row gap-x-2">
+          <Box className="gap-x-2">
             <Icon name="infoCircle" size={16} color="secondary" />
 
             <Typography variant="caption" color="primary" fontWeight="normal">
@@ -43,7 +43,7 @@ export const SwapInfo = memo(
             <Typography variant="caption" color="secondary" fontWeight="normal">
               {`(${inputAsset.usdPrice?.toCurrencyFormat(2)})`}
             </Typography>
-          </div>
+          </Box>
         }
       >
         <Box className="w-full space-y-1" col>
