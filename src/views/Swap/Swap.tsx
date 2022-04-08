@@ -54,6 +54,7 @@ import {
   getPoolDetailRouteFromAsset,
   getSwapRoute,
   navigateToExternalLink,
+  POLL_GET_POOLS_INTERVAL,
 } from 'settings/constants'
 
 import { AssetInputs } from './AssetInputs'
@@ -90,12 +91,7 @@ const SwapView = () => {
 
   const { getMaxBalance } = useBalance()
   const { wallet, setIsConnectModalOpen } = useWallet()
-  const {
-    pools: allPools,
-    poolLoading,
-    inboundData,
-    inboundLoading,
-  } = useMidgard()
+  const { pools: allPools, poolLoading, inboundData } = useMidgard()
   const { slippageTolerance } = useApp()
   const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
 
@@ -715,8 +711,8 @@ const SwapView = () => {
   )
 
   const isSwapAvailable = useMemo(
-    () => isInputWalletConnected && !isApproveRequired,
-    [isInputWalletConnected, isApproveRequired],
+    () => !isWalletRequired && !isApproveRequired,
+    [isWalletRequired, isApproveRequired],
   )
 
   return (
@@ -728,8 +724,9 @@ const SwapView = () => {
           actionsComponent={
             <Box center row className="space-x-2">
               <CountDownIndicator
-                duration={9}
-                resetIndicator={inboundLoading}
+                duration={POLL_GET_POOLS_INTERVAL / 1000}
+                resetIndicator={poolLoading}
+                // TODO: onClick={() => getPools()}
               />
 
               <Button
@@ -793,19 +790,17 @@ const SwapView = () => {
         />
       )}
 
-      {swap && (
-        <SwapInfo
-          price={swap.price}
-          inputAsset={inputAssetProps}
-          outputAsset={outputAssetProps}
-          isValidSlip={isValidSlip}
-          slippage={slipPercent.toFixed(3)}
-          minReceive={`${minReceive.toSignificant(
-            6,
-          )} ${outputAsset.name.toUpperCase()}`}
-          networkFee={totalFeeInUSD.toCurrencyFormat(2)}
-        />
-      )}
+      <SwapInfo
+        price={swap?.price}
+        inputAsset={inputAssetProps}
+        outputAsset={outputAssetProps}
+        isValidSlip={isValidSlip}
+        slippage={slipPercent.toFixed(3)}
+        minReceive={`${minReceive.toSignificant(
+          6,
+        )} ${outputAsset.name.toUpperCase()}`}
+        networkFee={totalFeeInUSD.toCurrencyFormat(2)}
+      />
 
       {/* <AutoRouterInfo
           firstAsset={firstAsset.asset}

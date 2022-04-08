@@ -19,6 +19,8 @@ import {
 } from 'components/Atomic'
 import { HighlightCard } from 'components/HighlightCard'
 
+import { PoolShareType } from 'store/midgard/types'
+
 import useWindowSize from 'hooks/useWindowSize'
 
 import { t } from 'services/i18n'
@@ -63,6 +65,17 @@ export const LiquidityCard = ({
       (Number(runePending) > 0 ? pool.asset.ticker : Asset.RUNE().ticker)) ||
     ''
 
+  const lpType = useMemo(() => {
+    switch (shareType) {
+      case PoolShareType.SYM:
+        return `RUNE + ${pool.asset.ticker} LP`
+      case PoolShareType.ASSET_ASYM:
+        return `${pool.asset.ticker} LP`
+      case PoolShareType.RUNE_ASYM:
+        return 'RUNE LP'
+    }
+  }, [pool.asset.ticker, shareType])
+
   return (
     <Box className="self-stretch" justifyCenter col>
       <HighlightCard
@@ -98,9 +111,7 @@ export const LiquidityCard = ({
               )}
               fontWeight="semibold"
             >
-              {pool.asset.ticker}
-              {' / '}
-              {RuneAsset.symbol}
+              {lpType}
             </Typography>
           </Box>
 

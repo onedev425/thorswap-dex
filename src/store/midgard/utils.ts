@@ -4,10 +4,15 @@ import { THORChain } from '@thorswap-lib/xchain-util'
 
 import { ChainMemberDetails } from './types'
 
-export const hasPendingLP = (data: ChainMemberDetails): boolean => {
+export const hasPendingLP = (data: ChainMemberDetails | undefined): boolean => {
+  if (!data) return false
+
   const chainMemberDataArray = Object.values(data)
+
+  if (!chainMemberDataArray) return false
+
   for (let i = 0; i < chainMemberDataArray.length; i++) {
-    const chainMemberData = chainMemberDataArray[i]
+    const chainMemberData = chainMemberDataArray?.[i] ?? {}
     const poolMemberDataArray = Object.values(chainMemberData)
     for (let j = 0; j < poolMemberDataArray.length; j++) {
       const poolMemberData = poolMemberDataArray[j]
@@ -34,13 +39,13 @@ export const isPendingLP = (data: MemberPool): boolean => {
 export const getChainMemberDetails = ({
   chain,
   memPools,
-  chainMemberDetails,
+  chainMemberDetails, // previous chain member details
 }: {
   chain: SupportedChain
   memPools: MemberPool[]
   chainMemberDetails: ChainMemberDetails
 }): ChainMemberDetails => {
-  // get rune asym share from memPools fetched with thorchain address
+  // get sym and rune asym share from memPools fetched with thorchain address
   if (chain === THORChain) {
     memPools.forEach((memPool: MemberPool) => {
       const { pool, runeAdded, assetAdded, runePending } = memPool
@@ -81,7 +86,7 @@ export const getChainMemberDetails = ({
     })
   }
 
-  // get only asset asym share
+  // get sym and asset asym share
   if (chain !== THORChain) {
     memPools.forEach((memPool: MemberPool) => {
       const { pool, runeAdded, assetAdded, assetPending } = memPool

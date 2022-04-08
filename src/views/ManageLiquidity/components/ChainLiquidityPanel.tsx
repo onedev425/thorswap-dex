@@ -11,7 +11,7 @@ import { LiquidityCard } from 'components/LiquidityCard'
 import { ReloadButton } from 'components/ReloadButton'
 
 import { useMidgard } from 'store/midgard/hooks'
-import { ChainMemberData } from 'store/midgard/types'
+import { ChainMemberData, PoolShareType } from 'store/midgard/types'
 
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
@@ -35,28 +35,50 @@ export const ChainLiquidityPanel = ({ chain, data, isLoading }: Props) => {
     loadMemberDetailsByChain(chain)
   }, [chain, loadMemberDetailsByChain])
 
-  const liquidityPools = useMemo(() => {
-    const poolStrings = Object.keys(data)
+  // get symm, asset asym, rune asym LPs
+  const chainLiquidityPositions = useMemo(() => {
+    const poolNames = Object.keys(data)
 
-    const chainPools = poolStrings.map((poolString) => {
-      const poolMemberData = data[poolString]
+    const liquidityPositions: ChainPoolData[] = []
 
-      const poolAsset = Asset.fromAssetString(poolString)
+    poolNames.map((poolAssetName: string) => {
+      const poolMemberData = data[poolAssetName]
+      const poolAsset = Asset.fromAssetString(poolAssetName)
       if (!poolAsset) return null
 
       const pool = Pool.byAsset(poolAsset, pools)
       if (!pool) return null
 
-      const [shareType, memberPool] = Object.entries(poolMemberData)[0] || []
-      if (!memberPool) return null
+      if (poolMemberData?.sym) {
+        liquidityPositions.push({
+          ...poolMemberData?.sym,
+          shareType: PoolShareType.SYM,
+          pool,
+        })
+      }
 
-      return { ...memberPool, shareType, pool }
+      if (poolMemberData?.assetAsym) {
+        liquidityPositions.push({
+          ...poolMemberData?.assetAsym,
+          shareType: PoolShareType.ASSET_ASYM,
+          pool,
+        })
+      }
+
+      if (poolMemberData?.runeAsym) {
+        liquidityPositions.push({
+          ...poolMemberData?.runeAsym,
+          shareType: PoolShareType.RUNE_ASYM,
+          pool,
+        })
+      }
     })
 
-    return chainPools.filter(Boolean) as ChainPoolData[]
+    return liquidityPositions
   }, [data, pools])
 
-  console.log('liquidityPools', liquidityPools)
+  console.log('chainLiquidity', data)
+  console.log('chainLiquidityPositions', chainLiquidityPositions)
 
   return (
     <Box className="gap-1" col>
@@ -89,10 +111,10 @@ export const ChainLiquidityPanel = ({ chain, data, isLoading }: Props) => {
           </Box>
         }
       />
-      {liquidityPools.map((liquidityPool) => (
+      {chainLiquidityPositions.map((liquidityPosition) => (
         <LiquidityCard
-          {...liquidityPool}
-          key={liquidityPool.pool.asset.ticker}
+          {...liquidityPosition}
+          key={`${liquidityPosition.pool.asset.ticker}_${liquidityPosition.shareType}`}
           withFooter
         />
       ))}

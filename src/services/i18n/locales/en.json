@@ -222,6 +222,9 @@
       "totalTransactions": "Total Transactions",
       "users": "Users"
     },
+    "setting": {
+      "transactionMode": "Transaction Mode"
+    },
     "swap": {
       "autoRouter": "Auto Router",
       "transactionSettings": "Transaction Settings",

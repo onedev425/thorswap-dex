@@ -22,6 +22,8 @@ import { useWallet } from 'store/wallet/hooks'
 
 import { t } from 'services/i18n'
 
+import { sortChains } from 'helpers/chains'
+
 import { ROUTES } from 'settings/constants'
 
 const ManageLiquidity = () => {
@@ -95,7 +97,7 @@ const ManageLiquidity = () => {
 
             {!!Object.keys(chainMemberDetails).length && (
               <Box className="w-full gap-2" col>
-                {Object.keys(chainMemberDetails).map((chain) => (
+                {sortChains(Object.keys(chainMemberDetails)).map((chain) => (
                   <ChainLiquidityPanel
                     key={chain}
                     chain={chain as SupportedChain}

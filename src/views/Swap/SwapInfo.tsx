@@ -7,7 +7,7 @@ import { Box, Collapse, Icon, Typography } from 'components/Atomic'
 import { InfoRow } from 'components/InfoRow'
 
 type Props = {
-  price: Price
+  price: Price | undefined
   inputAsset: AssetInputType
   outputAsset: AssetInputType
   minReceive: string
@@ -35,9 +35,9 @@ export const SwapInfo = memo(
             <Icon name="infoCircle" size={16} color="secondary" />
 
             <Typography variant="caption" color="primary" fontWeight="normal">
-              {`1 ${inputAsset.asset.ticker} = ${price.toFixedInverted(6)} ${
-                outputAsset.asset.ticker
-              }`}
+              {`1 ${inputAsset.asset.ticker} = ${
+                price?.toFixedInverted(6) ?? 'N/A'
+              } ${outputAsset.asset.ticker}`}
             </Typography>
 
             <Typography variant="caption" color="secondary" fontWeight="normal">

@@ -9,10 +9,10 @@ export const SwapSettings = () => {
   const {
     slippageTolerance,
     transactionDeadline,
-    autoRouter,
+    // autoRouter,
     expertMode,
     setSlippage,
-    setAutoRouter,
+    // setAutoRouter,
     setExpertMode,
     setTransactionDeadline,
   } = useApp()
@@ -98,24 +98,8 @@ export const SwapSettings = () => {
         </Box>
         <Box>
           <Typography variant="caption">
-            {t('views.swap.interfaceSettings')}
+            {t('views.setting.transactionMode')}
           </Typography>
-        </Box>
-        <Box alignCenter justify="between">
-          <Box className="space-x-2">
-            <Typography variant="caption-xs" color="secondary">
-              {t('views.swap.autoRouterApi')}
-            </Typography>
-            <Icon color="secondary" size={16} name="questionCircle" />
-          </Box>
-          <Box>
-            <Switch
-              selectedText="ON"
-              unselectedText="OFF"
-              checked={autoRouter}
-              onChange={() => setAutoRouter(!autoRouter)}
-            />
-          </Box>
         </Box>
         <Box alignCenter justify="between">
           <Box className="space-x-2">
@@ -133,6 +117,22 @@ export const SwapSettings = () => {
             />
           </Box>
         </Box>
+        {/* <Box alignCenter justify="between">
+          <Box className="space-x-2">
+            <Typography variant="caption-xs" color="secondary">
+              {t('views.swap.autoRouterApi')}
+            </Typography>
+            <Icon color="secondary" size={16} name="questionCircle" />
+          </Box>
+          <Box>
+            <Switch
+              selectedText="ON"
+              unselectedText="OFF"
+              checked={autoRouter}
+              onChange={() => setAutoRouter(!autoRouter)}
+            />
+          </Box>
+        </Box> */}
       </Box>
     </Card>
   )

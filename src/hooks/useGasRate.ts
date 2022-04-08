@@ -17,7 +17,7 @@ export const GasUnitLabel: Record<Chain, string> = {
   [Chain.Litecoin]: 'Sats',
   [Chain.BitcoinCash]: 'Sats',
   [Chain.BitcoinCash]: 'Sats',
-  [Chain.Terra]: 'Sats',
+  [Chain.Terra]: 'uluna',
   [Chain.Polkadot]: 'Sats',
   [Chain.Cosmos]: 'Sats',
 }

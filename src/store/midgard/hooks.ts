@@ -35,6 +35,10 @@ export const useMidgard = () => {
   )
   const wallet = useMemo(() => walletState.wallet, [walletState])
 
+  const getPools = useCallback(() => {
+    dispatch(actions.getPools())
+  }, [dispatch])
+
   const isGlobalHistoryLoading = useMemo(
     () =>
       midgardState.earningsHistoryLoading ||
@@ -284,6 +288,7 @@ export const useMidgard = () => {
     ...midgardState,
     actions,
     isGlobalHistoryLoading,
+    getPools,
     getAllMemberDetails,
     getPoolHistory,
     getGlobalHistory,

@@ -140,6 +140,13 @@ const midgardSlice = createSlice({
             ...state.chainMemberDetailsLoading,
             [chain]: true,
           }
+
+          // reset chain member data
+
+          const chainMemberDetailsData = state.chainMemberDetails
+          if (chainMemberDetailsData?.[chain])
+            delete chainMemberDetailsData?.[chain]
+          state.chainMemberDetails = chainMemberDetailsData
           state.memberDetailsLoading = true
         },
       )

@@ -60,8 +60,9 @@ import { getMaxSymAmounts, liquidityToPoolShareType } from './utils'
 // TODO: refactor useState -> useReducer
 export const AddLiquidity = () => {
   const navigate = useNavigate()
-  const { assetParam = Asset.BTC().toString() } =
-    useParams<{ assetParam: string }>()
+  const { assetParam = Asset.BTC().toString() } = useParams<{
+    assetParam: string
+  }>()
 
   const { expertMode } = useApp()
 
@@ -776,6 +777,10 @@ export const AddLiquidity = () => {
       }
     }
 
+    // only invalid scenario is
+    // 1. rune asym
+    // 2. rune-asset sym
+
     if (liquidityType === LiquidityTypeOption.SYMMETRICAL) {
       if (!runeAmount.gt(minRuneAmount) || !assetAmount.gt(minAssetAmount)) {
         return {
@@ -784,17 +789,13 @@ export const AddLiquidity = () => {
         }
       }
 
-      // if runeAsym or assetAsym already exist, cannot deposit symmetrically
-      if (memberData?.runeAsym) {
-        return {
-          valid: false,
-          msg: 'Already have RUNE LP',
-        }
-      }
-      if (memberData?.assetAsym) {
-        return {
-          valid: false,
-          msg: 'Already have Asset LP',
+      if (poolMemberDetail && !isPendingLP(poolMemberDetail)) {
+        // if runeAsym or assetAsym already exist, cannot deposit symmetrically
+        if (memberData?.runeAsym) {
+          return {
+            valid: false,
+            msg: 'Already have RUNE LP',
+          }
         }
       }
     }
@@ -806,20 +807,6 @@ export const AddLiquidity = () => {
           msg: 'Insufficient Amount',
         }
       }
-      // if rune-asset symm LP already exist, cannot deposit asymmetrically
-      if (memberData?.sym) {
-        return {
-          valid: false,
-          msg: 'Already have RUNE-ASSET LP',
-        }
-      }
-      // if rune LP already exist, cannot deposit asymmetrically
-      if (memberData?.runeAsym) {
-        return {
-          valid: false,
-          msg: 'Already have RUNE LP',
-        }
-      }
     }
 
     if (liquidityType === LiquidityTypeOption.RUNE) {
@@ -829,24 +816,11 @@ export const AddLiquidity = () => {
           msg: 'Insufficient Amount',
         }
       }
-      // if rune-asset symm LP already exist, cannot deposit asymmetrically
-      if (memberData?.sym) {
-        return {
-          valid: false,
-          msg: 'Already have RUNE-ASSET LP',
-        }
-      }
-      // if asset symm LP already exist, cannot deposit asymmetrically
-      if (memberData?.assetAsym) {
-        return {
-          valid: false,
-          msg: 'Already have ASSET LP',
-        }
-      }
     }
 
     return { valid: true }
   }, [
+    poolMemberDetail,
     isLPActionPaused,
     liquidityType,
     runeAmount,

@@ -31,7 +31,7 @@ export const useGlobalState = () => {
       if (!route) {
         loadInitialData()
       } else {
-        dispatch(actions.getPools())
+        // dispatch(actions.getPools())
         dispatch(actions.getMimir())
         dispatch(actions.getStats())
       }

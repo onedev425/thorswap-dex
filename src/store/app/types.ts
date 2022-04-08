@@ -8,19 +8,21 @@ import {
 } from 'types/app'
 
 export interface State {
-  // for only mobile version (not desktop version)
-  autoRouter: boolean
-  baseCurrency: string
-  expertMode: boolean
-  feeOptionType: FeeOption
   isAnnOpen: boolean
+  showAnnouncement: boolean
   isSettingOpen: boolean
   isSidebarCollapsed: boolean
   isSidebarOpen: boolean
+  //
+  autoRouter: boolean
+  baseCurrency: string
+  // swap & liquidity options
+  expertMode: boolean
+  feeOptionType: FeeOption
+  slippageTolerance: number
+  //
   language: SupportedLanguages
   nodeWatchList: string[]
-  showAnnouncement: boolean
-  slippageTolerance: number
   themeType: ThemeType
   thousandSeparator: ThousandSeparator
   transactionDeadline: number

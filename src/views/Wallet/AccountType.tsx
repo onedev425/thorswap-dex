@@ -1,9 +1,6 @@
 import { memo, useMemo } from 'react'
 
-import {
-  chainToSigAsset,
-  SUPPORTED_CHAINS as supportedChains,
-} from '@thorswap-lib/multichain-sdk'
+import { chainToSigAsset } from '@thorswap-lib/multichain-sdk'
 import { chainToString } from '@thorswap-lib/xchain-util'
 
 import { AccountRow } from 'views/Wallet/AccountRow'
@@ -12,6 +9,8 @@ import { Box } from 'components/Atomic'
 
 import { useApp } from 'store/app/hooks'
 import { useWallet } from 'store/wallet/hooks'
+
+import { SORTED_CHAINS } from 'settings/chain'
 
 import { ViewMode } from 'types/app'
 
@@ -28,7 +27,7 @@ export const AccountType = memo(({ onlyConnected, keyword }: Props) => {
 
   const filteredChains = useMemo(
     () =>
-      supportedChains.filter((chain) => {
+      SORTED_CHAINS.filter((chain) => {
         const sigAsset = chainToSigAsset(chain)
         const chainName = chainToString(chain)
         const lowerKeyword = keyword.toLowerCase()
