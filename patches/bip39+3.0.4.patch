@@ -92,12 +92,12 @@ index 4cf7f47..c953a34 100644
 +
 +export default english;
 diff --git a/node_modules/bip39/src/index.js b/node_modules/bip39/src/index.js
-index 91d1a72..7dfdaec 100644
+index 91d1a72..a902f1d 100644
 --- a/node_modules/bip39/src/index.js
 +++ b/node_modules/bip39/src/index.js
-@@ -1,16 +1,17 @@
- "use strict";
- Object.defineProperty(exports, "__esModule", { value: true });
+@@ -1,15 +1,14 @@
+-"use strict";
+-Object.defineProperty(exports, "__esModule", { value: true });
 -const createHash = require("create-hash");
 -const pbkdf2_1 = require("pbkdf2");
 -const randomBytes = require("randombytes");
@@ -113,13 +113,11 @@ index 91d1a72..7dfdaec 100644
  const INVALID_CHECKSUM = 'Invalid mnemonic checksum';
  const WORDLIST_REQUIRED = 'A wordlist is required but a default could not be found.\n' +
      'Please pass a 2048 word array explicitly.';
--function pbkdf2Promise(password, saltMixin, iterations, keylen, digest) {
 +
-+    function pbkdf2Promise(password, saltMixin, iterations, keylen, digest) {
+ function pbkdf2Promise(password, saltMixin, iterations, keylen, digest) {
      return Promise.resolve().then(() => new Promise((resolve, reject) => {
          const callback = (err, derivedKey) => {
-             if (err) {
-@@ -26,18 +27,22 @@ function pbkdf2Promise(password, saltMixin, iterations, keylen, digest) {
+@@ -26,18 +25,22 @@ function pbkdf2Promise(password, saltMixin, iterations, keylen, digest) {
  function normalize(str) {
      return (str || '').normalize('NFKD');
  }
@@ -142,7 +140,7 @@ index 91d1a72..7dfdaec 100644
  function deriveChecksumBits(entropyBuffer) {
      const ENT = entropyBuffer.length * 8;
      const CS = ENT / 32;
-@@ -46,15 +51,17 @@ function deriveChecksumBits(entropyBuffer) {
+@@ -46,15 +49,17 @@ function deriveChecksumBits(entropyBuffer) {
          .digest();
      return bytesToBinary(Array.from(hash)).slice(0, CS);
  }
@@ -161,7 +159,7 @@ index 91d1a72..7dfdaec 100644
  function mnemonicToSeed(mnemonic, password) {
      return Promise.resolve().then(() => {
          const mnemonicBuffer = Buffer.from(normalize(mnemonic), 'utf8');
-@@ -62,7 +69,7 @@ function mnemonicToSeed(mnemonic, password) {
+@@ -62,7 +67,7 @@ function mnemonicToSeed(mnemonic, password) {
          return pbkdf2Promise(mnemonicBuffer, saltBuffer, 2048, 64, 'sha512');
      });
  }
@@ -170,7 +168,7 @@ index 91d1a72..7dfdaec 100644
  function mnemonicToEntropy(mnemonic, wordlist) {
      wordlist = wordlist || DEFAULT_WORDLIST;
      if (!wordlist) {
-@@ -104,7 +111,7 @@ function mnemonicToEntropy(mnemonic, wordlist) {
+@@ -104,7 +109,7 @@ function mnemonicToEntropy(mnemonic, wordlist) {
      }
      return entropy.toString('hex');
  }
@@ -179,7 +177,7 @@ index 91d1a72..7dfdaec 100644
  function entropyToMnemonic(entropy, wordlist) {
      if (!Buffer.isBuffer(entropy)) {
          entropy = Buffer.from(entropy, 'hex');
-@@ -135,7 +142,7 @@ function entropyToMnemonic(entropy, wordlist) {
+@@ -135,7 +140,7 @@ function entropyToMnemonic(entropy, wordlist) {
          ? words.join('\u3000')
          : words.join(' ');
  }
@@ -188,7 +186,7 @@ index 91d1a72..7dfdaec 100644
  function generateMnemonic(strength, rng, wordlist) {
      strength = strength || 128;
      if (strength % 32 !== 0) {
-@@ -144,19 +151,20 @@ function generateMnemonic(strength, rng, wordlist) {
+@@ -144,19 +149,20 @@ function generateMnemonic(strength, rng, wordlist) {
      rng = rng || randomBytes;
      return entropyToMnemonic(rng(strength / 8), wordlist);
  }
@@ -212,7 +210,7 @@ index 91d1a72..7dfdaec 100644
      if (result) {
          DEFAULT_WORDLIST = result;
      }
-@@ -164,18 +172,29 @@ function setDefaultWordlist(language) {
+@@ -164,18 +170,27 @@ function setDefaultWordlist(language) {
          throw new Error('Could not find wordlist for language "' + language + '"');
      }
  }
@@ -234,8 +232,6 @@ index 91d1a72..7dfdaec 100644
 -exports.getDefaultWordlist = getDefaultWordlist;
 -var _wordlists_2 = require("./_wordlists");
 -exports.wordlists = _wordlists_2.wordlists;
-+
-+
 +
 +export {
 +    mnemonicToSeedSync,

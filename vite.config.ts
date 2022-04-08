@@ -46,6 +46,7 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
+    include: ['bip39'],
     esbuildOptions: {
       define: {
         global: 'globalThis',
