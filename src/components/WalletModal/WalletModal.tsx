@@ -8,12 +8,13 @@ import {
   XdefiWalletStatus,
 } from '@thorswap-lib/multichain-sdk'
 import { Keystore as KeystoreType } from '@thorswap-lib/xchain-crypto'
-import { Chain } from '@thorswap-lib/xchain-util'
+import { Chain, TERRAChain } from '@thorswap-lib/xchain-util'
 
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, Button, Card, Icon, Modal, Typography } from 'components/Atomic'
 import { Input } from 'components/Input'
 import { Scrollbar } from 'components/Scrollbar'
+import { showToast, ToastType } from 'components/Toast'
 import { WalletIcon } from 'components/WalletIcon/WalletIcon'
 
 import { useWallet } from 'store/wallet/hooks'
@@ -56,6 +57,7 @@ export const WalletModal = () => {
     isTerraStationAvailable,
     isTerraStationInstalled,
     installTerraWallet,
+    connectTerraWallet,
   } = useTerraWallet()
 
   useEffect(() => {
@@ -116,8 +118,7 @@ export const WalletModal = () => {
       try {
         await connectTrustWallet(chains)
       } catch (error) {
-        // TODO: show notification about error
-        console.log(error)
+        showToast({ message: t('notification.trustFailed') }, ToastType.Error)
       }
       clearStatus()
     },
@@ -127,11 +128,23 @@ export const WalletModal = () => {
   const handleConnectLedger = useCallback(
     async (chain: Chain, index: number) => {
       try {
-        // TODO: show connecting progress: `Connecting ${chainName} Ledger #...`
+        showToast({
+          message: t('notification.connectingLedger', {
+            chain,
+            index,
+          }),
+        })
         await connectLedger(chain, index)
       } catch (error) {
-        // TODO: show error
-        console.error(error)
+        showToast(
+          {
+            message: t('notification.ledgerFailed', {
+              chain,
+              index,
+            }),
+          },
+          ToastType.Error,
+        )
       }
       clearStatus()
     },
@@ -139,37 +152,46 @@ export const WalletModal = () => {
   )
 
   const handleConnectMetaMask = useCallback(async () => {
-    if (metamaskStatus === MetaMaskWalletStatus.NoWeb3Provider) {
-      window.open('https://metamask.io')
-    } else if (metamaskStatus === MetaMaskWalletStatus.XdefiDetected) {
-      // TODO: Should disable xdefi wallet
-    } else {
-      try {
-        await connectMetamask()
-      } catch (error) {
-        // TODO: show notification about error
-      }
-
-      clearStatus()
+    try {
+      await connectMetamask()
+    } catch (error) {
+      showToast({ message: t('notification.metamaskFailed') }, ToastType.Error)
     }
-  }, [metamaskStatus, connectMetamask, clearStatus])
+
+    clearStatus()
+  }, [connectMetamask, clearStatus])
 
   const handleConnectXdefi = useCallback(
     async (chains: SupportedChain[]) => {
       if (xdefiStatus === XdefiWalletStatus.XdefiNotInstalled) {
         window.open('https://xdefi.io')
       } else if (xdefiStatus === XdefiWalletStatus.XdefiNotPrioritized) {
-        // TODO: show notification to prioritise the XDEFI wallet
+        showToast(
+          {
+            message: t('notification.prioritisationError'),
+            description: t('notification.xdefiPrioritise'),
+          },
+          ToastType.Error,
+        )
       } else {
         try {
+          // connect Xdefi Terra
+          if (chains.includes(TERRAChain) && !!window.xfi.terra) {
+            try {
+              connectTerraWallet(TerraConnectType.EXTENSION)
+            } catch (error) {
+              console.log(error)
+            }
+          }
+
           await connectXdefiWallet(chains)
         } catch (error) {
-          // TODO: show notification for error while connecting the wallet
+          showToast({ message: t('notification.xdefiFailed') }, ToastType.Error)
         }
         clearStatus()
       }
     },
-    [xdefiStatus, clearStatus, connectXdefiWallet],
+    [xdefiStatus, clearStatus, connectXdefiWallet, connectTerraWallet],
   )
 
   const handleConnect = useCallback(
@@ -190,7 +212,13 @@ export const WalletModal = () => {
         }
 
         if (xdefiStatus === XdefiWalletStatus.XdefiNotPrioritized) {
-          // TODO: Should show alert to prioritize the XDEFI wallet
+          showToast(
+            {
+              message: t('notification.prioritisationError'),
+              description: t('notification.xdefiPrioritise'),
+            },
+            ToastType.Error,
+          )
           return
         }
       }
@@ -202,7 +230,13 @@ export const WalletModal = () => {
         }
 
         if (metamaskStatus === MetaMaskWalletStatus.XdefiDetected) {
-          // TODO: Should disable xdefi wallet
+          showToast(
+            {
+              message: t('notification.prioritisationError'),
+              description: t('notification.xdefiDeprioritise'),
+            },
+            ToastType.Error,
+          )
           return
         }
       }

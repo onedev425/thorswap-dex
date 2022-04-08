@@ -19,6 +19,7 @@ import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { PanelInput } from 'components/PanelInput'
 import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
+import { showToast, ToastType } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useMidgard } from 'store/midgard/hooks'
@@ -141,12 +142,15 @@ const Send = () => {
         address: recipientAddress,
       })
     ) {
-      // TODO: notification
-      // Notification({
-      //   type: 'warning',
-      //   message: `Recipient Address is not valid ${sendAsset.L1Chain} Address, please check your address again.`,
-      //   duration: 20,
-      // })
+      showToast(
+        {
+          message: t('notification.invalidL1ChainAddy', {
+            chain: sendAsset.L1Chain,
+          }),
+        },
+        ToastType.Error,
+        { duration: 20 * 1000 },
+      )
     } else {
       setIsOpenConfirmModal(true)
     }

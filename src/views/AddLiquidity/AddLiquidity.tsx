@@ -30,6 +30,7 @@ import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems'
 import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
+import { showToast, ToastType } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useApp } from 'store/app/hooks'
@@ -47,8 +48,6 @@ import { useTxTracker } from 'hooks/useTxTracker'
 
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
-
-import { translateErrorMsg } from 'helpers/error'
 
 import { getAddLiquidityRoute } from 'settings/constants'
 
@@ -570,17 +569,16 @@ export const AddLiquidity = () => {
         // TODO: add tx tracker
         setTxFailed(trackId)
 
-        // handle better error message
-        const description = translateErrorMsg(error?.toString())
-        console.log(description)
-
-        // TODO: add notification
-        // Notification({
-        //   type: 'error',
-        //   message: 'Submit Transaction Failed.',
-        //   description,
-        //   duration: 20,
-        // })
+        // TODO: better error translation
+        // const description = translateErrorMsg(error?.toString())
+        showToast(
+          {
+            message: 'Submit Transaction Failed.',
+            description: error?.toString(),
+          },
+          ToastType.Error,
+          { duration: 20 * 1000 },
+        )
         console.log(error)
       }
     }
@@ -643,12 +641,11 @@ export const AddLiquidity = () => {
       } catch (error) {
         setTxFailed(trackId)
 
-        // TODO: notification
-        // Notification({
-        //   type: 'open',
-        //   message: 'Approve Failed.',
-        //   duration: 20,
-        // })
+        showToast(
+          { message: t('notification.approveFailed') },
+          ToastType.Error,
+          { duration: 20 * 1000 },
+        )
       }
     }
   }, [
@@ -661,23 +658,18 @@ export const AddLiquidity = () => {
 
   const handleAddLiquidity = useCallback(() => {
     if (!isWalletConnected) {
-      // TODO: add notification
-      // Notification({
-      //   type: 'info',
-      //   message: 'Wallet Not Found',
-      //   description: 'Please connect wallet',
-      // })
+      showToast({
+        message: t('notification.walletNotFound'),
+        description: t('notification.connectWallet'),
+      })
       return
     }
 
     if (isFundsCapReached) {
-      // TODO: add notification
-      // Notification({
-      //   type: 'info',
-      //   message: 'Funds Cap Reached',
-      //   description:
-      //     'You cannot add due to Funds Cap has been reached. Please try again later.',
-      // })
+      showToast({
+        message: t('notification.fundsCapReached'),
+        description: t('notification.fundsCapReachedDesc'),
+      })
       return
     }
 
@@ -688,12 +680,10 @@ export const AddLiquidity = () => {
     if (wallet) {
       setVisibleApproveModal(true)
     } else {
-      // TODO: add notification
-      // Notification({
-      //   type: 'info',
-      //   message: 'Wallet Not Found',
-      //   description: 'Please connect wallet',
-      // })
+      showToast({
+        message: t('notification.walletNotFound'),
+        description: t('notification.connectWallet'),
+      })
     }
   }, [wallet])
 

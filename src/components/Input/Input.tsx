@@ -62,8 +62,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
           {icon && (
             <Icon
-              className={classNames('pr-4', {
-                'pl-3': border === 'rounded',
+              className={classNames('pr-2', {
+                'pl-2': border === 'rounded',
               })}
               color="tertiary"
               size={DEFAULT_ICON_SIZE}
@@ -76,7 +76,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref || inputRef}
             className={classNames(
               'font-primary bg-transparent dark:placeholder-dark-typo-gray dark:text-dark-typo-primary placeholder-light-typo-gray text-light-typo-primary transition-colors',
-              ' border-none font-bold text-base focus:outline-none placeholder:font-semibold',
+              'border-none font-bold text-base focus:outline-none placeholder:font-normal',
               stretch ? 'w-full' : 'md:w-52',
               { 'md:w-48': icon && !stretch, 'cursor-not-allowed': disabled },
               className,

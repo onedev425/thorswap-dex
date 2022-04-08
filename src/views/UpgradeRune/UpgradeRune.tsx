@@ -16,6 +16,7 @@ import { Helmet } from 'components/Helmet'
 import { InfoTable } from 'components/InfoTable'
 import { Input } from 'components/Input'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
+import { showToast, ToastType } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useMidgard } from 'store/midgard/hooks'
@@ -156,12 +157,11 @@ const UpgradeRune = () => {
       } catch (error) {
         setTxFailed(trackId)
 
-        // TODO: notification
-        // Notification({
-        //   type: 'error',
-        //   message: 'Submit Transaction Failed.',
-        //   duration: 20,
-        // })
+        showToast(
+          { message: t('notification.submitTxFailed') },
+          ToastType.Error,
+          { duration: 20 * 1000 },
+        )
         console.log(error)
       }
     }
@@ -175,20 +175,12 @@ const UpgradeRune = () => {
   ])
 
   const handleUpgrade = useCallback(() => {
-    // TODO: notifications
     if (isTradingHalted) {
-      // Notification({
-      //   type: 'info',
-      //   message:
-      //     'Upgrade not available due to trading is temporarily halted, please try again later.',
-      // })
+      showToast({ message: t('notification.upgradeTradingHalt') })
       return
     }
     if (!recipientAddress) {
-      // Notification({
-      //   type: 'info',
-      //   message: 'You have to connect wallet for Thorchain.',
-      // })
+      showToast({ message: t('notification.tcWalletRequest') })
       return
     }
     if (
@@ -197,11 +189,13 @@ const UpgradeRune = () => {
         address: recipientAddress,
       })
     ) {
-      // Notification({
-      //   type: 'error',
-      //   message: 'Invalid Recipient Address',
-      //   description: 'Recipient address should be a valid address.',
-      // })
+      showToast(
+        {
+          message: t('notification.invalidRecipientAddy'),
+          description: t('notification.invalidRecipientAddyDesc'),
+        },
+        ToastType.Error,
+      )
       return
     }
 

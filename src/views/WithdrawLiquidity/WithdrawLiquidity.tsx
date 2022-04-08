@@ -25,6 +25,7 @@ import { LPTypeSelector } from 'components/LPTypeSelector'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { PanelView } from 'components/PanelView'
 import { SwapSettingsPopover } from 'components/SwapSettings'
+import { showToast, ToastType } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useMidgard } from 'store/midgard/hooks'
@@ -46,8 +47,9 @@ import { useConfirmInfoItems } from './useConfirmInfoItems'
 
 // TODO: refactor useState -> useReducer
 export const WithdrawLiquidity = () => {
-  const { assetParam = Asset.BTC().toString() } =
-    useParams<{ assetParam: string }>()
+  const { assetParam = Asset.BTC().toString() } = useParams<{
+    assetParam: string
+  }>()
   const [assetObj, setAssetObj] = useState<Asset>()
   const [pool, setPool] = useState<Pool>()
 
@@ -508,13 +510,15 @@ const WithdrawPanel = ({
         console.log(error)
         setTxFailed(trackId)
 
-        // TODO: add notification
-        // Notification({
-        //   type: 'error',
-        //   message: 'Submit Transaction Failed.',
-        //   description: error?.toString(),
-        //   duration: 20,
-        // })
+        // TODO: better error translation
+        // const description = translateErrorMsg(error?.toString())
+        showToast(
+          {
+            message: t('notification.submitTxFailed'),
+            description: error?.toString(),
+          },
+          ToastType.Error,
+        )
       }
     }
   }, [
@@ -532,24 +536,26 @@ const WithdrawPanel = ({
 
   const handleWithdrawLiquidity = useCallback(() => {
     if (pool.asset.isETH() && pool.detail.status === 'staged') {
-      // TODO: add notification
-      // Notification({
-      //   type: 'info',
-      //   message: 'Cannot withdraw from staged pool.',
-      //   description: 'Please try withdraw after pool is activated.',
-      // })
+      showToast(
+        {
+          message: t('notification.cannotWithdrawFromSP'),
+          description: t('notification.cannotWithdrawFromSPDesc'),
+        },
+        ToastType.Info,
+      )
       return
     }
 
     if (wallet) {
       setVisibleConfirmModal(true)
     } else {
-      // TODO: add notification
-      // Notification({
-      //   type: 'info',
-      //   message: 'Wallet Not Found',
-      //   description: 'Please connect wallet',
-      // })
+      showToast(
+        {
+          message: t('notiication.walletNotFound'),
+          description: t('notification.connectWallet'),
+        },
+        ToastType.Info,
+      )
     }
   }, [wallet, pool])
 

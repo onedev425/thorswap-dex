@@ -97,6 +97,7 @@
     "donate": "Donate",
     "refund": "Refund",
     "switch": "Switch",
+    "send": "Send",
     "burn": "Burn",
     "mint": "Mint",
     "redeem": "Redeem",
@@ -347,7 +348,7 @@
       "backupKeystore": "Backup Keystore",
       "enterKeystorePassword": "Confirm keystore password",
       "copyPhrase": "Copy phrase",
-      "phraseCopied": "Phrase copied"
+      "phraseCopied": "Phrase Copied"
     },
     "addLiquidity": {
       "pricesAndPoolShare": "Prices and Pool Share",
@@ -379,5 +380,37 @@
   },
   "validation": {
     "invalidPassword": "Invalid Password"
+  },
+  "notification": {
+    "addressCopied": "Address copied",
+    "walletNotFound": "Wallet Not Found",
+    "connectWallet": "Please connect wallet",
+    "cannotWithdrawFromSP": "Cannot withdraw from staged pool",
+    "cannotWithdrawFromSpDesc": "Please try withdraw after pool is activated",
+    "sendTxFailed": "Send Transaction Failed",
+    "submitTxFailed": "Submit Transaction Failed",
+    "upgradeTradingHalt": "Upgrade not available due to trading is temporarily halted, please try again later",
+    "tcWalletRequest": "You have to connect wallet for THORChain.",
+    "invalidRecipientAddy": "Invalid Recipient Address",
+    "invalidRecipientAddyDesc": "Recipient address should be a valid address",
+    "exchangeBNBAddy": "Exchange BNB Address",
+    "exchangeBNBAddyDesc": "Cannot swap into an Exchange address",
+    "swapInsufficientFee": "Swap Insufficient Fee",
+    "swapInsufficientFeeDesc": "Input amount is not enough to cover the fee",
+    "swapAmountTooSmall": "Swap Output Amount is too small",
+    "swapAmountTooSmallDesc": "Swap output amount is small and can be slashed out by ethereum gas fee",
+    "approveFailed": "Approve Failed",
+    "invalidL1ChainAddy": "Recipient Address is not valid %{chain} Address, please check your address again.",
+    "fundsCapReached": "Funds Cap Reached",
+    "fundsCapReachedDesc": "You cannot add due to Funds Cap has been reached. Please try again later.",
+    "prioritisationError": "Prioritisation Error",
+    "xdefiPrioritise": "Please prioritise XDEFI wallet and refresh the browser.",
+    "xdefiDeprioritise": "XDEFI wallet is prioritised. Disable XDEFI wallet to use another browser wallets and refresh the browser.",
+    "xdefiFailed": "Connect XDEFI Wallet Failed",
+    "metamaskFailed": "Connect MetaMask Wallet Failed",
+    "trustFailed": "Connect TrustWallet Failed",
+    "connectingLedger": "Connecting %{chain} Ledger #%{index}",
+    "ledgerFailed": "Connect %{chain} Ledger #%{index} Failed",
+    "verifyLedgerAddy": "Verify Ledger Address"
   }
 }

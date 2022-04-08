@@ -15,10 +15,13 @@ export enum ToastType {
 const getToastIcon = (type: ToastType) => {
   switch (type) {
     case ToastType.Error:
-      return <Icon name="xCircle" color="red" />
+      return <Icon className="min-w-[24px]" name="xCircle" color="pink" />
 
     case ToastType.Success:
-      return <Icon name="checkmark" color="green" />
+      return <Icon className="min-w-[24px]" name="checkmark" color="green" />
+
+    case ToastType.Info:
+      return <Icon className="min-w-[24px]" name="infoCircle" color="cyan" />
 
     default:
       return null
@@ -46,26 +49,46 @@ export const showToast: ShowToastFunction = (
   const duration = options.duration || type === ToastType.Error ? 10000 : 5000
 
   toast.custom(
-    <Box
-      className="items-center px-4 py-2 m-20 border border-solid drop-shadow-md rounded-xl border-light-border-primary dark:border-dark-border-primary bg-light-bg-primary dark:bg-dark-bg-secondary"
-      row
-    >
-      <Box col className="max-w-[240px]">
-        <Box alignCenter row>
-          {icon}
-          <Box className={classNames({ 'pl-2': icon })} col>
-            <Typography variant="caption">{content.message}</Typography>
-            {content.description && typeof content.description === 'string' ? (
-              <Typography variant="caption-xs" fontWeight="light">
-                {content.description}
-              </Typography>
-            ) : (
-              content.description
-            )}
+    (t) => (
+      <Box
+        className="z-50 items-center px-4 py-2 m-20 border border-solid drop-shadow-md rounded-xl border-light-border-primary dark:border-dark-border-primary bg-light-bg-primary dark:bg-dark-bg-secondary"
+        row
+      >
+        <Box col className="max-w-[280px] w-[280px]">
+          <Box col>
+            <Box alignCenter justify="between">
+              <Box alignCenter>
+                {icon}
+                <Box className={classNames({ 'pl-2': icon })} col>
+                  <Typography
+                    variant="caption"
+                    fontWeight={content.description ? 'bold' : 'medium'}
+                  >
+                    {content.message}
+                  </Typography>
+                </Box>
+              </Box>
+              <Icon
+                name="close"
+                color="primary"
+                size={18}
+                onClick={() => toast.dismiss(t.id)}
+              />
+            </Box>
+            <Box className="pl-8">
+              {content.description &&
+              typeof content.description === 'string' ? (
+                <Typography variant="caption-xs" fontWeight="light">
+                  {content.description}
+                </Typography>
+              ) : (
+                content.description
+              )}
+            </Box>
           </Box>
         </Box>
       </Box>
-    </Box>,
+    ),
     { ...options, duration },
   )
 }

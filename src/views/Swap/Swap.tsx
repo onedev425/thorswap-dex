@@ -157,9 +157,7 @@ const SwapView = () => {
   const handleCopyAddress = useCallback(() => {
     copy(recipient)
 
-    showToast({ message: 'Address Copied' }, ToastType.Success, {
-      position: 'bottom-right',
-    })
+    showToast({ message: t('notification.addressCopied') })
   }, [recipient])
 
   const { isExchangeBNBAddress } = useCheckExchangeBNB(
@@ -274,17 +272,6 @@ const SwapView = () => {
     navigateToExternalLink(getPoolDetailRouteFromAsset(asset))
   }, [inputAsset, outputAsset])
 
-  const handleApprove = useCallback(() => {
-    if (isInputWalletConnected && swap) {
-      setVisibleApproveModal(true)
-    } else {
-      showToast({
-        message: 'Wallet Not Found',
-        description: 'Please connect wallet',
-      })
-    }
-  }, [isInputWalletConnected, swap])
-
   const handleConfirm = useCallback(async () => {
     setVisibleConfirmModal(false)
 
@@ -345,7 +332,19 @@ const SwapView = () => {
           },
         )
 
-        console.error(error)
+        // TODO: better error translation
+        // const description = translateErrorMsg(error?.toString())
+        showToast(
+          {
+            message: t('notification.submitTxFailed'),
+            description: error?.toString(),
+          },
+          ToastType.Error,
+          {
+            duration: 20 * 1000,
+          },
+        )
+        console.log(error)
       }
     }
   }, [wallet, swap, recipient, submitTransaction, pollTransaction, setTxFailed])
@@ -388,10 +387,12 @@ const SwapView = () => {
         }
       } catch (error) {
         setTxFailed(trackId)
-        showToast({ message: 'Approve Failed.' }, ToastType.Error, {
-          duration: 20000,
-        })
-        console.error(error)
+        showToast(
+          { message: t('notification.approveFailed') },
+          ToastType.Error,
+          { duration: 20 * 1000 },
+        )
+        console.log(error)
       }
     }
   }, [
@@ -408,45 +409,48 @@ const SwapView = () => {
         swap.outputAsset.chain === 'ETH' &&
         outputAssetPriceInUSD.raw().lt(50)
       ) {
-        return showToast({
-          message: 'Swap Output Amount is too small',
-          description:
-            'Swap output amount is small and can be slashed out by ethereum gas fee',
+        showToast({
+          message: t('notification.swapAmountTooSmall'),
+          description: t('notification.swapAmountTooSmallDesc'),
         })
+        return
       }
 
       if (swap.hasInSufficientFee) {
-        return showToast({
-          message: 'Swap Insufficient Fee',
-          description: 'Input amount is not enough to cover the fee',
+        showToast({
+          message: t('notification.swapInsufficientFee'),
+          description: t('notification.swapInsufficientFeeDesc'),
         })
+        return
       }
 
       if (isExchangeBNBAddress) {
-        return showToast(
+        showToast(
           {
-            message: 'Exchange BNB Address',
-            description: 'Cannot swap into an Exchange address.',
+            message: t('notification.exchangeBNBAddy'),
+            description: t('notification.exchangeBNBAddyDesc'),
           },
           ToastType.Error,
         )
+        return
       }
 
       if (!isValidAddress) {
-        return showToast(
+        showToast(
           {
-            message: 'Invalid Recipient Address',
-            description: 'Recipient address should be a valid address.',
+            message: t('notification.invalidRecipientAddy'),
+            description: t('notification.invalidRecipientAddyDesc'),
           },
           ToastType.Error,
         )
+        return
       }
 
       setVisibleConfirmModal(true)
     } else {
-      return showToast({
-        message: 'Wallet Not Found',
-        description: 'Please connect wallet',
+      showToast({
+        message: t('notification.walletNotFound'),
+        description: t('notification.connectWallet'),
       })
     }
   }, [
@@ -457,13 +461,27 @@ const SwapView = () => {
     outputAssetPriceInUSD,
   ])
 
-  const isValidSwap = useMemo(
-    () =>
-      isTradingHalted
-        ? { valid: false, msg: 'Swap not available' }
-        : swap?.isValid() ?? { valid: false },
-    [swap, isTradingHalted],
-  )
+  const handleApprove = useCallback(() => {
+    if (isInputWalletConnected && swap) {
+      setVisibleApproveModal(true)
+    } else {
+      showToast({
+        message: t('notification.walletNotFound'),
+        description: t('notification.connectWallet'),
+      })
+    }
+  }, [isInputWalletConnected, swap])
+
+  const isValidSwap = useMemo(() => {
+    if (isTradingHalted) {
+      return {
+        valid: false,
+        msg: 'Swap not available',
+      }
+    }
+
+    return swap?.isValid() ?? { valid: false }
+  }, [swap, isTradingHalted])
 
   const isValidSlip = useMemo(() => swap?.isSlipValid() ?? true, [swap])
 

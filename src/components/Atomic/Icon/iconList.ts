@@ -8,7 +8,6 @@ import {
   AiOutlineHeart,
   AiOutlineHistory,
   AiOutlineInfo,
-  AiOutlineInfoCircle,
   AiOutlineLineChart,
   AiOutlineUnorderedList,
   AiOutlineMenuFold,
@@ -58,7 +57,6 @@ import {
   FiEdit,
   FiPlus,
   FiX,
-  FiXCircle,
 } from 'react-icons/fi'
 import { HiOutlineCog, HiOutlineChartPie } from 'react-icons/hi'
 import { ImBlocked } from 'react-icons/im'
@@ -81,6 +79,8 @@ import { RiShareBoxLine } from 'react-icons/ri'
 import {
   VscAdd,
   VscCloudUpload,
+  VscError,
+  VscInfo,
   VscKey,
   VscLock,
   VscSignOut,
@@ -127,7 +127,7 @@ const Icons = {
   gas: FaGasPump,
   history: AiOutlineHistory,
   info: AiOutlineInfo,
-  infoCircle: AiOutlineInfoCircle,
+  infoCircle: VscInfo,
   invalid: IoCloseCircleOutline,
   key: VscKey,
   language: MdLanguage,
@@ -158,7 +158,7 @@ const Icons = {
   valid: IoCheckmarkCircleOutline,
   wallet: IoWalletOutline,
   wifi: FaWifi,
-  xCircle: FiXCircle,
+  xCircle: VscError,
   selectAll: BiSelectMultiple,
   spaceBar: MdSpaceBar,
   starFilled: AiFillStar,
