@@ -38,7 +38,10 @@ export const Sidebar = ({
         className="my-8 min-w-[48px] h-12 transition-colors cursor-pointer"
       >
         <img
-          className="absolute w-16 h-16 transition-all -translate-x-2 -translate-y-2 blur-xl dark:blur-md -z-10"
+          className={classNames(
+            'absolute w-16 h-16 transition-all -translate-x-2 -translate-y-2 blur-[30px] dark:blur-md -z-10',
+            { '!blur-[40px]': collapsed },
+          )}
           src={Logo}
           alt="Logo-glow"
         />

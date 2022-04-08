@@ -52,8 +52,8 @@ export const Header = ({ openMenu }: Props) => {
 
   return (
     <header className="mb-5">
-      <Box row className="min-h-[70px]" justify="between">
-        <Box row className="mt-auto shrink-0 gap-x-2">
+      <Box className="min-h-[70px]" justify="between">
+        <Box className="mt-auto shrink-0 gap-x-2">
           <Button
             className="flex !p-1 md:hidden"
             onClick={openMenu}
@@ -80,7 +80,7 @@ export const Header = ({ openMenu }: Props) => {
           </Box>
         </Box>
 
-        <Box row className="inline-flex items-center mt-auto shrink-0 gap-x-1">
+        <Box className="min-h-[70px]" justify="between">
           <Button type="outline" onClick={handleClickWalletBtn}>
             {walletBtnText}
           </Button>

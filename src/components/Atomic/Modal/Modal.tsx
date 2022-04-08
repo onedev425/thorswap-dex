@@ -36,7 +36,7 @@ export const Modal = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="fixed inset-0 backdrop-blur-md" />
+              <Dialog.Overlay className="fixed inset-0 backdrop-blur-xl backdrop-brightness-50" />
             </Transition.Child>
 
             {/*
@@ -79,13 +79,13 @@ export const Modal = ({
                     center
                     className={classNames(
                       'h-10 w-10 rounded-2xl self-center border border-solid cursor-pointer hover:brightness-90 dark:hover:brightness-110',
-                      'border-light-gray-light dark:border-dark-typo-gray',
+                      'border-light-typo-gray dark:border-dark-typo-gray',
                     )}
                   >
                     <Icon
                       className="self-center"
                       name="close"
-                      color="secondary"
+                      color="primary"
                       size={24}
                     />
                   </Box>
