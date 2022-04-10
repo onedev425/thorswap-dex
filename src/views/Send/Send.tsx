@@ -14,11 +14,11 @@ import { useConfirmSend } from 'views/Send/useConfirmSend'
 
 import { AssetInput } from 'components/AssetInput'
 import { Button, Box, Tooltip, Icon, Typography } from 'components/Atomic'
+import { GlobalSettingsPopover } from 'components/GlobalSettings'
 import { InfoTable } from 'components/InfoTable'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { PanelInput } from 'components/PanelInput'
 import { PanelView } from 'components/PanelView'
-import { SwapSettingsPopover } from 'components/SwapSettings'
 import { showToast, ToastType } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
@@ -226,7 +226,7 @@ const Send = () => {
       header={
         <ViewHeader
           title={t('common.send')}
-          actionsComponent={<SwapSettingsPopover />}
+          actionsComponent={<GlobalSettingsPopover />}
         />
       }
     >

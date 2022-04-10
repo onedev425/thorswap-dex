@@ -21,16 +21,17 @@ import { useSwapAssets } from 'views/Swap/useSwapAssets'
 import { Button, Icon, Box, Typography } from 'components/Atomic'
 import { ConfirmContent } from 'components/ConfirmModalConent'
 import { CountDownIndicator } from 'components/CountDownIndicator'
+import { GlobalSettingsPopover } from 'components/GlobalSettings'
 import { HoverIcon } from 'components/HoverIcon'
 import { InfoTable } from 'components/InfoTable'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems'
 import { PanelInput } from 'components/PanelInput'
 import { PanelView } from 'components/PanelView'
-import { SwapSettingsPopover } from 'components/SwapSettings'
 import { showToast, ToastType } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
+import { useApp } from 'store/app/hooks'
 import { useMidgard } from 'store/midgard/hooks'
 import { TxTrackerStatus, TxTrackerType } from 'store/midgard/types'
 import { useWallet } from 'store/wallet/hooks'
@@ -79,6 +80,7 @@ const SwapView = () => {
   const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
   const { totalFeeInUSD } = useNetworkFee({ inputAsset, outputAsset })
   const { poolLoading, inboundData, getPools } = useMidgard()
+  const { customRecipientMode } = useApp()
 
   const { outputAssets, inputAssets, pools } = useSwapAssets()
   const swap = useSwap({
@@ -600,7 +602,7 @@ const SwapView = () => {
                   />
                 }
               />
-              <SwapSettingsPopover />
+              <GlobalSettingsPopover />
             </Box>
           }
         />
@@ -617,7 +619,7 @@ const SwapView = () => {
         onSwitchPair={handleSwitchPair}
       />
 
-      {recipient && (
+      {customRecipientMode && recipient && (
         <PanelInput
           placeholder={`${t('common.recipientAddress')} ${t('common.here')}`}
           stretch

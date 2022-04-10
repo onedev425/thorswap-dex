@@ -5,15 +5,17 @@ import { useApp } from 'store/app/hooks'
 
 import { t } from 'services/i18n'
 
-export const SwapSettings = () => {
+export const GlobalSettings = () => {
   const {
     slippageTolerance,
     transactionDeadline,
     // autoRouter,
     expertMode,
+    customRecipientMode,
     setSlippage,
     // setAutoRouter,
     setExpertMode,
+    setCustomRecipientMode,
     setTransactionDeadline,
   } = useApp()
 
@@ -114,6 +116,23 @@ export const SwapSettings = () => {
               unselectedText="OFF"
               checked={expertMode}
               onChange={() => setExpertMode(!expertMode)}
+            />
+          </Box>
+        </Box>
+
+        <Box alignCenter justify="between">
+          <Box className="space-x-2">
+            <Typography variant="caption-xs" color="secondary">
+              {t('views.setting.customRecipientMode')}
+            </Typography>
+            <Icon color="secondary" size={16} name="questionCircle" />
+          </Box>
+          <Box>
+            <Switch
+              selectedText="ON"
+              unselectedText="OFF"
+              checked={customRecipientMode}
+              onChange={() => setCustomRecipientMode(!customRecipientMode)}
             />
           </Box>
         </Box>

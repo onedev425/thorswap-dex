@@ -10,10 +10,10 @@ import {
 import { ChainLiquidityPanel } from 'views/ManageLiquidity/components/ChainLiquidityPanel'
 
 import { Button, Box } from 'components/Atomic'
+import { GlobalSettingsPopover } from 'components/GlobalSettings'
 import { InfoTip } from 'components/InfoTip'
 import { PanelView } from 'components/PanelView'
 import { ReloadButton } from 'components/ReloadButton'
-import { SwapSettingsPopover } from 'components/SwapSettings'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useMidgard } from 'store/midgard/hooks'
@@ -62,7 +62,7 @@ const ManageLiquidity = () => {
                 loading={memberDetailsLoading}
                 onLoad={getAllMemberDetails}
               />
-              <SwapSettingsPopover />
+              <GlobalSettingsPopover />
             </>
           }
         />

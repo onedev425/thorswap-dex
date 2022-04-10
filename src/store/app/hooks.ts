@@ -80,6 +80,13 @@ export const useApp = () => {
     [dispatch],
   )
 
+  const setCustomRecipientMode = useCallback(
+    (isActive: boolean) => {
+      dispatch(actions.setCustomRecipientMode(isActive))
+    },
+    [dispatch],
+  )
+
   const setAutoRouter = useCallback(
     (isActive: boolean) => {
       dispatch(actions.setAutoRouter(isActive))
@@ -136,6 +143,7 @@ export const useApp = () => {
     setAutoRouter,
     setBaseCurrency,
     setExpertMode,
+    setCustomRecipientMode,
     setFeeOptionType,
     setLanguage,
     setReadStatus,

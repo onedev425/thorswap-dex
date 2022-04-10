@@ -22,6 +22,7 @@ import {
 import { Chain } from '@thorswap-lib/xchain-util'
 
 import { Button, Box } from 'components/Atomic'
+import { GlobalSettingsPopover } from 'components/GlobalSettings'
 import { InfoTable } from 'components/InfoTable'
 import { LiquidityCard } from 'components/LiquidityCard'
 import { LiquidityType } from 'components/LiquidityType/LiquidityType'
@@ -29,7 +30,6 @@ import { LiquidityTypeOption } from 'components/LiquidityType/types'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems'
 import { PanelView } from 'components/PanelView'
-import { SwapSettingsPopover } from 'components/SwapSettings'
 import { showToast, ToastType } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
@@ -953,7 +953,7 @@ export const AddLiquidity = () => {
       header={
         <ViewHeader
           title={t('common.addLiquidity')}
-          actionsComponent={<SwapSettingsPopover />}
+          actionsComponent={<GlobalSettingsPopover />}
         />
       }
     >

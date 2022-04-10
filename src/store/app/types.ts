@@ -18,6 +18,7 @@ export interface State {
   baseCurrency: string
   // swap & liquidity options
   expertMode: boolean
+  customRecipientMode: boolean
   feeOptionType: FeeOption
   slippageTolerance: number
   //

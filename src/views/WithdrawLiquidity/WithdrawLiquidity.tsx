@@ -18,13 +18,13 @@ import { Chain } from '@thorswap-lib/xchain-util'
 import { AssetInputs } from 'views/WithdrawLiquidity/components/AssetInputs'
 
 import { Button, Box, Typography } from 'components/Atomic'
+import { GlobalSettingsPopover } from 'components/GlobalSettings'
 import { InfoTable } from 'components/InfoTable'
 import { LiquidityType } from 'components/LiquidityType/LiquidityType'
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
 import { LPTypeSelector } from 'components/LPTypeSelector'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { PanelView } from 'components/PanelView'
-import { SwapSettingsPopover } from 'components/SwapSettings'
 import { showToast, ToastType } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
@@ -125,7 +125,7 @@ export const WithdrawLiquidity = () => {
         <ViewHeader
           withBack
           title={t('views.liquidity.withdrawLiquidity')}
-          actionsComponent={<SwapSettingsPopover />}
+          actionsComponent={<GlobalSettingsPopover />}
         />
       }
     >
@@ -641,7 +641,7 @@ const WithdrawPanel = ({
         <ViewHeader
           withBack
           title={title}
-          actionsComponent={<SwapSettingsPopover />}
+          actionsComponent={<GlobalSettingsPopover />}
         />
       }
     >

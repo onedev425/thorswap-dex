@@ -23,6 +23,7 @@ type StorageType = {
   transactionDeadline: string
   autoRouter: boolean
   expertMode: boolean
+  customRecipientMode: boolean
   walletViewMode: ViewMode
 }
 
@@ -52,6 +53,7 @@ type StoragePayload =
         | 'xDefiConnected'
         | 'autoRouter'
         | 'expertMode'
+        | 'customRecipientMode'
       value: boolean
     }
 
@@ -70,6 +72,7 @@ const defaultValues: StorageType = {
   tradingHaltStatus: false,
   xDefiConnected: false,
   expertMode: false,
+  customRecipientMode: false,
   autoRouter: true,
   slippageTolerance: `${DEFAULT_SLIPPAGE_TOLERANCE}`,
   transactionDeadline: '30',
@@ -89,6 +92,7 @@ export const saveInStorage = ({ key, value }: StoragePayload) => {
     case 'readStatus':
     case 'xDefiConnected':
     case 'expertMode':
+    case 'customRecipientMode':
     case 'autoRouter':
       localStorage.setItem(key, value.toString())
       break
@@ -127,6 +131,7 @@ export const getFromStorage = (
     case 'readStatus':
     case 'xDefiConnected':
     case 'autoRouter':
+    case 'customRecipientMode':
     case 'expertMode': {
       const item = localStorage.getItem(key)
       return item === 'true'

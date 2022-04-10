@@ -1,8 +1,8 @@
 import { Button, Icon } from 'components/Atomic'
+import { GlobalSettings } from 'components/GlobalSettings'
 import { Popover } from 'components/Popover'
-import { SwapSettings } from 'components/SwapSettings'
 
-export const SwapSettingsPopover = () => {
+export const GlobalSettingsPopover = () => {
   return (
     <Popover
       trigger={
@@ -20,7 +20,7 @@ export const SwapSettingsPopover = () => {
         />
       }
     >
-      <SwapSettings />
+      <GlobalSettings />
     </Popover>
   )
 }

@@ -15,6 +15,7 @@ import {
 import { State } from './types'
 
 const initialState: State = {
+  customRecipientMode: getFromStorage('customRecipientMode') as boolean,
   autoRouter: getFromStorage('autoRouter') as boolean,
   baseCurrency: getFromStorage('baseCurrency') as string,
   expertMode: getFromStorage('expertMode') as boolean,
@@ -81,6 +82,13 @@ const appSlice = createSlice({
       state.expertMode = action.payload
       saveInStorage({
         key: 'expertMode',
+        value: action.payload,
+      })
+    },
+    setCustomRecipientMode(state, action: PayloadAction<boolean>) {
+      state.customRecipientMode = action.payload
+      saveInStorage({
+        key: 'customRecipientMode',
         value: action.payload,
       })
     },

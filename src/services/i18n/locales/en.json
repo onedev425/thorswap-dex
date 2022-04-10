@@ -224,7 +224,8 @@
       "users": "Users"
     },
     "setting": {
-      "transactionMode": "Transaction Mode"
+      "transactionMode": "Transaction Mode",
+      "customRecipientMode": "Set Custom Recipient"
     },
     "swap": {
       "autoRouter": "Auto Router",
