@@ -165,17 +165,15 @@
   "views": {
     "home": {
       "featuredPools": "Pools in primo piano",
-      "chart": {
-        "volume": "Volume",
-        "liquidity": "Liquidità",
-        "total": "Totale",
-        "swap": "Swap",
-        "add": "Aggiungi",
-        "withdraw": "Preleva",
-        "lpEarning": "Guadagni LP",
-        "bondEarning": "Guadagni Bond",
-        "runePrice": "Prezzo $RUNE"
-      }
+      "chart_volume": "Volume",
+      "chart_liquidity": "Liquidità",
+      "chart_total": "Totale",
+      "chart_swap": "Swap",
+      "chart_add": "Aggiungi",
+      "chart_withdraw": "Preleva",
+      "chart_lpEarning": "Guadagni LP",
+      "chart_bondEarning": "Guadagni Bond",
+      "chart_runePrice": "Prezzo $RUNE"
     },
     "nodes": {
       "watchList": "Watch List",

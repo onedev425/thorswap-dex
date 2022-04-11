@@ -12,7 +12,12 @@ import {
 import { useApp } from 'store/app/hooks'
 import { useMidgard } from 'store/midgard/hooks'
 
-import { volumeChartIndexes, liquidityChartIndexes } from './types'
+import {
+  VolumeChartIndex,
+  LiquidityChartIndex,
+  volumeChartIndexes,
+  liquidityChartIndexes,
+} from './types'
 
 export const useGlobalChartInfo = () => {
   const { baseCurrency } = useApp()
@@ -128,28 +133,28 @@ export const useGlobalChartInfo = () => {
     })
 
     return {
-      Total: {
+      [VolumeChartIndex.Total]: {
         values: totalVolume,
         unit: chartValueUnit,
         type: ChartType.Bar,
       },
-      Swap: {
+      [VolumeChartIndex.Swap]: {
         values: swapVolume,
         unit: chartValueUnit,
         type: ChartType.Bar,
       },
-      Add: {
+      [VolumeChartIndex.Add]: {
         values: addVolume,
         unit: chartValueUnit,
         type: ChartType.Bar,
       },
-      Withdraw: {
-        values: withdrawVolume,
+      [VolumeChartIndex.Synth]: {
+        values: synthVolume,
         unit: chartValueUnit,
         type: ChartType.Bar,
       },
-      Synth: {
-        values: synthVolume,
+      [VolumeChartIndex.Withdraw]: {
+        values: withdrawVolume,
         unit: chartValueUnit,
         type: ChartType.Bar,
       },
@@ -218,15 +223,12 @@ export const useGlobalChartInfo = () => {
     })
 
     return {
-      Liquidity: {
-        values: liquidity,
-        unit: '$',
-      },
-      'LP Earning': {
+      [LiquidityChartIndex.Liquidity]: { values: liquidity, unit: '$' },
+      [LiquidityChartIndex.LpEarning]: {
         values: liquidityEarning,
         unit: chartValueUnit,
       },
-      'Bond Earning': {
+      [LiquidityChartIndex.BondEarning]: {
         values: bondingEarnings,
         unit: chartValueUnit,
       },

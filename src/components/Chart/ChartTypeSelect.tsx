@@ -1,8 +1,10 @@
-import { Fragment, memo } from 'react'
+import { Fragment } from 'react'
 
 import classNames from 'classnames'
 
 import { Typography, Box } from 'components/Atomic'
+
+import { t } from 'services/i18n'
 
 type Props = {
   chartTypeIndexes: string[]
@@ -10,41 +12,37 @@ type Props = {
   selectedChartTypeIndex: string
 }
 
-export const ChartTypeSelect = memo(
-  ({
-    chartTypeIndexes,
-    selectedChartTypeIndex,
-    selectChartTypeIndex,
-  }: Props) => {
-    return (
-      <Box className="space-x-2" row>
-        {chartTypeIndexes.map((chartIndex, index) => (
-          <Fragment key={chartIndex}>
-            {index !== 0 && <Typography> / </Typography>}
+export const ChartTypeSelect = ({
+  chartTypeIndexes,
+  selectedChartTypeIndex,
+  selectChartTypeIndex,
+}: Props) => {
+  return (
+    <Box className="space-x-2" row>
+      {chartTypeIndexes.map((chartIndex, index) => (
+        <Fragment key={chartIndex}>
+          {index !== 0 && <Typography> / </Typography>}
 
-            <div
-              key={chartIndex}
-              className="cursor-pointer"
-              onClick={() => selectChartTypeIndex(chartIndex)}
+          <div
+            key={chartIndex}
+            className="cursor-pointer"
+            onClick={() => selectChartTypeIndex(chartIndex)}
+          >
+            <Typography
+              color={
+                chartIndex === selectedChartTypeIndex ? 'primary' : 'secondary'
+              }
+              variant="body"
+              fontWeight="bold"
+              className={classNames('hover:underline underline-offset-4', {
+                underline: chartIndex === selectedChartTypeIndex,
+              })}
             >
-              <Typography
-                color={
-                  chartIndex === selectedChartTypeIndex
-                    ? 'primary'
-                    : 'secondary'
-                }
-                variant="body"
-                fontWeight="bold"
-                className={classNames('hover:underline underline-offset-4', {
-                  underline: chartIndex === selectedChartTypeIndex,
-                })}
-              >
-                {chartIndex}
-              </Typography>
-            </div>
-          </Fragment>
-        ))}
-      </Box>
-    )
-  },
-)
+              {t('views.home.chart', { context: chartIndex })}
+            </Typography>
+          </div>
+        </Fragment>
+      ))}
+    </Box>
+  )
+}

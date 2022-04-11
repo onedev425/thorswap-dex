@@ -19,12 +19,7 @@ import it from './locales/it.json'
 type PathImpl<T, K extends keyof T> = K extends string
   ? T[K] extends Record<string, NotWorthIt>
     ? T[K] extends ArrayLike<NotWorthIt>
-      ?
-          | K
-          | `${K}.${PathImpl<
-              T[K],
-              Exclude<keyof T[K], keyof Array<NotWorthIt>>
-            >}`
+      ? K | `${K}.${PathImpl<T[K], Exclude<keyof T[K], keyof NotWorthIt[]>>}`
       : K | `${K}.${PathImpl<T[K], keyof T[K]>}`
     : K
   : never
@@ -51,12 +46,13 @@ initializeI18n(initReactI18next).init({
   },
 })
 
-export const t = <T extends Path<DefaultDictionary>>(
-  key: T,
+export const t = <T>(
+  key: Path<DefaultDictionary> | T,
   params?: TOptions,
   options?: TOptions,
-  // @ts-expect-error This is false positive
-) => translate(key, params, options) /* i18next-extract-disable-line */
+) =>
+  // @ts-expect-error False positive
+  translate(key, params, options) /* i18next-extract-disable-line */
 
 export const currentLocale = () => i18n.languages[0]
 export const changeAppLanguage = (language: SupportedLanguages) => {
