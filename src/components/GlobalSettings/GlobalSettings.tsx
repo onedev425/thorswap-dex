@@ -1,4 +1,12 @@
-import { Button, Box, Card, Icon, Typography, Switch } from 'components/Atomic'
+import {
+  Button,
+  Box,
+  Card,
+  Icon,
+  Typography,
+  Switch,
+  Tooltip,
+} from 'components/Atomic'
 import { Input } from 'components/Input'
 
 import { useApp } from 'store/app/hooks'
@@ -33,7 +41,9 @@ export const GlobalSettings = () => {
           <Typography variant="caption-xs" color="secondary">
             {t('views.swap.slippageTolerance')}
           </Typography>
-          <Icon color="secondary" size={16} name="questionCircle" />
+          <Tooltip content={t('common.slippageTooltip')} place="top">
+            <Icon color="secondary" size={16} name="questionCircle" />
+          </Tooltip>
         </Box>
         <Box className="w-full space-x-2" alignCenter>
           <Input
@@ -61,9 +71,11 @@ export const GlobalSettings = () => {
         </Box>
         <Box className="space-x-2">
           <Typography variant="caption-xs" color="secondary">
-            {t('views.swap.transactionDeadline')}
+            {t('common.transactionFee')}
           </Typography>
-          <Icon color="secondary" size={16} name="questionCircle" />
+          <Tooltip content={t('common.txFeeTooltip')} place="top">
+            <Icon color="secondary" size={16} name="questionCircle" />
+          </Tooltip>
         </Box>
         <Box className="w-full space-x-2" marginBottom={30} alignCenter>
           {feeOptions.map((feeOption) => (
@@ -84,11 +96,13 @@ export const GlobalSettings = () => {
           </Typography>
         </Box>
         <Box alignCenter justify="between">
-          <Box className="space-x-2">
+          <Box className="space-x-2" alignCenter>
             <Typography variant="caption-xs" color="secondary">
               {t('views.swap.expertMode')}
             </Typography>
-            <Icon color="secondary" size={16} name="questionCircle" />
+            <Tooltip content={t('common.expertModeTooltip')} place="top">
+              <Icon color="secondary" size={16} name="questionCircle" />
+            </Tooltip>
           </Box>
           <Box>
             <Switch
@@ -101,11 +115,13 @@ export const GlobalSettings = () => {
         </Box>
 
         <Box alignCenter justify="between">
-          <Box className="space-x-2">
+          <Box className="space-x-2" alignCenter>
             <Typography variant="caption-xs" color="secondary">
               {t('views.setting.customRecipientMode')}
             </Typography>
-            <Icon color="secondary" size={16} name="questionCircle" />
+            <Tooltip content={t('common.customRecipientTooltip')} place="top">
+              <Icon color="secondary" size={16} name="questionCircle" />
+            </Tooltip>
           </Box>
           <Box>
             <Switch
