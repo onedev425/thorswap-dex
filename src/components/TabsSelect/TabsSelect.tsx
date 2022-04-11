@@ -50,11 +50,11 @@ export const TabsSelect = memo(
           >
             {tabs.map(({ value, label }) => (
               <Button
-                className={classNames(
-                  'self-stretch',
-                  tabWidth ? `w-[${tabWidth}]` : 'flex-1',
-                  { '!bg-opacity-50': value === selectedValue },
-                )}
+                style={tabWidth ? { width: tabWidth } : {}}
+                className={classNames('self-stretch', {
+                  'flex-1': !tabWidth,
+                  '!bg-opacity-50': value === selectedValue,
+                })}
                 key={value}
                 variant={value === selectedValue ? 'primary' : 'tint'}
                 type={value === selectedValue ? 'default' : 'borderless'}
