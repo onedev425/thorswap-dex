@@ -16,6 +16,7 @@ const Wallet = () => {
   const [onlyConnected, setOnlyConnected] = useState(false)
 
   const { walletViewMode, setWalletViewMode } = useApp()
+
   useLoadWalletAssetsInfo()
 
   return (

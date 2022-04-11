@@ -21,7 +21,9 @@ import {
   TERRAChain,
 } from '@thorswap-lib/xchain-util'
 import { BigNumber } from 'bignumber.js'
+import { takeRight } from 'lodash'
 
+import { useMidgard } from 'store/midgard/hooks'
 import { useWallet } from 'store/wallet/hooks'
 import { GeckoData } from 'store/wallet/types'
 
@@ -56,14 +58,20 @@ export const useLoadWalletAssetsInfo = () => {
   const { getCoingeckoData, geckoData, geckoDataLoading, wallet } = useWallet()
 
   useEffect(() => {
-    const sigSymbols = supportedChains.map((chain) => {
-      const asset = chainToSigAsset(chain as SupportedChain)
+    const sigSymbols = supportedChains
+      .filter((chain) => {
+        const asset = chainToSigAsset(chain as SupportedChain)
+        if (!geckoData?.[asset.ticker]) return true
+        return false
+      })
+      .map((chain) => {
+        const asset = chainToSigAsset(chain as SupportedChain)
 
-      return asset.symbol
-    })
+        return asset.ticker
+      })
 
-    dispatch(getCoingeckoData(sigSymbols))
-  }, [dispatch, getCoingeckoData])
+    if (sigSymbols.length > 0) dispatch(getCoingeckoData(sigSymbols))
+  }, [geckoData, dispatch, getCoingeckoData])
 
   useEffect(() => {
     supportedChains.forEach((chain) => {
@@ -88,6 +96,7 @@ export const useLoadWalletAssetsInfo = () => {
 
 export const useAccountData = (chain: SupportedChain) => {
   const sigAsset = chainToSigAsset(chain)
+  const { stats } = useMidgard()
   const {
     geckoData,
     wallet: reduxWallet,
@@ -107,6 +116,8 @@ export const useAccountData = (chain: SupportedChain) => {
     price_change_percentage_24h: 0,
     current_price: 0,
   }
+
+  const runePrice = stats?.runePriceUSD
 
   const chainInfo = useMemo(() => {
     const info: AssetAmount[] = (walletBalance as AssetAmount[]).reduce(
@@ -132,7 +143,8 @@ export const useAccountData = (chain: SupportedChain) => {
   const data = useMemo(
     () => ({
       activeAsset24hChange: price24hChangePercent,
-      activeAssetPrice: currentPrice,
+      activeAssetPrice:
+        sigAsset.isRUNE() && runePrice ? parseFloat(runePrice) : currentPrice,
       balance: getBalanceByChain(walletBalance, geckoData),
       chainAddress,
       chainInfo,
@@ -144,13 +156,15 @@ export const useAccountData = (chain: SupportedChain) => {
     [
       chainAddress,
       chainInfo,
+      chainWallet,
       chainWalletLoading,
       currentPrice,
       geckoData,
       price24hChangePercent,
-      setIsConnectModalOpen,
+      runePrice,
+      sigAsset,
       walletBalance,
-      chainWallet,
+      setIsConnectModalOpen,
     ],
   )
 
@@ -158,16 +172,25 @@ export const useAccountData = (chain: SupportedChain) => {
 }
 
 export const useChartData = (asset: Asset) => {
+  const { stats } = useMidgard()
   const { geckoData } = useWallet()
-  const prices = useMemo(
-    () => geckoData[asset.symbol]?.sparkline_in_7d?.price || [],
-    [geckoData, asset],
-  )
+
+  const runePrice = stats?.runePriceUSD
+
+  const prices = useMemo(() => {
+    const priceData = geckoData[asset.symbol]?.sparkline_in_7d?.price || []
+
+    if (asset.isRUNE() && runePrice) {
+      return [...priceData, parseFloat(runePrice)]
+    }
+
+    return priceData
+  }, [runePrice, geckoData, asset])
 
   const chartData = useMemo(
     () => ({
       label: `${asset.symbol} Price`,
-      values: prices.slice(-prices.length / 2),
+      values: takeRight(prices, 64),
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [prices.length],
