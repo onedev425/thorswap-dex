@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom'
 
 import AddLiquidity from 'views/AddLiquidity'
+import CreateLiquidity from 'views/CreateLiquidity'
 import HomeView from 'views/Home'
 import ManageLiquidityView from 'views/ManageLiquidity'
 import PendingLiquidity from 'views/PendingLiquidity'
@@ -32,6 +33,7 @@ const routes: RouteType = [
   { path: ROUTES.Home, element: HomeView },
   { path: ROUTES.Swap, element: SwapView },
   { path: ROUTES.SwapPair, element: SwapView },
+  { path: ROUTES.CreateLiquidity, element: CreateLiquidity },
   { path: ROUTES.AddLiquidity, element: AddLiquidity },
   { path: ROUTES.AddLiquidityPool, element: AddLiquidity },
   { path: ROUTES.Send, element: SendView },

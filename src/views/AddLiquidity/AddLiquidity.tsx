@@ -49,6 +49,8 @@ import { useTxTracker } from 'hooks/useTxTracker'
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
+import { translateErrorMsg } from 'helpers/error'
+
 import { getAddLiquidityRoute } from 'settings/constants'
 
 import { AssetInputs } from './AssetInputs'
@@ -566,15 +568,13 @@ export const AddLiquidity = () => {
           })
         }
       } catch (error: any) {
-        // TODO: add tx tracker
         setTxFailed(trackId)
 
-        // TODO: better error translation
-        // const description = translateErrorMsg(error?.toString())
+        const description = translateErrorMsg(error?.toString())
         showToast(
           {
             message: 'Submit Transaction Failed.',
-            description: error?.toString(),
+            description: description,
           },
           ToastType.Error,
           { duration: 20 * 1000 },

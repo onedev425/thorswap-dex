@@ -14,6 +14,7 @@ export enum ROUTES {
   Stats = '/stats',
   Swap = '/swap',
   SwapPair = '/swap/:pair',
+  CreateLiquidity = '/create',
   AddLiquidity = '/add',
   AddLiquidityPool = '/add/:assetParam',
   WithdrawLiquidity = '/withdraw',

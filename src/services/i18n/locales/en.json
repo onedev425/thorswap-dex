@@ -18,6 +18,7 @@
     "wallet": "Wallet",
     "deposit": "Deposit",
     "exchange": "Exchange",
+    "createLiquidity": "Create Liquidity",
     "liquidity": "Liquidity",
     "liquidityAPY": "Liquidity APY",
     "liquidityPools": "Liquidity Pools",
@@ -326,7 +327,8 @@
       "checkPoolDetail": "Check pool detail",
       "noLiquidityToWithdraw": "You don't have LP to withdraw",
       "withdraw": "Withdraw",
-      "from": "From"
+      "from": "From",
+      "assetUSDPrice": "Asset USD Price"
     },
     "walletModal": {
       "connectWallet": "Connect Wallet",
