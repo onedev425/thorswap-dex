@@ -130,7 +130,7 @@ const UpgradeRune = () => {
           runeAmount,
           recipient: recipientAddress,
         })
-        console.log('txHash', txHash)
+        console.info('txHash', txHash)
 
         // start polling
         pollTransaction({
@@ -162,7 +162,7 @@ const UpgradeRune = () => {
           ToastType.Error,
           { duration: 20 * 1000 },
         )
-        console.log(error)
+        console.error(error)
       }
     }
   }, [
@@ -252,8 +252,8 @@ const UpgradeRune = () => {
 
   // TODO: add more validations
 
-  console.log('wallet', wallet?.BNB?.balance)
-  console.log('asset', Asset.BNB_RUNE())
+  console.info('wallet', wallet?.BNB?.balance)
+  console.info('asset', Asset.BNB_RUNE())
 
   return (
     <Box className="self-center w-full max-w-[480px]" col>

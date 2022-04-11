@@ -29,8 +29,8 @@ export const SidebarItem = memo(
           )}
         >
           {options.map(
-            ({ hasSub, label, children, ...rest }: SidebarItemProps) => {
-              if (hasSub && children)
+            ({ label, children, navLabel, ...rest }: SidebarItemProps) => {
+              if (children)
                 return (
                   <Fragment key={label}>
                     <div
@@ -80,15 +80,15 @@ export const SidebarItem = memo(
                   )}
 
                   <NavItem
+                    {...rest}
                     key={label}
                     className={classNames(
                       'last-of-type:mb-0',
                       variant === 'primary' ? 'mb-4' : 'mb-2',
                     )}
                     variant={variant}
-                    label={label}
+                    label={navLabel || label}
                     collapsed={collapsed}
-                    {...rest}
                   />
                 </Fragment>
               )

@@ -197,7 +197,7 @@ index 91d1a72..a902f1d 100644
          mnemonicToEntropy(mnemonic, wordlist);
      }
      catch (e) {
-+        console.log(e)
++        console.error(e)
          return false;
      }
      return true;

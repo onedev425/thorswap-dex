@@ -15,7 +15,7 @@ const checkIfExchangeBNBAddress = async (address: string) => {
       .getClient()
       .getBncClient()
       .getAccount(address)
-    console.log('getting response', response)
+    console.info('getting response', response)
 
     // if flags === 0, it's not exchange address
 
@@ -24,7 +24,7 @@ const checkIfExchangeBNBAddress = async (address: string) => {
     }
     return false
   } catch (error) {
-    console.log('getting error bnb account')
+    console.info('getting error bnb account')
     return false
   }
 }

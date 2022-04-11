@@ -395,7 +395,7 @@
     "walletNotFound": "Wallet Not Found",
     "connectWallet": "Please connect wallet",
     "cannotWithdrawFromSP": "Cannot withdraw from staged pool",
-    "cannotWithdrawFromSpDesc": "Please try withdraw after pool is activated",
+    "cannotWithdrawFromSPDesc": "Please try withdraw after pool is activated",
     "sendTxFailed": "Send Transaction Failed",
     "submitTxFailed": "Submit Transaction Failed",
     "upgradeTradingHalt": "Upgrade not available due to trading is temporarily halted, please try again later",

@@ -6,14 +6,14 @@ type Props = {
   isLoading: boolean
   isConnected: boolean
   handleRefreshChain: () => void
-  handleConnect: () => void
+  toggleConnect: () => void
 }
 
 export const ConnectionActions = ({
   isLoading,
   isConnected,
   handleRefreshChain,
-  handleConnect,
+  toggleConnect,
 }: Props) => {
   return (
     <Box className="gap-2">
@@ -40,14 +40,14 @@ export const ConnectionActions = ({
             type="outline"
             startIcon={<Icon name="disconnect" color="orange" size={16} />}
             tooltip={t('common.disconnect')}
-            onClick={handleConnect}
+            onClick={toggleConnect}
           />
         </>
       ) : (
         <Button
           disabled={isLoading}
           type={isConnected ? 'outline' : 'default'}
-          onClick={handleConnect}
+          onClick={toggleConnect}
         >
           <Box center className="gap-x-2">
             {t('common.connect')}

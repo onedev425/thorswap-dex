@@ -23,6 +23,8 @@ export enum ROUTES {
   Wallet = '/wallet',
 }
 
+export const THORYIELD_ROUTE = 'https://app.thoryield.com'
+
 export const getAddLiquidityRoute = (asset?: Asset) => {
   return `${ROUTES.AddLiquidity}${asset ? `/${asset.toURLEncoded()}` : ''}`
 }
@@ -40,7 +42,7 @@ export const getSwapRoute = (input: Asset, output: Asset = Asset.RUNE()) => {
 }
 
 export const getPoolDetailRouteFromAsset = (asset: Asset) => {
-  return `https://app.thoryield.com/token/${asset.toURLEncoded()}`
+  return `${THORYIELD_ROUTE}/token/${asset.toURLEncoded()}`
 }
 
 export const getNodeDetailRoute = (address: string) => {
@@ -57,4 +59,4 @@ export const getThorYieldInfoRoute = ({
 }: {
   chain: Chain
   address: string
-}) => `https://app.thoryield.com/accounts?${chain.toLowerCase()}=${address}`
+}) => `${THORYIELD_ROUTE}/accounts?${chain.toLowerCase()}=${address}`

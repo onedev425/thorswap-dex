@@ -16,6 +16,7 @@ export const NavItem = ({
   variant = 'primary',
   label,
   collapsed = false,
+  transform = 'uppercase',
 }: NavItemProps) => {
   const location = useLocation()
   useLayoutEffect(() => {
@@ -79,7 +80,7 @@ export const NavItem = ({
                   )}
                   variant="caption"
                   fontWeight="semibold"
-                  transform="uppercase"
+                  transform={transform}
                 >
                   {label}
                 </Typography>

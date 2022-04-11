@@ -56,7 +56,7 @@ export const useConfirmSend = ({
 
         const txURL = multichain.getExplorerTxUrl(sendAsset.L1Chain, txHash)
 
-        console.log('txURL', txURL)
+        console.info('txURL', txURL)
         if (txHash) {
           // start polling
           pollTransaction({
@@ -73,8 +73,8 @@ export const useConfirmSend = ({
             },
           })
         }
-      } catch (error) {
-        console.log('error', error)
+      } catch (error: any) {
+        console.info('error', error)
         setTxFailed(trackId)
 
         // TODO: better error translation

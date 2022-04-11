@@ -180,7 +180,7 @@ export const WalletModal = () => {
             try {
               connectTerraWallet(TerraConnectType.EXTENSION)
             } catch (error) {
-              console.log(error)
+              console.error(error)
             }
           }
 

@@ -415,7 +415,7 @@ export const AddLiquidity = () => {
       }
 
       const maxAmount = isSymDeposit ? maxSymAssetAmount : maxPoolAssetBalance
-      console.log(
+      console.info(
         '🔥',
         isSymDeposit,
         maxSymAssetAmount.toFixed(4),
@@ -545,8 +545,8 @@ export const AddLiquidity = () => {
         const runeTxHash = txRes?.runeTx
         const assetTxHash = txRes?.assetTx
 
-        console.log('runeTxHash', runeTxHash)
-        console.log('assetTxHash', assetTxHash)
+        console.info('runeTxHash', runeTxHash)
+        console.info('assetTxHash', assetTxHash)
 
         if (runeTxHash || assetTxHash) {
           // start polling
@@ -579,7 +579,7 @@ export const AddLiquidity = () => {
           ToastType.Error,
           { duration: 20 * 1000 },
         )
-        console.log(error)
+        console.error(error)
       }
     }
   }, [
@@ -620,7 +620,7 @@ export const AddLiquidity = () => {
         if (txHash) {
           const txURL = multichain.getExplorerTxUrl(poolAsset.chain, txHash)
 
-          console.log('txURL', txURL)
+          console.info('txURL', txURL)
           if (txHash) {
             // start polling
             pollTransaction({

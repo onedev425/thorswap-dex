@@ -77,8 +77,8 @@ export const ChainLiquidityPanel = ({ chain, data, isLoading }: Props) => {
     return liquidityPositions
   }, [data, pools])
 
-  console.log('chainLiquidity', data)
-  console.log('chainLiquidityPositions', chainLiquidityPositions)
+  console.info('chainLiquidity', data)
+  console.info('chainLiquidityPositions', chainLiquidityPositions)
 
   return (
     <Box className="gap-1" col>

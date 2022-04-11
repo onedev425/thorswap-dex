@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { Amount } from '@thorswap-lib/multichain-sdk'
 import BigNumber from 'bignumber.js'
@@ -10,6 +10,7 @@ type Value = Amount | number | string
 
 type FormatOptions = {
   prefix?: string
+  decimals?: number
   decimalSeparator?: string
 }
 
@@ -43,43 +44,56 @@ const getNumberOfDecimals = (amount: Value) => {
   }
 }
 
-const useFormat = (options: FormatOptions = {}): BigNumber.Config['FORMAT'] => {
+const useFormat = (options: FormatOptions = {}) => {
   const groupSeparator = useGroupSeparator()
 
-  return {
-    prefix: 'prefix' in options ? options.prefix : '$',
-    groupSeparator,
-    groupSize: 3,
-    decimalSeparator:
-      'decimalSeparator' in options ? options.decimalSeparator : '.',
-  }
+  const format: BigNumber.Config['FORMAT'] = useMemo(
+    () => ({
+      prefix: 'prefix' in options ? options.prefix : '$',
+      groupSeparator,
+      groupSize: 3,
+      decimalSeparator:
+        'decimalSeparator' in options ? options.decimalSeparator : '.',
+    }),
+    [groupSeparator, options],
+  )
+
+  return format
 }
 
-const formatter = (amount: Value, format: BigNumber.Config['FORMAT']) => {
-  const decimals = getNumberOfDecimals(amount)
+const formatter = ({
+  amount,
+  format,
+  decimals,
+}: {
+  amount: Value
+  format: ReturnType<typeof useFormat>
+  decimals?: number
+}) => {
+  const numOfDecimals = decimals || getNumberOfDecimals(amount)
 
   if (typeof amount === 'object') {
-    return amount.toFixedDecimal(decimals, format)
-  } else {
-    const number = typeof amount === 'string' ? parseFloat(amount) : amount
-    const bigNumber = new BigNumber(number.toFixed(decimals))
+    return amount.toFixedDecimal(numOfDecimals, format)
+  } else if (typeof amount === 'number') {
+    const bigNumber = new BigNumber(amount.toFixed(numOfDecimals))
 
-    return format ? bigNumber.toFormat(format) : bigNumber.toFormat()
+    return bigNumber.toFormat(format)
+  } else {
+    return amount
   }
 }
 
 export const formatPrice = (amount: Value, options?: FormatOptions) => {
   const format = useFormat(options)
-  return formatter(amount, format)
+  return formatter({ amount, format })
 }
 
 export const useFormatPrice = (options?: FormatOptions) => {
   const format = useFormat(options)
 
   return useCallback(
-    (amount: Value) => {
-      return formatter(amount, format)
-    },
-    [format],
+    (amount: Value) =>
+      formatter({ amount, format, decimals: options?.decimals }),
+    [format, options?.decimals],
   )
 }

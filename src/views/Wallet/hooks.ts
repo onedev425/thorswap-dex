@@ -102,6 +102,7 @@ export const useAccountData = (chain: SupportedChain) => {
     wallet: reduxWallet,
     chainWalletLoading,
     setIsConnectModalOpen,
+    disconnectWalletByChain,
   } = useWallet()
   const wallet = reduxWallet || emptyWallet
   const chainWallet = wallet[chain]
@@ -148,10 +149,11 @@ export const useAccountData = (chain: SupportedChain) => {
       balance: getBalanceByChain(walletBalance, geckoData),
       chainAddress,
       chainInfo,
+      chainWallet,
       chainWalletLoading,
+      disconnectWalletByChain,
       geckoData,
       setIsConnectModalOpen,
-      chainWallet,
     }),
     [
       chainAddress,
@@ -159,12 +161,13 @@ export const useAccountData = (chain: SupportedChain) => {
       chainWallet,
       chainWalletLoading,
       currentPrice,
+      disconnectWalletByChain,
       geckoData,
       price24hChangePercent,
       runePrice,
+      setIsConnectModalOpen,
       sigAsset,
       walletBalance,
-      setIsConnectModalOpen,
     ],
   )
 

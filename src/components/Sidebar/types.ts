@@ -1,4 +1,4 @@
-import { IconName } from 'components/Atomic'
+import { IconName, TextTransform } from 'components/Atomic'
 
 export type SidebarVariant = 'primary' | 'secondary'
 
@@ -9,6 +9,7 @@ type ItemProps = {
 }
 
 export type NavItemProps = ItemProps & {
+  transform?: TextTransform
   variant?: SidebarVariant
   className?: string
   collapsed?: boolean
@@ -16,7 +17,8 @@ export type NavItemProps = ItemProps & {
 
 export type SidebarItemProps = ItemProps & {
   label: string
-  hasSub?: boolean
+  transform?: TextTransform
+  navLabel?: string
   children?: SidebarItemProps[]
 }
 

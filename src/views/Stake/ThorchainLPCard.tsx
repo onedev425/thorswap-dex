@@ -34,7 +34,7 @@ export const ThorchainLPCard = () => {
   const liquidityRouter = getAddLiquidityRoute(Asset.THOR())
   const withdrawRouter = getWithdrawRoute(Asset.THOR())
 
-  console.log(isWalletConnected)
+  console.info(isWalletConnected)
 
   return (
     <Box col className="w-full md:w-1/2 lg:w-1/3">

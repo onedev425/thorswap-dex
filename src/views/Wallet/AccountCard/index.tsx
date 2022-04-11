@@ -43,17 +43,20 @@ export const AccountCard = memo(({ chain }: Props) => {
     chainInfo,
     geckoData,
     setIsConnectModalOpen,
+    disconnectWalletByChain,
     chainWallet,
   } = useAccountData(chain)
 
   const { isLoading, handleRefreshChain } = useWalletChainActions(chain)
   const sigAsset = chainToSigAsset(chain)
 
-  const handleConnect = useCallback(() => {
-    if (!chainAddress) {
+  const toggleConnect = useCallback(() => {
+    if (chainAddress) {
+      disconnectWalletByChain(chain)
+    } else {
       setIsConnectModalOpen(true)
     }
-  }, [chainAddress, setIsConnectModalOpen])
+  }, [chain, chainAddress, disconnectWalletByChain, setIsConnectModalOpen])
 
   const accountBalance = formatPrice(balance)
 
@@ -76,7 +79,7 @@ export const AccountCard = memo(({ chain }: Props) => {
             isLoading={isLoading}
             isConnected={!!chainAddress}
             handleRefreshChain={handleRefreshChain}
-            handleConnect={handleConnect}
+            toggleConnect={toggleConnect}
           />
         </Box>
 

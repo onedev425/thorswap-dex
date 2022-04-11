@@ -346,7 +346,7 @@ const SwapView = () => {
             duration: 20 * 1000,
           },
         )
-        console.log(error)
+        console.error(error)
       }
     }
   }, [wallet, swap, recipient, submitTransaction, pollTransaction, setTxFailed])
@@ -394,7 +394,7 @@ const SwapView = () => {
           ToastType.Error,
           { duration: 20 * 1000 },
         )
-        console.log(error)
+        console.error(error)
       }
     }
   }, [

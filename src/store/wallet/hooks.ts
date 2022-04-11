@@ -106,7 +106,7 @@ export const useWallet = () => {
       throw Error('Terra station wallet not connected')
     }
 
-    console.log('terra station connected', address)
+    console.info('terra station connected', address)
 
     await multichain.connectTerraStation(connectedWallet, address)
 

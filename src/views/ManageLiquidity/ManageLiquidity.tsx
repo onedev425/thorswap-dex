@@ -90,9 +90,9 @@ const ManageLiquidity = () => {
                 {t('common.deposit')}
               </Button>
 
-              <Button size="lg" stretch>
+              {/* <Button size="lg" stretch>
                 {t('common.create')}
-              </Button>
+              </Button> */}
             </Box>
 
             {!!Object.keys(chainMemberDetails).length && (

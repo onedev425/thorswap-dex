@@ -336,7 +336,7 @@ const WithdrawPanel = ({
               from: 'sym',
               to: 'sym',
             })
-            console.log('txID', txID)
+            console.info('txID', txID)
 
             // start polling
             pollTransaction({
@@ -374,7 +374,7 @@ const WithdrawPanel = ({
               from: 'sym',
               to: 'rune',
             })
-            console.log('txID', txID)
+            console.info('txID', txID)
 
             // start polling
             pollTransaction({
@@ -412,7 +412,7 @@ const WithdrawPanel = ({
               from: 'sym',
               to: 'asset',
             })
-            console.log('txID', txID)
+            console.info('txID', txID)
 
             // start polling
             pollTransaction({
@@ -452,7 +452,7 @@ const WithdrawPanel = ({
             to: 'asset',
           })
 
-          console.log('txID', txID)
+          console.info('txID', txID)
 
           // start polling
           pollTransaction({
@@ -491,7 +491,7 @@ const WithdrawPanel = ({
             to: 'rune',
           })
 
-          console.log('txID', txID)
+          console.info('txID', txID)
 
           // start polling
           pollTransaction({
@@ -506,8 +506,8 @@ const WithdrawPanel = ({
             },
           })
         }
-      } catch (error) {
-        console.log(error)
+      } catch (error: any) {
+        console.error(error)
         setTxFailed(trackId)
 
         // TODO: better error translation
@@ -551,7 +551,7 @@ const WithdrawPanel = ({
     } else {
       showToast(
         {
-          message: t('notiication.walletNotFound'),
+          message: t('notification.walletNotFound'),
           description: t('notification.connectWallet'),
         },
         ToastType.Info,

@@ -110,7 +110,6 @@ export const useTxTracker = () => {
     const filteredData = txData.filter(
       (item) => item.status === TxTrackerStatus.Pending,
     )
-    console.log('🔥', filteredData)
 
     setFilteredTxData(filteredData)
   }, [onlyPending, txData])
