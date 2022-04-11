@@ -35,7 +35,11 @@ export const GasTracker = () => {
           asset={chainToSigAsset(activeGasInfo.chain as SupportedChain)}
           size="tiny"
         />
-        <Typography variant="caption">{`${activeGasInfo.gasRate} ${activeGasInfo.gasUnit}`}</Typography>
+        <Typography variant="caption">
+          {`${activeGasInfo.gasRate.toFixed(2).replace(/\.?0+$/, '')} ${
+            activeGasInfo.gasUnit
+          }`}
+        </Typography>
       </Box>
     )
   }, [activeChain, chainGasRates])
@@ -50,7 +54,9 @@ export const GasTracker = () => {
               asset={chainToSigAsset(chain as SupportedChain)}
               size="tiny"
             />
-            <Typography variant="caption">{`${gasRate} ${gasUnit}`}</Typography>
+            <Typography variant="caption">
+              {`${gasRate.toFixed(2).replace(/\.?0+$/, '')} ${gasUnit}`}
+            </Typography>
           </Box>
         ),
         value: chain,
