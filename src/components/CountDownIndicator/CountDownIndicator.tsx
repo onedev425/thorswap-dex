@@ -4,10 +4,12 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 
 import classNames from 'classnames'
 
-import { Box } from 'components/Atomic'
+import { Box, Tooltip } from 'components/Atomic'
 import { baseHoverClass } from 'components/constants'
 
 import { useApp } from 'store/app/hooks'
+
+import { t } from 'services/i18n'
 
 import { ThemeType } from 'types/app'
 
@@ -27,28 +29,30 @@ export const CountDownIndicator = memo(
     const strokeColor = lightTheme ? '#7C859F' : '#75849D'
 
     return (
-      <Box
-        className={classNames(
-          'transition-all w-10 h-10',
-          { [baseHoverClass]: onClick },
-          className,
-        )}
-        center
-        onClick={onClick}
-      >
-        <CountdownCircleTimer
-          isPlaying
-          key={`${resetIndicator}`}
-          size={size}
-          strokeWidth={2}
-          trailColor={trailColor}
-          duration={duration}
-          colors={[strokeColor, strokeColor]}
-          colorsTime={[10, 0]}
+      <Tooltip content={t('common.refresh')} place="top">
+        <Box
+          className={classNames(
+            'transition-all w-10 h-10',
+            { [baseHoverClass]: onClick },
+            className,
+          )}
+          center
+          onClick={onClick}
         >
-          {() => null}
-        </CountdownCircleTimer>
-      </Box>
+          <CountdownCircleTimer
+            isPlaying
+            key={`${resetIndicator}`}
+            size={size}
+            strokeWidth={2}
+            trailColor={trailColor}
+            duration={duration}
+            colors={[strokeColor, strokeColor]}
+            colorsTime={[10, 0]}
+          >
+            {() => null}
+          </CountdownCircleTimer>
+        </Box>
+      </Tooltip>
     )
   },
 )

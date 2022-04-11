@@ -81,7 +81,11 @@ export const Header = ({ openMenu }: Props) => {
         </Box>
 
         <Box className="min-h-[70px]" justify="between">
-          <Button type="outline" onClick={handleClickWalletBtn}>
+          <Button
+            className="mr-2"
+            type="outline"
+            onClick={handleClickWalletBtn}
+          >
             {walletBtnText}
           </Button>
           <AppPopoverMenu />

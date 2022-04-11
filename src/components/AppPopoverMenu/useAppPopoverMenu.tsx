@@ -36,7 +36,7 @@ export const useAppPopoverMenu = () => {
       items: useCurrencyMenu(onBack),
     },
     main: {
-      title: t('common.settings'),
+      title: t('common.globalSettings'),
       items: useMainMenu(setMenuType),
     },
     theme: {

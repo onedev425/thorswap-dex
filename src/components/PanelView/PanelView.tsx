@@ -11,7 +11,7 @@ export type Props = {
 
 export const PanelView = memo(({ title, header, children }: Props) => {
   return (
-    <Box className="self-center w-full max-w-[480px]" col>
+    <Box className="self-center w-full max-w-[480px]" col mt={2}>
       <Helmet title={title} content={title} />
 
       <Box className="w-full mx-2" col>
@@ -19,7 +19,7 @@ export const PanelView = memo(({ title, header, children }: Props) => {
       </Box>
 
       <Card
-        className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-4 space-y-1 shadow-lg md:w-full md:mt-8 md:h-auto"
+        className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-4 space-y-1 shadow-lg md:w-full md:h-auto"
         size="lg"
         stretch
       >

@@ -5,10 +5,12 @@ import { useApp } from 'store/app/hooks'
 
 import { t } from 'services/i18n'
 
+import { feeOptions, slippageOptions } from './settingOptions'
+
 export const GlobalSettings = () => {
   const {
     slippageTolerance,
-    transactionDeadline,
+    feeOptionType,
     // autoRouter,
     expertMode,
     customRecipientMode,
@@ -16,7 +18,7 @@ export const GlobalSettings = () => {
     // setAutoRouter,
     setExpertMode,
     setCustomRecipientMode,
-    setTransactionDeadline,
+    setFeeOptionType,
   } = useApp()
 
   return (
@@ -27,16 +29,11 @@ export const GlobalSettings = () => {
             {t('views.swap.transactionSettings')}
           </Typography>
         </Box>
-        <Box className="justify-between">
+        <Box className="space-x-2">
           <Typography variant="caption-xs" color="secondary">
             {t('views.swap.slippageTolerance')}
           </Typography>
-          <Icon
-            className="ml-auto"
-            color="secondary"
-            size={16}
-            name="questionCircle"
-          />
+          <Icon color="secondary" size={16} name="questionCircle" />
         </Box>
         <Box className="w-full space-x-2" alignCenter>
           <Input
@@ -50,53 +47,36 @@ export const GlobalSettings = () => {
             stretch
             onChange={(e) => setSlippage(Number(e.target.value))}
           />
-          <Button
-            size="sm"
-            type={slippageTolerance === 0.5 ? 'default' : 'outline'}
-            variant="tint"
-            onClick={() => setSlippage(0.5)}
-          >
-            <Typography variant="caption-xs">0.5%</Typography>
-          </Button>
-          <Button
-            size="sm"
-            type={slippageTolerance === 1 ? 'default' : 'outline'}
-            variant="tint"
-            onClick={() => setSlippage(1)}
-          >
-            <Typography variant="caption-xs">1%</Typography>
-          </Button>
-          <Button
-            size="sm"
-            variant="tint"
-            type={slippageTolerance == 3 ? 'default' : 'outline'}
-            onClick={() => setSlippage(3)}
-          >
-            <Typography variant="caption-xs">3%</Typography>
-          </Button>
+          {slippageOptions.map((option) => (
+            <Button
+              key={option.key}
+              size="sm"
+              type={slippageTolerance === option.value ? 'default' : 'outline'}
+              variant="tint"
+              onClick={() => setSlippage(option.value)}
+            >
+              <Typography variant="caption-xs">{option.text}</Typography>
+            </Button>
+          ))}
         </Box>
-        <Box className="justify-between">
+        <Box className="space-x-2">
           <Typography variant="caption-xs" color="secondary">
             {t('views.swap.transactionDeadline')}
           </Typography>
-          <Icon
-            className="ml-auto"
-            color="secondary"
-            size={16}
-            name="questionCircle"
-          />
+          <Icon color="secondary" size={16} name="questionCircle" />
         </Box>
-        <Box marginBottom={30} alignCenter>
-          <Input
-            className="w-16 text-right"
-            containerClassName="bg-light-gray-light dark:bg-dark-gray-light bg-opacity-40"
-            border="rounded"
-            value={transactionDeadline}
-            onChange={(e) => setTransactionDeadline(Number(e.target.value))}
-          />
-          <Typography className="ml-2" color="secondary" variant="caption-xs">
-            {t('common.minutes')}
-          </Typography>
+        <Box className="w-full space-x-2" marginBottom={30} alignCenter>
+          {feeOptions.map((feeOption) => (
+            <Button
+              key={feeOption.key}
+              size="sm"
+              type={feeOptionType === feeOption.type ? 'default' : 'outline'}
+              variant="tint"
+              onClick={() => setFeeOptionType(feeOption.type)}
+            >
+              <Typography variant="caption-xs">{feeOption.text}</Typography>
+            </Button>
+          ))}
         </Box>
         <Box>
           <Typography variant="caption">

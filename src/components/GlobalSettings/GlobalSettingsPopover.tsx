@@ -2,6 +2,8 @@ import { Button, Icon } from 'components/Atomic'
 import { GlobalSettings } from 'components/GlobalSettings'
 import { Popover } from 'components/Popover'
 
+import { t } from 'services/i18n'
+
 export const GlobalSettingsPopover = () => {
   return (
     <Popover
@@ -17,6 +19,8 @@ export const GlobalSettingsPopover = () => {
               name="cog"
             />
           }
+          tooltip={t('common.settings')}
+          tooltipPlacement="top"
         />
       }
     >

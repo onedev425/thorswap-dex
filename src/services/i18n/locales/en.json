@@ -40,13 +40,16 @@
     "add": "Add",
     "per": "per",
     "gasTracker": "Gas Tracker",
-    "settings": "Global Settings",
+    "settings": "Settings",
     "langSettings": "App",
     "defaultErrMsg": "Something went wrong",
-    "refresh": "Refresh data",
+    "refresh": "Refresh Data",
     "upgrade": "Upgrade",
     "max": "Max",
     "transactionFee": "Transaction Fee",
+    "feeNormal": "Normal",
+    "feeFast": "Fast",
+    "feeInstant": "Instant",
     "recipientAddress": "Recipient Address",
     "addressCopied": "Address copied",
     "here": "Here",
@@ -63,7 +66,8 @@
     "noTxHistory": "No transactions in history",
     "pendingTransactions": "Pending Transactions",
     "clearHistory": "Clear History",
-    "viewOnThoryield": "View on Thoryield.com ↗"
+    "viewOnThoryield": "View on Thoryield.com ↗",
+    "poolAnalytics": "View Pool Analytics ↗"
   },
   "pendingLiquidity": {
     "complete": "complete",

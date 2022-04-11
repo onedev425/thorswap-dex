@@ -594,6 +594,8 @@ const SwapView = () => {
                 className="w-10 px-1.5 group"
                 type="borderless"
                 variant="tint"
+                tooltip={t('common.poolAnalytics')}
+                tooltipPlacement="top"
                 startIcon={
                   <Icon
                     className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
