@@ -1,9 +1,8 @@
-import { memo, useCallback, useState } from 'react'
+import { memo, useCallback } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
 import { chainToSigAsset, SupportedChain } from '@thorswap-lib/multichain-sdk'
-import { chainToString } from '@thorswap-lib/xchain-util'
 import classNames from 'classnames'
 
 import { AssetChart } from 'views/Wallet/AssetChart'
@@ -16,7 +15,6 @@ import { ShowQrCode } from 'views/Wallet/components/ShowQrCode'
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, Card, Typography } from 'components/Atomic'
 import { borderHoverHighlightClass } from 'components/constants'
-import { QRCodeModal } from 'components/Modals/QRCodeModal'
 import { Scrollbar } from 'components/Scrollbar'
 
 import { t } from 'services/i18n'
@@ -35,16 +33,9 @@ type Props = {
   chain: SupportedChain
 }
 
-type QrCodeData = {
-  chain: string
-  address: string
-}
-
-const EMPTY_QR_DATA = { chain: '', address: '' }
-
 export const AccountCard = memo(({ chain }: Props) => {
   const navigate = useNavigate()
-  const [qrData, setQrData] = useState<QrCodeData>(EMPTY_QR_DATA)
+
   const {
     activeAsset24hChange,
     activeAssetPrice,
@@ -67,13 +58,6 @@ export const AccountCard = memo(({ chain }: Props) => {
       setIsConnectModalOpen(true)
     }
   }, [chain, chainAddress, disconnectWalletByChain, setIsConnectModalOpen])
-
-  const handleViewQRCode = useCallback((activeChain, address) => {
-    setQrData({
-      chain: chainToString(activeChain),
-      address,
-    })
-  }, [])
 
   const accountBalance = formatPrice(balance)
 
@@ -150,15 +134,25 @@ export const AccountCard = memo(({ chain }: Props) => {
           <AccountCardButton
             icon="receive"
             label={t('common.send')}
-            onClick={() => navigate(getSendRoute())}
+            onClick={() => navigate(getSendRoute(sigAsset))}
             className="rotate-180"
           />
 
-          <AccountCardButton
-            icon="receive"
-            label={t('common.receive')}
-            onClick={() => handleViewQRCode(chain, chainAddress)}
+          <ShowQrCode
+            address={chainAddress}
+            chain={chain}
+            openComponent={
+              <AccountCardButton
+                icon="receive"
+                label={t('common.receive')}
+                disabled={!chainAddress}
+                tooltip={
+                  chainAddress ? '' : t('views.walletModal.notConnected')
+                }
+              />
+            }
           />
+
           <AccountCardButton
             icon="swap"
             label={t('common.swap')}
@@ -188,13 +182,6 @@ export const AccountCard = memo(({ chain }: Props) => {
           )}
         </Box>
       </Box>
-
-      <QRCodeModal
-        chain={qrData.chain}
-        address={qrData.address}
-        title={t('common.receive')}
-        onCancel={() => setQrData(EMPTY_QR_DATA)}
-      />
     </Card>
   )
 })

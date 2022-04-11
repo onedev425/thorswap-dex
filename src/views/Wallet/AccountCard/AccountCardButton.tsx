@@ -6,13 +6,15 @@ import { Box, Button, Icon, IconName, Typography } from 'components/Atomic'
 
 type Props = {
   label: string
-  onClick: () => void
+  onClick?: () => void
   icon: IconName
   className?: string
+  disabled?: boolean
+  tooltip?: string
 }
 
 export const AccountCardButton = memo(
-  ({ className, label, onClick, icon }: Props) => {
+  ({ className, label, onClick, icon, disabled, tooltip }: Props) => {
     return (
       <Box col center className="group gap-y-2">
         <Button
@@ -31,6 +33,8 @@ export const AccountCardButton = memo(
             />
           }
           onClick={onClick}
+          disabled={disabled}
+          tooltip={tooltip}
         />
         <Typography
           className={'group-hover:text-white'}
