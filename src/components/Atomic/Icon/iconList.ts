@@ -59,6 +59,7 @@ import {
   FiPlus,
   FiX,
 } from 'react-icons/fi'
+import { GoSettings } from 'react-icons/go'
 import { HiOutlineCog, HiOutlineChartPie } from 'react-icons/hi'
 import { ImBlocked } from 'react-icons/im'
 import {
@@ -141,6 +142,7 @@ const Icons = {
   medium: BsMedium,
   menu: CgMenu,
   menuFold: AiOutlineMenuFold,
+  multiSettings: GoSettings,
   node: VscSymbolMethod,
   percent: AiOutlinePercentage,
   plus: FiPlus,

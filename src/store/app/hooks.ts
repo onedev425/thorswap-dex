@@ -108,6 +108,27 @@ export const useApp = () => {
     [dispatch],
   )
 
+  const setStatsShowStatus = useCallback(
+    (areStatsShown: boolean) => {
+      dispatch(actions.setStatsShowStatus(areStatsShown))
+    },
+    [dispatch],
+  )
+
+  const setChartsShowStatus = useCallback(
+    (areChartsShown: boolean) => {
+      dispatch(actions.setChartsShowStatus(areChartsShown))
+    },
+    [dispatch],
+  )
+
+  const setPoolsShowStatus = useCallback(
+    (arePoolsShown: boolean) => {
+      dispatch(actions.setPoolsShowStatus(arePoolsShown))
+    },
+    [dispatch],
+  )
+
   const setWatchList = useCallback(
     (watchList: string[]) => {
       dispatch(actions.setWatchList(watchList))
@@ -156,5 +177,8 @@ export const useApp = () => {
     toggleSettings,
     toggleSidebar,
     toggleSidebarCollapse,
+    setStatsShowStatus,
+    setChartsShowStatus,
+    setPoolsShowStatus,
   }
 }

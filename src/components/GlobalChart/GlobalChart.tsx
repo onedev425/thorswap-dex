@@ -4,6 +4,8 @@ import { Box } from 'components/Atomic'
 import { Chart } from 'components/Chart'
 import { ChartType } from 'components/Chart/types'
 
+import { useApp } from 'store/app/hooks'
+
 import { t } from 'services/i18n'
 
 import {
@@ -22,6 +24,11 @@ export const GlobalChart = () => {
     LiquidityChartIndex.Liquidity,
   )
   const { volumeChartData, liquidityChartData } = useGlobalChartInfo()
+  const { areChartsShown } = useApp()
+
+  if (!areChartsShown) {
+    return null
+  }
 
   return (
     <Box col className="lg:space-x-8 lg:flex-row">

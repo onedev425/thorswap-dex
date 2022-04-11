@@ -25,6 +25,9 @@ type StorageType = {
   expertMode: boolean
   customRecipientMode: boolean
   walletViewMode: ViewMode
+  statsHidden: boolean
+  chartsHidden: boolean
+  poolsHidden: boolean
 }
 
 type StoragePayload =
@@ -53,11 +56,17 @@ type StoragePayload =
         | 'xDefiConnected'
         | 'autoRouter'
         | 'expertMode'
+        | 'statsHidden'
+        | 'chartsHidden'
+        | 'poolsHidden'
         | 'customRecipientMode'
       value: boolean
     }
 
 const defaultValues: StorageType = {
+  statsHidden: false,
+  chartsHidden: false,
+  poolsHidden: false,
   annViewStatus: false,
   baseCurrency: Asset.USD().toString(),
   thousandSeparator: ThousandSeparator.Comma,
@@ -88,6 +97,9 @@ export const saveInStorage = ({ key, value }: StoragePayload) => {
       break
 
     case 'annViewStatus':
+    case 'statsHidden':
+    case 'chartsHidden':
+    case 'poolsHidden':
     case 'tradingHaltStatus':
     case 'readStatus':
     case 'xDefiConnected':
@@ -127,6 +139,9 @@ export const getFromStorage = (
     }
 
     case 'annViewStatus':
+    case 'statsHidden':
+    case 'chartsHidden':
+    case 'poolsHidden':
     case 'tradingHaltStatus':
     case 'readStatus':
     case 'xDefiConnected':

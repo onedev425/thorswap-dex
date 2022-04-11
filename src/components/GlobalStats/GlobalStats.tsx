@@ -1,31 +1,29 @@
-import { memo, useState } from 'react'
+import { memo } from 'react'
 
-import classNames from 'classnames'
-
-import { Box, SwitchToggle, Typography } from 'components/Atomic'
+import { Box, Typography } from 'components/Atomic'
 import { StatsList } from 'components/StatsList'
+
+import { useApp } from 'store/app/hooks'
 
 import { t } from 'services/i18n'
 
 import { useGlobalStatsData } from './useGlobalStatsData'
 
 export const GlobalStats = memo(() => {
-  const [visible, setVisible] = useState(true)
+  const { areStatsShown } = useApp()
   const statsData = useGlobalStatsData()
+
+  if (!areStatsShown) {
+    return null
+  }
 
   return (
     <Box col>
-      <Box
-        alignCenter
-        className={classNames('pl-2 gap-x-2 rounded-2xl', { 'pb-6': !visible })}
-      >
-        <SwitchToggle checked={visible} onChange={setVisible} />
-        <Typography variant="caption">
-          {visible ? t('common.hideStats') : t('common.showStats')}
-        </Typography>
+      <Box className="pl-2 gap-x-2 rounded-2xl" alignCenter>
+        <Typography variant="h3">{t('common.stats')}</Typography>
       </Box>
 
-      {visible && <StatsList list={statsData} scrollable />}
+      <StatsList list={statsData} scrollable />
     </Box>
   )
 })

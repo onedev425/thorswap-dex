@@ -2,6 +2,7 @@ import { BUILD_NUMBER } from 'config/constants'
 
 import { MainMenu } from 'components/AppPopoverMenu/components/MainMenu'
 import { Submenu } from 'components/AppPopoverMenu/components/Submenu'
+import { SwitchMenu } from 'components/AppPopoverMenu/components/SwitchMenu'
 import { useAppPopoverMenu } from 'components/AppPopoverMenu/useAppPopoverMenu'
 import { Box, Button, Card, Icon, Typography } from 'components/Atomic'
 import { Popover } from 'components/Popover'
@@ -13,7 +14,21 @@ import packageJson from '../../../package.json'
 
 export const AppPopoverMenu = () => {
   const { menus, menuType, onBack } = useAppPopoverMenu()
-
+  const renderMenu = () => {
+    switch (menuType) {
+      case 'main':
+        return (
+          <Box className="gap-4" col>
+            <MainMenu items={menus.main.items} />
+            <SocialIcons />
+          </Box>
+        )
+      case 'settings':
+        return <SwitchMenu items={menus.settings.items} />
+      default:
+        return <Submenu items={menus[menuType].items} />
+    }
+  }
   return (
     <Popover
       trigger={
@@ -44,17 +59,8 @@ export const AppPopoverMenu = () => {
             )}
             <Typography variant="subtitle2">{menus[menuType].title}</Typography>
           </Box>
-
-          {menuType === 'main' ? (
-            <Box className="gap-4" col>
-              <MainMenu items={menus.main.items} />
-              <SocialIcons />
-            </Box>
-          ) : (
-            <Submenu items={menus[menuType].items} />
-          )}
         </Box>
-
+        {renderMenu()}
         <Box justify="end">
           <Typography variant="caption-xs" color="secondary">
             {`v${packageJson.version} (${BUILD_NUMBER})`}

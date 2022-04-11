@@ -13,7 +13,13 @@ import { t, changeAppLanguage, getLanguageFlag } from 'services/i18n'
 
 import { SupportedLanguages, ThemeType, ThousandSeparator } from 'types/app'
 
-type MenuType = 'main' | 'language' | 'currency' | 'theme' | 'thousandSeparator'
+type MenuType =
+  | 'main'
+  | 'language'
+  | 'currency'
+  | 'theme'
+  | 'thousandSeparator'
+  | 'settings'
 
 const separatorIcons: Record<ThousandSeparator, IconName> = {
   [ThousandSeparator.Space]: 'spaceBar',
@@ -46,6 +52,10 @@ export const useAppPopoverMenu = () => {
     thousandSeparator: {
       title: t('appMenu.thousandSeparator'),
       items: useThousandSeparatorMenu(onBack),
+    },
+    settings: {
+      title: t('appMenu.customize'),
+      items: useCompositionSettingsMenu(),
     },
   }
 
@@ -95,6 +105,12 @@ const useMainMenu = (setMenuType: (val: MenuType) => void) => {
         ),
       hasSubmenu: true,
       value: baseCurrency,
+    },
+    {
+      label: t('appMenu.settings'),
+      desc: t('appMenu.customize'),
+      onClick: () => setMenuType('settings'),
+      icon: 'multiSettings',
     },
   ]
 
@@ -230,6 +246,37 @@ const useThousandSeparatorMenu = (onBack: () => void) => {
       label: t('appMenu.separatorNone'),
       onClick: () => onClick(ThousandSeparator.None),
       isSelected: isThemeSelected(ThousandSeparator.None),
+    },
+  ]
+
+  return menu
+}
+
+const useCompositionSettingsMenu = () => {
+  const {
+    setStatsShowStatus,
+    areStatsShown,
+    setChartsShowStatus,
+    areChartsShown,
+    setPoolsShowStatus,
+    arePoolsShown,
+  } = useApp()
+
+  const menu: MenuItemType[] = [
+    {
+      label: t('appMenu.showStats'),
+      status: areStatsShown,
+      onClick: () => setStatsShowStatus(!areStatsShown),
+    },
+    {
+      label: t('appMenu.showCharts'),
+      status: areChartsShown,
+      onClick: () => setChartsShowStatus(!areChartsShown),
+    },
+    {
+      label: t('appMenu.showPools'),
+      status: arePoolsShown,
+      onClick: () => setPoolsShowStatus(!arePoolsShown),
     },
   ]
 

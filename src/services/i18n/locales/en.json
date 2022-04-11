@@ -59,10 +59,9 @@
     "addressCopied": "Address copied",
     "here": "Here",
     "password": "Password",
-    "showStats": "Show Stats",
-    "hideStats": "Hide Stats",
     "estimateTime": "Est. Time",
     "fee": "Fee",
+    "stats": "Stats",
     "slippage": "Slippage",
     "minReceived": "Min Received",
     "recipient": "Recipient",
@@ -101,7 +100,12 @@
     "languageDesc": "Choose language",
     "themeDesc": "Theme for the app",
     "separatorDesc": "Thousand Separator",
-    "currencyDesc": "Base app currency"
+    "currencyDesc": "Base app currency",
+    "settings": "Settings",
+    "customize": "Customize Dashboard",
+    "showStats": "Show Global Stats",
+    "showCharts": "Show Charts",
+    "showPools": "Show Featured Pools"
   },
   "txManager": {
     "approve": "Approve",

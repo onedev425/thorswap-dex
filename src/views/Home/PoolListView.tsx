@@ -6,6 +6,8 @@ import { Input } from 'components/Input'
 import { PoolCard } from 'components/PoolCard'
 import { PoolTable } from 'components/PoolTable'
 
+import { useApp } from 'store/app/hooks'
+
 import { t } from 'services/i18n'
 
 import { poolTypeOptions, poolStatusOptions } from './types'
@@ -15,6 +17,7 @@ export const PoolListView = () => {
   const [keyword, setKeyword] = useState('')
   const [selectedPoolType, setSelectedPoolType] = useState(0)
   const [selectedPoolStatus, setSelectedPoolStatus] = useState(0)
+  const { arePoolsShown } = useApp()
 
   const { filteredPools, featuredPools } = useLiquidityPools({
     keyword,
@@ -31,15 +34,22 @@ export const PoolListView = () => {
 
   return (
     <Box col>
-      <Typography variant="h3">{t('views.home.featuredPools')}</Typography>
-
-      <Box center className="flex-wrap">
-        <HorizontalSlider itemWidth={302}>
-          {featuredPools.map(({ pool, ...rest }) => (
-            <PoolCard key={pool.asset.ticker} pool={pool} {...rest} />
-          ))}
-        </HorizontalSlider>
-      </Box>
+      {arePoolsShown && (
+        <Box col>
+          <Box className="pl-2 gap-x-2 rounded-2xl" alignCenter>
+            <Typography variant="h3">
+              {t('views.home.featuredPools')}
+            </Typography>
+          </Box>
+          <Box center className="flex-wrap">
+            <HorizontalSlider itemWidth={302}>
+              {featuredPools.map(({ pool, ...rest }) => (
+                <PoolCard key={pool.asset.ticker} pool={pool} {...rest} />
+              ))}
+            </HorizontalSlider>
+          </Box>
+        </Box>
+      )}
 
       <Box className="gap-8" col>
         <Typography variant="h3">{t('common.liquidityPools')}</Typography>

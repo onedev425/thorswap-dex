@@ -12,4 +12,5 @@ export type MenuItemType = {
   hasSubmenu?: boolean
   isSelected?: boolean
   value?: string
+  status?: boolean
 }
