@@ -1,12 +1,6 @@
-import {
-  ChangeEvent,
-  KeyboardEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react'
+import { ChangeEvent, KeyboardEvent, useCallback, useState } from 'react'
 
-import { useFilePicker } from 'react-sage'
+import { FilePicker } from 'react-file-picker'
 
 import { decryptFromKeystore, Keystore } from '@thorswap-lib/xchain-crypto'
 import classNames from 'classnames'
@@ -15,8 +9,6 @@ import { Box, Icon, Tooltip, Typography, Button } from 'components/Atomic'
 import { Input } from 'components/Input'
 
 import { t } from 'services/i18n'
-
-import { loadFile } from './utils'
 
 type Props = {
   loading?: boolean
@@ -31,25 +23,30 @@ export const KeystoreView = ({ loading, onConnect, onCreate }: Props) => {
   const [keystoreError, setKeystoreError] = useState('')
   const [processing, setProcessing] = useState(false)
 
-  const { files, onClick, HiddenFileInput } = useFilePicker()
-
-  const onLoadHandler = useCallback((reader: FileReader) => {
-    try {
-      const key = JSON.parse(reader.result as string)
-
-      if (!('version' in key) || !('crypto' in key)) {
-        setKeystoreError('Not a valid keystore file')
-      } else {
-        setKeystoreError('')
-        setKeystore(key)
+  const onChangeFile = useCallback((file: Blob) => {
+    const reader = new FileReader()
+    const onLoadHandler = () => {
+      try {
+        const key = JSON.parse(reader.result as string)
+        if (!('version' in key) || !('crypto' in key)) {
+          setKeystoreError('Not a valid keystore file')
+        } else {
+          setKeystoreError('')
+          setKeystore(key)
+        }
+      } catch {
+        setKeystoreError('Not a valid json file')
       }
-    } catch {
-      setKeystoreError('Not a valid json file')
+    }
+    reader.addEventListener('load', onLoadHandler)
+    reader.readAsText(file)
+    return () => {
+      reader.removeEventListener('load', onLoadHandler)
     }
   }, [])
 
-  const onErrorFile = useCallback(() => {
-    setKeystoreError('Selecting a key file failed')
+  const onErrorFile = useCallback((error: Error) => {
+    setKeystoreError(`Selecting a key file failed: ${error}`)
   }, [])
 
   const unlockKeystore = useCallback(async () => {
@@ -87,12 +84,6 @@ export const KeystoreView = ({ loading, onConnect, onCreate }: Props) => {
     [unlockKeystore],
   )
 
-  useEffect(() => {
-    if (files) {
-      loadFile(files[0], onLoadHandler, onErrorFile)
-    }
-  }, [files, onErrorFile, onLoadHandler])
-
   const ready = password.length > 0 && !keystoreError && !processing
 
   return (
@@ -100,26 +91,27 @@ export const KeystoreView = ({ loading, onConnect, onCreate }: Props) => {
       <Typography className="mb-2" variant="subtitle2" fontWeight="semibold">
         {t('views.walletModal.selectKeystore')}
       </Typography>
-      <Box
-        className="h-10 px-3 border border-solid cursor-pointer rounded-2xl border-light-border-primary dark:border-dark-border-primary hover:border-light-typo-gray dark:hover:border-dark-typo-gray"
-        alignCenter
-        onClick={onClick}
-      >
-        <HiddenFileInput multiple={false} />
-        {!keystore && !keystoreError && <Icon name="upload" size={18} />}
-        {keystore && !keystoreError && (
-          <Icon name="valid" color="green" size={18} />
-        )}
-        {keystoreError && <Icon name="invalid" color="red" size={18} />}
-        <Typography
-          className={classNames('text-[11px] opacity-80 ml-2', {
-            'opacity-100': keystore && !keystoreError,
-          })}
-          variant="caption-xs"
+      <FilePicker onChange={onChangeFile} onError={onErrorFile}>
+        <Box
+          className="h-10 px-3 border border-solid cursor-pointer rounded-2xl border-light-border-primary dark:border-dark-border-primary hover:border-light-typo-gray dark:hover:border-dark-typo-gray"
+          alignCenter
         >
-          Choose File To Upload
-        </Typography>
-      </Box>
+          {!keystore && !keystoreError && <Icon name="upload" size={18} />}
+          {keystore && !keystoreError && (
+            <Icon name="valid" color="green" size={18} />
+          )}
+          {keystoreError && <Icon name="invalid" color="red" size={18} />}
+          <Typography
+            className={classNames('text-[11px] opacity-80 ml-2', {
+              'opacity-100': keystore && !keystoreError,
+            })}
+            variant="caption-xs"
+            fontWeight="semibold"
+          >
+            {t('views.walletModal.chooseKeystore')}
+          </Typography>
+        </Box>
+      </FilePicker>
       <Typography
         className="mt-2 ml-3"
         color="red"

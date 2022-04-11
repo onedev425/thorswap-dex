@@ -338,6 +338,7 @@
       "notConnected": "Non Connesso",
       "connectedWith": "Connesso Con",
       "ledgerIndex": "Ledger Index",
+      "chooseKeystore": "Scegli File Da Caricare",
       "invalidKeystore": "Keystore File non valido",
       "selectAll": "Seleziona Tutti / Deseleziona Tutti",
       "selectKeystore": "Perfavore connetti Keystore File",
