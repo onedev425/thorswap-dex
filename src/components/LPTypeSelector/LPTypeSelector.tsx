@@ -35,7 +35,7 @@ export const LPTypeSelector = ({
         value={selected}
         onChange={onSelect}
         title={title}
-        titleWidth="20%"
+        titleWidth="25%"
         tabWidth="33%"
       />
     </Box>

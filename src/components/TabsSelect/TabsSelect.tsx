@@ -42,14 +42,19 @@ export const TabsSelect = memo(
           )}
           alignCenter
         >
-          <Box flex={1} flexWrap="wrap" className="self-stretch gap-1">
+          <Box
+            flex={1}
+            flexWrap="wrap"
+            justify="between"
+            className="self-stretch"
+          >
             {tabs.map(({ value, label }) => (
               <Button
-                style={tabWidth ? { width: tabWidth } : {}}
-                className={classNames('self-stretch', {
-                  '!bg-opacity-50': value === selectedValue,
-                  'flex-1': !tabWidth,
-                })}
+                className={classNames(
+                  'self-stretch',
+                  tabWidth ? `w-[${tabWidth}]` : 'flex-1',
+                  { '!bg-opacity-50': value === selectedValue },
+                )}
                 key={value}
                 variant={value === selectedValue ? 'primary' : 'tint'}
                 type={value === selectedValue ? 'default' : 'borderless'}
