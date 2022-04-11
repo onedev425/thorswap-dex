@@ -8,7 +8,6 @@ import { resolve } from 'path'
 import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
-  base: './',
   define: { 'process.env': {} },
   plugins: [
     rewriteAll(),
