@@ -1,6 +1,7 @@
 import nodePolyfills from 'rollup-plugin-polyfill-node'
 import react from '@vitejs/plugin-react'
 import svgr from 'vite-plugin-svgr'
+import rewriteAll from 'vite-plugin-rewrite-all'
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
@@ -10,6 +11,7 @@ export default defineConfig({
   base: './',
   define: { 'process.env': {} },
   plugins: [
+    rewriteAll(),
     react(),
     svgr({ svgrOptions: { icon: true } }),
     visualizer({ json: true }),
