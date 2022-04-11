@@ -28,7 +28,7 @@ export interface State {
   thousandSeparator: ThousandSeparator
   transactionDeadline: number
   walletViewMode: ViewMode
-  areStatsShown: boolean
-  areChartsShown: boolean
-  arePoolsShown: boolean
+  areStatsHidden: boolean
+  areChartsHidden: boolean
+  arePoolsHidden: boolean
 }

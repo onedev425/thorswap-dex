@@ -255,28 +255,28 @@ const useThousandSeparatorMenu = (onBack: () => void) => {
 const useCompositionSettingsMenu = () => {
   const {
     setStatsShowStatus,
-    areStatsShown,
+    areStatsHidden,
     setChartsShowStatus,
-    areChartsShown,
+    areChartsHidden,
     setPoolsShowStatus,
-    arePoolsShown,
+    arePoolsHidden,
   } = useApp()
 
   const menu: MenuItemType[] = [
     {
       label: t('appMenu.showStats'),
-      status: areStatsShown,
-      onClick: () => setStatsShowStatus(!areStatsShown),
+      status: !areStatsHidden,
+      onClick: () => setStatsShowStatus(!areStatsHidden),
     },
     {
       label: t('appMenu.showCharts'),
-      status: areChartsShown,
-      onClick: () => setChartsShowStatus(!areChartsShown),
+      status: !areChartsHidden,
+      onClick: () => setChartsShowStatus(!areChartsHidden),
     },
     {
       label: t('appMenu.showPools'),
-      status: arePoolsShown,
-      onClick: () => setPoolsShowStatus(!arePoolsShown),
+      status: !arePoolsHidden,
+      onClick: () => setPoolsShowStatus(!arePoolsHidden),
     },
   ]
 

@@ -54,7 +54,6 @@ export const navbarOptions: SidebarItemProps[] = [
     iconName: 'wallet',
     href: ROUTES.Wallet,
     label: t('components.sidebar.wallet'),
-    hasSub: true,
     children: [
       {
         iconName: 'wallet',

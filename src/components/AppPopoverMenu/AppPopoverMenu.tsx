@@ -44,9 +44,9 @@ export const AppPopoverMenu = () => {
     >
       <Card
         size="sm"
-        className="flex-col mt-2 pr-6 min-w-[160px] sm:w-[420px] border border-solid border-btn-primary"
+        className="flex-col px-4 mt-2 min-w-[160px] sm:w-[420px] border border-solid border-btn-primary"
       >
-        <Box className="w-full" col margin={2}>
+        <Box col margin={2}>
           <Box row alignCenter>
             {menuType !== 'main' && (
               <Box

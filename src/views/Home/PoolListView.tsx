@@ -17,7 +17,7 @@ export const PoolListView = () => {
   const [keyword, setKeyword] = useState('')
   const [selectedPoolType, setSelectedPoolType] = useState(0)
   const [selectedPoolStatus, setSelectedPoolStatus] = useState(0)
-  const { arePoolsShown } = useApp()
+  const { arePoolsHidden } = useApp()
 
   const { filteredPools, featuredPools } = useLiquidityPools({
     keyword,
@@ -34,7 +34,7 @@ export const PoolListView = () => {
 
   return (
     <Box col>
-      {arePoolsShown && (
+      {!arePoolsHidden && (
         <Box col>
           <Box className="pl-2 gap-x-2 rounded-2xl" alignCenter>
             <Typography variant="h3">

@@ -10,10 +10,10 @@ import { t } from 'services/i18n'
 import { useGlobalStatsData } from './useGlobalStatsData'
 
 export const GlobalStats = memo(() => {
-  const { areStatsShown } = useApp()
+  const { areStatsHidden } = useApp()
   const statsData = useGlobalStatsData()
 
-  if (!areStatsShown) {
+  if (areStatsHidden) {
     return null
   }
 

@@ -24,9 +24,9 @@ export const GlobalChart = () => {
     LiquidityChartIndex.Liquidity,
   )
   const { volumeChartData, liquidityChartData } = useGlobalChartInfo()
-  const { areChartsShown } = useApp()
+  const { areChartsHidden } = useApp()
 
-  if (!areChartsShown) {
+  if (areChartsHidden) {
     return null
   }
 
