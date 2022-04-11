@@ -536,9 +536,9 @@ const SwapView = () => {
     () =>
       inputAssets.map((asset: Asset) => ({
         asset,
-        balance: inputAssetBalance,
+        balance: getMaxBalance(asset),
       })),
-    [inputAssets, inputAssetBalance],
+    [inputAssets, getMaxBalance],
   )
 
   const outputAssetList = useMemo(
@@ -621,7 +621,7 @@ const SwapView = () => {
         onSwitchPair={handleSwitchPair}
       />
 
-      {customRecipientMode && recipient && (
+      {customRecipientMode && (
         <PanelInput
           placeholder={`${t('common.recipientAddress')} ${t('common.here')}`}
           stretch
