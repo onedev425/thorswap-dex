@@ -22,12 +22,14 @@ export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
 
     return (
       <Card
-        className={classNames('flex flex-col h-max cursor-pointer', className)}
+        className={classNames('flex flex-col h-max !p-0 !py-0', className)}
         shadow={shadow}
         size="md"
-        onClick={toggle}
       >
-        <div className="box-border w-full appearance-none focus:outline-none">
+        <div
+          className="box-border w-full appearance-none focus:outline-none cursor-pointer px-4 py-2"
+          onClick={toggle}
+        >
           <Box row alignCenter justify="between">
             {typeof title === 'string' ? (
               <Typography
@@ -49,7 +51,9 @@ export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
           ref={contentRef}
           style={maxHeightStyle}
         >
-          <div className={classNames('pt-4', contentClassName)}>{children}</div>
+          <div className={classNames('px-4 pb-4', contentClassName)}>
+            {children}
+          </div>
         </div>
       </Card>
     )

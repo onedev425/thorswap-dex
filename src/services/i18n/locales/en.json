@@ -247,7 +247,9 @@
       "tabsCommon": "Common",
       "tabsFeatured": "Featured",
       "emptyFrequent": "No frequent assets",
-      "emptyFeatured": "No featured assets"
+      "emptyFeatured": "No featured assets",
+      "priceImpact": "Price Impact",
+      "minReceivedAfterSlip": "Minimum received after slippage (%{slippage})"
     },
     "wallet": {
       "wallet": "Wallet",
@@ -278,7 +280,10 @@
       "goToAccount": "Go to account",
       "showQRCode": "Show QR code",
       "copyAddress": "Copy Address",
-      "viewKeystorePhrase": "View keystore phrase"
+      "viewKeystorePhrase": "View keystore phrase",
+      "priceRate": "Price Rate",
+      "expectedOutput": "Expected Output",
+      "expectedOutputTooltip": "Output amount based on current price rate"
     },
     "walletDrawer": {
       "openWalletPage": "Open Wallet Page",

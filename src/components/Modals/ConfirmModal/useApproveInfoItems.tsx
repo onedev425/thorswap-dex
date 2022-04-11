@@ -2,6 +2,8 @@ import { AssetInputType } from 'components/AssetInput/types'
 import { InfoRowConfig } from 'components/InfoRow/types'
 import { InfoWithTooltip } from 'components/InfoWithTooltip'
 
+import { t } from 'services/i18n'
+
 // import { t } from 'services/i18n'
 
 type Params = {
@@ -12,14 +14,16 @@ type Params = {
 export const useApproveInfoItems = ({ inputAsset, fee = 'N/A' }: Params) => {
   const confirmInfoItems: InfoRowConfig[] = [
     {
-      label: 'Approve',
+      label: t('views.liquidity.approve'),
       value: `${inputAsset.value?.toSignificant(
         6,
       )} ${inputAsset.asset.name.toUpperCase()}`,
     },
     {
-      label: 'Transaction Fee',
-      value: <InfoWithTooltip tooltip="Transaction Fee" value={fee} />,
+      label: t('common.transactionFee'),
+      value: (
+        <InfoWithTooltip tooltip={t('common.transactionFee')} value={fee} />
+      ),
     },
   ]
 
