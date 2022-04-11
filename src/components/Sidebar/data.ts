@@ -21,11 +21,6 @@ export const navbarOptions: SidebarItemProps[] = [
         label: t('components.sidebar.swap'),
       },
       {
-        iconName: 'send',
-        href: ROUTES.Send,
-        label: t('components.sidebar.send'),
-      },
-      {
         iconName: 'inIcon',
         href: ROUTES.AddLiquidity,
         label: t('components.sidebar.addLiquidity'),
@@ -59,6 +54,19 @@ export const navbarOptions: SidebarItemProps[] = [
     iconName: 'wallet',
     href: ROUTES.Wallet,
     label: t('components.sidebar.wallet'),
+    hasSub: true,
+    children: [
+      {
+        iconName: 'wallet',
+        href: ROUTES.Wallet,
+        label: t('components.sidebar.wallet'),
+      },
+      {
+        iconName: 'send',
+        href: ROUTES.Send,
+        label: t('components.sidebar.send'),
+      },
+    ],
   },
   // {
   //   iconName: 'cloud',

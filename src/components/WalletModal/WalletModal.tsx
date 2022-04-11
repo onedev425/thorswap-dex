@@ -331,7 +331,7 @@ export const WalletModal = () => {
   const renderMainPanel = useMemo(() => {
     return (
       <Scrollbar maxHeight="60vh" customStyle={{ marginRight: '-12px' }}>
-        <Box className="w-full pr-3 space-y-3" col>
+        <Box className="w-full space-y-3" col>
           <WalletOption onClick={() => handleChainSelect(WalletMode.Xdefi)}>
             {xdefiStatus === XdefiWalletStatus.XdefiPrioritized && (
               <Typography>{t('views.walletModal.connectXdefi')}</Typography>
@@ -432,7 +432,7 @@ export const WalletModal = () => {
             </Box>
           )}
         <Scrollbar maxHeight="60vh" customStyle={{ marginRight: '-12px' }}>
-          <Box className="flex-1 gap-2 pr-3" col>
+          <Box className="flex-1 gap-2" col>
             {availableChainsByWallet[walletMode].map((chain) => {
               const chainWallet = wallet?.[chain]
               const isChainSelected = pendingChains.includes(chain)
