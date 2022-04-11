@@ -15,6 +15,7 @@ import {
   Typography,
 } from 'components/Atomic'
 
+import { useMidgard } from 'store/midgard/hooks'
 import { useWallet } from 'store/wallet/hooks'
 
 import useWindowSize, { BreakPoint } from 'hooks/useWindowSize'
@@ -29,8 +30,11 @@ import { ViewMode } from 'types/app'
 
 export const useColumns = (isConnected: boolean) => {
   const navigate = useNavigate()
+  const { stats } = useMidgard()
   const { geckoData } = useWallet()
   const { isLgActive } = useWindowSize()
+
+  const runePrice = stats?.runePriceUSD
 
   const columns = useMemo(
     () =>
@@ -70,7 +74,11 @@ export const useColumns = (isConnected: boolean) => {
           accessor: (row: AssetAmount) => row.asset.ticker,
           Cell: ({ cell: { value } }: { cell: { value: string } }) => (
             <Typography fontWeight="bold">
-              {formatPrice(geckoData[value]?.current_price || 0)}
+              {formatPrice(
+                value === 'RUNE' && runePrice
+                  ? parseFloat(runePrice)
+                  : geckoData[value]?.current_price || 0,
+              )}
             </Typography>
           ),
         },
@@ -158,7 +166,7 @@ export const useColumns = (isConnected: boolean) => {
           ),
         },
       ] as TableColumnsConfig,
-    [geckoData, isConnected, isLgActive, navigate],
+    [geckoData, isConnected, isLgActive, runePrice, navigate],
   )
 
   return columns
