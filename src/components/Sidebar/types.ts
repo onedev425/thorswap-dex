@@ -1,3 +1,5 @@
+import { MouseEventHandler } from 'react'
+
 import { IconName, TextTransform } from 'components/Atomic'
 
 export type SidebarVariant = 'primary' | 'secondary'
@@ -13,6 +15,7 @@ export type NavItemProps = ItemProps & {
   variant?: SidebarVariant
   className?: string
   collapsed?: boolean
+  onClick?: MouseEventHandler
 }
 
 export type SidebarItemProps = ItemProps & {

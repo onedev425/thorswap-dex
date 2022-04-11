@@ -1,9 +1,14 @@
+import { useState } from 'react'
+
 import { useNavigate } from 'react-router-dom'
 
 import classNames from 'classnames'
+import { V1_URL } from 'config/constants'
 
 import { Box, Icon, Tooltip, Typography } from 'components/Atomic'
+import { SupportModal } from 'components/Modals/Support/Support'
 import { Scrollbar } from 'components/Scrollbar'
+import { NavItem } from 'components/Sidebar/NavItem'
 
 import { t } from 'services/i18n'
 
@@ -22,6 +27,7 @@ export const Sidebar = ({
   toggle,
 }: SidebarProps) => {
   const navigate = useNavigate()
+  const [isSupportModalOpened, setIsSupportModalOpened] = useState(false)
 
   return (
     <nav
@@ -49,7 +55,7 @@ export const Sidebar = ({
       </div>
 
       <div className="w-full h-sidebar-content">
-        <Scrollbar height="calc(100vh - 220px)">
+        <Scrollbar height="calc(100vh - 300px)">
           <SidebarItem
             options={options}
             variant="primary"
@@ -57,6 +63,27 @@ export const Sidebar = ({
           />
         </Scrollbar>
       </div>
+
+      <ul className="flex flex-col rounded-2xl w-full p-0 list-none my-1">
+        <NavItem
+          href={V1_URL}
+          iconName="external"
+          className={classNames('!mx-1')}
+          label={t('common.goToV1')}
+          collapsed={collapsed}
+        />
+        <NavItem
+          href="/"
+          iconName="infoCircle"
+          className={classNames('!mx-1')}
+          label={t('common.getHelp')}
+          collapsed={collapsed}
+          onClick={(e) => {
+            e.preventDefault()
+            setIsSupportModalOpened(true)
+          }}
+        />
+      </ul>
 
       {!!toggle && (
         <Box
@@ -94,6 +121,11 @@ export const Sidebar = ({
           </Tooltip>
         </Box>
       )}
+
+      <SupportModal
+        isOpen={isSupportModalOpened}
+        onCancel={() => setIsSupportModalOpened(false)}
+      />
     </nav>
   )
 }

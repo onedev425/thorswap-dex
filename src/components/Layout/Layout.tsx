@@ -39,7 +39,7 @@ export const Layout = ({ children }: LayoutProp) => {
 
         <main
           className={classNames(
-            'flex flex-col md:max-w-[calc(100%-148px)] mx-3 md:px-10 py-5 ease-in-out',
+            'flex flex-col md:max-w-[calc(100%-148px)] mx-3 md:px-10 py-5 ease-in-out transition-[margin]',
             sidebarCollapsed ? 'md:ml-24' : 'md:ml-48',
           )}
         >

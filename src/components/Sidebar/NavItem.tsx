@@ -17,6 +17,7 @@ export const NavItem = ({
   label,
   collapsed = false,
   transform = 'uppercase',
+  onClick,
 }: NavItemProps) => {
   const location = useLocation()
   useLayoutEffect(() => {
@@ -45,6 +46,7 @@ export const NavItem = ({
           center
         >
           <Link
+            onClick={onClick}
             className={classNames(
               'flex items-center w-full h-full no-underline py-2 ',
             )}
