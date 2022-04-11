@@ -69,7 +69,7 @@ export const navbarOptions: SidebarItemProps[] = [
     transform: 'none',
     label: t('components.sidebar.stats'),
     navLabel: 'THORYield',
-    iconName: 'thoryield',
+    iconName: 'external',
     href: THORYIELD_ROUTE,
   },
 ]
