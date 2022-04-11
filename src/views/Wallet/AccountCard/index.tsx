@@ -124,7 +124,7 @@ export const AccountCard = memo(({ chain }: Props) => {
         <AssetChart asset={sigAsset} mode={ViewMode.CARD} />
 
         <Box
-          className="gap-3 pb-4 border-0 border-b-2 border-solid border-light-border-primary dark:border-dark-border-primary"
+          className="pb-4 border-0 border-b-2 border-solid gap-x-6 border-light-border-primary dark:border-dark-border-primary"
           center
         >
           <AccountCardButton

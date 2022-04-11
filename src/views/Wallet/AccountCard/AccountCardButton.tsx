@@ -14,14 +14,15 @@ type Props = {
 export const AccountCardButton = memo(
   ({ className, label, onClick, icon }: Props) => {
     return (
-      <Box col center className="gap-y-2">
+      <Box col center className="group gap-y-2">
         <Button
-          onClick={onClick}
+          className="!w-12 px-0"
+          variant="tint"
           size="md"
           startIcon={
             <Icon
               className={classNames(
-                'group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary',
+                'group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary min-w-[20px]',
                 className,
               )}
               color="secondary"
@@ -29,9 +30,16 @@ export const AccountCardButton = memo(
               name={icon}
             />
           }
-          variant="tint"
+          onClick={onClick}
         />
-        <Typography variant="caption">{label}</Typography>
+        <Typography
+          className={'group-hover:text-white'}
+          variant="caption"
+          fontWeight="medium"
+          color="secondary"
+        >
+          {label}
+        </Typography>
       </Box>
     )
   },
