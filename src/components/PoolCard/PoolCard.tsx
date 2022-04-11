@@ -3,6 +3,7 @@ import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Amount, Percent, Pool } from '@thorswap-lib/multichain-sdk'
+import classNames from 'classnames'
 
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, Button, Card, Typography } from 'components/Atomic'
@@ -33,7 +34,7 @@ export const PoolCard = ({ pool, color }: PoolCardProps) => {
   }, [navigate, pool.asset])
 
   return (
-    <Card className="flex-col overflow-clip min-w-fit max-w-[288px]" stretch>
+    <Card className="flex-col min-w-fit max-w-[288px]" stretch>
       <Box justify="between" className="px-6 pt-6">
         <Box col>
           <Typography
@@ -75,7 +76,10 @@ export const PoolCard = ({ pool, color }: PoolCardProps) => {
       </Box>
 
       <div
-        className={`absolute w-4/5 h-4/5 top-0 right-0 blur-3xl translate-x-1/2 -translate-y-1/2 bg-${color} opacity-30`}
+        className={classNames(
+          '-z-10 absolute rounded-full w-[90px] h-[90px] right-5 md:top-5 blur-xl opacity-30',
+          `bg-${color}`,
+        )}
       />
     </Card>
   )

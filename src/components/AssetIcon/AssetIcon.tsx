@@ -35,6 +35,7 @@ export const AssetIcon = ({
           alt={asset.symbol}
         />
       )}
+
       {iconUrl && !hasError ? (
         <Box
           className={classNames(
@@ -46,7 +47,7 @@ export const AssetIcon = ({
           height={iconSize}
         >
           <img
-            className="absolute inset-0 object-cover transition-all"
+            className="absolute inset-0 rounded-full transition-all"
             src={iconUrl}
             alt={asset.symbol}
             style={{ width: iconSize, height: iconSize }}
