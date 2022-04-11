@@ -14,6 +14,7 @@ import { SupportedLanguages } from 'types/app'
 
 import en from './locales/en.json'
 import es from './locales/es.json'
+import it from './locales/it.json'
 
 type PathImpl<T, K extends keyof T> = K extends string
   ? T[K] extends Record<string, NotWorthIt>
@@ -38,6 +39,7 @@ initializeI18n(initReactI18next).init({
   resources: {
     es: { translation: es },
     en: { translation: en },
+    it: { translation: it },
   },
   lng: getFromStorage('language') as SupportedLanguages,
   fallbackLng: 'en',

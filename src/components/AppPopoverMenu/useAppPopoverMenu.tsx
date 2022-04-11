@@ -113,14 +113,19 @@ const useLanguageMenu = (onBack: () => void) => {
 
   const languageMenu: MenuItemType[] = [
     {
-      label: `${getLanguageFlag('en')} English (US)`,
+      label: `${getLanguageFlag('en')} ${getLanguageLabel('en')}`,
       onClick: () => onLanguageClick('en'),
       isSelected: isLanguageSelected('en'),
     },
     {
-      label: `${getLanguageFlag('es')} Español (ESP)`,
+      label: `${getLanguageFlag('es')} ${getLanguageLabel('es')}`,
       onClick: () => onLanguageClick('es'),
       isSelected: isLanguageSelected('es'),
+    },
+    {
+      label: `${getLanguageFlag('it')} ${getLanguageLabel('it')}`,
+      onClick: () => onLanguageClick('it'),
+      isSelected: isLanguageSelected('it'),
     },
   ]
 
@@ -250,6 +255,8 @@ const getLanguageLabel = (val: SupportedLanguages) => {
       return 'English (US)'
     case 'es':
       return 'Español (ESP)'
+    case 'it':
+      return 'Italiano (ITA)'
     default:
       return t('appMenu.language')
   }

@@ -25,7 +25,7 @@ export enum ThousandSeparator {
   None = 'none',
 }
 
-export type SupportedLanguages = 'en' | 'es'
+export type SupportedLanguages = 'en' | 'es' | 'it'
 
 export enum ViewMode {
   CARD = 'card',
