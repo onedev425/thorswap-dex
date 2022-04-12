@@ -7,18 +7,18 @@ import {
   Route,
 } from 'react-router-dom'
 
-const AddLiquidity = React.lazy(() => import('views/AddLiquidity'))
-const CreateLiquidity = React.lazy(() => import('views/CreateLiquidity'))
-const HomeView = React.lazy(() => import('views/Home'))
-const ManageLiquidityView = React.lazy(() => import('views/ManageLiquidity'))
-const PendingLiquidity = React.lazy(() => import('views/PendingLiquidity'))
-const SendView = React.lazy(() => import('views/Send'))
-const StatsView = React.lazy(() => import('views/Stats'))
-const SwapView = React.lazy(() => import('views/Swap'))
-const UpgradeRuneView = React.lazy(() => import('views/UpgradeRune'))
-const WalletView = React.lazy(() => import('views/Wallet'))
-const WalletBalance = React.lazy(() => import('views/WalletBalance'))
-const WithdrawLiquidity = React.lazy(() => import('views/WithdrawLiquidity'))
+import AddLiquidity from 'views/AddLiquidity'
+import CreateLiquidity from 'views/CreateLiquidity'
+import HomeView from 'views/Home'
+import ManageLiquidityView from 'views/ManageLiquidity'
+import PendingLiquidity from 'views/PendingLiquidity'
+import SendView from 'views/Send'
+import StatsView from 'views/Stats'
+import SwapView from 'views/Swap'
+import UpgradeRuneView from 'views/UpgradeRune'
+import WalletView from 'views/Wallet'
+import WalletBalance from 'views/WalletBalance'
+import WithdrawLiquidity from 'views/WithdrawLiquidity'
 
 import { Box } from 'components/Atomic'
 import { Layout } from 'components/Layout'
