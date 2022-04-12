@@ -23,7 +23,7 @@ export const GlobalChart = () => {
   const [liquidityChartIndex, setLiquidityChartIndex] = useState<string>(
     LiquidityChartIndex.Liquidity,
   )
-  const { volumeChartData, liquidityChartData } = useGlobalChartInfo()
+  const { unit, volumeChartData, liquidityChartData } = useGlobalChartInfo()
   const { areChartsHidden } = useApp()
 
   if (areChartsHidden) {
@@ -34,6 +34,7 @@ export const GlobalChart = () => {
     <Box col className="lg:space-x-8 lg:flex-row">
       <Box flex={1}>
         <Chart
+          unit={unit}
           title={t('views.home.chart_volume')}
           chartIndexes={volumeChartIndexes}
           chartData={volumeChartData}
@@ -44,6 +45,7 @@ export const GlobalChart = () => {
 
       <Box flex={1}>
         <Chart
+          unit={unit}
           title={t('views.home.chart_liquidity')}
           chartIndexes={liquidityChartIndexes}
           chartData={liquidityChartData}

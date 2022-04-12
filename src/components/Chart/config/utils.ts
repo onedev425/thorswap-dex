@@ -57,35 +57,29 @@ export const generateRandomTimeSeries = (
   minValue: number,
   maxValue: number,
 ) => {
-  const series = []
+  const labels: string[] = []
+  const values: number[] = []
   for (
-    let itr = moment().subtract(30, 'days');
-    itr.isBefore(moment.now());
-    itr = itr.add(1, 'day')
+    let date = moment().subtract(30, 'days');
+    date.isBefore(moment.now());
+    date = date.add(1, 'day')
   ) {
-    series.push({
-      time: itr.unix(),
-      value: (
-        minValue +
-        (random(100) / 100) * (maxValue - minValue)
-      ).toString(),
-    })
+    labels.push(date.format('MMM DD'))
+    values.push(minValue + (random(100) / 100) * (maxValue - minValue))
   }
-  return series
+
+  return { labels, values }
 }
 
 export const parseChartData = (chartData: { value: string; time: number }[]) =>
   chartData.reduce(
     (acc, { time, value }) => {
+      const [amount] = value.split(' ')
       acc.labels.push(moment.unix(time).format('MMM DD'))
-      acc.values.push(Number(value.split(',').join('')))
+      acc.values.push(Number(amount.replace('$', '').split(',').join('')))
       return acc
     },
     { labels: [] as string[], values: [] as number[] },
   )
 
-export const getRandomChartData = () => {
-  const randomSeries = generateRandomTimeSeries(0, 100)
-
-  return parseChartData(randomSeries)
-}
+export const getRandomChartData = () => generateRandomTimeSeries(0, 100)

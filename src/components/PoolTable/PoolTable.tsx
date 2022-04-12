@@ -55,6 +55,7 @@ export const PoolTable = ({ data }: PoolTableProps) => {
           id: 'pool',
           Header: t('common.pool'),
           accessor: (row: Pool) => row,
+          sortType: sortPoolColumn,
           Cell: ({ cell: { value } }: { cell: { value: Pool } }) => (
             <div className="flex flex-row items-center">
               <AssetIcon asset={value.asset} hasChainIcon size={40} />
@@ -63,7 +64,6 @@ export const PoolTable = ({ data }: PoolTableProps) => {
               </Typography>
             </div>
           ),
-          sortType: sortPoolColumn,
         },
         {
           id: 'network',

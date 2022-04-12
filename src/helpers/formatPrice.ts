@@ -85,6 +85,7 @@ const formatter = ({
 
 export const formatPrice = (amount: Value, options?: FormatOptions) => {
   const format = useFormat(options)
+
   return formatter({ amount, format })
 }
 

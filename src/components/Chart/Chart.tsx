@@ -70,7 +70,7 @@ export const Chart = memo(
     hasGrid = false,
     previewChartType = ChartType.Bar,
     selectChart,
-    unit = '$',
+    unit,
   }: ChartProps) => {
     const [chartTimeFrame, setChartTimeFrame] = useState(ChartTimeFrame.AllTime)
 

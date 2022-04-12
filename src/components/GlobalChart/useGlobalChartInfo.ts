@@ -1,13 +1,8 @@
 import { useMemo } from 'react'
 
-import { Amount, Asset } from '@thorswap-lib/multichain-sdk'
+import { Amount, Asset, Pool, runeToAsset } from '@thorswap-lib/multichain-sdk'
 
-import {
-  ChartData,
-  ChartDetail,
-  ChartType,
-  ChartValues,
-} from 'components/Chart/types'
+import { ChartData, ChartDetail, ChartType } from 'components/Chart/types'
 
 import { useApp } from 'store/app/hooks'
 import { useMidgard } from 'store/midgard/hooks'
@@ -19,41 +14,45 @@ import {
   liquidityChartIndexes,
 } from './types'
 
+const getFormatter =
+  ({ pools, baseCurrency }: { pools: Pool[]; baseCurrency: string }) =>
+  (value: string) => {
+    const runeAmount = Amount.fromMidgard(value)
+    const quoteAsset = Asset.fromAssetString(baseCurrency)
+
+    return runeToAsset({ runeAmount, quoteAsset, pools })
+  }
+
 export const useGlobalChartInfo = () => {
   const { baseCurrency } = useApp()
-
   const {
     isGlobalHistoryLoading,
     earningsHistory,
     swapGlobalHistory,
     liquidityGlobalHistory,
     tvlHistory,
+    pools,
   } = useMidgard()
 
   const chartValueUnit = useMemo(() => {
     const baseCurrencyAsset = Asset.fromAssetString(baseCurrency)
-    if (!baseCurrencyAsset) return 'ᚱ'
 
-    if (baseCurrencyAsset?.isRUNE()) return 'ᚱ'
+    if (!baseCurrencyAsset || baseCurrencyAsset?.isRUNE()) return 'ᚱ'
     if (baseCurrencyAsset?.ticker === 'USD') return '$'
 
     return baseCurrencyAsset.ticker
   }, [baseCurrency])
 
   const initialChartData = useMemo(() => {
-    const initialData: ChartData = {}
-    const defaultChartValues: ChartValues = []
+    const defaultData = { values: [], loading: true }
 
-    const chartIndexes = [...volumeChartIndexes, ...liquidityChartIndexes]
-
-    chartIndexes.forEach((chartIndex) => {
-      initialData[chartIndex] = {
-        values: defaultChartValues,
-        loading: true,
-      }
-    })
-
-    return initialData
+    return [...volumeChartIndexes, ...liquidityChartIndexes].reduce(
+      (acc, chartIndex) => {
+        acc[chartIndex] = defaultData
+        return acc
+      },
+      {} as ChartData,
+    )
   }, [])
 
   const volumeChartData: ChartData = useMemo(() => {
@@ -86,50 +85,43 @@ export const useGlobalChartInfo = () => {
       // Wed Sep 15 2021 00:00:00 GMT+0000 (https://www.unixtimestamp.com)
       if (time < 1631664000) return
 
-      const swapValue = Amount.fromMidgard(data?.totalVolume).mul(
-        Amount.fromNormalAmount(data?.runePriceUSD),
+      const format = getFormatter({ pools, baseCurrency })
+
+      const swapValue = format(data?.totalVolume)
+      const addValue = format(liquidityValue?.addLiquidityVolume)
+      const withdrawValue = format(liquidityValue?.withdrawVolume)
+      const synthValue = format(
+        Amount.fromMidgard(data?.synthMintVolume)
+          .add(Amount.fromMidgard(data?.synthRedeemVolume))
+          .toSignificant(6),
       )
-      const addValue = Amount.fromMidgard(
-        liquidityValue?.addLiquidityVolume,
-      ).mul(Amount.fromNormalAmount(data?.runePriceUSD))
-      const withdrawValue = Amount.fromMidgard(
-        liquidityValue?.withdrawVolume,
-      ).mul(Amount.fromNormalAmount(data?.runePriceUSD))
-      const synthValue = Amount.fromMidgard(data?.synthMintVolume)
-        .add(Amount.fromMidgard(data?.synthRedeemVolume))
-        .mul(Amount.fromNormalAmount(data?.runePriceUSD))
 
-      const total = swapValue.add(addValue).add(withdrawValue)
+      const total = format(
+        swapValue.add(addValue).add(withdrawValue).toFixedDecimal(8),
+      )
 
-      if (total.baseAmount.toNumber())
-        totalVolume.push({
-          time,
-          value: total.toFixed(0),
-        })
+      if (total.baseAmount.toNumber()) {
+        totalVolume.push({ time, value: total.toCurrencyFormat(2, false) })
+      }
 
-      if (swapValue.baseAmount.toNumber())
-        swapVolume.push({
-          time,
-          value: swapValue.toFixed(0),
-        })
+      if (swapValue.baseAmount.toNumber()) {
+        swapVolume.push({ time, value: swapValue.toCurrencyFormat(2, false) })
+      }
 
-      if (addValue.baseAmount.toNumber())
-        addVolume.push({
-          time,
-          value: addValue.toFixed(0),
-        })
+      if (addValue.baseAmount.toNumber()) {
+        addVolume.push({ time, value: addValue.toCurrencyFormat(2, false) })
+      }
 
-      if (withdrawValue.baseAmount.toNumber())
+      if (withdrawValue.baseAmount.toNumber()) {
         withdrawVolume.push({
           time,
-          value: withdrawValue.toFixed(0),
+          value: withdrawValue.toCurrencyFormat(2, false),
         })
+      }
 
-      if (synthValue.baseAmount.toNumber())
-        synthVolume.push({
-          time,
-          value: synthValue.toFixed(0),
-        })
+      if (synthValue.baseAmount.toNumber()) {
+        synthVolume.push({ time, value: synthValue.toCurrencyFormat(2, false) })
+      }
     })
 
     return {
@@ -160,11 +152,13 @@ export const useGlobalChartInfo = () => {
       },
     }
   }, [
+    isGlobalHistoryLoading,
     swapGlobalHistory,
     liquidityGlobalHistory,
-    isGlobalHistoryLoading,
-    initialChartData,
     chartValueUnit,
+    initialChartData,
+    pools,
+    baseCurrency,
   ])
 
   const liquidityChartData: ChartData = useMemo(() => {
@@ -175,11 +169,8 @@ export const useGlobalChartInfo = () => {
     const earningsData = earningsHistory.intervals || []
     const tvlData = tvlHistory?.intervals || []
 
-    // const tvl: ChartDetail[] = []
-    const runePrice: ChartDetail[] = []
     const liquidityEarning: ChartDetail[] = []
     const liquidity: ChartDetail[] = []
-    // const ILPaid: ChartDetail[] = []
     const bondingEarnings: ChartDetail[] = []
 
     earningsData.forEach((data, index) => {
@@ -192,38 +183,30 @@ export const useGlobalChartInfo = () => {
 
       // Wed Sep 15 2021 00:00:00 GMT+0000 (https://www.unixtimestamp.com)
       if (time < 1631664000) return
+      const format = getFormatter({ pools, baseCurrency })
 
-      const tvlValue: FixMe = tvlData[index]
+      const tvlValue = tvlData[index]
 
-      liquidity.push({
-        time,
-        value: Amount.fromMidgard(tvlValue?.totalValuePooled)
-          .mul(Amount.fromNormalAmount(tvlValue?.runePriceUSD))
-          .toFixed(0),
-      })
+      const liquidityValue = format(tvlValue?.totalValuePooled)
+      const bondingValue = format(data?.bondingEarnings)
+      const liquidityEarningValue = format(data?.liquidityEarnings)
 
+      liquidity.push({ time, value: liquidityValue.toCurrencyFormat(2, false) })
       bondingEarnings.push({
         time,
-        value: Amount.fromMidgard(data?.bondingEarnings)
-          .mul(Amount.fromNormalAmount(data?.runePriceUSD))
-          .toFixed(0),
+        value: bondingValue.toCurrencyFormat(2, false),
       })
-
-      runePrice.push({
-        time,
-        value: Amount.fromNormalAmount(data?.runePriceUSD).toFixed(2),
-      })
-
       liquidityEarning.push({
         time,
-        value: Amount.fromMidgard(data?.liquidityEarnings)
-          .mul(Amount.fromNormalAmount(data?.runePriceUSD))
-          .toFixed(0),
+        value: liquidityEarningValue.toCurrencyFormat(2, false),
       })
     })
 
     return {
-      [LiquidityChartIndex.Liquidity]: { values: liquidity, unit: '$' },
+      [LiquidityChartIndex.Liquidity]: {
+        values: liquidity,
+        unit: chartValueUnit,
+      },
       [LiquidityChartIndex.LpEarning]: {
         values: liquidityEarning,
         unit: chartValueUnit,
@@ -234,16 +217,15 @@ export const useGlobalChartInfo = () => {
       },
     }
   }, [
-    tvlHistory,
-    liquidityGlobalHistory,
-    earningsHistory,
     isGlobalHistoryLoading,
-    initialChartData,
+    earningsHistory,
+    liquidityGlobalHistory,
+    tvlHistory?.intervals,
     chartValueUnit,
+    initialChartData,
+    pools,
+    baseCurrency,
   ])
 
-  return {
-    volumeChartData,
-    liquidityChartData,
-  }
+  return { unit: chartValueUnit, volumeChartData, liquidityChartData }
 }
