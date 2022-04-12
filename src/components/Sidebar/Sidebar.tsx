@@ -69,14 +69,14 @@ export const Sidebar = ({
           href={V1_URL}
           iconName="external"
           className={classNames('!mx-1')}
-          label={t('common.goToV1')}
+          label={t('components.sidebar.V1App')}
           collapsed={collapsed}
         />
         <NavItem
           href="/"
           iconName="infoCircle"
           className={classNames('!mx-1')}
-          label={t('common.getHelp')}
+          label={t('common.support')}
           collapsed={collapsed}
           onClick={(e) => {
             e.preventDefault()

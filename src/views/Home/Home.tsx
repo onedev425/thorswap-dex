@@ -14,6 +14,7 @@ const Home = () => {
         title={t('common.THORSwap')}
         content={t('common.thorswapDescription')}
       />
+
       <Box col className="gap-12">
         <GlobalStats />
         <GlobalChart />

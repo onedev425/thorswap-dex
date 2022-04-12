@@ -15,6 +15,8 @@
     "connected": "Connected",
     "create": "Create",
     "disconnect": "Disconnect",
+    "documentation": "Documentation",
+    "merchStore": "Merch Store",
     "connectWallet": "Connect Wallet",
     "loading": "Loading...",
     "wallet": "Wallet",
@@ -174,21 +176,25 @@
       "all": "All"
     },
     "sidebar": {
-      "dashboard": "Dashboard",
-      "trade": "Trade",
-      "swap": "Swap",
+      "V1App": "V1 app",
       "addLiquidity": "Deposit",
+      "collapse": "Collapse",
+      "dashboard": "Dashboard",
+      "expand": "Expand",
+      "joinDiscord": "Join Discord Server",
+      "thorswapDocumentation": "THORSwap Documentation",
+      "thorswapCommunityYoutube": "THORSwap Community YouTube",
+      "submitFeedback": "Submit Feedback",
       "manageLiquidity": "Liquidity",
       "pendingLiquidity": "Pending",
       "send": "Send",
+      "stats": "Stats",
+      "supportInfo": "For technical support, please contact us via our official Discord Server (beware of anyone claiming to be THORSwap support - we will never DM you outside of our Support Desk on Discord).",
+      "swap": "Swap",
       "thor": "Thor",
       "thorStake": "Stake",
-      "vesting": "Vesting",
       "thornode": "Thornode",
       "wallet": "Wallet",
-      "stats": "Stats",
-      "collapse": "Collapse",
-      "expand": "Expand",
       "thoryield": "THORYield"
     },
     "statusDropdown": {
@@ -209,7 +215,10 @@
       "thornode": "THORNODE",
       "networkStatus": "Network Status",
       "online": "Online",
-      "offline": "Offline"
+      "offline": "Offline",
+      "trade": "Trade",
+      "vesting": "Vesting",
+      "wallet": "Wallet"
     }
   },
   "views": {

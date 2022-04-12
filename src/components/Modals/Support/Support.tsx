@@ -1,4 +1,10 @@
-import { DISCORD_URL } from 'config/constants'
+import classNames from 'classnames'
+import {
+  DISCORD_URL,
+  THORSWAP_DOCUMENTATION_URL,
+  THORSWAP_FEEDBACK_URL,
+  THORSWAP_YOUTUBE_URL,
+} from 'config/constants'
 
 import { Box, Icon, Link, Modal, Typography } from 'components/Atomic'
 
@@ -9,6 +15,9 @@ type Props = {
   onCancel?: () => void
 }
 
+const commonClasses =
+  'py-2.5 px-2.5 md:px-8 rounded-2xl gap-3 hover:bg-opacity-80 transition'
+
 export const SupportModal = ({
   isOpen,
   onCancel = () => {},
@@ -16,17 +25,57 @@ export const SupportModal = ({
   return (
     <Modal title={t('common.support')} isOpened={isOpen} onClose={onCancel}>
       <Box className="!w-[300px] md:!w-[350px] gap-3" col>
-        <Typography>{t('common.supportInfo')}</Typography>
+        <Typography>{t('components.sidebar.supportInfo')}</Typography>
 
         <Link to={DISCORD_URL}>
           <Box
-            className="bg-discord-purple p-2.5 rounded-2xl gap-3 hover:bg-opacity-80 transition"
-            center
+            className={classNames(commonClasses, 'bg-discord-purple')}
+            alignCenter
+            justify="between"
           >
             <Typography className="!text-white">
-              {t('common.joinDiscord')}
+              {t('components.sidebar.joinDiscord')}
             </Typography>
             <Icon name="discord" className="fill-white" />
+          </Box>
+        </Link>
+
+        <Link to={THORSWAP_YOUTUBE_URL}>
+          <Box
+            className={classNames(commonClasses, 'bg-red')}
+            alignCenter
+            justify="between"
+          >
+            <Typography className="!text-white">
+              {t('components.sidebar.thorswapCommunityYoutube')}
+            </Typography>
+            <Icon name="youtube" className="fill-white" />
+          </Box>
+        </Link>
+
+        <Link to={THORSWAP_DOCUMENTATION_URL}>
+          <Box
+            className={classNames(commonClasses, 'bg-btn-primary')}
+            alignCenter
+            justify="between"
+          >
+            <Typography className="!text-white">
+              {t('components.sidebar.thorswapDocumentation')}
+            </Typography>
+            <Icon name="docs" className="fill-white" />
+          </Box>
+        </Link>
+
+        <Link to={THORSWAP_FEEDBACK_URL}>
+          <Box
+            className={classNames(commonClasses, 'bg-btn-secondary')}
+            alignCenter
+            justify="between"
+          >
+            <Typography className="!text-white">
+              {t('components.sidebar.submitFeedback')}
+            </Typography>
+            <Icon name="feedback" className="fill-white" />
           </Box>
         </Link>
       </Box>

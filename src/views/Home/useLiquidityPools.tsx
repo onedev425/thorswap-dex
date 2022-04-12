@@ -42,6 +42,7 @@ export const useLiquidityPools = ({
   const filteredPools = useMemo(() => {
     // filter by pool asset type
     const selectedPoolTypeValue = poolTypeOptions[selectedPoolType]
+
     const poolsByType =
       selectedPoolTypeValue !== PoolTypeOption.All
         ? poolsByStatus.filter(

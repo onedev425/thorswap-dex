@@ -38,6 +38,7 @@ import {
   BsTwitter,
   BsTrash,
   BsExclamationCircle,
+  BsYoutube,
 } from 'react-icons/bs'
 import { CgMenu, CgArrowsExchangeAltV, CgEye } from 'react-icons/cg'
 import {
@@ -49,6 +50,7 @@ import {
   FaSortUp,
   FaWifi,
   FaArrowDown,
+  FaRegCommentDots,
 } from 'react-icons/fa'
 import {
   FiCheck,
@@ -59,7 +61,7 @@ import {
   FiPlus,
   FiX,
 } from 'react-icons/fi'
-import { GoSettings } from 'react-icons/go'
+import { GoBook, GoSettings } from 'react-icons/go'
 import { HiOutlineCog, HiOutlineChartPie } from 'react-icons/hi'
 import { ImBlocked } from 'react-icons/im'
 import {
@@ -67,6 +69,7 @@ import {
   IoCloseCircleOutline,
   IoWalletOutline,
   IoLanguage,
+  IoCart,
 } from 'react-icons/io5'
 import {
   MdAreaChart,
@@ -96,15 +99,16 @@ const Icons = {
   add: VscAdd,
   arrowBack: BiArrowBack,
   arrowDown: FaArrowDown,
-  arrowUp: MdKeyboardArrowUp,
-  arrowUpLine: MdKeyboardArrowUp,
   arrowDownLine: MdKeyboardArrowDown,
   arrowLeft: AiOutlineArrowLeft,
   arrowRight: AiOutlineArrowRight,
+  arrowUp: MdKeyboardArrowUp,
+  arrowUpLine: MdKeyboardArrowUp,
   auto: MdOutlineHdrAuto,
   backup: VscCloudUpload,
-  blocked: ImBlocked,
   barchart: AiFillSignal,
+  blocked: ImBlocked,
+  cart: IoCart,
   chart: AiOutlineLineChart,
   chartArea2: FaChartArea,
   chartArea: MdAreaChart,
@@ -120,14 +124,18 @@ const Icons = {
   currencyDollar: BsCurrencyDollar,
   disconnect: VscSignOut,
   discord: BsDiscord,
+  docs: GoBook,
   dollarOutlined: BiDollarCircle,
   edit: FiEdit,
   exchange: CgArrowsExchangeAltV,
   external: BiLinkExternal,
   eye: CgEye,
   fire: FaFire,
+  feedback: FaRegCommentDots,
   gas: FaGasPump,
   grid: AiOutlineAppstore,
+  heart: AiOutlineHeart,
+  heartFilled: AiFillHeart,
   history: AiOutlineHistory,
   info: AiOutlineInfo,
   infoCircle: VscInfo,
@@ -149,29 +157,28 @@ const Icons = {
   qrcode: AiOutlineQrcode,
   question: BsQuestion,
   questionCircle: BsQuestionCircle,
+  revert: BiUndo,
   search: BsSearch,
+  selectAll: BiSelectMultiple,
   send: AiOutlineSend,
   share: RiShareBoxLine,
   smile: BsEmojiSmile,
   sortDown: FaSortDown,
   sortUp: FaSortUp,
+  spaceBar: MdSpaceBar,
+  starEmpty: AiOutlineStar,
+  starFilled: AiFillStar,
   switch: AiOutlineSwap,
   telegram: BsTelegram,
+  trash: BsTrash,
   twitter: BsTwitter,
   unlock: MdOutlineLockOpen,
   valid: IoCheckmarkCircleOutline,
   wallet: IoWalletOutline,
-  wifi: FaWifi,
-  xCircle: VscError,
-  selectAll: BiSelectMultiple,
-  spaceBar: MdSpaceBar,
-  starFilled: AiFillStar,
-  starEmpty: AiOutlineStar,
-  heart: AiOutlineHeart,
-  heartFilled: AiFillHeart,
-  trash: BsTrash,
-  revert: BiUndo,
   warn: BsExclamationCircle,
+  wifi: FaWifi,
+  youtube: BsYoutube,
+  xCircle: VscError,
   ...SvgIcons,
 } as const
 

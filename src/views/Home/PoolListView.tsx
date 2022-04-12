@@ -70,7 +70,7 @@ export const PoolListView = () => {
             />
           </Box>
 
-          <Box className="justify-end w-fit gap-x-8">
+          <Box className="justify-end w-fit gap-x-6">
             <Select
               options={poolTypeOptions}
               activeIndex={selectedPoolType}
