@@ -79,7 +79,7 @@ export const LiquidityCard = ({
   return (
     <Box className="self-stretch" justifyCenter col>
       <HighlightCard
-        className="!rounded-2xl"
+        className="!rounded-2xl p-2"
         type={isPendingLP ? 'warn' : 'info'}
       >
         <Box

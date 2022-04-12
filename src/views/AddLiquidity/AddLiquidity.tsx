@@ -946,7 +946,7 @@ export const AddLiquidity = () => {
       header={
         <ViewHeader
           title={t('common.addLiquidity')}
-          actionsComponent={<GlobalSettingsPopover />}
+          actionsComponent={<GlobalSettingsPopover transactionMode />}
         />
       }
     >

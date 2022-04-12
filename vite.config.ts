@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 import svgr from 'vite-plugin-svgr'
 import rewriteAll from 'vite-plugin-rewrite-all'
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
-import { defineConfig } from 'vite'
+import { defineConfig, splitVendorChunkPlugin } from 'vite'
 import { resolve } from 'path'
 import { visualizer } from 'rollup-plugin-visualizer'
 
@@ -11,6 +11,7 @@ export default defineConfig({
   define: { 'process.env': {} },
   plugins: [
     rewriteAll(),
+    splitVendorChunkPlugin(),
     react(),
     svgr({ svgrOptions: { icon: true } }),
     visualizer({ json: true }),
@@ -38,6 +39,7 @@ export default defineConfig({
   },
   build: {
     outDir: 'build',
+    reportCompressedSize: false,
     sourcemap: false,
     commonjsOptions: {
       transformMixedEsModules: true,

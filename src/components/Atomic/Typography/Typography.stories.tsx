@@ -12,19 +12,15 @@ export default {
 export const All = () => {
   return (
     <div className="flex flex-col bg-light-bg-primary dark:bg-dark-bg-primary p-4">
-      <Typography variant="h1" transform="uppercase" fontWeight="thin">
-        H1 - Uppercase - Primary - Thin
+      <Typography variant="h1" transform="uppercase">
+        H1 - Uppercase - Primary
       </Typography>
-      <Typography
-        variant="h2"
-        transform="capitalize"
-        color="secondary"
-        fontWeight="extralight"
-      >
-        H2 - Capitalize - Secondary - ExtraLight
+      <Typography variant="h2" transform="capitalize" color="secondary">
+        H2 - Capitalize - Secondary
       </Typography>
       <Typography
         variant="h3"
+        className="font"
         transform="lowercase"
         color="pink"
         fontWeight="light"

@@ -1,8 +1,9 @@
 import axios from 'axios'
 
 import { GeckoData, GeckoDataWithSymbols } from 'store/wallet/types'
-
-import { geckoCoinIndex } from './coinIndex'
+const coinIndex = import('./coinIndex').then(
+  ({ geckoCoinIndex }) => geckoCoinIndex,
+)
 
 export const getGeckoData = async (
   symbols: string[],
@@ -16,8 +17,9 @@ export const getGeckoData = async (
     symbolsMap[coinSymbol] = symbol
   })
 
+  const coinGeckoIndex = await coinIndex
   const coinIds = parsedSymbols.map((parsedSymbol) => {
-    const coinId = geckoCoinIndex.find(
+    const coinId = coinGeckoIndex.find(
       (coin) => coin.symbol === parsedSymbol.toLowerCase(),
     )
 
