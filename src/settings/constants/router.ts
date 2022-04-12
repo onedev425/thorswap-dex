@@ -25,6 +25,7 @@ export enum ROUTES {
 }
 
 export const THORYIELD_ROUTE = 'https://app.thoryield.com'
+export const THORYIELD_STATS_ROUTE = 'https://app.thoryield.com/stats'
 
 export const getAddLiquidityRoute = (asset?: Asset) => {
   return `${ROUTES.AddLiquidity}${asset ? `/${asset.toURLEncoded()}` : ''}`

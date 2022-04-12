@@ -6,6 +6,7 @@ export type SidebarVariant = 'primary' | 'secondary'
 
 type ItemProps = {
   iconName: IconName
+  rightIconName?: IconName
   href: string
   label?: string
 }

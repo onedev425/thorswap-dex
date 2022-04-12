@@ -2,14 +2,9 @@ import { SidebarItemProps } from 'components/Sidebar/types'
 
 import { t } from 'services/i18n'
 
-import { ROUTES, THORYIELD_ROUTE } from 'settings/constants'
+import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/constants'
 
 export const navbarOptions: SidebarItemProps[] = [
-  {
-    iconName: 'app',
-    href: ROUTES.Home,
-    label: t('components.sidebar.dashboard'),
-  },
   {
     iconName: 'tradeLightning',
     href: ROUTES.Swap,
@@ -73,10 +68,23 @@ export const navbarOptions: SidebarItemProps[] = [
   //   label: t('components.sidebar.thornode'),
   // },
   {
-    transform: 'none',
+    iconName: 'settings',
+    href: ROUTES.Stats,
     label: t('components.sidebar.stats'),
-    navLabel: t('components.sidebar.thoryield'),
-    iconName: 'external',
-    href: THORYIELD_ROUTE,
+    children: [
+      {
+        iconName: 'app',
+        href: ROUTES.Home,
+        label: t('components.sidebar.dashboard'),
+      },
+      {
+        transform: 'none',
+        label: t('components.sidebar.stats'),
+        navLabel: t('components.sidebar.thoryield'),
+        iconName: 'thoryield',
+        rightIconName: 'external',
+        href: THORYIELD_STATS_ROUTE,
+      },
+    ],
   },
 ]

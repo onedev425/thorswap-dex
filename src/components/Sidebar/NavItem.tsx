@@ -17,6 +17,7 @@ export const NavItem = ({
   label,
   collapsed = false,
   transform = 'uppercase',
+  rightIconName,
   onClick,
 }: NavItemProps) => {
   const location = useLocation()
@@ -46,13 +47,11 @@ export const NavItem = ({
           center
         >
           <Link
-            onClick={onClick}
-            className={classNames(
-              'flex items-center w-full h-full no-underline py-2 ',
-            )}
+            className="flex items-center w-full h-full py-2 no-underline"
             to={href}
+            onClick={onClick}
           >
-            <Box className={classNames('px-4 justify-center')}>
+            <Box className="justify-center w-full px-4">
               <div className="min-w-[18px] min-h-[18px]">
                 <Box center>
                   <Icon
@@ -86,6 +85,17 @@ export const NavItem = ({
                 >
                   {label}
                 </Typography>
+                {rightIconName && (
+                  <Icon
+                    className={classNames(
+                      'ml-auto transition group-hover:stroke-white group-hover:text-white font-bold',
+                      iconClasses[variant],
+                      { 'stroke-white !text-white': isActive },
+                    )}
+                    name={rightIconName}
+                    size={18}
+                  />
+                )}
               </Box>
             </Box>
           </Link>
