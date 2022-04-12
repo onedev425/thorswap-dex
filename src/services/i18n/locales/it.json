@@ -19,6 +19,7 @@
     "loading": "Caricamento",
     "documentation": "Documentazione",
     "wallet": "Portafoglio",
+    "learnMore": "Impara di più",
     "merchStore": "Merch Store",
     "deposit": "Deposita",
     "exchange": "Scambio",
@@ -476,7 +477,9 @@
     },
     "addLiquidity": {
       "pricesAndPoolShare": "Prezzi e Pool Share",
-      "shareOfPool": "Share della Pool"
+      "asymmetricPoolTip": "Stai per depositare nella pool asymmetrically.",
+      "shareOfPool": "Share della Pool",
+      "asymmetricPoolNotice": "I tuoi assets saranno ribilanciati entrando nella pool. Ciò significa che avrai un'esposizione 50:50 sia a RUNE che al tuo ASSET."
     },
     "vesting": {
       "claimAmount": "Importo da Riscattare",

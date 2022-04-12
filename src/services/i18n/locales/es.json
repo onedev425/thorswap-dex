@@ -19,6 +19,7 @@
     "loading": "Loading...",
     "documentation": "",
     "wallet": "Wallet",
+    "learnMore": "",
     "merchStore": "",
     "deposit": "Deposit",
     "exchange": "Exchange",
@@ -476,7 +477,9 @@
     },
     "addLiquidity": {
       "pricesAndPoolShare": "Prices and Pool Share",
-      "shareOfPool": "Share of Pool"
+      "asymmetricPoolTip": "",
+      "shareOfPool": "Share of Pool",
+      "asymmetricPoolNotice": ""
     },
     "vesting": {
       "claimAmount": "Claim Amount",
