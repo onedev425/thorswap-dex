@@ -50,10 +50,11 @@ export const AssetInputs = memo(
           )}
         >
           <Icon
-            className={classNames('w-7 h-7 -scale-x-100 transition-all', {
-              'rotate-180': iconRotate,
+            size={20}
+            className={classNames('p-1 transition-all', {
+              '-scale-x-100': iconRotate,
             })}
-            name="exchange"
+            name="arrowDown"
             color="white"
           />
         </Box>

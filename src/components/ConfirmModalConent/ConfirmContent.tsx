@@ -44,7 +44,7 @@ export const ConfirmContent = memo(
               </Typography>
             </Box>
           </Box>
-          <Icon className="mx-2" name="swap" />
+          <Icon className="mx-2 -rotate-90" name="arrowDown" />
           <Box className="flex-1 p-4 rounded-2xl" center col>
             <AssetIcon asset={outputAsset.asset} hasChainIcon />
             <Box className="pt-2" center>
