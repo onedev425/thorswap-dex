@@ -202,7 +202,9 @@ export const NodeDetails = () => {
         shadow={false}
         title={
           <div className="flex flex-row gap-x-2">
-            <Typography fontWeight="medium">{'Show Actions'}</Typography>
+            <Typography fontWeight="medium">
+              {t('common.showActions')}
+            </Typography>
           </div>
         }
       >

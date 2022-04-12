@@ -560,7 +560,8 @@ const WithdrawPanel = ({
   }, [wallet, pool])
 
   const title = useMemo(
-    () => `Withdraw ${poolAsset.ticker} Liquidity`,
+    () =>
+      `${t('common.withdraw')} ${poolAsset.ticker} ${t('common.liquidity')}`,
     [poolAsset],
   )
 

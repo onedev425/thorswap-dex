@@ -9,6 +9,8 @@ import { useGlobalState } from 'store/hooks'
 
 import { useGlobalStats } from 'hooks/useGlobalStats'
 
+import { t } from 'services/i18n'
+
 export const NodeStats = () => {
   const { runeToCurrency } = useGlobalState()
 
@@ -25,40 +27,40 @@ export const NodeStats = () => {
       {
         iconName: 'chartPie',
         color: 'yellow',
-        label: 'Total Bond',
+        label: t('views.nodes.totalBond'),
         value: `${runeToCurrency(totalBond).toCurrencyFormat(
           2,
         )} (${totalBond.toAbbreviate(1)} ᚱ)`,
-        tooltip: 'Total Bond Amounts by Active, Standby Nodes',
+        tooltip: t('views.nodes.detail.totalBond'),
       },
       {
         iconName: 'lightning',
         color: 'pink',
-        label: 'Active Bond',
+        label: t('views.nodes.detail.activeBond'),
         value: `${runeToCurrency(totalActiveBond).toCurrencyFormat(
           2,
         )} (${totalActiveBond.toAbbreviate(1)} ᚱ)`,
-        tooltip: 'Total Bond Amounts by Active Nodes',
+        tooltip: t('views.nodes.detail.activeBondTooltip'),
       },
       {
         iconName: 'wifi',
         color: 'red',
-        label: 'Standbye Bond',
+        label: t('views.nodes.detail.standbyeBond'),
         value: `${runeToCurrency(totalStandbyBond).toCurrencyFormat(
           2,
         )} (${totalStandbyBond.toAbbreviate(1)} ᚱ)`,
-        tooltip: 'Total Bond Amounts by Standby Nodes',
+        tooltip: t('views.nodes.detail.standbyeBondTooltip'),
       },
       {
         iconName: 'chartArea',
         color: 'purple',
-        label: 'Bonding APY',
+        label: t('views.nodes.detail.bondingAPY'),
         value: bondingAPYLabel,
       },
       {
         iconName: 'chartArea2',
         color: 'green',
-        label: 'Daily Bond Rewards',
+        label: t('views.nodes.detail.dailyBondRewards'),
         value: `${runeToCurrency(
           Amount.fromMidgard(networkData?.blockRewards?.bondReward).mul(14400),
         ).toCurrencyFormat(2)} `,
@@ -66,7 +68,7 @@ export const NodeStats = () => {
       {
         iconName: 'fire',
         color: 'blueLight',
-        label: 'Next Churn Height',
+        label: t('views.nodes.detail.nextChurnHeight'),
         value: Amount.fromNormalAmount(networkData?.nextChurnHeight).toFixed(0),
       },
     ],

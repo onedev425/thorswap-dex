@@ -25,14 +25,14 @@ const NodeManager = () => {
 
   return (
     <PanelView
-      title="Node Manager"
-      header={<ViewHeader withBack title="Node Manager" />}
+      title={t('common.nodeManager')}
+      header={<ViewHeader withBack title={t('common.nodeManager')} />}
     >
       <Box className="px-3 bg-light-gray-light dark:bg-dark-gray-light rounded-xl md:px-6">
         <Box alignCenter className="py-2 md:gap-x-52 ">
           <Input
             className="text-lg font-normal text-left border-none"
-            placeholder="Node Address"
+            placeholder={t('common.nodeAddress')}
             stretch
             autoFocus
           />
@@ -65,7 +65,7 @@ const NodeManager = () => {
               <Input
                 type="number"
                 className="text-lg font-normal text-right border-none md:px-5 w-28 md:w-full"
-                placeholder="Amount"
+                placeholder={t('views.nodes.detail.amount')}
                 onChange={(event) => setAmount(event.target.value)}
                 value={amount}
               />

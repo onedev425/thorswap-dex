@@ -63,7 +63,10 @@ export const PhraseView = () => {
 
   return (
     <Box className="w-full" col>
-      <Helmet title="Import Phrase" content="Import Phrase" />
+      <Helmet
+        title={t('views.walletModal.importPhrase')}
+        content={t('views.walletModal.importPhrase')}
+      />
       <Box className="space-x-2" row>
         <Typography className="mb-2" variant="subtitle2" fontWeight="semibold">
           {t('views.walletModal.enterSeed')}

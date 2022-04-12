@@ -573,7 +573,7 @@ export const AddLiquidity = () => {
         const description = translateErrorMsg(error?.toString())
         showToast(
           {
-            message: 'Submit Transaction Failed.',
+            message: t('notification.submitFail'),
             description: description,
           },
           ToastType.Error,
@@ -763,10 +763,9 @@ export const AddLiquidity = () => {
     if (isLPActionPaused) {
       return {
         valid: false,
-        msg: 'Deposit not available',
+        msg: t('notification.notAvailableDesposit'),
       }
     }
-
     // only invalid scenario is
     // 1. rune asym
     // 2. rune-asset sym
@@ -775,7 +774,7 @@ export const AddLiquidity = () => {
       if (!runeAmount.gt(minRuneAmount) || !assetAmount.gt(minAssetAmount)) {
         return {
           valid: false,
-          msg: 'Invalid Amount',
+          msg: t('notification.invalidAmount'),
         }
       }
 
@@ -784,7 +783,7 @@ export const AddLiquidity = () => {
         if (memberData?.runeAsym) {
           return {
             valid: false,
-            msg: 'Already have RUNE LP',
+            msg: t('notification.alreadyHaveRune'),
           }
         }
       }
@@ -794,7 +793,7 @@ export const AddLiquidity = () => {
       if (!assetAmount.gt(minAssetAmount)) {
         return {
           valid: false,
-          msg: 'Insufficient Amount',
+          msg: t('notification.insufficientAmount'),
         }
       }
     }
@@ -803,7 +802,7 @@ export const AddLiquidity = () => {
       if (!runeAmount.gt(minRuneAmount)) {
         return {
           valid: false,
-          msg: 'Insufficient Amount',
+          msg: t('notification.insufficientAmount'),
         }
       }
     }

@@ -98,7 +98,7 @@ const Nodes = () => {
             size={12}
             className="group-hover:text-dark-typo-primary"
             color="secondary"
-            name={'refresh'}
+            name="refresh"
           />
         ),
         align: 'center',
@@ -109,7 +109,9 @@ const Nodes = () => {
           return (
             <Tooltip
               content={
-                isSelected ? 'Remove from watch list' : 'Add to watch list'
+                isSelected
+                  ? t('views.nodes.removeFromList')
+                  : t('views.nodes.addToWatch')
               }
             >
               <Icon

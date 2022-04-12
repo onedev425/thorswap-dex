@@ -4,6 +4,8 @@ import { Amount } from '@thorswap-lib/multichain-sdk'
 
 import { useMidgard } from 'store/midgard/hooks'
 
+import { t } from 'services/i18n'
+
 import { useMimir } from './useMimir'
 
 export enum QueueLevel {
@@ -40,7 +42,7 @@ export const useNetwork = () => {
     outboundQueueLevel === QueueLevel.SLOW
 
   const getOutboundBusyTooltip = () => {
-    return 'The network is currently experiencing delays signing outgoing transactions.'
+    return t('notification.outboundBusyTooltip')
   }
 
   const statusOptions: {
@@ -67,9 +69,8 @@ export const useNetwork = () => {
   const globalRunePooledStatus = maxLiquidityRune.gt(0)
     ? `${totalPooledRune.toAbbreviate(2)} / ${maxLiquidityRune.toAbbreviate(
         2,
-      )} RUNE POOLED`
-    : `${totalPooledRune.toAbbreviate(2)} RUNE POOLED`
-
+      )} ${t('notification.runePooled')}`
+    : `${totalPooledRune.toAbbreviate(2)} ${t('notification.runePooled')}`
   return {
     globalRunePooledStatus,
     isValidFundCaps: !isFundsCapReached,

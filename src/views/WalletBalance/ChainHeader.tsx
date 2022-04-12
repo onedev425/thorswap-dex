@@ -59,13 +59,13 @@ export const ChainHeader = ({
 
   const walletTooltip = useMemo(() => {
     if (walletType === WalletOption.KEYSTORE) {
-      return 'View Phrase'
+      return t('views.walletModal.viewPhrase')
     }
     if (walletType === WalletOption.LEDGER) {
-      return 'Verify Address'
+      return t('views.walletModal.verifyAddress')
     }
 
-    return `${walletType} Connected`
+    return `${walletType} ${t('common.connected')}`
   }, [walletType])
 
   return (

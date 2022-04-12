@@ -53,7 +53,7 @@ export const PoolTable = ({ data }: PoolTableProps) => {
       [
         {
           id: 'pool',
-          Header: 'Pool',
+          Header: t('common.pool'),
           accessor: (row: Pool) => row,
           Cell: ({ cell: { value } }: { cell: { value: Pool } }) => (
             <div className="flex flex-row items-center">
@@ -67,13 +67,13 @@ export const PoolTable = ({ data }: PoolTableProps) => {
         },
         {
           id: 'network',
-          Header: 'Network',
+          Header: t('common.network'),
           accessor: (row: Pool) => chainToString(row.asset.chain),
           minScreenSize: BreakPoint.xl,
         },
         {
           id: 'price',
-          Header: 'USD Price',
+          Header: t('common.usdPrice'),
           accessor: (row: Pool) =>
             Amount.fromAssetAmount(row.detail.assetPriceUSD, 8),
           align: 'right',
@@ -83,7 +83,7 @@ export const PoolTable = ({ data }: PoolTableProps) => {
         },
         {
           id: 'liquidity',
-          Header: 'Liquidity',
+          Header: t('common.liquidity'),
           accessor: (row: Pool) =>
             Amount.fromMidgard(row.detail.runeDepth).mul(2),
           align: 'right',
@@ -93,7 +93,7 @@ export const PoolTable = ({ data }: PoolTableProps) => {
         },
         {
           id: 'volume24h',
-          Header: 'Volume24H',
+          Header: t('common.24Volume'),
           accessor: (row: Pool) => Amount.fromMidgard(row.detail.volume24h),
           align: 'right',
           Cell: ({ cell: { value } }: { cell: { value: Amount } }) =>
@@ -103,7 +103,7 @@ export const PoolTable = ({ data }: PoolTableProps) => {
         },
         {
           id: 'apy',
-          Header: 'APY',
+          Header: t('common.APY'),
           accessor: (row: Pool) => new Percent(row.detail.poolAPY),
           align: 'right',
           Cell: ({ cell: { value } }: { cell: { value: Percent } }) =>
@@ -111,7 +111,7 @@ export const PoolTable = ({ data }: PoolTableProps) => {
           sortType: sortApyColumn,
         },
         {
-          Header: 'Action',
+          Header: t('common.action'),
           Cell: ({ row: { original } }) => (
             <Box row className="gap-2" justify="end">
               <Button

@@ -1,5 +1,7 @@
 import { Button, Icon } from 'components/Atomic'
 
+import { t } from 'services/i18n'
+
 export type ReloadProps = {
   loading: boolean
   onLoad: () => void
@@ -10,7 +12,7 @@ export type ReloadProps = {
 export const ReloadButton = ({
   loading,
   onLoad,
-  tooltip = 'Reload',
+  tooltip = t('common.reload'),
   size = 20,
 }: ReloadProps): JSX.Element => {
   return (

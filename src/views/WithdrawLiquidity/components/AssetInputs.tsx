@@ -9,7 +9,7 @@ import { useInputFocusState } from 'components/Input/hooks/useInputFocusState'
 import { InputAmount } from 'components/InputAmount'
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
 
-// import { t } from 'services/i18n'
+import { t } from 'services/i18n'
 
 import { AssetAmountBox } from './AssetAmountBox'
 
@@ -63,8 +63,7 @@ export const AssetInputs = memo(
         >
           <Box className="flex-1">
             <Typography className="inline-flex">
-              Withdraw Percent
-              {':'}
+              {`${t('common.withdrawPercent')}:`}
             </Typography>
           </Box>
           <Box className="flex-1" alignCenter>
@@ -87,8 +86,7 @@ export const AssetInputs = memo(
         <HighlightCard className="min-h-[107px] p-4 flex-col md:flex-row items-end md:items-center gap-2">
           <Box>
             <Typography className="whitespace-nowrap">
-              Receive
-              {':'}
+              {`${t('common.receive')}:`}
             </Typography>
           </Box>
 

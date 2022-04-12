@@ -4,6 +4,8 @@ import { IconName } from 'components/Atomic'
 import { DataPoint } from 'components/Chart/types'
 import { StatsType } from 'components/Stats'
 
+import { t } from 'services/i18n'
+
 import { ColorType } from 'types/app'
 
 type DashboardStatistics = {
@@ -34,44 +36,49 @@ export const dashboardMockData: DashboardMockData = {
     {
       iconName: 'chartPie',
       color: 'yellow',
-      label: '24h Volume',
+      label: t('views.stats.24Volume'),
       value: '$46,82.56',
     },
     {
       iconName: 'chartArea',
       color: 'purple',
-      label: 'Total Liquidity',
+      label: t('views.stats.totalLiq'),
       value: '$509,82b',
     },
     {
       iconName: 'chartCandle',
       color: 'blue',
-      label: 'Liquidity APY',
+      label: t('views.stats.liqAPY'),
       value: '100,50%',
     },
     {
       iconName: 'refresh',
       color: 'blueLight',
-      label: 'Transactions',
+      label: t('common.transactions'),
       value: '$46,82.3',
     },
-    { iconName: 'wifi', color: 'red', label: 'Total Fees', value: '$46,82.56' },
+    {
+      iconName: 'wifi',
+      color: 'red',
+      label: t('common.totalFees'),
+      value: '$46,82.56',
+    },
     {
       iconName: 'chartArea2',
       color: 'green',
-      label: 'IL Paid',
+      label: t('common.ilPaid'),
       value: '$46,82.56',
     },
     {
       iconName: 'lightning',
       color: 'pink',
-      label: 'Total Vol',
+      label: t('common.totalVol'),
       value: '$46,82.3',
     },
     {
       iconName: 'fire',
       color: 'blueLight',
-      label: 'Funds Cap (i)',
+      label: t('common.foundsCap'),
       value: '100.2%',
     },
   ],

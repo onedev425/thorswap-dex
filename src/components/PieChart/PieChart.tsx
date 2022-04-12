@@ -7,6 +7,8 @@ import classNames from 'classnames'
 
 import { Icon, Typography } from 'components/Atomic'
 
+import { t } from 'services/i18n'
+
 import { pieChartReducer } from './pieChartReducer'
 import { PieChartProps } from './types'
 
@@ -19,7 +21,7 @@ const options = {
 }
 
 const staticDataSetValues = {
-  label: 'Wallet',
+  label: t('common.wallet'),
   hoverOffset: 0,
   borderWidth: 0,
   cutout: '76%',

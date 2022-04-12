@@ -6,6 +6,7 @@ import { StatusBadge } from 'components/StatusBadge'
 import { useMimir } from 'hooks/useMimir'
 import { useNetwork, StatusType } from 'hooks/useNetwork'
 
+import { t } from 'services/i18n'
 import { midgardApi } from 'services/midgard'
 import { globalConfig } from 'services/multichain'
 
@@ -33,75 +34,93 @@ export const StatusDropdown = () => {
 
   const liquidityCapLabel = useMemo(() => {
     if (!capPercent) {
-      return 'Funds Cap available'
+      return t('components.statusDropdown.capAvailable')
     }
 
     if (isFundsCapReached) {
-      return `Funds Cap reached limit (${capPercent})`
+      return `${t('components.statusDropdown.capLimit')} (${capPercent})`
     }
 
-    return `Funds Cap available (${capPercent})`
+    return `${t('components.statusDropdown.capAvailable')} (${capPercent})`
   }, [isFundsCapReached, capPercent])
 
   const menuItemData: StatusItem[] = useMemo(
     () => [
       {
-        label: 'Liquidity Cap',
+        label: t('components.statusDropdown.liqCap'),
         value: liquidityCapLabel,
         statusType: isFundsCapReached ? StatusType.Warning : StatusType.Normal,
       },
       {
-        label: 'Outbound',
-        value: `Queue: ${outboundQueue} (${outboundQueueLevel})`,
+        label: t('components.statusDropdown.outbound'),
+        value: `${t(
+          'components.statusDropdown.queue',
+        )}: ${outboundQueue} (${outboundQueueLevel})`,
         statusType: statusType,
       },
       {
-        label: 'THORChain Network',
-        value: !isTHORChainHalted ? 'Online' : 'Offline',
+        label: t('components.statusDropdown.thorNetwork'),
+        value: !isTHORChainHalted
+          ? t('components.statusDropdown.online')
+          : t('components.statusDropdown.offline'),
         statusType: isTHORChainHalted ? StatusType.Error : StatusType.Normal,
       },
       {
-        label: 'Binance Chain',
-        value: !isBNBChainHalted ? 'Online' : 'Offline',
+        label: t('components.statusDropdown.binanceChain'),
+        value: !isBNBChainHalted
+          ? t('components.statusDropdown.online')
+          : t('components.statusDropdown.offline'),
         statusType: isBNBChainHalted ? StatusType.Error : StatusType.Normal,
       },
       {
-        label: 'Bitcoin Network',
-        value: !isBTCChainHalted ? 'Online' : 'Offline',
+        label: t('components.statusDropdown.bitcoinNetwork'),
+        value: !isBTCChainHalted
+          ? t('components.statusDropdown.online')
+          : t('components.statusDropdown.offline'),
         statusType: isBTCChainHalted ? StatusType.Error : StatusType.Normal,
       },
       {
-        label: 'Ethereum Network',
-        value: !isETHChainHalted ? 'Online' : 'Offline',
+        label: t('components.statusDropdown.ethNetwork'),
+        value: !isETHChainHalted
+          ? t('components.statusDropdown.online')
+          : t('components.statusDropdown.offline'),
         statusType: isETHChainHalted ? StatusType.Error : StatusType.Normal,
       },
       {
-        label: 'Litecoin Network',
-        value: !isLTCChainHalted ? 'Online' : 'Offline',
+        label: t('components.statusDropdown.litecoinNetwork'),
+        value: !isLTCChainHalted
+          ? t('components.statusDropdown.online')
+          : t('components.statusDropdown.offline'),
         statusType: isLTCChainHalted ? StatusType.Error : StatusType.Normal,
       },
       {
-        label: 'Dogecoin Network',
-        value: !isDOGEChainHalted ? 'Online' : 'Offline',
+        label: t('components.statusDropdown.dogeNetwork'),
+        value: !isDOGEChainHalted
+          ? t('components.statusDropdown.online')
+          : t('components.statusDropdown.offline'),
         statusType: isDOGEChainHalted ? StatusType.Error : StatusType.Normal,
       },
       {
-        label: 'Terra Network',
-        value: !isTERRAChainHalted ? 'Online' : 'Offline',
+        label: t('components.statusDropdown.terraNetwork'),
+        value: !isTERRAChainHalted
+          ? t('components.statusDropdown.online')
+          : t('components.statusDropdown.offline'),
         statusType: isTERRAChainHalted ? StatusType.Error : StatusType.Normal,
       },
       {
-        label: 'Bitcoin Cash Network',
-        value: !isBCHChainHalted ? 'Online' : 'Offline',
+        label: t('components.statusDropdown.btcCashNetwork'),
+        value: !isBCHChainHalted
+          ? t('components.statusDropdown.online')
+          : t('components.statusDropdown.offline'),
         statusType: isBCHChainHalted ? StatusType.Error : StatusType.Normal,
       },
       {
-        label: 'Midgard',
+        label: t('components.statusDropdown.midgard'),
         value: midgardUrl,
         statusType: StatusType.Normal,
       },
       {
-        label: 'THORNODE',
+        label: t('components.statusDropdown.thornode'),
         value: getHostnameFromUrl(globalConfig.thornodeMainnetApiUrl) || '',
         statusType: StatusType.Normal,
       },
@@ -157,7 +176,7 @@ export const StatusDropdown = () => {
   return (
     <DropdownMenu
       menuItems={menuItems}
-      value="Network Status"
+      value={t('components.statusDropdown.networkStatus')}
       openComponent={<StatusBadge status={statusType} />}
       onChange={() => {}}
     />

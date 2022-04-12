@@ -88,7 +88,7 @@ export const KeystoreView = ({ onConnect, onKeystore }: Props) => {
         </Typography>
         <Tooltip
           place="top"
-          content="Password for recovery"
+          content={t('views.walletModal.recoveryPassword')}
           iconName="question"
         />
       </Box>

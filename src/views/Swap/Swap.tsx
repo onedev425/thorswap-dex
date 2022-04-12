@@ -327,7 +327,7 @@ const SwapView = () => {
         const description = translateErrorMsg(error?.toString())
 
         showToast(
-          { description, message: 'Submit Transaction Failed.' },
+          { description, message: t('notification.submitFail') },
           ToastType.Error,
           {
             duration: 20000,
@@ -478,7 +478,7 @@ const SwapView = () => {
     if (isTradingHalted) {
       return {
         valid: false,
-        msg: 'Swap not available',
+        msg: t('notification.swapNotAvailable'),
       }
     }
 
@@ -490,18 +490,18 @@ const SwapView = () => {
   const btnLabel = useMemo(() => {
     if (isValidSwap.valid || inputAmount.eq(0)) {
       if (inputAsset.isSynth && outputAsset.isSynth) {
-        return 'Swap'
+        return t('common.swap')
       }
       if (inputAsset.isSynth) {
-        return 'Redeem'
+        return t('txManager.redeem')
       }
       if (outputAsset.isSynth) {
-        return 'Mint'
+        return t('txManager.mint')
       }
-      return 'Swap'
+      return t('common.swap')
     }
 
-    return isValidSwap?.msg ?? 'Swap'
+    return isValidSwap?.msg ?? t('common.swap')
   }, [isValidSwap, inputAmount, inputAsset, outputAsset])
 
   const estimatedTime = useMemo(
@@ -573,7 +573,7 @@ const SwapView = () => {
     [assetApproveStatus],
   )
 
-  const title = `Swap ${inputAsset.name} >> ${outputAsset.name}`
+  const title = `${t('common.swap')} ${inputAsset.name} >> ${outputAsset.name}`
 
   return (
     <PanelView

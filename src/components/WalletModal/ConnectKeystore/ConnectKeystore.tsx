@@ -29,13 +29,13 @@ export const KeystoreView = ({ loading, onConnect, onCreate }: Props) => {
       try {
         const key = JSON.parse(reader.result as string)
         if (!('version' in key) || !('crypto' in key)) {
-          setKeystoreError('Not a valid keystore file')
+          setKeystoreError(t('views.walletModal.keystoreError'))
         } else {
           setKeystoreError('')
           setKeystore(key)
         }
       } catch {
-        setKeystoreError('Not a valid json file')
+        setKeystoreError(t('views.walletModal.jsonError'))
       }
     }
     reader.addEventListener('load', onLoadHandler)
@@ -46,7 +46,7 @@ export const KeystoreView = ({ loading, onConnect, onCreate }: Props) => {
   }, [])
 
   const onErrorFile = useCallback((error: Error) => {
-    setKeystoreError(`Selecting a key file failed: ${error}`)
+    setKeystoreError(`${t('views.walletModal.selectingKeyError')} ${error}`)
   }, [])
 
   const unlockKeystore = useCallback(async () => {

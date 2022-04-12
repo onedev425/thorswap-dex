@@ -15,8 +15,8 @@ import { t } from 'services/i18n'
 // import { formatPrice } from 'helpers/formatPrice'
 
 const data = [
-  { label: 'Slip', value: '0.54' },
-  { label: 'Pool Share Estimated', value: '8.248' },
+  { label: t('views.wallet.slip'), value: '0.54' },
+  { label: t('views.liquidity.poolShareEstimated'), value: '8.248' },
   { label: t('common.transactionFee'), value: '0.02 RUNE' },
 ]
 
@@ -36,7 +36,7 @@ export const PendingLiquidity = () => {
 
   return (
     <PanelView
-      title="Pending Liquidity"
+      title={t('pendingLiquidity.pendingLiquidity')}
       header={
         <ViewHeader
           title={t('views.pendingLiquidity.pendingLiquidity')}

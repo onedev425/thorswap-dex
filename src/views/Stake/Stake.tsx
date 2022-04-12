@@ -5,6 +5,8 @@ import { StakingCard } from 'components/StakingCard'
 import { StatsType } from 'components/Stats'
 import { StatsList } from 'components/StatsList/StatsList'
 
+import { t } from 'services/i18n'
+
 import { farmData } from './farmData'
 
 const list: StatsType[] = [
@@ -23,38 +25,38 @@ const list: StatsType[] = [
   {
     color: 'red',
     iconName: 'lightning',
-    label: 'Total Staked Value',
+    label: t('views.stats.totalStakedValue'),
     value: '$ 13.000.000',
   },
   {
     color: 'blueLight',
     iconName: 'settings',
-    label: 'Total Staked $THOR',
+    label: t('views.stats.totalStakedTHOR'),
     value: '100,50%',
   },
 
   {
     color: 'purple',
     iconName: 'chartArea2',
-    label: 'Circulating Supply',
+    label: t('views.stats.circulatingSupply'),
     value: '24.500.00 $T',
   },
   {
     color: 'green',
     iconName: 'lightning',
-    label: 'Total Supply',
+    label: t('views.stats.totalSupply'),
     value: '$ 25.000.000',
   },
   {
     color: 'yellow',
     iconName: 'chartPie',
-    label: '24h Volume',
+    label: t('views.stats.24Volume'),
     value: '$46,82.56',
   },
   {
     color: 'green',
     iconName: 'fire',
-    label: 'Total Volume',
+    label: t('views.stats.totalVolume'),
     value: '$ 181.35M',
   },
 ]

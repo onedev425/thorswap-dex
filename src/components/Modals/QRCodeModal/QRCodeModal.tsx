@@ -7,6 +7,8 @@ import { baseHoverClass } from 'components/constants'
 
 import { useAddressUtils } from 'hooks/useAddressUtils'
 
+import { t } from 'services/i18n'
+
 import Logo from 'assets/images/logo.png'
 
 type Props = {
@@ -41,7 +43,7 @@ export const QRCodeModal = ({ title, address, onCancel, chain }: Props) => {
         </Box>
         <Box className="space-x-2" alignCenter mt={3}>
           <Typography>{shortAddress}</Typography>
-          <Tooltip content="Copy">
+          <Tooltip content={t('common.copy')}>
             <Box className={baseHoverClass}>
               <Icon
                 className="cursor-pointer"

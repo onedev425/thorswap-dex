@@ -257,11 +257,14 @@ const UpgradeRune = () => {
 
   return (
     <Box className="self-center w-full max-w-[480px]" col>
-      <Helmet title="Upgrade Rune" content="Upgrade BNB Rune" />
+      <Helmet
+        title={t('common.upgradeRune')}
+        content={t('common.upgradeBnbRune')}
+      />
 
       <Box className="w-full mx-2" col>
         <ViewHeader
-          title="Upgrade BNB Rune"
+          title={t('common.upgradeBnbRune')}
           actionsComponent={
             <Box row className="space-x-4">
               <Icon color="secondary" name="chart" className="ml-auto" />

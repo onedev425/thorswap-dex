@@ -50,8 +50,7 @@ export const PoolInfo = ({
           col
         >
           <Typography variant="caption" color="secondary" fontWeight="semibold">
-            {/* TODO: i18n */}
-            Slip
+            {t('views.wallet.slip')}
           </Typography>
           <Typography variant="h4">{slippage || 'N/A'}</Typography>
         </Box>

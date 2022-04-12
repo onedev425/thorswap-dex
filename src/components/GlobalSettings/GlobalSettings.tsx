@@ -52,7 +52,7 @@ export const GlobalSettings = () => {
             containerClassName="bg-light-gray-light dark:bg-dark-gray-light bg-opacity-40"
             symbol="%"
             value={slippageTolerance}
-            placeholder="Percentage"
+            placeholder={t('common.percentage')}
             border="rounded"
             stretch
             onChange={(e) => setSlippage(Number(e.target.value))}

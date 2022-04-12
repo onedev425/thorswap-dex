@@ -240,7 +240,7 @@ export const CreateLiquidity = () => {
 
         showToast(
           {
-            message: 'Submit Transaction Failed.',
+            message: t('notification.submitTxFailed'),
             description: error?.toString(),
           },
           ToastType.Error,
@@ -390,14 +390,14 @@ export const CreateLiquidity = () => {
     if (isLPActionPaused) {
       return {
         valid: false,
-        msg: 'Deposit not available',
+        msg: t('notification.notAvailableDesposit'),
       }
     }
 
     if (inputAssets.length === 0) {
       return {
         valid: false,
-        msg: 'Assets not found',
+        msg: t('notification.assetNotFound'),
       }
     }
 
@@ -408,7 +408,7 @@ export const CreateLiquidity = () => {
     if (!runeAmount.gt(minRuneAmount) || !assetAmount.gt(minAssetAmount)) {
       return {
         valid: false,
-        msg: 'Invalid Amount',
+        msg: t('notification.invalidAmount'),
       }
     }
     return { valid: true }
@@ -459,16 +459,16 @@ export const CreateLiquidity = () => {
   )
 
   const title = useMemo(
-    () => `Create ${poolAsset.ticker} Liquidity`,
+    () => `${t('common.create')} ${poolAsset.ticker} ${t('common.liquidity')}`,
     [poolAsset],
   )
 
   const btnLabel = useMemo(() => {
     if (!isValidDeposit.valid) return isValidDeposit.msg
 
-    if (isApproveRequired) return 'Create'
+    if (isApproveRequired) return t('common.create')
 
-    return 'Create Liquidity'
+    return t('common.createLiquidity')
   }, [isValidDeposit, isApproveRequired])
 
   const estimatedTime = useMemo(() => {
