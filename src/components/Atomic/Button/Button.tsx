@@ -78,7 +78,7 @@ export const Button = ({
           <Typography
             className={classNames(
               'transition !no-underline',
-              isOutlined || isBorderless
+              isOutlined || isBorderless || variant === 'tint'
                 ? 'text-light-typo-primary dark:text-dark-typo-primary'
                 : 'text-dark-typo-primary',
               {
