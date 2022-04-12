@@ -41,6 +41,7 @@ import { RootState } from 'store/store'
 import { useWallet } from 'store/wallet/hooks'
 
 import { useApprove } from 'hooks/useApprove'
+import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance'
 import { useBalance } from 'hooks/useBalance'
 import { useMimir } from 'hooks/useMimir'
 import { useNetworkFee, getSumAmountInUSD } from 'hooks/useNetworkFee'
@@ -878,16 +879,7 @@ export const AddLiquidity = () => {
     poolMemberDetail,
   ])
 
-  const poolAssetList = useMemo(
-    () =>
-      inputAssets.map((inputAsset: Asset) => ({
-        asset: inputAsset,
-        balance: isWalletAssetConnected(inputAsset)
-          ? getMaxBalance(inputAsset)
-          : undefined,
-      })),
-    [inputAssets, isWalletAssetConnected, getMaxBalance],
-  )
+  const poolAssetList = useAssetsWithBalance(inputAssets)
 
   const title = useMemo(() => `Add ${poolAsset.ticker} Liquidity`, [poolAsset])
 
@@ -900,15 +892,14 @@ export const AddLiquidity = () => {
   }, [isValidDeposit, isApproveRequired])
 
   const estimatedTime = useMemo(() => {
-    return liquidityType === LiquidityTypeOption.RUNE
-      ? getEstimatedTxTime({
-          chain: Chain.THORChain,
-          amount: runeAmount,
-        })
-      : getEstimatedTxTime({
-          chain: poolAsset.chain as SupportedChain,
-          amount: assetAmount,
-        })
+    const isRuneLiquidity = liquidityType === LiquidityTypeOption.RUNE
+
+    return getEstimatedTxTime({
+      amount: isRuneLiquidity ? runeAmount : assetAmount,
+      chain: isRuneLiquidity
+        ? Chain.THORChain
+        : (poolAsset.chain as SupportedChain),
+    })
   }, [liquidityType, assetAmount, runeAmount, poolAsset])
 
   const confirmInfo = useConfirmInfoItems({

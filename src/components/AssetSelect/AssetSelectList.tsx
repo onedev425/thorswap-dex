@@ -1,3 +1,6 @@
+import { useMemo } from 'react'
+
+import { hasConnectedWallet } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
@@ -10,9 +13,13 @@ import { FeaturedAssetIcon } from 'components/FeaturedAssetIcon/FeaturedAssetIco
 import { Input } from 'components/Input'
 import { TabsSelect } from 'components/TabsSelect'
 
+import { useWallet } from 'store/wallet/hooks'
+
 import { t } from 'services/i18n'
 
 export const AssetSelectList = (props: AssetSelectProps) => {
+  const { wallet } = useWallet()
+  const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet])
   const {
     filteredAssets,
     search,
@@ -63,6 +70,7 @@ export const AssetSelectList = (props: AssetSelectProps) => {
           onChange={setTypeFilterOption}
         />
       </Box>
+
       <div
         className={classNames(
           'h-full overflow-y-auto pt-3 lg:pt-6 bg-light-bg-secondary dark:bg-dark-asset-select',
@@ -100,10 +108,15 @@ export const AssetSelectList = (props: AssetSelectProps) => {
                 </Typography>
               </Box>
               <Typography color="secondary">
-                {filteredItem.balance?.toSignificant(6) ?? ''}
+                {filteredItem.balance
+                  ? filteredItem.balance.toSignificant(6)
+                  : isConnected
+                  ? '0'
+                  : ''}
               </Typography>
             </Box>
           ))}
+
           {!filteredAssets.length && (
             <Box justifyCenter>
               <Typography>

@@ -37,6 +37,7 @@ import { TxTrackerStatus, TxTrackerType } from 'store/midgard/types'
 import { useWallet } from 'store/wallet/hooks'
 
 import { useApprove } from 'hooks/useApprove'
+import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance'
 import { useBalance } from 'hooks/useBalance'
 import { useCheckExchangeBNB } from 'hooks/useCheckExchangeBNB'
 import { useNetworkFee } from 'hooks/useNetworkFee'
@@ -532,23 +533,8 @@ const SwapView = () => {
     [outputAsset, outputAmount, outputAssetPriceInUSD],
   )
 
-  const inputAssetList = useMemo(
-    () =>
-      inputAssets.map((asset: Asset) => ({
-        asset,
-        balance: getMaxBalance(asset),
-      })),
-    [inputAssets, getMaxBalance],
-  )
-
-  const outputAssetList = useMemo(
-    () =>
-      outputAssets.map((asset: Asset) => ({
-        asset,
-        balance: getMaxBalance(asset),
-      })),
-    [outputAssets, getMaxBalance],
-  )
+  const inputAssetList = useAssetsWithBalance(inputAssets)
+  const outputAssetList = useAssetsWithBalance(outputAssets)
 
   const approveConfirmInfo = useApproveInfoItems({
     inputAsset: inputAssetProps,

@@ -31,6 +31,7 @@ import { RootState } from 'store/store'
 import { useWallet } from 'store/wallet/hooks'
 
 import { useApprove } from 'hooks/useApprove'
+import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance'
 import { useBalance } from 'hooks/useBalance'
 import { useMimir } from 'hooks/useMimir'
 import { useNetworkFee, getSumAmountInUSD } from 'hooks/useNetworkFee'
@@ -57,8 +58,7 @@ export const CreateLiquidity = () => {
   const [poolAsset, setPoolAsset] = useState<Asset>(
     inputAssets?.[0] ?? Asset.RUNE(),
   )
-  console.log('poolAsset', poolAsset)
-  ///
+
   const { getMaxBalance, isWalletAssetConnected } = useBalance()
   const { isFundsCapReached, isChainPauseLPAction } = useMimir()
   const isLPActionPaused: boolean = useMemo(() => {
@@ -360,14 +360,8 @@ export const CreateLiquidity = () => {
 
   const depositAssetInputs = useMemo(() => {
     return [
-      {
-        asset: Asset.RUNE(),
-        value: runeAmount.toSignificant(6),
-      },
-      {
-        asset: poolAsset,
-        value: assetAmount.toSignificant(6),
-      },
+      { asset: Asset.RUNE(), value: runeAmount.toSignificant(6) },
+      { asset: poolAsset, value: assetAmount.toSignificant(6) },
     ]
   }, [poolAsset, assetAmount, runeAmount])
 
@@ -421,42 +415,32 @@ export const CreateLiquidity = () => {
     inputAssets,
   ])
 
-  const isApproveRequired = useMemo(() => {
-    if (isApproved !== null && !isApproved) {
-      return true
-    }
+  const isApproveRequired = useMemo(
+    () => isApproved !== null && !isApproved,
+    [isApproved],
+  )
 
-    return false
-  }, [isApproved])
-
-  const poolAssetInput = useMemo(() => {
-    return {
+  const poolAssetInput = useMemo(
+    () => ({
       asset: poolAsset,
       value: assetAmount,
       balance: poolAssetBalance,
       usdPrice: poolAssetPriceInUSD,
-    }
-  }, [poolAsset, assetAmount, poolAssetBalance, poolAssetPriceInUSD])
+    }),
+    [poolAsset, assetAmount, poolAssetBalance, poolAssetPriceInUSD],
+  )
 
-  const runeAssetInput = useMemo(() => {
-    return {
+  const runeAssetInput = useMemo(
+    () => ({
       asset: Asset.RUNE(),
       value: runeAmount,
       balance: runeBalance,
       usdPrice: runeAssetPriceInUSD,
-    }
-  }, [runeAmount, runeBalance, runeAssetPriceInUSD])
-
-  const poolAssetList = useMemo(
-    () =>
-      inputAssets.map((inputAsset: Asset) => ({
-        asset: inputAsset,
-        balance: isWalletAssetConnected(inputAsset)
-          ? getMaxBalance(inputAsset)
-          : undefined,
-      })),
-    [inputAssets, isWalletAssetConnected, getMaxBalance],
+    }),
+    [runeAmount, runeBalance, runeAssetPriceInUSD],
   )
+
+  const poolAssetList = useAssetsWithBalance(inputAssets)
 
   const title = useMemo(
     () => `${t('common.create')} ${poolAsset.ticker} ${t('common.liquidity')}`,

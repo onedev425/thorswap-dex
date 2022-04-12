@@ -25,6 +25,7 @@ import { ViewHeader } from 'components/ViewHeader'
 import { useMidgard } from 'store/midgard/hooks'
 import { useWallet } from 'store/wallet/hooks'
 
+import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance'
 import { useBalance } from 'hooks/useBalance'
 import { useNetworkFee } from 'hooks/useNetworkFee'
 
@@ -93,6 +94,8 @@ const Send = () => {
   )
 
   const walletAssets = useMemo(() => getWalletAssets(wallet), [wallet])
+
+  const assetInputList = useAssetsWithBalance(walletAssets)
 
   const assetPriceInUSD = useMemo(
     () =>
@@ -170,15 +173,6 @@ const Send = () => {
       assetPriceInUSD,
       isWalletConnected,
     ],
-  )
-
-  const assetInputList = useMemo(
-    () =>
-      walletAssets.map((asset: Asset) => ({
-        asset,
-        balance: getMaxBalance(asset),
-      })),
-    [walletAssets, getMaxBalance],
   )
 
   const summary = useMemo(

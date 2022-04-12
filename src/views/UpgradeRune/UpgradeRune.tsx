@@ -23,6 +23,7 @@ import { useMidgard } from 'store/midgard/hooks'
 import { TxTrackerType } from 'store/midgard/types'
 import { useWallet } from 'store/wallet/hooks'
 
+import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance'
 import { useBalance } from 'hooks/useBalance'
 import { useMimir } from 'hooks/useMimir'
 import { useNetworkFee } from 'hooks/useNetworkFee'
@@ -220,16 +221,7 @@ const UpgradeRune = () => {
     ],
   )
 
-  const assetInputList = useMemo(
-    () =>
-      runeToUpgrade.map((asset: Asset) => ({
-        asset,
-        balance: isWalletAssetConnected(asset)
-          ? getMaxBalance(asset)
-          : undefined,
-      })),
-    [runeToUpgrade, getMaxBalance, isWalletAssetConnected],
-  )
+  const assetInputList = useAssetsWithBalance(runeToUpgrade)
 
   const summary = useMemo(
     () => [

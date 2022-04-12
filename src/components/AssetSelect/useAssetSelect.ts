@@ -20,25 +20,23 @@ export function useAssetSelect({
     .filter(Boolean) as Asset[]
 
   const filteredAssets = useMemo(() => {
-    let filteredAssetData = !search
-      ? assets
-      : assets.filter(({ asset }) =>
+    const filteredAssetData = search
+      ? assets.filter(({ asset }) =>
           asset.symbol.toLocaleLowerCase().includes(search.toLowerCase()),
         )
+      : assets
 
-    filteredAssetData =
+    const assetsFilteredByType =
       typeFilter === 'all'
         ? filteredAssetData
         : filteredAssetData.filter(
             ({ asset }) =>
               asset.type.toLowerCase() === typeFilter.toLowerCase(),
           )
-    filteredAssetData.sort((a, b) => a.asset.sortsBefore(b.asset))
-    filteredAssetData.sort((a) =>
-      featuredAssets.some((fa) => fa.eq(a.asset)) ? -1 : 1,
-    )
-
-    return filteredAssetData
+    return assetsFilteredByType
+      .concat()
+      .sort((a, b) => a.asset.sortsBefore(b.asset))
+      .sort((a) => (featuredAssets.some((fa) => fa.eq(a.asset)) ? -1 : 1))
   }, [assets, featuredAssets, search, typeFilter])
 
   const resetSearch = () => setSearch('')
