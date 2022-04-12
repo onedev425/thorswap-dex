@@ -79,7 +79,11 @@ export const AssetSelectList = (props: AssetSelectProps) => {
               onClick={() => select(filteredItem.asset)}
             >
               <FeaturedAssetIcon assetString={filteredItem.asset.toString()} />
-              <AssetIcon size={32} asset={filteredItem.asset} />
+              <AssetIcon
+                size={32}
+                asset={filteredItem.asset}
+                hasChainIcon={filteredItem.asset.isSynth}
+              />
               <Box className="flex-1" col>
                 <Typography fontWeight="medium" variant="h5">
                   {filteredItem.asset.ticker}

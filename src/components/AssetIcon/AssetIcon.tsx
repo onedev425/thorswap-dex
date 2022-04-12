@@ -26,11 +26,17 @@ export const AssetIcon = ({
   const secondaryIconSize = hasChainIcon ? iconSize * 0.4 : 0
 
   return (
-    <div className={classNames('relative flex rounded-full', className)}>
+    <div
+      className={classNames(
+        'relative flex rounded-full',
+        { 'p-[1px] bg-btn-primary': asset.isSynth },
+        className,
+      )}
+    >
       {hasShadow && (
         <img
           style={{ width: iconSize, height: iconSize }}
-          className="absolute blur-xl -top-2 -left-2 transition-all"
+          className="absolute blur-xl -top-2 -left-2 transition-all z-10"
           src={iconUrl}
           alt={asset.symbol}
         />
@@ -39,7 +45,7 @@ export const AssetIcon = ({
       {iconUrl && !hasError ? (
         <Box
           className={classNames(
-            'rounded-full box-border overflow-hidden relative transition-all',
+            'rounded-full box-border overflow-hidden relative transition-all z-10',
             { [genericBgClasses[bgColor || 'secondary']]: bgColor },
           )}
           center
@@ -59,7 +65,7 @@ export const AssetIcon = ({
       )}
       {hasChainIcon && asset.type !== 'Native' && (
         <div
-          className="absolute"
+          className="absolute z-10"
           style={getSecondaryIconPlacementStyle(
             secondaryIconPlacement,
             secondaryIconSize,
@@ -70,6 +76,10 @@ export const AssetIcon = ({
             size={secondaryIconSize}
           />
         </div>
+      )}
+
+      {asset.isSynth && (
+        <Box className="absolute inset-0 bg-btn-primary blur-[6px] rounded-full"></Box>
       )}
     </div>
   )
