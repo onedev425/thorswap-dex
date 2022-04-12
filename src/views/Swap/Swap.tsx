@@ -70,7 +70,7 @@ const SwapView = () => {
   const [inputAmount, setInputAmount] = useState<Amount>(
     Amount.fromAssetAmount(0, 8),
   )
-  const [addressDisabled, setAddressDisabled] = useState(true)
+  const [addressDisabled, setAddressDisabled] = useState(false)
   const [recipient, setRecipient] = useState('')
   const [visibleConfirmModal, setVisibleConfirmModal] = useState(false)
   const [visibleApproveModal, setVisibleApproveModal] = useState(false)

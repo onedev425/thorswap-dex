@@ -493,8 +493,10 @@ export const WalletModal = () => {
 
         <Box className="w-full" alignCenter justifyCenter>
           <Button
-            className="w-1/2 mt-2"
+            className="w-3/4 mt-2"
+            isFancy
             size="md"
+            error={pendingChains.length === 0}
             disabled={pendingChains.length === 0}
             onClick={handleConnectWallet}
           >

@@ -43,13 +43,11 @@ export const Sidebar = ({
         onClick={() => navigate(ROUTES.Home)}
         className="my-8 min-w-[48px] h-12 transition-colors cursor-pointer"
       >
-        <img
+        <div
           className={classNames(
-            'absolute w-16 h-16 transition-all -translate-x-2 -translate-y-2 blur-[30px] dark:blur-md -z-10',
+            'rounded-full bg-cyan bg-opacity-30 absolute w-16 h-16 transition-all -translate-x-2 -translate-y-2 blur-[30px] dark:blur-md -z-10',
             { '!blur-[40px]': collapsed },
           )}
-          src={Logo}
-          alt="Logo-glow"
         />
         <img className="w-12 h-12" src={Logo} alt="Logo" />
       </div>
@@ -64,7 +62,7 @@ export const Sidebar = ({
         </Scrollbar>
       </div>
 
-      <ul className="flex flex-col rounded-2xl w-full p-0 list-none my-1">
+      <ul className="flex flex-col w-full p-0 my-1 list-none rounded-2xl">
         <NavItem
           href={V1_URL}
           iconName="external"
