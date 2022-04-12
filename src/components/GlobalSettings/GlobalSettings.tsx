@@ -1,3 +1,5 @@
+import classNames from 'classnames'
+
 import {
   Button,
   Box,
@@ -15,7 +17,11 @@ import { t } from 'services/i18n'
 
 import { feeOptions, slippageOptions } from './settingOptions'
 
-export const GlobalSettings = () => {
+type Props = {
+  transactionMode?: boolean
+}
+
+export const GlobalSettings = ({ transactionMode }: Props) => {
   const {
     slippageTolerance,
     feeOptionType,
@@ -30,7 +36,7 @@ export const GlobalSettings = () => {
   } = useApp()
 
   return (
-    <Card className="w-[350px] p-8 shadow-2xl" withBorder>
+    <Card className="w-[350px] px-8 py-6 shadow-2xl" withBorder>
       <Box className="w-full gap-4" col>
         <Box>
           <Typography variant="caption">
@@ -45,6 +51,7 @@ export const GlobalSettings = () => {
             <Icon color="secondary" size={16} name="questionCircle" />
           </Tooltip>
         </Box>
+
         <Box className="w-full space-x-2" alignCenter>
           <Input
             type="number"
@@ -57,6 +64,7 @@ export const GlobalSettings = () => {
             stretch
             onChange={(e) => setSlippage(Number(e.target.value))}
           />
+
           {slippageOptions.map((option) => (
             <Button
               key={option.key}
@@ -69,6 +77,7 @@ export const GlobalSettings = () => {
             </Button>
           ))}
         </Box>
+
         <Box className="space-x-2">
           <Typography variant="caption-xs" color="secondary">
             {t('common.transactionFee')}
@@ -77,7 +86,13 @@ export const GlobalSettings = () => {
             <Icon color="secondary" size={16} name="questionCircle" />
           </Tooltip>
         </Box>
-        <Box className="w-full space-x-2" marginBottom={30} alignCenter>
+
+        <Box
+          className={classNames('w-full space-x-2', {
+            'pb-6': transactionMode,
+          })}
+          alignCenter
+        >
           {feeOptions.map((feeOption) => (
             <Button
               key={feeOption.key}
@@ -90,49 +105,55 @@ export const GlobalSettings = () => {
             </Button>
           ))}
         </Box>
-        <Box>
-          <Typography variant="caption">
-            {t('views.setting.transactionMode')}
-          </Typography>
-        </Box>
-        <Box alignCenter justify="between">
-          <Box className="space-x-2" alignCenter>
-            <Typography variant="caption-xs" color="secondary">
-              {t('views.swap.expertMode')}
-            </Typography>
-            <Tooltip content={t('common.expertModeTooltip')} place="top">
-              <Icon color="secondary" size={16} name="questionCircle" />
-            </Tooltip>
-          </Box>
-          <Box>
-            <Switch
-              selectedText="ON"
-              unselectedText="OFF"
-              checked={expertMode}
-              onChange={() => setExpertMode(!expertMode)}
-            />
-          </Box>
-        </Box>
 
-        <Box alignCenter justify="between">
-          <Box className="space-x-2" alignCenter>
-            <Typography variant="caption-xs" color="secondary">
-              {t('views.setting.customRecipientMode')}
-            </Typography>
-            <Tooltip content={t('common.customRecipientTooltip')} place="top">
-              <Icon color="secondary" size={16} name="questionCircle" />
-            </Tooltip>
-          </Box>
-          <Box>
-            <Switch
-              selectedText="ON"
-              unselectedText="OFF"
-              checked={customRecipientMode}
-              onChange={() => setCustomRecipientMode(!customRecipientMode)}
-            />
-          </Box>
-        </Box>
-        {/* <Box alignCenter justify="between">
+        {transactionMode && (
+          <>
+            <Box>
+              <Typography variant="caption">
+                {t('views.setting.transactionMode')}
+              </Typography>
+            </Box>
+
+            <Box alignCenter justify="between">
+              <Box className="space-x-2" alignCenter>
+                <Typography variant="caption-xs" color="secondary">
+                  {t('views.swap.expertMode')}
+                </Typography>
+                <Tooltip content={t('common.expertModeTooltip')} place="top">
+                  <Icon color="secondary" size={16} name="questionCircle" />
+                </Tooltip>
+              </Box>
+
+              <Switch
+                selectedText="ON"
+                unselectedText="OFF"
+                checked={expertMode}
+                onChange={() => setExpertMode(!expertMode)}
+              />
+            </Box>
+
+            <Box alignCenter justify="between">
+              <Box className="space-x-2" alignCenter>
+                <Typography variant="caption-xs" color="secondary">
+                  {t('views.setting.customRecipientMode')}
+                </Typography>
+                <Tooltip
+                  content={t('common.customRecipientTooltip')}
+                  place="top"
+                >
+                  <Icon color="secondary" size={16} name="questionCircle" />
+                </Tooltip>
+              </Box>
+
+              <Switch
+                selectedText="ON"
+                unselectedText="OFF"
+                checked={customRecipientMode}
+                onChange={() => setCustomRecipientMode(!customRecipientMode)}
+              />
+            </Box>
+
+            {/* <Box alignCenter justify="between">
           <Box className="space-x-2">
             <Typography variant="caption-xs" color="secondary">
               {t('views.swap.autoRouterApi')}
@@ -148,6 +169,8 @@ export const GlobalSettings = () => {
             />
           </Box>
         </Box> */}
+          </>
+        )}
       </Box>
     </Card>
   )

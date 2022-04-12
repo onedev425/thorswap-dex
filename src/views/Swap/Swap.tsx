@@ -590,7 +590,7 @@ const SwapView = () => {
                   />
                 }
               />
-              <GlobalSettingsPopover />
+              <GlobalSettingsPopover transactionMode />
             </Box>
           }
         />

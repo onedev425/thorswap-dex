@@ -20,10 +20,12 @@ import {
   getEstimatedTxTime,
 } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
+import { ADD_LIQUIDITY_GUIDE_URL } from 'config/constants'
 
-import { Button, Box } from 'components/Atomic'
+import { Button, Box, Link } from 'components/Atomic'
 import { GlobalSettingsPopover } from 'components/GlobalSettings'
 import { InfoTable } from 'components/InfoTable'
+import { InfoTip } from 'components/InfoTip'
 import { LiquidityCard } from 'components/LiquidityCard'
 import { LiquidityType } from 'components/LiquidityType/LiquidityType'
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
@@ -206,6 +208,7 @@ export const AddLiquidity = () => {
 
   const [visibleConfirmModal, setVisibleConfirmModal] = useState(false)
   const [visibleApproveModal, setVisibleApproveModal] = useState(false)
+  const [tipVisible, setTipVisible] = useState(true)
 
   const { inboundFee: inboundAssetFee } = useNetworkFee({
     inputAsset: poolAsset,
@@ -957,6 +960,7 @@ export const AddLiquidity = () => {
           LiquidityTypeOption.RUNE,
         ]}
       />
+
       <AssetInputs
         poolAsset={poolAssetInput}
         runeAsset={runeAssetInput}
@@ -976,6 +980,7 @@ export const AddLiquidity = () => {
         poolShare={poolShareEst}
         rate={pool?.assetPriceInRune?.toSignificant(6) ?? null}
       />
+
       {poolMemberDetail && pool && (
         <LiquidityCard
           {...poolMemberDetail}
@@ -983,6 +988,26 @@ export const AddLiquidity = () => {
           shareType={liquidityToPoolShareType(liquidityType)}
         />
       )}
+
+      {[LiquidityTypeOption.ASSET, LiquidityTypeOption.RUNE].includes(
+        liquidityType,
+      ) &&
+        tipVisible && (
+          <InfoTip
+            className="w-full mt-0 mb-4"
+            title={t('views.addLiquidity.asymmetricPoolTip')}
+            content={
+              <>
+                {`${t('views.addLiquidity.asymmetricPoolNotice')} `}
+                <Link className="text-chain-terra" to={ADD_LIQUIDITY_GUIDE_URL}>
+                  {t('common.learnMore')}
+                </Link>
+              </>
+            }
+            onClose={() => setTipVisible(false)}
+            type="warn"
+          />
+        )}
 
       {isApproveRequired && (
         <Box className="w-full pt-5">

@@ -1,3 +1,5 @@
+import { ReactNode } from 'react'
+
 import classNames from 'classnames'
 
 import { Box, Typography, Icon } from 'components/Atomic'
@@ -7,7 +9,7 @@ import { CardStyleType } from 'components/HighlightCard/types'
 type Props = {
   className?: string
   title: string
-  content: string
+  content: string | ReactNode
   onClose?: () => void
   type?: CardStyleType
 }

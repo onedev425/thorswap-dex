@@ -15,7 +15,7 @@ export const SwitchMenu = ({ items }: Props) => {
           marginBottom={2}
           className="px-5 py-4 dark:bg-btn-dark-tint rounded-2xl justify-between"
         >
-          <Typography variant="caption">{item.label}</Typography>
+          <Typography>{item.label}</Typography>
           <SwitchToggle
             checked={!!item.status}
             onChange={item.onClick as () => void}

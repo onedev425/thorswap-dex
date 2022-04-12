@@ -18,6 +18,7 @@
     "connectWallet": "Connect Wallet",
     "loading": "Loading...",
     "documentation": "Documentation",
+    "learnMore": "Learn more",
     "wallet": "Wallet",
     "merchStore": "Merch Store",
     "deposit": "Deposit",
@@ -475,6 +476,8 @@
       "recoveryPassword": "Password for recovery"
     },
     "addLiquidity": {
+      "asymmetricPoolTip": "You are about to deposit a pool asymmetrically.",
+      "asymmetricPoolNotice": "Your assets will be re-balanced upon entering the pool. This means you will have 50:50 exposure to both RUNE and your ASSET.",
       "pricesAndPoolShare": "Prices and Pool Share",
       "shareOfPool": "Share of Pool"
     },

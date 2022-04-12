@@ -4,7 +4,11 @@ import { Popover } from 'components/Popover'
 
 import { t } from 'services/i18n'
 
-export const GlobalSettingsPopover = () => {
+type Props = {
+  transactionMode?: boolean
+}
+
+export const GlobalSettingsPopover = ({ transactionMode }: Props) => {
   return (
     <Popover
       trigger={
@@ -24,7 +28,7 @@ export const GlobalSettingsPopover = () => {
         />
       }
     >
-      <GlobalSettings />
+      <GlobalSettings transactionMode={transactionMode} />
     </Popover>
   )
 }
