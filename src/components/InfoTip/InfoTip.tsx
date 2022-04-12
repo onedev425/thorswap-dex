@@ -47,7 +47,7 @@ export function InfoTip({
         color={type === 'warn' ? 'yellow' : 'secondary'}
         variant="caption"
         fontWeight="semibold"
-        className="px-2 py-2 opacity-80"
+        className="px-2 py-2 brightness-90"
       >
         {content}
       </Typography>

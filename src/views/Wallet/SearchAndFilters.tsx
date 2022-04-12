@@ -54,7 +54,8 @@ export const SearchAndFilters = memo(
               onClick={() => setWalletViewMode(ViewMode.CARD)}
               startIcon={<Icon name="grid" size={20} />}
               className={classNames('pl-3 pr-3 !rounded-r-none', {
-                '!bg-opacity-50': walletViewMode === ViewMode.CARD,
+                '!bg-opacity-90 dark:!bg-opacity-50':
+                  walletViewMode === ViewMode.CARD,
               })}
               variant={walletViewMode === ViewMode.CARD ? 'primary' : 'tint'}
               type={walletViewMode === ViewMode.CARD ? 'default' : 'outline'}
@@ -65,7 +66,8 @@ export const SearchAndFilters = memo(
               onClick={() => setWalletViewMode(ViewMode.LIST)}
               startIcon={<Icon name="list" size={20} />}
               className={classNames('pl-2 pr-3 !rounded-l-none', {
-                '!bg-opacity-50': walletViewMode === ViewMode.LIST,
+                '!bg-opacity-90 dark:!bg-opacity-50':
+                  walletViewMode === ViewMode.LIST,
               })}
               variant={walletViewMode === ViewMode.LIST ? 'primary' : 'tint'}
               type={walletViewMode === ViewMode.LIST ? 'default' : 'outline'}

@@ -139,7 +139,11 @@ export const LiquidityInfo = memo(
         style={maxHeightStyle}
       >
         {!!tickerPending && (
-          <Typography className="opacity-80" color="yellow" variant="caption">
+          <Typography
+            className="brightness-90"
+            color="yellow"
+            variant="caption"
+          >
             {t('pendingLiquidity.content', { asset: tickerPending })}
           </Typography>
         )}

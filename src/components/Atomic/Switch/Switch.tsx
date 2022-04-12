@@ -25,7 +25,7 @@ export const Switch = ({
     >
       <span
         className={classNames(
-          'rounded-2xl h-full block w-full bg-light-border-primary dark:bg-dark-bg-primary',
+          'rounded-2xl h-full block w-full bg-light-gray-light dark:bg-dark-bg-primary',
         )}
       >
         <span

@@ -29,8 +29,13 @@ export const Button = ({
   ...rest
 }: ButtonProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
-  const { backgroundClass, buttonClass, outlinedClass, typographyVariant } =
-    useButtonClasses({ size, variant, isFancy, error })
+  const {
+    backgroundClass,
+    buttonClass,
+    outlinedClass,
+    typographyVariant,
+    typographyClasses,
+  } = useButtonClasses({ size, variant, isFancy, error })
 
   const isOutlined = type === 'outline'
   const isBorderless = type === 'borderless'
@@ -80,7 +85,7 @@ export const Button = ({
               'transition !no-underline',
               isOutlined || isBorderless || variant === 'tint'
                 ? 'text-light-typo-primary dark:text-dark-typo-primary'
-                : 'text-dark-typo-primary',
+                : typographyClasses,
               {
                 'ml-2': startIcon,
                 'mr-2': endIcon,

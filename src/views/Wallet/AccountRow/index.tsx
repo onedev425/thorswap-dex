@@ -47,7 +47,7 @@ export const AccountRow = memo(({ chain }: Props) => {
     <Card className={classNames('overflow-hidden', borderHoverHighlightClass)}>
       <Box flex={1} className="w-full min-w-fit" col>
         <Box
-          className="pb-2 border-0 border-b border-solid border-light-border-primary dark:border-dark-border-primary"
+          className="pb-2 border-0 border-b border-solid border-light-gray-light dark:border-dark-border-primary"
           row
           alignCenter
           justify="between"
@@ -79,7 +79,7 @@ export const AccountRow = memo(({ chain }: Props) => {
         <ChainInfoTable
           chainInfo={chainInfo}
           chain={chain}
-          isConnected={!!chainAddress}
+          chainAddress={chainAddress}
         />
       </Box>
     </Card>

@@ -73,15 +73,16 @@ export const AssetSelectList = (props: AssetSelectProps) => {
 
       <div
         className={classNames(
-          'h-full overflow-y-auto pt-3 lg:pt-6 bg-light-bg-secondary dark:bg-dark-asset-select',
+          'h-full overflow-y-auto bg-light-gray-light dark:bg-dark-asset-select bg-opacity-70 dark:bg-opacity-100',
           styledScrollbarClass,
-          'scrollbar-track-light-bg-secondary dark:scrollbar-track-dark-asset-select',
+          'scrollbar-track-light-gray-light dark:scrollbar-track-dark-asset-select',
+          'border-solid border-b border-t border-l-0 border-r-0 border-light-border-primary dark:border-dark-gray-light',
         )}
       >
         <Box className="flex-1" col>
           {filteredAssets.map((filteredItem) => (
             <Box
-              className="gap-3 px-6 py-2 cursor-pointer dark:hover:bg-dark-bg-secondary hover:bg-light-gray-light"
+              className="gap-3 px-6 py-2 cursor-pointer dark:hover:bg-dark-border-primary hover:bg-light-bg-secondary transition"
               key={`${filteredItem.asset.symbol}${filteredItem.asset.type}`}
               alignCenter
               onClick={() => select(filteredItem.asset)}
@@ -93,10 +94,15 @@ export const AssetSelectList = (props: AssetSelectProps) => {
                 hasChainIcon={filteredItem.asset.isSynth}
               />
               <Box className="flex-1" col>
-                <Typography fontWeight="medium" variant="h5">
+                <Typography
+                  className="leading-[24px]"
+                  fontWeight="medium"
+                  variant="h4"
+                >
                   {filteredItem.asset.ticker}
                 </Typography>
                 <Typography
+                  className="leading-[14px]"
                   variant="caption-xs"
                   fontWeight="light"
                   color={

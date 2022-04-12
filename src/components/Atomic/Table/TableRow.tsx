@@ -13,7 +13,7 @@ export const TableRow = ({ row, onRowClick }: Props) => {
     <tr
       {...row.getRowProps()}
       className={classNames(
-        'drop-shadow-box hover:brightness-90 hover:dark:brightness-110',
+        'drop-shadow-box hover:brightness-95 hover:dark:brightness-110',
         { 'cursor-pointer': onRowClick },
       )}
       onClick={() => onRowClick?.(row)}

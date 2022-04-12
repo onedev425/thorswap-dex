@@ -79,7 +79,7 @@ module.exports = {
         'asset-select': '#202a3d',
         'bg-primary': '#F7F8FA',
         'bg-secondary': '#FCFCFC',
-        'border-primary': '#E6E9F5',
+        'border-primary': '#afb6cc',
         'gray-light': '#E5E5E5',
         'gray-primary': '#7C859F',
         'dark-gray': 'rgba(247, 247, 252, 0.72)',

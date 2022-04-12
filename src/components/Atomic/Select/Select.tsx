@@ -37,7 +37,7 @@ export const Select = ({
         {options.map((option, index) => (
           <Button
             className={classNames({
-              '!bg-opacity-50': index === activeIndex,
+              '!bg-opacity-90 dark:!bg-opacity-50': index === activeIndex,
             })}
             key={option}
             variant={activeIndex === index ? 'primary' : 'tint'}

@@ -2,9 +2,15 @@ import { useMemo } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
-import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-sdk'
+import {
+  Amount,
+  Asset,
+  AssetAmount,
+  SupportedChain,
+} from '@thorswap-lib/multichain-sdk'
 
 import { AssetChart } from 'views/Wallet/AssetChart'
+import { ShowQrCode } from 'views/Wallet/components/ShowQrCode'
 
 import { AssetIcon } from 'components/AssetIcon'
 import {
@@ -28,7 +34,7 @@ import { getSwapRoute } from 'settings/constants'
 
 import { ViewMode } from 'types/app'
 
-export const useColumns = (isConnected: boolean) => {
+export const useColumns = (chainAddress: string, chain: SupportedChain) => {
   const navigate = useNavigate()
   const { stats } = useMidgard()
   const { geckoData } = useWallet()
@@ -62,7 +68,7 @@ export const useColumns = (isConnected: boolean) => {
           accessor: (row: Amount) => row.assetAmount,
           Cell: ({ cell: { value } }: { cell: { value: AssetAmount } }) => (
             <Typography fontWeight="bold">
-              {isConnected ? value.toFixed(2) : '-'}
+              {chainAddress ? value.toFixed(2) : '-'}
             </Typography>
           ),
         },
@@ -134,20 +140,27 @@ export const useColumns = (isConnected: boolean) => {
               >
                 {isLgActive ? t('common.send') : null}
               </Button>
-              <Button
-                variant="tint"
-                startIcon={
-                  <Icon
-                    className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
-                    color="secondary"
-                    size={20}
-                    name="receive"
-                  />
+
+              <ShowQrCode
+                address={chainAddress}
+                chain={chain}
+                openComponent={
+                  <Button
+                    variant="tint"
+                    startIcon={
+                      <Icon
+                        className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
+                        color="secondary"
+                        size={20}
+                        name="receive"
+                      />
+                    }
+                  >
+                    {isLgActive ? t('common.receive') : null}
+                  </Button>
                 }
-                onClick={() => {}}
-              >
-                {isLgActive ? t('common.receive') : null}
-              </Button>
+              />
+
               <Button
                 variant="tint"
                 startIcon={
@@ -166,7 +179,7 @@ export const useColumns = (isConnected: boolean) => {
           ),
         },
       ] as TableColumnsConfig,
-    [geckoData, isConnected, isLgActive, runePrice, navigate],
+    [geckoData, chainAddress, isLgActive, runePrice, navigate, chain],
   )
 
   return columns

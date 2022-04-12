@@ -16,6 +16,14 @@ const typographyVariants: Record<ButtonSizes, TypographyVariant> = {
   sm: 'caption-xs',
 }
 
+const typographyClasses: Record<ButtonVariants, string> = {
+  primary: 'text-white dark:text-dark-typo-primary',
+  secondary: 'text-white dark:text-dark-typo-primary',
+  tertiary: 'text-white dark:text-dark-typo-primary',
+  warn: 'text-white dark:text-dark-typo-primary',
+  tint: 'text-light-typo-primary dark:text-dark-typo-primary',
+}
+
 const backgroundClasses: Record<ButtonVariants, string> = {
   primary: 'bg-btn-primary',
   secondary: 'bg-btn-secondary',
@@ -78,6 +86,7 @@ export const useButtonClasses = ({
       buttonClass: buttonClasses[size],
       outlinedClass: getOutlinedClass(variant),
       typographyVariant: typographyVariants[size],
+      typographyClasses: typographyClasses[variant],
     }),
     [size, variant, isFancy, error],
   )

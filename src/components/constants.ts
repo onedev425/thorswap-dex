@@ -17,7 +17,7 @@ export const genericBgClasses: Record<ColorType, string> = {
 }
 
 export const styledScrollbarClass =
-  'scrollbar scrollbar-thin scrollbar-thumb-rounded scrollbar-track-light-bg-primary dark:scrollbar-track-dark-bg-primary scrollbar-thumb-light-gray-light dark:scrollbar-thumb-dark-gray-light'
+  'scrollbar scrollbar-thin scrollbar-thumb-rounded scrollbar-track-light-bg-primary dark:scrollbar-track-dark-bg-primary scrollbar-thumb-light-bg-primary dark:scrollbar-thumb-dark-gray-light'
 
 export const baseTextHoverClass =
   'hover:!text-light-typo-primary dark:hover:!text-dark-typo-primary transition'
@@ -31,7 +31,7 @@ export const baseBorderClass =
   'border border-solid border-light-border-primary dark:border-dark-border-primary'
 
 export const borderHighlightClass =
-  'border-light-gray-primary dark:border-dark-gray-primary'
+  'border-light-bordergray-primary dark:border-dark-gray-primary'
 
 export const borderHoverHighlightClass =
-  'border border-transparent border-solid hover:border-light-gray-primary dark:hover:border-dark-gray-primary transition'
+  'border border-transparent border-solid hover:border-light-border-primary dark:hover:border-dark-gray-primary transition'

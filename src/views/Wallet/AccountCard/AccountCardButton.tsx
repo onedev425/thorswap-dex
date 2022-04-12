@@ -37,7 +37,9 @@ export const AccountCardButton = memo(
           tooltip={tooltip}
         />
         <Typography
-          className={'group-hover:text-white'}
+          className={
+            'group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary'
+          }
           variant="caption"
           fontWeight="medium"
           color="secondary"

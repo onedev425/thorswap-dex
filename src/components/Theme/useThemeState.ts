@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { ThemeMode } from 'components/Theme/types'
 
@@ -8,6 +8,7 @@ import { ThemeType } from 'types/app'
 
 export const useThemeState = () => {
   const { themeType } = useApp()
+  const mounted = useRef(false)
 
   const getThemeMode = (type: ThemeType) => {
     const isDark =
@@ -26,6 +27,10 @@ export const useThemeState = () => {
       document.documentElement.classList.add(ThemeMode.Dark)
     }
     setActiveTheme(updatedTheme)
+  }
+  if (!mounted.current) {
+    activateTheme(getThemeMode(themeType))
+    mounted.current = true
   }
 
   useEffect(() => {

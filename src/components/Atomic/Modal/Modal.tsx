@@ -36,7 +36,7 @@ export const Modal = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="fixed inset-0 backdrop-blur-xl backdrop-brightness-50" />
+              <Dialog.Overlay className="fixed inset-0 backdrop-blur-xl backdrop-brightness-90 dark:backdrop-brightness-50" />
             </Transition.Child>
 
             {/*
@@ -65,9 +65,8 @@ export const Modal = ({
                   <Box alignCenter row>
                     {onBack && (
                       <Icon
-                        className="mr-2"
+                        className="mr-2 text-light-typo-primary dark:text-dark-typo-primary"
                         name="arrowBack"
-                        color="secondary"
                         onClick={onBack}
                       />
                     )}
@@ -79,7 +78,7 @@ export const Modal = ({
                     center
                     className={classNames(
                       'h-10 w-10 rounded-2xl self-center border border-solid cursor-pointer hover:brightness-90 dark:hover:brightness-110',
-                      'border-light-typo-gray dark:border-dark-typo-gray',
+                      'border-light-typo-primary dark:border-dark-typo-primary',
                     )}
                   >
                     <Icon

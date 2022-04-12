@@ -39,7 +39,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <Box
           className={classNames(
             'flex flex-row py-1.5 transition-all',
-            'border-dark-typo-gray focus-within:border-dark-typo-gray dark:border-dark-border-primary hover:border-dark-typo-gray dark:hover:border-dark-typo-gray focus-within::hover:border-dark-typo-gray',
+            'border-light-border-primary focus-within:border-dark-typo-gray dark:border-dark-border-primary hover:border-dark-typo-gray dark:hover:border-dark-typo-gray dark:focus-within:border-dark-typo-gray',
             border ? 'border-solid' : 'border-none',
             stretch ? 'w-full' : 'w-fit',
             {
