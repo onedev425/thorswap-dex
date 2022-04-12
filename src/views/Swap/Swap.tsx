@@ -328,19 +328,9 @@ const SwapView = () => {
         const description = translateErrorMsg(error?.toString())
 
         showToast(
-          { description, message: t('notification.submitFail') },
-          ToastType.Error,
-          {
-            duration: 20000,
-          },
-        )
-
-        // TODO: better error translation
-        // const description = translateErrorMsg(error?.toString())
-        showToast(
           {
             message: t('notification.submitTxFailed'),
-            description: error?.toString(),
+            description,
           },
           ToastType.Error,
           {
@@ -409,7 +399,7 @@ const SwapView = () => {
   const showSwapConfirmationModal = useCallback(() => {
     if (walletConnected && swap) {
       if (
-        swap.outputAsset.chain === 'ETH' &&
+        swap.outputAsset.L1Chain === 'ETH' &&
         outputAssetPriceInUSD.raw().lt(50)
       ) {
         showToast({

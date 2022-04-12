@@ -60,6 +60,10 @@ export const useSwap = ({
             outputAsset,
             Amount.fromAssetAmount(0, outputAsset.decimal),
           )
+      console.log(
+        'outboundFeeInOutputAsset',
+        outboundFeeInOutputAsset.toFixed(2),
+      )
 
       // should create a new instance to update the state
       return new Swap({

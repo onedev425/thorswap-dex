@@ -245,7 +245,7 @@ const getSwitchDetails = (txTracker: TxTracker): TxDetails => {
     {
       status: status === TxTrackerStatus.Submitting ? 'pending' : 'success',
       label: `${t('common.send')} ${sendAmount} ${
-        Asset.fromAssetString(sendAsset)?.chain
+        Asset.fromAssetString(sendAsset)?.L1Chain
       }${' '}${Asset.fromAssetString(sendAsset)?.ticker}`,
       url:
         status !== TxTrackerStatus.Submitting ? getSwapInTxUrl(txTracker) : '',

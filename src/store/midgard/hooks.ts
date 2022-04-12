@@ -173,7 +173,7 @@ export const useMidgard = () => {
 
           if (asset) {
             dispatch(
-              walletActions.getWalletByChain(asset.chain as SupportedChain),
+              walletActions.getWalletByChain(asset.L1Chain as SupportedChain),
             )
           }
         }
@@ -184,7 +184,7 @@ export const useMidgard = () => {
 
           if (asset) {
             dispatch(
-              walletActions.getWalletByChain(asset.chain as SupportedChain),
+              walletActions.getWalletByChain(asset.L1Chain as SupportedChain),
             )
           }
         })
@@ -204,7 +204,7 @@ export const useMidgard = () => {
 
           if (asset) {
             dispatch(
-              walletActions.getWalletByChain(asset.chain as SupportedChain),
+              walletActions.getWalletByChain(asset.L1Chain as SupportedChain),
             )
           }
         } else if (action.type === ActionTypeEnum.AddLiquidity) {
@@ -214,7 +214,7 @@ export const useMidgard = () => {
 
             if (asset) {
               // reload liquidity member details
-              getMemberDetailsByChain(asset.chain as SupportedChain)
+              getMemberDetailsByChain(asset.L1Chain as SupportedChain)
             }
           })
         } else if (action.type === ActionTypeEnum.Withdraw) {
@@ -224,10 +224,10 @@ export const useMidgard = () => {
 
             if (asset) {
               dispatch(
-                walletActions.getWalletByChain(asset.chain as SupportedChain),
+                walletActions.getWalletByChain(asset.L1Chain as SupportedChain),
               )
               // reload liquidity member details
-              getMemberDetailsByChain(asset.chain as SupportedChain)
+              getMemberDetailsByChain(asset.L1Chain as SupportedChain)
             }
           })
         } else if (action.type === ActionTypeEnum.Switch) {

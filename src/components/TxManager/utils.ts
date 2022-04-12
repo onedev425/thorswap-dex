@@ -137,7 +137,7 @@ export const getSwapOutTxUrl = (txTracker: TxTracker): string => {
 
     if (asset) {
       // add 0x for eth tx
-      if (asset.chain === 'ETH') {
+      if (asset.L1Chain === 'ETH') {
         return multichain.getExplorerTxUrl(asset.L1Chain, `0x${outTx?.txID}`)
       }
       return multichain.getExplorerTxUrl(asset.L1Chain, outTx?.txID)
@@ -163,21 +163,21 @@ export const getAddTxUrl = ({
 
     if (inTx) {
       // add 0x for eth tx
-      if (asset.chain === 'ETH') {
-        return multichain.getExplorerTxUrl(asset.chain, `0x${inTx?.txID}`)
+      if (asset.L1Chain === 'ETH') {
+        return multichain.getExplorerTxUrl(asset.L1Chain, `0x${inTx?.txID}`)
       }
 
-      return multichain.getExplorerTxUrl(asset.chain, inTx?.txID)
+      return multichain.getExplorerTxUrl(asset.L1Chain, inTx?.txID)
     }
   } else if (submitTx.addTx) {
     const { addTx } = submitTx
 
     if (asset.isRUNE() && addTx.runeTxID) {
-      return multichain.getExplorerTxUrl(asset.chain, addTx.runeTxID)
+      return multichain.getExplorerTxUrl(asset.L1Chain, addTx.runeTxID)
     }
 
     if (addTx.assetTxID) {
-      return multichain.getExplorerTxUrl(asset.chain, addTx.assetTxID)
+      return multichain.getExplorerTxUrl(asset.L1Chain, addTx.assetTxID)
     }
   }
 
@@ -212,10 +212,10 @@ export const getWithdrawTxUrl = ({
 
     if (outTx) {
       // add 0x for eth tx
-      if (asset.chain === 'ETH') {
-        return multichain.getExplorerTxUrl(asset.chain, `0x${outTx?.txID}`)
+      if (asset.L1Chain === 'ETH') {
+        return multichain.getExplorerTxUrl(asset.L1Chain, `0x${outTx?.txID}`)
       }
-      return multichain.getExplorerTxUrl(asset.chain, outTx?.txID)
+      return multichain.getExplorerTxUrl(asset.L1Chain, outTx?.txID)
     }
   }
 
@@ -230,7 +230,7 @@ export const getApproveTxUrl = (txTracker: TxTracker): string => {
     const asset = Asset.fromAssetString(inAssets[0].asset)
 
     if (asset) {
-      return multichain.getExplorerTxUrl(asset.chain, txID)
+      return multichain.getExplorerTxUrl(asset.L1Chain, txID)
     }
   }
 
@@ -245,7 +245,7 @@ export const getSendTxUrl = (txTracker: TxTracker): string => {
     const asset = Asset.fromAssetString(inAssets[0].asset)
 
     if (asset) {
-      return multichain.getExplorerTxUrl(asset.chain, txID)
+      return multichain.getExplorerTxUrl(asset.L1Chain, txID)
     }
   }
 
