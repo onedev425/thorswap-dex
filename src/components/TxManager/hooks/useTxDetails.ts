@@ -139,7 +139,7 @@ const getSwapDetails = (txTracker: TxTracker, outTxData: string): TxDetails => {
     }
 
     txDetails.push({
-      status: TxTrackerStatus.Success ? 'success' : 'pending',
+      status: status === TxTrackerStatus.Success ? 'success' : 'pending',
       label,
       url: status === TxTrackerStatus.Success ? getSwapOutTxUrl(txTracker) : '',
     })
