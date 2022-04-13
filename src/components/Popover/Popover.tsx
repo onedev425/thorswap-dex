@@ -1,6 +1,8 @@
 import {
   forwardRef,
   ReactNode,
+  useCallback,
+  useEffect,
   useImperativeHandle,
   useRef,
   useState,
@@ -15,14 +17,19 @@ interface PopoverProps {
   children: ReactNode
   disabled?: boolean
   onClose?: () => void
+  isOpenedExternally?: boolean
 }
 
-export const Popover = forwardRef<{ close: () => void }, PopoverProps>(
-  ({ trigger, children, disabled, onClose }, popoverRef) => {
-    const [referenceElement, setReferenceElement] =
-      useState<HTMLElement | null>()
+type ForwarderProps = { close: () => void; open: () => void }
+
+export const Popover = forwardRef<ForwarderProps, PopoverProps>(
+  (
+    { trigger, children, disabled, onClose, isOpenedExternally },
+    popoverRef,
+  ) => {
+    const [btnRef, setReferenceElement] = useState<HTMLElement | null>()
     const [popperElement, setPopperElement] = useState<HTMLElement | null>()
-    const { styles, attributes } = usePopper(referenceElement, popperElement, {
+    const { styles, attributes } = usePopper(btnRef, popperElement, {
       placement: 'bottom-end',
     })
     const prevOpenStateRef = useRef(false)
@@ -32,7 +39,22 @@ export const Popover = forwardRef<{ close: () => void }, PopoverProps>(
       closePopoverRef?.current?.()
     }
 
-    useImperativeHandle(popoverRef, () => ({ close: closePopover }))
+    const openPopover = useCallback(() => {
+      if (!prevOpenStateRef.current) {
+        btnRef?.click()
+      }
+    }, [btnRef])
+
+    useImperativeHandle(popoverRef, () => ({
+      close: closePopover,
+      open: openPopover,
+    }))
+
+    useEffect(() => {
+      if (isOpenedExternally) {
+        openPopover()
+      }
+    }, [isOpenedExternally, openPopover])
 
     return (
       <HeadlessPopover>

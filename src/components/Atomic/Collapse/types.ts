@@ -8,6 +8,7 @@ export type CollapseProps = {
   shadow?: boolean
   className?: string
   contentClassName?: string
+  defaultExpanded?: boolean
 }
 
 export type CollapseTitleProps = {

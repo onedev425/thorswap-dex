@@ -97,8 +97,12 @@ export const useTxTracker = () => {
   const [onlyPending, setOnlyPending] = useState(false)
 
   //Just for demo purposes of pending state
+  // useEffect(() => {
+  //   setTimeout(() => setTxData(mockTxData.slice(1)), 5000)
+  // }, [])
+
   useEffect(() => {
-    setTimeout(() => setTxData(mockTxData.slice(1)), 5000)
+    setTimeout(() => setTxData([...mockTxData, mockTxData[0]]), 5000)
   }, [])
 
   useEffect(() => {

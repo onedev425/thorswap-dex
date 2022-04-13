@@ -13,10 +13,18 @@ export const maxHeightTransitionClass =
 
 export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
   (
-    { children, className, contentClassName, shadow = true, title },
+    {
+      children,
+      className,
+      contentClassName,
+      shadow = true,
+      title,
+      defaultExpanded,
+    },
     collapseRef,
   ) => {
-    const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse()
+    const { isActive, contentRef, toggle, maxHeightStyle } =
+      useCollapse(defaultExpanded)
 
     useImperativeHandle(collapseRef, () => ({ toggle }), [toggle])
 

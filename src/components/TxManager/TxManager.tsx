@@ -1,4 +1,4 @@
-import { ElementRef, useEffect, useRef, useState } from 'react'
+import { ElementRef, useEffect, useRef, useLayoutEffect, useState } from 'react'
 
 import classNames from 'classnames'
 
@@ -24,9 +24,16 @@ import { t } from 'services/i18n'
 
 export const TxManager = () => {
   const [onlyPending, setOnlyPending] = useState(false)
+  const [isOpened, setIsOpened] = useState(false)
 
   const { txTrackers, clearTxTrackers } = useTxManager()
   const [filteredTxData, setFilteredTxData] = useState(txTrackers)
+  const prevPendingCountRef = useRef(0)
+  const pendingCount = filteredTxData.filter(
+    (tx) =>
+      tx.status === TxTrackerStatus.Pending ||
+      tx.status === TxTrackerStatus.Submitting,
+  ).length
 
   useEffect(() => {
     if (!onlyPending) {
@@ -49,11 +56,22 @@ export const TxManager = () => {
     }
   })
 
+  useLayoutEffect(() => {
+    if (pendingCount && pendingCount > prevPendingCountRef.current) {
+      // Timeout to wait for modal animation
+      setTimeout(() => setIsOpened(true), 300)
+    }
+
+    prevPendingCountRef.current = pendingCount
+  }, [pendingCount])
+
   return (
     <Popover
       ref={popoverRef}
       disabled={!txTrackers?.length}
       trigger={<TxManagerOpenButton txData={txTrackers} />}
+      isOpenedExternally={isOpened}
+      onClose={() => setIsOpened(false)}
     >
       <Card
         className="mt-2 !px-0 md:w-[350px] border border-solid border-btn-primary"
@@ -95,7 +113,7 @@ export const TxManager = () => {
             </Box>
           </Box>
 
-          <Scrollbar maxHeight={344}>
+          <Scrollbar maxHeight={450}>
             <Box className="!mx-4" col>
               {filteredTxData.map((item) => (
                 <Box

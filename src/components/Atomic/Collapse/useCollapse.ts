@@ -2,8 +2,8 @@ import { useCallback, useRef, useState, useLayoutEffect } from 'react'
 
 const collapseClasses = 'ease-in-out transition-all'
 
-export const useCollapse = () => {
-  const [isActive, setIsActive] = useState(false)
+export const useCollapse = (defaultExpanded = false) => {
+  const [isActive, setIsActive] = useState(defaultExpanded)
   const maxHeightRef = useRef(0)
   const [maxHeight, setMaxHeight] = useState(0)
 
@@ -33,8 +33,9 @@ export const useCollapse = () => {
     measure()
   })
 
+  const maxHeightActive = maxHeight ? `${maxHeight}px` : 'unset'
   const maxHeightStyle = {
-    maxHeight: `${isActive ? maxHeight : 0}px`,
+    maxHeight: isActive ? maxHeightActive : '0px',
     overflow: 'hidden',
   }
 
