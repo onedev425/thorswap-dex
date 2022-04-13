@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from 'react'
+import { ReactNode, useEffect, useMemo } from 'react'
 
 import classNames from 'classnames'
 
@@ -14,9 +14,31 @@ type Props = Omit<InputProps, 'title'> & {
   collapsible?: boolean
 }
 
-export const PanelInput = ({ title, collapsible, ...inputProps }: Props) => {
+export const PanelInput = ({
+  title,
+  collapsible,
+  value,
+  ...inputProps
+}: Props) => {
   const { ref, isFocused, focus, blur, onFocus, onBlur } = useInputFocusState()
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse()
+  const fontSizeClass = useMemo(() => {
+    const { length } = String(value)
+
+    if (length > 50) {
+      return '!text-[12px]'
+    }
+
+    if (length > 45) {
+      return '!text-[13px]'
+    }
+
+    if (length > 40) {
+      return '!text-[14px]'
+    }
+
+    return '!text-[16px]'
+  }, [value])
 
   useEffect(() => {
     if (!isActive) {
@@ -70,7 +92,8 @@ export const PanelInput = ({ title, collapsible, ...inputProps }: Props) => {
       >
         <Input
           {...inputProps}
-          className="!font-medium"
+          value={value}
+          className={classNames('!font-medium', fontSizeClass)}
           containerClassName="pt-2 pb-0"
           ref={ref}
           stretch
