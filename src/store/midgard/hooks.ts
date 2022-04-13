@@ -14,10 +14,7 @@ import { Asset, SupportedChain } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
 
 import * as actions from 'store/midgard/actions'
-import {
-  setMemberDetailsLoading,
-  actions as sliceActions,
-} from 'store/midgard/slice'
+import { actions as sliceActions } from 'store/midgard/slice'
 import { useAppDispatch, useAppSelector } from 'store/store'
 import * as walletActions from 'store/wallet/actions'
 
@@ -124,13 +121,12 @@ export const useMidgard = () => {
   const getAllMemberDetails = useCallback(async () => {
     if (!walletState.wallet) return
 
-    const walletChains = Object.keys(walletState.wallet)
-    for (const chain of walletChains) {
-      await getMemberDetailsByChain(chain as SupportedChain)
-    }
+    Object.keys(walletState.wallet).forEach((chain) => {
+      getMemberDetailsByChain(chain as SupportedChain)
+    })
 
-    dispatch(setMemberDetailsLoading(false))
-  }, [dispatch, getMemberDetailsByChain, walletState.wallet])
+    // dispatch(setMemberDetailsLoading(false))
+  }, [getMemberDetailsByChain, walletState.wallet])
 
   // get tx data
   const getTxData = useCallback(

@@ -50,6 +50,8 @@ const ManageLiquidity = () => {
     [chainMemberDetails],
   )
 
+  console.log('chainMemberDetails', chainMemberDetails)
+
   return (
     <PanelView
       title={t('common.liquidity')}

@@ -147,7 +147,7 @@ const midgardSlice = createSlice({
           if (chainMemberDetailsData?.[chain])
             delete chainMemberDetailsData?.[chain]
           state.chainMemberDetails = chainMemberDetailsData
-          state.memberDetailsLoading = true
+          // state.memberDetailsLoading = true
         },
       )
       /**
@@ -170,7 +170,7 @@ const midgardSlice = createSlice({
 
           state.chainMemberDetails = fetchedChainMemberDetails
 
-          state.memberDetailsLoading = true
+          // state.memberDetailsLoading = true
           state.chainMemberDetailsLoading = {
             ...state.chainMemberDetailsLoading,
             [chain]: false,
@@ -182,7 +182,7 @@ const midgardSlice = createSlice({
         (state, { meta }) => {
           const { chain } = meta.arg
 
-          state.memberDetailsLoading = true
+          // state.memberDetailsLoading = true
           state.chainMemberDetailsLoading = {
             ...state.chainMemberDetailsLoading,
             [chain]: false,
