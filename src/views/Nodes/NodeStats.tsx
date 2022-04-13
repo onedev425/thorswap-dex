@@ -45,11 +45,11 @@ export const NodeStats = () => {
       {
         iconName: 'wifi',
         color: 'red',
-        label: t('views.nodes.detail.standbyeBond'),
+        label: t('views.nodes.detail.standbyBond'),
         value: `${runeToCurrency(totalStandbyBond).toCurrencyFormat(
           2,
         )} (${totalStandbyBond.toAbbreviate(1)} ᚱ)`,
-        tooltip: t('views.nodes.detail.standbyeBondTooltip'),
+        tooltip: t('views.nodes.detail.standbyBondTooltip'),
       },
       {
         iconName: 'chartArea',
