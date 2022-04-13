@@ -29,11 +29,7 @@ export const PanelInput = ({
       return '!text-[12px]'
     }
 
-    if (length > 45) {
-      return '!text-[13px]'
-    }
-
-    if (length > 40) {
+    if (length > 30) {
       return '!text-[14px]'
     }
 
