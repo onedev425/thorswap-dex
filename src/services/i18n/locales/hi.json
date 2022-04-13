@@ -429,7 +429,8 @@
       "noLiquidityToWithdraw": "आपके पास वापस लेने के लिए एल.पी नहीं है",
       "withdraw": "निकालना",
       "from": "से",
-      "assetUSDPrice": "एसेट यू.एस.डी मूल्य"
+      "assetUSDPrice": "एसेट यू.एस.डी मूल्य",
+      "share": ""
     },
     "walletModal": {
       "connectWallet": "वॉलेट कनेक्ट करें",

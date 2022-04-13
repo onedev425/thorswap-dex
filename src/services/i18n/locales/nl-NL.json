@@ -429,7 +429,8 @@
       "noLiquidityToWithdraw": "U heeft geen LP positie om op te nemen",
       "withdraw": "Opnemen",
       "from": "Van",
-      "assetUSDPrice": "Asset USD prijs"
+      "assetUSDPrice": "Asset USD prijs",
+      "share": "Share"
     },
     "walletModal": {
       "connectWallet": "Wallet Verbinden",

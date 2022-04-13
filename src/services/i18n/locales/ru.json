@@ -429,7 +429,8 @@
       "noLiquidityToWithdraw": "",
       "withdraw": "Изъять",
       "from": "",
-      "assetUSDPrice": ""
+      "assetUSDPrice": "",
+      "share": ""
     },
     "walletModal": {
       "connectWallet": "",

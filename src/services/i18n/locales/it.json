@@ -429,7 +429,8 @@
       "noLiquidityToWithdraw": "Non hai LP da Prelevare",
       "withdraw": "Preleva",
       "from": "Da",
-      "assetUSDPrice": "Prezzo Asset USD"
+      "assetUSDPrice": "Prezzo Asset USD",
+      "share": ""
     },
     "walletModal": {
       "connectWallet": "Connetti Wallet",

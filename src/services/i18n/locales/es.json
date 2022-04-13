@@ -429,7 +429,8 @@
       "noLiquidityToWithdraw": "No tienes posición LP a retirar",
       "withdraw": "Retirar",
       "from": "Desde",
-      "assetUSDPrice": "Precio USD del Activo"
+      "assetUSDPrice": "Precio USD del Activo",
+      "share": ""
     },
     "walletModal": {
       "connectWallet": "Conectar cartera",
