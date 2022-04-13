@@ -3,7 +3,6 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2020,
-    sourceType: 'module',
     project: './tsconfig.json',
     tsconfigRootDir: __dirname,
   },
@@ -46,6 +45,8 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 1,
     '@typescript-eslint/explicit-module-boundary-types': 0,
     '@typescript-eslint/ban-types': 0,
+    '@typescript-eslint/default-param-last': 0,
+    '@typescript-eslint/no-var-requires': 0,
     'react/display-name': 0,
     'react/prop-types': 0,
     'react/no-children-prop': 0,
@@ -54,12 +55,14 @@ module.exports = {
     'react/jsx-filename-extension': 0,
     'react/jsx-props-no-spreading': 0,
     'react/jsx-wrap-multilines': 1,
+    'react/react-in-jsx-scope': 0,
     'react/no-array-index-key': 1,
     'react/jsx-one-expression-per-line': 0,
     'react/jsx-indent': 0,
     'react/jsx-curly-newline': 0,
     'react/jsx-wrap-multilines': 0,
-    'react/no-array-index-key': 0,
+    'react/jsx-no-literals': 0,
+    'react/no-array-index-key': 2,
     'jsx-a11y/click-events-have-key-events': 0,
     'jsx-a11y/no-static-element-interactions': 0,
     'import/prefer-default-export': 0,
@@ -112,7 +115,7 @@ module.exports = {
           },
           {
             group: 'internal',
-            pattern: 'redux/**',
+            pattern: 'store/**',
             position: 'after',
           },
           {
@@ -154,11 +157,33 @@ module.exports = {
         },
       },
     ],
+    'no-restricted-imports': [
+      'error',
+      {
+        name: 'i18next',
+        message:
+          'Please use our translation service (`t`) from services/i18n instead.',
+      },
+    ],
     'prettier/prettier': [
       'error',
       {
         endOfLine: 'auto',
+        printWidth: 80,
+        semi: false,
+        singleQuote: true,
+        tabWidth: 2,
+        trailingComma: 'all',
+        useTabs: false,
       },
     ],
   },
+  overrides: [
+    {
+      files: ['*.stories.{ts,tsx}'],
+      rules: {
+        'react/jsx-no-literals': 0,
+      },
+    },
+  ],
 }

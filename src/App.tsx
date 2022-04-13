@@ -1,26 +1,40 @@
-import React from 'react'
+import { Provider as ReduxProvider } from 'react-redux'
 
-import logo from './logo.svg'
-import './App.css'
+import { TooltipPortal } from 'components/Atomic'
+import { ThemeProvider } from 'components/Theme/ThemeContext'
+import { ToastPortal } from 'components/Toast'
+
+import { store as reduxStore } from 'store/store'
+
+import { useGlobalRefresh } from 'hooks/useGlobalRefresh'
+
+import DrawerProvider from './hooks/useWalletDrawer'
+import Router from './router'
+
+const MainApp = () => {
+  useGlobalRefresh()
+
+  return (
+    <div className="overflow-x-hidden">
+      <div id="headlessui-portal-root" />
+
+      <DrawerProvider>
+        <Router />
+      </DrawerProvider>
+
+      <TooltipPortal />
+      <ToastPortal />
+    </div>
+  )
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ReduxProvider store={reduxStore}>
+      <ThemeProvider>
+        <MainApp />
+      </ThemeProvider>
+    </ReduxProvider>
   )
 }
 

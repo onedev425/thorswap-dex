@@ -1,2 +1,4 @@
 /public
-craco.config.js
+vite.config.ts
+*.css
+*.json

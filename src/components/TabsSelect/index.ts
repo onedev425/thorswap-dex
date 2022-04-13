@@ -1,0 +1,1 @@
+export { TabsSelect } from './TabsSelect'

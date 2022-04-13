@@ -14,6 +14,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Save build date
+        run: echo "BUILD_DATE=$(date +"%Y-%m-%d")" > $GITHUB_ENV
+
       - name: Read .nvmrc
         run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
         id: nvm
@@ -34,6 +37,13 @@ jobs:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ steps.nvm.outputs.NODE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
 
+      - name: Save action build number
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          find: 'DEVELOPMENT_BUILD'
+          replace: ${{ env.BUILD_DATE }}
+          include: 'src/config/constants.ts'
+
       # `--prefer-offline` gives cache priority
       - name: Install dependencies
         run: yarn install --prefer-offline --frozen-lockfile
@@ -41,6 +51,15 @@ jobs:
       - name: Build project
         env:
           CI: false
+          VITE_NETWORK: ${{ secrets.VITE_NETWORK }}
+          VITE_MAINNET_THORCHAIN_RPC: ${{ secrets.VITE_MAINNET_THORCHAIN_RPC }}
+          VITE_MAINNET_THORNODE: ${{ secrets.VITE_MAINNET_THORNODE }}
+          VITE_IS_SYNTH_ACTIVE: true
+          VITE_DOGENODE_API_KEY: ${{ secrets.VITE_DOGENODE_API_KEY }}
+          VITE_ETHERSCAN_API_KEY: ${{ secrets.VITE_ETHERSCAN_API_KEY }}
+          VITE_ETHPLORER_API_KEY: ${{ secrets.VITE_ETHPLORER_API_KEY }}
+          VITE_INFURA_PROJECT_ID: ${{ secrets.VITE_INFURA_PROJECT_ID }}
+          VITE_IS_NETWORK_ONLINE: ${{ secrets.VITE_IS_NETWORK_ONLINE }}
         run: yarn build
 
       - name: Upload production-ready build files
@@ -82,4 +101,4 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'THORSwap V2 production app has been deployed. - https://thorswap-prod-app-v2.netlify.app'
+          args: 'THORSwap V2 production app has been deployed. - https://app.thorswap.finance'

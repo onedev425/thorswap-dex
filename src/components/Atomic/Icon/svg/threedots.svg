@@ -1,0 +1,7 @@
+<svg id="three-dots" width="12" height="11" stroke="currentColor" fill="none" viewBox="0 0 12 11">
+	<g>
+	<rect x="4.5" width="3" height="3" rx="1.5" />
+	<rect y="8" width="3" height="3" rx="1.5" />
+	<rect x="9" y="8" width="3" height="3" rx="1.5" />
+	</g>
+</svg>

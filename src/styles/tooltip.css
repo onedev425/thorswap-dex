@@ -1,0 +1,56 @@
+.tooltip-container {
+  padding: 0px !important;
+  background: transparent !important;
+}
+
+.place-top {
+  margin-top: -0.5rem !important;
+}
+
+.__react_component_tooltip {
+  --borderColor: theme('colors.light.border-primary');
+  --borderSize: 6px;
+}
+
+.dark .__react_component_tooltip {
+  --borderColor: theme('colors.dark.border-primary');
+}
+
+.__react_component_tooltip.place-top::before {
+  border-left: var(--borderSize) solid transparent !important;
+  border-right: var(--borderSize) solid transparent !important;
+  border-top: var(--borderSize) solid var(--borderColor) !important;
+  margin-bottom: 3px !important;
+  margin-left: -5px !important;
+}
+
+.__react_component_tooltip.place-bottom::before {
+  border-bottom: var(--borderSize) solid var(--borderColor) !important;
+  border-left: var(--borderSize) solid transparent !important;
+  border-right: var(--borderSize) solid transparent !important;
+  margin-top: 2px !important;
+  margin-left: -5px !important;
+}
+
+.__react_component_tooltip.place-left::before {
+  border-bottom: var(--borderSize) solid transparent !important;
+  border-left: var(--borderSize) solid var(--borderColor) !important;
+  border-top: var(--borderSize) solid transparent !important;
+  margin-top: -5.5px !important;
+  right: -5.5px !important;
+}
+
+.__react_component_tooltip.place-right::before {
+  border-bottom: var(--borderSize) solid transparent !important;
+  border-right: var(--borderSize) solid var(--borderColor) !important;
+  border-top: var(--borderSize) solid transparent !important;
+  margin-top: -5.5px !important;
+  left: -5px !important;
+}
+
+.__react_component_tooltip.place-top::after,
+.__react_component_tooltip.place-bottom::after,
+.__react_component_tooltip.place-left::after,
+.__react_component_tooltip.place-right::after {
+  border: none !important;
+}
