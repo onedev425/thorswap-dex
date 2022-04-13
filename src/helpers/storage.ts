@@ -3,14 +3,19 @@ import { Keystore } from '@thorswap-lib/xchain-crypto'
 
 import { DEFAULT_SLIPPAGE_TOLERANCE } from 'settings/constants/values'
 
-import { ThemeType, ThousandSeparator, ViewMode } from 'types/app'
+import {
+  SupportedLanguages,
+  ThemeType,
+  ThousandSeparator,
+  ViewMode,
+} from 'types/app'
 
 type StorageType = {
   annViewStatus: boolean
   baseCurrency: string
   thousandSeparator: string
   themeType: string
-  language: string
+  language: SupportedLanguages
   nodeWatchList: string[]
   featuredAssets: string[]
   frequentAssets: string[]

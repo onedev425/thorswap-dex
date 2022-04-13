@@ -12,9 +12,23 @@ import { getFromStorage } from 'helpers/storage'
 
 import { SupportedLanguages } from 'types/app'
 
+import ar from './locales/ar.json'
+import de from './locales/de.json'
 import en from './locales/en.json'
 import es from './locales/es.json'
+import fr from './locales/fr.json'
+import hi from './locales/hi.json'
 import it from './locales/it.json'
+import km from './locales/km.json'
+import ko from './locales/ko.json'
+import nl from './locales/nl-NL.json'
+import pl from './locales/pl.json'
+import pt from './locales/pt.json'
+import ru from './locales/ru.json'
+import tr from './locales/tr.json'
+import ur from './locales/ur.json'
+import zhHans from './locales/zh-Hans.json'
+import zhHant from './locales/zh-Hant.json'
 
 type PathImpl<T, K extends keyof T> = K extends string
   ? T[K] extends Record<string, NotWorthIt>
@@ -32,9 +46,23 @@ const parseMissingKeyHandler = (key: string) => key.split('.').pop()
 initializeI18n(initReactI18next).init({
   debug: import.meta.env.DEV,
   resources: {
-    es: { translation: es },
+    'nl-NL': { translation: nl },
+    'zh-Hans': { translation: zhHans },
+    'zh-Hant': { translation: zhHant },
+    ar: { translation: ar },
+    de: { translation: de },
     en: { translation: en },
+    es: { translation: es },
+    fr: { translation: fr },
+    hi: { translation: hi },
     it: { translation: it },
+    km: { translation: km },
+    ko: { translation: ko },
+    pl: { translation: pl },
+    pt: { translation: pt },
+    ru: { translation: ru },
+    tr: { translation: tr },
+    ur: { translation: ur },
   },
   lng: getFromStorage('language') as SupportedLanguages,
   fallbackLng: 'en',
