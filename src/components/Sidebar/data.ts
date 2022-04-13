@@ -13,6 +13,7 @@ export const getDefaultNavbarOptions = (): SidebarItemProps[] => [
     iconName: 'tradeLightning',
     href: ROUTES.Swap,
     label: t('components.sidebar.trade'),
+    hasBackground: true,
     children: [
       {
         iconName: 'swap',

@@ -10,10 +10,11 @@ type Props = {
   options: SidebarItemProps[]
   variant: SidebarVariant
   collapsed: boolean
+  hasBackground?: boolean
 }
 
 export const SidebarItem = memo(
-  ({ collapsed = false, variant, options }: Props) => {
+  ({ collapsed = false, variant, options, hasBackground = false }: Props) => {
     const collapseClass = collapsed ? 'scale-0 max-h-0' : 'scale-1 max-h-[20px]'
 
     return (
@@ -22,14 +23,21 @@ export const SidebarItem = memo(
           key={variant}
           className={classNames(
             'flex flex-col rounded-2xl w-full p-0 list-none',
+            { 'mb-5': variant === 'secondary' },
             {
-              'mb-5 bg-light-green-lighter dark:.dark .dark:bg-dark-bg-secondary':
-                variant === 'secondary',
+              'bg-light-green-lighter dark:.dark .dark:bg-dark-bg-secondary':
+                variant === 'secondary' && hasBackground,
             },
           )}
         >
           {options.map(
-            ({ label, children, navLabel, ...rest }: SidebarItemProps) => {
+            ({
+              hasBackground = false,
+              label,
+              children,
+              navLabel,
+              ...rest
+            }: SidebarItemProps) => {
               if (children)
                 return (
                   <Fragment key={label}>
@@ -54,6 +62,7 @@ export const SidebarItem = memo(
                       options={children}
                       collapsed={collapsed}
                       variant="secondary"
+                      hasBackground={hasBackground}
                     />
                   </Fragment>
                 )
@@ -84,7 +93,7 @@ export const SidebarItem = memo(
                     key={label}
                     className={classNames(
                       'last-of-type:mb-0',
-                      variant === 'primary' ? 'mb-4' : 'mb-2',
+                      variant === 'primary' ? 'mb-4' : 'mb-1',
                     )}
                     variant={variant}
                     label={navLabel || label}

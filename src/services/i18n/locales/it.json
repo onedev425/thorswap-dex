@@ -388,7 +388,7 @@
       "priceRate": "Prezzo ",
       "expectedOutput": "Uscita Prevista",
       "expectedOutputTooltip": "Importo in uscita in base al tasso di prezzo corrente",
-      "chart7d": ""
+      "chart7d": "Grafico (7d)"
     },
     "walletDrawer": {
       "openWalletPage": "Apri Pagina Portafoglio",

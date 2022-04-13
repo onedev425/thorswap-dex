@@ -2,6 +2,7 @@ import { ReactNode, useState } from 'react'
 
 import classNames from 'classnames'
 
+import { Box } from 'components/Atomic'
 import { Header } from 'components/Header'
 import { NavDrawer } from 'components/NavDrawer'
 import { Scrollbar } from 'components/Scrollbar'
@@ -25,7 +26,12 @@ export const Layout = ({ children }: LayoutProp) => {
 
   return (
     <Scrollbar className="bg-light-bg-primary dark:bg-dark-bg-primary transition-all">
-      <div className="relative z-10 flex flex-col w-full min-h-screen mx-auto my-0 max-w-8xl">
+      <div className="bg-elliptical-light dark:bg-elliptical transition-colors fixed inset-0"></div>
+
+      <Box
+        col
+        className="relative w-full min-h-screen my-0 px-[calc(50%-720px)]"
+      >
         <aside className="fixed hidden md:block">
           <Sidebar
             collapsed={sidebarCollapsed}
@@ -48,9 +54,7 @@ export const Layout = ({ children }: LayoutProp) => {
         </main>
 
         <WalletModal />
-      </div>
-
-      <div className="bg-elliptical-light dark:bg-elliptical transition-colors fixed inset-0 z-0"></div>
+      </Box>
     </Scrollbar>
   )
 }

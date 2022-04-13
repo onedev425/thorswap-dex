@@ -388,7 +388,7 @@
       "priceRate": "Precio de cambio",
       "expectedOutput": "Cantidad saliente esperada",
       "expectedOutputTooltip": "La cantidad saliente se basa en el precio de cambio",
-      "chart7d": ""
+      "chart7d": "Gráfico (7d)"
     },
     "walletDrawer": {
       "openWalletPage": "Abrir la página de Cartera",

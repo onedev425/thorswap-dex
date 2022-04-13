@@ -34,7 +34,7 @@ export const NavItem = ({
       <Tooltip content={label} disabled={!collapsed} place="right">
         <Box
           className={classNames(
-            'w-full h-10 box-border rounded-2xl group transition-all',
+            'w-full h-9 box-border rounded-2xl group transition-all',
             itemClasses[variant],
             {
               'items-center': collapsed,

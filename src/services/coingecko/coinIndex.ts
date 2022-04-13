@@ -7595,11 +7595,6 @@ export const geckoCoinIndex = [
     name: 'BIDEN Token',
   },
   {
-    id: 'bidipass',
-    symbol: 'bdp',
-    name: 'BidiPass',
-  },
-  {
     id: 'bifi',
     symbol: 'bifi',
     name: 'BiFi',

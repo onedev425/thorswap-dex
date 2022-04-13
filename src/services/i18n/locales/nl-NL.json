@@ -388,7 +388,7 @@
       "priceRate": "Prijs",
       "expectedOutput": "Verwachte output",
       "expectedOutputTooltip": "Outputbedrag gebaseerd op huidige prijs",
-      "chart7d": ""
+      "chart7d": "Grafiek (7d)"
     },
     "walletDrawer": {
       "openWalletPage": "Open Wallet Pagina",

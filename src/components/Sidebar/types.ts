@@ -7,6 +7,7 @@ export type SidebarVariant = 'primary' | 'secondary'
 type ItemProps = {
   iconName: IconName
   rightIconName?: IconName
+  hasBackground?: boolean
   href: string
   label?: string
 }
