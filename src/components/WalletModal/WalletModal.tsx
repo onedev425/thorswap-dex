@@ -19,6 +19,7 @@ import { WalletIcon } from 'components/WalletIcon/WalletIcon'
 
 import { useWallet } from 'store/wallet/hooks'
 
+import usePrevious from 'hooks/usePrevious'
 import { useTerraWallet } from 'hooks/useTerraWallet'
 
 import { t } from 'services/i18n'
@@ -56,13 +57,12 @@ export const WalletModal = () => {
   const {
     isTerraStationAvailable,
     isTerraStationInstalled,
+    isTerraWalletConnected,
     installTerraWallet,
     connectTerraWallet,
   } = useTerraWallet()
 
-  useEffect(() => {
-    if (isConnectModalOpen) setWalletMode(WalletMode.Select)
-  }, [isConnectModalOpen])
+  const isTerraWalletConnectedPrevState = usePrevious(isTerraWalletConnected)
 
   const metamaskStatus = useMemo(() => metamask.isWalletDetected(), [])
   const xdefiStatus = useMemo(() => xdefi.isWalletDetected(), [])
@@ -97,6 +97,31 @@ export const WalletModal = () => {
       setWalletStage(WalletStage.WalletSelect)
     }, 1000)
   }, [setIsConnectModalOpen])
+
+  useEffect(() => {
+    if (isConnectModalOpen) setWalletMode(WalletMode.Select)
+  }, [isConnectModalOpen])
+
+  // connect terra station wallet in the multichain sdk after wallet connection status is updated
+  useEffect(() => {
+    if (
+      !isTerraWalletConnectedPrevState &&
+      isTerraWalletConnected &&
+      isConnectModalOpen
+    ) {
+      connectTerraStation()
+
+      // close modal
+      clearStatus()
+    }
+  }, [
+    isTerraWalletConnectedPrevState,
+    isTerraWalletConnected,
+    connectTerraStation,
+    isConnectModalOpen,
+    clearStatus,
+    walletMode,
+  ])
 
   const handleBack = useCallback(() => {
     if (walletStage === WalletStage.Final) {
@@ -252,6 +277,14 @@ export const WalletModal = () => {
         return
       }
 
+      // terra station mobile
+      if (selectedWallet === WalletMode.TerraMobile) {
+        connectTerraWallet(TerraConnectType.WALLETCONNECT)
+        // close modal
+        clearStatus()
+        return
+      }
+
       setWalletMode(selectedWallet)
 
       if (
@@ -264,7 +297,7 @@ export const WalletModal = () => {
         setWalletStage(WalletStage.ChainSelect)
 
         if (selectedWallet === WalletMode.Ledger) {
-          setPendingChains([Chain.Binance])
+          setPendingChains([Chain.Bitcoin])
         } else {
           setPendingChains(availableChainsByWallet[selectedWallet])
         }
@@ -274,6 +307,8 @@ export const WalletModal = () => {
       isTerraStationInstalled,
       metamaskStatus,
       xdefiStatus,
+      clearStatus,
+      connectTerraWallet,
       handleConnectTerraWallet,
       installTerraWallet,
     ],
@@ -331,7 +366,7 @@ export const WalletModal = () => {
   const renderMainPanel = useMemo(() => {
     return (
       <Scrollbar maxHeight="60vh" customStyle={{ marginRight: '-12px' }}>
-        <Box className="w-full space-y-3" col>
+        <Box className="w-full space-y-2" col>
           <WalletOption onClick={() => handleChainSelect(WalletMode.Xdefi)}>
             {xdefiStatus === XdefiWalletStatus.XdefiPrioritized && (
               <Typography>{t('views.walletModal.connectXdefi')}</Typography>
@@ -355,6 +390,12 @@ export const WalletModal = () => {
               <Icon name="station" />
             </WalletOption>
           )}
+          <WalletOption
+            onClick={() => handleChainSelect(WalletMode.TerraMobile)}
+          >
+            <Typography>{t('views.walletModal.connectTerraMobile')}</Typography>
+            <Icon name="terra" />
+          </WalletOption>
           <WalletOption
             onClick={() => handleChainSelect(WalletMode.TrustWallet)}
           >
@@ -412,7 +453,7 @@ export const WalletModal = () => {
       pendingChains?.length === availableChainsByWallet[walletMode]?.length
 
     return (
-      <Box className="w-full space-y-3" col>
+      <Box className="w-full space-y-2" col>
         {walletMode !== WalletMode.Ledger &&
           availableChainsByWallet[walletMode].length > 0 && (
             <Box row justify="end">
