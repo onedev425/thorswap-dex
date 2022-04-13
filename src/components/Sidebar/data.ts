@@ -2,7 +2,11 @@ import { SidebarItemProps } from 'components/Sidebar/types'
 
 import { t } from 'services/i18n'
 
-import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/constants'
+import {
+  ROUTES,
+  THORYIELD_STATS_ROUTE,
+  THOR_STAKING_V1_ROUTE,
+} from 'settings/constants'
 
 export const navbarOptions: SidebarItemProps[] = [
   {
@@ -27,24 +31,24 @@ export const navbarOptions: SidebarItemProps[] = [
       },
     ],
   },
-  // {
-  //   iconName: 'tradeLightning',
-  //   href: ROUTES.Stake,
-  //   label: t('components.sidebar.thor'),
-  //   hasSub: true,
-  //   children: [
-  //     {
-  //       iconName: 'tradeLightning',
-  //       href: ROUTES.Stake,
-  //       label: t('components.sidebar.thorStake'),
-  //     },
-  //     {
-  //       iconName: 'chartPieOutline',
-  //       href: ROUTES.Vesting,
-  //       label: t('components.sidebar.vesting'),
-  //     },
-  //   ],
-  // },
+  {
+    iconName: 'tradeLightning',
+    href: ROUTES.Stake,
+    label: t('components.sidebar.thor'),
+    children: [
+      {
+        iconName: 'tradeLightning',
+        href: THOR_STAKING_V1_ROUTE,
+        label: t('components.sidebar.thorStake'),
+        rightIconName: 'external',
+      },
+      // {
+      //   iconName: 'chartPieOutline',
+      //   href: ROUTES.Vesting,
+      //   label: t('components.sidebar.vesting'),
+      // },
+    ],
+  },
   {
     iconName: 'wallet',
     href: ROUTES.Wallet,
