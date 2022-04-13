@@ -6,11 +6,17 @@ import { Icon, Typography, Link, Box, IconName } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
 import { MenuItemType } from 'components/Menu/types'
 
-type Props = {
-  item: MenuItemType
-}
+type Props = MenuItemType
 
-export const MenuItem = ({ item }: Props) => {
+export const MenuItem = ({
+  onClick,
+  icon,
+  label,
+  isSelected,
+  labelClassName,
+  value,
+  href,
+}: Props) => {
   const renderedItem = useMemo(() => {
     return (
       <button
@@ -18,21 +24,22 @@ export const MenuItem = ({ item }: Props) => {
           'outline-none border-none rounded-md relative flex flex-row w-full justify-between items-center cursor-pointer px-2 py-3 hover:brightness-95 dark:hover:brightness-125',
           genericBgClasses.secondary,
         )}
-        onClick={item.onClick}
+        onClick={onClick}
       >
         <Box alignCenter className="gap-6">
-          {item.icon && <Icon name={item.icon as IconName} size={16} />}
-          <Typography className="mx-2 first-letter:text-xl">
-            {item.label}
+          {icon && <Icon name={icon as IconName} size={16} />}
+
+          <Typography className={classNames('mx-2', labelClassName)}>
+            {label}
           </Typography>
         </Box>
         <Box center>
-          {!!item.value && <Typography>{item.value}</Typography>}
-          {item.isSelected && <Icon name="checkmark" size={16} />}
+          {!!value && <Typography>{value}</Typography>}
+          {isSelected && <Icon name="checkmark" size={16} />}
         </Box>
       </button>
     )
-  }, [item])
+  }, [icon, isSelected, label, labelClassName, onClick, value])
 
-  return item.href ? <Link to={item.href}>{renderedItem}</Link> : renderedItem
+  return href ? <Link to={href}>{renderedItem}</Link> : renderedItem
 }

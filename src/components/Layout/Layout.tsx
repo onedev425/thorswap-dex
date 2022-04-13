@@ -46,6 +46,7 @@ export const Layout = ({ children }: LayoutProp) => {
           <Header openMenu={openMenu} />
           {children}
         </main>
+
         <WalletModal />
       </div>
 

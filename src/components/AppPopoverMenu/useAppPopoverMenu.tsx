@@ -141,6 +141,7 @@ const useLanguageMenu = (onBack: () => void) => {
     label: `${getLanguageFlag(lang)} ${getLanguageLabel(lang)}`,
     onClick: () => onLanguageClick(lang),
     isSelected: isLanguageSelected(lang),
+    labelClassName: 'first-letter:text-xl',
   }))
 
   return languageMenu

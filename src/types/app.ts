@@ -31,18 +31,18 @@ export enum ViewMode {
 }
 
 export const SUPPORTED_LANGUAGES = [
-  'ar',
-  'de',
   'en',
+  'de',
   'es',
   'fr',
-  'hi',
   'it',
-  'km',
-  'ko',
   'nl-NL',
   'pl',
   'pt',
+  'ar',
+  'hi',
+  'km',
+  'ko',
   'ru',
   'tr',
   'ur',

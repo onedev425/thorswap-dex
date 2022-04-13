@@ -34,14 +34,6 @@ export const Header = ({ openMenu }: Props) => {
     [stats],
   )
 
-  const walletBtnText = useMemo(() => {
-    if (isWalletLoading) return t('common.loading')
-
-    if (!isConnected) return t('common.connectWallet')
-
-    return t('common.wallet')
-  }, [isConnected, isWalletLoading])
-
   const handleClickWalletBtn = useCallback(() => {
     if (!isConnected && !isWalletLoading) {
       setIsConnectModalOpen(true)
@@ -86,7 +78,11 @@ export const Header = ({ openMenu }: Props) => {
             type="outline"
             onClick={handleClickWalletBtn}
           >
-            {walletBtnText}
+            {isWalletLoading
+              ? t('common.loading')
+              : isConnected
+              ? t('common.wallet')
+              : t('common.connectWallet')}
           </Button>
           <AppPopoverMenu />
           <TxManager />

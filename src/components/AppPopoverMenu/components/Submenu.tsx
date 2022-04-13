@@ -10,7 +10,7 @@ export const Submenu = ({ items }: Props) => {
   return (
     <Box col mt={16}>
       {items.map((item) => (
-        <MenuItem key={item.label} item={item} />
+        <MenuItem key={item.label} {...item} />
       ))}
     </Box>
   )
