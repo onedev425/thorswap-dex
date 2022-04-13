@@ -21,12 +21,16 @@ export const useThemeState = () => {
   const isLight = activeTheme === ThemeMode.Light
 
   const activateTheme = (updatedTheme: ThemeMode) => {
+    document.documentElement.classList.add('notransition')
+
     if (updatedTheme === ThemeMode.Light) {
       document.documentElement.classList.remove(ThemeMode.Dark)
     } else if (!document.documentElement.classList.contains(ThemeMode.Dark)) {
       document.documentElement.classList.add(ThemeMode.Dark)
     }
     setActiveTheme(updatedTheme)
+
+    setTimeout(() => document.documentElement.classList.remove('notransition'))
   }
   if (!mounted.current) {
     activateTheme(getThemeMode(themeType))
