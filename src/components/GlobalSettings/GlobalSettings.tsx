@@ -1,3 +1,6 @@
+import { useMemo } from 'react'
+
+import { FeeOption } from '@thorswap-lib/xchain-client'
 import classNames from 'classnames'
 
 import {
@@ -15,7 +18,7 @@ import { useApp } from 'store/app/hooks'
 
 import { t } from 'services/i18n'
 
-import { feeOptions, slippageOptions } from './settingOptions'
+import { slippageOptions } from './settingOptions'
 
 type Props = {
   transactionMode?: boolean
@@ -34,6 +37,27 @@ export const GlobalSettings = ({ transactionMode }: Props) => {
     setCustomRecipientMode,
     setFeeOptionType,
   } = useApp()
+
+  const feeOptions = useMemo(
+    () => [
+      {
+        key: 'fee.average',
+        type: FeeOption.Average,
+        text: t('common.feeNormal'),
+      },
+      {
+        key: 'fee.fast',
+        type: FeeOption.Fast,
+        text: t('common.feeFast'),
+      },
+      {
+        key: 'fee.fastest',
+        type: FeeOption.Fastest,
+        text: t('common.feeInstant'),
+      },
+    ],
+    [],
+  )
 
   return (
     <Card className="w-[350px] px-8 py-6 shadow-2xl" withBorder>

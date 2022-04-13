@@ -65,7 +65,7 @@ const NodeManager = () => {
               <Input
                 type="number"
                 className="text-lg font-normal text-right border-none md:px-5 w-28 md:w-full"
-                placeholder={t('views.nodes.detail.amount')}
+                placeholder={t('common.amount')}
                 onChange={(event) => setAmount(event.target.value)}
                 value={amount}
               />

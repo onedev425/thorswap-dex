@@ -47,7 +47,7 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
       [
         {
           id: 'asset',
-          Header: 'Asset',
+          Header: () => t('common.asset'),
           disableSortBy: true,
           accessor: (row: AssetAmount) => row.asset,
           Cell: ({ cell: { value } }: { cell: { value: Asset } }) => (
@@ -62,7 +62,7 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
         },
         {
           id: 'amount',
-          Header: 'Amount',
+          Header: () => t('common.amount'),
           align: 'right',
           minScreenSize: BreakPoint.md,
           accessor: (row: Amount) => row.assetAmount,
@@ -74,7 +74,7 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
         },
         {
           id: 'price',
-          Header: 'Price',
+          Header: () => t('common.usdPrice'),
           align: 'right',
           minScreenSize: BreakPoint.md,
           accessor: (row: AssetAmount) => row.asset.ticker,
@@ -90,7 +90,7 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
         },
         {
           id: 'price24h',
-          Header: '24h%',
+          Header: () => '24h%',
           align: 'right',
           accessor: (row: AssetAmount) => row.asset.ticker,
           minScreenSize: BreakPoint.md,
@@ -109,7 +109,7 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
         },
         {
           id: 'chart',
-          Header: 'Chart (7d)',
+          Header: () => t('views.wallet.chart7d'),
           minScreenSize: BreakPoint.lg,
           align: 'center',
           disableSortBy: true,
@@ -121,7 +121,7 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
         {
           accessor: (row) => row.asset,
           id: 'actions',
-          Header: '',
+          Header: () => '',
           align: 'right',
           disableSortBy: true,
           Cell: ({ cell: { value } }: { cell: { value: Asset } }) => (

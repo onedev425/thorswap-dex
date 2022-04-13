@@ -1,2 +1,2 @@
-export * from './getLanguageFlag'
+export * from './languageHelpers'
 export * from './i18nService'

@@ -32,10 +32,11 @@ export const useLiquidityPools = ({
   const { pools } = useMidgard()
 
   const poolsByStatus = useMemo(() => {
-    const selectedPoolStatusValue = poolStatusOptions[selectedPoolStatus]
+    const selectedPoolStatusValue =
+      poolStatusOptions[selectedPoolStatus].toLowerCase()
 
     return pools.filter(
-      (pool) => pool.detail.status === selectedPoolStatusValue.toLowerCase(),
+      ({ detail }) => detail.status === selectedPoolStatusValue,
     )
   }, [pools, selectedPoolStatus])
 
@@ -52,10 +53,10 @@ export const useLiquidityPools = ({
 
     // filter by keyword
     if (keyword) {
-      return poolsByType.filter((pool) => {
-        const poolStr = pool.asset.toString().toLowerCase()
-        const chainStr = chainToString(pool.asset.chain).toLowerCase()
-        const assetType = pool.asset.type.toLowerCase()
+      return poolsByType.filter(({ asset }) => {
+        const poolStr = asset.toString().toLowerCase()
+        const chainStr = chainToString(asset.chain).toLowerCase()
+        const assetType = asset.type.toLowerCase()
         const keywordStr = keyword.toLowerCase()
 
         return (
@@ -70,18 +71,12 @@ export const useLiquidityPools = ({
   }, [selectedPoolType, poolsByStatus, keyword])
 
   const featuredPools = useMemo(() => {
-    const featured = poolsByStatus.filter((pool) => {
-      const { asset } = pool
-      const ticker = pool.asset.ticker.toLowerCase()
-
-      return (
+    const featured = poolsByStatus.filter(
+      ({ asset }) =>
         asset.isBTC() ||
         asset.isETH() ||
-        ticker === 'luna' ||
-        ticker === 'ust' ||
-        ticker === 'busd'
-      )
-    })
+        ['luna', 'ust', 'busd'].includes(asset.ticker.toLowerCase()),
+    )
 
     return featured
       .map((pool) => ({

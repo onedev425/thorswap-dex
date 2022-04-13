@@ -217,7 +217,7 @@ export const NodeDetails = () => {
           {actionIndex !== 2 && (
             <Box justify="between" className="!mt-2" justifyCenter alignCenter>
               <Typography>
-                {options[actionIndex]} {t('views.nodes.detail.amount')}
+                {options[actionIndex]} {t('common.amount')}
                 {actionIndex === 1 ? '(ᚱ)' : ''}:
               </Typography>
               <Input

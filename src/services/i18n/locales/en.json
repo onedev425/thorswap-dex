@@ -98,7 +98,8 @@
     "nodeManager": "Node Manager",
     "nodeAddress": "Node Address",
     "upgradeRune": "Upgrade Rune",
-    "upgradeBnbRune": "Upgrade BNB Rune"
+    "upgradeBnbRune": "Upgrade BNB Rune",
+    "amount": "Amount"
   },
   "pendingLiquidity": {
     "complete": "complete",
@@ -248,7 +249,6 @@
         "totalBondTooltip": "Total Amount Bonded by Nodes",
         "complete": "Complete",
         "activeBond": "Active Bond",
-        "amount": "Amount",
         "nextChurnHeight": "Next Churn Height",
         "enterAmount": "Enter an amount",
         "standbyBond": "Standby Bond",
@@ -387,7 +387,8 @@
       "viewKeystorePhrase": "View keystore phrase",
       "priceRate": "Price Rate",
       "expectedOutput": "Expected Output",
-      "expectedOutputTooltip": "Output amount based on current price rate"
+      "expectedOutputTooltip": "Output amount based on current price rate",
+      "chart7d": "Chart (7d)"
     },
     "walletDrawer": {
       "openWalletPage": "Open Wallet Page",

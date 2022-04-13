@@ -8,7 +8,7 @@ import {
   THOR_STAKING_V1_ROUTE,
 } from 'settings/constants'
 
-export const navbarOptions: SidebarItemProps[] = [
+export const getDefaultNavbarOptions = (): SidebarItemProps[] => [
   {
     iconName: 'tradeLightning',
     href: ROUTES.Swap,

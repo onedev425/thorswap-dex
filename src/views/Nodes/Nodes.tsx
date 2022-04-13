@@ -12,7 +12,6 @@ import {
   Link,
   Select,
   Table,
-  TableColumnsConfig,
   TableRowType,
   Tooltip,
   Typography,
@@ -86,8 +85,8 @@ const Nodes = () => {
     },
     [setWatchList, nodeWatchList],
   )
-  const columns = useMemo(() => {
-    return [
+  const columns = useMemo(
+    () => [
       {
         id: 'Bookmark',
         Header: () => (
@@ -131,25 +130,25 @@ const Nodes = () => {
       },
       {
         id: 'Address',
-        Header: 'Address',
+        Header: () => 'Address',
         accessor: (row: THORNode) => row,
         Cell: ({ cell: { value } }: { cell: { value: THORNode } }) =>
           shortenAddress(value.node_address),
       },
       {
         id: 'Version',
-        Header: 'Version',
+        Header: () => 'Version',
         accessor: 'version',
       },
       {
         id: 'IP',
-        Header: 'IP',
+        Header: () => 'IP',
         accessor: 'ip_address',
         minScreenSize: BreakPoint.md,
       },
       {
         id: 'Rewards',
-        Header: 'Rewards',
+        Header: () => 'Rewards',
         accessor: (row: THORNode) => row,
         Cell: ({ cell: { value } }: { cell: { value: THORNode } }) =>
           Amount.fromMidgard(value.current_award).toFixed(0),
@@ -157,7 +156,7 @@ const Nodes = () => {
       },
       {
         id: 'Slash',
-        Header: 'Slash',
+        Header: () => 'Slash',
         accessor: (row: THORNode) => row,
         Cell: ({ cell: { value } }: { cell: { value: THORNode } }) =>
           Amount.fromNormalAmount(value.slash_points).toFixed(0),
@@ -165,21 +164,22 @@ const Nodes = () => {
       },
       {
         id: 'Bond',
-        Header: 'Bond',
+        Header: () => 'Bond',
         accessor: (row: THORNode) => row,
         Cell: ({ cell: { value } }: { cell: { value: THORNode } }) =>
           Amount.fromMidgard(value.bond).toFixed(0),
       },
       {
         id: 'ActiveBlock',
-        Header: 'Active Block',
+        Header: () => 'Active Block',
         accessor: (row: THORNode) => row,
         Cell: ({ cell: { value } }: { cell: { value: THORNode } }) =>
           Amount.fromNormalAmount(value.active_block_height).toFixed(0),
         minScreenSize: BreakPoint.md,
       },
-    ] as TableColumnsConfig
-  }, [nodeWatchList, handleAddToWatchList, getNodes])
+    ],
+    [nodeWatchList, handleAddToWatchList, getNodes],
+  )
 
   const onRowClick = ({ original }: TableRowType) => {
     navigate(getNodeDetailRoute(original.node_address))
@@ -196,6 +196,7 @@ const Nodes = () => {
             {`${t('views.nodes.watchList')} (${watchListData.length})`}
           </Typography>
           <Table
+            // @ts-expect-error Overall typing for `react-table` is broken on our side
             columns={columns}
             data={watchListData}
             loading={nodeLoading}

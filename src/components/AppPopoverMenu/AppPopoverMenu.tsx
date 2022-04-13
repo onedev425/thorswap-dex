@@ -6,6 +6,7 @@ import { SwitchMenu } from 'components/AppPopoverMenu/components/SwitchMenu'
 import { useAppPopoverMenu } from 'components/AppPopoverMenu/useAppPopoverMenu'
 import { Box, Button, Card, Icon, Typography } from 'components/Atomic'
 import { Popover } from 'components/Popover'
+import { Scrollbar } from 'components/Scrollbar'
 import SocialIcons from 'components/SocialIcons'
 
 import { t } from 'services/i18n'
@@ -25,6 +26,12 @@ export const AppPopoverMenu = () => {
         )
       case 'settings':
         return <SwitchMenu items={menus.settings.items} />
+      case 'language':
+        return (
+          <Scrollbar height="420px">
+            <Submenu items={menus[menuType].items} />
+          </Scrollbar>
+        )
       default:
         return <Submenu items={menus[menuType].items} />
     }
@@ -60,7 +67,9 @@ export const AppPopoverMenu = () => {
             <Typography variant="subtitle2">{menus[menuType].title}</Typography>
           </Box>
         </Box>
+
         {renderMenu()}
+
         <Box justify="end">
           <Typography variant="caption-xs" color="secondary">
             {`v${packageJson.version} (${BUILD_NUMBER})`}

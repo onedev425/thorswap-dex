@@ -30,13 +30,14 @@ import { ChartPlaceholder } from 'components/Chart/ChartPlaceholder'
 import { ChartTypeSelect } from 'components/Chart/ChartTypeSelect'
 import { useChartData } from 'components/Chart/useChartData'
 
+import { t } from 'services/i18n'
+
 import {
   BarChartType,
   ChartProps,
   ChartTimeFrame,
   ChartType,
   LineChartType,
-  chartTimeFrames,
 } from './types'
 
 ChartJS.register(
@@ -72,6 +73,11 @@ export const Chart = memo(
     selectChart,
     unit,
   }: ChartProps) => {
+    const chartTimeFrames = [
+      t('components.chart.week'),
+      t('components.chart.all'),
+    ]
+
     const [chartTimeFrame, setChartTimeFrame] = useState(ChartTimeFrame.AllTime)
 
     const {
