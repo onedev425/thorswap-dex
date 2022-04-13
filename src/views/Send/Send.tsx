@@ -225,6 +225,7 @@ const Send = () => {
       }
     >
       <AssetInput
+        className="w-full"
         selectedAsset={assetInput}
         assets={assetInputList}
         commonAssets={commonAssets}
