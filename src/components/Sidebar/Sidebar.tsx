@@ -16,16 +16,18 @@ import { ROUTES } from 'settings/constants'
 
 import Logo from 'assets/images/logo.png'
 
-import { navbarOptions } from './data'
+import { getDefaultNavbarOptions } from './data'
 import { SidebarItem } from './SidebarItem'
 import { SidebarProps } from './types'
 
 export const Sidebar = ({
   className,
-  options = navbarOptions,
+  options,
   collapsed = false,
   toggle,
 }: SidebarProps) => {
+  const sidebarOptions = options || getDefaultNavbarOptions()
+
   const navigate = useNavigate()
   const [isSupportModalOpened, setIsSupportModalOpened] = useState(false)
 
@@ -55,7 +57,7 @@ export const Sidebar = ({
       <div className="w-full h-sidebar-content">
         <Scrollbar height="calc(100vh - 300px)">
           <SidebarItem
-            options={options}
+            options={sidebarOptions}
             variant="primary"
             collapsed={collapsed}
           />

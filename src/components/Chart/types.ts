@@ -1,7 +1,5 @@
 import { ChartData as ReactChartData } from 'chart.js'
 
-import { t } from 'services/i18n'
-
 export type ChartDetail = { value: string; time: number }
 
 export type DataPoint = { x: string; y: number }
@@ -39,11 +37,6 @@ export enum ChartTimeFrame {
   Week = 0,
   AllTime = 1,
 }
-
-export const chartTimeFrames = [
-  t('components.chart.week'),
-  t('components.chart.all'),
-]
 
 export type ChartProps = {
   chartData: ChartData

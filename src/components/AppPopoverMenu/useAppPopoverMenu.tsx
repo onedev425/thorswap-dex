@@ -9,9 +9,19 @@ import { useTheme } from 'components/Theme/ThemeContext'
 
 import { useApp } from 'store/app/hooks'
 
-import { t, changeAppLanguage, getLanguageFlag } from 'services/i18n'
+import {
+  t,
+  changeAppLanguage,
+  getLanguageFlag,
+  getLanguageLabel,
+} from 'services/i18n'
 
-import { SupportedLanguages, ThemeType, ThousandSeparator } from 'types/app'
+import {
+  SupportedLanguages,
+  SUPPORTED_LANGUAGES,
+  ThemeType,
+  ThousandSeparator,
+} from 'types/app'
 
 type MenuType =
   | 'main'
@@ -127,23 +137,11 @@ const useLanguageMenu = (onBack: () => void) => {
 
   const isLanguageSelected = (val: SupportedLanguages) => val === language
 
-  const languageMenu: MenuItemType[] = [
-    {
-      label: `${getLanguageFlag('en')} ${getLanguageLabel('en')}`,
-      onClick: () => onLanguageClick('en'),
-      isSelected: isLanguageSelected('en'),
-    },
-    {
-      label: `${getLanguageFlag('es')} ${getLanguageLabel('es')}`,
-      onClick: () => onLanguageClick('es'),
-      isSelected: isLanguageSelected('es'),
-    },
-    {
-      label: `${getLanguageFlag('it')} ${getLanguageLabel('it')}`,
-      onClick: () => onLanguageClick('it'),
-      isSelected: isLanguageSelected('it'),
-    },
-  ]
+  const languageMenu: MenuItemType[] = SUPPORTED_LANGUAGES.map((lang) => ({
+    label: `${getLanguageFlag(lang)} ${getLanguageLabel(lang)}`,
+    onClick: () => onLanguageClick(lang),
+    isSelected: isLanguageSelected(lang),
+  }))
 
   return languageMenu
 }
@@ -293,19 +291,6 @@ const getThemeLabel = (val: ThemeType) => {
       return t('appMenu.lightTheme')
     default:
       return t('appMenu.theme')
-  }
-}
-
-const getLanguageLabel = (val: SupportedLanguages) => {
-  switch (val) {
-    case 'en':
-      return 'English (US)'
-    case 'es':
-      return 'Español (ESP)'
-    case 'it':
-      return 'Italiano (ITA)'
-    default:
-      return t('appMenu.language')
   }
 }
 

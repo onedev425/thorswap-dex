@@ -8,7 +8,7 @@ import {
   THOR_STAKING_V1_ROUTE,
 } from 'settings/constants'
 
-export const navbarOptions: SidebarItemProps[] = [
+export const getDefaultNavbarOptions = (): SidebarItemProps[] => [
   {
     iconName: 'tradeLightning',
     href: ROUTES.Swap,
@@ -29,24 +29,6 @@ export const navbarOptions: SidebarItemProps[] = [
         href: ROUTES.ManageLiquidity,
         label: t('components.sidebar.manageLiquidity'),
       },
-    ],
-  },
-  {
-    iconName: 'tradeLightning',
-    href: ROUTES.Stake,
-    label: t('components.sidebar.thor'),
-    children: [
-      {
-        iconName: 'tradeLightning',
-        href: THOR_STAKING_V1_ROUTE,
-        label: t('components.sidebar.thorStake'),
-        rightIconName: 'external',
-      },
-      // {
-      //   iconName: 'chartPieOutline',
-      //   href: ROUTES.Vesting,
-      //   label: t('components.sidebar.vesting'),
-      // },
     ],
   },
   {
@@ -89,6 +71,24 @@ export const navbarOptions: SidebarItemProps[] = [
         rightIconName: 'external',
         href: THORYIELD_STATS_ROUTE,
       },
+    ],
+  },
+  {
+    iconName: 'tradeLightning',
+    href: ROUTES.Stake,
+    label: t('components.sidebar.thor'),
+    children: [
+      {
+        iconName: 'tradeLightning',
+        href: THOR_STAKING_V1_ROUTE,
+        label: t('components.sidebar.thorStake'),
+        rightIconName: 'external',
+      },
+      // {
+      //   iconName: 'chartPieOutline',
+      //   href: ROUTES.Vesting,
+      //   label: t('components.sidebar.vesting'),
+      // },
     ],
   },
 ]

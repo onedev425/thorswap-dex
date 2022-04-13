@@ -13,6 +13,7 @@ export type Pair = {
   receiveAsset: string
 }
 
+// TODO(@Chillios): Refactor
 export const isSwapType = (txTracker: TxTracker): boolean => {
   if (
     txTracker.type === TxTrackerType.Swap ||

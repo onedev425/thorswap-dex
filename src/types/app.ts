@@ -25,9 +25,29 @@ export enum ThousandSeparator {
   None = 'none',
 }
 
-export type SupportedLanguages = 'en' | 'es' | 'it'
-
 export enum ViewMode {
   CARD = 'card',
   LIST = 'list',
 }
+
+export const SUPPORTED_LANGUAGES = [
+  'ar',
+  'de',
+  'en',
+  'es',
+  'fr',
+  'hi',
+  'it',
+  'km',
+  'ko',
+  'nl-NL',
+  'pl',
+  'pt',
+  'ru',
+  'tr',
+  'ur',
+  'zh-Hans',
+  'zh-Hant',
+] as const
+
+export type SupportedLanguages = typeof SUPPORTED_LANGUAGES[number]

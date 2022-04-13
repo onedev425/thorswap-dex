@@ -35,3 +35,9 @@ input::-webkit-inner-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
+
+.notransition .transition,
+.notransition .transition-all,
+.notransition .transition-colors {
+  transition: none !important;
+}

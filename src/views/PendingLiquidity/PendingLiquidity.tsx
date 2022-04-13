@@ -14,13 +14,12 @@ import { t } from 'services/i18n'
 
 // import { formatPrice } from 'helpers/formatPrice'
 
-const data = [
-  { label: t('views.wallet.slip'), value: '0.54' },
-  { label: t('views.liquidity.poolShareEstimated'), value: '8.248' },
-  { label: t('common.transactionFee'), value: '0.02 RUNE' },
-]
-
 export const PendingLiquidity = () => {
+  const data = [
+    { label: t('views.wallet.slip'), value: '0.54' },
+    { label: t('views.liquidity.poolShareEstimated'), value: '8.248' },
+    { label: t('common.transactionFee'), value: '0.02 RUNE' },
+  ]
   // const [value, setValue] = useState('0')
 
   // const runeAsset = {
@@ -54,7 +53,7 @@ export const PendingLiquidity = () => {
       </Button>
 
       <PendingDeposit />
-      {/* 
+      {/*
       <AssetInput
         secondaryLabel={`Add to Complete (${formatPrice(parseFloat(value))})`}
         className="self-stretch"

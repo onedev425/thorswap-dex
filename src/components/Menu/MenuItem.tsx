@@ -22,7 +22,9 @@ export const MenuItem = ({ item }: Props) => {
       >
         <Box alignCenter className="gap-6">
           {item.icon && <Icon name={item.icon as IconName} size={16} />}
-          <Typography className="mx-2">{item.label}</Typography>
+          <Typography className="mx-2 first-letter:text-xl">
+            {item.label}
+          </Typography>
         </Box>
         <Box center>
           {!!item.value && <Typography>{item.value}</Typography>}

@@ -17,6 +17,7 @@ export enum WalletMode {
   'Xdefi' = 'Xdefi',
   'Select' = 'Select',
   'Terra' = 'Terra',
+  'TerraMobile' = 'TerraMobile',
 }
 
 export const availableChainsByWallet: Record<string, SupportedChain[]> = {
@@ -39,7 +40,7 @@ export const availableChainsByWallet: Record<string, SupportedChain[]> = {
     Chain.Litecoin,
     Chain.BitcoinCash,
   ],
-  TrustWallet: [Chain.THORChain, Chain.Terra, Chain.Ethereum, Chain.Binance],
+  TrustWallet: [Chain.THORChain, Chain.Ethereum, Chain.Binance],
   Xdefi: [
     Chain.THORChain,
     Chain.Terra,

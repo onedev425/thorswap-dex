@@ -1,21 +1,4 @@
-import { TxTrackerType } from 'store/midgard/types'
-
-import { t } from 'services/i18n'
-
 import { TypographyColorType } from './../Atomic/Typography/types'
-
-export const txType: Record<TxTrackerType, string> = {
-  [TxTrackerType.Send]: t('txManager.send'),
-  [TxTrackerType.Approve]: t('txManager.approve'),
-  [TxTrackerType.Swap]: t('txManager.swap'),
-  [TxTrackerType.AddLiquidity]: t('txManager.addLiquidity'),
-  [TxTrackerType.Withdraw]: t('txManager.withdraw'),
-  [TxTrackerType.Donate]: t('txManager.donate'),
-  [TxTrackerType.Refund]: t('txManager.refund'),
-  [TxTrackerType.Switch]: t('txManager.switch'),
-  [TxTrackerType.Mint]: t('txManager.mint'),
-  [TxTrackerType.Redeem]: t('txManager.redeem'),
-}
 
 export type TxProgressStatus = 'success' | 'pending' | 'refunded' | 'failed'
 
