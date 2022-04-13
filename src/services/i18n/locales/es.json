@@ -98,7 +98,8 @@
     "nodeManager": "Manager del Nodo",
     "nodeAddress": "Dirección del Nodo",
     "upgradeRune": "Rune Ascendido",
-    "upgradeBnbRune": "Rune BNB Ascendido"
+    "upgradeBnbRune": "Rune BNB Ascendido",
+    "amount": "Cantidad"
   },
   "pendingLiquidity": {
     "complete": "Completar",
@@ -248,7 +249,6 @@
         "totalBondTooltip": "Cantidad total Vinculada por Nodos",
         "complete": "Completar",
         "activeBond": "Vinculación Activa",
-        "amount": "Cantidad",
         "nextChurnHeight": "Altura del siguiente agitado (churn)",
         "enterAmount": "Introducir cantidad",
         "standbyBond": "Vinculación en espera",
@@ -387,7 +387,8 @@
       "viewKeystorePhrase": "Ver frase del keystore",
       "priceRate": "Precio de cambio",
       "expectedOutput": "Cantidad saliente esperada",
-      "expectedOutputTooltip": "La cantidad saliente se basa en el precio de cambio"
+      "expectedOutputTooltip": "La cantidad saliente se basa en el precio de cambio",
+      "chart7d": ""
     },
     "walletDrawer": {
       "openWalletPage": "Abrir la página de Cartera",
@@ -436,8 +437,8 @@
       "connectXdefi": "Conectar XDEFI",
       "installXdefi": "Instalar XDEFI",
       "prioritiseXdefi": "Priorizar XDEFI",
-      "connectStation": "Conectar Terra Station",
-      "connectTerraMobile": "",
+      "connectStation": "Terra Station Extension",
+      "connectTerraMobile": "Terra Station Mobile",
       "installStation": "Instalar Terra Station",
       "walletConnect": "WalletConnect",
       "connectMetaMask": "Connectar MetaMask",

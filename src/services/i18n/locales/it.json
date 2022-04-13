@@ -98,7 +98,8 @@
     "nodeManager": "Gestore Nodo",
     "nodeAddress": "Indirizzo Nodo",
     "upgradeRune": "Aggiorna Rune",
-    "upgradeBnbRune": "Aggiorna BNB Rune"
+    "upgradeBnbRune": "Aggiorna BNB Rune",
+    "amount": "Importo"
   },
   "pendingLiquidity": {
     "complete": "completa",
@@ -248,7 +249,6 @@
         "totalBondTooltip": "Importo Bonded Totale dai nodi",
         "complete": "Completa",
         "activeBond": "Bond Attivo",
-        "amount": "Importo",
         "nextChurnHeight": "Altezza Prossimo Churn",
         "enterAmount": "Inserisci un Importo",
         "standbyBond": "Standby Bond",
@@ -387,7 +387,8 @@
       "viewKeystorePhrase": "Visualizza Frase Keystore",
       "priceRate": "Prezzo ",
       "expectedOutput": "Uscita Prevista",
-      "expectedOutputTooltip": "Importo in uscita in base al tasso di prezzo corrente"
+      "expectedOutputTooltip": "Importo in uscita in base al tasso di prezzo corrente",
+      "chart7d": ""
     },
     "walletDrawer": {
       "openWalletPage": "Apri Pagina Portafoglio",
@@ -436,8 +437,8 @@
       "connectXdefi": "Connetti Portafoglio XDEFI",
       "installXdefi": "Installa Portafoglio XDEFI",
       "prioritiseXdefi": "Prioritizza Portafoglio XDEFI",
-      "connectStation": "Connetti Terra Station",
-      "connectTerraMobile": "",
+      "connectStation": "Terra Station Extension",
+      "connectTerraMobile": "Terra Station Mobile",
       "installStation": "Installa Terra Station",
       "walletConnect": "WalletConnect",
       "connectMetaMask": "Connetti Portafoglio MetaMask",

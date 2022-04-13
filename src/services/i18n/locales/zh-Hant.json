@@ -98,7 +98,8 @@
     "nodeManager": "",
     "nodeAddress": "",
     "upgradeRune": "",
-    "upgradeBnbRune": ""
+    "upgradeBnbRune": "",
+    "amount": ""
   },
   "pendingLiquidity": {
     "complete": "完成",
@@ -248,7 +249,6 @@
         "totalBondTooltip": "",
         "complete": "",
         "activeBond": "",
-        "amount": "",
         "nextChurnHeight": "",
         "enterAmount": "",
         "standbyBond": "",
@@ -387,7 +387,8 @@
       "viewKeystorePhrase": "",
       "priceRate": "",
       "expectedOutput": "",
-      "expectedOutputTooltip": ""
+      "expectedOutputTooltip": "",
+      "chart7d": ""
     },
     "walletDrawer": {
       "openWalletPage": "",

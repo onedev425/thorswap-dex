@@ -98,7 +98,8 @@
     "nodeManager": "नोड मैनेजर",
     "nodeAddress": "नोड पता",
     "upgradeRune": "उन्नत करना Rune",
-    "upgradeBnbRune": "उन्नत करना BNB Rune"
+    "upgradeBnbRune": "उन्नत करना BNB Rune",
+    "amount": "राशि"
   },
   "pendingLiquidity": {
     "complete": "कम्प्लीट",
@@ -248,7 +249,6 @@
         "totalBondTooltip": "",
         "complete": "कम्प्लीट",
         "activeBond": "",
-        "amount": "राशि",
         "nextChurnHeight": "",
         "enterAmount": "एक राशि दर्ज करें",
         "standbyBond": "स्टैंडबाय बॉन्ड",
@@ -387,7 +387,8 @@
       "viewKeystorePhrase": "कीस्टोर वाक्यांश देखें",
       "priceRate": "मूल्य दर",
       "expectedOutput": "अपेक्षित उत्पादन",
-      "expectedOutputTooltip": "वर्तमान मूल्य दर के आधार पर आउटपुट राशि"
+      "expectedOutputTooltip": "वर्तमान मूल्य दर के आधार पर आउटपुट राशि",
+      "chart7d": ""
     },
     "walletDrawer": {
       "openWalletPage": "वॉलेट पेज खोलें",

@@ -98,7 +98,8 @@
     "nodeManager": "Node Manager",
     "nodeAddress": "Node adres",
     "upgradeRune": "Rune upgraden",
-    "upgradeBnbRune": "BNB Rune upgraden"
+    "upgradeBnbRune": "BNB Rune upgraden",
+    "amount": "Bedrag"
   },
   "pendingLiquidity": {
     "complete": "Compleet",
@@ -248,7 +249,6 @@
         "totalBondTooltip": "Totale bedrag bonded door nodes",
         "complete": "Voltooien",
         "activeBond": "Actieve Bond",
-        "amount": "Bedrag",
         "nextChurnHeight": "Volgende Churn Hoogte",
         "enterAmount": "Voer een bedrag in",
         "standbyBond": "Standby Bond",
@@ -387,7 +387,8 @@
       "viewKeystorePhrase": "Keystore seed phrase bekijken",
       "priceRate": "Prijs",
       "expectedOutput": "Verwachte output",
-      "expectedOutputTooltip": "Outputbedrag gebaseerd op huidige prijs"
+      "expectedOutputTooltip": "Outputbedrag gebaseerd op huidige prijs",
+      "chart7d": ""
     },
     "walletDrawer": {
       "openWalletPage": "Open Wallet Pagina",
@@ -436,7 +437,8 @@
       "connectXdefi": "XDEFI verbinden",
       "installXdefi": "Installeer XDEFI wallet",
       "prioritiseXdefi": "Geef prioriteit aan XDEFI",
-      "connectStation": "Terra Station verbinden",
+      "connectStation": "Terra Station Extension",
+      "connectTerraMobile": "Terra Station Mobile",
       "installStation": "Terra Station installeren",
       "walletConnect": "WalletConnect",
       "connectMetaMask": "MetaMask verbinden",
