@@ -430,7 +430,7 @@
       "withdraw": "Preleva",
       "from": "Da",
       "assetUSDPrice": "Prezzo Asset USD",
-      "share": ""
+      "share": "Share"
     },
     "walletModal": {
       "connectWallet": "Connetti Wallet",
