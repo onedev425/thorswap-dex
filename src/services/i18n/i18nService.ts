@@ -67,6 +67,7 @@ initializeI18n(initReactI18next).init({
   lng: getFromStorage('language') as SupportedLanguages,
   fallbackLng: 'en',
   parseMissingKeyHandler,
+  returnEmptyString: false,
   interpolation: {
     escapeValue: false, // react already safes from xss
     prefix: '%{',
