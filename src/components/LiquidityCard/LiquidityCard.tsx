@@ -50,10 +50,23 @@ export const LiquidityCard = ({
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse()
   const { isMdActive } = useWindowSize()
 
-  const { poolShare, assetShare, runeShare } = useMemo(
+  const liquidityObj = useMemo(
     () => new Liquidity(pool, Amount.fromMidgard(liquidityUnits)),
     [liquidityUnits, pool],
   )
+  const { poolShare } = liquidityObj
+  const runeShare = useMemo(() => {
+    if (shareType === PoolShareType.RUNE_ASYM) {
+      return liquidityObj.getAsymRuneShare()
+    }
+    return liquidityObj.runeShare
+  }, [shareType, liquidityObj])
+  const assetShare = useMemo(() => {
+    if (shareType === PoolShareType.ASSET_ASYM) {
+      return liquidityObj.getAsymAssetShare()
+    }
+    return liquidityObj.assetShare
+  }, [shareType, liquidityObj])
 
   const isPendingLP = useMemo(
     () => !!(Number(runePending) > 0 || Number(assetPending)),

@@ -75,7 +75,7 @@ export const LiquidityInfo = memo(
 
       if ([PoolShareType.SYM, PoolShareType.ASSET_ASYM].includes(shareType)) {
         infoFields.unshift({
-          label: asset.ticker,
+          label: `${asset.ticker} ${t('views.liquidity.share')}`,
           value: (
             <Box className="gap-2" center>
               <Typography>
@@ -89,7 +89,7 @@ export const LiquidityInfo = memo(
 
       if ([PoolShareType.SYM, PoolShareType.RUNE_ASYM].includes(shareType)) {
         infoFields.unshift({
-          label: RuneAsset.symbol,
+          label: `${RuneAsset.symbol} ${t('views.liquidity.share')}`,
           value: (
             <Box className="gap-2" center>
               <Typography>

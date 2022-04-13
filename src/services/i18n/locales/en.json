@@ -429,7 +429,8 @@
       "noLiquidityToWithdraw": "You don't have LP to withdraw",
       "withdraw": "Withdraw",
       "from": "From",
-      "assetUSDPrice": "Asset USD Price"
+      "assetUSDPrice": "Asset USD Price",
+      "share": "Share"
     },
     "walletModal": {
       "connectWallet": "Connect Wallet",
