@@ -430,7 +430,7 @@
       "withdraw": "Retirar",
       "from": "Desde",
       "assetUSDPrice": "Precio USD del Activo",
-      "share": ""
+      "share": "Share"
     },
     "walletModal": {
       "connectWallet": "Conectar cartera",
