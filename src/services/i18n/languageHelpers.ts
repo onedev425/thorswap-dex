@@ -2,6 +2,7 @@ import { SupportedLanguages } from 'types/app'
 
 const FLAGS: Record<SupportedLanguages, string> = {
   'nl-NL': '🇳🇱',
+  'pt-BR': '🇧🇷',
   'zh-Hans': '🇨🇳',
   'zh-Hant': '🇨🇳',
   ar: '🇸🇦',
@@ -21,6 +22,7 @@ const FLAGS: Record<SupportedLanguages, string> = {
 }
 const LANGUAGE_NAMES: Record<SupportedLanguages, string> = {
   'nl-NL': 'Nederlands (NLD)',
+  'pt-BR': 'Português (BRA)',
   'zh-Hans': '简体中文 (CHN)',
   'zh-Hant': '繁體中文 (CHT)',
   ar: 'العربية (ARA)',
@@ -33,7 +35,7 @@ const LANGUAGE_NAMES: Record<SupportedLanguages, string> = {
   km: 'ភាសាខ្មែរ (KHM)',
   ko: '한국어 (KOR)',
   pl: 'Polski (POL)',
-  pt: 'Português (BRA)',
+  pt: 'Português (POR)',
   ru: 'Русский (RUS)',
   tr: 'Türkçe (TUR)',
   ur: 'اردو (URD)',
