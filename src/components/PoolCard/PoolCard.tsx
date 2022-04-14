@@ -53,7 +53,9 @@ export const PoolCard = ({ pool, color }: PoolCardProps) => {
           </Typography>
 
           <Typography color="green" fontWeight="semibold">
-            APY: {`${new Percent(pool.detail.poolAPY).toFixed(0)}`}
+            {`${t('common.APR')}: ${new Percent(pool.detail.poolAPY).toFixed(
+              0,
+            )}`}
           </Typography>
         </Box>
 
@@ -77,7 +79,7 @@ export const PoolCard = ({ pool, color }: PoolCardProps) => {
 
       <div
         className={classNames(
-          '-z-10 absolute rounded-full w-[90px] h-[90px] right-5 md:top-5 blur-xl opacity-30',
+          '-z-10 absolute rounded-full w-[90px] h-[90px] right-5 md:top-5 blur-xl opacity-50 dark:opacity-30',
           `bg-${color}`,
         )}
       />

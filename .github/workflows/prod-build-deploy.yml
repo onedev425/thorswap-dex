@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: prod-build-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build
