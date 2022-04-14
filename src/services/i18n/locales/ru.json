@@ -5,6 +5,7 @@
     "APY": "APY",
     "APR": "APR",
     "addLiquidity": "Добавить ликвидность",
+    "asset": "",
     "auto": "Auto",
     "address": "Адрес",
     "balance": "Баланс",
@@ -13,7 +14,7 @@
     "confirm": "Подтвердить ",
     "connect": "Подключить ",
     "create": "Создать",
-    "connected": "",
+    "connected": "Подключен",
     "disconnect": "Отключить",
     "connectWallet": "Подключить кошелёк ",
     "loading": "Загрузка…",
@@ -44,7 +45,7 @@
     "volume": "Объём ",
     "withdraw": "Изъять",
     "add": "Добавить",
-    "per": "",
+    "per": "за",
     "gasTracker": "Счётчик газа",
     "settings": "Настройки",
     "langSettings": "App",
@@ -483,6 +484,7 @@
       "pricesAndPoolShare": "",
       "asymmetricPoolTip": "",
       "shareOfPool": "",
+      "asymmetricPoolNotice0": "",
       "asymmetricPoolNotice": ""
     },
     "vesting": {

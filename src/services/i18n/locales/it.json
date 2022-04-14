@@ -5,6 +5,7 @@
     "APY": "APY",
     "APR": "APR",
     "addLiquidity": "Aggiungi Liquidità",
+    "asset": "Asset",
     "auto": "Auto",
     "address": "Indirizzo",
     "balance": "Saldo",
@@ -483,6 +484,7 @@
       "pricesAndPoolShare": "Prezzi e Pool Share",
       "asymmetricPoolTip": "Stai per depositare nella pool asymmetrically.",
       "shareOfPool": "Share della Pool",
+      "asymmetricPoolNotice0": "Il tuo %{depositAsset} deposito sarà ribilanciato entrando nella pool. Ciò significa che avrai un'esposizione 50:50 sia a RUNE che a %{asset}.",
       "asymmetricPoolNotice": "I tuoi assets saranno ribilanciati entrando nella pool. Ciò significa che avrai un'esposizione 50:50 sia a RUNE che al tuo ASSET."
     },
     "vesting": {

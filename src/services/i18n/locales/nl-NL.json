@@ -5,6 +5,7 @@
     "APY": "APY",
     "APR": "APR",
     "addLiquidity": "Liquiditeit toevoegen",
+    "asset": "Asset",
     "auto": "Auto",
     "address": "Adres",
     "balance": "Balans",
@@ -483,6 +484,7 @@
       "pricesAndPoolShare": "Prijzen en pool aandeel",
       "asymmetricPoolTip": "U staat op het punt om asymmetrisch in een pool te storten.",
       "shareOfPool": "Pool aandeel",
+      "asymmetricPoolNotice0": "Your %{depositAsset} will be rebalanced upon entering the pool. This means you will have 50:50 exposure to both RUNE and %{asset}.",
       "asymmetricPoolNotice": "Uw assets worden opnieuw in evenwicht gebracht wanneer u toetreedt tot de pool. Dit betekent dat u een 50:50-blootstelling zult hebben aan zowel RUNE als uw ACTIVA."
     },
     "vesting": {
