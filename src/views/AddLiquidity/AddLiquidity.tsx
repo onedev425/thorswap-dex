@@ -998,7 +998,13 @@ export const AddLiquidity = () => {
             title={t('views.addLiquidity.asymmetricPoolTip')}
             content={
               <>
-                {`${t('views.addLiquidity.asymmetricPoolNotice')} `}
+                {`${t('views.addLiquidity.asymmetricPoolNotice0', {
+                  depositAsset:
+                    liquidityType === LiquidityTypeOption.ASSET
+                      ? poolAsset.ticker
+                      : Asset.RUNE(),
+                  asset: poolAsset.ticker,
+                })} `}
                 <Link className="text-chain-terra" to={ADD_LIQUIDITY_GUIDE_URL}>
                   {t('common.learnMore')}
                 </Link>
