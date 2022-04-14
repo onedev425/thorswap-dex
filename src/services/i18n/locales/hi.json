@@ -545,7 +545,7 @@
     "outboundBusyTooltip": "नेटवर्क वर्तमान में आउटगोइंग लेनदेन पर हस्ताक्षर करने में देरी का अनुभव कर रहा है",
     "runePooled": "RUNE जमा",
     "submitFail": "सबमिट करें लेन-देन विफल",
-    "notAvailableDesposit": "जमा उपलब्ध नहीं",
+    "notAvailableDeposit": "जमा उपलब्ध नहीं",
     "invalidAmount": "अवैध राशि",
     "alreadyHaveRune": "पहले से ही RUNE LP . है",
     "insufficientAmount": "अपर्याप्त राशि",

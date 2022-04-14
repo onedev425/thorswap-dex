@@ -545,7 +545,7 @@
     "outboundBusyTooltip": "Le réseau éprouve actuellement des délais pour signer des transactions sortantes.",
     "runePooled": "RUNE POOLED",
     "submitFail": "Échec de la soumission de la transaction",
-    "notAvailableDesposit": "Dépôt non disponible",
+    "notAvailableDeposit": "Dépôt non disponible",
     "invalidAmount": "Montant invalide",
     "alreadyHaveRune": "Vous avez déjà des RUNE en LP",
     "insufficientAmount": "Montant insuffisant",

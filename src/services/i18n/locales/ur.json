@@ -545,7 +545,7 @@
     "outboundBusyTooltip": "نیٹ ورک فی الحال باہر جانے والے ٹرانزیکشن  پر sign کرنے میں تاخیر کا سامنا کر رہا ہے۔",
     "runePooled": "RUNE POOLED",
     "submitFail": "ٹرانزیکشن جمع کرانے میں ناکام",
-    "notAvailableDesposit": "ڈپازٹ دستیاب نہیں ہے",
+    "notAvailableDeposit": "ڈپازٹ دستیاب نہیں ہے",
     "invalidAmount": "غلط رقم",
     "alreadyHaveRune": "پہلے سے ہی RUNE LP ہے",
     "insufficientAmount": "ناکافی رقم",

@@ -545,7 +545,7 @@
     "outboundBusyTooltip": "W sieci występują obecnie opóźnienia w podpisywaniu transakcji wychodzących.",
     "runePooled": "RUNE POOLED",
     "submitFail": "Transakcja przesyłania nie powiodła się.",
-    "notAvailableDesposit": "Depozyt niedostępny",
+    "notAvailableDeposit": "Depozyt niedostępny",
     "invalidAmount": "Nieprawidłowa kwota",
     "alreadyHaveRune": "Już masz RUNE LP",
     "insufficientAmount": "Niewystarczająca kwota",

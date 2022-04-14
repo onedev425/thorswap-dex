@@ -545,7 +545,7 @@
     "outboundBusyTooltip": "Das Netzwerk hat derzeit Verzögerungen beim Signieren ausgehender Transaktionen.",
     "runePooled": "RUNE GEPOOLT",
     "submitFail": "Das Sender der Transaktion ist fehlgeschlagen.",
-    "notAvailableDesposit": "Einzahlung nicht verfügbar",
+    "notAvailableDeposit": "Einzahlung nicht verfügbar",
     "invalidAmount": "Ungültiger Betrag",
     "alreadyHaveRune": "Du hast bereits RUNE LP",
     "insufficientAmount": "Unzureichender Betrag",

@@ -545,7 +545,7 @@
     "outboundBusyTooltip": "Het netwerk ondervindt momenteel vertragingen bij het ondertekenen van uitgaande transacties.",
     "runePooled": "RUNE POOLED",
     "submitFail": "Transactie verzenden mislukt.",
-    "notAvailableDesposit": "Storten niet beschikbaar",
+    "notAvailableDeposit": "Storten niet beschikbaar",
     "invalidAmount": "Ongeldig bedrag",
     "alreadyHaveRune": "U heeft al een RUNE LP",
     "insufficientAmount": "Bedrag Onvoldoende",

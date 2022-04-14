@@ -230,7 +230,6 @@ export const AddLiquidity = () => {
   }, [memberData, liquidityType])
 
   // TODO(Epicode): display warning if pending LP exists
-
   // if pending LP exists, only allow complete deposit
   const isPendingDeposit = useMemo(() => {
     if (
@@ -767,7 +766,7 @@ export const AddLiquidity = () => {
     if (isLPActionPaused) {
       return {
         valid: false,
-        msg: t('notification.notAvailableDesposit'),
+        msg: t('notification.notAvailableDeposit'),
       }
     }
     // only invalid scenario is
@@ -974,8 +973,9 @@ export const AddLiquidity = () => {
       />
 
       <PoolInfo
-        poolAsset={poolAssetInput}
-        runeAsset={runeAssetInput}
+        poolTicker={poolAssetInput.asset.ticker}
+        runeTicker={runeAssetInput.asset.ticker}
+        fee={totalFeeInUSD}
         slippage={addLiquiditySlip}
         poolShare={poolShareEst}
         rate={pool?.assetPriceInRune?.toSignificant(6) ?? null}

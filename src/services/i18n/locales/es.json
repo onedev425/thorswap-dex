@@ -545,7 +545,7 @@
     "outboundBusyTooltip": "La red está experimentando demoras al aprobar transacciones salientes.",
     "runePooled": "RUNE en liquidez",
     "submitFail": "Aprobación de transacción fallido",
-    "notAvailableDesposit": "Depósitos no disponibles",
+    "notAvailableDeposit": "Depósitos no disponibles",
     "invalidAmount": "Cantidad inválida",
     "alreadyHaveRune": "Ya dispones de una posición LP",
     "insufficientAmount": "Cantidad insuficiente",

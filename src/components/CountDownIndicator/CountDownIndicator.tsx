@@ -4,7 +4,7 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 
 import classNames from 'classnames'
 
-import { Box, Tooltip } from 'components/Atomic'
+import { Box, Tooltip, Typography } from 'components/Atomic'
 import { baseHoverClass } from 'components/constants'
 
 import { useApp } from 'store/app/hooks'
@@ -22,7 +22,7 @@ type Props = {
 }
 
 export const CountDownIndicator = memo(
-  ({ className, duration = 10, size = 16, resetIndicator, onClick }: Props) => {
+  ({ className, duration = 10, size = 24, resetIndicator, onClick }: Props) => {
     const { themeType } = useApp()
     const lightTheme = themeType === ThemeType.Light
     const trailColor = lightTheme ? '#E6E9F5' : '#273855'
@@ -47,9 +47,11 @@ export const CountDownIndicator = memo(
             trailColor={trailColor}
             duration={duration}
             colors={[strokeColor, strokeColor]}
-            colorsTime={[10, 0]}
+            colorsTime={[1, 0]}
           >
-            {() => null}
+            {({ remainingTime }) => (
+              <Typography variant="caption-xs">{remainingTime}</Typography>
+            )}
           </CountdownCircleTimer>
         </Box>
       </Tooltip>

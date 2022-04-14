@@ -669,9 +669,11 @@ const WithdrawPanel = ({
         onPercentChange={handleChangePercent}
         liquidityType={withdrawType}
       />
-      <Box className="w-full gap-1" col>
-        {/* <LiquidityCard data={liquidityCardData} /> */}
+
+      <Box className="w-full pt-4">
+        <InfoTable horizontalInset items={confirmInfo} />
       </Box>
+
       <Box className="self-stretch gap-4 pt-5">
         {isWalletConnected && !isLPActionPaused && (
           <Button
@@ -700,6 +702,7 @@ const WithdrawPanel = ({
           </Button>
         )}
       </Box>
+
       <ConfirmModal
         inputAssets={[sendAsset]}
         isOpened={visibleConfirmModal}

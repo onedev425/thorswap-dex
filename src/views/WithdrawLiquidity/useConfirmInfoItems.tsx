@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import { Asset } from '@thorswap-lib/multichain-sdk'
 
 import { AssetIcon } from 'components/AssetIcon'
@@ -13,10 +15,8 @@ type Params = {
 }
 
 export const useConfirmInfoItems = ({ assets, fee }: Params) => {
-  const confirmInfoItems: InfoRowConfig[] = []
-
-  assets.map((data) =>
-    confirmInfoItems.push({
+  const confirmInfoItems: InfoRowConfig[] = useMemo(() => {
+    const items = assets.map((data) => ({
       label: `${t('common.withdraw')} ${data.asset.symbol}`,
       value: (
         <Box justify="between" alignCenter>
@@ -26,18 +26,20 @@ export const useConfirmInfoItems = ({ assets, fee }: Params) => {
           <AssetIcon asset={data.asset} size={24} />
         </Box>
       ),
-    }),
-  )
+    }))
 
-  confirmInfoItems.push({
-    label: t('common.transactionFee'),
-    value: (
-      <InfoWithTooltip
-        tooltip={t('views.liquidity.gasFeeTooltip')}
-        value={fee}
-      />
-    ),
-  })
+    return items.concat([
+      {
+        label: t('common.transactionFee'),
+        value: (
+          <InfoWithTooltip
+            tooltip={t('views.liquidity.gasFeeTooltip')}
+            value={fee}
+          />
+        ),
+      },
+    ])
+  }, [assets, fee])
 
   return confirmInfoItems
 }

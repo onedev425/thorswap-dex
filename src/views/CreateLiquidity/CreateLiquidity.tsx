@@ -384,7 +384,7 @@ export const CreateLiquidity = () => {
     if (isLPActionPaused) {
       return {
         valid: false,
-        msg: t('notification.notAvailableDesposit'),
+        msg: t('notification.notAvailableDeposit'),
       }
     }
 

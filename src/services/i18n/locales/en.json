@@ -99,7 +99,8 @@
     "nodeAddress": "Node Address",
     "upgradeRune": "Upgrade Rune",
     "upgradeBnbRune": "Upgrade BNB Rune",
-    "amount": "Amount"
+    "amount": "Amount",
+    "depositNotAvailable": "Deposit not available"
   },
   "pendingLiquidity": {
     "complete": "complete",
@@ -545,7 +546,7 @@
     "outboundBusyTooltip": "The network is currently experiencing delays signing outgoing transactions.",
     "runePooled": "RUNE POOLED",
     "submitFail": "Submit Transaction Failed.",
-    "notAvailableDesposit": "Deposit not available",
+    "notAvailableDeposit": "Deposit not available",
     "invalidAmount": "Invalid Amount",
     "alreadyHaveRune": "Already have RUNE LP",
     "insufficientAmount": "Insufficient Amount",
