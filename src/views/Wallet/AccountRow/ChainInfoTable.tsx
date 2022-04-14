@@ -44,6 +44,7 @@ export const ChainInfoTable = ({ chainInfo, chain, chainAddress }: Props) => {
         data={tableData}
         columns={columns}
         sortable={tableData.length > 1}
+        hasShadow={false}
       />
       {!!altAssets.length && (
         <Button

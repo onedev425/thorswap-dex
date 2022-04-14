@@ -21,7 +21,7 @@ export const ChartHeader = memo(({ unit, values, title }: Props) => {
       <Typography component="span" variant="h3">
         {title}
 
-        <span className="text-btn-primary">
+        <span className="text-blue dark:text-btn-primary">
           {` ${unit}${abbreviateNumber(values?.[values.length - 1] ?? 0, 2)} `}
         </span>
 

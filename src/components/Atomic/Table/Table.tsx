@@ -24,6 +24,7 @@ export type TableProps = {
   sortable?: boolean
   loading?: boolean
   initialSort?: InitialTableSort
+  hasShadow?: boolean
   onRowClick?: (row: TableRowType) => void
 }
 
@@ -33,6 +34,7 @@ export const Table = ({
   sortable,
   loading,
   initialSort,
+  hasShadow = true,
   onRowClick,
 }: TableProps) => {
   const { isSizeActive } = useWindowSize()
@@ -99,6 +101,7 @@ export const Table = ({
               key={row.getRowProps().key}
               onRowClick={onRowClick}
               row={row}
+              hasShadow={hasShadow}
             />
           )
         })}

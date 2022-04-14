@@ -21,7 +21,7 @@ export const GasTracker = () => {
 
     if (!activeGasInfo) {
       return (
-        <Box className="gap-2" alignCenter row>
+        <Box className="gap-2 shadow-md" alignCenter row>
           <Icon name="gas" size={16} />
           <Typography variant="caption">{t('common.gasTracker')}</Typography>
         </Box>

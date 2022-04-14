@@ -50,10 +50,11 @@ module.exports = {
           'tint-active': '#475875',
         },
         primary: '#4DBAD6',
-        'primary-translucent': '#4DBAD666',
+        'primary-light': '#3397F2',
+        'primary-translucent': '#4DBAD6aa',
         'primary-active': '#46B2A7',
         secondary: '#46B2A7',
-        'secondary-translucent': '#46B2A766',
+        'secondary-translucent': '#46B2A7aa',
         'secondary-active': '#4DBAD6',
         tertiary: '#7B48E8',
         'tertiary-active': '#348CF4',
@@ -77,14 +78,15 @@ module.exports = {
       // light mode
       light: {
         'asset-select': '#202a3d',
-        'bg-primary': '#F7F8FA',
+        'layout-primary': '#F7F8FA',
+        'bg-primary': '#F0F1F3',
         'bg-secondary': '#FCFCFC',
         'border-primary': '#afb6cc',
         'gray-light': '#E5E5E5',
         'gray-primary': '#7C859F',
         'dark-gray': 'rgba(247, 247, 252, 0.72)',
         'typo-gray': '#7C859F',
-        'typo-primary': '#121526',
+        'typo-primary': '#1F1F41',
         'green-light': '#6A8E8B',
         'green-lighter': '#46b2a71f',
       },
@@ -337,6 +339,11 @@ module.exports = {
         '.scrollbar-thin': {
           '--scrollbar-width': '8px',
           'scrollbar-width': 'thin',
+        },
+        '.light-elliptical-bg': {
+          background: '#008ECC',
+          opacity: 0.08,
+          'backdrop-filter': 'blur(460px)',
         },
       })
       Object.entries(theme('colors')).forEach(([colorName, color]) => {

@@ -33,7 +33,7 @@ export const HighlightCard = ({
       justify="between"
       className={classNames(
         'rounded-2xl md:rounded-3xl md:px-6 pb-3 md:py-4 md:gap-2 border border-solid border-transparent transition',
-        'bg-light-gray-light dark:bg-dark-gray-light',
+        'bg-light-bg-primary dark:bg-dark-gray-light',
         {
           [borderHighlightClass]: isFocused,
           [borderHoverHighlightClass]: !disabled,

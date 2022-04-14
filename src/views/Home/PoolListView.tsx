@@ -36,7 +36,7 @@ export const PoolListView = () => {
     <Box col>
       {!arePoolsHidden && (
         <Box col>
-          <Box className="pl-2 gap-x-2 rounded-2xl" alignCenter>
+          <Box className="gap-x-2 rounded-2xl" alignCenter>
             <Typography variant="h3">
               {t('views.home.featuredPools')}
             </Typography>

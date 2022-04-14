@@ -38,7 +38,7 @@ export const TabsSelect = memo(
           flex={1}
           className={classNames(
             'border-light-gray-light dark:border-dark-gray-light hover:border-light-border-primary dark:hover:border-dark-gray-primary',
-            'px-2 py-1 rounded-2xl border border-solid transition',
+            'px-1 py-1 rounded-2xl border border-solid transition',
           )}
           alignCenter
         >
@@ -53,14 +53,15 @@ export const TabsSelect = memo(
                 style={tabWidth ? { width: tabWidth } : {}}
                 className={classNames('self-stretch', {
                   'flex-1': !tabWidth,
-                  '!bg-opacity-90 dark:!bg-opacity-50': value === selectedValue,
+                  '!bg-opacity-100 dark:!bg-opacity-50':
+                    value === selectedValue,
                 })}
                 key={value}
                 variant={value === selectedValue ? 'primary' : 'tint'}
                 type={value === selectedValue ? 'default' : 'borderless'}
                 onClick={() => onChange(value)}
               >
-                <Typography variant="caption-xs">{label}</Typography>
+                {label}
               </Button>
             ))}
           </Box>

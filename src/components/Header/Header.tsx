@@ -8,6 +8,7 @@ import { GasTracker } from 'components/GasTracker'
 import { StatusDropdown } from 'components/StatusDropdown'
 import { TxManager } from 'components/TxManager'
 
+import { useApp } from 'store/app/hooks'
 import { useMidgard } from 'store/midgard/hooks'
 import { useWallet } from 'store/wallet/hooks'
 
@@ -15,11 +16,14 @@ import { useWalletDrawer } from 'hooks/useWalletDrawer'
 
 import { t } from 'services/i18n'
 
+import { ThemeType } from 'types/app'
+
 type Props = {
   openMenu: () => void
 }
 
 export const Header = ({ openMenu }: Props) => {
+  const { themeType } = useApp()
   const { isWalletLoading, wallet, setIsConnectModalOpen } = useWallet()
   const { setIsDrawerVisible } = useWalletDrawer()
   const { stats } = useMidgard()
@@ -54,7 +58,7 @@ export const Header = ({ openMenu }: Props) => {
           />
 
           <Box
-            className="h-10 px-2 border border-solid rounded-2xl border-cyan"
+            className="h-10 px-2 bg-white border border-transparent border-solid shadow-md rounded-2xl dark:border-cyan dark:bg-transparent"
             center
           >
             <Typography
@@ -75,7 +79,7 @@ export const Header = ({ openMenu }: Props) => {
         <Box className="min-h-[70px]" justify="between">
           <Button
             className="mr-2"
-            type="outline"
+            type={themeType === ThemeType.Light ? 'default' : 'outline'}
             onClick={handleClickWalletBtn}
           >
             {isWalletLoading

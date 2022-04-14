@@ -46,7 +46,7 @@ export const PanelInput = ({
     <Box
       onClick={focus}
       className={classNames(
-        'py-4 px-4 md:px-6 self-stretch !bg-light-gray-light dark:!bg-dark-gray-light !rounded-2xl md:!rounded-3xl transition-all duration-300',
+        'py-4 px-4 md:px-6 self-stretch !bg-light-bg-primary dark:!bg-dark-gray-light !rounded-2xl md:!rounded-3xl transition-all duration-300',
         'border border-transparent border-solid hover:border-light-gray-primary dark:hover:border-dark-gray-primary',
         {
           [borderHighlightClass]: isFocused,

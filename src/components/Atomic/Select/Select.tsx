@@ -37,14 +37,14 @@ export const Select = ({
         {options.map((option, index) => (
           <Button
             className={classNames({
-              '!bg-opacity-90 dark:!bg-opacity-50': index === activeIndex,
+              '!bg-opacity-100 dark:!bg-opacity-50': index === activeIndex,
             })}
             key={option}
             variant={activeIndex === index ? 'primary' : 'tint'}
             type={activeIndex === index ? 'default' : 'outline'}
             onClick={() => onHandleChange(index)}
           >
-            <Typography variant="caption-xs">{option}</Typography>
+            {option}
           </Button>
         ))}
       </Box>
@@ -54,7 +54,7 @@ export const Select = ({
           menuItems={dropdownOptions}
           value={options[activeIndex]}
           openComponent={
-            <Box className="w-fit gap-2" alignCenter>
+            <Box className="gap-2 w-fit" alignCenter>
               <Typography variant="caption">{options[activeIndex]}</Typography>
             </Box>
           }

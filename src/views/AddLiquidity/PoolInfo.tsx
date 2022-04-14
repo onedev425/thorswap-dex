@@ -33,7 +33,7 @@ export const PoolInfo = memo(
 
     return (
       <Collapse
-        className="self-stretch !mt-0 !bg-light-gray-light dark:!bg-dark-gray-light !rounded-2xl flex-col"
+        className="self-stretch !mt-0 !bg-light-bg-primary dark:!bg-dark-gray-light !rounded-2xl flex-col"
         shadow={false}
         title={
           <Box row className="gap-x-2">

@@ -2,7 +2,11 @@ import { useMemo } from 'react'
 
 import { takeRight } from 'lodash'
 
+import { useApp } from 'store/app/hooks'
+
 import { useFormatPrice } from 'helpers/formatPrice'
+
+import { ThemeType } from 'types/app'
 
 import { getChartData } from './config/chartData'
 import { getChartOptions } from './config/chartOptions'
@@ -24,6 +28,8 @@ export const useChartData = ({
   selectedIndex,
   chartTimeFrame,
 }: Params) => {
+  const { themeType } = useApp()
+
   const {
     loading,
     type = ChartType.Line,
@@ -46,9 +52,14 @@ export const useChartData = ({
 
     return {
       chartValues: values,
-      parsedChartData: getChartData(type, labels, values),
+      parsedChartData: getChartData(
+        type,
+        labels,
+        values,
+        themeType === ThemeType.Light,
+      ),
     }
-  }, [slicedByTime, type])
+  }, [slicedByTime, themeType, type])
 
   return {
     isChartLoading: loading,

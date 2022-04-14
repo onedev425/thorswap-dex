@@ -24,7 +24,7 @@ export const DropdownButton = memo(
               genericBgClasses.secondary,
               baseHoverClass,
               disabled ? 'cursor-not-allowed' : 'cursor-pointer',
-              'h-10 inline-flex justify-between rounded-2xl items-center px-3 !py-0 transition-all',
+              'shadow-md h-10 inline-flex justify-between rounded-2xl items-center px-3 !py-0 transition-all',
             )}
           >
             {typeof label === 'string' ? (

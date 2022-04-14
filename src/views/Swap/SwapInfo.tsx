@@ -31,7 +31,7 @@ export const SwapInfo = memo(
   }: Props) => {
     return (
       <Collapse
-        className="self-stretch mt-5 !bg-light-gray-light dark:!bg-dark-gray-light !rounded-2xl flex-col"
+        className="self-stretch mt-5 !bg-light-bg-primary dark:!bg-dark-gray-light !rounded-2xl flex-col"
         shadow={false}
         title={
           <Box className="gap-x-2">

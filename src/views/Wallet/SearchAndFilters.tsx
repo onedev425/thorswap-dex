@@ -52,7 +52,16 @@ export const SearchAndFilters = memo(
           <Box center>
             <Button
               onClick={() => setWalletViewMode(ViewMode.CARD)}
-              startIcon={<Icon name="grid" size={20} />}
+              startIcon={
+                <Icon
+                  className={classNames({
+                    '!text-white !stroke-white':
+                      walletViewMode === ViewMode.CARD,
+                  })}
+                  name="grid"
+                  size={20}
+                />
+              }
               className={classNames('pl-3 pr-3 !rounded-r-none', {
                 '!bg-opacity-90 dark:!bg-opacity-50':
                   walletViewMode === ViewMode.CARD,
@@ -60,11 +69,20 @@ export const SearchAndFilters = memo(
               variant={walletViewMode === ViewMode.CARD ? 'primary' : 'tint'}
               type={walletViewMode === ViewMode.CARD ? 'default' : 'outline'}
               tooltip={t('views.wallet.gridView')}
-            ></Button>
+            />
 
             <Button
               onClick={() => setWalletViewMode(ViewMode.LIST)}
-              startIcon={<Icon name="list" size={20} />}
+              startIcon={
+                <Icon
+                  className={classNames({
+                    '!text-white !stroke-white':
+                      walletViewMode === ViewMode.LIST,
+                  })}
+                  name="list"
+                  size={20}
+                />
+              }
               className={classNames('pl-2 pr-3 !rounded-l-none', {
                 '!bg-opacity-90 dark:!bg-opacity-50':
                   walletViewMode === ViewMode.LIST,
@@ -72,7 +90,7 @@ export const SearchAndFilters = memo(
               variant={walletViewMode === ViewMode.LIST ? 'primary' : 'tint'}
               type={walletViewMode === ViewMode.LIST ? 'default' : 'outline'}
               tooltip={t('views.wallet.listView')}
-            ></Button>
+            />
           </Box>
         </Box>
       </Box>

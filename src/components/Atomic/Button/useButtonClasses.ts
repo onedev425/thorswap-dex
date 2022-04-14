@@ -25,7 +25,7 @@ const typographyClasses: Record<ButtonVariants, string> = {
 }
 
 const backgroundClasses: Record<ButtonVariants, string> = {
-  primary: 'bg-btn-primary',
+  primary: 'bg-btn-primary-light dark:bg-btn-primary',
   secondary: 'bg-btn-secondary',
   tertiary: 'bg-btn-tertiary',
   warn: 'bg-orange',
@@ -62,7 +62,7 @@ const getBgClass = (
 
 const getOutlinedClass = (variant: ButtonVariants) => {
   const commonClasses =
-    'border-solid bg-opacity-0 hover:bg-opacity-20 active:bg-opacity-50'
+    'border-solid !bg-opacity-0 hover:bg-opacity-20 active:bg-opacity-50'
   const variantClasses = outlinedClasses[variant]
   const variantBgClasses = backgroundClasses[variant]
 

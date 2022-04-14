@@ -10,7 +10,9 @@ import {
 
 import { getColor } from './utils'
 
-const StrokeColors = [
+const lightStrokeColors = [colors.LightStrokeColor1]
+
+const darkStrokeColors = [
   colors.StrokeColor1,
   colors.StrokeColor2,
   colors.StrokeColor3,
@@ -45,6 +47,7 @@ const getDataForBarChart = (
 const getDataForAreaChart = (
   data: DataPoint[],
   dataLabels: string[],
+  isLight: boolean,
 ): AreaChartType => {
   return {
     labels: dataLabels,
@@ -56,7 +59,10 @@ const getDataForAreaChart = (
           [colors.areaChartGradientColor2, colors.areaChartGradientColor1],
           'background',
         ),
-        borderColor: getColor(StrokeColors, 'stroke'),
+        borderColor: getColor(
+          isLight ? lightStrokeColors : darkStrokeColors,
+          'stroke',
+        ),
         borderWidth: 3,
         fill: true,
         cubicInterpolationMode: 'monotone',
@@ -78,6 +84,7 @@ const getDataForAreaChart = (
 const getDataForLineChart = (
   dataLabels: string[],
   dataValues: number[],
+  isLight: boolean,
 ): LineChartType => {
   return {
     labels: dataLabels,
@@ -86,10 +93,15 @@ const getDataForLineChart = (
         data: dataValues,
         label: '',
         backgroundColor: getColor(
-          [colors.lineChartGradientColor1, colors.lineChartGradientColor2],
+          isLight
+            ? [colors.lightLineChartGradColor1, colors.lightLineChartGradColor2]
+            : [colors.lineChartGradientColor1, colors.lineChartGradientColor2],
           'background',
         ),
-        borderColor: getColor(StrokeColors, 'stroke'),
+        borderColor: getColor(
+          isLight ? lightStrokeColors : darkStrokeColors,
+          'stroke',
+        ),
         borderWidth: 3,
         fill: true,
         cubicInterpolationMode: 'default',
@@ -111,6 +123,7 @@ const getDataForLineChart = (
 const getDataForCurvedLineChart = (
   dataLabels: string[],
   dataValues: number[],
+  isLight: boolean,
 ): CurvedLineChartType => {
   return {
     labels: dataLabels,
@@ -124,7 +137,10 @@ const getDataForCurvedLineChart = (
           ],
           'background',
         ),
-        borderColor: getColor(StrokeColors, 'stroke'),
+        borderColor: getColor(
+          isLight ? lightStrokeColors : darkStrokeColors,
+          'stroke',
+        ),
         borderWidth: 3,
         data: dataValues,
         fill: true,
@@ -149,7 +165,10 @@ export const getChartData = <T extends ChartType>(
   type: T,
   dataLabels: string[],
   dataValues: number[],
+  isLight: boolean,
 ) => {
+  console.log('THEME TYPE - ', isLight)
+
   const data = dataLabels.map((label, index) => ({
     x: label,
     y: dataValues[index],
@@ -159,10 +178,10 @@ export const getChartData = <T extends ChartType>(
     case ChartType.Bar:
       return getDataForBarChart(data, dataLabels)
     case ChartType.Area:
-      return getDataForAreaChart(data, dataLabels)
+      return getDataForAreaChart(data, dataLabels, isLight)
     case ChartType.Line:
-      return getDataForLineChart(dataLabels, dataValues)
+      return getDataForLineChart(dataLabels, dataValues, isLight)
     case ChartType.CurvedLine:
-      return getDataForCurvedLineChart(dataLabels, dataValues)
+      return getDataForCurvedLineChart(dataLabels, dataValues, isLight)
   }
 }

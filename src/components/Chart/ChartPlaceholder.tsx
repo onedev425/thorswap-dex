@@ -4,7 +4,11 @@ import { Bar, Line } from 'react-chartjs-2'
 
 import { Box, Icon, Typography } from 'components/Atomic'
 
+import { useApp } from 'store/app/hooks'
+
 import { t } from 'services/i18n'
+
+import { ThemeType } from 'types/app'
 
 import { getChartData } from './config/chartData'
 import { getChartOptions } from './config/chartOptions'
@@ -19,9 +23,17 @@ type Props = {
 const randomData = getRandomChartData()
 
 export const ChartPlaceholder = memo(({ previewChartType, options }: Props) => {
+  const { themeType } = useApp()
+
   const randomSeries = useMemo(
-    () => getChartData(previewChartType, randomData.labels, randomData.values),
-    [previewChartType],
+    () =>
+      getChartData(
+        previewChartType,
+        randomData.labels,
+        randomData.values,
+        themeType === ThemeType.Light || true,
+      ),
+    [previewChartType, themeType],
   )
 
   return (

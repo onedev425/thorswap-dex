@@ -6,6 +6,8 @@ export const StrokeColor3 = '#4cbee3'
 export const StrokeColor4 = '#75e9ed'
 export const StrokeColor5 = '#5cd29c'
 
+export const LightStrokeColor1 = '#39BBF3'
+
 // Colors used in the Bar Chart Component
 export const barChartGradientColor1 = '#348CF4'
 export const barChartGradientColor2 = '#4DBAD6'
@@ -25,6 +27,9 @@ export const lineChartGradientColor2 = '#39BBF3'
 export const lineChartBorderColor = '#39BBF3'
 export const lineChartPointHoverBackgroundColor = '#39BBF3'
 export const lineChartPointHoverBorderColor = '#E2EBFB'
+
+export const lightLineChartGradColor1 = 'rgba(52, 140, 244, 0.02)'
+export const lightLineChartGradColor2 = '#39BBF3'
 
 // Colors used in the Curved Line Chart Component
 export const curvedLineChartGradientColor1 = 'rgba(52, 140, 244, 0)'

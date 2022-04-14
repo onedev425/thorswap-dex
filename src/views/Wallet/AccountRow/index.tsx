@@ -52,7 +52,7 @@ export const AccountRow = memo(({ chain }: Props) => {
           alignCenter
           justify="between"
         >
-          <Box className="gap-3 flex-1 flex-wrap" justify="between">
+          <Box className="flex-wrap flex-1 gap-3" justify="between">
             <HeaderChainInfo
               chain={chain}
               chainWallet={chainWallet}
