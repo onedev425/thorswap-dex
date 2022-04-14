@@ -99,7 +99,8 @@
     "nodeAddress": "नोड पता",
     "upgradeRune": "उन्नत करना Rune",
     "upgradeBnbRune": "उन्नत करना BNB Rune",
-    "amount": "राशि"
+    "amount": "राशि",
+    "depositNotAvailable": "जमा उपलब्ध नहीं"
   },
   "pendingLiquidity": {
     "complete": "कम्प्लीट",

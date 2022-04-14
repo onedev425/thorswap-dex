@@ -15,7 +15,7 @@
     "create": "Crea",
     "connected": "Connesso",
     "disconnect": "Disconnetti",
-    "connectWallet": "Connetti Wallet",
+    "connectWallet": "Connetti Portafoglio",
     "loading": "Caricamento...",
     "documentation": "Documentazione",
     "wallet": "Portafoglio",
@@ -59,7 +59,7 @@
     "withdrawPercent": "Percentuale Prelievo",
     "slippageTooltip": "La transazione verrà ripristinata se il prezzo cambia in modo sfavorevole di oltre questa percentuale.",
     "txFeeTooltip": "Accelerare una transazione utilizzando un prezzo del gas più elevato aumenta le sue possibilità di essere elaborata dalla rete più velocemente.",
-    "expertModeTooltip": "Puoi unire RUNE + Asset con il rapporto dinamico in modalità Esperto.",
+    "expertModeTooltip": "Puoi depositare RUNE + Asset con il rapporto dinamico in modalità Esperto.",
     "customRecipientTooltip": "Ricevi asset al tuo indirizzo personalizzato.",
     "recipientAddress": "Indirizzo Destinatario",
     "addressCopied": "Indirizzo Copiato",
@@ -99,7 +99,8 @@
     "nodeAddress": "Indirizzo Nodo",
     "upgradeRune": "Aggiorna Rune",
     "upgradeBnbRune": "Aggiorna BNB Rune",
-    "amount": "Importo"
+    "amount": "Importo",
+    "depositNotAvailable": "Deposito non disponibile"
   },
   "pendingLiquidity": {
     "complete": "completa",

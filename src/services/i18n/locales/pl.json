@@ -99,7 +99,8 @@
     "nodeAddress": "Adres Node",
     "upgradeRune": "Ulepsz Rune",
     "upgradeBnbRune": "Ulepsz BNB Rune",
-    "amount": "Kwota"
+    "amount": "Kwota",
+    "depositNotAvailable": "Depozyt niedostępny"
   },
   "pendingLiquidity": {
     "complete": "zakończ",

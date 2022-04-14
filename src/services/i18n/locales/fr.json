@@ -99,7 +99,8 @@
     "nodeAddress": "Adresse du Node",
     "upgradeRune": "Mettre à niveau RUNE",
     "upgradeBnbRune": "Mettre à niveau BNB RUNE",
-    "amount": "Montant"
+    "amount": "Montant",
+    "depositNotAvailable": "Dépôt non disponible"
   },
   "pendingLiquidity": {
     "complete": "compléter",

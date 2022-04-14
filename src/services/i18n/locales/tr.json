@@ -2,8 +2,8 @@
   "common": {
     "THORSwap": "THORSwap",
     "thorswapDescription": "",
-    "APY": "",
-    "APR": "",
+    "APY": "APY",
+    "APR": "APR",
     "addLiquidity": "",
     "auto": "",
     "address": "",
@@ -99,7 +99,8 @@
     "nodeAddress": "",
     "upgradeRune": "",
     "upgradeBnbRune": "",
-    "amount": ""
+    "amount": "",
+    "depositNotAvailable": ""
   },
   "pendingLiquidity": {
     "complete": "",

@@ -99,7 +99,8 @@
     "nodeAddress": "Node Address",
     "upgradeRune": "Rune کو اپ گریڈ کریں",
     "upgradeBnbRune": "BNB Rune کو اپ گریڈ کریں۔",
-    "amount": "رقم"
+    "amount": "رقم",
+    "depositNotAvailable": "ڈپازٹ دستیاب نہیں ہے"
   },
   "pendingLiquidity": {
     "complete": "مکمل",

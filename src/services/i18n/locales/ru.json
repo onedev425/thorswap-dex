@@ -99,7 +99,8 @@
     "nodeAddress": "",
     "upgradeRune": "",
     "upgradeBnbRune": "",
-    "amount": "Количество/Кол-во"
+    "amount": "Количество/Кол-во",
+    "depositNotAvailable": ""
   },
   "pendingLiquidity": {
     "complete": "Завершено",

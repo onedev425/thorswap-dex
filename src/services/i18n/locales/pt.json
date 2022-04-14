@@ -99,7 +99,8 @@
     "nodeAddress": "",
     "upgradeRune": "",
     "upgradeBnbRune": "",
-    "amount": ""
+    "amount": "",
+    "depositNotAvailable": ""
   },
   "pendingLiquidity": {
     "complete": "",

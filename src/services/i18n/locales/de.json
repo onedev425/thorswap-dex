@@ -4,7 +4,7 @@
     "thorswapDescription": "THORSwap ist die weltweit erste multi-chain DEX powered by THORCHAIN",
     "APY": "APY",
     "APR": "APY",
-    "addLiquidity": "Liquidität hinzufügen",
+    "addLiquidity": "Einzahlen",
     "auto": "Auto",
     "address": "Adresse",
     "balance": "Saldo",
@@ -34,7 +34,7 @@
     "memo": "Notiz",
     "minutes": "Minuten",
     "receive": "Erhalten",
-    "send": "Schicken",
+    "send": "Senden",
     "staking": "Staken",
     "swap": "Swap",
     "totalValueLocked": "Gesamtliquidität",
@@ -43,7 +43,7 @@
     "value": "Wert",
     "volume": "Volumen",
     "withdraw": "Abheben",
-    "add": "Hinzufügen",
+    "add": "Einzahlen",
     "per": "per",
     "gasTracker": "Gas Tracker",
     "settings": "Einstellungen",
@@ -99,7 +99,8 @@
     "nodeAddress": "Node Adresse",
     "upgradeRune": "Rune Upgraden",
     "upgradeBnbRune": "BNB Rune Upgraden",
-    "amount": "Betrag"
+    "amount": "Betrag",
+    "depositNotAvailable": "Einzahlung nicht verfügbar"
   },
   "pendingLiquidity": {
     "complete": "Vollständig",
@@ -110,10 +111,10 @@
     "withdrawWarning": "Die Abhebungstransaktion führt zur Abhebung deiner bestehenden LP-Position im selben Pool. Bitte wähle \"Abschließen\", wenn du deinen bestehenden LP nicht abheben möchten."
   },
   "appMenu": {
-    "lightTheme": "Helles Design",
-    "darkTheme": "Dunkles Design",
+    "lightTheme": "Hell",
+    "darkTheme": "Dunkel",
     "theme": "App Design",
-    "automaticTheme": "Automatisches Design",
+    "automaticTheme": "Automatisch",
     "currency": "Währung",
     "language": "Sprache",
     "thousandSeparator": "Trenner Tausend",
@@ -123,7 +124,7 @@
     "languageDesc": "Sprache auswählen",
     "themeDesc": "Design der App",
     "separatorDesc": "Trenner Tausend",
-    "currencyDesc": "Währung App",
+    "currencyDesc": "Währung",
     "settings": "Einstellungen",
     "customize": "Dashboard anpassen",
     "showStats": "Globale Statistiken anzeigen",
@@ -133,7 +134,7 @@
   "txManager": {
     "approve": "Bestätigen",
     "swap": "Tausch",
-    "addLiquidity": "Liquidität hinzufügen",
+    "addLiquidity": "Einzahlen",
     "withdraw": "Abheben",
     "donate": "Spenden",
     "refund": "Erstatten",
@@ -149,8 +150,8 @@
     "sendFinished": "%{amount} %{asset} erfolgreich gesendet",
     "burnAmountAsset": "%{amount} %{asset} verbrennen",
     "refunded": "Erstattet",
-    "submitWithdrawTx": "Abhebe TX abschicken",
-    "onlyPending": "Nur ausstehende anzeigen",
+    "submitWithdrawTx": "Abhebe TX senden",
+    "onlyPending": "Nur ausstehend anzeigen",
     "noTxToDisplay": "Keine Transaktionen vorhanden",
     "receivedAmountAsset": "%{amount} %{asset} erhalten",
     "mintedAmountAsset": "%{amount} %{asset} minted",
@@ -200,8 +201,8 @@
       "thoryield": "THORYield"
     },
     "statusDropdown": {
-      "capAvailable": "Gesamtmittel möglich",
-      "capLimit": "Gesamtmittel Limit erreicht",
+      "capAvailable": "Gesamtmittel offen",
+      "capLimit": "Miittelobergrenze erreicht",
       "liqCap": "Liquiditätsobergrenze",
       "outbound": "Outbound",
       "queue": "Schlange",
@@ -230,10 +231,10 @@
       "chart_liquidity": "Liquidität",
       "chart_total": "Gesamt",
       "chart_swap": "Swap",
-      "chart_add": "Hinzufügen",
+      "chart_add": "Einzahlen",
       "chart_withdraw": "Abheben",
-      "chart_lpEarning": "Einnahmen LP",
-      "chart_bondEarning": "Einnahmen Bonds",
+      "chart_lpEarning": "Einkommen LP",
+      "chart_bondEarning": "Einkommen Bonds",
       "chart_runePrice": "$RUNE Preis"
     },
     "nodes": {
@@ -322,7 +323,7 @@
       "tvlTooltip": "Gesamtwert im Netzwerk (Gesamtliquidität + Gesamtwert Node Bonds).",
       "totalLiq": "Gesamtliquidität",
       "totalLiqTooltip": "Gesamtliquidität aller Pools.",
-      "totalBond": "Summe activer Bonds",
+      "totalBond": "Summe aktiver Bonds",
       "totalBondTooltip": "Gesamtbetrag von aktiven Nodes gebonded",
       "totalVolume": "Gesamtvolumen",
       "totalVolumeTooltip": "Gesamtvolumen im Netzwerk",
@@ -381,7 +382,7 @@
       "listView": "Als Liste darstellen",
       "gridView": "Als Grid darstellen",
       "walletTypeConnected": "%{walletType} verbunden",
-      "goToAccount": "Zum Account",
+      "goToAccount": "Blockchain ansehen",
       "showQRCode": "QR Code anzeigen",
       "copyAddress": "Adresse kopieren",
       "viewKeystorePhrase": "Keystore Phrase anzeigen",
@@ -393,13 +394,13 @@
     "walletDrawer": {
       "openWalletPage": "Wallet-Seite öffnen",
       "disconnectAll": "Alle Trennen",
-      "connectAnotherWallet": "Anderes Wallet verbinden",
-      "connectAnother": "Anderes Wallet verbinden",
+      "connectAnotherWallet": "Weiteres Wallet verbinden",
+      "connectAnother": "Weiteres Wallet verbinden",
       "disconnect": "Alle Trennen",
       "confirmDisconnect": "Bist du sicher, dass du dein Wallet trennen willst"
     },
     "liquidity": {
-      "addButton": "Hinzufügen",
+      "addButton": "Einzahlen",
       "completeButton": "Fertigstellen",
       "amountToRemove": "Betrag zum entfernen",
       "approve": "Genehmigen",
@@ -437,7 +438,7 @@
       "selectChain": "Chain auswählen",
       "connectXdefi": "XDEFI Wallet verbinden",
       "installXdefi": "XDEFI Wallet installieren",
-      "prioritiseXdefi": "XDEFI Wallet bevorzugen",
+      "prioritiseXdefi": "XDEFI Wallet priorisieren",
       "connectStation": "Terra Station Extension",
       "connectTerraMobile": "Terra Station Mobile",
       "installStation": "Terra Station installieren",
@@ -460,8 +461,8 @@
       "keystorePassword": "Passwort Entschlüsselung",
       "unlock": "Entsperren",
       "createWallet": "Wallet erstellen",
-      "wrongPassword": "Passwort inkorrekt",
-      "inputPassword": "Input Passwort",
+      "wrongPassword": "Passwort ist inkorrekt",
+      "inputPassword": "Passwort erstellen",
       "enterPassword": "Password eingeben",
       "confirmPassword": "Passwort bestätigen",
       "phrase": "Phrase",
@@ -470,19 +471,19 @@
       "enterSeed": "Bitte 12 stelligen Seed Phrase eingeben",
       "invalidPhrase": "Phrase ist ungültig",
       "backupKeystore": "Keystore Backup",
-      "enterKeystorePassword": "Keystore Password bestätigen",
+      "enterKeystorePassword": "Keystore Passwort bestätigen",
       "copyPhrase": "Phrase kopieren",
       "phraseCopied": "Phrase kopiert",
       "keystoreError": "Keystore Datei ist invalide",
       "jsonError": "Kein valides json",
       "selectingKeyError": "Auswahl der Schlüssel-Datei fehlgeschlagen",
-      "recoveryPassword": "Password zur Wiederherstellung"
+      "recoveryPassword": "Passwort zur Wiederherstellung"
     },
     "addLiquidity": {
       "pricesAndPoolShare": "Preise und Pool-Anteile",
-      "asymmetricPoolTip": "Du bist dabei asymmetrisch in einen Pool einzuzahlen",
+      "asymmetricPoolTip": "Asymmetrisch Einzahlung in einen Pool",
       "shareOfPool": "Anteil des Pools",
-      "asymmetricPoolNotice": "Deine Assets werden bei Einzahlung in den Pool ausbalanciert. Das bedeutet, dass du sowohl RUNE als auch dein ASSET im Verhältins 50:50 ausgesetzt bist."
+      "asymmetricPoolNotice": "Deine Assets werden bei Einzahlung in den Pool ausbalanciert. Das bedeutet, dass du Kursschwankungen sowohl von RUNE als auch deinem ASSET im Verhältins 50:50 ausgesetzt bist."
     },
     "vesting": {
       "claimAmount": "Betrag beanspruchen",
@@ -509,7 +510,7 @@
     }
   },
   "validation": {
-    "invalidPassword": "Falsches Passwort"
+    "invalidPassword": "Inkorrektes Passwort"
   },
   "notification": {
     "addressCopied": "Adresse kopiert",
@@ -531,7 +532,7 @@
     "swapAmountTooSmallDesc": "Swap Output Betrag ist gering und könnte durch Ethereum Gas Gebühren aufgebraucht werden",
     "approveFailed": "Genehmigung fehlgeschlagen",
     "invalidL1ChainAddy": "Die Empfängeradresse ist keine gültige %{chain} Adresse. Bitte prüfe die Adresse noch einmal",
-    "fundsCapReached": "Gesamtmittelgrenze erreicht",
+    "fundsCapReached": "Miittelobergrenze erreicht",
     "fundsCapReachedDesc": "Einzahlungen auf Grund des Erreichens der Mittelobergrenze aktuell nicht möglich. Bitte versuche es später erneut.",
     "prioritisationError": "Priorisierungsfehler",
     "xdefiPrioritise": "Bitte priorisiere XDEFI Wallet und lade die Seite neu.",

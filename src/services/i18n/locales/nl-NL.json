@@ -99,7 +99,8 @@
     "nodeAddress": "Node adres",
     "upgradeRune": "Rune upgraden",
     "upgradeBnbRune": "BNB Rune upgraden",
-    "amount": "Bedrag"
+    "amount": "Bedrag",
+    "depositNotAvailable": "Storten niet beschikbaar"
   },
   "pendingLiquidity": {
     "complete": "Compleet",

@@ -99,7 +99,8 @@
     "nodeAddress": "Dirección del Nodo",
     "upgradeRune": "Rune Ascendido",
     "upgradeBnbRune": "Rune BNB Ascendido",
-    "amount": "Cantidad"
+    "amount": "Cantidad",
+    "depositNotAvailable": "Depósitos no disponibles"
   },
   "pendingLiquidity": {
     "complete": "Completar",
