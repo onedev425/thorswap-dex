@@ -97,9 +97,9 @@ export const AddLiquidity = () => {
   const loadMemberDetailsByChain = useCallback(
     (chain: SupportedChain) => {
       if (!wallet) return
-
       const assetChainAddress = wallet?.[chain]?.address
       const thorchainAddress = wallet?.[Chain.THORChain]?.address
+
       if (assetChainAddress && thorchainAddress) {
         dispatch(
           actions.reloadPoolMemberDetailByChain({
@@ -420,12 +420,7 @@ export const AddLiquidity = () => {
       }
 
       const maxAmount = isSymDeposit ? maxSymAssetAmount : maxPoolAssetBalance
-      console.info(
-        '🔥',
-        isSymDeposit,
-        maxSymAssetAmount.toFixed(4),
-        maxAmount.toFixed(4),
-      )
+
       if (amount.gt(maxAmount)) {
         setAssetAmount(maxAmount)
 

@@ -167,8 +167,6 @@ export const getChartData = <T extends ChartType>(
   dataValues: number[],
   isLight: boolean,
 ) => {
-  console.log('THEME TYPE - ', isLight)
-
   const data = dataLabels.map((label, index) => ({
     x: label,
     y: dataValues[index],

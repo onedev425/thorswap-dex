@@ -85,6 +85,7 @@ export const useMidgard = () => {
 
       const assetChainAddress = wallet?.[chain]?.address
       const thorchainAddress = wallet?.[Chain.THORChain]?.address
+
       if (assetChainAddress && thorchainAddress) {
         dispatch(
           actions.reloadPoolMemberDetailByChain({
@@ -124,8 +125,6 @@ export const useMidgard = () => {
     Object.keys(walletState.wallet).forEach((chain) => {
       getMemberDetailsByChain(chain as SupportedChain)
     })
-
-    // dispatch(setMemberDetailsLoading(false))
   }, [getMemberDetailsByChain, walletState.wallet])
 
   // get tx data

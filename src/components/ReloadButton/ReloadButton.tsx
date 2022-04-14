@@ -4,7 +4,7 @@ import { t } from 'services/i18n'
 
 export type ReloadProps = {
   loading: boolean
-  onLoad: () => void
+  onLoad?: () => void
   tooltip?: string
   size?: number
 }
@@ -22,7 +22,7 @@ export const ReloadButton = ({
       variant="tint"
       onClick={onLoad}
       startIcon={<Icon name="refresh" size={size} spin={loading} />}
-      tooltip={tooltip}
+      tooltip={onLoad ? tooltip : ''}
     />
   )
 }

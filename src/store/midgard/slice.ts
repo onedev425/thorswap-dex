@@ -15,7 +15,6 @@ const initialState: State = {
   memberDetails: {
     pools: [],
   },
-  memberDetailsLoading: false,
   chainMemberDetails: {},
   chainMemberDetailsLoading: {},
   stats: null,
@@ -82,9 +81,6 @@ const midgardSlice = createSlice({
     setTxCollapsed(state, action: PayloadAction<boolean>) {
       state.txCollapsed = action.payload
     },
-    setMemberDetailsLoading: (state, { payload }: PayloadAction<boolean>) => {
-      state.memberDetailsLoading = payload
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -117,19 +113,12 @@ const midgardSlice = createSlice({
       .addCase(midgardActions.getNodes.rejected, (state) => {
         state.nodeLoading = false
       })
-      .addCase(midgardActions.getMemberDetail.pending, (state) => {
-        state.memberDetailsLoading = true
-      })
       .addCase(
         midgardActions.getMemberDetail.fulfilled,
         (state, { payload }) => {
           state.memberDetails = payload
-          state.memberDetailsLoading = false
         },
       )
-      .addCase(midgardActions.getMemberDetail.rejected, (state) => {
-        state.memberDetailsLoading = false
-      })
       // used for getting all pool share data
       .addCase(
         midgardActions.getPoolMemberDetailByChain.pending,
@@ -140,14 +129,6 @@ const midgardSlice = createSlice({
             ...state.chainMemberDetailsLoading,
             [chain]: true,
           }
-
-          // reset chain member data
-
-          const chainMemberDetailsData = state.chainMemberDetails
-          if (chainMemberDetailsData?.[chain])
-            delete chainMemberDetailsData?.[chain]
-          state.chainMemberDetails = chainMemberDetailsData
-          // state.memberDetailsLoading = true
         },
       )
       /**
@@ -170,7 +151,6 @@ const midgardSlice = createSlice({
 
           state.chainMemberDetails = fetchedChainMemberDetails
 
-          // state.memberDetailsLoading = true
           state.chainMemberDetailsLoading = {
             ...state.chainMemberDetailsLoading,
             [chain]: false,
@@ -182,10 +162,14 @@ const midgardSlice = createSlice({
         (state, { meta }) => {
           const { chain } = meta.arg
 
-          // state.memberDetailsLoading = true
           state.chainMemberDetailsLoading = {
             ...state.chainMemberDetailsLoading,
             [chain]: false,
+          }
+
+          // reset chain member data
+          if (state.chainMemberDetails[chain]) {
+            delete state.chainMemberDetails[chain]
           }
         },
       )
@@ -208,13 +192,8 @@ const midgardSlice = createSlice({
        */
       .addCase(
         midgardActions.reloadPoolMemberDetailByChain.fulfilled,
-        (state, action) => {
-          const {
-            arg: { chain },
-          } = action.meta
-
-          const { runeMemberData, assetMemberData } = action.payload
-
+        (state, { meta, payload: { runeMemberData, assetMemberData } }) => {
+          const { chain } = meta.arg
           const { pools: runeMemberDetails } = runeMemberData
           const { pools: assetMemberDetails } = assetMemberData
 
@@ -498,6 +477,5 @@ const midgardSlice = createSlice({
 })
 
 export const { reducer, actions } = midgardSlice
-export const { setMemberDetailsLoading } = actions
 
 export default midgardSlice

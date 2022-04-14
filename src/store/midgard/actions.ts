@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { ActionTypeEnum } from '@thorswap-lib/midgard-sdk'
-import { Asset } from '@thorswap-lib/multichain-sdk'
+import { Asset, SupportedChain } from '@thorswap-lib/multichain-sdk'
 
 import { midgardApi } from 'services/midgard'
 import { multichain } from 'services/multichain'
@@ -138,17 +138,14 @@ export const reloadPoolMemberDetailByChain = createAsyncThunk(
     thorchainAddress,
     assetChainAddress,
   }: {
-    chain: ToDo
+    chain: SupportedChain
     thorchainAddress: string
     assetChainAddress: string
   }) => {
     const runeMemberData = await midgardApi.getMemberDetail(thorchainAddress)
     const assetMemberData = await midgardApi.getMemberDetail(assetChainAddress)
 
-    return {
-      runeMemberData,
-      assetMemberData,
-    }
+    return { runeMemberData, assetMemberData }
   },
 )
 

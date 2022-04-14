@@ -30,12 +30,8 @@ const ManageLiquidity = () => {
   const navigate = useNavigate()
   const { wallet, setIsConnectModalOpen } = useWallet()
 
-  const {
-    chainMemberDetails,
-    getAllMemberDetails,
-    memberDetailsLoading,
-    chainMemberDetailsLoading,
-  } = useMidgard()
+  const { chainMemberDetails, getAllMemberDetails, chainMemberDetailsLoading } =
+    useMidgard()
 
   const [tipVisible, setTipVisible] = useState(true)
 
@@ -50,7 +46,10 @@ const ManageLiquidity = () => {
     [chainMemberDetails],
   )
 
-  console.log('chainMemberDetails', chainMemberDetails)
+  const isLoadingLiquidities = useMemo(
+    () => Object.values(chainMemberDetailsLoading).some((l) => l),
+    [chainMemberDetailsLoading],
+  )
 
   return (
     <PanelView
@@ -61,7 +60,7 @@ const ManageLiquidity = () => {
           actionsComponent={
             <>
               <ReloadButton
-                loading={memberDetailsLoading}
+                loading={isLoadingLiquidities}
                 onLoad={getAllMemberDetails}
               />
               <GlobalSettingsPopover />

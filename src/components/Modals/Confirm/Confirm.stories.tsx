@@ -24,11 +24,9 @@ export const Default = () => {
         isOpened={isOpened}
         onConfirm={() => {
           setIsOpened(false)
-          console.info('Confirmed!')
         }}
         onCancel={() => {
           setIsOpened(false)
-          console.info('Cancelled!')
         }}
         description={'Are you sure you want to proceed with this action?'}
       ></Confirm>

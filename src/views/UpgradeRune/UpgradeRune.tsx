@@ -244,9 +244,6 @@ const UpgradeRune = () => {
 
   // TODO: add more validations
 
-  console.info('wallet', wallet?.BNB?.balance)
-  console.info('asset', Asset.BNB_RUNE())
-
   return (
     <Box className="self-center w-full max-w-[480px]" col>
       <Helmet

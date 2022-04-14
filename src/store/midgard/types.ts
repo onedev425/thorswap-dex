@@ -145,7 +145,6 @@ export interface State {
   pools: Pool[]
   poolLoading: boolean
   memberDetails: MemberDetails
-  memberDetailsLoading: boolean
   chainMemberDetails: ChainMemberDetails
   chainMemberDetailsLoading: ChainMemberDetailsLoading
   poolStats: PoolStatsDetail | null

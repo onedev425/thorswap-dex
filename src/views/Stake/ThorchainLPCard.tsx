@@ -17,24 +17,23 @@ import { tcFarmData } from './farmData'
 
 export const ThorchainLPCard = () => {
   const { wallet, setIsConnectModalOpen } = useWallet()
-
   const thorAPY = useThorAPY()
+  const liquidityRouter = getAddLiquidityRoute(Asset.THOR())
+  const withdrawRouter = getWithdrawRoute(Asset.THOR())
 
   const ethAddr = useMemo(
     () => wallet && wallet.ETH && wallet.ETH.address,
     [wallet],
   )
-  const thorAddr = useMemo(() => wallet?.THOR?.address, [wallet])
 
-  const isWalletConnected = useMemo(
-    () => ethAddr && thorAddr,
-    [ethAddr, thorAddr],
-  )
+  // const thorAddr = useMemo(() => wallet?.THOR?.address, [wallet])
 
-  const liquidityRouter = getAddLiquidityRoute(Asset.THOR())
-  const withdrawRouter = getWithdrawRoute(Asset.THOR())
+  // const isWalletConnected = useMemo(
+  //   () => ethAddr && thorAddr,
+  //   [ethAddr, thorAddr],
+  // )
 
-  console.info(isWalletConnected)
+  // console.info(isWalletConnected)
 
   return (
     <Box col className="w-full md:w-1/2 lg:w-1/3">

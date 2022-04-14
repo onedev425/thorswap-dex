@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 
 import { Asset, Pool, SupportedChain } from '@thorswap-lib/multichain-sdk'
 import { chainToString } from '@thorswap-lib/xchain-util'
@@ -25,15 +25,12 @@ type Props = {
 }
 
 export const ChainLiquidityPanel = ({ chain, data, isLoading }: Props) => {
-  const { pools, loadMemberDetailsByChain } = useMidgard()
+  const { pools } = useMidgard()
 
-  const chainWalletAddress = useMemo(() => {
-    return multichain.getWalletAddressByChain(chain) || '#'
-  }, [chain])
-
-  const reloadChainPoolDetails = useCallback(() => {
-    loadMemberDetailsByChain(chain)
-  }, [chain, loadMemberDetailsByChain])
+  const chainWalletAddress = useMemo(
+    () => multichain.getWalletAddressByChain(chain) || '#',
+    [chain],
+  )
 
   // get symm, asset asym, rune asym LPs
   const chainLiquidityPositions = useMemo(() => {
@@ -77,9 +74,6 @@ export const ChainLiquidityPanel = ({ chain, data, isLoading }: Props) => {
     return liquidityPositions
   }, [data, pools])
 
-  console.info('chainLiquidity', data)
-  console.info('chainLiquidityPositions', chainLiquidityPositions)
-
   return (
     <Box className="gap-1" col>
       <InfoRow
@@ -103,14 +97,11 @@ export const ChainLiquidityPanel = ({ chain, data, isLoading }: Props) => {
               />
             </Link>
 
-            <ReloadButton
-              size={16}
-              loading={isLoading}
-              onLoad={reloadChainPoolDetails}
-            />
+            <ReloadButton size={16} loading={isLoading} />
           </Box>
         }
       />
+
       {chainLiquidityPositions.map((liquidityPosition) => (
         <LiquidityCard
           {...liquidityPosition}
