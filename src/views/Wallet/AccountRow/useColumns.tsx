@@ -77,7 +77,7 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
           Header: () => t('common.usdPrice'),
           align: 'right',
           minScreenSize: BreakPoint.md,
-          accessor: (row: AssetAmount) => row.asset.ticker,
+          accessor: (row: AssetAmount) => row.asset.symbol,
           Cell: ({ cell: { value } }: { cell: { value: string } }) => (
             <Typography fontWeight="bold">
               {formatPrice(
@@ -92,7 +92,7 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
           id: 'price24h',
           Header: () => '24h%',
           align: 'right',
-          accessor: (row: AssetAmount) => row.asset.ticker,
+          accessor: (row: AssetAmount) => row.asset.symbol,
           minScreenSize: BreakPoint.md,
           Cell: ({ cell: { value } }: { cell: { value: string } }) => (
             <Typography

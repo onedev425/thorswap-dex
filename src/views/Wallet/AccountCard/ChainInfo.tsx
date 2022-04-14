@@ -19,7 +19,7 @@ export const ChainInfo = memo(
     const {
       current_price: currentPrice = 0,
       price_change_percentage_24h: priceChangePercentage24h = 0,
-    } = geckoData[asset.ticker] || {}
+    } = geckoData[asset.symbol] || {}
     const assetBalance = formatPrice(assetAmount.toNumber() * currentPrice)
     const value = `${formatPrice(assetAmount.toNumber(), {
       prefix: '',
