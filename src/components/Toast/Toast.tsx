@@ -54,7 +54,7 @@ export const showToast: ShowToastFunction = (
         className="z-50 items-center px-4 py-2 m-20 border border-solid drop-shadow-md rounded-xl border-light-border-primary dark:border-dark-border-primary bg-light-bg-primary dark:bg-dark-bg-secondary"
         row
       >
-        <Box col className="max-w-[280px] w-[280px]">
+        <Box col className="max-w-[320px] w-[280px]">
           <Box col>
             <Box alignCenter justify="between">
               <Box alignCenter>

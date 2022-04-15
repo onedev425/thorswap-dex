@@ -12,6 +12,7 @@ import { Chain, TERRAChain } from '@thorswap-lib/xchain-util'
 
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, Button, Card, Icon, Modal, Typography } from 'components/Atomic'
+import { InfoTip } from 'components/InfoTip'
 import { Input } from 'components/Input'
 import { Scrollbar } from 'components/Scrollbar'
 import { showToast, ToastType } from 'components/Toast'
@@ -556,29 +557,45 @@ export const WalletModal = () => {
       onClose={handleCloseModal}
       onBack={walletStage !== WalletStage.WalletSelect ? handleBack : undefined}
     >
-      <Card className="w-[85vw] max-w-[420px] md:w-[65vw]" stretch size="lg">
-        {walletStage === WalletStage.WalletSelect && renderMainPanel}
-
-        {walletStage === WalletStage.ChainSelect && renderChainSelectPanel}
-
-        {walletStage === WalletStage.Final && (
-          <>
-            {walletMode === WalletMode.Keystore && (
-              <ConnectKeystoreView
-                loading={walletLoading}
-                onConnect={handleConnect}
-                onCreate={() => setWalletMode(WalletMode.Create)}
+      <Card
+        className="w-[85vw] !py-6 max-w-[420px] md:w-[65vw]"
+        stretch
+        size="lg"
+      >
+        <Box className="w-full" col>
+          {walletStage === WalletStage.ChainSelect &&
+            walletMode === WalletMode.Ledger && (
+              <InfoTip
+                className="!mb-4"
+                content="Make sure your Ledger is unlocked and you have opened the app you would like to connect before proceeding"
+                title="Unlock Ledger and open App"
+                type="warn"
               />
             )}
-            {walletMode === WalletMode.Create && (
-              <CreateKeystoreView
-                onConnect={handleConnect}
-                onKeystore={() => setWalletMode(WalletMode.Keystore)}
-              />
-            )}
-            {walletMode === WalletMode.Phrase && <PhraseView />}
-          </>
-        )}
+
+          {walletStage === WalletStage.WalletSelect && renderMainPanel}
+
+          {walletStage === WalletStage.ChainSelect && renderChainSelectPanel}
+
+          {walletStage === WalletStage.Final && (
+            <>
+              {walletMode === WalletMode.Keystore && (
+                <ConnectKeystoreView
+                  loading={walletLoading}
+                  onConnect={handleConnect}
+                  onCreate={() => setWalletMode(WalletMode.Create)}
+                />
+              )}
+              {walletMode === WalletMode.Create && (
+                <CreateKeystoreView
+                  onConnect={handleConnect}
+                  onKeystore={() => setWalletMode(WalletMode.Keystore)}
+                />
+              )}
+              {walletMode === WalletMode.Phrase && <PhraseView />}
+            </>
+          )}
+        </Box>
       </Card>
     </Modal>
   )
