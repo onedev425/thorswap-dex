@@ -35,7 +35,7 @@ export const useSwap = ({
   })
 
   const swap: Swap | null = useMemo(() => {
-    if (poolLoading) return null
+    if (poolLoading || pools.length === 0) return null
 
     try {
       const inputAssetAmount = new AssetAmount(inputAsset, inputAmount)

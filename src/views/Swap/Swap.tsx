@@ -562,7 +562,7 @@ const SwapView = () => {
               <CountDownIndicator
                 duration={POLL_GET_POOLS_INTERVAL / 1000}
                 resetIndicator={poolLoading}
-                onClick={() => getPools()}
+                onClick={getPools}
               />
 
               <Button

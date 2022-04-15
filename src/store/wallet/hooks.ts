@@ -7,10 +7,13 @@ import { SupportedChain } from '@thorswap-lib/multichain-sdk'
 import { Keystore } from '@thorswap-lib/xchain-crypto'
 import { Chain, ETHChain, TERRAChain } from '@thorswap-lib/xchain-util'
 
+import { showToast, ToastType } from 'components/Toast'
+
 import { RootState } from 'store/store'
 
 import { useTerraWallet } from 'hooks/useTerraWallet'
 
+import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
 import * as walletActions from './actions'
@@ -67,9 +70,21 @@ export const useWallet = () => {
 
   const connectLedger = useCallback(
     async (chain: Chain, addressIndex: number) => {
-      await multichain.connectLedger({ chain, addressIndex })
+      const options = { chain, index: addressIndex }
 
-      dispatch(walletActions.getWalletByChain(chain as SupportedChain))
+      try {
+        showToast({ message: t('notification.connectingLedger', options) })
+        await multichain.connectLedger({ chain, addressIndex })
+
+        dispatch(walletActions.getWalletByChain(chain as SupportedChain))
+        showToast({ message: t('notification.connectedLedger', options) })
+      } catch (error) {
+        console.error(error)
+        showToast(
+          { message: t('notification.ledgerFailed', options) },
+          ToastType.Error,
+        )
+      }
     },
     [dispatch],
   )
