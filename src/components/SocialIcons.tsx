@@ -17,7 +17,7 @@ const commonClasses = 'p-2.5 rounded-2xl transform '
 
 const SocialIcons = () => {
   return (
-    <Box className="flex-1 gap-2" center>
+    <Box className="flex-1 gap-2 flex-wrap" center>
       <Tooltip place="bottom" content={t('common.documentation')}>
         <Link to={THORSWAP_DOCUMENTATION_URL}>
           <Icon

@@ -11,10 +11,17 @@ type Props = {
   variant: SidebarVariant
   collapsed: boolean
   hasBackground?: boolean
+  onItemClick?: () => void
 }
 
 export const SidebarItem = memo(
-  ({ collapsed = false, variant, options, hasBackground = false }: Props) => {
+  ({
+    collapsed = false,
+    variant,
+    options,
+    hasBackground = false,
+    onItemClick,
+  }: Props) => {
     const collapseClass = collapsed ? 'scale-0 max-h-0' : 'scale-1 max-h-[20px]'
 
     return (
@@ -63,6 +70,7 @@ export const SidebarItem = memo(
                       collapsed={collapsed}
                       variant="secondary"
                       hasBackground={hasBackground}
+                      onItemClick={onItemClick}
                     />
                   </Fragment>
                 )
@@ -98,6 +106,7 @@ export const SidebarItem = memo(
                     variant={variant}
                     label={navLabel || label}
                     collapsed={collapsed}
+                    onItemClickCb={onItemClick}
                   />
                 </Fragment>
               )

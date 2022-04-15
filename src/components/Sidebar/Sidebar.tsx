@@ -25,6 +25,7 @@ export const Sidebar = ({
   options,
   collapsed = false,
   toggle,
+  onNavItemClick,
 }: SidebarProps) => {
   const sidebarOptions = options || getDefaultNavbarOptions()
 
@@ -60,6 +61,7 @@ export const Sidebar = ({
             options={sidebarOptions}
             variant="primary"
             collapsed={collapsed}
+            onItemClick={onNavItemClick}
           />
         </Scrollbar>
       </div>
@@ -71,6 +73,7 @@ export const Sidebar = ({
           className={classNames('!mx-1')}
           label={t('components.sidebar.V1App')}
           collapsed={collapsed}
+          onItemClickCb={onNavItemClick}
         />
         <NavItem
           href="/"
@@ -82,6 +85,7 @@ export const Sidebar = ({
             e.preventDefault()
             setIsSupportModalOpened(true)
           }}
+          onItemClickCb={onNavItemClick}
         />
       </ul>
 

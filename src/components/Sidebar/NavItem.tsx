@@ -1,4 +1,4 @@
-import { useLayoutEffect } from 'react'
+import { MouseEventHandler, useLayoutEffect } from 'react'
 
 import { useLocation } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
@@ -19,6 +19,7 @@ export const NavItem = ({
   transform = 'uppercase',
   rightIconName,
   onClick,
+  onItemClickCb,
 }: NavItemProps) => {
   const location = useLocation()
   useLayoutEffect(() => {
@@ -28,6 +29,10 @@ export const NavItem = ({
   }, [collapsed])
 
   const isActive = location.pathname === href
+  const onClickHandler: MouseEventHandler = (e) => {
+    onClick?.(e)
+    onItemClickCb?.()
+  }
 
   return (
     <li className={className}>
@@ -49,7 +54,7 @@ export const NavItem = ({
           <Link
             className="flex items-center w-full h-full py-2 no-underline"
             to={href}
-            onClick={onClick}
+            onClick={onClickHandler}
           >
             <Box className="justify-center w-full px-4">
               <div className="min-w-[18px] min-h-[18px]">

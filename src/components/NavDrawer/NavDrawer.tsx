@@ -34,7 +34,7 @@ export const NavDrawer = ({ isVisible, hideMenu }: NavDrawerProps) => {
             : 'opacity-0 -z-10 -translate-x-[300px]',
         )}
       >
-        <Sidebar className="!bg-opacity-100" />
+        <Sidebar className="!bg-opacity-100" onNavItemClick={hideMenu} />
       </div>
     </>
   )

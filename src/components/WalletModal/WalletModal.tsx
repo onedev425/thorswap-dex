@@ -472,7 +472,7 @@ export const WalletModal = () => {
               </Button>
             </Box>
           )}
-        <Scrollbar maxHeight="60vh" customStyle={{ marginRight: '-12px' }}>
+        <Scrollbar maxHeight="100%" customStyle={{ marginRight: '-12px' }}>
           <Box className="flex-1 gap-2" col>
             {availableChainsByWallet[walletMode].map((chain) => {
               const chainWallet = wallet?.[chain]
