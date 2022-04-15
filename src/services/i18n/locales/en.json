@@ -469,7 +469,7 @@
       "phrase": "Phrase",
       "viewPhrase": "View Phrase",
       "verifyAddress": "Verify Address",
-      "enterSeed": "Please Enter 12 Seed Phrase",
+      "enterSeed": "Please Enter 12 words Seed Phrase",
       "invalidPhrase": "Phrase is invalid",
       "backupKeystore": "Backup Keystore",
       "enterKeystorePassword": "Confirm keystore password",

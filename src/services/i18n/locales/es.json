@@ -484,7 +484,7 @@
       "pricesAndPoolShare": "Precios y Parte del Pool",
       "asymmetricPoolTip": "Estás a punto de depositar asimétricamente en un pool.",
       "shareOfPool": "Parte del Pool",
-      "asymmetricPoolNotice0": "",
+      "asymmetricPoolNotice0": "Su %{depositAsset} se reequilibrará al ingresar al pool. Esto significa que tendrá una exposición de 50:50 tanto a RUNE como a %{asset}.",
       "asymmetricPoolNotice": "Tus activos serán balanceados al entrar en el pool. Eso significa que tendrás una exposición 50-50 tanto a RUNE como al Activo emparejado."
     },
     "vesting": {

@@ -484,7 +484,7 @@
       "pricesAndPoolShare": "कीमतें और पूल शेयर\n",
       "asymmetricPoolTip": "आप एक पूल को असममित रूप से जमा करने वाले हैं।",
       "shareOfPool": "पूल का हिस्सा",
-      "asymmetricPoolNotice0": "",
+      "asymmetricPoolNotice0": "पूल में प्रवेश करने पर आपका %{depositAsset} पुन: संतुलित हो जाएगा। इसका मतलब है कि आपके पास RUNE और %{asset} दोनों में 50:50 का एक्सपोजर होगा।",
       "asymmetricPoolNotice": "पूल में प्रवेश करने पर आपकी संपत्ति फिर से संतुलित हो जाएगी। इसका मतलब है कि आपके पास RUNE और आपके ASSET दोनों के लिए 50:50 का एक्सपोजर होगा।"
     },
     "vesting": {

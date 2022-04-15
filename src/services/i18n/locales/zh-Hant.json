@@ -78,7 +78,7 @@
     "pendingTransactions": "待定的交易",
     "clearHistory": "清除歷史",
     "viewOnThoryield": "在Thoryield.com上查看↗",
-    "poolAnalytics": "查看流動從池分析↗",
+    "poolAnalytics": "查看流動池分析↗",
     "percentage": "百分比",
     "copy": "復製",
     "pool": "流動池",
@@ -484,7 +484,7 @@
       "pricesAndPoolShare": "價格與流動池占比",
       "asymmetricPoolTip": "您即將以非對稱添加方式入池。",
       "shareOfPool": "流動池占比",
-      "asymmetricPoolNotice0": "Your %{depositAsset} will be rebalanced upon entering the pool. This means you will have 50:50 exposure to both RUNE and %{asset}.",
+      "asymmetricPoolNotice0": "您的 %{depositAsset} 在進入流動池後將被重新平衡。這意味著您將持有RUNE和 %{asset} 雙面 50：50 的風險。",
       "asymmetricPoolNotice": "您的資產在進入流動池後將被重新平衡。這意味著您將持有RUNE和您提供的代幣雙面 50：50 的風險。"
     },
     "vesting": {
