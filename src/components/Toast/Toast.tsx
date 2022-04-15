@@ -41,7 +41,7 @@ export const showLongToast: ShowToastFunction = (content, type, options) =>
   showToast(content, type, { ...options, duration: 60 * 1000 })
 
 export const showToast: ShowToastFunction = (
-  content,
+  { description, message },
   type = ToastType.Info,
   options = {},
 ) => {
@@ -49,7 +49,7 @@ export const showToast: ShowToastFunction = (
   const duration = options.duration || type === ToastType.Error ? 10000 : 5000
 
   toast.custom(
-    (t) => (
+    ({ id }) => (
       <Box
         className="z-50 items-center px-4 py-2 m-20 border border-solid drop-shadow-md rounded-xl border-light-border-primary dark:border-dark-border-primary bg-light-bg-primary dark:bg-dark-bg-secondary"
         row
@@ -62,9 +62,9 @@ export const showToast: ShowToastFunction = (
                 <Box className={classNames({ 'pl-2': icon })} col>
                   <Typography
                     variant="caption"
-                    fontWeight={content.description ? 'bold' : 'medium'}
+                    fontWeight={description ? 'bold' : 'medium'}
                   >
-                    {content.message}
+                    {message}
                   </Typography>
                 </Box>
               </Box>
@@ -72,17 +72,16 @@ export const showToast: ShowToastFunction = (
                 name="close"
                 color="primary"
                 size={18}
-                onClick={() => toast.dismiss(t.id)}
+                onClick={() => toast.remove(id)}
               />
             </Box>
             <Box className="pl-8">
-              {content.description &&
-              typeof content.description === 'string' ? (
+              {description && typeof description === 'string' ? (
                 <Typography variant="caption-xs" fontWeight="light">
-                  {content.description}
+                  {description}
                 </Typography>
               ) : (
-                content.description
+                description
               )}
             </Box>
           </Box>
