@@ -140,7 +140,7 @@ export const PoolTable = ({ data }: PoolTableProps) => {
     <div className="flex flex-col">
       <Table
         onRowClick={navigateToPoolInfo}
-        // @ts-expect-error Overall typing for `react-table` is broken on our side
+        // @ts-expect-error TODO: Overall typing for `react-table` is broken on our side
         columns={columns}
         data={data}
         sortable

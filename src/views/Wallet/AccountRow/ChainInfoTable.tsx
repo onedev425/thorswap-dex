@@ -42,6 +42,7 @@ export const ChainInfoTable = ({ chainInfo, chain, chainAddress }: Props) => {
     <Box col className="transition-all">
       <Table
         data={tableData}
+        // @ts-expect-error TODO: Overall typing for `react-table` is broken on our side
         columns={columns}
         sortable={tableData.length > 1}
         hasShadow={false}
