@@ -140,6 +140,12 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
               openComponent={
                 <Button
                   variant="tint"
+                  disabled={!chainAddress}
+                  tooltip={
+                    chainAddress
+                      ? t('views.wallet.showQRCode')
+                      : t('views.walletModal.notConnected')
+                  }
                   startIcon={
                     <Icon
                       className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"

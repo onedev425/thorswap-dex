@@ -147,7 +147,9 @@ export const AccountCard = memo(({ chain }: Props) => {
                 label={t('common.receive')}
                 disabled={!chainAddress}
                 tooltip={
-                  chainAddress ? '' : t('views.walletModal.notConnected')
+                  chainAddress
+                    ? t('views.wallet.showQRCode')
+                    : t('views.walletModal.notConnected')
                 }
               />
             }

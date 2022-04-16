@@ -40,9 +40,13 @@ export const ShowQrCode = ({ chain, address, openComponent }: Props) => {
         <Box onClick={handleViewQRCode}>{openComponent}</Box>
       ) : (
         <HoverIcon
+          tooltip={
+            address
+              ? t('views.wallet.showQRCode')
+              : t('views.walletModal.notConnected')
+          }
           iconName="qrcode"
           onClick={handleViewQRCode}
-          tooltip={t('views.wallet.showQRCode')}
           size={16}
         />
       )}
