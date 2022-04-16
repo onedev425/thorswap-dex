@@ -640,7 +640,18 @@ const SwapView = () => {
         networkFee={totalFeeInUSD.toCurrencyFormat(2)}
       />
 
-      <Box className="w-full pt-5">
+      <Box className="w-full pt-5 gap-x-2">
+        {isWalletRequired && (
+          <Button
+            isFancy
+            stretch
+            size="lg"
+            onClick={() => setIsConnectModalOpen(true)}
+          >
+            {t('common.connectWallet')}
+          </Button>
+        )}
+
         {isApproveRequired && (
           <Button
             isFancy
@@ -650,17 +661,6 @@ const SwapView = () => {
             loading={buttonLoading}
           >
             {t('txManager.approve')}
-          </Button>
-        )}
-
-        {isWalletRequired && (
-          <Button
-            isFancy
-            stretch
-            size="lg"
-            onClick={() => setIsConnectModalOpen(true)}
-          >
-            {t('common.connectWallet')}
           </Button>
         )}
 
