@@ -5,6 +5,7 @@
     "APY": "APY",
     "APR": "APR",
     "addLiquidity": "",
+    "asset": "",
     "auto": "",
     "address": "",
     "balance": "",
@@ -483,6 +484,7 @@
       "pricesAndPoolShare": "",
       "asymmetricPoolTip": "",
       "shareOfPool": "",
+      "asymmetricPoolNotice0": "",
       "asymmetricPoolNotice": ""
     },
     "vesting": {

@@ -41,13 +41,11 @@ export const PoolListView = () => {
               {t('views.home.featuredPools')}
             </Typography>
           </Box>
-          <Box center className="flex-wrap">
-            <HorizontalSlider itemWidth={302}>
-              {featuredPools.map(({ pool, ...rest }) => (
-                <PoolCard key={pool.asset.ticker} pool={pool} {...rest} />
-              ))}
-            </HorizontalSlider>
-          </Box>
+          <HorizontalSlider itemWidth={302}>
+            {featuredPools.map(({ pool, ...rest }) => (
+              <PoolCard key={pool.asset.ticker} pool={pool} {...rest} />
+            ))}
+          </HorizontalSlider>
         </Box>
       )}
 

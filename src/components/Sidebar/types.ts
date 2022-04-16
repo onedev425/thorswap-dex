@@ -18,6 +18,7 @@ export type NavItemProps = ItemProps & {
   className?: string
   collapsed?: boolean
   onClick?: MouseEventHandler
+  onItemClickCb?: () => void
 }
 
 export type SidebarItemProps = ItemProps & {
@@ -32,6 +33,7 @@ export type SidebarProps = {
   options?: SidebarItemProps[]
   collapsed?: boolean
   toggle?: () => void
+  onNavItemClick?: () => void
 }
 
 export const itemClasses = {

@@ -5,6 +5,7 @@
     "APY": "APY",
     "APR": "APR",
     "addLiquidity": "Liquidity شامل کریں",
+    "asset": "Asset",
     "auto": "Auto",
     "address": "Address",
     "balance": "بقیہ",
@@ -483,6 +484,7 @@
       "pricesAndPoolShare": "قیمتیں اور پول شیئر",
       "asymmetricPoolTip": "آپ asymmetrically طور پر پول جمع کرنے والے ہیں۔",
       "shareOfPool": "پول کا حصہ",
+      "asymmetricPoolNotice0": "پول میں داخل ہونے پر آپ کا {depositAsset}% دوبارہ متوازن ہو جائے گا۔ اس کا مطلب ہے کہ آپ کو RUNE اور {asset}% دونوں کے لیے 50:50 ایکسپوزر ملے گا۔ایکسپوزر ملے گا۔",
       "asymmetricPoolNotice": "پول میں داخل ہونے پر آپ کے اثاثے دوبارہ متوازن ہو جائیں گے۔ اس کا مطلب ہے کہ آپ کو RUNE اور آپ کے اثاثہ دونوں کے لیے 50:50 کی نمائش ہوگی۔"
     },
     "vesting": {

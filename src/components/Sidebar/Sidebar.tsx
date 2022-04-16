@@ -20,16 +20,24 @@ import { getDefaultNavbarOptions } from './data'
 import { SidebarItem } from './SidebarItem'
 import { SidebarProps } from './types'
 
+const noScrollHeight = 225
+const toggleHeight = 50
+
 export const Sidebar = ({
   className,
   options,
   collapsed = false,
   toggle,
+  onNavItemClick,
 }: SidebarProps) => {
   const sidebarOptions = options || getDefaultNavbarOptions()
 
   const navigate = useNavigate()
   const [isSupportModalOpened, setIsSupportModalOpened] = useState(false)
+
+  const scrollbarHeight = `calc(100vh - ${
+    toggle ? noScrollHeight + toggleHeight : noScrollHeight
+  }px)`
 
   return (
     <nav
@@ -55,11 +63,12 @@ export const Sidebar = ({
       </div>
 
       <div className="w-full h-sidebar-content">
-        <Scrollbar height="calc(100vh - 300px)">
+        <Scrollbar height={scrollbarHeight}>
           <SidebarItem
             options={sidebarOptions}
             variant="primary"
             collapsed={collapsed}
+            onItemClick={onNavItemClick}
           />
         </Scrollbar>
       </div>
@@ -71,6 +80,7 @@ export const Sidebar = ({
           className={classNames('!mx-1')}
           label={t('components.sidebar.V1App')}
           collapsed={collapsed}
+          onItemClickCb={onNavItemClick}
         />
         <NavItem
           href="/"
@@ -82,6 +92,7 @@ export const Sidebar = ({
             e.preventDefault()
             setIsSupportModalOpened(true)
           }}
+          onItemClickCb={onNavItemClick}
         />
       </ul>
 

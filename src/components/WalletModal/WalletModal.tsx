@@ -12,6 +12,7 @@ import { Chain, TERRAChain } from '@thorswap-lib/xchain-util'
 
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, Button, Card, Icon, Modal, Typography } from 'components/Atomic'
+import { InfoTip } from 'components/InfoTip'
 import { Input } from 'components/Input'
 import { Scrollbar } from 'components/Scrollbar'
 import { showToast, ToastType } from 'components/Toast'
@@ -124,17 +125,21 @@ export const WalletModal = () => {
   ])
 
   const handleBack = useCallback(() => {
-    if (walletStage === WalletStage.Final) {
-      if (walletMode === WalletMode.Create || walletMode === WalletMode.Phrase)
-        setWalletStage(WalletStage.WalletSelect)
-      else setWalletStage(WalletStage.ChainSelect)
-    } else if (walletStage === WalletStage.ChainSelect)
-      setWalletStage(WalletStage.WalletSelect)
+    switch (walletStage) {
+      case WalletStage.Final:
+        return setWalletStage(
+          walletMode === WalletMode.Create || walletMode === WalletMode.Phrase
+            ? WalletStage.WalletSelect
+            : WalletStage.ChainSelect,
+        )
+
+      case WalletStage.ChainSelect:
+        return setWalletStage(WalletStage.WalletSelect)
+    }
   }, [walletMode, walletStage])
 
   const handleConnectTerraWallet = useCallback(() => {
     connectTerraStation()
-    // close modal
     clearStatus()
   }, [clearStatus, connectTerraStation])
 
@@ -152,25 +157,7 @@ export const WalletModal = () => {
 
   const handleConnectLedger = useCallback(
     async (chain: Chain, index: number) => {
-      try {
-        showToast({
-          message: t('notification.connectingLedger', {
-            chain,
-            index,
-          }),
-        })
-        await connectLedger(chain, index)
-      } catch (error) {
-        showToast(
-          {
-            message: t('notification.ledgerFailed', {
-              chain,
-              index,
-            }),
-          },
-          ToastType.Error,
-        )
-      }
+      await connectLedger(chain, index)
       clearStatus()
     },
     [connectLedger, clearStatus],
@@ -288,20 +275,24 @@ export const WalletModal = () => {
       setWalletMode(selectedWallet)
 
       if (
-        selectedWallet === WalletMode.TrustWallet ||
-        selectedWallet === WalletMode.Xdefi ||
-        selectedWallet === WalletMode.Ledger ||
-        selectedWallet === WalletMode.Keystore ||
-        selectedWallet === WalletMode.MetaMask
+        [
+          WalletMode.TrustWallet,
+          WalletMode.Xdefi,
+          WalletMode.Ledger,
+          WalletMode.Keystore,
+          WalletMode.MetaMask,
+        ].includes(selectedWallet)
       ) {
         setWalletStage(WalletStage.ChainSelect)
 
-        if (selectedWallet === WalletMode.Ledger) {
-          setPendingChains([Chain.Bitcoin])
-        } else {
-          setPendingChains(availableChainsByWallet[selectedWallet])
-        }
-      } else setWalletStage(WalletStage.Final)
+        setPendingChains(
+          selectedWallet === WalletMode.Ledger
+            ? [Chain.Bitcoin]
+            : availableChainsByWallet[selectedWallet],
+        )
+      } else {
+        setWalletStage(WalletStage.Final)
+      }
     },
     [
       isTerraStationInstalled,
@@ -315,16 +306,21 @@ export const WalletModal = () => {
   )
 
   const handleConnectWallet = useCallback(() => {
-    if (walletMode === WalletMode.TrustWallet) {
-      handleConnectTrustWallet(pendingChains)
-    } else if (walletMode === WalletMode.Keystore) {
-      setWalletStage(WalletStage.Final)
-    } else if (walletMode === WalletMode.Xdefi) {
-      handleConnectXdefi(pendingChains)
-    } else if (walletMode === WalletMode.Ledger) {
-      handleConnectLedger(pendingChains[0], ledgerIndex)
-    } else if (walletMode === WalletMode.MetaMask) {
-      handleConnectMetaMask()
+    switch (walletMode) {
+      case WalletMode.TrustWallet:
+        return handleConnectTrustWallet(pendingChains)
+
+      case WalletMode.Keystore:
+        return setWalletStage(WalletStage.Final)
+
+      case WalletMode.Xdefi:
+        return handleConnectXdefi(pendingChains)
+
+      case WalletMode.Ledger:
+        return handleConnectLedger(pendingChains[0], ledgerIndex)
+
+      case WalletMode.MetaMask:
+        return handleConnectMetaMask()
     }
   }, [
     ledgerIndex,
@@ -343,12 +339,11 @@ export const WalletModal = () => {
         return
       }
 
-      if (pendingChains.includes(chain)) {
-        const newPendingChains = pendingChains.filter((item) => item !== chain)
-        setPendingChains(newPendingChains)
-      } else {
-        setPendingChains([...pendingChains, chain])
-      }
+      const newPendingChains = pendingChains.includes(chain)
+        ? pendingChains.filter((item) => item !== chain)
+        : [...pendingChains, chain]
+
+      setPendingChains(newPendingChains)
     },
     [pendingChains, walletMode],
   )
@@ -472,7 +467,7 @@ export const WalletModal = () => {
               </Button>
             </Box>
           )}
-        <Scrollbar maxHeight="60vh" customStyle={{ marginRight: '-12px' }}>
+        <Scrollbar maxHeight="100%" customStyle={{ marginRight: '-12px' }}>
           <Box className="flex-1 gap-2" col>
             {availableChainsByWallet[walletMode].map((chain) => {
               const chainWallet = wallet?.[chain]
@@ -525,9 +520,7 @@ export const WalletModal = () => {
               border="rounded"
               type="number"
               value={ledgerIndex}
-              onChange={(e) => {
-                setLedgerIndex(parseInt(e.target.value))
-              }}
+              onChange={(e) => setLedgerIndex(parseInt(e.target.value))}
             />
           </Box>
         )}
@@ -562,31 +555,47 @@ export const WalletModal = () => {
       isOpened={isConnectModalOpen}
       withBody={false}
       onClose={handleCloseModal}
-      {...(walletStage !== WalletStage.WalletSelect
-        ? { onBack: handleBack }
-        : {})}
+      onBack={walletStage !== WalletStage.WalletSelect ? handleBack : undefined}
     >
-      <Card className="w-[85vw] max-w-[420px] md:w-[65vw]" stretch size="lg">
-        {walletStage === WalletStage.WalletSelect && renderMainPanel}
-        {walletStage === WalletStage.ChainSelect && renderChainSelectPanel}
-        {walletStage === WalletStage.Final && (
-          <>
-            {walletMode === WalletMode.Keystore && (
-              <ConnectKeystoreView
-                loading={walletLoading}
-                onConnect={handleConnect}
-                onCreate={() => setWalletMode(WalletMode.Create)}
+      <Card
+        className="w-[85vw] !py-6 max-w-[420px] md:w-[65vw]"
+        stretch
+        size="lg"
+      >
+        <Box className="w-full" col>
+          {walletStage === WalletStage.ChainSelect &&
+            walletMode === WalletMode.Ledger && (
+              <InfoTip
+                className="!mb-4"
+                content="Make sure your Ledger is unlocked and you have opened the app you would like to connect before proceeding"
+                title="Unlock Ledger and open App"
+                type="warn"
               />
             )}
-            {walletMode === WalletMode.Create && (
-              <CreateKeystoreView
-                onConnect={handleConnect}
-                onKeystore={() => setWalletMode(WalletMode.Keystore)}
-              />
-            )}
-            {walletMode === WalletMode.Phrase && <PhraseView />}
-          </>
-        )}
+
+          {walletStage === WalletStage.WalletSelect && renderMainPanel}
+
+          {walletStage === WalletStage.ChainSelect && renderChainSelectPanel}
+
+          {walletStage === WalletStage.Final && (
+            <>
+              {walletMode === WalletMode.Keystore && (
+                <ConnectKeystoreView
+                  loading={walletLoading}
+                  onConnect={handleConnect}
+                  onCreate={() => setWalletMode(WalletMode.Create)}
+                />
+              )}
+              {walletMode === WalletMode.Create && (
+                <CreateKeystoreView
+                  onConnect={handleConnect}
+                  onKeystore={() => setWalletMode(WalletMode.Keystore)}
+                />
+              )}
+              {walletMode === WalletMode.Phrase && <PhraseView />}
+            </>
+          )}
+        </Box>
       </Card>
     </Modal>
   )

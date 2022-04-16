@@ -30,9 +30,9 @@ export default defineConfig({
       utils: resolve(__dirname, 'src/utils'),
       views: resolve(__dirname, 'src/views'),
 
-      'readable-stream': 'vite-compatible-readable-stream',
       crypto: 'crypto-browserify',
       os: 'os-browserify/browser',
+      'readable-stream': 'vite-compatible-readable-stream',
       stream: 'vite-compatible-readable-stream',
       util: 'util',
     },

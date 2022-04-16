@@ -13,9 +13,8 @@ export const GasUnitLabel: Record<Chain, string> = {
   [Chain.Ethereum]: 'Gwei',
   [Chain.THORChain]: 'Rune',
   [Chain.Binance]: 'Jager', // https://academy.binance.com/en/glossary/jager
-  [Chain.Doge]: 'Sats',
-  [Chain.Litecoin]: 'Sats',
-  [Chain.BitcoinCash]: 'Sats',
+  [Chain.Doge]: 'Koinu',
+  [Chain.Litecoin]: 'Litoshi',
   [Chain.BitcoinCash]: 'Sats',
   [Chain.Terra]: 'uluna',
   [Chain.Polkadot]: 'Sats',

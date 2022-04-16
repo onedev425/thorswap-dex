@@ -62,9 +62,9 @@ export const Button = ({
         onMouseDown={() => timeoutBlur(300)}
         ref={buttonRef}
         className={classNames(
-          'flex border border-solid items-center justify-center outline-none p-0 disabled:opacity-75 transition group',
+          'flex border border-solid items-center justify-center outline-none p-0',
+          'transition group disabled:opacity-75 dark:disabled:opacity-60',
           buttonClass,
-          className,
           disabled || loading ? 'cursor-not-allowed' : 'cursor-pointer',
           {
             [backgroundClass]: type === 'default',
@@ -72,6 +72,7 @@ export const Button = ({
             'w-full': stretch,
             '!border-transparent': !isOutlined,
           },
+          className,
         )}
         disabled={disabled || loading}
         onClick={handleClick}

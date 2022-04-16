@@ -2,22 +2,22 @@ import { SupportedChain } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
 
 export enum WalletStage {
-  'WalletSelect' = 'WalletSelect',
-  'ChainSelect' = 'ChainSelect',
-  'Final' = 'Final',
+  WalletSelect = 'WalletSelect',
+  ChainSelect = 'ChainSelect',
+  Final = 'Final',
 }
 
 export enum WalletMode {
-  'Keystore' = 'Keystore',
-  'Create' = 'Create',
-  'Phrase' = 'Phrase',
-  'Ledger' = 'Ledger',
-  'TrustWallet' = 'TrustWallet',
-  'MetaMask' = 'MetaMask',
-  'Xdefi' = 'Xdefi',
-  'Select' = 'Select',
-  'Terra' = 'Terra',
-  'TerraMobile' = 'TerraMobile',
+  Keystore = 'Keystore',
+  Create = 'Create',
+  Phrase = 'Phrase',
+  Ledger = 'Ledger',
+  TrustWallet = 'TrustWallet',
+  MetaMask = 'MetaMask',
+  Xdefi = 'Xdefi',
+  Select = 'Select',
+  Terra = 'Terra',
+  TerraMobile = 'TerraMobile',
 }
 
 export const availableChainsByWallet: Record<string, SupportedChain[]> = {

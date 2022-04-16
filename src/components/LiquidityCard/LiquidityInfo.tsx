@@ -81,7 +81,7 @@ export const LiquidityInfo = memo(
               <Typography>
                 {`${assetShare.toFixed(4)} ${asset.ticker}`}
               </Typography>
-              <AssetIcon size={27} asset={asset} />
+              <AssetIcon size={24} asset={asset} />
             </Box>
           ),
         })
@@ -95,7 +95,7 @@ export const LiquidityInfo = memo(
               <Typography>
                 {`${runeShare.toFixed(4)} ${RuneAsset.symbol}`}
               </Typography>
-              <AssetIcon size={27} asset={RuneAsset} />
+              <AssetIcon size={24} asset={RuneAsset} />
             </Box>
           ),
         })
@@ -147,14 +147,14 @@ export const LiquidityInfo = memo(
             {t('pendingLiquidity.content', { asset: tickerPending })}
           </Typography>
         )}
-        <Box col className="pt-5 self-stretch pb-2 md:pb-6">
+        <Box col className="self-stretch pt-1 pb-2">
           <Box alignCenter row justify="between">
             <Typography className="px-1.5" color="cyan" variant="caption">
               {poolAssetsInfo}
             </Typography>
           </Box>
 
-          <InfoTable items={summary} horizontalInset />
+          <InfoTable items={summary} horizontalInset size="sm" />
         </Box>
       </Box>
     )

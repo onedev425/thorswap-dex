@@ -1,9 +1,9 @@
 {
   "common": {
-    "THORSwap": "THORSwap",
+    "THORSwap": "",
     "thorswapDescription": "",
-    "APY": "APY",
-    "APR": "APR",
+    "APY": "",
+    "APR": "",
     "addLiquidity": "",
     "asset": "",
     "auto": "",

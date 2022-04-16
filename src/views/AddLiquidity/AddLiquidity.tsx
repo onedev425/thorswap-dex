@@ -688,15 +688,18 @@ export const AddLiquidity = () => {
   const totalFeeInUSD = useMemo(() => {
     if (liquidityType === LiquidityTypeOption.SYMMETRICAL) {
       const totalFee = getSumAmountInUSD(inboundRuneFee, inboundAssetFee, pools)
+
       return `$${totalFee}`
     }
 
     if (liquidityType === LiquidityTypeOption.ASSET) {
-      return inboundAssetFee.totalPriceIn(Asset.USD(), pools).toCurrencyFormat()
+      return inboundAssetFee
+        .totalPriceIn(Asset.USD(), pools)
+        .toCurrencyFormat(2)
     }
 
     // Rune asym
-    return inboundRuneFee.totalPriceIn(Asset.USD(), pools).toCurrencyFormat()
+    return inboundRuneFee.totalPriceIn(Asset.USD(), pools).toCurrencyFormat(2)
   }, [liquidityType, inboundRuneFee, inboundAssetFee, pools])
 
   const depositAssets: Asset[] = useMemo(() => {

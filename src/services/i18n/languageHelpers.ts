@@ -1,6 +1,7 @@
 import { SupportedLanguages } from 'types/app'
 
 const FLAGS: Record<SupportedLanguages, string> = {
+  'ms-MY': '🇲🇾',
   'nl-NL': '🇳🇱',
   'pt-BR': '🇧🇷',
   'zh-Hans': '🇨🇳',
@@ -21,6 +22,7 @@ const FLAGS: Record<SupportedLanguages, string> = {
   ur: '🇵🇰',
 }
 const LANGUAGE_NAMES: Record<SupportedLanguages, string> = {
+  'ms-MY': 'Malay',
   'nl-NL': 'Nederlands (NLD)',
   'pt-BR': 'Português (BRA)',
   'zh-Hans': '简体中文 (CHN)',

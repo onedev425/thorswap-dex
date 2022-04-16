@@ -10,7 +10,7 @@ const labelVariant = {
 } as const
 const valueVariant = { sm: 'caption-xs', md: 'caption', lg: 'body' } as const
 const heightVariant = {
-  sm: 'min-h-[35px]',
+  sm: 'min-h-[30px]',
   md: 'min-h-[43px]',
   lg: 'min-h-[52px]',
 } as const

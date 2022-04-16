@@ -92,7 +92,7 @@ export const LiquidityCard = ({
   return (
     <Box className="self-stretch" justifyCenter col>
       <HighlightCard
-        className="!rounded-2xl p-2"
+        className="!rounded-2xl p-2 !gap-1"
         type={isPendingLP ? 'warn' : 'info'}
       >
         <Box
@@ -180,7 +180,7 @@ export const LiquidityCard = ({
         />
 
         {withFooter && (
-          <Box className="space-x-6 md:pr-0 pt-2 md:pt-4" justifyCenter>
+          <Box className="space-x-6 md:pr-0" justifyCenter>
             <Button
               onClick={() => navigate(getAddLiquidityRoute(pool.asset))}
               className="px-8 md:px-12"
