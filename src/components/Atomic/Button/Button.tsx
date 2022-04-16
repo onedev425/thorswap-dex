@@ -64,7 +64,6 @@ export const Button = ({
         className={classNames(
           'flex border border-solid items-center justify-center outline-none p-0 disabled:opacity-75 transition group',
           buttonClass,
-          className,
           disabled || loading ? 'cursor-not-allowed' : 'cursor-pointer',
           {
             [backgroundClass]: type === 'default',
@@ -72,6 +71,7 @@ export const Button = ({
             'w-full': stretch,
             '!border-transparent': !isOutlined,
           },
+          className,
         )}
         disabled={disabled || loading}
         onClick={handleClick}
