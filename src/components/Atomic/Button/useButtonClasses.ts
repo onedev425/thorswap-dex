@@ -62,7 +62,7 @@ const getBgClass = (
 
 const getOutlinedClass = (variant: ButtonVariants) => {
   const commonClasses =
-    'border-solid !bg-opacity-0 hover:bg-opacity-20 active:bg-opacity-50'
+    'border-solid !bg-opacity-0 hover:!bg-opacity-20 active:!bg-opacity-50'
   const variantClasses = outlinedClasses[variant]
   const variantBgClasses = backgroundClasses[variant]
 

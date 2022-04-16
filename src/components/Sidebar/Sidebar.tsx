@@ -20,6 +20,9 @@ import { getDefaultNavbarOptions } from './data'
 import { SidebarItem } from './SidebarItem'
 import { SidebarProps } from './types'
 
+const noScrollHeight = 225
+const toggleHeight = 50
+
 export const Sidebar = ({
   className,
   options,
@@ -31,6 +34,10 @@ export const Sidebar = ({
 
   const navigate = useNavigate()
   const [isSupportModalOpened, setIsSupportModalOpened] = useState(false)
+
+  const scrollbarHeight = `calc(100vh - ${
+    toggle ? noScrollHeight + toggleHeight : noScrollHeight
+  }px)`
 
   return (
     <nav
@@ -56,7 +63,7 @@ export const Sidebar = ({
       </div>
 
       <div className="w-full h-sidebar-content">
-        <Scrollbar height="calc(100vh - 300px)">
+        <Scrollbar height={scrollbarHeight}>
           <SidebarItem
             options={sidebarOptions}
             variant="primary"
