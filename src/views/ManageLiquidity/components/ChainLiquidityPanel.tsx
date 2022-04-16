@@ -77,8 +77,8 @@ export const ChainLiquidityPanel = ({ chain, data, isLoading }: Props) => {
   return (
     <Box className="gap-1" col>
       <InfoRow
-        size="lg"
-        className="!mx-1.5 !mb-1 pl-1.5"
+        size="sm"
+        className="!mx-1.5 pl-1.5"
         label={<Typography>{chainToString(chain)}</Typography>}
         value={
           <Box className="gap-x-2">
