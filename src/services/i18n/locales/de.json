@@ -190,6 +190,7 @@
       "thorswapDocumentation": "THORSwap Dokumentation",
       "send": "Senden",
       "thorswapCommunityYoutube": "THORSwap Community YouTube",
+      "trade": "Trade",
       "thor": "Thor",
       "thorStake": "Staken",
       "submitFeedback": "Feedback geben",
@@ -482,9 +483,9 @@
     },
     "addLiquidity": {
       "pricesAndPoolShare": "Preise und Pool-Anteile",
-      "asymmetricPoolTip": "Asymmetrisch Einzahlung in einen Pool",
+      "asymmetricPoolTip": "Asymmetrische Einzahlung in einen Pool",
       "shareOfPool": "Anteil des Pools",
-      "asymmetricPoolNotice0": "Your %{depositAsset} will be rebalanced upon entering the pool. This means you will have 50:50 exposure to both RUNE and %{asset}.",
+      "asymmetricPoolNotice0": "Deine %{depositAsset} werden bei Einzahlung in den Pool ausbalanciert. Das bedeutet, dass du Kursschwankungen sowohl von RUNE als auch deinem %{asset} im Verhältins 50:50 ausgesetzt bist.",
       "asymmetricPoolNotice": "Deine Assets werden bei Einzahlung in den Pool ausbalanciert. Das bedeutet, dass du Kursschwankungen sowohl von RUNE als auch deinem ASSET im Verhältins 50:50 ausgesetzt bist."
     },
     "vesting": {
@@ -542,6 +543,7 @@
     "xdefiFailed": "Verbinden des XDEFI Wallets fehlgeschlagen",
     "metamaskFailed": "Verbinden des MetaMask Wallets fehlgeschlagen",
     "trustFailed": "Verbinden des TrustWallet fehlgeschlagen",
+    "connectedLedger": "Successfully connected %{chain} Ledger #%{index}",
     "connectingLedger": "Verbindet %{chain} Ledger #%{index}",
     "ledgerFailed": "Verbinden des %{chain} Ledger #%{index} fehlgeschlagen",
     "verifyLedgerAddy": "Ledger Adresse Bestätigen",
