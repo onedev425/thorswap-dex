@@ -238,7 +238,11 @@ const Send = () => {
 
       <PanelInput
         title={t('common.recipientAddress')}
-        placeholder={`${assetInput.asset.network} ${t('common.address')}`}
+        placeholder={`${
+          assetInput.asset.isSynth
+            ? Asset.RUNE().network
+            : assetInput.asset.network
+        } ${t('common.address')}`}
         onChange={handleChangeRecipient}
         value={recipientAddress}
       />
