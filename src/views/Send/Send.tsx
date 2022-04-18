@@ -108,7 +108,10 @@ const Send = () => {
   )
 
   const handleSelectAsset = useCallback(
-    (selected: Asset) => navigate(getSendRoute(selected)),
+    (selected: Asset) => {
+      setRecipientAddress('')
+      navigate(getSendRoute(selected))
+    },
     [navigate],
   )
 
