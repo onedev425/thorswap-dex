@@ -243,13 +243,13 @@ const SwapView = () => {
     (type: 'input' | 'output') => (asset: Asset) => {
       const input =
         type === 'output'
-          ? asset.ticker === inputAsset.ticker
+          ? asset.eq(inputAsset)
             ? outputAsset
             : inputAsset
           : asset
       const output =
         type === 'input'
-          ? asset.ticker === outputAsset.ticker
+          ? asset.eq(outputAsset)
             ? inputAsset
             : outputAsset
           : asset
