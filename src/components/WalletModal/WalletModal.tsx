@@ -27,6 +27,8 @@ import { t } from 'services/i18n'
 import { metamask } from 'services/metamask'
 import { xdefi } from 'services/xdefi'
 
+import { getFromStorage } from 'helpers/storage'
+
 import { ChainOption } from './ChainOption'
 import { ConnectKeystoreView } from './ConnectKeystore'
 import { CreateKeystoreView } from './CreateKeystore'
@@ -110,7 +112,13 @@ export const WalletModal = () => {
       isTerraWalletConnected &&
       isConnectModalOpen
     ) {
-      connectTerraStation()
+      const activeTerraSession = getFromStorage('terraWalletSession')
+
+      if (activeTerraSession)
+        connectTerraStation(
+          TerraConnectType.EXTENSION,
+          activeTerraSession as string,
+        )
 
       // close modal
       clearStatus()
@@ -138,10 +146,13 @@ export const WalletModal = () => {
     }
   }, [walletMode, walletStage])
 
-  const handleConnectTerraWallet = useCallback(() => {
-    connectTerraStation()
-    clearStatus()
-  }, [clearStatus, connectTerraStation])
+  const handleConnectTerraWallet = useCallback(
+    (connectType: TerraConnectType, identifier?: string) => {
+      connectTerraStation(connectType, identifier)
+      clearStatus()
+    },
+    [clearStatus, connectTerraStation],
+  )
 
   const handleConnectTrustWallet = useCallback(
     async (chains: SupportedChain[]) => {
@@ -190,7 +201,7 @@ export const WalletModal = () => {
           // connect Xdefi Terra
           if (chains.includes(TERRAChain) && !!window.xfi.terra) {
             try {
-              connectTerraWallet(TerraConnectType.EXTENSION)
+              connectTerraWallet(TerraConnectType.EXTENSION, 'xdefi-wallet')
             } catch (error) {
               console.error(error)
             }
@@ -258,7 +269,7 @@ export const WalletModal = () => {
         if (!isTerraStationInstalled) {
           installTerraWallet(TerraConnectType.EXTENSION)
         } else {
-          handleConnectTerraWallet()
+          handleConnectTerraWallet(TerraConnectType.EXTENSION, 'station')
         }
 
         return
@@ -266,7 +277,7 @@ export const WalletModal = () => {
 
       // terra station mobile
       if (selectedWallet === WalletMode.TerraMobile) {
-        connectTerraWallet(TerraConnectType.WALLETCONNECT)
+        handleConnectTerraWallet(TerraConnectType.WALLETCONNECT)
         // close modal
         clearStatus()
         return
@@ -299,7 +310,6 @@ export const WalletModal = () => {
       metamaskStatus,
       xdefiStatus,
       clearStatus,
-      connectTerraWallet,
       handleConnectTerraWallet,
       installTerraWallet,
     ],

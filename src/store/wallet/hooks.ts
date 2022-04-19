@@ -106,33 +106,37 @@ export const useWallet = () => {
     dispatch(walletActions.getWalletByChain(ETHChain))
   }, [dispatch])
 
-  const connectTerraStation = useCallback(async () => {
-    connectTerraWallet(TerraConnectType.EXTENSION)
+  const connectTerraStation = useCallback(
+    async (connectType: TerraConnectType, identifier?: string) => {
+      connectTerraWallet(connectType, identifier)
 
-    if (!isTerraWalletConnected || !connectedWallet) {
-      throw Error('Terra station wallet not connected')
-    }
+      // TODO: Chillios - wallet is initializing, but throw error here
+      if (!isTerraWalletConnected || !connectedWallet) {
+        throw Error('Terra station wallet not connected')
+      }
 
-    const address = terraWallets.filter(
-      (data) => data.connectType === TerraConnectType.EXTENSION,
-    )?.[0]?.terraAddress
+      const address = terraWallets.filter(
+        (data) => data.connectType === connectType,
+      )?.[0]?.terraAddress
 
-    if (!address) {
-      throw Error('Terra station wallet not connected')
-    }
+      if (!address) {
+        throw Error('Terra station wallet not connected')
+      }
 
-    console.info('terra station connected', address)
+      console.info('terra station connected', address)
 
-    await multichain.connectTerraStation(connectedWallet, address)
+      await multichain.connectTerraStation(connectedWallet, address)
 
-    dispatch(walletActions.getWalletByChain(TERRAChain))
-  }, [
-    dispatch,
-    terraWallets,
-    connectTerraWallet,
-    connectedWallet,
-    isTerraWalletConnected,
-  ])
+      dispatch(walletActions.getWalletByChain(TERRAChain))
+    },
+    [
+      dispatch,
+      terraWallets,
+      connectTerraWallet,
+      connectedWallet,
+      isTerraWalletConnected,
+    ],
+  )
 
   const connectTrustWallet = useCallback(
     async (chains: SupportedChain[]) => {

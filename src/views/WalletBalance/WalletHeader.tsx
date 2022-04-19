@@ -64,6 +64,7 @@ export const WalletHeader = () => {
         isOpened={isDisconnectModalOpened}
         onConfirm={onConfirmDisconnect}
         onCancel={onCancelDisconnect}
+        title={t('common.disconnect')}
         description={t('views.walletDrawer.confirmDisconnect')}
       />
     </Box>

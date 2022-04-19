@@ -33,6 +33,7 @@ type StorageType = {
   statsHidden: boolean
   chartsHidden: boolean
   poolsHidden: boolean
+  terraWalletSession: string | null
 }
 
 type StoragePayload =
@@ -91,6 +92,7 @@ const defaultValues: StorageType = {
   slippageTolerance: `${DEFAULT_SLIPPAGE_TOLERANCE}`,
   transactionDeadline: '30',
   walletViewMode: ViewMode.CARD,
+  terraWalletSession: null,
 }
 
 export const saveInStorage = ({ key, value }: StoragePayload) => {
@@ -171,6 +173,11 @@ export const getFromStorage = (
       if (walletViewMode !== ViewMode.LIST) return ViewMode.CARD
 
       return walletViewMode ? (walletViewMode as ViewMode) : ViewMode.CARD
+    }
+
+    case 'terraWalletSession': {
+      const item = localStorage.getItem('__terra_extension_router_session__')
+      return item ? JSON.parse(item).identifier : undefined
     }
 
     default:
