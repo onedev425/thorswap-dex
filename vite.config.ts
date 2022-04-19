@@ -30,30 +30,29 @@ export default defineConfig({
       utils: resolve(__dirname, 'src/utils'),
       views: resolve(__dirname, 'src/views'),
 
+      'readable-stream': 'vite-compatible-readable-stream',
       crypto: 'crypto-browserify',
       os: 'os-browserify/browser',
-      'readable-stream': 'vite-compatible-readable-stream',
       stream: 'vite-compatible-readable-stream',
       util: 'util',
     },
   },
   build: {
+    commonjsOptions: { ignoreTryCatch: false, transformMixedEsModules: true },
+    minify: 'esbuild',
     outDir: 'build',
     reportCompressedSize: false,
     sourcemap: false,
-    commonjsOptions: {
-      transformMixedEsModules: true,
-    },
     rollupOptions: {
       plugins: [nodePolyfills({ sourceMap: false })],
     },
   },
   optimizeDeps: {
-    include: ['bip39'],
     esbuildOptions: {
       define: {
         global: 'globalThis',
       },
+      reserveProps: /(BigInteger|ECPair|Point)/,
       plugins: [NodeGlobalsPolyfillPlugin({ buffer: true })],
     },
   },

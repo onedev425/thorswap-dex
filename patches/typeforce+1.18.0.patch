@@ -1,0 +1,13 @@
+diff --git a/node_modules/typeforce/index.js b/node_modules/typeforce/index.js
+index 45ff76c..6a881b9 100644
+--- a/node_modules/typeforce/index.js
++++ b/node_modules/typeforce/index.js
+@@ -168,7 +168,7 @@ var TYPES = {
+ 
+   quacksLike: function quacksLike (type) {
+     function _quacksLike (value) {
+-      return type === getValueTypeName(value)
++      return getValueTypeName(value).includes(type)
+     }
+     _quacksLike.toJSON = function () { return type }
+ 

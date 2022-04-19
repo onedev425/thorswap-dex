@@ -34,7 +34,9 @@ type ShowToastFunction = (
     description?: string | ReactNode
   },
   type?: ToastType,
-  options?: Pick<ToastOptions, 'position' | 'duration' | 'style' | 'className'>,
+  options?: Partial<
+    Pick<ToastOptions, 'position' | 'duration' | 'style' | 'className'>
+  >,
 ) => void
 
 export const showLongToast: ShowToastFunction = (content, type, options) =>
