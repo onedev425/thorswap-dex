@@ -8,7 +8,8 @@ export const globalConfig = {
   infuraProjectId: import.meta.env.VITE_INFURA_PROJECT_ID || '',
   networkType: NETWORK,
   midgardMainnetApiUrl: import.meta.env.VITE_MAINNET_MIDGARD || '',
-  thornodeMainnetApiUrl: import.meta.env.VITE_MAINNET_THORNODE || '',
+  thornodeMainnetApiUrl:
+    `${import.meta.env.VITE_MAINNET_THORNODE}/thorchain` || '',
   thorchainMainnetRpc: import.meta.env.VITE_MAINNET_THORCHAIN_RPC || '',
   isThorchainStagenet: false,
   dogeNodeApiKey: import.meta.env.VITE_DOGENODE_API_KEY || '',

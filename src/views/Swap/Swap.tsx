@@ -326,18 +326,13 @@ const SwapView = () => {
       } catch (error: NotWorthIt) {
         setTxFailed(trackId)
         const description = translateErrorMsg(error?.toString())
+        console.error(error, description)
 
         showToast(
-          {
-            message: t('notification.submitTxFailed'),
-            description,
-          },
+          { message: t('notification.submitTxFailed'), description },
           ToastType.Error,
-          {
-            duration: 20 * 1000,
-          },
+          { duration: 20 * 1000 },
         )
-        console.error(error)
       }
     }
   }, [wallet, swap, recipient, submitTransaction, pollTransaction, setTxFailed])

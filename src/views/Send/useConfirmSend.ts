@@ -11,6 +11,8 @@ import { useTxTracker } from 'hooks/useTxTracker'
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
+import { translateErrorMsg } from 'helpers/error'
+
 type Params = {
   sendAsset: Asset
   sendAmount: Amount
@@ -22,7 +24,7 @@ type Params = {
 export const useConfirmSend = ({
   sendAsset,
   sendAmount,
-  recipientAddress,
+  recipientAddress: recipient,
   memo,
   setIsOpenConfirmModal,
 }: Params) => {
@@ -48,15 +50,11 @@ export const useConfirmSend = ({
       })
 
       try {
-        const txHash = await multichain.send({
-          assetAmount,
-          recipient: recipientAddress,
-          memo,
-        })
-
+        console.log('startSend', trackId)
+        const txHash = await multichain.send({ assetAmount, recipient, memo })
         const txURL = multichain.getExplorerTxUrl(sendAsset.L1Chain, txHash)
-
         console.info('txURL', txURL)
+
         if (txHash) {
           // start polling
           pollTransaction({
@@ -74,16 +72,12 @@ export const useConfirmSend = ({
           })
         }
       } catch (error: any) {
-        console.info('error', error)
+        const description = translateErrorMsg(error?.toString())
+        console.error('confirmSendError', error, description)
         setTxFailed(trackId)
 
-        // TODO: better error translation
-        // const description = translateErrorMsg(error?.toString())
         showToast(
-          {
-            message: t('notification.sendTxFailed'),
-            description: error?.toString(),
-          },
+          { message: t('notification.sendTxFailed'), description },
           ToastType.Error,
           { duration: 20 * 1000 },
         )
@@ -94,7 +88,7 @@ export const useConfirmSend = ({
     sendAsset,
     sendAmount,
     submitTransaction,
-    recipientAddress,
+    recipient,
     memo,
     pollTransaction,
     setTxFailed,
