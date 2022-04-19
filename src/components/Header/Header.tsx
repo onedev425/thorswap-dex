@@ -4,7 +4,6 @@ import { hasConnectedWallet } from '@thorswap-lib/multichain-sdk'
 
 import { AppPopoverMenu } from 'components/AppPopoverMenu'
 import { Button, Icon, Box, Typography } from 'components/Atomic'
-import { GasTracker } from 'components/GasTracker'
 import { StatusDropdown } from 'components/StatusDropdown'
 import { TxManager } from 'components/TxManager'
 
@@ -71,7 +70,6 @@ export const Header = ({ openMenu }: Props) => {
           </Box>
 
           <Box className="hidden md:flex gap-x-2">
-            <GasTracker />
             <StatusDropdown />
           </Box>
         </Box>
