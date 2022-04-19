@@ -103,9 +103,9 @@ export const getSumAmountInUSD = (
   const assetAmount2InUSD = assetAmount2?.totalPriceIn(Asset.USD(), pools)
 
   if (assetAmount1 === null && assetAmount2InUSD)
-    return assetAmount2InUSD.toCurrencyFormat()
+    return assetAmount2InUSD.toCurrencyFormat(2)
   if (assetAmount2 === null && assetAmount1InUSD)
-    return assetAmount1InUSD.toCurrencyFormat()
+    return assetAmount1InUSD.toCurrencyFormat(2)
 
   if (assetAmount1InUSD && assetAmount2InUSD) {
     const sum = assetAmount1InUSD.raw().plus(assetAmount2InUSD.raw())
