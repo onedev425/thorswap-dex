@@ -1,9 +1,16 @@
-import { memo } from 'react'
+import { memo, useCallback, useMemo, useState } from 'react'
 
 import { Price } from '@thorswap-lib/multichain-sdk'
 
 import { AssetInputType } from 'components/AssetInput/types'
-import { Box, Collapse, Icon, Tooltip, Typography } from 'components/Atomic'
+import {
+  Box,
+  Button,
+  Collapse,
+  Icon,
+  Tooltip,
+  Typography,
+} from 'components/Atomic'
 import { InfoRow } from 'components/InfoRow'
 import { InfoWithTooltip } from 'components/InfoWithTooltip'
 
@@ -29,25 +36,60 @@ export const SwapInfo = memo(
     isValidSlip = true,
     networkFee,
   }: Props) => {
+    const [reverted, setReverted] = useState(false)
+
+    const toggle = useCallback(
+      (e) => {
+        if (price && inputAsset && outputAsset) {
+          setReverted(!reverted)
+        }
+        e.stopPropagation()
+      },
+      [inputAsset, outputAsset, price, reverted],
+    )
+
+    const rateDesc = useMemo(() => {
+      if (reverted) {
+        return `1 ${outputAsset.asset.ticker} = ${
+          price?.toFixedRaw(6) || '-'
+        } ${inputAsset.asset.ticker}`
+      }
+      return `1 ${inputAsset.asset.ticker} = ${
+        price?.toFixedInverted(6) || '-'
+      } ${outputAsset.asset.ticker}`
+    }, [reverted, price, inputAsset, outputAsset])
+
+    const priceDesc = useMemo(() => {
+      if (reverted) {
+        return `(${outputAsset.usdPrice?.toCurrencyFormat(2) || '-'})`
+      }
+
+      return `(${inputAsset.usdPrice?.toCurrencyFormat(2) || '-'})`
+    }, [inputAsset.usdPrice, outputAsset.usdPrice, reverted])
+
     return (
       <Collapse
         className="self-stretch mt-5 !bg-light-bg-primary dark:!bg-dark-gray-light !rounded-2xl flex-col"
         shadow={false}
         title={
-          <Box className="gap-x-2">
+          <Box className="gap-x-2" minHeight={30} alignCenter>
+            <Button
+              className="!p-1 !h-auto"
+              tooltip={t('views.swap.swapAssets')}
+              type="outline"
+              startIcon={<Icon name="switch" size={16} />}
+              onClick={toggle}
+            />
+
+            <Typography variant="caption" color="primary" fontWeight="normal">
+              {rateDesc}
+            </Typography>
+            <Typography variant="caption" color="secondary" fontWeight="normal">
+              {priceDesc}
+            </Typography>
             <Tooltip content={t('views.wallet.priceRate')}>
               <Icon name="infoCircle" size={16} color="secondary" />
             </Tooltip>
-
-            <Typography variant="caption" color="primary" fontWeight="normal">
-              {`1 ${inputAsset.asset.ticker} = ${
-                price?.toFixedInverted(6) ?? 'N/A'
-              } ${outputAsset.asset.ticker}`}
-            </Typography>
-
-            <Typography variant="caption" color="secondary" fontWeight="normal">
-              {`(${inputAsset.usdPrice?.toCurrencyFormat(2)})`}
-            </Typography>
           </Box>
         }
       >

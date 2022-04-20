@@ -356,7 +356,8 @@
       "emptyFrequent": "No frequent assets",
       "emptyFeatured": "No featured assets",
       "priceImpact": "Price Impact",
-      "minReceivedAfterSlip": "Minimum received after slippage (%{slippage})"
+      "minReceivedAfterSlip": "Minimum received after slippage (%{slippage})",
+      "swapAssets": "Swap assets rates"
     },
     "wallet": {
       "wallet": "Wallet",
