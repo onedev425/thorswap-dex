@@ -167,7 +167,7 @@
     "approveAssetFailed": "Aprovação de %{asset} falhou",
     "approveAsset": "Aprovar %{asset}",
     "approvedAsset": "Aprovado %{asset}",
-    "approveToken": "Aprovar %{asset}"
+    "approveToken": "Aprovar %{token}"
   },
   "components": {
     "assetSelect": {

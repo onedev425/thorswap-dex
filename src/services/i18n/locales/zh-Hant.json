@@ -64,7 +64,7 @@
     "customRecipientTooltip": "將資產接收到您自定義的地址。",
     "recipientAddress": "收款人地址",
     "addressCopied": "地址已復制",
-    "here": "Here",
+    "here": "在此",
     "password": "密碼",
     "estimateTime": "預計時間",
     "fee": "費用",
@@ -436,7 +436,7 @@
       "withdraw": "提取",
       "from": "來自",
       "assetUSDPrice": "資產 USD 價格",
-      "share": "分享"
+      "share": "占比"
     },
     "walletModal": {
       "connectWallet": "連接錢包",

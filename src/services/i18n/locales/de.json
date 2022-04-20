@@ -190,7 +190,7 @@
       "thorswapDocumentation": "THORSwap Dokumentation",
       "send": "Senden",
       "thorswapCommunityYoutube": "THORSwap Community YouTube",
-      "trade": "Trade",
+      "trade": "Handlen",
       "thor": "Thor",
       "thorStake": "Staken",
       "submitFeedback": "Feedback geben",
@@ -357,7 +357,7 @@
       "emptyFeatured": "Kein featured Asset",
       "priceImpact": "Preisauswirkung",
       "minReceivedAfterSlip": "Minimum erhalten nach Slippage  (%{slippage})",
-      "swapAssets": "Swap assets rates"
+      "swapAssets": "Swap Wechselkurse"
     },
     "wallet": {
       "wallet": "Wallet",
@@ -419,8 +419,8 @@
       "lastAdded": "Zuletzt hinzugefügt",
       "runeAdded": "Rune hinzugefügt",
       "assetAdded": "Asset hinzugefügt",
-      "runeWithdrawn": "Rune Withdrawn",
-      "assetWithdrawn": "Asset Withdrawn",
+      "runeWithdrawn": "Rune Abheben",
+      "assetWithdrawn": "Asset Abheben",
       "runePending": "Rune ausstehend",
       "assetPending": "Asset ausstehend",
       "gasFeeTooltip": "Gas Gebühr für die Transaktion bei Nutzung des thorchain Protokolls",
@@ -546,7 +546,7 @@
     "xdefiFailed": "Verbinden des XDEFI Wallets fehlgeschlagen",
     "metamaskFailed": "Verbinden des MetaMask Wallets fehlgeschlagen",
     "trustFailed": "Verbinden des TrustWallet fehlgeschlagen",
-    "connectedLedger": "Successfully connected %{chain} Ledger #%{index}",
+    "connectedLedger": "%{chain} Ledger #%{index} erfolgreich verbunden",
     "connectingLedger": "Verbindet %{chain} Ledger #%{index}",
     "ledgerFailed": "Verbinden des %{chain} Ledger #%{index} fehlgeschlagen",
     "verifyLedgerAddy": "Ledger Adresse Bestätigen",
