@@ -37,7 +37,7 @@
     "receive": "Ricevi",
     "send": "Invia",
     "staking": "Staking",
-    "swap": "Scambiare",
+    "swap": "Scambia",
     "totalValueLocked": "Valore Totale Bloccato",
     "totalVol": "Volume Totale",
     "transactions": "Transazioni",
@@ -134,7 +134,7 @@
   },
   "txManager": {
     "approve": "Approva",
-    "swap": "Scambiare",
+    "swap": "Scambia",
     "addLiquidity": "Aggiungi Liquidità",
     "withdraw": "Preleva",
     "donate": "Dona",
@@ -182,7 +182,7 @@
     "sidebar": {
       "V1App": "V1 App",
       "dashboard": "Dashboard",
-      "swap": "Scambiare",
+      "swap": "Scambia",
       "addLiquidity": "Deposita",
       "manageLiquidity": "Liquidità",
       "joinDiscord": "Unisciti al Server Discord",
@@ -232,7 +232,7 @@
       "chart_volume": "Volume",
       "chart_liquidity": "Liquidità",
       "chart_total": "Totale",
-      "chart_swap": "Scambiare",
+      "chart_swap": "Scambia",
       "chart_add": "Aggiungi",
       "chart_withdraw": "Preleva",
       "chart_lpEarning": "Guadagni LP",
@@ -356,7 +356,8 @@
       "emptyFrequent": "Nessun Asset Frequente",
       "emptyFeatured": "Nessun Asset in Primo Piano",
       "priceImpact": "Impatto sul Prezzo",
-      "minReceivedAfterSlip": "Minimo ricevuto dopo lo slippage (%{slippage})"
+      "minReceivedAfterSlip": "Minimo ricevuto dopo lo slippage (%{slippage})",
+      "swapAssets": ""
     },
     "wallet": {
       "wallet": "Portafoglio",
@@ -418,6 +419,8 @@
       "lastAdded": "Ultimo Depositato",
       "runeAdded": "Rune Depositato",
       "assetAdded": "Asset Depositato",
+      "runeWithdrawn": "",
+      "assetWithdrawn": "",
       "runePending": "Rune In Sospeso",
       "assetPending": "Asset In Sospeso",
       "gasFeeTooltip": "Commissione gas utilizzata per inoltrare la transazione utilizzando il protocollo THORChain",

@@ -356,7 +356,8 @@
       "emptyFrequent": "Pas d'assets fréquents",
       "emptyFeatured": "Pas d'assets mis en avant",
       "priceImpact": "Impact sur le prix",
-      "minReceivedAfterSlip": "Minimum reçu après slippage  (%{slippage})"
+      "minReceivedAfterSlip": "Minimum reçu après slippage  (%{slippage})",
+      "swapAssets": "Swap assets rates"
     },
     "wallet": {
       "wallet": "Portefeuille",
@@ -418,6 +419,8 @@
       "lastAdded": "Dernier ajout",
       "runeAdded": "RUNE ajouté",
       "assetAdded": "Asset ajouté",
+      "runeWithdrawn": "Rune Withdrawn",
+      "assetWithdrawn": "Asset Withdrawn",
       "runePending": "RUNE en attente",
       "assetPending": "Asset en attente",
       "gasFeeTooltip": "Gas utilisé pour soumettre une transaction sur le protocol THORChain",

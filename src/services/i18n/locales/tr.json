@@ -356,7 +356,8 @@
       "emptyFrequent": "",
       "emptyFeatured": "",
       "priceImpact": "",
-      "minReceivedAfterSlip": ""
+      "minReceivedAfterSlip": "",
+      "swapAssets": ""
     },
     "wallet": {
       "wallet": "",
@@ -418,6 +419,8 @@
       "lastAdded": "",
       "runeAdded": "",
       "assetAdded": "",
+      "runeWithdrawn": "",
+      "assetWithdrawn": "",
       "runePending": "",
       "assetPending": "",
       "gasFeeTooltip": "",

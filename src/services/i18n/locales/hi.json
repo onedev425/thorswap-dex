@@ -356,7 +356,8 @@
       "emptyFrequent": "कोई लगातार संपत्ति नहीं",
       "emptyFeatured": "कोई विशेष रुप से प्रदर्शित संपत्ति नहीं",
       "priceImpact": "मूल्य प्रभाव",
-      "minReceivedAfterSlip": "स्लिपेज के बाद प्राप्त न्यूनतम (%{slippage})"
+      "minReceivedAfterSlip": "स्लिपेज के बाद प्राप्त न्यूनतम (%{slippage})",
+      "swapAssets": ""
     },
     "wallet": {
       "wallet": "बटुआ",
@@ -418,6 +419,8 @@
       "lastAdded": "पिछली बार जोड़ा गया",
       "runeAdded": "Rune जोड़ा गया",
       "assetAdded": "एसेट जोड़ा गया",
+      "runeWithdrawn": "",
+      "assetWithdrawn": "",
       "runePending": "Rune लंबित",
       "assetPending": "संपत्ति लंबित",
       "gasFeeTooltip": "Thorchain प्रोटोकॉल का उपयोग करके लेनदेन जमा करने के लिए प्रयुक्त गैस शुल्क",

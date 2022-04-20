@@ -356,7 +356,8 @@
       "emptyFrequent": "Frequent 에셋 없음",
       "emptyFeatured": "추천 에셋 없음",
       "priceImpact": "가격 영향",
-      "minReceivedAfterSlip": "슬리피지 (%{slippage}) 후 최소 수령 금액"
+      "minReceivedAfterSlip": "슬리피지 (%{slippage}) 후 최소 수령 금액",
+      "swapAssets": ""
     },
     "wallet": {
       "wallet": "지갑",
@@ -418,6 +419,8 @@
       "lastAdded": "마지막으로 추가됨",
       "runeAdded": "추가된 Rune",
       "assetAdded": "추가된 에셋",
+      "runeWithdrawn": "",
+      "assetWithdrawn": "",
       "runePending": "보류 중인 Rune",
       "assetPending": "보류 중인 에셋",
       "gasFeeTooltip": "토르체인(Thorchain) 프로토콜로 트랜잭션을 제출하는 데 사용되는 가스 수수료",

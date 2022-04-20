@@ -356,7 +356,8 @@
       "emptyFrequent": "Brak częstych aktywów",
       "emptyFeatured": "Brak wyróżnionych zasobów",
       "priceImpact": "Wpływ ceny",
-      "minReceivedAfterSlip": "Minimalna wartość otrzymana po poślizgu (%{slippage})"
+      "minReceivedAfterSlip": "Minimalna wartość otrzymana po poślizgu (%{slippage})",
+      "swapAssets": ""
     },
     "wallet": {
       "wallet": "Portfel",
@@ -418,6 +419,8 @@
       "lastAdded": "Ostatnio dodane",
       "runeAdded": "Rune dodane",
       "assetAdded": "Dodane aktywa",
+      "runeWithdrawn": "",
+      "assetWithdrawn": "",
       "runePending": "Rune w toku",
       "assetPending": "Aktywa w toku",
       "gasFeeTooltip": "Opłata za złożenie transakcji za pomocą protokołu thorchain",

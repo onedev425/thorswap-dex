@@ -356,7 +356,8 @@
       "emptyFrequent": " ទ្រព្យមិនមានប្រេកង់",
       "emptyFeatured": " ទ្រព្យមិនមានទម្រង់ពិសេស",
       "priceImpact": "ផលប៉ះពាល់តម្លៃ",
-      "minReceivedAfterSlip": "អប្បបរមាបានទទួលបន្ទាប់ពីការដាក់តំលៃ (%{slippage})"
+      "minReceivedAfterSlip": "អប្បបរមាបានទទួលបន្ទាប់ពីការដាក់តំលៃ (%{slippage})",
+      "swapAssets": "Swap assets rates"
     },
     "wallet": {
       "wallet": "កាបូប Electronic",
@@ -418,6 +419,8 @@
       "lastAdded": "ការបន្ថែមចុងក្រោយ",
       "runeAdded": "Rune បន្ថែម",
       "assetAdded": "ទ្រព្វ Asset បន្ថែម",
+      "runeWithdrawn": "Rune Withdrawn",
+      "assetWithdrawn": "Asset Withdrawn",
       "runePending": "Rune កំពុងរង់ចាំ",
       "assetPending": "ទ្រព្វ Asset កំពុងរង់ចាំ",
       "gasFeeTooltip": "តម្លៃហ្គាសដែលប្រើសម្រាប់ការបញ្ជូនប្រតិបត្តិការលើពិធីការ thorchain protocol",

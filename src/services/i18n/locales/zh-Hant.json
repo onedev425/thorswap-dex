@@ -356,7 +356,8 @@
       "emptyFrequent": "無常用代幣",
       "emptyFeatured": "無精选代幣",
       "priceImpact": "價格影響",
-      "minReceivedAfterSlip": "滑點後最小獲得量 (%{slippage})"
+      "minReceivedAfterSlip": "滑點後最小獲得量 (%{slippage})",
+      "swapAssets": "Swap assets rates"
     },
     "wallet": {
       "wallet": "錢包",
@@ -418,6 +419,8 @@
       "lastAdded": "最近添加",
       "runeAdded": "已添加 Rune",
       "assetAdded": "已添加代幣",
+      "runeWithdrawn": "Rune Withdrawn",
+      "assetWithdrawn": "Asset Withdrawn",
       "runePending": "Rune 待定中",
       "assetPending": "代幣待定中",
       "gasFeeTooltip": "用於提交使用 THORChain 交易的燃料費",

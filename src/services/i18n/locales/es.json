@@ -356,7 +356,8 @@
       "emptyFrequent": "Sin direcciones frecuentes",
       "emptyFeatured": "Sin activos frecuentes",
       "priceImpact": "Impacto en el Precio",
-      "minReceivedAfterSlip": "Mínimo recibido tras deslizamiento (%{slippage})"
+      "minReceivedAfterSlip": "Mínimo recibido tras deslizamiento (%{slippage})",
+      "swapAssets": ""
     },
     "wallet": {
       "wallet": "Cartera",
@@ -418,6 +419,8 @@
       "lastAdded": "Añadido por última vez",
       "runeAdded": "Rune Añadido",
       "assetAdded": "Activo Añadido",
+      "runeWithdrawn": "",
+      "assetWithdrawn": "",
       "runePending": "Rune Pendiente",
       "assetPending": "Activo Pendiente",
       "gasFeeTooltip": "Gas usado al aprobar la transacción usando el protocolo THORChain",

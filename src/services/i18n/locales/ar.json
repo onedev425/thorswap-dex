@@ -356,7 +356,8 @@
       "emptyFrequent": "No frequent assets",
       "emptyFeatured": "No featured assets",
       "priceImpact": "Price Impact",
-      "minReceivedAfterSlip": "Minimum received after slippage (%{slippage})"
+      "minReceivedAfterSlip": "Minimum received after slippage (%{slippage})",
+      "swapAssets": "Swap assets rates"
     },
     "wallet": {
       "wallet": "Wallet",
@@ -418,6 +419,8 @@
       "lastAdded": "Last Added",
       "runeAdded": "Rune Added",
       "assetAdded": "Asset Added",
+      "runeWithdrawn": "Rune Withdrawn",
+      "assetWithdrawn": "Asset Withdrawn",
       "runePending": "Rune Pending",
       "assetPending": "Asset Pending",
       "gasFeeTooltip": "Gas fee used for submitting the transaction using the thorchain protocol",

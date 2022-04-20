@@ -356,7 +356,8 @@
       "emptyFrequent": "کوئی متواتر اثاثے نہیں ہیں",
       "emptyFeatured": "کوئی نمایاں اثاثے نہیں ہیں",
       "priceImpact": "قیمت کا اثر",
-      "minReceivedAfterSlip": "slippage کے بعد کم از کم موصول ہوگا (%{slippage})"
+      "minReceivedAfterSlip": "slippage کے بعد کم از کم موصول ہوگا (%{slippage})",
+      "swapAssets": ""
     },
     "wallet": {
       "wallet": "Wallet",
@@ -418,6 +419,8 @@
       "lastAdded": "آخری بار شامل کیا گیا",
       "runeAdded": "شامل کیا گیا RUNE ",
       "assetAdded": "شامل کیا گیا RUNE ",
+      "runeWithdrawn": "",
+      "assetWithdrawn": "",
       "runePending": "شامل کیا اثاثہ",
       "assetPending": "Pending اثاثہ",
       "gasFeeTooltip": "Thorchain پروٹوکول کا استعمال کرتے ہوئے لین دین جمع کرانے کے لیے استعمال ہونے والی گیس فیس",

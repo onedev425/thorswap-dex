@@ -356,7 +356,8 @@
       "emptyFrequent": "Geen frequente assets",
       "emptyFeatured": "Geen aanbevolen assets",
       "priceImpact": "Prijsimpact",
-      "minReceivedAfterSlip": "Minimaal ontvangen na slippage  (%{slippage})"
+      "minReceivedAfterSlip": "Minimaal ontvangen na slippage  (%{slippage})",
+      "swapAssets": "Swap assets rates"
     },
     "wallet": {
       "wallet": "Wallet",
@@ -418,6 +419,8 @@
       "lastAdded": "Laatst toegevoegd",
       "runeAdded": "Rune toegevoegd",
       "assetAdded": "Asset toegevoegd",
+      "runeWithdrawn": "Rune Withdrawn",
+      "assetWithdrawn": "Asset Withdrawn",
       "runePending": "Rune in afwachting",
       "assetPending": "Asset in afwachting",
       "gasFeeTooltip": "Gas kost gebruikt voor het verzenden van de transactie met behulp van het THORChain protocol",
