@@ -57,10 +57,18 @@ const getOptionsProp = (types: PoolShareType[], asset: Asset) => {
       label: `${asset.ticker}+RUNE LP`,
     })
   }
+
   if (types.includes(PoolShareType.RUNE_ASYM)) {
     options.push({
       value: PoolShareType.RUNE_ASYM,
       label: 'RUNE LP',
+    })
+  }
+
+  if (types.includes(PoolShareType.PENDING)) {
+    options.push({
+      value: PoolShareType.PENDING,
+      label: 'PENDING LP',
     })
   }
 

@@ -108,6 +108,7 @@ export enum PoolShareType {
   SYM = 'sym',
   RUNE_ASYM = 'runeAsym',
   ASSET_ASYM = 'assetAsym',
+  PENDING = 'pending',
 }
 
 // Pool Member Data for sym, runeAsym, assetAsym
@@ -115,6 +116,7 @@ export type PoolMemberData = {
   sym?: MemberPool
   runeAsym?: MemberPool
   assetAsym?: MemberPool
+  pending?: MemberPool
 }
 
 // Record<poolString, PoolMemberData>
@@ -178,4 +180,6 @@ export interface State {
   nodeLoading: boolean
   txTrackers: TxTracker[]
   approveStatus: ApproveStatus
+  pendingLP: PendingLP
+  pendingLPLoading: boolean
 }

@@ -220,6 +220,7 @@ export const AddLiquidity = () => {
 
   const poolMemberDetail: MemberPool | undefined = useMemo(() => {
     if (liquidityType === LiquidityTypeOption.SYMMETRICAL) {
+      if (memberData?.pending) return memberData.pending
       return memberData?.sym
     }
     if (liquidityType === LiquidityTypeOption.RUNE) {
@@ -229,7 +230,6 @@ export const AddLiquidity = () => {
     return memberData?.assetAsym
   }, [memberData, liquidityType])
 
-  // TODO(Epicode): display warning if pending LP exists
   // if pending LP exists, only allow complete deposit
   const isPendingDeposit = useMemo(() => {
     if (

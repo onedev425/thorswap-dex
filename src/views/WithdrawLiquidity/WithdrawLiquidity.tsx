@@ -103,7 +103,10 @@ export const WithdrawLiquidity = () => {
     poolMemberData &&
     Object.keys(poolMemberData).length
   ) {
+    console.log('poolMemberData', poolMemberData)
     const shares = []
+    if (poolMemberData.pending) shares.push(PoolShareType.PENDING)
+
     if (poolMemberData.sym) shares.push(PoolShareType.SYM)
     if (poolMemberData.runeAsym) shares.push(PoolShareType.RUNE_ASYM)
     if (poolMemberData.assetAsym) shares.push(PoolShareType.ASSET_ASYM)
@@ -216,21 +219,39 @@ const WithdrawPanel = ({
   }, [inboundAssetFee, inboundRuneFee, pools, withdrawType])
 
   const memberPoolData = useMemo(() => {
+    if (lpType === PoolShareType.PENDING) return poolMemberData?.pending
     if (lpType === PoolShareType.RUNE_ASYM) return poolMemberData.runeAsym
     if (lpType === PoolShareType.ASSET_ASYM) return poolMemberData.assetAsym
-    if (lpType === PoolShareType.SYM) return poolMemberData.sym
+    if (lpType === PoolShareType.SYM) {
+      return poolMemberData.sym
+    }
 
     return null
   }, [poolMemberData, lpType])
 
+  console.log('memberPoolData', memberPoolData)
+  console.log('shareTypes', shareTypes)
+
   const liquidityEntity = useMemo(() => {
     if (!memberPoolData) return null
+
     const { liquidityUnits } = memberPoolData
 
     return new Liquidity(pool, Amount.fromMidgard(liquidityUnits))
   }, [pool, memberPoolData])
 
   const { runeAmount, assetAmount } = useMemo(() => {
+    if (lpType === PoolShareType.PENDING) {
+      return {
+        runeAmount: Amount.fromMidgard(memberPoolData?.runePending).mul(
+          percent / 100,
+        ),
+        assetAmount: Amount.fromMidgard(memberPoolData?.assetPending).mul(
+          percent / 100,
+        ),
+      }
+    }
+
     if (!liquidityEntity) {
       return {
         runeAmount: Amount.fromMidgard(0),
@@ -263,7 +284,7 @@ const WithdrawPanel = ({
       runeAmount: Amount.fromMidgard(0),
       assetAmount: amount,
     }
-  }, [withdrawType, percent, liquidityEntity])
+  }, [lpType, withdrawType, percent, liquidityEntity, memberPoolData])
 
   const runePriceInUSD = useMemo(
     () =>
@@ -570,6 +591,9 @@ const WithdrawPanel = ({
     if (pool.detail.status === 'staged') {
       return [LiquidityTypeOption.SYMMETRICAL]
     }
+    if (lpType === PoolShareType.PENDING)
+      return [LiquidityTypeOption.SYMMETRICAL]
+
     if (lpType === PoolShareType.RUNE_ASYM) return [LiquidityTypeOption.RUNE]
     if (lpType === PoolShareType.ASSET_ASYM) return [LiquidityTypeOption.ASSET]
     return [
@@ -698,7 +722,7 @@ const WithdrawPanel = ({
         )}
         {isLPActionPaused && (
           <Button size="lg" stretch variant="secondary">
-            Deposit Not Available
+            Withdraw Not Available
           </Button>
         )}
       </Box>

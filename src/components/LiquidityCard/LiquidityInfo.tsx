@@ -22,6 +22,8 @@ type Props = {
   lastAddedDate: string
   runeAdded: Amount
   assetAdded: Amount
+  runeWithdrawn: Amount
+  assetWithdrawn: Amount
   runePending: Amount
   assetPending: Amount
   maxHeightStyle: { maxHeight: string; overflow: string }
@@ -42,13 +44,18 @@ export const LiquidityInfo = memo(
     shareType,
     runeAdded,
     assetAdded,
+    runeWithdrawn,
+    assetWithdrawn,
     runePending,
     assetPending,
     tickerPending,
   }: Props) => {
     const summary = useMemo(() => {
+      const poolShareValue =
+        poolShare.toFixed(4) === '0 %' ? '~0 %' : poolShare.toFixed(4)
+
       const infoFields: InfoRowConfig[] = [
-        { label: t('views.liquidity.poolShare'), value: poolShare.toFixed(4) },
+        { label: t('views.liquidity.poolShare'), value: poolShareValue },
         {
           label: t('views.liquidity.runeAdded'),
           value: runeAdded.toFixed(2),
@@ -56,6 +63,14 @@ export const LiquidityInfo = memo(
         {
           label: t('views.liquidity.assetAdded'),
           value: assetAdded.toFixed(2),
+        },
+        {
+          label: t('views.liquidity.runeWithdrawn'),
+          value: runeWithdrawn.toFixed(2),
+        },
+        {
+          label: t('views.liquidity.assetWithdrawn'),
+          value: assetWithdrawn.toFixed(2),
         },
       ]
 
@@ -118,6 +133,8 @@ export const LiquidityInfo = memo(
       assetAdded,
       runePending,
       assetPending,
+      runeWithdrawn,
+      assetWithdrawn,
     ])
 
     const poolAssetsInfo = useMemo(() => {

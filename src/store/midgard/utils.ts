@@ -1,8 +1,8 @@
 import { MemberPool } from '@thorswap-lib/midgard-sdk'
-import { SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain, Asset } from '@thorswap-lib/multichain-sdk'
 import { THORChain } from '@thorswap-lib/xchain-util'
 
-import { ChainMemberDetails } from './types'
+import { ChainMemberDetails, LiquidityProvider, PoolMemberData } from './types'
 
 export const hasPendingLP = (data: ChainMemberDetails | undefined): boolean => {
   if (!data) return false
@@ -24,6 +24,14 @@ export const hasPendingLP = (data: ChainMemberDetails | undefined): boolean => {
         if (isPending) return true
       }
     }
+  }
+
+  return false
+}
+
+export const checkPendingLP = (data: LiquidityProvider): boolean => {
+  if (Number(data.pending_asset) > 0 || Number(data.pending_rune) > 0) {
+    return true
   }
 
   return false
@@ -123,6 +131,83 @@ export const getChainMemberDetails = ({
       }
     })
   }
+
+  return chainMemberDetails
+}
+
+export const mergePendingLP = ({
+  pendingLP,
+  chainMemberDetails,
+}: {
+  pendingLP: LiquidityProvider
+  chainMemberDetails: ChainMemberDetails
+}): ChainMemberDetails => {
+  const chain = Asset.fromAssetString(pendingLP.asset)?.chain
+
+  if (!chain) return chainMemberDetails
+
+  const chainMemberData = chainMemberDetails?.[chain] ?? {}
+
+  let poolMemberData: PoolMemberData = {}
+  Object.keys(chainMemberData).forEach((poolIndex) => {
+    if (poolIndex === pendingLP.asset) {
+      poolMemberData = chainMemberData[poolIndex]
+    }
+  })
+
+  const pendingMemberPool: MemberPool = {
+    assetAdded: pendingLP.asset_deposit_value,
+    assetAddress: pendingLP.asset_address || '',
+    assetPending: pendingLP.pending_asset,
+    assetWithdrawn: '0',
+    dateFirstAdded: '-',
+    dateLastAdded: '-',
+    liquidityUnits: pendingLP.units,
+    pool: pendingLP.asset,
+    runeAdded: pendingLP.rune_deposit_value,
+    runeAddress: pendingLP.rune_address || '',
+    runeWithdrawn: '0',
+    runePending: pendingLP.pending_rune,
+  }
+
+  poolMemberData = {
+    ...poolMemberData,
+    pending: pendingMemberPool,
+  }
+
+  chainMemberData[pendingLP.asset] = poolMemberData
+  chainMemberDetails[chain] = chainMemberData
+
+  return chainMemberDetails
+}
+
+export const removePendingLP = ({
+  asset,
+  chainMemberDetails,
+}: {
+  asset: string
+  chainMemberDetails: ChainMemberDetails
+}): ChainMemberDetails => {
+  const chain = Asset.fromAssetString(asset)?.chain
+
+  if (!chain) return chainMemberDetails
+
+  const chainMemberData = chainMemberDetails?.[chain] ?? {}
+
+  let poolMemberData: PoolMemberData = {}
+  Object.keys(chainMemberData).forEach((poolIndex) => {
+    if (poolIndex === asset) {
+      poolMemberData = chainMemberData[poolIndex]
+    }
+  })
+
+  poolMemberData = {
+    ...poolMemberData,
+    pending: undefined,
+  }
+
+  chainMemberData[asset] = poolMemberData
+  chainMemberDetails[chain] = chainMemberData
 
   return chainMemberDetails
 }

@@ -43,6 +43,8 @@ export const LiquidityCard = ({
   liquidityUnits,
   runeAdded,
   assetAdded,
+  runeWithdrawn,
+  assetWithdrawn,
   runePending,
   assetPending,
 }: LiquidityCardProps) => {
@@ -147,7 +149,7 @@ export const LiquidityCard = ({
                 )}
                 fontWeight="bold"
               >
-                {poolShare.toFixed(4)}
+                {poolShare.toFixed(4) === '0 %' ? '~0 %' : poolShare.toFixed(4)}
               </Typography>
             </Box>
 
@@ -174,6 +176,8 @@ export const LiquidityCard = ({
           shareType={shareType}
           runeAdded={Amount.fromMidgard(runeAdded)}
           assetAdded={Amount.fromMidgard(assetAdded)}
+          runeWithdrawn={Amount.fromMidgard(runeWithdrawn)}
+          assetWithdrawn={Amount.fromMidgard(assetWithdrawn)}
           runePending={Amount.fromMidgard(runePending)}
           assetPending={Amount.fromMidgard(assetPending)}
           tickerPending={tickerPending}

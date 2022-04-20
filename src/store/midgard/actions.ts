@@ -4,7 +4,7 @@ import { Asset, SupportedChain } from '@thorswap-lib/multichain-sdk'
 
 import { midgardApi } from 'services/midgard'
 import { multichain } from 'services/multichain'
-import { getThorchainMimir } from 'services/thornode'
+import { getThorchainMimir, getLiquidityProvider } from 'services/thornode'
 
 import { TxTracker } from './types'
 
@@ -205,5 +205,15 @@ export const pollApprove = createAsyncThunk(
       asset,
       approved,
     }
+  },
+)
+
+// get liquidity provider
+export const getLiquidityProviderData = createAsyncThunk(
+  'thornode/getLiquidityProvider',
+  async ({ address, asset }: { asset: string; address: string }) => {
+    const { data } = await getLiquidityProvider({ asset, address })
+
+    return data
   },
 )

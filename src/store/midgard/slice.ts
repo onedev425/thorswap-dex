@@ -4,7 +4,12 @@ import { Pool } from '@thorswap-lib/multichain-sdk'
 import { THORChain } from '@thorswap-lib/xchain-util'
 import moment from 'moment'
 
-import { getChainMemberDetails } from 'store/midgard/utils'
+import {
+  getChainMemberDetails,
+  checkPendingLP,
+  mergePendingLP,
+  removePendingLP,
+} from 'store/midgard/utils'
 
 import * as midgardActions from './actions'
 import { State, TxTracker, TxTrackerStatus } from './types'
@@ -48,6 +53,8 @@ const initialState: State = {
   nodeLoading: false,
   approveStatus: {},
   txTrackers: [],
+  pendingLP: {},
+  pendingLPLoading: false,
 }
 
 const midgardSlice = createSlice({
@@ -230,6 +237,50 @@ const midgardSlice = createSlice({
           }
         },
       )
+      // get pending LP
+      .addCase(midgardActions.getLiquidityProviderData.pending, (state) => {
+        state.pendingLPLoading = true
+      })
+      .addCase(
+        midgardActions.getLiquidityProviderData.fulfilled,
+        (state, action) => {
+          const {
+            arg: { asset },
+          } = action.meta
+          const data = action.payload
+
+          if (checkPendingLP(data)) {
+            state.pendingLP = {
+              [asset]: data,
+              ...state.pendingLP,
+            }
+
+            // merge pending LP to liquidity data
+            const chainMemberDetails = mergePendingLP({
+              pendingLP: data,
+              chainMemberDetails: state.chainMemberDetails,
+            })
+
+            // update with merged member details
+            state.chainMemberDetails = chainMemberDetails
+          } else {
+            delete state.pendingLP?.[asset]
+
+            // merge pending LP to liquidity data
+            const chainMemberDetails = removePendingLP({
+              asset,
+              chainMemberDetails: state.chainMemberDetails,
+            })
+
+            // update with merged member details
+            state.chainMemberDetails = chainMemberDetails
+          }
+          state.pendingLPLoading = false
+        },
+      )
+      .addCase(midgardActions.getLiquidityProviderData.rejected, (state) => {
+        state.pendingLPLoading = false
+      })
       .addCase(midgardActions.getStats.fulfilled, (state, { payload }) => {
         state.stats = payload
       })

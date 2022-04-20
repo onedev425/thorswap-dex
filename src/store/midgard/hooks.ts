@@ -74,6 +74,27 @@ export const useMidgard = () => {
     [dispatch],
   )
 
+  const getPendingDepositByChain = useCallback(
+    (chain: SupportedChain) => {
+      if (!wallet) return
+
+      const thorchainAddress = wallet?.[Chain.THORChain]?.address
+      if (thorchainAddress) {
+        midgardState.pools.forEach((pool) => {
+          if (pool.asset.chain === chain) {
+            dispatch(
+              actions.getLiquidityProviderData({
+                address: thorchainAddress,
+                asset: pool.asset.toString(),
+              }),
+            )
+          }
+        })
+      }
+    },
+    [dispatch, midgardState.pools, wallet],
+  )
+
   /**
    * reload pool member details for a specific chain
    * 1. fetch pool member data for chain wallet addr (asset asymm share, symm share)
@@ -94,9 +115,12 @@ export const useMidgard = () => {
             assetChainAddress,
           }),
         )
+
+        // load pending deposit
+        getPendingDepositByChain(chain)
       }
     },
-    [dispatch, wallet],
+    [dispatch, wallet, getPendingDepositByChain],
   )
 
   // get pool member details for a specific chain
@@ -107,15 +131,18 @@ export const useMidgard = () => {
       const chainWalletAddr = walletState.wallet?.[chain]?.address
 
       if (chainWalletAddr) {
-        await dispatch(
+        dispatch(
           actions.getPoolMemberDetailByChain({
             chain,
             address: chainWalletAddr,
           }),
         )
+
+        // load pending deposit
+        getPendingDepositByChain(chain)
       }
     },
-    [dispatch, walletState.wallet],
+    [dispatch, walletState.wallet, getPendingDepositByChain],
   )
 
   // get pool member details for all chains

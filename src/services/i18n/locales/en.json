@@ -419,6 +419,8 @@
       "lastAdded": "Last Added",
       "runeAdded": "Rune Added",
       "assetAdded": "Asset Added",
+      "runeWithdrawn": "Rune Withdrawn",
+      "assetWithdrawn": "Asset Withdrawn",
       "runePending": "Rune Pending",
       "assetPending": "Asset Pending",
       "gasFeeTooltip": "Gas fee used for submitting the transaction using the thorchain protocol",

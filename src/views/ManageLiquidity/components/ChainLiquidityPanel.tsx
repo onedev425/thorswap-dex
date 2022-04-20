@@ -12,6 +12,7 @@ import { ReloadButton } from 'components/ReloadButton'
 
 import { useMidgard } from 'store/midgard/hooks'
 import { ChainMemberData, PoolShareType } from 'store/midgard/types'
+import { isPendingLP } from 'store/midgard/utils'
 
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
@@ -25,7 +26,7 @@ type Props = {
 }
 
 export const ChainLiquidityPanel = ({ chain, data, isLoading }: Props) => {
-  const { pools } = useMidgard()
+  const { pools, loadMemberDetailsByChain } = useMidgard()
 
   const chainWalletAddress = useMemo(
     () => multichain.getWalletAddressByChain(chain) || '#',
@@ -49,6 +50,17 @@ export const ChainLiquidityPanel = ({ chain, data, isLoading }: Props) => {
       if (poolMemberData?.sym) {
         liquidityPositions.push({
           ...poolMemberData?.sym,
+          shareType: PoolShareType.SYM,
+          pool,
+        })
+      }
+
+      const hasPendingLP =
+        poolMemberData?.sym && isPendingLP(poolMemberData?.sym)
+
+      if (!hasPendingLP && poolMemberData?.pending) {
+        liquidityPositions.push({
+          ...poolMemberData?.pending,
           shareType: PoolShareType.SYM,
           pool,
         })
@@ -97,7 +109,11 @@ export const ChainLiquidityPanel = ({ chain, data, isLoading }: Props) => {
               />
             </Link>
 
-            <ReloadButton size={16} loading={isLoading} />
+            <ReloadButton
+              size={16}
+              loading={isLoading}
+              onLoad={() => loadMemberDetailsByChain(chain)}
+            />
           </Box>
         }
       />

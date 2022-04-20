@@ -30,8 +30,12 @@ const ManageLiquidity = () => {
   const navigate = useNavigate()
   const { wallet, setIsConnectModalOpen } = useWallet()
 
-  const { chainMemberDetails, getAllMemberDetails, chainMemberDetailsLoading } =
-    useMidgard()
+  const {
+    pendingLP,
+    chainMemberDetails,
+    getAllMemberDetails,
+    chainMemberDetailsLoading,
+  } = useMidgard()
 
   const [tipVisible, setTipVisible] = useState(true)
 
@@ -41,9 +45,14 @@ const ManageLiquidity = () => {
     getAllMemberDetails()
   }, [getAllMemberDetails])
 
+  const hasPendingDeposit = useMemo(
+    () => Object.keys(pendingLP).length > 0,
+    [pendingLP],
+  )
+
   const hasPending = useMemo(
-    () => hasPendingLP(chainMemberDetails),
-    [chainMemberDetails],
+    () => hasPendingLP(chainMemberDetails) || hasPendingDeposit,
+    [chainMemberDetails, hasPendingDeposit],
   )
 
   const isLoadingLiquidities = useMemo(

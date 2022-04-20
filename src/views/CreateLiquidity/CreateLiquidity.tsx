@@ -50,7 +50,8 @@ export const CreateLiquidity = () => {
 
   const inputAssets = useMemo(() => {
     if (hasConnectedWallet(wallet)) {
-      return getInputAssetsForCreate({ wallet, pools })
+      const assets = getInputAssetsForCreate({ wallet, pools })
+      return assets.filter((asset) => asset.ticker !== 'RUNE' && !asset.isSynth)
     }
 
     return []
@@ -440,7 +441,7 @@ export const CreateLiquidity = () => {
     [runeAmount, runeBalance, runeAssetPriceInUSD],
   )
 
-  const poolAssetList = useAssetsWithBalance(inputAssets)
+  const inputAssetList = useAssetsWithBalance(inputAssets)
 
   const title = useMemo(
     () => `${t('common.create')} ${poolAsset.ticker} ${t('common.liquidity')}`,
@@ -510,7 +511,7 @@ export const CreateLiquidity = () => {
       <AssetInputs
         poolAsset={poolAssetInput}
         runeAsset={runeAssetInput}
-        poolAssetList={poolAssetList}
+        poolAssetList={inputAssetList}
         onAssetAmountChange={handleChangeAssetAmount}
         onRuneAmountChange={handleChangeRuneAmount}
         onPoolChange={handleSelectPoolAsset}

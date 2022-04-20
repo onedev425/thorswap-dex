@@ -1,4 +1,4 @@
-import { ChangeEventHandler, memo } from 'react'
+import { ChangeEventHandler, KeyboardEventHandler, memo } from 'react'
 
 import { Input } from 'components/Input'
 
@@ -8,10 +8,11 @@ type Props = {
   value: string
   onChange: ChangeEventHandler<HTMLInputElement>
   error?: boolean
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement> | undefined
 }
 
 export const PasswordInput = memo(
-  ({ error, onChange, value, ...restProps }: Props) => {
+  ({ error, onChange, value, onKeyDown, ...restProps }: Props) => {
     return (
       <Input
         onChange={onChange}
@@ -22,6 +23,7 @@ export const PasswordInput = memo(
         icon="lock"
         placeholder={t('common.password')}
         border="rounded"
+        onKeyDown={onKeyDown}
         {...restProps}
       />
     )

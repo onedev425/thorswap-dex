@@ -100,7 +100,7 @@ export const AssetInputs = memo(
             >
               <AssetAmountBox
                 asset={poolAsset}
-                amount={assetAmount.toFixed(2)}
+                amount={assetAmount.toSignificant(6)}
                 stretch
               />
             </Box>
@@ -113,7 +113,7 @@ export const AssetInputs = memo(
             >
               <AssetAmountBox
                 asset={Asset.RUNE()}
-                amount={runeAmount.toFixed(2)}
+                amount={runeAmount.toSignificant(6)}
                 stretch
               />
             </Box>

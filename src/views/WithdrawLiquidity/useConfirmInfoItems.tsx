@@ -17,7 +17,9 @@ type Params = {
 export const useConfirmInfoItems = ({ assets, fee }: Params) => {
   const confirmInfoItems: InfoRowConfig[] = useMemo(() => {
     const items = assets.map((data) => ({
-      label: `${t('common.withdraw')} ${data.asset.symbol}`,
+      label: `${t('common.withdraw')} ${data.asset.ticker} (${
+        data.asset.type
+      })`,
       value: (
         <Box justify="between" alignCenter>
           <Typography fontWeight="semibold" className="mx-2">

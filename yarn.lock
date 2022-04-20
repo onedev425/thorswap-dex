@@ -3874,10 +3874,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.3.tgz#715c10df5d69846c2d87b50365502818bf979906"
   integrity sha512-wYTPyUn4Xt1WB+d1uyVgiox3FtuAsYC8bMExZEloQX/6QxmSTZVjGmCOgaQ0Qn1YxU+GK0qDgA99Y+hjrfUv7w==
 
-"@thorswap-lib/multichain-sdk@0.1.10":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.1.10.tgz#1fff779c6ed08692c0f6398508e64c6311a626cd"
-  integrity sha512-snrktJpY2ID6Vlr+ao2fwQe9zj7SW0Toa5yfMvubMgTK3aUx0L0RQ4+F9XkKHIejrhA5TE6w8GI72RYau7jkZw==
+"@thorswap-lib/multichain-sdk@^0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.1.11.tgz#7d75bab17f6305f563010e3033269cd4120da2ba"
+  integrity sha512-ltZ+0KQmLxHbO5JBc2pmyOANMLErgXA13lgcuIMNox9bnw6FXpVHuipCo0g4mMpft2Gi/wAxrdQXkVXgHqHk0w==
   dependencies:
     "@binance-chain/javascript-sdk" "2.16.4"
     "@cosmos-client/core" "^0.45.2"

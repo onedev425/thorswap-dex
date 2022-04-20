@@ -95,12 +95,24 @@ export const ConfirmModal = ({
     setValidating(false)
   }, [keystore, password, handleProceed, isKeystoreSigningRequired])
 
+  const onPasswordKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        handleClickConfirm()
+      }
+    },
+    [handleClickConfirm],
+  )
+
   const renderKeystoreSignMode = useMemo(
     () => (
       <>
         <PasswordInput
           value={password}
           onChange={({ target }) => setPassword(target.value)}
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          onKeyDown={onPasswordKeyDown}
         />
         {invalidPassword && (
           <Typography
@@ -123,7 +135,13 @@ export const ConfirmModal = ({
         </Button>
       </>
     ),
-    [password, invalidPassword, validating, handleClickConfirm],
+    [
+      password,
+      invalidPassword,
+      validating,
+      handleClickConfirm,
+      onPasswordKeyDown,
+    ],
   )
 
   return (
