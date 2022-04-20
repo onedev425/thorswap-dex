@@ -7,7 +7,7 @@ export enum ROUTES {
   NodeDetail = '/nodes/:nodeAddress',
   NodeManager = '/node-manager',
   Nodes = '/nodes',
-  PendingLiquidity = '/pending',
+  // PendingLiquidity = '/pending',
   Send = '/send',
   SendAsset = '/send/:assetParam',
   Stake = '/stake',

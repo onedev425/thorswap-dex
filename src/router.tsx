@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import { Suspense } from 'react'
 
 import {
   Navigate,
@@ -11,7 +11,6 @@ import AddLiquidity from 'views/AddLiquidity'
 import CreateLiquidity from 'views/CreateLiquidity'
 import HomeView from 'views/Home'
 import ManageLiquidityView from 'views/ManageLiquidity'
-import PendingLiquidity from 'views/PendingLiquidity'
 import SendView from 'views/Send'
 import StatsView from 'views/Stats'
 import SwapView from 'views/Swap'
@@ -41,12 +40,12 @@ const routes: RouteType = [
   { path: ROUTES.Send, element: SendView },
   { path: ROUTES.SendAsset, element: SendView },
   { path: ROUTES.ManageLiquidity, element: ManageLiquidityView },
-  { path: ROUTES.PendingLiquidity, element: PendingLiquidity },
   { path: ROUTES.WithdrawLiquidity, element: WithdrawLiquidity },
   { path: ROUTES.WithdrawLiquidityPool, element: WithdrawLiquidity },
   { path: ROUTES.Wallet, element: WalletView },
   { path: ROUTES.Stats, element: StatsView },
   { path: ROUTES.UpgradeRune, element: UpgradeRuneView },
+  // { path: ROUTES.PendingLiquidity, element: PendingLiquidity },
   // { path: ROUTES.Stake, element: StakeView },
   // { path: ROUTES.Vesting, element: VestingView },
   // { path: ROUTES.Nodes, element: Nodes },
