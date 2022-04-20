@@ -1,5 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
+
 module.exports = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
@@ -42,6 +44,10 @@ module.exports = {
           tls: false,
           zlib: false,
         },
+        plugins: [
+          ...(baseConfig.resolve.plugins ?? []),
+          new TsconfigPathsPlugin(),
+        ],
       },
     }
 
