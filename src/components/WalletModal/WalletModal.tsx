@@ -22,6 +22,7 @@ import { useWallet } from 'store/wallet/hooks'
 
 import usePrevious from 'hooks/usePrevious'
 import { useTerraWallet } from 'hooks/useTerraWallet'
+import useWindowSize from 'hooks/useWindowSize'
 
 import { t } from 'services/i18n'
 import { metamask } from 'services/metamask'
@@ -37,6 +38,7 @@ import { WalletMode, WalletStage, availableChainsByWallet } from './types'
 import { WalletOption } from './WalletOption'
 
 export const WalletModal = () => {
+  const { isMdActive } = useWindowSize()
   const [walletMode, setWalletMode] = useState<WalletMode>(WalletMode.Select)
   const [walletStage, setWalletStage] = useState<WalletStage>(
     WalletStage.WalletSelect,
@@ -368,33 +370,55 @@ export const WalletModal = () => {
     clearStatus()
   }, [clearStatus])
 
+  const xdefiLabel = useMemo(() => {
+    switch (xdefiStatus) {
+      case XdefiWalletStatus.XdefiPrioritized:
+        return t('views.walletModal.connectXdefi')
+      case XdefiWalletStatus.XdefiNotPrioritized:
+        return t('views.walletModal.prioritiseXdefi')
+      case XdefiWalletStatus.XdefiNotInstalled:
+        return t('views.walletModal.installXdefi')
+    }
+  }, [xdefiStatus])
+
+  const metamaskLabel = useMemo(() => {
+    switch (metamaskStatus) {
+      case MetaMaskWalletStatus.NoWeb3Provider:
+        return t('views.walletModal.installMetaMask')
+      case MetaMaskWalletStatus.XdefiDetected:
+        return t('views.walletModal.disableXdefi')
+      case MetaMaskWalletStatus.MetaMaskDetected:
+        return t('views.walletModal.connectMetaMask')
+    }
+  }, [metamaskStatus])
+
+  // TODO(@Chillios): Refactor
   const renderMainPanel = useMemo(() => {
     return (
       <Scrollbar maxHeight="60vh" customStyle={{ marginRight: '-12px' }}>
         <Box className="w-full space-y-2" col>
-          <WalletOption onClick={() => handleChainSelect(WalletMode.Xdefi)}>
-            {xdefiStatus === XdefiWalletStatus.XdefiPrioritized && (
-              <Typography>{t('views.walletModal.connectXdefi')}</Typography>
-            )}
-            {xdefiStatus === XdefiWalletStatus.XdefiNotPrioritized && (
-              <Typography>{t('views.walletModal.prioritiseXdefi')}</Typography>
-            )}
-            {xdefiStatus === XdefiWalletStatus.XdefiNotInstalled && (
-              <Typography>{t('views.walletModal.installXdefi')}</Typography>
-            )}
-            <Icon name="xdefi" />
-          </WalletOption>
-          {isTerraStationAvailable && (
-            <WalletOption onClick={() => handleChainSelect(WalletMode.Terra)}>
-              {isTerraStationInstalled && (
-                <Typography>{t('views.walletModal.connectStation')}</Typography>
+          {isMdActive && (
+            <>
+              <WalletOption onClick={() => handleChainSelect(WalletMode.Xdefi)}>
+                <Typography>{xdefiLabel}</Typography>
+                <Icon name="xdefi" />
+              </WalletOption>
+
+              {isTerraStationAvailable && (
+                <WalletOption
+                  onClick={() => handleChainSelect(WalletMode.Terra)}
+                >
+                  <Typography>
+                    {isTerraStationInstalled
+                      ? t('views.walletModal.connectStation')
+                      : t('views.walletModal.installStation')}
+                  </Typography>
+                  <Icon name="station" />
+                </WalletOption>
               )}
-              {!isTerraStationInstalled && (
-                <Typography>{t('views.walletModal.installStation')}</Typography>
-              )}
-              <Icon name="station" />
-            </WalletOption>
+            </>
           )}
+
           <WalletOption
             onClick={() => handleChainSelect(WalletMode.TerraMobile)}
           >
@@ -408,41 +432,48 @@ export const WalletModal = () => {
             <Icon name="walletConnect" />
           </WalletOption>
           <WalletOption onClick={() => handleChainSelect(WalletMode.MetaMask)}>
-            {metamaskStatus === MetaMaskWalletStatus.MetaMaskDetected && (
-              <Typography>{t('views.walletModal.connectMetaMask')}</Typography>
-            )}
-            {metamaskStatus === MetaMaskWalletStatus.XdefiDetected && (
-              <Typography>{t('views.walletModal.disableXdefi')}</Typography>
-            )}
-            {metamaskStatus === MetaMaskWalletStatus.NoWeb3Provider && (
-              <Typography>{t('views.walletModal.installMetaMask')}</Typography>
-            )}
+            <Typography>{metamaskLabel}</Typography>
             <Icon name="metamask" />
           </WalletOption>
-          <WalletOption onClick={() => handleChainSelect(WalletMode.Ledger)}>
-            <Typography>{t('views.walletModal.connectLedger')}</Typography>
-            <Icon name="ledger" />
-          </WalletOption>
+
+          {isMdActive && (
+            <WalletOption onClick={() => handleChainSelect(WalletMode.Ledger)}>
+              <Typography>{t('views.walletModal.connectLedger')}</Typography>
+              <Icon name="ledger" />
+            </WalletOption>
+          )}
+
           <WalletOption onClick={() => handleChainSelect(WalletMode.Keystore)}>
             <Typography>{t('views.walletModal.connectKeystore')}</Typography>
             <Icon name="keystore" />
           </WalletOption>
-          <WalletOption onClick={() => handleChainSelect(WalletMode.Create)}>
-            <Typography>{t('views.walletModal.createKeystore')}</Typography>
-            <Icon name="plusCircle" />
-          </WalletOption>
-          <WalletOption onClick={() => handleChainSelect(WalletMode.Phrase)}>
-            <Typography>{t('views.walletModal.importPhrase')}</Typography>
-            <Icon name="import" />
-          </WalletOption>
+
+          {isMdActive && (
+            <>
+              <WalletOption
+                onClick={() => handleChainSelect(WalletMode.Create)}
+              >
+                <Typography>{t('views.walletModal.createKeystore')}</Typography>
+                <Icon name="plusCircle" />
+              </WalletOption>
+
+              <WalletOption
+                onClick={() => handleChainSelect(WalletMode.Phrase)}
+              >
+                <Typography>{t('views.walletModal.importPhrase')}</Typography>
+                <Icon name="import" />
+              </WalletOption>
+            </>
+          )}
         </Box>
       </Scrollbar>
     )
   }, [
+    isMdActive,
+    xdefiLabel,
     isTerraStationAvailable,
     isTerraStationInstalled,
-    metamaskStatus,
-    xdefiStatus,
+    metamaskLabel,
     handleChainSelect,
   ])
 
@@ -451,8 +482,9 @@ export const WalletModal = () => {
       walletMode === WalletMode.Create ||
       walletMode === WalletMode.Select ||
       walletMode === WalletMode.Phrase
-    )
+    ) {
       return <></>
+    }
 
     const allSelected =
       pendingChains?.length === availableChainsByWallet[walletMode]?.length
@@ -477,6 +509,7 @@ export const WalletModal = () => {
               </Button>
             </Box>
           )}
+
         <Scrollbar maxHeight="100%" customStyle={{ marginRight: '-12px' }}>
           <Box className="flex-1 gap-2" col>
             {availableChainsByWallet[walletMode].map((chain) => {
@@ -568,7 +601,7 @@ export const WalletModal = () => {
       onBack={walletStage !== WalletStage.WalletSelect ? handleBack : undefined}
     >
       <Card
-        className="w-[85vw] !py-6 max-w-[420px] md:w-[65vw]"
+        className="w-[85vw] !py-6 max-w-[420px] md:w-[65vw] h-fit"
         stretch
         size="lg"
       >
