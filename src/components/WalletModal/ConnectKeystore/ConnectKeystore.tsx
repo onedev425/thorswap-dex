@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent, useCallback, useState } from 'react'
+import { ChangeEvent, useCallback, useState } from 'react'
 
 import { FilePicker } from 'react-file-picker'
 
@@ -75,17 +75,16 @@ export const KeystoreView = ({ loading, onConnect, onCreate }: Props) => {
     setInvalidStatus(false)
   }, [])
 
-  const onPasswordKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === 'Enter') {
+  const ready = password.length > 0 && !keystoreError && !processing
+
+  const handleKeypress = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.code === 'Enter') {
         unlockKeystore()
       }
     },
     [unlockKeystore],
   )
-
-  const ready = password.length > 0 && !keystoreError && !processing
-
   return (
     <Box className="w-full" col>
       <Typography className="mb-2" variant="subtitle2" fontWeight="semibold">
@@ -139,7 +138,7 @@ export const KeystoreView = ({ loading, onConnect, onCreate }: Props) => {
           stretch
           value={password}
           onChange={onPasswordChange}
-          onKeyDown={onPasswordKeyDown}
+          onKeyDown={handleKeypress}
         />
       </Box>
       {invalidStatus && (

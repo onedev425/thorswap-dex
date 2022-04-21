@@ -79,6 +79,15 @@ export const KeystoreView = ({ onConnect, onKeystore }: Props) => {
     }
   }, [ready, password, onConnect])
 
+  const handleKeypress = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.code === 'Enter') {
+        handleCreate()
+      }
+    },
+    [handleCreate],
+  )
+
   return (
     <Box className="w-full" col>
       <Helmet title="Create Wallet" content="Create Wallet" />
@@ -101,6 +110,7 @@ export const KeystoreView = ({ onConnect, onKeystore }: Props) => {
           stretch
           value={password}
           onChange={handlePasswordChange}
+          onKeyDown={handleKeypress}
         />
       </Box>
       <Box className="space-x-2" row mt={24} mb={2}>
@@ -117,6 +127,7 @@ export const KeystoreView = ({ onConnect, onKeystore }: Props) => {
           stretch
           value={confirmPassword}
           onChange={handleConfirmPasswordChange}
+          onKeyDown={handleKeypress}
         />
       </Box>
       {invalidStatus && (

@@ -2,7 +2,7 @@ import { MouseEvent, useLayoutEffect, useRef } from 'react'
 
 import classNames from 'classnames'
 
-import { Typography } from 'components/Atomic'
+import { Icon, Typography } from 'components/Atomic'
 import { Tooltip } from 'components/Atomic/Tooltip/Tooltip'
 
 import { ButtonProps } from './types'
@@ -78,30 +78,33 @@ export const Button = ({
         onClick={handleClick}
         {...rest}
       >
-        {startIcon && startIcon}
+        {loading ? <Icon name="loader" spin size={24} color="primary" /> : null}
+        {loading ? null : startIcon && startIcon}
 
-        {children && (
-          <Typography
-            className={classNames(
-              'transition !no-underline',
-              isOutlined || isBorderless || variant === 'tint'
-                ? 'text-light-typo-primary dark:text-dark-typo-primary'
-                : typographyClasses,
-              {
-                'ml-2': startIcon,
-                'mr-2': endIcon,
-              },
+        {loading
+          ? null
+          : children && (
+              <Typography
+                className={classNames(
+                  'transition !no-underline',
+                  isOutlined || isBorderless || variant === 'tint'
+                    ? 'text-light-typo-primary dark:text-dark-typo-primary'
+                    : typographyClasses,
+                  {
+                    'ml-2': startIcon,
+                    'mr-2': endIcon,
+                  },
+                )}
+                variant={typographyVariant}
+                transform={transform}
+                fontWeight={isFancy ? 'semibold' : 'bold'}
+                color={textColor}
+              >
+                {children}
+              </Typography>
             )}
-            variant={typographyVariant}
-            transform={transform}
-            fontWeight={isFancy ? 'semibold' : 'bold'}
-            color={textColor}
-          >
-            {children}
-          </Typography>
-        )}
 
-        {endIcon && endIcon}
+        {loading ? null : endIcon && endIcon}
       </button>
     </Tooltip>
   )
