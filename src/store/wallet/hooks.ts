@@ -1,15 +1,18 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
-import { ConnectType as TerraConnectType } from '@terra-money/wallet-provider'
+import {
+  ConnectedWallet,
+  ConnectType as TerraConnectType,
+} from '@terra-money/wallet-provider'
 import { SupportedChain } from '@thorswap-lib/multichain-sdk'
 import { Keystore } from '@thorswap-lib/xchain-crypto'
 import { Chain, ETHChain, TERRAChain } from '@thorswap-lib/xchain-util'
 
 import { showToast, ToastType } from 'components/Toast'
 
-import { RootState } from 'store/store'
+import { useAppSelector } from 'store/store'
 
 import { useTerraWallet } from 'hooks/useTerraWallet'
 
@@ -20,6 +23,7 @@ import * as walletActions from './actions'
 import { actions } from './slice'
 
 export const useWallet = () => {
+  const checkWalletConnection = useRef(false)
   const dispatch = useDispatch()
 
   const {
@@ -29,16 +33,11 @@ export const useWallet = () => {
     isTerraWalletConnected,
   } = useTerraWallet()
 
-  const walletState = useSelector((state: RootState) => state.wallet)
+  const walletState = useAppSelector(({ wallet }) => wallet)
 
-  const { walletLoading, chainWalletLoading } = walletState
-  const walletLoadingByChain = Object.keys(chainWalletLoading).map(
-    (chain) => chainWalletLoading[chain as SupportedChain],
-  )
-  const isWalletLoading = walletLoadingByChain.reduce(
-    (status, next) => status || next,
-    walletLoading,
-  )
+  const isWalletLoading =
+    walletState.walletLoading ||
+    Object.values(walletState.chainWalletLoading).some((loading) => loading)
 
   const unlockWallet = useCallback(
     async (keystore: Keystore, phrase: string, chains: SupportedChain[]) => {
@@ -106,44 +105,65 @@ export const useWallet = () => {
     dispatch(walletActions.getWalletByChain(ETHChain))
   }, [dispatch])
 
+  const connectTerraMultichain = useCallback(
+    async ({
+      address,
+      wallet,
+    }: {
+      address?: string
+      wallet: ConnectedWallet
+    }) => {
+      if (address) {
+        await multichain.connectTerraStation(wallet, address)
+
+        dispatch(walletActions.getWalletByChain(TERRAChain))
+      } else {
+        console.error('Terra station wallet not connected')
+      }
+    },
+    [dispatch],
+  )
+
   const connectTerraStation = useCallback(
     async (connectType: TerraConnectType, identifier?: string) => {
       connectTerraWallet(connectType, identifier)
+      checkWalletConnection.current = true
 
-      // TODO: Chillios - wallet is initializing, but throw error here
-      if (!isTerraWalletConnected || !connectedWallet) {
-        throw Error('Terra station wallet not connected')
+      if (connectType === TerraConnectType.EXTENSION) {
+        if (!isTerraWalletConnected || !connectedWallet) {
+          throw Error('Terra station wallet not connected')
+        }
+
+        const address = terraWallets.filter(
+          (data) => data.connectType === connectType,
+        )?.[0]?.terraAddress
+
+        connectTerraMultichain({ address, wallet: connectedWallet })
       }
-
-      const address = terraWallets.filter(
-        (data) => data.connectType === connectType,
-      )?.[0]?.terraAddress
-
-      if (!address) {
-        throw Error('Terra station wallet not connected')
-      }
-
-      console.info('terra station connected', address)
-
-      await multichain.connectTerraStation(connectedWallet, address)
-
-      dispatch(walletActions.getWalletByChain(TERRAChain))
     },
     [
-      dispatch,
-      terraWallets,
       connectTerraWallet,
-      connectedWallet,
       isTerraWalletConnected,
+      connectedWallet,
+      terraWallets,
+      connectTerraMultichain,
     ],
   )
+
+  useEffect(() => {
+    if (checkWalletConnection.current && connectedWallet) {
+      checkWalletConnection.current = false
+      connectTerraMultichain({
+        wallet: connectedWallet,
+        address: connectedWallet?.walletAddress,
+      })
+    }
+  }, [connectTerraMultichain, connectedWallet])
 
   const connectTrustWallet = useCallback(
     async (chains: SupportedChain[]) => {
       await multichain.connectTrustWallet(chains, {
-        listeners: {
-          disconnect: disconnectWallet,
-        },
+        listeners: { disconnect: disconnectWallet },
       })
 
       chains.forEach((chain) => {

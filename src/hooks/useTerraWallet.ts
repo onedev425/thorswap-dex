@@ -16,6 +16,7 @@ export const useTerraWallet = () => {
     availableConnectTypes,
     availableInstallTypes,
     connect,
+    // TODO: Rewrite to `availableInstallations` https://github.com/terra-money/wallet-provider/blob/4e601c2dece7bec92c9ce95991d2314220a2c954/packages/src/%40terra-money/use-wallet/useWallet.ts#L122-L126
     install,
     disconnect,
   } = useWallet()

@@ -46,7 +46,7 @@ export const WalletModal = () => {
 
   const {
     isConnectModalOpen,
-    walletLoading,
+    isWalletLoading,
     wallet,
     unlockWallet,
     connectXdefiWallet,
@@ -591,7 +591,7 @@ export const WalletModal = () => {
             <>
               {walletMode === WalletMode.Keystore && (
                 <ConnectKeystoreView
-                  loading={walletLoading}
+                  loading={isWalletLoading}
                   onConnect={handleConnect}
                   onCreate={() => setWalletMode(WalletMode.Create)}
                 />
