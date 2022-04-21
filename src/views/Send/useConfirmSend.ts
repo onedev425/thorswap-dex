@@ -73,7 +73,7 @@ export const useConfirmSend = ({
         }
       } catch (error: any) {
         const description = translateErrorMsg(error?.toString())
-        console.error('confirmSendError', error, description)
+        console.error('confirmSendError', { error, description })
         setTxFailed(trackId)
 
         showToast(
