@@ -190,7 +190,7 @@
       "thorswapDocumentation": "THORSwap 문서",
       "send": "발송",
       "thorswapCommunityYoutube": "THORSwap Community YouTube",
-      "trade": "",
+      "trade": "거래",
       "thor": "Thor",
       "thorStake": "스태그(Stake)",
       "submitFeedback": "의견 제출",
@@ -357,7 +357,7 @@
       "emptyFeatured": "추천 에셋 없음",
       "priceImpact": "가격 영향",
       "minReceivedAfterSlip": "슬리피지 (%{slippage}) 후 최소 수령 금액",
-      "swapAssets": ""
+      "swapAssets": "스왑 자산 비율"
     },
     "wallet": {
       "wallet": "지갑",
@@ -419,8 +419,8 @@
       "lastAdded": "마지막으로 추가됨",
       "runeAdded": "추가된 Rune",
       "assetAdded": "추가된 에셋",
-      "runeWithdrawn": "",
-      "assetWithdrawn": "",
+      "runeWithdrawn": "룬 철회",
+      "assetWithdrawn": "자산 철회",
       "runePending": "보류 중인 Rune",
       "assetPending": "보류 중인 에셋",
       "gasFeeTooltip": "토르체인(Thorchain) 프로토콜로 트랜잭션을 제출하는 데 사용되는 가스 수수료",
@@ -546,7 +546,7 @@
     "xdefiFailed": "XDEFI 지갑 연결 실패",
     "metamaskFailed": "MetaMask 지갑 연결 실패",
     "trustFailed": "TrustWallet 지갑 연결 실패",
-    "connectedLedger": "",
+    "connectedLedger": "%{chain} 원장 #%{index}을(를) 성공적으로 연결했습니다.",
     "connectingLedger": "%{chain} 연결 중 Ledger #%{index}",
     "ledgerFailed": "%{chain} 연결 Ledger #%{index} 실패",
     "verifyLedgerAddy": "Ledger 주소 확인",

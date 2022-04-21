@@ -190,7 +190,7 @@
       "thorswapDocumentation": "Dokumentacja THORSwap",
       "send": "Wyślij",
       "thorswapCommunityYoutube": "Społeczność THORSwap YouTube",
-      "trade": "",
+      "trade": "Handel",
       "thor": "Thor",
       "thorStake": "Stake",
       "submitFeedback": "Prześlij informację zwrotną",
@@ -357,7 +357,7 @@
       "emptyFeatured": "Brak wyróżnionych zasobów",
       "priceImpact": "Wpływ ceny",
       "minReceivedAfterSlip": "Minimalna wartość otrzymana po poślizgu (%{slippage})",
-      "swapAssets": ""
+      "swapAssets": "Kursy wymiany aktywów"
     },
     "wallet": {
       "wallet": "Portfel",
@@ -419,8 +419,8 @@
       "lastAdded": "Ostatnio dodane",
       "runeAdded": "Rune dodane",
       "assetAdded": "Dodane aktywa",
-      "runeWithdrawn": "",
-      "assetWithdrawn": "",
+      "runeWithdrawn": "RUNE wycofana",
+      "assetWithdrawn": "Zasób wycofany",
       "runePending": "Rune w toku",
       "assetPending": "Aktywa w toku",
       "gasFeeTooltip": "Opłata za złożenie transakcji za pomocą protokołu thorchain",
@@ -546,7 +546,7 @@
     "xdefiFailed": "Połączenie z portfelem XDEFI nie powiodło się",
     "metamaskFailed": "Połączenie portfela MetaMask nie powiodło się",
     "trustFailed": "Połączenie z TrustWallet nie powiodło się",
-    "connectedLedger": "",
+    "connectedLedger": "Pomyślnie połączono %{chain} księgę #%{index}",
     "connectingLedger": "Łączenie %{chain} Ledger #%{index}",
     "ledgerFailed": "Połączenie %{chain} Ledger #%{index} nie powiodło się",
     "verifyLedgerAddy": "Zweryfikuj adres Ledger",

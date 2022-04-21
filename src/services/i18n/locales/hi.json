@@ -190,7 +190,7 @@
       "thorswapDocumentation": "THORSwap दस्तावेज़ीकरण",
       "send": "भेजें",
       "thorswapCommunityYoutube": "THORSwap कम्युनिटी यूट्यूब",
-      "trade": "",
+      "trade": "व्यापार",
       "thor": "Thor",
       "thorStake": "दांव लगाना",
       "submitFeedback": "फ़ीडबैक सबमिट कर दो",
@@ -357,7 +357,7 @@
       "emptyFeatured": "कोई विशेष रुप से प्रदर्शित संपत्ति नहीं",
       "priceImpact": "मूल्य प्रभाव",
       "minReceivedAfterSlip": "स्लिपेज के बाद प्राप्त न्यूनतम (%{slippage})",
-      "swapAssets": ""
+      "swapAssets": "स्वैप संपत्ति दरें"
     },
     "wallet": {
       "wallet": "बटुआ",
@@ -419,8 +419,8 @@
       "lastAdded": "पिछली बार जोड़ा गया",
       "runeAdded": "Rune जोड़ा गया",
       "assetAdded": "एसेट जोड़ा गया",
-      "runeWithdrawn": "",
-      "assetWithdrawn": "",
+      "runeWithdrawn": "रूण वापस ले लिया",
+      "assetWithdrawn": "संपत्ति वापस ली गई",
       "runePending": "Rune लंबित",
       "assetPending": "संपत्ति लंबित",
       "gasFeeTooltip": "Thorchain प्रोटोकॉल का उपयोग करके लेनदेन जमा करने के लिए प्रयुक्त गैस शुल्क",
@@ -546,7 +546,7 @@
     "xdefiFailed": "कनेक्ट XDEFI वॉलेट विफल",
     "metamaskFailed": "कनेक्ट MetaMask वॉलेट विफल",
     "trustFailed": "कनेक्ट ट्रस्ट वॉलेट विफल",
-    "connectedLedger": "",
+    "connectedLedger": "%{chain} लेजर #%{index} सफलतापूर्वक कनेक्ट किया गया",
     "connectingLedger": "%{chain} लेजर #%{index} को जोड़ना",
     "ledgerFailed": "कनेक्ट %{chain} लेजर #%{index} विफल",
     "verifyLedgerAddy": "लेजर पता सत्यापित करें",

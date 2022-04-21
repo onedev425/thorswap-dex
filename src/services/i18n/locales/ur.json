@@ -190,7 +190,7 @@
       "thorswapDocumentation": "THORSwap Documentation",
       "send": "بھیجیں",
       "thorswapCommunityYoutube": "THORSwap کمیونٹی یوٹیوب",
-      "trade": "",
+      "trade": "تجارت",
       "thor": "Thor",
       "thorStake": "Stake",
       "submitFeedback": "رائے جمع کروائیں۔",
@@ -357,7 +357,7 @@
       "emptyFeatured": "کوئی نمایاں اثاثے نہیں ہیں",
       "priceImpact": "قیمت کا اثر",
       "minReceivedAfterSlip": "slippage کے بعد کم از کم موصول ہوگا (%{slippage})",
-      "swapAssets": ""
+      "swapAssets": "اثاثوں کی شرحوں کو تبدیل کریں۔"
     },
     "wallet": {
       "wallet": "Wallet",
@@ -419,8 +419,8 @@
       "lastAdded": "آخری بار شامل کیا گیا",
       "runeAdded": "شامل کیا گیا RUNE ",
       "assetAdded": "شامل کیا گیا RUNE ",
-      "runeWithdrawn": "",
-      "assetWithdrawn": "",
+      "runeWithdrawn": "RUNE واپس لے لیا گیا۔",
+      "assetWithdrawn": "اثاثہ واپس لے لیا گیا۔",
       "runePending": "شامل کیا اثاثہ",
       "assetPending": "Pending اثاثہ",
       "gasFeeTooltip": "Thorchain پروٹوکول کا استعمال کرتے ہوئے لین دین جمع کرانے کے لیے استعمال ہونے والی گیس فیس",
@@ -546,7 +546,7 @@
     "xdefiFailed": "XDEFI Wallet کو منسلک کرنا ناکام ہو گیا",
     "metamaskFailed": "MetaMask Wallet کو منسلک کرنا ناکام ہو گیا",
     "trustFailed": " TrustWallet کو منسلک کرنا ناکام ہو گیا",
-    "connectedLedger": "",
+    "connectedLedger": "کامیابی سے منسلک ہو گیا %{chain} لیجر #%{index}",
     "connectingLedger": "منسلک ہو رہا ہے %{chain} لیجر #%{index}",
     "ledgerFailed": "%{chain} لیجر #%{index} کو منسلک کرنے میں ناکام",
     "verifyLedgerAddy": "لیجر Address کی تصدیق کریں۔",

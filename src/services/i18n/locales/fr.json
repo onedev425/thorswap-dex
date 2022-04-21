@@ -357,7 +357,7 @@
       "emptyFeatured": "Pas d'assets mis en avant",
       "priceImpact": "Impact sur le prix",
       "minReceivedAfterSlip": "Minimum reçu après slippage  (%{slippage})",
-      "swapAssets": "Swap assets rates"
+      "swapAssets": "Taux d'actifs de swap"
     },
     "wallet": {
       "wallet": "Portefeuille",
@@ -419,8 +419,8 @@
       "lastAdded": "Dernier ajout",
       "runeAdded": "RUNE ajouté",
       "assetAdded": "Asset ajouté",
-      "runeWithdrawn": "Rune Withdrawn",
-      "assetWithdrawn": "Asset Withdrawn",
+      "runeWithdrawn": "RUNE retirée",
+      "assetWithdrawn": "Asset retirée",
       "runePending": "RUNE en attente",
       "assetPending": "Asset en attente",
       "gasFeeTooltip": "Gas utilisé pour soumettre une transaction sur le protocol THORChain",
@@ -546,7 +546,7 @@
     "xdefiFailed": "La connection au portefeuille XDEFI a échouée",
     "metamaskFailed": "La connection au portefeuille MetaMask a échouée",
     "trustFailed": "La connection au portefeuille TrustWallet a échouée",
-    "connectedLedger": "Successfully connected %{chain} Ledger #%{index}",
+    "connectedLedger": "Connecté avec succès %{chain} Ledger #%{index}",
     "connectingLedger": "La connection à %{chain} Ledger #%{index}",
     "ledgerFailed": "La connection à %{chain} Ledger #%{index} échouée",
     "verifyLedgerAddy": "Vérifier l'adresse Ledger",

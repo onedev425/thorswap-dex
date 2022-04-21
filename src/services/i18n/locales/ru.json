@@ -357,7 +357,7 @@
       "emptyFeatured": "Не популярные активы",
       "priceImpact": "Влияние на цену",
       "minReceivedAfterSlip": "Минимально к получению после проскальзывания (%{slippage})",
-      "swapAssets": ""
+      "swapAssets": "ставки обмена активами"
     },
     "wallet": {
       "wallet": "Кошелёк ",
@@ -419,8 +419,8 @@
       "lastAdded": "Последний добавленный",
       "runeAdded": "RUNE добавлено",
       "assetAdded": "Активов добавлено",
-      "runeWithdrawn": "",
-      "assetWithdrawn": "",
+      "runeWithdrawn": "РУНА снята",
+      "assetWithdrawn": "Актив изъят",
       "runePending": "RUNE в ожидании",
       "assetPending": "Активы в ожидании",
       "gasFeeTooltip": "Плата за газ, использованная для обработки транзакции в протоколе Thorchain",

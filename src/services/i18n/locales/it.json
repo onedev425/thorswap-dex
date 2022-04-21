@@ -357,7 +357,7 @@
       "emptyFeatured": "Nessun Asset in Primo Piano",
       "priceImpact": "Impatto sul Prezzo",
       "minReceivedAfterSlip": "Minimo ricevuto dopo lo slippage (%{slippage})",
-      "swapAssets": ""
+      "swapAssets": "Swap assets rates"
     },
     "wallet": {
       "wallet": "Portafoglio",
@@ -419,8 +419,8 @@
       "lastAdded": "Ultimo Depositato",
       "runeAdded": "Rune Depositato",
       "assetAdded": "Asset Depositato",
-      "runeWithdrawn": "",
-      "assetWithdrawn": "",
+      "runeWithdrawn": "Rune Prelevato",
+      "assetWithdrawn": "Asset Prelevato",
       "runePending": "Rune In Sospeso",
       "assetPending": "Asset In Sospeso",
       "gasFeeTooltip": "Commissione gas utilizzata per inoltrare la transazione utilizzando il protocollo THORChain",

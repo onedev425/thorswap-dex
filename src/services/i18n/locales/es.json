@@ -190,7 +190,7 @@
       "thorswapDocumentation": "Documentación de THORSwap",
       "send": "Enviar",
       "thorswapCommunityYoutube": "Youtube de la comunidad THORSwap",
-      "trade": "",
+      "trade": "Intercambiar",
       "thor": "Thor",
       "thorStake": "Stake",
       "submitFeedback": "Enviar feedback",
@@ -357,7 +357,7 @@
       "emptyFeatured": "Sin activos frecuentes",
       "priceImpact": "Impacto en el Precio",
       "minReceivedAfterSlip": "Mínimo recibido tras deslizamiento (%{slippage})",
-      "swapAssets": ""
+      "swapAssets": "Tasa de intercambio"
     },
     "wallet": {
       "wallet": "Cartera",
@@ -419,8 +419,8 @@
       "lastAdded": "Añadido por última vez",
       "runeAdded": "Rune Añadido",
       "assetAdded": "Activo Añadido",
-      "runeWithdrawn": "",
-      "assetWithdrawn": "",
+      "runeWithdrawn": "Rune retirado",
+      "assetWithdrawn": "Activo retirado",
       "runePending": "Rune Pendiente",
       "assetPending": "Activo Pendiente",
       "gasFeeTooltip": "Gas usado al aprobar la transacción usando el protocolo THORChain",
@@ -546,7 +546,7 @@
     "xdefiFailed": "Conectar XDEFI falló",
     "metamaskFailed": "Conectar MetaMask falló",
     "trustFailed": "Conectar TrustWallet falló",
-    "connectedLedger": "",
+    "connectedLedger": "Correctamente conectado a %{chain} con Ledger #%{index}",
     "connectingLedger": "Conectado red %{chain} Ledger #%{index}",
     "ledgerFailed": "Conectando red %{chain} Ledger #%{index} falló",
     "verifyLedgerAddy": "Verificar dirección Ledger",

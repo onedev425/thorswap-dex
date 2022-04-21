@@ -357,7 +357,7 @@
       "emptyFeatured": "Nenhum ativo em destaque",
       "priceImpact": "Impacto no Preço",
       "minReceivedAfterSlip": "Mínimo a ser recebido após divergência (%{slippage})",
-      "swapAssets": ""
+      "swapAssets": "Taxas de troca de ativos"
     },
     "wallet": {
       "wallet": "Carteira",
@@ -419,8 +419,8 @@
       "lastAdded": "Última adição",
       "runeAdded": "Rune Adicionada",
       "assetAdded": "Ativo Adicionado",
-      "runeWithdrawn": "",
-      "assetWithdrawn": "",
+      "runeWithdrawn": "RUNE Retirada",
+      "assetWithdrawn": "Recurso retirado",
       "runePending": "Rune Pendente",
       "assetPending": "Ativo Pendente",
       "gasFeeTooltip": "Taxa de gas para enviar a transação usando o protocolo Thorchain",
