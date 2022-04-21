@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react'
 
-import { useDispatch } from 'react-redux'
-
 import {
   ConnectedWallet,
   ConnectType as TerraConnectType,
@@ -12,7 +10,7 @@ import { Chain, ETHChain, TERRAChain } from '@thorswap-lib/xchain-util'
 
 import { showToast, ToastType } from 'components/Toast'
 
-import { useAppSelector } from 'store/store'
+import { useAppDispatch, useAppSelector } from 'store/store'
 
 import { useTerraWallet } from 'hooks/useTerraWallet'
 
@@ -24,7 +22,8 @@ import { actions } from './slice'
 
 export const useWallet = () => {
   const checkWalletConnection = useRef(false)
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
+  const walletState = useAppSelector(({ wallet }) => wallet)
 
   const {
     connectedWallet,
@@ -32,8 +31,6 @@ export const useWallet = () => {
     connectTerraWallet,
     isTerraWalletConnected,
   } = useTerraWallet()
-
-  const walletState = useAppSelector(({ wallet }) => wallet)
 
   const isWalletLoading =
     walletState.walletLoading ||

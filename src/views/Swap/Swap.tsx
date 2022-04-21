@@ -323,7 +323,7 @@ const SwapView = () => {
             txID: txHash,
           },
         })
-      } catch (error: NotWorthIt) {
+      } catch (error: NotWorth) {
         setTxFailed(trackId)
         const description = translateErrorMsg(error?.toString())
         console.error(error, description)

@@ -30,10 +30,10 @@ export const Scrollbar = ({
       autoHeightMin={minHeight}
       autoHeightMax={maxHeight}
       autoHide
-      renderThumbVertical={({ style, ...scrollProps }) => (
+      renderThumbVertical={(scrollProps: ToDo) => (
         <div
           style={{
-            ...style,
+            ...scrollProps.style,
             backgroundColor: '#00d2ff',
             width: '4px',
             ...customStyle,

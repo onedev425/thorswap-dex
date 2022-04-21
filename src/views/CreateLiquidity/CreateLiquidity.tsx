@@ -1,7 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
 
-import { useSelector } from 'react-redux'
-
 import {
   Amount,
   Asset,
@@ -27,7 +25,7 @@ import { showToast, ToastType } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { TxTrackerStatus, TxTrackerType } from 'store/midgard/types'
-import { RootState } from 'store/store'
+import { useAppSelector } from 'store/store'
 import { useWallet } from 'store/wallet/hooks'
 
 import { useApprove } from 'hooks/useApprove'
@@ -45,7 +43,7 @@ import { PoolInfo } from './PoolInfo'
 import { useConfirmInfoItems } from './useConfirmInfoItems'
 
 export const CreateLiquidity = () => {
-  const { pools } = useSelector((state: RootState) => state.midgard)
+  const { pools } = useAppSelector(({ midgard }) => midgard)
   const { wallet, setIsConnectModalOpen } = useWallet()
 
   const inputAssets = useMemo(() => {
@@ -236,7 +234,7 @@ export const CreateLiquidity = () => {
             },
           })
         }
-      } catch (error: any) {
+      } catch (error: NotWorth) {
         setTxFailed(trackId)
 
         showToast(

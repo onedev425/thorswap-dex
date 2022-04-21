@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useState, useEffect } from 'react'
 
-import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router'
 
 import { MemberPool } from '@thorswap-lib/midgard-sdk'
@@ -18,6 +17,7 @@ import {
   hasConnectedWallet,
   hasWalletConnected,
   getEstimatedTxTime,
+  AddLiquidityTxns,
 } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
 import { ADD_LIQUIDITY_GUIDE_URL } from 'config/constants'
@@ -39,7 +39,7 @@ import { useApp } from 'store/app/hooks'
 import * as actions from 'store/midgard/actions'
 import { TxTrackerStatus, TxTrackerType } from 'store/midgard/types'
 import { isPendingLP } from 'store/midgard/utils'
-import { RootState } from 'store/store'
+import { useAppDispatch, useAppSelector } from 'store/store'
 import { useWallet } from 'store/wallet/hooks'
 
 import { useApprove } from 'hooks/useApprove'
@@ -78,8 +78,8 @@ export const AddLiquidity = () => {
   const [pool, setPool] = useState<Pool>()
 
   const { pools, poolLoading, chainMemberDetails, chainMemberDetailsLoading } =
-    useSelector((state: RootState) => state.midgard)
-  const dispatch = useDispatch()
+    useAppSelector(({ midgard }) => midgard)
+  const dispatch = useAppDispatch()
 
   ///
   const { getMaxBalance, isWalletAssetConnected } = useBalance()
@@ -503,7 +503,7 @@ export const AddLiquidity = () => {
       })
 
       try {
-        let txRes: any = {
+        let txRes: AddLiquidityTxns = {
           runeTx: '#',
           assetTx: '#',
         }
@@ -565,7 +565,7 @@ export const AddLiquidity = () => {
             },
           })
         }
-      } catch (error: any) {
+      } catch (error: NotWorth) {
         setTxFailed(trackId)
 
         const description = translateErrorMsg(error?.toString())

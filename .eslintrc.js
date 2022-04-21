@@ -39,7 +39,7 @@ module.exports = {
     '@typescript-eslint/no-empty-function': 0,
     '@typescript-eslint/no-unused-vars': 'error',
     '@typescript-eslint/quotes': [2, 'single'],
-    '@typescript-eslint/no-shadow': 1,
+    '@typescript-eslint/no-shadow': 0,
     '@typescript-eslint/naming-convention': 1,
     '@typescript-eslint/indent': 0,
     '@typescript-eslint/ban-ts-comment': 1,

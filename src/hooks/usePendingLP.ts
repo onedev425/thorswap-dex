@@ -1,19 +1,24 @@
 import { useEffect, useCallback, useMemo } from 'react'
 
-import { useSelector, useDispatch } from 'react-redux'
-
 import { getWalletAddressByChain } from '@thorswap-lib/multichain-sdk'
 import { THORChain } from '@thorswap-lib/xchain-util'
 
 import { getLiquidityProviderData } from 'store/midgard/actions'
-import { RootState } from 'store/store'
+import { useAppDispatch, useAppSelector } from 'store/store'
 
 export const usePendingLP = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  const { wallet } = useSelector((state: RootState) => state.wallet)
-  const { pools, pendingLP, pendingLPLoading } = useSelector(
-    (state: RootState) => state.midgard,
+  const { pools, pendingLP, pendingLPLoading, wallet } = useAppSelector(
+    ({
+      midgard: { pools, pendingLP, pendingLPLoading },
+      wallet: { wallet },
+    }) => ({
+      wallet,
+      pendingLP,
+      pools,
+      pendingLPLoading,
+    }),
   )
 
   const getPendingDeposit = useCallback(() => {

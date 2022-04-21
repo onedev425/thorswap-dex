@@ -33,7 +33,7 @@ export const sortApyColumn = (rowA: Row<TableData>, rowB: Row<TableData>) => {
   return sortAmounts(rowA.values.apy, rowB.values.apy)
 }
 
-export const sortValues = (a: Inexpressible, b: Inexpressible) => {
+export const sortValues = (a: NotWorth, b: NotWorth) => {
   return a > b ? 1 : -1
 }
 

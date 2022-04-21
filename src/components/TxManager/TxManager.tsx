@@ -24,7 +24,7 @@ import { t } from 'services/i18n'
 
 export const TxManager = () => {
   const [onlyPending, setOnlyPending] = useState(false)
-  const [isOpened, setIsOpened] = useState(false)
+  const [, setIsOpened] = useState(false)
 
   const { txTrackers, clearTxTrackers } = useTxManager()
   const [filteredTxData, setFilteredTxData] = useState(txTrackers)
@@ -70,7 +70,6 @@ export const TxManager = () => {
       ref={popoverRef}
       disabled={!txTrackers?.length}
       trigger={<TxManagerOpenButton txData={txTrackers} />}
-      isOpenedExternally={isOpened}
       onClose={() => setIsOpened(false)}
     >
       <Card

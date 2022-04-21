@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo, useState } from 'react'
+import { memo, MouseEventHandler, useCallback, useMemo, useState } from 'react'
 
 import { Price } from '@thorswap-lib/multichain-sdk'
 
@@ -38,7 +38,7 @@ export const SwapInfo = memo(
   }: Props) => {
     const [reverted, setReverted] = useState(false)
 
-    const toggle = useCallback(
+    const toggle: MouseEventHandler<HTMLButtonElement> = useCallback(
       (e) => {
         if (price && inputAsset && outputAsset) {
           setReverted(!reverted)

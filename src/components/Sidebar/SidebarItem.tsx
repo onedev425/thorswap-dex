@@ -39,7 +39,7 @@ export const SidebarItem = memo(
         >
           {options.map(
             ({
-              hasBackground = false,
+              hasBackground: background,
               label,
               children,
               navLabel,
@@ -69,7 +69,7 @@ export const SidebarItem = memo(
                       options={children}
                       collapsed={collapsed}
                       variant="secondary"
-                      hasBackground={hasBackground}
+                      hasBackground={background || hasBackground}
                       onItemClick={onItemClick}
                     />
                   </Fragment>

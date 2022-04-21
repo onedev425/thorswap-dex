@@ -1,7 +1,5 @@
 import { useCallback } from 'react'
 
-import { useSelector, useDispatch } from 'react-redux'
-
 import {
   Asset,
   Amount,
@@ -10,16 +8,20 @@ import {
   SupportedChain,
 } from '@thorswap-lib/multichain-sdk'
 
-import { RootState } from 'store/store'
+import { useAppDispatch, useAppSelector } from 'store/store'
 import * as walletActions from 'store/wallet/actions'
 
 import { getGasRateByFeeOption } from 'helpers/networkFee'
 
 export const useBalance = () => {
-  const dispatch = useDispatch()
-  const { feeOptionType } = useSelector((state: RootState) => state.app)
-  const { wallet } = useSelector((state: RootState) => state.wallet)
-  const { inboundData } = useSelector((state: RootState) => state.midgard)
+  const dispatch = useAppDispatch()
+  const { feeOptionType, wallet, inboundData } = useAppSelector(
+    ({
+      app: { feeOptionType },
+      wallet: { wallet },
+      midgard: { inboundData },
+    }) => ({ wallet, inboundData, feeOptionType }),
+  )
 
   const reloadBalanceByChain = useCallback(
     (chain: SupportedChain) => {

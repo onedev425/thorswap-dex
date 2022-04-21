@@ -1,7 +1,5 @@
 import { useEffect, useMemo } from 'react'
 
-import { useDispatch } from 'react-redux'
-
 import {
   Amount,
   Asset,
@@ -24,6 +22,7 @@ import { BigNumber } from 'bignumber.js'
 import { takeRight } from 'lodash'
 
 import { useMidgard } from 'store/midgard/hooks'
+import { useAppDispatch } from 'store/store'
 import { useWallet } from 'store/wallet/hooks'
 import { GeckoData } from 'store/wallet/types'
 
@@ -54,7 +53,7 @@ const getBalanceByChain = (
 }
 
 export const useLoadWalletAssetsInfo = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const { getCoingeckoData, geckoData, geckoDataLoading, wallet } = useWallet()
 
   useEffect(() => {

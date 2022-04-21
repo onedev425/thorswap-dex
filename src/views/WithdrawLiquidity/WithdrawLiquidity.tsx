@@ -527,7 +527,7 @@ const WithdrawPanel = ({
             },
           })
         }
-      } catch (error: any) {
+      } catch (error: NotWorth) {
         console.error(error)
         setTxFailed(trackId)
 

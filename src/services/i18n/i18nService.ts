@@ -72,9 +72,9 @@ initializeI18n(initReactI18next).init({
 })
 
 type PathImpl<T, K extends keyof T> = K extends string
-  ? T[K] extends Record<string, NotWorthIt>
-    ? T[K] extends ArrayLike<NotWorthIt>
-      ? K | `${K}.${PathImpl<T[K], Exclude<keyof T[K], keyof NotWorthIt[]>>}`
+  ? T[K] extends Record<string, NotWorth>
+    ? T[K] extends ArrayLike<NotWorth>
+      ? K | `${K}.${PathImpl<T[K], Exclude<keyof T[K], keyof NotWorth[]>>}`
       : K | `${K}.${PathImpl<T[K], keyof T[K]>}`
     : K
   : never

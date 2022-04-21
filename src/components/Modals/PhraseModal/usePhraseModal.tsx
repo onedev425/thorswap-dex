@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import { useForm } from 'react-hook-form'
+import { FieldValues, useForm } from 'react-hook-form'
 
 import copy from 'copy-to-clipboard'
 
@@ -11,6 +11,7 @@ import { useWallet } from 'store/wallet/hooks'
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
+// TODO(@Chillios)
 export const usePhraseModal = (isOpen: boolean) => {
   const { keystore } = useWallet()
   const {
@@ -34,14 +35,11 @@ export const usePhraseModal = (isOpen: boolean) => {
   }, [isOpen, reset])
 
   const handleConfirm = useCallback(
-    async (data) => {
+    async ({ password }: FieldValues) => {
       if (!keystore) return
 
       try {
-        const isValid = await multichain.validateKeystore(
-          keystore,
-          data.password,
-        )
+        const isValid = await multichain.validateKeystore(keystore, password)
 
         if (isValid) {
           setShowPhrase(true)

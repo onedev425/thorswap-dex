@@ -71,7 +71,7 @@ export const useConfirmSend = ({
             },
           })
         }
-      } catch (error: any) {
+      } catch (error: NotWorth) {
         const description = translateErrorMsg(error?.toString())
         console.error('confirmSendError', { error, description })
         setTxFailed(trackId)

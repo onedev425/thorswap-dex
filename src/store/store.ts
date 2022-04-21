@@ -2,8 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import type { TypedUseSelectorHook } from 'react-redux'
 
 import { configureStore } from '@reduxjs/toolkit'
-import type { Action } from '@reduxjs/toolkit'
-import type { ThunkAction } from 'redux-thunk'
+import type { Action, ThunkAction } from '@reduxjs/toolkit'
 
 import rootReducer from './rootReducer'
 

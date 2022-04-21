@@ -1,13 +1,11 @@
 import { useCallback } from 'react'
 
-import { useSelector } from 'react-redux'
-
 import { actions } from 'store/assets/slice'
-import { RootState, useAppDispatch } from 'store/store'
+import { useAppDispatch, useAppSelector } from 'store/store'
 
 export const useAssets = () => {
   const dispatch = useAppDispatch()
-  const assetsState = useSelector((state: RootState) => state.assets)
+  const assetsState = useAppSelector(({ assets }) => assets)
 
   const addFrequent = useCallback(
     (asset: string) => {

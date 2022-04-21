@@ -1,12 +1,10 @@
 import { useCallback } from 'react'
 
-import { useSelector } from 'react-redux'
-
 import { Asset } from '@thorswap-lib/multichain-sdk'
 import { FeeOption } from '@thorswap-lib/xchain-client'
 
 import { actions } from 'store/app/slice'
-import { RootState, useAppDispatch } from 'store/store'
+import { useAppSelector, useAppDispatch } from 'store/store'
 
 import { multichain } from 'services/multichain'
 
@@ -19,7 +17,7 @@ import {
 
 export const useApp = () => {
   const dispatch = useAppDispatch()
-  const appState = useSelector((state: RootState) => state.app)
+  const appState = useAppSelector(({ app }) => app)
 
   const setTheme = useCallback(
     (theme: ThemeType) => {
