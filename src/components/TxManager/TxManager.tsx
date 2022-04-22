@@ -54,7 +54,7 @@ export const TxManager = () => {
     if (!txTrackers.length) {
       popoverRef.current?.close()
     }
-  })
+  }, [txTrackers.length])
 
   useLayoutEffect(() => {
     if (pendingCount && pendingCount > prevPendingCountRef.current) {
