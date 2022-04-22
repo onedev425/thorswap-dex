@@ -84,6 +84,18 @@ const getTxDetails = (
     return getSendDetails(txTracker)
   }
 
+  if (txTracker.type === TxTrackerType.Stake) {
+    return getStakeDetails(txTracker)
+  }
+
+  if (txTracker.type === TxTrackerType.Claim) {
+    return getClaimDetails(txTracker)
+  }
+
+  if (txTracker.type === TxTrackerType.StakeExit) {
+    return getStakeWithdrawDetails(txTracker)
+  }
+
   return null
 }
 
@@ -291,6 +303,116 @@ const getApproveDetails = (txTracker: TxTracker): TxDetails => {
           })
         : t('txManager.approvedAsset', {
             asset: Asset.fromAssetString(approveAsset)?.ticker,
+          }),
+      url: status === TxTrackerStatus.Success ? getApproveTxUrl(txTracker) : '',
+    },
+  ]
+
+  return txDetails
+}
+
+const getStakeDetails = (txTracker: TxTracker): TxDetails => {
+  const { status, submitTx } = txTracker
+  const { inAssets = [] } = submitTx
+  const { asset: stakeAsset, amount } = inAssets[0]
+  const isPending = status !== TxTrackerStatus.Success
+
+  if (status === TxTrackerStatus.Failed) {
+    return [
+      {
+        status: 'failed',
+        label: t('txManager.stakeAssetFailed', {
+          asset: Asset.fromAssetString(stakeAsset)?.ticker,
+        }),
+      },
+    ]
+  }
+
+  const txDetails: TxDetails = [
+    {
+      status: isPending ? 'pending' : 'success',
+      label: isPending
+        ? t('txManager.stakeAsset', {
+            amount,
+            asset: Asset.fromAssetString(stakeAsset)?.ticker,
+          })
+        : t('txManager.stakedAsset', {
+            amount,
+            asset: Asset.fromAssetString(stakeAsset)?.ticker,
+          }),
+      url: status === TxTrackerStatus.Success ? getApproveTxUrl(txTracker) : '',
+    },
+  ]
+
+  return txDetails
+}
+
+const getClaimDetails = (txTracker: TxTracker): TxDetails => {
+  const { status, submitTx } = txTracker
+  const { inAssets = [] } = submitTx
+  const { asset: claimAsset, amount } = inAssets[0]
+  const isPending = status !== TxTrackerStatus.Success
+
+  if (status === TxTrackerStatus.Failed) {
+    return [
+      {
+        status: 'failed',
+        label: t('txManager.claimAssetFailed', {
+          amount,
+          asset: Asset.fromAssetString(claimAsset)?.ticker,
+        }),
+      },
+    ]
+  }
+
+  const txDetails: TxDetails = [
+    {
+      status: isPending ? 'pending' : 'success',
+      label: isPending
+        ? t('txManager.claimAsset', {
+            amount,
+            asset: Asset.fromAssetString(claimAsset)?.ticker,
+          })
+        : t('txManager.claimedAsset', {
+            amount,
+            asset: Asset.fromAssetString(claimAsset)?.ticker,
+          }),
+      url: status === TxTrackerStatus.Success ? getApproveTxUrl(txTracker) : '',
+    },
+  ]
+
+  return txDetails
+}
+
+const getStakeWithdrawDetails = (txTracker: TxTracker): TxDetails => {
+  const { status, submitTx } = txTracker
+  const { inAssets = [] } = submitTx
+  const { asset: withdrawAsset, amount } = inAssets[0]
+  const isPending = status !== TxTrackerStatus.Success
+
+  if (status === TxTrackerStatus.Failed) {
+    return [
+      {
+        status: 'failed',
+        label: t('txManager.withdrawAmountFailed', {
+          amount,
+          asset: Asset.fromAssetString(withdrawAsset)?.ticker,
+        }),
+      },
+    ]
+  }
+
+  const txDetails: TxDetails = [
+    {
+      status: isPending ? 'pending' : 'success',
+      label: isPending
+        ? t('txManager.withdrawAmountAsset', {
+            amount,
+            asset: Asset.fromAssetString(withdrawAsset)?.ticker,
+          })
+        : t('txManager.withdrawnAmountAsset', {
+            amount,
+            asset: Asset.fromAssetString(withdrawAsset)?.ticker,
           }),
       url: status === TxTrackerStatus.Success ? getApproveTxUrl(txTracker) : '',
     },

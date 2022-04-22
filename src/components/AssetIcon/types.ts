@@ -194,6 +194,7 @@ export type AssetIconProps = {
   secondaryIconPlacement?: SecondaryIconPlacement
   hasShadow?: boolean
   bgColor?: ColorType
+  shadowPosition?: 'corner' | 'center'
 } & AssetStyleType
 
 export type AssetLpIconProps = {

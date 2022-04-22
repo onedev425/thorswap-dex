@@ -47,6 +47,9 @@ export const TxPanel = ({ txTracker }: Props) => {
       [TxTrackerType.Switch]: t('txManager.switch'),
       [TxTrackerType.Mint]: t('txManager.mint'),
       [TxTrackerType.Redeem]: t('txManager.redeem'),
+      [TxTrackerType.Stake]: t('txManager.stake'),
+      [TxTrackerType.Claim]: t('txManager.claim'),
+      [TxTrackerType.StakeExit]: t('txManager.withdraw'),
     }),
     [],
   )
@@ -76,7 +79,7 @@ export const TxPanel = ({ txTracker }: Props) => {
       )}
     >
       <Box
-        className="cursor-pointer py-2 px-3"
+        className="px-3 py-2 cursor-pointer"
         justify="between"
         alignCenter
         onClick={toggle}

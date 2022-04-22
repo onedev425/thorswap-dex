@@ -12,6 +12,7 @@ import CreateLiquidity from 'views/CreateLiquidity'
 import HomeView from 'views/Home'
 import ManageLiquidityView from 'views/ManageLiquidity'
 import SendView from 'views/Send'
+import StakeView from 'views/Stake'
 import StatsView from 'views/Stats'
 import SwapView from 'views/Swap'
 import UpgradeRuneView from 'views/UpgradeRune'
@@ -45,8 +46,7 @@ const routes: RouteType = [
   { path: ROUTES.Wallet, element: WalletView },
   { path: ROUTES.Stats, element: StatsView },
   { path: ROUTES.UpgradeRune, element: UpgradeRuneView },
-  // { path: ROUTES.PendingLiquidity, element: PendingLiquidity },
-  // { path: ROUTES.Stake, element: StakeView },
+  { path: ROUTES.Stake, element: StakeView },
   // { path: ROUTES.Vesting, element: VestingView },
   // { path: ROUTES.Nodes, element: Nodes },
   // { path: ROUTES.NodeManager, element: NodeManager },
@@ -68,7 +68,7 @@ const PublicRoutes = () => {
                 element={
                   <Box
                     flex={1}
-                    className="bg-light-bg-primary dark:bg-dark-bg-primary transition-colors"
+                    className="transition-colors bg-light-bg-primary dark:bg-dark-bg-primary"
                   >
                     <WalletDrawer>
                       <WalletBalance />

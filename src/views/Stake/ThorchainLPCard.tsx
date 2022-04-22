@@ -1,9 +1,11 @@
 import { useMemo } from 'react'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
+import classNames from 'classnames'
 
 import { AssetLpIcon } from 'components/AssetIcon'
 import { Box, Button, Card, Link, Typography } from 'components/Atomic'
+import { borderHoverHighlightClass } from 'components/constants'
 
 import { useWallet } from 'store/wallet/hooks'
 
@@ -36,14 +38,11 @@ export const ThorchainLPCard = () => {
   // console.info(isWalletConnected)
 
   return (
-    <Box col className="w-full md:w-1/2 lg:w-1/3">
-      <Box mb={56}>
-        <Typography variant="h2" color="primary" fontWeight="extrabold">
-          THOR-RUNE LP
-        </Typography>
-      </Box>
-      <Box className="w-full h-full">
-        <Card className="flex-col w-full shadow-2xl drop-shadow-4xl">
+    <Box col className="flex-1 !min-w-[360px] lg:!max-w-[50%]">
+      <Box className="w-full h-full min-h-[436px]" mt={56}>
+        <Card
+          className={classNames('flex-col flex-1', borderHoverHighlightClass)}
+        >
           <div className="flex justify-center absolute m-auto left-0 right-0 top-[-28px]">
             <AssetLpIcon
               asset1={tcFarmData.assets[0]}
@@ -53,6 +52,11 @@ export const ThorchainLPCard = () => {
               size="big"
             />
           </div>
+          <Box mt={32} center>
+            <Typography className="mr-2" variant="h4">
+              THOR-RUNE LP
+            </Typography>
+          </Box>
           <Box className="flex-row justify-between">
             <Box col className="p-4">
               <Typography
@@ -63,7 +67,7 @@ export const ThorchainLPCard = () => {
               >
                 {t('common.exchange')}
               </Typography>
-              <Typography variant="h4" color="primary" fontWeight="extrabold">
+              <Typography variant="body" color="primary" fontWeight="bold">
                 {t('common.THORSwap')}
               </Typography>
             </Box>
@@ -78,8 +82,8 @@ export const ThorchainLPCard = () => {
               </Typography>
 
               <Typography
-                variant="h4"
-                fontWeight="semibold"
+                variant="body"
+                fontWeight="bold"
                 color="green"
                 className="text-right"
               >
@@ -92,18 +96,23 @@ export const ThorchainLPCard = () => {
           </Box>
           <Box className="flex-col-reverse flex-grow w-full" alignCenter mt={4}>
             {!ethAddr ? (
-              <Button stretch onClick={() => setIsConnectModalOpen(true)}>
+              <Button
+                isFancy
+                size="lg"
+                stretch
+                onClick={() => setIsConnectModalOpen(true)}
+              >
                 {t('common.connectWallet')}
               </Button>
             ) : (
-              <Box className="gap-2" row center>
-                <Link to={liquidityRouter}>
-                  <Button className="flex-1" type="outline" variant="primary">
+              <Box className="gap-2 self-stretch" row alignCenter>
+                <Link className="flex-1" to={liquidityRouter}>
+                  <Button variant="primary" stretch>
                     {t('common.deposit')}
                   </Button>
                 </Link>
-                <Link to={withdrawRouter}>
-                  <Button className="flex-1" type="outline" variant="secondary">
+                <Link className="flex-1" to={withdrawRouter}>
+                  <Button variant="secondary" stretch>
                     {t('common.withdraw')}
                   </Button>
                 </Link>

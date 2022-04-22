@@ -19,7 +19,7 @@ export const TxContent = ({ txTracker }: Props) => {
   }
 
   return (
-    <Box className="gap-1 flex-1" col>
+    <Box className="flex-1 gap-1" col>
       {txDetails.map((item) => (
         <Fragment key={`${item.status}${item.label}`}>
           <Box className="border-t border-b-0 border-solid flex-1 border-light-typo-gray dark:border-dark-typo-gray !border-opacity-20"></Box>

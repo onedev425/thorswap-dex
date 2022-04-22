@@ -45,6 +45,54 @@ export const TxHeader = ({ txInfo }: Props) => {
     )
   }
 
+  if (type === TxTrackerType.Stake) {
+    const { inAssets = [] } = submitTx
+    const { asset: approveAsset, amount } = inAssets[0]
+
+    return (
+      <Box className="gap-x-1" alignCenter row>
+        <Typography variant="caption" color="secondary" fontWeight="semibold">
+          {t('txManager.stakeAsset', {
+            amount,
+            asset: Asset.fromAssetString(approveAsset)?.ticker,
+          })}
+        </Typography>
+      </Box>
+    )
+  }
+
+  if (type === TxTrackerType.Claim) {
+    const { inAssets = [] } = submitTx
+    const { asset: claimAsset, amount } = inAssets[0]
+
+    return (
+      <Box className="gap-x-1" alignCenter row>
+        <Typography variant="caption" color="secondary" fontWeight="semibold">
+          {t('txManager.claimAsset', {
+            amount,
+            asset: Asset.fromAssetString(claimAsset)?.ticker,
+          })}
+        </Typography>
+      </Box>
+    )
+  }
+
+  if (type === TxTrackerType.StakeExit) {
+    const { inAssets = [] } = submitTx
+    const { asset: withdrawAsset, amount } = inAssets[0]
+
+    return (
+      <Box className="gap-x-1" alignCenter row>
+        <Typography variant="caption" color="secondary" fontWeight="semibold">
+          {t('txManager.withdrawAmountAsset', {
+            amount,
+            asset: Asset.fromAssetString(withdrawAsset)?.ticker,
+          })}
+        </Typography>
+      </Box>
+    )
+  }
+
   if (isSwapType(txInfo)) {
     const { inAssets = [], outAssets = [] } = submitTx
 

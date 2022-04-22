@@ -1,5 +1,11 @@
+import { IMultiChain } from '@thorswap-lib/multichain-sdk'
 import { Network } from '@thorswap-lib/xchain-client'
 import { ethers, BigNumber, ContractInterface } from 'ethers'
+import { capitalize } from 'lodash'
+
+import { showToast, ToastType } from 'components/Toast'
+
+import { t } from 'services/i18n'
 
 import { config, INFURA_PROJECT_ID, IS_TESTNET } from 'settings/config'
 
@@ -127,6 +133,11 @@ export const getLPContractAddress = (contractType: LPContractType) => {
   return lpContractConfig[contractType][network].tokenAddr.toLowerCase()
 }
 
+export const getContractAddress = (contractType: ContractType) => {
+  const { network } = config
+  return contractConfig[contractType][network]
+}
+
 export const getLpTokenBalance = async (contractType: LPContractType) => {
   const { network } = config
   const { tokenAddr, stakingAddr } = lpContractConfig[contractType][network]
@@ -136,4 +147,61 @@ export const getLpTokenBalance = async (contractType: LPContractType) => {
   const balance = await tokenContract.balanceOf(stakingAddr)
 
   return balance
+}
+
+// add 20%
+export const calculateGasMargin = (value: BigNumber): BigNumber => {
+  return value.mul(BigNumber.from(10000 + 2000)).div(BigNumber.from(10000))
+}
+
+export const triggerContractCall = async (
+  multichainInstance: IMultiChain,
+  contractType: ContractType,
+  methodName: string,
+  args: any[],
+) => {
+  try {
+    const { network } = config
+    const activeContract = contractConfig[contractType]
+    const ethClient = multichainInstance.eth.getClient()
+
+    const gasLimit = await ethClient.estimateCall({
+      contractAddress: activeContract[network],
+      abi: activeContract[ContractABI],
+      funcName: methodName,
+      funcParams: args,
+    })
+
+    const resp: any = await ethClient.call({
+      contractAddress: activeContract[network],
+      abi: activeContract[ContractABI],
+      funcName: methodName,
+      funcParams: [
+        ...args,
+        {
+          gasLimit: calculateGasMargin(gasLimit),
+        },
+      ],
+    })
+
+    return resp
+  } catch (error) {
+    const plainErrMsg = JSON.stringify(error)
+
+    const isApprovalError = plainErrMsg.includes('exceeds allowance')
+
+    showToast(
+      {
+        message: t('notification.gasEstimationFailed'),
+        description: isApprovalError
+          ? t('notification.approveOverflow', {
+              actionType: capitalize(methodName),
+            })
+          : undefined,
+      },
+      ToastType.Error,
+    )
+
+    return Promise.reject(error)
+  }
 }

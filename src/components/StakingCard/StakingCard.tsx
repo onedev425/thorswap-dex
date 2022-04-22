@@ -5,13 +5,23 @@ import { Chain } from '@thorswap-lib/xchain-util'
 import classNames from 'classnames'
 import { BigNumber } from 'ethers'
 
+import { StakeConfirmModal } from 'views/Stake/components/StakeConfirmModal'
+import { FarmActionType } from 'views/Stake/types'
+
 import { AssetIcon, AssetLpIcon } from 'components/AssetIcon'
 import { Typography, Card, Icon, Button, Box, Link } from 'components/Atomic'
+import { borderHoverHighlightClass } from 'components/constants'
+import { HoverIcon } from 'components/HoverIcon'
 import { InfoRow } from 'components/InfoRow'
+import { useStakingModal } from 'components/StakingCard/hooks'
 
+import { TxTrackerType } from 'store/midgard/types'
 import { useWallet } from 'store/wallet/hooks'
 
+import { useTxTracker } from 'hooks/useTxTracker'
+
 import {
+  triggerContractCall,
   ContractType,
   fromWei,
   getCustomContract,
@@ -39,10 +49,10 @@ type Props = {
 }
 
 export const StakingCard = ({
-  className,
   assets,
   exchange,
   farmName,
+  lpAsset,
   stakingToken,
   stakeAddr,
   contractType,
@@ -55,9 +65,17 @@ export const StakingCard = ({
   const [stakedAmount, setStakedAmount] = useState(0)
   const [stakedAmountBn, setStakedAmountBn] = useState(BigNumber.from(0))
   const [pendingRewardDebt, setPendingRewardDebt] = useState(0)
+  const [pendingRewardDebtBn, setPendingRewardDebtBn] = useState(
+    BigNumber.from(0),
+  )
+  const { submitTransaction, subscribeEthTx } = useTxTracker()
   const { wallet, setIsConnectModalOpen } = useWallet()
-
-  console.log(isFetching, lpTokenBalBn, stakedAmountBn)
+  const {
+    isOpened: isModalOpened,
+    open: openConfirm,
+    close: closeConfirm,
+    type: modalType,
+  } = useStakingModal()
 
   const ethAddr = useMemo(
     () => wallet && wallet.ETH && wallet.ETH.address,
@@ -95,6 +113,7 @@ export const StakingCard = ({
         setStakedAmount(fromWei(amount))
         setStakedAmountBn(amount)
         setPendingRewardDebt(fromWei(pendingReward))
+        setPendingRewardDebtBn(pendingReward)
       } catch (error) {
         console.log(error)
       }
@@ -158,6 +177,132 @@ export const StakingCard = ({
     }
   }, [contractType, lpContractType, getBlockReward])
 
+  const handleStakingAction = useCallback(
+    async (tokenAmount: BigNumber) => {
+      try {
+        if (modalType === FarmActionType.DEPOSIT) {
+          const trackId = submitTransaction({
+            type: TxTrackerType.Stake,
+            submitTx: {
+              inAssets: [
+                {
+                  asset: lpAsset.toString(),
+                  amount: fromWei(tokenAmount).toString(),
+                },
+              ],
+            },
+          })
+
+          const res = await triggerContractCall(
+            multichain,
+            contractType,
+            'deposit',
+            [0, tokenAmount, ethAddr],
+          )
+
+          const txHash = res?.hash
+          if (txHash) {
+            subscribeEthTx({
+              uuid: trackId,
+              submitTx: {
+                inAssets: [
+                  {
+                    asset: lpAsset.toString(),
+                    amount: fromWei(tokenAmount).toString(),
+                  },
+                ],
+                txID: txHash,
+              },
+              txHash,
+            })
+          }
+        } else if (modalType === FarmActionType.CLAIM) {
+          const trackId = submitTransaction({
+            type: TxTrackerType.Claim,
+            submitTx: {
+              inAssets: [
+                {
+                  asset: lpAsset.toString(),
+                  amount: fromWei(tokenAmount).toString(),
+                },
+              ],
+            },
+          })
+
+          const res = await triggerContractCall(
+            multichain,
+            contractType,
+            'harvest',
+            [0, ethAddr],
+          )
+
+          const txHash = res?.hash
+          if (txHash) {
+            subscribeEthTx({
+              uuid: trackId,
+              submitTx: {
+                inAssets: [
+                  {
+                    asset: lpAsset.toString(),
+                    amount: fromWei(tokenAmount).toString(),
+                  },
+                ],
+                txID: txHash,
+              },
+              txHash,
+            })
+          }
+        } else if (modalType === FarmActionType.WITHDRAW) {
+          const trackId = submitTransaction({
+            type: TxTrackerType.StakeExit,
+            submitTx: {
+              inAssets: [
+                {
+                  asset: lpAsset.toString(),
+                  amount: fromWei(tokenAmount).toString(),
+                },
+              ],
+            },
+          })
+
+          const res = await triggerContractCall(
+            multichain,
+            contractType,
+            'withdrawAndHarvest',
+            [0, tokenAmount, ethAddr],
+          )
+
+          const txHash = res?.hash
+          if (txHash) {
+            subscribeEthTx({
+              uuid: trackId,
+              submitTx: {
+                inAssets: [
+                  {
+                    asset: lpAsset.toString(),
+                    amount: fromWei(tokenAmount).toString(),
+                  },
+                ],
+                txID: txHash,
+              },
+              txHash,
+            })
+          }
+        }
+      } catch (err) {
+        console.log('ERR - ', err)
+      }
+    },
+    [
+      contractType,
+      ethAddr,
+      modalType,
+      lpAsset,
+      submitTransaction,
+      subscribeEthTx,
+    ],
+  )
+
   useEffect(() => {
     if (ethAddr) {
       getPoolUserInfo()
@@ -165,6 +310,7 @@ export const StakingCard = ({
       setStakedAmount(0)
       setStakedAmountBn(BigNumber.from(0))
       setPendingRewardDebt(0)
+      setPendingRewardDebtBn(BigNumber.from(0))
       setLpTokenBal(0)
       setLpTokenBalBn(BigNumber.from(0))
     }
@@ -175,14 +321,11 @@ export const StakingCard = ({
   }, [getAPRRate])
 
   return (
-    <Box col className={classNames('w-full md:w-1/2 lg:w-1/3', className)}>
-      <Box mb={56}>
-        <Typography variant="h2" color="primary" fontWeight="extrabold">
-          {farmName}
-        </Typography>
-      </Box>
-      <Box className="w-full">
-        <Card className="flex-col w-full shadow-2xl drop-shadow-4xl">
+    <Box className="flex-1 !min-w-[360px] lg:!max-w-[50%]" col>
+      <Box className="w-full" mt={56}>
+        <Card
+          className={classNames('flex-col w-full', borderHoverHighlightClass)}
+        >
           <div className="flex justify-center absolute m-auto left-0 right-0 top-[-28px]">
             {assets.length > 1 ? (
               <AssetLpIcon
@@ -193,9 +336,21 @@ export const StakingCard = ({
                 hasShadow
               />
             ) : (
-              <AssetIcon asset={assets[0]} size="big" hasShadow />
+              <AssetIcon
+                shadowPosition="center"
+                asset={assets[0]}
+                size="big"
+                hasShadow
+              />
             )}
           </div>
+          <Box mt={32} alignCenter justify="between">
+            <div></div>
+            <Typography className="mr-2" variant="h4">
+              {farmName}
+            </Typography>
+            <HoverIcon iconName="refresh" color="cyan" spin={isFetching} />
+          </Box>
           <Box className="flex-row justify-between">
             <Box col className="p-4">
               <Typography
@@ -206,7 +361,7 @@ export const StakingCard = ({
               >
                 {t('common.exchange')}
               </Typography>
-              <Typography variant="h4" color="primary" fontWeight="extrabold">
+              <Typography variant="body" color="primary" fontWeight="bold">
                 {exchange}
               </Typography>
             </Box>
@@ -221,8 +376,8 @@ export const StakingCard = ({
               </Typography>
 
               <Typography
-                variant="h4"
-                fontWeight="semibold"
+                variant="body"
+                fontWeight="bold"
                 color="green"
                 className="text-right"
               >
@@ -232,6 +387,7 @@ export const StakingCard = ({
           </Box>
           <Box className="flex-col px-4 space-y-3">
             <InfoRow
+              size="sm"
               label={t('views.staking.stakingToken')}
               value={
                 <Box className="space-x-1" alignCenter row>
@@ -250,6 +406,7 @@ export const StakingCard = ({
               }
             />
             <InfoRow
+              size="sm"
               label={t('views.staking.stakingContract')}
               value={
                 <Box className="space-x-1" alignCenter row>
@@ -268,39 +425,72 @@ export const StakingCard = ({
               }
             />
             <InfoRow
+              size="sm"
               label={t('views.staking.tokenBalance')}
               value={ethAddr ? lpTokenBal.toLocaleString() : 'N/A'}
             />
             <InfoRow
+              size="sm"
               label={t('views.staking.tokenStaked')}
               value={ethAddr ? stakedAmount.toFixed(4) : 'N/A'}
             />
             <InfoRow
+              size="sm"
               label={t('views.staking.claimable')}
               value={ethAddr ? pendingRewardDebt.toFixed(2) : 'N/A'}
             />
           </Box>
           <Box className="w-full gap-2" alignCenter mt={4}>
             {!ethAddr ? (
-              <Button stretch onClick={() => setIsConnectModalOpen(true)}>
+              <Button
+                isFancy
+                size="lg"
+                stretch
+                onClick={() => setIsConnectModalOpen(true)}
+              >
                 {t('common.connectWallet')}
               </Button>
             ) : (
               <>
-                <Button className="flex-1" type="outline" variant="primary">
+                <Button
+                  className="flex-1"
+                  variant="primary"
+                  onClick={() => openConfirm(FarmActionType.DEPOSIT)}
+                >
                   {t('common.deposit')}
                 </Button>
-                <Button className="flex-1" type="outline" variant="secondary">
-                  {t('common.withdraw')}
-                </Button>
-                <Button className="flex-1" type="outline" variant="tertiary">
+                <Button
+                  className="flex-1"
+                  variant="tertiary"
+                  onClick={() => openConfirm(FarmActionType.CLAIM)}
+                >
                   {t('common.claim')}
+                </Button>
+                <Button
+                  className="flex-1"
+                  variant="secondary"
+                  onClick={() => openConfirm(FarmActionType.WITHDRAW)}
+                >
+                  {t('common.withdraw')}
                 </Button>
               </>
             )}
           </Box>
         </Card>
       </Box>
+
+      <StakeConfirmModal
+        isOpened={isModalOpened}
+        type={modalType || FarmActionType.CLAIM}
+        farmName={farmName}
+        contractType={contractType}
+        lpAsset={lpAsset}
+        claimableAmount={pendingRewardDebtBn}
+        tokenBalance={lpTokenBalBn}
+        stakedAmount={stakedAmountBn}
+        onCancel={closeConfirm}
+        onConfirm={handleStakingAction}
+      />
     </Box>
   )
 }

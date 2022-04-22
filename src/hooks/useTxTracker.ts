@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { useMidgard } from 'store/midgard/hooks'
 import { TxTrackerStatus, SubmitTx, TxTrackerType } from 'store/midgard/types'
 
+import { multichain } from 'services/multichain'
+
 /**
  * 1. send transaction and get txHash
  * 2. poll midgard action API and get "in" tx with the same txHash
@@ -44,6 +46,33 @@ export const useTxTracker = () => {
       return uuid
     },
     [addNewTxTracker],
+  )
+
+  const subscribeEthTx = useCallback(
+    ({
+      uuid,
+      submitTx,
+      txHash,
+    }: {
+      uuid: string
+      submitTx: SubmitTx
+      txHash: string
+    }) => {
+      const ethClient = multichain.eth.getClient()
+      const ethProvider = ethClient.getProvider()
+
+      ethProvider.once(txHash, (tx) => {
+        const { status } = tx
+        updateTxTracker({
+          uuid,
+          txTracker: {
+            status: status ? TxTrackerStatus.Success : TxTrackerStatus.Failed,
+            submitTx,
+          },
+        })
+      })
+    },
+    [updateTxTracker],
   )
 
   // start polling a transaction
@@ -97,5 +126,6 @@ export const useTxTracker = () => {
     pollTransaction,
     clearTxTrackers,
     setTxFailed,
+    subscribeEthTx,
   }
 }

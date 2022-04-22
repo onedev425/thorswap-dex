@@ -146,6 +146,8 @@
     "redeem": "Redeem",
     "receive": "Receive",
     "failed": "Failed",
+    "stake": "Stake",
+    "claim": "Claim",
     "sendAmountAsset": "Send %{amount} %{asset}",
     "sendFailed": "Send %{amount} %{asset} Failed",
     "sendFinished": "Send %{amount} %{asset} Success",
@@ -161,13 +163,20 @@
     "addedAmountAsset": "Added %{amount} %{asset}",
     "addAmountAsset": "Add %{amount} %{asset}",
     "withdrawAmountAsset": "Withdraw %{amount} %{asset}",
-    "withdrawnAmountAsset": "Withdraw %{amount} %{asset} finished",
+    "withdrawnAmountAsset": "Withdrew %{amount} %{asset}",
+    "withdrawAmountFailed": "Withdraw %{amount} %{asset} failed",
     "receiveAmountNativeRune": "Receive %{amount} Native RUNE",
     "receivedAmountNativeRune": "Received %{amount} Native RUNE",
     "approveAssetFailed": "Approve %{asset} failed",
     "approveAsset": "Approve %{asset}",
     "approvedAsset": "Approved %{asset}",
-    "approveToken": "Approve %{token}"
+    "approveToken": "Approve %{token}",
+    "stakeAsset": "Stake %{amount} %{asset}",
+    "stakedAsset": "Staked %{amount} %{asset}",
+    "stakeAssetFailed": "Stake %{amount} %{asset} failed",
+    "claimAsset": "Claim %{amount} %{asset}",
+    "claimedAsset": "Claimed %{amount} %{asset}",
+    "claimAssetFailed": "Claim %{amount} %{asset} failed"
   },
   "components": {
     "assetSelect": {
@@ -296,7 +305,12 @@
       "tokenStaked": "Token Staked",
       "claimable": "Claimable",
       "stakingContract": "Staking Contract",
-      "tcStakingDesc": "Provide THOR-RUNE Liquidity on THORChain"
+      "tcStakingDesc": "Provide THOR-RUNE Liquidity on THORChain",
+      "depositAction": "Deposit",
+      "harvestAction": "Harvest",
+      "withdrawAction": "Withdraw",
+      "exitAction": "Exit",
+      "stakeActionAmount": "%{stakeAction} Amount"
     },
     "stats": {
       "dailyBlockRewards": "Daily Block Rewards",
@@ -558,6 +572,8 @@
     "alreadyHaveRune": "Already have RUNE LP",
     "insufficientAmount": "Insufficient Amount",
     "assetNotFound": "Assets not found",
-    "swapNotAvailable": "Swap not available"
+    "swapNotAvailable": "Swap not available",
+    "gasEstimationFailed": "Cannot estimate gas",
+    "approveOverflow": "%{actionType} amount exceeds allowance"
   }
 }

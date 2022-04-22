@@ -65,6 +65,9 @@ export enum TxTrackerType {
   Switch = 'switch',
   Mint = 'mint',
   Redeem = 'redeem',
+  Stake = 'stake',
+  Claim = 'claim',
+  StakeExit = 'stakeExit',
 }
 
 export type MimirData = {

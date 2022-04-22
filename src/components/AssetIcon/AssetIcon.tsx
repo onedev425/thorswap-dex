@@ -19,6 +19,7 @@ export const AssetIcon = ({
   hasChainIcon = false,
   hasShadow = false,
   secondaryIconPlacement = 'br',
+  shadowPosition = 'corner',
 }: AssetIconProps) => {
   const [hasError, setHasError] = useState(false)
   const iconSize = typeof size === 'number' ? size : iconSizes[size]
@@ -36,7 +37,10 @@ export const AssetIcon = ({
       {hasShadow && (
         <img
           style={{ width: iconSize, height: iconSize }}
-          className="absolute blur-xl -top-2 -left-2 transition-all z-10"
+          className={classNames(
+            'absolute blur-xl transition-all',
+            shadowPosition === 'corner' ? '-top-2 -left-2' : '-bottom-2',
+          )}
           src={iconUrl}
           alt={asset.symbol}
         />
@@ -63,6 +67,7 @@ export const AssetIcon = ({
       ) : (
         <FallbackIcon ticker={asset.ticker} size={iconSize} />
       )}
+
       {hasChainIcon && asset.type !== 'Native' && (
         <div
           className="absolute z-10"

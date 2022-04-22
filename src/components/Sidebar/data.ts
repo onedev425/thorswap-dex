@@ -2,11 +2,7 @@ import { SidebarItemProps } from 'components/Sidebar/types'
 
 import { t } from 'services/i18n'
 
-import {
-  ROUTES,
-  THORYIELD_STATS_ROUTE,
-  THOR_STAKING_V1_ROUTE,
-} from 'settings/constants'
+import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/constants'
 
 export const getDefaultNavbarOptions = (): SidebarItemProps[] => [
   {
@@ -81,9 +77,8 @@ export const getDefaultNavbarOptions = (): SidebarItemProps[] => [
     children: [
       {
         iconName: 'tradeLightning',
-        href: THOR_STAKING_V1_ROUTE,
+        href: ROUTES.Stake,
         label: t('components.sidebar.thorStake'),
-        rightIconName: 'external',
       },
       // {
       //   iconName: 'chartPieOutline',

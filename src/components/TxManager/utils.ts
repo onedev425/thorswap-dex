@@ -223,6 +223,7 @@ export const getWithdrawTxUrl = ({
   return '#'
 }
 
+// we use this method for stake, claim, stakeExit as well
 export const getApproveTxUrl = (txTracker: TxTracker): string => {
   const { submitTx } = txTracker
 
