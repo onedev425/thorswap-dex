@@ -389,9 +389,9 @@ export const StakingCard = ({
               </Typography>
             </Box>
           </Box>
-          <Box className="flex-col px-4 space-y-3">
+          <Box className="flex-col px-4">
             <InfoRow
-              size="sm"
+              size="md"
               label={t('views.staking.stakingToken')}
               value={
                 <Box className="space-x-1" alignCenter row>
@@ -410,7 +410,7 @@ export const StakingCard = ({
               }
             />
             <InfoRow
-              size="sm"
+              size="md"
               label={t('views.staking.stakingContract')}
               value={
                 <Box className="space-x-1" alignCenter row>
@@ -429,17 +429,17 @@ export const StakingCard = ({
               }
             />
             <InfoRow
-              size="sm"
+              size="md"
               label={t('views.staking.tokenBalance')}
               value={ethAddr ? lpTokenBal.toLocaleString() : 'N/A'}
             />
             <InfoRow
-              size="sm"
+              size="md"
               label={t('views.staking.tokenStaked')}
               value={ethAddr ? stakedAmount.toFixed(4) : 'N/A'}
             />
             <InfoRow
-              size="sm"
+              size="md"
               label={t('views.staking.claimable')}
               value={ethAddr ? pendingRewardDebt.toFixed(2) : 'N/A'}
             />
