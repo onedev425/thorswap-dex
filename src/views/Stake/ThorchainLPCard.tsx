@@ -107,12 +107,12 @@ export const ThorchainLPCard = () => {
             ) : (
               <Box className="gap-2 self-stretch" row alignCenter>
                 <Link className="flex-1" to={liquidityRouter}>
-                  <Button variant="primary" stretch>
+                  <Button size="lg" variant="primary" stretch>
                     {t('common.deposit')}
                   </Button>
                 </Link>
                 <Link className="flex-1" to={withdrawRouter}>
-                  <Button variant="secondary" stretch>
+                  <Button size="lg" variant="secondary" stretch>
                     {t('common.withdraw')}
                   </Button>
                 </Link>

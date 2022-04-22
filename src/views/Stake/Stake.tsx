@@ -18,6 +18,7 @@ const Stake = () => {
               <StakingCard {...rest} key={lpToken} stakingToken={lpToken} />
             ),
         )}
+
         <ThorchainLPCard />
       </Box>
     </div>

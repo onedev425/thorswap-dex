@@ -344,13 +344,17 @@ export const StakingCard = ({
               />
             )}
           </div>
-          <Box mt={32} alignCenter justify="between">
-            <div></div>
+
+          <Box mt={32} alignCenter row justify="between">
+            <Box flex={1} />
             <Typography className="mr-2" variant="h4">
               {farmName}
             </Typography>
-            <HoverIcon iconName="refresh" color="cyan" spin={isFetching} />
+            <Box flex={1} justify="end">
+              <HoverIcon iconName="refresh" color="cyan" spin={isFetching} />
+            </Box>
           </Box>
+
           <Box className="flex-row justify-between">
             <Box col className="p-4">
               <Typography
