@@ -261,3 +261,21 @@ export const getTxTrackerUrl = (txId: string) => {
 
   return `https://app.thoryield.com/tx_tracker?tx=${txId}`
 }
+
+export const getTxType = (): Record<TxTrackerType, string> => {
+  return {
+    [TxTrackerType.Send]: t('txManager.send'),
+    [TxTrackerType.Approve]: t('txManager.approve'),
+    [TxTrackerType.Swap]: t('txManager.swap'),
+    [TxTrackerType.AddLiquidity]: t('txManager.addLiquidity'),
+    [TxTrackerType.Withdraw]: t('txManager.withdraw'),
+    [TxTrackerType.Donate]: t('txManager.donate'),
+    [TxTrackerType.Refund]: t('txManager.refund'),
+    [TxTrackerType.Switch]: t('txManager.switch'),
+    [TxTrackerType.Mint]: t('txManager.mint'),
+    [TxTrackerType.Redeem]: t('txManager.redeem'),
+    [TxTrackerType.Stake]: t('txManager.stake'),
+    [TxTrackerType.Claim]: t('txManager.claim'),
+    [TxTrackerType.StakeExit]: t('txManager.withdraw'),
+  }
+}

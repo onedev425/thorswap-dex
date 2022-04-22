@@ -1,5 +1,3 @@
-import { useMemo } from 'react'
-
 import classNames from 'classnames'
 
 import {
@@ -23,6 +21,7 @@ import {
 import {
   getTxProgressStatus,
   getTxTrackerUrl,
+  getTxType,
   isSwapType,
 } from 'components/TxManager/utils'
 
@@ -35,25 +34,6 @@ type Props = {
 }
 
 export const TxPanel = ({ txTracker }: Props) => {
-  const txType: Record<TxTrackerType, string> = useMemo(
-    () => ({
-      [TxTrackerType.Send]: t('txManager.send'),
-      [TxTrackerType.Approve]: t('txManager.approve'),
-      [TxTrackerType.Swap]: t('txManager.swap'),
-      [TxTrackerType.AddLiquidity]: t('txManager.addLiquidity'),
-      [TxTrackerType.Withdraw]: t('txManager.withdraw'),
-      [TxTrackerType.Donate]: t('txManager.donate'),
-      [TxTrackerType.Refund]: t('txManager.refund'),
-      [TxTrackerType.Switch]: t('txManager.switch'),
-      [TxTrackerType.Mint]: t('txManager.mint'),
-      [TxTrackerType.Redeem]: t('txManager.redeem'),
-      [TxTrackerType.Stake]: t('txManager.stake'),
-      [TxTrackerType.Claim]: t('txManager.claim'),
-      [TxTrackerType.StakeExit]: t('txManager.withdraw'),
-    }),
-    [],
-  )
-
   const isPending =
     txTracker.status === TxTrackerStatus.Pending ||
     txTracker.status === TxTrackerStatus.Submitting
@@ -93,7 +73,7 @@ export const TxPanel = ({ txTracker }: Props) => {
                 variant="caption"
                 // color={txProgressColors[getTxProgressStatus(item)]}
               >
-                {txType[txTracker.type]}
+                {getTxType()[txTracker.type]}
               </Typography>
             </Box>
             <TxHeader txInfo={txTracker} />

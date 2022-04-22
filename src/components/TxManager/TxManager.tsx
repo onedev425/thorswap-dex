@@ -13,10 +13,14 @@ import {
 import { baseHoverClass } from 'components/constants'
 import { Popover } from 'components/Popover'
 import { Scrollbar } from 'components/Scrollbar'
+import { showToast, ToastType } from 'components/Toast'
+import { TxContent } from 'components/TxManager/components/TxContent'
+import { TxHeader } from 'components/TxManager/components/TxHeader'
 import { TxPanel } from 'components/TxManager/components/TxPanel'
 import { TxManagerOpenButton } from 'components/TxManager/TxManagerOpenButton'
+import { getTxType } from 'components/TxManager/utils'
 
-import { TxTrackerStatus } from 'store/midgard/types'
+import { TxTracker, TxTrackerStatus } from 'store/midgard/types'
 
 import { useTxManager } from 'hooks/useTxManager'
 
@@ -34,6 +38,45 @@ export const TxManager = () => {
       tx.status === TxTrackerStatus.Pending ||
       tx.status === TxTrackerStatus.Submitting,
   ).length
+  const prevTxTrackerStatus = useRef<{
+    [key: TxTracker['uuid']]: TxTrackerStatus
+  }>({})
+
+  useEffect(() => {
+    filteredTxData.forEach((txTracker: TxTracker) => {
+      if (
+        prevTxTrackerStatus.current[txTracker.uuid] !== txTracker.status &&
+        txTracker.status === TxTrackerStatus.Success
+      ) {
+        showToast(
+          {
+            message: t('notification.successFulTransaction'),
+            description: (
+              <Box className="w-full col alignCenter z-10 row" col>
+                <Box className="py-1" row>
+                  <Box row alignCenter>
+                    <Typography
+                      className="mx-1"
+                      fontWeight="semibold"
+                      variant="caption"
+                    >
+                      {getTxType()[txTracker.type]}
+                    </Typography>
+                  </Box>
+                  <TxHeader txInfo={txTracker} />{' '}
+                </Box>
+                <Box className="py-2 alignCenter w-full" col>
+                  <TxContent txTracker={txTracker} />
+                </Box>
+              </Box>
+            ),
+          },
+          ToastType.Success,
+        )
+        prevTxTrackerStatus.current[txTracker.uuid] = txTracker.status
+      }
+    })
+  }, [filteredTxData])
 
   useEffect(() => {
     if (!onlyPending) {
