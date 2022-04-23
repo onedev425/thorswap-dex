@@ -58,6 +58,7 @@ export const StakingCard = ({
   contractType,
   lpContractType,
 }: Props) => {
+  // TODO: Refactor to useReducer
   const [isFetching, setIsFetching] = useState(false)
   const [aprRate, setAPRRate] = useState<number>()
   const [lpTokenBal, setLpTokenBal] = useState(0)
@@ -77,10 +78,7 @@ export const StakingCard = ({
     type: modalType,
   } = useStakingModal()
 
-  const ethAddr = useMemo(
-    () => wallet && wallet.ETH && wallet.ETH.address,
-    [wallet],
-  )
+  const ethAddr = useMemo(() => wallet?.ETH?.address, [wallet])
 
   const getAccountUrl = useCallback(
     (accountAddr: string) =>
@@ -91,7 +89,7 @@ export const StakingCard = ({
   const getPoolUserInfo = useCallback(async () => {
     setIsFetching(true)
 
-    if (wallet && wallet.ETH && wallet.ETH.address) {
+    if (wallet?.ETH?.address) {
       const ethereumAddr = wallet.ETH.address
       const lpContract = getCustomContract(stakingToken)
 
@@ -351,7 +349,7 @@ export const StakingCard = ({
               {farmName}
             </Typography>
             <Box flex={1} justify="end">
-              <HoverIcon iconName="refresh" color="cyan" spin={isFetching} />
+              {isFetching && <HoverIcon iconName="refresh" color="cyan" spin />}
             </Box>
           </Box>
 

@@ -20,7 +20,7 @@ export const getChartOptions = (hideLabel: boolean, hasGrid: boolean) => {
   return {
     animation: false,
     maintainAspectRatio: false,
-    resizeDelay: 1000,
+    resizeDelay: 300,
     responsive: true,
     normalized: true,
     interaction: {

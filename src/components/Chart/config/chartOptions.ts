@@ -27,11 +27,12 @@ export const getChartOptions = ({
   hideLabel,
   hasGrid,
   unit = '$',
-}: Params) => {
-  return {
+}: Params) =>
+  ({
+    animation: false,
     responsive: true,
     maintainAspectRatio: false,
-    resizeDelay: 100,
+    resizeDelay: 1000,
     interaction: {
       intersect: false,
       mode: 'nearest' as const,
@@ -93,5 +94,4 @@ export const getChartOptions = ({
         },
       },
     },
-  }
-}
+  } as const)

@@ -25,8 +25,8 @@ export const Layout = ({ children }: LayoutProp) => {
   }
 
   return (
-    <Scrollbar className="transition-all bg-light-layout-primary dark:bg-dark-bg-primary">
-      <div className="fixed inset-0 transition-colors light-elliptical-bg dark:bg-elliptical"></div>
+    <Scrollbar className="bg-light-layout-primary dark:bg-dark-bg-primary">
+      {/* <div className="fixed inset-0 transition-colors light-elliptical-bg dark:bg-elliptical"></div> */}
 
       <Box
         col
