@@ -29,7 +29,6 @@ export const getChartOptions = ({
   unit = '$',
 }: Params) =>
   ({
-    animation: false,
     responsive: true,
     maintainAspectRatio: false,
     resizeDelay: 1000,
