@@ -9,13 +9,15 @@ import { Scrollbar } from 'components/Scrollbar'
 import { Sidebar } from 'components/Sidebar'
 import { WalletModal } from 'components/WalletModal'
 
+import { useApp } from 'store/app/hooks'
+
 export type LayoutProp = {
   children: ReactNode
 }
 
 export const Layout = ({ children }: LayoutProp) => {
   const [isMenuVisible, setMenuVisible] = useState(false)
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const { toggleSidebarCollapse, isSidebarCollapsed } = useApp()
   const openMenu = () => {
     setMenuVisible(true)
   }
@@ -34,8 +36,8 @@ export const Layout = ({ children }: LayoutProp) => {
       >
         <aside className="fixed hidden md:block">
           <Sidebar
-            collapsed={sidebarCollapsed}
-            toggle={() => setSidebarCollapsed((v) => !v)}
+            collapsed={isSidebarCollapsed}
+            toggle={() => toggleSidebarCollapse(!isSidebarCollapsed)}
           />
         </aside>
 
@@ -46,7 +48,7 @@ export const Layout = ({ children }: LayoutProp) => {
         <main
           className={classNames(
             'flex flex-col md:max-w-[calc(100%-148px)] mx-3 md:px-10 py-5 ease-in-out transition-[margin]',
-            sidebarCollapsed ? 'md:ml-24' : 'md:ml-48',
+            isSidebarCollapsed ? 'md:ml-24' : 'md:ml-48',
           )}
         >
           <Header openMenu={openMenu} />

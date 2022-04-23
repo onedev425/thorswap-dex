@@ -33,6 +33,7 @@ type StorageType = {
   statsHidden: boolean
   chartsHidden: boolean
   poolsHidden: boolean
+  sidebarCollapsed: boolean
   terraWalletSession: string | null
 }
 
@@ -65,6 +66,7 @@ type StoragePayload =
         | 'statsHidden'
         | 'chartsHidden'
         | 'poolsHidden'
+        | 'sidebarCollapsed'
         | 'customRecipientMode'
       value: boolean
     }
@@ -73,6 +75,7 @@ const defaultValues: StorageType = {
   statsHidden: false,
   chartsHidden: false,
   poolsHidden: false,
+  sidebarCollapsed: false,
   annViewStatus: false,
   baseCurrency: Asset.USD().toString(),
   thousandSeparator: ThousandSeparator.Comma,
@@ -107,6 +110,7 @@ export const saveInStorage = ({ key, value }: StoragePayload) => {
     case 'statsHidden':
     case 'chartsHidden':
     case 'poolsHidden':
+    case 'sidebarCollapsed':
     case 'tradingHaltStatus':
     case 'readStatus':
     case 'xDefiConnected':
@@ -149,6 +153,7 @@ export const getFromStorage = (
     case 'statsHidden':
     case 'chartsHidden':
     case 'poolsHidden':
+    case 'sidebarCollapsed':
     case 'tradingHaltStatus':
     case 'readStatus':
     case 'xDefiConnected':

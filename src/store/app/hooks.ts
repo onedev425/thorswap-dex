@@ -44,9 +44,12 @@ export const useApp = () => {
     dispatch(actions.toggleSidebar())
   }, [dispatch])
 
-  const toggleSidebarCollapse = useCallback(() => {
-    dispatch(actions.toggleSidebarCollapse())
-  }, [dispatch])
+  const toggleSidebarCollapse = useCallback(
+    (sidebarCollapsed: boolean) => {
+      dispatch(actions.toggleSidebarCollapse(sidebarCollapsed))
+    },
+    [dispatch],
+  )
 
   const setSlippage = useCallback(
     (slip: number) => {

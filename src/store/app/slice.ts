@@ -24,8 +24,8 @@ const initialState: State = {
   areStatsHidden: getFromStorage('statsHidden') as boolean,
   areChartsHidden: getFromStorage('chartsHidden') as boolean,
   arePoolsHidden: getFromStorage('poolsHidden') as boolean,
+  isSidebarCollapsed: getFromStorage('sidebarCollapsed') as boolean,
   isSettingOpen: false,
-  isSidebarCollapsed: false,
   isSidebarOpen: false,
   language: getFromStorage('language') as SupportedLanguages,
   nodeWatchList: getFromStorage('nodeWatchList') as string[],
@@ -61,13 +61,9 @@ const appSlice = createSlice({
     toggleSidebar(state) {
       state.isSidebarOpen = !state.isSidebarOpen
     },
-    toggleSidebarCollapse(state) {
-      state.isSidebarCollapsed = !state.isSidebarCollapsed
-    },
     setSlippage(state, action: PayloadAction<number>) {
       const slippage =
         action.payload > 100 ? 100 : action.payload < 0 ? 0 : action.payload
-
       state.slippageTolerance = slippage
       saveInStorage({ key: 'slippageTolerance', value: String(slippage) })
     },
@@ -124,7 +120,6 @@ const appSlice = createSlice({
     },
     setWalletViewMode(state, action: PayloadAction<ViewMode>) {
       state.walletViewMode = action.payload
-
       saveInStorage({ key: 'walletViewMode', value: action.payload })
     },
     setStatsShowStatus(state, action: PayloadAction<boolean>) {
@@ -138,6 +133,10 @@ const appSlice = createSlice({
     setPoolsShowStatus(state, action: PayloadAction<boolean>) {
       state.arePoolsHidden = action.payload
       saveInStorage({ key: 'poolsHidden', value: action.payload })
+    },
+    toggleSidebarCollapse(state, action: PayloadAction<boolean>) {
+      state.isSidebarCollapsed = action.payload
+      saveInStorage({ key: 'sidebarCollapsed', value: action.payload })
     },
   },
 })
