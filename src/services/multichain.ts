@@ -18,6 +18,7 @@ export const globalConfig = {
   ethRpcUrl: import.meta.env.VITE_RPC_URL || '',
   ethNetworkId: Number(import.meta.env.VITE_ETHEREUM_NETWORK_ID),
   blocknativeApiKey: import.meta.env.VITE_BLOCKNATIVE_API_KEY || '',
+  isAffiliated: import.meta.env.VITE_AFFILIATE_ON,
 }
 
 setGlobalConfig(globalConfig)

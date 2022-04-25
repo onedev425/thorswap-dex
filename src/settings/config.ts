@@ -15,6 +15,8 @@ export const config: Config = {
   network: safeEnv(Network.Testnet, import.meta.env.VITE_NETWORK) as Network,
 }
 
+export const IS_AFFILIATE_ON = import.meta.env.VITE_AFFILIATE_ON === 'true'
+
 export const MIDGARD_MAINNET_API_URI = `${safeEnv(
   'https://midgard.thorchain.info',
   import.meta.env.VITE_MAINNET_MIDGARD,

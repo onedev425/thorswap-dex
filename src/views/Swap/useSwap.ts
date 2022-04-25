@@ -6,6 +6,7 @@ import {
   AssetAmount,
   Pool,
   Swap,
+  DEFAULT_AFFILIATE_FEE,
 } from '@thorswap-lib/multichain-sdk'
 
 import { useApp } from 'store/app/hooks'
@@ -18,6 +19,7 @@ type Params = {
   inputAmount: Amount
   outputAsset: Asset
   pools: Pool[]
+  isAffiliated: boolean
 }
 
 export const useSwap = ({
@@ -26,6 +28,7 @@ export const useSwap = ({
   inputAmount,
   outputAsset,
   pools,
+  isAffiliated,
 }: Params) => {
   const { slippageTolerance } = useApp()
 
@@ -61,17 +64,27 @@ export const useSwap = ({
             Amount.fromAssetAmount(0, outputAsset.decimal),
           )
 
-      // should create a new instance to update the state
+      if (isAffiliated) {
+        return new Swap({
+          inputAsset,
+          outputAsset,
+          pools,
+          amount: inputAssetAmount,
+          slip: slippageTolerance,
+          fee: {
+            inboundFee: inboundFeeInInputAsset,
+            outboundFee: outboundFeeInOutputAsset,
+          },
+          affiliateFee: DEFAULT_AFFILIATE_FEE,
+        })
+      }
+
       return new Swap({
         inputAsset,
         outputAsset,
         pools,
         amount: inputAssetAmount,
         slip: slippageTolerance,
-        fee: {
-          inboundFee: inboundFeeInInputAsset,
-          outboundFee: outboundFeeInOutputAsset,
-        },
       })
     } catch (error) {
       console.error(error)
@@ -86,6 +99,7 @@ export const useSwap = ({
     poolLoading,
     pools,
     slippageTolerance,
+    isAffiliated,
   ])
 
   return swap

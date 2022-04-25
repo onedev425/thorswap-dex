@@ -48,6 +48,7 @@ import { multichain } from 'services/multichain'
 
 import { translateErrorMsg } from 'helpers/error'
 
+import { IS_AFFILIATE_ON } from 'settings/config'
 import {
   getPoolDetailRouteFromAsset,
   getSwapRoute,
@@ -84,12 +85,29 @@ const SwapView = () => {
   const { customRecipientMode } = useApp()
 
   const { outputAssets, inputAssets, pools } = useSwapAssets()
+
+  const inputAssetPriceInUSD = useMemo(
+    () =>
+      new Price({
+        baseAsset: inputAsset,
+        pools,
+        priceAmount: inputAmount,
+      }),
+    [inputAsset, inputAmount, pools],
+  )
+
+  const isAffiliated = useMemo(
+    () => IS_AFFILIATE_ON && inputAssetPriceInUSD.gt(100),
+    [inputAssetPriceInUSD],
+  )
+
   const swap = useSwap({
     poolLoading,
     inputAmount,
     inputAsset,
     pools,
     outputAsset,
+    isAffiliated,
   })
 
   useEffect(() => {
@@ -215,11 +233,6 @@ const SwapView = () => {
     [swap],
   )
 
-  const inputAssetPriceInUSD = useMemo(
-    () => new Price({ baseAsset: inputAsset, pools, priceAmount: inputAmount }),
-    [inputAsset, inputAmount, pools],
-  )
-
   const outputAssetPriceInUSD = useMemo(
     () =>
       new Price({ baseAsset: outputAsset, pools, priceAmount: outputAmount }),
@@ -301,7 +314,7 @@ const SwapView = () => {
       })
 
       try {
-        const txHash = await multichain.swap(swap, recipient)
+        const txHash = await multichain.swap({ swap, recipient, isAffiliated })
 
         // start polling
         pollTransaction({
@@ -335,7 +348,15 @@ const SwapView = () => {
         )
       }
     }
-  }, [wallet, swap, recipient, submitTransaction, pollTransaction, setTxFailed])
+  }, [
+    wallet,
+    swap,
+    recipient,
+    isAffiliated,
+    submitTransaction,
+    pollTransaction,
+    setTxFailed,
+  ])
 
   const handleConfirmApprove = useCallback(async () => {
     setVisibleApproveModal(false)
