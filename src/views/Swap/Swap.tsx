@@ -97,7 +97,7 @@ const SwapView = () => {
   )
 
   const isAffiliated = useMemo(
-    () => IS_AFFILIATE_ON && inputAssetPriceInUSD.gt(100),
+    () => IS_AFFILIATE_ON && inputAssetPriceInUSD.price.gt(100),
     [inputAssetPriceInUSD],
   )
 
