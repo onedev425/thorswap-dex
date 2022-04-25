@@ -17,9 +17,10 @@ type Props = {
 export const ChainInfo = memo(
   ({ geckoData, info: { asset, assetAmount } }: Props) => {
     const {
-      current_price: currentPrice = 0,
-      price_change_percentage_24h: priceChangePercentage24h = 0,
+      current_price: currentPrice = 0.0,
+      price_change_percentage_24h: priceChangePercentage24h = 0.0,
     } = geckoData[asset.symbol] || {}
+
     const assetBalance = formatPrice(assetAmount.toNumber() * currentPrice)
     const value = `${formatPrice(assetAmount.toNumber(), {
       prefix: '',
@@ -51,7 +52,7 @@ export const ChainInfo = memo(
             fontWeight="semibold"
             color={priceChangePercentage24h >= 0 ? 'green' : 'red'}
           >
-            {priceChangePercentage24h.toFixed(2)}%
+            {priceChangePercentage24h?.toFixed(2)}%
           </Typography>
         </Box>
       </Box>

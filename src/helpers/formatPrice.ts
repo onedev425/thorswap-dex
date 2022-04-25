@@ -70,9 +70,9 @@ const formatter = ({
   format: ReturnType<typeof useFormat>
   decimals?: number
 }) => {
-  const numOfDecimals = decimals || getNumberOfDecimals(amount)
+  const numOfDecimals = amount ? decimals || getNumberOfDecimals(amount) : 0
 
-  if (typeof amount === 'object') {
+  if (amount && typeof amount === 'object') {
     return amount.toSignificant(6, format)
   } else if (typeof amount === 'number') {
     const bigNumber = new BigNumber(amount.toFixed(numOfDecimals))
