@@ -578,6 +578,6 @@
     "swapNotAvailable": "Swap not available",
     "gasEstimationFailed": "Cannot estimate gas",
     "approveOverflow": "%{actionType} amount exceeds allowance",
-    "successFulTransaction": "Transaction Successful"
+    "successfulTransaction": "Transaction Successful"
   }
 }

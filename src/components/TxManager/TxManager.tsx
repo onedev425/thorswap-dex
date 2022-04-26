@@ -50,7 +50,7 @@ export const TxManager = () => {
       ) {
         showToast(
           {
-            message: t('notification.successFulTransaction'),
+            message: t('notification.successfulTransaction'),
             description: (
               <Box className="w-full col alignCenter z-10 row" col>
                 <Box className="py-1" row>
@@ -63,8 +63,9 @@ export const TxManager = () => {
                       {getTxType()[txTracker.type]}
                     </Typography>
                   </Box>
-                  <TxHeader txInfo={txTracker} />{' '}
+                  <TxHeader txInfo={txTracker} />
                 </Box>
+
                 <Box className="py-2 alignCenter w-full" col>
                   <TxContent txTracker={txTracker} />
                 </Box>

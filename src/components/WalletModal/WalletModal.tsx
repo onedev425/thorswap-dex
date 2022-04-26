@@ -200,17 +200,13 @@ export const WalletModal = () => {
         )
       } else {
         try {
-          // connect Xdefi Terra
           if (chains.includes(TERRAChain) && !!window.xfi.terra) {
-            try {
-              connectTerraWallet(TerraConnectType.EXTENSION, 'xdefi-wallet')
-            } catch (error) {
-              console.error(error)
-            }
+            connectTerraWallet(TerraConnectType.EXTENSION, 'xdefi-wallet')
           }
 
           await connectXdefiWallet(chains)
         } catch (error) {
+          console.error(error)
           showToast({ message: t('notification.xdefiFailed') }, ToastType.Error)
         }
         clearStatus()
@@ -479,11 +475,11 @@ export const WalletModal = () => {
 
   const renderChainSelectPanel = useMemo(() => {
     if (
-      walletMode === WalletMode.Create ||
-      walletMode === WalletMode.Select ||
-      walletMode === WalletMode.Phrase
+      [WalletMode.Create, WalletMode.Select, WalletMode.Phrase].includes(
+        walletMode,
+      )
     ) {
-      return <></>
+      return null
     }
 
     const allSelected =

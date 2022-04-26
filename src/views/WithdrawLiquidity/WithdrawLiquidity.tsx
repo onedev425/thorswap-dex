@@ -103,7 +103,7 @@ export const WithdrawLiquidity = () => {
     poolMemberData &&
     Object.keys(poolMemberData).length
   ) {
-    console.log('poolMemberData', poolMemberData)
+    console.info('poolMemberData', poolMemberData)
     const shares = []
     if (poolMemberData.pending) shares.push(PoolShareType.PENDING)
 
@@ -229,8 +229,8 @@ const WithdrawPanel = ({
     return null
   }, [poolMemberData, lpType])
 
-  console.log('memberPoolData', memberPoolData)
-  console.log('shareTypes', shareTypes)
+  console.info('memberPoolData', memberPoolData)
+  console.info('shareTypes', shareTypes)
 
   const liquidityEntity = useMemo(() => {
     if (!memberPoolData) return null

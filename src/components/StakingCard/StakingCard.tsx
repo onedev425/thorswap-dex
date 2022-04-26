@@ -113,7 +113,7 @@ export const StakingCard = ({
         setPendingRewardDebt(fromWei(pendingReward))
         setPendingRewardDebtBn(pendingReward)
       } catch (error) {
-        console.log(error)
+        console.error(error)
       }
     }
 
@@ -171,7 +171,7 @@ export const StakingCard = ({
         setAPRRate(apr)
       }
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }, [contractType, lpContractType, getBlockReward])
 
@@ -287,8 +287,8 @@ export const StakingCard = ({
             })
           }
         }
-      } catch (err) {
-        console.log('ERR - ', err)
+      } catch (error) {
+        console.error(error)
       }
     },
     [
