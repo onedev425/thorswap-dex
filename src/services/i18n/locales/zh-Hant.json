@@ -23,7 +23,7 @@
     "learnMore": "了解更多",
     "merchStore": "商店",
     "deposit": "添加",
-    "exchange": "兌換",
+    "exchange": "交易所",
     "liquidity": "流動性",
     "liquidityAPY": "流動性 APY",
     "liquidityPools": "流動池",
@@ -146,6 +146,8 @@
     "redeem": "兌換",
     "receive": "接收",
     "failed": "失敗了",
+    "stake": "質押",
+    "claim": "領取",
     "sendAmountAsset": "發送 %{amount} %{asset}",
     "sendFailed": "發送 %{amount} %{asset} 失敗",
     "sendFinished": "發送 %{amount} %{asset} 成功",
@@ -161,13 +163,20 @@
     "addedAmountAsset": "添加了 %{amount} %{asset}",
     "addAmountAsset": "添加 %{amount} %{asset}",
     "withdrawAmountAsset": "提取 %{amount} %{asset}",
-    "withdrawnAmountAsset": "提取 %{amount} %{asset} 完畢",
+    "withdrawnAmountAsset": "提取 %{amount} %{asset} ",
+    "withdrawAmountFailed": "提取 %{amount} %{asset} 失敗",
     "receiveAmountNativeRune": "接收 %{amount} Native RUNE",
     "receivedAmountNativeRune": "收到 %{amount} Native RUNE",
     "approveAssetFailed": "授權 %{asset} 失敗",
     "approveAsset": "授權 %{asset}",
     "approvedAsset": "授權 %{asset} 成功",
-    "approveToken": "授權 %{token}"
+    "approveToken": "授權 %{token}",
+    "stakeAsset": "質押 %{amount} %{asset}",
+    "stakedAsset": "已質押 %{amount} %{asset}",
+    "stakeAssetFailed": "質押 %{amount} %{asset} 失敗",
+    "claimAsset": "提取 %{amount} %{asset}",
+    "claimedAsset": "已提取 %{amount} %{asset}",
+    "claimAssetFailed": "已提取 %{amount} %{asset} 失敗"
   },
   "components": {
     "assetSelect": {
@@ -296,7 +305,12 @@
       "tokenStaked": "代幣質押額",
       "claimable": "可領取",
       "stakingContract": "質押合約",
-      "tcStakingDesc": "在 THORChain 提供 THOR-RUNE 流動性"
+      "tcStakingDesc": "在 THORChain 提供 THOR-RUNE 流動性",
+      "depositAction": "存入",
+      "harvestAction": "收成",
+      "withdrawAction": "提取",
+      "exitAction": "退出",
+      "stakeActionAmount": "%{stakeAction} 數額"
     },
     "stats": {
       "dailyBlockRewards": "每日區塊獎勵",
@@ -357,7 +371,10 @@
       "emptyFeatured": "無精选代幣",
       "priceImpact": "價格影響",
       "minReceivedAfterSlip": "滑點後最小獲得量 (%{slippage})",
-      "swapAssets": "掉期資產利率"
+      "swapAssets": "切換利率",
+      "affiliateFee": "0.3% affiliate fee is charged by THORSwap. 75% of fees are redistributed back to vTHOR stakers.",
+      "exchangeFee": "Service Fee",
+      "totalFee": "Total Fee"
     },
     "wallet": {
       "wallet": "錢包",
@@ -379,7 +396,7 @@
       "slippageTooltip": "由於交易規模，市場價格和預估價格之間的差異。",
       "minReceivedTooltip": "如果在確認之前出現大額不利的價格變動，您的交易將被退回。",
       "transactionFeeTooltip": "用於提交交易的燃料費",
-      "networkFeeTooltip": "外出交易所需支付的 THORChain 網絡費",
+      "networkFeeTooltip": "外出交易需支付的 THORChain 網絡費",
       "totalFeeTooltip": "交易費和網絡費的總和",
       "estimatedTimeTooltip": "處理交易的預計時間",
       "listView": "查看列表",
@@ -558,6 +575,9 @@
     "alreadyHaveRune": "已經擁有 RUNE LP",
     "insufficientAmount": "金額不足",
     "assetNotFound": "未檢測到資產",
-    "swapNotAvailable": "無法兌換"
+    "swapNotAvailable": "無法兌換",
+    "gasEstimationFailed": "無法預估燃料價格",
+    "approveOverflow": "%{actionType} 數量超過限額",
+    "successfulTransaction": "交易成功"
   }
 }

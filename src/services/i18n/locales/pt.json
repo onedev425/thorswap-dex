@@ -146,6 +146,8 @@
     "redeem": "Recuperar",
     "receive": "Receber",
     "failed": "Falhou",
+    "stake": "",
+    "claim": "",
     "sendAmountAsset": "Enviar %{amount} %{asset}",
     "sendFailed": "Enviar %{amount} %{asset} Falhou",
     "sendFinished": "Enviar %{amount} %{asset} Sucesso",
@@ -162,12 +164,19 @@
     "addAmountAsset": "Acrescente %{amount} %{asset}",
     "withdrawAmountAsset": "Retirou %{amount} %{asset}",
     "withdrawnAmountAsset": "Retirar %{amount} %{asset} acabou",
+    "withdrawAmountFailed": "",
     "receiveAmountNativeRune": "Receber %{amount} RUNE nativo",
     "receivedAmountNativeRune": "Recebido %{amount} RUNE nativo",
     "approveAssetFailed": "Aceite %{asset} falhou",
     "approveAsset": "Aprove %{asset}",
     "approvedAsset": "Aprovado %{asset}",
-    "approveToken": "Aprovado %{token}"
+    "approveToken": "Aprovado %{token}",
+    "stakeAsset": "",
+    "stakedAsset": "",
+    "stakeAssetFailed": "",
+    "claimAsset": "",
+    "claimedAsset": "",
+    "claimAssetFailed": ""
   },
   "components": {
     "assetSelect": {
@@ -296,7 +305,12 @@
       "tokenStaked": "Tokens staked",
       "claimable": "Exigível",
       "stakingContract": "Contracto de validação",
-      "tcStakingDesc": "Adicione liquidez THOR-RUNE em THORChain"
+      "tcStakingDesc": "Adicione liquidez THOR-RUNE em THORChain",
+      "depositAction": "",
+      "harvestAction": "",
+      "withdrawAction": "",
+      "exitAction": "",
+      "stakeActionAmount": ""
     },
     "stats": {
       "dailyBlockRewards": "Recompensas diárias do bloco",
@@ -357,7 +371,10 @@
       "emptyFeatured": "Sem ativos em destaque",
       "priceImpact": "Impacto no preço",
       "minReceivedAfterSlip": "Mínimo a receber após derrapagem (%{slippage})",
-      "swapAssets": "Taxas de troca de ativos"
+      "swapAssets": "Taxas de troca de ativos",
+      "affiliateFee": "",
+      "exchangeFee": "",
+      "totalFee": ""
     },
     "wallet": {
       "wallet": "Carteira",
@@ -558,6 +575,9 @@
     "alreadyHaveRune": "Já existe fornecimento de liquidez de RUNE",
     "insufficientAmount": "Quantidade insuficiente",
     "assetNotFound": "Ativos não encontrados",
-    "swapNotAvailable": "Troca não dísponivel"
+    "swapNotAvailable": "Troca não dísponivel",
+    "gasEstimationFailed": "",
+    "approveOverflow": "",
+    "successfulTransaction": ""
   }
 }

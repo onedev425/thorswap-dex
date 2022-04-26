@@ -146,6 +146,8 @@
     "redeem": "Redeem",
     "receive": "وصول کریں",
     "failed": "ناکام ہو گیا",
+    "stake": "Stake",
+    "claim": "دعویٰ",
     "sendAmountAsset": "بھیجیں %{amount} %{asset}",
     "sendFailed": "بھیجیں %{amount} %{asset} ناکام",
     "sendFinished": "بھیجیں %{amount} %{asset} کامیاب",
@@ -162,12 +164,19 @@
     "addAmountAsset": "شامل کریں %{amount} %{asset}",
     "withdrawAmountAsset": "نکالیں %{amount} %{asset}",
     "withdrawnAmountAsset": "واپسی %{amount} %{asset} مکمل",
+    "withdrawAmountFailed": "واپسی %{amount} %{asset} ناکام ہو گئی",
     "receiveAmountNativeRune": "%{amount} Native RUNE وصول کریں",
     "receivedAmountNativeRune": "موصول ہوا %{amount} Native RUNE",
     "approveAssetFailed": "%{asset} کو منظور کرنا ناکام ہو گیا۔",
     "approveAsset": " %{asset} منظور کریں",
     "approvedAsset": " %{asset} منظور شدہ",
-    "approveToken": " %{token} منظور کریں"
+    "approveToken": " %{token} منظور کریں",
+    "stakeAsset": "Stake %{amount} %{asset}",
+    "stakedAsset": "Staked %{amount} %{asset}",
+    "stakeAssetFailed": "Stake %{amount} %{asset} ناکام ہو گیا۔",
+    "claimAsset": "دعوی کریں %{amount} %{asset}",
+    "claimedAsset": "دعوی کیا گیا %{amount} %{asset}",
+    "claimAssetFailed": "دعویٰ %{amount} %{asset} ناکام ہو گیا"
   },
   "components": {
     "assetSelect": {
@@ -296,7 +305,12 @@
       "tokenStaked": "ٹوکن Staked",
       "claimable": "قابلِ دعویٰ",
       "stakingContract": "اسٹیکنگ Contract",
-      "tcStakingDesc": "THORchain پر THOR-RUNE Liquidity  فراہم کریں۔"
+      "tcStakingDesc": "THORchain پر THOR-RUNE Liquidity  فراہم کریں۔",
+      "depositAction": "جمع کرو",
+      "harvestAction": "Harvest",
+      "withdrawAction": "واپس لے لیں",
+      "exitAction": "باہر نکلیں",
+      "stakeActionAmount": "%{stakeAction} رقم"
     },
     "stats": {
       "dailyBlockRewards": "روزانہ بلاک کے انعامات",
@@ -357,7 +371,10 @@
       "emptyFeatured": "کوئی نمایاں اثاثے نہیں ہیں",
       "priceImpact": "قیمت کا اثر",
       "minReceivedAfterSlip": "slippage کے بعد کم از کم موصول ہوگا (%{slippage})",
-      "swapAssets": "اثاثوں کی شرحوں کو تبدیل کریں۔"
+      "swapAssets": "اثاثوں کی شرحوں کو تبدیل کریں۔",
+      "affiliateFee": "",
+      "exchangeFee": "",
+      "totalFee": ""
     },
     "wallet": {
       "wallet": "Wallet",
@@ -558,6 +575,9 @@
     "alreadyHaveRune": "پہلے سے ہی RUNE LP ہے",
     "insufficientAmount": "ناکافی رقم",
     "assetNotFound": "اثاثے نہیں ملے",
-    "swapNotAvailable": "تبادلہ دستیاب نہیں ہے"
+    "swapNotAvailable": "تبادلہ دستیاب نہیں ہے",
+    "gasEstimationFailed": "گیس کا اندازہ نہیں لگایا جا سکا",
+    "approveOverflow": "%{actionType} رقم الاؤنس سے زیادہ ہے",
+    "successfulTransaction": ""
   }
 }

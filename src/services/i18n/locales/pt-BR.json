@@ -146,6 +146,8 @@
     "redeem": "Resgatar",
     "receive": "Receber",
     "failed": "Falhou",
+    "stake": "Stake",
+    "claim": "Reivindicar",
     "sendAmountAsset": "Enviar %{amount} %{asset}",
     "sendFailed": "O Envio de %{amount} %{asset} Falhou",
     "sendFinished": "Envio de %{amount} %{asset} Sucedido",
@@ -161,13 +163,20 @@
     "addedAmountAsset": "Adicionado %{amount} %{asset}",
     "addAmountAsset": "Adicionar %{amount} %{asset}",
     "withdrawAmountAsset": "Sacar %{amount} %{asset}",
-    "withdrawnAmountAsset": "Saque de %{amount} %{asset} finalizado",
+    "withdrawnAmountAsset": "Saque de %{amount} %{asset} concluído",
+    "withdrawAmountFailed": "O saque de %{amount} %{asset} falhou",
     "receiveAmountNativeRune": "Receba %{amount} de RUNE Nativa",
     "receivedAmountNativeRune": "Recebido  %{amount} de RUNE Nativa",
     "approveAssetFailed": "Aprovação de %{asset} falhou",
     "approveAsset": "Aprovar %{asset}",
     "approvedAsset": "Aprovado %{asset}",
-    "approveToken": "Aprovar %{token}"
+    "approveToken": "Aprovar %{token}",
+    "stakeAsset": "Stakear %{amount} %{asset}",
+    "stakedAsset": "Stake de %{amount} %{asset} concluído",
+    "stakeAssetFailed": "Stake de %{amount} %{asset} falhou",
+    "claimAsset": "Reivindicar %{amount} %{asset}",
+    "claimedAsset": "%{amount} %{asset} reivindicados",
+    "claimAssetFailed": "Falha ao reivindicar %{amount} %{asset}"
   },
   "components": {
     "assetSelect": {
@@ -296,7 +305,12 @@
       "tokenStaked": "Token Stakeado",
       "claimable": "Reivindicável",
       "stakingContract": "Contrato do Staking",
-      "tcStakingDesc": "Prover Liquidez de THOR-RUNE em THORChain"
+      "tcStakingDesc": "Prover Liquidez de THOR-RUNE em THORChain",
+      "depositAction": "Depositar",
+      "harvestAction": "Recolher",
+      "withdrawAction": "Sacar",
+      "exitAction": "Sair",
+      "stakeActionAmount": "Quantia de %{stakeAction}"
     },
     "stats": {
       "dailyBlockRewards": "Recompensa por Blocos no Dia",
@@ -357,7 +371,10 @@
       "emptyFeatured": "Nenhum ativo em destaque",
       "priceImpact": "Impacto no Preço",
       "minReceivedAfterSlip": "Mínimo a ser recebido após divergência (%{slippage})",
-      "swapAssets": "Taxas de troca de ativos"
+      "swapAssets": "Taxas de troca de ativos",
+      "affiliateFee": "",
+      "exchangeFee": "",
+      "totalFee": ""
     },
     "wallet": {
       "wallet": "Carteira",
@@ -558,6 +575,9 @@
     "alreadyHaveRune": "Já possui PL de RUNE",
     "insufficientAmount": "Quantia Insuficiente",
     "assetNotFound": "Ativos não encontrados",
-    "swapNotAvailable": "Troca indisponível"
+    "swapNotAvailable": "Troca indisponível",
+    "gasEstimationFailed": "Não foi possível estimar o gas",
+    "approveOverflow": "A quantia de %{actionType} excede o limite permitido",
+    "successfulTransaction": "Transação concluída com êxito"
   }
 }

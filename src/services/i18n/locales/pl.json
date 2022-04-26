@@ -146,6 +146,8 @@
     "redeem": "Zrealizuj",
     "receive": "Odbierz",
     "failed": "Niepowodzenie",
+    "stake": "",
+    "claim": "",
     "sendAmountAsset": "Wyślij %{amount} %{asset}",
     "sendFailed": "Wysyłanie %{amount} %{asset} nie powiodło się.",
     "sendFinished": "Wysyłanie %{amount} %{asset} zakończone sukcesem.",
@@ -162,12 +164,19 @@
     "addAmountAsset": "Wpłać %{amount} %{asset}",
     "withdrawAmountAsset": "Wyciągnij %{amount} %{asset}",
     "withdrawnAmountAsset": "Wyciąg %{amount} %{asset} zakończony",
+    "withdrawAmountFailed": "",
     "receiveAmountNativeRune": "Otrzymaj %{amount} Native RUNE",
     "receivedAmountNativeRune": "Otrzymano %{amount} Native RUNE",
     "approveAssetFailed": "Zatwierdzenie %{asset} nie powiodło się",
     "approveAsset": "Zatwierdź %{asset}",
     "approvedAsset": "Zatwierdzono %{asset}",
-    "approveToken": "Zatwierdź %{token}"
+    "approveToken": "Zatwierdź %{token}",
+    "stakeAsset": "",
+    "stakedAsset": "",
+    "stakeAssetFailed": "",
+    "claimAsset": "",
+    "claimedAsset": "",
+    "claimAssetFailed": ""
   },
   "components": {
     "assetSelect": {
@@ -296,7 +305,12 @@
       "tokenStaked": "Zestakowane tokeny",
       "claimable": "Należny",
       "stakingContract": "Stakowane kontrakty",
-      "tcStakingDesc": "Zapewnij płynność THOR-RUNE na THORChain"
+      "tcStakingDesc": "Zapewnij płynność THOR-RUNE na THORChain",
+      "depositAction": "",
+      "harvestAction": "",
+      "withdrawAction": "",
+      "exitAction": "",
+      "stakeActionAmount": ""
     },
     "stats": {
       "dailyBlockRewards": "Codzienne nagrody za bloki",
@@ -357,7 +371,10 @@
       "emptyFeatured": "Brak wyróżnionych zasobów",
       "priceImpact": "Wpływ ceny",
       "minReceivedAfterSlip": "Minimalna wartość otrzymana po poślizgu (%{slippage})",
-      "swapAssets": "Kursy wymiany aktywów"
+      "swapAssets": "Kursy wymiany aktywów",
+      "affiliateFee": "",
+      "exchangeFee": "",
+      "totalFee": ""
     },
     "wallet": {
       "wallet": "Portfel",
@@ -558,6 +575,9 @@
     "alreadyHaveRune": "Już masz RUNE LP",
     "insufficientAmount": "Niewystarczająca kwota",
     "assetNotFound": "Nie znaleziono aktywów",
-    "swapNotAvailable": "Zamiana nie jest dostępna"
+    "swapNotAvailable": "Zamiana nie jest dostępna",
+    "gasEstimationFailed": "",
+    "approveOverflow": "",
+    "successfulTransaction": ""
   }
 }

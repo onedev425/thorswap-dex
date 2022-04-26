@@ -146,6 +146,8 @@
     "redeem": "Выкупить ",
     "receive": "Получить",
     "failed": "Неуспешно",
+    "stake": "",
+    "claim": "",
     "sendAmountAsset": "Послать %{amount} %{asset}",
     "sendFailed": "Ошибка перевода %{amount} %{asset}",
     "sendFinished": "Успешный перевод %{amount} %{asset}",
@@ -162,12 +164,19 @@
     "addAmountAsset": "Добавить %{amount} %{asset}",
     "withdrawAmountAsset": "Вывести %{amount} %{asset}",
     "withdrawnAmountAsset": "Выведено %{amount} %{asset}",
+    "withdrawAmountFailed": "",
     "receiveAmountNativeRune": "Получить %{amount} нативной RUNE",
     "receivedAmountNativeRune": "Получено %{amount} нативной RUNE",
     "approveAssetFailed": "Неуспешное подтверждение %{asset}",
     "approveAsset": "Подтвердить %{asset}",
     "approvedAsset": "%{asset} подтвержден",
-    "approveToken": "Подтвердить %{token}"
+    "approveToken": "Подтвердить %{token}",
+    "stakeAsset": "",
+    "stakedAsset": "",
+    "stakeAssetFailed": "",
+    "claimAsset": "",
+    "claimedAsset": "",
+    "claimAssetFailed": ""
   },
   "components": {
     "assetSelect": {
@@ -296,7 +305,12 @@
       "tokenStaked": "Токены в стейкинге",
       "claimable": "Готовые к клейму",
       "stakingContract": "Контракт стейкинга ",
-      "tcStakingDesc": "Предоставить THOR-RUNE ликвидность на THORChain "
+      "tcStakingDesc": "Предоставить THOR-RUNE ликвидность на THORChain ",
+      "depositAction": "",
+      "harvestAction": "",
+      "withdrawAction": "",
+      "exitAction": "",
+      "stakeActionAmount": ""
     },
     "stats": {
       "dailyBlockRewards": "Ежедневные награды за блок",
@@ -357,7 +371,10 @@
       "emptyFeatured": "Не популярные активы",
       "priceImpact": "Влияние на цену",
       "minReceivedAfterSlip": "Минимально к получению после проскальзывания (%{slippage})",
-      "swapAssets": "ставки обмена активами"
+      "swapAssets": "ставки обмена активами",
+      "affiliateFee": "",
+      "exchangeFee": "",
+      "totalFee": ""
     },
     "wallet": {
       "wallet": "Кошелёк ",
@@ -558,6 +575,9 @@
     "alreadyHaveRune": "Уже имеется LP RUNE",
     "insufficientAmount": "Недостаточное количество",
     "assetNotFound": "Актив не найден",
-    "swapNotAvailable": "Обмен недоступен"
+    "swapNotAvailable": "Обмен недоступен",
+    "gasEstimationFailed": "",
+    "approveOverflow": "",
+    "successfulTransaction": ""
   }
 }

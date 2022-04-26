@@ -146,6 +146,8 @@
     "redeem": "상환(Redeem)",
     "receive": "수령",
     "failed": "실패",
+    "stake": "",
+    "claim": "",
     "sendAmountAsset": "%{amount} %{asset} 발송",
     "sendFailed": "%{amount} %{asset} 발송 실패",
     "sendFinished": "%{amount} %{asset} 발송 성공",
@@ -162,12 +164,19 @@
     "addAmountAsset": "%{amount} %{asset} 추가",
     "withdrawAmountAsset": "%{amount} %{asset} 인출",
     "withdrawnAmountAsset": "%{amount} %{asset} 인출 완료",
+    "withdrawAmountFailed": "",
     "receiveAmountNativeRune": "%{amount} Native RUNE 수령",
     "receivedAmountNativeRune": "%{amount} Native RUNE 수령됨",
     "approveAssetFailed": "%{asset} 승인 실패",
     "approveAsset": "%{asset} 승인",
     "approvedAsset": "%{token} 승인됨",
-    "approveToken": "%{token} 승인"
+    "approveToken": "%{token} 승인",
+    "stakeAsset": "",
+    "stakedAsset": "",
+    "stakeAssetFailed": "",
+    "claimAsset": "",
+    "claimedAsset": "",
+    "claimAssetFailed": ""
   },
   "components": {
     "assetSelect": {
@@ -296,7 +305,12 @@
       "tokenStaked": "스테킹된 토큰",
       "claimable": "클레임 (Claim) 가능",
       "stakingContract": "스테킹 ",
-      "tcStakingDesc": "THORChain에 THOR-RUNE 유동성 제공"
+      "tcStakingDesc": "THORChain에 THOR-RUNE 유동성 제공",
+      "depositAction": "",
+      "harvestAction": "",
+      "withdrawAction": "",
+      "exitAction": "",
+      "stakeActionAmount": ""
     },
     "stats": {
       "dailyBlockRewards": "일일 블록 리워드",
@@ -357,7 +371,10 @@
       "emptyFeatured": "추천 에셋 없음",
       "priceImpact": "가격 영향",
       "minReceivedAfterSlip": "슬리피지 (%{slippage}) 후 최소 수령 금액",
-      "swapAssets": "스왑 자산 비율"
+      "swapAssets": "스왑 자산 비율",
+      "affiliateFee": "",
+      "exchangeFee": "",
+      "totalFee": ""
     },
     "wallet": {
       "wallet": "지갑",
@@ -558,6 +575,9 @@
     "alreadyHaveRune": "이미 RUNE LP 보유하고 있습니다",
     "insufficientAmount": "금액 부족",
     "assetNotFound": "에셋 찾을 수 없음",
-    "swapNotAvailable": "스왑 불가"
+    "swapNotAvailable": "스왑 불가",
+    "gasEstimationFailed": "",
+    "approveOverflow": "",
+    "successfulTransaction": ""
   }
 }

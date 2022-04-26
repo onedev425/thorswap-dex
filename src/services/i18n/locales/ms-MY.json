@@ -146,6 +146,8 @@
     "redeem": "",
     "receive": "Terima",
     "failed": "",
+    "stake": "",
+    "claim": "",
     "sendAmountAsset": "Hantar %{amount} %{asset}",
     "sendFailed": "Hantaran %{amount} %{asset} Gagal",
     "sendFinished": "Hantaran %{amount} %{asset} Berjaya",
@@ -162,12 +164,19 @@
     "addAmountAsset": "",
     "withdrawAmountAsset": "",
     "withdrawnAmountAsset": "",
+    "withdrawAmountFailed": "",
     "receiveAmountNativeRune": "",
     "receivedAmountNativeRune": "",
     "approveAssetFailed": "",
     "approveAsset": "",
     "approvedAsset": "",
-    "approveToken": ""
+    "approveToken": "",
+    "stakeAsset": "",
+    "stakedAsset": "",
+    "stakeAssetFailed": "",
+    "claimAsset": "",
+    "claimedAsset": "",
+    "claimAssetFailed": ""
   },
   "components": {
     "assetSelect": {
@@ -296,7 +305,12 @@
       "tokenStaked": "",
       "claimable": "",
       "stakingContract": "",
-      "tcStakingDesc": ""
+      "tcStakingDesc": "",
+      "depositAction": "",
+      "harvestAction": "",
+      "withdrawAction": "",
+      "exitAction": "",
+      "stakeActionAmount": ""
     },
     "stats": {
       "dailyBlockRewards": "",
@@ -357,7 +371,10 @@
       "emptyFeatured": "",
       "priceImpact": "",
       "minReceivedAfterSlip": "",
-      "swapAssets": ""
+      "swapAssets": "",
+      "affiliateFee": "",
+      "exchangeFee": "",
+      "totalFee": ""
     },
     "wallet": {
       "wallet": "",
@@ -558,6 +575,9 @@
     "alreadyHaveRune": "",
     "insufficientAmount": "Amaun Tidak Cukup",
     "assetNotFound": "Aset tidak dijumpai",
-    "swapNotAvailable": ""
+    "swapNotAvailable": "",
+    "gasEstimationFailed": "",
+    "approveOverflow": "",
+    "successfulTransaction": ""
   }
 }
