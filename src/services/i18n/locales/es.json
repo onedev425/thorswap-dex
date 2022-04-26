@@ -146,6 +146,8 @@
     "redeem": "Canjear",
     "receive": "Recibir",
     "failed": "Fallado",
+    "stake": "Stake",
+    "claim": "Reclamar",
     "sendAmountAsset": "Enviar %{amount} %{asset}",
     "sendFailed": "Enviar %{amount} %{asset} falló",
     "sendFinished": "Enviar %{amount} %{asset} con éxito",
@@ -162,12 +164,19 @@
     "addAmountAsset": "Añadir %{amount} %{asset}",
     "withdrawAmountAsset": "Retirar %{amount} %{asset}",
     "withdrawnAmountAsset": "Retirar %{amount} %{asset} finalizado",
+    "withdrawAmountFailed": "Retirada de %{amount} %{asset} falló",
     "receiveAmountNativeRune": "Recibir %{amount} Native RUNE",
     "receivedAmountNativeRune": "Recibidos: %{amount} Native RUNE",
     "approveAssetFailed": "Aprobar %{asset} falló",
     "approveAsset": "Aprobar %{asset}",
     "approvedAsset": "Aprobado: %{asset}",
-    "approveToken": "Aprobar %{token}"
+    "approveToken": "Aprobar %{token}",
+    "stakeAsset": "Stake %{amount} %{asset}",
+    "stakedAsset": "Stakeados %{amount} %{asset}",
+    "stakeAssetFailed": "Stakear %{amount} %{asset} falló",
+    "claimAsset": "Reclamar %{amount} %{asset}",
+    "claimedAsset": "Reclamados %{amount} %{asset}",
+    "claimAssetFailed": "Reclamar %{amount} %{asset} falló"
   },
   "components": {
     "assetSelect": {
@@ -296,7 +305,12 @@
       "tokenStaked": "Token Staked",
       "claimable": "Reclamable",
       "stakingContract": "Contrato de Staking",
-      "tcStakingDesc": "Proveer liquidez THOR-RUNE en THORChain"
+      "tcStakingDesc": "Proveer liquidez THOR-RUNE en THORChain",
+      "depositAction": "Depositar",
+      "harvestAction": "Cosechar",
+      "withdrawAction": "Retirar",
+      "exitAction": "Salir",
+      "stakeActionAmount": "%{stakeAction} Cantidad"
     },
     "stats": {
       "dailyBlockRewards": "Recompensas por bloques diarias",
@@ -357,7 +371,10 @@
       "emptyFeatured": "Sin activos frecuentes",
       "priceImpact": "Impacto en el Precio",
       "minReceivedAfterSlip": "Mínimo recibido tras deslizamiento (%{slippage})",
-      "swapAssets": "Tasa de intercambio"
+      "swapAssets": "Tasa de intercambio",
+      "affiliateFee": "",
+      "exchangeFee": "",
+      "totalFee": ""
     },
     "wallet": {
       "wallet": "Cartera",
@@ -558,6 +575,9 @@
     "alreadyHaveRune": "Ya dispones de una posición LP",
     "insufficientAmount": "Cantidad insuficiente",
     "assetNotFound": "Activos no encontrados",
-    "swapNotAvailable": "Intercambio no disponible"
+    "swapNotAvailable": "Intercambio no disponible",
+    "gasEstimationFailed": "No se puede estimar el gas",
+    "approveOverflow": "%{actionType} cantidad excede el permiso",
+    "successfulTransaction": ""
   }
 }

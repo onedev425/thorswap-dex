@@ -146,6 +146,8 @@
     "redeem": "भुनाएं",
     "receive": " प्राप्त करें",
     "failed": "असफल हुआ",
+    "stake": "",
+    "claim": "",
     "sendAmountAsset": "% {amount}% {asset} भेजें",
     "sendFailed": "% {amount}% {asset}  भेजी गई असफल",
     "sendFinished": "भेजें %{amount} %{asset} सफलता",
@@ -162,12 +164,19 @@
     "addAmountAsset": "%{amount}%{asset} जोड़ें",
     "withdrawAmountAsset": "निकालना %{amount} %{asset}",
     "withdrawnAmountAsset": "निकासी %{amount} %{asset} समाप्त हो गया",
+    "withdrawAmountFailed": "",
     "receiveAmountNativeRune": "%{amount} मूल RUNE प्राप्त करें",
     "receivedAmountNativeRune": "प्राप्त %{amount} मूल RUNE",
     "approveAssetFailed": "स्वीकृत %{asset} विफल रहा",
     "approveAsset": "%{asset} को स्वीकृति दें",
     "approvedAsset": "मंजूर% %{asset}",
-    "approveToken": "स्वीकृत %{token}"
+    "approveToken": "स्वीकृत %{token}",
+    "stakeAsset": "",
+    "stakedAsset": "",
+    "stakeAssetFailed": "",
+    "claimAsset": "",
+    "claimedAsset": "",
+    "claimAssetFailed": ""
   },
   "components": {
     "assetSelect": {
@@ -296,7 +305,12 @@
       "tokenStaked": "टोकन स्टेक्ड",
       "claimable": "दावा योग्य",
       "stakingContract": "स्टैकिंग कॉन्ट्रैक्ट",
-      "tcStakingDesc": "THORChain पर THOR-RUNE  तरलता प्रदान करें"
+      "tcStakingDesc": "THORChain पर THOR-RUNE  तरलता प्रदान करें",
+      "depositAction": "",
+      "harvestAction": "",
+      "withdrawAction": "",
+      "exitAction": "",
+      "stakeActionAmount": ""
     },
     "stats": {
       "dailyBlockRewards": "दैनिक ब्लॉक पुरस्कार",
@@ -357,7 +371,10 @@
       "emptyFeatured": "कोई विशेष रुप से प्रदर्शित संपत्ति नहीं",
       "priceImpact": "मूल्य प्रभाव",
       "minReceivedAfterSlip": "स्लिपेज के बाद प्राप्त न्यूनतम (%{slippage})",
-      "swapAssets": "स्वैप संपत्ति दरें"
+      "swapAssets": "स्वैप संपत्ति दरें",
+      "affiliateFee": "",
+      "exchangeFee": "",
+      "totalFee": ""
     },
     "wallet": {
       "wallet": "बटुआ",
@@ -558,6 +575,9 @@
     "alreadyHaveRune": "पहले से ही RUNE LP . है",
     "insufficientAmount": "अपर्याप्त राशि",
     "assetNotFound": "संपत्ति नहीं मिली",
-    "swapNotAvailable": "स्वैप उपलब्ध नहीं है"
+    "swapNotAvailable": "स्वैप उपलब्ध नहीं है",
+    "gasEstimationFailed": "",
+    "approveOverflow": "",
+    "successfulTransaction": ""
   }
 }

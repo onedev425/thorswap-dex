@@ -146,6 +146,8 @@
     "redeem": "ប្ដូរជូន",
     "receive": "ទទូលបាន",
     "failed": "មិនបានសម្រេច",
+    "stake": "Stake",
+    "claim": "Claim",
     "sendAmountAsset": "ផ្ញើ %{amount} %{asset}",
     "sendFailed": "បញ្ជូន %{amount} %{asset} មិនបានសម្រេច",
     "sendFinished": "បញ្ជូន  %{amount} %{asset} បានសម្រេច",
@@ -162,12 +164,19 @@
     "addAmountAsset": "បន្ថែម %{amount} %{asset}",
     "withdrawAmountAsset": "ដក %{amount} %{asset}",
     "withdrawnAmountAsset": "ការដក %{amount} %{asset} រួចរាល់",
+    "withdrawAmountFailed": "Withdraw %{amount} %{asset} failed",
     "receiveAmountNativeRune": "ទទួលបាន%{amount} Native RUNE",
     "receivedAmountNativeRune": "បានទទួល %{amount} Native RUNE",
     "approveAssetFailed": "អនុញ្ញាត្តិលើ %{asset} មិនសម្រេច",
     "approveAsset": "អនុញ្ញាត្តិលើ %{asset}",
     "approvedAsset": "បានអនុញ្ញាត្តិលើ %{asset}",
-    "approveToken": "អនុញ្ញាត្តិលើ %{token}"
+    "approveToken": "អនុញ្ញាត្តិលើ %{token}",
+    "stakeAsset": "Stake %{amount} %{asset}",
+    "stakedAsset": "Staked %{amount} %{asset}",
+    "stakeAssetFailed": "Stake %{amount} %{asset} failed",
+    "claimAsset": "Claim %{amount} %{asset}",
+    "claimedAsset": "Claimed %{amount} %{asset}",
+    "claimAssetFailed": "Claim %{amount} %{asset} failed"
   },
   "components": {
     "assetSelect": {
@@ -296,7 +305,12 @@
       "tokenStaked": "Token ដែលបានដាក់តម្តល់ ",
       "claimable": "អាចទាមទារបាន",
       "stakingContract": "កិច្ចសន្យាលើការដាក់តម្តល់ ",
-      "tcStakingDesc": "ផ្តល់ជូន THOR-RUNE នៅលើ THORChain"
+      "tcStakingDesc": "ផ្តល់ជូន THOR-RUNE នៅលើ THORChain",
+      "depositAction": "Deposit",
+      "harvestAction": "Harvest",
+      "withdrawAction": "Withdraw",
+      "exitAction": "Exit",
+      "stakeActionAmount": "%{stakeAction} Amount"
     },
     "stats": {
       "dailyBlockRewards": "រង្វាន់ប្លុកប្រចាំថ្ងៃ",
@@ -357,7 +371,10 @@
       "emptyFeatured": " ទ្រព្យមិនមានទម្រង់ពិសេស",
       "priceImpact": "ផលប៉ះពាល់តម្លៃ",
       "minReceivedAfterSlip": "អប្បបរមាបានទទួលបន្ទាប់ពីការដាក់តំលៃ (%{slippage})",
-      "swapAssets": "ប្តូរអត្រាទ្រព្យសកម្ម"
+      "swapAssets": "ប្តូរអត្រាទ្រព្យសកម្ម",
+      "affiliateFee": "0.3% affiliate fee is charged by THORSwap. 75% of fees are redistributed back to vTHOR stakers.",
+      "exchangeFee": "Service Fee",
+      "totalFee": "Total Fee"
     },
     "wallet": {
       "wallet": "កាបូប Electronic",
@@ -558,6 +575,9 @@
     "alreadyHaveRune": "មាន គម្រោង RUNE LP រួចហើយ",
     "insufficientAmount": "បរិមាណរូបិយប័ណ្ណមិនគ្រប់គ្រាន់",
     "assetNotFound": "រកមិនឃើញទ្រព្យ Assets ទេ",
-    "swapNotAvailable": "មិនអាចជួញដូរបានទេ"
+    "swapNotAvailable": "មិនអាចជួញដូរបានទេ",
+    "gasEstimationFailed": "Cannot estimate gas",
+    "approveOverflow": "%{actionType} amount exceeds allowance",
+    "successfulTransaction": "Transaction Successful"
   }
 }

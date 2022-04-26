@@ -146,6 +146,8 @@
     "redeem": "Redeem",
     "receive": "Ricevi",
     "failed": "Fallito",
+    "stake": "Stake",
+    "claim": "Riscatta",
     "sendAmountAsset": "Invia %{amount} %{asset}",
     "sendFailed": "Invia %{amount} %{asset} Fallito",
     "sendFinished": "Invia %{amount} %{asset} Completato",
@@ -162,12 +164,19 @@
     "addAmountAsset": "Aggiungi %{amount} %{asset}",
     "withdrawAmountAsset": "Preleva %{amount} %{asset}",
     "withdrawnAmountAsset": "Preleva %{amount} %{asset} completato",
+    "withdrawAmountFailed": "Preleva %{amount} %{asset} fallito",
     "receiveAmountNativeRune": "Ricevi %{amount} Native RUNE",
     "receivedAmountNativeRune": "Ricevuto %{amount} Native RUNE",
     "approveAssetFailed": "Approva %{asset} fallito",
     "approveAsset": "Approva %{asset}",
     "approvedAsset": "Approvato %{asset}",
-    "approveToken": "Approva %{token}"
+    "approveToken": "Approva %{token}",
+    "stakeAsset": "Stake %{amount} %{asset}",
+    "stakedAsset": "Staked %{amount} %{asset}",
+    "stakeAssetFailed": "Stake %{amount} %{asset} fallito",
+    "claimAsset": "Riscatta %{amount} %{asset}",
+    "claimedAsset": "Riscattato %{amount} %{asset}",
+    "claimAssetFailed": "Riscatta %{amount} %{asset} fallito"
   },
   "components": {
     "assetSelect": {
@@ -296,7 +305,12 @@
       "tokenStaked": "Token Staked",
       "claimable": "Riscattabile",
       "stakingContract": "Contratto Staking",
-      "tcStakingDesc": "Aggiungi THOR-RUNE Liquidità su THORChain"
+      "tcStakingDesc": "Aggiungi THOR-RUNE Liquidità su THORChain",
+      "depositAction": "Deposita",
+      "harvestAction": "Raccogli",
+      "withdrawAction": "Preleva",
+      "exitAction": "Esci",
+      "stakeActionAmount": "%{stakeAction} Importo"
     },
     "stats": {
       "dailyBlockRewards": "Premi del blocco giornalieri",
@@ -357,7 +371,10 @@
       "emptyFeatured": "Nessun Asset in Primo Piano",
       "priceImpact": "Impatto sul Prezzo",
       "minReceivedAfterSlip": "Minimo ricevuto dopo lo slippage (%{slippage})",
-      "swapAssets": "Swap assets rates"
+      "swapAssets": "Swap assets rates",
+      "affiliateFee": "",
+      "exchangeFee": "",
+      "totalFee": ""
     },
     "wallet": {
       "wallet": "Portafoglio",
@@ -558,6 +575,9 @@
     "alreadyHaveRune": "Hai già RUNE LP",
     "insufficientAmount": "Importo non sufficiente",
     "assetNotFound": "Asset non trovato",
-    "swapNotAvailable": "Scambio non disponibile"
+    "swapNotAvailable": "Scambio non disponibile",
+    "gasEstimationFailed": "Non riesco a stimare il Gas",
+    "approveOverflow": "%{actionType} L'importo supera l'indennità",
+    "successfulTransaction": ""
   }
 }

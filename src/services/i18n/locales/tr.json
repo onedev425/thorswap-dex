@@ -146,6 +146,8 @@
     "redeem": "",
     "receive": "",
     "failed": "",
+    "stake": "",
+    "claim": "",
     "sendAmountAsset": "",
     "sendFailed": "",
     "sendFinished": "",
@@ -162,12 +164,19 @@
     "addAmountAsset": "",
     "withdrawAmountAsset": "",
     "withdrawnAmountAsset": "",
+    "withdrawAmountFailed": "",
     "receiveAmountNativeRune": "",
     "receivedAmountNativeRune": "",
     "approveAssetFailed": "",
     "approveAsset": "",
     "approvedAsset": "",
-    "approveToken": ""
+    "approveToken": "",
+    "stakeAsset": "",
+    "stakedAsset": "",
+    "stakeAssetFailed": "",
+    "claimAsset": "",
+    "claimedAsset": "",
+    "claimAssetFailed": ""
   },
   "components": {
     "assetSelect": {
@@ -296,7 +305,12 @@
       "tokenStaked": "",
       "claimable": "",
       "stakingContract": "",
-      "tcStakingDesc": ""
+      "tcStakingDesc": "",
+      "depositAction": "",
+      "harvestAction": "",
+      "withdrawAction": "",
+      "exitAction": "",
+      "stakeActionAmount": ""
     },
     "stats": {
       "dailyBlockRewards": "",
@@ -357,7 +371,10 @@
       "emptyFeatured": "",
       "priceImpact": "",
       "minReceivedAfterSlip": "",
-      "swapAssets": ""
+      "swapAssets": "",
+      "affiliateFee": "",
+      "exchangeFee": "",
+      "totalFee": ""
     },
     "wallet": {
       "wallet": "",
@@ -558,6 +575,9 @@
     "alreadyHaveRune": "",
     "insufficientAmount": "",
     "assetNotFound": "",
-    "swapNotAvailable": ""
+    "swapNotAvailable": "",
+    "gasEstimationFailed": "",
+    "approveOverflow": "",
+    "successfulTransaction": ""
   }
 }

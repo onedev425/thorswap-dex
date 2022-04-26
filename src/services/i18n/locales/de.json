@@ -146,6 +146,8 @@
     "redeem": "Einlösen",
     "receive": "Erhalten",
     "failed": "Fehlgeschlagen",
+    "stake": "Stake",
+    "claim": "Beanspruchen",
     "sendAmountAsset": "%{amount} %{asset} senden",
     "sendFailed": " Senden von %{amount} %{asset} fehlgeschlagen",
     "sendFinished": "%{amount} %{asset} erfolgreich gesendet",
@@ -162,12 +164,19 @@
     "addAmountAsset": "%{amount} %{asset} hinzufügen",
     "withdrawAmountAsset": "%{amount} %{asset} abheben",
     "withdrawnAmountAsset": "Abheben von %{amount} %{asset} abgeschlossen",
+    "withdrawAmountFailed": "Abheben von %{amount} %{asset} fehlgeschlagen",
     "receiveAmountNativeRune": "Erhalte %{amount} Native RUNE",
     "receivedAmountNativeRune": "%{amount} native RUNE erhalten",
     "approveAssetFailed": "%{asset} Genehmigung fehlgeschlagen",
     "approveAsset": "%{asset} genehmigen",
     "approvedAsset": "%{asset} genehmigt",
-    "approveToken": "%{token} genehmigen"
+    "approveToken": "%{token} genehmigen",
+    "stakeAsset": "Stake %{amount} %{asset}",
+    "stakedAsset": "%{amount} %{asset} wurden gestaked",
+    "stakeAssetFailed": "Das Staken von %{amount} %{asset} ist fehlgeschlagen",
+    "claimAsset": "%{amount} %{asset} beanspruchen",
+    "claimedAsset": "%{amount} %{asset} wurden beansprucht",
+    "claimAssetFailed": "Das Beanspruchen von %{amount} %{asset} ist fehlgeschlagen"
   },
   "components": {
     "assetSelect": {
@@ -296,7 +305,12 @@
       "tokenStaked": "Gestakte Token",
       "claimable": "Beanspruchbar",
       "stakingContract": "Staking Vertrag",
-      "tcStakingDesc": "Stelle THOR-RUNE Liquidität auf THORChain bereit"
+      "tcStakingDesc": "Stelle THOR-RUNE Liquidität auf THORChain bereit",
+      "depositAction": "Einzahlen",
+      "harvestAction": "Ernten",
+      "withdrawAction": "Abheben",
+      "exitAction": "Verlassen",
+      "stakeActionAmount": "%{stakeAction} Menge"
     },
     "stats": {
       "dailyBlockRewards": "Tägliche Block Belohnungen",
@@ -357,7 +371,10 @@
       "emptyFeatured": "Kein featured Asset",
       "priceImpact": "Preisauswirkung",
       "minReceivedAfterSlip": "Minimum erhalten nach Slippage  (%{slippage})",
-      "swapAssets": "Swap Wechselkurse"
+      "swapAssets": "Swap Wechselkurse",
+      "affiliateFee": "0.3% Affiliate-Gebühr wird von THORSwap erhoben. 75% dieser Gebühren werden an Staker von vTHOR ausgeschüttet.",
+      "exchangeFee": "Service Gebühr",
+      "totalFee": "Gesamtgebühr"
     },
     "wallet": {
       "wallet": "Wallet",
@@ -558,6 +575,9 @@
     "alreadyHaveRune": "Du hast bereits RUNE LP",
     "insufficientAmount": "Unzureichender Betrag",
     "assetNotFound": "Asset nicht gefunden",
-    "swapNotAvailable": "Swap nicht verfügbar"
+    "swapNotAvailable": "Swap nicht verfügbar",
+    "gasEstimationFailed": "Gas konnte nicht geschätzt werden",
+    "approveOverflow": "%{actionType}-Menge übersteigt Freibetrag",
+    "successfulTransaction": "Transaktion erfolgreich"
   }
 }

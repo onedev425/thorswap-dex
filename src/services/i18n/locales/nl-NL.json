@@ -92,7 +92,7 @@
     "24Volume": "Volume 24 uur",
     "action": "Acties",
     "reload": "Herladen",
-    "totalFees": "Totaal kosten",
+    "totalFees": "Totale kosten",
     "ilPaid": "IL betaald",
     "foundsCap": "Liquiditeitsplafond (i) ",
     "showActions": "Laat acties zien",
@@ -146,6 +146,8 @@
     "redeem": "Inwisselen",
     "receive": "Ontvangen",
     "failed": "Mislukt",
+    "stake": "Staken",
+    "claim": "Claim",
     "sendAmountAsset": "Stuur %{amount} %{asset}",
     "sendFailed": "Verzenden van %{amount} %{asset} is mislukt",
     "sendFinished": "Verzenden van %{amount} %{asset} is gelukt",
@@ -162,12 +164,19 @@
     "addAmountAsset": "Voeg %{amount} %{asset} toe",
     "withdrawAmountAsset": "%{amount} %{asset} opnemen",
     "withdrawnAmountAsset": "Opname %{amount} %{asset} voltooid",
+    "withdrawAmountFailed": "Opname %{amount} %{asset} mislukt",
     "receiveAmountNativeRune": "%{amount} native RUNE ontvangen",
     "receivedAmountNativeRune": "Ontvangen %{amount} native RUNE voltooid",
     "approveAssetFailed": "Goedkeuring %{asset} mislukt",
     "approveAsset": "Goedkeuren %{asset}",
     "approvedAsset": "%{asset} goedgekeurd",
-    "approveToken": "Goedkeuren %{token}"
+    "approveToken": "Goedkeuren %{token}",
+    "stakeAsset": "Stake %{amount} %{asset}",
+    "stakedAsset": "Staked %{amount} %{asset}",
+    "stakeAssetFailed": "Staken %{amount} %{asset} mislukt",
+    "claimAsset": "Claim %{amount} %{asset}",
+    "claimedAsset": "%{amount} %{asset} geclaimd",
+    "claimAssetFailed": "Claimen van %{amount} %{asset} mislukt"
   },
   "components": {
     "assetSelect": {
@@ -296,7 +305,12 @@
       "tokenStaked": "Token Staked",
       "claimable": "Te claimen",
       "stakingContract": "Staking Contract",
-      "tcStakingDesc": "THOR-RUNE Liquiditeit verschaffen via THORChain"
+      "tcStakingDesc": "THOR-RUNE Liquiditeit verschaffen via THORChain",
+      "depositAction": "Storten",
+      "harvestAction": "Oogsten",
+      "withdrawAction": "Opnemen",
+      "exitAction": "Verlaten",
+      "stakeActionAmount": "%{stakeAction} Bedrag"
     },
     "stats": {
       "dailyBlockRewards": "Dagelijkse Blok Belonginen",
@@ -357,7 +371,10 @@
       "emptyFeatured": "Geen aanbevolen assets",
       "priceImpact": "Prijsimpact",
       "minReceivedAfterSlip": "Minimaal ontvangen na slippage  (%{slippage})",
-      "swapAssets": "Swap assets rates"
+      "swapAssets": "Swap assets rates",
+      "affiliateFee": "THORSwap rekent een affiliate kost van 0.3%. 75% van deze affiliate kosten worden terug verdeeld onder vTHOR stakers.",
+      "exchangeFee": "Service Kosten",
+      "totalFee": "Totale Kosten"
     },
     "wallet": {
       "wallet": "Wallet",
@@ -558,6 +575,9 @@
     "alreadyHaveRune": "U heeft al een RUNE LP",
     "insufficientAmount": "Bedrag Onvoldoende",
     "assetNotFound": "Asset niet gevonden",
-    "swapNotAvailable": "Swap niet beschikbaar"
+    "swapNotAvailable": "Swap niet beschikbaar",
+    "gasEstimationFailed": "Gas berekening mislukt",
+    "approveOverflow": "%{actionType} bedrag overschrijdt toelating",
+    "successfulTransaction": "Transactie Succesvol"
   }
 }
