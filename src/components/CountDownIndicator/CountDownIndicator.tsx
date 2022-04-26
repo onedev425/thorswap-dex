@@ -57,6 +57,11 @@ export const CountDownIndicator = memo(
       }
     }, [milliseconds])
 
+    const handleRefresh = useCallback(() => {
+      onClick?.()
+      setCountdown(milliseconds)
+    }, [milliseconds, onClick])
+
     useEffect(() => {
       startTimer()
     }, [startTimer, resetIndicator])
@@ -77,7 +82,7 @@ export const CountDownIndicator = memo(
             className,
           )}
           center
-          onClick={onClick}
+          onClick={handleRefresh}
           style={countdownStyles}
         >
           <Typography variant="caption-xs">{seconds}</Typography>
