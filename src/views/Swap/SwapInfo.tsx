@@ -24,6 +24,7 @@ type Props = {
   slippage: string
   isValidSlip?: boolean
   networkFee: string
+  affiliateFee?: string
 }
 
 export const SwapInfo = memo(
@@ -35,6 +36,7 @@ export const SwapInfo = memo(
     slippage,
     isValidSlip = true,
     networkFee,
+    affiliateFee,
   }: Props) => {
     const [reverted, setReverted] = useState(false)
 
@@ -95,7 +97,6 @@ export const SwapInfo = memo(
       >
         <Box className="w-full space-y-1" col>
           <InfoRow
-            showBorder={false}
             label={t('views.wallet.expectedOutput')}
             value={
               <InfoWithTooltip
@@ -136,12 +137,21 @@ export const SwapInfo = memo(
           />
 
           <InfoRow
-            showBorder={false}
             label="Network Fee"
             value={
               <InfoWithTooltip
                 tooltip={t('views.wallet.networkFeeTooltip')}
                 value={networkFee}
+              />
+            }
+          />
+          <InfoRow
+            showBorder={false}
+            label="Service Fee"
+            value={
+              <InfoWithTooltip
+                tooltip={t('views.swap.affiliateFee')}
+                value={affiliateFee}
               />
             }
           />

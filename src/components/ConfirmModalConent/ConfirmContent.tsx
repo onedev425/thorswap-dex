@@ -18,6 +18,7 @@ type Props = {
   isValidSlip?: boolean
   minReceive: string
   totalFee?: string
+  affiliateFee?: string
 }
 
 export const ConfirmContent = memo(
@@ -29,6 +30,7 @@ export const ConfirmContent = memo(
     slippage,
     minReceive,
     totalFee,
+    affiliateFee,
   }: Props) => {
     return (
       <Box col>
@@ -99,7 +101,7 @@ export const ConfirmContent = memo(
             my={2}
           />
           <Box className="w-full" row>
-            <Box className="flex-1 gap-y-2" center col>
+            <Box className="flex-1 gap-y-1" center col>
               <Typography
                 variant="caption"
                 color="secondary"
@@ -109,7 +111,17 @@ export const ConfirmContent = memo(
               </Typography>
               <Typography variant="caption">{minReceive}</Typography>
             </Box>
-            <Box className="flex-1 gap-y-2" center col>
+            <Box className="flex-1 gap-y-1" center col>
+              <Typography
+                variant="caption"
+                color="secondary"
+                fontWeight="medium"
+              >
+                {t('views.swap.serviceFee')}
+              </Typography>
+              <Typography variant="caption">{affiliateFee}</Typography>
+            </Box>
+            <Box className="flex-1 gap-y-1" center col>
               <Typography
                 variant="caption"
                 color="secondary"
@@ -121,7 +133,6 @@ export const ConfirmContent = memo(
                 {shortenAddress(recipient)}
               </Typography>
             </Box>
-            <Box className="flex-1" />
           </Box>
         </Box>
       </Box>
