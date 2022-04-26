@@ -19,6 +19,7 @@ type Props = {
   networkFee: string
   affiliateFee?: string
   totalFee?: string
+  isAffiliated?: boolean
 }
 
 export const SwapInfo = memo(
@@ -32,6 +33,7 @@ export const SwapInfo = memo(
     networkFee,
     affiliateFee,
     totalFee,
+    isAffiliated,
   }: Props) => {
     const [reverted, setReverted] = useState(false)
 
@@ -130,7 +132,7 @@ export const SwapInfo = memo(
                 tooltip={t('views.wallet.slippageTooltip')}
                 value={
                   <Typography
-                    variant="caption-xs"
+                    variant="caption"
                     fontWeight="semibold"
                     color={isValidSlip ? 'green' : 'red'}
                   >
@@ -166,7 +168,24 @@ export const SwapInfo = memo(
             value={
               <InfoWithTooltip
                 tooltip={t('views.swap.affiliateFee')}
-                value={affiliateFee}
+                value={
+                  isAffiliated ? (
+                    affiliateFee
+                  ) : (
+                    <Box center className="gap-1">
+                      <Typography className="line-through" variant="caption">
+                        {affiliateFee !== '$0.00' && affiliateFee}
+                      </Typography>
+                      <Typography
+                        color="green"
+                        variant="body"
+                        fontWeight="bold"
+                      >
+                        FREE
+                      </Typography>
+                    </Box>
+                  )
+                }
               />
             }
           />

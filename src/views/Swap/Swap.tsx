@@ -680,6 +680,7 @@ const SwapView = () => {
         networkFee={totalNetworkFeeInUSD.toCurrencyFormat(2)}
         affiliateFee={affiliateFeeInUSD?.toCurrencyFormat(2)}
         totalFee={totalFee}
+        isAffiliated={isAffiliated}
       />
 
       <Box className="w-full pt-5 gap-x-2">
