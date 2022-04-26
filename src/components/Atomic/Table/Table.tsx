@@ -41,6 +41,7 @@ export const Table = ({
   const sortBy = useMemo(() => initialSort, [initialSort])
   const table = useTable(
     {
+      autoResetSortBy: false,
       columns: columnsConfig,
       data,
       disableSortBy: !sortable,
