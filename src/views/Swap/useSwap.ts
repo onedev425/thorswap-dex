@@ -64,28 +64,28 @@ export const useSwap = ({
             Amount.fromAssetAmount(0, outputAsset.decimal),
           )
 
-      if (isAffiliated) {
-        return new Swap({
-          inputAsset,
-          outputAsset,
-          pools,
-          amount: inputAssetAmount,
-          slip: slippageTolerance,
-          fee: {
-            inboundFee: inboundFeeInInputAsset,
-            outboundFee: outboundFeeInOutputAsset,
-          },
-          affiliateFee: DEFAULT_AFFILIATE_FEE,
-        })
-      }
+      const swapParams = isAffiliated
+        ? {
+            inputAsset,
+            outputAsset,
+            pools,
+            amount: inputAssetAmount,
+            slip: slippageTolerance,
+            fee: {
+              inboundFee: inboundFeeInInputAsset,
+              outboundFee: outboundFeeInOutputAsset,
+            },
+            affiliateFee: DEFAULT_AFFILIATE_FEE,
+          }
+        : {
+            inputAsset,
+            outputAsset,
+            pools,
+            amount: inputAssetAmount,
+            slip: slippageTolerance,
+          }
 
-      return new Swap({
-        inputAsset,
-        outputAsset,
-        pools,
-        amount: inputAssetAmount,
-        slip: slippageTolerance,
-      })
+      return new Swap(swapParams)
     } catch (error) {
       console.error(error)
       return null

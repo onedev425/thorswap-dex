@@ -11,6 +11,7 @@ import {
   getEstimatedTxTime,
   SupportedChain,
   hasWalletConnected,
+  DEFAULT_AFFILIATE_FEE,
 } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
 import copy from 'copy-to-clipboard'
@@ -61,6 +62,8 @@ import { getSwapPair, getSwapTrackerType } from './helpers'
 import { SwapInfo } from './SwapInfo'
 import { Pair } from './types'
 
+const AFFILIATE_FEE_THRESHOLD_AMOUNT = 100
+
 const SwapView = () => {
   const navigate = useNavigate()
   const { pair } = useParams<{ pair: string }>()
@@ -97,8 +100,22 @@ const SwapView = () => {
   )
 
   const isAffiliated = useMemo(
-    () => IS_AFFILIATE_ON && inputAssetPriceInUSD.price.gt(100),
+    () =>
+      IS_AFFILIATE_ON &&
+      inputAssetPriceInUSD.raw().gte(AFFILIATE_FEE_THRESHOLD_AMOUNT),
     [inputAssetPriceInUSD],
+  )
+
+  const affiliateFeeInUSD = useMemo(
+    () =>
+      new Price({
+        baseAsset: inputAsset,
+        pools,
+        priceAmount: inputAmount.mul(
+          IS_AFFILIATE_ON ? DEFAULT_AFFILIATE_FEE : 0,
+        ),
+      }),
+    [inputAsset, inputAmount, pools],
   )
 
   const swap = useSwap({
@@ -654,6 +671,7 @@ const SwapView = () => {
           6,
         )} ${outputAsset.name.toUpperCase()}`}
         networkFee={totalFeeInUSD.toCurrencyFormat(2)}
+        affiliateFee={affiliateFeeInUSD?.toCurrencyFormat(2)}
       />
 
       <Box className="w-full pt-5 gap-x-2">
@@ -710,6 +728,7 @@ const SwapView = () => {
             4,
           )} ${outputAsset.name.toUpperCase()}`}
           totalFee={totalFeeInUSD.toCurrencyFormat(2)}
+          affiliateFee={affiliateFeeInUSD?.toCurrencyFormat(2)}
         />
       </ConfirmModal>
 
