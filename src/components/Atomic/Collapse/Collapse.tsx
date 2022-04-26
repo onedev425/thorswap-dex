@@ -17,6 +17,7 @@ export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
       children,
       className,
       contentClassName,
+      titleClassName,
       shadow = true,
       title,
       defaultExpanded,
@@ -35,7 +36,10 @@ export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
         size="md"
       >
         <div
-          className="box-border w-full appearance-none focus:outline-none cursor-pointer px-4 py-2"
+          className={classNames(
+            'box-border w-full appearance-none focus:outline-none cursor-pointer px-4 py-2',
+            titleClassName,
+          )}
           onClick={toggle}
         >
           <Box row alignCenter justify="between">
