@@ -53,15 +53,19 @@ export const showToast: ShowToastFunction = (
   toast.custom(
     ({ id }) => (
       <Box
-        className="z-50 items-center px-4 py-2 m-20 border border-solid drop-shadow-md rounded-xl border-light-border-primary dark:border-dark-border-primary bg-light-bg-primary dark:bg-dark-bg-secondary"
+        className="z-50 items-center p-2 m-20 border border-solid drop-shadow-md rounded-xl border-light-border-primary dark:border-dark-border-primary bg-light-bg-primary dark:bg-dark-bg-secondary"
         row
       >
-        <Box col className="max-w-[320px] w-[280px]">
+        <Box onClick={() => toast.remove(id)} col className="w-fit">
           <Box col>
             <Box alignCenter justify="between">
               <Box alignCenter>
-                {icon}
-                <Box className={classNames({ 'pl-2': icon })} col>
+                <Box>{icon}</Box>
+
+                <Box
+                  className={classNames('max-w-[320px] pr-2', { 'pl-2': icon })}
+                  col
+                >
                   <Typography
                     variant="caption"
                     fontWeight={description ? 'bold' : 'medium'}
@@ -70,15 +74,12 @@ export const showToast: ShowToastFunction = (
                   </Typography>
                 </Box>
               </Box>
-              <Icon
-                name="close"
-                color="primary"
-                size={18}
-                onClick={() => toast.remove(id)}
-              />
+
+              <Icon name="close" color="primary" size={18} />
             </Box>
-            <Box className="pl-8">
-              {description && typeof description === 'string' ? (
+
+            <Box className="pl-8 pr-4">
+              {typeof description === 'string' ? (
                 <Typography variant="caption-xs" fontWeight="light">
                   {description}
                 </Typography>

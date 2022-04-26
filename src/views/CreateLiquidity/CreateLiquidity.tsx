@@ -245,7 +245,7 @@ export const CreateLiquidity = () => {
           ToastType.Error,
           { duration: 20 * 1000 },
         )
-        console.log(error)
+        console.error(error)
       }
     }
   }, [

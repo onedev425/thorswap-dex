@@ -137,7 +137,7 @@ export const StakeConfirmModal = ({
       } catch (error) {
         setTxFailed(trackId)
         showToast({ message: t('notification.approveFailed') }, ToastType.Error)
-        console.log(error)
+        console.info(error)
       }
     }
   }, [

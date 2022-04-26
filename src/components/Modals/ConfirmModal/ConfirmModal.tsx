@@ -126,6 +126,7 @@ export const ConfirmModal = ({
         )}
 
         <Button
+          size="md"
           isFancy
           stretch
           onClick={handleClickConfirm}
@@ -152,9 +153,16 @@ export const ConfirmModal = ({
     >
       <Box className="gap-y-4 md:!min-w-[350px]" col>
         {children && <div>{children}</div>}
-        {isKeystoreSigningRequired && renderKeystoreSignMode}
-        {!isKeystoreSigningRequired && (
-          <Button isFancy stretch onClick={handleProceed} loading={validating}>
+        {isKeystoreSigningRequired ? (
+          renderKeystoreSignMode
+        ) : (
+          <Button
+            size="md"
+            isFancy
+            stretch
+            onClick={handleProceed}
+            loading={validating}
+          >
             {t('common.confirm')}
           </Button>
         )}

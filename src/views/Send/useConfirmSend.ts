@@ -50,7 +50,7 @@ export const useConfirmSend = ({
       })
 
       try {
-        console.log('startSend', trackId)
+        console.info('startSend', trackId)
         const txHash = await multichain.send({ assetAmount, recipient, memo })
         const txURL = multichain.getExplorerTxUrl(sendAsset.L1Chain, txHash)
         console.info('txURL', txURL)
