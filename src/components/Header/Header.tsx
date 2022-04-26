@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { memo, useCallback, useMemo } from 'react'
 
 import { hasConnectedWallet } from '@thorswap-lib/multichain-sdk'
 
@@ -21,7 +21,7 @@ type Props = {
   openMenu: () => void
 }
 
-export const Header = ({ openMenu }: Props) => {
+export const Header = memo(({ openMenu }: Props) => {
   const { themeType } = useApp()
   const { isWalletLoading, wallet, setIsConnectModalOpen } = useWallet()
   const { setIsDrawerVisible } = useWalletDrawer()
@@ -92,4 +92,4 @@ export const Header = ({ openMenu }: Props) => {
       </Box>
     </header>
   )
-}
+})
