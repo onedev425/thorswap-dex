@@ -7,6 +7,7 @@ export type CollapseProps = {
   children?: ReactNode
   shadow?: boolean
   className?: string
+  titleClassName?: string
   contentClassName?: string
   defaultExpanded?: boolean
 }

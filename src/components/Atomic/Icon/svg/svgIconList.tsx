@@ -17,6 +17,7 @@ import { ReactComponent as Cloud } from './cloud.svg'
 import { ReactComponent as Collapse } from './collapse.svg'
 import { ReactComponent as Comma } from './comma.svg'
 import { ReactComponent as Ethereum3d } from './ethereum.svg'
+import { ReactComponent as Fees } from './fees.svg'
 import { ReactComponent as Gwei } from './gwei.svg'
 import { ReactComponent as Import } from './import.svg'
 import { ReactComponent as InIcon } from './inIcon.svg'
@@ -101,6 +102,7 @@ export const Svgs = {
   watch: Watch,
   xdefi: XDefi,
   comma: Comma,
+  fees: Fees,
 }
 
 export const SvgIcons = {
@@ -166,4 +168,5 @@ export const SvgIcons = {
   tick: (props: CustomIconProps) => <SvgIcon name="tick" {...props} />,
   router: (props: CustomIconProps) => <SvgIcon name="router" {...props} />,
   collapse: (props: CustomIconProps) => <SvgIcon name="collapse" {...props} />,
+  fees: (props: CustomIconProps) => <SvgIcon name="fees" {...props} />,
 } as const
