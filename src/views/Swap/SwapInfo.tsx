@@ -147,7 +147,7 @@ export const SwapInfo = memo(
           />
           <InfoRow
             showBorder={false}
-            label="Service Fee"
+            label={t('views.swap.exchangeFee')}
             value={
               <InfoWithTooltip
                 tooltip={t('views.swap.affiliateFee')}

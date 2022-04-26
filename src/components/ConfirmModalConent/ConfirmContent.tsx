@@ -117,7 +117,7 @@ export const ConfirmContent = memo(
                 color="secondary"
                 fontWeight="medium"
               >
-                {t('views.swap.serviceFee')}
+                {t('views.swap.exchangeFee')}
               </Typography>
               <Typography variant="caption">{affiliateFee}</Typography>
             </Box>
