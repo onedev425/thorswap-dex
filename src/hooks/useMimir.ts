@@ -16,11 +16,15 @@ import {
 
 import { useMidgard } from 'store/midgard/hooks'
 
+import { useGlobalStats } from 'hooks/useGlobalStats'
+
 export const useMimir = () => {
   const { networkData, mimir } = useMidgard()
+  const { totalActiveBond } = useGlobalStats()
 
-  const maxLiquidityRuneMimir = mimir?.MAXIMUMLIQUIDITYRUNE
-  const maxLiquidityRune = Amount.fromMidgard(maxLiquidityRuneMimir)
+  // const maxLiquidityRuneMimir = mimir?.MAXIMUMLIQUIDITYRUNE
+  // const maxLiquidityRune = Amount.fromMidgard(maxLiquidityRuneMimir)
+  const maxLiquidityRune = totalActiveBond
   const totalPooledRune = Amount.fromMidgard(networkData?.totalPooledRune)
 
   // halt status
@@ -80,7 +84,7 @@ export const useMimir = () => {
   }
 
   const isFundsCapReached: boolean = useMemo(() => {
-    if (!maxLiquidityRuneMimir) return false
+    // if (!maxLiquidityRuneMimir) return false
 
     // totalPooledRune >= maxLiquidityRune - 100k RUNE
     return (
@@ -88,16 +92,16 @@ export const useMimir = () => {
         // .sub(Amount.fromMidgard(100000 * 10 ** 8))
         .lte(totalPooledRune)
     )
-  }, [totalPooledRune, maxLiquidityRune, maxLiquidityRuneMimir])
+  }, [totalPooledRune, maxLiquidityRune])
 
   const capPercent = useMemo(() => {
-    if (!maxLiquidityRuneMimir) return null
+    // if (!maxLiquidityRuneMimir) return null
 
     // const poolLimit = maxLiquidityRune.sub(Amount.fromMidgard(100000 * 10 ** 8))
     const poolLimit = maxLiquidityRune
 
     return `${totalPooledRune.div(poolLimit).mul(100).toFixed(1)}%`
-  }, [totalPooledRune, maxLiquidityRune, maxLiquidityRuneMimir])
+  }, [totalPooledRune, maxLiquidityRune])
 
   return {
     totalPooledRune,
