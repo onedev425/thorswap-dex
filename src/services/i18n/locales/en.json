@@ -373,7 +373,8 @@
       "minReceivedAfterSlip": "Minimum received after slippage (%{slippage})",
       "swapAssets": "Swap assets rates",
       "affiliateFee": "0.3% affiliate fee is charged by THORSwap. 75% of fees are redistributed back to vTHOR stakers.",
-      "exchangeFee": "Exchange Fee"
+      "exchangeFee": "Service Fee",
+      "totalFee": "Total Fee"
     },
     "wallet": {
       "wallet": "Wallet",

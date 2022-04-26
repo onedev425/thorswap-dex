@@ -48,6 +48,7 @@ import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
 import { translateErrorMsg } from 'helpers/error'
+import { formatPrice } from 'helpers/formatPrice'
 
 import { IS_AFFILIATE_ON } from 'settings/config'
 import {
@@ -83,7 +84,10 @@ const SwapView = () => {
   const { getMaxBalance } = useBalance()
   const { wallet, setIsConnectModalOpen } = useWallet()
   const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
-  const { totalFeeInUSD } = useNetworkFee({ inputAsset, outputAsset })
+  const { totalFeeInUSD: totalNetworkFeeInUSD } = useNetworkFee({
+    inputAsset,
+    outputAsset,
+  })
   const { poolLoading, inboundData, getPools } = useMidgard()
   const { customRecipientMode } = useApp()
 
@@ -117,6 +121,9 @@ const SwapView = () => {
       }),
     [inputAsset, inputAmount, pools],
   )
+
+  const totalFeeBN = totalNetworkFeeInUSD?.raw().plus(affiliateFeeInUSD?.raw())
+  const totalFee = `$${formatPrice(totalFeeBN.toFixed(2))}`
 
   const swap = useSwap({
     poolLoading,
@@ -561,7 +568,7 @@ const SwapView = () => {
 
   const approveConfirmInfo = useApproveInfoItems({
     inputAsset: inputAssetProps,
-    fee: totalFeeInUSD.toCurrencyFormat(2),
+    fee: totalNetworkFeeInUSD.toCurrencyFormat(2),
   })
 
   const isApproveRequired = useMemo(
@@ -670,8 +677,9 @@ const SwapView = () => {
         minReceive={`${minReceive.toSignificant(
           6,
         )} ${outputAsset.name.toUpperCase()}`}
-        networkFee={totalFeeInUSD.toCurrencyFormat(2)}
+        networkFee={totalNetworkFeeInUSD.toCurrencyFormat(2)}
         affiliateFee={affiliateFeeInUSD?.toCurrencyFormat(2)}
+        totalFee={totalFee}
       />
 
       <Box className="w-full pt-5 gap-x-2">
@@ -727,7 +735,7 @@ const SwapView = () => {
           minReceive={`${minReceive.toSignificant(
             4,
           )} ${outputAsset.name.toUpperCase()}`}
-          totalFee={totalFeeInUSD.toCurrencyFormat(2)}
+          totalFee={totalNetworkFeeInUSD.toCurrencyFormat(2)}
           affiliateFee={affiliateFeeInUSD?.toCurrencyFormat(2)}
         />
       </ConfirmModal>

@@ -29,9 +29,9 @@ export const InfoRow = ({
     <Box
       className={classNames(
         'gap-4',
-        className,
         { [borderClasses]: showBorder },
         heightVariant[size],
+        className,
       )}
       alignCenter
       justify="between"
