@@ -30,7 +30,7 @@ export const Simple = () => {
       <Switch
         selectedText="ON"
         unselectedText="OFF"
-        checked={true}
+        checked
         onChange={() => {}}
       />
     </div>

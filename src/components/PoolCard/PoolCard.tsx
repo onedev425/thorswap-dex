@@ -59,7 +59,7 @@ export const PoolCard = ({ pool, color }: PoolCardProps) => {
           </Typography>
         </Box>
 
-        <AssetIcon hasChainIcon={true} asset={pool.asset} size={110} />
+        <AssetIcon hasChainIcon={false} asset={pool.asset} size={110} />
       </Box>
 
       <Box className="gap-x-2" mt={5} align="end" justifyCenter>
