@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useState } from 'react'
+import { ChangeEvent, memo, useCallback, useState } from 'react'
 
 import { Select, Box, Typography } from 'components/Atomic'
 import { HorizontalSlider } from 'components/HorizontalSlider'
@@ -13,7 +13,7 @@ import { t } from 'services/i18n'
 import { poolTypeOptions, poolStatusOptions } from './types'
 import { useLiquidityPools } from './useLiquidityPools'
 
-export const PoolListView = () => {
+export const PoolListView = memo(() => {
   const [keyword, setKeyword] = useState('')
   const [selectedPoolType, setSelectedPoolType] = useState(0)
   const [selectedPoolStatus, setSelectedPoolStatus] = useState(0)
@@ -86,4 +86,4 @@ export const PoolListView = () => {
       </Box>
     </Box>
   )
-}
+})

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { memo, useState } from 'react'
 
 import { Box } from 'components/Atomic'
 import { Chart } from 'components/Chart'
@@ -16,7 +16,7 @@ import {
 } from './types'
 import { useGlobalChartInfo } from './useGlobalChartInfo'
 
-export const GlobalChart = () => {
+export const GlobalChart = memo(() => {
   const [volumeChartIndex, setVolumeChartIndex] = useState<string>(
     VolumeChartIndex.Total,
   )
@@ -56,4 +56,4 @@ export const GlobalChart = () => {
       </Box>
     </Box>
   )
-}
+})

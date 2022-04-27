@@ -106,8 +106,9 @@ const SwapView = () => {
   const isAffiliated = useMemo(
     () =>
       IS_AFFILIATE_ON &&
+      !inputAsset.isUTXOAsset() &&
       inputAssetPriceInUSD.raw().gte(AFFILIATE_FEE_THRESHOLD_AMOUNT),
-    [inputAssetPriceInUSD],
+    [inputAsset, inputAssetPriceInUSD],
   )
 
   const affiliateFeeInUSD = useMemo(
@@ -680,6 +681,7 @@ const SwapView = () => {
         networkFee={totalNetworkFeeInUSD.toCurrencyFormat(2)}
         affiliateFee={affiliateFeeInUSD?.toCurrencyFormat(2)}
         totalFee={totalFee}
+        isAffiliated={isAffiliated}
       />
 
       <Box className="w-full pt-5 gap-x-2">

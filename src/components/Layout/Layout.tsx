@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react'
+import { ReactNode, useCallback, useState } from 'react'
 
 import classNames from 'classnames'
 
@@ -18,13 +18,17 @@ export type LayoutProp = {
 export const Layout = ({ children }: LayoutProp) => {
   const [isMenuVisible, setMenuVisible] = useState(false)
   const { toggleSidebarCollapse, isSidebarCollapsed } = useApp()
-  const openMenu = () => {
+  const openMenu = useCallback(() => {
     setMenuVisible(true)
-  }
+  }, [])
 
-  const hideMenu = () => {
+  const hideMenu = useCallback(() => {
     setMenuVisible(false)
-  }
+  }, [])
+
+  const toggleSidebar = useCallback(() => {
+    toggleSidebarCollapse(!isSidebarCollapsed)
+  }, [isSidebarCollapsed, toggleSidebarCollapse])
 
   return (
     <Scrollbar className="bg-light-layout-primary dark:bg-dark-bg-primary">
@@ -35,10 +39,7 @@ export const Layout = ({ children }: LayoutProp) => {
         className="relative w-full min-h-screen my-0 px-[calc(50%-720px)]"
       >
         <aside className="fixed hidden md:block">
-          <Sidebar
-            collapsed={isSidebarCollapsed}
-            toggle={() => toggleSidebarCollapse(!isSidebarCollapsed)}
-          />
+          <Sidebar collapsed={isSidebarCollapsed} toggle={toggleSidebar} />
         </aside>
 
         <aside className="md:hidden">

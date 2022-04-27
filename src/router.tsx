@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import { memo, Suspense } from 'react'
 
 import {
   Navigate,
@@ -90,4 +90,4 @@ const PublicRoutes = () => {
   )
 }
 
-export default PublicRoutes
+export default memo(PublicRoutes)

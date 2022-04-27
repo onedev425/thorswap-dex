@@ -23,7 +23,7 @@ const FLAGS: Record<SupportedLanguages, string> = {
 }
 const LANGUAGE_NAMES: Record<SupportedLanguages, string> = {
   'ms-MY': 'Malay',
-  'nl-NL': 'Nederlands (NLD)',
+  'nl-NL': 'Dutch (NLD)',
   'pt-BR': 'Português (BRA)',
   'zh-Hans': '简体中文 (CHN)',
   'zh-Hant': '繁體中文 (CHT)',
