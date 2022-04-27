@@ -335,6 +335,7 @@ export const StakingCard = ({
               />
             ) : (
               <AssetIcon
+                hasChainIcon={false}
                 shadowPosition="center"
                 asset={assets[0]}
                 size="big"

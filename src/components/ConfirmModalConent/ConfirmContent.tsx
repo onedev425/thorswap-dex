@@ -36,7 +36,7 @@ export const ConfirmContent = memo(
       <Box col>
         <Box row alignCenter justify="between">
           <Box className="flex-1 p-4 rounded-2xl" center col>
-            <AssetIcon asset={inputAsset.asset} hasChainIcon />
+            <AssetIcon asset={inputAsset.asset} />
             <Box className="pt-2" center>
               <ChainBadge asset={inputAsset.asset} />
             </Box>
@@ -48,7 +48,7 @@ export const ConfirmContent = memo(
           </Box>
           <Icon className="mx-2 -rotate-90" name="arrowDown" />
           <Box className="flex-1 p-4 rounded-2xl" center col>
-            <AssetIcon asset={outputAsset.asset} hasChainIcon />
+            <AssetIcon asset={outputAsset.asset} />
             <Box className="pt-2" center>
               <ChainBadge asset={outputAsset.asset} />
             </Box>

@@ -38,29 +38,21 @@ export const All = () => {
 
       <Typography variant="h5">With secondary icon:</Typography>
       <div className="flex gap-3 space-x-2">
-        <AssetIcon
-          asset={Asset.ETH()}
-          hasChainIcon
-          bgColor="yellow"
-          size={ICON_LG}
-        />
+        <AssetIcon asset={Asset.ETH()} bgColor="yellow" size={ICON_LG} />
         <AssetIcon
           asset={Asset.BTC()}
-          hasChainIcon
           secondaryIconPlacement="tl"
           bgColor="purple"
           size={ICON_LG}
         />
         <AssetIcon
           asset={Asset.BTC()}
-          hasChainIcon
           secondaryIconPlacement="tr"
           bgColor="purple"
           size={ICON_LG}
         />
         <AssetIcon
           asset={Asset.ETH()}
-          hasChainIcon
           secondaryIconPlacement="br"
           bgColor="yellow"
           size={ICON_LG}

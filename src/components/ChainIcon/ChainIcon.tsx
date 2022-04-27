@@ -1,10 +1,12 @@
+import { memo } from 'react'
+
 import classNames from 'classnames'
 
 import { Box, Icon, IconName } from 'components/Atomic'
 
 import { Props } from './types'
 
-export const ChainIcon = ({ className, chain, size = 16 }: Props) => {
+export const ChainIcon = memo(({ className, chain, size = 16 }: Props) => {
   const chainIcon = chain.toLowerCase()
 
   return (
@@ -18,7 +20,7 @@ export const ChainIcon = ({ className, chain, size = 16 }: Props) => {
       width={size}
       height={size}
     >
-      <Icon name={chainIcon as IconName} size={(size / 4) * 3} />
+      <Icon name={chainIcon as IconName} size={size * 0.75} />
     </Box>
   )
-}
+})
