@@ -116,11 +116,12 @@ export const WalletModal = () => {
     ) {
       const activeTerraSession = getFromStorage('terraWalletSession')
 
-      if (activeTerraSession)
+      if (activeTerraSession) {
         connectTerraStation(
           TerraConnectType.EXTENSION,
           activeTerraSession as string,
         )
+      }
 
       // close modal
       clearStatus()

@@ -40,13 +40,14 @@ type StorageType = {
 type StoragePayload =
   | {
       key:
-        | 'language'
         | 'baseCurrency'
-        | 'thorswapKeystore'
-        | 'thorswapAddress'
-        | 'thousandSeparator'
-        | 'themeType'
+        | 'language'
         | 'slippageTolerance'
+        | 'terraWalletSession'
+        | 'themeType'
+        | 'thorswapAddress'
+        | 'thorswapKeystore'
+        | 'thousandSeparator'
         | 'transactionDeadline'
         | 'walletViewMode'
       value: string
@@ -58,16 +59,16 @@ type StoragePayload =
   | {
       key:
         | 'annViewStatus'
-        | 'tradingHaltStatus'
-        | 'readStatus'
-        | 'xDefiConnected'
         | 'autoRouter'
-        | 'expertMode'
-        | 'statsHidden'
         | 'chartsHidden'
-        | 'poolsHidden'
-        | 'sidebarCollapsed'
         | 'customRecipientMode'
+        | 'expertMode'
+        | 'poolsHidden'
+        | 'readStatus'
+        | 'sidebarCollapsed'
+        | 'statsHidden'
+        | 'tradingHaltStatus'
+        | 'xDefiConnected'
       value: boolean
     }
 
@@ -131,6 +132,12 @@ export const saveInStorage = ({ key, value }: StoragePayload) => {
     case 'walletViewMode':
       localStorage.setItem(key, value as string)
       break
+
+    case 'terraWalletSession': {
+      const terraKey = '__terra_extension_router_session__'
+      localStorage.setItem(terraKey, value as string)
+      break
+    }
 
     default:
       localStorage.setItem(key, value)
