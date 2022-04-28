@@ -598,7 +598,7 @@ export const WalletModal = () => {
       onBack={walletStage !== WalletStage.WalletSelect ? handleBack : undefined}
     >
       <Card
-        className="w-[85vw] !py-6 max-w-[420px] md:w-[65vw] h-fit"
+        className="w-[95vw] !py-6 max-w-[420px] md:w-[65vw] h-fit"
         stretch
         size="lg"
       >
