@@ -1,6 +1,6 @@
 import { memo, MouseEventHandler, useCallback, useMemo, useState } from 'react'
 
-import { Price } from '@thorswap-lib/multichain-sdk'
+import { Amount, Price } from '@thorswap-lib/multichain-sdk'
 
 import { AssetInputType } from 'components/AssetInput/types'
 import { Box, Button, Collapse, Icon, Typography } from 'components/Atomic'
@@ -49,12 +49,15 @@ export const SwapInfo = memo(
 
     const rateDesc = useMemo(() => {
       if (reverted) {
+        const amount = Amount.fromNormalAmount(price?.raw())
         return `1 ${outputAsset.asset.ticker} = ${
-          price?.toFixedRaw(6) || '-'
+          amount.toSignificant(6) || '-'
         } ${inputAsset.asset.ticker}`
       }
+
+      const amount = Amount.fromNormalAmount(price?.invert())
       return `1 ${inputAsset.asset.ticker} = ${
-        price?.toFixedInverted(6) || '-'
+        amount.toSignificant(6) || '-'
       } ${outputAsset.asset.ticker}`
     }, [reverted, price, inputAsset, outputAsset])
 
@@ -69,20 +72,19 @@ export const SwapInfo = memo(
     return (
       <Collapse
         className="self-stretch mt-5 !bg-light-bg-primary dark:!bg-dark-gray-light !rounded-2xl flex-col"
-        titleClassName="pr-2"
+        titleClassName="pr-1"
         shadow={false}
         title={
-          <Box className="gap-2 flex-1" justify="between">
-            <Box className="gap-2 flex-wrap flex-1" alignCenter>
-              <Box className="gap-2" center>
-                <Button
-                  className="!p-1 !h-auto"
-                  tooltip={t('views.swap.swapAssets')}
-                  type="outline"
-                  startIcon={<Icon name="switch" size={16} />}
-                  onClick={toggle}
-                />
-
+          <Box className="gap-1 flex-1" justify="between">
+            <Button
+              className="!p-1 !h-auto"
+              tooltip={t('views.swap.swapAssets')}
+              type="outline"
+              startIcon={<Icon name="switch" size={16} />}
+              onClick={toggle}
+            />
+            <Box className="gap-x-1 flex-wrap flex-1 pl-1" alignCenter>
+              <Box className="gap-1.5" center>
                 <Typography
                   variant="caption"
                   color="primary"
@@ -101,7 +103,7 @@ export const SwapInfo = memo(
             </Box>
             <Box className="pr-1">
               <Button
-                className="h-[30px] px-2.5"
+                className="h-[30px] px-2"
                 startIcon={<Icon name="fees" size={18} color="secondary" />}
                 variant="tint"
                 tooltip={t('views.swap.totalFee')}
