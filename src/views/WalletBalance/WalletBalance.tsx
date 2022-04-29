@@ -1,4 +1,6 @@
-import { useCallback } from 'react'
+import { MouseEventHandler, useCallback } from 'react'
+
+import { useNavigate } from 'react-router'
 
 import {
   Amount,
@@ -15,7 +17,7 @@ import classNames from 'classnames'
 import { WalletHeader } from 'views/WalletBalance/WalletHeader'
 
 import { AssetIcon } from 'components/AssetIcon'
-import { Box, Button, Icon, Link, Typography } from 'components/Atomic'
+import { Box, Button, Icon, Typography } from 'components/Atomic'
 import { baseBgHoverClass } from 'components/constants'
 import { Scrollbar } from 'components/Scrollbar'
 
@@ -32,9 +34,20 @@ import { ChainHeader } from './ChainHeader'
 import { sortedChains } from './types'
 
 const WalletBalance = () => {
+  const navigate = useNavigate()
   const { pools } = useMidgard()
   const { chainWalletLoading, wallet } = useWallet()
   const { close } = useWalletDrawer()
+
+  const handleNavigate = useCallback(
+    (route: string): MouseEventHandler<HTMLDivElement | HTMLButtonElement> =>
+      (event) => {
+        event.stopPropagation()
+        close()
+        navigate(route)
+      },
+    [close, navigate],
+  )
 
   const renderBalance = useCallback(
     (chain: SupportedChain, balance: AssetAmount[]) => {
@@ -47,11 +60,11 @@ const WalletBalance = () => {
         ...balance,
         ...(balance.length === 0 ? [sigBalance] : []),
       ]
+
       return walletBalance.map((data: AssetAmount) => (
-        <Link
+        <div
           key={data.asset.symbol}
-          to={getSwapRoute(data.asset)}
-          onClick={close}
+          onClick={handleNavigate(getSwapRoute(data.asset))}
         >
           <Box
             className={classNames(
@@ -80,30 +93,28 @@ const WalletBalance = () => {
 
             <Box className="space-x-1" row>
               {isOldRune(data.asset) && (
-                <Link to={ROUTES.UpgradeRune}>
-                  <Button
-                    className="px-3 hover:bg-transparent dark:hover:bg-transparent"
-                    variant="tint"
-                    startIcon={
-                      <Icon name="switch" color="primaryBtn" size={16} />
-                    }
-                  />
-                </Link>
-              )}
-              <Link to={getSendRoute(data.asset)} onClick={close}>
                 <Button
+                  onClick={handleNavigate(ROUTES.UpgradeRune)}
                   className="px-3 hover:bg-transparent dark:hover:bg-transparent"
                   variant="tint"
-                  startIcon={<Icon name="send" color="primaryBtn" size={16} />}
-                  tooltip={t('common.send')}
+                  startIcon={
+                    <Icon name="switch" color="primaryBtn" size={16} />
+                  }
                 />
-              </Link>
+              )}
+              <Button
+                onClick={handleNavigate(getSendRoute(data.asset))}
+                className="px-3 hover:bg-transparent dark:hover:bg-transparent"
+                variant="tint"
+                startIcon={<Icon name="send" color="primaryBtn" size={16} />}
+                tooltip={t('common.send')}
+              />
             </Box>
           </Box>
-        </Link>
+        </div>
       ))
     },
-    [close],
+    [handleNavigate],
   )
 
   const renderChainBalance = useCallback(

@@ -39,6 +39,7 @@ import {
   BsTrash,
   BsExclamationCircle,
   BsYoutube,
+  BsFolderSymlink,
 } from 'react-icons/bs'
 import { CgMenu, CgArrowsExchangeAltV, CgEye } from 'react-icons/cg'
 import {
@@ -58,7 +59,9 @@ import {
   FiChevronLeft,
   FiChevronRight,
   FiEdit,
+  FiMinusCircle,
   FiPlus,
+  FiPlusCircle,
   FiX,
 } from 'react-icons/fi'
 import { GoBook, GoSettings } from 'react-icons/go'
@@ -130,13 +133,14 @@ const Icons = {
   exchange: CgArrowsExchangeAltV,
   external: BiLinkExternal,
   eye: CgEye,
-  fire: FaFire,
   feedback: FaRegCommentDots,
+  fire: FaFire,
   gas: FaGasPump,
   grid: AiOutlineAppstore,
   heart: AiOutlineHeart,
   heartFilled: AiFillHeart,
   history: AiOutlineHistory,
+  import: BsFolderSymlink,
   info: AiOutlineInfo,
   infoCircle: VscInfo,
   invalid: IoCloseCircleOutline,
@@ -150,10 +154,12 @@ const Icons = {
   medium: BsMedium,
   menu: CgMenu,
   menuFold: AiOutlineMenuFold,
+  minusCircle: FiMinusCircle,
   multiSettings: GoSettings,
   node: VscSymbolMethod,
   percent: AiOutlinePercentage,
   plus: FiPlus,
+  plusCircle: FiPlusCircle,
   qrcode: AiOutlineQrcode,
   question: BsQuestion,
   questionCircle: BsQuestionCircle,
@@ -177,8 +183,8 @@ const Icons = {
   wallet: IoWalletOutline,
   warn: BsExclamationCircle,
   wifi: FaWifi,
-  youtube: BsYoutube,
   xCircle: VscError,
+  youtube: BsYoutube,
   ...SvgIcons,
 } as const
 

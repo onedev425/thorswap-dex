@@ -451,14 +451,14 @@ export const WalletModal = () => {
                 onClick={() => handleChainSelect(WalletMode.Create)}
               >
                 <Typography>{t('views.walletModal.createKeystore')}</Typography>
-                <Icon name="plusCircle" />
+                <Icon name="plusCircle" color="secondary" size={24} />
               </WalletOption>
 
               <WalletOption
                 onClick={() => handleChainSelect(WalletMode.Phrase)}
               >
                 <Typography>{t('views.walletModal.importPhrase')}</Typography>
-                <Icon name="import" />
+                <Icon name="import" color="secondary" />
               </WalletOption>
             </>
           )}

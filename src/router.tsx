@@ -9,14 +9,15 @@ import {
 
 import AddLiquidity from 'views/AddLiquidity'
 import CreateLiquidity from 'views/CreateLiquidity'
-import HomeView from 'views/Home'
-import ManageLiquidityView from 'views/ManageLiquidity'
-import SendView from 'views/Send'
-import StakeView from 'views/Stake'
-import StatsView from 'views/Stats'
-import SwapView from 'views/Swap'
-import UpgradeRuneView from 'views/UpgradeRune'
-import WalletView from 'views/Wallet'
+import Home from 'views/Home'
+import ManageLiquidity from 'views/ManageLiquidity'
+import Send from 'views/Send'
+import Stake from 'views/Stake'
+import Stats from 'views/Stats'
+import Swap from 'views/Swap'
+import Thorname from 'views/Thorname'
+import UpgradeRune from 'views/UpgradeRune'
+import Wallet from 'views/Wallet'
 import WalletBalance from 'views/WalletBalance'
 import WithdrawLiquidity from 'views/WithdrawLiquidity'
 
@@ -32,22 +33,23 @@ export type RouteType = {
 }[]
 
 const routes: RouteType = [
-  { path: ROUTES.Home, element: HomeView },
-  { path: ROUTES.Swap, element: SwapView },
-  { path: ROUTES.SwapPair, element: SwapView },
-  { path: ROUTES.CreateLiquidity, element: CreateLiquidity },
   { path: ROUTES.AddLiquidity, element: AddLiquidity },
   { path: ROUTES.AddLiquidityPool, element: AddLiquidity },
-  { path: ROUTES.Send, element: SendView },
-  { path: ROUTES.SendAsset, element: SendView },
-  { path: ROUTES.ManageLiquidity, element: ManageLiquidityView },
+  { path: ROUTES.CreateLiquidity, element: CreateLiquidity },
+  { path: ROUTES.Home, element: Home },
+  { path: ROUTES.ManageLiquidity, element: ManageLiquidity },
+  { path: ROUTES.Send, element: Send },
+  { path: ROUTES.SendAsset, element: Send },
+  { path: ROUTES.Stake, element: Stake },
+  { path: ROUTES.Stats, element: Stats },
+  { path: ROUTES.Swap, element: Swap },
+  { path: ROUTES.SwapPair, element: Swap },
+  // { path: ROUTES.Thorname, element: Thorname },
+  { path: ROUTES.UpgradeRune, element: UpgradeRune },
+  { path: ROUTES.Wallet, element: Wallet },
   { path: ROUTES.WithdrawLiquidity, element: WithdrawLiquidity },
   { path: ROUTES.WithdrawLiquidityPool, element: WithdrawLiquidity },
-  { path: ROUTES.Wallet, element: WalletView },
-  { path: ROUTES.Stats, element: StatsView },
-  { path: ROUTES.UpgradeRune, element: UpgradeRuneView },
-  { path: ROUTES.Stake, element: StakeView },
-  // { path: ROUTES.Vesting, element: VestingView },
+  // { path: ROUTES.Vesting, element: Vesting },
   // { path: ROUTES.Nodes, element: Nodes },
   // { path: ROUTES.NodeManager, element: NodeManager },
   // { path: ROUTES.NodeDetail, element: NodeDetails },

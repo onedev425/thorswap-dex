@@ -101,6 +101,7 @@
     "upgradeRune": "Upgrade Rune",
     "upgradeBnbRune": "Upgrade BNB Rune",
     "amount": "Amount",
+    "notAvailable": "Not Available",
     "depositNotAvailable": "Deposit not available"
   },
   "pendingLiquidity": {
@@ -190,26 +191,27 @@
     },
     "sidebar": {
       "V1App": "V1 app",
-      "dashboard": "Dashboard",
-      "swap": "Swap",
       "addLiquidity": "Deposit",
-      "manageLiquidity": "Liquidity",
+      "collapse": "Collapse",
+      "dashboard": "Dashboard",
+      "expand": "Expand",
       "joinDiscord": "Join Discord Server",
+      "manageLiquidity": "Liquidity",
       "pendingLiquidity": "Pending",
-      "thorswapDocumentation": "THORSwap Documentation",
       "send": "Send",
-      "thorswapCommunityYoutube": "THORSwap Community YouTube",
-      "trade": "Trade",
+      "stats": "Stats",
+      "submitFeedback": "Submit Feedback",
+      "supportInfo": "For technical support, please contact us via our official Discord Server (beware of anyone claiming to be THORSwap support - we will never DM you outside of our Support Desk on Discord).",
+      "swap": "Swap",
       "thor": "Thor",
       "thorStake": "Stake",
-      "submitFeedback": "Submit Feedback",
+      "thorname": "THORName",
       "thornode": "Thornode",
-      "wallet": "Wallet",
-      "stats": "Stats",
-      "supportInfo": "For technical support, please contact us via our official Discord Server (beware of anyone claiming to be THORSwap support - we will never DM you outside of our Support Desk on Discord).",
-      "collapse": "Collapse",
-      "expand": "Expand",
-      "thoryield": "THORYield"
+      "thorswapCommunityYoutube": "THORSwap Community YouTube",
+      "thorswapDocumentation": "THORSwap Documentation",
+      "thoryield": "THORYield",
+      "trade": "Trade",
+      "wallet": "Wallet"
     },
     "statusDropdown": {
       "capAvailable": "Funds Cap available",
@@ -530,6 +532,18 @@
     },
     "send": {
       "txFeeTooltip": "Gas fee to send the transaction, There's no extra charges from THORChain Protocol"
+    },
+    "thorname": {
+      "available": "Available",
+      "checkNameAvailability": "Check Name Availability",
+      "duration": "Duration (in years)",
+      "purchase": "Purchase",
+      "searchName": "Search Name",
+      "registerFee": "Register Fee",
+      "registerSuccess": "THORName %{thorname} successfully registered",
+      "status": "Status",
+      "feeOnSale": "Fee on Sale",
+      "unavailable": "Unavailable"
     }
   },
   "validation": {

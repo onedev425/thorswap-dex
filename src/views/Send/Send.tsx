@@ -274,16 +274,14 @@ const Send = () => {
         )}
       </Box>
 
-      {isOpenConfirmModal && (
-        <ConfirmModal
-          inputAssets={[sendAsset]}
-          isOpened={isOpenConfirmModal}
-          onConfirm={handleConfirmSend}
-          onClose={handleCancelSend}
-        >
-          <InfoTable items={confirmModalInfo} />
-        </ConfirmModal>
-      )}
+      <ConfirmModal
+        inputAssets={[sendAsset]}
+        isOpened={isOpenConfirmModal}
+        onConfirm={handleConfirmSend}
+        onClose={handleCancelSend}
+      >
+        <InfoTable items={confirmModalInfo} />
+      </ConfirmModal>
     </PanelView>
   )
 }

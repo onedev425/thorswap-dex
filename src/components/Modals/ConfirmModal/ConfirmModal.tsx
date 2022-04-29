@@ -1,4 +1,11 @@
-import { useCallback, useMemo, useState, useEffect, ReactNode } from 'react'
+import {
+  useCallback,
+  useMemo,
+  useState,
+  useEffect,
+  ReactNode,
+  KeyboardEventHandler,
+} from 'react'
 
 import { Asset, isKeystoreSignRequired } from '@thorswap-lib/multichain-sdk'
 
@@ -95,13 +102,13 @@ export const ConfirmModal = ({
     setValidating(false)
   }, [keystore, password, handleProceed, isKeystoreSigningRequired])
 
-  const onPasswordKeyDown = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.key === 'Enter') {
+  const onPasswordKeyDown: KeyboardEventHandler<HTMLInputElement> = useCallback(
+    (event) => {
+      if (event.code === 'Enter' && !validating) {
         handleClickConfirm()
       }
     },
-    [handleClickConfirm],
+    [handleClickConfirm, validating],
   )
 
   const renderKeystoreSignMode = useMemo(
@@ -110,8 +117,6 @@ export const ConfirmModal = ({
         <PasswordInput
           value={password}
           onChange={({ target }) => setPassword(target.value)}
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
           onKeyDown={onPasswordKeyDown}
         />
         {invalidPassword && (

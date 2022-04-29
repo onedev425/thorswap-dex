@@ -2,26 +2,26 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
 
 export enum ROUTES {
+  AddLiquidity = '/add',
+  AddLiquidityPool = '/add/:assetParam',
+  CreateLiquidity = '/create',
   Home = '/dashboard',
   ManageLiquidity = '/liquidity',
   NodeDetail = '/nodes/:nodeAddress',
   NodeManager = '/node-manager',
   Nodes = '/nodes',
-  // PendingLiquidity = '/pending',
   Send = '/send',
   SendAsset = '/send/:assetParam',
   Stake = '/stake',
   Stats = '/stats',
   Swap = '/swap',
   SwapPair = '/swap/:pair',
-  CreateLiquidity = '/create',
-  AddLiquidity = '/add',
-  AddLiquidityPool = '/add/:assetParam',
-  WithdrawLiquidity = '/withdraw',
-  WithdrawLiquidityPool = '/withdraw/:assetParam',
+  Thorname = '/thorname',
   UpgradeRune = '/upgrade',
   Vesting = '/vesting',
   Wallet = '/wallet',
+  WithdrawLiquidity = '/withdraw',
+  WithdrawLiquidityPool = '/withdraw/:assetParam',
 }
 
 export const THORYIELD_ROUTE = 'https://app.thoryield.com'
@@ -41,7 +41,9 @@ export const getSendRoute = (asset?: Asset) => {
 }
 
 export const getSwapRoute = (input: Asset, output: Asset = Asset.RUNE()) => {
-  return `${ROUTES.Swap}/${input.toURLEncoded()}_${output.toURLEncoded()}`
+  const outputAsset = input.isRUNE() && output.isRUNE() ? Asset.BTC() : output
+
+  return `${ROUTES.Swap}/${input.toURLEncoded()}_${outputAsset.toURLEncoded()}`
 }
 
 export const getPoolDetailRouteFromAsset = (asset: Asset) => {

@@ -24,14 +24,8 @@ const noScrollHeight = 225
 const toggleHeight = 50
 
 export const Sidebar = memo(
-  ({
-    className,
-    options,
-    collapsed = false,
-    toggle,
-    onNavItemClick,
-  }: SidebarProps) => {
-    const sidebarOptions = options || getDefaultNavbarOptions()
+  ({ className, collapsed = false, toggle, onNavItemClick }: SidebarProps) => {
+    const sidebarOptions = getDefaultNavbarOptions()
 
     const navigate = useNavigate()
     const [isSupportModalOpened, setIsSupportModalOpened] = useState(false)

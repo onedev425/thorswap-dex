@@ -8,9 +8,11 @@ type ItemProps = {
   iconName: IconName
   rightIconName?: IconName
   hasBackground?: boolean
-  href: string
   label?: string
-}
+} & (
+  | { href: string; children?: undefined }
+  | { href?: undefined; children: SidebarItemProps[] }
+)
 
 export type NavItemProps = ItemProps & {
   transform?: TextTransform
@@ -30,7 +32,6 @@ export type SidebarItemProps = ItemProps & {
 
 export type SidebarProps = {
   className?: string
-  options?: SidebarItemProps[]
   collapsed?: boolean
   toggle?: () => void
   onNavItemClick?: () => void
