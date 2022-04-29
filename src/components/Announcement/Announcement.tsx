@@ -1,40 +1,48 @@
 import classNames from 'classnames'
 
-import { Box, Card, Typography, Button } from 'components/Atomic'
+import {
+  AnnouncementProps,
+  AnnouncemetType,
+} from 'components/Announcement/types'
+import { Box, Typography } from 'components/Atomic'
 
-import { AnnouncementProps } from './types'
-
-const beforeClasses =
-  'before:content-[""] before:w-full before:h-full before:absolute before:top-0 before:left-0 before:rounded-box-lg before:opacity-30 before:bg-card-before'
-
-const afterClasses =
-  'after:content-[""] after:w-full after:h-full after:absolute after:top-0 after:left-0 after:rounded-box-lg after:opacity-30 after:bg-card-after'
+const announcementClasses: Record<AnnouncemetType, string> = {
+  primary: '',
+  info: 'from-btn-primary border-btn-primary',
+  warn: 'from-yellow border-yellow',
+  error: 'from-red border-red',
+}
 
 export const Announcement = ({
-  title,
-  subTitle,
-  buttonText,
-  action,
+  announcement,
+  rightComponent,
 }: AnnouncementProps) => {
+  const { type = 'primary', message, title } = announcement
+
+  if (!message && !title) {
+    return null
+  }
+
   return (
-    <Card
-      stretch
-      size="lg"
-      className={classNames('py-2.5 relative', beforeClasses, afterClasses)}
+    <Box
+      alignCenter
+      justify="between"
+      className={classNames(
+        'rounded-2xl px-3 md:px-6 py-3.5 relative flex-1',
+        'bg-light-bg-primary dark:bg-dark-gray-light overflow-hidden',
+      )}
     >
-      <Box justify="between" className="w-full relative z-[1]">
-        <Box alignCenter className="gap-x-1">
-          <Typography variant="body" color="primary" fontWeight="bold">
-            {title}
-          </Typography>
-          <Typography variant="body" color="secondary" fontWeight="bold">
-            {subTitle}
-          </Typography>
-        </Box>
-        <Button textColor="cyan" onClick={action} type="borderless">
-          {buttonText}
-        </Button>
+      <Box
+        className={classNames(
+          'absolute inset-0 bg-gradient-to-r to-transparent rounded-2xl opacity-50 border border-solid',
+          announcementClasses[type],
+        )}
+      ></Box>
+      <Box className="z-10" col>
+        {title && <Typography variant="subtitle1">{title}</Typography>}
+        {message && <Typography>{message}</Typography>}
       </Box>
-    </Card>
+      {rightComponent ? rightComponent : null}
+    </Box>
   )
 }
