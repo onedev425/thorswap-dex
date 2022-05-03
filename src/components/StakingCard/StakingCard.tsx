@@ -326,7 +326,7 @@ export const StakingCard = ({
 
   return (
     <Box className="flex-1 !min-w-[360px] lg:!max-w-[50%]" col>
-      <Box className="relative w-full" mt={56}>
+      <Box className="w-full relative" mt={56}>
         <Card
           className={classNames('flex-col w-full', borderHoverHighlightClass)}
         >
