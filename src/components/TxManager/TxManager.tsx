@@ -73,6 +73,7 @@ export const TxManager = () => {
             ),
           },
           ToastType.Success,
+          { position: 'bottom-right' },
         )
         prevTxTrackerStatus.current[txTracker.uuid] = txTracker.status
       }
