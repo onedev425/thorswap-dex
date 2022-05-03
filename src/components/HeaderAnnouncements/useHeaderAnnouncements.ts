@@ -24,8 +24,8 @@ export const useHeaderAnnouncements = () => {
     () => [
       ...manualAnnouncements,
       ...getHaltedChainAnnouncements(isChainHalted),
-      ...getHaltedTradeAnnouncements(isChainPauseLP),
-      ...getHaltedLPAnnouncements(isChainTradingHalted),
+      ...getHaltedTradeAnnouncements(isChainTradingHalted),
+      ...getHaltedLPAnnouncements(isChainPauseLP),
     ],
     [isChainHalted, isChainPauseLP, isChainTradingHalted, manualAnnouncements],
   )
