@@ -123,7 +123,9 @@ const SwapView = () => {
     [inputAsset, inputAmount, pools],
   )
 
-  const totalFeeBN = totalNetworkFeeInUSD?.raw().plus(affiliateFeeInUSD?.raw())
+  const totalFeeBN = isAffiliated
+    ? totalNetworkFeeInUSD?.raw().plus(affiliateFeeInUSD?.raw())
+    : totalNetworkFeeInUSD?.raw()
   const totalFee = `$${formatPrice(totalFeeBN.toFixed(2))}`
 
   const swap = useSwap({

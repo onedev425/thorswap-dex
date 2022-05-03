@@ -23,6 +23,7 @@ export const AssetLpIcon = ({
         )}
       >
         <AssetIcon
+          hasChainIcon={false}
           className="rounded-full"
           asset={asset1}
           size={size}
@@ -32,6 +33,7 @@ export const AssetLpIcon = ({
 
       <div className="transition-all" style={{ marginLeft: -pairIconOffset }}>
         <AssetIcon
+          hasChainIcon={false}
           shadowPosition="center"
           hasShadow={hasShadow}
           className={classNames('rounded-full', {

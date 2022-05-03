@@ -116,11 +116,12 @@ export const WalletModal = () => {
     ) {
       const activeTerraSession = getFromStorage('terraWalletSession')
 
-      if (activeTerraSession)
+      if (activeTerraSession) {
         connectTerraStation(
           TerraConnectType.EXTENSION,
           activeTerraSession as string,
         )
+      }
 
       // close modal
       clearStatus()
@@ -450,14 +451,14 @@ export const WalletModal = () => {
                 onClick={() => handleChainSelect(WalletMode.Create)}
               >
                 <Typography>{t('views.walletModal.createKeystore')}</Typography>
-                <Icon name="plusCircle" />
+                <Icon name="plusCircle" color="secondary" size={24} />
               </WalletOption>
 
               <WalletOption
                 onClick={() => handleChainSelect(WalletMode.Phrase)}
               >
                 <Typography>{t('views.walletModal.importPhrase')}</Typography>
-                <Icon name="import" />
+                <Icon name="import" color="secondary" />
               </WalletOption>
             </>
           )}
@@ -597,7 +598,7 @@ export const WalletModal = () => {
       onBack={walletStage !== WalletStage.WalletSelect ? handleBack : undefined}
     >
       <Card
-        className="w-[85vw] !py-6 max-w-[420px] md:w-[65vw] h-fit"
+        className="w-[95vw] !py-6 max-w-[420px] md:w-[65vw] h-fit"
         stretch
         size="lg"
       >

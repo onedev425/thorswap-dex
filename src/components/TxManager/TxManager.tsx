@@ -28,7 +28,7 @@ import { t } from 'services/i18n'
 
 export const TxManager = () => {
   const [onlyPending, setOnlyPending] = useState(false)
-  const [, setIsOpened] = useState(false)
+  const [isOpen, setIsOpened] = useState(false)
 
   const { txTrackers, clearTxTrackers } = useTxManager()
   const [filteredTxData, setFilteredTxData] = useState(txTrackers)
@@ -73,6 +73,7 @@ export const TxManager = () => {
             ),
           },
           ToastType.Success,
+          { position: 'bottom-right' },
         )
         prevTxTrackerStatus.current[txTracker.uuid] = txTracker.status
       }
@@ -93,6 +94,12 @@ export const TxManager = () => {
   }, [onlyPending, txTrackers])
 
   const popoverRef = useRef<ElementRef<typeof Popover>>(null)
+
+  useEffect(() => {
+    if (isOpen) {
+      popoverRef.current?.open()
+    }
+  }, [isOpen])
 
   useEffect(() => {
     if (!txTrackers.length) {

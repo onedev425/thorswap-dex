@@ -111,7 +111,7 @@ const useMainMenu = (setMenuType: (val: MenuType) => void) => {
       icon: 'dollarOutlined',
       iconComponent:
         !currencyAsset || currencyAsset?.name === 'USD' ? null : (
-          <AssetIcon asset={currencyAsset} hasChainIcon size={25} />
+          <AssetIcon asset={currencyAsset} size={25} />
         ),
       hasSubmenu: true,
       value: baseCurrency,

@@ -11,7 +11,7 @@ export const globalConfig = {
   thornodeMainnetApiUrl:
     `${import.meta.env.VITE_MAINNET_THORNODE}/thorchain` || '',
   thorchainMainnetRpc: import.meta.env.VITE_MAINNET_THORCHAIN_RPC || '',
-  isThorchainStagenet: false,
+  isThorchainStagenet: import.meta.env.VITE_IS_STAGENET === 'true',
   dogeNodeApiKey: import.meta.env.VITE_DOGENODE_API_KEY || '',
   portisApiKey: import.meta.env.VITE_PORTIS_API_KEY || '',
   fortmaticApiKey: import.meta.env.VITE_FORTMATIC_API_KEY || '',

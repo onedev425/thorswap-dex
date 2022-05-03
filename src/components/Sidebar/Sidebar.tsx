@@ -24,14 +24,8 @@ const noScrollHeight = 225
 const toggleHeight = 50
 
 export const Sidebar = memo(
-  ({
-    className,
-    options,
-    collapsed = false,
-    toggle,
-    onNavItemClick,
-  }: SidebarProps) => {
-    const sidebarOptions = options || getDefaultNavbarOptions()
+  ({ className, collapsed = false, toggle, onNavItemClick }: SidebarProps) => {
+    const sidebarOptions = getDefaultNavbarOptions()
 
     const navigate = useNavigate()
     const [isSupportModalOpened, setIsSupportModalOpened] = useState(false)
@@ -43,7 +37,7 @@ export const Sidebar = memo(
     return (
       <nav
         className={classNames(
-          'flex flex-col items-center my-4 transition-all overflow-hidden ml-4 h-sidebar',
+          'flex flex-col items-center my-2 transition-all overflow-hidden ml-2 h-sidebar',
           'rounded-3xl border-box sticky top-0 bg-white dark:bg-dark-bg-secondary md:dark:!bg-opacity-30',
           'shadow-md border-opacity-30 border border-solid border-light-typo-gray dark:border-none',
           collapsed ? 'w-[72px]' : 'w-[180px]',

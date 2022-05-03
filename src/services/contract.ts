@@ -158,7 +158,7 @@ export const triggerContractCall = async (
   multichainInstance: IMultiChain,
   contractType: ContractType,
   methodName: string,
-  args: any[],
+  args: ToDo[],
 ) => {
   try {
     const { network } = config
@@ -172,7 +172,7 @@ export const triggerContractCall = async (
       funcParams: args,
     })
 
-    const resp: any = await ethClient.call({
+    const resp: ToDo = await ethClient.call({
       contractAddress: activeContract[network],
       abi: activeContract[ContractABI],
       funcName: methodName,

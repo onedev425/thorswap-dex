@@ -17,6 +17,8 @@ import { useTerraWallet } from 'hooks/useTerraWallet'
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
+import { getFromStorage, saveInStorage } from 'helpers/storage'
+
 import * as walletActions from './actions'
 import { actions } from './slice'
 
@@ -154,6 +156,16 @@ export const useWallet = () => {
         wallet: connectedWallet,
         address: connectedWallet?.walletAddress,
       })
+
+      /**
+       * When XDefi wallet has prio, but user uses Terra Station Wallet extension it saves `station` identifier in storage
+       * Unfortunately, because of that, when XDefi wallet is locked it will trigger popup to unlock it on every page reload
+       * To prevent this we are clearing `station` identifier from storage
+       */
+      const activeTerraSession = getFromStorage('terraWalletSession')
+      if (activeTerraSession === 'station') {
+        saveInStorage({ key: 'terraWalletSession', value: '' })
+      }
     }
   }, [connectTerraMultichain, connectedWallet])
 

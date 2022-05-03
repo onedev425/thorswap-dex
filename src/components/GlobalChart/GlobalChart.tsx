@@ -40,6 +40,7 @@ export const GlobalChart = memo(() => {
           chartData={volumeChartData}
           selectedIndex={volumeChartIndex}
           selectChart={setVolumeChartIndex}
+          abbreviateValues
         />
       </Box>
 
@@ -52,6 +53,7 @@ export const GlobalChart = memo(() => {
           selectedIndex={liquidityChartIndex}
           previewChartType={ChartType.CurvedLine}
           selectChart={setLiquidityChartIndex}
+          abbreviateValues
         />
       </Box>
     </Box>

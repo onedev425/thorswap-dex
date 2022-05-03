@@ -147,7 +147,7 @@
     "receive": "Recevoir",
     "failed": "Échouée",
     "stake": "Stake",
-    "claim": "Claim",
+    "claim": "Réclamer",
     "sendAmountAsset": "Envoyer %{amount} %{asset}",
     "sendFailed": "L'envoie de %{amount} %{asset} a échoué",
     "sendFinished": "Envoie de %{amount} %{asset} avec succès",
@@ -164,7 +164,7 @@
     "addAmountAsset": "Ajouter %{amount} %{asset}",
     "withdrawAmountAsset": "Retirer %{amount} %{asset}",
     "withdrawnAmountAsset": "Retrait de %{amount} %{asset} terminé",
-    "withdrawAmountFailed": "Withdraw %{amount} %{asset} failed",
+    "withdrawAmountFailed": "Échec du retrait de %{amount} %{asset}",
     "receiveAmountNativeRune": "Recevoir %{amount} en $RUNE natif",
     "receivedAmountNativeRune": "%{amount} $RUNE natif reçu",
     "approveAssetFailed": "Approbation de %{asset} échouée",
@@ -173,10 +173,10 @@
     "approveToken": "Approuver %{token}",
     "stakeAsset": "Stake %{amount} %{asset}",
     "stakedAsset": "Staked %{amount} %{asset}",
-    "stakeAssetFailed": "Stake %{amount} %{asset} failed",
-    "claimAsset": "Claim %{amount} %{asset}",
-    "claimedAsset": "Claimed %{amount} %{asset}",
-    "claimAssetFailed": "Claim %{amount} %{asset} failed"
+    "stakeAssetFailed": "Échec de stake %{amount} %{asset}",
+    "claimAsset": "Réclamer %{amount} %{asset}",
+    "claimedAsset": "%{amount} %{asset} réclamé",
+    "claimAssetFailed": "Échec de réclamation de %{amount} %{asset}"
   },
   "components": {
     "assetSelect": {
@@ -306,11 +306,11 @@
       "claimable": "Réclamable",
       "stakingContract": "Contrat de Staking",
       "tcStakingDesc": "Pourvoyer de la liquidité THOR-RUNE sur THORChain",
-      "depositAction": "Deposit",
-      "harvestAction": "Harvest",
-      "withdrawAction": "Withdraw",
-      "exitAction": "Exit",
-      "stakeActionAmount": "%{stakeAction} Amount"
+      "depositAction": "Déposer",
+      "harvestAction": "Récolter",
+      "withdrawAction": "Retirer",
+      "exitAction": "Quitter",
+      "stakeActionAmount": "Montant %{stakeAction}"
     },
     "stats": {
       "dailyBlockRewards": "Récompenses de bloc quotiennes",
@@ -372,9 +372,9 @@
       "priceImpact": "Impact sur le prix",
       "minReceivedAfterSlip": "Minimum reçu après slippage  (%{slippage})",
       "swapAssets": "Taux d'actifs de swap",
-      "affiliateFee": "0.3% affiliate fee is charged by THORSwap. 75% of fees are redistributed back to vTHOR stakers.",
-      "exchangeFee": "Service Fee",
-      "totalFee": "Total Fee"
+      "affiliateFee": "Un frais de 0.3% est chargé par THORSwap. 75% du frais est redistribué aux stakers de vTHOR.",
+      "exchangeFee": "Frais de service",
+      "totalFee": "Frais total"
     },
     "wallet": {
       "wallet": "Portefeuille",
@@ -576,8 +576,8 @@
     "insufficientAmount": "Montant insuffisant",
     "assetNotFound": "Actifs non trouvés",
     "swapNotAvailable": "Swap non disponible",
-    "gasEstimationFailed": "Cannot estimate gas",
-    "approveOverflow": "%{actionType} amount exceeds allowance",
-    "successfulTransaction": "Transaction Successful"
+    "gasEstimationFailed": "Impossible d'estimer le gas",
+    "approveOverflow": "Le montant dépasse l'allocation pour %{actionType}",
+    "successfulTransaction": "Succès de la transaction"
   }
 }

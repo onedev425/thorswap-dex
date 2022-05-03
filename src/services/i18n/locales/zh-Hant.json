@@ -372,9 +372,9 @@
       "priceImpact": "價格影響",
       "minReceivedAfterSlip": "滑點後最小獲得量 (%{slippage})",
       "swapAssets": "切換利率",
-      "affiliateFee": "0.3% affiliate fee is charged by THORSwap. 75% of fees are redistributed back to vTHOR stakers.",
-      "exchangeFee": "Service Fee",
-      "totalFee": "Total Fee"
+      "affiliateFee": "THORSwap 收取的 0.3% 服務費。其75%將重新分配給 vTHOR 持有者。",
+      "exchangeFee": "服務費",
+      "totalFee": "總費用"
     },
     "wallet": {
       "wallet": "錢包",

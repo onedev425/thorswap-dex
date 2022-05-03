@@ -7,7 +7,6 @@ import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/constants'
 export const getDefaultNavbarOptions = (): SidebarItemProps[] => [
   {
     iconName: 'tradeLightning',
-    href: ROUTES.Swap,
     label: t('components.sidebar.trade'),
     hasBackground: true,
     children: [
@@ -30,7 +29,6 @@ export const getDefaultNavbarOptions = (): SidebarItemProps[] => [
   },
   {
     iconName: 'wallet',
-    href: ROUTES.Wallet,
     label: t('components.sidebar.wallet'),
     children: [
       {
@@ -43,6 +41,11 @@ export const getDefaultNavbarOptions = (): SidebarItemProps[] => [
         href: ROUTES.Send,
         label: t('components.sidebar.send'),
       },
+      // {
+      //   iconName: 'thor',
+      //   href: ROUTES.Thorname,
+      //   label: t('components.sidebar.thorname'),
+      // },
     ],
   },
   // {
@@ -52,7 +55,6 @@ export const getDefaultNavbarOptions = (): SidebarItemProps[] => [
   // },
   {
     iconName: 'settings',
-    href: ROUTES.Stats,
     label: t('components.sidebar.stats'),
     children: [
       {
@@ -72,7 +74,6 @@ export const getDefaultNavbarOptions = (): SidebarItemProps[] => [
   },
   {
     iconName: 'tradeLightning',
-    href: ROUTES.Stake,
     label: t('components.sidebar.thor'),
     children: [
       {

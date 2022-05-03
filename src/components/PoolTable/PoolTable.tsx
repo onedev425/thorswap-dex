@@ -50,7 +50,7 @@ export const PoolTable = ({ data }: PoolTableProps) => {
         sortType: sortPoolColumn,
         Cell: ({ cell: { value } }: { cell: { value: Pool } }) => (
           <div className="flex flex-row items-center">
-            <AssetIcon asset={value.asset} hasChainIcon size={40} />
+            <AssetIcon asset={value.asset} size={40} />
             <Typography className="hidden pl-4 h4 md:block">
               {value.asset.ticker}
             </Typography>

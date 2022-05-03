@@ -88,11 +88,7 @@ export const AssetSelectList = (props: AssetSelectProps) => {
               onClick={() => select(filteredItem.asset)}
             >
               <FeaturedAssetIcon assetString={filteredItem.asset.toString()} />
-              <AssetIcon
-                size={32}
-                asset={filteredItem.asset}
-                hasChainIcon={filteredItem.asset.isSynth}
-              />
+              <AssetIcon size={32} asset={filteredItem.asset} />
               <Box className="flex-1" col>
                 <Typography
                   className="leading-[24px]"
@@ -124,7 +120,7 @@ export const AssetSelectList = (props: AssetSelectProps) => {
           ))}
 
           {!filteredAssets.length && (
-            <Box justifyCenter>
+            <Box justifyCenter className="pt-4">
               <Typography>
                 {t('components.assetSelect.noResultsFound')}
               </Typography>

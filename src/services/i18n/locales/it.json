@@ -372,9 +372,9 @@
       "priceImpact": "Impatto sul Prezzo",
       "minReceivedAfterSlip": "Minimo ricevuto dopo lo slippage (%{slippage})",
       "swapAssets": "Swap assets rates",
-      "affiliateFee": "",
-      "exchangeFee": "",
-      "totalFee": ""
+      "affiliateFee": "0.3% in commissioni di affiliazione sono addebitate da THORSwap. Il 75% delle commissioni viene ridistribuito agli stakers di vTHOR.",
+      "exchangeFee": "Commissione Scambio",
+      "totalFee": "Commissioni Totali"
     },
     "wallet": {
       "wallet": "Portafoglio",
@@ -578,6 +578,6 @@
     "swapNotAvailable": "Scambio non disponibile",
     "gasEstimationFailed": "Non riesco a stimare il Gas",
     "approveOverflow": "%{actionType} L'importo supera l'indennità",
-    "successfulTransaction": ""
+    "successfulTransaction": "Transazione Riuscita"
   }
 }

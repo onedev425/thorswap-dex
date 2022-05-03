@@ -4,6 +4,7 @@ import { hasConnectedWallet } from '@thorswap-lib/multichain-sdk'
 
 import { AppPopoverMenu } from 'components/AppPopoverMenu'
 import { Button, Icon, Box, Typography } from 'components/Atomic'
+import { HeaderAnnouncements } from 'components/HeaderAnnouncements'
 import { StatusDropdown } from 'components/StatusDropdown'
 import { TxManager } from 'components/TxManager'
 
@@ -46,8 +47,8 @@ export const Header = memo(({ openMenu }: Props) => {
   }, [isConnected, isWalletLoading, setIsConnectModalOpen, setIsDrawerVisible])
 
   return (
-    <header className="mb-5">
-      <Box className="min-h-[70px]" justify="between">
+    <header className="mb-5 min-h-[70px]">
+      <Box justify="between">
         <Box className="mt-auto shrink-0 gap-x-2">
           <Button
             className="flex !p-1 md:hidden"
@@ -74,7 +75,7 @@ export const Header = memo(({ openMenu }: Props) => {
           </Box>
         </Box>
 
-        <Box className="min-h-[70px]" justify="between">
+        <Box justify="between">
           <Button
             className="mr-2"
             type={themeType === ThemeType.Light ? 'default' : 'outline'}
@@ -90,6 +91,8 @@ export const Header = memo(({ openMenu }: Props) => {
           <TxManager />
         </Box>
       </Box>
+
+      <HeaderAnnouncements />
     </header>
   )
 })

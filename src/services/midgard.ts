@@ -1,5 +1,7 @@
 import { Midgard } from '@thorswap-lib/midgard-sdk'
 
-import { config } from 'settings/config'
+import { config, IS_STAGENET } from 'settings/config'
 
-export const midgardApi = new Midgard({ network: config.network })
+export const midgardApi = new Midgard({
+  network: IS_STAGENET ? 'stagenet' : config.network,
+})

@@ -45,7 +45,7 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
         accessor: (row: AssetAmount) => row.asset,
         Cell: ({ cell: { value } }: { cell: { value: Asset } }) => (
           <Box flex={1} alignCenter>
-            <AssetIcon asset={value} hasChainIcon size={40} />
+            <AssetIcon hasChainIcon={false} asset={value} size={40} />
             <Box col justify="between" className="pl-4">
               <Typography>{value.name}</Typography>
               <Typography color="secondary">{value.type}</Typography>

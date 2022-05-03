@@ -1,3 +1,5 @@
+import { ReactNode } from 'react'
+
 import { Transition } from '@headlessui/react'
 
 import { Dropdown } from './Dropdown'
@@ -7,22 +9,24 @@ import { MenuOption } from './MenuOption'
 import { DropdownMenuItem, DropdownOptions } from './types'
 
 type DropdownMenuProps = {
+  buttonClassName?: string
   className?: string
   menuClassName?: string
   menuItems: DropdownMenuItem[]
+  openComponent?: ReactNode
   openLabel?: string
-  openComponent?: JSX.Element
 } & DropdownOptions
 
 export const DropdownMenu = ({
+  buttonClassName,
   className,
-  menuClassName,
   disabled,
-  openLabel,
+  menuClassName,
   menuItems,
-  value,
-  openComponent,
   onChange,
+  openComponent,
+  openLabel,
+  value,
 }: DropdownMenuProps) => {
   const defaultOpenLabel =
     menuItems.find((i) => i.value === value)?.label || '-'
@@ -35,6 +39,7 @@ export const DropdownMenu = ({
       onChange={onChange}
     >
       <DropdownButton
+        className={buttonClassName}
         label={openComponent || openLabel || defaultOpenLabel}
         disabled={disabled}
       />

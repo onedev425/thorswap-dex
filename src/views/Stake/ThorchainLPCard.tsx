@@ -39,7 +39,7 @@ export const ThorchainLPCard = () => {
 
   return (
     <Box col className="flex-1 !min-w-[360px] lg:!max-w-[50%]">
-      <Box className="w-full h-full min-h-[436px]" mt={56}>
+      <Box className="w-full h-full min-h-[436px] relative" mt={56}>
         <Card
           className={classNames('flex-col flex-1', borderHoverHighlightClass)}
         >

@@ -72,6 +72,7 @@ export const Chart = memo(
     previewChartType = ChartType.Bar,
     selectChart,
     unit,
+    abbreviateValues,
   }: ChartProps) => {
     const chartTimeFrames = [
       t('components.chart.week'),
@@ -92,6 +93,7 @@ export const Chart = memo(
       selectedIndex,
       hasGrid,
       hideLabel,
+      abbreviateValues,
     })
 
     const renderChart = useMemo(() => {

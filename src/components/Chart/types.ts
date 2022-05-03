@@ -49,4 +49,5 @@ export type ChartProps = {
   selectedIndex: string
   title: string
   unit: string
+  abbreviateValues?: boolean
 }

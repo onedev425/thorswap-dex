@@ -37,9 +37,7 @@ const oldRunes = [Asset.BNB_RUNE(), Asset.ETH_RUNE()]
 const UpgradeRune = () => {
   const [isOpened, setIsOpened] = useState(false)
 
-  const thorchainAddr =
-    multichain.getWalletAddressByChain(Chain.THORChain) || ''
-  const [recipientAddress, setRecipientAddress] = useState(thorchainAddr)
+  const [recipientAddress, setRecipientAddress] = useState('')
 
   const { wallet, setIsConnectModalOpen } = useWallet()
   const { getMaxBalance, isWalletAssetConnected } = useBalance()
@@ -75,9 +73,10 @@ const UpgradeRune = () => {
 
   const { isChainTradingHalted } = useMimir()
 
-  const isTradingHalted: boolean = useMemo(() => {
-    return isChainTradingHalted?.[selectedAsset.chain] ?? false
-  }, [isChainTradingHalted, selectedAsset])
+  const isTradingHalted: boolean = useMemo(
+    () => isChainTradingHalted?.[selectedAsset.chain] ?? false,
+    [isChainTradingHalted, selectedAsset],
+  )
 
   const assetPriceInUSD = useMemo(
     () =>
@@ -91,11 +90,9 @@ const UpgradeRune = () => {
 
   const handleChangeUpgradeAmount = useCallback(
     (amount: Amount) => {
-      if (amount.gt(maxSpendableBalance)) {
-        setUpgradeAmount(maxSpendableBalance)
-      } else {
-        setUpgradeAmount(amount)
-      }
+      setUpgradeAmount(
+        amount.gt(maxSpendableBalance) ? maxSpendableBalance : amount,
+      )
     },
     [maxSpendableBalance],
   )
@@ -281,6 +278,11 @@ const UpgradeRune = () => {
             <Input
               border="bottom"
               className="text-lg"
+              defaultValue={
+                recipientAddress ||
+                multichain.getWalletAddressByChain(Chain.THORChain) ||
+                ''
+              }
               value={recipientAddress}
               stretch
               placeholder={t('common.recipientAddress')}
@@ -292,12 +294,11 @@ const UpgradeRune = () => {
         <InfoTable horizontalInset items={summary} />
 
         <Box className="w-full pt-5">
-          {isWalletConnected && (
+          {isWalletConnected ? (
             <Button stretch size="lg" onClick={handleUpgrade}>
               {t('common.upgrade')}
             </Button>
-          )}
-          {!isWalletConnected && (
+          ) : (
             <Button
               isFancy
               stretch
@@ -308,16 +309,12 @@ const UpgradeRune = () => {
             </Button>
           )}
 
-          {isOpened && (
-            <ConfirmModal
-              inputAssets={[selectedAsset]}
-              isOpened={isOpened}
-              onConfirm={handleConfirmUpgrade}
-              onClose={() => setIsOpened(false)}
-            >
-              {/** TODO: UI */}
-            </ConfirmModal>
-          )}
+          <ConfirmModal
+            inputAssets={[selectedAsset]}
+            isOpened={isOpened}
+            onConfirm={handleConfirmUpgrade}
+            onClose={() => setIsOpened(false)}
+          />
         </Box>
       </Card>
     </Box>

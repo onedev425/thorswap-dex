@@ -53,7 +53,7 @@ export const showToast: ShowToastFunction = (
   toast.custom(
     ({ id }) => (
       <Box
-        className="z-50 items-center p-2 m-20 border border-solid drop-shadow-md rounded-xl border-light-border-primary dark:border-dark-border-primary bg-light-bg-primary dark:bg-dark-bg-secondary"
+        className="max-w-[375px] z-50 items-center p-2 m-20 border border-solid drop-shadow-md rounded-xl border-light-border-primary dark:border-dark-border-primary bg-light-bg-primary dark:bg-dark-bg-secondary"
         row
       >
         <Box onClick={() => toast.remove(id)} col className="w-fit">
@@ -62,10 +62,7 @@ export const showToast: ShowToastFunction = (
               <Box alignCenter>
                 <Box>{icon}</Box>
 
-                <Box
-                  className={classNames('max-w-[320px] pr-2', { 'pl-2': icon })}
-                  col
-                >
+                <Box className={classNames('pr-2', { 'pl-2': icon })} col>
                   <Typography
                     variant="caption"
                     fontWeight={description ? 'bold' : 'medium'}

@@ -19,9 +19,16 @@ const thornodeAPI = (url: string) => `${THORNODE_API_URI}/${url}`
 export const MIDGARD_TESTNET_API_URI =
   'https://testnet.midgard.thorchain.info/v2'
 
-export const midgardAPI = (url: string) =>
+export const MIDGARD_STAGENET_API_URI =
+  'https://stagenet-midgard.thorchain.info/v2'
+
+export const midgardAPI = (url: string, stagenet?: boolean) =>
   `${
-    NETWORK === 'testnet' ? MIDGARD_TESTNET_API_URI : MIDGARD_MAINNET_API_URI
+    NETWORK === 'testnet'
+      ? MIDGARD_TESTNET_API_URI
+      : stagenet
+      ? MIDGARD_STAGENET_API_URI
+      : MIDGARD_MAINNET_API_URI
   }/${url}`
 
 // https://docs.thorchain.org/how-it-works/governance#mimir

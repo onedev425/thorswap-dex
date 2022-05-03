@@ -15,6 +15,7 @@ import {
 } from '@thorswap-lib/xchain-util'
 
 import { useMidgard } from 'store/midgard/hooks'
+import { MimirData } from 'store/midgard/types'
 
 import { useGlobalStats } from 'hooks/useGlobalStats'
 
@@ -27,15 +28,23 @@ export const useMimir = () => {
   const maxLiquidityRune = totalActiveBond
   const totalPooledRune = Amount.fromMidgard(networkData?.totalPooledRune)
 
+  const isEntryPaused = (entry: keyof MimirData) => {
+    if (!mimir || typeof mimir[entry] !== 'number') {
+      return false
+    }
+
+    return mimir[entry] !== 0
+  }
+
   // halt status
-  const isTHORChainHalted = mimir?.HALTTHORCHAIN === 1
-  const isBTCChainHalted = mimir?.HALTBTCCHAIN === 1
-  const isETHChainHalted = mimir?.HALTETHCHAIN === 1
-  const isBNBChainHalted = mimir?.HALTBNBCHAIN === 1
-  const isLTCChainHalted = mimir?.HALTLTCCHAIN === 1
-  const isBCHChainHalted = mimir?.HALTBCHCHAIN === 1
-  const isDOGEChainHalted = mimir?.HALTDOGECHAIN === 1
-  const isTERRAChainHalted = mimir?.HALTTERRACHAIN === 1
+  const isTHORChainHalted = isEntryPaused('HALTTHORCHAIN')
+  const isBTCChainHalted = isEntryPaused('HALTBTCCHAIN')
+  const isETHChainHalted = isEntryPaused('HALTETHCHAIN')
+  const isBNBChainHalted = isEntryPaused('HALTBNBCHAIN')
+  const isLTCChainHalted = isEntryPaused('HALTLTCCHAIN')
+  const isBCHChainHalted = isEntryPaused('HALTBCHCHAIN')
+  const isDOGEChainHalted = isEntryPaused('HALTDOGECHAIN')
+  const isTERRAChainHalted = isEntryPaused('HALTTERRACHAIN')
   const isChainHalted: {
     [key: string]: boolean
   } = {
@@ -53,13 +62,13 @@ export const useMimir = () => {
   const isChainTradingHalted: {
     [key: string]: boolean
   } = {
-    [BTCChain]: mimir?.HALTBTCTRADING === 1,
-    [BNBChain]: mimir?.HALTBNBTRADING === 1,
-    [ETHChain]: mimir?.HALTETHTRADING === 1,
-    [LTCChain]: mimir?.HALTLTCTRADING === 1,
-    [BCHChain]: mimir?.HALTBCHTRADING === 1,
-    [DOGEChain]: mimir?.HALTDOGETRADING === 1,
-    [TERRAChain]: mimir?.HALTTERRATRADING === 1,
+    [BTCChain]: isEntryPaused('HALTBTCTRADING'),
+    [BNBChain]: isEntryPaused('HALTBNBTRADING'),
+    [ETHChain]: isEntryPaused('HALTETHTRADING'),
+    [LTCChain]: isEntryPaused('HALTLTCTRADING'),
+    [BCHChain]: isEntryPaused('HALTBCHTRADING'),
+    [DOGEChain]: isEntryPaused('HALTDOGETRADING'),
+    [TERRAChain]: isEntryPaused('HALTTERRATRADING'),
   }
 
   // pause LP
@@ -68,13 +77,13 @@ export const useMimir = () => {
   const isChainPauseLP: {
     [key: string]: boolean
   } = {
-    [BTCChain]: mimir?.PAUSELPBCH === 1,
-    [BNBChain]: mimir?.PAUSELPBNB === 1,
-    [ETHChain]: mimir?.PAUSELPBTC === 1,
-    [LTCChain]: mimir?.PAUSELPETH === 1,
-    [BCHChain]: mimir?.PAUSELPLTC === 1,
-    [DOGEChain]: mimir?.PAUSELPDOGE === 1,
-    [TERRAChain]: mimir?.PAUSELPTERRA === 1,
+    [BTCChain]: isEntryPaused('PAUSELPBCH'),
+    [BNBChain]: isEntryPaused('PAUSELPBNB'),
+    [ETHChain]: isEntryPaused('PAUSELPBTC'),
+    [LTCChain]: isEntryPaused('PAUSELPETH'),
+    [BCHChain]: isEntryPaused('PAUSELPLTC'),
+    [DOGEChain]: isEntryPaused('PAUSELPDOGE'),
+    [TERRAChain]: isEntryPaused('PAUSELPTERRA'),
   }
 
   const isChainPauseLPAction = (key: string) => {

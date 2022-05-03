@@ -1,10 +1,13 @@
+import { ReactNode } from 'react'
+
 export type DropdownMenuItem = {
   className?: string
   value: string
-  label?: string
-  Component?: JSX.Element
   disabled?: boolean
-}
+} & (
+  | { label: string; Component?: undefined }
+  | { label?: undefined; Component: ReactNode }
+)
 
 export type DropdownOptions = {
   className?: string

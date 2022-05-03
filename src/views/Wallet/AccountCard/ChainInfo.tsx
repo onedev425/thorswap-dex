@@ -32,7 +32,7 @@ export const ChainInfo = memo(
         className="px-3 py-2 border-0 border-b border-solid border-light-gray-light dark:border-dark-border-primary"
       >
         <Box>
-          <AssetIcon asset={asset} />
+          <AssetIcon hasChainIcon={false} asset={asset} />
           <Box pl={2} col>
             <Typography>{asset.name}</Typography>
             <Typography

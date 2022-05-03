@@ -8,6 +8,7 @@ import { useFormatPrice } from 'helpers/formatPrice'
 
 import { ThemeType } from 'types/app'
 
+import { abbreviateNumber } from './../../helpers/number'
 import { getChartData } from './config/chartData'
 import { getChartOptions } from './config/chartOptions'
 import { parseChartData } from './config/utils'
@@ -19,6 +20,7 @@ type Params = {
   hideLabel: boolean
   hasGrid: boolean
   chartTimeFrame: ChartTimeFrame
+  abbreviateValues?: boolean
 }
 
 export const useChartData = ({
@@ -27,6 +29,7 @@ export const useChartData = ({
   chartData,
   selectedIndex,
   chartTimeFrame,
+  abbreviateValues,
 }: Params) => {
   const { themeType } = useApp()
 
@@ -36,7 +39,10 @@ export const useChartData = ({
     unit,
     values: selectedChartValues = [],
   } = chartData?.[selectedIndex] || {}
-  const formatter = useFormatPrice({ prefix: unit })
+  const formatPrice = useFormatPrice({ prefix: unit })
+  const formatter = abbreviateValues
+    ? (value: number) => `${unit}${abbreviateNumber(value, 2)}`
+    : formatPrice
 
   const slicedByTime = useMemo(
     () =>

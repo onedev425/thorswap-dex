@@ -179,6 +179,14 @@
     "claimAssetFailed": "Claim %{amount} %{asset} failed"
   },
   "components": {
+    "announcements": {
+      "thorChainHalted": "THORChain is temporarily unavailable while undergoing maintenance. All actions are currently disabled.",
+      "thorChainLPHalted": "Adding and withdrawing liquidity are temporarily disabled on THORChain.",
+      "thorChainTradeHalted": "Trading is temporarily disabled on THORChain.",
+      "chainHalted": "%{chain} Chain is temporarily halted on THORChain. All trading and LP actions are currently unavailable",
+      "chainLPHalted": "Trading on %{chain} Chain is temporarily unavailable.",
+      "chainTradeHalted": "Adding and withdrawing on %{chain} Chain are temporarily unavailable."
+    },
     "assetSelect": {
       "selectAToken": "Select a token",
       "noResultsFound": "No results found",
