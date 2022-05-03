@@ -97,7 +97,11 @@ export const useGlobalChartInfo = () => {
       )
 
       const total = format(
-        swapValue.add(addValue).add(withdrawValue).toFixedDecimal(8),
+        String(
+          Number(data?.totalVolume) +
+            Number(liquidityValue?.addLiquidityVolume) +
+            Number(liquidityValue?.withdrawVolume),
+        ),
       )
 
       if (total.baseAmount.toNumber()) {

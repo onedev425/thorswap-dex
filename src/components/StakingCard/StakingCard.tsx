@@ -120,6 +120,12 @@ export const StakingCard = ({
     setIsFetching(false)
   }, [contractType, stakingToken, wallet])
 
+  const handleRefresh = useCallback(() => {
+    if (ethAddr) {
+      getPoolUserInfo()
+    }
+  }, [ethAddr, getPoolUserInfo])
+
   const getBlockReward = useCallback(async () => {
     const stakingContract = getEtherscanContract(contractType)
     const blockReward = await stakingContract.blockReward()
@@ -350,7 +356,12 @@ export const StakingCard = ({
               {farmName}
             </Typography>
             <Box flex={1} justify="end">
-              {isFetching && <HoverIcon iconName="refresh" color="cyan" spin />}
+              <HoverIcon
+                iconName="refresh"
+                color="cyan"
+                spin={isFetching}
+                onClick={handleRefresh}
+              />
             </Box>
           </Box>
 
