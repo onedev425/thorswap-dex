@@ -9,10 +9,10 @@ import { useFormatPrice } from 'helpers/formatPrice'
 import { InputAmountProps } from './types'
 import { getAmountFromString } from './utils'
 
-const formatPriceOptions = { decimals: 8, prefix: '' }
-
 export const InputAmount = memo(
   ({ amountValue, onAmountChange, ref, ...otherProps }: InputAmountProps) => {
+    const formatPriceOptions = { decimals: amountValue.decimal, prefix: '' }
+
     const formatPrice = useFormatPrice(formatPriceOptions)
     const [rawValue, setRawValue] = useState(formatPrice(amountValue))
 

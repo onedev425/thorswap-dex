@@ -20,7 +20,7 @@ import { ViewHeader } from 'components/ViewHeader'
 
 import { useWallet } from 'store/wallet/hooks'
 
-import { fromWei, toWei } from 'services/contract'
+import { fromWei, toWei, toWeiFromString } from 'services/contract'
 import { t } from 'services/i18n'
 
 import { useFormatPrice } from 'helpers/formatPrice'
@@ -115,17 +115,24 @@ const StakeVThor = () => {
   }, [getVthorAPR])
 
   const handleMaxClick = useCallback(() => {
-    const maxAmount = fromWei(
-      action === StakeActions.Deposit ? thorBalBn : vthorBalBn,
-    )
-    // TODO: set max amount
-    setInputAmount(Amount.fromAssetAmount(new BN(maxAmount.toString()), 18))
+    const maxAmountBN = Amount.fromBaseAmount(
+      action === StakeActions.Deposit
+        ? new BN(thorBalBn.toString())
+        : new BN(vthorBalBn.toString()),
+      18,
+    ).assetAmount
+
+    setInputAmount(Amount.fromAssetAmount(new BN(maxAmountBN.toString()), 18))
 
     if (action === StakeActions.Deposit) {
-      const expectedOutput = previewDeposit(BigNumber.from(toWei(maxAmount)))
+      const expectedOutput = previewDeposit(
+        BigNumber.from(toWeiFromString(maxAmountBN.toString())),
+      )
       setOutputAmount(expectedOutput)
     } else {
-      const expectedOutput = previewRedeem(BigNumber.from(toWei(maxAmount)))
+      const expectedOutput = previewRedeem(
+        BigNumber.from(toWeiFromString(maxAmountBN.toString())),
+      )
       setOutputAmount(expectedOutput)
     }
   }, [action, thorBalBn, vthorBalBn, previewDeposit, previewRedeem])
@@ -343,6 +350,7 @@ const StakeVThor = () => {
                     containerClassName="!py-0"
                     amountValue={inputAmount}
                     onAmountChange={onAmountChange}
+                    stretch
                   />
                 </Box>
 
