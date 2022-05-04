@@ -95,7 +95,7 @@ export const LiquidityCard = ({
     <Box className="self-stretch" justifyCenter col>
       <HighlightCard
         className="!rounded-2xl p-2 !gap-1"
-        type={isPendingLP ? 'warn' : 'info'}
+        type={isPendingLP ? 'warn' : 'primary'}
       >
         <Box
           onClick={toggle}

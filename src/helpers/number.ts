@@ -12,3 +12,10 @@ export const abbreviateNumber = (value: number, decimal = 0): string => {
     suffixNum > 0 ? ` ${suffixes[suffixNum]}` : ''
   }`
 }
+
+export const toOptionalFixed = (num: number, decimal = 2): string => {
+  const maskStr = Array(decimal + 1).join('0')
+  const regex = new RegExp(`[.,]${maskStr}$`)
+
+  return num.toFixed(decimal).replace(regex, '')
+}

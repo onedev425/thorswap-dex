@@ -93,6 +93,22 @@ export const TxHeader = ({ txInfo }: Props) => {
     )
   }
 
+  if (type === TxTrackerType.Unstake) {
+    const { inAssets = [] } = submitTx
+    const { asset: unstakeAsset, amount } = inAssets[0]
+
+    return (
+      <Box className="gap-x-1" alignCenter row>
+        <Typography variant="caption" color="secondary" fontWeight="semibold">
+          {t('txManager.unstakeAsset', {
+            amount,
+            asset: Asset.fromAssetString(unstakeAsset)?.ticker,
+          })}
+        </Typography>
+      </Box>
+    )
+  }
+
   if (isSwapType(txInfo)) {
     const { inAssets = [], outAssets = [] } = submitTx
 

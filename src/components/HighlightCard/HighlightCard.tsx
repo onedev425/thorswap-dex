@@ -19,12 +19,18 @@ type Props = {
   type?: CardStyleType
 }
 
+const borderClassess: Record<CardStyleType, string> = {
+  primary: '',
+  warn: 'border-yellow hover:!border-yellow border-opacity-50 hover:border-opacity-100 !bg-yellow !bg-opacity-10',
+  info: 'border-btn-primary hover:!border-btn-primary border-opacity-50 hover:border-opacity-100 !bg-btn-primary !bg-opacity-10',
+}
+
 export const HighlightCard = ({
   className,
   disabled,
   children,
   isFocused,
-  type = 'info',
+  type = 'primary',
   onClick,
 }: Props) => {
   return (
@@ -37,10 +43,8 @@ export const HighlightCard = ({
         {
           [borderHighlightClass]: isFocused,
           [borderHoverHighlightClass]: !disabled,
-          'border-yellow hover:!border-yellow border-opacity-50 hover:border-opacity-100 !bg-yellow !bg-opacity-10':
-            type === 'warn',
         },
-
+        borderClassess[type],
         className,
       )}
       onClick={onClick}

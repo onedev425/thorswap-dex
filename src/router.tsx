@@ -13,6 +13,7 @@ import Home from 'views/Home'
 import ManageLiquidity from 'views/ManageLiquidity'
 import Send from 'views/Send'
 import Stake from 'views/Stake'
+import StakeVThor from 'views/StakeVThor'
 import Stats from 'views/Stats'
 import Swap from 'views/Swap'
 // import Thorname from 'views/Thorname'
@@ -53,6 +54,7 @@ const routes: RouteType = [
   // { path: ROUTES.Nodes, element: Nodes },
   // { path: ROUTES.NodeManager, element: NodeManager },
   // { path: ROUTES.NodeDetail, element: NodeDetails },
+  { path: ROUTES.StakeV2, element: StakeVThor },
 ]
 
 const PublicRoutes = () => {

@@ -13,6 +13,7 @@ export enum ROUTES {
   Send = '/send',
   SendAsset = '/send/:assetParam',
   Stake = '/stake',
+  StakeV2 = '/vthor',
   Stats = '/stats',
   Swap = '/swap',
   SwapPair = '/swap/:pair',

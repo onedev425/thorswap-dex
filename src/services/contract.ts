@@ -12,11 +12,13 @@ import { config, INFURA_PROJECT_ID, IS_TESTNET } from 'settings/config'
 import ERC20ABI from './abi/ERC20.json'
 import StakingABI from './abi/Staking.json'
 import VestingABI from './abi/TokenVesting.json'
+import VThorABI from './abi/VThor.json'
 
 export enum ContractType {
   VESTING = 'vesting',
   STAKING_THOR = 'staking_thor',
   STAKING_SUSHI_WETH = 'staking_sushi_weth',
+  VTHOR = 'vthor',
 }
 
 export enum LPContractType {
@@ -61,6 +63,11 @@ export const contractConfig: Record<ContractType, ContractConf> = {
     [Network.Mainnet]: '0xae1Fc3947Ee83aeb3b7fEC237BCC1D194C88BC24',
     [Network.Testnet]: '0xae1Fc3947Ee83aeb3b7fEC237BCC1D194C88BC24',
     [ContractABI]: StakingABI,
+  },
+  [ContractType.VTHOR]: {
+    [Network.Mainnet]: '0x815C23eCA83261b6Ec689b60Cc4a58b54BC24D8D',
+    [Network.Testnet]: '0x9783e4A7F0BF047Fd7982e75A1A1C8023a7d6A92',
+    [ContractABI]: VThorABI,
   },
 }
 
@@ -117,13 +124,20 @@ export const getEtherscanContract = (contractType: ContractType) => {
   return contract
 }
 
-export const getCustomContract = (contractAddr: string) => {
+export const getCustomContract = (
+  contractAddr: string,
+  abi?: ContractInterface,
+) => {
   const provider = new ethers.providers.InfuraProvider(
     IS_TESTNET ? 3 : 1,
     INFURA_PROJECT_ID,
   )
 
-  const contract = new ethers.Contract(contractAddr, ERC20ABI, provider)
+  const contract = new ethers.Contract(
+    contractAddr,
+    abi ? abi : ERC20ABI,
+    provider,
+  )
 
   return contract
 }

@@ -53,10 +53,12 @@ export const useTxTracker = () => {
       uuid,
       submitTx,
       txHash,
+      callback,
     }: {
       uuid: string
       submitTx: SubmitTx
       txHash: string
+      callback?: () => void
     }) => {
       const ethClient = multichain.eth.getClient()
       const ethProvider = ethClient.getProvider()
@@ -70,6 +72,8 @@ export const useTxTracker = () => {
             submitTx,
           },
         })
+
+        if (status && callback) callback()
       })
     },
     [updateTxTracker],

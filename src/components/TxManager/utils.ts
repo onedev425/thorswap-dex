@@ -277,5 +277,6 @@ export const getTxType = (): Record<TxTrackerType, string> => {
     [TxTrackerType.Stake]: t('txManager.stake'),
     [TxTrackerType.Claim]: t('txManager.claim'),
     [TxTrackerType.StakeExit]: t('txManager.withdraw'),
+    [TxTrackerType.Unstake]: t('txManager.unstake'),
   }
 }

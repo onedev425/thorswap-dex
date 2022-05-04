@@ -68,6 +68,7 @@ export enum TxTrackerType {
   Stake = 'stake',
   Claim = 'claim',
   StakeExit = 'stakeExit',
+  Unstake = 'unstake', // for vTHOR unstake
 }
 
 export type MimirData = {

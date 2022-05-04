@@ -1,7 +1,16 @@
 import { AssetTickerType } from './types'
 
 const getImageUrl = (
-  name: 'alcx' | 'bnb' | 'dogecoin' | 'luna' | 'rune' | 'tgt' | 'ust',
+  name:
+    | 'alcx'
+    | 'bnb'
+    | 'dogecoin'
+    | 'luna'
+    | 'rune'
+    | 'tgt'
+    | 'ust'
+    | 'thor'
+    | 'vthor',
   type: 'png' | 'svg' = 'png',
 ) => {
   return new URL(`./assets/asset-${name}.${type}`, import.meta.url).href
@@ -15,6 +24,8 @@ export const customIconMap: Partial<Record<AssetTickerType, string>> = {
   RUNE: getImageUrl('rune', 'svg'),
   TGT: getImageUrl('tgt'),
   UST: getImageUrl('ust'),
+  THOR: getImageUrl('thor'),
+  VTHOR: getImageUrl('vthor'),
   WETH: 'https://assets.coingecko.com/coins/images/2518/large/weth.png',
 }
 

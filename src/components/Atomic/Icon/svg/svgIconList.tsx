@@ -44,6 +44,7 @@ import { ReactComponent as Tick } from './tick.svg'
 import { ReactComponent as TradeLightning } from './tradeLightning.svg'
 import { ReactComponent as Upload } from './upload.svg'
 import { ReactComponent as Usdt } from './usdt.svg'
+import { ReactComponent as VThor } from './vthor.svg'
 import { ReactComponent as Wallet } from './wallet.svg'
 import { ReactComponent as WalletConnect } from './walletConnect.svg'
 import { ReactComponent as Watch } from './watch.svg'
@@ -62,6 +63,7 @@ export const Svgs = {
   terra: Terra,
   thor: Thorchain,
   thoryield: Thoryield,
+  vthor: VThor,
   // other icons
   app: App,
   binance: Binance3d,
@@ -151,6 +153,7 @@ export const SvgIcons = {
   ),
   upload: (props: CustomIconProps) => <SvgIcon name="upload" {...props} />,
   usdt: (props: CustomIconProps) => <SvgIcon name="usdt" {...props} />,
+  vthor: (props: CustomIconProps) => <SvgIcon name="vthor" {...props} />,
   walletConnect: (props: CustomIconProps) => (
     <SvgIcon name="walletConnect" {...props} />
   ),

@@ -1,1 +1,9 @@
-export type CardStyleType = 'info' | 'warn'
+import { TypographyColorType } from 'components/Atomic/Typography/types'
+
+export type CardStyleType = 'primary' | 'info' | 'warn'
+
+export const cardFontColors: Record<CardStyleType, TypographyColorType> = {
+  primary: 'primary',
+  info: 'primaryBtn',
+  warn: 'yellow',
+}
