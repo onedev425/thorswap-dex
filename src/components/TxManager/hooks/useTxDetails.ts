@@ -327,6 +327,7 @@ const getStakeDetails = (txTracker: TxTracker): TxDetails => {
         status: 'failed',
         label: t('txManager.stakeAssetFailed', {
           asset: Asset.fromAssetString(stakeAsset)?.ticker,
+          amount,
         }),
       },
     ]
