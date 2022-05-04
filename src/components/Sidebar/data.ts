@@ -77,15 +77,15 @@ export const getDefaultNavbarOptions = (): SidebarItemProps[] => [
     label: t('components.sidebar.thor'),
     children: [
       {
-        iconName: 'tradeLightning',
-        href: ROUTES.Stake,
-        label: t('components.sidebar.thorStake'),
-      },
-      {
         iconName: 'vthor',
         href: ROUTES.StakeV2,
         label: t('components.sidebar.vthor'),
         transform: 'none',
+      },
+      {
+        iconName: 'tradeLightning',
+        href: ROUTES.Stake,
+        label: t('components.sidebar.thorStake'),
       },
       // {
       //   iconName: 'chartPieOutline',
