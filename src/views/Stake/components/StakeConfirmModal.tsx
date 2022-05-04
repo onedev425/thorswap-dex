@@ -96,10 +96,13 @@ export const StakeConfirmModal = ({
 
   const handleConfirm = useCallback(() => {
     onConfirm(amount)
-  }, [amount, onConfirm])
+
+    onCancel()
+  }, [amount, onCancel, onConfirm])
 
   const handleConfirmApprove = useCallback(async () => {
     if (wallet) {
+      onCancel()
       // register to tx tracker
       const trackId = submitTransaction({
         type: TxTrackerType.Approve,
@@ -144,6 +147,7 @@ export const StakeConfirmModal = ({
     contractType,
     lpAsset,
     wallet,
+    onCancel,
     setTxFailed,
     submitTransaction,
     subscribeEthTx,
@@ -205,7 +209,8 @@ export const StakeConfirmModal = ({
               {t('txManager.approve')}
             </Button>
           )}
-          {isApproved && (
+          {((isApproved && type === FarmActionType.DEPOSIT) ||
+            type !== FarmActionType.DEPOSIT) && (
             <Button isFancy onClick={handleConfirm} stretch variant="primary">
               {actionLabel}
             </Button>

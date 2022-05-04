@@ -43,6 +43,7 @@ import { useBalance } from 'hooks/useBalance'
 import { useCheckExchangeBNB } from 'hooks/useCheckExchangeBNB'
 import { useNetworkFee } from 'hooks/useNetworkFee'
 import { useTxTracker } from 'hooks/useTxTracker'
+import { useVthorBalance } from 'hooks/useVthorBalance'
 
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
@@ -83,6 +84,10 @@ const SwapView = () => {
 
   const { getMaxBalance } = useBalance()
   const { wallet, setIsConnectModalOpen } = useWallet()
+  const ethAddr = useMemo(() => wallet?.ETH?.address, [wallet])
+
+  const { hasVThor } = useVthorBalance(ethAddr)
+
   const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
   const { totalFeeInUSD: totalNetworkFeeInUSD } = useNetworkFee({
     inputAsset,
@@ -107,8 +112,9 @@ const SwapView = () => {
     () =>
       IS_AFFILIATE_ON &&
       !inputAsset.isUTXOAsset() &&
-      inputAssetPriceInUSD.raw().gte(AFFILIATE_FEE_THRESHOLD_AMOUNT),
-    [inputAsset, inputAssetPriceInUSD],
+      inputAssetPriceInUSD.raw().gte(AFFILIATE_FEE_THRESHOLD_AMOUNT) &&
+      !hasVThor,
+    [inputAsset, inputAssetPriceInUSD, hasVThor],
   )
 
   const affiliateFeeInUSD = useMemo(

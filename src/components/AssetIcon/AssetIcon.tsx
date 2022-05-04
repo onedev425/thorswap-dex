@@ -26,6 +26,7 @@ export const AssetIcon = memo(
     const iconSize = typeof size === 'number' ? size : iconSizes[size]
     const iconUrl = getAssetIconUrl(asset)
     const secondaryIconSize = iconSize * 0.4
+    const isTHOR = asset.ticker === 'THOR' || asset.ticker === 'VTHOR'
 
     return (
       <div
@@ -47,7 +48,7 @@ export const AssetIcon = memo(
           />
         )}
 
-        {iconUrl && !hasError ? (
+        {iconUrl && (!hasError || isTHOR) ? (
           <Box
             className={classNames(
               'rounded-full box-border overflow-hidden relative transition-all z-10',
@@ -58,7 +59,7 @@ export const AssetIcon = memo(
             height={iconSize}
           >
             <img
-              className="absolute inset-0 rounded-full transition-all"
+              className="absolute inset-0 transition-all rounded-full"
               src={iconUrl}
               alt={asset.symbol}
               style={{ width: iconSize, height: iconSize }}

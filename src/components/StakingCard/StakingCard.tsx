@@ -69,7 +69,7 @@ export const StakingCard = ({
   const [pendingRewardDebtBn, setPendingRewardDebtBn] = useState(
     BigNumber.from(0),
   )
-  const { submitTransaction, subscribeEthTx } = useTxTracker()
+  const { setTxFailed, submitTransaction, subscribeEthTx } = useTxTracker()
   const { wallet, setIsConnectModalOpen } = useWallet()
   const {
     isOpened: isModalOpened,
@@ -183,9 +183,11 @@ export const StakingCard = ({
 
   const handleStakingAction = useCallback(
     async (tokenAmount: BigNumber) => {
+      closeConfirm()
+      let trackId = ''
       try {
         if (modalType === FarmActionType.DEPOSIT) {
-          const trackId = submitTransaction({
+          trackId = submitTransaction({
             type: TxTrackerType.Stake,
             submitTx: {
               inAssets: [
@@ -221,7 +223,7 @@ export const StakingCard = ({
             })
           }
         } else if (modalType === FarmActionType.CLAIM) {
-          const trackId = submitTransaction({
+          trackId = submitTransaction({
             type: TxTrackerType.Claim,
             submitTx: {
               inAssets: [
@@ -257,7 +259,7 @@ export const StakingCard = ({
             })
           }
         } else if (modalType === FarmActionType.WITHDRAW) {
-          const trackId = submitTransaction({
+          trackId = submitTransaction({
             type: TxTrackerType.StakeExit,
             submitTx: {
               inAssets: [
@@ -294,6 +296,7 @@ export const StakingCard = ({
           }
         }
       } catch (error) {
+        setTxFailed(trackId)
         console.error(error)
       }
     },
@@ -302,6 +305,8 @@ export const StakingCard = ({
       ethAddr,
       modalType,
       lpAsset,
+      closeConfirm,
+      setTxFailed,
       submitTransaction,
       subscribeEthTx,
     ],
@@ -326,7 +331,7 @@ export const StakingCard = ({
 
   return (
     <Box className="flex-1 !min-w-[360px] lg:!max-w-[50%]" col>
-      <Box className="w-full relative" mt={56}>
+      <Box className="relative w-full" mt={56}>
         <Card
           className={classNames('flex-col w-full', borderHoverHighlightClass)}
         >

@@ -73,7 +73,7 @@ const formatter = ({
   const numOfDecimals = amount ? decimals || getNumberOfDecimals(amount) : 0
 
   if (amount && typeof amount === 'object') {
-    return amount.toSignificant(6, format)
+    return amount.toFixed(numOfDecimals, format)
   } else if (typeof amount === 'number') {
     const bigNumber = new BigNumber(amount.toFixed(numOfDecimals))
 
@@ -93,8 +93,12 @@ export const useFormatPrice = (options?: FormatOptions) => {
   const format = useFormat(options)
 
   return useCallback(
-    (amount: Value) =>
-      formatter({ amount, format, decimals: options?.decimals }),
+    (amount: Value) => {
+      if (amount instanceof Amount) {
+        return formatter({ amount, format, decimals: amount?.decimal })
+      }
+      return formatter({ amount, format, decimals: options?.decimals })
+    },
     [format, options?.decimals],
   )
 }

@@ -52,7 +52,7 @@ export const TxManager = () => {
           {
             message: t('notification.successfulTransaction'),
             description: (
-              <Box className="w-full col alignCenter z-10 row" col>
+              <Box className="z-10 w-full col alignCenter row" col>
                 <Box className="py-1" row>
                   <Box row alignCenter>
                     <Typography
@@ -66,7 +66,7 @@ export const TxManager = () => {
                   <TxHeader txInfo={txTracker} />
                 </Box>
 
-                <Box className="py-2 alignCenter w-full" col>
+                <Box className="w-full py-2 alignCenter" col>
                   <TxContent txTracker={txTracker} />
                 </Box>
               </Box>

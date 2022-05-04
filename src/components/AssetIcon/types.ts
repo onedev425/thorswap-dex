@@ -171,6 +171,8 @@ export type AssetTickerType =
   | 'LUNA'
   | 'UST'
   | 'WETH'
+  | 'THOR'
+  | 'VTHOR'
 
 export const iconSizes = {
   large: 72,

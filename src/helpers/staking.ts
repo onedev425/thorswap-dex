@@ -1,6 +1,11 @@
+import axios from 'axios'
+import { takeRight } from 'lodash'
+
 export const BLOCKS_PER_DAY = 6432
 export const BLOCKS_PER_MONTH = BLOCKS_PER_DAY * 30
 export const BLOCKS_PER_YEAR = BLOCKS_PER_DAY * 365
+
+export const VTHOR_BLOCK_REWARD = 15
 
 // const THOR_PRICE = 1.5
 // const THOR_REWARDS_PER_BLOCK = 20
@@ -26,4 +31,40 @@ export const apr2apy = (apr: number) => {
 
 export const apr2blockReward = (apr: number, totalAmount: number) => {
   return (apr * totalAmount) / 100 / BLOCKS_PER_YEAR
+}
+
+function caculateMovingAverage(data: number[], window: number) {
+  const last7days = data.length >= window ? takeRight(data, window) : data
+
+  const accThorBuyback = last7days.reduce((prev, current) => prev + current)
+
+  return accThorBuyback
+}
+
+export const getThorBuyback = async () => {
+  try {
+    const data = (
+      await axios.get(
+        'https://api.flipsidecrypto.com/api/v2/queries/9daa6cd4-8e78-4432-bdd7-a5f0fc480229/data/latest',
+      )
+    ).data as [
+      { DATE: string; AFF_ADDRESS: string; AFF_FEE_EARNED_THOR: number },
+    ]
+    const affiliateFeesDaily: number[] = []
+    data.forEach((element) => {
+      affiliateFeesDaily.push(element.AFF_FEE_EARNED_THOR)
+    })
+    const affiliateFees7dAverage = caculateMovingAverage(affiliateFeesDaily, 7)
+
+    return affiliateFees7dAverage * 52
+  } catch (error) {
+    return 0
+  }
+}
+
+export const getVthorAPR = async (tvl: number) => {
+  const vthorBlockReward = VTHOR_BLOCK_REWARD * BLOCKS_PER_YEAR
+  const buybackThor = await getThorBuyback().catch(() => 0)
+
+  return ((vthorBlockReward + buybackThor) / tvl) * 100
 }
