@@ -94,7 +94,7 @@ export const showToast: ShowToastFunction = (
 
 export const ToastPortal = () => {
   return (
-    <Toaster gutter={16} position="top-right" containerClassName="m-4">
+    <Toaster gutter={16} position="bottom-right" containerClassName="m-4">
       {(t) => (
         <div style={{ cursor: 'pointer' }} onClick={() => toast.dismiss(t.id)}>
           <ToastBar toast={t} />
