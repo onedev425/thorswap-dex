@@ -66,5 +66,5 @@ export const getVthorAPR = async (tvl: number) => {
   const vthorBlockReward = VTHOR_BLOCK_REWARD * BLOCKS_PER_YEAR
   const buybackThor = await getThorBuyback().catch(() => 0)
 
-  return (vthorBlockReward + buybackThor) / tvl
+  return ((vthorBlockReward + buybackThor) / tvl) * 100
 }
