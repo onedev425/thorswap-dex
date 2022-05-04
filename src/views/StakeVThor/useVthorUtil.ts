@@ -87,7 +87,6 @@ export const useVthorUtil = () => {
 
   const approveTHOR = useCallback(async () => {
     const thorAsset = getV2Asset(StakingV2Type.THOR)
-    const ethClient = multichain.eth.getClient()
 
     const trackId = submitTransaction({
       type: TxTrackerType.Approve,
@@ -102,12 +101,10 @@ export const useVthorUtil = () => {
     })
 
     try {
-      const res = await ethClient.approve({
-        contractAddress: getV2Address(StakingV2Type.THOR),
-        spenderAddress: getV2Address(StakingV2Type.VTHOR),
-      })
-
-      const txHash = res?.hash
+      const txHash = await multichain.approveAssetForStaking(
+        getV2Asset(StakingV2Type.THOR),
+        getV2Address(StakingV2Type.VTHOR),
+      )
 
       if (txHash) {
         subscribeEthTx({
@@ -206,6 +203,10 @@ export const useVthorUtil = () => {
 
   const stakeThor = useCallback(
     async (stakeAmount: BigNumber, receiverAddr: string) => {
+      if (fromWei(stakeAmount) === 0) {
+        return
+      }
+
       const thorAsset = getV2Asset(StakingV2Type.THOR)
 
       // submit transaction for Stake
@@ -248,6 +249,7 @@ export const useVthorUtil = () => {
           })
         }
       } catch {
+        setTxFailed(trackId)
         showToast(
           {
             message: t('txManager.stakeAssetFailed', {
@@ -259,7 +261,7 @@ export const useVthorUtil = () => {
         )
       }
     },
-    [handleRefresh, submitTransaction, subscribeEthTx],
+    [handleRefresh, setTxFailed, submitTransaction, subscribeEthTx],
   )
 
   const unstakeThor = useCallback(
@@ -306,6 +308,7 @@ export const useVthorUtil = () => {
           })
         }
       } catch {
+        setTxFailed(trackId)
         showToast(
           {
             message: t('txManager.redeemedAmountAssetFailed', {
@@ -317,7 +320,7 @@ export const useVthorUtil = () => {
         )
       }
     },
-    [handleRefresh, submitTransaction, subscribeEthTx],
+    [handleRefresh, setTxFailed, submitTransaction, subscribeEthTx],
   )
 
   useEffect(() => handleRefresh(), [handleRefresh])

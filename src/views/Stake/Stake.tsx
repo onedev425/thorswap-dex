@@ -11,7 +11,7 @@ const Stake = () => {
   return (
     <div className="container mx-auto">
       <Helmet title={t('common.staking')} content={t('common.staking')} />
-      <Box className="gap-2.5 flex-wrap justify-center">
+      <Box className="gap-2.5 flex-wrap">
         {farmData.map(
           ({ lpToken, ...rest }) =>
             lpToken && (

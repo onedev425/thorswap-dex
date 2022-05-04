@@ -113,13 +113,20 @@ const StakeVThor = () => {
   }, [getVthorAPR])
 
   const handleMaxClick = useCallback(() => {
-    console.log('MAX AMOUNT - ', fromWei(thorBalBn).toString())
     const maxAmount = fromWei(
       action === StakeActions.Deposit ? thorBalBn : vthorBalBn,
-    ).toString()
+    )
     // TODO: set max amount
-    setInputAmount(Amount.fromAssetAmount(new BN(maxAmount), 18))
-  }, [action, thorBalBn, vthorBalBn])
+    setInputAmount(Amount.fromAssetAmount(new BN(maxAmount.toString()), 18))
+
+    if (action === StakeActions.Deposit) {
+      const expectedOutput = previewDeposit(BigNumber.from(toWei(maxAmount)))
+      setOutputAmount(expectedOutput)
+    } else {
+      const expectedOutput = previewRedeem(BigNumber.from(toWei(maxAmount)))
+      setOutputAmount(expectedOutput)
+    }
+  }, [action, thorBalBn, vthorBalBn, previewDeposit, previewRedeem])
 
   const onAmountChange = useCallback(
     (amount: Amount, targetAction?: StakeActions) => {
@@ -430,6 +437,7 @@ const StakeVThor = () => {
                       stretch
                       size="lg"
                       loading={false}
+                      disabled={inputAmount.assetAmount.toNumber() === 0}
                       onClick={handleAction}
                     >
                       {t('txManager.stake')}
@@ -442,6 +450,10 @@ const StakeVThor = () => {
                   stretch
                   size="lg"
                   loading={false}
+                  disabled={
+                    inputAmount.assetAmount.toNumber() === 0 ||
+                    fromWei(vthorBalance) === 0
+                  }
                   onClick={handleAction}
                 >
                   {t('views.stakingVThor.unstake')}

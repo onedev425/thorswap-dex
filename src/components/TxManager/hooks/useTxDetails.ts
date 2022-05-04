@@ -308,7 +308,7 @@ const getApproveDetails = (txTracker: TxTracker): TxDetails => {
         : t('txManager.approvedAsset', {
             asset: Asset.fromAssetString(approveAsset)?.ticker,
           }),
-      url: status === TxTrackerStatus.Success ? getApproveTxUrl(txTracker) : '',
+      url: getApproveTxUrl(txTracker),
     },
   ]
 
@@ -344,7 +344,7 @@ const getStakeDetails = (txTracker: TxTracker): TxDetails => {
             amount,
             asset: Asset.fromAssetString(stakeAsset)?.ticker,
           }),
-      url: status === TxTrackerStatus.Success ? getApproveTxUrl(txTracker) : '',
+      url: getApproveTxUrl(txTracker),
     },
   ]
 
@@ -381,7 +381,7 @@ const getClaimDetails = (txTracker: TxTracker): TxDetails => {
             amount,
             asset: Asset.fromAssetString(claimAsset)?.ticker,
           }),
-      url: status === TxTrackerStatus.Success ? getApproveTxUrl(txTracker) : '',
+      url: getApproveTxUrl(txTracker),
     },
   ]
 
@@ -418,7 +418,7 @@ const getStakeWithdrawDetails = (txTracker: TxTracker): TxDetails => {
             amount,
             asset: Asset.fromAssetString(withdrawAsset)?.ticker,
           }),
-      url: status === TxTrackerStatus.Success ? getApproveTxUrl(txTracker) : '',
+      url: getApproveTxUrl(txTracker),
     },
   ]
 
@@ -455,7 +455,7 @@ const getUnstakeDetails = (txTracker: TxTracker): TxDetails => {
             amount,
             asset: Asset.fromAssetString(unstakeAsset)?.ticker,
           }),
-      url: status === TxTrackerStatus.Success ? getApproveTxUrl(txTracker) : '',
+      url: getApproveTxUrl(txTracker),
     },
   ]
 
@@ -492,7 +492,7 @@ const getSendDetails = (txTracker: TxTracker): TxDetails => {
             asset: Asset.fromAssetString(sendAsset)?.ticker,
             amount,
           }),
-      url: status === TxTrackerStatus.Success ? getSendTxUrl(txTracker) : '',
+      url: getSendTxUrl(txTracker),
     },
   ]
 
