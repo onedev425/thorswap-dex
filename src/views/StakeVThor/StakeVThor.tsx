@@ -51,6 +51,7 @@ const assets: Record<StakeActions, Asset> = {
 }
 
 const StakeVThor = () => {
+  const [isFetching, setIsFetching] = useState(false)
   const [action, setAction] = useState(StakeActions.Deposit)
   const [thorBalBn, setThorBalBn] = useState(BigNumber.from(0))
   const [vthorBalBn, setVthorBalBn] = useState(BigNumber.from(0))
@@ -67,6 +68,7 @@ const StakeVThor = () => {
     vthorBalance,
     approveTHOR,
     getRate,
+    handleRefresh: refreshStats,
     previewDeposit,
     previewRedeem,
     stakeThor,
@@ -149,6 +151,14 @@ const StakeVThor = () => {
     [action, previewDeposit, previewRedeem],
   )
 
+  const handleRefresh = useCallback(() => {
+    setIsFetching(true)
+
+    refreshStats()
+
+    setTimeout(() => setIsFetching(false), 1000)
+  }, [refreshStats])
+
   const handleAction = useCallback(() => {
     if (ethAddr) {
       if (action === StakeActions.Deposit) {
@@ -191,7 +201,11 @@ const StakeVThor = () => {
               {t('views.stakingVThor.statTitle')}
             </Typography>
             <Box row alignCenter>
-              <HoverIcon iconName="external" />
+              <HoverIcon
+                iconName="refresh"
+                spin={isFetching}
+                onClick={handleRefresh}
+              />
             </Box>
           </Box>
           <Box className="gap-2" row alignCenter justify="between">
@@ -233,7 +247,7 @@ const StakeVThor = () => {
               </Tooltip>
             </Box>
             <Typography variant="subtitle2" fontWeight="medium">
-              {ethAddr ? toOptionalFixed(thorRedeemable) : '-'}
+              {ethAddr ? formatter(thorRedeemable) : '-'}
             </Typography>
           </Box>
           <Box className="gap-2" row alignCenter justify="between">

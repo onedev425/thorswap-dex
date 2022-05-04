@@ -333,6 +333,7 @@ export const useVthorUtil = () => {
     vthorTS,
     getRate,
     approveTHOR,
+    handleRefresh,
     previewDeposit,
     previewRedeem,
     stakeThor,

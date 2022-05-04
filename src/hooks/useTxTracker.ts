@@ -63,6 +63,16 @@ export const useTxTracker = () => {
       const ethClient = multichain.eth.getClient()
       const ethProvider = ethClient.getProvider()
 
+      if (txHash) {
+        updateTxTracker({
+          uuid,
+          txTracker: {
+            status: TxTrackerStatus.Pending,
+            submitTx,
+          },
+        })
+      }
+
       ethProvider.once(txHash, (tx) => {
         const { status } = tx
         updateTxTracker({
