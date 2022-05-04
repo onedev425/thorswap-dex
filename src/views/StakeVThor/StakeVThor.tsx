@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { Amount, Asset } from '@thorswap-lib/multichain-sdk'
+import { Amount, Asset, WalletOption } from '@thorswap-lib/multichain-sdk'
 import BN from 'bignumber.js'
 import classNames from 'classnames'
 import { BigNumber } from 'ethers'
@@ -9,12 +9,14 @@ import { useVthorUtil } from 'views/StakeVThor/useVthorUtil'
 
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, Button, Card, Icon, Tooltip, Typography } from 'components/Atomic'
+import { ChainBadge } from 'components/ChainBadge'
 import { baseTextHoverClass } from 'components/constants'
 import { Helmet } from 'components/Helmet'
 import { HighlightCard } from 'components/HighlightCard'
 import { HoverIcon } from 'components/HoverIcon'
 import { InfoTip } from 'components/InfoTip'
 import { InputAmount } from 'components/InputAmount'
+import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { TabsSelect } from 'components/TabsSelect'
 import { ViewHeader } from 'components/ViewHeader'
 
@@ -59,6 +61,7 @@ const StakeVThor = () => {
   const [outputAmount, setOutputAmount] = useState(0)
   const [isReverted, setReverted] = useState(true)
   const [vthorApr, setVthorApr] = useState(0)
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
   const formatter = useFormatPrice({ prefix: '' })
   const {
@@ -77,6 +80,7 @@ const StakeVThor = () => {
   const { wallet, setIsConnectModalOpen } = useWallet()
 
   const ethAddr = useMemo(() => wallet?.ETH?.address, [wallet])
+  const ethWalletType = useMemo(() => wallet?.ETH?.walletType, [wallet])
 
   const getTokenInfo = useCallback(
     async (
@@ -175,6 +179,12 @@ const StakeVThor = () => {
       }
     }
   }, [action, ethAddr, inputAmount, stakeThor, unstakeThor])
+
+  const handleVthorAction = useCallback(() => {
+    if (ethWalletType === WalletOption.KEYSTORE) {
+      setIsModalVisible(true)
+    } else handleAction()
+  }, [ethWalletType, handleAction])
 
   return (
     <Box className="self-center w-full max-w-[480px]" col mt={2}>
@@ -460,7 +470,7 @@ const StakeVThor = () => {
                       size="lg"
                       loading={false}
                       disabled={inputAmount.assetAmount.toNumber() === 0}
-                      onClick={handleAction}
+                      onClick={handleVthorAction}
                     >
                       {t('txManager.stake')}
                     </Button>
@@ -476,7 +486,7 @@ const StakeVThor = () => {
                     inputAmount.assetAmount.toNumber() === 0 ||
                     fromWei(vthorBalance) === 0
                   }
-                  onClick={handleAction}
+                  onClick={handleVthorAction}
                 >
                   {t('views.stakingVThor.unstake')}
                 </Button>
@@ -485,6 +495,62 @@ const StakeVThor = () => {
           )}
         </Box>
       </Card>
+      <ConfirmModal
+        inputAssets={[assets[action]]}
+        isOpened={isModalVisible}
+        onConfirm={() => {
+          setIsModalVisible(false)
+          handleAction()
+        }}
+        onClose={() => setIsModalVisible(false)}
+      >
+        <Box className="w-full">
+          <Box className="w-full" row alignCenter justify="between">
+            <Box className="flex-1 p-4 rounded-2xl" center col>
+              <AssetIcon asset={assets[action]} />
+              <Box className="pt-2" center>
+                <ChainBadge asset={assets[action]} />
+              </Box>
+              <Box className="w-full" center>
+                <Typography variant="caption" fontWeight="medium">
+                  {toOptionalFixed(inputAmount.assetAmount.toNumber())}{' '}
+                  {assets[action].ticker}
+                </Typography>
+              </Box>
+            </Box>
+            <Icon className="mx-2 -rotate-90" name="arrowDown" />
+            <Box className="flex-1 p-4 rounded-2xl" center col>
+              <AssetIcon
+                asset={
+                  action === StakeActions.Deposit
+                    ? assets.unstake
+                    : assets.deposit
+                }
+              />
+              <Box className="pt-2" center>
+                <ChainBadge
+                  asset={
+                    action === StakeActions.Deposit
+                      ? assets.unstake
+                      : assets.deposit
+                  }
+                />
+              </Box>
+              <Box className="w-full" center>
+                <Typography variant="caption" fontWeight="medium">
+                  {toOptionalFixed(outputAmount)}{' '}
+                  {
+                    (action === StakeActions.Deposit
+                      ? assets.unstake
+                      : assets.deposit
+                    ).ticker
+                  }
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </ConfirmModal>
     </Box>
   )
 }
