@@ -5,7 +5,7 @@ export const BLOCKS_PER_DAY = 6432
 export const BLOCKS_PER_MONTH = BLOCKS_PER_DAY * 30
 export const BLOCKS_PER_YEAR = BLOCKS_PER_DAY * 365
 
-export const VTHOR_BLOCK_REWARD = 15
+export const VTHOR_BLOCK_REWARD = 20
 
 // const THOR_PRICE = 1.5
 // const THOR_REWARDS_PER_BLOCK = 20
