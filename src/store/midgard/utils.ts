@@ -1,6 +1,7 @@
 import { MemberPool } from '@thorswap-lib/midgard-sdk'
 import { SupportedChain, Asset } from '@thorswap-lib/multichain-sdk'
 import { THORChain } from '@thorswap-lib/xchain-util'
+import isEmpty from 'lodash/isEmpty'
 
 import { ChainMemberDetails, LiquidityProvider, PoolMemberData } from './types'
 
@@ -201,13 +202,15 @@ export const removePendingLP = ({
     }
   })
 
-  poolMemberData = {
-    ...poolMemberData,
-    pending: undefined,
-  }
+  if (!isEmpty(poolMemberData)) {
+    poolMemberData = {
+      ...poolMemberData,
+      pending: undefined,
+    }
 
-  chainMemberData[asset] = poolMemberData
-  chainMemberDetails[chain] = chainMemberData
+    chainMemberData[asset] = poolMemberData
+    chainMemberDetails[chain] = chainMemberData
+  }
 
   return chainMemberDetails
 }

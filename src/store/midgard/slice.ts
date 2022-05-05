@@ -173,11 +173,6 @@ const midgardSlice = createSlice({
             ...state.chainMemberDetailsLoading,
             [chain]: false,
           }
-
-          // reset chain member data
-          if (state.chainMemberDetails[chain]) {
-            delete state.chainMemberDetails[chain]
-          }
         },
       )
       // used for getting pool share for a specific chain
@@ -243,21 +238,18 @@ const midgardSlice = createSlice({
       })
       .addCase(
         midgardActions.getLiquidityProviderData.fulfilled,
-        (state, action) => {
-          const {
-            arg: { asset },
-          } = action.meta
-          const data = action.payload
+        (state, { meta, payload }) => {
+          const { asset } = meta.arg
 
-          if (checkPendingLP(data)) {
+          if (checkPendingLP(payload)) {
             state.pendingLP = {
-              [asset]: data,
+              [asset]: payload,
               ...state.pendingLP,
             }
 
             // merge pending LP to liquidity data
             const chainMemberDetails = mergePendingLP({
-              pendingLP: data,
+              pendingLP: payload,
               chainMemberDetails: state.chainMemberDetails,
             })
 
