@@ -2,6 +2,8 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import { Network } from '@thorswap-lib/xchain-client'
 import { Chain } from '@thorswap-lib/xchain-util'
 
+import { getCustomIconImageUrl } from 'components/AssetIcon'
+
 import {
   getCustomContract,
   contractConfig,
@@ -27,6 +29,12 @@ export const stakingV2Addr = {
     [Network.Mainnet]: '0x815C23eCA83261b6Ec689b60Cc4a58b54BC24D8D',
     [Network.Testnet]: '0x9783e4A7F0BF047Fd7982e75A1A1C8023a7d6A92',
   },
+}
+
+export const vThorInfo = {
+  ticker: 'vTHOR',
+  decimals: 18,
+  iconUrl: getCustomIconImageUrl('vthor'),
 }
 
 export const getStakingAsset = (contractType: StakingV2Type) => {

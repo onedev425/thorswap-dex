@@ -1,6 +1,6 @@
 import { AssetTickerType } from './types'
 
-const getImageUrl = (
+export const getCustomIconImageUrl = (
   name:
     | 'alcx'
     | 'bnb'
@@ -17,15 +17,15 @@ const getImageUrl = (
 }
 
 export const customIconMap: Partial<Record<AssetTickerType, string>> = {
-  ALCX: getImageUrl('alcx'),
-  BNB: getImageUrl('bnb', 'svg'),
-  DOGE: getImageUrl('dogecoin'),
-  LUNA: getImageUrl('luna'),
-  RUNE: getImageUrl('rune', 'svg'),
-  TGT: getImageUrl('tgt'),
-  UST: getImageUrl('ust'),
-  THOR: getImageUrl('thor'),
-  VTHOR: getImageUrl('vthor'),
+  ALCX: getCustomIconImageUrl('alcx'),
+  BNB: getCustomIconImageUrl('bnb', 'svg'),
+  DOGE: getCustomIconImageUrl('dogecoin'),
+  LUNA: getCustomIconImageUrl('luna'),
+  RUNE: getCustomIconImageUrl('rune', 'svg'),
+  TGT: getCustomIconImageUrl('tgt'),
+  UST: getCustomIconImageUrl('ust'),
+  THOR: getCustomIconImageUrl('thor'),
+  VTHOR: getCustomIconImageUrl('vthor'),
   WETH: 'https://assets.coingecko.com/coins/images/2518/large/weth.png',
 }
 

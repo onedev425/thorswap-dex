@@ -5,6 +5,7 @@ import BN from 'bignumber.js'
 import classNames from 'classnames'
 import { BigNumber } from 'ethers'
 
+import { AddVThorMM } from 'views/StakeVThor/AddVThorMM'
 import { useVthorUtil } from 'views/StakeVThor/useVthorUtil'
 
 import { AssetIcon } from 'components/AssetIcon'
@@ -192,11 +193,9 @@ const StakeVThor = () => {
         title={t('views.stakingVThor.stakeVThorTitle')}
         content={t('views.stakingVThor.stakeVThorTitle')}
       />
-
       <Box className="w-full" col>
         <ViewHeader title={t('views.stakingVThor.stakeVThorTitle')} />
       </Box>
-
       <Box className="!mx-3" alignCenter justify="between">
         <Typography color="secondary" fontWeight="medium" variant="caption">
           {t('views.stakingVThor.stakeVThorSubtitle')}
@@ -205,7 +204,6 @@ const StakeVThor = () => {
           <Icon name="infoCircle" size={24} color="primaryBtn" />
         </Tooltip>
       </Box>
-
       <InfoTip type="info" className="!mt-5">
         <Box className="self-stretch gap-3 px-3 py-2" col>
           <Box
@@ -217,7 +215,8 @@ const StakeVThor = () => {
             <Typography variant="subtitle2" fontWeight="semibold">
               {t('views.stakingVThor.statTitle')}
             </Typography>
-            <Box row alignCenter>
+            <Box className="gap-2git" row alignCenter>
+              <AddVThorMM />
               <HoverIcon
                 iconName="refresh"
                 spin={isFetching}
@@ -283,7 +282,6 @@ const StakeVThor = () => {
           </Box>
         </Box>
       </InfoTip>
-
       <Card
         className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-2 space-y-1 shadow-lg md:w-full md:h-auto"
         size="lg"

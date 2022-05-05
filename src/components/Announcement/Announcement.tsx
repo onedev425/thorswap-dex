@@ -51,7 +51,7 @@ export const Announcement = ({
           announcementBorderClasses[type],
         )}
       ></Box>
-      <Box className="z-10" col>
+      <Box className="z-0" col>
         {title && <Typography variant="subtitle1">{title}</Typography>}
         {message && <Typography>{message}</Typography>}
       </Box>
