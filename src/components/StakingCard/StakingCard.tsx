@@ -42,6 +42,7 @@ type Props = {
   farmName: string
   stakingToken: string
   stakeAddr: string // Staking Contract address
+  withdrawOnly?: boolean
   assets: Asset[]
   lpAsset: Asset
   contractType: ContractType
@@ -50,13 +51,14 @@ type Props = {
 
 export const StakingCard = ({
   assets,
+  contractType,
   exchange,
   farmName,
   lpAsset,
-  stakingToken,
-  stakeAddr,
-  contractType,
   lpContractType,
+  stakeAddr,
+  stakingToken,
+  withdrawOnly,
 }: Props) => {
   // TODO: Refactor to useReducer
   const [isFetching, setIsFetching] = useState(false)
@@ -471,26 +473,33 @@ export const StakingCard = ({
               </Button>
             ) : (
               <>
+                {!withdrawOnly && (
+                  <>
+                    <Button
+                      variant="primary"
+                      className="flex-1"
+                      onClick={() => openConfirm(FarmActionType.DEPOSIT)}
+                    >
+                      {t('common.deposit')}
+                    </Button>
+                    <Button
+                      className="flex-1"
+                      variant="tertiary"
+                      onClick={() => openConfirm(FarmActionType.CLAIM)}
+                    >
+                      {t('common.claim')}
+                    </Button>
+                  </>
+                )}
                 <Button
-                  className="flex-1"
-                  variant="primary"
-                  onClick={() => openConfirm(FarmActionType.DEPOSIT)}
-                >
-                  {t('common.deposit')}
-                </Button>
-                <Button
-                  className="flex-1"
-                  variant="tertiary"
-                  onClick={() => openConfirm(FarmActionType.CLAIM)}
-                >
-                  {t('common.claim')}
-                </Button>
-                <Button
+                  isFancy={withdrawOnly}
                   className="flex-1"
                   variant="secondary"
                   onClick={() => openConfirm(FarmActionType.WITHDRAW)}
                 >
-                  {t('common.withdraw')}
+                  {withdrawOnly
+                    ? t('common.claimAndWithdraw')
+                    : t('common.withdraw')}
                 </Button>
               </>
             )}

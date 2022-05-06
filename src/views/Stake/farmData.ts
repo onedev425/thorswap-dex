@@ -31,6 +31,7 @@ export const farmData = [
       Chain.Ethereum,
       `THOR-${tokenAddr[config.network].THOR}`,
     ),
+    withdrawOnly: true,
     lpToken: tokenAddr[config.network].THOR,
     contractType: ContractType.STAKING_THOR,
     lpContractType: LPContractType.THOR,
