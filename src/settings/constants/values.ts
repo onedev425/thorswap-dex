@@ -4,7 +4,7 @@ export const TX_PAGE_LIMIT = 25
 
 export const TX_PUBLIC_PAGE_LIMIT = 5
 
-export const DEFAULT_SLIPPAGE_TOLERANCE = 1
+export const DEFAULT_SLIPPAGE_TOLERANCE = 3
 
 export const POLL_GAS_RATE_INTERVAL = 10 * 1000 // 10s
 
