@@ -99,7 +99,7 @@
     "nodeManager": "Node Manager",
     "nodeAddress": "Node Address",
     "upgradeRune": "Upgrade Rune",
-    "upgradeBnbRune": "Upgrade BNB Rune",
+    "upgradeChainRune": "Upgrade %{chain} Rune",
     "amount": "Amount",
     "depositNotAvailable": "Deposit not available"
   },

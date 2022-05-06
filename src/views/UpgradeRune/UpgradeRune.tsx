@@ -14,8 +14,8 @@ import { AssetInput } from 'components/AssetInput'
 import { Button, Card, Icon, Box, Typography, Tooltip } from 'components/Atomic'
 import { Helmet } from 'components/Helmet'
 import { InfoTable } from 'components/InfoTable'
-import { Input } from 'components/Input'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
+import { PanelInput } from 'components/PanelInput'
 import { showToast, ToastType } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
@@ -37,7 +37,9 @@ const oldRunes = [Asset.BNB_RUNE(), Asset.ETH_RUNE()]
 const UpgradeRune = () => {
   const [isOpened, setIsOpened] = useState(false)
 
-  const [recipientAddress, setRecipientAddress] = useState('')
+  const [recipientAddress, setRecipientAddress] = useState(
+    multichain.getWalletAddressByChain(Chain.THORChain) || '',
+  )
 
   const { wallet, setIsConnectModalOpen } = useWallet()
   const { getMaxBalance, isWalletAssetConnected } = useBalance()
@@ -245,12 +247,12 @@ const UpgradeRune = () => {
     <Box className="self-center w-full max-w-[480px]" col>
       <Helmet
         title={t('common.upgradeRune')}
-        content={t('common.upgradeBnbRune')}
+        content={t('common.upgradeRune')}
       />
 
       <Box className="w-full mx-2" col>
         <ViewHeader
-          title={t('common.upgradeBnbRune')}
+          title={t('common.upgradeChainRune', { chain: selectedAsset.chain })}
           actionsComponent={
             <Box row className="space-x-4">
               <Icon color="secondary" name="chart" className="ml-auto" />
@@ -264,28 +266,21 @@ const UpgradeRune = () => {
         size="lg"
         stretch
       >
-        <Box col className="gap-y-4" flex={1}>
+        <Box col className="gap-1 self-stretch" flex={1}>
           <AssetInput
             selectedAsset={assetInput}
             onAssetChange={setSelectedAsset}
             onValueChange={handleChangeUpgradeAmount}
             assets={assetInputList}
             commonAssets={assetInputList}
-            className="!mb-1"
           />
 
           <Box col>
-            <Input
-              border="bottom"
-              className="text-lg"
-              defaultValue={
-                recipientAddress ||
-                multichain.getWalletAddressByChain(Chain.THORChain) ||
-                ''
-              }
+            <PanelInput
               value={recipientAddress}
               stretch
-              placeholder={t('common.recipientAddress')}
+              placeholder={t('common.address')}
+              title={t('common.recipientAddress')}
               onChange={(e) => setRecipientAddress(e.target.value)}
             />
           </Box>
