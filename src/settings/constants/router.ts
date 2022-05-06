@@ -26,6 +26,7 @@ export enum ROUTES {
 }
 
 export const THORYIELD_ROUTE = 'https://app.thoryield.com'
+export const THORYIELD_LP_PATH = 'accounts' //TODO: change value to 'lp' when THORYield will be ready
 export const THORYIELD_STATS_ROUTE = 'https://app.thoryield.com/stats'
 export const THOR_STAKING_V1_ROUTE = 'https://v1.thorswap.finance/stake'
 
@@ -59,10 +60,11 @@ export const navigateToExternalLink = (url: string) => {
   window.open(url, '_blank noreferrer noopener')
 }
 
-export const getThorYieldInfoRoute = ({
+export const getThorYieldLPInfoRoute = ({
   chain,
   address,
 }: {
   chain: Chain
   address: string
-}) => `${THORYIELD_ROUTE}/accounts?${chain.toLowerCase()}=${address}`
+}) =>
+  `${THORYIELD_ROUTE}/${THORYIELD_LP_PATH}?${chain.toLowerCase()}=${address}`

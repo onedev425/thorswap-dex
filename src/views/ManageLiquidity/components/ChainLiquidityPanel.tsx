@@ -17,7 +17,7 @@ import { isPendingLP } from 'store/midgard/utils'
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
-import { getThorYieldInfoRoute } from 'settings/constants'
+import { getThorYieldLPInfoRoute } from 'settings/constants'
 
 type Props = {
   chain: SupportedChain
@@ -95,7 +95,7 @@ export const ChainLiquidityPanel = ({ chain, data, isLoading }: Props) => {
         value={
           <Box className="gap-x-2">
             <Link
-              to={getThorYieldInfoRoute({
+              to={getThorYieldLPInfoRoute({
                 chain,
                 address: chainWalletAddress,
               })}
