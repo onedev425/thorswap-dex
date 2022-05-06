@@ -63,6 +63,7 @@ const StakeVThor = () => {
   const [isReverted, setReverted] = useState(true)
   const [vthorApr, setVthorApr] = useState(0)
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [iconRotate, setIconRotate] = useState(false)
 
   const formatter = useFormatPrice({ prefix: '' })
   const {
@@ -187,6 +188,13 @@ const StakeVThor = () => {
     } else handleAction()
   }, [ethWalletType, handleAction])
 
+  const handleStakeTypeChange = useCallback(() => {
+    setAction((v) =>
+      v === StakeActions.Deposit ? StakeActions.Unstake : StakeActions.Deposit,
+    )
+    setIconRotate((rotate) => !rotate)
+  }, [])
+
   return (
     <Box className="self-center w-full max-w-[480px]" col mt={2}>
       <Helmet
@@ -300,16 +308,19 @@ const StakeVThor = () => {
 
         <Box className="relative self-stretch">
           <Box
-            center
             className={classNames(
               'z-10 absolute -mt-0.5 -bottom-6 left-1/2 -translate-x-1/2',
               'p-1 md:p-2 rounded-xl md:rounded-[18px] cursor-pointer',
               'border-10 border-solid bg-blue dark:border-dark-border-primary border-transparent hover:brightness-125 transition',
             )}
+            center
+            onClick={handleStakeTypeChange}
           >
             <Icon
+              className={classNames('p-1 transition-all', {
+                '-scale-x-100': iconRotate,
+              })}
               size={20}
-              className="p-1 transition-all"
               name="arrowDown"
               color="white"
             />
