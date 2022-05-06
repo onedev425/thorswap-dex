@@ -35,9 +35,10 @@ export const AssetInput = ({
     balance,
   } = selectedAsset
 
-  const assetPriceInUSD = useMemo(() => {
-    return usdPrice?.toCurrencyFormat(2)
-  }, [usdPrice])
+  const assetPriceInUSD = useMemo(
+    () => usdPrice?.toCurrencyFormat(2),
+    [usdPrice],
+  )
 
   const handleMaxClick = useCallback(() => {
     onValueChange?.(balance || Amount.fromAssetAmount(0, asset.decimal))

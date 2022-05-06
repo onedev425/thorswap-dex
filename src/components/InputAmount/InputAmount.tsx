@@ -1,4 +1,11 @@
-import { useCallback, useState, useEffect, memo, ChangeEvent } from 'react'
+import {
+  useCallback,
+  useState,
+  useEffect,
+  memo,
+  ChangeEvent,
+  useMemo,
+} from 'react'
 
 import { Amount } from '@thorswap-lib/multichain-sdk'
 
@@ -11,7 +18,10 @@ import { getAmountFromString } from './utils'
 
 export const InputAmount = memo(
   ({ amountValue, onAmountChange, ref, ...otherProps }: InputAmountProps) => {
-    const formatPriceOptions = { decimals: amountValue.decimal, prefix: '' }
+    const formatPriceOptions = useMemo(
+      () => ({ decimals: amountValue.decimal, prefix: '' }),
+      [amountValue.decimal],
+    )
 
     const formatPrice = useFormatPrice(formatPriceOptions)
     const [rawValue, setRawValue] = useState(formatPrice(amountValue))
