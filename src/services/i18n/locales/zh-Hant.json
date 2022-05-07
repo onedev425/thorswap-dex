@@ -11,6 +11,7 @@
     "balance": "余額",
     "cancel": "取消",
     "claim": "領取",
+    "claimAndWithdraw": "領取質押資產+獎勵",
     "confirm": "確認",
     "connect": "連接",
     "create": "創建",
@@ -99,7 +100,7 @@
     "nodeManager": "節點管理",
     "nodeAddress": "節點地址",
     "upgradeRune": "升級 Rune",
-    "upgradeBnbRune": "升級 BNB Rune",
+    "upgradeChainRune": "升級 %{chain} RUNE",
     "amount": "數額",
     "depositNotAvailable": "無法添加"
   },
@@ -148,6 +149,7 @@
     "failed": "失敗了",
     "stake": "質押",
     "claim": "領取",
+    "unstake": "解除質押",
     "sendAmountAsset": "發送 %{amount} %{asset}",
     "sendFailed": "發送 %{amount} %{asset} 失敗",
     "sendFinished": "發送 %{amount} %{asset} 成功",
@@ -159,6 +161,7 @@
     "receivedAmountAsset": "收到了 %{amount} %{asset}",
     "mintedAmountAsset": "創建了 %{amount} %{asset}",
     "redeemedAmountAsset": "兌換了 %{amount} %{asset}",
+    "redeemedAmountAssetFailed": "贖回 %{amount} %{asset} 失敗",
     "refundedAmountAsset": "退款了 %{amount} %{asset}",
     "addedAmountAsset": "添加了 %{amount} %{asset}",
     "addAmountAsset": "添加 %{amount} %{asset}",
@@ -176,9 +179,20 @@
     "stakeAssetFailed": "質押 %{amount} %{asset} 失敗",
     "claimAsset": "提取 %{amount} %{asset}",
     "claimedAsset": "已提取 %{amount} %{asset}",
-    "claimAssetFailed": "已提取 %{amount} %{asset} 失敗"
+    "claimAssetFailed": "已提取 %{amount} %{asset} 失敗",
+    "unstakeFailed": "解除質押 %{amount} %{asset} 失敗",
+    "unstakeAsset": "解除質押 %{amount} %{asset} ",
+    "unstakedAsset": "解除質押 %{amount} %{asset} 成功"
   },
   "components": {
+    "announcements": {
+      "thorChainHalted": "THORChain正在進行維護，在此期間將暫停所有的相關服務。",
+      "thorChainLPHalted": "THORChain 已暫時中止添加和提取流動性功能。",
+      "thorChainTradeHalted": "THORChain 已暫時中止兌換交易。",
+      "chainHalted": "%{chain} 鏈在THORChain上已暫時中止。臨時禁用所有的兌換交易和LP服務。",
+      "chainLPHalted": "%{chain} 鏈暫時中止兌換交易。",
+      "chainTradeHalted": "%{chain} 鏈暫時中止添加和提取流動性。"
+    },
     "assetSelect": {
       "selectAToken": "選擇代幣",
       "noResultsFound": "未發現結果",
@@ -198,6 +212,7 @@
       "pendingLiquidity": "待定",
       "thorswapDocumentation": "THORSwap 文檔",
       "send": "發送",
+      "vthor": "vTHOR",
       "thorswapCommunityYoutube": "THORSwap YouTube 頻道",
       "trade": "交易",
       "thor": "Thor",
@@ -312,6 +327,31 @@
       "exitAction": "退出",
       "stakeActionAmount": "%{stakeAction} 數額"
     },
+    "stakingVThor": {
+      "stakeVThorTitle": "質押 THOR 獲取 vTHOR",
+      "stakeVThorSubtitle": "質押 THOR 獲取獎勵和交易費折扣",
+      "stakeInfo": "當您質押 $THOR（ERC-20）時，您將收到 $vTHOR：一個可轉移鎖倉代幣，代表著您的質押頭寸。\n\n$vTHOR可以自動復利，您將獲得 (1) 社群激勵 與 (2) THORSwap 收入 75% 的反利作為獎勵。\n\n當您解除 $THOR 質押時，您將獲得按照THOR : vTHOR 比例對等的資產和獎勵。",
+      "maximizeYield": "質押 THOR 獲取 vTHOR 讓獎勵最大化",
+      "stakingApy": "質押 APY",
+      "yesterdayApr": "昨日 APR",
+      "apyTip": "此溢率是估值，可能會有波動。",
+      "unstaked": "解除質押成功",
+      "stakeVThor": "質押",
+      "unstake": "解除質押",
+      "buyThor": "購買 THOR",
+      "send": "發送",
+      "receive": "接收",
+      "statTitle": "質押額",
+      "thorBal": "THOR 余額",
+      "vthorBal": "vTHOR 余額",
+      "thorStaked": "質押 THOR 余額",
+      "totalThor": "THOR 總額",
+      "totalThorTip": "可領取的 THOR (質押+獎勵) 總額",
+      "stakingRewardsToDate": "質押獎勵總額",
+      "stakingRewardsPerMonth": "獎勵預估 (月)",
+      "moreStats": "更多數據",
+      "addVTHOR": "添加 vTHOR"
+    },
     "stats": {
       "dailyBlockRewards": "每日區塊獎勵",
       "blockRewards": "區塊獎勵",
@@ -373,7 +413,7 @@
       "minReceivedAfterSlip": "滑點後最小獲得量 (%{slippage})",
       "swapAssets": "切換利率",
       "affiliateFee": "THORSwap 收取的 0.3% 服務費。其75%將重新分配給 vTHOR 持有者。",
-      "exchangeFee": "服務費",
+      "exchangeFee": "交易費",
       "totalFee": "總費用"
     },
     "wallet": {

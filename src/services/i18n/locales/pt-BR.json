@@ -11,6 +11,7 @@
     "balance": "Saldo",
     "cancel": "Cancelar",
     "claim": "Reinvidicar",
+    "claimAndWithdraw": "",
     "confirm": "Confirmar",
     "connect": "Conectar",
     "create": "Criar",
@@ -99,7 +100,7 @@
     "nodeManager": "Gerenciador de Nó",
     "nodeAddress": "Endereço do Nó",
     "upgradeRune": "Emancipar Rune",
-    "upgradeBnbRune": "Emancipar BNB Rune",
+    "upgradeChainRune": "",
     "amount": "Quantidade",
     "depositNotAvailable": "Depósito indisponível"
   },
@@ -148,6 +149,7 @@
     "failed": "Falhou",
     "stake": "Stake",
     "claim": "Reivindicar",
+    "unstake": "",
     "sendAmountAsset": "Enviar %{amount} %{asset}",
     "sendFailed": "O Envio de %{amount} %{asset} Falhou",
     "sendFinished": "Envio de %{amount} %{asset} Sucedido",
@@ -159,6 +161,7 @@
     "receivedAmountAsset": "Recebido %{amount} %{asset}",
     "mintedAmountAsset": "Mintado %{amount} %{asset}",
     "redeemedAmountAsset": "Resgatado %{amount} %{asset}",
+    "redeemedAmountAssetFailed": "",
     "refundedAmountAsset": "Reembolsado %{amount} %{asset}",
     "addedAmountAsset": "Adicionado %{amount} %{asset}",
     "addAmountAsset": "Adicionar %{amount} %{asset}",
@@ -176,9 +179,20 @@
     "stakeAssetFailed": "Stake de %{amount} %{asset} falhou",
     "claimAsset": "Reivindicar %{amount} %{asset}",
     "claimedAsset": "%{amount} %{asset} reivindicados",
-    "claimAssetFailed": "Falha ao reivindicar %{amount} %{asset}"
+    "claimAssetFailed": "Falha ao reivindicar %{amount} %{asset}",
+    "unstakeFailed": "",
+    "unstakeAsset": "",
+    "unstakedAsset": ""
   },
   "components": {
+    "announcements": {
+      "thorChainHalted": "",
+      "thorChainLPHalted": "",
+      "thorChainTradeHalted": "",
+      "chainHalted": "",
+      "chainLPHalted": "",
+      "chainTradeHalted": ""
+    },
     "assetSelect": {
       "selectAToken": "Selecione um token",
       "noResultsFound": "Nenhum resultado encontrado",
@@ -198,6 +212,7 @@
       "pendingLiquidity": "Pendente",
       "thorswapDocumentation": "Documentação da ThorSwap",
       "send": "Enviar",
+      "vthor": "",
       "thorswapCommunityYoutube": "You Tube da Comunidade ThorSwap",
       "trade": "Negociar",
       "thor": "Thor",
@@ -312,6 +327,31 @@
       "exitAction": "Sair",
       "stakeActionAmount": "Quantia de %{stakeAction}"
     },
+    "stakingVThor": {
+      "stakeVThorTitle": "",
+      "stakeVThorSubtitle": "",
+      "stakeInfo": "",
+      "maximizeYield": "",
+      "stakingApy": "",
+      "yesterdayApr": "",
+      "apyTip": "",
+      "unstaked": "",
+      "stakeVThor": "",
+      "unstake": "",
+      "buyThor": "",
+      "send": "",
+      "receive": "",
+      "statTitle": "",
+      "thorBal": "",
+      "vthorBal": "",
+      "thorStaked": "",
+      "totalThor": "",
+      "totalThorTip": "",
+      "stakingRewardsToDate": "",
+      "stakingRewardsPerMonth": "",
+      "moreStats": "",
+      "addVTHOR": ""
+    },
     "stats": {
       "dailyBlockRewards": "Recompensa por Blocos no Dia",
       "blockRewards": "Recompensa por Blocos",
@@ -372,9 +412,9 @@
       "priceImpact": "Impacto no Preço",
       "minReceivedAfterSlip": "Mínimo a ser recebido após divergência (%{slippage})",
       "swapAssets": "Taxas de troca de ativos",
-      "affiliateFee": "",
-      "exchangeFee": "",
-      "totalFee": ""
+      "affiliateFee": "THORSwap cobra 0.3% de comissão. \n75% da arrecadação é redistribuída aos stakers de vTHOR.",
+      "exchangeFee": "Taxa da corretora",
+      "totalFee": "Taxa total"
     },
     "wallet": {
       "wallet": "Carteira",
