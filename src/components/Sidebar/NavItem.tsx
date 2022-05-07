@@ -12,7 +12,7 @@ import { NavItemProps, iconClasses, itemClasses } from './types'
 export const NavItem = ({
   className = '',
   iconName,
-  href,
+  href = '',
   variant = 'primary',
   label,
   collapsed = false,
@@ -21,14 +21,14 @@ export const NavItem = ({
   onClick,
   onItemClickCb,
 }: NavItemProps) => {
-  const location = useLocation()
   useLayoutEffect(() => {
     if (collapsed) {
       setTimeout(ReactTooltip.rebuild, 0)
     }
   }, [collapsed])
 
-  const isActive = location.pathname === href
+  const isActive = useLocation().pathname.includes(href)
+
   const onClickHandler: MouseEventHandler = (e) => {
     onClick?.(e)
     onItemClickCb?.()
