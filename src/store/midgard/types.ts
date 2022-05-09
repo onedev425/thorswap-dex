@@ -104,6 +104,7 @@ export type MimirData = {
   PAUSELPLTC?: number
   PAUSELPDOGE?: number
   PAUSELPTERRA?: number
+  MAXSYNTHPERASSETDEPTH?: number
 }
 
 export type ShareType = 'sym' | 'runeAsym' | 'assetAsym'

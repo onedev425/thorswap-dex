@@ -112,6 +112,14 @@ export const useMimir = () => {
     return `${totalPooledRune.div(poolLimit).mul(100).toFixed(1)}%`
   }, [totalPooledRune, maxLiquidityRune])
 
+  const maxSynthPerAssetDepth = useMemo(
+    () =>
+      mimir?.MAXSYNTHPERASSETDEPTH === -1
+        ? 0
+        : mimir?.MAXSYNTHPERASSETDEPTH ?? 0,
+    [mimir?.MAXSYNTHPERASSETDEPTH],
+  )
+
   return {
     totalPooledRune,
     maxLiquidityRune,
@@ -130,5 +138,6 @@ export const useMimir = () => {
     isPauseLP,
     isChainPauseLP,
     isChainPauseLPAction,
+    maxSynthPerAssetDepth,
   }
 }

@@ -1,6 +1,11 @@
 import { useCallback, useMemo } from 'react'
 
-import { Amount, Asset, hasWalletConnected } from '@thorswap-lib/multichain-sdk'
+import {
+  Amount,
+  Asset,
+  hasWalletConnected,
+  Pool,
+} from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
 
 import { Box, Button } from 'components/Atomic'
@@ -12,6 +17,7 @@ import { useWallet } from 'store/wallet/hooks'
 
 import { useApprove } from 'hooks/useApprove'
 import { useCheckExchangeBNB } from 'hooks/useCheckExchangeBNB'
+import { useMimir } from 'hooks/useMimir'
 
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
@@ -26,6 +32,7 @@ type Props = {
   hasSwap: boolean
   hasInSufficientFee: boolean
   isValid?: { valid: boolean; msg?: string }
+  pools?: Pool[]
   setVisibleConfirmModal: (visible: boolean) => void
   setVisibleApproveModal: (visible: boolean) => void
 }
@@ -42,9 +49,11 @@ export const SwapSubmitButton = ({
   setVisibleApproveModal,
   hasInSufficientFee,
   isValid,
+  pools,
 }: Props) => {
   const { wallet, setIsConnectModalOpen } = useWallet()
   const { inboundData } = useMidgard()
+  const { maxSynthPerAssetDepth } = useMimir()
 
   const { isApproved, assetApproveStatus } = useApprove(
     inputAsset,
@@ -153,12 +162,32 @@ export const SwapSubmitButton = ({
     }
   }, [hasSwap, isInputWalletConnected, setVisibleApproveModal])
 
+  const isSynthMintable = useMemo((): boolean => {
+    // Skip check when it's not synth minting
+    if (!outputAsset.isSynth || !pools) return true
+
+    const { assetDepth, synthSupply } = pools[pools.length - 1].detail
+    const assetDepthAmount = Amount.fromMidgard(assetDepth)
+    const synthSupplyAmount = Amount.fromMidgard(synthSupply)
+
+    if (assetDepthAmount.eq(0)) return true
+
+    return synthSupplyAmount
+      .div(assetDepthAmount)
+      .assetAmount.isLessThan(maxSynthPerAssetDepth / 10000)
+  }, [maxSynthPerAssetDepth, outputAsset.isSynth, pools])
+
   const isValidSwap = useMemo(
     () =>
-      isTradingHalted
-        ? { valid: false, msg: t('notification.swapNotAvailable') }
+      isTradingHalted || !isSynthMintable
+        ? {
+            msg: isSynthMintable
+              ? t('notification.swapNotAvailable')
+              : t('txManager.mint'),
+            valid: false,
+          }
         : isValid ?? { valid: false },
-    [isTradingHalted, isValid],
+    [isSynthMintable, isTradingHalted, isValid],
   )
 
   const btnLabel = useMemo(() => {
@@ -170,14 +199,8 @@ export const SwapSubmitButton = ({
       return t('common.swap')
     }
 
-    return isValid?.msg ?? t('common.swap')
-  }, [
-    isValidSwap?.valid,
-    inputAmount,
-    isValid?.msg,
-    inputAsset.isSynth,
-    outputAsset.isSynth,
-  ])
+    return isValidSwap?.msg ?? t('common.swap')
+  }, [isValidSwap, inputAmount, inputAsset.isSynth, outputAsset.isSynth])
 
   const isApproveRequired = useMemo(
     () => isInputWalletConnected && isApproved === false,
@@ -236,7 +259,8 @@ export const SwapSubmitButton = ({
       {isSwapAvailable && (
         <Button
           isFancy
-          error={!isValid?.valid}
+          disabled={!isValidSwap.valid}
+          error={!isValidSwap?.valid}
           stretch
           size="lg"
           onClick={showSwapConfirmationModal}

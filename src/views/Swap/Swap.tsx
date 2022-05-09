@@ -503,6 +503,7 @@ const SwapView = () => {
         setVisibleApproveModal={setVisibleApproveModal}
         hasInSufficientFee={!!swap?.hasInSufficientFee}
         isValid={swap?.isValid()}
+        pools={swap?.swapPools}
       />
 
       <ConfirmModal
