@@ -553,6 +553,7 @@ export const CreateLiquidity = () => {
             stretch
             size="lg"
             isFancy
+            disabled={!isValidDeposit.valid}
             error={!isValidDeposit.valid}
             onClick={handleCreateLiquidity}
           >

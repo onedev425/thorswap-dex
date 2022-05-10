@@ -101,8 +101,7 @@
     "nodeAddress": "Node Address",
     "upgradeRune": "Upgrade Rune",
     "upgradeChainRune": "Upgrade %{chain} Rune",
-    "amount": "Amount",
-    "depositNotAvailable": "Deposit not available"
+    "amount": "Amount"
   },
   "pendingLiquidity": {
     "complete": "complete",

@@ -1040,6 +1040,7 @@ export const AddLiquidity = () => {
             stretch
             size="lg"
             isFancy
+            disabled={!isValidDeposit.valid}
             error={!isValidDeposit.valid}
             onClick={handleAddLiquidity}
           >
