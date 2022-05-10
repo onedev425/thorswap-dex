@@ -133,6 +133,9 @@
     "showPools": "Show Featured Pools"
   },
   "txManager": {
+    "registerThorname": "Register THORName",
+    "registerThornameFailed": "Register THORName failed",
+    "registerThornameSuccess": "Registered THORName successfully",
     "approve": "Approve",
     "swap": "Swap",
     "addLiquidity": "Add Liquidity",
@@ -223,7 +226,8 @@
       "supportInfo": "For technical support, please contact us via our official Discord Server (beware of anyone claiming to be THORSwap support - we will never DM you outside of our Support Desk on Discord).",
       "collapse": "Collapse",
       "expand": "Expand",
-      "thoryield": "THORYield"
+      "thoryield": "THORYield",
+      "thorname": "THORName"
     },
     "statusDropdown": {
       "capAvailable": "Funds Cap available",
@@ -569,6 +573,24 @@
     },
     "send": {
       "txFeeTooltip": "Gas fee to send the transaction, There's no extra charges from THORChain Protocol"
+    },
+    "thorname": {
+      "available": "Available",
+      "checkNameAvailability": "Check Name Availability",
+      "cost": "Cost",
+      "duration": "Duration (in years)",
+      "expire": "Expire",
+      "feeOnSale": "Fee on Sale",
+      "ownedByYou": "Owned by you",
+      "owner": "Owner",
+      "purchase": "Purchase",
+      "registeredThornames": "Registered Thornames",
+      "registerFee": "Register Fee",
+      "registerSuccess": "THORName %{thorname}.%{chain} successfully registered",
+      "searchName": "Search Name",
+      "status": "Status",
+      "unavailable": "Unavailable",
+      "unavailableForPurchase": "Unavailable for purchase"
     }
   },
   "validation": {

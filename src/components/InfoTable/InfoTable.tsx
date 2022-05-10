@@ -33,7 +33,8 @@ export const InfoTable = memo(
       >
         {items.map((item) => (
           <InfoRow
-            key={item.label?.toString()}
+            className={item.className}
+            key={item.key || item.label?.toString()}
             label={item.label}
             value={item.value}
             size={item.size || size}

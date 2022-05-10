@@ -2,6 +2,7 @@ import { SidebarItemProps } from 'components/Sidebar/types'
 
 import { t } from 'services/i18n'
 
+import { IS_STAGENET } from 'settings/config'
 import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/constants'
 
 export const getDefaultNavbarOptions = (): SidebarItemProps[] => [
@@ -41,12 +42,17 @@ export const getDefaultNavbarOptions = (): SidebarItemProps[] => [
         href: ROUTES.Send,
         label: t('components.sidebar.send'),
       },
-      // {
-      //   iconName: 'thor',
-      //   href: ROUTES.Thorname,
-      //   label: t('components.sidebar.thorname'),
-      // },
-    ],
+    ].concat(
+      IS_STAGENET
+        ? [
+            {
+              iconName: 'thor',
+              href: ROUTES.Thorname,
+              label: t('components.sidebar.thorname'),
+            },
+          ]
+        : [],
+    ),
   },
   // {
   //   iconName: 'cloud',

@@ -1,6 +1,6 @@
 import { MouseEventHandler, useCallback } from 'react'
 
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 
 import {
   Amount,

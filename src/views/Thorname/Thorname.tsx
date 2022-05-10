@@ -12,12 +12,14 @@ import { useWallet } from 'store/wallet/hooks'
 
 import { t } from 'services/i18n'
 
-import { ChainDropdown } from './ChainDropdown'
+import { ChainDropdown, thornameChainIcons } from './ChainDropdown'
+import { RegisteredThornames } from './RegisteredThornames'
 import { useThornameInfoItems } from './useThornameInfoItems'
 import { useThornameLookup } from './useThornameLookup'
 
 const Thorname = () => {
   const { isWalletLoading, wallet, setIsConnectModalOpen } = useWallet()
+  const thorAddress = wallet?.THOR?.address
   const {
     available,
     chain,
@@ -29,9 +31,10 @@ const Thorname = () => {
     setThorname,
     setYears,
     thorname,
+    registeredThornames,
     years,
-  } = useThornameLookup()
-  const chainWallet = wallet?.[chain]
+  } = useThornameLookup(thorAddress)
+  const chainWalletAddress = wallet?.[chain]?.address
 
   const thornameInfoItems = useThornameInfoItems({
     years,
@@ -46,19 +49,19 @@ const Thorname = () => {
       return lookupForTNS()
     }
 
-    if (wallet?.THOR && chainWallet) {
-      registerThornameAddress(chainWallet?.address)
+    if (thorAddress && chainWalletAddress) {
+      registerThornameAddress(chainWalletAddress)
     } else {
       setIsConnectModalOpen(true)
     }
   }, [
     available,
-    chainWallet,
+    chainWalletAddress,
     details,
     lookupForTNS,
     registerThornameAddress,
     setIsConnectModalOpen,
-    wallet?.THOR,
+    thorAddress,
   ])
 
   const handleEnterKeyDown = useCallback(
@@ -75,17 +78,30 @@ const Thorname = () => {
     [setChain],
   )
 
+  const allAddressesLocked = useMemo(() => {
+    if (!details) return false
+
+    const availableChains = Object.keys(thornameChainIcons)
+    const registeredChains = details.entries.map(({ chain }) => chain)
+    return (
+      availableChains.filter((chain) => !registeredChains.includes(chain))
+        .length === 0
+    )
+  }, [details])
+
   const buttonLabel = useMemo(() => {
-    if (details) return t('common.notAvailable')
+    if (allAddressesLocked || (details && details?.owner !== thorAddress)) {
+      return t('views.thorname.unavailableForPurchase')
+    }
 
     if (available) {
-      return wallet?.THOR && chainWallet
+      return thorAddress && chainWalletAddress
         ? t('views.thorname.purchase')
         : t('common.connectWallet')
     }
 
     return t('views.wallet.search')
-  }, [details, available, wallet?.THOR, chainWallet])
+  }, [allAddressesLocked, details, thorAddress, available, chainWalletAddress])
 
   return (
     <PanelView
@@ -97,7 +113,7 @@ const Thorname = () => {
         border="rounded"
         className="!text-md p-1.5 flex-1 border"
         containerClassName="bg-light-gray-light dark:bg-dark-gray-light !bg-opacity-80"
-        disabled={available}
+        disabled={!!details}
         onChange={(e) => setThorname(e.target.value)}
         onKeyDown={handleEnterKeyDown}
         placeholder={t('views.thorname.checkNameAvailability')}
@@ -116,9 +132,13 @@ const Thorname = () => {
 
       <InfoTable size="lg" items={thornameInfoItems} horizontalInset />
 
-      {available && (
+      {available && !allAddressesLocked && (
         <Box row className="w-full pt-4 gap-x-4">
-          <ChainDropdown chain={chain} onChange={handleChainChange} />
+          <ChainDropdown
+            details={details}
+            chain={chain}
+            onChange={handleChainChange}
+          />
 
           <Input
             autoFocus
@@ -128,7 +148,7 @@ const Thorname = () => {
             stretch
             onChange={() => {}}
             placeholder={`${chain} ${t('common.address')}`}
-            value={chainWallet ? chainWallet.address : ''}
+            value={chainWalletAddress || ''}
           />
         </Box>
       )}
@@ -139,12 +159,14 @@ const Thorname = () => {
           isFancy
           size="lg"
           stretch
-          disabled={!(thorname.length || details)}
+          disabled={!(thorname.length || details) || allAddressesLocked}
           onClick={handleSubmit}
         >
           {buttonLabel}
         </Button>
       </Box>
+
+      {!details && <RegisteredThornames thornames={registeredThornames} />}
     </PanelView>
   )
 }

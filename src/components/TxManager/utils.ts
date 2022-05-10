@@ -239,9 +239,11 @@ export const getApproveTxUrl = (txTracker: TxTracker): string => {
   return '#'
 }
 
-export const getSendTxUrl = (txTracker: TxTracker): string => {
-  const { submitTx } = txTracker
-
+export const getSendTxUrl = ({
+  submitTx,
+}: {
+  submitTx: TxTracker['submitTx']
+}): string => {
   if (submitTx?.txID) {
     const { inAssets = [], txID } = submitTx
     const asset = Asset.fromAssetString(inAssets[0].asset)
@@ -254,7 +256,7 @@ export const getSendTxUrl = (txTracker: TxTracker): string => {
   return '#'
 }
 
-export const getTxTrackerUrl = (txId: string) => {
+export const getTxTrackerUrl = (txId?: string) => {
   if (!txId) {
     return ''
   }
@@ -262,21 +264,20 @@ export const getTxTrackerUrl = (txId: string) => {
   return `https://app.thoryield.com/tx_tracker?tx=${txId}`
 }
 
-export const getTxType = (): Record<TxTrackerType, string> => {
-  return {
-    [TxTrackerType.Send]: t('txManager.send'),
-    [TxTrackerType.Approve]: t('txManager.approve'),
-    [TxTrackerType.Swap]: t('txManager.swap'),
-    [TxTrackerType.AddLiquidity]: t('txManager.addLiquidity'),
-    [TxTrackerType.Withdraw]: t('txManager.withdraw'),
-    [TxTrackerType.Donate]: t('txManager.donate'),
-    [TxTrackerType.Refund]: t('txManager.refund'),
-    [TxTrackerType.Switch]: t('txManager.switch'),
-    [TxTrackerType.Mint]: t('txManager.mint'),
-    [TxTrackerType.Redeem]: t('txManager.redeem'),
-    [TxTrackerType.Stake]: t('txManager.stake'),
-    [TxTrackerType.Claim]: t('txManager.claim'),
-    [TxTrackerType.StakeExit]: t('txManager.withdraw'),
-    [TxTrackerType.Unstake]: t('txManager.unstake'),
-  }
-}
+export const getTxType = (): Record<TxTrackerType, string> => ({
+  [TxTrackerType.AddLiquidity]: t('txManager.addLiquidity'),
+  [TxTrackerType.Approve]: t('txManager.approve'),
+  [TxTrackerType.Claim]: t('txManager.claim'),
+  [TxTrackerType.Donate]: t('txManager.donate'),
+  [TxTrackerType.Mint]: t('txManager.mint'),
+  [TxTrackerType.Redeem]: t('txManager.redeem'),
+  [TxTrackerType.Refund]: t('txManager.refund'),
+  [TxTrackerType.RegisterThorname]: t('txManager.registerThorname'),
+  [TxTrackerType.Send]: t('txManager.send'),
+  [TxTrackerType.StakeExit]: t('txManager.withdraw'),
+  [TxTrackerType.Stake]: t('txManager.stake'),
+  [TxTrackerType.Swap]: t('txManager.swap'),
+  [TxTrackerType.Switch]: t('txManager.switch'),
+  [TxTrackerType.Withdraw]: t('txManager.withdraw'),
+  [TxTrackerType.Unstake]: t('txManager.unstake'),
+})

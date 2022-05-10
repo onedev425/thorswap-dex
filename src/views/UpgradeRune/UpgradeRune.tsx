@@ -32,6 +32,8 @@ import { useTxTracker } from 'hooks/useTxTracker'
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
+import { IS_STAGENET } from 'settings/config'
+
 const oldRunes = [Asset.BNB_RUNE(), Asset.ETH_RUNE()]
 
 const UpgradeRune = () => {
@@ -184,10 +186,13 @@ const UpgradeRune = () => {
       return
     }
     if (
-      !multichain.validateAddress({
-        chain: Chain.THORChain,
-        address: recipientAddress,
-      })
+      !(
+        IS_STAGENET ||
+        multichain.validateAddress({
+          chain: Chain.THORChain,
+          address: recipientAddress,
+        })
+      )
     ) {
       showToast(
         {

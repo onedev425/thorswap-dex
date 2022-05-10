@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Asset } from '@thorswap-lib/multichain-sdk'
 
 import { TxProgressStatus } from 'components/TxManager/types'
+import { getTxTrackerUrl } from 'components/TxManager/utils'
 
 import { TxTracker, TxTrackerStatus, TxTrackerType } from 'store/midgard/types'
 
@@ -64,43 +65,31 @@ const getTxDetails = (
     return getSwapDetails(txTracker, outTxData)
   }
 
-  if (txTracker.type === TxTrackerType.AddLiquidity) {
-    return getAddLiquidityDetails(txTracker)
-  }
+  switch (txTracker.type) {
+    case TxTrackerType.AddLiquidity:
+      return getAddLiquidityDetails(txTracker)
+    case TxTrackerType.Withdraw:
+      return getWithdrawDetails(txTracker)
+    case TxTrackerType.Switch:
+      return getSwitchDetails(txTracker)
+    case TxTrackerType.Approve:
+      return getApproveDetails(txTracker)
+    case TxTrackerType.Send:
+      return getSendDetails(txTracker)
+    case TxTrackerType.Stake:
+      return getStakeDetails(txTracker)
+    case TxTrackerType.Claim:
+      return getClaimDetails(txTracker)
+    case TxTrackerType.StakeExit:
+      return getStakeWithdrawDetails(txTracker)
+    case TxTrackerType.RegisterThorname:
+      return getRegisterThornameDetails(txTracker)
+    case TxTrackerType.Unstake:
+      return getUnstakeDetails(txTracker)
 
-  if (txTracker.type === TxTrackerType.Withdraw) {
-    return getWithdrawDetails(txTracker)
+    default:
+      return null
   }
-
-  if (txTracker.type === TxTrackerType.Switch) {
-    return getSwitchDetails(txTracker)
-  }
-
-  if (txTracker.type === TxTrackerType.Approve) {
-    return getApproveDetails(txTracker)
-  }
-
-  if (txTracker.type === TxTrackerType.Send) {
-    return getSendDetails(txTracker)
-  }
-
-  if (txTracker.type === TxTrackerType.Stake) {
-    return getStakeDetails(txTracker)
-  }
-
-  if (txTracker.type === TxTrackerType.Claim) {
-    return getClaimDetails(txTracker)
-  }
-
-  if (txTracker.type === TxTrackerType.StakeExit) {
-    return getStakeWithdrawDetails(txTracker)
-  }
-
-  if (txTracker.type === TxTrackerType.Unstake) {
-    return getUnstakeDetails(txTracker)
-  }
-
-  return null
 }
 
 const getSwapDetails = (txTracker: TxTracker, outTxData: string): TxDetails => {
@@ -494,6 +483,31 @@ const getSendDetails = (txTracker: TxTracker): TxDetails => {
             amount,
           }),
       url: getSendTxUrl(txTracker),
+    },
+  ]
+
+  return txDetails
+}
+
+const getRegisterThornameDetails = ({
+  status,
+  submitTx,
+}: TxTracker): TxDetails => {
+  const failed = status === TxTrackerStatus.Failed
+  const pending = status !== TxTrackerStatus.Success
+
+  const txDetails: TxDetails = [
+    {
+      status: failed ? 'failed' : pending ? 'pending' : 'success',
+      label: failed
+        ? t('txManager.registerThornameFailed')
+        : pending
+        ? t('txManager.registerThorname')
+        : t('txManager.registerThornameSuccess'),
+      url:
+        status === TxTrackerStatus.Success
+          ? getTxTrackerUrl(submitTx.txID)
+          : '',
     },
   ]
 

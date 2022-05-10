@@ -73,8 +73,7 @@ export const useTxTracker = () => {
         })
       }
 
-      ethProvider.once(txHash, (tx) => {
-        const { status } = tx
+      ethProvider.once(txHash, ({ status }) => {
         updateTxTracker({
           uuid,
           txTracker: {
@@ -83,7 +82,9 @@ export const useTxTracker = () => {
           },
         })
 
-        if (status && callback) callback()
+        if (status) {
+          callback?.()
+        }
       })
     },
     [updateTxTracker],
@@ -100,22 +101,18 @@ export const useTxTracker = () => {
       submitTx: SubmitTx
       type: TxTrackerType
     }) => {
-      if (type === TxTrackerType.Send) {
-        updateTxTracker({
-          uuid,
-          txTracker: {
-            status: TxTrackerStatus.Success,
-            submitTx,
-          },
-        })
-      } else {
-        updateTxTracker({
-          uuid,
-          txTracker: {
-            status: TxTrackerStatus.Pending,
-            submitTx,
-          },
-        })
+      updateTxTracker({
+        uuid,
+        txTracker: {
+          status:
+            type === TxTrackerType.Send
+              ? TxTrackerStatus.Success
+              : TxTrackerStatus.Pending,
+          submitTx,
+        },
+      })
+
+      if (type !== TxTrackerType.Send) {
         processSubmittedTx({ submitTx, type })
       }
     },
@@ -125,12 +122,7 @@ export const useTxTracker = () => {
   // start polling a transaction
   const setTxFailed = useCallback(
     (uuid: string) => {
-      updateTxTracker({
-        uuid,
-        txTracker: {
-          status: TxTrackerStatus.Failed,
-        },
-      })
+      updateTxTracker({ uuid, txTracker: { status: TxTrackerStatus.Failed } })
     },
     [updateTxTracker],
   )

@@ -16,7 +16,7 @@ import Stake from 'views/Stake'
 import StakeVThor from 'views/StakeVThor'
 import Stats from 'views/Stats'
 import Swap from 'views/Swap'
-// import Thorname from 'views/Thorname'
+import Thorname from 'views/Thorname'
 import UpgradeRune from 'views/UpgradeRune'
 import Wallet from 'views/Wallet'
 import WalletBalance from 'views/WalletBalance'
@@ -26,12 +26,17 @@ import { Box } from 'components/Atomic'
 import { Layout } from 'components/Layout'
 import { WalletDrawer } from 'components/WalletDrawer'
 
+import { IS_STAGENET } from 'settings/config'
 import { ROUTES } from 'settings/constants'
 
 export type RouteType = {
   path: string
   element?: FixMe
 }[]
+
+const stagenetRoutes = IS_STAGENET
+  ? [{ path: ROUTES.Thorname, element: Thorname }]
+  : []
 
 const routes: RouteType = [
   { path: ROUTES.AddLiquidity, element: AddLiquidity },
@@ -42,10 +47,10 @@ const routes: RouteType = [
   { path: ROUTES.Send, element: Send },
   { path: ROUTES.SendAsset, element: Send },
   { path: ROUTES.Stake, element: Stake },
+  { path: ROUTES.StakeV2, element: StakeVThor },
   { path: ROUTES.Stats, element: Stats },
   { path: ROUTES.Swap, element: Swap },
   { path: ROUTES.SwapPair, element: Swap },
-  // { path: ROUTES.Thorname, element: Thorname },
   { path: ROUTES.UpgradeRune, element: UpgradeRune },
   { path: ROUTES.Wallet, element: Wallet },
   { path: ROUTES.WithdrawLiquidity, element: WithdrawLiquidity },
@@ -54,8 +59,7 @@ const routes: RouteType = [
   // { path: ROUTES.Nodes, element: Nodes },
   // { path: ROUTES.NodeManager, element: NodeManager },
   // { path: ROUTES.NodeDetail, element: NodeDetails },
-  { path: ROUTES.StakeV2, element: StakeVThor },
-]
+].concat(stagenetRoutes)
 
 const PublicRoutes = () => {
   return (
