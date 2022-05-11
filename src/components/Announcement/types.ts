@@ -1,17 +1,6 @@
 import { ReactNode } from 'react'
 
-export enum AnnouncemetType {
-  Primary = 'primary',
-  Info = 'info',
-  Warn = 'warn',
-  Error = 'error',
-}
-
-export type Announcement = {
-  type?: AnnouncemetType
-  title?: string
-  message: string | ReactNode
-}
+import { Announcement } from 'store/externalConfig/types'
 
 export type AnnouncementProps = {
   announcement: Announcement

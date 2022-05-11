@@ -1,44 +1,53 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { THORChain } from '@thorswap-lib/multichain-sdk'
-import axios from 'axios'
 
-import { Announcement, AnnouncemetType } from 'components/Announcement/types'
+import { useExternalConfig } from 'store/externalConfig/hooks'
+import { Announcement, AnnouncemetType } from 'store/externalConfig/types'
 
 import { useMimir } from 'hooks/useMimir'
 
 import { t } from 'services/i18n'
 
-const GOOGLE_API_KEY = 'AIzaSyDeBo5Q_YVC0B5Hqrz8XS8o0n4IX6PW_ik'
-const SHEET_ID = '13qyyZnv5tyHse4PUJ4548bJdtGQDJpMVjkLXq1gQRS0'
-const SHEET_TAB = 'announcements'
 const REFRESH_INTERVAL = 1000 * 50 * 5 //5min
 
 export const useHeaderAnnouncements = () => {
+  const {
+    announcements: manualAnnouncements,
+    isTradingGloballyDisabled,
+    refreshExternalConfig,
+  } = useExternalConfig()
   const { isChainHalted, isChainPauseLP, isChainTradingHalted } = useMimir()
-  const [manualAnnouncements, setManualAnnouncements] = useState<
-    Announcement[]
-  >([])
 
-  const announcements = useMemo(
-    () => [
-      ...manualAnnouncements,
-      ...getHaltedChainAnnouncements(isChainHalted),
-      ...getHaltedTradeAnnouncements(isChainTradingHalted),
-      ...getHaltedLPAnnouncements(isChainPauseLP),
-    ],
-    [isChainHalted, isChainPauseLP, isChainTradingHalted, manualAnnouncements],
-  )
-
-  useEffect(() => {
-    const refreshAnnouncements = async () => {
-      const data = await loadGSheetAnnouncements()
-      setManualAnnouncements(data)
+  const announcements = useMemo(() => {
+    if (isTradingGloballyDisabled) {
+      return [
+        ...manualAnnouncements,
+        {
+          message: t('components.announcements.tradingGloballyDisabled'),
+          type: AnnouncemetType.Error,
+        },
+      ]
     }
 
-    refreshAnnouncements()
-    setInterval(refreshAnnouncements, REFRESH_INTERVAL)
-  }, [])
+    return [
+      ...manualAnnouncements,
+      ...getHaltedChainAnnouncements(isChainHalted),
+      ...getHaltedTradeAnnouncements(isChainTradingHalted, isChainHalted),
+      ...getHaltedLPAnnouncements(isChainPauseLP, isChainHalted),
+    ]
+  }, [
+    isChainHalted,
+    isChainPauseLP,
+    isChainTradingHalted,
+    isTradingGloballyDisabled,
+    manualAnnouncements,
+  ])
+
+  useEffect(() => {
+    refreshExternalConfig()
+    setInterval(refreshExternalConfig, REFRESH_INTERVAL)
+  }, [refreshExternalConfig])
 
   return announcements
 }
@@ -65,17 +74,13 @@ const getHaltedChainAnnouncements = (
 
 const getHaltedLPAnnouncements = (
   pausedData: Record<string, boolean>,
+  chainPausedData: Record<string, boolean>,
 ): Announcement[] => {
-  if (pausedData[THORChain]) {
-    return [
-      {
-        message: t('components.announcements.thorChainLPHalted'),
-        type: AnnouncemetType.Error,
-      },
-    ]
+  if (chainPausedData[THORChain]) {
+    return []
   }
 
-  const chains = getPausedChains(pausedData)
+  const chains = getPausedChains(pausedData).filter((c) => !chainPausedData[c])
 
   return chains.map((chain) => ({
     message: t('components.announcements.chainLPHalted', { chain }),
@@ -85,17 +90,13 @@ const getHaltedLPAnnouncements = (
 
 const getHaltedTradeAnnouncements = (
   pausedData: Record<string, boolean>,
+  chainPausedData: Record<string, boolean>,
 ): Announcement[] => {
-  if (pausedData[THORChain]) {
-    return [
-      {
-        message: t('components.announcements.thorChainTradeHalted'),
-        type: AnnouncemetType.Error,
-      },
-    ]
+  if (chainPausedData[THORChain]) {
+    return []
   }
 
-  const chains = getPausedChains(pausedData)
+  const chains = getPausedChains(pausedData).filter((c) => !chainPausedData[c])
 
   return chains.map((chain) => ({
     message: t('components.announcements.chainTradeHalted', { chain }),
@@ -113,32 +114,4 @@ const getPausedChains = (data: Record<string, boolean>) => {
   })
 
   return items
-}
-
-const loadGSheetAnnouncements = async () => {
-  const url =
-    'https://sheets.googleapis.com/v4/spreadsheets/' +
-    SHEET_ID +
-    '/values/' +
-    SHEET_TAB +
-    '?alt=json&key=' +
-    GOOGLE_API_KEY
-
-  try {
-    const { data } = await axios.get(url)
-    const { values } = data
-    const rows = (values as string[][])
-      .slice(1, values.length)
-      .filter((row) => row[3] === 'TRUE')
-
-    const announcements: Announcement[] = rows.map((row) => ({
-      message: row[0],
-      title: row[1],
-      type: row[2] as AnnouncemetType,
-    }))
-
-    return announcements
-  } catch (e) {
-    return []
-  }
 }

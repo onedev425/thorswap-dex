@@ -105,6 +105,8 @@ export type MimirData = {
   PAUSELPLTC?: number
   PAUSELPDOGE?: number
   PAUSELPTERRA?: number
+  SOLVENCYHALTETHCHAIN?: number
+  SOLVENCYHALTBCHCHAIN?: number
   MAXSYNTHPERASSETDEPTH?: number
 }
 

@@ -1,6 +1,6 @@
 import { ComponentMeta } from '@storybook/react'
 
-import { AnnouncemetType } from 'components/Announcement/types'
+import { AnnouncemetType } from 'store/externalConfig/types'
 
 import { Announcement } from './Announcement'
 

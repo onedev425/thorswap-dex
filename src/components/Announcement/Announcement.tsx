@@ -1,11 +1,10 @@
 import classNames from 'classnames'
 
-import {
-  AnnouncementProps,
-  AnnouncemetType,
-} from 'components/Announcement/types'
+import { AnnouncementProps } from 'components/Announcement/types'
 import { Box, Typography } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
+
+import { AnnouncemetType } from 'store/externalConfig/types'
 
 const announcementClasses: Record<AnnouncemetType, string> = {
   primary: '!opacity-20 from-transparent via-btn-primary',

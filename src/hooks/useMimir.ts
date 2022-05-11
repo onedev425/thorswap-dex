@@ -14,6 +14,7 @@ import {
   TERRAChain,
 } from '@thorswap-lib/xchain-util'
 
+import { useExternalConfig } from 'store/externalConfig/hooks'
 import { useMidgard } from 'store/midgard/hooks'
 import { MimirData } from 'store/midgard/types'
 
@@ -22,6 +23,7 @@ import { useGlobalStats } from 'hooks/useGlobalStats'
 export const useMimir = () => {
   const { networkData, mimir } = useMidgard()
   const { totalActiveBond } = useGlobalStats()
+  const { isTradingGloballyDisabled } = useExternalConfig()
 
   // const maxLiquidityRuneMimir = mimir?.MAXIMUMLIQUIDITYRUNE
   // const maxLiquidityRune = Amount.fromMidgard(maxLiquidityRuneMimir)
@@ -29,6 +31,10 @@ export const useMimir = () => {
   const totalPooledRune = Amount.fromMidgard(networkData?.totalPooledRune)
 
   const isEntryPaused = (entry: keyof MimirData) => {
+    if (isTradingGloballyDisabled) {
+      return true
+    }
+
     if (!mimir || typeof mimir[entry] !== 'number') {
       return false
     }
@@ -39,10 +45,12 @@ export const useMimir = () => {
   // halt status
   const isTHORChainHalted = isEntryPaused('HALTTHORCHAIN')
   const isBTCChainHalted = isEntryPaused('HALTBTCCHAIN')
-  const isETHChainHalted = isEntryPaused('HALTETHCHAIN')
+  const isETHChainHalted =
+    isEntryPaused('HALTETHCHAIN') || isEntryPaused('SOLVENCYHALTETHCHAIN')
   const isBNBChainHalted = isEntryPaused('HALTBNBCHAIN')
   const isLTCChainHalted = isEntryPaused('HALTLTCCHAIN')
-  const isBCHChainHalted = isEntryPaused('HALTBCHCHAIN')
+  const isBCHChainHalted =
+    isEntryPaused('HALTBCHCHAIN') || isEntryPaused('SOLVENCYHALTBCHCHAIN')
   const isDOGEChainHalted = isEntryPaused('HALTDOGECHAIN')
   const isTERRAChainHalted = isEntryPaused('HALTTERRACHAIN')
   const isChainHalted: {
