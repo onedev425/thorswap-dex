@@ -18,13 +18,20 @@ import { getAmountFromString } from './utils'
 
 export const InputAmount = memo(
   ({ amountValue, onAmountChange, ref, ...otherProps }: InputAmountProps) => {
+    const inputValue = useMemo(
+      () => (amountValue?.gt(0) ? amountValue : undefined),
+      [amountValue],
+    )
+
     const formatPriceOptions = useMemo(
-      () => ({ decimals: amountValue.decimal, prefix: '' }),
-      [amountValue.decimal],
+      () => ({ decimals: inputValue?.decimal, prefix: '' }),
+      [inputValue?.decimal],
     )
 
     const formatPrice = useFormatPrice(formatPriceOptions)
-    const [rawValue, setRawValue] = useState(formatPrice(amountValue))
+    const [rawValue, setRawValue] = useState(
+      inputValue ? formatPrice(inputValue) : '',
+    )
 
     const handleRawValueChange = useCallback(
       (amount: Amount | string) => {
@@ -35,32 +42,31 @@ export const InputAmount = memo(
 
     const handleChange = useCallback(
       ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-        if (!amountValue) {
-          handleRawValueChange(value)
-          return
-        }
-
-        const newValue = getAmountFromString(value, amountValue.decimal)
+        const amount = inputValue || getAmountFromString(value, 8)
+        const newValue = getAmountFromString(value, amount?.decimal || 8)
 
         // if value is a valid number, trigger onChange
         if (newValue) {
-          handleRawValueChange(newValue)
+          handleRawValueChange(value ? newValue : '')
           onAmountChange?.(newValue)
         } else {
           // if value is not a valid number, update raw input value
           handleRawValueChange(value)
         }
       },
-      [amountValue, handleRawValueChange, onAmountChange],
+      [inputValue, handleRawValueChange, onAmountChange],
     )
 
     useEffect(() => {
-      handleRawValueChange(amountValue)
-    }, [amountValue, handleRawValueChange])
+      if (inputValue) {
+        handleRawValueChange(inputValue)
+      }
+    }, [inputValue, handleRawValueChange])
 
     return (
       <Input
         {...otherProps}
+        placeholder="0"
         value={rawValue}
         onChange={handleChange}
         disabled={!onAmountChange}

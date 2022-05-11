@@ -15,7 +15,7 @@ import {
 } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
 
-import { AssetInputs } from 'views/WithdrawLiquidity/components/AssetInputs'
+import { AssetInputs } from 'views/WithdrawLiquidity/AssetInputs'
 
 import { Button, Box, Typography } from 'components/Atomic'
 import { GlobalSettingsPopover } from 'components/GlobalSettings'
@@ -228,9 +228,6 @@ const WithdrawPanel = ({
 
     return null
   }, [poolMemberData, lpType])
-
-  console.info('memberPoolData', memberPoolData)
-  console.info('shareTypes', shareTypes)
 
   const liquidityEntity = useMemo(() => {
     if (!memberPoolData) return null

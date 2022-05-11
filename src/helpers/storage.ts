@@ -23,7 +23,6 @@ type StorageType = {
   thorswapAddress: string | null
   thorswapKeystore: Keystore | null
   tradingHaltStatus: boolean
-  xDefiConnected: boolean
   slippageTolerance: string
   transactionDeadline: string
   autoRouter: boolean
@@ -68,7 +67,6 @@ type StoragePayload =
         | 'sidebarCollapsed'
         | 'statsHidden'
         | 'tradingHaltStatus'
-        | 'xDefiConnected'
       value: boolean
     }
 
@@ -89,7 +87,6 @@ const defaultValues: StorageType = {
   thorswapAddress: null,
   thorswapKeystore: null,
   tradingHaltStatus: false,
-  xDefiConnected: false,
   expertMode: false,
   customRecipientMode: false,
   autoRouter: true,
@@ -114,7 +111,6 @@ export const saveInStorage = ({ key, value }: StoragePayload) => {
     case 'sidebarCollapsed':
     case 'tradingHaltStatus':
     case 'readStatus':
-    case 'xDefiConnected':
     case 'expertMode':
     case 'customRecipientMode':
     case 'autoRouter':
@@ -163,7 +159,6 @@ export const getFromStorage = (
     case 'sidebarCollapsed':
     case 'tradingHaltStatus':
     case 'readStatus':
-    case 'xDefiConnected':
     case 'autoRouter':
     case 'customRecipientMode':
     case 'expertMode': {

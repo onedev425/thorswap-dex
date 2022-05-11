@@ -35,12 +35,7 @@ export const AssetInputs = memo(
 
     const handlePercentChange = useCallback(
       (value: Amount) => {
-        // max percent is 100%
-        if (value.gt(100)) {
-          onPercentChange(Amount.fromNormalAmount(100))
-        } else {
-          onPercentChange(value)
-        }
+        onPercentChange(value.gt(100) ? Amount.fromNormalAmount(100) : value)
       },
       [onPercentChange],
     )

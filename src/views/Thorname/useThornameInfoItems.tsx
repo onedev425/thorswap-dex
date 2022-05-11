@@ -6,7 +6,7 @@ import { Asset, SupportedChain, THORName } from '@thorswap-lib/multichain-sdk'
 import { thornameChainIcons } from 'views/Thorname/ChainDropdown'
 
 import { AssetIcon } from 'components/AssetIcon'
-import { Box, Button, Icon, Typography } from 'components/Atomic'
+import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic'
 import { InfoRowConfig } from 'components/InfoRow/types'
 
 import { useMidgard } from 'store/midgard/hooks'
@@ -132,10 +132,12 @@ export const useThornameInfoItems = ({
               ...details.entries.map(({ address, chain }) => ({
                 key: chain,
                 label: (
-                  <Icon
-                    className="px-2"
-                    name={thornameChainIcons[chain as SupportedChain]}
-                  />
+                  <Tooltip content={`${thorname}.${chain}`}>
+                    <Icon
+                      className="px-2"
+                      name={thornameChainIcons[chain as SupportedChain]}
+                    />
+                  </Tooltip>
                 ),
                 value: shortenAddress(address, 15),
               })),
