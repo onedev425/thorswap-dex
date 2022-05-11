@@ -47,7 +47,7 @@ const CollapseLink = ({ onClick, label, children }: CollapseLinkItem) => {
       {children.map((childLink) => (
         <NavLink
           key={childLink.label}
-          to={childLink.href}
+          to={childLink.href || ''}
           label={childLink.label}
           onClick={handleCollapseClick}
         />

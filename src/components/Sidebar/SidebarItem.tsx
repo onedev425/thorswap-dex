@@ -39,15 +39,16 @@ export const SidebarItem = memo(
         >
           {options.map(
             ({
+              children,
               hasBackground: background,
               label,
-              children,
               navLabel,
+              href,
               ...rest
             }: SidebarItemProps) => {
-              if (children)
-                return (
-                  <Fragment key={label}>
+              return (
+                <Fragment key={label}>
+                  {(children || variant === 'primary') && (
                     <div
                       className={classNames(
                         'transition-all overflow-hidden',
@@ -55,16 +56,18 @@ export const SidebarItem = memo(
                       )}
                     >
                       <Typography
-                        className="mb-1 ml-2"
+                        className={children ? 'mb-1 ml-2' : 'ml2'}
                         color="secondary"
-                        variant="caption-xs"
                         fontWeight="semibold"
                         transform="uppercase"
+                        variant="caption-xs"
                       >
                         {label}
                       </Typography>
                     </div>
+                  )}
 
+                  {children ? (
                     <SidebarItem
                       options={children}
                       collapsed={collapsed}
@@ -72,42 +75,22 @@ export const SidebarItem = memo(
                       hasBackground={background || hasBackground}
                       onItemClick={onItemClick}
                     />
-                  </Fragment>
-                )
-
-              return (
-                <Fragment key={label}>
-                  {variant === 'primary' && (
-                    <div
+                  ) : (
+                    <NavItem
+                      {...rest}
+                      href={href}
+                      children={undefined}
+                      key={label}
                       className={classNames(
-                        'transition-all overflow-hidden',
-                        collapseClass,
+                        'last-of-type:mb-0',
+                        variant === 'primary' ? 'mb-4' : 'mb-1',
                       )}
-                    >
-                      <Typography
-                        className="ml-2"
-                        color="secondary"
-                        variant="caption-xs"
-                        fontWeight="semibold"
-                        transform="uppercase"
-                      >
-                        {label}
-                      </Typography>
-                    </div>
+                      variant={variant}
+                      label={navLabel || label}
+                      collapsed={collapsed}
+                      onItemClickCb={onItemClick}
+                    />
                   )}
-
-                  <NavItem
-                    {...rest}
-                    key={label}
-                    className={classNames(
-                      'last-of-type:mb-0',
-                      variant === 'primary' ? 'mb-4' : 'mb-1',
-                    )}
-                    variant={variant}
-                    label={navLabel || label}
-                    collapsed={collapsed}
-                    onItemClickCb={onItemClick}
-                  />
                 </Fragment>
               )
             },

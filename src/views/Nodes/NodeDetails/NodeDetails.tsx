@@ -6,7 +6,7 @@ import { THORNode } from '@thorswap-lib/midgard-sdk'
 import { Amount, Asset, hasWalletConnected } from '@thorswap-lib/multichain-sdk'
 import { THORChain } from '@thorswap-lib/xchain-util'
 
-import { useAccountData, useNodeDetailInfo } from 'views/Nodes/hooks'
+import { useNodeDetailInfo } from 'views/Nodes/hooks'
 import { NodeAction } from 'views/Nodes/types'
 
 import {
@@ -18,7 +18,6 @@ import {
   Select,
   Typography,
 } from 'components/Atomic'
-import { InfoTable } from 'components/InfoTable'
 import { Input } from 'components/Input'
 import { PanelView } from 'components/PanelView'
 import { showToast, ToastType } from 'components/Toast'
@@ -45,7 +44,7 @@ export const NodeDetails = () => {
     [wallet],
   )
 
-  const nodeTableData = useAccountData(nodeInfo as THORNode)
+  // const nodeTableData = useAccountData(nodeInfo as THORNode)
 
   const isBonder = useMemo(() => {
     if (!nodeInfo || !wallet?.THOR || nodeLoading) return false
@@ -194,7 +193,7 @@ export const NodeDetails = () => {
       }
     >
       <Box className="w-full space-y-3 px-4 pt-3" col marginBottom={3}>
-        <InfoTable items={nodeTableData} />
+        {/* <InfoTable items={nodeTableData} /> */}
       </Box>
 
       <Collapse

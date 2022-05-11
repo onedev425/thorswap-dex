@@ -1,3 +1,4 @@
+import { IconName } from 'components/Atomic'
 import { SidebarItemProps } from 'components/Sidebar/types'
 
 import { t } from 'services/i18n'
@@ -33,12 +34,12 @@ export const getDefaultNavbarOptions = (): SidebarItemProps[] => [
     label: t('components.sidebar.wallet'),
     children: [
       {
-        iconName: 'wallet',
+        iconName: 'wallet' as IconName,
         href: ROUTES.Wallet,
         label: t('components.sidebar.wallet'),
       },
       {
-        iconName: 'send',
+        iconName: 'send' as IconName,
         href: ROUTES.Send,
         label: t('components.sidebar.send'),
       },
