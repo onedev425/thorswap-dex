@@ -101,8 +101,7 @@
     "nodeAddress": "노드주소",
     "upgradeRune": "Rune 업그레이드",
     "upgradeChainRune": "",
-    "amount": "금액",
-    "depositNotAvailable": "예치 불가"
+    "amount": "금액"
   },
   "pendingLiquidity": {
     "complete": "완료",
@@ -134,6 +133,9 @@
     "showPools": "추천 풀 보기"
   },
   "txManager": {
+    "registerThorname": "",
+    "registerThornameFailed": "",
+    "registerThornameSuccess": "",
     "approve": "승인",
     "swap": "스왑",
     "addLiquidity": "유동성 추가",
@@ -191,7 +193,8 @@
       "thorChainTradeHalted": "",
       "chainHalted": "",
       "chainLPHalted": "",
-      "chainTradeHalted": ""
+      "chainTradeHalted": "",
+      "tradingGloballyDisabled": ""
     },
     "assetSelect": {
       "selectAToken": "토큰 선택",
@@ -224,7 +227,8 @@
       "supportInfo": "기술 지원을 받으시려면 공식 Discord 서버를 통해 저희에게 문의하십시오.(THORSwap 지원이라고 하는 사람을 주의하십시오. 저희는 Discord의 지원 데스크 이외 DM을 보내지 않습니다).",
       "collapse": "접음",
       "expand": "펼침",
-      "thoryield": "THORYield"
+      "thoryield": "THORYield",
+      "thorname": ""
     },
     "statusDropdown": {
       "capAvailable": "펀드 캡 이용 가능",
@@ -570,6 +574,24 @@
     },
     "send": {
       "txFeeTooltip": "트랜잭션에 지불될 가스 수수료입니다. THORChain 프로토콜로부터 추가 비용은 없습니다."
+    },
+    "thorname": {
+      "available": "",
+      "checkNameAvailability": "",
+      "cost": "",
+      "duration": "",
+      "expire": "",
+      "feeOnSale": "",
+      "ownedByYou": "",
+      "owner": "",
+      "purchase": "",
+      "registeredThornames": "",
+      "registerFee": "",
+      "registerSuccess": "",
+      "searchName": "",
+      "status": "",
+      "unavailable": "",
+      "unavailableForPurchase": ""
     }
   },
   "validation": {

@@ -101,8 +101,7 @@
     "nodeAddress": "Node adres",
     "upgradeRune": "Rune upgraden",
     "upgradeChainRune": "%{chain} RUNE Upgraden",
-    "amount": "Bedrag",
-    "depositNotAvailable": "Storten niet beschikbaar"
+    "amount": "Bedrag"
   },
   "pendingLiquidity": {
     "complete": "Compleet",
@@ -134,6 +133,9 @@
     "showPools": "Laat aanbevolen pools zien"
   },
   "txManager": {
+    "registerThorname": "Register THORName",
+    "registerThornameFailed": "Register THORName failed",
+    "registerThornameSuccess": "Registered THORName successfully",
     "approve": "Goedkeuren",
     "swap": "Swap",
     "addLiquidity": "Liquiditeit toevoegen",
@@ -191,7 +193,8 @@
       "thorChainTradeHalted": "Handelen is tijdelijk stopgezet op THORChain.",
       "chainHalted": "%{chain} tijdelijk stopgezet op THORChain. Al het handelen, toevoegen en verwijderen is niet beschikbaar.",
       "chainLPHalted": "Handel voor %{chain} tijdelijk niet beschikbaar.",
-      "chainTradeHalted": "Toevoegen en verwijderen van liquiditeit op %{chain} is tijdelijk niet beschikbaar."
+      "chainTradeHalted": "Toevoegen en verwijderen van liquiditeit op %{chain} is tijdelijk niet beschikbaar.",
+      "tradingGloballyDisabled": "THORChain is currently experiencing technical difficulties. Team is investigating."
     },
     "assetSelect": {
       "selectAToken": "Selecteer een token",
@@ -224,7 +227,8 @@
       "supportInfo": "Voor technische ondersteuning, neem dan contact met ons op via onze officiële Discord Server (pas op voor iedereen die beweert THORSwap support te zijn - we zullen je nooit DM'en buiten onze Support Desk op Discord).",
       "collapse": "Inklappen",
       "expand": "Uitbreiden",
-      "thoryield": "THORYield"
+      "thoryield": "THORYield",
+      "thorname": "THORName"
     },
     "statusDropdown": {
       "capAvailable": "Liquiditeitsplafond beschikbaar",
@@ -570,6 +574,24 @@
     },
     "send": {
       "txFeeTooltip": "Gas kosten om de transactie te verzenden, Er zijn geen extra kosten van THORChain Protocol"
+    },
+    "thorname": {
+      "available": "Beschikbaar",
+      "checkNameAvailability": "Controleer beschikbaarheid naam",
+      "cost": "Cost",
+      "duration": "Lengte (in jaren)",
+      "expire": "Expire",
+      "feeOnSale": "Verkoopkosten",
+      "ownedByYou": "Owned by you",
+      "owner": "Owner",
+      "purchase": "Aankopen",
+      "registeredThornames": "Registered Thornames",
+      "registerFee": "Registratiekosten",
+      "registerSuccess": "THORName %{thorname} is succesvol geregistreerd.",
+      "searchName": "Naam zoeken",
+      "status": "Status",
+      "unavailable": "Niet beschikbaar",
+      "unavailableForPurchase": "Unavailable for purchase"
     }
   },
   "validation": {

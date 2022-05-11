@@ -101,8 +101,7 @@
     "nodeAddress": "អាស័យដ្ឋានគ្រប់គ្រង់ពីចំងាយ ",
     "upgradeRune": "ធ្វើទំនើបកម្ម Rune",
     "upgradeChainRune": "Upgrade %{chain} Rune",
-    "amount": "បរិមាណ",
-    "depositNotAvailable": "ការដាក់រូបិយប័ណ្ណគឺមិនមានទេ"
+    "amount": "បរិមាណ"
   },
   "pendingLiquidity": {
     "complete": "រួចរាល់",
@@ -134,6 +133,9 @@
     "showPools": "បង្ហាញទម្រង់គម្រោង pools"
   },
   "txManager": {
+    "registerThorname": "Register THORName",
+    "registerThornameFailed": "Register THORName failed",
+    "registerThornameSuccess": "Registered THORName successfully",
     "approve": "អនុញ្ញាត្តិ",
     "swap": "ជួញដូរ",
     "addLiquidity": "បន្តែមបរិមាណរូបិយប័ណ្ណ",
@@ -191,7 +193,8 @@
       "thorChainTradeHalted": "Trading is temporarily disabled on THORChain.",
       "chainHalted": "%{chain} Chain is temporarily halted on THORChain. All trading and LP actions are currently unavailable",
       "chainLPHalted": "Trading on %{chain} Chain is temporarily unavailable.",
-      "chainTradeHalted": "Adding and withdrawing on %{chain} Chain are temporarily unavailable."
+      "chainTradeHalted": "Adding and withdrawing on %{chain} Chain are temporarily unavailable.",
+      "tradingGloballyDisabled": "THORChain is currently experiencing technical difficulties. Team is investigating."
     },
     "assetSelect": {
       "selectAToken": "ជ្រើសរើស token",
@@ -224,7 +227,8 @@
       "supportInfo": "សម្រាប់ជំនួយផ្នែកបច្ចេកទេស សូមទាក់ទងមកពួកយើងតាមរយៈប្រព័ន្ធDiscord ផ្លូវការរបស់ពួកយើង (សូមប្រយ័ត្នចំពោះនរណាម្នាក់ដែលអះអាងថាជាអ្នកផ្តល់ជំនួយរបស់ THORSwap - យើងនឹងមិន DM អ្នកឡើយ ក្រៅពីផ្នែកផ្តល់ជំនួយរបស់យើងនៅលើ Discord)។",
       "collapse": "ខូចខាត",
       "expand": "ពង្រីក",
-      "thoryield": "ទិន្នផល THORYield"
+      "thoryield": "ទិន្នផល THORYield",
+      "thorname": "THORName"
     },
     "statusDropdown": {
       "capAvailable": "ទុនមូលធនដែលមាន",
@@ -570,6 +574,24 @@
     },
     "send": {
       "txFeeTooltip": "តម្លៃហ្គាសដើម្បីផ្ញើប្រតិបត្តិការ មិនមានការគិតថ្លៃបន្ថែមពីពិធីការ THORChain ទេ"
+    },
+    "thorname": {
+      "available": "Available",
+      "checkNameAvailability": "Check Name Availability",
+      "cost": "Cost",
+      "duration": "Duration (in years)",
+      "expire": "Expire",
+      "feeOnSale": "Fee on Sale",
+      "ownedByYou": "Owned by you",
+      "owner": "Owner",
+      "purchase": "Purchase",
+      "registeredThornames": "Registered Thornames",
+      "registerFee": "Register Fee",
+      "registerSuccess": "THORName %{thorname}.%{chain} successfully registered",
+      "searchName": "Search Name",
+      "status": "Status",
+      "unavailable": "Unavailable",
+      "unavailableForPurchase": "Unavailable for purchase"
     }
   },
   "validation": {

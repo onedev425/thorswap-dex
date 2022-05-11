@@ -101,8 +101,7 @@
     "nodeAddress": "節點地址",
     "upgradeRune": "升級 Rune",
     "upgradeChainRune": "升級 %{chain} RUNE",
-    "amount": "數額",
-    "depositNotAvailable": "無法添加"
+    "amount": "數額"
   },
   "pendingLiquidity": {
     "complete": "完成",
@@ -134,6 +133,9 @@
     "showPools": "顯示精選流動池"
   },
   "txManager": {
+    "registerThorname": "Register THORName",
+    "registerThornameFailed": "Register THORName failed",
+    "registerThornameSuccess": "Registered THORName successfully",
     "approve": "授權",
     "swap": "交換",
     "addLiquidity": "增加流動性",
@@ -191,7 +193,8 @@
       "thorChainTradeHalted": "THORChain 已暫時中止兌換交易。",
       "chainHalted": "%{chain} 鏈在THORChain上已暫時中止。臨時禁用所有的兌換交易和LP服務。",
       "chainLPHalted": "%{chain} 鏈暫時中止兌換交易。",
-      "chainTradeHalted": "%{chain} 鏈暫時中止添加和提取流動性。"
+      "chainTradeHalted": "%{chain} 鏈暫時中止添加和提取流動性。",
+      "tradingGloballyDisabled": "THORChain is currently experiencing technical difficulties. Team is investigating."
     },
     "assetSelect": {
       "selectAToken": "選擇代幣",
@@ -224,7 +227,8 @@
       "supportInfo": "如果您需要技術支持，請通過我們的官方Discord服務器聯系我們（請避免回復任何聲稱是THORSwap官方人員的訊息--我們絕不會在Discord之外的渠道聯絡您）。",
       "collapse": "折疊",
       "expand": "展開",
-      "thoryield": "THORYield"
+      "thoryield": "THORYield",
+      "thorname": "THORName"
     },
     "statusDropdown": {
       "capAvailable": "可用資金上限",
@@ -570,6 +574,24 @@
     },
     "send": {
       "txFeeTooltip": "用於發送交易的燃料費。THORChain 協議沒有額外的費用。"
+    },
+    "thorname": {
+      "available": "可註冊",
+      "checkNameAvailability": "檢查THORName可用性",
+      "cost": "Cost",
+      "duration": "年限",
+      "expire": "Expire",
+      "feeOnSale": "出售費用",
+      "ownedByYou": "Owned by you",
+      "owner": "Owner",
+      "purchase": "購買",
+      "registeredThornames": "Registered Thornames",
+      "registerFee": "註冊費",
+      "registerSuccess": "THORName %{thorname}  註冊成功",
+      "searchName": "搜索",
+      "status": "狀態",
+      "unavailable": "無法註冊",
+      "unavailableForPurchase": "Unavailable for purchase"
     }
   },
   "validation": {

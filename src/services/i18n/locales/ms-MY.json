@@ -101,8 +101,7 @@
     "nodeAddress": "Alamat Node",
     "upgradeRune": "",
     "upgradeChainRune": "",
-    "amount": "Amaun",
-    "depositNotAvailable": ""
+    "amount": "Amaun"
   },
   "pendingLiquidity": {
     "complete": "",
@@ -134,6 +133,9 @@
     "showPools": ""
   },
   "txManager": {
+    "registerThorname": "",
+    "registerThornameFailed": "",
+    "registerThornameSuccess": "",
     "approve": "",
     "swap": "",
     "addLiquidity": "",
@@ -191,7 +193,8 @@
       "thorChainTradeHalted": "",
       "chainHalted": "",
       "chainLPHalted": "",
-      "chainTradeHalted": ""
+      "chainTradeHalted": "",
+      "tradingGloballyDisabled": ""
     },
     "assetSelect": {
       "selectAToken": "",
@@ -224,7 +227,8 @@
       "supportInfo": "",
       "collapse": "",
       "expand": "",
-      "thoryield": ""
+      "thoryield": "",
+      "thorname": ""
     },
     "statusDropdown": {
       "capAvailable": "",
@@ -570,6 +574,24 @@
     },
     "send": {
       "txFeeTooltip": ""
+    },
+    "thorname": {
+      "available": "",
+      "checkNameAvailability": "",
+      "cost": "",
+      "duration": "",
+      "expire": "",
+      "feeOnSale": "",
+      "ownedByYou": "",
+      "owner": "",
+      "purchase": "",
+      "registeredThornames": "",
+      "registerFee": "",
+      "registerSuccess": "",
+      "searchName": "",
+      "status": "",
+      "unavailable": "",
+      "unavailableForPurchase": ""
     }
   },
   "validation": {

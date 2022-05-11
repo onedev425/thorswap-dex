@@ -101,8 +101,7 @@
     "nodeAddress": "Dirección del Nodo",
     "upgradeRune": "Rune Ascendido",
     "upgradeChainRune": "Ascender %{chain} Rune",
-    "amount": "Cantidad",
-    "depositNotAvailable": "Depósitos no disponibles"
+    "amount": "Cantidad"
   },
   "pendingLiquidity": {
     "complete": "Completar",
@@ -134,6 +133,9 @@
     "showPools": "Mostar pools destacados"
   },
   "txManager": {
+    "registerThorname": "",
+    "registerThornameFailed": "",
+    "registerThornameSuccess": "",
     "approve": "Aprobar",
     "swap": "Intercambiar",
     "addLiquidity": "Añadir Liquidez",
@@ -191,7 +193,8 @@
       "thorChainTradeHalted": "Los intercambios están temporalmente desactivados en THORChain.",
       "chainHalted": "La cadena %{chain} está temporalmente desactivada en THORChain. Todos los intercambios y las acciones relativas a la liquidez están desactivadas.",
       "chainLPHalted": "Los intercambios en la cadena %{chain} no están disponibles temporalmente.",
-      "chainTradeHalted": "La adición y  el retiro de liquidez en la cadena %{chain} están temporalmente no disponibles."
+      "chainTradeHalted": "La adición y  el retiro de liquidez en la cadena %{chain} están temporalmente no disponibles.",
+      "tradingGloballyDisabled": ""
     },
     "assetSelect": {
       "selectAToken": "Seleccionar token",
@@ -224,7 +227,8 @@
       "supportInfo": "Para soporte técnico, por favor contáctanos a través de nuestro servidor oficial de Discord (ten cuidado con cualquiera que se haga pasar por soporte de THORSwap - nunca te enviaremos un mensaje privado fuera de nuestro sistema de soporte mediante tickets en Discord).",
       "collapse": "Collapsar",
       "expand": "Expandir",
-      "thoryield": "THORYield"
+      "thoryield": "THORYield",
+      "thorname": ""
     },
     "statusDropdown": {
       "capAvailable": "Límite de fondos disponible",
@@ -570,6 +574,24 @@
     },
     "send": {
       "txFeeTooltip": "Tasa de gas para enviar la transacción. No hay cargos extra por parte de THORChain."
+    },
+    "thorname": {
+      "available": "",
+      "checkNameAvailability": "",
+      "cost": "",
+      "duration": "",
+      "expire": "",
+      "feeOnSale": "",
+      "ownedByYou": "",
+      "owner": "",
+      "purchase": "",
+      "registeredThornames": "",
+      "registerFee": "",
+      "registerSuccess": "",
+      "searchName": "",
+      "status": "",
+      "unavailable": "",
+      "unavailableForPurchase": ""
     }
   },
   "validation": {

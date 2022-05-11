@@ -101,8 +101,7 @@
     "nodeAddress": "Indirizzo Nodo",
     "upgradeRune": "Aggiorna Rune",
     "upgradeChainRune": "Aggiorna %{chain} Rune",
-    "amount": "Importo",
-    "depositNotAvailable": "Deposito non disponibile"
+    "amount": "Importo"
   },
   "pendingLiquidity": {
     "complete": "completa",
@@ -134,6 +133,9 @@
     "showPools": "Mostra Pools in Primo Piano"
   },
   "txManager": {
+    "registerThorname": "Registra THORName",
+    "registerThornameFailed": "Registra THORName fallito",
+    "registerThornameSuccess": "THORName Registrato con successo",
     "approve": "Approva",
     "swap": "Scambia",
     "addLiquidity": "Aggiungi Liquidità",
@@ -191,7 +193,8 @@
       "thorChainTradeHalted": "Il trading è temporaneamente disabilitato su THORChain.",
       "chainHalted": "%{chain} Chain è temporaneamente interrotta su THORChain. Tutte le azioni di trading e LP non sono attualmente disponibili",
       "chainLPHalted": "Il trading su %{chain} Chain è temporaneamente non disponibile.",
-      "chainTradeHalted": "L'aggiunta e il prelievo su %{chain} Chain sono temporaneamente non disponibili."
+      "chainTradeHalted": "L'aggiunta e il prelievo su %{chain} Chain sono temporaneamente non disponibili.",
+      "tradingGloballyDisabled": "THORChain sta attualmente riscontrando difficoltà tecniche. Il Team sta indagando."
     },
     "assetSelect": {
       "selectAToken": "Seleziona un token",
@@ -224,7 +227,8 @@
       "supportInfo": "Per il supporto tecnico, vi preghiamo di contattarci tramite il nostro server ufficiale Discord (attenzione a tutti coloro che affermano di essere supporto THORSwap. Admins/Mods non ti invieranno mai DM al di fuori del nostro supporto su Discord).",
       "collapse": "Minimizza",
       "expand": "Espandi",
-      "thoryield": "THORYield"
+      "thoryield": "THORYield",
+      "thorname": "THORName"
     },
     "statusDropdown": {
       "capAvailable": "Funds Cap Disponibile",
@@ -330,7 +334,7 @@
     "stakingVThor": {
       "stakeVThorTitle": "Stake THOR per vTHOR",
       "stakeVThorSubtitle": "Stake THOR per guadagnare premi di staking e sconti di trading",
-      "stakeInfo": "",
+      "stakeInfo": "Quando metti in Stake $THOR (ERC-20), riceverai $vTHOR, un token componibile e trasferibile che rappresenta la tua posizione di staking. \n\nLa tua posizione riceverà automaticamente i premi di Staking autocomposti, costituiti da (i) emissioni di premi in blocco e (ii) 75% di tutte le commissioni di THORSwap.\n\nQuando preleverai $THOR, riceverai Staking Rewards proporzionali all'importo della tua puntata.",
       "maximizeYield": "Massimizza il rendimento mettendo in stake THOR per vTHOR",
       "stakingApy": "Staking APY",
       "yesterdayApr": "APR di Ieri",
@@ -570,6 +574,24 @@
     },
     "send": {
       "txFeeTooltip": "Commissione del gas per inviare la transazione, non ci sono costi aggiuntivi dal protocollo THORChain"
+    },
+    "thorname": {
+      "available": "Disponibile",
+      "checkNameAvailability": "Controlla Disponibilità Nome",
+      "cost": "Costo",
+      "duration": "Durata (in anni)",
+      "expire": "Scadenza",
+      "feeOnSale": "Tariffa di Vendita",
+      "ownedByYou": "Di proprietà",
+      "owner": "Proprietario",
+      "purchase": "Acquista",
+      "registeredThornames": "Thornames registrati",
+      "registerFee": "Quota di registrazione",
+      "registerSuccess": "THORName %{thorname}.%{chain} registrato con successo",
+      "searchName": "Cerca Nome",
+      "status": "Stato",
+      "unavailable": "Non Disponibile",
+      "unavailableForPurchase": "Non disponibile per l'acquisto"
     }
   },
   "validation": {

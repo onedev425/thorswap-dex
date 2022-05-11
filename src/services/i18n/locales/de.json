@@ -101,8 +101,7 @@
     "nodeAddress": "Node Adresse",
     "upgradeRune": "Rune Upgraden",
     "upgradeChainRune": "Upgrade %{chain} Rune",
-    "amount": "Betrag",
-    "depositNotAvailable": "Einzahlung nicht verfügbar"
+    "amount": "Betrag"
   },
   "pendingLiquidity": {
     "complete": "Vollständig",
@@ -134,6 +133,9 @@
     "showPools": "Featured Pools anzeigen"
   },
   "txManager": {
+    "registerThorname": "THORName registrieren",
+    "registerThornameFailed": "Registrierung des THORNamens fehlgeschlagen",
+    "registerThornameSuccess": "Registrierung des THORNamens erfolgreich",
     "approve": "Bestätigen",
     "swap": "Tausch",
     "addLiquidity": "Einzahlen",
@@ -191,7 +193,8 @@
       "thorChainTradeHalted": "Handel auf der THORChain wurde kurzfristig ausgesetzt.",
       "chainHalted": "Die %{chain} Chain ist zur Zeit auf der THORChain nicht verfügbar. Alle Handles- und LP-Aktionen sind deaktiviert.",
       "chainLPHalted": "Handel auf der %{chain} Chain wurde kurzfristig ausgesetzt.",
-      "chainTradeHalted": "Das Einzahlen und Abheben von Liquidität auf der %{chain} Chain ist kurzzeitig deaktiviert."
+      "chainTradeHalted": "Das Einzahlen und Abheben von Liquidität auf der %{chain} Chain ist kurzzeitig deaktiviert.",
+      "tradingGloballyDisabled": "THORChain is currently experiencing technical difficulties. Team is investigating."
     },
     "assetSelect": {
       "selectAToken": "Wähle einen Token",
@@ -224,7 +227,8 @@
       "supportInfo": "Für technischen Support kontaktiere uns bitte über unseren offiziellen Discord-Server (Traue keinem, der behauptet, THORSwap-Support zu sein – wir werden dir außerhalb unseres Support-Desks auf Discord niemals Nachrichten schicken).",
       "collapse": "Zuklappen",
       "expand": "Ausklappen",
-      "thoryield": "THORYield"
+      "thoryield": "THORYield",
+      "thorname": "THORName"
     },
     "statusDropdown": {
       "capAvailable": "Gesamtmittel offen",
@@ -570,6 +574,24 @@
     },
     "send": {
       "txFeeTooltip": "Gas Gebühr der Transaktion. Das THORChain Protokoll erhebt keine Gebühr"
+    },
+    "thorname": {
+      "available": "Verfügbar",
+      "checkNameAvailability": "Namensverfügbarkeit prüfen",
+      "cost": "Kosten",
+      "duration": "Dauer (in Jahren)",
+      "expire": "Läuft aus",
+      "feeOnSale": "Kaufgebühr ",
+      "ownedByYou": "In deinem Besitz",
+      "owner": "Besitzer",
+      "purchase": "Kaufen",
+      "registeredThornames": "Registrierte THORNamen",
+      "registerFee": "Registrierungsgebühr",
+      "registerSuccess": "THORName %{thorname}.%{chain} erfolgreich registriert",
+      "searchName": "Namen Suchen",
+      "status": "Status",
+      "unavailable": "Nicht verfügbar",
+      "unavailableForPurchase": "Nicht zum Kauf erhältlich"
     }
   },
   "validation": {

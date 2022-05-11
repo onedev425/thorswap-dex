@@ -101,8 +101,7 @@
     "nodeAddress": "नोड पता",
     "upgradeRune": "उन्नत करना Rune",
     "upgradeChainRune": "",
-    "amount": "राशि",
-    "depositNotAvailable": "जमा उपलब्ध नहीं"
+    "amount": "राशि"
   },
   "pendingLiquidity": {
     "complete": "कम्प्लीट",
@@ -134,6 +133,9 @@
     "showPools": "चुनिंदा पूल दिखाएं"
   },
   "txManager": {
+    "registerThorname": "",
+    "registerThornameFailed": "",
+    "registerThornameSuccess": "",
     "approve": "मंज़ूरी दे",
     "swap": "Swap",
     "addLiquidity": "तरलता जोड़ें",
@@ -191,7 +193,8 @@
       "thorChainTradeHalted": "",
       "chainHalted": "",
       "chainLPHalted": "",
-      "chainTradeHalted": ""
+      "chainTradeHalted": "",
+      "tradingGloballyDisabled": ""
     },
     "assetSelect": {
       "selectAToken": "एक टोकन चुनें",
@@ -224,7 +227,8 @@
       "supportInfo": "तकनीकी सहायता के लिए, कृपया हमारे आधिकारिक डिस्कॉर्ड सर्वर के माध्यम से हमसे संपर्क करें (THORSawp समर्थन होने का दावा करने वाले किसी भी व्यक्ति से सावधान रहें - हम आपको डिस्कॉर्ड पर हमारे समर्थन डेस्क के बाहर कभी भी डीएम नहीं करेंगे)।",
       "collapse": "ढहना",
       "expand": "बढ़ाना",
-      "thoryield": "THORYield"
+      "thoryield": "THORYield",
+      "thorname": ""
     },
     "statusDropdown": {
       "capAvailable": "फंड कैप उपलब्ध",
@@ -570,6 +574,24 @@
     },
     "send": {
       "txFeeTooltip": "लेनदेन भेजने के लिए गैस शुल्क, Thorchain प्रोटोकॉल से कोई अतिरिक्त शुल्क नहीं है"
+    },
+    "thorname": {
+      "available": "",
+      "checkNameAvailability": "",
+      "cost": "",
+      "duration": "",
+      "expire": "",
+      "feeOnSale": "",
+      "ownedByYou": "",
+      "owner": "",
+      "purchase": "",
+      "registeredThornames": "",
+      "registerFee": "",
+      "registerSuccess": "",
+      "searchName": "",
+      "status": "",
+      "unavailable": "",
+      "unavailableForPurchase": ""
     }
   },
   "validation": {
