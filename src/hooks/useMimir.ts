@@ -85,11 +85,11 @@ export const useMimir = () => {
   const isChainPauseLP: {
     [key: string]: boolean
   } = {
-    [BTCChain]: isEntryPaused('PAUSELPBCH'),
+    [BTCChain]: isEntryPaused('PAUSELPBTC'),
     [BNBChain]: isEntryPaused('PAUSELPBNB'),
-    [ETHChain]: isEntryPaused('PAUSELPBTC'),
-    [LTCChain]: isEntryPaused('PAUSELPETH'),
-    [BCHChain]: isEntryPaused('PAUSELPLTC'),
+    [ETHChain]: isEntryPaused('PAUSELPETH'),
+    [LTCChain]: isEntryPaused('PAUSELPLTC'),
+    [BCHChain]: isEntryPaused('PAUSELPBCH'),
     [DOGEChain]: isEntryPaused('PAUSELPDOGE'),
     [TERRAChain]: isEntryPaused('PAUSELPTERRA'),
   }
