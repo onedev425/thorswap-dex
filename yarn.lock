@@ -3932,10 +3932,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.3.tgz#715c10df5d69846c2d87b50365502818bf979906"
   integrity sha512-wYTPyUn4Xt1WB+d1uyVgiox3FtuAsYC8bMExZEloQX/6QxmSTZVjGmCOgaQ0Qn1YxU+GK0qDgA99Y+hjrfUv7w==
 
-"@thorswap-lib/multichain-sdk@0.2.11":
-  version "0.2.11"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.2.11.tgz#32dde57538ea805d448aba3dc15d073ed194ce01"
-  integrity sha512-VT7jsdcLV7saBXTgBLAAMskcZfKKvpcT3uDwTAb4OhLt/n3GUYQKo+X3RGiTUWTidXRiC4SIVCxZgoHwbE7FSw==
+"@thorswap-lib/multichain-sdk@0.2.12":
+  version "0.2.12"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.2.12.tgz#6a4ee2566d5a02db0aa3ec7e2567ada48e13f803"
+  integrity sha512-9tTxed+FVRnuzjze26kdzjc9iGnK+jN3UuqIynb18AnJCgilsnPdRBN70elwIBKae0NJ5RWcDxfYhecn+2hlGg==
   dependencies:
     "@binance-chain/javascript-sdk" "2.16.4"
     "@cosmos-client/core" "^0.45.2"
@@ -3958,7 +3958,7 @@
     "@thorswap-lib/xchain-ethereum" "^0.22.7"
     "@thorswap-lib/xchain-litecoin" "^0.7.4"
     "@thorswap-lib/xchain-terra" "^0.1.3"
-    "@thorswap-lib/xchain-thorchain" "^0.21.5"
+    "@thorswap-lib/xchain-thorchain" "^0.21.6"
     "@thorswap-lib/xchain-util" "^0.4.4"
     "@trustwallet/wallet-core" "^2.6.10"
     "@walletconnect/browser" "^1.0.0"
@@ -4044,10 +4044,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-terra/-/xchain-terra-0.1.3.tgz#76fa2ef61dece3362004493ea404a3a036e89b42"
   integrity sha512-8czwU3HFwT1jp3ZePkXS4ZQ/gtQVIkWu97DzRwrTPnfnTDFkfJvRs+HnDtFs9Tzh42NaVDOBA3EqFEjgaO21zg==
 
-"@thorswap-lib/xchain-thorchain@^0.21.5":
-  version "0.21.5"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-thorchain/-/xchain-thorchain-0.21.5.tgz#e997453de24d0486bf5aa3ea178911e81dc4dbf0"
-  integrity sha512-UoddXIIhPwZjqGyIdlb5vfchaP70Ka679U7ws95HJwrQy3NGYkjROTIcEbURQNjUTRM8XBdBe686gensHNz8pA==
+"@thorswap-lib/xchain-thorchain@^0.21.6":
+  version "0.21.6"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-thorchain/-/xchain-thorchain-0.21.6.tgz#ad50c3f74c45651795d8feb7ca8ae90073a96c67"
+  integrity sha512-1gg6IH+qTRX5KievPe4UcO99zCKSiMMXdkN6dxGul6PdogOTrgWhuMRpNrI/Z47ufStl//td3Ff9zAnZT+tGVg==
 
 "@thorswap-lib/xchain-util@^0.4.4":
   version "0.4.4"

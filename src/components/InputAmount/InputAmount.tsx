@@ -58,9 +58,7 @@ export const InputAmount = memo(
     )
 
     useEffect(() => {
-      if (inputValue) {
-        handleRawValueChange(inputValue)
-      }
+      handleRawValueChange(inputValue || '')
     }, [inputValue, handleRawValueChange])
 
     return (
