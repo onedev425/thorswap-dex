@@ -18,7 +18,7 @@ export const config: Config = {
 export const IS_AFFILIATE_ON = import.meta.env.VITE_AFFILIATE_ON === 'true'
 
 export const MIDGARD_MAINNET_API_URI = `${safeEnv(
-  'https://midgard.thorchain.info',
+  'https://midgard.thorswap.net',
   import.meta.env.VITE_MAINNET_MIDGARD,
 )}/v2`
 
