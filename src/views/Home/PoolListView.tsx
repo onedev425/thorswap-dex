@@ -8,6 +8,8 @@ import { PoolTable } from 'components/PoolTable'
 
 import { useApp } from 'store/app/hooks'
 
+import useWindowSize from 'hooks/useWindowSize'
+
 import { t } from 'services/i18n'
 
 import { poolTypeOptions, poolStatusOptions } from './types'
@@ -17,6 +19,7 @@ export const PoolListView = memo(() => {
   const [keyword, setKeyword] = useState('')
   const [selectedPoolType, setSelectedPoolType] = useState(0)
   const [selectedPoolStatus, setSelectedPoolStatus] = useState(0)
+  const { isMdActive } = useWindowSize()
   const { arePoolsHidden } = useApp()
 
   const { filteredPools, featuredPools } = useLiquidityPools({
@@ -34,7 +37,7 @@ export const PoolListView = memo(() => {
 
   return (
     <Box col>
-      {!arePoolsHidden && (
+      {!arePoolsHidden && isMdActive && (
         <Box col>
           <Box className="gap-x-2 rounded-2xl" alignCenter>
             <Typography variant="h3">
