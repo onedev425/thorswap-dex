@@ -450,7 +450,7 @@
       "showQRCode": "Show QR code",
       "copyAddress": "Copy Address",
       "viewKeystorePhrase": "View keystore phrase",
-      "priceRate": "Price Rate",
+      "priceRate": "The ratio between THOR and vTHOR. As Staking Rewards accumulate, this ratio will change over time.",
       "expectedOutput": "Expected Output",
       "expectedOutputTooltip": "Output amount based on current price rate",
       "chart7d": "Chart (7d)"

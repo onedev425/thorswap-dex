@@ -4196,14 +4196,6 @@
     "@types/estree" "*"
     "@types/json-schema" "*"
 
-"@types/eslint@8.4.2":
-  version "8.4.2"
-  resolved "https://registry.yarnpkg.com/@types/eslint/-/eslint-8.4.2.tgz#48f2ac58ab9c631cb68845c3d956b28f79fad575"
-  integrity sha512-Z1nseZON+GEnFjJc04sv4NSALGjhFwy6K0HXt7qsn5ArfAKtb63dXNJHf+1YW6IpOIYRBGUbu3GwJdj8DGnCjA==
-  dependencies:
-    "@types/estree" "*"
-    "@types/json-schema" "*"
-
 "@types/estree@*", "@types/estree@^0.0.51":
   version "0.0.51"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.51.tgz#cfd70924a25a3fd32b218e5e420e6897e1ac4f40"
@@ -14507,11 +14499,6 @@ react-router@6.3.0:
   integrity sha512-7Wh1DzVQ+tlFjkeo+ujvjSqSJmkt1+8JO+T5xklPlgrh70y7ogx75ODRW0ThWhY7S+6yEDks8TYrtQe/aoboBQ==
   dependencies:
     history "^5.2.0"
-
-react-sage@0.3.16:
-  version "0.3.16"
-  resolved "https://registry.yarnpkg.com/react-sage/-/react-sage-0.3.16.tgz#bd8ba2735ed2bceb0b1e2226ad8588c2acd58dac"
-  integrity sha512-oVVmwiEH+iS0+ZWnfwWEnx1TKVcHDlleqo1fluQKlG7JAtZpgU+a0RPLdT2wGcNcPecrOaELuSz5VL9GKbtiXw==
 
 react-side-effect@^2.1.0:
   version "2.1.1"

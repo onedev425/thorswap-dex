@@ -301,6 +301,7 @@ const StakeVThor = () => {
             value={action}
             onChange={(val: string) => {
               setAction(val as StakeActions)
+              setReverted(val !== StakeActions.Deposit)
               onAmountChange(inputAmount, val as StakeActions)
             }}
           />
