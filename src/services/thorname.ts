@@ -1,5 +1,5 @@
 import { Amount, SupportedChain } from '@thorswap-lib/multichain-sdk'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 import { midgardApi } from 'services/midgard'
 import { multichain } from 'services/multichain'
@@ -37,7 +37,7 @@ export const getThornameExpireDate = ({
   expire: string
   lastThorchainBlock: number
 }) => {
-  return moment()
+  return dayjs()
     .add(
       // current block - expire block * 5 sec / year in seconds
       (Math.abs(lastThorchainBlock - parseInt(expire, 10)) * 5) / 31_536_000,

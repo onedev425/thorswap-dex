@@ -2,6 +2,7 @@ import { memo, useMemo } from 'react'
 
 import { chainToSigAsset } from '@thorswap-lib/multichain-sdk'
 import { chainToString } from '@thorswap-lib/xchain-util'
+import classNames from 'classnames'
 
 import { AccountRow } from 'views/Wallet/AccountRow'
 
@@ -45,26 +46,22 @@ export const AccountType = memo(({ onlyConnected, keyword }: Props) => {
     [keyword, onlyConnected, wallet],
   )
 
-  switch (walletViewMode) {
-    case ViewMode.CARD:
-      return (
-        <Box className="grid flex-col w-full grid-cols-1 gap-2.5 lg:grid-cols-2 xl:grid-cols-3 md:flex-row">
-          {filteredChains.map((chain) => (
-            <AccountCard key={chain} chain={chain} />
-          ))}
-        </Box>
-      )
-
-    case ViewMode.LIST:
-      return (
-        <Box className="gap-1.5" flex={1} col>
-          {filteredChains.map((chain) => (
-            <AccountRow key={chain} chain={chain} />
-          ))}
-        </Box>
-      )
-
-    default:
-      return null
-  }
+  return (
+    <Box
+      col
+      className={classNames({
+        'gap-1.5 flex-1': walletViewMode === ViewMode.LIST,
+        'grid w-full grid-cols-1 gap-2.5 lg:grid-cols-2 xl:grid-cols-3 md:flex-row':
+          walletViewMode === ViewMode.CARD,
+      })}
+    >
+      {filteredChains.map((chain) =>
+        walletViewMode === ViewMode.CARD ? (
+          <AccountCard key={chain} chain={chain} />
+        ) : (
+          <AccountRow key={chain} chain={chain} />
+        ),
+      )}
+    </Box>
+  )
 })

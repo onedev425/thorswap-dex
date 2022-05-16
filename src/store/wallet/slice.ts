@@ -14,7 +14,7 @@ import {
 } from '@thorswap-lib/xchain-util'
 
 import * as walletActions from './actions'
-import { State, GeckoDataWithSymbols } from './types'
+import { State } from './types'
 
 const initialWallet = {
   [BTCChain]: null,
@@ -50,18 +50,18 @@ const slice = createSlice({
   name: 'wallet',
   initialState,
   reducers: {
-    disconnect(state) {
+    disconnect: (state) => {
       state.keystore = null
       state.wallet = initialWallet
       state.walletLoading = false
     },
-    disconnectByChain(state, action: PayloadAction<SupportedChain>) {
+    disconnectByChain: (state, action: PayloadAction<SupportedChain>) => {
       if (state.wallet) state.wallet[action.payload] = null
     },
-    connectKeystore(state, action: PayloadAction<Keystore>) {
+    connectKeystore: (state, action: PayloadAction<Keystore>) => {
       state.keystore = action.payload
     },
-    setIsConnectModalOpen(state, action: PayloadAction<boolean>) {
+    setIsConnectModalOpen: (state, action: PayloadAction<boolean>) => {
       state.isConnectModalOpen = action.payload
     },
   },
@@ -70,71 +70,78 @@ const slice = createSlice({
       .addCase(walletActions.loadAllWallets.pending, (state) => {
         state.walletLoading = true
       })
-      .addCase(walletActions.loadAllWallets.fulfilled, (state, action) => {
-        state.wallet = action.payload
+      .addCase(walletActions.loadAllWallets.fulfilled, (state, { payload }) => {
+        state.wallet = payload
         state.walletLoading = false
       })
       .addCase(walletActions.loadAllWallets.rejected, (state) => {
         state.walletLoading = false
       })
-      .addCase(walletActions.getWalletByChain.pending, (state, action) => {
-        const { arg: chain } = action.meta
-
-        state.chainWalletLoading = {
-          ...state.chainWalletLoading,
-          [chain]: true,
-        }
-      })
-      .addCase(walletActions.getWalletByChain.fulfilled, (state, action) => {
-        const { chain, data } = action.payload
-        if (state.wallet && chain in state.wallet) {
-          state.wallet = {
-            ...state.wallet,
-            [chain]: data,
+      .addCase(
+        walletActions.getWalletByChain.pending,
+        (state, { meta: { arg: chain } }) => {
+          state.chainWalletLoading = {
+            ...state.chainWalletLoading,
+            [chain]: true,
           }
-        }
+        },
+      )
+      .addCase(
+        walletActions.getWalletByChain.fulfilled,
+        (state, { payload: { chain, data } }) => {
+          if (state.wallet && chain in state.wallet) {
+            state.wallet = {
+              ...state.wallet,
+              [chain]: data,
+            }
+          }
 
-        state.chainWalletLoading = {
-          ...state.chainWalletLoading,
-          [chain]: false,
-        }
-      })
-      .addCase(walletActions.getWalletByChain.rejected, (state, action) => {
-        const { arg: chain } = action.meta
+          state.chainWalletLoading = {
+            ...state.chainWalletLoading,
+            [chain]: false,
+          }
+        },
+      )
+      .addCase(
+        walletActions.getWalletByChain.rejected,
+        (state, { meta: { arg: chain } }) => {
+          state.chainWalletLoading = {
+            ...state.chainWalletLoading,
+            [chain]: false,
+          }
+        },
+      )
+      .addCase(
+        walletActions.getCoingeckoData.pending,
+        (state, { meta: { arg: pendingSymbols } }) => {
+          pendingSymbols.forEach((symbol) => {
+            state.geckoDataLoading[symbol] = true
+          })
+        },
+      )
+      .addCase(
+        walletActions.getCoingeckoData.fulfilled,
+        (
+          state,
+          { payload: { data: geckoInfo }, meta: { arg: pendingSymbols } },
+        ) => {
+          pendingSymbols.forEach((symbol) => {
+            state.geckoDataLoading[symbol] = false
+          })
 
-        state.chainWalletLoading = {
-          ...state.chainWalletLoading,
-          [chain]: false,
-        }
-      })
-      .addCase(walletActions.getCoingeckoData.pending, (state, action) => {
-        const { arg: pendingSymbols } = action.meta
-
-        pendingSymbols.forEach((symbol) => {
-          state.geckoDataLoading[symbol] = true
-        })
-      })
-      .addCase(walletActions.getCoingeckoData.fulfilled, (state, action) => {
-        const { arg: pendingSymbols } = action.meta
-        const { data: geckoInfo } = action.payload as {
-          data: GeckoDataWithSymbols[]
-        }
-
-        pendingSymbols.forEach((symbol) => {
-          state.geckoDataLoading[symbol] = false
-        })
-
-        geckoInfo.forEach(({ symbol, geckoData }) => {
-          state.geckoData[symbol] = geckoData
-        })
-      })
-      .addCase(walletActions.getCoingeckoData.rejected, (state, action) => {
-        const { arg: pendingSymbols } = action.meta
-
-        pendingSymbols.forEach((symbol) => {
-          state.geckoDataLoading[symbol] = true
-        })
-      })
+          geckoInfo.forEach(({ symbol, geckoData }) => {
+            state.geckoData[symbol] = geckoData
+          })
+        },
+      )
+      .addCase(
+        walletActions.getCoingeckoData.rejected,
+        (state, { meta: { arg: pendingSymbols } }) => {
+          pendingSymbols.forEach((symbol) => {
+            state.geckoDataLoading[symbol] = true
+          })
+        },
+      )
   },
 })
 

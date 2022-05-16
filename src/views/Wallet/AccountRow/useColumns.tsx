@@ -44,12 +44,19 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
         disableSortBy: true,
         accessor: (row: AssetAmount) => row.asset,
         Cell: ({ cell: { value } }: { cell: { value: Asset } }) => (
-          <Box flex={1} alignCenter>
-            <AssetIcon hasChainIcon={false} asset={value} size={40} />
-            <Box col justify="between" className="pl-4">
-              <Typography>{value.name}</Typography>
-              <Typography color="secondary">{value.type}</Typography>
-            </Box>
+          <AssetIcon hasChainIcon={false} asset={value} size={40} />
+        ),
+      },
+      {
+        id: 'name',
+        Header: () => '',
+        disableSortBy: true,
+        minScreenSize: BreakPoint.md,
+        accessor: (row: AssetAmount) => row.asset,
+        Cell: ({ cell: { value } }: { cell: { value: Asset } }) => (
+          <Box col justify="between" className="pl-4">
+            <Typography>{value.name}</Typography>
+            <Typography color="secondary">{value.type}</Typography>
           </Box>
         ),
       },
@@ -57,7 +64,6 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
         id: 'amount',
         Header: () => t('common.amount'),
         align: 'right',
-        minScreenSize: BreakPoint.md,
         accessor: (row: Amount) => row.assetAmount,
         Cell: ({ cell: { value } }: { cell: { value: AssetAmount } }) => (
           <Typography fontWeight="bold">

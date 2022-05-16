@@ -1,6 +1,6 @@
 import { Chart } from 'chart.js'
+import dayjs from 'dayjs'
 import { random } from 'lodash'
-import moment from 'moment'
 
 type ColorType = 'background' | 'stroke'
 
@@ -60,8 +60,8 @@ export const generateRandomTimeSeries = (
   const labels: string[] = []
   const values: number[] = []
   for (
-    let date = moment().subtract(30, 'days');
-    date.isBefore(moment.now());
+    let date = dayjs().subtract(30, 'days');
+    date.isBefore(dayjs());
     date = date.add(1, 'day')
   ) {
     labels.push(date.format('MMM DD'))
@@ -75,7 +75,7 @@ export const parseChartData = (chartData: { value: string; time: number }[]) =>
   chartData.reduce(
     (acc, { time, value }) => {
       const [amount] = value.split(' ')
-      acc.labels.push(moment.unix(time).format('MMM DD'))
+      acc.labels.push(dayjs.unix(time).format('MMM DD'))
       acc.values.push(Number(amount.replace('$', '').split(',').join('')))
       return acc
     },

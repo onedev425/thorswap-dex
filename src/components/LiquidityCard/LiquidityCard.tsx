@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Amount, Asset, Liquidity } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 import { ChainPoolData } from 'views/ManageLiquidity/types'
 
@@ -164,9 +164,7 @@ export const LiquidityCard = ({
         </Box>
 
         <LiquidityInfo
-          lastAddedDate={moment
-            .unix(Number(dateLastAdded))
-            .format('YYYY-MM-DD')}
+          lastAddedDate={dayjs.unix(Number(dateLastAdded)).format('YYYY-MM-DD')}
           poolShare={poolShare}
           assetShare={assetShare}
           runeShare={runeShare}

@@ -6,6 +6,7 @@ import * as styles from 'components/Chart/styles/styles'
 import { abbreviateNumber } from 'helpers/number'
 
 type Params = {
+  animated?: boolean
   hideLabel: boolean
   hasGrid: boolean
   unit?: string
@@ -23,12 +24,14 @@ const parseTooltipLabel =
       : `${unit}${formattedValue}`
 
 export const getChartOptions = ({
+  animated = true,
   formatter,
   hideLabel,
   hasGrid,
   unit = '$',
 }: Params) =>
   ({
+    animated,
     responsive: true,
     maintainAspectRatio: false,
     resizeDelay: 1000,

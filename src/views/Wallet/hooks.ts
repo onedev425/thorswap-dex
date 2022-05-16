@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 
 import {
   Amount,
@@ -6,7 +6,6 @@ import {
   AssetAmount,
   SupportedChain,
   chainToSigAsset,
-  SUPPORTED_CHAINS as supportedChains,
 } from '@thorswap-lib/multichain-sdk'
 import {
   BTCChain,
@@ -22,7 +21,6 @@ import { BigNumber } from 'bignumber.js'
 import { takeRight } from 'lodash'
 
 import { useMidgard } from 'store/midgard/hooks'
-import { useAppDispatch } from 'store/store'
 import { useWallet } from 'store/wallet/hooks'
 import { GeckoData } from 'store/wallet/types'
 
@@ -50,47 +48,6 @@ const getBalanceByChain = (
   })
 
   return total.toNumber()
-}
-
-export const useLoadWalletAssetsInfo = () => {
-  const dispatch = useAppDispatch()
-  const { getCoingeckoData, geckoData, geckoDataLoading, wallet } = useWallet()
-
-  useEffect(() => {
-    const sigSymbols = supportedChains
-      .filter((chain) => {
-        const asset = chainToSigAsset(chain as SupportedChain)
-        if (!geckoData?.[asset.ticker]) return true
-        return false
-      })
-      .map((chain) => {
-        const asset = chainToSigAsset(chain as SupportedChain)
-
-        return asset.ticker
-      })
-
-    if (sigSymbols.length > 0) dispatch(getCoingeckoData(sigSymbols))
-  }, [geckoData, dispatch, getCoingeckoData])
-
-  useEffect(() => {
-    supportedChains.forEach((chain) => {
-      if (wallet && wallet[chain as SupportedChain]) {
-        const chainWallet = wallet[chain as SupportedChain]
-        if (chainWallet) {
-          const balances = chainWallet.balance
-
-          balances.forEach((assetEach) => {
-            if (
-              !geckoData?.[assetEach.asset.symbol] &&
-              !geckoDataLoading[assetEach.asset.symbol]
-            ) {
-              dispatch(getCoingeckoData([assetEach.asset.symbol]))
-            }
-          })
-        }
-      }
-    })
-  }, [geckoData, geckoDataLoading, wallet, dispatch, getCoingeckoData])
 }
 
 export const useAccountData = (chain: SupportedChain) => {

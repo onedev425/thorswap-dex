@@ -9,7 +9,7 @@ import { Icon } from 'components/Atomic'
 import useWindowSize from 'hooks/useWindowSize'
 
 import { TableHeaderGroup } from './TableHeaderGroup'
-import { TableRow } from './TableRow'
+import { TableRows } from './TableRows'
 import {
   InitialTableSort,
   TableColumnsConfig,
@@ -37,20 +37,8 @@ export const Table = ({
   hasShadow = true,
   onRowClick,
 }: TableProps) => {
-  const { isSizeActive } = useWindowSize()
+  const { isSizeActive, size } = useWindowSize()
   const sortBy = useMemo(() => initialSort, [initialSort])
-  const table = useTable(
-    {
-      autoResetSortBy: false,
-      columns: columnsConfig,
-      data,
-      disableSortBy: !sortable,
-      initialState: {
-        sortBy: initialSort ? sortBy : [],
-      },
-    },
-    useSortBy,
-  )
   const {
     getTableProps,
     getTableBodyProps,
@@ -59,20 +47,38 @@ export const Table = ({
     prepareRow,
     setHiddenColumns,
     columns,
-  } = table
+  } = useTable(
+    {
+      autoResetSortBy: false,
+      columns: columnsConfig,
+      data,
+      disableSortBy: !sortable,
+      initialState: { sortBy: initialSort ? sortBy : [] },
+    },
+    useSortBy,
+  )
+
+  const hiddenColumns = useMemo(
+    () =>
+      columns
+        .filter((_, i) => !isSizeActive(columnsConfig[i].minScreenSize))
+        .map((column) => column.id),
+    [columns, columnsConfig, isSizeActive],
+  )
 
   useEffect(() => {
-    const hidden = columns
-      .filter((_, i) => !isSizeActive(columnsConfig[i].minScreenSize))
-      .map((column) => column.id)
+    setHiddenColumns(hiddenColumns)
+  }, [hiddenColumns, setHiddenColumns])
 
-    setHiddenColumns(hidden)
-  }, [columns, columnsConfig, isSizeActive, setHiddenColumns])
+  const { tableProps, bodyProps } = useMemo(
+    () => ({ tableProps: getTableProps(), bodyProps: getTableBodyProps() }),
+    [getTableBodyProps, getTableProps],
+  )
 
   return (
     <table
+      {...tableProps}
       className="relative border-separate border-spacing-y-1"
-      {...getTableProps()}
     >
       {loading && (
         <div className="absolute z-10 w-full justify-center flex mt-[80px]">
@@ -89,23 +95,14 @@ export const Table = ({
         ))}
       </thead>
 
-      <tbody
-        {...getTableBodyProps()}
-        className={classNames({
-          'opacity-30': loading,
-        })}
-      >
-        {rows.map((row: TableRowType) => {
-          prepareRow(row)
-          return (
-            <TableRow
-              key={row.getRowProps().key}
-              onRowClick={onRowClick}
-              row={row}
-              hasShadow={hasShadow}
-            />
-          )
-        })}
+      <tbody {...bodyProps} className={classNames({ 'opacity-30': loading })}>
+        <TableRows
+          breakpoint={size.screen}
+          rows={rows}
+          prepareRow={prepareRow}
+          hasShadow={hasShadow}
+          onRowClick={onRowClick}
+        />
       </tbody>
     </table>
   )

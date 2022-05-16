@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ActionStatusEnum, ActionTypeEnum } from '@thorswap-lib/midgard-sdk'
 import { Pool } from '@thorswap-lib/multichain-sdk'
 import { THORChain } from '@thorswap-lib/xchain-util'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 import {
   getChainMemberDetails,
@@ -462,7 +462,7 @@ const midgardSlice = createSlice({
           const { date } = txData
 
           if (
-            moment.unix(Number(date) / 1000000000).isAfter(moment(submitDate))
+            dayjs.unix(Number(date) / 1000000000).isAfter(dayjs(submitDate))
           ) {
             state.txTrackers = state.txTrackers.map((tracker: TxTracker) => {
               if (tracker.uuid === txTracker.uuid) {

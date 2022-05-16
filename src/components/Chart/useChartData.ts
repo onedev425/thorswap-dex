@@ -4,6 +4,8 @@ import { takeRight } from 'lodash'
 
 import { useApp } from 'store/app/hooks'
 
+import useWindowSize from 'hooks/useWindowSize'
+
 import { useFormatPrice } from 'helpers/formatPrice'
 
 import { ThemeType } from 'types/app'
@@ -31,6 +33,7 @@ export const useChartData = ({
   chartTimeFrame,
   abbreviateValues,
 }: Params) => {
+  const { isMdActive } = useWindowSize()
   const { themeType } = useApp()
 
   const {
@@ -69,7 +72,13 @@ export const useChartData = ({
 
   return {
     isChartLoading: loading,
-    options: getChartOptions({ formatter, hideLabel, hasGrid, unit }),
+    options: getChartOptions({
+      animated: isMdActive,
+      formatter,
+      hideLabel,
+      hasGrid,
+      unit,
+    }),
     parsedChartData,
     selectedChartType: type,
     values: chartValues,

@@ -30,6 +30,8 @@ export const getGeckoData = async (
 
   const connectedCoinId = coinIds.map((coinId) => coinId?.id).join(',')
 
+  if (connectedCoinId.length === 0) return { data: [] }
+
   const { data } = await axios.get<GeckoData[]>(
     `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${connectedCoinId}&sparkline=true`,
   )
