@@ -40,15 +40,12 @@ export const useGlobalState = () => {
   )
 
   const runeToCurrency = useCallback(
-    (runeAmount: Amount): Price => {
-      const quoteAsset = Asset.fromAssetString(baseCurrency)
-
-      return runeToAsset({
-        runeAmount,
-        quoteAsset,
+    (runeAmount: Amount): Price =>
+      runeToAsset({
         pools,
-      })
-    },
+        runeAmount,
+        quoteAsset: Asset.fromAssetString(baseCurrency),
+      }),
     [baseCurrency, pools],
   )
 

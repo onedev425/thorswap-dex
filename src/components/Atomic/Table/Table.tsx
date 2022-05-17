@@ -37,7 +37,7 @@ export const Table = ({
   hasShadow = true,
   onRowClick,
 }: TableProps) => {
-  const { isSizeActive, size } = useWindowSize()
+  const { isSizeActive, breakpoint } = useWindowSize()
   const sortBy = useMemo(() => initialSort, [initialSort])
   const {
     getTableProps,
@@ -97,7 +97,7 @@ export const Table = ({
 
       <tbody {...bodyProps} className={classNames({ 'opacity-30': loading })}>
         <TableRows
-          breakpoint={size.screen}
+          breakpoint={breakpoint}
           rows={rows}
           prepareRow={prepareRow}
           hasShadow={hasShadow}

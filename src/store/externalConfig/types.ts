@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-export enum AnnouncemetType {
+export enum AnnouncementType {
   Primary = 'primary',
   Info = 'info',
   Warn = 'warn',
@@ -8,7 +8,7 @@ export enum AnnouncemetType {
 }
 
 export type Announcement = {
-  type?: AnnouncemetType
+  type?: AnnouncementType
   title?: string
   message: string | ReactNode
 }

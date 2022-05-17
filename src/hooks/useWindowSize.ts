@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 export enum BreakPoint {
   sm = 'sm',
@@ -14,87 +14,73 @@ const BREAKPOINTS_WIDTHS = {
   [BreakPoint.xl]: 1280,
 }
 
+const isClient = typeof window === 'object'
+
+const getCurrentBreakpoint = () => {
+  const width = isClient ? window.innerWidth : 0
+
+  if (width >= BREAKPOINTS_WIDTHS[BreakPoint.lg]) return BreakPoint.lg
+  if (width >= BREAKPOINTS_WIDTHS[BreakPoint.md]) return BreakPoint.md
+  return BreakPoint.sm
+}
+
 const useWindowSize = () => {
-  const isClient = typeof window === 'object'
-
-  const getScreenVariant = useCallback(() => {
-    const width = isClient ? window.innerWidth : 0
-
-    if (width >= BREAKPOINTS_WIDTHS.lg) {
-      return BreakPoint.lg
-    }
-
-    if (width >= BREAKPOINTS_WIDTHS.lg) {
-      return BreakPoint.lg
-    }
-
-    if (width >= BREAKPOINTS_WIDTHS.md) {
-      return BreakPoint.md
-    }
-
-    return BreakPoint.sm
-  }, [isClient])
-
-  const getSize = useCallback(() => {
-    return {
-      width: isClient ? window.innerWidth : 0,
-      height: isClient ? window.innerHeight : 0,
-      screen: getScreenVariant(),
-    }
-  }, [isClient, getScreenVariant])
-
-  const [screenSize, setScreenSize] = useState(getSize)
+  const [breakpoint, setBreakpoint] = useState(getCurrentBreakpoint)
 
   const isSizeActive = useCallback(
     (minSize?: BreakPoint) => {
-      if (!minSize || minSize === BreakPoint.sm) {
-        return true
-      }
-
-      if (minSize === BreakPoint.xl && screenSize.screen === BreakPoint.xl) {
+      if (!minSize || minSize === breakpoint || minSize === BreakPoint.sm) {
         return true
       }
 
       if (
         minSize === BreakPoint.lg &&
-        [BreakPoint.xl, BreakPoint.lg].includes(screenSize.screen)
+        [BreakPoint.xl, BreakPoint.lg].includes(breakpoint)
       ) {
         return true
       }
 
       if (
         minSize === BreakPoint.md &&
-        [BreakPoint.xl, BreakPoint.lg, BreakPoint.md].includes(
-          screenSize.screen,
-        )
+        [BreakPoint.xl, BreakPoint.lg, BreakPoint.md].includes(breakpoint)
       ) {
         return true
       }
 
       return false
     },
-    [screenSize.screen],
+    [breakpoint],
   )
+
+  const handleResize = useCallback(() => {
+    const nextBreakpoint = getCurrentBreakpoint()
+
+    if (breakpoint !== nextBreakpoint) {
+      setBreakpoint(nextBreakpoint)
+    }
+  }, [breakpoint])
 
   useEffect(() => {
     if (!isClient) {
       return
     }
 
-    const handleResize = () => {
-      setScreenSize(getSize())
-    }
-
     window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [getSize, isClient])
 
-  return {
-    size: screenSize,
-    isSizeActive,
-    isMdActive: isSizeActive(BreakPoint.md),
-    isLgActive: isSizeActive(BreakPoint.lg),
-  }
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [handleResize])
+
+  return useMemo(
+    () => ({
+      breakpoint,
+      isSizeActive,
+      isMdActive: isSizeActive(BreakPoint.md),
+      isLgActive: isSizeActive(BreakPoint.lg),
+    }),
+    [breakpoint, isSizeActive],
+  )
 }
 
 export default useWindowSize

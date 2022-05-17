@@ -3,7 +3,7 @@ import { useEffect, useMemo } from 'react'
 import { THORChain } from '@thorswap-lib/multichain-sdk'
 
 import { useExternalConfig } from 'store/externalConfig/hooks'
-import { Announcement, AnnouncemetType } from 'store/externalConfig/types'
+import { Announcement, AnnouncementType } from 'store/externalConfig/types'
 
 import { useMimir } from 'hooks/useMimir'
 
@@ -25,7 +25,7 @@ export const useHeaderAnnouncements = () => {
         ...manualAnnouncements,
         {
           message: t('components.announcements.tradingGloballyDisabled'),
-          type: AnnouncemetType.Error,
+          type: AnnouncementType.Error,
         },
       ]
     }
@@ -59,7 +59,7 @@ const getHaltedChainAnnouncements = (
     return [
       {
         message: t('components.announcements.thorChainHalted'),
-        type: AnnouncemetType.Error,
+        type: AnnouncementType.Error,
       },
     ]
   }
@@ -68,7 +68,7 @@ const getHaltedChainAnnouncements = (
 
   return chains.map((chain) => ({
     message: t('components.announcements.chainHalted', { chain }),
-    type: AnnouncemetType.Warn,
+    type: AnnouncementType.Warn,
   }))
 }
 
@@ -84,7 +84,7 @@ const getHaltedLPAnnouncements = (
 
   return chains.map((chain) => ({
     message: t('components.announcements.chainLPHalted', { chain }),
-    type: AnnouncemetType.Warn,
+    type: AnnouncementType.Warn,
   }))
 }
 
@@ -100,7 +100,7 @@ const getHaltedTradeAnnouncements = (
 
   return chains.map((chain) => ({
     message: t('components.announcements.chainTradeHalted', { chain }),
-    type: AnnouncemetType.Warn,
+    type: AnnouncementType.Warn,
   }))
 }
 

@@ -4,16 +4,16 @@ import { AnnouncementProps } from 'components/Announcement/types'
 import { Box, Typography } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
 
-import { AnnouncemetType } from 'store/externalConfig/types'
+import { AnnouncementType } from 'store/externalConfig/types'
 
-const announcementClasses: Record<AnnouncemetType, string> = {
+const announcementClasses: Record<AnnouncementType, string> = {
   primary: '!opacity-20 from-transparent via-btn-primary',
   info: 'via-btn-primary',
   warn: 'via-yellow',
   error: 'via-red',
 }
 
-const announcementBorderClasses: Record<AnnouncemetType, string> = {
+const announcementBorderClasses: Record<AnnouncementType, string> = {
   primary: 'border-btn-primary',
   info: 'border-btn-primary',
   warn: 'border-yellow',
@@ -21,11 +21,9 @@ const announcementBorderClasses: Record<AnnouncemetType, string> = {
 }
 
 export const Announcement = ({
-  announcement,
+  announcement: { type = AnnouncementType.Primary, message, title },
   rightComponent,
 }: AnnouncementProps) => {
-  const { type = 'primary', message, title } = announcement
-
   if (!message && !title) {
     return null
   }
@@ -54,6 +52,7 @@ export const Announcement = ({
         {title && <Typography variant="subtitle1">{title}</Typography>}
         {message && <Typography>{message}</Typography>}
       </Box>
+
       {rightComponent ? rightComponent : null}
     </Box>
   )

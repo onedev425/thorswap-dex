@@ -75,7 +75,7 @@ export const useLiquidityPools = ({
       ({ asset }) =>
         asset.isBTC() ||
         asset.isETH() ||
-        ['busd'].includes(asset.ticker.toLowerCase()),
+        ['busd', 'thor'].includes(asset.ticker.toLowerCase()),
     )
 
     return featured

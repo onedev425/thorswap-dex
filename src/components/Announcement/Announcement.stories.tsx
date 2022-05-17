@@ -1,6 +1,6 @@
 import { ComponentMeta } from '@storybook/react'
 
-import { AnnouncemetType } from 'store/externalConfig/types'
+import { AnnouncementType } from 'store/externalConfig/types'
 
 import { Announcement } from './Announcement'
 
@@ -16,7 +16,7 @@ export const All = () => {
     <div className="flex flex-col space-y-2 bg-light-bg-primary dark:bg-dark-bg-primary p-4">
       <Announcement
         announcement={{
-          type: AnnouncemetType.Info,
+          type: AnnouncementType.Info,
           title: '$THOR staking',
           message: 'Staking is live',
         }}

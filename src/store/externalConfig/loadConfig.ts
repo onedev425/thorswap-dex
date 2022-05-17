@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { ExternalConfig, Announcement, AnnouncemetType } from './types'
+import { ExternalConfig, Announcement, AnnouncementType } from './types'
 
 const GOOGLE_API_KEY = 'AIzaSyDeBo5Q_YVC0B5Hqrz8XS8o0n4IX6PW_ik'
 const SHEET_ID = '13qyyZnv5tyHse4PUJ4548bJdtGQDJpMVjkLXq1gQRS0'
@@ -27,7 +27,7 @@ export const loadConfig = async (): Promise<ExternalConfig> => {
     const announcements: Announcement[] = rows.map((row) => ({
       message: row[0],
       title: row[1],
-      type: row[2] as AnnouncemetType,
+      type: row[2] as AnnouncementType,
     }))
 
     const isTradingGloballyDisabled = values[0][6] === 'TRUE' // cell 1G

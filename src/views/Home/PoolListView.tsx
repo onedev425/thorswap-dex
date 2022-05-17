@@ -37,7 +37,7 @@ export const PoolListView = memo(() => {
 
   return (
     <Box col>
-      {!arePoolsHidden && isMdActive && (
+      {!arePoolsHidden && (
         <Box col>
           <Box className="gap-x-2 rounded-2xl" alignCenter>
             <Typography variant="h3">
@@ -52,41 +52,47 @@ export const PoolListView = memo(() => {
         </Box>
       )}
 
-      <Box className="gap-8" col>
-        <Typography variant="h3">{t('common.liquidityPools')}</Typography>
+      {/*
+       * TODO: Temporary solution for safari mobile browser which crashes on rendering this part.
+       * Further investigation/optimization needed
+       */}
+      {isMdActive && (
+        <Box className="gap-8" col>
+          <Typography variant="h3">{t('common.liquidityPools')}</Typography>
 
-        <Box
-          alignCenter
-          justify="between"
-          flexWrap="wrap"
-          className="gap-2 lg:flex-row"
-        >
-          <Box className="w-fit">
-            <Input
-              value={keyword}
-              onChange={handleChangeKeyword}
-              border="rounded"
-              placeholder="Search"
-              icon="search"
-            />
+          <Box
+            alignCenter
+            justify="between"
+            flexWrap="wrap"
+            className="gap-2 lg:flex-row"
+          >
+            <Box className="w-fit">
+              <Input
+                value={keyword}
+                onChange={handleChangeKeyword}
+                border="rounded"
+                placeholder="Search"
+                icon="search"
+              />
+            </Box>
+
+            <Box className="justify-end w-fit gap-x-6">
+              <Select
+                options={poolTypeOptions}
+                activeIndex={selectedPoolType}
+                onChange={setSelectedPoolType}
+              />
+              <Select
+                options={poolStatusOptions}
+                activeIndex={selectedPoolStatus}
+                onChange={setSelectedPoolStatus}
+              />
+            </Box>
           </Box>
 
-          <Box className="justify-end w-fit gap-x-6">
-            <Select
-              options={poolTypeOptions}
-              activeIndex={selectedPoolType}
-              onChange={setSelectedPoolType}
-            />
-            <Select
-              options={poolStatusOptions}
-              activeIndex={selectedPoolStatus}
-              onChange={setSelectedPoolStatus}
-            />
-          </Box>
+          <PoolTable data={filteredPools} />
         </Box>
-
-        <PoolTable data={filteredPools} />
-      </Box>
+      )}
     </Box>
   )
 })
