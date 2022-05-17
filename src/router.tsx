@@ -1,4 +1,4 @@
-import { memo, Suspense } from 'react'
+import { memo } from 'react'
 
 import {
   Navigate,
@@ -63,38 +63,36 @@ const routes: RouteType = [
 
 const PublicRoutes = () => {
   return (
-    <Suspense fallback={null}>
-      <Router>
-        <Routes>
-          {routes.map((route) => {
-            const Component = route.element
+    <Router>
+      <Routes>
+        {routes.map((route) => {
+          const Component = route.element
 
-            return (
-              <Route
-                key={route.path}
-                path={route.path}
-                element={
-                  <Box
-                    flex={1}
-                    className="transition-colors bg-light-bg-primary dark:bg-dark-bg-primary"
-                  >
-                    <WalletDrawer>
-                      <WalletBalance />
-                    </WalletDrawer>
+          return (
+            <Route
+              key={route.path}
+              path={route.path}
+              element={
+                <Box
+                  flex={1}
+                  className="transition-colors bg-light-bg-primary dark:bg-dark-bg-primary"
+                >
+                  <WalletDrawer>
+                    <WalletBalance />
+                  </WalletDrawer>
 
-                    <Layout>
-                      <Component />
-                    </Layout>
-                  </Box>
-                }
-              />
-            )
-          })}
+                  <Layout>
+                    <Component />
+                  </Layout>
+                </Box>
+              }
+            />
+          )
+        })}
 
-          <Route path="*" element={<Navigate to="/swap" />} />
-        </Routes>
-      </Router>
-    </Suspense>
+        <Route path="*" element={<Navigate to="/swap" />} />
+      </Routes>
+    </Router>
   )
 }
 
