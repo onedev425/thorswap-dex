@@ -1,6 +1,11 @@
 import { useEffect, useMemo } from 'react'
 
-import { THORChain } from '@thorswap-lib/multichain-sdk'
+import {
+  SUPPORTED_CHAINS,
+  THORChain,
+  SupportedChain,
+} from '@thorswap-lib/multichain-sdk'
+import { Chain } from '@thorswap-lib/xchain-util'
 
 import { useExternalConfig } from 'store/externalConfig/hooks'
 import { Announcement, AnnouncementType } from 'store/externalConfig/types'
@@ -32,9 +37,11 @@ export const useHeaderAnnouncements = () => {
 
     return [
       ...manualAnnouncements,
-      ...getHaltedChainAnnouncements(isChainHalted),
-      ...getHaltedTradeAnnouncements(isChainTradingHalted, isChainHalted),
-      ...getHaltedLPAnnouncements(isChainPauseLP, isChainHalted),
+      ...getAnnouncemetsByChain(
+        isChainHalted,
+        isChainTradingHalted,
+        isChainPauseLP,
+      ),
     ]
   }, [
     isChainHalted,
@@ -52,66 +59,61 @@ export const useHeaderAnnouncements = () => {
   return announcements
 }
 
-const getHaltedChainAnnouncements = (
-  pausedData: Record<string, boolean>,
-): Announcement[] => {
-  if (pausedData[THORChain]) {
-    return [
-      {
-        message: t('components.announcements.thorChainHalted'),
-        type: AnnouncementType.Error,
-      },
-    ]
+const getChainAnnouncement = (
+  chain: SupportedChain,
+  pausedChains: Record<string, boolean>,
+  pausedLP: Record<string, boolean>,
+  pausedTrade: Record<string, boolean>,
+) => {
+  if (
+    isChainPaused(Chain.THORChain, pausedChains, pausedLP, pausedTrade) &&
+    chain !== THORChain
+  ) {
+    return null
   }
 
-  const chains = getPausedChains(pausedData)
-
-  return chains.map((chain) => ({
-    message: t('components.announcements.chainHalted', { chain }),
-    type: AnnouncementType.Warn,
-  }))
-}
-
-const getHaltedLPAnnouncements = (
-  pausedData: Record<string, boolean>,
-  chainPausedData: Record<string, boolean>,
-): Announcement[] => {
-  if (chainPausedData[THORChain]) {
-    return []
-  }
-
-  const chains = getPausedChains(pausedData).filter((c) => !chainPausedData[c])
-
-  return chains.map((chain) => ({
-    message: t('components.announcements.chainLPHalted', { chain }),
-    type: AnnouncementType.Warn,
-  }))
-}
-
-const getHaltedTradeAnnouncements = (
-  pausedData: Record<string, boolean>,
-  chainPausedData: Record<string, boolean>,
-): Announcement[] => {
-  if (chainPausedData[THORChain]) {
-    return []
-  }
-
-  const chains = getPausedChains(pausedData).filter((c) => !chainPausedData[c])
-
-  return chains.map((chain) => ({
-    message: t('components.announcements.chainTradeHalted', { chain }),
-    type: AnnouncementType.Warn,
-  }))
-}
-
-const getPausedChains = (data: Record<string, boolean>) => {
-  const items: string[] = []
-
-  Object.entries(data).forEach(([chain, isPaused]) => {
-    if (isPaused) {
-      items.push(chain)
+  if (isChainPaused(chain, pausedChains, pausedLP, pausedTrade)) {
+    return {
+      message:
+        chain === THORChain
+          ? t('components.announcements.thorChainHalted')
+          : t('components.announcements.chainHalted', { chain }),
+      type:
+        chain === THORChain ? AnnouncementType.Error : AnnouncementType.Warn,
     }
-  })
+  }
 
-  return items
+  if (pausedLP[chain]) {
+    return {
+      message: t('components.announcements.chainLPHalted', { chain }),
+      type: AnnouncementType.Warn,
+    }
+  }
+
+  if (pausedTrade[chain]) {
+    return {
+      message: t('components.announcements.chainTradeHalted', { chain }),
+      type: AnnouncementType.Warn,
+    }
+  }
+  return null
+}
+
+const getAnnouncemetsByChain = (
+  pausedChains: Record<string, boolean>,
+  pausedLP: Record<string, boolean>,
+  pausedTrade: Record<string, boolean>,
+) => {
+  return SUPPORTED_CHAINS.map((chain) =>
+    getChainAnnouncement(chain, pausedChains, pausedLP, pausedTrade),
+  ).filter(Boolean) as Announcement[]
+}
+
+const isChainPaused = (
+  chain: SupportedChain,
+  pausedChains: Record<string, boolean>,
+  pausedLP: Record<string, boolean>,
+  pausedTrade: Record<string, boolean>,
+) => {
+  return pausedChains[chain] || (pausedLP[chain] && pausedTrade[chain])
 }

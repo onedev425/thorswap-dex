@@ -1,5 +1,7 @@
 import { ReactNode } from 'react'
 
+import { SupportedChain } from '@thorswap-lib/multichain-sdk'
+
 export enum AnnouncementType {
   Primary = 'primary',
   Info = 'info',
@@ -11,6 +13,7 @@ export type Announcement = {
   type?: AnnouncementType
   title?: string
   message: string | ReactNode
+  chain?: SupportedChain
 }
 
 export type ExternalConfig = {
