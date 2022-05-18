@@ -71,7 +71,7 @@ export const PoolInfo = ({
                 {label}
               </Typography>
 
-              <Typography variant="h4" className="text-base md:text-h4">
+              <Typography variant="caption" className="text-base md:text-h4">
                 {value}
               </Typography>
             </Box>

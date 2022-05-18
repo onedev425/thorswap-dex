@@ -8,6 +8,8 @@ import ReactDOM from 'react-dom/server'
 import { Typography, Icon, IconName } from 'components/Atomic'
 import { TooltipPlacement } from 'components/Atomic/Tooltip/types'
 
+import useWindowSize from 'hooks/useWindowSize'
+
 type Props = {
   place?: TooltipPlacement
   content?: string
@@ -37,6 +39,8 @@ export const Tooltip = ({
   content,
   disabled = false,
 }: Props) => {
+  const { isMdActive } = useWindowSize()
+
   useEffect(() => {
     // https://github.com/wwayne/react-tooltip/issues/40#issuecomment-147552438
     setTimeout(ReactTooltip.rebuild, 50)
@@ -47,7 +51,7 @@ export const Tooltip = ({
       data-for="tooltip"
       data-html
       data-place={place}
-      data-tip-disable={disabled}
+      data-tip-disable={disabled || !isMdActive}
       className={classNames(
         'flex items-center justify-center',
         {

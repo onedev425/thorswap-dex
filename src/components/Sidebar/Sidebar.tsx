@@ -10,6 +10,8 @@ import { SupportModal } from 'components/Modals/Support/Support'
 import { Scrollbar } from 'components/Scrollbar'
 import { NavItem } from 'components/Sidebar/NavItem'
 
+import useWindowSize from 'hooks/useWindowSize'
+
 import { t } from 'services/i18n'
 
 import { ROUTES } from 'settings/constants'
@@ -30,7 +32,7 @@ export const Sidebar = ({
   onNavItemClick,
 }: SidebarProps) => {
   const sidebarOptions = getDefaultNavbarOptions()
-
+  const { isMdActive } = useWindowSize()
   const navigate = useNavigate()
   const [isSupportModalOpened, setIsSupportModalOpened] = useState(false)
 
@@ -41,11 +43,12 @@ export const Sidebar = ({
   return (
     <nav
       className={classNames(
-        'flex flex-col items-center my-2 transition-all overflow-hidden ml-2 h-sidebar',
+        'flex flex-col items-center my-2 transition-all overflow-hidden ml-2',
         'rounded-3xl border-box sticky top-0 bg-white dark:bg-dark-bg-secondary md:dark:!bg-opacity-30',
         'shadow-md border-opacity-30 border border-solid border-light-typo-gray dark:border-none',
         collapsed ? 'w-[72px]' : 'w-[180px]',
         className,
+        isMdActive ? 'h-sidebar' : 'h-[80vh]',
       )}
     >
       <div
@@ -62,7 +65,7 @@ export const Sidebar = ({
       </div>
 
       <div className="w-full h-sidebar-content">
-        <Scrollbar height={scrollbarHeight}>
+        <Scrollbar height={isMdActive ? scrollbarHeight : '50vh'}>
           <SidebarItem
             options={sidebarOptions}
             variant="primary"
