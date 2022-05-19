@@ -80,6 +80,7 @@ const getChainAnnouncement = (
           : t('components.announcements.chainHalted', { chain }),
       type:
         chain === THORChain ? AnnouncementType.Error : AnnouncementType.Warn,
+      chain,
     }
   }
 
@@ -87,6 +88,7 @@ const getChainAnnouncement = (
     return {
       message: t('components.announcements.chainLPHalted', { chain }),
       type: AnnouncementType.Warn,
+      chain,
     }
   }
 
@@ -94,6 +96,7 @@ const getChainAnnouncement = (
     return {
       message: t('components.announcements.chainTradeHalted', { chain }),
       type: AnnouncementType.Warn,
+      chain,
     }
   }
   return null

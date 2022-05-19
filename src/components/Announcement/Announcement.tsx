@@ -1,6 +1,8 @@
+import { chainToSigAsset } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
 import { AnnouncementProps } from 'components/Announcement/types'
+import { AssetIcon } from 'components/AssetIcon'
 import { Box, Typography } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
 
@@ -21,9 +23,16 @@ const announcementBorderClasses: Record<AnnouncementType, string> = {
 }
 
 export const Announcement = ({
-  announcement: { type = AnnouncementType.Primary, message, title },
+  announcement,
   rightComponent,
 }: AnnouncementProps) => {
+  const {
+    type = AnnouncementType.Primary,
+    message,
+    title,
+    chain,
+  } = announcement
+
   if (!message && !title) {
     return null
   }
@@ -32,10 +41,15 @@ export const Announcement = ({
     <Box
       center
       className={classNames(
-        'rounded-2xl px-3 md:px-6 py-3.5 relative flex-1',
+        'rounded-2xl px-12 py-3.5 relative flex-1',
         genericBgClasses.primary,
       )}
     >
+      {chain && (
+        <Box className="absolute left-4">
+          <AssetIcon size={26} asset={chainToSigAsset(chain)} />
+        </Box>
+      )}
       <Box
         className={classNames(
           'absolute inset-0 bg-gradient-to-r from-transparent to-transparent rounded-2xl opacity-40',
@@ -48,7 +62,7 @@ export const Announcement = ({
           announcementBorderClasses[type],
         )}
       ></Box>
-      <Box className="z-0" col>
+      <Box className="z-0" col textAlign="center">
         {title && <Typography variant="subtitle1">{title}</Typography>}
         {message && <Typography>{message}</Typography>}
       </Box>
