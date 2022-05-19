@@ -16,6 +16,7 @@ import {
 import { Chain } from '@thorswap-lib/xchain-util'
 
 import { AssetInputs } from 'views/WithdrawLiquidity/AssetInputs'
+import { TerraAsymWithdrawInfo } from 'views/WithdrawLiquidity/TerraAsymWithdrawInfo'
 
 import { Button, Box, Typography } from 'components/Atomic'
 import { GlobalSettingsPopover } from 'components/GlobalSettings'
@@ -155,7 +156,11 @@ const WithdrawPanel = ({
   const poolAsset = useMemo(() => pool.asset, [pool])
   const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
 
-  const { isChainPauseLPAction } = useMimir()
+  const { isChainPauseLPAction, isTERRAAsymWithdrawalPaused } = useMimir()
+  const isTerraSymOnly = useMemo(
+    () => poolAsset.chain === Chain.Terra && isTERRAAsymWithdrawalPaused,
+    [isTERRAAsymWithdrawalPaused, poolAsset],
+  )
 
   const isLPActionPaused: boolean = useMemo(() => {
     return isChainPauseLPAction(poolAsset.chain)
@@ -585,20 +590,22 @@ const WithdrawPanel = ({
 
   const withdrawOptions = useMemo(() => {
     // allow only sym withdraw for staged pools
-    if (pool.detail.status === 'staged') {
+    const isStaged = pool.detail.status === 'staged'
+    const isPendingLP = lpType === PoolShareType.PENDING
+
+    if (isStaged || isPendingLP || isTerraSymOnly) {
       return [LiquidityTypeOption.SYMMETRICAL]
     }
-    if (lpType === PoolShareType.PENDING)
-      return [LiquidityTypeOption.SYMMETRICAL]
 
     if (lpType === PoolShareType.RUNE_ASYM) return [LiquidityTypeOption.RUNE]
     if (lpType === PoolShareType.ASSET_ASYM) return [LiquidityTypeOption.ASSET]
+
     return [
       LiquidityTypeOption.ASSET,
       LiquidityTypeOption.SYMMETRICAL,
       LiquidityTypeOption.RUNE,
     ]
-  }, [lpType, pool])
+  }, [isTerraSymOnly, lpType, pool.detail.status])
 
   const withdrawAssets = useMemo(() => {
     if (withdrawType === LiquidityTypeOption.RUNE) {
@@ -690,6 +697,8 @@ const WithdrawPanel = ({
         onPercentChange={handleChangePercent}
         liquidityType={withdrawType}
       />
+
+      {isTerraSymOnly && <TerraAsymWithdrawInfo />}
 
       <Box className="w-full pt-4">
         <InfoTable horizontalInset items={confirmInfo} />

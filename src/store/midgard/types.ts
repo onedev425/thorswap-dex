@@ -108,6 +108,7 @@ export type MimirData = {
   SOLVENCYHALTETHCHAIN?: number
   SOLVENCYHALTBCHCHAIN?: number
   MAXSYNTHPERASSETDEPTH?: number
+  'PAUSEASYMWITHDRAWAL-TERRA'?: number
 }
 
 export type ShareType = 'sym' | 'runeAsym' | 'assetAsym'
