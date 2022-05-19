@@ -497,7 +497,9 @@
       "withdraw": "निकालना",
       "from": "से",
       "assetUSDPrice": "एसेट यू.एस.डी मूल्य",
-      "share": "Share"
+      "share": "Share",
+      "terraLPWithdraw": "",
+      "terraLPWithdrawInfo": ""
     },
     "walletModal": {
       "connectWallet": "वॉलेट कनेक्ट करें",

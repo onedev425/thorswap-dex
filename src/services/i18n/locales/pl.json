@@ -497,7 +497,9 @@
       "withdraw": "Wypłać",
       "from": "Z",
       "assetUSDPrice": "Cena aktywu USD",
-      "share": "Udostępnij"
+      "share": "Udostępnij",
+      "terraLPWithdraw": "",
+      "terraLPWithdrawInfo": ""
     },
     "walletModal": {
       "connectWallet": "Połącz portfel",

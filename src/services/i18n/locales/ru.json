@@ -497,7 +497,9 @@
       "withdraw": "Вывести",
       "from": "из",
       "assetUSDPrice": "Цена актива в USD ",
-      "share": "Доля"
+      "share": "Доля",
+      "terraLPWithdraw": "",
+      "terraLPWithdrawInfo": ""
     },
     "walletModal": {
       "connectWallet": "Подключить кошелёк",

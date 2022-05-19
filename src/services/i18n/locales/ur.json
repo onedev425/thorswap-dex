@@ -11,7 +11,7 @@
     "balance": "بقیہ",
     "cancel": "منسوخ کریں",
     "claim": "دعویٰ",
-    "claimAndWithdraw": "",
+    "claimAndWithdraw": "دعوی کریں اور واپس لیں",
     "confirm": "تصدیق کریں",
     "connect": "Connect",
     "create": "بنائیں",
@@ -100,7 +100,7 @@
     "nodeManager": "نوڈ مینیجر",
     "nodeAddress": "Node Address",
     "upgradeRune": "Rune کو اپ گریڈ کریں",
-    "upgradeChainRune": "",
+    "upgradeChainRune": "%{chain} Rune اپ گریڈ کریں ",
     "amount": "رقم"
   },
   "pendingLiquidity": {
@@ -133,9 +133,9 @@
     "showPools": "نمایاں پولز دکھائیں"
   },
   "txManager": {
-    "registerThorname": "",
-    "registerThornameFailed": "",
-    "registerThornameSuccess": "",
+    "registerThorname": "THORName رجسٹر کریں\n",
+    "registerThornameFailed": "THORName رجسٹر کرنا ناکام ہو گیا",
+    "registerThornameSuccess": "THORName کامیابی کے ساتھ رجسٹر ہو گیا",
     "approve": "منظور کریں",
     "swap": "تبادلہ کریں",
     "addLiquidity": "Liquidity شامل کریں",
@@ -151,7 +151,7 @@
     "failed": "ناکام ہو گیا",
     "stake": "Stake",
     "claim": "دعویٰ",
-    "unstake": "",
+    "unstake": "staking سے ہٹا دیں",
     "sendAmountAsset": "بھیجیں %{amount} %{asset}",
     "sendFailed": "بھیجیں %{amount} %{asset} ناکام",
     "sendFinished": "بھیجیں %{amount} %{asset} کامیاب",
@@ -163,7 +163,7 @@
     "receivedAmountAsset": "موصول ہوا %{amount} %{asset}",
     "mintedAmountAsset": "Minted %{amount} %{asset}",
     "redeemedAmountAsset": "Redeemed %{amount} %{asset}",
-    "redeemedAmountAssetFailed": "",
+    "redeemedAmountAssetFailed": "چھڑایا گیا %{amount} %{asset} ناکام ہو گیا",
     "refundedAmountAsset": "واپس کی گیی %{amount} %{asset}",
     "addedAmountAsset": "شامل کی گیی %{amount} %{asset}",
     "addAmountAsset": "شامل کریں %{amount} %{asset}",
@@ -182,19 +182,19 @@
     "claimAsset": "دعوی کریں %{amount} %{asset}",
     "claimedAsset": "دعوی کیا گیا %{amount} %{asset}",
     "claimAssetFailed": "دعویٰ %{amount} %{asset} ناکام ہو گیا",
-    "unstakeFailed": "",
-    "unstakeAsset": "",
-    "unstakedAsset": ""
+    "unstakeFailed": "%{amount} %{asset} کو ہٹانا ناکام ہو گیا۔",
+    "unstakeAsset": "%{amount} %{asset} ہٹائیں",
+    "unstakedAsset": "%{amount} %{asset} ہٹا دیا"
   },
   "components": {
     "announcements": {
-      "thorChainHalted": "",
-      "thorChainLPHalted": "",
-      "thorChainTradeHalted": "",
-      "chainHalted": "",
-      "chainLPHalted": "",
-      "chainTradeHalted": "",
-      "tradingGloballyDisabled": ""
+      "thorChainHalted": "THORchain بحالی کے دوران عارضی طور پر دستیاب نہیں ہے۔ تمام کارروائیاں فی الحال غیر فعال ہیں۔",
+      "thorChainLPHalted": "لیکویڈیٹی کو شامل کرنا اور نکالنا THORchain پر عارضی طور پر غیر فعال ہے۔",
+      "thorChainTradeHalted": "THORchain پر ٹریڈنگ عارضی طور پر غیر فعال ہے۔",
+      "chainHalted": "%{chain} سلسلہ THORchain پر عارضی طور پر روک دیا گیا ہے۔ تمام ٹریڈنگ اور ایل پی ایکشنز فی الحال دستیاب نہیں ہیں۔",
+      "chainLPHalted": "%{chain} THORchain chain  پر عارضی طور پر روک دیا گیا ہے۔ تمام ٹریڈنگ اور ایل پی ایکشنز فی الحال دستیاب نہیں ہیں۔",
+      "chainTradeHalted": "%{chain} chain پر شامل کرنا اور واپس لینا عارضی طور پر دستیاب نہیں ہے۔",
+      "tradingGloballyDisabled": "THORchain کو اس وقت تکنیکی مشکلات کا سامنا ہے۔ ٹیم تحقیقات کر رہی ہے۔"
     },
     "assetSelect": {
       "selectAToken": "ٹوکن منتخب کریں",
@@ -215,7 +215,7 @@
       "pendingLiquidity": "Pending",
       "thorswapDocumentation": "THORSwap Documentation",
       "send": "بھیجیں",
-      "vthor": "",
+      "vthor": "vTHOR",
       "thorswapCommunityYoutube": "THORSwap کمیونٹی یوٹیوب",
       "trade": "تجارت",
       "thor": "Thor",
@@ -228,7 +228,7 @@
       "collapse": "بند کریں",
       "expand": "پھیلائیں",
       "thoryield": "THORYield",
-      "thorname": ""
+      "thorname": "THORName"
     },
     "statusDropdown": {
       "capAvailable": "فنڈز  Cap available",
@@ -332,29 +332,29 @@
       "stakeActionAmount": "%{stakeAction} رقم"
     },
     "stakingVThor": {
-      "stakeVThorTitle": "",
-      "stakeVThorSubtitle": "",
-      "stakeInfo": "",
-      "maximizeYield": "",
-      "stakingApy": "",
-      "yesterdayApr": "",
-      "apyTip": "",
-      "unstaked": "",
-      "stakeVThor": "",
-      "unstake": "",
-      "buyThor": "",
-      "send": "",
-      "receive": "",
-      "statTitle": "",
-      "thorBal": "",
-      "vthorBal": "",
-      "thorStaked": "",
-      "totalThor": "",
-      "totalThorTip": "",
-      "stakingRewardsToDate": "",
-      "stakingRewardsPerMonth": "",
-      "moreStats": "",
-      "addVTHOR": ""
+      "stakeVThorTitle": "vTHOR کے لیے THOR کو اسثیک پر لگا دیں۔",
+      "stakeVThorSubtitle": "اسٹیکنگ انعامات اور تجارتی چھوٹ حاصل کرنے کے لیے THOR کو اسثیک کریں۔",
+      "stakeInfo": "جب آپ $THOR (ERC-20) کو اسثیک پر لگاتے ہیں، تو آپ کو $vTHOR ملے گا - ایک کمپوز ایبل اور قابل منتقلی ٹوکن جو آپ کی اسٹیکنگ پوزیشن کی نمائندگی کرتا ہے۔",
+      "maximizeYield": "vTHOR کے لیے THOR کو اسثیک پر لگا کر yield کو زیادہ سے زیادہ کریں۔",
+      "stakingApy": "Staking APY",
+      "yesterdayApr": "کل کی APR",
+      "apyTip": "دکھائے گئے نرخ تخمینہ ہیں، اور اس میں اتار چڑھاؤ آ سکتا ہے۔",
+      "unstaked": "اسثیک سے ہثا دیا",
+      "stakeVThor": "اسثیک کریں",
+      "unstake": "اسثیک ختم کریں",
+      "buyThor": "THOR خریدیں",
+      "send": "بھیجیں",
+      "receive": "وصول کریں",
+      "statTitle": "آپ کا اسثیک",
+      "thorBal": "THOR بیلنس",
+      "vthorBal": "vTHOR بیلنس",
+      "thorStaked": "THOR اسثیک پر لگا ہوا ہے۔",
+      "totalThor": "کل THOR",
+      "totalThorTip": "THOR Stacked اور Staking Rewards سے قابل تلافی THOR کی کل تعداد",
+      "stakingRewardsToDate": " آج تک کمائے گئے اسٹیکنگ ریوارڈز",
+      "stakingRewardsPerMonth": "تخمینہ شدہ ماہانہ انعامات",
+      "moreStats": "مزید اعدادوشمار",
+      "addVTHOR": "vTHOR شامل کریں"
     },
     "stats": {
       "dailyBlockRewards": "روزانہ بلاک کے انعامات",
@@ -416,9 +416,9 @@
       "priceImpact": "قیمت کا اثر",
       "minReceivedAfterSlip": "slippage کے بعد کم از کم موصول ہوگا (%{slippage})",
       "swapAssets": "اثاثوں کی شرحوں کو تبدیل کریں۔",
-      "affiliateFee": "",
-      "exchangeFee": "",
-      "totalFee": ""
+      "affiliateFee": "0.3% الحاق کی فیس THORSwap کے ذریعے لی جاتی ہے۔ فیس کا 75% دوبارہ vTHOR اسٹیکرز میں تقسیم کیا جاتا ہے۔",
+      "exchangeFee": "ایکسچینج فیس",
+      "totalFee": "کل فیس"
     },
     "wallet": {
       "wallet": "Wallet",
@@ -450,7 +450,7 @@
       "showQRCode": "QR کوڈ دکھیں",
       "copyAddress": "ایڈریس کاپی کریں",
       "viewKeystorePhrase": "keystore کا جملہ دیکھیں",
-      "priceRate": "قیمت کی شرح",
+      "priceRate": "THOR اور vTHOR کے درمیان تناسب۔ جیسے جیسے اسٹیکنگ ریوارڈز جمع ہوتے جائیں گے، یہ تناسب وقت کے ساتھ بدل جائے گا۔",
       "expectedOutput": "متوقع آؤٹ پٹ",
       "expectedOutputTooltip": "موجودہ قیمت کی شرح پر مبنی پیداوار کی رقم",
       "chart7d": "چارٹ (7 دن)"
@@ -497,7 +497,9 @@
       "withdraw": "واپس لیں",
       "from": "طرف سے",
       "assetUSDPrice": "اثاثہ کی USD قیمت",
-      "share": "حصہ"
+      "share": "حصہ",
+      "terraLPWithdraw": "",
+      "terraLPWithdrawInfo": ""
     },
     "walletModal": {
       "connectWallet": "Wallet منسلک کریں",
@@ -576,22 +578,22 @@
       "txFeeTooltip": "ٹرانزیکشن بھیجنے کے لیے گیس فیس، THORchain پروٹوکول سے کوئی اضافی چارجز نہیں ہیں۔"
     },
     "thorname": {
-      "available": "",
-      "checkNameAvailability": "",
-      "cost": "",
-      "duration": "",
-      "expire": "",
-      "feeOnSale": "",
-      "ownedByYou": "",
-      "owner": "",
-      "purchase": "",
-      "registeredThornames": "",
-      "registerFee": "",
-      "registerSuccess": "",
-      "searchName": "",
-      "status": "",
-      "unavailable": "",
-      "unavailableForPurchase": ""
+      "available": "دستیاب",
+      "checkNameAvailability": "نام کی دستیابی چیک کریں",
+      "cost": "لاگت",
+      "duration": "دورانیہ (سالوں میں)",
+      "expire": "میعاد ختم",
+      "feeOnSale": "فروخت پر فیس",
+      "ownedByYou": "آپ کی ملکیت میں",
+      "owner": "مالک",
+      "purchase": "خریداری",
+      "registeredThornames": "رجسٹرڈ Thornames",
+      "registerFee": "رجسٹر فیس",
+      "registerSuccess": "THORName %{thorname}.%{chain} کامیابی کے ساتھ رجسٹر ہو گیا",
+      "searchName": "نام تلاش کریں۔",
+      "status": "Status",
+      "unavailable": "دستیاب نہیں۔",
+      "unavailableForPurchase": "خریداری کے لیے دستیاب نہیں ہے۔"
     }
   },
   "validation": {
@@ -640,6 +642,6 @@
     "swapNotAvailable": "تبادلہ دستیاب نہیں ہے",
     "gasEstimationFailed": "گیس کا اندازہ نہیں لگایا جا سکا",
     "approveOverflow": "%{actionType} رقم الاؤنس سے زیادہ ہے",
-    "successfulTransaction": ""
+    "successfulTransaction": "لین دین کامیاب"
   }
 }

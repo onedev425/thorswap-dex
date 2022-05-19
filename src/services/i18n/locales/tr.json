@@ -497,7 +497,9 @@
       "withdraw": "",
       "from": "",
       "assetUSDPrice": "",
-      "share": ""
+      "share": "",
+      "terraLPWithdraw": "",
+      "terraLPWithdrawInfo": ""
     },
     "walletModal": {
       "connectWallet": "",

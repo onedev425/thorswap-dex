@@ -497,7 +497,9 @@
       "withdraw": "Withdraw",
       "from": "From",
       "assetUSDPrice": "Asset USD Price",
-      "share": "Share"
+      "share": "Share",
+      "terraLPWithdraw": "Terra LP withdrawal",
+      "terraLPWithdrawInfo": "Terra LP withdrawal options have changed, please see the THORChain medium article for details."
     },
     "walletModal": {
       "connectWallet": "Connect Wallet",

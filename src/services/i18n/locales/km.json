@@ -497,7 +497,9 @@
       "withdraw": "ដករូបិយប័ណ្ណ",
       "from": "ពី",
       "assetUSDPrice": "តម្លៃទ្រព្យ Asset ជា USD",
-      "share": "ភាគហ៊ុន"
+      "share": "ភាគហ៊ុន",
+      "terraLPWithdraw": "Terra LP withdrawal",
+      "terraLPWithdrawInfo": "Terra LP withdrawal options have changed, please see the THORChain medium article for details."
     },
     "walletModal": {
       "connectWallet": "ភ្ជាប់កាបូប Electronic",

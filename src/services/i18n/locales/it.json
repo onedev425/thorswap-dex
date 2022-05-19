@@ -497,7 +497,9 @@
       "withdraw": "Preleva",
       "from": "Da",
       "assetUSDPrice": "Prezzo Asset USD",
-      "share": "Share"
+      "share": "Share",
+      "terraLPWithdraw": "",
+      "terraLPWithdrawInfo": ""
     },
     "walletModal": {
       "connectWallet": "Connetti Wallet",

@@ -497,7 +497,9 @@
       "withdraw": "提取",
       "from": "来自",
       "assetUSDPrice": "资产 USD 价格",
-      "share": "占比"
+      "share": "占比",
+      "terraLPWithdraw": "Terra LP withdrawal",
+      "terraLPWithdrawInfo": "Terra LP withdrawal options have changed, please see the THORChain medium article for details."
     },
     "walletModal": {
       "connectWallet": "连接钱包",

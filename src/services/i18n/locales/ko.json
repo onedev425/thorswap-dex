@@ -497,7 +497,9 @@
       "withdraw": "인출",
       "from": "에서",
       "assetUSDPrice": "에셋 가격 USD",
-      "share": "공유"
+      "share": "공유",
+      "terraLPWithdraw": "",
+      "terraLPWithdrawInfo": ""
     },
     "walletModal": {
       "connectWallet": "월렛(지갑) 연결",

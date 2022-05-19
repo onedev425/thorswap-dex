@@ -497,7 +497,9 @@
       "withdraw": "Retirar",
       "from": "Desde",
       "assetUSDPrice": "Precio USD del Activo",
-      "share": "Share"
+      "share": "Share",
+      "terraLPWithdraw": "",
+      "terraLPWithdrawInfo": ""
     },
     "walletModal": {
       "connectWallet": "Conectar cartera",

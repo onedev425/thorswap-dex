@@ -497,7 +497,9 @@
       "withdraw": "",
       "from": "Daripada",
       "assetUSDPrice": "Harga Aset USD",
-      "share": ""
+      "share": "",
+      "terraLPWithdraw": "",
+      "terraLPWithdrawInfo": ""
     },
     "walletModal": {
       "connectWallet": "Sambung Wallet (Dompet)",
