@@ -128,8 +128,6 @@ export const useMimir = () => {
     [mimir?.MAXSYNTHPERASSETDEPTH],
   )
 
-  const isTERRAAsymWithdrawalPaused = mimir?.['PAUSEASYMWITHDRAWAL-TERRA'] === 1
-
   return {
     totalPooledRune,
     maxLiquidityRune,
@@ -149,6 +147,5 @@ export const useMimir = () => {
     isChainPauseLP,
     isChainPauseLPAction,
     maxSynthPerAssetDepth,
-    isTERRAAsymWithdrawalPaused,
   }
 }

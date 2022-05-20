@@ -156,11 +156,7 @@ const WithdrawPanel = ({
   const poolAsset = useMemo(() => pool.asset, [pool])
   const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
 
-  const { isChainPauseLPAction, isTERRAAsymWithdrawalPaused } = useMimir()
-  const isTerraSymOnly = useMemo(
-    () => poolAsset.chain === Chain.Terra && isTERRAAsymWithdrawalPaused,
-    [isTERRAAsymWithdrawalPaused, poolAsset],
-  )
+  const { isChainPauseLPAction } = useMimir()
 
   const isLPActionPaused: boolean = useMemo(() => {
     return isChainPauseLPAction(poolAsset.chain)
@@ -593,7 +589,7 @@ const WithdrawPanel = ({
     const isStaged = pool.detail.status === 'staged'
     const isPendingLP = lpType === PoolShareType.PENDING
 
-    if (isStaged || isPendingLP || isTerraSymOnly) {
+    if (isStaged || isPendingLP) {
       return [LiquidityTypeOption.SYMMETRICAL]
     }
 
@@ -605,7 +601,7 @@ const WithdrawPanel = ({
       LiquidityTypeOption.SYMMETRICAL,
       LiquidityTypeOption.RUNE,
     ]
-  }, [isTerraSymOnly, lpType, pool.detail.status])
+  }, [lpType, pool.detail.status])
 
   const withdrawAssets = useMemo(() => {
     if (withdrawType === LiquidityTypeOption.RUNE) {
@@ -698,7 +694,7 @@ const WithdrawPanel = ({
         liquidityType={withdrawType}
       />
 
-      {isTerraSymOnly && <TerraAsymWithdrawInfo />}
+      {poolAsset.chain === Chain.Terra && <TerraAsymWithdrawInfo />}
 
       <Box className="w-full pt-4">
         <InfoTable horizontalInset items={confirmInfo} />
