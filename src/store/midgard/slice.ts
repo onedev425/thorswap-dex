@@ -67,26 +67,27 @@ const midgardSlice = createSlice({
     },
     updateTxTracker(
       state,
-      action: PayloadAction<{ uuid: string; txTracker: Partial<TxTracker> }>,
+      {
+        payload: { uuid, txTracker },
+      }: PayloadAction<{ uuid: string; txTracker: Partial<TxTracker> }>,
     ) {
-      const { uuid, txTracker } = action.payload
-
-      state.txTrackers = state.txTrackers.map((tracker: TxTracker) => {
-        if (tracker.uuid === uuid) {
-          return {
-            ...tracker,
-            ...txTracker,
-          }
-        }
-
-        return tracker
-      })
+      state.txTrackers = state.txTrackers.map((tracker: TxTracker) =>
+        tracker.uuid === uuid ? { ...tracker, ...txTracker } : tracker,
+      )
     },
     clearTxTrackers(state) {
       state.txTrackers = []
     },
     setTxCollapsed(state, action: PayloadAction<boolean>) {
       state.txCollapsed = action.payload
+    },
+    resetChainMemberDetails(state) {
+      state.chainMemberDetails = {}
+      state.chainMemberDetailsLoading = {}
+    },
+    resetChainMemberDetail(state, { payload }: PayloadAction<string>) {
+      delete state.chainMemberDetails[payload]
+      state.chainMemberDetailsLoading[payload] = false
     },
   },
   extraReducers: (builder) => {
@@ -120,12 +121,6 @@ const midgardSlice = createSlice({
       .addCase(midgardActions.getNodes.rejected, (state) => {
         state.nodeLoading = false
       })
-      .addCase(
-        midgardActions.getMemberDetail.fulfilled,
-        (state, { payload }) => {
-          state.memberDetails = payload
-        },
-      )
       // used for getting all pool share data
       .addCase(
         midgardActions.getPoolMemberDetailByChain.pending,

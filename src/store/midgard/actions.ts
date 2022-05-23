@@ -73,11 +73,6 @@ export const getDepthHistory = createAsyncThunk(
   midgardApi.getDepthHistory,
 )
 
-export const getMemberDetail = createAsyncThunk(
-  'midgard/getMemberDetail',
-  midgardApi.getMemberDetail,
-)
-
 export const getMimir = createAsyncThunk(
   'thorchain/getThorchainMimir',
   async () => {

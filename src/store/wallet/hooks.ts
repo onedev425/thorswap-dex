@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react'
 
+import { batch } from 'react-redux'
+
 import {
   ConnectedWallet,
   ConnectType as TerraConnectType,
@@ -10,6 +12,7 @@ import { Chain, ETHChain, TERRAChain } from '@thorswap-lib/xchain-util'
 
 import { showToast, ToastType } from 'components/Toast'
 
+import { actions as midgardActions } from 'store/midgard/slice'
 import { useAppDispatch, useAppSelector } from 'store/store'
 
 import { useTerraWallet } from 'hooks/useTerraWallet'
@@ -54,14 +57,20 @@ export const useWallet = () => {
   const disconnectWallet = useCallback(() => {
     multichain.resetClients()
 
-    dispatch(actions.disconnect())
+    batch(() => {
+      dispatch(actions.disconnect())
+      dispatch(midgardActions.resetChainMemberDetails())
+    })
   }, [dispatch])
 
   const disconnectWalletByChain = useCallback(
     (chain: SupportedChain) => {
       multichain.resetChain(chain)
 
-      dispatch(actions.disconnectByChain(chain))
+      batch(() => {
+        dispatch(actions.disconnectByChain(chain))
+        dispatch(midgardActions.resetChainMemberDetail(chain))
+      })
     },
     [dispatch],
   )
