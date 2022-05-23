@@ -257,12 +257,11 @@ const Send = () => {
       <InfoTable horizontalInset items={summary} />
 
       <Box center className="w-full pt-5">
-        {isWalletConnected && (
+        {isWalletConnected ? (
           <Button isFancy stretch size="lg" onClick={handleSend}>
             {t('common.send')}
           </Button>
-        )}
-        {!isWalletConnected && (
+        ) : (
           <Button
             isFancy
             stretch

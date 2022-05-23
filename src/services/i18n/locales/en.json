@@ -487,6 +487,7 @@
       "gasFeeTooltip": "Gas fee used for submitting the transaction using the thorchain protocol",
       "chainFeeTooltip": "Gas fee used for submitting %{chain} transaction.",
       "depositAmount": "Deposit amount",
+      "withdrawNotAvailable": "Withdraw not available",
       "withdrawAmount": "Withdraw amount",
       "poolShareEstimated": "Pool Share Estimated",
       "poolShareTooltip": "Estimated percentage of your pool share after providing the liquidity",

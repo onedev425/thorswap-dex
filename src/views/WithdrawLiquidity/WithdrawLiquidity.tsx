@@ -104,7 +104,6 @@ export const WithdrawLiquidity = () => {
     poolMemberData &&
     Object.keys(poolMemberData).length
   ) {
-    console.info('poolMemberData', poolMemberData)
     const shares = []
     if (poolMemberData.pending) shares.push(PoolShareType.PENDING)
 
@@ -149,27 +148,25 @@ const WithdrawPanel = ({
   pool: Pool
   pools: Pool[]
 }) => {
-  const [lpType, setLPType] = useState(shareTypes[0])
-
   const { wallet, setIsConnectModalOpen } = useWallet()
-
-  const poolAsset = useMemo(() => pool.asset, [pool])
   const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
-
   const { isChainPauseLPAction } = useMimir()
 
+  const poolAsset = useMemo(() => pool.asset, [pool])
   const isLPActionPaused: boolean = useMemo(() => {
     return isChainPauseLPAction(poolAsset.chain)
   }, [poolAsset, isChainPauseLPAction])
 
+  const [lpType, setLPType] = useState(shareTypes[0])
   const defaultWithdrawType = useMemo(() => {
-    if (lpType === PoolShareType.RUNE_ASYM) {
-      return LiquidityTypeOption.RUNE
+    switch (lpType) {
+      case PoolShareType.RUNE_ASYM:
+        return LiquidityTypeOption.RUNE
+      case PoolShareType.ASSET_ASYM:
+        return LiquidityTypeOption.ASSET
+      default:
+        return LiquidityTypeOption.SYMMETRICAL
     }
-    if (lpType === PoolShareType.ASSET_ASYM) {
-      return LiquidityTypeOption.ASSET
-    }
-    return LiquidityTypeOption.SYMMETRICAL
   }, [lpType])
 
   const [withdrawType, setWithdrawType] = useState(defaultWithdrawType)
@@ -701,7 +698,11 @@ const WithdrawPanel = ({
       </Box>
 
       <Box className="self-stretch gap-4 pt-5">
-        {isWalletConnected && !isLPActionPaused && (
+        {!isLPActionPaused ? (
+          <Button size="lg" stretch variant="secondary">
+            {t('views.liquidity.withdrawNotAvailable')}
+          </Button>
+        ) : isWalletConnected ? (
           <Button
             size="lg"
             stretch
@@ -710,8 +711,7 @@ const WithdrawPanel = ({
           >
             {t('common.withdraw')}
           </Button>
-        )}
-        {!isWalletConnected && (
+        ) : (
           <Button
             size="lg"
             isFancy
@@ -720,11 +720,6 @@ const WithdrawPanel = ({
             onClick={() => setIsConnectModalOpen(true)}
           >
             {t('common.connectWallet')}
-          </Button>
-        )}
-        {isLPActionPaused && (
-          <Button size="lg" stretch variant="secondary">
-            Withdraw Not Available
           </Button>
         )}
       </Box>

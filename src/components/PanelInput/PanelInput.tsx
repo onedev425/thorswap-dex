@@ -18,6 +18,7 @@ export const PanelInput = ({
   title,
   collapsible,
   value,
+  className,
   ...inputProps
 }: Props) => {
   const { ref, isFocused, focus, blur, onFocus, onBlur } = useInputFocusState()
@@ -52,6 +53,7 @@ export const PanelInput = ({
           [borderHighlightClass]: isFocused,
           '!py-2': collapsible && !isActive,
         },
+        className,
       )}
       col
     >

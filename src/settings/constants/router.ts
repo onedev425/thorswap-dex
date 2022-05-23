@@ -30,16 +30,19 @@ export const THORYIELD_LP_PATH = 'accounts' //TODO: change value to 'lp' when TH
 export const THORYIELD_STATS_ROUTE = 'https://app.thoryield.com/stats'
 export const THOR_STAKING_V1_ROUTE = 'https://v1.thorswap.finance/stake'
 
+const getAssetRoute = (route: ROUTES, asset?: Asset) =>
+  `${route}${asset ? `/${asset.toURLEncoded()}` : ''}`
+
 export const getAddLiquidityRoute = (asset?: Asset) => {
-  return `${ROUTES.AddLiquidity}${asset ? `/${asset.toURLEncoded()}` : ''}`
+  return getAssetRoute(ROUTES.AddLiquidity, asset)
 }
 
 export const getWithdrawRoute = (asset?: Asset) => {
-  return `${ROUTES.WithdrawLiquidity}${asset ? `/${asset.toURLEncoded()}` : ''}`
+  return getAssetRoute(ROUTES.WithdrawLiquidity, asset)
 }
 
 export const getSendRoute = (asset?: Asset) => {
-  return `${ROUTES.Send}${asset ? `/${asset.toURLEncoded()}` : ''}`
+  return getAssetRoute(ROUTES.Send, asset)
 }
 
 export const getSwapRoute = (input: Asset, output: Asset = Asset.RUNE()) => {
