@@ -8,7 +8,11 @@ import {
 import { Chain } from '@thorswap-lib/xchain-util'
 
 import { useExternalConfig } from 'store/externalConfig/hooks'
-import { Announcement, AnnouncementType } from 'store/externalConfig/types'
+import {
+  Announcement,
+  AnnouncementType,
+  ChainStatusAnnouncements,
+} from 'store/externalConfig/types'
 
 import { useMimir } from 'hooks/useMimir'
 
@@ -18,7 +22,7 @@ const REFRESH_INTERVAL = 1000 * 50 * 5 //5min
 
 export const useHeaderAnnouncements = () => {
   const {
-    announcements: manualAnnouncements,
+    announcements: storedAnnouncements,
     isTradingGloballyDisabled,
     refreshExternalConfig,
   } = useExternalConfig()
@@ -27,7 +31,7 @@ export const useHeaderAnnouncements = () => {
   const announcements = useMemo(() => {
     if (isTradingGloballyDisabled) {
       return [
-        ...manualAnnouncements,
+        ...storedAnnouncements.manual,
         {
           message: t('components.announcements.tradingGloballyDisabled'),
           type: AnnouncementType.Error,
@@ -36,19 +40,21 @@ export const useHeaderAnnouncements = () => {
     }
 
     return [
-      ...manualAnnouncements,
-      ...getAnnouncemetsByChain(
-        isChainHalted,
-        isChainTradingHalted,
-        isChainPauseLP,
-      ),
+      ...storedAnnouncements.manual,
+      ...getAnnouncemetsByChain({
+        pausedChains: isChainHalted,
+        pausedTrade: isChainTradingHalted,
+        pausedLP: isChainPauseLP,
+        chainStatus: storedAnnouncements.chainStatus,
+      }),
     ]
   }, [
     isChainHalted,
     isChainPauseLP,
     isChainTradingHalted,
     isTradingGloballyDisabled,
-    manualAnnouncements,
+    storedAnnouncements.chainStatus,
+    storedAnnouncements.manual,
   ])
 
   useEffect(() => {
@@ -59,12 +65,20 @@ export const useHeaderAnnouncements = () => {
   return announcements
 }
 
-const getChainAnnouncement = (
-  chain: SupportedChain,
-  pausedChains: Record<string, boolean>,
-  pausedLP: Record<string, boolean>,
-  pausedTrade: Record<string, boolean>,
-) => {
+type GetAnnouncementsByChainProps = {
+  pausedChains: Record<string, boolean>
+  pausedLP: Record<string, boolean>
+  pausedTrade: Record<string, boolean>
+  chainStatus: ChainStatusAnnouncements
+}
+
+const getChainAnnouncement = ({
+  chain,
+  pausedChains,
+  pausedLP,
+  pausedTrade,
+  chainStatus,
+}: GetAnnouncementsByChainProps & { chain: SupportedChain }) => {
   if (
     isChainPaused(Chain.THORChain, pausedChains, pausedLP, pausedTrade) &&
     chain !== THORChain
@@ -75,40 +89,47 @@ const getChainAnnouncement = (
   if (isChainPaused(chain, pausedChains, pausedLP, pausedTrade)) {
     return {
       message:
-        chain === THORChain
+        chainStatus[chain]?.message ||
+        (chain === THORChain
           ? t('components.announcements.thorChainHalted')
-          : t('components.announcements.chainHalted', { chain }),
+          : t('components.announcements.chainHalted', { chain })),
       type:
         chain === THORChain ? AnnouncementType.Error : AnnouncementType.Warn,
       chain,
+      link: chainStatus[chain]?.link,
     }
   }
 
   if (pausedLP[chain]) {
     return {
-      message: t('components.announcements.chainLPHalted', { chain }),
+      message:
+        chainStatus[chain]?.message ||
+        t('components.announcements.chainLPHalted', { chain }),
       type: AnnouncementType.Warn,
       chain,
+      link: chainStatus[chain]?.link,
     }
   }
 
   if (pausedTrade[chain]) {
     return {
-      message: t('components.announcements.chainTradeHalted', { chain }),
+      message:
+        chainStatus[chain]?.message ||
+        t('components.announcements.chainTradeHalted', { chain }),
       type: AnnouncementType.Warn,
       chain,
+      link: chainStatus[chain]?.link,
     }
   }
   return null
 }
 
-const getAnnouncemetsByChain = (
-  pausedChains: Record<string, boolean>,
-  pausedLP: Record<string, boolean>,
-  pausedTrade: Record<string, boolean>,
-) => {
+const getAnnouncemetsByChain = (props: GetAnnouncementsByChainProps) => {
   return SUPPORTED_CHAINS.map((chain) =>
-    getChainAnnouncement(chain, pausedChains, pausedLP, pausedTrade),
+    getChainAnnouncement({
+      chain,
+      ...props,
+    }),
   ).filter(Boolean) as Announcement[]
 }
 

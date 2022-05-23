@@ -1,17 +1,17 @@
 import { useCallback } from 'react'
 
 import { actions } from 'store/externalConfig/slice'
-import { Announcement } from 'store/externalConfig/types'
 import { useAppDispatch, useAppSelector } from 'store/store'
 
 import { loadConfig } from './loadConfig'
+import { AnnouncementsData } from './types'
 
 export const useExternalConfig = () => {
   const dispatch = useAppDispatch()
   const state = useAppSelector((state) => state.externalConfig)
 
   const setAnnouncements = useCallback(
-    (announcements: Announcement[]) => {
+    (announcements: AnnouncementsData) => {
       dispatch(actions.setAnnouncements(announcements))
     },
     [dispatch],
@@ -25,10 +25,9 @@ export const useExternalConfig = () => {
   )
 
   const refreshExternalConfig = useCallback(async () => {
-    const { announcements, isTradingGloballyDisabled } = await loadConfig()
+    const announcements = await loadConfig()
     setAnnouncements(announcements)
-    setTradingGloballyDisabled(isTradingGloballyDisabled)
-  }, [setAnnouncements, setTradingGloballyDisabled])
+  }, [setAnnouncements])
 
   return {
     ...state,

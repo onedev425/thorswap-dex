@@ -3,10 +3,12 @@ import classNames from 'classnames'
 
 import { AnnouncementProps } from 'components/Announcement/types'
 import { AssetIcon } from 'components/AssetIcon'
-import { Box, Typography } from 'components/Atomic'
+import { Box, Link, Typography } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
 
 import { AnnouncementType } from 'store/externalConfig/types'
+
+import { t } from 'services/i18n'
 
 const announcementClasses: Record<AnnouncementType, string> = {
   primary: '!opacity-20 from-transparent via-btn-primary',
@@ -31,6 +33,7 @@ export const Announcement = ({
     message,
     title,
     chain,
+    link,
   } = announcement
 
   if (!message && !title) {
@@ -63,8 +66,20 @@ export const Announcement = ({
         )}
       ></Box>
       <Box className="z-0" col textAlign="center">
-        {title && <Typography variant="subtitle1">{title}</Typography>}
-        {message && <Typography>{message}</Typography>}
+        {!!title && <Typography variant="subtitle1">{title}</Typography>}
+        {!!message && (
+          <Typography>
+            {message}{' '}
+            {!!link && link.url && (
+              <Link
+                className="text-btn-primary hover:underline"
+                to={link?.url || ''}
+              >
+                {link.name || t('common.learnMore')}
+              </Link>
+            )}
+          </Typography>
+        )}
       </Box>
 
       {rightComponent ? rightComponent : null}
