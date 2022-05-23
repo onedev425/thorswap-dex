@@ -1020,14 +1020,10 @@ export const AddLiquidity = () => {
             size="lg"
             isFancy
             onClick={handleApprove}
-            disabled={
-              assetApproveStatus === TxTrackerStatus.Pending ||
-              assetApproveStatus === TxTrackerStatus.Submitting
-            }
-            loading={
-              assetApproveStatus === TxTrackerStatus.Pending ||
-              assetApproveStatus === TxTrackerStatus.Submitting
-            }
+            loading={[
+              TxTrackerStatus.Pending,
+              TxTrackerStatus.Submitting,
+            ].includes(assetApproveStatus)}
           >
             Approve
           </Button>
