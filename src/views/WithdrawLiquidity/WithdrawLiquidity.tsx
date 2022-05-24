@@ -521,6 +521,126 @@ const WithdrawPanel = ({
               withdrawChain: Chain.THORChain,
             },
           })
+        } else if (lpType === PoolShareType.PENDING) {
+          if (withdrawType === LiquidityTypeOption.SYMMETRICAL) {
+            const outAssets = [
+              {
+                asset: Asset.RUNE().toString(),
+                amount: runeAmount.toSignificant(6),
+              },
+              {
+                asset: pool.asset.toString(),
+                amount: assetAmount.toSignificant(6),
+              },
+            ]
+
+            // register to tx tracker
+            trackId = submitTransaction({
+              type: TxTrackerType.Withdraw,
+              submitTx: {
+                inAssets: [],
+                outAssets,
+                poolAsset: poolAssetString,
+              },
+            })
+
+            const txID = await multichain.withdraw({
+              pool,
+              percent: new Percent(percent),
+              from: 'sym',
+              to: 'sym',
+            })
+            console.info('txID', txID)
+
+            // start polling
+            pollTransaction({
+              type: TxTrackerType.Withdraw,
+              uuid: trackId,
+              submitTx: {
+                inAssets: [],
+                outAssets,
+                poolAsset: poolAssetString,
+                txID,
+                withdrawChain: Chain.THORChain,
+              },
+            })
+          } else if (withdrawType === LiquidityTypeOption.RUNE) {
+            const outAssets = [
+              {
+                asset: Asset.RUNE().toString(),
+                amount: runeAmount.toSignificant(6),
+              },
+            ]
+
+            // register to tx tracker
+            trackId = submitTransaction({
+              type: TxTrackerType.Withdraw,
+              submitTx: {
+                inAssets: [],
+                outAssets,
+                poolAsset: poolAssetString,
+              },
+            })
+
+            const txID = await multichain.withdraw({
+              pool,
+              percent: new Percent(percent),
+              from: 'sym',
+              to: 'rune',
+            })
+            console.info('txID', txID)
+
+            // start polling
+            pollTransaction({
+              type: TxTrackerType.Withdraw,
+              uuid: trackId,
+              submitTx: {
+                inAssets: [],
+                outAssets,
+                txID,
+                poolAsset: poolAssetString,
+                withdrawChain: Chain.THORChain,
+              },
+            })
+          } else if (withdrawType === LiquidityTypeOption.ASSET) {
+            const outAssets = [
+              {
+                asset: pool.asset.toString(),
+                amount: assetAmount.toSignificant(6),
+              },
+            ]
+
+            // register to tx tracker
+            trackId = submitTransaction({
+              type: TxTrackerType.Withdraw,
+              submitTx: {
+                inAssets: [],
+                outAssets,
+                poolAsset: poolAssetString,
+              },
+            })
+
+            const txID = await multichain.withdraw({
+              pool,
+              percent: new Percent(percent),
+              from: 'sym',
+              to: 'asset',
+            })
+            console.info('txID', txID)
+
+            // start polling
+            pollTransaction({
+              type: TxTrackerType.Withdraw,
+              uuid: trackId,
+              submitTx: {
+                inAssets: [],
+                outAssets,
+                txID,
+                poolAsset: poolAssetString,
+                withdrawChain: Chain.THORChain,
+              },
+            })
+          }
         }
       } catch (error: NotWorth) {
         console.error(error)
@@ -698,7 +818,7 @@ const WithdrawPanel = ({
       </Box>
 
       <Box className="self-stretch gap-4 pt-5">
-        {!isLPActionPaused ? (
+        {isLPActionPaused ? (
           <Button size="lg" stretch variant="secondary">
             {t('views.liquidity.withdrawNotAvailable')}
           </Button>
