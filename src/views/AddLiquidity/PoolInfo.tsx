@@ -57,7 +57,7 @@ export const PoolInfo = ({
           return (
             <Box
               col
-              key="label"
+              key={label}
               flex={1}
               alignCenter={!(first || last)}
               justify="between"

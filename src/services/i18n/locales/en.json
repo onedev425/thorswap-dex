@@ -192,8 +192,8 @@
       "thorChainLPHalted": "Adding and withdrawing liquidity are temporarily disabled on THORChain.",
       "thorChainTradeHalted": "Trading is temporarily disabled on THORChain.",
       "chainHalted": "%{chain} Chain is temporarily halted on THORChain. All trading and LP actions are currently unavailable",
-      "chainLPHalted": "Trading on %{chain} Chain is temporarily unavailable.",
-      "chainTradeHalted": "Adding and withdrawing on %{chain} Chain are temporarily unavailable.",
+      "chainLPHalted": "Adding and withdrawing on %{chain} Chain are temporarily unavailable.",
+      "chainTradeHalted": "Trading on %{chain} Chain is temporarily unavailable.",
       "tradingGloballyDisabled": "THORChain is currently experiencing technical difficulties. Team is investigating."
     },
     "assetSelect": {
