@@ -122,6 +122,7 @@ export type AssetTickerType =
   | 'SBC'
   | 'SHR'
   | 'SLV'
+  | 'SOL'
   | 'SPNDB'
   | 'STYL'
   | 'SWINGBY'

@@ -8,7 +8,12 @@ import {
 } from '@terra-money/wallet-provider'
 import { SupportedChain } from '@thorswap-lib/multichain-sdk'
 import { Keystore } from '@thorswap-lib/xchain-crypto'
-import { Chain, ETHChain, TERRAChain } from '@thorswap-lib/xchain-util'
+import {
+  Chain,
+  ETHChain,
+  SOLChain,
+  TERRAChain,
+} from '@thorswap-lib/xchain-util'
 
 import { showToast, ToastType } from 'components/Toast'
 
@@ -113,6 +118,12 @@ export const useWallet = () => {
     dispatch(walletActions.getWalletByChain(ETHChain))
   }, [dispatch])
 
+  const connectPhantom = useCallback(async () => {
+    await multichain.connectPhantom()
+
+    dispatch(walletActions.getWalletByChain(SOLChain))
+  }, [dispatch])
+
   const connectTerraMultichain = useCallback(
     async ({
       address,
@@ -215,6 +226,7 @@ export const useWallet = () => {
     disconnectWalletByChain,
     connectXdefiWallet,
     connectMetamask,
+    connectPhantom,
     connectTrustWallet,
     connectLedger,
     connectTerraStation,

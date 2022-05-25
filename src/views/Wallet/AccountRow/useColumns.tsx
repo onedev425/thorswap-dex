@@ -8,6 +8,7 @@ import {
   AssetAmount,
   SupportedChain,
 } from '@thorswap-lib/multichain-sdk'
+import { SOLChain } from '@thorswap-lib/xchain-util'
 
 import { AssetChart } from 'views/Wallet/AssetChart'
 import { ShowQrCode } from 'views/Wallet/components/ShowQrCode'
@@ -176,6 +177,8 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
                   name="swap"
                 />
               }
+              disabled={chain === SOLChain}
+              tooltip={t('common.comingSoon')}
               onClick={() => navigate(getSwapRoute(value))}
             >
               {isLgActive ? t('common.swap') : null}

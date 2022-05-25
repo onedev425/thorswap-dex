@@ -11,6 +11,7 @@ import {
   BCHChain,
   DOGEChain,
   TERRAChain,
+  SOLChain,
 } from '@thorswap-lib/xchain-util'
 
 import * as walletActions from './actions'
@@ -25,6 +26,7 @@ const initialWallet = {
   [BCHChain]: null,
   [DOGEChain]: null,
   [TERRAChain]: null,
+  [SOLChain]: null,
 }
 
 const initialState: State = {
@@ -41,6 +43,7 @@ const initialState: State = {
     [BCHChain]: false,
     [DOGEChain]: false,
     [TERRAChain]: false,
+    [SOLChain]: false,
   },
   geckoData: {},
   geckoDataLoading: {},

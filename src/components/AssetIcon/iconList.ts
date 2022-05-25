@@ -7,6 +7,7 @@ export const getCustomIconImageUrl = (
     | 'dogecoin'
     | 'luna'
     | 'rune'
+    | 'sol'
     | 'tgt'
     | 'ust'
     | 'thor'
@@ -22,6 +23,7 @@ export const customIconMap: Partial<Record<AssetTickerType, string>> = {
   DOGE: getCustomIconImageUrl('dogecoin'),
   LUNA: getCustomIconImageUrl('luna'),
   RUNE: getCustomIconImageUrl('rune', 'svg'),
+  SOL: getCustomIconImageUrl('sol', 'svg'),
   TGT: getCustomIconImageUrl('tgt'),
   UST: getCustomIconImageUrl('ust'),
   THOR: getCustomIconImageUrl('thor'),

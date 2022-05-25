@@ -5,6 +5,7 @@ import { ReactComponent as Bnb } from 'assets/images/svg/bnb.svg'
 import { ReactComponent as Dogecoin } from 'assets/images/svg/dogecoin.svg'
 import { ReactComponent as Ethereum } from 'assets/images/svg/ethereum.svg'
 import { ReactComponent as Litecoin } from 'assets/images/svg/litecoin.svg'
+import { ReactComponent as Solana } from 'assets/images/svg/solana.svg'
 import { ReactComponent as Terra } from 'assets/images/svg/terra.svg'
 import { ReactComponent as Thorchain } from 'assets/images/svg/thorchain.svg'
 
@@ -45,6 +46,7 @@ import { ReactComponent as Lightning } from './lightningThorswap.svg'
 import { ReactComponent as Metamask } from './metamask.svg'
 import { ReactComponent as Moon } from './moon.svg'
 import { ReactComponent as Onboard } from './onboard.svg'
+import { ReactComponent as Phantom } from './phantom.svg'
 import { ReactComponent as Receive } from './receive.svg'
 import { ReactComponent as Refresh } from './refresh.svg'
 import { ReactComponent as Router } from './router.svg'
@@ -78,6 +80,7 @@ export const Svgs = {
   doge: Dogecoin,
   eth: Ethereum,
   ltc: Litecoin,
+  sol: Solana,
   terra: Terra,
   thor: Thorchain,
   thoryield: Thoryield,
@@ -100,6 +103,7 @@ export const Svgs = {
   metamask: Metamask,
   moon: Moon,
   onboard: Onboard,
+  phantom: Phantom,
   receive: Receive,
   refresh: Refresh,
   router: Router,
@@ -150,6 +154,7 @@ export const SvgIcons = {
   doge: (props: CustomIconProps) => <SvgIcon name="doge" {...props} />,
   eth: (props: CustomIconProps) => <SvgIcon name="eth" {...props} />,
   ltc: (props: CustomIconProps) => <SvgIcon name="ltc" {...props} />,
+  sol: (props: CustomIconProps) => <SvgIcon name="sol" {...props} />,
   terra: (props: CustomIconProps) => <SvgIcon name="terra" {...props} />,
   thor: (props: CustomIconProps) => <SvgIcon name="thor" {...props} />,
   thoryield: (props: CustomIconProps) => (
@@ -174,6 +179,7 @@ export const SvgIcons = {
   metamask: (props: CustomIconProps) => <SvgIcon name="metamask" {...props} />,
   moon: (props: CustomIconProps) => <SvgIcon name="moon" {...props} />,
   onboard: (props: CustomIconProps) => <SvgIcon name="onboard" {...props} />,
+  phantom: (props: CustomIconProps) => <SvgIcon name="phantom" {...props} />,
   receive: (props: CustomIconProps) => <SvgIcon name="receive" {...props} />,
   refresh: (props: CustomIconProps) => <SvgIcon name="refresh" {...props} />,
   settings: (props: CustomIconProps) => <SvgIcon name="settings" {...props} />,

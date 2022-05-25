@@ -5,6 +5,7 @@ import {
   DOGEChain,
   ETHChain,
   LTCChain,
+  SOLChain,
   TERRAChain,
   THORChain,
 } from '@thorswap-lib/xchain-util'
@@ -12,6 +13,7 @@ import {
 export const SORTED_CHAINS = [
   THORChain,
   BTCChain,
+  SOLChain,
   TERRAChain,
   ETHChain,
   BNBChain,

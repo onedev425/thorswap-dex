@@ -18,10 +18,12 @@ export enum WalletMode {
   Select = 'Select',
   Terra = 'Terra',
   TerraMobile = 'TerraMobile',
+  Phantom = 'Phantom',
 }
 
 export const availableChainsByWallet: Record<string, SupportedChain[]> = {
   MetaMask: [Chain.Ethereum],
+  Phantom: [Chain.Solana],
   Keystore: [
     Chain.THORChain,
     Chain.Terra,

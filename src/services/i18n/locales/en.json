@@ -101,7 +101,8 @@
     "nodeAddress": "Node Address",
     "upgradeRune": "Upgrade Rune",
     "upgradeChainRune": "Upgrade %{chain} Rune",
-    "amount": "Amount"
+    "amount": "Amount",
+    "comingSoon": "Coming Soon"
   },
   "pendingLiquidity": {
     "complete": "complete",
@@ -510,6 +511,7 @@
       "prioritiseXdefi": "Prioritise XDEFI Wallet",
       "connectStation": "Terra Station Extension",
       "connectTerraMobile": "Terra Station Mobile",
+      "connectPhantom": "Connect Phantom Wallet",
       "installStation": "Install Terra Station",
       "walletConnect": "WalletConnect",
       "connectMetaMask": "Connect MetaMask Wallet",

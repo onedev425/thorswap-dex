@@ -6,6 +6,7 @@ import {
   MetaMaskWalletStatus,
   SupportedChain,
   XdefiWalletStatus,
+  PhantomWalletStatus,
 } from '@thorswap-lib/multichain-sdk'
 import { Keystore as KeystoreType } from '@thorswap-lib/xchain-crypto'
 import { Chain, TERRAChain } from '@thorswap-lib/xchain-util'
@@ -26,6 +27,7 @@ import useWindowSize from 'hooks/useWindowSize'
 
 import { t } from 'services/i18n'
 import { metamask } from 'services/metamask'
+import { phantom } from 'services/phantom'
 import { xdefi } from 'services/xdefi'
 
 import { getFromStorage } from 'helpers/storage'
@@ -53,6 +55,7 @@ export const WalletModal = () => {
     unlockWallet,
     connectXdefiWallet,
     connectMetamask,
+    connectPhantom,
     connectTrustWallet,
     connectLedger,
     connectTerraStation,
@@ -70,6 +73,7 @@ export const WalletModal = () => {
   const isTerraWalletConnectedPrevState = usePrevious(isTerraWalletConnected)
 
   const metamaskStatus = useMemo(() => metamask.isWalletDetected(), [])
+  const phantomStatus = useMemo(() => phantom.isWalletDetected(), [])
   const xdefiStatus = useMemo(() => xdefi.isWalletDetected(), [])
   const modalTitle = useMemo(() => {
     if (walletStage === WalletStage.WalletSelect)
@@ -187,6 +191,12 @@ export const WalletModal = () => {
     clearStatus()
   }, [connectMetamask, clearStatus])
 
+  const hanldeConnectPhantom = useCallback(async () => {
+    await connectPhantom()
+
+    clearStatus()
+  }, [connectPhantom, clearStatus])
+
   const handleConnectXdefi = useCallback(
     async (chains: SupportedChain[]) => {
       if (xdefiStatus === XdefiWalletStatus.XdefiNotInstalled) {
@@ -282,6 +292,14 @@ export const WalletModal = () => {
         return
       }
 
+      // Phantom wallet
+      if (
+        selectedWallet === WalletMode.Phantom &&
+        phantomStatus === PhantomWalletStatus.NoWeb3Provider
+      ) {
+        return window.open('https://phantom.app')
+      }
+
       setWalletMode(selectedWallet)
 
       if (
@@ -291,6 +309,7 @@ export const WalletModal = () => {
           WalletMode.Ledger,
           WalletMode.Keystore,
           WalletMode.MetaMask,
+          WalletMode.Phantom,
         ].includes(selectedWallet)
       ) {
         setWalletStage(WalletStage.ChainSelect)
@@ -307,6 +326,7 @@ export const WalletModal = () => {
     [
       isTerraStationInstalled,
       metamaskStatus,
+      phantomStatus,
       xdefiStatus,
       clearStatus,
       handleConnectTerraWallet,
@@ -330,6 +350,9 @@ export const WalletModal = () => {
 
       case WalletMode.MetaMask:
         return handleConnectMetaMask()
+
+      case WalletMode.Phantom:
+        return hanldeConnectPhantom()
     }
   }, [
     ledgerIndex,
@@ -337,6 +360,7 @@ export const WalletModal = () => {
     walletMode,
     handleConnectLedger,
     handleConnectMetaMask,
+    hanldeConnectPhantom,
     handleConnectTrustWallet,
     handleConnectXdefi,
   ])
@@ -399,6 +423,13 @@ export const WalletModal = () => {
               <WalletOption onClick={() => handleChainSelect(WalletMode.Xdefi)}>
                 <Typography>{xdefiLabel}</Typography>
                 <Icon name="xdefi" />
+              </WalletOption>
+
+              <WalletOption
+                onClick={() => handleChainSelect(WalletMode.Phantom)}
+              >
+                <Typography>{t('views.walletModal.connectPhantom')}</Typography>
+                <Icon name="phantom" />
               </WalletOption>
 
               {isTerraStationAvailable && (

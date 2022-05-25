@@ -3,6 +3,7 @@ import { memo, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { chainToSigAsset, SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { SOLChain } from '@thorswap-lib/xchain-util'
 import classNames from 'classnames'
 
 import { AssetChart } from 'views/Wallet/AssetChart'
@@ -159,6 +160,8 @@ export const AccountCard = memo(({ chain }: Props) => {
             icon="swap"
             label={t('common.swap')}
             onClick={() => navigate(getSwapRoute(sigAsset))}
+            disabled={chain === SOLChain}
+            tooltip={t('common.comingSoon')}
           />
         </Box>
 
