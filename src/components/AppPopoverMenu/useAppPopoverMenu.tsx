@@ -138,10 +138,15 @@ const useLanguageMenu = (onBack: () => void) => {
   const isLanguageSelected = (val: SupportedLanguages) => val === language
 
   const languageMenu: MenuItemType[] = SUPPORTED_LANGUAGES.map((lang) => ({
-    label: `${getLanguageFlag(lang)} ${getLanguageLabel(lang)}`,
+    label: (
+      <>
+        <span className="text-xl">{getLanguageFlag(lang)}</span>{' '}
+        {getLanguageLabel(lang)}
+      </>
+    ),
+    key: `${getLanguageFlag(lang)} ${getLanguageLabel(lang)}`,
     onClick: () => onLanguageClick(lang),
     isSelected: isLanguageSelected(lang),
-    labelClassName: 'first-letter:text-xl',
   }))
 
   return languageMenu
