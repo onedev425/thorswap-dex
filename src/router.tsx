@@ -11,6 +11,9 @@ import AddLiquidity from 'views/AddLiquidity'
 import CreateLiquidity from 'views/CreateLiquidity'
 import Home from 'views/Home'
 import ManageLiquidity from 'views/ManageLiquidity'
+import Nodes from 'views/Nodes'
+import { NodeDetails } from 'views/Nodes/NodeDetails'
+import NodeManager from 'views/Nodes/NodeManager'
 import Send from 'views/Send'
 import Stake from 'views/Stake'
 import StakeVThor from 'views/StakeVThor'
@@ -55,10 +58,10 @@ const routes: RouteType = [
   { path: ROUTES.Wallet, element: Wallet },
   { path: ROUTES.WithdrawLiquidity, element: WithdrawLiquidity },
   { path: ROUTES.WithdrawLiquidityPool, element: WithdrawLiquidity },
+  { path: ROUTES.Nodes, element: Nodes },
+  { path: ROUTES.NodeManager, element: NodeManager },
+  { path: ROUTES.NodeDetail, element: NodeDetails },
   // { path: ROUTES.Vesting, element: Vesting },
-  // { path: ROUTES.Nodes, element: Nodes },
-  // { path: ROUTES.NodeManager, element: NodeManager },
-  // { path: ROUTES.NodeDetail, element: NodeDetails },
 ].concat(stagenetRoutes)
 
 const PublicRoutes = () => {

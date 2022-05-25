@@ -21,6 +21,7 @@ type Props = {
   color?: IconColor
   onClick?: (() => void) | MouseEventHandler
   href?: string
+  iconHoverHighlight?: boolean
 }
 
 export const HoverIcon = ({ href, ...props }: Props) => {
@@ -43,13 +44,17 @@ const IconComponent = ({
   size = 16,
   spin = false,
   onClick,
+  iconHoverHighlight = true,
 }: Props) => (
   <Tooltip content={tooltip}>
     <Box className={classNames(baseHoverClass, 'group')}>
       <Icon
         className={classNames(
+          {
+            'group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary':
+              iconHoverHighlight,
+          },
           className,
-          'group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary',
         )}
         name={iconName}
         color={color}

@@ -19,6 +19,7 @@ export const PanelInput = ({
   collapsible,
   value,
   className,
+  suffix,
   ...inputProps
 }: Props) => {
   const { ref, isFocused, focus, blur, onFocus, onBlur } = useInputFocusState()
@@ -88,16 +89,31 @@ export const PanelInput = ({
         ref={contentRef}
         style={collapsible ? maxHeightStyle : undefined}
       >
-        <Input
-          {...inputProps}
-          value={value}
-          className={classNames('!font-medium', fontSizeClass)}
-          containerClassName="pt-2 pb-0"
-          ref={ref}
-          stretch
-          onFocus={onFocus}
-          onBlur={onBlur}
-        />
+        <Box className="gap-3" alignCenter>
+          <Box className="flex-1">
+            <Input
+              {...inputProps}
+              value={value}
+              className={classNames('!font-medium flex-1', fontSizeClass)}
+              containerClassName={classNames('pt-2 pb-0 flex-1', {
+                'flex-1': !!suffix,
+              })}
+              ref={ref}
+              stretch
+              onFocus={onFocus}
+              onBlur={onBlur}
+            />
+          </Box>
+
+          {suffix &&
+            (typeof suffix === 'string' ? (
+              <Typography variant="caption-xs" color="secondary">
+                {suffix}
+              </Typography>
+            ) : (
+              suffix
+            ))}
+        </Box>
       </div>
     </Box>
   )

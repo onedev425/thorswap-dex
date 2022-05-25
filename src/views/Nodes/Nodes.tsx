@@ -8,7 +8,6 @@ import { Amount } from '@thorswap-lib/multichain-sdk'
 import {
   Box,
   Button,
-  Icon,
   Link,
   Select,
   Table,
@@ -17,6 +16,7 @@ import {
   Typography,
 } from 'components/Atomic'
 import { Helmet } from 'components/Helmet'
+import { HoverIcon } from 'components/HoverIcon'
 import { Input } from 'components/Input'
 
 import { useMidgard } from 'store/midgard/hooks'
@@ -90,14 +90,12 @@ const Nodes = () => {
       {
         id: 'Bookmark',
         Header: () => (
-          <Icon
-            onClick={() => {
-              getNodes()
-            }}
+          <HoverIcon
+            onClick={getNodes}
             size={12}
             className="group-hover:text-dark-typo-primary"
             color="secondary"
-            name="refresh"
+            iconName="refresh"
           />
         ),
         align: 'center',
@@ -113,16 +111,16 @@ const Nodes = () => {
                   : t('views.nodes.addToWatch')
               }
             >
-              <Icon
+              <HoverIcon
                 onClick={(e) => {
                   handleAddToWatchList(value.node_address)
                   e.stopPropagation()
                   e.preventDefault()
                 }}
                 size={16}
-                className="group-hover:text-dark-typo-primary"
                 color={isSelected ? 'pink' : 'secondary'}
-                name={isSelected ? 'heartFilled' : 'heart'}
+                iconName={isSelected ? 'heartFilled' : 'heart'}
+                iconHoverHighlight={false}
               />
             </Tooltip>
           )
@@ -133,7 +131,7 @@ const Nodes = () => {
         Header: () => 'Address',
         accessor: (row: THORNode) => row,
         Cell: ({ cell: { value } }: { cell: { value: THORNode } }) =>
-          shortenAddress(value.node_address),
+          shortenAddress(value.node_address, 6, 4),
       },
       {
         id: 'Version',
@@ -222,7 +220,7 @@ const Nodes = () => {
             />
           </div>
           <Link className="no-underline" to="/node-manager">
-            <Button size="sm" variant="tint" type="outline">
+            <Button size="sm" variant="secondary" type="outline">
               {t('common.manage')}
             </Button>
           </Link>

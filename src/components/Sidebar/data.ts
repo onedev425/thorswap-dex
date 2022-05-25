@@ -55,11 +55,6 @@ export const getDefaultNavbarOptions = (): SidebarItemProps[] => [
         : [],
     ),
   },
-  // {
-  //   iconName: 'cloud',
-  //   href: ROUTES.Nodes,
-  //   label: t('components.sidebar.thornode'),
-  // },
   {
     iconName: 'settings',
     label: t('components.sidebar.stats'),
@@ -76,6 +71,11 @@ export const getDefaultNavbarOptions = (): SidebarItemProps[] => [
         iconName: 'thoryield',
         rightIconName: 'external',
         href: THORYIELD_STATS_ROUTE,
+      },
+      {
+        iconName: 'cloud',
+        href: ROUTES.Nodes,
+        label: t('components.sidebar.thornode'),
       },
     ],
   },
