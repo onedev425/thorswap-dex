@@ -10,10 +10,7 @@ export const Submenu = ({ items }: Props) => {
   return (
     <Box flex={1} col mt={16}>
       {items.map((item) => (
-        <MenuItem
-          key={typeof item.label === 'string' ? item.label : item.key}
-          {...item}
-        />
+        <MenuItem key={item.label} {...item} />
       ))}
     </Box>
   )

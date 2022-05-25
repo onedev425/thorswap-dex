@@ -10,9 +10,9 @@ export type MenuItemType = {
   icon?: IconName
   iconComponent?: ReactNode
   isSelected?: boolean
-  label: string | JSX.Element
+  label: string
   onClick?: () => void
   status?: boolean
   value?: string
-  key?: string
+  gap?: string
 }

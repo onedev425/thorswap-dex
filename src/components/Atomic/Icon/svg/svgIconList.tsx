@@ -18,6 +18,24 @@ import { ReactComponent as Collapse } from './collapse.svg'
 import { ReactComponent as Comma } from './comma.svg'
 import { ReactComponent as Ethereum3d } from './ethereum.svg'
 import { ReactComponent as Fees } from './fees.svg'
+import { ReactComponent as Brazil } from './flags/brazil.svg'
+import { ReactComponent as Cambodia } from './flags/cambodia.svg'
+import { ReactComponent as China } from './flags/china.svg'
+import { ReactComponent as France } from './flags/france.svg'
+import { ReactComponent as Germany } from './flags/germany.svg'
+import { ReactComponent as India } from './flags/india.svg'
+import { ReactComponent as Italy } from './flags/italy.svg'
+import { ReactComponent as Korea } from './flags/korea.svg'
+import { ReactComponent as Malaysia } from './flags/malaysia.svg'
+import { ReactComponent as Netherlands } from './flags/netherlands.svg'
+import { ReactComponent as Pakistan } from './flags/pakistan.svg'
+import { ReactComponent as Poland } from './flags/poland.svg'
+import { ReactComponent as Portugal } from './flags/portugal.svg'
+import { ReactComponent as Russia } from './flags/russia.svg'
+import { ReactComponent as Saudi } from './flags/saudi.svg'
+import { ReactComponent as Spain } from './flags/spain.svg'
+import { ReactComponent as Turkey } from './flags/turkey.svg'
+import { ReactComponent as USA } from './flags/usa.svg'
 import { ReactComponent as Gwei } from './gwei.svg'
 import { ReactComponent as Import } from './import.svg'
 import { ReactComponent as InIcon } from './inIcon.svg'
@@ -103,6 +121,25 @@ export const Svgs = {
   xdefi: XDefi,
   comma: Comma,
   fees: Fees,
+  // flags
+  brazil: Brazil,
+  cambodia: Cambodia,
+  china: China,
+  france: France,
+  germany: Germany,
+  india: India,
+  italy: Italy,
+  korea: Korea,
+  malaysia: Malaysia,
+  netherlands: Netherlands,
+  pakistan: Pakistan,
+  poland: Poland,
+  portugal: Portugal,
+  russia: Russia,
+  saudi: Saudi,
+  spain: Spain,
+  turkey: Turkey,
+  usa: USA,
 }
 
 export const SvgIcons = {
@@ -165,4 +202,25 @@ export const SvgIcons = {
   router: (props: CustomIconProps) => <SvgIcon name="router" {...props} />,
   collapse: (props: CustomIconProps) => <SvgIcon name="collapse" {...props} />,
   fees: (props: CustomIconProps) => <SvgIcon name="fees" {...props} />,
+  // flags
+  brazil: (props: CustomIconProps) => <SvgIcon name="brazil" {...props} />,
+  cambodia: (props: CustomIconProps) => <SvgIcon name="cambodia" {...props} />,
+  china: (props: CustomIconProps) => <SvgIcon name="china" {...props} />,
+  france: (props: CustomIconProps) => <SvgIcon name="france" {...props} />,
+  germany: (props: CustomIconProps) => <SvgIcon name="germany" {...props} />,
+  india: (props: CustomIconProps) => <SvgIcon name="india" {...props} />,
+  italy: (props: CustomIconProps) => <SvgIcon name="italy" {...props} />,
+  korea: (props: CustomIconProps) => <SvgIcon name="korea" {...props} />,
+  malaysia: (props: CustomIconProps) => <SvgIcon name="malaysia" {...props} />,
+  netherlands: (props: CustomIconProps) => (
+    <SvgIcon name="netherlands" {...props} />
+  ),
+  pakistan: (props: CustomIconProps) => <SvgIcon name="pakistan" {...props} />,
+  poland: (props: CustomIconProps) => <SvgIcon name="poland" {...props} />,
+  portugal: (props: CustomIconProps) => <SvgIcon name="portugal" {...props} />,
+  russia: (props: CustomIconProps) => <SvgIcon name="russia" {...props} />,
+  saudi: (props: CustomIconProps) => <SvgIcon name="saudi" {...props} />,
+  spain: (props: CustomIconProps) => <SvgIcon name="spain" {...props} />,
+  turkey: (props: CustomIconProps) => <SvgIcon name="turkey" {...props} />,
+  usa: (props: CustomIconProps) => <SvgIcon name="usa" {...props} />,
 } as const

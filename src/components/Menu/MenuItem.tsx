@@ -16,6 +16,7 @@ export const MenuItem = ({
   labelClassName,
   value,
   href,
+  gap = 'gap-6',
 }: Props) => {
   const renderedItem = useMemo(() => {
     return (
@@ -26,7 +27,7 @@ export const MenuItem = ({
         )}
         onClick={onClick}
       >
-        <Box alignCenter className="gap-6">
+        <Box alignCenter className={gap}>
           {icon && <Icon name={icon as IconName} size={16} />}
 
           <Typography className={classNames('mx-2', labelClassName)}>
@@ -39,7 +40,7 @@ export const MenuItem = ({
         </Box>
       </button>
     )
-  }, [icon, isSelected, label, labelClassName, onClick, value])
+  }, [gap, icon, isSelected, label, labelClassName, onClick, value])
 
   return href ? <Link to={href}>{renderedItem}</Link> : renderedItem
 }
