@@ -48,7 +48,7 @@ export const InfoRow = ({
         label
       )}
 
-      {typeof value === 'string' ? (
+      {typeof value === 'string' || typeof value === 'number' ? (
         <Typography
           className="text-right"
           variant={valueVariant[size]}

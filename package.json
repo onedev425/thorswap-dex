@@ -32,6 +32,7 @@
     "dayjs": "1.11.2",
     "i18next": "21.6.16",
     "lodash": "4.17.21",
+    "moment": "2.29.3",
     "qrcode-react": "0.1.16",
     "react": "18.1.0",
     "react-chartjs-2": "4.1.0",
@@ -103,8 +104,8 @@
     "vite-compatible-readable-stream": "3.6.1",
     "vite-plugin-rewrite-all": "0.1.2",
     "vite-plugin-svgr": "1.1.0",
-    "webpack": "5.72.0",
-    "web-vitals": "2.1.4"
+    "web-vitals": "2.1.4",
+    "webpack": "5.72.0"
   },
   "resolutions": {
     "eslint-plugin-react": "7.29.4"

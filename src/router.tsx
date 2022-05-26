@@ -21,6 +21,7 @@ import Stats from 'views/Stats'
 import Swap from 'views/Swap'
 import Thorname from 'views/Thorname'
 import UpgradeRune from 'views/UpgradeRune'
+import Vesting from 'views/Vesting'
 import Wallet from 'views/Wallet'
 import WalletBalance from 'views/WalletBalance'
 import WithdrawLiquidity from 'views/WithdrawLiquidity'
@@ -61,7 +62,7 @@ const routes: RouteType = [
   { path: ROUTES.Nodes, element: Nodes },
   { path: ROUTES.NodeManager, element: NodeManager },
   { path: ROUTES.NodeDetail, element: NodeDetails },
-  // { path: ROUTES.Vesting, element: Vesting },
+  { path: ROUTES.Vesting, element: Vesting },
 ].concat(stagenetRoutes)
 
 const PublicRoutes = () => {

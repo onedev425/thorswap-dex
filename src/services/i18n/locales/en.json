@@ -229,7 +229,8 @@
       "collapse": "Collapse",
       "expand": "Expand",
       "thoryield": "THORYield",
-      "thorname": "THORName"
+      "thorname": "THORName",
+      "vesting": "Vesting"
     },
     "statusDropdown": {
       "capAvailable": "Funds Cap available",
@@ -560,14 +561,19 @@
       "asymmetricPoolNotice": "Your assets will be Rebalanced upon entering the pool. This means you will have 50:50 exposure to both RUNE and your ASSET."
     },
     "vesting": {
+      "vestingThor": "THOR",
+      "vestingVthor": "vTHOR",
       "claimAmount": "Claim Amount",
       "claimableAmount": "Claimable Amount",
       "cliff": "Cliff",
+      "claim": "Claim",
       "linearVesting": "Linear Vesting",
       "totalClaimed": "Total Claimed",
       "totalVested": "Total Vested",
       "vestingPeriod": "Vesting Period",
-      "vestingStartTime": "Vesting Start Time"
+      "vestingStartTime": "Vesting Start Time",
+      "cliffValue": "%{cliff} Months",
+      "vestingPeriodValue": "%{vestingPeriod} Years"
     },
     "pendingLiquidity": {
       "checkPendingLiquidity": "Check Pending Liquidity",

@@ -94,11 +94,11 @@ export const getDefaultNavbarOptions = (): SidebarItemProps[] => [
         href: ROUTES.Stake,
         label: t('components.sidebar.thorStake'),
       },
-      // {
-      //   iconName: 'chartPieOutline',
-      //   href: ROUTES.Vesting,
-      //   label: t('components.sidebar.vesting'),
-      // },
+      {
+        iconName: 'chartPieOutline',
+        href: ROUTES.Vesting,
+        label: t('components.sidebar.vesting'),
+      },
     ],
   },
 ]

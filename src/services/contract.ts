@@ -16,6 +16,7 @@ import VThorABI from './abi/VThor.json'
 
 export enum ContractType {
   VESTING = 'vesting',
+  VTHOR_VESTING = 'vthor_vesting',
   STAKING_THOR = 'staking_thor',
   STAKING_SUSHI_WETH = 'staking_sushi_weth',
   VTHOR = 'vthor',
@@ -68,6 +69,11 @@ export const contractConfig: Record<ContractType, ContractConf> = {
     [Network.Mainnet]: '0x815C23eCA83261b6Ec689b60Cc4a58b54BC24D8D',
     [Network.Testnet]: '0x9783e4A7F0BF047Fd7982e75A1A1C8023a7d6A92',
     [ContractABI]: VThorABI,
+  },
+  [ContractType.VTHOR_VESTING]: {
+    [Network.Mainnet]: '0x0c3c9e5D9b08131DBD82a8648a23592b4ddA2223',
+    [Network.Testnet]: '0xd689bA1169A8FB1cC96f57D0102A4111D4574FCD',
+    [ContractABI]: VestingABI,
   },
 }
 
