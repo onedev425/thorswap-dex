@@ -1,7 +1,12 @@
+// TODO: DO NOT REMOVE ANY SINGLE COMMENT.
+// It has some comments to support THOR, vTHOR vesting together.
+// All comments will be used once the vTHOR vesting contract is ready.
+
 import { useEffect, useCallback, useMemo, useState } from 'react'
 
 import { Amount } from '@thorswap-lib/multichain-sdk'
-import moment from 'moment'
+import dayjs from 'dayjs'
+import duration from 'dayjs/plugin/duration'
 
 import { Box, Button, Typography } from 'components/Atomic'
 import { HoverIcon } from 'components/HoverIcon'
@@ -37,6 +42,8 @@ import {
   VestingScheduleInfo,
   VestingType,
 } from './types'
+
+dayjs.extend(duration)
 
 const Vesting = () => {
   const [isFetching, setIsFetching] = useState(false)
@@ -80,14 +87,13 @@ const Vesting = () => {
         setVestingInfo({
           totalVestedAmount: fromWei(totalAlloc[0]).toString(),
           totalClaimedAmount: fromWei(totalAlloc[1]),
-          startTime: moment.unix(totalAlloc[2]).format('YYYY-MM-DD HH:MM:SS'),
-          vestingPeriod: moment.duration(totalAlloc[3] * 1000).asDays() / 365,
-          cliff: moment.duration(totalAlloc[4] * 1000).asDays() / 30,
+          startTime: dayjs.unix(totalAlloc[2]).format('YYYY-MM-DD HH:MM:SS'),
+          vestingPeriod: dayjs.duration(totalAlloc[3] * 1000).asDays() / 365,
+          cliff: dayjs.duration(totalAlloc[4] * 1000).asDays() / 30,
           initialRelease: fromWei(totalAlloc[5]).toString(),
           claimableAmount: fromWei(claimableAmount),
         })
       } catch (err) {
-        // TODO: error notification
         console.log('ERR - ', err)
       }
     }
