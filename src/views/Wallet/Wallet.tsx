@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { chainToSigAsset, SUPPORTED_CHAINS } from '@thorswap-lib/multichain-sdk'
 
@@ -15,24 +15,33 @@ import { useWallet } from 'store/wallet/hooks'
 import { t } from 'services/i18n'
 
 const Wallet = () => {
+  const dispatch = useAppDispatch()
+  const { walletViewMode, setWalletViewMode } = useApp()
+  const { getCoingeckoData, geckoData } = useWallet()
+
   const [keyword, setKeyword] = useState('')
   const [onlyConnected, setOnlyConnected] = useState(false)
 
-  const { walletViewMode, setWalletViewMode } = useApp()
+  const filteredGeckoData = useMemo(
+    () =>
+      SUPPORTED_CHAINS.filter((chain) => {
+        const { ticker } = chainToSigAsset(chain)
+        return !geckoData?.[ticker]
+      }),
+    [geckoData],
+  )
 
-  const dispatch = useAppDispatch()
-  const { getCoingeckoData, geckoData } = useWallet()
+  const sigSymbols = useMemo(
+    () => filteredGeckoData.map((chain) => chainToSigAsset(chain).ticker),
+    [filteredGeckoData],
+  )
 
   useEffect(() => {
-    const sigSymbols = SUPPORTED_CHAINS.filter((chain) => {
-      const asset = chainToSigAsset(chain)
-      return !geckoData?.[asset.ticker]
-    }).map((chain) => chainToSigAsset(chain).ticker)
-
     if (sigSymbols.length > 0) {
       dispatch(getCoingeckoData(sigSymbols))
     }
-  }, [geckoData, dispatch, getCoingeckoData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sigSymbols.length])
 
   return (
     <Box className="w-full" col>
