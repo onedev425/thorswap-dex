@@ -177,7 +177,7 @@ const Nodes = () => {
       },
       {
         id: 'Bond',
-        Header: () => 'Bond',
+        Header: (() => 'Bond') as () => string,
         accessor: (row: THORNode) => row,
         Cell: ({ cell: { value } }: { cell: { value: THORNode } }) =>
           Amount.fromMidgard(value.bond).toFixed(0),
