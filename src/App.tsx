@@ -1,8 +1,6 @@
 import { Provider as ReduxProvider } from 'react-redux'
 
-import { TooltipPortal } from 'components/Atomic'
 import { ThemeProvider } from 'components/Theme/ThemeContext'
-import { ToastPortal } from 'components/Toast'
 
 import { store as reduxStore } from 'store/store'
 
@@ -21,9 +19,6 @@ const MainApp = () => {
       <DrawerProvider>
         <Router />
       </DrawerProvider>
-
-      <TooltipPortal />
-      <ToastPortal />
     </div>
   )
 }

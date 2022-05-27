@@ -26,6 +26,8 @@ export const NodeManagePanel = ({ address }: Props) => {
     rawAmount,
     onAmountChange,
     onTabChange,
+    isWalletConnected,
+    setIsConnectModalOpen,
   } = useNodeManager(nodeAddress)
 
   return (
@@ -68,17 +70,30 @@ export const NodeManagePanel = ({ address }: Props) => {
           onChange={onAmountChange}
           value={rawAmount}
           suffix={
-            <Box className="gap-3 pt-2">
-              <Typography variant="subtitle2">{Asset.RUNE().ticker}</Typography>
-              <AssetIcon asset={Asset.RUNE()} size={26} />
+            <Box>
+              <Box className="gap-3 pt-2" row>
+                <Typography variant="subtitle2">
+                  {Asset.RUNE().ticker}
+                </Typography>
+                <AssetIcon asset={Asset.RUNE()} size={26} />
+              </Box>
             </Box>
           }
         />
       </Box>
 
       <Box center className="w-full pt-5">
-        <Button isFancy stretch size="lg" onClick={handleComplete}>
-          {activeTab.label}
+        <Button
+          isFancy
+          stretch
+          size="lg"
+          onClick={
+            isWalletConnected
+              ? handleComplete
+              : () => setIsConnectModalOpen(true)
+          }
+        >
+          {isWalletConnected ? activeTab.label : t('common.connectWallet')}
         </Button>
       </Box>
     </Box>

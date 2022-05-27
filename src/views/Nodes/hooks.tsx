@@ -1,16 +1,25 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { THORNode } from '@thorswap-lib/midgard-sdk'
-import { Amount, hasWalletConnected, Asset } from '@thorswap-lib/multichain-sdk'
+import {
+  Amount,
+  hasWalletConnected,
+  Asset,
+  hasConnectedWallet,
+} from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
+import copy from 'copy-to-clipboard'
 
 import { BondActionType } from 'views/Nodes/types'
 
-import { Button, Link, Typography } from 'components/Atomic'
+import { Box, Button, Icon, Link, Typography } from 'components/Atomic'
 import { useInputAmount } from 'components/InputAmount/useInputAmount'
 import { showToast, ToastType } from 'components/Toast'
 
 import { useWallet } from 'store/wallet/hooks'
+
+import { useBalance } from 'hooks/useBalance'
+import useWindowSize from 'hooks/useWindowSize'
 
 import { multichain } from 'services/multichain'
 
@@ -57,18 +66,53 @@ export const useNodeDetailInfo = (nodeAddress: string | undefined) => {
 }
 
 export const useNodeStats = (nodeInfo: THORNode) => {
+  const { isMdActive } = useWindowSize()
   if (!nodeInfo) return []
 
   return [
     {
       key: 'node_address',
       label: t('views.nodes.address'),
-      value: shortenAddress(nodeInfo.node_address, 6, 4),
+      value: (
+        <Button
+          className="!px-2 h-auto"
+          type="borderless"
+          variant="tint"
+          endIcon={<Icon size={14} name="copy" />}
+          tooltip={t('common.copy')}
+          onClick={(e) => {
+            copy(nodeInfo.node_address)
+            e.stopPropagation()
+            e.preventDefault()
+          }}
+        >
+          {isMdActive
+            ? nodeInfo.node_address
+            : shortenAddress(nodeInfo.node_address, 6, 4)}
+        </Button>
+      ),
     },
     {
       key: 'bond_address',
       label: t('views.nodes.bondAddress'),
-      value: shortenAddress(nodeInfo.bond_address, 6, 4),
+      value: (
+        <Button
+          className="!px-2 h-auto"
+          type="borderless"
+          variant="tint"
+          endIcon={<Icon size={14} name="copy" />}
+          tooltip={t('common.copy')}
+          onClick={(e) => {
+            copy(nodeInfo.bond_address)
+            e.stopPropagation()
+            e.preventDefault()
+          }}
+        >
+          {isMdActive
+            ? nodeInfo.bond_address
+            : shortenAddress(nodeInfo.bond_address, 6, 4)}
+        </Button>
+      ),
     },
     {
       key: 'ip_address',
@@ -154,11 +198,20 @@ export const useNodeManager = (nodeAddress?: string) => {
     amountValue: amount,
     onAmountChange: setAmount,
   })
-  const { wallet } = useWallet()
+  const { wallet, setIsConnectModalOpen } = useWallet()
+
+  const isWalletConnected = useMemo(() => hasConnectedWallet(wallet), [wallet])
 
   const thorWalletConnected = useMemo(
     () => hasWalletConnected({ wallet, inputAssets: [Asset.RUNE()] }),
     [wallet],
+  )
+
+  const { getMaxBalance } = useBalance()
+
+  const maxInputBalance: Amount = useMemo(
+    () => getMaxBalance(Asset.RUNE()),
+    [getMaxBalance],
   )
 
   const [tab, setTab] = useState(tabs[0])
@@ -202,16 +255,16 @@ export const useNodeManager = (nodeAddress?: string) => {
           {
             message: t('views.nodes.detail.ViewBondTx'),
             description: (
-              <>
+              <Box className="align-center py-2">
                 <Typography variant="caption-xs" fontWeight="light">
                   {t('views.nodes.detail.transactionSentSuccessfully')}
                 </Typography>
-                <Link to={txURL} className="no-underline pt-3">
+                <Link to={txURL} className="no-underline">
                   <Button size="sm" variant="tint" type="outline">
                     {t('views.nodes.detail.ViewTransaction')}
                   </Button>
                 </Link>
-              </>
+              </Box>
             ),
           },
           ToastType.Success,
@@ -283,5 +336,8 @@ export const useNodeManager = (nodeAddress?: string) => {
     rawAmount: rawValue,
     onAmountChange,
     onTabChange,
+    isWalletConnected,
+    setIsConnectModalOpen,
+    maxInputBalance,
   }
 }

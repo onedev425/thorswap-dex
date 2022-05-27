@@ -59,7 +59,7 @@ export const NodeDetails = () => {
         <Box className="self-stretch !mt-3" col>
           <InfoTable
             items={nodeTableData.slice(0, 6)}
-            size="sm"
+            size="md"
             horizontalInset
           />
           <div
@@ -69,11 +69,10 @@ export const NodeDetails = () => {
           >
             <InfoTable
               items={nodeTableData.slice(6, nodeTableData.length)}
-              size="sm"
+              size="md"
               horizontalInset
             />
           </div>
-
           <Box className="!mt-2" flex={1} justify="end">
             <Button
               variant="primary"

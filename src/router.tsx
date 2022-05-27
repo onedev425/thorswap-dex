@@ -26,8 +26,9 @@ import Wallet from 'views/Wallet'
 import WalletBalance from 'views/WalletBalance'
 import WithdrawLiquidity from 'views/WithdrawLiquidity'
 
-import { Box } from 'components/Atomic'
+import { Box, TooltipPortal } from 'components/Atomic'
 import { Layout } from 'components/Layout'
+import { ToastPortal } from 'components/Toast'
 import { WalletDrawer } from 'components/WalletDrawer'
 
 import { IS_STAGENET } from 'settings/config'
@@ -96,6 +97,9 @@ const PublicRoutes = () => {
 
         <Route path="*" element={<Navigate to="/swap" />} />
       </Routes>
+
+      <TooltipPortal />
+      <ToastPortal />
     </Router>
   )
 }

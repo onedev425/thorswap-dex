@@ -4,10 +4,12 @@ import { useNavigate } from 'react-router-dom'
 
 import { THORNode } from '@thorswap-lib/midgard-sdk'
 import { Amount } from '@thorswap-lib/multichain-sdk'
+import copy from 'copy-to-clipboard'
 
 import {
   Box,
   Button,
+  Icon,
   Link,
   Select,
   Table,
@@ -57,9 +59,7 @@ const Nodes = () => {
   const filteredNodes = useMemo(() => {
     // filter by status
     const nodeByStatus = nodes.filter(
-      (node) =>
-        node.status === nodeStatusOptions[nodeStatusType] &&
-        !nodeWatchList.includes(node.node_address),
+      (node) => node.status === nodeStatusOptions[nodeStatusType],
     )
 
     // filter by keyword
@@ -71,7 +71,7 @@ const Nodes = () => {
     }
 
     return nodeByStatus
-  }, [nodes, keyword, nodeStatusType, nodeWatchList])
+  }, [nodes, keyword, nodeStatusType])
 
   const handleAddToWatchList = useCallback(
     (address: string) => {
@@ -129,9 +129,24 @@ const Nodes = () => {
       {
         id: 'Address',
         Header: () => 'Address',
+        align: 'center',
         accessor: (row: THORNode) => row,
-        Cell: ({ cell: { value } }: { cell: { value: THORNode } }) =>
-          shortenAddress(value.node_address, 6, 4),
+        Cell: ({ cell: { value } }: { cell: { value: THORNode } }) => (
+          <Button
+            className="!px-2 justify-items-start"
+            type="borderless"
+            variant="tint"
+            endIcon={<Icon size={16} name="copy" />}
+            tooltip={t('common.copy')}
+            onClick={(e) => {
+              copy(value.node_address)
+              e.stopPropagation()
+              e.preventDefault()
+            }}
+          >
+            {shortenAddress(value.node_address, 6, 4)}
+          </Button>
+        ),
       },
       {
         id: 'Version',
@@ -186,7 +201,6 @@ const Nodes = () => {
   return (
     <Box col>
       <Helmet title="Node Manager" content="Node Manager" />
-
       <NodeStats />
       {watchListData?.length > 0 && (
         <Box marginTop={4} marginBottom={4} col>
