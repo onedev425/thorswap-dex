@@ -22,6 +22,7 @@ import {
 } from 'components/Atomic'
 import { DropdownMenuItem } from 'components/Atomic/Dropdown/types'
 
+// @ts-expect-error TODO: Add solana
 export const thornameChainIcons: Record<SupportedChain, IconName> = {
   [THORChain]: 'thor',
   [BTCChain]: 'bitcoin',

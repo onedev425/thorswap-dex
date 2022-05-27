@@ -19,6 +19,7 @@ export const GasUnitLabel: Record<Chain, string> = {
   [Chain.Terra]: 'uluna',
   [Chain.Polkadot]: 'Sats',
   [Chain.Cosmos]: 'Sats',
+  [Chain.Solana]: 'Sats',
 }
 
 export type ChainGasRate = {

@@ -1,1 +1,7 @@
-export { ToastPortal, showLongToast, ToastType, showToast } from './Toast'
+export {
+  ToastPortal,
+  showLongToast,
+  showErrorToast,
+  ToastType,
+  showToast,
+} from './Toast'

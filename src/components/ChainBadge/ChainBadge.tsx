@@ -17,6 +17,7 @@ const colorMapping: Record<SupportedChain, string> = {
   TERRA: 'bg-chain-terra',
   DOGE: 'bg-chain-doge',
   LTC: 'bg-chain-ltc',
+  SOL: 'bg-chain-sol',
 }
 
 export const ChainBadge = ({ asset }: Props) => {

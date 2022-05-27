@@ -7,9 +7,9 @@ export enum WalletStage {
   Final = 'Final',
 }
 
-export enum WalletMode {
+export enum WalletType {
   Keystore = 'Keystore',
-  Create = 'Create',
+  CreateKeystore = 'CreateKeystore',
   Phrase = 'Phrase',
   Ledger = 'Ledger',
   TrustWallet = 'TrustWallet',
@@ -28,6 +28,7 @@ export const availableChainsByWallet: Record<string, SupportedChain[]> = {
     Chain.THORChain,
     Chain.Terra,
     Chain.Bitcoin,
+    Chain.Solana,
     Chain.Ethereum,
     Chain.Binance,
     Chain.Doge,

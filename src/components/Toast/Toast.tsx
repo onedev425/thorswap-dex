@@ -42,6 +42,9 @@ type ShowToastFunction = (
 export const showLongToast: ShowToastFunction = (content, type, options) =>
   showToast(content, type, { ...options, duration: 60 * 1000 })
 
+export const showErrorToast = (message: string, description?: string) =>
+  showToast({ message, description }, ToastType.Error)
+
 export const showToast: ShowToastFunction = (
   { description, message },
   type = ToastType.Info,

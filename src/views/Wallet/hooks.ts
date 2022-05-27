@@ -16,6 +16,7 @@ import {
   BCHChain,
   DOGEChain,
   TERRAChain,
+  SOLChain,
 } from '@thorswap-lib/xchain-util'
 import { BigNumber } from 'bignumber.js'
 import { takeRight } from 'lodash'
@@ -33,6 +34,7 @@ const emptyWallet = {
   [BCHChain]: null,
   [DOGEChain]: null,
   [TERRAChain]: null,
+  [SOLChain]: null,
 }
 
 const getBalanceByChain = (
