@@ -76,14 +76,24 @@ export const AssetInputs = memo(
         </Box>
 
         <Box
-          className={classNames('overflow-hidden h-[111px] transition-all', {
+          className={classNames('overflow-hidden transition-all', {
             '!h-[0px]': liquidityType === LiquidityTypeOption.ASSET,
+            'h-[111px] ': liquidityType !== LiquidityTypeOption.RUNE,
+            'h-[140px] md:h-[111px]':
+              liquidityType === LiquidityTypeOption.RUNE,
           })}
         >
           <AssetInput
             className="!mb-1 flex-1"
             selectedAsset={runeAsset}
             onValueChange={onRuneAmountChange}
+            onAssetChange={onPoolChange}
+            poolAsset={poolAsset}
+            showSecondaryChainSelector={
+              liquidityType === LiquidityTypeOption.RUNE
+            }
+            assets={poolAssetList}
+            commonAssets={commonAssets}
             singleAsset
             disabled={isRunePending}
             warning={

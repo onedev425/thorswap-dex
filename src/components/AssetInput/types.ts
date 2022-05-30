@@ -21,15 +21,27 @@ export type AssetInputProps = {
   maxButtonLabel?: string
 } & (
   | {
-      assets?: undefined
-      commonAssets?: undefined
-      onAssetChange?: undefined
-      singleAsset: true
+      assets: AssetSelectType[]
+      commonAssets: AssetSelectType[]
+      onAssetChange: (asset: Asset) => void
+      poolAsset?: undefined
+      showSecondaryChainSelector?: undefined
+      singleAsset?: undefined
     }
   | {
       assets: AssetSelectType[]
-      commonAssets?: AssetSelectType[]
+      commonAssets: AssetSelectType[]
       onAssetChange: (asset: Asset) => void
-      singleAsset?: undefined
+      poolAsset: AssetInputType
+      showSecondaryChainSelector: boolean
+      singleAsset: true
+    }
+  | {
+      assets?: undefined
+      commonAssets?: undefined
+      onAssetChange?: undefined
+      poolAsset?: undefined
+      showSecondaryChainSelector?: undefined
+      singleAsset: true
     }
 )

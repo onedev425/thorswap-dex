@@ -27,6 +27,8 @@ export const AssetInput = ({
   disabled = false,
   warning,
   maxButtonLabel,
+  poolAsset,
+  showSecondaryChainSelector,
 }: AssetInputProps) => {
   const {
     asset,
@@ -48,7 +50,13 @@ export const AssetInput = ({
     <HighlightCard
       className={classNames('min-h-[107px] !gap-1 !justify-start', className)}
     >
-      <Box className="pl-4 md:pl-0" alignCenter>
+      <Box
+        className={classNames('pl-4 md:pl-0', className, {
+          'flex-col md:flex-row': showSecondaryChainSelector,
+          'flex-row': !showSecondaryChainSelector,
+        })}
+        alignCenter
+      >
         <InputAmount
           className={classNames(
             '-ml-1 !text-2xl font-normal text-left',
@@ -69,11 +77,23 @@ export const AssetInput = ({
         />
 
         {singleAsset ? (
-          <AssetSelectButton
-            className="pr-3 m-2 md:m-0"
-            selected={selectedAsset?.asset}
-            showAssetType
-          />
+          <Box justify="end" className="w-full">
+            <AssetSelectButton
+              className="pr-3 m-2 md:m-1"
+              selected={selectedAsset?.asset}
+              showAssetType
+            />
+            {showSecondaryChainSelector && (
+              <AssetSelect
+                className="pr-3 m-2 md:m-1"
+                assets={assets}
+                selected={poolAsset?.asset}
+                commonAssets={commonAssets}
+                onSelect={onAssetChange}
+                showAssetType
+              />
+            )}
+          </Box>
         ) : (
           <AssetSelect
             className="m-2 md:m-0"
