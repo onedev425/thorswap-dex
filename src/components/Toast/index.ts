@@ -1,7 +1,7 @@
 export {
   ToastPortal,
-  showLongToast,
+  showInfoToast,
+  showSuccessToast,
   showErrorToast,
   ToastType,
-  showToast,
 } from './Toast'

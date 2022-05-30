@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react'
 
 import copy from 'copy-to-clipboard'
 
-import { showToast, ToastType } from 'components/Toast'
+import { showSuccessToast } from 'components/Toast'
 
 import { t } from 'services/i18n'
 
@@ -14,7 +14,7 @@ export const useAddressUtils = (address: string) => {
 
   const handleCopyAddress = useCallback(() => {
     copy(address)
-    showToast({ message: t('common.addressCopied') }, ToastType.Success)
+    showSuccessToast(t('common.addressCopied'))
   }, [address])
 
   return {

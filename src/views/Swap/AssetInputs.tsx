@@ -7,7 +7,7 @@ import { AssetInput } from 'components/AssetInput'
 import { AssetInputType } from 'components/AssetInput/types'
 import { Box, Icon } from 'components/Atomic'
 
-import { commonAssets } from 'helpers/assetsFixture'
+import { commonAssets } from 'helpers/assets'
 
 type Props = {
   onSwitchPair: () => void

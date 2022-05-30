@@ -13,6 +13,7 @@ export const VTHOR_BLOCK_REWARD = 15
 // APR = (dailyBlockRewards / totalAmount) * 365
 export const getAPR = (blockReward: number, totalAmount: number) => {
   if (totalAmount === 0) return Number.MAX_SAFE_INTEGER
+
   return ((blockReward * BLOCKS_PER_YEAR) / totalAmount) * 100
 }
 
@@ -33,10 +34,10 @@ export const apr2blockReward = (apr: number, totalAmount: number) => {
   return (apr * totalAmount) / 100 / BLOCKS_PER_YEAR
 }
 
-function caculateMovingAverage(data: number[], window: number) {
+function calculateMovingAverage(data: number[], window: number) {
   const last7days = data.length >= window ? takeRight(data, window) : data
 
-  const accThorBuyback = last7days.reduce((prev, current) => prev + current)
+  const accThorBuyback = last7days.reduce((prev, current) => prev + current, 0)
 
   return accThorBuyback
 }
@@ -50,11 +51,11 @@ export const getThorBuyback = async () => {
     ).data as [
       { DATE: string; AFF_ADDRESS: string; AFF_FEE_EARNED_THOR: number },
     ]
-    const affiliateFeesDaily: number[] = []
-    data.forEach((element) => {
-      affiliateFeesDaily.push(element.AFF_FEE_EARNED_THOR)
-    })
-    const affiliateFees7dAverage = caculateMovingAverage(affiliateFeesDaily, 7)
+
+    const affiliateFeesDaily: number[] = data.map(
+      ({ AFF_FEE_EARNED_THOR }) => AFF_FEE_EARNED_THOR,
+    )
+    const affiliateFees7dAverage = calculateMovingAverage(affiliateFeesDaily, 7)
 
     return affiliateFees7dAverage * 52
   } catch (error) {
@@ -62,7 +63,7 @@ export const getThorBuyback = async () => {
   }
 }
 
-export const getVthorAPR = async (tvl: number) => {
+export const fetchVthorApr = async (tvl: number) => {
   const vthorBlockReward = VTHOR_BLOCK_REWARD * BLOCKS_PER_YEAR
   const buybackThor = await getThorBuyback().catch(() => 0)
 

@@ -21,7 +21,7 @@ import { LiquidityTypeOption } from 'components/LiquidityType/types'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems'
 import { PanelView } from 'components/PanelView'
-import { showToast, ToastType } from 'components/Toast'
+import { showErrorToast, showInfoToast } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { TxTrackerStatus, TxTrackerType } from 'store/midgard/types'
@@ -237,14 +237,7 @@ export const CreateLiquidity = () => {
       } catch (error: NotWorth) {
         setTxFailed(trackId)
 
-        showToast(
-          {
-            message: t('notification.submitTxFailed'),
-            description: error?.toString(),
-          },
-          ToastType.Error,
-          { duration: 20 * 1000 },
-        )
+        showErrorToast(t('notification.submitTxFailed'))
         console.error(error)
       }
     }
@@ -302,11 +295,7 @@ export const CreateLiquidity = () => {
       } catch (error) {
         setTxFailed(trackId)
 
-        showToast(
-          { message: t('notification.approveFailed') },
-          ToastType.Error,
-          { duration: 20 * 1000 },
-        )
+        showErrorToast(t('notification.approveFailed'))
       }
     }
   }, [
@@ -319,19 +308,17 @@ export const CreateLiquidity = () => {
 
   const handleCreateLiquidity = useCallback(() => {
     if (!isWalletConnected) {
-      showToast({
-        message: t('notification.walletNotFound'),
-        description: t('notification.connectWallet'),
-      })
-      return
+      return showInfoToast(
+        t('notification.walletNotFound'),
+        t('notification.connectWallet'),
+      )
     }
 
     if (isFundsCapReached) {
-      showToast({
-        message: t('notification.fundsCapReached'),
-        description: t('notification.fundsCapReachedDesc'),
-      })
-      return
+      return showInfoToast(
+        t('notification.fundsCapReached'),
+        t('notification.fundsCapReachedDesc'),
+      )
     }
 
     setVisibleConfirmModal(true)
@@ -341,10 +328,10 @@ export const CreateLiquidity = () => {
     if (wallet) {
       setVisibleApproveModal(true)
     } else {
-      showToast({
-        message: t('notification.walletNotFound'),
-        description: t('notification.connectWallet'),
-      })
+      showInfoToast(
+        t('notification.walletNotFound'),
+        t('notification.connectWallet'),
+      )
     }
   }, [wallet])
 

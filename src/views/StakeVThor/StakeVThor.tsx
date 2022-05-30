@@ -1,23 +1,22 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { Amount, Asset, WalletOption } from '@thorswap-lib/multichain-sdk'
+import { Amount, WalletOption } from '@thorswap-lib/multichain-sdk'
 import BN from 'bignumber.js'
 import classNames from 'classnames'
 import { BigNumber } from 'ethers'
 
-import { AddVThorMM } from 'views/StakeVThor/AddVThorMM'
+import { ConfirmVThorButton } from 'views/StakeVThor/ConfirmVThorButton'
+import { ConfirmVThorModal } from 'views/StakeVThor/ConfirmVThorModal'
+import { StakeActions, vThorAssets } from 'views/StakeVThor/types'
 import { useVthorUtil } from 'views/StakeVThor/useVthorUtil'
+import { VThorInfo } from 'views/StakeVThor/VThorInfo'
 
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, Button, Card, Icon, Tooltip, Typography } from 'components/Atomic'
-import { ChainBadge } from 'components/ChainBadge'
 import { baseTextHoverClass } from 'components/constants'
 import { Helmet } from 'components/Helmet'
 import { HighlightCard } from 'components/HighlightCard'
-import { HoverIcon } from 'components/HoverIcon'
-import { InfoTip } from 'components/InfoTip'
 import { InputAmount } from 'components/InputAmount'
-import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { TabsSelect } from 'components/TabsSelect'
 import { ViewHeader } from 'components/ViewHeader'
 
@@ -26,67 +25,37 @@ import { useWallet } from 'store/wallet/hooks'
 import { fromWei, toWei, toWeiFromString } from 'services/contract'
 import { t } from 'services/i18n'
 
+import { VestingType } from 'helpers/assets'
 import { useFormatPrice } from 'helpers/formatPrice'
 import { toOptionalFixed } from 'helpers/number'
-import { getVthorAPR as getVthorAPRUtil } from 'helpers/staking'
 
-import { getV2Asset, getTokenBalance, StakingV2Type } from './utils'
-
-enum StakeActions {
-  Unstake = 'unstake',
-  Deposit = 'deposit',
-}
-
-const tabs = [
-  {
-    label: t('views.stakingVThor.stakeVThor'),
-    value: StakeActions.Deposit,
-  },
-  {
-    label: t('views.stakingVThor.unstake'),
-    value: StakeActions.Unstake,
-  },
-]
-
-const assets: Record<StakeActions, Asset> = {
-  [StakeActions.Deposit]: getV2Asset(StakingV2Type.THOR),
-  [StakeActions.Unstake]: getV2Asset(StakingV2Type.VTHOR),
-}
+import { getTokenBalance } from './utils'
 
 const StakeVThor = () => {
-  const [isFetching, setIsFetching] = useState(false)
+  const tabs = [
+    { label: t('views.stakingVThor.stakeVThor'), value: StakeActions.Deposit },
+    { label: t('views.stakingVThor.unstake'), value: StakeActions.Unstake },
+  ]
+
   const [action, setAction] = useState(StakeActions.Deposit)
   const [thorBalBn, setThorBalBn] = useState(BigNumber.from(0))
   const [vthorBalBn, setVthorBalBn] = useState(BigNumber.from(0))
   const [inputAmount, setInputAmount] = useState(Amount.fromAssetAmount(0, 3))
   const [outputAmount, setOutputAmount] = useState(0)
   const [isReverted, setReverted] = useState(true)
-  const [vthorApr, setVthorApr] = useState(0)
-  const [isModalVisible, setIsModalVisible] = useState(false)
-  const [iconRotate, setIconRotate] = useState(false)
+  const [isModalOpened, setModalOpened] = useState(false)
 
   const formatter = useFormatPrice({ prefix: '' })
-  const {
-    isTHORApproved,
-    thorStaked,
-    thorRedeemable,
-    vthorBalance,
-    approveTHOR,
-    getRate,
-    handleRefresh: refreshStats,
-    previewDeposit,
-    previewRedeem,
-    stakeThor,
-    unstakeThor,
-  } = useVthorUtil()
+  const { getRate, previewDeposit, previewRedeem, stakeThor, unstakeThor } =
+    useVthorUtil()
   const { wallet, setIsConnectModalOpen } = useWallet()
 
-  const ethAddr = useMemo(() => wallet?.ETH?.address, [wallet])
+  const ethAddress = useMemo(() => wallet?.ETH?.address, [wallet])
   const ethWalletType = useMemo(() => wallet?.ETH?.walletType, [wallet])
 
   const getTokenInfo = useCallback(
     async (
-      contractType: StakingV2Type,
+      contractType: VestingType,
       address: string,
       setBalance: (num: BigNumber) => void,
     ) => {
@@ -99,26 +68,14 @@ const StakeVThor = () => {
   )
 
   useEffect(() => {
-    if (ethAddr) {
-      getTokenInfo(StakingV2Type.THOR, ethAddr, setThorBalBn)
-      getTokenInfo(StakingV2Type.VTHOR, ethAddr, setVthorBalBn)
+    if (ethAddress) {
+      getTokenInfo(VestingType.THOR, ethAddress, setThorBalBn)
+      getTokenInfo(VestingType.VTHOR, ethAddress, setVthorBalBn)
     } else {
       setThorBalBn(BigNumber.from(0))
       setVthorBalBn(BigNumber.from(0))
     }
-  }, [ethAddr, getTokenInfo])
-
-  const getVthorAPR = useCallback(async () => {
-    const apr = await getVthorAPRUtil(fromWei(thorStaked)).catch(() =>
-      setVthorApr(0),
-    )
-
-    if (apr) setVthorApr(apr)
-  }, [thorStaked])
-
-  useEffect(() => {
-    getVthorAPR()
-  }, [getVthorAPR])
+  }, [ethAddress, getTokenInfo])
 
   const handleMaxClick = useCallback(() => {
     const maxAmountBN = Amount.fromBaseAmount(
@@ -148,51 +105,42 @@ const StakeVThor = () => {
       const stakeAction = targetAction || action
       // TODO: validation (cannot exceed max amount)
       setInputAmount(amount)
+      const amountBN = BigNumber.from(toWei(amount.assetAmount.toNumber()))
+      const expectedOutput =
+        stakeAction === StakeActions.Deposit
+          ? previewDeposit(amountBN)
+          : previewRedeem(amountBN)
 
-      if (stakeAction === StakeActions.Deposit) {
-        const expectedOutput = previewDeposit(
-          BigNumber.from(toWei(amount.assetAmount.toNumber())),
-        )
-        setOutputAmount(expectedOutput)
-      } else {
-        const expectedOutput = previewRedeem(
-          BigNumber.from(toWei(amount.assetAmount.toNumber())),
-        )
-        setOutputAmount(expectedOutput)
-      }
+      setOutputAmount(expectedOutput)
     },
     [action, previewDeposit, previewRedeem],
   )
 
-  const handleRefresh = useCallback(() => {
-    setIsFetching(true)
-
-    refreshStats()
-
-    setTimeout(() => setIsFetching(false), 1000)
-  }, [refreshStats])
-
   const handleAction = useCallback(() => {
-    if (ethAddr) {
-      if (action === StakeActions.Deposit) {
-        stakeThor(toWei(inputAmount.assetAmount.toNumber()), ethAddr)
-      } else if (action === StakeActions.Unstake) {
-        unstakeThor(toWei(inputAmount.assetAmount.toNumber()), ethAddr)
-      }
-    }
-  }, [action, ethAddr, inputAmount, stakeThor, unstakeThor])
+    if (!ethAddress) return
+
+    const amount = toWei(inputAmount.assetAmount.toNumber())
+    const thorAction = action === StakeActions.Deposit ? stakeThor : unstakeThor
+
+    thorAction(amount, ethAddress)
+  }, [action, ethAddress, inputAmount.assetAmount, stakeThor, unstakeThor])
 
   const handleVthorAction = useCallback(() => {
     if (ethWalletType === WalletOption.KEYSTORE) {
-      setIsModalVisible(true)
-    } else handleAction()
+      setModalOpened(true)
+    } else {
+      handleAction()
+    }
   }, [ethWalletType, handleAction])
 
   const handleStakeTypeChange = useCallback(() => {
     setAction((v) =>
       v === StakeActions.Deposit ? StakeActions.Unstake : StakeActions.Deposit,
     )
-    setIconRotate((rotate) => !rotate)
+  }, [])
+
+  const closeModal = useCallback(() => {
+    setModalOpened(false)
   }, [])
 
   return (
@@ -201,10 +149,9 @@ const StakeVThor = () => {
         title={t('views.stakingVThor.stakeVThorTitle')}
         content={t('views.stakingVThor.stakeVThorTitle')}
       />
-      <Box className="w-full" col>
-        <ViewHeader title={t('views.stakingVThor.stakeVThorTitle')} />
-      </Box>
-      <Box className="!mx-3" alignCenter justify="between">
+      <ViewHeader title={t('views.stakingVThor.stakeVThorTitle')} />
+
+      <Box className="px-3" alignCenter justify="between">
         <Typography color="secondary" fontWeight="medium" variant="caption">
           {t('views.stakingVThor.stakeVThorSubtitle')}
         </Typography>
@@ -212,84 +159,9 @@ const StakeVThor = () => {
           <Icon name="infoCircle" size={24} color="primaryBtn" />
         </Tooltip>
       </Box>
-      <InfoTip type="info" className="!mt-5">
-        <Box className="self-stretch gap-3 px-3 py-2" col>
-          <Box
-            className="pb-2 border-0 border-b border-solid border-opacity-20 border-light-border-primary dark:border-dark-border-primary"
-            row
-            alignCenter
-            justify="between"
-          >
-            <Typography variant="subtitle2" fontWeight="semibold">
-              {t('views.stakingVThor.statTitle')}
-            </Typography>
-            <Box className="gap-2git" row alignCenter>
-              <AddVThorMM />
-              <HoverIcon
-                iconName="refresh"
-                spin={isFetching}
-                onClick={handleRefresh}
-              />
-            </Box>
-          </Box>
-          <Box className="gap-2" row alignCenter justify="between">
-            <Box className="gap-x-1" row alignCenter>
-              <Typography
-                color="secondary"
-                variant="caption"
-                fontWeight="medium"
-              >
-                {t('views.stakingVThor.stakingApy')}
-              </Typography>
 
-              <Tooltip
-                className="cursor-pointer"
-                content={t('views.stakingVThor.apyTip')}
-              >
-                <Icon name="infoCircle" size={16} color="primaryBtn" />
-              </Tooltip>
-            </Box>
-            <Typography variant="subtitle2" fontWeight="medium">
-              {toOptionalFixed(vthorApr)}%
-            </Typography>
-          </Box>
-          <Box className="gap-2" row alignCenter justify="between">
-            <Box className="gap-x-1" row alignCenter>
-              <Typography
-                color="secondary"
-                variant="caption"
-                fontWeight="medium"
-              >
-                {t('views.stakingVThor.totalThor')}
-              </Typography>
+      <VThorInfo ethAddress={ethAddress} />
 
-              <Tooltip
-                className="cursor-pointer"
-                content={t('views.stakingVThor.totalThorTip')}
-              >
-                <Icon name="infoCircle" size={16} color="primaryBtn" />
-              </Tooltip>
-            </Box>
-            <Typography variant="subtitle2" fontWeight="medium">
-              {ethAddr ? formatter(thorRedeemable) : '-'}
-            </Typography>
-          </Box>
-          <Box className="gap-2" row alignCenter justify="between">
-            <Box className="gap-x-1" row alignCenter>
-              <Typography
-                color="secondary"
-                variant="caption"
-                fontWeight="medium"
-              >
-                {t('views.stakingVThor.vthorBal')}
-              </Typography>
-            </Box>
-            <Typography variant="subtitle2" fontWeight="medium">
-              {ethAddr ? formatter(fromWei(vthorBalance)) : '-'}
-            </Typography>
-          </Box>
-        </Box>
-      </InfoTip>
       <Card
         className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-2 space-y-1 shadow-lg md:w-full md:h-auto"
         size="lg"
@@ -319,13 +191,14 @@ const StakeVThor = () => {
           >
             <Icon
               className={classNames('p-1 transition-all', {
-                '-scale-x-100': iconRotate,
+                '-scale-x-100': action === StakeActions.Deposit,
               })}
               size={20}
               name="arrowDown"
               color="white"
             />
           </Box>
+
           <HighlightCard
             className={classNames(
               '!gap-1 !justify-start flex-1 !px-4 md:!px-6 !py-4',
@@ -361,6 +234,7 @@ const StakeVThor = () => {
                   </Box>
                 </Box>
               </Box>
+
               <Box className="self-stretch flex-1">
                 <Box flex={1}>
                   <InputAmount
@@ -378,7 +252,7 @@ const StakeVThor = () => {
                   <Typography variant="subtitle2">
                     {action === StakeActions.Deposit ? 'THOR' : 'vTHOR'}
                   </Typography>
-                  <AssetIcon asset={assets[action]} size={34} />
+                  <AssetIcon asset={vThorAssets[action]} size={34} />
                 </Box>
               </Box>
             </Box>
@@ -396,6 +270,7 @@ const StakeVThor = () => {
                 {t('views.stakingVThor.receive')}:
               </Typography>
             </Box>
+
             <Box className="self-stretch flex-1">
               <Box flex={1}>
                 <Typography
@@ -413,8 +288,8 @@ const StakeVThor = () => {
                 <AssetIcon
                   asset={
                     action === StakeActions.Deposit
-                      ? assets[StakeActions.Unstake]
-                      : assets[StakeActions.Deposit]
+                      ? vThorAssets[StakeActions.Unstake]
+                      : vThorAssets[StakeActions.Deposit]
                   }
                   size={34}
                 />
@@ -449,118 +324,23 @@ const StakeVThor = () => {
           </Box>
         </Card>
 
-        <Box className="self-stretch pt-5">
-          {!ethAddr ? (
-            <Button
-              isFancy
-              size="lg"
-              stretch
-              onClick={() => setIsConnectModalOpen(true)}
-            >
-              {t('common.connectWallet')}
-            </Button>
-          ) : (
-            <Box className="w-full">
-              {action === StakeActions.Deposit ? (
-                <>
-                  {!isTHORApproved ? (
-                    <Button
-                      isFancy
-                      stretch
-                      size="lg"
-                      loading={false}
-                      onClick={approveTHOR}
-                    >
-                      {t('txManager.approve')}
-                    </Button>
-                  ) : (
-                    <Button
-                      isFancy
-                      stretch
-                      size="lg"
-                      loading={false}
-                      disabled={inputAmount.assetAmount.toNumber() === 0}
-                      onClick={handleVthorAction}
-                    >
-                      {t('txManager.stake')}
-                    </Button>
-                  )}
-                </>
-              ) : (
-                <Button
-                  isFancy
-                  stretch
-                  size="lg"
-                  loading={false}
-                  disabled={
-                    inputAmount.assetAmount.toNumber() === 0 ||
-                    fromWei(vthorBalance) === 0
-                  }
-                  onClick={handleVthorAction}
-                >
-                  {t('views.stakingVThor.unstake')}
-                </Button>
-              )}
-            </Box>
-          )}
-        </Box>
+        <ConfirmVThorButton
+          action={action}
+          ethAddress={ethAddress}
+          setIsConnectModalOpen={setIsConnectModalOpen}
+          handleVthorAction={handleVthorAction}
+          emptyInput={inputAmount.assetAmount.toNumber() === 0}
+        />
       </Card>
-      <ConfirmModal
-        inputAssets={[assets[action]]}
-        isOpened={isModalVisible}
-        onConfirm={() => {
-          setIsModalVisible(false)
-          handleAction()
-        }}
-        onClose={() => setIsModalVisible(false)}
-      >
-        <Box className="w-full">
-          <Box className="w-full" row alignCenter justify="between">
-            <Box className="flex-1 p-4 rounded-2xl" center col>
-              <AssetIcon asset={assets[action]} />
-              <Box className="pt-2" center>
-                <ChainBadge asset={assets[action]} />
-              </Box>
-              <Box className="w-full" center>
-                <Typography variant="caption" fontWeight="medium">
-                  {toOptionalFixed(inputAmount.assetAmount.toNumber())}{' '}
-                  {assets[action].ticker}
-                </Typography>
-              </Box>
-            </Box>
-            <Icon className="mx-2 -rotate-90" name="arrowDown" />
-            <Box className="flex-1 p-4 rounded-2xl" center col>
-              <AssetIcon
-                asset={
-                  action === StakeActions.Deposit
-                    ? assets.unstake
-                    : assets.deposit
-                }
-              />
-              <Box className="pt-2" center>
-                <ChainBadge
-                  asset={
-                    action === StakeActions.Deposit
-                      ? assets.unstake
-                      : assets.deposit
-                  }
-                />
-              </Box>
-              <Box className="w-full" center>
-                <Typography variant="caption" fontWeight="medium">
-                  {toOptionalFixed(outputAmount)}{' '}
-                  {
-                    (action === StakeActions.Deposit
-                      ? assets.unstake
-                      : assets.deposit
-                    ).ticker
-                  }
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
-        </Box>
-      </ConfirmModal>
+
+      <ConfirmVThorModal
+        handleAction={handleAction}
+        inputAmount={inputAmount}
+        outputAmount={outputAmount}
+        action={action}
+        isOpened={isModalOpened}
+        closeModal={closeModal}
+      />
     </Box>
   )
 }

@@ -29,7 +29,7 @@ import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems'
 import { PanelInput } from 'components/PanelInput'
 import { PanelView } from 'components/PanelView'
-import { showToast, ToastType } from 'components/Toast'
+import { showErrorToast, showInfoToast } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useApp } from 'store/app/hooks'
@@ -171,7 +171,7 @@ const SwapView = () => {
   const handleCopyAddress = useCallback(() => {
     copy(recipient)
 
-    showToast({ message: t('notification.addressCopied') })
+    showInfoToast(t('notification.addressCopied'))
   }, [recipient])
 
   const toggleAddressDisabled = useCallback(() => {
@@ -297,11 +297,7 @@ const SwapView = () => {
         const description = translateErrorMsg(error?.toString())
         console.error(error, description)
 
-        showToast(
-          { message: t('notification.submitTxFailed'), description },
-          ToastType.Error,
-          { duration: 20 * 1000 },
-        )
+        showErrorToast(t('notification.submitTxFailed'), description)
       }
     }
   }, [
@@ -342,11 +338,7 @@ const SwapView = () => {
       } catch (error) {
         console.error(error)
         setTxFailed(trackId)
-        showToast(
-          { message: t('notification.approveFailed') },
-          ToastType.Error,
-          { duration: 20 * 1000 },
-        )
+        showErrorToast(t('notification.approveFailed'))
       }
     }
   }, [

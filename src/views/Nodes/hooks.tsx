@@ -14,7 +14,11 @@ import { BondActionType } from 'views/Nodes/types'
 
 import { Box, Button, Icon, Link, Typography } from 'components/Atomic'
 import { useInputAmount } from 'components/InputAmount/useInputAmount'
-import { showToast, ToastType } from 'components/Toast'
+import {
+  showErrorToast,
+  showInfoToast,
+  showSuccessToast,
+} from 'components/Toast'
 
 import { useWallet } from 'store/wallet/hooks'
 
@@ -222,14 +226,10 @@ export const useNodeManager = (nodeAddress?: string) => {
    */
   const handleComplete = useCallback(async () => {
     if (!thorWalletConnected) {
-      showToast(
-        {
-          message: t('views.nodes.detail.WalletNotConnected'),
-          description: t('views.nodes.detail.ConnectThorChainAgainPlease'),
-        },
-        ToastType.Info,
+      return showInfoToast(
+        t('views.nodes.detail.WalletNotConnected'),
+        t('views.nodes.detail.ConnectThorChainAgainPlease'),
       )
-      return
     }
 
     const isValidAddress = multichain.validateAddress({
@@ -237,90 +237,65 @@ export const useNodeManager = (nodeAddress?: string) => {
       address: nodeAddress || '',
     })
     if (!isValidAddress) {
-      showToast(
-        {
-          message: t('views.nodes.detail.InvalidNodeAddress'),
-          description: t('views.nodes.detail.CorrectNodeAddress'),
-        },
-        ToastType.Info,
+      return showInfoToast(
+        t('views.nodes.detail.InvalidNodeAddress'),
+        t('views.nodes.detail.CorrectNodeAddress'),
       )
-      return
     }
 
     try {
       if (tab.value === BondActionType.Bond) {
         // bond action
         const txURL = await multichain.bond(nodeAddress || '', amount)
-        showToast(
-          {
-            message: t('views.nodes.detail.ViewBondTx'),
-            description: (
-              <Box className="align-center py-2">
-                <Typography variant="caption-xs" fontWeight="light">
-                  {t('views.nodes.detail.transactionSentSuccessfully')}
-                </Typography>
-                <Link to={txURL} className="no-underline">
-                  <Button size="sm" variant="tint" type="outline">
-                    {t('views.nodes.detail.ViewTransaction')}
-                  </Button>
-                </Link>
-              </Box>
-            ),
-          },
-          ToastType.Success,
+        showSuccessToast(
+          t('views.nodes.detail.ViewBondTx'),
+          <Box className="align-center py-2">
+            <Typography variant="caption-xs" fontWeight="light">
+              {t('views.nodes.detail.transactionSentSuccessfully')}
+            </Typography>
+            <Link to={txURL} className="no-underline">
+              <Button size="sm" variant="tint" type="outline">
+                {t('views.nodes.detail.ViewTransaction')}
+              </Button>
+            </Link>
+          </Box>,
         )
       } else if (tab.value === BondActionType.Unbond) {
         const txURL = await multichain.unbond(
           nodeAddress || '',
           amount.assetAmount.toNumber(),
         )
-        showToast(
-          {
-            message: t('views.nodes.detail.ViewUnBondTx'),
-            description: (
-              <>
-                <Typography variant="caption-xs" fontWeight="light">
-                  {t('views.nodes.detail.transactionSentSuccessfully')}
-                </Typography>
-                <Link to={txURL} className="no-underline pt-3">
-                  <Button size="sm" variant="tint" type="outline">
-                    {t('views.nodes.detail.ViewTransaction')}
-                  </Button>
-                </Link>
-              </>
-            ),
-          },
-          ToastType.Success,
+        showSuccessToast(
+          t('views.nodes.detail.ViewUnBondTx'),
+          <>
+            <Typography variant="caption-xs" fontWeight="light">
+              {t('views.nodes.detail.transactionSentSuccessfully')}
+            </Typography>
+            <Link to={txURL} className="no-underline pt-3">
+              <Button size="sm" variant="tint" type="outline">
+                {t('views.nodes.detail.ViewTransaction')}
+              </Button>
+            </Link>
+          </>,
         )
       } else {
         const txURL = await multichain.leave(nodeAddress || '')
-        showToast(
-          {
-            message: t('views.nodes.detail.ViewLeaveTx'),
-            description: (
-              <>
-                <Typography variant="caption-xs" fontWeight="light">
-                  {t('views.nodes.detail.transactionSentSuccessfully')}
-                </Typography>
-                <Link to={txURL} className="no-underline pt-3">
-                  <Button size="sm" variant="tint" type="outline">
-                    {t('views.nodes.detail.ViewTransaction')}
-                  </Button>
-                </Link>
-              </>
-            ),
-          },
-          ToastType.Success,
+        showSuccessToast(
+          t('views.nodes.detail.ViewLeaveTx'),
+          <>
+            <Typography variant="caption-xs" fontWeight="light">
+              {t('views.nodes.detail.transactionSentSuccessfully')}
+            </Typography>
+            <Link to={txURL} className="no-underline pt-3">
+              <Button size="sm" variant="tint" type="outline">
+                {t('views.nodes.detail.ViewTransaction')}
+              </Button>
+            </Link>
+          </>,
         )
       }
     } catch (error) {
-      showToast(
-        {
-          message: t('views.nodes.detail.TransactionFailed'),
-          description: `${error}`,
-        },
-        ToastType.Error,
-      )
+      showErrorToast(t('views.nodes.detail.TransactionFailed'), `${error}`)
     }
   }, [amount, nodeAddress, tab.value, thorWalletConnected])
 

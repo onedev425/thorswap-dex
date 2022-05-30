@@ -9,7 +9,7 @@ import {
 import { Chain } from '@thorswap-lib/xchain-util'
 
 import { Box, Button } from 'components/Atomic'
-import { showToast, ToastType } from 'components/Toast'
+import { showErrorToast, showInfoToast } from 'components/Toast'
 
 import { useMidgard } from 'store/midgard/hooks'
 import { TxTrackerStatus } from 'store/midgard/types'
@@ -101,45 +101,39 @@ export const SwapSubmitButton = ({
   const showSwapConfirmationModal = useCallback(() => {
     if (walletConnected && hasSwap) {
       if (swapAmountTooSmall) {
-        return showToast({
-          message: t('notification.swapAmountTooSmall'),
-          description: t('notification.swapAmountTooSmallDesc'),
-        })
+        return showInfoToast(
+          t('notification.swapAmountTooSmall'),
+          t('notification.swapAmountTooSmallDesc'),
+        )
       }
 
       if (hasInSufficientFee) {
-        return showToast({
-          message: t('notification.swapInsufficientFee'),
-          description: t('notification.swapInsufficientFeeDesc'),
-        })
+        return showInfoToast(
+          t('notification.swapInsufficientFee'),
+          t('notification.swapInsufficientFeeDesc'),
+        )
       }
 
       if (isExchangeBNBAddress) {
-        return showToast(
-          {
-            message: t('notification.exchangeBNBAddy'),
-            description: t('notification.exchangeBNBAddyDesc'),
-          },
-          ToastType.Error,
+        return showErrorToast(
+          t('notification.exchangeBNBAddy'),
+          t('notification.exchangeBNBAddyDesc'),
         )
       }
 
       if (!isValidAddress) {
-        return showToast(
-          {
-            message: t('notification.invalidRecipientAddy'),
-            description: t('notification.invalidRecipientAddyDesc'),
-          },
-          ToastType.Error,
+        return showErrorToast(
+          t('notification.invalidRecipientAddy'),
+          t('notification.invalidRecipientAddyDesc'),
         )
       }
 
       setVisibleConfirmModal(true)
     } else {
-      showToast({
-        message: t('notification.walletNotFound'),
-        description: t('notification.connectWallet'),
-      })
+      showInfoToast(
+        t('notification.walletNotFound'),
+        t('notification.connectWallet'),
+      )
     }
   }, [
     walletConnected,
@@ -155,10 +149,10 @@ export const SwapSubmitButton = ({
     if (isInputWalletConnected && hasSwap) {
       setVisibleApproveModal(true)
     } else {
-      showToast({
-        message: t('notification.walletNotFound'),
-        description: t('notification.connectWallet'),
-      })
+      showInfoToast(
+        t('notification.walletNotFound'),
+        t('notification.connectWallet'),
+      )
     }
   }, [hasSwap, isInputWalletConnected, setVisibleApproveModal])
 

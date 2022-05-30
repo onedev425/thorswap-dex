@@ -13,7 +13,7 @@ import {
 import { baseHoverClass } from 'components/constants'
 import { Popover } from 'components/Popover'
 import { Scrollbar } from 'components/Scrollbar'
-import { showToast, ToastType } from 'components/Toast'
+import { showSuccessToast } from 'components/Toast'
 import { TxContent } from 'components/TxManager/components/TxContent'
 import { TxHeader } from 'components/TxManager/components/TxHeader'
 import { TxPanel } from 'components/TxManager/components/TxPanel'
@@ -48,31 +48,26 @@ export const TxManager = () => {
         prevTxTrackerStatus.current[txTracker.uuid] !== txTracker.status &&
         txTracker.status === TxTrackerStatus.Success
       ) {
-        showToast(
-          {
-            message: t('notification.successfulTransaction'),
-            description: (
-              <Box className="z-10 w-full col alignCenter row" col>
-                <Box className="py-1" row>
-                  <Box row alignCenter>
-                    <Typography
-                      className="mx-1"
-                      fontWeight="semibold"
-                      variant="caption"
-                    >
-                      {getTxType()[txTracker.type]}
-                    </Typography>
-                  </Box>
-                  <TxHeader txInfo={txTracker} />
-                </Box>
-
-                <Box className="w-full py-2 alignCenter" col>
-                  <TxContent txTracker={txTracker} />
-                </Box>
+        showSuccessToast(
+          t('notification.successfulTransaction'),
+          <Box className="z-10 w-full col alignCenter row" col>
+            <Box className="py-1" row>
+              <Box row alignCenter>
+                <Typography
+                  className="mx-1"
+                  fontWeight="semibold"
+                  variant="caption"
+                >
+                  {getTxType()[txTracker.type]}
+                </Typography>
               </Box>
-            ),
-          },
-          ToastType.Success,
+              <TxHeader txInfo={txTracker} />
+            </Box>
+
+            <Box className="w-full py-2 alignCenter" col>
+              <TxContent txTracker={txTracker} />
+            </Box>
+          </Box>,
           { position: 'bottom-right' },
         )
         prevTxTrackerStatus.current[txTracker.uuid] = txTracker.status

@@ -9,7 +9,7 @@ import {
 } from '@thorswap-lib/multichain-sdk'
 import { THORChain } from '@thorswap-lib/xchain-util'
 
-import { showToast, ToastType } from 'components/Toast'
+import { showErrorToast } from 'components/Toast'
 
 import { TxTrackerType } from 'store/midgard/types'
 
@@ -148,7 +148,7 @@ export const useThornameLookup = (owner?: string) => {
       dispatch({ type: 'setAvailable', payload: notFound })
 
       if (!notFound) {
-        showToast({ message: t('common.defaultErrMsg') }, ToastType.Error)
+        showErrorToast(t('common.defaultErrMsg'))
       }
     }
   }, [owner, setDetails, thorname])
@@ -181,7 +181,7 @@ export const useThornameLookup = (owner?: string) => {
         })
         dispatch({ type: 'setThorname', payload: '' })
       } catch (error: ToDo) {
-        showToast({ message: t('common.defaultErrMsg') }, ToastType.Error)
+        showErrorToast(t('common.defaultErrMsg'))
       } finally {
         dispatch({ type: 'setLoading', payload: false })
       }

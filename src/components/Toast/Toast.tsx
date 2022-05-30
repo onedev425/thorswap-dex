@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 
 import { Toaster, ToastOptions, toast, ToastBar } from 'react-hot-toast'
 
@@ -28,28 +28,27 @@ const getToastIcon = (type: ToastType) => {
   }
 }
 
-type ShowToastFunction = (
-  content: {
-    message: string
-    description?: string | ReactNode
-  },
-  type?: ToastType,
+type ShowToastFunction = (params: {
+  message: string
+  description?: string | ReactNode
+  type?: ToastType
   options?: Partial<
     Pick<ToastOptions, 'position' | 'duration' | 'style' | 'className'>
-  >,
+  >
+}) => void
+
+type ToastFunction = (
+  message: string,
+  descriptionOrOptions?: string | ReactNode | Partial<ToastOptions>,
+  options?: Partial<ToastOptions>,
 ) => void
 
-export const showLongToast: ShowToastFunction = (content, type, options) =>
-  showToast(content, type, { ...options, duration: 60 * 1000 })
-
-export const showErrorToast = (message: string, description?: string) =>
-  showToast({ message, description }, ToastType.Error)
-
-export const showToast: ShowToastFunction = (
-  { description, message },
+const showToast: ShowToastFunction = ({
+  message,
+  description,
   type = ToastType.Info,
   options = {},
-) => {
+}) => {
   const icon = getToastIcon(type)
   const duration = options.duration || type === ToastType.Error ? 10000 : 5000
 
@@ -94,6 +93,28 @@ export const showToast: ShowToastFunction = (
     { ...options, duration },
   )
 }
+
+const showToastWrapper: (type?: ToastType) => ToastFunction =
+  (type) => (message, descriptionOrOptions, options) => {
+    const descriptionProvided =
+      React.isValidElement(descriptionOrOptions) ||
+      typeof descriptionOrOptions === 'string'
+
+    const providedOptions = descriptionProvided
+      ? options
+      : (descriptionOrOptions as Partial<ToastOptions>)
+
+    showToast({
+      options: providedOptions,
+      type: type || ToastType.Info,
+      message,
+      description: descriptionProvided ? descriptionOrOptions : '',
+    })
+  }
+
+export const showSuccessToast = showToastWrapper(ToastType.Success)
+export const showErrorToast = showToastWrapper(ToastType.Error)
+export const showInfoToast = showToastWrapper(ToastType.Info)
 
 export const ToastPortal = () => {
   return (

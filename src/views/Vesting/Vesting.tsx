@@ -15,7 +15,7 @@ import { InputAmount } from 'components/InputAmount'
 import { PanelView } from 'components/PanelView'
 import { PercentSelect } from 'components/PercentSelect/PercentSelect'
 // import { TabsSelect } from 'components/TabsSelect'
-import { showToast, ToastType } from 'components/Toast'
+import { showErrorToast } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { TxTrackerType } from 'store/midgard/types'
@@ -166,13 +166,7 @@ const Vesting = () => {
         }
       } catch (err) {
         setTxFailed(trackId)
-        showToast(
-          {
-            message: t('notification.submitFail'),
-            description: t('common.defaultErrMsg'),
-          },
-          ToastType.Error,
-        )
+        showErrorToast(t('notification.submitFail'), t('common.defaultErrMsg'))
       }
 
       setIsClaiming(false)

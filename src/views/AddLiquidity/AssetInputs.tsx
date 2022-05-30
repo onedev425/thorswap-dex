@@ -10,7 +10,7 @@ import { LiquidityTypeOption } from 'components/LiquidityType/types'
 
 import { t } from 'services/i18n'
 
-import { commonAssets } from 'helpers/assetsFixture'
+import { commonAssets } from 'helpers/assets'
 
 type Props = {
   onPoolChange: (asset: Asset) => void

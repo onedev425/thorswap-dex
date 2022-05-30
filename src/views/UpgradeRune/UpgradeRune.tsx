@@ -16,7 +16,7 @@ import { Helmet } from 'components/Helmet'
 import { InfoTable } from 'components/InfoTable'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { PanelInput } from 'components/PanelInput'
-import { showToast, ToastType } from 'components/Toast'
+import { showErrorToast, showInfoToast } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useMidgard } from 'store/midgard/hooks'
@@ -158,12 +158,7 @@ const UpgradeRune = () => {
         })
       } catch (error) {
         setTxFailed(trackId)
-
-        showToast(
-          { message: t('notification.submitTxFailed') },
-          ToastType.Error,
-          { duration: 20 * 1000 },
-        )
+        showErrorToast(t('notification.submitTxFailed'))
         console.error(error)
       }
     }
@@ -178,13 +173,13 @@ const UpgradeRune = () => {
 
   const handleUpgrade = useCallback(() => {
     if (isTradingHalted) {
-      showToast({ message: t('notification.upgradeTradingHalt') })
-      return
+      return showInfoToast(t('notification.upgradeTradingHalt'))
     }
+
     if (!recipientAddress) {
-      showToast({ message: t('notification.tcWalletRequest') })
-      return
+      return showInfoToast(t('notification.tcWalletRequest'))
     }
+
     if (
       !(
         IS_STAGENET ||
@@ -194,12 +189,9 @@ const UpgradeRune = () => {
         })
       )
     ) {
-      showToast(
-        {
-          message: t('notification.invalidRecipientAddy'),
-          description: t('notification.invalidRecipientAddyDesc'),
-        },
-        ToastType.Error,
+      showErrorToast(
+        t('notification.invalidRecipientAddy'),
+        t('notification.invalidRecipientAddyDesc'),
       )
       return
     }

@@ -3,7 +3,7 @@ import { Network } from '@thorswap-lib/xchain-client'
 import { ethers, BigNumber, ContractInterface } from 'ethers'
 import { capitalize } from 'lodash'
 
-import { showToast, ToastType } from 'components/Toast'
+import { showErrorToast } from 'components/Toast'
 
 import { t } from 'services/i18n'
 
@@ -212,16 +212,13 @@ export const triggerContractCall = async (
 
     const isApprovalError = plainErrMsg.includes('exceeds allowance')
 
-    showToast(
-      {
-        message: t('notification.gasEstimationFailed'),
-        description: isApprovalError
-          ? t('notification.approveOverflow', {
-              actionType: capitalize(methodName),
-            })
-          : undefined,
-      },
-      ToastType.Error,
+    showErrorToast(
+      t('notification.gasEstimationFailed'),
+      isApprovalError
+        ? t('notification.approveOverflow', {
+            actionType: capitalize(methodName),
+          })
+        : undefined,
     )
 
     return Promise.reject(error)

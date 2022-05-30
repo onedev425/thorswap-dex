@@ -20,7 +20,6 @@
     "strict": true,
     "strictNullChecks": true,
     "target": "ESNext",
-    "types": ["vite-plugin-svgr/client"],
     "paths": {
       "assets/*": ["assets/*"],
       "components/*": ["components/*"],

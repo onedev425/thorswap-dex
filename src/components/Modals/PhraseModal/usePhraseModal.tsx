@@ -4,7 +4,7 @@ import { FieldValues, useForm } from 'react-hook-form'
 
 import copy from 'copy-to-clipboard'
 
-import { showToast, ToastType } from 'components/Toast'
+import { showSuccessToast } from 'components/Toast'
 
 import { useWallet } from 'store/wallet/hooks'
 
@@ -57,10 +57,7 @@ export const usePhraseModal = (isOpen: boolean) => {
 
   const handleCopyPhrase = useCallback(() => {
     copy(multichain.getPhrase())
-    showToast(
-      { message: t('views.walletModal.phraseCopied') },
-      ToastType.Success,
-    )
+    showSuccessToast(t('views.walletModal.phraseCopied'))
   }, [])
 
   return {

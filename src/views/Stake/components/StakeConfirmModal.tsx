@@ -9,7 +9,7 @@ import { Box, Button, Modal, Typography } from 'components/Atomic'
 import { InfoRow } from 'components/InfoRow'
 import { Input } from 'components/Input'
 import { PercentSelect } from 'components/PercentSelect/PercentSelect'
-import { showToast, ToastType } from 'components/Toast'
+import { showErrorToast } from 'components/Toast'
 
 import { TxTrackerType } from 'store/midgard/types'
 import { useWallet } from 'store/wallet/hooks'
@@ -139,7 +139,7 @@ export const StakeConfirmModal = ({
         }
       } catch (error) {
         setTxFailed(trackId)
-        showToast({ message: t('notification.approveFailed') }, ToastType.Error)
+        showErrorToast(t('notification.approveFailed'))
         console.info(error)
       }
     }

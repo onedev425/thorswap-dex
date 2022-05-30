@@ -32,7 +32,7 @@ import { LiquidityTypeOption } from 'components/LiquidityType/types'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems'
 import { PanelView } from 'components/PanelView'
-import { showToast, ToastType } from 'components/Toast'
+import { showErrorToast, showInfoToast } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useApp } from 'store/app/hooks'
@@ -569,14 +569,7 @@ export const AddLiquidity = () => {
         setTxFailed(trackId)
 
         const description = translateErrorMsg(error?.toString())
-        showToast(
-          {
-            message: t('notification.submitFail'),
-            description: description,
-          },
-          ToastType.Error,
-          { duration: 20 * 1000 },
-        )
+        showErrorToast(t('notification.submitFail'), description)
         console.error(error)
       }
     }
@@ -639,11 +632,7 @@ export const AddLiquidity = () => {
       } catch (error) {
         setTxFailed(trackId)
 
-        showToast(
-          { message: t('notification.approveFailed') },
-          ToastType.Error,
-          { duration: 20 * 1000 },
-        )
+        showErrorToast(t('notification.approveFailed'))
       }
     }
   }, [
@@ -656,19 +645,17 @@ export const AddLiquidity = () => {
 
   const handleAddLiquidity = useCallback(() => {
     if (!isWalletConnected) {
-      showToast({
-        message: t('notification.walletNotFound'),
-        description: t('notification.connectWallet'),
-      })
-      return
+      return showInfoToast(
+        t('notification.walletNotFound'),
+        t('notification.connectWallet'),
+      )
     }
 
     if (isFundsCapReached) {
-      showToast({
-        message: t('notification.fundsCapReached'),
-        description: t('notification.fundsCapReachedDesc'),
-      })
-      return
+      return showInfoToast(
+        t('notification.fundsCapReached'),
+        t('notification.fundsCapReachedDesc'),
+      )
     }
 
     setVisibleConfirmModal(true)
@@ -678,10 +665,10 @@ export const AddLiquidity = () => {
     if (wallet) {
       setVisibleApproveModal(true)
     } else {
-      showToast({
-        message: t('notification.walletNotFound'),
-        description: t('notification.connectWallet'),
-      })
+      showInfoToast(
+        t('notification.walletNotFound'),
+        t('notification.connectWallet'),
+      )
     }
   }, [wallet])
 

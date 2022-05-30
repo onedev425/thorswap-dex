@@ -6,7 +6,7 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import { AssetSelect } from 'components/AssetSelect/AssetSelect'
 import { Typography } from 'components/Atomic'
 
-import { assetsFixture, commonAssets } from 'helpers/assetsFixture'
+import { assetsFixture, commonAssets } from 'helpers/assets'
 
 import { AssetSelectButton as AssetSelectButtonComp } from './AssetSelectButton'
 import { AssetSelectList } from './AssetSelectList'

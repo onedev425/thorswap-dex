@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 // import { baseAmount } from '@thorswap-lib/xchain-util'
 import { BigNumber } from 'ethers'
 
-import { showToast, ToastType } from 'components/Toast'
+import { showErrorToast } from 'components/Toast'
 
 import { TxTrackerType } from 'store/midgard/types'
 import { useWallet } from 'store/wallet/hooks'
@@ -15,15 +15,10 @@ import { ContractType, fromWei, triggerContractCall } from 'services/contract'
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
+import { getV2Address, getV2Asset, VestingType } from 'helpers/assets'
 import { toOptionalFixed } from 'helpers/number'
 
-import {
-  getStakedThorAmount,
-  getVthorState,
-  getV2Address,
-  getV2Asset,
-  StakingV2Type,
-} from './utils'
+import { getStakedThorAmount, getVthorState } from './utils'
 
 export const useVthorUtil = () => {
   // total amount staked in vTHOR contract
@@ -46,8 +41,8 @@ export const useVthorUtil = () => {
     const ethClient = multichain.eth.getClient()
     const isApproved = await ethClient
       .isApproved({
-        contractAddress: getV2Address(StakingV2Type.THOR),
-        spenderAddress: getV2Address(StakingV2Type.VTHOR),
+        contractAddress: getV2Address(VestingType.THOR),
+        spenderAddress: getV2Address(VestingType.VTHOR),
       })
       .catch(() => false)
 
@@ -86,7 +81,7 @@ export const useVthorUtil = () => {
   )
 
   const approveTHOR = useCallback(async () => {
-    const thorAsset = getV2Asset(StakingV2Type.THOR)
+    const thorAsset = getV2Asset(VestingType.THOR)
 
     const trackId = submitTransaction({
       type: TxTrackerType.Approve,
@@ -102,8 +97,8 @@ export const useVthorUtil = () => {
 
     try {
       const txHash = await multichain.approveAssetForStaking(
-        getV2Asset(StakingV2Type.THOR),
-        getV2Address(StakingV2Type.VTHOR),
+        getV2Asset(VestingType.THOR),
+        getV2Address(VestingType.VTHOR),
       )
 
       if (txHash) {
@@ -124,7 +119,7 @@ export const useVthorUtil = () => {
       }
     } catch {
       setTxFailed(trackId)
-      showToast({ message: t('notification.approveFailed') }, ToastType.Error)
+      showErrorToast(t('notification.approveFailed'))
     }
   }, [getApprovalStatus, submitTransaction, subscribeEthTx, setTxFailed])
 
@@ -203,24 +198,17 @@ export const useVthorUtil = () => {
 
   const stakeThor = useCallback(
     async (stakeAmount: BigNumber, receiverAddr: string) => {
-      if (fromWei(stakeAmount) === 0) {
-        return
+      const parsedAmount = fromWei(stakeAmount)
+      if (parsedAmount === 0) return
+
+      const thorAsset = getV2Asset(VestingType.THOR)
+      const amount = parsedAmount.toString()
+      const submitTx = {
+        inAssets: [{ asset: thorAsset.toString(), amount }],
       }
 
-      const thorAsset = getV2Asset(StakingV2Type.THOR)
-
       // submit transaction for Stake
-      const trackId = submitTransaction({
-        type: TxTrackerType.Stake,
-        submitTx: {
-          inAssets: [
-            {
-              asset: thorAsset.toString(),
-              amount: fromWei(stakeAmount).toString(),
-            },
-          ],
-        },
-      })
+      const trackId = submitTransaction({ type: TxTrackerType.Stake, submitTx })
 
       try {
         const res = await triggerContractCall(
@@ -235,29 +223,18 @@ export const useVthorUtil = () => {
         if (txHash) {
           subscribeEthTx({
             uuid: trackId,
-            submitTx: {
-              inAssets: [
-                {
-                  asset: thorAsset.toString(),
-                  amount: fromWei(stakeAmount).toString(),
-                },
-              ],
-              txID: txHash,
-            },
+            submitTx: { ...submitTx, txID: txHash },
             txHash,
             callback: handleRefresh,
           })
         }
       } catch {
         setTxFailed(trackId)
-        showToast(
-          {
-            message: t('txManager.stakeAssetFailed', {
-              amount: fromWei(stakeAmount).toString(),
-              asset: thorAsset.ticker,
-            }),
-          },
-          ToastType.Error,
+        showErrorToast(
+          t('txManager.stakeAssetFailed', {
+            amount: fromWei(stakeAmount).toString(),
+            asset: thorAsset.ticker,
+          }),
         )
       }
     },
@@ -266,19 +243,16 @@ export const useVthorUtil = () => {
 
   const unstakeThor = useCallback(
     async (unstakeAmount: BigNumber, receiverAddr: string) => {
-      const thorAsset = getV2Asset(StakingV2Type.THOR)
+      const vthorAsset = getV2Asset(VestingType.VTHOR)
+      const amount = fromWei(unstakeAmount).toString()
+      const submitTx = {
+        inAssets: [{ asset: vthorAsset.toString(), amount }],
+      }
 
       // TODO: update tracker type and submitTx info
       const trackId = submitTransaction({
         type: TxTrackerType.Unstake,
-        submitTx: {
-          inAssets: [
-            {
-              asset: thorAsset.toString(),
-              amount: fromWei(unstakeAmount).toString(),
-            },
-          ],
-        },
+        submitTx,
       })
 
       try {
@@ -294,29 +268,18 @@ export const useVthorUtil = () => {
         if (txHash) {
           subscribeEthTx({
             uuid: trackId,
-            submitTx: {
-              inAssets: [
-                {
-                  asset: thorAsset.toString(),
-                  amount: fromWei(unstakeAmount).toString(),
-                },
-              ],
-              txID: txHash,
-            },
+            submitTx: { ...submitTx, txID: txHash },
             txHash,
             callback: handleRefresh,
           })
         }
       } catch {
         setTxFailed(trackId)
-        showToast(
-          {
-            message: t('txManager.redeemedAmountAssetFailed', {
-              amount: fromWei(unstakeAmount).toString(),
-              asset: thorAsset.ticker,
-            }),
-          },
-          ToastType.Error,
+        showErrorToast(
+          t('txManager.redeemedAmountAssetFailed', {
+            asset: vthorAsset.ticker,
+            amount,
+          }),
         )
       }
     },

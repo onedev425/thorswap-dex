@@ -19,7 +19,7 @@ import { InfoTable } from 'components/InfoTable'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { PanelInput } from 'components/PanelInput'
 import { PanelView } from 'components/PanelView'
-import { showToast, ToastType } from 'components/Toast'
+import { showErrorToast } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useMidgard } from 'store/midgard/hooks'
@@ -32,7 +32,7 @@ import { useNetworkFee } from 'hooks/useNetworkFee'
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
-import { commonAssets } from 'helpers/assetsFixture'
+import { commonAssets } from 'helpers/assets'
 
 import { getSendRoute } from 'settings/constants'
 
@@ -148,14 +148,8 @@ const Send = () => {
         address: recipientAddress,
       })
     ) {
-      showToast(
-        {
-          message: t('notification.invalidL1ChainAddy', {
-            chain: sendAsset.L1Chain,
-          }),
-        },
-        ToastType.Error,
-        { duration: 20 * 1000 },
+      showErrorToast(
+        t('notification.invalidL1ChainAddy', { chain: sendAsset.L1Chain }),
       )
     } else {
       setIsOpenConfirmModal(true)

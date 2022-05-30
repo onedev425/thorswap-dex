@@ -1,12 +1,14 @@
-import { stakingV2Addr, vThorInfo } from 'views/StakeVThor/utils'
+import { memo } from 'react'
 
 import { Button, Icon } from 'components/Atomic'
 
 import { t } from 'services/i18n'
 
+import { stakingV2Addr, vThorInfo } from 'helpers/assets'
+
 import { NETWORK } from 'settings/config'
 
-export const AddVThorMM = () => {
+export const AddVThorMM = memo(() => {
   const addVTHOR = async () => {
     const vThorAddress = stakingV2Addr.VTHOR[NETWORK]
 
@@ -39,4 +41,4 @@ export const AddVThorMM = () => {
       {t('views.stakingVThor.addVTHOR')}
     </Button>
   )
-}
+})

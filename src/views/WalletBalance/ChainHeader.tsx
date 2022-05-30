@@ -11,7 +11,7 @@ import { useWalletChainActions } from 'views/Wallet/hooks'
 import { Box, Tooltip, Typography } from 'components/Atomic'
 import { HoverIcon } from 'components/HoverIcon'
 import { PhraseModal } from 'components/Modals/PhraseModal'
-import { showToast, ToastType } from 'components/Toast'
+import { showInfoToast } from 'components/Toast'
 import { WalletIcon } from 'components/WalletIcon/WalletIcon'
 
 import { t } from 'services/i18n'
@@ -49,11 +49,9 @@ export const ChainHeader = ({
     if (walletType === WalletOption.LEDGER && chain === 'THOR') {
       const addr = await multichain.thor.verifyLedgerAddress()
 
-      showToast(
-        { message: t('notification.verifyLedgerAddy'), description: addr },
-        ToastType.Info,
-        { duration: 20 * 1000 },
-      )
+      showInfoToast(t('notification.verifyLedgerAddy'), addr, {
+        duration: 20 * 1000,
+      })
     }
   }, [walletType, chain])
 

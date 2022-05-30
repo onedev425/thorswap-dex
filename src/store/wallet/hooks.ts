@@ -15,7 +15,7 @@ import {
   TERRAChain,
 } from '@thorswap-lib/xchain-util'
 
-import { showToast, ToastType } from 'components/Toast'
+import { showErrorToast, showInfoToast } from 'components/Toast'
 
 import { actions as midgardActions } from 'store/midgard/slice'
 import { useAppDispatch, useAppSelector } from 'store/store'
@@ -85,17 +85,14 @@ export const useWallet = () => {
       const options = { chain, index: addressIndex }
 
       try {
-        showToast({ message: t('notification.connectingLedger', options) })
+        showInfoToast(t('notification.connectingLedger', options))
         await multichain.connectLedger({ chain, addressIndex })
 
         dispatch(walletActions.getWalletByChain(chain as SupportedChain))
-        showToast({ message: t('notification.connectedLedger', options) })
+        showInfoToast(t('notification.connectedLedger', options))
       } catch (error) {
         console.error(error)
-        showToast(
-          { message: t('notification.ledgerFailed', options) },
-          ToastType.Error,
-        )
+        showErrorToast(t('notification.ledgerFailed', options))
       }
     },
     [dispatch],

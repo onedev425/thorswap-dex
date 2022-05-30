@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 
 import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-sdk'
 
-import { showToast, ToastType } from 'components/Toast'
+import { showErrorToast } from 'components/Toast'
 
 import { TxTrackerType } from 'store/midgard/types'
 
@@ -76,11 +76,7 @@ export const useConfirmSend = ({
         console.error('confirmSendError', { error, description })
         setTxFailed(trackId)
 
-        showToast(
-          { message: t('notification.sendTxFailed'), description },
-          ToastType.Error,
-          { duration: 20 * 1000 },
-        )
+        showErrorToast(t('notification.sendTxFailed'), description)
       }
     }
   }, [

@@ -26,7 +26,7 @@ import { LiquidityTypeOption } from 'components/LiquidityType/types'
 import { LPTypeSelector } from 'components/LPTypeSelector'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { PanelView } from 'components/PanelView'
-import { showToast, ToastType } from 'components/Toast'
+import { showErrorToast, showInfoToast } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useMidgard } from 'store/midgard/hooks'
@@ -648,13 +648,7 @@ const WithdrawPanel = ({
 
         // TODO: better error translation
         // const description = translateErrorMsg(error?.toString())
-        showToast(
-          {
-            message: t('notification.submitTxFailed'),
-            description: error?.toString(),
-          },
-          ToastType.Error,
-        )
+        showErrorToast(t('notification.submitTxFailed'), error?.toString())
       }
     }
   }, [
@@ -672,25 +666,18 @@ const WithdrawPanel = ({
 
   const handleWithdrawLiquidity = useCallback(() => {
     if (pool.asset.isETH() && pool.detail.status === 'staged') {
-      showToast(
-        {
-          message: t('notification.cannotWithdrawFromSP'),
-          description: t('notification.cannotWithdrawFromSPDesc'),
-        },
-        ToastType.Info,
+      return showInfoToast(
+        'notification.cannotWithdrawFromSP',
+        t('notification.cannotWithdrawFromSPDesc'),
       )
-      return
     }
 
     if (wallet) {
       setVisibleConfirmModal(true)
     } else {
-      showToast(
-        {
-          message: t('notification.walletNotFound'),
-          description: t('notification.connectWallet'),
-        },
-        ToastType.Info,
+      showInfoToast(
+        t('notification.walletNotFound'),
+        t('notification.connectWallet'),
       )
     }
   }, [wallet, pool])
