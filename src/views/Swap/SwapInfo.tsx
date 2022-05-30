@@ -9,6 +9,8 @@ import { InfoWithTooltip } from 'components/InfoWithTooltip'
 
 import { t } from 'services/i18n'
 
+import { formatPrice } from 'helpers/formatPrice'
+
 type Props = {
   price?: Price
   inputAsset: AssetInputType
@@ -16,8 +18,8 @@ type Props = {
   minReceive: string
   slippage: string
   isValidSlip?: boolean
-  networkFee: string
-  affiliateFee?: string
+  networkFee: Price
+  affiliateFee?: Price
   totalFee?: string
   isAffiliated?: boolean
 }
@@ -31,9 +33,13 @@ export const SwapInfo = ({
   isValidSlip = true,
   networkFee,
   affiliateFee,
-  totalFee,
   isAffiliated,
 }: Props) => {
+  const totalFeeBN = isAffiliated
+    ? networkFee?.raw().plus(affiliateFee?.raw() || 0)
+    : networkFee?.raw()
+  const totalFee = `$${formatPrice(totalFeeBN.toFixed(2))}`
+
   const [reverted, setReverted] = useState(false)
 
   const toggle: MouseEventHandler<HTMLButtonElement> = useCallback(
@@ -60,13 +66,17 @@ export const SwapInfo = ({
     }`
   }, [reverted, price, inputAsset, outputAsset])
 
-  const priceDesc = useMemo(() => {
-    if (reverted) {
-      return `(${outputAsset.usdPrice?.toCurrencyFormat(2) || '-'})`
-    }
+  const priceDesc = useMemo(
+    () =>
+      `(${
+        (reverted ? outputAsset : inputAsset).usdPrice?.toCurrencyFormat(2) ||
+        '-'
+      })`,
 
-    return `(${inputAsset.usdPrice?.toCurrencyFormat(2) || '-'})`
-  }, [inputAsset.usdPrice, outputAsset.usdPrice, reverted])
+    [inputAsset, outputAsset, reverted],
+  )
+
+  const affiliateFeeInUsd = affiliateFee?.toCurrencyFormat(2)
 
   return (
     <Collapse
@@ -151,7 +161,7 @@ export const SwapInfo = ({
           value={
             <InfoWithTooltip
               tooltip={t('views.wallet.networkFeeTooltip')}
-              value={networkFee}
+              value={networkFee.toCurrencyFormat(2)}
             />
           }
         />
@@ -163,11 +173,11 @@ export const SwapInfo = ({
               tooltip={t('views.swap.affiliateFee')}
               value={
                 isAffiliated ? (
-                  affiliateFee
+                  affiliateFeeInUsd
                 ) : (
                   <Box center className="gap-1">
                     <Typography className="line-through" variant="caption">
-                      {affiliateFee !== '$0.00' && affiliateFee}
+                      {affiliateFeeInUsd !== '$0.00' && affiliateFeeInUsd}
                     </Typography>
                     <Typography color="green" variant="body" fontWeight="bold">
                       FREE

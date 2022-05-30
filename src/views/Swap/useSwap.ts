@@ -41,51 +41,34 @@ export const useSwap = ({
     if (poolLoading || pools.length === 0) return null
 
     try {
-      const inputAssetAmount = new AssetAmount(inputAsset, inputAmount)
-
-      const inboundFeeInInputAsset = new AssetAmount(
-        inputAsset,
-        Amount.fromAssetAmount(
-          inboundFee.totalPriceIn(inputAsset, pools).price,
-          inputAsset.decimal,
-        ),
+      const inputFeeAmount = Amount.fromAssetAmount(
+        inboundFee.totalPriceIn(inputAsset, pools).price,
+        inputAsset.decimal,
       )
-
-      const outboundFeeInOutputAsset = outboundFee
-        ? new AssetAmount(
-            outputAsset,
-            Amount.fromAssetAmount(
-              outboundFee.totalPriceIn(outputAsset, pools).price,
-              outputAsset.decimal,
-            ),
+      const outboundFeeAmount = outboundFee
+        ? Amount.fromAssetAmount(
+            outboundFee.totalPriceIn(outputAsset, pools).price,
+            outputAsset.decimal,
           )
-        : new AssetAmount(
-            outputAsset,
-            Amount.fromAssetAmount(0, outputAsset.decimal),
-          )
+        : Amount.fromAssetAmount(0, outputAsset.decimal)
 
-      const swapParams = isAffiliated
-        ? {
-            inputAsset,
-            outputAsset,
-            pools,
-            amount: inputAssetAmount,
-            slip: slippageTolerance,
-            fee: {
-              inboundFee: inboundFeeInInputAsset,
-              outboundFee: outboundFeeInOutputAsset,
-            },
-            affiliateFee: DEFAULT_AFFILIATE_FEE,
-          }
-        : {
-            inputAsset,
-            outputAsset,
-            pools,
-            amount: inputAssetAmount,
-            slip: slippageTolerance,
-          }
+      const swapParams = {
+        inputAsset,
+        outputAsset,
+        pools,
+        slip: slippageTolerance,
+        amount: new AssetAmount(inputAsset, inputAmount),
+        fee: {
+          inboundFee: new AssetAmount(inputAsset, inputFeeAmount),
+          outboundFee: new AssetAmount(outputAsset, outboundFeeAmount),
+        },
+      }
 
-      return new Swap(swapParams)
+      return new Swap(
+        isAffiliated
+          ? { ...swapParams, affiliateFee: DEFAULT_AFFILIATE_FEE }
+          : swapParams,
+      )
     } catch (error) {
       console.error(error)
       return null
@@ -94,12 +77,12 @@ export const useSwap = ({
     inboundFee,
     inputAmount,
     inputAsset,
+    isAffiliated,
     outboundFee,
     outputAsset,
     poolLoading,
     pools,
     slippageTolerance,
-    isAffiliated,
   ])
 
   return swap

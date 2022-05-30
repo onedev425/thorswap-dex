@@ -47,7 +47,6 @@ import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
 import { translateErrorMsg } from 'helpers/error'
-import { formatPrice } from 'helpers/formatPrice'
 
 import { IS_AFFILIATE_ON } from 'settings/config'
 import {
@@ -87,7 +86,7 @@ const SwapView = () => {
   const { hasVThor } = useVthorBalance(ethAddr)
 
   const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
-  const { totalFeeInUSD: totalNetworkFeeInUSD } = useNetworkFee({
+  const { totalFeeInUSD } = useNetworkFee({
     inputAsset,
     outputAsset,
   })
@@ -127,11 +126,6 @@ const SwapView = () => {
     [inputAsset, inputAmount, pools],
   )
 
-  const totalFeeBN = isAffiliated
-    ? totalNetworkFeeInUSD?.raw().plus(affiliateFeeInUSD?.raw())
-    : totalNetworkFeeInUSD?.raw()
-  const totalFee = `$${formatPrice(totalFeeBN.toFixed(2))}`
-
   const swap = useSwap({
     poolLoading,
     inputAmount,
@@ -140,6 +134,8 @@ const SwapView = () => {
     outputAsset,
     isAffiliated,
   })
+
+  const isValidSlip = useMemo(() => swap?.isSlipValid() ?? true, [swap])
 
   useEffect(() => {
     const getPair = async () => {
@@ -170,7 +166,6 @@ const SwapView = () => {
 
   const handleCopyAddress = useCallback(() => {
     copy(recipient)
-
     showInfoToast(t('notification.addressCopied'))
   }, [recipient])
 
@@ -183,12 +178,6 @@ const SwapView = () => {
       setRecipient(value),
     [],
   )
-
-  // for GA tracking purpose
-  // const isCustomRecipient = useMemo(() => {
-  //   if (!wallet) return false
-  //   return getWalletAddressByChain(wallet, outputAsset.L1Chain) === recipient
-  // }, [wallet, outputAsset, recipient])
 
   const outputAmount: Amount = useMemo(
     () =>
@@ -349,8 +338,6 @@ const SwapView = () => {
     submitTransaction,
   ])
 
-  const isValidSlip = useMemo(() => swap?.isSlipValid() ?? true, [swap])
-
   const estimatedTime = useMemo(
     () =>
       getEstimatedTxTime({
@@ -384,10 +371,19 @@ const SwapView = () => {
 
   const approveConfirmInfo = useApproveInfoItems({
     inputAsset: inputAssetProps,
-    fee: totalNetworkFeeInUSD.toCurrencyFormat(2),
+    fee: totalFeeInUSD.toCurrencyFormat(2),
   })
 
   const title = `${t('common.swap')} ${inputAsset.name} >> ${outputAsset.name}`
+
+  const swapAmountTooSmall = useMemo(() => {
+    const minSwapAmount = totalFeeInUSD.gte(50) ? 50 : totalFeeInUSD.raw()
+
+    return (
+      swap?.outputAsset.L1Chain === 'ETH' &&
+      outputAssetPriceInUSD.raw().lt(minSwapAmount)
+    )
+  }, [outputAssetPriceInUSD, swap?.outputAsset.L1Chain, totalFeeInUSD])
 
   return (
     <PanelView
@@ -474,9 +470,8 @@ const SwapView = () => {
         minReceive={`${minReceive.toSignificant(
           6,
         )} ${outputAsset.name.toUpperCase()}`}
-        networkFee={totalNetworkFeeInUSD.toCurrencyFormat(2)}
-        affiliateFee={affiliateFeeInUSD?.toCurrencyFormat(2)}
-        totalFee={totalFee}
+        networkFee={totalFeeInUSD}
+        affiliateFee={affiliateFeeInUSD}
         isAffiliated={isAffiliated}
       />
 
@@ -487,10 +482,7 @@ const SwapView = () => {
         inputAsset={inputAsset}
         outputAsset={outputAsset}
         setVisibleConfirmModal={setVisibleConfirmModal}
-        swapAmountTooSmall={
-          swap?.outputAsset.L1Chain === 'ETH' &&
-          outputAssetPriceInUSD.raw().lt(50)
-        }
+        swapAmountTooSmall={swapAmountTooSmall}
         hasSwap={!!swap}
         setVisibleApproveModal={setVisibleApproveModal}
         hasInSufficientFee={!!swap?.hasInSufficientFee}
@@ -514,7 +506,7 @@ const SwapView = () => {
           minReceive={`${minReceive.toSignificant(
             4,
           )} ${outputAsset.name.toUpperCase()}`}
-          totalFee={totalNetworkFeeInUSD.toCurrencyFormat(2)}
+          totalFee={totalFeeInUSD.toCurrencyFormat(2)}
           affiliateFee={affiliateFeeInUSD?.toCurrencyFormat(2)}
         />
       </ConfirmModal>
