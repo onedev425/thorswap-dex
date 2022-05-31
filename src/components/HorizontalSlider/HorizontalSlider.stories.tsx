@@ -1,7 +1,6 @@
 import { ComponentMeta } from '@storybook/react'
 
 import { Card, Typography } from 'components/Atomic'
-import { StatsType } from 'components/Stats'
 
 import { HorizontalSlider } from './HorizontalSlider'
 
@@ -13,7 +12,7 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof HorizontalSlider>
 
-const STATS_LIST: StatsType[] = [
+const STATS_LIST = [
   {
     iconName: 'chartPie',
     color: 'yellow',

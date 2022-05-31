@@ -441,12 +441,14 @@ export const CreateLiquidity = () => {
     return t('common.createLiquidity')
   }, [isValidDeposit, isApproveRequired])
 
-  const estimatedTime = useMemo(() => {
-    return getEstimatedTxTime({
-      chain: poolAsset.chain as SupportedChain,
-      amount: assetAmount,
-    })
-  }, [assetAmount, poolAsset])
+  const estimatedTime = useMemo(
+    () =>
+      getEstimatedTxTime({
+        chain: poolAsset.chain as SupportedChain,
+        amount: assetAmount,
+      }),
+    [assetAmount, poolAsset],
+  )
 
   const confirmInfo = useConfirmInfoItems({
     assets: depositAssetInputs,
@@ -460,23 +462,10 @@ export const CreateLiquidity = () => {
     ],
   })
 
-  const renderConfirmModalContent = useMemo(
-    () => <InfoTable items={confirmInfo} />,
-    [confirmInfo],
-  )
-
   const approveConfirmInfo = useApproveInfoItems({
-    inputAsset: {
-      asset: poolAsset,
-      value: assetAmount,
-    },
+    inputAsset: { asset: poolAsset, value: assetAmount },
     fee: inboundAssetFee.toCurrencyFormat(),
   })
-
-  const renderApproveModalContent = useMemo(
-    () => <InfoTable items={approveConfirmInfo} />,
-    [approveConfirmInfo],
-  )
 
   const isDepositAvailable = useMemo(
     () => isWalletConnected && !isApproveRequired,
@@ -564,7 +553,7 @@ export const CreateLiquidity = () => {
         onConfirm={handleConfirmAdd}
         onClose={() => setVisibleConfirmModal(false)}
       >
-        {renderConfirmModalContent}
+        <InfoTable items={confirmInfo} />
       </ConfirmModal>
 
       <ConfirmModal
@@ -573,7 +562,7 @@ export const CreateLiquidity = () => {
         onClose={() => setVisibleApproveModal(false)}
         onConfirm={handleConfirmApprove}
       >
-        {renderApproveModalContent}
+        <InfoTable items={approveConfirmInfo} />
       </ConfirmModal>
     </PanelView>
   )

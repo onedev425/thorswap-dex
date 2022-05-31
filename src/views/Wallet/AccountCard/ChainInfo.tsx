@@ -33,7 +33,7 @@ export const ChainInfo = memo(
       >
         <Box>
           <AssetIcon hasChainIcon={false} asset={asset} />
-          <Box pl={2} col>
+          <Box className="pl-2" col>
             <Typography>{asset.name}</Typography>
             <Typography
               variant="caption"

@@ -29,7 +29,8 @@ export const AssetAmountBox = ({
       alignCenter
     >
       <AssetIcon asset={asset} />
-      <Box col ml={12}>
+
+      <Box col className="ml-3">
         <Typography>{amount || '-'}</Typography>
         <Typography fontWeight="normal" color="secondary">
           {asset.ticker}

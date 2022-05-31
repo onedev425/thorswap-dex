@@ -1,4 +1,4 @@
-import { BoxProps as RebassBoxProps } from 'rebass'
+import { CSSProperties, PropsWithChildren } from 'react'
 
 export type CustomAlignType = 'start' | 'end' | 'stretch' | 'baseline'
 
@@ -19,12 +19,15 @@ type JustifyProps = {
   justifyCenter?: boolean
 }
 
-export type BoxProps = {
-  className?: string
-  col?: boolean
-  row?: boolean
-} & Omit<RebassBoxProps, 'css' | 'bg' | 'justifyContent' | 'alignItems'> &
-  (
+export type BoxProps = PropsWithChildren<
+  {
+    onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+    style?: CSSProperties
+    className?: string
+    col?: boolean
+    row?: boolean
+    flex?: number
+  } & (
     | ({
         justify: CustomJustifyType
         justifyCenter?: undefined
@@ -53,6 +56,7 @@ export type BoxProps = {
         justify?: undefined
       } & AlignProps)
   )
+>
 
 export const alignClasses: Record<CustomAlignType, string> = {
   start: 'items-start',

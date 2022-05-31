@@ -25,7 +25,7 @@ export const Confirm = ({
     <Modal title={title || ''} isOpened={isOpened} onClose={onCancel}>
       <Box col>
         <Typography>{description}</Typography>
-        <Box className="gap-3" justify="end" mt={16}>
+        <Box className="gap-3 mt-4" justify="end">
           <Button onClick={onCancel} variant="tint">
             {cancelLabel || t('common.cancel')}
           </Button>

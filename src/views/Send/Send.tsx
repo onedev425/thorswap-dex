@@ -221,14 +221,15 @@ const Send = () => {
         />
       }
     >
-      <AssetInput
-        className="w-full"
-        selectedAsset={assetInput}
-        assets={assetInputList}
-        commonAssets={commonAssets}
-        onAssetChange={handleSelectAsset}
-        onValueChange={handleChangeSendAmount}
-      />
+      <div className="relative self-stretch md:w-full">
+        <AssetInput
+          selectedAsset={assetInput}
+          assets={assetInputList}
+          commonAssets={commonAssets}
+          onAssetChange={handleSelectAsset}
+          onValueChange={handleChangeSendAmount}
+        />
+      </div>
 
       <PanelInput
         title={t('common.recipientAddress')}

@@ -14,6 +14,7 @@ export const FallbackIcon = ({ ticker, size }: Props) => {
   const fallbackBgImg = `linear-gradient(45deg, ${rainbowStop(
     tickerNums[0],
   )}, ${rainbowStop(tickerNums[1])})`
+
   const isLongTicker = ticker.length > 4
 
   return (
@@ -21,9 +22,7 @@ export const FallbackIcon = ({ ticker, size }: Props) => {
       alignCenter
       justifyCenter
       className="rounded-full z-10"
-      width={size}
-      height={size}
-      style={{ background: fallbackBgImg }}
+      style={{ background: fallbackBgImg, width: size, height: size }}
     >
       <Typography
         className={classNames('-m-1 break-all text-center leading-[10px]', {

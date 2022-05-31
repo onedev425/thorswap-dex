@@ -55,8 +55,7 @@ export const AssetIcon = memo(
               { [genericBgClasses[bgColor || 'secondary']]: bgColor },
             )}
             center
-            width={iconSize}
-            height={iconSize}
+            style={{ width: iconSize, height: iconSize }}
           >
             <img
               className="absolute inset-0 transition-all rounded-full"

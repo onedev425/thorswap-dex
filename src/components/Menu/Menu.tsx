@@ -5,8 +5,9 @@ import classNames from 'classnames'
 
 import { Button, Box, Icon, IconName } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
-import { MenuItem } from 'components/Menu/MenuItem'
-import { MenuItemType } from 'components/Menu/types'
+
+import { MenuItem } from './MenuItem'
+import { MenuItemType } from './types'
 
 type Props = {
   items: MenuItemType[]

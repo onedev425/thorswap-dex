@@ -7,13 +7,12 @@ type Props = {
 
 export const SwitchMenu = ({ items }: Props) => {
   return (
-    <Box className="w-full" col margin={2}>
+    <Box className="w-full m-2" col>
       {items.map((item) => (
         <Box
           key={item.label}
           alignCenter
-          marginBottom={2}
-          className="px-5 py-4 dark:bg-btn-dark-tint rounded-2xl justify-between"
+          className="px-5 py-4 mb-2 dark:bg-btn-dark-tint rounded-2xl justify-between"
         >
           <Typography>{item.label}</Typography>
           <SwitchToggle

@@ -1,7 +1,6 @@
-import { forwardRef } from 'react'
+import { CSSProperties, forwardRef, useMemo } from 'react'
 
 import classNames from 'classnames'
-import { Box as RebassBox } from 'rebass'
 
 import {
   alignClasses,
@@ -21,14 +20,22 @@ export const Box = forwardRef<HTMLDivElement, BoxProps>(
       align,
       justify,
       row,
+      flex,
+      style,
       ...rest
     },
     ref,
   ) => {
+    const styles = useMemo(
+      () => ({ ...(style || {}), flex } as CSSProperties),
+      [flex, style],
+    )
+
     return (
-      <RebassBox
+      <div
         {...rest}
         ref={ref}
+        style={styles}
         className={classNames(
           'flex',
           {
@@ -43,7 +50,7 @@ export const Box = forwardRef<HTMLDivElement, BoxProps>(
         )}
       >
         {children}
-      </RebassBox>
+      </div>
     )
   },
 )

@@ -44,9 +44,10 @@ export const TabsSelect = memo(
         >
           <Box
             flex={1}
-            flexWrap="wrap"
             justify="between"
-            className={classNames('self-stretch', { 'gap-1': !tabWidth })}
+            className={classNames('flex-wrap self-stretch', {
+              'gap-1': !tabWidth,
+            })}
           >
             {tabs.map(({ value, label }) => (
               <Button

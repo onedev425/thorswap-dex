@@ -17,19 +17,17 @@ import NodeManager from 'views/Nodes/NodeManager'
 import Send from 'views/Send'
 import Stake from 'views/Stake'
 import StakeVThor from 'views/StakeVThor'
-import Stats from 'views/Stats'
 import Swap from 'views/Swap'
 import Thorname from 'views/Thorname'
 import UpgradeRune from 'views/UpgradeRune'
 import Vesting from 'views/Vesting'
 import Wallet from 'views/Wallet'
-import WalletBalance from 'views/WalletBalance'
+import WalletBalance, { WalletDrawer } from 'views/WalletBalance'
 import WithdrawLiquidity from 'views/WithdrawLiquidity'
 
-import { Box, TooltipPortal } from 'components/Atomic'
+import { TooltipPortal } from 'components/Atomic'
 import { Layout } from 'components/Layout'
 import { ToastPortal } from 'components/Toast'
-import { WalletDrawer } from 'components/WalletDrawer'
 
 import { IS_STAGENET } from 'settings/config'
 import { ROUTES } from 'settings/constants'
@@ -53,7 +51,6 @@ const routes: RouteType = [
   { path: ROUTES.SendAsset, element: Send },
   { path: ROUTES.Stake, element: Stake },
   { path: ROUTES.StakeV2, element: StakeVThor },
-  { path: ROUTES.Stats, element: Stats },
   { path: ROUTES.Swap, element: Swap },
   { path: ROUTES.SwapPair, element: Swap },
   { path: ROUTES.UpgradeRune, element: UpgradeRune },
@@ -78,10 +75,7 @@ const PublicRoutes = () => {
               key={route.path}
               path={route.path}
               element={
-                <Box
-                  flex={1}
-                  className="transition-colors bg-light-bg-primary dark:bg-dark-bg-primary"
-                >
+                <>
                   <WalletDrawer>
                     <WalletBalance />
                   </WalletDrawer>
@@ -89,7 +83,7 @@ const PublicRoutes = () => {
                   <Layout>
                     <Component />
                   </Layout>
-                </Box>
+                </>
               }
             />
           )

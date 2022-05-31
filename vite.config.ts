@@ -41,7 +41,7 @@ export default defineConfig({
     commonjsOptions: { ignoreTryCatch: false, transformMixedEsModules: true },
     minify: 'esbuild',
     outDir: 'build',
-    reportCompressedSize: false,
+    reportCompressedSize: true,
     sourcemap: false,
     rollupOptions: {
       plugins: [nodePolyfills({ sourceMap: false })],

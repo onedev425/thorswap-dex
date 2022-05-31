@@ -20,8 +20,8 @@ export const AssetChart = memo(({ asset, mode }: Props) => {
 
   return (
     <Box
-      height={mode === ViewMode.CARD ? 100 : 80}
       center
+      style={{ height: mode === ViewMode.CARD ? 100 : 80 }}
       className={classNames('opacity-0 transition-opacity duration-500', {
         '!opacity-100': values.length > 0,
         '!-my-[20px] lg:w-[100px] xl:w-[320px]': mode === ViewMode.LIST,

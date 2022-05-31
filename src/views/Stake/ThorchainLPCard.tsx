@@ -39,7 +39,7 @@ export const ThorchainLPCard = () => {
 
   return (
     <Box col className="flex-1 !min-w-[360px] lg:!max-w-[50%]">
-      <Box className="w-full h-full min-h-[436px] relative" mt={56}>
+      <Box className="w-full h-full min-h-[436px] relative mt-14">
         <Card
           className={classNames('flex-col flex-1', borderHoverHighlightClass)}
         >
@@ -52,11 +52,13 @@ export const ThorchainLPCard = () => {
               size="big"
             />
           </div>
-          <Box mt={32} center>
+
+          <Box className="mt-8" center>
             <Typography className="mr-2" variant="h4">
               THOR-RUNE LP
             </Typography>
           </Box>
+
           <Box className="flex-row justify-between">
             <Box col className="p-4">
               <Typography
@@ -94,7 +96,7 @@ export const ThorchainLPCard = () => {
           <Box className="flex-col px-4">
             <Typography>{t('views.staking.tcStakingDesc')}</Typography>
           </Box>
-          <Box className="flex-col-reverse flex-grow w-full" alignCenter mt={4}>
+          <Box className="flex-col-reverse flex-grow w-full mt-4" alignCenter>
             {!ethAddr ? (
               <Button
                 isFancy

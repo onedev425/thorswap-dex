@@ -1,7 +1,6 @@
 import { chainToSigAsset } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
-import { AnnouncementProps } from 'components/Announcement/types'
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, Link, Typography } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
@@ -9,6 +8,8 @@ import { genericBgClasses } from 'components/constants'
 import { AnnouncementType } from 'store/externalConfig/types'
 
 import { t } from 'services/i18n'
+
+import { AnnouncementProps } from './types'
 
 const announcementClasses: Record<AnnouncementType, string> = {
   primary: '!opacity-20 from-transparent via-btn-primary',
@@ -44,7 +45,7 @@ export const Announcement = ({
     <Box
       center
       className={classNames(
-        'rounded-2xl px-12 py-3.5 relative flex-1',
+        'rounded-2xl px-12 py-3.5 relative',
         genericBgClasses.primary,
       )}
     >
@@ -65,7 +66,8 @@ export const Announcement = ({
           announcementBorderClasses[type],
         )}
       ></Box>
-      <Box className="z-0" col textAlign="center">
+
+      <Box className="z-0 text-center" col>
         {!!title && <Typography variant="subtitle1">{title}</Typography>}
         {!!message && (
           <Typography>

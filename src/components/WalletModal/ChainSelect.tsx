@@ -69,7 +69,7 @@ export const ChainSelect = ({
   return (
     <Box className="w-full space-y-2" col>
       {walletType !== WalletType.Ledger && walletChains.length > 0 && (
-        <Box row className="px-2 pb-4" justify="end">
+        <Box row className="p-2" justify="end">
           <Button
             type="borderless"
             variant="tint"
@@ -87,7 +87,7 @@ export const ChainSelect = ({
       )}
 
       <Scrollbar maxHeight="100%" customStyle={{ marginRight: '-12px' }}>
-        <Box flex={1} flexWrap="wrap" center className="px-6 gap-2" row>
+        <Box flex={1} center className="px-6 gap-2 flex-wrap" row>
           {walletChains.map((chain) => (
             <ChainOption
               pendingChains={pendingChains}

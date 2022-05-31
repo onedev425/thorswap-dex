@@ -17,8 +17,7 @@ export const ChainIcon = memo(({ className, chain, size = 16 }: Props) => {
       )}
       alignCenter
       justifyCenter
-      width={size}
-      height={size}
+      style={{ width: size, height: size }}
     >
       <Icon name={chainIcon as IconName} size={size * 0.75} />
     </Box>

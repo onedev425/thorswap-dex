@@ -87,7 +87,7 @@ export const PhraseView = () => {
           {t('views.walletModal.invalidPhrase')}
         </Typography>
       )}
-      <Box className="space-x-2" row mt={24} mb={2}>
+      <Box className="space-x-2 mt-6 mb-2" row>
         <Typography variant="subtitle2">
           {t('views.walletModal.keystorePassword')}
         </Typography>
@@ -110,7 +110,7 @@ export const PhraseView = () => {
         </Typography>
       )}
 
-      <Box mt={24}>
+      <Box className="mt-6">
         <Button
           className="flex-1 group"
           size="sm"

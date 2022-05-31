@@ -30,7 +30,7 @@ export const ViewHeader = ({ title, withBack, actionsComponent }: Props) => {
       </Box>
 
       {!!actionsComponent && (
-        <Box center pr={2}>
+        <Box center className="pr-2">
           {actionsComponent}
         </Box>
       )}

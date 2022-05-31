@@ -758,11 +758,6 @@ const WithdrawPanel = ({
     fee: feeLabel,
   })
 
-  const renderConfirmModalContent = useMemo(
-    () => <InfoTable items={confirmInfo} />,
-    [confirmInfo],
-  )
-
   return (
     <PanelView
       title={t('views.liquidity.withdrawLiquidity')}
@@ -837,7 +832,7 @@ const WithdrawPanel = ({
         onConfirm={handleConfirmWithdraw}
         onClose={() => setVisibleConfirmModal(false)}
       >
-        {renderConfirmModalContent}
+        <InfoTable items={confirmInfo} />
       </ConfirmModal>
     </PanelView>
   )

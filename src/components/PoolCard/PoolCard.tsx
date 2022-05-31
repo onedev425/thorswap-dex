@@ -62,7 +62,7 @@ export const PoolCard = ({ pool, color }: PoolCardProps) => {
         <AssetIcon hasChainIcon={false} asset={pool.asset} size={110} />
       </Box>
 
-      <Box className="gap-x-2" mt={5} align="end" justifyCenter>
+      <Box className="gap-x-2 mt-6" align="end" justifyCenter>
         <Button type="outline" onClick={handleSwapNavigate} stretch>
           {t('common.swap')}
         </Button>

@@ -901,11 +901,6 @@ export const AddLiquidity = () => {
     ],
   })
 
-  const renderConfirmModalContent = useMemo(
-    () => <InfoTable items={confirmInfo} />,
-    [confirmInfo],
-  )
-
   const approveConfirmInfo = useApproveInfoItems({
     inputAsset: {
       asset: poolAsset,
@@ -913,11 +908,6 @@ export const AddLiquidity = () => {
     },
     fee: inboundAssetFee.toCurrencyFormat(),
   })
-
-  const renderApproveModalContent = useMemo(
-    () => <InfoTable items={approveConfirmInfo} />,
-    [approveConfirmInfo],
-  )
 
   const isDepositAvailable = useMemo(
     () => isWalletConnected && !isApproveRequired,
@@ -1051,7 +1041,7 @@ export const AddLiquidity = () => {
         onConfirm={handleConfirmAdd}
         onClose={() => setVisibleConfirmModal(false)}
       >
-        {renderConfirmModalContent}
+        <InfoTable items={confirmInfo} />
       </ConfirmModal>
 
       <ConfirmModal
@@ -1060,7 +1050,7 @@ export const AddLiquidity = () => {
         onClose={() => setVisibleApproveModal(false)}
         onConfirm={handleConfirmApprove}
       >
-        {renderApproveModalContent}
+        <InfoTable items={approveConfirmInfo} />
       </ConfirmModal>
     </PanelView>
   )

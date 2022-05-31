@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import { BUILD_NUMBER } from 'config/constants'
 
@@ -17,7 +17,14 @@ export const AppMenu = () => {
   const [containerWidth, setContainerWidth] = useState(0)
 
   const { menus, menuType, onBack } = useAppPopoverMenu()
-  const renderMenu = () => {
+
+  useLayoutEffect(() => {
+    if (mainMenuRef.current?.clientWidth) {
+      setContainerWidth(mainMenuRef.current?.clientWidth)
+    }
+  }, [])
+
+  const menuElement = useMemo(() => {
     switch (menuType) {
       case 'main':
         return (
@@ -47,13 +54,7 @@ export const AppMenu = () => {
           </Box>
         )
     }
-  }
-
-  useLayoutEffect(() => {
-    if (mainMenuRef.current?.clientWidth) {
-      setContainerWidth(mainMenuRef.current?.clientWidth)
-    }
-  }, [])
+  }, [containerWidth, menuType, menus])
 
   return (
     <div>
@@ -61,7 +62,7 @@ export const AppMenu = () => {
         size="sm"
         className="flex-col px-4 m-1 mt-2 min-w-[160px] border border-solid border-btn-primary"
       >
-        <Box col margin={2}>
+        <Box col className="m-2">
           <Box row alignCenter>
             {menuType !== 'main' && (
               <Box
@@ -76,7 +77,7 @@ export const AppMenu = () => {
           </Box>
         </Box>
 
-        {renderMenu()}
+        {menuElement}
 
         <Box justify="end">
           <Typography variant="caption-xs" color="secondary">

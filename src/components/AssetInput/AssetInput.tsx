@@ -48,7 +48,7 @@ export const AssetInput = ({
 
   return (
     <HighlightCard
-      className={classNames('min-h-[107px] !gap-1 !justify-start', className)}
+      className={classNames('min-h-[70px] !gap-1 !justify-start', className)}
     >
       <Box
         className={classNames('pl-4 md:pl-0', className, {

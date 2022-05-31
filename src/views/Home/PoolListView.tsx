@@ -63,8 +63,7 @@ export const PoolListView = memo(() => {
           <Box
             alignCenter
             justify="between"
-            flexWrap="wrap"
-            className="gap-2 lg:flex-row"
+            className="flex-wrap gap-2 lg:flex-row"
           >
             <Box className="w-fit">
               <Input

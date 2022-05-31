@@ -86,7 +86,7 @@ export const PhraseModal = ({
                 </Typography>
               </Box>
             )}
-            <Box justifyCenter mt={4}>
+            <Box justifyCenter className="mt-4">
               <Button onClick={submit} stretch>
                 {t('views.walletModal.viewPhrase')}
               </Button>

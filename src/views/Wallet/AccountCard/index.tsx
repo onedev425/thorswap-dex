@@ -85,10 +85,10 @@ export const AccountCard = memo(({ chain }: Props) => {
           />
         </Box>
 
-        <Box mt={3} alignCenter justify="between">
+        <Box className="mt-3" alignCenter justify="between">
           <Box>
             <AssetIcon hasShadow asset={sigAsset} size={40} />
-            <Box ml={2} col>
+            <Box className="ml-2" col>
               <Typography>{sigAsset.ticker}</Typography>
               <Typography
                 variant="caption-xs"
@@ -110,7 +110,7 @@ export const AccountCard = memo(({ chain }: Props) => {
           )}
         </Box>
 
-        <Box mt={2} col center>
+        <Box className="mt-2" col center>
           <Box alignCenter flex={1} justify="between">
             <Typography variant="h3" fontWeight="semibold">
               {formatPrice(activeAssetPrice)}

@@ -96,7 +96,7 @@ export const Chart = memo(
       abbreviateValues,
     })
 
-    const renderChart = useMemo(() => {
+    const chartElement = useMemo(() => {
       if (!parsedChartData?.datasets?.length) return null
 
       switch (selectedChartType) {
@@ -148,7 +148,7 @@ export const Chart = memo(
               previewChartType={previewChartType}
             />
           ) : (
-            renderChart
+            chartElement
           )}
         </Box>
       </Box>

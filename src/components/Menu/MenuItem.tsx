@@ -4,9 +4,8 @@ import classNames from 'classnames'
 
 import { Icon, Typography, Link, Box, IconName } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
-import { MenuItemType } from 'components/Menu/types'
 
-type Props = MenuItemType
+import { MenuItemType } from './types'
 
 export const MenuItem = ({
   onClick,
@@ -17,9 +16,9 @@ export const MenuItem = ({
   value,
   href,
   gap = 'gap-6',
-}: Props) => {
-  const renderedItem = useMemo(() => {
-    return (
+}: MenuItemType) => {
+  const menuItemElement = useMemo(
+    () => (
       <button
         className={classNames(
           'outline-none border-none rounded-md relative flex flex-row w-full justify-between items-center cursor-pointer px-2 py-3 hover:brightness-95 dark:hover:brightness-125',
@@ -39,8 +38,9 @@ export const MenuItem = ({
           {isSelected && <Icon name="checkmark" size={16} />}
         </Box>
       </button>
-    )
-  }, [gap, icon, isSelected, label, labelClassName, onClick, value])
+    ),
+    [gap, icon, isSelected, label, labelClassName, onClick, value],
+  )
 
-  return href ? <Link to={href}>{renderedItem}</Link> : renderedItem
+  return href ? <Link to={href}>{menuItemElement}</Link> : menuItemElement
 }

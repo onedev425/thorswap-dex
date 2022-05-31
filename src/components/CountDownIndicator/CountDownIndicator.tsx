@@ -19,9 +19,6 @@ type Props = {
   onClick?: () => void
 }
 
-const svgClass =
-  'left-0 top-0 absolute w-full h-full overflow-visible -rotate-[90deg]'
-
 export const CountDownIndicator = memo(
   ({ className, resetIndicator, size = 24, duration = 10, onClick }: Props) => {
     const { themeType } = useApp()
@@ -72,6 +69,8 @@ export const CountDownIndicator = memo(
     )
 
     const seconds = (countdown / 1000).toFixed()
+
+    const svgClass = 'left-1.5 top-1.5 absolute w-full h-full overflow-visible'
 
     return (
       <Tooltip content={t('common.refresh')} place="top">

@@ -7,7 +7,7 @@ type Props = {
 
 export const MainMenu = ({ items }: Props) => {
   return (
-    <Box className="grid grid-cols-2 gap-1" mt={3}>
+    <Box className="grid grid-cols-2 gap-1 mt-3">
       {items.map((item) => (
         <Box
           key={item.label}

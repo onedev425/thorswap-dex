@@ -34,10 +34,7 @@ export const Layout = ({ children }: LayoutProp) => {
     <Scrollbar className="bg-light-layout-primary dark:bg-dark-bg-primary">
       {/* <div className="fixed inset-0 transition-colors light-elliptical-bg dark:bg-elliptical"></div> */}
 
-      <Box
-        col
-        className="relative w-full min-h-screen my-0 px-[calc(50%-720px)]"
-      >
+      <Box col flex={1} className="min-h-screen my-0 px-[calc(50%-720px)]">
         <aside className="fixed hidden md:block">
           <Sidebar collapsed={isSidebarCollapsed} toggle={toggleSidebar} />
         </aside>

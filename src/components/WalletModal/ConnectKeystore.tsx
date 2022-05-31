@@ -16,7 +16,11 @@ type Props = {
   onCreate: () => void
 }
 
-export const KeystoreView = ({ loading, onConnect, onCreate }: Props) => {
+export const ConnectKeystoreView = ({
+  loading,
+  onConnect,
+  onCreate,
+}: Props) => {
   const [keystore, setKeystore] = useState<Keystore>()
   const [password, setPassword] = useState<string>('')
   const [invalidStatus, setInvalidStatus] = useState(false)
@@ -111,6 +115,7 @@ export const KeystoreView = ({ loading, onConnect, onCreate }: Props) => {
           </Typography>
         </Box>
       </FilePicker>
+
       <Typography
         className="mt-2 ml-3"
         color="red"
@@ -119,7 +124,8 @@ export const KeystoreView = ({ loading, onConnect, onCreate }: Props) => {
       >
         {keystoreError ? t('views.walletModal.invalidKeystore') : ''}
       </Typography>
-      <Box className="space-x-2" row mt={24} mb={2}>
+
+      <Box className="space-x-2 mt-6 mb-2" row>
         <Typography variant="subtitle2">
           {t('views.walletModal.keystorePassword')}
         </Typography>
@@ -147,7 +153,7 @@ export const KeystoreView = ({ loading, onConnect, onCreate }: Props) => {
         </Typography>
       )}
 
-      <Box className="gap-x-4" mt={24}>
+      <Box className="gap-x-4 mt-6">
         <Button
           className="flex-1 group"
           size="sm"

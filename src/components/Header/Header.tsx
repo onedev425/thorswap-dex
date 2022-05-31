@@ -2,10 +2,9 @@ import { memo, useCallback, useMemo } from 'react'
 
 import { hasConnectedWallet } from '@thorswap-lib/multichain-sdk'
 
-import { AppPopoverMenu, DocumentationLink } from 'components/AppPopoverMenu'
+import { AppPopoverMenu } from 'components/AppPopoverMenu'
 import { Button, Icon, Box, Typography } from 'components/Atomic'
 import { HeaderAnnouncements } from 'components/HeaderAnnouncements'
-import { StatusDropdown } from 'components/StatusDropdown'
 import { TxManager } from 'components/TxManager'
 
 import { useApp } from 'store/app/hooks'
@@ -17,6 +16,8 @@ import { useWalletDrawer } from 'hooks/useWalletDrawer'
 import { t } from 'services/i18n'
 
 import { ThemeType } from 'types/app'
+
+import { StatusDropdown } from './StatusDropdown'
 
 type Props = {
   openMenu: () => void
@@ -58,7 +59,7 @@ export const Header = memo(({ openMenu }: Props) => {
           />
 
           <Box
-            className="h-10 px-2 bg-white border border-transparent border-solid shadow-md rounded-2xl dark:border-cyan dark:bg-transparent"
+            className="h-9.5 px-2 bg-white border border-transparent border-solid shadow-md rounded-2xl dark:border-cyan dark:bg-transparent"
             center
           >
             <Typography
@@ -87,7 +88,6 @@ export const Header = memo(({ openMenu }: Props) => {
               ? t('common.wallet')
               : t('common.connectWallet')}
           </Button>
-          <DocumentationLink />
           <AppPopoverMenu />
           <TxManager />
         </Box>

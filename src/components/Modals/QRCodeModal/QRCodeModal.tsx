@@ -38,10 +38,10 @@ export const QRCodeModal = ({ title, address, onCancel, chain }: Props) => {
     <Modal title={title || ''} isOpened={isOpened} onClose={onClose}>
       <Box center col>
         <Typography variant="subtitle2">{chain}</Typography>
-        <Box className="gap-3 p-2 bg-white rounded-xl" mt={16}>
+        <Box className="gap-3 p-2 bg-white rounded-xl mt-4">
           <QRCode size={256} value={address} logo={Logo} logoWidth={64} />
         </Box>
-        <Box className="space-x-2" alignCenter mt={3}>
+        <Box className="space-x-2 mt-3" alignCenter>
           <Typography>{shortAddress}</Typography>
           <Tooltip content={t('common.copy')}>
             <Box className={baseHoverClass}>

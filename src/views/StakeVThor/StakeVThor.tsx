@@ -144,7 +144,7 @@ const StakeVThor = () => {
   }, [])
 
   return (
-    <Box className="self-center w-full max-w-[480px]" col mt={2}>
+    <Box className="self-center w-full max-w-[480px] mt-2" col>
       <Helmet
         title={t('views.stakingVThor.stakeVThorTitle')}
         content={t('views.stakingVThor.stakeVThorTitle')}

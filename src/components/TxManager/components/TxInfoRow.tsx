@@ -13,7 +13,7 @@ export const TxInfoRow = ({ status, label, url }: Props) => {
   return (
     <Box justify="between" alignCenter>
       <Box className="w-full space-x-3" alignCenter>
-        <Box center size={24}>
+        <Box center style={{ width: 24, height: 24 }}>
           <TxStatusIcon status={status} size={16} />
         </Box>
         <Typography variant="caption" fontWeight="normal">

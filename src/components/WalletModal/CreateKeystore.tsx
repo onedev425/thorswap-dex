@@ -20,7 +20,7 @@ type Props = {
   onKeystore: () => void
 }
 
-export const KeystoreView = ({ onConnect, onKeystore }: Props) => {
+export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
   const [password, setPassword] = useState<string>('')
   const [confirmPassword, setConfirmPassword] = useState<string>('')
   const [invalidStatus, setInvalidStatus] = useState(false)
@@ -113,7 +113,7 @@ export const KeystoreView = ({ onConnect, onKeystore }: Props) => {
           onKeyDown={handleKeypress}
         />
       </Box>
-      <Box className="space-x-2" row mt={24} mb={2}>
+      <Box className="space-x-2 mt-6 mb-2" row>
         <Typography variant="subtitle2">
           {t('views.walletModal.confirmPassword')}
         </Typography>
@@ -136,7 +136,7 @@ export const KeystoreView = ({ onConnect, onKeystore }: Props) => {
         </Typography>
       )}
 
-      <Box className="gap-x-4" mt={24}>
+      <Box className="gap-x-4 mt-6">
         <Button
           className="flex-1 group"
           size="sm"

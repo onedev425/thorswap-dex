@@ -46,6 +46,7 @@ export const ConfirmContent = memo(
               </Typography>
             </Box>
           </Box>
+
           <Icon className="mx-2 -rotate-90" name="arrowDown" />
           <Box className="flex-1 p-4 rounded-2xl" center col>
             <AssetIcon asset={outputAsset.asset} />
@@ -61,7 +62,7 @@ export const ConfirmContent = memo(
         </Box>
 
         <Box
-          className="w-full p-4 border border-solid rounded-2xl border-light-border-primary dark:border-dark-border-primary"
+          className="w-full py-4 border border-solid rounded-2xl border-light-border-primary dark:border-dark-border-primary"
           col
         >
           <Box className="w-full" row>
@@ -96,10 +97,9 @@ export const ConfirmContent = memo(
               <Typography variant="caption">{slippage}</Typography>
             </Box>
           </Box>
-          <Box
-            className="w-full h-[1px] bg-light-border-primary dark:bg-dark-border-primary"
-            my={2}
-          />
+
+          <Box className="w-full h-[1px] bg-light-border-primary dark:bg-dark-border-primary my-2" />
+
           <Box className="w-full" row>
             <Box className="flex-1 gap-y-1" center col>
               <Typography

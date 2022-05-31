@@ -17,7 +17,7 @@ export const ChartHeader = memo(({ unit, values, title }: Props) => {
       : 0
 
   return (
-    <Box alignCenter justifyItems="flex-start" className="lg:flex-row">
+    <Box alignCenter justify="start" className="lg:flex-row">
       <Typography component="span" variant="h3">
         {title}
 

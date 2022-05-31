@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 
 import { Amount } from '@thorswap-lib/multichain-sdk'
 
-import { StatsType } from 'components/Stats/types'
+import { StatsType } from 'components/Stats'
 import { StatsList } from 'components/StatsList'
 
 import { useGlobalState } from 'store/hooks'

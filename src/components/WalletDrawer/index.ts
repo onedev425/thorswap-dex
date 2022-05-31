@@ -1,1 +1,0 @@
-export { WalletDrawer } from './WalletDrawer'

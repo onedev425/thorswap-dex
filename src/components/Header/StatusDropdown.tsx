@@ -147,9 +147,10 @@ export const StatusDropdown = () => {
     return menuItemData.map(({ label, value, statusType: type }) => {
       return {
         Component: (
-          <Box minWidth="200px" row alignCenter>
+          <Box className="min-w-[200px]" row alignCenter>
             <StatusBadge status={type || StatusType.Normal} />
-            <Box ml={2} col>
+
+            <Box className="ml-2" col>
               <Typography
                 variant="caption"
                 fontWeight="bold"

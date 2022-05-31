@@ -333,7 +333,7 @@ export const StakingCard = ({
 
   return (
     <Box className="flex-1 !min-w-[360px] lg:!max-w-[50%]" col>
-      <Box className="relative w-full" mt={56}>
+      <Box className="relative w-full mt-14">
         <Card
           className={classNames('flex-col w-full', borderHoverHighlightClass)}
         >
@@ -357,7 +357,7 @@ export const StakingCard = ({
             )}
           </div>
 
-          <Box mt={32} alignCenter row justify="between">
+          <Box className="mt-8" alignCenter row justify="between">
             <Box flex={1} />
             <Typography className="mr-2" variant="h4">
               {farmName}
@@ -461,7 +461,8 @@ export const StakingCard = ({
               value={ethAddr ? pendingRewardDebt.toFixed(2) : 'N/A'}
             />
           </Box>
-          <Box className="w-full gap-2" alignCenter mt={4}>
+
+          <Box className="w-full gap-2 mt-4" alignCenter>
             {!ethAddr ? (
               <Button
                 isFancy

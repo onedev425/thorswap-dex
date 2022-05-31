@@ -11,7 +11,7 @@ export type Props = {
 
 export const PanelView = memo(({ title, header, children }: Props) => {
   return (
-    <Box className="self-center w-full max-w-[480px]" col mt={2}>
+    <Box className="self-center w-full max-w-[480px] mt-2" col>
       <Helmet title={title} content={title} />
 
       <Box className="w-full mx-2" col>

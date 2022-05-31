@@ -8,7 +8,7 @@ type Props = {
 
 export const Submenu = ({ items }: Props) => {
   return (
-    <Box flex={1} col mt={16}>
+    <Box flex={1} col className="mt-4">
       {items.map((item) => (
         <MenuItem key={item.label} {...item} />
       ))}
