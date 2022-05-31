@@ -279,6 +279,8 @@
       "leave": "Leave",
       "complete": "Complete",
       "nodeActions": "Node Actions",
+      "rewards": "Rewards",
+      "slash": "Slash",
       "detail": {
         "totalBond": "Total Bond Amounts by Active, Standby Nodes",
         "nodeInformation": "Node Information",

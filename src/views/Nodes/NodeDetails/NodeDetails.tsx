@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { THORNode } from '@thorswap-lib/midgard-sdk'
 import classNames from 'classnames'
 
-import { useNodeStats, useNodeDetailInfo } from 'views/Nodes/hooks'
+import { useNodeStats, useNodeDetailInfo } from 'views/Nodes/hooks/hooks'
 import { NodeDetailsActionPanel } from 'views/Nodes/NodeDetails/NodeDetailsActionPanel'
 
 import { Box, Button, useCollapse } from 'components/Atomic'

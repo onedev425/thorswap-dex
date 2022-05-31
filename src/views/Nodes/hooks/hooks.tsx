@@ -27,10 +27,10 @@ import useWindowSize from 'hooks/useWindowSize'
 
 import { multichain } from 'services/multichain'
 
-import { shortenAddress } from '../../helpers/shortenAddress'
-import { t } from '../../services/i18n'
-import { useApp } from '../../store/app/hooks'
-import { useMidgard } from '../../store/midgard/hooks'
+import { shortenAddress } from '../../../helpers/shortenAddress'
+import { t } from '../../../services/i18n'
+import { useApp } from '../../../store/app/hooks'
+import { useMidgard } from '../../../store/midgard/hooks'
 
 export const useNodeDetailInfo = (nodeAddress: string | undefined) => {
   const { nodes, getNodes, nodeLoading } = useMidgard()

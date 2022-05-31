@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 
 import { chainToString } from '@thorswap-lib/xchain-util'
 
-import { sortAmounts } from 'components/PoolTable/utils'
+import { sortAmounts } from 'components/Atomic/Table/utils'
 
 import { useMidgard } from 'store/midgard/hooks'
 

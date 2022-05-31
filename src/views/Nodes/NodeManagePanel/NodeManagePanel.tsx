@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Asset } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
-import { useNodeManager } from 'views/Nodes/hooks'
+import { useNodeManager } from 'views/Nodes/hooks/hooks'
 import { BondActionType } from 'views/Nodes/types'
 
 import { AssetIcon } from 'components/AssetIcon'

@@ -7,13 +7,8 @@ import { chainToString } from '@thorswap-lib/xchain-util'
 
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, Button, Typography } from 'components/Atomic'
-import {
-  sortApyColumn,
-  sortLiquidityColumn,
-  sortPoolColumn,
-  sortPriceColumn,
-  sortVolume24Column,
-} from 'components/PoolTable/utils'
+import { getAmountColumnSorter } from 'components/Atomic/Table/utils'
+import { sortPoolColumn } from 'components/PoolTable/utils'
 
 import { useGlobalState } from 'store/hooks'
 
@@ -59,7 +54,7 @@ export const usePoolColumns = () => {
         align: 'right',
         Cell: ({ cell: { value } }: { cell: { value: Amount } }) =>
           formatPrice(value),
-        sortType: sortPriceColumn,
+        sortType: getAmountColumnSorter('price'),
       },
       {
         id: 'liquidity',
@@ -69,7 +64,7 @@ export const usePoolColumns = () => {
         align: 'right',
         Cell: ({ cell: { value } }: { cell: { value: Amount } }) =>
           runeToCurrency(value).toCurrencyFormat(2),
-        sortType: sortLiquidityColumn,
+        sortType: getAmountColumnSorter('liquidity'),
       },
       {
         id: 'volume24h',
@@ -79,7 +74,7 @@ export const usePoolColumns = () => {
         Cell: ({ cell: { value } }: { cell: { value: Amount } }) =>
           runeToCurrency(value).toCurrencyFormat(2),
         minScreenSize: BreakPoint.lg,
-        sortType: sortVolume24Column,
+        sortType: getAmountColumnSorter('volume24h'),
       },
       {
         id: 'apy',
@@ -88,7 +83,7 @@ export const usePoolColumns = () => {
         align: 'right',
         Cell: ({ cell: { value } }: { cell: { value: Percent } }) =>
           value.toFixed(0),
-        sortType: sortApyColumn,
+        sortType: getAmountColumnSorter('apy'),
       },
       {
         id: 'action',
