@@ -2,7 +2,7 @@ import { memo, useCallback, useMemo } from 'react'
 
 import { hasConnectedWallet } from '@thorswap-lib/multichain-sdk'
 
-import { AppPopoverMenu } from 'components/AppPopoverMenu'
+import { AppPopoverMenu, DocumentationLink } from 'components/AppPopoverMenu'
 import { Button, Icon, Box, Typography } from 'components/Atomic'
 import { HeaderAnnouncements } from 'components/HeaderAnnouncements'
 import { StatusDropdown } from 'components/StatusDropdown'
@@ -87,6 +87,7 @@ export const Header = memo(({ openMenu }: Props) => {
               ? t('common.wallet')
               : t('common.connectWallet')}
           </Button>
+          <DocumentationLink />
           <AppPopoverMenu />
           <TxManager />
         </Box>

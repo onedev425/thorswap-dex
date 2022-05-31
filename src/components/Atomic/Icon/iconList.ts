@@ -65,7 +65,11 @@ import {
   FiX,
 } from 'react-icons/fi'
 import { GoBook, GoSettings } from 'react-icons/go'
-import { HiOutlineCog, HiOutlineChartPie } from 'react-icons/hi'
+import {
+  HiOutlineCog,
+  HiOutlineChartPie,
+  HiOutlineDocumentText,
+} from 'react-icons/hi'
 import { ImBlocked } from 'react-icons/im'
 import {
   IoCheckmarkCircleOutline,
@@ -185,6 +189,7 @@ const Icons = {
   wifi: FaWifi,
   xCircle: VscError,
   youtube: BsYoutube,
+  documentation: HiOutlineDocumentText,
   ...SvgIcons,
 } as const
 
