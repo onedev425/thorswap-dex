@@ -148,7 +148,7 @@ export const WalletTypes = ({
 
   return (
     <Scrollbar maxHeight="60vh" customStyle={{ marginRight: '-12px' }}>
-      <Box className="gap-4 flex-wrap justify-center">
+      <Box className="px-4 gap-4 flex-wrap justify-center">
         {walletOptions.map(
           ({ type, label, icon, visible = true }) =>
             visible && (

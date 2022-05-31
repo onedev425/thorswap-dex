@@ -41,28 +41,28 @@ export const WalletModal = () => {
   } = useWallet()
 
   const { isTerraWalletConnected } = useTerraWallet()
-
   const isTerraWalletConnectedPrevState = usePrevious(isTerraWalletConnected)
 
   const modalTitle = useMemo(() => {
-    if (walletStage === WalletStage.WalletSelect)
-      return t('views.walletModal.connectWallet')
+    switch (walletStage) {
+      case WalletStage.WalletSelect:
+        return t('views.walletModal.connectWallet')
+      case WalletStage.ChainSelect:
+        return t('views.walletModal.selectChain')
 
-    if (walletStage === WalletStage.ChainSelect)
-      return t('views.walletModal.selectChain')
+      case WalletStage.Final:
+        switch (walletType) {
+          case WalletType.CreateKeystore:
+            return t('views.walletModal.createKeystore')
+          case WalletType.Keystore:
+            return t('views.walletModal.keystore')
+          case WalletType.Phrase:
+            return t('views.walletModal.importPhrase')
 
-    if (walletStage === WalletStage.Final) {
-      if (walletType === WalletType.CreateKeystore)
-        return t('views.walletModal.createKeystore')
-
-      if (walletType === WalletType.Keystore)
-        return t('views.walletModal.connectKeystore')
-
-      if (walletType === WalletType.Phrase)
-        return t('views.walletModal.importPhrase')
+          default:
+            return t('views.walletModal.connectWallet')
+        }
     }
-
-    return t('views.walletModal.connectWallet')
   }, [walletType, walletStage])
 
   const clearStatus = useCallback(() => {
@@ -77,7 +77,9 @@ export const WalletModal = () => {
   }, [setIsConnectModalOpen])
 
   useEffect(() => {
-    if (isConnectModalOpen) setWalletType(WalletType.Select)
+    if (isConnectModalOpen) {
+      setWalletType(WalletType.Select)
+    }
   }, [isConnectModalOpen])
 
   // connect terra station wallet in the multichain sdk after wallet connection status is updated
@@ -109,18 +111,14 @@ export const WalletModal = () => {
   ])
 
   const handleBack = useCallback(() => {
-    switch (walletStage) {
-      case WalletStage.Final:
-        return setWalletStage(
-          walletType === WalletType.CreateKeystore ||
-            walletType === WalletType.Phrase
-            ? WalletStage.WalletSelect
-            : WalletStage.ChainSelect,
-        )
+    const nextWalletStage =
+      walletStage === WalletStage.ChainSelect ||
+      (walletStage === WalletStage.Final &&
+        [WalletType.CreateKeystore, WalletType.Phrase].includes(walletType))
+        ? WalletStage.WalletSelect
+        : WalletStage.ChainSelect
 
-      case WalletStage.ChainSelect:
-        return setWalletStage(WalletStage.WalletSelect)
-    }
+    setWalletStage(nextWalletStage)
   }, [walletType, walletStage])
 
   const handleConnect = useCallback(
@@ -146,10 +144,8 @@ export const WalletModal = () => {
     >
       <Card
         className={classNames(
-          'w-[95vw] !py-4 max-w-[420px] md:w-[75vw] h-fit',
-          {
-            'md:max-w-[500px] !py-8': walletStage === WalletStage.WalletSelect,
-          },
+          'w-[95vw] !px-0 py-8 md:max-w-[500px] md:w-[75vw] h-fit',
+          { '!py-4': walletStage === WalletStage.ChainSelect },
         )}
         stretch
         size="lg"
@@ -158,7 +154,7 @@ export const WalletModal = () => {
           {walletStage === WalletStage.ChainSelect &&
             walletType === WalletType.Ledger && (
               <InfoTip
-                className="!mb-4"
+                className="!mb-4 !mx-6"
                 content="Make sure your Ledger is unlocked and you have opened the app you would like to connect before proceeding"
                 title="Unlock Ledger and open App"
                 type="warn"
@@ -187,7 +183,7 @@ export const WalletModal = () => {
           )}
 
           {walletStage === WalletStage.Final && (
-            <>
+            <Box className="px-6">
               {walletType === WalletType.Keystore && (
                 <ConnectKeystoreView
                   loading={isWalletLoading}
@@ -203,7 +199,7 @@ export const WalletModal = () => {
               )}
 
               {walletType === WalletType.Phrase && <PhraseView />}
-            </>
+            </Box>
           )}
         </Box>
       </Card>

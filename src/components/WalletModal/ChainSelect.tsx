@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { SupportedChain } from '@thorswap-lib/multichain-sdk'
 
@@ -39,6 +39,11 @@ export const ChainSelect = ({
     setWalletStage,
   })
 
+  const walletChains = useMemo(
+    () => availableChainsByWallet[walletType] || [],
+    [walletType],
+  )
+
   const handlePendingChain = useCallback(
     (chain: SupportedChain) => {
       const newPendingChains =
@@ -54,46 +59,36 @@ export const ChainSelect = ({
   )
 
   const toggleChains = useCallback(() => {
-    setPendingChains(
-      pendingChains.length > 0 ? [] : availableChainsByWallet[walletType],
-    )
-  }, [pendingChains.length, setPendingChains, walletType])
+    setPendingChains(pendingChains.length > 0 ? [] : walletChains)
+  }, [pendingChains.length, setPendingChains, walletChains])
 
-  if (
-    [WalletType.CreateKeystore, WalletType.Select, WalletType.Phrase].includes(
-      walletType,
-    )
-  ) {
-    return null
-  }
+  const allSelected = pendingChains?.length === walletChains.length
 
-  const allSelected =
-    pendingChains?.length === availableChainsByWallet[walletType]?.length
+  const disabledButton = pendingChains.length === 0
 
   return (
     <Box className="w-full space-y-2" col>
-      {walletType !== WalletType.Ledger &&
-        availableChainsByWallet[walletType].length > 0 && (
-          <Box row justify="end">
-            <Button
-              type="borderless"
-              variant="tint"
-              endIcon={
-                <Icon
-                  name="selectAll"
-                  color={allSelected ? 'primaryBtn' : 'primary'}
-                />
-              }
-              onClick={toggleChains}
-            >
-              {t('views.walletModal.selectAll')}
-            </Button>
-          </Box>
-        )}
+      {walletType !== WalletType.Ledger && walletChains.length > 0 && (
+        <Box row className="px-2 pb-4" justify="end">
+          <Button
+            type="borderless"
+            variant="tint"
+            endIcon={
+              <Icon
+                name="selectAll"
+                color={allSelected ? 'primaryBtn' : 'primary'}
+              />
+            }
+            onClick={toggleChains}
+          >
+            {t('views.walletModal.selectAll')}
+          </Button>
+        </Box>
+      )}
 
       <Scrollbar maxHeight="100%" customStyle={{ marginRight: '-12px' }}>
-        <Box className="flex-1 gap-2" col>
-          {availableChainsByWallet[walletType].map((chain) => (
+        <Box flex={1} flexWrap="wrap" center className="px-6 gap-2" row>
+          {walletChains.map((chain) => (
             <ChainOption
               pendingChains={pendingChains}
               key={chain}
@@ -105,7 +100,7 @@ export const ChainSelect = ({
       </Scrollbar>
 
       {walletType === WalletType.Ledger && (
-        <Box alignCenter justify="between">
+        <Box center className="gap-x-4">
           <Typography>{t('views.walletModal.ledgerIndex')}:</Typography>
           <Input
             border="rounded"
@@ -121,8 +116,8 @@ export const ChainSelect = ({
           className="w-3/4 mt-2"
           isFancy
           size="md"
-          error={pendingChains.length === 0}
-          disabled={pendingChains.length === 0}
+          error={disabledButton}
+          disabled={disabledButton}
           onClick={handleConnectWallet}
         >
           {t('common.connect')}

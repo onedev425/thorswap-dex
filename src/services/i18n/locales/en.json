@@ -523,7 +523,6 @@
       "createKeystore": "Create Keystore",
       "importPhrase": "Import Phrase",
       "notConnected": "Not Connected",
-      "connectedWith": "Connected With",
       "ledgerIndex": "Ledger Index",
       "chooseKeystore": "Choose File To Upload",
       "invalidKeystore": "Invalid Keystore File",
