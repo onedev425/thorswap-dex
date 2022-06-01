@@ -36,6 +36,7 @@ import { showErrorToast, showInfoToast } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useApp } from 'store/app/hooks'
+import { useExternalConfig } from 'store/externalConfig/hooks'
 import * as actions from 'store/midgard/actions'
 import { TxTrackerStatus, TxTrackerType } from 'store/midgard/types'
 import { isPendingLP } from 'store/midgard/utils'
@@ -85,14 +86,19 @@ export const AddLiquidity = () => {
   const { getMaxBalance, isWalletAssetConnected } = useBalance()
   const { wallet, setIsConnectModalOpen } = useWallet()
   const { isFundsCapReached, isChainPauseLPAction } = useMimir()
-  const isLPActionPaused: boolean = useMemo(() => {
-    return isChainPauseLPAction(poolAsset.chain)
-  }, [poolAsset, isChainPauseLPAction])
+  const { getChainDepositLPPaused } = useExternalConfig()
 
   const poolAssets = useMemo(() => {
     const assets = pools.map((poolData) => poolData.asset)
     return assets
   }, [pools])
+
+  const isLPActionPaused: boolean = useMemo(() => {
+    return (
+      isChainPauseLPAction(poolAsset.chain) ||
+      getChainDepositLPPaused(poolAsset.chain as SupportedChain)
+    )
+  }, [isChainPauseLPAction, poolAsset.chain, getChainDepositLPPaused])
 
   const loadMemberDetailsByChain = useCallback(
     (chain: SupportedChain) => {

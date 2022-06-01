@@ -24,6 +24,7 @@ import { PanelView } from 'components/PanelView'
 import { showErrorToast, showInfoToast } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
+import { useExternalConfig } from 'store/externalConfig/hooks'
 import { TxTrackerStatus, TxTrackerType } from 'store/midgard/types'
 import { useAppSelector } from 'store/store'
 import { useWallet } from 'store/wallet/hooks'
@@ -60,9 +61,13 @@ export const CreateLiquidity = () => {
 
   const { getMaxBalance, isWalletAssetConnected } = useBalance()
   const { isFundsCapReached, isChainPauseLPAction } = useMimir()
+  const { getChainDepositLPPaused } = useExternalConfig()
   const isLPActionPaused: boolean = useMemo(() => {
-    return isChainPauseLPAction(poolAsset.chain)
-  }, [poolAsset, isChainPauseLPAction])
+    return (
+      isChainPauseLPAction(poolAsset.chain) ||
+      getChainDepositLPPaused(poolAsset.chain as SupportedChain)
+    )
+  }, [isChainPauseLPAction, poolAsset.chain, getChainDepositLPPaused])
 
   const [assetAmount, setAssetAmount] = useState<Amount>(
     Amount.fromAssetAmount(0, 8),

@@ -29,6 +29,7 @@ import { PanelView } from 'components/PanelView'
 import { showErrorToast, showInfoToast } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
+import { useExternalConfig } from 'store/externalConfig/hooks'
 import { useMidgard } from 'store/midgard/hooks'
 import {
   PoolMemberData,
@@ -151,11 +152,15 @@ const WithdrawPanel = ({
   const { wallet, setIsConnectModalOpen } = useWallet()
   const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
   const { isChainPauseLPAction } = useMimir()
+  const { getChainWithdrawLPPaused } = useExternalConfig()
 
   const poolAsset = useMemo(() => pool.asset, [pool])
   const isLPActionPaused: boolean = useMemo(() => {
-    return isChainPauseLPAction(poolAsset.chain)
-  }, [poolAsset, isChainPauseLPAction])
+    return (
+      isChainPauseLPAction(poolAsset.chain) ||
+      getChainWithdrawLPPaused(poolAsset.chain as SupportedChain)
+    )
+  }, [isChainPauseLPAction, poolAsset.chain, getChainWithdrawLPPaused])
 
   const [lpType, setLPType] = useState(shareTypes[0])
   const defaultWithdrawType = useMemo(() => {

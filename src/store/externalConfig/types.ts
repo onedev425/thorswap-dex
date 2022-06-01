@@ -12,11 +12,15 @@ export type StatusAnnouncementLink = {
   url: string
 }
 
-export type StatusAnnouncementData = {
-  isPaused?: boolean
-  isLPPaused?: boolean
-  isTradingPaused?: boolean
+export enum ChainStatusFlag {
+  isChainPaused = 'isChainPaused',
+  isLPPaused = 'isLPPaused',
+  isLPDepositPaused = 'isLPDepositPaused',
+  isLPWithdrawalPaused = 'isLPWithdrawalPaused',
+  isTradingPaused = 'isTradingPaused',
 }
+
+export type ChainStatusFlags = Partial<Record<ChainStatusFlag, boolean>>
 
 export type Announcement = {
   type?: AnnouncementType
@@ -26,7 +30,9 @@ export type Announcement = {
   link?: StatusAnnouncementLink
 }
 
-export type StatusAnnouncement = Announcement & StatusAnnouncementData
+export type StatusAnnouncement = Announcement & {
+  flags?: ChainStatusFlags
+}
 
 export type ChainStatusAnnouncements = Partial<
   Record<SupportedChain, StatusAnnouncement>

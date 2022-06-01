@@ -46,31 +46,56 @@ const getManualAnnouncements = (manualData: string[][]) => {
   const isPublished = (row: string[]) => getBooleanValue(row[3])
   const rows = manualData.slice(1, manualData.length).filter(isPublished)
 
-  const manualArr: Announcement[] = rows.map((row) => ({
-    message: row[0],
-    title: row[1],
-    type: row[2] as AnnouncementType,
-    link: { url: row[4], name: row[5] },
-  }))
+  const manualArr: Announcement[] = rows.map((row) => {
+    const [message, title, type, , linkUrl, linkName] = row
+
+    return {
+      message,
+      title,
+      type: type as AnnouncementType,
+      link: { url: linkUrl, name: linkName },
+    }
+  })
 
   return manualArr
 }
 
 const getStatusAnnouncements = (statusData: string[][]) => {
+  const cellsCount = 8
+
   const hasData = (row: string[]) => {
-    return !!row[1]?.trim() || !!row[2]?.trim()
+    return Array.from({ length: cellsCount }, (_, index) => index + 1).some(
+      (col) => !!row[col]?.trim?.(),
+    )
   }
   const rows = statusData.slice(1, statusData.length).filter(hasData)
 
   const status: ChainStatusAnnouncements = {}
 
   rows.forEach((row) => {
-    const chain = row[0] as SupportedChain
-
-    status[chain] = {
+    const [
       chain,
-      message: row[1],
-      link: { url: row[2], name: row[3] },
+      message,
+      linkUrl,
+      linkName,
+      isChainPaused,
+      isLPPaused,
+      isLPDepositPaused,
+      isLPWithdrawalPaused,
+      isTradingPaused,
+    ] = row
+
+    status[chain as SupportedChain] = {
+      chain: chain as SupportedChain,
+      message,
+      link: { url: linkUrl, name: linkName },
+      flags: {
+        isChainPaused: getBooleanValue(isChainPaused),
+        isLPPaused: getBooleanValue(isLPPaused),
+        isLPDepositPaused: getBooleanValue(isLPDepositPaused),
+        isLPWithdrawalPaused: getBooleanValue(isLPWithdrawalPaused),
+        isTradingPaused: getBooleanValue(isTradingPaused),
+      },
     }
   })
 
