@@ -38,6 +38,7 @@ export const availableChainsByWallet: Record<string, SupportedChain[]> = {
   Ledger: [
     Chain.THORChain,
     Chain.Bitcoin,
+    Chain.Solana,
     Chain.Binance,
     Chain.Doge,
     Chain.Litecoin,

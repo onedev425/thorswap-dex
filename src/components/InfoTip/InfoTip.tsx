@@ -39,14 +39,16 @@ export function InfoTip({
       type={type}
     >
       {(!!title || !!onClose) && (
-        <Box className="my-3 self-stretch px-2" alignCenter justify="between">
+        <Box className="self-stretch px-2" alignCenter justify="between">
           {!!title && (
             <Box>
               {icons[type]}
+
               <Typography className="mx-2">{title}</Typography>
             </Box>
           )}
-          {onClose ? (
+
+          {onClose && (
             <Icon
               name="close"
               size={20}
@@ -54,15 +56,11 @@ export function InfoTip({
               className="ml-auto"
               onClick={onClose}
             />
-          ) : (
-            <div></div>
           )}
         </Box>
       )}
 
-      {children ? (
-        children
-      ) : (
+      {children || (
         <Typography
           color={cardFontColors[type]}
           variant="caption"
