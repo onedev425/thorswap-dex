@@ -86,7 +86,7 @@ const SwapView = () => {
   const { hasVThor } = useVthorBalance(ethAddr)
 
   const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
-  const { totalFeeInUSD } = useNetworkFee({
+  const { totalFeeInUSD, feeAssets } = useNetworkFee({
     inputAsset,
     outputAsset,
   })
@@ -508,6 +508,7 @@ const SwapView = () => {
           )} ${outputAsset.name.toUpperCase()}`}
           totalFee={totalFeeInUSD.toCurrencyFormat(2)}
           affiliateFee={affiliateFeeInUSD?.toCurrencyFormat(2)}
+          feeAssets={feeAssets}
         />
       </ConfirmModal>
 

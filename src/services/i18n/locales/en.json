@@ -424,7 +424,8 @@
       "swapAssets": "Swap assets rates",
       "affiliateFee": "0.3% affiliate fee is charged by THORSwap. 75% of fees are redistributed back to vTHOR stakers.",
       "exchangeFee": "Exchange Fee",
-      "totalFee": "Total Fee"
+      "totalFee": "Total Fee",
+      "txAssetsFee": "TX Fee Tokens"
     },
     "wallet": {
       "wallet": "Wallet",

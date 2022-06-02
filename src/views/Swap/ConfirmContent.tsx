@@ -19,6 +19,7 @@ type Props = {
   minReceive: string
   totalFee?: string
   affiliateFee?: string
+  feeAssets: string
 }
 
 export const ConfirmContent = memo(
@@ -31,6 +32,7 @@ export const ConfirmContent = memo(
     minReceive,
     totalFee,
     affiliateFee,
+    feeAssets,
   }: Props) => {
     return (
       <Box col>
@@ -98,20 +100,11 @@ export const ConfirmContent = memo(
             </Box>
           </Box>
 
-          <Box className="w-full h-[1px] bg-light-border-primary dark:bg-dark-border-primary my-2" />
-
-          <Box className="w-full" row>
-            <Box className="flex-1 gap-y-1" center col>
-              <Typography
-                variant="caption"
-                color="secondary"
-                fontWeight="medium"
-              >
-                {t('common.minReceived')}
-              </Typography>
-              <Typography variant="caption">{minReceive}</Typography>
-            </Box>
-            <Box className="flex-1 gap-y-1" center col>
+          <Box className="px-4">
+            <Box className="w-full h-[1px] bg-light-border-primary dark:bg-dark-border-primary my-2" />
+          </Box>
+          <Box className="w-full py-2" row>
+            <Box className="flex-1 gap-y-2" center col>
               <Typography
                 variant="caption"
                 color="secondary"
@@ -121,7 +114,7 @@ export const ConfirmContent = memo(
               </Typography>
               <Typography variant="caption">{affiliateFee}</Typography>
             </Box>
-            <Box className="flex-1 gap-y-1" center col>
+            <Box className="flex-1 gap-y-2" center col>
               <Typography
                 variant="caption"
                 color="secondary"
@@ -132,6 +125,31 @@ export const ConfirmContent = memo(
               <Typography variant="caption">
                 {shortenAddress(recipient)}
               </Typography>
+            </Box>
+            <Box className="flex-1 gap-y-2" center col>
+              <Typography
+                variant="caption"
+                color="secondary"
+                fontWeight="medium"
+              >
+                {t('views.swap.txAssetsFee')}
+              </Typography>
+              <Typography variant="caption">{feeAssets}</Typography>
+            </Box>
+          </Box>
+          <Box className="px-4">
+            <Box className="w-full h-[1px] bg-light-border-primary dark:bg-dark-border-primary my-2" />
+          </Box>
+          <Box className="w-full" row>
+            <Box className="flex-1 gap-y-2" center col>
+              <Typography
+                variant="caption"
+                color="secondary"
+                fontWeight="medium"
+              >
+                {t('common.minReceived')}
+              </Typography>
+              <Typography variant="caption">{minReceive}</Typography>
             </Box>
           </Box>
         </Box>

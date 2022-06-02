@@ -56,6 +56,14 @@ export const useNetworkFee = ({
     return networkFee
   }, [outputAsset, inboundData])
 
+  const feeAssets = useMemo(() => {
+    if (!outboundFee) return inboundFee.asset.chain
+
+    if (outboundFee.asset.eq(inboundFee.asset)) return inboundFee.asset.chain
+
+    return `${outboundFee.asset.chain}, ${inboundFee.asset.chain}`
+  }, [inboundFee, outboundFee])
+
   const totalFee = useMemo(() => {
     if (!outboundFee) return inboundFee
 
@@ -91,6 +99,7 @@ export const useNetworkFee = ({
     inboundFee,
     outboundFee,
     totalFeeInUSD,
+    feeAssets,
   }
 }
 
