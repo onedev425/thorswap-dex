@@ -1,8 +1,7 @@
 import { ComponentMeta } from '@storybook/react'
 
-import { StatsType } from 'components/Stats'
-
 import { StatsList } from './StatsList'
+import { StatsType } from './types'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

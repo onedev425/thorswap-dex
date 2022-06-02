@@ -1,1 +1,0 @@
-export { ConfirmContent } from './ConfirmContent'

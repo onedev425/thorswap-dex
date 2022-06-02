@@ -1,10 +1,10 @@
 import { Box } from 'components/Atomic'
 import { Helmet } from 'components/Helmet'
-import { StakingCard } from 'components/StakingCard'
 
 import { t } from 'services/i18n'
 
 import { farmData } from './farmData'
+import { StakingCard } from './StakingCard'
 import { ThorchainLPCard } from './ThorchainLPCard'
 
 const Stake = () => {

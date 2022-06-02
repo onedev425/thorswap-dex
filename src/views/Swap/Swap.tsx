@@ -20,7 +20,6 @@ import { useSwap } from 'views/Swap/useSwap'
 import { useSwapAssets } from 'views/Swap/useSwapAssets'
 
 import { Button, Icon, Box, Typography } from 'components/Atomic'
-import { ConfirmContent } from 'components/ConfirmModalConent'
 import { CountDownIndicator } from 'components/CountDownIndicator'
 import { GlobalSettingsPopover } from 'components/GlobalSettings'
 import { HoverIcon } from 'components/HoverIcon'
@@ -57,6 +56,7 @@ import {
 } from 'settings/constants'
 
 import { AssetInputs } from './AssetInputs'
+import { ConfirmContent } from './ConfirmContent'
 import { getSwapPair, getSwapTrackerType } from './helpers'
 import { SwapInfo } from './SwapInfo'
 import { Pair } from './types'

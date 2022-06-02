@@ -2,15 +2,15 @@ import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import { BUILD_NUMBER } from 'config/constants'
 
-import { MainMenu } from 'components/AppPopoverMenu/components/MainMenu'
-import { Submenu } from 'components/AppPopoverMenu/components/Submenu'
-import { SwitchMenu } from 'components/AppPopoverMenu/components/SwitchMenu'
-import { useAppPopoverMenu } from 'components/AppPopoverMenu/useAppPopoverMenu'
 import { Box, Card, Icon, Typography } from 'components/Atomic'
 import { Scrollbar } from 'components/Scrollbar'
-import SocialIcons from 'components/SocialIcons'
 
 import packageJson from '../../../package.json'
+import { MainMenu } from './components/MainMenu'
+import { SocialIcons } from './components/SocialIcons'
+import { Submenu } from './components/Submenu'
+import { SwitchMenu } from './components/SwitchMenu'
+import { useAppPopoverMenu } from './useAppPopoverMenu'
 
 export const AppMenu = () => {
   const mainMenuRef = useRef<HTMLDivElement>(null)

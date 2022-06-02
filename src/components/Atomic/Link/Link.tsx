@@ -21,20 +21,17 @@ export const Link = ({
 }: LinkProps) => {
   const externalHref = external || /^((http|https|ftp):\/\/)/.test(to.trim?.())
 
-  if (externalHref)
-    return (
-      <a
-        className={classNames(className, 'no-underline')}
-        target="_blank"
-        rel="noopener noreferrer"
-        href={to}
-        onClick={onClick}
-      >
-        {children}
-      </a>
-    )
-
-  return (
+  return externalHref ? (
+    <a
+      className={classNames(className, 'no-underline')}
+      target="_blank"
+      rel="noopener noreferrer"
+      href={to}
+      onClick={onClick}
+    >
+      {children}
+    </a>
+  ) : (
     <NavLink
       className={classNames(className, 'no-underline')}
       to={to}

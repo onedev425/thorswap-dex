@@ -5,9 +5,9 @@ import classNames from 'classnames'
 
 import { FallbackIcon } from 'components/AssetIcon/FallbackIcon'
 import { Box } from 'components/Atomic'
-import { ChainIcon } from 'components/ChainIcon'
 
 import { genericBgClasses } from '../constants'
+import { ChainIcon } from './ChainIcon'
 import { iconSizes, AssetIconProps } from './types'
 import { getAssetIconUrl, getSecondaryIconPlacementStyle } from './utils'
 

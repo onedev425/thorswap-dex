@@ -1,6 +1,7 @@
+import { MenuItemType } from 'components/AppPopoverMenu/types'
 import { Box } from 'components/Atomic'
-import { MenuItem } from 'components/Menu/MenuItem'
-import { MenuItemType } from 'components/Menu/types'
+
+import { MenuItem } from './MenuItem'
 
 type Props = {
   items: MenuItemType[]

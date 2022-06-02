@@ -1,10 +1,10 @@
 import { Box } from 'components/Atomic'
-import { GlobalChart } from 'components/GlobalChart'
-import { GlobalStats } from 'components/GlobalStats'
 import { Helmet } from 'components/Helmet'
 
 import { t } from 'services/i18n'
 
+import { GlobalChart } from './GlobalChart'
+import { GlobalStats } from './GlobalStats'
 import { PoolListView } from './PoolListView'
 
 const Home = () => {
@@ -18,7 +18,6 @@ const Home = () => {
       <Box col className="gap-12">
         <GlobalStats />
         <GlobalChart />
-
         <PoolListView />
       </Box>
     </Box>

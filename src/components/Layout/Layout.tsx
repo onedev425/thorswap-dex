@@ -1,21 +1,18 @@
-import { ReactNode, useCallback, useState } from 'react'
+import { PropsWithChildren, useCallback, useState } from 'react'
 
 import classNames from 'classnames'
 
 import { Box } from 'components/Atomic'
 import { Header } from 'components/Header'
-import { NavDrawer } from 'components/NavDrawer'
+import { WalletModal } from 'components/Modals/WalletModal'
 import { Scrollbar } from 'components/Scrollbar'
 import { Sidebar } from 'components/Sidebar'
-import { WalletModal } from 'components/WalletModal'
 
 import { useApp } from 'store/app/hooks'
 
-export type LayoutProp = {
-  children: ReactNode
-}
+import { NavDrawer } from './NavDrawer'
 
-export const Layout = ({ children }: LayoutProp) => {
+export const Layout = ({ children }: PropsWithChildren<{}>) => {
   const [isMenuVisible, setMenuVisible] = useState(false)
   const { toggleSidebarCollapse, isSidebarCollapsed } = useApp()
   const openMenu = useCallback(() => {

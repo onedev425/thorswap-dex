@@ -9,7 +9,7 @@ import { Chain } from '@thorswap-lib/xchain-util'
 
 import { useExternalConfig } from 'store/externalConfig/hooks'
 import {
-  Announcement,
+  AnnouncementItem,
   AnnouncementType,
   ChainStatusAnnouncements,
 } from 'store/externalConfig/types'
@@ -130,7 +130,7 @@ const getAnnouncemetsByChain = (props: GetAnnouncementsByChainProps) => {
       chain,
       ...props,
     }),
-  ).filter(Boolean) as Announcement[]
+  ).filter(Boolean) as AnnouncementItem[]
 }
 
 const isChainPaused = (

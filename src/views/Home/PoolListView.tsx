@@ -3,8 +3,6 @@ import { ChangeEvent, memo, useCallback, useState } from 'react'
 import { Select, Box, Typography } from 'components/Atomic'
 import { HorizontalSlider } from 'components/HorizontalSlider'
 import { Input } from 'components/Input'
-import { PoolCard } from 'components/PoolCard'
-import { PoolTable } from 'components/PoolTable'
 
 import { useApp } from 'store/app/hooks'
 
@@ -12,6 +10,8 @@ import useWindowSize from 'hooks/useWindowSize'
 
 import { t } from 'services/i18n'
 
+import { PoolCard } from './PoolCard'
+import { PoolTable } from './PoolTable'
 import { poolTypeOptions, poolStatusOptions } from './types'
 import { useLiquidityPools } from './useLiquidityPools'
 

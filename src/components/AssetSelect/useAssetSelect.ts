@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
 
@@ -15,45 +15,56 @@ export function useAssetSelect({
   const [search, setSearch] = useState('')
   const [typeFilter, setTypeFilter] = useState<AssetFilterOptionType>('all')
   const { featured } = useAssets()
-  const featuredAssets = featured
-    .map((ticker) => Asset.fromAssetString(ticker))
-    .filter(Boolean) as Asset[]
 
-  const filteredAssets = useMemo(() => {
-    const filteredAssetData = search
-      ? assets.filter(({ asset }) =>
-          asset.symbol.toLocaleLowerCase().includes(search.toLowerCase()),
+  const featuredAssets = useMemo(
+    () =>
+      featured
+        .map((ticker) => Asset.fromAssetString(ticker))
+        .filter(Boolean) as Asset[],
+    [featured],
+  )
+
+  const assetsFilteredByType = useMemo(() => {
+    const searchedAssets = search
+      ? assets.filter(({ asset: { symbol } }) =>
+          symbol.toLocaleLowerCase().includes(search.toLowerCase()),
         )
       : assets
 
-    const assetsFilteredByType =
-      typeFilter === 'all'
-        ? filteredAssetData
-        : filteredAssetData.filter(
-            ({ asset }) =>
-              asset.type.toLowerCase() === typeFilter.toLowerCase(),
-          )
-    return assetsFilteredByType
-      .concat()
-      .sort((a, b) => a.asset.sortsBefore(b.asset))
-      .sort((a) => (featuredAssets.some((fa) => fa.eq(a.asset)) ? -1 : 1))
-  }, [assets, featuredAssets, search, typeFilter])
+    return typeFilter === 'all'
+      ? searchedAssets
+      : searchedAssets.filter(
+          ({ asset: { type } }) => type.toLowerCase() === typeFilter,
+        )
+  }, [assets, search, typeFilter])
+
+  const filteredAssets = useMemo(
+    () =>
+      assetsFilteredByType
+        .concat()
+        .sort((a, b) => a.asset.sortsBefore(b.asset))
+        .sort((a) => (featuredAssets.some((fa) => fa.eq(a.asset)) ? -1 : 1)),
+    [assetsFilteredByType, featuredAssets],
+  )
 
   const resetSearch = () => setSearch('')
 
-  const close = () => {
+  const close = useCallback(() => {
     onClose?.()
     resetSearch()
-  }
+  }, [onClose])
 
-  const select = (asset: Asset) => {
-    onSelect(asset)
-    close()
-  }
+  const select = useCallback(
+    (asset: Asset) => {
+      onSelect(asset)
+      close()
+    },
+    [close, onSelect],
+  )
 
-  const setTypeFilterOption = (val: string) => {
+  const setTypeFilterOption = useCallback((val: string) => {
     setTypeFilter(val as AssetFilterOptionType)
-  }
+  }, [])
 
   return {
     search,

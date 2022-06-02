@@ -1,1 +1,0 @@
-export { GlobalChart } from './GlobalChart'

@@ -21,8 +21,8 @@ const initialState: State = {
   expertMode: getFromStorage('expertMode') as boolean,
   feeOptionType: FeeOption.Fast,
   isAnnOpen: !getFromStorage('annViewStatus') as boolean,
-  areStatsHidden: getFromStorage('statsHidden') as boolean,
-  areChartsHidden: getFromStorage('chartsHidden') as boolean,
+  hideStats: getFromStorage('statsHidden') as boolean,
+  hideCharts: getFromStorage('chartsHidden') as boolean,
   arePoolsHidden: getFromStorage('poolsHidden') as boolean,
   isSidebarCollapsed: getFromStorage('sidebarCollapsed') as boolean,
   isSettingOpen: false,
@@ -123,11 +123,11 @@ const appSlice = createSlice({
       saveInStorage({ key: 'walletViewMode', value: action.payload })
     },
     setStatsShowStatus(state, action: PayloadAction<boolean>) {
-      state.areStatsHidden = action.payload
+      state.hideStats = action.payload
       saveInStorage({ key: 'statsHidden', value: action.payload })
     },
     setChartsShowStatus(state, action: PayloadAction<boolean>) {
-      state.areChartsHidden = action.payload
+      state.hideCharts = action.payload
       saveInStorage({ key: 'chartsHidden', value: action.payload })
     },
     setPoolsShowStatus(state, action: PayloadAction<boolean>) {

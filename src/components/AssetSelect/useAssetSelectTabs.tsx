@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import { Asset } from '@thorswap-lib/multichain-sdk'
 
 import { AssetsPanel } from 'components/AssetSelect/AssetsPanel'
@@ -18,35 +20,40 @@ export const useAssetSelectTabs = (
   const featuredAssets = featured
     .map((ticker) => Asset.fromAssetString(ticker))
     .filter(Boolean) as Asset[]
+
   const frequentAssets = frequent
     .map((ticker) => Asset.fromAssetString(ticker))
     .filter(Boolean) as Asset[]
 
-  const tabs: TabsConfig = [
-    {
-      label: t('views.swap.tabsFrequent'),
-      panel: (
-        <AssetsPanel
-          assets={frequentAssets}
-          onSelect={onSelect}
-          emptyTitle={t('views.swap.emptyFrequent')}
-        />
-      ),
-    },
-    {
-      label: t('views.swap.tabsFeatured'),
-      panel: (
-        <AssetsPanel
-          assets={featuredAssets}
-          onSelect={onSelect}
-          emptyTitle={t('views.swap.emptyFrequent')}
-        />
-      ),
-    },
-    {
-      label: t('views.swap.tabsCommon'),
-      panel: <AssetsPanel assets={commonAssets} onSelect={onSelect} />,
-    },
-  ]
+  const tabs: TabsConfig = useMemo(
+    () => [
+      {
+        label: t('views.swap.tabsFrequent'),
+        panel: (
+          <AssetsPanel
+            assets={frequentAssets}
+            onSelect={onSelect}
+            emptyTitle={t('views.swap.emptyFrequent')}
+          />
+        ),
+      },
+      {
+        label: t('views.swap.tabsFeatured'),
+        panel: (
+          <AssetsPanel
+            assets={featuredAssets}
+            onSelect={onSelect}
+            emptyTitle={t('views.swap.emptyFrequent')}
+          />
+        ),
+      },
+      {
+        label: t('views.swap.tabsCommon'),
+        panel: <AssetsPanel assets={commonAssets} onSelect={onSelect} />,
+      },
+    ],
+    [commonAssets, featuredAssets, frequentAssets, onSelect],
+  )
+
   return tabs
 }

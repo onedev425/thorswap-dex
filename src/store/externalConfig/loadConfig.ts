@@ -2,7 +2,7 @@ import { SupportedChain } from '@thorswap-lib/multichain-sdk'
 import axios from 'axios'
 
 import {
-  Announcement,
+  AnnouncementItem,
   AnnouncementsData,
   AnnouncementType,
   ChainStatusAnnouncements,
@@ -46,7 +46,7 @@ const getManualAnnouncements = (manualData: string[][]) => {
   const isPublished = (row: string[]) => getBooleanValue(row[3])
   const rows = manualData.slice(1, manualData.length).filter(isPublished)
 
-  const manualArr: Announcement[] = rows.map((row) => {
+  const manualArr: AnnouncementItem[] = rows.map((row) => {
     const [message, title, type, , linkUrl, linkName] = row
 
     return {

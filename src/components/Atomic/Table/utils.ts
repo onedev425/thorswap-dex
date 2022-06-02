@@ -1,6 +1,6 @@
 import { Row } from 'react-table'
 
-import { Amount } from '@thorswap-lib/multichain-sdk'
+import { Amount, Pool } from '@thorswap-lib/multichain-sdk'
 
 import { TableData } from 'components/Atomic'
 
@@ -38,4 +38,11 @@ export const sortStrings = (a: string, b: string) => {
 
 export const sortAmounts = (a: Amount, b: Amount) => {
   return a.gt(b) ? 1 : -1
+}
+
+export const sortPoolColumn = (rowA: Row<TableData>, rowB: Row<TableData>) => {
+  const a: Pool = rowA.values.pool
+  const b: Pool = rowB.values.pool
+
+  return sortStrings(a.asset.ticker, b.asset.ticker)
 }

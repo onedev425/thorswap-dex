@@ -1,3 +1,5 @@
+import { ReactNode } from 'react'
+
 import { chainToSigAsset } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
@@ -5,11 +7,14 @@ import { AssetIcon } from 'components/AssetIcon'
 import { Box, Link, Typography } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
 
-import { AnnouncementType } from 'store/externalConfig/types'
+import { AnnouncementItem, AnnouncementType } from 'store/externalConfig/types'
 
 import { t } from 'services/i18n'
 
-import { AnnouncementProps } from './types'
+type AnnouncementProps = {
+  announcement: AnnouncementItem
+  rightComponent?: ReactNode
+}
 
 const announcementClasses: Record<AnnouncementType, string> = {
   primary: '!opacity-20 from-transparent via-btn-primary',
@@ -26,17 +31,15 @@ const announcementBorderClasses: Record<AnnouncementType, string> = {
 }
 
 export const Announcement = ({
-  announcement,
-  rightComponent,
-}: AnnouncementProps) => {
-  const {
+  announcement: {
     type = AnnouncementType.Primary,
     message,
     title,
     chain,
     link,
-  } = announcement
-
+  },
+  rightComponent,
+}: AnnouncementProps) => {
   if (!message && !title) {
     return null
   }
@@ -59,13 +62,13 @@ export const Announcement = ({
           'absolute inset-0 bg-gradient-to-r from-transparent to-transparent rounded-2xl opacity-40',
           announcementClasses[type],
         )}
-      ></Box>
+      />
       <Box
         className={classNames(
           'absolute inset-0 border border-solid rounded-2xl opacity-50',
           announcementBorderClasses[type],
         )}
-      ></Box>
+      />
 
       <Box className="z-0 text-center" col>
         {!!title && <Typography variant="subtitle1">{title}</Typography>}

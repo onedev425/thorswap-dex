@@ -1,7 +1,6 @@
-import { useMemo } from 'react'
+import { memo, useMemo } from 'react'
 
 import { Box, DropdownMenu, Typography } from 'components/Atomic'
-import { StatusBadge } from 'components/StatusBadge'
 
 import { useMimir } from 'hooks/useMimir'
 import { useNetwork, StatusType } from 'hooks/useNetwork'
@@ -12,9 +11,15 @@ import { globalConfig } from 'services/multichain'
 
 import { getHostnameFromUrl } from 'helpers/url'
 
-import { StatusItem } from './types'
+import { StatusBadge } from './StatusBadge'
 
-export const StatusDropdown = () => {
+type StatusItem = {
+  label: string
+  value?: string
+  statusType?: StatusType
+}
+
+export const StatusDropdown = memo(() => {
   const { statusType, outboundQueue, outboundQueueLevel } = useNetwork()
   const {
     isFundsCapReached,
@@ -143,9 +148,9 @@ export const StatusDropdown = () => {
     ],
   )
 
-  const menuItems = useMemo(() => {
-    return menuItemData.map(({ label, value, statusType: type }) => {
-      return {
+  const menuItems = useMemo(
+    () =>
+      menuItemData.map(({ label, value, statusType: type }) => ({
         Component: (
           <Box className="min-w-[200px]" row alignCenter>
             <StatusBadge status={type || StatusType.Normal} />
@@ -170,9 +175,9 @@ export const StatusDropdown = () => {
           </Box>
         ),
         value: label,
-      }
-    })
-  }, [menuItemData])
+      })),
+    [menuItemData],
+  )
 
   return (
     <DropdownMenu
@@ -182,4 +187,4 @@ export const StatusDropdown = () => {
       onChange={() => {}}
     />
   )
-}
+})

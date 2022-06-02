@@ -4,18 +4,19 @@ import { hasConnectedWallet } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
 import { AssetIcon } from 'components/AssetIcon/AssetIcon'
-import { assetFilterTypes } from 'components/AssetSelect/assetTypes'
-import { AssetSelectProps } from 'components/AssetSelect/types'
-import { useAssetSelect } from 'components/AssetSelect/useAssetSelect'
 import { Box, Icon, Typography } from 'components/Atomic'
 import { genericBgClasses, styledScrollbarClass } from 'components/constants'
-import { FeaturedAssetIcon } from 'components/FeaturedAssetIcon/FeaturedAssetIcon'
 import { Input } from 'components/Input'
 import { TabsSelect } from 'components/TabsSelect'
 
 import { useWallet } from 'store/wallet/hooks'
 
 import { t } from 'services/i18n'
+
+import { assetFilterTypes } from './assetTypes'
+import { FeaturedAssetIcon } from './FeaturedAssetIcon'
+import { AssetSelectProps } from './types'
+import { useAssetSelect } from './useAssetSelect'
 
 export const AssetSelectList = (props: AssetSelectProps) => {
   const { wallet } = useWallet()

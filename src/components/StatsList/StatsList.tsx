@@ -1,6 +1,6 @@
 import { HorizontalSlider } from 'components/HorizontalSlider'
-import { Stats } from 'components/Stats'
 
+import { Stats } from './Stats'
 import { StatsListProps } from './types'
 
 export const StatsList = ({

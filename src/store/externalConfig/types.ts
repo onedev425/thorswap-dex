@@ -22,7 +22,7 @@ export enum ChainStatusFlag {
 
 export type ChainStatusFlags = Partial<Record<ChainStatusFlag, boolean>>
 
-export type Announcement = {
+export type AnnouncementItem = {
   type?: AnnouncementType
   title?: string
   message: string
@@ -30,7 +30,7 @@ export type Announcement = {
   link?: StatusAnnouncementLink
 }
 
-export type StatusAnnouncement = Announcement & {
+export type StatusAnnouncement = AnnouncementItem & {
   flags?: ChainStatusFlags
 }
 
@@ -39,7 +39,7 @@ export type ChainStatusAnnouncements = Partial<
 >
 
 export type AnnouncementsData = {
-  manual: Announcement[]
+  manual: AnnouncementItem[]
   chainStatus: ChainStatusAnnouncements
 }
 

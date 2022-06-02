@@ -2,9 +2,9 @@ import { useState } from 'react'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
 
+import { MenuItemType } from 'components/AppPopoverMenu/types'
 import { AssetIcon } from 'components/AssetIcon'
 import { IconName } from 'components/Atomic'
-import { MenuItemType } from 'components/Menu/types'
 import { useTheme } from 'components/Theme/ThemeContext'
 
 import { useApp } from 'store/app/hooks'
@@ -255,9 +255,9 @@ const useThousandSeparatorMenu = (onBack: () => void) => {
 const useCompositionSettingsMenu = () => {
   const {
     setStatsShowStatus,
-    areStatsHidden,
+    hideStats,
     setChartsShowStatus,
-    areChartsHidden,
+    hideCharts,
     setPoolsShowStatus,
     arePoolsHidden,
   } = useApp()
@@ -265,13 +265,13 @@ const useCompositionSettingsMenu = () => {
   const menu: MenuItemType[] = [
     {
       label: t('appMenu.showStats'),
-      status: !areStatsHidden,
-      onClick: () => setStatsShowStatus(!areStatsHidden),
+      status: !hideStats,
+      onClick: () => setStatsShowStatus(!hideStats),
     },
     {
       label: t('appMenu.showCharts'),
-      status: !areChartsHidden,
-      onClick: () => setChartsShowStatus(!areChartsHidden),
+      status: !hideCharts,
+      onClick: () => setChartsShowStatus(!hideCharts),
     },
     {
       label: t('appMenu.showPools'),
