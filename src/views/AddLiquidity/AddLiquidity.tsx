@@ -38,6 +38,7 @@ import { ViewHeader } from 'components/ViewHeader'
 import { useApp } from 'store/app/hooks'
 import { useExternalConfig } from 'store/externalConfig/hooks'
 import * as actions from 'store/midgard/actions'
+import { useMidgard } from 'store/midgard/hooks'
 import { TxTrackerStatus, TxTrackerType } from 'store/midgard/types'
 import { isPendingLP } from 'store/midgard/utils'
 import { useAppDispatch, useAppSelector } from 'store/store'
@@ -78,7 +79,8 @@ export const AddLiquidity = () => {
   const [poolAsset, setPoolAsset] = useState<Asset>(Asset.BTC())
   const [pool, setPool] = useState<Pool>()
 
-  const { pools, poolLoading, chainMemberDetails, chainMemberDetailsLoading } =
+  const { getAllMemberDetails } = useMidgard()
+  const { pools, poolLoading, chainMemberDetailsLoading, chainMemberDetails } =
     useAppSelector(({ midgard }) => midgard)
   const dispatch = useAppDispatch()
 
@@ -87,6 +89,10 @@ export const AddLiquidity = () => {
   const { wallet, setIsConnectModalOpen } = useWallet()
   const { isFundsCapReached, isChainPauseLPAction } = useMimir()
   const { getChainDepositLPPaused } = useExternalConfig()
+
+  useEffect(() => {
+    getAllMemberDetails()
+  }, [getAllMemberDetails])
 
   const poolAssets = useMemo(() => {
     const assets = pools.map((poolData) => poolData.asset)
@@ -214,7 +220,8 @@ export const AddLiquidity = () => {
 
   const [visibleConfirmModal, setVisibleConfirmModal] = useState(false)
   const [visibleApproveModal, setVisibleApproveModal] = useState(false)
-  const [tipVisible, setTipVisible] = useState(true)
+  const [asymmTipVisible, setAsymmTipVisible] = useState(true)
+  const [existingLPTipVisible, setExistingLPTipVisible] = useState(true)
 
   const { inboundFee: inboundAssetFee } = useNetworkFee({
     inputAsset: poolAsset,
@@ -920,6 +927,11 @@ export const AddLiquidity = () => {
     [isWalletConnected, isApproveRequired],
   )
 
+  const currentAssetHaveLP: boolean = useMemo(() => {
+    const lpPositions = Object.keys(chainMemberDetails)
+    return lpPositions.includes(poolAsset.symbol)
+  }, [chainMemberDetails, poolAsset])
+
   return (
     <PanelView
       title={title}
@@ -973,7 +985,7 @@ export const AddLiquidity = () => {
       {[LiquidityTypeOption.ASSET, LiquidityTypeOption.RUNE].includes(
         liquidityType,
       ) &&
-        tipVisible && (
+        asymmTipVisible && (
           <InfoTip
             className="w-full mt-0 mb-4"
             title={t('views.addLiquidity.asymmetricPoolTip')}
@@ -991,10 +1003,28 @@ export const AddLiquidity = () => {
                 </Link>
               </>
             }
-            onClose={() => setTipVisible(false)}
+            onClose={() => setAsymmTipVisible(false)}
             type="warn"
           />
         )}
+
+      {currentAssetHaveLP && existingLPTipVisible && (
+        <InfoTip
+          className="w-full mt-0 mb-4"
+          title={t('views.addLiquidity.existingLpTip')}
+          content={
+            <>
+              {t('views.addLiquidity.existingLpTipNotice')}
+              <Link className="text-chain-terra" to={ADD_LIQUIDITY_GUIDE_URL}>
+                {' '}
+                {t('common.learnMore')}
+              </Link>
+            </>
+          }
+          onClose={() => setExistingLPTipVisible(false)}
+          type="warn"
+        />
+      )}
 
       {isApproveRequired && (
         <Box className="w-full pt-5">

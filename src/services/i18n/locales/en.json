@@ -557,7 +557,9 @@
       "asymmetricPoolTip": "You are about to deposit to a pool asymmetrically.",
       "shareOfPool": "Share of Pool",
       "asymmetricPoolNotice0": "Your %{depositAsset} will be rebalanced upon entering the pool. This means you will have 50:50 exposure to both RUNE and %{asset}.",
-      "asymmetricPoolNotice": "Your assets will be Rebalanced upon entering the pool. This means you will have 50:50 exposure to both RUNE and your ASSET."
+      "asymmetricPoolNotice": "Your assets will be Rebalanced upon entering the pool. This means you will have 50:50 exposure to both RUNE and your ASSET.",
+      "existingLpTip": "Your 100 days start now.",
+      "existingLpTipNotice": "You have existing LP position for this Asset. Adding more LP with same address will reset IL protection period, Are you certain you want to add more LP with this address?"
     },
     "vesting": {
       "vestingThor": "THOR",
