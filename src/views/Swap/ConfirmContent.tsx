@@ -19,7 +19,11 @@ type Props = {
   minReceive: string
   totalFee?: string
   affiliateFee?: string
+<<<<<<< fix/echange-fee-confirm -- Incoming Change
+  isAffiliated?: boolean
+=======
   feeAssets: string
+>>>>>>> develop -- Current Change
 }
 
 export const ConfirmContent = memo(
@@ -32,7 +36,11 @@ export const ConfirmContent = memo(
     minReceive,
     totalFee,
     affiliateFee,
+<<<<<<< fix/echange-fee-confirm -- Incoming Change
+    isAffiliated,
+=======
     feeAssets,
+>>>>>>> develop -- Current Change
   }: Props) => {
     return (
       <Box col>
@@ -125,6 +133,22 @@ export const ConfirmContent = memo(
               <Typography variant="caption">
                 {shortenAddress(recipient)}
               </Typography>
+<<<<<<< fix/echange-fee-confirm -- Incoming Change
+
+              {isAffiliated ? (
+                <Typography variant="caption">{affiliateFee}</Typography>
+              ) : (
+                <Box center className="gap-1">
+                  <Typography className="line-through" variant="caption">
+                    {affiliateFee !== '$0.00' && affiliateFee}
+                  </Typography>
+                  <Typography color="green" variant="body" fontWeight="bold">
+                    FREE
+                  </Typography>
+                </Box>
+              )}
+=======
+>>>>>>> develop -- Current Change
             </Box>
             <Box className="flex-1 gap-y-2" center col>
               <Typography

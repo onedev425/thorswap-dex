@@ -508,6 +508,7 @@ const SwapView = () => {
           )} ${outputAsset.name.toUpperCase()}`}
           totalFee={totalFeeInUSD.toCurrencyFormat(2)}
           affiliateFee={affiliateFeeInUSD?.toCurrencyFormat(2)}
+          isAffiliated={isAffiliated}
           feeAssets={feeAssets}
         />
       </ConfirmModal>
