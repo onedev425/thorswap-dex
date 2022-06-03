@@ -4,7 +4,7 @@ import { useTable, useSortBy } from 'react-table'
 
 import classNames from 'classnames'
 
-import { Icon } from 'components/Atomic'
+import { Icon, Box } from 'components/Atomic'
 
 import useWindowSize from 'hooks/useWindowSize'
 
@@ -75,17 +75,19 @@ export const Table = ({
     [getTableBodyProps, getTableProps],
   )
 
+  if (loading) {
+    return (
+      <Box center className="mt-8">
+        <Icon name="refresh" color="primaryBtn" spin size={24} />
+      </Box>
+    )
+  }
+
   return (
     <table
       {...tableProps}
       className="relative border-separate border-spacing-y-1"
     >
-      {loading && (
-        <div className="absolute z-10 w-full justify-center flex mt-[80px]">
-          <Icon name="refresh" color="primaryBtn" spin size={16} />
-        </div>
-      )}
-
       <thead>
         {headerGroups.map((headerGroup: TableHeaderGroupType) => (
           <TableHeaderGroup

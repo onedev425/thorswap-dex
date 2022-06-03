@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -19,7 +19,7 @@ import { ROUTES } from 'settings/constants'
 import Logo from 'assets/images/logo.png'
 
 import { getDefaultNavbarOptions } from './data'
-import { SidebarItem } from './SidebarItem'
+import { SidebarItems } from './SidebarItems'
 import { SidebarProps } from './types'
 
 const noScrollHeight = 225
@@ -31,7 +31,7 @@ export const Sidebar = ({
   toggle,
   onNavItemClick,
 }: SidebarProps) => {
-  const sidebarOptions = getDefaultNavbarOptions()
+  const sidebarOptions = useMemo(getDefaultNavbarOptions, [])
   const { isMdActive } = useWindowSize()
   const navigate = useNavigate()
   const [isSupportModalOpened, setIsSupportModalOpened] = useState(false)
@@ -66,7 +66,7 @@ export const Sidebar = ({
 
       <div className="w-full h-sidebar-content">
         <Scrollbar height={isMdActive ? scrollbarHeight : '50vh'}>
-          <SidebarItem
+          <SidebarItems
             options={sidebarOptions}
             variant="primary"
             collapsed={collapsed}
@@ -84,6 +84,7 @@ export const Sidebar = ({
           collapsed={collapsed}
           onItemClickCb={onNavItemClick}
         />
+
         <NavItem
           href="/"
           iconName="infoCircle"

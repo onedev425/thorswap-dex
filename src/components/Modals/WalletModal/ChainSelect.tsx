@@ -86,7 +86,7 @@ export const ChainSelect = ({
         </Box>
       )}
 
-      <Scrollbar maxHeight="100%" customStyle={{ marginRight: '-12px' }}>
+      <Scrollbar maxHeight="100%">
         <Box flex={1} center className="px-6 pb-2 gap-2 flex-wrap" row>
           {walletChains.map((chain) => (
             <ChainOption

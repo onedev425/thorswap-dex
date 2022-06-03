@@ -1,11 +1,11 @@
-import { ReactNode } from 'react'
+import { ReactNode, useCallback, useMemo } from 'react'
 
 import Scrollbars from 'react-custom-scrollbars-2'
 
 type ScrollbarProps = {
   children: ReactNode
+  scrollClassName?: string
   className?: string
-  customStyle?: Record<string, string | number>
   height?: string
   maxHeight?: number | string
   minHeight?: number | string
@@ -17,11 +17,31 @@ export const Scrollbar = ({
   minHeight,
   maxHeight,
   children,
-  customStyle = {},
   className,
   autoHeight,
+  scrollClassName,
 }: ScrollbarProps) => {
   const useAutoHeight = !!maxHeight || !!minHeight || autoHeight
+
+  const renderThumbnail = useCallback(
+    (scrollProps: ToDo) => (
+      <div
+        {...scrollProps}
+        className={scrollClassName}
+        style={{
+          ...scrollProps.style,
+          backgroundColor: '#00d2ff',
+          width: '4px',
+        }}
+      />
+    ),
+    [scrollClassName],
+  )
+
+  const style = useMemo(
+    () => (useAutoHeight ? {} : { height: height || '100vh' }),
+    [height, useAutoHeight],
+  )
 
   return (
     <Scrollbars
@@ -30,18 +50,8 @@ export const Scrollbar = ({
       autoHeightMin={minHeight}
       autoHeightMax={maxHeight}
       autoHide
-      renderThumbVertical={(scrollProps: ToDo) => (
-        <div
-          style={{
-            ...scrollProps.style,
-            backgroundColor: '#00d2ff',
-            width: '4px',
-            ...customStyle,
-          }}
-          {...scrollProps}
-        />
-      )}
-      style={useAutoHeight ? {} : { height: height || '100vh' }}
+      renderThumbVertical={renderThumbnail}
+      style={style}
     >
       {children}
     </Scrollbars>

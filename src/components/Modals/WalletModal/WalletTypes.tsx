@@ -147,7 +147,7 @@ export const WalletTypes = ({
   const walletOptions = useWalletOptions({ isMdActive })
 
   return (
-    <Scrollbar maxHeight="60vh" customStyle={{ marginRight: '-12px' }}>
+    <Scrollbar maxHeight="60vh">
       <Box className="px-4 gap-4 flex-wrap justify-center">
         {walletOptions.map(
           ({ type, label, icon, visible = true }) =>
