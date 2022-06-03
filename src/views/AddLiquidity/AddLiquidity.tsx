@@ -987,7 +987,6 @@ export const AddLiquidity = () => {
       ) &&
         asymmTipVisible && (
           <InfoTip
-            className="w-full mt-0 mb-4"
             title={t('views.addLiquidity.asymmetricPoolTip')}
             content={
               <>

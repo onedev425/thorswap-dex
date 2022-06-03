@@ -21,14 +21,14 @@ const icons: Record<CardStyleType, ReactNode> = {
   info: <Icon name="infoCircle" size={20} color="primaryBtn" />,
 }
 
-export function InfoTip({
+export const InfoTip = ({
   className,
   children,
   title,
   content,
   type = 'primary',
   onClose,
-}: Props) {
+}: Props) => {
   return (
     <HighlightCard
       className={classNames(
