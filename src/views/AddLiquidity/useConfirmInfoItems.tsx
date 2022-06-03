@@ -37,11 +37,13 @@ export const useConfirmInfoItems = ({
   }))
 
   const feesInfo = fees.map((data) => ({
-    label: `${data.chain} ${t('common.fee')}`,
+    label: `${data.chain === 'THOR' ? 'THORChain' : data.chain} ${t(
+      'common.fee',
+    )}`,
     value: (
       <InfoWithTooltip
         tooltip={t('views.liquidity.chainFeeTooltip', {
-          chain: data.chain,
+          chain: data.chain === 'THOR' ? 'THORChain' : data.chain,
         })}
         value={data.fee}
       />
