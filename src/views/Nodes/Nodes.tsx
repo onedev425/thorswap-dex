@@ -26,6 +26,8 @@ import { useApp } from '../../store/app/hooks'
 import { NodeStats } from './NodeStats'
 import { nodeStatusOptions } from './types'
 
+const initialSort = [{ id: 'Bond', desc: true }]
+
 const Nodes = () => {
   const { getNodes, nodes, nodeLoading } = useMidgard()
   const { nodeWatchList } = useApp()
@@ -85,6 +87,7 @@ const Nodes = () => {
             data={watchListData}
             loading={nodeLoading}
             onRowClick={onRowClick}
+            initialSort={initialSort}
             sortable
           />
         </Box>
@@ -126,6 +129,7 @@ const Nodes = () => {
         data={filteredNodes}
         loading={nodeLoading}
         onRowClick={onRowClick}
+        initialSort={initialSort}
         sortable
       />
     </Box>
