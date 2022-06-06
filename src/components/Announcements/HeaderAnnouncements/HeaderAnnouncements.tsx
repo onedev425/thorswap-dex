@@ -1,14 +1,13 @@
+import { Announcement } from 'components/Announcements/Announcement/Announcement'
+import { useAnnouncements } from 'components/Announcements/AnnouncementsContext'
 import { Box } from 'components/Atomic'
-import { useHeaderAnnouncements } from 'components/HeaderAnnouncements/useHeaderAnnouncements'
-
-import { Announcement } from './Announcement'
 
 export const HeaderAnnouncements = () => {
-  const announcements = useHeaderAnnouncements()
+  const { fresh } = useAnnouncements()
 
   return (
     <Box className="pt-3 self-stretch gap-1" col>
-      {announcements.map((announcement) => (
+      {fresh.map((announcement) => (
         <Announcement
           key={`${announcement.message}${announcement.title}${announcement.type}`}
           announcement={announcement}

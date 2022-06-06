@@ -32,6 +32,7 @@ type StorageType = {
   statsHidden: boolean
   chartsHidden: boolean
   poolsHidden: boolean
+  dismissedAnnList: string[]
   sidebarCollapsed: boolean
   terraWalletSession: string | null
 }
@@ -52,7 +53,11 @@ type StoragePayload =
       value: string
     }
   | {
-      key: 'nodeWatchList' | 'frequentAssets' | 'featuredAssets'
+      key:
+        | 'nodeWatchList'
+        | 'frequentAssets'
+        | 'featuredAssets'
+        | 'dismissedAnnList'
       value: string[]
     }
   | {
@@ -74,6 +79,7 @@ const defaultValues: StorageType = {
   statsHidden: false,
   chartsHidden: false,
   poolsHidden: false,
+  dismissedAnnList: [] as string[],
   sidebarCollapsed: false,
   annViewStatus: false,
   baseCurrency: Asset.USD().toString(),
@@ -101,6 +107,7 @@ export const saveInStorage = ({ key, value }: StoragePayload) => {
     case 'nodeWatchList':
     case 'frequentAssets':
     case 'featuredAssets':
+    case 'dismissedAnnList':
       localStorage.setItem(key, JSON.stringify(value))
       break
 
@@ -147,6 +154,7 @@ export const getFromStorage = (
   switch (key) {
     case 'nodeWatchList':
     case 'featuredAssets':
+    case 'dismissedAnnList':
     case 'frequentAssets': {
       const item = localStorage.getItem(key)
       return item ? JSON.parse(item) : defaultValues[key]

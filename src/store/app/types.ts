@@ -31,4 +31,5 @@ export interface State {
   hideStats: boolean
   hideCharts: boolean
   arePoolsHidden: boolean
+  dismissedAnnList: string[]
 }

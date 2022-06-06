@@ -3,9 +3,11 @@ import { ReactNode } from 'react'
 import { chainToSigAsset } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
+import { useDismissedAnnouncements } from 'components/Announcements/hooks'
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, Link, Typography } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
+import { HoverIcon } from 'components/HoverIcon'
 
 import { AnnouncementItem, AnnouncementType } from 'store/externalConfig/types'
 
@@ -14,6 +16,7 @@ import { t } from 'services/i18n'
 type AnnouncementProps = {
   announcement: AnnouncementItem
   rightComponent?: ReactNode
+  dismissed?: boolean
 }
 
 const announcementClasses: Record<AnnouncementType, string> = {
@@ -21,6 +24,13 @@ const announcementClasses: Record<AnnouncementType, string> = {
   info: 'via-btn-primary',
   warn: 'via-yellow',
   error: 'via-red',
+}
+
+const dissmissedAnnouncementClasses: Record<AnnouncementType, string> = {
+  primary: '!opacity-20 bg-btn-primary',
+  info: 'bg-btn-primary',
+  warn: 'bg-yellow',
+  error: 'bg-red',
 }
 
 const announcementBorderClasses: Record<AnnouncementType, string> = {
@@ -37,9 +47,13 @@ export const Announcement = ({
     title,
     chain,
     link,
+    key,
   },
   rightComponent,
+  dismissed,
 }: AnnouncementProps) => {
+  const { dismissAnnouncement } = useDismissedAnnouncements()
+
   if (!message && !title) {
     return null
   }
@@ -50,6 +64,8 @@ export const Announcement = ({
       className={classNames(
         'rounded-2xl px-12 py-3.5 relative',
         genericBgClasses.primary,
+        { '!px-4': dismissed && !chain },
+        { '!pr-4': dismissed && chain },
       )}
     >
       {chain && (
@@ -59,8 +75,13 @@ export const Announcement = ({
       )}
       <Box
         className={classNames(
-          'absolute inset-0 bg-gradient-to-r from-transparent to-transparent rounded-2xl opacity-40',
-          announcementClasses[type],
+          'absolute inset-0 rounded-2xl opacity-40',
+          dismissed
+            ? 'bg-opacity-30'
+            : 'bg-gradient-to-r from-transparent to-transparent',
+          dismissed
+            ? dissmissedAnnouncementClasses[type]
+            : announcementClasses[type],
         )}
       />
       <Box
@@ -70,10 +91,23 @@ export const Announcement = ({
         )}
       />
 
-      <Box className="z-0 text-center" col>
-        {!!title && <Typography variant="subtitle1">{title}</Typography>}
+      <Box
+        className={classNames('z-0', dismissed ? 'textl-left' : 'text-center')}
+        col
+      >
+        {!!title && (
+          <Typography
+            variant={dismissed ? 'body' : 'subtitle1'}
+            fontWeight="bold"
+          >
+            {title}
+          </Typography>
+        )}
         {!!message && (
-          <Typography>
+          <Typography
+            variant={dismissed ? 'caption' : 'body'}
+            fontWeight={dismissed ? 'normal' : undefined}
+          >
             {message}{' '}
             {!!link && link.url && (
               <Link
@@ -86,7 +120,16 @@ export const Announcement = ({
           </Typography>
         )}
       </Box>
-
+      {!dismissed && (
+        <Box className="absolute right-2 top-2">
+          <HoverIcon
+            iconName="xCircle"
+            tooltip={t('common.dismiss')}
+            color="secondary"
+            onClick={() => dismissAnnouncement(key || '')}
+          />
+        </Box>
+      )}
       {rightComponent ? rightComponent : null}
     </Box>
   )

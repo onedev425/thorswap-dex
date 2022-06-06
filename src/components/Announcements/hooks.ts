@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 
 import {
   SUPPORTED_CHAINS,
@@ -7,6 +7,9 @@ import {
 } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
 
+import { getAnnouncementId } from 'components/Announcements/utils'
+
+import { useApp } from 'store/app/hooks'
 import { useExternalConfig } from 'store/externalConfig/hooks'
 import {
   AnnouncementItem,
@@ -20,7 +23,7 @@ import { t } from 'services/i18n'
 
 const REFRESH_INTERVAL = 1000 * 50 * 5 //5min
 
-export const useHeaderAnnouncements = () => {
+export const useAnouncementsList = () => {
   const {
     announcements: storedAnnouncements,
     isTradingGloballyDisabled,
@@ -130,7 +133,16 @@ const getAnnouncemetsByChain = (props: GetAnnouncementsByChainProps) => {
       chain,
       ...props,
     }),
-  ).filter(Boolean) as AnnouncementItem[]
+  )
+    .map((ann) => {
+      if (ann) {
+        return {
+          ...ann,
+          key: getAnnouncementId(ann),
+        }
+      }
+    })
+    .filter(Boolean) as AnnouncementItem[]
 }
 
 const isChainPaused = (
@@ -140,4 +152,46 @@ const isChainPaused = (
   pausedTrade: Record<string, boolean>,
 ) => {
   return pausedChains[chain] || (pausedLP[chain] && pausedTrade[chain])
+}
+
+export const useDismissedAnnouncements = () => {
+  const { setAnnDismissedList, dismissedAnnList } = useApp()
+
+  const dismissAnnouncement = useCallback(
+    (id: string) => {
+      if (!id || !dismissedAnnList) {
+        return
+      }
+
+      const isDismissed = dismissedAnnList.includes(id)
+
+      if (!isDismissed) {
+        setAnnDismissedList([id, ...dismissedAnnList])
+      } else {
+        const newList = dismissedAnnList.filter((key) => key !== id)
+        setAnnDismissedList(newList)
+      }
+    },
+    [setAnnDismissedList, dismissedAnnList],
+  )
+
+  const refreshDismissedList = useCallback(
+    (allAnnouncements: AnnouncementItem[]) => {
+      if (!dismissedAnnList) {
+        return
+      }
+
+      const allIds = allAnnouncements
+        .map((ann) => ann.key || '')
+        .filter(Boolean)
+
+      const updatedList = dismissedAnnList.filter((id) => allIds.includes(id))
+      if (updatedList.length !== dismissedAnnList.length) {
+        setAnnDismissedList(updatedList)
+      }
+    },
+    [dismissedAnnList, setAnnDismissedList],
+  )
+
+  return { dismissAnnouncement, refreshDismissedList }
 }

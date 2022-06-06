@@ -24,10 +24,12 @@ export type ChainStatusFlags = Partial<Record<ChainStatusFlag, boolean>>
 
 export type AnnouncementItem = {
   type?: AnnouncementType
+  dismissed?: boolean
   title?: string
   message: string
   chain?: SupportedChain
   link?: StatusAnnouncementLink
+  key?: string
 }
 
 export type StatusAnnouncement = AnnouncementItem & {

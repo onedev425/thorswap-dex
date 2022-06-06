@@ -1,11 +1,14 @@
 import { SupportedChain } from '@thorswap-lib/multichain-sdk'
 import axios from 'axios'
 
+import { getAnnouncementId } from 'components/Announcements/utils'
+
 import {
   AnnouncementItem,
   AnnouncementsData,
   AnnouncementType,
   ChainStatusAnnouncements,
+  StatusAnnouncement,
 } from 'store/externalConfig/types'
 
 const GOOGLE_API_KEY = 'AIzaSyDeBo5Q_YVC0B5Hqrz8XS8o0n4IX6PW_ik'
@@ -35,7 +38,6 @@ export const loadConfig = async (): Promise<AnnouncementsData> => {
 
     const manual = getManualAnnouncements(manualData)
     const chainStatus = getStatusAnnouncements(statusData)
-
     return { manual, chainStatus }
   } catch (e) {
     return { manual: [], chainStatus: {} }
@@ -49,12 +51,15 @@ const getManualAnnouncements = (manualData: string[][]) => {
   const manualArr: AnnouncementItem[] = rows.map((row) => {
     const [message, title, type, , linkUrl, linkName] = row
 
-    return {
+    const announcement: AnnouncementItem = {
       message,
       title,
       type: type as AnnouncementType,
       link: { url: linkUrl, name: linkName },
     }
+    announcement.key = getAnnouncementId(announcement)
+
+    return announcement
   })
 
   return manualArr
@@ -85,7 +90,7 @@ const getStatusAnnouncements = (statusData: string[][]) => {
       isTradingPaused,
     ] = row
 
-    status[chain as SupportedChain] = {
+    const announcement: StatusAnnouncement = {
       chain: chain as SupportedChain,
       message,
       link: { url: linkUrl, name: linkName },
@@ -97,6 +102,9 @@ const getStatusAnnouncements = (statusData: string[][]) => {
         isTradingPaused: getBooleanValue(isTradingPaused),
       },
     }
+    announcement.key = getAnnouncementId(announcement)
+
+    status[chain as SupportedChain] = announcement
   })
 
   return status

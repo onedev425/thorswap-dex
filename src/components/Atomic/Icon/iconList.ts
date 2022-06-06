@@ -25,6 +25,7 @@ import {
   BiLinkExternal,
   BiSelectMultiple,
   BiUndo,
+  BiBell,
 } from 'react-icons/bi'
 import {
   BsCurrencyDollar,
@@ -114,6 +115,7 @@ const Icons = {
   auto: MdOutlineHdrAuto,
   backup: VscCloudUpload,
   barchart: AiFillSignal,
+  bell: BiBell,
   blocked: ImBlocked,
   cart: IoCart,
   chart: AiOutlineLineChart,

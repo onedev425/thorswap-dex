@@ -130,6 +130,13 @@ export const useApp = () => {
     [dispatch],
   )
 
+  const setAnnDismissedList = useCallback(
+    (dismissedAnnList: string[]) => {
+      dispatch(actions.setAnnDismissedList(dismissedAnnList))
+    },
+    [dispatch],
+  )
+
   const setWatchList = useCallback(
     (watchList: string[]) => {
       dispatch(actions.setWatchList(watchList))
@@ -181,5 +188,6 @@ export const useApp = () => {
     setStatsShowStatus,
     setChartsShowStatus,
     setPoolsShowStatus,
+    setAnnDismissedList,
   }
 }

@@ -1,5 +1,6 @@
 import { Provider as ReduxProvider } from 'react-redux'
 
+import { AnnouncementsProvider } from 'components/Announcements/AnnouncementsContext'
 import { ThemeProvider } from 'components/Theme/ThemeContext'
 
 import { store as reduxStore } from 'store/store'
@@ -27,7 +28,9 @@ function App() {
   return (
     <ReduxProvider store={reduxStore}>
       <ThemeProvider>
-        <MainApp />
+        <AnnouncementsProvider>
+          <MainApp />
+        </AnnouncementsProvider>
       </ThemeProvider>
     </ReduxProvider>
   )
