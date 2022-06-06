@@ -14,7 +14,7 @@ import { InfoRow } from 'components/InfoRow'
 import { InputAmount } from 'components/InputAmount'
 import { PanelView } from 'components/PanelView'
 import { PercentSelect } from 'components/PercentSelect/PercentSelect'
-// import { TabsSelect } from 'components/TabsSelect'
+import { TabsSelect } from 'components/TabsSelect'
 import { showErrorToast } from 'components/Toast'
 import { ViewHeader } from 'components/ViewHeader'
 
@@ -37,7 +37,7 @@ import { toOptionalFixed } from 'helpers/number'
 
 import {
   defaultVestingInfo,
-  // vestingTabs,
+  vestingTabs,
   vestingAssets,
   VestingScheduleInfo,
   VestingType,
@@ -49,7 +49,7 @@ const Vesting = () => {
   const [isFetching, setIsFetching] = useState(false)
   const [isClaiming, setIsClaiming] = useState(false)
   const [tokenAmount, setTokenAmount] = useState(Amount.fromNormalAmount(0))
-  const [vestingAction] = useState(VestingType.THOR)
+  const [vestingAction, setVestingAction] = useState(VestingType.THOR)
   const [vestingInfo, setVestingInfo] =
     useState<VestingScheduleInfo>(defaultVestingInfo)
 
@@ -201,7 +201,7 @@ const Vesting = () => {
         />
       }
     >
-      {/* <Box className="self-stretch">
+      <Box className="self-stretch">
         <TabsSelect
           tabs={vestingTabs}
           value={vestingAction}
@@ -209,7 +209,7 @@ const Vesting = () => {
             setVestingAction(val as VestingType)
           }}
         />
-      </Box> */}
+      </Box>
       <Box className="w-full p-2 pt-0" col>
         <InfoRow
           label={t('views.vesting.totalVested')}
@@ -221,7 +221,11 @@ const Vesting = () => {
         />
         <InfoRow
           label={t('views.vesting.vestingStartTime')}
-          value={vestingInfo.startTime}
+          value={
+            vestingInfo.totalVestedAmount === '0'
+              ? 'N/A'
+              : vestingInfo.startTime
+          }
         />
         <InfoRow
           label={t('views.vesting.cliff')}

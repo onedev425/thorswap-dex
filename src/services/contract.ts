@@ -47,6 +47,7 @@ export type LPContractConf = {
   }
 }
 
+// Some testnet address are incorrect, but mainnet address are 100% correct.
 export const contractConfig: Record<ContractType, ContractConf> = {
   [ContractType.VESTING]: {
     [Network.Mainnet]: '0x0c3c9e5D9b08131DBD82a8648a23592b4ddA2223',
@@ -71,7 +72,7 @@ export const contractConfig: Record<ContractType, ContractConf> = {
     [ContractABI]: VThorABI,
   },
   [ContractType.VTHOR_VESTING]: {
-    [Network.Mainnet]: '0x0c3c9e5D9b08131DBD82a8648a23592b4ddA2223',
+    [Network.Mainnet]: '0xB54147e6031086eD015602248E0Cc34E64c0D25f',
     [Network.Testnet]: '0xd689bA1169A8FB1cC96f57D0102A4111D4574FCD',
     [ContractABI]: VestingABI,
   },

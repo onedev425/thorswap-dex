@@ -60,6 +60,7 @@ export const TabsSelect = memo(
                 key={value}
                 variant={value === selectedValue ? 'primary' : 'tint'}
                 type={value === selectedValue ? 'default' : 'borderless'}
+                transform="none"
                 onClick={() => onChange(value)}
               >
                 {label}
