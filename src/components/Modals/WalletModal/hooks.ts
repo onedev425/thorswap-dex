@@ -353,7 +353,7 @@ export const useHandleWalletTypeSelect = ({
           return handleTerra(selectedWallet === WalletType.TerraMobile)
 
         default:
-          return false
+          return true
       }
     },
     [handleMetamask, handlePhantom, handleTerra, handleXdefi],
