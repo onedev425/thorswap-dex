@@ -56,7 +56,7 @@ export const NavItem = memo(
             center
           >
             <Link
-              className="flex items-center w-full h-full py-2 no-underline"
+              className="flex items-center w-full h-full py-2 no-underline justify-center"
               to={href}
               onClick={onClickHandler}
             >

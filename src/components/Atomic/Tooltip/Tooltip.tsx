@@ -25,7 +25,7 @@ const TOOLTIP_ICON = 14
 export const TooltipPortal = () => (
   <ReactTooltip
     aria-haspopup
-    className="whitespace-pre-line tooltip-container "
+    className="tooltip-container"
     effect="solid"
     id="tooltip"
   />
