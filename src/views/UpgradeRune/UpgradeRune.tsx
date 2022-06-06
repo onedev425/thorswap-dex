@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback, useEffect } from 'react'
 
 import {
   Asset,
@@ -9,6 +9,8 @@ import {
   getRuneToUpgrade,
 } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
+
+import { ConfirmContent } from 'views/UpgradeRune/ConfirmContent'
 
 import { AssetInput } from 'components/AssetInput'
 import { Button, Card, Icon, Box, Typography, Tooltip } from 'components/Atomic'
@@ -39,14 +41,25 @@ const oldRunes = [Asset.BNB_RUNE(), Asset.ETH_RUNE()]
 const UpgradeRune = () => {
   const [isOpened, setIsOpened] = useState(false)
 
-  const [recipientAddress, setRecipientAddress] = useState(
-    multichain.getWalletAddressByChain(Chain.THORChain) || '',
-  )
-
   const { wallet, setIsConnectModalOpen } = useWallet()
+  const walletAddress = wallet?.[Chain.THORChain]?.address || ''
+  const [recipientAddress, setRecipientAddress] = useState(walletAddress || '')
+  const [hasManualAddress, setHasManualAddress] = useState(false)
   const { getMaxBalance, isWalletAssetConnected } = useBalance()
   const { pools } = useMidgard()
   const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
+
+  useEffect(() => {
+    if (!!recipientAddress && !walletAddress) {
+      setHasManualAddress(true)
+    }
+  }, [walletAddress, recipientAddress])
+
+  useEffect(() => {
+    if (walletAddress && !hasManualAddress) {
+      setRecipientAddress(walletAddress)
+    }
+  }, [hasManualAddress, walletAddress])
 
   const [selectedAsset, setSelectedAsset] = useState<Asset>(oldRunes[0])
   const [upgradeAmount, setUpgradeAmount] = useState<Amount>(
@@ -218,6 +231,9 @@ const UpgradeRune = () => {
   )
 
   const assetInputList = useAssetsWithBalance(runeToUpgrade)
+  const feeLabel = `${inboundFee.toCurrencyFormat()} (${totalFeeInUSD.toCurrencyFormat(
+    2,
+  )})`
 
   const summary = useMemo(
     () => [
@@ -225,9 +241,7 @@ const UpgradeRune = () => {
         label: t('common.transactionFee'),
         value: (
           <Box className="gap-2" center>
-            <Typography variant="caption">{`${inboundFee.toCurrencyFormat()} (${totalFeeInUSD.toCurrencyFormat(
-              2,
-            )})`}</Typography>
+            <Typography variant="caption">{feeLabel}</Typography>
             <Tooltip content={t('views.send.txFeeTooltip')}>
               <Icon size={20} color="secondary" name="infoCircle" />
             </Tooltip>
@@ -235,7 +249,7 @@ const UpgradeRune = () => {
         ),
       },
     ],
-    [inboundFee, totalFeeInUSD],
+    [feeLabel],
   )
 
   // TODO: add more validations
@@ -306,7 +320,14 @@ const UpgradeRune = () => {
             isOpened={isOpened}
             onConfirm={handleConfirmUpgrade}
             onClose={() => setIsOpened(false)}
-          />
+          >
+            <ConfirmContent
+              amount={upgradeAmount}
+              inputAsset={selectedAsset}
+              recipient={recipientAddress}
+              feeLabel={feeLabel}
+            />
+          </ConfirmModal>
         </Box>
       </Card>
     </Box>
