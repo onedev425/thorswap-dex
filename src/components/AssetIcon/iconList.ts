@@ -10,6 +10,7 @@ export const getCustomIconImageUrl = (
     | 'sol'
     | 'tgt'
     | 'ust'
+    | 'usdc'
     | 'thor'
     | 'vthor',
   type: 'png' | 'svg' = 'png',
@@ -24,6 +25,7 @@ export const customIconMap: Partial<Record<AssetTickerType, string>> = {
   LUNA: getCustomIconImageUrl('luna'),
   RUNE: getCustomIconImageUrl('rune', 'svg'),
   SOL: getCustomIconImageUrl('sol', 'svg'),
+  USDC: getCustomIconImageUrl('usdc', 'svg'),
   TGT: getCustomIconImageUrl('tgt'),
   UST: getCustomIconImageUrl('ust'),
   THOR: getCustomIconImageUrl('thor'),

@@ -144,6 +144,7 @@ export type AssetTickerType =
   | 'UND'
   | 'UPX'
   | 'USDH'
+  | 'USDC'
   | 'USDT'
   | 'USDSB'
   | 'VDX'
