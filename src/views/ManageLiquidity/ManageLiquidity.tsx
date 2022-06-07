@@ -68,10 +68,12 @@ const ManageLiquidity = () => {
           title={t('common.liquidityPosition')}
           actionsComponent={
             <>
-              <ReloadButton
-                loading={isLoadingLiquidities}
-                onLoad={getAllMemberDetails}
-              />
+              {isWalletConnected && (
+                <ReloadButton
+                  loading={isLoadingLiquidities}
+                  onLoad={getAllMemberDetails}
+                />
+              )}
               <GlobalSettingsPopover />
             </>
           }

@@ -191,12 +191,14 @@ const Vesting = () => {
         <ViewHeader
           title={t('views.vesting.linearVesting')}
           actionsComponent={
-            <HoverIcon
-              iconName="refresh"
-              size={18}
-              spin={isFetching}
-              onClick={handleVestingInfo}
-            />
+            ethAddr && (
+              <HoverIcon
+                iconName="refresh"
+                size={18}
+                spin={isFetching}
+                onClick={handleVestingInfo}
+              />
+            )
           }
         />
       }

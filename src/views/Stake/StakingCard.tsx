@@ -364,12 +364,14 @@ export const StakingCard = ({
               {farmName}
             </Typography>
             <Box flex={1} justify="end">
-              <HoverIcon
-                iconName="refresh"
-                color="cyan"
-                spin={isFetching}
-                onClick={handleRefresh}
-              />
+              {ethAddr && (
+                <HoverIcon
+                  iconName="refresh"
+                  color="cyan"
+                  spin={isFetching}
+                  onClick={handleRefresh}
+                />
+              )}
             </Box>
           </Box>
 
