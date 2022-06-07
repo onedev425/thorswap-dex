@@ -1,4 +1,4 @@
-import { memo, useCallback } from 'react'
+import { memo, useCallback, useMemo, useEffect } from 'react'
 
 import { SupportedChain } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
@@ -11,6 +11,8 @@ import { ShowQrCode } from 'views/Wallet/components/ShowQrCode'
 
 import { Box, Card } from 'components/Atomic'
 import { borderHoverHighlightClass } from 'components/constants'
+
+import { getGeckoData } from 'services/coingecko'
 
 import { formatPrice } from 'helpers/formatPrice'
 
@@ -30,6 +32,15 @@ export const AccountRow = memo(({ chain }: Props) => {
     disconnectWalletByChain,
     chainWallet,
   } = useAccountData(chain)
+
+  const chainAssets = useMemo(() => {
+    return chainInfo.map((elem) => elem.asset.name)
+  }, [chainInfo])
+
+  useEffect(() => {
+    getGeckoData(chainAssets)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chainAssets.length])
 
   const { isLoading, handleRefreshChain } = useWalletChainActions(chain)
 

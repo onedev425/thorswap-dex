@@ -1,4 +1,4 @@
-import { memo, useCallback } from 'react'
+import { memo, useCallback, useEffect, useMemo } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -18,6 +18,7 @@ import { Box, Card, Typography } from 'components/Atomic'
 import { borderHoverHighlightClass } from 'components/constants'
 import { Scrollbar } from 'components/Scrollbar'
 
+import { getGeckoData } from 'services/coingecko'
 import { t } from 'services/i18n'
 
 import { formatPrice } from 'helpers/formatPrice'
@@ -48,6 +49,15 @@ export const AccountCard = memo(({ chain }: Props) => {
     disconnectWalletByChain,
     chainWallet,
   } = useAccountData(chain)
+
+  const chainAssets = useMemo(() => {
+    return chainInfo.map((elem) => elem.asset.name)
+  }, [chainInfo])
+
+  useEffect(() => {
+    getGeckoData(chainAssets)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chainAssets.length])
 
   const { isLoading, handleRefreshChain } = useWalletChainActions(chain)
   const sigAsset = chainToSigAsset(chain)
