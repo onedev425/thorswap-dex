@@ -45,7 +45,7 @@ export const Icon = ({
   size = 24,
   onClick,
 }: IconProps) => {
-  const IconComp = IconList[name]
+  const IconComp = IconList[name] || IconList.question
 
   return (
     <IconComp
