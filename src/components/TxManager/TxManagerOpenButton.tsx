@@ -2,6 +2,8 @@ import { Button, Icon, Tooltip } from 'components/Atomic'
 
 import { TxTracker, TxTrackerStatus } from 'store/midgard/types'
 
+import useWindowSize from 'hooks/useWindowSize'
+
 import { t } from 'services/i18n'
 
 type Props = {
@@ -15,6 +17,7 @@ export const TxManagerOpenButton = ({ txData }: Props) => {
       tx.status === TxTrackerStatus.Pending ||
       tx.status === TxTrackerStatus.Submitting,
   ).length
+  const { isMdActive } = useWindowSize()
 
   return (
     <Tooltip content={getTooltipContent(hasHistory, pendingCount)}>
@@ -23,7 +26,11 @@ export const TxManagerOpenButton = ({ txData }: Props) => {
         type="borderless"
         variant="tint"
         startIcon={
-          pendingCount ? <Icon name="loader" spin /> : <Icon name="menuFold" />
+          pendingCount ? (
+            <Icon name="loader" spin />
+          ) : (
+            <Icon name="menuFold" size={isMdActive ? 24 : 20} />
+          )
         }
         disabled={!hasHistory}
       />

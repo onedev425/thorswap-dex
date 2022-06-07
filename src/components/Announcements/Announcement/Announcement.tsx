@@ -62,7 +62,7 @@ export const Announcement = ({
     <Box
       center
       className={classNames(
-        'rounded-2xl px-12 py-3.5 relative',
+        'rounded-2xl px-12 py-3.5 md:w-auto relative',
         genericBgClasses.primary,
         { '!px-4': dismissed && !chain },
         { '!pr-4': dismissed && chain },

@@ -13,6 +13,7 @@ import { useMidgard } from 'store/midgard/hooks'
 import { useWallet } from 'store/wallet/hooks'
 
 import { useWalletDrawer } from 'hooks/useWalletDrawer'
+import useWindowSize from 'hooks/useWindowSize'
 
 import { t } from 'services/i18n'
 
@@ -29,6 +30,7 @@ export const Header = memo(({ openMenu }: Props) => {
   const { isWalletLoading, wallet, setIsConnectModalOpen } = useWallet()
   const { setIsDrawerVisible } = useWalletDrawer()
   const { stats } = useMidgard()
+  const { isMdActive } = useWindowSize()
 
   const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet])
 
@@ -51,12 +53,12 @@ export const Header = memo(({ openMenu }: Props) => {
   return (
     <header className="mb-5 min-h-[70px]">
       <Box justify="between">
-        <Box className="mt-auto shrink-0 gap-x-2">
+        <Box className="mt-auto shrink-0 gap-x-2 mr-2">
           <Button
             className="flex !p-1 md:hidden"
             onClick={openMenu}
             type="borderless"
-            startIcon={<Icon name="menu" size={24} />}
+            startIcon={<Icon name="menu" size={isMdActive ? 24 : 20} />}
           />
 
           <Box
@@ -64,7 +66,7 @@ export const Header = memo(({ openMenu }: Props) => {
             center
           >
             <Typography
-              variant="caption"
+              variant={isMdActive ? 'caption' : 'caption-xs'}
               className="transition-[font-size]"
               fontWeight="semibold"
             >
@@ -82,12 +84,13 @@ export const Header = memo(({ openMenu }: Props) => {
             className="mr-2"
             type={themeType === ThemeType.Light ? 'default' : 'outline'}
             onClick={handleClickWalletBtn}
+            size="sm"
           >
             {isWalletLoading
               ? t('common.loading')
               : isConnected
               ? t('common.wallet')
-              : t('common.connectWallet')}
+              : t('common.connect')}
           </Button>
           <AnnouncementsPopover />
           <AppPopoverMenu />
