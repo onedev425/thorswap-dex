@@ -8,7 +8,7 @@ import { getAPY } from 'helpers/staking'
 
 const THOR_REWARDS_PER_BLOCK = 0
 
-export const useThorAPY = () => {
+export const useThorAPR = () => {
   const { pools } = useMidgard()
 
   const thorPool = useMemo(() => Pool.byAsset(Asset.THOR(), pools), [pools])

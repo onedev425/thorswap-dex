@@ -15,7 +15,7 @@ const pool = {
     assetPrice: '0.0967704256156705',
     assetPriceUSD: '1.1338308858108823',
     liquidityUnits: '86906130870891',
-    poolAPY: '0.3324196517250051',
+    poolAPR: '0.3324196517250051',
     runeDepth: '90016317029602',
     status: 'available',
     synthSupply: '34885824420124',

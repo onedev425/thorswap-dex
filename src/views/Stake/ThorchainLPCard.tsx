@@ -9,7 +9,7 @@ import { borderHoverHighlightClass } from 'components/constants'
 
 import { useWallet } from 'store/wallet/hooks'
 
-import { useThorAPY } from 'hooks/useThorAPY'
+import { useThorAPR } from 'hooks/useThorAPR'
 
 import { t } from 'services/i18n'
 
@@ -19,7 +19,7 @@ import { tcFarmData } from './farmData'
 
 export const ThorchainLPCard = () => {
   const { wallet, setIsConnectModalOpen } = useWallet()
-  const thorAPY = useThorAPY()
+  const thorAPR = useThorAPR()
   const liquidityRouter = getAddLiquidityRoute(Asset.THOR())
   const withdrawRouter = getWithdrawRoute(Asset.THOR())
 
@@ -27,15 +27,6 @@ export const ThorchainLPCard = () => {
     () => wallet && wallet.ETH && wallet.ETH.address,
     [wallet],
   )
-
-  // const thorAddr = useMemo(() => wallet?.THOR?.address, [wallet])
-
-  // const isWalletConnected = useMemo(
-  //   () => ethAddr && thorAddr,
-  //   [ethAddr, thorAddr],
-  // )
-
-  // console.info(isWalletConnected)
 
   return (
     <Box col className="flex-1 !min-w-[360px] lg:!max-w-[50%]">
@@ -80,7 +71,7 @@ export const ThorchainLPCard = () => {
                 fontWeight="bold"
                 className="text-right"
               >
-                {t('common.APY')}
+                {t('common.APR')}
               </Typography>
 
               <Typography
@@ -89,7 +80,7 @@ export const ThorchainLPCard = () => {
                 color="green"
                 className="text-right"
               >
-                {thorAPY}%
+                {thorAPR}%
               </Typography>
             </Box>
           </Box>

@@ -79,8 +79,8 @@ export const usePoolColumns = () => {
         sortType: getAmountColumnSorter('volume24h'),
       },
       {
-        id: 'apy',
-        Header: () => t('common.APY'),
+        id: 'apr',
+        Header: () => t('common.APR'),
         accessor: (row: Pool) => new Percent(row.detail.poolAPY),
         align: 'right',
         Cell: ({ cell: { value } }: { cell: { value: Percent } }) =>

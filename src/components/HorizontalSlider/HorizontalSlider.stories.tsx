@@ -28,7 +28,7 @@ const STATS_LIST = [
   {
     iconName: 'chartCandle',
     color: 'blue',
-    label: 'Liquidity APY',
+    label: 'Liquidity APR',
     value: '100,50%',
   },
   {
