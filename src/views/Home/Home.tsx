@@ -15,7 +15,7 @@ const Home = () => {
         content={t('common.thorswapDescription')}
       />
 
-      <Box col className="gap-12">
+      <Box col>
         <GlobalStats />
         <GlobalChart />
         <PoolListView />

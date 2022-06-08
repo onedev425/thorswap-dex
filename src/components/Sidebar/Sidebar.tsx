@@ -48,7 +48,7 @@ export const Sidebar = ({
         'shadow-md border-opacity-30 border border-solid border-light-typo-gray dark:border-none',
         collapsed ? 'w-[72px]' : 'w-[180px]',
         className,
-        isMdActive ? 'h-sidebar' : 'h-[80vh]',
+        isMdActive ? 'h-sidebar' : 'h-[83vh]',
       )}
     >
       <div

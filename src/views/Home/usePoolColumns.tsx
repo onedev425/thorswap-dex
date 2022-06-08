@@ -85,7 +85,7 @@ export const usePoolColumns = () => {
         align: 'right',
         Cell: ({ cell: { value } }: { cell: { value: Percent } }) =>
           value.toFixed(0),
-        sortType: getAmountColumnSorter('apy'),
+        sortType: getAmountColumnSorter('apr'),
       },
       {
         id: 'action',
