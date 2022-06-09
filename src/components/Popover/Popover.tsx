@@ -32,10 +32,10 @@ export const Popover = forwardRef<ForwarderProps, PopoverProps>(
       placement: 'bottom-end',
     })
 
-    const closePopover = useCallback(() => {
+    const closePopover = () => {
+      if (isOpened) onClose?.()
       setIsOpened(false)
-      onClose?.()
-    }, [onClose])
+    }
 
     const openPopover = useCallback(() => {
       setIsOpened(true)

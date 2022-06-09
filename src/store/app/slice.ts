@@ -25,6 +25,7 @@ const initialState: State = {
   hideCharts: getFromStorage('chartsHidden') as boolean,
   arePoolsHidden: getFromStorage('poolsHidden') as boolean,
   dismissedAnnList: getFromStorage('dismissedAnnList') as string[],
+  seenAnnList: getFromStorage('seenAnnList') as string[],
   isSidebarCollapsed: getFromStorage('sidebarCollapsed') as boolean,
   isSettingOpen: false,
   isSidebarOpen: false,
@@ -134,6 +135,10 @@ const appSlice = createSlice({
     setAnnDismissedList(state, action: PayloadAction<string[]>) {
       state.dismissedAnnList = action.payload
       saveInStorage({ key: 'dismissedAnnList', value: action.payload })
+    },
+    setAnnSeenList(state, action: PayloadAction<string[]>) {
+      state.seenAnnList = action.payload
+      saveInStorage({ key: 'seenAnnList', value: action.payload })
     },
     setPoolsShowStatus(state, action: PayloadAction<boolean>) {
       state.arePoolsHidden = action.payload

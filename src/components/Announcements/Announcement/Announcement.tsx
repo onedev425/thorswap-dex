@@ -3,7 +3,10 @@ import { ReactNode } from 'react'
 import { chainToSigAsset } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
-import { useDismissedAnnouncements } from 'components/Announcements/hooks'
+import {
+  useDismissedAnnouncements,
+  useSeenAnnouncements,
+} from 'components/Announcements/hooks'
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, Link, Typography } from 'components/Atomic'
 import { genericBgClasses } from 'components/constants'
@@ -53,7 +56,7 @@ export const Announcement = ({
   dismissed,
 }: AnnouncementProps) => {
   const { dismissAnnouncement } = useDismissedAnnouncements()
-
+  const { seeAnnouncements } = useSeenAnnouncements()
   if (!message && !title) {
     return null
   }
@@ -126,7 +129,10 @@ export const Announcement = ({
             iconName="xCircle"
             tooltip={t('common.dismiss')}
             color="secondary"
-            onClick={() => dismissAnnouncement(key || '')}
+            onClick={() => {
+              dismissAnnouncement(key || '')
+              seeAnnouncements(key || '')
+            }}
           />
         </Box>
       )}

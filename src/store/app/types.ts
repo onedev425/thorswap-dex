@@ -32,4 +32,5 @@ export interface State {
   hideCharts: boolean
   arePoolsHidden: boolean
   dismissedAnnList: string[]
+  seenAnnList: string[]
 }

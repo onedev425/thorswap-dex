@@ -103,7 +103,9 @@
     "upgradeChainRune": "Upgrade %{chain} Rune",
     "amount": "Amount",
     "comingSoon": "Coming Soon",
-    "dismiss": "Dismiss"
+    "dismiss": "Dismiss",
+    "deleteAll": "Delete All",
+    "allCaughtUp": "You're all Caught up!"
   },
   "pendingLiquidity": {
     "complete": "complete",

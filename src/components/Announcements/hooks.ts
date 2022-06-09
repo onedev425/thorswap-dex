@@ -195,3 +195,49 @@ export const useDismissedAnnouncements = () => {
 
   return { dismissAnnouncement, refreshDismissedList }
 }
+
+export const useSeenAnnouncements = () => {
+  const { setAnnSeenList, seenAnnList } = useApp()
+
+  const seeAnnouncements = useCallback(
+    (ids: string[] | string) => {
+      if (!ids || !seenAnnList) {
+        return
+      }
+      let filtered: string[] = []
+      if (typeof ids === 'string') {
+        if (seenAnnList.includes(ids)) return
+        filtered = [ids]
+      } else {
+        ids.forEach((annId) => {
+          if (!seenAnnList.includes(annId)) {
+            filtered.push(annId)
+          }
+        })
+      }
+
+      setAnnSeenList([...seenAnnList, ...filtered])
+    },
+    [setAnnSeenList, seenAnnList],
+  )
+
+  const refreshSeenList = useCallback(
+    (allAnnouncements: AnnouncementItem[]) => {
+      if (!seenAnnList) {
+        return
+      }
+
+      const allIds = allAnnouncements
+        .map((ann) => ann.key || '')
+        .filter(Boolean)
+
+      const updatedList = seenAnnList.filter((id) => allIds.includes(id))
+      if (updatedList.length !== seenAnnList.length) {
+        setAnnSeenList(updatedList)
+      }
+    },
+    [seenAnnList, setAnnSeenList],
+  )
+
+  return { seeAnnouncements, refreshSeenList }
+}

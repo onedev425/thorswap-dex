@@ -33,6 +33,7 @@ type StorageType = {
   chartsHidden: boolean
   poolsHidden: boolean
   dismissedAnnList: string[]
+  seenAnnList: string[]
   sidebarCollapsed: boolean
   terraWalletSession: string | null
 }
@@ -58,6 +59,7 @@ type StoragePayload =
         | 'frequentAssets'
         | 'featuredAssets'
         | 'dismissedAnnList'
+        | 'seenAnnList'
       value: string[]
     }
   | {
@@ -80,6 +82,7 @@ const defaultValues: StorageType = {
   chartsHidden: false,
   poolsHidden: false,
   dismissedAnnList: [] as string[],
+  seenAnnList: [] as string[],
   sidebarCollapsed: false,
   annViewStatus: false,
   baseCurrency: Asset.USD().toString(),
@@ -110,7 +113,9 @@ export const saveInStorage = ({ key, value }: StoragePayload) => {
     case 'dismissedAnnList':
       localStorage.setItem(key, JSON.stringify(value))
       break
-
+    case 'seenAnnList':
+      localStorage.setItem(key, JSON.stringify(value))
+      break
     case 'annViewStatus':
     case 'statsHidden':
     case 'chartsHidden':

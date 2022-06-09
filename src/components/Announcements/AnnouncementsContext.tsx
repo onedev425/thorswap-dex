@@ -9,6 +9,7 @@ const AnnouncementsContext = createContext<AnnouncementsState>({
   all: [],
   dismissed: [],
   fresh: [],
+  seen: [],
 })
 
 type Props = {
@@ -19,7 +20,7 @@ export const useAnnouncements = () => useContext(AnnouncementsContext)
 
 export const AnnouncementsProvider = ({ children }: Props) => {
   const announcementsList = useAnouncementsList()
-  const { dismissedAnnList } = useApp()
+  const { seenAnnList, dismissedAnnList } = useApp()
 
   const announcementsState: AnnouncementsState = useMemo(
     () => ({
@@ -33,8 +34,12 @@ export const AnnouncementsProvider = ({ children }: Props) => {
           (ann) =>
             dismissedAnnList && !dismissedAnnList.includes(ann.key || ''),
         ) || [],
+      seen:
+        announcementsList.filter(
+          (ann) => seenAnnList && seenAnnList.includes(ann.key || ''),
+        ) || [],
     }),
-    [announcementsList, dismissedAnnList],
+    [announcementsList, seenAnnList, dismissedAnnList],
   )
 
   return (
