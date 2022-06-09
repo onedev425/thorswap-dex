@@ -65,10 +65,10 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
         id: 'amount',
         Header: () => t('common.amount'),
         align: 'right',
-        accessor: (row: Amount) => row.assetAmount,
-        Cell: ({ cell: { value } }: { cell: { value: AssetAmount } }) => (
+        accessor: (row: Amount) => row.assetAmount.toFixed(2),
+        Cell: ({ cell: { value } }: { cell: { value: String } }) => (
           <Typography fontWeight="bold">
-            {chainAddress ? value.toFixed(2) : '-'}
+            {chainAddress ? value : '-'}
           </Typography>
         ),
       },
@@ -77,33 +77,28 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
         Header: () => t('common.usdPrice'),
         align: 'right',
         minScreenSize: BreakPoint.md,
-        accessor: (row: AssetAmount) => row.asset.symbol,
+        accessor: (row: AssetAmount) => {
+          if (row.asset.symbol === 'RUNE') {
+            return runePrice
+          } else if (geckoData[row.asset.symbol]?.current_price) {
+            return geckoData[row.asset.symbol].current_price
+          }
+          return 0
+        },
         Cell: ({ cell: { value } }: { cell: { value: string } }) => (
-          <Typography fontWeight="bold">
-            {formatPrice(
-              value === 'RUNE' && runePrice
-                ? parseFloat(runePrice)
-                : geckoData[value]?.current_price || 0,
-            )}
-          </Typography>
+          <Typography fontWeight="bold">{formatPrice(value)}</Typography>
         ),
       },
       {
         id: 'price24h',
         Header: () => '24h%',
         align: 'right',
-        accessor: (row: AssetAmount) => row.asset.symbol,
+        accessor: (row: AssetAmount) =>
+          geckoData[row.asset.symbol]?.price_change_percentage_24h || 0,
         minScreenSize: BreakPoint.md,
-        Cell: ({ cell: { value } }: { cell: { value: string } }) => (
-          <Typography
-            color={
-              (geckoData[value]?.price_change_percentage_24h || 0) >= 0
-                ? 'green'
-                : 'red'
-            }
-            fontWeight="bold"
-          >
-            {(geckoData[value]?.price_change_percentage_24h || 0).toFixed(2)}%
+        Cell: ({ cell: { value } }: { cell: { value: number } }) => (
+          <Typography color={value >= 0 ? 'green' : 'red'} fontWeight="bold">
+            {value.toFixed(2)}%
           </Typography>
         ),
       },
