@@ -88,6 +88,7 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
         Cell: ({ cell: { value } }: { cell: { value: string } }) => (
           <Typography fontWeight="bold">{formatPrice(value)}</Typography>
         ),
+        sortType: 'basic',
       },
       {
         id: 'price24h',
@@ -101,6 +102,7 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
             {value.toFixed(2)}%
           </Typography>
         ),
+        sortType: 'basic',
       },
       {
         id: 'chart',
