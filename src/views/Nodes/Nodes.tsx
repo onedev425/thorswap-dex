@@ -47,9 +47,10 @@ const Nodes = () => {
     [],
   )
 
-  const watchListData = useMemo(() => {
-    return nodes.filter((node) => nodeWatchList.includes(node.node_address))
-  }, [nodes, nodeWatchList])
+  const watchListData = useMemo(
+    () => nodes.filter((node) => nodeWatchList.includes(node.node_address)),
+    [nodes, nodeWatchList],
+  )
 
   const filteredNodes = useMemo(() => {
     // filter by status
@@ -68,9 +69,12 @@ const Nodes = () => {
     return nodeByStatus
   }, [nodes, keyword, nodeStatusType])
 
-  const onRowClick = ({ original }: TableRowType) => {
-    navigate(getNodeDetailRoute(original.node_address))
-  }
+  const onRowClick = useCallback(
+    ({ original }: TableRowType) => {
+      navigate(getNodeDetailRoute(original.node_address))
+    },
+    [navigate],
+  )
 
   return (
     <Box col>

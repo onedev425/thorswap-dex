@@ -53,14 +53,14 @@ export const NodeManagePanel = ({ address }: Props) => {
 
       <Box
         className={classNames(
-          'transition-all overflow-hidden self-stretch flex-1',
+          'transition-all overflow-hidden',
           activeTab.value === BondActionType.Leave
             ? 'max-h-[0px]'
             : 'max-h-[86px]',
         )}
       >
         <PanelInput
-          className="flex-1"
+          className="flex-1 overflow-hidden"
           title={
             activeTab.value === BondActionType.Bond
               ? t('views.nodes.bondAmount')
@@ -70,7 +70,7 @@ export const NodeManagePanel = ({ address }: Props) => {
           onChange={onAmountChange}
           value={rawAmount}
           suffix={
-            <Box className="absolute right-12 gap-x-2 pt-2">
+            <Box className="w-[84px] gap-x-2 pt-2">
               <Typography variant="subtitle2">{Asset.RUNE().ticker}</Typography>
               <AssetIcon asset={Asset.RUNE()} size={26} />
             </Box>

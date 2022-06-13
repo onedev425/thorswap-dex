@@ -62,6 +62,7 @@ const NodeDetails = () => {
             size="md"
             horizontalInset
           />
+
           <div
             className={classNames('w-full', maxHeightTransitionClass)}
             ref={contentTableRef}
