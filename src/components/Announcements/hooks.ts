@@ -204,21 +204,24 @@ export const useSeenAnnouncements = () => {
       if (!ids || !seenAnnList) {
         return
       }
+      const parsedSeenAnnList: string[] =
+        typeof seenAnnList === 'string' ? JSON.parse(seenAnnList) : seenAnnList
+
       let filtered: string[] = []
       if (typeof ids === 'string') {
-        if (seenAnnList.includes(ids)) return
+        if (parsedSeenAnnList.includes(ids)) return
         filtered = [ids]
       } else {
         ids.forEach((annId) => {
-          if (!seenAnnList.includes(annId)) {
+          if (!parsedSeenAnnList.includes(annId)) {
             filtered.push(annId)
           }
         })
       }
 
-      setAnnSeenList([...seenAnnList, ...filtered])
+      setAnnSeenList([...parsedSeenAnnList, ...filtered])
     },
-    [setAnnSeenList, seenAnnList],
+    [seenAnnList, setAnnSeenList],
   )
 
   const refreshSeenList = useCallback(
