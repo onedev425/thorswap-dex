@@ -93,12 +93,13 @@ export const useFormatPrice = (options?: FormatOptions) => {
   const format = useFormat(options)
 
   return useCallback(
-    (amount: Value) => {
-      if (amount instanceof Amount) {
-        return formatter({ amount, format, decimals: amount?.decimal })
-      }
-      return formatter({ amount, format, decimals: options?.decimals })
-    },
+    (amount: Value) =>
+      formatter({
+        amount,
+        format,
+        decimals:
+          amount instanceof Amount ? amount?.decimal : options?.decimals,
+      }),
     [format, options?.decimals],
   )
 }

@@ -32,13 +32,7 @@ export const NodeManagePanel = ({ address }: Props) => {
 
   return (
     <Box className="self-stretch gap-1" col>
-      <Box className="self-stretch">
-        <TabsSelect
-          tabs={tabs}
-          value={activeTab.value}
-          onChange={onTabChange}
-        />
-      </Box>
+      <TabsSelect tabs={tabs} value={activeTab.value} onChange={onTabChange} />
 
       {!address && (
         <PanelInput
@@ -53,7 +47,7 @@ export const NodeManagePanel = ({ address }: Props) => {
 
       <Box
         className={classNames(
-          'transition-all overflow-hidden',
+          'transition-all pt-2 overflow-hidden',
           activeTab.value === BondActionType.Leave
             ? 'max-h-[0px]'
             : 'max-h-[86px]',

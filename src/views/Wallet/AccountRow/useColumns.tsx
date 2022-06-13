@@ -23,13 +23,14 @@ import useWindowSize, { BreakPoint } from 'hooks/useWindowSize'
 
 import { t } from 'services/i18n'
 
-import { formatPrice } from 'helpers/formatPrice'
+import { useFormatPrice } from 'helpers/formatPrice'
 
 import { getSendRoute, getSwapRoute } from 'settings/constants'
 
 import { ViewMode } from 'types/app'
 
 export const useColumns = (chainAddress: string, chain: SupportedChain) => {
+  const formatPrice = useFormatPrice()
   const navigate = useNavigate()
   const { stats } = useMidgard()
   const { geckoData } = useWallet()
@@ -77,14 +78,10 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
         Header: () => t('common.usdPrice'),
         align: 'right',
         minScreenSize: BreakPoint.md,
-        accessor: (row: AssetAmount) => {
-          if (row.asset.symbol === 'RUNE') {
-            return runePrice
-          } else if (geckoData[row.asset.symbol]?.current_price) {
-            return geckoData[row.asset.symbol].current_price
-          }
-          return 0
-        },
+        accessor: ({ asset: { symbol } }: AssetAmount) =>
+          symbol === 'RUNE'
+            ? `$${parseFloat(runePrice || '').toFixed(2)}`
+            : geckoData[symbol]?.current_price || 0,
         Cell: ({ cell: { value } }: { cell: { value: string } }) => (
           <Typography fontWeight="bold">{formatPrice(value)}</Typography>
         ),
@@ -184,7 +181,15 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
         ),
       },
     ],
-    [geckoData, chainAddress, isLgActive, runePrice, navigate, chain],
+    [
+      chainAddress,
+      runePrice,
+      geckoData,
+      formatPrice,
+      isLgActive,
+      chain,
+      navigate,
+    ],
   )
 
   return columns

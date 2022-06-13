@@ -62,13 +62,13 @@ export const useSwap = ({
           inboundFee: new AssetAmount(inputAsset, inputFeeAmount),
           outboundFee: new AssetAmount(outputAsset, outboundFeeAmount),
         },
-      }
+      } as const
 
-      return new Swap(
-        isAffiliated
-          ? { ...swapParams, affiliateFee: DEFAULT_AFFILIATE_FEE }
-          : swapParams,
-      )
+      const paramsWithFee = isAffiliated
+        ? Object.assign(swapParams, { affiliateFee: DEFAULT_AFFILIATE_FEE })
+        : swapParams
+
+      return new Swap(paramsWithFee)
     } catch (error) {
       console.error(error)
       return null
