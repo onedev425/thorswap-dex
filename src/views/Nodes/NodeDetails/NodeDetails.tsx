@@ -16,7 +16,7 @@ import { ViewHeader } from 'components/ViewHeader'
 
 import { t } from 'services/i18n'
 
-export const NodeDetails = () => {
+const NodeDetails = () => {
   const {
     isActive: isTableActive,
     contentRef: contentTableRef,
@@ -80,7 +80,9 @@ export const NodeDetails = () => {
               onClick={toggleTable}
               endIcon={<CollapseChevron isActive={isTableActive} />}
             >
-              Show Details
+              {isTableActive
+                ? t('views.nodes.detail.hideDetails')
+                : t('views.nodes.detail.showDetails')}
             </Button>
           </Box>
         </Box>
@@ -93,3 +95,5 @@ export const NodeDetails = () => {
     </Box>
   )
 }
+
+export default NodeDetails

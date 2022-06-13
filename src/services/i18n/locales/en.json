@@ -286,6 +286,8 @@
       "rewards": "Rewards",
       "slash": "Slash",
       "detail": {
+        "showDetails": "Show Details",
+        "hideDetails": "Hide Details",
         "totalBond": "Total Bond Amounts by Active, Standby Nodes",
         "nodeInformation": "Node Information",
         "totalBondTooltip": "Total Amount Bonded by Nodes",

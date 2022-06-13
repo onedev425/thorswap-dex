@@ -70,13 +70,9 @@ export const NodeManagePanel = ({ address }: Props) => {
           onChange={onAmountChange}
           value={rawAmount}
           suffix={
-            <Box>
-              <Box className="gap-3 pt-2" row>
-                <Typography variant="subtitle2">
-                  {Asset.RUNE().ticker}
-                </Typography>
-                <AssetIcon asset={Asset.RUNE()} size={26} />
-              </Box>
+            <Box className="absolute right-12 gap-x-2 pt-2">
+              <Typography variant="subtitle2">{Asset.RUNE().ticker}</Typography>
+              <AssetIcon asset={Asset.RUNE()} size={26} />
             </Box>
           }
         />

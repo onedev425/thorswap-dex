@@ -17,7 +17,7 @@ export const NodeDetailsActionPanel = ({ nodeAddress }: Props) => {
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse()
 
   return (
-    <Card className="!rounded-2xl md:!rounded-3xl !p-0 flex-col items-center self-stretch shadow-lg w-full md:h-auto max-w-[480px] mx-auto">
+    <Card className="!rounded-2xl md:!rounded-3xl !py-0 flex-col items-center self-stretch shadow-lg w-full md:h-auto max-w-[480px] mx-auto">
       <Box
         className="w-full cursor-pointer px-6 py-4 pr-8"
         justify="between"

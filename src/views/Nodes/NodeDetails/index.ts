@@ -1,1 +1,1 @@
-export { NodeDetails } from './NodeDetails'
+export { default } from './NodeDetails'
