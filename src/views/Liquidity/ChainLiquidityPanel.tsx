@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { Asset, Pool, SupportedChain } from '@thorswap-lib/multichain-sdk'
 import { chainToString } from '@thorswap-lib/xchain-util'
 
-import { ChainPoolData } from 'views/ManageLiquidity/types'
+import { ChainPoolData } from 'views/Liquidity/types'
 
 import { Box, Button, Icon, Link, Typography } from 'components/Atomic'
 import { InfoRow } from 'components/InfoRow'
@@ -93,7 +93,7 @@ export const ChainLiquidityPanel = ({ chain, data, isLoading }: Props) => {
         className="!mx-1.5 pl-1.5"
         label={<Typography>{chainToString(chain)}</Typography>}
         value={
-          <Box className="gap-x-2">
+          <Box className="gap-x-2 mb-1">
             <Link
               to={getThorYieldLPInfoRoute({
                 chain,

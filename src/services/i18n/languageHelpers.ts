@@ -1,12 +1,11 @@
 import { SupportedLanguages } from 'types/app'
 
-const FLAGICONS: Record<SupportedLanguages, string> = {
+export const FLAG_ICONS: Record<SupportedLanguages, string> = {
   'ms-MY': 'malaysia',
   'nl-NL': 'netherlands',
   'pt-BR': 'brazil',
   'zh-Hans': 'china',
   'zh-Hant': 'china',
-  ar: 'saudi',
   de: 'netherlands',
   en: 'usa',
   es: 'spain',
@@ -21,13 +20,13 @@ const FLAGICONS: Record<SupportedLanguages, string> = {
   tr: 'turkey',
   ur: 'pakistan',
 }
-const LANGUAGE_NAMES: Record<SupportedLanguages, string> = {
+
+export const LANGUAGE_NAMES: Record<SupportedLanguages, string> = {
   'ms-MY': 'Malay',
   'nl-NL': 'Dutch (NLD)',
   'pt-BR': 'Português (BRA)',
   'zh-Hans': '简体中文 (CHN)',
   'zh-Hant': '繁體中文 (CHT)',
-  ar: 'العربية (ARA)',
   de: 'Deutsch (DEU)',
   en: 'English (US)',
   es: 'Español (ESP)',
@@ -41,12 +40,4 @@ const LANGUAGE_NAMES: Record<SupportedLanguages, string> = {
   ru: 'Русский (RUS)',
   tr: 'Türkçe (TUR)',
   ur: 'اردو (URD)',
-}
-
-export const getLanguageLabel = (lang: SupportedLanguages) => {
-  return LANGUAGE_NAMES[lang]
-}
-
-export const getLanguageFlag = (lang: SupportedLanguages) => {
-  return FLAGICONS[lang]
 }

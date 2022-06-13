@@ -210,7 +210,7 @@
       "dashboard": "대시보드",
       "swap": "스왑",
       "addLiquidity": "예치",
-      "manageLiquidity": "유동성",
+      "liquidity": "유동성",
       "joinDiscord": "Discord 서버 참여",
       "pendingLiquidity": "보류 중",
       "thorswapDocumentation": "THORSwap 문서",

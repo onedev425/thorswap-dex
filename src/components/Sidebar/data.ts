@@ -24,8 +24,8 @@ export const getDefaultNavbarOptions = (): SidebarItemProps[] => [
       },
       {
         iconName: 'sputnik',
-        href: ROUTES.ManageLiquidity,
-        label: t('components.sidebar.manageLiquidity'),
+        href: ROUTES.Liquidity,
+        label: t('components.sidebar.liquidity'),
       },
     ],
   },

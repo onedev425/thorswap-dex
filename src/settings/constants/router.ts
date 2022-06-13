@@ -6,7 +6,7 @@ export enum ROUTES {
   AddLiquidityPool = '/add/:assetParam',
   CreateLiquidity = '/create',
   Home = '/dashboard',
-  ManageLiquidity = '/liquidity',
+  Liquidity = '/liquidity',
   NodeDetail = '/nodes/:nodeAddress',
   NodeManager = '/node-manager',
   Nodes = '/nodes',

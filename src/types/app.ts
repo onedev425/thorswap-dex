@@ -40,7 +40,6 @@ export const SUPPORTED_LANGUAGES = [
   'pl',
   'pt',
   'pt-BR',
-  'ar',
   'hi',
   'km',
   'ko',

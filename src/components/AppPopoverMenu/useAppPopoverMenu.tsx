@@ -9,12 +9,7 @@ import { useTheme } from 'components/Theme/ThemeContext'
 
 import { useApp } from 'store/app/hooks'
 
-import {
-  t,
-  changeAppLanguage,
-  getLanguageFlag,
-  getLanguageLabel,
-} from 'services/i18n'
+import { t, changeAppLanguage, FLAG_ICONS, LANGUAGE_NAMES } from 'services/i18n'
 
 import {
   SupportedLanguages,
@@ -89,7 +84,7 @@ const useMainMenu = (setMenuType: (val: MenuType) => void) => {
       onClick: () => setMenuType('theme'),
     },
     {
-      label: getLanguageLabel(language),
+      label: LANGUAGE_NAMES[language],
       desc: t('appMenu.languageDesc'),
       onClick: () => setMenuType('language'),
       icon: 'languageLetters',
@@ -138,8 +133,8 @@ const useLanguageMenu = (onBack: () => void) => {
   const isLanguageSelected = (val: SupportedLanguages) => val === language
 
   const languageMenu: MenuItemType[] = SUPPORTED_LANGUAGES.map((lang) => ({
-    label: getLanguageLabel(lang),
-    icon: getLanguageFlag(lang) as IconName,
+    label: LANGUAGE_NAMES[lang],
+    icon: FLAG_ICONS[lang] as IconName,
     onClick: () => onLanguageClick(lang),
     isSelected: isLanguageSelected(lang),
     gap: 'gap-1',

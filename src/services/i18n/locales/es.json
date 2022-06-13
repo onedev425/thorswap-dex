@@ -210,7 +210,7 @@
       "dashboard": "Dashboard",
       "swap": "Intercambio",
       "addLiquidity": "Depositar",
-      "manageLiquidity": "Liquidez",
+      "liquidity": "Liquidez",
       "joinDiscord": "Entrar al servidor Discord",
       "pendingLiquidity": "Pendiente",
       "thorswapDocumentation": "Documentación de THORSwap",

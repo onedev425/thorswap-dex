@@ -289,7 +289,9 @@ export const AddLiquidity = () => {
 
   const poolShareEst = useMemo(() => {
     if (!liquidityEntity) return null
-    return liquidityEntity.getPoolShareEst(runeAmount, assetAmount).toFixed(3)
+    return liquidityEntity
+      .getPoolShareEst(runeAmount, assetAmount)
+      .toSignificant(6)
   }, [liquidityEntity, assetAmount, runeAmount])
 
   const isWalletConnected = useMemo(() => {
@@ -915,10 +917,7 @@ export const AddLiquidity = () => {
   })
 
   const approveConfirmInfo = useApproveInfoItems({
-    inputAsset: {
-      asset: poolAsset,
-      value: assetAmount,
-    },
+    inputAsset: { asset: poolAsset, value: assetAmount },
     fee: inboundAssetFee.toCurrencyFormat(),
   })
 
@@ -927,10 +926,10 @@ export const AddLiquidity = () => {
     [isWalletConnected, isApproveRequired],
   )
 
-  const currentAssetHaveLP: boolean = useMemo(() => {
-    const lpPositions = Object.keys(chainMemberDetails)
-    return lpPositions.includes(poolAsset.symbol)
-  }, [chainMemberDetails, poolAsset])
+  const currentAssetHaveLP: boolean = useMemo(
+    () => Object.keys(chainMemberDetails).includes(poolAsset.symbol),
+    [chainMemberDetails, poolAsset],
+  )
 
   return (
     <PanelView
@@ -1009,7 +1008,6 @@ export const AddLiquidity = () => {
 
       {currentAssetHaveLP && existingLPTipVisible && (
         <InfoTip
-          className="w-full mt-0 mb-4"
           title={t('views.addLiquidity.existingLpTip')}
           content={
             <>
@@ -1037,7 +1035,7 @@ export const AddLiquidity = () => {
               TxTrackerStatus.Submitting,
             ].includes(assetApproveStatus)}
           >
-            Approve
+            {t('common.approve')}
           </Button>
         </Box>
       )}

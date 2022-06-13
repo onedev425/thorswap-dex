@@ -210,7 +210,7 @@
       "dashboard": "仪表板",
       "swap": "兑换",
       "addLiquidity": "添加",
-      "manageLiquidity": "流动性",
+      "liquidity": "流动性",
       "joinDiscord": "加入Discord服务器",
       "pendingLiquidity": "待定",
       "thorswapDocumentation": "THORSwap 文档",

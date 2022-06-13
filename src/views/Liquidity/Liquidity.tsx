@@ -7,8 +7,6 @@ import {
   SupportedChain,
 } from '@thorswap-lib/multichain-sdk'
 
-import { ChainLiquidityPanel } from 'views/ManageLiquidity/components/ChainLiquidityPanel'
-
 import { Button, Box } from 'components/Atomic'
 import { GlobalSettingsPopover } from 'components/GlobalSettings'
 import { InfoTip } from 'components/InfoTip'
@@ -26,7 +24,9 @@ import { sortChains } from 'helpers/chains'
 
 import { getAddLiquidityRoute, ROUTES } from 'settings/constants'
 
-const ManageLiquidity = () => {
+import { ChainLiquidityPanel } from './ChainLiquidityPanel'
+
+const Liquidity = () => {
   const navigate = useNavigate()
   const { wallet, setIsConnectModalOpen } = useWallet()
 
@@ -141,4 +141,4 @@ const ManageLiquidity = () => {
   )
 }
 
-export default ManageLiquidity
+export default Liquidity

@@ -13,7 +13,6 @@ import { getFromStorage } from 'helpers/storage'
 
 import { SupportedLanguages } from 'types/app'
 
-import ar from './locales/ar.json'
 import de from './locales/de.json'
 import en from './locales/en.json'
 import es from './locales/es.json'
@@ -41,7 +40,6 @@ const resources: Record<SupportedLanguages, Resource> = {
   'pt-BR': { translation: ptBR },
   'zh-Hans': { translation: zhHans },
   'zh-Hant': { translation: zhHant },
-  ar: { translation: ar },
   de: { translation: de },
   en: { translation: en },
   es: { translation: es },

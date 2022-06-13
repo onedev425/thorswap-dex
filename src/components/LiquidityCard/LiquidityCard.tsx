@@ -6,7 +6,7 @@ import { Amount, Asset, Liquidity } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 import dayjs from 'dayjs'
 
-import { ChainPoolData } from 'views/ManageLiquidity/types'
+import { ChainPoolData } from 'views/Liquidity/types'
 
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon'
 import {

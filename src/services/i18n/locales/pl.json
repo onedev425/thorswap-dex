@@ -210,7 +210,7 @@
       "dashboard": "Tablica",
       "swap": "Wymiana",
       "addLiquidity": "Despozyt",
-      "manageLiquidity": "Płynność",
+      "liquidity": "Płynność",
       "joinDiscord": "Dołącz do serwera Discord",
       "pendingLiquidity": "Oczekujące",
       "thorswapDocumentation": "Dokumentacja THORSwap",

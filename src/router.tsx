@@ -10,7 +10,7 @@ import {
 import AddLiquidity from 'views/AddLiquidity'
 import CreateLiquidity from 'views/CreateLiquidity'
 import Home from 'views/Home'
-import ManageLiquidity from 'views/ManageLiquidity'
+import Liquidity from 'views/Liquidity'
 import Nodes from 'views/Nodes'
 import { NodeDetails } from 'views/Nodes/NodeDetails'
 import NodeManager from 'views/Nodes/NodeManager'
@@ -46,7 +46,7 @@ const routes: RouteType = [
   { path: ROUTES.AddLiquidityPool, element: AddLiquidity },
   { path: ROUTES.CreateLiquidity, element: CreateLiquidity },
   { path: ROUTES.Home, element: Home },
-  { path: ROUTES.ManageLiquidity, element: ManageLiquidity },
+  { path: ROUTES.Liquidity, element: Liquidity },
   { path: ROUTES.Send, element: Send },
   { path: ROUTES.SendAsset, element: Send },
   { path: ROUTES.Stake, element: Stake },
