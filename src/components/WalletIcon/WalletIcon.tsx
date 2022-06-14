@@ -22,6 +22,7 @@ const walletIcons: Record<WalletOption, IconName> = {
   [WalletOption.XDEFI]: 'xdefi',
   [WalletOption.TERRASTATION]: 'terra',
   [WalletOption.PHANTOM]: 'phantom',
+  [WalletOption.KEPLR]: 'keplr',
 }
 
 export const WalletIcon = ({

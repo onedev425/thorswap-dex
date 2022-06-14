@@ -23,4 +23,7 @@ export const globalConfig = {
 
 setGlobalConfig(globalConfig)
 
-export const multichain = new MultiChain({ network: NETWORK })
+export const multichain = new MultiChain({
+  network: NETWORK,
+  figmentApiKey: import.meta.env.VITE_FIGMENT_API_KEY || '',
+})

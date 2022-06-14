@@ -6,6 +6,7 @@ import {
   PhantomWalletStatus,
   SupportedChain,
   XdefiWalletStatus,
+  KeplrWalletStatus,
 } from '@thorswap-lib/multichain-sdk'
 import { Chain, TERRAChain } from '@thorswap-lib/xchain-util'
 
@@ -22,9 +23,12 @@ import { useWallet } from 'store/wallet/hooks'
 import { useTerraWallet } from 'hooks/useTerraWallet'
 
 import { t } from 'services/i18n'
+import { keplr } from 'services/keplr'
 import { metamask } from 'services/metamask'
 import { phantom } from 'services/phantom'
 import { xdefi } from 'services/xdefi'
+
+import { IS_STAGENET } from 'settings/config'
 
 type WalletItem = {
   type: WalletType
@@ -59,13 +63,23 @@ export const useWalletOptions = ({
         type: WalletType.Phantom,
         visible: isMdActive,
       },
+      ...(IS_STAGENET || import.meta.env.DEV
+        ? [
+            {
+              icon: 'keplr' as const,
+              label: t('views.walletModal.keplr'),
+              type: WalletType.Keplr,
+              visible: isMdActive,
+            },
+          ]
+        : []),
       ...(isTerraStationAvailable
         ? [
             {
-              visible: isMdActive,
-              type: WalletType.Terra,
               icon: 'station' as const,
               label: t('views.walletModal.terraStation'),
+              type: WalletType.Terra,
+              visible: isMdActive,
             },
           ]
         : []),
@@ -134,6 +148,7 @@ export const useHandleWalletConnect = ({
     connectXdefiWallet,
     connectMetamask,
     connectPhantom,
+    connectKeplr,
     connectLedger,
     connectTrustWallet,
   } = useWallet()
@@ -162,6 +177,11 @@ export const useHandleWalletConnect = ({
 
     clearStatus()
   }, [connectPhantom, clearStatus])
+
+  const handleConnectKeplr = useCallback(async () => {
+    await connectKeplr()
+    clearStatus()
+  }, [connectKeplr, clearStatus])
 
   const handleConnectXdefi = useCallback(
     async (chains: SupportedChain[]) => {
@@ -206,12 +226,15 @@ export const useHandleWalletConnect = ({
         return handleConnectMetaMask()
       case WalletType.Phantom:
         return handleConnectPhantom()
+      case WalletType.Keplr:
+        return handleConnectKeplr()
     }
   }, [
     ledgerIndex,
     pendingChains,
     setWalletStage,
     walletType,
+    handleConnectKeplr,
     handleConnectLedger,
     handleConnectMetaMask,
     handleConnectPhantom,
@@ -313,6 +336,17 @@ export const useHandleWalletTypeSelect = ({
     }
   }, [])
 
+  const handleKeplr = useCallback(() => {
+    const keplrStatus = keplr.isWalletDetected()
+
+    if (keplrStatus === KeplrWalletStatus.KeplrDetected) {
+      return true
+    } else {
+      window.open('https://keplr.app')
+      return false
+    }
+  }, [])
+
   const handleSuccessWalletConnection = useCallback(
     (selectedWallet: WalletType) => {
       const skipChainSelect = [
@@ -348,6 +382,8 @@ export const useHandleWalletTypeSelect = ({
           return handleMetamask()
         case WalletType.Phantom:
           return handlePhantom()
+        case WalletType.Keplr:
+          return handleKeplr()
         case WalletType.Terra:
         case WalletType.TerraMobile:
           return handleTerra(selectedWallet === WalletType.TerraMobile)
@@ -356,7 +392,7 @@ export const useHandleWalletTypeSelect = ({
           return true
       }
     },
-    [handleMetamask, handlePhantom, handleTerra, handleXdefi],
+    [handleMetamask, handlePhantom, handleTerra, handleXdefi, handleKeplr],
   )
 
   const handleWalletTypeSelect = useCallback(

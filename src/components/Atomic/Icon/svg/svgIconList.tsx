@@ -2,6 +2,7 @@
 import { ReactComponent as BitcoinCash } from 'assets/images/svg/bch.svg'
 import { ReactComponent as Bitcoin } from 'assets/images/svg/bitcoin.svg'
 import { ReactComponent as Bnb } from 'assets/images/svg/bnb.svg'
+import { ReactComponent as Cosmos } from 'assets/images/svg/cosmos.svg'
 import { ReactComponent as Dogecoin } from 'assets/images/svg/dogecoin.svg'
 import { ReactComponent as Ethereum } from 'assets/images/svg/ethereum.svg'
 import { ReactComponent as Litecoin } from 'assets/images/svg/litecoin.svg'
@@ -40,6 +41,7 @@ import { ReactComponent as USA } from './flags/usa.svg'
 import { ReactComponent as Gwei } from './gwei.svg'
 import { ReactComponent as Import } from './import.svg'
 import { ReactComponent as InIcon } from './inIcon.svg'
+import { ReactComponent as Keplr } from './keplr.svg'
 import { ReactComponent as Keystore } from './keystore.svg'
 import { ReactComponent as Ledger } from './ledger.svg'
 import { ReactComponent as Lightning } from './lightningThorswap.svg'
@@ -81,6 +83,7 @@ export const Svgs = {
   eth: Ethereum,
   ltc: Litecoin,
   sol: Solana,
+  cos: Cosmos,
   terra: Terra,
   thor: Thorchain,
   thoryield: Thoryield,
@@ -98,6 +101,7 @@ export const Svgs = {
   import: Import,
   inIcon: InIcon,
   keystore: Keystore,
+  keplr: Keplr,
   ledger: Ledger,
   lightning: Lightning,
   metamask: Metamask,
@@ -155,6 +159,7 @@ export const SvgIcons = {
   eth: (props: CustomIconProps) => <SvgIcon name="eth" {...props} />,
   ltc: (props: CustomIconProps) => <SvgIcon name="ltc" {...props} />,
   sol: (props: CustomIconProps) => <SvgIcon name="sol" {...props} />,
+  gaia: (props: CustomIconProps) => <SvgIcon name="cos" {...props} />,
   terra: (props: CustomIconProps) => <SvgIcon name="terra" {...props} />,
   thor: (props: CustomIconProps) => <SvgIcon name="thor" {...props} />,
   thoryield: (props: CustomIconProps) => (
@@ -172,6 +177,7 @@ export const SvgIcons = {
   gwei: (props: CustomIconProps) => <SvgIcon name="gwei" {...props} />,
   inIcon: (props: CustomIconProps) => <SvgIcon name="inIcon" {...props} />,
   keystore: (props: CustomIconProps) => <SvgIcon name="keystore" {...props} />,
+  keplr: (props: CustomIconProps) => <SvgIcon name="keplr" {...props} />,
   ledger: (props: CustomIconProps) => <SvgIcon name="ledger" {...props} />,
   lightning: (props: CustomIconProps) => (
     <SvgIcon name="lightning" {...props} />

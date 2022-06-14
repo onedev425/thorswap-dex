@@ -33,6 +33,7 @@ module.exports = {
         eth: '#7B48E8',
         bch: '#76C85A',
         doge: '#CE935C',
+        cos: '#CE935C',
         terra: '#5493F7',
         ltc: '#346FC6',
         bnb: '#DCAC50',

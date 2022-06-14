@@ -175,6 +175,7 @@ export type AssetTickerType =
   | 'WETH'
   | 'THOR'
   | 'VTHOR'
+  | 'ATOM'
 
 export const iconSizes = {
   large: 72,

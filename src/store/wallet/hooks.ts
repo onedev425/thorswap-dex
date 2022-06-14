@@ -13,6 +13,7 @@ import {
   ETHChain,
   SOLChain,
   TERRAChain,
+  CosmosChain,
 } from '@thorswap-lib/xchain-util'
 
 import { showErrorToast, showInfoToast } from 'components/Toast'
@@ -121,6 +122,12 @@ export const useWallet = () => {
     dispatch(walletActions.getWalletByChain(SOLChain))
   }, [dispatch])
 
+  const connectKeplr = useCallback(async () => {
+    await multichain.connectKeplr()
+
+    dispatch(walletActions.getWalletByChain(CosmosChain))
+  }, [dispatch])
+
   const connectTerraMultichain = useCallback(
     async ({
       address,
@@ -224,6 +231,7 @@ export const useWallet = () => {
     connectXdefiWallet,
     connectMetamask,
     connectPhantom,
+    connectKeplr,
     connectTrustWallet,
     connectLedger,
     connectTerraStation,

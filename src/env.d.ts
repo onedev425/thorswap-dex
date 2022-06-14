@@ -20,6 +20,7 @@ interface ImportMetaEnv {
   readonly VITE_ETHEREUM_NETWORK_ID: string
   readonly VITE_PORTIS_API_KEY: string
   readonly VITE_FORTMATIC_API_KEY: string
+  readonly VITE_FIGMENT_API_KEY: string
 }
 
 interface ImportMeta {

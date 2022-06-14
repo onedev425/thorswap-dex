@@ -8,6 +8,7 @@ import {
   DOGEChain,
   SOLChain,
   TERRAChain,
+  CosmosChain,
 } from '@thorswap-lib/xchain-util'
 
 export const sortedChains = [
@@ -20,4 +21,5 @@ export const sortedChains = [
   BNBChain,
   LTCChain,
   BCHChain,
+  CosmosChain,
 ]

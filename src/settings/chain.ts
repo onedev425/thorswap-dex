@@ -2,6 +2,7 @@ import {
   BCHChain,
   BNBChain,
   BTCChain,
+  CosmosChain,
   DOGEChain,
   ETHChain,
   LTCChain,
@@ -20,4 +21,5 @@ export const SORTED_CHAINS = [
   DOGEChain,
   BCHChain,
   LTCChain,
+  CosmosChain,
 ] as const
