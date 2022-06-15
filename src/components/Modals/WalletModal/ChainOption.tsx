@@ -1,6 +1,7 @@
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 
 import { chainToSigAsset, SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { Chain } from '@thorswap-lib/xchain-util'
 import classNames from 'classnames'
 
 import { AssetIcon } from 'components/AssetIcon'
@@ -25,6 +26,14 @@ export const ChainOption = memo(
     const { wallet } = useWallet()
     const chainWallet = wallet?.[chain]
     const isSelected = pendingChains.includes(chain)
+    const chainName = useMemo(() => {
+      switch (chain) {
+        case Chain.Cosmos:
+          return 'COSMOS'
+        default:
+          return chain
+      }
+    }, [chain])
 
     return (
       <Box
@@ -48,7 +57,7 @@ export const ChainOption = memo(
 
             <Box col>
               <Typography fontWeight={isSelected ? 'semibold' : 'normal'}>
-                {chain}
+                {chainName}
               </Typography>
 
               {chainWallet ? (

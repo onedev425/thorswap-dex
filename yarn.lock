@@ -3946,10 +3946,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.3.tgz#715c10df5d69846c2d87b50365502818bf979906"
   integrity sha512-wYTPyUn4Xt1WB+d1uyVgiox3FtuAsYC8bMExZEloQX/6QxmSTZVjGmCOgaQ0Qn1YxU+GK0qDgA99Y+hjrfUv7w==
 
-"@thorswap-lib/multichain-sdk@0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.4.1.tgz#9c91a341dec1aefa92d9a95b2e33766a9eba3f16"
-  integrity sha512-VTEfHeHaV3zRCXQdp2RwlBWSFDB139jIzpDGefL7ejVl5r3p3nAmcYsVdPIHlJTzTHoF4vpDYXfi1vpLhujp9Q==
+"@thorswap-lib/multichain-sdk@0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.4.2.tgz#4c9421ef5c740402dd7186a728078fee5832947c"
+  integrity sha512-66Y3pdKcjwhsWn4v3l4N5TtwJ0w6ubncI+R87yP69ntK9NQ7eVkBaVE+imjGXcPMwxcL/2Wa9XDlTH1DFHZdsA==
   dependencies:
     "@binance-chain/javascript-sdk" "2.16.4"
     "@cosmjs/proto-signing" "^0.28.4"
