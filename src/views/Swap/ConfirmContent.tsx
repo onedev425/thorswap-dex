@@ -114,20 +114,6 @@ export const ConfirmContent = memo(
               >
                 {t('views.swap.exchangeFee')}
               </Typography>
-              <Typography variant="caption">{affiliateFee}</Typography>
-            </Box>
-            <Box className="flex-1 gap-y-2" center col>
-              <Typography
-                variant="caption"
-                color="secondary"
-                fontWeight="medium"
-              >
-                {t('common.recipient')}
-              </Typography>
-              <Typography variant="caption">
-                {shortenAddress(recipient)}
-              </Typography>
-
               {isAffiliated ? (
                 <Typography variant="caption">{affiliateFee}</Typography>
               ) : (
@@ -140,6 +126,18 @@ export const ConfirmContent = memo(
                   </Typography>
                 </Box>
               )}
+            </Box>
+            <Box className="flex-1 gap-y-2" center col>
+              <Typography
+                variant="caption"
+                color="secondary"
+                fontWeight="medium"
+              >
+                {t('common.recipient')}
+              </Typography>
+              <Typography variant="caption">
+                {shortenAddress(recipient)}
+              </Typography>
             </Box>
 
             <Box className="flex-1 gap-y-2" center col>
