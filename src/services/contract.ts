@@ -106,7 +106,7 @@ export const fromWei = (amountInWei: BigNumber): number => {
   return parseFloat(ethers.utils.formatUnits(amountInWei, 'ether'))
 }
 
-export const toWei = (amount: number): BigNumber => {
+export const toWei = (amount: number | string): BigNumber => {
   return ethers.utils.parseUnits(amount.toString(), 'ether')
 }
 

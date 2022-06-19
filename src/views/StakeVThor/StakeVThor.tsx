@@ -119,9 +119,8 @@ const StakeVThor = () => {
   const handleAction = useCallback(() => {
     if (!ethAddress) return
 
-    const amount = toWei(inputAmount.assetAmount.toNumber())
+    const amount = toWei(inputAmount.assetAmount.toString())
     const thorAction = action === StakeActions.Deposit ? stakeThor : unstakeThor
-
     thorAction(amount, ethAddress)
   }, [action, ethAddress, inputAmount.assetAmount, stakeThor, unstakeThor])
 
