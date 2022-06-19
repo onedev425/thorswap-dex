@@ -5,12 +5,14 @@ import {
   Asset,
   hasWalletConnected,
   Pool,
+  SupportedChain,
 } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
 
 import { Box, Button } from 'components/Atomic'
 import { showErrorToast, showInfoToast } from 'components/Toast'
 
+import { useExternalConfig } from 'store/externalConfig/hooks'
 import { useMidgard } from 'store/midgard/hooks'
 import { TxTrackerStatus } from 'store/midgard/types'
 import { useWallet } from 'store/wallet/hooks'
@@ -54,6 +56,7 @@ export const SwapSubmitButton = ({
   const { wallet, setIsConnectModalOpen } = useWallet()
   const { inboundData } = useMidgard()
   const { maxSynthPerAssetDepth } = useMimir()
+  const { getChainTradingPaused } = useExternalConfig()
 
   const { isApproved, assetApproveStatus } = useApprove(
     inputAsset,
@@ -70,9 +73,11 @@ export const SwapSubmitButton = ({
 
     return (
       (inTradeInboundData?.halted ?? false) ||
-      (outTradeInboundData?.halted ?? false)
+      (outTradeInboundData?.halted ?? false) ||
+      getChainTradingPaused(inputAsset.chain as SupportedChain) ||
+      getChainTradingPaused(outputAsset.chain as SupportedChain)
     )
-  }, [inboundData, inputAsset, outputAsset])
+  }, [getChainTradingPaused, inboundData, inputAsset.chain, outputAsset.chain])
 
   const walletConnected = useMemo(
     () => hasWalletConnected({ wallet, inputAssets: [inputAsset] }),
