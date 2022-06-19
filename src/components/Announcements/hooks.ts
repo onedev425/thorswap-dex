@@ -22,6 +22,7 @@ import { useMimir } from 'hooks/useMimir'
 import { t } from 'services/i18n'
 
 const REFRESH_INTERVAL = 1000 * 50 * 5 //5min
+const DISABLED_CHAINS: Chain[] = [Chain.Terra]
 
 export const useAnouncementsList = () => {
   const {
@@ -128,12 +129,13 @@ const getChainAnnouncement = ({
 }
 
 const getAnnouncemetsByChain = (props: GetAnnouncementsByChainProps) => {
-  return SUPPORTED_CHAINS.map((chain) =>
-    getChainAnnouncement({
-      chain,
-      ...props,
-    }),
-  )
+  return SUPPORTED_CHAINS.filter((c) => !DISABLED_CHAINS.includes(c))
+    .map((chain) =>
+      getChainAnnouncement({
+        chain,
+        ...props,
+      }),
+    )
     .map((ann) => {
       if (ann) {
         return {
