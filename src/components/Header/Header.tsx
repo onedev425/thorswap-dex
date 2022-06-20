@@ -85,6 +85,9 @@ export const Header = memo(({ openMenu }: Props) => {
             type={themeType === ThemeType.Light ? 'default' : 'outline'}
             onClick={handleClickWalletBtn}
             size="sm"
+            endIcon={
+              isWalletLoading ? <Icon name="loader" spin size={14} /> : null
+            }
           >
             {isWalletLoading
               ? t('common.loading')
