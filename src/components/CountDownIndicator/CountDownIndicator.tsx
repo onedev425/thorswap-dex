@@ -40,11 +40,11 @@ export const CountDownIndicator = memo(
       if (!playing.current) {
         playing.current = true
 
+        clearInterval(interval.current)
         interval.current = setInterval(() => {
           setCountdown((countdown) => {
-            if (countdown <= 0) {
+            if (countdown <= 1) {
               setCountdown(milliseconds)
-              clearInterval(interval.current)
               return milliseconds
             }
 
@@ -60,7 +60,10 @@ export const CountDownIndicator = memo(
     }, [milliseconds, onClick])
 
     useEffect(() => {
-      startTimer()
+      if (resetIndicator) {
+        playing.current = false
+        startTimer()
+      }
     }, [startTimer, resetIndicator])
 
     const countdownStyles = useMemo(
