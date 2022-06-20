@@ -59,6 +59,7 @@ export const useNodesColumns = () => {
                   ? t('views.nodes.removeFromList')
                   : t('views.nodes.addToWatch')
               }
+              className="w-fit m-auto"
             >
               <HoverIcon
                 onClick={(e) => {
