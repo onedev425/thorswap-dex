@@ -43,4 +43,5 @@ export type ButtonProps = Omit<
   endIcon?: ReactNode
   isFancy?: boolean
   error?: boolean
+  tooltipClasses?: string
 }

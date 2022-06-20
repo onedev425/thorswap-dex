@@ -89,6 +89,7 @@ export const useNodesColumns = () => {
             variant="tint"
             endIcon={<Icon size={16} name="copy" />}
             tooltip={t('common.copy')}
+            tooltipClasses="mx-auto w-fit"
             onClick={(e) => {
               copy(value)
               e.stopPropagation()

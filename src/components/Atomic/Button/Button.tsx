@@ -26,6 +26,7 @@ export const Button = ({
   loading,
   isFancy = false,
   error = false,
+  tooltipClasses = '',
   ...rest
 }: ButtonProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
@@ -57,7 +58,11 @@ export const Button = ({
   }
 
   return (
-    <Tooltip content={tooltip} place={tooltipPlacement}>
+    <Tooltip
+      content={tooltip}
+      place={tooltipPlacement}
+      className={tooltipClasses}
+    >
       <button
         onMouseDown={() => timeoutBlur(300)}
         ref={buttonRef}
