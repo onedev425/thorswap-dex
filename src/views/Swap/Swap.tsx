@@ -232,8 +232,12 @@ const SwapView = () => {
   )
 
   const handleSwitchPair = useCallback(() => {
+    const maxNewInputBalance = getMaxBalance(outputAsset)
+    setInputAmount(
+      outputAmount.gt(maxNewInputBalance) ? maxNewInputBalance : outputAmount,
+    )
     navigate(getSwapRoute(outputAsset, inputAsset))
-  }, [navigate, inputAsset, outputAsset])
+  }, [getMaxBalance, outputAsset, navigate, inputAsset, outputAmount])
 
   const handleChangeInputAmount = useCallback(
     (amount: Amount) =>
