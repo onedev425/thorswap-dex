@@ -6,6 +6,7 @@ import {
   AssetAmount,
   Pool,
   Swap,
+  LegacySwap,
   DEFAULT_AFFILIATE_FEE,
 } from '@thorswap-lib/multichain-sdk'
 
@@ -37,7 +38,7 @@ export const useSwap = ({
     outputAsset,
   })
 
-  const swap: Swap | null = useMemo(() => {
+  const swap: Swap | LegacySwap | null = useMemo(() => {
     if (poolLoading || pools.length === 0) return null
 
     try {
@@ -68,7 +69,8 @@ export const useSwap = ({
         ? Object.assign(swapParams, { affiliateFee: DEFAULT_AFFILIATE_FEE })
         : swapParams
 
-      return new Swap(paramsWithFee)
+      return new LegacySwap(paramsWithFee)
+      //   return new Swap(paramsWithFee)
     } catch (error) {
       console.error(error)
       return null

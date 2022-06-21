@@ -1,4 +1,9 @@
-import { Asset, Swap, SynthType } from '@thorswap-lib/multichain-sdk'
+import {
+  Asset,
+  LegacySwap,
+  Swap,
+  SynthType,
+} from '@thorswap-lib/multichain-sdk'
 
 import { TxTrackerType } from 'store/midgard/types'
 
@@ -28,7 +33,7 @@ export const getSwapTrackerType = ({
   inputAsset,
   outputAsset,
   synthType,
-}: Swap): TxTrackerType => {
+}: Swap | LegacySwap): TxTrackerType => {
   if (inputAsset.isSynth || outputAsset.isSynth) {
     if (synthType === SynthType.MINT) {
       return TxTrackerType.Mint
