@@ -17,7 +17,7 @@ type InfoTableProps = {
 export const InfoTable = memo(
   ({
     items,
-    size = 'md',
+    size: rowSize = 'md',
     showBorder,
     horizontalInset,
     className,
@@ -31,16 +31,26 @@ export const InfoTable = memo(
           className,
         )}
       >
-        {items.map((item) => (
-          <InfoRow
-            className={item.className}
-            key={item.key || item.label?.toString()}
-            label={item.label}
-            value={item.value}
-            size={item.size || size}
-            showBorder={showBorder}
-          />
-        ))}
+        {items.map(({ className, label, key, size, value }) => {
+          const rowKey = key
+            ? key
+            : typeof label === 'string'
+            ? label?.toString()
+            : typeof value === 'string'
+            ? value
+            : 'not-a-proper-key'
+
+          return (
+            <InfoRow
+              className={className}
+              key={rowKey}
+              label={label}
+              value={value}
+              size={size || rowSize}
+              showBorder={showBorder}
+            />
+          )
+        })}
       </Box>
     )
   },

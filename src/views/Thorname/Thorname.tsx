@@ -1,4 +1,4 @@
-import { KeyboardEvent, useCallback, useMemo } from 'react'
+import { KeyboardEvent, useCallback, useEffect, useMemo, useState } from 'react'
 
 import { SupportedChain } from '@thorswap-lib/multichain-sdk'
 
@@ -11,8 +11,9 @@ import { ViewHeader } from 'components/ViewHeader'
 import { useWallet } from 'store/wallet/hooks'
 
 import { t } from 'services/i18n'
+import { multichain } from 'services/multichain'
 
-import { ChainDropdown, thornameChainIcons } from './ChainDropdown'
+import { ChainDropdown } from './ChainDropdown'
 import { RegisteredThornames } from './RegisteredThornames'
 import { useThornameInfoItems } from './useThornameInfoItems'
 import { useThornameLookup } from './useThornameLookup'
@@ -31,9 +32,10 @@ const Thorname = () => {
     setThorname,
     setYears,
     thorname,
-    registeredThornames,
     years,
   } = useThornameLookup(thorAddress)
+  const [validAddress, setValidAddress] = useState(false)
+  const [address, setAddress] = useState<null | string>(null)
   const chainWalletAddress = wallet?.[chain]?.address
 
   const thornameInfoItems = useThornameInfoItems({
@@ -44,12 +46,24 @@ const Thorname = () => {
     available,
   })
 
+  const disabled = useMemo(
+    () =>
+      !(
+        thorname.length > 0 ||
+        validAddress ||
+        (details && details?.owner === thorAddress)
+      ),
+    [details, thorAddress, thorname.length, validAddress],
+  )
+
   const handleSubmit = useCallback(() => {
+    if (disabled) return
+
     if (!(details || available)) {
       return lookupForTNS()
     }
 
-    if (thorAddress && chainWalletAddress) {
+    if (thorAddress && chainWalletAddress && validAddress) {
       registerThornameAddress(chainWalletAddress)
     } else {
       setIsConnectModalOpen(true)
@@ -58,19 +72,23 @@ const Thorname = () => {
     available,
     chainWalletAddress,
     details,
+    disabled,
     lookupForTNS,
     registerThornameAddress,
     setIsConnectModalOpen,
     thorAddress,
+    validAddress,
   ])
 
   const handleEnterKeyDown = useCallback(
     (event: KeyboardEvent) => {
+      if (disabled) return
+
       if (event.key === 'Enter') {
         lookupForTNS()
       }
     },
-    [lookupForTNS],
+    [lookupForTNS, disabled],
   )
 
   const handleChainChange = useCallback(
@@ -78,30 +96,44 @@ const Thorname = () => {
     [setChain],
   )
 
-  const allAddressesLocked = useMemo(() => {
-    if (!details) return false
-
-    const availableChains = Object.keys(thornameChainIcons)
-    const registeredChains = details.entries.map(({ chain }) => chain)
-    return (
-      availableChains.filter((chain) => !registeredChains.includes(chain))
-        .length === 0
-    )
-  }, [details])
+  const editThorname = useCallback(
+    (thorname: string) => {
+      setThorname(thorname)
+      lookupForTNS(thorname)
+    },
+    [lookupForTNS, setThorname],
+  )
 
   const buttonLabel = useMemo(() => {
-    if (allAddressesLocked || (details && details?.owner !== thorAddress)) {
+    if (details && details?.owner !== thorAddress) {
       return t('views.thorname.unavailableForPurchase')
     }
 
+    const registeredChains = details ? details?.entries.map((e) => e.chain) : []
+
     if (available) {
-      return thorAddress && chainWalletAddress
-        ? t('views.thorname.purchase')
+      return thorAddress
+        ? registeredChains.includes(chain)
+          ? t('common.update')
+          : t('views.thorname.purchase')
         : t('common.connectWallet')
     }
 
     return t('views.wallet.search')
-  }, [allAddressesLocked, details, thorAddress, available, chainWalletAddress])
+  }, [details, thorAddress, available, chain])
+
+  useEffect(() => {
+    if (chainWalletAddress) {
+      setAddress(chainWalletAddress)
+    }
+  }, [chainWalletAddress, chain])
+
+  useEffect(() => {
+    if (address) {
+      const isValidAddress = multichain.validateAddress({ chain, address })
+      setValidAddress(isValidAddress)
+    }
+  }, [address, chain])
 
   return (
     <PanelView
@@ -114,6 +146,7 @@ const Thorname = () => {
         className="!text-md p-1.5 flex-1 border"
         containerClassName="bg-light-gray-light dark:bg-dark-gray-light !bg-opacity-80"
         disabled={!!details}
+        onClick={() => setThorname('')}
         onChange={(e) => setThorname(e.target.value)}
         onKeyDown={handleEnterKeyDown}
         placeholder={t('views.thorname.checkNameAvailability')}
@@ -132,7 +165,7 @@ const Thorname = () => {
 
       <InfoTable size="lg" items={thornameInfoItems} horizontalInset />
 
-      {available && !allAddressesLocked && (
+      {available && (
         <Box row className="w-full pt-4 gap-x-4">
           <ChainDropdown
             details={details}
@@ -143,12 +176,12 @@ const Thorname = () => {
           <Input
             autoFocus
             border="rounded"
-            className="!text-md p-1.5 flex-1 border"
+            className="!text-md !p-1.5 border"
             containerClassName="bg-light-gray-light dark:bg-dark-gray-light !bg-opacity-80"
             stretch
-            onChange={() => {}}
+            onChange={({ target }) => setAddress(target.value)}
             placeholder={`${chain} ${t('common.address')}`}
-            value={chainWalletAddress || ''}
+            value={address || ''}
           />
         </Box>
       )}
@@ -159,14 +192,15 @@ const Thorname = () => {
           isFancy
           size="lg"
           stretch
-          disabled={!(thorname.length || details) || allAddressesLocked}
+          error={!!details && available && !validAddress}
+          disabled={disabled}
           onClick={handleSubmit}
         >
           {buttonLabel}
         </Button>
       </Box>
 
-      {!details && <RegisteredThornames thornames={registeredThornames} />}
+      {!details && <RegisteredThornames editThorname={editThorname} />}
     </PanelView>
   )
 }

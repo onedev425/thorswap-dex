@@ -63,7 +63,7 @@ export const useWalletOptions = ({
         type: WalletType.Phantom,
         visible: isMdActive,
       },
-      ...(IS_STAGENET || import.meta.env.DEV
+      ...(IS_STAGENET
         ? [
             {
               icon: 'keplr' as const,

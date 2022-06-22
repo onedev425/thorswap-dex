@@ -1,6 +1,7 @@
 {
   "common": {
     "THORSwap": "THORSwap",
+    "update": "Update",
     "thorswapDescription": "THORSwap is world's first multi-chain dex powered by THORChain",
     "APY": "APY",
     "APR": "APR",
@@ -601,14 +602,16 @@
       "checkNameAvailability": "Check Name Availability",
       "cost": "Cost",
       "duration": "Duration (in years)",
+      "extend": "Extend (in years)",
       "expire": "Expire",
       "feeOnSale": "Fee on Sale",
       "ownedByYou": "Owned by you",
       "owner": "Owner",
       "purchase": "Purchase",
-      "registeredThornames": "Registered Thornames",
       "registerFee": "Register Fee",
+      "updateFee": "Update Fee",
       "registerSuccess": "THORName %{thorname}.%{chain} successfully registered",
+      "myThornames": "My THORnames",
       "searchName": "Search Name",
       "status": "Status",
       "unavailable": "Unavailable",
@@ -661,6 +664,7 @@
     "swapNotAvailable": "Swap not available",
     "gasEstimationFailed": "Cannot estimate gas",
     "approveOverflow": "%{actionType} amount exceeds allowance",
-    "successfulTransaction": "Transaction Successful"
+    "successfulTransaction": "Transaction Successful",
+    "invalidTHORName": "Invalid THORName"
   }
 }

@@ -10,7 +10,7 @@ import { shortenAddress } from 'helpers/shortenAddress'
 
 export const useAddressUtils = (address: string) => {
   const miniAddress = useMemo(() => shortenAddress(address), [address])
-  const shortAddress = useMemo(() => shortenAddress(address, 8, 5), [address])
+  const shortAddress = useMemo(() => shortenAddress(address, 7, 4), [address])
 
   const handleCopyAddress = useCallback(() => {
     copy(address)

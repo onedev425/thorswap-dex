@@ -1,6 +1,6 @@
-import { memo, useMemo } from 'react'
+import { memo, useCallback, useMemo } from 'react'
 
-import { chainToSigAsset } from '@thorswap-lib/multichain-sdk'
+import { chainToSigAsset, SupportedChain } from '@thorswap-lib/multichain-sdk'
 import { chainToString } from '@thorswap-lib/xchain-util'
 import classNames from 'classnames'
 
@@ -10,6 +10,8 @@ import { Box } from 'components/Atomic'
 
 import { useApp } from 'store/app/hooks'
 import { useWallet } from 'store/wallet/hooks'
+
+import { useFetchThornames } from 'hooks/useFetchThornames'
 
 import { SORTED_CHAINS } from 'settings/chain'
 
@@ -25,6 +27,7 @@ type Props = {
 export const AccountType = memo(({ onlyConnected, keyword }: Props) => {
   const { wallet } = useWallet()
   const { walletViewMode } = useApp()
+  const registeredThornames = useFetchThornames()
 
   const filteredChains = useMemo(
     () =>
@@ -46,6 +49,20 @@ export const AccountType = memo(({ onlyConnected, keyword }: Props) => {
     [keyword, onlyConnected, wallet],
   )
 
+  const getThornames = useCallback(
+    (chain: SupportedChain) => {
+      const { address } = wallet?.[chain] || {}
+      if (!(registeredThornames && address)) return []
+
+      return registeredThornames.reduce((acc, { entries, thorname }) => {
+        const entry = entries.find((e) => e.address === address)
+        if (entry) acc.push(`${thorname}.${chain.toLowerCase()}`)
+        return acc
+      }, [] as string[])
+    },
+    [registeredThornames, wallet],
+  )
+
   return (
     <Box
       col
@@ -57,9 +74,17 @@ export const AccountType = memo(({ onlyConnected, keyword }: Props) => {
     >
       {filteredChains.map((chain) =>
         walletViewMode === ViewMode.CARD ? (
-          <AccountCard key={chain} chain={chain} />
+          <AccountCard
+            thornames={getThornames(chain)}
+            key={chain}
+            chain={chain}
+          />
         ) : (
-          <AccountRow key={chain} chain={chain} />
+          <AccountRow
+            thornames={getThornames(chain)}
+            key={chain}
+            chain={chain}
+          />
         ),
       )}
     </Box>

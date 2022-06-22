@@ -28,6 +28,7 @@ export const THORNODE_MAINNET_API_URI = `${safeEnv(
 )}/thorchain`
 
 export const IS_STAGENET = import.meta.env.VITE_IS_STAGENET === 'true'
+export const IS_STAGENET_OR_DEV = IS_STAGENET || import.meta.env.DEV
 
 export const IS_TESTNET =
   safeEnv('testnet', import.meta.env.VITE_NETWORK) === 'testnet'

@@ -17,11 +17,7 @@ import usePrevious from 'hooks/usePrevious'
 import { useTxTracker } from 'hooks/useTxTracker'
 
 import { t } from 'services/i18n'
-import {
-  getAddressThornames,
-  getThornameDetails,
-  registerThorname,
-} from 'services/thorname'
+import { getThornameDetails, registerThorname } from 'services/thorname'
 
 type Actions =
   | { type: 'setThorname'; payload: string }
@@ -32,47 +28,52 @@ type Actions =
     }
   | { type: 'setChain'; payload: SupportedChain }
   | { type: 'setYears'; payload: number }
-  | {
-      type: 'setRegisteredThornames'
-      payload: (THORNameDetails & { thorname: string })[] | null
-    }
 
 const initialState = {
   available: false,
   chain: THORChain as SupportedChain,
   details: null as THORNameDetails | null,
   loading: false,
-  registeredThornames: null as
-    | (THORNameDetails & { thorname: string })[]
-    | null,
   thorname: '',
   years: 1,
 }
 
 const reducer = (state: typeof initialState, { type, payload }: Actions) => {
   switch (type) {
-    case 'setThorname':
+    case 'setLoading':
+      return { ...state, loading: payload }
+    case 'setChain':
+      return { ...state, chain: payload }
+    case 'setAvailable':
+      return { ...state, loading: false, available: payload }
+
+    case 'setThorname': {
+      const hasPayload = payload.length >= 1
+
       return {
-        ...(payload.length === 0 ? initialState : state),
-        thorname: payload,
+        ...(hasPayload ? state : initialState),
+        thorname: hasPayload
+          ? THORName.isValidName(payload)
+            ? payload
+            : state.thorname
+          : '',
       }
+    }
+
     case 'setDetails':
       return {
         ...state,
         details: payload.details,
         available: payload.available,
         loading: false,
+        years: 0,
       }
-    case 'setLoading':
-      return { ...state, loading: payload }
-    case 'setAvailable':
-      return { ...state, loading: false, available: payload }
+
     case 'setYears':
-      return { ...state, years: Math.min(Math.max(1, payload), 99) }
-    case 'setChain':
-      return { ...state, chain: payload }
-    case 'setRegisteredThornames':
-      return { ...state, registeredThornames: payload }
+      return {
+        ...state,
+        years: Math.min(Math.max(state.details ? 0 : 1, payload), 99),
+      }
 
     default:
       return state
@@ -82,18 +83,8 @@ const reducer = (state: typeof initialState, { type, payload }: Actions) => {
 export const useThornameLookup = (owner?: string) => {
   const { submitTransaction, pollTransaction } = useTxTracker()
   const prevOwner = usePrevious(owner)
-  const [
-    {
-      available,
-      chain,
-      details,
-      loading,
-      registeredThornames,
-      thorname,
-      years,
-    },
-    dispatch,
-  ] = useReducer(reducer, initialState)
+  const [{ available, chain, details, loading, thorname, years }, dispatch] =
+    useReducer(reducer, initialState)
 
   const setChain = useCallback((chain: SupportedChain) => {
     dispatch({ type: 'setChain', payload: chain })
@@ -120,51 +111,44 @@ export const useThornameLookup = (owner?: string) => {
     [],
   )
 
-  const getRegisteredThornames = useCallback(async () => {
-    if (!owner) return
+  const lookupForTNS = useCallback(
+    async (providedThorname?: string) => {
+      try {
+        dispatch({ type: 'setLoading', payload: true })
+        const details = await getThornameDetails(providedThorname || thorname)
 
-    const thornames = await getAddressThornames(owner)
-    const thornamesDetails = await Promise.all(
-      thornames.map(async (name) => ({
-        ...(await getThornameDetails(name)),
-        thorname: name,
-      })),
-    )
+        setDetails({
+          details,
+          available: owner ? details.owner === owner : false,
+        })
+      } catch (error: ToDo) {
+        const notFound = error?.response?.status === 404
+        dispatch({ type: 'setAvailable', payload: notFound })
 
-    dispatch({ type: 'setRegisteredThornames', payload: thornamesDetails })
-  }, [owner])
-
-  const lookupForTNS = useCallback(async () => {
-    try {
-      dispatch({ type: 'setLoading', payload: true })
-      const details = await getThornameDetails(thorname)
-
-      setDetails({
-        details,
-        available: owner ? details.owner === owner : false,
-      })
-    } catch (error: ToDo) {
-      const notFound = error?.response?.status === 404
-      dispatch({ type: 'setAvailable', payload: notFound })
-
-      if (!notFound) {
-        showErrorToast(t('common.defaultErrMsg'))
+        if (!notFound) {
+          showErrorToast(t('common.defaultErrMsg'))
+        }
       }
-    }
-  }, [owner, setDetails, thorname])
+    },
+    [owner, setDetails, thorname],
+  )
 
   const registerThornameAddress = useCallback(
     async (address: string) => {
+      if (!THORName.isValidName(address)) {
+        return showErrorToast(t('notification.invalidTHORName'))
+      }
+
       try {
         dispatch({ type: 'setLoading', payload: true })
         const amount =
           details?.owner !== owner
             ? THORName.getCost(years)
-            : Amount.fromNormalAmount(0)
+            : Amount.fromNormalAmount(years)
 
         const submitTx = {
           inAssets: [
-            { asset: Asset.RUNE().symbol, amount: amount.toSignificant(3) },
+            { asset: Asset.RUNE().symbol, amount: amount.toSignificant(6) },
           ],
         }
 
@@ -198,14 +182,6 @@ export const useThornameLookup = (owner?: string) => {
   )
 
   useEffect(() => {
-    if (owner && !registeredThornames) {
-      getRegisteredThornames()
-    } else if (!owner && registeredThornames) {
-      dispatch({ type: 'setRegisteredThornames', payload: null })
-    }
-  }, [getRegisteredThornames, owner, registeredThornames])
-
-  useEffect(() => {
     if (thorname && owner !== prevOwner) {
       lookupForTNS()
     }
@@ -217,7 +193,6 @@ export const useThornameLookup = (owner?: string) => {
     chain,
     details,
     loading,
-    registeredThornames,
     thorname,
     years,
 

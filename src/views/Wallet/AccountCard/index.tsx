@@ -14,7 +14,9 @@ import { HeaderChainInfo } from 'views/Wallet/components/HeaderChainInfo'
 import { ShowQrCode } from 'views/Wallet/components/ShowQrCode'
 
 import { AssetIcon } from 'components/AssetIcon'
-import { Box, Card, Typography } from 'components/Atomic'
+import { Box, Card, Typography, useCollapse } from 'components/Atomic'
+import { maxHeightTransitionClass } from 'components/Atomic/Collapse/Collapse'
+import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron'
 import { borderHoverHighlightClass } from 'components/constants'
 import { Scrollbar } from 'components/Scrollbar'
 
@@ -33,9 +35,11 @@ import { ChainInfo } from './ChainInfo'
 
 type Props = {
   chain: SupportedChain
+  thornames: string[]
 }
 
-export const AccountCard = memo(({ chain }: Props) => {
+export const AccountCard = memo(({ thornames, chain }: Props) => {
+  const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse()
   const navigate = useNavigate()
 
   const {
@@ -50,9 +54,10 @@ export const AccountCard = memo(({ chain }: Props) => {
     chainWallet,
   } = useAccountData(chain)
 
-  const chainAssets = useMemo(() => {
-    return chainInfo.map((elem) => elem.asset.name)
-  }, [chainInfo])
+  const chainAssets = useMemo(
+    () => chainInfo.map((elem) => elem.asset.name),
+    [chainInfo],
+  )
 
   useEffect(() => {
     getGeckoData(chainAssets)
@@ -112,7 +117,33 @@ export const AccountCard = memo(({ chain }: Props) => {
 
           {chainAddress && (
             <Box alignCenter>
-              <CopyAddress address={chainAddress} type="short" />
+              <Box col>
+                <Box row alignCenter>
+                  <CopyAddress address={chainAddress} type="short" />
+                  {thornames.length > 0 && (
+                    <Box onClick={toggle}>
+                      <CollapseChevron isActive={isActive} />
+                    </Box>
+                  )}
+                </Box>
+
+                <div
+                  className={maxHeightTransitionClass}
+                  ref={contentRef}
+                  style={maxHeightStyle}
+                >
+                  <Box col align="start">
+                    {thornames.map((address) => (
+                      <CopyAddress
+                        key={address}
+                        address={address}
+                        type="full"
+                      />
+                    ))}
+                  </Box>
+                </div>
+              </Box>
+
               <CopyAddress address={chainAddress} type="icon" />
               <ShowQrCode chain={chain} address={chainAddress} />
               <GoToAccount chain={chain} address={chainAddress} />

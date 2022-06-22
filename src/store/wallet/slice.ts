@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain, Wallet } from '@thorswap-lib/multichain-sdk'
 import { Keystore } from '@thorswap-lib/xchain-crypto'
 import {
   BTCChain,
@@ -15,8 +15,9 @@ import {
   CosmosChain,
 } from '@thorswap-lib/xchain-util'
 
+import { GeckoData } from 'store/wallet/types'
+
 import * as walletActions from './actions'
-import { State } from './types'
 
 const initialWallet = {
   [BTCChain]: null,
@@ -29,12 +30,12 @@ const initialWallet = {
   [TERRAChain]: null,
   [SOLChain]: null,
   [CosmosChain]: null,
-}
+} as Wallet
 
-const initialState: State = {
+const initialState = {
   isConnectModalOpen: false,
-  keystore: null,
-  wallet: initialWallet,
+  keystore: null as Keystore | null,
+  wallet: initialWallet as Wallet | null,
   walletLoading: false,
   chainWalletLoading: {
     [BTCChain]: false,
@@ -47,9 +48,9 @@ const initialState: State = {
     [TERRAChain]: false,
     [SOLChain]: false,
     [CosmosChain]: false,
-  },
-  geckoData: {},
-  geckoDataLoading: {},
+  } as { [key in SupportedChain]: boolean },
+  geckoData: {} as Record<string, GeckoData>,
+  geckoDataLoading: {} as Record<string, boolean>,
 }
 
 const slice = createSlice({

@@ -7,7 +7,7 @@ import { useAddressUtils } from 'hooks/useAddressUtils'
 import { t } from 'services/i18n'
 
 type Props = {
-  type: 'short' | 'mini' | 'icon'
+  type: 'short' | 'mini' | 'icon' | 'full'
   address: string
 }
 
@@ -26,7 +26,8 @@ export const CopyAddress = ({ type = 'icon', address }: Props) => {
     )
   }
 
-  const displayAddress = type === 'mini' ? miniAddress : shortAddress
+  const displayAddress =
+    type === 'full' ? address : type === 'mini' ? miniAddress : shortAddress
 
   return (
     <Tooltip content={t('views.wallet.copyAddress')}>

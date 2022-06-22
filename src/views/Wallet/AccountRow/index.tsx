@@ -21,9 +21,10 @@ import { ChainInfoTable } from './ChainInfoTable'
 
 type Props = {
   chain: SupportedChain
+  thornames: string[]
 }
 
-export const AccountRow = memo(({ chain }: Props) => {
+export const AccountRow = memo(({ thornames, chain }: Props) => {
   const {
     balance,
     chainAddress,
@@ -71,6 +72,9 @@ export const AccountRow = memo(({ chain }: Props) => {
             />
             {chainAddress && (
               <Box className="!mr-4" alignCenter>
+                {thornames.map((address) => (
+                  <CopyAddress key={address} address={address} type="full" />
+                ))}
                 <CopyAddress address={chainAddress} type="short" />
                 <CopyAddress address={chainAddress} type="icon" />
                 <ShowQrCode chain={chain} address={chainAddress} />

@@ -202,11 +202,10 @@ const UpgradeRune = () => {
         })
       )
     ) {
-      showErrorToast(
+      return showErrorToast(
         t('notification.invalidRecipientAddy'),
         t('notification.invalidRecipientAddyDesc'),
       )
-      return
     }
 
     setIsOpened(true)

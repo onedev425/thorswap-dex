@@ -35,7 +35,7 @@ export const WalletDrawer = ({ children }: Props) => {
             leaveFrom="translate-x-0"
             leaveTo="translate-x-full"
           >
-            <div className="overflow-y-auto bg-light-bg-secondary dark:bg-dark-bg-secondary h-full right-0 w-[350px] shadow-inner rounded-l-xl">
+            <div className="overflow-y-auto bg-light-bg-secondary dark:bg-dark-bg-secondary h-full right-0 w-[380px] shadow-inner rounded-l-xl">
               {children}
             </div>
           </Transition.Child>

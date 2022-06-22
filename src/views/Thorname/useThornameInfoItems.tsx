@@ -54,81 +54,81 @@ export const useThornameInfoItems = ({
             </Typography>
           ),
         },
+
         ...(isAvailable
-          ? details
-            ? [
-                {
-                  label: t('views.thorname.expire'),
-                  value: getThornameExpireDate({
-                    expire: details.expire,
-                    lastThorchainBlock: lastBlock?.[0]?.thorchain,
-                  }),
-                },
-                {
-                  label: t('views.thorname.cost'),
-                  value: (
-                    <Box center className="gap-x-2">
-                      <AssetIcon size="tiny" asset={Asset.RUNE()} />
-                      <Typography>0 $RUNE</Typography>
-                    </Box>
-                  ),
-                },
-              ]
-            : [
-                {
-                  label: t('views.thorname.duration'),
-                  value: (
-                    <Box alignCenter justify="between" className="gap-x-2">
-                      <Button
-                        className="px-1.5 group"
-                        type="borderless"
-                        variant="tint"
-                        onClick={() => setYears(years - 1)}
-                        startIcon={
-                          <Icon
-                            className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
-                            color="secondary"
-                            name="minusCircle"
-                          />
-                        }
-                      />
+          ? [
+              {
+                label: details
+                  ? t('views.thorname.extend')
+                  : t('views.thorname.duration'),
+                value: (
+                  <Box alignCenter justify="between" className="gap-x-2">
+                    <Button
+                      className="px-1.5 group"
+                      type="borderless"
+                      variant="tint"
+                      onClick={() => setYears(years - 1)}
+                      startIcon={
+                        <Icon
+                          className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
+                          color="secondary"
+                          name="minusCircle"
+                        />
+                      }
+                    />
 
-                      <Box center className="w-3">
-                        <Typography>{years}</Typography>
-                      </Box>
+                    <Box center className="w-3">
+                      <Typography>{years}</Typography>
+                    </Box>
 
-                      <Button
-                        className="px-1.5 group"
-                        type="borderless"
-                        variant="tint"
-                        onClick={() => setYears(years + 1)}
-                        startIcon={
-                          <Icon
-                            className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
-                            color="secondary"
-                            name="plusCircle"
-                          />
-                        }
-                      />
-                    </Box>
-                  ),
-                },
-                {
-                  label: t('views.thorname.registerFee'),
-                  value: (
-                    <Box center className="gap-x-2">
-                      <AssetIcon size="tiny" asset={Asset.RUNE()} />
-                      <Typography>
-                        {THORName.getCost(years).toSignificant(3)} $RUNE
-                      </Typography>
-                    </Box>
-                  ),
-                },
-              ]
+                    <Button
+                      className="px-1.5 group"
+                      type="borderless"
+                      variant="tint"
+                      onClick={() => setYears(years + 1)}
+                      startIcon={
+                        <Icon
+                          className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
+                          color="secondary"
+                          name="plusCircle"
+                        />
+                      }
+                    />
+                  </Box>
+                ),
+              },
+              {
+                label: details
+                  ? t('views.thorname.updateFee')
+                  : t('views.thorname.registerFee'),
+                value: (
+                  <Box center className="gap-x-2">
+                    <AssetIcon size="tiny" asset={Asset.RUNE()} />
+                    <Typography>
+                      {details
+                        ? years
+                        : THORName.getCost(years).toSignificant(6)}{' '}
+                      $RUNE
+                    </Typography>
+                  </Box>
+                ),
+              },
+            ]
           : []),
+
         ...(details
           ? [
-              { label: t('views.thorname.owner'), value: details.owner },
+              {
+                label: t('views.thorname.expire'),
+                value: getThornameExpireDate({
+                  expire: details.expire,
+                  lastThorchainBlock: lastBlock?.[0]?.thorchain,
+                }),
+              },
+              {
+                label: t('views.thorname.owner'),
+                value: shortenAddress(details.owner, 15),
+              },
               ...details.entries.map(({ address, chain }) => ({
                 key: chain,
                 label: (

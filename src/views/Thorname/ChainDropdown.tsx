@@ -1,5 +1,3 @@
-import { useEffect, useMemo } from 'react'
-
 import {
   BCHChain,
   BNBChain,
@@ -8,7 +6,6 @@ import {
   ETHChain,
   LTCChain,
   SupportedChain,
-  TERRAChain,
   THORChain,
   THORNameDetails,
 } from '@thorswap-lib/multichain-sdk'
@@ -22,12 +19,12 @@ import {
 } from 'components/Atomic'
 import { DropdownMenuItem } from 'components/Atomic/Dropdown/types'
 
-// @ts-expect-error TODO: Add solana
+// @ts-expect-error Remo
 export const thornameChainIcons: Record<SupportedChain, IconName> = {
   [THORChain]: 'thor',
   [BTCChain]: 'bitcoin',
+  GAIA: 'gaia',
   [BNBChain]: 'bnb',
-  [TERRAChain]: 'terra',
   [ETHChain]: 'eth',
   [BCHChain]: 'bch',
   [DOGEChain]: 'doge',
@@ -36,13 +33,13 @@ export const thornameChainIcons: Record<SupportedChain, IconName> = {
 
 const CHAIN_ITEMS: DropdownMenuItem[] = Object.entries(thornameChainIcons).map(
   ([chain, icon]) => ({
+    value: chain,
     Component: (
       <Box alignCenter className="gap-x-2">
         <Icon name={icon} />
-        <Typography>{chain}</Typography>
+        <Typography>{chain === 'GAIA' ? 'ATOM' : chain}</Typography>
       </Box>
     ),
-    value: chain,
   }),
 )
 
@@ -52,34 +49,17 @@ type Props = {
   onChange: (chain: string) => void
 }
 
-export const ChainDropdown = ({ chain, details, onChange }: Props) => {
-  const menuItems = useMemo(() => {
-    if (!details) return CHAIN_ITEMS
-
-    const registeredChains = details.entries.map(({ chain }) => chain)
-    return CHAIN_ITEMS.filter(({ value }) => !registeredChains.includes(value))
-  }, [details])
-  const availableChains = useMemo(
-    () => menuItems.map(({ value }) => value),
-    [menuItems],
-  )
-
-  useEffect(() => {
-    if (!availableChains.includes(chain)) {
-      onChange(availableChains[0])
-    }
-  }, [availableChains, chain, onChange])
-
+export const ChainDropdown = ({ chain, onChange }: Props) => {
   return (
     <DropdownMenu
-      buttonClassName="w-[110px] !py-6"
-      menuItems={menuItems}
+      buttonClassName="w-[95px] !py-2"
+      menuItems={CHAIN_ITEMS}
       onChange={onChange}
       value={chain}
       openComponent={
         <Box alignCenter className="gap-x-2">
           <Icon name={thornameChainIcons[chain]} />
-          <Typography>{chain}</Typography>
+          <Typography>{chain === 'GAIA' ? 'ATOM' : chain}</Typography>
         </Box>
       }
     />
