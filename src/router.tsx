@@ -61,7 +61,8 @@ const routes: RouteType = [
   { path: ROUTES.NodeManager, element: NodeManager },
   { path: ROUTES.NodeDetail, element: NodeDetails },
   { path: ROUTES.Vesting, element: Vesting },
-].concat(stagenetRoutes)
+  ...stagenetRoutes,
+]
 
 const PublicRoutes = () => {
   return (

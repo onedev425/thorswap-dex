@@ -135,7 +135,7 @@ export const useThornameLookup = (owner?: string) => {
 
   const registerThornameAddress = useCallback(
     async (address: string) => {
-      if (!THORName.isValidName(address)) {
+      if (!THORName.isValidName(thorname)) {
         return showErrorToast(t('notification.invalidTHORName'))
       }
 

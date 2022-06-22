@@ -36,7 +36,8 @@ const Keystore = [
   Chain.Doge,
   Chain.Litecoin,
   Chain.BitcoinCash,
-].concat(stagenetChains) as SupportedChain[]
+  ...stagenetChains,
+] as SupportedChain[]
 
 export const availableChainsByWallet: Record<string, SupportedChain[]> = {
   MetaMask: [Chain.Ethereum],
