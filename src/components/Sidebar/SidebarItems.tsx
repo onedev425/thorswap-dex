@@ -17,10 +17,10 @@ type Props = {
 export const SidebarItems = memo(
   ({
     collapsed = false,
-    variant,
-    options,
     hasBackground = false,
     onItemClick,
+    options,
+    variant,
   }: Props) => {
     const collapseClass = collapsed ? 'scale-0 max-h-0' : 'scale-1 max-h-[20px]'
 

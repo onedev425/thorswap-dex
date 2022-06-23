@@ -66,14 +66,14 @@ const Thorname = () => {
       return lookupForTNS()
     }
 
-    if (thorAddress && chainWalletAddress && validAddress) {
-      registerThornameAddress(chainWalletAddress)
+    if (thorAddress && address && validAddress) {
+      registerThornameAddress(address)
     } else {
       setIsConnectModalOpen(true)
     }
   }, [
     available,
-    chainWalletAddress,
+    address,
     details,
     disabled,
     lookupForTNS,
@@ -168,7 +168,7 @@ const Thorname = () => {
 
       <InfoTable size="lg" items={thornameInfoItems} horizontalInset />
 
-      {available && (
+      {available && details?.owner === thorAddress && (
         <Box row className="w-full pt-4 gap-x-4">
           <ChainDropdown
             details={details}

@@ -28,6 +28,7 @@ export const useFetchThornames = () => {
       })),
     )
 
+    fetching.current = false
     setRegisteredThornames(thornamesDetails)
   }, [setRegisteredThornames, thorAddress])
 

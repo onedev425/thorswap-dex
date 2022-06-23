@@ -21,6 +21,7 @@ export const NavItem = memo(
     rightIconName,
     onClick,
     onItemClickCb,
+    beta,
   }: NavItemProps) => {
     useLayoutEffect(() => {
       if (collapsed) {
@@ -43,7 +44,7 @@ export const NavItem = memo(
         <Tooltip content={label} disabled={!collapsed} place="right">
           <Box
             className={classNames(
-              'w-full h-9 box-border rounded-2xl group transition-all',
+              'relative overflow-hidden w-full h-9 box-border rounded-2xl group transition-all',
               itemClasses[variant],
               {
                 'items-center': collapsed,
@@ -55,12 +56,28 @@ export const NavItem = memo(
             )}
             center
           >
+            {beta && !isActive && (
+              <Box
+                center
+                className={classNames(
+                  'transition-all rounded-xl absolute bg-btn-secondary-translucent group-hover:bg-transparent rotate-[48deg]',
+                  collapsed
+                    ? 'h-2 px-2.5 top-2 -right-3'
+                    : 'h-3 px-4 top-2 -right-4',
+                )}
+              >
+                <Typography className="transition group-hover:text-white font-thin text-xs !text-[10px]">
+                  Beta
+                </Typography>
+              </Box>
+            )}
+
             <Link
-              className="flex items-center w-full h-full py-2 no-underline justify-center"
+              className="flex overflow-hidden items-center w-full h-full no-underline justify-center"
               to={href}
               onClick={onClickHandler}
             >
-              <Box className="justify-center w-full px-4">
+              <Box className=" justify-center w-full px-4">
                 <div className="min-w-[18px] min-h-[18px]">
                   <Box center>
                     <Icon
@@ -94,6 +111,7 @@ export const NavItem = memo(
                   >
                     {label}
                   </Typography>
+
                   {rightIconName && (
                     <Icon
                       className={classNames(

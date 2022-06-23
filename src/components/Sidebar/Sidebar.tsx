@@ -45,10 +45,9 @@ export const Sidebar = ({
       className={classNames(
         'flex flex-col items-center my-2 transition-all overflow-hidden ml-2',
         'rounded-3xl border-box sticky top-0 bg-white dark:bg-dark-bg-secondary md:dark:!bg-opacity-30',
-        'shadow-md border-opacity-30 border border-solid border-light-typo-gray dark:border-none',
+        'h-sidebar shadow-md border-opacity-30 border border-solid border-light-typo-gray dark:border-none',
         collapsed ? 'w-[72px]' : 'w-[180px]',
         className,
-        isMdActive ? 'h-sidebar' : 'h-[83vh]',
       )}
     >
       <div
@@ -65,7 +64,7 @@ export const Sidebar = ({
       </div>
 
       <div className="w-full h-sidebar-content">
-        <Scrollbar height={isMdActive ? scrollbarHeight : '50vh'}>
+        <Scrollbar height={isMdActive ? scrollbarHeight : '98%'}>
           <SidebarItems
             options={sidebarOptions}
             variant="primary"

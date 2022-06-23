@@ -1,4 +1,3 @@
-import { IconName } from 'components/Atomic'
 import { SidebarItemProps } from 'components/Sidebar/types'
 
 import { t } from 'services/i18n'
@@ -33,20 +32,21 @@ export const getDefaultNavbarOptions = (): SidebarItemProps[] => [
     label: t('components.sidebar.wallet'),
     children: [
       {
-        iconName: 'wallet' as IconName,
+        iconName: 'wallet',
         href: ROUTES.Wallet,
         label: t('components.sidebar.wallet'),
       },
       {
-        iconName: 'send' as IconName,
+        iconName: 'send',
         href: ROUTES.Send,
         label: t('components.sidebar.send'),
       },
-      // {
-      //   iconName: 'thor',
-      //   href: ROUTES.Thorname,
-      //   label: t('components.sidebar.thorname'),
-      // },
+      {
+        beta: true,
+        iconName: 'thor',
+        href: ROUTES.Thorname,
+        label: t('components.sidebar.thorname'),
+      },
     ],
   },
   {
