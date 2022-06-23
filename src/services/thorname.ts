@@ -16,8 +16,12 @@ export const getThornameDetails = (name: string) => {
   return midgardApi.getTHORNameDetail(name)
 }
 
-export const getAddressThornames = (address: string) => {
-  return midgardApi.getTHORNamesByAddress(address)
+export const getAddressThornames = (
+  address: string,
+  type: 'associated' | 'owner' = 'owner',
+) => {
+  // @ts-expect-error midgard is patched without types update - fixed in @0.1.4
+  return midgardApi.getTHORNamesByAddress(address, type)
 }
 
 export const registerThorname = ({

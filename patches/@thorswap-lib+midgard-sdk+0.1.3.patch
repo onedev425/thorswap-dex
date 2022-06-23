@@ -1,0 +1,92 @@
+diff --git a/node_modules/@thorswap-lib/midgard-sdk/lib/index.js b/node_modules/@thorswap-lib/midgard-sdk/lib/index.js
+index 20c8b43..70118c1 100644
+--- a/node_modules/@thorswap-lib/midgard-sdk/lib/index.js
++++ b/node_modules/@thorswap-lib/midgard-sdk/lib/index.js
+@@ -930,18 +930,19 @@ var DefaultApiAxiosParamCreator = function (configuration) {
+          * Returns an array of THORNames associated with the given address
+          * @summary Gives a list of THORNames by reverse lookup
+          * @param {string} address Address to match THORNames against.
++         * @param {"associated" | "owner"} [type] Type of search endpoint that should be quoted.
+          * @param {*} [options] Override http request option.
+          * @throws {RequiredError}
+          */
+-        getTHORNamesByAddress: function (address, options) {
++        getTHORNamesByAddress: function (address, type, options) {
++            if (type === void 0) { type = "associated"; }
+             if (options === void 0) { options = {}; }
+             return __awaiter(_this, void 0, void 0, function () {
+-                var localVarPath, localVarUrlObj, baseOptions, localVarRequestOptions, localVarHeaderParameter, localVarQueryParameter, headersFromBaseOptions;
++                var searchEndpoint, localVarPath, localVarUrlObj, baseOptions, localVarRequestOptions, localVarHeaderParameter, localVarQueryParameter, headersFromBaseOptions;
+                 return __generator(this, function (_a) {
+-                    // verify required parameter 'address' is not null or undefined
++                    searchEndpoint = type === 'associated' ? 'rlookup' : 'owner';
+                     assertParamExists('getTHORNamesByAddress', 'address', address);
+-                    localVarPath = "/v2/thorname/rlookup/{address}"
+-                        .replace("{".concat("address", "}"), encodeURIComponent(String(address)));
++                    localVarPath = "/v2/thorname/".concat(searchEndpoint, "/{address}").replace("{".concat('address', "}"), encodeURIComponent(String(address)));
+                     localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+                     if (configuration) {
+                         baseOptions = configuration.baseOptions;
+@@ -1429,15 +1430,17 @@ var DefaultApiFp = function (configuration) {
+          * Returns an array of THORNames associated with the given address
+          * @summary Gives a list of THORNames by reverse lookup
+          * @param {string} address Address to match THORNames against.
++         * @param {"associated" | "owner"} [type] Type of search endpoint that should be quoted.
+          * @param {*} [options] Override http request option.
+          * @throws {RequiredError}
+          */
+-        getTHORNamesByAddress: function (address, options) {
++        getTHORNamesByAddress: function (address, type, options) {
++            if (type === void 0) { type = "associated"; }
+             return __awaiter(this, void 0, void 0, function () {
+                 var localVarAxiosArgs;
+                 return __generator(this, function (_a) {
+                     switch (_a.label) {
+-                        case 0: return [4 /*yield*/, localVarAxiosParamCreator.getTHORNamesByAddress(address, options)];
++                        case 0: return [4 /*yield*/, localVarAxiosParamCreator.getTHORNamesByAddress(address, type, options)];
+                         case 1:
+                             localVarAxiosArgs = _a.sent();
+                             return [2 /*return*/, createRequestFunction(localVarAxiosArgs, globalAxios__default["default"], BASE_PATH, configuration)];
+@@ -1446,7 +1449,7 @@ var DefaultApiFp = function (configuration) {
+             });
+         },
+         /**
+-         * Returns total pool depths, total bonds, and total value locked in specified interval.  Total Value Locked = Total Bonds + 2 * Total Pool Depths  History endpoint has two modes: * With Interval parameter it returns a series of time buckets. From and To dates will   be rounded to the Interval boundaries. * Without Interval parameter a single From..To search is performed with exact timestamps.  * Interval: possible values: 5min, hour, day, week, month, quarter, year. * count: [1..400]. Defines number of intervals. Don\'t provide if Interval is missing. * from/to: optional int, unix second.  Possible usages with interval. * last 10 days: `?interval=day&count=10` * last 10 days before to: `?interval=day&count=10&to=1608825600` * next 10 days after from: `?interval=day&count=10&from=1606780800` * Days between from and to. From defaults to start of chain, to defaults to now.   Only the first 400 intervals are returned:   `interval=day&from=1606780800&to=1608825600`  Pagination is possible with from&count and then using the returned meta.endTime as the From parameter of the next query.  Possible configurations without interval: * exact search for one time frame: `?from=1606780899&to=1608825600` * one time frame until now: `?from=1606780899` * from chain start until now: no query parameters
++         * Returns total pool depths, total bonds, and total value locked in specified interval. Total Value Locked = Total Bonds + 2 * Total Pool Depths  History endpoint has two modes: * With Interval parameter it returns a series of time buckets. From and To dates will   be rounded to the Interval boundaries. * Without Interval parameter a single From..To search is performed with exact timestamps.  * Interval: possible values: 5min, hour, day, week, month, quarter, year. * count: [1..400]. Defines number of intervals. Don\'t provide if Interval is missing. * from/to: optional int, unix second.  Possible usages with interval. * last 10 days: `?interval=day&count=10` * last 10 days before to: `?interval=day&count=10&to=1608825600` * next 10 days after from: `?interval=day&count=10&from=1606780800` * Days between from and to. From defaults to start of chain, to defaults to now.   Only the first 400 intervals are returned:   `interval=day&from=1606780800&to=1608825600`  Pagination is possible with from&count and then using the returned meta.endTime as the From parameter of the next query.  Possible configurations without interval: * exact search for one time frame: `?from=1606780899&to=1608825600` * one time frame until now: `?from=1606780899` * from chain start until now: no query parameters
+          * @summary Total Value Locked History
+          * @param {'5min' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year'} [interval] Interval of calculations
+          * @param {number} [count] Number of intervals to return. Should be between [1..400].
+@@ -1693,11 +1696,13 @@ var DefaultApiFactory = function (configuration, basePath, axios) {
+          * Returns an array of THORNames associated with the given address
+          * @summary Gives a list of THORNames by reverse lookup
+          * @param {string} address Address to match THORNames against.
++         * @param {"associated" | "owner"} [type] Type of search endpoint that should be quoted.
+          * @param {*} [options] Override http request option.
+          * @throws {RequiredError}
+          */
+-        getTHORNamesByAddress: function (address, options) {
+-            return localVarFp.getTHORNamesByAddress(address, options).then(function (request) { return request(axios, basePath); });
++        getTHORNamesByAddress: function (address, type, options) {
++            if (type === void 0) { type = "associated"; }
++            return localVarFp.getTHORNamesByAddress(address, type, options).then(function (request) { return request(axios, basePath); });
+         },
+         /**
+          * Returns total pool depths, total bonds, and total value locked in specified interval.  Total Value Locked = Total Bonds + 2 * Total Pool Depths  History endpoint has two modes: * With Interval parameter it returns a series of time buckets. From and To dates will   be rounded to the Interval boundaries. * Without Interval parameter a single From..To search is performed with exact timestamps.  * Interval: possible values: 5min, hour, day, week, month, quarter, year. * count: [1..400]. Defines number of intervals. Don\'t provide if Interval is missing. * from/to: optional int, unix second.  Possible usages with interval. * last 10 days: `?interval=day&count=10` * last 10 days before to: `?interval=day&count=10&to=1608825600` * next 10 days after from: `?interval=day&count=10&from=1606780800` * Days between from and to. From defaults to start of chain, to defaults to now.   Only the first 400 intervals are returned:   `interval=day&from=1606780800&to=1608825600`  Pagination is possible with from&count and then using the returned meta.endTime as the From parameter of the next query.  Possible configurations without interval: * exact search for one time frame: `?from=1606780899&to=1608825600` * one time frame until now: `?from=1606780899` * from chain start until now: no query parameters
+@@ -1981,13 +1986,15 @@ var DefaultApi = /** @class */ (function (_super) {
+      * Returns an array of THORNames associated with the given address
+      * @summary Gives a list of THORNames by reverse lookup
+      * @param {string} address Address to match THORNames against.
++     * @param {"associated" | "owner"} [type] Type of search endpoint that should be quoted.
+      * @param {*} [options] Override http request option.
+      * @throws {RequiredError}
+      * @memberof DefaultApi
+      */
+-    DefaultApi.prototype.getTHORNamesByAddress = function (address, options) {
++    DefaultApi.prototype.getTHORNamesByAddress = function (address, type, options) {
+         var _this = this;
+-        return DefaultApiFp(this.configuration).getTHORNamesByAddress(address, options).then(function (request) { return request(_this.axios, _this.basePath); });
++        if (type === void 0) { type = "associated"; }
++        return DefaultApiFp(this.configuration).getTHORNamesByAddress(address, type, options).then(function (request) { return request(_this.axios, _this.basePath); });
+     };
+     /**
+      * Returns total pool depths, total bonds, and total value locked in specified interval.  Total Value Locked = Total Bonds + 2 * Total Pool Depths  History endpoint has two modes: * With Interval parameter it returns a series of time buckets. From and To dates will   be rounded to the Interval boundaries. * Without Interval parameter a single From..To search is performed with exact timestamps.  * Interval: possible values: 5min, hour, day, week, month, quarter, year. * count: [1..400]. Defines number of intervals. Don\'t provide if Interval is missing. * from/to: optional int, unix second.  Possible usages with interval. * last 10 days: `?interval=day&count=10` * last 10 days before to: `?interval=day&count=10&to=1608825600` * next 10 days after from: `?interval=day&count=10&from=1606780800` * Days between from and to. From defaults to start of chain, to defaults to now.   Only the first 400 intervals are returned:   `interval=day&from=1606780800&to=1608825600`  Pagination is possible with from&count and then using the returned meta.endTime as the From parameter of the next query.  Possible configurations without interval: * exact search for one time frame: `?from=1606780899&to=1608825600` * one time frame until now: `?from=1606780899` * from chain start until now: no query parameters

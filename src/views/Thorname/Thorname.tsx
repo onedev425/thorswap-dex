@@ -46,14 +46,14 @@ const Thorname = () => {
     available,
   })
 
+  const unavailableForPurchase = useMemo(
+    () => details && details?.owner !== thorAddress,
+    [details, thorAddress],
+  )
+
   const disabled = useMemo(
-    () =>
-      !(
-        thorname.length > 0 ||
-        validAddress ||
-        (details && details?.owner === thorAddress)
-      ),
-    [details, thorAddress, thorname.length, validAddress],
+    () => thorname.length === 0 || unavailableForPurchase || !validAddress,
+    [thorname.length, unavailableForPurchase, validAddress],
   )
 
   const handleSubmit = useCallback(() => {
@@ -105,7 +105,7 @@ const Thorname = () => {
   )
 
   const buttonLabel = useMemo(() => {
-    if (details && details?.owner !== thorAddress) {
+    if (unavailableForPurchase) {
       return t('views.thorname.unavailableForPurchase')
     }
 
@@ -120,7 +120,7 @@ const Thorname = () => {
     }
 
     return t('views.wallet.search')
-  }, [details, thorAddress, available, chain])
+  }, [unavailableForPurchase, details, available, thorAddress, chain])
 
   useEffect(() => {
     if (chainWalletAddress) {
