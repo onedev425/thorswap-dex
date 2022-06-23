@@ -291,7 +291,7 @@ export const AddLiquidity = () => {
     if (!liquidityEntity) return null
     return liquidityEntity
       .getPoolShareEst(runeAmount, assetAmount)
-      .toSignificant(6)
+      .toSignificantWithMaxDecimals(6, 5)
   }, [liquidityEntity, assetAmount, runeAmount])
 
   const isWalletConnected = useMemo(() => {
