@@ -52,8 +52,11 @@ const Thorname = () => {
   )
 
   const disabled = useMemo(
-    () => thorname.length === 0 || unavailableForPurchase || !validAddress,
-    [thorname.length, unavailableForPurchase, validAddress],
+    () =>
+      thorname.length === 0 ||
+      unavailableForPurchase ||
+      (!!address && !validAddress),
+    [address, thorname.length, unavailableForPurchase, validAddress],
   )
 
   const handleSubmit = useCallback(() => {
