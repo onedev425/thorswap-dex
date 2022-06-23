@@ -29,7 +29,6 @@ import { TooltipPortal } from 'components/Atomic'
 import { Layout } from 'components/Layout'
 import { ToastPortal } from 'components/Toast'
 
-import { IS_STAGENET } from 'settings/config'
 import { ROUTES } from 'settings/constants'
 
 export type RouteType = {
@@ -37,31 +36,27 @@ export type RouteType = {
   element?: FixMe
 }[]
 
-const stagenetRoutes = IS_STAGENET
-  ? [{ path: ROUTES.Thorname, element: Thorname }]
-  : []
-
 const routes: RouteType = [
   { path: ROUTES.AddLiquidity, element: AddLiquidity },
   { path: ROUTES.AddLiquidityPool, element: AddLiquidity },
   { path: ROUTES.CreateLiquidity, element: CreateLiquidity },
   { path: ROUTES.Home, element: Home },
   { path: ROUTES.Liquidity, element: Liquidity },
+  { path: ROUTES.NodeDetail, element: NodeDetails },
+  { path: ROUTES.NodeManager, element: NodeManager },
+  { path: ROUTES.Nodes, element: Nodes },
   { path: ROUTES.Send, element: Send },
   { path: ROUTES.SendAsset, element: Send },
   { path: ROUTES.Stake, element: Stake },
   { path: ROUTES.StakeV2, element: StakeVThor },
   { path: ROUTES.Swap, element: Swap },
   { path: ROUTES.SwapPair, element: Swap },
+  { path: ROUTES.Thorname, element: Thorname },
   { path: ROUTES.UpgradeRune, element: UpgradeRune },
+  { path: ROUTES.Vesting, element: Vesting },
   { path: ROUTES.Wallet, element: Wallet },
   { path: ROUTES.WithdrawLiquidity, element: WithdrawLiquidity },
   { path: ROUTES.WithdrawLiquidityPool, element: WithdrawLiquidity },
-  { path: ROUTES.Nodes, element: Nodes },
-  { path: ROUTES.NodeManager, element: NodeManager },
-  { path: ROUTES.NodeDetail, element: NodeDetails },
-  { path: ROUTES.Vesting, element: Vesting },
-  ...stagenetRoutes,
 ]
 
 const PublicRoutes = () => {
