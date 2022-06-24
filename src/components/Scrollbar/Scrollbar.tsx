@@ -2,6 +2,8 @@ import { ReactNode, useCallback, useMemo } from 'react'
 
 import Scrollbars from 'react-custom-scrollbars-2'
 
+import { useTheme } from '../Theme/ThemeContext'
+
 type ScrollbarProps = {
   children: ReactNode
   scrollClassName?: string
@@ -21,21 +23,22 @@ export const Scrollbar = ({
   autoHeight,
   scrollClassName,
 }: ScrollbarProps) => {
+  const { isLight } = useTheme()
   const useAutoHeight = !!maxHeight || !!minHeight || autoHeight
 
   const renderThumbnail = useCallback(
-    (scrollProps: ToDo) => (
+    ({ style }: { style: Record<string, string> }) => (
       <div
-        {...scrollProps}
         className={scrollClassName}
         style={{
-          ...scrollProps.style,
-          backgroundColor: '#00d2ff',
+          ...style,
+          borderRadius: '4px',
+          backgroundColor: isLight ? '#afb6cc' : '#29354a',
           width: '4px',
         }}
       />
     ),
-    [scrollClassName],
+    [isLight, scrollClassName],
   )
 
   const style = useMemo(
