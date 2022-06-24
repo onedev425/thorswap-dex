@@ -154,7 +154,7 @@ const StakeVThor = () => {
         <Typography color="secondary" fontWeight="medium" variant="caption">
           {t('views.stakingVThor.stakeVThorSubtitle')}
         </Typography>
-        <Tooltip content={t('views.stakingVThor.stakeInfo')}>
+        <Tooltip place="bottom" content={t('views.stakingVThor.stakeInfo')}>
           <Icon name="infoCircle" size={24} color="primaryBtn" />
         </Tooltip>
       </Box>

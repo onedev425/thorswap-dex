@@ -614,6 +614,8 @@
       "myThornames": "My THORnames",
       "searchName": "Search Name",
       "status": "Status",
+      "thornameSubtitle": "Cross-Chain Wallet Name Service.",
+      "thornameInfo": "THORName BETA: Registrations and Assignment of wallet addresses available (trading coming soon). THORNames are case-insensitive, limited to 30 characters, including a-Z, all numbers 0–9 and -_+",
       "unavailable": "Unavailable",
       "unavailableForPurchase": "Unavailable for purchase"
     }

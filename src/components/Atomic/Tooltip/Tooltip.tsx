@@ -3,7 +3,7 @@ import { ReactNode, useEffect } from 'react'
 import ReactTooltip from 'react-tooltip'
 
 import classNames from 'classnames'
-import ReactDOM from 'react-dom/server'
+import ReactDOMServer from 'react-dom/server'
 
 import { Typography, Icon, IconName } from 'components/Atomic'
 import { TooltipPlacement } from 'components/Atomic/Tooltip/types'
@@ -60,7 +60,7 @@ export const Tooltip = ({
         },
         className,
       )}
-      data-tip={ReactDOM.renderToStaticMarkup(
+      data-tip={ReactDOMServer.renderToString(
         <div
           className={classNames(
             'hidden sm:block px-5 py-2 rounded-2xl max-w-[260px]',

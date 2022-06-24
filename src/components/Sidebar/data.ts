@@ -41,13 +41,13 @@ export const getDefaultNavbarOptions = (): SidebarItemProps[] => [
         href: ROUTES.Send,
         label: t('components.sidebar.send'),
       },
-      // {
-      //   beta: true,
-      //   transform: 'none',
-      //   iconName: 'thor',
-      //   href: ROUTES.Thorname,
-      //   label: t('components.sidebar.thorname'),
-      // },
+      {
+        beta: true,
+        transform: 'none',
+        iconName: 'thor',
+        href: ROUTES.Thorname,
+        label: t('components.sidebar.thorname'),
+      },
     ],
   },
   {
