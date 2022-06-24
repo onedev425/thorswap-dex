@@ -2,7 +2,7 @@ import { KeyboardEvent, useCallback, useEffect, useMemo, useState } from 'react'
 
 import { SupportedChain } from '@thorswap-lib/multichain-sdk'
 
-import { Box, Button, Icon } from 'components/Atomic'
+import { Box, Button, Icon, Typography } from 'components/Atomic'
 import { InfoTable } from 'components/InfoTable'
 import { Input } from 'components/Input'
 import { PanelView } from 'components/PanelView'
@@ -140,7 +140,20 @@ const Thorname = () => {
 
   return (
     <PanelView
-      header={<ViewHeader title={t('components.sidebar.thorname')} />}
+      header={
+        <Box col>
+          <ViewHeader title={t('components.sidebar.thorname')} />
+
+          <Typography
+            className="pl-3 pt-1"
+            color="secondary"
+            fontWeight="medium"
+            variant="caption"
+          >
+            {t('views.stakingVThor.stakeVThorSubtitle')}
+          </Typography>
+        </Box>
+      }
       title={t('views.thorname.searchName')}
     >
       <Input
