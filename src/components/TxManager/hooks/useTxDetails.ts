@@ -64,7 +64,6 @@ const getTxDetails = (
   if (isSwapType(txTracker)) {
     return getSwapDetails(txTracker, outTxData)
   }
-
   switch (txTracker.type) {
     case TxTrackerType.AddLiquidity:
       return getAddLiquidityDetails(txTracker)

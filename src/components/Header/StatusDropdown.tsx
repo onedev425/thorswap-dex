@@ -31,7 +31,6 @@ export const StatusDropdown = memo(() => {
     isLTCChainHalted,
     isBCHChainHalted,
     isDOGEChainHalted,
-    isTERRAChainHalted,
   } = useMimir()
 
   // Midgard IP on devnet OR on test|chaos|mainnet
@@ -106,13 +105,6 @@ export const StatusDropdown = memo(() => {
         statusType: isDOGEChainHalted ? StatusType.Error : StatusType.Normal,
       },
       {
-        label: t('components.statusDropdown.terraNetwork'),
-        value: !isTERRAChainHalted
-          ? t('components.statusDropdown.online')
-          : t('components.statusDropdown.offline'),
-        statusType: isTERRAChainHalted ? StatusType.Error : StatusType.Normal,
-      },
-      {
         label: t('components.statusDropdown.btcCashNetwork'),
         value: !isBCHChainHalted
           ? t('components.statusDropdown.online')
@@ -144,7 +136,6 @@ export const StatusDropdown = memo(() => {
       isLTCChainHalted,
       isBCHChainHalted,
       isDOGEChainHalted,
-      isTERRAChainHalted,
     ],
   )
 

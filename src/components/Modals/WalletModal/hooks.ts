@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from 'react'
 
-import { ConnectType as TerraConnectType } from '@terra-money/wallet-provider'
 import {
   MetaMaskWalletStatus,
   PhantomWalletStatus,
@@ -8,7 +7,7 @@ import {
   XdefiWalletStatus,
   KeplrWalletStatus,
 } from '@thorswap-lib/multichain-sdk'
-import { Chain, TERRAChain } from '@thorswap-lib/xchain-util'
+import { Chain } from '@thorswap-lib/xchain-util'
 
 import { IconName } from 'components/Atomic'
 import {
@@ -19,8 +18,6 @@ import {
 import { showErrorToast } from 'components/Toast'
 
 import { useWallet } from 'store/wallet/hooks'
-
-import { useTerraWallet } from 'hooks/useTerraWallet'
 
 import { t } from 'services/i18n'
 import { keplr } from 'services/keplr'
@@ -44,8 +41,6 @@ type UseWalletOptionsParams = {
 export const useWalletOptions = ({
   isMdActive,
 }: UseWalletOptionsParams): WalletItem[] => {
-  const { isTerraStationAvailable } = useTerraWallet()
-
   return useMemo(
     () => [
       {
@@ -73,21 +68,6 @@ export const useWalletOptions = ({
             },
           ]
         : []),
-      ...(isTerraStationAvailable
-        ? [
-            {
-              icon: 'station' as const,
-              label: t('views.walletModal.terraStation'),
-              type: WalletType.Terra,
-              visible: isMdActive,
-            },
-          ]
-        : []),
-      {
-        type: WalletType.TerraMobile,
-        icon: 'terra',
-        label: t('views.walletModal.connectTerraMobile'),
-      },
       {
         type: WalletType.TrustWallet,
         icon: 'walletConnect',
@@ -125,7 +105,7 @@ export const useWalletOptions = ({
         visible: isMdActive,
       },
     ],
-    [isMdActive, isTerraStationAvailable],
+    [isMdActive],
   )
 }
 
@@ -152,7 +132,6 @@ export const useHandleWalletConnect = ({
     connectLedger,
     connectTrustWallet,
   } = useWallet()
-  const { connectTerraWallet } = useTerraWallet()
 
   const handleConnectLedger = useCallback(
     async (chain: Chain, index: number) => {
@@ -186,10 +165,6 @@ export const useHandleWalletConnect = ({
   const handleConnectXdefi = useCallback(
     async (chains: SupportedChain[]) => {
       try {
-        if (chains.includes(TERRAChain) && !!window.xfi.terra) {
-          connectTerraWallet(TerraConnectType.EXTENSION, 'xdefi-wallet')
-        }
-
         await connectXdefiWallet(chains)
       } catch (error) {
         console.error(error)
@@ -197,7 +172,7 @@ export const useHandleWalletConnect = ({
       }
       clearStatus()
     },
-    [clearStatus, connectXdefiWallet, connectTerraWallet],
+    [clearStatus, connectXdefiWallet],
   )
 
   const handleConnectTrustWallet = useCallback(
@@ -255,12 +230,8 @@ type HandleWalletTypeSelectParams = {
 export const useHandleWalletTypeSelect = ({
   setWalletType,
   setWalletStage,
-  clearStatus,
   setPendingChains,
 }: HandleWalletTypeSelectParams) => {
-  const { isTerraStationInstalled, installTerraWallet } = useTerraWallet()
-  const { connectTerraStation } = useWallet()
-
   const handleXdefi = useCallback(() => {
     const xdefiStatus = xdefi.isWalletDetected()
 
@@ -299,32 +270,6 @@ export const useHandleWalletTypeSelect = ({
     )
   }, [])
 
-  const handleConnectTerraWallet = useCallback(
-    (connectType: TerraConnectType, identifier?: string) => {
-      connectTerraStation(connectType, identifier)
-      clearStatus()
-    },
-    [clearStatus, connectTerraStation],
-  )
-
-  const handleTerra = useCallback(
-    (mobile: boolean) => {
-      const connectionType = mobile
-        ? TerraConnectType.WALLETCONNECT
-        : TerraConnectType.EXTENSION
-      const success = mobile || isTerraStationInstalled
-
-      if (success) {
-        handleConnectTerraWallet(connectionType, mobile ? undefined : 'station')
-      } else {
-        installTerraWallet(TerraConnectType.EXTENSION)
-      }
-
-      return success
-    },
-    [handleConnectTerraWallet, installTerraWallet, isTerraStationInstalled],
-  )
-
   const handlePhantom = useCallback(() => {
     const phantomStatus = phantom.isWalletDetected()
 
@@ -353,8 +298,6 @@ export const useHandleWalletTypeSelect = ({
         WalletType.CreateKeystore,
         WalletType.Phrase,
         WalletType.Select,
-        WalletType.Terra,
-        WalletType.TerraMobile,
       ].includes(selectedWallet)
 
       setWalletType(selectedWallet)
@@ -384,15 +327,12 @@ export const useHandleWalletTypeSelect = ({
           return handlePhantom()
         case WalletType.Keplr:
           return handleKeplr()
-        case WalletType.Terra:
-        case WalletType.TerraMobile:
-          return handleTerra(selectedWallet === WalletType.TerraMobile)
 
         default:
           return true
       }
     },
-    [handleMetamask, handlePhantom, handleTerra, handleXdefi, handleKeplr],
+    [handleMetamask, handlePhantom, handleXdefi, handleKeplr],
   )
 
   const handleWalletTypeSelect = useCallback(

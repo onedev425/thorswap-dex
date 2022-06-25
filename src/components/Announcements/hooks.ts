@@ -22,7 +22,7 @@ import { useMimir } from 'hooks/useMimir'
 import { t } from 'services/i18n'
 
 const REFRESH_INTERVAL = 1000 * 50 * 5 //5min
-const DISABLED_CHAINS: Chain[] = [Chain.Terra]
+const DISABLED_CHAINS: Chain[] = []
 
 export const useAnouncementsList = () => {
   const {

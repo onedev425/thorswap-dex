@@ -89,14 +89,12 @@ export type MimirData = {
   HALTBCHCHAIN?: number
   HALTLTCCHAIN?: number
   HALTDOGECHAIN?: number
-  HALTTERRACHAIN?: number
   HALTBTCTRADING?: number
   HALTETHTRADING?: number
   HALTBNBTRADING?: number
   HALTBCHTRADING?: number
   HALTLTCTRADING?: number
   HALTDOGETRADING?: number
-  HALTTERRATRADING?: number
   PAUSELP?: number
   PAUSELPBCH?: number
   PAUSELPBNB?: number
@@ -104,11 +102,9 @@ export type MimirData = {
   PAUSELPETH?: number
   PAUSELPLTC?: number
   PAUSELPDOGE?: number
-  PAUSELPTERRA?: number
   SOLVENCYHALTETHCHAIN?: number
   SOLVENCYHALTBCHCHAIN?: number
   MAXSYNTHPERASSETDEPTH?: number
-  'PAUSEASYMWITHDRAWAL-TERRA'?: number
 }
 
 export type ShareType = 'sym' | 'runeAsym' | 'assetAsym'

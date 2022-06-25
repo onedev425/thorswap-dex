@@ -249,7 +249,6 @@
       "ethNetwork": "Ethereum Network",
       "litecoinNetwork": "Litecoin Network",
       "dogeNetwork": "Dogecoin Network",
-      "terraNetwork": "Terra Network",
       "btcCashNetwork": "Bitcoin Cash Network",
       "midgard": "Midgard",
       "thornode": "THORNODE",
@@ -512,17 +511,13 @@
       "withdraw": "Withdraw",
       "from": "From",
       "assetUSDPrice": "Asset USD Price",
-      "share": "Share",
-      "terraLPWithdraw": "Terra LP withdrawal",
-      "terraLPWithdrawInfo": "Terra LP withdrawal options have changed, please see the THORChain medium article for details."
+      "share": "Share"
     },
     "walletModal": {
       "connectWallet": "Connect Wallet",
       "selectChain": "Select Chain",
       "xdefi": "XDEFI",
       "prioritiseXdefi": "Prioritise XDEFI",
-      "terraStation": "Terra Station",
-      "connectTerraMobile": "Terra Station Mobile",
       "phantom": "Phantom",
       "keplr": "Keplr",
       "walletConnect": "WalletConnect",

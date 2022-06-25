@@ -16,7 +16,6 @@ import {
 import { Chain } from '@thorswap-lib/xchain-util'
 
 import { AssetInputs } from 'views/WithdrawLiquidity/AssetInputs'
-import { TerraAsymWithdrawInfo } from 'views/WithdrawLiquidity/TerraAsymWithdrawInfo'
 
 import { Button, Box, Typography } from 'components/Atomic'
 import { GlobalSettingsPopover } from 'components/GlobalSettings'
@@ -797,8 +796,6 @@ const WithdrawPanel = ({
         onPercentChange={handleChangePercent}
         liquidityType={withdrawType}
       />
-
-      {poolAsset.chain === Chain.Terra && <TerraAsymWithdrawInfo />}
 
       <Box className="w-full pt-4">
         <InfoTable horizontalInset items={confirmInfo} />

@@ -11,7 +11,6 @@ import {
   LTCChain,
   BCHChain,
   DOGEChain,
-  TERRAChain,
 } from '@thorswap-lib/xchain-util'
 
 import { useExternalConfig } from 'store/externalConfig/hooks'
@@ -52,7 +51,6 @@ export const useMimir = () => {
   const isBCHChainHalted =
     isEntryPaused('HALTBCHCHAIN') || isEntryPaused('SOLVENCYHALTBCHCHAIN')
   const isDOGEChainHalted = isEntryPaused('HALTDOGECHAIN')
-  const isTERRAChainHalted = isEntryPaused('HALTTERRACHAIN')
   const isChainHalted: {
     [key: string]: boolean
   } = {
@@ -63,7 +61,6 @@ export const useMimir = () => {
     [BCHChain]: isBCHChainHalted,
     [THORChain]: isTHORChainHalted,
     [DOGEChain]: isDOGEChainHalted,
-    [TERRAChain]: isTERRAChainHalted,
   }
 
   // halt trading status
@@ -76,7 +73,6 @@ export const useMimir = () => {
     [LTCChain]: isEntryPaused('HALTLTCTRADING'),
     [BCHChain]: isEntryPaused('HALTBCHTRADING'),
     [DOGEChain]: isEntryPaused('HALTDOGETRADING'),
-    [TERRAChain]: isEntryPaused('HALTTERRATRADING'),
   }
 
   // pause LP
@@ -91,7 +87,6 @@ export const useMimir = () => {
     [LTCChain]: isEntryPaused('PAUSELPLTC'),
     [BCHChain]: isEntryPaused('PAUSELPBCH'),
     [DOGEChain]: isEntryPaused('PAUSELPDOGE'),
-    [TERRAChain]: isEntryPaused('PAUSELPTERRA'),
   }
 
   const isChainPauseLPAction = (key: string) => {
@@ -142,7 +137,6 @@ export const useMimir = () => {
     isLTCChainHalted,
     isBCHChainHalted,
     isDOGEChainHalted,
-    isTERRAChainHalted,
     isPauseLP,
     isChainPauseLP,
     isChainPauseLPAction,
