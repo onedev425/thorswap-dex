@@ -81,7 +81,7 @@ const reducer = (state: typeof initialState, { type, payload }: Actions) => {
 }
 
 export const useThornameLookup = (owner?: string) => {
-  const { submitTransaction, pollTransaction } = useTxTracker()
+  const { submitTransaction, setTxFailed, pollTransaction } = useTxTracker()
   const prevOwner = usePrevious(owner)
   const [{ available, chain, details, loading, thorname, years }, dispatch] =
     useReducer(reducer, initialState)
@@ -139,22 +139,26 @@ export const useThornameLookup = (owner?: string) => {
         return showErrorToast(t('notification.invalidTHORName'))
       }
 
+      const amount =
+        details?.owner !== owner
+          ? THORName.getCost(years)
+          : Amount.fromNormalAmount(years)
+
+      const submitTx = {
+        inAssets: [
+          { asset: Asset.RUNE().symbol, amount: amount.toSignificant(6) },
+        ],
+      }
+
+      const type =
+        details?.owner !== owner
+          ? TxTrackerType.RegisterThorname
+          : TxTrackerType.UpdateThorname
+
+      const uuid = submitTransaction({ type, submitTx })
+
       try {
         dispatch({ type: 'setLoading', payload: true })
-        const amount =
-          details?.owner !== owner
-            ? THORName.getCost(years)
-            : Amount.fromNormalAmount(years)
-
-        const submitTx = {
-          inAssets: [
-            { asset: Asset.RUNE().symbol, amount: amount.toSignificant(6) },
-          ],
-        }
-        const uuid = submitTransaction({
-          type: TxTrackerType.RegisterThorname,
-          submitTx,
-        })
 
         const txID = await registerThorname({
           chain,
@@ -162,31 +166,26 @@ export const useThornameLookup = (owner?: string) => {
           address,
           name: thorname,
         })
-
-        pollTransaction({
-          type:
-            details?.owner !== owner
-              ? TxTrackerType.RegisterThorname
-              : TxTrackerType.UpdateThorname,
-          uuid,
-          submitTx: { ...submitTx, txID },
-        })
+        pollTransaction({ type, uuid, submitTx: { ...submitTx, txID } })
 
         dispatch({ type: 'setThorname', payload: '' })
       } catch (error: ToDo) {
-        showErrorToast(t('common.defaultErrMsg'))
+        setTxFailed(uuid)
+
+        showErrorToast(t('notification.submitFail'))
       } finally {
         dispatch({ type: 'setLoading', payload: false })
       }
     },
     [
+      thorname,
       details?.owner,
       owner,
       years,
       submitTransaction,
       chain,
-      thorname,
       pollTransaction,
+      setTxFailed,
     ],
   )
 

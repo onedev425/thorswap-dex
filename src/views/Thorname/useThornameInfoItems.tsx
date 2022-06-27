@@ -171,8 +171,6 @@ export const useThornameInfoItems = ({
     [commonColumns, details, ownerColumns, thorname],
   )
 
-  console.log({ data })
-
   return {
     ownerColumns,
     data: details || available ? (data as InfoRowConfig[]) : [],

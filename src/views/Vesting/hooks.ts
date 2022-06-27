@@ -73,7 +73,7 @@ export const useVesting = () => {
 
           return info
         } catch (err) {
-          console.log('ERR - ', err)
+          console.error('ERR - ', err)
         }
       }
     },

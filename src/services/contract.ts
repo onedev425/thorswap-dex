@@ -208,9 +208,6 @@ export const triggerContractCall = async (
     return resp
   } catch (error) {
     const plainErrMsg = JSON.stringify(error)
-
-    console.log('ERR - ', plainErrMsg)
-
     const isApprovalError = plainErrMsg.includes('exceeds allowance')
 
     showErrorToast(
