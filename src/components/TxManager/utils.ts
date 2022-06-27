@@ -273,6 +273,7 @@ export const getTxType = (): Record<TxTrackerType, string> => ({
   [TxTrackerType.Redeem]: t('txManager.redeem'),
   [TxTrackerType.Refund]: t('txManager.refund'),
   [TxTrackerType.RegisterThorname]: t('txManager.registerThorname'),
+  [TxTrackerType.UpdateThorname]: t('txManager.updateThorname'),
   [TxTrackerType.Send]: t('txManager.send'),
   [TxTrackerType.StakeExit]: t('txManager.withdraw'),
   [TxTrackerType.Stake]: t('txManager.stake'),

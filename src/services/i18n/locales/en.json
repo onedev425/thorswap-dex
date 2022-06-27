@@ -139,8 +139,7 @@
   },
   "txManager": {
     "registerThorname": "Register THORName",
-    "registerThornameFailed": "Register THORName failed",
-    "registerThornameSuccess": "Registered THORName successfully",
+    "updateThorname": "Update THORName",
     "approve": "Approve",
     "swap": "Swap",
     "addLiquidity": "Add Liquidity",
@@ -154,6 +153,7 @@
     "redeem": "Redeem",
     "receive": "Receive",
     "failed": "Failed",
+    "success": "Success",
     "stake": "Stake",
     "claim": "Claim",
     "unstake": "Unstake",

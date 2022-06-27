@@ -108,10 +108,9 @@ const SwapView = () => {
   const isAffiliated = useMemo(
     () =>
       IS_AFFILIATE_ON &&
-      !inputAsset.isUTXOAsset() &&
       inputAssetPriceInUSD.raw().gte(AFFILIATE_FEE_THRESHOLD_AMOUNT) &&
       !hasVThor,
-    [inputAsset, inputAssetPriceInUSD, hasVThor],
+    [inputAssetPriceInUSD, hasVThor],
   )
 
   const affiliateFeeInUSD = useMemo(

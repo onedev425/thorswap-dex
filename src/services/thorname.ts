@@ -37,11 +37,9 @@ export const getThornameExpireDate = ({
   expire: string
   lastThorchainBlock: number
 }) => {
-  return dayjs()
-    .add(
-      // current block - expire block * 5 sec / year in seconds
-      (Math.abs(lastThorchainBlock - parseInt(expire, 10)) * 5) / 31_536_000,
-      'years',
-    )
-    .format('YYYY-MM-DD')
+  const blocksPerYear = 5_256_000
+  const blocksDiff = lastThorchainBlock - parseInt(expire)
+  const days = (blocksDiff / blocksPerYear) * -365
+
+  return dayjs().add(days, 'days').format('YYYY-MM-DD')
 }

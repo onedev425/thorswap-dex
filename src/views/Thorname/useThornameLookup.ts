@@ -151,18 +151,27 @@ export const useThornameLookup = (owner?: string) => {
             { asset: Asset.RUNE().symbol, amount: amount.toSignificant(6) },
           ],
         }
-
-        const trackId = submitTransaction({
+        const uuid = submitTransaction({
           type: TxTrackerType.RegisterThorname,
           submitTx,
         })
 
-        await registerThorname({ chain, amount, address, name: thorname })
+        const txID = await registerThorname({
+          chain,
+          amount,
+          address,
+          name: thorname,
+        })
+
         pollTransaction({
-          type: TxTrackerType.RegisterThorname,
-          uuid: trackId,
-          submitTx,
+          type:
+            details?.owner !== owner
+              ? TxTrackerType.RegisterThorname
+              : TxTrackerType.UpdateThorname,
+          uuid,
+          submitTx: { ...submitTx, txID },
         })
+
         dispatch({ type: 'setThorname', payload: '' })
       } catch (error: ToDo) {
         showErrorToast(t('common.defaultErrMsg'))

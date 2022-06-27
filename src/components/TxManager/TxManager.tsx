@@ -77,8 +77,7 @@ export const TxManager = () => {
 
   useEffect(() => {
     if (!onlyPending) {
-      setFilteredTxData(txTrackers)
-      return
+      return setFilteredTxData(txTrackers)
     }
 
     const filteredData = txTrackers.filter(

@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
+import { Chain } from '@thorswap-lib/xchain-util'
 
 import { TxProgressStatus } from 'components/TxManager/types'
-import { getTxTrackerUrl } from 'components/TxManager/utils'
 
 import { TxTracker, TxTrackerStatus, TxTrackerType } from 'store/midgard/types'
 
 import { t } from 'services/i18n'
+import { multichain } from 'services/multichain'
 
 import {
   getAddTxUrl,
@@ -64,6 +65,7 @@ const getTxDetails = (
   if (isSwapType(txTracker)) {
     return getSwapDetails(txTracker, outTxData)
   }
+
   switch (txTracker.type) {
     case TxTrackerType.AddLiquidity:
       return getAddLiquidityDetails(txTracker)
@@ -81,8 +83,9 @@ const getTxDetails = (
       return getClaimDetails(txTracker)
     case TxTrackerType.StakeExit:
       return getStakeWithdrawDetails(txTracker)
+    case TxTrackerType.UpdateThorname:
     case TxTrackerType.RegisterThorname:
-      return getRegisterThornameDetails(txTracker)
+      return getThornameDetails(txTracker)
     case TxTrackerType.Unstake:
       return getUnstakeDetails(txTracker)
 
@@ -488,10 +491,7 @@ const getSendDetails = (txTracker: TxTracker): TxDetails => {
   return txDetails
 }
 
-const getRegisterThornameDetails = ({
-  status,
-  submitTx,
-}: TxTracker): TxDetails => {
+const getThornameDetails = ({ status, submitTx }: TxTracker): TxDetails => {
   const failed = status === TxTrackerStatus.Failed
   const pending = status !== TxTrackerStatus.Success
 
@@ -499,14 +499,13 @@ const getRegisterThornameDetails = ({
     {
       status: failed ? 'failed' : pending ? 'pending' : 'success',
       label: failed
-        ? t('txManager.registerThornameFailed')
+        ? `${t('txManager.registerThorname')} ${t('txManager.failed')}`
         : pending
         ? t('txManager.registerThorname')
-        : t('txManager.registerThornameSuccess'),
-      url:
-        status === TxTrackerStatus.Success
-          ? getTxTrackerUrl(submitTx.txID)
-          : '',
+        : `${t('txManager.registerThorname')} ${t('txManager.success')}`,
+      url: submitTx.txID
+        ? multichain.getExplorerTxUrl(Chain.THORChain, submitTx.txID)
+        : '',
     },
   ]
 

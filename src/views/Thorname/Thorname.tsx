@@ -116,14 +116,14 @@ const Thorname = () => {
 
     if (available) {
       return thorAddress
-        ? registeredChains.includes(chain)
+        ? registeredChains.length > 0
           ? t('common.update')
           : t('views.thorname.purchase')
         : t('common.connectWallet')
     }
 
     return t('views.wallet.search')
-  }, [unavailableForPurchase, details, available, thorAddress, chain])
+  }, [unavailableForPurchase, details, available, thorAddress])
 
   useEffect(() => {
     if (chainWalletAddress) {

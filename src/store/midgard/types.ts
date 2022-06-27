@@ -70,6 +70,7 @@ export enum TxTrackerType {
   StakeExit = 'stakeExit',
   Unstake = 'unstake', // for vTHOR unstake
   RegisterThorname = 'registerThorname',
+  UpdateThorname = 'updateThorname',
 }
 
 export type MimirData = {

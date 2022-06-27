@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -8,6 +8,7 @@ import { V1_URL } from 'config/constants'
 import { Box, Icon, Tooltip, Typography } from 'components/Atomic'
 import { SupportModal } from 'components/Modals/Support/Support'
 import { Scrollbar } from 'components/Scrollbar'
+import { useSidebarOptions } from 'components/Sidebar/hooks'
 import { NavItem } from 'components/Sidebar/NavItem'
 
 import useWindowSize from 'hooks/useWindowSize'
@@ -18,7 +19,6 @@ import { ROUTES } from 'settings/constants'
 
 import Logo from 'assets/images/logo.png'
 
-import { getDefaultNavbarOptions } from './data'
 import { SidebarItems } from './SidebarItems'
 import { SidebarProps } from './types'
 
@@ -31,7 +31,7 @@ export const Sidebar = ({
   toggle,
   onNavItemClick,
 }: SidebarProps) => {
-  const sidebarOptions = useMemo(getDefaultNavbarOptions, [])
+  const sidebarOptions = useSidebarOptions()
   const { isMdActive } = useWindowSize()
   const navigate = useNavigate()
   const [isSupportModalOpened, setIsSupportModalOpened] = useState(false)
