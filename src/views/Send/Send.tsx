@@ -72,18 +72,20 @@ const Send = () => {
 
   const { loading, TNS } = useAddressForTNS(recipientAddress)
 
-  useEffect(() => {
-    if (TNS && sendAsset.L1Chain) {
-      const TNSAddress = TNS.entries.find(
-        ({ chain }) => chain === sendAsset.L1Chain,
-      )
+  const TNSAddress = useMemo(
+    () =>
+      TNS
+        ? TNS.entries.find(({ chain }) => chain === sendAsset.L1Chain)?.address
+        : '',
+    [TNS, sendAsset.L1Chain],
+  )
 
-      if (TNSAddress) {
-        setThorname(TNS.thorname)
-        setRecipientAddress(TNSAddress.address)
-      }
+  useEffect(() => {
+    if (TNS && TNSAddress) {
+      setThorname(TNS.thorname)
+      setRecipientAddress(TNSAddress)
     }
-  }, [TNS, sendAsset.L1Chain])
+  }, [TNS, TNSAddress])
 
   useEffect(() => {
     const getSendAsset = async () => {
@@ -231,9 +233,9 @@ const Send = () => {
   const recipientTitle = useMemo(
     () =>
       `${t('common.recipientAddress')}${
-        thorname ? ` - ${thorname}.${sendAsset.L1Chain}` : ''
+        TNSAddress && thorname ? ` - ${thorname}.${sendAsset.L1Chain}` : ''
       }`,
-    [sendAsset.L1Chain, thorname],
+    [TNSAddress, sendAsset.L1Chain, thorname],
   )
 
   return (

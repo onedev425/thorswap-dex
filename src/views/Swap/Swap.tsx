@@ -140,6 +140,15 @@ const SwapView = () => {
 
   const { loading, TNS } = useAddressForTNS(recipient)
 
+  const TNSAddress = useMemo(
+    () =>
+      TNS
+        ? TNS.entries.find(({ chain }) => chain === outputAsset.L1Chain)
+            ?.address
+        : '',
+    [TNS, outputAsset.L1Chain],
+  )
+
   useEffect(() => {
     const getPair = async () => {
       if (!pair) return
@@ -162,17 +171,11 @@ const SwapView = () => {
   }, [wallet, outputAsset])
 
   useEffect(() => {
-    if (TNS && outputAsset.L1Chain) {
-      const TNSAddress = TNS.entries.find(
-        ({ chain }) => chain === outputAsset.L1Chain,
-      )
-
-      if (TNSAddress) {
-        setThorname(TNS.thorname)
-        setRecipient(TNSAddress.address)
-      }
+    if (TNS && TNSAddress) {
+      setThorname(TNS.thorname)
+      setRecipient(TNSAddress)
     }
-  }, [TNS, outputAsset.L1Chain])
+  }, [TNS, TNSAddress])
 
   const isInputWalletConnected = useMemo(
     () =>
@@ -415,10 +418,10 @@ const SwapView = () => {
 
   const recipientTitle = useMemo(
     () =>
-      thorname
+      TNSAddress && thorname
         ? `${t('common.recipientAddress')} - ${thorname}.${outputAsset.L1Chain}`
         : t('common.recipientAddress'),
-    [outputAsset.L1Chain, thorname],
+    [TNSAddress, outputAsset.L1Chain, thorname],
   )
 
   return (

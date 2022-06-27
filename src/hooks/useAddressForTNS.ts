@@ -20,6 +20,8 @@ export const useAddressForTNS = (address: string) => {
         const details = await getThornameDetails(providedThorname)
 
         setTNS({ ...details, thorname: providedThorname })
+      } catch {
+        setTNS(null)
       } finally {
         setLoading(false)
       }
@@ -32,8 +34,6 @@ export const useAddressForTNS = (address: string) => {
 
     if (THORName.isValidName(possibleThorname)) {
       lookupForTNS(possibleThorname.toLowerCase())
-    } else {
-      setTNS(null)
     }
   }, [debouncedAddress, lookupForTNS])
 
