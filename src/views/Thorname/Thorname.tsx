@@ -38,7 +38,7 @@ const Thorname = () => {
   const [address, setAddress] = useState<null | string>(null)
   const chainWalletAddress = wallet?.[chain]?.address
 
-  const thornameInfoItems = useThornameInfoItems({
+  const { data: thornameInfoItems } = useThornameInfoItems({
     years,
     setYears,
     thorname,

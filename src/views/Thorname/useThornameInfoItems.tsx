@@ -34,118 +34,147 @@ export const useThornameInfoItems = ({
   const { lastBlock } = useMidgard()
   const isAvailable = !details || available
 
+  const commonColumns = useMemo(
+    () => [
+      { label: t('components.sidebar.thorname'), value: thorname },
+      {
+        label: t('views.thorname.status'),
+        value: (
+          <Typography color={isAvailable ? 'green' : 'red'}>
+            {t(
+              `views.thorname.${
+                isAvailable
+                  ? details
+                    ? 'ownedByYou'
+                    : 'available'
+                  : 'unavailable'
+              }`,
+            )}
+          </Typography>
+        ),
+      },
+
+      ...(isAvailable
+        ? [
+            {
+              label: details
+                ? t('views.thorname.extend')
+                : t('views.thorname.duration'),
+              value: (
+                <Box alignCenter justify="between" className="gap-x-2">
+                  <Button
+                    className="px-1.5 group"
+                    type="borderless"
+                    variant="tint"
+                    onClick={() => setYears(years - 1)}
+                    startIcon={
+                      <Icon
+                        className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
+                        color="secondary"
+                        name="minusCircle"
+                      />
+                    }
+                  />
+
+                  <Box center className="w-3">
+                    <Typography>{years}</Typography>
+                  </Box>
+
+                  <Button
+                    className="px-1.5 group"
+                    type="borderless"
+                    variant="tint"
+                    onClick={() => setYears(years + 1)}
+                    startIcon={
+                      <Icon
+                        className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
+                        color="secondary"
+                        name="plusCircle"
+                      />
+                    }
+                  />
+                </Box>
+              ),
+            },
+            {
+              label: details
+                ? t('views.thorname.updateFee')
+                : t('views.thorname.registerFee'),
+              value: (
+                <Box center className="gap-x-2">
+                  <AssetIcon size="tiny" asset={Asset.RUNE()} />
+                  <Typography>
+                    {details ? years : THORName.getCost(years).toSignificant(6)}{' '}
+                    $RUNE
+                  </Typography>
+                </Box>
+              ),
+            },
+          ]
+        : []),
+    ],
+    [details, isAvailable, setYears, thorname, years],
+  )
+
+  const ownerColumns = useMemo(
+    () =>
+      details
+        ? [
+            {
+              label: t('views.thorname.expire'),
+              value: (
+                <Box className="gap-x-2" center>
+                  <Tooltip
+                    iconName="infoCircle"
+                    content={t('views.thorname.expirationNote', {
+                      block: details.expire,
+                    })}
+                  />
+                  <Typography>
+                    {getThornameExpireDate({
+                      expire: details.expire,
+                      lastThorchainBlock: lastBlock?.[0]?.thorchain,
+                    })}
+                  </Typography>
+                </Box>
+              ),
+            },
+            {
+              label: t('views.thorname.owner'),
+              value: shortenAddress(details.owner, 15),
+            },
+          ]
+        : [],
+    [details, lastBlock],
+  )
+
   const data = useMemo(
     () =>
       [
-        { label: t('components.sidebar.thorname'), value: thorname },
-        {
-          label: t('views.thorname.status'),
-          value: (
-            <Typography color={isAvailable ? 'green' : 'red'}>
-              {t(
-                `views.thorname.${
-                  isAvailable
-                    ? details
-                      ? 'ownedByYou'
-                      : 'available'
-                    : 'unavailable'
-                }`,
-              )}
-            </Typography>
-          ),
-        },
-
-        ...(isAvailable
-          ? [
-              {
-                label: details
-                  ? t('views.thorname.extend')
-                  : t('views.thorname.duration'),
-                value: (
-                  <Box alignCenter justify="between" className="gap-x-2">
-                    <Button
-                      className="px-1.5 group"
-                      type="borderless"
-                      variant="tint"
-                      onClick={() => setYears(years - 1)}
-                      startIcon={
-                        <Icon
-                          className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
-                          color="secondary"
-                          name="minusCircle"
-                        />
-                      }
-                    />
-
-                    <Box center className="w-3">
-                      <Typography>{years}</Typography>
-                    </Box>
-
-                    <Button
-                      className="px-1.5 group"
-                      type="borderless"
-                      variant="tint"
-                      onClick={() => setYears(years + 1)}
-                      startIcon={
-                        <Icon
-                          className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
-                          color="secondary"
-                          name="plusCircle"
-                        />
-                      }
-                    />
-                  </Box>
-                ),
-              },
-              {
-                label: details
-                  ? t('views.thorname.updateFee')
-                  : t('views.thorname.registerFee'),
-                value: (
-                  <Box center className="gap-x-2">
-                    <AssetIcon size="tiny" asset={Asset.RUNE()} />
-                    <Typography>
-                      {details
-                        ? years
-                        : THORName.getCost(years).toSignificant(6)}{' '}
-                      $RUNE
-                    </Typography>
-                  </Box>
-                ),
-              },
-            ]
-          : []),
-
+        ...commonColumns,
+        ...ownerColumns,
         ...(details
-          ? [
-              {
-                label: t('views.thorname.expire'),
-                value: getThornameExpireDate({
-                  expire: details.expire,
-                  lastThorchainBlock: lastBlock?.[0]?.thorchain,
-                }),
-              },
-              {
-                label: t('views.thorname.owner'),
-                value: shortenAddress(details.owner, 15),
-              },
-              ...details.entries.map(({ address, chain }) => ({
-                key: chain,
-                label: (
-                  <Tooltip content={`${thorname}.${chain}`}>
-                    <Icon
-                      className="px-2"
-                      name={thornameChainIcons[chain as SupportedChain]}
-                    />
-                  </Tooltip>
-                ),
-                value: shortenAddress(address, 15),
-              })),
-            ]
+          ? details.entries.map(({ address, chain }) => ({
+              key: chain,
+              label: (
+                <Tooltip content={`${thorname}.${chain}`}>
+                  <Icon
+                    className="px-2"
+                    name={thornameChainIcons[chain as SupportedChain]}
+                  />
+                </Tooltip>
+              ),
+              value: shortenAddress(address, 15),
+            }))
           : []),
       ].filter(Boolean),
-    [details, isAvailable, setYears, thorname, years, lastBlock],
+    [commonColumns, details, ownerColumns, thorname],
   )
 
-  return details || available ? (data as InfoRowConfig[]) : []
+  console.log({ data })
+
+  return {
+    ownerColumns,
+    data: details || available ? (data as InfoRowConfig[]) : [],
+  }
 }

@@ -594,6 +594,7 @@
     },
     "thorname": {
       "available": "Available",
+      "expirationNote": "Given date is only estimate based, actual expiration date may differ. TNS will expire as soon as THORChain block number reaches: %{block}",
       "checkNameAvailability": "Check Name Availability",
       "cost": "Cost",
       "duration": "Duration (in years)",
