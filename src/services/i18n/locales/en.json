@@ -65,6 +65,7 @@
     "expertModeTooltip": "You are able to pool RUNE + Asset with the dynamic ratio in Expert Mode.",
     "customRecipientTooltip": "Receive asset to your custom address.",
     "recipientAddress": "Recipient Address",
+    "thornameOrRecipient": "THORName or Recipient Address",
     "addressCopied": "Address copied",
     "here": "Here",
     "password": "Password",

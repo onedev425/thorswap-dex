@@ -54,7 +54,7 @@ const reducer = (state: typeof initialState, { type, payload }: Actions) => {
         ...(hasPayload ? state : initialState),
         thorname: hasPayload
           ? THORName.isValidName(payload)
-            ? payload
+            ? payload.toLowerCase()
             : state.thorname
           : '',
       }

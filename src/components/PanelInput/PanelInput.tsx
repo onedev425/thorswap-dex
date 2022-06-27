@@ -10,6 +10,7 @@ import { useInputFocusState } from 'components/Input/hooks/useInputFocusState'
 import { InputProps } from 'components/Input/types'
 
 type Props = Omit<InputProps, 'title'> & {
+  loading?: boolean
   title: string | ReactNode
   collapsible?: boolean
 }
@@ -20,6 +21,7 @@ export const PanelInput = ({
   value,
   className,
   suffix,
+  loading,
   ...inputProps
 }: Props) => {
   const { ref, isFocused, focus, blur, onFocus, onBlur } = useInputFocusState()
@@ -64,13 +66,17 @@ export const PanelInput = ({
         justify="between"
         onClick={toggle}
       >
-        {typeof title === 'string' ? (
-          <Typography variant="caption" fontWeight="normal">
-            {title}
-          </Typography>
-        ) : (
-          title
-        )}
+        <Box center className="gap-x-2">
+          {typeof title === 'string' ? (
+            <Typography variant="caption" fontWeight="normal">
+              {title}
+            </Typography>
+          ) : (
+            title
+          )}
+
+          {loading && <Icon name="loader" spin size={14} />}
+        </Box>
 
         {collapsible && (
           <Icon

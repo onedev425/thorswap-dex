@@ -36,6 +36,7 @@ import { useMidgard } from 'store/midgard/hooks'
 import { TxTrackerType } from 'store/midgard/types'
 import { useWallet } from 'store/wallet/hooks'
 
+import { useAddressForTNS } from 'hooks/useAddressForTNS'
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance'
 import { useBalance } from 'hooks/useBalance'
 import { useNetworkFee } from 'hooks/useNetworkFee'
@@ -76,6 +77,7 @@ const SwapView = () => {
   )
   const [addressDisabled, setAddressDisabled] = useState(false)
   const [recipient, setRecipient] = useState('')
+  const [thorname, setThorname] = useState('')
   const [visibleConfirmModal, setVisibleConfirmModal] = useState(false)
   const [visibleApproveModal, setVisibleApproveModal] = useState(false)
 
@@ -136,6 +138,8 @@ const SwapView = () => {
 
   const isValidSlip = useMemo(() => swap?.isSlipValid() ?? true, [swap])
 
+  const { loading, TNS } = useAddressForTNS(recipient)
+
   useEffect(() => {
     const getPair = async () => {
       if (!pair) return
@@ -157,6 +161,19 @@ const SwapView = () => {
     }
   }, [wallet, outputAsset])
 
+  useEffect(() => {
+    if (TNS && outputAsset.L1Chain) {
+      const TNSAddress = TNS.entries.find(
+        ({ chain }) => chain === outputAsset.L1Chain,
+      )
+
+      if (TNSAddress) {
+        setThorname(TNS.thorname)
+        setRecipient(TNSAddress.address)
+      }
+    }
+  }, [TNS, outputAsset.L1Chain])
+
   const isInputWalletConnected = useMemo(
     () =>
       inputAsset && hasWalletConnected({ wallet, inputAssets: [inputAsset] }),
@@ -173,8 +190,10 @@ const SwapView = () => {
   }, [addressDisabled])
 
   const handleChangeRecipient = useCallback(
-    ({ target: { value } }: ChangeEvent<HTMLInputElement>) =>
-      setRecipient(value),
+    ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
+      setRecipient(value)
+      setThorname('')
+    },
     [],
   )
 
@@ -394,6 +413,14 @@ const SwapView = () => {
     )
   }, [outputAssetPriceInUSD, swap?.outputAsset.L1Chain, totalFeeInUSD])
 
+  const recipientTitle = useMemo(
+    () =>
+      thorname
+        ? `${t('common.recipientAddress')} - ${thorname}.${outputAsset.L1Chain}`
+        : t('common.recipientAddress'),
+    [outputAsset.L1Chain, thorname],
+  )
+
   return (
     <PanelView
       title={title}
@@ -442,15 +469,16 @@ const SwapView = () => {
 
       {customRecipientMode && (
         <PanelInput
-          placeholder={`${t('common.recipientAddress')} ${t('common.here')}`}
+          placeholder={t('common.thornameOrRecipient')}
           stretch
           disabled={addressDisabled}
           onChange={handleChangeRecipient}
           value={recipient}
+          loading={loading}
           title={
             <Box flex={1} alignCenter justify="between">
               <Typography variant="caption" fontWeight="normal">
-                {t('common.recipientAddress')}
+                {recipientTitle}
               </Typography>
 
               <Box>

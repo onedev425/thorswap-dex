@@ -25,6 +25,7 @@ import { ViewHeader } from 'components/ViewHeader'
 import { useMidgard } from 'store/midgard/hooks'
 import { useWallet } from 'store/wallet/hooks'
 
+import { useAddressForTNS } from 'hooks/useAddressForTNS'
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance'
 import { useBalance } from 'hooks/useBalance'
 import { useNetworkFee } from 'hooks/useNetworkFee'
@@ -42,13 +43,13 @@ const Send = () => {
   const { assetParam } = useParams<{ assetParam: string }>()
 
   const [sendAsset, setSendAsset] = useState<Asset>(Asset.RUNE())
-
   const [sendAmount, setSendAmount] = useState<Amount>(
     Amount.fromAssetAmount(0, 8),
   )
 
   const [memo, setMemo] = useState('')
   const [recipientAddress, setRecipientAddress] = useState('')
+  const [thorname, setThorname] = useState('')
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
 
   const { wallet, setIsConnectModalOpen } = useWallet()
@@ -68,6 +69,21 @@ const Send = () => {
     () => getMaxBalance(sendAsset),
     [sendAsset, getMaxBalance],
   )
+
+  const { loading, TNS } = useAddressForTNS(recipientAddress)
+
+  useEffect(() => {
+    if (TNS && sendAsset.L1Chain) {
+      const TNSAddress = TNS.entries.find(
+        ({ chain }) => chain === sendAsset.L1Chain,
+      )
+
+      if (TNSAddress) {
+        setThorname(TNS.thorname)
+        setRecipientAddress(TNSAddress.address)
+      }
+    }
+  }, [TNS, sendAsset.L1Chain])
 
   useEffect(() => {
     const getSendAsset = async () => {
@@ -126,6 +142,7 @@ const Send = () => {
   const handleChangeRecipient = useCallback(
     ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
       setRecipientAddress(value)
+      setThorname('')
     },
     [],
   )
@@ -211,6 +228,14 @@ const Send = () => {
     [recipientAddress, sendAsset, sendAmount, inboundFee, totalFeeInUSD],
   )
 
+  const recipientTitle = useMemo(
+    () =>
+      `${t('common.recipientAddress')}${
+        thorname ? ` - ${thorname}.${sendAsset.L1Chain}` : ''
+      }`,
+    [sendAsset.L1Chain, thorname],
+  )
+
   return (
     <PanelView
       title={t('common.send')}
@@ -232,14 +257,15 @@ const Send = () => {
       </div>
 
       <PanelInput
-        title={t('common.recipientAddress')}
-        placeholder={`${
-          assetInput.asset.isSynth
+        title={recipientTitle}
+        placeholder={`THORName / ${
+          assetInput.asset.isSynth || assetInput.asset.isRUNE()
             ? Asset.RUNE().network
-            : assetInput.asset.network
+            : assetInput.asset.L1Chain
         } ${t('common.address')}`}
         onChange={handleChangeRecipient}
         value={recipientAddress}
+        loading={loading}
       />
 
       <PanelInput
