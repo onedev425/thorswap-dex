@@ -44,11 +44,9 @@ export const SUPPORTED_LANGUAGES = [
   'km',
   'ko',
   'ru',
-  'tr',
   'ur',
   'zh-Hans',
   'zh-Hant',
-  'ms-MY',
 ] as const
 
 export type SupportedLanguages = typeof SUPPORTED_LANGUAGES[number]

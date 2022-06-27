@@ -21,13 +21,11 @@ import hi from './locales/hi.json'
 import it from './locales/it.json'
 import km from './locales/km.json'
 import ko from './locales/ko.json'
-import msMY from './locales/ms-MY.json'
 import nl from './locales/nl-NL.json'
 import pl from './locales/pl.json'
 import ptBR from './locales/pt-BR.json'
 import pt from './locales/pt.json'
 import ru from './locales/ru.json'
-import tr from './locales/tr.json'
 import ur from './locales/ur.json'
 import zhHans from './locales/zh-Hans.json'
 import zhHant from './locales/zh-Hant.json'
@@ -35,7 +33,6 @@ import zhHant from './locales/zh-Hant.json'
 const parseMissingKeyHandler = (key: string) => key.split('.').pop()
 
 const resources: Record<SupportedLanguages, Resource> = {
-  'ms-MY': { translation: msMY },
   'nl-NL': { translation: nl },
   'pt-BR': { translation: ptBR },
   'zh-Hans': { translation: zhHans },
@@ -51,7 +48,6 @@ const resources: Record<SupportedLanguages, Resource> = {
   pl: { translation: pl },
   pt: { translation: pt },
   ru: { translation: ru },
-  tr: { translation: tr },
   ur: { translation: ur },
 }
 

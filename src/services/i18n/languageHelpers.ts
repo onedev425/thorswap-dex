@@ -1,7 +1,6 @@
 import { SupportedLanguages } from 'types/app'
 
 export const FLAG_ICONS: Record<SupportedLanguages, string> = {
-  'ms-MY': 'malaysia',
   'nl-NL': 'netherlands',
   'pt-BR': 'brazil',
   'zh-Hans': 'china',
@@ -17,12 +16,10 @@ export const FLAG_ICONS: Record<SupportedLanguages, string> = {
   pl: 'poland',
   pt: 'portugal',
   ru: 'russia',
-  tr: 'turkey',
   ur: 'pakistan',
 }
 
 export const LANGUAGE_NAMES: Record<SupportedLanguages, string> = {
-  'ms-MY': 'Malay',
   'nl-NL': 'Dutch (NLD)',
   'pt-BR': 'Português (BRA)',
   'zh-Hans': '简体中文 (CHN)',
@@ -38,6 +35,5 @@ export const LANGUAGE_NAMES: Record<SupportedLanguages, string> = {
   pl: 'Polski (POL)',
   pt: 'Português (POR)',
   ru: 'Русский (RUS)',
-  tr: 'Türkçe (TUR)',
   ur: 'اردو (URD)',
 }
