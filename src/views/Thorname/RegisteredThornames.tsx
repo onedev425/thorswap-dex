@@ -4,7 +4,7 @@ import { SupportedChain } from '@thorswap-lib/multichain-sdk'
 
 import { thornameChainIcons } from 'views/Thorname/ChainDropdown'
 
-import { Box, Collapse, Icon, Typography } from 'components/Atomic'
+import { Box, Collapse, Icon, Tooltip, Typography } from 'components/Atomic'
 import { HighlightCard } from 'components/HighlightCard'
 import { HoverIcon } from 'components/HoverIcon'
 import { InfoTable } from 'components/InfoTable'
@@ -57,10 +57,22 @@ export const RegisteredThornames = memo(({ editThorname }: Props) => {
               items={[
                 {
                   label: t('views.thorname.expire'),
-                  value: getThornameExpireDate({
-                    expire,
-                    lastThorchainBlock: lastBlock?.[0]?.thorchain,
-                  }),
+                  value: (
+                    <Box className="gap-x-2" center>
+                      <Tooltip
+                        iconName="infoCircle"
+                        content={t('views.thorname.expirationNote', {
+                          block: expire,
+                        })}
+                      />
+                      <Typography>
+                        {getThornameExpireDate({
+                          expire,
+                          lastThorchainBlock: lastBlock?.[0]?.thorchain,
+                        })}
+                      </Typography>
+                    </Box>
+                  ),
                 },
                 { label: t('views.thorname.owner'), value: owner },
                 ...entries.map(({ address, chain }) => ({

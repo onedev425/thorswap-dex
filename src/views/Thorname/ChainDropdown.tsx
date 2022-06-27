@@ -19,16 +19,21 @@ import {
 } from 'components/Atomic'
 import { DropdownMenuItem } from 'components/Atomic/Dropdown/types'
 
-// @ts-expect-error Remo
+import { IS_STAGENET } from 'settings/config'
+
+// @ts-expect-error Remove after Terra purge
 export const thornameChainIcons: Record<SupportedChain, IconName> = {
   [THORChain]: 'thor',
   [BTCChain]: 'bitcoin',
-  GAIA: 'gaia',
   [BNBChain]: 'bnb',
   [ETHChain]: 'eth',
   [BCHChain]: 'bch',
   [DOGEChain]: 'doge',
   [LTCChain]: 'ltc',
+}
+
+if (IS_STAGENET) {
+  thornameChainIcons.GAIA = 'gaia'
 }
 
 const CHAIN_ITEMS: DropdownMenuItem[] = Object.entries(thornameChainIcons).map(

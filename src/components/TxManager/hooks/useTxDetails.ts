@@ -491,18 +491,27 @@ const getSendDetails = (txTracker: TxTracker): TxDetails => {
   return txDetails
 }
 
-const getThornameDetails = ({ status, submitTx }: TxTracker): TxDetails => {
+const getThornameDetails = ({
+  type,
+  status,
+  submitTx,
+}: TxTracker): TxDetails => {
   const failed = status === TxTrackerStatus.Failed
   const pending = status !== TxTrackerStatus.Success
+
+  const typeText =
+    type === TxTrackerType.RegisterThorname
+      ? t('txManager.registerThorname')
+      : t('txManager.updateThorname')
 
   const txDetails: TxDetails = [
     {
       status: failed ? 'failed' : pending ? 'pending' : 'success',
       label: failed
-        ? `${t('txManager.registerThorname')} ${t('txManager.failed')}`
+        ? `${typeText} ${t('txManager.failed')}`
         : pending
-        ? t('txManager.registerThorname')
-        : `${t('txManager.registerThorname')} ${t('txManager.success')}`,
+        ? typeText
+        : `${typeText} ${t('txManager.success')}`,
       url: submitTx.txID
         ? multichain.getExplorerTxUrl(Chain.THORChain, submitTx.txID)
         : '',

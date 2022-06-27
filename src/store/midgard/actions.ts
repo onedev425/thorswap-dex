@@ -174,11 +174,8 @@ export const pollTx = createAsyncThunk(
       txId = txId.slice(2)
     }
 
-    const response = await midgardApi.getActions({
-      limit: 1,
-      offset: 0,
-      txId,
-    })
+    // @ts-expect-error TOOD: fix midgard types
+    const response = await midgardApi.getActions({ txId })
     return response
   },
 )
