@@ -5,6 +5,10 @@ on:
     branches:
       - stagenet
 
+concurrency:
+  group: stagenet-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build

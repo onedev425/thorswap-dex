@@ -6,10 +6,17 @@ import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfil
 import { defineConfig, splitVendorChunkPlugin } from 'vite'
 import { resolve } from 'path'
 import { visualizer } from 'rollup-plugin-visualizer'
+import wasm from "vite-plugin-wasm";
+import topLevelAwait from "vite-plugin-top-level-await";
 
-export default defineConfig({
-  define: { 'process.env': {} },
+
+export default defineConfig(({ mode }) => ({
+  define: {
+    'process.env': {}
+  },
   plugins: [
+    wasm(),
+    topLevelAwait(),
     rewriteAll(),
     splitVendorChunkPlugin(),
     react(),
@@ -30,30 +37,46 @@ export default defineConfig({
       utils: resolve(__dirname, 'src/utils'),
       views: resolve(__dirname, 'src/views'),
 
-      crypto: 'crypto-browserify',
+
+      process: 'process/browser',
+      'safe-buffer': 'buffer',
       os: 'os-browserify/browser',
       'readable-stream': 'vite-compatible-readable-stream',
       stream: 'vite-compatible-readable-stream',
-      util: 'util',
+      crypto: 'crypto-browserify',
+
+      /**
+       * To operate locally on external libraries you can copy paste their `/src`
+       * file and use like below:
+       *
+       * '@thorswap-lib/multichain-sdk': resolve(__dirname, 'src/multichain'),
+       * '@thorswap-lib/multichain-ledger': resolve(__dirname, 'src/ledger'),
+       */
     },
   },
   build: {
-    commonjsOptions: { ignoreTryCatch: false, transformMixedEsModules: true },
+    commonjsOptions: { transformMixedEsModules: true },
     minify: 'esbuild',
     outDir: 'build',
     reportCompressedSize: true,
     sourcemap: false,
     rollupOptions: {
-      plugins: [nodePolyfills({ sourceMap: false })],
+      plugins: [nodePolyfills({ include: ['events'], sourceMap: false })],
     },
   },
   optimizeDeps: {
+    /**
+     * Comment out libraries that you are working on locally
+     * This option will prevent reloading those files without running `yarn vite optimize`
+     */
+    include: [
+      '@binance-chain/javascript-sdk',
+      'crypto-browserify',
+    ],
     esbuildOptions: {
-      define: {
-        global: 'globalThis',
-      },
+      define: { global: 'globalThis' },
       reserveProps: /(BigInteger|ECPair|Point)/,
-      plugins: [NodeGlobalsPolyfillPlugin({ buffer: true })],
+      plugins: [NodeGlobalsPolyfillPlugin({ define: true, buffer: true })],
     },
   },
-})
+}))

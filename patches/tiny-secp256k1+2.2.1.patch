@@ -1,0 +1,11 @@
+diff --git a/node_modules/tiny-secp256k1/lib/rand.js b/node_modules/tiny-secp256k1/lib/rand.js
+index 8730c0d..ac5e9ed 100644
+--- a/node_modules/tiny-secp256k1/lib/rand.js
++++ b/node_modules/tiny-secp256k1/lib/rand.js
+@@ -1,4 +1,4 @@
+-import { randomBytes } from "crypto";
++import * as crypto from "crypto";
+ export function generateInt32() {
+-    return randomBytes(4).readInt32BE(0);
++    return crypto.randomBytes(4).readInt32BE(0);
+ }
