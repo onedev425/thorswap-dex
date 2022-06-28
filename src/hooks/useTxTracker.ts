@@ -119,7 +119,6 @@ export const useTxTracker = () => {
     [updateTxTracker, processSubmittedTx],
   )
 
-  // start polling a transaction
   const setTxFailed = useCallback(
     (uuid: string) => {
       updateTxTracker({ uuid, txTracker: { status: TxTrackerStatus.Failed } })
@@ -127,11 +126,22 @@ export const useTxTracker = () => {
     [updateTxTracker],
   )
 
+  const setTxSuccess = useCallback(
+    (uuid: string, submitTx?: SubmitTx) => {
+      updateTxTracker({
+        uuid,
+        txTracker: { ...submitTx, status: TxTrackerStatus.Success },
+      })
+    },
+    [updateTxTracker],
+  )
+
   return {
-    submitTransaction,
-    pollTransaction,
     clearTxTrackers,
+    pollTransaction,
     setTxFailed,
+    setTxSuccess,
+    submitTransaction,
     subscribeEthTx,
   }
 }

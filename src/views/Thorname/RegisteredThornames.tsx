@@ -8,6 +8,7 @@ import { Box, Collapse, Icon, Tooltip, Typography } from 'components/Atomic'
 import { HighlightCard } from 'components/HighlightCard'
 import { HoverIcon } from 'components/HoverIcon'
 import { InfoTable } from 'components/InfoTable'
+import { Scrollbar } from 'components/Scrollbar'
 
 import { useMidgard } from 'store/midgard/hooks'
 
@@ -34,61 +35,69 @@ export const RegisteredThornames = memo(({ editThorname }: Props) => {
         {t('views.thorname.myThornames')}
       </Typography>
 
-      {thornames.map(({ thorname, expire, entries, owner }) => (
-        <HighlightCard
-          className="!p-0 my-2"
-          key={`${thorname}-${owner}-${expire}`}
-        >
-          <Collapse
-            className="!py-1"
-            shadow={false}
-            title={
-              <Box flex={1} row justify="between" alignCenter className="gap-2">
-                <Typography>{thorname}</Typography>
-                <HoverIcon
-                  iconName="edit"
-                  size={16}
-                  onClick={() => editThorname(thorname)}
-                />
-              </Box>
-            }
+      <Scrollbar maxHeight="100%">
+        {thornames.map(({ thorname, expire, entries, owner }) => (
+          <HighlightCard
+            className="!p-0 my-2"
+            key={`${thorname}-${owner}-${expire}`}
           >
-            <InfoTable
-              items={[
-                {
-                  label: t('views.thorname.expire'),
-                  value: (
-                    <Box className="gap-x-2" center>
-                      <Tooltip
-                        iconName="infoCircle"
-                        content={t('views.thorname.expirationNote', {
-                          block: expire,
-                        })}
+            <Collapse
+              className="!py-1"
+              shadow={false}
+              title={
+                <Box
+                  flex={1}
+                  row
+                  justify="between"
+                  alignCenter
+                  className="gap-2"
+                >
+                  <Typography>{thorname}</Typography>
+                  <HoverIcon
+                    iconName="edit"
+                    size={16}
+                    onClick={() => editThorname(thorname)}
+                  />
+                </Box>
+              }
+            >
+              <InfoTable
+                items={[
+                  {
+                    label: t('views.thorname.expire'),
+                    value: (
+                      <Box className="gap-x-2" center>
+                        <Tooltip
+                          iconName="infoCircle"
+                          content={t('views.thorname.expirationNote', {
+                            block: expire,
+                          })}
+                        />
+                        <Typography>
+                          {getThornameExpireDate({
+                            expire,
+                            lastThorchainBlock: lastBlock?.[0]?.thorchain,
+                          })}
+                        </Typography>
+                      </Box>
+                    ),
+                  },
+                  { label: t('views.thorname.owner'), value: owner },
+                  ...entries.map(({ address, chain }) => ({
+                    label: (
+                      <Icon
+                        className="px-2"
+                        name={thornameChainIcons[chain as SupportedChain]}
                       />
-                      <Typography>
-                        {getThornameExpireDate({
-                          expire,
-                          lastThorchainBlock: lastBlock?.[0]?.thorchain,
-                        })}
-                      </Typography>
-                    </Box>
-                  ),
-                },
-                { label: t('views.thorname.owner'), value: owner },
-                ...entries.map(({ address, chain }) => ({
-                  label: (
-                    <Icon
-                      className="px-2"
-                      name={thornameChainIcons[chain as SupportedChain]}
-                    />
-                  ),
-                  value: shortenAddress(address, 15),
-                })),
-              ]}
-            />
-          </Collapse>
-        </HighlightCard>
-      ))}
+                    ),
+                    value: shortenAddress(address, 15),
+                  })),
+                ]}
+              />
+            </Collapse>
+          </HighlightCard>
+        ))}
+      </Scrollbar>
     </Box>
   )
 })

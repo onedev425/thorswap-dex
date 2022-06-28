@@ -81,7 +81,8 @@ const reducer = (state: typeof initialState, { type, payload }: Actions) => {
 }
 
 export const useThornameLookup = (owner?: string) => {
-  const { submitTransaction, setTxFailed, pollTransaction } = useTxTracker()
+  const { submitTransaction, setTxFailed, setTxSuccess, pollTransaction } =
+    useTxTracker()
   const prevOwner = usePrevious(owner)
   const [{ available, chain, details, loading, thorname, years }, dispatch] =
     useReducer(reducer, initialState)
@@ -98,29 +99,21 @@ export const useThornameLookup = (owner?: string) => {
     dispatch({ type: 'setYears', payload: years })
   }, [])
 
-  const setDetails = useCallback(
-    ({
-      details,
-      available,
-    }: {
-      details: THORNameDetails
-      available: boolean
-    }) => {
-      dispatch({ type: 'setDetails', payload: { details, available } })
-    },
-    [],
-  )
-
   const lookupForTNS = useCallback(
     async (providedThorname?: string) => {
       try {
         dispatch({ type: 'setLoading', payload: true })
         const details = await getThornameDetails(providedThorname || thorname)
 
-        setDetails({
-          details,
-          available: owner ? details.owner === owner : false,
+        dispatch({
+          type: 'setDetails',
+          payload: {
+            details,
+            available: owner ? details.owner === owner : false,
+          },
         })
+
+        return true
       } catch (error: ToDo) {
         const notFound = error?.response?.status === 404
         dispatch({ type: 'setAvailable', payload: notFound })
@@ -128,9 +121,11 @@ export const useThornameLookup = (owner?: string) => {
         if (!notFound) {
           showErrorToast(t('common.defaultErrMsg'))
         }
+
+        return false
       }
     },
-    [owner, setDetails, thorname],
+    [owner, thorname],
   )
 
   const registerThornameAddress = useCallback(
@@ -166,9 +161,20 @@ export const useThornameLookup = (owner?: string) => {
           address,
           name: thorname,
         })
-        pollTransaction({ type, uuid, submitTx: { ...submitTx, txID } })
 
-        dispatch({ type: 'setThorname', payload: '' })
+        /**
+         * TODO: REMOVE THIS PART
+         * Temporary solution for midgard API bug which doesn't return actions for successful TNS registration
+         */
+        setTimeout(async () => {
+          const found = await lookupForTNS(thorname)
+
+          if (found) {
+            setTxSuccess(uuid, submitTx)
+          } else {
+            pollTransaction({ type, uuid, submitTx: { ...submitTx, txID } })
+          }
+        }, 10000)
       } catch (error: ToDo) {
         setTxFailed(uuid)
 
@@ -184,6 +190,8 @@ export const useThornameLookup = (owner?: string) => {
       years,
       submitTransaction,
       chain,
+      lookupForTNS,
+      setTxSuccess,
       pollTransaction,
       setTxFailed,
     ],
