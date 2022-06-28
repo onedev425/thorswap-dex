@@ -7,7 +7,7 @@ import { useDebouncedValue } from 'hooks/useDebounceValue'
 import { getThornameDetails } from 'services/thorname'
 
 export const useAddressForTNS = (address: string) => {
-  const debouncedAddress = useDebouncedValue(address, 500)
+  const debouncedAddress = useDebouncedValue(address, 1200)
   const [loading, setLoading] = useState(false)
   const [TNS, setTNS] =
     useState<Maybe<THORNameDetails & { thorname: string }>>(null)
@@ -15,8 +15,6 @@ export const useAddressForTNS = (address: string) => {
   const lookupForTNS = useCallback(
     async (providedThorname: string) => {
       try {
-        setLoading(true)
-
         const details = await getThornameDetails(providedThorname)
 
         setTNS({ ...details, thorname: providedThorname })
@@ -30,12 +28,25 @@ export const useAddressForTNS = (address: string) => {
   )
 
   useEffect(() => {
-    const [possibleThorname] = debouncedAddress.split('.')
+    const [possibleThorname] = debouncedAddress.toLowerCase().split('.')
 
     if (THORName.isValidName(possibleThorname)) {
+      getThornameDetails(possibleThorname)
+        .then((details) => {
+          setTNS({ ...details, thorname: possibleThorname })
+        })
+        .catch(() => setTNS(null))
+        .finally(() => setLoading(false))
+
       lookupForTNS(possibleThorname.toLowerCase())
     }
   }, [debouncedAddress, lookupForTNS])
+
+  useEffect(() => {
+    if (THORName.isValidName(address)) {
+      setLoading(true)
+    }
+  }, [address])
 
   return { loading, TNS }
 }
