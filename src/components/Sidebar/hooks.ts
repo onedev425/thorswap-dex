@@ -47,13 +47,8 @@ export const useSidebarOptions = () => {
         {
           iconName: 'vthor',
           href: ROUTES.StakeV2,
-          label: t('components.sidebar.vthor'),
-          transform: 'none',
-        },
-        {
-          iconName: 'tradeLightning',
-          href: ROUTES.Stake,
           label: t('components.sidebar.thorStake'),
+          transform: 'none',
         },
         ...vestingItems,
       ],

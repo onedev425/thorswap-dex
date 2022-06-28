@@ -177,7 +177,6 @@ const StakeVThor = () => {
             }}
           />
         </Box>
-
         <Box className="relative self-stretch">
           <Box
             className={classNames(
@@ -257,7 +256,6 @@ const StakeVThor = () => {
             </Box>
           </HighlightCard>
         </Box>
-
         <Card className="!bg-light-bg-primary dark:!bg-dark-gray-light !rounded-2xl self-stretch !py-3 gap-2 justify-between md:px-6">
           <Box className="self-stretch flex-1 md:pl-0" col>
             <Box className="gap-3 self-stretch !mb-3">
@@ -296,7 +294,6 @@ const StakeVThor = () => {
             </Box>
           </Box>
         </Card>
-
         <Card className="self-stretch align-center !bg-light-bg-primary dark:!bg-dark-gray-light !rounded-2xl !py-2.5">
           <Box className="flex-1 gap-2" alignCenter justify="between">
             <Box className="gap-2" center>

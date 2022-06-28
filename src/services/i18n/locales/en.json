@@ -367,7 +367,10 @@
       "stakingRewardsToDate": "Staking Rewards Earned to date",
       "stakingRewardsPerMonth": "Estimated Monthly Rewards",
       "moreStats": "More Stats",
-      "addVTHOR": "Add vTHOR"
+      "addVTHOR": "Add vTHOR",
+      "stakeInfoTitle": "You have staked $THOR in v1 contract",
+      "stakeInfoDescription": "You have staked $THOR in v1 contract. Please unstake it and use vTHOR stake. ",
+      "goToUnstake": "Go to unstake"
     },
     "stats": {
       "dailyBlockRewards": "Daily Block Rewards",
