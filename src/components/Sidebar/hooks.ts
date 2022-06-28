@@ -46,9 +46,8 @@ export const useSidebarOptions = () => {
       children: [
         {
           iconName: 'vthor',
-          href: ROUTES.StakeV2,
-          label: t('components.sidebar.thorStake'),
-          transform: 'none',
+          href: ROUTES.Stake,
+          label: t('components.sidebar.staking'),
         },
         ...vestingItems,
       ],
@@ -122,6 +121,7 @@ export const useSidebarOptions = () => {
           {
             iconName: 'cloud',
             href: ROUTES.Nodes,
+            transform: 'none',
             label: t('components.sidebar.thornode'),
           },
         ],

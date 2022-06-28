@@ -15,6 +15,8 @@ import { useFormatPrice } from 'helpers/formatPrice'
 import { toOptionalFixed } from 'helpers/number'
 import { fetchVthorApr } from 'helpers/staking'
 
+import { ROUTES } from 'settings/constants'
+
 type Props = {
   ethAddress?: string
 }
@@ -66,7 +68,7 @@ export const VThorInfo = memo(({ ethAddress }: Props) => {
           content={
             <>
               {t('views.stakingVThor.stakeInfoDescription')}
-              <Link className="text-chain-terra" to={'/stake'}>
+              <Link className="text-chain-terra" to={ROUTES.LegacyStake}>
                 {t('views.stakingVThor.goToUnstake')}
               </Link>
             </>
@@ -75,6 +77,7 @@ export const VThorInfo = memo(({ ethAddress }: Props) => {
           type="warn"
         />
       )}
+
       <InfoTip type="info">
         <Box className="self-stretch gap-3 px-3 py-1" col>
           <Box
