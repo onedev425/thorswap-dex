@@ -20,20 +20,24 @@ export const useFetchThornames = () => {
     if (!thorAddress || fetching.current) return
     fetching.current = true
 
-    const thornames = await getAddressThornames(thorAddress)
-    const thornamesDetails = await Promise.all(
-      thornames.map(async (name) => ({
-        ...(await getThornameDetails(name)),
-        thorname: name,
-      })),
-    )
+    try {
+      const thornames = await getAddressThornames(thorAddress)
+      const thornamesDetails = await Promise.all(
+        thornames.map(async (name) => {
+          const details = await getThornameDetails(name)
 
-    fetching.current = false
-    setRegisteredThornames(thornamesDetails)
+          return { ...details, thorname: name }
+        }),
+      )
+
+      setRegisteredThornames(thornamesDetails)
+    } finally {
+      fetching.current = false
+    }
   }, [setRegisteredThornames, thorAddress])
 
   useEffect(() => {
-    if (thorAddress && !registeredThornames) {
+    if (thorAddress) {
       fetchRegisteredThornames()
     } else if (!thorAddress && registeredThornames) {
       setRegisteredThornames(null)

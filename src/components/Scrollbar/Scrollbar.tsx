@@ -6,6 +6,7 @@ import { useTheme } from '../Theme/ThemeContext'
 
 type ScrollbarProps = {
   children: ReactNode
+  secondary?: boolean
   scrollClassName?: string
   className?: string
   height?: string
@@ -21,10 +22,15 @@ export const Scrollbar = ({
   children,
   className,
   autoHeight,
+  secondary,
   scrollClassName,
 }: ScrollbarProps) => {
   const { isLight } = useTheme()
   const useAutoHeight = !!maxHeight || !!minHeight || autoHeight
+  const [light, dark] = useMemo(
+    () => (secondary ? ['#F0F1F3', '#121526'] : ['#afb6cc', '#29354a']),
+    [secondary],
+  )
 
   const renderThumbnail = useCallback(
     ({ style }: { style: Record<string, string> }) => (
@@ -33,12 +39,12 @@ export const Scrollbar = ({
         style={{
           ...style,
           borderRadius: '4px',
-          backgroundColor: isLight ? '#afb6cc' : '#29354a',
+          backgroundColor: isLight ? light : dark,
           width: '4px',
         }}
       />
     ),
-    [isLight, scrollClassName],
+    [dark, isLight, light, scrollClassName],
   )
 
   const style = useMemo(
