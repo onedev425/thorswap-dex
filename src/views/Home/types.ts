@@ -9,7 +9,6 @@ export enum PoolTypeOption {
 export const poolTypeOptions = [
   PoolTypeOption.All,
   PoolTypeOption.Native,
-  PoolTypeOption.Terra,
   PoolTypeOption.ERC20,
   PoolTypeOption.BEP2,
 ]

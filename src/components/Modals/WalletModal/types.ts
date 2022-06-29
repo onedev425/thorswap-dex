@@ -57,7 +57,6 @@ export const availableChainsByWallet: Record<string, SupportedChain[]> = {
   TrustWallet: [Chain.THORChain, Chain.Ethereum, Chain.Binance],
   Xdefi: [
     Chain.THORChain,
-    Chain.Terra,
     Chain.Bitcoin,
     Chain.Ethereum,
     Chain.Binance,

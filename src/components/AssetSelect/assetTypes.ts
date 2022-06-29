@@ -17,7 +17,6 @@ export const assetFilterTypes1: AssetFilterType[] = [
   { value: 'all', label: 'All' },
   { value: 'synth', label: 'Synth' },
   { value: 'native', label: 'Native' },
-  { value: 'terra', label: 'Terra' },
   { value: 'erc20', label: 'ERC20' },
   { value: 'bep2', label: 'BEP2' },
 ]
