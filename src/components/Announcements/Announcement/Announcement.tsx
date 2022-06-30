@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { memo, ReactNode } from 'react'
 
 import { chainToSigAsset } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
@@ -43,100 +43,107 @@ const announcementBorderClasses: Record<AnnouncementType, string> = {
   error: 'border-red',
 }
 
-export const Announcement = ({
-  announcement: {
-    type = AnnouncementType.Primary,
-    message,
-    title,
-    chain,
-    link,
-    key,
-  },
-  rightComponent,
-  dismissed,
-}: AnnouncementProps) => {
-  const { dismissAnnouncement } = useDismissedAnnouncements()
-  const { seeAnnouncements } = useSeenAnnouncements()
-  if (!message && !title) {
-    return null
-  }
+export const Announcement = memo(
+  ({
+    announcement: {
+      type = AnnouncementType.Primary,
+      message,
+      title,
+      chain,
+      link,
+      key,
+    },
+    rightComponent,
+    dismissed,
+  }: AnnouncementProps) => {
+    const { dismissAnnouncement } = useDismissedAnnouncements()
+    const { seeAnnouncements } = useSeenAnnouncements()
 
-  return (
-    <Box
-      center
-      className={classNames(
-        'rounded-2xl px-12 py-3.5 md:w-auto relative',
-        genericBgClasses.primary,
-        { '!px-4': dismissed && !chain },
-        { '!pr-4': dismissed && chain },
-      )}
-    >
-      {chain && (
-        <Box className="absolute left-4">
-          <AssetIcon size={26} asset={chainToSigAsset(chain)} />
-        </Box>
-      )}
-      <Box
-        className={classNames(
-          'absolute inset-0 rounded-2xl opacity-40',
-          dismissed
-            ? 'bg-opacity-30'
-            : 'bg-gradient-to-r from-transparent to-transparent',
-          dismissed
-            ? dissmissedAnnouncementClasses[type]
-            : announcementClasses[type],
-        )}
-      />
-      <Box
-        className={classNames(
-          'absolute inset-0 border border-solid rounded-2xl opacity-50',
-          announcementBorderClasses[type],
-        )}
-      />
+    if (!message && !title) {
+      return null
+    }
 
+    return (
       <Box
-        className={classNames('z-0', dismissed ? 'textl-left' : 'text-center')}
-        col
+        center
+        className={classNames(
+          'rounded-2xl px-12 py-3.5 md:w-auto relative',
+          genericBgClasses.primary,
+          { '!px-4': dismissed && !chain },
+          { '!pr-4': dismissed && chain },
+        )}
       >
-        {!!title && (
-          <Typography
-            variant={dismissed ? 'body' : 'subtitle1'}
-            fontWeight="bold"
-          >
-            {title}
-          </Typography>
+        {chain && (
+          <Box className="absolute left-4">
+            <AssetIcon size={26} asset={chainToSigAsset(chain)} />
+          </Box>
         )}
-        {!!message && (
-          <Typography
-            variant={dismissed ? 'caption' : 'body'}
-            fontWeight={dismissed ? 'normal' : undefined}
-          >
-            {message}{' '}
-            {!!link && link.url && (
-              <Link
-                className="text-btn-primary hover:underline"
-                to={link?.url || ''}
-              >
-                {link.name || t('common.learnMore')}
-              </Link>
-            )}
-          </Typography>
-        )}
-      </Box>
-      {!dismissed && (
-        <Box className="absolute right-2 top-2">
-          <HoverIcon
-            iconName="xCircle"
-            tooltip={t('common.dismiss')}
-            color="secondary"
-            onClick={() => {
-              dismissAnnouncement(key || '')
-              seeAnnouncements(key || '')
-            }}
-          />
+        <Box
+          className={classNames(
+            'absolute inset-0 rounded-2xl opacity-40',
+            dismissed
+              ? 'bg-opacity-30'
+              : 'bg-gradient-to-r from-transparent to-transparent',
+            dismissed
+              ? dissmissedAnnouncementClasses[type]
+              : announcementClasses[type],
+          )}
+        />
+        <Box
+          className={classNames(
+            'absolute inset-0 border border-solid rounded-2xl opacity-50',
+            announcementBorderClasses[type],
+          )}
+        />
+
+        <Box
+          className={classNames(
+            'z-0',
+            dismissed ? 'textl-left' : 'text-center',
+          )}
+          col
+        >
+          {!!title && (
+            <Typography
+              variant={dismissed ? 'body' : 'subtitle1'}
+              fontWeight="bold"
+            >
+              {title}
+            </Typography>
+          )}
+
+          {!!message && (
+            <Typography
+              variant={dismissed ? 'caption' : 'body'}
+              fontWeight={dismissed ? 'normal' : undefined}
+            >
+              {`${message} `}
+              {!!link?.url && (
+                <Link
+                  className="text-btn-secondary dark:text-btn-primary hover:underline"
+                  to={link.url}
+                >
+                  {link.name || t('common.learnMore')}
+                </Link>
+              )}
+            </Typography>
+          )}
         </Box>
-      )}
-      {rightComponent ? rightComponent : null}
-    </Box>
-  )
-}
+        {!dismissed && (
+          <Box className="absolute right-2 top-2">
+            <HoverIcon
+              iconName="xCircle"
+              tooltip={t('common.dismiss')}
+              color="secondary"
+              onClick={() => {
+                dismissAnnouncement(key || '')
+                seeAnnouncements(key || '')
+              }}
+            />
+          </Box>
+        )}
+        {rightComponent ? rightComponent : null}
+      </Box>
+    )
+  },
+)

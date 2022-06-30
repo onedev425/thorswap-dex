@@ -21,6 +21,8 @@ export const AnnouncementsPopover = () => {
   }
   const announcementsToShow = [...fresh, ...dismissed]
 
+  const unreadAnnouncementsCount = all.length - seen.length
+
   return (
     <Popover
       onClose={onClose}
@@ -32,12 +34,14 @@ export const AnnouncementsPopover = () => {
           startIcon={<Icon name="bell" size={isMdActive ? 28 : 22} />}
           tooltip={t('components.announcements.announcements')}
         >
-          {all.length - seen.length > 0 && (
+          {unreadAnnouncementsCount > 0 && (
             <Box
               center
               className="absolute bg-red rounded-full w-4 h-4 right-3 top-1"
             >
-              {all.length - seen.length}
+              <Typography variant="caption-xs" className="text-white">
+                {unreadAnnouncementsCount}
+              </Typography>
             </Box>
           )}
         </Button>
