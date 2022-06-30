@@ -11,6 +11,7 @@ export { SwitchToggle } from './SwitchToggle'
 export { Table } from './Table/Table'
 export { Tooltip, TooltipPortal } from './Tooltip'
 export { Typography } from './Typography'
+export { Range } from './Range'
 
 export * from './Dropdown'
 export * from './Icon'

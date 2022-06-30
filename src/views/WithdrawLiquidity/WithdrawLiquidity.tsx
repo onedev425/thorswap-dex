@@ -651,7 +651,6 @@ const WithdrawPanel = ({
         setTxFailed(trackId)
 
         // TODO: better error translation
-        // const description = translateErrorMsg(error?.toString())
         showErrorToast(t('notification.submitTxFailed'), error?.toString())
       }
     }
