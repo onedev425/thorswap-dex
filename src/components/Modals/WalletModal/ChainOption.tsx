@@ -28,6 +28,8 @@ export const ChainOption = memo(
     const isSelected = pendingChains.includes(chain)
     const chainName = useMemo(() => {
       switch (chain) {
+        case Chain.THORChain:
+          return 'RUNE'
         case Chain.Cosmos:
           return 'COSMOS'
         default:
