@@ -605,7 +605,7 @@
       "ownedByYou": "آپ کی ملکیت میں",
       "owner": "مالک",
       "purchase": "خریداری",
-      "registerFee": "رجسٹر فیس",
+      "registrationFee": "رجسٹر فیس",
       "updateFee": "",
       "registerSuccess": "THORName %{thorname}.%{chain} کامیابی کے ساتھ رجسٹر ہو گیا",
       "myThornames": "",

@@ -99,7 +99,7 @@ export const useThornameInfoItems = ({
             {
               label: details
                 ? t('views.thorname.updateFee')
-                : t('views.thorname.registerFee'),
+                : t('views.thorname.registrationFee'),
               value: (
                 <Box center className="gap-x-2">
                   <AssetIcon size="tiny" asset={Asset.RUNE()} />

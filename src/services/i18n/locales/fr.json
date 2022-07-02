@@ -605,7 +605,7 @@
       "ownedByYou": "Owned by you",
       "owner": "Owner",
       "purchase": "Purchase",
-      "registerFee": "Register Fee",
+      "registrationFee": "Register Fee",
       "updateFee": "Update Fee",
       "registerSuccess": "THORName %{thorname}.%{chain} successfully registered",
       "myThornames": "My THORnames",

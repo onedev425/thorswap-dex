@@ -605,7 +605,7 @@
       "ownedByYou": "Owned by you",
       "owner": "Owner",
       "purchase": "购买",
-      "registerFee": "注册费",
+      "registrationFee": "注册费",
       "updateFee": "Update Fee",
       "registerSuccess": "THORName %{thorname}  注册成功",
       "myThornames": "My THORnames",

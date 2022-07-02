@@ -605,7 +605,7 @@
       "ownedByYou": "Em sua posse",
       "owner": "Proprietário",
       "purchase": "Compra",
-      "registerFee": "Taxa de registro",
+      "registrationFee": "Taxa de registro",
       "updateFee": "",
       "registerSuccess": "THORName %{thorname}.%{chain} registrado com êxito",
       "myThornames": "",

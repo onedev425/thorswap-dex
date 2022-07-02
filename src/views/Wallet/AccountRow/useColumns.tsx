@@ -172,7 +172,7 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
                 />
               }
               disabled={chain === SOLChain}
-              tooltip={t('common.comingSoon')}
+              tooltip={chain === SOLChain ? t('common.comingSoon') : undefined}
               onClick={() => navigate(getSwapRoute(value))}
             >
               {isLgActive ? t('common.swap') : null}

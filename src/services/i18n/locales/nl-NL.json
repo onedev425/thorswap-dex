@@ -605,7 +605,7 @@
       "ownedByYou": "Owned by you",
       "owner": "Owner",
       "purchase": "Aankopen",
-      "registerFee": "Registratiekosten",
+      "registrationFee": "Registratiekosten",
       "updateFee": "Update Fee",
       "registerSuccess": "THORName %{thorname} is succesvol geregistreerd.",
       "myThornames": "My THORnames",

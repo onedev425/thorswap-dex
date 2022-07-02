@@ -202,7 +202,7 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
             label={t('common.swap')}
             onClick={() => navigate(getSwapRoute(sigAsset))}
             disabled={chain === SOLChain}
-            tooltip={t('common.comingSoon')}
+            tooltip={chain === SOLChain ? t('common.comingSoon') : undefined}
           />
         </Box>
 
