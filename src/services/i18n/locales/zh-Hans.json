@@ -1,8 +1,8 @@
 {
   "common": {
     "THORSwap": "THORSwap",
-    "update": "Update",
-    "thorswapDescription": "THORSwap s世界上第一个基于 THORChain ($RUNE :rune~1: ) 的跨链 Multichain DEX 去中心化交易所",
+    "update": "更新",
+    "thorswapDescription": "THORSwap 是全球第一个基于 THORChain 的跨链去中心化交易所",
     "APY": "APY",
     "APR": "APR",
     "addLiquidity": "添加流动性",
@@ -65,7 +65,7 @@
     "expertModeTooltip": "在专家模式下，您能够以动态比例汇集RUNE+代币入流动池。",
     "customRecipientTooltip": "将资产接收到您自定义的地址。",
     "recipientAddress": "收款人地址",
-    "thornameOrRecipient": "THORName or Recipient Address",
+    "thornameOrRecipient": "THORName 或 收款人地址",
     "addressCopied": "地址已复制",
     "here": "在此",
     "password": "密码",
@@ -104,10 +104,10 @@
     "upgradeRune": "升级 Rune",
     "upgradeChainRune": "升级 %{chain} RUNE",
     "amount": "数额",
-    "comingSoon": "Coming Soon",
-    "dismiss": "Dismiss",
-    "deleteAll": "Delete All",
-    "allCaughtUp": "You're all Caught up!"
+    "comingSoon": "即将推出",
+    "dismiss": "撤销",
+    "deleteAll": "全部删除",
+    "allCaughtUp": "所有信息均已阅读"
   },
   "pendingLiquidity": {
     "complete": "完成",
@@ -139,8 +139,8 @@
     "showPools": "显示精选流动池"
   },
   "txManager": {
-    "registerThorname": "Register THORName",
-    "updateThorname": "Update THORName",
+    "registerThorname": "注册 THORName",
+    "updateThorname": "更新 THORName",
     "approve": "授权",
     "swap": "兑换",
     "addLiquidity": "添加流动性",
@@ -154,7 +154,7 @@
     "redeem": "兑换",
     "receive": "接收",
     "failed": "失败了",
-    "success": "Success",
+    "success": "成功",
     "stake": "质押",
     "claim": "领取",
     "unstake": "解除质押",
@@ -194,14 +194,14 @@
   },
   "components": {
     "announcements": {
-      "announcements": "Announcements",
+      "announcements": "公告栏",
       "thorChainHalted": "THORChain正在进行维护，在此期间将暂停所有的相关服务。",
       "thorChainLPHalted": "THORChain 已暂时中止添加和提取流动性。",
       "thorChainTradeHalted": "THORChain 已暂时中止兑换交易。",
       "chainHalted": "%{chain} 链在THORChain上已暂时中止。临时禁用所有的兑换交易和LP服务。",
       "chainLPHalted": "%{chain} 链暂时中止兑换交易。",
       "chainTradeHalted": "%{chain} 链暂时中止添加和提取流动性。",
-      "tradingGloballyDisabled": "THORChain is currently experiencing technical difficulties. Team is investigating."
+      "tradingGloballyDisabled": "THORChain 目前网络不稳定。团队正在进行调查。"
     },
     "assetSelect": {
       "selectAToken": "选择代币",
@@ -219,16 +219,14 @@
       "addLiquidity": "添加",
       "liquidity": "流动性",
       "joinDiscord": "加入Discord服务器",
-      "pendingLiquidity": "待定",
       "thorswapDocumentation": "THORSwap 文档",
       "send": "发送",
-      "vthor": "vTHOR",
       "thorswapCommunityYoutube": "THORSwap YouTube 频道",
       "trade": "交易",
       "thor": "Thor",
-      "thorStake": "质押",
+      "staking": "质押",
       "submitFeedback": "提交反馈",
-      "thornode": "Thornode",
+      "thornode": "THORNode",
       "wallet": "钱包",
       "stats": "统计",
       "supportInfo": "如果您需要技术支持，请通过我们的官方Discord服务器联系我们（请避免回复任何声称是THORSwap官方人员的讯息--我们绝不会在Discord之外的渠道联络您）。",
@@ -236,7 +234,7 @@
       "expand": "展开",
       "thoryield": "THORYield",
       "thorname": "THORName",
-      "vesting": "Vesting"
+      "vesting": "锁仓兑现"
     },
     "statusDropdown": {
       "capAvailable": "可用资金上限",
@@ -280,15 +278,15 @@
       "bondAmount": "抵押担保额度：",
       "unbondAmount": "抵押解除额度",
       "bond": "抵押担保",
-      "unbond": "Unbond",
-      "leave": "Leave",
+      "unbond": "解除抵押担保",
+      "leave": "取出",
       "complete": "完成",
-      "nodeActions": "Node Actions",
-      "rewards": "Rewards",
-      "slash": "Slash",
+      "nodeActions": "节点操作",
+      "rewards": "奖励",
+      "slash": "Slash 惩罚",
       "detail": {
-        "showDetails": "Show Details",
-        "hideDetails": "Hide Details",
+        "showDetails": "显示详细信息",
+        "hideDetails": "隐藏详细信息",
         "totalBond": "活跃与待机节点的总担保额度",
         "nodeInformation": "节点信息",
         "totalBondTooltip": "节点总担保额度",
@@ -302,8 +300,8 @@
         "ConnectThorChainAgainPlease": "请链接THORChain钱包并再次尝试。",
         "bondingAPY": "抵押担保 APY",
         "InvalidNodeAction": "无效的节点操作",
-        "InvalidNodeAddress": "Invalid Node Address",
-        "CorrectNodeAddress": "Please input the valid node address",
+        "InvalidNodeAddress": "节点地址无效",
+        "CorrectNodeAddress": "请输入有效的节点地址",
         "activeNodeCount": "活跃节点数",
         "AddressDonNotMatch": "节点担保人地址与您的地址不匹配",
         "dailyBondRewards": "每日担保奖励",
@@ -367,7 +365,10 @@
       "stakingRewardsToDate": "质押奖励总额",
       "stakingRewardsPerMonth": "奖励预估 (月)",
       "moreStats": "更多数据",
-      "addVTHOR": "添加 vTHOR"
+      "addVTHOR": "添加 vTHOR",
+      "stakeInfoTitle": "您的 $THOR 正在V1合约质押",
+      "stakeInfoDescription": "您的 $THOR 尚在V1合约质押。请解除并转移至 $vTHOR 质押合约。",
+      "goToUnstake": "前去解除质押"
     },
     "stats": {
       "dailyBlockRewards": "每日区块奖励",
@@ -432,7 +433,7 @@
       "affiliateFee": "THORSwap 收取的 0.3% 服务费。其75%将重新分配给 vTHOR 持有者。",
       "exchangeFee": "交易费",
       "totalFee": "总费用",
-      "txAssetsFee": "TX Fee Tokens"
+      "txAssetsFee": "燃料费代币"
     },
     "wallet": {
       "wallet": "钱包",
@@ -464,7 +465,7 @@
       "showQRCode": "显示 QR 码",
       "copyAddress": "复制地址",
       "viewKeystorePhrase": "查看 Keystore 助记词",
-      "priceRate": "价格率",
+      "priceRate": "THOR : vTHOR 转换率。此比例将随着质押奖励的积累而改变。",
       "expectedOutput": "预期输出",
       "expectedOutputTooltip": "输出金额基于当前价格率",
       "chart7d": "图表 (7天)"
@@ -562,8 +563,8 @@
       "shareOfPool": "流动池占比",
       "asymmetricPoolNotice0": "您的 %{depositAsset} 在进入流动池后将被重新平衡。这意味着您将持有RUNE和 %{asset} 双面 50：50 的风险。",
       "asymmetricPoolNotice": "您的资产在进入流动池后将被重新平衡。这意味着您将持有RUNE和您提供的代币双面 50：50 的风险。",
-      "existingLpTip": "Your 100 days start now.",
-      "existingLpTipNotice": "You have existing LP position for this Asset. Adding more LP with same address will reset IL protection period, Are you certain you want to add more LP with this address?"
+      "existingLpTip": "您的100天从现在开始。",
+      "existingLpTipNotice": "您已持有此资产的LP，使用此钱包地址添加更多的LP将重置无常损失保护期，您是否确定要在此地址添加更多的LP？"
     },
     "vesting": {
       "vestingThor": "THOR",
@@ -571,14 +572,14 @@
       "claimAmount": "领取额",
       "claimableAmount": "可领取额",
       "cliff": "归属悬崖",
-      "claim": "Claim",
+      "claim": "领取",
       "linearVesting": "线性归属",
       "totalClaimed": "总领取额",
       "totalVested": "总归属额",
       "vestingPeriod": "归属期",
       "vestingStartTime": "归属起始时间",
-      "cliffValue": "%{cliff} Months",
-      "vestingPeriodValue": "%{vestingPeriod} Years"
+      "cliffValue": "%{cliff} 月",
+      "vestingPeriodValue": "%{vestingPeriod} 年"
     },
     "pendingLiquidity": {
       "checkPendingLiquidity": "查看待定的流动性",
@@ -595,26 +596,26 @@
     },
     "thorname": {
       "available": "可注册",
-      "expirationNote": "Given date is only estimate based, actual expiration date may differ. TNS will expire as soon as THORChain block number reaches: %{block}",
+      "expirationNote": "此日期只是预估，实际有效日期可能有所不同。TNS将在THORChain区块数量达到%{block} 时过期。",
       "checkNameAvailability": "检查THORName可用性",
-      "cost": "Cost",
+      "cost": "费用",
       "duration": "年限",
-      "extend": "Extend (in years)",
-      "expire": "Expire",
+      "extend": "延长 (年)",
+      "expire": "有效期",
       "feeOnSale": "出售费用",
-      "ownedByYou": "Owned by you",
-      "owner": "Owner",
+      "ownedByYou": "由您拥有",
+      "owner": "所有者",
       "purchase": "购买",
       "registrationFee": "注册费",
-      "updateFee": "Update Fee",
+      "updateFee": "更新费用",
       "registerSuccess": "THORName %{thorname}  注册成功",
-      "myThornames": "My THORnames",
+      "myThornames": "我的 THORNames",
       "searchName": "搜索",
       "status": "状态",
-      "thornameSubtitle": "Cross-Chain Wallet Name Service.",
-      "thornameInfo": "THORName BETA: Registrations and Assignment of wallet addresses available (trading coming soon). THORNames are case-insensitive, limited to 30 characters, including a-Z, all numbers 0–9 and -_+",
+      "thornameSubtitle": "跨链钱包域名服务",
+      "thornameInfo": "THORName (内测）: 注册和管理钱包地址（交易/ 转让功能正在开发中）。THORName 不区分大小写，限制在30个字符，包括a-Z，所有数字0-9和-_+。",
       "unavailable": "无法注册",
-      "unavailableForPurchase": "Unavailable for purchase"
+      "unavailableForPurchase": "无法注册"
     }
   },
   "validation": {
@@ -641,7 +642,7 @@
     "invalidL1ChainAddy": "收款人地址并不是有效的 %{chain} 地址, 请再次检查您的地址。",
     "invalidRecipientAddy": "收款人地址无效",
     "invalidRecipientAddyDesc": "收款人地址应为有效地址",
-    "invalidTHORName": "Invalid THORName",
+    "invalidTHORName": "THORName 无效",
     "ledgerFailed": "连接 %{chain} Ledger #%{index} 失败",
     "metamaskFailed": "连接 MetaMask 钱包失败",
     "notAvailableDeposit": "无法添加",

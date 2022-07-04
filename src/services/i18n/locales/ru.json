@@ -219,14 +219,12 @@
       "addLiquidity": "Депозит",
       "liquidity": "Ликвидность",
       "joinDiscord": "Зайти в Discord",
-      "pendingLiquidity": "Ожидающий",
       "thorswapDocumentation": "Документация THORSwap",
       "send": "Отправить ",
-      "vthor": "",
       "thorswapCommunityYoutube": "YouTube сообщества THORSwap",
       "trade": "Торговля",
       "thor": "Thor",
-      "thorStake": "Стейкать",
+      "staking": "",
       "submitFeedback": "Оставить отзыв",
       "thornode": "Thornode",
       "wallet": "Кошелёк",
@@ -367,7 +365,10 @@
       "stakingRewardsToDate": "",
       "stakingRewardsPerMonth": "",
       "moreStats": "",
-      "addVTHOR": ""
+      "addVTHOR": "",
+      "stakeInfoTitle": "",
+      "stakeInfoDescription": "",
+      "goToUnstake": ""
     },
     "stats": {
       "dailyBlockRewards": "Ежедневные награды за блок",

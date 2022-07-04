@@ -219,14 +219,12 @@
       "addLiquidity": "ដាក់រូបិយប័ណ្ណ",
       "liquidity": "រូបិយប័ណ្ណ",
       "joinDiscord": "ចូលរួមជាសមាជិក Discord Server",
-      "pendingLiquidity": "កំពុងដំណើរការ",
       "thorswapDocumentation": "ឯកសារ THORSwap",
       "send": "បញ្ជូន",
-      "vthor": "vTHOR",
       "thorswapCommunityYoutube": " សហគមន៍ YouTube របស់ THORSwap",
       "trade": "ពាណិជ្ជកម្ម",
       "thor": "Thor",
-      "thorStake": "ដាក់ភាគហ៊ុន",
+      "staking": "Staking",
       "submitFeedback": "ផ្ញើមតិកែលម្អ",
       "thornode": "សេវា Thornode",
       "wallet": "កាបូប Electronic",
@@ -367,7 +365,10 @@
       "stakingRewardsToDate": "Staking Rewards Earned to date",
       "stakingRewardsPerMonth": "Estimated Monthly Rewards",
       "moreStats": "More Stats",
-      "addVTHOR": "Add vTHOR"
+      "addVTHOR": "Add vTHOR",
+      "stakeInfoTitle": "You have staked $THOR in v1 contract",
+      "stakeInfoDescription": "You have staked $THOR in v1 contract. Please unstake it and use vTHOR stake. ",
+      "goToUnstake": "Go to unstake"
     },
     "stats": {
       "dailyBlockRewards": "រង្វាន់ប្លុកប្រចាំថ្ងៃ",

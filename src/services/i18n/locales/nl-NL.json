@@ -65,7 +65,7 @@
     "expertModeTooltip": "U kan RUNE + Asset poolen met een dynamisch ratio via Expert Mode.",
     "customRecipientTooltip": "Asset ontvangen op aangepast adres",
     "recipientAddress": "Adres Ontvanger",
-    "thornameOrRecipient": "THORName or Recipient Address",
+    "thornameOrRecipient": "THORName of Adres Ontvanger",
     "addressCopied": "Adres gekopieerd",
     "here": "Hier",
     "password": "Wachtwoord",
@@ -104,10 +104,10 @@
     "upgradeRune": "Rune upgraden",
     "upgradeChainRune": "%{chain} RUNE Upgraden",
     "amount": "Bedrag",
-    "comingSoon": "Coming Soon",
-    "dismiss": "Dismiss",
-    "deleteAll": "Delete All",
-    "allCaughtUp": "You're all Caught up!"
+    "comingSoon": "Binnenkort Beschikbaar",
+    "dismiss": "Verwijder",
+    "deleteAll": "Alles verwijderen",
+    "allCaughtUp": "U bent helemaal up to date!"
   },
   "pendingLiquidity": {
     "complete": "Compleet",
@@ -139,7 +139,7 @@
     "showPools": "Laat aanbevolen pools zien"
   },
   "txManager": {
-    "registerThorname": "Register THORName",
+    "registerThorname": "Registreer THORName",
     "updateThorname": "Update THORName",
     "approve": "Goedkeuren",
     "swap": "Swap",
@@ -154,7 +154,7 @@
     "redeem": "Inwisselen",
     "receive": "Ontvangen",
     "failed": "Mislukt",
-    "success": "Success",
+    "success": "Succes",
     "stake": "Staken",
     "claim": "Claim",
     "unstake": "Unstake",
@@ -194,14 +194,14 @@
   },
   "components": {
     "announcements": {
-      "announcements": "Announcements",
+      "announcements": "Meldingen",
       "thorChainHalted": "THORChain is tijdelijk niet beschikbaar vanwege onderhoud. ",
       "thorChainLPHalted": "Toevoegen en verwijderen van liquiditeit is tijdelijk stopgezet op THORChain.",
       "thorChainTradeHalted": "Handelen is tijdelijk stopgezet op THORChain.",
       "chainHalted": "%{chain} tijdelijk stopgezet op THORChain. Al het handelen, toevoegen en verwijderen is niet beschikbaar.",
       "chainLPHalted": "Handel voor %{chain} tijdelijk niet beschikbaar.",
       "chainTradeHalted": "Toevoegen en verwijderen van liquiditeit op %{chain} is tijdelijk niet beschikbaar.",
-      "tradingGloballyDisabled": "THORChain is currently experiencing technical difficulties. Team is investigating."
+      "tradingGloballyDisabled": "THORChain ondervindt momenteel technische problemen, ons team is dit aan het onderzoeken."
     },
     "assetSelect": {
       "selectAToken": "Selecteer een token",
@@ -219,16 +219,14 @@
       "addLiquidity": "Storting",
       "liquidity": "Liquiditeit",
       "joinDiscord": "Join Discord Server",
-      "pendingLiquidity": "Pending",
       "thorswapDocumentation": "THORSwap documentatie",
       "send": "Stuur",
-      "vthor": "vTHOR",
       "thorswapCommunityYoutube": "THORSwap community op Youtube",
       "trade": "Trade",
       "thor": "Thor",
-      "thorStake": "Staken",
+      "staking": "Staking",
       "submitFeedback": "Feedback sturen",
-      "thornode": "Thornode",
+      "thornode": "THORNode",
       "wallet": "Wallet",
       "stats": "Stats",
       "supportInfo": "Voor technische ondersteuning, neem dan contact met ons op via onze officiële Discord Server (pas op voor iedereen die beweert THORSwap support te zijn - we zullen je nooit DM'en buiten onze Support Desk op Discord).",
@@ -281,14 +279,14 @@
       "unbondAmount": "Unbond Bedrag:",
       "bond": "Bond",
       "unbond": "Unbond",
-      "leave": "Leave",
+      "leave": "Verlaten",
       "complete": "Voltooien",
-      "nodeActions": "Node Actions",
-      "rewards": "Rewards",
+      "nodeActions": "Node Acties",
+      "rewards": "Beloningen",
       "slash": "Slash",
       "detail": {
-        "showDetails": "Show Details",
-        "hideDetails": "Hide Details",
+        "showDetails": "Details Tonen",
+        "hideDetails": "Details Verbergen",
         "totalBond": "Totaal bond bedrag door actieve en standby nodes",
         "nodeInformation": "Node informatie",
         "totalBondTooltip": "Totale bedrag bonded door nodes",
@@ -302,8 +300,8 @@
         "ConnectThorChainAgainPlease": "Gelieve THORChain wallet te verbinden en opnieuw te proberen.",
         "bondingAPY": "Bond APY",
         "InvalidNodeAction": "Ongeldige node actie",
-        "InvalidNodeAddress": "Invalid Node Address",
-        "CorrectNodeAddress": "Please input the valid node address",
+        "InvalidNodeAddress": "Ongeldig Node Adres",
+        "CorrectNodeAddress": "Gelieve een geldig node adres in te geven",
         "activeNodeCount": "Aantal actieve nodes",
         "AddressDonNotMatch": "Adres van node bonder komt niet overeen met uw adres",
         "dailyBondRewards": "Dagelijkse Bond Beloningen",
@@ -347,7 +345,7 @@
     "stakingVThor": {
       "stakeVThorTitle": "THOR staken voor vTHOR",
       "stakeVThorSubtitle": "Stake vTHOR om staking rewards en trade kortingen te krijgen.",
-      "stakeInfo": "When you stake $THOR (ERC-20), you'll receive $vTHOR - a composable and transferable token that represents your staking position.\n\nYour Stake will automatically receive auto-compounding Staking Rewards consisting of (i) block reward emissions, and (ii) 75% of all THORSwap revenues.\n\nWhen you unstake $THOR, you will receive Staking Rewards proportional to your unstake size.",
+      "stakeInfo": "Wanneer u $THOR (ERC-20) staked zal u $vTHOR ontvangen - een token welke uw staking positie vertegenwoordigt  en verzonden kan worden. \n\nUw stake zal automatisch vergroten door middel van staking rewards welke bestaan uit (i) blokbeloningen, en (ii) 75% van alle THORSwap inkomsten.\n\nWanneer u $THOR unstaked zal u uw staking rewards ontvangen proportioneel aan de unstake grootte.",
       "maximizeYield": "Maximaal opbrengst door THOR vast te zetten voor vTHOR",
       "stakingApy": "Staking APY",
       "yesterdayApr": "APY gisteren",
@@ -367,7 +365,10 @@
       "stakingRewardsToDate": "Staking opbrengsten verdiend tot nu toe",
       "stakingRewardsPerMonth": "Verwachte maandelijkse opbrengsten",
       "moreStats": "Meer stats",
-      "addVTHOR": "vTHOR toevoegen"
+      "addVTHOR": "vTHOR toevoegen",
+      "stakeInfoTitle": "U heeft $THOR staked in het v1 contract",
+      "stakeInfoDescription": "U heeft $THOR staked in het v1 contract. Gelieve dit te unstaken en vTHOR staking te gebruiken.",
+      "goToUnstake": "Ga naar Unstake"
     },
     "stats": {
       "dailyBlockRewards": "Dagelijkse Blok Belonginen",
@@ -432,7 +433,7 @@
       "affiliateFee": "THORSwap rekent een affiliate kost van 0.3%. 75% van deze affiliate kosten worden terug verdeeld onder vTHOR stakers.",
       "exchangeFee": "Service Kosten",
       "totalFee": "Totale Kosten",
-      "txAssetsFee": "TX Fee Tokens"
+      "txAssetsFee": "TX Kosten Tokens"
     },
     "wallet": {
       "wallet": "Wallet",
@@ -464,7 +465,7 @@
       "showQRCode": "QR code tonen",
       "copyAddress": "Adres kopiëren",
       "viewKeystorePhrase": "Keystore seed phrase bekijken",
-      "priceRate": "Prijs",
+      "priceRate": "Prijsratio van THOR en vTHOR, dit wijzigt over tijd gebaseerd op totale staking rewards verzameld door THORSwap. ",
       "expectedOutput": "Verwachte output",
       "expectedOutputTooltip": "Outputbedrag gebaseerd op huidige prijs",
       "chart7d": "Grafiek (7d)"
@@ -501,7 +502,7 @@
       "gasFeeTooltip": "Gas kost gebruikt voor het verzenden van de transactie met behulp van het THORChain protocol",
       "chainFeeTooltip": "Gas kost gebruikt voor het verzenden van %{chain} transactie.",
       "depositAmount": "Stortingsbedrag",
-      "withdrawNotAvailable": "Withdraw not available",
+      "withdrawNotAvailable": "Opname niet beschikbaar",
       "withdrawAmount": "Op te nemen bedrag",
       "poolShareEstimated": "Geschatte pool-aandeel",
       "poolShareTooltip": "Geschat percentage van uw pool-aandeel na het verstrekken van de liquiditeit",
@@ -523,7 +524,7 @@
       "keplr": "Keplr",
       "walletConnect": "WalletConnect",
       "metaMask": "MetaMask",
-      "disableXdefi": "Schakel XDEFI uit",
+      "disableXdefi": "MetaMask (Schakel XDEFI prioriteit uit)",
       "ledger": "Ledger",
       "connectOnboard": "Ethereum Wallets",
       "keystore": "Keystore",
@@ -562,8 +563,8 @@
       "shareOfPool": "Pool aandeel",
       "asymmetricPoolNotice0": "Uw tokens %{depositAsset} zullen worden herverdeeld op het moment van toevoegen aan de pool. Dit betekent dat u een 50:50-blootstelling zult hebben aan zowel RUNE als %{asset}.",
       "asymmetricPoolNotice": "Uw assets worden opnieuw in evenwicht gebracht wanneer u toetreedt tot de pool. Dit betekent dat u een 50:50-blootstelling zult hebben aan zowel RUNE als uw ACTIVA.",
-      "existingLpTip": "Your 100 days start now.",
-      "existingLpTipNotice": "You have existing LP position for this Asset. Adding more LP with same address will reset IL protection period, Are you certain you want to add more LP with this address?"
+      "existingLpTip": "Uw 100 dagen starten nu.",
+      "existingLpTipNotice": "U heeft een bestaande LP positie voor deze asset. Meer toevoegen aan uw LP met de geassocieerde adressen zal de IL bescherming resetten. Wil u verder gaan met toevoegen?"
     },
     "vesting": {
       "vestingThor": "THOR",
@@ -577,8 +578,8 @@
       "totalVested": "Totaal Vested",
       "vestingPeriod": "Vesting Periode",
       "vestingStartTime": "Vesting Starttijd",
-      "cliffValue": "%{cliff} Months",
-      "vestingPeriodValue": "%{vestingPeriod} Years"
+      "cliffValue": "%{cliff} Maanden",
+      "vestingPeriodValue": "%{vestingPeriod} Jaren"
     },
     "pendingLiquidity": {
       "checkPendingLiquidity": "Controleer liquiditeit in afwachting",
@@ -595,26 +596,26 @@
     },
     "thorname": {
       "available": "Beschikbaar",
-      "expirationNote": "Given date is only estimate based, actual expiration date may differ. TNS will expire as soon as THORChain block number reaches: %{block}",
+      "expirationNote": "Weergegeven datum is een schatting, effectieve vervaldatum kan wijzigen. TNS zal vervallen wanneer volgend blocknummer bereikt is: %{block}",
       "checkNameAvailability": "Controleer beschikbaarheid naam",
-      "cost": "Cost",
+      "cost": "Kostprijs",
       "duration": "Lengte (in jaren)",
-      "extend": "Extend (in years)",
-      "expire": "Expire",
+      "extend": "Verlengen (in jaren)",
+      "expire": "Vervaldatum",
       "feeOnSale": "Verkoopkosten",
-      "ownedByYou": "Owned by you",
-      "owner": "Owner",
+      "ownedByYou": "Eigendom van u",
+      "owner": "Eigenaar",
       "purchase": "Aankopen",
       "registrationFee": "Registratiekosten",
-      "updateFee": "Update Fee",
+      "updateFee": "Update Kosten",
       "registerSuccess": "THORName %{thorname} is succesvol geregistreerd.",
-      "myThornames": "My THORnames",
+      "myThornames": "Mijn THORNames",
       "searchName": "Naam zoeken",
       "status": "Status",
-      "thornameSubtitle": "Cross-Chain Wallet Name Service.",
-      "thornameInfo": "THORName BETA: Registrations and Assignment of wallet addresses available (trading coming soon). THORNames are case-insensitive, limited to 30 characters, including a-Z, all numbers 0–9 and -_+",
+      "thornameSubtitle": "Cross-Chain Wallet Naam Service.",
+      "thornameInfo": "THORName BETA: Registraties en wallet adressen toevoegen beschikbaar (Uitwisselen binnenkort beschikbaar). THORNames zijn niet hoofdletter gevoelig, gelimiteerd tot 30 karakters van a-Z, alle nummers van 0–9 en -_+",
       "unavailable": "Niet beschikbaar",
-      "unavailableForPurchase": "Unavailable for purchase"
+      "unavailableForPurchase": "Niet beschikbaar voor aankoop"
     }
   },
   "validation": {
@@ -641,7 +642,7 @@
     "invalidL1ChainAddy": "Adres ontvanger is geen geldig %{chain} adres, gelieve het adres na te kijken.",
     "invalidRecipientAddy": "Ongeldig ontvangersadres",
     "invalidRecipientAddyDesc": "Het adres van de ontvanger moet een geldig adres zijn",
-    "invalidTHORName": "Invalid THORName",
+    "invalidTHORName": "Ongeldige THORName",
     "ledgerFailed": "Verbinden van %{chain}  Ledger #%{index} mislukt",
     "metamaskFailed": "Verbinding MetaMask Wallet mislukt",
     "notAvailableDeposit": "Storten niet beschikbaar",

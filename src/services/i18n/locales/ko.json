@@ -219,14 +219,12 @@
       "addLiquidity": "예치",
       "liquidity": "유동성",
       "joinDiscord": "Discord 서버 참여",
-      "pendingLiquidity": "보류 중",
       "thorswapDocumentation": "THORSwap 문서",
       "send": "발송",
-      "vthor": "",
       "thorswapCommunityYoutube": "THORSwap Community YouTube",
       "trade": "거래",
       "thor": "Thor",
-      "thorStake": "스태그(Stake)",
+      "staking": "",
       "submitFeedback": "의견 제출",
       "thornode": "토르 노드(Thornode)",
       "wallet": "지갑",
@@ -367,7 +365,10 @@
       "stakingRewardsToDate": "",
       "stakingRewardsPerMonth": "",
       "moreStats": "",
-      "addVTHOR": ""
+      "addVTHOR": "",
+      "stakeInfoTitle": "",
+      "stakeInfoDescription": "",
+      "goToUnstake": ""
     },
     "stats": {
       "dailyBlockRewards": "일일 블록 리워드",

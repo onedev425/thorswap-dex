@@ -219,14 +219,12 @@
       "addLiquidity": "Despozyt",
       "liquidity": "Płynność",
       "joinDiscord": "Dołącz do serwera Discord",
-      "pendingLiquidity": "Oczekujące",
       "thorswapDocumentation": "Dokumentacja THORSwap",
       "send": "Wyślij",
-      "vthor": "vTHOR",
       "thorswapCommunityYoutube": "Społeczność THORSwap YouTube",
       "trade": "Handel",
       "thor": "Thor",
-      "thorStake": "Stake",
+      "staking": "",
       "submitFeedback": "Prześlij informację zwrotną",
       "thornode": "Thornode",
       "wallet": "Portfel",
@@ -367,7 +365,10 @@
       "stakingRewardsToDate": "Nagrody za stakowanie zdobyte do tej pory",
       "stakingRewardsPerMonth": "Szacowane nagrody miesięczne",
       "moreStats": "Więcej statystyk",
-      "addVTHOR": "Dodaj vTHOR"
+      "addVTHOR": "Dodaj vTHOR",
+      "stakeInfoTitle": "",
+      "stakeInfoDescription": "",
+      "goToUnstake": ""
     },
     "stats": {
       "dailyBlockRewards": "Codzienne nagrody za bloki",

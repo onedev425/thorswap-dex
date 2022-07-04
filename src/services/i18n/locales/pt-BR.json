@@ -1,7 +1,7 @@
 {
   "common": {
     "THORSwap": "THORSwap",
-    "update": "",
+    "update": "Atualizar",
     "thorswapDescription": "THORSwap é a primeira corretora descentralizada multi-chain do mundo alimentada por THORChain",
     "APY": "APY",
     "APR": "APR",
@@ -65,7 +65,7 @@
     "expertModeTooltip": "Você pode adicionar RUNE + Ativo com proporção dinâmica no Modo Expert.",
     "customRecipientTooltip": "Receba ativos para seu endereço definido.",
     "recipientAddress": "Endereço Destinatário",
-    "thornameOrRecipient": "",
+    "thornameOrRecipient": "THORName ou endereço destinatário",
     "addressCopied": "Endereço copiado",
     "here": "Aqui",
     "password": "Senha",
@@ -106,7 +106,7 @@
     "amount": "Quantidade",
     "comingSoon": "Em breve",
     "dismiss": "Dispensar",
-    "deleteAll": "",
+    "deleteAll": "Apagar tudo",
     "allCaughtUp": ""
   },
   "pendingLiquidity": {
@@ -140,7 +140,7 @@
   },
   "txManager": {
     "registerThorname": "Registrar THORName",
-    "updateThorname": "",
+    "updateThorname": "Atualizar THORName",
     "approve": "Aprovar",
     "swap": "Trocar",
     "addLiquidity": "Adicionar Liquidez",
@@ -154,7 +154,7 @@
     "redeem": "Resgatar",
     "receive": "Receber",
     "failed": "Falhou",
-    "success": "",
+    "success": "Sucesso!",
     "stake": "Stake",
     "claim": "Reivindicar",
     "unstake": "Destakear",
@@ -194,13 +194,13 @@
   },
   "components": {
     "announcements": {
-      "announcements": "",
+      "announcements": "Comunicados",
       "thorChainHalted": "THORChain está indisponível durante esse período de manutenção. Todas as ações estão desabilitadas no momento.",
       "thorChainLPHalted": "A adição e o saque de liquidez estão temporariamente desabilitados em THORChain.",
       "thorChainTradeHalted": "As negociações estão temporariamente desabilitadas em THORChain.",
       "chainHalted": "A rede %{chain} está temporariamente pausada em THORChain.\nNegociações e movimentação de liquidez estão indisponíveis no momento.",
       "chainLPHalted": "Negociações na rede %{chain} está temporariamente indisponível.",
-      "chainTradeHalted": "A adição e o saque na rede %{chain} estão temporariamente indisponíveis.",
+      "chainTradeHalted": "Negociação na rede %{chain} está temporariamente indisponível.",
       "tradingGloballyDisabled": "THORChain está passando por dificuldades técnicas no momento.\nO time está investigando."
     },
     "assetSelect": {
@@ -219,16 +219,14 @@
       "addLiquidity": "Depositar",
       "liquidity": "Liquidez",
       "joinDiscord": "Entrar no Discord",
-      "pendingLiquidity": "Pendente",
       "thorswapDocumentation": "Documentação da ThorSwap",
       "send": "Enviar",
-      "vthor": "vTHOR",
       "thorswapCommunityYoutube": "You Tube da Comunidade ThorSwap",
       "trade": "Negociar",
       "thor": "Thor",
-      "thorStake": "Stake",
+      "staking": "Staking",
       "submitFeedback": "Enviar Feedback",
-      "thornode": "Thornode",
+      "thornode": "THORNode",
       "wallet": "Carteira",
       "stats": "Estatísticas",
       "supportInfo": "Para suporte técnico, por favor nos contate através de nosso Servidor oficial no Discord (tome cuidado com alguém dizendo ser do suporte da ThorSwap - Nós nunca iremos contatá-lo diretamente fora do nosso balcão de suporte no Discord).",
@@ -287,8 +285,8 @@
       "rewards": "Recompensas",
       "slash": "Penalização",
       "detail": {
-        "showDetails": "",
-        "hideDetails": "",
+        "showDetails": "Exibir detalhes",
+        "hideDetails": "Ocultar detalhes",
         "totalBond": "Quantias Totais Vinculadas por Nós Ativos, Nós em Espera",
         "nodeInformation": "Informação sobre o Nó",
         "totalBondTooltip": "Quantia Total Vinculada pelos Nós",
@@ -367,7 +365,10 @@
       "stakingRewardsToDate": "Recompensas de staking ganhas até o momento",
       "stakingRewardsPerMonth": "Recompensa mensal estimada",
       "moreStats": "Mais estatísticas",
-      "addVTHOR": "Adicionar vTHOR"
+      "addVTHOR": "Adicionar vTHOR",
+      "stakeInfoTitle": "Você possui $THOR stakeado no contrato v1",
+      "stakeInfoDescription": "Você possui $THOR stakeado no contrato v1.\nPor favor faça o destake e utilize o stake de vTHOR.",
+      "goToUnstake": "Ir para destake"
     },
     "stats": {
       "dailyBlockRewards": "Recompensa por Blocos no Dia",
@@ -432,7 +433,7 @@
       "affiliateFee": "THORSwap cobra 0.3% de comissão. \n75% da arrecadação é redistribuída aos stakers de vTHOR.",
       "exchangeFee": "Taxa da corretora",
       "totalFee": "Taxa total",
-      "txAssetsFee": ""
+      "txAssetsFee": "Tokens da taxa de transação"
     },
     "wallet": {
       "wallet": "Carteira",
@@ -520,7 +521,7 @@
       "xdefi": "XDEFI",
       "prioritiseXdefi": "Priorizar carteira XDEFI",
       "phantom": "Phantom",
-      "keplr": "",
+      "keplr": "Keplr",
       "walletConnect": "WalletConnect",
       "metaMask": "MetaMask",
       "disableXdefi": "MetaMask (desabilitar XDEFI)",
@@ -562,8 +563,8 @@
       "shareOfPool": "Participação na Pool",
       "asymmetricPoolNotice0": "Seu %{depositAsset} será rebalanceado ao entrar na pool. Isso significa que você terá 50:50 de exposição em RUNE e em %{asset}.",
       "asymmetricPoolNotice": "Seus ativos serão rebalanceados ao entrarem na pool.\nIsso significa que você terá 50:50 de exposição em RUNE e em seu ATIVO.",
-      "existingLpTip": "",
-      "existingLpTipNotice": ""
+      "existingLpTip": "A contagem dos 100 dias começa a partir de agora.",
+      "existingLpTipNotice": "Você já possui uma posição de provimento de liquidez para esse ativo.\nAdicionando mais com o mesmo endereço irá resetar o período de proteção contra Perda Impermanente.\nTem certeza de que deseja adicionar mais liquidez com esse endereço?"
     },
     "vesting": {
       "vestingThor": "THOR",
@@ -595,24 +596,24 @@
     },
     "thorname": {
       "available": "Disponível",
-      "expirationNote": "",
+      "expirationNote": "Essa data é apenas baseada em uma estimativa.\nA real data de expiração pode variar.\nO TNS vai expirar tão logo THORChain alcance o bloco de número: %{block}",
       "checkNameAvailability": "Checar disponibilidade do nome",
       "cost": "Custo",
       "duration": "Duração (em anos)",
-      "extend": "",
+      "extend": "Estender (em anos)",
       "expire": "Vencimento",
       "feeOnSale": "Taxa na venda",
       "ownedByYou": "Em sua posse",
       "owner": "Proprietário",
       "purchase": "Compra",
       "registrationFee": "Taxa de registro",
-      "updateFee": "",
+      "updateFee": "Taxa de atualização",
       "registerSuccess": "THORName %{thorname}.%{chain} registrado com êxito",
-      "myThornames": "",
+      "myThornames": "Meus THORNames",
       "searchName": "Buscar nome",
       "status": "Status",
-      "thornameSubtitle": "",
-      "thornameInfo": "",
+      "thornameSubtitle": "Serviço de Nome de Carteira Cross-Chain",
+      "thornameInfo": "THORName BETA: Registros e Atribuição de endereços de carteira estão disponíveis.\n(Negociação estreará em breve).\nTHORNames não diferenciam maiúsculas de minúsculas, e podem possuir até 30 caracteres, incluindo letras (a-z), números (0-9), sinais de menos (-), mais (+) e underline (_)",
       "unavailable": "Indisponível",
       "unavailableForPurchase": "Indisponível para compra"
     }
@@ -641,7 +642,7 @@
     "invalidL1ChainAddy": "O endereço destinatário não é um endereço %{chain} válido, por favor verifique seu endereço novamente.",
     "invalidRecipientAddy": "Endereço Destinatário inválido",
     "invalidRecipientAddyDesc": "Endereço destinatário deve ser um endereço válido",
-    "invalidTHORName": "",
+    "invalidTHORName": "THORName inválido",
     "ledgerFailed": "A conexão de %{chain} Ledger #%{index} falhou",
     "metamaskFailed": "A conexão da Carteira MetaMask falhou",
     "notAvailableDeposit": "Depósito indisponível",
