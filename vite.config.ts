@@ -55,6 +55,7 @@ export default defineConfig(() => ({
        * '@thorswap-lib/multichain-sdk': resolve(__dirname, 'src/multichain'),
        * '@thorswap-lib/multichain-ledger': resolve(__dirname, 'src/ledger'),
        */
+
     },
   },
   build: {
@@ -74,6 +75,7 @@ export default defineConfig(() => ({
      * This option will prevent reloading those files without running `yarn vite optimize`
      */
     include: [
+      "@thorswap-lib/multichain-ledger",
       '@binance-chain/javascript-sdk',
       'crypto-browserify'
     ],

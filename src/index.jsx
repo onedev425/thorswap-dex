@@ -17,10 +17,3 @@ getChainOptions().then((chainOptions) => {
     document.getElementById('root'),
   )
 })
-
-if (import.meta.env.DEV) {
-  // Learn more: https://bit.ly/CRA-vitals
-  import('./reportWebVitals').then(({ default: reportWebVitals }) => {
-    reportWebVitals(console.info)
-  })
-}
