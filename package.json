@@ -19,9 +19,14 @@
   "dependencies": {
     "@binance-chain/javascript-sdk": "4.2.0",
     "@cosmjs/encoding": "0.28.10",
-    "@cosmos-client/core": "0.46.0-rc7",
+    "@cosmos-client/core": "0.45.13",
     "@fontsource/poppins": "4.5.8",
     "@headlessui/react": "1.5.0",
+    "@ledgerhq/hw-app-btc": "6.27.1",
+    "@ledgerhq/hw-transport": "6.27.1",
+    "@ledgerhq/hw-transport-web-ble": "6.27.1",
+    "@ledgerhq/hw-transport-webhid": "6.27.1",
+    "@ledgerhq/hw-transport-webusb": "6.27.1",
     "@polkadot/api": "8.11.2",
     "@polkadot/util": "9.7.2",
     "@popperjs/core": "2.11.5",
@@ -29,11 +34,11 @@
     "@reduxjs/toolkit": "1.8.3",
     "@solana/spl-token": "0.2.0",
     "@solana/web3.js": "1.47.3",
-    "@terra-money/wallet-provider": "3.8.1",
+    "@terra-money/wallet-provider": "3.9.4",
     "@thorswap-lib/midgard-sdk": "0.1.6",
-    "@thorswap-lib/multichain-ledger": "0.1.47",
-    "@thorswap-lib/multichain-sdk": "0.6.15",
-    "@thorswap-lib/types": "0.1.42",
+    "@thorswap-lib/multichain-ledger": "0.1.49",
+    "@thorswap-lib/multichain-sdk": "0.6.16",
+    "@thorswap-lib/types": "0.1.43",
     "@thorswap-lib/xchain-client": "0.11.6",
     "@thorswap-lib/xchain-crypto": "0.2.11",
     "@thorswap-lib/xchain-util": "0.4.12",
@@ -41,7 +46,9 @@
     "bchaddrjs": "0.5.2",
     "bech32": "2.0.0",
     "bech32-buffer": "0.2.0",
-    "bip32": "3.0.1",
+    "big.js": "5.2.2",
+    "bignumber.js": "9.0.2",
+    "bip32": "2.0.6",
     "bip39": "3.0.4",
     "bitcoinjs-lib": "6.0.1",
     "bn.js": "5.2.1",
@@ -80,12 +87,13 @@
     "react-table": "7.8.0",
     "react-tooltip": "4.2.21",
     "redux": "4.2.0",
+    "ripemd160": "2.0.2",
     "secp256k1": "4.0.3",
     "swiper": "8.2.6",
-    "tiny-secp256k1": "2.2.1",
+    "tiny-secp256k1": "1.1.6",
     "uniqid": "5.4.0",
     "uuid": "8.3.2",
-    "vite": "2.9.13",
+    "vite": "3.0.0-beta.6",
     "wif": "2.0.6"
   },
   "devDependencies": {
@@ -141,7 +149,13 @@
     "webpack": "5.72.1"
   },
   "resolutions": {
-    "eslint-plugin-react": "7.29.4"
+    "big.js": "5.2.2",
+    "bignumber.js": "9.0.2",
+    "bip32": "2.0.6",
+    "bip39": "3.0.4",
+    "bn.js": "5.2.1",
+    "eslint-plugin-react": "7.29.4",
+    "tiny-secp256k1": "^1.1.6"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,js,jsx,json,css}": [

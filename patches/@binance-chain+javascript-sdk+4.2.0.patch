@@ -17596,15 +17596,13 @@ index 0000000..6e6ea7d
 +}
 diff --git a/node_modules/@binance-chain/javascript-sdk/src/client/swap/index.ts b/node_modules/@binance-chain/javascript-sdk/src/client/swap/index.ts
 new file mode 100644
-index 0000000..ba3c68e
+index 0000000..a6f7ee4
 --- /dev/null
 +++ b/node_modules/@binance-chain/javascript-sdk/src/client/swap/index.ts
-@@ -0,0 +1,176 @@
+@@ -0,0 +1,174 @@
 +/**
 + * @module Swap
 + */
-+
-+import { Buffer } from "buffer"
 +
 +import { BncClient } from ".."
 +import * as crypto from "../../crypto"
@@ -18365,7 +18363,7 @@ index 0000000..6858d71
 +export default TokenManagement
 diff --git a/node_modules/@binance-chain/javascript-sdk/src/crypto/index.ts b/node_modules/@binance-chain/javascript-sdk/src/crypto/index.ts
 new file mode 100644
-index 0000000..3d1ba1a
+index 0000000..47c80a5
 --- /dev/null
 +++ b/node_modules/@binance-chain/javascript-sdk/src/crypto/index.ts
 @@ -0,0 +1,407 @@
@@ -18376,7 +18374,7 @@ index 0000000..3d1ba1a
 +import { ec as EC, curve } from "elliptic"
 +import is from "is_js"
 +import csprng from "secure-random"
-+import ecc from "tiny-secp256k1"
++import * as ecc from "tiny-secp256k1"
 +import uuid from "uuid"
 +
 +import { ab2hexstring, sha3, sha256, sha256ripemd160 } from "../utils"

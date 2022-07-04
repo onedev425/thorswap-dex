@@ -10,19 +10,22 @@ import wasm from "vite-plugin-wasm";
 import topLevelAwait from "vite-plugin-top-level-await";
 
 
-export default defineConfig(({ mode }) => ({
+export default defineConfig(() => ({
   define: {
     'process.env': {}
   },
   plugins: [
-    wasm(),
-    topLevelAwait(),
+    react(),
     rewriteAll(),
     splitVendorChunkPlugin(),
-    react(),
     svgr({ svgrOptions: { icon: true } }),
     visualizer({ json: true }),
+    { ...topLevelAwait(), enforce: 'pre' },
+    { ...wasm(), enforce: 'pre' },
   ],
+  legacy: {
+    buildRollupPluginCommonjs: true
+  },
   resolve: {
     alias: {
       assets: resolve(__dirname, 'src/assets'),
@@ -37,13 +40,13 @@ export default defineConfig(({ mode }) => ({
       utils: resolve(__dirname, 'src/utils'),
       views: resolve(__dirname, 'src/views'),
 
-
-      process: 'process/browser',
-      'safe-buffer': 'buffer',
-      os: 'os-browserify/browser',
       'readable-stream': 'vite-compatible-readable-stream',
-      stream: 'vite-compatible-readable-stream',
       crypto: 'crypto-browserify',
+      http: 'stream-http',
+      https: 'https-browserify',
+      os: 'os-browserify/browser',
+      stream: 'vite-compatible-readable-stream',
+      util: 'util',
 
       /**
        * To operate locally on external libraries you can copy paste their `/src`
@@ -58,10 +61,11 @@ export default defineConfig(({ mode }) => ({
     commonjsOptions: { transformMixedEsModules: true },
     minify: 'esbuild',
     outDir: 'build',
+    polyfillModulePreload: false,
     reportCompressedSize: true,
     sourcemap: false,
     rollupOptions: {
-      plugins: [nodePolyfills({ include: ['events'], sourceMap: false })],
+      plugins: [nodePolyfills({ sourceMap: false })],
     },
   },
   optimizeDeps: {
@@ -71,12 +75,12 @@ export default defineConfig(({ mode }) => ({
      */
     include: [
       '@binance-chain/javascript-sdk',
-      'crypto-browserify',
+      'crypto-browserify'
     ],
     esbuildOptions: {
       define: { global: 'globalThis' },
       reserveProps: /(BigInteger|ECPair|Point)/,
-      plugins: [NodeGlobalsPolyfillPlugin({ define: true, buffer: true })],
+      plugins: [NodeGlobalsPolyfillPlugin({ buffer: true, process: true })],
     },
   },
 }))
