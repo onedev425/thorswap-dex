@@ -34,7 +34,7 @@ import { ReactComponent as Poland } from './flags/poland.svg'
 import { ReactComponent as Portugal } from './flags/portugal.svg'
 import { ReactComponent as Russia } from './flags/russia.svg'
 import { ReactComponent as Saudi } from './flags/saudi.svg'
-import { ReactComponent as Spain } from './flags/spain.svg'
+import Spain from './flags/spain.png'
 import { ReactComponent as USA } from './flags/usa.svg'
 import { ReactComponent as Gwei } from './gwei.svg'
 import { ReactComponent as Import } from './import.svg'
@@ -227,6 +227,8 @@ export const SvgIcons = {
   portugal: (props: CustomIconProps) => <SvgIcon name="portugal" {...props} />,
   russia: (props: CustomIconProps) => <SvgIcon name="russia" {...props} />,
   saudi: (props: CustomIconProps) => <SvgIcon name="saudi" {...props} />,
-  spain: (props: CustomIconProps) => <SvgIcon name="spain" {...props} />,
+  spain: ({ size, ...rest }: CustomIconProps) => (
+    <img src={Spain} style={{ width: size, height: size }} {...rest} />
+  ),
   usa: (props: CustomIconProps) => <SvgIcon name="usa" {...props} />,
 } as const

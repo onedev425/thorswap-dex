@@ -1,5 +1,6 @@
-import { memo } from 'react'
+import { lazy, memo, Suspense } from 'react'
 
+import 'chart.js/auto'
 import {
   Navigate,
   BrowserRouter as Router,
@@ -7,25 +8,26 @@ import {
   Route,
 } from 'react-router-dom'
 
-import AddLiquidity from 'views/AddLiquidity'
-import CreateLiquidity from 'views/CreateLiquidity'
-import Home from 'views/Home'
-import Liquidity from 'views/Liquidity'
-import Nodes from 'views/Nodes'
-import NodeDetails from 'views/Nodes/NodeDetails'
-import NodeManager from 'views/Nodes/NodeManager'
-import Send from 'views/Send'
 import Stake from 'views/Stake'
-import StakeVThor from 'views/StakeVThor'
-import Swap from 'views/Swap'
-import Thorname from 'views/Thorname'
-import UpgradeRune from 'views/UpgradeRune'
-import Vesting from 'views/Vesting'
-import Wallet from 'views/Wallet'
 import WalletBalance, { WalletDrawer } from 'views/WalletBalance'
-import WithdrawLiquidity from 'views/WithdrawLiquidity'
 
-import { TooltipPortal } from 'components/Atomic'
+const AddLiquidity = lazy(() => import('views/AddLiquidity'))
+const CreateLiquidity = lazy(() => import('views/CreateLiquidity'))
+const Home = lazy(() => import('views/Home'))
+const Liquidity = lazy(() => import('views/Liquidity'))
+const Nodes = lazy(() => import('views/Nodes'))
+const NodeDetails = lazy(() => import('views/Nodes/NodeDetails'))
+const NodeManager = lazy(() => import('views/Nodes/NodeManager'))
+const Send = lazy(() => import('views/Send'))
+const StakeVThor = lazy(() => import('views/StakeVThor'))
+const Swap = lazy(() => import('views/Swap'))
+const Thorname = lazy(() => import('views/Thorname'))
+const UpgradeRune = lazy(() => import('views/UpgradeRune'))
+const Vesting = lazy(() => import('views/Vesting'))
+const Wallet = lazy(() => import('views/Wallet'))
+const WithdrawLiquidity = lazy(() => import('views/WithdrawLiquidity'))
+
+import { Box, Icon, TooltipPortal } from 'components/Atomic'
 import { Layout } from 'components/Layout'
 import { ToastPortal } from 'components/Toast'
 
@@ -33,7 +35,7 @@ import { ROUTES } from 'settings/constants'
 
 export type RouteType = {
   path: string
-  element?: FixMe
+  element: any
 }[]
 
 const routes: RouteType = [
@@ -77,7 +79,15 @@ const PublicRoutes = () => {
                   </WalletDrawer>
 
                   <Layout>
-                    <Component />
+                    <Suspense
+                      fallback={
+                        <Box flex={1} className="p-10" center>
+                          <Icon size={32} spin name="loader" />
+                        </Box>
+                      }
+                    >
+                      <Component />
+                    </Suspense>
                   </Layout>
                 </>
               }

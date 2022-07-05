@@ -3,24 +3,34 @@ import react from '@vitejs/plugin-react'
 import svgr from 'vite-plugin-svgr'
 import rewriteAll from 'vite-plugin-rewrite-all'
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
-import { defineConfig, splitVendorChunkPlugin } from 'vite'
+import { defineConfig } from 'vite'
 import { resolve } from 'path'
 import { visualizer } from 'rollup-plugin-visualizer'
-import wasm from "vite-plugin-wasm";
-import topLevelAwait from "vite-plugin-top-level-await";
+import wasm from 'vite-plugin-wasm';
+import topLevelAwait from 'vite-plugin-top-level-await';
+import progress from 'vite-plugin-progress'
+import removeConsole from 'vite-plugin-remove-console';
+
+// TODO: to split build into smaller chunks
+// const initialModules = [...builtinModules,
+//   'buffer', 'safe-buffer', '@binance-chain', 'vite-compatible-readable-stream', 'html-escaper',
+//   'html-parse-stringify', 'reselect', 'void-elements', 'warning', 'randombytes', 'ripemd160',
+//   '@thorswap-lib', 'sha',
+// ]
 
 export default defineConfig(() => ({
   define: {
     'process.env': {}
   },
   plugins: [
-    react(),
-    rewriteAll(),
-    splitVendorChunkPlugin(),
-    svgr({ svgrOptions: { icon: true } }),
-    visualizer({ json: true }),
     { ...topLevelAwait(), enforce: 'pre' },
     { ...wasm(), enforce: 'pre' },
+    react(),
+    rewriteAll(),
+    svgr({ svgrOptions: { icon: true } }),
+    visualizer({ json: true }),
+    progress(),
+    removeConsole(),
   ],
   legacy: {
     buildRollupPluginCommonjs: true
@@ -66,6 +76,11 @@ export default defineConfig(() => ({
     sourcemap: false,
     rollupOptions: {
       plugins: [nodePolyfills({ sourceMap: false })],
+      output: {
+        manualChunks: (id) => {
+          if (id.includes('node_modules')) return 'vendor'
+        }
+      }
     },
   },
   optimizeDeps: {
@@ -74,7 +89,7 @@ export default defineConfig(() => ({
      * This option will prevent reloading those files without running `yarn vite optimize`
      */
     include: [
-      "@thorswap-lib/multichain-ledger",
+      '@thorswap-lib/multichain-ledger',
       '@binance-chain/javascript-sdk',
       'crypto-browserify'
     ],

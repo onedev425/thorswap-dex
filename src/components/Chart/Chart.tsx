@@ -2,26 +2,6 @@ import { memo, useMemo, useState } from 'react'
 
 import { Bar, Line } from 'react-chartjs-2'
 
-import {
-  Chart as ChartJS,
-  ArcElement,
-  LineElement,
-  BarElement,
-  PointElement,
-  BarController,
-  LineController,
-  CategoryScale,
-  LinearScale,
-  LogarithmicScale,
-  TimeScale,
-  TimeSeriesScale,
-  Decimation,
-  Filler,
-  Legend,
-  Title,
-  Tooltip,
-  SubTitle,
-} from 'chart.js'
 import classNames from 'classnames'
 
 import { Box, Select } from 'components/Atomic'
@@ -39,26 +19,6 @@ import {
   ChartType,
   LineChartType,
 } from './types'
-
-ChartJS.register(
-  ArcElement,
-  BarController,
-  BarElement,
-  CategoryScale,
-  Decimation,
-  Filler,
-  Legend,
-  LineController,
-  LineElement,
-  LinearScale,
-  LogarithmicScale,
-  PointElement,
-  SubTitle,
-  TimeScale,
-  TimeSeriesScale,
-  Title,
-  Tooltip,
-)
 
 export const Chart = memo(
   ({
