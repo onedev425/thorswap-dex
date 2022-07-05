@@ -4753,10 +4753,10 @@
   dependencies:
     "@thorswap-lib/types" "^0.1.47"
 
-"@thorswap-lib/multichain-sdk@0.6.17":
-  version "0.6.17"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.6.17.tgz#d5e0d5d2536799d6f498baecc87b0c03ceee8f10"
-  integrity sha512-Yw6MMB/dBHhwRdfSKrKCmymFAp5sT0Ql9oECk7Xs2X/fToh2vMCsuGfZt0wvIaOXmysguQ4IUvZ2yvgmmKPiyA==
+"@thorswap-lib/multichain-sdk@0.6.18":
+  version "0.6.18"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.6.18.tgz#75101a6433b24cf5c57dd99ec1f74b36aed3643a"
+  integrity sha512-6qmdKJI8VitkYVcwV0rZq80up88b2OWgWuH4YK05tlhnNwH+C/2WOe88zQhsa7xXzpR69DSO/iuDUjagM5CM4w==
   dependencies:
     "@cosmjs/stargate" "^0.28.10"
     "@solana/web3.js" "1.47.3"
@@ -4766,14 +4766,14 @@
     "@thorswap-lib/cross-chain-api-sdk" "^0.1.15"
     "@thorswap-lib/midgard-sdk" "^0.1.6"
     "@thorswap-lib/xchain-binance" "^5.5.5"
-    "@thorswap-lib/xchain-bitcoin" "^0.19.4"
+    "@thorswap-lib/xchain-bitcoin" "^0.19.5"
     "@thorswap-lib/xchain-bitcoincash" "^0.14.4"
     "@thorswap-lib/xchain-client" "0.11.6"
     "@thorswap-lib/xchain-cosmos" "^0.20.5"
     "@thorswap-lib/xchain-crypto" "0.2.11"
-    "@thorswap-lib/xchain-doge" "^0.2.6"
+    "@thorswap-lib/xchain-doge" "^0.2.7"
     "@thorswap-lib/xchain-ethereum" "^0.22.12"
-    "@thorswap-lib/xchain-litecoin" "^0.8.4"
+    "@thorswap-lib/xchain-litecoin" "^0.8.5"
     "@thorswap-lib/xchain-solana" "^0.2.4"
     "@thorswap-lib/xchain-terra" "^0.2.4"
     "@thorswap-lib/xchain-thorchain" "^0.22.4"
@@ -4804,10 +4804,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-binance/-/xchain-binance-5.5.5.tgz#a7f208c6b80d7c86705d412ded2b919f75c7c896"
   integrity sha512-vHZxuLa99Nyz90lgN35L7dqWGiGC4ixeqALzEZSpMoyXISae1R8o2cnOd1vNNEDZpTfz0/hVj71k8w4WBN2sIA==
 
-"@thorswap-lib/xchain-bitcoin@^0.19.4":
-  version "0.19.4"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-bitcoin/-/xchain-bitcoin-0.19.4.tgz#6d0990edca51d9bc6cc0875a656c42d914d76a03"
-  integrity sha512-1fly6OGXLvuugMnfNufPkW6CGgzSQC9P16sZWW5sBYn6SP/PYsocTJM8Vn5pwoZk8eeX+PEIT4NlCT214uA6qw==
+"@thorswap-lib/xchain-bitcoin@^0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-bitcoin/-/xchain-bitcoin-0.19.5.tgz#a7fbe5bcac511a23d7710fc3f4eb780a6edae39b"
+  integrity sha512-GGYMV5A20WCo0x/ZesCxtX0qlADv+HlgtSs37hPNg7/PnL1IO0GGYdjgwH2H097qS7Ir+WLLhTjv9lk4mvMQIA==
 
 "@thorswap-lib/xchain-bitcoincash@^0.14.4":
   version "0.14.4"
@@ -4831,22 +4831,20 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-crypto/-/xchain-crypto-0.2.11.tgz#35eed671dec1b56b883101c93a0c3c032da93530"
   integrity sha512-vbuiNuT7R4kxC+l9RBwYU50vp51UnB2RVwDtHFHGuWUF6rc2iSduFKQsMdpZyBSidtQwlO348cYGs+z17QnceA==
 
-"@thorswap-lib/xchain-doge@^0.2.6":
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-doge/-/xchain-doge-0.2.6.tgz#1ac816d553659b0e3673442dc1ed219953e86ba1"
-  integrity sha512-0XJ45zTbZIDlbVtz6tYGigK9TY+AJbNw9bXRIG9d5zJbykdnVX1I92ZA0eWvjeI8gwX3lYPEgNmvgXy50Bt3mg==
-  dependencies:
-    bitcoinjs-lib "^5.2.0"
+"@thorswap-lib/xchain-doge@^0.2.7":
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-doge/-/xchain-doge-0.2.7.tgz#30dd7b4cb0426f198a54fa38a059f7c2e1558366"
+  integrity sha512-ihQLLyYyoJwXgolNL72CP9aT9GMBOzu3JuJ9UechTtiPZ/1CrARRP3vSfhlPObCb/zzmKjWTPyVp1fHvIH7J6g==
 
 "@thorswap-lib/xchain-ethereum@^0.22.12":
   version "0.22.12"
   resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-ethereum/-/xchain-ethereum-0.22.12.tgz#e5a8cfb30375f3403b00d292eedf23a98126f04e"
   integrity sha512-dyO49U5HwlbACJz7HvBVXm+QWpHDD8FbCgO7+TbVXxtTpPw8nVN5NWY/bYUhC0v21SqkA715mEA1ae/u14vZjQ==
 
-"@thorswap-lib/xchain-litecoin@^0.8.4":
-  version "0.8.4"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-litecoin/-/xchain-litecoin-0.8.4.tgz#a0c72f23575dd24a9231b3d0dda6b84057de7a6f"
-  integrity sha512-gqqNogLx0OaueQcw0yK0VZLgVLs8DnLwTGTZg6QvQwK2ei6A839FawbBIQrWCiXp5dflsXWqcGPDt1Xf3UjgyA==
+"@thorswap-lib/xchain-litecoin@^0.8.5":
+  version "0.8.5"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-litecoin/-/xchain-litecoin-0.8.5.tgz#f62bbe99ba4730a9ea0c31829390cc15100f8351"
+  integrity sha512-EnOd92Ri0RnE32n2lKDv+JOHJWGZaJVE81Q4nuVKa7S2PPyOlcqVCuyLO2gb2ekR9aHWZylUQxcY+V+OKxN04Q==
 
 "@thorswap-lib/xchain-solana@^0.2.4":
   version "0.2.4"
@@ -12472,12 +12470,12 @@ is_js@^0.9.0:
 isarray@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-0.0.1.tgz#8a18acfca9a8f4177e09abfc6038939b05d1eedf"
-  integrity sha1-ihis/Kmo9Bd+Cav8YDiTmwXR7t8=
+  integrity sha512-D2S+3GLxWH+uhrNEcoh/fnmYeP8E8/zHl644d/jdA0g2uyXvy3sb0qxotE+ne0LtccHknQzWwZEzhak7oJ0COQ==
 
 isarray@1.0.0, isarray@^1.0.0, isarray@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
-  integrity sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE=
+  integrity sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==
 
 isarray@^2.0.1, isarray@^2.0.5:
   version "2.0.5"
@@ -15925,7 +15923,7 @@ readable-stream@3, readable-stream@^3.0.0, readable-stream@^3.1.1, readable-stre
 readable-stream@^1.0.33:
   version "1.1.14"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-1.1.14.tgz#7cf4c54ef648e3813084c636dd2079e166c081d9"
-  integrity sha1-fPTFTvZI44EwhMY23SB54WbAgdk=
+  integrity sha512-+MeVjFf4L44XUkhM1eYbD8fyEsxcV81pqMSR5gblfcLCHfZvbrqy4/qYHE+/R5HoBUT11WV5O08Cr1n3YXkWVQ==
   dependencies:
     core-util-is "~1.0.0"
     inherits "~2.0.1"
@@ -15935,7 +15933,7 @@ readable-stream@^1.0.33:
 readable-stream@~1.0.15:
   version "1.0.34"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-1.0.34.tgz#125820e34bc842d2f2aaafafe4c2916ee32c157c"
-  integrity sha1-Elgg40vIQtLyqq+v5MKRbuMsFXw=
+  integrity sha512-ok1qVCJuRkNmvebYikljxJA/UEsKwLl2nI1OmaqAu4/UE+h0wKCHok4XkL/gvi39OacXvw59RJUOFUkDib2rHg==
   dependencies:
     core-util-is "~1.0.0"
     inherits "~2.0.1"
@@ -17309,7 +17307,7 @@ string_decoder@^1.0.0, string_decoder@^1.1.1:
 string_decoder@~0.10.x:
   version "0.10.31"
   resolved "https://registry.yarnpkg.com/string_decoder/-/string_decoder-0.10.31.tgz#62e203bc41766c6c28c9fc84301dab1c5310fa94"
-  integrity sha1-YuIDvEF2bGwoyfyEMB2rHFMQ+pQ=
+  integrity sha512-ev2QzSzWPYmy9GuqfIVildA4OdcGLeFZQrq5ys6RtiuF+RQQiZWr8TZNyAcuVXyQRYfEO+MsoB/1BuQVhOJuoQ==
 
 string_decoder@~1.1.1:
   version "1.1.1"
