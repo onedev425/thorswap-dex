@@ -9,6 +9,7 @@ import {
   THORChain,
   THORNameDetails,
 } from '@thorswap-lib/multichain-sdk'
+import { CosmosChain } from '@thorswap-lib/xchain-util'
 
 import {
   Box,
@@ -19,8 +20,6 @@ import {
 } from 'components/Atomic'
 import { DropdownMenuItem } from 'components/Atomic/Dropdown/types'
 
-import { IS_STAGENET } from 'settings/config'
-
 // @ts-expect-error Remove after Terra purge
 export const thornameChainIcons: Record<SupportedChain, IconName> = {
   [THORChain]: 'thor',
@@ -30,10 +29,7 @@ export const thornameChainIcons: Record<SupportedChain, IconName> = {
   [BCHChain]: 'bch',
   [DOGEChain]: 'doge',
   [LTCChain]: 'ltc',
-}
-
-if (IS_STAGENET) {
-  thornameChainIcons.GAIA = 'gaia'
+  [CosmosChain]: 'gaia',
 }
 
 const CHAIN_ITEMS: DropdownMenuItem[] = Object.entries(thornameChainIcons).map(

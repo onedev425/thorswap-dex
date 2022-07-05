@@ -1,8 +1,6 @@
 import { SupportedChain } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
 
-import { IS_STAGENET } from 'settings/config'
-
 export enum WalletStage {
   WalletSelect = 'WalletSelect',
   ChainSelect = 'ChainSelect',
@@ -24,8 +22,6 @@ export enum WalletType {
   Keplr = 'Keplr',
 }
 
-const stagenetChains = IS_STAGENET ? [Chain.Cosmos] : []
-
 const Keystore = [
   Chain.THORChain,
   Chain.Terra,
@@ -36,7 +32,7 @@ const Keystore = [
   Chain.Doge,
   Chain.Litecoin,
   Chain.BitcoinCash,
-  ...stagenetChains,
+  Chain.Cosmos,
 ] as SupportedChain[]
 
 export const availableChainsByWallet: Record<string, SupportedChain[]> = {

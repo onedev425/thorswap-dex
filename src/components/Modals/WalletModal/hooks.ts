@@ -25,8 +25,6 @@ import { metamask } from 'services/metamask'
 import { phantom } from 'services/phantom'
 import { xdefi } from 'services/xdefi'
 
-import { IS_STAGENET } from 'settings/config'
-
 type WalletItem = {
   type: WalletType
   icon: IconName
@@ -58,16 +56,12 @@ export const useWalletOptions = ({
         type: WalletType.Phantom,
         visible: isMdActive,
       },
-      ...(IS_STAGENET
-        ? [
-            {
-              icon: 'keplr' as const,
-              label: t('views.walletModal.keplr'),
-              type: WalletType.Keplr,
-              visible: isMdActive,
-            },
-          ]
-        : []),
+      {
+        icon: 'keplr' as const,
+        label: t('views.walletModal.keplr'),
+        type: WalletType.Keplr,
+        visible: isMdActive,
+      },
       {
         type: WalletType.TrustWallet,
         icon: 'walletConnect',
