@@ -10,6 +10,8 @@ import { TxTracker, TxTrackerStatus, TxTrackerType } from 'store/midgard/types'
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
+import { chainName } from 'helpers/chainName'
+
 import {
   getAddTxUrl,
   getApproveTxUrl,
@@ -251,9 +253,9 @@ const getSwitchDetails = (txTracker: TxTracker): TxDetails => {
   const txDetails: TxDetails = [
     {
       status: status === TxTrackerStatus.Submitting ? 'pending' : 'success',
-      label: `${t('common.send')} ${sendAmount} ${
-        Asset.fromAssetString(sendAsset)?.L1Chain
-      }${' '}${Asset.fromAssetString(sendAsset)?.ticker}`,
+      label: `${t('common.send')} ${sendAmount} ${chainName(
+        Asset.fromAssetString(sendAsset)?.L1Chain,
+      )}${' '}${Asset.fromAssetString(sendAsset)?.ticker}`,
       url:
         status !== TxTrackerStatus.Submitting ? getSwapInTxUrl(txTracker) : '',
     },

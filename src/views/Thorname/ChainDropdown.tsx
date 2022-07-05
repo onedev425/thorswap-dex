@@ -20,6 +20,8 @@ import {
 } from 'components/Atomic'
 import { DropdownMenuItem } from 'components/Atomic/Dropdown/types'
 
+import { chainName } from 'helpers/chainName'
+
 // @ts-expect-error Remove after Terra purge
 export const thornameChainIcons: Record<SupportedChain, IconName> = {
   [THORChain]: 'thor',
@@ -38,7 +40,7 @@ const CHAIN_ITEMS: DropdownMenuItem[] = Object.entries(thornameChainIcons).map(
     Component: (
       <Box alignCenter className="gap-x-2">
         <Icon name={icon} />
-        <Typography>{chain === 'GAIA' ? 'ATOM' : chain}</Typography>
+        <Typography>{chainName(chain)}</Typography>
       </Box>
     ),
   }),
@@ -60,7 +62,7 @@ export const ChainDropdown = ({ chain, onChange }: Props) => {
       openComponent={
         <Box alignCenter className="gap-x-2">
           <Icon name={thornameChainIcons[chain]} />
-          <Typography>{chain === 'GAIA' ? 'ATOM' : chain}</Typography>
+          <Typography>{chainName(chain)}</Typography>
         </Box>
       }
     />

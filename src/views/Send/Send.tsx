@@ -34,6 +34,7 @@ import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
 import { commonAssets } from 'helpers/assets'
+import { chainName } from 'helpers/chainName'
 
 import { getSendRoute } from 'settings/constants'
 
@@ -263,7 +264,7 @@ const Send = () => {
         placeholder={`THORName / ${
           assetInput.asset.isSynth || assetInput.asset.isRUNE()
             ? Asset.RUNE().network
-            : assetInput.asset.L1Chain
+            : chainName(assetInput.asset.L1Chain)
         } ${t('common.address')}`}
         onChange={handleChangeRecipient}
         value={recipientAddress}

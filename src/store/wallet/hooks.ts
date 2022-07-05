@@ -26,6 +26,7 @@ import { useTerraWallet } from 'hooks/useTerraWallet'
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
+import { chainName } from 'helpers/chainName'
 import { getFromStorage, saveInStorage } from 'helpers/storage'
 
 import * as walletActions from './actions'
@@ -83,7 +84,7 @@ export const useWallet = () => {
 
   const connectLedger = useCallback(
     async (chain: Chain, addressIndex: number) => {
-      const options = { chain, index: addressIndex }
+      const options = { chain: chainName(chain), index: addressIndex }
 
       try {
         showInfoToast(t('notification.connectingLedger', options))
