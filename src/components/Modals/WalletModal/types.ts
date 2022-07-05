@@ -1,7 +1,7 @@
 import { SupportedChain } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/xchain-util'
 
-import { IS_STAGENET_OR_DEV } from 'settings/config'
+import { IS_STAGENET } from 'settings/config'
 
 export enum WalletStage {
   WalletSelect = 'WalletSelect',
@@ -24,7 +24,7 @@ export enum WalletType {
   Keplr = 'Keplr',
 }
 
-const stagenetChains = IS_STAGENET_OR_DEV ? [Chain.Cosmos] : []
+const stagenetChains = IS_STAGENET ? [Chain.Cosmos] : []
 
 const Keystore = [
   Chain.THORChain,
@@ -50,6 +50,7 @@ export const availableChainsByWallet: Record<string, SupportedChain[]> = {
     // TODO: https://linear.app/thorswap/issue/FRT-810/[add]-ledger-support-for-solana
     // Chain.Solana,
     Chain.Binance,
+    Chain.Cosmos,
     Chain.Doge,
     Chain.Litecoin,
     Chain.BitcoinCash,

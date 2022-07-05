@@ -4746,17 +4746,17 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.6.tgz#2224df580219b6863cfdd0aa0b28d326277cc872"
   integrity sha512-kYV69WZN6PqtmC5+/sOV0d68YNT3OBDrI3mOKDiRtup3fSbIFYw1ujkqD2DsbCmbxFUoMfK0VShUOUZgYL080w==
 
-"@thorswap-lib/multichain-ledger@0.1.54":
-  version "0.1.54"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-ledger/-/multichain-ledger-0.1.54.tgz#12e3db3d7b204603042cf51fb788f99c1e70cbba"
-  integrity sha512-3TcyYW02nFjEFTm1Sc8nqbLljhZRsn/JHdDRg8/6sU+DkbLL5HcpleX9C8zUY5z+BAb5FgV/x2bacs+uHD06Pw==
+"@thorswap-lib/multichain-ledger@0.1.58":
+  version "0.1.58"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-ledger/-/multichain-ledger-0.1.58.tgz#2a17f62944d8b5008bd33ea0ed7f229e73bfec70"
+  integrity sha512-lM+HdMwjsgA6FV0F24vM0OaJqgMNW8EnoBBLX2pGBAWrcqKbam84u/1gM2ZKplde1ojyIckFwZ7TspIot/owRQ==
   dependencies:
     "@thorswap-lib/types" "^0.1.47"
 
-"@thorswap-lib/multichain-sdk@0.6.16":
-  version "0.6.16"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.6.16.tgz#2291ff6d9b9149aef4f7148d21014062c8e91f82"
-  integrity sha512-cxSTxsdyNhVGg4shMTdsdTuOY4Vp8etFE8Kjkm0h8jNaBecnEsxE61KNod+QEcA6PJjh62wJ2kkOk8EG3IgeLQ==
+"@thorswap-lib/multichain-sdk@0.6.17":
+  version "0.6.17"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.6.17.tgz#d5e0d5d2536799d6f498baecc87b0c03ceee8f10"
+  integrity sha512-Yw6MMB/dBHhwRdfSKrKCmymFAp5sT0Ql9oECk7Xs2X/fToh2vMCsuGfZt0wvIaOXmysguQ4IUvZ2yvgmmKPiyA==
   dependencies:
     "@cosmjs/stargate" "^0.28.10"
     "@solana/web3.js" "1.47.3"
