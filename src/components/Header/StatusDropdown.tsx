@@ -22,15 +22,16 @@ type StatusItem = {
 export const StatusDropdown = memo(() => {
   const { statusType, outboundQueue, outboundQueueLevel } = useNetwork()
   const {
-    isFundsCapReached,
     capPercent,
-    isTHORChainHalted,
-    isBTCChainHalted,
-    isETHChainHalted,
-    isBNBChainHalted,
-    isLTCChainHalted,
     isBCHChainHalted,
+    isBNBChainHalted,
+    isBTCChainHalted,
     isDOGEChainHalted,
+    isETHChainHalted,
+    isFundsCapReached,
+    isGAIAChainHalted,
+    isLTCChainHalted,
+    isTHORChainHalted,
   } = useMimir()
 
   // Midgard IP on devnet OR on test|chaos|mainnet
@@ -75,6 +76,13 @@ export const StatusDropdown = memo(() => {
           ? t('components.statusDropdown.online')
           : t('components.statusDropdown.offline'),
         statusType: isBNBChainHalted ? StatusType.Error : StatusType.Normal,
+      },
+      {
+        label: 'Cosmos Chain',
+        value: !isGAIAChainHalted
+          ? t('components.statusDropdown.online')
+          : t('components.statusDropdown.offline'),
+        statusType: isGAIAChainHalted ? StatusType.Error : StatusType.Normal,
       },
       {
         label: t('components.statusDropdown.bitcoinNetwork'),
@@ -130,6 +138,7 @@ export const StatusDropdown = memo(() => {
       liquidityCapLabel,
       isFundsCapReached,
       isTHORChainHalted,
+      isGAIAChainHalted,
       isBTCChainHalted,
       isETHChainHalted,
       isBNBChainHalted,

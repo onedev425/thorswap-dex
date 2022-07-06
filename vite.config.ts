@@ -89,9 +89,8 @@ export default defineConfig(() => ({
      * This option will prevent reloading those files without running `yarn vite optimize`
      */
     include: [
-      '@thorswap-lib/multichain-ledger',
       '@binance-chain/javascript-sdk',
-      'crypto-browserify'
+      'crypto-browserify',
     ],
     esbuildOptions: {
       define: { global: 'globalThis' },

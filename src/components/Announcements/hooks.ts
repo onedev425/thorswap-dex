@@ -21,6 +21,8 @@ import { useMimir } from 'hooks/useMimir'
 
 import { t } from 'services/i18n'
 
+import { chainName } from 'helpers/chainName'
+
 const REFRESH_INTERVAL = 1000 * 50 * 5 //5min
 const DISABLED_CHAINS: Chain[] = []
 
@@ -119,7 +121,9 @@ const getChainAnnouncement = ({
     return {
       message:
         chainStatus[chain]?.message ||
-        t('components.announcements.chainTradeHalted', { chain }),
+        t('components.announcements.chainTradeHalted', {
+          chain: chainName(chain),
+        }),
       type: AnnouncementType.Warn,
       chain,
       link: chainStatus[chain]?.link,

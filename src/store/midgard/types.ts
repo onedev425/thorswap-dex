@@ -84,28 +84,30 @@ export type MimirData = {
   MAXIMUMLIQUIDITYRUNE?: number
   'mimir//MAXIMUMLIQUIDITYRUNE'?: number
   HALTTHORCHAIN?: number
-  HALTBTCCHAIN?: number
-  HALTETHCHAIN?: number
-  HALTBNBCHAIN?: number
   HALTBCHCHAIN?: number
-  HALTLTCCHAIN?: number
-  HALTDOGECHAIN?: number
-  HALTBTCTRADING?: number
-  HALTETHTRADING?: number
-  HALTBNBTRADING?: number
   HALTBCHTRADING?: number
-  HALTLTCTRADING?: number
+  HALTBNBCHAIN?: number
+  HALTBNBTRADING?: number
+  HALTBTCCHAIN?: number
+  HALTBTCTRADING?: number
+  HALTDOGECHAIN?: number
   HALTDOGETRADING?: number
+  HALTETHCHAIN?: number
+  HALTETHTRADING?: number
+  HALTGAIACHAIN?: number
+  HALTGAIATRADING?: number
+  HALTLTCCHAIN?: number
+  HALTLTCTRADING?: number
+  MAXSYNTHPERASSETDEPTH?: number
   PAUSELP?: number
   PAUSELPBCH?: number
   PAUSELPBNB?: number
   PAUSELPBTC?: number
+  PAUSELPDOGE?: number
   PAUSELPETH?: number
   PAUSELPLTC?: number
-  PAUSELPDOGE?: number
-  SOLVENCYHALTETHCHAIN?: number
   SOLVENCYHALTBCHCHAIN?: number
-  MAXSYNTHPERASSETDEPTH?: number
+  SOLVENCYHALTETHCHAIN?: number
 }
 
 export type ShareType = 'sym' | 'runeAsym' | 'assetAsym'

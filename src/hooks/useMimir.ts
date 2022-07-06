@@ -11,6 +11,7 @@ import {
   LTCChain,
   BCHChain,
   DOGEChain,
+  CosmosChain,
 } from '@thorswap-lib/xchain-util'
 
 import { useExternalConfig } from 'store/externalConfig/hooks'
@@ -42,6 +43,7 @@ export const useMimir = () => {
   }
 
   // halt status
+  const isGAIAChainHalted = isEntryPaused('HALTGAIACHAIN')
   const isTHORChainHalted = isEntryPaused('HALTTHORCHAIN')
   const isBTCChainHalted = isEntryPaused('HALTBTCCHAIN')
   const isETHChainHalted =
@@ -54,25 +56,27 @@ export const useMimir = () => {
   const isChainHalted: {
     [key: string]: boolean
   } = {
-    [BTCChain]: isBTCChainHalted,
+    [BCHChain]: isBCHChainHalted,
     [BNBChain]: isBNBChainHalted,
+    [BTCChain]: isBTCChainHalted,
+    [CosmosChain]: isGAIAChainHalted,
+    [DOGEChain]: isDOGEChainHalted,
     [ETHChain]: isETHChainHalted,
     [LTCChain]: isLTCChainHalted,
-    [BCHChain]: isBCHChainHalted,
     [THORChain]: isTHORChainHalted,
-    [DOGEChain]: isDOGEChainHalted,
   }
 
   // halt trading status
   const isChainTradingHalted: {
     [key: string]: boolean
   } = {
-    [BTCChain]: isEntryPaused('HALTBTCTRADING'),
+    [BCHChain]: isEntryPaused('HALTBCHTRADING'),
     [BNBChain]: isEntryPaused('HALTBNBTRADING'),
+    [BTCChain]: isEntryPaused('HALTBTCTRADING'),
+    [CosmosChain]: isEntryPaused('HALTGAIATRADING'),
+    [DOGEChain]: isEntryPaused('HALTDOGETRADING'),
     [ETHChain]: isEntryPaused('HALTETHTRADING'),
     [LTCChain]: isEntryPaused('HALTLTCTRADING'),
-    [BCHChain]: isEntryPaused('HALTBCHTRADING'),
-    [DOGEChain]: isEntryPaused('HALTDOGETRADING'),
   }
 
   // pause LP
@@ -124,22 +128,23 @@ export const useMimir = () => {
   )
 
   return {
-    totalPooledRune,
-    maxLiquidityRune,
-    isFundsCapReached,
     capPercent,
-    isChainHalted,
-    isChainTradingHalted,
-    isTHORChainHalted,
-    isBTCChainHalted,
-    isETHChainHalted,
-    isBNBChainHalted,
-    isLTCChainHalted,
     isBCHChainHalted,
-    isDOGEChainHalted,
-    isPauseLP,
+    isBNBChainHalted,
+    isBTCChainHalted,
+    isChainHalted,
     isChainPauseLP,
     isChainPauseLPAction,
+    isChainTradingHalted,
+    isDOGEChainHalted,
+    isETHChainHalted,
+    isFundsCapReached,
+    isGAIAChainHalted,
+    isLTCChainHalted,
+    isPauseLP,
+    isTHORChainHalted,
+    maxLiquidityRune,
     maxSynthPerAssetDepth,
+    totalPooledRune,
   }
 }
