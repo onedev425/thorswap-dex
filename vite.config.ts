@@ -77,6 +77,7 @@ export default defineConfig(() => ({
     rollupOptions: {
       plugins: [nodePolyfills({ sourceMap: false })],
       output: {
+        chunkFileNames: () => '[hash].js',
         manualChunks: (id) => {
           if (id.includes('node_modules')) return 'vendor'
         }
