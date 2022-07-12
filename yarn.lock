@@ -4753,10 +4753,10 @@
   dependencies:
     "@thorswap-lib/types" "^0.1.47"
 
-"@thorswap-lib/multichain-sdk@0.6.18":
-  version "0.6.18"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.6.18.tgz#75101a6433b24cf5c57dd99ec1f74b36aed3643a"
-  integrity sha512-6qmdKJI8VitkYVcwV0rZq80up88b2OWgWuH4YK05tlhnNwH+C/2WOe88zQhsa7xXzpR69DSO/iuDUjagM5CM4w==
+"@thorswap-lib/multichain-sdk@0.6.21":
+  version "0.6.21"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.6.21.tgz#bb5680af0fe94e46c1a714796a1d6dbb80e997f3"
+  integrity sha512-p59wA4zUIuf/Ds/QKj+7OHfwcW6f6exeUCGYhDQxMNHlmGvPu4X2ZlJzWcst7pzgGKgC9HGlhpIFz5mmjmu+2Q==
   dependencies:
     "@cosmjs/stargate" "^0.28.10"
     "@solana/web3.js" "1.47.3"
@@ -4769,7 +4769,7 @@
     "@thorswap-lib/xchain-bitcoin" "^0.19.5"
     "@thorswap-lib/xchain-bitcoincash" "^0.14.4"
     "@thorswap-lib/xchain-client" "0.11.6"
-    "@thorswap-lib/xchain-cosmos" "^0.20.5"
+    "@thorswap-lib/xchain-cosmos" "^0.20.6"
     "@thorswap-lib/xchain-crypto" "0.2.11"
     "@thorswap-lib/xchain-doge" "^0.2.7"
     "@thorswap-lib/xchain-ethereum" "^0.22.12"
@@ -4821,10 +4821,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-client/-/xchain-client-0.11.6.tgz#05f6d22ec48edda737b8c7cc63671e9391de97c4"
   integrity sha512-Ovuh2KW0SRrXZp002dBdRpOqU/31lIvhAKKzeyReGCcZ9SDHFo+HdPv38U68Peu815l5yRcH4SYZgnCjoP+oaQ==
 
-"@thorswap-lib/xchain-cosmos@^0.20.5":
-  version "0.20.5"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-cosmos/-/xchain-cosmos-0.20.5.tgz#21561e566981de609251735d381b150ff85b2ac7"
-  integrity sha512-IAxwx5TxXFWt9MI6+Zn8iJMjXccvHZrDg4GsPXfxnKm8S0i/dpZrS57TsCQ9y/Nc5kYNIlqggdslM6qtGpyIfg==
+"@thorswap-lib/xchain-cosmos@^0.20.6":
+  version "0.20.6"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-cosmos/-/xchain-cosmos-0.20.6.tgz#2d0b99bea6fa6362fe0987b2a239f7e2032169b3"
+  integrity sha512-11l0fStfMd7qMWJaNp+GNf458342LHTqsAU62cx5rF4mxJ7qXBYQfpHUGewAvfe+hpdV4izhx1Qg90KDxHmaUw==
 
 "@thorswap-lib/xchain-crypto@0.2.11":
   version "0.2.11"
