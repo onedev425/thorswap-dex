@@ -4,9 +4,6 @@
 
 import { useEffect } from 'react'
 
-import dayjs from 'dayjs'
-import duration from 'dayjs/plugin/duration'
-
 import { useVesting } from 'views/Vesting/hooks'
 
 import { Box, Button, Typography } from 'components/Atomic'
@@ -23,8 +20,6 @@ import { t } from 'services/i18n'
 import { toOptionalFixed } from 'helpers/number'
 
 import { vestingTabs, VestingType } from './types'
-
-dayjs.extend(duration)
 
 const Vesting = () => {
   const {
