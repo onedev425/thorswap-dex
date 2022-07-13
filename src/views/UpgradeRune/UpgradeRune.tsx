@@ -263,11 +263,6 @@ const UpgradeRune = () => {
       <Box className="w-full mx-2" col>
         <ViewHeader
           title={t('common.upgradeChainRune', { chain: selectedAsset.chain })}
-          actionsComponent={
-            <Box row className="space-x-4">
-              <Icon color="secondary" name="chart" className="ml-auto" />
-            </Box>
-          }
         />
       </Box>
 
