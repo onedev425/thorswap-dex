@@ -75,7 +75,7 @@ export const useLiquidityPools = ({
       ({ asset }) =>
         asset.isBTC() ||
         asset.isETH() ||
-        ['busd', 'thor'].includes(asset.ticker.toLowerCase()),
+        ['atom', 'busd', 'thor'].includes(asset.ticker.toLowerCase()),
     )
 
     return featured
@@ -83,7 +83,7 @@ export const useLiquidityPools = ({
         pool,
         color: colorMapping[pool.asset.ticker as keyof typeof colorMapping],
       }))
-      .sort((a, b) => sortAmounts(b.pool.runeDepth, a.pool.runeDepth))
+      .sort((a, b) => sortAmounts(a.pool.runeDepth, b.pool.runeDepth))
   }, [poolsByStatus])
 
   return { filteredPools, featuredPools }
