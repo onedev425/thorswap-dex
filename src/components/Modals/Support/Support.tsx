@@ -4,6 +4,7 @@ import {
   THORSWAP_DOCUMENTATION_URL,
   THORSWAP_FEEDBACK_URL,
   THORSWAP_YOUTUBE_URL,
+  COMMUNITY_FEEDBACK_URL,
 } from 'config/constants'
 
 import { Box, Icon, Link, Modal, Typography } from 'components/Atomic'
@@ -73,9 +74,21 @@ export const SupportModal = ({
             justify="between"
           >
             <Typography className="!text-white">
-              {t('components.sidebar.submitFeedback')}
+              {t('components.sidebar.submitFeatureRequest')}
             </Typography>
             <Icon name="feedback" className="fill-white" />
+          </Box>
+        </Link>
+        <Link to={COMMUNITY_FEEDBACK_URL}>
+          <Box
+            className={classNames(commonClasses, 'bg-orange')}
+            alignCenter
+            justify="between"
+          >
+            <Typography className="!text-white">
+              {t('components.sidebar.communitySurvey')}
+            </Typography>
+            <Icon name="survey" className="fill-white" />
           </Box>
         </Link>
       </Box>

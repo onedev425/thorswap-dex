@@ -225,7 +225,7 @@
       "trade": "Trade",
       "thor": "Thor",
       "staking": "Staking",
-      "submitFeedback": "Submit Feedback",
+      "submitFeatureRequest": "Submit Feature Request",
       "thornode": "THORNode",
       "wallet": "Wallet",
       "stats": "Stats",
@@ -234,7 +234,8 @@
       "expand": "Expand",
       "thoryield": "THORYield",
       "thorname": "THORName",
-      "vesting": "Vesting"
+      "vesting": "Vesting",
+      "communitySurvey": "Community Survey"
     },
     "statusDropdown": {
       "capAvailable": "Funds Cap available",

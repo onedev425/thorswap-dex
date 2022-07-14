@@ -88,7 +88,7 @@ import {
   MdSpaceBar,
   MdOutlineHdrAuto,
 } from 'react-icons/md'
-import { RiShareBoxLine } from 'react-icons/ri'
+import { RiShareBoxLine, RiSurveyLine } from 'react-icons/ri'
 import {
   VscAdd,
   VscCloudUpload,
@@ -192,6 +192,7 @@ const Icons = {
   xCircle: VscError,
   youtube: BsYoutube,
   documentation: HiOutlineDocumentText,
+  survey: RiSurveyLine,
   ...SvgIcons,
 } as const
 
