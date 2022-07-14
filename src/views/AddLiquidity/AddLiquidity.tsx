@@ -996,7 +996,10 @@ export const AddLiquidity = () => {
                       : Asset.RUNE(),
                   asset: poolAsset.ticker,
                 })} `}
-                <Link className="text-chain-terra" to={ADD_LIQUIDITY_GUIDE_URL}>
+                <Link
+                  className="text-twitter-blue"
+                  to={ADD_LIQUIDITY_GUIDE_URL}
+                >
                   {t('common.learnMore')}
                 </Link>
               </>
@@ -1012,7 +1015,7 @@ export const AddLiquidity = () => {
           content={
             <>
               {t('views.addLiquidity.existingLpTipNotice')}
-              <Link className="text-chain-terra" to={ADD_LIQUIDITY_GUIDE_URL}>
+              <Link className="text-twitter-blue" to={ADD_LIQUIDITY_GUIDE_URL}>
                 {' '}
                 {t('common.learnMore')}
               </Link>

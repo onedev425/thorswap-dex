@@ -16,8 +16,6 @@ export enum WalletType {
   MetaMask = 'MetaMask',
   Xdefi = 'Xdefi',
   Select = 'Select',
-  Terra = 'Terra',
-  TerraMobile = 'TerraMobile',
   Phantom = 'Phantom',
   Keplr = 'Keplr',
 }

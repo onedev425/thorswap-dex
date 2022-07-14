@@ -7,7 +7,6 @@ import { ReactComponent as Dogecoin } from 'assets/images/svg/dogecoin.svg'
 import { ReactComponent as Ethereum } from 'assets/images/svg/ethereum.svg'
 import { ReactComponent as Litecoin } from 'assets/images/svg/litecoin.svg'
 import { ReactComponent as Solana } from 'assets/images/svg/solana.svg'
-import { ReactComponent as Terra } from 'assets/images/svg/terra.svg'
 import { ReactComponent as Thorchain } from 'assets/images/svg/thorchain.svg'
 
 import { ReactComponent as App } from './app.svg'
@@ -82,7 +81,6 @@ export const Svgs = {
   ltc: Litecoin,
   sol: Solana,
   cos: Cosmos,
-  terra: Terra,
   thor: Thorchain,
   thoryield: Thoryield,
   vthor: VThor,
@@ -156,7 +154,6 @@ export const SvgIcons = {
   ltc: (props: CustomIconProps) => <SvgIcon name="ltc" {...props} />,
   sol: (props: CustomIconProps) => <SvgIcon name="sol" {...props} />,
   gaia: (props: CustomIconProps) => <SvgIcon name="cos" {...props} />,
-  terra: (props: CustomIconProps) => <SvgIcon name="terra" {...props} />,
   thor: (props: CustomIconProps) => <SvgIcon name="thor" {...props} />,
   thoryield: (props: CustomIconProps) => (
     <SvgIcon name="thoryield" {...props} />

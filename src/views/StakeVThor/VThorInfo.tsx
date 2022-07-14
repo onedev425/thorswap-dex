@@ -68,7 +68,7 @@ export const VThorInfo = memo(({ ethAddress }: Props) => {
           content={
             <>
               {t('views.stakingVThor.stakeInfoDescription')}
-              <Link className="text-chain-terra" to={ROUTES.LegacyStake}>
+              <Link className="text-twitter-blue" to={ROUTES.LegacyStake}>
                 {t('views.stakingVThor.goToUnstake')}
               </Link>
             </>

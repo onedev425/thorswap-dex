@@ -8,13 +8,13 @@ type Props = {
   size?: 'sm' | 'md' | 'lg'
 }
 
+// @ts-expect-error Remove this after Terra removal
 const colorMapping: Record<SupportedChain, string> = {
   BTC: 'bg-chain-btc',
   ETH: 'bg-chain-eth',
   BCH: 'bg-chain-bch',
   BNB: 'bg-chain-bnb',
   THOR: 'bg-chain-thor',
-  TERRA: 'bg-chain-terra',
   DOGE: 'bg-chain-doge',
   LTC: 'bg-chain-ltc',
   SOL: 'bg-chain-sol',

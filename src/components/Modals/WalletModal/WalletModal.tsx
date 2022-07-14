@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { ConnectType as TerraConnectType } from '@terra-money/wallet-provider'
 import { SupportedChain } from '@thorswap-lib/multichain-sdk'
 import { Keystore as KeystoreType } from '@thorswap-lib/xchain-crypto'
 import classNames from 'classnames'
@@ -12,12 +11,7 @@ import { WalletTypes } from 'components/Modals/WalletModal/WalletTypes'
 
 import { useWallet } from 'store/wallet/hooks'
 
-import usePrevious from 'hooks/usePrevious'
-import { useTerraWallet } from 'hooks/useTerraWallet'
-
 import { t } from 'services/i18n'
-
-import { getFromStorage } from 'helpers/storage'
 
 import { ConnectKeystoreView } from './ConnectKeystore'
 import { CreateKeystoreView } from './CreateKeystore'
@@ -36,12 +30,8 @@ export const WalletModal = () => {
     isConnectModalOpen,
     isWalletLoading,
     unlockWallet,
-    connectTerraStation,
     setIsConnectModalOpen,
   } = useWallet()
-
-  const { isTerraWalletConnected } = useTerraWallet()
-  const isTerraWalletConnectedPrevState = usePrevious(isTerraWalletConnected)
 
   const modalTitle = useMemo(() => {
     switch (walletStage) {
@@ -81,34 +71,6 @@ export const WalletModal = () => {
       setWalletType(WalletType.Select)
     }
   }, [isConnectModalOpen])
-
-  // connect terra station wallet in the multichain sdk after wallet connection status is updated
-  useEffect(() => {
-    if (
-      !isTerraWalletConnectedPrevState &&
-      isTerraWalletConnected &&
-      isConnectModalOpen
-    ) {
-      const activeTerraSession = getFromStorage('terraWalletSession')
-
-      if (activeTerraSession) {
-        connectTerraStation(
-          TerraConnectType.EXTENSION,
-          activeTerraSession as string,
-        )
-      }
-
-      // close modal
-      clearStatus()
-    }
-  }, [
-    isTerraWalletConnectedPrevState,
-    isTerraWalletConnected,
-    connectTerraStation,
-    isConnectModalOpen,
-    clearStatus,
-    walletType,
-  ])
 
   const handleBack = useCallback(() => {
     const nextWalletStage =

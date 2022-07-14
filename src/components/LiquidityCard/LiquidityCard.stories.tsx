@@ -10,7 +10,7 @@ const pool = {
   runeDepth: Amount.fromNormalAmount('1.1338308858108823'),
   assetDepth: Amount.fromNormalAmount('1.1338308858108823'),
   detail: {
-    asset: 'TERRA.UST',
+    asset: 'BTC.BTC',
     assetDepth: '930204827114300',
     assetPrice: '0.0967704256156705',
     assetPriceUSD: '1.1338308858108823',

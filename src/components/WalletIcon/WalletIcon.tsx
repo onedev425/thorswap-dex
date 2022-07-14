@@ -13,6 +13,7 @@ type Props = {
   tooltipDisabled?: boolean
 }
 
+// @ts-expect-error Remove this after Terra removal
 const walletIcons: Record<WalletOption, IconName> = {
   [WalletOption.METAMASK]: 'metamask',
   [WalletOption.LEDGER]: 'ledger',
@@ -20,7 +21,6 @@ const walletIcons: Record<WalletOption, IconName> = {
   [WalletOption.ONBOARD]: 'eth',
   [WalletOption.TRUSTWALLET]: 'walletConnect',
   [WalletOption.XDEFI]: 'xdefi',
-  [WalletOption.TERRASTATION]: 'terra',
   [WalletOption.PHANTOM]: 'phantom',
   [WalletOption.KEPLR]: 'keplr',
 }

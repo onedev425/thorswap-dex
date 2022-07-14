@@ -34,7 +34,6 @@ module.exports = {
         bch: '#76C85A',
         doge: '#CE935C',
         cos: '#CE935C',
-        terra: '#5493F7',
         ltc: '#346FC6',
         bnb: '#DCAC50',
         thor: '#5DD39B',

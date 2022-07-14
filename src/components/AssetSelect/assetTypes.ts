@@ -4,7 +4,6 @@ export type AssetFilterOptionType =
   | 'all'
   | 'synth'
   | 'native'
-  | 'terra'
   | 'erc20'
   | 'bep2'
 

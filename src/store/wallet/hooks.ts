@@ -1,18 +1,13 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback } from 'react'
 
 import { batch } from 'react-redux'
 
-import {
-  ConnectedWallet,
-  ConnectType as TerraConnectType,
-} from '@terra-money/wallet-provider'
 import { SupportedChain } from '@thorswap-lib/multichain-sdk'
 import { Keystore } from '@thorswap-lib/xchain-crypto'
 import {
   Chain,
   ETHChain,
   SOLChain,
-  TERRAChain,
   CosmosChain,
 } from '@thorswap-lib/xchain-util'
 
@@ -21,28 +16,17 @@ import { showErrorToast, showInfoToast } from 'components/Toast'
 import { actions as midgardActions } from 'store/midgard/slice'
 import { useAppDispatch, useAppSelector } from 'store/store'
 
-import { useTerraWallet } from 'hooks/useTerraWallet'
-
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
 import { chainName } from 'helpers/chainName'
-import { getFromStorage, saveInStorage } from 'helpers/storage'
 
 import * as walletActions from './actions'
 import { actions } from './slice'
 
 export const useWallet = () => {
-  const checkWalletConnection = useRef(false)
   const dispatch = useAppDispatch()
   const walletState = useAppSelector(({ wallet }) => wallet)
-
-  const {
-    connectedWallet,
-    terraWallets,
-    connectTerraWallet,
-    isTerraWalletConnected,
-  } = useTerraWallet()
 
   const isWalletLoading =
     walletState.walletLoading ||
@@ -129,71 +113,6 @@ export const useWallet = () => {
     dispatch(walletActions.getWalletByChain(CosmosChain))
   }, [dispatch])
 
-  const connectTerraMultichain = useCallback(
-    async ({
-      address,
-      wallet,
-    }: {
-      address?: string
-      wallet: ConnectedWallet
-    }) => {
-      if (address) {
-        await multichain.connectTerraStation(wallet, address)
-
-        dispatch(walletActions.getWalletByChain(TERRAChain))
-      } else {
-        console.error('Terra station wallet not connected')
-      }
-    },
-    [dispatch],
-  )
-
-  const connectTerraStation = useCallback(
-    async (connectType: TerraConnectType, identifier?: string) => {
-      connectTerraWallet(connectType, identifier)
-      checkWalletConnection.current = true
-
-      if (connectType === TerraConnectType.EXTENSION) {
-        if (!isTerraWalletConnected || !connectedWallet) {
-          throw Error('Terra station wallet not connected')
-        }
-
-        const address = terraWallets.filter(
-          (data) => data.connectType === connectType,
-        )?.[0]?.terraAddress
-
-        connectTerraMultichain({ address, wallet: connectedWallet })
-      }
-    },
-    [
-      connectTerraWallet,
-      isTerraWalletConnected,
-      connectedWallet,
-      terraWallets,
-      connectTerraMultichain,
-    ],
-  )
-
-  useEffect(() => {
-    if (checkWalletConnection.current && connectedWallet) {
-      checkWalletConnection.current = false
-      connectTerraMultichain({
-        wallet: connectedWallet,
-        address: connectedWallet?.walletAddress,
-      })
-
-      /**
-       * When XDefi wallet has prio, but user uses Terra Station Wallet extension it saves `station` identifier in storage
-       * Unfortunately, because of that, when XDefi wallet is locked it will trigger popup to unlock it on every page reload
-       * To prevent this we are clearing `station` identifier from storage
-       */
-      const activeTerraSession = getFromStorage('terraWalletSession')
-      if (activeTerraSession === 'station') {
-        saveInStorage({ key: 'terraWalletSession', value: '' })
-      }
-    }
-  }, [connectTerraMultichain, connectedWallet])
-
   const connectTrustWallet = useCallback(
     async (chains: SupportedChain[]) => {
       await multichain.connectTrustWallet(chains, {
@@ -235,7 +154,6 @@ export const useWallet = () => {
     connectKeplr,
     connectTrustWallet,
     connectLedger,
-    connectTerraStation,
     refreshWalletByChain,
   }
 }

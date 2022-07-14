@@ -8,6 +8,7 @@ import { useMidgard } from 'store/midgard/hooks'
 
 import { getGasRateByFeeOption } from 'helpers/networkFee'
 
+// @ts-expect-error Remove this after Terra removal
 export const GasUnitLabel: Record<Chain, string> = {
   [Chain.Bitcoin]: 'Sats',
   [Chain.Ethereum]: 'Gwei',
@@ -16,7 +17,6 @@ export const GasUnitLabel: Record<Chain, string> = {
   [Chain.Doge]: 'Koinu',
   [Chain.Litecoin]: 'Litoshi',
   [Chain.BitcoinCash]: 'Sats',
-  [Chain.Terra]: 'uluna',
   [Chain.Polkadot]: 'Sats',
   [Chain.Cosmos]: 'Sats',
   [Chain.Solana]: 'Sats',

@@ -4711,7 +4711,7 @@
     secp256k1 "^4.0.0"
     ws "^7.5.5"
 
-"@terra-money/wallet-provider@3.9.4", "@terra-money/wallet-provider@^3.9.4":
+"@terra-money/wallet-provider@^3.9.4":
   version "3.9.4"
   resolved "https://registry.yarnpkg.com/@terra-money/wallet-provider/-/wallet-provider-3.9.4.tgz#70bc3f9a34b305bbf2ef5c774e34009562a3778b"
   integrity sha512-46dNmoXC/UE6rsUPeY7+4iAI5z84xIYaV32rixzvrHmeCXEqAyrKmlV/9/8zmaXPTxN44/A1FCY1ADCQfM9BLg==

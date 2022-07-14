@@ -7,6 +7,7 @@ import { store as reduxStore } from 'store/store'
 
 import { useGlobalRefresh } from 'hooks/useGlobalRefresh'
 
+import { checkOrigin } from './helpers/checkOrigin'
 import DrawerProvider from './hooks/useWalletDrawer'
 import Router from './router'
 
@@ -25,6 +26,8 @@ const MainApp = () => {
 }
 
 function App() {
+  if (!checkOrigin()) return null
+
   return (
     <ReduxProvider store={reduxStore}>
       <ThemeProvider>
