@@ -1,35 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { SupportedChain, Wallet } from '@thorswap-lib/multichain-sdk'
+import { Wallet } from '@thorswap-lib/multichain-sdk'
+import { Chain, SupportedChain } from '@thorswap-lib/types'
 import { Keystore } from '@thorswap-lib/xchain-crypto'
-import {
-  BTCChain,
-  BNBChain,
-  THORChain,
-  ETHChain,
-  LTCChain,
-  BCHChain,
-  DOGEChain,
-  TERRAChain,
-  SOLChain,
-  CosmosChain,
-} from '@thorswap-lib/xchain-util'
+import { TERRAChain } from '@thorswap-lib/xchain-util'
 
 import { GeckoData } from 'store/wallet/types'
 
 import * as walletActions from './actions'
 
 const initialWallet = {
-  [BTCChain]: null,
-  [BNBChain]: null,
-  [THORChain]: null,
-  [ETHChain]: null,
-  [LTCChain]: null,
-  [BCHChain]: null,
-  [DOGEChain]: null,
+  [Chain.Bitcoin]: null,
+  [Chain.Binance]: null,
+  [Chain.THORChain]: null,
+  [Chain.Ethereum]: null,
+  [Chain.Litecoin]: null,
+  [Chain.BitcoinCash]: null,
+  [Chain.Doge]: null,
   [TERRAChain]: null,
-  [SOLChain]: null,
-  [CosmosChain]: null,
+  [Chain.Solana]: null,
+  [Chain.Cosmos]: null,
 } as Wallet
 
 const initialState = {
@@ -38,16 +28,16 @@ const initialState = {
   wallet: initialWallet as Wallet | null,
   walletLoading: false,
   chainWalletLoading: {
-    [BTCChain]: false,
-    [BNBChain]: false,
-    [THORChain]: false,
-    [ETHChain]: false,
-    [LTCChain]: false,
-    [BCHChain]: false,
-    [DOGEChain]: false,
+    [Chain.Bitcoin]: false,
+    [Chain.Binance]: false,
+    [Chain.THORChain]: false,
+    [Chain.Ethereum]: false,
+    [Chain.Litecoin]: false,
+    [Chain.BitcoinCash]: false,
+    [Chain.Doge]: false,
     [TERRAChain]: false,
-    [SOLChain]: false,
-    [CosmosChain]: false,
+    [Chain.Solana]: false,
+    [Chain.Cosmos]: false,
   } as { [key in SupportedChain]: boolean },
   geckoData: {} as Record<string, GeckoData>,
   geckoDataLoading: {} as Record<string, boolean>,

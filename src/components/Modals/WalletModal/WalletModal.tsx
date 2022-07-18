@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 import { Keystore as KeystoreType } from '@thorswap-lib/xchain-crypto'
 import classNames from 'classnames'
 

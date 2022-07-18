@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { ActionTypeEnum } from '@thorswap-lib/midgard-sdk'
-import { Asset, SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { Asset } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 
 import { midgardApi } from 'services/midgard'
 import { multichain } from 'services/multichain'

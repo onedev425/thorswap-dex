@@ -2,14 +2,8 @@ import { useCallback } from 'react'
 
 import { batch } from 'react-redux'
 
-import { SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain, Chain } from '@thorswap-lib/types'
 import { Keystore } from '@thorswap-lib/xchain-crypto'
-import {
-  Chain,
-  ETHChain,
-  SOLChain,
-  CosmosChain,
-} from '@thorswap-lib/xchain-util'
 
 import { showErrorToast, showInfoToast } from 'components/Toast'
 
@@ -34,7 +28,7 @@ export const useWallet = () => {
 
   const unlockWallet = useCallback(
     async (keystore: Keystore, phrase: string, chains: SupportedChain[]) => {
-      // set multichain phrase
+      // @ts-expect-error multichain types
       multichain.connectKeystore(phrase, chains)
 
       dispatch(actions.connectKeystore(keystore))
@@ -86,6 +80,7 @@ export const useWallet = () => {
 
   const connectXdefiWallet = useCallback(
     async (chains: SupportedChain[]) => {
+      // @ts-expect-error multichain types
       await multichain.connectXDefiWallet(chains)
 
       chains.forEach((chain) => {
@@ -98,23 +93,24 @@ export const useWallet = () => {
   const connectMetamask = useCallback(async () => {
     await multichain.connectMetamask()
 
-    dispatch(walletActions.getWalletByChain(ETHChain))
+    dispatch(walletActions.getWalletByChain(Chain.Ethereum))
   }, [dispatch])
 
   const connectPhantom = useCallback(async () => {
     await multichain.connectPhantom()
 
-    dispatch(walletActions.getWalletByChain(SOLChain))
+    dispatch(walletActions.getWalletByChain(Chain.Solana))
   }, [dispatch])
 
   const connectKeplr = useCallback(async () => {
     await multichain.connectKeplr()
 
-    dispatch(walletActions.getWalletByChain(CosmosChain))
+    dispatch(walletActions.getWalletByChain(Chain.Cosmos))
   }, [dispatch])
 
   const connectTrustWallet = useCallback(
     async (chains: SupportedChain[]) => {
+      // @ts-expect-error multichain types
       await multichain.connectTrustWallet(chains, {
         listeners: { disconnect: disconnectWallet },
       })

@@ -5,9 +5,8 @@ import {
   Asset,
   hasWalletConnected,
   Pool,
-  SupportedChain,
 } from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/xchain-util'
+import { Chain, SupportedChain } from '@thorswap-lib/types'
 
 import { Box, Button } from 'components/Atomic'
 import { showErrorToast, showInfoToast } from 'components/Toast'

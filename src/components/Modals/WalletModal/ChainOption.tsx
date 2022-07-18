@@ -1,6 +1,7 @@
 import { memo, useMemo } from 'react'
 
-import { chainToSigAsset, SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { chainToSigAsset } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 import { Chain } from '@thorswap-lib/xchain-util'
 import classNames from 'classnames'
 

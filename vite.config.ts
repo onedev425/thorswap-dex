@@ -6,8 +6,6 @@ import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfil
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
 import { visualizer } from 'rollup-plugin-visualizer'
-import wasm from 'vite-plugin-wasm';
-import topLevelAwait from 'vite-plugin-top-level-await';
 import progress from 'vite-plugin-progress'
 import removeConsole from 'vite-plugin-remove-console';
 
@@ -18,13 +16,11 @@ import removeConsole from 'vite-plugin-remove-console';
 //   '@thorswap-lib', 'sha',
 // ]
 
-export default defineConfig(() => ({
+export default defineConfig({
   define: {
-    'process.env': {}
+    'process.env': {},
   },
   plugins: [
-    { ...topLevelAwait(), enforce: 'pre' },
-    { ...wasm(), enforce: 'pre' },
     react(),
     rewriteAll(),
     svgr({ svgrOptions: { icon: true } }),
@@ -32,9 +28,6 @@ export default defineConfig(() => ({
     progress(),
     removeConsole(),
   ],
-  legacy: {
-    buildRollupPluginCommonjs: true
-  },
   resolve: {
     alias: {
       assets: resolve(__dirname, 'src/assets'),
@@ -91,12 +84,13 @@ export default defineConfig(() => ({
      */
     include: [
       '@binance-chain/javascript-sdk',
+      '@thorswap-lib/multichain-sdk',
       'crypto-browserify',
     ],
     esbuildOptions: {
-      define: { global: 'globalThis' },
+      define: { 'global': 'globalThis' },
       reserveProps: /(BigInteger|ECPair|Point)/,
-      plugins: [NodeGlobalsPolyfillPlugin({ buffer: true, process: true })],
+      plugins: [NodeGlobalsPolyfillPlugin({ define: { 'global': 'globalThis' }, buffer: true, process: true })],
     },
   },
-}))
+})

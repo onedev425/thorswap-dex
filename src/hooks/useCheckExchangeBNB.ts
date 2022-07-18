@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 
-import { BNBChain } from '@thorswap-lib/xchain-util'
+import { Chain } from '@thorswap-lib/types'
 
 import { multichain } from 'services/multichain'
 
 const checkIfExchangeBNBAddress = async (address: string) => {
   // validate address
-  if (!multichain.validateAddress({ address, chain: BNBChain })) {
+  if (!multichain.validateAddress({ address, chain: Chain.Binance })) {
     return false
   }
 

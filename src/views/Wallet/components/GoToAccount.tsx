@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 
 import { HoverIcon } from 'components/HoverIcon'
 

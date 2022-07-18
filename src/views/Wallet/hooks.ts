@@ -4,21 +4,10 @@ import {
   Amount,
   Asset,
   AssetAmount,
-  SupportedChain,
   chainToSigAsset,
 } from '@thorswap-lib/multichain-sdk'
-import {
-  BTCChain,
-  BNBChain,
-  THORChain,
-  ETHChain,
-  LTCChain,
-  BCHChain,
-  DOGEChain,
-  TERRAChain,
-  SOLChain,
-  CosmosChain,
-} from '@thorswap-lib/xchain-util'
+import { Chain, SupportedChain } from '@thorswap-lib/types'
+import { TERRAChain } from '@thorswap-lib/xchain-util'
 import { BigNumber } from 'bignumber.js'
 import { takeRight } from 'lodash'
 
@@ -27,16 +16,16 @@ import { useWallet } from 'store/wallet/hooks'
 import { GeckoData } from 'store/wallet/types'
 
 const emptyWallet = {
-  [BTCChain]: null,
-  [BNBChain]: null,
-  [THORChain]: null,
-  [ETHChain]: null,
-  [LTCChain]: null,
-  [BCHChain]: null,
-  [DOGEChain]: null,
+  [Chain.Bitcoin]: null,
+  [Chain.Binance]: null,
+  [Chain.THORChain]: null,
+  [Chain.Ethereum]: null,
+  [Chain.Litecoin]: null,
+  [Chain.BitcoinCash]: null,
+  [Chain.Doge]: null,
   [TERRAChain]: null,
-  [SOLChain]: null,
-  [CosmosChain]: null,
+  [Chain.Solana]: null,
+  [Chain.Cosmos]: null,
 }
 
 const getBalanceByChain = (

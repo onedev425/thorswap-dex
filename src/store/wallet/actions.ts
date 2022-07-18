@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 
 import { getGeckoData } from 'services/coingecko'
 import { multichain } from 'services/multichain'

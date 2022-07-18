@@ -1,6 +1,6 @@
 import { memo, useState } from 'react'
 
-import { SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 import classNames from 'classnames'
 
 import { FallbackIcon } from 'components/AssetIcon/FallbackIcon'

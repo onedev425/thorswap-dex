@@ -10,8 +10,9 @@ import {
   formatBigNumber,
   getTotalUSDPriceInBalance,
   isOldRune,
-  SupportedChain,
 } from '@thorswap-lib/multichain-sdk'
+import { Chain, SupportedChain } from '@thorswap-lib/types'
+import { TERRAChain } from '@thorswap-lib/xchain-util'
 import classNames from 'classnames'
 
 import { WalletHeader } from 'views/WalletBalance/WalletHeader'
@@ -31,7 +32,19 @@ import { t } from 'services/i18n'
 import { getSendRoute, getSwapRoute, ROUTES } from 'settings/constants'
 
 import { ChainHeader } from './ChainHeader'
-import { sortedChains } from './types'
+
+const sortedChains = [
+  Chain.THORChain,
+  Chain.Bitcoin,
+  Chain.Solana,
+  TERRAChain,
+  Chain.Doge,
+  Chain.Ethereum,
+  Chain.Binance,
+  Chain.Litecoin,
+  Chain.BitcoinCash,
+  Chain.Cosmos,
+]
 
 const WalletBalance = () => {
   const navigate = useNavigate()

@@ -8,7 +8,7 @@ import {
   AssetAmount,
   getRuneToUpgrade,
 } from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/xchain-util'
+import { Chain } from '@thorswap-lib/types'
 
 import { ConfirmContent } from 'views/UpgradeRune/ConfirmContent'
 

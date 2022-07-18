@@ -1,6 +1,6 @@
 import { Asset } from '@thorswap-lib/multichain-sdk'
+import { Chain } from '@thorswap-lib/types'
 import { Network } from '@thorswap-lib/xchain-client'
-import { Chain } from '@thorswap-lib/xchain-util'
 
 import { t } from 'services/i18n'
 

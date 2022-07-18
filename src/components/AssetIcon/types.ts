@@ -1,4 +1,5 @@
-import { Asset, SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { Asset } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 
 import { IconColor } from 'components/Atomic'
 

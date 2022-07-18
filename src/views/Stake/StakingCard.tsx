@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/xchain-util'
+import { Chain } from '@thorswap-lib/types'
 import classNames from 'classnames'
 import { BigNumber } from 'ethers'
 

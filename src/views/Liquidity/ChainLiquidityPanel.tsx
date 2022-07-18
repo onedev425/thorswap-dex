@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 
-import { Asset, Pool, SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { Asset, Pool } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 import { chainToString } from '@thorswap-lib/xchain-util'
 
 import { ChainPoolData } from 'views/Liquidity/types'

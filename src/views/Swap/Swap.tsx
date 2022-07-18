@@ -9,10 +9,10 @@ import {
   Percent,
   Price,
   getEstimatedTxTime,
-  SupportedChain,
   hasWalletConnected,
   DEFAULT_AFFILIATE_FEE,
 } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 import copy from 'copy-to-clipboard'
 
 import { SwapSubmitButton } from 'views/Swap/SwapSubmitButton'

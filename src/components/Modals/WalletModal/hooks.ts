@@ -3,10 +3,10 @@ import { useCallback, useMemo } from 'react'
 import {
   MetaMaskWalletStatus,
   PhantomWalletStatus,
-  SupportedChain,
   XdefiWalletStatus,
   KeplrWalletStatus,
-} from '@thorswap-lib/multichain-sdk'
+} from '@thorswap-lib/multichain-web-extensions'
+import { SupportedChain } from '@thorswap-lib/types'
 import { Chain } from '@thorswap-lib/xchain-util'
 
 import { IconName } from 'components/Atomic'
@@ -128,7 +128,7 @@ export const useHandleWalletConnect = ({
   } = useWallet()
 
   const handleConnectLedger = useCallback(
-    async (chain: Chain, index: number) => {
+    async (chain: SupportedChain, index: number) => {
       await connectLedger(chain, index)
       clearStatus()
     },
@@ -302,7 +302,7 @@ export const useHandleWalletTypeSelect = ({
         setWalletStage(WalletStage.ChainSelect)
         setPendingChains(
           selectedWallet === WalletType.Ledger
-            ? [Chain.Bitcoin]
+            ? ([Chain.Bitcoin] as SupportedChain[])
             : availableChainsByWallet[selectedWallet],
         )
       }

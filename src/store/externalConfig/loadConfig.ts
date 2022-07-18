@@ -1,4 +1,4 @@
-import { SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 import axios from 'axios'
 
 import { getAnnouncementId } from 'components/Announcements/utils'

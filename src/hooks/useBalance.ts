@@ -5,8 +5,8 @@ import {
   Amount,
   getAssetBalance,
   NetworkFee,
-  SupportedChain,
 } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 
 import { useAppDispatch, useAppSelector } from 'store/store'
 import * as walletActions from 'store/wallet/actions'

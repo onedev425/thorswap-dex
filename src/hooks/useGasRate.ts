@@ -1,14 +1,12 @@
 import { useMemo } from 'react'
 
-import { BNBChain, THORChain } from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/xchain-util'
+import { Chain } from '@thorswap-lib/types'
 
 import { useApp } from 'store/app/hooks'
 import { useMidgard } from 'store/midgard/hooks'
 
 import { getGasRateByFeeOption } from 'helpers/networkFee'
 
-// @ts-expect-error Remove this after Terra removal
 export const GasUnitLabel: Record<Chain, string> = {
   [Chain.Bitcoin]: 'Sats',
   [Chain.Ethereum]: 'Gwei',
@@ -38,9 +36,9 @@ export const useGasRate = () => {
     Object.keys(GasUnitLabel).map((chain) => {
       let gasRate = 0
 
-      if (chain === THORChain) {
+      if (chain === Chain.THORChain) {
         gasRate = 0.02
-      } else if (chain === BNBChain) {
+      } else if (chain === Chain.Binance) {
         // gas oracle is sending 1.5x rate for bnb chain
         // divide by 10**8 to get asset amount
         // divide by 3 and multiply by 2 to get normal amount

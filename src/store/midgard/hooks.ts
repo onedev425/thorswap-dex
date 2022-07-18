@@ -10,8 +10,8 @@ import {
   ActionStatusEnum,
   ActionTypeEnum,
 } from '@thorswap-lib/midgard-sdk'
-import { Asset, SupportedChain } from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/xchain-util'
+import { Asset } from '@thorswap-lib/multichain-sdk'
+import { Chain, SupportedChain } from '@thorswap-lib/types'
 
 import * as actions from 'store/midgard/actions'
 import { actions as sliceActions } from 'store/midgard/slice'

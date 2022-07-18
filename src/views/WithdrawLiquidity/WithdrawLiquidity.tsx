@@ -10,9 +10,9 @@ import {
   Liquidity,
   Percent,
   AmountType,
-  SupportedChain,
   hasWalletConnected,
 } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 import { Chain } from '@thorswap-lib/xchain-util'
 
 import { AssetInputs } from 'views/WithdrawLiquidity/AssetInputs'

@@ -13,13 +13,12 @@ import {
   Liquidity,
   AssetAmount,
   Percent,
-  SupportedChain,
   hasConnectedWallet,
   hasWalletConnected,
   getEstimatedTxTime,
   AddLiquidityTxns,
 } from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/xchain-util'
+import { Chain, SupportedChain } from '@thorswap-lib/types'
 import { ADD_LIQUIDITY_GUIDE_URL } from 'config/constants'
 
 import { Button, Box, Link } from 'components/Atomic'

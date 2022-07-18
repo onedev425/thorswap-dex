@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useMemo } from 'react'
 
 import { getWalletAddressByChain } from '@thorswap-lib/multichain-sdk'
-import { THORChain } from '@thorswap-lib/xchain-util'
+import { Chain } from '@thorswap-lib/types'
 
 import { getLiquidityProviderData } from 'store/midgard/actions'
 import { useAppDispatch, useAppSelector } from 'store/store'
@@ -26,7 +26,7 @@ export const usePendingLP = () => {
       // const activePools = pools.filter(
       //   (pool) => pool.detail.status === 'available',
       // )
-      const thorAddress = getWalletAddressByChain(wallet, THORChain)
+      const thorAddress = getWalletAddressByChain(wallet, Chain.THORChain)
 
       if (thorAddress) {
         pools.forEach((pool) => {

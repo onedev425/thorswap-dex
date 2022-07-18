@@ -1,7 +1,8 @@
 import { useMemo } from 'react'
 
 import { THORNameDetails } from '@thorswap-lib/midgard-sdk'
-import { Asset, SupportedChain, THORName } from '@thorswap-lib/multichain-sdk'
+import { Asset, THORName } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 
 import { thornameChainIcons } from 'views/Thorname/ChainDropdown'
 

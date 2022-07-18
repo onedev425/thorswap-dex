@@ -69,7 +69,7 @@ module.exports = {
     'array-callback-return': 0,
     'no-param-reassign': 0,
     'no-restricted-syntax': 1,
-    'no-restricted-globals': 0,
+    'no-restricted-globals': 1,
     'guard-for-in': 1,
     'no-empty': 0,
     'no-undef': 0,

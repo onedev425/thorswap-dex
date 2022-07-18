@@ -1,5 +1,6 @@
 import { ActionTypeEnum, Transaction } from '@thorswap-lib/midgard-sdk'
 import { Amount, Asset } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 
 import { TxProgressStatus } from 'components/TxManager/types'
 
@@ -119,10 +120,14 @@ export const getSwapInTxUrl = (txTracker: TxTracker): string => {
 
   if (submitTx?.txID) {
     const { inAssets = [], txID } = submitTx
-    const asset = Asset.fromAssetString(inAssets[0].asset)
+    try {
+      const asset = Asset.fromAssetString(inAssets[0].asset)
 
-    if (asset) {
-      return multichain.getExplorerTxUrl(asset.L1Chain, txID)
+      if (asset) {
+        return multichain.getExplorerTxUrl(asset.L1Chain, txID)
+      }
+    } catch (e) {
+      return '#'
     }
   }
 
@@ -134,14 +139,18 @@ export const getSwapOutTxUrl = (txTracker: TxTracker): string => {
 
   if (action?.out) {
     const outTx = action.out[0]
-    const asset = Asset.fromAssetString(outTx?.coins?.[0]?.asset)
+    try {
+      const asset = Asset.fromAssetString(outTx?.coins?.[0]?.asset)
 
-    if (asset) {
-      // add 0x for eth tx
-      if (asset.L1Chain === 'ETH') {
-        return multichain.getExplorerTxUrl(asset.L1Chain, `0x${outTx?.txID}`)
+      if (asset) {
+        // add 0x for eth tx
+        if (asset.L1Chain === 'ETH') {
+          return multichain.getExplorerTxUrl(asset.L1Chain, `0x${outTx?.txID}`)
+        }
+        return multichain.getExplorerTxUrl(asset.L1Chain, outTx?.txID)
       }
-      return multichain.getExplorerTxUrl(asset.L1Chain, outTx?.txID)
+    } catch (e) {
+      return '#'
     }
   }
 
@@ -191,7 +200,7 @@ export const getWithdrawSubmitTxUrl = (txTracker: TxTracker): string => {
   if (submitTx?.txID && submitTx?.withdrawChain) {
     const { withdrawChain, txID } = submitTx
 
-    return multichain.getExplorerTxUrl(withdrawChain, txID)
+    return multichain.getExplorerTxUrl(withdrawChain as SupportedChain, txID)
   }
 
   return '#'

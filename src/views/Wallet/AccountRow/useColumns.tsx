@@ -2,13 +2,8 @@ import { useMemo } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
-import {
-  Amount,
-  Asset,
-  AssetAmount,
-  SupportedChain,
-} from '@thorswap-lib/multichain-sdk'
-import { SOLChain } from '@thorswap-lib/xchain-util'
+import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-sdk'
+import { Chain, SupportedChain } from '@thorswap-lib/types'
 
 import { AssetChart } from 'views/Wallet/AssetChart'
 import { ShowQrCode } from 'views/Wallet/components/ShowQrCode'
@@ -171,8 +166,10 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
                   name="swap"
                 />
               }
-              disabled={chain === SOLChain}
-              tooltip={chain === SOLChain ? t('common.comingSoon') : undefined}
+              disabled={chain === Chain.Solana}
+              tooltip={
+                chain === Chain.Solana ? t('common.comingSoon') : undefined
+              }
               onClick={() => navigate(getSwapRoute(value))}
             >
               {isLgActive ? t('common.swap') : null}

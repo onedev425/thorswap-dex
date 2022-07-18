@@ -2,10 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
-import {
-  hasConnectedWallet,
-  SupportedChain,
-} from '@thorswap-lib/multichain-sdk'
+import { hasConnectedWallet } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 
 import { Button, Box } from 'components/Atomic'
 import { GlobalSettingsPopover } from 'components/GlobalSettings'

@@ -1,4 +1,5 @@
-import { Asset, SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { Asset } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 import classNames from 'classnames'
 
 import { Box, Typography } from 'components/Atomic'
@@ -8,7 +9,6 @@ type Props = {
   size?: 'sm' | 'md' | 'lg'
 }
 
-// @ts-expect-error Remove this after Terra removal
 const colorMapping: Record<SupportedChain, string> = {
   BTC: 'bg-chain-btc',
   ETH: 'bg-chain-eth',

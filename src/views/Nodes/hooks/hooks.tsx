@@ -7,7 +7,7 @@ import {
   Asset,
   hasConnectedWallet,
 } from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/xchain-util'
+import { Chain } from '@thorswap-lib/types'
 import copy from 'copy-to-clipboard'
 
 import { BondActionType } from 'views/Nodes/types'

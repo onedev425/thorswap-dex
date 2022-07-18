@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { SUPPORTED_CHAINS } from '@thorswap-lib/multichain-sdk'
+import { SUPPORTED_CHAINS } from '@thorswap-lib/types'
 
 import { useWallet } from 'store/wallet/hooks'
 

@@ -1,5 +1,6 @@
 import { MemberPool } from '@thorswap-lib/midgard-sdk'
-import { SupportedChain, Asset } from '@thorswap-lib/multichain-sdk'
+import { Asset } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 import { THORChain } from '@thorswap-lib/xchain-util'
 import isEmpty from 'lodash/isEmpty'
 

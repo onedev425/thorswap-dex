@@ -1,6 +1,6 @@
 import { memo, useCallback, useMemo, useEffect } from 'react'
 
-import { SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 import classNames from 'classnames'
 
 import { ConnectionActions } from 'views/Wallet/components/ConnectionActions'

@@ -6,13 +6,12 @@ import {
   getAssetBalance,
   Price,
   AssetAmount,
-  SupportedChain,
   hasConnectedWallet,
   hasWalletConnected,
   getEstimatedTxTime,
   getInputAssetsForCreate,
 } from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/xchain-util'
+import { Chain, SupportedChain } from '@thorswap-lib/types'
 
 import { Button, Box } from 'components/Atomic'
 import { GlobalSettingsPopover } from 'components/GlobalSettings'

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 
-import { chainToSigAsset, SupportedChain } from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/xchain-util'
+import { chainToSigAsset } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain, Chain } from '@thorswap-lib/types'
 
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, DropdownMenu, Icon, Typography } from 'components/Atomic'

@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 
 import { actions } from 'store/externalConfig/slice'
 import { useAppDispatch, useAppSelector } from 'store/store'

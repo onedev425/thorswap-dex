@@ -1,13 +1,8 @@
 import { useCallback, useEffect, useReducer } from 'react'
 
 import { THORNameDetails } from '@thorswap-lib/midgard-sdk'
-import {
-  THORName,
-  SupportedChain,
-  Asset,
-  Amount,
-} from '@thorswap-lib/multichain-sdk'
-import { THORChain } from '@thorswap-lib/xchain-util'
+import { THORName, Asset, Amount } from '@thorswap-lib/multichain-sdk'
+import { Chain, SupportedChain } from '@thorswap-lib/types'
 
 import { showErrorToast } from 'components/Toast'
 
@@ -31,7 +26,7 @@ type Actions =
 
 const initialState = {
   available: false,
-  chain: THORChain as SupportedChain,
+  chain: Chain.THORChain as SupportedChain,
   details: null as THORNameDetails | null,
   loading: false,
   thorname: '',

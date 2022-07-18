@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 
-import { chainToSigAsset, SUPPORTED_CHAINS } from '@thorswap-lib/multichain-sdk'
+import { chainToSigAsset } from '@thorswap-lib/multichain-sdk'
+import { SUPPORTED_CHAINS } from '@thorswap-lib/types'
 
 import { AccountType } from 'views/Wallet/AccountType'
 import { SearchAndFilters } from 'views/Wallet/SearchAndFilters'

@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useState } from 'react'
 
-import { SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 import { chainToString } from '@thorswap-lib/xchain-util'
 
 import { Box } from 'components/Atomic'

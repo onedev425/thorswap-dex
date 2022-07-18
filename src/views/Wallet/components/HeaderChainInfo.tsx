@@ -1,4 +1,5 @@
-import { ChainWallet, SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { ChainWallet } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 import { chainToString } from '@thorswap-lib/xchain-util'
 
 import { Box, Typography } from 'components/Atomic'

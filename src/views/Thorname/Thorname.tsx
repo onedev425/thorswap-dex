@@ -1,6 +1,6 @@
 import { KeyboardEvent, useCallback, useEffect, useMemo, useState } from 'react'
 
-import { SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 
 import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic'
 import { InfoTable } from 'components/InfoTable'

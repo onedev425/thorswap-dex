@@ -1,15 +1,5 @@
-import {
-  BCHChain,
-  BNBChain,
-  BTCChain,
-  DOGEChain,
-  ETHChain,
-  LTCChain,
-  SupportedChain,
-  THORChain,
-  THORNameDetails,
-} from '@thorswap-lib/multichain-sdk'
-import { CosmosChain } from '@thorswap-lib/xchain-util'
+import { THORNameDetails } from '@thorswap-lib/multichain-sdk'
+import { Chain, SupportedChain } from '@thorswap-lib/types'
 
 import {
   Box,
@@ -24,14 +14,14 @@ import { chainName } from 'helpers/chainName'
 
 // @ts-expect-error Remove after Terra purge
 export const thornameChainIcons: Record<SupportedChain, IconName> = {
-  [THORChain]: 'thor',
-  [BTCChain]: 'bitcoin',
-  [BNBChain]: 'bnb',
-  [ETHChain]: 'eth',
-  [BCHChain]: 'bch',
-  [DOGEChain]: 'doge',
-  [LTCChain]: 'ltc',
-  [CosmosChain]: 'gaia',
+  [Chain.THORChain]: 'thor',
+  [Chain.Bitcoin]: 'bitcoin',
+  [Chain.Binance]: 'bnb',
+  [Chain.Ethereum]: 'eth',
+  [Chain.BitcoinCash]: 'bch',
+  [Chain.Doge]: 'doge',
+  [Chain.Litecoin]: 'ltc',
+  [Chain.Cosmos]: 'gaia',
 }
 
 const CHAIN_ITEMS: DropdownMenuItem[] = Object.entries(thornameChainIcons).map(

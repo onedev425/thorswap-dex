@@ -1,6 +1,6 @@
 import { memo } from 'react'
 
-import { SupportedChain } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
 
 import { thornameChainIcons } from 'views/Thorname/ChainDropdown'
 

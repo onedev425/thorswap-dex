@@ -44,7 +44,6 @@ import { ReactComponent as Ledger } from './ledger.svg'
 import { ReactComponent as Lightning } from './lightningThorswap.svg'
 import { ReactComponent as Metamask } from './metamask.svg'
 import { ReactComponent as Moon } from './moon.svg'
-import { ReactComponent as Onboard } from './onboard.svg'
 import { ReactComponent as Phantom } from './phantom.svg'
 import { ReactComponent as Receive } from './receive.svg'
 import { ReactComponent as Refresh } from './refresh.svg'
@@ -102,7 +101,6 @@ export const Svgs = {
   lightning: Lightning,
   metamask: Metamask,
   moon: Moon,
-  onboard: Onboard,
   phantom: Phantom,
   receive: Receive,
   refresh: Refresh,
@@ -177,7 +175,6 @@ export const SvgIcons = {
   ),
   metamask: (props: CustomIconProps) => <SvgIcon name="metamask" {...props} />,
   moon: (props: CustomIconProps) => <SvgIcon name="moon" {...props} />,
-  onboard: (props: CustomIconProps) => <SvgIcon name="onboard" {...props} />,
   phantom: (props: CustomIconProps) => <SvgIcon name="phantom" {...props} />,
   receive: (props: CustomIconProps) => <SvgIcon name="receive" {...props} />,
   refresh: (props: CustomIconProps) => <SvgIcon name="refresh" {...props} />,

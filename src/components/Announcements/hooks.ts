@@ -1,11 +1,6 @@
 import { useCallback, useEffect, useMemo } from 'react'
 
-import {
-  SUPPORTED_CHAINS,
-  THORChain,
-  SupportedChain,
-} from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/xchain-util'
+import { SUPPORTED_CHAINS, Chain, SupportedChain } from '@thorswap-lib/types'
 
 import { getAnnouncementId } from 'components/Announcements/utils'
 
@@ -87,7 +82,7 @@ const getChainAnnouncement = ({
 }: GetAnnouncementsByChainProps & { chain: SupportedChain }) => {
   if (
     isChainPaused(Chain.THORChain, pausedChains, pausedLP, pausedTrade) &&
-    chain !== THORChain
+    chain !== Chain.THORChain
   ) {
     return null
   }
@@ -96,11 +91,13 @@ const getChainAnnouncement = ({
     return {
       message:
         chainStatus[chain]?.message ||
-        (chain === THORChain
+        (chain === Chain.THORChain
           ? t('components.announcements.thorChainHalted')
           : t('components.announcements.chainHalted', { chain })),
       type:
-        chain === THORChain ? AnnouncementType.Error : AnnouncementType.Warn,
+        chain === Chain.THORChain
+          ? AnnouncementType.Error
+          : AnnouncementType.Warn,
       chain,
       link: chainStatus[chain]?.link,
     }

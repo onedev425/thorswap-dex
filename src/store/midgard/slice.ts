@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ActionStatusEnum, ActionTypeEnum } from '@thorswap-lib/midgard-sdk'
 import { Pool } from '@thorswap-lib/multichain-sdk'
-import { THORChain } from '@thorswap-lib/xchain-util'
+import { Chain } from '@thorswap-lib/types'
 import dayjs from 'dayjs'
 
 import {
@@ -196,7 +196,7 @@ const midgardSlice = createSlice({
 
           // add rune asymm
           const fetchedChainMemberDetails1 = getChainMemberDetails({
-            chain: THORChain,
+            chain: Chain.THORChain,
             memPools: runeMemberDetails,
             chainMemberDetails: state.chainMemberDetails,
           })

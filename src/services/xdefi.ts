@@ -1,4 +1,4 @@
-import { XdefiClient } from '@thorswap-lib/multichain-sdk'
+import { XdefiClient } from '@thorswap-lib/multichain-web-extensions'
 
 import { NETWORK } from 'settings/config'
 
