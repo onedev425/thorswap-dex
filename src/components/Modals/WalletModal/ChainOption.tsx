@@ -1,8 +1,8 @@
 import { memo, useMemo } from 'react'
 
-import { chainToSigAsset } from '@thorswap-lib/multichain-sdk'
-import { SupportedChain } from '@thorswap-lib/types'
-import { Chain } from '@thorswap-lib/xchain-util'
+import { Asset, chainToSigAsset } from '@thorswap-lib/multichain-sdk'
+import { Chain, SupportedChain } from '@thorswap-lib/types'
+import { TERRAChain } from '@thorswap-lib/xchain-util'
 import classNames from 'classnames'
 
 import { AssetIcon } from 'components/AssetIcon'
@@ -18,15 +18,14 @@ import { t } from 'services/i18n'
 type ChainOptionProps = {
   chain: SupportedChain
   onClick?: () => void
-  pendingChains: SupportedChain[]
+  isSelected: boolean
 }
 
 export const ChainOption = memo(
-  ({ pendingChains, chain, onClick }: ChainOptionProps) => {
+  ({ isSelected, chain, onClick }: ChainOptionProps) => {
     const { isMdActive } = useWindowSize()
     const { wallet } = useWallet()
     const chainWallet = wallet?.[chain]
-    const isSelected = pendingChains.includes(chain)
     const chainName = useMemo(() => {
       switch (chain) {
         case Chain.THORChain:
@@ -55,7 +54,10 @@ export const ChainOption = memo(
             <AssetIcon
               size={isMdActive ? 36 : 26}
               hasShadow={isSelected}
-              asset={chainToSigAsset(chain)}
+              asset={
+                // @ts-expect-error remove after TERRA
+                chain === TERRAChain ? Asset.LUNA() : chainToSigAsset(chain)
+              }
             />
 
             <Box col>

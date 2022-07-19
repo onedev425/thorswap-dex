@@ -90,7 +90,7 @@ export const ChainSelect = ({
         <Box flex={1} center className="px-6 pb-2 gap-2 flex-wrap" row>
           {walletChains.map((chain) => (
             <ChainOption
-              pendingChains={pendingChains}
+              isSelected={pendingChains.includes(chain)}
               key={chain}
               chain={chain}
               onClick={() => handlePendingChain(chain)}
