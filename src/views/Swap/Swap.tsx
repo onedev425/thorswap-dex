@@ -469,7 +469,6 @@ const SwapView = () => {
         onInputAmountChange={handleChangeInputAmount}
         onSwitchPair={handleSwitchPair}
       />
-
       {customRecipientMode && (
         <PanelInput
           placeholder={t('common.thornameOrRecipient')}
@@ -500,7 +499,6 @@ const SwapView = () => {
           }
         />
       )}
-
       <SwapInfo
         price={swap?.price}
         inputAsset={inputAssetProps}
@@ -514,7 +512,6 @@ const SwapView = () => {
         affiliateFee={affiliateFeeInUSD}
         isAffiliated={isAffiliated}
       />
-
       <SwapSubmitButton
         recipient={recipient}
         isInputWalletConnected={isInputWalletConnected}
@@ -528,8 +525,8 @@ const SwapView = () => {
         hasInSufficientFee={!!swap?.hasInSufficientFee}
         isValid={swap?.isValid()}
         pools={swap?.swapPools}
+        isValidSlip={isValidSlip}
       />
-
       <ConfirmModal
         inputAssets={[inputAsset]}
         isOpened={visibleConfirmModal}
@@ -552,7 +549,6 @@ const SwapView = () => {
           feeAssets={feeAssets}
         />
       </ConfirmModal>
-
       <ConfirmModal
         inputAssets={[inputAsset]}
         isOpened={visibleApproveModal}

@@ -36,6 +36,7 @@ type Props = {
   pools?: Pool[]
   setVisibleConfirmModal: (visible: boolean) => void
   setVisibleApproveModal: (visible: boolean) => void
+  isValidSlip?: boolean
 }
 
 export const SwapSubmitButton = ({
@@ -51,6 +52,7 @@ export const SwapSubmitButton = ({
   hasInSufficientFee,
   isValid,
   pools,
+  isValidSlip,
 }: Props) => {
   const { wallet, setIsConnectModalOpen } = useWallet()
   const { inboundData } = useMidgard()
@@ -190,6 +192,7 @@ export const SwapSubmitButton = ({
 
   const btnLabel = useMemo(() => {
     if (isValidSwap?.valid || inputAmount.eq(0)) {
+      if (!isValidSlip) return t('views.swap.slipWarning')
       if (inputAsset.isSynth && outputAsset.isSynth) return t('common.swap')
       if (inputAsset.isSynth) return t('txManager.redeem')
       if (outputAsset.isSynth) return t('txManager.mint')
@@ -198,7 +201,14 @@ export const SwapSubmitButton = ({
     }
 
     return isValidSwap?.msg ?? t('common.swap')
-  }, [isValidSwap, inputAmount, inputAsset.isSynth, outputAsset.isSynth])
+  }, [
+    isValidSwap?.valid,
+    isValidSwap?.msg,
+    inputAmount,
+    isValidSlip,
+    inputAsset.isSynth,
+    outputAsset.isSynth,
+  ])
 
   const isApproveRequired = useMemo(
     () => isInputWalletConnected && isApproved === false,
@@ -258,7 +268,7 @@ export const SwapSubmitButton = ({
         <Button
           isFancy
           disabled={!isValidSwap.valid}
-          error={!isValidSwap?.valid}
+          error={!isValidSwap?.valid || !isValidSlip}
           stretch
           size="lg"
           onClick={showSwapConfirmationModal}
