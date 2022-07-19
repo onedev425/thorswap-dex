@@ -43,6 +43,7 @@ export const AssetSelectButton = ({
           />
         }
         onClick={onClick}
+        stretch
       >
         {t('components.assetSelect.selectAToken')}
       </Button>

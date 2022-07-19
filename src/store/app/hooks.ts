@@ -116,6 +116,13 @@ export const useApp = () => {
     [dispatch],
   )
 
+  const setMultisigShowStatus = useCallback(
+    (isMultisigShown: boolean) => {
+      dispatch(actions.setMultisigShowStatus(isMultisigShown))
+    },
+    [dispatch],
+  )
+
   const setChartsShowStatus = useCallback(
     (areChartsShown: boolean) => {
       dispatch(actions.setChartsShowStatus(areChartsShown))
@@ -197,5 +204,6 @@ export const useApp = () => {
     setPoolsShowStatus,
     setAnnDismissedList,
     setAnnSeenList,
+    setMultisigShowStatus,
   }
 }

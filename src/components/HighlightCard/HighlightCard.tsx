@@ -23,6 +23,8 @@ const borderClasses: Record<CardStyleType, string> = {
   primary: '',
   warn: 'border-yellow hover:!border-yellow border-opacity-50 hover:border-opacity-100 !bg-yellow !bg-opacity-10',
   info: 'border-btn-primary hover:!border-btn-primary border-opacity-50 hover:border-opacity-100 !bg-btn-primary !bg-opacity-10',
+  success:
+    'border-green hover:!border-green border-opacity-50 hover:border-opacity-100 !bg-green !bg-opacity-10',
 }
 
 export const HighlightCard = ({

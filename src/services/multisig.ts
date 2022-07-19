@@ -1,0 +1,190 @@
+import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-sdk'
+
+import { MultisigMember } from 'store/multisig/types'
+
+import { multichain } from 'services/multichain'
+
+export type MultisigTransferTxParams = {
+  recipient: string
+  memo: string
+  asset: Asset
+  amount: Amount
+}
+
+export type MultisigDepositTxParams = {
+  memo: string
+  asset: Asset
+  amount: Amount
+}
+
+export type TxAmount = {
+  denom: string
+  amount: string
+}
+
+export type TxMessage = {
+  '@type': string
+  fromAddress: string
+  toAddress: string
+  amount: TxAmount[]
+}
+
+export type Signer = {
+  pubKey: string
+  signature: string
+}
+
+export type BroadcastResponseData = {
+  code: number
+  txhash: string
+  raw_log: string
+}
+
+export type MultisigTx = {
+  auth_info: Record<string, NotWorth>
+  body: {
+    memo: string
+    messages: TxMessage[]
+  }
+  signatures: []
+}
+
+export const createMultisigWallet = (
+  members: MultisigMember[],
+  treshold: number,
+) => {
+  try {
+    multichain.thor.createMultisig(
+      members.map((member) => member.pubKey),
+      treshold,
+    )
+
+    return multichain.thor.multisigAddress
+  } catch (e) {
+    return ''
+  }
+}
+
+export const clearMultisigWallet = () => {
+  multichain.thor.clearMultisig()
+}
+
+export const importMultisigTx = async (txData: string) => {
+  await multichain.thor.importMultisigTx(txData)
+
+  return JSON.parse(txData) as MultisigTx
+}
+
+const buildTransferTx = async ({
+  recipient,
+  memo,
+  asset,
+  amount,
+}: MultisigTransferTxParams) => {
+  const unsignedTx = await multichain.thor.buildTransferTx(
+    recipient,
+    memo,
+    asset,
+    amount.baseAmount.toNumber(),
+  )
+
+  return unsignedTx
+}
+
+const buildDepositTx = async ({
+  memo,
+  asset,
+  amount,
+}: MultisigDepositTxParams) => {
+  const unsignedTx = await multichain.thor.buildDepositTx(
+    memo,
+    asset,
+    amount.baseAmount.toString(),
+  )
+
+  return unsignedTx
+}
+
+const signMultisigTx = async (tx: string) => {
+  const signature = await multichain.thor.signMultisigTx(tx)
+
+  return signature
+}
+
+const broadcastMultisigTx = async (tx: string, signers: Signer[]) => {
+  const data = (await multichain.thor.broadcastMultisig(
+    tx,
+    signers.map((signer) => signer.signature),
+  )) as BroadcastResponseData
+
+  if (!data) return ''
+
+  if (data.code > 0) {
+    const message =
+      data.raw_log && data.raw_log !== '[]'
+        ? data.raw_log
+        : 'Could not broadcast transaction.'
+
+    throw Error(message)
+  }
+  return data.txhash
+}
+
+const loadMultisigBalances = async (): Promise<AssetAmount[]> => {
+  // const address = 'tthor17jxmh70mededc0zzh2djwqmaf5g3svxs6n5ty8'
+  const address = multichain.thor.multisigAddress
+
+  if (address) {
+    return multichain.thor.loadAddressBalances(address)
+  }
+
+  return []
+}
+
+const getAssetBalance = (
+  asset: Asset,
+  balances: AssetAmount[],
+): AssetAmount => {
+  const assetBalance = balances.find((data: AssetAmount) =>
+    data.asset.eq(asset),
+  )
+
+  return (
+    assetBalance ||
+    new AssetAmount(asset, Amount.fromAssetAmount(0, asset.decimal))
+  )
+}
+
+const hasAsset = (asset: Asset, balances: AssetAmount[]): boolean => {
+  const assetBalance = balances.find((data: AssetAmount) =>
+    data.asset.eq(asset),
+  )
+
+  return !!assetBalance
+}
+
+const getMemberPubkeyFromAddress = (
+  address: string,
+  members: MultisigMember[],
+) => {
+  const member = members.find((m) => {
+    const memberAddress = multichain.thor.pubKeyToAddr(m.pubKey)
+    return memberAddress === address
+  })
+
+  return member?.pubKey || ''
+}
+
+export const multisig = {
+  createMultisigWallet,
+  clearMultisigWallet,
+  buildTransferTx,
+  buildDepositTx,
+  importMultisigTx,
+  signMultisigTx,
+  broadcastMultisigTx,
+  getAssetBalance,
+  hasAsset,
+  loadMultisigBalances,
+  getMemberPubkeyFromAddress,
+}

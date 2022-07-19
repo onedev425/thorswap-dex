@@ -10,13 +10,14 @@ type Props = {
   className?: string
   disabled?: boolean
   label?: ReactNode | string
+  stretch?: boolean
 }
 
 export const DropdownButton = memo(
-  ({ className, label, disabled: buttonDisabled }: Props) => (
+  ({ className, label, disabled: buttonDisabled, stretch }: Props) => (
     <Listbox.Button
       disabled={buttonDisabled}
-      className="relative p-0 bg-transparent border-none outline-none -z-1"
+      className="relative p-0 bg-transparent border-none outline-none -z-1 w-full flex"
     >
       {({ open, disabled }) => (
         <Box
@@ -25,6 +26,7 @@ export const DropdownButton = memo(
             baseHoverClass,
             disabled ? 'cursor-not-allowed' : 'cursor-pointer',
             'shadow-md h-10 inline-flex justify-between rounded-2xl items-center px-3 !py-0 transition-all',
+            { 'flex flex-1 self-stretch': stretch },
             className,
           )}
         >

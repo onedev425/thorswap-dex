@@ -58,3 +58,6 @@ export const BLOCKNATIVE_API_KEY = safeEnv(
   '',
   import.meta.env.VITE_BLOCKNATIVE_API_KEY,
 )
+
+// Multisig enabled for envs different than prod
+export const IS_MULTISIG_ENABLED = !window.location.host.includes('app')

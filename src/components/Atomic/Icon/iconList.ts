@@ -26,6 +26,7 @@ import {
   BiSelectMultiple,
   BiUndo,
   BiBell,
+  BiPaste,
 } from 'react-icons/bi'
 import {
   BsCurrencyDollar,
@@ -78,6 +79,7 @@ import {
   IoWalletOutline,
   IoLanguage,
   IoCart,
+  IoRocketOutline,
 } from 'react-icons/io5'
 import {
   MdAreaChart,
@@ -192,6 +194,8 @@ const Icons = {
   xCircle: VscError,
   youtube: BsYoutube,
   documentation: HiOutlineDocumentText,
+  rocket: IoRocketOutline,
+  paste: BiPaste,
   survey: RiSurveyLine,
   ...SvgIcons,
 } as const

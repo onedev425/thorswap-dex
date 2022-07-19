@@ -4,7 +4,7 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
 import { useNodeManager } from 'views/Nodes/hooks/hooks'
-import { BondActionType } from 'views/Nodes/types'
+import { BondActionType, NodeManagePanelProps } from 'views/Nodes/types'
 
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, Button, Typography } from 'components/Atomic'
@@ -13,11 +13,11 @@ import { TabsSelect } from 'components/TabsSelect'
 
 import { t } from 'services/i18n'
 
-type Props = {
-  address?: string
-}
-
-export const NodeManagePanel = ({ address }: Props) => {
+export const NodeManagePanel = ({
+  address,
+  handleBondAction,
+  skipWalletCheck,
+}: NodeManagePanelProps) => {
   const [nodeAddress, setNodeAddress] = useState(address || '')
   const {
     tabs,
@@ -28,7 +28,11 @@ export const NodeManagePanel = ({ address }: Props) => {
     onTabChange,
     isWalletConnected,
     setIsConnectModalOpen,
-  } = useNodeManager(nodeAddress)
+  } = useNodeManager({
+    address: nodeAddress,
+    handleBondAction,
+    skipWalletCheck,
+  })
 
   return (
     <Box className="self-stretch gap-1" col>
@@ -47,7 +51,7 @@ export const NodeManagePanel = ({ address }: Props) => {
 
       <Box
         className={classNames(
-          'transition-all pt-2 overflow-hidden',
+          'transition-all overflow-hidden',
           activeTab.value === BondActionType.Leave
             ? 'max-h-[0px]'
             : 'max-h-[86px]',

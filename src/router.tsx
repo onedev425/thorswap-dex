@@ -11,6 +11,11 @@ import {
 import Stake from 'views/Stake'
 import WalletBalance, { WalletDrawer } from 'views/WalletBalance'
 
+const Multisig = lazy(() => import('views/Multisig/Multisig'))
+const TxBuilder = lazy(() => import('views/Multisig/TxBuilder/TxBuilder'))
+const TxCreate = lazy(() => import('views/Multisig/TxCreate/TxCreate'))
+const TxImport = lazy(() => import('views/Multisig/TxImport/TxImport'))
+const TxMultisig = lazy(() => import('views/Multisig/TxMultisig/TxMultisig'))
 const AddLiquidity = lazy(() => import('views/AddLiquidity'))
 const CreateLiquidity = lazy(() => import('views/CreateLiquidity'))
 const Home = lazy(() => import('views/Home'))
@@ -35,7 +40,7 @@ import { ROUTES } from 'settings/constants'
 
 export type RouteType = {
   path: string
-  element: any
+  element: NotWorth
 }[]
 
 const routes: RouteType = [
@@ -59,6 +64,16 @@ const routes: RouteType = [
   { path: ROUTES.Wallet, element: Wallet },
   { path: ROUTES.WithdrawLiquidity, element: WithdrawLiquidity },
   { path: ROUTES.WithdrawLiquidityPool, element: WithdrawLiquidity },
+  { path: ROUTES.Nodes, element: Nodes },
+  { path: ROUTES.NodeManager, element: NodeManager },
+  { path: ROUTES.NodeDetail, element: NodeDetails },
+  { path: ROUTES.Vesting, element: Vesting },
+  { path: ROUTES.Multisig, element: Multisig },
+  { path: ROUTES.TxBuilder, element: TxBuilder },
+  { path: ROUTES.TxCreate, element: TxCreate },
+  { path: ROUTES.TxCreatePool, element: TxCreate },
+  { path: ROUTES.TxImport, element: TxImport },
+  { path: ROUTES.TxMultisig, element: TxMultisig },
 ]
 
 const PublicRoutes = () => {

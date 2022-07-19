@@ -15,6 +15,7 @@ type DropdownMenuProps = {
   menuItems: DropdownMenuItem[]
   openComponent?: ReactNode
   openLabel?: string
+  stretch?: boolean
 } & DropdownOptions
 
 export const DropdownMenu = ({
@@ -27,6 +28,7 @@ export const DropdownMenu = ({
   openComponent,
   openLabel,
   value,
+  stretch,
 }: DropdownMenuProps) => {
   const defaultOpenLabel =
     menuItems.find((i) => i.value === value)?.label || '-'
@@ -42,6 +44,7 @@ export const DropdownMenu = ({
         className={buttonClassName}
         label={openComponent || openLabel || defaultOpenLabel}
         disabled={disabled}
+        stretch={stretch}
       />
 
       <Transition

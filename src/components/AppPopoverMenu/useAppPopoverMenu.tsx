@@ -11,6 +11,8 @@ import { useApp } from 'store/app/hooks'
 
 import { t, changeAppLanguage, FLAG_ICONS, LANGUAGE_NAMES } from 'services/i18n'
 
+import { IS_MULTISIG_ENABLED } from 'settings/config'
+
 import {
   SupportedLanguages,
   SUPPORTED_LANGUAGES,
@@ -24,6 +26,7 @@ type MenuType =
   | 'currency'
   | 'theme'
   | 'thousandSeparator'
+  | 'proMode'
   | 'settings'
 
 const separatorIcons: Record<ThousandSeparator, IconName> = {
@@ -57,6 +60,10 @@ export const useAppPopoverMenu = () => {
     thousandSeparator: {
       title: t('appMenu.thousandSeparator'),
       items: useThousandSeparatorMenu(onBack),
+    },
+    proMode: {
+      title: t('appMenu.proModeSettings'),
+      items: useProModeSettings(),
     },
     settings: {
       title: t('appMenu.customize'),
@@ -111,13 +118,22 @@ const useMainMenu = (setMenuType: (val: MenuType) => void) => {
       hasSubmenu: true,
       value: baseCurrency,
     },
+    IS_MULTISIG_ENABLED
+      ? {
+          label: t('appMenu.proMode'),
+          desc: t('appMenu.proModeSettings'),
+          onClick: () => setMenuType('proMode'),
+          icon: 'rocket',
+        }
+      : // Temp workaround for feature flag
+        (null as unknown as MenuItemType),
     {
       label: t('appMenu.settings'),
       desc: t('appMenu.customize'),
       onClick: () => setMenuType('settings'),
       icon: 'multiSettings',
     },
-  ]
+  ].filter((i) => !!i) as MenuItemType[]
 
   return mainMenu
 }
@@ -241,6 +257,19 @@ const useThousandSeparatorMenu = (onBack: () => void) => {
       label: t('appMenu.separatorNone'),
       onClick: () => onClick(ThousandSeparator.None),
       isSelected: isThemeSelected(ThousandSeparator.None),
+    },
+  ]
+
+  return menu
+}
+
+const useProModeSettings = () => {
+  const { setMultisigShowStatus, hideMultisig } = useApp()
+  const menu: MenuItemType[] = [
+    {
+      label: t('appMenu.showMultisig'),
+      status: !hideMultisig,
+      onClick: () => setMultisigShowStatus(!hideMultisig),
     },
   ]
 

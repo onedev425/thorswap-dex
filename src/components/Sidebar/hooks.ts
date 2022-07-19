@@ -7,10 +7,13 @@ import { useVesting } from 'views/Vesting/hooks'
 import { IconName } from 'components/Atomic'
 import { SidebarItemProps } from 'components/Sidebar/types'
 
+import { useApp } from 'store/app/hooks'
+import { useAppSelector } from 'store/store'
 import { useWallet } from 'store/wallet/hooks'
 
 import { t } from 'services/i18n'
 
+import { IS_MULTISIG_ENABLED } from 'settings/config'
 import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/constants'
 
 export const useSidebarOptions = () => {
@@ -18,6 +21,34 @@ export const useSidebarOptions = () => {
   const [hasAlloc, setHasAlloc] = useState(false)
   const { wallet } = useWallet()
   const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet])
+
+  const { hideMultisig } = useApp()
+  const hasMultisigWallet = useAppSelector((state) => !!state.multisig.address)
+
+  const multisigMenu: SidebarItemProps = useMemo(() => {
+    const walletItems: SidebarItemProps[] = hasMultisigWallet
+      ? [
+          {
+            iconName: 'send',
+            href: ROUTES.TxBuilder,
+            label: t('appMenu.txBuilder'),
+          },
+        ]
+      : []
+
+    return {
+      iconName: 'wallet',
+      label: t('appMenu.thorSafe'),
+      children: [
+        {
+          iconName: 'wallet',
+          href: ROUTES.Multisig,
+          label: t('appMenu.multisig'),
+        },
+        ...walletItems,
+      ],
+    }
+  }, [hasMultisigWallet])
 
   useEffect(() => {
     const getAllocData = async () => {
@@ -128,8 +159,12 @@ export const useSidebarOptions = () => {
       },
     ]
 
+    if (IS_MULTISIG_ENABLED && !hideMultisig) {
+      menu.push({ ...multisigMenu })
+    }
+
     return [...menu, thorMenu]
-  }, [thorMenu])
+  }, [hideMultisig, multisigMenu, thorMenu])
 
   return sidebarOptions
 }

@@ -23,6 +23,12 @@ export enum ROUTES {
   Wallet = '/wallet',
   WithdrawLiquidity = '/withdraw',
   WithdrawLiquidityPool = '/withdraw/:assetParam',
+  Multisig = '/multisig',
+  TxBuilder = '/txbuilder',
+  TxCreate = '/txcreate',
+  TxCreatePool = '/txcreate/:assetParam',
+  TxImport = '/tximport',
+  TxMultisig = '/txmultisig',
 }
 
 export const THORYIELD_ROUTE = 'https://app.thoryield.com'
@@ -43,6 +49,10 @@ export const getWithdrawRoute = (asset?: Asset) => {
 
 export const getSendRoute = (asset?: Asset) => {
   return getAssetRoute(ROUTES.Send, asset)
+}
+
+export const getMultisigTxCreateRoute = (asset?: Asset) => {
+  return getAssetRoute(ROUTES.TxCreate, asset)
 }
 
 export const getSwapRoute = (input: Asset, output: Asset = Asset.RUNE()) => {

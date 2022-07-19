@@ -47,6 +47,12 @@ export const AppMenu = () => {
             </Scrollbar>
           </Box>
         )
+      case 'proMode':
+        return (
+          <Box style={{ width: containerWidth }}>
+            <SwitchMenu items={menus.proMode.items} />
+          </Box>
+        )
       default:
         return (
           <Box style={{ width: containerWidth }}>

@@ -47,7 +47,7 @@ const IconComponent = ({
   iconHoverHighlight = true,
 }: Props) => (
   <Tooltip content={tooltip}>
-    <Box className={classNames(baseHoverClass, 'group')}>
+    <Box className={classNames(baseHoverClass, 'group')} onClick={onClick}>
       <Icon
         className={classNames(
           {
@@ -60,7 +60,6 @@ const IconComponent = ({
         color={color}
         size={size}
         spin={spin}
-        onClick={onClick}
       />
     </Box>
   </Tooltip>

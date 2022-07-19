@@ -10,7 +10,7 @@ import {
 import { Chain } from '@thorswap-lib/types'
 import copy from 'copy-to-clipboard'
 
-import { BondActionType } from 'views/Nodes/types'
+import { BondActionType, NodeManagePanelProps } from 'views/Nodes/types'
 
 import { Box, Button, Icon, Link, Typography } from 'components/Atomic'
 import { useInputAmount } from 'components/InputAmount/useInputAmount'
@@ -180,7 +180,11 @@ export const useNodeStats = (nodeInfo: THORNode) => {
   ]
 }
 
-export const useNodeManager = (nodeAddress?: string) => {
+export const useNodeManager = ({
+  address,
+  handleBondAction,
+  skipWalletCheck,
+}: NodeManagePanelProps) => {
   const tabs = useMemo(
     () =>
       Object.values(BondActionType).map((type) => ({
@@ -204,7 +208,10 @@ export const useNodeManager = (nodeAddress?: string) => {
   })
   const { wallet, setIsConnectModalOpen } = useWallet()
 
-  const isWalletConnected = useMemo(() => hasConnectedWallet(wallet), [wallet])
+  const isWalletConnected = useMemo(
+    () => skipWalletCheck || hasConnectedWallet(wallet),
+    [skipWalletCheck, wallet],
+  )
 
   const thorWalletConnected = useMemo(
     () => hasWalletConnected({ wallet, inputAssets: [Asset.RUNE()] }),
@@ -225,17 +232,11 @@ export const useNodeManager = (nodeAddress?: string) => {
    * 2. check if node address matches to wallet address
    */
   const handleComplete = useCallback(async () => {
-    if (!thorWalletConnected) {
-      return showInfoToast(
-        t('views.nodes.detail.WalletNotConnected'),
-        t('views.nodes.detail.ConnectThorChainAgainPlease'),
-      )
-    }
-
     const isValidAddress = multichain.validateAddress({
       chain: Chain.THORChain,
-      address: nodeAddress || '',
+      address: address || '',
     })
+
     if (!isValidAddress) {
       return showInfoToast(
         t('views.nodes.detail.InvalidNodeAddress'),
@@ -243,10 +244,26 @@ export const useNodeManager = (nodeAddress?: string) => {
       )
     }
 
+    // Custom action handler
+    if (handleBondAction) {
+      return handleBondAction({
+        type: tab.value,
+        nodeAddress: address || '',
+        amount,
+      })
+    }
+
+    if (!thorWalletConnected) {
+      return showInfoToast(
+        t('views.nodes.detail.WalletNotConnected'),
+        t('views.nodes.detail.ConnectThorChainAgainPlease'),
+      )
+    }
+
     try {
       if (tab.value === BondActionType.Bond) {
         // bond action
-        const txURL = await multichain.bond(nodeAddress || '', amount)
+        const txURL = await multichain.bond(address || '', amount)
         showSuccessToast(
           t('views.nodes.detail.ViewBondTx'),
           <Box className="align-center py-2">
@@ -262,7 +279,7 @@ export const useNodeManager = (nodeAddress?: string) => {
         )
       } else if (tab.value === BondActionType.Unbond) {
         const txURL = await multichain.unbond(
-          nodeAddress || '',
+          address || '',
           amount.assetAmount.toNumber(),
         )
         showSuccessToast(
@@ -279,7 +296,7 @@ export const useNodeManager = (nodeAddress?: string) => {
           </>,
         )
       } else {
-        const txURL = await multichain.leave(nodeAddress || '')
+        const txURL = await multichain.leave(address || '')
         showSuccessToast(
           t('views.nodes.detail.ViewLeaveTx'),
           <>
@@ -297,7 +314,7 @@ export const useNodeManager = (nodeAddress?: string) => {
     } catch (error) {
       showErrorToast(t('views.nodes.detail.TransactionFailed'), `${error}`)
     }
-  }, [amount, nodeAddress, tab.value, thorWalletConnected])
+  }, [amount, handleBondAction, address, tab.value, thorWalletConnected])
 
   const onTabChange = useCallback(
     (v: string) => setTab(getTab(v as BondActionType) || tabs[0]),

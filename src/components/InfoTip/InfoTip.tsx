@@ -19,6 +19,7 @@ const icons: Record<CardStyleType, ReactNode> = {
   primary: <Icon name="bulb" size={20} />,
   warn: <Icon name="warn" size={20} color="yellow" />,
   info: <Icon name="infoCircle" size={20} color="primaryBtn" />,
+  success: <Icon name="infoCircle" size={20} color="green" />,
 }
 
 export const InfoTip = ({

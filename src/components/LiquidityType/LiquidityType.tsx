@@ -16,6 +16,7 @@ export const LiquidityType = ({
   options,
   title,
 }: LiquidityTypeProps) => {
+  const tabWidth = `${Math.min(options.length, 3)}%`
   const lpOptions = useMemo(
     () => getOptionsProp(options, poolAsset),
     [options, poolAsset],
@@ -36,7 +37,7 @@ export const LiquidityType = ({
         onChange={onSelect}
         title={title}
         titleWidth="25%"
-        tabWidth="33%"
+        tabWidth={tabWidth}
       />
     </Box>
   )

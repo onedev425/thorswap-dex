@@ -1,6 +1,8 @@
 import { Asset } from '@thorswap-lib/multichain-sdk'
 import { Keystore } from '@thorswap-lib/xchain-crypto'
 
+import { MultisigWallet } from 'store/multisig/types'
+
 import { DEFAULT_SLIPPAGE_TOLERANCE } from 'settings/constants/values'
 
 import {
@@ -30,11 +32,13 @@ type StorageType = {
   customRecipientMode: boolean
   walletViewMode: ViewMode
   statsHidden: boolean
+  multisigHidden: boolean
   chartsHidden: boolean
   poolsHidden: boolean
   dismissedAnnList: string[]
   seenAnnList: string[]
   sidebarCollapsed: boolean
+  multisigWallet: MultisigWallet | null
 }
 
 type StoragePayload =
@@ -71,12 +75,18 @@ type StoragePayload =
         | 'readStatus'
         | 'sidebarCollapsed'
         | 'statsHidden'
+        | 'multisigHidden'
         | 'tradingHaltStatus'
       value: boolean
+    }
+  | {
+      key: 'multisigWallet'
+      value: MultisigWallet
     }
 
 const defaultValues: StorageType = {
   statsHidden: false,
+  multisigHidden: false,
   chartsHidden: false,
   poolsHidden: false,
   dismissedAnnList: [] as string[],
@@ -100,6 +110,7 @@ const defaultValues: StorageType = {
   slippageTolerance: `${DEFAULT_SLIPPAGE_TOLERANCE}`,
   transactionDeadline: '30',
   walletViewMode: ViewMode.CARD,
+  multisigWallet: null,
 }
 
 export const saveInStorage = ({ key, value }: StoragePayload) => {
@@ -108,13 +119,13 @@ export const saveInStorage = ({ key, value }: StoragePayload) => {
     case 'frequentAssets':
     case 'featuredAssets':
     case 'dismissedAnnList':
-      localStorage.setItem(key, JSON.stringify(value))
-      break
     case 'seenAnnList':
+    case 'multisigWallet':
       localStorage.setItem(key, JSON.stringify(value))
       break
     case 'annViewStatus':
     case 'statsHidden':
+    case 'multisigHidden':
     case 'chartsHidden':
     case 'poolsHidden':
     case 'sidebarCollapsed':
@@ -151,13 +162,15 @@ export const getFromStorage = (
     case 'nodeWatchList':
     case 'featuredAssets':
     case 'dismissedAnnList':
-    case 'frequentAssets': {
+    case 'frequentAssets':
+    case 'multisigWallet': {
       const item = localStorage.getItem(key)
       return item ? JSON.parse(item) : defaultValues[key]
     }
 
     case 'annViewStatus':
     case 'statsHidden':
+    case 'multisigHidden':
     case 'chartsHidden':
     case 'poolsHidden':
     case 'sidebarCollapsed':

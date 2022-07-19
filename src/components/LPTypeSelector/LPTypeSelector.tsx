@@ -15,7 +15,9 @@ export const LPTypeSelector = ({
   selected,
   options,
   title,
+  itemsCount = 3,
 }: LPTypeSelectorProps) => {
+  const tabWidth = `${Math.floor(100 / itemsCount)}%`
   const lpOptions = useMemo(
     () => getOptionsProp(options, poolAsset),
     [options, poolAsset],
@@ -36,7 +38,7 @@ export const LPTypeSelector = ({
         onChange={onSelect}
         title={title}
         titleWidth="25%"
-        tabWidth="33%"
+        tabWidth={tabWidth}
       />
     </Box>
   )
