@@ -46,7 +46,7 @@ const UpgradeRune = () => {
   const [recipientAddress, setRecipientAddress] = useState(walletAddress || '')
   const [hasManualAddress, setHasManualAddress] = useState(false)
   const { getMaxBalance, isWalletAssetConnected } = useBalance()
-  const { pools } = useMidgard()
+  const { lastBlock, pools } = useMidgard()
   const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
 
   useEffect(() => {
@@ -234,6 +234,15 @@ const UpgradeRune = () => {
     2,
   )})`
 
+  const redemptionRate = useMemo(() => {
+    // Current Ratio = 1-((CurrentBlockHeight - KILLSWITCH_BLOCK) / KILLSWITCH_DURATION_IN_BLOCKS)
+
+    const lastTCBlock = lastBlock?.[0]?.thorchain
+    const rate = 1 - (lastTCBlock - 6500000) / 525600
+
+    return lastTCBlock ? rate.toFixed(6) : '-'
+  }, [lastBlock])
+
   const summary = useMemo(
     () => [
       {
@@ -247,11 +256,23 @@ const UpgradeRune = () => {
           </Box>
         ),
       },
+      {
+        label: t('common.runeRedemptionRate'),
+        value: (
+          <Box className="gap-2" center>
+            <Typography variant="caption">{redemptionRate}</Typography>
+            <Box
+              center
+              className="p-0.5 border-[1.5px] border-solid rounded-xl border-light-border-primary dark:border-dark-gray-primary"
+            >
+              <Icon size={12} name="switch" color="secondary" />
+            </Box>
+          </Box>
+        ),
+      },
     ],
-    [feeLabel],
+    [feeLabel, redemptionRate],
   )
-
-  // TODO: add more validations
 
   return (
     <Box className="self-center w-full max-w-[480px]" col>

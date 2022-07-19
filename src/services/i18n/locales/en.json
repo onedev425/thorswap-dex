@@ -1,5 +1,6 @@
 {
   "common": {
+    "runeRedemptionRate": "RUNE Redemption Rate",
     "THORSwap": "THORSwap",
     "update": "Update",
     "thorswapDescription": "THORSwap is world's first multi-chain dex powered by THORChain",
