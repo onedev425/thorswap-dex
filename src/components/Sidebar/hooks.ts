@@ -29,6 +29,7 @@ export const useSidebarOptions = () => {
     const walletItems: SidebarItemProps[] = hasMultisigWallet
       ? [
           {
+            beta: true,
             iconName: 'send',
             href: ROUTES.TxBuilder,
             label: t('appMenu.txBuilder'),
@@ -41,6 +42,7 @@ export const useSidebarOptions = () => {
       label: t('appMenu.thorSafe'),
       children: [
         {
+          beta: true,
           iconName: 'wallet',
           href: ROUTES.Multisig,
           label: t('appMenu.multisig'),
@@ -124,7 +126,6 @@ export const useSidebarOptions = () => {
             label: t('components.sidebar.send'),
           },
           {
-            beta: true,
             transform: 'none',
             iconName: 'thor',
             href: ROUTES.Thorname,

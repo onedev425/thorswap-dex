@@ -15,13 +15,13 @@ export const LPTypeSelector = ({
   selected,
   options,
   title,
-  itemsCount = 3,
 }: LPTypeSelectorProps) => {
-  const tabWidth = `${Math.floor(100 / itemsCount)}%`
   const lpOptions = useMemo(
     () => getOptionsProp(options, poolAsset),
     [options, poolAsset],
   )
+
+  const tabWidth = `${Math.floor(100 / Math.max(lpOptions.length, 3))}%`
 
   const onSelect = useCallback(
     (val: string) => {

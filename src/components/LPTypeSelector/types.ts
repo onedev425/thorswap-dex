@@ -8,5 +8,4 @@ export type LPTypeSelectorProps = {
   selected: PoolShareType
   options: PoolShareType[]
   title?: string
-  itemsCount?: number
 }

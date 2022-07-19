@@ -274,6 +274,16 @@ const UpgradeRune = () => {
     [feeLabel, redemptionRate],
   )
 
+  const receivedRune = useMemo(() => {
+    const rate = parseFloat(redemptionRate)
+
+    if (Number.isNaN(rate) || assetInput.value.lte(0)) return '-'
+
+    const runeAmount = assetInput.value.mul(rate).toSignificant(8)
+
+    return `${t('common.receive')} ${runeAmount} Native RUNE`
+  }, [assetInput.value, redemptionRate])
+
   return (
     <Box className="self-center w-full max-w-[480px]" col>
       <Helmet
@@ -299,6 +309,7 @@ const UpgradeRune = () => {
             onValueChange={handleChangeUpgradeAmount}
             assets={assetInputList}
             commonAssets={assetInputList}
+            secondaryLabel={receivedRune}
           />
 
           <Box col>

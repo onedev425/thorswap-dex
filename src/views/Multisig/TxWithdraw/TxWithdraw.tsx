@@ -50,7 +50,6 @@ export const TxWithdraw = () => {
         title={`${t('views.liquidity.withdraw')}:`}
       />
       <LPTypeSelector
-        itemsCount={2}
         poolAsset={poolAsset}
         selected={lpType}
         options={shareTypes}

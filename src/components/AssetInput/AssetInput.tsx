@@ -108,7 +108,7 @@ export const AssetInput = ({
 
       <Box className="pl-4 md:pl-0" alignCenter justify="between" flex={1}>
         <Box>
-          {assetPriceInUSD && (
+          {(assetPriceInUSD || secondaryLabel) && (
             <Typography color="secondary" fontWeight="semibold">
               {secondaryLabel || `${assetPriceInUSD}`}
             </Typography>
@@ -122,7 +122,7 @@ export const AssetInput = ({
             </Typography>
           )}
 
-          {balance && !hideMaxButton && !disabled && (
+          {(balance || !hideMaxButton) && !disabled && (
             <Button
               className="!h-5 !px-1.5"
               type="outline"

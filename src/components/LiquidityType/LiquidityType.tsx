@@ -16,11 +16,12 @@ export const LiquidityType = ({
   options,
   title,
 }: LiquidityTypeProps) => {
-  const tabWidth = `${Math.min(options.length, 3)}%`
   const lpOptions = useMemo(
     () => getOptionsProp(options, poolAsset),
     [options, poolAsset],
   )
+
+  const tabWidth = `${Math.floor(100 / Math.max(lpOptions.length, 3))}%`
 
   const onSelect = useCallback(
     (val: string) => {

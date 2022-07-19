@@ -33,14 +33,13 @@ export const stakingV2Addr = {
 
 export const assetsFixture = [
   { asset: Asset.RUNE() },
-  { asset: Asset.ETH() },
   { asset: Asset.BTC() },
-  { asset: Asset.LUNA() },
-  { asset: Asset.DOGE() },
-  { asset: Asset.UST() },
+  { asset: Asset.ETH() },
   { asset: Asset.BNB() },
-  { asset: Asset.BCH() },
   { asset: Asset.USD() },
+  { asset: Asset.THOR() },
+  { asset: Asset.DOGE() },
+  { asset: Asset.BCH() },
 ] as AssetSelectType[]
 
 export const commonAssets = assetsFixture.slice(0, 3)
