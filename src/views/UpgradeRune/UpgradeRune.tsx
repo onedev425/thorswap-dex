@@ -238,7 +238,7 @@ const UpgradeRune = () => {
     // Current Ratio = 1-((CurrentBlockHeight - KILLSWITCH_BLOCK) / KILLSWITCH_DURATION_IN_BLOCKS)
 
     const lastTCBlock = lastBlock?.[0]?.thorchain
-    const rate = 1 - (lastTCBlock - 6500000) / 525600
+    const rate = 1 - (lastTCBlock - 6500000) / 5256000
 
     return lastTCBlock ? rate.toFixed(6) : '-'
   }, [lastBlock])
