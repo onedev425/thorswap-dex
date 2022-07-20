@@ -41,20 +41,17 @@ export const useNetworkFee = ({
   }, [inputAsset, inboundData, feeOptionType])
 
   const outboundFee = useMemo(() => {
-    if (!outputAsset) return null
+    const asset = outputAsset || inputAsset
 
-    const gasRate = getGasRateByChain({
-      inboundData,
-      chain: outputAsset.L1Chain,
-    })
+    const gasRate = getGasRateByChain({ inboundData, chain: asset.chain })
     const networkFee = NetworkFee.getNetworkFeeByAsset({
-      asset: outputAsset,
+      asset,
       gasRate,
       direction: 'outbound',
     })
 
     return networkFee
-  }, [outputAsset, inboundData])
+  }, [outputAsset, inputAsset, inboundData])
 
   const feeAssets = useMemo(() => {
     if (!outboundFee) return inboundFee.asset.symbol
@@ -90,8 +87,8 @@ export const useNetworkFee = ({
   }, [inputAsset, inboundFee, outboundFee, pools])
 
   const totalFeeInUSD = useMemo(
-    () => totalFee.totalPriceIn(Asset.USD(), pools),
-    [totalFee, pools],
+    () => outboundFee?.totalPriceIn(Asset.USD(), pools),
+    [outboundFee, pools],
   )
 
   return {
