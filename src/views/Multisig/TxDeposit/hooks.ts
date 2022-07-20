@@ -21,10 +21,11 @@ export const useTxDeposit = () => {
   const onAddLiquidity = async ({
     runeAmount,
     runeAddr,
+    pool,
   }: AddLiquidityParams) => {
     if (runeAmount?.gt(0)) {
       const tx = await createDepositTx({
-        memo: Memo.depositMemo(runeAmount.asset, runeAddr),
+        memo: Memo.depositMemo(pool.asset, runeAddr),
         amount: runeAmount.amount,
         asset: runeAmount.asset,
       })
