@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
+import { BigNumber } from '@ethersproject/bignumber'
 import { Asset } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/types'
 import classNames from 'classnames'
-import { BigNumber } from 'ethers'
 
 import { StakeConfirmModal } from 'views/Stake/components/StakeConfirmModal'
 import { FarmActionType } from 'views/Stake/types'

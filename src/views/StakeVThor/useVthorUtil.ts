@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 // import { ETH_DECIMAL } from '@thorswap-lib/multichain-sdk'
 // import { baseAmount } from '@thorswap-lib/xchain-util'
-import { BigNumber } from 'ethers'
+import { BigNumber } from '@ethersproject/bignumber'
 
 import { showErrorToast } from 'components/Toast'
 

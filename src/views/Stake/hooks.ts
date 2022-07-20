@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import { BigNumber } from 'ethers'
+import { BigNumber } from '@ethersproject/bignumber'
 
 import { FarmActionType } from 'views/Stake/types'
 

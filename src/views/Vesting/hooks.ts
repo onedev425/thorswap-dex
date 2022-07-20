@@ -1,8 +1,8 @@
 import { useCallback, useMemo, useState } from 'react'
 
+import { BigNumber } from '@ethersproject/bignumber'
 import { Amount } from '@thorswap-lib/multichain-sdk'
 import dayjs from 'dayjs'
-import { BigNumber } from 'ethers'
 
 import {
   defaultVestingInfo,

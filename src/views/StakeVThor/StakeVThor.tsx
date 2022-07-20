@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
+import { BigNumber } from '@ethersproject/bignumber'
 import { Amount, WalletOption } from '@thorswap-lib/multichain-sdk'
 import BN from 'bignumber.js'
 import classNames from 'classnames'
-import { BigNumber } from 'ethers'
 
 import { ConfirmVThorButton } from 'views/StakeVThor/ConfirmVThorButton'
 import { ConfirmVThorModal } from 'views/StakeVThor/ConfirmVThorModal'

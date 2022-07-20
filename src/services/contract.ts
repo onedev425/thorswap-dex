@@ -1,6 +1,9 @@
+import { BigNumber } from '@ethersproject/bignumber'
+import { Contract, type ContractInterface } from '@ethersproject/contracts'
+import { InfuraProvider } from '@ethersproject/providers'
+import { formatUnits, parseUnits } from '@ethersproject/units'
 import { IMultiChain } from '@thorswap-lib/multichain-sdk'
 import { Network } from '@thorswap-lib/xchain-client'
-import { ethers, BigNumber, ContractInterface } from 'ethers'
 import { capitalize } from 'lodash'
 
 import { showErrorToast } from 'components/Toast'
@@ -103,26 +106,23 @@ export const lpContractConfig: Record<LPContractType, LPContractConf> = {
 }
 
 export const fromWei = (amountInWei: BigNumber): number => {
-  return parseFloat(ethers.utils.formatUnits(amountInWei, 'ether'))
+  return parseFloat(formatUnits(amountInWei, 'ether'))
 }
 
 export const toWei = (amount: number | string): BigNumber => {
-  return ethers.utils.parseUnits(amount.toString(), 'ether')
+  return parseUnits(amount.toString(), 'ether')
 }
 
 export const toWeiFromString = (amount: string): BigNumber => {
-  return ethers.utils.parseUnits(amount, 'ether')
+  return parseUnits(amount, 'ether')
 }
 
 export const getEtherscanContract = (contractType: ContractType) => {
   const { network } = config
-  const provider = new ethers.providers.InfuraProvider(
-    IS_TESTNET ? 3 : 1,
-    INFURA_PROJECT_ID,
-  )
+  const provider = new InfuraProvider(IS_TESTNET ? 3 : 1, INFURA_PROJECT_ID)
 
   const activeContract = contractConfig[contractType]
-  const contract = new ethers.Contract(
+  const contract = new Contract(
     activeContract[network],
     activeContract[ContractABI],
     provider,
@@ -135,16 +135,9 @@ export const getCustomContract = (
   contractAddr: string,
   abi?: ContractInterface,
 ) => {
-  const provider = new ethers.providers.InfuraProvider(
-    IS_TESTNET ? 3 : 1,
-    INFURA_PROJECT_ID,
-  )
+  const provider = new InfuraProvider(IS_TESTNET ? 3 : 1, INFURA_PROJECT_ID)
 
-  const contract = new ethers.Contract(
-    contractAddr,
-    abi ? abi : ERC20ABI,
-    provider,
-  )
+  const contract = new Contract(contractAddr, abi ? abi : ERC20ABI, provider)
 
   return contract
 }

@@ -1,9 +1,9 @@
-import { utils } from 'ethers'
+import { id } from '@ethersproject/hash'
 
 import { AnnouncementItem } from 'store/externalConfig/types'
 
 export const getAnnouncementId = (ann: AnnouncementItem) => {
-  return utils.id(
+  return id(
     ann.message +
       (ann.type || '') +
       (ann.link?.name || '') +

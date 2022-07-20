@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
+import { BigNumber } from '@ethersproject/bignumber'
 import { Asset } from '@thorswap-lib/multichain-sdk'
-import { BigNumber } from 'ethers'
 
 import { FarmActionType } from 'views/Stake/types'
 
