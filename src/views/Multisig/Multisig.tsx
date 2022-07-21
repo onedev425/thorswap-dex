@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react'
 import { MultisigCreate } from 'views/Multisig/MultisigCreate'
 import { MultisigImport } from 'views/Multisig/MultisigImport'
 import { MultisigInfo } from 'views/Multisig/MultisigInfo'
+import { PubKeyInfo } from 'views/Multisig/PubKeyInfo'
 
 import { Box, Typography } from 'components/Atomic'
 import { HoverIcon } from 'components/HoverIcon'
@@ -42,15 +43,16 @@ const Multisig = () => {
             </Box>
           )}
         </Box>
-        <Box flex={1} />
       </Box>
 
       <Box className="flex-col md:flex-row gap-5">
+        <Box className="basis-full gap-4" col>
+          <PubKeyInfo />
+          <MultisigCreate />
+        </Box>
+
         <Box className="basis-full">
           {hasWallet ? <MultisigInfo /> : <MultisigImport />}
-        </Box>
-        <Box className="basis-full">
-          <MultisigCreate />
         </Box>
       </Box>
 

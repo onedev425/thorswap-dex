@@ -26,7 +26,12 @@ export const MultisigCreate = () => {
             {t('views.multisig.createMultisigDescription')}
           </Typography>
 
-          <Box className="mt-8" flex={1}>
+          <Typography className="my-3" fontWeight="semibold">
+            NOTE: You will need your public key in order to create multisig
+            wallet
+          </Typography>
+
+          <Box flex={1}>
             <Button
               stretch
               variant="secondary"

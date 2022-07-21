@@ -687,7 +687,8 @@
       "txBroadcasted": "Transaction broadcasted.",
       "viewTx": "View Transaction",
       "incorrectSigner": "You cannot sign this transaction.",
-      "signatureCopied": "Signature Copied"
+      "signatureCopied": "Signature Copied",
+      "pubKeyCopied": "Public Key Copied"
     }
   },
   "validation": {

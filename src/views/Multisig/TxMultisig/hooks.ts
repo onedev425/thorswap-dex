@@ -60,7 +60,6 @@ export const useTxData = (state: ScreenState | null) => {
     const signature = await signTx(JSON.stringify(txData))
     if (signature === undefined)
       throw Error(`Unable to sign: ${JSON.stringify(txData)}`)
-    console.log('🔥', pubKey)
 
     addSigner({ pubKey, signature })
   }, [addSigner, connectedWalletAddress, getPubkeyForAddress, signTx, txData])

@@ -27,7 +27,7 @@ export const MultisigInfo = () => {
       <Box className="gap-5" col flex={1}>
         <InfoTable items={info} size="lg" horizontalInset />
 
-        <Box className="mt-8" flex={1}>
+        <Box className="mt-8" flex={1} align="end">
           <Link className="flex-1" to={ROUTES.TxBuilder}>
             <Button stretch variant="primary" onClick={() => {}}>
               {t('views.multisig.newTransaction')}
