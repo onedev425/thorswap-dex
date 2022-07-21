@@ -424,6 +424,14 @@ const SwapView = () => {
     [TNSAddress, outputAsset.L1Chain, thorname],
   )
 
+  const minReceiveInfo = useMemo(
+    () =>
+      minReceive.gte(0)
+        ? `${minReceive.toSignificant(6)} ${outputAsset.name.toUpperCase()}`
+        : '-',
+    [minReceive, outputAsset.name],
+  )
+
   return (
     <PanelView
       title={title}
@@ -505,9 +513,7 @@ const SwapView = () => {
         outputAsset={outputAssetProps}
         isValidSlip={isValidSlip}
         slippage={slipPercent.toFixed(3)}
-        minReceive={`${minReceive.toSignificant(
-          6,
-        )} ${outputAsset.name.toUpperCase()}`}
+        minReceive={minReceiveInfo}
         networkFee={totalFeeInUSD}
         affiliateFee={affiliateFeeInUSD}
         isAffiliated={isAffiliated}

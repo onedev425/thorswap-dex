@@ -126,6 +126,7 @@ export const useSidebarOptions = () => {
             label: t('components.sidebar.send'),
           },
           {
+            beta: true,
             transform: 'none',
             iconName: 'thor',
             href: ROUTES.Thorname,
