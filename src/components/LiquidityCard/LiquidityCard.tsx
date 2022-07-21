@@ -19,7 +19,7 @@ import {
 } from 'components/Atomic'
 import { HighlightCard } from 'components/HighlightCard'
 
-import { PoolShareType } from 'store/midgard/types'
+import { LpDetailCalculationResult, PoolShareType } from 'store/midgard/types'
 
 import useWindowSize from 'hooks/useWindowSize'
 
@@ -31,6 +31,7 @@ import { LiquidityInfo } from './LiquidityInfo'
 
 type LiquidityCardProps = ChainPoolData & {
   withFooter?: boolean
+  lpAddedAndWithdraw?: LpDetailCalculationResult
 }
 
 const RuneAsset = Asset.RUNE()
@@ -41,12 +42,9 @@ export const LiquidityCard = ({
   shareType,
   withFooter,
   liquidityUnits,
-  runeAdded,
-  assetAdded,
-  runeWithdrawn,
-  assetWithdrawn,
   runePending,
   assetPending,
+  lpAddedAndWithdraw,
 }: LiquidityCardProps) => {
   const navigate = useNavigate()
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse()
@@ -90,6 +88,12 @@ export const LiquidityCard = ({
         return 'RUNE LP'
     }
   }, [pool.asset.ticker, shareType])
+
+  const poolName = pool.detail.asset
+
+  const addedOrWithdrawn = lpAddedAndWithdraw
+    ? lpAddedAndWithdraw[poolName]
+    : null
 
   return (
     <Box className="self-stretch" justifyCenter col>
@@ -172,10 +176,14 @@ export const LiquidityCard = ({
           contentRef={contentRef}
           maxHeightStyle={maxHeightStyle}
           shareType={shareType}
-          runeAdded={Amount.fromMidgard(runeAdded)}
-          assetAdded={Amount.fromMidgard(assetAdded)}
-          runeWithdrawn={Amount.fromMidgard(runeWithdrawn)}
-          assetWithdrawn={Amount.fromMidgard(assetWithdrawn)}
+          runeAdded={Amount.fromNormalAmount(addedOrWithdrawn?.added.rune)}
+          assetAdded={Amount.fromNormalAmount(addedOrWithdrawn?.added.asset)}
+          runeWithdrawn={Amount.fromNormalAmount(
+            addedOrWithdrawn?.withdrawn.rune,
+          )}
+          assetWithdrawn={Amount.fromNormalAmount(
+            addedOrWithdrawn?.withdrawn.asset,
+          )}
           runePending={Amount.fromMidgard(runePending)}
           assetPending={Amount.fromMidgard(assetPending)}
           tickerPending={tickerPending}

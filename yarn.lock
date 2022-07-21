@@ -4016,7 +4016,12 @@
     long "^4.0.0"
     protobufjs "~6.11.2"
 
-"@thorswap-lib/midgard-sdk@0.1.6", "@thorswap-lib/midgard-sdk@^0.1.6":
+"@thorswap-lib/midgard-sdk@0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.8.tgz#177f110ebfe271f744525d242d73d9ba57135051"
+  integrity sha512-h3V3bv26mgkgA7FggwO7jzXzlpWnpVpRaIkQlmg3MsPiKkoLzUo0g3m3vKfggEsZZk4Y1OSRm52RGRwM9mrb5Q==
+
+"@thorswap-lib/midgard-sdk@^0.1.6":
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.6.tgz#2224df580219b6863cfdd0aa0b28d326277cc872"
   integrity sha512-kYV69WZN6PqtmC5+/sOV0d68YNT3OBDrI3mOKDiRtup3fSbIFYw1ujkqD2DsbCmbxFUoMfK0VShUOUZgYL080w==

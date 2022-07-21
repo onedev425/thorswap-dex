@@ -33,6 +33,8 @@ const Liquidity = () => {
     chainMemberDetails,
     getAllMemberDetails,
     chainMemberDetailsLoading,
+    getAllLpDetails,
+    lpAddedAndWithdraw,
   } = useMidgard()
 
   const [tipVisible, setTipVisible] = useState(true)
@@ -57,6 +59,10 @@ const Liquidity = () => {
     () => Object.values(chainMemberDetailsLoading).some((l) => l),
     [chainMemberDetailsLoading],
   )
+
+  useEffect(() => {
+    getAllLpDetails()
+  }, [chainMemberDetails, getAllLpDetails])
 
   return (
     <PanelView
@@ -117,6 +123,7 @@ const Liquidity = () => {
                     chain={chain as SupportedChain}
                     data={chainMemberDetails[chain]}
                     isLoading={chainMemberDetailsLoading?.[chain] ?? false}
+                    lpAddedAndWithdraw={lpAddedAndWithdraw}
                   />
                 ))}
               </Box>

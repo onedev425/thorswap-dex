@@ -12,7 +12,11 @@ import { LiquidityCard } from 'components/LiquidityCard'
 import { ReloadButton } from 'components/ReloadButton'
 
 import { useMidgard } from 'store/midgard/hooks'
-import { ChainMemberData, PoolShareType } from 'store/midgard/types'
+import {
+  ChainMemberData,
+  LpDetailCalculationResult,
+  PoolShareType,
+} from 'store/midgard/types'
 import { isPendingLP } from 'store/midgard/utils'
 
 import { t } from 'services/i18n'
@@ -24,9 +28,15 @@ type Props = {
   chain: SupportedChain
   data: ChainMemberData
   isLoading: boolean
+  lpAddedAndWithdraw: LpDetailCalculationResult
 }
 
-export const ChainLiquidityPanel = ({ chain, data, isLoading }: Props) => {
+export const ChainLiquidityPanel = ({
+  chain,
+  data,
+  isLoading,
+  lpAddedAndWithdraw,
+}: Props) => {
   const { pools, loadMemberDetailsByChain } = useMidgard()
 
   const chainWalletAddress = useMemo(
@@ -124,6 +134,7 @@ export const ChainLiquidityPanel = ({ chain, data, isLoading }: Props) => {
           {...liquidityPosition}
           key={`${liquidityPosition.pool.asset.ticker}_${liquidityPosition.shareType}`}
           withFooter
+          lpAddedAndWithdraw={lpAddedAndWithdraw}
         />
       ))}
     </Box>

@@ -99,6 +99,13 @@ export const getPoolMemberDetailByChain = createAsyncThunk(
   },
 )
 
+export const getLpDetails = createAsyncThunk(
+  'midgard/getLpDetails',
+  async ({ address, pool }: { address: string; pool: string }) => {
+    const response = await midgardApi.getLpDetails(address, pool)
+    return response
+  },
+)
 // get 24h volume
 export const getVolume24h = createAsyncThunk(
   'midgard/getVolume24h',

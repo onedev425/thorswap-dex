@@ -1,5 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { ActionStatusEnum, ActionTypeEnum } from '@thorswap-lib/midgard-sdk'
+import {
+  ActionStatusEnum,
+  ActionTypeEnum,
+  MemberPool,
+} from '@thorswap-lib/midgard-sdk'
 import { Pool } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/types'
 import dayjs from 'dayjs'
@@ -9,6 +13,7 @@ import {
   checkPendingLP,
   mergePendingLP,
   removePendingLP,
+  getAddedAndWithdrawn,
 } from 'store/midgard/utils'
 
 import * as midgardActions from './actions'
@@ -55,6 +60,9 @@ const initialState: State = {
   txTrackers: [],
   pendingLP: {},
   pendingLPLoading: false,
+  lpAddedAndWithdraw: {},
+  poolNamesByChain: {},
+  lpDetailLoading: {},
 }
 
 const midgardSlice = createSlice({
@@ -121,6 +129,45 @@ const midgardSlice = createSlice({
       .addCase(midgardActions.getNodes.rejected, (state) => {
         state.nodeLoading = false
       })
+      .addCase(midgardActions.getLpDetails.pending, (state, { meta }) => {
+        const { pool } = meta.arg
+
+        state.lpDetailLoading = {
+          ...state.lpDetailLoading,
+          [pool]: true,
+        }
+      })
+      .addCase(
+        midgardActions.getLpDetails.fulfilled,
+        (state, { meta, payload }) => {
+          const { pool } = meta.arg
+
+          const addedAndWithdrawn = getAddedAndWithdrawn(payload)
+
+          state.lpAddedAndWithdraw = {
+            ...state.lpAddedAndWithdraw,
+            ...addedAndWithdrawn,
+          }
+          state.lpDetailLoading = {
+            ...state.lpDetailLoading,
+            [pool]: false,
+          }
+        },
+      )
+      .addCase(midgardActions.getLpDetails.rejected, (state, { meta }) => {
+        const { pool } = meta.arg
+        state.lpAddedAndWithdraw = {
+          ...state.lpAddedAndWithdraw,
+          [pool]: {
+            added: { rune: '0', asset: '0' },
+            withdrawn: { rune: '0', asset: '0' },
+          },
+        }
+        state.lpDetailLoading = {
+          ...state.lpDetailLoading,
+          [pool]: false,
+        }
+      })
       // used for getting all pool share data
       .addCase(
         midgardActions.getPoolMemberDetailByChain.pending,
@@ -153,6 +200,19 @@ const midgardSlice = createSlice({
 
           state.chainMemberDetails = fetchedChainMemberDetails
 
+          const previousPoolNamesByChain = state.poolNamesByChain[chain]
+            ? state.poolNamesByChain[chain]
+            : []
+          const poolNamesByChain = [
+            ...previousPoolNamesByChain,
+            ...payload.pools
+              .map((pool: MemberPool) => pool.pool)
+              .filter(
+                (elem: string) => !previousPoolNamesByChain.includes(elem),
+              ),
+          ]
+
+          state.poolNamesByChain[chain] = poolNamesByChain
           state.chainMemberDetailsLoading = {
             ...state.chainMemberDetailsLoading,
             [chain]: false,

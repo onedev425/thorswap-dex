@@ -151,6 +151,24 @@ export type LiquidityProvider = {
 
 export type PendingLP = Record<string, LiquidityProvider>
 
+export type PoolNamesByChain = Record<string, string[]>
+
+export type LpDetailLoading = Record<string, boolean>
+
+export type AddedAndWithdrawn = {
+  rune: string | number
+  asset: string | number
+}
+
+export type LpDetailCalculatedAddedAndWithdrawn = {
+  added: AddedAndWithdrawn
+  withdrawn: AddedAndWithdrawn
+}
+
+export type LpDetailCalculationResult = {
+  [key: string]: LpDetailCalculatedAddedAndWithdrawn
+}
+
 export interface State {
   pools: Pool[]
   poolLoading: boolean
@@ -190,4 +208,7 @@ export interface State {
   approveStatus: ApproveStatus
   pendingLP: PendingLP
   pendingLPLoading: boolean
+  poolNamesByChain: PoolNamesByChain
+  lpDetailLoading: LpDetailLoading
+  lpAddedAndWithdraw: LpDetailCalculationResult
 }

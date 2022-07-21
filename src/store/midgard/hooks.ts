@@ -306,6 +306,38 @@ export const useMidgard = () => {
     [dispatch],
   )
 
+  const getLpDetails = useCallback(
+    async (chain: SupportedChain, pool: string) => {
+      const chainWalletAddr = walletState.wallet?.[chain]?.address
+
+      if (chainWalletAddr) {
+        dispatch(
+          actions.getLpDetails({
+            address: chainWalletAddr,
+            pool: pool,
+          }),
+        )
+      }
+    },
+    [dispatch, walletState.wallet],
+  )
+
+  const getAllLpDetails = useCallback(async () => {
+    if (!walletState.wallet) return
+
+    Object.keys(walletState.wallet).forEach((chain) => {
+      if (!midgardState.poolNamesByChain[chain]) return
+      midgardState.poolNamesByChain[chain].forEach((poolName: string) => {
+        if (
+          midgardState.lpAddedAndWithdraw[poolName] ||
+          midgardState.lpDetailLoading[poolName]
+        )
+          return
+        getLpDetails(chain as SupportedChain, poolName)
+      })
+    })
+  }, [getLpDetails, midgardState, walletState.wallet])
+
   return {
     ...midgardState,
     actions,
@@ -327,5 +359,6 @@ export const useMidgard = () => {
     processSubmittedTx,
     clearTxTrackers,
     setTxCollapsed,
+    getAllLpDetails,
   }
 }
