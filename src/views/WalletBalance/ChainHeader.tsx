@@ -21,9 +21,6 @@ import { multichain } from 'services/multichain'
 export type ChainHeaderProps = {
   chain: SupportedChain
   address: string
-  totalPrice?: string
-  onReload?: () => void
-  viewPhrase?: () => void
   walletLoading?: boolean
   walletType: WalletOption
 }
@@ -34,7 +31,8 @@ export const ChainHeader = ({
   walletType,
   walletLoading = false,
 }: ChainHeaderProps) => {
-  const { handleRefreshChain } = useWalletChainActions(chain)
+  const { handleRefreshChain, handleWalletDisconnect } =
+    useWalletChainActions(chain)
 
   const [isPhraseModalVisible, setIsPhraseModalVisible] = useState(false)
 
@@ -91,11 +89,20 @@ export const ChainHeader = ({
           {chainToString(chain)}
         </Typography>
       </Box>
+
       <Box alignCenter>
         <CopyAddress address={address} type="mini" />
         <CopyAddress address={address} type="icon" />
         <ShowQrCode address={address} chain={chain} />
         <GoToAccount chain={chain} address={address} />
+        <HoverIcon
+          color="orange"
+          iconName="disconnect"
+          onClick={handleWalletDisconnect}
+          size={16}
+          spin={walletLoading}
+          tooltip={t('common.disconnect')}
+        />
       </Box>
 
       <PhraseModal

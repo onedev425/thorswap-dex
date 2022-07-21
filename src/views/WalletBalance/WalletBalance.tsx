@@ -7,8 +7,6 @@ import {
   AssetAmount,
   chainToSigAsset,
   ChainWallet,
-  formatBigNumber,
-  getTotalUSDPriceInBalance,
   isOldRune,
 } from '@thorswap-lib/multichain-sdk'
 import { Chain, SupportedChain } from '@thorswap-lib/types'
@@ -21,7 +19,6 @@ import { Box, Button, Icon, Typography } from 'components/Atomic'
 import { baseBgHoverClass } from 'components/constants'
 import { Scrollbar } from 'components/Scrollbar'
 
-import { useMidgard } from 'store/midgard/hooks'
 import { useWallet } from 'store/wallet/hooks'
 
 import { useWalletDrawer } from 'hooks/useWalletDrawer'
@@ -46,7 +43,6 @@ const sortedChains = [
 
 const WalletBalance = () => {
   const navigate = useNavigate()
-  const { pools } = useMidgard()
   const { chainWalletLoading, wallet } = useWallet()
   const { close } = useWalletDrawer()
 
@@ -131,8 +127,6 @@ const WalletBalance = () => {
   const renderChainBalance = useCallback(
     (chain: SupportedChain, chainBalance: ChainWallet) => {
       const { address, balance } = chainBalance
-      const usdPrice = getTotalUSDPriceInBalance(balance, pools)
-      const totalPrice = formatBigNumber(usdPrice, 2)
       const { walletType } = chainBalance
 
       return (
@@ -140,17 +134,14 @@ const WalletBalance = () => {
           <ChainHeader
             chain={chain}
             address={address}
-            totalPrice={totalPrice}
             walletLoading={chainWalletLoading?.[chain]}
             walletType={walletType}
-            viewPhrase={() => {}}
-            onReload={() => {}}
           />
           {renderBalance(chain, balance)}
         </Box>
       )
     },
-    [chainWalletLoading, pools, renderBalance],
+    [chainWalletLoading, renderBalance],
   )
 
   return (

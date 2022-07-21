@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import {
   Amount,
@@ -150,17 +150,26 @@ export const useChartData = (asset: Asset) => {
 }
 
 export const useWalletChainActions = (chain: SupportedChain) => {
-  const { wallet, refreshWalletByChain, chainWalletLoading } = useWallet()
+  const {
+    wallet,
+    refreshWalletByChain,
+    disconnectWalletByChain,
+    chainWalletLoading,
+  } = useWallet()
 
   const isLoading = chainWalletLoading?.[chain]
 
-  const handleRefreshChain = () => {
+  const handleRefreshChain = useCallback(() => {
     if (wallet?.[chain]) {
       refreshWalletByChain(chain)
     }
-  }
+  }, [chain, refreshWalletByChain, wallet])
 
-  return { handleRefreshChain, isLoading }
+  const handleWalletDisconnect = useCallback(() => {
+    disconnectWalletByChain(chain)
+  }, [chain, disconnectWalletByChain])
+
+  return { handleRefreshChain, handleWalletDisconnect, isLoading }
 }
 
 const getNoBalanceAsset = (asset: Asset): AssetAmount => {
