@@ -69,7 +69,7 @@ export const AssetLPIcon = () => {
       <div className="flex">
         <AssetLpIcon
           asset1={Asset.RUNE()}
-          asset2={Asset.LUNA()}
+          asset2={Asset.ETH()}
           size={ICON_MD}
         />
       </div>

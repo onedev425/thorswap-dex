@@ -7,7 +7,6 @@ import {
   chainToSigAsset,
 } from '@thorswap-lib/multichain-sdk'
 import { Chain, SupportedChain } from '@thorswap-lib/types'
-import { TERRAChain } from '@thorswap-lib/xchain-util'
 import { BigNumber } from 'bignumber.js'
 import { takeRight } from 'lodash'
 
@@ -23,7 +22,6 @@ const emptyWallet = {
   [Chain.Litecoin]: null,
   [Chain.BitcoinCash]: null,
   [Chain.Doge]: null,
-  [TERRAChain]: null,
   [Chain.Solana]: null,
   [Chain.Cosmos]: null,
 }

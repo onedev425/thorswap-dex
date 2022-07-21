@@ -3,7 +3,6 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { Wallet } from '@thorswap-lib/multichain-sdk'
 import { Chain, SupportedChain } from '@thorswap-lib/types'
 import { Keystore } from '@thorswap-lib/xchain-crypto'
-import { TERRAChain } from '@thorswap-lib/xchain-util'
 
 import { GeckoData } from 'store/wallet/types'
 
@@ -17,7 +16,6 @@ const initialWallet = {
   [Chain.Litecoin]: null,
   [Chain.BitcoinCash]: null,
   [Chain.Doge]: null,
-  [TERRAChain]: null,
   [Chain.Solana]: null,
   [Chain.Cosmos]: null,
 } as Wallet
@@ -35,7 +33,6 @@ const initialState = {
     [Chain.Litecoin]: false,
     [Chain.BitcoinCash]: false,
     [Chain.Doge]: false,
-    [TERRAChain]: false,
     [Chain.Solana]: false,
     [Chain.Cosmos]: false,
   } as { [key in SupportedChain]: boolean },

@@ -12,7 +12,6 @@ import {
   isOldRune,
 } from '@thorswap-lib/multichain-sdk'
 import { Chain, SupportedChain } from '@thorswap-lib/types'
-import { TERRAChain } from '@thorswap-lib/xchain-util'
 import classNames from 'classnames'
 
 import { WalletHeader } from 'views/WalletBalance/WalletHeader'
@@ -37,7 +36,6 @@ const sortedChains = [
   Chain.THORChain,
   Chain.Bitcoin,
   Chain.Solana,
-  TERRAChain,
   Chain.Doge,
   Chain.Ethereum,
   Chain.Binance,

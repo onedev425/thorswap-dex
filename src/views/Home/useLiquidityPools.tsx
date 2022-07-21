@@ -20,8 +20,6 @@ const colorMapping = {
   BTC: 'orange',
   ETH: 'purple',
   BUSD: 'yellow',
-  LUNA: 'yellow',
-  UST: 'blue',
 } as Record<string, ColorType>
 
 export const useLiquidityPools = ({

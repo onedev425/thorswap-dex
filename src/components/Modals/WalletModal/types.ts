@@ -1,5 +1,4 @@
 import { SupportedChain, Chain } from '@thorswap-lib/types'
-import { TERRAChain } from '@thorswap-lib/xchain-util'
 
 export enum WalletStage {
   WalletSelect = 'WalletSelect',
@@ -30,7 +29,6 @@ const Keystore = [
   Chain.Litecoin,
   Chain.BitcoinCash,
   Chain.Cosmos,
-  TERRAChain,
 ] as SupportedChain[]
 
 export const availableChainsByWallet: Record<string, SupportedChain[]> = {

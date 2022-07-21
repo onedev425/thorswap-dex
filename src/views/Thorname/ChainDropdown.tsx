@@ -12,7 +12,6 @@ import { DropdownMenuItem } from 'components/Atomic/Dropdown/types'
 
 import { chainName } from 'helpers/chainName'
 
-// @ts-expect-error Remove after Terra purge
 export const thornameChainIcons: Record<SupportedChain, IconName> = {
   [Chain.THORChain]: 'thor',
   [Chain.Bitcoin]: 'bitcoin',
@@ -22,6 +21,7 @@ export const thornameChainIcons: Record<SupportedChain, IconName> = {
   [Chain.Doge]: 'doge',
   [Chain.Litecoin]: 'ltc',
   [Chain.Cosmos]: 'gaia',
+  [Chain.Solana]: 'sol',
 }
 
 const CHAIN_ITEMS: DropdownMenuItem[] = Object.entries(thornameChainIcons).map(

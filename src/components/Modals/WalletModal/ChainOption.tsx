@@ -1,8 +1,7 @@
 import { memo, useMemo } from 'react'
 
-import { Asset, chainToSigAsset } from '@thorswap-lib/multichain-sdk'
+import { chainToSigAsset } from '@thorswap-lib/multichain-sdk'
 import { Chain, SupportedChain } from '@thorswap-lib/types'
-import { TERRAChain } from '@thorswap-lib/xchain-util'
 import classNames from 'classnames'
 
 import { AssetIcon } from 'components/AssetIcon'
@@ -54,10 +53,7 @@ export const ChainOption = memo(
             <AssetIcon
               size={isMdActive ? 36 : 26}
               hasShadow={isSelected}
-              asset={
-                // @ts-expect-error remove after TERRA
-                chain === TERRAChain ? Asset.LUNA() : chainToSigAsset(chain)
-              }
+              asset={chainToSigAsset(chain)}
             />
 
             <Box col>

@@ -6,11 +6,9 @@ export const getCustomIconImageUrl = (
     | 'bnb'
     | 'atom'
     | 'dogecoin'
-    | 'luna'
     | 'rune'
     | 'sol'
     | 'tgt'
-    | 'ust'
     | 'usdc'
     | 'thor'
     | 'vthor',
@@ -24,12 +22,10 @@ export const customIconMap: Partial<Record<AssetTickerType, string>> = {
   BNB: getCustomIconImageUrl('bnb', 'svg'),
   DOGE: getCustomIconImageUrl('dogecoin'),
   ATOM: getCustomIconImageUrl('atom', 'svg'),
-  LUNA: getCustomIconImageUrl('luna'),
   RUNE: getCustomIconImageUrl('rune', 'svg'),
   SOL: getCustomIconImageUrl('sol', 'svg'),
   USDC: getCustomIconImageUrl('usdc', 'svg'),
   TGT: getCustomIconImageUrl('tgt'),
-  UST: getCustomIconImageUrl('ust'),
   THOR: getCustomIconImageUrl('thor'),
   VTHOR: getCustomIconImageUrl('vthor'),
   WETH: 'https://assets.coingecko.com/coins/images/2518/large/weth.png',
