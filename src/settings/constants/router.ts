@@ -23,12 +23,14 @@ export enum ROUTES {
   Wallet = '/wallet',
   WithdrawLiquidity = '/withdraw',
   WithdrawLiquidityPool = '/withdraw/:assetParam',
-  Multisig = '/multisig',
+  Multisig = '/thorsafe',
+  MultisigConnect = '/thorsafe/connect',
+  MultisigCreate = '/thorsafe/create',
   TxBuilder = '/txbuilder',
   TxCreate = '/txcreate',
   TxCreatePool = '/txcreate/:assetParam',
   TxImport = '/tximport',
-  TxMultisig = '/txmultisig',
+  TxMultisig = '/txthorsafe',
 }
 
 export const THORYIELD_ROUTE = 'https://app.thoryield.com'

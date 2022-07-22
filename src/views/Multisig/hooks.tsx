@@ -32,7 +32,11 @@ type FormValues = {
   signatureValidation: string
 }
 
-export const useMultisigForm = () => {
+type Props = {
+  onSubmit?: () => void
+}
+
+export const useMultisigForm = ({ onSubmit }: Props = {}) => {
   const { addMultisigWallet } = useMultisig()
   const {
     control,
@@ -116,11 +120,13 @@ export const useMultisigForm = () => {
         treshold: values.treshold,
         address,
       })
+      onSubmit?.()
       reset()
     },
     [
       addMultisigWallet,
       generateMultisigAddress,
+      onSubmit,
       reset,
       setError,
       walletAddress,
@@ -160,7 +166,7 @@ export const useMultisigForm = () => {
 
 export const useMultisigWalletInfo = () => {
   const { runeBalance, loadingBalances } = useMultissigAssets()
-  const { name, address, treshold } = useAppSelector((state) => state.multisig)
+  const { address, treshold } = useAppSelector((state) => state.multisig)
 
   const { shortAddress, handleCopyAddress } = useAddressUtils(address)
   const formattedRune = `${formatPrice(runeBalance?.amount || 0, {
@@ -176,9 +182,8 @@ export const useMultisigWalletInfo = () => {
   }, [formattedRune, loadingBalances, runeBalance])
 
   const info = [
-    { label: t('views.multisig.walletName'), value: name },
     {
-      label: t('views.multisig.multisigWalletAddress'),
+      label: t('views.multisig.safeAddress'),
       value: (
         <Button
           className="!px-2 h-[30px]"

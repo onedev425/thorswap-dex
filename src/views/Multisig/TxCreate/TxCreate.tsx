@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import { RefreshButton } from 'views/Multisig/components/RefreshButton'
 import { useMultisigWalletInfo } from 'views/Multisig/hooks'
 import { TxBond } from 'views/Multisig/TxBond/TxBond'
 import { MultisigTxType } from 'views/Multisig/TxCreate/types'
@@ -30,7 +31,12 @@ const TxCreate = () => {
     <PanelView
       title={t('views.multisig.createTransaction')}
       header={
-        <ViewHeader title={t('views.multisig.createTransaction')} withBack />
+        <Box className="w-full justify-between align-center">
+          <ViewHeader title={t('views.multisig.createTransaction')} withBack />
+          <Box className="px-6">
+            <RefreshButton />
+          </Box>
+        </Box>
       }
     >
       <Box className="w-full gap-1 my-4" col>

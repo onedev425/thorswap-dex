@@ -6,14 +6,11 @@ import copy from 'copy-to-clipboard'
 
 import { MultisigModal } from 'views/Multisig/MultisigModal/MultisigModal'
 
-import { Box, Button, Card, Icon, Tooltip, Typography } from 'components/Atomic'
-import {
-  borderHoverHighlightClass,
-  baseBorderClass,
-  genericBgClasses,
-} from 'components/constants'
+import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic'
+import { genericBgClasses } from 'components/constants'
 import { FieldLabel } from 'components/Form'
 import { HighlightCard } from 'components/HighlightCard'
+import { InfoTip } from 'components/InfoTip'
 import { showSuccessToast } from 'components/Toast'
 
 import { useWallet } from 'store/wallet/hooks'
@@ -35,25 +32,20 @@ export const PubKeyInfo = () => {
   }
 
   return (
-    <Box col>
-      <Card className={classNames(borderHoverHighlightClass, baseBorderClass)}>
-        <Box className="gap-5" col flex={1}>
-          <Typography variant="subtitle1">
-            {/* {t('views.multisig.multisigModalTitle')} */}
-            Public key
-          </Typography>
+    <InfoTip type="info" title="Public key">
+      <Box className="self-stretch mx-2" col flex={1}>
+        <Box className="gap-1" col flex={1}>
           <Typography className="my-3" fontWeight="light">
             {/* {t('views.multisig.createMultisigDescription')} */}
             You will need your wallet's public key to create new multisig
             multisig THORSafe. To get it connect your THORChain wallet.
           </Typography>
 
-          <Box flex={1}>
+          <Box flex={1} align="end">
             {!pubKey ? (
               <Button
                 stretch
-                type="outline"
-                variant="tertiary"
+                variant="primary"
                 onClick={() => setIsConnectModalOpen(true)}
               >
                 {/* {t('views.multisig.multisigModalTitle')} */}
@@ -94,11 +86,12 @@ export const PubKeyInfo = () => {
             )}
           </Box>
         </Box>
-      </Card>
-      <MultisigModal
-        isOpen={isMultisigModalOpened}
-        onCancel={() => setMultisigModalOpened(false)}
-      />
-    </Box>
+
+        <MultisigModal
+          isOpen={isMultisigModalOpened}
+          onCancel={() => setMultisigModalOpened(false)}
+        />
+      </Box>
+    </InfoTip>
   )
 }

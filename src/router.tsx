@@ -31,6 +31,12 @@ const UpgradeRune = lazy(() => import('views/UpgradeRune'))
 const Vesting = lazy(() => import('views/Vesting'))
 const Wallet = lazy(() => import('views/Wallet'))
 const WithdrawLiquidity = lazy(() => import('views/WithdrawLiquidity'))
+const MultisigCreate = lazy(
+  () => import('views/Multisig/MultisigCreate/MultisigCreate'),
+)
+const MultisigImport = lazy(
+  () => import('views/Multisig/MultisigImport/MultisigImport'),
+)
 
 import { Box, Icon, TooltipPortal } from 'components/Atomic'
 import { Layout } from 'components/Layout'
@@ -74,6 +80,8 @@ const routes: RouteType = [
   { path: ROUTES.TxCreatePool, element: TxCreate },
   { path: ROUTES.TxImport, element: TxImport },
   { path: ROUTES.TxMultisig, element: TxMultisig },
+  { path: ROUTES.MultisigConnect, element: MultisigImport },
+  { path: ROUTES.MultisigCreate, element: MultisigCreate },
 ]
 
 const PublicRoutes = () => {

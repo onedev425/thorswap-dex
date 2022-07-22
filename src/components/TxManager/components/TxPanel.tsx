@@ -38,7 +38,7 @@ export const TxPanel = ({ txTracker }: Props) => {
     txTracker.status === TxTrackerStatus.Pending ||
     txTracker.status === TxTrackerStatus.Submitting
   const { isActive, contentRef, toggle, maxHeightStyle, collapseClasses } =
-    useCollapse(isPending)
+    useCollapse({ defaultExpanded: isPending })
   const status = getTxProgressStatus(txTracker)
   const showTxLink =
     (isSwapType(txTracker) || txTracker.type === TxTrackerType.Withdraw) &&

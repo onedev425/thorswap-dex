@@ -24,8 +24,9 @@ export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
     },
     collapseRef,
   ) => {
-    const { isActive, contentRef, toggle, maxHeightStyle } =
-      useCollapse(defaultExpanded)
+    const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse({
+      defaultExpanded,
+    })
 
     useImperativeHandle(collapseRef, () => ({ toggle }), [toggle])
 

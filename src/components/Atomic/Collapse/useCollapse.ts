@@ -1,8 +1,19 @@
-import { useCallback, useRef, useState, useLayoutEffect } from 'react'
+import {
+  useCallback,
+  useRef,
+  useState,
+  useLayoutEffect,
+  useEffect,
+} from 'react'
 
 const collapseClasses = 'ease-in-out transition-all'
 
-export const useCollapse = (defaultExpanded = false) => {
+type Props = {
+  defaultExpanded?: boolean
+  isOpened?: boolean
+}
+
+export const useCollapse = ({ defaultExpanded, isOpened }: Props = {}) => {
   const [isActive, setIsActive] = useState(defaultExpanded)
   const maxHeightRef = useRef(0)
   const [maxHeight, setMaxHeight] = useState(0)
@@ -21,13 +32,35 @@ export const useCollapse = (defaultExpanded = false) => {
     setIsActive(false)
   }, [])
 
-  const measure = useCallback(() => {
-    const height = contentRef.current?.scrollHeight || 0
+  const measure = useCallback((definedHeight?: number) => {
+    const height = definedHeight || contentRef.current?.scrollHeight || 0
+
     if (height !== maxHeightRef.current) {
       maxHeightRef.current = height
       setMaxHeight(height)
     }
   }, [])
+
+  useEffect(() => {
+    if (typeof isOpened !== 'undefined') {
+      setIsActive(isOpened)
+    }
+  }, [isOpened])
+
+  useEffect(() => {
+    if (!contentRef.current) {
+      return
+    }
+
+    const el = contentRef.current
+    const observer = new ResizeObserver(([entry]) => {
+      measure(entry.target.scrollHeight)
+    })
+
+    observer.observe(el)
+
+    return () => observer.unobserve(el)
+  })
 
   useLayoutEffect(() => {
     measure()
@@ -41,7 +74,7 @@ export const useCollapse = (defaultExpanded = false) => {
 
   return {
     contentRef,
-    isActive,
+    isActive: !!isActive,
     toggle,
     expand,
     collapse,

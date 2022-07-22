@@ -1,68 +1,36 @@
-import { useCallback, useState } from 'react'
-
-import { MultisigCreate } from 'views/Multisig/MultisigCreate'
-import { MultisigImport } from 'views/Multisig/MultisigImport'
+import { MultisigCreateTile } from 'views/Multisig/MultisigCreate/MultisigCreateTile'
+import { MultisigImportTile } from 'views/Multisig/MultisigImport/MultisigImportTile'
 import { MultisigInfo } from 'views/Multisig/MultisigInfo'
-import { PubKeyInfo } from 'views/Multisig/PubKeyInfo'
 
 import { Box, Typography } from 'components/Atomic'
-import { HoverIcon } from 'components/HoverIcon'
-import { Confirm } from 'components/Modals/Confirm'
 
-import { useMultisig } from 'store/multisig/hooks'
 import { useAppSelector } from 'store/store'
 
 import { t } from 'services/i18n'
 
 const Multisig = () => {
-  const [isConfirmVisible, setIsConfirmVisible] = useState(false)
   const hasWallet = useAppSelector((state) => !!state.multisig.address)
-  const { clearMultisigWallet } = useMultisig()
 
-  const handleClearWallet = useCallback(() => {
-    clearMultisigWallet()
-    setIsConfirmVisible(false)
-  }, [clearMultisigWallet, setIsConfirmVisible])
-
-  return (
+  return hasWallet ? (
+    <MultisigInfo />
+  ) : (
     <Box col>
       <Box className="gap-5">
         <Box justify="between" alignCenter flex={1}>
           <Typography className="mb-5 mx-3" variant="h3">
-            {t('views.multisig.multisigWallet')}
+            {t('views.multisig.thorSafeWallet')}
           </Typography>
-
-          {hasWallet && (
-            <Box className="mb-5">
-              <HoverIcon
-                onClick={() => setIsConfirmVisible(true)}
-                iconName="trash"
-                tooltip={t('views.multisig.removeWallet')}
-                color="secondary"
-              />
-            </Box>
-          )}
         </Box>
       </Box>
 
       <Box className="flex-col md:flex-row gap-5">
-        <Box className="basis-full gap-4" col>
-          <PubKeyInfo />
-          <MultisigCreate />
+        <Box className="gap-4 basis-full">
+          <MultisigCreateTile />
         </Box>
-
-        <Box className="basis-full">
-          {hasWallet ? <MultisigInfo /> : <MultisigImport />}
+        <Box className="gap-4 basis-full">
+          <MultisigImportTile />
         </Box>
       </Box>
-
-      <Confirm
-        title={t('common.pleaseConfirm')}
-        description={t('views.multisig.confirmWalletRemoval')}
-        isOpened={isConfirmVisible}
-        onCancel={() => setIsConfirmVisible(false)}
-        onConfirm={handleClearWallet}
-      />
     </Box>
   )
 }

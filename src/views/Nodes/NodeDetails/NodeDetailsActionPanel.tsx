@@ -30,11 +30,12 @@ export const NodeDetailsActionPanel = ({ nodeAddress }: Props) => {
       <Box className="px-4 self-stretch">
         <div
           className={classNames('w-full', maxHeightTransitionClass)}
-          ref={contentRef}
           style={maxHeightStyle}
         >
-          <NodeManagePanel address={nodeAddress} />
-          <Box className="py-2" />
+          <Box col ref={contentRef}>
+            <NodeManagePanel address={nodeAddress} />
+            <Box className="py-2" />
+          </Box>
         </div>
       </Box>
     </Card>

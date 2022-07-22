@@ -27,6 +27,8 @@ import {
   BiUndo,
   BiBell,
   BiPaste,
+  BiImport,
+  BiExport,
 } from 'react-icons/bi'
 import {
   BsCurrencyDollar,
@@ -41,7 +43,6 @@ import {
   BsTrash,
   BsExclamationCircle,
   BsYoutube,
-  BsFolderSymlink,
 } from 'react-icons/bs'
 import { CgMenu, CgArrowsExchangeAltV, CgEye } from 'react-icons/cg'
 import {
@@ -148,7 +149,6 @@ const Icons = {
   heart: AiOutlineHeart,
   heartFilled: AiFillHeart,
   history: AiOutlineHistory,
-  import: BsFolderSymlink,
   info: AiOutlineInfo,
   infoCircle: VscInfo,
   invalid: IoCloseCircleOutline,
@@ -197,6 +197,8 @@ const Icons = {
   rocket: IoRocketOutline,
   paste: BiPaste,
   survey: RiSurveyLine,
+  export: BiExport,
+  import: BiImport,
   ...SvgIcons,
 } as const
 

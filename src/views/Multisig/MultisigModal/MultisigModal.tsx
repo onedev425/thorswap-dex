@@ -27,7 +27,7 @@ export const MultisigModal = ({
     addMember,
     removeMember,
     isRequiredMember,
-  } = useMultisigForm()
+  } = useMultisigForm({ onSubmit: onCancel })
 
   return (
     <Modal
@@ -158,7 +158,7 @@ export const MultisigModal = ({
 
               <Box className="mt-8" flex={1}>
                 <Button stretch variant="secondary" onClick={submit}>
-                  {t('views.multisig.review')}
+                  {t('views.multisig.create')}
                 </Button>
               </Box>
             </Box>
