@@ -56,7 +56,7 @@ export const createMultisigWallet = (
   try {
     multichain.thor.createMultisig(
       members.map((member) => member.pubKey),
-      treshold,
+      Number(treshold),
     )
 
     return multichain.thor.multisigAddress
