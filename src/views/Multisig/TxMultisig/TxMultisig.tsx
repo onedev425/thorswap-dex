@@ -18,6 +18,8 @@ import { PanelTextarea } from 'components/PanelTextarea'
 import { PanelView } from 'components/PanelView'
 import { ViewHeader } from 'components/ViewHeader'
 
+import { useAppSelector } from 'store/store'
+
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
@@ -37,6 +39,7 @@ const TxMultisig = () => {
     isBroadcasting,
     broadcastedTxHash,
   } = useTxData(state as ScreenState | null)
+  const { treshold } = useAppSelector((state) => state.multisig)
   const [isImportModalOpened, setIsImportModalOpened] = useState(false)
   const [isSignersModalOpened, setIsSignersModalOpened] = useState(false)
   const txUrl = broadcastedTxHash
@@ -84,7 +87,7 @@ const TxMultisig = () => {
       />
 
       <Box className="w-full gap-1 my-4 pt-2" col>
-        <InfoTable items={[info[1]]} horizontalInset />
+        <InfoTable items={[info[0]]} horizontalInset />
 
         <Box className="mt-4" flex={1} col>
           <PanelTextarea
@@ -123,7 +126,7 @@ const TxMultisig = () => {
                       {signers.length}
                     </Typography>
                     <Typography variant="body">of</Typography>
-                    <Typography variant="subtitle1">{info[3].value}</Typography>
+                    <Typography variant="subtitle1">{treshold}</Typography>
                     <Typography variant="body">signatures complete</Typography>
                   </Box>
                   <Icon className="p-1" name="eye" size={26} />
