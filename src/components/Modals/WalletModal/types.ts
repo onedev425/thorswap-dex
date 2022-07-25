@@ -41,6 +41,7 @@ export const availableChainsByWallet: Record<string, SupportedChain[]> = {
     Chain.Bitcoin,
     // TODO: https://linear.app/thorswap/issue/FRT-810/[add]-ledger-support-for-solana
     // Chain.Solana,
+    Chain.Ethereum,
     Chain.Binance,
     Chain.Cosmos,
     Chain.Doge,

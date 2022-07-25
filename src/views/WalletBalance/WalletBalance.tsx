@@ -32,9 +32,9 @@ import { ChainHeader } from './ChainHeader'
 const sortedChains = [
   Chain.THORChain,
   Chain.Bitcoin,
+  Chain.Ethereum,
   Chain.Solana,
   Chain.Doge,
-  Chain.Ethereum,
   Chain.Binance,
   Chain.Litecoin,
   Chain.BitcoinCash,
