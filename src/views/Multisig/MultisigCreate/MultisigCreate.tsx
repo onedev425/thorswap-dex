@@ -1,22 +1,33 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 
-import classNames from 'classnames'
+import { Chain } from '@thorswap-lib/types'
 
-import { useMultisigForm } from 'views/Multisig/hooks'
+import { useMultisigForm } from 'views/Multisig/MultisigCreate/hooks'
+import { ExportWalletStep } from 'views/Multisig/MultisigCreate/steps/ExportWalletStep'
+import { MembersStep } from 'views/Multisig/MultisigCreate/steps/MembersStep'
+import { PubKeyStep } from 'views/Multisig/MultisigCreate/steps/PubKeyStep'
+import { WalletNameStep } from 'views/Multisig/MultisigCreate/steps/WalletNameStep'
+import { WalletSummaryStep } from 'views/Multisig/MultisigCreate/steps/WalletSummaryStep'
 
-import { Box, Button, Typography } from 'components/Atomic'
-import { FieldLabel, TextField } from 'components/Form'
-import { HoverIcon } from 'components/HoverIcon'
-import { Input } from 'components/Input'
+import { Box } from 'components/Atomic'
 import { PanelView } from 'components/PanelView'
 import { Stepper } from 'components/Stepper'
+import { StepperProvider } from 'components/Stepper/StepperContext'
 import { StepType } from 'components/Stepper/types'
 import { ViewHeader } from 'components/ViewHeader'
 
+import { useWallet } from 'store/wallet/hooks'
+
 import { t } from 'services/i18n'
+import { multichain } from 'services/multichain'
 
 const MultisigCreate = () => {
-  const [step, setStep] = useState(0)
+  const { wallet } = useWallet()
+  const connectedWalletAddress = wallet?.[Chain.THORChain]?.address || ''
+  const pubKey = useMemo(() => {
+    return connectedWalletAddress ? multichain.thor.getPubkey() : ''
+  }, [connectedWalletAddress])
+
   const {
     formFields,
     submit,
@@ -25,153 +36,47 @@ const MultisigCreate = () => {
     addMember,
     removeMember,
     isRequiredMember,
-  } = useMultisigForm()
+  } = useMultisigForm({ pubKey })
 
   const steps: StepType[] = useMemo(
     () => [
       {
         id: 0,
-        label: 'Step 1',
-        content: (
-          <Box className="gap-6" col>
-            <Typography className="mx-2 my-3" variant="caption">
-              {t('views.multisig.nameYourMultisigWallet')}
-            </Typography>
-
-            <Box col>
-              <TextField
-                label={t('views.multisig.nameOfNewMultisig')}
-                placeholder={t('views.multisig.nameExample')}
-                hasError={!!errors.name}
-                field={formFields.name}
-              />
-            </Box>
-
-            <Box col>
-              <FieldLabel
-                hasError={!!errors.signatureValidation}
-                label={`${t('views.multisig.members')}${
-                  errors.signatureValidation
-                    ? ` (${errors.signatureValidation.message})`
-                    : ''
-                }`}
-              />
-              <Typography
-                className="mx-2 my-3"
-                fontWeight="semibold"
-                variant="caption-xs"
-              >
-                {t('views.multisig.addMembersDescription')}
-              </Typography>
-              <Box className="mx-2">
-                <Box flex={1}>
-                  <Typography variant="caption">
-                    {t('views.multisig.walletName')}
-                  </Typography>
-                </Box>
-                <Box flex={2}>
-                  <Typography variant="caption">
-                    {t('common.pubKey')}
-                  </Typography>
-                </Box>
-              </Box>
-              <Box className="gap-4" col>
-                {formFields.members.map((item, index) => (
-                  <Box className="gap-2" key={item.id}>
-                    <Box flex={1}>
-                      <TextField
-                        placeholder={t('views.multisig.memberName')}
-                        hasError={!!errors.members?.[index]?.name}
-                        field={register(`members.${index}.name`)}
-                      />
-                    </Box>
-                    <Box flex={2}>
-                      <TextField
-                        placeholder="Member public key (base 64)"
-                        hasError={!!errors.members?.[index]?.pubKey}
-                        field={register(`members.${index}.pubKey`, {
-                          required: isRequiredMember(index),
-                        })}
-                      />
-                    </Box>
-
-                    {isRequiredMember(index) ? (
-                      <HoverIcon
-                        iconName="infoCircle"
-                        tooltip={t('views.multisig.requiredMember')}
-                        color="secondary"
-                      />
-                    ) : (
-                      <HoverIcon
-                        iconName="close"
-                        tooltip={t('views.multisig.removeMember')}
-                        color="secondary"
-                        onClick={() => {
-                          removeMember(index)
-                        }}
-                      />
-                    )}
-                  </Box>
-                ))}
-
-                <Button
-                  stretch
-                  type="outline"
-                  variant="tertiary"
-                  onClick={addMember}
-                >
-                  {t('views.multisig.addMember')}
-                </Button>
-              </Box>
-            </Box>
-
-            <Box className="mx-1 gap-2" center>
-              <Typography variant="caption">
-                {t('views.multisig.setMultisigSigners')}
-              </Typography>
-
-              <Box className="gap-2" center>
-                <Input
-                  className="py-1 min-w-[25px] text-right"
-                  containerClassName={classNames({
-                    '!border-red': !!errors.treshold,
-                  })}
-                  stretch
-                  border="rounded"
-                  {...formFields.treshold}
-                />
-
-                <Typography className="whitespace-nowrap" variant="caption">
-                  {t('views.multisig.outOf')}
-                  {formFields.members.length}
-                </Typography>
-              </Box>
-            </Box>
-
-            <Box className="mt-8" flex={1}>
-              <Button stretch variant="secondary" onClick={submit}>
-                {t('views.multisig.create')}
-              </Button>
-            </Box>
-          </Box>
-        ),
+        label: 'Get your public key',
+        content: <PubKeyStep pubKey={pubKey} />,
       },
       {
         id: 1,
-        label: 'Step 2',
-        content: 'Step 22',
+        label: 'Name your THORSafe',
+        content: (
+          <WalletNameStep field={formFields.name} hasError={!!errors.name} />
+        ),
       },
+      {
+        id: 2,
+        label: 'Members and treshold',
+        content: (
+          <MembersStep
+            id={2}
+            addMember={addMember}
+            errors={errors}
+            formFields={formFields}
+            isRequiredMember={isRequiredMember}
+            removeMember={removeMember}
+            submit={submit}
+            register={register}
+          />
+        ),
+      },
+      { id: 3, label: 'Export wallet to file', content: <ExportWalletStep /> },
+      { id: 4, label: 'Summary', content: <WalletSummaryStep /> },
     ],
     [
       addMember,
-      errors.members,
-      errors.name,
-      errors.signatureValidation,
-      errors.treshold,
-      formFields.members,
-      formFields.name,
-      formFields.treshold,
+      errors,
+      formFields,
       isRequiredMember,
+      pubKey,
       register,
       removeMember,
       submit,
@@ -179,16 +84,21 @@ const MultisigCreate = () => {
   )
 
   return (
-    <PanelView
-      title={t('views.multisig.thorSafeWallet')}
-      header={
-        <ViewHeader withBack title={t('views.multisig.createThorSafeWallet')} />
-      }
-    >
-      <Box className="self-stretch" col flex={1}>
-        <Stepper activeStep={step} onStepChange={setStep} steps={steps} />
-      </Box>
-    </PanelView>
+    <StepperProvider steps={steps}>
+      <PanelView
+        title={t('views.multisig.thorSafeWallet')}
+        header={
+          <ViewHeader
+            withBack
+            title={t('views.multisig.createThorSafeWallet')}
+          />
+        }
+      >
+        <Box className="self-stretch" col flex={1}>
+          <Stepper />
+        </Box>
+      </PanelView>
+    </StepperProvider>
   )
 }
 

@@ -111,7 +111,9 @@
     "dismiss": "Dismiss",
     "deleteAll": "Delete All",
     "allCaughtUp": "You're all Caught up!",
-    "pleaseConfirm": "Please confirm"
+    "pleaseConfirm": "Please confirm",
+    "back": "Back",
+    "next": "Next"
   },
   "pendingLiquidity": {
     "complete": "complete",
@@ -701,7 +703,8 @@
       "jsonError": "Invalid wallet file",
       "viewAccount": "View Account",
       "create": "Create",
-      "createThorSafeWallet": "Create THORSafe wallet"
+      "createThorSafeWallet": "Create THORSafe wallet",
+      "goToWallet": "Go to THORSafe"
     }
   },
   "validation": {

@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo } from 'react'
 
 import { Chain } from '@thorswap-lib/types'
 
+import { InactiveAccountWarning } from 'views/Multisig/components/InactiveAccountWarning'
 import { MultisigExport } from 'views/Multisig/components/MultisigExport/MultisigExport'
 import { useMultisigWalletInfo } from 'views/Multisig/hooks'
 
@@ -89,6 +90,8 @@ export const MultisigInfo = () => {
           </Box>
         </Box>
         <InfoTable items={info} size="lg" horizontalInset />
+
+        <InactiveAccountWarning />
 
         <Box className="mt-8" flex={1} align="end">
           <Link className="flex-1" to={ROUTES.TxBuilder}>

@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 
-import { useMultisigForm } from 'views/Multisig/hooks'
+import { useMultisigForm } from 'views/Multisig/MultisigCreate/hooks'
 
 import { Box, Button, Modal, Typography } from 'components/Atomic'
 import { FieldLabel, TextField } from 'components/Form'
@@ -27,7 +27,7 @@ export const MultisigModal = ({
     addMember,
     removeMember,
     isRequiredMember,
-  } = useMultisigForm({ onSubmit: onCancel })
+  } = useMultisigForm()
 
   return (
     <Modal
@@ -157,7 +157,11 @@ export const MultisigModal = ({
               </Box>
 
               <Box className="mt-8" flex={1}>
-                <Button stretch variant="secondary" onClick={submit}>
+                <Button
+                  stretch
+                  variant="secondary"
+                  onClick={() => submit(onCancel)}
+                >
                   {t('views.multisig.create')}
                 </Button>
               </Box>

@@ -175,6 +175,10 @@ const getMemberPubkeyFromAddress = (
   return member?.pubKey || ''
 }
 
+const isMultisigInitialized = () => {
+  return multichain.thor.isMultisigInitialized()
+}
+
 export const multisig = {
   createMultisigWallet,
   clearMultisigWallet,
@@ -187,4 +191,5 @@ export const multisig = {
   hasAsset,
   loadMultisigBalances,
   getMemberPubkeyFromAddress,
+  isMultisigInitialized,
 }

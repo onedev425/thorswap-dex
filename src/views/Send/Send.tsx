@@ -1,6 +1,6 @@
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
 
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 
 import {
   getWalletAssets,
@@ -42,6 +42,7 @@ import { getSendRoute } from 'settings/constants'
 const Send = () => {
   const navigate = useNavigate()
   const { assetParam } = useParams<{ assetParam: string }>()
+  const [searchParams] = useSearchParams()
 
   const [sendAsset, setSendAsset] = useState<Asset>(Asset.RUNE())
   const [sendAmount, setSendAmount] = useState<Amount>(
@@ -49,7 +50,9 @@ const Send = () => {
   )
 
   const [memo, setMemo] = useState('')
-  const [recipientAddress, setRecipientAddress] = useState('')
+  const [recipientAddress, setRecipientAddress] = useState(
+    searchParams.get('recipient') || '',
+  )
   const [thorname, setThorname] = useState('')
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
 

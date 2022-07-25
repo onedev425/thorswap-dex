@@ -9,8 +9,11 @@ import { t } from 'services/i18n'
 import { shortenAddress } from 'helpers/shortenAddress'
 
 export const useAddressUtils = (address: string) => {
-  const miniAddress = useMemo(() => shortenAddress(address), [address])
-  const shortAddress = useMemo(() => shortenAddress(address, 7, 4), [address])
+  const miniAddress = useMemo(() => shortenAddress(address || ''), [address])
+  const shortAddress = useMemo(
+    () => shortenAddress(address || '', 7, 4),
+    [address],
+  )
 
   const handleCopyAddress = useCallback(() => {
     copy(address)

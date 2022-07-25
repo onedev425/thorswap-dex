@@ -2,16 +2,15 @@ import classNames from 'classnames'
 
 import { Box, Typography, useCollapse } from 'components/Atomic'
 import { maxHeightTransitionClass } from 'components/Atomic/Collapse/Collapse'
+import { genericBgClasses } from 'components/constants'
 import { HighlightCard } from 'components/HighlightCard'
 import { StepType } from 'components/Stepper/types'
 
 type Props = {
   step: StepType
   isOpened: boolean
-  goToNext: () => void
+  isDisabled: boolean
   open: () => void
-  isDisabled?: boolean
-  hasNext: boolean
 }
 
 export const Step = ({ step, isOpened, isDisabled, open }: Props) => {
@@ -26,10 +25,10 @@ export const Step = ({ step, isOpened, isDisabled, open }: Props) => {
   }
 
   return (
-    <HighlightCard isFocused={isOpened}>
+    <HighlightCard className="!p-3" isFocused={isOpened}>
       <Box col>
         <Box
-          className={classNames('gap-3', {
+          className={classNames('sm:p-2 gap-3', {
             'cursor-pointer': !isDisabled,
             'opacity-30': !isOpened,
           })}
@@ -37,7 +36,10 @@ export const Step = ({ step, isOpened, isDisabled, open }: Props) => {
           alignCenter
         >
           <Box
-            className={classNames('rounded-full bg-btn-primary w-5 h-5 p-0.5')}
+            className={classNames(
+              'rounded-full w-5 h-5 p-0.5',
+              isDisabled ? genericBgClasses.primary : 'bg-btn-primary',
+            )}
             center
           >
             <Typography color="primary" variant="caption-xs">

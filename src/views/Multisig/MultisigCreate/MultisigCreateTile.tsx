@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-// import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
 
 import classNames from 'classnames'
 
@@ -15,10 +15,10 @@ import {
 
 import { t } from 'services/i18n'
 
-// import { ROUTES } from 'settings/constants'
+import { ROUTES } from 'settings/constants'
 
 export const MultisigCreateTile = () => {
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
   const [isMultisigModalOpened, setMultisigModalOpened] = useState(false)
 
   return (
@@ -48,8 +48,7 @@ export const MultisigCreateTile = () => {
                 className="mt-3"
                 stretch
                 variant="secondary"
-                onClick={() => setMultisigModalOpened(true)}
-                // onClick={() => navigate(ROUTES.MultisigCreate)}
+                onClick={() => navigate(ROUTES.MultisigCreate)}
               >
                 {t('views.multisig.multisigModalTitle')}
               </Button>

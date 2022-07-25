@@ -49,8 +49,10 @@ export const getWithdrawRoute = (asset?: Asset) => {
   return getAssetRoute(ROUTES.WithdrawLiquidity, asset)
 }
 
-export const getSendRoute = (asset?: Asset) => {
-  return getAssetRoute(ROUTES.Send, asset)
+export const getSendRoute = (asset?: Asset, recipient?: string) => {
+  const route = getAssetRoute(ROUTES.Send, asset)
+  const query = recipient ? `?recipient=${recipient}` : ''
+  return `${route}${query}`
 }
 
 export const getMultisigTxCreateRoute = (asset?: Asset) => {
