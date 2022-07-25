@@ -3987,10 +3987,10 @@
   dependencies:
     "@thorswap-lib/types" "^0.1.48"
 
-"@thorswap-lib/multichain-sdk@0.9.24":
-  version "0.9.24"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.9.24.tgz#25c14427da5c440f8e391cd59dfeae085aeb8e25"
-  integrity sha512-L9X9YRQ06ZZzwAb1M2QM2jAaaqlxBs+UEPIknubUeh6yuLAH33piy1Bya/eBFc+H5fBgVLYSIhDmutH2nbuW9g==
+"@thorswap-lib/multichain-sdk@0.9.26":
+  version "0.9.26"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.9.26.tgz#07af166a3be0de520e40638cf61c97da3074d005"
+  integrity sha512-QsZZGn1T4y6KFpgsvnKmxsBumNw+5hlZ6zXC7ux2zNOO32rG8ciZHMvfkvu7U5TasF8e1uZBULPw1Zw3UCQkjg==
   dependencies:
     "@cosmjs/stargate" "0.28.11"
     "@ethersproject/abstract-signer" "^5.6.2"
@@ -4008,7 +4008,7 @@
     "@thorswap-lib/xchain-client" "^0.11.6"
     "@thorswap-lib/xchain-cosmos" "^0.20.6"
     "@thorswap-lib/xchain-crypto" "^0.2.11"
-    "@thorswap-lib/xchain-doge" "^0.2.9"
+    "@thorswap-lib/xchain-doge" "^0.2.10"
     "@thorswap-lib/xchain-ethereum" "^0.22.12"
     "@thorswap-lib/xchain-litecoin" "^0.8.5"
     "@thorswap-lib/xchain-solana" "^0.2.4"
@@ -4077,10 +4077,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-crypto/-/xchain-crypto-0.2.11.tgz#35eed671dec1b56b883101c93a0c3c032da93530"
   integrity sha512-vbuiNuT7R4kxC+l9RBwYU50vp51UnB2RVwDtHFHGuWUF6rc2iSduFKQsMdpZyBSidtQwlO348cYGs+z17QnceA==
 
-"@thorswap-lib/xchain-doge@^0.2.9":
-  version "0.2.9"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-doge/-/xchain-doge-0.2.9.tgz#fdb2fe3d21a0bfd8e1971775706f75e7814d956b"
-  integrity sha512-Pu/susicG7O3b/ngINt4G3M5t0N5sGvMoJMYp4rIVBMIp1H8tVGU4QPkO/bKoJVQx6PkSlt7Mus757XGalaXLQ==
+"@thorswap-lib/xchain-doge@^0.2.10":
+  version "0.2.10"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-doge/-/xchain-doge-0.2.10.tgz#fa066068d1ecce099d8c6c5484d5ad98a748b5f1"
+  integrity sha512-zOLGNjDbr6jsvzfeA/jp/nln2B5M0bMSnMCrlnlbH1lDsrFYmxAD9z01n+5vMTKEzyXktVnOMS1FDM0M63Y16w==
 
 "@thorswap-lib/xchain-ethereum@^0.22.12":
   version "0.22.12"
