@@ -5,27 +5,28 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import { Box, Button, Link, Typography } from 'components/Atomic'
 import { InfoTip } from 'components/InfoTip'
 
+import { useMultisig } from 'store/multisig/hooks'
 import { useAppSelector } from 'store/store'
 
 import { t } from 'services/i18n'
-import { multisig } from 'services/multisig'
 
 import { getSendRoute } from 'settings/constants'
 
 export const InactiveAccountWarning = () => {
   const { address } = useAppSelector((state) => state.multisig)
+  const { isMultsigActivated } = useMultisig()
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
     const checkIsInitialized = async () => {
-      const isInitialized = await multisig.isMultisigInitialized()
+      const isInitialized = await isMultsigActivated()
       setIsVisible(!isInitialized)
     }
 
     if (address) {
       checkIsInitialized()
     }
-  }, [address])
+  }, [address, isMultsigActivated])
 
   if (!isVisible) {
     return null

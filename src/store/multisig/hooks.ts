@@ -139,6 +139,12 @@ export const useMultisig = () => {
     [members],
   )
 
+  const isMultsigActivated = useCallback(() => {
+    initMultisigWallet()
+
+    return multisig.isMultisigInitialized()
+  }, [initMultisigWallet])
+
   return {
     ...multisigActions,
     initMultisigWallet,
@@ -150,5 +156,6 @@ export const useMultisig = () => {
     loadBalances,
     getPubkeyForAddress,
     getSortedSigners,
+    isMultsigActivated,
   }
 }

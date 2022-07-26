@@ -132,7 +132,7 @@
     "language": "Language",
     "thousandSeparator": "Thousand Separator",
     "thorSafe": "ThorSafe",
-    "multisigSettings": "Multisig Settings",
+    "multisig": "Multi-sig",
     "proModeSettings": "Pro mode Settings",
     "proMode": "Pro mode",
     "separatorSpace": "Space",
@@ -147,7 +147,7 @@
     "showStats": "Show Global Stats",
     "showCharts": "Show Charts",
     "showPools": "Show Featured Pools",
-    "showMultisig": "Show Multisig Wallet",
+    "showMultisig": "Show Multi-sig Wallet",
     "txBuilder": "Tx Builder"
   },
   "txManager": {

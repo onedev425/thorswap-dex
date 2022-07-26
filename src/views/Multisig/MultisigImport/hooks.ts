@@ -32,15 +32,13 @@ export const useMultisigImport = ({ onSuccess }: Props) => {
       throw Error('Incorrect wallet members')
     }
 
-    if (
-      typeof data.treshold !== 'number' ||
-      data.treshold > data.members.length
-    ) {
+    const treshold = Number(data.treshold)
+    if (!treshold || treshold > data.members.length) {
       throw Error('Incorrect treshold')
     }
 
     const parsedData: WalletData = {
-      treshold: data.treshold,
+      treshold,
       members: data.members.map((m) => ({
         pubKey: m.pubKey,
         name: m.name || '',

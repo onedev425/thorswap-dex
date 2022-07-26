@@ -131,7 +131,6 @@ const broadcastMultisigTx = async (tx: string, signers: Signer[]) => {
 }
 
 const loadMultisigBalances = async (): Promise<AssetAmount[]> => {
-  // const address = 'tthor17jxmh70mededc0zzh2djwqmaf5g3svxs6n5ty8'
   const address = multichain.thor.multisigAddress
 
   if (address) {
