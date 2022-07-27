@@ -2,12 +2,12 @@ import { useMemo } from 'react'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
 
+import { ConfirmModal } from 'views/Multisig/components/ConfirmModal'
 import { useTxSend } from 'views/Multisig/TxSend/hooks'
 
 import { AssetInput } from 'components/AssetInput'
 import { Box, Button } from 'components/Atomic'
 import { InfoTable } from 'components/InfoTable'
-import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { PanelInput } from 'components/PanelInput'
 
 import { t } from 'services/i18n'
@@ -24,10 +24,10 @@ export const TxSend = () => {
     handleChangeSendAmount,
     handleChangeRecipient,
     handleChangeMemo,
-    handleSubmit,
     isOpenConfirmModal,
     handleCancelConfirm,
     handleCreateTx,
+    handleSend,
   } = useTxSend()
 
   const confirmModalInfo = useMemo(
@@ -72,7 +72,7 @@ export const TxSend = () => {
       />
 
       <Box center className="w-full pt-5">
-        <Button isFancy stretch size="lg" onClick={handleSubmit}>
+        <Button isFancy stretch size="lg" onClick={handleSend}>
           {t('views.multisig.createTransaction')}
         </Button>
       </Box>

@@ -7,6 +7,7 @@ import { Chain } from '@thorswap-lib/xchain-util'
 
 import { CurrentSignersModal } from 'views/Multisig/components/CurrentSignersModal'
 import { ImportSignatureModal } from 'views/Multisig/components/ImportSignatureModal'
+import { TextareaCopy } from 'views/Multisig/components/TextareaCopy'
 import { useMultisigWalletInfo } from 'views/Multisig/hooks'
 import { ScreenState, useTxData } from 'views/Multisig/TxMultisig/hooks'
 
@@ -14,7 +15,6 @@ import { Box, Button, Icon, Link, Typography, Tooltip } from 'components/Atomic'
 import { FieldLabel } from 'components/Form'
 import { InfoTable } from 'components/InfoTable'
 import { InfoTip } from 'components/InfoTip'
-import { PanelTextarea } from 'components/PanelTextarea'
 import { PanelView } from 'components/PanelView'
 import { ViewHeader } from 'components/ViewHeader'
 
@@ -90,10 +90,11 @@ const TxMultisig = () => {
         <InfoTable items={[info[0]]} horizontalInset />
 
         <Box className="mt-4" flex={1} col>
-          <PanelTextarea
+          <TextareaCopy
             className="flex-1 min-h-[100px]"
             disabled
             value={signature}
+            copyMessage={t('views.multisig.transactionCopied')}
           />
 
           <Box className="mt-6" col>

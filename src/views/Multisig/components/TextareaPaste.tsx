@@ -1,5 +1,7 @@
 import { forwardRef } from 'react'
 
+import classNames from 'classnames'
+
 import { Box, Button, Icon } from 'components/Atomic'
 import { FieldLabel } from 'components/Form'
 import { PanelTextarea } from 'components/PanelTextarea'
@@ -25,7 +27,7 @@ export const TextareaPaste = forwardRef<HTMLTextAreaElement, Props>(
       <Box className="relative" flex={1} col>
         <PanelTextarea
           {...props}
-          className={['flex-1 min-h-[300px] pt-6', props.className].join(' ')}
+          className={classNames('flex-1 min-h-[100px] pt-6', props.className)}
           ref={ref}
         />
         {!!onPasteClick && (

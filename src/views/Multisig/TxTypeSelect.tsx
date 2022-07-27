@@ -18,7 +18,7 @@ export const TxTypeSelect = ({ onChange, selected }: Props) => {
   const options: { label: string; value: MultisigTxType }[] = useMemo(
     () => [
       { label: t('views.multisig.send'), value: MultisigTxType.send },
-      { label: t('views.multisig.bond'), value: MultisigTxType.bond },
+      { label: t('views.multisig.nodeActions'), value: MultisigTxType.bond },
       { label: t('views.multisig.deposit'), value: MultisigTxType.deposit },
       { label: t('views.multisig.withdraw'), value: MultisigTxType.withdraw },
     ],

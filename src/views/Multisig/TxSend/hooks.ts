@@ -3,11 +3,17 @@ import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { Amount, Asset, Price } from '@thorswap-lib/multichain-sdk'
+import { Chain } from '@thorswap-lib/types'
 
 import { useMultissigAssets } from 'views/Multisig/hooks'
 
+import { showErrorToast } from 'components/Toast'
+
 import { useMidgard } from 'store/midgard/hooks'
 import { useMultisig } from 'store/multisig/hooks'
+
+import { t } from 'services/i18n'
+import { multichain } from 'services/multichain'
 
 import { getMultisigTxCreateRoute, ROUTES } from 'settings/constants'
 
@@ -103,10 +109,6 @@ export const useTxSend = () => {
     [],
   )
 
-  const handleSubmit = useCallback(() => {
-    setIsOpenConfirmModal(true)
-  }, [])
-
   const handleCancelConfirm = useCallback(() => {
     setIsOpenConfirmModal(false)
   }, [])
@@ -128,8 +130,24 @@ export const useTxSend = () => {
     }
   }
 
+  const handleSend = useCallback(() => {
+    if (
+      !multichain.validateAddress({
+        chain: Chain.THORChain,
+        address: recipientAddress,
+      })
+    ) {
+      showErrorToast(
+        t('notification.invalidL1ChainAddy', { chain: Chain.THORChain }),
+      )
+    } else {
+      setIsOpenConfirmModal(true)
+    }
+  }, [recipientAddress, setIsOpenConfirmModal])
+
   return {
     isOpenConfirmModal,
+    setIsOpenConfirmModal,
     assetInputList,
     assetPriceInUSD,
     memo,
@@ -140,9 +158,9 @@ export const useTxSend = () => {
     handleChangeSendAmount,
     handleChangeRecipient,
     handleChangeMemo,
-    handleSubmit,
     handleCancelConfirm,
     sendAsset,
     handleCreateTx,
+    handleSend,
   }
 }

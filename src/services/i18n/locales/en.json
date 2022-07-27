@@ -113,7 +113,8 @@
     "allCaughtUp": "You're all Caught up!",
     "pleaseConfirm": "Please confirm",
     "back": "Back",
-    "next": "Next"
+    "next": "Next",
+    "valueCopied": "Value copied"
   },
   "pendingLiquidity": {
     "complete": "complete",
@@ -704,7 +705,9 @@
       "viewAccount": "View Account",
       "create": "Create",
       "createThorSafeWallet": "Create THORSafe wallet",
-      "goToWallet": "Go to THORSafe"
+      "goToWallet": "Go to THORSafe",
+      "nodeActions": "Node Actions",
+      "transactionCopied": "Transaction data copied"
     }
   },
   "validation": {
