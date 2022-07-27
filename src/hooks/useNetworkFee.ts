@@ -4,8 +4,8 @@ import {
   Asset,
   Amount,
   AssetAmount,
-  NetworkFee,
   Pool,
+  getNetworkFeeByAsset,
 } from '@thorswap-lib/multichain-sdk'
 
 import { useApp } from 'store/app/hooks'
@@ -31,7 +31,7 @@ export const useNetworkFee = ({
       chain: inputAsset.L1Chain,
       feeOptionType,
     })
-    const networkFee = NetworkFee.getNetworkFeeByAsset({
+    const networkFee = getNetworkFeeByAsset({
       asset: inputAsset,
       gasRate,
       direction: 'inbound',
@@ -44,7 +44,7 @@ export const useNetworkFee = ({
     const asset = outputAsset || inputAsset
 
     const gasRate = getGasRateByChain({ inboundData, chain: asset.chain })
-    const networkFee = NetworkFee.getNetworkFeeByAsset({
+    const networkFee = getNetworkFeeByAsset({
       asset,
       gasRate,
       direction: 'outbound',

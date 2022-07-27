@@ -4,7 +4,7 @@ import {
   Asset,
   Amount,
   getAssetBalance,
-  NetworkFee,
+  getNetworkFeeByAsset,
 } from '@thorswap-lib/multichain-sdk'
 import { SupportedChain } from '@thorswap-lib/types'
 
@@ -59,7 +59,7 @@ export const useBalance = () => {
         chain: asset.L1Chain,
         feeOptionType,
       })
-      const inboundFee = NetworkFee.getNetworkFeeByAsset({
+      const inboundFee = getNetworkFeeByAsset({
         asset,
         gasRate,
         direction: 'inbound',

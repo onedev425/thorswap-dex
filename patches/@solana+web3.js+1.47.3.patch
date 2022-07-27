@@ -1,5 +1,5 @@
 diff --git a/node_modules/@solana/web3.js/lib/index.browser.esm.js b/node_modules/@solana/web3.js/lib/index.browser.esm.js
-index 5a26764..187387e 100644
+index 1148fa1..319ff42 100644
 --- a/node_modules/@solana/web3.js/lib/index.browser.esm.js
 +++ b/node_modules/@solana/web3.js/lib/index.browser.esm.js
 @@ -1,5 +1,4 @@
@@ -9,7 +9,7 @@ index 5a26764..187387e 100644
  import bs58 from 'bs58';
  import { serialize, deserialize, deserializeUnchecked } from 'borsh';
 diff --git a/node_modules/@solana/web3.js/lib/index.esm.js b/node_modules/@solana/web3.js/lib/index.esm.js
-index 6da51d2..7f2af9a 100644
+index de2033d..8df8bee 100644
 --- a/node_modules/@solana/web3.js/lib/index.esm.js
 +++ b/node_modules/@solana/web3.js/lib/index.esm.js
 @@ -1,5 +1,4 @@
@@ -40,7 +40,7 @@ index 75d0b4f..76d01ab 100644
  import {Loader} from './loader';
  import type {Connection} from './connection';
 diff --git a/node_modules/@solana/web3.js/src/connection.ts b/node_modules/@solana/web3.js/src/connection.ts
-index 36d4b8b..3ef65c7 100644
+index 39fa038..3c24ffd 100644
 --- a/node_modules/@solana/web3.js/src/connection.ts
 +++ b/node_modules/@solana/web3.js/src/connection.ts
 @@ -1,5 +1,4 @@
@@ -68,7 +68,7 @@ index 4097211..63f89e4 100644
  
  import * as Layout from './layout';
 diff --git a/node_modules/@solana/web3.js/src/layout.ts b/node_modules/@solana/web3.js/src/layout.ts
-index b0e2438..333792e 100644
+index bac3cf6..de0efc8 100644
 --- a/node_modules/@solana/web3.js/src/layout.ts
 +++ b/node_modules/@solana/web3.js/src/layout.ts
 @@ -1,4 +1,4 @@

@@ -1,13 +1,14 @@
-import {
-  Asset,
-  LegacySwap,
-  Swap,
-  SynthType,
-} from '@thorswap-lib/multichain-sdk'
+import { Asset, LegacySwap } from '@thorswap-lib/multichain-sdk'
 
 import { TxTrackerType } from 'store/midgard/types'
 
 import { Pair } from './types'
+
+enum SynthType {
+  MINT = 0,
+  REDEEM = 1,
+  SWAP = 2,
+}
 
 export const getSwapPair = async (pair: string): Promise<Pair | null> => {
   if (!pair || pair.split('_').length !== 2) {
@@ -33,7 +34,7 @@ export const getSwapTrackerType = ({
   inputAsset,
   outputAsset,
   synthType,
-}: Swap | LegacySwap): TxTrackerType => {
+}: LegacySwap): TxTrackerType => {
   if (inputAsset.isSynth || outputAsset.isSynth) {
     if (synthType === SynthType.MINT) {
       return TxTrackerType.Mint

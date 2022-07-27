@@ -4,7 +4,7 @@ import {
   Amount,
   Asset,
   AssetAmount,
-  NetworkFee,
+  getNetworkFeeByAsset,
 } from '@thorswap-lib/multichain-sdk'
 
 import { Button, Icon } from 'components/Atomic'
@@ -103,7 +103,7 @@ export const useMultissigAssets = () => {
         chain: asset.L1Chain,
         feeOptionType,
       })
-      const inboundFee = NetworkFee.getNetworkFeeByAsset({
+      const inboundFee = getNetworkFeeByAsset({
         asset,
         gasRate,
         direction: 'inbound',
