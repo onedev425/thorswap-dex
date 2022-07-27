@@ -90,11 +90,14 @@ export const useWallet = () => {
     [dispatch],
   )
 
-  const connectMetamask = useCallback(async () => {
-    await multichain.connectMetamask()
+  const connectMetamask = useCallback(
+    async (chains: SupportedChain[]) => {
+      await multichain.connectMetamask(chains[0])
 
-    dispatch(walletActions.getWalletByChain(Chain.Ethereum))
-  }, [dispatch])
+      dispatch(walletActions.getWalletByChain(chains[0]))
+    },
+    [dispatch],
+  )
 
   const connectPhantom = useCallback(async () => {
     await multichain.connectPhantom()

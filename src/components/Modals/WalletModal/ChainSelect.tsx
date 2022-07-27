@@ -47,7 +47,7 @@ export const ChainSelect = ({
   const handlePendingChain = useCallback(
     (chain: SupportedChain) => {
       const newPendingChains =
-        walletType === WalletType.Ledger
+        walletType === WalletType.Ledger || walletType === WalletType.MetaMask
           ? [chain]
           : pendingChains.includes(chain)
           ? pendingChains.filter((item) => item !== chain)
@@ -68,23 +68,25 @@ export const ChainSelect = ({
 
   return (
     <Box className="w-full space-y-2" col>
-      {walletType !== WalletType.Ledger && walletChains.length > 0 && (
-        <Box row className="p-2" justify="end">
-          <Button
-            type="borderless"
-            variant="tint"
-            endIcon={
-              <Icon
-                name="selectAll"
-                color={allSelected ? 'primaryBtn' : 'primary'}
-              />
-            }
-            onClick={toggleChains}
-          >
-            {t('views.walletModal.selectAll')}
-          </Button>
-        </Box>
-      )}
+      {walletType !== WalletType.Ledger &&
+        walletType !== WalletType.MetaMask &&
+        walletChains.length > 0 && (
+          <Box row className="p-2" justify="end">
+            <Button
+              type="borderless"
+              variant="tint"
+              endIcon={
+                <Icon
+                  name="selectAll"
+                  color={allSelected ? 'primaryBtn' : 'primary'}
+                />
+              }
+              onClick={toggleChains}
+            >
+              {t('views.walletModal.selectAll')}
+            </Button>
+          </Box>
+        )}
 
       <Scrollbar maxHeight="100%">
         <Box flex={1} center className="px-6 pb-2 gap-2 flex-wrap" row>

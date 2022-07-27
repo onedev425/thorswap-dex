@@ -12,6 +12,7 @@ type Props = {
 const colorMapping: Record<SupportedChain, string> = {
   BTC: 'bg-chain-btc',
   ETH: 'bg-chain-eth',
+  AVAX: 'bg-chain-eth',
   BCH: 'bg-chain-bch',
   BNB: 'bg-chain-bnb',
   THOR: 'bg-chain-thor',

@@ -19,6 +19,7 @@ const emptyWallet = {
   [Chain.Binance]: null,
   [Chain.THORChain]: null,
   [Chain.Ethereum]: null,
+  [Chain.Avalanche]: null,
   [Chain.Litecoin]: null,
   [Chain.BitcoinCash]: null,
   [Chain.Doge]: null,

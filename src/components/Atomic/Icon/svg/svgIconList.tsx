@@ -1,4 +1,5 @@
 // Chain Icons
+import { ReactComponent as Avalanche } from 'assets/images/svg/avalanche.svg'
 import { ReactComponent as BitcoinCash } from 'assets/images/svg/bch.svg'
 import { ReactComponent as Bitcoin } from 'assets/images/svg/bitcoin.svg'
 import { ReactComponent as Bnb } from 'assets/images/svg/bnb.svg'
@@ -72,6 +73,7 @@ export type SvgIconName = keyof typeof Svgs
 
 export const Svgs = {
   // chain icons
+  avax: Avalanche,
   bch: BitcoinCash,
   btc: Bitcoin,
   bnb: Bnb,
@@ -149,6 +151,7 @@ export const SvgIcons = {
   bnb: (props: CustomIconProps) => <SvgIcon name="bnb" {...props} />,
   doge: (props: CustomIconProps) => <SvgIcon name="doge" {...props} />,
   eth: (props: CustomIconProps) => <SvgIcon name="eth" {...props} />,
+  avax: (props: CustomIconProps) => <SvgIcon name="avax" {...props} />,
   ltc: (props: CustomIconProps) => <SvgIcon name="ltc" {...props} />,
   sol: (props: CustomIconProps) => <SvgIcon name="sol" {...props} />,
   gaia: (props: CustomIconProps) => <SvgIcon name="cos" {...props} />,

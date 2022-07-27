@@ -15,6 +15,7 @@ export type AssetTickerType =
   | 'ART'
   | 'ATP'
   | 'AVA'
+  | 'AVAX'
   | 'AWC'
   | 'AXPR'
   | 'BAW'

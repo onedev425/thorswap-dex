@@ -9,6 +9,7 @@ import { getGasRateByFeeOption } from 'helpers/networkFee'
 
 export const GasUnitLabel: Record<Chain, string> = {
   [Chain.Bitcoin]: 'Sats',
+  [Chain.Avalanche]: 'Gwei',
   [Chain.Ethereum]: 'Gwei',
   [Chain.THORChain]: 'Rune',
   [Chain.Binance]: 'Jager', // https://academy.binance.com/en/glossary/jager

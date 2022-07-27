@@ -32,7 +32,7 @@ const Keystore = [
 ] as SupportedChain[]
 
 export const availableChainsByWallet: Record<string, SupportedChain[]> = {
-  MetaMask: [Chain.Ethereum],
+  MetaMask: [Chain.Ethereum, Chain.Avalanche],
   Phantom: [Chain.Solana],
   Keplr: [Chain.Cosmos],
   Keystore,

@@ -33,6 +33,7 @@ const sortedChains = [
   Chain.THORChain,
   Chain.Bitcoin,
   Chain.Ethereum,
+  Chain.Avalanche,
   Chain.Solana,
   Chain.Doge,
   Chain.Binance,

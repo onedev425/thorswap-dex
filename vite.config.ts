@@ -7,7 +7,7 @@ import { defineConfig } from 'vite'
 import { resolve } from 'path'
 import { visualizer } from 'rollup-plugin-visualizer'
 import progress from 'vite-plugin-progress'
-import removeConsole from 'vite-plugin-remove-console';
+import removeConsole from 'vite-plugin-remove-console'
 
 // TODO: to split build into smaller chunks
 // const initialModules = [...builtinModules,
@@ -57,7 +57,6 @@ export default defineConfig({
        * '@thorswap-lib/multichain-sdk': resolve(__dirname, 'src/multichain'),
        * '@thorswap-lib/multichain-ledger': resolve(__dirname, 'src/ledger'),
        */
-
     },
   },
   build: {
@@ -73,8 +72,8 @@ export default defineConfig({
         chunkFileNames: () => '[hash].js',
         manualChunks: (id) => {
           if (id.includes('node_modules')) return 'vendor'
-        }
-      }
+        },
+      },
     },
   },
   optimizeDeps: {
@@ -88,9 +87,15 @@ export default defineConfig({
       'crypto-browserify',
     ],
     esbuildOptions: {
-      define: { 'global': 'globalThis' },
+      define: { global: 'globalThis' },
       reserveProps: /(BigInteger|ECPair|Point)/,
-      plugins: [NodeGlobalsPolyfillPlugin({ define: { 'global': 'globalThis' }, buffer: true, process: true })],
+      plugins: [
+        NodeGlobalsPolyfillPlugin({
+          define: { global: 'globalThis' },
+          buffer: true,
+          process: true,
+        }),
+      ],
     },
   },
 })

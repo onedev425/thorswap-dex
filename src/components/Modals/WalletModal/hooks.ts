@@ -135,15 +135,19 @@ export const useHandleWalletConnect = ({
     [connectLedger, clearStatus],
   )
 
-  const handleConnectMetaMask = useCallback(async () => {
-    try {
-      await connectMetamask()
-    } catch (error) {
-      showErrorToast(t('notification.metamaskFailed'))
-    }
+  const handleConnectMetaMask = useCallback(
+    async (chain: SupportedChain) => {
+      try {
+        // @ts-expect-error TODO: fix typings
+        await connectMetamask(chain)
+      } catch (error) {
+        showErrorToast(t('notification.metamaskFailed'))
+      }
 
-    clearStatus()
-  }, [connectMetamask, clearStatus])
+      clearStatus()
+    },
+    [connectMetamask, clearStatus],
+  )
 
   const handleConnectPhantom = useCallback(async () => {
     await connectPhantom()
@@ -192,7 +196,8 @@ export const useHandleWalletConnect = ({
       case WalletType.Ledger:
         return handleConnectLedger(pendingChains[0], ledgerIndex)
       case WalletType.MetaMask:
-        return handleConnectMetaMask()
+        // @ts-expect-error TODO: fix typings
+        return handleConnectMetaMask(pendingChains)
       case WalletType.Phantom:
         return handleConnectPhantom()
       case WalletType.Keplr:
@@ -303,6 +308,8 @@ export const useHandleWalletTypeSelect = ({
         setPendingChains(
           selectedWallet === WalletType.Ledger
             ? ([Chain.Bitcoin] as SupportedChain[])
+            : selectedWallet === WalletType.MetaMask
+            ? ([Chain.Ethereum] as SupportedChain[])
             : availableChainsByWallet[selectedWallet],
         )
       }

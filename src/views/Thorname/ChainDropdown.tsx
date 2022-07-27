@@ -17,6 +17,7 @@ export const thornameChainIcons: Record<SupportedChain, IconName> = {
   [Chain.Bitcoin]: 'bitcoin',
   [Chain.Binance]: 'bnb',
   [Chain.Ethereum]: 'eth',
+  [Chain.Avalanche]: 'avax',
   [Chain.BitcoinCash]: 'bch',
   [Chain.Doge]: 'doge',
   [Chain.Litecoin]: 'ltc',

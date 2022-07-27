@@ -3,6 +3,7 @@ import { AssetTickerType } from './types'
 export const getCustomIconImageUrl = (
   name:
     | 'alcx'
+    | 'avax'
     | 'bnb'
     | 'atom'
     | 'dogecoin'
@@ -19,6 +20,7 @@ export const getCustomIconImageUrl = (
 
 export const customIconMap: Partial<Record<AssetTickerType, string>> = {
   ALCX: getCustomIconImageUrl('alcx'),
+  AVAX: getCustomIconImageUrl('avax', 'svg'),
   BNB: getCustomIconImageUrl('bnb', 'svg'),
   DOGE: getCustomIconImageUrl('dogecoin'),
   ATOM: getCustomIconImageUrl('atom', 'svg'),
