@@ -1,11 +1,20 @@
-import { KeyboardEvent, useCallback, useEffect, useMemo, useState } from 'react'
+import {
+  KeyboardEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  KeyboardEventHandler,
+} from 'react'
 
+import { isKeystoreSignRequired, Asset } from '@thorswap-lib/multichain-sdk'
 import { SupportedChain } from '@thorswap-lib/types'
 
 import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic'
 import { InfoTable } from 'components/InfoTable'
 import { Input } from 'components/Input'
 import { PanelView } from 'components/PanelView'
+import { PasswordInput } from 'components/PasswordInput'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useWallet } from 'store/wallet/hooks'
@@ -19,7 +28,8 @@ import { useThornameInfoItems } from './useThornameInfoItems'
 import { useThornameLookup } from './useThornameLookup'
 
 const Thorname = () => {
-  const { isWalletLoading, wallet, setIsConnectModalOpen } = useWallet()
+  const { isWalletLoading, wallet, setIsConnectModalOpen, keystore } =
+    useWallet()
   const thorAddress = wallet?.THOR?.address
   const {
     available,
@@ -37,6 +47,15 @@ const Thorname = () => {
   const [validAddress, setValidAddress] = useState(false)
   const [address, setAddress] = useState<null | string>(null)
   const chainWalletAddress = wallet?.[chain]?.address
+
+  const [invalidPassword, setInvalidPassword] = useState(false)
+  const [validating, setValidating] = useState(false)
+  const [password, setPassword] = useState('')
+
+  const isKeystoreSigningRequired = useMemo(
+    () => isKeystoreSignRequired({ wallet, inputAssets: [Asset.RUNE()] }),
+    [wallet],
+  )
 
   const { data: thornameInfoItems } = useThornameInfoItems({
     years,
@@ -59,7 +78,7 @@ const Thorname = () => {
     [address, thorname.length, unavailableForPurchase, validAddress],
   )
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = useCallback(async () => {
     if (disabled) return
 
     if (!(details || available)) {
@@ -67,20 +86,43 @@ const Thorname = () => {
     }
 
     if (thorAddress && address && validAddress) {
-      registerThornameAddress(address)
+      if (!isKeystoreSigningRequired) {
+        registerThornameAddress(address)
+      } else {
+        if (!keystore) return
+        try {
+          setValidating(true)
+
+          const isValid = await multichain.validateKeystore(keystore, password)
+
+          if (isValid) {
+            registerThornameAddress(address)
+            setValidating(false)
+          } else {
+            setInvalidPassword(true)
+            setValidating(false)
+          }
+        } catch (error) {
+          setInvalidPassword(true)
+          setValidating(false)
+        }
+      }
     } else {
       setIsConnectModalOpen(true)
     }
   }, [
-    available,
-    address,
-    details,
     disabled,
-    lookupForTNS,
-    registerThornameAddress,
-    setIsConnectModalOpen,
+    details,
+    available,
     thorAddress,
+    address,
     validAddress,
+    lookupForTNS,
+    isKeystoreSigningRequired,
+    registerThornameAddress,
+    keystore,
+    password,
+    setIsConnectModalOpen,
   ])
 
   const handleEnterKeyDown = useCallback(
@@ -107,12 +149,15 @@ const Thorname = () => {
     [lookupForTNS, setThorname],
   )
 
+  const registeredChains = useMemo(
+    () => (details ? details?.entries.map((e) => e.chain) : []),
+    [details],
+  )
+
   const buttonLabel = useMemo(() => {
     if (unavailableForPurchase) {
       return t('views.thorname.unavailableForPurchase')
     }
-
-    const registeredChains = details ? details?.entries.map((e) => e.chain) : []
 
     if (available) {
       return thorAddress
@@ -123,7 +168,7 @@ const Thorname = () => {
     }
 
     return t('views.wallet.search')
-  }, [unavailableForPurchase, details, available, thorAddress])
+  }, [unavailableForPurchase, available, thorAddress, registeredChains.length])
 
   useEffect(() => {
     if (chainWalletAddress) {
@@ -137,6 +182,22 @@ const Thorname = () => {
       setValidAddress(isValidAddress)
     }
   }, [address, chain])
+
+  const onPasswordKeyDown: KeyboardEventHandler<HTMLInputElement> = useCallback(
+    (event) => {
+      if (event.code === 'Enter' && !validating) {
+        handleSubmit()
+      }
+    },
+    [handleSubmit, validating],
+  )
+
+  const handlePassword = (password: string) => {
+    setPassword(password)
+    if (invalidPassword) {
+      setInvalidPassword(false)
+    }
+  }
 
   return (
     <PanelView
@@ -203,13 +264,35 @@ const Thorname = () => {
         </Box>
       )}
 
+      {isKeystoreSigningRequired &&
+        thorAddress &&
+        registeredChains?.length > 0 && (
+          <Box col className="w-full pt-4 ">
+            <PasswordInput
+              value={password}
+              onChange={({ target }) => handlePassword(target.value)}
+              onKeyDown={onPasswordKeyDown}
+            />
+            {invalidPassword && (
+              <Typography
+                className="ml-2"
+                color="orange"
+                variant="caption"
+                fontWeight="medium"
+              >
+                {t('views.walletModal.wrongPassword')}
+              </Typography>
+            )}
+          </Box>
+        )}
+
       <Box className="w-full pt-6">
         <Button
           loading={isWalletLoading || loading}
           isFancy
           size="lg"
           stretch
-          error={!!details && available && !validAddress}
+          error={(!!details && available && !validAddress) || invalidPassword}
           disabled={disabled}
           onClick={handleSubmit}
         >
