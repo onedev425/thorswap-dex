@@ -4,19 +4,31 @@ import { useNavigate } from 'react-router-dom'
 
 import { AddLiquidityParams, Asset, Memo } from '@thorswap-lib/multichain-sdk'
 
-import { useAddLiquidity } from 'views/AddLiquidity/hooks'
+import { useAddLiquidity } from 'views/AddLiquidity/hooks/hooks'
+import { useAddLiquidityPools } from 'views/AddLiquidity/hooks/useAddLiquidityPools'
+import { useAssetsList } from 'views/AddLiquidity/hooks/useAssetsList'
 
 import { useMultisig } from 'store/multisig/hooks'
+
+import { useLiquidityType } from 'hooks/useLiquidityType'
 
 import { getMultisigTxCreateRoute, ROUTES } from 'settings/constants/router'
 
 export const useTxDeposit = () => {
-  const navigate = useNavigate()
-  const { createDepositTx } = useMultisig()
   const assetRouteGetter = useCallback(
     (asset: Asset) => getMultisigTxCreateRoute(asset),
     [],
   )
+
+  const { liquidityType, setLiquidityType } = useLiquidityType()
+  const { poolAssets, pools, pool, poolAsset, handleSelectPoolAsset } =
+    useAddLiquidityPools({ assetRouteGetter })
+
+  //TODO: use multisig assets here
+  const poolAssetList = useAssetsList({ liquidityType, poolAssets, pools })
+
+  const navigate = useNavigate()
+  const { createDepositTx } = useMultisig()
 
   const onAddLiquidity = async ({
     runeAmount,
@@ -39,10 +51,22 @@ export const useTxDeposit = () => {
   }
 
   const addLiquidity = useAddLiquidity({
-    assetRouteGetter,
     onAddLiquidity,
     skipWalletCheck: true,
+    liquidityType,
+    setLiquidityType,
+    poolAsset,
+    poolAssets,
+    pools,
+    pool,
   })
 
-  return addLiquidity
+  return {
+    handleSelectPoolAsset,
+    poolAssetList,
+    liquidityType,
+    pool,
+    poolAsset,
+    ...addLiquidity,
+  }
 }

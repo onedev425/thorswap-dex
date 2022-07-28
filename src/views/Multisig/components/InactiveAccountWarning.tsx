@@ -8,8 +8,6 @@ import { InfoTip } from 'components/InfoTip'
 import { useMultisig } from 'store/multisig/hooks'
 import { useAppSelector } from 'store/store'
 
-import { t } from 'services/i18n'
-
 import { getSendRoute } from 'settings/constants'
 
 export const InactiveAccountWarning = () => {
@@ -34,7 +32,7 @@ export const InactiveAccountWarning = () => {
 
   return (
     <InfoTip
-      title={t('Account not activated')}
+      title="Account not activated"
       content={
         <Box className="gap-2" col>
           <Typography>

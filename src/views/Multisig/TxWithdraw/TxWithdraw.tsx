@@ -48,6 +48,7 @@ export const TxWithdraw = () => {
         options={withdrawOptions}
         onChange={setWithdrawType}
         title={`${t('views.liquidity.withdraw')}:`}
+        tabsCount={2}
       />
       <LPTypeSelector
         poolAsset={poolAsset}
@@ -55,6 +56,7 @@ export const TxWithdraw = () => {
         options={shareTypes}
         onChange={handleSetLPType}
         title={`${t('views.liquidity.from')}:`}
+        tabsCount={2}
       />
 
       <div className="relative self-stretch md:w-full">

@@ -1,5 +1,8 @@
 import { useCallback, useMemo } from 'react'
 
+import { Asset } from '@thorswap-lib/multichain-sdk'
+import { Chain } from '@thorswap-lib/types'
+
 import { showErrorToast } from 'components/Toast'
 
 import { loadMultisigBalances } from 'store/multisig/actions'
@@ -145,6 +148,14 @@ export const useMultisig = () => {
     return multisig.isMultisigInitialized()
   }, [initMultisigWallet])
 
+  const isWalletAssetConnected = useCallback(
+    (asset: Asset) => {
+      if (!address) return false
+      return asset.L1Chain === Chain.THORChain
+    },
+    [address],
+  )
+
   return {
     ...multisigActions,
     initMultisigWallet,
@@ -157,5 +168,6 @@ export const useMultisig = () => {
     getPubkeyForAddress,
     getSortedSigners,
     isMultsigActivated,
+    isWalletAssetConnected,
   }
 }

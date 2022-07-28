@@ -128,5 +128,23 @@ export const useMultissigAssets = () => {
     [balances, feeOptionType, inboundData],
   )
 
-  return { loadingBalances, runeBalance, assetsWithBalance, getMaxBalance }
+  const getBalanceForAssets = useCallback(
+    (assets: Asset[]) => {
+      assets.map((asset: Asset) => ({
+        asset,
+        balance: multisig.hasAsset(asset, balances)
+          ? getMaxBalance(asset)
+          : undefined,
+      }))
+    },
+    [balances, getMaxBalance],
+  )
+
+  return {
+    loadingBalances,
+    runeBalance,
+    assetsWithBalance,
+    getMaxBalance,
+    getBalanceForAssets,
+  }
 }

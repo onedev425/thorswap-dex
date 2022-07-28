@@ -1,7 +1,9 @@
 import { Asset } from '@thorswap-lib/multichain-sdk'
 import { ADD_LIQUIDITY_GUIDE_URL } from 'config/constants'
 
-import { useAddLiquidity } from 'views/AddLiquidity/hooks'
+import { useAddLiquidity } from 'views/AddLiquidity/hooks/hooks'
+import { useAddLiquidityPools } from 'views/AddLiquidity/hooks/useAddLiquidityPools'
+import { useAssetsList } from 'views/AddLiquidity/hooks/useAssetsList'
 
 import { Button, Box, Link } from 'components/Atomic'
 import { GlobalSettingsPopover } from 'components/GlobalSettings'
@@ -16,6 +18,8 @@ import { ViewHeader } from 'components/ViewHeader'
 
 import { TxTrackerStatus } from 'store/midgard/types'
 
+import { useLiquidityType } from 'hooks/useLiquidityType'
+
 import { t } from 'services/i18n'
 
 import { AssetInputs } from './AssetInputs'
@@ -23,23 +27,23 @@ import { PoolInfo } from './PoolInfo'
 import { liquidityToPoolShareType } from './utils'
 
 export const AddLiquidity = () => {
+  const { liquidityType, setLiquidityType } = useLiquidityType()
+  const { poolAssets, pools, pool, poolAsset, handleSelectPoolAsset } =
+    useAddLiquidityPools()
+  const poolAssetList = useAssetsList({ liquidityType, poolAssets, pools })
+
   const {
     title,
-    poolAsset,
-    liquidityType,
     handleSelectLiquidityType,
     poolAssetInput,
     runeAssetInput,
-    poolAssetList,
     handleChangeAssetAmount,
     handleChangeRuneAmount,
-    handleSelectPoolAsset,
     isAssetPending,
     isRunePending,
     totalFeeInUSD,
     addLiquiditySlip,
     poolShareEst,
-    pool,
     poolMemberDetail,
     asymmTipVisible,
     setAsymmTipVisible,
@@ -64,7 +68,14 @@ export const AddLiquidity = () => {
     setVisibleApproveModal,
     handleConfirmApprove,
     approveConfirmInfo,
-  } = useAddLiquidity()
+  } = useAddLiquidity({
+    liquidityType,
+    setLiquidityType,
+    pool,
+    pools,
+    poolAsset,
+    poolAssets,
+  })
 
   return (
     <PanelView

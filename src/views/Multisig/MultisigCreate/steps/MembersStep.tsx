@@ -1,4 +1,4 @@
-import { UseFormRegister } from 'react-hook-form'
+import { DeepRequired, FieldErrorsImpl, UseFormRegister } from 'react-hook-form'
 
 import classNames from 'classnames'
 
@@ -21,7 +21,7 @@ type Props = {
   id: number
   addMember: () => void
   formFields: MultisigFormFields
-  errors: any
+  errors: FieldErrorsImpl<DeepRequired<MultisigFormValues>>
   register: UseFormRegister<MultisigFormValues>
   removeMember: (id: number) => void
   submit: SubmitMultisigForm
@@ -51,7 +51,10 @@ export const MembersStep = ({
 
       <Box col>
         {!!errors.signatureValidation && (
-          <FieldLabel hasError label={errors.signatureValidation.message} />
+          <FieldLabel
+            hasError
+            label={errors.signatureValidation.message || ''}
+          />
         )}
 
         <Box className="mx-2">

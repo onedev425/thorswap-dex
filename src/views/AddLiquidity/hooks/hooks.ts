@@ -1,42 +1,35 @@
-import { useCallback, useMemo, useState, useEffect } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
-import { useNavigate, useParams } from 'react-router-dom'
-
-import { MemberPool } from '@thorswap-lib/midgard-sdk'
 import {
-  getInputAssetsForAdd,
   Amount,
   Asset,
   getAssetBalance,
-  Pool,
   Price,
   Liquidity,
   AssetAmount,
   Percent,
-  hasConnectedWallet,
   hasWalletConnected,
   getEstimatedTxTime,
   AddLiquidityTxns,
   AddLiquidityParams,
+  Pool,
 } from '@thorswap-lib/multichain-sdk'
 import { SupportedChain } from '@thorswap-lib/types'
 import { Chain } from '@thorswap-lib/xchain-util'
+
+import { useAddLiquidityUtils } from 'views/AddLiquidity/hooks/useAddLiquidityUtils'
+import { useChainMember } from 'views/AddLiquidity/hooks/useChainMember'
 
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems'
 import { showErrorToast, showInfoToast } from 'components/Toast'
 
 import { useApp } from 'store/app/hooks'
-import { useExternalConfig } from 'store/externalConfig/hooks'
-import * as actions from 'store/midgard/actions'
-import { useMidgard } from 'store/midgard/hooks'
 import { TxTrackerType } from 'store/midgard/types'
 import { isPendingLP } from 'store/midgard/utils'
-import { useAppDispatch, useAppSelector } from 'store/store'
 import { useWallet } from 'store/wallet/hooks'
 
 import { useApprove } from 'hooks/useApprove'
-import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance'
 import { useBalance } from 'hooks/useBalance'
 import { useMimir } from 'hooks/useMimir'
 import { useNetworkFee, getSumAmountInUSD } from 'hooks/useNetworkFee'
@@ -47,160 +40,47 @@ import { multichain } from 'services/multichain'
 
 import { translateErrorMsg } from 'helpers/error'
 
-import { getAddLiquidityRoute } from 'settings/constants'
-
+import { getMaxSymAmounts } from '../utils'
 import { useConfirmInfoItems } from './useConfirmInfoItems'
-import { getMaxSymAmounts } from './utils'
 
 type Props = {
-  assetRouteGetter?: (asset: Asset) => string
   onAddLiquidity?: (params: AddLiquidityParams) => void
   skipWalletCheck?: boolean
+  liquidityType: LiquidityTypeOption
+  setLiquidityType: (option: LiquidityTypeOption) => void
+  pools: Pool[]
+  pool?: Pool
+  poolAsset: Asset
+  poolAssets: Asset[]
 }
 
 export const useAddLiquidity = ({
-  assetRouteGetter = getAddLiquidityRoute,
   onAddLiquidity,
   skipWalletCheck,
-}: Props = {}) => {
-  const navigate = useNavigate()
-  const { assetParam = Asset.BTC().toString() } = useParams<{
-    assetParam: string
-  }>()
-
+  liquidityType,
+  setLiquidityType,
+  pools,
+  pool,
+  poolAsset,
+}: Props) => {
   const { expertMode } = useApp()
 
-  const [liquidityType, setLiquidityType] = useState(
-    LiquidityTypeOption.SYMMETRICAL,
-  )
-
-  const [poolAsset, setPoolAsset] = useState<Asset>(Asset.BTC())
-  const [pool, setPool] = useState<Pool>()
-
-  const { getAllMemberDetails } = useMidgard()
-  const { pools, poolLoading, chainMemberDetailsLoading, chainMemberDetails } =
-    useAppSelector(({ midgard }) => midgard)
-  const dispatch = useAppDispatch()
-
-  ///
   const { getMaxBalance, isWalletAssetConnected } = useBalance()
   const { wallet, setIsConnectModalOpen } = useWallet()
-  const { isFundsCapReached, isChainPauseLPAction } = useMimir()
-  const { getChainDepositLPPaused } = useExternalConfig()
-
-  useEffect(() => {
-    getAllMemberDetails()
-  }, [getAllMemberDetails])
-
-  const poolAssets = useMemo(() => {
-    const assets = pools.map((poolData) => poolData.asset)
-    return assets
-  }, [pools])
-
-  const isLPActionPaused: boolean = useMemo(() => {
-    return (
-      isChainPauseLPAction(poolAsset.chain) ||
-      getChainDepositLPPaused(poolAsset.chain as SupportedChain)
-    )
-  }, [isChainPauseLPAction, poolAsset.chain, getChainDepositLPPaused])
-
-  const loadMemberDetailsByChain = useCallback(
-    (chain: SupportedChain) => {
-      if (!wallet) return
-      const assetChainAddress = wallet?.[chain]?.address
-      const thorchainAddress = wallet?.[Chain.THORChain]?.address
-
-      if (assetChainAddress && thorchainAddress) {
-        dispatch(
-          actions.reloadPoolMemberDetailByChain({
-            chain,
-            thorchainAddress,
-            assetChainAddress,
-          }),
-        )
-      }
-    },
-    [dispatch, wallet],
-  )
-
-  useEffect(() => {
-    if (!assetParam) return
-
-    const assetEntity = Asset.decodeFromURL(assetParam)
-
-    if (wallet && assetEntity) {
-      loadMemberDetailsByChain(assetEntity?.chain as SupportedChain)
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [wallet, assetParam])
-
-  useEffect(() => {
-    if (!poolLoading && pools.length && poolAsset) {
-      const assetPool = Pool.byAsset(poolAsset, pools)
-
-      if (assetPool) {
-        setPool(assetPool)
-      }
-    }
-  }, [pools, poolLoading, poolAsset])
-
-  useEffect(() => {
-    const getAssetEntity = async () => {
-      if (!assetParam) {
-        return
-      }
-
-      const assetEntity = Asset.decodeFromURL(assetParam)
-
-      if (assetEntity) {
-        if (assetEntity.isRUNE()) return
-
-        await assetEntity.setDecimal()
-
-        setPoolAsset(assetEntity)
-      }
-    }
-
-    getAssetEntity()
-  }, [assetParam])
-
-  const isMemberLoading = useMemo(() => {
-    if (!wallet || !assetParam) return false
-
-    const assetEntity = Asset.decodeFromURL(assetParam)
-
-    if (assetEntity) {
-      return chainMemberDetailsLoading?.[assetEntity?.chain] === true
-    }
-
-    return false
-  }, [wallet, chainMemberDetailsLoading, assetParam])
-
-  const chainMemberData = useMemo(() => {
-    if (pool && pools.length && poolAsset && !isMemberLoading) {
-      return chainMemberDetails?.[poolAsset.chain]
-    }
-    return null
-  }, [chainMemberDetails, poolAsset, pool, pools, isMemberLoading])
-
-  const memberData = useMemo(() => {
-    if (pool && pools.length && poolAsset && !isMemberLoading) {
-      return chainMemberData?.[pool.asset.toString()]
-    }
-    return null
-  }, [chainMemberData, poolAsset, pool, pools, isMemberLoading])
-
-  const inputAssets = useMemo(() => {
-    if (
-      hasConnectedWallet(wallet) &&
-      liquidityType !== LiquidityTypeOption.RUNE
-    ) {
-      return getInputAssetsForAdd({ wallet, pools })
-    }
-
-    return poolAssets
-  }, [wallet, pools, poolAssets, liquidityType])
+  const { isFundsCapReached } = useMimir()
+  const { isLPActionPaused } = useAddLiquidityUtils({ poolAsset })
+  const {
+    memberData,
+    currentAssetHaveLP,
+    poolMemberDetail,
+    isRunePending,
+    isAssetPending,
+  } = useChainMember({
+    poolAsset,
+    pools,
+    pool,
+    liquidityType,
+  })
 
   const isSymDeposit = useMemo(
     () => liquidityType === LiquidityTypeOption.SYMMETRICAL && !expertMode,
@@ -228,44 +108,6 @@ export const useAddLiquidity = ({
   const { inboundFee: inboundRuneFee } = useNetworkFee({
     inputAsset: Asset.RUNE(),
   })
-
-  const poolMemberDetail: MemberPool | undefined = useMemo(() => {
-    if (liquidityType === LiquidityTypeOption.SYMMETRICAL) {
-      if (memberData?.pending) return memberData.pending
-      return memberData?.sym
-    }
-    if (liquidityType === LiquidityTypeOption.RUNE) {
-      return memberData?.runeAsym
-    }
-
-    return memberData?.assetAsym
-  }, [memberData, liquidityType])
-
-  // if pending LP exists, only allow complete deposit
-  const isPendingDeposit = useMemo(() => {
-    if (
-      liquidityType === LiquidityTypeOption.SYMMETRICAL &&
-      poolMemberDetail &&
-      isPendingLP(poolMemberDetail)
-    ) {
-      return true
-    }
-    return false
-  }, [liquidityType, poolMemberDetail])
-
-  const isAssetPending: boolean = useMemo(() => {
-    return (
-      isPendingDeposit &&
-      Amount.fromMidgard(poolMemberDetail?.assetPending ?? 0).gt(0)
-    )
-  }, [isPendingDeposit, poolMemberDetail])
-
-  const isRunePending: boolean = useMemo(() => {
-    return (
-      isPendingDeposit &&
-      Amount.fromMidgard(poolMemberDetail?.runePending ?? 0).gt(0)
-    )
-  }, [isPendingDeposit, poolMemberDetail])
 
   const liquidityUnits = useMemo(() => {
     if (!poolMemberDetail) return Amount.fromMidgard(0)
@@ -335,6 +177,7 @@ export const useAddLiquidity = ({
         priceAmount: Amount.fromMidgard(poolMemberDetail.runePending),
       })
     }
+
     new Price({
       baseAsset: Asset.RUNE(),
       pools,
@@ -408,21 +251,17 @@ export const useAddLiquidity = ({
     isRunePending,
   ])
 
-  const handleSelectLiquidityType = useCallback((type: LiquidityTypeOption) => {
-    if (type === LiquidityTypeOption.ASSET) {
-      setRuneAmount(Amount.fromAssetAmount(0, 8))
-    } else if (type === LiquidityTypeOption.RUNE) {
-      setAssetAmount(Amount.fromAssetAmount(0, 8))
-    }
+  const handleSelectLiquidityType = useCallback(
+    (type: LiquidityTypeOption) => {
+      if (type === LiquidityTypeOption.ASSET) {
+        setRuneAmount(Amount.fromAssetAmount(0, 8))
+      } else if (type === LiquidityTypeOption.RUNE) {
+        setAssetAmount(Amount.fromAssetAmount(0, 8))
+      }
 
-    setLiquidityType(type)
-  }, [])
-
-  const handleSelectPoolAsset = useCallback(
-    (poolAssetData: Asset) => {
-      navigate(assetRouteGetter(poolAssetData))
+      setLiquidityType(type)
     },
-    [assetRouteGetter, navigate],
+    [setLiquidityType],
   )
 
   const handleChangeAssetAmount = useCallback(
@@ -903,8 +742,6 @@ export const useAddLiquidity = ({
     poolMemberDetail,
   ])
 
-  const poolAssetList = useAssetsWithBalance(inputAssets)
-
   const title = useMemo(() => `Add ${poolAsset.ticker} Liquidity`, [poolAsset])
 
   const btnLabel = useMemo(() => {
@@ -948,28 +785,18 @@ export const useAddLiquidity = ({
     [isWalletConnected, isApproveRequired],
   )
 
-  const currentAssetHaveLP: boolean = useMemo(
-    () => Object.keys(chainMemberDetails).includes(poolAsset.symbol),
-    [chainMemberDetails, poolAsset],
-  )
-
   return {
     title,
-    poolAsset,
-    liquidityType,
     handleSelectLiquidityType,
     poolAssetInput,
     runeAssetInput,
-    poolAssetList,
     handleChangeAssetAmount,
     handleChangeRuneAmount,
-    handleSelectPoolAsset,
     isAssetPending,
     isRunePending,
     totalFeeInUSD,
     addLiquiditySlip,
     poolShareEst,
-    pool,
     poolMemberDetail,
     asymmTipVisible,
     setAsymmTipVisible,

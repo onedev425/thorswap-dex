@@ -1,0 +1,138 @@
+import { useCallback, useEffect, useMemo } from 'react'
+
+import { MemberPool } from '@thorswap-lib/midgard-sdk'
+import { Amount, Asset, Pool } from '@thorswap-lib/multichain-sdk'
+import { Chain, SupportedChain } from '@thorswap-lib/types'
+
+import { LiquidityTypeOption } from 'components/LiquidityType/types'
+
+import * as actions from 'store/midgard/actions'
+import { isPendingLP } from 'store/midgard/utils'
+import { useAppDispatch, useAppSelector } from 'store/store'
+import { useWallet } from 'store/wallet/hooks'
+
+type Props = {
+  poolAsset: Asset
+  pools: Pool[]
+  pool?: Pool
+  liquidityType: LiquidityTypeOption
+}
+
+export const useChainMember = ({
+  poolAsset,
+  pools,
+  pool,
+  liquidityType,
+}: Props) => {
+  const { chainMemberDetailsLoading, chainMemberDetails } = useAppSelector(
+    ({ midgard }) => midgard,
+  )
+  const { wallet } = useWallet()
+  const dispatch = useAppDispatch()
+
+  const loadMemberDetailsByChain = useCallback(
+    (chain: SupportedChain) => {
+      if (!wallet) return
+      const assetChainAddress = wallet?.[chain]?.address
+      const thorchainAddress = wallet?.[Chain.THORChain]?.address
+
+      if (assetChainAddress && thorchainAddress) {
+        dispatch(
+          actions.reloadPoolMemberDetailByChain({
+            chain,
+            thorchainAddress,
+            assetChainAddress,
+          }),
+        )
+      }
+    },
+    [dispatch, wallet],
+  )
+
+  useEffect(() => {
+    if (!poolAsset) return
+
+    if (wallet && poolAsset) {
+      loadMemberDetailsByChain(poolAsset?.chain as SupportedChain)
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wallet, poolAsset])
+
+  const isMemberLoading = useMemo(() => {
+    if (!wallet || !poolAsset) return false
+
+    if (poolAsset) {
+      return chainMemberDetailsLoading?.[poolAsset?.chain] === true
+    }
+
+    return false
+  }, [wallet, chainMemberDetailsLoading, poolAsset])
+
+  const chainMemberData = useMemo(() => {
+    if (pool && pools.length && poolAsset && !isMemberLoading) {
+      return chainMemberDetails?.[poolAsset.chain]
+    }
+    return null
+  }, [chainMemberDetails, poolAsset, pool, pools, isMemberLoading])
+
+  const memberData = useMemo(() => {
+    if (pool && pools.length && poolAsset && !isMemberLoading) {
+      return chainMemberData?.[pool.asset.toString()]
+    }
+    return null
+  }, [chainMemberData, poolAsset, pool, pools, isMemberLoading])
+
+  const currentAssetHaveLP: boolean = useMemo(
+    () => Object.keys(chainMemberDetails).includes(poolAsset.symbol),
+    [chainMemberDetails, poolAsset],
+  )
+
+  const poolMemberDetail: MemberPool | undefined = useMemo(() => {
+    if (liquidityType === LiquidityTypeOption.SYMMETRICAL) {
+      if (memberData?.pending) return memberData.pending
+      return memberData?.sym
+    }
+    if (liquidityType === LiquidityTypeOption.RUNE) {
+      return memberData?.runeAsym
+    }
+
+    return memberData?.assetAsym
+  }, [memberData, liquidityType])
+
+  const isPendingDeposit = useMemo(() => {
+    if (
+      liquidityType === LiquidityTypeOption.SYMMETRICAL &&
+      poolMemberDetail &&
+      isPendingLP(poolMemberDetail)
+    ) {
+      return true
+    }
+    return false
+  }, [liquidityType, poolMemberDetail])
+
+  const isAssetPending: boolean = useMemo(() => {
+    return (
+      isPendingDeposit &&
+      Amount.fromMidgard(poolMemberDetail?.assetPending ?? 0).gt(0)
+    )
+  }, [isPendingDeposit, poolMemberDetail])
+
+  const isRunePending: boolean = useMemo(() => {
+    return (
+      isPendingDeposit &&
+      Amount.fromMidgard(poolMemberDetail?.runePending ?? 0).gt(0)
+    )
+  }, [isPendingDeposit, poolMemberDetail])
+
+  return {
+    isMemberLoading,
+    chainMemberData,
+    memberData,
+    currentAssetHaveLP,
+    poolMemberDetail,
+    isPendingDeposit,
+    isAssetPending,
+    isRunePending,
+  }
+}

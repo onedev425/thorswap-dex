@@ -12,4 +12,5 @@ export type LiquidityTypeProps = {
   selected: LiquidityTypeOption
   options: LiquidityTypeOption[]
   title?: string
+  tabsCount?: number
 }

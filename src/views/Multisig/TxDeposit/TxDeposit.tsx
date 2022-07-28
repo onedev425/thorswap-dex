@@ -37,17 +37,16 @@ export const TxDeposit = () => {
   } = useTxDeposit()
 
   return (
-    <Box className="gap-1" col flex={1}>
+    <Box col flex={1}>
       <LiquidityType
         poolAsset={poolAsset}
         selected={liquidityType}
         onChange={handleSelectLiquidityType}
-        options={[
-          LiquidityTypeOption.ASSET,
-          LiquidityTypeOption.SYMMETRICAL,
-          LiquidityTypeOption.RUNE,
-        ]}
+        options={[LiquidityTypeOption.SYMMETRICAL, LiquidityTypeOption.RUNE]}
+        tabsCount={2}
       />
+
+      <Box className="pb-1" flex={1} />
 
       <AssetInputs
         poolAsset={poolAssetInput}
