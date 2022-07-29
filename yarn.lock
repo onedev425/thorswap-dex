@@ -1969,7 +1969,7 @@
     "@ethersproject/constants" "^5.6.1"
     "@ethersproject/logger" "^5.6.0"
 
-"@ethersproject/wallet@5.6.2":
+"@ethersproject/wallet@5.6.2", "@ethersproject/wallet@^5.6.2":
   version "5.6.2"
   resolved "https://registry.yarnpkg.com/@ethersproject/wallet/-/wallet-5.6.2.tgz#cd61429d1e934681e413f4bc847a5f2f87e3a03c"
   integrity sha512-lrgh0FDQPuOnHcF80Q3gHYsSUODp6aJLAdDmDV0xKCN/T7D99ta1jGVhulg3PY8wiXEngD0DfM0I2XKXlrqJfg==
@@ -4024,10 +4024,10 @@
   dependencies:
     "@thorswap-lib/types" "^0.1.48"
 
-"@thorswap-lib/multichain-sdk@0.10.5":
-  version "0.10.5"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.10.5.tgz#da2afd9cd38a42938b8f76faa6903fe5785e144c"
-  integrity sha512-zlXAwEMfzBa8q6XQuwViNZ8nWZ8aTlo+LRploR2DKnnNCRngpSgEGQW0uADo/z3AxQpivt5ZD8NSnuylR3UYdg==
+"@thorswap-lib/multichain-sdk@0.10.9":
+  version "0.10.9"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.10.9.tgz#df3cabcefc6bea8ca300a2688949cbc53826f24d"
+  integrity sha512-u593zcjbujeGXznX5GmLi4eDNaOouGv+nPEZdCbcESwWZmj8eOp7cbGi5iKV9TkpEgjTvWOeDEAnAVsBKwhkvQ==
   dependencies:
     "@cosmjs/stargate" "0.28.11"
     "@ethersproject/abstract-signer" "^5.6.2"
@@ -4038,6 +4038,7 @@
     "@ethersproject/providers" "^5.6.8"
     "@ethersproject/strings" "^5.6.1"
     "@ethersproject/units" "^5.6.1"
+    "@ethersproject/wallet" "^5.6.2"
     "@thorswap-lib/midgard-sdk" "^0.1.6"
     "@thorswap-lib/multichain-entities" "0.1.8"
     "@thorswap-lib/xchain-binance" "^5.5.5"
