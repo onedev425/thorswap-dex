@@ -5,6 +5,8 @@ import { useVthorUtil } from 'views/StakeVThor/useVthorUtil'
 
 import { Box, Button } from 'components/Atomic'
 
+import { useWallet } from 'store/wallet/hooks'
+
 import { fromWei } from 'services/contract'
 import { t } from 'services/i18n'
 
@@ -24,7 +26,8 @@ export const ConfirmVThorButton = memo(
     setIsConnectModalOpen,
     emptyInput,
   }: Props) => {
-    const { isTHORApproved, vthorBalance, approveTHOR } = useVthorUtil()
+    const { vthorBalance, approveTHOR } = useVthorUtil()
+    const { isVthorApproved } = useWallet()
 
     return (
       <Box className="self-stretch pt-5">
@@ -32,7 +35,7 @@ export const ConfirmVThorButton = memo(
           <Box className="w-full">
             {action === StakeActions.Deposit ? (
               <>
-                {isTHORApproved ? (
+                {isVthorApproved ? (
                   <Button
                     isFancy
                     stretch

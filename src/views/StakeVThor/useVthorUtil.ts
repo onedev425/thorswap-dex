@@ -7,6 +7,8 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { showErrorToast } from 'components/Toast'
 
 import { TxTrackerType } from 'store/midgard/types'
+import { useAppDispatch } from 'store/store'
+import * as walletActions from 'store/wallet/actions'
 import { useWallet } from 'store/wallet/hooks'
 
 import { useTxTracker } from 'hooks/useTxTracker'
@@ -21,12 +23,12 @@ import { toOptionalFixed } from 'helpers/number'
 import { getStakedThorAmount, getVthorState } from './utils'
 
 export const useVthorUtil = () => {
+  const dispatch = useAppDispatch()
   // total amount staked in vTHOR contract
   const [thorStaked, setThorStaked] = useState(BigNumber.from(0))
   // vTHOR total supply
   const [vthorTS, setVthorTS] = useState(BigNumber.from(0))
   // approval status
-  const [isTHORApproved, setTHORApproved] = useState(false)
   const [thorRedeemable, setTHORRedeemable] = useState(0)
   const [vthorBalance, setVthorBalance] = useState(BigNumber.from(0))
 
@@ -34,20 +36,8 @@ export const useVthorUtil = () => {
   const { wallet } = useWallet()
 
   const getApprovalStatus = useCallback(async () => {
-    const ethAddr = wallet?.ETH?.address
-
-    if (!ethAddr) setTHORApproved(true)
-
-    const ethClient = multichain.eth.getClient()
-    const isApproved = await ethClient
-      .isApproved({
-        contractAddress: getV2Address(VestingType.THOR),
-        spenderAddress: getV2Address(VestingType.VTHOR),
-      })
-      .catch(() => false)
-
-    setTHORApproved(isApproved)
-  }, [wallet])
+    dispatch(walletActions.getIsVthorApproved())
+  }, [dispatch])
 
   const getThorStakedInfo = useCallback(async () => {
     const res = await getStakedThorAmount().catch(() => BigNumber.from(0))
@@ -289,7 +279,6 @@ export const useVthorUtil = () => {
   useEffect(() => handleRefresh(), [handleRefresh])
 
   return {
-    isTHORApproved,
     thorStaked,
     thorRedeemable,
     vthorBalance,

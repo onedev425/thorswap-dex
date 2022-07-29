@@ -40,6 +40,8 @@ const initialState = {
   } as { [key in SupportedChain]: boolean },
   geckoData: {} as Record<string, GeckoData>,
   geckoDataLoading: {} as Record<string, boolean>,
+  isVthorApproved: false,
+  isVthorApprovedLoading: false,
 }
 
 const slice = createSlice({
@@ -138,6 +140,24 @@ const slice = createSlice({
           })
         },
       )
+      .addCase(
+        walletActions.getIsVthorApproved.pending,
+        (state, payload: { payload: boolean | undefined }) => {
+          state.isVthorApproved = payload.payload ? payload.payload : false
+          state.isVthorApprovedLoading = true
+        },
+      )
+      .addCase(
+        walletActions.getIsVthorApproved.fulfilled,
+        (state, payload: { payload: boolean | undefined }) => {
+          state.isVthorApproved = payload.payload ? payload.payload : false
+          state.isVthorApprovedLoading = false
+        },
+      )
+      .addCase(walletActions.getIsVthorApproved.rejected, (state) => {
+        state.isVthorApproved = false
+        state.isVthorApprovedLoading = false
+      })
   },
 })
 
