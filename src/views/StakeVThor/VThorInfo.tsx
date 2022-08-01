@@ -129,7 +129,7 @@ export const VThorInfo = memo(({ ethAddress }: Props) => {
                 variant="caption"
                 fontWeight="medium"
               >
-                {t('views.stakingVThor.totalThor')}
+                {t('views.stakingVThor.redeemableThor')}
               </Typography>
 
               <Tooltip
