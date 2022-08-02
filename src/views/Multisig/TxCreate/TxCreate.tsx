@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 
 import { RefreshButton } from 'views/Multisig/components/RefreshButton'
-import { useMultisigWalletInfo } from 'views/Multisig/hooks'
 import { TxBond } from 'views/Multisig/TxBond/TxBond'
 import { MultisigTxType } from 'views/Multisig/TxCreate/types'
 import { TxDeposit } from 'views/Multisig/TxDeposit/TxDeposit'
@@ -10,7 +9,6 @@ import { TxTypeSelect } from 'views/Multisig/TxTypeSelect'
 import { TxWithdraw } from 'views/Multisig/TxWithdraw/TxWithdraw'
 
 import { Box, Typography } from 'components/Atomic'
-import { InfoTable } from 'components/InfoTable'
 import { PanelView } from 'components/PanelView'
 import { ViewHeader } from 'components/ViewHeader'
 
@@ -20,7 +18,6 @@ import { t } from 'services/i18n'
 
 const TxCreate = () => {
   const { loadBalances } = useMultisig()
-  const info = useMultisigWalletInfo()
   const [txType, setTxType] = useState(MultisigTxType.send)
 
   useEffect(() => {
@@ -40,8 +37,6 @@ const TxCreate = () => {
       }
     >
       <Box className="w-full gap-1 my-4" col>
-        <InfoTable items={[info[1]]} size="lg" horizontalInset />
-
         <Box className="self-stretch mx-2 pt-2" flex={1} center>
           <Box flex={1}>
             <Typography color="secondary">Transaction type:</Typography>

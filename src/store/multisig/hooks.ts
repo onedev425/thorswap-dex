@@ -169,5 +169,6 @@ export const useMultisig = () => {
     getSortedSigners,
     isMultsigActivated,
     isWalletAssetConnected,
+    isConnected: !!address,
   }
 }

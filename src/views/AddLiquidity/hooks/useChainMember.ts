@@ -88,16 +88,16 @@ export const useChainMember = ({
     [chainMemberDetails, poolAsset],
   )
 
-  const poolMemberDetail: MemberPool | undefined = useMemo(() => {
+  const poolMemberDetail: MemberPool = useMemo(() => {
     if (liquidityType === LiquidityTypeOption.SYMMETRICAL) {
-      if (memberData?.pending) return memberData.pending
-      return memberData?.sym
+      if (memberData?.pending) return memberData.pending as MemberPool
+      return memberData?.sym as MemberPool
     }
     if (liquidityType === LiquidityTypeOption.RUNE) {
-      return memberData?.runeAsym
+      return memberData?.runeAsym as MemberPool
     }
 
-    return memberData?.assetAsym
+    return memberData?.assetAsym as MemberPool
   }, [memberData, liquidityType])
 
   const isPendingDeposit = useMemo(() => {

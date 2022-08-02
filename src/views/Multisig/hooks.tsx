@@ -5,7 +5,9 @@ import {
   Asset,
   AssetAmount,
   getNetworkFeeByAsset,
+  Wallet,
 } from '@thorswap-lib/multichain-sdk'
+import { Chain } from '@thorswap-lib/types'
 
 import { Button, Icon } from 'components/Atomic'
 
@@ -129,16 +131,19 @@ export const useMultissigAssets = () => {
   )
 
   const getBalanceForAssets = useCallback(
-    (assets: Asset[]) => {
+    (assets: Asset[]) =>
       assets.map((asset: Asset) => ({
         asset,
         balance: multisig.hasAsset(asset, balances)
           ? getMaxBalance(asset)
           : undefined,
-      }))
-    },
+      })),
     [balances, getMaxBalance],
   )
+
+  const getAssetBalance = (asset: Asset) => {
+    return multisig.getAssetBalance(asset, balances)
+  }
 
   return {
     loadingBalances,
@@ -146,5 +151,31 @@ export const useMultissigAssets = () => {
     assetsWithBalance,
     getMaxBalance,
     getBalanceForAssets,
+    getAssetBalance,
   }
+}
+
+export const useMultisigWallet = () => {
+  const { loadBalances } = useMultisig()
+  const { address, balances } = useAppSelector((state) => state.multisig)
+
+  useEffect(() => {
+    loadBalances()
+  }, [loadBalances])
+
+  const wallet = useMemo(() => {
+    if (!address) {
+      return null
+    }
+
+    return {
+      // Multisig is THORChain only wallet
+      [Chain.THORChain]: {
+        address,
+        balance: balances,
+      },
+    } as Wallet
+  }, [address, balances])
+
+  return { wallet }
 }

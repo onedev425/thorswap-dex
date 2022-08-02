@@ -3,7 +3,6 @@ import { useCallback, useMemo, useState } from 'react'
 import {
   Amount,
   Asset,
-  getAssetBalance,
   Price,
   Liquidity,
   AssetAmount,
@@ -13,12 +12,14 @@ import {
   AddLiquidityTxns,
   AddLiquidityParams,
   Pool,
+  Wallet,
 } from '@thorswap-lib/multichain-sdk'
 import { SupportedChain } from '@thorswap-lib/types'
 import { Chain } from '@thorswap-lib/xchain-util'
 
 import { useAddLiquidityUtils } from 'views/AddLiquidity/hooks/useAddLiquidityUtils'
 import { useChainMember } from 'views/AddLiquidity/hooks/useChainMember'
+import { DepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance'
 
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems'
@@ -30,7 +31,6 @@ import { isPendingLP } from 'store/midgard/utils'
 import { useWallet } from 'store/wallet/hooks'
 
 import { useApprove } from 'hooks/useApprove'
-import { useBalance } from 'hooks/useBalance'
 import { useMimir } from 'hooks/useMimir'
 import { useNetworkFee, getSumAmountInUSD } from 'hooks/useNetworkFee'
 import { useTxTracker } from 'hooks/useTxTracker'
@@ -52,6 +52,8 @@ type Props = {
   pool?: Pool
   poolAsset: Asset
   poolAssets: Asset[]
+  depositAssetsBalance: DepositAssetsBalance
+  wallet: Wallet | null
 }
 
 export const useAddLiquidity = ({
@@ -62,11 +64,19 @@ export const useAddLiquidity = ({
   pools,
   pool,
   poolAsset,
+  depositAssetsBalance,
+  wallet,
 }: Props) => {
   const { expertMode } = useApp()
 
-  const { getMaxBalance, isWalletAssetConnected } = useBalance()
-  const { wallet, setIsConnectModalOpen } = useWallet()
+  const {
+    isWalletAssetConnected,
+    runeBalance,
+    maxRuneBalance,
+    poolAssetBalance,
+    maxPoolAssetBalance,
+  } = depositAssetsBalance
+  const { setIsConnectModalOpen } = useWallet()
   const { isFundsCapReached } = useMimir()
   const { isLPActionPaused } = useAddLiquidityUtils({ poolAsset })
   const {
@@ -184,34 +194,6 @@ export const useAddLiquidity = ({
       priceAmount: runeAmount,
     })
   }, [runeAmount, pools, isRunePending, poolMemberDetail])
-
-  const poolAssetBalance: Amount = useMemo(() => {
-    if (wallet) {
-      return getAssetBalance(poolAsset, wallet).amount
-    }
-
-    // allow max amount if wallet is not connected
-    return Amount.fromAssetAmount(10 ** 3, 8)
-  }, [poolAsset, wallet])
-
-  const maxPoolAssetBalance: Amount = useMemo(
-    () => getMaxBalance(poolAsset),
-    [poolAsset, getMaxBalance],
-  )
-
-  const runeBalance: Amount = useMemo(() => {
-    if (wallet) {
-      return getAssetBalance(Asset.RUNE(), wallet).amount
-    }
-
-    // allow max amount if wallet is not connected
-    return Amount.fromAssetAmount(10 ** 3, 8)
-  }, [wallet])
-
-  const maxRuneBalance: Amount = useMemo(
-    () => getMaxBalance(Asset.RUNE()),
-    [getMaxBalance],
-  )
 
   const { maxSymAssetAmount, maxSymRuneAmount } = useMemo(() => {
     if (!pool) {
@@ -728,6 +710,7 @@ export const useAddLiquidity = ({
         usdPrice: runeAssetPriceInUSD,
       }
     }
+
     return {
       asset: Asset.RUNE(),
       value: runeAmount,

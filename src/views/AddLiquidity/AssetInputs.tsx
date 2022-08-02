@@ -22,6 +22,7 @@ type Props = {
   liquidityType: LiquidityTypeOption
   isRunePending: boolean
   isAssetPending: boolean
+  hideAssetSelectBalances?: boolean
 }
 
 export const AssetInputs = memo(
@@ -35,6 +36,7 @@ export const AssetInputs = memo(
     liquidityType,
     isAssetPending,
     isRunePending,
+    hideAssetSelectBalances,
   }: Props) => {
     return (
       <Box className="relative self-stretch w-full" col>
@@ -72,6 +74,7 @@ export const AssetInputs = memo(
                 : ''
             }
             maxButtonLabel={isRunePending ? t('pendingLiquidity.complete') : ''}
+            hideAssetSelectBalances={hideAssetSelectBalances}
           />
         </Box>
 

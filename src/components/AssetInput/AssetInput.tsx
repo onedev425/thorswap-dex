@@ -29,6 +29,7 @@ export const AssetInput = ({
   maxButtonLabel,
   poolAsset,
   showSecondaryChainSelector,
+  hideAssetSelectBalances,
 }: AssetInputProps) => {
   const {
     asset,
@@ -91,6 +92,7 @@ export const AssetInput = ({
                 commonAssets={commonAssets}
                 onSelect={onAssetChange}
                 showAssetType
+                hideEmptyBalances={hideAssetSelectBalances}
               />
             )}
           </Box>

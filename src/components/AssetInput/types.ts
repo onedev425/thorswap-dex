@@ -19,6 +19,7 @@ export type AssetInputProps = {
   disabled?: boolean
   warning?: string
   maxButtonLabel?: string
+  hideAssetSelectBalances?: boolean
 } & (
   | {
       assets: AssetSelectType[]

@@ -4,6 +4,7 @@ import { ADD_LIQUIDITY_GUIDE_URL } from 'config/constants'
 import { useAddLiquidity } from 'views/AddLiquidity/hooks/hooks'
 import { useAddLiquidityPools } from 'views/AddLiquidity/hooks/useAddLiquidityPools'
 import { useAssetsList } from 'views/AddLiquidity/hooks/useAssetsList'
+import { useDepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance'
 
 import { Button, Box, Link } from 'components/Atomic'
 import { GlobalSettingsPopover } from 'components/GlobalSettings'
@@ -17,6 +18,7 @@ import { PanelView } from 'components/PanelView'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { TxTrackerStatus } from 'store/midgard/types'
+import { useWallet } from 'store/wallet/hooks'
 
 import { useLiquidityType } from 'hooks/useLiquidityType'
 
@@ -31,6 +33,8 @@ export const AddLiquidity = () => {
   const { poolAssets, pools, pool, poolAsset, handleSelectPoolAsset } =
     useAddLiquidityPools()
   const poolAssetList = useAssetsList({ liquidityType, poolAssets, pools })
+  const depositAssetsBalance = useDepositAssetsBalance({ poolAsset })
+  const { wallet } = useWallet()
 
   const {
     title,
@@ -75,6 +79,8 @@ export const AddLiquidity = () => {
     pools,
     poolAsset,
     poolAssets,
+    depositAssetsBalance,
+    wallet,
   })
 
   return (

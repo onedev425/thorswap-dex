@@ -6,7 +6,9 @@ import { AddLiquidityParams, Asset, Memo } from '@thorswap-lib/multichain-sdk'
 
 import { useAddLiquidity } from 'views/AddLiquidity/hooks/hooks'
 import { useAddLiquidityPools } from 'views/AddLiquidity/hooks/useAddLiquidityPools'
-import { useAssetsList } from 'views/AddLiquidity/hooks/useAssetsList'
+import { useMultisigWallet } from 'views/Multisig/hooks'
+import { useAssetsList } from 'views/Multisig/TxDeposit/useAssetsList'
+import { useDepositAssetsBalance } from 'views/Multisig/TxDeposit/useDepositAssetsBalance'
 
 import { useMultisig } from 'store/multisig/hooks'
 
@@ -15,6 +17,7 @@ import { useLiquidityType } from 'hooks/useLiquidityType'
 import { getMultisigTxCreateRoute, ROUTES } from 'settings/constants/router'
 
 export const useTxDeposit = () => {
+  const { wallet } = useMultisigWallet()
   const assetRouteGetter = useCallback(
     (asset: Asset) => getMultisigTxCreateRoute(asset),
     [],
@@ -23,10 +26,9 @@ export const useTxDeposit = () => {
   const { liquidityType, setLiquidityType } = useLiquidityType()
   const { poolAssets, pools, pool, poolAsset, handleSelectPoolAsset } =
     useAddLiquidityPools({ assetRouteGetter })
+  const depositAssetsBalance = useDepositAssetsBalance({ poolAsset })
 
-  //TODO: use multisig assets here
-  const poolAssetList = useAssetsList({ liquidityType, poolAssets, pools })
-
+  const poolAssetList = useAssetsList({ poolAssets })
   const navigate = useNavigate()
   const { createDepositTx } = useMultisig()
 
@@ -59,6 +61,8 @@ export const useTxDeposit = () => {
     poolAssets,
     pools,
     pool,
+    depositAssetsBalance,
+    wallet,
   })
 
   return {

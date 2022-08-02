@@ -5,6 +5,7 @@ export type AssetSelectProps = {
   commonAssets: AssetSelectType[]
   onSelect: (asset: Asset) => void
   onClose?: () => void
+  hideEmptyBalances?: boolean
 }
 
 export type AssetSelectType = {

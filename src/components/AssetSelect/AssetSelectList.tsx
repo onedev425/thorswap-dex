@@ -18,7 +18,10 @@ import { FeaturedAssetIcon } from './FeaturedAssetIcon'
 import { AssetSelectProps } from './types'
 import { useAssetSelect } from './useAssetSelect'
 
-export const AssetSelectList = (props: AssetSelectProps) => {
+export const AssetSelectList = ({
+  hideEmptyBalances,
+  ...props
+}: AssetSelectProps) => {
   const { wallet } = useWallet()
   const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet])
   const {
@@ -113,7 +116,7 @@ export const AssetSelectList = (props: AssetSelectProps) => {
               <Typography color="secondary">
                 {filteredItem.balance
                   ? filteredItem.balance.toSignificant(6)
-                  : isConnected
+                  : isConnected && !hideEmptyBalances
                   ? '0'
                   : ''}
               </Typography>
