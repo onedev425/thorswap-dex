@@ -573,7 +573,7 @@
       "claimableAmount": "قابل دعویٰ رقم",
       "cliff": "Cliff",
       "claim": "دعویٰ",
-      "linearVesting": "Linear Vesting",
+      "vesting": "Linear Vesting",
       "totalClaimed": "کل دعوی کیا گیا",
       "totalVested": "کل Vested",
       "vestingPeriod": "ویسٹنگ کا دورانیہ",

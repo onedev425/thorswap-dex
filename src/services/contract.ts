@@ -4,7 +4,7 @@ import { InfuraProvider } from '@ethersproject/providers'
 import { formatUnits, parseUnits } from '@ethersproject/units'
 import { IMultiChain } from '@thorswap-lib/multichain-sdk'
 import { Network } from '@thorswap-lib/xchain-client'
-import { capitalize } from 'lodash'
+import Web3 from 'web3'
 
 import { showErrorToast } from 'components/Toast'
 
@@ -174,17 +174,30 @@ export const triggerContractCall = async (
   methodName: string,
   args: ToDo[],
 ) => {
+  const web3Instance = new Web3(window.ethereum)
+
   try {
     const { network } = config
     const activeContract = contractConfig[contractType]
     const ethClient = multichainInstance.eth.getClient()
 
-    const gasLimit = await ethClient.estimateCall({
-      contractAddress: activeContract[network],
-      abi: activeContract[ContractABI],
-      funcName: methodName,
-      funcParams: args,
-    })
+    let gasLimit: BigNumber | number
+    try {
+      gasLimit = await ethClient.estimateCall({
+        contractAddress: activeContract[network],
+        abi: activeContract[ContractABI],
+        funcName: methodName,
+        funcParams: args,
+      })
+    } catch (e) {
+      const estimatedGasLimit = await web3Instance.eth.estimateGas({
+        from: ethClient.getAddress(),
+      })
+      const methodMultiplier = methodName === 'deposit' ? 4 : 2
+      gasLimit = Math.ceil(
+        parseFloat(`${estimatedGasLimit || '0'}`) * methodMultiplier,
+      )
+    }
 
     const resp: ToDo = await ethClient.call({
       contractAddress: activeContract[network],
@@ -193,7 +206,10 @@ export const triggerContractCall = async (
       funcParams: [
         ...args,
         {
-          gasLimit: calculateGasMargin(gasLimit),
+          gasLimit:
+            typeof gasLimit === 'number'
+              ? gasLimit
+              : calculateGasMargin(gasLimit),
         },
       ],
     })
@@ -202,16 +218,12 @@ export const triggerContractCall = async (
   } catch (error) {
     const plainErrMsg = JSON.stringify(error)
     const isApprovalError = plainErrMsg.includes('exceeds allowance')
+    const message = isApprovalError
+      ? t('notification.approveOverflow', { actionType: methodName })
+      : undefined
 
-    showErrorToast(
-      t('notification.gasEstimationFailed'),
-      isApprovalError
-        ? t('notification.approveOverflow', {
-            actionType: capitalize(methodName),
-          })
-        : undefined,
-    )
-
+    showErrorToast(t('notification.gasEstimationFailed'), message)
+    console.log(plainErrMsg)
     return Promise.reject(error)
   }
 }

@@ -573,7 +573,7 @@
       "claimableAmount": "Cantidad reclamable",
       "cliff": "Periodo sin desbloqueo",
       "claim": "",
-      "linearVesting": "Desbloqueo lineal",
+      "vesting": "Desbloqueo lineal",
       "totalClaimed": "Total reclamado",
       "totalVested": "Total a desbloquar",
       "vestingPeriod": "Periodo de desbloqueo",

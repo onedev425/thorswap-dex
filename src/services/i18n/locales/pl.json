@@ -573,7 +573,7 @@
       "claimableAmount": "Kwota roszczenia",
       "cliff": "Cliff",
       "claim": "",
-      "linearVesting": "Liniowe nabywanie uprawnień",
+      "vesting": "Liniowe nabywanie uprawnień",
       "totalClaimed": "Wielkość roszczeń",
       "totalVested": "Wielkość nabytych uprawnień",
       "vestingPeriod": "Okres nabywania uprawnień",

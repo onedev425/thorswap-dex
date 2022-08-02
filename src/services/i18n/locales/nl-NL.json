@@ -573,7 +573,7 @@
       "claimableAmount": "Te claimen bedrag",
       "cliff": "Cliff",
       "claim": "Claim",
-      "linearVesting": "Linear Vesting",
+      "vesting": "Linear Vesting",
       "totalClaimed": "Totaal Geclaimd",
       "totalVested": "Totaal Vested",
       "vestingPeriod": "Vesting Periode",

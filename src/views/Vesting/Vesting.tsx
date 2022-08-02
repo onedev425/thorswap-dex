@@ -43,10 +43,10 @@ const Vesting = () => {
 
   return (
     <PanelView
-      title="Liquidity"
+      title={t('views.vesting.vesting')}
       header={
         <ViewHeader
-          title={t('views.vesting.linearVesting')}
+          title={t('views.vesting.vesting')}
           actionsComponent={
             ethAddr && (
               <HoverIcon

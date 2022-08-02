@@ -573,7 +573,7 @@
       "claimableAmount": "दावा योग्य राशि\n",
       "cliff": "टीला",
       "claim": "क्लेम",
-      "linearVesting": "रैखिक वेस्टिंग\n",
+      "vesting": "रैखिक वेस्टिंग\n",
       "totalClaimed": "कुल दावा किया गया\n",
       "totalVested": "कुल निहित\n",
       "vestingPeriod": "निहित अवधि\n",

@@ -573,7 +573,7 @@
       "claimableAmount": "Valor exigível",
       "cliff": "Penhasco",
       "claim": "",
-      "linearVesting": "Recebimento linear",
+      "vesting": "Recebimento linear",
       "totalClaimed": "Total retirado",
       "totalVested": "Total a receber",
       "vestingPeriod": "Período a receber ",

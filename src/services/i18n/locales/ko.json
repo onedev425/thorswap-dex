@@ -573,7 +573,7 @@
       "claimableAmount": "클레임 (Claim) 가능 금액",
       "cliff": "클리프 (Cliff)",
       "claim": "",
-      "linearVesting": "리니어 베스팅 (Linear Vesting)",
+      "vesting": "리니어 베스팅 (Linear Vesting)",
       "totalClaimed": "총 취득",
       "totalVested": "총 베스트(Vested)",
       "vestingPeriod": "베스팅(Vesting) 기간",

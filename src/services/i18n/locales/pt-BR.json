@@ -573,7 +573,7 @@
       "claimableAmount": "Quantia Reivindicável",
       "cliff": "Período Probatório",
       "claim": "Reivindicar",
-      "linearVesting": "Aquisição Linear",
+      "vesting": "Aquisição Linear",
       "totalClaimed": "Total Reivindicado",
       "totalVested": "Total Adquirido",
       "vestingPeriod": "Período de Aquisição",

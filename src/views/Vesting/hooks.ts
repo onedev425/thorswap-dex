@@ -59,7 +59,7 @@ export const useVesting = () => {
           const info = {
             totalVestedAmount: fromWei(totalAlloc[0]).toString(),
             totalClaimedAmount: fromWei(totalAlloc[1]),
-            startTime: dayjs.unix(totalAlloc[2]).format('YYYY-MM-DD HH:MM:SS'),
+            startTime: dayjs.unix(totalAlloc[2]).format('YYYY-MM-DD HH:MM:ss'),
             vestingPeriod: dayjs.duration(totalAlloc[3] * 1000).asDays() / 365,
             cliff: dayjs.duration(totalAlloc[4] * 1000).asDays() / 30,
             initialRelease: fromWei(totalAlloc[5]).toString(),

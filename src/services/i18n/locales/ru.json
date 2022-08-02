@@ -573,7 +573,7 @@
       "claimableAmount": "Сумма, доступная для клейма",
       "cliff": "Отсрочка вестинга",
       "claim": "",
-      "linearVesting": "Линейный вестинг",
+      "vesting": "Линейный вестинг",
       "totalClaimed": "Всего запрошено на выдачу",
       "totalVested": "Всего выдано",
       "vestingPeriod": "Период вестинга",

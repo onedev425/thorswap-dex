@@ -573,7 +573,7 @@
       "claimableAmount": "可領取額",
       "cliff": "歸屬懸崖",
       "claim": "領取",
-      "linearVesting": "線性歸屬",
+      "vesting": "線性歸屬",
       "totalClaimed": "總領取額",
       "totalVested": "總歸屬額",
       "vestingPeriod": "歸屬期",

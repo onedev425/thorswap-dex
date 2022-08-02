@@ -573,7 +573,7 @@
       "claimableAmount": "Beanspruchbarer Betrag",
       "cliff": "Klippe",
       "claim": "Forderung",
-      "linearVesting": "Lineares Vesting",
+      "vesting": "Lineares Vesting",
       "totalClaimed": "Beansprucht gesamt",
       "totalVested": "Gesamt gevested",
       "vestingPeriod": "Vesting Periode",

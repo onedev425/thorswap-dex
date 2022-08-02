@@ -573,7 +573,7 @@
       "claimableAmount": "Importo Riscattabile",
       "cliff": "Cliff",
       "claim": "Riscatta",
-      "linearVesting": "Vesting Lineare",
+      "vesting": "Vesting Lineare",
       "totalClaimed": "Totale Riscattato",
       "totalVested": "Totale Vested",
       "vestingPeriod": "Periodo Vesting",

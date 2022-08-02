@@ -573,7 +573,7 @@
       "claimableAmount": "Montant à réclamer",
       "cliff": "Cliff",
       "claim": "Claim",
-      "linearVesting": "Vesting linéaire",
+      "vesting": "Vesting linéaire",
       "totalClaimed": "Total réclamé",
       "totalVested": "Total vested",
       "vestingPeriod": "Période de vesting",
