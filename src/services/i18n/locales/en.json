@@ -553,6 +553,7 @@
       "maximizeYield": "Maximize yield by staking THOR for vTHOR",
       "moreStats": "More Stats",
       "receive": "Receive",
+      "redeemableThor": "Redeemable vTHOR",
       "send": "Send",
       "stakeInfo": "When you stake $THOR (ERC-20), you'll receive $vTHOR - a composable and transferable token that represents your staking position.\n\nYour Stake will automatically receive auto-compounding Staking Rewards consisting of (i) block reward emissions, and (ii) 75% of all THORSwap revenues.\n\nWhen you unstake $THOR, you will receive Staking Rewards proportional to your unstake size.",
       "stakeInfoDescription": "You have staked $THOR in v1 contract. Please unstake it and use vTHOR stake. ",

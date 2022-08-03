@@ -4,7 +4,6 @@ import { InfuraProvider } from '@ethersproject/providers'
 import { formatUnits, parseUnits } from '@ethersproject/units'
 import { IMultiChain } from '@thorswap-lib/multichain-sdk'
 import { Network } from '@thorswap-lib/xchain-client'
-import Web3 from 'web3'
 
 import { showErrorToast } from 'components/Toast'
 
@@ -174,8 +173,6 @@ export const triggerContractCall = async (
   methodName: string,
   args: ToDo[],
 ) => {
-  const web3Instance = new Web3(window.ethereum)
-
   try {
     const { network } = config
     const activeContract = contractConfig[contractType]
@@ -190,13 +187,8 @@ export const triggerContractCall = async (
         funcParams: args,
       })
     } catch (e) {
-      const estimatedGasLimit = await web3Instance.eth.estimateGas({
-        from: ethClient.getAddress(),
-      })
       const methodMultiplier = methodName === 'deposit' ? 4 : 2
-      gasLimit = Math.ceil(
-        parseFloat(`${estimatedGasLimit || '0'}`) * methodMultiplier,
-      )
+      gasLimit = 70000 * methodMultiplier
     }
 
     const resp: ToDo = await ethClient.call({
