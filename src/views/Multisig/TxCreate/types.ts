@@ -3,4 +3,5 @@ export enum MultisigTxType {
   'bond' = 'bond',
   'deposit' = 'deposit',
   'withdraw' = 'withdraw',
+  'msgDeposit' = 'msgDeposit',
 }

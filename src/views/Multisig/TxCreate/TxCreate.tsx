@@ -4,6 +4,7 @@ import { RefreshButton } from 'views/Multisig/components/RefreshButton'
 import { TxBond } from 'views/Multisig/TxBond/TxBond'
 import { MultisigTxType } from 'views/Multisig/TxCreate/types'
 import { TxDeposit } from 'views/Multisig/TxDeposit/TxDeposit'
+import { TxDepositCustom } from 'views/Multisig/TxDepositCustom/TxDepositCustom'
 import { TxSend } from 'views/Multisig/TxSend/TxSend'
 import { TxTypeSelect } from 'views/Multisig/TxTypeSelect'
 import { TxWithdraw } from 'views/Multisig/TxWithdraw/TxWithdraw'
@@ -51,6 +52,7 @@ const TxCreate = () => {
           {txType === MultisigTxType.bond && <TxBond />}
           {txType === MultisigTxType.deposit && <TxDeposit />}
           {txType === MultisigTxType.withdraw && <TxWithdraw />}
+          {txType === MultisigTxType.msgDeposit && <TxDepositCustom />}
         </Box>
       </Box>
     </PanelView>

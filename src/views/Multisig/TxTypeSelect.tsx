@@ -21,6 +21,10 @@ export const TxTypeSelect = ({ onChange, selected }: Props) => {
       { label: t('views.multisig.nodeActions'), value: MultisigTxType.bond },
       { label: t('views.multisig.deposit'), value: MultisigTxType.deposit },
       { label: t('views.multisig.withdraw'), value: MultisigTxType.withdraw },
+      {
+        label: t('views.multisig.customDeposit'),
+        value: MultisigTxType.msgDeposit,
+      },
     ],
     [],
   )
