@@ -5,7 +5,7 @@ export const FLAG_ICONS: Record<SupportedLanguages, string> = {
   'pt-BR': 'brazil',
   'zh-Hans': 'china',
   'zh-Hant': 'china',
-  de: 'netherlands',
+  de: 'germany',
   en: 'usa',
   es: 'spain',
   fr: 'france',

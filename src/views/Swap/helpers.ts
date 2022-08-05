@@ -3,6 +3,7 @@ import {
   getAssetDecimal,
   LegacySwap,
 } from '@thorswap-lib/multichain-sdk'
+import { Chain } from '@thorswap-lib/types'
 
 import { TxTrackerType } from 'store/midgard/types'
 
@@ -23,21 +24,18 @@ export const getSwapPair = async (pair: string): Promise<Pair | null> => {
 
   if (!input || !output) return null
   const [, inputAddress] = input.split('-')
-  const [, outputAddress] = output.split('-')
 
   const inputAsset = Asset.decodeFromURL(input)
   const outputAsset = Asset.decodeFromURL(output)
 
   if (!inputAsset || !outputAsset) return null
-  const inputDecimals = inputAddress
-    ? await getAssetDecimal(inputAddress)
-    : undefined
-  const outputDecimals = outputAddress
-    ? await getAssetDecimal(outputAddress)
-    : undefined
+  const inputDecimals =
+    inputAsset?.L1Chain === Chain.Ethereum && inputAddress
+      ? await getAssetDecimal(inputAddress)
+      : undefined
 
   await inputAsset.setDecimal(inputDecimals || undefined)
-  await outputAsset.setDecimal(outputDecimals || undefined)
+  await outputAsset.setDecimal()
 
   return { inputAsset, outputAsset }
 }

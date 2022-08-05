@@ -100,7 +100,6 @@ export const ChainHeader = ({
           iconName="disconnect"
           onClick={handleWalletDisconnect}
           size={16}
-          spin={walletLoading}
           tooltip={t('common.disconnect')}
         />
       </Box>

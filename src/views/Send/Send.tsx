@@ -10,6 +10,7 @@ import {
   hasWalletConnected,
   getAssetDecimal,
 } from '@thorswap-lib/multichain-sdk'
+import { Chain } from '@thorswap-lib/types'
 
 import { useConfirmSend } from 'views/Send/useConfirmSend'
 
@@ -99,9 +100,10 @@ const Send = () => {
       } else {
         const assetObj = Asset.decodeFromURL(assetParam)
         const [, address] = assetParam.split('-')
-        const assetDecimals = address
-          ? await getAssetDecimal(address)
-          : undefined
+        const assetDecimals =
+          assetObj?.L1Chain === Chain.Ethereum && address
+            ? await getAssetDecimal(address)
+            : undefined
 
         if (assetObj) {
           await assetObj.setDecimal(assetDecimals || undefined)
