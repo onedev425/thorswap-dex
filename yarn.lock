@@ -4024,10 +4024,10 @@
   dependencies:
     "@thorswap-lib/types" "^0.1.48"
 
-"@thorswap-lib/multichain-sdk@0.10.12":
-  version "0.10.12"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.10.12.tgz#0b6d32daa78c8ee21a4f24f5e8b3eac22558fb04"
-  integrity sha512-g4TfhuZ0mWmtwAzxjL28NGtjsaKrGwFWVYXwfkPtqqWUFoo06H0mb+EMs1AU640eVbgOJGeWQxS2WO/3rGmXSg==
+"@thorswap-lib/multichain-sdk@0.10.14":
+  version "0.10.14"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.10.14.tgz#52b8a6b850e70bf9da1701f8ce06267a021eb794"
+  integrity sha512-tyaKqVz3T7FqhPQNxnZSgK24lLLoHt/sLxuFCZuGKMWYsGYLc55SsN69Pu6PWCq8JHeoEe+WPVCHswsqo/Rqsg==
   dependencies:
     "@cosmjs/stargate" "0.28.11"
     "@ethersproject/abstract-signer" "^5.6.2"

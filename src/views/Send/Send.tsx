@@ -8,6 +8,7 @@ import {
   Asset,
   Price,
   hasWalletConnected,
+  getAssetDecimal,
 } from '@thorswap-lib/multichain-sdk'
 
 import { useConfirmSend } from 'views/Send/useConfirmSend'
@@ -97,9 +98,13 @@ const Send = () => {
         setSendAsset(Asset.RUNE())
       } else {
         const assetObj = Asset.decodeFromURL(assetParam)
+        const [, address] = assetParam.split('-')
+        const assetDecimals = address
+          ? await getAssetDecimal(address)
+          : undefined
 
         if (assetObj) {
-          await assetObj.setDecimal()
+          await assetObj.setDecimal(assetDecimals || undefined)
           setSendAsset(assetObj)
         } else {
           setSendAsset(Asset.RUNE())
