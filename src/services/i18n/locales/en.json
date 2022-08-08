@@ -460,7 +460,9 @@
       "viewCurrentSigners": "View current signers",
       "viewTx": "View Transaction",
       "walletName": "Wallet name",
-      "withdraw": "Withdraw"
+      "withdraw": "Withdraw",
+      "minMembers": "Minimum Members Threshold",
+      "selectAll": "Select / Deselect All"
     },
     "nodes": {
       "IPAddress": "IP Address",

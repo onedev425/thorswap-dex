@@ -7,6 +7,7 @@ import { AddLiquidityParams, Asset, Memo } from '@thorswap-lib/multichain-sdk'
 import { useAddLiquidity } from 'views/AddLiquidity/hooks/hooks'
 import { useAddLiquidityPools } from 'views/AddLiquidity/hooks/useAddLiquidityPools'
 import { useMultisigWallet } from 'views/Multisig/hooks'
+import { useTxCreate } from 'views/Multisig/TxCreate/TxCreateContext'
 import { useAssetsList } from 'views/Multisig/TxDeposit/useAssetsList'
 import { useDepositAssetsBalance } from 'views/Multisig/TxDeposit/useDepositAssetsBalance'
 
@@ -17,6 +18,7 @@ import { useLiquidityType } from 'hooks/useLiquidityType'
 import { getMultisigTxCreateRoute, ROUTES } from 'settings/constants/router'
 
 export const useTxDeposit = () => {
+  const { signers } = useTxCreate()
   const { wallet } = useMultisigWallet()
   const assetRouteGetter = useCallback(
     (asset: Asset) => getMultisigTxCreateRoute(asset),
@@ -38,15 +40,18 @@ export const useTxDeposit = () => {
     pool,
   }: AddLiquidityParams) => {
     if (runeAmount?.gt(0)) {
-      const tx = await createDepositTx({
-        memo: Memo.depositMemo(pool.asset, runeAddr),
-        amount: runeAmount.amount,
-        asset: runeAmount.asset,
-      })
+      const tx = await createDepositTx(
+        {
+          memo: Memo.depositMemo(pool.asset, runeAddr),
+          amount: runeAmount.amount,
+          asset: runeAmount.asset,
+        },
+        signers,
+      )
 
       if (tx) {
         navigate(ROUTES.TxMultisig, {
-          state: { tx },
+          state: { tx, signers },
         })
       }
     }

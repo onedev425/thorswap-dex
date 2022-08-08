@@ -12,6 +12,8 @@ import {
 import { SupportedChain } from '@thorswap-lib/types'
 import { THORChain } from '@thorswap-lib/xchain-util'
 
+import { useTxCreate } from 'views/Multisig/TxCreate/TxCreateContext'
+
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
 
 import { PoolShareType } from 'store/midgard/types'
@@ -29,6 +31,7 @@ const SHARE_TYPES: PoolShareType[] = [
 
 export const useTxWithdraw = () => {
   const { createDepositTx } = useMultisig()
+  const { signers } = useTxCreate()
   const navigate = useNavigate()
   const { pools } = useAppSelector(({ midgard }) => midgard)
   const poolAssets = useMemo(() => {
@@ -127,16 +130,19 @@ export const useTxWithdraw = () => {
       }
     }
 
-    const tx = await createDepositTx({
-      memo,
-      amount: AssetAmount.getMinAmountByChain(THORChain as SupportedChain)
-        .amount,
-      asset: Asset.RUNE(),
-    })
+    const tx = await createDepositTx(
+      {
+        memo,
+        amount: AssetAmount.getMinAmountByChain(THORChain as SupportedChain)
+          .amount,
+        asset: Asset.RUNE(),
+      },
+      signers,
+    )
 
     if (tx) {
       navigate(ROUTES.TxMultisig, {
-        state: { tx },
+        state: { tx, signers },
       })
     }
   }

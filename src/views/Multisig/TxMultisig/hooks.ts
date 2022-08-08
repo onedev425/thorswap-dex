@@ -5,6 +5,7 @@ import { Chain } from '@thorswap-lib/xchain-util'
 import { showErrorToast } from 'components/Toast'
 
 import { useMultisig } from 'store/multisig/hooks'
+import { MultisigMember } from 'store/multisig/types'
 import { useAppSelector } from 'store/store'
 import { useWallet } from 'store/wallet/hooks'
 
@@ -13,6 +14,7 @@ import { MultisigTx, Signer } from 'services/multisig'
 
 export type ScreenState = {
   tx: MultisigTx
+  signers: MultisigMember[]
 }
 
 export const useTxData = (state: ScreenState | null) => {

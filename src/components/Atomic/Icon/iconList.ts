@@ -90,8 +90,14 @@ import {
   MdOutlineLockOpen,
   MdSpaceBar,
   MdOutlineHdrAuto,
+  MdOutlineCheckBoxOutlineBlank,
+  MdOutlineCheckBox,
 } from 'react-icons/md'
-import { RiShareBoxLine, RiSurveyLine } from 'react-icons/ri'
+import {
+  RiCheckboxMultipleLine,
+  RiShareBoxLine,
+  RiSurveyLine,
+} from 'react-icons/ri'
 import {
   VscAdd,
   VscCloudUpload,
@@ -199,6 +205,9 @@ const Icons = {
   survey: RiSurveyLine,
   export: BiExport,
   import: BiImport,
+  checkBoxBlank: MdOutlineCheckBoxOutlineBlank,
+  checkBoxChecked: MdOutlineCheckBox,
+  checkBoxes: RiCheckboxMultipleLine,
   ...SvgIcons,
 } as const
 

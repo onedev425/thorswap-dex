@@ -49,6 +49,8 @@ export type MultisigTx = {
   signatures: []
 }
 
+type SignersSequence = boolean[]
+
 export const createMultisigWallet = (
   members: MultisigMember[],
   treshold: number,
@@ -75,31 +77,34 @@ export const importMultisigTx = async (txData: string) => {
   return JSON.parse(txData) as MultisigTx
 }
 
-const buildTransferTx = async ({
-  recipient,
-  memo,
-  asset,
-  amount,
-}: MultisigTransferTxParams) => {
+const buildTransferTx = async (
+  { recipient, memo, asset, amount }: MultisigTransferTxParams,
+  //TODO: make use of it in multisig + remove log
+  signersSqeuence: SignersSequence,
+) => {
+  console.log('🔥', signersSqeuence)
   const unsignedTx = await multichain.thor.buildTransferTx(
     recipient,
     memo,
     asset,
     amount.baseAmount.toNumber(),
+    // signersSqeuence
   )
 
   return unsignedTx
 }
 
-const buildDepositTx = async ({
-  memo,
-  asset,
-  amount,
-}: MultisigDepositTxParams) => {
+const buildDepositTx = async (
+  { memo, asset, amount }: MultisigDepositTxParams,
+  //TODO: make use of it in multisig + remove log
+  signersSqeuence: SignersSequence,
+) => {
+  console.log('🔥', signersSqeuence)
   const unsignedTx = await multichain.thor.buildDepositTx(
     memo,
     asset,
     amount.baseAmount.toString(),
+    // signersSqeuence
   )
 
   return unsignedTx
@@ -178,6 +183,15 @@ const isMultisigInitialized = () => {
   return multichain.thor.isMultisigInitialized()
 }
 
+const getSignersSequence = (
+  allmembers: MultisigMember[],
+  requiredSigners: MultisigMember[],
+) => {
+  return allmembers.map(
+    (m) => !!requiredSigners.find((s) => s.pubKey === m.pubKey),
+  )
+}
+
 export const multisig = {
   createMultisigWallet,
   clearMultisigWallet,
@@ -191,4 +205,5 @@ export const multisig = {
   loadMultisigBalances,
   getMemberPubkeyFromAddress,
   isMultisigInitialized,
+  getSignersSequence,
 }

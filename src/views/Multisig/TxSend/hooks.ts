@@ -6,6 +6,7 @@ import { Amount, Asset, Price } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/types'
 
 import { useMultissigAssets } from 'views/Multisig/hooks'
+import { useTxCreate } from 'views/Multisig/TxCreate/TxCreateContext'
 
 import { showErrorToast } from 'components/Toast'
 
@@ -18,6 +19,9 @@ import { multichain } from 'services/multichain'
 import { getMultisigTxCreateRoute, ROUTES } from 'settings/constants'
 
 export const useTxSend = () => {
+  const { signers } = useTxCreate()
+  const { createTransferTx } = useMultisig()
+
   const { assetsWithBalance: assetInputList, getMaxBalance } =
     useMultissigAssets()
   const { assetParam } = useParams<{ assetParam: string }>()
@@ -113,19 +117,20 @@ export const useTxSend = () => {
     setIsOpenConfirmModal(false)
   }, [])
 
-  const { createTransferTx } = useMultisig()
-
   const handleCreateTx = async () => {
-    const tx = await createTransferTx({
-      recipient: recipientAddress,
-      memo,
-      asset: sendAsset,
-      amount: sendAmount,
-    })
+    const tx = await createTransferTx(
+      {
+        recipient: recipientAddress,
+        memo,
+        asset: sendAsset,
+        amount: sendAmount,
+      },
+      signers,
+    )
 
     if (tx) {
       navigate(ROUTES.TxMultisig, {
-        state: { tx },
+        state: { tx, signers },
       })
     }
   }

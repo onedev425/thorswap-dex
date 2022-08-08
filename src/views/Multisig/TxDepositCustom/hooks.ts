@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { Amount, Asset, Price } from '@thorswap-lib/multichain-sdk'
 
 import { useMultissigAssets } from 'views/Multisig/hooks'
+import { useTxCreate } from 'views/Multisig/TxCreate/TxCreateContext'
 
 import { showErrorToast } from 'components/Toast'
 
@@ -18,6 +19,7 @@ import { ROUTES } from 'settings/constants'
 const runeAsset = Asset.RUNE()
 
 export const useTxDepositCustom = () => {
+  const { signers } = useTxCreate()
   const navigate = useNavigate()
   const { getMaxBalance } = useMultissigAssets()
 
@@ -77,15 +79,18 @@ export const useTxDepositCustom = () => {
   const { createDepositTx } = useMultisig()
 
   const handleCreateTx = async () => {
-    const tx = await createDepositTx({
-      memo,
-      asset: runeAsset,
-      amount: depositAmount,
-    })
+    const tx = await createDepositTx(
+      {
+        memo,
+        asset: runeAsset,
+        amount: depositAmount,
+      },
+      signers,
+    )
 
     if (tx) {
       navigate(ROUTES.TxMultisig, {
-        state: { tx },
+        state: { tx, signers },
       })
     }
   }

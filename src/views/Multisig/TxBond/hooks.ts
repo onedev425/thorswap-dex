@@ -6,6 +6,7 @@ import { Asset, AssetAmount } from '@thorswap-lib/multichain-sdk'
 import { SupportedChain } from '@thorswap-lib/types'
 import { THORChain } from '@thorswap-lib/xchain-util'
 
+import { useTxCreate } from 'views/Multisig/TxCreate/TxCreateContext'
 import { BondActionType, HandleBondAction } from 'views/Nodes/types'
 
 import { useMultisig } from 'store/multisig/hooks'
@@ -15,6 +16,7 @@ import { ROUTES } from 'settings/constants'
 import { getBondMemo } from './utils'
 
 export const useTxBond = () => {
+  const { signers } = useTxCreate()
   const navigate = useNavigate()
 
   const { createDepositTx } = useMultisig()
@@ -30,23 +32,26 @@ export const useTxBond = () => {
 
       const memo = getBondMemo(type, nodeAddress, amount)
 
-      const tx = await createDepositTx({
-        memo,
-        amount:
-          type === BondActionType.Bond && amount
-            ? amount
-            : AssetAmount.getMinAmountByChain(THORChain as SupportedChain)
-                .amount,
-        asset: Asset.RUNE(),
-      })
+      const tx = await createDepositTx(
+        {
+          memo,
+          amount:
+            type === BondActionType.Bond && amount
+              ? amount
+              : AssetAmount.getMinAmountByChain(THORChain as SupportedChain)
+                  .amount,
+          asset: Asset.RUNE(),
+        },
+        signers,
+      )
 
       if (tx) {
         navigate(ROUTES.TxMultisig, {
-          state: { tx },
+          state: { tx, signers },
         })
       }
     },
-    [navigate, createDepositTx],
+    [createDepositTx, signers, navigate],
   )
 
   return handleBondAction

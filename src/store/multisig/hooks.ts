@@ -7,7 +7,7 @@ import { showErrorToast } from 'components/Toast'
 
 import { loadMultisigBalances } from 'store/multisig/actions'
 import { actions } from 'store/multisig/slice'
-import { MultisigWallet } from 'store/multisig/types'
+import { MultisigMember, MultisigWallet } from 'store/multisig/types'
 import { useAppDispatch, useAppSelector } from 'store/store'
 
 import { multichain } from 'services/multichain'
@@ -46,32 +46,41 @@ export const useMultisig = () => {
       : multisig.createMultisigWallet(members, treshold)
   }, [address, members, treshold])
 
+  const getSignersSequence = useCallback(
+    (signers: MultisigMember[]) => {
+      return multisig.getSignersSequence(members, signers)
+    },
+    [members],
+  )
+
   const createTransferTx = useCallback(
-    async (txParams: MultisigTransferTxParams) => {
+    async (txParams: MultisigTransferTxParams, signers: MultisigMember[]) => {
       initMultisigWallet()
+      const signersSequece = getSignersSequence(signers)
 
       try {
-        const tx = await multisig.buildTransferTx(txParams)
+        const tx = await multisig.buildTransferTx(txParams, signersSequece)
         return tx
       } catch (e: ErrorType) {
         showErrorToast(e.message)
       }
     },
-    [initMultisigWallet],
+    [getSignersSequence, initMultisigWallet],
   )
 
   const createDepositTx = useCallback(
-    async (txParams: MultisigDepositTxParams) => {
+    async (txParams: MultisigDepositTxParams, signers: MultisigMember[]) => {
       initMultisigWallet()
+      const signersSequece = getSignersSequence(signers)
 
       try {
-        const tx = await multisig.buildDepositTx(txParams)
+        const tx = await multisig.buildDepositTx(txParams, signersSequece)
         return tx
       } catch (e: ErrorType) {
         showErrorToast(e.message)
       }
     },
-    [initMultisigWallet],
+    [getSignersSequence, initMultisigWallet],
   )
 
   const importTx = useCallback(

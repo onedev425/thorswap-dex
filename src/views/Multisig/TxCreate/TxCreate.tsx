@@ -1,61 +1,55 @@
-import { useEffect, useState } from 'react'
+import { useMemo } from 'react'
 
 import { RefreshButton } from 'views/Multisig/components/RefreshButton'
-import { TxBond } from 'views/Multisig/TxBond/TxBond'
-import { MultisigTxType } from 'views/Multisig/TxCreate/types'
-import { TxDeposit } from 'views/Multisig/TxDeposit/TxDeposit'
-import { TxDepositCustom } from 'views/Multisig/TxDepositCustom/TxDepositCustom'
-import { TxSend } from 'views/Multisig/TxSend/TxSend'
-import { TxTypeSelect } from 'views/Multisig/TxTypeSelect'
-import { TxWithdraw } from 'views/Multisig/TxWithdraw/TxWithdraw'
+import { SelectSignersStep } from 'views/Multisig/TxCreate/steps/SelectSignersStep'
+import { TxDetailsStep } from 'views/Multisig/TxCreate/steps/TxDetailsStep'
+import { TxCreateProvider } from 'views/Multisig/TxCreate/TxCreateContext'
 
-import { Box, Typography } from 'components/Atomic'
+import { Box } from 'components/Atomic'
 import { PanelView } from 'components/PanelView'
+import { Stepper } from 'components/Stepper'
+import { StepperProvider } from 'components/Stepper/StepperContext'
+import { StepType } from 'components/Stepper/types'
 import { ViewHeader } from 'components/ViewHeader'
-
-import { useMultisig } from 'store/multisig/hooks'
 
 import { t } from 'services/i18n'
 
 const TxCreate = () => {
-  const { loadBalances } = useMultisig()
-  const [txType, setTxType] = useState(MultisigTxType.send)
-
-  useEffect(() => {
-    loadBalances()
-  }, [loadBalances])
+  const steps: StepType[] = useMemo(
+    () => [
+      {
+        id: 0,
+        label: 'Select Signers',
+        content: <SelectSignersStep />,
+      },
+      { id: 1, label: 'Transaction details', content: <TxDetailsStep /> },
+    ],
+    [],
+  )
 
   return (
-    <PanelView
-      title={t('views.multisig.createTransaction')}
-      header={
-        <Box className="w-full justify-between align-center">
-          <ViewHeader title={t('views.multisig.createTransaction')} withBack />
-          <Box className="px-6">
-            <RefreshButton />
+    <TxCreateProvider>
+      <StepperProvider steps={steps}>
+        <PanelView
+          title={t('views.multisig.createTransaction')}
+          header={
+            <Box className="w-full justify-between align-center">
+              <ViewHeader
+                title={t('views.multisig.createTransaction')}
+                withBack
+              />
+              <Box className="px-6">
+                <RefreshButton />
+              </Box>
+            </Box>
+          }
+        >
+          <Box className="self-stretch" col flex={1}>
+            <Stepper />
           </Box>
-        </Box>
-      }
-    >
-      <Box className="w-full gap-1 my-4" col>
-        <Box className="self-stretch mx-2 pt-2" flex={1} center>
-          <Box flex={1}>
-            <Typography color="secondary">Transaction type:</Typography>
-          </Box>
-          <Box className="z-20" flex={1}>
-            <TxTypeSelect onChange={setTxType} selected={txType} />
-          </Box>
-        </Box>
-
-        <Box className="mt-6" flex={1}>
-          {txType === MultisigTxType.send && <TxSend />}
-          {txType === MultisigTxType.bond && <TxBond />}
-          {txType === MultisigTxType.deposit && <TxDeposit />}
-          {txType === MultisigTxType.withdraw && <TxWithdraw />}
-          {txType === MultisigTxType.msgDeposit && <TxDepositCustom />}
-        </Box>
-      </Box>
-    </PanelView>
+        </PanelView>
+      </StepperProvider>
+    </TxCreateProvider>
   )
 }
 

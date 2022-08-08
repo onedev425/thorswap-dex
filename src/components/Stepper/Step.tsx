@@ -53,7 +53,7 @@ export const Step = ({ step, isOpened, isDisabled, open }: Props) => {
           style={maxHeightStyle}
         >
           <Box ref={contentRef}>
-            <Box className="my-3" col>
+            <Box className="my-3" col flex={1}>
               {step.content}
             </Box>
           </Box>
