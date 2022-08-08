@@ -255,7 +255,7 @@ export const useAddLiquidity = ({
 
       const maxAmount = isSymDeposit ? maxSymAssetAmount : maxPoolAssetBalance
 
-      if (amount.gt(maxAmount)) {
+      if (amount.gt(maxAmount) && !skipWalletCheck) {
         setAssetAmount(maxAmount)
 
         if (isSymDeposit) {
@@ -269,7 +269,13 @@ export const useAddLiquidity = ({
         }
       }
     },
-    [maxSymAssetAmount, maxPoolAssetBalance, pool, isSymDeposit],
+    [
+      pool,
+      skipWalletCheck,
+      isSymDeposit,
+      maxSymAssetAmount,
+      maxPoolAssetBalance,
+    ],
   )
 
   const handleChangeRuneAmount = useCallback(
@@ -280,7 +286,7 @@ export const useAddLiquidity = ({
       }
 
       const maxAmount = isSymDeposit ? maxSymRuneAmount : maxRuneBalance
-      if (amount.gt(maxAmount)) {
+      if (amount.gt(maxAmount) && !skipWalletCheck) {
         setRuneAmount(maxAmount)
 
         if (isSymDeposit) {
@@ -293,7 +299,7 @@ export const useAddLiquidity = ({
         }
       }
     },
-    [maxSymRuneAmount, maxRuneBalance, pool, isSymDeposit],
+    [pool, skipWalletCheck, isSymDeposit, maxSymRuneAmount, maxRuneBalance],
   )
 
   const handleConfirmAdd = useCallback(async () => {

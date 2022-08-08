@@ -25,7 +25,11 @@ const MultisigCreate = () => {
   const { wallet } = useWallet()
   const connectedWalletAddress = wallet?.[Chain.THORChain]?.address || ''
   const pubKey = useMemo(() => {
-    return connectedWalletAddress ? multichain.thor.getPubkey() : ''
+    try {
+      return connectedWalletAddress ? multichain.thor.getPubkey() : ''
+    } catch {
+      return ''
+    }
   }, [connectedWalletAddress])
 
   const {
@@ -42,7 +46,7 @@ const MultisigCreate = () => {
     () => [
       {
         id: 0,
-        label: 'Get your public key',
+        label: t('views.multisig.getYourPublicKey'),
         content: <PubKeyStep pubKey={pubKey} />,
       },
       {
@@ -84,7 +88,7 @@ const MultisigCreate = () => {
   )
 
   return (
-    <StepperProvider steps={steps}>
+    <StepperProvider steps={steps} initialStep={pubKey ? 1 : 0}>
       <PanelView
         title={t('views.multisig.thorSafeWallet')}
         header={

@@ -40,9 +40,7 @@ export const MultisigCreateTile = () => {
             <Box flex={1} col>
               <Typography variant="subtitle1">{'Get started'}</Typography>
               <Typography className="my-3" fontWeight="light">
-                {
-                  'If you have all private keys of all members you can create a new multisig wallet.'
-                }
+                {t('views.multisig.createMultisigStart')}
               </Typography>
               <Button
                 className="mt-3"

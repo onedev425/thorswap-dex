@@ -1,12 +1,12 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 
 import { Chain } from '@thorswap-lib/types'
 
 import { CurrentSignerItem } from 'views/Multisig/components/CurrentSignerItem'
-import { ImportSignatureModal } from 'views/Multisig/components/ImportSignatureModal'
 
 import { Box, Button, Typography } from 'components/Atomic'
 import { StepActions } from 'components/Stepper'
+import { useStepper } from 'components/Stepper/StepperContext'
 
 import { useWallet } from 'store/wallet/hooks'
 
@@ -19,13 +19,10 @@ type Props = {
   addSigner: (signer: Signer) => void
 }
 
-export function SignTxStep({
-  handleSign,
-  connectedSignature,
-  addSigner,
-}: Props) {
+export function SignTxStep({ handleSign, connectedSignature }: Props) {
   const { wallet, setIsConnectModalOpen } = useWallet()
-  const [isImportModalOpened, setIsImportModalOpened] = useState(false)
+  const { nextStep } = useStepper()
+  // const [isImportModalOpened, setIsImportModalOpened] = useState(false)
 
   const connectedWalletAddress = wallet?.[Chain.THORChain]?.address || ''
 
@@ -37,6 +34,12 @@ export function SignTxStep({
 
     handleSign()
   }, [connectedWalletAddress, setIsConnectModalOpen, handleSign])
+
+  useEffect(() => {
+    if (connectedSignature) {
+      nextStep()
+    }
+  }, [connectedSignature, nextStep])
 
   return (
     <Box className="self-stretch mx-2" col flex={1}>
@@ -58,7 +61,7 @@ export function SignTxStep({
         )}
       </Box>
 
-      <Box className="gap-2 mt-6" col>
+      {/* <Box className="gap-2 mt-6" col>
         <Typography variant="caption" fontWeight="normal">
           {t('views.multisig.importSignatureInfo')}
         </Typography>
@@ -69,18 +72,18 @@ export function SignTxStep({
         >
           {t('views.multisig.importSignature')}
         </Button>
-      </Box>
+      </Box> */}
 
       <StepActions backHidden />
 
-      <ImportSignatureModal
+      {/* <ImportSignatureModal
         isOpened={isImportModalOpened}
         onClose={() => setIsImportModalOpened(false)}
         onSubmit={(signature) => {
           setIsImportModalOpened(false)
           addSigner(signature)
         }}
-      />
+      /> */}
     </Box>
   )
 }

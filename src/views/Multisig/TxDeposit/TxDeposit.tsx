@@ -4,6 +4,7 @@ import { useTxDeposit } from 'views/Multisig/TxDeposit/hooks'
 
 import { Box, Button } from 'components/Atomic'
 import { InfoTable } from 'components/InfoTable'
+import { InfoTip } from 'components/InfoTip'
 import { LiquidityType } from 'components/LiquidityType/LiquidityType'
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
@@ -47,6 +48,14 @@ export const TxDeposit = () => {
       />
 
       <Box className="pb-1" flex={1} />
+
+      {liquidityType === LiquidityTypeOption.SYMMETRICAL && (
+        <InfoTip
+          className="mb-1"
+          type="warn"
+          content={t('views.multisig.depositSymWarning')}
+        />
+      )}
 
       <AssetInputs
         poolAsset={poolAssetInput}

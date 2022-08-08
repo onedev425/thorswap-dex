@@ -23,8 +23,7 @@ export const MultisigImportTile = () => {
             {t('views.multisig.addMultisigWallet')}
           </Typography>
           <Typography className="my-3" fontWeight="light">
-            This should be info about connecting existing wallet by using
-            previously exported file.
+            {t('views.multisig.importMultisigDescription')}
           </Typography>
 
           <Box className="mt-8" flex={1} align="end">
@@ -33,7 +32,7 @@ export const MultisigImportTile = () => {
               variant="primary"
               onClick={() => navigate(ROUTES.MultisigConnect)}
             >
-              Import existing wallet
+              {t('views.multisig.connectExistingWallet')}
             </Button>
           </Box>
         </Box>

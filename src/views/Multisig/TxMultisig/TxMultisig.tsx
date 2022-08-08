@@ -48,7 +48,7 @@ const TxMultisig = () => {
     () => [
       {
         id: 0,
-        label: 'Manage signatures',
+        label: 'Sign transaction',
         content: (
           <SignTxStep
             handleSign={handleSign}

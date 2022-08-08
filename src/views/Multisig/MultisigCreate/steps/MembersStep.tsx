@@ -44,7 +44,7 @@ export const MembersStep = ({
       <Box className="gap-3" col flex={1}>
         <Typography variant="caption" fontWeight="normal">
           Add members to your wallet. You will need their public keys. We
-          prefilled your public ekey for you - remember that order of keys
+          prefilled your public key for you - remember that order of keys
           matters
         </Typography>
       </Box>

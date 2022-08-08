@@ -33,9 +33,7 @@ export const PubKeyStep = ({ pubKey }: Props) => {
     <Box className="self-stretch mx-2" col flex={1}>
       <Box className="gap-5" col flex={1}>
         <Typography variant="caption" fontWeight="normal">
-          {/* {t('views.multisig.createMultisigDescription')} */}
-          You will need your wallet's public key to create new multisig multisig
-          THORSafe. To get it connect your THORChain wallet.
+          {t('views.multisig.createMultisigPubKeyInfo')}
         </Typography>
 
         <Box flex={1} align="end">

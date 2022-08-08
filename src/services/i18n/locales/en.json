@@ -390,7 +390,10 @@
       "confirmWalletRemoval": "Please confirm you want to disconnect this wallet.",
       "connectThorSafeWallet": "Connect THORSafe Wallet",
       "create": "Create",
-      "createMultisigDescription": "Create a new THORChain multi-sig wallet that is controlled by up to X members. You will be required to pay a transaction fee for creating your new multi-sig wallet.",
+      "createMultisigDescription": "Create a new THORChain multi-sig wallet that is controlled by up to X members.",
+      "createMultisigPubKeyInfo": "You will need your wallet's public key to create new multi-sig THORSafe. To get it connect your THORChain wallet.",
+      "createMultisigStart": "If you have all private keys from THORSafe members you can create a new multisig wallet.",
+      "importMultisigDescription": "You can connect existing THORSafe, by using previously exported wallet data. It is safe to share wallet file with other THORSafe members.",
       "createSendTx": "Create transaction - send",
       "createThorSafeWallet": "Create THORSafe wallet",
       "createTransaction": "Create Transaction",
@@ -475,7 +478,10 @@
       "txMissingSignatures": "Missing Signatures",
       "viewTxData": "View tx data",
       "transactionData": "Transaction data",
-      "selectTxJsonFile": "Select Transaction json file and import info"
+      "selectTxJsonFile": "Select Transaction json file and import info",
+      "connectExistingWallet": "Connect existing wallet",
+      "getYourPublicKey": "Get your public key",
+      "depositSymWarning": "THORSafe can deposit only RUNE side. You need to deposit asset side in a separate transaction."
     },
     "nodes": {
       "IPAddress": "IP Address",
