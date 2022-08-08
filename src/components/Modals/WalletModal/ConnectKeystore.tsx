@@ -69,7 +69,6 @@ export const ConnectKeystoreView = ({
         setProcessing(false)
 
         setInvalidStatus(true)
-        console.error(error)
       }
     }
   }, [keystore, password, onConnect])

@@ -8,14 +8,13 @@ export const abbreviateNumber = (value: number, decimal = 0): string => {
     suffixNum++
   }
 
-  return `${newValue.toFixed(decimal)}${
-    suffixNum > 0 ? ` ${suffixes[suffixNum]}` : ''
-  }`
+  const suffix = suffixNum > 0 ? ` ${suffixes[suffixNum]}` : ''
+  return `${newValue.toFixed(decimal)}${suffix}`
 }
 
 export const toOptionalFixed = (num: number, decimal = 2): string => {
   const maskStr = Array(decimal + 1).join('0')
-  const regex = new RegExp(`[.,]${maskStr}$`)
+  const regex = new RegExp(`[.,]${maskStr}$`) // nosemgrep: javascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp
 
   return num.toFixed(decimal).replace(regex, '')
 }

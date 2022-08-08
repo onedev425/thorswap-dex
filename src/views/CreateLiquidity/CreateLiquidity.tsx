@@ -242,7 +242,7 @@ export const CreateLiquidity = () => {
         setTxFailed(trackId)
 
         showErrorToast(t('notification.submitTxFailed'))
-        console.error(error)
+        console.info(error)
       }
     }
   }, [

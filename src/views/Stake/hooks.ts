@@ -36,15 +36,11 @@ export const useV1ThorStakeInfo = () => {
     if (wallet?.ETH?.address) {
       const ethereumAddr = wallet.ETH.address
 
-      try {
-        // V1 $thor stake
-        const stakingContract = getEtherscanContract(ContractType.STAKING_THOR)
-        const { amount } = await stakingContract.userInfo(0, ethereumAddr)
+      // V1 $thor stake
+      const stakingContract = getEtherscanContract(ContractType.STAKING_THOR)
+      const { amount } = await stakingContract.userInfo(0, ethereumAddr)
 
-        setStakedThorAmount(amount as BigNumber)
-      } catch (error) {
-        console.error(error)
-      }
+      setStakedThorAmount(amount as BigNumber)
     }
   }, [wallet])
 

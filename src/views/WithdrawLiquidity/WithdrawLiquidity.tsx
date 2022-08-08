@@ -647,7 +647,7 @@ const WithdrawPanel = ({
           }
         }
       } catch (error: NotWorth) {
-        console.error(error)
+        console.info(error)
         setTxFailed(trackId)
 
         // TODO: better error translation

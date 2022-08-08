@@ -165,7 +165,6 @@ export const useHandleWalletConnect = ({
       try {
         await connectXdefiWallet(chains)
       } catch (error) {
-        console.error(error)
         showErrorToast(t('notification.xdefiFailed'))
       }
       clearStatus()

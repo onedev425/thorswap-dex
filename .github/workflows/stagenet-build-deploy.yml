@@ -57,6 +57,7 @@ jobs:
           VITE_FIGMENT_API_KEY: ${{ secrets.VITE_FIGMENT_API_KEY }}
           VITE_AFFILIATE_ON: false
           VITE_MAINNET_THORCHAIN_RPC: ${{ secrets.VITE_STAGENET_THORCHAIN_RPC }}
+          VITE_GOOGLE_API_KEY: ${{ secrets.VITE_GOOGLE_API_KEY }}
 
         run: yarn build
 

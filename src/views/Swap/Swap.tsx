@@ -315,7 +315,7 @@ const SwapView = () => {
       } catch (error: NotWorth) {
         setTxFailed(trackId)
         const description = translateErrorMsg(error?.toString())
-        console.error(error, description)
+        console.info(error, description)
 
         showErrorToast(t('notification.submitTxFailed'), description)
       }
@@ -356,7 +356,7 @@ const SwapView = () => {
           })
         }
       } catch (error) {
-        console.error(error)
+        console.info(error)
         setTxFailed(trackId)
         showErrorToast(t('notification.approveFailed'))
       }

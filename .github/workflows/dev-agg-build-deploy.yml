@@ -65,6 +65,7 @@ jobs:
           VITE_INFURA_PROJECT_ID: ${{ secrets.VITE_INFURA_PROJECT_ID }}
           VITE_IS_NETWORK_ONLINE: ${{ secrets.VITE_IS_NETWORK_ONLINE }}
           VITE_FIGMENT_API_KEY: ${{ secrets.VITE_FIGMENT_API_KEY }}
+          VITE_GOOGLE_API_KEY: ${{ secrets.VITE_GOOGLE_API_KEY }}
           VITE_AFFILIATE_ON: false
 
         run: yarn build

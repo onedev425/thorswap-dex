@@ -99,7 +99,7 @@ export const SwapSubmitButton = ({
         address: recipient,
       })
     } catch (error) {
-      console.error(error)
+      console.info(error)
       return false
     }
   }, [outputAsset, recipient, isExchangeBNBAddress])

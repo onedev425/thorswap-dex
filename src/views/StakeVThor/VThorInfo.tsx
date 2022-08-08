@@ -46,7 +46,7 @@ export const VThorInfo = memo(({ ethAddress }: Props) => {
         const apr = await fetchVthorApr(stakedAmount)
         setVthorApr(apr)
       } catch (err) {
-        console.error(err)
+        console.info(err)
         setVthorApr(0)
       }
     }

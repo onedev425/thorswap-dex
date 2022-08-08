@@ -70,7 +70,7 @@ export const useSwap = ({
 
       return new LegacySwap(paramsWithFee)
     } catch (error) {
-      console.error(error)
+      console.info(error)
       return null
     }
   }, [

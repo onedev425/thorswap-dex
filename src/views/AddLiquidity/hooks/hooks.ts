@@ -425,7 +425,7 @@ export const useAddLiquidity = ({
 
         const description = translateErrorMsg(error?.toString())
         showErrorToast(t('notification.submitFail'), description)
-        console.error(error)
+        console.info(error)
       }
     }
   }, [

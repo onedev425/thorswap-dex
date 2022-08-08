@@ -172,7 +172,6 @@ const UpgradeRune = () => {
       } catch (error) {
         setTxFailed(trackId)
         showErrorToast(t('notification.submitTxFailed'))
-        console.error(error)
       }
     }
   }, [

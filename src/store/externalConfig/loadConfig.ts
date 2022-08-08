@@ -11,7 +11,6 @@ import {
   StatusAnnouncement,
 } from 'store/externalConfig/types'
 
-const GOOGLE_API_KEY = 'AIzaSyDeBo5Q_YVC0B5Hqrz8XS8o0n4IX6PW_ik'
 const SHEET_ID = '13qyyZnv5tyHse4PUJ4548bJdtGQDJpMVjkLXq1gQRS0'
 const SHEET_TAB = ':batchGet'
 const ranges = '&ranges=announcements&ranges=status'
@@ -26,7 +25,7 @@ export const loadConfig = async (): Promise<AnnouncementsData> => {
     '/values/' +
     SHEET_TAB +
     '?alt=json&key=' +
-    GOOGLE_API_KEY +
+    import.meta.env.VITE_GOOGLE_API_KEY +
     ranges
 
   try {

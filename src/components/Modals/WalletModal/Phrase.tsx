@@ -53,7 +53,6 @@ export const PhraseView = () => {
         setPhrase('')
       } catch (error) {
         setInvalidStatus(true)
-        console.error(error)
       }
       setProcessing(false)
     }

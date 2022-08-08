@@ -42,11 +42,7 @@ export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
   const handleConfirmPasswordChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       setConfirmPassword(e.target.value)
-      if (password !== e.target.value) {
-        setInvalidStatus(true)
-      } else {
-        setInvalidStatus(false)
-      }
+      setInvalidStatus(password !== e.target.value)
     },
     [password],
   )
@@ -73,7 +69,6 @@ export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
         onConnect(keystore, phrase)
       } catch (error) {
         setInvalidStatus(true)
-        console.error(error)
       }
       setProcessing(false)
     }
