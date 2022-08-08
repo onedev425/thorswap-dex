@@ -9,6 +9,7 @@ type Props = {
   nextLabel?: string
   nextAction?: () => void
   nextDisabled?: boolean
+  backHidden?: boolean
 }
 
 export const StepActions = ({
@@ -17,6 +18,7 @@ export const StepActions = ({
   nextAction,
   nextLabel,
   nextDisabled,
+  backHidden,
 }: Props) => {
   const { prevStep, nextStep } = useStepper()
 
@@ -25,14 +27,16 @@ export const StepActions = ({
       className="gap-2 border-0 border-t border-solid border-light-typo-gray dark:border-dark-typo-gray !border-opacity-20 mt-5 pt-5"
       flex={1}
     >
-      <Button
-        type="borderless"
-        variant="tint"
-        stretch
-        onClick={backAction || prevStep}
-      >
-        {backLabel || t('common.back')}
-      </Button>
+      {!backHidden && (
+        <Button
+          type="borderless"
+          variant="tint"
+          stretch
+          onClick={backAction || prevStep}
+        >
+          {backLabel || t('common.back')}
+        </Button>
+      )}
       <Button
         type="outline"
         variant="primary"

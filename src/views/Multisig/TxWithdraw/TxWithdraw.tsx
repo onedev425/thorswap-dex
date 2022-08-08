@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import { Amount, Asset } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
@@ -8,6 +10,7 @@ import { AssetSelect } from 'components/AssetSelect'
 import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton'
 import { Box, Button, Icon, Typography } from 'components/Atomic'
 import { HighlightCard } from 'components/HighlightCard'
+import { InfoRowConfig } from 'components/InfoRow/types'
 import { InfoTable } from 'components/InfoTable'
 import { LiquidityType } from 'components/LiquidityType/LiquidityType'
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
@@ -38,7 +41,15 @@ export const TxWithdraw = () => {
     isValid,
   } = useTxWithdraw()
 
-  const confirmInfo: [] = []
+  const confirmInfo: InfoRowConfig[] = useMemo(
+    () => [
+      {
+        label: `${t('common.withdrawPercent')}:`,
+        value: `${percent}%`,
+      },
+    ],
+    [percent],
+  )
 
   return (
     <Box className="gap-1" col flex={1}>

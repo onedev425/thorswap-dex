@@ -6,7 +6,6 @@ import { showErrorToast } from 'components/Toast'
 
 import { useMultisig } from 'store/multisig/hooks'
 import { MultisigMember } from 'store/multisig/types'
-import { useAppSelector } from 'store/store'
 import { useWallet } from 'store/wallet/hooks'
 
 import { t } from 'services/i18n'
@@ -15,26 +14,58 @@ import { MultisigTx, Signer } from 'services/multisig'
 export type ScreenState = {
   tx: MultisigTx
   signers: MultisigMember[]
+  signatures?: Signer[]
 }
 
 export const useTxData = (state: ScreenState | null) => {
-  const { treshold } = useAppSelector((state) => state.multisig)
   const { signTx, broadcastTx, getPubkeyForAddress, getSortedSigners } =
     useMultisig()
-  const { wallet, setIsConnectModalOpen } = useWallet()
-  const txData = useMemo(() => state?.tx || null, [state?.tx])
+  const { wallet } = useWallet()
   const connectedWalletAddress = wallet?.[Chain.THORChain]?.address || ''
+  const txData = useMemo(() => state?.tx || null, [state?.tx])
+  const requiredSigners = useMemo(() => state?.signers || [], [state?.signers])
 
-  const [signers, setSigners] = useState<Signer[]>([])
+  const [signatures, setSignatures] = useState<Signer[]>(
+    state?.signatures || [],
+  )
   const [broadcastedTxHash, setBroadcastedTxHash] = useState('')
   const [isBroadcasting, setIsBroadcasting] = useState(false)
 
-  const signature = JSON.stringify(txData, null, 2) || ''
-  const canBroadcast = signers.length >= treshold
+  const txBodyStr = JSON.stringify(txData, null, 2) || ''
+  const canBroadcast = signatures.length >= requiredSigners.length
+
+  const pubKey = useMemo(() => {
+    if (!connectedWalletAddress) {
+      return ''
+    }
+
+    try {
+      return getPubkeyForAddress(connectedWalletAddress)
+    } catch (e) {
+      return ''
+    }
+  }, [connectedWalletAddress, getPubkeyForAddress])
+
+  const connectedSignature = useMemo(() => {
+    if (!pubKey) {
+      return null
+    }
+
+    return signatures.find((s) => s.pubKey === pubKey) || null
+  }, [pubKey, signatures])
+
+  const exportTxData = useMemo(
+    () => ({
+      txBody: txData,
+      signers: requiredSigners,
+      signatures,
+    }),
+    [requiredSigners, signatures, txData],
+  )
 
   const addSigner = useCallback(
     (signer: Signer) => {
-      setSigners((prev) => {
+      setSignatures((prev) => {
         const idx = prev.findIndex((s) => s.pubKey === signer.pubKey)
         const updated = [...prev]
 
@@ -51,20 +82,16 @@ export const useTxData = (state: ScreenState | null) => {
   )
 
   const sign = useCallback(async () => {
-    if (!connectedWalletAddress) {
-      return
-    }
-
-    const pubKey = getPubkeyForAddress(connectedWalletAddress)
-    if (!pubKey) {
+    if (!pubKey || !requiredSigners.find((s) => s.pubKey === pubKey)) {
       return showErrorToast(t('views.multisig.incorrectSigner'))
     }
+
     const signature = await signTx(JSON.stringify(txData))
     if (signature === undefined)
       throw Error(`Unable to sign: ${JSON.stringify(txData)}`)
 
     addSigner({ pubKey, signature })
-  }, [addSigner, connectedWalletAddress, getPubkeyForAddress, signTx, txData])
+  }, [addSigner, pubKey, requiredSigners, signTx, txData])
 
   // TODO - get recipient and amount from tx
   const txInfo = useMemo(
@@ -75,35 +102,37 @@ export const useTxData = (state: ScreenState | null) => {
     [],
   )
 
-  const handleSign = useCallback(() => {
-    if (!connectedWalletAddress) {
-      setIsConnectModalOpen(true)
-      return
-    }
-
-    sign()
-  }, [connectedWalletAddress, setIsConnectModalOpen, sign])
-
   const handleBroadcast = useCallback(async () => {
     setIsBroadcasting(true)
-    const txHash = await broadcastTx(JSON.stringify(txData), signers)
+    const txHash = await broadcastTx(JSON.stringify(txData), signatures)
     setIsBroadcasting(false)
     if (txHash) {
       setBroadcastedTxHash(txHash)
       // TODO - Add tx to TxManager
     }
-  }, [broadcastTx, signers, txData])
+  }, [broadcastTx, signatures, txData])
+
+  const hasMemberSignature = useCallback(
+    (signer: MultisigMember) => {
+      return !!signatures.find((s) => s.pubKey === signer.pubKey)
+    },
+    [signatures],
+  )
 
   return {
-    signature,
+    txBodyStr,
     txInfo,
-    signers,
+    signatures,
     addSigner,
     txData,
     canBroadcast,
-    handleSign,
     handleBroadcast,
     isBroadcasting,
     broadcastedTxHash,
+    requiredSigners,
+    hasMemberSignature,
+    connectedSignature,
+    exportTxData,
+    handleSign: sign,
   }
 }

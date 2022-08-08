@@ -1,53 +1,42 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { useLocation, useNavigate } from 'react-router'
 
-import { SupportedChain } from '@thorswap-lib/types'
-import { Chain } from '@thorswap-lib/xchain-util'
-
-import { CurrentSignersModal } from 'views/Multisig/components/CurrentSignersModal'
-import { ImportSignatureModal } from 'views/Multisig/components/ImportSignatureModal'
-import { TextareaCopy } from 'views/Multisig/components/TextareaCopy'
-import { useMultisigWalletInfo } from 'views/Multisig/hooks'
+import { SignerCheckBox } from 'views/Multisig/components/SignerCheckBox'
 import { ScreenState, useTxData } from 'views/Multisig/TxMultisig/hooks'
+import { BroadcastTxStep } from 'views/Multisig/TxMultisig/steps/BroadcastTxStep'
+import { ExportTxStep } from 'views/Multisig/TxMultisig/steps/ExportTxStep'
+import { SignTxStep } from 'views/Multisig/TxMultisig/steps/SignTxStep'
+import { TxInfoTip } from 'views/Multisig/TxMultisig/TxInfoTip'
 
-import { Box, Button, Icon, Link, Typography, Tooltip } from 'components/Atomic'
-import { FieldLabel } from 'components/Form'
-import { InfoTable } from 'components/InfoTable'
-import { InfoTip } from 'components/InfoTip'
+import { Box, Typography, Collapse } from 'components/Atomic'
 import { PanelView } from 'components/PanelView'
+import { Stepper } from 'components/Stepper'
+import { StepperProvider } from 'components/Stepper/StepperContext'
+import { StepType } from 'components/Stepper/types'
 import { ViewHeader } from 'components/ViewHeader'
 
-import { useAppSelector } from 'store/store'
-
 import { t } from 'services/i18n'
-import { multichain } from 'services/multichain'
 
 import { ROUTES } from 'settings/constants'
 
 const TxMultisig = () => {
-  const info = useMultisigWalletInfo()
   const { state } = useLocation()
   const navigate = useNavigate()
   const {
-    signature,
-    signers,
+    txBodyStr,
+    signatures,
     addSigner,
-    canBroadcast,
     handleSign,
+    canBroadcast,
     handleBroadcast,
     isBroadcasting,
     broadcastedTxHash,
+    requiredSigners,
+    hasMemberSignature,
+    connectedSignature,
+    exportTxData,
   } = useTxData(state as ScreenState | null)
-  const { treshold } = useAppSelector((state) => state.multisig)
-  const [isImportModalOpened, setIsImportModalOpened] = useState(false)
-  const [isSignersModalOpened, setIsSignersModalOpened] = useState(false)
-  const txUrl = broadcastedTxHash
-    ? multichain.getExplorerTxUrl(
-        Chain.THORChain as SupportedChain,
-        broadcastedTxHash,
-      )
-    : ''
 
   useEffect(() => {
     if (!state) {
@@ -55,132 +44,109 @@ const TxMultisig = () => {
     }
   })
 
+  const steps: StepType[] = useMemo(
+    () => [
+      {
+        id: 0,
+        label: 'Manage signatures',
+        content: (
+          <SignTxStep
+            handleSign={handleSign}
+            connectedSignature={connectedSignature}
+            addSigner={addSigner}
+          />
+        ),
+      },
+      {
+        id: 1,
+        label: 'Export transaction with signatures',
+        content: <ExportTxStep exportTxData={exportTxData} />,
+      },
+      {
+        id: 2,
+        label: 'Broadcast transaction',
+        content: (
+          <BroadcastTxStep
+            canBroadcast={canBroadcast}
+            isBroadcasting={isBroadcasting}
+            handleBroadcast={handleBroadcast}
+          />
+        ),
+      },
+    ],
+    [
+      addSigner,
+      canBroadcast,
+      connectedSignature,
+      exportTxData,
+      handleBroadcast,
+      handleSign,
+      isBroadcasting,
+    ],
+  )
+
   return (
-    <PanelView
-      title={t('views.multisig.multisigTransaction')}
-      header={<ViewHeader title={t('views.multisig.multisigTransaction')} />}
-    >
-      <InfoTip
-        type={broadcastedTxHash ? 'success' : 'info'}
-        content={
-          broadcastedTxHash ? (
-            <Box>
-              {t('views.multisig.txBroadcasted')}
-              <Link to={txUrl}>
-                <Box center>
-                  <Typography
-                    className="underline ml-1.5"
-                    color="green"
-                    variant="caption"
-                    fontWeight="bold"
-                  >
-                    {t('views.multisig.viewTx')}
-                  </Typography>
-                  <Icon name="external" color="green" size={14} />
-                </Box>
-              </Link>
-            </Box>
-          ) : (
-            t('views.multisig.inProgressTx')
-          )
-        }
-      />
-
-      <Box className="w-full gap-1 my-4 pt-2" col>
-        <InfoTable items={[info[0]]} horizontalInset />
-
-        <Box className="mt-4" flex={1} col>
-          <TextareaCopy
-            className="flex-1 min-h-[100px]"
-            disabled
-            value={signature}
-            copyMessage={t('views.multisig.transactionCopied')}
+    <Box col>
+      <PanelView
+        title={t('views.multisig.multisigTransaction')}
+        header={<ViewHeader title={t('views.multisig.multisigTransaction')} />}
+      >
+        <Box className="w-full gap-1" col>
+          <TxInfoTip
+            txHash={broadcastedTxHash}
+            canBroadcast={canBroadcast}
+            txBodyStr={txBodyStr}
           />
 
-          <Box className="mt-6" col>
-            <FieldLabel label={t('views.multisig.signatures')} />
-            <Typography
-              className="mx-2"
-              variant="caption"
-              fontWeight="normal"
-              color="secondary"
-            >
-              {t('views.multisig.txSignaturesInfo')}
-            </Typography>
-          </Box>
-          <Tooltip content={t('views.multisig.viewCurrentSigners')} place="top">
-            <Box
-              className="mt-2 cursor-pointer"
-              flex={1}
-              onClick={() => setIsSignersModalOpened(true)}
-            >
-              <InfoTip className="flex-1" type="primary">
-                <Box
-                  className="gap-1 self-stretch w-full"
-                  justify="between"
-                  alignCenter
-                  flex={1}
-                >
-                  <Box className="w-[30px]" />
-                  <Box className="gap-1" align="end">
-                    <Typography variant="subtitle1">
-                      {signers.length}
-                    </Typography>
-                    <Typography variant="body">of</Typography>
-                    <Typography variant="subtitle1">{treshold}</Typography>
-                    <Typography variant="body">signatures complete</Typography>
-                  </Box>
-                  <Icon className="p-1" name="eye" size={26} />
+          <Box flex={1} col>
+            <Collapse
+              className="!bg-light-bg-primary dark:!bg-dark-gray-light "
+              title={
+                <Box className="gap-1 my-1.5" align="end">
+                  <Typography className="leading-[24px]" variant="body">
+                    {t('views.multisig.requiredSignatures')}:
+                  </Typography>
+                  <Typography variant="subtitle1" color="primaryBtn">
+                    {signatures.length}
+                  </Typography>
+                  <Typography className="leading-[24px]" variant="body">
+                    of
+                  </Typography>
+                  <Typography variant="subtitle1" color="primaryBtn">
+                    {requiredSigners.length}
+                  </Typography>
                 </Box>
-              </InfoTip>
-            </Box>
-          </Tooltip>
+              }
+            >
+              <Box className="gap-1" col>
+                <Typography
+                  className="mb-2"
+                  variant="caption"
+                  fontWeight="normal"
+                  color="secondary"
+                >
+                  {t('views.multisig.txSignaturesInfo')}
+                </Typography>
+
+                {requiredSigners.map((s) => (
+                  <SignerCheckBox
+                    key={s.pubKey}
+                    signer={s}
+                    isSelected={hasMemberSignature(s)}
+                  />
+                ))}
+              </Box>
+            </Collapse>
+          </Box>
         </Box>
+      </PanelView>
+
+      <Box className="mt-6 max-w-[480px] self-center w-full" col>
+        <StepperProvider steps={steps}>
+          <Stepper />
+        </StepperProvider>
       </Box>
-
-      <Box center className="w-full pt-5 gap-5" col>
-        <Box className="gap-2 self-stretch" flex={1}>
-          <Button variant="primary" stretch onClick={handleSign}>
-            {t('views.multisig.signTx')}
-          </Button>
-          <Button
-            variant="secondary"
-            stretch
-            onClick={() => setIsImportModalOpened(true)}
-          >
-            {t('views.multisig.importSignature')}
-          </Button>
-        </Box>
-
-        <Button
-          variant="primary"
-          stretch
-          size="lg"
-          isFancy
-          error={!canBroadcast}
-          disabled={!canBroadcast}
-          onClick={handleBroadcast}
-          loading={isBroadcasting}
-        >
-          {t('views.multisig.broadcast')}
-        </Button>
-      </Box>
-
-      <ImportSignatureModal
-        isOpened={isImportModalOpened}
-        onClose={() => setIsImportModalOpened(false)}
-        onSubmit={(signature) => {
-          setIsImportModalOpened(false)
-          addSigner(signature)
-        }}
-      />
-
-      <CurrentSignersModal
-        isOpened={isSignersModalOpened}
-        onClose={() => setIsSignersModalOpened(false)}
-        signers={signers}
-      />
-    </PanelView>
+    </Box>
   )
 }
 

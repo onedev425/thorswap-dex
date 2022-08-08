@@ -49,6 +49,12 @@ export type MultisigTx = {
   signatures: []
 }
 
+export type ImportedMultisigTx = {
+  txBody: MultisigTx
+  signatures: Signer[]
+  signers: MultisigMember[]
+}
+
 type SignersSequence = boolean[]
 
 export const createMultisigWallet = (
@@ -79,16 +85,14 @@ export const importMultisigTx = async (txData: string) => {
 
 const buildTransferTx = async (
   { recipient, memo, asset, amount }: MultisigTransferTxParams,
-  //TODO: make use of it in multisig + remove log
   signersSqeuence: SignersSequence,
 ) => {
-  console.log('🔥', signersSqeuence)
   const unsignedTx = await multichain.thor.buildTransferTx(
     recipient,
     memo,
     asset,
     amount.baseAmount.toNumber(),
-    // signersSqeuence
+    signersSqeuence,
   )
 
   return unsignedTx
@@ -96,15 +100,13 @@ const buildTransferTx = async (
 
 const buildDepositTx = async (
   { memo, asset, amount }: MultisigDepositTxParams,
-  //TODO: make use of it in multisig + remove log
   signersSqeuence: SignersSequence,
 ) => {
-  console.log('🔥', signersSqeuence)
   const unsignedTx = await multichain.thor.buildDepositTx(
     memo,
     asset,
     amount.baseAmount.toString(),
-    // signersSqeuence
+    signersSqeuence,
   )
 
   return unsignedTx

@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
 
+import { useMultissigAssets } from 'views/Multisig/hooks'
+
 import { Box, Button, Link, Typography } from 'components/Atomic'
 import { InfoTip } from 'components/InfoTip'
 
@@ -12,6 +14,7 @@ import { getSendRoute } from 'settings/constants'
 
 export const InactiveAccountWarning = () => {
   const { address } = useAppSelector((state) => state.multisig)
+  const { runeBalance } = useMultissigAssets()
   const { isMultsigActivated } = useMultisig()
   const [isVisible, setIsVisible] = useState(false)
 
@@ -24,7 +27,7 @@ export const InactiveAccountWarning = () => {
     if (address) {
       checkIsInitialized()
     }
-  }, [address, isMultsigActivated])
+  }, [address, isMultsigActivated, runeBalance])
 
   if (!isVisible) {
     return null

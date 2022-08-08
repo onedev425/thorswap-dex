@@ -19,9 +19,9 @@ export const CurrentSignerItem = ({ pubKey, signature }: Props) => {
     showSuccessToast(t('views.multisig.signatureCopied'))
   }
   return (
-    <Tooltip content={t('common.copy')} key={signature}>
+    <Tooltip content={t('views.multisig.copyYourSignature')} key={signature}>
       <Box
-        className="gap-2 cursor-pointer"
+        className="cursor-pointer"
         flex={1}
         center
         onClick={handleCopySignature}
@@ -29,16 +29,16 @@ export const CurrentSignerItem = ({ pubKey, signature }: Props) => {
         <HighlightCard
           className={classNames(
             genericBgClasses.primary,
-            'truncate overflow-hidden',
+            '!py-2 !px-4 truncate overflow-hidden',
           )}
         >
           <div className="flex justify-between">
             <Typography variant="caption" color="secondary">
-              {pubKey}
+              {t('views.multisig.yourSignature')}
             </Typography>
-            <Icon className="pl-2" name="copy" size={16} />
+            <Icon className="px-2" name="copy" size={16} />
           </div>
-          <Typography className="break-all whitespace-normal">
+          <Typography className="break-all whitespace-normal" variant="caption">
             {signature}
           </Typography>
         </HighlightCard>

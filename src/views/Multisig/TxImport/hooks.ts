@@ -1,67 +1,115 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useState } from 'react'
 
-import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 import { useMultisig } from 'store/multisig/hooks'
+import { useAppSelector } from 'store/store'
+
+import { t } from 'services/i18n'
+import { ImportedMultisigTx } from 'services/multisig'
 
 import { ROUTES } from 'settings/constants'
 
-type FormValues = {
-  tx: string
-}
-
 export const useTxImportForm = () => {
-  const navigate = useNavigate()
+  const [fileError, setFileError] = useState('')
+  const [importedTx, setImportedTx] = useState<ImportedMultisigTx | null>(null)
   const { importTx } = useMultisig()
+  const navigate = useNavigate()
+  const { treshold } = useAppSelector((state) => state.multisig)
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm<FormValues>({
-    defaultValues: {
-      tx: '',
-    },
-  })
+  const parseData = useCallback(
+    async (data: ImportedMultisigTx) => {
+      const tx = await importTx(JSON.stringify(data.txBody))
 
-  const handleConfirm = useCallback(
-    async (values: FormValues) => {
-      const tx = await importTx(values.tx)
-
-      if (tx) {
-        navigate(ROUTES.TxMultisig, { state: { tx } })
+      if (!tx) {
+        throw Error('Invalid tx body')
       }
+
+      if (
+        !data.signers ||
+        !Array.isArray(data.signers) ||
+        data.signers.length < treshold ||
+        data.signers.some((s) => !s.pubKey)
+      ) {
+        throw Error('Incorrect required signers')
+      }
+
+      if (
+        data.signatures &&
+        (!Array.isArray(data.signatures) ||
+          data.signatures.some((s) => !s.pubKey))
+      ) {
+        throw Error('Incorrect signatures')
+      }
+
+      const parsedData: ImportedMultisigTx = {
+        txBody: data.txBody,
+        signers: data.signers.map((m) => ({
+          pubKey: m.pubKey,
+          name: m.name || '',
+        })),
+        signatures: data.signatures
+          .map((m) => ({
+            pubKey: m.pubKey,
+            signature: m.signature || '',
+          }))
+          .filter((s) => s.signature),
+      }
+
+      return parsedData
     },
-    [importTx, navigate],
+    [importTx, treshold],
   )
 
-  const txField = register('tx', {
-    validate: (value) => {
-      try {
-        JSON.parse(value)
-        return true
-      } catch (e) {
-        return false
+  const onChangeFile = useCallback(
+    (file: Blob) => {
+      const reader = new FileReader()
+      const onLoadHandler = async () => {
+        try {
+          setFileError('')
+          const rawData = JSON.parse(reader.result as string)
+          const data = await parseData(rawData)
+
+          setImportedTx(data)
+        } catch (e: ErrorType) {
+          setFileError(t('views.multisig.jsonError'))
+          setImportedTx(null)
+        }
+      }
+
+      reader.addEventListener('load', onLoadHandler)
+      reader.readAsText(file)
+      return () => {
+        reader.removeEventListener('load', onLoadHandler)
       }
     },
-  })
-
-  const formFields = useMemo(
-    () => ({
-      tx: txField,
-    }),
-    [txField],
+    [parseData],
   )
-  const submit = handleSubmit(handleConfirm)
 
-  const setTx = (val: string) => setValue('tx', val)
+  const onError = useCallback((error: Error) => {
+    setFileError(`${t('views.multisig.selectingKeyError')}: ${error}`)
+    setImportedTx(null)
+  }, [])
+
+  const handleImportTx = useCallback(() => {
+    if (!importedTx) {
+      return
+    }
+
+    const { txBody, signatures, signers } = importedTx
+    navigate(ROUTES.TxMultisig, {
+      state: { tx: txBody, signers, signatures },
+    })
+  }, [importedTx, navigate])
 
   return {
-    submit,
-    formFields,
-    errors,
-    setTx,
+    onChangeFile,
+    fileError,
+    setFileError,
+    onError,
+    useCallback,
+    handleImportTx,
+    isValid: !!importedTx && !fileError,
+    importedTx,
   }
 }
