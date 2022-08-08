@@ -408,11 +408,13 @@ const SwapView = () => {
   const title = `${t('common.swap')} ${inputAsset.name} >> ${outputAsset.name}`
 
   const swapAmountTooSmall = useMemo(() => {
-    const minSwapAmount = totalFeeInUSD.gte(50) ? 50 : totalFeeInUSD.raw()
+    const minSwapAmount = totalFeeInUSD.gte(30)
+      ? 35
+      : totalFeeInUSD.raw().plus(5)
 
     return (
       swap?.outputAsset.L1Chain === 'ETH' &&
-      outputAssetPriceInUSD.raw().lt(minSwapAmount)
+      outputAssetPriceInUSD.lte(minSwapAmount)
     )
   }, [outputAssetPriceInUSD, swap?.outputAsset.L1Chain, totalFeeInUSD])
 

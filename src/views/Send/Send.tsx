@@ -8,7 +8,6 @@ import {
   Asset,
   Price,
   hasWalletConnected,
-  getAssetDecimal,
 } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/types'
 
@@ -98,16 +97,15 @@ const Send = () => {
       if (!assetParam) {
         setSendAsset(Asset.RUNE())
       } else {
-        const assetObj = Asset.decodeFromURL(assetParam)
-        const [, address] = assetParam.split('-')
+        const asset = Asset.decodeFromURL(assetParam)
         const assetDecimals =
-          assetObj?.L1Chain === Chain.Ethereum && address
-            ? await getAssetDecimal(address)
+          asset && asset.L1Chain === Chain.Ethereum
+            ? await multichain.eth.getERC20AssetDecimal(asset)
             : undefined
 
-        if (assetObj) {
-          await assetObj.setDecimal(assetDecimals || undefined)
-          setSendAsset(assetObj)
+        if (asset) {
+          await asset.setDecimal(assetDecimals || undefined)
+          setSendAsset(asset)
         } else {
           setSendAsset(Asset.RUNE())
         }
