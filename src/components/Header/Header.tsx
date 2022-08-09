@@ -78,7 +78,24 @@ export const Header = memo(({ openMenu }: Props) => {
             <StatusDropdown />
           </Box>
         </Box>
-
+        {import.meta.env.VITE_NETWORK !== 'mainnet' && (
+          <Box>
+            <Box
+              className="h-9.5 px-2 bg-white border border-transparent border-solid shadow-md rounded-2xl dark:border-cyan dark:bg-transparent"
+              center
+            >
+              <Typography
+                variant={isMdActive ? 'caption' : 'caption-xs'}
+                className="transition-[font-size]"
+                fontWeight="semibold"
+              >
+                {import.meta.env.VITE_NETWORK === 'testnet'
+                  ? t('common.thisIsTestnet')
+                  : t('common.thisIsStagenet')}
+              </Typography>
+            </Box>
+          </Box>
+        )}
         <Box justify="between">
           <Button
             className="mr-2"

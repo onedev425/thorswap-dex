@@ -28,7 +28,15 @@ export const Layout = ({ children }: PropsWithChildren<{}>) => {
   }, [isSidebarCollapsed, toggleSidebarCollapse])
 
   return (
-    <Scrollbar className="bg-light-layout-primary dark:bg-dark-bg-primary">
+    <Scrollbar
+      className={
+        import.meta.env.VITE_IS_STAGENET === 'true'
+          ? 'bg-light-bg-stagenet dark:bg-dark-bg-stagenet'
+          : import.meta.env.VITE_NETWORK === 'mainnet'
+          ? 'bg-light-layout-primary dark:bg-dark-bg-primary'
+          : 'bg-light-bg-testnet dark:bg-dark-bg-testnet'
+      }
+    >
       {/* <div className="fixed inset-0 transition-colors light-elliptical-bg dark:bg-elliptical"></div> */}
 
       <Box col flex={1} className="min-h-screen my-0 px-[calc(50%-720px)]">

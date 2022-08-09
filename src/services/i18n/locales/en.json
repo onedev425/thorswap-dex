@@ -141,7 +141,9 @@
     "wallet": "Wallet",
     "withdraw": "Withdraw",
     "withdrawPercent": "Withdraw Percent",
-    "yourTransactions": "Your Transactions"
+    "yourTransactions": "Your Transactions",
+    "thisIsStagenet": "This is Stagenet",
+    "thisIsTestnet": "This is Testnet"
   },
   "components": {
     "announcements": {

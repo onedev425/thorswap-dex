@@ -80,6 +80,8 @@ module.exports = {
         'asset-select': '#202a3d',
         'layout-primary': '#F7F8FA',
         'bg-primary': '#F0F1F3',
+        'bg-stagenet': '#c8fff0',
+        'bg-testnet': '#c8c8ff',
         'bg-secondary': '#FCFCFC',
         'border-primary': '#afb6cc',
         'gray-light': '#E5E5E5',
@@ -95,6 +97,8 @@ module.exports = {
       dark: {
         'asset-select': '#202a3d',
         'bg-primary': '#121526',
+        'bg-stagenet': '#0a0a0a',
+        'bg-testnet': '#1e000f',
         'bg-secondary': '#232E42',
         'border-primary': '#273855',
         'gray-light': '#2E3C56',

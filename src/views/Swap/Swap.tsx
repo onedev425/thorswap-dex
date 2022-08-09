@@ -413,8 +413,9 @@ const SwapView = () => {
       : totalFeeInUSD.raw().plus(5)
 
     return (
-      swap?.outputAsset.L1Chain === 'ETH' &&
-      outputAssetPriceInUSD.lte(minSwapAmount)
+      (swap?.outputAsset.L1Chain === 'ETH' &&
+        outputAssetPriceInUSD?.price?.lte?.(minSwapAmount)) ||
+      false
     )
   }, [outputAssetPriceInUSD, swap?.outputAsset.L1Chain, totalFeeInUSD])
 
