@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 
 import { RefreshButton } from 'views/Multisig/components/RefreshButton'
+import { useMultisigProtectedRoute } from 'views/Multisig/hooks'
 import { SelectSignersStep } from 'views/Multisig/TxCreate/steps/SelectSignersStep'
 import { TxDetailsStep } from 'views/Multisig/TxCreate/steps/TxDetailsStep'
 import { TxCreateProvider } from 'views/Multisig/TxCreate/TxCreateContext'
@@ -15,6 +16,8 @@ import { ViewHeader } from 'components/ViewHeader'
 import { t } from 'services/i18n'
 
 const TxCreate = () => {
+  useMultisigProtectedRoute()
+
   const steps: StepType[] = useMemo(
     () => [
       {

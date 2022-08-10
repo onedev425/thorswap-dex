@@ -60,7 +60,9 @@ const TxMultisig = () => {
       {
         id: 1,
         label: 'Export transaction with signatures',
-        content: <ExportTxStep exportTxData={exportTxData} />,
+        content: (
+          <ExportTxStep exportTxData={exportTxData} signatures={signatures} />
+        ),
       },
       {
         id: 2,
@@ -82,6 +84,7 @@ const TxMultisig = () => {
       handleBroadcast,
       handleSign,
       isBroadcasting,
+      signatures,
     ],
   )
 

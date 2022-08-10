@@ -1,28 +1,57 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { Box, Button, Icon, Typography } from 'components/Atomic'
 import { StepActions } from 'components/Stepper'
 import { showErrorToast } from 'components/Toast'
 
+import { useAppSelector } from 'store/store'
+
 import { t } from 'services/i18n'
+import { ImportedMultisigTx, Signer } from 'services/multisig'
 
 import { downloadAsFile } from 'helpers/download'
 
-const MULTISIG_FILE_NAME = 'thorsafe-tx.json'
+const MULTISIG_FILE_NAME = 'thorsafetx'
 
 type Props = {
-  exportTxData: ToDo
+  exportTxData: ImportedMultisigTx | null
+  signatures: Signer[]
 }
 
-export function ExportTxStep({ exportTxData }: Props) {
+export const ExportTxStep = ({ exportTxData, signatures }: Props) => {
+  const { members } = useAppSelector((state) => state.multisig)
+  const fileNameSuffix = useMemo(() => {
+    if (!signatures?.length) {
+      return 'unsigned'
+    }
+
+    const signerNames = signatures.map(
+      (s) => members.find((m) => m.pubKey === s.pubKey)?.name || '',
+    )
+
+    if (signerNames.every(Boolean)) {
+      return `signed-${signerNames.join('_')}`
+    }
+
+    return `signed-${signatures.length}_members`
+  }, [members, signatures])
+
   const handleExport = useCallback(async () => {
+    if (!exportTxData) {
+      showErrorToast('Missing tx data to export.')
+      return
+    }
+
     try {
-      await downloadAsFile(MULTISIG_FILE_NAME, JSON.stringify(exportTxData))
+      await downloadAsFile(
+        `${MULTISIG_FILE_NAME}-${fileNameSuffix}.json`,
+        JSON.stringify(exportTxData),
+      )
     } catch (error: ErrorType) {
       const message = error.message || t('views.multisig.exportError')
       showErrorToast(message)
     }
-  }, [exportTxData])
+  }, [exportTxData, fileNameSuffix])
 
   return (
     <Box className="self-stretch mx-2" col flex={1}>

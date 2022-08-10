@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
+import { useNavigate } from 'react-router-dom'
+
 import {
   Amount,
   Asset,
@@ -21,6 +23,8 @@ import { multisig } from 'services/multisig'
 
 import { formatPrice } from 'helpers/formatPrice'
 import { getGasRateByFeeOption } from 'helpers/networkFee'
+
+import { ROUTES } from 'settings/constants'
 
 export const useMultisigWalletInfo = () => {
   const { runeBalance, loadingBalances } = useMultissigAssets()
@@ -178,4 +182,13 @@ export const useMultisigWallet = () => {
   }, [address, balances])
 
   return { wallet }
+}
+
+export const useMultisigProtectedRoute = () => {
+  const { address } = useAppSelector((state) => state.multisig)
+  const navigate = useNavigate()
+
+  if (!address) {
+    navigate(ROUTES.Multisig)
+  }
 }

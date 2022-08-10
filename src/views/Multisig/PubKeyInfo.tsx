@@ -23,7 +23,11 @@ export const PubKeyInfo = () => {
   const { wallet, setIsConnectModalOpen } = useWallet()
   const connectedWalletAddress = wallet?.[Chain.THORChain]?.address || ''
   const pubKey = useMemo(() => {
-    return connectedWalletAddress ? multichain.thor.getPubkey() : ''
+    try {
+      return connectedWalletAddress ? multichain.thor.getPubkey() : ''
+    } catch (e) {
+      return ''
+    }
   }, [connectedWalletAddress])
 
   const handleCopyPubKey = () => {

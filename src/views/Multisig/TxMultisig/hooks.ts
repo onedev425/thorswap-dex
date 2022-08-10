@@ -9,7 +9,7 @@ import { MultisigMember } from 'store/multisig/types'
 import { useWallet } from 'store/wallet/hooks'
 
 import { t } from 'services/i18n'
-import { MultisigTx, Signer } from 'services/multisig'
+import { ImportedMultisigTx, MultisigTx, Signer } from 'services/multisig'
 
 export type ScreenState = {
   tx: MultisigTx
@@ -54,14 +54,17 @@ export const useTxData = (state: ScreenState | null) => {
     return signatures.find((s) => s.pubKey === pubKey) || null
   }, [pubKey, signatures])
 
-  const exportTxData = useMemo(
-    () => ({
+  const exportTxData: ImportedMultisigTx | null = useMemo(() => {
+    if (!txData) {
+      return null
+    }
+
+    return {
       txBody: txData,
       signers: requiredSigners,
       signatures,
-    }),
-    [requiredSigners, signatures, txData],
-  )
+    }
+  }, [requiredSigners, signatures, txData])
 
   const addSigner = useCallback(
     (signer: Signer) => {
