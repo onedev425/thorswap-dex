@@ -80,7 +80,6 @@ jobs:
     name: Deploy to Netlify
     needs: build
     runs-on: ubuntu-latest
-    # if: github.ref == 'refs/heads/develop'
 
     steps:
       - name: Download artifact
