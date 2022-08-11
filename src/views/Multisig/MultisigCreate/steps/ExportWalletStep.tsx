@@ -21,7 +21,7 @@ export const ExportWalletStep = () => {
     <Box className="gap-5" col>
       <Box className="gap-3" col>
         <Typography variant="caption" fontWeight="normal">
-          Your wallet is created. You can see its address below:
+          {`${t('views.multisig.createdWalletAddress')}:`}
         </Typography>
         <Tooltip className="flex flex-1" content={t('common.copy')}>
           <Box
@@ -56,8 +56,7 @@ export const ExportWalletStep = () => {
 
       <Box className="gap-2">
         <Typography variant="caption">
-          You can export wallet information to file and use it to connect your
-          wallet later on
+          {t('views.multisig.exportWalletInfoToFile')}
         </Typography>
         <MultisigExport />
       </Box>

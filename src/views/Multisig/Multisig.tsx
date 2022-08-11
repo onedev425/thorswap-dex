@@ -1,8 +1,10 @@
+import { THORSWAP_MULTI_SIG } from 'config/constants'
+
 import { MultisigCreateTile } from 'views/Multisig/MultisigCreate/MultisigCreateTile'
 import { MultisigImportTile } from 'views/Multisig/MultisigImport/MultisigImportTile'
 import { MultisigInfo } from 'views/Multisig/MultisigInfo'
 
-import { Box, Typography } from 'components/Atomic'
+import { Box, Link, Typography } from 'components/Atomic'
 
 import { useAppSelector } from 'store/store'
 
@@ -21,6 +23,17 @@ const Multisig = () => {
             {t('views.multisig.thorSafeWallet')}
           </Typography>
         </Box>
+      </Box>
+      <Box className="gap-3 mb-3" col>
+        <Typography color="secondary" fontWeight="semibold" variant="caption">
+          {t('views.multisig.thorsafeDescription')}
+        </Typography>
+        <Typography color="secondary" fontWeight="normal" variant="caption">
+          {t('views.multisig.thorsafeSecondDescription')}
+          <Link className="text-twitter-blue" to={THORSWAP_MULTI_SIG}>
+            {t('common.learnMore')}
+          </Link>
+        </Typography>
       </Box>
 
       <Box className="flex-col md:flex-row gap-5">

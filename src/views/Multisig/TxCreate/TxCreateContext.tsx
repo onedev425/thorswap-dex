@@ -12,6 +12,8 @@ import { useMultisig } from 'store/multisig/hooks'
 import { MultisigMember } from 'store/multisig/types'
 import { useAppSelector } from 'store/store'
 
+import { t } from 'services/i18n'
+
 type Props = {
   children: ReactNode
 }
@@ -30,9 +32,7 @@ export const useTxCreate = () => {
   const context = useContext(TxCreateContext)
 
   if (!context?.signers) {
-    throw Error(
-      'Incorrect txCreate config or missing txCreate context provider',
-    )
+    throw Error(t('views.multisig.incorrectTxCreateConfig'))
   }
 
   return context

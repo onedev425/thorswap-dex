@@ -12,3 +12,5 @@ export const THORCHADS_MERCH_URL = 'https://thorchads.metaswagclub.com/'
 export const ADD_LIQUIDITY_GUIDE_URL =
   'https://docs.thorswap.finance/thorswap/how-tos/tutorials/add-liquidity'
 export const COMMUNITY_FEEDBACK_URL = 'https://forms.gle/K3JcGovTa5irUBp16'
+export const THORSWAP_MULTI_SIG =
+  'https://docs.thorswap.finance/thorswap/thorswap-products/thorswap/thorsafe'

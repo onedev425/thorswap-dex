@@ -40,9 +40,11 @@ export const PubKeyInfo = () => {
       <Box className="self-stretch mx-2" col flex={1}>
         <Box className="gap-1" col flex={1}>
           <Typography className="my-3" fontWeight="light">
-            {t('views.multisig.createMultisigPubKeyInfo')}
+            {t('views.multisig.publicKeyInfo')}
           </Typography>
-
+          <Typography className="my-3" fontWeight="light">
+            {t('views.multisig.connectThorchainWallet')}
+          </Typography>
           <Box flex={1} align="end">
             {!pubKey ? (
               <Button
@@ -51,7 +53,7 @@ export const PubKeyInfo = () => {
                 onClick={() => setIsConnectModalOpen(true)}
               >
                 {/* {t('views.multisig.multisigModalTitle')} */}
-                Connect wallet
+                {t('common.connectWallet')}
               </Button>
             ) : (
               <Box col flex={1}>

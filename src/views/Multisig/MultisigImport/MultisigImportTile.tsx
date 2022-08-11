@@ -22,17 +22,21 @@ export const MultisigImportTile = () => {
           <Typography variant="subtitle1">
             {t('views.multisig.addMultisigWallet')}
           </Typography>
-          <Typography className="my-3" fontWeight="light">
-            {t('views.multisig.importMultisigDescription')}
-          </Typography>
-
+          <Box col>
+            <Typography className="my-3" fontWeight="light">
+              {t('views.multisig.importMultisigDescription')}
+            </Typography>
+            <Typography className="my-3" fontWeight="light">
+              {t('views.multisig.importMultisigSecondDescription')}
+            </Typography>
+          </Box>
           <Box className="mt-8" flex={1} align="end">
             <Button
               stretch
               variant="primary"
               onClick={() => navigate(ROUTES.MultisigConnect)}
             >
-              {t('views.multisig.connectExistingWallet')}
+              {t('views.multisig.connectMyThorsafe')}
             </Button>
           </Box>
         </Box>

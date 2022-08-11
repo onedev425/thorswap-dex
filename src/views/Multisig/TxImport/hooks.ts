@@ -22,7 +22,7 @@ export const useTxImportForm = () => {
       const tx = await importTx(JSON.stringify(data.txBody))
 
       if (!tx) {
-        throw Error('Invalid tx body')
+        throw Error(t('views.multisig.invalidTxBody'))
       }
 
       if (
@@ -31,7 +31,7 @@ export const useTxImportForm = () => {
         data.signers.length < treshold ||
         data.signers.some((s) => !s.pubKey)
       ) {
-        throw Error('Incorrect required signers')
+        throw Error(t('views.multisig.incorrectSigners'))
       }
 
       if (
@@ -39,7 +39,7 @@ export const useTxImportForm = () => {
         (!Array.isArray(data.signatures) ||
           data.signatures.some((s) => !s.pubKey))
       ) {
-        throw Error('Incorrect signatures')
+        throw Error(t('views.multisig.invalidSignatures'))
       }
 
       const parsedData: ImportedMultisigTx = {

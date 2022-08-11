@@ -35,7 +35,9 @@ export const PubKeyStep = ({ pubKey }: Props) => {
         <Typography variant="caption" fontWeight="normal">
           {t('views.multisig.createMultisigPubKeyInfo')}
         </Typography>
-
+        <Typography variant="caption" fontWeight="normal">
+          {t('views.multisig.connectThorchainCurrentlyKeystore')}
+        </Typography>
         <Box flex={1} align="end">
           {!pubKey ? (
             <Button
@@ -44,7 +46,7 @@ export const PubKeyStep = ({ pubKey }: Props) => {
               onClick={() => setIsConnectModalOpen(true)}
             >
               {/* {t('views.multisig.multisigModalTitle')} */}
-              Connect wallet
+              {t('common.connectWallet')}
             </Button>
           ) : (
             <Box col flex={1}>

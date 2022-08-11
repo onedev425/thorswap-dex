@@ -42,7 +42,7 @@ const MultisigImport = () => {
       }
     >
       <Box className="self-stretch gap-8" col>
-        <Typography>Select wallet json file and import info</Typography>
+        <Typography>{t('views.multisig.selectWalletJson')}</Typography>
 
         <Box className="gap-8" col>
           <Box col>
@@ -102,7 +102,7 @@ const MultisigImport = () => {
             disabled={!isValid}
             error={!!fileError}
           >
-            {t('views.multisig.connectThorSafeWallet')}
+            {t('common.connect')}
           </Button>
         </Box>
       </Box>

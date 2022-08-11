@@ -10,6 +10,8 @@ import { TxWithdraw } from 'views/Multisig/TxWithdraw/TxWithdraw'
 
 import { Box, Card, Typography } from 'components/Atomic'
 
+import { t } from 'services/i18n'
+
 export const TxDetailsStep = () => {
   const [txType, setTxType] = useState(MultisigTxType.send)
 
@@ -17,7 +19,9 @@ export const TxDetailsStep = () => {
     <Box className="w-full gap-1 self-stretch" col flex={1}>
       <Box className="self-stretch mx-2 mb-2" flex={1} center>
         <Box flex={1}>
-          <Typography color="secondary">Transaction type:</Typography>
+          <Typography color="secondary">{`${t(
+            'views.multisig.txType',
+          )}:`}</Typography>
         </Box>
         <Box className="z-20" flex={1}>
           <TxTypeSelect onChange={setTxType} selected={txType} />

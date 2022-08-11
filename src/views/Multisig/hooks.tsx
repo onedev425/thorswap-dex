@@ -64,7 +64,7 @@ export const useMultisigWalletInfo = () => {
       ),
     },
     {
-      label: t('views.wallet.totalBalance'),
+      label: t('views.multisig.runeBalance'),
       value: runeValue,
     },
     { label: t('views.multisig.threshold'), value: treshold },

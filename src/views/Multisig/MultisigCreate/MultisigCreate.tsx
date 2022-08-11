@@ -51,14 +51,14 @@ const MultisigCreate = () => {
       },
       {
         id: 1,
-        label: 'Name your THORSafe',
+        label: t('views.multisig.nameYourThorSafe'),
         content: (
           <WalletNameStep field={formFields.name} hasError={!!errors.name} />
         ),
       },
       {
         id: 2,
-        label: 'Members and treshold',
+        label: t('views.multisig.membersAndTreshold'),
         content: (
           <MembersStep
             id={2}
@@ -72,8 +72,16 @@ const MultisigCreate = () => {
           />
         ),
       },
-      { id: 3, label: 'Export wallet to file', content: <ExportWalletStep /> },
-      { id: 4, label: 'Summary', content: <WalletSummaryStep /> },
+      {
+        id: 3,
+        label: t('views.multisig.exportWalletToFile'),
+        content: <ExportWalletStep />,
+      },
+      {
+        id: 4,
+        label: t('views.multisig.review'),
+        content: <WalletSummaryStep />,
+      },
     ],
     [
       addMember,

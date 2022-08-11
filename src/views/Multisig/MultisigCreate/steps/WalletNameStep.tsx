@@ -16,8 +16,7 @@ export const WalletNameStep = ({ field, hasError }: Props) => {
     <Box className="self-stretch mx-2" col flex={1}>
       <Box className="gap-3" col flex={1}>
         <Typography variant="caption" fontWeight="normal">
-          Name your wallet, This is optional and the name will be just for your
-          information
+          {t('views.multisig.nameYourWalletOptionaly')}
         </Typography>
 
         <Box col>

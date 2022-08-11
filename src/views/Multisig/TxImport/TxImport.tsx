@@ -6,6 +6,7 @@ import { useTxImportForm } from 'views/Multisig/TxImport/hooks'
 
 import { Box, Button, Icon, Typography } from 'components/Atomic'
 import { FieldLabel } from 'components/Form'
+import { HoverIcon } from 'components/HoverIcon'
 import { PanelView } from 'components/PanelView'
 import { ViewHeader } from 'components/ViewHeader'
 
@@ -31,9 +32,14 @@ const TxImport = () => {
       <Box className="self-stretch" col>
         <Box className="pb-8">
           <Typography>{t('views.multisig.selectTxJsonFile')}</Typography>
+          <HoverIcon
+            iconName="infoCircle"
+            tooltip={t('views.multisig.thorsafeFileTooltip')}
+            color="secondary"
+          />
         </Box>
         <FieldLabel
-          label={t('views.multisig.selectFile')}
+          label={t('views.multisig.chooseFileToUpload')}
           hasError={!!fileError}
         />
         <FilePicker onChange={onChangeFile} onError={onError}>

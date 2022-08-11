@@ -26,7 +26,7 @@ export const MultisigCreateTile = () => {
       <Card className={classNames(borderHoverHighlightClass, baseBorderClass)}>
         <Box col className="gap-6">
           <Typography variant="subtitle1">
-            {t('views.multisig.multisigModalTitle')}
+            {t('views.multisig.createThorsafe')}
           </Typography>
           <Box className="gap-10" col>
             <Box flex={1} col>
@@ -48,7 +48,7 @@ export const MultisigCreateTile = () => {
                 variant="secondary"
                 onClick={() => navigate(ROUTES.MultisigCreate)}
               >
-                {t('views.multisig.multisigModalTitle')}
+                {t('views.multisig.createThorSafeWallet')}
               </Button>
             </Box>
           </Box>

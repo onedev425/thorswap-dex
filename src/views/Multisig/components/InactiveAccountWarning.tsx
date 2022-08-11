@@ -10,6 +10,8 @@ import { InfoTip } from 'components/InfoTip'
 import { useMultisig } from 'store/multisig/hooks'
 import { useAppSelector } from 'store/store'
 
+import { t } from 'services/i18n'
+
 import { getSendRoute } from 'settings/constants'
 
 export const InactiveAccountWarning = () => {
@@ -35,16 +37,13 @@ export const InactiveAccountWarning = () => {
 
   return (
     <InfoTip
-      title="Account not activated"
+      title={t('views.multisig.accountNotAcivated')}
       content={
         <Box className="gap-2" col>
-          <Typography>
-            Your THORSafe account is not active yet. To use it you need to send
-            any amount of RUNE to it.
-          </Typography>
+          <Typography>{t('views.multisig.notActiveAccount')}</Typography>
           <Link to={getSendRoute(Asset.RUNE(), address)}>
             <Button stretch variant="secondary">
-              Send RUNE
+              {`${t('common.send')} RUNE`}
             </Button>
           </Link>
         </Box>

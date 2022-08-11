@@ -25,7 +25,7 @@ export const WalletSummaryStep = () => {
     <Box className="gap-5" col>
       <Box className="gap-3" col>
         <Typography variant="caption" fontWeight="normal">
-          You are almost there! You can see your THORSafe information below:
+          {`${t('views.multisig.thorSafeInfo')}:`}
         </Typography>
         <Tooltip className="flex flex-1" content={t('common.copy')}>
           <Box
@@ -42,7 +42,7 @@ export const WalletSummaryStep = () => {
       <InactiveAccountWarning />
 
       <StepActions
-        nextLabel={t('views.multisig.goToWallet')}
+        nextLabel={t('views.multisig.sendRune')}
         nextAction={() => navigate(ROUTES.Multisig)}
       />
     </Box>

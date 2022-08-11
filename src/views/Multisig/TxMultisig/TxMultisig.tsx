@@ -48,7 +48,7 @@ const TxMultisig = () => {
     () => [
       {
         id: 0,
-        label: 'Sign transaction',
+        label: t('views.multisig.signTx'),
         content: (
           <SignTxStep
             handleSign={handleSign}
@@ -59,14 +59,15 @@ const TxMultisig = () => {
       },
       {
         id: 1,
-        label: 'Export transaction with signatures',
+        label: t('views.multisig.exportTxWithSignatures'),
         content: (
           <ExportTxStep exportTxData={exportTxData} signatures={signatures} />
         ),
+        tooltip: t('views.multisig.exportTxWithSignaturesTooltip'),
       },
       {
         id: 2,
-        label: 'Broadcast transaction',
+        label: t('views.multisig.broadcastTx'),
         content: (
           <BroadcastTxStep
             canBroadcast={canBroadcast}
@@ -74,6 +75,7 @@ const TxMultisig = () => {
             handleBroadcast={handleBroadcast}
           />
         ),
+        tooltip: t('views.multisig.exportTxWithSignaturesTooltip'),
       },
     ],
     [
@@ -91,8 +93,8 @@ const TxMultisig = () => {
   return (
     <Box col>
       <PanelView
-        title={t('views.multisig.multisigTransaction')}
-        header={<ViewHeader title={t('views.multisig.multisigTransaction')} />}
+        title={t('views.multisig.finalizeTransaction')}
+        header={<ViewHeader title={t('views.multisig.finalizeTransaction')} />}
       >
         <Box className="w-full gap-1" col>
           <TxInfoTip

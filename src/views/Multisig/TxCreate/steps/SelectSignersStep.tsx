@@ -34,8 +34,7 @@ export const SelectSignersStep = () => {
     <Box className="self-stretch mx-2" col flex={1}>
       <Box className="gap-3" col flex={1}>
         <Typography variant="caption" fontWeight="normal">
-          To create multi-sig transaction you need to first to select members
-          who are going to sign it.
+          {t('views.multisig.selectMembesToSign')}
         </Typography>
 
         {infoVisible && (
@@ -46,8 +45,7 @@ export const SelectSignersStep = () => {
           >
             <Box className="self-stretch mx-2">
               <Typography variant="caption" color="yellow">
-                You will need sign of all selected members to broadcast
-                transaction.
+                {t('views.multisig.allMembersNeedToSignTx')}
               </Typography>
             </Box>
           </InfoTip>

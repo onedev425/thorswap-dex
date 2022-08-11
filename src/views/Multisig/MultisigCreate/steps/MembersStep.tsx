@@ -43,12 +43,19 @@ export const MembersStep = ({
     <Box className="self-stretch mx-2 gap-6" col flex={1}>
       <Box className="gap-3" col flex={1}>
         <Typography variant="caption" fontWeight="normal">
-          Add members to your wallet. You will need their public keys. We
-          prefilled your public key for you - remember that order of keys
-          matters
+          {t('views.multisig.addMembersToWallet')}
         </Typography>
       </Box>
-
+      <Box className="justify-between">
+        <Typography variant="body" fontWeight="bold">
+          {t('views.multisig.members')}
+        </Typography>
+        <HoverIcon
+          iconName="infoCircle"
+          tooltip={t('views.multisig.membersTooltip')}
+          color="secondary"
+        />
+      </Box>
       <Box col>
         {!!errors.signatureValidation && (
           <FieldLabel
@@ -80,7 +87,7 @@ export const MembersStep = ({
               </Box>
               <Box flex={2}>
                 <TextField
-                  placeholder="Member public key (base 64)"
+                  placeholder={t('views.multisig.publicKeyBase64')}
                   hasError={!!errors.members?.[index]?.pubKey}
                   field={register(`members.${index}.pubKey`, {
                     required: isRequiredMember(index),
@@ -112,7 +119,16 @@ export const MembersStep = ({
           </Button>
         </Box>
       </Box>
-
+      <Box className="justify-between">
+        <Typography variant="body" fontWeight="bold">
+          {t('views.multisig.signers')}
+        </Typography>
+        <HoverIcon
+          iconName="infoCircle"
+          tooltip={t('views.multisig.signersTooltip')}
+          color="secondary"
+        />
+      </Box>
       <Box className="mx-1 gap-2" center>
         <Typography variant="caption">
           {t('views.multisig.setMultisigSigners')}

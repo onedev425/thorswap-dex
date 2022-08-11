@@ -22,10 +22,15 @@ const TxCreate = () => {
     () => [
       {
         id: 0,
-        label: 'Select Signers',
+        label: t('views.multisig.selectSigners'),
         content: <SelectSignersStep />,
       },
-      { id: 1, label: 'Transaction details', content: <TxDetailsStep /> },
+      {
+        id: 1,
+        label: t('views.multisig.txDetails'),
+        content: <TxDetailsStep />,
+        tooltip: t('views.multisig.transationDetailsTooltip'),
+      },
     ],
     [],
   )
