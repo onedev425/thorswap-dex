@@ -24,7 +24,7 @@ const Multisig = () => {
           </Typography>
         </Box>
       </Box>
-      <Box className="gap-3 mb-3" col>
+      <Box className="gap-3 mb-3 mx-3 lg:w-11/12" col>
         <Typography color="secondary" fontWeight="semibold" variant="caption">
           {t('views.multisig.thorsafeDescription')}
         </Typography>

@@ -524,7 +524,8 @@
       "thorsafeFileTooltip": "This is different from the THORSafe JSON file. You would have received this from other designated signees of the transaction.",
       "publicKeyBase64": "Member Name Wallet Public Key (base 64)",
       "membersTooltip": "Your THORSafe should have two or more members, add more by importing their Wallet Private Key.",
-      "accountNotAcivated": "THORSafe not yet activated"
+      "accountNotAcivated": "THORSafe not yet activated",
+      "assetWalletAddress": "Asset wallet address"
     },
     "nodes": {
       "IPAddress": "IP Address",

@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { AssetInputs } from 'views/AddLiquidity/AssetInputs'
 import { PoolInfo } from 'views/AddLiquidity/PoolInfo'
 import { useTxDeposit } from 'views/Multisig/TxDeposit/hooks'
@@ -8,10 +10,12 @@ import { InfoTip } from 'components/InfoTip'
 import { LiquidityType } from 'components/LiquidityType/LiquidityType'
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
+import { PanelInput } from 'components/PanelInput'
 
 import { t } from 'services/i18n'
 
 export const TxDeposit = () => {
+  const [assetSideAddress, setassetSideAddress] = useState('')
   const {
     poolAsset,
     liquidityType,
@@ -35,7 +39,7 @@ export const TxDeposit = () => {
     handleConfirmAdd,
     setVisibleConfirmModal,
     confirmInfo,
-  } = useTxDeposit()
+  } = useTxDeposit(assetSideAddress)
 
   return (
     <Box col flex={1}>
@@ -50,11 +54,19 @@ export const TxDeposit = () => {
       <Box className="pb-1" flex={1} />
 
       {liquidityType === LiquidityTypeOption.SYMMETRICAL && (
-        <InfoTip
-          className="mb-1"
-          type="warn"
-          content={t('views.multisig.depositSymWarning')}
-        />
+        <Box col>
+          <InfoTip
+            className="mb-1"
+            type="warn"
+            content={t('views.multisig.depositSymWarning')}
+          />
+          <PanelInput
+            className="mb-1"
+            title={t('views.multisig.assetWalletAddress')}
+            value={assetSideAddress}
+            onChange={(e) => setassetSideAddress(e.target.value)}
+          />
+        </Box>
       )}
 
       <AssetInputs
