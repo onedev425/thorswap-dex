@@ -173,6 +173,8 @@ const Thorname = () => {
   useEffect(() => {
     if (chainWalletAddress) {
       setAddress(chainWalletAddress)
+    } else if (chainWalletAddress === undefined) {
+      setAddress('')
     }
   }, [chainWalletAddress, chain])
 
