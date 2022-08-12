@@ -78,6 +78,11 @@ const Thorname = () => {
     [address, thorname.length, unavailableForPurchase, validAddress],
   )
 
+  const registeredChains = useMemo(
+    () => (details ? details?.entries.map((e) => e.chain) : []),
+    [details],
+  )
+
   const handleSubmit = useCallback(async () => {
     if (disabled) return
 
@@ -86,7 +91,7 @@ const Thorname = () => {
     }
 
     if (thorAddress && address && validAddress) {
-      if (!isKeystoreSigningRequired) {
+      if (registeredChains.length === 0) {
         registerThornameAddress(address)
       } else {
         if (!keystore) return
@@ -118,7 +123,7 @@ const Thorname = () => {
     address,
     validAddress,
     lookupForTNS,
-    isKeystoreSigningRequired,
+    registeredChains.length,
     registerThornameAddress,
     keystore,
     password,
@@ -147,11 +152,6 @@ const Thorname = () => {
       lookupForTNS(thorname)
     },
     [lookupForTNS, setThorname],
-  )
-
-  const registeredChains = useMemo(
-    () => (details ? details?.entries.map((e) => e.chain) : []),
-    [details],
   )
 
   const buttonLabel = useMemo(() => {
