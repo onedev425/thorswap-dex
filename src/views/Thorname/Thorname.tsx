@@ -90,27 +90,27 @@ const Thorname = () => {
       return lookupForTNS()
     }
 
-    if (thorAddress && address && validAddress) {
-      if (registeredChains.length === 0) {
-        registerThornameAddress(address)
-      } else {
-        if (!keystore) return
-        try {
-          setValidating(true)
+    if (thorAddress && address && validAddress && isKeystoreSigningRequired) {
+      if (!keystore) return
+      try {
+        setValidating(true)
 
-          const isValid = await multichain.validateKeystore(keystore, password)
+        const isValid = await multichain.validateKeystore(keystore, password)
 
-          if (isValid) {
+        if (isValid) {
+          if (registeredChains.length === 0) {
+            registerThornameAddress(address)
+          } else {
             registerThornameAddress(address)
             setValidating(false)
-          } else {
-            setInvalidPassword(true)
-            setValidating(false)
           }
-        } catch (error) {
+        } else {
           setInvalidPassword(true)
           setValidating(false)
         }
+      } catch (error) {
+        setInvalidPassword(true)
+        setValidating(false)
       }
     } else {
       setIsConnectModalOpen(true)
@@ -122,11 +122,12 @@ const Thorname = () => {
     thorAddress,
     address,
     validAddress,
+    isKeystoreSigningRequired,
     lookupForTNS,
-    registeredChains.length,
-    registerThornameAddress,
     keystore,
     password,
+    registeredChains.length,
+    registerThornameAddress,
     setIsConnectModalOpen,
   ])
 
@@ -266,27 +267,25 @@ const Thorname = () => {
         </Box>
       )}
 
-      {isKeystoreSigningRequired &&
-        thorAddress &&
-        registeredChains?.length > 0 && (
-          <Box col className="w-full pt-4 ">
-            <PasswordInput
-              value={password}
-              onChange={({ target }) => handlePassword(target.value)}
-              onKeyDown={onPasswordKeyDown}
-            />
-            {invalidPassword && (
-              <Typography
-                className="ml-2"
-                color="orange"
-                variant="caption"
-                fontWeight="medium"
-              >
-                {t('views.walletModal.wrongPassword')}
-              </Typography>
-            )}
-          </Box>
-        )}
+      {isKeystoreSigningRequired && thorAddress && (
+        <Box col className="w-full pt-4 ">
+          <PasswordInput
+            value={password}
+            onChange={({ target }) => handlePassword(target.value)}
+            onKeyDown={onPasswordKeyDown}
+          />
+          {invalidPassword && (
+            <Typography
+              className="ml-2"
+              color="orange"
+              variant="caption"
+              fontWeight="medium"
+            >
+              {t('views.walletModal.wrongPassword')}
+            </Typography>
+          )}
+        </Box>
+      )}
 
       <Box className="w-full pt-6">
         <Button
