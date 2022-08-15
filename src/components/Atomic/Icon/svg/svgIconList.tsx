@@ -47,7 +47,6 @@ import { ReactComponent as Metamask } from './metamask.svg'
 import { ReactComponent as Moon } from './moon.svg'
 import { ReactComponent as Phantom } from './phantom.svg'
 import { ReactComponent as Receive } from './receive.svg'
-import { ReactComponent as Refresh } from './refresh.svg'
 import { ReactComponent as Router } from './router.svg'
 import { ReactComponent as Send } from './send.svg'
 import { ReactComponent as Settings } from './settings.svg'
@@ -105,7 +104,6 @@ export const Svgs = {
   moon: Moon,
   phantom: Phantom,
   receive: Receive,
-  refresh: Refresh,
   router: Router,
   settings: Settings,
   send: Send,
@@ -180,7 +178,6 @@ export const SvgIcons = {
   moon: (props: CustomIconProps) => <SvgIcon name="moon" {...props} />,
   phantom: (props: CustomIconProps) => <SvgIcon name="phantom" {...props} />,
   receive: (props: CustomIconProps) => <SvgIcon name="receive" {...props} />,
-  refresh: (props: CustomIconProps) => <SvgIcon name="refresh" {...props} />,
   settings: (props: CustomIconProps) => <SvgIcon name="settings" {...props} />,
   sputnik: (props: CustomIconProps) => <SvgIcon name="sputnik" {...props} />,
   station: (props: CustomIconProps) => <SvgIcon name="station" {...props} />,

@@ -43,6 +43,7 @@ import {
   BsTrash,
   BsExclamationCircle,
   BsYoutube,
+  BsArrowRepeat,
 } from 'react-icons/bs'
 import { CgMenu, CgArrowsExchangeAltV, CgEye } from 'react-icons/cg'
 import {
@@ -65,6 +66,7 @@ import {
   FiMinusCircle,
   FiPlus,
   FiPlusCircle,
+  FiRefreshCw,
   FiX,
 } from 'react-icons/fi'
 import { GoBook, GoSettings } from 'react-icons/go'
@@ -208,6 +210,7 @@ const Icons = {
   checkBoxBlank: MdOutlineCheckBoxOutlineBlank,
   checkBoxChecked: MdOutlineCheckBox,
   checkBoxes: RiCheckboxMultipleLine,
+  refresh: FiRefreshCw,
   ...SvgIcons,
 } as const
 
