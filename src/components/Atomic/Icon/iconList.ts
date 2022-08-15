@@ -43,7 +43,6 @@ import {
   BsTrash,
   BsExclamationCircle,
   BsYoutube,
-  BsArrowRepeat,
 } from 'react-icons/bs'
 import { CgMenu, CgArrowsExchangeAltV, CgEye } from 'react-icons/cg'
 import {
