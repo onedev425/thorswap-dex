@@ -1,20 +1,18 @@
-import {
-  KeyboardEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  KeyboardEventHandler,
-} from 'react'
+import { KeyboardEvent, useCallback, useEffect, useMemo, useState } from 'react'
 
-import { isKeystoreSignRequired, Asset } from '@thorswap-lib/multichain-sdk'
+import {
+  isKeystoreSignRequired,
+  Asset,
+  THORName,
+} from '@thorswap-lib/multichain-sdk'
 import { SupportedChain } from '@thorswap-lib/types'
 
 import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic'
+import { InfoRow } from 'components/InfoRow'
 import { InfoTable } from 'components/InfoTable'
 import { Input } from 'components/Input'
+import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { PanelView } from 'components/PanelView'
-import { PasswordInput } from 'components/PasswordInput'
 import { ViewHeader } from 'components/ViewHeader'
 
 import { useWallet } from 'store/wallet/hooks'
@@ -28,8 +26,7 @@ import { useThornameInfoItems } from './useThornameInfoItems'
 import { useThornameLookup } from './useThornameLookup'
 
 const Thorname = () => {
-  const { isWalletLoading, wallet, setIsConnectModalOpen, keystore } =
-    useWallet()
+  const { isWalletLoading, wallet, setIsConnectModalOpen } = useWallet()
   const thorAddress = wallet?.THOR?.address
   const {
     available,
@@ -46,11 +43,9 @@ const Thorname = () => {
   } = useThornameLookup(thorAddress)
   const [validAddress, setValidAddress] = useState(false)
   const [address, setAddress] = useState<null | string>(null)
+  const [isOpened, setIsOpened] = useState(false)
+  const [step, setStep] = useState(0)
   const chainWalletAddress = wallet?.[chain]?.address
-
-  const [invalidPassword, setInvalidPassword] = useState(false)
-  const [validating, setValidating] = useState(false)
-  const [password, setPassword] = useState('')
 
   const isKeystoreSigningRequired = useMemo(
     () => isKeystoreSignRequired({ wallet, inputAssets: [Asset.RUNE()] }),
@@ -87,31 +82,12 @@ const Thorname = () => {
     if (disabled) return
 
     if (!(details || available)) {
+      setStep(1)
       return lookupForTNS()
     }
 
-    if (thorAddress && address && validAddress && isKeystoreSigningRequired) {
-      if (!keystore) return
-      try {
-        setValidating(true)
-
-        const isValid = await multichain.validateKeystore(keystore, password)
-
-        if (isValid) {
-          if (registeredChains.length === 0) {
-            registerThornameAddress(address)
-          } else {
-            registerThornameAddress(address)
-            setValidating(false)
-          }
-        } else {
-          setInvalidPassword(true)
-          setValidating(false)
-        }
-      } catch (error) {
-        setInvalidPassword(true)
-        setValidating(false)
-      }
+    if (thorAddress && address && validAddress) {
+      registerThornameAddress(address)
     } else {
       setIsConnectModalOpen(true)
     }
@@ -122,11 +98,7 @@ const Thorname = () => {
     thorAddress,
     address,
     validAddress,
-    isKeystoreSigningRequired,
     lookupForTNS,
-    keystore,
-    password,
-    registeredChains.length,
     registerThornameAddress,
     setIsConnectModalOpen,
   ])
@@ -186,20 +158,9 @@ const Thorname = () => {
     }
   }, [address, chain])
 
-  const onPasswordKeyDown: KeyboardEventHandler<HTMLInputElement> = useCallback(
-    (event) => {
-      if (event.code === 'Enter' && !validating) {
-        handleSubmit()
-      }
-    },
-    [handleSubmit, validating],
-  )
-
-  const handlePassword = (password: string) => {
-    setPassword(password)
-    if (invalidPassword) {
-      setInvalidPassword(false)
-    }
+  const handleResetThorname = () => {
+    setThorname('')
+    setStep(0)
   }
 
   return (
@@ -227,7 +188,7 @@ const Thorname = () => {
         className="!text-md p-1.5 flex-1 border"
         containerClassName="bg-light-gray-light dark:bg-dark-gray-light !bg-opacity-80"
         disabled={!!details}
-        onClick={() => setThorname('')}
+        onClick={handleResetThorname}
         onChange={(e) => setThorname(e.target.value)}
         onKeyDown={handleEnterKeyDown}
         placeholder={t('views.thorname.checkNameAvailability')}
@@ -238,7 +199,7 @@ const Thorname = () => {
             <Icon
               name="close"
               color="secondary"
-              onClick={() => setThorname('')}
+              onClick={handleResetThorname}
             />
           )
         }
@@ -267,41 +228,52 @@ const Thorname = () => {
         </Box>
       )}
 
-      {isKeystoreSigningRequired && thorAddress && (
-        <Box col className="w-full pt-4 ">
-          <PasswordInput
-            value={password}
-            onChange={({ target }) => handlePassword(target.value)}
-            onKeyDown={onPasswordKeyDown}
-          />
-          {invalidPassword && (
-            <Typography
-              className="ml-2"
-              color="orange"
-              variant="caption"
-              fontWeight="medium"
-            >
-              {t('views.walletModal.wrongPassword')}
-            </Typography>
-          )}
-        </Box>
-      )}
-
       <Box className="w-full pt-6">
         <Button
           loading={isWalletLoading || loading}
           isFancy
           size="lg"
           stretch
-          error={(!!details && available && !validAddress) || invalidPassword}
+          error={!!details && available && !validAddress}
           disabled={disabled}
-          onClick={handleSubmit}
+          onClick={() => {
+            if (step === 1 && thorAddress && isKeystoreSigningRequired) {
+              setIsOpened(true)
+            } else {
+              handleSubmit()
+            }
+          }}
         >
           {buttonLabel}
         </Button>
       </Box>
 
       {!details && <RegisteredThornames editThorname={editThorname} />}
+      <ConfirmModal
+        inputAssets={[Asset.RUNE()]}
+        isOpened={isOpened}
+        onClose={() => setIsOpened(false)}
+        onConfirm={() => {
+          handleSubmit()
+          setIsOpened(false)
+        }}
+      >
+        {details ? (
+          <Box col>
+            <InfoRow label="THORName" value={thorname} />
+            <InfoRow label={t('view.thorname.cost')} value={years} />
+          </Box>
+        ) : (
+          <Box col>
+            <InfoRow label="THORName" value={thorname} />
+            <InfoRow
+              label={t('view.thorname.cost')}
+              value={THORName.getCost(years).toSignificant(6)}
+            />
+            <InfoRow label={t('view.thorname.duration')} value={years} />
+          </Box>
+        )}
+      </ConfirmModal>
     </PanelView>
   )
 }
