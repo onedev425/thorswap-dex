@@ -13,7 +13,6 @@ import { useWallet } from 'store/wallet/hooks'
 
 import { t } from 'services/i18n'
 
-import { IS_MULTISIG_ENABLED } from 'settings/config'
 import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/constants'
 
 export const useSidebarOptions = () => {
@@ -126,7 +125,6 @@ export const useSidebarOptions = () => {
             label: t('components.sidebar.send'),
           },
           {
-            beta: true,
             transform: 'none',
             iconName: 'thor',
             href: ROUTES.Thorname,
@@ -161,7 +159,7 @@ export const useSidebarOptions = () => {
       },
     ]
 
-    if (IS_MULTISIG_ENABLED && !hideMultisig) {
+    if (!hideMultisig) {
       menu.push({ ...multisigMenu })
     }
 

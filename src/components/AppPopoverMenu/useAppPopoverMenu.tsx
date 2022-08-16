@@ -11,8 +11,6 @@ import { useApp } from 'store/app/hooks'
 
 import { t, changeAppLanguage, FLAG_ICONS, LANGUAGE_NAMES } from 'services/i18n'
 
-import { IS_MULTISIG_ENABLED } from 'settings/config'
-
 import {
   SupportedLanguages,
   SUPPORTED_LANGUAGES,
@@ -118,15 +116,12 @@ const useMainMenu = (setMenuType: (val: MenuType) => void) => {
       hasSubmenu: true,
       value: baseCurrency,
     },
-    IS_MULTISIG_ENABLED
-      ? {
-          label: t('appMenu.proMode'),
-          desc: t('appMenu.proModeSettings'),
-          onClick: () => setMenuType('proMode'),
-          icon: 'rocket',
-        }
-      : // Temp workaround for feature flag
-        (null as unknown as MenuItemType),
+    {
+      label: t('appMenu.proMode'),
+      desc: t('appMenu.proModeSettings'),
+      onClick: () => setMenuType('proMode'),
+      icon: 'rocket',
+    },
     {
       label: t('appMenu.settings'),
       desc: t('appMenu.customize'),
