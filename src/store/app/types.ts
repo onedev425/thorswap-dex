@@ -29,7 +29,7 @@ export interface State {
   transactionDeadline: number
   walletViewMode: ViewMode
   hideStats: boolean
-  hideMultisig: boolean
+  multisigVisible: boolean
   hideCharts: boolean
   arePoolsHidden: boolean
   dismissedAnnList: string[]

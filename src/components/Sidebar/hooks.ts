@@ -21,7 +21,7 @@ export const useSidebarOptions = () => {
   const { wallet } = useWallet()
   const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet])
 
-  const { hideMultisig } = useApp()
+  const { multisigVisible } = useApp()
   const hasMultisigWallet = useAppSelector((state) => !!state.multisig.address)
 
   const multisigMenu: SidebarItemProps = useMemo(() => {
@@ -159,12 +159,12 @@ export const useSidebarOptions = () => {
       },
     ]
 
-    if (!hideMultisig) {
+    if (multisigVisible) {
       menu.push({ ...multisigMenu })
     }
 
     return [...menu, thorMenu]
-  }, [hideMultisig, multisigMenu, thorMenu])
+  }, [multisigVisible, multisigMenu, thorMenu])
 
   return sidebarOptions
 }

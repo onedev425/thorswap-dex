@@ -259,12 +259,12 @@ const useThousandSeparatorMenu = (onBack: () => void) => {
 }
 
 const useProModeSettings = () => {
-  const { setMultisigShowStatus, hideMultisig } = useApp()
+  const { setMultisigShowStatus, multisigVisible } = useApp()
   const menu: MenuItemType[] = [
     {
       label: t('appMenu.showMultisig'),
-      status: !hideMultisig,
-      onClick: () => setMultisigShowStatus(!hideMultisig),
+      status: multisigVisible,
+      onClick: () => setMultisigShowStatus(!multisigVisible),
     },
   ]
 

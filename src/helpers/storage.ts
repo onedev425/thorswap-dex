@@ -32,7 +32,7 @@ type StorageType = {
   customRecipientMode: boolean
   walletViewMode: ViewMode
   statsHidden: boolean
-  multisigHidden: boolean
+  multisigVisible: boolean
   chartsHidden: boolean
   poolsHidden: boolean
   dismissedAnnList: string[]
@@ -75,7 +75,7 @@ type StoragePayload =
         | 'readStatus'
         | 'sidebarCollapsed'
         | 'statsHidden'
-        | 'multisigHidden'
+        | 'multisigVisible'
         | 'tradingHaltStatus'
       value: boolean
     }
@@ -86,7 +86,7 @@ type StoragePayload =
 
 const defaultValues: StorageType = {
   statsHidden: false,
-  multisigHidden: false,
+  multisigVisible: true,
   chartsHidden: false,
   poolsHidden: false,
   dismissedAnnList: [] as string[],
@@ -125,7 +125,7 @@ export const saveInStorage = ({ key, value }: StoragePayload) => {
       break
     case 'annViewStatus':
     case 'statsHidden':
-    case 'multisigHidden':
+    case 'multisigVisible':
     case 'chartsHidden':
     case 'poolsHidden':
     case 'sidebarCollapsed':
@@ -170,7 +170,7 @@ export const getFromStorage = (
 
     case 'annViewStatus':
     case 'statsHidden':
-    case 'multisigHidden':
+    case 'multisigVisible':
     case 'chartsHidden':
     case 'poolsHidden':
     case 'sidebarCollapsed':

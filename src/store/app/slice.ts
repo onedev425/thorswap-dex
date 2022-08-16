@@ -22,7 +22,7 @@ const initialState: State = {
   feeOptionType: FeeOption.Fast,
   isAnnOpen: !getFromStorage('annViewStatus') as boolean,
   hideStats: getFromStorage('statsHidden') as boolean,
-  hideMultisig: getFromStorage('multisigHidden') as boolean,
+  multisigVisible: getFromStorage('multisigVisible') as boolean,
   hideCharts: getFromStorage('chartsHidden') as boolean,
   arePoolsHidden: getFromStorage('poolsHidden') as boolean,
   dismissedAnnList: getFromStorage('dismissedAnnList') as string[],
@@ -130,8 +130,8 @@ const appSlice = createSlice({
       saveInStorage({ key: 'statsHidden', value: action.payload })
     },
     setMultisigShowStatus(state, action: PayloadAction<boolean>) {
-      state.hideMultisig = action.payload
-      saveInStorage({ key: 'multisigHidden', value: action.payload })
+      state.multisigVisible = action.payload
+      saveInStorage({ key: 'multisigVisible', value: action.payload })
     },
     setChartsShowStatus(state, action: PayloadAction<boolean>) {
       state.hideCharts = action.payload
