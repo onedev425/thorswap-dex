@@ -32,7 +32,7 @@ export const useSidebarOptions = () => {
             beta: true,
             iconName: 'send',
             href: ROUTES.TxBuilder,
-            label: t('appMenu.txBuilder'),
+            label: t('appMenu.transaction'),
           },
         ]
       : []

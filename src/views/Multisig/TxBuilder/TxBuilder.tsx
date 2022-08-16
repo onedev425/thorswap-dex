@@ -15,8 +15,8 @@ const TxBuilder = () => {
 
   return (
     <PanelView
-      title={t('appMenu.txBuilder')}
-      header={<ViewHeader title={t('appMenu.txBuilder')} />}
+      title={t('views.multisig.transactionBuilder')}
+      header={<ViewHeader title={t('views.multisig.transactionBuilder')} />}
     >
       <Box className="w-full gap-6 my-4" col>
         <InfoTable items={info} size="lg" horizontalInset />
