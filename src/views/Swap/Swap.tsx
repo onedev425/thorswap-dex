@@ -183,6 +183,12 @@ const SwapView = () => {
     [wallet, inputAsset],
   )
 
+  const isOutputWalletConnected = useMemo(
+    () =>
+      outputAsset && hasWalletConnected({ wallet, inputAssets: [outputAsset] }),
+    [wallet, outputAsset],
+  )
+
   const handleCopyAddress = useCallback(() => {
     copy(recipient)
     showInfoToast(t('notification.addressCopied'))
@@ -480,7 +486,7 @@ const SwapView = () => {
         onInputAmountChange={handleChangeInputAmount}
         onSwitchPair={handleSwitchPair}
       />
-      {customRecipientMode && (
+      {(customRecipientMode || !isOutputWalletConnected) && (
         <PanelInput
           placeholder={t('common.thornameOrRecipient')}
           stretch
