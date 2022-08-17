@@ -39,7 +39,7 @@ export const usePhraseModal = (isOpen: boolean) => {
       if (!keystore) return
 
       try {
-        const isValid = await multichain.validateKeystore(keystore, password)
+        const isValid = await multichain().validateKeystore(keystore, password)
 
         if (isValid) {
           setShowPhrase(true)
@@ -56,7 +56,7 @@ export const usePhraseModal = (isOpen: boolean) => {
   const submit = handleSubmit(handleConfirm)
 
   const handleCopyPhrase = useCallback(() => {
-    copy(multichain.getPhrase())
+    copy(multichain().getPhrase())
     showSuccessToast(t('views.walletModal.phraseCopied'))
   }, [])
 

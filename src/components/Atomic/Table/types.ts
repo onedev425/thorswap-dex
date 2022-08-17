@@ -2,7 +2,6 @@ import { Cell, Column, HeaderGroup, Row } from 'react-table'
 
 import { BreakPoint } from 'hooks/useWindowSize'
 
-// TODO: Fix typings for tables
 export type TableData = Record<string, FixMe>
 export type TableColumns = Column<TableData>[]
 export type TableColumnsConfig = (Column<TableData> & {

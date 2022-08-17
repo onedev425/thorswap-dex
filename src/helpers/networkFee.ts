@@ -1,25 +1,24 @@
-import { InboundAddressesItem } from '@thorswap-lib/midgard-sdk'
-import { FeeOption } from '@thorswap-lib/xchain-client'
-import { Chain } from '@thorswap-lib/xchain-util'
+import { Chain, FeeOption } from '@thorswap-lib/types'
 import axios from 'axios'
+
+export const GasUnitLabel: Record<Chain, string> = {
+  [Chain.Bitcoin]: 'Sats',
+  [Chain.Ethereum]: 'Gwei',
+  [Chain.THORChain]: 'Rune',
+  [Chain.Binance]: 'Jager', // https://academy.binance.com/en/glossary/jager
+  [Chain.Doge]: 'Koinu',
+  [Chain.Litecoin]: 'Litoshi',
+  [Chain.BitcoinCash]: 'Sats',
+  [Chain.Polkadot]: 'Sats',
+  [Chain.Cosmos]: 'Sats',
+  [Chain.Solana]: 'Sats',
+  [Chain.Avalanche]: 'Gwei',
+}
 
 const multiplier: Record<FeeOption, number> = {
   average: 0.67,
   fast: 1,
   fastest: 1.5,
-}
-
-// Reference issue: https://github.com/thorchain/asgardex-electron/issues/1381
-export const getGasRateByChain = ({
-  inboundData,
-  chain,
-}: {
-  inboundData: InboundAddressesItem[]
-  chain: Chain
-}): number => {
-  const chainInboundData = inboundData.find((data) => data.chain === chain)
-
-  return Number(chainInboundData?.gas_rate ?? 0)
 }
 
 /// get doge gasrate from blockcypher oracle
@@ -34,13 +33,11 @@ export const getDogeGasRate = async () => {
 }
 
 export const getGasRateByFeeOption = ({
-  inboundData,
-  chain,
+  gasRate,
   feeOptionType,
 }: {
-  inboundData: InboundAddressesItem[]
-  chain: Chain
+  gasRate?: string
   feeOptionType: FeeOption
 }) => {
-  return getGasRateByChain({ inboundData, chain }) * multiplier[feeOptionType]
+  return Number(gasRate || 0) * multiplier[feeOptionType]
 }

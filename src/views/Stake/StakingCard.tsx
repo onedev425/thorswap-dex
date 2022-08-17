@@ -85,7 +85,7 @@ export const StakingCard = ({
 
   const getAccountUrl = useCallback(
     (accountAddr: string) =>
-      multichain.getExplorerAddressUrl(Chain.Ethereum, accountAddr),
+      multichain().getExplorerAddressUrl(Chain.Ethereum, accountAddr),
     [],
   )
 
@@ -203,7 +203,7 @@ export const StakingCard = ({
           })
 
           const res = await triggerContractCall(
-            multichain,
+            multichain(),
             contractType,
             'deposit',
             [0, tokenAmount, ethAddr],
@@ -239,7 +239,7 @@ export const StakingCard = ({
           })
 
           const res = await triggerContractCall(
-            multichain,
+            multichain(),
             contractType,
             'harvest',
             [0, ethAddr],
@@ -275,7 +275,7 @@ export const StakingCard = ({
           })
 
           const res = await triggerContractCall(
-            multichain,
+            multichain(),
             contractType,
             'withdrawAndHarvest',
             [0, tokenAmount, ethAddr],

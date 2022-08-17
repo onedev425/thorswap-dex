@@ -1,9 +1,10 @@
 import { ChainWallet } from '@thorswap-lib/multichain-sdk'
 import { SupportedChain } from '@thorswap-lib/types'
-import { chainToString } from '@thorswap-lib/xchain-util'
 
 import { Box, Typography } from 'components/Atomic'
 import { WalletIcon } from 'components/WalletIcon/WalletIcon'
+
+import { chainName } from 'helpers/chainName'
 
 type Props = {
   chain: SupportedChain
@@ -17,7 +18,7 @@ export const HeaderChainInfo = ({ chain, chainWallet, balance }: Props) => {
       {!!chainWallet && (
         <WalletIcon walletType={chainWallet?.walletType} size={16} />
       )}
-      <Typography>{chainToString(chain)}</Typography>
+      <Typography>{chainName(chain, true)}</Typography>
 
       {!!chainWallet && (
         <Typography color="primaryBtn" fontWeight="semibold">

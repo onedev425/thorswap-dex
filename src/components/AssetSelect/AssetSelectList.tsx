@@ -1,66 +1,103 @@
-import { useMemo } from 'react'
+import { useCallback, useRef } from 'react'
 
-import { hasConnectedWallet } from '@thorswap-lib/multichain-sdk'
+import { FixedSizeList as List } from 'react-window'
+
+import { Asset } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
-import { AssetIcon } from 'components/AssetIcon/AssetIcon'
 import { Box, Icon, Typography } from 'components/Atomic'
-import { genericBgClasses, styledScrollbarClass } from 'components/constants'
+import { genericBgClasses } from 'components/constants'
 import { Input } from 'components/Input'
 import { TabsSelect } from 'components/TabsSelect'
 
-import { useWallet } from 'store/wallet/hooks'
+import useWindowSize from 'hooks/useWindowSize'
 
 import { t } from 'services/i18n'
 
+import { AssetSelectItem } from './AssetSelectItem'
 import { assetFilterTypes } from './assetTypes'
-import { FeaturedAssetIcon } from './FeaturedAssetIcon'
 import { AssetSelectProps } from './types'
 import { useAssetSelect } from './useAssetSelect'
 
+const ASSET_ITEM_HEIGHT = 52
+
 export const AssetSelectList = ({
-  hideEmptyBalances,
-  ...props
+  assets,
+  onSelect,
+  onClose,
+  isLoading,
+  openManageTokenList,
+  query,
+  setQuery,
 }: AssetSelectProps) => {
-  const { wallet } = useWallet()
-  const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet])
-  const {
-    filteredAssets,
-    search,
-    setSearch,
-    select,
-    typeFilter,
-    setTypeFilterOption,
-  } = useAssetSelect(props)
+  const listRef = useRef<List<NotWorth>>(null)
+  const { isLgActive } = useWindowSize()
+  const { filteredAssets, select, typeFilter, setTypeFilterOption } =
+    useAssetSelect({ assets, onSelect, onClose })
+
+  const handleSelect = useCallback(
+    (asset: Asset) => {
+      select(asset)
+      setTimeout(() => setQuery?.(''), 500)
+    },
+    [select, setQuery],
+  )
+
+  const Item = useCallback(
+    ({ index, style }: { index: number; style: NotWorth }) => {
+      const item = filteredAssets[index]
+
+      if (!item) return null
+
+      return (
+        <AssetSelectItem
+          {...item}
+          key={`${item.asset.symbol}${item.asset.type}`}
+          select={handleSelect}
+          style={style}
+        />
+      )
+    },
+    [filteredAssets, handleSelect],
+  )
+
+  const handleQueryChange = useCallback(
+    (event?: React.ChangeEvent<HTMLInputElement>) => {
+      const value = event?.target?.value || ''
+      listRef?.current?.scrollTo?.(0)
+      setQuery?.(value)
+    },
+    [setQuery],
+  )
 
   return (
-    <div
-      className={classNames(
-        'flex flex-col flex-1 pb-8 lg:pb-10 rounded-box-lg',
-        genericBgClasses.secondary,
-      )}
+    <Box
+      flex={1}
+      col
+      className={classNames('rounded-box-lg', genericBgClasses.secondary)}
     >
       <Box
+        col
         className={classNames(
-          'flex px-4 py-6 pb-3 lg:p-10 lg:pb-6 flex-col rounded-t-box-lg gap-2',
+          'px-4 py-6 pb-3 lg:p-10 lg:pb-6 rounded-t-box-lg gap-2',
           genericBgClasses.secondary,
         )}
       >
         <Input
           placeholder={t('components.assetSelect.searchTokenName')}
-          onChange={(e) => setSearch(e.target.value)}
-          value={search}
+          onChange={handleQueryChange}
+          value={query}
           stretch
           autoFocus
           className="!text-md p-1.5 flex-1 border"
           containerClassName="bg-light-gray-light dark:bg-dark-gray-light !bg-opacity-80"
           border="rounded"
           suffix={
-            search ? (
+            query ? (
               <Icon
                 name="close"
                 color="secondary"
-                onClick={() => setSearch('')}
+                onClick={() => handleQueryChange()}
               />
             ) : (
               ''
@@ -75,63 +112,57 @@ export const AssetSelectList = ({
         />
       </Box>
 
-      <div
+      <Box
+        flex={1}
         className={classNames(
-          'h-full overflow-y-auto bg-light-gray-light dark:bg-dark-asset-select bg-opacity-70 dark:bg-opacity-100',
-          styledScrollbarClass,
-          'scrollbar-track-light-gray-light dark:scrollbar-track-dark-asset-select',
+          'overflow-x-clip overflow-y-auto bg-light-gray-light dark:bg-dark-asset-select bg-opacity-70 dark:bg-opacity-100',
           'border-solid border-b border-t border-l-0 border-r-0 border-light-border-primary dark:border-dark-gray-light',
+          '!-mr-6 lg:!-mr-4',
         )}
       >
-        <Box className="flex-1" col>
-          {filteredAssets.map((filteredItem) => (
-            <Box
-              className="gap-3 px-6 py-2 cursor-pointer dark:hover:bg-dark-border-primary hover:bg-light-bg-secondary transition"
-              key={`${filteredItem.asset.symbol}${filteredItem.asset.type}`}
-              alignCenter
-              onClick={() => select(filteredItem.asset)}
-            >
-              <FeaturedAssetIcon assetString={filteredItem.asset.toString()} />
-              <AssetIcon size={32} asset={filteredItem.asset} />
-              <Box className="flex-1" col>
-                <Typography
-                  className="leading-[24px]"
-                  fontWeight="medium"
-                  variant="h4"
-                >
-                  {filteredItem.asset.ticker}
-                </Typography>
-                <Typography
-                  className="leading-[14px]"
-                  variant="caption-xs"
-                  fontWeight="light"
-                  color={
-                    filteredItem.asset.isSynth ? 'primaryBtn' : 'secondary'
-                  }
-                  transform="uppercase"
-                >
-                  {filteredItem.asset.type}
-                </Typography>
-              </Box>
-              <Typography color="secondary">
-                {filteredItem.balance
-                  ? filteredItem.balance.toSignificant(6)
-                  : isConnected && !hideEmptyBalances
-                  ? '0'
-                  : ''}
-              </Typography>
-            </Box>
-          ))}
-
-          {!filteredAssets.length && (
-            <Box justifyCenter className="pt-4">
+        {filteredAssets.length ? (
+          <List
+            width="100%"
+            height={isLgActive ? 410 : 1000}
+            className="!overflow-x-clip overflow-y-auto"
+            itemSize={ASSET_ITEM_HEIGHT}
+            itemCount={filteredAssets.length || 1}
+            ref={listRef}
+          >
+            {Item}
+          </List>
+        ) : (
+          <Box flex={1} justifyCenter className="pt-4">
+            {isLoading ? (
+              <Icon name="loader" spin size={24} />
+            ) : (
               <Typography>
                 {t('components.assetSelect.noResultsFound')}
               </Typography>
-            </Box>
-          )}
-        </Box>
-      </div>
-    </div>
+            )}
+          </Box>
+        )}
+      </Box>
+
+      <Box justifyCenter className="pt-4 pb-6">
+        <div
+          className="group flex-row flex justify-center"
+          onClick={openManageTokenList}
+        >
+          <Icon
+            size={18}
+            name="edit"
+            color="secondary"
+            className="cursor-pointer dark:group-hover:text-dark-typo-primary group-hover:text-light-typo-primary"
+          />
+
+          <div className="cursor-pointer overflow-hidden transition-all">
+            <div className="text-caption uppercase font-semibold px-3 transition-all whitespace-nowrap text-light-typo-gray dark:text-dark-typo-gray dark:group-hover:text-dark-typo-primary group-hover:text-light-typo-primary font-primary">
+              {t('components.assetSelect.manageTokenList')}
+            </div>
+          </div>
+        </div>
+      </Box>
+    </Box>
   )
 }

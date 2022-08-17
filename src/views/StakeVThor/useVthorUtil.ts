@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
 // import { ETH_DECIMAL } from '@thorswap-lib/multichain-sdk'
-// import { baseAmount } from '@thorswap-lib/xchain-util'
 import { BigNumber } from '@ethersproject/bignumber'
 
 import { showErrorToast } from 'components/Toast'
@@ -86,7 +85,7 @@ export const useVthorUtil = () => {
     })
 
     try {
-      const txHash = await multichain.approveAssetForStaking(
+      const txHash = await multichain().approveAssetForStaking(
         getV2Asset(VestingType.THOR),
         getV2Address(VestingType.VTHOR),
       )
@@ -202,7 +201,7 @@ export const useVthorUtil = () => {
 
       try {
         const res = await triggerContractCall(
-          multichain,
+          multichain(),
           ContractType.VTHOR,
           'deposit',
           [stakeAmount, receiverAddr],
@@ -247,7 +246,7 @@ export const useVthorUtil = () => {
 
       try {
         const res = await triggerContractCall(
-          multichain,
+          multichain(),
           ContractType.VTHOR,
           'redeem',
           [unstakeAmount, receiverAddr, receiverAddr],

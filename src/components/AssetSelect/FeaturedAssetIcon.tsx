@@ -1,13 +1,15 @@
 import { Icon } from 'components/Atomic'
 
 import { useAssets } from 'store/assets/hooks'
+import { useAppSelector } from 'store/store'
 
 type Props = {
   assetString: string
 }
 
 export const FeaturedAssetIcon = ({ assetString }: Props) => {
-  const { featured, addFeatured, removeFeatured } = useAssets()
+  const { addFeatured, removeFeatured } = useAssets()
+  const { featured } = useAppSelector((state) => state.assets)
   const isFeatured = featured.includes(assetString)
 
   return isFeatured ? (

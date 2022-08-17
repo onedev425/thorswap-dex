@@ -1,6 +1,11 @@
 import { useMemo } from 'react'
 
-import { Amount, Asset, Pool, runeToAsset } from '@thorswap-lib/multichain-sdk'
+import {
+  Amount,
+  Asset,
+  Pool,
+  runeToAssetPrice,
+} from '@thorswap-lib/multichain-sdk'
 
 import { ChartData, ChartDetail, ChartType } from 'components/Chart/types'
 
@@ -20,7 +25,7 @@ const getFormatter =
     const runeAmount = Amount.fromMidgard(value)
     const quoteAsset = Asset.fromAssetString(baseCurrency)
 
-    return runeToAsset({ runeAmount, quoteAsset, pools })
+    return runeToAssetPrice({ runeAmount, quoteAsset, pools })
   }
 
 export const useGlobalChartInfo = () => {

@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react'
 
-import { Amount } from '@thorswap-lib/multichain-sdk'
+import { Amount, Asset } from '@thorswap-lib/multichain-sdk'
 import classNames from 'classnames'
 
 import { AssetSelect } from 'components/AssetSelect'
@@ -11,16 +11,15 @@ import { InputAmount } from 'components/InputAmount'
 
 import { t } from 'services/i18n'
 
+import { useFormatPrice } from 'helpers/formatPrice'
+
 import { AssetInputProps } from './types'
 
 export const AssetInput = ({
   className,
   singleAsset,
   selectedAsset,
-  assets = [],
-  commonAssets = [],
   secondaryLabel,
-  onAssetChange,
   onValueChange,
   hideMaxButton,
   inputClassName,
@@ -30,13 +29,22 @@ export const AssetInput = ({
   poolAsset,
   showSecondaryChainSelector,
   hideAssetSelectBalances,
+  ...rest
 }: AssetInputProps) => {
+  const formatPrice = useFormatPrice()
   const {
     asset,
     value = Amount.fromAssetAmount(0, asset.decimal),
     usdPrice,
     balance,
+    loading,
+    priceLoading,
   } = selectedAsset
+
+  const localPriceLoading = useMemo(
+    () => (typeof priceLoading === 'boolean' ? priceLoading : loading),
+    [priceLoading, loading],
+  )
 
   const assetPriceInUSD = useMemo(
     () => usdPrice?.toCurrencyFormat(2),
@@ -47,9 +55,35 @@ export const AssetInput = ({
     onValueChange?.(balance || Amount.fromAssetAmount(0, asset.decimal))
   }, [onValueChange, asset, balance])
 
+  const assetSelectProps = useMemo(
+    () => ({
+      ...rest,
+      onSelect: rest.onAssetChange as (asset: Asset) => void,
+      showAssetType: true,
+    }),
+    [rest],
+  )
+
+  const inputStyle = useMemo(() => {
+    const rawValue = formatPrice(value)
+    const fontSize =
+      rawValue.length > 30
+        ? '1rem'
+        : rawValue.length > 25
+        ? '1.2rem'
+        : rawValue.length > 20
+        ? '1.4rem'
+        : '1.5rem'
+
+    return { fontSize, lineHeight: '2rem' }
+  }, [formatPrice, value])
+
   return (
     <HighlightCard
-      className={classNames('min-h-[70px] !gap-1 !justify-start', className)}
+      className={classNames(
+        'min-h-[70px] text-2 !gap-1 !justify-start',
+        className,
+      )}
     >
       <Box
         className={classNames('pl-4 md:pl-0', className, {
@@ -58,24 +92,31 @@ export const AssetInput = ({
         })}
         alignCenter
       >
-        <InputAmount
-          className={classNames(
-            '-ml-1 !text-2xl font-normal text-left',
-            inputClassName,
-          )}
-          containerClassName="!py-0"
-          onAmountChange={onValueChange}
-          amountValue={value}
-          stretch
-          disabled={disabled}
-          customPrefix={
-            warning ? (
-              <Tooltip content={warning}>
-                <Icon className="mr-2" name="warn" color="yellow" size={24} />
-              </Tooltip>
-            ) : null
-          }
-        />
+        {loading ? (
+          <div className="flex w-full">
+            <Icon name="loader" spin size={16} color="primary" />
+          </div>
+        ) : (
+          <InputAmount
+            className={classNames(
+              '-ml-1 font-normal text-left',
+              inputClassName,
+            )}
+            style={inputStyle}
+            containerClassName="!py-0"
+            onAmountChange={onValueChange}
+            amountValue={value}
+            stretch
+            disabled={disabled}
+            customPrefix={
+              warning ? (
+                <Tooltip content={warning}>
+                  <Icon className="mr-2" name="warn" color="yellow" size={24} />
+                </Tooltip>
+              ) : null
+            }
+          />
+        )}
 
         {singleAsset ? (
           <Box justify="end" className="w-full">
@@ -86,38 +127,40 @@ export const AssetInput = ({
             />
             {showSecondaryChainSelector && (
               <AssetSelect
+                {...assetSelectProps}
                 className="pr-3 m-2 md:m-1"
-                assets={assets}
                 selected={poolAsset?.asset}
-                commonAssets={commonAssets}
-                onSelect={onAssetChange}
                 showAssetType
-                hideEmptyBalances={hideAssetSelectBalances}
               />
             )}
           </Box>
         ) : (
           <AssetSelect
+            {...assetSelectProps}
             className="m-2 md:m-0"
-            assets={assets}
             selected={selectedAsset?.asset}
-            commonAssets={commonAssets}
-            onSelect={onAssetChange}
-            showAssetType
           />
         )}
       </Box>
 
       <Box className="pl-4 md:pl-0" alignCenter justify="between" flex={1}>
         <Box>
-          {(assetPriceInUSD || secondaryLabel) && (
+          {localPriceLoading ? (
+            <Icon
+              className="flex w-full"
+              name="loader"
+              spin
+              size={10}
+              color="primary"
+            />
+          ) : assetPriceInUSD ? (
             <Typography color="secondary" fontWeight="semibold">
               {secondaryLabel || `${assetPriceInUSD}`}
             </Typography>
-          )}
+          ) : null}
         </Box>
 
-        <Box className="gap-1 pr-2 md:pr-0" center row>
+        <Box className="gap-1 pb-2 pr-2 md:pr-0" center row>
           {balance && (
             <Typography color="secondary" fontWeight="medium">
               {t('common.balance')}: {balance?.toSignificant(6) || '0'}

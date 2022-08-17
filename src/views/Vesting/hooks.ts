@@ -137,7 +137,7 @@ export const useVesting = () => {
         })
 
         const res = await triggerContractCall(
-          multichain,
+          multichain(),
           vestingAction === VestingType.THOR
             ? ContractType.VESTING
             : ContractType.VTHOR_VESTING,

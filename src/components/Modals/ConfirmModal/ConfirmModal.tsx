@@ -7,19 +7,17 @@ import {
   KeyboardEventHandler,
 } from 'react'
 
-import { Asset, isKeystoreSignRequired } from '@thorswap-lib/multichain-sdk'
+import { Asset } from '@thorswap-lib/multichain-sdk'
 
 import { Box, Button, Modal, Typography } from 'components/Atomic'
 import { PasswordInput } from 'components/PasswordInput'
 
 import { useWallet } from 'store/wallet/hooks'
 
-import useTimeout from 'hooks/useTimeout'
-
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
-const MODAL_DISMISS_TIME = 60 * 1000 // 60s
+import { isKeystoreSignRequired } from 'helpers/wallet'
 
 type Props = {
   inputAssets: Asset[]
@@ -28,6 +26,8 @@ type Props = {
   onConfirm: () => void
   children?: ReactNode
 }
+
+const MODAL_CLOSE_DELAY = 60 * 1000
 
 export const ConfirmModal = ({
   isOpened,
@@ -48,11 +48,19 @@ export const ConfirmModal = ({
     [wallet, inputAssets],
   )
 
-  // dismiss modal after 60s
-  useTimeout(() => {
-    onClose()
-  }, MODAL_DISMISS_TIME)
+  useEffect(() => {
+    let timeout: NodeJS.Timeout
 
+    if (isOpened) {
+      timeout = setTimeout(() => {
+        onClose()
+      }, MODAL_CLOSE_DELAY)
+    }
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [isOpened, onClose])
   // reset password on visible update
   useEffect(() => {
     setPassword('')
@@ -85,10 +93,11 @@ export const ConfirmModal = ({
     }
 
     if (!keystore) return
-    setValidating(true)
+    if (!password) return setInvalidPassword(true)
 
+    setValidating(true)
     try {
-      const isValid = await multichain.validateKeystore(keystore, password)
+      const isValid = await multichain().validateKeystore(keystore, password)
 
       if (isValid) {
         handleProceed()
@@ -111,45 +120,6 @@ export const ConfirmModal = ({
     [handleClickConfirm, validating],
   )
 
-  const renderKeystoreSignMode = useMemo(
-    () => (
-      <>
-        <PasswordInput
-          value={password}
-          onChange={({ target }) => setPassword(target.value)}
-          onKeyDown={onPasswordKeyDown}
-        />
-        {invalidPassword && (
-          <Typography
-            className="ml-2"
-            color="orange"
-            variant="caption"
-            fontWeight="medium"
-          >
-            {t('views.walletModal.wrongPassword')}
-          </Typography>
-        )}
-
-        <Button
-          size="md"
-          isFancy
-          stretch
-          onClick={handleClickConfirm}
-          loading={validating}
-        >
-          {t('common.confirm')}
-        </Button>
-      </>
-    ),
-    [
-      password,
-      invalidPassword,
-      validating,
-      handleClickConfirm,
-      onPasswordKeyDown,
-    ],
-  )
-
   return (
     <Modal
       title={t('common.confirm')}
@@ -158,8 +128,35 @@ export const ConfirmModal = ({
     >
       <Box className="gap-y-4 md:!min-w-[350px]" col>
         {children && <div>{children}</div>}
+
         {isKeystoreSigningRequired ? (
-          renderKeystoreSignMode
+          <>
+            <PasswordInput
+              value={password}
+              onChange={({ target }) => setPassword(target.value)}
+              onKeyDown={onPasswordKeyDown}
+            />
+            {invalidPassword && (
+              <Typography
+                className="ml-2"
+                color="orange"
+                variant="caption"
+                fontWeight="medium"
+              >
+                {t('views.walletModal.wrongPassword')}
+              </Typography>
+            )}
+
+            <Button
+              size="md"
+              isFancy
+              stretch
+              onClick={handleClickConfirm}
+              loading={validating}
+            >
+              {t('common.confirm')}
+            </Button>
+          </>
         ) : (
           <Button
             size="md"

@@ -7,7 +7,7 @@ import { t } from 'services/i18n'
 
 type Props = {
   className?: string
-  walletType: WalletOption
+  walletType?: WalletOption
   size?: number
   onClick?: () => void
   tooltipDisabled?: boolean
@@ -40,7 +40,7 @@ export const WalletIcon = ({
   return (
     <Tooltip content={tooltipContent} disabled={tooltipDisabled}>
       <Box onClick={onClick} className={onClick ? baseHoverClass : className}>
-        <Icon name={walletIcons[walletType]} size={size} />
+        {walletType && <Icon name={walletIcons[walletType]} size={size} />}
       </Box>
     </Tooltip>
   )

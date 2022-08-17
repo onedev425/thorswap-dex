@@ -16,8 +16,11 @@ const BREAKPOINTS_WIDTHS = {
 
 const isClient = typeof window === 'object'
 
+export const getSize = (type: 'innerWidth' | 'innerHeight' = 'innerWidth') =>
+  window[type] || 0
+
 const getCurrentBreakpoint = () => {
-  const width = isClient ? window.innerWidth : 0
+  const width = getSize('innerWidth')
 
   if (width >= BREAKPOINTS_WIDTHS[BreakPoint.lg]) return BreakPoint.lg
   if (width >= BREAKPOINTS_WIDTHS[BreakPoint.md]) return BreakPoint.md

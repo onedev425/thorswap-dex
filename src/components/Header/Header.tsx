@@ -6,6 +6,7 @@ import { AnnouncementsPopover } from 'components/Announcements/AnnouncementsPopo
 import { HeaderAnnouncements } from 'components/Announcements/HeaderAnnouncements'
 import { AppPopoverMenu } from 'components/AppPopoverMenu'
 import { Button, Icon, Box, Typography } from 'components/Atomic'
+import { TransactionManager } from 'components/TransactionManager'
 import { TxManager } from 'components/TxManager'
 
 import { useApp } from 'store/app/hooks'
@@ -115,6 +116,8 @@ export const Header = memo(({ openMenu }: Props) => {
           </Button>
           <AnnouncementsPopover />
           <AppPopoverMenu />
+
+          <TransactionManager />
           <TxManager />
         </Box>
       </Box>

@@ -1,4 +1,4 @@
-import { Chain } from '@thorswap-lib/xchain-util'
+import { Chain } from '@thorswap-lib/types'
 
 import { SORTED_CHAINS } from 'settings/chain'
 

@@ -1,5 +1,5 @@
 import { Asset } from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/xchain-util'
+import { Chain } from '@thorswap-lib/types'
 
 export enum ROUTES {
   AddLiquidity = '/add',
@@ -41,6 +41,10 @@ export const THOR_STAKING_V1_ROUTE = 'https://v1.thorswap.finance/stake'
 const getAssetRoute = (route: ROUTES, asset?: Asset) =>
   `${route}${asset ? `/${asset.toURLEncoded()}` : ''}`
 
+const navigateToExternalLink = (url: string) => {
+  window.open(url, '_blank noreferrer noopener')
+}
+
 export const getAddLiquidityRoute = (asset?: Asset) => {
   return getAssetRoute(ROUTES.AddLiquidity, asset)
 }
@@ -65,16 +69,16 @@ export const getSwapRoute = (input: Asset, output: Asset = Asset.RUNE()) => {
   return `${ROUTES.Swap}/${input.toURLEncoded()}_${outputAsset.toURLEncoded()}`
 }
 
-export const getPoolDetailRouteFromAsset = (asset: Asset) => {
-  return `${THORYIELD_ROUTE}/token/${asset.toURLEncoded()}`
+export const navigateToPoolDetail = (asset: Asset) => {
+  navigateToExternalLink(`${THORYIELD_ROUTE}/token/${asset.toURLEncoded()}`)
+}
+
+export const navigateToEtherScanAddress = (address: string) => {
+  navigateToExternalLink(`https://etherscan.io/token/${address}`)
 }
 
 export const getNodeDetailRoute = (address: string) => {
   return `${ROUTES.Nodes}/${address}`
-}
-
-export const navigateToExternalLink = (url: string) => {
-  window.open(url, '_blank noreferrer noopener')
 }
 
 export const getThorYieldLPInfoRoute = ({

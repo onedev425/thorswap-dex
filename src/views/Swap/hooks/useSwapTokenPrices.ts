@@ -1,0 +1,82 @@
+import { useMemo } from 'react'
+
+import { Amount, Asset, Price } from '@thorswap-lib/multichain-sdk'
+import BigNumber from 'bignumber.js'
+
+import { useGetTokenCachedPricesQuery } from 'store/tokens/api'
+import { GetTokenPriceParams, GetTokenPriceResponse } from 'store/tokens/types'
+
+import { useDebouncedValue } from 'hooks/useDebounceValue'
+
+import { parseAssetToToken } from 'helpers/parseAssetToToken'
+export type TokenParam = { asset: Asset; amount: BigNumber }
+
+type Params = {
+  inputAsset: Asset
+  inputAmount: Amount
+  outputAsset: Asset
+  outputAmount: Amount
+}
+
+const getPrice = ({ asset, amount }: TokenParam, price?: number) =>
+  new Price({
+    baseAsset: asset,
+    unitPrice: new BigNumber(price || 0),
+    priceAmount: Amount.fromAssetAmount(amount, asset.decimal),
+  })
+
+const findToken =
+  (searchedToken: GetTokenPriceParams[number]) =>
+  ({ identifier, address }: GetTokenPriceResponse[number]) =>
+    address
+      ? address === searchedToken.address
+      : identifier === searchedToken.identifier
+
+export const useSwapTokenPrices = ({
+  inputAsset,
+  inputAmount,
+  outputAmount,
+  outputAsset,
+}: Params) => {
+  const tokenParams: [TokenParam, TokenParam] = useMemo(
+    () => [
+      { asset: inputAsset, amount: inputAmount.assetAmount },
+      { asset: outputAsset, amount: outputAmount.assetAmount },
+    ],
+    [
+      inputAmount.assetAmount,
+      inputAsset,
+      outputAmount.assetAmount,
+      outputAsset,
+    ],
+  )
+
+  const tokens = useMemo(
+    () => tokenParams.map(({ asset }) => parseAssetToToken(asset)),
+    [tokenParams],
+  )
+
+  const debouncedTokens = useDebouncedValue(tokens, 500)
+
+  const { data, refetch, isLoading, isFetching } =
+    useGetTokenCachedPricesQuery(debouncedTokens)
+
+  const [inputPrice, outputPrice] = useMemo(() => {
+    const [input, output] = tokens
+
+    const inputData = data?.find(findToken(input))
+    const outputData = data?.find(findToken(output))
+
+    return [inputData?.price_usd, outputData?.price_usd]
+  }, [data, tokens])
+
+  const prices = useMemo(
+    () => ({
+      inputUSDPrice: getPrice(tokenParams[0], inputPrice),
+      outputUSDPrice: getPrice(tokenParams[1], outputPrice),
+    }),
+    [inputPrice, outputPrice, tokenParams],
+  )
+
+  return { prices, refetch, isLoading: isLoading || isFetching } as const
+}

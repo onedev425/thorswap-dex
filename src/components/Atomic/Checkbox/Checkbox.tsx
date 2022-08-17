@@ -21,6 +21,15 @@ export const Checkbox = ({ value, onValueChange, label, className }: Props) => {
 
   return (
     <Box center onClick={handleChange} className={className}>
+      <Typography
+        className="cursor-pointer"
+        fontWeight="semibold"
+        component="label"
+        color="secondary"
+      >
+        {label}
+      </Typography>
+
       <Box center className="pr-2">
         <input
           type="checkbox"
@@ -28,8 +37,7 @@ export const Checkbox = ({ value, onValueChange, label, className }: Props) => {
           checked={value}
           className={classNames(
             'appearance-none transition duration-200 h-6 w-6 rounded-md focus:outline-none cursor-pointer',
-            'border-[1.5px] border-solid border-dark-bg-secondary dark:border-dark-bg-secondary',
-            'bg-transparent checked:bg-dark-bg-secondary checked:dark:bg-dark-bg-secondary',
+            { 'bg-light-bg-secondary dark:bg-dark-bg-primary': value },
           )}
         />
 
@@ -37,15 +45,11 @@ export const Checkbox = ({ value, onValueChange, label, className }: Props) => {
           <Icon
             className="pl-0.5 pt-0.5 absolute pointer-events-none"
             name="checkmark"
-            color="white"
+            color="primary"
             size={18}
           />
         )}
       </Box>
-
-      <Typography fontWeight="semibold" component="label" color="secondary">
-        {label}
-      </Typography>
     </Box>
   )
 }

@@ -3,13 +3,11 @@ import { useCallback, useMemo, useState } from 'react'
 import {
   Amount,
   Asset,
-  getAssetBalance,
   Price,
   AssetAmount,
   hasConnectedWallet,
   hasWalletConnected,
   getEstimatedTxTime,
-  getInputAssetsForCreate,
 } from '@thorswap-lib/multichain-sdk'
 import { Chain, SupportedChain } from '@thorswap-lib/types'
 
@@ -37,6 +35,8 @@ import { useTxTracker } from 'hooks/useTxTracker'
 
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
+
+import { getAssetBalance, getInputAssetsForCreate } from 'helpers/wallet'
 
 import { AssetInputs } from './AssetInputs'
 import { PoolInfo } from './PoolInfo'
@@ -213,7 +213,7 @@ export const CreateLiquidity = () => {
       })
 
       try {
-        const txRes = await multichain.createLiquidity({
+        const txRes = await multichain().createLiquidity({
           runeAmount: runeAssetAmount,
           assetAmount: poolAssetAmount,
         })
@@ -273,10 +273,10 @@ export const CreateLiquidity = () => {
       })
 
       try {
-        const txHash = await multichain.approveAsset(poolAsset)
+        const txHash = await multichain().approveAsset(poolAsset)
 
         if (txHash) {
-          const txURL = multichain.getExplorerTxUrl(poolAsset.chain, txHash)
+          const txURL = multichain().getExplorerTxUrl(poolAsset.chain, txHash)
 
           console.info('txURL', txURL)
           if (txHash) {
@@ -467,7 +467,8 @@ export const CreateLiquidity = () => {
   })
 
   const approveConfirmInfo = useApproveInfoItems({
-    inputAsset: { asset: poolAsset, value: assetAmount },
+    assetName: poolAsset.name,
+    assetValue: assetAmount.toSignificant(6),
     fee: inboundAssetFee.toCurrencyFormat(),
   })
 

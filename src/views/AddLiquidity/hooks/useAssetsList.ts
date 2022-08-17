@@ -1,17 +1,14 @@
 import { useMemo } from 'react'
 
-import {
-  Asset,
-  getInputAssetsForAdd,
-  hasConnectedWallet,
-  Pool,
-} from '@thorswap-lib/multichain-sdk'
+import { Asset, hasConnectedWallet, Pool } from '@thorswap-lib/multichain-sdk'
 
 import { LiquidityTypeOption } from 'components/LiquidityType/types'
 
 import { useWallet } from 'store/wallet/hooks'
 
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance'
+
+import { getInputAssetsForAdd } from 'helpers/wallet'
 
 type Props = {
   poolAssets: Asset[]

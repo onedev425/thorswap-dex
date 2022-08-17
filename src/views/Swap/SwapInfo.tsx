@@ -1,82 +1,211 @@
 import { MouseEventHandler, useCallback, useMemo, useState } from 'react'
 
-import { Amount, Price } from '@thorswap-lib/multichain-sdk'
+import {
+  hasConnectedWallet,
+  Percent,
+  Price,
+} from '@thorswap-lib/multichain-sdk'
+import { FeeOption } from '@thorswap-lib/types'
+import capitalize from 'lodash/capitalize'
 
-import { AssetInputType } from 'components/AssetInput/types'
-import { Box, Button, Collapse, Icon, Typography } from 'components/Atomic'
-import { InfoRow } from 'components/InfoRow'
+import { gasFeeMultiplier } from 'views/Swap/hooks/useSwap'
+
+import {
+  Box,
+  Button,
+  Collapse,
+  Icon,
+  Select,
+  Typography,
+} from 'components/Atomic'
+import { InfoRowConfig } from 'components/InfoRow/types'
+import { InfoTable } from 'components/InfoTable'
 import { InfoWithTooltip } from 'components/InfoWithTooltip'
+
+import { useApp } from 'store/app/hooks'
+import { useWallet } from 'store/wallet/hooks'
 
 import { t } from 'services/i18n'
 
-import { formatPrice } from 'helpers/formatPrice'
+import { useFormatPrice } from 'helpers/formatPrice'
 
 type Props = {
-  price?: Price
-  inputAsset: AssetInputType
-  outputAsset: AssetInputType
+  expectedOutput?: string
+  affiliateFee: number
+  networkFee: number
+  inputUSDPrice: Price
+  isLoading: boolean
+  gasPrice?: number
   minReceive: string
-  slippage: string
-  isValidSlip?: boolean
-  networkFee: Price
-  affiliateFee?: Price
-  totalFee?: string
-  isAffiliated?: boolean
+  minReceiveSlippage: Percent
+  outputUSDPrice: Price
+  setFeeModalOpened: (isOpened: boolean) => void
 }
 
-export const SwapInfo = ({
-  price,
-  inputAsset,
-  outputAsset,
-  minReceive,
-  slippage,
-  isValidSlip = true,
-  networkFee,
-  affiliateFee,
-  isAffiliated,
-}: Props) => {
-  const totalFeeBN = isAffiliated
-    ? networkFee?.raw().plus(affiliateFee?.raw() || 0)
-    : networkFee?.raw()
-  const totalFee = `$${formatPrice(totalFeeBN.toFixed(2))}`
+const feeOptions = [FeeOption.Average, FeeOption.Fast, FeeOption.Fastest]
 
+export const SwapInfo = ({
+  expectedOutput,
+  affiliateFee,
+  networkFee,
+  inputUSDPrice,
+  isLoading,
+  gasPrice,
+  minReceive,
+  minReceiveSlippage,
+  outputUSDPrice,
+  setFeeModalOpened,
+}: Props) => {
+  const { feeOptionType, setFeeOptionType } = useApp()
+  const { keystore, wallet } = useWallet()
+  const formatPrice = useFormatPrice()
   const [reverted, setReverted] = useState(false)
 
-  const toggle: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      if (price && inputAsset && outputAsset) {
-        setReverted(!reverted)
-      }
-      e.stopPropagation()
-    },
-    [inputAsset, outputAsset, price, reverted],
-  )
+  const toggle: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
+    setReverted((r) => !r)
+    e.stopPropagation()
+  }, [])
+
+  const [first, second] = reverted
+    ? [outputUSDPrice, inputUSDPrice]
+    : [inputUSDPrice, outputUSDPrice]
 
   const rateDesc = useMemo(() => {
-    if (reverted) {
-      const amount = Amount.fromNormalAmount(price?.raw())
-      return `1 ${outputAsset.asset.ticker} = ${
-        amount.toSignificant(6) || '-'
-      } ${inputAsset.asset.ticker}`
-    }
+    const rate = first.unitPrice.dividedBy(second.unitPrice)
+    const decimals = rate.gte(1000) ? 4 : rate.gte(1) ? 5 : 8
 
-    const amount = Amount.fromNormalAmount(price?.invert())
-    return `1 ${inputAsset.asset.ticker} = ${amount.toSignificant(6) || '-'} ${
-      outputAsset.asset.ticker
-    }`
-  }, [reverted, price, inputAsset, outputAsset])
+    return rate.gt(0)
+      ? `1 ${first.baseAsset.ticker} = ${rate.toFixed(decimals)} ${
+          second.baseAsset.ticker
+        }`
+      : '-'
+  }, [
+    first.baseAsset.ticker,
+    first.unitPrice,
+    second.baseAsset.ticker,
+    second.unitPrice,
+  ])
 
-  const priceDesc = useMemo(
+  const openFeeModal = useCallback(() => {
+    if (networkFee + affiliateFee <= 0) return
+
+    setFeeModalOpened(true)
+  }, [networkFee, affiliateFee, setFeeModalOpened])
+
+  const ratePrice = `($${formatPrice(first.unitPrice.toFixed(2))})`
+
+  const feeOptionLabels = useMemo(
     () =>
-      `(${
-        (reverted ? outputAsset : inputAsset).usdPrice?.toCurrencyFormat(2) ||
-        '-'
-      })`,
-
-    [inputAsset, outputAsset, reverted],
+      feeOptions.map(
+        (feeOption) =>
+          `${t(`common.fee${capitalize(feeOption)}`)}\n(${formatPrice(
+            (gasPrice || 0) * gasFeeMultiplier[feeOption],
+          )})`,
+      ),
+    [formatPrice, gasPrice],
   )
 
-  const affiliateFeeInUsd = affiliateFee?.toCurrencyFormat(2)
+  const activeFeeIndex =
+    feeOptionLabels.findIndex((o) =>
+      o.includes(t(`common.fee${capitalize(feeOptionType)}`)),
+    ) || 0
+
+  const rows = useMemo(
+    () =>
+      [
+        {
+          label: t('views.wallet.expectedOutput'),
+          value: (
+            <InfoWithTooltip
+              tooltip={t('views.wallet.expectedOutputTooltip')}
+              value={expectedOutput}
+            />
+          ),
+        },
+        {
+          label: t('views.swap.minReceivedAfterSlip', {
+            slippage: minReceiveSlippage.gte(0)
+              ? minReceiveSlippage.toFixed(2)
+              : '-',
+          }),
+          value: (
+            <InfoWithTooltip
+              value={minReceive}
+              tooltip={t('views.wallet.minReceivedTooltip')}
+            />
+          ),
+        },
+        hasConnectedWallet(wallet) && keystore
+          ? {
+              key: 'keystoreFee',
+              label: t('common.transactionFee'),
+              value: (
+                <Select
+                  onChange={(index) => setFeeOptionType(feeOptions[index])}
+                  activeIndex={activeFeeIndex}
+                  size="sm"
+                  options={feeOptionLabels}
+                />
+              ),
+            }
+          : null,
+        {
+          label: 'Network Fee',
+          onClick: openFeeModal,
+          value: (
+            <InfoWithTooltip
+              tooltip={t('views.swap.networkFeeTooltip')}
+              value={
+                <Box center>
+                  <Typography variant="caption">
+                    {formatPrice(networkFee)}
+                  </Typography>
+                </Box>
+              }
+            />
+          ),
+        },
+        {
+          label: t('views.swap.exchangeFee'),
+          value: (
+            <InfoWithTooltip
+              tooltip={t('views.swap.affiliateFee')}
+              value={
+                <Box row center className="gap-1">
+                  {affiliateFee ? (
+                    <Typography variant="caption">
+                      {formatPrice(affiliateFee)}
+                    </Typography>
+                  ) : (
+                    <Typography
+                      color="green"
+                      variant="caption"
+                      fontWeight="bold"
+                    >
+                      FREE
+                    </Typography>
+                  )}
+                </Box>
+              }
+            />
+          ),
+        },
+      ].filter(Boolean) as InfoRowConfig[],
+    [
+      activeFeeIndex,
+      affiliateFee,
+      expectedOutput,
+      feeOptionLabels,
+      formatPrice,
+      keystore,
+      minReceive,
+      minReceiveSlippage,
+      networkFee,
+      openFeeModal,
+      setFeeOptionType,
+      wallet,
+    ],
+  )
 
   return (
     <Collapse
@@ -92,102 +221,46 @@ export const SwapInfo = ({
             startIcon={<Icon name="switch" size={16} />}
             onClick={toggle}
           />
-          <Box className="gap-x-1 flex-wrap flex-1 pl-1" alignCenter>
-            <Box className="gap-1.5" center>
-              <Typography variant="caption" color="primary" fontWeight="normal">
-                {rateDesc}
+          {isLoading ? (
+            <Box flex={1} className="px-2" justify="start" alignCenter>
+              <Icon name="loader" spin size={14} />
+            </Box>
+          ) : (
+            <Box className="gap-x-1 flex-wrap flex-1 pl-1" alignCenter>
+              <Box className="gap-1.5" center>
+                <Typography
+                  variant="caption"
+                  color="primary"
+                  fontWeight="normal"
+                >
+                  {rateDesc}
+                </Typography>
+              </Box>
+              <Typography
+                variant="caption"
+                color="secondary"
+                fontWeight="normal"
+              >
+                {ratePrice}
               </Typography>
             </Box>
-            <Typography variant="caption" color="secondary" fontWeight="normal">
-              {priceDesc}
-            </Typography>
-          </Box>
+          )}
+
           <Box className="pr-1">
             <Button
               className="h-[30px] px-2"
               startIcon={<Icon name="fees" size={18} color="secondary" />}
               variant="tint"
-              tooltip={t('views.swap.totalFee')}
+              tooltip={t('views.swap.totalFeeTooltip')}
             >
-              <Typography>{totalFee}</Typography>
+              <Typography>{formatPrice(networkFee)}</Typography>
             </Button>
           </Box>
         </Box>
       }
     >
       <Box className="w-full" col>
-        <InfoRow
-          label={t('views.wallet.expectedOutput')}
-          value={
-            <InfoWithTooltip
-              tooltip={t('views.wallet.expectedOutputTooltip')}
-              value={`${outputAsset?.value?.toSignificant(
-                6,
-              )} ${outputAsset.asset.name.toUpperCase()}`}
-            />
-          }
-        />
-
-        <InfoRow
-          label={t('views.swap.priceImpact')}
-          value={
-            <InfoWithTooltip
-              tooltip={t('views.wallet.slippageTooltip')}
-              value={
-                <Typography
-                  variant="caption"
-                  fontWeight="semibold"
-                  color={isValidSlip ? 'green' : 'red'}
-                >
-                  {slippage}
-                </Typography>
-              }
-            />
-          }
-        />
-
-        <InfoRow
-          label={t('views.swap.minReceivedAfterSlip', { slippage })}
-          value={
-            <InfoWithTooltip
-              value={minReceive}
-              tooltip={t('views.wallet.minReceivedTooltip')}
-            />
-          }
-        />
-
-        <InfoRow
-          label="Network Fee"
-          value={
-            <InfoWithTooltip
-              tooltip={t('views.wallet.networkFeeTooltip')}
-              value={networkFee.toCurrencyFormat(2)}
-            />
-          }
-        />
-        <InfoRow
-          showBorder={false}
-          label={t('views.swap.exchangeFee')}
-          value={
-            <InfoWithTooltip
-              tooltip={t('views.swap.affiliateFee')}
-              value={
-                isAffiliated ? (
-                  affiliateFeeInUsd
-                ) : (
-                  <Box center className="gap-1">
-                    <Typography className="line-through" variant="caption">
-                      {affiliateFeeInUsd !== '$0.00' && affiliateFeeInUsd}
-                    </Typography>
-                    <Typography color="green" variant="body" fontWeight="bold">
-                      FREE
-                    </Typography>
-                  </Box>
-                )
-              }
-            />
-          }
-        />
+        <InfoTable items={rows} />
       </Box>
     </Collapse>
   )

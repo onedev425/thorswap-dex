@@ -1,9 +1,7 @@
 import { Asset } from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/types'
-import { Network } from '@thorswap-lib/xchain-client'
+import { Chain, Network } from '@thorswap-lib/types'
 
 import { getCustomIconImageUrl } from 'components/AssetIcon'
-import { AssetSelectType } from 'components/AssetSelect/types'
 
 import { config } from 'settings/config'
 
@@ -30,19 +28,6 @@ export const stakingV2Addr = {
     [Network.Testnet]: '0x9783e4A7F0BF047Fd7982e75A1A1C8023a7d6A92',
   },
 }
-
-export const assetsFixture = [
-  { asset: Asset.RUNE() },
-  { asset: Asset.BTC() },
-  { asset: Asset.ETH() },
-  { asset: Asset.BNB() },
-  { asset: Asset.USD() },
-  { asset: Asset.THOR() },
-  { asset: Asset.DOGE() },
-  { asset: Asset.BCH() },
-] as AssetSelectType[]
-
-export const commonAssets = assetsFixture.slice(0, 3)
 
 export const getV2Address = (contractType: VestingType) =>
   stakingV2Addr[contractType][network]

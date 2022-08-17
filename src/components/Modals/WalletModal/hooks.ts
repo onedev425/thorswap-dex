@@ -6,8 +6,7 @@ import {
   XdefiWalletStatus,
   KeplrWalletStatus,
 } from '@thorswap-lib/multichain-web-extensions'
-import { SupportedChain } from '@thorswap-lib/types'
-import { Chain } from '@thorswap-lib/xchain-util'
+import { SupportedChain, Chain } from '@thorswap-lib/types'
 
 import { IconName } from 'components/Atomic'
 import {
@@ -72,7 +71,7 @@ export const useWalletOptions = ({
         icon: 'metamask',
         label:
           metamask.isWalletDetected() === MetaMaskWalletStatus.XdefiDetected
-            ? t('views.walletModal.disableXdefi')
+            ? t('views.walletModal.metamaskDisableXdefi')
             : t('views.walletModal.metaMask'),
       },
       {
@@ -138,7 +137,6 @@ export const useHandleWalletConnect = ({
   const handleConnectMetaMask = useCallback(
     async (chain: SupportedChain) => {
       try {
-        // @ts-expect-error TODO: fix typings
         await connectMetamask(chain)
       } catch (error) {
         showErrorToast(t('notification.metamaskFailed'))
@@ -195,8 +193,7 @@ export const useHandleWalletConnect = ({
       case WalletType.Ledger:
         return handleConnectLedger(pendingChains[0], ledgerIndex)
       case WalletType.MetaMask:
-        // @ts-expect-error TODO: fix typings
-        return handleConnectMetaMask(pendingChains)
+        return handleConnectMetaMask(pendingChains[0])
       case WalletType.Phantom:
         return handleConnectPhantom()
       case WalletType.Keplr:

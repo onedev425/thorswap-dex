@@ -3,17 +3,14 @@ import { ReactNode } from 'react'
 import classNames from 'classnames'
 
 import { Box } from 'components/Atomic'
-import {
-  borderHighlightClass,
-  borderHoverHighlightClass,
-} from 'components/constants'
+import { borderHoverHighlightClass } from 'components/constants'
 import { CardStyleType } from 'components/HighlightCard/types'
 
 type Props = {
   className?: string
   children: ReactNode
   isFocused?: boolean
-  onClick?: () => void
+  onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
   disabled?: boolean
   type?: CardStyleType
   withBackground?: boolean
@@ -44,7 +41,8 @@ export const HighlightCard = ({
         'rounded-2xl md:rounded-3xl md:px-6 pb-3 md:py-4 md:gap-2 border border-solid border-transparent transition',
         {
           'bg-light-bg-primary dark:bg-dark-gray-light': withBackground,
-          [borderHighlightClass]: isFocused,
+          '!border-light-border-primary dark:!border-dark-gray-primary':
+            isFocused,
           [borderHoverHighlightClass]: !disabled,
         },
         borderClasses[type],

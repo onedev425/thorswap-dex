@@ -5,7 +5,7 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import { AssetsPanel } from 'components/AssetSelect/AssetsPanel'
 import { TabsConfig } from 'components/Atomic/Tabs'
 
-import { useAssets } from 'store/assets/hooks'
+import { useAppSelector } from 'store/store'
 
 import { t } from 'services/i18n'
 
@@ -15,7 +15,7 @@ export const useAssetSelectTabs = (
   common: AssetSelectType[],
   onSelect: (val: Asset) => void,
 ) => {
-  const { featured, frequent } = useAssets()
+  const { featured, frequent } = useAppSelector((state) => state.assets)
   const commonAssets = common.map((a) => a.asset)
   const featuredAssets = featured
     .map((ticker) => Asset.fromAssetString(ticker))

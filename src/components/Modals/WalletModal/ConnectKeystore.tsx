@@ -104,7 +104,7 @@ export const ConnectKeystoreView = ({
           )}
           {keystoreError && <Icon name="invalid" color="red" size={18} />}
           <Typography
-            className={classNames('text-[11px] opacity-80 ml-2', {
+            className={classNames('!text-[11px] opacity-80 ml-2', {
               'opacity-100': keystore && !keystoreError,
             })}
             variant="caption-xs"

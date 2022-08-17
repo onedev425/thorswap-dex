@@ -12,6 +12,7 @@ export const AddVThorMM = memo(() => {
   const addVTHOR = async () => {
     const vThorAddress = stakingV2Addr.VTHOR[NETWORK]
 
+    // @ts-expect-error window types
     await window.ethereum.request({
       method: 'wallet_watchAsset',
       params: {

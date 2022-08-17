@@ -1,24 +1,26 @@
 import { useMemo } from 'react'
 
-import { AssetInputType } from 'components/AssetInput/types'
 import { InfoRowConfig } from 'components/InfoRow/types'
 import { InfoWithTooltip } from 'components/InfoWithTooltip'
 
 import { t } from 'services/i18n'
 
 type Params = {
-  inputAsset: AssetInputType
+  assetName: string
+  assetValue: string
   fee?: string
 }
 
-export const useApproveInfoItems = ({ inputAsset, fee = 'N/A' }: Params) => {
+export const useApproveInfoItems = ({
+  assetValue,
+  assetName,
+  fee = 'N/A',
+}: Params) => {
   const confirmInfoItems: InfoRowConfig[] = useMemo(
     () => [
       {
         label: t('views.liquidity.approve'),
-        value: `${inputAsset.value?.toSignificant(
-          6,
-        )} ${inputAsset.asset.name.toUpperCase()}`,
+        value: `${assetValue} ${assetName.toUpperCase()}`,
       },
       {
         label: t('common.transactionFee'),
@@ -27,7 +29,7 @@ export const useApproveInfoItems = ({ inputAsset, fee = 'N/A' }: Params) => {
         ),
       },
     ],
-    [fee, inputAsset.asset.name, inputAsset.value],
+    [fee, assetName, assetValue],
   )
 
   return confirmInfoItems

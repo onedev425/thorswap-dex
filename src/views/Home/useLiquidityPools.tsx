@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
 
-import { chainToString } from '@thorswap-lib/xchain-util'
-
 import { sortAmounts } from 'components/Atomic/Table/utils'
 
 import { useMidgard } from 'store/midgard/hooks'
+
+import { chainName } from 'helpers/chainName'
 
 import { ColorType } from 'types/app'
 
@@ -53,7 +53,7 @@ export const useLiquidityPools = ({
     if (keyword) {
       return poolsByType.filter(({ asset }) => {
         const poolStr = asset.toString().toLowerCase()
-        const chainStr = chainToString(asset.chain).toLowerCase()
+        const chainStr = chainName(asset.chain, true).toLowerCase()
         const assetType = asset.type.toLowerCase()
         const keywordStr = keyword.toLowerCase()
 

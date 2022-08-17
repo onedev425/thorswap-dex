@@ -8,7 +8,7 @@ import {
   Route,
 } from 'react-router-dom'
 
-import Stake from 'views/Stake'
+import Swap from 'views/Swap'
 import WalletBalance, { WalletDrawer } from 'views/WalletBalance'
 
 const Multisig = lazy(() => import('views/Multisig/Multisig'))
@@ -20,12 +20,12 @@ const AddLiquidity = lazy(() => import('views/AddLiquidity'))
 const CreateLiquidity = lazy(() => import('views/CreateLiquidity'))
 const Home = lazy(() => import('views/Home'))
 const Liquidity = lazy(() => import('views/Liquidity'))
-const Nodes = lazy(() => import('views/Nodes'))
 const NodeDetails = lazy(() => import('views/Nodes/NodeDetails'))
 const NodeManager = lazy(() => import('views/Nodes/NodeManager'))
+const Nodes = lazy(() => import('views/Nodes'))
 const Send = lazy(() => import('views/Send'))
+const Stake = lazy(() => import('views/Stake'))
 const StakeVThor = lazy(() => import('views/StakeVThor'))
-const Swap = lazy(() => import('views/Swap'))
 const Thorname = lazy(() => import('views/Thorname'))
 const UpgradeRune = lazy(() => import('views/UpgradeRune'))
 const Vesting = lazy(() => import('views/Vesting'))

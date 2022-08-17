@@ -56,7 +56,7 @@ export const AnnouncementsPopover = () => {
             <Typography className="p-2" variant="subtitle2">
               {t('components.announcements.announcements')}
             </Typography>
-            <Box className="pt-3 self-stretch gap-1" col>
+            <Box className="pt-3 self-stretch gap-1 px-0.5" col>
               {announcementsToShow.length > 0 ? (
                 announcementsToShow.map((announcement) => (
                   <Announcement

@@ -11,14 +11,15 @@ export const useInputAmount = ({
   amountValue,
   onAmountChange,
 }: AmountProps) => {
+  const { decimal } = amountValue
   const inputValue = useMemo(
     () => (amountValue?.gt(0) ? amountValue : undefined),
     [amountValue],
   )
 
   const formatPriceOptions = useMemo(
-    () => ({ decimals: inputValue?.decimal, prefix: '' }),
-    [inputValue?.decimal],
+    () => ({ decimals: decimal, prefix: '' }),
+    [decimal],
   )
 
   const formatPrice = useFormatPrice(formatPriceOptions)
@@ -35,8 +36,7 @@ export const useInputAmount = ({
 
   const onChange = useCallback(
     ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-      const amount = inputValue || getAmountFromString(value, 8)
-      const newValue = getAmountFromString(value, amount?.decimal || 8)
+      const newValue = getAmountFromString(value, decimal)
 
       // if value is a valid number, trigger onChange
       if (newValue) {
@@ -47,7 +47,7 @@ export const useInputAmount = ({
         handleRawValueChange(value)
       }
     },
-    [inputValue, handleRawValueChange, onAmountChange],
+    [decimal, handleRawValueChange, onAmountChange],
   )
 
   useEffect(() => {

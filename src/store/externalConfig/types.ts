@@ -44,10 +44,3 @@ export type AnnouncementsData = {
   manual: AnnouncementItem[]
   chainStatus: ChainStatusAnnouncements
 }
-
-export type ExternalConfig = {
-  announcements: AnnouncementsData
-  isTradingGloballyDisabled: boolean
-}
-
-export type State = ExternalConfig

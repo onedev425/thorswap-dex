@@ -28,8 +28,7 @@ export const useWallet = () => {
 
   const unlockWallet = useCallback(
     async (keystore: Keystore, phrase: string, chains: SupportedChain[]) => {
-      // @ts-expect-error multichain types
-      multichain.connectKeystore(phrase, chains)
+      multichain().connectKeystore(phrase, chains)
 
       dispatch(actions.connectKeystore(keystore))
       chains.map((chain: SupportedChain) => {
@@ -40,7 +39,7 @@ export const useWallet = () => {
   )
 
   const disconnectWallet = useCallback(() => {
-    multichain.resetClients()
+    multichain().resetClients()
 
     batch(() => {
       dispatch(actions.disconnect())
@@ -50,7 +49,7 @@ export const useWallet = () => {
 
   const disconnectWalletByChain = useCallback(
     (chain: SupportedChain) => {
-      multichain.resetChain(chain)
+      multichain().resetChain(chain)
 
       batch(() => {
         dispatch(actions.disconnectByChain(chain))
@@ -66,7 +65,7 @@ export const useWallet = () => {
 
       try {
         showInfoToast(t('notification.connectingLedger', options))
-        await multichain.connectLedger({ chain, addressIndex })
+        await multichain().connectLedger({ chain, addressIndex })
 
         dispatch(walletActions.getWalletByChain(chain as SupportedChain))
         showInfoToast(t('notification.connectedLedger', options))
@@ -80,8 +79,7 @@ export const useWallet = () => {
 
   const connectXdefiWallet = useCallback(
     async (chains: SupportedChain[]) => {
-      // @ts-expect-error multichain types
-      await multichain.connectXDefiWallet(chains)
+      await multichain().connectXDefiWallet(chains)
 
       chains.forEach((chain) => {
         dispatch(walletActions.getWalletByChain(chain))
@@ -91,30 +89,29 @@ export const useWallet = () => {
   )
 
   const connectMetamask = useCallback(
-    async (chains: SupportedChain[]) => {
-      await multichain.connectMetamask(chains[0])
+    async (chain: SupportedChain) => {
+      await multichain().connectMetamask(chain)
 
-      dispatch(walletActions.getWalletByChain(chains[0]))
+      dispatch(walletActions.getWalletByChain(chain))
     },
     [dispatch],
   )
 
   const connectPhantom = useCallback(async () => {
-    await multichain.connectPhantom()
+    await multichain().connectPhantom()
 
     dispatch(walletActions.getWalletByChain(Chain.Solana))
   }, [dispatch])
 
   const connectKeplr = useCallback(async () => {
-    await multichain.connectKeplr()
+    await multichain().connectKeplr()
 
     dispatch(walletActions.getWalletByChain(Chain.Cosmos))
   }, [dispatch])
 
   const connectTrustWallet = useCallback(
     async (chains: SupportedChain[]) => {
-      // @ts-expect-error multichain types
-      await multichain.connectTrustWallet(chains, {
+      await multichain().connectTrustWallet(chains, {
         listeners: { disconnect: disconnectWallet },
       })
 

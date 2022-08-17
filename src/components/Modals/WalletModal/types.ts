@@ -59,3 +59,48 @@ export const availableChainsByWallet: Record<string, SupportedChain[]> = {
     Chain.BitcoinCash,
   ],
 }
+
+const COMMON_WALLETS = [
+  WalletType.CreateKeystore,
+  WalletType.Keystore,
+  WalletType.Phrase,
+] as const
+
+export const ALL_WALLET_OPTIONS = [
+  ...COMMON_WALLETS,
+  WalletType.Ledger,
+  WalletType.TrustWallet,
+  WalletType.MetaMask,
+  WalletType.Xdefi,
+  WalletType.Phantom,
+  WalletType.Keplr,
+]
+
+export const availableWalletsByChain: Record<SupportedChain, WalletType[]> = {
+  [Chain.Bitcoin]: [WalletType.Xdefi, WalletType.Ledger, ...COMMON_WALLETS],
+  [Chain.Ethereum]: [
+    WalletType.MetaMask,
+    WalletType.Xdefi,
+    WalletType.Ledger,
+    WalletType.TrustWallet,
+    ...COMMON_WALLETS,
+  ],
+  [Chain.THORChain]: [
+    WalletType.Xdefi,
+    WalletType.Ledger,
+    WalletType.TrustWallet,
+    ...COMMON_WALLETS,
+  ],
+  [Chain.Solana]: [WalletType.Phantom, ...COMMON_WALLETS],
+  [Chain.Binance]: [
+    WalletType.Xdefi,
+    WalletType.Ledger,
+    WalletType.TrustWallet,
+    ...COMMON_WALLETS,
+  ],
+  [Chain.Doge]: [WalletType.Xdefi, ...COMMON_WALLETS],
+  [Chain.Litecoin]: [WalletType.Xdefi, ...COMMON_WALLETS],
+  [Chain.BitcoinCash]: [WalletType.Xdefi, ...COMMON_WALLETS],
+  [Chain.Cosmos]: [WalletType.Keplr, ...COMMON_WALLETS],
+  [Chain.Avalanche]: [WalletType.MetaMask, ...COMMON_WALLETS],
+}

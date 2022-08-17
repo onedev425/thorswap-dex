@@ -26,11 +26,10 @@ export const useTxManager = () => {
     clearTxTrackers,
   } = useMidgard()
 
-  const pendingTransactions = useMemo(() => {
-    return txTrackers.filter((tracker: TxTracker) => {
-      return tracker.status === TxTrackerStatus.Pending
-    })
-  }, [txTrackers])
+  const pendingTransactions = useMemo(
+    () => txTrackers.filter(({ status }) => status === TxTrackerStatus.Pending),
+    [txTrackers],
+  )
 
   useInterval(
     () => {

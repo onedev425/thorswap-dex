@@ -5,7 +5,6 @@ import {
   Constants,
   DepthHistory,
   EarningsHistory,
-  InboundAddressesItem,
   LastblockItem,
   LiquidityHistory,
   MemberDetails,
@@ -19,19 +18,29 @@ import {
   TVLHistory,
 } from '@thorswap-lib/midgard-sdk'
 import { Pool } from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/xchain-util'
+import { SupportedChain, Chain } from '@thorswap-lib/types'
+
+export enum AggregatorSwapType {
+  TC2TC = 'TC2TC',
+  ERC20 = 'ERC20',
+  SwapIn = 'swapIn',
+  SwapOut = 'swapOut',
+}
+
 export interface SubmitTx {
+  aggType?: AggregatorSwapType
+  contractAddress?: string
   inAssets?: Coin[]
   outAssets?: Coin[]
-  txID?: string
-  submitDate?: Date
-  recipient?: string
   poolAsset?: string
+  recipient?: string
+  submitDate?: Date
+  txID?: string
+  withdrawChain?: Chain // chain for asset used for withdraw tx
   addTx?: {
     runeTxID?: string
     assetTxID?: string
   }
-  withdrawChain?: Chain // chain for asset used for withdraw tx
 }
 
 export interface TxTracker {
@@ -199,8 +208,8 @@ export interface State {
   mimirLoading: boolean
   mimir: MimirData
   volume24h: number | null
-  inboundLoading: boolean
-  inboundData: InboundAddressesItem[]
+  inboundGasRate: { [key in Chain]?: string }
+  inboundHalted: { [key in SupportedChain]?: boolean }
   lastBlock: LastblockItem[]
   nodes: THORNode[]
   nodeLoading: boolean

@@ -1,23 +1,13 @@
-import {
-  BCHChain,
-  BNBChain,
-  BTCChain,
-  CosmosChain,
-  DOGEChain,
-  ETHChain,
-  LTCChain,
-  SOLChain,
-  THORChain,
-} from '@thorswap-lib/xchain-util'
+import { Chain } from '@thorswap-lib/types'
 
 export const SORTED_CHAINS = [
-  THORChain,
-  BTCChain,
-  SOLChain,
-  ETHChain,
-  BNBChain,
-  DOGEChain,
-  BCHChain,
-  LTCChain,
-  CosmosChain,
+  Chain.THORChain,
+  Chain.Bitcoin,
+  Chain.Solana,
+  Chain.Ethereum,
+  Chain.Binance,
+  Chain.Doge,
+  Chain.BitcoinCash,
+  Chain.Litecoin,
+  Chain.Cosmos,
 ] as const

@@ -9,8 +9,7 @@ import {
   Percent,
   AssetAmount,
 } from '@thorswap-lib/multichain-sdk'
-import { SupportedChain } from '@thorswap-lib/types'
-import { THORChain } from '@thorswap-lib/xchain-util'
+import { Chain } from '@thorswap-lib/types'
 
 import { useTxCreate } from 'views/Multisig/TxCreate/TxCreateContext'
 
@@ -133,8 +132,7 @@ export const useTxWithdraw = () => {
     const tx = await createDepositTx(
       {
         memo,
-        amount: AssetAmount.getMinAmountByChain(THORChain as SupportedChain)
-          .amount,
+        amount: AssetAmount.getMinAmountByChain(Chain.THORChain).amount,
         asset: Asset.RUNE(),
       },
       signers,

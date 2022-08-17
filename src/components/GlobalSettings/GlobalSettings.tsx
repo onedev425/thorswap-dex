@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { FeeOption } from '@thorswap-lib/xchain-client'
+import { FeeOption } from '@thorswap-lib/types'
 import classNames from 'classnames'
 
 import {
@@ -28,11 +28,9 @@ export const GlobalSettings = ({ transactionMode }: Props) => {
   const {
     slippageTolerance,
     feeOptionType,
-    // autoRouter,
     expertMode,
     customRecipientMode,
     setSlippage,
-    // setAutoRouter,
     setExpertMode,
     setCustomRecipientMode,
     setFeeOptionType,
@@ -43,7 +41,7 @@ export const GlobalSettings = ({ transactionMode }: Props) => {
       {
         key: 'fee.average',
         type: FeeOption.Average,
-        text: t('common.feeNormal'),
+        text: t('common.feeAverage'),
       },
       {
         key: 'fee.fast',
@@ -53,7 +51,7 @@ export const GlobalSettings = ({ transactionMode }: Props) => {
       {
         key: 'fee.fastest',
         type: FeeOption.Fastest,
-        text: t('common.feeInstant'),
+        text: t('common.feeFastest'),
       },
     ],
     [],

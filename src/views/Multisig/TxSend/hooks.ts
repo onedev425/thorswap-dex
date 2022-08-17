@@ -137,7 +137,7 @@ export const useTxSend = () => {
 
   const handleSend = useCallback(() => {
     if (
-      !multichain.validateAddress({
+      !multichain().validateAddress({
         chain: Chain.THORChain,
         address: recipientAddress,
       })

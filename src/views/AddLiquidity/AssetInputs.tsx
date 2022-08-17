@@ -10,8 +10,6 @@ import { LiquidityTypeOption } from 'components/LiquidityType/types'
 
 import { t } from 'services/i18n'
 
-import { commonAssets } from 'helpers/assets'
-
 type Props = {
   onPoolChange: (asset: Asset) => void
   onAssetAmountChange: (value: Amount) => void
@@ -66,7 +64,6 @@ export const AssetInputs = memo(
             onAssetChange={onPoolChange}
             onValueChange={onAssetAmountChange}
             assets={poolAssetList}
-            commonAssets={commonAssets}
             disabled={isAssetPending}
             warning={
               isAssetPending
@@ -96,7 +93,6 @@ export const AssetInputs = memo(
               liquidityType === LiquidityTypeOption.RUNE
             }
             assets={poolAssetList}
-            commonAssets={commonAssets}
             singleAsset
             disabled={isRunePending}
             warning={

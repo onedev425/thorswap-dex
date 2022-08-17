@@ -8,7 +8,7 @@ import {
 } from '@thorswap-lib/multichain-sdk'
 import { Chain, SupportedChain } from '@thorswap-lib/types'
 import { BigNumber } from 'bignumber.js'
-import { takeRight } from 'lodash'
+import takeRight from 'lodash/takeRight'
 
 import { useMidgard } from 'store/midgard/hooks'
 import { useWallet } from 'store/wallet/hooks'
@@ -25,6 +25,7 @@ const emptyWallet = {
   [Chain.Doge]: null,
   [Chain.Solana]: null,
   [Chain.Cosmos]: null,
+  [Chain.Avalanche]: null,
 }
 
 const getBalanceByChain = (

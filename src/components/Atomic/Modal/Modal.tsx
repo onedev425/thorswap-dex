@@ -61,7 +61,7 @@ export const Modal = ({
               leaveTo="opacity-0"
             >
               <div className="max-w-md inline-block overflow-y-auto mx-2 drop-shadow-2xl text-left transition-all transform">
-                <div className="flex flex-row items-center justify-between my-2 lg:m-5">
+                <div className="flex flex-row items-center justify-between my-2 lg:m-5 mx-5">
                   <Box alignCenter row>
                     {onBack && (
                       <Icon
@@ -89,6 +89,7 @@ export const Modal = ({
                     />
                   </Box>
                 </div>
+
                 <Box className="max-h-[80vh]">
                   {withBody ? (
                     <Card

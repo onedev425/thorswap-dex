@@ -3,8 +3,7 @@ import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Asset, AssetAmount } from '@thorswap-lib/multichain-sdk'
-import { SupportedChain } from '@thorswap-lib/types'
-import { THORChain } from '@thorswap-lib/xchain-util'
+import { Chain } from '@thorswap-lib/types'
 
 import { useTxCreate } from 'views/Multisig/TxCreate/TxCreateContext'
 import { BondActionType, HandleBondAction } from 'views/Nodes/types'
@@ -38,8 +37,7 @@ export const useTxBond = () => {
           amount:
             type === BondActionType.Bond && amount
               ? amount
-              : AssetAmount.getMinAmountByChain(THORChain as SupportedChain)
-                  .amount,
+              : AssetAmount.getMinAmountByChain(Chain.THORChain).amount,
           asset: Asset.RUNE(),
         },
         signers,

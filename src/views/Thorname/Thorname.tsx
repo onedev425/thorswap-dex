@@ -1,10 +1,6 @@
 import { KeyboardEvent, useCallback, useEffect, useMemo, useState } from 'react'
 
-import {
-  isKeystoreSignRequired,
-  Asset,
-  THORName,
-} from '@thorswap-lib/multichain-sdk'
+import { Asset, THORName } from '@thorswap-lib/multichain-sdk'
 import { SupportedChain } from '@thorswap-lib/types'
 
 import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic'
@@ -19,6 +15,8 @@ import { useWallet } from 'store/wallet/hooks'
 
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
+
+import { isKeystoreSignRequired } from 'helpers/wallet'
 
 import { ChainDropdown } from './ChainDropdown'
 import { RegisteredThornames } from './RegisteredThornames'
@@ -153,7 +151,7 @@ const Thorname = () => {
 
   useEffect(() => {
     if (address) {
-      const isValidAddress = multichain.validateAddress({ chain, address })
+      const isValidAddress = multichain().validateAddress({ chain, address })
       setValidAddress(isValidAddress)
     }
   }, [address, chain])

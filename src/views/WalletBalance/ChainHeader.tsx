@@ -2,7 +2,6 @@ import { useCallback, useMemo, useState } from 'react'
 
 import { WalletOption } from '@thorswap-lib/multichain-sdk'
 import { SupportedChain } from '@thorswap-lib/types'
-import { chainToString } from '@thorswap-lib/xchain-util'
 
 import { CopyAddress } from 'views/Wallet/components/CopyAddress'
 import { GoToAccount } from 'views/Wallet/components/GoToAccount'
@@ -17,6 +16,8 @@ import { WalletIcon } from 'components/WalletIcon/WalletIcon'
 
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
+
+import { chainName } from 'helpers/chainName'
 
 export type ChainHeaderProps = {
   chain: SupportedChain
@@ -46,7 +47,7 @@ export const ChainHeader = ({
     }
 
     if (walletType === WalletOption.LEDGER && chain === 'THOR') {
-      const addr = await multichain.thor.verifyLedgerAddress()
+      const addr = await multichain().thor.verifyLedgerAddress()
 
       showInfoToast(t('notification.verifyLedgerAddy'), addr, {
         duration: 20 * 1000,
@@ -86,7 +87,7 @@ export const ChainHeader = ({
           />
         </Tooltip>
         <Typography className="ml-1" variant="caption">
-          {chainToString(chain)}
+          {chainName(chain, true)}
         </Typography>
       </Box>
 

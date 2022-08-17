@@ -1,11 +1,10 @@
 import { useCallback } from 'react'
 
 import { actions } from 'store/assets/slice'
-import { useAppDispatch, useAppSelector } from 'store/store'
+import { useAppDispatch } from 'store/store'
 
 export const useAssets = () => {
   const dispatch = useAppDispatch()
-  const assetsState = useAppSelector(({ assets }) => assets)
 
   const addFrequent = useCallback(
     (asset: string) => {
@@ -28,9 +27,16 @@ export const useAssets = () => {
     [dispatch],
   )
 
+  const toggleTokenList = useCallback(
+    (tokenListName: string) => {
+      dispatch(actions.toggleTokenList(tokenListName))
+    },
+    [dispatch],
+  )
+
   return {
-    ...assetsState,
     addFrequent,
+    toggleTokenList,
     addFeatured,
     removeFeatured,
   }

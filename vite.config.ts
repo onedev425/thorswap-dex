@@ -5,8 +5,6 @@ import rewriteAll from 'vite-plugin-rewrite-all'
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
-import { visualizer } from 'rollup-plugin-visualizer'
-import progress from 'vite-plugin-progress'
 import removeConsole from 'vite-plugin-remove-console'
 
 // TODO: to split build into smaller chunks
@@ -24,8 +22,6 @@ export default defineConfig({
     react(),
     rewriteAll(),
     svgr({ svgrOptions: { icon: true } }),
-    visualizer({ json: true }),
-    progress(),
     removeConsole(),
   ],
   resolve: {
@@ -55,14 +51,12 @@ export default defineConfig({
        * file and use like below:
        *
        * '@thorswap-lib/multichain-sdk': resolve(__dirname, 'src/multichain'),
-       * '@thorswap-lib/multichain-ledger': resolve(__dirname, 'src/ledger'),
        */
     },
   },
   build: {
     commonjsOptions: { transformMixedEsModules: true },
     minify: 'esbuild',
-    outDir: 'build',
     polyfillModulePreload: false,
     reportCompressedSize: true,
     sourcemap: false,
@@ -76,14 +70,16 @@ export default defineConfig({
       },
     },
   },
+  esbuild: {
+    logOverride: { 'this-is-undefined-in-esm': 'silent' }
+  },
   optimizeDeps: {
     /**
      * Comment out libraries that you are working on locally
-     * This option will prevent reloading those files without running `yarn vite optimize`
+     * This option will prevent reloading those zfiles without running `yarn vite optimize`
      */
     include: [
       '@binance-chain/javascript-sdk',
-      '@thorswap-lib/multichain-sdk',
       'crypto-browserify',
     ],
     esbuildOptions: {

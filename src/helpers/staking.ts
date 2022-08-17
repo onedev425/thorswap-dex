@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { takeRight } from 'lodash'
+import takeRight from 'lodash/takeRight'
 
 export const BLOCKS_PER_DAY = 6432
 export const BLOCKS_PER_MONTH = BLOCKS_PER_DAY * 30

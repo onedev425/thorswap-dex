@@ -78,4 +78,5 @@ export type Props = {
   fontWeight?: TypographyWeight
   children?: ReactNode
   transform?: TextTransform
+  style?: React.CSSProperties
 }

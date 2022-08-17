@@ -41,7 +41,6 @@ export const useImportSignatureForm = (onSubmit: (val: Signer) => void) => {
   const handleConfirm = useCallback(
     async (values: FormValues) => {
       // TODO: Import signature - check if signature is correct?
-      console.log('🔥', values)
 
       onSubmit({ pubKey: values.memberPubKey, signature: values.signature })
       reset()

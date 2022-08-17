@@ -1,14 +1,10 @@
-import { useCallback, ReactNode } from 'react'
+import { useCallback, ReactNode, useEffect } from 'react'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
 
 import { Box, Button, Modal } from 'components/Atomic'
 
-import useTimeout from 'hooks/useTimeout'
-
 import { t } from 'services/i18n'
-
-const MODAL_DISMISS_TIME = 60 * 1000 // 60s
 
 type Props = {
   inputAssets: Asset[]
@@ -18,15 +14,27 @@ type Props = {
   children?: ReactNode
 }
 
+const MODAL_CLOSE_DELAY = 60 * 1000
+
 export const ConfirmModal = ({
   isOpened,
   onConfirm,
   onClose,
   children,
 }: Props) => {
-  useTimeout(() => {
-    onClose()
-  }, MODAL_DISMISS_TIME)
+  useEffect(() => {
+    let timeout: NodeJS.Timeout
+
+    if (isOpened) {
+      timeout = setTimeout(() => {
+        onClose()
+      }, MODAL_CLOSE_DELAY)
+    }
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [isOpened, onClose])
 
   const handleProceed = useCallback(() => {
     if (!onConfirm || !isOpened) {

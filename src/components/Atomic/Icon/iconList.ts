@@ -43,6 +43,7 @@ import {
   BsTrash,
   BsExclamationCircle,
   BsYoutube,
+  BsPersonCheckFill,
 } from 'react-icons/bs'
 import { CgMenu, CgArrowsExchangeAltV, CgEye } from 'react-icons/cg'
 import {
@@ -99,6 +100,7 @@ import {
   RiShareBoxLine,
   RiSurveyLine,
 } from 'react-icons/ri'
+import { TbPlugConnected } from 'react-icons/tb'
 import {
   VscAdd,
   VscCloudUpload,
@@ -115,6 +117,7 @@ import { SvgIcons } from './svg/svgIconList'
 
 const Icons = {
   add: VscAdd,
+  approved: BsPersonCheckFill,
   arrowBack: BiArrowBack,
   arrowDown: FaArrowDown,
   arrowDownLine: MdKeyboardArrowDown,
@@ -140,6 +143,7 @@ const Icons = {
   close: FiX,
   cog: HiOutlineCog,
   copy: BiCopy,
+  connect: TbPlugConnected,
   currencyDollar: BsCurrencyDollar,
   disconnect: VscSignOut,
   discord: BsDiscord,

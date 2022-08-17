@@ -53,9 +53,12 @@ export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
                 {title}
               </Typography>
             ) : (
-              title
+              <Box flex={1}>{title}</Box>
             )}
-            <CollapseChevron isActive={isActive} />
+
+            <Box className="w-6">
+              <CollapseChevron isActive={isActive} />
+            </Box>
           </Box>
         </div>
 
@@ -64,7 +67,7 @@ export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
           ref={contentRef}
           style={maxHeightStyle}
         >
-          <div className={classNames('px-4 pb-4', contentClassName)}>
+          <div className={classNames('px-4 pb-2', contentClassName)}>
             {children}
           </div>
         </div>

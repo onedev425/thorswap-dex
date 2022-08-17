@@ -6,13 +6,13 @@ import { multichain } from 'services/multichain'
 
 const checkIfExchangeBNBAddress = async (address: string) => {
   // validate address
-  if (!multichain.validateAddress({ address, chain: Chain.Binance })) {
+  if (!multichain().validateAddress({ address, chain: Chain.Binance })) {
     return false
   }
 
   try {
-    const response = await multichain.bnb
-      .getClient()
+    const response = await multichain()
+      .bnb.getClient()
       .getBncClient()
       .getAccount(address)
     // if flags === 0, it's not exchange address

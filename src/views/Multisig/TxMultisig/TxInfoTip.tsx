@@ -19,7 +19,7 @@ type Props = {
 export const TxInfoTip = ({ canBroadcast, txHash, txBodyStr }: Props) => {
   const [isTxModalVisible, setIsTxModalVisible] = useState(false)
   const txUrl = txHash
-    ? multichain.getExplorerTxUrl(Chain.THORChain as SupportedChain, txHash)
+    ? multichain().getExplorerTxUrl(Chain.THORChain as SupportedChain, txHash)
     : ''
 
   if (txHash) {

@@ -28,7 +28,7 @@ export const registerThorname = ({
   address,
   owner,
 }: RegisterThornameParams) => {
-  return multichain.registerThorname({ address, owner, name, chain }, amount)
+  return multichain().registerThorname({ address, owner, name, chain }, amount)
 }
 
 export const getThornameExpireDate = ({

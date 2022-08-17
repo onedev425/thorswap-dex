@@ -6,11 +6,8 @@ export default function useOnClickOutside(
 ) {
   useEffect(
     () => {
-      const listener = (event: unknown) => {
-        // @ts-expect-error  Do nothing if clicking ref's element or descendent elements
-        if (!ref?.current || ref?.current.contains(event.target)) {
-          return
-        }
+      const listener = (event: ToDo) => {
+        if (!ref?.current || ref?.current.contains(event.target)) return
 
         handler(event)
       }

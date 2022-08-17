@@ -1,6 +1,6 @@
 import { Chart } from 'chart.js'
 import dayjs from 'dayjs'
-import { random } from 'lodash'
+import random from 'lodash/random'
 
 type ColorType = 'background' | 'stroke'
 

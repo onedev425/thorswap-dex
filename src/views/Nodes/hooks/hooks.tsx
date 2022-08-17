@@ -232,7 +232,7 @@ export const useNodeManager = ({
    * 2. check if node address matches to wallet address
    */
   const handleComplete = useCallback(async () => {
-    const isValidAddress = multichain.validateAddress({
+    const isValidAddress = multichain().validateAddress({
       chain: Chain.THORChain,
       address: address || '',
     })
@@ -263,7 +263,7 @@ export const useNodeManager = ({
     try {
       if (tab.value === BondActionType.Bond) {
         // bond action
-        const txURL = await multichain.bond(address || '', amount)
+        const txURL = await multichain().bond(address || '', amount)
         showSuccessToast(
           t('views.nodes.detail.ViewBondTx'),
           <Box className="align-center py-2">
@@ -278,7 +278,7 @@ export const useNodeManager = ({
           </Box>,
         )
       } else if (tab.value === BondActionType.Unbond) {
-        const txURL = await multichain.unbond(
+        const txURL = await multichain().unbond(
           address || '',
           amount.assetAmount.toNumber(),
         )
@@ -296,7 +296,7 @@ export const useNodeManager = ({
           </>,
         )
       } else {
-        const txURL = await multichain.leave(address || '')
+        const txURL = await multichain().leave(address || '')
         showSuccessToast(
           t('views.nodes.detail.ViewLeaveTx'),
           <>

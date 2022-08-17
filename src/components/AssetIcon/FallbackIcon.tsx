@@ -25,9 +25,10 @@ export const FallbackIcon = ({ ticker, size }: Props) => {
       style={{ background: fallbackBgImg, width: size, height: size }}
     >
       <Typography
-        className={classNames('-m-1 break-all text-center leading-[10px]', {
-          '!text-[10px] !font-normal': isLongTicker,
-        })}
+        className={classNames(
+          '-m-1 !text-[10px] break-all text-center leading-[10px]',
+          { '!font-normal': isLongTicker },
+        )}
         variant="caption-xs"
       >
         {ticker}

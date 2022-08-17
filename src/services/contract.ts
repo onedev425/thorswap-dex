@@ -3,7 +3,7 @@ import { Contract, type ContractInterface } from '@ethersproject/contracts'
 import { InfuraProvider } from '@ethersproject/providers'
 import { formatUnits, parseUnits } from '@ethersproject/units'
 import { IMultiChain } from '@thorswap-lib/multichain-sdk'
-import { Network } from '@thorswap-lib/xchain-client'
+import { Network } from '@thorswap-lib/types'
 
 import { showErrorToast } from 'components/Toast'
 
@@ -215,7 +215,7 @@ export const triggerContractCall = async (
       : undefined
 
     showErrorToast(t('notification.gasEstimationFailed'), message)
-    console.log(plainErrMsg)
+
     return Promise.reject(error)
   }
 }

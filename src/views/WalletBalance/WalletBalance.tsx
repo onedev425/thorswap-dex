@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom'
 
 import {
   Amount,
+  Asset,
   AssetAmount,
   chainToSigAsset,
   ChainWallet,
-  isOldRune,
 } from '@thorswap-lib/multichain-sdk'
 import { Chain, SupportedChain } from '@thorswap-lib/types'
 import classNames from 'classnames'
@@ -55,6 +55,13 @@ const WalletBalance = () => {
         navigate(route)
       },
     [close, navigate],
+  )
+
+  const isOldRune = useCallback(
+    (asset: Asset) =>
+      asset.ticker === 'RUNE' &&
+      (asset.chain === Chain.Binance || asset.chain === Chain.Ethereum),
+    [],
   )
 
   const renderBalance = useCallback(
@@ -122,7 +129,7 @@ const WalletBalance = () => {
         </div>
       ))
     },
-    [handleNavigate],
+    [handleNavigate, isOldRune],
   )
 
   const renderChainBalance = useCallback(

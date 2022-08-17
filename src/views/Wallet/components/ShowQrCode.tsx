@@ -1,13 +1,14 @@
 import { ReactNode, useCallback, useState } from 'react'
 
 import { SupportedChain } from '@thorswap-lib/types'
-import { chainToString } from '@thorswap-lib/xchain-util'
 
 import { Box } from 'components/Atomic'
 import { HoverIcon } from 'components/HoverIcon'
 import { QRCodeModal } from 'components/Modals/QRCodeModal'
 
 import { t } from 'services/i18n'
+
+import { chainName } from 'helpers/chainName'
 
 type Props = {
   chain: SupportedChain
@@ -28,7 +29,7 @@ export const ShowQrCode = ({ chain, address, openComponent }: Props) => {
   const handleViewQRCode = useCallback(() => {
     if (address) {
       setQrData({
-        chain: chainToString(chain),
+        chain: chainName(chain, true),
         address,
       })
     }

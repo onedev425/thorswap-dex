@@ -22,7 +22,7 @@ const initialState: State =
     loadingBalances: false,
   } || EMPTY_STATE
 
-const assetsSlice = createSlice({
+const multisigSlice = createSlice({
   name: 'multisig',
   initialState,
   reducers: {
@@ -54,6 +54,6 @@ const assetsSlice = createSlice({
   },
 })
 
-export const { reducer, actions } = assetsSlice
+export const { actions } = multisigSlice
 
-export default assetsSlice
+export default multisigSlice.reducer

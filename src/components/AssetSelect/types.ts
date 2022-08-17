@@ -1,14 +1,22 @@
 import { Asset, Amount } from '@thorswap-lib/multichain-sdk'
 
+import { Token } from 'store/tokens/types'
+
 export type AssetSelectProps = {
-  assets: AssetSelectType[]
-  commonAssets: AssetSelectType[]
+  assets?: AssetSelectType[]
+  isLoading?: boolean
+  query?: string
+  setQuery?: (query: string) => void
   onSelect: (asset: Asset) => void
   onClose?: () => void
-  hideEmptyBalances?: boolean
+  openManageTokenList?: () => void
 }
 
-export type AssetSelectType = {
+export type AssetSelectType = Pick<Token, 'logoURI' | 'cg'> & {
   asset: Asset
+  value?: Amount
+  price?: number
+  provider?: string
+  identifier?: string
   balance?: Amount
 }

@@ -14,17 +14,18 @@ import { baseHoverClass } from 'components/constants'
 import { Popover } from 'components/Popover'
 import { Scrollbar } from 'components/Scrollbar'
 import { showSuccessToast } from 'components/Toast'
-import { TxContent } from 'components/TxManager/components/TxContent'
-import { TxHeader } from 'components/TxManager/components/TxHeader'
-import { TxPanel } from 'components/TxManager/components/TxPanel'
-import { TxManagerOpenButton } from 'components/TxManager/TxManagerOpenButton'
-import { getTxType } from 'components/TxManager/utils'
 
 import { TxTracker, TxTrackerStatus } from 'store/midgard/types'
 
 import { useTxManager } from 'hooks/useTxManager'
 
 import { t } from 'services/i18n'
+
+import { TxContent } from './components/TxContent'
+import { TxHeader } from './components/TxHeader'
+import { TxPanel } from './components/TxPanel'
+import { TxManagerOpenButton } from './TxManagerOpenButton'
+import { getTxType } from './utils'
 
 export const TxManager = () => {
   const [onlyPending, setOnlyPending] = useState(false)
@@ -33,11 +34,13 @@ export const TxManager = () => {
   const { txTrackers, clearTxTrackers } = useTxManager()
   const [filteredTxData, setFilteredTxData] = useState(txTrackers)
   const prevPendingCountRef = useRef(0)
+
   const pendingCount = filteredTxData.filter(
     (tx) =>
       tx.status === TxTrackerStatus.Pending ||
       tx.status === TxTrackerStatus.Submitting,
   ).length
+
   const prevTxTrackerStatus = useRef<{
     [key: TxTracker['uuid']]: TxTrackerStatus
   }>({})
@@ -80,8 +83,10 @@ export const TxManager = () => {
       return setFilteredTxData(txTrackers)
     }
 
-    const filteredData = txTrackers.filter(
-      (item) => item.status === TxTrackerStatus.Pending,
+    const filteredData = txTrackers.filter((item) =>
+      [TxTrackerStatus.Pending, TxTrackerStatus.Submitting].includes(
+        item.status,
+      ),
     )
 
     setFilteredTxData(filteredData)
@@ -158,7 +163,7 @@ export const TxManager = () => {
           </Box>
 
           <Scrollbar maxHeight={450}>
-            <Box className="!mx-4" col>
+            <Box className="!mx-4 py-0.5" col>
               {filteredTxData.map((item) => (
                 <Box
                   className="first:!mt-0 !mt-1"

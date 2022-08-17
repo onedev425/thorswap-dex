@@ -1,6 +1,5 @@
 import { Asset } from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/types'
-import { Network } from '@thorswap-lib/xchain-client'
+import { Chain, Network } from '@thorswap-lib/types'
 
 import { ContractType, LPContractType } from 'services/contract'
 

@@ -65,66 +65,50 @@ export const getTxProgressStatus = (txTracker: TxTracker): TxProgressStatus => {
   return 'pending'
 }
 
-//TODO - add translations
-export const getSwapOutTxData = async (
-  txTracker: TxTracker,
-): Promise<string | null> => {
-  const { action } = txTracker
-
+const lastIndex = (arr: ToDo[]) => arr?.length - 1 || 0
+export const getSwapOutTxData = ({
+  action,
+  type,
+}: TxTracker): string | null => {
   if (action?.out) {
-    const outTx = action.out[0]
-    const asset = Asset.fromAssetString(outTx?.coins?.[0]?.asset)
+    const lastOutAction = action.out[lastIndex(action.out)]
+
+    const { asset, amount } =
+      lastOutAction?.coins?.[lastIndex(lastOutAction.coins)] || {}
+
+    const [assetName] = asset.split('-')
+    const [chain, ticker] = assetName.split('.')
 
     if (asset) {
-      await asset?.setDecimal()
-
-      const amount = Amount.fromMidgard(outTx?.coins?.[0]?.amount)
-
-      if (action.type === ActionTypeEnum.Swap) {
-        if (txTracker.type === TxTrackerType.Swap) {
-          return t('txManager.receivedAmountAsset', {
-            amount: amount.toSignificant(6),
-            asset: asset.name,
-          })
-        }
-
-        if (txTracker.type === TxTrackerType.Mint) {
-          return t('txManager.mintedAmountAsset', {
-            amount: amount.toSignificant(6),
-            asset: asset.name,
-          })
-        }
-
-        if (txTracker.type === TxTrackerType.Redeem) {
-          return t('txManager.redeemedAmountAsset', {
-            amount: amount.toSignificant(6),
-            asset: asset.name,
-          })
-        }
+      const options = {
+        amount: Amount.fromMidgard(amount).toSignificant(6),
+        asset: ticker || chain,
       }
 
-      if (action.type === ActionTypeEnum.Refund) {
-        return t('txManager.refundedAmountAsset', {
-          amount: amount.toSignificant(6),
-          asset: asset.name,
-        })
-      }
+      const translationKey =
+        action.type === ActionTypeEnum.Swap
+          ? type === TxTrackerType.Swap
+            ? 'txManager.receivedAmountAsset'
+            : type === TxTrackerType.Mint
+            ? 'txManager.mintedAmountAsset'
+            : 'txManager.redeemedAmountAsset'
+          : 'txManager.sentAmountAsset'
+
+      return t(translationKey, options)
     }
   }
 
   return null
 }
 
-export const getSwapInTxUrl = (txTracker: TxTracker): string => {
-  const { submitTx } = txTracker
-
+export const getSwapInTxUrl = (submitTx: TxTracker['submitTx']): string => {
   if (submitTx?.txID) {
     const { inAssets = [], txID } = submitTx
     try {
       const asset = Asset.fromAssetString(inAssets[0].asset)
 
       if (asset) {
-        return multichain.getExplorerTxUrl(asset.L1Chain, txID)
+        return multichain().getExplorerTxUrl(asset.L1Chain, txID)
       }
     } catch (e) {
       return '#'
@@ -134,9 +118,7 @@ export const getSwapInTxUrl = (txTracker: TxTracker): string => {
   return '#'
 }
 
-export const getSwapOutTxUrl = (txTracker: TxTracker): string => {
-  const { action } = txTracker
-
+export const getSwapOutTxUrl = (action: TxTracker['action']): string => {
   if (action?.out) {
     const outTx = action.out[0]
     try {
@@ -145,9 +127,12 @@ export const getSwapOutTxUrl = (txTracker: TxTracker): string => {
       if (asset) {
         // add 0x for eth tx
         if (asset.L1Chain === 'ETH') {
-          return multichain.getExplorerTxUrl(asset.L1Chain, `0x${outTx?.txID}`)
+          return multichain().getExplorerTxUrl(
+            asset.L1Chain,
+            `0x${outTx?.txID}`,
+          )
         }
-        return multichain.getExplorerTxUrl(asset.L1Chain, outTx?.txID)
+        return multichain().getExplorerTxUrl(asset.L1Chain, outTx?.txID)
       }
     } catch (e) {
       return '#'
@@ -174,20 +159,20 @@ export const getAddTxUrl = ({
     if (inTx) {
       // add 0x for eth tx
       if (asset.L1Chain === 'ETH') {
-        return multichain.getExplorerTxUrl(asset.L1Chain, `0x${inTx?.txID}`)
+        return multichain().getExplorerTxUrl(asset.L1Chain, `0x${inTx?.txID}`)
       }
 
-      return multichain.getExplorerTxUrl(asset.L1Chain, inTx?.txID)
+      return multichain().getExplorerTxUrl(asset.L1Chain, inTx?.txID)
     }
   } else if (submitTx.addTx) {
     const { addTx } = submitTx
 
     if (asset.isRUNE() && addTx.runeTxID) {
-      return multichain.getExplorerTxUrl(asset.L1Chain, addTx.runeTxID)
+      return multichain().getExplorerTxUrl(asset.L1Chain, addTx.runeTxID)
     }
 
     if (addTx.assetTxID) {
-      return multichain.getExplorerTxUrl(asset.L1Chain, addTx.assetTxID)
+      return multichain().getExplorerTxUrl(asset.L1Chain, addTx.assetTxID)
     }
   }
 
@@ -200,7 +185,7 @@ export const getWithdrawSubmitTxUrl = (txTracker: TxTracker): string => {
   if (submitTx?.txID && submitTx?.withdrawChain) {
     const { withdrawChain, txID } = submitTx
 
-    return multichain.getExplorerTxUrl(withdrawChain as SupportedChain, txID)
+    return multichain().getExplorerTxUrl(withdrawChain as SupportedChain, txID)
   }
 
   return '#'
@@ -223,9 +208,9 @@ export const getWithdrawTxUrl = ({
     if (outTx) {
       // add 0x for eth tx
       if (asset.L1Chain === 'ETH') {
-        return multichain.getExplorerTxUrl(asset.L1Chain, `0x${outTx?.txID}`)
+        return multichain().getExplorerTxUrl(asset.L1Chain, `0x${outTx?.txID}`)
       }
-      return multichain.getExplorerTxUrl(asset.L1Chain, outTx?.txID)
+      return multichain().getExplorerTxUrl(asset.L1Chain, outTx?.txID)
     }
   }
 
@@ -241,7 +226,7 @@ export const getApproveTxUrl = (txTracker: TxTracker): string => {
     const asset = Asset.fromAssetString(inAssets[0].asset)
 
     if (asset) {
-      return multichain.getExplorerTxUrl(asset.L1Chain, txID)
+      return multichain().getExplorerTxUrl(asset.L1Chain, txID)
     }
   }
 
@@ -258,7 +243,7 @@ export const getSendTxUrl = ({
     const asset = Asset.fromAssetString(inAssets[0].asset)
 
     if (asset) {
-      return multichain.getExplorerTxUrl(asset.L1Chain, txID)
+      return multichain().getExplorerTxUrl(asset.L1Chain, txID)
     }
   }
 

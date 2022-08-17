@@ -11,9 +11,6 @@ import {
 import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron'
 import { baseHoverClass } from 'components/constants'
 import { HighlightCard } from 'components/HighlightCard'
-import { TxContent } from 'components/TxManager/components/TxContent'
-import { TxHeader } from 'components/TxManager/components/TxHeader'
-import { TxStatusIcon } from 'components/TxManager/components/TxStatusIcon'
 import {
   txProgressBorderActiveColors,
   txProgressBorderColors,
@@ -29,14 +26,20 @@ import { TxTracker, TxTrackerStatus, TxTrackerType } from 'store/midgard/types'
 
 import { t } from 'services/i18n'
 
+import { TxContent } from './TxContent'
+import { TxHeader } from './TxHeader'
+import { TxStatusIcon } from './TxStatusIcon'
+
 type Props = {
   txTracker: TxTracker
 }
 
 export const TxPanel = ({ txTracker }: Props) => {
-  const isPending =
-    txTracker.status === TxTrackerStatus.Pending ||
-    txTracker.status === TxTrackerStatus.Submitting
+  const isPending = [
+    TxTrackerStatus.Pending,
+    TxTrackerStatus.Submitting,
+  ].includes(txTracker.status)
+
   const { isActive, contentRef, toggle, maxHeightStyle, collapseClasses } =
     useCollapse({ defaultExpanded: isPending })
   const status = getTxProgressStatus(txTracker)

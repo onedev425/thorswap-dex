@@ -14,8 +14,7 @@ import {
   Pool,
   Wallet,
 } from '@thorswap-lib/multichain-sdk'
-import { SupportedChain } from '@thorswap-lib/types'
-import { Chain } from '@thorswap-lib/xchain-util'
+import { SupportedChain, Chain } from '@thorswap-lib/types'
 
 import { useAddLiquidityUtils } from 'views/AddLiquidity/hooks/useAddLiquidityUtils'
 import { useChainMember } from 'views/AddLiquidity/hooks/useChainMember'
@@ -371,7 +370,7 @@ export const useAddLiquidity = ({
         if (isAssetPending) {
           // deposit only rune if asset is pending
           // NOTE: important to pass sym_rune and asset address param
-          txRes = await multichain.addLiquidity(
+          txRes = await multichain().addLiquidity(
             {
               pool,
               runeAmount: runeAssetAmount,
@@ -384,7 +383,7 @@ export const useAddLiquidity = ({
         } else if (isRunePending) {
           // deposit only rune if asset is pending
           // NOTE: important to pass sym_asset and rune address param
-          txRes = await multichain.addLiquidity(
+          txRes = await multichain().addLiquidity(
             {
               pool,
               runeAmount: undefined,
@@ -396,7 +395,7 @@ export const useAddLiquidity = ({
           )
         } else {
           // no pending
-          txRes = await multichain.addLiquidity({
+          txRes = await multichain().addLiquidity({
             pool,
             runeAmount: runeAssetAmount,
             assetAmount: poolAssetAmount,
@@ -469,10 +468,10 @@ export const useAddLiquidity = ({
       })
 
       try {
-        const txHash = await multichain.approveAsset(poolAsset)
+        const txHash = await multichain().approveAsset(poolAsset)
 
         if (txHash) {
-          const txURL = multichain.getExplorerTxUrl(poolAsset.chain, txHash)
+          const txURL = multichain().getExplorerTxUrl(poolAsset.chain, txHash)
 
           console.info('txURL', txURL)
           if (txHash) {
@@ -765,7 +764,8 @@ export const useAddLiquidity = ({
   })
 
   const approveConfirmInfo = useApproveInfoItems({
-    inputAsset: { asset: poolAsset, value: assetAmount },
+    assetName: poolAsset.name,
+    assetValue: assetAmount.toSignificant(6),
     fee: inboundAssetFee.toCurrencyFormat(),
   })
 

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { Asset } from '@thorswap-lib/multichain-sdk'
-import { FeeOption } from '@thorswap-lib/xchain-client'
+import { FeeOption } from '@thorswap-lib/types'
 
 import { getFromStorage, saveInStorage } from 'helpers/storage'
 
@@ -65,8 +65,7 @@ const appSlice = createSlice({
       state.isSidebarOpen = !state.isSidebarOpen
     },
     setSlippage(state, action: PayloadAction<number>) {
-      const slippage =
-        action.payload > 100 ? 100 : action.payload < 0 ? 0 : action.payload
+      const slippage = Math.min(100, Math.max(0, action.payload))
       state.slippageTolerance = slippage
       saveInStorage({ key: 'slippageTolerance', value: String(slippage) })
     },
@@ -156,6 +155,6 @@ const appSlice = createSlice({
   },
 })
 
-export const { reducer, actions } = appSlice
+export const { actions } = appSlice
 
-export default appSlice
+export default appSlice.reducer

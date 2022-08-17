@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from 'react'
+import { createRef, ReactNode, useCallback, useEffect } from 'react'
 
 import ReactTooltip from 'react-tooltip'
 
@@ -22,8 +22,11 @@ type Props = {
 
 const TOOLTIP_ICON = 14
 
+const tooltipRef = createRef<ReactTooltip>()
+
 export const TooltipPortal = () => (
   <ReactTooltip
+    ref={tooltipRef}
     aria-haspopup
     className="tooltip-container"
     effect="solid"
@@ -46,10 +49,19 @@ export const Tooltip = ({
     setTimeout(ReactTooltip.rebuild, 50)
   }, [])
 
+  const hideTooltip = useCallback(() => {
+    setTimeout(() => {
+      if (tooltipRef.current) {
+        tooltipRef.current.setState({ show: false })
+      }
+    }, 300)
+  }, [])
+
   return content ? (
     <div
       data-for="tooltip"
       data-html
+      onMouseLeave={hideTooltip}
       data-place={place}
       data-tip-disable={disabled || !isMdActive}
       className={classNames(

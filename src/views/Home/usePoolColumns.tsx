@@ -3,7 +3,6 @@ import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Amount, Asset, Percent, Pool } from '@thorswap-lib/multichain-sdk'
-import { chainToString } from '@thorswap-lib/xchain-util'
 
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, Button, Typography } from 'components/Atomic'
@@ -18,6 +17,7 @@ import { BreakPoint } from 'hooks/useWindowSize'
 
 import { t } from 'services/i18n'
 
+import { chainName } from 'helpers/chainName'
 import { formatPrice } from 'helpers/formatPrice'
 
 import { getAddLiquidityRoute, getSwapRoute } from 'settings/constants'
@@ -45,14 +45,14 @@ export const usePoolColumns = () => {
       {
         id: 'network',
         Header: () => t('common.network'),
-        accessor: (row: Pool) => chainToString(row.asset.chain),
+        accessor: (row: Pool) => chainName(row.asset.chain, true),
         minScreenSize: BreakPoint.xl,
       },
       {
         id: 'price',
         Header: () => t('common.usdPrice'),
         accessor: (row: Pool) =>
-          Amount.fromAssetAmount(row.detail.assetPriceUSD, 8),
+          Amount.fromAssetAmount(row.detail.assetPriceUSD, row.asset.decimal),
         align: 'right',
         Cell: ({ cell: { value } }: { cell: { value: Amount } }) =>
           formatPrice(value),

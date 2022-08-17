@@ -14,7 +14,7 @@ type Props = {
 
 export const GoToAccount = ({ chain, address }: Props) => {
   const accountUrl = useMemo(
-    () => multichain.getExplorerAddressUrl(chain, address),
+    () => multichain().getExplorerAddressUrl(chain, address),
     [chain, address],
   )
 

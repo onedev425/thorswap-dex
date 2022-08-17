@@ -2,7 +2,6 @@ import { useMemo } from 'react'
 
 import { Asset, Pool } from '@thorswap-lib/multichain-sdk'
 import { SupportedChain } from '@thorswap-lib/types'
-import { chainToString } from '@thorswap-lib/xchain-util'
 
 import { ChainPoolData } from 'views/Liquidity/types'
 
@@ -22,6 +21,8 @@ import { isPendingLP } from 'store/midgard/utils'
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
+import { chainName } from 'helpers/chainName'
+
 import { getThorYieldLPInfoRoute } from 'settings/constants'
 
 type Props = {
@@ -40,7 +41,7 @@ export const ChainLiquidityPanel = ({
   const { pools, loadMemberDetailsByChain } = useMidgard()
 
   const chainWalletAddress = useMemo(
-    () => multichain.getWalletAddressByChain(chain) || '#',
+    () => multichain().getWalletAddressByChain(chain) || '#',
     [chain],
   )
 
@@ -102,7 +103,7 @@ export const ChainLiquidityPanel = ({
       <InfoRow
         size="sm"
         className="!mx-1.5 pl-1.5"
-        label={<Typography>{chainToString(chain)}</Typography>}
+        label={<Typography>{chainName(chain, true)}</Typography>}
         value={
           <Box className="gap-x-2 mb-1">
             <Link

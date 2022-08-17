@@ -52,7 +52,7 @@ const resources: Record<SupportedLanguages, Resource> = {
 }
 
 initializeI18n(initReactI18next).init({
-  debug: import.meta.env.DEV,
+  debug: false,
   resources,
   lng: getFromStorage('language') as SupportedLanguages,
   fallbackLng: 'en',
@@ -81,8 +81,11 @@ export const t = <T>(
   params?: TOptions,
   options?: TOptions,
 ) =>
-  // @ts-expect-error False positive
-  translate(key, params, options) /* i18next-extract-disable-line */
+  translate(
+    key as string,
+    params as ToDo,
+    options,
+  ) /* i18next-extract-disable-line */
 
 export const currentLocale = () => i18n.languages[0]
 export const changeAppLanguage = (language: SupportedLanguages) => {

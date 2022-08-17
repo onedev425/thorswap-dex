@@ -1,5 +1,7 @@
 import { memo } from 'react'
 
+import classNames from 'classnames'
+
 import { AssetIcon } from 'components/AssetIcon'
 import { AssetInputType } from 'components/AssetInput/types'
 import { Box, Icon, Typography } from 'components/Atomic'
@@ -14,12 +16,10 @@ type Props = {
   outputAsset: AssetInputType
   recipient: string
   estimatedTime: string
-  slippage: string
-  isValidSlip?: boolean
+  slippageInfo: string
   minReceive: string
-  totalFee?: string
-  affiliateFee?: string
-  isAffiliated?: boolean
+  totalFee: string
+  affiliateFee: string
   feeAssets: string
 }
 
@@ -29,11 +29,10 @@ export const ConfirmContent = memo(
     outputAsset,
     recipient,
     estimatedTime,
-    slippage,
+    slippageInfo,
     minReceive,
     totalFee,
     affiliateFee,
-    isAffiliated,
     feeAssets,
   }: Props) => {
     return (
@@ -98,13 +97,14 @@ export const ConfirmContent = memo(
               >
                 {t('common.slippage')}
               </Typography>
-              <Typography variant="caption">{slippage}</Typography>
+              <Typography variant="caption">{slippageInfo}</Typography>
             </Box>
           </Box>
 
           <Box className="px-4">
             <Box className="w-full h-[1px] bg-light-border-primary dark:bg-dark-border-primary my-2" />
           </Box>
+
           <Box className="w-full py-2" row>
             <Box className="flex-1 gap-y-2" center col>
               <Typography
@@ -114,19 +114,17 @@ export const ConfirmContent = memo(
               >
                 {t('views.swap.exchangeFee')}
               </Typography>
-              {isAffiliated ? (
-                <Typography variant="caption">{affiliateFee}</Typography>
-              ) : (
-                <Box center className="gap-1">
-                  <Typography className="line-through" variant="caption">
-                    {affiliateFee !== '$0.00' && affiliateFee}
-                  </Typography>
-                  <Typography color="green" variant="body" fontWeight="bold">
-                    FREE
-                  </Typography>
-                </Box>
-              )}
+
+              <Typography
+                className={classNames({
+                  'line-through': affiliateFee === '$0.00',
+                })}
+                variant="caption"
+              >
+                {affiliateFee === '$0.00' ? 'FREE' : affiliateFee}
+              </Typography>
             </Box>
+
             <Box className="flex-1 gap-y-2" center col>
               <Typography
                 variant="caption"

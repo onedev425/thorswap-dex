@@ -11,7 +11,7 @@ export const CollapseChevron = ({ isActive }: Props) => {
     <Icon
       name="chevronDown"
       color="secondary"
-      className={classNames('transform duration-300 ease inline-block', {
+      className={classNames('transform duration-300 ease relative', {
         '-rotate-180': isActive,
       })}
     />

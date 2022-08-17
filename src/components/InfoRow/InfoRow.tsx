@@ -19,6 +19,7 @@ export const InfoRow = ({
   label,
   value,
   className,
+  onClick,
   size = 'md',
   showBorder = true,
 }: InfoRowProps) => {
@@ -27,6 +28,7 @@ export const InfoRow = ({
 
   return (
     <Box
+      onClick={onClick}
       className={classNames(
         'gap-4',
         { [borderClasses]: showBorder },

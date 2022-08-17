@@ -6,7 +6,6 @@ import {
   hasWalletConnected,
   Price,
   AssetAmount,
-  getRuneToUpgrade,
 } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/types'
 
@@ -34,20 +33,23 @@ import { useTxTracker } from 'hooks/useTxTracker'
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
+import { getRuneToUpgrade } from 'helpers/wallet'
+
 import { IS_STAGENET } from 'settings/config'
 
 const oldRunes = [Asset.BNB_RUNE(), Asset.ETH_RUNE()]
 
 const UpgradeRune = () => {
-  const [isOpened, setIsOpened] = useState(false)
-
+  const { isChainTradingHalted } = useMimir()
   const { wallet, setIsConnectModalOpen } = useWallet()
-  const walletAddress = wallet?.[Chain.THORChain]?.address || ''
-  const [recipientAddress, setRecipientAddress] = useState(walletAddress || '')
-  const [hasManualAddress, setHasManualAddress] = useState(false)
   const { getMaxBalance, isWalletAssetConnected } = useBalance()
   const { lastBlock, pools } = useMidgard()
   const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
+
+  const walletAddress = wallet?.[Chain.THORChain]?.address || ''
+  const [hasManualAddress, setHasManualAddress] = useState(false)
+  const [isOpened, setIsOpened] = useState(false)
+  const [recipientAddress, setRecipientAddress] = useState(walletAddress || '')
 
   useEffect(() => {
     if (!!recipientAddress && !walletAddress) {
@@ -87,8 +89,6 @@ const UpgradeRune = () => {
       hasWalletConnected({ wallet, inputAssets: [selectedAsset] }),
     [wallet, selectedAsset],
   )
-
-  const { isChainTradingHalted } = useMimir()
 
   const isTradingHalted: boolean = useMemo(
     () => isChainTradingHalted?.[selectedAsset.chain] ?? false,
@@ -141,7 +141,7 @@ const UpgradeRune = () => {
       })
 
       try {
-        const txHash = await multichain.upgrade({
+        const txHash = await multichain().upgrade({
           runeAmount,
           recipient: recipientAddress,
         })
@@ -195,7 +195,7 @@ const UpgradeRune = () => {
     if (
       !(
         IS_STAGENET ||
-        multichain.validateAddress({
+        multichain().validateAddress({
           chain: Chain.THORChain,
           address: recipientAddress,
         })
@@ -307,7 +307,6 @@ const UpgradeRune = () => {
             onAssetChange={setSelectedAsset}
             onValueChange={handleChangeUpgradeAmount}
             assets={assetInputList}
-            commonAssets={assetInputList}
             secondaryLabel={receivedRune}
           />
 

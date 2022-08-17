@@ -46,28 +46,10 @@ export type ChainListType = {
 }
 
 export const ChainList: ChainListType[] = [
-  {
-    name: 'BTC',
-    isConnected: true,
-  },
-  {
-    name: 'ETH',
-    isConnected: false,
-  },
-  {
-    name: 'BNB',
-    isConnected: false,
-  },
-  {
-    name: 'DOGE',
-    isConnected: false,
-  },
-  {
-    name: 'LTC',
-    isConnected: false,
-  },
-  {
-    name: 'BCH',
-    isConnected: false,
-  },
+  { name: 'BTC', isConnected: true },
+  { name: 'ETH', isConnected: false },
+  { name: 'BNB', isConnected: false },
+  { name: 'DOGE', isConnected: false },
+  { name: 'LTC', isConnected: false },
+  { name: 'BCH', isConnected: false },
 ]

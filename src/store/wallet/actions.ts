@@ -8,13 +8,13 @@ import { getV2Address, VestingType } from 'helpers/assets'
 
 export const loadAllWallets = createAsyncThunk(
   'midgard/loadAllWallets',
-  multichain.loadAllWallets,
+  multichain().loadAllWallets,
 )
 
 export const getWalletByChain = createAsyncThunk(
   'midgard/getWalletByChain',
   async (chain: SupportedChain) => {
-    const data = await multichain.getWalletByChain(chain)
+    const data = await multichain().getWalletByChain(chain)
 
     return { chain, data }
   },
@@ -28,7 +28,7 @@ export const getCoingeckoData = createAsyncThunk(
 export const getIsVthorApproved = createAsyncThunk(
   'vthor/getApproval',
   async () => {
-    const ethClient = multichain.eth.getClient()
+    const ethClient = multichain().eth.getClient()
     return ethClient
       .isApproved({
         contractAddress: getV2Address(VestingType.THOR),

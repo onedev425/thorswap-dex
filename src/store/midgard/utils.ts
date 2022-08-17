@@ -5,8 +5,7 @@ import {
   StakeDetail,
 } from '@thorswap-lib/midgard-sdk'
 import { Asset } from '@thorswap-lib/multichain-sdk'
-import { SupportedChain } from '@thorswap-lib/types'
-import { THORChain } from '@thorswap-lib/xchain-util'
+import { Chain, SupportedChain } from '@thorswap-lib/types'
 import { BigNumber } from 'bignumber.js'
 import isEmpty from 'lodash/isEmpty'
 
@@ -67,7 +66,7 @@ export const getChainMemberDetails = ({
   chainMemberDetails: ChainMemberDetails
 }): ChainMemberDetails => {
   // get sym and rune asym share from memPools fetched with thorchain address
-  if (chain === THORChain) {
+  if (chain === Chain.THORChain) {
     memPools.forEach((memPool: MemberPool) => {
       const { pool, runeAdded, assetAdded, runePending } = memPool
 
@@ -108,7 +107,7 @@ export const getChainMemberDetails = ({
   }
 
   // get sym and asset asym share
-  if (chain !== THORChain) {
+  if (chain !== Chain.THORChain) {
     memPools.forEach((memPool: MemberPool) => {
       const { pool, runeAdded, assetAdded, assetPending } = memPool
 

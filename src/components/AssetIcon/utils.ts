@@ -1,6 +1,6 @@
 import {
-  Asset,
   getContractAddressFromAsset,
+  Asset,
 } from '@thorswap-lib/multichain-sdk'
 
 import {
@@ -78,10 +78,10 @@ export const getSecondaryIconPlacementStyle = (
       return { top: 0, right: -offset }
     }
     case 'bl': {
-      return { bottom: 0, left: -offset }
+      return { bottom: -offset, left: -offset }
     }
     case 'br': {
-      return { bottom: 0, right: -offset }
+      return { bottom: -offset, right: -offset }
     }
   }
 }

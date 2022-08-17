@@ -1,8 +1,8 @@
-import * as url from 'url'
+import { parse } from 'url'
 
 export const getHostnameFromUrl = (u: string): string | null => {
   if (typeof u === 'string') {
-    const parsed = url.parse(u, true)
+    const parsed = parse(u, true)
     return parsed?.hostname ?? null
   }
   return null

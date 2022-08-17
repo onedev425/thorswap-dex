@@ -1,7 +1,3 @@
-// TODO: DO NOT REMOVE ANY SINGLE COMMENT.
-// It has some comments to support THOR, vTHOR vesting together.
-// All comments will be used once the vTHOR vesting contract is ready.
-
 import { useEffect } from 'react'
 
 import { useVesting } from 'views/Vesting/hooks'

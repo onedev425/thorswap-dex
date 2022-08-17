@@ -9,17 +9,21 @@ type Props = {
   options: string[]
   activeIndex?: number
   onChange?: (selectedIndex: number) => void
+  size?: 'md' | 'sm'
+  disableDropdown?: boolean
 }
 
 export const Select = ({
   className,
   options,
+  disableDropdown,
   activeIndex = 0,
   onChange,
+  size = 'md',
 }: Props) => {
   const onHandleChange = useCallback(
     (selectedIndex: number) => {
-      if (onChange) onChange(selectedIndex)
+      onChange?.(selectedIndex)
     },
     [onChange],
   )
@@ -27,16 +31,26 @@ export const Select = ({
     () => options.map((o, idx) => ({ value: String(idx), label: o })),
     [options],
   )
-  const onDropdownChange = (value: string) => {
-    onChange?.(Number(value))
-  }
+
+  const onDropdownChange = useCallback(
+    (value: string) => {
+      onChange?.(Number(value))
+    },
+    [onChange],
+  )
 
   return (
     <>
-      <Box className={classNames('hidden md:flex gap-2', className)}>
+      <Box
+        className={classNames(
+          'gap-2',
+          { 'hidden md:flex': !disableDropdown },
+          className,
+        )}
+      >
         {options.map((option, index) => (
           <Button
-            className={classNames({
+            className={classNames('w-20', size === 'md' ? 'h-10' : 'h-8', {
               '!bg-opacity-100 dark:!bg-opacity-50': index === activeIndex,
             })}
             key={option}
@@ -44,12 +58,18 @@ export const Select = ({
             type={activeIndex === index ? 'default' : 'outline'}
             onClick={() => onHandleChange(index)}
           >
-            {option}
+            <Typography
+              transform="capitalize"
+              className="leading-4"
+              variant={size === 'md' ? 'caption' : 'caption-xs'}
+            >
+              {option}
+            </Typography>
           </Button>
         ))}
       </Box>
 
-      <Box className="md:hidden">
+      <Box className={disableDropdown ? 'hidden' : 'md:hidden'}>
         <DropdownMenu
           menuItems={dropdownOptions}
           value={options[activeIndex]}

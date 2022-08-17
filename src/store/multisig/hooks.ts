@@ -39,7 +39,7 @@ export const useMultisig = () => {
   )
 
   const initMultisigWallet = useCallback(() => {
-    const existingAddress = multichain.thor.multisigAddress
+    const existingAddress = multichain().thor.multisigAddress
 
     return existingAddress === address
       ? address
@@ -126,7 +126,7 @@ export const useMultisig = () => {
   const loadBalances = useCallback(async () => {
     initMultisigWallet()
 
-    if (multichain.thor.multisigAddress) {
+    if (multichain().thor.multisigAddress) {
       dispatch(loadMultisigBalances())
     }
   }, [dispatch, initMultisigWallet])

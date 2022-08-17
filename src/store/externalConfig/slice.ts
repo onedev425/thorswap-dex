@@ -1,14 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
-import { AnnouncementsData, State } from './types'
+import { AnnouncementsData } from './types'
 
-const initialState: State = {
-  announcements: { manual: [], chainStatus: {} },
+const initialState = {
+  announcements: { manual: [], chainStatus: {} } as AnnouncementsData,
   isTradingGloballyDisabled: false,
 }
 
-const assetsSlice = createSlice({
+const externalConfigSlice = createSlice({
   name: 'externalConfig',
   initialState,
   reducers: {
@@ -21,6 +21,6 @@ const assetsSlice = createSlice({
   },
 })
 
-export const { reducer, actions } = assetsSlice
+export const { actions } = externalConfigSlice
 
-export default assetsSlice
+export default externalConfigSlice.reducer

@@ -13,6 +13,7 @@ type Props = {
   children?: ReactNode
   onClose?: () => void
   type?: CardStyleType
+  contentClassName?: string
 }
 
 const icons: Record<CardStyleType, ReactNode> = {
@@ -29,6 +30,7 @@ export const InfoTip = ({
   content,
   type = 'primary',
   onClose,
+  contentClassName,
 }: Props) => {
   return (
     <HighlightCard
@@ -66,7 +68,7 @@ export const InfoTip = ({
           color={cardFontColors[type]}
           variant="caption"
           fontWeight="semibold"
-          className="px-2 py-2 brightness-90"
+          className={classNames('px-2 py-2 brightness-90', contentClassName)}
         >
           {content}
         </Typography>

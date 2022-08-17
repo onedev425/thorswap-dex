@@ -23,7 +23,7 @@ const Wallet = () => {
   const [keyword, setKeyword] = useState('')
   const [onlyConnected, setOnlyConnected] = useState(false)
 
-  const filteredGeckoData = useMemo(
+  const filteredSupportedChains = useMemo(
     () =>
       SUPPORTED_CHAINS.filter((chain) => {
         const { ticker } = chainToSigAsset(chain)
@@ -33,8 +33,8 @@ const Wallet = () => {
   )
 
   const sigSymbols = useMemo(
-    () => filteredGeckoData.map((chain) => chainToSigAsset(chain).ticker),
-    [filteredGeckoData],
+    () => filteredSupportedChains.map((chain) => chainToSigAsset(chain).ticker),
+    [filteredSupportedChains],
   )
 
   useEffect(() => {

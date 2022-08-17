@@ -8,6 +8,7 @@ export type InfoRowConfig = {
   label: string | ReactNode
   value: string | ReactNode
   size?: InfoRowSize
+  onClick?: () => void
 }
 
 export type InfoRowType = {
@@ -17,4 +18,5 @@ export type InfoRowType = {
 
 export type InfoRowProps = {
   className?: string
+  onClick?: () => void
 } & InfoRowType

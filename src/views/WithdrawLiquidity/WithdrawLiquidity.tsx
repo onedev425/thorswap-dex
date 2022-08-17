@@ -12,8 +12,7 @@ import {
   AmountType,
   hasWalletConnected,
 } from '@thorswap-lib/multichain-sdk'
-import { SupportedChain } from '@thorswap-lib/types'
-import { Chain } from '@thorswap-lib/xchain-util'
+import { SupportedChain, Chain } from '@thorswap-lib/types'
 
 import { AssetInputs } from 'views/WithdrawLiquidity/AssetInputs'
 
@@ -46,7 +45,7 @@ import { multichain } from 'services/multichain'
 
 import { useConfirmInfoItems } from './useConfirmInfoItems'
 
-// TODO: refactor useState -> useReducer
+// TODO: refactor useState => useReducer
 export const WithdrawLiquidity = () => {
   const { assetParam = Asset.BTC().toString() } = useParams<{
     assetParam: string
@@ -350,7 +349,7 @@ const WithdrawPanel = ({
               },
             })
 
-            const txID = await multichain.withdraw({
+            const txID = await multichain().withdraw({
               pool,
               percent: new Percent(percent),
               from: 'sym',
@@ -388,7 +387,7 @@ const WithdrawPanel = ({
               },
             })
 
-            const txID = await multichain.withdraw({
+            const txID = await multichain().withdraw({
               pool,
               percent: new Percent(percent),
               from: 'sym',
@@ -426,7 +425,7 @@ const WithdrawPanel = ({
               },
             })
 
-            const txID = await multichain.withdraw({
+            const txID = await multichain().withdraw({
               pool,
               percent: new Percent(percent),
               from: 'sym',
@@ -465,7 +464,7 @@ const WithdrawPanel = ({
             },
           })
 
-          const txID = await multichain.withdraw({
+          const txID = await multichain().withdraw({
             pool,
             percent: new Percent(percent),
             from: 'asset',
@@ -504,7 +503,7 @@ const WithdrawPanel = ({
             },
           })
 
-          const txID = await multichain.withdraw({
+          const txID = await multichain().withdraw({
             pool,
             percent: new Percent(percent),
             from: 'rune',
@@ -548,7 +547,7 @@ const WithdrawPanel = ({
               },
             })
 
-            const txID = await multichain.withdraw({
+            const txID = await multichain().withdraw({
               pool,
               percent: new Percent(percent),
               from: 'sym',
@@ -586,7 +585,7 @@ const WithdrawPanel = ({
               },
             })
 
-            const txID = await multichain.withdraw({
+            const txID = await multichain().withdraw({
               pool,
               percent: new Percent(percent),
               from: 'sym',
@@ -624,7 +623,7 @@ const WithdrawPanel = ({
               },
             })
 
-            const txID = await multichain.withdraw({
+            const txID = await multichain().withdraw({
               pool,
               percent: new Percent(percent),
               from: 'sym',

@@ -79,12 +79,12 @@ export const useMultissigAssets = () => {
   const { balances, loadingBalances } = useAppSelector(
     (state) => state.multisig,
   )
-  const { feeOptionType, inboundData } = useAppSelector(
+  const { feeOptionType, inboundGasRate } = useAppSelector(
     ({
       app: { feeOptionType },
       wallet: { wallet },
-      midgard: { inboundData },
-    }) => ({ wallet, inboundData, feeOptionType }),
+      midgard: { inboundGasRate },
+    }) => ({ wallet, inboundGasRate, feeOptionType }),
   )
 
   useEffect(() => {
@@ -105,8 +105,7 @@ export const useMultissigAssets = () => {
     (asset: Asset): Amount => {
       // calculate inbound fee
       const gasRate = getGasRateByFeeOption({
-        inboundData,
-        chain: asset.L1Chain,
+        gasRate: inboundGasRate[asset.L1Chain],
         feeOptionType,
       })
       const inboundFee = getNetworkFeeByAsset({
@@ -131,7 +130,7 @@ export const useMultissigAssets = () => {
         ? maxSpendableAmount
         : Amount.fromAssetAmount(0, asset.decimal)
     },
-    [balances, feeOptionType, inboundData],
+    [balances, feeOptionType, inboundGasRate],
   )
 
   const getBalanceForAssets = useCallback(

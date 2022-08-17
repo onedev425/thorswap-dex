@@ -1,6 +1,11 @@
 import { useCallback } from 'react'
 
-import { Amount, Asset, Price, runeToAsset } from '@thorswap-lib/multichain-sdk'
+import {
+  Amount,
+  Asset,
+  Price,
+  runeToAssetPrice,
+} from '@thorswap-lib/multichain-sdk'
 
 import { useMidgard } from 'store/midgard/hooks'
 import { useAppDispatch } from 'store/store'
@@ -41,7 +46,7 @@ export const useGlobalState = () => {
 
   const runeToCurrency = useCallback(
     (runeAmount: Amount): Price =>
-      runeToAsset({
+      runeToAssetPrice({
         pools,
         runeAmount,
         quoteAsset: Asset.fromAssetString(baseCurrency),

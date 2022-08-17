@@ -19,8 +19,6 @@ import { ConfirmModal } from 'components/Modals/ConfirmModal'
 
 import { t } from 'services/i18n'
 
-import { commonAssets } from 'helpers/assets'
-
 export const TxWithdraw = () => {
   const {
     poolAsset,
@@ -105,7 +103,6 @@ export const TxWithdraw = () => {
                 className="m-2 md:m-0 flex-1"
                 assets={poolAssetList}
                 selected={poolAsset}
-                commonAssets={commonAssets}
                 onSelect={handleSelectPoolAsset}
                 showAssetType
               />

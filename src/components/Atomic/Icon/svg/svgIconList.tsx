@@ -19,6 +19,8 @@ import { ReactComponent as Cloud } from './cloud.svg'
 import { ReactComponent as Collapse } from './collapse.svg'
 import { ReactComponent as Comma } from './comma.svg'
 import { ReactComponent as Ethereum3d } from './ethereum.svg'
+import { ReactComponent as EtherScan } from './etherscan.svg'
+import { ReactComponent as EtherScanLight } from './etherscanLight.svg'
 import { ReactComponent as Fees } from './fees.svg'
 import { ReactComponent as Brazil } from './flags/brazil.svg'
 import { ReactComponent as Cambodia } from './flags/cambodia.svg'
@@ -57,6 +59,7 @@ import { ReactComponent as Sun } from './sun.svg'
 import { CustomIconProps, SvgIcon } from './SvgIcon'
 import { ReactComponent as Swap } from './swap.svg'
 import { ReactComponent as Thoryield } from './thoryield.svg'
+import { ReactComponent as ThoryieldColor } from './thoryieldColor.svg'
 import { ReactComponent as ThreeDots } from './threedots.svg'
 import { ReactComponent as Tick } from './tick.svg'
 import { ReactComponent as TradeLightning } from './tradeLightning.svg'
@@ -83,6 +86,7 @@ export const Svgs = {
   cos: Cosmos,
   thor: Thorchain,
   thoryield: Thoryield,
+  thoryieldColor: ThoryieldColor,
   vthor: VThor,
   // other icons
   app: App,
@@ -96,8 +100,8 @@ export const Svgs = {
   gwei: Gwei,
   import: Import,
   inIcon: InIcon,
-  keystore: Keystore,
   keplr: Keplr,
+  keystore: Keystore,
   ledger: Ledger,
   lightning: Lightning,
   metamask: Metamask,
@@ -140,6 +144,8 @@ export const Svgs = {
   saudi: Saudi,
   spain: Spain,
   usa: USA,
+  etherscan: EtherScan,
+  etherscanLight: EtherScanLight,
 }
 
 export const SvgIcons = {
@@ -157,6 +163,9 @@ export const SvgIcons = {
   thoryield: (props: CustomIconProps) => (
     <SvgIcon name="thoryield" {...props} />
   ),
+  thoryieldColor: (props: CustomIconProps) => (
+    <SvgIcon name="thoryieldColor" {...props} />
+  ),
   // other icons
   app: (props: CustomIconProps) => <SvgIcon name="app" {...props} />,
   binance: (props: CustomIconProps) => <SvgIcon name="binance" {...props} />,
@@ -165,11 +174,17 @@ export const SvgIcons = {
     <SvgIcon name="chartCandle" {...props} />
   ),
   cloud: (props: CustomIconProps) => <SvgIcon name="cloud" {...props} />,
+  etherscan: (props: CustomIconProps) => (
+    <SvgIcon name="etherscan" {...props} />
+  ),
+  etherscanLight: (props: CustomIconProps) => (
+    <SvgIcon name="etherscanLight" {...props} />
+  ),
   ethereum: (props: CustomIconProps) => <SvgIcon name="ethereum" {...props} />,
   gwei: (props: CustomIconProps) => <SvgIcon name="gwei" {...props} />,
   inIcon: (props: CustomIconProps) => <SvgIcon name="inIcon" {...props} />,
-  keystore: (props: CustomIconProps) => <SvgIcon name="keystore" {...props} />,
   keplr: (props: CustomIconProps) => <SvgIcon name="keplr" {...props} />,
+  keystore: (props: CustomIconProps) => <SvgIcon name="keystore" {...props} />,
   ledger: (props: CustomIconProps) => <SvgIcon name="ledger" {...props} />,
   lightning: (props: CustomIconProps) => (
     <SvgIcon name="lightning" {...props} />

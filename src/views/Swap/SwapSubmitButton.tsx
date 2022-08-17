@@ -4,19 +4,19 @@ import {
   Amount,
   Asset,
   hasWalletConnected,
-  Pool,
+  Percent,
 } from '@thorswap-lib/multichain-sdk'
 import { Chain, SupportedChain } from '@thorswap-lib/types'
 
 import { Box, Button } from 'components/Atomic'
 import { showErrorToast, showInfoToast } from 'components/Toast'
 
+import { useApp } from 'store/app/hooks'
 import { useExternalConfig } from 'store/externalConfig/hooks'
 import { useMidgard } from 'store/midgard/hooks'
 import { TxTrackerStatus } from 'store/midgard/types'
 import { useWallet } from 'store/wallet/hooks'
 
-import { useApprove } from 'hooks/useApprove'
 import { useCheckExchangeBNB } from 'hooks/useCheckExchangeBNB'
 import { useMimir } from 'hooks/useMimir'
 
@@ -24,61 +24,58 @@ import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
 type Props = {
-  recipient: string | null
-  isInputWalletConnected: boolean
-  inputAsset: Asset
-  outputAsset: Asset
+  assetApproveStatus: TxTrackerStatus
+  hasQuote: boolean
   inputAmount: Amount
-  swapAmountTooSmall: boolean
-  hasSwap: boolean
-  hasInSufficientFee: boolean
-  isValid?: { valid: boolean; msg?: string }
-  pools?: Pool[]
-  setVisibleConfirmModal: (visible: boolean) => void
+  inputAsset: Asset
+  isApproved: boolean | null
+  isInputWalletConnected: boolean
+  isLoading: boolean
+  outputAsset: Asset
+  recipient: string | null
   setVisibleApproveModal: (visible: boolean) => void
-  isValidSlip?: boolean
+  setVisibleConfirmModal: (visible: boolean) => void
+  slippage: Percent
+  swapAmountTooSmall: boolean
 }
 
 export const SwapSubmitButton = ({
-  recipient,
-  isInputWalletConnected,
+  assetApproveStatus,
+  hasQuote,
   inputAmount,
   inputAsset,
+  isApproved,
+  isInputWalletConnected,
+  isLoading,
   outputAsset,
-  setVisibleConfirmModal,
-  swapAmountTooSmall,
-  hasSwap,
+  recipient,
   setVisibleApproveModal,
-  hasInSufficientFee,
-  isValid,
-  pools,
-  isValidSlip,
+  setVisibleConfirmModal,
+  slippage,
+  swapAmountTooSmall,
 }: Props) => {
+  const { slippageTolerance } = useApp()
   const { wallet, setIsConnectModalOpen } = useWallet()
-  const { inboundData } = useMidgard()
+  const { inboundHalted, pools } = useMidgard()
   const { maxSynthPerAssetDepth } = useMimir()
   const { getChainTradingPaused } = useExternalConfig()
 
-  const { isApproved, assetApproveStatus } = useApprove(
-    inputAsset,
-    isInputWalletConnected,
-  )
-
   const isTradingHalted: boolean = useMemo(() => {
-    const inTradeInboundData = inboundData.find(
-      ({ chain }) => chain === inputAsset.chain,
-    )
-    const outTradeInboundData = inboundData.find(
-      ({ chain }) => chain === outputAsset.chain,
-    )
+    const inTradeHalted = inboundHalted[inputAsset.L1Chain as SupportedChain]
+    const outTradeHated = inboundHalted[outputAsset.L1Chain as SupportedChain]
 
     return (
-      (inTradeInboundData?.halted ?? false) ||
-      (outTradeInboundData?.halted ?? false) ||
-      getChainTradingPaused(inputAsset.chain as SupportedChain) ||
-      getChainTradingPaused(outputAsset.chain as SupportedChain)
+      inTradeHalted ||
+      outTradeHated ||
+      getChainTradingPaused(inputAsset.L1Chain as SupportedChain) ||
+      getChainTradingPaused(outputAsset.L1Chain as SupportedChain)
     )
-  }, [getChainTradingPaused, inboundData, inputAsset.chain, outputAsset.chain])
+  }, [
+    getChainTradingPaused,
+    inboundHalted,
+    inputAsset.L1Chain,
+    outputAsset.L1Chain,
+  ])
 
   const walletConnected = useMemo(
     () => hasWalletConnected({ wallet, inputAssets: [inputAsset] }),
@@ -86,7 +83,7 @@ export const SwapSubmitButton = ({
   )
 
   const { isExchangeBNBAddress } = useCheckExchangeBNB(
-    outputAsset.chain === Chain.Binance ? recipient : null,
+    outputAsset.L1Chain === Chain.Binance ? recipient : null,
   )
 
   const isValidAddress = useMemo(() => {
@@ -94,7 +91,7 @@ export const SwapSubmitButton = ({
       if (!recipient) return true
       if (isExchangeBNBAddress) return false
 
-      return multichain.validateAddress({
+      return multichain().validateAddress({
         chain: outputAsset.L1Chain,
         address: recipient,
       })
@@ -105,54 +102,42 @@ export const SwapSubmitButton = ({
   }, [outputAsset, recipient, isExchangeBNBAddress])
 
   const showSwapConfirmationModal = useCallback(() => {
-    if (walletConnected && hasSwap) {
-      if (swapAmountTooSmall) {
-        return showInfoToast(
-          t('notification.swapAmountTooSmall'),
-          t('notification.swapAmountTooSmallDesc'),
-        )
-      }
-
-      if (hasInSufficientFee) {
-        return showInfoToast(
-          t('notification.swapInsufficientFee'),
-          t('notification.swapInsufficientFeeDesc'),
-        )
-      }
-
-      if (isExchangeBNBAddress) {
-        return showErrorToast(
-          t('notification.exchangeBNBAddy'),
-          t('notification.exchangeBNBAddyDesc'),
-        )
-      }
-
-      if (!isValidAddress) {
-        return showErrorToast(
-          t('notification.invalidRecipientAddy'),
-          t('notification.invalidRecipientAddyDesc'),
-        )
-      }
-
-      setVisibleConfirmModal(true)
-    } else {
+    if (!walletConnected) {
       showInfoToast(
         t('notification.walletNotFound'),
         t('notification.connectWallet'),
       )
+    } else if (!hasQuote) {
+      showInfoToast(t('notification.noValidQuote'))
+    } else if (swapAmountTooSmall) {
+      showInfoToast(
+        t('notification.swapAmountTooSmall'),
+        t('notification.swapAmountTooSmallDesc'),
+      )
+    } else if (isExchangeBNBAddress) {
+      showErrorToast(
+        t('notification.exchangeBNBAddy'),
+        t('notification.exchangeBNBAddyDesc'),
+      )
+    } else if (!isValidAddress) {
+      showErrorToast(
+        t('notification.invalidRecipientAddy'),
+        t('notification.invalidRecipientAddyDesc'),
+      )
+    } else {
+      setVisibleConfirmModal(true)
     }
   }, [
     walletConnected,
-    hasSwap,
+    hasQuote,
     swapAmountTooSmall,
-    hasInSufficientFee,
     isExchangeBNBAddress,
     isValidAddress,
     setVisibleConfirmModal,
   ])
 
   const handleApprove = useCallback(() => {
-    if (isInputWalletConnected && hasSwap) {
+    if (isInputWalletConnected) {
       setVisibleApproveModal(true)
     } else {
       showInfoToast(
@@ -160,13 +145,13 @@ export const SwapSubmitButton = ({
         t('notification.connectWallet'),
       )
     }
-  }, [hasSwap, isInputWalletConnected, setVisibleApproveModal])
+  }, [isInputWalletConnected, setVisibleApproveModal])
 
   const isSynthMintable = useMemo((): boolean => {
-    // Skip check when it's not synth minting
-    if (!outputAsset.isSynth || !pools) return true
+    if (!outputAsset.isSynth || !pools?.length) return true
+    const { assetDepth, synthSupply } =
+      pools?.find((p) => p.asset.symbol === outputAsset.symbol)?.detail || {}
 
-    const { assetDepth, synthSupply } = pools[pools.length - 1].detail
     const assetDepthAmount = Amount.fromMidgard(assetDepth)
     const synthSupplyAmount = Amount.fromMidgard(synthSupply)
 
@@ -175,39 +160,57 @@ export const SwapSubmitButton = ({
     return synthSupplyAmount
       .div(assetDepthAmount)
       .assetAmount.isLessThan(maxSynthPerAssetDepth / 10000)
-  }, [maxSynthPerAssetDepth, outputAsset.isSynth, pools])
+  }, [maxSynthPerAssetDepth, outputAsset.isSynth, outputAsset.symbol, pools])
 
-  const isValidSwap = useMemo(
+  const isSwapValid = useMemo(
     () =>
-      isTradingHalted || !isSynthMintable
-        ? {
-            msg: isSynthMintable
-              ? t('notification.swapNotAvailable')
-              : t('txManager.mint'),
-            valid: false,
-          }
-        : isValid ?? { valid: false },
-    [isSynthMintable, isTradingHalted, isValid],
+      hasQuote &&
+      inputAmount.gt(0) &&
+      (isSynthMintable || !isTradingHalted) &&
+      !swapAmountTooSmall,
+    [
+      hasQuote,
+      inputAmount,
+      isSynthMintable,
+      isTradingHalted,
+      swapAmountTooSmall,
+    ],
+  )
+
+  const isSlipValid = useMemo(
+    () => !hasQuote || (hasQuote && slippage.lte(slippageTolerance / 100)),
+    [hasQuote, slippage, slippageTolerance],
   )
 
   const btnLabel = useMemo(() => {
-    if (isValidSwap?.valid || inputAmount.eq(0)) {
-      if (!isValidSlip) return t('views.swap.slipWarning')
-      if (inputAsset.isSynth && outputAsset.isSynth) return t('common.swap')
-      if (inputAsset.isSynth) return t('txManager.redeem')
-      if (outputAsset.isSynth) return t('txManager.mint')
-
-      return t('common.swap')
+    if (!isSwapValid) {
+      if (isTradingHalted || !isSynthMintable) {
+        return isSynthMintable
+          ? t('notification.swapNotAvailable')
+          : t('txManager.mint')
+      }
     }
 
-    return isValidSwap?.msg ?? t('common.swap')
+    if (swapAmountTooSmall) return t('notification.swapAmountTooSmall')
+
+    if (!isSlipValid) {
+      return t('views.swap.slipWarning', { slippage: slippageTolerance })
+    }
+
+    if (inputAsset.isSynth && outputAsset.isSynth) return t('common.swap')
+    if (inputAsset.isSynth) return t('txManager.redeem')
+    if (outputAsset.isSynth) return t('txManager.mint')
+
+    return t('common.swap')
   }, [
-    isValidSwap?.valid,
-    isValidSwap?.msg,
-    inputAmount,
-    isValidSlip,
+    isSwapValid,
+    isSlipValid,
     inputAsset.isSynth,
     outputAsset.isSynth,
+    swapAmountTooSmall,
+    isTradingHalted,
+    isSynthMintable,
+    slippageTolerance,
   ])
 
   const isApproveRequired = useMemo(
@@ -241,7 +244,7 @@ export const SwapSubmitButton = ({
 
   return (
     <Box className="w-full pt-5 gap-x-2">
-      {isWalletRequired && (
+      {isWalletRequired ? (
         <Button
           isFancy
           stretch
@@ -250,25 +253,22 @@ export const SwapSubmitButton = ({
         >
           {t('common.connectWallet')}
         </Button>
-      )}
-
-      {isApproveRequired && (
+      ) : isApproveRequired ? (
         <Button
           isFancy
           stretch
           size="lg"
           onClick={handleApprove}
+          disabled={!hasQuote}
           loading={buttonLoading}
         >
           {t('txManager.approve')}
         </Button>
-      )}
-
-      {isSwapAvailable && (
+      ) : (
         <Button
           isFancy
-          disabled={!isValidSwap.valid}
-          error={!isValidSwap?.valid || !isValidSlip}
+          disabled={!isSwapAvailable || !isSwapValid || isLoading}
+          error={!(isSwapValid || isSlipValid) || swapAmountTooSmall}
           stretch
           size="lg"
           onClick={showSwapConfirmationModal}

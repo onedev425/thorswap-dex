@@ -4,10 +4,7 @@ import { Pool } from '@thorswap-lib/multichain-sdk'
 
 import { Table, TableRowType } from 'components/Atomic'
 
-import {
-  getPoolDetailRouteFromAsset,
-  navigateToExternalLink,
-} from 'settings/constants'
+import { navigateToPoolDetail } from 'settings/constants'
 
 import { usePoolColumns } from './usePoolColumns'
 
@@ -19,7 +16,7 @@ type Props = {
 
 export const PoolTable = ({ data }: Props) => {
   const navigateToPoolInfo = useCallback(({ original }: TableRowType) => {
-    navigateToExternalLink(getPoolDetailRouteFromAsset(original.asset))
+    navigateToPoolDetail(original.asset)
   }, [])
 
   const columns = usePoolColumns()

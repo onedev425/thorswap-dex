@@ -46,7 +46,7 @@ export const PhraseView = () => {
 
         const keystore = await encryptToKeyStore(phrase, password)
 
-        await downloadAsFile('thorswap-keystore.txt', JSON.stringify(keystore))
+        downloadAsFile('thorswap-keystore.txt', JSON.stringify(keystore))
 
         // clean up
         setPassword('')

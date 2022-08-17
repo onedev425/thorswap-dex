@@ -2,7 +2,6 @@ import { memo, useCallback, useMemo } from 'react'
 
 import { chainToSigAsset } from '@thorswap-lib/multichain-sdk'
 import { SupportedChain } from '@thorswap-lib/types'
-import { chainToString } from '@thorswap-lib/xchain-util'
 import classNames from 'classnames'
 
 import { AccountRow } from 'views/Wallet/AccountRow'
@@ -13,6 +12,8 @@ import { useApp } from 'store/app/hooks'
 import { useWallet } from 'store/wallet/hooks'
 
 import { useFetchThornames } from 'hooks/useFetchThornames'
+
+import { chainName } from 'helpers/chainName'
 
 import { SORTED_CHAINS } from 'settings/chain'
 
@@ -34,13 +35,12 @@ export const AccountType = memo(({ onlyConnected, keyword }: Props) => {
     () =>
       SORTED_CHAINS.filter((chain) => {
         const sigAsset = chainToSigAsset(chain as SupportedChain)
-        const chainName = chainToString(chain)
         const lowerKeyword = keyword.toLowerCase()
 
         const isSupported = [
           sigAsset.chain.toLowerCase(),
           sigAsset.symbol.toLowerCase(),
-          chainName.toLowerCase(),
+          chainName(chain, true).toLowerCase(),
         ].some((item) => item.includes(lowerKeyword))
 
         return (

@@ -1,6 +1,4 @@
-import { delay } from '@thorswap-lib/xchain-util'
-
-export const downloadAsFile = async (filename: string, text: string) => {
+export const downloadAsFile = (filename: string, text: string) => {
   const element = document.createElement('a')
   element.setAttribute(
     'href',
@@ -14,6 +12,4 @@ export const downloadAsFile = async (filename: string, text: string) => {
   element.click()
 
   document.body.removeChild(element)
-
-  await delay(100)
 }

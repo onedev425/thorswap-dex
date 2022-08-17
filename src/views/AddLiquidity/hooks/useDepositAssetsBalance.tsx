@@ -1,10 +1,12 @@
 import { useMemo } from 'react'
 
-import { Amount, Asset, getAssetBalance } from '@thorswap-lib/multichain-sdk'
+import { Amount, Asset } from '@thorswap-lib/multichain-sdk'
 
 import { useWallet } from 'store/wallet/hooks'
 
 import { useBalance } from 'hooks/useBalance'
+
+import { getAssetBalance } from 'helpers/wallet'
 
 type Props = {
   poolAsset: Asset

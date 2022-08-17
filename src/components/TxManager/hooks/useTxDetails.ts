@@ -1,11 +1,16 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/types'
 
 import { TxProgressStatus } from 'components/TxManager/types'
 
-import { TxTracker, TxTrackerStatus, TxTrackerType } from 'store/midgard/types'
+import {
+  TxTracker,
+  TxTrackerStatus,
+  TxTrackerType,
+  AggregatorSwapType,
+} from 'store/midgard/types'
 
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
@@ -17,7 +22,6 @@ import {
   getApproveTxUrl,
   getSendTxUrl,
   getSwapInTxUrl,
-  getSwapOutTxData,
   getSwapOutTxUrl,
   getSwapReceiveTitle,
   getSwapSendTitle,
@@ -33,39 +37,17 @@ export type TxDetails = {
 }[]
 
 export const useTxDetails = (txTracker: TxTracker) => {
-  const [outTxData, setOutTxData] = useState('')
-
-  useEffect(() => {
-    const getSwapTxData = async () => {
-      const txOutData = await getSwapOutTxData(txTracker)
-
-      if (txOutData) {
-        setOutTxData(txOutData)
-      }
-    }
-
-    if (
-      txTracker.type === TxTrackerType.Swap &&
-      txTracker.status === TxTrackerStatus.Success
-    ) {
-      getSwapTxData()
-    }
-  }, [txTracker])
-
   const txDetails = useMemo(
-    () => getTxDetails(txTracker, outTxData)?.filter((item) => item.label),
-    [outTxData, txTracker],
+    () => getTxDetails(txTracker)?.filter((item) => item.label),
+    [txTracker],
   )
 
   return txDetails
 }
 
-const getTxDetails = (
-  txTracker: TxTracker,
-  outTxData: string,
-): TxDetails | null => {
+const getTxDetails = (txTracker: TxTracker): TxDetails | null => {
   if (isSwapType(txTracker)) {
-    return getSwapDetails(txTracker, outTxData)
+    return getSwapDetails(txTracker)
   }
 
   switch (txTracker.type) {
@@ -96,10 +78,8 @@ const getTxDetails = (
   }
 }
 
-const getSwapDetails = (txTracker: TxTracker, outTxData: string): TxDetails => {
-  const { status, submitTx } = txTracker
-
-  const { inAssets = [], outAssets = [] } = submitTx
+const getSwapDetails = ({ status, submitTx, action }: TxTracker): TxDetails => {
+  const { inAssets = [], outAssets = [], aggType } = submitTx
   const { asset: sendAsset, amount: sendAmount } = inAssets[0]
   const { asset: receiveAsset, amount: receiveAmount } = outAssets[0]
 
@@ -113,13 +93,16 @@ const getSwapDetails = (txTracker: TxTracker, outTxData: string): TxDetails => {
     receiveAsset,
   })
 
+  const sendTicker = Asset.fromAssetString(sendAsset)?.name
+  const receiveTicker = Asset.fromAssetString(receiveAsset)?.name
+
   if (status === TxTrackerStatus.Failed) {
     return [
       {
         status: 'failed',
-        label: `${sendTitle} ${sendAmount} ${
-          Asset.fromAssetString(sendAsset)?.name
-        }${' '}${t('txManager.failed')}`,
+        label: `${sendTitle} ${sendAmount} ${sendTicker} ${t(
+          'txManager.failed',
+        )}`,
       },
     ]
   }
@@ -127,30 +110,22 @@ const getSwapDetails = (txTracker: TxTracker, outTxData: string): TxDetails => {
   const txDetails: TxDetails = [
     {
       status: status === TxTrackerStatus.Submitting ? 'pending' : 'success',
-      label: `${sendTitle} ${sendAmount} ${
-        Asset.fromAssetString(sendAsset)?.name
-      }`,
+      label: `${sendTitle} ${sendAmount} ${sendTicker}`,
       url:
-        status !== TxTrackerStatus.Submitting ? getSwapInTxUrl(txTracker) : '',
+        status !== TxTrackerStatus.Submitting ? getSwapInTxUrl(submitTx) : '',
     },
   ]
 
   if (status !== TxTrackerStatus.Submitting) {
-    let label = ''
-    if (status === TxTrackerStatus.Pending) {
-      label = `${receiveTitle} ${receiveAmount} ${
-        Asset.fromAssetString(receiveAsset)?.name
-      }`
-    }
-
-    if (status === TxTrackerStatus.Success && outTxData) {
-      label = outTxData
-    }
-
     txDetails.push({
       status: status === TxTrackerStatus.Success ? 'success' : 'pending',
-      label,
-      url: status === TxTrackerStatus.Success ? getSwapOutTxUrl(txTracker) : '',
+      label: `${receiveTitle} ${receiveAmount} ${receiveTicker}`,
+      url:
+        status === TxTrackerStatus.Success
+          ? aggType === AggregatorSwapType.SwapIn
+            ? getSwapInTxUrl(submitTx)
+            : getSwapOutTxUrl(action)
+          : '',
     })
   }
 
@@ -243,8 +218,11 @@ const getWithdrawDetails = (txTracker: TxTracker): TxDetails => {
   return txDetails
 }
 
-const getSwitchDetails = (txTracker: TxTracker): TxDetails => {
-  const { status, submitTx } = txTracker
+const getSwitchDetails = ({
+  action,
+  status,
+  submitTx,
+}: TxTracker): TxDetails => {
   const { inAssets = [], outAssets = [] } = submitTx
   const { asset: sendAsset, amount: sendAmount } = inAssets[0]
   const { amount: receiveAmount } = outAssets[0]
@@ -254,10 +232,10 @@ const getSwitchDetails = (txTracker: TxTracker): TxDetails => {
     {
       status: status === TxTrackerStatus.Submitting ? 'pending' : 'success',
       label: `${t('common.send')} ${sendAmount} ${chainName(
-        Asset.fromAssetString(sendAsset)?.L1Chain,
+        Asset.fromAssetString(sendAsset)?.L1Chain || '',
       )}${' '}${Asset.fromAssetString(sendAsset)?.ticker}`,
       url:
-        status !== TxTrackerStatus.Submitting ? getSwapInTxUrl(txTracker) : '',
+        status !== TxTrackerStatus.Submitting ? getSwapInTxUrl(submitTx) : '',
     },
   ]
 
@@ -267,7 +245,7 @@ const getSwitchDetails = (txTracker: TxTracker): TxDetails => {
       label: isPending
         ? t('txManager.receiveAmountNativeRune', { amount: receiveAmount })
         : t('txManager.receivedAmountNativeRune', { amount: receiveAmount }),
-      url: status === TxTrackerStatus.Success ? getSwapOutTxUrl(txTracker) : '',
+      url: status === TxTrackerStatus.Success ? getSwapOutTxUrl(action) : '',
     })
   }
 
@@ -515,7 +493,7 @@ const getThornameDetails = ({
         ? typeText
         : `${typeText} ${t('txManager.success')}`,
       url: submitTx.txID
-        ? multichain.getExplorerTxUrl(Chain.THORChain, submitTx.txID)
+        ? multichain().getExplorerTxUrl(Chain.THORChain, submitTx.txID)
         : '',
     },
   ]

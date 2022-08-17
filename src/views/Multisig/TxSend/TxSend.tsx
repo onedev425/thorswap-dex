@@ -47,7 +47,6 @@ export const TxSend = () => {
         <AssetInput
           selectedAsset={assetInput}
           assets={assetInputList}
-          commonAssets={[]}
           onAssetChange={handleSelectAsset}
           onValueChange={handleChangeSendAmount}
         />

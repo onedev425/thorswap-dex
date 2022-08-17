@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 import { Box } from 'components/Atomic'
 import { Header } from 'components/Header'
-import { WalletModal } from 'components/Modals/WalletModal'
+import { ConnectWalletModal } from 'components/Modals/ConnectWalletModal'
 import { Scrollbar } from 'components/Scrollbar'
 import { Sidebar } from 'components/Sidebar'
 
@@ -58,7 +58,8 @@ export const Layout = ({ children }: PropsWithChildren<{}>) => {
           {children}
         </main>
 
-        <WalletModal />
+        {/* <WalletModal /> */}
+        <ConnectWalletModal />
       </Box>
     </Scrollbar>
   )

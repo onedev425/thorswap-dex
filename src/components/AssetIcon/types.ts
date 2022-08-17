@@ -1,5 +1,4 @@
 import { Asset } from '@thorswap-lib/multichain-sdk'
-import { SupportedChain } from '@thorswap-lib/types'
 
 import { IconColor } from 'components/Atomic'
 
@@ -193,8 +192,11 @@ type AssetStyleType = {
   className?: string
 }
 
-export type AssetIconProps = {
-  asset: Asset
+export type AssetIconProps = (
+  | { asset: Asset; logoURI?: string }
+  | { logoURI: string; asset?: Asset }
+) & {
+  badge?: string
   hasChainIcon?: boolean
   secondaryIconPlacement?: SecondaryIconPlacement
   hasShadow?: boolean
@@ -208,11 +210,5 @@ export type AssetLpIconProps = {
   inline?: boolean
   hasShadow?: boolean
 } & AssetStyleType
-
-export type ChainIconProps = {
-  className?: string
-  chain: SupportedChain
-  size?: number
-}
 
 export type SecondaryIconPlacement = 'tl' | 'tr' | 'bl' | 'br'

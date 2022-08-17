@@ -34,6 +34,7 @@ export type IconProps = {
   spin?: boolean
   name: IconName
   size?: number
+  style?: React.CSSProperties
   onClick?: (() => void) | MouseEventHandler
 }
 
@@ -43,6 +44,7 @@ export const Icon = ({
   spin = false,
   name,
   size = 24,
+  style,
   onClick,
 }: IconProps) => {
   const IconComp = IconList[name] || IconList.question
@@ -56,6 +58,7 @@ export const Icon = ({
         onClick ? 'cursor-pointer' : '',
         className,
       )}
+      style={style}
       size={size}
       onClick={onClick}
     />

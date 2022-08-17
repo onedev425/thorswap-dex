@@ -129,6 +129,7 @@ export const Announcement = memo(
             </Typography>
           )}
         </Box>
+
         {!dismissed && (
           <Box className="absolute right-2 top-2">
             <HoverIcon

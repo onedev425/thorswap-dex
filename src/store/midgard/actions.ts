@@ -7,7 +7,7 @@ import { midgardApi } from 'services/midgard'
 import { multichain } from 'services/multichain'
 import { getThorchainMimir, getLiquidityProvider } from 'services/thornode'
 
-import { TxTracker } from './types'
+import { AggregatorSwapType, TxTracker } from './types'
 
 export const getPools = createAsyncThunk(
   'midgard/getPools',
@@ -175,23 +175,21 @@ export const pollUpgradeTx = createAsyncThunk(
 
 export const pollTx = createAsyncThunk(
   'midgard/pollTx',
-  async (txTracker: TxTracker) => {
-    let txId = txTracker.submitTx?.txID
-
-    if (txId && txId.includes('0x')) {
-      txId = txId.slice(2)
+  async ({ submitTx: { txID } }: TxTracker) => {
+    if (txID) {
+      // @ts-expect-error TOOD: fix midgard types
+      const response = await midgardApi.getActions({
+        txId: txID.includes('0x') ? txID.slice(2) : txID,
+      })
+      return response
     }
-
-    // @ts-expect-error TOOD: fix midgard types
-    const response = await midgardApi.getActions({ txId })
-    return response
   },
 )
 
 export const pollApprove = createAsyncThunk(
   'midgard/pollApprove',
-  async (txTracker: TxTracker) => {
-    const assetString = txTracker.submitTx?.inAssets?.[0]?.asset
+  async ({ submitTx: { inAssets, aggType, contractAddress } }: TxTracker) => {
+    const assetString = inAssets?.[0]?.asset
 
     if (!assetString) throw Error('invalid asset string')
 
@@ -199,12 +197,12 @@ export const pollApprove = createAsyncThunk(
 
     if (!asset) throw Error('invalid asset')
 
-    const approved = await multichain.isAssetApproved(asset)
+    const approved = await (aggType === AggregatorSwapType.SwapIn &&
+    contractAddress
+      ? multichain().isAssetApprovedForContract(asset, contractAddress)
+      : multichain().isAssetApproved(asset))
 
-    return {
-      asset,
-      approved,
-    }
+    return { asset, approved }
   },
 )
 

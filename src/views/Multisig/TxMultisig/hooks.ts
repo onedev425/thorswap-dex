@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react'
 
-import { Chain } from '@thorswap-lib/xchain-util'
+import { Chain } from '@thorswap-lib/types'
 
 import { showErrorToast } from 'components/Toast'
 

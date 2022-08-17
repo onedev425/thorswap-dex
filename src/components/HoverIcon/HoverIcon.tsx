@@ -1,4 +1,4 @@
-import { MouseEventHandler } from 'react'
+import { memo, MouseEventHandler } from 'react'
 
 import classNames from 'classnames'
 
@@ -24,43 +24,44 @@ type Props = {
   iconHoverHighlight?: boolean
 }
 
-export const HoverIcon = ({ href, ...props }: Props) => {
-  if (href) {
-    return (
-      <Link to={href}>
-        <IconComponent {...props} />
-      </Link>
-    )
-  }
+export const HoverIcon = memo(({ href, ...props }: Props) => {
+  if (!href) return <IconComponent {...props} />
 
-  return <IconComponent {...props} />
-}
+  return (
+    <Link to={href}>
+      <IconComponent {...props} />
+    </Link>
+  )
+})
 
-const IconComponent = ({
-  tooltip,
-  className,
-  iconName,
-  color = 'secondary',
-  size = 16,
-  spin = false,
-  onClick,
-  iconHoverHighlight = true,
-}: Props) => (
-  <Tooltip content={tooltip}>
-    <Box className={classNames(baseHoverClass, 'group')} onClick={onClick}>
-      <Icon
-        className={classNames(
-          {
-            'group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary':
-              iconHoverHighlight,
-          },
-          className,
-        )}
-        name={iconName}
-        color={color}
-        size={size}
-        spin={spin}
-      />
-    </Box>
-  </Tooltip>
+const IconComponent = memo(
+  ({
+    tooltip,
+    className,
+    iconName,
+    color = 'secondary',
+    size = 16,
+    spin = false,
+    onClick,
+    iconHoverHighlight = true,
+  }: Props) => (
+    <Tooltip content={tooltip}>
+      <Box className={classNames(baseHoverClass, 'group')}>
+        <Icon
+          className={classNames(
+            {
+              'group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary':
+                iconHoverHighlight,
+            },
+            className,
+          )}
+          name={iconName}
+          color={color}
+          size={size}
+          spin={spin}
+          onClick={onClick}
+        />
+      </Box>
+    </Tooltip>
+  ),
 )

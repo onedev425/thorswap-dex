@@ -6,6 +6,8 @@ import { Keystore } from '@thorswap-lib/xchain-crypto'
 
 import { GeckoData } from 'store/wallet/types'
 
+import { saveInStorage } from 'helpers/storage'
+
 import * as walletActions from './actions'
 
 const initialWallet = {
@@ -44,16 +46,20 @@ const initialState = {
   isVthorApprovedLoading: false,
 }
 
-const slice = createSlice({
+const walletSlice = createSlice({
   name: 'wallet',
   initialState,
   reducers: {
     disconnect: (state) => {
+      saveInStorage({ key: 'previousWallet', value: null })
+      saveInStorage({ key: 'restorePreviousWallet', value: false })
       state.keystore = null
       state.wallet = initialWallet
       state.walletLoading = false
     },
     disconnectByChain: (state, action: PayloadAction<SupportedChain>) => {
+      saveInStorage({ key: 'previousWallet', value: null })
+      saveInStorage({ key: 'restorePreviousWallet', value: false })
       if (state.wallet) state.wallet[action.payload] = null
     },
     connectKeystore: (state, action: PayloadAction<Keystore>) => {
@@ -161,5 +167,6 @@ const slice = createSlice({
   },
 })
 
-export const { reducer, actions } = slice
-export default slice
+export const { actions } = walletSlice
+
+export default walletSlice.reducer

@@ -3,7 +3,6 @@ import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 
 import {
-  getWalletAssets,
   Amount,
   Asset,
   Price,
@@ -34,8 +33,8 @@ import { useNetworkFee } from 'hooks/useNetworkFee'
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
-import { commonAssets } from 'helpers/assets'
 import { chainName } from 'helpers/chainName'
+import { getWalletAssets } from 'helpers/wallet'
 
 import { getSendRoute } from 'settings/constants'
 
@@ -100,7 +99,7 @@ const Send = () => {
         const asset = Asset.decodeFromURL(assetParam)
         const assetDecimals =
           asset && asset.L1Chain === Chain.Ethereum
-            ? await multichain.eth.getERC20AssetDecimal(asset)
+            ? await multichain().eth.getERC20AssetDecimal(asset)
             : undefined
 
         if (asset) {
@@ -171,7 +170,7 @@ const Send = () => {
 
   const handleSend = useCallback(() => {
     if (
-      !multichain.validateAddress({
+      !multichain().validateAddress({
         chain: sendAsset.L1Chain,
         address: recipientAddress,
       })
@@ -261,7 +260,6 @@ const Send = () => {
         <AssetInput
           selectedAsset={assetInput}
           assets={assetInputList}
-          commonAssets={commonAssets}
           onAssetChange={handleSelectAsset}
           onValueChange={handleChangeSendAmount}
         />

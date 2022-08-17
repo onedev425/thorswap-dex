@@ -62,23 +62,23 @@ export const createMultisigWallet = (
   treshold: number,
 ) => {
   try {
-    multichain.thor.createMultisig(
+    multichain().thor.createMultisig(
       members.map((member) => member.pubKey),
       Number(treshold),
     )
 
-    return multichain.thor.multisigAddress
+    return multichain().thor.multisigAddress
   } catch (e) {
     return ''
   }
 }
 
 export const clearMultisigWallet = () => {
-  multichain.thor.clearMultisig()
+  multichain().thor.clearMultisig()
 }
 
 export const importMultisigTx = async (txData: string) => {
-  await multichain.thor.importMultisigTx(txData)
+  await multichain().thor.importMultisigTx(txData)
 
   return JSON.parse(txData) as MultisigTx
 }
@@ -87,7 +87,7 @@ const buildTransferTx = async (
   { recipient, memo, asset, amount }: MultisigTransferTxParams,
   signersSqeuence: SignersSequence,
 ) => {
-  const unsignedTx = await multichain.thor.buildTransferTx(
+  const unsignedTx = await multichain().thor.buildTransferTx(
     recipient,
     memo,
     asset,
@@ -102,7 +102,7 @@ const buildDepositTx = async (
   { memo, asset, amount }: MultisigDepositTxParams,
   signersSqeuence: SignersSequence,
 ) => {
-  const unsignedTx = await multichain.thor.buildDepositTx(
+  const unsignedTx = await multichain().thor.buildDepositTx(
     memo,
     asset,
     amount.baseAmount.toString(),
@@ -113,13 +113,13 @@ const buildDepositTx = async (
 }
 
 const signMultisigTx = async (tx: string) => {
-  const signature = await multichain.thor.signMultisigTx(tx)
+  const signature = await multichain().thor.signMultisigTx(tx)
 
   return signature
 }
 
 const broadcastMultisigTx = async (tx: string, signers: Signer[]) => {
-  const data = (await multichain.thor.broadcastMultisig(
+  const data = (await multichain().thor.broadcastMultisig(
     tx,
     signers.map((signer) => signer.signature),
   )) as BroadcastResponseData
@@ -138,10 +138,10 @@ const broadcastMultisigTx = async (tx: string, signers: Signer[]) => {
 }
 
 const loadMultisigBalances = async (): Promise<AssetAmount[]> => {
-  const address = multichain.thor.multisigAddress
+  const address = multichain().thor.multisigAddress
 
   if (address) {
-    return multichain.thor.loadAddressBalances(address)
+    return multichain().thor.loadAddressBalances(address)
   }
 
   return []
@@ -174,7 +174,7 @@ const getMemberPubkeyFromAddress = (
   members: MultisigMember[],
 ) => {
   const member = members.find((m) => {
-    const memberAddress = multichain.thor.pubKeyToAddr(m.pubKey)
+    const memberAddress = multichain().thor.pubKeyToAddr(m.pubKey)
     return memberAddress === address
   })
 
@@ -182,7 +182,7 @@ const getMemberPubkeyFromAddress = (
 }
 
 const isMultisigInitialized = () => {
-  return multichain.thor.isMultisigInitialized()
+  return multichain().thor.isMultisigInitialized()
 }
 
 const getSignersSequence = (

@@ -11,9 +11,8 @@ import { multichain } from 'services/multichain'
 export const useApprove = (asset: Asset, hasWallet = true) => {
   const { approveStatus } = useMidgard()
   const { wallet } = useWallet()
-  const [isApproved, setApproved] = useState<boolean | null>(
-    hasWallet ? null : true,
-  )
+  const [isApproved, setApproved] = useState(hasWallet ? null : true)
+  const [isLoading, setIsLoading] = useState(false)
 
   const isWalletConnected = useMemo(() => hasConnectedWallet(wallet), [wallet])
 
@@ -27,7 +26,9 @@ export const useApprove = (asset: Asset, hasWallet = true) => {
       if (approveStatus?.[asset.toString()] === TxTrackerStatus.Success) {
         setApproved(true)
       }
-      const approved = await multichain.isAssetApproved(asset)
+      setIsLoading(true)
+      const approved = await multichain().isAssetApproved(asset)
+      setIsLoading(false)
       setApproved(approved)
     }
 
@@ -39,8 +40,5 @@ export const useApprove = (asset: Asset, hasWallet = true) => {
     [approveStatus, asset],
   )
 
-  return {
-    assetApproveStatus,
-    isApproved,
-  }
+  return { assetApproveStatus, isApproved, isLoading }
 }

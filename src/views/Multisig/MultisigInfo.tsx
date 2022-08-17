@@ -28,7 +28,7 @@ export const MultisigInfo = () => {
   )
   const { loadBalances, clearMultisigWallet } = useMultisig()
   const accountUrl = useMemo(
-    () => multichain.getExplorerAddressUrl(Chain.THORChain, address),
+    () => multichain().getExplorerAddressUrl(Chain.THORChain, address),
     [address],
   )
 

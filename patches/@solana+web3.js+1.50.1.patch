@@ -1,0 +1,196 @@
+diff --git a/node_modules/@solana/web3.js/lib/index.browser.esm.js b/node_modules/@solana/web3.js/lib/index.browser.esm.js
+index fea380e..4091088 100644
+--- a/node_modules/@solana/web3.js/lib/index.browser.esm.js
++++ b/node_modules/@solana/web3.js/lib/index.browser.esm.js
+@@ -1,5 +1,4 @@
+ import nacl from 'tweetnacl';
+-import { Buffer } from 'buffer';
+ import BN from 'bn.js';
+ import bs58 from 'bs58';
+ import { serialize, deserialize, deserializeUnchecked } from 'borsh';
+diff --git a/node_modules/@solana/web3.js/lib/index.esm.js b/node_modules/@solana/web3.js/lib/index.esm.js
+index c745338..9ef4b4a 100644
+--- a/node_modules/@solana/web3.js/lib/index.esm.js
++++ b/node_modules/@solana/web3.js/lib/index.esm.js
+@@ -1,5 +1,4 @@
+ import nacl from 'tweetnacl';
+-import { Buffer } from 'buffer';
+ import BN from 'bn.js';
+ import bs58 from 'bs58';
+ import { serialize, deserialize, deserializeUnchecked } from 'borsh';
+diff --git a/node_modules/@solana/web3.js/src/account.ts b/node_modules/@solana/web3.js/src/account.ts
+index 13370e7..7e2e2ff 100644
+--- a/node_modules/@solana/web3.js/src/account.ts
++++ b/node_modules/@solana/web3.js/src/account.ts
+@@ -1,6 +1,5 @@
+ import nacl from 'tweetnacl';
+ import type {SignKeyPair as KeyPair} from 'tweetnacl';
+-import type {Buffer} from 'buffer';
+ 
+ import {toBuffer} from './util/to-buffer';
+ import {PublicKey} from './publickey';
+diff --git a/node_modules/@solana/web3.js/src/bpf-loader.ts b/node_modules/@solana/web3.js/src/bpf-loader.ts
+index 75d0b4f..76d01ab 100644
+--- a/node_modules/@solana/web3.js/src/bpf-loader.ts
++++ b/node_modules/@solana/web3.js/src/bpf-loader.ts
+@@ -1,5 +1,3 @@
+-import type {Buffer} from 'buffer';
+-
+ import {PublicKey} from './publickey';
+ import {Loader} from './loader';
+ import type {Connection} from './connection';
+diff --git a/node_modules/@solana/web3.js/src/connection.ts b/node_modules/@solana/web3.js/src/connection.ts
+index 8c3e286..7963446 100644
+--- a/node_modules/@solana/web3.js/src/connection.ts
++++ b/node_modules/@solana/web3.js/src/connection.ts
+@@ -1,5 +1,4 @@
+ import bs58 from 'bs58';
+-import {Buffer} from 'buffer';
+ // @ts-ignore
+ import fastStableStringify from 'fast-stable-stringify';
+ import {
+diff --git a/node_modules/@solana/web3.js/src/ed25519-program.ts b/node_modules/@solana/web3.js/src/ed25519-program.ts
+index 4e201a8..d09e4e0 100644
+--- a/node_modules/@solana/web3.js/src/ed25519-program.ts
++++ b/node_modules/@solana/web3.js/src/ed25519-program.ts
+@@ -1,4 +1,3 @@
+-import {Buffer} from 'buffer';
+ import * as BufferLayout from '@solana/buffer-layout';
+ import nacl from 'tweetnacl';
+ 
+diff --git a/node_modules/@solana/web3.js/src/instruction.ts b/node_modules/@solana/web3.js/src/instruction.ts
+index 4097211..63f89e4 100644
+--- a/node_modules/@solana/web3.js/src/instruction.ts
++++ b/node_modules/@solana/web3.js/src/instruction.ts
+@@ -1,4 +1,3 @@
+-import {Buffer} from 'buffer';
+ import * as BufferLayout from '@solana/buffer-layout';
+ 
+ import * as Layout from './layout';
+diff --git a/node_modules/@solana/web3.js/src/layout.ts b/node_modules/@solana/web3.js/src/layout.ts
+index b0e2438..333792e 100644
+--- a/node_modules/@solana/web3.js/src/layout.ts
++++ b/node_modules/@solana/web3.js/src/layout.ts
+@@ -1,4 +1,4 @@
+-import {Buffer} from 'buffer';
++import {Buffer}
+ import * as BufferLayout from '@solana/buffer-layout';
+ 
+ /**
+diff --git a/node_modules/@solana/web3.js/src/loader.ts b/node_modules/@solana/web3.js/src/loader.ts
+index 9412f0f..02eb182 100644
+--- a/node_modules/@solana/web3.js/src/loader.ts
++++ b/node_modules/@solana/web3.js/src/loader.ts
+@@ -1,4 +1,3 @@
+-import {Buffer} from 'buffer';
+ import * as BufferLayout from '@solana/buffer-layout';
+ 
+ import {PublicKey} from './publickey';
+diff --git a/node_modules/@solana/web3.js/src/message.ts b/node_modules/@solana/web3.js/src/message.ts
+index 6e86867..63f7ef0 100644
+--- a/node_modules/@solana/web3.js/src/message.ts
++++ b/node_modules/@solana/web3.js/src/message.ts
+@@ -1,5 +1,4 @@
+ import bs58 from 'bs58';
+-import {Buffer} from 'buffer';
+ import * as BufferLayout from '@solana/buffer-layout';
+ 
+ import {PublicKey} from './publickey';
+diff --git a/node_modules/@solana/web3.js/src/nonce-account.ts b/node_modules/@solana/web3.js/src/nonce-account.ts
+index e3c7f41..2457582 100644
+--- a/node_modules/@solana/web3.js/src/nonce-account.ts
++++ b/node_modules/@solana/web3.js/src/nonce-account.ts
+@@ -1,5 +1,4 @@
+ import * as BufferLayout from '@solana/buffer-layout';
+-import {Buffer} from 'buffer';
+ 
+ import type {Blockhash} from './blockhash';
+ import * as Layout from './layout';
+diff --git a/node_modules/@solana/web3.js/src/publickey.ts b/node_modules/@solana/web3.js/src/publickey.ts
+index 89b9680..ba34082 100644
+--- a/node_modules/@solana/web3.js/src/publickey.ts
++++ b/node_modules/@solana/web3.js/src/publickey.ts
+@@ -1,6 +1,5 @@
+ import BN from 'bn.js';
+ import bs58 from 'bs58';
+-import {Buffer} from 'buffer';
+ import nacl from 'tweetnacl';
+ import {sha256} from '@ethersproject/sha2';
+ 
+diff --git a/node_modules/@solana/web3.js/src/secp256k1-program.ts b/node_modules/@solana/web3.js/src/secp256k1-program.ts
+index 0df5e40..4381ea2 100644
+--- a/node_modules/@solana/web3.js/src/secp256k1-program.ts
++++ b/node_modules/@solana/web3.js/src/secp256k1-program.ts
+@@ -1,4 +1,3 @@
+-import {Buffer} from 'buffer';
+ import * as BufferLayout from '@solana/buffer-layout';
+ import secp256k1 from 'secp256k1';
+ import sha3 from 'js-sha3';
+diff --git a/node_modules/@solana/web3.js/src/transaction.ts b/node_modules/@solana/web3.js/src/transaction.ts
+index 686dd58..56c85b0 100644
+--- a/node_modules/@solana/web3.js/src/transaction.ts
++++ b/node_modules/@solana/web3.js/src/transaction.ts
+@@ -1,6 +1,5 @@
+ import nacl from 'tweetnacl';
+ import bs58 from 'bs58';
+-import {Buffer} from 'buffer';
+ 
+ import {
+   PACKET_DATA_SIZE,
+diff --git a/node_modules/@solana/web3.js/src/util/bigint.ts b/node_modules/@solana/web3.js/src/util/bigint.ts
+index ae417f3..8525125 100644
+--- a/node_modules/@solana/web3.js/src/util/bigint.ts
++++ b/node_modules/@solana/web3.js/src/util/bigint.ts
+@@ -1,4 +1,3 @@
+-import {Buffer} from 'buffer';
+ import {blob, Layout} from '@solana/buffer-layout';
+ import {toBigIntLE, toBufferLE} from 'bigint-buffer';
+ 
+diff --git a/node_modules/@solana/web3.js/src/util/borsh-schema.ts b/node_modules/@solana/web3.js/src/util/borsh-schema.ts
+index cbceb8c..e5690da 100644
+--- a/node_modules/@solana/web3.js/src/util/borsh-schema.ts
++++ b/node_modules/@solana/web3.js/src/util/borsh-schema.ts
+@@ -1,4 +1,3 @@
+-import {Buffer} from 'buffer';
+ import {serialize, deserialize, deserializeUnchecked} from 'borsh';
+ 
+ // Class wrapping a plain object
+diff --git a/node_modules/@solana/web3.js/src/util/send-and-confirm-raw-transaction.ts b/node_modules/@solana/web3.js/src/util/send-and-confirm-raw-transaction.ts
+index 1b5c98f..9b97368 100644
+--- a/node_modules/@solana/web3.js/src/util/send-and-confirm-raw-transaction.ts
++++ b/node_modules/@solana/web3.js/src/util/send-and-confirm-raw-transaction.ts
+@@ -1,5 +1,3 @@
+-import type {Buffer} from 'buffer';
+-
+ import {
+   BlockheightBasedTransactionConfirmationStrategy,
+   Connection,
+diff --git a/node_modules/@solana/web3.js/src/util/to-buffer.ts b/node_modules/@solana/web3.js/src/util/to-buffer.ts
+index f9a465a..124570e 100644
+--- a/node_modules/@solana/web3.js/src/util/to-buffer.ts
++++ b/node_modules/@solana/web3.js/src/util/to-buffer.ts
+@@ -1,5 +1,3 @@
+-import {Buffer} from 'buffer';
+-
+ export const toBuffer = (arr: Buffer | Uint8Array | Array<number>): Buffer => {
+   if (Buffer.isBuffer(arr)) {
+     return arr;
+diff --git a/node_modules/@solana/web3.js/src/validator-info.ts b/node_modules/@solana/web3.js/src/validator-info.ts
+index 3d70980..1c7aada 100644
+--- a/node_modules/@solana/web3.js/src/validator-info.ts
++++ b/node_modules/@solana/web3.js/src/validator-info.ts
+@@ -1,4 +1,3 @@
+-import {Buffer} from 'buffer';
+ import {
+   assert as assertType,
+   optional,
+diff --git a/node_modules/@solana/web3.js/src/vote-account.ts b/node_modules/@solana/web3.js/src/vote-account.ts
+index 0a824d4..428b899 100644
+--- a/node_modules/@solana/web3.js/src/vote-account.ts
++++ b/node_modules/@solana/web3.js/src/vote-account.ts
+@@ -1,5 +1,4 @@
+ import * as BufferLayout from '@solana/buffer-layout';
+-import type {Buffer} from 'buffer';
+ 
+ import * as Layout from './layout';
+ import {PublicKey} from './publickey';

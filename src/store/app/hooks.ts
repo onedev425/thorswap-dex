@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
-import { FeeOption } from '@thorswap-lib/xchain-client'
+import { FeeOption } from '@thorswap-lib/types'
 
 import { actions } from 'store/app/slice'
 import { useAppSelector, useAppDispatch } from 'store/store'
@@ -68,7 +68,7 @@ export const useApp = () => {
   const setFeeOptionType = useCallback(
     (feeOption: FeeOption) => {
       // set feeOption for multichain client
-      multichain.setFeeOption(feeOption)
+      multichain().setFeeOption(feeOption)
       dispatch(actions.setFeeOptionType(feeOption))
     },
     [dispatch],

@@ -188,8 +188,8 @@ export const useMidgard = () => {
   // update sent asset balance after submit
   const processSubmittedTx = useCallback(
     ({ submitTx, type }: { submitTx: SubmitTx; type: TxTrackerType }) => {
-      if (type === TxTrackerType.Swap || type === TxTrackerType.Switch) {
-        const inAsset = submitTx?.inAssets?.[0]
+      if ([TxTrackerType.Swap, TxTrackerType.Switch].includes(type)) {
+        const [inAsset] = submitTx?.inAssets || []
         if (inAsset) {
           const asset = Asset.fromAssetString(inAsset?.asset)
 
@@ -200,7 +200,7 @@ export const useMidgard = () => {
           }
         }
       } else if (type === TxTrackerType.AddLiquidity) {
-        const inAssets = submitTx?.inAssets ?? []
+        const inAssets = submitTx?.inAssets || []
         inAssets.forEach((inAsset) => {
           const asset = Asset.fromAssetString(inAsset?.asset)
 
@@ -306,6 +306,14 @@ export const useMidgard = () => {
     [dispatch],
   )
 
+  const synthAssets = useMemo(
+    () =>
+      midgardState.pools.map(
+        ({ asset: { chain, symbol } }) => new Asset(chain, symbol, true),
+      ),
+    [midgardState.pools],
+  )
+
   const getLpDetails = useCallback(
     async (chain: SupportedChain, pool: string) => {
       const chainWalletAddr = walletState.wallet?.[chain]?.address
@@ -341,15 +349,16 @@ export const useMidgard = () => {
   return {
     ...midgardState,
     actions,
-    isGlobalHistoryLoading,
-    getPools,
     getAllMemberDetails,
-    getPoolHistory,
     getGlobalHistory,
-    getTxData,
     getInboundData,
     getNodes,
+    getPoolHistory,
+    getPools,
+    getTxData,
+    isGlobalHistoryLoading,
     loadMemberDetailsByChain,
+    synthAssets,
     // tx tracker actions
     addNewTxTracker,
     updateTxTracker,

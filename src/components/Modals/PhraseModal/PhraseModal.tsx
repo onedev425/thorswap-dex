@@ -22,7 +22,7 @@ export const PhraseModal = ({
 }: PhraseModalProps): JSX.Element => {
   const { showPhrase, submit, passwordField, errors, handleCopyPhrase } =
     usePhraseModal(isOpen)
-  const phrases = multichain.getPhrase().split(' ')
+  const phrases = multichain().getPhrase().split(' ')
 
   return (
     <Modal

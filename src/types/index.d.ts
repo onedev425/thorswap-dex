@@ -5,7 +5,7 @@ declare type FixMe = any
 declare type ToDo = any
 declare type ErrorType = any
 declare type NotWorth = any
-declare type Maybe<T> = T | null | undefined
+declare type Maybe<T> = T | null
 declare type Nothing = null | undefined
 
 declare type FixedLengthArray<

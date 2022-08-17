@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { takeRight } from 'lodash'
+import takeRight from 'lodash/takeRight'
 
 import { useApp } from 'store/app/hooks'
 

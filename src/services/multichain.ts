@@ -19,11 +19,15 @@ export const globalConfig = {
   ethNetworkId: Number(import.meta.env.VITE_ETHEREUM_NETWORK_ID),
   blocknativeApiKey: import.meta.env.VITE_BLOCKNATIVE_API_KEY || '',
   isAffiliated: import.meta.env.VITE_AFFILIATE_ON,
+  figmentApiKey: import.meta.env.VITE_FIGMENT_API_KEY || '',
 }
 
 setGlobalConfig(globalConfig)
 
-export const multichain = new MultiChain({
-  network: NETWORK,
-  figmentApiKey: import.meta.env.VITE_FIGMENT_API_KEY || '',
-})
+let multichainClient: MultiChain
+
+export const multichain = () =>
+  (multichainClient ||= new MultiChain({
+    network: NETWORK,
+    figmentApiKey: import.meta.env.VITE_FIGMENT_API_KEY || '',
+  }))

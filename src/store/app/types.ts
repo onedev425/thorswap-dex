@@ -1,4 +1,4 @@
-import { FeeOption } from '@thorswap-lib/xchain-client'
+import { FeeOption } from '@thorswap-lib/types'
 
 import {
   SupportedLanguages,

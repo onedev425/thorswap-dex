@@ -14,7 +14,7 @@ import { showErrorToast } from 'components/Toast'
 import { TxTrackerType } from 'store/midgard/types'
 import { useWallet } from 'store/wallet/hooks'
 
-import { useApprove } from 'hooks/useApproveContract'
+import { useApproveContract } from 'hooks/useApproveContract'
 import { useTxTracker } from 'hooks/useTxTracker'
 
 import {
@@ -60,7 +60,7 @@ export const StakeConfirmModal = ({
   const [amount, setAmount] = useState<BigNumber>(BigNumber.from(0))
   const { submitTransaction, setTxFailed, subscribeEthTx } = useTxTracker()
   const { wallet } = useWallet()
-  const { isApproved } = useApprove(
+  const { isApproved } = useApproveContract(
     lpAsset,
     getContractAddress(contractType),
     !!wallet,
@@ -117,7 +117,7 @@ export const StakeConfirmModal = ({
       })
 
       try {
-        const txHash = await multichain.approveAssetForStaking(
+        const txHash = await multichain().approveAssetForStaking(
           lpAsset,
           getContractAddress(contractType),
         )

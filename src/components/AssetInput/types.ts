@@ -7,23 +7,28 @@ export type AssetInputType = {
   usdPrice?: Price
   balance?: Amount
   value?: Amount
+  loading?: boolean
+  priceLoading?: boolean
 }
 
 export type AssetInputProps = {
+  isLoading?: boolean
   className?: string
-  inputClassName?: string
-  selectedAsset: AssetInputType
-  secondaryLabel?: string
-  onValueChange?: (assetValue: Amount) => void
-  hideMaxButton?: boolean
+  setQuery?: (query: string) => void
+  query?: string
   disabled?: boolean
-  warning?: string
+  hideMaxButton?: boolean
+  inputClassName?: string
   maxButtonLabel?: string
+  onValueChange?: (assetValue: Amount) => void
+  isPriceLoading?: boolean
+  secondaryLabel?: string
+  selectedAsset: AssetInputType
+  warning?: string
   hideAssetSelectBalances?: boolean
 } & (
   | {
       assets: AssetSelectType[]
-      commonAssets: AssetSelectType[]
       onAssetChange: (asset: Asset) => void
       poolAsset?: undefined
       showSecondaryChainSelector?: undefined
@@ -31,7 +36,6 @@ export type AssetInputProps = {
     }
   | {
       assets: AssetSelectType[]
-      commonAssets: AssetSelectType[]
       onAssetChange: (asset: Asset) => void
       poolAsset: AssetInputType
       showSecondaryChainSelector: boolean
@@ -39,7 +43,6 @@ export type AssetInputProps = {
     }
   | {
       assets?: undefined
-      commonAssets?: undefined
       onAssetChange?: undefined
       poolAsset?: undefined
       showSecondaryChainSelector?: undefined

@@ -12,6 +12,7 @@ type FormatOptions = {
   prefix?: string
   decimals?: number
   decimalSeparator?: string
+  groupSize?: number
 }
 
 const useGroupSeparator = () => {
@@ -51,7 +52,7 @@ const useFormat = (options: FormatOptions = {}) => {
     () => ({
       prefix: 'prefix' in options ? options.prefix : '$',
       groupSeparator,
-      groupSize: 3,
+      groupSize: 'groupSize' in options ? options.groupSize : 3,
       decimalSeparator:
         'decimalSeparator' in options ? options.decimalSeparator : '.',
     }),
@@ -70,7 +71,7 @@ const formatter = ({
   format: ReturnType<typeof useFormat>
   decimals?: number
 }) => {
-  const numOfDecimals = amount ? decimals || getNumberOfDecimals(amount) : 0
+  const numOfDecimals = decimals || getNumberOfDecimals(amount)
 
   if (amount && typeof amount === 'object') {
     return amount.toSignificant(6, format)
@@ -93,13 +94,14 @@ export const useFormatPrice = (options?: FormatOptions) => {
   const format = useFormat(options)
 
   return useCallback(
-    (amount: Value) =>
+    (amount: Value, inlineFormat?: FormatOptions) =>
       formatter({
         amount,
-        format,
+        format: { ...format, ...inlineFormat },
         decimals:
-          amount instanceof Amount ? amount?.decimal : options?.decimals,
+          options?.decimals ||
+          (amount instanceof Amount ? amount.decimal : undefined),
       }),
-    [format, options?.decimals],
+    [format, options],
   )
 }

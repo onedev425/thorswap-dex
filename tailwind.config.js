@@ -40,7 +40,6 @@ module.exports = {
       },
 
       btn: {
-        // TODO: check if those are correct because design does not include them
         light: {
           tint: '#edeef2',
           'tint-active': '#dfe3f5',
@@ -246,8 +245,11 @@ module.exports = {
         'card-before':
           'radial-gradient(100% 6920.83% at 35.19% 0%, #12324F 0%, rgba(35, 46, 66, 0) 100%)',
         'card-after':
-          ' radial-gradient(100% 13612.5% at 50% 100%, #005A2F 0%, rgba(18, 22, 39, 0) 100%)',
+          'radial-gradient(100% 13612.5% at 50% 100%, #005A2F 0%, rgba(18, 22, 39, 0) 100%)',
+        'gradient-teal':
+          'linear-gradient(90deg, rgba(51, 255, 155, 1) 0%, rgb(0, 204, 255, 1) 100%)',
       },
+
       borderSpacing: ({ theme }) => ({
         ...theme('spacing'),
       }),
@@ -345,9 +347,7 @@ module.exports = {
           'scrollbar-width': 'thin',
         },
         '.light-elliptical-bg': {
-          background: '#008ECC',
-          opacity: 0.08,
-          'backdrop-filter': 'blur(460px)',
+          'background-color': '#008ECC08',
         },
       })
       Object.entries(theme('colors')).forEach(([colorName, color]) => {

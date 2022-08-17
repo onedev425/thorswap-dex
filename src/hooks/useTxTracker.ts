@@ -60,7 +60,7 @@ export const useTxTracker = () => {
       txHash: string
       callback?: () => void
     }) => {
-      const ethClient = multichain.eth.getClient()
+      const ethClient = multichain().eth.getClient()
       const ethProvider = ethClient.getProvider()
 
       if (txHash) {

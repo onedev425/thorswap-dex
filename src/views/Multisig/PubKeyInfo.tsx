@@ -24,7 +24,7 @@ export const PubKeyInfo = () => {
   const connectedWalletAddress = wallet?.[Chain.THORChain]?.address || ''
   const pubKey = useMemo(() => {
     try {
-      return connectedWalletAddress ? multichain.thor.getPubkey() : ''
+      return connectedWalletAddress ? multichain().thor.getPubkey() : ''
     } catch (e) {
       return ''
     }
