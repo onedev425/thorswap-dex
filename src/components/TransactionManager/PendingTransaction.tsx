@@ -1,4 +1,4 @@
-import { memo, useEffect } from 'react'
+import { memo, useEffect, useMemo } from 'react'
 
 import { Box, Icon, Link, Typography } from 'components/Atomic'
 import { baseHoverClass } from 'components/constants'
@@ -12,35 +12,37 @@ import { PendingTransactionType } from 'store/transactions/types'
 import { multichain } from 'services/multichain'
 
 export const PendingTransaction = memo(
-  ({ chain, txid, quoteMode }: PendingTransactionType) => {
-    const appDispatch = useAppDispatch()
-    const { data } = useGetTxnStatusQuery(
-      { txid: txid || '', quoteMode },
-      { pollingInterval: 3000, skip: !txid },
+  ({ id, chain, txid, label, quoteMode }: PendingTransactionType) => {
+    const params = useMemo(
+      () => ({ quoteMode, txid: txid || '' }),
+      [quoteMode, txid],
     )
+
+    const appDispatch = useAppDispatch()
+
+    const { data } = useGetTxnStatusQuery(params, {
+      pollingInterval: 3000,
+      refetchOnFocus: true,
+      skip: !txid,
+    })
 
     const url = txid && multichain().getExplorerTxUrl(chain, txid || '')
 
     useEffect(() => {
       if (data?.ok && data.result) {
         appDispatch(
-          completeTransaction({
-            id: data.result.transactionHash,
-            status: data.status,
-          }),
+          completeTransaction({ id, status: data.status, result: data.result }),
         )
       }
-    }, [appDispatch, data, txid])
+    }, [appDispatch, data, id, txid])
 
     return (
-      <Box justify="between" alignCenter>
+      <Box flex={1} justify="between" alignCenter>
         <Box className="w-full space-x-3" alignCenter>
-          <Box center style={{ width: 24, height: 24 }}>
-            <TxStatusIcon status="pending" size={16} />
-          </Box>
+          <TxStatusIcon status="pending" size={20} />
 
-          <Typography variant="caption" fontWeight="normal">
-            {data?.ok ? `${data.result}` : 'Pending'}
+          <Typography variant="caption" color="secondary" fontWeight="semibold">
+            {label}
           </Typography>
         </Box>
 
@@ -57,9 +59,7 @@ export const PendingTransaction = memo(
               size={18}
             />
           </Link>
-        ) : (
-          <div></div>
-        )}
+        ) : null}
       </Box>
     )
   },

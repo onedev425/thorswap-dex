@@ -9,6 +9,8 @@ import {
 
 import { usePopper } from 'react-popper'
 
+import classNames from 'classnames'
+
 import { Box } from 'components/Atomic'
 
 import useOnClickOutside from 'hooks/useClickOutside'
@@ -62,16 +64,16 @@ export const Popover = forwardRef<ForwarderProps, PopoverProps>(
           </div>
         )}
 
-        {isOpened && (
-          <Box
-            className="z-20"
-            ref={setPopperElement}
-            style={styles.popper}
-            {...attributes.popper}
-          >
-            {children}
-          </Box>
-        )}
+        <Box
+          className={classNames('-z-20 opacity-0', {
+            '!opacity-100 !z-20': isOpened,
+          })}
+          ref={setPopperElement}
+          style={styles.popper}
+          {...attributes.popper}
+        >
+          {children}
+        </Box>
       </div>
     )
   },

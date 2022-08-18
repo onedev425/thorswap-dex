@@ -5,6 +5,8 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import type { Action, ThunkAction } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 
+import { apiUsageApi } from 'store/apiUsage/api'
+
 import appReducer from './app/slice'
 import assetsReducer from './assets/slice'
 import externalConfigReducer from './externalConfig/slice'
@@ -20,6 +22,7 @@ const rootReducer = combineReducers({
   [tokensApi.reducerPath]: tokensApi.reducer,
   [pathfinderApi.reducerPath]: pathfinderApi.reducer,
   [staticApi.reducerPath]: staticApi.reducer,
+  [apiUsageApi.reducerPath]: apiUsageApi.reducer,
 
   app: appReducer,
   assets: assetsReducer,
@@ -38,6 +41,7 @@ const store = configureStore({
       tokensApi.middleware,
       pathfinderApi.middleware,
       staticApi.middleware,
+      apiUsageApi.middleware,
     ]),
 })
 

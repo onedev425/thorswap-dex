@@ -7,6 +7,7 @@ import {
   QuoteRoute,
 } from '@thorswap-lib/multichain-sdk'
 import { SupportedChain, FeeOption } from '@thorswap-lib/types'
+import { v4 } from 'uuid'
 
 import { getSwapTrackerType, getTxAsset } from 'views/Swap/helpers'
 
@@ -62,6 +63,7 @@ export const useSwap = ({
 
   const handleSwap = useCallback(async () => {
     let uuid = ''
+    const id = v4()
 
     try {
       if (wallet && route) {
@@ -78,10 +80,14 @@ export const useSwap = ({
           outAssets: [getTxAsset(outputAsset, outputAmount)],
         }
 
+        const label = `${inputAmount.toSignificant(6)} ${
+          inputAsset.name
+        } → ${outputAmount.toSignificant(6)} ${outputAsset.name.toString()}`
+
         uuid = submitTransaction({ type: trackerType, submitTx })
 
         appDispatch(
-          addTransaction({ id: uuid, chain: inputAsset.L1Chain, quoteMode }),
+          addTransaction({ id, label, chain: inputAsset.L1Chain, quoteMode }),
         )
 
         const txid = await multichain().swapThroughAggregator({
@@ -92,7 +98,7 @@ export const useSwap = ({
         })
 
         if (typeof txid === 'string') {
-          appDispatch(updateTransaction({ id: uuid, txid }))
+          appDispatch(updateTransaction({ id, txid }))
 
           pollTransaction({
             uuid,
@@ -101,7 +107,7 @@ export const useSwap = ({
           })
         } else {
           setTxFailed(uuid)
-          appDispatch(completeTransaction({ id: uuid, status: 'fail' }))
+          appDispatch(completeTransaction({ id, status: 'fail' }))
           showErrorToast(t('notification.submitTxFailed'), JSON.stringify(txid))
           if (typeof txid === 'object') console.error(txid)
         }
@@ -109,6 +115,9 @@ export const useSwap = ({
     } catch (error: NotWorth) {
       if (uuid) setTxFailed(uuid)
       const description = translateErrorMsg(error?.toString())
+
+      appDispatch(completeTransaction({ id, status: 'fail' }))
+
       console.error(error, description)
       showErrorToast(t('notification.submitTxFailed'), description || '')
     }

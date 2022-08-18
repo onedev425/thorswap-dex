@@ -198,7 +198,9 @@ export const SwapSubmitButton = ({
     if (swapAmountTooSmall) return t('notification.swapAmountTooSmall')
 
     if (!isSlipValid) {
-      return t('views.swap.slipWarning', { slippage: slippageTolerance })
+      return t('views.swap.slipWarning', {
+        slippage: `${slippageTolerance.toFixed()}%`,
+      })
     }
 
     if (inputAsset.isSynth && outputAsset.isSynth) return t('common.swap')

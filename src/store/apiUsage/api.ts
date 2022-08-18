@@ -8,31 +8,29 @@ export type GetTxnStatusParams = {
   quoteMode: QuoteMode
 }
 
+export type SuccessTxnResult = {
+  blockNumber: number
+  cumulativeGasUsed: string
+  effectiveGasPrice: string
+  inputAsset: string
+  inputAssetAmount: string
+  inputAssetPriceUSD: number
+  inputAssetPriceUSDTimestamp: string
+  memo: string
+  outputAsset: string
+  outputAssetAmount: string
+  outputAssetPriceUSD: number
+  outputAssetPriceUSDTimestamp: string
+  quoteMode: QuoteMode
+  status: number
+  transactionHash: string
+  type: string
+  userAddress: string
+}
+
 export type GetTxnStatusResponse =
   | { ok: false; status: 'pending'; result: string }
-  | {
-      ok: true
-      status: TransactionStatus
-      result?: {
-        blockNumber: number
-        cumulativeGasUsed: string
-        effectiveGasPrice: string
-        inputAsset: string
-        inputAssetAmount: string
-        inputAssetPriceUSD: number
-        inputAssetPriceUSDTimestamp: string
-        memo: string
-        outputAsset: string
-        outputAssetAmount: string
-        outputAssetPriceUSD: number
-        outputAssetPriceUSDTimestamp: string
-        quoteMode: QuoteMode
-        status: number
-        transactionHash: string
-        type: string
-        userAddress: string
-      }
-    }
+  | { ok: true; status: TransactionStatus; result?: SuccessTxnResult }
 
 const API_USAGE_URL = 'https://apiusage-vlpfe7es4a-uc.a.run.app'
 

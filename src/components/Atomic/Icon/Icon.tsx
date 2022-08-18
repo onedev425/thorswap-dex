@@ -58,7 +58,7 @@ export const Icon = ({
         onClick ? 'cursor-pointer' : '',
         className,
       )}
-      style={style}
+      style={{ ...style, width: size, height: size }}
       size={size}
       onClick={onClick}
     />

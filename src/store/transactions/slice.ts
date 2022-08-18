@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
+import { SuccessTxnResult } from 'store/apiUsage/api'
 import type {
   PendingTransactionType,
   TrackedTransactionType,
@@ -38,14 +39,18 @@ const transactionsSlice = createSlice({
     completeTransaction(
       state,
       {
-        payload: { id, status },
-      }: PayloadAction<{ id: string; status: TransactionStatus }>,
+        payload,
+      }: PayloadAction<{
+        result?: Omit<SuccessTxnResult, 'status'>
+        id: string
+        status: TransactionStatus
+      }>,
     ) {
       state.pending = state.pending.filter((item) => {
-        const isPending = [item.txid, item.id].includes(id)
+        const isPending = [item.txid, item.id].includes(payload.id)
 
         if (isPending) {
-          state.completed.push({ ...item, status, timestamp: new Date() })
+          state.completed.push({ ...payload, ...item, timestamp: new Date() })
         }
 
         return !isPending

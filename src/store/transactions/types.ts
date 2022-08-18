@@ -15,6 +15,7 @@ export type TrackedTransactionType = {
 export type PendingTransactionType = {
   id: string
   txid?: string
+  label: string
   chain: Chain
   quoteMode: QuoteMode
   timestamp: Date

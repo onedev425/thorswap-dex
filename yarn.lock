@@ -3909,10 +3909,10 @@
     "@cosmjs/crypto" "^0.28.11"
     "@thorswap-lib/types" "^0.2.5"
 
-"@thorswap-lib/multichain-sdk@0.11.2":
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.11.2.tgz#4df1d4c40da60043d8c523dd5f4ad91b76d50d34"
-  integrity sha512-G8aZKYAbo84OAALMbvO2B2w/AOZY02YmPKdw+X7zeBL+A+pfRGTlJMKMV7s/0oOsJNNneUkIvXs6K2RrWEpjkw==
+"@thorswap-lib/multichain-sdk@0.11.3":
+  version "0.11.3"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.11.3.tgz#a70cb58f8f988c68531a2f1f6c1b96f0d6e9e3c9"
+  integrity sha512-tw0jBLBl9SZBouv10lOslhGrWuq3ISZuyKn9Jj0Mx61P6ogCBjkbmIvShBmMFLPIntaB0kWOwmASvA2JsltJqA==
   dependencies:
     "@cosmjs/stargate" "^0.28.11"
     "@ethersproject/abstract-signer" "^5.6.2"
@@ -3956,10 +3956,10 @@
     cosmos-client "0.39.2"
     tiny-invariant "^1.2.0"
 
-"@thorswap-lib/multichain-walletconnect@0.2.4":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-walletconnect/-/multichain-walletconnect-0.2.4.tgz#334cf2dcf73d28362d87a7da40546cf3cbcb6de3"
-  integrity sha512-tBEYLVV74Du8W42tk6xas/bXR+wVP386HF9LLKVpOYLkeMJNIvgtG+kxsQoJdI67p7w/54CfTDQ71tDcjnWvWQ==
+"@thorswap-lib/multichain-walletconnect@0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-walletconnect/-/multichain-walletconnect-0.2.5.tgz#55c9bd902544da2dd7b9fe49b105838a0d346c87"
+  integrity sha512-GcvdbAqMoa9ZD3imfKTQS2Zz8jbD+4h9202MQOF0rKiGG+Q1yoOtx1p92Z8oaXTNiy/uJN13fw8+J7V9PfHm6w==
   dependencies:
     "@thorswap-lib/types" "^0.2.5"
 
