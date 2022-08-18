@@ -3909,10 +3909,10 @@
     "@cosmjs/crypto" "^0.28.11"
     "@thorswap-lib/types" "^0.2.5"
 
-"@thorswap-lib/multichain-sdk@0.11.3":
-  version "0.11.3"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.11.3.tgz#a70cb58f8f988c68531a2f1f6c1b96f0d6e9e3c9"
-  integrity sha512-tw0jBLBl9SZBouv10lOslhGrWuq3ISZuyKn9Jj0Mx61P6ogCBjkbmIvShBmMFLPIntaB0kWOwmASvA2JsltJqA==
+"@thorswap-lib/multichain-sdk@0.11.6":
+  version "0.11.6"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.11.6.tgz#b7b7f61a30c61c70b9ac295a07974f282898f82c"
+  integrity sha512-Qo+LKs35pUrDUSaUodD8Q0CW/Zbrf8iFJJoPYosGyldfyb+yG9nMFaICa5GpKJIr0x3Q7mBq1sAPUZXB13EbSA==
   dependencies:
     "@cosmjs/stargate" "^0.28.11"
     "@ethersproject/abstract-signer" "^5.6.2"
