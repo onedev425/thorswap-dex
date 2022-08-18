@@ -265,7 +265,7 @@ export const useHandleWalletTypeSelect = ({
 
       setSelectedChains((chains) =>
         [WalletType.Ledger, WalletType.MetaMask].includes(walletType)
-          ? []
+          ? [chains[0]]
           : chains.length
           ? chains
           : availableChainsByWallet[walletType],

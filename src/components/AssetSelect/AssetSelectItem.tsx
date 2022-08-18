@@ -84,7 +84,7 @@ export const AssetSelectItem = memo(
       const marketCap =
         cg?.market_cap && getAmountFromString(`${cg.market_cap}`, asset.decimal)
 
-      return `${asset.type} (${provider})${
+      return `${asset.type}${provider ? `(${provider})` : ''}${
         marketCap ? ` - MC: ${marketCap.toAbbreviate(2)}` : ''
       }${price ? `, ${formatPrice(price)}` : ''}`
     }, [
@@ -113,8 +113,8 @@ export const AssetSelectItem = memo(
         style={style}
         onClick={() => select(asset)}
       >
-        <Box flex={1} align="end" className="gap-x-3 pl-2">
-          <Box alignCenter className="gap-x-2">
+        <Box flex={1} className="gap-x-3 pl-2">
+          <Box center className="gap-x-2">
             <FeaturedAssetIcon assetString={asset.toString()} />
             <AssetIcon logoURI={logoURI} size={30} asset={asset} />
           </Box>
@@ -159,7 +159,7 @@ export const AssetSelectItem = memo(
           </Box>
         </Box>
 
-        <Box col justify="end" className="pr-2">
+        <Box col justify="end" className="pr-6">
           <Typography
             variant="caption"
             color="secondary"

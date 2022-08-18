@@ -698,7 +698,7 @@
       "interfaceSettings": "Interface-instellingen",
       "minReceivedAfterSlip": "Minimaal ontvangen na slippage  (%{slippage})",
       "priceImpact": "Prijsimpact",
-      "slipWarning": "Slip is hoger dan 1%",
+      "slipWarning": "Slip is hoger dan %{slippage}",
       "slippageTolerance": "Slip tolerantie",
       "swapAssets": "Swap assets rates",
       "tabsCommon": "Gebruikelijke",

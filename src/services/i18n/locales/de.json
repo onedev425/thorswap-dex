@@ -698,7 +698,7 @@
       "interfaceSettings": "Einstellungen Oberfläche",
       "minReceivedAfterSlip": "Minimum erhalten nach Slippage  (%{slippage})",
       "priceImpact": "Preisauswirkung",
-      "slipWarning": "Slip is higher than 1%",
+      "slipWarning": "Slip is higher than %{slippage}",
       "slippageTolerance": "Maximale Slippage",
       "swapAssets": "Swap Wechselkurse",
       "tabsCommon": "Gängig",

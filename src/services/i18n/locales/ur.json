@@ -698,7 +698,7 @@
       "interfaceSettings": "انٹرفیس کی ترتیبات",
       "minReceivedAfterSlip": "slippage کے بعد کم از کم موصول ہوگا (%{slippage})",
       "priceImpact": "قیمت کا اثر",
-      "slipWarning": "Slip 1%  سے زیادہ ہے",
+      "slipWarning": "Slip %{slippage}  سے زیادہ ہے",
       "slippageTolerance": "Slippage Tolerance",
       "swapAssets": "اثاثوں کی شرحوں کو تبدیل کریں۔",
       "tabsCommon": "عام",

@@ -698,7 +698,7 @@
       "interfaceSettings": "Configurações da Interface",
       "minReceivedAfterSlip": "Mínimo a ser recebido após divergência (%{slippage})",
       "priceImpact": "Impacto no Preço",
-      "slipWarning": "Divergência é maior que 1%",
+      "slipWarning": "Divergência é maior que %{slippage}",
       "slippageTolerance": "Tolerância a Divergência",
       "swapAssets": "Taxas de troca de ativos",
       "tabsCommon": "Comuns",

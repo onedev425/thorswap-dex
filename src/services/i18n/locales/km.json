@@ -698,7 +698,7 @@
       "interfaceSettings": "ប្រព័ន្ធបញ្ជា",
       "minReceivedAfterSlip": "អប្បបរមាបានទទួលបន្ទាប់ពីការដាក់តំលៃ (%{slippage})",
       "priceImpact": "ផលប៉ះពាល់តម្លៃ",
-      "slipWarning": "Slip is higher than 1%",
+      "slipWarning": "Slip is higher than %{slippage}",
       "slippageTolerance": "តំលៃដែលអាចទទួលយកបាន",
       "swapAssets": "ប្តូរអត្រាទ្រព្យសកម្ម",
       "tabsCommon": "ធម្មតា",

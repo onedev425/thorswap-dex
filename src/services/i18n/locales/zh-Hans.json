@@ -698,7 +698,7 @@
       "interfaceSettings": "界面设置",
       "minReceivedAfterSlip": "滑点后最小获得量 (%{slippage})",
       "priceImpact": "价格影响",
-      "slipWarning": "滑点高于1%",
+      "slipWarning": "滑点高于%{slippage}",
       "slippageTolerance": "滑点容差",
       "swapAssets": "切换利率",
       "tabsCommon": "普遍",

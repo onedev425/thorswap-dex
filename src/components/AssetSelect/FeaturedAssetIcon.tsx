@@ -1,4 +1,4 @@
-import { Icon } from 'components/Atomic'
+import { Box, Icon } from 'components/Atomic'
 
 import { useAssets } from 'store/assets/hooks'
 import { useAppSelector } from 'store/store'
@@ -12,23 +12,19 @@ export const FeaturedAssetIcon = ({ assetString }: Props) => {
   const { featured } = useAppSelector((state) => state.assets)
   const isFeatured = featured.includes(assetString)
 
-  return isFeatured ? (
-    <div
+  return (
+    <Box
+      center
       onClick={(e) => {
         e.stopPropagation()
-        removeFeatured(assetString)
+        if (isFeatured) {
+          removeFeatured(assetString)
+        } else {
+          addFeatured(assetString)
+        }
       }}
     >
-      <Icon name="starFilled" size={18} />
-    </div>
-  ) : (
-    <div
-      onClick={(e) => {
-        e.stopPropagation()
-        addFeatured(assetString)
-      }}
-    >
-      <Icon name="starEmpty" size={18} />
-    </div>
+      <Icon name={isFeatured ? 'starFilled' : 'starEmpty'} size={18} />
+    </Box>
   )
 }

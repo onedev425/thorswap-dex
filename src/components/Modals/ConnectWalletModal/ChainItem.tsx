@@ -70,11 +70,11 @@ const ChainItem = ({
             className={classNames(
               'opacity-0 duration-200 transition-all bg-light-layout-primary dark:bg-dark-bg-secondary',
               'absolute z-20 p-0.5 rounded-xl top-0',
-              isMdActive ? 'left-3' : 'left-1',
+              isMdActive ? 'top-2 left-2.5' : 'left-1',
               { '!opacity-100': walletType },
             )}
           >
-            <WalletIcon size={14} walletType={walletType} />
+            <WalletIcon size={16} walletType={walletType} />
           </Box>
         </Box>
       </Tooltip>

@@ -698,7 +698,7 @@
       "interfaceSettings": "Paramètres de l'interface",
       "minReceivedAfterSlip": "Minimum reçu après slippage  (%{slippage})",
       "priceImpact": "Impact sur le prix",
-      "slipWarning": "Le slip est plus élevé que 1%",
+      "slipWarning": "Le slip est plus élevé que %{slippage}",
       "slippageTolerance": "Tolérance au slippage",
       "swapAssets": "Taux d'actifs de swap",
       "tabsCommon": "Commun",

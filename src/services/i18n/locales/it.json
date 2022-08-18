@@ -698,7 +698,7 @@
       "interfaceSettings": "Impostazioni Interfaccia",
       "minReceivedAfterSlip": "Minimo ricevuto dopo lo slippage (%{slippage})",
       "priceImpact": "Impatto sul Prezzo",
-      "slipWarning": "Lo Slip è superiore all'1%",
+      "slipWarning": "Lo Slip è superiore all'%{slippage}",
       "slippageTolerance": "Tolleranza Slippage",
       "swapAssets": "Swap assets rates",
       "tabsCommon": "Comune",
