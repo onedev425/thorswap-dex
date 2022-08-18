@@ -68,6 +68,8 @@ const SwapView = () => {
   const [visibleConfirmModal, setVisibleConfirmModal] = useState(false)
   const [visibleApproveModal, setVisibleApproveModal] = useState(false)
   const [feeModalOpened, setFeeModalOpened] = useState(false)
+  const [tnsBeingUsed, setTNSbeingUsed] = useState(false)
+  const [tnsAddress, setTnsAddress] = useState('')
 
   useEffect(() => {
     const address = multichain().getWalletAddressByChain(outputAsset.L1Chain)
@@ -340,6 +342,8 @@ const SwapView = () => {
         outputAssetL1Chain={outputAsset.L1Chain}
         recipient={recipient}
         setRecipient={setRecipient}
+        setTNSbeingUsed={setTNSbeingUsed}
+        setTnsAddress={setTnsAddress}
       />
 
       <SwapInfo
@@ -382,6 +386,8 @@ const SwapView = () => {
         setVisibleConfirmModal={setVisibleConfirmModal}
         slippage={slippage}
         swapAmountTooSmall={inputUSDPrice.price.lte(totalFee)}
+        tnsBeingUsed={tnsBeingUsed}
+        tnsAddress={tnsAddress}
       />
 
       <ConfirmSwapModal

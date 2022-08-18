@@ -724,7 +724,8 @@
       "totalFeeTooltip": "Total Fee for Swap.",
       "transactionDeadline": "Transaction Deadline",
       "transactionSettings": "Transaction Settings",
-      "txAssetsFee": "TX Fee Tokens"
+      "txAssetsFee": "TX Fee Tokens",
+      "tnsAddressNotValid": "TNS Address is not valid"
     },
     "thorname": {
       "available": "Available",

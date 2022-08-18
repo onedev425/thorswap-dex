@@ -37,6 +37,8 @@ type Props = {
   setVisibleConfirmModal: (visible: boolean) => void
   slippage: Percent
   swapAmountTooSmall: boolean
+  tnsBeingUsed: boolean
+  tnsAddress?: string
 }
 
 export const SwapSubmitButton = ({
@@ -53,6 +55,8 @@ export const SwapSubmitButton = ({
   setVisibleConfirmModal,
   slippage,
   swapAmountTooSmall,
+  tnsBeingUsed,
+  tnsAddress,
 }: Props) => {
   const { slippageTolerance } = useApp()
   const { wallet, setIsConnectModalOpen } = useWallet()
@@ -200,14 +204,17 @@ export const SwapSubmitButton = ({
     if (inputAsset.isSynth && outputAsset.isSynth) return t('common.swap')
     if (inputAsset.isSynth) return t('txManager.redeem')
     if (outputAsset.isSynth) return t('txManager.mint')
+    if (tnsBeingUsed && !tnsAddress) return t('views.swap.tnsAddressNotValid')
 
     return t('common.swap')
   }, [
     isSwapValid,
+    swapAmountTooSmall,
     isSlipValid,
     inputAsset.isSynth,
     outputAsset.isSynth,
-    swapAmountTooSmall,
+    tnsBeingUsed,
+    tnsAddress,
     isTradingHalted,
     isSynthMintable,
     slippageTolerance,
@@ -267,7 +274,12 @@ export const SwapSubmitButton = ({
       ) : (
         <Button
           isFancy
-          disabled={!isSwapAvailable || !isSwapValid || isLoading}
+          disabled={
+            !isSwapAvailable ||
+            !isSwapValid ||
+            isLoading ||
+            (tnsBeingUsed && !tnsAddress)
+          }
           error={!(isSwapValid || isSlipValid) || swapAmountTooSmall}
           stretch
           size="lg"

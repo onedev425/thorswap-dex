@@ -48,5 +48,5 @@ export const useAddressForTNS = (address: string) => {
     }
   }, [address])
 
-  return { loading, TNS }
+  return { loading, TNS, setTNS }
 }
