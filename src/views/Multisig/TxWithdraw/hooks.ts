@@ -21,6 +21,8 @@ import { useAppSelector } from 'store/store'
 
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance'
 
+import { multichain } from 'services/multichain'
+
 import { getMultisigTxCreateRoute, ROUTES } from 'settings/constants'
 
 const SHARE_TYPES: PoolShareType[] = [
@@ -81,8 +83,12 @@ export const useTxWithdraw = () => {
 
       if (assetEntity) {
         if (assetEntity.isRUNE()) return
+        const assetDecimals =
+          assetEntity && assetEntity.L1Chain === Chain.Ethereum
+            ? await multichain().eth.getERC20AssetDecimal(assetEntity)
+            : undefined
 
-        await assetEntity.setDecimal()
+        await assetEntity.setDecimal(assetDecimals)
 
         setPoolAsset(assetEntity)
       }

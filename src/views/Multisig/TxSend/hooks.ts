@@ -72,7 +72,12 @@ export const useTxSend = () => {
         const assetObj = Asset.decodeFromURL(assetParam)
 
         if (assetObj) {
-          await assetObj.setDecimal()
+          const assetDecimals =
+            assetObj && assetObj.L1Chain === Chain.Ethereum
+              ? await multichain().eth.getERC20AssetDecimal(assetObj)
+              : undefined
+
+          await assetObj.setDecimal(assetDecimals)
           setSendAsset(assetObj)
         } else {
           setSendAsset(Asset.RUNE())

@@ -88,7 +88,12 @@ export const WithdrawLiquidity = () => {
       if (assetEntity) {
         if (assetEntity.isRUNE()) return
 
-        await assetEntity.setDecimal()
+        const assetDecimals =
+          assetEntity && assetEntity.L1Chain === Chain.Ethereum
+            ? await multichain().eth.getERC20AssetDecimal(assetEntity)
+            : undefined
+
+        await assetEntity.setDecimal(assetDecimals)
 
         setAssetObj(assetEntity)
       }

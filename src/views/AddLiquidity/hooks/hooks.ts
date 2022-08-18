@@ -458,12 +458,7 @@ export const useAddLiquidity = ({
       const trackId = submitTransaction({
         type: TxTrackerType.Approve,
         submitTx: {
-          inAssets: [
-            {
-              asset: poolAsset.toString(),
-              amount: '0', // not needed for approve tx
-            },
-          ],
+          inAssets: [{ asset: poolAsset.toString(), amount: '0' }],
         },
       })
 
@@ -480,12 +475,7 @@ export const useAddLiquidity = ({
               type: TxTrackerType.Approve,
               uuid: trackId,
               submitTx: {
-                inAssets: [
-                  {
-                    asset: poolAsset.toString(),
-                    amount: '0', // not needed for approve tx
-                  },
-                ],
+                inAssets: [{ asset: poolAsset.toString(), amount: '0' }],
                 txID: txHash,
               },
             })
