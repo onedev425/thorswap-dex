@@ -26,8 +26,6 @@ type Props = {
   setRecipient: (recipient: string) => void
   outputAssetL1Chain: Chain
   isOutputWalletConnected: boolean
-  setTNSbeingUsed: (isTNSbeingUsed: boolean) => void
-  setTnsAddress: (tnsAddress: string) => void
 }
 
 export const CustomRecipientInput = memo(
@@ -36,8 +34,6 @@ export const CustomRecipientInput = memo(
     recipient,
     setRecipient,
     outputAssetL1Chain,
-    setTNSbeingUsed,
-    setTnsAddress,
   }: Props) => {
     const { customRecipientMode } = useApp()
     const [thorname, setThorname] = useState('')
@@ -65,24 +61,17 @@ export const CustomRecipientInput = memo(
       ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
         setRecipient(value)
         setThorname('')
-        setTnsAddress('')
         setTNS(null)
       },
-      [setRecipient, setTnsAddress, setTNS],
+      [setRecipient, setTNS],
     )
 
     useEffect(() => {
       if (TNS && TNSAddress) {
         setThorname(TNS.thorname)
         setRecipient(TNSAddress)
-        setTnsAddress(TNSAddress)
       }
-      setTNSbeingUsed(!!TNS)
-
-      if (TNSAddress && TNS) {
-        setTnsAddress(TNSAddress)
-      }
-    }, [TNS, TNSAddress, setRecipient, setTNSbeingUsed, setTnsAddress])
+    }, [TNS, TNSAddress, setRecipient])
 
     const recipientTitle = useMemo(
       () =>

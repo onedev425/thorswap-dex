@@ -1,6 +1,7 @@
 import { memo, useEffect, useMemo } from 'react'
 
 import { QuoteMode } from '@thorswap-lib/multichain-sdk'
+import { Chain } from '@thorswap-lib/types'
 
 import { Box, Icon, Link, Typography } from 'components/Atomic'
 import { baseHoverClass } from 'components/constants'
@@ -22,9 +23,9 @@ export const PendingTransaction = memo(
     const params = useMemo(
       () => ({
         quoteMode: type === 'approve' ? QuoteMode.APPROVAL : quoteMode,
-        txid: txid || '',
+        txid: inChain !== Chain.Ethereum ? cutTxPrefix(txid || '') : txid,
       }),
-      [quoteMode, txid, type],
+      [inChain, quoteMode, txid, type],
     )
 
     const appDispatch = useAppDispatch()
@@ -32,7 +33,7 @@ export const PendingTransaction = memo(
     const { data } = useGetTxnStatusQuery(params, {
       pollingInterval: 3000,
       refetchOnFocus: true,
-      skip: !txid,
+      skip: !params.txid,
     })
 
     const url =

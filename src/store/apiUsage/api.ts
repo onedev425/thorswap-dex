@@ -4,7 +4,7 @@ import { QuoteMode } from '@thorswap-lib/multichain-sdk'
 import { TransactionStatus } from 'store/transactions/types'
 
 export type GetTxnStatusParams = {
-  txid: string
+  txid?: string
   quoteMode?: QuoteMode
 }
 

@@ -98,23 +98,19 @@ export const useSwapQuote = ({
 
   const outputAmount: Amount = useMemo(
     () =>
-      selectedRoute && !inputAmount.eq(0)
-        ? Amount.fromAssetAmount(
-            selectedRoute.expectedOutput,
-            outputAsset.decimal,
-          )
-        : Amount.fromAssetAmount(0, 8),
+      Amount.fromAssetAmount(
+        selectedRoute && !inputAmount.eq(0) ? selectedRoute.expectedOutput : 0,
+        outputAsset.decimal,
+      ),
     [selectedRoute, outputAsset, inputAmount],
   )
 
   const minReceive: Amount = useMemo(
     () =>
-      selectedRoute
-        ? Amount.fromAssetAmount(
-            selectedRoute.expectedOutputMaxSlippage,
-            outputAsset.decimal,
-          )
-        : Amount.fromAssetAmount(0, 8),
+      Amount.fromAssetAmount(
+        selectedRoute ? selectedRoute.expectedOutputMaxSlippage : 0,
+        outputAsset.decimal,
+      ),
     [selectedRoute, outputAsset],
   )
 

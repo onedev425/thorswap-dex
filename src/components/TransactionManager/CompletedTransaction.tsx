@@ -4,14 +4,12 @@ import { Asset, AssetAmount, ETH_DECIMAL } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/types'
 import classNames from 'classnames'
 
-import { Tooltip, Box, Icon, Link, Typography } from 'components/Atomic'
+import { Box, Icon, Link, Typography } from 'components/Atomic'
 import { baseHoverClass } from 'components/constants'
-import { getTxTrackerUrl } from 'components/TxManager/utils'
 
 import { CompletedTransactionType } from 'store/transactions/types'
 
 import { getCustomContract } from 'services/contract'
-import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
 import { cutTxPrefix, transactionTitle } from './helpers'
@@ -69,8 +67,6 @@ export const CompletedTransaction = memo(
   }: CompletedTransactionType) => {
     const [loading, setLoading] = useState(true)
     const [transactionLabel, setTransactionLabel] = useState(label)
-
-    const thoryieldTrackUrl = getTxTrackerUrl(txid)
 
     const secondTxid = useMemo(
       () =>
@@ -137,23 +133,6 @@ export const CompletedTransaction = memo(
               >
                 {transactionTitle(type)}
               </Typography>
-
-              {thoryieldTrackUrl && (
-                <Link
-                  className="inline-flex"
-                  to={thoryieldTrackUrl}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <Tooltip content={t('common.viewOnThoryield')}>
-                    <Icon
-                      className={baseHoverClass}
-                      name="thoryield"
-                      color="primaryBtn"
-                      size={16}
-                    />
-                  </Tooltip>
-                </Link>
-              )}
             </Box>
 
             <Typography
