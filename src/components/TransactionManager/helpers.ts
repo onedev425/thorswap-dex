@@ -20,5 +20,5 @@ export const transactionBorderColors: Record<TransactionStatus, string> = {
   error: 'border-pink dark:hover:border-pink',
 }
 
-export const cutTxPrefix = (tx: string) =>
-  tx?.startsWith('0x') ? tx.slice(2) : tx
+export const cutTxPrefix = (tx: string, prefix = '0x') =>
+  tx?.startsWith(prefix) ? tx.slice(2) : tx

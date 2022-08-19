@@ -20,10 +20,11 @@ export type CompletedTransactionType = {
 }
 
 export type PendingTransactionType = {
-  inChain: Chain
-  outChain?: Chain
+  from: string
   id: string
+  inChain: Chain
   label: string
+  outChain?: Chain
   quoteMode: QuoteMode
   timestamp: Date
   txid?: string

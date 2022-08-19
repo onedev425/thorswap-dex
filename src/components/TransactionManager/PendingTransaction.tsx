@@ -1,7 +1,6 @@
 import { memo, useEffect, useMemo } from 'react'
 
 import { QuoteMode } from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/types'
 
 import { Box, Icon, Link, Typography } from 'components/Atomic'
 import { baseHoverClass } from 'components/constants'
@@ -19,13 +18,27 @@ import { PendingTransactionType } from 'store/transactions/types'
 import { multichain } from 'services/multichain'
 
 export const PendingTransaction = memo(
-  ({ id, inChain, txid, type, label, quoteMode }: PendingTransactionType) => {
+  ({
+    id,
+    inChain,
+    txid,
+    type,
+    from,
+    label,
+    quoteMode,
+  }: PendingTransactionType) => {
+    const useMidgardTx = [
+      QuoteMode.TC_SUPPORTED_TO_TC_SUPPORTED_TO,
+      QuoteMode.TC_SUPPORTED_TO_ETH,
+    ].includes(quoteMode)
+
     const params = useMemo(
       () => ({
+        from,
         quoteMode: type === 'approve' ? QuoteMode.APPROVAL : quoteMode,
-        txid: inChain !== Chain.Ethereum ? cutTxPrefix(txid || '') : txid,
+        txid: cutTxPrefix(txid || '', useMidgardTx ? '0x' : ''),
       }),
-      [inChain, quoteMode, txid, type],
+      [from, quoteMode, txid, type, useMidgardTx],
     )
 
     const appDispatch = useAppDispatch()

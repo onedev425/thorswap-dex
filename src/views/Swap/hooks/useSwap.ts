@@ -9,8 +9,6 @@ import {
 import { SupportedChain, FeeOption } from '@thorswap-lib/types'
 import { v4 } from 'uuid'
 
-import { getSwapTrackerType, getTxAsset } from 'views/Swap/helpers'
-
 import { showErrorToast } from 'components/Toast'
 
 import { useApp } from 'store/app/hooks'
@@ -21,8 +19,6 @@ import {
   updateTransaction,
 } from 'store/transactions/slice'
 import { useWallet } from 'store/wallet/hooks'
-
-import { useTxTracker } from 'hooks/useTxTracker'
 
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
@@ -37,7 +33,6 @@ type SwapParams = {
   inputAmount: Amount
   outputAsset: Asset
   outputAmount: Amount
-  contract: string
 }
 
 export const gasFeeMultiplier: Record<FeeOption, number> = {
@@ -54,33 +49,18 @@ export const useSwap = ({
   outputAmount,
   route,
   quoteMode,
-  contract,
 }: SwapParams) => {
   const appDispatch = useAppDispatch()
   const { feeOptionType } = useApp()
   const { wallet } = useWallet()
-  const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
 
   const handleSwap = useCallback(async () => {
-    let uuid = ''
     const id = v4()
 
     try {
       if (wallet && route) {
-        if (!wallet?.[inputAsset.L1Chain as SupportedChain]?.address) {
-          throw new Error('No address found')
-        }
-
-        const trackerType = getSwapTrackerType({ inputAsset, outputAsset })
-
-        const submitTx = {
-          quoteMode,
-          contract,
-          inAssets: [getTxAsset(inputAsset, inputAmount)],
-          outAssets: [getTxAsset(outputAsset, outputAmount)],
-        }
-
-        uuid = submitTransaction({ type: trackerType, submitTx })
+        const from = wallet?.[inputAsset.L1Chain as SupportedChain]?.address
+        if (!from) throw new Error('No address found')
 
         const label = `${inputAmount.toSignificant(6)} ${
           inputAsset.name
@@ -89,6 +69,7 @@ export const useSwap = ({
           addTransaction({
             id,
             label,
+            from,
             outChain: outputAsset.L1Chain,
             inChain: inputAsset.L1Chain,
             quoteMode,
@@ -104,26 +85,17 @@ export const useSwap = ({
 
         if (typeof txid === 'string') {
           appDispatch(updateTransaction({ id, txid }))
-
-          pollTransaction({
-            uuid,
-            type: trackerType,
-            submitTx: { ...submitTx, txID: txid },
-          })
         } else {
-          setTxFailed(uuid)
           appDispatch(completeTransaction({ id, status: 'error' }))
           showErrorToast(t('notification.submitTxFailed'), JSON.stringify(txid))
-          if (typeof txid === 'object') console.error(txid)
+          if (typeof txid === 'object') console.info(txid)
         }
       }
     } catch (error: NotWorth) {
-      if (uuid) setTxFailed(uuid)
       const description = translateErrorMsg(error?.toString())
-
       appDispatch(completeTransaction({ id, status: 'error' }))
 
-      console.error(error, description)
+      console.info(error, description)
       showErrorToast(t('notification.submitTxFailed'), description || '')
     }
   }, [
@@ -132,15 +104,11 @@ export const useSwap = ({
     inputAsset,
     outputAsset,
     quoteMode,
-    contract,
     inputAmount,
     outputAmount,
-    submitTransaction,
     recipient,
     feeOptionType,
     appDispatch,
-    pollTransaction,
-    setTxFailed,
   ])
 
   return handleSwap

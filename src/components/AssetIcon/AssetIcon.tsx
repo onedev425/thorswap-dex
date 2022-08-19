@@ -1,4 +1,4 @@
-import { memo, useMemo, useState } from 'react'
+import { memo, useMemo } from 'react'
 
 import { Asset } from '@thorswap-lib/multichain-sdk'
 import { SupportedChain } from '@thorswap-lib/types'
@@ -11,6 +11,8 @@ import { genericBgClasses } from '../constants'
 import { ChainIcon } from './ChainIcon'
 import { iconSizes, AssetIconProps } from './types'
 import { getAssetIconUrl, getSecondaryIconPlacementStyle } from './utils'
+
+const brokenAssetIcons = new Set<string>()
 
 export const AssetIcon = memo(
   ({
@@ -25,7 +27,6 @@ export const AssetIcon = memo(
     size = 40,
     badge,
   }: AssetIconProps) => {
-    const [hasError, setHasError] = useState(false)
     const iconSize = typeof size === 'number' ? size : iconSizes[size]
     const secondaryIconSize = iconSize * 0.52
 
@@ -65,7 +66,7 @@ export const AssetIcon = memo(
           />
         )}
 
-        {iconUrl && (!hasError || isTHOR) ? (
+        {iconUrl && (!brokenAssetIcons.has(iconUrl) || isTHOR) ? (
           <Box
             className={classNames(
               'rounded-full box-border overflow-hidden relative transition-all z-10',
@@ -79,7 +80,7 @@ export const AssetIcon = memo(
               src={iconUrl}
               alt={asset.symbol}
               style={style}
-              onError={() => setHasError(true)}
+              onError={() => brokenAssetIcons.add(iconUrl)}
             />
           </Box>
         ) : (

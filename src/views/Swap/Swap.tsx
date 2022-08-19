@@ -279,7 +279,6 @@ const SwapView = () => {
   }, [refetchPrice, refetchQuote])
 
   const handleSwap = useSwap({
-    contract,
     inputAmount,
     inputAsset,
     outputAmount,

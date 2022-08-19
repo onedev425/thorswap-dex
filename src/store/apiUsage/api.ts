@@ -6,6 +6,7 @@ import { TransactionStatus } from 'store/transactions/types'
 export type GetTxnStatusParams = {
   txid?: string
   quoteMode?: QuoteMode
+  from: string
 }
 
 export type SuccessTxnResult = {
