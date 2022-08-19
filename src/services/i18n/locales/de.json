@@ -720,12 +720,12 @@
       "tabsCommon": "Gängig",
       "tabsFeatured": "Featured",
       "tabsFrequent": "Häufig",
+      "tnsAddressNotValid": "TNS-Adresse ist nicht gültig",
       "totalFee": "Gesamtgebühr",
       "totalFeeTooltip": "Gesamtgebühr für Swap.",
       "transactionDeadline": "Transaktions Deadline",
       "transactionSettings": "Einstellungen Transaktionen",
-      "txAssetsFee": "TX Gebühren Tokens",
-      "tnsAddressNotValid": "TNS-Adresse ist nicht gültig"
+      "txAssetsFee": "TX Gebühren Tokens"
     },
     "thorname": {
       "available": "Verfügbar",

@@ -720,12 +720,12 @@
       "tabsCommon": "ធម្មតា",
       "tabsFeatured": "ទម្រង់ពិសេស",
       "tabsFrequent": "ប្រេកង់",
+      "tnsAddressNotValid": "អាសយដ្ឋាន TNS មិនត្រឹមត្រូវទេ។",
       "totalFee": "ថ្លៃសេវាសរុប",
       "totalFeeTooltip": "ថ្លៃសេវាសរុបសម្រាប់ Swap ។",
       "transactionDeadline": "ថ្ងៃផុតកំណត់ប្រតិបត្តិការ",
       "transactionSettings": "ប្រព័ន្ធប្រតិបត្តិការ",
-      "txAssetsFee": "តូខិនថ្លៃ TX",
-      "tnsAddressNotValid": "អាសយដ្ឋាន TNS មិនត្រឹមត្រូវទេ។"
+      "txAssetsFee": "តូខិនថ្លៃ TX"
     },
     "thorname": {
       "available": "មាន",

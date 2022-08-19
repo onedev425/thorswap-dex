@@ -720,12 +720,12 @@
       "tabsCommon": "Обычный",
       "tabsFeatured": "Популярный",
       "tabsFrequent": "Часто используемый ",
+      "tnsAddressNotValid": "TNS Адрес не действителен",
       "totalFee": "Общий сбор",
       "totalFeeTooltip": "Общая плата за обмен.",
       "transactionDeadline": "Дедлайн транзакции ",
       "transactionSettings": "Настройки транзакции",
-      "txAssetsFee": "Жетоны платы за проезд",
-      "tnsAddressNotValid": "TNS Адрес не действителен"
+      "txAssetsFee": "Жетоны платы за проезд"
     },
     "thorname": {
       "available": "Доступно",

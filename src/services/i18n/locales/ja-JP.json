@@ -720,12 +720,12 @@
       "tabsCommon": "",
       "tabsFeatured": "",
       "tabsFrequent": "",
+      "tnsAddressNotValid": "",
       "totalFee": "",
       "totalFeeTooltip": "",
       "transactionDeadline": "",
       "transactionSettings": "",
-      "txAssetsFee": "",
-      "tnsAddressNotValid": ""
+      "txAssetsFee": ""
     },
     "thorname": {
       "available": "",

@@ -720,12 +720,12 @@
       "tabsCommon": "Gebruikelijke",
       "tabsFeatured": "Aanbevolen",
       "tabsFrequent": "Frequent",
+      "tnsAddressNotValid": "TNS-adres is ongeldig",
       "totalFee": "Totale Kosten",
       "totalFeeTooltip": "Totale vergoeding voor de ruil.",
       "transactionDeadline": "Transactie Deadline",
       "transactionSettings": "Transactie-instellingen",
-      "txAssetsFee": "TX Kosten Tokens",
-      "tnsAddressNotValid": "TNS-adres is ongeldig"
+      "txAssetsFee": "TX Kosten Tokens"
     },
     "thorname": {
       "available": "Beschikbaar",

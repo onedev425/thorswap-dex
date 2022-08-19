@@ -720,12 +720,12 @@
       "tabsCommon": "Comune",
       "tabsFeatured": "In Primo Piano",
       "tabsFrequent": "Frequente",
+      "tnsAddressNotValid": "L'indirizzo TNS non è valido",
       "totalFee": "Commissioni Totali",
       "totalFeeTooltip": "Costo totale dello scambio.",
       "transactionDeadline": "Scadenza della transazione",
       "transactionSettings": "Impostazioni Transazione",
-      "txAssetsFee": "TX Fee Tokens",
-      "tnsAddressNotValid": "L'indirizzo TNS non è valido"
+      "txAssetsFee": "TX Fee Tokens"
     },
     "thorname": {
       "available": "Disponibile",

@@ -720,12 +720,12 @@
       "tabsCommon": "عام",
       "tabsFeatured": "نمایاں",
       "tabsFrequent": "بار بار",
+      "tnsAddressNotValid": "ٹی این ایس ایڈریس درست نہیں ہے",
       "totalFee": "کل فیس",
       "totalFeeTooltip": "سویپ کے لئے کل فیس",
       "transactionDeadline": "ٹرانزیکشن کی آخری تاریخ",
       "transactionSettings": "ٹرانزیکشن کی ترتیبات",
-      "txAssetsFee": "TX فیس ٹوکنز",
-      "tnsAddressNotValid": "ٹی این ایس ایڈریس درست نہیں ہے"
+      "txAssetsFee": "TX فیس ٹوکنز"
     },
     "thorname": {
       "available": "دستیاب",

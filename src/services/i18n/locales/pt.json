@@ -720,12 +720,12 @@
       "tabsCommon": "Comum",
       "tabsFeatured": "Destaque",
       "tabsFrequent": "Frequência",
+      "tnsAddressNotValid": "O endereço TNS não é válido",
       "totalFee": "Tarifa total",
       "totalFeeTooltip": "Taxa total de troca.",
       "transactionDeadline": "Prazo de transação",
       "transactionSettings": "Definições de transação",
-      "txAssetsFee": "Tokens TX Fee",
-      "tnsAddressNotValid": "O endereço TNS não é válido"
+      "txAssetsFee": "Tokens TX Fee"
     },
     "thorname": {
       "available": "Disponível em",

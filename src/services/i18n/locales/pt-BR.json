@@ -415,7 +415,7 @@
       "connectExistingWallet": "Ligar a carteira existente",
       "connectMyThorsafe": "Ligar o meu THORSafe",
       "connectThorSafeWallet": "Ligar THORSafe",
-      "connectThorchainCurrentlyKeystore": "",
+      "connectThorchainCurrentlyKeystore": "Ligue a sua carteira THORChain (actualmente apenas Keystore):",
       "connectThorchainWallet": "Ligue a sua carteira THORChain (actualmente apenas Keystore) para recuperar a sua Chave Pública.",
       "copyYourSignature": "Copie a sua assinatura",
       "create": "Criar",
@@ -720,12 +720,12 @@
       "tabsCommon": "Comuns",
       "tabsFeatured": "Em Destaque",
       "tabsFrequent": "Frequentes",
+      "tnsAddressNotValid": "O endereço TNS não é válido",
       "totalFee": "Taxa total",
       "totalFeeTooltip": "Taxa total de troca.",
       "transactionDeadline": "Prazo da transação",
       "transactionSettings": "Configurações da transação",
-      "txAssetsFee": "Tokens da taxa de transação",
-      "tnsAddressNotValid": "O endereço TNS não é válido"
+      "txAssetsFee": "Tokens da taxa de transação"
     },
     "thorname": {
       "available": "Disponível",

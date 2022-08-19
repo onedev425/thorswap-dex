@@ -720,12 +720,12 @@
       "tabsCommon": "Común",
       "tabsFeatured": "Destacado",
       "tabsFrequent": "Frequentes",
+      "tnsAddressNotValid": "TNS La dirección no es válida",
       "totalFee": "Comisión total",
       "totalFeeTooltip": "Tasa total de canje.",
       "transactionDeadline": "Vencimiento de Transacción",
       "transactionSettings": "Ajustes de Transacción",
-      "txAssetsFee": "Fichas de la tasa de TX",
-      "tnsAddressNotValid": "TNS La dirección no es válida"
+      "txAssetsFee": "Fichas de la tasa de TX"
     },
     "thorname": {
       "available": "Disponible",
