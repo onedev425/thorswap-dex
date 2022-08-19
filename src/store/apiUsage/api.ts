@@ -5,7 +5,7 @@ import { TransactionStatus } from 'store/transactions/types'
 
 export type GetTxnStatusParams = {
   txid: string
-  quoteMode: QuoteMode
+  quoteMode?: QuoteMode
 }
 
 export type SuccessTxnResult = {
@@ -21,7 +21,7 @@ export type SuccessTxnResult = {
   outputAssetAmount: string
   outputAssetPriceUSD: number
   outputAssetPriceUSDTimestamp: string
-  quoteMode: QuoteMode
+  quoteMode?: QuoteMode
   status: number
   transactionHash: string
   type: string
@@ -43,7 +43,7 @@ export const apiUsageApi = createApi({
   }),
   endpoints: (build) => ({
     getTxnStatus: build.query<GetTxnStatusResponse, GetTxnStatusParams>({
-      query: (params) => `/txn/tc?${new URLSearchParams(params).toString()}`,
+      query: (params) => `/txn?${new URLSearchParams(params).toString()}`,
     }),
   }),
 })

@@ -1,22 +1,31 @@
 import { QuoteMode } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/types'
 
-export type TransactionStatus = 'fail' | 'mined' | 'refund' | 'pending'
+import { SuccessTxnResult } from 'store/apiUsage/api'
 
-export type TrackedTransactionType = {
+export type TransactionStatus = 'error' | 'mined' | 'refund' | 'pending'
+export type TransactionType = 'swap' | 'approve'
+
+export type CompletedTransactionType = {
+  inChain: Chain
+  outChain?: Chain
   id: string
-  txid?: string
-  chain: Chain
-  status: TransactionStatus
+  label: string
   quoteMode: QuoteMode
+  result?: SuccessTxnResult
+  status: TransactionStatus
   timestamp: Date
+  txid?: string
+  type?: TransactionType
 }
 
 export type PendingTransactionType = {
+  inChain: Chain
+  outChain?: Chain
   id: string
-  txid?: string
   label: string
-  chain: Chain
   quoteMode: QuoteMode
   timestamp: Date
+  txid?: string
+  type?: TransactionType
 }

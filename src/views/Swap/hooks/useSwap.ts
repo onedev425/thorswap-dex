@@ -80,14 +80,19 @@ export const useSwap = ({
           outAssets: [getTxAsset(outputAsset, outputAmount)],
         }
 
+        uuid = submitTransaction({ type: trackerType, submitTx })
+
         const label = `${inputAmount.toSignificant(6)} ${
           inputAsset.name
         } → ${outputAmount.toSignificant(6)} ${outputAsset.name.toString()}`
-
-        uuid = submitTransaction({ type: trackerType, submitTx })
-
         appDispatch(
-          addTransaction({ id, label, chain: inputAsset.L1Chain, quoteMode }),
+          addTransaction({
+            id,
+            label,
+            outChain: outputAsset.L1Chain,
+            inChain: inputAsset.L1Chain,
+            quoteMode,
+          }),
         )
 
         const txid = await multichain().swapThroughAggregator({
@@ -107,7 +112,7 @@ export const useSwap = ({
           })
         } else {
           setTxFailed(uuid)
-          appDispatch(completeTransaction({ id, status: 'fail' }))
+          appDispatch(completeTransaction({ id, status: 'error' }))
           showErrorToast(t('notification.submitTxFailed'), JSON.stringify(txid))
           if (typeof txid === 'object') console.error(txid)
         }
@@ -116,7 +121,7 @@ export const useSwap = ({
       if (uuid) setTxFailed(uuid)
       const description = translateErrorMsg(error?.toString())
 
-      appDispatch(completeTransaction({ id, status: 'fail' }))
+      appDispatch(completeTransaction({ id, status: 'error' }))
 
       console.error(error, description)
       showErrorToast(t('notification.submitTxFailed'), description || '')

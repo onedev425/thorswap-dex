@@ -120,10 +120,7 @@ export const AssetInputs = memo(
         return b.balance.gt(a.balance) ? 1 : -1
       })
 
-      return uniqBy(
-        sortedAssets,
-        ({ identifier, cg }) => `${identifier}${cg?.id || ''}`,
-      )
+      return uniqBy(sortedAssets, ({ cg, identifier }) => cg?.id || identifier)
     }, [assetList, fuse, query])
 
     const assetInputProps = useMemo(

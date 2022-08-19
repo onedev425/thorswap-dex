@@ -1,8 +1,14 @@
 import { memo, useEffect, useMemo } from 'react'
 
+import { QuoteMode } from '@thorswap-lib/multichain-sdk'
+
 import { Box, Icon, Link, Typography } from 'components/Atomic'
 import { baseHoverClass } from 'components/constants'
-import { TxStatusIcon } from 'components/TxManager/components/TxStatusIcon'
+import {
+  cutTxPrefix,
+  transactionTitle,
+} from 'components/TransactionManager/helpers'
+import { TransactionStatusIcon } from 'components/TransactionManager/TransactionStatusIcon'
 
 import { useGetTxnStatusQuery } from 'store/apiUsage/api'
 import { useAppDispatch } from 'store/store'
@@ -12,10 +18,13 @@ import { PendingTransactionType } from 'store/transactions/types'
 import { multichain } from 'services/multichain'
 
 export const PendingTransaction = memo(
-  ({ id, chain, txid, label, quoteMode }: PendingTransactionType) => {
+  ({ id, inChain, txid, type, label, quoteMode }: PendingTransactionType) => {
     const params = useMemo(
-      () => ({ quoteMode, txid: txid || '' }),
-      [quoteMode, txid],
+      () => ({
+        quoteMode: type === 'approve' ? QuoteMode.APPROVAL : quoteMode,
+        txid: txid || '',
+      }),
+      [quoteMode, txid, type],
     )
 
     const appDispatch = useAppDispatch()
@@ -26,7 +35,8 @@ export const PendingTransaction = memo(
       skip: !txid,
     })
 
-    const url = txid && multichain().getExplorerTxUrl(chain, txid || '')
+    const url =
+      txid && multichain().getExplorerTxUrl(inChain, cutTxPrefix(txid || ''))
 
     useEffect(() => {
       if (data?.ok && data.result) {
@@ -38,12 +48,22 @@ export const PendingTransaction = memo(
 
     return (
       <Box flex={1} justify="between" alignCenter>
-        <Box className="w-full space-x-3" alignCenter>
-          <TxStatusIcon status="pending" size={20} />
+        <Box alignCenter className="w-full gap-2">
+          <TransactionStatusIcon status="pending" size={20} />
 
-          <Typography variant="caption" color="secondary" fontWeight="semibold">
-            {label}
-          </Typography>
+          <Box col className="gap-x-2">
+            <Typography fontWeight="semibold">
+              {transactionTitle(type)}
+            </Typography>
+
+            <Typography
+              variant="caption"
+              color="secondary"
+              fontWeight="semibold"
+            >
+              {label}
+            </Typography>
+          </Box>
         </Box>
 
         {url ? (
@@ -54,7 +74,7 @@ export const PendingTransaction = memo(
           >
             <Icon
               className={baseHoverClass}
-              name="external"
+              name={txid?.startsWith('0x') ? 'etherscanLight' : 'external'}
               color="secondary"
               size={18}
             />

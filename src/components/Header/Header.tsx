@@ -51,6 +51,8 @@ export const Header = memo(({ openMenu }: Props) => {
     }
   }, [isConnected, isWalletLoading, setIsConnectModalOpen, setIsDrawerVisible])
 
+  const isSwap = window.location.href.includes('/swap')
+
   return (
     <header className="mb-5 min-h-[70px]">
       <Box justify="between">
@@ -117,8 +119,7 @@ export const Header = memo(({ openMenu }: Props) => {
           <AnnouncementsPopover />
           <AppPopoverMenu />
 
-          <TransactionManager />
-          <TxManager />
+          {isSwap ? <TransactionManager /> : <TxManager />}
         </Box>
       </Box>
       <HeaderAnnouncements />

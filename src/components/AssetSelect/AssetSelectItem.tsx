@@ -84,18 +84,10 @@ export const AssetSelectItem = memo(
       const marketCap =
         cg?.market_cap && getAmountFromString(`${cg.market_cap}`, asset.decimal)
 
-      return `${asset.type}${provider ? `(${provider})` : ''}${
+      return `${asset.type}${
         marketCap ? ` - MC: ${marketCap.toAbbreviate(2)}` : ''
       }${price ? `, ${formatPrice(price)}` : ''}`
-    }, [
-      asset.decimal,
-      asset.isSynth,
-      asset.type,
-      cg,
-      formatPrice,
-      price,
-      provider,
-    ])
+    }, [asset.decimal, asset.isSynth, asset.type, cg, formatPrice, price])
 
     const tokenInfoIcon: IconName = useMemo(() => {
       switch (checkType) {

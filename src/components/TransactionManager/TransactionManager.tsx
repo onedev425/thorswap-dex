@@ -8,6 +8,7 @@ import {
   memo,
 } from 'react'
 
+import { Chain, SupportedChain } from '@thorswap-lib/types'
 import classNames from 'classnames'
 
 import {
@@ -21,16 +22,21 @@ import {
 import { baseHoverClass } from 'components/constants'
 import { Popover } from 'components/Popover'
 import { Scrollbar } from 'components/Scrollbar'
+import { CompletedTransaction } from 'components/TransactionManager/CompletedTransaction'
+import { transactionBorderColors } from 'components/TransactionManager/helpers'
 import { PendingTransaction } from 'components/TransactionManager/PendingTransaction'
+import { TransactionContainer } from 'components/TransactionManager/TransactionContainer'
 
 import { useAppDispatch, useAppSelector } from 'store/store'
 import { clearTransactions } from 'store/transactions/slice'
+import { getWalletByChain } from 'store/wallet/actions'
 
 import { t } from 'services/i18n'
 
 import { OpenButton } from './OpenButton'
 
 export const TransactionManager = memo(() => {
+  const completedTransactionIds = useRef<string[]>([])
   const popoverRef = useRef<ElementRef<typeof Popover>>(null)
   const appDispatch = useAppDispatch()
   const [onlyPending, setOnlyPending] = useState(false)
@@ -67,6 +73,27 @@ export const TransactionManager = memo(() => {
       popoverRef.current?.open()
     }
   }, [transactions.length])
+
+  useEffect(() => {
+    const transactionsToUpdate = completed.filter(
+      ({ id }) => !completedTransactionIds.current.includes(id),
+    )
+    completedTransactionIds.current = completed.map(({ id }) => id)
+
+    const chainsToUpdate = transactionsToUpdate.reduce(
+      (acc, { inChain, outChain }) => {
+        if (!acc.includes(inChain)) acc.push(inChain)
+        if (outChain && !acc.includes(outChain)) acc.push(outChain)
+
+        return acc
+      },
+      [] as Chain[],
+    )
+
+    for (const chain of chainsToUpdate) {
+      appDispatch(getWalletByChain(chain as SupportedChain))
+    }
+  }, [appDispatch, completed])
 
   return (
     <Popover
@@ -121,17 +148,25 @@ export const TransactionManager = memo(() => {
           </Box>
 
           <Scrollbar maxHeight={450}>
-            <Box className="!mx-4 py-0.5" col>
+            <Box className="!mx-4 py-0.5 gap-y-1" col>
               {pending.map((item) => (
-                <Box
-                  className="first:!mt-0 !mt-1"
+                <TransactionContainer
+                  className={transactionBorderColors.pending}
                   key={item.txid || item.id}
-                  row
-                  alignCenter
                 >
                   <PendingTransaction {...item} />
-                </Box>
+                </TransactionContainer>
               ))}
+
+              {!onlyPending &&
+                completed.map((item) => (
+                  <TransactionContainer
+                    className={transactionBorderColors[item.status]}
+                    key={item.txid || item.id}
+                  >
+                    <CompletedTransaction {...item} />
+                  </TransactionContainer>
+                ))}
             </Box>
           </Scrollbar>
         </Box>

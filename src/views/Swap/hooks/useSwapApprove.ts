@@ -5,10 +5,17 @@ import {
   hasWalletConnected,
   QuoteMode,
 } from '@thorswap-lib/multichain-sdk'
+import { v4 } from 'uuid'
 
 import { showErrorToast } from 'components/Toast'
 
 import { TxTrackerType } from 'store/midgard/types'
+import { useAppDispatch } from 'store/store'
+import {
+  addTransaction,
+  completeTransaction,
+  updateTransaction,
+} from 'store/transactions/slice'
 import { useWallet } from 'store/wallet/hooks'
 
 import { useTxTracker } from 'hooks/useTxTracker'
@@ -23,6 +30,7 @@ type Params = {
 }
 
 export const useSwapApprove = ({ inputAsset, contract, quoteMode }: Params) => {
+  const appDispatch = useAppDispatch()
   const { wallet } = useWallet()
   const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
   const isInputWalletConnected = useMemo(
@@ -33,6 +41,7 @@ export const useSwapApprove = ({ inputAsset, contract, quoteMode }: Params) => {
 
   const handleApprove = useCallback(async () => {
     if (isInputWalletConnected) {
+      const id = v4()
       const submitTx = {
         // not needed for approve tx
         quoteMode,
@@ -45,36 +54,50 @@ export const useSwapApprove = ({ inputAsset, contract, quoteMode }: Params) => {
         submitTx,
       })
 
+      appDispatch(
+        addTransaction({
+          id,
+          label: `${t('txManager.approve')} ${inputAsset.name}`,
+          inChain: inputAsset.L1Chain,
+          type: 'approve',
+          quoteMode,
+        }),
+      )
+
       try {
-        const txID = await ([
+        const txid = await ([
           QuoteMode.ETH_TO_TC_SUPPORTED,
           QuoteMode.ETH_TO_ETH,
         ].includes(quoteMode)
           ? multichain().approveAssetForStaking(inputAsset, contract)
           : multichain().approveAsset(inputAsset))
 
-        if (txID) {
+        if (txid) {
+          appDispatch(updateTransaction({ id, txid }))
+
           // start polling
           pollTransaction({
             type: TxTrackerType.Approve,
             uuid: trackId,
-            submitTx: { ...submitTx, txID },
+            submitTx: { ...submitTx, txID: txid },
           })
         }
       } catch (error) {
         console.error(error)
         setTxFailed(trackId)
+        appDispatch(completeTransaction({ id, status: 'error' }))
         showErrorToast(t('notification.approveFailed'))
       }
     }
   }, [
-    inputAsset,
-    contract,
     isInputWalletConnected,
     quoteMode,
+    contract,
+    inputAsset,
+    submitTransaction,
+    appDispatch,
     pollTransaction,
     setTxFailed,
-    submitTransaction,
   ])
 
   return handleApprove

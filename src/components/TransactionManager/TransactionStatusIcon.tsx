@@ -1,0 +1,34 @@
+import { memo, useMemo } from 'react'
+
+import { Icon, IconColor, IconName } from 'components/Atomic'
+
+import { TransactionStatus } from 'store/transactions/types'
+
+type Props = {
+  size?: number
+  status?: TransactionStatus
+}
+
+export const TransactionStatusIcon = memo(({ status, size = 24 }: Props) => {
+  const [iconName, color] = useMemo((): [IconName, IconColor] => {
+    switch (status) {
+      case 'pending':
+        return ['loader', 'primaryBtn']
+      case 'error':
+        return ['xCircle', 'pink']
+      case 'refund':
+        return ['revert', 'yellow']
+      default:
+        return ['checkmark', 'secondaryBtn']
+    }
+  }, [status])
+
+  return (
+    <Icon
+      spin={iconName === 'loader'}
+      name={iconName}
+      size={size}
+      color={color}
+    />
+  )
+})
