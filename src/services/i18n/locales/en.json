@@ -850,6 +850,7 @@
       "selectKeystore": "Please Select Keystore File",
       "selectWallet": "Select wallet",
       "selectingKeyError": "Selecting a key file failed",
+      "trustWallet": "Trust Wallet",
       "unlock": "Unlock",
       "verifyAddress": "Verify Address",
       "viewPhrase": "View Phrase",

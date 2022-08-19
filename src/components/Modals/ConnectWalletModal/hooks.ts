@@ -72,8 +72,8 @@ export const useWalletOptions = ({
       },
       {
         type: WalletType.TrustWallet,
-        icon: 'walletConnect',
-        label: t('views.walletModal.walletConnect'),
+        icon: 'trustWallet',
+        label: t('views.walletModal.trustWallet'),
       },
       {
         type: WalletType.MetaMask,

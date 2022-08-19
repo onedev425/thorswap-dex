@@ -63,6 +63,7 @@ import { ReactComponent as ThoryieldColor } from './thoryieldColor.svg'
 import { ReactComponent as ThreeDots } from './threedots.svg'
 import { ReactComponent as Tick } from './tick.svg'
 import { ReactComponent as TradeLightning } from './tradeLightning.svg'
+import { ReactComponent as TrustWallet } from './trustWallet.svg'
 import { ReactComponent as Upload } from './upload.svg'
 import { ReactComponent as Usdt } from './usdt.svg'
 import { ReactComponent as VThor } from './vthor.svg'
@@ -143,6 +144,7 @@ export const Svgs = {
   russia: Russia,
   saudi: Saudi,
   spain: Spain,
+  trustWallet: TrustWallet,
   usa: USA,
   etherscan: EtherScan,
   etherscanLight: EtherScanLight,
@@ -204,6 +206,9 @@ export const SvgIcons = {
   ),
   tradeLightning: (props: CustomIconProps) => (
     <SvgIcon name="tradeLightning" {...props} />
+  ),
+  trustWallet: (props: CustomIconProps) => (
+    <SvgIcon name="trustWallet" {...props} />
   ),
   upload: (props: CustomIconProps) => <SvgIcon name="upload" {...props} />,
   usdt: (props: CustomIconProps) => <SvgIcon name="usdt" {...props} />,

@@ -14,9 +14,9 @@ export const WalletOptions: WalletTypes[] = [
     id: 'xdefi',
   },
   {
-    name: 'WalletConnect',
-    icon: 'walletConnect',
-    id: 'wallet-connect',
+    name: 'Trust Wallet',
+    icon: 'trustWallet',
+    id: 'trust-wallet',
   },
   {
     name: 'Disable XDEFI Wallet',
