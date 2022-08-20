@@ -19,6 +19,7 @@ import es from './locales/es.json'
 import fr from './locales/fr.json'
 import hi from './locales/hi.json'
 import it from './locales/it.json'
+import jp from './locales/ja-JP.json'
 import km from './locales/km.json'
 import ko from './locales/ko.json'
 import nl from './locales/nl-NL.json'
@@ -43,6 +44,7 @@ const resources: Record<SupportedLanguages, Resource> = {
   fr: { translation: fr },
   hi: { translation: hi },
   it: { translation: it },
+  jp: { translation: jp },
   km: { translation: km },
   ko: { translation: ko },
   pl: { translation: pl },

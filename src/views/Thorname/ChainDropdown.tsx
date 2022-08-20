@@ -21,7 +21,7 @@ export const thornameChainIcons: Record<SupportedChain, IconName> = {
   [Chain.BitcoinCash]: 'bch',
   [Chain.Doge]: 'doge',
   [Chain.Litecoin]: 'ltc',
-  [Chain.Cosmos]: 'gaia',
+  [Chain.Cosmos]: 'cos',
   [Chain.Solana]: 'sol',
 }
 

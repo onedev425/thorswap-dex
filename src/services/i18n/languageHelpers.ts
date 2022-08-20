@@ -17,6 +17,7 @@ export const FLAG_ICONS: Record<SupportedLanguages, string> = {
   pt: 'portugal',
   ru: 'russia',
   ur: 'pakistan',
+  jp: 'japan',
 }
 
 export const LANGUAGE_NAMES: Record<SupportedLanguages, string> = {
@@ -36,4 +37,5 @@ export const LANGUAGE_NAMES: Record<SupportedLanguages, string> = {
   pt: 'Português (POR)',
   ru: 'Русский (RUS)',
   ur: 'اردو (URD)',
+  jp: '日本語 (JPN)',
 }

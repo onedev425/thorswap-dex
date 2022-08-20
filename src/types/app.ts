@@ -41,10 +41,11 @@ export const SUPPORTED_LANGUAGES = [
   'pt',
   'pt-BR',
   'hi',
+  'jp',
   'km',
   'ko',
-  'ru',
   'ur',
+  'ru',
   'zh-Hans',
   'zh-Hant',
 ] as const
