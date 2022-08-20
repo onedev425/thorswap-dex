@@ -97,6 +97,8 @@ import {
 } from 'react-icons/md'
 import {
   RiCheckboxMultipleLine,
+  RiSave2Fill,
+  RiSave2Line,
   RiShareBoxLine,
   RiSurveyLine,
 } from 'react-icons/ri'
@@ -189,6 +191,8 @@ const Icons = {
   share: RiShareBoxLine,
   smile: BsEmojiSmile,
   sortDown: FaSortDown,
+  save: RiSave2Line,
+  saveFill: RiSave2Fill,
   sortUp: FaSortUp,
   spaceBar: MdSpaceBar,
   starEmpty: AiOutlineStar,

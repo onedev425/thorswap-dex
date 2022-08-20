@@ -6,7 +6,8 @@ import {
   PhantomWalletStatus,
   XdefiWalletStatus,
 } from '@thorswap-lib/multichain-web-extensions'
-import { SupportedChain } from '@thorswap-lib/types'
+import { Chain, SupportedChain } from '@thorswap-lib/types'
+import deepEqual from 'fast-deep-equal'
 
 import { IconName } from 'components/Atomic'
 import { showErrorToast } from 'components/Toast'
@@ -259,19 +260,54 @@ export const useHandleWalletTypeSelect = ({
     }
   }, [])
 
+  const getChainsToSelect = useCallback(
+    (
+      chains: SupportedChain[],
+      walletType: WalletType,
+      nextWalletType?: WalletType,
+    ) => {
+      if (!nextWalletType) {
+        return deepEqual(chains, availableChainsByWallet[walletType])
+          ? []
+          : chains
+      }
+
+      switch (walletType) {
+        case WalletType.Ledger:
+        case WalletType.MetaMask: {
+          const defaultChain =
+            walletType === WalletType.MetaMask
+              ? Chain.Ethereum
+              : Chain.THORChain
+
+          return [chains[0] || defaultChain]
+        }
+
+        default:
+          return chains.length ? chains : availableChainsByWallet[walletType]
+      }
+    },
+    [],
+  )
+
   const handleSuccessWalletConnection = useCallback(
     (walletType: WalletType) => {
-      setSelectedWalletType(walletType)
+      setSelectedWalletType((type) => {
+        const nextWalletType = type === walletType ? undefined : walletType
 
-      setSelectedChains((chains) =>
-        [WalletType.Ledger, WalletType.MetaMask].includes(walletType)
-          ? [chains[0]]
-          : chains.length
-          ? chains
-          : availableChainsByWallet[walletType],
-      )
+        setSelectedChains(
+          (chains) =>
+            getChainsToSelect(
+              chains,
+              walletType,
+              nextWalletType,
+            ) as SupportedChain[],
+        )
+
+        return nextWalletType
+      })
     },
-    [setSelectedChains, setSelectedWalletType],
+    [getChainsToSelect, setSelectedChains, setSelectedWalletType],
   )
 
   const connectSelectedWallet = useCallback(

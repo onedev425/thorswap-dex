@@ -27,19 +27,18 @@ export const PendingTransaction = memo(
     label,
     quoteMode,
   }: PendingTransactionType) => {
-    const useMidgardTx = [
-      QuoteMode.TC_SUPPORTED_TO_TC_SUPPORTED_TO,
-      QuoteMode.TC_SUPPORTED_TO_ETH,
-    ].includes(quoteMode)
+    const params = useMemo(() => {
+      const isMidgardTx = [
+        QuoteMode.TC_SUPPORTED_TO_TC_SUPPORTED_TO,
+        QuoteMode.TC_SUPPORTED_TO_ETH,
+      ].includes(quoteMode)
 
-    const params = useMemo(
-      () => ({
+      return {
         from,
         quoteMode: type === 'approve' ? QuoteMode.APPROVAL : quoteMode,
-        txid: cutTxPrefix(txid || '', useMidgardTx ? '0x' : ''),
-      }),
-      [from, quoteMode, txid, type, useMidgardTx],
-    )
+        txid: cutTxPrefix(txid || '', isMidgardTx ? '0x' : ''),
+      }
+    }, [from, quoteMode, txid, type])
 
     const appDispatch = useAppDispatch()
 
@@ -49,8 +48,7 @@ export const PendingTransaction = memo(
       skip: !params.txid,
     })
 
-    const url =
-      txid && multichain().getExplorerTxUrl(inChain, cutTxPrefix(txid || ''))
+    const url = txid && multichain().getExplorerTxUrl(inChain, txid)
 
     useEffect(() => {
       if (data?.ok && data.result) {

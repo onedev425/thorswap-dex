@@ -13,8 +13,7 @@ import classNames from 'classnames'
 
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved'
 
-import { Box, Typography } from 'components/Atomic'
-import { HighlightCard } from 'components/HighlightCard'
+import { Box, Button, Typography } from 'components/Atomic'
 import { HoverIcon } from 'components/HoverIcon'
 
 import { useApp } from 'store/app/hooks'
@@ -81,7 +80,7 @@ export const SelectedRoute = memo(
     const slippageInfo = slippage.gt(0) ? `-${slippage.toFixed(2)}` : '-'
 
     const openSwapGraph = useCallback(
-      (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.stopPropagation()
         setIsOpened(true)
       },
@@ -142,11 +141,18 @@ export const SelectedRoute = memo(
             </Box>
           </Box>
 
-          <HighlightCard onClick={openSwapGraph} className="!py-0 !px-1 w-fit">
-            <Typography variant="caption-xs" color="secondary">
-              {t('common.path')}: {path.replaceAll('->', '→')}
-            </Typography>
-          </HighlightCard>
+          <Box>
+            <Button
+              className="h-6 px-3 w-fit"
+              variant="tint"
+              onClick={openSwapGraph}
+              tooltip={t('views.swap.totalFeeTooltip')}
+            >
+              <Typography variant="caption-xs" color="secondary">
+                {t('common.path')}: {path.replaceAll('->', '→')}
+              </Typography>
+            </Button>
+          </Box>
         </Box>
 
         <RouteGraphModal

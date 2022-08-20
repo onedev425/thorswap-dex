@@ -38,7 +38,7 @@ const MultisigImport = lazy(
   () => import('views/Multisig/MultisigImport/MultisigImport'),
 )
 
-import { Box, Icon, TooltipPortal } from 'components/Atomic'
+import { Box, Icon } from 'components/Atomic'
 import { Layout } from 'components/Layout'
 import { ToastPortal } from 'components/Toast'
 
@@ -120,8 +120,6 @@ const PublicRoutes = () => {
 
         <Route path="*" element={<Navigate to="/swap" />} />
       </Routes>
-
-      <TooltipPortal />
       <ToastPortal />
     </Router>
   )

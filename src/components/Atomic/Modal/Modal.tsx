@@ -6,21 +6,25 @@ import classNames from 'classnames'
 import { Box, Card, Icon, Typography } from 'components/Atomic'
 
 type Props = {
+  HeaderComponent?: ReactNode
   isOpened: boolean
   title: string
   children: ReactNode
   withBody?: boolean
   onBack?: () => void
   onClose: () => void
+  className?: string
 }
 
 export const Modal = ({
+  HeaderComponent,
   title,
   isOpened,
   withBody = true,
   onBack,
   onClose,
   children,
+  className,
 }: Props) => {
   return (
     <Transition appear show={isOpened} as={Fragment}>
@@ -60,8 +64,19 @@ export const Modal = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <div className="max-w-md inline-block overflow-y-auto mx-2 drop-shadow-2xl text-left transition-all transform">
-                <div className="flex flex-row items-center justify-between my-2 lg:m-5 mx-5">
+              <div
+                className={classNames(
+                  'max-w-md inline-block overflow-y-auto mx-2 drop-shadow-2xl text-left transition-all transform',
+                  className,
+                )}
+              >
+                <Box>{HeaderComponent}</Box>
+                <Box
+                  row
+                  justify="between"
+                  alignCenter
+                  className="y-2 lg:m-5 mx-5"
+                >
                   <Box alignCenter row>
                     {onBack && (
                       <Icon
@@ -88,7 +103,7 @@ export const Modal = ({
                       size={24}
                     />
                   </Box>
-                </div>
+                </Box>
 
                 <Box className="max-h-[80vh]">
                   {withBody ? (

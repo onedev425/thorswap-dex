@@ -5,7 +5,8 @@ import { Keystore as KeystoreType } from '@thorswap-lib/xchain-crypto'
 import classNames from 'classnames'
 import uniq from 'lodash/uniq'
 
-import { Box, Button, Checkbox, Modal, Typography } from 'components/Atomic'
+import { Box, Button, Modal, Typography } from 'components/Atomic'
+import { HoverIcon } from 'components/HoverIcon'
 import { InfoTip } from 'components/InfoTip'
 import { Input } from 'components/Input'
 import { showErrorToast } from 'components/Toast'
@@ -180,7 +181,7 @@ const ConnectWalletModal = () => {
     WalletType.Phrase,
     WalletType.Ledger,
     WalletType.TrustWallet,
-  ].includes(selectedWalletType || WalletType.Xdefi)
+  ].includes(selectedWalletType || WalletType.Keystore)
 
   const isWalletTypeDisabled = useCallback(
     (walletType: WalletType) =>
@@ -194,9 +195,23 @@ const ConnectWalletModal = () => {
 
   return (
     <Modal
+      HeaderComponent={
+        <Box className="!h-20">
+          {selectedWalletType === WalletType.Ledger && (
+            <InfoTip
+              contentClassName="py-0"
+              className="m-auto !pt-2 !pb-1 !px-2"
+              content="Make sure your Ledger is unlocked and you have opened the app you would like to connect before proceeding"
+              title="Unlock Ledger and open App"
+              type="warn"
+            />
+          )}
+        </Box>
+      }
       title={t('views.walletModal.connectWallets')}
       isOpened={isConnectModalOpen}
       withBody={false}
+      className="md:!max-w-[600px] -mt-24"
       onClose={clearState}
       onBack={customFlow ? () => setCustomFlow(false) : undefined}
     >
@@ -235,7 +250,7 @@ const ConnectWalletModal = () => {
               alignCenter
               className={classNames(
                 'bg-light-bg-primary dark:bg-dark-bg-primary',
-                'md:px-6 pb-6 dark:drop-shadow-4xl z-10',
+                'md:px-6 pb-10 dark:drop-shadow-4xl z-10',
                 isMdActive ? 'rounded-l-3xl' : 'rounded-t-3xl',
               )}
             >
@@ -253,6 +268,9 @@ const ConnectWalletModal = () => {
                 <Button
                   size="sm"
                   className="!h-5 !px-1.5 justify-end"
+                  disabled={[WalletType.Ledger, WalletType.MetaMask].includes(
+                    selectedWalletType || WalletType.Keystore,
+                  )}
                   type={selectedAll ? 'default' : 'outline'}
                   variant="primary"
                   transform="uppercase"
@@ -292,15 +310,29 @@ const ConnectWalletModal = () => {
                   </Typography>
                 </Box>
 
-                <Button
-                  className="!h-5 !px-1.5 justify-end"
-                  type="outline"
-                  variant="primary"
-                  transform="uppercase"
-                  onClick={() => clearState(false)}
-                >
-                  <Typography variant="caption">{t('common.reset')}</Typography>
-                </Button>
+                <Box alignCenter className="gap-x-2">
+                  {!oneTimeWalletType && (
+                    <HoverIcon
+                      size={20}
+                      onClick={() => handleSaveStorageChange(!saveWallet)}
+                      tooltip={t('views.walletModal.keepWalletConnected')}
+                      color={saveWallet ? 'cyan' : 'secondary'}
+                      iconName={saveWallet ? 'saveFill' : 'save'}
+                    />
+                  )}
+
+                  <Button
+                    className="!h-5 !px-1.5 justify-end"
+                    type="outline"
+                    variant="primary"
+                    transform="uppercase"
+                    onClick={() => clearState(false)}
+                  >
+                    <Typography variant="caption">
+                      {t('common.reset')}
+                    </Typography>
+                  </Button>
+                </Box>
               </Box>
 
               <Box className="pl-6 pr-4 flex-wrap">
@@ -324,36 +356,28 @@ const ConnectWalletModal = () => {
               </Box>
 
               {selectedWalletType === WalletType.Ledger && (
-                <Box flex={1} col className="py-2 px-6 gap-2">
-                  <InfoTip
-                    contentClassName="py-0"
-                    className="m-auto !pt-2 !pb-1 !px-2"
-                    content="Make sure your Ledger is unlocked and you have opened the app you would like to connect before proceeding"
-                    title="Unlock Ledger and open App"
-                    type="warn"
+                <Box
+                  flex={1}
+                  alignCenter
+                  justify="between"
+                  className="py-2 px-6 gap-2 p-1 gap-x-2"
+                >
+                  <Typography>{t('common.index')}:</Typography>
+                  <Input
+                    border="rounded"
+                    type="number"
+                    value={ledgerIndex}
+                    onChange={(e) => setLedgerIndex(parseInt(e.target.value))}
                   />
-
-                  <Box alignCenter justify="between" className="p-1 gap-x-2">
-                    <Typography>{t('common.index')}:</Typography>
-                    <Input
-                      border="rounded"
-                      type="number"
-                      value={ledgerIndex}
-                      onChange={(e) => setLedgerIndex(parseInt(e.target.value))}
-                    />
-                  </Box>
                 </Box>
               )}
 
               {!customFlow && (
                 <Box
-                  flex={Number(selectedWalletType !== WalletType.Ledger)}
+                  flex={1}
                   col
                   justify="end"
-                  className={classNames(
-                    'pb-0.5 pt-4 md:pt-0',
-                    oneTimeWalletType ? 'mb-8' : 'mb-0.5',
-                  )}
+                  className="pb-0.5 pt-4 md:pt-0 mb-8"
                 >
                   <Button
                     disabled={!selectedWalletType || !selectedChains.length}
@@ -365,19 +389,6 @@ const ConnectWalletModal = () => {
                   >
                     <Typography>{t('common.connectWallet')}</Typography>
                   </Button>
-
-                  {!oneTimeWalletType && (
-                    <Box
-                      onClick={() => handleSaveStorageChange(!saveWallet)}
-                      className="px-4 cursor-pointer"
-                    >
-                      <Checkbox
-                        label={t('views.walletModal.keepWalletConnected')}
-                        value={saveWallet}
-                        onValueChange={handleSaveStorageChange}
-                      />
-                    </Box>
-                  )}
                 </Box>
               )}
             </Box>

@@ -46,7 +46,7 @@ export const Tooltip = ({
 
   useEffect(() => {
     // https://github.com/wwayne/react-tooltip/issues/40#issuecomment-147552438
-    setTimeout(ReactTooltip.rebuild, 50)
+    setTimeout(ReactTooltip.rebuild, 100)
   }, [])
 
   const hideTooltip = useCallback(() => {
