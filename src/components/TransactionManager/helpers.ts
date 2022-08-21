@@ -21,4 +21,4 @@ export const transactionBorderColors: Record<TransactionStatus, string> = {
 }
 
 export const cutTxPrefix = (tx: string, prefix = '0x') =>
-  tx?.startsWith(prefix) ? tx.slice(2) : tx
+  tx?.startsWith(prefix) ? tx.slice(prefix.length) : tx

@@ -48,7 +48,8 @@ export const PendingTransaction = memo(
       skip: !params.txid,
     })
 
-    const url = txid && multichain().getExplorerTxUrl(inChain, txid)
+    const url =
+      params.txid && multichain().getExplorerTxUrl(inChain, params.txid)
 
     useEffect(() => {
       if (data?.ok && data.result) {

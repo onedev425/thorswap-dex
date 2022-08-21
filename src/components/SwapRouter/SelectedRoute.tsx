@@ -104,18 +104,14 @@ export const SelectedRoute = memo(
           <Typography variant="caption-xs">{t('common.optimal')}</Typography>
         </Box>
 
-        <Box col className="pl-4">
+        <Box col className="pl-4 py-1">
           <Box justify="between">
             <Box className="py-2">
               <ProviderLogos size={32} providers={providers} />
 
               {approved && (
                 <Box className={providers.length > 1 ? 'ml-12' : 'ml-2'}>
-                  <HoverIcon
-                    size={22}
-                    iconName="approved"
-                    tooltip={t('views.swap.routeContractApproved')}
-                  />
+                  <HoverIcon size={22} iconName="approved" />
                 </Box>
               )}
             </Box>
