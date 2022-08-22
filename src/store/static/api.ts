@@ -2,12 +2,12 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 import { GetProviderTokensParams } from 'store/thorswap/types'
 
-const STATIC_URL = 'https://static.thorswap.net'
-
 export const staticApi = createApi({
   reducerPath: 'static',
+  keepUnusedDataFor: 3600,
   baseQuery: fetchBaseQuery({
-    baseUrl: STATIC_URL,
+    baseUrl:
+      import.meta.env.VITE_THORSWAP_STATIC_API || 'https://static.thorswap.net',
     mode: 'cors',
   }),
   endpoints: (build) => ({
@@ -17,4 +17,4 @@ export const staticApi = createApi({
   }),
 })
 
-export const { useLazyGetTokenListQuery } = staticApi
+export const { useLazyGetTokenListQuery, useGetTokenListQuery } = staticApi

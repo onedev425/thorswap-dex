@@ -2,8 +2,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { TransactionDetails } from '@thorswap-lib/cross-chain-api-sdk'
 import { THORSWAP_AFFILIATE_ADDRESS } from 'config/constants'
 
-import { THORSWAP_API_URL } from 'settings/config'
-
 import {
   GetTxnStatusParams,
   GetProvidersResponse,
@@ -13,10 +11,13 @@ import {
   GetTxnStatusResponse,
 } from './types'
 
+const baseUrl =
+  import.meta.env.VITE_THORSWAP_API || 'https://dev-api.thorswap.net'
+
 export const thorswapApi = createApi({
   reducerPath: 'thorswap',
   baseQuery: fetchBaseQuery({
-    baseUrl: THORSWAP_API_URL,
+    baseUrl,
     mode: 'cors',
   }),
   endpoints: (build) => ({

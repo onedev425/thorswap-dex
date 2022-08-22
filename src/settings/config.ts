@@ -35,9 +35,6 @@ export const INFURA_PROJECT_ID = safeEnv(
   import.meta.env.VITE_INFURA_PROJECT_ID,
 )
 
-export const THORSWAP_API_URL =
-  import.meta.env.VITE_THORSWAP_API || 'https://dev-api2.thorswap.net'
-
 export const BLOCKNATIVE_API_KEY = safeEnv(
   '',
   import.meta.env.VITE_BLOCKNATIVE_API_KEY,

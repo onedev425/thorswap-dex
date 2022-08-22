@@ -2,9 +2,12 @@ import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 import { Asset, Amount } from '@thorswap-lib/multichain-sdk'
+import { Chain } from '@thorswap-lib/types'
 import classNames from 'classnames'
 import Fuse from 'fuse.js'
 import uniqBy from 'lodash/uniqBy'
+
+import { useThorchainErc20Supported } from 'views/Swap/hooks/useThorchainErc20Supported'
 
 import { AssetInput } from 'components/AssetInput'
 import { AssetInputType } from 'components/AssetInput/types'
@@ -52,14 +55,14 @@ export const AssetInputs = memo(
     const fuse = useRef<Fuse<AssetSelectType>>(new Fuse([], options))
     const [query, setQuery] = useState('')
     const [iconRotate, setIconRotate] = useState(false)
+    const [tokens, setTokens] = useState<Token[]>([])
+    const [fetchTokenList, { isFetching }] = useLazyGetTokenListQuery()
     const disabledProviders = useAppSelector(
       ({ assets: { disabledTokenLists } }) => disabledTokenLists,
     )
 
-    const [tokens, setTokens] = useState<Token[]>([])
-
+    const thorchainERC20SupportedTokens = useThorchainErc20Supported()
     const { data: providersData } = useGetProvidersQuery()
-    const [fetchTokenList, { isFetching }] = useLazyGetTokenListQuery()
     const { isFeatured, isFrequent } = useAssets()
 
     const providers = useMemo(() => {
@@ -69,6 +72,11 @@ export const AssetInputs = memo(
         .map(({ provider }) => provider)
         .filter((p) => !disabledProviders.includes(p))
     }, [disabledProviders, providersData])
+
+    const handleAssetSwap = useCallback(() => {
+      onSwitchPair()
+      setIconRotate((rotate) => !rotate)
+    }, [onSwitchPair])
 
     const fetchTokens = useCallback(async () => {
       if (!providers.length) return
@@ -91,11 +99,6 @@ export const AssetInputs = memo(
       fetchTokens()
     }, [fetchTokens])
 
-    const handleAssetSwap = useCallback(() => {
-      onSwitchPair()
-      setIconRotate((rotate) => !rotate)
-    }, [onSwitchPair])
-
     const assetList = useAssetsWithBalanceFromTokens(tokens)
 
     useEffect(() => {
@@ -109,13 +112,12 @@ export const AssetInputs = memo(
           : assetList
 
       const sortedAssets = searchedAssets.concat().sort((a, b) => {
+        const aFeatured = isFeatured(a)
+        const aFrequent = isFrequent(a)
+        const bFeatured = isFeatured(b)
         if (!a.balance && !b.balance) {
-          if (isFeatured(a)) {
-            return -2
-          }
-
-          if (isFrequent(a) && !isFeatured(b)) {
-            return -3
+          if (aFeatured || (aFrequent && !bFeatured)) {
+            return -1
           }
 
           return a.provider === b.provider
@@ -128,24 +130,41 @@ export const AssetInputs = memo(
         if (!a.balance) return 1
         if (!b.balance) return -1
 
-        return b.balance.gt(a.balance) ? 1 : -1
+        return bFeatured ? 1 : aFeatured ? -1 : b.balance.gt(a.balance) ? 1 : -1
       })
 
-      return uniqBy(
-        sortedAssets,
-        ({ asset, identifier }) => `${asset?.symbol}-${identifier}`,
-      )
-    }, [query, assetList, isFeatured, isFrequent])
+      return uniqBy(sortedAssets, ({ asset }) => asset.toString())
+    }, [assetList, isFeatured, isFrequent, query])
 
     const assetInputProps = useMemo(
       () => ({
-        assets,
         isLoading: isFetching,
         query,
         setQuery,
       }),
-      [assets, isFetching, query],
+      [isFetching, query],
     )
+
+    const outputAssets = useMemo(() => {
+      if (
+        !thorchainERC20SupportedTokens?.length ||
+        inputAsset.asset.L1Chain === Chain.Ethereum
+      ) {
+        return assets
+      }
+
+      const thorchainSupported = assets.filter(({ asset }) =>
+        asset?.L1Chain !== Chain.Ethereum
+          ? true
+          : thorchainERC20SupportedTokens.find(
+              ({ address }) =>
+                address?.toLowerCase() ===
+                asset.symbol.split('-')[1]?.toLowerCase(),
+            ),
+      )
+
+      return thorchainSupported
+    }, [assets, inputAsset.asset.L1Chain, thorchainERC20SupportedTokens])
 
     return (
       <div className="relative self-stretch md:w-full">
@@ -170,13 +189,16 @@ export const AssetInputs = memo(
 
         <AssetInput
           {...assetInputProps}
+          assets={assets}
           selectedAsset={inputAsset}
           className="!mb-1 flex-1"
           onAssetChange={onInputAssetChange}
           onValueChange={onInputAmountChange}
         />
+
         <AssetInput
           {...assetInputProps}
+          assets={outputAssets}
           hideMaxButton
           onAssetChange={onOutputAssetChange}
           selectedAsset={outputAsset}
