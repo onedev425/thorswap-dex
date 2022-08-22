@@ -14,14 +14,14 @@ export const useApproveContract = (
   hasWallet = true,
 ) => {
   const { approveStatus } = useMidgard()
-  const { wallet, chainWalletLoading } = useWallet()
+  const { wallet } = useWallet()
   const [isApproved, setApproved] = useState(hasWallet ? null : true)
   const [isLoading, setIsLoading] = useState(false)
 
   const isWalletConnected = useMemo(() => hasConnectedWallet(wallet), [wallet])
 
   useEffect(() => {
-    if (!hasWallet || !isWalletConnected || chainWalletLoading?.ETH) {
+    if (!hasWallet || !isWalletConnected) {
       setApproved(true)
     } else {
       const checkApproved = async () => {
@@ -44,14 +44,7 @@ export const useApproveContract = (
         setIsLoading(false)
       }
     }
-  }, [
-    asset,
-    approveStatus,
-    contractAddr,
-    hasWallet,
-    isWalletConnected,
-    chainWalletLoading?.ETH,
-  ])
+  }, [asset, approveStatus, contractAddr, hasWallet, isWalletConnected])
 
   const assetApproveStatus = useMemo(
     () => approveStatus?.[asset.toString()],

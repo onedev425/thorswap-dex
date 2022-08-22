@@ -5,6 +5,8 @@ import {
   hasWalletConnected,
   QuoteMode,
 } from '@thorswap-lib/multichain-sdk'
+import { SupportedChain } from '@thorswap-lib/types'
+import { TS_AGGREGATOR_PROXY_ADDRESS } from 'config/constants'
 
 import { useWallet } from 'store/wallet/hooks'
 
@@ -18,7 +20,7 @@ type Params = {
 }
 
 export const useIsAssetApproved = ({ contract, asset, quoteMode }: Params) => {
-  const { wallet } = useWallet()
+  const { wallet, chainWalletLoading } = useWallet()
 
   const isAssetWalletConnected = useMemo(
     () => asset && hasWalletConnected({ wallet, inputAssets: [asset] }),
@@ -28,8 +30,11 @@ export const useIsAssetApproved = ({ contract, asset, quoteMode }: Params) => {
 
   const contractApprove = useApproveContract(
     asset,
-    contract,
-    isAssetWalletConnected,
+    quoteMode === QuoteMode.ETH_TO_TC_SUPPORTED
+      ? TS_AGGREGATOR_PROXY_ADDRESS
+      : contract,
+    !chainWalletLoading?.[asset?.L1Chain as SupportedChain] ||
+      isAssetWalletConnected,
   )
 
   return useMemo(
