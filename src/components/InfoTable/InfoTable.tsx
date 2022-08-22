@@ -42,7 +42,9 @@ export const InfoTable = memo(
             return (
               <InfoRow
                 onClick={onClick}
-                className={className}
+                className={classNames(className, {
+                  'cursor-pointer': !!onClick,
+                })}
                 key={rowKey}
                 label={label}
                 value={value}

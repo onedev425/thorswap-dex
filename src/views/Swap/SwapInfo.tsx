@@ -150,7 +150,29 @@ export const SwapInfo = ({
             }
           : null,
         {
-          label: 'Network Fee',
+          label: (
+            <Box className="gap-2 group" center>
+              <Typography
+                fontWeight="medium"
+                color="secondary"
+                variant="caption"
+              >
+                Network Fee
+              </Typography>
+              <Box center>
+                <Typography
+                  className="italic underline"
+                  fontWeight="normal"
+                  color="secondary"
+                  variant="caption-xs"
+                >
+                  details
+                </Typography>
+
+                <Icon className="mx-1" name="eye" size={16} color="secondary" />
+              </Box>
+            </Box>
+          ),
           onClick: openFeeModal,
           value: (
             <InfoWithTooltip
