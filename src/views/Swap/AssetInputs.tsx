@@ -7,7 +7,7 @@ import classNames from 'classnames'
 import Fuse from 'fuse.js'
 import uniqBy from 'lodash/uniqBy'
 
-import { useThorchainErc20Supported } from 'views/Swap/hooks/useThorchainErc20Supported'
+import { useThorchainErc20SupportedAddresses } from 'views/Swap/hooks/useThorchainErc20Supported'
 
 import { AssetInput } from 'components/AssetInput'
 import { AssetInputType } from 'components/AssetInput/types'
@@ -61,7 +61,8 @@ export const AssetInputs = memo(
       ({ assets: { disabledTokenLists } }) => disabledTokenLists,
     )
 
-    const thorchainERC20SupportedTokens = useThorchainErc20Supported()
+    const thorchainERC20SupportedAddresses =
+      useThorchainErc20SupportedAddresses()
     const { data: providersData } = useGetProvidersQuery()
     const { isFeatured, isFrequent } = useAssets()
 
@@ -147,7 +148,7 @@ export const AssetInputs = memo(
 
     const outputAssets = useMemo(() => {
       if (
-        !thorchainERC20SupportedTokens?.length ||
+        !thorchainERC20SupportedAddresses?.length ||
         inputAsset.asset.L1Chain === Chain.Ethereum
       ) {
         return assets
@@ -156,15 +157,13 @@ export const AssetInputs = memo(
       const thorchainSupported = assets.filter(({ asset }) =>
         asset?.L1Chain !== Chain.Ethereum
           ? true
-          : thorchainERC20SupportedTokens.find(
-              ({ address }) =>
-                address?.toLowerCase() ===
-                asset.symbol.split('-')[1]?.toLowerCase(),
+          : thorchainERC20SupportedAddresses.includes(
+              asset.symbol.split('-')[1]?.toLowerCase(),
             ),
       )
 
       return thorchainSupported
-    }, [assets, inputAsset.asset.L1Chain, thorchainERC20SupportedTokens])
+    }, [assets, inputAsset.asset.L1Chain, thorchainERC20SupportedAddresses])
 
     return (
       <div className="relative self-stretch md:w-full">

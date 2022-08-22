@@ -1,20 +1,21 @@
 import { useEffect, useState } from 'react'
 
 import { useGetTokenListQuery } from 'store/static/api'
-import { Token } from 'store/thorswap/types'
 
-export const useThorchainErc20Supported = () => {
-  const [thorchainErc20Supported, setThorchainErc20Supported] = useState<
-    Token[]
-  >([])
+export const useThorchainErc20SupportedAddresses = () => {
+  const [thorchainErc20SupportedAddresses, setThorchainErc20Supported] =
+    useState<string[]>([])
 
   const { data } = useGetTokenListQuery('Thorchain-supported-ERC20')
 
   useEffect(() => {
     if (data?.tokens?.length) {
-      setThorchainErc20Supported(data.tokens)
+      const tokenAddresses = data.tokens.map(({ address }) =>
+        address.toLowerCase(),
+      )
+      setThorchainErc20Supported(tokenAddresses)
     }
   }, [data?.tokens])
 
-  return thorchainErc20Supported
+  return thorchainErc20SupportedAddresses
 }
