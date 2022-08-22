@@ -713,7 +713,6 @@
       "onService": "sur %{serviceName}",
       "priceImpact": "Impact sur le prix",
       "routeContractApproved": "Le contrat pour cet échange de routes a été approuvé.",
-      "slipWarning": "Le glissement est supérieur à %{slippage}",
       "slippage": "Dérapage",
       "slippageTolerance": "Tolérance au slippage",
       "swapAssets": "Taux d'actifs de swap",

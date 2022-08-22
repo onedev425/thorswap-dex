@@ -713,7 +713,6 @@
       "onService": "em %{serviceName}",
       "priceImpact": "Impacto no Preço",
       "routeContractApproved": "O contrato para esta troca de rotas foi aprovado.",
-      "slipWarning": "Divergência é maior que %{slippage}",
       "slippage": "Slippage",
       "slippageTolerance": "Tolerância a Divergência",
       "swapAssets": "Taxas de troca de ativos",

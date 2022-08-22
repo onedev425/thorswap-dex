@@ -713,7 +713,6 @@
       "onService": "op %{serviceNaam}",
       "priceImpact": "Prijsimpact",
       "routeContractApproved": "Het contract voor deze routeverwisseling is goedgekeurd.",
-      "slipWarning": "Slip is hoger dan %{slippage}",
       "slippage": "Slippage",
       "slippageTolerance": "Slip tolerantie",
       "swapAssets": "Swap assets rates",

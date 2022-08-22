@@ -713,7 +713,6 @@
       "onService": "zu %{servicename}",
       "priceImpact": "Preisauswirkung",
       "routeContractApproved": "Der Vertrag für diesen Streckentausch wurde genehmigt.",
-      "slipWarning": "Schlupf ist höher als %{Schlupf}",
       "slippage": "Schlupf",
       "slippageTolerance": "Maximale Slippage",
       "swapAssets": "Swap Wechselkurse",

@@ -1,17 +1,11 @@
 import { useCallback, useMemo } from 'react'
 
-import {
-  Amount,
-  Asset,
-  hasWalletConnected,
-  Percent,
-} from '@thorswap-lib/multichain-sdk'
+import { Amount, Asset, hasWalletConnected } from '@thorswap-lib/multichain-sdk'
 import { Chain, SupportedChain } from '@thorswap-lib/types'
 
 import { Box, Button } from 'components/Atomic'
 import { showErrorToast, showInfoToast } from 'components/Toast'
 
-import { useApp } from 'store/app/hooks'
 import { useExternalConfig } from 'store/externalConfig/hooks'
 import { useMidgard } from 'store/midgard/hooks'
 import { TxTrackerStatus } from 'store/midgard/types'
@@ -35,7 +29,6 @@ type Props = {
   recipient: string | null
   setVisibleApproveModal: (visible: boolean) => void
   setVisibleConfirmModal: (visible: boolean) => void
-  slippage: Percent
   swapAmountTooSmall: boolean
 }
 
@@ -51,10 +44,8 @@ export const SwapSubmitButton = ({
   recipient,
   setVisibleApproveModal,
   setVisibleConfirmModal,
-  slippage,
   swapAmountTooSmall,
 }: Props) => {
-  const { slippageTolerance } = useApp()
   const { wallet, setIsConnectModalOpen } = useWallet()
   const { inboundHalted, pools } = useMidgard()
   const { maxSynthPerAssetDepth } = useMimir()
@@ -177,11 +168,6 @@ export const SwapSubmitButton = ({
     ],
   )
 
-  const isSlipValid = useMemo(
-    () => !hasQuote || (hasQuote && slippage.lte(slippageTolerance / 100)),
-    [hasQuote, slippage, slippageTolerance],
-  )
-
   const btnLabel = useMemo(() => {
     if (!isSwapValid) {
       if (isTradingHalted || !isSynthMintable) {
@@ -193,12 +179,6 @@ export const SwapSubmitButton = ({
 
     if (swapAmountTooSmall) return t('notification.swapAmountTooSmall')
 
-    if (!isSlipValid) {
-      return t('views.swap.slipWarning', {
-        slippage: `${slippageTolerance.toFixed()}%`,
-      })
-    }
-
     if (inputAsset.isSynth && outputAsset.isSynth) return t('common.swap')
     if (inputAsset.isSynth) return t('txManager.redeem')
     if (outputAsset.isSynth) return t('txManager.mint')
@@ -207,12 +187,10 @@ export const SwapSubmitButton = ({
   }, [
     isSwapValid,
     swapAmountTooSmall,
-    isSlipValid,
     inputAsset.isSynth,
     outputAsset.isSynth,
     isTradingHalted,
     isSynthMintable,
-    slippageTolerance,
   ])
 
   const isApproveRequired = useMemo(
@@ -270,7 +248,7 @@ export const SwapSubmitButton = ({
         <Button
           isFancy
           disabled={!isSwapAvailable || !isSwapValid || isLoading}
-          error={!(isSwapValid || isSlipValid) || swapAmountTooSmall}
+          error={!isSwapValid || swapAmountTooSmall}
           stretch
           size="lg"
           onClick={showSwapConfirmationModal}

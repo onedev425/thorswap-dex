@@ -713,7 +713,6 @@
       "onService": "%{ServiceName} पर",
       "priceImpact": "मूल्य प्रभाव",
       "routeContractApproved": "इस रूट स्वैप के लिए अनुबंध को मंजूरी दे दी गई है।",
-      "slipWarning": "स्लिप %{slippage} से अधिक है",
       "slippage": "स्लिपेज",
       "slippageTolerance": "सलिप्पेज टोलरन्स",
       "swapAssets": "स्वैप संपत्ति दरें",

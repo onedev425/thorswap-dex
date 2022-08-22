@@ -713,7 +713,6 @@
       "onService": "on %{serviceName}",
       "priceImpact": "价格影响",
       "routeContractApproved": "Contract for this route swap has been approved.",
-      "slipWarning": "滑点高于%{slippage}",
       "slippage": "Slippage",
       "slippageTolerance": "滑点容差",
       "swapAssets": "切换利率",

@@ -713,7 +713,6 @@
       "onService": "na %{serviceName}",
       "priceImpact": "Wpływ ceny",
       "routeContractApproved": "Umowa na tę zamianę tras została zatwierdzona.",
-      "slipWarning": "Poślizg jest większy niż %{poślizg}",
       "slippage": "Poślizg",
       "slippageTolerance": "Tolerancja poślizgu",
       "swapAssets": "Kursy wymiany aktywów",

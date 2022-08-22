@@ -713,7 +713,6 @@
       "onService": "",
       "priceImpact": "가격 영향",
       "routeContractApproved": "",
-      "slipWarning": "슬립이 %{slippage} 보다 높음",
       "slippage": "Slippage",
       "slippageTolerance": "슬리피지 허용 오차 (Slippage Tolerance)",
       "swapAssets": "스왑 자산 비율",

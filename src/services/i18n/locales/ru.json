@@ -713,7 +713,6 @@
       "onService": "на %{serviceName}",
       "priceImpact": "Влияние на цену",
       "routeContractApproved": "Контракт на замену маршрута утвержден.",
-      "slipWarning": "Скольжение выше 1%",
       "slippage": "Проскальзывание",
       "slippageTolerance": "Проскальзывание",
       "swapAssets": "ставки обмена активами",

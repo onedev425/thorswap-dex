@@ -713,7 +713,6 @@
       "onService": "នៅលើ %{serviceName}",
       "priceImpact": "ផលប៉ះពាល់តម្លៃ",
       "routeContractApproved": "កិច្ចសន្យាសម្រាប់ការផ្លាស់ប្តូរផ្លូវនេះត្រូវបានអនុម័ត។",
-      "slipWarning": "រអិលគឺខ្ពស់ជាង %{slippage}",
       "slippage": "រអិល",
       "slippageTolerance": "តំលៃដែលអាចទទួលយកបាន",
       "swapAssets": "ប្តូរអត្រាទ្រព្យសកម្ម",

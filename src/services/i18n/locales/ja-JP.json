@@ -713,7 +713,6 @@
       "onService": " %{serviceName} 上",
       "priceImpact": "プライスインパクト",
       "routeContractApproved": "このルートスワップのコントラクトは承認されました。",
-      "slipWarning": "スリッページは %{slippage} より大きい",
       "slippage": "スリッページ",
       "slippageTolerance": "スリッページの許容範囲",
       "swapAssets": "スワップアセットレート",
