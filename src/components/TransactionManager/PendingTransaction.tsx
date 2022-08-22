@@ -10,8 +10,8 @@ import {
 } from 'components/TransactionManager/helpers'
 import { TransactionStatusIcon } from 'components/TransactionManager/TransactionStatusIcon'
 
-import { useGetTxnStatusQuery } from 'store/apiUsage/api'
 import { useAppDispatch } from 'store/store'
+import { useGetTxnStatusQuery } from 'store/thorswap/api'
 import { completeTransaction } from 'store/transactions/slice'
 import { PendingTransactionType } from 'store/transactions/types'
 

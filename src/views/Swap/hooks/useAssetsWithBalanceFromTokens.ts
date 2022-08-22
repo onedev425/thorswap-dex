@@ -6,7 +6,7 @@ import { SupportedChain } from '@thorswap-lib/types'
 import { AssetSelectType } from 'components/AssetSelect/types'
 
 import { useMidgard } from 'store/midgard/hooks'
-import { Token } from 'store/tokens/types'
+import { Token } from 'store/thorswap/types'
 
 import { useBalance } from 'hooks/useBalance'
 

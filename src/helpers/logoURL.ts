@@ -1,4 +1,4 @@
-import { Token } from 'store/tokens/types'
+import { Token } from 'store/thorswap/types'
 
 const providersMap = {
   coingecko: 'coinGecko',

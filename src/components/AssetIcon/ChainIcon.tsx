@@ -1,6 +1,6 @@
 import { memo, useMemo } from 'react'
 
-import { SupportedChain } from '@thorswap-lib/types'
+import { Chain, SupportedChain } from '@thorswap-lib/types'
 import classNames from 'classnames'
 
 import { Box, Icon, IconName } from 'components/Atomic'
@@ -15,14 +15,15 @@ type ChainIconProps = {
 export const ChainIcon = memo(
   ({ className, chain, style, size = 16 }: ChainIconProps) => {
     const chainIcon: IconName = useMemo(() => {
-      const icon = chain.toLowerCase() as IconName
+      switch (chain) {
+        case Chain.Ethereum:
+          return 'ethereum' as IconName
 
-      switch (icon) {
-        case 'eth':
-          return 'ethereum'
+        case Chain.Cosmos:
+          return 'cos' as IconName
 
         default:
-          return icon
+          return chain.toLowerCase() as IconName
       }
     }, [chain])
 

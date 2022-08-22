@@ -23,6 +23,7 @@ import { useWallet } from 'store/wallet/hooks'
 
 import { useBalance } from 'hooks/useBalance'
 import { useSlippage } from 'hooks/useSlippage'
+import { useVthorBalance } from 'hooks/useVthorBalance'
 
 import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
@@ -80,6 +81,9 @@ const SwapView = () => {
     [inputAsset, wallet],
   )
 
+  const ethAddr = useMemo(() => wallet?.ETH?.address, [wallet])
+  const { hasVThor } = useVthorBalance(ethAddr)
+
   const {
     routes,
     refetch: refetchQuote,
@@ -90,6 +94,7 @@ const SwapView = () => {
     isFetching,
     minReceive,
   } = useSwapQuote({
+    skipAffiliate: hasVThor,
     inputAmount,
     inputAsset,
     outputAsset,
@@ -195,11 +200,11 @@ const SwapView = () => {
     }, emptyFees)
 
     return {
-      affiliateFee: fees.affiliateFee,
+      affiliateFee: hasVThor ? 0 : fees.affiliateFee,
       networkFee: fees.networkFee,
       totalFee: fees.affiliateFee + fees.networkFee,
     }
-  }, [feeOptionType, gasPrice, isApproved, routeFees])
+  }, [feeOptionType, gasPrice, hasVThor, isApproved, routeFees])
 
   const feeAssets = useMemo(
     () =>

@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-import { GetProviderTokensParams } from 'store/tokens/types'
+import { GetProviderTokensParams } from 'store/thorswap/types'
 
 const STATIC_URL = 'https://static.thorswap.net'
 

@@ -1,6 +1,6 @@
 import { Asset } from '@thorswap-lib/multichain-sdk'
 
-import { GetTokenPriceParams } from 'store/tokens/types'
+import { GetTokenPriceParams } from 'store/thorswap/types'
 
 export const parseAssetToToken = ({
   chain,

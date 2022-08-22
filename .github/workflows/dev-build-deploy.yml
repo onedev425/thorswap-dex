@@ -66,6 +66,7 @@ jobs:
           VITE_IS_NETWORK_ONLINE: ${{ secrets.VITE_IS_NETWORK_ONLINE }}
           VITE_FIGMENT_API_KEY: ${{ secrets.VITE_FIGMENT_API_KEY }}
           VITE_GOOGLE_API_KEY: ${{ secrets.VITE_GOOGLE_API_KEY }}
+          VITE_THORSWAP_API: ${{ secrets.VITE_THORSWAP_API }}
           VITE_AFFILIATE_ON: false
 
         run: yarn build

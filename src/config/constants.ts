@@ -18,3 +18,5 @@ export const TS_AGGREGATOR_PROXY_ADDRESS =
 
 export const THORSWAP_MULTI_SIG =
   'https://docs.thorswap.finance/thorswap/thorswap-products/thorswap/thorsafe'
+
+export const THORSWAP_AFFILIATE_ADDRESS = 't'

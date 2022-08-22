@@ -7,7 +7,7 @@ import { useAssetSelect } from 'components/AssetSelect/useAssetSelect'
 import { Box, Icon, Switch, Typography } from 'components/Atomic'
 import { genericBgClasses, styledScrollbarClass } from 'components/constants'
 
-import { useGetProvidersQuery } from 'store/tokens/api'
+import { useGetProvidersQuery } from 'store/thorswap/api'
 
 import { t } from 'services/i18n'
 

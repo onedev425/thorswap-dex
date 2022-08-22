@@ -1,6 +1,6 @@
 import { Asset, Amount } from '@thorswap-lib/multichain-sdk'
 
-import { Token } from 'store/tokens/types'
+import { Token } from 'store/thorswap/types'
 
 export type AssetSelectProps = {
   assets?: AssetSelectType[]

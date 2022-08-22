@@ -12,25 +12,27 @@ import { useApp } from 'store/app/hooks'
 import {
   useGetSupportedProvidersQuery,
   useGetTokensQuoteQuery,
-} from 'store/pathfinder/api'
+} from 'store/thorswap/api'
 
 import { useDebouncedValue } from 'hooks/useDebounceValue'
 import usePrevious from 'hooks/usePrevious'
 
 type Params = {
-  inputAsset: Asset
   inputAmount: Amount
+  inputAsset: Asset
   outputAsset: Asset
-  senderAddress?: string
   recipientAddress?: string
+  senderAddress?: string
+  skipAffiliate?: boolean
 }
 
 export const useSwapQuote = ({
+  inputAmount,
   inputAsset,
   outputAsset,
-  inputAmount,
-  senderAddress,
   recipientAddress,
+  senderAddress,
+  skipAffiliate,
 }: Params) => {
   const [swapQuote, setSwapRoute] = useState<QuoteRoute>()
   const { slippageTolerance } = useApp()
@@ -40,7 +42,7 @@ export const useSwapQuote = ({
 
   const params = useMemo(
     () => ({
-      // affiliateBasisPoints: 0,
+      affiliateBasisPoints: skipAffiliate ? '0' : undefined,
       providers: supportedProvidersData,
       sellAsset: inputAsset.toString(),
       buyAsset: outputAsset.toString(),
@@ -50,6 +52,7 @@ export const useSwapQuote = ({
       recipientAddress,
     }),
     [
+      skipAffiliate,
       senderAddress,
       recipientAddress,
       inputAmount.assetAmount,

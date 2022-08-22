@@ -53,6 +53,7 @@ jobs:
           VITE_INFURA_PROJECT_ID: ${{ secrets.VITE_INFURA_PROJECT_ID }}
           VITE_FIGMENT_API_KEY: ${{ secrets.VITE_FIGMENT_API_KEY }}
           VITE_GOOGLE_API_KEY: ${{ secrets.VITE_GOOGLE_API_KEY }}
+          VITE_THORSWAP_API: ${{ secrets.VITE_THORSWAP_API }}
 
         run: yarn build
 

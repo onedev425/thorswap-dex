@@ -3,8 +3,11 @@ import { useMemo } from 'react'
 import { Amount, Asset, Price } from '@thorswap-lib/multichain-sdk'
 import BigNumber from 'bignumber.js'
 
-import { useGetTokenCachedPricesQuery } from 'store/tokens/api'
-import { GetTokenPriceParams, GetTokenPriceResponse } from 'store/tokens/types'
+import { useGetTokenCachedPricesQuery } from 'store/thorswap/api'
+import {
+  GetTokenPriceParams,
+  GetTokenPriceResponse,
+} from 'store/thorswap/types'
 
 import { useDebouncedValue } from 'hooks/useDebounceValue'
 

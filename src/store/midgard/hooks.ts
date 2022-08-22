@@ -308,9 +308,9 @@ export const useMidgard = () => {
 
   const synthAssets = useMemo(
     () =>
-      midgardState.pools.map(
-        ({ asset: { chain, symbol } }) => new Asset(chain, symbol, true),
-      ),
+      midgardState.pools
+        .filter(({ detail }) => detail.status.toLowerCase() === 'available')
+        .map(({ asset: { chain, symbol } }) => new Asset(chain, symbol, true)),
     [midgardState.pools],
   )
 

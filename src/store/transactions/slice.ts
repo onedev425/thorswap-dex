@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
-import { SuccessTxnResult } from 'store/apiUsage/api'
+import { SuccessTxnResult } from 'store/thorswap/types'
 import type {
   PendingTransactionType,
   CompletedTransactionType,

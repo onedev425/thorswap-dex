@@ -20,14 +20,6 @@ export function useAssetSelect({
 
   const { toggleTokenList } = useAssets()
 
-  // const featuredAssets = useMemo(
-  //   () =>
-  //     featured
-  //       .map((ticker) => Asset.fromAssetString(ticker))
-  //       .filter(Boolean) as Asset[],
-  //   [featured],
-  // )
-
   const filteredAssets = useMemo(
     () =>
       typeFilter === 'all'

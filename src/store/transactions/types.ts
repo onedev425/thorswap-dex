@@ -1,7 +1,7 @@
 import { QuoteMode } from '@thorswap-lib/multichain-sdk'
 import { Chain } from '@thorswap-lib/types'
 
-import { SuccessTxnResult } from 'store/apiUsage/api'
+import { SuccessTxnResult } from 'store/thorswap/types'
 
 export type TransactionStatus = 'error' | 'mined' | 'refund' | 'pending'
 export type TransactionType = 'swap' | 'approve'

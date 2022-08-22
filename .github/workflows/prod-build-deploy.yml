@@ -67,6 +67,7 @@ jobs:
           VITE_AFFILIATE_ON: ${{ secrets.VITE_AFFILIATE_ON }}
           VITE_FIGMENT_API_KEY: ${{ secrets.VITE_FIGMENT_API_KEY }}
           VITE_GOOGLE_API_KEY: ${{ secrets.VITE_GOOGLE_API_KEY }}
+          VITE_THORSWAP_API: ${{ secrets.VITE_THORSWAP_API }}
 
         run: yarn build
 

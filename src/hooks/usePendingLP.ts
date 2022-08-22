@@ -24,9 +24,6 @@ export const usePendingLP = () => {
 
   const getPendingDeposit = useCallback(() => {
     if (wallet) {
-      // const activePools = pools.filter(
-      //   (pool) => pool.detail.status === 'available',
-      // )
       const thorAddress = multichain().getWalletAddressByChain(Chain.THORChain)
 
       if (thorAddress) {

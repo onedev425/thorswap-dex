@@ -13,8 +13,8 @@ import { Box, Icon } from 'components/Atomic'
 
 import { useLazyGetTokenListQuery } from 'store/static/api'
 import { useAppSelector } from 'store/store'
-import { useGetProvidersQuery } from 'store/tokens/api'
-import { Token } from 'store/tokens/types'
+import { useGetProvidersQuery } from 'store/thorswap/api'
+import { Token } from 'store/thorswap/types'
 
 import { useAssetsWithBalanceFromTokens } from './hooks/useAssetsWithBalanceFromTokens'
 
@@ -120,7 +120,10 @@ export const AssetInputs = memo(
         return b.balance.gt(a.balance) ? 1 : -1
       })
 
-      return uniqBy(sortedAssets, ({ cg, identifier }) => cg?.id || identifier)
+      return uniqBy(
+        sortedAssets,
+        ({ asset, identifier }) => `${asset?.symbol}-${identifier}`,
+      )
     }, [assetList, fuse, query])
 
     const assetInputProps = useMemo(
