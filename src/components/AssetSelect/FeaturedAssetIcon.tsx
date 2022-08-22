@@ -10,7 +10,7 @@ type Props = {
 export const FeaturedAssetIcon = ({ assetString }: Props) => {
   const { addFeatured, removeFeatured } = useAssets()
   const { featured } = useAppSelector((state) => state.assets)
-  const isFeatured = featured.includes(assetString)
+  const isFeatured = assetString && featured.includes(assetString)
 
   return (
     <Box

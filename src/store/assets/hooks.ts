@@ -1,9 +1,12 @@
 import { useCallback } from 'react'
 
+import { AssetSelectType } from 'components/AssetSelect/types'
+
 import { actions } from 'store/assets/slice'
-import { useAppDispatch } from 'store/store'
+import { useAppDispatch, useAppSelector } from 'store/store'
 
 export const useAssets = () => {
+  const { frequent, featured } = useAppSelector((state) => state.assets)
   const dispatch = useAppDispatch()
 
   const addFrequent = useCallback(
@@ -34,10 +37,30 @@ export const useAssets = () => {
     [dispatch],
   )
 
+  const isFrequent = useCallback(
+    (assetSelect: AssetSelectType) =>
+      assetSelect &&
+      frequent.includes(
+        `${assetSelect.asset?.symbol}-${assetSelect.identifier}`,
+      ),
+    [frequent],
+  )
+
+  const isFeatured = useCallback(
+    (assetSelect: AssetSelectType) =>
+      assetSelect &&
+      featured.includes(
+        `${assetSelect.asset?.symbol}-${assetSelect.identifier}`,
+      ),
+    [featured],
+  )
+
   return {
     addFrequent,
     toggleTokenList,
     addFeatured,
     removeFeatured,
+    isFrequent,
+    isFeatured,
   }
 }

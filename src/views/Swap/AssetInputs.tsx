@@ -11,6 +11,7 @@ import { AssetInputType } from 'components/AssetInput/types'
 import { AssetSelectType } from 'components/AssetSelect/types'
 import { Box, Icon } from 'components/Atomic'
 
+import { useAssets } from 'store/assets/hooks'
 import { useLazyGetTokenListQuery } from 'store/static/api'
 import { useAppSelector } from 'store/store'
 import { useGetProvidersQuery } from 'store/thorswap/api'
@@ -59,6 +60,7 @@ export const AssetInputs = memo(
 
     const { data: providersData } = useGetProvidersQuery()
     const [fetchTokenList, { isFetching }] = useLazyGetTokenListQuery()
+    const { isFeatured, isFrequent } = useAssets()
 
     const providers = useMemo(() => {
       if (!providersData) return []
@@ -108,6 +110,14 @@ export const AssetInputs = memo(
 
       const sortedAssets = searchedAssets.concat().sort((a, b) => {
         if (!a.balance && !b.balance) {
+          if (isFeatured(a)) {
+            return -2
+          }
+
+          if (isFrequent(a) && !isFeatured(b)) {
+            return -3
+          }
+
           return a.provider === b.provider
             ? (b?.cg?.market_cap || 0) - (a?.cg?.market_cap || 0)
             : b.provider?.toLowerCase() === 'thorchain'
@@ -117,6 +127,7 @@ export const AssetInputs = memo(
 
         if (!a.balance) return 1
         if (!b.balance) return -1
+
         return b.balance.gt(a.balance) ? 1 : -1
       })
 
@@ -124,7 +135,7 @@ export const AssetInputs = memo(
         sortedAssets,
         ({ asset, identifier }) => `${asset?.symbol}-${identifier}`,
       )
-    }, [assetList, fuse, query])
+    }, [query, assetList, isFeatured, isFrequent])
 
     const assetInputProps = useMemo(
       () => ({

@@ -38,6 +38,7 @@ export const AssetSelectItem = memo(
     value,
     cg,
     price,
+    identifier,
   }: Props) => {
     const { isLight } = useTheme()
     const formatPrice = useFormatPrice()
@@ -107,7 +108,7 @@ export const AssetSelectItem = memo(
       >
         <Box flex={1} className="gap-x-3 pl-2">
           <Box center className="gap-x-2">
-            <FeaturedAssetIcon assetString={asset.toString()} />
+            <FeaturedAssetIcon assetString={`${asset?.symbol}-${identifier}`} />
             <AssetIcon logoURI={logoURI} size={30} asset={asset} />
           </Box>
 
