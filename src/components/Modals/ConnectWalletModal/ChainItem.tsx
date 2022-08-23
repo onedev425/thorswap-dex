@@ -10,11 +10,14 @@ import { WalletIcon } from 'components/WalletIcon/WalletIcon'
 
 import useWindowSize from 'hooks/useWindowSize'
 
+import { t } from 'services/i18n'
+
 import { chainName } from 'helpers/chainName'
 
 import { WalletType } from './types'
 
 type Props = {
+  disabled?: boolean
   chain: SupportedChain
   walletType?: WalletOption
   selected: boolean
@@ -24,6 +27,7 @@ type Props = {
 }
 
 const ChainItem = ({
+  disabled,
   selected,
   chain,
   selectedWalletType,
@@ -38,12 +42,18 @@ const ChainItem = ({
       center
       flex={1}
       className={classNames('relative px-2 py-3 cursor-pointer', {
-        'opacity-30': selectedWalletType && !isChainAvailable,
+        'opacity-30': disabled || (selectedWalletType && !isChainAvailable),
       })}
-      onClick={onClick(chain, !!selectedWalletType && isChainAvailable)}
+      onClick={
+        disabled
+          ? () => {}
+          : onClick(chain, !!selectedWalletType && isChainAvailable)
+      }
       key={chain}
     >
-      <Tooltip content={chainName(chain, true)}>
+      <Tooltip
+        content={disabled ? t('common.comingSoon') : chainName(chain, true)}
+      >
         <Box
           className={classNames('rounded-full p-[2.5px] border-transparent', {
             'bg-gradient-teal': selected,

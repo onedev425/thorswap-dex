@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 
-import { SupportedChain, SUPPORTED_CHAINS } from '@thorswap-lib/types'
+import { Chain, SupportedChain, SUPPORTED_CHAINS } from '@thorswap-lib/types'
 import { Keystore as KeystoreType } from '@thorswap-lib/xchain-crypto'
 import classNames from 'classnames'
 import uniq from 'lodash/uniq'
@@ -53,7 +53,7 @@ const ConnectWalletModal = () => {
   const supportedByWallet = useMemo(
     () =>
       availableChainsByWallet[selectedWalletType as WalletType] ||
-      SUPPORTED_CHAINS,
+      SUPPORTED_CHAINS.filter((c) => Chain.Avalanche !== c),
     [selectedWalletType],
   )
   const selectedAll = selectedChains?.length === supportedByWallet.length
@@ -285,6 +285,7 @@ const ConnectWalletModal = () => {
               <Box className="flex-wrap md:w-36">
                 {SUPPORTED_CHAINS.map((chain) => (
                   <ChainItem
+                    disabled={[Chain.Avalanche].includes(chain)}
                     key={chain}
                     onClick={selectChain}
                     isChainAvailable={availableChainsByWallet[
