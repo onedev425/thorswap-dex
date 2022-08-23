@@ -191,10 +191,18 @@ const WithdrawPanel = ({
 
     // symm
     return (
-      hasWalletConnected({ wallet, inputAssets: [poolAsset] }) &&
+      (hasWalletConnected({ wallet, inputAssets: [poolAsset] }) &&
+        hasWalletConnected({ wallet, inputAssets: [Asset.RUNE()] })) ||
       hasWalletConnected({ wallet, inputAssets: [Asset.RUNE()] })
     )
   }, [wallet, poolAsset, withdrawType])
+
+  const isSymmAndAssetWalletNotConnected = useMemo(() => {
+    return (
+      !hasWalletConnected({ wallet, inputAssets: [poolAsset] }) &&
+      withdrawType === LiquidityTypeOption.SYMMETRICAL
+    )
+  }, [poolAsset, wallet, withdrawType])
 
   const { inboundFee: inboundAssetFee } = useNetworkFee({
     inputAsset: poolAsset,
@@ -262,13 +270,19 @@ const WithdrawPanel = ({
       }
     }
 
-    if (withdrawType === LiquidityTypeOption.SYMMETRICAL) {
+    if (
+      withdrawType === LiquidityTypeOption.SYMMETRICAL &&
+      !isSymmAndAssetWalletNotConnected
+    ) {
       return liquidityEntity.getSymWithdrawAmount(
         new Percent(percent, AmountType.BASE_AMOUNT),
       )
     }
 
-    if (withdrawType === LiquidityTypeOption.RUNE) {
+    if (
+      withdrawType === LiquidityTypeOption.RUNE ||
+      isSymmAndAssetWalletNotConnected
+    ) {
       const amount = liquidityEntity.getAsymRuneWithdrawAmount(
         new Percent(percent, AmountType.BASE_AMOUNT),
       )
@@ -287,7 +301,15 @@ const WithdrawPanel = ({
       runeAmount: Amount.fromMidgard(0),
       assetAmount: amount,
     }
-  }, [lpType, withdrawType, percent, liquidityEntity, memberPoolData])
+  }, [
+    lpType,
+    liquidityEntity,
+    withdrawType,
+    isSymmAndAssetWalletNotConnected,
+    percent,
+    memberPoolData?.runePending,
+    memberPoolData?.assetPending,
+  ])
 
   const runePriceInUSD = useMemo(
     () =>
@@ -332,7 +354,10 @@ const WithdrawPanel = ({
       let trackId = ''
       try {
         if (lpType === PoolShareType.SYM) {
-          if (withdrawType === LiquidityTypeOption.SYMMETRICAL) {
+          if (
+            withdrawType === LiquidityTypeOption.SYMMETRICAL &&
+            !isSymmAndAssetWalletNotConnected
+          ) {
             const outAssets = [
               {
                 asset: Asset.RUNE().toString(),
@@ -374,7 +399,10 @@ const WithdrawPanel = ({
                 withdrawChain: Chain.THORChain,
               },
             })
-          } else if (withdrawType === LiquidityTypeOption.RUNE) {
+          } else if (
+            withdrawType === LiquidityTypeOption.RUNE ||
+            isSymmAndAssetWalletNotConnected
+          ) {
             const outAssets = [
               {
                 asset: Asset.RUNE().toString(),
@@ -659,14 +687,15 @@ const WithdrawPanel = ({
       }
     }
   }, [
-    withdrawType,
-    lpType,
     wallet,
     pool,
-    percent,
+    lpType,
+    withdrawType,
+    isSymmAndAssetWalletNotConnected,
     runeAmount,
     assetAmount,
     submitTransaction,
+    percent,
     pollTransaction,
     setTxFailed,
   ])
@@ -715,7 +744,10 @@ const WithdrawPanel = ({
   }, [lpType, pool.detail.status])
 
   const withdrawAssets = useMemo(() => {
-    if (withdrawType === LiquidityTypeOption.RUNE) {
+    if (
+      withdrawType === LiquidityTypeOption.RUNE ||
+      isSymmAndAssetWalletNotConnected
+    ) {
       return [
         {
           asset: Asset.RUNE(),
@@ -753,10 +785,11 @@ const WithdrawPanel = ({
     ]
   }, [
     withdrawType,
+    isSymmAndAssetWalletNotConnected,
     runeAmount,
-    assetAmount,
-    poolAsset,
     runePriceInUSD,
+    poolAsset,
+    assetAmount,
     assetPriceInUSD,
   ])
 
@@ -798,6 +831,7 @@ const WithdrawPanel = ({
         percent={Amount.fromNormalAmount(percent)}
         onPercentChange={handleChangePercent}
         liquidityType={withdrawType}
+        isSymmAndAssetWalletNotConnected={isSymmAndAssetWalletNotConnected}
       />
 
       <Box className="w-full pt-4">

@@ -20,6 +20,7 @@ type Props = {
   assetAmount: Amount
   onPercentChange: (value: Amount) => void
   liquidityType: LiquidityTypeOption
+  isSymmAndAssetWalletNotConnected: boolean
 }
 
 export const AssetInputs = memo(
@@ -30,6 +31,7 @@ export const AssetInputs = memo(
     runeAmount,
     assetAmount,
     liquidityType,
+    isSymmAndAssetWalletNotConnected,
   }: Props) => {
     return (
       <div className="relative self-stretch md:w-full">
@@ -57,7 +59,12 @@ export const AssetInputs = memo(
                 'overflow-hidden transition-all origin-left',
                 { 'scale-x-0': liquidityType === LiquidityTypeOption.RUNE },
               )}
-              flex={liquidityType === LiquidityTypeOption.RUNE ? 0 : 1}
+              flex={
+                liquidityType === LiquidityTypeOption.RUNE ||
+                isSymmAndAssetWalletNotConnected
+                  ? 0
+                  : 1
+              }
             >
               <AssetAmountBox
                 asset={poolAsset}
