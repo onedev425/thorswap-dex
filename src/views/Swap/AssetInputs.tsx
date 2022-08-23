@@ -166,7 +166,7 @@ export const AssetInputs = memo(
       }
 
       const thorchainSupported = assets.filter(({ asset }) =>
-        asset?.L1Chain !== Chain.Ethereum
+        asset.isETH() || asset?.L1Chain !== Chain.Ethereum
           ? true
           : thorchainERC20SupportedAddresses.includes(
               asset.symbol.split('-')[1]?.toLowerCase(),
