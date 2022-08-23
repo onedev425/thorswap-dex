@@ -156,11 +156,11 @@ const SwapView = () => {
     [quoteMode, selectedRoute?.contract],
   )
 
-  const {
-    isApproved,
-    assetApproveStatus,
-    isLoading: isApproveAssetLoading,
-  } = useIsAssetApproved({ asset: inputAsset, contract, quoteMode })
+  const { isApproved, isLoading: isApproveAssetLoading } = useIsAssetApproved({
+    asset: inputAsset,
+    contract,
+    quoteMode,
+  })
 
   useEffect(() => {
     if (ethPrice) {
@@ -252,21 +252,30 @@ const SwapView = () => {
     ],
   )
 
-  const handleSwitchPair = useCallback(() => {
-    const maxNewInputBalance = getMaxBalance(outputAsset)
-    setInputAmount(
-      outputAmount.gt(maxNewInputBalance) ? maxNewInputBalance : outputAmount,
-    )
+  const handleSwitchPair = useCallback(
+    (unsupportedOutput?: boolean) => {
+      const maxNewInputBalance = getMaxBalance(outputAsset)
+      setInputAmount(
+        outputAmount.gt(maxNewInputBalance) ? maxNewInputBalance : outputAmount,
+      )
+      const defaultAsset = outputAsset.isRUNE() ? Asset.BTC() : Asset.RUNE()
 
-    navigate(getSwapRoute(outputAsset, inputAsset))
-  }, [
-    getMaxBalance,
-    outputAsset,
-    setInputAmount,
-    outputAmount,
-    navigate,
-    inputAsset,
-  ])
+      navigate(
+        getSwapRoute(
+          outputAsset,
+          unsupportedOutput ? defaultAsset : inputAsset,
+        ),
+      )
+    },
+    [
+      getMaxBalance,
+      outputAsset,
+      setInputAmount,
+      outputAmount,
+      navigate,
+      inputAsset,
+    ],
+  )
 
   const changeOutputToSynth = useCallback(() => {
     navigate(getSwapRoute(inputAsset, Asset.ETH()))
@@ -400,7 +409,6 @@ const SwapView = () => {
       </Box>
 
       <SwapSubmitButton
-        assetApproveStatus={assetApproveStatus}
         hasQuote={!!selectedRoute}
         inputAmount={inputAmount}
         inputAsset={inputAsset}

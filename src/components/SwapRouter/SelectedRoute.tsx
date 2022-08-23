@@ -142,7 +142,7 @@ export const SelectedRoute = memo(
               className="h-6 px-3 w-fit"
               variant="tint"
               onClick={openSwapGraph}
-              tooltip={t('views.swap.totalFeeTooltip')}
+              tooltip={t('views.swap.swapPath')}
             >
               <Typography variant="caption-xs" color="secondary">
                 {t('common.path')}: {path.replaceAll('->', '→')}

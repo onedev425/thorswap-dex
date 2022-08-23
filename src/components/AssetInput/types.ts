@@ -12,6 +12,7 @@ export type AssetInputType = {
 }
 
 export type AssetInputProps = {
+  hideZeroPrice?: boolean
   isLoading?: boolean
   className?: string
   setQuery?: (query: string) => void
@@ -25,7 +26,6 @@ export type AssetInputProps = {
   secondaryLabel?: string
   selectedAsset: AssetInputType
   warning?: string
-  hideAssetSelectBalances?: boolean
 } & (
   | {
       assets: AssetSelectType[]

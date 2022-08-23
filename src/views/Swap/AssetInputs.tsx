@@ -23,7 +23,7 @@ import { Token } from 'store/thorswap/types'
 import { useAssetsWithBalanceFromTokens } from './hooks/useAssetsWithBalanceFromTokens'
 
 type Props = {
-  onSwitchPair: () => void
+  onSwitchPair: (unsupported?: boolean) => void
   onInputAssetChange: (asset: Asset) => void
   onOutputAssetChange: (asset: Asset) => void
   onInputAmountChange: (value: Amount) => void
@@ -75,9 +75,20 @@ export const AssetInputs = memo(
     }, [disabledProviders, providersData])
 
     const handleAssetSwap = useCallback(() => {
-      onSwitchPair()
+      const unsupportedOutputAfterChange =
+        outputAsset.asset.L1Chain !== Chain.Ethereum &&
+        !thorchainERC20SupportedAddresses.includes(
+          inputAsset.asset.symbol.split('-')[1]?.toLowerCase(),
+        )
+
+      onSwitchPair(unsupportedOutputAfterChange)
       setIconRotate((rotate) => !rotate)
-    }, [onSwitchPair])
+    }, [
+      inputAsset.asset.symbol,
+      onSwitchPair,
+      outputAsset.asset.L1Chain,
+      thorchainERC20SupportedAddresses,
+    ])
 
     const fetchTokens = useCallback(async () => {
       if (!providers.length) return

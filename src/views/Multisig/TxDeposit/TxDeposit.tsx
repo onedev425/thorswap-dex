@@ -79,7 +79,6 @@ export const TxDeposit = () => {
         liquidityType={liquidityType}
         isAssetPending={isAssetPending}
         isRunePending={isRunePending}
-        hideAssetSelectBalances
       />
 
       <PoolInfo

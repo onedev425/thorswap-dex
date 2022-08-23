@@ -21,22 +21,27 @@ export const PendingTransaction = memo(
   ({
     id,
     inChain,
-    txid,
+    txid = '',
     type,
     from,
     label,
     quoteMode,
   }: PendingTransactionType) => {
     const params = useMemo(() => {
-      const isMidgardTx = [
-        QuoteMode.TC_SUPPORTED_TO_TC_SUPPORTED_TO,
-        QuoteMode.TC_SUPPORTED_TO_ETH,
-      ].includes(quoteMode)
+      const isApprove = type === 'approve'
+      const isMidgardTx =
+        !isApprove &&
+        [
+          QuoteMode.TC_SUPPORTED_TO_TC_SUPPORTED_TO,
+          QuoteMode.TC_SUPPORTED_TO_ETH,
+        ].includes(quoteMode)
+
+      const tx = isApprove ? (txid.startsWith('0x') ? txid : `0x${txid}`) : txid
 
       return {
         from,
-        quoteMode: type === 'approve' ? QuoteMode.APPROVAL : quoteMode,
-        txid: cutTxPrefix(txid || '', isMidgardTx ? '0x' : ''),
+        quoteMode: isApprove ? QuoteMode.APPROVAL : quoteMode,
+        txid: cutTxPrefix(tx, isMidgardTx ? '0x' : ''),
       }
     }, [from, quoteMode, txid, type])
 

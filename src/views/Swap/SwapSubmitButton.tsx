@@ -8,7 +8,7 @@ import { showErrorToast, showInfoToast } from 'components/Toast'
 
 import { useExternalConfig } from 'store/externalConfig/hooks'
 import { useMidgard } from 'store/midgard/hooks'
-import { TxTrackerStatus } from 'store/midgard/types'
+import { useAppSelector } from 'store/store'
 import { useWallet } from 'store/wallet/hooks'
 
 import { useCheckExchangeBNB } from 'hooks/useCheckExchangeBNB'
@@ -18,7 +18,6 @@ import { t } from 'services/i18n'
 import { multichain } from 'services/multichain'
 
 type Props = {
-  assetApproveStatus: TxTrackerStatus
   hasQuote: boolean
   inputAmount: Amount
   inputAsset: Asset
@@ -33,7 +32,6 @@ type Props = {
 }
 
 export const SwapSubmitButton = ({
-  assetApproveStatus,
   hasQuote,
   inputAmount,
   inputAsset,
@@ -50,6 +48,9 @@ export const SwapSubmitButton = ({
   const { inboundHalted, pools } = useMidgard()
   const { maxSynthPerAssetDepth } = useMimir()
   const { getChainTradingPaused } = useExternalConfig()
+  const pendingApprovals = useAppSelector(({ transactions }) =>
+    transactions.pending.filter(({ type }) => type === 'approve'),
+  )
 
   const isTradingHalted: boolean = useMemo(() => {
     const inTradeHalted = inboundHalted[inputAsset.L1Chain as SupportedChain]
@@ -209,19 +210,6 @@ export const SwapSubmitButton = ({
     [isInputWalletConnected, isOutputWalletConnected, recipient],
   )
 
-  const isSwapAvailable = useMemo(
-    () => !isWalletRequired && !isApproveRequired,
-    [isWalletRequired, isApproveRequired],
-  )
-
-  const buttonLoading = useMemo(
-    () =>
-      [TxTrackerStatus.Pending, TxTrackerStatus.Submitting].includes(
-        assetApproveStatus,
-      ),
-    [assetApproveStatus],
-  )
-
   return (
     <Box className="w-full pt-5 gap-x-2">
       {isWalletRequired ? (
@@ -240,14 +228,14 @@ export const SwapSubmitButton = ({
           size="lg"
           onClick={handleApprove}
           disabled={!hasQuote}
-          loading={buttonLoading}
+          loading={!!pendingApprovals.length}
         >
           {t('txManager.approve')}
         </Button>
       ) : (
         <Button
           isFancy
-          disabled={!isSwapAvailable || !isSwapValid || isLoading}
+          disabled={!isSwapValid || isLoading}
           error={!isSwapValid || swapAmountTooSmall}
           stretch
           size="lg"

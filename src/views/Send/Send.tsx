@@ -258,6 +258,7 @@ const Send = () => {
     >
       <div className="relative self-stretch md:w-full">
         <AssetInput
+          hideZeroPrice
           selectedAsset={assetInput}
           assets={assetInputList}
           onAssetChange={handleSelectAsset}

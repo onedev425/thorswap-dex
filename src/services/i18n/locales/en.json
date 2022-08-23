@@ -717,6 +717,7 @@
       "slippage": "Slippage",
       "slippageTolerance": "Slippage Tolerance",
       "swapAssets": "Swap assets rates",
+      "swapPath": "Swap Graph explanation which pools are used to route the trade.",
       "swapProtectionUnavailable": "Swap Protection Unavailable",
       "tabsCommon": "Common",
       "tabsFeatured": "Featured",

@@ -46,10 +46,5 @@ export const useApproveContract = (
     }
   }, [asset, approveStatus, contractAddr, hasWallet, isWalletConnected])
 
-  const assetApproveStatus = useMemo(
-    () => approveStatus?.[asset.toString()],
-    [approveStatus, asset],
-  )
-
-  return { assetApproveStatus, isApproved, isLoading }
+  return { isApproved, isLoading }
 }

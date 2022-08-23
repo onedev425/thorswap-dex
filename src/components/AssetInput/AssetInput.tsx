@@ -16,6 +16,7 @@ import { useFormatPrice } from 'helpers/formatPrice'
 import { AssetInputProps } from './types'
 
 export const AssetInput = ({
+  hideZeroPrice,
   className,
   singleAsset,
   selectedAsset,
@@ -28,7 +29,6 @@ export const AssetInput = ({
   maxButtonLabel,
   poolAsset,
   showSecondaryChainSelector,
-  hideAssetSelectBalances,
   ...rest
 }: AssetInputProps) => {
   const formatPrice = useFormatPrice()
@@ -47,8 +47,9 @@ export const AssetInput = ({
   )
 
   const assetPriceInUSD = useMemo(
-    () => usdPrice?.toCurrencyFormat(2),
-    [usdPrice],
+    () =>
+      hideZeroPrice && usdPrice?.lt(1) ? null : usdPrice?.toCurrencyFormat(2),
+    [hideZeroPrice, usdPrice],
   )
 
   const handleMaxClick = useCallback(() => {
