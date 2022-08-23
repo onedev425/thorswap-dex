@@ -157,6 +157,7 @@ const SwapView = () => {
   )
 
   const { isApproved, isLoading: isApproveAssetLoading } = useIsAssetApproved({
+    force: true,
     asset: inputAsset,
     contract,
     quoteMode,

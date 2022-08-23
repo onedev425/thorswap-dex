@@ -228,7 +228,7 @@ export const SwapSubmitButton = ({
           size="lg"
           onClick={handleApprove}
           disabled={!hasQuote}
-          loading={!!pendingApprovals.length}
+          loading={!!pendingApprovals.length || isLoading}
         >
           {t('txManager.approve')}
         </Button>
