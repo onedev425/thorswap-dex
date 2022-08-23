@@ -96,7 +96,10 @@ export const useSwap = ({
       appDispatch(completeTransaction({ id, status: 'error' }))
 
       console.info(error, description)
-      showErrorToast(t('notification.submitTxFailed'), description || '')
+      showErrorToast(
+        t('notification.submitTxFailed'),
+        description.includes('Object') ? '' : description,
+      )
     }
   }, [
     wallet,

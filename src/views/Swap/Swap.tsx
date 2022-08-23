@@ -8,12 +8,15 @@ import {
   hasWalletConnected,
   QuoteMode,
 } from '@thorswap-lib/multichain-sdk'
+import classNames from 'classnames'
 import { TS_AGGREGATOR_PROXY_ADDRESS } from 'config/constants'
 import uniq from 'lodash/uniq'
 
 import { FeeModal } from 'views/Swap/FeeModal'
 import { RouteFee } from 'views/Swap/types'
 
+import { Box } from 'components/Atomic'
+import { InfoTip } from 'components/InfoTip'
 import { PanelView } from 'components/PanelView'
 import { SwapRouter } from 'components/SwapRouter'
 
@@ -265,6 +268,10 @@ const SwapView = () => {
     inputAsset,
   ])
 
+  const changeOutputToSynth = useCallback(() => {
+    navigate(getSwapRoute(inputAsset, Asset.ETH()))
+  }, [inputAsset, navigate])
+
   const handleChangeInputAmount = useCallback(
     (amount: Amount) => {
       setInputAmount(
@@ -319,6 +326,12 @@ const SwapView = () => {
     [wallet, outputAsset],
   )
 
+  const noSlipProtection = useMemo(
+    () =>
+      inputAsset.isUTXOAsset() && quoteMode === QuoteMode.TC_SUPPORTED_TO_ETH,
+    [inputAsset, quoteMode],
+  )
+
   return (
     <PanelView
       title={`${t('common.swap')} ${inputAsset.name} >> ${outputAsset.name}`}
@@ -371,6 +384,20 @@ const SwapView = () => {
         outputUSDPrice={outputUSDPrice}
         routes={routes}
       />
+
+      <Box
+        onClick={changeOutputToSynth}
+        className={classNames('overflow-hidden w-full h-[0px] transition-all', {
+          'h-[100px] pt-3': noSlipProtection,
+        })}
+      >
+        <InfoTip
+          className="w-full"
+          type="warn"
+          content={t('views.swap.noSlipProtectionDesc')}
+          title={t('views.swap.swapProtectionUnavailable')}
+        />
+      </Box>
 
       <SwapSubmitButton
         assetApproveStatus={assetApproveStatus}
