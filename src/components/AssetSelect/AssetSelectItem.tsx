@@ -5,7 +5,6 @@ import { Asset } from '@thorswap-lib/multichain-sdk'
 import { AssetIcon } from 'components/AssetIcon'
 import { Box, IconName, Tooltip, Typography } from 'components/Atomic'
 import { HoverIcon } from 'components/HoverIcon'
-import { getAmountFromString } from 'components/InputAmount/utils'
 import { useTheme } from 'components/Theme/ThemeContext'
 
 import useWindowSize from 'hooks/useWindowSize'
@@ -36,7 +35,7 @@ export const AssetSelectItem = memo(
     balance,
     select,
     value,
-    cg,
+    // cg,
     price,
     identifier,
   }: Props) => {
@@ -82,13 +81,11 @@ export const AssetSelectItem = memo(
     const description = useMemo(() => {
       if (asset.isSynth) return `${asset.type}`
 
-      const marketCap =
-        cg?.market_cap && getAmountFromString(`${cg.market_cap}`, asset.decimal)
+      // const marketCap =
+      //   cg?.market_cap && getAmountFromString(`${cg.market_cap}`, asset.decimal)
 
-      return `${asset.type}${
-        marketCap ? ` - MC: ${marketCap.toAbbreviate(2)}` : ''
-      }${price ? `, ${formatPrice(price)}` : ''}`
-    }, [asset.decimal, asset.isSynth, asset.type, cg, formatPrice, price])
+      return `${asset.type}${price ? `, ${formatPrice(price)}` : ''}`
+    }, [asset.isSynth, asset.type, formatPrice, price])
 
     const tokenInfoIcon: IconName = useMemo(() => {
       switch (checkType) {

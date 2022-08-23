@@ -133,13 +133,14 @@ export const useSwapQuote = ({
   }, [error, previousRoutes, routes, selectedRoute])
 
   return {
-    quoteMode,
+    estimatedTime: data?.estimatedTime,
     isFetching,
     minReceive,
     outputAmount,
-    selectedRoute,
+    quoteMode,
     refetch,
     routes,
+    selectedRoute,
     setSwapRoute,
   }
 }

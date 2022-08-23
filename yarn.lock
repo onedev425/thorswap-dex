@@ -2352,10 +2352,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@ledgerhq/cryptoassets@^6.31.0":
-  version "6.31.0"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/cryptoassets/-/cryptoassets-6.31.0.tgz#c15cf308fd6061ba1353b1078990b906aa9da4ae"
-  integrity sha512-DM6JcGbX0n9TmcJhCVSrXOm6L4mQFifsZnBIzR2kFZ5/+r2H5Eca9FM+teJ/MUe2BtvuMg2slTzFTK/slLRWLw==
+"@ledgerhq/cryptoassets@^6.32.0":
+  version "6.32.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/cryptoassets/-/cryptoassets-6.32.0.tgz#6e4aadae22781294114291b15af81f3d627a8a0a"
+  integrity sha512-PoUZLw8HNKYPyxOBZPDJDs0Usqy0RyaSioTrC5Nlm5sVHEWPwssGJAAWxXO4q60j2PvLAOnfXPPo2pRWxcBTeg==
   dependencies:
     invariant "2"
 
@@ -2407,14 +2407,14 @@
     tiny-secp256k1 "1.1.6"
     varuint-bitcoin "1.1.2"
 
-"@ledgerhq/hw-app-eth@6.29.3":
-  version "6.29.3"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-app-eth/-/hw-app-eth-6.29.3.tgz#845c2d717d5ab61ba95746569cdf6d475548e8e7"
-  integrity sha512-rp+VGlNakVAH0CfthA+nhz7rBsKqkcXwZYQ7mnFUdWVFyhZgRdN9AgVV+pks+vo3j/LppK84c2Wf+n6WMP+Ojw==
+"@ledgerhq/hw-app-eth@6.29.4":
+  version "6.29.4"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-app-eth/-/hw-app-eth-6.29.4.tgz#73fbdbec96000573e1f807c2a3158171225d34e0"
+  integrity sha512-lKiL7/H+fkknRnXMKyDhrldG3OQGH0mgC8TCudVl9R6Ddh2jL0Yqxip2Dne0djr9awPMvJT6DDzE9P3KiJO0ag==
   dependencies:
     "@ethersproject/abi" "^5.5.0"
     "@ethersproject/rlp" "^5.5.0"
-    "@ledgerhq/cryptoassets" "^6.31.0"
+    "@ledgerhq/cryptoassets" "^6.32.0"
     "@ledgerhq/errors" "^6.10.1"
     "@ledgerhq/hw-transport" "^6.27.2"
     "@ledgerhq/hw-transport-mocker" "^6.27.2"
@@ -3909,10 +3909,10 @@
     "@cosmjs/crypto" "^0.28.11"
     "@thorswap-lib/types" "^0.2.5"
 
-"@thorswap-lib/multichain-sdk@0.11.11":
-  version "0.11.11"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.11.11.tgz#76dc17626665a6911824216f7bb599b6c4af37a1"
-  integrity sha512-teUxRcqOTp7eBRUmfehdu5OH9Nj54IqTVjCyE6VOZSFEfmaGx0iZyx5vaTj6nGwTjAmZ0v29aatmlegnaAQCEA==
+"@thorswap-lib/multichain-sdk@0.11.12":
+  version "0.11.12"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-sdk/-/multichain-sdk-0.11.12.tgz#595c01707f46f8eb055b21251a6141bf1b236a1e"
+  integrity sha512-YQcXJtuqf58uzWzMkiQO5HiIYchE/b3kuliXRkHuwJaqD6Nus1Pf+GO7KO4HqWziL9zHQRnuPZ8L86nKn63+Ig==
   dependencies:
     "@cosmjs/stargate" "^0.28.11"
     "@ethersproject/abstract-signer" "^5.6.2"

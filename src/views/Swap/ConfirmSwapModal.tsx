@@ -1,7 +1,6 @@
 import { memo, useCallback, useMemo } from 'react'
 
-import { Amount, getEstimatedTxTime } from '@thorswap-lib/multichain-sdk'
-import { SupportedChain } from '@thorswap-lib/types'
+import { Amount } from '@thorswap-lib/multichain-sdk'
 
 import { AssetInputType } from 'components/AssetInput/types'
 import { ConfirmModal } from 'components/Modals/ConfirmModal'
@@ -9,6 +8,7 @@ import { ConfirmModal } from 'components/Modals/ConfirmModal'
 import { ConfirmContent } from './ConfirmContent'
 
 type Props = {
+  estimatedTime?: number
   affiliateFee: string
   feeAssets: string
   inputAmount: Amount
@@ -28,7 +28,6 @@ export const ConfirmSwapModal = memo(
     affiliateFee,
     feeAssets,
     handleSwap,
-    inputAmount,
     inputAssetProps,
     minReceive,
     outputAssetProps,
@@ -37,6 +36,7 @@ export const ConfirmSwapModal = memo(
     slippageInfo,
     totalFee,
     visible,
+    estimatedTime,
   }: Props) => {
     const { asset: inputAsset } = inputAssetProps
 
@@ -45,14 +45,11 @@ export const ConfirmSwapModal = memo(
       handleSwap()
     }, [setVisible, handleSwap])
 
-    const estimatedTime = useMemo(
-      () =>
-        getEstimatedTxTime({
-          chain: inputAsset.L1Chain as SupportedChain,
-          amount: inputAmount,
-        }),
-      [inputAsset, inputAmount],
-    )
+    const estimatedInfo = useMemo(() => {
+      if (!estimatedTime) return '<5s'
+      if (estimatedTime < 60) return `<${estimatedTime}s`
+      return `<${Math.ceil(estimatedTime / 60)}m`
+    }, [estimatedTime])
 
     return (
       <ConfirmModal
@@ -63,7 +60,7 @@ export const ConfirmSwapModal = memo(
       >
         <ConfirmContent
           affiliateFee={affiliateFee}
-          estimatedTime={estimatedTime}
+          estimatedTime={estimatedInfo}
           feeAssets={feeAssets}
           inputAsset={inputAssetProps}
           minReceive={minReceive}

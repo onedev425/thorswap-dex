@@ -88,14 +88,15 @@ const SwapView = () => {
   const { hasVThor } = useVthorBalance(ethAddr)
 
   const {
-    routes,
-    refetch: refetchQuote,
-    quoteMode,
-    outputAmount,
-    selectedRoute,
-    setSwapRoute,
+    estimatedTime,
     isFetching,
     minReceive,
+    outputAmount,
+    quoteMode,
+    refetch: refetchQuote,
+    routes,
+    selectedRoute,
+    setSwapRoute,
   } = useSwapQuote({
     skipAffiliate: hasVThor,
     inputAmount,
@@ -424,6 +425,7 @@ const SwapView = () => {
       />
 
       <ConfirmSwapModal
+        estimatedTime={estimatedTime}
         affiliateFee={formatPrice(affiliateFee)}
         feeAssets={feeAssets}
         handleSwap={handleSwap}
