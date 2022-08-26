@@ -399,7 +399,7 @@ const SwapView = () => {
       <Box
         onClick={changeOutputToSynth}
         className={classNames('overflow-hidden w-full h-[0px] transition-all', {
-          'h-[100px] pt-3': noSlipProtection,
+          'h-[150px] pt-3': noSlipProtection,
         })}
       >
         <InfoTip
