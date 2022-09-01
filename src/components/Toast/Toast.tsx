@@ -1,10 +1,7 @@
-import React, { ReactNode } from 'react'
-
-import { Toaster, ToastOptions, toast, ToastBar } from 'react-hot-toast'
-
-import classNames from 'classnames'
-
-import { Typography, Icon, Box } from 'components/Atomic'
+import classNames from 'classnames';
+import { Box, Icon, Typography } from 'components/Atomic';
+import React, { ReactNode } from 'react';
+import { toast, ToastBar, Toaster, ToastOptions } from 'react-hot-toast';
 
 export enum ToastType {
   Info = 'info',
@@ -15,33 +12,31 @@ export enum ToastType {
 const getToastIcon = (type: ToastType) => {
   switch (type) {
     case ToastType.Error:
-      return <Icon className="min-w-[24px]" name="xCircle" color="pink" />
+      return <Icon className="min-w-[24px]" color="pink" name="xCircle" />;
 
     case ToastType.Success:
-      return <Icon className="min-w-[24px]" name="checkmark" color="green" />
+      return <Icon className="min-w-[24px]" color="green" name="checkmark" />;
 
     case ToastType.Info:
-      return <Icon className="min-w-[24px]" name="infoCircle" color="cyan" />
+      return <Icon className="min-w-[24px]" color="cyan" name="infoCircle" />;
 
     default:
-      return null
+      return null;
   }
-}
+};
 
 type ShowToastFunction = (params: {
-  message: string
-  description?: string | ReactNode
-  type?: ToastType
-  options?: Partial<
-    Pick<ToastOptions, 'position' | 'duration' | 'style' | 'className'>
-  >
-}) => void
+  message: string;
+  description?: string | ReactNode;
+  type?: ToastType;
+  options?: Partial<Pick<ToastOptions, 'position' | 'duration' | 'style' | 'className'>>;
+}) => void;
 
 type ToastFunction = (
   message: string,
   descriptionOrOptions?: string | ReactNode | Partial<ToastOptions>,
   options?: Partial<ToastOptions>,
-) => void
+) => void;
 
 const showToast: ShowToastFunction = ({
   message,
@@ -49,37 +44,34 @@ const showToast: ShowToastFunction = ({
   type = ToastType.Info,
   options = {},
 }) => {
-  const icon = getToastIcon(type)
-  const duration = options.duration || type === ToastType.Error ? 10000 : 5000
+  const icon = getToastIcon(type);
+  const duration = options.duration || type === ToastType.Error ? 10000 : 5000;
 
   toast.custom(
     ({ id }) => (
       <Box
-        className="max-w-[375px] z-50 items-center p-2 m-2 border border-solid drop-shadow-md rounded-xl border-light-border-primary dark:border-dark-border-primary bg-light-bg-primary dark:bg-dark-bg-secondary"
         row
+        className="max-w-[375px] z-50 items-center p-2 m-2 border border-solid drop-shadow-md rounded-xl border-light-border-primary dark:border-dark-border-primary bg-light-bg-primary dark:bg-dark-bg-secondary"
       >
-        <Box onClick={() => toast.remove(id)} col className="w-fit">
+        <Box col className="w-fit" onClick={() => toast.remove(id)}>
           <Box col>
             <Box alignCenter justify="between">
               <Box alignCenter>
                 <Box>{icon}</Box>
 
-                <Box className={classNames('pr-2', { 'pl-2': icon })} col>
-                  <Typography
-                    variant="caption"
-                    fontWeight={description ? 'bold' : 'medium'}
-                  >
+                <Box col className={classNames('pr-2', { 'pl-2': icon })}>
+                  <Typography fontWeight={description ? 'bold' : 'medium'} variant="caption">
                     {message}
                   </Typography>
                 </Box>
               </Box>
 
-              <Icon name="close" color="primary" size={18} />
+              <Icon color="primary" name="close" size={18} />
             </Box>
 
             <Box className="pl-8 pr-4">
               {typeof description === 'string' ? (
-                <Typography variant="caption-xs" fontWeight="light">
+                <Typography fontWeight="light" variant="caption-xs">
                   {description}
                 </Typography>
               ) : (
@@ -91,39 +83,38 @@ const showToast: ShowToastFunction = ({
       </Box>
     ),
     { ...options, duration },
-  )
-}
+  );
+};
 
 const showToastWrapper: (type?: ToastType) => ToastFunction =
   (type) => (message, descriptionOrOptions, options) => {
     const descriptionProvided =
-      React.isValidElement(descriptionOrOptions) ||
-      typeof descriptionOrOptions === 'string'
+      React.isValidElement(descriptionOrOptions) || typeof descriptionOrOptions === 'string';
 
     const providedOptions = descriptionProvided
       ? options
-      : (descriptionOrOptions as Partial<ToastOptions>)
+      : (descriptionOrOptions as Partial<ToastOptions>);
 
     showToast({
       options: providedOptions,
       type: type || ToastType.Info,
       message,
       description: descriptionProvided ? descriptionOrOptions : '',
-    })
-  }
+    });
+  };
 
-export const showSuccessToast = showToastWrapper(ToastType.Success)
-export const showErrorToast = showToastWrapper(ToastType.Error)
-export const showInfoToast = showToastWrapper(ToastType.Info)
+export const showSuccessToast = showToastWrapper(ToastType.Success);
+export const showErrorToast = showToastWrapper(ToastType.Error);
+export const showInfoToast = showToastWrapper(ToastType.Info);
 
 export const ToastPortal = () => {
   return (
-    <Toaster gutter={16} position="bottom-right" containerClassName="m-4">
+    <Toaster containerClassName="m-4" gutter={16} position="bottom-right">
       {(t) => (
-        <div style={{ cursor: 'pointer' }} onClick={() => toast.dismiss(t.id)}>
+        <div onClick={() => toast.dismiss(t.id)} style={{ cursor: 'pointer' }}>
           <ToastBar toast={t} />
         </div>
       )}
     </Toaster>
-  )
-}
+  );
+};

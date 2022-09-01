@@ -1,15 +1,13 @@
-import { forwardRef, useImperativeHandle } from 'react'
+import classNames from 'classnames';
+import { Box, Card, Typography } from 'components/Atomic';
+import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';
+import { forwardRef, useImperativeHandle } from 'react';
 
-import classNames from 'classnames'
-
-import { Box, Card, Typography } from 'components/Atomic'
-import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron'
-
-import { CollapseProps } from './types'
-import { useCollapse } from './useCollapse'
+import { CollapseProps } from './types';
+import { useCollapse } from './useCollapse';
 
 export const maxHeightTransitionClass =
-  'duration-300 ease-in-out transition-max-height overflow-auto overflow-y-hidden'
+  'duration-300 ease-in-out transition-max-height overflow-auto overflow-y-hidden';
 
 export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
   (
@@ -26,9 +24,9 @@ export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
   ) => {
     const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse({
       defaultExpanded,
-    })
+    });
 
-    useImperativeHandle(collapseRef, () => ({ toggle }), [toggle])
+    useImperativeHandle(collapseRef, () => ({ toggle }), [toggle]);
 
     return (
       <Card
@@ -43,13 +41,9 @@ export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
           )}
           onClick={toggle}
         >
-          <Box row alignCenter justify="between">
+          <Box alignCenter row justify="between">
             {typeof title === 'string' ? (
-              <Typography
-                variant="subtitle1"
-                color="primary"
-                fontWeight="normal"
-              >
+              <Typography color="primary" fontWeight="normal" variant="subtitle1">
                 {title}
               </Typography>
             ) : (
@@ -62,16 +56,10 @@ export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
           </Box>
         </div>
 
-        <div
-          className={maxHeightTransitionClass}
-          ref={contentRef}
-          style={maxHeightStyle}
-        >
-          <div className={classNames('px-4 pb-2', contentClassName)}>
-            {children}
-          </div>
+        <div className={maxHeightTransitionClass} ref={contentRef} style={maxHeightStyle}>
+          <div className={classNames('px-4 pb-2', contentClassName)}>{children}</div>
         </div>
       </Card>
-    )
+    );
   },
-)
+);

@@ -1,22 +1,21 @@
-import { Icon } from 'components/Atomic'
-import { TxProgressStatus } from 'components/TxManager/types'
+import { Icon } from 'components/Atomic';
+import { TxProgressStatus } from 'components/TxManager/types';
 
 type Props = {
-  size?: number
-  status?: TxProgressStatus
-}
+  size?: number;
+  status?: TxProgressStatus;
+};
 
 export const TxStatusIcon = ({ status, size = 24 }: Props) => {
-  if (status === 'success')
-    return <Icon name="checkmark" size={size} color="secondaryBtn" />
+  if (status === 'success') return <Icon color="secondaryBtn" name="checkmark" size={size} />;
 
   if (status === 'failed') {
-    return <Icon name="xCircle" size={size} color="pink" />
+    return <Icon color="pink" name="xCircle" size={size} />;
   }
 
   if (status === 'refunded') {
-    return <Icon name="revert" size={size} color="yellow" />
+    return <Icon color="yellow" name="revert" size={size} />;
   }
 
-  return <Icon name="loader" spin size={size} color="primaryBtn" />
-}
+  return <Icon spin color="primaryBtn" name="loader" size={size} />;
+};

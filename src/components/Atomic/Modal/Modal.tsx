@@ -1,20 +1,18 @@
-import { Fragment, ReactNode } from 'react'
-
-import { Dialog, Transition } from '@headlessui/react'
-import classNames from 'classnames'
-
-import { Box, Card, Icon, Typography } from 'components/Atomic'
+import { Dialog, Transition } from '@headlessui/react';
+import classNames from 'classnames';
+import { Box, Card, Icon, Typography } from 'components/Atomic';
+import { Fragment, ReactNode } from 'react';
 
 type Props = {
-  HeaderComponent?: ReactNode
-  isOpened: boolean
-  title: string
-  children: ReactNode
-  withBody?: boolean
-  onBack?: () => void
-  onClose: () => void
-  className?: string
-}
+  HeaderComponent?: ReactNode;
+  isOpened: boolean;
+  title: string;
+  children: ReactNode;
+  withBody?: boolean;
+  onBack?: () => void;
+  onClose: () => void;
+  className?: string;
+};
 
 export const Modal = ({
   HeaderComponent,
@@ -27,7 +25,7 @@ export const Modal = ({
   className,
 }: Props) => {
   return (
-    <Transition appear show={isOpened} as={Fragment}>
+    <Transition appear as={Fragment} show={isOpened}>
       <Dialog as={Fragment} onClose={onClose}>
         <div className="fixed inset-0 z-20">
           <div className="relative flex items-center justify-center min-h-screen p-2 text-center lg:p-4">
@@ -47,11 +45,7 @@ export const Modal = ({
               https://headlessui.dev/react/dialog#dialog-overlay
               This element is to trick the browser into centering the modal contents.
             */}
-            <span
-              className="inline-block h-screen align-middle"
-              aria-hidden="true"
-              // eslint-disable-next-line react/jsx-no-literals
-            >
+            <span aria-hidden="true" className="inline-block h-screen align-middle">
               &#8203;
             </span>
 
@@ -71,12 +65,7 @@ export const Modal = ({
                 )}
               >
                 <Box>{HeaderComponent}</Box>
-                <Box
-                  row
-                  justify="between"
-                  alignCenter
-                  className="y-2 lg:m-5 mx-5"
-                >
+                <Box alignCenter row className="y-2 lg:m-5 mx-5" justify="between">
                   <Box alignCenter row>
                     {onBack && (
                       <Icon
@@ -89,29 +78,20 @@ export const Modal = ({
                   </Box>
 
                   <Box
-                    onClick={onClose}
                     center
                     className={classNames(
                       'h-10 w-10 rounded-2xl self-center border border-solid cursor-pointer hover:brightness-90 dark:hover:brightness-110',
                       'border-light-typo-primary dark:border-dark-typo-primary',
                     )}
+                    onClick={onClose}
                   >
-                    <Icon
-                      className="self-center"
-                      name="close"
-                      color="primary"
-                      size={24}
-                    />
+                    <Icon className="self-center" color="primary" name="close" size={24} />
                   </Box>
                 </Box>
 
                 <Box className="max-h-[80vh]">
                   {withBody ? (
-                    <Card
-                      className="flex items-center justify-center"
-                      stretch
-                      size="lg"
-                    >
+                    <Card stretch className="flex items-center justify-center" size="lg">
                       {children}
                     </Card>
                   ) : (
@@ -124,5 +104,5 @@ export const Modal = ({
         </div>
       </Dialog>
     </Transition>
-  )
-}
+  );
+};

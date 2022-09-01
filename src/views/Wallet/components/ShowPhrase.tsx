@@ -1,25 +1,22 @@
-import { useState } from 'react'
-
-import { WalletOption } from '@thorswap-lib/multichain-sdk'
-
-import { HoverIcon } from 'components/HoverIcon'
-import { PhraseModal } from 'components/Modals/PhraseModal'
-
-import { t } from 'services/i18n'
+import { WalletOption } from '@thorswap-lib/multichain-sdk';
+import { HoverIcon } from 'components/HoverIcon';
+import { PhraseModal } from 'components/Modals/PhraseModal';
+import { useState } from 'react';
+import { t } from 'services/i18n';
 
 type Props = {
-  walletType: Maybe<WalletOption>
-}
+  walletType: Maybe<WalletOption>;
+};
 
 export const ShowPhrase = ({ walletType }: Props) => {
-  const [isPhraseModalVisible, setIsPhraseModalVisible] = useState(false)
+  const [isPhraseModalVisible, setIsPhraseModalVisible] = useState(false);
 
   const handleClosePhraseModal = () => {
-    setIsPhraseModalVisible(false)
-  }
+    setIsPhraseModalVisible(false);
+  };
 
   if (walletType !== WalletOption.KEYSTORE) {
-    return null
+    return null;
   }
 
   return (
@@ -27,13 +24,10 @@ export const ShowPhrase = ({ walletType }: Props) => {
       <HoverIcon
         iconName="eye"
         onClick={() => setIsPhraseModalVisible(true)}
-        tooltip={t('views.wallet.viewKeystorePhrase')}
         size={16}
+        tooltip={t('views.wallet.viewKeystorePhrase')}
       />
-      <PhraseModal
-        isOpen={isPhraseModalVisible}
-        onCancel={handleClosePhraseModal}
-      />
+      <PhraseModal isOpen={isPhraseModalVisible} onCancel={handleClosePhraseModal} />
     </>
-  )
-}
+  );
+};

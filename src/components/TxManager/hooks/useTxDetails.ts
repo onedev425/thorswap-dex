@@ -1,21 +1,11 @@
-import { useMemo } from 'react'
-
-import { Asset } from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/types'
-
-import { TxProgressStatus } from 'components/TxManager/types'
-
-import {
-  TxTracker,
-  TxTrackerStatus,
-  TxTrackerType,
-  AggregatorSwapType,
-} from 'store/midgard/types'
-
-import { t } from 'services/i18n'
-import { multichain } from 'services/multichain'
-
-import { chainName } from 'helpers/chainName'
+import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Chain } from '@thorswap-lib/types';
+import { TxProgressStatus } from 'components/TxManager/types';
+import { chainName } from 'helpers/chainName';
+import { useMemo } from 'react';
+import { t } from 'services/i18n';
+import { multichain } from 'services/multichain';
+import { AggregatorSwapType, TxTracker, TxTrackerStatus, TxTrackerType } from 'store/midgard/types';
 
 import {
   getAddTxUrl,
@@ -28,93 +18,90 @@ import {
   getWithdrawSubmitTxUrl,
   getWithdrawTxUrl,
   isSwapType,
-} from '../utils'
+} from '../utils';
 
 export type TxDetails = {
-  label: string
-  status: TxProgressStatus
-  url?: string
-}[]
+  label: string;
+  status: TxProgressStatus;
+  url?: string;
+}[];
 
 export const useTxDetails = (txTracker: TxTracker) => {
   const txDetails = useMemo(
     () => getTxDetails(txTracker)?.filter((item) => item.label),
     [txTracker],
-  )
+  );
 
-  return txDetails
-}
+  return txDetails;
+};
 
 const getTxDetails = (txTracker: TxTracker): TxDetails | null => {
   if (isSwapType(txTracker)) {
-    return getSwapDetails(txTracker)
+    return getSwapDetails(txTracker);
   }
 
   switch (txTracker.type) {
     case TxTrackerType.AddLiquidity:
-      return getAddLiquidityDetails(txTracker)
+      return getAddLiquidityDetails(txTracker);
     case TxTrackerType.Withdraw:
-      return getWithdrawDetails(txTracker)
+      return getWithdrawDetails(txTracker);
     case TxTrackerType.Switch:
-      return getSwitchDetails(txTracker)
+      return getSwitchDetails(txTracker);
     case TxTrackerType.Approve:
-      return getApproveDetails(txTracker)
+      return getApproveDetails(txTracker);
     case TxTrackerType.Send:
-      return getSendDetails(txTracker)
+      return getSendDetails(txTracker);
     case TxTrackerType.Stake:
-      return getStakeDetails(txTracker)
+      return getStakeDetails(txTracker);
     case TxTrackerType.Claim:
-      return getClaimDetails(txTracker)
+      return getClaimDetails(txTracker);
     case TxTrackerType.StakeExit:
-      return getStakeWithdrawDetails(txTracker)
+      return getStakeWithdrawDetails(txTracker);
     case TxTrackerType.UpdateThorname:
     case TxTrackerType.RegisterThorname:
-      return getThornameDetails(txTracker)
+      return getThornameDetails(txTracker);
     case TxTrackerType.Unstake:
-      return getUnstakeDetails(txTracker)
+      return getUnstakeDetails(txTracker);
 
     default:
-      return null
+      return null;
   }
-}
+};
 
 const getSwapDetails = ({ status, submitTx, action }: TxTracker): TxDetails => {
-  const { inAssets = [], outAssets = [], aggType } = submitTx
-  const { asset: sendAsset, amount: sendAmount } = inAssets[0]
-  const { asset: receiveAsset, amount: receiveAmount } = outAssets[0]
+  const { inAssets = [], outAssets = [], aggType } = submitTx;
+  const { asset: sendAsset, amount: sendAmount } = inAssets[0];
+  const { asset: receiveAsset, amount: receiveAmount } = outAssets[0];
 
   const sendTitle = getSwapSendTitle({
     sendAsset,
     receiveAsset,
-  })
+  });
 
   const receiveTitle = getSwapReceiveTitle({
     sendAsset,
     receiveAsset,
-  })
+  });
 
-  const sendTicker = Asset.fromAssetString(sendAsset)?.name
-  const receiveTicker = Asset.fromAssetString(receiveAsset)?.name
+  const sendTicker = Asset.fromAssetString(sendAsset)?.name;
+  const receiveTicker = Asset.fromAssetString(receiveAsset)?.name;
 
   if (status === TxTrackerStatus.Failed) {
     return [
       {
         status: 'failed',
-        label: `${sendTitle} ${sendAmount} ${sendTicker} ${t(
-          'txManager.failed',
-        )}`,
+        label: `${sendTitle} ${sendAmount} ${sendTicker} ${t('txManager.failed')}`,
       },
-    ]
+    ];
   }
 
   const txDetails: TxDetails = [
     {
       status: status === TxTrackerStatus.Submitting ? 'pending' : 'success',
       label: `${sendTitle} ${sendAmount} ${sendTicker}`,
-      url:
-        status !== TxTrackerStatus.Submitting ? getSwapInTxUrl(submitTx) : '',
+      url: status !== TxTrackerStatus.Submitting ? getSwapInTxUrl(submitTx) : '',
     },
-  ]
+  ];
 
   if (status !== TxTrackerStatus.Submitting) {
     txDetails.push({
@@ -126,29 +113,29 @@ const getSwapDetails = ({ status, submitTx, action }: TxTracker): TxDetails => {
             ? getSwapInTxUrl(submitTx)
             : getSwapOutTxUrl(action)
           : '',
-    })
+    });
   }
 
-  return txDetails
-}
+  return txDetails;
+};
 
 const getAddLiquidityDetails = (txTracker: TxTracker): TxDetails => {
-  const { status, submitTx } = txTracker
-  const isPending = status !== TxTrackerStatus.Success
+  const { status, submitTx } = txTracker;
+  const isPending = status !== TxTrackerStatus.Success;
 
-  const txDetails: TxDetails = []
+  const txDetails: TxDetails = [];
 
   if (txTracker.refunded) {
     txDetails.push({
       status: 'refunded',
       label: t('components.txTracker.refunded'),
-    })
+    });
   } else {
-    const { inAssets = [] } = submitTx
+    const { inAssets = [] } = submitTx;
 
-    inAssets.map(({ asset, amount }) => {
-      const assetObj = Asset.fromAssetString(asset)
-      if (!assetObj) return null
+    inAssets.forEach(({ asset, amount }) => {
+      const assetObj = Asset.fromAssetString(asset);
+      if (!assetObj) return null;
 
       txDetails.push({
         status: isPending ? 'pending' : 'success',
@@ -159,42 +146,37 @@ const getAddLiquidityDetails = (txTracker: TxTracker): TxDetails => {
               asset: assetObj?.ticker,
             }),
         url:
-          status !== TxTrackerStatus.Submitting
-            ? getAddTxUrl({ asset: assetObj, txTracker })
-            : '',
-      })
-    })
+          status !== TxTrackerStatus.Submitting ? getAddTxUrl({ asset: assetObj, txTracker }) : '',
+      });
+    });
   }
 
-  return txDetails
-}
+  return txDetails;
+};
 
 const getWithdrawDetails = (txTracker: TxTracker): TxDetails => {
-  const { status, submitTx } = txTracker
-  const isPending = status !== TxTrackerStatus.Success
+  const { status, submitTx } = txTracker;
+  const isPending = status !== TxTrackerStatus.Success;
 
   const txDetails: TxDetails = [
     {
       status: status === TxTrackerStatus.Submitting ? 'pending' : 'success',
       label: t('txManager.submitWithdrawTx'),
-      url:
-        status !== TxTrackerStatus.Submitting
-          ? getWithdrawSubmitTxUrl(txTracker)
-          : '',
+      url: status !== TxTrackerStatus.Submitting ? getWithdrawSubmitTxUrl(txTracker) : '',
     },
-  ]
+  ];
 
   if (txTracker.refunded) {
     txDetails.push({
       status: 'refunded',
       label: t('txManager.refunded'),
-    })
+    });
   } else if (status !== TxTrackerStatus.Submitting) {
-    const { outAssets = [] } = submitTx
+    const { outAssets = [] } = submitTx;
 
-    outAssets.map(({ asset, amount }) => {
-      const assetObj = Asset.fromAssetString(asset)
-      if (!assetObj) return null
+    outAssets.forEach(({ asset, amount }) => {
+      const assetObj = Asset.fromAssetString(asset);
+      if (!assetObj) return null;
 
       txDetails.push({
         status: isPending ? 'pending' : 'success',
@@ -211,22 +193,18 @@ const getWithdrawDetails = (txTracker: TxTracker): TxDetails => {
           status === TxTrackerStatus.Success
             ? getWithdrawTxUrl({ asset: assetObj, txTracker })
             : '',
-      })
-    })
+      });
+    });
   }
 
-  return txDetails
-}
+  return txDetails;
+};
 
-const getSwitchDetails = ({
-  action,
-  status,
-  submitTx,
-}: TxTracker): TxDetails => {
-  const { inAssets = [], outAssets = [] } = submitTx
-  const { asset: sendAsset, amount: sendAmount } = inAssets[0]
-  const { amount: receiveAmount } = outAssets[0]
-  const isPending = status !== TxTrackerStatus.Success
+const getSwitchDetails = ({ action, status, submitTx }: TxTracker): TxDetails => {
+  const { inAssets = [], outAssets = [] } = submitTx;
+  const { asset: sendAsset, amount: sendAmount } = inAssets[0];
+  const { amount: receiveAmount } = outAssets[0];
+  const isPending = status !== TxTrackerStatus.Success;
 
   const txDetails: TxDetails = [
     {
@@ -234,10 +212,9 @@ const getSwitchDetails = ({
       label: `${t('common.send')} ${sendAmount} ${chainName(
         Asset.fromAssetString(sendAsset)?.L1Chain || '',
       )}${' '}${Asset.fromAssetString(sendAsset)?.ticker}`,
-      url:
-        status !== TxTrackerStatus.Submitting ? getSwapInTxUrl(submitTx) : '',
+      url: status !== TxTrackerStatus.Submitting ? getSwapInTxUrl(submitTx) : '',
     },
-  ]
+  ];
 
   if (status !== TxTrackerStatus.Submitting) {
     txDetails.push({
@@ -246,17 +223,17 @@ const getSwitchDetails = ({
         ? t('txManager.receiveAmountNativeRune', { amount: receiveAmount })
         : t('txManager.receivedAmountNativeRune', { amount: receiveAmount }),
       url: status === TxTrackerStatus.Success ? getSwapOutTxUrl(action) : '',
-    })
+    });
   }
 
-  return txDetails
-}
+  return txDetails;
+};
 
 const getApproveDetails = (txTracker: TxTracker): TxDetails => {
-  const { status, submitTx } = txTracker
-  const { inAssets = [] } = submitTx
-  const { asset: approveAsset } = inAssets[0]
-  const isPending = status !== TxTrackerStatus.Success
+  const { status, submitTx } = txTracker;
+  const { inAssets = [] } = submitTx;
+  const { asset: approveAsset } = inAssets[0];
+  const isPending = status !== TxTrackerStatus.Success;
 
   if (status === TxTrackerStatus.Failed) {
     return [
@@ -266,7 +243,7 @@ const getApproveDetails = (txTracker: TxTracker): TxDetails => {
           asset: Asset.fromAssetString(approveAsset)?.ticker,
         }),
       },
-    ]
+    ];
   }
 
   const txDetails: TxDetails = [
@@ -281,16 +258,16 @@ const getApproveDetails = (txTracker: TxTracker): TxDetails => {
           }),
       url: getApproveTxUrl(txTracker),
     },
-  ]
+  ];
 
-  return txDetails
-}
+  return txDetails;
+};
 
 const getStakeDetails = (txTracker: TxTracker): TxDetails => {
-  const { status, submitTx } = txTracker
-  const { inAssets = [] } = submitTx
-  const { asset: stakeAsset, amount } = inAssets[0]
-  const isPending = status !== TxTrackerStatus.Success
+  const { status, submitTx } = txTracker;
+  const { inAssets = [] } = submitTx;
+  const { asset: stakeAsset, amount } = inAssets[0];
+  const isPending = status !== TxTrackerStatus.Success;
 
   if (status === TxTrackerStatus.Failed) {
     return [
@@ -301,7 +278,7 @@ const getStakeDetails = (txTracker: TxTracker): TxDetails => {
           amount,
         }),
       },
-    ]
+    ];
   }
 
   const txDetails: TxDetails = [
@@ -318,16 +295,16 @@ const getStakeDetails = (txTracker: TxTracker): TxDetails => {
           }),
       url: getApproveTxUrl(txTracker),
     },
-  ]
+  ];
 
-  return txDetails
-}
+  return txDetails;
+};
 
 const getClaimDetails = (txTracker: TxTracker): TxDetails => {
-  const { status, submitTx } = txTracker
-  const { inAssets = [] } = submitTx
-  const { asset: claimAsset, amount } = inAssets[0]
-  const isPending = status !== TxTrackerStatus.Success
+  const { status, submitTx } = txTracker;
+  const { inAssets = [] } = submitTx;
+  const { asset: claimAsset, amount } = inAssets[0];
+  const isPending = status !== TxTrackerStatus.Success;
 
   if (status === TxTrackerStatus.Failed) {
     return [
@@ -338,7 +315,7 @@ const getClaimDetails = (txTracker: TxTracker): TxDetails => {
           asset: Asset.fromAssetString(claimAsset)?.ticker,
         }),
       },
-    ]
+    ];
   }
 
   const txDetails: TxDetails = [
@@ -355,16 +332,16 @@ const getClaimDetails = (txTracker: TxTracker): TxDetails => {
           }),
       url: getApproveTxUrl(txTracker),
     },
-  ]
+  ];
 
-  return txDetails
-}
+  return txDetails;
+};
 
 const getStakeWithdrawDetails = (txTracker: TxTracker): TxDetails => {
-  const { status, submitTx } = txTracker
-  const { inAssets = [] } = submitTx
-  const { asset: withdrawAsset, amount } = inAssets[0]
-  const isPending = status !== TxTrackerStatus.Success
+  const { status, submitTx } = txTracker;
+  const { inAssets = [] } = submitTx;
+  const { asset: withdrawAsset, amount } = inAssets[0];
+  const isPending = status !== TxTrackerStatus.Success;
 
   if (status === TxTrackerStatus.Failed) {
     return [
@@ -375,7 +352,7 @@ const getStakeWithdrawDetails = (txTracker: TxTracker): TxDetails => {
           asset: Asset.fromAssetString(withdrawAsset)?.ticker,
         }),
       },
-    ]
+    ];
   }
 
   const txDetails: TxDetails = [
@@ -392,16 +369,16 @@ const getStakeWithdrawDetails = (txTracker: TxTracker): TxDetails => {
           }),
       url: getApproveTxUrl(txTracker),
     },
-  ]
+  ];
 
-  return txDetails
-}
+  return txDetails;
+};
 
 const getUnstakeDetails = (txTracker: TxTracker): TxDetails => {
-  const { status, submitTx } = txTracker
-  const { inAssets = [] } = submitTx
-  const { asset: unstakeAsset, amount } = inAssets[0]
-  const isPending = status !== TxTrackerStatus.Success
+  const { status, submitTx } = txTracker;
+  const { inAssets = [] } = submitTx;
+  const { asset: unstakeAsset, amount } = inAssets[0];
+  const isPending = status !== TxTrackerStatus.Success;
 
   if (status === TxTrackerStatus.Failed) {
     return [
@@ -412,7 +389,7 @@ const getUnstakeDetails = (txTracker: TxTracker): TxDetails => {
           asset: Asset.fromAssetString(unstakeAsset)?.ticker,
         }),
       },
-    ]
+    ];
   }
 
   const txDetails: TxDetails = [
@@ -429,16 +406,16 @@ const getUnstakeDetails = (txTracker: TxTracker): TxDetails => {
           }),
       url: getApproveTxUrl(txTracker),
     },
-  ]
+  ];
 
-  return txDetails
-}
+  return txDetails;
+};
 
 const getSendDetails = (txTracker: TxTracker): TxDetails => {
-  const { status, submitTx } = txTracker
-  const { inAssets = [] } = submitTx
-  const { asset: sendAsset, amount } = inAssets[0]
-  const isPending = status !== TxTrackerStatus.Success
+  const { status, submitTx } = txTracker;
+  const { inAssets = [] } = submitTx;
+  const { asset: sendAsset, amount } = inAssets[0];
+  const isPending = status !== TxTrackerStatus.Success;
 
   if (status === TxTrackerStatus.Failed) {
     return [
@@ -449,7 +426,7 @@ const getSendDetails = (txTracker: TxTracker): TxDetails => {
           amount,
         }),
       },
-    ]
+    ];
   }
 
   const txDetails: TxDetails = [
@@ -466,23 +443,19 @@ const getSendDetails = (txTracker: TxTracker): TxDetails => {
           }),
       url: getSendTxUrl(txTracker),
     },
-  ]
+  ];
 
-  return txDetails
-}
+  return txDetails;
+};
 
-const getThornameDetails = ({
-  type,
-  status,
-  submitTx,
-}: TxTracker): TxDetails => {
-  const failed = status === TxTrackerStatus.Failed
-  const pending = status !== TxTrackerStatus.Success
+const getThornameDetails = ({ type, status, submitTx }: TxTracker): TxDetails => {
+  const failed = status === TxTrackerStatus.Failed;
+  const pending = status !== TxTrackerStatus.Success;
 
   const typeText =
     type === TxTrackerType.RegisterThorname
       ? t('txManager.registerThorname')
-      : t('txManager.updateThorname')
+      : t('txManager.updateThorname');
 
   const txDetails: TxDetails = [
     {
@@ -492,11 +465,9 @@ const getThornameDetails = ({
         : pending
         ? typeText
         : `${typeText} ${t('txManager.success')}`,
-      url: submitTx.txID
-        ? multichain().getExplorerTxUrl(Chain.THORChain, submitTx.txID)
-        : '',
+      url: submitTx.txID ? multichain().getExplorerTxUrl(Chain.THORChain, submitTx.txID) : '',
     },
-  ]
+  ];
 
-  return txDetails
-}
+  return txDetails;
+};

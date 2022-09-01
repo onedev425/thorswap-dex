@@ -1,26 +1,16 @@
-import { useMemo } from 'react'
-
-import { Amount } from '@thorswap-lib/multichain-sdk'
-
-import { StatsList } from 'components/StatsList'
-import { StatsType } from 'components/StatsList/types'
-
-import { useGlobalState } from 'store/hooks'
-
-import { useGlobalStats } from 'hooks/useGlobalStats'
-
-import { t } from 'services/i18n'
+import { Amount } from '@thorswap-lib/multichain-sdk';
+import { StatsList } from 'components/StatsList';
+import { StatsType } from 'components/StatsList/types';
+import { useGlobalStats } from 'hooks/useGlobalStats';
+import { useMemo } from 'react';
+import { t } from 'services/i18n';
+import { useGlobalState } from 'store/hooks';
 
 export const NodeStats = () => {
-  const { runeToCurrency } = useGlobalState()
+  const { runeToCurrency } = useGlobalState();
 
-  const {
-    networkData,
-    totalBond,
-    totalActiveBond,
-    totalStandbyBond,
-    bondingAPYLabel,
-  } = useGlobalStats()
+  const { networkData, totalBond, totalActiveBond, totalStandbyBond, bondingAPYLabel } =
+    useGlobalStats();
 
   const statsData: StatsType[] = useMemo(
     () => [
@@ -28,9 +18,7 @@ export const NodeStats = () => {
         iconName: 'chartPie',
         color: 'yellow',
         label: t('views.nodes.totalBond'),
-        value: `${runeToCurrency(totalBond).toCurrencyFormat(
-          2,
-        )} (${totalBond.toAbbreviate(1)} ᚱ)`,
+        value: `${runeToCurrency(totalBond).toCurrencyFormat(2)} (${totalBond.toAbbreviate(1)} ᚱ)`,
         tooltip: t('views.nodes.detail.totalBond'),
       },
       {
@@ -72,15 +60,8 @@ export const NodeStats = () => {
         value: Amount.fromNormalAmount(networkData?.nextChurnHeight).toFixed(0),
       },
     ],
-    [
-      runeToCurrency,
-      totalBond,
-      totalActiveBond,
-      totalStandbyBond,
-      bondingAPYLabel,
-      networkData,
-    ],
-  )
+    [runeToCurrency, totalBond, totalActiveBond, totalStandbyBond, bondingAPYLabel, networkData],
+  );
 
-  return <StatsList list={statsData} scrollable itemWidth={265} />
-}
+  return <StatsList scrollable itemWidth={265} list={statsData} />;
+};

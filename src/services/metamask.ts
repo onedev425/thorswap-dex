@@ -1,7 +1,6 @@
-import { MetaMaskClient } from '@thorswap-lib/multichain-web-extensions'
+import { MetaMaskClient } from '@thorswap-lib/multichain-web-extensions';
+import { NETWORK } from 'settings/config';
 
-import { NETWORK } from 'settings/config'
+const metamask = new MetaMaskClient(NETWORK);
 
-const metamask = new MetaMaskClient(NETWORK)
-
-export { metamask }
+export { metamask };

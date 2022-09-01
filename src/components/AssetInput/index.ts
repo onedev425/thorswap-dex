@@ -1,1 +1,1 @@
-export { AssetInput } from './AssetInput'
+export { AssetInput } from './AssetInput';

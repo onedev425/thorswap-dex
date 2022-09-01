@@ -1,11 +1,9 @@
-import { useRef, forwardRef, RefObject } from 'react'
+import classNames from 'classnames';
+import { Box, Icon, Typography } from 'components/Atomic';
+import { InputProps } from 'components/Input/types';
+import { forwardRef, RefObject, useRef } from 'react';
 
-import classNames from 'classnames'
-
-import { Box, Icon, Typography } from 'components/Atomic'
-import { InputProps } from 'components/Input/types'
-
-const DEFAULT_ICON_SIZE = 16
+const DEFAULT_ICON_SIZE = 16;
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
@@ -27,16 +25,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     }: InputProps,
     ref,
   ) => {
-    const inputRef = useRef<HTMLInputElement>(null)
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const focus = () => {
-      const inputInstanceRef = (ref as RefObject<HTMLInputElement>) || inputRef
-      inputInstanceRef?.current?.focus?.()
-    }
+      const inputInstanceRef = (ref as RefObject<HTMLInputElement>) || inputRef;
+      inputInstanceRef?.current?.focus?.();
+    };
 
     return (
       <Box className={classNames(stretch ? 'w-full' : 'w-fit')}>
         <Box
+          alignCenter
           className={classNames(
             'flex flex-row py-1.5 transition-all',
             'border-light-border-primary focus-within:border-dark-typo-gray dark:border-dark-border-primary hover:border-dark-typo-gray dark:hover:border-dark-typo-gray dark:focus-within:border-dark-typo-gray',
@@ -50,11 +49,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             containerClassName,
           )}
           onClick={focus}
-          alignCenter
         >
           {customPrefix &&
             (typeof customPrefix === 'string' ? (
-              <Typography variant="caption-xs" color="secondary">
+              <Typography color="secondary" variant="caption-xs">
                 {customPrefix}
               </Typography>
             ) : (
@@ -67,14 +65,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 'pl-2': border === 'rounded',
               })}
               color="tertiary"
-              size={DEFAULT_ICON_SIZE}
               name={icon}
+              size={DEFAULT_ICON_SIZE}
             />
           )}
 
           <input
-            disabled={disabled}
-            ref={ref || inputRef}
             className={classNames(
               'font-primary bg-transparent dark:placeholder-dark-typo-gray dark:text-dark-typo-primary placeholder-light-typo-gray text-light-typo-primary transition-colors',
               'border-none font-normal text-[14px] focus:outline-none',
@@ -82,20 +78,22 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               { 'md:w-48': icon && !stretch, 'cursor-not-allowed': disabled },
               className,
             )}
-            value={value}
+            disabled={disabled}
             onChange={onChange}
             placeholder={placeholder}
+            ref={ref || inputRef}
+            value={value}
             {...restProps}
           />
 
           {symbol && (
-            <Typography variant="caption-xs" className="pr-2">
+            <Typography className="pr-2" variant="caption-xs">
               {symbol}
             </Typography>
           )}
           {suffix &&
             (typeof suffix === 'string' ? (
-              <Typography variant="caption-xs" color="secondary">
+              <Typography color="secondary" variant="caption-xs">
                 {suffix}
               </Typography>
             ) : (
@@ -104,16 +102,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         </Box>
 
         {error && (
-          <Typography
-            className="pt-2 pl-2"
-            fontWeight="semibold"
-            variant="caption"
-            color="red"
-          >
+          <Typography className="pt-2 pl-2" color="red" fontWeight="semibold" variant="caption">
             {error}
           </Typography>
         )}
       </Box>
-    )
+    );
   },
-)
+);

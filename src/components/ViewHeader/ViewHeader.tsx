@@ -1,28 +1,21 @@
-import { ReactNode } from 'react'
-
-import { useNavigate } from 'react-router-dom'
-
-import { Box, Icon, Typography } from 'components/Atomic'
+import { Box, Icon, Typography } from 'components/Atomic';
+import { ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
-  title: string
-  withBack?: boolean
-  actionsComponent?: ReactNode
-}
+  title: string;
+  withBack?: boolean;
+  actionsComponent?: ReactNode;
+};
 
 export const ViewHeader = ({ title, withBack, actionsComponent }: Props) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
-    <Box justify="between" alignCenter>
+    <Box alignCenter justify="between">
       <Box alignCenter>
         {withBack && (
-          <Icon
-            name="arrowBack"
-            color="secondary"
-            className=""
-            onClick={() => navigate(-1)}
-          />
+          <Icon className="" color="secondary" name="arrowBack" onClick={() => navigate(-1)} />
         )}
         <Typography className="mx-3" variant="h3">
           {title}
@@ -35,5 +28,5 @@ export const ViewHeader = ({ title, withBack, actionsComponent }: Props) => {
         </Box>
       )}
     </Box>
-  )
-}
+  );
+};

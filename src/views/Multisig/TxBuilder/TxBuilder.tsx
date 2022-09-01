@@ -1,35 +1,26 @@
-import { useMultisigWalletInfo } from 'views/Multisig/hooks'
-
-import { Box, Button, Link, Typography } from 'components/Atomic'
-import { HighlightCard } from 'components/HighlightCard'
-import { InfoTable } from 'components/InfoTable'
-import { PanelView } from 'components/PanelView'
-import { ViewHeader } from 'components/ViewHeader'
-
-import { t } from 'services/i18n'
-
-import { ROUTES } from 'settings/constants'
+import { Box, Button, Link, Typography } from 'components/Atomic';
+import { HighlightCard } from 'components/HighlightCard';
+import { InfoTable } from 'components/InfoTable';
+import { PanelView } from 'components/PanelView';
+import { ViewHeader } from 'components/ViewHeader';
+import { t } from 'services/i18n';
+import { ROUTES } from 'settings/constants';
+import { useMultisigWalletInfo } from 'views/Multisig/hooks';
 
 const TxBuilder = () => {
-  const info = useMultisigWalletInfo()
+  const info = useMultisigWalletInfo();
 
   return (
     <PanelView
-      title={t('views.multisig.transactionBuilder')}
       header={<ViewHeader title={t('views.multisig.transactionBuilder')} />}
+      title={t('views.multisig.transactionBuilder')}
     >
-      <Box className="w-full gap-6 my-4" col>
-        <InfoTable items={info} size="lg" horizontalInset />
+      <Box col className="w-full gap-6 my-4">
+        <InfoTable horizontalInset items={info} size="lg" />
         <Box className="gap-5 flex-col sm:flex-row">
           <HighlightCard className="sm:w-full p-3">
-            <Typography variant="caption">
-              {t('views.multisig.newTransaction')}
-            </Typography>
-            <Typography
-              className="my-3"
-              variant="caption-xs"
-              fontWeight="medium"
-            >
+            <Typography variant="caption">{t('views.multisig.newTransaction')}</Typography>
+            <Typography className="my-3" fontWeight="medium" variant="caption-xs">
               {t('views.multisig.newTransactionDescription')}
             </Typography>
             <Link to={ROUTES.TxCreate}>
@@ -39,14 +30,8 @@ const TxBuilder = () => {
             </Link>
           </HighlightCard>
           <HighlightCard className="sm:w-full p-3">
-            <Typography variant="caption">
-              {t('views.multisig.importTransaction')}
-            </Typography>
-            <Typography
-              className="my-3"
-              variant="caption-xs"
-              fontWeight="medium"
-            >
+            <Typography variant="caption">{t('views.multisig.importTransaction')}</Typography>
+            <Typography className="my-3" fontWeight="medium" variant="caption-xs">
               {t('views.multisig.importTransactionDescription')}
             </Typography>
             <Link to={ROUTES.TxImport}>
@@ -58,7 +43,7 @@ const TxBuilder = () => {
         </Box>
       </Box>
     </PanelView>
-  )
-}
+  );
+};
 
-export default TxBuilder
+export default TxBuilder;

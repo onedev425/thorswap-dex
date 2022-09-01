@@ -1,37 +1,27 @@
-import { useMemo } from 'react'
-
-import { useNavigate } from 'react-router-dom'
-
-import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-sdk'
-import { Chain, SupportedChain } from '@thorswap-lib/types'
-
-import { AssetChart } from 'views/Wallet/AssetChart'
-import { ShowQrCode } from 'views/Wallet/components/ShowQrCode'
-
-import { AssetIcon } from 'components/AssetIcon'
-import { Box, Button, Icon, Typography } from 'components/Atomic'
-
-import { useMidgard } from 'store/midgard/hooks'
-import { useWallet } from 'store/wallet/hooks'
-
-import useWindowSize, { BreakPoint } from 'hooks/useWindowSize'
-
-import { t } from 'services/i18n'
-
-import { useFormatPrice } from 'helpers/formatPrice'
-
-import { getSendRoute, getSwapRoute } from 'settings/constants'
-
-import { ViewMode } from 'types/app'
+import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-sdk';
+import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { AssetIcon } from 'components/AssetIcon';
+import { Box, Button, Icon, Typography } from 'components/Atomic';
+import { useFormatPrice } from 'helpers/formatPrice';
+import useWindowSize, { BreakPoint } from 'hooks/useWindowSize';
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { t } from 'services/i18n';
+import { getSendRoute, getSwapRoute } from 'settings/constants';
+import { useMidgard } from 'store/midgard/hooks';
+import { useWallet } from 'store/wallet/hooks';
+import { ViewMode } from 'types/app';
+import { AssetChart } from 'views/Wallet/AssetChart';
+import { ShowQrCode } from 'views/Wallet/components/ShowQrCode';
 
 export const useColumns = (chainAddress: string, chain: SupportedChain) => {
-  const formatPrice = useFormatPrice()
-  const navigate = useNavigate()
-  const { stats } = useMidgard()
-  const { geckoData } = useWallet()
-  const { isLgActive } = useWindowSize()
+  const formatPrice = useFormatPrice();
+  const navigate = useNavigate();
+  const { stats } = useMidgard();
+  const { geckoData } = useWallet();
+  const { isLgActive } = useWindowSize();
 
-  const runePrice = stats?.runePriceUSD
+  const runePrice = stats?.runePriceUSD;
 
   const columns = useMemo(
     () => [
@@ -41,7 +31,7 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
         disableSortBy: true,
         accessor: (row: AssetAmount) => row.asset,
         Cell: ({ cell: { value } }: { cell: { value: Asset } }) => (
-          <AssetIcon hasChainIcon={false} asset={value} size={40} />
+          <AssetIcon asset={value} hasChainIcon={false} size={40} />
         ),
       },
       {
@@ -51,7 +41,7 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
         minScreenSize: BreakPoint.md,
         accessor: (row: AssetAmount) => row.asset,
         Cell: ({ cell: { value } }: { cell: { value: Asset } }) => (
-          <Box col justify="between" className="pl-4">
+          <Box col className="pl-4" justify="between">
             <Typography>{value.name}</Typography>
             <Typography color="secondary">{value.type}</Typography>
           </Box>
@@ -63,9 +53,7 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
         align: 'right',
         accessor: (row: Amount) => row.assetAmount.toFixed(2),
         Cell: ({ cell: { value } }: { cell: { value: String } }) => (
-          <Typography fontWeight="bold">
-            {chainAddress ? value : '-'}
-          </Typography>
+          <Typography fontWeight="bold">{chainAddress ? value : '-'}</Typography>
         ),
       },
       {
@@ -104,7 +92,7 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
         disableSortBy: true,
         accessor: (row: AssetAmount) => row.asset,
         Cell: ({ cell: { value } }: { cell: { value: Asset } }) => (
-          <AssetChart mode={ViewMode.LIST} asset={value} />
+          <AssetChart asset={value} mode={ViewMode.LIST} />
         ),
       },
       {
@@ -116,16 +104,16 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
         Cell: ({ cell: { value } }: { cell: { value: Asset } }) => (
           <Box row className="gap-2" justify="end">
             <Button
-              variant="tint"
+              onClick={() => navigate(getSendRoute(value))}
               startIcon={
                 <Icon
                   className="rotate-180 group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
                   color="secondary"
-                  size={20}
                   name="receive"
+                  size={20}
                 />
               }
-              onClick={() => navigate(getSendRoute(value))}
+              variant="tint"
             >
               {isLgActive ? t('common.send') : null}
             </Button>
@@ -135,21 +123,21 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
               chain={chain}
               openComponent={
                 <Button
-                  variant="tint"
                   disabled={!chainAddress}
+                  startIcon={
+                    <Icon
+                      className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
+                      color="secondary"
+                      name="receive"
+                      size={20}
+                    />
+                  }
                   tooltip={
                     chainAddress
                       ? t('views.wallet.showQRCode')
                       : t('views.walletModal.notConnected')
                   }
-                  startIcon={
-                    <Icon
-                      className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
-                      color="secondary"
-                      size={20}
-                      name="receive"
-                    />
-                  }
+                  variant="tint"
                 >
                   {isLgActive ? t('common.receive') : null}
                 </Button>
@@ -157,20 +145,18 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
             />
 
             <Button
-              variant="tint"
+              disabled={chain === Chain.Solana}
+              onClick={() => navigate(getSwapRoute(value))}
               startIcon={
                 <Icon
                   className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
                   color="secondary"
-                  size={20}
                   name="swap"
+                  size={20}
                 />
               }
-              disabled={chain === Chain.Solana}
-              tooltip={
-                chain === Chain.Solana ? t('common.comingSoon') : undefined
-              }
-              onClick={() => navigate(getSwapRoute(value))}
+              tooltip={chain === Chain.Solana ? t('common.comingSoon') : undefined}
+              variant="tint"
             >
               {isLgActive ? t('common.swap') : null}
             </Button>
@@ -178,16 +164,8 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
         ),
       },
     ],
-    [
-      chainAddress,
-      runePrice,
-      geckoData,
-      formatPrice,
-      isLgActive,
-      chain,
-      navigate,
-    ],
-  )
+    [chainAddress, runePrice, geckoData, formatPrice, isLgActive, chain, navigate],
+  );
 
-  return columns
-}
+  return columns;
+};

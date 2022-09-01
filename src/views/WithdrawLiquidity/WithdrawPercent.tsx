@@ -1,31 +1,28 @@
-import { useCallback } from 'react'
-
-import { Amount } from '@thorswap-lib/multichain-sdk'
-
-import { Box, Typography, Range, Button } from 'components/Atomic'
-import { HighlightCard } from 'components/HighlightCard'
-import { InputAmount } from 'components/InputAmount'
-import { getAmountFromString } from 'components/InputAmount/utils'
-
-import { t } from 'services/i18n'
+import { Amount } from '@thorswap-lib/multichain-sdk';
+import { Box, Button, Range, Typography } from 'components/Atomic';
+import { HighlightCard } from 'components/HighlightCard';
+import { InputAmount } from 'components/InputAmount';
+import { getAmountFromString } from 'components/InputAmount/utils';
+import { useCallback } from 'react';
+import { t } from 'services/i18n';
 
 type Props = {
-  onChange: (val: Amount) => void
-  percent: Amount
-}
+  onChange: (val: Amount) => void;
+  percent: Amount;
+};
 
 export const WithdrawPercent = ({ onChange, percent }: Props) => {
   const handlePercentChange = useCallback(
     (value: Amount) => {
-      const val = value.gt(100) ? Amount.fromNormalAmount(100) : value
-      onChange(val)
+      const val = value.gt(100) ? Amount.fromNormalAmount(100) : value;
+      onChange(val);
     },
     [onChange],
-  )
+  );
 
   const handleRange = (value: Amount) => {
-    handlePercentChange(value)
-  }
+    handlePercentChange(value);
+  };
 
   return (
     <HighlightCard
@@ -33,20 +30,18 @@ export const WithdrawPercent = ({ onChange, percent }: Props) => {
       onClick={focus}
     >
       <Box className="w-full row-span-1 flex-row">
-        <Box className="flex-1 items-center" alignCenter>
-          <Typography className="inline-flex">
-            {`${t('common.withdrawPercent')}:`}
-          </Typography>
+        <Box alignCenter className="flex-1 items-center">
+          <Typography className="inline-flex">{`${t('common.withdrawPercent')}:`}</Typography>
         </Box>
 
-        <Box className="flex-1" alignCenter>
+        <Box alignCenter className="flex-1">
           <Box className="flex-1">
             <InputAmount
               stretch
+              amountValue={percent}
               className="!text-2xl text-right mr-3"
               containerClassName="py-1"
               onAmountChange={handlePercentChange}
-              amountValue={percent}
               suffix={<Typography variant="subtitle1">%</Typography>}
             />
           </Box>
@@ -54,28 +49,26 @@ export const WithdrawPercent = ({ onChange, percent }: Props) => {
       </Box>
 
       <Box
-        className="flex-row pb-8 row-span-1 w-full sm:items-start md:items-center gap-x-6"
         alignCenter
         row
+        className="flex-row pb-8 row-span-1 w-full sm:items-start md:items-center gap-x-6"
       >
         <Box className="w-11/12">
-          <Range onAmountChange={handleRange} amountValue={percent} />
+          <Range amountValue={percent} onAmountChange={handleRange} />
         </Box>
 
-        <Box className="flex-auto" center row>
+        <Box center row className="flex-auto">
           <Button
             className="!h-5 !px-1.5"
+            onClick={() => handlePercentChange(getAmountFromString('100', 0) as Amount)}
+            transform="uppercase"
             type="outline"
             variant="secondary"
-            transform="uppercase"
-            onClick={() =>
-              handlePercentChange(getAmountFromString('100', 0) as Amount)
-            }
           >
             {t('common.max')}
           </Button>
         </Box>
       </Box>
     </HighlightCard>
-  )
-}
+  );
+};

@@ -1,28 +1,22 @@
-import { useEffect, useMemo, useState } from 'react'
-
-import { hasConnectedWallet } from '@thorswap-lib/multichain-sdk'
-
-import { useVesting } from 'views/Vesting/hooks'
-
-import { IconName } from 'components/Atomic'
-import { SidebarItemProps } from 'components/Sidebar/types'
-
-import { useApp } from 'store/app/hooks'
-import { useAppSelector } from 'store/store'
-import { useWallet } from 'store/wallet/hooks'
-
-import { t } from 'services/i18n'
-
-import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/constants'
+import { hasConnectedWallet } from '@thorswap-lib/multichain-sdk';
+import { IconName } from 'components/Atomic';
+import { SidebarItemProps } from 'components/Sidebar/types';
+import { useEffect, useMemo, useState } from 'react';
+import { t } from 'services/i18n';
+import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/constants';
+import { useApp } from 'store/app/hooks';
+import { useAppSelector } from 'store/store';
+import { useWallet } from 'store/wallet/hooks';
+import { useVesting } from 'views/Vesting/hooks';
 
 export const useSidebarOptions = () => {
-  const { hasVestingAlloc } = useVesting()
-  const [hasAlloc, setHasAlloc] = useState(false)
-  const { wallet } = useWallet()
-  const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet])
+  const { hasVestingAlloc } = useVesting();
+  const [hasAlloc, setHasAlloc] = useState(false);
+  const { wallet } = useWallet();
+  const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
 
-  const { multisigVisible } = useApp()
-  const hasMultisigWallet = useAppSelector((state) => !!state.multisig.address)
+  const { multisigVisible } = useApp();
+  const hasMultisigWallet = useAppSelector((state) => !!state.multisig.address);
 
   const multisigMenu: SidebarItemProps = useMemo(() => {
     const walletItems: SidebarItemProps[] = hasMultisigWallet
@@ -34,7 +28,7 @@ export const useSidebarOptions = () => {
             label: t('appMenu.transaction'),
           },
         ]
-      : []
+      : [];
 
     return {
       iconName: 'wallet',
@@ -48,17 +42,17 @@ export const useSidebarOptions = () => {
         },
         ...walletItems,
       ],
-    }
-  }, [hasMultisigWallet])
+    };
+  }, [hasMultisigWallet]);
 
   useEffect(() => {
     const getAllocData = async () => {
-      const hasAllocated = await hasVestingAlloc()
-      setHasAlloc(hasAllocated)
-    }
+      const hasAllocated = await hasVestingAlloc();
+      setHasAlloc(hasAllocated);
+    };
 
-    getAllocData()
-  }, [hasVestingAlloc])
+    getAllocData();
+  }, [hasVestingAlloc]);
 
   const thorMenu: SidebarItemProps = useMemo(() => {
     const vestingItems: SidebarItemProps[] =
@@ -70,7 +64,7 @@ export const useSidebarOptions = () => {
               label: t('components.sidebar.vesting'),
             },
           ]
-        : []
+        : [];
 
     return {
       iconName: 'tradeLightning',
@@ -83,8 +77,8 @@ export const useSidebarOptions = () => {
         },
         ...vestingItems,
       ],
-    }
-  }, [isConnected, hasAlloc])
+    };
+  }, [isConnected, hasAlloc]);
 
   const sidebarOptions = useMemo(() => {
     const menu: SidebarItemProps[] = [
@@ -157,14 +151,14 @@ export const useSidebarOptions = () => {
           },
         ],
       },
-    ]
+    ];
 
     if (multisigVisible) {
-      menu.push({ ...multisigMenu })
+      menu.push({ ...multisigMenu });
     }
 
-    return [...menu, thorMenu]
-  }, [multisigVisible, multisigMenu, thorMenu])
+    return [...menu, thorMenu];
+  }, [multisigVisible, multisigMenu, thorMenu]);
 
-  return sidebarOptions
-}
+  return sidebarOptions;
+};

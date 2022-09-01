@@ -1,1 +1,1 @@
-export type TabSelectType = { label: string; value: string }
+export type TabSelectType = { label: string; value: string };

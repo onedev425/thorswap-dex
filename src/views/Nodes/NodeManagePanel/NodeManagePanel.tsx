@@ -1,24 +1,20 @@
-import { useState } from 'react'
-
-import { Asset } from '@thorswap-lib/multichain-sdk'
-import classNames from 'classnames'
-
-import { useNodeManager } from 'views/Nodes/hooks/hooks'
-import { BondActionType, NodeManagePanelProps } from 'views/Nodes/types'
-
-import { AssetIcon } from 'components/AssetIcon'
-import { Box, Button, Typography } from 'components/Atomic'
-import { PanelInput } from 'components/PanelInput'
-import { TabsSelect } from 'components/TabsSelect'
-
-import { t } from 'services/i18n'
+import { Asset } from '@thorswap-lib/multichain-sdk';
+import classNames from 'classnames';
+import { AssetIcon } from 'components/AssetIcon';
+import { Box, Button, Typography } from 'components/Atomic';
+import { PanelInput } from 'components/PanelInput';
+import { TabsSelect } from 'components/TabsSelect';
+import { useState } from 'react';
+import { t } from 'services/i18n';
+import { useNodeManager } from 'views/Nodes/hooks/hooks';
+import { BondActionType, NodeManagePanelProps } from 'views/Nodes/types';
 
 export const NodeManagePanel = ({
   address,
   handleBondAction,
   skipWalletCheck,
 }: NodeManagePanelProps) => {
-  const [nodeAddress, setNodeAddress] = useState(address || '')
+  const [nodeAddress, setNodeAddress] = useState(address || '');
   const {
     tabs,
     handleComplete,
@@ -32,47 +28,45 @@ export const NodeManagePanel = ({
     address: nodeAddress,
     handleBondAction,
     skipWalletCheck,
-  })
+  });
 
   return (
-    <Box className="self-stretch gap-1" col>
-      <TabsSelect tabs={tabs} value={activeTab.value} onChange={onTabChange} />
+    <Box col className="self-stretch gap-1">
+      <TabsSelect onChange={onTabChange} tabs={tabs} value={activeTab.value} />
 
       {!address && (
         <PanelInput
-          title={t('common.nodeAddress')}
-          onChange={(e) => setNodeAddress(e.target.value)}
-          value={nodeAddress}
-          placeholder="thor..."
-          stretch
           autoFocus
+          stretch
+          onChange={(e) => setNodeAddress(e.target.value)}
+          placeholder="thor..."
+          title={t('common.nodeAddress')}
+          value={nodeAddress}
         />
       )}
 
       <Box
         className={classNames(
           'transition-all overflow-hidden',
-          activeTab.value === BondActionType.Leave
-            ? 'max-h-[0px]'
-            : 'max-h-[86px]',
+          activeTab.value === BondActionType.Leave ? 'max-h-[0px]' : 'max-h-[86px]',
         )}
       >
         <PanelInput
           className="flex-1 overflow-hidden"
-          title={
-            activeTab.value === BondActionType.Bond
-              ? t('views.nodes.bondAmount')
-              : t('views.nodes.unbondAmount')
-          }
-          placeholder={t('common.amount')}
           onChange={onAmountChange}
-          value={rawAmount}
+          placeholder={t('common.amount')}
           suffix={
             <Box className="w-[84px] gap-x-2 pt-2">
               <Typography variant="subtitle2">{Asset.RUNE().ticker}</Typography>
               <AssetIcon asset={Asset.RUNE()} size={26} />
             </Box>
           }
+          title={
+            activeTab.value === BondActionType.Bond
+              ? t('views.nodes.bondAmount')
+              : t('views.nodes.unbondAmount')
+          }
+          value={rawAmount}
         />
       </Box>
 
@@ -80,16 +74,12 @@ export const NodeManagePanel = ({
         <Button
           isFancy
           stretch
+          onClick={isWalletConnected ? handleComplete : () => setIsConnectModalOpen(true)}
           size="lg"
-          onClick={
-            isWalletConnected
-              ? handleComplete
-              : () => setIsConnectModalOpen(true)
-          }
         >
           {isWalletConnected ? activeTab.label : t('common.connectWallet')}
         </Button>
       </Box>
     </Box>
-  )
-}
+  );
+};

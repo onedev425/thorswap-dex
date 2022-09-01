@@ -1,4 +1,4 @@
-import { Amount } from '@thorswap-lib/multichain-sdk'
+import { Amount } from '@thorswap-lib/multichain-sdk';
 
 export enum NodeStatus {
   Active = 'Active',
@@ -6,11 +6,7 @@ export enum NodeStatus {
   Whitelisted = 'Whitelisted',
 }
 
-export const nodeStatusOptions = [
-  NodeStatus.Active,
-  NodeStatus.Standby,
-  NodeStatus.Whitelisted,
-]
+export const nodeStatusOptions = [NodeStatus.Active, NodeStatus.Standby, NodeStatus.Whitelisted];
 
 export enum BondActionType {
   Bond = 'bond',
@@ -19,15 +15,15 @@ export enum BondActionType {
 }
 
 export type BondActionParams = {
-  type: BondActionType
-  nodeAddress: string
-  amount?: Amount
-}
+  type: BondActionType;
+  nodeAddress: string;
+  amount?: Amount;
+};
 
-export type HandleBondAction = (params: BondActionParams) => void
+export type HandleBondAction = (params: BondActionParams) => void;
 
 export type NodeManagePanelProps = {
-  address?: string
-  handleBondAction?: HandleBondAction
-  skipWalletCheck?: boolean
-}
+  address?: string;
+  handleBondAction?: HandleBondAction;
+  skipWalletCheck?: boolean;
+};

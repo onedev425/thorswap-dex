@@ -1,1 +1,1 @@
-export { WithdrawLiquidity as default } from './WithdrawLiquidity'
+export { WithdrawLiquidity as default } from './WithdrawLiquidity';

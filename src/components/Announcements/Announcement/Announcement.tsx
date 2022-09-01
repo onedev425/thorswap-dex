@@ -1,66 +1,52 @@
-import { memo, ReactNode } from 'react'
-
-import { chainToSigAsset } from '@thorswap-lib/multichain-sdk'
-import classNames from 'classnames'
-
-import {
-  useDismissedAnnouncements,
-  useSeenAnnouncements,
-} from 'components/Announcements/hooks'
-import { AssetIcon } from 'components/AssetIcon'
-import { Box, Link, Typography } from 'components/Atomic'
-import { genericBgClasses } from 'components/constants'
-import { HoverIcon } from 'components/HoverIcon'
-
-import { AnnouncementItem, AnnouncementType } from 'store/externalConfig/types'
-
-import { t } from 'services/i18n'
+import { chainToSigAsset } from '@thorswap-lib/multichain-sdk';
+import classNames from 'classnames';
+import { useDismissedAnnouncements, useSeenAnnouncements } from 'components/Announcements/hooks';
+import { AssetIcon } from 'components/AssetIcon';
+import { Box, Link, Typography } from 'components/Atomic';
+import { genericBgClasses } from 'components/constants';
+import { HoverIcon } from 'components/HoverIcon';
+import { memo, ReactNode } from 'react';
+import { t } from 'services/i18n';
+import { AnnouncementItem, AnnouncementType } from 'store/externalConfig/types';
 
 type AnnouncementProps = {
-  announcement: AnnouncementItem
-  rightComponent?: ReactNode
-  dismissed?: boolean
-}
+  announcement: AnnouncementItem;
+  rightComponent?: ReactNode;
+  dismissed?: boolean;
+};
 
 const announcementClasses: Record<AnnouncementType, string> = {
   primary: '!opacity-20 from-transparent via-btn-primary',
   info: 'via-btn-primary',
   warn: 'via-yellow',
   error: 'via-red',
-}
+};
 
 const dissmissedAnnouncementClasses: Record<AnnouncementType, string> = {
   primary: '!opacity-20 bg-btn-primary',
   info: 'bg-btn-primary',
   warn: 'bg-yellow',
   error: 'bg-red',
-}
+};
 
 const announcementBorderClasses: Record<AnnouncementType, string> = {
   primary: 'border-btn-primary',
   info: 'border-btn-primary',
   warn: 'border-yellow',
   error: 'border-red',
-}
+};
 
 export const Announcement = memo(
   ({
-    announcement: {
-      type = AnnouncementType.Primary,
-      message,
-      title,
-      chain,
-      link,
-      key,
-    },
+    announcement: { type = AnnouncementType.Primary, message, title, chain, link, key },
     rightComponent,
     dismissed,
   }: AnnouncementProps) => {
-    const { dismissAnnouncement } = useDismissedAnnouncements()
-    const { seeAnnouncements } = useSeenAnnouncements()
+    const { dismissAnnouncement } = useDismissedAnnouncements();
+    const { seeAnnouncements } = useSeenAnnouncements();
 
     if (!message && !title) {
-      return null
+      return null;
     }
 
     return (
@@ -75,18 +61,14 @@ export const Announcement = memo(
       >
         {chain && (
           <Box className="absolute left-4">
-            <AssetIcon size={26} asset={chainToSigAsset(chain)} />
+            <AssetIcon asset={chainToSigAsset(chain)} size={26} />
           </Box>
         )}
         <Box
           className={classNames(
             'absolute inset-0 rounded-2xl opacity-40',
-            dismissed
-              ? 'bg-opacity-30'
-              : 'bg-gradient-to-r from-transparent to-transparent',
-            dismissed
-              ? dissmissedAnnouncementClasses[type]
-              : announcementClasses[type],
+            dismissed ? 'bg-opacity-30' : 'bg-gradient-to-r from-transparent to-transparent',
+            dismissed ? dissmissedAnnouncementClasses[type] : announcementClasses[type],
           )}
         />
         <Box
@@ -96,26 +78,17 @@ export const Announcement = memo(
           )}
         />
 
-        <Box
-          className={classNames(
-            'z-0',
-            dismissed ? 'textl-left' : 'text-center',
-          )}
-          col
-        >
+        <Box col className={classNames('z-0', dismissed ? 'textl-left' : 'text-center')}>
           {!!title && (
-            <Typography
-              variant={dismissed ? 'body' : 'subtitle1'}
-              fontWeight="bold"
-            >
+            <Typography fontWeight="bold" variant={dismissed ? 'body' : 'subtitle1'}>
               {title}
             </Typography>
           )}
 
           {!!message && (
             <Typography
-              variant={dismissed ? 'caption' : 'body'}
               fontWeight={dismissed ? 'normal' : undefined}
+              variant={dismissed ? 'caption' : 'body'}
             >
               {`${message} `}
               {!!link?.url && (
@@ -133,18 +106,18 @@ export const Announcement = memo(
         {!dismissed && (
           <Box className="absolute right-2 top-2">
             <HoverIcon
-              iconName="xCircle"
-              tooltip={t('common.dismiss')}
               color="secondary"
+              iconName="xCircle"
               onClick={() => {
-                dismissAnnouncement(key || '')
-                seeAnnouncements(key || '')
+                dismissAnnouncement(key || '');
+                seeAnnouncements(key || '');
               }}
+              tooltip={t('common.dismiss')}
             />
           </Box>
         )}
         {rightComponent ? rightComponent : null}
       </Box>
-    )
+    );
   },
-)
+);

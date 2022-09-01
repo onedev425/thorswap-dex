@@ -1,11 +1,7 @@
-import { Asset } from '@thorswap-lib/multichain-sdk'
-import { Chain, Network } from '@thorswap-lib/types'
-
-import { t } from 'services/i18n'
-
-import { config } from 'settings/config'
-
-const { network } = config
+import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Chain, Network } from '@thorswap-lib/types';
+import { t } from 'services/i18n';
+import { NETWORK } from 'settings/config';
 
 export enum VestingType {
   THOR = 'THOR',
@@ -21,24 +17,24 @@ export const vestingTabs = [
     label: t('views.vesting.vestingVthor'),
     value: VestingType.VTHOR,
   },
-]
+];
 
 export type VestingScheduleInfo = {
   // total vested amount
-  totalVestedAmount: string
+  totalVestedAmount: string;
   // total claimed amount
-  totalClaimedAmount: number
+  totalClaimedAmount: number;
   // vesting start time
-  startTime: string
+  startTime: string;
   // vesting period (in years)
-  vestingPeriod: number
+  vestingPeriod: number;
   // cliff period (in months)
-  cliff: number
+  cliff: number;
   // initial release at TGE
-  initialRelease: string
+  initialRelease: string;
   // claimable amount
-  claimableAmount: number
-}
+  claimableAmount: number;
+};
 
 export const defaultVestingInfo: VestingScheduleInfo = {
   totalVestedAmount: 'N/A',
@@ -48,14 +44,14 @@ export const defaultVestingInfo: VestingScheduleInfo = {
   cliff: 0,
   initialRelease: '-',
   claimableAmount: 0,
-}
+};
 
-export type VestingInfo = Record<VestingType, VestingScheduleInfo>
+export type VestingInfo = Record<VestingType, VestingScheduleInfo>;
 
 export const initialVestingInfo: VestingInfo = {
   [VestingType.THOR]: defaultVestingInfo,
   [VestingType.VTHOR]: defaultVestingInfo,
-}
+};
 
 export const vestingAddr = {
   [VestingType.THOR]: {
@@ -66,16 +62,13 @@ export const vestingAddr = {
     [Network.Mainnet]: '0x815C23eCA83261b6Ec689b60Cc4a58b54BC24D8D',
     [Network.Testnet]: '0x9783e4A7F0BF047Fd7982e75A1A1C8023a7d6A92',
   },
-}
+};
 
 export const getV2Asset = (contractType: VestingType) => {
-  return new Asset(
-    Chain.Ethereum,
-    `${contractType}-${vestingAddr[contractType][network]}`,
-  )
-}
+  return new Asset(Chain.Ethereum, `${contractType}-${vestingAddr[contractType][NETWORK]}`);
+};
 
 export const vestingAssets: Record<VestingType, Asset> = {
   [VestingType.THOR]: getV2Asset(VestingType.THOR),
   [VestingType.VTHOR]: getV2Asset(VestingType.VTHOR),
-}
+};

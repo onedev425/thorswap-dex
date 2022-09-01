@@ -1,25 +1,20 @@
-import { useCallback, useRef } from 'react'
+import { Asset } from '@thorswap-lib/multichain-sdk';
+import classNames from 'classnames';
+import { Box, Icon, Typography } from 'components/Atomic';
+import { genericBgClasses } from 'components/constants';
+import { Input } from 'components/Input';
+import { TabsSelect } from 'components/TabsSelect';
+import useWindowSize from 'hooks/useWindowSize';
+import { useCallback, useRef } from 'react';
+import { FixedSizeList as List } from 'react-window';
+import { t } from 'services/i18n';
 
-import { FixedSizeList as List } from 'react-window'
+import { AssetSelectItem } from './AssetSelectItem';
+import { assetFilterTypes } from './assetTypes';
+import { AssetSelectProps } from './types';
+import { useAssetSelect } from './useAssetSelect';
 
-import { Asset } from '@thorswap-lib/multichain-sdk'
-import classNames from 'classnames'
-
-import { Box, Icon, Typography } from 'components/Atomic'
-import { genericBgClasses } from 'components/constants'
-import { Input } from 'components/Input'
-import { TabsSelect } from 'components/TabsSelect'
-
-import useWindowSize from 'hooks/useWindowSize'
-
-import { t } from 'services/i18n'
-
-import { AssetSelectItem } from './AssetSelectItem'
-import { assetFilterTypes } from './assetTypes'
-import { AssetSelectProps } from './types'
-import { useAssetSelect } from './useAssetSelect'
-
-const ASSET_ITEM_HEIGHT = 52
+const ASSET_ITEM_HEIGHT = 52;
 
 export const AssetSelectList = ({
   assets,
@@ -30,24 +25,27 @@ export const AssetSelectList = ({
   query,
   setQuery,
 }: AssetSelectProps) => {
-  const listRef = useRef<List<NotWorth>>(null)
-  const { isLgActive } = useWindowSize()
-  const { filteredAssets, select, typeFilter, setTypeFilterOption } =
-    useAssetSelect({ assets, onSelect, onClose })
+  const listRef = useRef<List<NotWorth>>(null);
+  const { isLgActive } = useWindowSize();
+  const { filteredAssets, select, typeFilter, setTypeFilterOption } = useAssetSelect({
+    assets,
+    onSelect,
+    onClose,
+  });
 
   const handleSelect = useCallback(
     (asset: Asset) => {
-      select(asset)
-      setTimeout(() => setQuery?.(''), 500)
+      select(asset);
+      setTimeout(() => setQuery?.(''), 500);
     },
     [select, setQuery],
-  )
+  );
 
   const Item = useCallback(
     ({ index, style }: { index: number; style: NotWorth }) => {
-      const item = filteredAssets[index]
+      const item = filteredAssets[index];
 
-      if (!item) return null
+      if (!item) return null;
 
       return (
         <AssetSelectItem
@@ -56,26 +54,22 @@ export const AssetSelectList = ({
           select={handleSelect}
           style={style}
         />
-      )
+      );
     },
     [filteredAssets, handleSelect],
-  )
+  );
 
   const handleQueryChange = useCallback(
     (event?: React.ChangeEvent<HTMLInputElement>) => {
-      const value = event?.target?.value || ''
-      listRef?.current?.scrollTo?.(0)
-      setQuery?.(value)
+      const value = event?.target?.value || '';
+      listRef?.current?.scrollTo?.(0);
+      setQuery?.(value);
     },
     [setQuery],
-  )
+  );
 
   return (
-    <Box
-      flex={1}
-      col
-      className={classNames('rounded-box-lg', genericBgClasses.secondary)}
-    >
+    <Box col className={classNames('rounded-box-lg', genericBgClasses.secondary)} flex={1}>
       <Box
         col
         className={classNames(
@@ -84,76 +78,59 @@ export const AssetSelectList = ({
         )}
       >
         <Input
-          placeholder={t('components.assetSelect.searchTokenName')}
-          onChange={handleQueryChange}
-          value={query}
-          stretch
           autoFocus
+          stretch
+          border="rounded"
           className="!text-md p-1.5 flex-1 border"
           containerClassName="bg-light-gray-light dark:bg-dark-gray-light !bg-opacity-80"
-          border="rounded"
+          onChange={handleQueryChange}
+          placeholder={t('components.assetSelect.searchTokenName')}
           suffix={
-            query ? (
-              <Icon
-                name="close"
-                color="secondary"
-                onClick={() => handleQueryChange()}
-              />
-            ) : (
-              ''
-            )
+            query ? <Icon color="secondary" name="close" onClick={() => handleQueryChange()} /> : ''
           }
+          value={query}
         />
 
-        <TabsSelect
-          tabs={assetFilterTypes}
-          value={typeFilter}
-          onChange={setTypeFilterOption}
-        />
+        <TabsSelect onChange={setTypeFilterOption} tabs={assetFilterTypes} value={typeFilter} />
       </Box>
 
       <Box
-        flex={1}
         className={classNames(
           'overflow-x-clip overflow-y-auto bg-light-gray-light dark:bg-dark-asset-select bg-opacity-70 dark:bg-opacity-100',
           'border-solid border-b border-t border-l-0 border-r-0 border-light-border-primary dark:border-dark-gray-light',
           '!-mr-6 lg:!-mr-4',
         )}
+        flex={1}
       >
         {filteredAssets.length ? (
           <List
-            width="100%"
-            height={isLgActive ? 410 : 1000}
             className="!overflow-x-clip overflow-y-auto"
-            itemSize={ASSET_ITEM_HEIGHT}
+            height={isLgActive ? 410 : 1000}
             itemCount={filteredAssets.length || 1}
+            itemSize={ASSET_ITEM_HEIGHT}
             ref={listRef}
+            width="100%"
           >
             {Item}
           </List>
         ) : (
-          <Box flex={1} justifyCenter className="pt-4">
+          <Box justifyCenter className="pt-4" flex={1}>
             {isLoading ? (
-              <Icon name="loader" spin size={24} />
+              <Icon spin name="loader" size={24} />
             ) : (
-              <Typography>
-                {t('components.assetSelect.noResultsFound')}
-              </Typography>
+              <Typography>{t('components.assetSelect.noResultsFound')}</Typography>
             )}
           </Box>
         )}
       </Box>
 
       <Box justifyCenter className="pt-4 pb-6">
-        <div
-          className="group flex-row flex justify-center"
-          onClick={openManageTokenList}
-        >
+        <div className="group flex-row flex justify-center" onClick={openManageTokenList}>
           <Icon
-            size={18}
-            name="edit"
-            color="secondary"
             className="cursor-pointer dark:group-hover:text-dark-typo-primary group-hover:text-light-typo-primary"
+            color="secondary"
+            name="edit"
+            size={18}
           />
 
           <div className="cursor-pointer overflow-hidden transition-all">
@@ -164,5 +141,5 @@ export const AssetSelectList = ({
         </div>
       </Box>
     </Box>
-  )
-}
+  );
+};

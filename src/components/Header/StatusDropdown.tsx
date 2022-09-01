@@ -1,26 +1,22 @@
-import { memo, useMemo } from 'react'
+import { Box, DropdownMenu, Typography } from 'components/Atomic';
+import { getHostnameFromUrl } from 'helpers/url';
+import { useMimir } from 'hooks/useMimir';
+import { StatusType, useNetwork } from 'hooks/useNetwork';
+import { memo, useMemo } from 'react';
+import { t } from 'services/i18n';
+import { midgardApi } from 'services/midgard';
+import { globalConfig } from 'services/multichain';
 
-import { Box, DropdownMenu, Typography } from 'components/Atomic'
-
-import { useMimir } from 'hooks/useMimir'
-import { useNetwork, StatusType } from 'hooks/useNetwork'
-
-import { t } from 'services/i18n'
-import { midgardApi } from 'services/midgard'
-import { globalConfig } from 'services/multichain'
-
-import { getHostnameFromUrl } from 'helpers/url'
-
-import { StatusBadge } from './StatusBadge'
+import { StatusBadge } from './StatusBadge';
 
 type StatusItem = {
-  label: string
-  value?: string
-  statusType?: StatusType
-}
+  label: string;
+  value?: string;
+  statusType?: StatusType;
+};
 
 export const StatusDropdown = memo(() => {
-  const { statusType, outboundQueue, outboundQueueLevel } = useNetwork()
+  const { statusType, outboundQueue, outboundQueueLevel } = useNetwork();
   const {
     capPercent,
     isBCHChainHalted,
@@ -32,22 +28,22 @@ export const StatusDropdown = memo(() => {
     isGAIAChainHalted,
     isLTCChainHalted,
     isTHORChainHalted,
-  } = useMimir()
+  } = useMimir();
 
   // Midgard IP on devnet OR on test|chaos|mainnet
-  const midgardUrl = getHostnameFromUrl(midgardApi.getBaseUrl()) || ''
+  const midgardUrl = getHostnameFromUrl(midgardApi.getBaseUrl()) || '';
 
   const liquidityCapLabel = useMemo(() => {
     if (!capPercent) {
-      return t('components.statusDropdown.capAvailable')
+      return t('components.statusDropdown.capAvailable');
     }
 
     if (isFundsCapReached) {
-      return `${t('components.statusDropdown.capLimit')} (${capPercent})`
+      return `${t('components.statusDropdown.capLimit')} (${capPercent})`;
     }
 
-    return `${t('components.statusDropdown.capAvailable')} (${capPercent})`
-  }, [isFundsCapReached, capPercent])
+    return `${t('components.statusDropdown.capAvailable')} (${capPercent})`;
+  }, [isFundsCapReached, capPercent]);
 
   const menuItemData: StatusItem[] = useMemo(
     () => [
@@ -58,9 +54,7 @@ export const StatusDropdown = memo(() => {
       },
       {
         label: t('components.statusDropdown.outbound'),
-        value: `${t(
-          'components.statusDropdown.queue',
-        )}: ${outboundQueue} (${outboundQueueLevel})`,
+        value: `${t('components.statusDropdown.queue')}: ${outboundQueue} (${outboundQueueLevel})`,
         statusType: statusType,
       },
       {
@@ -146,28 +140,24 @@ export const StatusDropdown = memo(() => {
       isBCHChainHalted,
       isDOGEChainHalted,
     ],
-  )
+  );
 
   const menuItems = useMemo(
     () =>
       menuItemData.map(({ label, value, statusType: type }) => ({
         Component: (
-          <Box className="min-w-[200px]" row alignCenter>
+          <Box alignCenter row className="min-w-[200px]">
             <StatusBadge status={type || StatusType.Normal} />
 
-            <Box className="ml-2" col>
-              <Typography
-                variant="caption"
-                fontWeight="bold"
-                transform="uppercase"
-              >
+            <Box col className="ml-2">
+              <Typography fontWeight="bold" transform="uppercase" variant="caption">
                 {label}
               </Typography>
               <Typography
-                variant="caption-xs"
                 color="secondary"
                 fontWeight="normal"
                 transform="uppercase"
+                variant="caption-xs"
               >
                 {value}
               </Typography>
@@ -177,14 +167,14 @@ export const StatusDropdown = memo(() => {
         value: label,
       })),
     [menuItemData],
-  )
+  );
 
   return (
     <DropdownMenu
       menuItems={menuItems}
-      value={t('components.statusDropdown.networkStatus')}
-      openComponent={<StatusBadge status={statusType} />}
       onChange={() => {}}
+      openComponent={<StatusBadge status={statusType} />}
+      value={t('components.statusDropdown.networkStatus')}
     />
-  )
-})
+  );
+});

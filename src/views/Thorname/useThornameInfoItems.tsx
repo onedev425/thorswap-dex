@@ -1,39 +1,27 @@
-import { useMemo } from 'react'
-
-import { THORNameDetails } from '@thorswap-lib/midgard-sdk'
-import { Asset, THORName } from '@thorswap-lib/multichain-sdk'
-import { SupportedChain } from '@thorswap-lib/types'
-
-import { thornameChainIcons } from 'views/Thorname/ChainDropdown'
-
-import { AssetIcon } from 'components/AssetIcon'
-import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic'
-import { InfoRowConfig } from 'components/InfoRow/types'
-
-import { useMidgard } from 'store/midgard/hooks'
-
-import { t } from 'services/i18n'
-import { getThornameExpireDate } from 'services/thorname'
-
-import { shortenAddress } from 'helpers/shortenAddress'
+import { THORNameDetails } from '@thorswap-lib/midgard-sdk';
+import { Asset, THORName } from '@thorswap-lib/multichain-sdk';
+import { SupportedChain } from '@thorswap-lib/types';
+import { AssetIcon } from 'components/AssetIcon';
+import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic';
+import { InfoRowConfig } from 'components/InfoRow/types';
+import { shortenAddress } from 'helpers/shortenAddress';
+import { useMemo } from 'react';
+import { t } from 'services/i18n';
+import { getThornameExpireDate } from 'services/thorname';
+import { useMidgard } from 'store/midgard/hooks';
+import { thornameChainIcons } from 'views/Thorname/ChainDropdown';
 
 type Params = {
-  available: boolean
-  details: THORNameDetails | null
-  thorname: string
-  setYears: (years: number) => void
-  years: number
-}
+  available: boolean;
+  details: THORNameDetails | null;
+  thorname: string;
+  setYears: (years: number) => void;
+  years: number;
+};
 
-export const useThornameInfoItems = ({
-  thorname,
-  details,
-  available,
-  years,
-  setYears,
-}: Params) => {
-  const { lastBlock } = useMidgard()
-  const isAvailable = !details || available
+export const useThornameInfoItems = ({ thorname, details, available, years, setYears }: Params) => {
+  const { lastBlock } = useMidgard();
+  const isAvailable = !details || available;
 
   const commonColumns = useMemo(
     () => [
@@ -44,11 +32,7 @@ export const useThornameInfoItems = ({
           <Typography color={isAvailable ? 'green' : 'red'}>
             {t(
               `views.thorname.${
-                isAvailable
-                  ? details
-                    ? 'ownedByYou'
-                    : 'available'
-                  : 'unavailable'
+                isAvailable ? (details ? 'ownedByYou' : 'available') : 'unavailable'
               }`,
             )}
           </Typography>
@@ -58,15 +42,11 @@ export const useThornameInfoItems = ({
       ...(isAvailable
         ? [
             {
-              label: details
-                ? t('views.thorname.extend')
-                : t('views.thorname.duration'),
+              label: details ? t('views.thorname.extend') : t('views.thorname.duration'),
               value: (
-                <Box alignCenter justify="between" className="gap-x-2">
+                <Box alignCenter className="gap-x-2" justify="between">
                   <Button
                     className="px-1.5 group"
-                    type="borderless"
-                    variant="tint"
                     onClick={() => setYears(years - 1)}
                     startIcon={
                       <Icon
@@ -75,6 +55,8 @@ export const useThornameInfoItems = ({
                         name="minusCircle"
                       />
                     }
+                    type="borderless"
+                    variant="tint"
                   />
 
                   <Box center className="w-3">
@@ -83,8 +65,6 @@ export const useThornameInfoItems = ({
 
                   <Button
                     className="px-1.5 group"
-                    type="borderless"
-                    variant="tint"
                     onClick={() => setYears(years + 1)}
                     startIcon={
                       <Icon
@@ -93,20 +73,19 @@ export const useThornameInfoItems = ({
                         name="plusCircle"
                       />
                     }
+                    type="borderless"
+                    variant="tint"
                   />
                 </Box>
               ),
             },
             {
-              label: details
-                ? t('views.thorname.updateFee')
-                : t('views.thorname.registrationFee'),
+              label: details ? t('views.thorname.updateFee') : t('views.thorname.registrationFee'),
               value: (
                 <Box center className="gap-x-2">
-                  <AssetIcon size="tiny" asset={Asset.RUNE()} />
+                  <AssetIcon asset={Asset.RUNE()} size="tiny" />
                   <Typography>
-                    {details ? years : THORName.getCost(years).toSignificant(6)}{' '}
-                    $RUNE
+                    {details ? years : THORName.getCost(years).toSignificant(6)} $RUNE
                   </Typography>
                 </Box>
               ),
@@ -115,7 +94,7 @@ export const useThornameInfoItems = ({
         : []),
     ],
     [details, isAvailable, setYears, thorname, years],
-  )
+  );
 
   const ownerColumns = useMemo(
     () =>
@@ -124,12 +103,12 @@ export const useThornameInfoItems = ({
             {
               label: t('views.thorname.expire'),
               value: (
-                <Box className="gap-x-2" center>
+                <Box center className="gap-x-2">
                   <Tooltip
-                    iconName="infoCircle"
                     content={t('views.thorname.expirationNote', {
                       block: details.expire,
                     })}
+                    iconName="infoCircle"
                   />
                   <Typography>
                     {getThornameExpireDate({
@@ -147,7 +126,7 @@ export const useThornameInfoItems = ({
           ]
         : [],
     [details, lastBlock],
-  )
+  );
 
   const data = useMemo(
     () =>
@@ -159,10 +138,7 @@ export const useThornameInfoItems = ({
               key: chain,
               label: (
                 <Tooltip content={`${thorname}.${chain}`}>
-                  <Icon
-                    className="px-2"
-                    name={thornameChainIcons[chain as SupportedChain]}
-                  />
+                  <Icon className="px-2" name={thornameChainIcons[chain as SupportedChain]} />
                 </Tooltip>
               ),
               value: shortenAddress(address, 15),
@@ -170,10 +146,10 @@ export const useThornameInfoItems = ({
           : []),
       ].filter(Boolean),
     [commonColumns, details, ownerColumns, thorname],
-  )
+  );
 
   return {
     ownerColumns,
     data: details || available ? (data as InfoRowConfig[]) : [],
-  }
-}
+  };
+};

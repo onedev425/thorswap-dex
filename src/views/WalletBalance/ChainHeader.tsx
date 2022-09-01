@@ -1,30 +1,25 @@
-import { useCallback, useMemo, useState } from 'react'
-
-import { WalletOption } from '@thorswap-lib/multichain-sdk'
-import { SupportedChain } from '@thorswap-lib/types'
-
-import { CopyAddress } from 'views/Wallet/components/CopyAddress'
-import { GoToAccount } from 'views/Wallet/components/GoToAccount'
-import { ShowQrCode } from 'views/Wallet/components/ShowQrCode'
-import { useWalletChainActions } from 'views/Wallet/hooks'
-
-import { Box, Tooltip, Typography } from 'components/Atomic'
-import { HoverIcon } from 'components/HoverIcon'
-import { PhraseModal } from 'components/Modals/PhraseModal'
-import { showInfoToast } from 'components/Toast'
-import { WalletIcon } from 'components/WalletIcon/WalletIcon'
-
-import { t } from 'services/i18n'
-import { multichain } from 'services/multichain'
-
-import { chainName } from 'helpers/chainName'
+import { WalletOption } from '@thorswap-lib/multichain-sdk';
+import { SupportedChain } from '@thorswap-lib/types';
+import { Box, Tooltip, Typography } from 'components/Atomic';
+import { HoverIcon } from 'components/HoverIcon';
+import { PhraseModal } from 'components/Modals/PhraseModal';
+import { showInfoToast } from 'components/Toast';
+import { WalletIcon } from 'components/WalletIcon/WalletIcon';
+import { chainName } from 'helpers/chainName';
+import { useCallback, useMemo, useState } from 'react';
+import { t } from 'services/i18n';
+import { multichain } from 'services/multichain';
+import { CopyAddress } from 'views/Wallet/components/CopyAddress';
+import { GoToAccount } from 'views/Wallet/components/GoToAccount';
+import { ShowQrCode } from 'views/Wallet/components/ShowQrCode';
+import { useWalletChainActions } from 'views/Wallet/hooks';
 
 export type ChainHeaderProps = {
-  chain: SupportedChain
-  address: string
-  walletLoading?: boolean
-  walletType: WalletOption
-}
+  chain: SupportedChain;
+  address: string;
+  walletLoading?: boolean;
+  walletType: WalletOption;
+};
 
 export const ChainHeader = ({
   chain,
@@ -32,59 +27,51 @@ export const ChainHeader = ({
   walletType,
   walletLoading = false,
 }: ChainHeaderProps) => {
-  const { handleRefreshChain, handleWalletDisconnect } =
-    useWalletChainActions(chain)
+  const { handleRefreshChain, handleWalletDisconnect } = useWalletChainActions(chain);
 
-  const [isPhraseModalVisible, setIsPhraseModalVisible] = useState(false)
+  const [isPhraseModalVisible, setIsPhraseModalVisible] = useState(false);
 
   const handleClosePhraseModal = () => {
-    setIsPhraseModalVisible(false)
-  }
+    setIsPhraseModalVisible(false);
+  };
 
   const handleClickWalletIcon = useCallback(async () => {
     if (walletType === WalletOption.KEYSTORE) {
-      setIsPhraseModalVisible(true)
+      setIsPhraseModalVisible(true);
     }
 
     if (walletType === WalletOption.LEDGER && chain === 'THOR') {
-      const addr = await multichain().thor.verifyLedgerAddress()
+      const addr = await multichain().thor.verifyLedgerAddress();
 
       showInfoToast(t('notification.verifyLedgerAddy'), addr, {
         duration: 20 * 1000,
-      })
+      });
     }
-  }, [walletType, chain])
+  }, [walletType, chain]);
 
   const walletTooltip = useMemo(() => {
     if (walletType === WalletOption.KEYSTORE) {
-      return t('views.walletModal.viewPhrase')
+      return t('views.walletModal.viewPhrase');
     }
     if (walletType === WalletOption.LEDGER) {
-      return t('views.walletModal.verifyAddress')
+      return t('views.walletModal.verifyAddress');
     }
 
-    return `${walletType} ${t('common.connected')}`
-  }, [walletType])
+    return `${walletType} ${t('common.connected')}`;
+  }, [walletType]);
 
   return (
-    <Box
-      className="px-2 py-1 bg-btn-light-tint dark:bg-btn-dark-tint"
-      justify="between"
-    >
+    <Box className="px-2 py-1 bg-btn-light-tint dark:bg-btn-dark-tint" justify="between">
       <Box alignCenter>
         <HoverIcon
           iconName="refresh"
-          tooltip={t('common.refresh')}
+          onClick={handleRefreshChain}
           size={16}
           spin={walletLoading}
-          onClick={handleRefreshChain}
+          tooltip={t('common.refresh')}
         />
         <Tooltip content={walletTooltip}>
-          <WalletIcon
-            onClick={handleClickWalletIcon}
-            walletType={walletType}
-            size={16}
-          />
+          <WalletIcon onClick={handleClickWalletIcon} size={16} walletType={walletType} />
         </Tooltip>
         <Typography className="ml-1" variant="caption">
           {chainName(chain, true)}
@@ -95,7 +82,7 @@ export const ChainHeader = ({
         <CopyAddress address={address} type="mini" />
         <CopyAddress address={address} type="icon" />
         <ShowQrCode address={address} chain={chain} />
-        <GoToAccount chain={chain} address={address} />
+        <GoToAccount address={address} chain={chain} />
         <HoverIcon
           color="orange"
           iconName="disconnect"
@@ -105,10 +92,7 @@ export const ChainHeader = ({
         />
       </Box>
 
-      <PhraseModal
-        isOpen={isPhraseModalVisible}
-        onCancel={handleClosePhraseModal}
-      />
+      <PhraseModal isOpen={isPhraseModalVisible} onCancel={handleClosePhraseModal} />
     </Box>
-  )
-}
+  );
+};

@@ -1,77 +1,67 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
-
-import { THORNode } from '@thorswap-lib/midgard-sdk'
+import { THORNode } from '@thorswap-lib/midgard-sdk';
 import {
   Amount,
-  hasWalletConnected,
   Asset,
   hasConnectedWallet,
-} from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/types'
-import copy from 'copy-to-clipboard'
+  hasWalletConnected,
+} from '@thorswap-lib/multichain-sdk';
+import { Chain } from '@thorswap-lib/types';
+import { Box, Button, Icon, Link, Typography } from 'components/Atomic';
+import { useInputAmount } from 'components/InputAmount/useInputAmount';
+import { showErrorToast, showInfoToast, showSuccessToast } from 'components/Toast';
+import copy from 'copy-to-clipboard';
+import { useBalance } from 'hooks/useBalance';
+import useWindowSize from 'hooks/useWindowSize';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { multichain } from 'services/multichain';
+import { useWallet } from 'store/wallet/hooks';
+import { BondActionType, NodeManagePanelProps } from 'views/Nodes/types';
 
-import { BondActionType, NodeManagePanelProps } from 'views/Nodes/types'
-
-import { Box, Button, Icon, Link, Typography } from 'components/Atomic'
-import { useInputAmount } from 'components/InputAmount/useInputAmount'
-import {
-  showErrorToast,
-  showInfoToast,
-  showSuccessToast,
-} from 'components/Toast'
-
-import { useWallet } from 'store/wallet/hooks'
-
-import { useBalance } from 'hooks/useBalance'
-import useWindowSize from 'hooks/useWindowSize'
-
-import { multichain } from 'services/multichain'
-
-import { shortenAddress } from '../../../helpers/shortenAddress'
-import { t } from '../../../services/i18n'
-import { useApp } from '../../../store/app/hooks'
-import { useMidgard } from '../../../store/midgard/hooks'
+import { shortenAddress } from '../../../helpers/shortenAddress';
+import { t } from '../../../services/i18n';
+import { useApp } from '../../../store/app/hooks';
+import { useMidgard } from '../../../store/midgard/hooks';
 
 export const useNodeDetailInfo = (nodeAddress: string | undefined) => {
-  const { nodes, getNodes, nodeLoading } = useMidgard()
-  const { nodeWatchList, setWatchList } = useApp()
+  const { nodes, getNodes, nodeLoading } = useMidgard();
+  const { nodeWatchList, setWatchList } = useApp();
 
   useEffect(() => {
     if (nodes.length === 0) {
-      getNodes()
+      getNodes();
     }
-  }, [getNodes, nodes.length])
+  }, [getNodes, nodes.length]);
 
   const nodeInfo = useMemo(() => {
-    if (nodeLoading) return null
-    const activeNode = nodes.find((item) => item.node_address === nodeAddress)
+    if (nodeLoading) return null;
+    const activeNode = nodes.find((item) => item.node_address === nodeAddress);
 
-    return activeNode || null
-  }, [nodeAddress, nodeLoading, nodes])
+    return activeNode || null;
+  }, [nodeAddress, nodeLoading, nodes]);
 
   const isFavorite = useMemo(() => {
-    return nodeWatchList.includes(nodeAddress || '#')
-  }, [nodeAddress, nodeWatchList])
+    return nodeWatchList.includes(nodeAddress || '#');
+  }, [nodeAddress, nodeWatchList]);
 
   const handleAddToWatchList = useCallback(
     (address: string) => {
-      const isSelected = nodeWatchList.includes(address)
+      const isSelected = nodeWatchList.includes(address);
       if (!isSelected) {
-        setWatchList([address, ...nodeWatchList])
+        setWatchList([address, ...nodeWatchList]);
       } else {
-        const newList = nodeWatchList.filter((addr) => addr !== address)
-        setWatchList(newList)
+        const newList = nodeWatchList.filter((addr) => addr !== address);
+        setWatchList(newList);
       }
     },
     [setWatchList, nodeWatchList],
-  )
+  );
 
-  return { nodeInfo, nodeLoading, isFavorite, handleAddToWatchList }
-}
+  return { nodeInfo, nodeLoading, isFavorite, handleAddToWatchList };
+};
 
 export const useNodeStats = (nodeInfo: THORNode) => {
-  const { isMdActive } = useWindowSize()
-  if (!nodeInfo) return []
+  const { isMdActive } = useWindowSize();
+  if (!nodeInfo) return [];
 
   return [
     {
@@ -80,19 +70,17 @@ export const useNodeStats = (nodeInfo: THORNode) => {
       value: (
         <Button
           className="!px-2 h-auto"
+          endIcon={<Icon name="copy" size={14} />}
+          onClick={(e) => {
+            copy(nodeInfo.node_address);
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+          tooltip={t('common.copy')}
           type="borderless"
           variant="tint"
-          endIcon={<Icon size={14} name="copy" />}
-          tooltip={t('common.copy')}
-          onClick={(e) => {
-            copy(nodeInfo.node_address)
-            e.stopPropagation()
-            e.preventDefault()
-          }}
         >
-          {isMdActive
-            ? nodeInfo.node_address
-            : shortenAddress(nodeInfo.node_address, 6, 4)}
+          {isMdActive ? nodeInfo.node_address : shortenAddress(nodeInfo.node_address, 6, 4)}
         </Button>
       ),
     },
@@ -102,19 +90,17 @@ export const useNodeStats = (nodeInfo: THORNode) => {
       value: (
         <Button
           className="!px-2 h-auto"
+          endIcon={<Icon name="copy" size={14} />}
+          onClick={(e) => {
+            copy(nodeInfo.bond_address);
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+          tooltip={t('common.copy')}
           type="borderless"
           variant="tint"
-          endIcon={<Icon size={14} name="copy" />}
-          tooltip={t('common.copy')}
-          onClick={(e) => {
-            copy(nodeInfo.bond_address)
-            e.stopPropagation()
-            e.preventDefault()
-          }}
         >
-          {isMdActive
-            ? nodeInfo.bond_address
-            : shortenAddress(nodeInfo.bond_address, 6, 4)}
+          {isMdActive ? nodeInfo.bond_address : shortenAddress(nodeInfo.bond_address, 6, 4)}
         </Button>
       ),
     },
@@ -151,9 +137,7 @@ export const useNodeStats = (nodeInfo: THORNode) => {
     {
       key: 'active_block_height',
       label: t('views.nodes.activeBlock'),
-      value: `${Amount.fromNormalAmount(nodeInfo.active_block_height).toFixed(
-        0,
-      )}`,
+      value: `${Amount.fromNormalAmount(nodeInfo.active_block_height).toFixed(0)}`,
     },
     {
       key: 'requested_to_leave',
@@ -173,12 +157,10 @@ export const useNodeStats = (nodeInfo: THORNode) => {
     {
       key: 'jail_address',
       label: t('views.nodes.jailNodeAddress'),
-      value: nodeInfo.jail.node_address
-        ? shortenAddress(nodeInfo.jail?.node_address, 6, 4)
-        : '',
+      value: nodeInfo.jail.node_address ? shortenAddress(nodeInfo.jail?.node_address, 6, 4) : '',
     },
-  ]
-}
+  ];
+};
 
 export const useNodeManager = ({
   address,
@@ -192,40 +174,37 @@ export const useNodeManager = ({
         value: type,
       })) as { label: string; value: BondActionType }[],
     [],
-  )
+  );
 
   const getTab = useCallback(
     (type: BondActionType) => {
-      return tabs.find((t) => t.value === type)
+      return tabs.find((t) => t.value === type);
     },
     [tabs],
-  )
+  );
 
-  const [amount, setAmount] = useState(Amount.fromNormalAmount(0))
+  const [amount, setAmount] = useState(Amount.fromNormalAmount(0));
   const { rawValue, onChange: onAmountChange } = useInputAmount({
     amountValue: amount,
     onAmountChange: setAmount,
-  })
-  const { wallet, setIsConnectModalOpen } = useWallet()
+  });
+  const { wallet, setIsConnectModalOpen } = useWallet();
 
   const isWalletConnected = useMemo(
     () => skipWalletCheck || hasConnectedWallet(wallet),
     [skipWalletCheck, wallet],
-  )
+  );
 
   const thorWalletConnected = useMemo(
     () => hasWalletConnected({ wallet, inputAssets: [Asset.RUNE()] }),
     [wallet],
-  )
+  );
 
-  const { getMaxBalance } = useBalance()
+  const { getMaxBalance } = useBalance();
 
-  const maxInputBalance: Amount = useMemo(
-    () => getMaxBalance(Asset.RUNE()),
-    [getMaxBalance],
-  )
+  const maxInputBalance: Amount = useMemo(() => getMaxBalance(Asset.RUNE()), [getMaxBalance]);
 
-  const [tab, setTab] = useState(tabs[0])
+  const [tab, setTab] = useState(tabs[0]);
 
   /**
    * 1. check thor wallet connection
@@ -235,13 +214,13 @@ export const useNodeManager = ({
     const isValidAddress = multichain().validateAddress({
       chain: Chain.THORChain,
       address: address || '',
-    })
+    });
 
     if (!isValidAddress) {
       return showInfoToast(
         t('views.nodes.detail.InvalidNodeAddress'),
         t('views.nodes.detail.CorrectNodeAddress'),
-      )
+      );
     }
 
     // Custom action handler
@@ -250,76 +229,73 @@ export const useNodeManager = ({
         type: tab.value,
         nodeAddress: address || '',
         amount,
-      })
+      });
     }
 
     if (!thorWalletConnected) {
       return showInfoToast(
         t('views.nodes.detail.WalletNotConnected'),
         t('views.nodes.detail.ConnectThorChainAgainPlease'),
-      )
+      );
     }
 
     try {
       if (tab.value === BondActionType.Bond) {
         // bond action
-        const txURL = await multichain().bond(address || '', amount)
+        const txURL = await multichain().bond(address || '', amount);
         showSuccessToast(
           t('views.nodes.detail.ViewBondTx'),
           <Box className="align-center py-2">
-            <Typography variant="caption-xs" fontWeight="light">
+            <Typography fontWeight="light" variant="caption-xs">
               {t('views.nodes.detail.transactionSentSuccessfully')}
             </Typography>
-            <Link to={txURL} className="no-underline">
-              <Button size="sm" variant="tint" type="outline">
+            <Link className="no-underline" to={txURL}>
+              <Button size="sm" type="outline" variant="tint">
                 {t('views.nodes.detail.ViewTransaction')}
               </Button>
             </Link>
           </Box>,
-        )
+        );
       } else if (tab.value === BondActionType.Unbond) {
-        const txURL = await multichain().unbond(
-          address || '',
-          amount.assetAmount.toNumber(),
-        )
+        const txURL = await multichain().unbond(address || '', amount.assetAmount.toNumber());
         showSuccessToast(
           t('views.nodes.detail.ViewUnBondTx'),
           <>
-            <Typography variant="caption-xs" fontWeight="light">
+            <Typography fontWeight="light" variant="caption-xs">
               {t('views.nodes.detail.transactionSentSuccessfully')}
             </Typography>
-            <Link to={txURL} className="no-underline pt-3">
-              <Button size="sm" variant="tint" type="outline">
+            <Link className="no-underline pt-3" to={txURL}>
+              <Button size="sm" type="outline" variant="tint">
                 {t('views.nodes.detail.ViewTransaction')}
               </Button>
             </Link>
           </>,
-        )
+        );
       } else {
-        const txURL = await multichain().leave(address || '')
+        const txURL = await multichain().leave(address || '');
         showSuccessToast(
           t('views.nodes.detail.ViewLeaveTx'),
           <>
-            <Typography variant="caption-xs" fontWeight="light">
+            <Typography fontWeight="light" variant="caption-xs">
               {t('views.nodes.detail.transactionSentSuccessfully')}
             </Typography>
-            <Link to={txURL} className="no-underline pt-3">
-              <Button size="sm" variant="tint" type="outline">
+            <Link className="no-underline pt-3" to={txURL}>
+              <Button size="sm" type="outline" variant="tint">
                 {t('views.nodes.detail.ViewTransaction')}
               </Button>
             </Link>
           </>,
-        )
+        );
       }
     } catch (error) {
-      showErrorToast(t('views.nodes.detail.TransactionFailed'), `${error}`)
+      showErrorToast(t('views.nodes.detail.TransactionFailed'), `${error}`);
     }
-  }, [amount, handleBondAction, address, tab.value, thorWalletConnected])
+  }, [amount, handleBondAction, address, tab.value, thorWalletConnected]);
 
   const onTabChange = useCallback(
     (v: string) => setTab(getTab(v as BondActionType) || tabs[0]),
     [getTab, tabs],
-  )
+  );
 
   return {
     tabs,
@@ -331,5 +307,5 @@ export const useNodeManager = ({
     isWalletConnected,
     setIsConnectModalOpen,
     maxInputBalance,
-  }
-}
+  };
+};

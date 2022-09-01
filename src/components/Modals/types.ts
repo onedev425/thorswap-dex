@@ -1,11 +1,11 @@
-import { AssetTickerType } from 'components/AssetIcon/types'
-import { IconName } from 'components/Atomic'
+import { AssetTickerType } from 'components/AssetIcon/types';
+import { IconName } from 'components/Atomic';
 
 export type WalletTypes = {
-  icon: IconName
-  name: string
-  id: string
-}
+  icon: IconName;
+  name: string;
+  id: string;
+};
 
 export const WalletOptions: WalletTypes[] = [
   {
@@ -38,12 +38,12 @@ export const WalletOptions: WalletTypes[] = [
     icon: 'ethereum',
     id: 'ethereum',
   },
-]
+];
 
 export type ChainListType = {
-  name: AssetTickerType
-  isConnected: boolean
-}
+  name: AssetTickerType;
+  isConnected: boolean;
+};
 
 export const ChainList: ChainListType[] = [
   { name: 'BTC', isConnected: true },
@@ -52,4 +52,4 @@ export const ChainList: ChainListType[] = [
   { name: 'DOGE', isConnected: false },
   { name: 'LTC', isConnected: false },
   { name: 'BCH', isConnected: false },
-]
+];

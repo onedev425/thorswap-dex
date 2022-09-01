@@ -1,13 +1,12 @@
-import { Chain } from '@thorswap-lib/types'
-
-import { SORTED_CHAINS } from 'settings/chain'
+import { Chain } from '@thorswap-lib/types';
+import { SORTED_CHAINS } from 'settings/chain';
 
 export const sortChains = (chains: string[]) => {
-  const sorted: Chain[] = []
+  const sorted: Chain[] = [];
 
   SORTED_CHAINS.forEach((chain) => {
-    if (chains.includes(chain)) sorted.push(chain)
-  })
+    if (chains.includes(chain)) sorted.push(chain);
+  });
 
-  return sorted
-}
+  return sorted;
+};

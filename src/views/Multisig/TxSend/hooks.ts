@@ -1,43 +1,33 @@
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
-
-import { useNavigate, useParams } from 'react-router-dom'
-
-import { Amount, Asset, Price } from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/types'
-
-import { useMultissigAssets } from 'views/Multisig/hooks'
-import { useTxCreate } from 'views/Multisig/TxCreate/TxCreateContext'
-
-import { showErrorToast } from 'components/Toast'
-
-import { useMidgard } from 'store/midgard/hooks'
-import { useMultisig } from 'store/multisig/hooks'
-
-import { t } from 'services/i18n'
-import { multichain } from 'services/multichain'
-
-import { getMultisigTxCreateRoute, ROUTES } from 'settings/constants'
+import { Amount, Asset, Price } from '@thorswap-lib/multichain-sdk';
+import { Chain } from '@thorswap-lib/types';
+import { showErrorToast } from 'components/Toast';
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { t } from 'services/i18n';
+import { multichain } from 'services/multichain';
+import { getMultisigTxCreateRoute, ROUTES } from 'settings/constants';
+import { useMidgard } from 'store/midgard/hooks';
+import { useMultisig } from 'store/multisig/hooks';
+import { useMultissigAssets } from 'views/Multisig/hooks';
+import { useTxCreate } from 'views/Multisig/TxCreate/TxCreateContext';
 
 export const useTxSend = () => {
-  const { signers } = useTxCreate()
-  const { createTransferTx } = useMultisig()
+  const { signers } = useTxCreate();
+  const { createTransferTx } = useMultisig();
 
-  const { assetsWithBalance: assetInputList, getMaxBalance } =
-    useMultissigAssets()
-  const { assetParam } = useParams<{ assetParam: string }>()
-  const navigate = useNavigate()
+  const { assetsWithBalance: assetInputList, getMaxBalance } = useMultissigAssets();
+  const { assetParam } = useParams<{ assetParam: string }>();
+  const navigate = useNavigate();
 
-  const [sendAsset, setSendAsset] = useState<Asset>(Asset.RUNE())
+  const [sendAsset, setSendAsset] = useState<Asset>(Asset.RUNE());
 
-  const [sendAmount, setSendAmount] = useState<Amount>(
-    Amount.fromAssetAmount(0, 8),
-  )
+  const [sendAmount, setSendAmount] = useState<Amount>(Amount.fromAssetAmount(0, 8));
 
-  const [memo, setMemo] = useState('')
-  const [recipientAddress, setRecipientAddress] = useState('')
-  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
+  const [memo, setMemo] = useState('');
+  const [recipientAddress, setRecipientAddress] = useState('');
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
 
-  const { pools } = useMidgard()
+  const { pools } = useMidgard();
 
   const assetPriceInUSD = useMemo(
     () =>
@@ -47,12 +37,12 @@ export const useTxSend = () => {
         priceAmount: sendAmount,
       }),
     [sendAsset, sendAmount, pools],
-  )
+  );
 
   const maxSpendableBalance: Amount = useMemo(
     () => getMaxBalance(sendAsset),
     [sendAsset, getMaxBalance],
-  )
+  );
 
   const assetInput = useMemo(
     () => ({
@@ -62,65 +52,60 @@ export const useTxSend = () => {
       usdPrice: assetPriceInUSD,
     }),
     [sendAsset, sendAmount, maxSpendableBalance, assetPriceInUSD],
-  )
+  );
 
   useEffect(() => {
     const getSendAsset = async () => {
       if (!assetParam) {
-        setSendAsset(Asset.RUNE())
+        setSendAsset(Asset.RUNE());
       } else {
-        const assetObj = Asset.decodeFromURL(assetParam)
+        const assetObj = Asset.decodeFromURL(assetParam);
 
         if (assetObj) {
           const assetDecimals =
             assetObj && assetObj.L1Chain === Chain.Ethereum
               ? await multichain().eth.getERC20AssetDecimal(assetObj)
-              : undefined
+              : undefined;
 
-          await assetObj.setDecimal(assetDecimals)
-          setSendAsset(assetObj)
+          await assetObj.setDecimal(assetDecimals);
+          setSendAsset(assetObj);
         } else {
-          setSendAsset(Asset.RUNE())
+          setSendAsset(Asset.RUNE());
         }
       }
-    }
+    };
 
-    getSendAsset()
-  }, [assetParam])
+    getSendAsset();
+  }, [assetParam]);
 
   const handleSelectAsset = useCallback(
     (selected: Asset) => {
-      setRecipientAddress('')
-      navigate(getMultisigTxCreateRoute(selected))
+      setRecipientAddress('');
+      navigate(getMultisigTxCreateRoute(selected));
     },
     [navigate],
-  )
+  );
 
   const handleChangeSendAmount = useCallback(
     (amount: Amount) =>
-      setSendAmount(
-        amount.gt(maxSpendableBalance) ? maxSpendableBalance : amount,
-      ),
+      setSendAmount(amount.gt(maxSpendableBalance) ? maxSpendableBalance : amount),
     [maxSpendableBalance],
-  )
+  );
 
   const handleChangeRecipient = useCallback(
     ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-      setRecipientAddress(value)
+      setRecipientAddress(value);
     },
     [],
-  )
+  );
 
-  const handleChangeMemo = useCallback(
-    ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-      setMemo(value)
-    },
-    [],
-  )
+  const handleChangeMemo = useCallback(({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
+    setMemo(value);
+  }, []);
 
   const handleCancelConfirm = useCallback(() => {
-    setIsOpenConfirmModal(false)
-  }, [])
+    setIsOpenConfirmModal(false);
+  }, []);
 
   const handleCreateTx = async () => {
     const tx = await createTransferTx(
@@ -131,14 +116,14 @@ export const useTxSend = () => {
         amount: sendAmount,
       },
       signers,
-    )
+    );
 
     if (tx) {
       navigate(ROUTES.TxMultisig, {
         state: { tx, signers },
-      })
+      });
     }
-  }
+  };
 
   const handleSend = useCallback(() => {
     if (
@@ -147,13 +132,11 @@ export const useTxSend = () => {
         address: recipientAddress,
       })
     ) {
-      showErrorToast(
-        t('notification.invalidL1ChainAddy', { chain: Chain.THORChain }),
-      )
+      showErrorToast(t('notification.invalidL1ChainAddy', { chain: Chain.THORChain }));
     } else {
-      setIsOpenConfirmModal(true)
+      setIsOpenConfirmModal(true);
     }
-  }, [recipientAddress, setIsOpenConfirmModal])
+  }, [recipientAddress, setIsOpenConfirmModal]);
 
   return {
     isOpenConfirmModal,
@@ -172,5 +155,5 @@ export const useTxSend = () => {
     sendAsset,
     handleCreateTx,
     handleSend,
-  }
-}
+  };
+};

@@ -1,0 +1,13 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint-commit:
+      run: npx commitlint --from=HEAD~1 --color
+
+    lint:
+      glob: "*.{js,ts,tsx,json}"
+      run: yarn lint --fix
+
+    typescript:
+      glob: "*.{ts,tsx}"
+      run: yarn typescript

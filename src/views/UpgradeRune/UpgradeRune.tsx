@@ -1,99 +1,89 @@
-import { useState, useMemo, useCallback, useEffect } from 'react'
-
 import {
-  Asset,
   Amount,
+  Asset,
+  AssetAmount,
   hasWalletConnected,
   Price,
-  AssetAmount,
-} from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/types'
+} from '@thorswap-lib/multichain-sdk';
+import { Chain } from '@thorswap-lib/types';
+import { AssetInput } from 'components/AssetInput';
+import { Box, Button, Card, Icon, Tooltip, Typography } from 'components/Atomic';
+import { Helmet } from 'components/Helmet';
+import { InfoTable } from 'components/InfoTable';
+import { ConfirmModal } from 'components/Modals/ConfirmModal';
+import { PanelInput } from 'components/PanelInput';
+import { showErrorToast, showInfoToast } from 'components/Toast';
+import { ViewHeader } from 'components/ViewHeader';
+import { getRuneToUpgrade } from 'helpers/wallet';
+import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
+import { useBalance } from 'hooks/useBalance';
+import { useMimir } from 'hooks/useMimir';
+import { useNetworkFee } from 'hooks/useNetworkFee';
+import { useTxTracker } from 'hooks/useTxTracker';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { t } from 'services/i18n';
+import { multichain } from 'services/multichain';
+import { IS_STAGENET } from 'settings/config';
+import { useMidgard } from 'store/midgard/hooks';
+import { TxTrackerType } from 'store/midgard/types';
+import { useWallet } from 'store/wallet/hooks';
+import { ConfirmContent } from 'views/UpgradeRune/ConfirmContent';
 
-import { ConfirmContent } from 'views/UpgradeRune/ConfirmContent'
-
-import { AssetInput } from 'components/AssetInput'
-import { Button, Card, Icon, Box, Typography, Tooltip } from 'components/Atomic'
-import { Helmet } from 'components/Helmet'
-import { InfoTable } from 'components/InfoTable'
-import { ConfirmModal } from 'components/Modals/ConfirmModal'
-import { PanelInput } from 'components/PanelInput'
-import { showErrorToast, showInfoToast } from 'components/Toast'
-import { ViewHeader } from 'components/ViewHeader'
-
-import { useMidgard } from 'store/midgard/hooks'
-import { TxTrackerType } from 'store/midgard/types'
-import { useWallet } from 'store/wallet/hooks'
-
-import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance'
-import { useBalance } from 'hooks/useBalance'
-import { useMimir } from 'hooks/useMimir'
-import { useNetworkFee } from 'hooks/useNetworkFee'
-import { useTxTracker } from 'hooks/useTxTracker'
-
-import { t } from 'services/i18n'
-import { multichain } from 'services/multichain'
-
-import { getRuneToUpgrade } from 'helpers/wallet'
-
-import { IS_STAGENET } from 'settings/config'
-
-const oldRunes = [Asset.BNB_RUNE(), Asset.ETH_RUNE()]
+const oldRunes = [Asset.BNB_RUNE(), Asset.ETH_RUNE()];
 
 const UpgradeRune = () => {
-  const { isChainTradingHalted } = useMimir()
-  const { wallet, setIsConnectModalOpen } = useWallet()
-  const { getMaxBalance, isWalletAssetConnected } = useBalance()
-  const { lastBlock, pools } = useMidgard()
-  const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
+  const { isChainTradingHalted } = useMimir();
+  const { wallet, setIsConnectModalOpen } = useWallet();
+  const { getMaxBalance, isWalletAssetConnected } = useBalance();
+  const { lastBlock, pools } = useMidgard();
+  const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker();
 
-  const walletAddress = wallet?.[Chain.THORChain]?.address || ''
-  const [hasManualAddress, setHasManualAddress] = useState(false)
-  const [isOpened, setIsOpened] = useState(false)
-  const [recipientAddress, setRecipientAddress] = useState(walletAddress || '')
+  const walletAddress = wallet?.[Chain.THORChain]?.address || '';
+  const [hasManualAddress, setHasManualAddress] = useState(false);
+  const [isOpened, setIsOpened] = useState(false);
+  const [recipientAddress, setRecipientAddress] = useState(walletAddress || '');
 
   useEffect(() => {
     if (!!recipientAddress && !walletAddress) {
-      setHasManualAddress(true)
+      setHasManualAddress(true);
     }
-  }, [walletAddress, recipientAddress])
+  }, [walletAddress, recipientAddress]);
 
   useEffect(() => {
     if (walletAddress && !hasManualAddress) {
-      setRecipientAddress(walletAddress)
+      setRecipientAddress(walletAddress);
     }
-  }, [hasManualAddress, walletAddress])
+  }, [hasManualAddress, walletAddress]);
 
-  const [selectedAsset, setSelectedAsset] = useState<Asset>(oldRunes[0])
+  const [selectedAsset, setSelectedAsset] = useState<Asset>(oldRunes[0]);
   const [upgradeAmount, setUpgradeAmount] = useState<Amount>(
     Amount.fromAssetAmount(0, selectedAsset.decimal),
-  )
+  );
   const runeToUpgrade = useMemo(() => {
-    const runes = getRuneToUpgrade(wallet)
+    const runes = getRuneToUpgrade(wallet);
 
-    if (runes && runes.length > 0) return runes
-    return oldRunes
-  }, [wallet])
+    if (runes && runes.length > 0) return runes;
+    return oldRunes;
+  }, [wallet]);
 
   const maxSpendableBalance: Amount = useMemo(
     () => getMaxBalance(selectedAsset),
     [selectedAsset, getMaxBalance],
-  )
+  );
 
   const { inboundFee, totalFeeInUSD } = useNetworkFee({
     inputAsset: selectedAsset,
-  })
+  });
 
   const isWalletConnected = useMemo(
-    () =>
-      selectedAsset &&
-      hasWalletConnected({ wallet, inputAssets: [selectedAsset] }),
+    () => selectedAsset && hasWalletConnected({ wallet, inputAssets: [selectedAsset] }),
     [wallet, selectedAsset],
-  )
+  );
 
   const isTradingHalted: boolean = useMemo(
     () => isChainTradingHalted?.[selectedAsset.chain] ?? false,
     [isChainTradingHalted, selectedAsset],
-  )
+  );
 
   const assetPriceInUSD = useMemo(
     () =>
@@ -103,22 +93,20 @@ const UpgradeRune = () => {
         priceAmount: upgradeAmount,
       }),
     [upgradeAmount, pools],
-  )
+  );
 
   const handleChangeUpgradeAmount = useCallback(
     (amount: Amount) => {
-      setUpgradeAmount(
-        amount.gt(maxSpendableBalance) ? maxSpendableBalance : amount,
-      )
+      setUpgradeAmount(amount.gt(maxSpendableBalance) ? maxSpendableBalance : amount);
     },
     [maxSpendableBalance],
-  )
+  );
 
   const handleConfirmUpgrade = useCallback(async () => {
-    setIsOpened(false)
+    setIsOpened(false);
 
     if (selectedAsset && recipientAddress) {
-      const runeAmount = new AssetAmount(selectedAsset, upgradeAmount)
+      const runeAmount = new AssetAmount(selectedAsset, upgradeAmount);
 
       // register to tx tracker
       const trackId = submitTransaction({
@@ -138,14 +126,13 @@ const UpgradeRune = () => {
           ],
           recipient: recipientAddress,
         },
-      })
+      });
 
       try {
         const txHash = await multichain().upgrade({
           runeAmount,
           recipient: recipientAddress,
-        })
-        console.info('txHash', txHash)
+        });
 
         // start polling
         pollTransaction({
@@ -168,10 +155,10 @@ const UpgradeRune = () => {
             submitDate: new Date(),
             recipient: recipientAddress,
           },
-        })
+        });
       } catch (error) {
-        setTxFailed(trackId)
-        showErrorToast(t('notification.submitTxFailed'))
+        setTxFailed(trackId);
+        showErrorToast(t('notification.submitTxFailed'));
       }
     }
   }, [
@@ -181,15 +168,15 @@ const UpgradeRune = () => {
     pollTransaction,
     recipientAddress,
     setTxFailed,
-  ])
+  ]);
 
   const handleUpgrade = useCallback(() => {
     if (isTradingHalted) {
-      return showInfoToast(t('notification.upgradeTradingHalt'))
+      return showInfoToast(t('notification.upgradeTradingHalt'));
     }
 
     if (!recipientAddress) {
-      return showInfoToast(t('notification.tcWalletRequest'))
+      return showInfoToast(t('notification.tcWalletRequest'));
     }
 
     if (
@@ -204,53 +191,43 @@ const UpgradeRune = () => {
       return showErrorToast(
         t('notification.invalidRecipientAddy'),
         t('notification.invalidRecipientAddyDesc'),
-      )
+      );
     }
 
-    setIsOpened(true)
-  }, [recipientAddress, isTradingHalted])
+    setIsOpened(true);
+  }, [recipientAddress, isTradingHalted]);
 
   const assetInput = useMemo(
     () => ({
       asset: selectedAsset,
       value: upgradeAmount,
-      balance: isWalletAssetConnected(selectedAsset)
-        ? maxSpendableBalance
-        : undefined,
+      balance: isWalletAssetConnected(selectedAsset) ? maxSpendableBalance : undefined,
       usdPrice: assetPriceInUSD,
     }),
-    [
-      selectedAsset,
-      upgradeAmount,
-      maxSpendableBalance,
-      assetPriceInUSD,
-      isWalletAssetConnected,
-    ],
-  )
+    [selectedAsset, upgradeAmount, maxSpendableBalance, assetPriceInUSD, isWalletAssetConnected],
+  );
 
-  const assetInputList = useAssetsWithBalance(runeToUpgrade)
-  const feeLabel = `${inboundFee.toCurrencyFormat()} (${totalFeeInUSD.toCurrencyFormat(
-    2,
-  )})`
+  const assetInputList = useAssetsWithBalance(runeToUpgrade);
+  const feeLabel = `${inboundFee.toCurrencyFormat()} (${totalFeeInUSD.toCurrencyFormat(2)})`;
 
   const redemptionRate = useMemo(() => {
     // Current Ratio = 1-((CurrentBlockHeight - KILLSWITCH_BLOCK) / KILLSWITCH_DURATION_IN_BLOCKS)
 
-    const lastTCBlock = lastBlock?.[0]?.thorchain
-    const rate = 1 - (lastTCBlock - 6500000) / 5256000
+    const lastTCBlock = lastBlock?.[0]?.thorchain;
+    const rate = 1 - (lastTCBlock - 6500000) / 5256000;
 
-    return lastTCBlock ? rate.toFixed(6) : '-'
-  }, [lastBlock])
+    return lastTCBlock ? rate.toFixed(6) : '-';
+  }, [lastBlock]);
 
   const summary = useMemo(
     () => [
       {
         label: t('common.transactionFee'),
         value: (
-          <Box className="gap-2" center>
+          <Box center className="gap-2">
             <Typography variant="caption">{feeLabel}</Typography>
             <Tooltip content={t('views.send.txFeeTooltip')}>
-              <Icon size={20} color="secondary" name="infoCircle" />
+              <Icon color="secondary" name="infoCircle" size={20} />
             </Tooltip>
           </Box>
         ),
@@ -258,65 +235,60 @@ const UpgradeRune = () => {
       {
         label: t('common.runeRedemptionRate'),
         value: (
-          <Box className="gap-2" center>
+          <Box center className="gap-2">
             <Typography variant="caption">{redemptionRate}</Typography>
             <Box
               center
               className="p-0.5 border-[1.5px] border-solid rounded-xl border-light-border-primary dark:border-dark-gray-primary"
             >
-              <Icon size={12} name="switch" color="secondary" />
+              <Icon color="secondary" name="switch" size={12} />
             </Box>
           </Box>
         ),
       },
     ],
     [feeLabel, redemptionRate],
-  )
+  );
 
   const receivedRune = useMemo(() => {
-    const rate = parseFloat(redemptionRate)
+    const rate = parseFloat(redemptionRate);
 
-    if (Number.isNaN(rate) || assetInput.value.lte(0)) return '-'
+    if (Number.isNaN(rate) || assetInput.value.lte(0)) return '-';
 
-    const runeAmount = assetInput.value.mul(rate).toSignificant(8)
+    const runeAmount = assetInput.value.mul(rate).toSignificant(8);
 
-    return `${t('common.receive')} ${runeAmount} Native RUNE`
-  }, [assetInput.value, redemptionRate])
+    return `${t('common.receive')} ${runeAmount} Native RUNE`;
+  }, [assetInput.value, redemptionRate]);
 
   return (
-    <Box className="self-center w-full max-w-[480px]" col>
-      <Helmet
-        title={t('common.upgradeRune')}
-        content={t('common.upgradeRune')}
-      />
+    <Box col className="self-center w-full max-w-[480px]">
+      <Helmet content={t('common.upgradeRune')} title={t('common.upgradeRune')} />
 
-      <Box className="w-full mx-2" col>
-        <ViewHeader
-          title={t('common.upgradeChainRune', { chain: selectedAsset.chain })}
-        />
+      <Box col className="w-full mx-2">
+        <ViewHeader title={t('common.upgradeChainRune', { chain: selectedAsset.chain })} />
       </Box>
 
       <Card
+        stretch
         className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-4 space-y-1 shadow-lg md:w-full md:mt-8 md:h-auto"
         size="lg"
-        stretch
       >
         <Box col className="gap-1 self-stretch" flex={1}>
           <AssetInput
-            selectedAsset={assetInput}
+            assets={assetInputList}
             onAssetChange={setSelectedAsset}
             onValueChange={handleChangeUpgradeAmount}
-            assets={assetInputList}
             secondaryLabel={receivedRune}
+            selectedAsset={assetInput}
           />
 
           <Box col>
             <PanelInput
-              value={recipientAddress}
               stretch
+              onChange={(e) => setRecipientAddress(e.target.value)}
               placeholder={t('common.address')}
               title={t('common.recipientAddress')}
-              onChange={(e) => setRecipientAddress(e.target.value)}
+              value={recipientAddress}
             />
           </Box>
         </Box>
@@ -325,16 +297,11 @@ const UpgradeRune = () => {
 
         <Box className="w-full pt-5">
           {isWalletConnected ? (
-            <Button stretch size="lg" onClick={handleUpgrade}>
+            <Button stretch onClick={handleUpgrade} size="lg">
               {t('common.upgrade')}
             </Button>
           ) : (
-            <Button
-              isFancy
-              stretch
-              size="lg"
-              onClick={() => setIsConnectModalOpen(true)}
-            >
+            <Button isFancy stretch onClick={() => setIsConnectModalOpen(true)} size="lg">
               {t('common.connectWallet')}
             </Button>
           )}
@@ -342,20 +309,20 @@ const UpgradeRune = () => {
           <ConfirmModal
             inputAssets={[selectedAsset]}
             isOpened={isOpened}
-            onConfirm={handleConfirmUpgrade}
             onClose={() => setIsOpened(false)}
+            onConfirm={handleConfirmUpgrade}
           >
             <ConfirmContent
               amount={upgradeAmount}
+              feeLabel={feeLabel}
               inputAsset={selectedAsset}
               recipient={recipientAddress}
-              feeLabel={feeLabel}
             />
           </ConfirmModal>
         </Box>
       </Card>
     </Box>
-  )
-}
+  );
+};
 
-export default UpgradeRune
+export default UpgradeRune;

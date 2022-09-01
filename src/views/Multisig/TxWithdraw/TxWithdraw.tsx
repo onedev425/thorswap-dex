@@ -1,23 +1,19 @@
-import { useMemo } from 'react'
-
-import { Amount, Asset } from '@thorswap-lib/multichain-sdk'
-import classNames from 'classnames'
-
-import { useTxWithdraw } from 'views/Multisig/TxWithdraw/hooks'
-import { WithdrawPercent } from 'views/WithdrawLiquidity/WithdrawPercent'
-
-import { AssetSelect } from 'components/AssetSelect'
-import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton'
-import { Box, Button, Icon, Typography } from 'components/Atomic'
-import { HighlightCard } from 'components/HighlightCard'
-import { InfoRowConfig } from 'components/InfoRow/types'
-import { InfoTable } from 'components/InfoTable'
-import { LiquidityType } from 'components/LiquidityType/LiquidityType'
-import { LiquidityTypeOption } from 'components/LiquidityType/types'
-import { LPTypeSelector } from 'components/LPTypeSelector'
-import { ConfirmModal } from 'components/Modals/ConfirmModal'
-
-import { t } from 'services/i18n'
+import { Amount, Asset } from '@thorswap-lib/multichain-sdk';
+import classNames from 'classnames';
+import { AssetSelect } from 'components/AssetSelect';
+import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton';
+import { Box, Button, Icon, Typography } from 'components/Atomic';
+import { HighlightCard } from 'components/HighlightCard';
+import { InfoRowConfig } from 'components/InfoRow/types';
+import { InfoTable } from 'components/InfoTable';
+import { LiquidityType } from 'components/LiquidityType/LiquidityType';
+import { LiquidityTypeOption } from 'components/LiquidityType/types';
+import { LPTypeSelector } from 'components/LPTypeSelector';
+import { ConfirmModal } from 'components/Modals/ConfirmModal';
+import { useMemo } from 'react';
+import { t } from 'services/i18n';
+import { useTxWithdraw } from 'views/Multisig/TxWithdraw/hooks';
+import { WithdrawPercent } from 'views/WithdrawLiquidity/WithdrawPercent';
 
 export const TxWithdraw = () => {
   const {
@@ -37,7 +33,7 @@ export const TxWithdraw = () => {
     handleChangePercent,
     sendAsset,
     isValid,
-  } = useTxWithdraw()
+  } = useTxWithdraw();
 
   const confirmInfo: InfoRowConfig[] = useMemo(
     () => [
@@ -47,25 +43,25 @@ export const TxWithdraw = () => {
       },
     ],
     [percent],
-  )
+  );
 
   return (
-    <Box className="gap-1" col flex={1}>
+    <Box col className="gap-1" flex={1}>
       <LiquidityType
+        onChange={setWithdrawType}
+        options={withdrawOptions}
         poolAsset={poolAsset}
         selected={withdrawType}
-        options={withdrawOptions}
-        onChange={setWithdrawType}
-        title={`${t('views.liquidity.withdraw')}:`}
         tabsCount={2}
+        title={`${t('views.liquidity.withdraw')}:`}
       />
       <LPTypeSelector
+        onChange={handleSetLPType}
+        options={shareTypes}
         poolAsset={poolAsset}
         selected={lpType}
-        options={shareTypes}
-        onChange={handleSetLPType}
-        title={`${t('views.liquidity.from')}:`}
         tabsCount={2}
+        title={`${t('views.liquidity.from')}:`}
       />
 
       <div className="relative self-stretch md:w-full">
@@ -75,49 +71,45 @@ export const TxWithdraw = () => {
             'border-10 border-solid bg-blue dark:border-dark-border-primary border-light-border-primary',
           )}
         >
-          <Icon name="arrowDown" size={20} color="white" />
+          <Icon color="white" name="arrowDown" size={20} />
         </div>
 
         <WithdrawPercent
-          percent={Amount.fromNormalAmount(percent)}
           onChange={handleChangePercent}
+          percent={Amount.fromNormalAmount(percent)}
         />
 
         <HighlightCard className="min-h-[107px] p-4 flex-col md:flex-row items-end md:items-center gap-2">
           <Box>
-            <Typography className="whitespace-nowrap">
-              {`${t('common.receive')}:`}
-            </Typography>
+            <Typography className="whitespace-nowrap">{`${t('common.receive')}:`}</Typography>
           </Box>
 
           <Box className="gap-2 py-1 flex-1 self-stretch md:self-center">
             <Box
               alignCenter
-              className={classNames(
-                'overflow-hidden transition-all origin-left',
-                { 'scale-x-0': withdrawType === LiquidityTypeOption.RUNE },
-              )}
+              className={classNames('overflow-hidden transition-all origin-left', {
+                'scale-x-0': withdrawType === LiquidityTypeOption.RUNE,
+              })}
               flex={withdrawType === LiquidityTypeOption.RUNE ? 0 : 1}
             >
               <AssetSelect
-                className="m-2 md:m-0 flex-1"
-                assets={poolAssetList}
-                selected={poolAsset}
-                onSelect={handleSelectPoolAsset}
                 showAssetType
+                assets={poolAssetList}
+                className="m-2 md:m-0 flex-1"
+                onSelect={handleSelectPoolAsset}
+                selected={poolAsset}
               />
             </Box>
             <Box
-              className={classNames(
-                'overflow-hidden transition-all origin-right',
-                { 'scale-x-0': withdrawType === LiquidityTypeOption.ASSET },
-              )}
+              className={classNames('overflow-hidden transition-all origin-right', {
+                'scale-x-0': withdrawType === LiquidityTypeOption.ASSET,
+              })}
               flex={withdrawType === LiquidityTypeOption.ASSET ? 0 : 1}
             >
               <AssetSelectButton
+                showAssetType
                 className="pr-3 m-2 md:m-0 flex-1"
                 selected={Asset.RUNE()}
-                showAssetType
               />
             </Box>
           </Box>
@@ -128,13 +120,13 @@ export const TxWithdraw = () => {
       </Box>
       <Box className="self-stretch gap-4 pt-5">
         <Button
-          size="lg"
-          stretch
-          variant="secondary"
-          onClick={() => setVisibleConfirmModal(true)}
-          error={!isValid}
-          disabled={!isValid}
           isFancy
+          stretch
+          disabled={!isValid}
+          error={!isValid}
+          onClick={() => setVisibleConfirmModal(true)}
+          size="lg"
+          variant="secondary"
         >
           {t('views.multisig.createTransaction')}
         </Button>
@@ -142,11 +134,11 @@ export const TxWithdraw = () => {
       <ConfirmModal
         inputAssets={[sendAsset]}
         isOpened={visibleConfirmModal}
-        onConfirm={handleConfirmWithdraw}
         onClose={() => setVisibleConfirmModal(false)}
+        onConfirm={handleConfirmWithdraw}
       >
         <InfoTable items={confirmInfo} />
       </ConfirmModal>
     </Box>
-  )
-}
+  );
+};

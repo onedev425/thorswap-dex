@@ -1,29 +1,22 @@
-import { useMemo } from 'react'
+import { Asset } from '@thorswap-lib/multichain-sdk';
+import { AssetsPanel } from 'components/AssetSelect/AssetsPanel';
+import { TabsConfig } from 'components/Atomic/Tabs';
+import { useMemo } from 'react';
+import { t } from 'services/i18n';
+import { useAppSelector } from 'store/store';
 
-import { Asset } from '@thorswap-lib/multichain-sdk'
+import { AssetSelectType } from './types';
 
-import { AssetsPanel } from 'components/AssetSelect/AssetsPanel'
-import { TabsConfig } from 'components/Atomic/Tabs'
-
-import { useAppSelector } from 'store/store'
-
-import { t } from 'services/i18n'
-
-import { AssetSelectType } from './types'
-
-export const useAssetSelectTabs = (
-  common: AssetSelectType[],
-  onSelect: (val: Asset) => void,
-) => {
-  const { featured, frequent } = useAppSelector((state) => state.assets)
-  const commonAssets = common.map((a) => a.asset)
+export const useAssetSelectTabs = (common: AssetSelectType[], onSelect: (val: Asset) => void) => {
+  const { featured, frequent } = useAppSelector((state) => state.assets);
+  const commonAssets = common.map((a) => a.asset);
   const featuredAssets = featured
     .map((ticker) => Asset.fromAssetString(ticker))
-    .filter(Boolean) as Asset[]
+    .filter(Boolean) as Asset[];
 
   const frequentAssets = frequent
     .map((ticker) => Asset.fromAssetString(ticker))
-    .filter(Boolean) as Asset[]
+    .filter(Boolean) as Asset[];
 
   const tabs: TabsConfig = useMemo(
     () => [
@@ -32,8 +25,8 @@ export const useAssetSelectTabs = (
         panel: (
           <AssetsPanel
             assets={frequentAssets}
-            onSelect={onSelect}
             emptyTitle={t('views.swap.emptyFrequent')}
+            onSelect={onSelect}
           />
         ),
       },
@@ -42,8 +35,8 @@ export const useAssetSelectTabs = (
         panel: (
           <AssetsPanel
             assets={featuredAssets}
-            onSelect={onSelect}
             emptyTitle={t('views.swap.emptyFrequent')}
+            onSelect={onSelect}
           />
         ),
       },
@@ -53,7 +46,7 @@ export const useAssetSelectTabs = (
       },
     ],
     [commonAssets, featuredAssets, frequentAssets, onSelect],
-  )
+  );
 
-  return tabs
-}
+  return tabs;
+};

@@ -1,12 +1,6 @@
-import { CSSProperties, forwardRef, useMemo } from 'react'
-
-import classNames from 'classnames'
-
-import {
-  alignClasses,
-  BoxProps,
-  justifyClasses,
-} from 'components/Atomic/Box/types'
+import classNames from 'classnames';
+import { alignClasses, BoxProps, justifyClasses } from 'components/Atomic/Box/types';
+import { CSSProperties, forwardRef, useMemo } from 'react';
 
 export const Box = forwardRef<HTMLDivElement, BoxProps>(
   (
@@ -26,16 +20,11 @@ export const Box = forwardRef<HTMLDivElement, BoxProps>(
     },
     ref,
   ) => {
-    const styles = useMemo(
-      () => ({ ...(style || {}), flex } as CSSProperties),
-      [flex, style],
-    )
+    const styles = useMemo(() => ({ ...(style || {}), flex } as CSSProperties), [flex, style]);
 
     return (
       <div
         {...rest}
-        ref={ref}
-        style={styles}
         className={classNames(
           'flex',
           {
@@ -48,9 +37,11 @@ export const Box = forwardRef<HTMLDivElement, BoxProps>(
           justify && justifyClasses[justify],
           className,
         )}
+        ref={ref}
+        style={styles}
       >
         {children}
       </div>
-    )
+    );
   },
-)
+);

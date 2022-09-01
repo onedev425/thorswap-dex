@@ -1,24 +1,14 @@
-import { memo, useMemo, useState } from 'react'
+import classNames from 'classnames';
+import { Box, Select } from 'components/Atomic';
+import { ChartHeader } from 'components/Chart/ChartHeader';
+import { ChartPlaceholder } from 'components/Chart/ChartPlaceholder';
+import { ChartTypeSelect } from 'components/Chart/ChartTypeSelect';
+import { useChartData } from 'components/Chart/useChartData';
+import { memo, useMemo, useState } from 'react';
+import { Bar, Line } from 'react-chartjs-2';
+import { t } from 'services/i18n';
 
-import { Bar, Line } from 'react-chartjs-2'
-
-import classNames from 'classnames'
-
-import { Box, Select } from 'components/Atomic'
-import { ChartHeader } from 'components/Chart/ChartHeader'
-import { ChartPlaceholder } from 'components/Chart/ChartPlaceholder'
-import { ChartTypeSelect } from 'components/Chart/ChartTypeSelect'
-import { useChartData } from 'components/Chart/useChartData'
-
-import { t } from 'services/i18n'
-
-import {
-  BarChartType,
-  ChartProps,
-  ChartTimeFrame,
-  ChartType,
-  LineChartType,
-} from './types'
+import { BarChartType, ChartProps, ChartTimeFrame, ChartType, LineChartType } from './types';
 
 export const Chart = memo(
   ({
@@ -34,55 +24,42 @@ export const Chart = memo(
     unit,
     abbreviateValues,
   }: ChartProps) => {
-    const chartTimeFrames = [
-      t('components.chart.week'),
-      t('components.chart.all'),
-    ]
+    const chartTimeFrames = [t('components.chart.week'), t('components.chart.all')];
 
-    const [chartTimeFrame, setChartTimeFrame] = useState(ChartTimeFrame.AllTime)
+    const [chartTimeFrame, setChartTimeFrame] = useState(ChartTimeFrame.AllTime);
 
-    const {
-      isChartLoading,
-      selectedChartType,
-      values,
-      parsedChartData,
-      options,
-    } = useChartData({
+    const { isChartLoading, selectedChartType, values, parsedChartData, options } = useChartData({
       chartData,
       chartTimeFrame,
       selectedIndex,
       hasGrid,
       hideLabel,
       abbreviateValues,
-    })
+    });
 
     const chartElement = useMemo(() => {
-      if (!parsedChartData?.datasets?.length) return null
+      if (!parsedChartData?.datasets?.length) return null;
 
       switch (selectedChartType) {
         case ChartType.Bar:
-          return (
-            <Bar options={options} data={parsedChartData as BarChartType} />
-          )
+          return <Bar data={parsedChartData as BarChartType} options={options} />;
 
         case ChartType.CurvedLine:
         case ChartType.Area:
         case ChartType.Line:
-          return (
-            <Line options={options} data={parsedChartData as LineChartType} />
-          )
+          return <Line data={parsedChartData as LineChartType} options={options} />;
       }
-    }, [selectedChartType, options, parsedChartData])
+    }, [selectedChartType, options, parsedChartData]);
 
     return (
-      <Box className={classNames('w-full h-full', className)} col>
-        <Box alignCenter justify="between" row>
-          <ChartHeader unit={unit} title={title} values={values} />
+      <Box col className={classNames('w-full h-full', className)}>
+        <Box alignCenter row justify="between">
+          <ChartHeader title={title} unit={unit} values={values} />
 
           <Select
-            options={chartTimeFrames}
             activeIndex={chartTimeFrame}
             onChange={setChartTimeFrame}
+            options={chartTimeFrames}
           />
         </Box>
 
@@ -103,15 +80,12 @@ export const Chart = memo(
           })}
         >
           {isChartLoading ? (
-            <ChartPlaceholder
-              options={options}
-              previewChartType={previewChartType}
-            />
+            <ChartPlaceholder options={options} previewChartType={previewChartType} />
           ) : (
             chartElement
           )}
         </Box>
       </Box>
-    )
+    );
   },
-)
+);

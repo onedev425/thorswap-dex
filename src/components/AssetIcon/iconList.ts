@@ -1,4 +1,4 @@
-import { AssetTickerType } from './types'
+import { AssetTickerType } from './types';
 
 export const getCustomIconImageUrl = (
   name:
@@ -15,8 +15,8 @@ export const getCustomIconImageUrl = (
     | 'vthor',
   type: 'png' | 'svg' = 'png',
 ) => {
-  return new URL(`./assets/asset-${name}.${type}`, import.meta.url).href
-}
+  return new URL(`./assets/asset-${name}.${type}`, import.meta.url).href;
+};
 
 export const customIconMap: Partial<Record<AssetTickerType, string>> = {
   ALCX: getCustomIconImageUrl('alcx'),
@@ -31,7 +31,7 @@ export const customIconMap: Partial<Record<AssetTickerType, string>> = {
   THOR: getCustomIconImageUrl('thor'),
   VTHOR: getCustomIconImageUrl('vthor'),
   WETH: 'https://assets.coingecko.com/coins/images/2518/large/weth.png',
-}
+};
 
 export const assetIconMap: Partial<Record<AssetTickerType, string>> = {
   ABCD: 'ABCD-5D8',
@@ -190,8 +190,8 @@ export const assetIconMap: Partial<Record<AssetTickerType, string>> = {
   XRPBULL: 'XRPBULL-E7C',
   XTZ: 'XTZ-F7A',
   ZEBI: 'ZEBI-84F',
-}
+};
 
-export type CustomIconType = keyof typeof customIconMap
+export type CustomIconType = keyof typeof customIconMap;
 
-export type BepIconType = keyof typeof assetIconMap
+export type BepIconType = keyof typeof assetIconMap;

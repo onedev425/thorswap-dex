@@ -1,38 +1,31 @@
-import { createRef, ReactNode, useCallback, useEffect } from 'react'
-
-import ReactTooltip from 'react-tooltip'
-
-import classNames from 'classnames'
-import ReactDOMServer from 'react-dom/server'
-
-import { Typography, Icon, IconName } from 'components/Atomic'
-import { TooltipPlacement } from 'components/Atomic/Tooltip/types'
-
-import useWindowSize from 'hooks/useWindowSize'
+import classNames from 'classnames';
+import { Icon, IconName, Typography } from 'components/Atomic';
+import { TooltipPlacement } from 'components/Atomic/Tooltip/types';
+import useWindowSize from 'hooks/useWindowSize';
+import { createRef, ReactNode, useCallback, useEffect } from 'react';
+import ReactDOMServer from 'react-dom/server';
+import ReactTooltip from 'react-tooltip';
 
 type Props = {
-  place?: TooltipPlacement
-  content?: string
-  className?: string
-  disabled?: boolean
-} & (
-  | { iconName: IconName; children?: undefined }
-  | { children: ReactNode; iconName?: undefined }
-)
+  place?: TooltipPlacement;
+  content?: string;
+  className?: string;
+  disabled?: boolean;
+} & ({ iconName: IconName; children?: undefined } | { children: ReactNode; iconName?: undefined });
 
-const TOOLTIP_ICON = 14
+const TOOLTIP_ICON = 14;
 
-const tooltipRef = createRef<ReactTooltip>()
+const tooltipRef = createRef<ReactTooltip>();
 
 export const TooltipPortal = () => (
   <ReactTooltip
-    ref={tooltipRef}
     aria-haspopup
     className="tooltip-container"
     effect="solid"
     id="tooltip"
+    ref={tooltipRef}
   />
-)
+);
 
 export const Tooltip = ({
   children,
@@ -42,28 +35,24 @@ export const Tooltip = ({
   content,
   disabled = false,
 }: Props) => {
-  const { isMdActive } = useWindowSize()
+  const { isMdActive } = useWindowSize();
 
   useEffect(() => {
     // https://github.com/wwayne/react-tooltip/issues/40#issuecomment-147552438
-    setTimeout(ReactTooltip.rebuild, 100)
-  }, [])
+    setTimeout(ReactTooltip.rebuild, 100);
+  }, []);
 
   const hideTooltip = useCallback(() => {
     setTimeout(() => {
       if (tooltipRef.current) {
-        tooltipRef.current.setState({ show: false })
+        tooltipRef.current.setState({ show: false });
       }
-    }, 300)
-  }, [])
+    }, 300);
+  }, []);
 
   return content ? (
     <div
-      data-for="tooltip"
       data-html
-      onMouseLeave={hideTooltip}
-      data-place={place}
-      data-tip-disable={disabled || !isMdActive}
       className={classNames(
         'flex items-center justify-center',
         {
@@ -72,6 +61,8 @@ export const Tooltip = ({
         },
         className,
       )}
+      data-for="tooltip"
+      data-place={place}
       data-tip={ReactDOMServer.renderToString(
         <div
           className={classNames(
@@ -79,21 +70,17 @@ export const Tooltip = ({
             'bg-light-bg-primary border border-light-border-primary border-solid dark:bg-dark-bg-primary dark:border-dark-border-primary',
           )}
         >
-          <Typography variant="caption-xs" className="font-bold">
+          <Typography className="font-bold" variant="caption-xs">
             {content}
           </Typography>
         </div>,
       )}
+      data-tip-disable={disabled || !isMdActive}
+      onMouseLeave={hideTooltip}
     >
-      {children || (
-        <Icon
-          color="secondary"
-          name={iconName as IconName}
-          size={TOOLTIP_ICON}
-        />
-      )}
+      {children || <Icon color="secondary" name={iconName as IconName} size={TOOLTIP_ICON} />}
     </div>
   ) : (
     <>{children}</>
-  )
-}
+  );
+};

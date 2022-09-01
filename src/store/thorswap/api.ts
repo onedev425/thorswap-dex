@@ -1,18 +1,20 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { TransactionDetails } from '@thorswap-lib/cross-chain-api-sdk'
-import { THORSWAP_AFFILIATE_ADDRESS } from 'config/constants'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { TransactionDetails } from '@thorswap-lib/cross-chain-api-sdk';
+import { THORSWAP_AFFILIATE_ADDRESS } from 'config/constants';
+import { IS_DEV_API } from 'settings/config';
 
 import {
-  GetTxnStatusParams,
   GetProvidersResponse,
   GetTokenPriceParams,
   GetTokenPriceResponse,
   GetTokensQuoteParams,
+  GetTxnStatusParams,
   GetTxnStatusResponse,
-} from './types'
+} from './types';
 
 const baseUrl =
-  import.meta.env.VITE_THORSWAP_API || 'https://dev-api.thorswap.net'
+  (IS_DEV_API ? import.meta.env.VITE_THORSWAP_DEV_API : import.meta.env.VITE_THORSWAP_API) ||
+  'https://dev-api.thorswap.net';
 
 export const thorswapApi = createApi({
   reducerPath: 'thorswap',
@@ -36,20 +38,20 @@ export const thorswapApi = createApi({
           ...rest,
           senderAddress,
           recipientAddress,
-        })
+        });
 
         if (providers) {
           providers.forEach((provider) => {
-            queryParams.append('providers', provider)
-          })
+            queryParams.append('providers', provider);
+          });
         }
 
         if (affiliateBasisPoints) {
-          queryParams.append('affiliateBasisPoints', affiliateBasisPoints)
-          queryParams.append('affiliateAddress', THORSWAP_AFFILIATE_ADDRESS)
+          queryParams.append('affiliateBasisPoints', affiliateBasisPoints);
+          queryParams.append('affiliateAddress', THORSWAP_AFFILIATE_ADDRESS);
         }
 
-        return `/aggregator/tokens/quote?${queryParams.toString()}`
+        return `/aggregator/tokens/quote?${queryParams.toString()}`;
       },
     }),
 
@@ -57,29 +59,25 @@ export const thorswapApi = createApi({
       query: () => '/tokenlist/providers',
     }),
 
-    getTokenCachedPrices: build.query<
-      GetTokenPriceResponse,
-      GetTokenPriceParams
-    >({
+    getTokenCachedPrices: build.query<GetTokenPriceResponse, GetTokenPriceParams>({
       query: (tokens) => {
-        const body = new URLSearchParams()
-        tokens.forEach((token) => body.append('tokens', JSON.stringify(token)))
+        const body = new URLSearchParams();
+        tokens.forEach((token) => body.append('tokens', JSON.stringify(token)));
 
         return {
           method: 'POST',
           url: '/tokenlist/cached-price',
           body,
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        }
+        };
       },
     }),
 
     getTxnStatus: build.query<GetTxnStatusResponse, GetTxnStatusParams>({
-      query: (params) =>
-        `/apiusage/txn?${new URLSearchParams(params).toString()}`,
+      query: (params) => `/apiusage/txn?${new URLSearchParams(params).toString()}`,
     }),
   }),
-})
+});
 
 export const {
   useGetTxnStatusQuery,
@@ -87,4 +85,4 @@ export const {
   useGetTokenCachedPricesQuery,
   useGetTokensQuoteQuery,
   useGetSupportedProvidersQuery,
-} = thorswapApi
+} = thorswapApi;

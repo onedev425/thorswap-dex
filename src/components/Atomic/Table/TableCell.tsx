@@ -1,16 +1,15 @@
-import classNames from 'classnames'
+import classNames from 'classnames';
+import { Typography } from 'components/Atomic';
+import { genericBgClasses } from 'components/constants';
 
-import { Typography } from 'components/Atomic'
-import { genericBgClasses } from 'components/constants'
-
-import { columnAlignClasses, TableCellType } from './types'
+import { columnAlignClasses, TableCellType } from './types';
 
 type Props = {
-  cell: TableCellType
-}
+  cell: TableCellType;
+};
 
 export const TableCell = (props: Props) => {
-  const { cell } = props
+  const { cell } = props;
 
   return (
     <td
@@ -29,5 +28,5 @@ export const TableCell = (props: Props) => {
         {cell.render('Cell')}
       </Typography>
     </td>
-  )
-}
+  );
+};

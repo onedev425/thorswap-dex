@@ -1,27 +1,22 @@
-import { useState } from 'react'
-
-import { TxBond } from 'views/Multisig/TxBond/TxBond'
-import { MultisigTxType } from 'views/Multisig/TxCreate/types'
-import { TxDeposit } from 'views/Multisig/TxDeposit/TxDeposit'
-import { TxDepositCustom } from 'views/Multisig/TxDepositCustom/TxDepositCustom'
-import { TxSend } from 'views/Multisig/TxSend/TxSend'
-import { TxTypeSelect } from 'views/Multisig/TxTypeSelect'
-import { TxWithdraw } from 'views/Multisig/TxWithdraw/TxWithdraw'
-
-import { Box, Card, Typography } from 'components/Atomic'
-
-import { t } from 'services/i18n'
+import { Box, Card, Typography } from 'components/Atomic';
+import { useState } from 'react';
+import { t } from 'services/i18n';
+import { TxBond } from 'views/Multisig/TxBond/TxBond';
+import { MultisigTxType } from 'views/Multisig/TxCreate/types';
+import { TxDeposit } from 'views/Multisig/TxDeposit/TxDeposit';
+import { TxDepositCustom } from 'views/Multisig/TxDepositCustom/TxDepositCustom';
+import { TxSend } from 'views/Multisig/TxSend/TxSend';
+import { TxTypeSelect } from 'views/Multisig/TxTypeSelect';
+import { TxWithdraw } from 'views/Multisig/TxWithdraw/TxWithdraw';
 
 export const TxDetailsStep = () => {
-  const [txType, setTxType] = useState(MultisigTxType.send)
+  const [txType, setTxType] = useState(MultisigTxType.send);
 
   return (
-    <Box className="w-full gap-1 self-stretch" col flex={1}>
-      <Box className="self-stretch mx-2 mb-2" flex={1} center>
+    <Box col className="w-full gap-1 self-stretch" flex={1}>
+      <Box center className="self-stretch mx-2 mb-2" flex={1}>
         <Box flex={1}>
-          <Typography color="secondary">{`${t(
-            'views.multisig.txType',
-          )}:`}</Typography>
+          <Typography color="secondary">{`${t('views.multisig.txType')}:`}</Typography>
         </Box>
         <Box className="z-20" flex={1}>
           <TxTypeSelect onChange={setTxType} selected={txType} />
@@ -38,5 +33,5 @@ export const TxDetailsStep = () => {
         </Box>
       </Card>
     </Box>
-  )
-}
+  );
+};

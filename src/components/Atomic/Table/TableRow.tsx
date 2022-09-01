@@ -1,13 +1,13 @@
-import classNames from 'classnames'
+import classNames from 'classnames';
 
-import { TableCell } from './TableCell'
-import { TableCellType, TableRowType } from './types'
+import { TableCell } from './TableCell';
+import { TableCellType, TableRowType } from './types';
 
 type Props = {
-  row: TableRowType
-  hasShadow: boolean
-  onRowClick?: (row: TableRowType) => void
-}
+  row: TableRowType;
+  hasShadow: boolean;
+  onRowClick?: (row: TableRowType) => void;
+};
 
 export const TableRow = ({ row, hasShadow, onRowClick }: Props) => {
   return (
@@ -20,8 +20,8 @@ export const TableRow = ({ row, hasShadow, onRowClick }: Props) => {
       onClick={() => onRowClick?.(row)}
     >
       {row.cells.map((cell: TableCellType) => (
-        <TableCell key={cell.getCellProps().key} cell={cell} />
+        <TableCell cell={cell} key={cell.getCellProps().key} />
       ))}
     </tr>
-  )
-}
+  );
+};

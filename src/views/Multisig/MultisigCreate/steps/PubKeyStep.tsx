@@ -1,50 +1,41 @@
-import { useNavigate } from 'react-router'
-
-import classNames from 'classnames'
-import copy from 'copy-to-clipboard'
-
-import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic'
-import { genericBgClasses, lightInputBorder } from 'components/constants'
-import { FieldLabel } from 'components/Form'
-import { HighlightCard } from 'components/HighlightCard'
-import { StepActions } from 'components/Stepper'
-import { showSuccessToast } from 'components/Toast'
-
-import { useWallet } from 'store/wallet/hooks'
-
-import { t } from 'services/i18n'
-
-import { ROUTES } from 'settings/constants'
+import classNames from 'classnames';
+import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic';
+import { genericBgClasses, lightInputBorder } from 'components/constants';
+import { FieldLabel } from 'components/Form';
+import { HighlightCard } from 'components/HighlightCard';
+import { StepActions } from 'components/Stepper';
+import { showSuccessToast } from 'components/Toast';
+import copy from 'copy-to-clipboard';
+import { useNavigate } from 'react-router';
+import { t } from 'services/i18n';
+import { ROUTES } from 'settings/constants';
+import { useWallet } from 'store/wallet/hooks';
 
 type Props = {
-  pubKey: string
-}
+  pubKey: string;
+};
 
 export const PubKeyStep = ({ pubKey }: Props) => {
-  const navigate = useNavigate()
-  const { setIsConnectModalOpen } = useWallet()
+  const navigate = useNavigate();
+  const { setIsConnectModalOpen } = useWallet();
 
   const handleCopyPubKey = () => {
-    copy(pubKey)
-    showSuccessToast(t('views.multisig.pubKeyCopied'))
-  }
+    copy(pubKey);
+    showSuccessToast(t('views.multisig.pubKeyCopied'));
+  };
 
   return (
-    <Box className="self-stretch mx-2" col flex={1}>
-      <Box className="gap-5" col flex={1}>
-        <Typography variant="caption" fontWeight="normal">
+    <Box col className="self-stretch mx-2" flex={1}>
+      <Box col className="gap-5" flex={1}>
+        <Typography fontWeight="normal" variant="caption">
           {t('views.multisig.createMultisigPubKeyInfo')}
         </Typography>
-        <Typography variant="caption" fontWeight="normal">
+        <Typography fontWeight="normal" variant="caption">
           {t('views.multisig.connectThorchainCurrentlyKeystore')}
         </Typography>
-        <Box flex={1} align="end">
+        <Box align="end" flex={1}>
           {!pubKey ? (
-            <Button
-              stretch
-              variant="primary"
-              onClick={() => setIsConnectModalOpen(true)}
-            >
+            <Button stretch onClick={() => setIsConnectModalOpen(true)} variant="primary">
               {/* {t('views.multisig.multisigModalTitle')} */}
               {t('common.connectWallet')}
             </Button>
@@ -52,12 +43,7 @@ export const PubKeyStep = ({ pubKey }: Props) => {
             <Box col flex={1}>
               <FieldLabel label="Your wallet's public key:" />
               <Tooltip className="flex flex-1" content={t('common.copy')}>
-                <Box
-                  className="gap-2 cursor-pointer"
-                  flex={1}
-                  center
-                  onClick={handleCopyPubKey}
-                >
+                <Box center className="gap-2 cursor-pointer" flex={1} onClick={handleCopyPubKey}>
                   <HighlightCard
                     className={classNames(
                       genericBgClasses.primary,
@@ -68,8 +54,8 @@ export const PubKeyStep = ({ pubKey }: Props) => {
                     <Box justify="between">
                       <Typography
                         className="break-all whitespace-normal"
-                        variant="caption"
                         color="secondary"
+                        variant="caption"
                       >
                         {pubKey}
                       </Typography>
@@ -85,10 +71,7 @@ export const PubKeyStep = ({ pubKey }: Props) => {
         </Box>
       </Box>
 
-      <StepActions
-        backLabel={t('common.cancel')}
-        backAction={() => navigate(ROUTES.Multisig)}
-      />
+      <StepActions backAction={() => navigate(ROUTES.Multisig)} backLabel={t('common.cancel')} />
     </Box>
-  )
-}
+  );
+};

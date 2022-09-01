@@ -1,25 +1,24 @@
-import { memo } from 'react'
-
-import classNames from 'classnames'
-
-import { Box, Button, Icon, IconName, Typography } from 'components/Atomic'
+import classNames from 'classnames';
+import { Box, Button, Icon, IconName, Typography } from 'components/Atomic';
+import { memo } from 'react';
 
 type Props = {
-  label: string
-  onClick?: () => void
-  icon: IconName
-  className?: string
-  disabled?: boolean
-  tooltip?: string
-}
+  label: string;
+  onClick?: () => void;
+  icon: IconName;
+  className?: string;
+  disabled?: boolean;
+  tooltip?: string;
+};
 
 export const AccountCardButton = memo(
   ({ className, label, onClick, icon, disabled, tooltip }: Props) => {
     return (
-      <Box col center className="group gap-y-2">
+      <Box center col className="group gap-y-2">
         <Button
           className="!w-12 px-0"
-          variant="tint"
+          disabled={disabled}
+          onClick={onClick}
           size="md"
           startIcon={
             <Icon
@@ -28,25 +27,22 @@ export const AccountCardButton = memo(
                 className,
               )}
               color="secondary"
-              size={20}
               name={icon}
+              size={20}
             />
           }
-          onClick={onClick}
-          disabled={disabled}
           tooltip={tooltip}
+          variant="tint"
         />
         <Typography
-          className={
-            'group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary'
-          }
-          variant="caption"
-          fontWeight="medium"
+          className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
           color="secondary"
+          fontWeight="medium"
+          variant="caption"
         >
           {label}
         </Typography>
       </Box>
-    )
+    );
   },
-)
+);

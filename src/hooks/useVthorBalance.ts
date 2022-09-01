@@ -1,33 +1,31 @@
-import { useEffect, useState } from 'react'
-
-import { getVthorState } from 'views/StakeVThor/utils'
-
-import { fromWei } from 'services/contract'
+import { useEffect, useState } from 'react';
+import { fromWei } from 'services/contract';
+import { getVthorState } from 'views/StakeVThor/utils';
 
 export const useVthorBalance = (address?: string) => {
-  const [balance, setBalance] = useState(0)
-  const [hasVThor, setHasVThor] = useState(false)
+  const [balance, setBalance] = useState(0);
+  const [hasVThor, setHasVThor] = useState(false);
 
   useEffect(() => {
     const getVthorBalance = async () => {
       if (!address) {
-        setBalance(0)
-        return
+        setBalance(0);
+        return;
       }
       const res = await getVthorState('balanceOf', [address]).catch(() => {
-        setHasVThor(false)
-        setBalance(0)
-      })
+        setHasVThor(false);
+        setBalance(0);
+      });
 
       if (fromWei(res) > 0) {
-        setHasVThor(true)
+        setHasVThor(true);
       }
 
-      setBalance(fromWei(res))
-    }
+      setBalance(fromWei(res));
+    };
 
-    getVthorBalance()
-  }, [address])
+    getVthorBalance();
+  }, [address]);
 
-  return { balance, hasVThor }
-}
+  return { balance, hasVThor };
+};

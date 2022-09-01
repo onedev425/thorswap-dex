@@ -1,61 +1,56 @@
-import { useEffect, useState } from 'react'
-
-import QRCode from 'qrcode-react'
-
-import { Box, Modal, Icon, Tooltip, Typography } from 'components/Atomic'
-import { baseHoverClass } from 'components/constants'
-
-import { useAddressUtils } from 'hooks/useAddressUtils'
-
-import { t } from 'services/i18n'
-
-import Logo from 'assets/images/logo.png'
+import Logo from 'assets/images/logo.png';
+import { Box, Icon, Modal, Tooltip, Typography } from 'components/Atomic';
+import { baseHoverClass } from 'components/constants';
+import { useAddressUtils } from 'hooks/useAddressUtils';
+import QRCode from 'qrcode-react';
+import { useEffect, useState } from 'react';
+import { t } from 'services/i18n';
 
 type Props = {
-  address: string
-  chain: string
-  title?: string
-  onCancel: () => void
-}
+  address: string;
+  chain: string;
+  title?: string;
+  onCancel: () => void;
+};
 
 export const QRCodeModal = ({ title, address, onCancel, chain }: Props) => {
-  const [isOpened, setIsOpened] = useState(false)
-  const { shortAddress, handleCopyAddress } = useAddressUtils(address)
+  const [isOpened, setIsOpened] = useState(false);
+  const { shortAddress, handleCopyAddress } = useAddressUtils(address);
 
   useEffect(() => {
     if (address) {
-      setIsOpened(true)
+      setIsOpened(true);
     }
-  }, [address])
+  }, [address]);
 
   const onClose = () => {
-    setIsOpened(false)
+    setIsOpened(false);
     // call onCancel callback after modal close animation
-    setTimeout(() => onCancel(), 300)
-  }
+    setTimeout(() => onCancel(), 300);
+  };
 
   return (
-    <Modal title={title || ''} isOpened={isOpened} onClose={onClose}>
+    <Modal isOpened={isOpened} onClose={onClose} title={title || ''}>
       <Box center col>
         <Typography variant="subtitle2">{chain}</Typography>
         <Box className="gap-3 p-2 bg-white rounded-xl mt-4">
-          <QRCode size={256} value={address} logo={Logo} logoWidth={64} />
+          <QRCode logo={Logo} logoWidth={64} size={256} value={address} />
         </Box>
-        <Box className="space-x-2 mt-3" alignCenter>
+        <Box alignCenter className="space-x-2 mt-3">
           <Typography>{shortAddress}</Typography>
           <Tooltip content={t('common.copy')}>
             <Box className={baseHoverClass}>
               <Icon
                 className="cursor-pointer"
-                name="copy"
                 color="cyan"
-                size={18}
+                name="copy"
                 onClick={handleCopyAddress}
+                size={18}
               />
             </Box>
           </Tooltip>
         </Box>
       </Box>
     </Modal>
-  )
-}
+  );
+};

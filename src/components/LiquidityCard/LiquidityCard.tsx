@@ -1,40 +1,25 @@
-import { useMemo } from 'react'
+import { Amount, Asset, Liquidity } from '@thorswap-lib/multichain-sdk';
+import classNames from 'classnames';
+import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon';
+import { Box, Button, Icon, Tooltip, Typography, useCollapse } from 'components/Atomic';
+import { HighlightCard } from 'components/HighlightCard';
+import dayjs from 'dayjs';
+import useWindowSize from 'hooks/useWindowSize';
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { t } from 'services/i18n';
+import { getAddLiquidityRoute, getWithdrawRoute } from 'settings/constants';
+import { LpDetailCalculationResult, PoolShareType } from 'store/midgard/types';
+import { ChainPoolData } from 'views/Liquidity/types';
 
-import { useNavigate } from 'react-router-dom'
-
-import { Amount, Asset, Liquidity } from '@thorswap-lib/multichain-sdk'
-import classNames from 'classnames'
-import dayjs from 'dayjs'
-
-import { ChainPoolData } from 'views/Liquidity/types'
-
-import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon'
-import {
-  useCollapse,
-  Box,
-  Typography,
-  Icon,
-  Button,
-  Tooltip,
-} from 'components/Atomic'
-import { HighlightCard } from 'components/HighlightCard'
-
-import { LpDetailCalculationResult, PoolShareType } from 'store/midgard/types'
-
-import useWindowSize from 'hooks/useWindowSize'
-
-import { t } from 'services/i18n'
-
-import { getAddLiquidityRoute, getWithdrawRoute } from 'settings/constants'
-
-import { LiquidityInfo } from './LiquidityInfo'
+import { LiquidityInfo } from './LiquidityInfo';
 
 type LiquidityCardProps = ChainPoolData & {
-  withFooter?: boolean
-  lpAddedAndWithdraw?: LpDetailCalculationResult
-}
+  withFooter?: boolean;
+  lpAddedAndWithdraw?: LpDetailCalculationResult;
+};
 
-const RuneAsset = Asset.RUNE()
+const RuneAsset = Asset.RUNE();
 
 export const LiquidityCard = ({
   dateLastAdded,
@@ -46,71 +31,59 @@ export const LiquidityCard = ({
   assetPending,
   lpAddedAndWithdraw,
 }: LiquidityCardProps) => {
-  const navigate = useNavigate()
-  const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse()
-  const { isMdActive } = useWindowSize()
+  const navigate = useNavigate();
+  const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse();
+  const { isMdActive } = useWindowSize();
 
   const liquidityObj = useMemo(
     () => new Liquidity(pool, Amount.fromMidgard(liquidityUnits)),
     [liquidityUnits, pool],
-  )
-  const { poolShare } = liquidityObj
+  );
+  const { poolShare } = liquidityObj;
   const runeShare = useMemo(() => {
     if (shareType === PoolShareType.RUNE_ASYM) {
-      return liquidityObj.getAsymRuneShare()
+      return liquidityObj.getAsymRuneShare();
     }
-    return liquidityObj.runeShare
-  }, [shareType, liquidityObj])
+    return liquidityObj.runeShare;
+  }, [shareType, liquidityObj]);
   const assetShare = useMemo(() => {
     if (shareType === PoolShareType.ASSET_ASYM) {
-      return liquidityObj.getAsymAssetShare()
+      return liquidityObj.getAsymAssetShare();
     }
-    return liquidityObj.assetShare
-  }, [shareType, liquidityObj])
+    return liquidityObj.assetShare;
+  }, [shareType, liquidityObj]);
 
   const isPendingLP = useMemo(
     () => !!(Number(runePending) > 0 || Number(assetPending)),
     [runePending, assetPending],
-  )
+  );
 
   const tickerPending =
-    (isPendingLP &&
-      (Number(runePending) > 0 ? pool.asset.ticker : Asset.RUNE().ticker)) ||
-    ''
+    (isPendingLP && (Number(runePending) > 0 ? pool.asset.ticker : Asset.RUNE().ticker)) || '';
 
   const lpType = useMemo(() => {
     switch (shareType) {
       case PoolShareType.SYM:
-        return `RUNE + ${pool.asset.ticker} LP`
+        return `RUNE + ${pool.asset.ticker} LP`;
       case PoolShareType.ASSET_ASYM:
-        return `${pool.asset.ticker} LP`
+        return `${pool.asset.ticker} LP`;
       case PoolShareType.RUNE_ASYM:
-        return 'RUNE LP'
+        return 'RUNE LP';
     }
-  }, [pool.asset.ticker, shareType])
+  }, [pool.asset.ticker, shareType]);
 
-  const poolName = pool.detail.asset
+  const poolName = pool.detail.asset;
 
-  const addedOrWithdrawn = lpAddedAndWithdraw
-    ? lpAddedAndWithdraw[poolName]
-    : null
+  const addedOrWithdrawn = lpAddedAndWithdraw ? lpAddedAndWithdraw[poolName] : null;
 
   return (
-    <Box className="self-stretch" justifyCenter col>
-      <HighlightCard
-        className="!rounded-2xl p-2 !gap-1"
-        type={isPendingLP ? 'warn' : 'primary'}
-      >
-        <Box
-          onClick={toggle}
-          className="cursor-pointer"
-          alignCenter
-          justify="between"
-        >
+    <Box col justifyCenter className="self-stretch">
+      <HighlightCard className="!rounded-2xl p-2 !gap-1" type={isPendingLP ? 'warn' : 'primary'}>
+        <Box alignCenter className="cursor-pointer" justify="between" onClick={toggle}>
           <Box center>
             {isPendingLP && (
               <Tooltip content={t('pendingLiquidity.pendingLiquidity')}>
-                <Icon className="mr-3" name="warn" size={24} color="yellow" />
+                <Icon className="mr-3" color="yellow" name="warn" size={24} />
               </Tooltip>
             )}
 
@@ -134,13 +107,10 @@ export const LiquidityCard = ({
             </Typography>
           </Box>
 
-          <Box className="gap-2" center>
+          <Box center className="gap-2">
             <Box col align="end">
               <Typography
-                className={classNames(
-                  '!transition-all',
-                  isActive ? '!text-body' : '!text-caption',
-                )}
+                className={classNames('!transition-all', isActive ? '!text-body' : '!text-caption')}
                 fontWeight="normal"
               >
                 {` ${t('views.liquidity.poolShare')}`}
@@ -161,52 +131,46 @@ export const LiquidityCard = ({
               className={classNames('transform duration-300 ease', {
                 '-rotate-180': isActive,
               })}
-              name="chevronDown"
               color="secondary"
+              name="chevronDown"
             />
           </Box>
         </Box>
 
         <LiquidityInfo
-          lastAddedDate={dayjs.unix(Number(dateLastAdded)).format('YYYY-MM-DD')}
-          poolShare={poolShare}
-          assetShare={assetShare}
-          runeShare={runeShare}
           asset={pool.asset}
-          contentRef={contentRef}
-          maxHeightStyle={maxHeightStyle}
-          shareType={shareType}
-          runeAdded={Amount.fromNormalAmount(addedOrWithdrawn?.added.rune)}
           assetAdded={Amount.fromNormalAmount(addedOrWithdrawn?.added.asset)}
-          runeWithdrawn={Amount.fromNormalAmount(
-            addedOrWithdrawn?.withdrawn.rune,
-          )}
-          assetWithdrawn={Amount.fromNormalAmount(
-            addedOrWithdrawn?.withdrawn.asset,
-          )}
-          runePending={Amount.fromMidgard(runePending)}
           assetPending={Amount.fromMidgard(assetPending)}
+          assetShare={assetShare}
+          assetWithdrawn={Amount.fromNormalAmount(addedOrWithdrawn?.withdrawn.asset)}
+          contentRef={contentRef}
+          lastAddedDate={dayjs.unix(Number(dateLastAdded)).format('YYYY-MM-DD')}
+          maxHeightStyle={maxHeightStyle}
+          poolShare={poolShare}
+          runeAdded={Amount.fromNormalAmount(addedOrWithdrawn?.added.rune)}
+          runePending={Amount.fromMidgard(runePending)}
+          runeShare={runeShare}
+          runeWithdrawn={Amount.fromNormalAmount(addedOrWithdrawn?.withdrawn.rune)}
+          shareType={shareType}
           tickerPending={tickerPending}
         />
 
         {withFooter && (
-          <Box className="space-x-6 md:pr-0" justifyCenter>
+          <Box justifyCenter className="space-x-6 md:pr-0">
             <Button
-              onClick={() => navigate(getAddLiquidityRoute(pool.asset))}
-              className="px-8 md:px-12"
-              variant="primary"
               stretch
+              className="px-8 md:px-12"
+              onClick={() => navigate(getAddLiquidityRoute(pool.asset))}
+              variant="primary"
             >
-              {isPendingLP
-                ? t('views.liquidity.completeButton')
-                : t('views.liquidity.addButton')}
+              {isPendingLP ? t('views.liquidity.completeButton') : t('views.liquidity.addButton')}
             </Button>
 
             <Button
-              onClick={() => navigate(getWithdrawRoute(pool.asset))}
-              className="px-8 md:px-12"
-              variant="secondary"
               stretch
+              className="px-8 md:px-12"
+              onClick={() => navigate(getWithdrawRoute(pool.asset))}
+              variant="secondary"
             >
               {t('common.withdraw')}
             </Button>
@@ -214,5 +178,5 @@ export const LiquidityCard = ({
         )}
       </HighlightCard>
     </Box>
-  )
-}
+  );
+};

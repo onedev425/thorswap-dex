@@ -1,49 +1,41 @@
-import { useMemo } from 'react'
-
-import { Amount, Asset } from '@thorswap-lib/multichain-sdk'
-
-import { DepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance'
-import { useMultissigAssets } from 'views/Multisig/hooks'
-
-import { useMultisig } from 'store/multisig/hooks'
+import { Amount, Asset } from '@thorswap-lib/multichain-sdk';
+import { useMemo } from 'react';
+import { useMultisig } from 'store/multisig/hooks';
+import { DepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance';
+import { useMultissigAssets } from 'views/Multisig/hooks';
 
 type Props = {
-  poolAsset: Asset
-}
+  poolAsset: Asset;
+};
 
-export const useDepositAssetsBalance = ({
-  poolAsset,
-}: Props): DepositAssetsBalance => {
-  const { isConnected, isWalletAssetConnected } = useMultisig()
-  const { getAssetBalance, getMaxBalance } = useMultissigAssets()
+export const useDepositAssetsBalance = ({ poolAsset }: Props): DepositAssetsBalance => {
+  const { isConnected, isWalletAssetConnected } = useMultisig();
+  const { getAssetBalance, getMaxBalance } = useMultissigAssets();
 
   const poolAssetBalance: Amount = useMemo(() => {
     if (isConnected) {
-      return getAssetBalance(poolAsset).amount
+      return getAssetBalance(poolAsset).amount;
     }
 
     // allow max amount if wallet is not connected
-    return Amount.fromAssetAmount(10 ** 3, 8)
-  }, [isConnected, getAssetBalance, poolAsset])
+    return Amount.fromAssetAmount(10 ** 3, 8);
+  }, [isConnected, getAssetBalance, poolAsset]);
 
   const maxPoolAssetBalance: Amount = useMemo(
     () => getMaxBalance(poolAsset),
     [poolAsset, getMaxBalance],
-  )
+  );
 
   const runeBalance: Amount = useMemo(() => {
     if (isConnected) {
-      return getAssetBalance(Asset.RUNE()).amount
+      return getAssetBalance(Asset.RUNE()).amount;
     }
 
     // allow max amount if wallet is not connected
-    return Amount.fromAssetAmount(10 ** 3, 8)
-  }, [getAssetBalance, isConnected])
+    return Amount.fromAssetAmount(10 ** 3, 8);
+  }, [getAssetBalance, isConnected]);
 
-  const maxRuneBalance: Amount = useMemo(
-    () => getMaxBalance(Asset.RUNE()),
-    [getMaxBalance],
-  )
+  const maxRuneBalance: Amount = useMemo(() => getMaxBalance(Asset.RUNE()), [getMaxBalance]);
 
   return {
     isWalletAssetConnected,
@@ -51,5 +43,5 @@ export const useDepositAssetsBalance = ({
     maxPoolAssetBalance,
     runeBalance,
     maxRuneBalance,
-  }
-}
+  };
+};

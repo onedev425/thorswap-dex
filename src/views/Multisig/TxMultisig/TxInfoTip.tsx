@@ -1,33 +1,29 @@
-import { useState } from 'react'
-
-import { Chain, SupportedChain } from '@thorswap-lib/types'
-
-import { TextareaCopy } from 'views/Multisig/components/TextareaCopy'
-
-import { Box, Button, Icon, Link, Modal, Typography } from 'components/Atomic'
-import { InfoTip } from 'components/InfoTip'
-
-import { t } from 'services/i18n'
-import { multichain } from 'services/multichain'
+import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Box, Button, Icon, Link, Modal, Typography } from 'components/Atomic';
+import { InfoTip } from 'components/InfoTip';
+import { useState } from 'react';
+import { t } from 'services/i18n';
+import { multichain } from 'services/multichain';
+import { TextareaCopy } from 'views/Multisig/components/TextareaCopy';
 
 type Props = {
-  canBroadcast: boolean
-  txHash: string
-  txBodyStr: string
-}
+  canBroadcast: boolean;
+  txHash: string;
+  txBodyStr: string;
+};
 
 export const TxInfoTip = ({ canBroadcast, txHash, txBodyStr }: Props) => {
-  const [isTxModalVisible, setIsTxModalVisible] = useState(false)
+  const [isTxModalVisible, setIsTxModalVisible] = useState(false);
   const txUrl = txHash
     ? multichain().getExplorerTxUrl(Chain.THORChain as SupportedChain, txHash)
-    : ''
+    : '';
 
   if (txHash) {
     return (
       <InfoTip className="self-stretch flex-1" type="success">
         <Box className="self-stretch m-2">
           <Box className="self-stretch w-full" flex={1}>
-            <Typography variant="caption" color="green">
+            <Typography color="green" variant="caption">
               {t('views.multisig.txBroadcasted')}
             </Typography>
             <Link to={txUrl}>
@@ -35,64 +31,52 @@ export const TxInfoTip = ({ canBroadcast, txHash, txBodyStr }: Props) => {
                 <Typography
                   className="underline ml-1.5"
                   color="green"
-                  variant="caption"
                   fontWeight="bold"
+                  variant="caption"
                 >
                   {t('views.multisig.viewTx')}
                 </Typography>
-                <Icon name="external" color="green" size={14} />
+                <Icon color="green" name="external" size={14} />
               </Box>
             </Link>
           </Box>
         </Box>
       </InfoTip>
-    )
+    );
   }
 
   return (
-    <InfoTip
-      className="self-stretch flex-1"
-      type={canBroadcast ? 'info' : 'warn'}
-    >
-      <Box className="self-stretch ml-2.5" alignCenter justify="between">
+    <InfoTip className="self-stretch flex-1" type={canBroadcast ? 'info' : 'warn'}>
+      <Box alignCenter className="self-stretch ml-2.5" justify="between">
         {canBroadcast ? (
-          <Typography variant="caption" color="primaryBtn">
-            {t('views.multisig.pendingTx')} -{' '}
-            {t('views.multisig.txReadyToBroadcast')}
+          <Typography color="primaryBtn" variant="caption">
+            {t('views.multisig.pendingTx')} - {t('views.multisig.txReadyToBroadcast')}
           </Typography>
         ) : (
-          <Typography variant="caption" color="yellow">
-            {t('views.multisig.pendingTx')} -{' '}
-            {t('views.multisig.txMissingSignatures')}
+          <Typography color="yellow" variant="caption">
+            {t('views.multisig.pendingTx')} - {t('views.multisig.txMissingSignatures')}
           </Typography>
         )}
 
-        <Button
-          variant="tint"
-          type="borderless"
-          onClick={() => setIsTxModalVisible(true)}
-        >
+        <Button onClick={() => setIsTxModalVisible(true)} type="borderless" variant="tint">
           {t('views.multisig.viewTxData')}
         </Button>
       </Box>
 
       <Modal
-        title={t('views.multisig.transactionData')}
         isOpened={isTxModalVisible}
         onClose={() => setIsTxModalVisible(false)}
+        title={t('views.multisig.transactionData')}
       >
-        <Box
-          className="w-full self-stretch min-w-[330px] md:min-w-[400px]"
-          flex={1}
-        >
+        <Box className="w-full self-stretch min-w-[330px] md:min-w-[400px]" flex={1}>
           <TextareaCopy
-            className="flex-1 h-[50vh] max-h-[60vh]"
             disabled
-            value={txBodyStr}
+            className="flex-1 h-[50vh] max-h-[60vh]"
             copyMessage={t('views.multisig.transactionCopied')}
+            value={txBodyStr}
           />
         </Box>
       </Modal>
     </InfoTip>
-  )
-}
+  );
+};

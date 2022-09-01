@@ -1,39 +1,29 @@
-import classNames from 'classnames'
-import copy from 'copy-to-clipboard'
-
-import { Box, Icon, Tooltip, Typography } from 'components/Atomic'
-import { genericBgClasses } from 'components/constants'
-import { HighlightCard } from 'components/HighlightCard'
-import { showSuccessToast } from 'components/Toast'
-
-import { t } from 'services/i18n'
+import classNames from 'classnames';
+import { Box, Icon, Tooltip, Typography } from 'components/Atomic';
+import { genericBgClasses } from 'components/constants';
+import { HighlightCard } from 'components/HighlightCard';
+import { showSuccessToast } from 'components/Toast';
+import copy from 'copy-to-clipboard';
+import { t } from 'services/i18n';
 
 type Props = {
-  pubKey: string
-  signature: string
-}
+  pubKey: string;
+  signature: string;
+};
 
 export const CurrentSignerItem = ({ pubKey, signature }: Props) => {
   const handleCopySignature = () => {
-    copy(`${pubKey} --> ${signature}`)
-    showSuccessToast(t('views.multisig.signatureCopied'))
-  }
+    copy(`${pubKey} --> ${signature}`);
+    showSuccessToast(t('views.multisig.signatureCopied'));
+  };
   return (
     <Tooltip content={t('views.multisig.copyYourSignature')} key={signature}>
-      <Box
-        className="cursor-pointer"
-        flex={1}
-        center
-        onClick={handleCopySignature}
-      >
+      <Box center className="cursor-pointer" flex={1} onClick={handleCopySignature}>
         <HighlightCard
-          className={classNames(
-            genericBgClasses.primary,
-            '!py-2 !px-4 truncate overflow-hidden',
-          )}
+          className={classNames(genericBgClasses.primary, '!py-2 !px-4 truncate overflow-hidden')}
         >
           <div className="flex justify-between">
-            <Typography variant="caption" color="secondary">
+            <Typography color="secondary" variant="caption">
               {t('views.multisig.yourSignature')}
             </Typography>
             <Icon className="px-2" name="copy" size={16} />
@@ -44,5 +34,5 @@ export const CurrentSignerItem = ({ pubKey, signature }: Props) => {
         </HighlightCard>
       </Box>
     </Tooltip>
-  )
-}
+  );
+};

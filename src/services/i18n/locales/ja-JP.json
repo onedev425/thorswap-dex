@@ -850,7 +850,7 @@
       "selectKeystore": "Keystoreファイルを選択してください",
       "selectWallet": "ウォレットの選択",
       "selectingKeyError": "キーファイルの選択に失敗しました",
-      "trustWallet": "",
+      "trustWallet": "Trust Wallet",
       "unlock": "アンロック",
       "verifyAddress": "アドレスの確認",
       "viewPhrase": "フレーズを表示",

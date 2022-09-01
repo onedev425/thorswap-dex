@@ -1,23 +1,19 @@
-import { memo } from 'react'
-
-import { Box, Typography } from 'components/Atomic'
-
-import { abbreviateNumber } from 'helpers/number'
+import { Box, Typography } from 'components/Atomic';
+import { abbreviateNumber } from 'helpers/number';
+import { memo } from 'react';
 
 type Props = {
-  title: string
-  values: number[]
-  unit: string
-}
+  title: string;
+  values: number[];
+  unit: string;
+};
 
 export const ChartHeader = memo(({ unit, values, title }: Props) => {
   const changePercentage =
-    values.length >= 2
-      ? (values[values.length - 1] / values[values.length - 2]) * 100 - 100
-      : 0
+    values.length >= 2 ? (values[values.length - 1] / values[values.length - 2]) * 100 - 100 : 0;
 
   return (
-    <Box alignCenter justify="start" className="lg:flex-row">
+    <Box alignCenter className="lg:flex-row" justify="start">
       <Typography component="span" variant="h3">
         {title}
 
@@ -26,9 +22,9 @@ export const ChartHeader = memo(({ unit, values, title }: Props) => {
         </span>
 
         <Typography
-          component="span"
           className="mb-1"
           color={changePercentage >= 0 ? 'green' : 'red'}
+          component="span"
           fontWeight="semibold"
         >
           ({changePercentage >= 0 ? '+' : '-'}
@@ -39,5 +35,5 @@ export const ChartHeader = memo(({ unit, values, title }: Props) => {
         </Typography>
       </Typography>
     </Box>
-  )
-})
+  );
+});

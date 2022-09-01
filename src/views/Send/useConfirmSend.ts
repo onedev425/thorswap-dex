@@ -1,25 +1,20 @@
-import { useCallback } from 'react'
-
-import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-sdk'
-
-import { showErrorToast } from 'components/Toast'
-
-import { TxTrackerType } from 'store/midgard/types'
-
-import { useTxTracker } from 'hooks/useTxTracker'
-
-import { t } from 'services/i18n'
-import { multichain } from 'services/multichain'
-
-import { translateErrorMsg } from 'helpers/error'
+import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-sdk';
+import { showErrorToast } from 'components/Toast';
+import { translateErrorMsg } from 'helpers/error';
+import { useCallback } from 'react';
+import { t } from 'services/i18n';
+import { multichain } from 'services/multichain';
+import { useAppDispatch } from 'store/store';
+import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
+import { v4 } from 'uuid';
 
 type Params = {
-  sendAsset: Asset
-  sendAmount: Amount
-  recipientAddress: string
-  memo: string
-  setIsOpenConfirmModal: (isOpen: boolean) => void
-}
+  sendAsset: Asset;
+  sendAmount: Amount;
+  recipientAddress: string;
+  memo: string;
+  setIsOpenConfirmModal: (isOpen: boolean) => void;
+};
 
 export const useConfirmSend = ({
   sendAsset,
@@ -28,67 +23,36 @@ export const useConfirmSend = ({
   memo,
   setIsOpenConfirmModal,
 }: Params) => {
-  const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
+  const appDispatch = useAppDispatch();
 
   const handleConfirmSend = useCallback(async () => {
-    setIsOpenConfirmModal(false)
+    setIsOpenConfirmModal(false);
 
     if (sendAsset) {
-      const assetAmount = new AssetAmount(sendAsset, sendAmount)
+      const assetAmount = new AssetAmount(sendAsset, sendAmount);
 
-      // register to tx tracker
-      const trackId = submitTransaction({
-        type: TxTrackerType.Send,
-        submitTx: {
-          inAssets: [
-            {
-              asset: sendAsset.toString(),
-              amount: sendAmount.toSignificant(6),
-            },
-          ],
-        },
-      })
+      const id = v4();
+      const label = `${t('txManager.send')} ${sendAmount.toSignificant(6)} ${sendAsset.toString()}`;
+
+      appDispatch(
+        addTransaction({ id, from: recipient, inChain: sendAsset.L1Chain, type: 'send', label }),
+      );
 
       try {
-        console.info('startSend', trackId)
-        const txHash = await multichain().send({ assetAmount, recipient, memo })
-        const txURL = multichain().getExplorerTxUrl(sendAsset.L1Chain, txHash)
-        console.info('txURL', txURL)
+        const txid = await multichain().send({ assetAmount, recipient, memo });
 
-        if (txHash) {
-          // start polling
-          pollTransaction({
-            type: TxTrackerType.Send,
-            uuid: trackId,
-            submitTx: {
-              inAssets: [
-                {
-                  asset: sendAsset.toString(),
-                  amount: sendAmount.toSignificant(6),
-                },
-              ],
-              txID: txHash,
-            },
-          })
+        if (txid) {
+          updateTransaction({ id, txid });
         }
       } catch (error: NotWorth) {
-        const description = translateErrorMsg(error?.toString())
-        console.info('confirmSendError', { error, description })
-        setTxFailed(trackId)
+        const description = translateErrorMsg(error?.toString());
+        console.info('confirmSendError', { error, description });
+        appDispatch(completeTransaction({ id, status: 'error' }));
 
-        showErrorToast(t('notification.sendTxFailed'), description)
+        showErrorToast(t('notification.sendTxFailed'), description);
       }
     }
-  }, [
-    setIsOpenConfirmModal,
-    sendAsset,
-    sendAmount,
-    submitTransaction,
-    recipient,
-    memo,
-    pollTransaction,
-    setTxFailed,
-  ])
+  }, [setIsOpenConfirmModal, sendAsset, sendAmount, appDispatch, recipient, memo]);
 
-  return handleConfirmSend
-}
+  return handleConfirmSend;
+};

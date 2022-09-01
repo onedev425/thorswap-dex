@@ -1,16 +1,12 @@
-import { useMemo } from 'react'
-
-import { Asset } from '@thorswap-lib/multichain-sdk'
-
-import { ConfirmModal } from 'views/Multisig/components/ConfirmModal'
-import { useTxDepositCustom } from 'views/Multisig/TxDepositCustom/hooks'
-
-import { AssetInput } from 'components/AssetInput'
-import { Box, Button } from 'components/Atomic'
-import { InfoTable } from 'components/InfoTable'
-import { PanelInput } from 'components/PanelInput'
-
-import { t } from 'services/i18n'
+import { Asset } from '@thorswap-lib/multichain-sdk';
+import { AssetInput } from 'components/AssetInput';
+import { Box, Button } from 'components/Atomic';
+import { InfoTable } from 'components/InfoTable';
+import { PanelInput } from 'components/PanelInput';
+import { useMemo } from 'react';
+import { t } from 'services/i18n';
+import { ConfirmModal } from 'views/Multisig/components/ConfirmModal';
+import { useTxDepositCustom } from 'views/Multisig/TxDepositCustom/hooks';
 
 export const TxDepositCustom = () => {
   const {
@@ -23,7 +19,7 @@ export const TxDepositCustom = () => {
     handleCancelConfirm,
     handleCreateTx,
     handleDeposit,
-  } = useTxDepositCustom()
+  } = useTxDepositCustom();
 
   const confirmModalInfo = useMemo(
     () => [
@@ -34,38 +30,37 @@ export const TxDepositCustom = () => {
       { label: t('common.memo'), value: memo },
     ],
     [memo, depositAmount],
-  )
+  );
 
   return (
-    <Box className="gap-1" col flex={1}>
+    <Box col className="gap-1" flex={1}>
       <div className="relative self-stretch md:w-full">
         <AssetInput
-          selectedAsset={assetInput}
-          onValueChange={handleChangeDepositAmount}
           singleAsset
+          onValueChange={handleChangeDepositAmount}
+          selectedAsset={assetInput}
         />
       </div>
 
       <PanelInput
-        title={t('views.multisig.customMemoLabel')}
         onChange={handleChangeMemo}
+        title={t('views.multisig.customMemoLabel')}
         value={memo}
       />
 
       <Box center className="w-full pt-5">
-        <Button isFancy stretch size="lg" onClick={handleDeposit}>
+        <Button isFancy stretch onClick={handleDeposit} size="lg">
           {t('views.multisig.createTransaction')}
         </Button>
       </Box>
 
       <ConfirmModal
-        inputAssets={[Asset.RUNE()]}
         isOpened={isOpenConfirmModal}
-        onConfirm={handleCreateTx}
         onClose={handleCancelConfirm}
+        onConfirm={handleCreateTx}
       >
         <InfoTable items={confirmModalInfo} />
       </ConfirmModal>
     </Box>
-  )
-}
+  );
+};

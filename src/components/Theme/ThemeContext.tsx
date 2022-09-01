@@ -1,28 +1,27 @@
-import { createContext, useContext, ReactNode } from 'react'
-
-import { ThemeMode } from 'components/Theme/types'
-import { useThemeState } from 'components/Theme/useThemeState'
+import { ThemeMode } from 'components/Theme/types';
+import { useThemeState } from 'components/Theme/useThemeState';
+import { createContext, ReactNode, useContext } from 'react';
 
 type Props = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
 export type ThemeContextType = {
-  theme: ThemeMode | null
-  isLight: boolean
-}
+  theme: ThemeMode | null;
+  isLight: boolean;
+};
 
 const ThemeContext = createContext<ThemeContextType>({
   theme: null,
   isLight: false,
-} as ThemeContextType)
+} as ThemeContextType);
 
-export const useTheme = () => useContext(ThemeContext)
+export const useTheme = () => useContext(ThemeContext);
 
 const ThemeProvider = ({ children }: Props) => {
-  const theme = useThemeState()
+  const theme = useThemeState();
 
-  return <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>
-}
+  return <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>;
+};
 
-export { ThemeProvider }
+export { ThemeProvider };

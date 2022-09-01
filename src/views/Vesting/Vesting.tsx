@@ -1,21 +1,17 @@
-import { useEffect } from 'react'
+import { Box, Button, Typography } from 'components/Atomic';
+import { HoverIcon } from 'components/HoverIcon';
+import { InfoRow } from 'components/InfoRow';
+import { InputAmount } from 'components/InputAmount';
+import { PanelView } from 'components/PanelView';
+import { PercentSelect } from 'components/PercentSelect/PercentSelect';
+import { TabsSelect } from 'components/TabsSelect';
+import { ViewHeader } from 'components/ViewHeader';
+import { toOptionalFixed } from 'helpers/number';
+import { useEffect } from 'react';
+import { t } from 'services/i18n';
+import { useVesting } from 'views/Vesting/hooks';
 
-import { useVesting } from 'views/Vesting/hooks'
-
-import { Box, Button, Typography } from 'components/Atomic'
-import { HoverIcon } from 'components/HoverIcon'
-import { InfoRow } from 'components/InfoRow'
-import { InputAmount } from 'components/InputAmount'
-import { PanelView } from 'components/PanelView'
-import { PercentSelect } from 'components/PercentSelect/PercentSelect'
-import { TabsSelect } from 'components/TabsSelect'
-import { ViewHeader } from 'components/ViewHeader'
-
-import { t } from 'services/i18n'
-
-import { toOptionalFixed } from 'helpers/number'
-
-import { vestingTabs, VestingType } from './types'
+import { vestingTabs, VestingType } from './types';
 
 const Vesting = () => {
   const {
@@ -31,56 +27,49 @@ const Vesting = () => {
     setIsConnectModalOpen,
     handleChangePercent,
     handleChangeTokenAmount,
-  } = useVesting()
+  } = useVesting();
 
   useEffect(() => {
-    handleVestingInfo()
-  }, [handleVestingInfo])
+    handleVestingInfo();
+  }, [handleVestingInfo]);
 
   return (
     <PanelView
-      title={t('views.vesting.vesting')}
       header={
         <ViewHeader
-          title={t('views.vesting.vesting')}
           actionsComponent={
             ethAddr && (
               <HoverIcon
                 iconName="refresh"
+                onClick={handleVestingInfo}
                 size={18}
                 spin={isFetching}
-                onClick={handleVestingInfo}
               />
             )
           }
+          title={t('views.vesting.vesting')}
         />
       }
+      title={t('views.vesting.vesting')}
     >
       <Box className="self-stretch">
         <TabsSelect
+          onChange={(val: string) => {
+            setVestingAction(val as VestingType);
+          }}
           tabs={vestingTabs}
           value={vestingAction}
-          onChange={(val: string) => {
-            setVestingAction(val as VestingType)
-          }}
         />
       </Box>
-      <Box className="w-full p-2 pt-0" col>
-        <InfoRow
-          label={t('views.vesting.totalVested')}
-          value={vestingInfo.totalVestedAmount}
-        />
+      <Box col className="w-full p-2 pt-0">
+        <InfoRow label={t('views.vesting.totalVested')} value={vestingInfo.totalVestedAmount} />
         <InfoRow
           label={t('views.vesting.totalClaimed')}
           value={toOptionalFixed(vestingInfo.totalClaimedAmount)}
         />
         <InfoRow
           label={t('views.vesting.vestingStartTime')}
-          value={
-            vestingInfo.totalVestedAmount === '0'
-              ? 'N/A'
-              : vestingInfo.startTime
-          }
+          value={vestingInfo.totalVestedAmount === '0' ? 'N/A' : vestingInfo.startTime}
         />
         <InfoRow
           label={t('views.vesting.cliff')}
@@ -101,24 +90,19 @@ const Vesting = () => {
 
         {ethAddr && (
           <>
-            <Box className="!mt-6" row justify="between" alignCenter>
-              <Typography className="pr-4 min-w-fit">
-                {t('views.vesting.claimAmount')}
-              </Typography>
+            <Box alignCenter row className="!mt-6" justify="between">
+              <Typography className="pr-4 min-w-fit">{t('views.vesting.claimAmount')}</Typography>
 
               <InputAmount
-                className="!text-right !text-base"
                 stretch
-                border="rounded"
                 amountValue={tokenAmount}
+                border="rounded"
+                className="!text-right !text-base"
                 onAmountChange={handleChangeTokenAmount}
               />
             </Box>
             <Box className="!mt-4 flex-1">
-              <PercentSelect
-                options={[25, 50, 75, 100]}
-                onSelect={handleChangePercent}
-              />
+              <PercentSelect onSelect={handleChangePercent} options={[25, 50, 75, 100]} />
             </Box>
           </>
         )}
@@ -127,9 +111,9 @@ const Vesting = () => {
           <Button
             isFancy
             stretch
-            size="lg"
             className="mt-4"
             onClick={() => setIsConnectModalOpen(true)}
+            size="lg"
           >
             {t('common.connectWallet')}
           </Button>
@@ -137,17 +121,17 @@ const Vesting = () => {
           <Button
             isFancy
             stretch
-            size="lg"
             className="mt-4"
             loading={isClaiming}
             onClick={handleClaim}
+            size="lg"
           >
             {t('views.vesting.claim')}
           </Button>
         )}
       </Box>
     </PanelView>
-  )
-}
+  );
+};
 
-export default Vesting
+export default Vesting;

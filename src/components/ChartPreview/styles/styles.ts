@@ -1,4 +1,4 @@
-import * as colors from './colors'
+import * as colors from './colors';
 
 export const chartXTicksStyles = {
   color: colors.barChartTicksColor,
@@ -9,7 +9,7 @@ export const chartXTicksStyles = {
   },
   padding: 24,
   maxRotation: 0,
-}
+};
 export const chartYTicksStyles = {
   color: colors.barChartTicksColor,
   font: {
@@ -18,4 +18,4 @@ export const chartYTicksStyles = {
     weight: '700',
   },
   padding: 6,
-}
+};

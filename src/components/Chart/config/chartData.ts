@@ -1,4 +1,4 @@
-import * as colors from 'components/Chart/styles/colors'
+import * as colors from 'components/Chart/styles/colors';
 import {
   AreaChartType,
   BarChartType,
@@ -6,11 +6,11 @@ import {
   CurvedLineChartType,
   DataPoint,
   LineChartType,
-} from 'components/Chart/types'
+} from 'components/Chart/types';
 
-import { getColor } from './utils'
+import { getColor } from './utils';
 
-const lightStrokeColors = [colors.LightStrokeColor1]
+const lightStrokeColors = [colors.LightStrokeColor1];
 
 const darkStrokeColors = [
   colors.StrokeColor1,
@@ -18,13 +18,10 @@ const darkStrokeColors = [
   colors.StrokeColor3,
   colors.StrokeColor4,
   colors.StrokeColor5,
-]
+];
 
 // TODO: Unify and refactor those getters
-const getDataForBarChart = (
-  data: DataPoint[],
-  dataLabels: string[],
-): BarChartType => {
+const getDataForBarChart = (data: DataPoint[], dataLabels: string[]): BarChartType => {
   return {
     labels: dataLabels,
     datasets: [
@@ -41,8 +38,8 @@ const getDataForBarChart = (
         barThickness: dataLabels.length < 10 ? 20 : 3,
       },
     ],
-  }
-}
+  };
+};
 
 const getDataForAreaChart = (
   data: DataPoint[],
@@ -59,10 +56,7 @@ const getDataForAreaChart = (
           [colors.areaChartGradientColor2, colors.areaChartGradientColor1],
           'background',
         ),
-        borderColor: getColor(
-          isLight ? lightStrokeColors : darkStrokeColors,
-          'stroke',
-        ),
+        borderColor: getColor(isLight ? lightStrokeColors : darkStrokeColors, 'stroke'),
         borderWidth: 3,
         fill: true,
         cubicInterpolationMode: 'monotone',
@@ -78,8 +72,8 @@ const getDataForAreaChart = (
         pointHoverBorderColor: colors.areaChartPointHoverBorderColor,
       },
     ],
-  }
-}
+  };
+};
 
 const getDataForLineChart = (
   dataLabels: string[],
@@ -98,10 +92,7 @@ const getDataForLineChart = (
             : [colors.lineChartGradientColor1, colors.lineChartGradientColor2],
           'background',
         ),
-        borderColor: getColor(
-          isLight ? lightStrokeColors : darkStrokeColors,
-          'stroke',
-        ),
+        borderColor: getColor(isLight ? lightStrokeColors : darkStrokeColors, 'stroke'),
         borderWidth: 3,
         fill: true,
         cubicInterpolationMode: 'default',
@@ -117,8 +108,8 @@ const getDataForLineChart = (
         pointHoverBorderColor: colors.lineChartPointHoverBorderColor,
       },
     ],
-  }
-}
+  };
+};
 
 const getDataForCurvedLineChart = (
   dataLabels: string[],
@@ -131,16 +122,10 @@ const getDataForCurvedLineChart = (
       {
         label: '',
         backgroundColor: getColor(
-          [
-            colors.curvedLineChartGradientColor1,
-            colors.curvedLineChartGradientColor2,
-          ],
+          [colors.curvedLineChartGradientColor1, colors.curvedLineChartGradientColor2],
           'background',
         ),
-        borderColor: getColor(
-          isLight ? lightStrokeColors : darkStrokeColors,
-          'stroke',
-        ),
+        borderColor: getColor(isLight ? lightStrokeColors : darkStrokeColors, 'stroke'),
         borderWidth: 3,
         data: dataValues,
         fill: true,
@@ -153,13 +138,12 @@ const getDataForCurvedLineChart = (
         pointBorderWidth: 4,
         pointHoverRadius: 6,
         pointHoverBorderWidth: 4,
-        pointHoverBackgroundColor:
-          colors.curvedLineChartPointHoverBackgroundColor,
+        pointHoverBackgroundColor: colors.curvedLineChartPointHoverBackgroundColor,
         pointHoverBorderColor: colors.curvedLineChartPointHoverBorderColor,
       },
     ],
-  }
-}
+  };
+};
 
 export const getChartData = <T extends ChartType>(
   type: T,
@@ -170,16 +154,16 @@ export const getChartData = <T extends ChartType>(
   const data = dataLabels.map((label, index) => ({
     x: label,
     y: dataValues[index],
-  }))
+  }));
 
   switch (type) {
     case ChartType.Bar:
-      return getDataForBarChart(data, dataLabels)
+      return getDataForBarChart(data, dataLabels);
     case ChartType.Area:
-      return getDataForAreaChart(data, dataLabels, isLight)
+      return getDataForAreaChart(data, dataLabels, isLight);
     case ChartType.Line:
-      return getDataForLineChart(dataLabels, dataValues, isLight)
+      return getDataForLineChart(dataLabels, dataValues, isLight);
     case ChartType.CurvedLine:
-      return getDataForCurvedLineChart(dataLabels, dataValues, isLight)
+      return getDataForCurvedLineChart(dataLabels, dataValues, isLight);
   }
-}
+};

@@ -1,11 +1,9 @@
-import { useMemo } from 'react'
+import classNames from 'classnames';
+import { Box, Icon, IconName, Link, Typography } from 'components/Atomic';
+import { genericBgClasses } from 'components/constants';
+import { useMemo } from 'react';
 
-import classNames from 'classnames'
-
-import { Icon, Typography, Link, Box, IconName } from 'components/Atomic'
-import { genericBgClasses } from 'components/constants'
-
-import { MenuItemType } from '../types'
+import { MenuItemType } from '../types';
 
 export const MenuItem = ({
   onClick,
@@ -25,13 +23,12 @@ export const MenuItem = ({
           genericBgClasses.secondary,
         )}
         onClick={onClick}
+        type="button"
       >
         <Box alignCenter className={gap}>
           {icon && <Icon name={icon as IconName} size={16} />}
 
-          <Typography className={classNames('mx-2', labelClassName)}>
-            {label}
-          </Typography>
+          <Typography className={classNames('mx-2', labelClassName)}>{label}</Typography>
         </Box>
         <Box center>
           {!!value && <Typography>{value}</Typography>}
@@ -40,7 +37,7 @@ export const MenuItem = ({
       </button>
     ),
     [gap, icon, isSelected, label, labelClassName, onClick, value],
-  )
+  );
 
-  return href ? <Link to={href}>{menuItemElement}</Link> : menuItemElement
-}
+  return href ? <Link to={href}>{menuItemElement}</Link> : menuItemElement;
+};

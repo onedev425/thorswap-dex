@@ -1,0 +1,6 @@
+{
+  "urls": {
+    "beta": "https://beta.thorswap.finance",
+    "prod": "https://app.thorswap.finance"
+  }
+}

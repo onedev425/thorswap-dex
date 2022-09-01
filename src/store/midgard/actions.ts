@@ -1,138 +1,99 @@
-import { createAsyncThunk } from '@reduxjs/toolkit'
-import { ActionTypeEnum } from '@thorswap-lib/midgard-sdk'
-import { Asset } from '@thorswap-lib/multichain-sdk'
-import { SupportedChain } from '@thorswap-lib/types'
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { ActionTypeEnum, PoolPeriods } from '@thorswap-lib/midgard-sdk';
+import { Asset } from '@thorswap-lib/multichain-sdk';
+import { SupportedChain } from '@thorswap-lib/types';
+import { midgardApi } from 'services/midgard';
+import { multichain } from 'services/multichain';
+import { getLiquidityProvider, getThorchainMimir } from 'services/thornode';
 
-import { midgardApi } from 'services/midgard'
-import { multichain } from 'services/multichain'
-import { getThorchainMimir, getLiquidityProvider } from 'services/thornode'
+import { AggregatorSwapType, TxTracker } from './types';
 
-import { AggregatorSwapType, TxTracker } from './types'
+export const getPools = createAsyncThunk('midgard/getPools', async (period?: PoolPeriods) =>
+  midgardApi.getPools(undefined, period),
+);
 
-export const getPools = createAsyncThunk(
-  'midgard/getPools',
-  midgardApi.getPools,
-)
+export const getPoolStats = createAsyncThunk('midgard/getPoolStats', midgardApi.getPoolStats);
 
-export const getPoolStats = createAsyncThunk(
-  'midgard/getPoolStats',
-  midgardApi.getPoolStats,
-)
+export const getNetworkData = createAsyncThunk('midgard/getNetworkData', midgardApi.getNetworkData);
 
-export const getNetworkData = createAsyncThunk(
-  'midgard/getNetworkData',
-  midgardApi.getNetworkData,
-)
+export const getLastblock = createAsyncThunk('midgard/getLastblock', midgardApi.getLastblock);
 
-export const getLastblock = createAsyncThunk(
-  'midgard/getLastblock',
-  midgardApi.getLastblock,
-)
+export const getStats = createAsyncThunk('midgard/getStats', midgardApi.getStats);
 
-export const getStats = createAsyncThunk(
-  'midgard/getStats',
-  midgardApi.getStats,
-)
+export const getConstants = createAsyncThunk('midgard/getConstants', midgardApi.getConstants);
 
-export const getConstants = createAsyncThunk(
-  'midgard/getConstants',
-  midgardApi.getConstants,
-)
+export const getQueue = createAsyncThunk('midgard/getQueue', midgardApi.getQueue);
 
-export const getQueue = createAsyncThunk(
-  'midgard/getQueue',
-  midgardApi.getQueue,
-)
+export const getActions = createAsyncThunk('midgard/getActions', midgardApi.getActions);
 
-export const getActions = createAsyncThunk(
-  'midgard/getActions',
-  midgardApi.getActions,
-)
+export const getTVLHistory = createAsyncThunk('midgard/getTVLHistory', midgardApi.getTVLHistory);
 
-export const getTVLHistory = createAsyncThunk(
-  'midgard/getTVLHistory',
-  midgardApi.getTVLHistory,
-)
-
-export const getSwapHistory = createAsyncThunk(
-  'midgard/getSwapHistory',
-  midgardApi.getSwapHistory,
-)
+export const getSwapHistory = createAsyncThunk('midgard/getSwapHistory', midgardApi.getSwapHistory);
 
 export const getLiquidityHistory = createAsyncThunk(
   'midgard/getLiquidityHistory',
   midgardApi.getLiquidityHistory,
-)
+);
 
 export const getEarningsHistory = createAsyncThunk(
   'midgard/getEarningsHistory',
   midgardApi.getEarningsHistory,
-)
+);
 
 export const getDepthHistory = createAsyncThunk(
   'midgard/getDepthHistory',
   midgardApi.getDepthHistory,
-)
+);
 
-export const getMimir = createAsyncThunk(
-  'thorchain/getThorchainMimir',
-  async () => {
-    const { data } = await getThorchainMimir()
+export const getMimir = createAsyncThunk('thorchain/getThorchainMimir', async () => {
+  const { data } = await getThorchainMimir();
 
-    return data
-  },
-)
+  return data;
+});
 
 // Node
-export const getNodes = createAsyncThunk(
-  'midgard/getNodes',
-  midgardApi.getNodes,
-)
+export const getNodes = createAsyncThunk('midgard/getNodes', midgardApi.getNodes);
 
 // NOTE: pass chain and address to param
 export const getPoolMemberDetailByChain = createAsyncThunk(
   'midgard/getPoolMemberDetailByChain',
   async ({ address }: { chain: ToDo; address: string }) => {
-    const response = await midgardApi.getMemberDetail(address)
+    const response = await midgardApi.getMemberDetail(address);
 
-    return response
+    return response;
   },
-)
+);
 
 export const getLpDetails = createAsyncThunk(
   'midgard/getLpDetails',
   async ({ address, pool }: { address: string; pool: string }) => {
-    const response = await midgardApi.getLpDetails(address, pool)
-    return response
+    const response = await midgardApi.getLpDetails(address, pool);
+    return response;
   },
-)
+);
 // get 24h volume
-export const getVolume24h = createAsyncThunk(
-  'midgard/getVolume24h',
-  async () => {
-    const { intervals: swapIntervals } = await midgardApi.getSwapHistory({
-      query: { interval: 'day', count: 2 },
-    })
+export const getVolume24h = createAsyncThunk('midgard/getVolume24h', async () => {
+  const { intervals: swapIntervals } = await midgardApi.getSwapHistory({
+    query: { interval: 'day', count: 2 },
+  });
 
-    const { intervals: liquidityIntervals } =
-      await midgardApi.getLiquidityHistory({
-        query: { interval: 'day', count: 2 },
-      })
+  const { intervals: liquidityIntervals } = await midgardApi.getLiquidityHistory({
+    query: { interval: 'day', count: 2 },
+  });
 
-    // swap + add + withdraw
-    const volume24h =
-      Number(swapIntervals[0].totalVolume) +
-      Number(liquidityIntervals[0].addLiquidityVolume) +
-      Number(liquidityIntervals[0].withdrawVolume)
+  // swap + add + withdraw
+  const volume24h =
+    Number(swapIntervals[0].totalVolume) +
+    Number(liquidityIntervals[0].addLiquidityVolume) +
+    Number(liquidityIntervals[0].withdrawVolume);
 
-    return volume24h
-  },
-)
+  return volume24h;
+});
 
 export const getThorchainInboundData = createAsyncThunk(
   'midgard/getInboundAddresses',
   midgardApi.getInboundAddresses,
-)
+);
 
 // NOTE: pass chain, thorchain address, chain wallet address for wallet
 export const reloadPoolMemberDetailByChain = createAsyncThunk(
@@ -141,23 +102,23 @@ export const reloadPoolMemberDetailByChain = createAsyncThunk(
     thorchainAddress,
     assetChainAddress,
   }: {
-    chain: SupportedChain
-    thorchainAddress: string
-    assetChainAddress: string
+    chain: SupportedChain;
+    thorchainAddress: string;
+    assetChainAddress: string;
   }) => {
-    const runeMemberData = await midgardApi.getMemberDetail(thorchainAddress)
-    const assetMemberData = await midgardApi.getMemberDetail(assetChainAddress)
+    const runeMemberData = await midgardApi.getMemberDetail(thorchainAddress);
+    const assetMemberData = await midgardApi.getMemberDetail(assetChainAddress);
 
-    return { runeMemberData, assetMemberData }
+    return { runeMemberData, assetMemberData };
   },
-)
+);
 
 export const pollUpgradeTx = createAsyncThunk(
   'midgard/pollUpgradeTx',
   async (txTracker: TxTracker) => {
     const {
       submitTx: { recipient },
-    } = txTracker
+    } = txTracker;
 
     if (recipient) {
       const response = await midgardApi.getActions({
@@ -165,13 +126,13 @@ export const pollUpgradeTx = createAsyncThunk(
         offset: 0,
         address: recipient,
         type: ActionTypeEnum.Switch,
-      })
-      return response
+      });
+      return response;
     }
 
-    throw Error('no recipient')
+    throw Error('no recipient');
   },
-)
+);
 
 export const pollTx = createAsyncThunk(
   'midgard/pollTx',
@@ -180,38 +141,37 @@ export const pollTx = createAsyncThunk(
       // @ts-expect-error TOOD: fix midgard types
       const response = await midgardApi.getActions({
         txId: txID.includes('0x') ? txID.slice(2) : txID,
-      })
-      return response
+      });
+      return response;
     }
   },
-)
+);
 
 export const pollApprove = createAsyncThunk(
   'midgard/pollApprove',
   async ({ submitTx: { inAssets, aggType, contractAddress } }: TxTracker) => {
-    const assetString = inAssets?.[0]?.asset
+    const assetString = inAssets?.[0]?.asset;
 
-    if (!assetString) throw Error('invalid asset string')
+    if (!assetString) throw Error('invalid asset string');
 
-    const asset = Asset.fromAssetString(assetString)
+    const asset = Asset.fromAssetString(assetString);
 
-    if (!asset) throw Error('invalid asset')
+    if (!asset) throw Error('invalid asset');
 
-    const approved = await (aggType === AggregatorSwapType.SwapIn &&
-    contractAddress
+    const approved = await (aggType === AggregatorSwapType.SwapIn && contractAddress
       ? multichain().isAssetApprovedForContract(asset, contractAddress)
-      : multichain().isAssetApproved(asset))
+      : multichain().isAssetApproved(asset));
 
-    return { asset, approved }
+    return { asset, approved };
   },
-)
+);
 
 // get liquidity provider
 export const getLiquidityProviderData = createAsyncThunk(
   'thornode/getLiquidityProvider',
   async ({ address, asset }: { asset: string; address: string }) => {
-    const { data } = await getLiquidityProvider({ asset, address })
+    const { data } = await getLiquidityProvider({ asset, address });
 
-    return data
+    return data;
   },
-)
+);

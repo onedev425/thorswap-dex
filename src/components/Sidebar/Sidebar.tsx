@@ -1,44 +1,32 @@
-import { useState } from 'react'
+import Logo from 'assets/images/logo.png';
+import classNames from 'classnames';
+import { Box, Icon, Tooltip, Typography } from 'components/Atomic';
+import { SupportModal } from 'components/Modals/Support/Support';
+import { Scrollbar } from 'components/Scrollbar';
+import { useSidebarOptions } from 'components/Sidebar/hooks';
+import { NavItem } from 'components/Sidebar/NavItem';
+import { V1_URL } from 'config/constants';
+import useWindowSize from 'hooks/useWindowSize';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { t } from 'services/i18n';
+import { ROUTES } from 'settings/constants';
 
-import { useNavigate } from 'react-router-dom'
+import { SidebarItems } from './SidebarItems';
+import { SidebarProps } from './types';
 
-import classNames from 'classnames'
-import { V1_URL } from 'config/constants'
+const noScrollHeight = 225;
+const toggleHeight = 50;
 
-import { Box, Icon, Tooltip, Typography } from 'components/Atomic'
-import { SupportModal } from 'components/Modals/Support/Support'
-import { Scrollbar } from 'components/Scrollbar'
-import { useSidebarOptions } from 'components/Sidebar/hooks'
-import { NavItem } from 'components/Sidebar/NavItem'
-
-import useWindowSize from 'hooks/useWindowSize'
-
-import { t } from 'services/i18n'
-
-import { ROUTES } from 'settings/constants'
-
-import Logo from 'assets/images/logo.png'
-
-import { SidebarItems } from './SidebarItems'
-import { SidebarProps } from './types'
-
-const noScrollHeight = 225
-const toggleHeight = 50
-
-export const Sidebar = ({
-  className,
-  collapsed = false,
-  toggle,
-  onNavItemClick,
-}: SidebarProps) => {
-  const sidebarOptions = useSidebarOptions()
-  const { isMdActive } = useWindowSize()
-  const navigate = useNavigate()
-  const [isSupportModalOpened, setIsSupportModalOpened] = useState(false)
+export const Sidebar = ({ className, collapsed = false, toggle, onNavItemClick }: SidebarProps) => {
+  const sidebarOptions = useSidebarOptions();
+  const { isMdActive } = useWindowSize();
+  const navigate = useNavigate();
+  const [isSupportModalOpened, setIsSupportModalOpened] = useState(false);
 
   const scrollbarHeight = `calc(100vh - ${
     toggle ? noScrollHeight + toggleHeight : noScrollHeight
-  }px)`
+  }px)`;
 
   return (
     <nav
@@ -51,8 +39,8 @@ export const Sidebar = ({
       )}
     >
       <div
-        onClick={() => navigate(ROUTES.Home)}
         className="my-8 min-w-[48px] h-12 transition-colors cursor-pointer"
+        onClick={() => navigate(ROUTES.Home)}
       >
         <div
           className={classNames(
@@ -60,39 +48,39 @@ export const Sidebar = ({
             { '!blur-[40px]': collapsed },
           )}
         />
-        <img className="w-12 h-12" src={Logo} alt="Logo" />
+        <img alt="Logo" className="w-12 h-12" src={Logo} />
       </div>
 
       <div className="w-full h-sidebar-content">
         <Scrollbar height={isMdActive ? scrollbarHeight : '98%'}>
           <SidebarItems
-            options={sidebarOptions}
-            variant="primary"
             collapsed={collapsed}
             onItemClick={onNavItemClick}
+            options={sidebarOptions}
+            variant="primary"
           />
         </Scrollbar>
       </div>
 
       <ul className="flex flex-col w-full p-0 my-1 list-none rounded-2xl">
         <NavItem
+          className={classNames('!mx-1')}
+          collapsed={collapsed}
           href={V1_URL}
           iconName="external"
-          className={classNames('!mx-1')}
           label={t('components.sidebar.V1App')}
-          collapsed={collapsed}
           onItemClickCb={onNavItemClick}
         />
 
         <NavItem
+          className={classNames('!mx-1')}
+          collapsed={collapsed}
           href="/"
           iconName="infoCircle"
-          className={classNames('!mx-1')}
           label={t('common.support')}
-          collapsed={collapsed}
           onClick={(e) => {
-            e.preventDefault()
-            setIsSupportModalOpened(true)
+            e.preventDefault();
+            setIsSupportModalOpened(true);
           }}
           onItemClickCb={onNavItemClick}
         />
@@ -100,19 +88,13 @@ export const Sidebar = ({
 
       {!!toggle && (
         <Box
-          className="p-2.5 cursor-pointer w-full border-0 border-t border-solid border-light-typo-gray dark:border-dark-typo-gray !border-opacity-30"
           center
+          className="p-2.5 cursor-pointer w-full border-0 border-t border-solid border-light-typo-gray dark:border-dark-typo-gray !border-opacity-30"
           onClick={toggle}
         >
-          <Tooltip
-            content={t('components.sidebar.expand')}
-            disabled={!collapsed}
-          >
+          <Tooltip content={t('components.sidebar.expand')} disabled={!collapsed}>
             <div>
-              <Icon
-                className={classNames({ '-scale-x-100': collapsed })}
-                name="collapse"
-              />
+              <Icon className={classNames({ '-scale-x-100': collapsed })} name="collapse" />
             </div>
 
             <Box
@@ -122,11 +104,9 @@ export const Sidebar = ({
               )}
             >
               <Typography
-                className={classNames(
-                  'px-3 dark:group-hover:text-white font-bold opacity-60',
-                )}
-                variant="caption-xs"
+                className={classNames('px-3 dark:group-hover:text-white font-bold opacity-60')}
                 transform="uppercase"
+                variant="caption-xs"
               >
                 {t('components.sidebar.collapse')}
               </Typography>
@@ -135,10 +115,7 @@ export const Sidebar = ({
         </Box>
       )}
 
-      <SupportModal
-        isOpen={isSupportModalOpened}
-        onCancel={() => setIsSupportModalOpened(false)}
-      />
+      <SupportModal isOpen={isSupportModalOpened} onCancel={() => setIsSupportModalOpened(false)} />
     </nav>
-  )
-}
+  );
+};

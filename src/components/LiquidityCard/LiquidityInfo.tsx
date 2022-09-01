@@ -1,36 +1,31 @@
-import { memo, RefObject, useMemo } from 'react'
-
-import { Amount, Asset, Percent } from '@thorswap-lib/multichain-sdk'
-
-import { AssetIcon } from 'components/AssetIcon'
-import { Box, Typography } from 'components/Atomic'
-import { InfoRowConfig } from 'components/InfoRow/types'
-import { InfoTable } from 'components/InfoTable'
-
-import { PoolShareType } from 'store/midgard/types'
-
-import { t } from 'services/i18n'
+import { Amount, Asset, Percent } from '@thorswap-lib/multichain-sdk';
+import { AssetIcon } from 'components/AssetIcon';
+import { Box, Typography } from 'components/Atomic';
+import { InfoRowConfig } from 'components/InfoRow/types';
+import { InfoTable } from 'components/InfoTable';
+import { memo, RefObject, useMemo } from 'react';
+import { t } from 'services/i18n';
+import { PoolShareType } from 'store/midgard/types';
 
 type Props = {
-  assetShare: Amount
-  runeShare: Amount
-  poolShare: Percent
-  withFooter?: boolean
-  contentRef: RefObject<HTMLDivElement>
-  shareType: PoolShareType
-  asset: Asset
-  lastAddedDate: string
-  runeAdded: Amount
-  assetAdded: Amount
-  runeWithdrawn: Amount
-  assetWithdrawn: Amount
-  runePending: Amount
-  assetPending: Amount
-  maxHeightStyle: { maxHeight: string; overflow: string }
-  tickerPending?: string
-}
+  assetShare: Amount;
+  runeShare: Amount;
+  poolShare: Percent;
+  contentRef: RefObject<HTMLDivElement>;
+  shareType: PoolShareType;
+  asset: Asset;
+  lastAddedDate: string;
+  runeAdded: Amount;
+  assetAdded: Amount;
+  runeWithdrawn: Amount;
+  assetWithdrawn: Amount;
+  runePending: Amount;
+  assetPending: Amount;
+  maxHeightStyle: { maxHeight: string; overflow: string };
+  tickerPending?: string;
+};
 
-const RuneAsset = Asset.RUNE()
+const RuneAsset = Asset.RUNE();
 
 export const LiquidityInfo = memo(
   ({
@@ -51,8 +46,7 @@ export const LiquidityInfo = memo(
     tickerPending,
   }: Props) => {
     const summary = useMemo(() => {
-      const poolShareValue =
-        poolShare.toFixed(4) === '0 %' ? '~0 %' : poolShare.toFixed(4)
+      const poolShareValue = poolShare.toFixed(4) === '0 %' ? '~0 %' : poolShare.toFixed(4);
 
       const infoFields: InfoRowConfig[] = [
         { label: t('views.liquidity.poolShare'), value: poolShareValue },
@@ -72,56 +66,52 @@ export const LiquidityInfo = memo(
           label: t('views.liquidity.assetWithdrawn'),
           value: assetWithdrawn.toSignificant(6),
         },
-      ]
+      ];
 
       if (runePending.gt(0)) {
         infoFields.push({
           label: t('views.liquidity.runePending'),
           value: runePending.toSignificant(6),
-        })
+        });
       }
 
       if (assetPending.gt(0)) {
         infoFields.push({
           label: t('views.liquidity.assetPending'),
           value: assetPending.toSignificant(6),
-        })
+        });
       }
 
       if ([PoolShareType.SYM, PoolShareType.ASSET_ASYM].includes(shareType)) {
         infoFields.unshift({
           label: `${asset.ticker} ${t('views.liquidity.share')}`,
           value: (
-            <Box className="gap-2" center>
-              <Typography>
-                {`${assetShare.toSignificant(6)} ${asset.ticker}`}
-              </Typography>
-              <AssetIcon size={24} asset={asset} />
+            <Box center className="gap-2">
+              <Typography>{`${assetShare.toSignificant(6)} ${asset.ticker}`}</Typography>
+              <AssetIcon asset={asset} size={24} />
             </Box>
           ),
-        })
+        });
       }
 
       if ([PoolShareType.SYM, PoolShareType.RUNE_ASYM].includes(shareType)) {
         infoFields.unshift({
           label: `${RuneAsset.symbol} ${t('views.liquidity.share')}`,
           value: (
-            <Box className="gap-2" center>
-              <Typography>
-                {`${runeShare.toFixed(4)} ${RuneAsset.symbol}`}
-              </Typography>
-              <AssetIcon size={24} asset={RuneAsset} />
+            <Box center className="gap-2">
+              <Typography>{`${runeShare.toFixed(4)} ${RuneAsset.symbol}`}</Typography>
+              <AssetIcon asset={RuneAsset} size={24} />
             </Box>
           ),
-        })
+        });
       }
 
       infoFields.push({
         label: t('views.liquidity.lastAdded'),
         value: lastAddedDate,
-      })
+      });
 
-      return infoFields
+      return infoFields;
     }, [
       asset,
       assetShare,
@@ -135,18 +125,18 @@ export const LiquidityInfo = memo(
       assetPending,
       runeWithdrawn,
       assetWithdrawn,
-    ])
+    ]);
 
     const poolAssetsInfo = useMemo(() => {
       switch (shareType) {
         case PoolShareType.SYM:
-          return `RUNE + ${asset.ticker} LP`
+          return `RUNE + ${asset.ticker} LP`;
         case PoolShareType.ASSET_ASYM:
-          return `${asset.ticker} LP`
+          return `${asset.ticker} LP`;
         case PoolShareType.RUNE_ASYM:
-          return 'RUNE LP'
+          return 'RUNE LP';
       }
-    }, [asset.ticker, shareType])
+    }, [asset.ticker, shareType]);
 
     return (
       <Box
@@ -156,11 +146,7 @@ export const LiquidityInfo = memo(
         style={maxHeightStyle}
       >
         {!!tickerPending && (
-          <Typography
-            className="brightness-90"
-            color="yellow"
-            variant="caption"
-          >
+          <Typography className="brightness-90" color="yellow" variant="caption">
             {t('pendingLiquidity.content', { asset: tickerPending })}
           </Typography>
         )}
@@ -171,9 +157,9 @@ export const LiquidityInfo = memo(
             </Typography>
           </Box>
 
-          <InfoTable items={summary} horizontalInset size="sm" />
+          <InfoTable horizontalInset items={summary} size="sm" />
         </Box>
       </Box>
-    )
+    );
   },
-)
+);

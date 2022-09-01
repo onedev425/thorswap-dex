@@ -1,30 +1,24 @@
-import { useEffect, useCallback, useMemo } from 'react'
-
-import { Chain } from '@thorswap-lib/types'
-
-import { getLiquidityProviderData } from 'store/midgard/actions'
-import { useAppDispatch, useAppSelector } from 'store/store'
-
-import { multichain } from 'services/multichain'
+import { Chain } from '@thorswap-lib/types';
+import { useCallback, useEffect, useMemo } from 'react';
+import { multichain } from 'services/multichain';
+import { getLiquidityProviderData } from 'store/midgard/actions';
+import { useAppDispatch, useAppSelector } from 'store/store';
 
 export const usePendingLP = () => {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const { pools, pendingLP, pendingLPLoading, wallet } = useAppSelector(
-    ({
-      midgard: { pools, pendingLP, pendingLPLoading },
-      wallet: { wallet },
-    }) => ({
+    ({ midgard: { pools, pendingLP, pendingLPLoading }, wallet: { wallet } }) => ({
       wallet,
       pendingLP,
       pools,
       pendingLPLoading,
     }),
-  )
+  );
 
   const getPendingDeposit = useCallback(() => {
     if (wallet) {
-      const thorAddress = multichain().getWalletAddressByChain(Chain.THORChain)
+      const thorAddress = multichain().getWalletAddressByChain(Chain.THORChain);
 
       if (thorAddress) {
         pools.forEach((pool) => {
@@ -33,19 +27,16 @@ export const usePendingLP = () => {
               address: thorAddress,
               asset: pool.asset.toString(),
             }),
-          )
-        })
+          );
+        });
       }
     }
-  }, [dispatch, wallet, pools])
+  }, [dispatch, wallet, pools]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => getPendingDeposit(), [])
+  useEffect(() => getPendingDeposit(), []);
 
-  const hasPendingDeposit = useMemo(
-    () => Object.keys(pendingLP).length > 0,
-    [pendingLP],
-  )
+  const hasPendingDeposit = useMemo(() => Object.keys(pendingLP).length > 0, [pendingLP]);
 
   return {
     getPendingDeposit,
@@ -53,5 +44,5 @@ export const usePendingLP = () => {
     pendingLP,
     pendingLPLoading,
     hasPendingDeposit,
-  }
-}
+  };
+};

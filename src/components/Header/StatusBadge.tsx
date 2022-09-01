@@ -1,19 +1,17 @@
-import { memo } from 'react'
-
-import classNames from 'classnames'
-
-import { StatusType } from 'hooks/useNetwork'
+import classNames from 'classnames';
+import { StatusType } from 'hooks/useNetwork';
+import { memo } from 'react';
 
 export type Props = {
-  className?: string
-  status: StatusType
-}
+  className?: string;
+  status: StatusType;
+};
 
 const colors: Record<StatusType, string> = {
   [StatusType.Error]: 'bg-red',
   [StatusType.Normal]: 'bg-green',
   [StatusType.Warning]: 'bg-yellow',
-}
+};
 
 export const StatusBadge = memo(({ className, status }: Props) => {
   return (
@@ -24,5 +22,5 @@ export const StatusBadge = memo(({ className, status }: Props) => {
         className,
       )}
     />
-  )
-})
+  );
+});

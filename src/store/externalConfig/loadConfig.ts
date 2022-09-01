@@ -1,19 +1,17 @@
-import { SupportedChain } from '@thorswap-lib/types'
-import axios from 'axios'
-
-import { getAnnouncementId } from 'components/Announcements/utils'
-
+import { SupportedChain } from '@thorswap-lib/types';
+import axios from 'axios';
+import { getAnnouncementId } from 'components/Announcements/utils';
 import {
   AnnouncementItem,
   AnnouncementsData,
   AnnouncementType,
   ChainStatusAnnouncements,
   StatusAnnouncement,
-} from 'store/externalConfig/types'
+} from 'store/externalConfig/types';
 
-const SHEET_ID = '13qyyZnv5tyHse4PUJ4548bJdtGQDJpMVjkLXq1gQRS0'
-const SHEET_TAB = ':batchGet'
-const ranges = '&ranges=announcements&ranges=status'
+const SHEET_ID = '13qyyZnv5tyHse4PUJ4548bJdtGQDJpMVjkLXq1gQRS0';
+const SHEET_TAB = ':batchGet';
+const ranges = '&ranges=announcements&ranges=status';
 
 // Api for loading announcements. Current version is based on google sheet, can be replaced with any other
 // In the future we can switch to Db-based storage
@@ -26,55 +24,55 @@ export const loadConfig = async (): Promise<AnnouncementsData> => {
     SHEET_TAB +
     '?alt=json&key=' +
     import.meta.env.VITE_GOOGLE_API_KEY +
-    ranges
+    ranges;
 
   try {
-    const { data } = await axios.get(url)
+    const { data } = await axios.get(url);
 
-    const { valueRanges } = data
-    const manualData: string[][] = valueRanges[0].values
-    const statusData: string[][] = valueRanges[1].values
+    const { valueRanges } = data;
+    const manualData: string[][] = valueRanges[0].values;
+    const statusData: string[][] = valueRanges[1].values;
 
-    const manual = getManualAnnouncements(manualData)
-    const chainStatus = getStatusAnnouncements(statusData)
-    return { manual, chainStatus }
+    const manual = getManualAnnouncements(manualData);
+    const chainStatus = getStatusAnnouncements(statusData);
+    return { manual, chainStatus };
   } catch (e) {
-    return { manual: [], chainStatus: {} }
+    return { manual: [], chainStatus: {} };
   }
-}
+};
 
 const getManualAnnouncements = (manualData: string[][]) => {
-  const isPublished = (row: string[]) => getBooleanValue(row[3])
-  const rows = manualData.slice(1, manualData.length).filter(isPublished)
+  const isPublished = (row: string[]) => getBooleanValue(row[3]);
+  const rows = manualData.slice(1, manualData.length).filter(isPublished);
 
   const manualArr: AnnouncementItem[] = rows.map((row) => {
-    const [message, title, type, , linkUrl, linkName] = row
+    const [message, title, type, , linkUrl, linkName] = row;
 
     const announcement: AnnouncementItem = {
       message,
       title,
       type: type as AnnouncementType,
       link: { url: linkUrl, name: linkName },
-    }
-    announcement.key = getAnnouncementId(announcement)
+    };
+    announcement.key = getAnnouncementId(announcement);
 
-    return announcement
-  })
+    return announcement;
+  });
 
-  return manualArr
-}
+  return manualArr;
+};
 
 const getStatusAnnouncements = (statusData: string[][]) => {
-  const cellsCount = 8
+  const cellsCount = 8;
 
   const hasData = (row: string[]) => {
     return Array.from({ length: cellsCount }, (_, index) => index + 1).some(
       (col) => !!row[col]?.trim?.(),
-    )
-  }
-  const rows = statusData.slice(1, statusData.length).filter(hasData)
+    );
+  };
+  const rows = statusData.slice(1, statusData.length).filter(hasData);
 
-  const status: ChainStatusAnnouncements = {}
+  const status: ChainStatusAnnouncements = {};
 
   rows.forEach((row) => {
     const [
@@ -87,7 +85,7 @@ const getStatusAnnouncements = (statusData: string[][]) => {
       isLPDepositPaused,
       isLPWithdrawalPaused,
       isTradingPaused,
-    ] = row
+    ] = row;
 
     const announcement: StatusAnnouncement = {
       chain: chain as SupportedChain,
@@ -100,15 +98,15 @@ const getStatusAnnouncements = (statusData: string[][]) => {
         isLPWithdrawalPaused: getBooleanValue(isLPWithdrawalPaused),
         isTradingPaused: getBooleanValue(isTradingPaused),
       },
-    }
-    announcement.key = getAnnouncementId(announcement)
+    };
+    announcement.key = getAnnouncementId(announcement);
 
-    status[chain as SupportedChain] = announcement
-  })
+    status[chain as SupportedChain] = announcement;
+  });
 
-  return status
-}
+  return status;
+};
 
 const getBooleanValue = (val: string | undefined) => {
-  return !!val && val?.toLowerCase() === 'true'
-}
+  return !!val && val?.toLowerCase() === 'true';
+};

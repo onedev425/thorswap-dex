@@ -1,89 +1,81 @@
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-
-import classNames from 'classnames'
-
-import { Box, Tooltip, Typography } from 'components/Atomic'
-import { baseHoverClass } from 'components/constants'
-
-import { useApp } from 'store/app/hooks'
-
-import { t } from 'services/i18n'
-
-import { ThemeType } from 'types/app'
+import classNames from 'classnames';
+import { Box, Tooltip, Typography } from 'components/Atomic';
+import { baseHoverClass } from 'components/constants';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { t } from 'services/i18n';
+import { useApp } from 'store/app/hooks';
+import { ThemeType } from 'types/app';
 
 type Props = {
-  className?: string
-  duration?: number
-  resetIndicator: boolean
-  size?: number
-  onClick?: () => void
-}
+  className?: string;
+  duration?: number;
+  resetIndicator: boolean;
+  size?: number;
+  onClick?: () => void;
+};
 
 export const CountDownIndicator = memo(
   ({ className, resetIndicator, size = 24, duration = 10, onClick }: Props) => {
-    const { themeType } = useApp()
-    const playing = useRef(false)
-    const interval = useRef<NodeJS.Timer>(setTimeout(() => {}, 0))
-    const lightTheme = themeType === ThemeType.Light
-    const trailColor = lightTheme ? '#E6E9F5' : '#273855'
-    const strokeColor = lightTheme ? '#7C859F' : '#75849D'
+    const { themeType } = useApp();
+    const playing = useRef(false);
+    const interval = useRef<NodeJS.Timer>(setTimeout(() => {}, 0));
+    const lightTheme = themeType === ThemeType.Light;
+    const trailColor = lightTheme ? '#E6E9F5' : '#273855';
+    const strokeColor = lightTheme ? '#7C859F' : '#75849D';
 
-    const radius = size / 2
-    const circumference = size * Math.PI
-    const [countdown, setCountdown] = useState(duration)
+    const radius = size / 2;
+    const circumference = size * Math.PI;
+    const [countdown, setCountdown] = useState(duration);
 
     const strokeDashoffset =
-      circumference - ((countdown * 1000) / (duration * 1000)) * circumference
+      circumference - ((countdown * 1000) / (duration * 1000)) * circumference;
 
     const startTimer = useCallback(() => {
       if (!playing.current) {
-        playing.current = true
+        playing.current = true;
 
-        clearInterval(interval.current)
+        clearInterval(interval.current);
         interval.current = setInterval(() => {
           setCountdown((countdown) => {
-            if (countdown > 1) return countdown - 1
+            if (countdown > 1) return countdown - 1;
 
-            onClick?.()
-            return duration
-          })
-        }, 1000)
+            onClick?.();
+            return duration;
+          });
+        }, 1000);
       }
-    }, [duration, onClick])
+    }, [duration, onClick]);
 
     const handleRefresh = useCallback(() => {
-      onClick?.()
-      setCountdown(duration)
-    }, [duration, onClick])
+      onClick?.();
+      setCountdown(duration);
+    }, [duration, onClick]);
 
     useEffect(() => {
       if (resetIndicator) {
-        playing.current = false
-        setCountdown(duration)
-        startTimer()
+        playing.current = false;
+        setCountdown(duration);
+        startTimer();
       }
-    }, [startTimer, resetIndicator, duration])
+    }, [startTimer, resetIndicator, duration]);
 
-    const countdownStyles = useMemo(
-      () => ({ height: size, width: size }),
-      [size],
-    )
+    const countdownStyles = useMemo(() => ({ height: size, width: size }), [size]);
 
-    const svgClass = 'left-1.5 top-1.5 absolute w-full h-full overflow-visible'
+    const svgClass = 'left-1.5 top-1.5 absolute w-full h-full overflow-visible';
 
     return (
       <Tooltip content={t('common.refresh')} place="top">
         <Box
+          center
           className={classNames(
             'm-auto relative -rotate-90',
             { [baseHoverClass]: onClick },
             className,
           )}
-          center
           onClick={handleRefresh}
           style={countdownStyles}
         >
-          <Typography variant="caption-xs" className="rotate-90">
+          <Typography className="rotate-90" variant="caption-xs">
             {countdown.toFixed()}
           </Typography>
 
@@ -91,8 +83,8 @@ export const CountDownIndicator = memo(
             <circle
               cx={radius}
               cy={radius}
-              r={radius}
               fill="none"
+              r={radius}
               stroke={trailColor}
               strokeWidth={2}
             />
@@ -100,19 +92,19 @@ export const CountDownIndicator = memo(
 
           <svg className={svgClass}>
             <circle
-              strokeDasharray={circumference}
-              strokeDashoffset={strokeDashoffset}
-              r={radius}
               cx={radius}
               cy={radius}
               fill="none"
-              strokeLinecap="round"
+              r={radius}
               stroke={strokeColor}
+              strokeDasharray={circumference}
+              strokeDashoffset={strokeDashoffset}
+              strokeLinecap="round"
               strokeWidth={2}
             />
           </svg>
         </Box>
       </Tooltip>
-    )
+    );
   },
-)
+);

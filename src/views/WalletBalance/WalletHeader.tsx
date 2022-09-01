@@ -1,11 +1,8 @@
-import classNames from 'classnames'
-
-import { useWalletDrawerActions } from 'views/WalletBalance/hooks/useWalletDrawerActions'
-
-import { Box, Button, Icon, Typography } from 'components/Atomic'
-import { Confirm } from 'components/Modals/Confirm'
-
-import { t } from 'services/i18n'
+import classNames from 'classnames';
+import { Box, Button, Icon, Typography } from 'components/Atomic';
+import { Confirm } from 'components/Modals/Confirm';
+import { t } from 'services/i18n';
+import { useWalletDrawerActions } from 'views/WalletBalance/hooks/useWalletDrawerActions';
 
 export const WalletHeader = () => {
   const {
@@ -16,57 +13,57 @@ export const WalletHeader = () => {
     onCancelDisconnect,
     onConfirmDisconnect,
     isRefreshing,
-  } = useWalletDrawerActions()
+  } = useWalletDrawerActions();
 
   return (
-    <Box className="pt-6 pb-4 pl-4 pr-2" alignCenter justify="between">
-      <Box className="gap-1" alignCenter>
+    <Box alignCenter className="pt-6 pb-4 pl-4 pr-2" justify="between">
+      <Box alignCenter className="gap-1">
         <Typography variant="h5">{t('common.wallet')}</Typography>
         <Button
           className="px-3"
-          variant="primary"
-          type="borderless"
+          onClick={handleRefresh}
           startIcon={
             <Icon
               className={classNames({ '!animate-spin': isRefreshing })}
-              name="refresh"
               color="primaryBtn"
+              name="refresh"
               size={16}
             />
           }
           tooltip={t('common.refresh')}
           tooltipPlacement="bottom"
-          onClick={handleRefresh}
+          type="borderless"
+          variant="primary"
         />
       </Box>
       <Box className="gap-2">
         <Button
           className="px-3"
-          variant="secondary"
-          type="outline"
-          startIcon={<Icon name="add" color="secondaryBtn" size={16} />}
+          onClick={handleAddConnectWallet}
+          startIcon={<Icon color="secondaryBtn" name="add" size={16} />}
           tooltip={t('views.walletDrawer.connectAnother')}
           tooltipPlacement="left"
-          onClick={handleAddConnectWallet}
+          type="outline"
+          variant="secondary"
         />
         <Button
           className="px-3"
-          variant="warn"
-          type="outline"
-          startIcon={<Icon name="disconnect" color="orange" size={16} />}
+          onClick={openDisconnectConfirmModal}
+          startIcon={<Icon color="orange" name="disconnect" size={16} />}
           tooltip={t('views.walletDrawer.disconnect')}
           tooltipPlacement="left"
-          onClick={openDisconnectConfirmModal}
+          type="outline"
+          variant="warn"
         />
       </Box>
 
       <Confirm
-        isOpened={isDisconnectModalOpened}
-        onConfirm={onConfirmDisconnect}
-        onCancel={onCancelDisconnect}
-        title={t('common.disconnect')}
         description={t('views.walletDrawer.confirmDisconnect')}
+        isOpened={isDisconnectModalOpened}
+        onCancel={onCancelDisconnect}
+        onConfirm={onConfirmDisconnect}
+        title={t('common.disconnect')}
       />
     </Box>
-  )
-}
+  );
+};

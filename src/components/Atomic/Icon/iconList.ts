@@ -10,53 +10,53 @@ import {
   AiOutlineHistory,
   AiOutlineInfo,
   AiOutlineLineChart,
-  AiOutlineUnorderedList,
   AiOutlineMenuFold,
   AiOutlinePercentage,
   AiOutlineQrcode,
   AiOutlineSend,
   AiOutlineStar,
   AiOutlineSwap,
-} from 'react-icons/ai'
+  AiOutlineUnorderedList,
+} from 'react-icons/ai';
 import {
-  BiDollarCircle,
   BiArrowBack,
+  BiBell,
   BiCopy,
+  BiDollarCircle,
+  BiExport,
+  BiImport,
   BiLinkExternal,
+  BiPaste,
   BiSelectMultiple,
   BiUndo,
-  BiBell,
-  BiPaste,
-  BiImport,
-  BiExport,
-} from 'react-icons/bi'
+} from 'react-icons/bi';
 import {
   BsCurrencyDollar,
   BsDiscord,
   BsEmojiSmile,
+  BsExclamationCircle,
   BsMedium,
+  BsPersonCheckFill,
   BsQuestion,
   BsQuestionCircle,
   BsSearch,
   BsTelegram,
-  BsTwitter,
   BsTrash,
-  BsExclamationCircle,
+  BsTwitter,
   BsYoutube,
-  BsPersonCheckFill,
-} from 'react-icons/bs'
-import { CgMenu, CgArrowsExchangeAltV, CgEye } from 'react-icons/cg'
+} from 'react-icons/bs';
+import { CgArrowsExchangeAltV, CgEye, CgMenu } from 'react-icons/cg';
 import {
+  FaArrowDown,
   FaChartArea,
   FaChartPie,
   FaFire,
   FaGasPump,
+  FaRegCommentDots,
   FaSortDown,
   FaSortUp,
   FaWifi,
-  FaArrowDown,
-  FaRegCommentDots,
-} from 'react-icons/fa'
+} from 'react-icons/fa';
 import {
   FiCheck,
   FiChevronDown,
@@ -68,54 +68,50 @@ import {
   FiPlusCircle,
   FiRefreshCw,
   FiX,
-} from 'react-icons/fi'
-import { GoBook, GoSettings } from 'react-icons/go'
+} from 'react-icons/fi';
+import { GoBook, GoSettings } from 'react-icons/go';
+import { HiOutlineChartPie, HiOutlineCog, HiOutlineDocumentText } from 'react-icons/hi';
+import { ImBlocked } from 'react-icons/im';
 import {
-  HiOutlineCog,
-  HiOutlineChartPie,
-  HiOutlineDocumentText,
-} from 'react-icons/hi'
-import { ImBlocked } from 'react-icons/im'
-import {
+  IoCart,
   IoCheckmarkCircleOutline,
   IoCloseCircleOutline,
-  IoWalletOutline,
   IoLanguage,
-  IoCart,
   IoRocketOutline,
-} from 'react-icons/io5'
+  IoWalletOutline,
+} from 'react-icons/io5';
 import {
   MdAreaChart,
   MdKeyboardArrowDown,
   MdKeyboardArrowUp,
   MdLanguage,
+  MdOutlineCheckBox,
+  MdOutlineCheckBoxOutlineBlank,
+  MdOutlineHdrAuto,
   MdOutlineLockOpen,
   MdSpaceBar,
-  MdOutlineHdrAuto,
-  MdOutlineCheckBoxOutlineBlank,
-  MdOutlineCheckBox,
-} from 'react-icons/md'
+} from 'react-icons/md';
 import {
   RiCheckboxMultipleLine,
   RiSave2Fill,
   RiSave2Line,
   RiShareBoxLine,
   RiSurveyLine,
-} from 'react-icons/ri'
-import { TbPlugConnected } from 'react-icons/tb'
+} from 'react-icons/ri';
+import { TbPlugConnected } from 'react-icons/tb';
 import {
   VscAdd,
   VscCloudUpload,
   VscError,
   VscInfo,
   VscKey,
+  VscLoading,
   VscLock,
   VscSignOut,
   VscSymbolMethod,
-  VscLoading,
-} from 'react-icons/vsc'
+} from 'react-icons/vsc';
 
-import { SvgIcons } from './svg/svgIconList'
+import { SvgIcons } from './svg/svgIconList';
 
 const Icons = {
   add: VscAdd,
@@ -219,6 +215,6 @@ const Icons = {
   checkBoxes: RiCheckboxMultipleLine,
   refresh: FiRefreshCw,
   ...SvgIcons,
-} as const
+} as const;
 
-export default Icons
+export default Icons;

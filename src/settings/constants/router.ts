@@ -1,5 +1,5 @@
-import { Asset } from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/types'
+import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Chain } from '@thorswap-lib/types';
 
 export enum ROUTES {
   AddLiquidity = '/add',
@@ -33,59 +33,53 @@ export enum ROUTES {
   TxMultisig = '/txthorsafe',
 }
 
-export const THORYIELD_ROUTE = 'https://app.thoryield.com'
-export const THORYIELD_LP_PATH = 'accounts' //TODO: change value to 'lp' when THORYield will be ready
-export const THORYIELD_STATS_ROUTE = 'https://app.thoryield.com/stats'
-export const THOR_STAKING_V1_ROUTE = 'https://v1.thorswap.finance/stake'
+export const THORYIELD_ROUTE = 'https://app.thoryield.com';
+export const THORYIELD_LP_PATH = 'accounts'; //TODO: change value to 'lp' when THORYield will be ready
+export const THORYIELD_STATS_ROUTE = 'https://app.thoryield.com/stats';
+export const THOR_STAKING_V1_ROUTE = 'https://v1.thorswap.finance/stake';
 
 const getAssetRoute = (route: ROUTES, asset?: Asset) =>
-  `${route}${asset ? `/${asset.toURLEncoded()}` : ''}`
+  `${route}${asset ? `/${asset.toURLEncoded()}` : ''}`;
 
 const navigateToExternalLink = (url: string) => {
-  window.open(url, '_blank noreferrer noopener')
-}
+  window.open(url, '_blank noreferrer noopener');
+};
 
 export const getAddLiquidityRoute = (asset?: Asset) => {
-  return getAssetRoute(ROUTES.AddLiquidity, asset)
-}
+  return getAssetRoute(ROUTES.AddLiquidity, asset);
+};
 
 export const getWithdrawRoute = (asset?: Asset) => {
-  return getAssetRoute(ROUTES.WithdrawLiquidity, asset)
-}
+  return getAssetRoute(ROUTES.WithdrawLiquidity, asset);
+};
 
 export const getSendRoute = (asset?: Asset, recipient?: string) => {
-  const route = getAssetRoute(ROUTES.Send, asset)
-  const query = recipient ? `?recipient=${recipient}` : ''
-  return `${route}${query}`
-}
+  const route = getAssetRoute(ROUTES.Send, asset);
+  const query = recipient ? `?recipient=${recipient}` : '';
+  return `${route}${query}`;
+};
 
 export const getMultisigTxCreateRoute = (asset?: Asset) => {
-  return getAssetRoute(ROUTES.TxCreate, asset)
-}
+  return getAssetRoute(ROUTES.TxCreate, asset);
+};
 
 export const getSwapRoute = (input: Asset, output: Asset = Asset.RUNE()) => {
-  const outputAsset = input.isRUNE() && output.isRUNE() ? Asset.BTC() : output
+  const outputAsset = input.isRUNE() && output.isRUNE() ? Asset.BTC() : output;
 
-  return `${ROUTES.Swap}/${input.toURLEncoded()}_${outputAsset.toURLEncoded()}`
-}
+  return `${ROUTES.Swap}/${input.toURLEncoded()}_${outputAsset.toURLEncoded()}`;
+};
 
 export const navigateToPoolDetail = (asset: Asset) => {
-  navigateToExternalLink(`${THORYIELD_ROUTE}/token/${asset.toURLEncoded()}`)
-}
+  navigateToExternalLink(`${THORYIELD_ROUTE}/token/${asset.toURLEncoded()}`);
+};
 
 export const navigateToEtherScanAddress = (address: string) => {
-  navigateToExternalLink(`https://etherscan.io/token/${address}`)
-}
+  navigateToExternalLink(`https://etherscan.io/token/${address}`);
+};
 
 export const getNodeDetailRoute = (address: string) => {
-  return `${ROUTES.Nodes}/${address}`
-}
+  return `${ROUTES.Nodes}/${address}`;
+};
 
-export const getThorYieldLPInfoRoute = ({
-  chain,
-  address,
-}: {
-  chain: Chain
-  address: string
-}) =>
-  `${THORYIELD_ROUTE}/${THORYIELD_LP_PATH}?${chain.toLowerCase()}=${address}`
+export const getThorYieldLPInfoRoute = ({ chain, address }: { chain: Chain; address: string }) =>
+  `${THORYIELD_ROUTE}/${THORYIELD_LP_PATH}?${chain.toLowerCase()}=${address}`;

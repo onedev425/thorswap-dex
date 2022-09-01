@@ -1,39 +1,30 @@
-import { useCallback } from 'react'
-
 import {
-  Asset,
   Amount,
+  Asset,
   AssetAmount,
-  Pool,
   getNetworkFeeByAsset,
-} from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/types'
-
-import { useApp } from 'store/app/hooks'
-import { useMidgard } from 'store/midgard/hooks'
-
-import { getGasRateByFeeOption } from 'helpers/networkFee'
+  Pool,
+} from '@thorswap-lib/multichain-sdk';
+import { Chain } from '@thorswap-lib/types';
+import { getGasRateByFeeOption } from 'helpers/networkFee';
+import { useCallback } from 'react';
+import { useApp } from 'store/app/hooks';
+import { useMidgard } from 'store/midgard/hooks';
 
 type CalculatedFeeParams = {
-  inboundAsset: Asset
-  inboundFee: AssetAmount
-  inputAsset: Asset
-  outboundAsset: Asset
-  outboundFee: AssetAmount
-}
+  inboundAsset: Asset;
+  inboundFee: AssetAmount;
+  inputAsset: Asset;
+  outboundAsset: Asset;
+  outboundFee: AssetAmount;
+};
 
 const useCalculateFee = () => {
-  const { pools } = useMidgard()
+  const { pools } = useMidgard();
 
   const calculateFee = useCallback(
-    ({
-      outboundAsset,
-      inboundAsset,
-      inboundFee,
-      inputAsset,
-      outboundFee,
-    }: CalculatedFeeParams) => {
-      if (!outboundAsset.eq(inboundAsset)) return inboundFee
+    ({ outboundAsset, inboundAsset, inboundFee, inputAsset, outboundFee }: CalculatedFeeParams) => {
+      if (!outboundAsset.eq(inboundAsset)) return inboundFee;
 
       const outboundFeeInSendAsset = new AssetAmount(
         inboundAsset,
@@ -41,10 +32,10 @@ const useCalculateFee = () => {
           outboundFee.totalPriceIn(inboundAsset, pools).price,
           inputAsset.decimal,
         ),
-      )
+      );
 
       if (inboundAsset.eq(inputAsset)) {
-        return inboundFee.add(outboundFeeInSendAsset)
+        return inboundFee.add(outboundFeeInSendAsset);
       }
 
       const inboundFeeInSendAsset = new AssetAmount(
@@ -53,39 +44,39 @@ const useCalculateFee = () => {
           inboundFee.totalPriceIn(inboundAsset, pools).price,
           inputAsset.decimal,
         ),
-      )
+      );
 
-      return inboundFeeInSendAsset.add(outboundFeeInSendAsset)
+      return inboundFeeInSendAsset.add(outboundFeeInSendAsset);
     },
     [pools],
-  )
+  );
 
-  return calculateFee
-}
+  return calculateFee;
+};
 
 const getFeeAssetForAsset = (asset: Asset) => {
-  if (asset.isSynth) return Asset.RUNE()
+  if (asset.isSynth) return Asset.RUNE();
 
   switch (asset.L1Chain) {
     case Chain.Ethereum:
-      return Asset.ETH()
+      return Asset.ETH();
     case Chain.Binance:
-      return Asset.BNB()
+      return Asset.BNB();
     default:
-      return asset
+      return asset;
   }
-}
+};
 
 export const useNetworkFee = ({
   inputAsset,
   outputAsset,
 }: {
-  inputAsset: Asset
-  outputAsset?: Asset
+  inputAsset: Asset;
+  outputAsset?: Asset;
 }) => {
-  const calculateFee = useCalculateFee()
-  const { feeOptionType } = useApp()
-  const { inboundGasRate, pools } = useMidgard()
+  const calculateFee = useCalculateFee();
+  const { feeOptionType } = useApp();
+  const { inboundGasRate, pools } = useMidgard();
 
   const getNetworkFee = useCallback(
     (gasRate: number, direction: 'inbound' | 'outbound' = 'inbound') =>
@@ -95,16 +86,17 @@ export const useNetworkFee = ({
         direction,
       }),
     [inputAsset, outputAsset],
-  )
+  );
 
-  const gasRate = inboundGasRate[(outputAsset || inputAsset).L1Chain]
-  const feeGasRate = getGasRateByFeeOption({ gasRate, feeOptionType })
+  const gasRate = inboundGasRate[(outputAsset || inputAsset).L1Chain];
+  const feeGasRate = getGasRateByFeeOption({ gasRate, feeOptionType });
 
-  const inboundFee = getNetworkFee(feeGasRate, 'inbound')
-  const outboundFee = getNetworkFee(feeGasRate, 'outbound')
+  const inboundFee = getNetworkFee(feeGasRate, 'inbound');
+  const outboundFee = getNetworkFee(feeGasRate, 'outbound');
 
   return {
     inboundFee,
+    outboundFee,
     totalFeeInUSD: calculateFee({
       inboundAsset: getFeeAssetForAsset(inputAsset),
       outboundAsset: getFeeAssetForAsset(inputAsset || outputAsset),
@@ -112,30 +104,25 @@ export const useNetworkFee = ({
       outboundFee,
       inboundFee,
     }).totalPriceIn(Asset.USD(), pools),
-  }
-}
+  };
+};
 
 export const getSumAmountInUSD = (
   assetAmount1: AssetAmount | null,
   assetAmount2: AssetAmount | null,
   pools: Pool[],
 ) => {
-  const assetAmount1InUSD = assetAmount1?.totalPriceIn(Asset.USD(), pools)
-  const assetAmount2InUSD = assetAmount2?.totalPriceIn(Asset.USD(), pools)
+  const assetAmount1InUSD = assetAmount1?.totalPriceIn(Asset.USD(), pools);
+  const assetAmount2InUSD = assetAmount2?.totalPriceIn(Asset.USD(), pools);
 
-  if (assetAmount1 === null && assetAmount2InUSD)
-    return assetAmount2InUSD.toCurrencyFormat(2)
-  if (assetAmount2 === null && assetAmount1InUSD)
-    return assetAmount1InUSD.toCurrencyFormat(2)
+  if (assetAmount1 === null && assetAmount2InUSD) return assetAmount2InUSD.toCurrencyFormat(2);
+  if (assetAmount2 === null && assetAmount1InUSD) return assetAmount1InUSD.toCurrencyFormat(2);
 
   if (assetAmount1InUSD && assetAmount2InUSD) {
-    const sum = assetAmount1InUSD.raw().plus(assetAmount2InUSD.raw())
+    const sum = assetAmount1InUSD.raw().plus(assetAmount2InUSD.raw());
 
-    return Amount.fromAssetAmount(
-      sum,
-      assetAmount1?.asset.decimal || 8,
-    ).toFixed(2)
+    return Amount.fromAssetAmount(sum, assetAmount1?.asset.decimal || 8).toFixed(2);
   }
 
-  return Amount.fromAssetAmount(0, assetAmount1?.asset.decimal || 8).toFixed()
-}
+  return Amount.fromAssetAmount(0, assetAmount1?.asset.decimal || 8).toFixed();
+};

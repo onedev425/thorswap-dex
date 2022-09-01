@@ -1,37 +1,36 @@
-import './Range.css'
-import { useRef } from 'react'
+import { Amount } from '@thorswap-lib/multichain-sdk';
+import classNames from 'classnames';
+import { useInputAmount } from 'components/InputAmount/useInputAmount';
+import { useTheme } from 'components/Theme/ThemeContext';
+import { useRef } from 'react';
 
-import { Amount } from '@thorswap-lib/multichain-sdk'
-import classNames from 'classnames'
-
-import { useInputAmount } from 'components/InputAmount/useInputAmount'
-import { useTheme } from 'components/Theme/ThemeContext'
+import './Range.css';
 
 type Props = {
-  onAmountChange: (e: Amount) => void
-  amountValue: Amount
-}
+  onAmountChange: (e: Amount) => void;
+  amountValue: Amount;
+};
 
 const Range = ({ onAmountChange, amountValue }: Props) => {
-  const slider = useRef(null)
+  const slider = useRef(null);
   const { rawValue, onChange } = useInputAmount({
     amountValue,
     onAmountChange,
-  })
-  const { isLight } = useTheme()
+  });
+  const { isLight } = useTheme();
 
   return (
     <input
-      ref={slider}
-      type="range"
       className={classNames('range', { light: isLight, dark: !isLight })}
-      step="25"
-      onChange={onChange}
-      value={rawValue || '0'}
-      min="0"
       max="100"
+      min="0"
+      onChange={onChange}
+      ref={slider}
+      step="25"
+      type="range"
+      value={rawValue || '0'}
     />
-  )
-}
+  );
+};
 
-export default Range
+export default Range;

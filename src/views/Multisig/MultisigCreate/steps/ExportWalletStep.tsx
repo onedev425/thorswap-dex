@@ -1,35 +1,25 @@
-import classNames from 'classnames'
-
-import { MultisigExport } from 'views/Multisig/components/MultisigExport/MultisigExport'
-
-import { Box, Icon, Tooltip, Typography } from 'components/Atomic'
-import { genericBgClasses, lightInputBorder } from 'components/constants'
-import { HighlightCard } from 'components/HighlightCard'
-import { StepActions } from 'components/Stepper'
-
-import { useAppSelector } from 'store/store'
-
-import { useAddressUtils } from 'hooks/useAddressUtils'
-
-import { t } from 'services/i18n'
+import classNames from 'classnames';
+import { Box, Icon, Tooltip, Typography } from 'components/Atomic';
+import { genericBgClasses, lightInputBorder } from 'components/constants';
+import { HighlightCard } from 'components/HighlightCard';
+import { StepActions } from 'components/Stepper';
+import { useAddressUtils } from 'hooks/useAddressUtils';
+import { t } from 'services/i18n';
+import { useAppSelector } from 'store/store';
+import { MultisigExport } from 'views/Multisig/components/MultisigExport/MultisigExport';
 
 export const ExportWalletStep = () => {
-  const { address } = useAppSelector((state) => state.multisig)
-  const { handleCopyAddress } = useAddressUtils(address)
+  const { address } = useAppSelector((state) => state.multisig);
+  const { handleCopyAddress } = useAddressUtils(address);
 
   return (
-    <Box className="gap-5" col>
-      <Box className="gap-3" col>
-        <Typography variant="caption" fontWeight="normal">
+    <Box col className="gap-5">
+      <Box col className="gap-3">
+        <Typography fontWeight="normal" variant="caption">
           {`${t('views.multisig.createdWalletAddress')}:`}
         </Typography>
         <Tooltip className="flex flex-1" content={t('common.copy')}>
-          <Box
-            className="gap-2 cursor-pointer"
-            flex={1}
-            center
-            onClick={handleCopyAddress}
-          >
+          <Box center className="gap-2 cursor-pointer" flex={1} onClick={handleCopyAddress}>
             <HighlightCard
               className={classNames(
                 genericBgClasses.primary,
@@ -40,8 +30,8 @@ export const ExportWalletStep = () => {
               <Box justify="between">
                 <Typography
                   className="break-all whitespace-normal"
-                  variant="caption"
                   color="secondary"
+                  variant="caption"
                 >
                   {address}
                 </Typography>
@@ -55,13 +45,11 @@ export const ExportWalletStep = () => {
       </Box>
 
       <Box className="gap-2">
-        <Typography variant="caption">
-          {t('views.multisig.exportWalletInfoToFile')}
-        </Typography>
+        <Typography variant="caption">{t('views.multisig.exportWalletInfoToFile')}</Typography>
         <MultisigExport />
       </Box>
 
       <StepActions />
     </Box>
-  )
-}
+  );
+};

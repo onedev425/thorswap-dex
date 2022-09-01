@@ -1,2 +1,2 @@
-export * from './coinIndex'
-export * from './api'
+export * from './api';
+export * from './coinIndex';

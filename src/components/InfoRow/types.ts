@@ -1,22 +1,22 @@
-import { ReactNode } from 'react'
+import { ReactNode } from 'react';
 
-export type InfoRowSize = 'sm' | 'md' | 'lg'
+export type InfoRowSize = 'sm' | 'md' | 'lg';
 
 export type InfoRowConfig = {
-  className?: string
-  key?: string
-  label: string | ReactNode
-  value: string | ReactNode
-  size?: InfoRowSize
-  onClick?: () => void
-}
+  className?: string;
+  key?: string;
+  label: string | ReactNode;
+  value: string | ReactNode;
+  size?: InfoRowSize;
+  onClick?: () => void;
+};
 
 export type InfoRowType = {
-  showBorder?: boolean
-  size?: InfoRowSize
-} & InfoRowConfig
+  showBorder?: boolean;
+  size?: InfoRowSize;
+} & InfoRowConfig;
 
 export type InfoRowProps = {
-  className?: string
-  onClick?: () => void
-} & InfoRowType
+  className?: string;
+  onClick?: () => void;
+} & InfoRowType;

@@ -1,50 +1,41 @@
-import { Asset } from '@thorswap-lib/multichain-sdk'
-import { Keystore } from '@thorswap-lib/xchain-crypto'
-
-import { HandleWalletConnectParams } from 'components/Modals/ConnectWalletModal/hooks'
-
-import { MultisigWallet } from 'store/multisig/types'
-
-import { DEFAULT_SLIPPAGE_TOLERANCE } from 'settings/constants/values'
-
-import {
-  SupportedLanguages,
-  ThemeType,
-  ThousandSeparator,
-  ViewMode,
-} from 'types/app'
+import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Keystore } from '@thorswap-lib/types';
+import { HandleWalletConnectParams } from 'components/Modals/ConnectWalletModal/hooks';
+import { DEFAULT_SLIPPAGE_TOLERANCE } from 'settings/constants/values';
+import { MultisigWallet } from 'store/multisig/types';
+import { SupportedLanguages, ThemeType, ThousandSeparator, ViewMode } from 'types/app';
 
 type StorageType = {
-  annViewStatus: boolean
-  autoRouter: boolean
-  baseCurrency: string
-  chartsHidden: boolean
-  customRecipientMode: boolean
-  disabledTokenLists: string[]
-  dismissedAnnList: string[]
-  expertMode: boolean
-  featuredAssets: string[]
-  frequentAssets: string[]
-  language: SupportedLanguages
-  multisigVisible: boolean
-  multisigWallet: MultisigWallet | null
-  nodeWatchList: string[]
-  poolsHidden: boolean
-  previousWallet: null | HandleWalletConnectParams
-  readStatus: boolean
-  restorePreviousWallet: boolean
-  seenAnnList: string[]
-  sidebarCollapsed: boolean
-  slippageTolerance: string
-  statsHidden: boolean
-  themeType: string
-  thorswapAddress: string | null
-  thorswapKeystore: Keystore | null
-  thousandSeparator: string
-  tradingHaltStatus: boolean
-  transactionDeadline: string
-  walletViewMode: ViewMode
-}
+  annViewStatus: boolean;
+  autoRouter: boolean;
+  baseCurrency: string;
+  chartsHidden: boolean;
+  customRecipientMode: boolean;
+  disabledTokenLists: string[];
+  dismissedAnnList: string[];
+  expertMode: boolean;
+  featuredAssets: string[];
+  frequentAssets: string[];
+  language: SupportedLanguages;
+  multisigVisible: boolean;
+  multisigWallet: MultisigWallet | null;
+  nodeWatchList: string[];
+  poolsHidden: boolean;
+  previousWallet: null | HandleWalletConnectParams;
+  readStatus: boolean;
+  restorePreviousWallet: boolean;
+  seenAnnList: string[];
+  sidebarCollapsed: boolean;
+  slippageTolerance: string;
+  statsHidden: boolean;
+  themeType: string;
+  thorswapAddress: string | null;
+  thorswapKeystore: Keystore | null;
+  thousandSeparator: string;
+  tradingHaltStatus: boolean;
+  transactionDeadline: string;
+  walletViewMode: ViewMode;
+};
 
 type StoragePayload =
   | {
@@ -57,8 +48,8 @@ type StoragePayload =
         | 'thorswapKeystore'
         | 'thousandSeparator'
         | 'transactionDeadline'
-        | 'walletViewMode'
-      value: string
+        | 'walletViewMode';
+      value: string;
     }
   | {
       key:
@@ -67,8 +58,8 @@ type StoragePayload =
         | 'frequentAssets'
         | 'featuredAssets'
         | 'dismissedAnnList'
-        | 'seenAnnList'
-      value: string[]
+        | 'seenAnnList';
+      value: string[];
     }
   | {
       key:
@@ -83,11 +74,11 @@ type StoragePayload =
         | 'statsHidden'
         | 'multisigVisible'
         | 'tradingHaltStatus'
-        | 'restorePreviousWallet'
-      value: boolean
+        | 'restorePreviousWallet';
+      value: boolean;
     }
   | { key: 'multisigWallet'; value: MultisigWallet }
-  | { key: 'previousWallet'; value: HandleWalletConnectParams | null }
+  | { key: 'previousWallet'; value: HandleWalletConnectParams | null };
 
 const defaultValues: StorageType = {
   annViewStatus: false,
@@ -122,7 +113,7 @@ const defaultValues: StorageType = {
   thousandSeparator: ThousandSeparator.Comma,
   transactionDeadline: '30',
   walletViewMode: ViewMode.CARD,
-}
+};
 
 export const saveInStorage = ({ key, value }: StoragePayload) => {
   switch (key) {
@@ -133,8 +124,8 @@ export const saveInStorage = ({ key, value }: StoragePayload) => {
     case 'multisigWallet':
     case 'nodeWatchList':
     case 'seenAnnList':
-      localStorage.setItem(key, JSON.stringify(value))
-      break
+      localStorage.setItem(key, JSON.stringify(value));
+      break;
 
     case 'annViewStatus':
     case 'chartsHidden':
@@ -148,28 +139,26 @@ export const saveInStorage = ({ key, value }: StoragePayload) => {
     case 'statsHidden':
     case 'tradingHaltStatus':
     case 'autoRouter':
-      localStorage.setItem(key, value.toString())
-      break
+      localStorage.setItem(key, value.toString());
+      break;
 
     case 'thorswapAddress':
     case 'walletViewMode':
-      sessionStorage.setItem(key, value)
-      break
+      sessionStorage.setItem(key, value);
+      break;
 
     case 'previousWallet':
     case 'thorswapKeystore':
-      sessionStorage.setItem(key, JSON.stringify(value))
-      break
+      sessionStorage.setItem(key, JSON.stringify(value));
+      break;
 
     default:
-      localStorage.setItem(key, value)
-      break
+      localStorage.setItem(key, value);
+      break;
   }
-}
+};
 
-export const getFromStorage = (
-  key: keyof StorageType,
-): StorageType[keyof StorageType] => {
+export const getFromStorage = (key: keyof StorageType): StorageType[keyof StorageType] => {
   switch (key) {
     case 'nodeWatchList':
     case 'featuredAssets':
@@ -177,8 +166,8 @@ export const getFromStorage = (
     case 'disabledTokenLists':
     case 'frequentAssets':
     case 'multisigWallet': {
-      const item = localStorage.getItem(key)
-      return item ? JSON.parse(item) : defaultValues[key]
+      const item = localStorage.getItem(key);
+      return item ? JSON.parse(item) : defaultValues[key];
     }
 
     case 'annViewStatus':
@@ -193,28 +182,28 @@ export const getFromStorage = (
     case 'statsHidden':
     case 'tradingHaltStatus':
     case 'expertMode': {
-      const item = localStorage.getItem(key)
-      return item === 'true'
+      const item = localStorage.getItem(key);
+      return item === 'true';
     }
 
     case 'thorswapAddress':
-      return sessionStorage.getItem(key)
+      return sessionStorage.getItem(key);
 
     case 'previousWallet':
     case 'thorswapKeystore': {
-      const item = sessionStorage.getItem(key)
-      return item ? JSON.parse(item) : defaultValues[key]
+      const item = sessionStorage.getItem(key);
+      return item ? JSON.parse(item) : defaultValues[key];
     }
 
     case 'walletViewMode': {
-      const walletViewMode = localStorage.getItem(key)
+      const walletViewMode = localStorage.getItem(key);
 
-      if (walletViewMode !== ViewMode.LIST) return ViewMode.CARD
+      if (walletViewMode !== ViewMode.LIST) return ViewMode.CARD;
 
-      return walletViewMode ? (walletViewMode as ViewMode) : ViewMode.CARD
+      return walletViewMode ? (walletViewMode as ViewMode) : ViewMode.CARD;
     }
 
     default:
-      return localStorage.getItem(key) || defaultValues[key]
+      return localStorage.getItem(key) || defaultValues[key];
   }
-}
+};

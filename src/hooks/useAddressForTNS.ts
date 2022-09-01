@@ -1,52 +1,48 @@
-import { useCallback, useEffect, useState } from 'react'
-
-import { THORName, THORNameDetails } from '@thorswap-lib/multichain-sdk'
-
-import { useDebouncedValue } from 'hooks/useDebounceValue'
-
-import { getThornameDetails } from 'services/thorname'
+import { THORName, THORNameDetails } from '@thorswap-lib/multichain-sdk';
+import { useDebouncedValue } from 'hooks/useDebounceValue';
+import { useCallback, useEffect, useState } from 'react';
+import { getThornameDetails } from 'services/thorname';
 
 export const useAddressForTNS = (address: string) => {
-  const debouncedAddress = useDebouncedValue(address, 1200)
-  const [loading, setLoading] = useState(false)
-  const [TNS, setTNS] =
-    useState<Maybe<THORNameDetails & { thorname: string }>>(null)
+  const debouncedAddress = useDebouncedValue(address, 1200);
+  const [loading, setLoading] = useState(false);
+  const [TNS, setTNS] = useState<Maybe<THORNameDetails & { thorname: string }>>(null);
 
   const lookupForTNS = useCallback(
     async (providedThorname: string) => {
       try {
-        const details = await getThornameDetails(providedThorname)
+        const details = await getThornameDetails(providedThorname);
 
-        setTNS({ ...details, thorname: providedThorname })
+        setTNS({ ...details, thorname: providedThorname });
       } catch {
-        setTNS(null)
+        setTNS(null);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     },
     [setTNS],
-  )
+  );
 
   useEffect(() => {
-    const [possibleThorname] = debouncedAddress.toLowerCase().split('.')
+    const [possibleThorname] = debouncedAddress.toLowerCase().split('.');
 
     if (THORName.isValidName(possibleThorname)) {
       getThornameDetails(possibleThorname)
         .then((details) => {
-          setTNS({ ...details, thorname: possibleThorname })
+          setTNS({ ...details, thorname: possibleThorname });
         })
         .catch(() => setTNS(null))
-        .finally(() => setLoading(false))
+        .finally(() => setLoading(false));
 
-      lookupForTNS(possibleThorname.toLowerCase())
+      lookupForTNS(possibleThorname.toLowerCase());
     }
-  }, [debouncedAddress, lookupForTNS])
+  }, [debouncedAddress, lookupForTNS]);
 
   useEffect(() => {
     if (THORName.isValidName(address)) {
-      setLoading(true)
+      setLoading(true);
     }
-  }, [address])
+  }, [address]);
 
-  return { loading, TNS, setTNS }
-}
+  return { loading, TNS, setTNS };
+};

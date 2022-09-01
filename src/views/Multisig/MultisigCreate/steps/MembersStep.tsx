@@ -1,32 +1,28 @@
-import { DeepRequired, FieldErrorsImpl, UseFormRegister } from 'react-hook-form'
-
-import classNames from 'classnames'
-
+import classNames from 'classnames';
+import { Box, Button, Typography } from 'components/Atomic';
+import { FieldLabel, TextField } from 'components/Form';
+import { HoverIcon } from 'components/HoverIcon';
+import { Input } from 'components/Input';
+import { StepActions } from 'components/Stepper';
+import { useStepper } from 'components/Stepper/StepperContext';
+import { DeepRequired, FieldErrorsImpl, UseFormRegister } from 'react-hook-form';
+import { t } from 'services/i18n';
 import {
   MultisigFormFields,
   MultisigFormValues,
   SubmitMultisigForm,
-} from 'views/Multisig/MultisigCreate/types'
-
-import { Box, Button, Typography } from 'components/Atomic'
-import { FieldLabel, TextField } from 'components/Form'
-import { HoverIcon } from 'components/HoverIcon'
-import { Input } from 'components/Input'
-import { StepActions } from 'components/Stepper'
-import { useStepper } from 'components/Stepper/StepperContext'
-
-import { t } from 'services/i18n'
+} from 'views/Multisig/MultisigCreate/types';
 
 type Props = {
-  id: number
-  addMember: () => void
-  formFields: MultisigFormFields
-  errors: FieldErrorsImpl<DeepRequired<MultisigFormValues>>
-  register: UseFormRegister<MultisigFormValues>
-  removeMember: (id: number) => void
-  submit: SubmitMultisigForm
-  isRequiredMember: (id: number) => boolean
-}
+  id: number;
+  addMember: () => void;
+  formFields: MultisigFormFields;
+  errors: FieldErrorsImpl<DeepRequired<MultisigFormValues>>;
+  register: UseFormRegister<MultisigFormValues>;
+  removeMember: (id: number) => void;
+  submit: SubmitMultisigForm;
+  isRequiredMember: (id: number) => boolean;
+};
 
 export const MembersStep = ({
   formFields,
@@ -37,111 +33,104 @@ export const MembersStep = ({
   removeMember,
   isRequiredMember,
 }: Props) => {
-  const { nextStep } = useStepper()
+  const { nextStep } = useStepper();
 
   return (
-    <Box className="self-stretch mx-2 gap-6" col flex={1}>
-      <Box className="gap-3" col flex={1}>
-        <Typography variant="caption" fontWeight="normal">
+    <Box col className="self-stretch mx-2 gap-6" flex={1}>
+      <Box col className="gap-3" flex={1}>
+        <Typography fontWeight="normal" variant="caption">
           {t('views.multisig.addMembersToWallet')}
         </Typography>
       </Box>
       <Box className="justify-between">
-        <Typography variant="body" fontWeight="bold">
+        <Typography fontWeight="bold" variant="body">
           {t('views.multisig.members')}
         </Typography>
         <HoverIcon
+          color="secondary"
           iconName="infoCircle"
           tooltip={t('views.multisig.membersTooltip')}
-          color="secondary"
         />
       </Box>
       <Box col>
         {!!errors.signatureValidation && (
-          <FieldLabel
-            hasError
-            label={errors.signatureValidation.message || ''}
-          />
+          <FieldLabel hasError label={errors.signatureValidation.message || ''} />
         )}
 
         <Box className="mx-2">
           <Box flex={1}>
-            <Typography variant="caption">
-              {t('views.multisig.memberName')}
-            </Typography>
+            <Typography variant="caption">{t('views.multisig.memberName')}</Typography>
           </Box>
           <Box flex={2}>
             <Typography variant="caption">{t('common.pubKey')}</Typography>
           </Box>
         </Box>
 
-        <Box className="gap-4" col>
+        <Box col className="gap-4">
           {formFields.members.map((item, index) => (
             <Box className="gap-2" key={item.id}>
               <Box flex={1}>
                 <TextField
-                  placeholder={t('views.multisig.memberName')}
-                  hasError={!!errors.members?.[index]?.name}
                   field={register(`members.${index}.name`)}
+                  hasError={!!errors.members?.[index]?.name}
+                  placeholder={t('views.multisig.memberName')}
                 />
               </Box>
               <Box flex={2}>
                 <TextField
-                  placeholder={t('views.multisig.publicKeyBase64')}
-                  hasError={!!errors.members?.[index]?.pubKey}
                   field={register(`members.${index}.pubKey`, {
                     required: isRequiredMember(index),
                   })}
+                  hasError={!!errors.members?.[index]?.pubKey}
+                  placeholder={t('views.multisig.publicKeyBase64')}
                 />
               </Box>
 
               {isRequiredMember(index) ? (
                 <HoverIcon
+                  color="secondary"
                   iconName="infoCircle"
                   tooltip={t('views.multisig.requiredMember')}
-                  color="secondary"
                 />
               ) : (
                 <HoverIcon
-                  iconName="close"
-                  tooltip={t('views.multisig.removeMember')}
                   color="secondary"
+                  iconName="close"
                   onClick={() => {
-                    removeMember(index)
+                    removeMember(index);
                   }}
+                  tooltip={t('views.multisig.removeMember')}
                 />
               )}
             </Box>
           ))}
 
-          <Button stretch type="outline" variant="tertiary" onClick={addMember}>
+          <Button stretch onClick={addMember} type="outline" variant="tertiary">
             {t('views.multisig.addMember')}
           </Button>
         </Box>
       </Box>
       <Box className="justify-between">
-        <Typography variant="body" fontWeight="bold">
+        <Typography fontWeight="bold" variant="body">
           {t('views.multisig.signers')}
         </Typography>
         <HoverIcon
+          color="secondary"
           iconName="infoCircle"
           tooltip={t('views.multisig.signersTooltip')}
-          color="secondary"
         />
       </Box>
-      <Box className="mx-1 gap-2" center>
-        <Typography variant="caption">
-          {t('views.multisig.setMultisigSigners')}
-        </Typography>
+      <Box center className="mx-1 gap-2">
+        <Typography variant="caption">{t('views.multisig.setMultisigSigners')}</Typography>
 
-        <Box className="gap-2" center>
+        <Box center className="gap-2">
           <Input
+            stretch
+            border="rounded"
             className="py-1 min-w-[25px] text-right"
             containerClassName={classNames({
               '!border-red': !!errors.treshold,
             })}
-            stretch
-            border="rounded"
             {...formFields.treshold}
           />
 
@@ -154,5 +143,5 @@ export const MembersStep = ({
 
       <StepActions nextAction={() => submit(nextStep)} />
     </Box>
-  )
-}
+  );
+};

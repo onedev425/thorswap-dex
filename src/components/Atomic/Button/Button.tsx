@@ -1,12 +1,10 @@
-import { MouseEvent, useLayoutEffect, useRef } from 'react'
+import classNames from 'classnames';
+import { Icon, Typography } from 'components/Atomic';
+import { Tooltip } from 'components/Atomic/Tooltip/Tooltip';
+import { MouseEvent, useLayoutEffect, useRef } from 'react';
 
-import classNames from 'classnames'
-
-import { Icon, Typography } from 'components/Atomic'
-import { Tooltip } from 'components/Atomic/Tooltip/Tooltip'
-
-import { ButtonProps } from './types'
-import { useButtonClasses } from './useButtonClasses'
+import { ButtonProps } from './types';
+import { useButtonClasses } from './useButtonClasses';
 
 export const Button = ({
   className = '',
@@ -29,43 +27,30 @@ export const Button = ({
   tooltipClasses = '',
   ...rest
 }: ButtonProps) => {
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const {
-    backgroundClass,
-    buttonClass,
-    outlinedClass,
-    typographyVariant,
-    typographyClasses,
-  } = useButtonClasses({ size, variant, isFancy, error })
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const { backgroundClass, buttonClass, outlinedClass, typographyVariant, typographyClasses } =
+    useButtonClasses({ size, variant, isFancy, error });
 
-  const isOutlined = type === 'outline'
-  const isBorderless = type === 'borderless'
+  const isOutlined = type === 'outline';
+  const isBorderless = type === 'borderless';
 
   const timeoutBlur = (timeout = 0) => {
-    setTimeout(() => buttonRef.current?.blur(), timeout)
-  }
+    setTimeout(() => buttonRef.current?.blur(), timeout);
+  };
 
   useLayoutEffect(() => {
-    timeoutBlur(0)
-  }, [])
+    timeoutBlur(0);
+  }, []);
 
   // It helps to remove focus state from button focus styles be applied only on `tab` select
-  const handleClick = (
-    event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
-  ) => {
-    onClick?.(event)
-    timeoutBlur()
-  }
+  const handleClick = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+    onClick?.(event);
+    timeoutBlur();
+  };
 
   return (
-    <Tooltip
-      content={tooltip}
-      place={tooltipPlacement}
-      className={tooltipClasses}
-    >
+    <Tooltip className={tooltipClasses} content={tooltip} place={tooltipPlacement}>
       <button
-        onMouseDown={() => timeoutBlur(300)}
-        ref={buttonRef}
         className={classNames(
           'flex border border-solid items-center justify-center outline-none p-0',
           'transition group disabled:opacity-75 dark:disabled:opacity-60',
@@ -81,9 +66,12 @@ export const Button = ({
         )}
         disabled={disabled || loading}
         onClick={handleClick}
+        onMouseDown={() => timeoutBlur(300)}
+        ref={buttonRef}
+        type="button"
         {...rest}
       >
-        {loading ? <Icon name="loader" spin size={24} color="primary" /> : null}
+        {loading ? <Icon spin color="primary" name="loader" size={24} /> : null}
         {loading ? null : startIcon && startIcon}
 
         {loading
@@ -100,10 +88,10 @@ export const Button = ({
                     'mr-2': endIcon,
                   },
                 )}
-                variant={typographyVariant}
-                transform={transform}
-                fontWeight={isFancy ? 'semibold' : 'bold'}
                 color={textColor}
+                fontWeight={isFancy ? 'semibold' : 'bold'}
+                transform={transform}
+                variant={typographyVariant}
               >
                 {children}
               </Typography>
@@ -112,5 +100,5 @@ export const Button = ({
         {loading ? null : endIcon && endIcon}
       </button>
     </Tooltip>
-  )
-}
+  );
+};

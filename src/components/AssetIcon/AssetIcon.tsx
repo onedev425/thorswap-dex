@@ -1,18 +1,17 @@
-import { memo, useMemo } from 'react'
+import { Asset } from '@thorswap-lib/multichain-sdk';
+import { SupportedChain } from '@thorswap-lib/types';
+import classNames from 'classnames';
+import { FallbackIcon } from 'components/AssetIcon/FallbackIcon';
+import { Box, Typography } from 'components/Atomic';
+import { memo, useMemo } from 'react';
 
-import { Asset } from '@thorswap-lib/multichain-sdk'
-import { SupportedChain } from '@thorswap-lib/types'
-import classNames from 'classnames'
+import { genericBgClasses } from '../constants';
 
-import { FallbackIcon } from 'components/AssetIcon/FallbackIcon'
-import { Box, Typography } from 'components/Atomic'
+import { ChainIcon } from './ChainIcon';
+import { AssetIconProps, iconSizes } from './types';
+import { getAssetIconUrl, getSecondaryIconPlacementStyle } from './utils';
 
-import { genericBgClasses } from '../constants'
-import { ChainIcon } from './ChainIcon'
-import { iconSizes, AssetIconProps } from './types'
-import { getAssetIconUrl, getSecondaryIconPlacementStyle } from './utils'
-
-const brokenAssetIcons = new Set<string>()
+const brokenAssetIcons = new Set<string>();
 
 export const AssetIcon = memo(
   ({
@@ -27,16 +26,13 @@ export const AssetIcon = memo(
     size = 40,
     badge,
   }: AssetIconProps) => {
-    const iconSize = typeof size === 'number' ? size : iconSizes[size]
-    const secondaryIconSize = iconSize * 0.52
+    const iconSize = typeof size === 'number' ? size : iconSizes[size];
+    const secondaryIconSize = iconSize * 0.52;
 
-    const iconUrl = logoURI || getAssetIconUrl(asset)
-    const isTHOR = ['THOR', 'VTHOR'].includes(asset.ticker)
+    const iconUrl = logoURI || getAssetIconUrl(asset);
+    const isTHOR = ['THOR', 'VTHOR'].includes(asset.ticker);
 
-    const style = useMemo(
-      () => ({ width: iconSize, height: iconSize }),
-      [iconSize],
-    )
+    const style = useMemo(() => ({ width: iconSize, height: iconSize }), [iconSize]);
 
     const badgeStyle = useMemo(
       () => ({
@@ -44,7 +40,7 @@ export const AssetIcon = memo(
         padding: 3,
       }),
       [secondaryIconSize],
-    )
+    );
 
     return (
       <div
@@ -56,59 +52,52 @@ export const AssetIcon = memo(
       >
         {hasShadow && (
           <img
-            style={style}
+            alt={asset.symbol}
             className={classNames(
               'absolute blur-xl transition-all',
               shadowPosition === 'corner' ? '-top-2 -left-2' : '-bottom-2',
             )}
             src={iconUrl}
-            alt={asset.symbol}
+            style={style}
           />
         )}
 
         {iconUrl && (!brokenAssetIcons.has(iconUrl) || isTHOR) ? (
           <Box
+            center
             className={classNames(
               'rounded-full box-border overflow-hidden relative transition-all z-10',
               { [genericBgClasses[bgColor || 'secondary']]: bgColor },
             )}
-            center
             style={style}
           >
             <img
-              className="absolute inset-0 transition-all rounded-full"
-              src={iconUrl}
               alt={asset.symbol}
-              style={style}
+              className="absolute inset-0 transition-all rounded-full"
               onError={() => brokenAssetIcons.add(iconUrl)}
+              src={iconUrl}
+              style={style}
             />
           </Box>
         ) : (
-          <FallbackIcon ticker={asset.ticker} size={iconSize} />
+          <FallbackIcon size={iconSize} ticker={asset.ticker} />
         )}
 
         {hasChainIcon && asset.type !== 'Native' ? (
           <ChainIcon
-            style={getSecondaryIconPlacementStyle(
-              secondaryIconPlacement,
-              secondaryIconSize,
-            )}
-            className="absolute z-10 scale-[65%]"
             chain={asset.chain as SupportedChain}
             size={secondaryIconSize}
+            style={getSecondaryIconPlacementStyle(secondaryIconPlacement, secondaryIconSize)}
           />
         ) : badge ? (
           <Box
             center
+            className="bg-light-bg-secondary dark:bg-dark-bg-secondary absolute z-10 scale-[65%] rounded-full"
             style={{
-              ...getSecondaryIconPlacementStyle(
-                secondaryIconPlacement,
-                secondaryIconSize * 1.8,
-              ),
+              ...getSecondaryIconPlacementStyle(secondaryIconPlacement, secondaryIconSize * 1.8),
               width: secondaryIconSize * 1.8,
               height: secondaryIconSize * 1.8,
             }}
-            className="bg-light-bg-secondary dark:bg-dark-bg-secondary absolute z-10 scale-[65%] rounded-full"
           >
             <Typography style={badgeStyle} variant="caption">
               {badge}
@@ -117,9 +106,9 @@ export const AssetIcon = memo(
         ) : null}
 
         {asset.isSynth && (
-          <Box className="absolute inset-0 bg-btn-primary blur-[6px] rounded-full"></Box>
+          <Box className="absolute inset-0 bg-btn-primary blur-[6px] rounded-full" />
         )}
       </div>
-    )
+    );
   },
-)
+);

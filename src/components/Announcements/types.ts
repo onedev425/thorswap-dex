@@ -1,8 +1,8 @@
-import { AnnouncementItem } from 'store/externalConfig/types'
+import { AnnouncementItem } from 'store/externalConfig/types';
 
 export type AnnouncementsState = {
-  all: AnnouncementItem[]
-  dismissed: AnnouncementItem[]
-  fresh: AnnouncementItem[]
-  seen: AnnouncementItem[]
-}
+  all: AnnouncementItem[];
+  dismissed: AnnouncementItem[];
+  fresh: AnnouncementItem[];
+  seen: AnnouncementItem[];
+};

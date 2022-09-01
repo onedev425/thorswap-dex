@@ -1,50 +1,40 @@
-import { useEffect, useState, useMemo } from 'react'
+import { Asset, hasConnectedWallet } from '@thorswap-lib/multichain-sdk';
+import { useEffect, useMemo, useState } from 'react';
+import { multichain } from 'services/multichain';
+import { useMidgard } from 'store/midgard/hooks';
+import { TxTrackerStatus } from 'store/midgard/types';
+import { useWallet } from 'store/wallet/hooks';
 
-import { Asset, hasConnectedWallet } from '@thorswap-lib/multichain-sdk'
+export const useApproveContract = (asset: Asset, contractAddr: string, hasWallet = true) => {
+  const { approveStatus } = useMidgard();
+  const { wallet } = useWallet();
+  const [isApproved, setApproved] = useState(hasWallet ? null : true);
+  const [isLoading, setIsLoading] = useState(false);
 
-import { useMidgard } from 'store/midgard/hooks'
-import { TxTrackerStatus } from 'store/midgard/types'
-import { useWallet } from 'store/wallet/hooks'
-
-import { multichain } from 'services/multichain'
-
-export const useApproveContract = (
-  asset: Asset,
-  contractAddr: string,
-  hasWallet = true,
-) => {
-  const { approveStatus } = useMidgard()
-  const { wallet } = useWallet()
-  const [isApproved, setApproved] = useState(hasWallet ? null : true)
-  const [isLoading, setIsLoading] = useState(false)
-
-  const isWalletConnected = useMemo(() => hasConnectedWallet(wallet), [wallet])
+  const isWalletConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
 
   useEffect(() => {
     if (!hasWallet || !isWalletConnected) {
-      setApproved(true)
+      setApproved(true);
     } else {
       const checkApproved = async () => {
         if (approveStatus?.[asset.toString()] === TxTrackerStatus.Success) {
-          setApproved(true)
+          setApproved(true);
         }
 
-        setIsLoading(true)
-        const approved = await multichain().isAssetApprovedForContract(
-          asset,
-          contractAddr,
-        )
-        setApproved(approved)
-        setIsLoading(false)
-      }
+        setIsLoading(true);
+        const approved = await multichain().isAssetApprovedForContract(asset, contractAddr);
+        setApproved(approved);
+        setIsLoading(false);
+      };
 
       try {
-        checkApproved()
+        checkApproved();
       } catch {
-        setIsLoading(false)
+        setIsLoading(false);
       }
     }
-  }, [asset, approveStatus, contractAddr, hasWallet, isWalletConnected])
+  }, [asset, approveStatus, contractAddr, hasWallet, isWalletConnected]);
 
-  return { isApproved, isLoading }
-}
+  return { isApproved, isLoading };
+};

@@ -1,57 +1,51 @@
-import { memo, useCallback, useMemo } from 'react'
+import { hasConnectedWallet } from '@thorswap-lib/multichain-sdk';
+import { AnnouncementsPopover } from 'components/Announcements/AnnouncementsPopover/AnnouncementsPopover';
+import { HeaderAnnouncements } from 'components/Announcements/HeaderAnnouncements';
+import { AppPopoverMenu } from 'components/AppPopoverMenu';
+import { Box, Button, Icon, Typography } from 'components/Atomic';
+import { TransactionManager } from 'components/TransactionManager';
+import { TxManager } from 'components/TxManager';
+import { useWalletDrawer } from 'hooks/useWalletDrawer';
+import useWindowSize from 'hooks/useWindowSize';
+import { memo, useCallback, useMemo } from 'react';
+import { t } from 'services/i18n';
+import { IS_BETA, IS_DEV_API, IS_PROD, IS_STAGENET, IS_TESTNET } from 'settings/config';
+import { useApp } from 'store/app/hooks';
+import { useMidgard } from 'store/midgard/hooks';
+import { useWallet } from 'store/wallet/hooks';
+import { ThemeType } from 'types/app';
 
-import { hasConnectedWallet } from '@thorswap-lib/multichain-sdk'
-
-import { AnnouncementsPopover } from 'components/Announcements/AnnouncementsPopover/AnnouncementsPopover'
-import { HeaderAnnouncements } from 'components/Announcements/HeaderAnnouncements'
-import { AppPopoverMenu } from 'components/AppPopoverMenu'
-import { Button, Icon, Box, Typography } from 'components/Atomic'
-import { TransactionManager } from 'components/TransactionManager'
-import { TxManager } from 'components/TxManager'
-
-import { useApp } from 'store/app/hooks'
-import { useMidgard } from 'store/midgard/hooks'
-import { useWallet } from 'store/wallet/hooks'
-
-import { useWalletDrawer } from 'hooks/useWalletDrawer'
-import useWindowSize from 'hooks/useWindowSize'
-
-import { t } from 'services/i18n'
-
-import { ThemeType } from 'types/app'
-
-import { StatusDropdown } from './StatusDropdown'
+import { StatusDropdown } from './StatusDropdown';
 
 type Props = {
-  openMenu: () => void
-}
+  openMenu: () => void;
+};
 
 export const Header = memo(({ openMenu }: Props) => {
-  const { themeType } = useApp()
-  const { isWalletLoading, wallet, setIsConnectModalOpen } = useWallet()
-  const { setIsDrawerVisible } = useWalletDrawer()
-  const { stats } = useMidgard()
-  const { isMdActive } = useWindowSize()
+  const { themeType } = useApp();
+  const { isWalletLoading, wallet, setIsConnectModalOpen } = useWallet();
+  const { setIsDrawerVisible } = useWalletDrawer();
+  const { stats } = useMidgard();
+  const { isMdActive } = useWindowSize();
 
-  const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet])
+  const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
 
   const runeLabel = useMemo(
-    () =>
-      stats?.runePriceUSD
-        ? `$${parseFloat(stats.runePriceUSD || '').toFixed(2)}`
-        : '$ -',
+    () => (stats?.runePriceUSD ? `$${parseFloat(stats.runePriceUSD || '').toFixed(2)}` : '$ -'),
     [stats],
-  )
+  );
 
   const handleClickWalletBtn = useCallback(() => {
     if (!isConnected && !isWalletLoading) {
-      setIsConnectModalOpen(true)
+      setIsConnectModalOpen(true);
     } else {
-      setIsDrawerVisible(true)
+      setIsDrawerVisible(true);
     }
-  }, [isConnected, isWalletLoading, setIsConnectModalOpen, setIsDrawerVisible])
+  }, [isConnected, isWalletLoading, setIsConnectModalOpen, setIsDrawerVisible]);
 
-  const isSwap = window.location.href.includes('/swap')
+  const newTransactionManager = ['/swap', '/send', '/legacy_stake'].some((path) =>
+    window.location.href.includes(path),
+  );
 
   return (
     <header className="mb-5 min-h-[70px]">
@@ -60,18 +54,18 @@ export const Header = memo(({ openMenu }: Props) => {
           <Button
             className="flex !p-1 md:hidden"
             onClick={openMenu}
-            type="borderless"
             startIcon={<Icon name="menu" size={isMdActive ? 24 : 20} />}
+            type="borderless"
           />
 
           <Box
-            className="h-9.5 px-2 bg-white border border-transparent border-solid shadow-md rounded-2xl dark:border-cyan dark:bg-transparent"
             center
+            className="h-9.5 px-2 bg-white border border-transparent border-solid shadow-md rounded-2xl dark:border-cyan dark:bg-transparent"
           >
             <Typography
-              variant={isMdActive ? 'caption' : 'caption-xs'}
               className="transition-[font-size]"
               fontWeight="semibold"
+              variant={isMdActive ? 'caption' : 'caption-xs'}
             >
               1ᚱ = {runeLabel}
             </Typography>
@@ -81,21 +75,26 @@ export const Header = memo(({ openMenu }: Props) => {
             <StatusDropdown />
           </Box>
         </Box>
-        {(import.meta.env.VITE_NETWORK !== 'mainnet' ||
-          import.meta.env.VITE_IS_STAGENET === 'true') && (
+        {!IS_PROD && (
           <Box>
             <Box
-              className="h-9.5 px-2 bg-white border border-transparent border-solid shadow-md rounded-2xl dark:border-cyan dark:bg-transparent"
               center
+              className="h-9.5 px-2 bg-white border border-transparent border-solid shadow-md rounded-2xl dark:border-cyan dark:bg-transparent"
             >
               <Typography
-                variant={isMdActive ? 'caption' : 'caption-xs'}
                 className="transition-[font-size]"
                 fontWeight="semibold"
+                variant={isMdActive ? 'caption' : 'caption-xs'}
               >
-                {import.meta.env.VITE_NETWORK === 'testnet'
-                  ? t('common.thisIsTestnet')
-                  : t('common.thisIsStagenet')}
+                {IS_BETA
+                  ? 'Beta'
+                  : IS_DEV_API
+                  ? 'Dev Api connected'
+                  : IS_STAGENET
+                  ? 'Stagenet'
+                  : IS_TESTNET
+                  ? 'Testnet'
+                  : 'Local'}
               </Typography>
             </Box>
           </Box>
@@ -103,12 +102,10 @@ export const Header = memo(({ openMenu }: Props) => {
         <Box justify="between">
           <Button
             className="mr-2"
-            type={themeType === ThemeType.Light ? 'default' : 'outline'}
+            endIcon={isWalletLoading ? <Icon spin name="loader" size={14} /> : null}
             onClick={handleClickWalletBtn}
             size="sm"
-            endIcon={
-              isWalletLoading ? <Icon name="loader" spin size={14} /> : null
-            }
+            type={themeType === ThemeType.Light ? 'default' : 'outline'}
           >
             {isWalletLoading
               ? t('common.loading')
@@ -119,10 +116,10 @@ export const Header = memo(({ openMenu }: Props) => {
           <AnnouncementsPopover />
           <AppPopoverMenu />
 
-          {isSwap ? <TransactionManager /> : <TxManager />}
+          {newTransactionManager ? <TransactionManager /> : <TxManager />}
         </Box>
       </Box>
       <HeaderAnnouncements />
     </header>
-  )
-})
+  );
+});

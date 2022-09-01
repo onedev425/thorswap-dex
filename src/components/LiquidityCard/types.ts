@@ -1,7 +1,7 @@
-import { Asset } from '@thorswap-lib/multichain-sdk'
+import { Asset } from '@thorswap-lib/multichain-sdk';
 
 export type AssetDataType = {
-  asset: Asset
-  assetName: string
-  amount: string
-}
+  asset: Asset;
+  assetName: string;
+  amount: string;
+};

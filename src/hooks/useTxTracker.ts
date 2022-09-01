@@ -1,11 +1,8 @@
-import { useCallback } from 'react'
-
-import { v4 as uuidv4 } from 'uuid'
-
-import { useMidgard } from 'store/midgard/hooks'
-import { TxTrackerStatus, SubmitTx, TxTrackerType } from 'store/midgard/types'
-
-import { multichain } from 'services/multichain'
+import { useCallback } from 'react';
+import { multichain } from 'services/multichain';
+import { useMidgard } from 'store/midgard/hooks';
+import { SubmitTx, TxTrackerStatus, TxTrackerType } from 'store/midgard/types';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * 1. send transaction and get txHash
@@ -16,23 +13,12 @@ import { multichain } from 'services/multichain'
  */
 
 export const useTxTracker = () => {
-  const {
-    addNewTxTracker,
-    updateTxTracker,
-    clearTxTrackers,
-    processSubmittedTx,
-  } = useMidgard()
+  const { addNewTxTracker, updateTxTracker, clearTxTrackers, processSubmittedTx } = useMidgard();
 
   // confirm and submit a transaction
   const submitTransaction = useCallback(
-    ({
-      type,
-      submitTx,
-    }: {
-      type: TxTrackerType
-      submitTx: SubmitTx
-    }): string => {
-      const uuid = uuidv4()
+    ({ type, submitTx }: { type: TxTrackerType; submitTx: SubmitTx }): string => {
+      const uuid = uuidv4();
 
       addNewTxTracker({
         uuid,
@@ -41,12 +27,12 @@ export const useTxTracker = () => {
         submitTx,
         action: null,
         refunded: null,
-      })
+      });
 
-      return uuid
+      return uuid;
     },
     [addNewTxTracker],
-  )
+  );
 
   const subscribeEthTx = useCallback(
     ({
@@ -55,13 +41,13 @@ export const useTxTracker = () => {
       txHash,
       callback,
     }: {
-      uuid: string
-      submitTx: SubmitTx
-      txHash: string
-      callback?: () => void
+      uuid: string;
+      submitTx: SubmitTx;
+      txHash: string;
+      callback?: () => void;
     }) => {
-      const ethClient = multichain().eth.getClient()
-      const ethProvider = ethClient.getProvider()
+      const ethClient = multichain().eth.getClient();
+      const ethProvider = ethClient.getProvider();
 
       if (txHash) {
         updateTxTracker({
@@ -70,7 +56,7 @@ export const useTxTracker = () => {
             status: TxTrackerStatus.Pending,
             submitTx,
           },
-        })
+        });
       }
 
       ethProvider.once(txHash, ({ status }) => {
@@ -80,61 +66,50 @@ export const useTxTracker = () => {
             status: status ? TxTrackerStatus.Success : TxTrackerStatus.Failed,
             submitTx,
           },
-        })
+        });
 
         if (status) {
-          callback?.()
+          callback?.();
         }
-      })
+      });
     },
     [updateTxTracker],
-  )
+  );
 
   // start polling a transaction
   const pollTransaction = useCallback(
-    ({
-      uuid,
-      submitTx,
-      type,
-    }: {
-      uuid: string
-      submitTx: SubmitTx
-      type: TxTrackerType
-    }) => {
+    ({ uuid, submitTx, type }: { uuid: string; submitTx: SubmitTx; type: TxTrackerType }) => {
       updateTxTracker({
         uuid,
         txTracker: {
-          status:
-            type === TxTrackerType.Send
-              ? TxTrackerStatus.Success
-              : TxTrackerStatus.Pending,
+          status: type === TxTrackerType.Send ? TxTrackerStatus.Success : TxTrackerStatus.Pending,
           submitTx,
         },
-      })
+      });
 
       if (type !== TxTrackerType.Send) {
-        processSubmittedTx({ submitTx, type })
+        processSubmittedTx({ submitTx, type });
       }
     },
     [updateTxTracker, processSubmittedTx],
-  )
+  );
 
   const setTxFailed = useCallback(
     (uuid: string) => {
-      updateTxTracker({ uuid, txTracker: { status: TxTrackerStatus.Failed } })
+      updateTxTracker({ uuid, txTracker: { status: TxTrackerStatus.Failed } });
     },
     [updateTxTracker],
-  )
+  );
 
   const setTxSuccess = useCallback(
     (uuid: string, submitTx?: SubmitTx) => {
       updateTxTracker({
         uuid,
         txTracker: { ...submitTx, status: TxTrackerStatus.Success },
-      })
+      });
     },
     [updateTxTracker],
-  )
+  );
 
   return {
     clearTxTrackers,
@@ -143,5 +118,5 @@ export const useTxTracker = () => {
     setTxSuccess,
     submitTransaction,
     subscribeEthTx,
-  }
-}
+  };
+};

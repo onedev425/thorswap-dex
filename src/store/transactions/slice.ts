@@ -1,53 +1,43 @@
-import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import { SuccessTxnResult } from 'store/thorswap/types';
 
-import { SuccessTxnResult } from 'store/thorswap/types'
-import type {
-  PendingTransactionType,
-  CompletedTransactionType,
-  TransactionStatus,
-} from 'store/transactions/types'
+import type { CompletedTransactionType, PendingTransactionType, TransactionStatus } from './types';
 
 const initialState = {
   pending: [] as PendingTransactionType[],
   completed: [] as CompletedTransactionType[],
-}
+};
 
 const transactionsSlice = createSlice({
   name: 'transactions',
   initialState,
   reducers: {
-    addTransaction(
-      state,
-      { payload }: PayloadAction<Omit<PendingTransactionType, 'timestamp'>>,
-    ) {
-      state.pending.push({ ...payload, timestamp: new Date() })
+    addTransaction(state, { payload }: PayloadAction<Omit<PendingTransactionType, 'timestamp'>>) {
+      state.pending.push({ ...payload, timestamp: new Date() });
     },
-    updateTransaction(
-      state,
-      { payload }: PayloadAction<Partial<PendingTransactionType>>,
-    ) {
-      const index = state.pending.findIndex(({ id }) => id === payload.id)
+    updateTransaction(state, { payload }: PayloadAction<Partial<PendingTransactionType>>) {
+      const index = state.pending.findIndex(({ id }) => id === payload.id);
 
       if (index !== -1) {
-        state.pending[index] = { ...state.pending[index], ...payload }
+        state.pending[index] = { ...state.pending[index], ...payload };
       }
     },
     removeTransaction(state, { payload }: PayloadAction<string>) {
-      state.pending = state.pending.filter(({ txid }) => txid !== payload)
+      state.pending = state.pending.filter(({ txid }) => txid !== payload);
     },
     completeTransaction(
       state,
       {
         payload,
       }: PayloadAction<{
-        result?: SuccessTxnResult
-        id: string
-        status: TransactionStatus
+        result?: SuccessTxnResult;
+        id: string;
+        status: TransactionStatus;
       }>,
     ) {
       state.pending = state.pending.filter((item) => {
-        const isPending = [item.txid, item.id].includes(payload.id)
+        const isPending = [item.txid, item.id].includes(payload.id);
 
         if (isPending) {
           state.completed.push({
@@ -55,17 +45,17 @@ const transactionsSlice = createSlice({
             ...item,
             status: payload.status,
             timestamp: new Date(),
-          })
+          });
         }
 
-        return !isPending
-      })
+        return !isPending;
+      });
     },
     clearTransactions() {
-      return initialState
+      return initialState;
     },
   },
-})
+});
 
 export const {
   addTransaction,
@@ -73,6 +63,6 @@ export const {
   completeTransaction,
   removeTransaction,
   updateTransaction,
-} = transactionsSlice.actions
+} = transactionsSlice.actions;
 
-export default transactionsSlice.reducer
+export default transactionsSlice.reducer;

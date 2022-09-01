@@ -1,1 +1,1 @@
-export { HighlightCard } from './HighlightCard'
+export { HighlightCard } from './HighlightCard';

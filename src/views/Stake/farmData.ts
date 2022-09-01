@@ -1,9 +1,7 @@
-import { Asset } from '@thorswap-lib/multichain-sdk'
-import { Chain, Network } from '@thorswap-lib/types'
-
-import { ContractType, LPContractType } from 'services/contract'
-
-import { config } from 'settings/config'
+import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Chain, Network } from '@thorswap-lib/types';
+import { ContractType, LPContractType } from 'services/contract';
+import { NETWORK } from 'settings/config';
 
 export const tokenAddr = {
   [Network.Mainnet]: {
@@ -18,50 +16,36 @@ export const tokenAddr = {
     THOR_STAKE: '0x22441f0cefe0110951fab63cbfb844e535232311',
     SUSHI_STAKE: '0xae1Fc3947Ee83aeb3b7fEC237BCC1D194C88BC24',
   },
-}
+};
 
 export const farmData = [
   {
     farmName: '$THOR Staking',
-    assets: [
-      new Asset(Chain.Ethereum, `THOR-${tokenAddr[config.network].THOR}`),
-    ],
-    lpAsset: new Asset(
-      Chain.Ethereum,
-      `THOR-${tokenAddr[config.network].THOR}`,
-    ),
+    assets: [new Asset(Chain.Ethereum, `THOR-${tokenAddr[NETWORK].THOR}`)],
+    lpAsset: new Asset(Chain.Ethereum, `THOR-${tokenAddr[NETWORK].THOR}`),
     withdrawOnly: true,
-    lpToken: tokenAddr[config.network].THOR,
+    lpToken: tokenAddr[NETWORK].THOR,
     contractType: ContractType.STAKING_THOR,
     lpContractType: LPContractType.THOR,
-    stakeAddr: tokenAddr[config.network].THOR_STAKE,
+    stakeAddr: tokenAddr[NETWORK].THOR_STAKE,
     exchange: 'THORSwap',
   },
   {
     farmName: 'ETH-THOR LP',
-    assets: [
-      Asset.ETH(),
-      new Asset(Chain.Ethereum, `THOR-${tokenAddr[config.network].THOR}`),
-    ],
-    lpAsset: new Asset(
-      Chain.Ethereum,
-      `SLP-${tokenAddr[config.network].ETH_THOR}`,
-    ),
-    lpToken: tokenAddr[config.network].ETH_THOR,
+    assets: [Asset.ETH(), new Asset(Chain.Ethereum, `THOR-${tokenAddr[NETWORK].THOR}`)],
+    lpAsset: new Asset(Chain.Ethereum, `SLP-${tokenAddr[NETWORK].ETH_THOR}`),
+    lpToken: tokenAddr[NETWORK].ETH_THOR,
     contractType: ContractType.STAKING_SUSHI_WETH,
     lpContractType: LPContractType.THOR_ETH,
-    stakeAddr: tokenAddr[config.network].SUSHI_STAKE,
+    stakeAddr: tokenAddr[NETWORK].SUSHI_STAKE,
     exchange: 'SushiSwap',
   },
-]
+];
 
 export const tcFarmData = {
   farmName: 'RUNE-THOR',
-  assets: [
-    new Asset(Chain.Ethereum, `THOR-${tokenAddr[config.network].THOR}`),
-    Asset.RUNE(),
-  ],
-  lpToken: tokenAddr[config.network].THOR,
+  assets: [new Asset(Chain.Ethereum, `THOR-${tokenAddr[NETWORK].THOR}`), Asset.RUNE()],
+  lpToken: tokenAddr[NETWORK].THOR,
   contractType: ContractType.STAKING_THOR,
   exchange: 'THORSwap',
-}
+};

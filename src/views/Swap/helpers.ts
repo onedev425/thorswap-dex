@@ -1,48 +1,46 @@
-import { Amount, Asset } from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/types'
+import { Amount, Asset } from '@thorswap-lib/multichain-sdk';
+import { Chain } from '@thorswap-lib/types';
+import { multichain } from 'services/multichain';
+import { TxTrackerType } from 'store/midgard/types';
 
-import { TxTrackerType } from 'store/midgard/types'
-
-import { multichain } from 'services/multichain'
-
-import { Pair } from './types'
+import { Pair } from './types';
 
 export const getSwapPair = async (pair: string): Promise<Pair | null> => {
-  const [input, output] = (pair || '').split('_')
+  const [input, output] = (pair || '').split('_');
 
-  if (!input || !output) return null
+  if (!input || !output) return null;
 
-  const inputAsset = Asset.decodeFromURL(input)
-  const outputAsset = Asset.decodeFromURL(output)
+  const inputAsset = Asset.decodeFromURL(input);
+  const outputAsset = Asset.decodeFromURL(output);
 
-  if (!inputAsset || !outputAsset) return null
+  if (!inputAsset || !outputAsset) return null;
 
   const inputDecimals =
     inputAsset && inputAsset.L1Chain === Chain.Ethereum
       ? await multichain().eth.getERC20AssetDecimal(inputAsset)
-      : undefined
+      : undefined;
 
-  await inputAsset.setDecimal(inputDecimals || undefined)
-  await outputAsset.setDecimal()
+  await inputAsset.setDecimal(inputDecimals || undefined);
+  await outputAsset.setDecimal();
 
-  return { inputAsset, outputAsset }
-}
+  return { inputAsset, outputAsset };
+};
 
 export const getSwapTrackerType = ({
   inputAsset,
   outputAsset,
 }: {
-  inputAsset: Asset
-  outputAsset: Asset
+  inputAsset: Asset;
+  outputAsset: Asset;
 }): TxTrackerType => {
-  if (inputAsset.isSynth && outputAsset.isSynth) return TxTrackerType.Swap
-  if (inputAsset.isSynth && outputAsset.isRUNE()) return TxTrackerType.Redeem
-  if (outputAsset.isSynth) return TxTrackerType.Mint
+  if (inputAsset.isSynth && outputAsset.isSynth) return TxTrackerType.Swap;
+  if (inputAsset.isSynth && outputAsset.isRUNE()) return TxTrackerType.Redeem;
+  if (outputAsset.isSynth) return TxTrackerType.Mint;
 
-  return TxTrackerType.Swap
-}
+  return TxTrackerType.Swap;
+};
 
 export const getTxAsset = (asset: Asset, amount: Amount) => ({
   asset: asset.toString(),
   amount: amount.toSignificant(8),
-})
+});

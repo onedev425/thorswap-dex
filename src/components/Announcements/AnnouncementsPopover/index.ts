@@ -1,1 +1,1 @@
-export { AnnouncementsPopover } from './AnnouncementsPopover'
+export { AnnouncementsPopover } from './AnnouncementsPopover';

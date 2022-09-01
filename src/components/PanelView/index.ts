@@ -1,1 +1,1 @@
-export { PanelView } from './PanelView'
+export { PanelView } from './PanelView';

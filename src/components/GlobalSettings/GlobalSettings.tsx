@@ -1,28 +1,16 @@
-import { useMemo } from 'react'
+import { FeeOption } from '@thorswap-lib/types';
+import classNames from 'classnames';
+import { Box, Button, Card, Icon, Switch, Tooltip, Typography } from 'components/Atomic';
+import { Input } from 'components/Input';
+import { useMemo } from 'react';
+import { t } from 'services/i18n';
+import { useApp } from 'store/app/hooks';
 
-import { FeeOption } from '@thorswap-lib/types'
-import classNames from 'classnames'
-
-import {
-  Button,
-  Box,
-  Card,
-  Icon,
-  Typography,
-  Switch,
-  Tooltip,
-} from 'components/Atomic'
-import { Input } from 'components/Input'
-
-import { useApp } from 'store/app/hooks'
-
-import { t } from 'services/i18n'
-
-import { slippageOptions } from './settingOptions'
+import { slippageOptions } from './settingOptions';
 
 type Props = {
-  transactionMode?: boolean
-}
+  transactionMode?: boolean;
+};
 
 export const GlobalSettings = ({ transactionMode }: Props) => {
   const {
@@ -34,7 +22,7 @@ export const GlobalSettings = ({ transactionMode }: Props) => {
     setExpertMode,
     setCustomRecipientMode,
     setFeeOptionType,
-  } = useApp()
+  } = useApp();
 
   const feeOptions = useMemo(
     () => [
@@ -55,45 +43,43 @@ export const GlobalSettings = ({ transactionMode }: Props) => {
       },
     ],
     [],
-  )
+  );
 
   return (
-    <Card className="w-[350px] px-8 py-6 shadow-2xl" withBorder>
-      <Box className="w-full gap-4" col>
+    <Card withBorder className="w-[350px] px-8 py-6 shadow-2xl">
+      <Box col className="w-full gap-4">
         <Box>
-          <Typography variant="caption">
-            {t('views.swap.transactionSettings')}
-          </Typography>
+          <Typography variant="caption">{t('views.swap.transactionSettings')}</Typography>
         </Box>
         <Box className="space-x-2">
-          <Typography variant="caption-xs" color="secondary">
+          <Typography color="secondary" variant="caption-xs">
             {t('views.swap.slippageTolerance')}
           </Typography>
           <Tooltip content={t('common.slippageTooltip')} place="top">
-            <Icon color="secondary" size={16} name="questionCircle" />
+            <Icon color="secondary" name="questionCircle" size={16} />
           </Tooltip>
         </Box>
 
-        <Box className="w-full space-x-2" alignCenter>
+        <Box alignCenter className="w-full space-x-2">
           <Input
-            type="number"
+            stretch
+            border="rounded"
             className="text-right"
             containerClassName="bg-light-gray-light dark:bg-dark-gray-light bg-opacity-40"
-            symbol="%"
-            value={slippageTolerance}
-            placeholder={t('common.percentage')}
-            border="rounded"
-            stretch
             onChange={(e) => setSlippage(Number(e.target.value))}
+            placeholder={t('common.percentage')}
+            symbol="%"
+            type="number"
+            value={slippageTolerance}
           />
 
           {slippageOptions.map((option) => (
             <Button
               key={option.key}
+              onClick={() => setSlippage(option.value)}
               size="sm"
               type={slippageTolerance === option.value ? 'default' : 'outline'}
               variant={slippageTolerance === option.value ? 'primary' : 'tint'}
-              onClick={() => setSlippage(option.value)}
             >
               <Typography variant="caption-xs">{option.text}</Typography>
             </Button>
@@ -101,27 +87,27 @@ export const GlobalSettings = ({ transactionMode }: Props) => {
         </Box>
 
         <Box className="space-x-2">
-          <Typography variant="caption-xs" color="secondary">
+          <Typography color="secondary" variant="caption-xs">
             {t('common.transactionFee')}
           </Typography>
           <Tooltip content={t('common.txFeeTooltip')} place="top">
-            <Icon color="secondary" size={16} name="questionCircle" />
+            <Icon color="secondary" name="questionCircle" size={16} />
           </Tooltip>
         </Box>
 
         <Box
+          alignCenter
           className={classNames('w-full space-x-2', {
             'pb-6': transactionMode,
           })}
-          alignCenter
         >
           {feeOptions.map((feeOption) => (
             <Button
               key={feeOption.key}
+              onClick={() => setFeeOptionType(feeOption.type)}
               size="sm"
               type={feeOptionType === feeOption.type ? 'default' : 'outline'}
               variant={feeOptionType === feeOption.type ? 'primary' : 'tint'}
-              onClick={() => setFeeOptionType(feeOption.type)}
             >
               <Typography variant="caption-xs">{feeOption.text}</Typography>
             </Button>
@@ -131,47 +117,42 @@ export const GlobalSettings = ({ transactionMode }: Props) => {
         {transactionMode && (
           <>
             <Box>
-              <Typography variant="caption">
-                {t('views.setting.transactionMode')}
-              </Typography>
+              <Typography variant="caption">{t('views.setting.transactionMode')}</Typography>
             </Box>
 
             <Box alignCenter justify="between">
-              <Box className="space-x-2" alignCenter>
-                <Typography variant="caption-xs" color="secondary">
+              <Box alignCenter className="space-x-2">
+                <Typography color="secondary" variant="caption-xs">
                   {t('views.swap.expertMode')}
                 </Typography>
                 <Tooltip content={t('common.expertModeTooltip')} place="top">
-                  <Icon color="secondary" size={16} name="questionCircle" />
+                  <Icon color="secondary" name="questionCircle" size={16} />
                 </Tooltip>
               </Box>
 
               <Switch
-                selectedText="ON"
-                unselectedText="OFF"
                 checked={expertMode}
                 onChange={() => setExpertMode(!expertMode)}
+                selectedText="ON"
+                unselectedText="OFF"
               />
             </Box>
 
             <Box alignCenter justify="between">
-              <Box className="space-x-2" alignCenter>
-                <Typography variant="caption-xs" color="secondary">
+              <Box alignCenter className="space-x-2">
+                <Typography color="secondary" variant="caption-xs">
                   {t('views.setting.customRecipientMode')}
                 </Typography>
-                <Tooltip
-                  content={t('common.customRecipientTooltip')}
-                  place="top"
-                >
-                  <Icon color="secondary" size={16} name="questionCircle" />
+                <Tooltip content={t('common.customRecipientTooltip')} place="top">
+                  <Icon color="secondary" name="questionCircle" size={16} />
                 </Tooltip>
               </Box>
 
               <Switch
-                selectedText="ON"
-                unselectedText="OFF"
                 checked={customRecipientMode}
                 onChange={() => setCustomRecipientMode(!customRecipientMode)}
+                selectedText="ON"
+                unselectedText="OFF"
               />
             </Box>
 
@@ -195,5 +176,5 @@ export const GlobalSettings = ({ transactionMode }: Props) => {
         )}
       </Box>
     </Card>
-  )
-}
+  );
+};

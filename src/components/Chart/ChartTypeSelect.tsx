@@ -1,16 +1,13 @@
-import { Fragment } from 'react'
-
-import classNames from 'classnames'
-
-import { Typography, Box } from 'components/Atomic'
-
-import { t } from 'services/i18n'
+import classNames from 'classnames';
+import { Box, Typography } from 'components/Atomic';
+import { Fragment } from 'react';
+import { t } from 'services/i18n';
 
 type Props = {
-  chartTypeIndexes: string[]
-  selectChartTypeIndex: (index: string) => void
-  selectedChartTypeIndex: string
-}
+  chartTypeIndexes: string[];
+  selectChartTypeIndex: (index: string) => void;
+  selectedChartTypeIndex: string;
+};
 
 export const ChartTypeSelect = ({
   chartTypeIndexes,
@@ -18,25 +15,23 @@ export const ChartTypeSelect = ({
   selectChartTypeIndex,
 }: Props) => {
   return (
-    <Box className="space-x-2" row>
+    <Box row className="space-x-2">
       {chartTypeIndexes.map((chartIndex, index) => (
         <Fragment key={chartIndex}>
           {index !== 0 && <Typography> / </Typography>}
 
           <div
-            key={chartIndex}
             className="cursor-pointer"
+            key={chartIndex}
             onClick={() => selectChartTypeIndex(chartIndex)}
           >
             <Typography
-              color={
-                chartIndex === selectedChartTypeIndex ? 'primary' : 'secondary'
-              }
-              variant="body"
-              fontWeight="bold"
               className={classNames('hover:underline underline-offset-4', {
                 underline: chartIndex === selectedChartTypeIndex,
               })}
+              color={chartIndex === selectedChartTypeIndex ? 'primary' : 'secondary'}
+              fontWeight="bold"
+              variant="body"
             >
               {t('views.home.chart', { context: chartIndex })}
             </Typography>
@@ -44,5 +39,5 @@ export const ChartTypeSelect = ({
         </Fragment>
       ))}
     </Box>
-  )
-}
+  );
+};

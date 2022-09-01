@@ -1,1 +1,1 @@
-export { PanelInput } from './PanelInput'
+export { PanelInput } from './PanelInput';

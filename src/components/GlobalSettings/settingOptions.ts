@@ -14,4 +14,4 @@ export const slippageOptions = [
     value: 3,
     text: '3%',
   },
-]
+];

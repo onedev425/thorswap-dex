@@ -1,10 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import { getFromStorage, saveInStorage } from 'helpers/storage';
 
-import { getFromStorage, saveInStorage } from 'helpers/storage'
-
-import * as multisigActions from './actions'
-import { MultisigWallet, State } from './types'
+import * as multisigActions from './actions';
+import { MultisigWallet, State } from './types';
 
 const EMPTY_STATE = {
   address: '',
@@ -13,47 +12,44 @@ const EMPTY_STATE = {
   treshold: 2,
   balances: [],
   loadingBalances: false,
-}
+};
 
 const initialState: State =
   {
     ...(getFromStorage('multisigWallet') as MultisigWallet),
     balances: [],
     loadingBalances: false,
-  } || EMPTY_STATE
+  } || EMPTY_STATE;
 
 const multisigSlice = createSlice({
   name: 'multisig',
   initialState,
   reducers: {
     addMultisigWallet(_, { payload }: PayloadAction<MultisigWallet>) {
-      saveInStorage({ key: 'multisigWallet', value: payload })
+      saveInStorage({ key: 'multisigWallet', value: payload });
 
-      return { ...payload, balances: [], loadingBalances: false }
+      return { ...payload, balances: [], loadingBalances: false };
     },
     clearMultisigWallet() {
-      saveInStorage({ key: 'multisigWallet', value: EMPTY_STATE })
-      return EMPTY_STATE
+      saveInStorage({ key: 'multisigWallet', value: EMPTY_STATE });
+      return EMPTY_STATE;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(multisigActions.loadMultisigBalances.pending, (state) => {
-        state.loadingBalances = true
+        state.loadingBalances = true;
       })
       .addCase(multisigActions.loadMultisigBalances.rejected, (state) => {
-        state.loadingBalances = false
+        state.loadingBalances = false;
       })
-      .addCase(
-        multisigActions.loadMultisigBalances.fulfilled,
-        (state, { payload }) => {
-          state.balances = payload
-          state.loadingBalances = false
-        },
-      )
+      .addCase(multisigActions.loadMultisigBalances.fulfilled, (state, { payload }) => {
+        state.balances = payload;
+        state.loadingBalances = false;
+      });
   },
-})
+});
 
-export const { actions } = multisigSlice
+export const { actions } = multisigSlice;
 
-export default multisigSlice.reducer
+export default multisigSlice.reducer;

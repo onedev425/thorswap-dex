@@ -1,57 +1,49 @@
-import { useCallback, useEffect } from 'react'
-
-import { Chain } from '@thorswap-lib/types'
-
-import { CurrentSignerItem } from 'views/Multisig/components/CurrentSignerItem'
-
-import { Box, Button, Typography } from 'components/Atomic'
-import { StepActions } from 'components/Stepper'
-import { useStepper } from 'components/Stepper/StepperContext'
-
-import { useWallet } from 'store/wallet/hooks'
-
-import { t } from 'services/i18n'
-import { Signer } from 'services/multisig'
+import { Chain } from '@thorswap-lib/types';
+import { Box, Button, Typography } from 'components/Atomic';
+import { StepActions } from 'components/Stepper';
+import { useStepper } from 'components/Stepper/StepperContext';
+import { useCallback, useEffect } from 'react';
+import { t } from 'services/i18n';
+import { Signer } from 'services/multisig';
+import { useWallet } from 'store/wallet/hooks';
+import { CurrentSignerItem } from 'views/Multisig/components/CurrentSignerItem';
 
 type Props = {
-  handleSign: () => void
-  connectedSignature: Signer | null
-  addSigner: (signer: Signer) => void
-}
+  handleSign: () => void;
+  connectedSignature: Signer | null;
+};
 
 export function SignTxStep({ handleSign, connectedSignature }: Props) {
-  const { wallet, setIsConnectModalOpen } = useWallet()
-  const { nextStep } = useStepper()
+  const { wallet, setIsConnectModalOpen } = useWallet();
+  const { nextStep } = useStepper();
   // const [isImportModalOpened, setIsImportModalOpened] = useState(false)
 
-  const connectedWalletAddress = wallet?.[Chain.THORChain]?.address || ''
+  const connectedWalletAddress = wallet?.[Chain.THORChain]?.address || '';
 
   const handleSignClick = useCallback(() => {
     if (!connectedWalletAddress) {
-      setIsConnectModalOpen(true)
-      return
+      setIsConnectModalOpen(true);
+      return;
     }
 
-    handleSign()
-  }, [connectedWalletAddress, setIsConnectModalOpen, handleSign])
+    handleSign();
+  }, [connectedWalletAddress, setIsConnectModalOpen, handleSign]);
 
   useEffect(() => {
     if (connectedSignature) {
-      nextStep()
+      nextStep();
     }
-  }, [connectedSignature, nextStep])
+  }, [connectedSignature, nextStep]);
 
   return (
-    <Box className="self-stretch mx-2" col flex={1}>
-      <Box className="gap-2" col>
-        <Typography variant="caption" fontWeight="normal">
+    <Box col className="self-stretch mx-2" flex={1}>
+      <Box col className="gap-2">
+        <Typography fontWeight="normal" variant="caption">
           {t('views.multisig.addYourSignatureInfo')}
         </Typography>
         {!connectedSignature ? (
-          <Button variant="primary" stretch onClick={handleSignClick}>
-            {connectedWalletAddress
-              ? t('views.multisig.signTx')
-              : t('common.connectWallet')}
+          <Button stretch onClick={handleSignClick} variant="primary">
+            {connectedWalletAddress ? t('views.multisig.signTx') : t('common.connectWallet')}
           </Button>
         ) : (
           <CurrentSignerItem
@@ -85,5 +77,5 @@ export function SignTxStep({ handleSign, connectedSignature }: Props) {
         }}
       /> */}
     </Box>
-  )
+  );
 }

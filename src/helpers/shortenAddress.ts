@@ -5,4 +5,4 @@ export const shortenAddress = (
 ) =>
   `${address.slice(0, bothOrLeftLength)}...${address.slice(
     Math.max(address.length - (rightLength || bothOrLeftLength), 0),
-  )}`
+  )}`;

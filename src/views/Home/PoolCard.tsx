@@ -1,78 +1,57 @@
-import { useCallback } from 'react'
-
-import { useNavigate } from 'react-router-dom'
-
-import { Amount, Percent, Pool } from '@thorswap-lib/multichain-sdk'
-import classNames from 'classnames'
-
-import { AssetIcon } from 'components/AssetIcon'
-import { Box, Button, Card, Typography } from 'components/Atomic'
-
-import { useGlobalState } from 'store/hooks'
-
-import { t } from 'services/i18n'
-
-import { getAddLiquidityRoute, getSwapRoute } from 'settings/constants'
-
-import { ColorType } from 'types/app'
+import { Amount, Percent, Pool } from '@thorswap-lib/multichain-sdk';
+import classNames from 'classnames';
+import { AssetIcon } from 'components/AssetIcon';
+import { Box, Button, Card, Typography } from 'components/Atomic';
+import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { t } from 'services/i18n';
+import { getAddLiquidityRoute, getSwapRoute } from 'settings/constants';
+import { useGlobalState } from 'store/hooks';
+import { ColorType } from 'types/app';
 
 type PoolCardProps = {
-  pool: Pool
-  color: ColorType
-}
+  pool: Pool;
+  color: ColorType;
+};
 
 export const PoolCard = ({ pool, color }: PoolCardProps) => {
-  const navigate = useNavigate()
-  const { runeToCurrency } = useGlobalState()
+  const navigate = useNavigate();
+  const { runeToCurrency } = useGlobalState();
 
   const handleSwapNavigate = useCallback(() => {
-    navigate(getSwapRoute(pool.asset))
-  }, [navigate, pool.asset])
+    navigate(getSwapRoute(pool.asset));
+  }, [navigate, pool.asset]);
 
   const handleAddLiquidityNavigate = useCallback(() => {
-    navigate(getAddLiquidityRoute(pool.asset))
-  }, [navigate, pool.asset])
+    navigate(getAddLiquidityRoute(pool.asset));
+  }, [navigate, pool.asset]);
 
   return (
-    <Card className="flex-col min-w-fit max-w-[288px]" stretch>
-      <Box justify="between" className="px-6 pt-6">
+    <Card stretch className="flex-col min-w-fit max-w-[288px]">
+      <Box className="px-6 pt-6" justify="between">
         <Box col>
-          <Typography
-            className="mb-4"
-            variant="h2"
-            fontWeight="bold"
-            transform="uppercase"
-          >
+          <Typography className="mb-4" fontWeight="bold" transform="uppercase" variant="h2">
             {pool.asset.ticker}
           </Typography>
 
           <Typography className="mb-2" color="secondary" fontWeight="semibold">
-            {runeToCurrency(
-              Amount.fromMidgard(pool.detail.runeDepth).mul(2),
-            ).toCurrencyFormat(2)}
+            {runeToCurrency(Amount.fromMidgard(pool.detail.runeDepth).mul(2)).toCurrencyFormat(2)}
           </Typography>
 
           <Typography color="green" fontWeight="semibold">
-            {`${t('common.APR')}: ${new Percent(pool.detail.poolAPY).toFixed(
-              0,
-            )}`}
+            {`${t('common.APR')}: ${new Percent(pool.detail.poolAPY).toFixed(0)}`}
           </Typography>
         </Box>
 
-        <AssetIcon hasChainIcon={false} asset={pool.asset} size={110} />
+        <AssetIcon asset={pool.asset} hasChainIcon={false} size={110} />
       </Box>
 
-      <Box className="gap-x-2 mt-6" align="end" justifyCenter>
-        <Button type="outline" onClick={handleSwapNavigate} stretch>
+      <Box justifyCenter align="end" className="gap-x-2 mt-6">
+        <Button stretch onClick={handleSwapNavigate} type="outline">
           {t('common.swap')}
         </Button>
 
-        <Button
-          stretch
-          variant="tertiary"
-          type="outline"
-          onClick={handleAddLiquidityNavigate}
-        >
+        <Button stretch onClick={handleAddLiquidityNavigate} type="outline" variant="tertiary">
           {t('common.addLiquidity')}
         </Button>
       </Box>
@@ -84,5 +63,5 @@ export const PoolCard = ({ pool, color }: PoolCardProps) => {
         )}
       />
     </Card>
-  )
-}
+  );
+};

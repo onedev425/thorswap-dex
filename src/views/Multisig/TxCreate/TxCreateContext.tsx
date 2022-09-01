@@ -1,71 +1,67 @@
 import {
   createContext,
-  useContext,
   ReactNode,
-  useState,
   useCallback,
-  useMemo,
+  useContext,
   useEffect,
-} from 'react'
-
-import { useMultisig } from 'store/multisig/hooks'
-import { MultisigMember } from 'store/multisig/types'
-import { useAppSelector } from 'store/store'
-
-import { t } from 'services/i18n'
+  useMemo,
+  useState,
+} from 'react';
+import { t } from 'services/i18n';
+import { useMultisig } from 'store/multisig/hooks';
+import { MultisigMember } from 'store/multisig/types';
+import { useAppSelector } from 'store/store';
 
 type Props = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
 export type TxCreateContextType = {
-  signers: MultisigMember[]
-  toggleSigner: (val: MultisigMember) => void
-  toggleAllSigners: () => void
-}
+  signers: MultisigMember[];
+  toggleSigner: (val: MultisigMember) => void;
+  toggleAllSigners: () => void;
+};
 
-const TxCreateContext = createContext<TxCreateContextType>(
-  {} as TxCreateContextType,
-)
+const TxCreateContext = createContext<TxCreateContextType>({} as TxCreateContextType);
 
 export const useTxCreate = () => {
-  const context = useContext(TxCreateContext)
+  const context = useContext(TxCreateContext);
 
   if (!context?.signers) {
-    throw Error(t('views.multisig.incorrectTxCreateConfig'))
+    throw Error(t('views.multisig.incorrectTxCreateConfig'));
   }
 
-  return context
-}
+  return context;
+};
 
 export const TxCreateProvider = ({ children }: Props) => {
-  const { loadBalances } = useMultisig()
-  const [signers, setSigners] = useState<MultisigMember[]>([])
-  const { members } = useAppSelector((state) => state.multisig)
+  const { loadBalances } = useMultisig();
+  const [signers, setSigners] = useState<MultisigMember[]>([]);
+  const { members } = useAppSelector((state) => state.multisig);
 
   const toggleSigner = useCallback((signer: MultisigMember) => {
     setSigners((v) => {
-      const hasSigner = !!v.find((s) => s.pubKey === signer.pubKey)
+      const hasSigner = !!v.find((s) => s.pubKey === signer.pubKey);
 
       if (!hasSigner) {
-        return [...v, signer]
+        return [...v, signer];
       }
 
-      return v.filter((s) => s.pubKey !== signer.pubKey)
-    })
-  }, [])
+      return v.filter((s) => s.pubKey !== signer.pubKey);
+    });
+  }, []);
 
   const toggleAllSigners = useCallback(() => {
     setSigners((v) => {
-      const allSelected = v.length === members.length
+      const allSelected = v.length === members.length;
 
-      return allSelected ? [] : [...members]
-    })
-  }, [members])
+      return allSelected ? [] : [...members];
+    });
+  }, [members]);
 
   useEffect(() => {
-    loadBalances()
-  }, [loadBalances])
+    loadBalances();
+  }, [loadBalances]);
 
   const value = useMemo(
     () => ({
@@ -74,11 +70,7 @@ export const TxCreateProvider = ({ children }: Props) => {
       toggleAllSigners,
     }),
     [signers, toggleAllSigners, toggleSigner],
-  )
+  );
 
-  return (
-    <TxCreateContext.Provider value={value}>
-      {children}
-    </TxCreateContext.Provider>
-  )
-}
+  return <TxCreateContext.Provider value={value}>{children}</TxCreateContext.Provider>;
+};

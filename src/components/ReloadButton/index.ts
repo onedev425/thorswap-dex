@@ -1,1 +1,1 @@
-export { ReloadButton } from './ReloadButton'
+export { ReloadButton } from './ReloadButton';

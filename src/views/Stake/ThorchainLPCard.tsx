@@ -1,50 +1,39 @@
-import { useMemo } from 'react'
+import { Asset } from '@thorswap-lib/multichain-sdk';
+import classNames from 'classnames';
+import { AssetLpIcon } from 'components/AssetIcon';
+import { Box, Button, Card, Link, Typography } from 'components/Atomic';
+import { borderHoverHighlightClass } from 'components/constants';
+import { useThorAPR } from 'hooks/useThorAPR';
+import { useMemo } from 'react';
+import { t } from 'services/i18n';
+import { getAddLiquidityRoute, getWithdrawRoute } from 'settings/constants';
+import { useWallet } from 'store/wallet/hooks';
 
-import { Asset } from '@thorswap-lib/multichain-sdk'
-import classNames from 'classnames'
-
-import { AssetLpIcon } from 'components/AssetIcon'
-import { Box, Button, Card, Link, Typography } from 'components/Atomic'
-import { borderHoverHighlightClass } from 'components/constants'
-
-import { useWallet } from 'store/wallet/hooks'
-
-import { useThorAPR } from 'hooks/useThorAPR'
-
-import { t } from 'services/i18n'
-
-import { getAddLiquidityRoute, getWithdrawRoute } from 'settings/constants'
-
-import { tcFarmData } from './farmData'
+import { tcFarmData } from './farmData';
 
 export const ThorchainLPCard = () => {
-  const { wallet, setIsConnectModalOpen } = useWallet()
-  const thorAPR = useThorAPR()
-  const liquidityRouter = getAddLiquidityRoute(Asset.THOR())
-  const withdrawRouter = getWithdrawRoute(Asset.THOR())
+  const { wallet, setIsConnectModalOpen } = useWallet();
+  const thorAPR = useThorAPR();
+  const liquidityRouter = getAddLiquidityRoute(Asset.THOR());
+  const withdrawRouter = getWithdrawRoute(Asset.THOR());
 
-  const ethAddr = useMemo(
-    () => wallet && wallet.ETH && wallet.ETH.address,
-    [wallet],
-  )
+  const ethAddr = useMemo(() => wallet?.ETH?.address, [wallet]);
 
   return (
     <Box col className="flex-1 !min-w-[360px] lg:!max-w-[50%]">
       <Box className="w-full h-full min-h-[436px] relative mt-14">
-        <Card
-          className={classNames('flex-col flex-1', borderHoverHighlightClass)}
-        >
+        <Card className={classNames('flex-col flex-1', borderHoverHighlightClass)}>
           <div className="flex justify-center absolute m-auto left-0 right-0 top-[-28px]">
             <AssetLpIcon
+              hasShadow
+              inline
               asset1={tcFarmData.assets[0]}
               asset2={tcFarmData.assets[1]}
-              inline
-              hasShadow
               size="big"
             />
           </div>
 
-          <Box className="mt-8" center>
+          <Box center className="mt-8">
             <Typography className="mr-2" variant="h4">
               THOR-RUNE LP
             </Typography>
@@ -53,33 +42,28 @@ export const ThorchainLPCard = () => {
           <Box className="flex-row justify-between">
             <Box col className="p-4">
               <Typography
-                variant="caption-xs"
                 color="secondary"
                 fontWeight="bold"
                 transform="uppercase"
+                variant="caption-xs"
               >
                 {t('common.exchange')}
               </Typography>
-              <Typography variant="body" color="primary" fontWeight="bold">
+              <Typography color="primary" fontWeight="bold" variant="body">
                 {t('common.THORSwap')}
               </Typography>
             </Box>
             <Box col className="p-4">
               <Typography
-                variant="caption-xs"
+                className="text-right"
                 color="secondary"
                 fontWeight="bold"
-                className="text-right"
+                variant="caption-xs"
               >
                 {t('common.APR')}
               </Typography>
 
-              <Typography
-                variant="body"
-                fontWeight="bold"
-                color="green"
-                className="text-right"
-              >
+              <Typography className="text-right" color="green" fontWeight="bold" variant="body">
                 {thorAPR}%
               </Typography>
             </Box>
@@ -87,25 +71,20 @@ export const ThorchainLPCard = () => {
           <Box className="flex-col px-4">
             <Typography>{t('views.staking.tcStakingDesc')}</Typography>
           </Box>
-          <Box className="flex-col-reverse flex-grow w-full mt-4" alignCenter>
+          <Box alignCenter className="flex-col-reverse flex-grow w-full mt-4">
             {!ethAddr ? (
-              <Button
-                isFancy
-                size="lg"
-                stretch
-                onClick={() => setIsConnectModalOpen(true)}
-              >
+              <Button isFancy stretch onClick={() => setIsConnectModalOpen(true)} size="lg">
                 {t('common.connectWallet')}
               </Button>
             ) : (
-              <Box className="self-stretch gap-2" row alignCenter>
+              <Box alignCenter row className="self-stretch gap-2">
                 <Link className="flex-1" to={liquidityRouter}>
-                  <Button variant="primary" stretch>
+                  <Button stretch variant="primary">
                     {t('common.deposit')}
                   </Button>
                 </Link>
                 <Link className="flex-1" to={withdrawRouter}>
-                  <Button variant="secondary" stretch>
+                  <Button stretch variant="secondary">
                     {t('common.withdraw')}
                   </Button>
                 </Link>
@@ -115,5 +94,5 @@ export const ThorchainLPCard = () => {
         </Card>
       </Box>
     </Box>
-  )
-}
+  );
+};

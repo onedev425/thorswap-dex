@@ -1,17 +1,15 @@
-import { TooltipCallbacks } from 'chart.js'
-
-import { gridLinesColor } from 'components/Chart/styles/colors'
-import * as styles from 'components/Chart/styles/styles'
-
-import { abbreviateNumber } from 'helpers/number'
+import { TooltipCallbacks } from 'chart.js';
+import { gridLinesColor } from 'components/Chart/styles/colors';
+import * as styles from 'components/Chart/styles/styles';
+import { abbreviateNumber } from 'helpers/number';
 
 type Params = {
-  animated?: boolean
-  hideLabel: boolean
-  hasGrid: boolean
-  unit?: string
-  formatter?: (value: number) => string
-}
+  animated?: boolean;
+  hideLabel: boolean;
+  hasGrid: boolean;
+  unit?: string;
+  formatter?: (value: number) => string;
+};
 
 const parseTooltipLabel =
   (
@@ -21,7 +19,7 @@ const parseTooltipLabel =
   ({ formattedValue }) =>
     formatter
       ? formatter(parseFloat(`${formattedValue}`.replace(/[^0-9.]/g, '')))
-      : `${unit}${formattedValue}`
+      : `${unit}${formattedValue}`;
 
 export const getChartOptions = ({
   animated = true,
@@ -86,14 +84,12 @@ export const getChartOptions = ({
         ticks: {
           ...styles.chartYTicksStyles,
           callback: (value: number | string, index: number) => {
-            if (index % 2 === 0) return ''
+            if (index % 2 === 0) return '';
 
-            return typeof value === 'number'
-              ? `${unit}${abbreviateNumber(value)}`
-              : value
+            return typeof value === 'number' ? `${unit}${abbreviateNumber(value)}` : value;
           },
           display: hideLabel ? false : true,
         },
       },
     },
-  } as const)
+  } as const);

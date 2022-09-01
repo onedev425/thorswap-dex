@@ -1,6 +1,6 @@
-import { ChartData } from 'chart.js'
+import { ChartData } from 'chart.js';
 
-export type DataPoint = { x: string; y: number }
+export type DataPoint = { x: string; y: number };
 export enum ChartType {
   Bar = 'bar',
   Area = 'area',
@@ -8,4 +8,4 @@ export enum ChartType {
   CurvedLine = 'curvedLine',
 }
 
-export type CurvedLineChartType = ChartData<ChartType.Line, number[], string>
+export type CurvedLineChartType = ChartData<ChartType.Line, number[], string>;

@@ -1,65 +1,54 @@
-import {
-  forwardRef,
-  ReactNode,
-  useCallback,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react'
-
-import { usePopper } from 'react-popper'
-
-import classNames from 'classnames'
-
-import { Box } from 'components/Atomic'
-
-import useOnClickOutside from 'hooks/useClickOutside'
+import classNames from 'classnames';
+import { Box } from 'components/Atomic';
+import useOnClickOutside from 'hooks/useClickOutside';
+import { forwardRef, ReactNode, useCallback, useImperativeHandle, useRef, useState } from 'react';
+import { usePopper } from 'react-popper';
 
 interface PopoverProps {
-  trigger: ReactNode
-  children: ReactNode
-  disabled?: boolean
-  onClose?: () => void
+  trigger: ReactNode;
+  children: ReactNode;
+  disabled?: boolean;
+  onClose?: () => void;
 }
 
-type ForwarderProps = { close: () => void; open: () => void }
+type ForwarderProps = { close: () => void; open: () => void };
 
 export const Popover = forwardRef<ForwarderProps, PopoverProps>(
   ({ trigger, children, disabled, onClose }, popoverRef) => {
-    const [isOpened, setIsOpened] = useState(false)
-    const [btnRef, setReferenceElement] = useState<HTMLElement | null>()
-    const [popperElement, setPopperElement] = useState<HTMLElement | null>()
-    const containerRef = useRef<HTMLDivElement>(null)
+    const [isOpened, setIsOpened] = useState(false);
+    const [btnRef, setReferenceElement] = useState<HTMLElement | null>();
+    const [popperElement, setPopperElement] = useState<HTMLElement | null>();
+    const containerRef = useRef<HTMLDivElement>(null);
     const { styles, attributes } = usePopper(btnRef, popperElement, {
       placement: 'bottom-end',
-    })
+    });
 
     const closePopover = () => {
-      if (isOpened) onClose?.()
-      setIsOpened(false)
-    }
+      if (isOpened) onClose?.();
+      setIsOpened(false);
+    };
 
     const openPopover = useCallback(() => {
-      setIsOpened(true)
-    }, [])
+      setIsOpened(true);
+    }, []);
 
     const togglePopover = useCallback(() => {
-      setIsOpened((v) => !v)
-    }, [])
+      setIsOpened((v) => !v);
+    }, []);
 
-    useOnClickOutside(containerRef, closePopover)
+    useOnClickOutside(containerRef, closePopover);
 
     useImperativeHandle(popoverRef, () => ({
       close: closePopover,
       open: openPopover,
-    }))
+    }));
 
     return (
       <div ref={containerRef}>
         {disabled ? (
           trigger
         ) : (
-          <div ref={setReferenceElement} onClick={togglePopover}>
+          <div onClick={togglePopover} ref={setReferenceElement}>
             {trigger}
           </div>
         )}
@@ -75,6 +64,6 @@ export const Popover = forwardRef<ForwarderProps, PopoverProps>(
           {children}
         </Box>
       </div>
-    )
+    );
   },
-)
+);

@@ -1,24 +1,20 @@
-import { useCallback } from 'react'
-
-import { Amount } from '@thorswap-lib/multichain-sdk'
-
-import { StakeActions, vThorAssets } from 'views/StakeVThor/types'
-
-import { AssetIcon } from 'components/AssetIcon'
-import { Box, Icon, Typography } from 'components/Atomic'
-import { ChainBadge } from 'components/ChainBadge'
-import { ConfirmModal } from 'components/Modals/ConfirmModal'
-
-import { toOptionalFixed } from 'helpers/number'
+import { Amount } from '@thorswap-lib/multichain-sdk';
+import { AssetIcon } from 'components/AssetIcon';
+import { Box, Icon, Typography } from 'components/Atomic';
+import { ChainBadge } from 'components/ChainBadge';
+import { ConfirmModal } from 'components/Modals/ConfirmModal';
+import { toOptionalFixed } from 'helpers/number';
+import { useCallback } from 'react';
+import { StakeActions, vThorAssets } from 'views/StakeVThor/types';
 
 type Props = {
-  action: StakeActions
-  isOpened: boolean
-  closeModal: () => void
-  handleAction: () => void
-  inputAmount: Amount
-  outputAmount: number
-}
+  action: StakeActions;
+  isOpened: boolean;
+  closeModal: () => void;
+  handleAction: () => void;
+  inputAmount: Amount;
+  outputAmount: number;
+};
 
 export const ConfirmVThorModal = ({
   inputAmount,
@@ -28,43 +24,41 @@ export const ConfirmVThorModal = ({
   closeModal,
   isOpened,
 }: Props) => {
-  const asset =
-    action === StakeActions.Deposit ? vThorAssets.unstake : vThorAssets.deposit
+  const asset = action === StakeActions.Deposit ? vThorAssets.unstake : vThorAssets.deposit;
 
   const handleConfirm = useCallback(() => {
-    closeModal()
-    handleAction()
-  }, [closeModal, handleAction])
+    closeModal();
+    handleAction();
+  }, [closeModal, handleAction]);
 
   return (
     <ConfirmModal
       inputAssets={[vThorAssets[action]]}
       isOpened={isOpened}
-      onConfirm={handleConfirm}
       onClose={closeModal}
+      onConfirm={handleConfirm}
     >
       <Box className="w-full">
-        <Box className="w-full" row alignCenter justify="between">
-          <Box className="flex-1 p-4 rounded-2xl" center col>
+        <Box alignCenter row className="w-full" justify="between">
+          <Box center col className="flex-1 p-4 rounded-2xl">
             <AssetIcon asset={vThorAssets[action]} />
-            <Box className="pt-2" center>
+            <Box center className="pt-2">
               <ChainBadge asset={vThorAssets[action]} />
             </Box>
-            <Box className="w-full" center>
-              <Typography variant="caption" fontWeight="medium">
-                {toOptionalFixed(inputAmount.assetAmount.toNumber())}{' '}
-                {vThorAssets[action].ticker}
+            <Box center className="w-full">
+              <Typography fontWeight="medium" variant="caption">
+                {toOptionalFixed(inputAmount.assetAmount.toNumber())} {vThorAssets[action].ticker}
               </Typography>
             </Box>
           </Box>
           <Icon className="mx-2 -rotate-90" name="arrowDown" />
-          <Box className="flex-1 p-4 rounded-2xl" center col>
+          <Box center col className="flex-1 p-4 rounded-2xl">
             <AssetIcon asset={asset} />
-            <Box className="pt-2" center>
+            <Box center className="pt-2">
               <ChainBadge asset={asset} />
             </Box>
-            <Box className="w-full" center>
-              <Typography variant="caption" fontWeight="medium">
+            <Box center className="w-full">
+              <Typography fontWeight="medium" variant="caption">
                 {toOptionalFixed(outputAmount)} {asset.ticker}
               </Typography>
             </Box>
@@ -72,5 +66,5 @@ export const ConfirmVThorModal = ({
         </Box>
       </Box>
     </ConfirmModal>
-  )
-}
+  );
+};

@@ -10,9 +10,9 @@ export const poolTypeOptions = [
   PoolTypeOption.Native,
   PoolTypeOption.ERC20,
   PoolTypeOption.BEP2,
-]
+];
 
-export const poolStatusOptions = ['Available', 'Staged']
+export const poolStatusOptions = ['Available', 'Staged'];
 
 export enum VolumeChartIndex {
   Total = 'total',
@@ -33,10 +33,10 @@ export const volumeChartIndexes = [
   VolumeChartIndex.Swap,
   VolumeChartIndex.Add,
   VolumeChartIndex.Withdraw,
-]
+];
 
 export const liquidityChartIndexes = [
   LiquidityChartIndex.Liquidity,
   LiquidityChartIndex.LpEarning,
   LiquidityChartIndex.BondEarning,
-]
+];

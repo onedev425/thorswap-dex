@@ -1,30 +1,19 @@
-import { useEffect, useMemo, useState } from 'react'
-
-import {
-  Amount,
-  Asset,
-  QuoteMode,
-  QuoteRoute,
-} from '@thorswap-lib/multichain-sdk'
-import deepEqual from 'fast-deep-equal'
-
-import { useApp } from 'store/app/hooks'
-import {
-  useGetSupportedProvidersQuery,
-  useGetTokensQuoteQuery,
-} from 'store/thorswap/api'
-
-import { useDebouncedValue } from 'hooks/useDebounceValue'
-import usePrevious from 'hooks/usePrevious'
+import { Amount, Asset, QuoteMode, QuoteRoute } from '@thorswap-lib/multichain-sdk';
+import deepEqual from 'fast-deep-equal';
+import { useDebouncedValue } from 'hooks/useDebounceValue';
+import usePrevious from 'hooks/usePrevious';
+import { useEffect, useMemo, useState } from 'react';
+import { useApp } from 'store/app/hooks';
+import { useGetSupportedProvidersQuery, useGetTokensQuoteQuery } from 'store/thorswap/api';
 
 type Params = {
-  inputAmount: Amount
-  inputAsset: Asset
-  outputAsset: Asset
-  recipientAddress?: string
-  senderAddress?: string
-  skipAffiliate?: boolean
-}
+  inputAmount: Amount;
+  inputAsset: Asset;
+  outputAsset: Asset;
+  recipientAddress?: string;
+  senderAddress?: string;
+  skipAffiliate?: boolean;
+};
 
 export const useSwapQuote = ({
   inputAmount,
@@ -34,11 +23,11 @@ export const useSwapQuote = ({
   senderAddress,
   skipAffiliate,
 }: Params) => {
-  const [swapQuote, setSwapRoute] = useState<QuoteRoute>()
-  const { slippageTolerance } = useApp()
+  const [swapQuote, setSwapRoute] = useState<QuoteRoute>();
+  const { slippageTolerance } = useApp();
 
   const { data: supportedProvidersData, isLoading: supportedProvidersLoading } =
-    useGetSupportedProvidersQuery()
+    useGetSupportedProvidersQuery();
 
   const params = useMemo(
     () => ({
@@ -61,9 +50,9 @@ export const useSwapQuote = ({
       slippageTolerance,
       supportedProvidersData,
     ],
-  )
+  );
 
-  const tokenQuoteParams = useDebouncedValue(params, 300)
+  const tokenQuoteParams = useDebouncedValue(params, 300);
 
   const {
     refetch,
@@ -77,27 +66,26 @@ export const useSwapQuote = ({
       inputAmount.assetAmount.isZero() ||
       supportedProvidersLoading ||
       !supportedProvidersData?.length,
-  })
+  });
 
   const routes = useMemo(() => {
-    if (!data?.routes || inputAmount.lte(0)) return []
+    if (!data?.routes || inputAmount.lte(0)) return [];
 
     return data.routes
       .concat()
       .sort(
         (a, b) =>
           Number(b.optimal) - Number(a.optimal) ||
-          Number(b.expectedOutputMaxSlippage) -
-            Number(a.expectedOutputMaxSlippage),
-      )
-  }, [inputAmount, data?.routes])
+          Number(b.expectedOutputMaxSlippage) - Number(a.expectedOutputMaxSlippage),
+      );
+  }, [inputAmount, data?.routes]);
 
-  const previousRoutes = usePrevious(routes)
+  const previousRoutes = usePrevious(routes);
 
   const selectedRoute = useMemo(
     () => (error || isLoading ? undefined : swapQuote) || routes[0],
     [error, isLoading, routes, swapQuote],
-  )
+  );
 
   const outputAmount: Amount = useMemo(
     () =>
@@ -106,7 +94,7 @@ export const useSwapQuote = ({
         outputAsset.decimal,
       ),
     [selectedRoute, outputAsset, inputAmount],
-  )
+  );
 
   const minReceive: Amount = useMemo(
     () =>
@@ -115,22 +103,21 @@ export const useSwapQuote = ({
         outputAsset.decimal,
       ),
     [selectedRoute, outputAsset],
-  )
+  );
 
   const quoteMode = useMemo(
     () =>
       // @ts-expect-error cross-chain-api-sdk
-      (selectedRoute?.meta?.quoteMode as QuoteMode) ||
-      QuoteMode.UNSUPPORTED_QUOTE,
+      (selectedRoute?.meta?.quoteMode as QuoteMode) || QuoteMode.UNSUPPORTED_QUOTE,
     // @ts-expect-error cross-chain-api-sdk
     [selectedRoute?.meta?.quoteMode],
-  )
+  );
 
   useEffect(() => {
     if (!error && !deepEqual(routes, previousRoutes)) {
-      setSwapRoute(routes[0])
+      setSwapRoute(routes[0]);
     }
-  }, [error, previousRoutes, routes, selectedRoute])
+  }, [error, previousRoutes, routes, selectedRoute]);
 
   return {
     estimatedTime: data?.estimatedTime,
@@ -142,5 +129,5 @@ export const useSwapQuote = ({
     routes,
     selectedRoute,
     setSwapRoute,
-  }
-}
+  };
+};

@@ -1,30 +1,25 @@
-import { memo } from 'react'
+import { chainToSigAsset, WalletOption } from '@thorswap-lib/multichain-sdk';
+import { SupportedChain } from '@thorswap-lib/types';
+import classNames from 'classnames';
+import { AssetIcon } from 'components/AssetIcon';
+import { Box, Icon, Tooltip } from 'components/Atomic';
+import { WalletIcon } from 'components/WalletIcon/WalletIcon';
+import { chainName } from 'helpers/chainName';
+import useWindowSize from 'hooks/useWindowSize';
+import { memo } from 'react';
+import { t } from 'services/i18n';
 
-import { chainToSigAsset, WalletOption } from '@thorswap-lib/multichain-sdk'
-import { SupportedChain } from '@thorswap-lib/types'
-import classNames from 'classnames'
-
-import { AssetIcon } from 'components/AssetIcon'
-import { Box, Icon, Tooltip } from 'components/Atomic'
-import { WalletIcon } from 'components/WalletIcon/WalletIcon'
-
-import useWindowSize from 'hooks/useWindowSize'
-
-import { t } from 'services/i18n'
-
-import { chainName } from 'helpers/chainName'
-
-import { WalletType } from './types'
+import { WalletType } from './types';
 
 type Props = {
-  disabled?: boolean
-  chain: SupportedChain
-  walletType?: WalletOption
-  selected: boolean
-  isChainAvailable: boolean
-  selectedWalletType?: WalletType
-  onClick: (chain: SupportedChain, skipReset: boolean) => () => void
-}
+  disabled?: boolean;
+  chain: SupportedChain;
+  walletType?: WalletOption;
+  selected: boolean;
+  isChainAvailable: boolean;
+  selectedWalletType?: WalletType;
+  onClick: (chain: SupportedChain, skipReset: boolean) => () => void;
+};
 
 const ChainItem = ({
   disabled,
@@ -35,34 +30,25 @@ const ChainItem = ({
   onClick,
   walletType,
 }: Props) => {
-  const { isMdActive } = useWindowSize()
+  const { isMdActive } = useWindowSize();
 
   return (
     <Box
       center
-      flex={1}
       className={classNames('relative px-2 py-3 cursor-pointer', {
         'opacity-30': disabled || (selectedWalletType && !isChainAvailable),
       })}
-      onClick={
-        disabled
-          ? () => {}
-          : onClick(chain, !!selectedWalletType && isChainAvailable)
-      }
+      flex={1}
       key={chain}
+      onClick={disabled ? () => {} : onClick(chain, !!selectedWalletType && isChainAvailable)}
     >
-      <Tooltip
-        content={disabled ? t('common.comingSoon') : chainName(chain, true)}
-      >
+      <Tooltip content={disabled ? t('common.comingSoon') : chainName(chain, true)}>
         <Box
           className={classNames('rounded-full p-[2.5px] border-transparent', {
             'bg-gradient-teal': selected,
           })}
         >
-          <AssetIcon
-            size={isMdActive ? 40 : 32}
-            asset={chainToSigAsset(chain)}
-          />
+          <AssetIcon asset={chainToSigAsset(chain)} size={isMdActive ? 40 : 32} />
 
           <Box
             className={classNames(
@@ -73,7 +59,7 @@ const ChainItem = ({
               { '!opacity-100': selected },
             )}
           >
-            <Icon name="connect" size={14} color="cyan" />
+            <Icon color="cyan" name="connect" size={14} />
           </Box>
 
           <Box
@@ -89,7 +75,7 @@ const ChainItem = ({
         </Box>
       </Tooltip>
     </Box>
-  )
-}
+  );
+};
 
-export default memo(ChainItem)
+export default memo(ChainItem);

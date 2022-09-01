@@ -1,33 +1,27 @@
-import { useCallback, useEffect, useMemo } from 'react'
-
-import { SUPPORTED_CHAINS, Chain, SupportedChain } from '@thorswap-lib/types'
-
-import { getAnnouncementId } from 'components/Announcements/utils'
-
-import { useApp } from 'store/app/hooks'
-import { useExternalConfig } from 'store/externalConfig/hooks'
+import { Chain, SUPPORTED_CHAINS, SupportedChain } from '@thorswap-lib/types';
+import { getAnnouncementId } from 'components/Announcements/utils';
+import { chainName } from 'helpers/chainName';
+import { useMimir } from 'hooks/useMimir';
+import { useCallback, useEffect, useMemo } from 'react';
+import { t } from 'services/i18n';
+import { useApp } from 'store/app/hooks';
+import { useExternalConfig } from 'store/externalConfig/hooks';
 import {
   AnnouncementItem,
   AnnouncementType,
   ChainStatusAnnouncements,
-} from 'store/externalConfig/types'
+} from 'store/externalConfig/types';
 
-import { useMimir } from 'hooks/useMimir'
-
-import { t } from 'services/i18n'
-
-import { chainName } from 'helpers/chainName'
-
-const REFRESH_INTERVAL = 1000 * 50 * 5 //5min
-const DISABLED_CHAINS: Chain[] = []
+const REFRESH_INTERVAL = 1000 * 50 * 5; //5min
+const DISABLED_CHAINS: Chain[] = [];
 
 export const useAnouncementsList = () => {
   const {
     announcements: storedAnnouncements,
     isTradingGloballyDisabled,
     refreshExternalConfig,
-  } = useExternalConfig()
-  const { isChainHalted, isChainPauseLP, isChainTradingHalted } = useMimir()
+  } = useExternalConfig();
+  const { isChainHalted, isChainPauseLP, isChainTradingHalted } = useMimir();
 
   const announcements = useMemo(() => {
     if (isTradingGloballyDisabled) {
@@ -37,7 +31,7 @@ export const useAnouncementsList = () => {
           message: t('components.announcements.tradingGloballyDisabled'),
           type: AnnouncementType.Error,
         },
-      ]
+      ];
     }
 
     return [
@@ -48,7 +42,7 @@ export const useAnouncementsList = () => {
         pausedLP: isChainPauseLP,
         chainStatus: storedAnnouncements.chainStatus,
       }),
-    ]
+    ];
   }, [
     isChainHalted,
     isChainPauseLP,
@@ -56,22 +50,22 @@ export const useAnouncementsList = () => {
     isTradingGloballyDisabled,
     storedAnnouncements.chainStatus,
     storedAnnouncements.manual,
-  ])
+  ]);
 
   useEffect(() => {
-    refreshExternalConfig()
-    setInterval(refreshExternalConfig, REFRESH_INTERVAL)
-  }, [refreshExternalConfig])
+    refreshExternalConfig();
+    setInterval(refreshExternalConfig, REFRESH_INTERVAL);
+  }, [refreshExternalConfig]);
 
-  return announcements
-}
+  return announcements;
+};
 
 type GetAnnouncementsByChainProps = {
-  pausedChains: Record<string, boolean>
-  pausedLP: Record<string, boolean>
-  pausedTrade: Record<string, boolean>
-  chainStatus: ChainStatusAnnouncements
-}
+  pausedChains: Record<string, boolean>;
+  pausedLP: Record<string, boolean>;
+  pausedTrade: Record<string, boolean>;
+  chainStatus: ChainStatusAnnouncements;
+};
 
 const getChainAnnouncement = ({
   chain,
@@ -84,7 +78,7 @@ const getChainAnnouncement = ({
     isChainPaused(Chain.THORChain, pausedChains, pausedLP, pausedTrade) &&
     chain !== Chain.THORChain
   ) {
-    return null
+    return null;
   }
 
   if (isChainPaused(chain, pausedChains, pausedLP, pausedTrade)) {
@@ -94,24 +88,20 @@ const getChainAnnouncement = ({
         (chain === Chain.THORChain
           ? t('components.announcements.thorChainHalted')
           : t('components.announcements.chainHalted', { chain })),
-      type:
-        chain === Chain.THORChain
-          ? AnnouncementType.Error
-          : AnnouncementType.Warn,
+      type: chain === Chain.THORChain ? AnnouncementType.Error : AnnouncementType.Warn,
       chain,
       link: chainStatus[chain]?.link,
-    }
+    };
   }
 
   if (pausedLP[chain]) {
     return {
       message:
-        chainStatus[chain]?.message ||
-        t('components.announcements.chainLPHalted', { chain }),
+        chainStatus[chain]?.message || t('components.announcements.chainLPHalted', { chain }),
       type: AnnouncementType.Warn,
       chain,
       link: chainStatus[chain]?.link,
-    }
+    };
   }
 
   if (pausedTrade[chain]) {
@@ -124,10 +114,10 @@ const getChainAnnouncement = ({
       type: AnnouncementType.Warn,
       chain,
       link: chainStatus[chain]?.link,
-    }
+    };
   }
-  return null
-}
+  return null;
+};
 
 const getAnnouncemetsByChain = (props: GetAnnouncementsByChainProps) => {
   return SUPPORTED_CHAINS.filter((c) => !DISABLED_CHAINS.includes(c))
@@ -137,16 +127,9 @@ const getAnnouncemetsByChain = (props: GetAnnouncementsByChainProps) => {
         ...props,
       }),
     )
-    .map((ann) => {
-      if (ann) {
-        return {
-          ...ann,
-          key: getAnnouncementId(ann),
-        }
-      }
-    })
-    .filter(Boolean) as AnnouncementItem[]
-}
+    .map((ann) => (ann ? { ...ann, key: getAnnouncementId(ann) } : null))
+    .filter(Boolean) as AnnouncementItem[];
+};
 
 const isChainPaused = (
   chain: SupportedChain,
@@ -154,96 +137,92 @@ const isChainPaused = (
   pausedLP: Record<string, boolean>,
   pausedTrade: Record<string, boolean>,
 ) => {
-  return pausedChains[chain] || (pausedLP[chain] && pausedTrade[chain])
-}
+  return pausedChains[chain] || (pausedLP[chain] && pausedTrade[chain]);
+};
 
 export const useDismissedAnnouncements = () => {
-  const { setAnnDismissedList, dismissedAnnList } = useApp()
+  const { setAnnDismissedList, dismissedAnnList } = useApp();
 
   const dismissAnnouncement = useCallback(
     (id: string) => {
       if (!id || !dismissedAnnList) {
-        return
+        return;
       }
 
-      const isDismissed = dismissedAnnList.includes(id)
+      const isDismissed = dismissedAnnList.includes(id);
 
       if (!isDismissed) {
-        setAnnDismissedList([id, ...dismissedAnnList])
+        setAnnDismissedList([id, ...dismissedAnnList]);
       } else {
-        const newList = dismissedAnnList.filter((key) => key !== id)
-        setAnnDismissedList(newList)
+        const newList = dismissedAnnList.filter((key) => key !== id);
+        setAnnDismissedList(newList);
       }
     },
     [setAnnDismissedList, dismissedAnnList],
-  )
+  );
 
   const refreshDismissedList = useCallback(
     (allAnnouncements: AnnouncementItem[]) => {
       if (!dismissedAnnList) {
-        return
+        return;
       }
 
-      const allIds = allAnnouncements
-        .map((ann) => ann.key || '')
-        .filter(Boolean)
+      const allIds = allAnnouncements.map((ann) => ann.key || '').filter(Boolean);
 
-      const updatedList = dismissedAnnList.filter((id) => allIds.includes(id))
+      const updatedList = dismissedAnnList.filter((id) => allIds.includes(id));
       if (updatedList.length !== dismissedAnnList.length) {
-        setAnnDismissedList(updatedList)
+        setAnnDismissedList(updatedList);
       }
     },
     [dismissedAnnList, setAnnDismissedList],
-  )
+  );
 
-  return { dismissAnnouncement, refreshDismissedList }
-}
+  return { dismissAnnouncement, refreshDismissedList };
+};
 
 export const useSeenAnnouncements = () => {
-  const { setAnnSeenList, seenAnnList } = useApp()
+  const { setAnnSeenList, seenAnnList } = useApp();
 
   const seeAnnouncements = useCallback(
     (ids: string[] | string) => {
       if (!ids || !seenAnnList) {
-        return
+        return;
       }
       const parsedSeenAnnList: string[] =
-        typeof seenAnnList === 'string' ? JSON.parse(seenAnnList) : seenAnnList
+        typeof seenAnnList === 'string' ? JSON.parse(seenAnnList) : seenAnnList;
 
-      let filtered: string[] = []
+      let filtered: string[] = [];
       if (typeof ids === 'string') {
-        if (parsedSeenAnnList.includes(ids)) return
-        filtered = [ids]
+        if (parsedSeenAnnList.includes(ids)) return;
+        filtered = [ids];
       } else {
         ids.forEach((annId) => {
           if (!parsedSeenAnnList.includes(annId)) {
-            filtered.push(annId)
+            filtered.push(annId);
           }
-        })
+        });
       }
 
-      setAnnSeenList([...parsedSeenAnnList, ...filtered])
+      setAnnSeenList([...parsedSeenAnnList, ...filtered]);
     },
     [seenAnnList, setAnnSeenList],
-  )
+  );
 
   const refreshSeenList = useCallback(
     (allAnnouncements: AnnouncementItem[]) => {
       if (!seenAnnList) {
-        return
+        return;
       }
 
-      const allIds = allAnnouncements
-        .map((ann) => ann.key || '')
-        .filter(Boolean)
+      const allIds = allAnnouncements.map((ann) => ann.key || '').filter(Boolean);
 
-      const updatedList = seenAnnList.filter((id) => allIds.includes(id))
+      const updatedList = seenAnnList.filter((id) => allIds.includes(id));
       if (updatedList.length !== seenAnnList.length) {
-        setAnnSeenList(updatedList)
+        setAnnSeenList(updatedList);
       }
     },
     [seenAnnList, setAnnSeenList],
-  )
+  );
 
-  return { seeAnnouncements, refreshSeenList }
-}
+  return { seeAnnouncements, refreshSeenList };
+};

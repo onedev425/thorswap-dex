@@ -1,24 +1,24 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react';
 
 export const useInputFocusState = () => {
-  const inputRef = useRef<HTMLInputElement>(null)
-  const [isFocused, setIsFocused] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [isFocused, setIsFocused] = useState(false);
 
   const focus = useCallback(() => {
-    inputRef.current?.focus?.()
-  }, [])
+    inputRef.current?.focus?.();
+  }, []);
 
   const blur = useCallback(() => {
-    inputRef.current?.blur?.()
-  }, [])
+    inputRef.current?.blur?.();
+  }, []);
 
   const onFocus = useCallback(() => {
-    setIsFocused(true)
-  }, [])
+    setIsFocused(true);
+  }, []);
 
   const onBlur = useCallback(() => {
-    setIsFocused(false)
-  }, [])
+    setIsFocused(false);
+  }, []);
 
   return {
     ref: inputRef,
@@ -27,5 +27,5 @@ export const useInputFocusState = () => {
     blur,
     onFocus,
     onBlur,
-  }
-}
+  };
+};

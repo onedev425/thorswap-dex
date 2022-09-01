@@ -1,59 +1,53 @@
-import { useCallback, useMemo, useState } from 'react'
-
 import {
+  AddLiquidityParams,
+  AddLiquidityTxns,
   Amount,
   Asset,
-  Price,
-  Liquidity,
   AssetAmount,
-  Percent,
-  hasWalletConnected,
   getEstimatedTxTime,
-  AddLiquidityTxns,
-  AddLiquidityParams,
+  hasWalletConnected,
+  Liquidity,
+  Percent,
   Pool,
+  Price,
   Wallet,
-} from '@thorswap-lib/multichain-sdk'
-import { SupportedChain, Chain } from '@thorswap-lib/types'
+} from '@thorswap-lib/multichain-sdk';
+import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { LiquidityTypeOption } from 'components/LiquidityType/types';
+import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems';
+import { showErrorToast, showInfoToast } from 'components/Toast';
+import { translateErrorMsg } from 'helpers/error';
+import { useApprove } from 'hooks/useApprove';
+import { useMimir } from 'hooks/useMimir';
+import { getSumAmountInUSD, useNetworkFee } from 'hooks/useNetworkFee';
+import { useTxTracker } from 'hooks/useTxTracker';
+import { useCallback, useMemo, useState } from 'react';
+import { t } from 'services/i18n';
+import { multichain } from 'services/multichain';
+import { useApp } from 'store/app/hooks';
+import { TxTrackerType } from 'store/midgard/types';
+import { isPendingLP } from 'store/midgard/utils';
+import { useWallet } from 'store/wallet/hooks';
+import { useAddLiquidityUtils } from 'views/AddLiquidity/hooks/useAddLiquidityUtils';
+import { useChainMember } from 'views/AddLiquidity/hooks/useChainMember';
+import { DepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance';
 
-import { useAddLiquidityUtils } from 'views/AddLiquidity/hooks/useAddLiquidityUtils'
-import { useChainMember } from 'views/AddLiquidity/hooks/useChainMember'
-import { DepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance'
+import { getMaxSymAmounts } from '../utils';
 
-import { LiquidityTypeOption } from 'components/LiquidityType/types'
-import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems'
-import { showErrorToast, showInfoToast } from 'components/Toast'
-
-import { useApp } from 'store/app/hooks'
-import { TxTrackerType } from 'store/midgard/types'
-import { isPendingLP } from 'store/midgard/utils'
-import { useWallet } from 'store/wallet/hooks'
-
-import { useApprove } from 'hooks/useApprove'
-import { useMimir } from 'hooks/useMimir'
-import { useNetworkFee, getSumAmountInUSD } from 'hooks/useNetworkFee'
-import { useTxTracker } from 'hooks/useTxTracker'
-
-import { t } from 'services/i18n'
-import { multichain } from 'services/multichain'
-
-import { translateErrorMsg } from 'helpers/error'
-
-import { getMaxSymAmounts } from '../utils'
-import { useConfirmInfoItems } from './useConfirmInfoItems'
+import { useConfirmInfoItems } from './useConfirmInfoItems';
 
 type Props = {
-  onAddLiquidity?: (params: AddLiquidityParams) => void
-  skipWalletCheck?: boolean
-  liquidityType: LiquidityTypeOption
-  setLiquidityType: (option: LiquidityTypeOption) => void
-  pools: Pool[]
-  pool?: Pool
-  poolAsset: Asset
-  poolAssets: Asset[]
-  depositAssetsBalance: DepositAssetsBalance
-  wallet: Wallet | null
-}
+  onAddLiquidity?: (params: AddLiquidityParams) => void;
+  skipWalletCheck?: boolean;
+  liquidityType: LiquidityTypeOption;
+  setLiquidityType: (option: LiquidityTypeOption) => void;
+  pools: Pool[];
+  pool?: Pool;
+  poolAsset: Asset;
+  poolAssets: Asset[];
+  depositAssetsBalance: DepositAssetsBalance;
+  wallet: Wallet | null;
+};
 
 export const useAddLiquidity = ({
   onAddLiquidity,
@@ -66,7 +60,7 @@ export const useAddLiquidity = ({
   depositAssetsBalance,
   wallet,
 }: Props) => {
-  const { expertMode } = useApp()
+  const { expertMode } = useApp();
 
   const {
     isWalletAssetConnected,
@@ -74,94 +68,77 @@ export const useAddLiquidity = ({
     maxRuneBalance,
     poolAssetBalance,
     maxPoolAssetBalance,
-  } = depositAssetsBalance
-  const { setIsConnectModalOpen } = useWallet()
-  const { isFundsCapReached } = useMimir()
-  const { isLPActionPaused } = useAddLiquidityUtils({ poolAsset })
-  const {
-    memberData,
-    currentAssetHaveLP,
-    poolMemberDetail,
-    isRunePending,
-    isAssetPending,
-  } = useChainMember({
-    poolAsset,
-    pools,
-    pool,
-    liquidityType,
-  })
+  } = depositAssetsBalance;
+  const { setIsConnectModalOpen } = useWallet();
+  const { isFundsCapReached } = useMimir();
+  const { isLPActionPaused } = useAddLiquidityUtils({ poolAsset });
+  const { memberData, currentAssetHaveLP, poolMemberDetail, isRunePending, isAssetPending } =
+    useChainMember({
+      poolAsset,
+      pools,
+      pool,
+      liquidityType,
+    });
 
   const isSymDeposit = useMemo(
     () => liquidityType === LiquidityTypeOption.SYMMETRICAL && !expertMode,
     [liquidityType, expertMode],
-  )
+  );
 
-  const [assetAmount, setAssetAmount] = useState<Amount>(
-    Amount.fromAssetAmount(0, 8),
-  )
-  const [runeAmount, setRuneAmount] = useState<Amount>(
-    Amount.fromAssetAmount(0, 8),
-  )
+  const [assetAmount, setAssetAmount] = useState<Amount>(Amount.fromAssetAmount(0, 8));
+  const [runeAmount, setRuneAmount] = useState<Amount>(Amount.fromAssetAmount(0, 8));
 
-  const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
+  const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker();
 
-  const [visibleConfirmModal, setVisibleConfirmModal] = useState(false)
-  const [visibleApproveModal, setVisibleApproveModal] = useState(false)
-  const [asymmTipVisible, setAsymmTipVisible] = useState(true)
-  const [existingLPTipVisible, setExistingLPTipVisible] = useState(true)
+  const [visibleConfirmModal, setVisibleConfirmModal] = useState(false);
+  const [visibleApproveModal, setVisibleApproveModal] = useState(false);
+  const [asymmTipVisible, setAsymmTipVisible] = useState(true);
+  const [existingLPTipVisible, setExistingLPTipVisible] = useState(true);
 
-  const { inboundFee: inboundAssetFee } = useNetworkFee({
+  const { inboundFee: inboundAssetFee, outboundFee: inboundRuneFee } = useNetworkFee({
     inputAsset: poolAsset,
-  })
-
-  const { inboundFee: inboundRuneFee } = useNetworkFee({
-    inputAsset: Asset.RUNE(),
-  })
+    outputAsset: Asset.RUNE(),
+  });
 
   const liquidityUnits = useMemo(() => {
-    if (!poolMemberDetail) return Amount.fromMidgard(0)
+    if (!poolMemberDetail) return Amount.fromMidgard(0);
 
-    return Amount.fromMidgard(poolMemberDetail.liquidityUnits)
-  }, [poolMemberDetail])
+    return Amount.fromMidgard(poolMemberDetail.liquidityUnits);
+  }, [poolMemberDetail]);
 
   const liquidityEntity = useMemo(() => {
-    if (!pool) return null
-    return new Liquidity(pool, liquidityUnits)
-  }, [pool, liquidityUnits])
+    if (!pool) return null;
+    return new Liquidity(pool, liquidityUnits);
+  }, [pool, liquidityUnits]);
 
   const addLiquiditySlip = useMemo(() => {
-    if (!liquidityEntity) return null
-    return (
-      liquidityEntity.getLiquiditySlip(runeAmount, assetAmount) as Percent
-    ).toFixed(2)
-  }, [liquidityEntity, assetAmount, runeAmount])
+    if (!liquidityEntity) return null;
+    return (liquidityEntity.getLiquiditySlip(runeAmount, assetAmount) as Percent).toFixed(2);
+  }, [liquidityEntity, assetAmount, runeAmount]);
 
   const poolShareEst = useMemo(() => {
-    if (!liquidityEntity) return null
+    if (!liquidityEntity) return null;
     return liquidityEntity
       .getPoolShareEst(runeAmount, assetAmount)
-      .toSignificantWithMaxDecimals(6, 5)
-  }, [liquidityEntity, assetAmount, runeAmount])
+      .toSignificantWithMaxDecimals(6, 5);
+  }, [liquidityEntity, assetAmount, runeAmount]);
 
   const isWalletConnected = useMemo(() => {
     if (liquidityType === LiquidityTypeOption.ASSET) {
-      return hasWalletConnected({ wallet, inputAssets: [poolAsset] })
+      return hasWalletConnected({ wallet, inputAssets: [poolAsset] });
     }
     if (liquidityType === LiquidityTypeOption.RUNE) {
-      return hasWalletConnected({ wallet, inputAssets: [Asset.RUNE()] })
+      return hasWalletConnected({ wallet, inputAssets: [Asset.RUNE()] });
     }
 
     // symm
     return (
       hasWalletConnected({ wallet, inputAssets: [poolAsset] }) &&
       hasWalletConnected({ wallet, inputAssets: [Asset.RUNE()] })
-    )
-  }, [wallet, poolAsset, liquidityType])
+    );
+  }, [wallet, poolAsset, liquidityType]);
 
-  const { isApproved, assetApproveStatus } = useApprove(
-    poolAsset,
-    isWalletConnected,
-  )
+  const { isApproved, assetApproveStatus } = useApprove(poolAsset, isWalletConnected);
 
   const poolAssetPriceInUSD = useMemo(() => {
     if (isAssetPending && poolMemberDetail) {
@@ -169,14 +146,14 @@ export const useAddLiquidity = ({
         baseAsset: poolAsset,
         pools,
         priceAmount: Amount.fromMidgard(poolMemberDetail.assetPending),
-      })
+      });
     }
     return new Price({
       baseAsset: poolAsset,
       pools,
       priceAmount: assetAmount,
-    })
-  }, [poolAsset, assetAmount, pools, isAssetPending, poolMemberDetail])
+    });
+  }, [poolAsset, assetAmount, pools, isAssetPending, poolMemberDetail]);
 
   const runeAssetPriceInUSD = useMemo(() => {
     if (isRunePending && poolMemberDetail) {
@@ -184,22 +161,22 @@ export const useAddLiquidity = ({
         baseAsset: Asset.RUNE(),
         pools,
         priceAmount: Amount.fromMidgard(poolMemberDetail.runePending),
-      })
+      });
     }
 
     new Price({
       baseAsset: Asset.RUNE(),
       pools,
       priceAmount: runeAmount,
-    })
-  }, [runeAmount, pools, isRunePending, poolMemberDetail])
+    });
+  }, [runeAmount, pools, isRunePending, poolMemberDetail]);
 
   const { maxSymAssetAmount, maxSymRuneAmount } = useMemo(() => {
     if (!pool) {
       return {
         maxSymAssetAmount: Amount.fromAssetAmount(0, 8),
         maxSymRuneAmount: Amount.fromAssetAmount(0, 8),
-      }
+      };
     }
 
     if (isAssetPending && poolMemberDetail) {
@@ -207,7 +184,7 @@ export const useAddLiquidity = ({
         runeAmount: maxRuneBalance,
         assetAmount: Amount.fromMidgard(poolMemberDetail?.assetPending),
         pool,
-      })
+      });
     }
 
     if (isRunePending && poolMemberDetail) {
@@ -215,103 +192,90 @@ export const useAddLiquidity = ({
         runeAmount: Amount.fromMidgard(poolMemberDetail?.runePending),
         assetAmount: maxPoolAssetBalance,
         pool,
-      })
+      });
     }
 
     return getMaxSymAmounts({
       runeAmount: maxRuneBalance,
       assetAmount: maxPoolAssetBalance,
       pool,
-    })
-  }, [
-    pool,
-    maxRuneBalance,
-    maxPoolAssetBalance,
-    isAssetPending,
-    poolMemberDetail,
-    isRunePending,
-  ])
+    });
+  }, [pool, maxRuneBalance, maxPoolAssetBalance, isAssetPending, poolMemberDetail, isRunePending]);
 
   const handleSelectLiquidityType = useCallback(
     (type: LiquidityTypeOption) => {
       if (type === LiquidityTypeOption.ASSET) {
-        setRuneAmount(Amount.fromAssetAmount(0, 8))
+        setRuneAmount(Amount.fromAssetAmount(0, 8));
       } else if (type === LiquidityTypeOption.RUNE) {
-        setAssetAmount(Amount.fromAssetAmount(0, 8))
+        setAssetAmount(Amount.fromAssetAmount(0, 8));
       }
 
-      setLiquidityType(type)
+      setLiquidityType(type);
     },
     [setLiquidityType],
-  )
+  );
 
   const handleChangeAssetAmount = useCallback(
     (amount: Amount) => {
       if (!pool) {
-        setAssetAmount(amount)
-        return
+        setAssetAmount(amount);
+        return;
       }
 
-      const maxAmount = isSymDeposit ? maxSymAssetAmount : maxPoolAssetBalance
+      const maxAmount = isSymDeposit ? maxSymAssetAmount : maxPoolAssetBalance;
 
       if (amount.gt(maxAmount) && !skipWalletCheck) {
-        setAssetAmount(maxAmount)
+        setAssetAmount(maxAmount);
 
         if (isSymDeposit) {
-          setRuneAmount(maxAmount.mul(pool.assetPriceInRune))
+          setRuneAmount(maxAmount.mul(pool.assetPriceInRune));
         }
       } else {
-        setAssetAmount(amount)
+        setAssetAmount(amount);
 
         if (isSymDeposit) {
-          setRuneAmount(amount.mul(pool.assetPriceInRune))
+          setRuneAmount(amount.mul(pool.assetPriceInRune));
         }
       }
     },
-    [
-      pool,
-      skipWalletCheck,
-      isSymDeposit,
-      maxSymAssetAmount,
-      maxPoolAssetBalance,
-    ],
-  )
+    [pool, skipWalletCheck, isSymDeposit, maxSymAssetAmount, maxPoolAssetBalance],
+  );
 
   const handleChangeRuneAmount = useCallback(
     (amount: Amount) => {
       if (!pool) {
-        setRuneAmount(amount)
-        return
+        setRuneAmount(amount);
+        return;
       }
 
-      const maxAmount = isSymDeposit ? maxSymRuneAmount : maxRuneBalance
+      const maxAmount = isSymDeposit ? maxSymRuneAmount : maxRuneBalance;
       if (amount.gt(maxAmount) && !skipWalletCheck) {
-        setRuneAmount(maxAmount)
+        setRuneAmount(maxAmount);
 
         if (isSymDeposit) {
-          setAssetAmount(maxAmount.mul(pool.runePriceInAsset))
+          setAssetAmount(maxAmount.mul(pool.runePriceInAsset));
         }
       } else {
-        setRuneAmount(amount)
+        setRuneAmount(amount);
         if (isSymDeposit) {
-          setAssetAmount(amount.mul(pool.runePriceInAsset))
+          setAssetAmount(amount.mul(pool.runePriceInAsset));
         }
       }
     },
     [pool, skipWalletCheck, isSymDeposit, maxSymRuneAmount, maxRuneBalance],
-  )
+  );
 
   const handleConfirmAdd = useCallback(async () => {
-    setVisibleConfirmModal(false)
+    setVisibleConfirmModal(false);
     if (onAddLiquidity && pool) {
       const runeAssetAmount =
         liquidityType !== LiquidityTypeOption.ASSET
           ? new AssetAmount(Asset.RUNE(), runeAmount)
-          : undefined
+          : undefined;
       const poolAssetAmount =
         liquidityType !== LiquidityTypeOption.RUNE
           ? new AssetAmount(poolAsset, assetAmount)
-          : undefined
+          : undefined;
 
       onAddLiquidity({
         pool,
@@ -319,29 +283,29 @@ export const useAddLiquidity = ({
         assetAmount: poolAssetAmount,
         runeAddr: poolMemberDetail?.runeAddress,
         assetAddr: poolMemberDetail?.assetAddress,
-      })
+      });
 
-      return
+      return;
     }
 
     if (wallet && pool) {
       const runeAssetAmount =
         liquidityType !== LiquidityTypeOption.ASSET
           ? new AssetAmount(Asset.RUNE(), runeAmount)
-          : undefined
+          : undefined;
       const poolAssetAmount =
         liquidityType !== LiquidityTypeOption.RUNE
           ? new AssetAmount(poolAsset, assetAmount)
-          : undefined
+          : undefined;
 
-      const inAssets = []
+      const inAssets = [];
 
       // if rune is pending, don't deposit rune
       if (liquidityType !== LiquidityTypeOption.ASSET && !isRunePending) {
         inAssets.push({
           asset: Asset.RUNE().toString(),
           amount: runeAmount.toSignificant(6),
-        })
+        });
       }
 
       // if asset is pending, dont deposit asset
@@ -349,7 +313,7 @@ export const useAddLiquidity = ({
         inAssets.push({
           asset: poolAsset.toString(),
           amount: assetAmount.toSignificant(6),
-        })
+        });
       }
 
       // register to tx tracker
@@ -360,13 +324,13 @@ export const useAddLiquidity = ({
           outAssets: [],
           poolAsset: poolAsset.ticker,
         },
-      })
+      });
 
       try {
         let txRes: AddLiquidityTxns = {
           runeTx: '#',
           assetTx: '#',
-        }
+        };
         if (isAssetPending) {
           // deposit only rune if asset is pending
           // NOTE: important to pass sym_rune and asset address param
@@ -379,7 +343,7 @@ export const useAddLiquidity = ({
               assetAddr: poolMemberDetail?.assetAddress,
             },
             'sym_rune',
-          )
+          );
         } else if (isRunePending) {
           // deposit only rune if asset is pending
           // NOTE: important to pass sym_asset and rune address param
@@ -392,21 +356,18 @@ export const useAddLiquidity = ({
               assetAddr: poolMemberDetail?.assetAddress,
             },
             'sym_asset',
-          )
+          );
         } else {
           // no pending
           txRes = await multichain().addLiquidity({
             pool,
             runeAmount: runeAssetAmount,
             assetAmount: poolAssetAmount,
-          })
+          });
         }
 
-        const runeTxHash = txRes?.runeTx
-        const assetTxHash = txRes?.assetTx
-
-        console.info('runeTxHash', runeTxHash)
-        console.info('assetTxHash', assetTxHash)
+        const runeTxHash = txRes?.runeTx;
+        const assetTxHash = txRes?.assetTx;
 
         if (runeTxHash || assetTxHash) {
           // start polling
@@ -423,14 +384,14 @@ export const useAddLiquidity = ({
               },
               poolAsset: poolAsset.ticker,
             },
-          })
+          });
         }
       } catch (error: NotWorth) {
-        setTxFailed(trackId)
+        setTxFailed(trackId);
 
-        const description = translateErrorMsg(error?.toString())
-        showErrorToast(t('notification.submitFail'), description)
-        console.info(error)
+        const description = translateErrorMsg(error?.toString());
+        showErrorToast(t('notification.submitFail'), description);
+        console.info(error);
       }
     }
   }, [
@@ -448,10 +409,10 @@ export const useAddLiquidity = ({
     poolMemberDetail?.assetAddress,
     pollTransaction,
     setTxFailed,
-  ])
+  ]);
 
   const handleConfirmApprove = useCallback(async () => {
-    setVisibleApproveModal(false)
+    setVisibleApproveModal(false);
 
     if (isWalletAssetConnected(poolAsset)) {
       // register to tx tracker
@@ -460,15 +421,12 @@ export const useAddLiquidity = ({
         submitTx: {
           inAssets: [{ asset: poolAsset.toString(), amount: '0' }],
         },
-      })
+      });
 
       try {
-        const txHash = await multichain().approveAsset(poolAsset)
+        const txHash = await multichain().approveAsset(poolAsset);
 
         if (txHash) {
-          const txURL = multichain().getExplorerTxUrl(poolAsset.chain, txHash)
-
-          console.info('txURL', txURL)
           if (txHash) {
             // start polling
             pollTransaction({
@@ -478,80 +436,66 @@ export const useAddLiquidity = ({
                 inAssets: [{ asset: poolAsset.toString(), amount: '0' }],
                 txID: txHash,
               },
-            })
+            });
           }
         }
       } catch (error) {
-        setTxFailed(trackId)
+        setTxFailed(trackId);
 
-        showErrorToast(t('notification.approveFailed'))
+        showErrorToast(t('notification.approveFailed'));
       }
     }
-  }, [
-    poolAsset,
-    isWalletAssetConnected,
-    pollTransaction,
-    setTxFailed,
-    submitTransaction,
-  ])
+  }, [poolAsset, isWalletAssetConnected, pollTransaction, setTxFailed, submitTransaction]);
 
   const handleAddLiquidity = useCallback(() => {
     if (!isWalletConnected && !skipWalletCheck) {
-      return showInfoToast(
-        t('notification.walletNotFound'),
-        t('notification.connectWallet'),
-      )
+      return showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
     }
 
     if (isFundsCapReached && !skipWalletCheck) {
       return showInfoToast(
         t('notification.fundsCapReached'),
         t('notification.fundsCapReachedDesc'),
-      )
+      );
     }
 
-    setVisibleConfirmModal(true)
-  }, [isWalletConnected, skipWalletCheck, isFundsCapReached])
+    setVisibleConfirmModal(true);
+  }, [isWalletConnected, skipWalletCheck, isFundsCapReached]);
 
   const handleApprove = useCallback(() => {
     if (wallet) {
-      setVisibleApproveModal(true)
+      setVisibleApproveModal(true);
     } else {
-      showInfoToast(
-        t('notification.walletNotFound'),
-        t('notification.connectWallet'),
-      )
+      showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
     }
-  }, [wallet])
+  }, [wallet]);
 
   const totalFeeInUSD = useMemo(() => {
     if (liquidityType === LiquidityTypeOption.SYMMETRICAL) {
-      const totalFee = getSumAmountInUSD(inboundRuneFee, inboundAssetFee, pools)
+      const totalFee = getSumAmountInUSD(inboundRuneFee, inboundAssetFee, pools);
 
-      return `$${totalFee}`
+      return `$${totalFee}`;
     }
 
     if (liquidityType === LiquidityTypeOption.ASSET) {
-      return inboundAssetFee
-        .totalPriceIn(Asset.USD(), pools)
-        .toCurrencyFormat(2)
+      return inboundAssetFee.totalPriceIn(Asset.USD(), pools).toCurrencyFormat(2);
     }
 
     // Rune asym
-    return inboundRuneFee.totalPriceIn(Asset.USD(), pools).toCurrencyFormat(2)
-  }, [liquidityType, inboundRuneFee, inboundAssetFee, pools])
+    return inboundRuneFee.totalPriceIn(Asset.USD(), pools).toCurrencyFormat(2);
+  }, [liquidityType, inboundRuneFee, inboundAssetFee, pools]);
 
   const depositAssets: Asset[] = useMemo(() => {
     if (liquidityType === LiquidityTypeOption.RUNE) {
-      return [Asset.RUNE()]
+      return [Asset.RUNE()];
     }
 
     if (liquidityType === LiquidityTypeOption.ASSET) {
-      return [poolAsset]
+      return [poolAsset];
     }
 
-    return [poolAsset, Asset.RUNE()]
-  }, [liquidityType, poolAsset])
+    return [poolAsset, Asset.RUNE()];
+  }, [liquidityType, poolAsset]);
 
   const depositAssetInputs = useMemo(() => {
     if (liquidityType === LiquidityTypeOption.RUNE) {
@@ -560,7 +504,7 @@ export const useAddLiquidity = ({
           asset: Asset.RUNE(),
           value: runeAmount.toSignificant(6),
         },
-      ]
+      ];
     }
 
     if (liquidityType === LiquidityTypeOption.ASSET) {
@@ -569,7 +513,7 @@ export const useAddLiquidity = ({
           asset: poolAsset,
           value: assetAmount.toSignificant(6),
         },
-      ]
+      ];
     }
 
     return [
@@ -581,31 +525,30 @@ export const useAddLiquidity = ({
         asset: poolAsset,
         value: assetAmount.toSignificant(6),
       },
-    ]
-  }, [liquidityType, poolAsset, assetAmount, runeAmount])
+    ];
+  }, [liquidityType, poolAsset, assetAmount, runeAmount]);
 
   const minRuneAmount: Amount = useMemo(
-    () =>
-      AssetAmount.getMinAmountByChain(Chain.THORChain as SupportedChain).amount,
+    () => AssetAmount.getMinAmountByChain(Chain.THORChain as SupportedChain).amount,
     [],
-  )
+  );
   const minAssetAmount: Amount = useMemo(() => {
     if (poolAsset.isGasAsset()) {
-      return AssetAmount.getMinAmountByChain(poolAsset.chain)
+      return AssetAmount.getMinAmountByChain(poolAsset.chain);
     }
 
-    return Amount.fromAssetAmount(0, 8)
-  }, [poolAsset])
+    return Amount.fromAssetAmount(0, 8);
+  }, [poolAsset]);
 
   const isValidDeposit: {
-    valid: boolean
-    msg?: string
+    valid: boolean;
+    msg?: string;
   } = useMemo(() => {
     if (isLPActionPaused) {
       return {
         valid: false,
         msg: t('notification.notAvailableDeposit'),
-      }
+      };
     }
     // only invalid scenario is
     // 1. rune asym
@@ -616,7 +559,7 @@ export const useAddLiquidity = ({
         return {
           valid: false,
           msg: t('notification.invalidAmount'),
-        }
+        };
       }
 
       if (poolMemberDetail && !isPendingLP(poolMemberDetail)) {
@@ -625,7 +568,7 @@ export const useAddLiquidity = ({
           return {
             valid: false,
             msg: t('notification.alreadyHaveRune'),
-          }
+          };
         }
       }
     }
@@ -635,7 +578,7 @@ export const useAddLiquidity = ({
         return {
           valid: false,
           msg: t('notification.insufficientAmount'),
-        }
+        };
       }
     }
 
@@ -644,11 +587,11 @@ export const useAddLiquidity = ({
         return {
           valid: false,
           msg: t('notification.insufficientAmount'),
-        }
+        };
       }
     }
 
-    return { valid: true }
+    return { valid: true };
   }, [
     poolMemberDetail,
     isLPActionPaused,
@@ -658,19 +601,15 @@ export const useAddLiquidity = ({
     minRuneAmount,
     minAssetAmount,
     memberData,
-  ])
+  ]);
 
   const isApproveRequired = useMemo(() => {
-    if (
-      liquidityType !== LiquidityTypeOption.RUNE &&
-      isApproved !== null &&
-      !isApproved
-    ) {
-      return true
+    if (liquidityType !== LiquidityTypeOption.RUNE && isApproved !== null && !isApproved) {
+      return true;
     }
 
-    return false
-  }, [isApproved, liquidityType])
+    return false;
+  }, [isApproved, liquidityType]);
 
   const poolAssetInput = useMemo(() => {
     if (isAssetPending && poolMemberDetail) {
@@ -679,14 +618,14 @@ export const useAddLiquidity = ({
         value: Amount.fromMidgard(poolMemberDetail.assetPending),
         balance: poolAssetBalance,
         usdPrice: poolAssetPriceInUSD,
-      }
+      };
     }
     return {
       asset: poolAsset,
       value: assetAmount,
       balance: poolAssetBalance,
       usdPrice: poolAssetPriceInUSD,
-    }
+    };
   }, [
     poolAsset,
     assetAmount,
@@ -694,7 +633,7 @@ export const useAddLiquidity = ({
     poolAssetPriceInUSD,
     isAssetPending,
     poolMemberDetail,
-  ])
+  ]);
 
   const runeAssetInput = useMemo(() => {
     if (isRunePending && poolMemberDetail) {
@@ -703,7 +642,7 @@ export const useAddLiquidity = ({
         value: Amount.fromMidgard(poolMemberDetail.runePending),
         balance: runeBalance,
         usdPrice: runeAssetPriceInUSD,
-      }
+      };
     }
 
     return {
@@ -711,35 +650,29 @@ export const useAddLiquidity = ({
       value: runeAmount,
       balance: runeBalance,
       usdPrice: runeAssetPriceInUSD,
-    }
-  }, [
-    runeAmount,
-    runeBalance,
-    runeAssetPriceInUSD,
-    isRunePending,
-    poolMemberDetail,
-  ])
+    };
+  }, [runeAmount, runeBalance, runeAssetPriceInUSD, isRunePending, poolMemberDetail]);
 
-  const title = useMemo(() => `Add ${poolAsset.ticker} Liquidity`, [poolAsset])
+  const title = useMemo(() => `Add ${poolAsset.ticker} Liquidity`, [poolAsset]);
 
   const btnLabel = useMemo(() => {
-    if (!isValidDeposit.valid) return isValidDeposit.msg
+    if (!isValidDeposit.valid) return isValidDeposit.msg;
 
-    if (isApproveRequired) return 'Add'
+    if (isApproveRequired) return 'Add';
 
-    return 'Add Liquidity'
-  }, [isValidDeposit, isApproveRequired])
+    return 'Add Liquidity';
+  }, [isValidDeposit, isApproveRequired]);
 
   const estimatedTime = useMemo(() => {
-    const isRuneLiquidity = liquidityType === LiquidityTypeOption.RUNE
+    const isRuneLiquidity = liquidityType === LiquidityTypeOption.RUNE;
 
     return getEstimatedTxTime({
       amount: isRuneLiquidity ? runeAmount : assetAmount,
       chain: isRuneLiquidity
         ? (Chain.THORChain as SupportedChain)
         : (poolAsset.chain as SupportedChain),
-    })
-  }, [liquidityType, assetAmount, runeAmount, poolAsset])
+    });
+  }, [liquidityType, assetAmount, runeAmount, poolAsset]);
 
   const confirmInfo = useConfirmInfoItems({
     assets: depositAssetInputs,
@@ -751,18 +684,18 @@ export const useAddLiquidity = ({
       { chain: poolAsset.L1Chain, fee: inboundAssetFee.toCurrencyFormat() },
       { chain: Chain.THORChain, fee: inboundRuneFee.toCurrencyFormat() },
     ],
-  })
+  });
 
   const approveConfirmInfo = useApproveInfoItems({
     assetName: poolAsset.name,
     assetValue: assetAmount.toSignificant(6),
     fee: inboundAssetFee.toCurrencyFormat(),
-  })
+  });
 
   const isDepositAvailable = useMemo(
     () => isWalletConnected && !isApproveRequired,
     [isWalletConnected, isApproveRequired],
-  )
+  );
 
   return {
     title,
@@ -800,5 +733,5 @@ export const useAddLiquidity = ({
     setVisibleApproveModal,
     handleConfirmApprove,
     approveConfirmInfo,
-  }
-}
+  };
+};

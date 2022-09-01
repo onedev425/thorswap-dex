@@ -1,11 +1,10 @@
-import { MouseEventHandler } from 'react'
+import classNames from 'classnames';
+import { MouseEventHandler } from 'react';
 
-import classNames from 'classnames'
+import IconList from './iconList';
 
-import IconList from './iconList'
-
-export type IconName = keyof typeof IconList
-export type IconColor = keyof typeof colorClasses
+export type IconName = keyof typeof IconList;
+export type IconColor = keyof typeof colorClasses;
 
 export const colorClasses = {
   primary: 'text-light-typo-primary dark:text-dark-typo-primary',
@@ -26,17 +25,17 @@ export const colorClasses = {
   white: 'text-white',
   primaryBtn: 'text-btn-primary dark:text-btn-primary',
   secondaryBtn: 'text-btn-secondary dark:text-btn-secondary',
-} as const
+} as const;
 
 export type IconProps = {
-  className?: string
-  color?: keyof typeof colorClasses
-  spin?: boolean
-  name: IconName
-  size?: number
-  style?: React.CSSProperties
-  onClick?: (() => void) | MouseEventHandler
-}
+  className?: string;
+  color?: keyof typeof colorClasses;
+  spin?: boolean;
+  name: IconName;
+  size?: number;
+  style?: React.CSSProperties;
+  onClick?: (() => void) | MouseEventHandler;
+};
 
 export const Icon = ({
   className,
@@ -47,7 +46,7 @@ export const Icon = ({
   style,
   onClick,
 }: IconProps) => {
-  const IconComp = IconList[name] || IconList.question
+  const IconComp = IconList[name] || IconList.question;
 
   return (
     <IconComp
@@ -58,9 +57,9 @@ export const Icon = ({
         onClick ? 'cursor-pointer' : '',
         className,
       )}
-      style={{ ...style, width: size, height: size }}
-      size={size}
       onClick={onClick}
+      size={size}
+      style={{ ...style, width: size, height: size }}
     />
-  )
-}
+  );
+};

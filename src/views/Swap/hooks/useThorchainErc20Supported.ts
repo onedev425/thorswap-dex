@@ -1,21 +1,17 @@
-import { useEffect, useState } from 'react'
-
-import { useGetTokenListQuery } from 'store/static/api'
+import { useEffect, useState } from 'react';
+import { useGetTokenListQuery } from 'store/static/api';
 
 export const useThorchainErc20SupportedAddresses = () => {
-  const [thorchainErc20SupportedAddresses, setThorchainErc20Supported] =
-    useState<string[]>([])
+  const [thorchainErc20SupportedAddresses, setThorchainErc20Supported] = useState<string[]>([]);
 
-  const { data } = useGetTokenListQuery('Thorchain-supported-ERC20')
+  const { data } = useGetTokenListQuery('Thorchain-supported-ERC20');
 
   useEffect(() => {
     if (data?.tokens?.length) {
-      const tokenAddresses = data.tokens.map(({ address }) =>
-        address.toLowerCase(),
-      )
-      setThorchainErc20Supported(tokenAddresses)
+      const tokenAddresses = data.tokens.map(({ address }) => address.toLowerCase());
+      setThorchainErc20Supported(tokenAddresses);
     }
-  }, [data?.tokens])
+  }, [data?.tokens]);
 
-  return thorchainErc20SupportedAddresses
-}
+  return thorchainErc20SupportedAddresses;
+};

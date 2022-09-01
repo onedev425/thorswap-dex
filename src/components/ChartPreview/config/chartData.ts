@@ -1,6 +1,7 @@
-import * as colors from '../styles/colors'
-import { CurvedLineChartType } from '../types'
-import { getColor } from './utils'
+import * as colors from '../styles/colors';
+import { CurvedLineChartType } from '../types';
+
+import { getColor } from './utils';
 
 const primaryStrokeColors = [
   colors.StrokeColor1,
@@ -8,34 +9,23 @@ const primaryStrokeColors = [
   colors.StrokeColor3,
   colors.StrokeColor4,
   colors.StrokeColor5,
-]
+];
 
-const secondaryStrokeColors = [colors.StrokeColor6, colors.StrokeColor7]
+const secondaryStrokeColors = [colors.StrokeColor6, colors.StrokeColor7];
 
 export const getDataForCurvedLineChart = (
   dataLabels: string[],
   dataValues: number[],
 ): CurvedLineChartType => {
-  const isGreen = dataValues[dataValues.length - 1] >= dataValues[0]
+  const isGreen = dataValues[dataValues.length - 1] >= dataValues[0];
 
-  const activeStrokeColors = isGreen
-    ? primaryStrokeColors
-    : secondaryStrokeColors
+  const activeStrokeColors = isGreen ? primaryStrokeColors : secondaryStrokeColors;
   const activeBgColors = isGreen
-    ? [
-        colors.curvedLineChartGradientColor1,
-        colors.curvedLineChartGradientColor2,
-      ]
-    : [
-        colors.curvedLineChartGradientColor3,
-        colors.curvedLineChartGradientColor4,
-      ]
+    ? [colors.curvedLineChartGradientColor1, colors.curvedLineChartGradientColor2]
+    : [colors.curvedLineChartGradientColor3, colors.curvedLineChartGradientColor4];
 
   return {
-    labels:
-      dataLabels.length === 1
-        ? Array(dataValues.length).fill(dataLabels[0])
-        : dataLabels,
+    labels: dataLabels.length === 1 ? Array(dataValues.length).fill(dataLabels[0]) : dataLabels,
     datasets: [
       {
         label: '',
@@ -53,10 +43,9 @@ export const getDataForCurvedLineChart = (
         pointBorderWidth: 4,
         pointHoverRadius: 6,
         pointHoverBorderWidth: 4,
-        pointHoverBackgroundColor:
-          colors.curvedLineChartPointHoverBackgroundColor,
+        pointHoverBackgroundColor: colors.curvedLineChartPointHoverBackgroundColor,
         pointHoverBorderColor: colors.curvedLineChartPointHoverBorderColor,
       },
     ],
-  }
-}
+  };
+};

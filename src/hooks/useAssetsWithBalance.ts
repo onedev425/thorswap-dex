@@ -1,12 +1,10 @@
-import { useMemo } from 'react'
-
-import { Asset } from '@thorswap-lib/multichain-sdk'
-import { SupportedChain } from '@thorswap-lib/types'
-
-import { useBalance } from 'hooks/useBalance'
+import { Asset } from '@thorswap-lib/multichain-sdk';
+import { SupportedChain } from '@thorswap-lib/types';
+import { useBalance } from 'hooks/useBalance';
+import { useMemo } from 'react';
 
 export const useAssetsWithBalance = (assets: Asset[]) => {
-  const { getMaxBalance, isWalletConnected } = useBalance()
+  const { getMaxBalance, isWalletConnected } = useBalance();
 
   const assetsWithBalance = useMemo(
     () =>
@@ -17,7 +15,7 @@ export const useAssetsWithBalance = (assets: Asset[]) => {
           : undefined,
       })),
     [assets, getMaxBalance, isWalletConnected],
-  )
+  );
 
-  return assetsWithBalance
-}
+  return assetsWithBalance;
+};

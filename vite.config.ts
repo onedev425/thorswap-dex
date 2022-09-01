@@ -3,13 +3,13 @@ import react from '@vitejs/plugin-react'
 import svgr from 'vite-plugin-svgr'
 import rewriteAll from 'vite-plugin-rewrite-all'
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
-import { defineConfig } from 'vite'
 import { resolve } from 'path'
 import removeConsole from 'vite-plugin-remove-console'
+import { defineConfig } from 'vite'
 
 // TODO: to split build into smaller chunks
 // const initialModules = [...builtinModules,
-//   'buffer', 'safe-buffer', '@binance-chain', 'vite-compatible-readable-stream', 'html-escaper',
+//   'buffer', 'safe-buffer', '@binance-chain', 'html-escaper',
 //   'html-parse-stringify', 'reselect', 'void-elements', 'warning', 'randombytes', 'ripemd160',
 //   '@thorswap-lib', 'sha',
 // ]
@@ -38,12 +38,12 @@ export default defineConfig({
       utils: resolve(__dirname, 'src/utils'),
       views: resolve(__dirname, 'src/views'),
 
-      'readable-stream': 'vite-compatible-readable-stream',
+      web3: 'web3/dist/web3.min.js',
       crypto: 'crypto-browserify',
       http: 'stream-http',
       https: 'https-browserify',
       os: 'os-browserify/browser',
-      stream: 'vite-compatible-readable-stream',
+      stream: 'stream-browserify',
       util: 'util',
 
       /**
@@ -55,6 +55,7 @@ export default defineConfig({
     },
   },
   build: {
+    target: 'es2020',
     commonjsOptions: { transformMixedEsModules: true },
     minify: 'esbuild',
     polyfillModulePreload: false,
@@ -71,18 +72,12 @@ export default defineConfig({
     },
   },
   esbuild: {
-    logOverride: { 'this-is-undefined-in-esm': 'silent' }
+    logOverride: { 'this-is-undefined-in-esm': 'silent' },
   },
   optimizeDeps: {
-    /**
-     * Comment out libraries that you are working on locally
-     * This option will prevent reloading those zfiles without running `yarn vite optimize`
-     */
-    include: [
-      '@binance-chain/javascript-sdk',
-      'crypto-browserify',
-    ],
+    include: ['@binance-chain/javascript-sdk', 'crypto-browserify'],
     esbuildOptions: {
+      target: 'es2020',
       define: { global: 'globalThis' },
       reserveProps: /(BigInteger|ECPair|Point)/,
       plugins: [

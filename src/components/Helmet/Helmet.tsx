@@ -1,14 +1,8 @@
-import { Helmet as ReactHelmet } from 'react-helmet'
+import { Helmet as ReactHelmet } from 'react-helmet';
 
-export const Helmet = ({
-  title,
-  content,
-}: {
-  title: string
-  content: string
-}) => (
+export const Helmet = ({ title, content }: { title: string; content: string }) => (
   <ReactHelmet>
     <title>{title}</title>
-    <meta name="description" content={content} />
+    <meta content={content} name="description" />
   </ReactHelmet>
-)
+);

@@ -1,4 +1,4 @@
-import { Chain } from '@thorswap-lib/types'
+import { Chain } from '@thorswap-lib/types';
 
 export const SORTED_CHAINS = [
   Chain.THORChain,
@@ -10,4 +10,4 @@ export const SORTED_CHAINS = [
   Chain.BitcoinCash,
   Chain.Litecoin,
   Chain.Cosmos,
-] as const
+] as const;

@@ -1,24 +1,22 @@
-import { useMultisigExport } from 'views/Multisig/components/MultisigExport/hooks'
-
-import { Button, Icon } from 'components/Atomic'
-
-import { t } from 'services/i18n'
+import { Button, Icon } from 'components/Atomic';
+import { t } from 'services/i18n';
+import { useMultisigExport } from 'views/Multisig/components/MultisigExport/hooks';
 
 export const MultisigExport = () => {
-  const { hasWallet, handleExport } = useMultisigExport()
+  const { hasWallet, handleExport } = useMultisigExport();
 
   if (!hasWallet) {
-    return null
+    return null;
   }
 
   return (
     <Button
-      variant="tint"
-      onClick={handleExport}
       endIcon={<Icon name="export" />}
+      onClick={handleExport}
       tooltip={t('views.multisig.exportTooltip')}
+      variant="tint"
     >
       {t('views.multisig.export')}
     </Button>
-  )
-}
+  );
+};

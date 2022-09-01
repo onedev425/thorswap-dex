@@ -1,11 +1,8 @@
-import { useState } from 'react'
-
-import { LiquidityTypeOption } from 'components/LiquidityType/types'
+import { LiquidityTypeOption } from 'components/LiquidityType/types';
+import { useState } from 'react';
 
 export const useLiquidityType = (initLpType?: LiquidityTypeOption) => {
-  const [liquidityType, setLiquidityType] = useState(
-    initLpType || LiquidityTypeOption.SYMMETRICAL,
-  )
+  const [liquidityType, setLiquidityType] = useState(initLpType || LiquidityTypeOption.SYMMETRICAL);
 
-  return { liquidityType, setLiquidityType }
-}
+  return { liquidityType, setLiquidityType };
+};

@@ -1,24 +1,19 @@
-import { memo } from 'react'
-
-import { Switch } from '@headlessui/react'
-import classNames from 'classnames'
+import { Switch } from '@headlessui/react';
+import classNames from 'classnames';
+import { memo } from 'react';
 
 type SwitchToggleProps = {
-  className?: string
-  disabled?: boolean
-  onChange: (checked: boolean) => void
-  checked: boolean
-}
+  className?: string;
+  disabled?: boolean;
+  onChange: (checked: boolean) => void;
+  checked: boolean;
+};
 
 export const SwitchToggle = memo(
-  ({
-    className = '',
-    checked = false,
-    disabled = false,
-    onChange,
-  }: SwitchToggleProps) => {
+  ({ className = '', checked = false, disabled = false, onChange }: SwitchToggleProps) => {
     return (
       <Switch
+        checked={checked}
         className={classNames(
           'inline-flex items-center h-6 border-0 rounded-full w-12 transition-colors cursor-pointer',
           checked
@@ -27,7 +22,6 @@ export const SwitchToggle = memo(
           { 'grayscale opacity-50': disabled },
           className,
         )}
-        checked={checked}
         disabled={disabled}
         onChange={onChange}
       >
@@ -38,6 +32,6 @@ export const SwitchToggle = memo(
           )}
         />
       </Switch>
-    )
+    );
   },
-)
+);

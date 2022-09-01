@@ -1,1 +1,1 @@
-export { SwapRouter } from './SwapRouter'
+export { SwapRouter } from './SwapRouter';

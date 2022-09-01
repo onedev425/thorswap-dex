@@ -1,57 +1,42 @@
-import classNames from 'classnames'
-
-import {
-  Box,
-  Icon,
-  Link,
-  Tooltip,
-  Typography,
-  useCollapse,
-} from 'components/Atomic'
-import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron'
-import { baseHoverClass } from 'components/constants'
-import { HighlightCard } from 'components/HighlightCard'
-import {
-  txProgressBorderActiveColors,
-  txProgressBorderColors,
-} from 'components/TxManager/types'
+import classNames from 'classnames';
+import { Box, Icon, Link, Tooltip, Typography, useCollapse } from 'components/Atomic';
+import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';
+import { baseHoverClass } from 'components/constants';
+import { HighlightCard } from 'components/HighlightCard';
+import { txProgressBorderActiveColors, txProgressBorderColors } from 'components/TxManager/types';
 import {
   getTxProgressStatus,
   getTxTrackerUrl,
   getTxType,
   isSwapType,
-} from 'components/TxManager/utils'
+} from 'components/TxManager/utils';
+import { t } from 'services/i18n';
+import { TxTracker, TxTrackerStatus, TxTrackerType } from 'store/midgard/types';
 
-import { TxTracker, TxTrackerStatus, TxTrackerType } from 'store/midgard/types'
-
-import { t } from 'services/i18n'
-
-import { TxContent } from './TxContent'
-import { TxHeader } from './TxHeader'
-import { TxStatusIcon } from './TxStatusIcon'
+import { TxContent } from './TxContent';
+import { TxHeader } from './TxHeader';
+import { TxStatusIcon } from './TxStatusIcon';
 
 type Props = {
-  txTracker: TxTracker
-}
+  txTracker: TxTracker;
+};
 
 export const TxPanel = ({ txTracker }: Props) => {
-  const isPending = [
-    TxTrackerStatus.Pending,
-    TxTrackerStatus.Submitting,
-  ].includes(txTracker.status)
+  const isPending = [TxTrackerStatus.Pending, TxTrackerStatus.Submitting].includes(
+    txTracker.status,
+  );
 
-  const { isActive, contentRef, toggle, maxHeightStyle, collapseClasses } =
-    useCollapse({ defaultExpanded: isPending })
-  const status = getTxProgressStatus(txTracker)
+  const { isActive, contentRef, toggle, maxHeightStyle, collapseClasses } = useCollapse({
+    defaultExpanded: isPending,
+  });
+  const status = getTxProgressStatus(txTracker);
   const showTxLink =
     (isSwapType(txTracker) || txTracker.type === TxTrackerType.Withdraw) &&
     (txTracker.status === TxTrackerStatus.Pending ||
       txTracker.status === TxTrackerStatus.Success) &&
-    txTracker?.submitTx?.txID
+    txTracker?.submitTx?.txID;
 
-  const txUrl = showTxLink
-    ? getTxTrackerUrl(txTracker?.submitTx?.txID || '')
-    : ''
+  const txUrl = showTxLink ? getTxTrackerUrl(txTracker?.submitTx?.txID || '') : '';
 
   return (
     <HighlightCard
@@ -61,16 +46,11 @@ export const TxPanel = ({ txTracker }: Props) => {
         { [txProgressBorderActiveColors[status]]: isActive },
       )}
     >
-      <Box
-        className="px-3 py-2 cursor-pointer"
-        justify="between"
-        alignCenter
-        onClick={toggle}
-      >
-        <Box className="w-full space-x-3" row alignCenter>
+      <Box alignCenter className="px-3 py-2 cursor-pointer" justify="between" onClick={toggle}>
+        <Box alignCenter row className="w-full space-x-3">
           <TxStatusIcon status={status} />
           <Box col>
-            <Box className="space-x-1" row alignCenter>
+            <Box alignCenter row className="space-x-1">
               <Typography
                 fontWeight="semibold"
                 variant="caption"
@@ -84,18 +64,9 @@ export const TxPanel = ({ txTracker }: Props) => {
         </Box>
 
         {txUrl && (
-          <Link
-            className="inline-flex"
-            to={txUrl}
-            onClick={(e) => e.stopPropagation()}
-          >
+          <Link className="inline-flex" onClick={(e) => e.stopPropagation()} to={txUrl}>
             <Tooltip content={t('common.viewOnThoryield')}>
-              <Icon
-                className={baseHoverClass}
-                name="thoryield"
-                color="primaryBtn"
-                size={20}
-              />
+              <Icon className={baseHoverClass} color="primaryBtn" name="thoryield" size={20} />
             </Tooltip>
           </Link>
         )}
@@ -109,5 +80,5 @@ export const TxPanel = ({ txTracker }: Props) => {
         </Box>
       </div>
     </HighlightCard>
-  )
-}
+  );
+};

@@ -1,13 +1,13 @@
-import classNames from 'classnames'
+import classNames from 'classnames';
 
 import {
-  Props,
   colorClasses,
-  variantClasses,
-  transformClasses,
-  weightClasses,
   defaultWeightClasses,
-} from './types'
+  Props,
+  transformClasses,
+  variantClasses,
+  weightClasses,
+} from './types';
 
 export const Typography = ({
   component: Component = 'div',
@@ -33,5 +33,5 @@ export const Typography = ({
     >
       {children}
     </Component>
-  )
-}
+  );
+};

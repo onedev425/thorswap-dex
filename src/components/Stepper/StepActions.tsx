@@ -1,16 +1,15 @@
-import { Box, Button } from 'components/Atomic'
-import { useStepper } from 'components/Stepper/StepperContext'
-
-import { t } from 'services/i18n'
+import { Box, Button } from 'components/Atomic';
+import { useStepper } from 'components/Stepper/StepperContext';
+import { t } from 'services/i18n';
 
 type Props = {
-  backLabel?: string
-  backAction?: () => void
-  nextLabel?: string
-  nextAction?: () => void
-  nextDisabled?: boolean
-  backHidden?: boolean
-}
+  backLabel?: string;
+  backAction?: () => void;
+  nextLabel?: string;
+  nextAction?: () => void;
+  nextDisabled?: boolean;
+  backHidden?: boolean;
+};
 
 export const StepActions = ({
   backLabel,
@@ -20,7 +19,7 @@ export const StepActions = ({
   nextDisabled,
   backHidden,
 }: Props) => {
-  const { prevStep, nextStep } = useStepper()
+  const { prevStep, nextStep } = useStepper();
 
   return (
     <Box
@@ -28,24 +27,19 @@ export const StepActions = ({
       flex={1}
     >
       {!backHidden && (
-        <Button
-          type="borderless"
-          variant="tint"
-          stretch
-          onClick={backAction || prevStep}
-        >
+        <Button stretch onClick={backAction || prevStep} type="borderless" variant="tint">
           {backLabel || t('common.back')}
         </Button>
       )}
       <Button
+        stretch
+        disabled={nextDisabled}
+        onClick={nextAction || nextStep}
         type="outline"
         variant="primary"
-        stretch
-        onClick={nextAction || nextStep}
-        disabled={nextDisabled}
       >
         {nextLabel || t('common.next')}
       </Button>
     </Box>
-  )
-}
+  );
+};

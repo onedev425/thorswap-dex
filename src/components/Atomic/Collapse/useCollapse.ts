@@ -1,76 +1,70 @@
-import {
-  useCallback,
-  useRef,
-  useState,
-  useLayoutEffect,
-  useEffect,
-} from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-const collapseClasses = 'ease-in-out transition-all'
+const collapseClasses = 'ease-in-out transition-all';
 
 type Props = {
-  defaultExpanded?: boolean
-  isOpened?: boolean
-}
+  defaultExpanded?: boolean;
+  isOpened?: boolean;
+};
 
 export const useCollapse = ({ defaultExpanded, isOpened }: Props = {}) => {
-  const [isActive, setIsActive] = useState(defaultExpanded)
-  const maxHeightRef = useRef(0)
-  const [maxHeight, setMaxHeight] = useState(0)
+  const [isActive, setIsActive] = useState(defaultExpanded);
+  const maxHeightRef = useRef(0);
+  const [maxHeight, setMaxHeight] = useState(0);
 
-  const contentRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const toggle = useCallback(() => {
-    setIsActive((v) => !v)
-  }, [])
+    setIsActive((v) => !v);
+  }, []);
 
   const expand = useCallback(() => {
-    setIsActive(true)
-  }, [])
+    setIsActive(true);
+  }, []);
 
   const collapse = useCallback(() => {
-    setIsActive(false)
-  }, [])
+    setIsActive(false);
+  }, []);
 
   const measure = useCallback((definedHeight?: number) => {
-    const height = definedHeight || contentRef.current?.scrollHeight || 0
+    const height = definedHeight || contentRef.current?.scrollHeight || 0;
 
     if (height !== maxHeightRef.current) {
-      maxHeightRef.current = height
-      setMaxHeight(height)
+      maxHeightRef.current = height;
+      setMaxHeight(height);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (typeof isOpened !== 'undefined') {
-      setIsActive(isOpened)
+      setIsActive(isOpened);
     }
-  }, [isOpened])
+  }, [isOpened]);
 
   useEffect(() => {
     if (!contentRef.current) {
-      return
+      return;
     }
 
-    const el = contentRef.current
+    const el = contentRef.current;
     const observer = new ResizeObserver(([entry]) => {
-      measure(entry.target.scrollHeight)
-    })
+      measure(entry.target.scrollHeight);
+    });
 
-    observer.observe(el)
+    observer.observe(el);
 
-    return () => observer.unobserve(el)
-  })
+    return () => observer.unobserve(el);
+  });
 
   useLayoutEffect(() => {
-    measure()
-  })
+    measure();
+  });
 
-  const maxHeightActive = maxHeight ? `${maxHeight}px` : 'unset'
+  const maxHeightActive = maxHeight ? `${maxHeight}px` : 'unset';
   const maxHeightStyle = {
     maxHeight: isActive ? maxHeightActive : '0px',
     overflow: 'hidden',
-  }
+  };
 
   return {
     contentRef,
@@ -81,5 +75,5 @@ export const useCollapse = ({ defaultExpanded, isOpened }: Props = {}) => {
     maxHeight,
     maxHeightStyle,
     collapseClasses,
-  }
-}
+  };
+};

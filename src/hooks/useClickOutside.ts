@@ -1,4 +1,4 @@
-import { RefObject, useEffect } from 'react'
+import { RefObject, useEffect } from 'react';
 
 export default function useOnClickOutside(
   ref: RefObject<HTMLElement> | null,
@@ -7,18 +7,18 @@ export default function useOnClickOutside(
   useEffect(
     () => {
       const listener = (event: ToDo) => {
-        if (!ref?.current || ref?.current.contains(event.target)) return
+        if (!ref?.current || ref?.current.contains(event.target)) return;
 
-        handler(event)
-      }
+        handler(event);
+      };
 
-      document.addEventListener('mousedown', listener)
-      document.addEventListener('touchstart', listener)
+      document.addEventListener('mousedown', listener);
+      document.addEventListener('touchstart', listener);
 
       return () => {
-        document.removeEventListener('mousedown', listener)
-        document.removeEventListener('touchstart', listener)
-      }
+        document.removeEventListener('mousedown', listener);
+        document.removeEventListener('touchstart', listener);
+      };
     },
     // Add ref and handler to effect dependencies
     // It's worth noting that because passed in handler is a new ...
@@ -27,5 +27,5 @@ export default function useOnClickOutside(
     // ... but to optimize you can wrap handler in useCallback before ...
     // ... passing it into this hook.
     [ref, handler],
-  )
+  );
 }

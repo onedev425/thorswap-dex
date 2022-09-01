@@ -1,10 +1,6 @@
-import { createAsyncThunk } from '@reduxjs/toolkit'
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { multisig } from 'services/multisig';
 
-import { multisig } from 'services/multisig'
-
-export const loadMultisigBalances = createAsyncThunk(
-  'multisig/loadMultisigBalances',
-  async () => {
-    return multisig.loadMultisigBalances()
-  },
-)
+export const loadMultisigBalances = createAsyncThunk('multisig/loadMultisigBalances', async () => {
+  return multisig.loadMultisigBalances();
+});

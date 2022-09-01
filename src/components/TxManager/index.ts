@@ -1,1 +1,1 @@
-export { TxManager } from './TxManager'
+export { TxManager } from './TxManager';

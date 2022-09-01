@@ -1,47 +1,37 @@
-import { useMemo } from 'react'
-
-import { Asset } from '@thorswap-lib/multichain-sdk'
-
-import { AssetIcon } from 'components/AssetIcon'
-import { Box, Typography } from 'components/Atomic'
-import { InfoRowConfig } from 'components/InfoRow/types'
-import { InfoWithTooltip } from 'components/InfoWithTooltip'
-
-import { t } from 'services/i18n'
+import { Asset } from '@thorswap-lib/multichain-sdk';
+import { AssetIcon } from 'components/AssetIcon';
+import { Box, Typography } from 'components/Atomic';
+import { InfoRowConfig } from 'components/InfoRow/types';
+import { InfoWithTooltip } from 'components/InfoWithTooltip';
+import { useMemo } from 'react';
+import { t } from 'services/i18n';
 
 type Params = {
-  assets: { asset: Asset; value: string }[]
-  fee: string
-}
+  assets: { asset: Asset; value: string }[];
+  fee: string;
+};
 
 export const useConfirmInfoItems = ({ assets, fee }: Params) => {
   const confirmInfoItems: InfoRowConfig[] = useMemo(() => {
     const items = assets.map((data) => ({
-      label: `${t('common.withdraw')} ${data.asset.ticker} (${
-        data.asset.type
-      })`,
+      label: `${t('common.withdraw')} ${data.asset.ticker} (${data.asset.type})`,
       value: (
-        <Box justify="between" alignCenter>
-          <Typography fontWeight="semibold" className="mx-2">
+        <Box alignCenter justify="between">
+          <Typography className="mx-2" fontWeight="semibold">
             {data.value}
           </Typography>
           <AssetIcon asset={data.asset} size={24} />
         </Box>
       ),
-    }))
+    }));
 
     return items.concat([
       {
         label: t('common.transactionFee'),
-        value: (
-          <InfoWithTooltip
-            tooltip={t('views.liquidity.gasFeeTooltip')}
-            value={fee}
-          />
-        ),
+        value: <InfoWithTooltip tooltip={t('views.liquidity.gasFeeTooltip')} value={fee} />,
       },
-    ])
-  }, [assets, fee])
+    ]);
+  }, [assets, fee]);
 
-  return confirmInfoItems
-}
+  return confirmInfoItems;
+};

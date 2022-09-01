@@ -1,50 +1,42 @@
-import { useState } from 'react'
-
-import { SUPPORTED_CHAINS } from '@thorswap-lib/types'
-
-import { useWallet } from 'store/wallet/hooks'
-
-import { useWalletDrawer } from 'hooks/useWalletDrawer'
+import { SUPPORTED_CHAINS } from '@thorswap-lib/types';
+import { useWalletDrawer } from 'hooks/useWalletDrawer';
+import { useState } from 'react';
+import { useWallet } from 'store/wallet/hooks';
 
 export const useWalletDrawerActions = () => {
-  const {
-    setIsConnectModalOpen,
-    disconnectWallet,
-    wallet,
-    refreshWalletByChain,
-    isWalletLoading,
-  } = useWallet()
-  const { close } = useWalletDrawer()
-  const [isDisconnectModalOpened, setIsDisconnectModalOpened] = useState(false)
+  const { setIsConnectModalOpen, disconnectWallet, wallet, refreshWalletByChain, isWalletLoading } =
+    useWallet();
+  const { close } = useWalletDrawer();
+  const [isDisconnectModalOpened, setIsDisconnectModalOpened] = useState(false);
 
   const handleAddConnectWallet = () => {
-    close()
-    setIsConnectModalOpen(true)
-  }
+    close();
+    setIsConnectModalOpen(true);
+  };
 
   const onConfirmDisconnect = () => {
-    close()
-    disconnectWallet()
-    setIsDisconnectModalOpened(false)
-  }
+    close();
+    disconnectWallet();
+    setIsDisconnectModalOpened(false);
+  };
 
   const onCancelDisconnect = () => {
-    setIsDisconnectModalOpened(false)
-  }
+    setIsDisconnectModalOpened(false);
+  };
 
   const openDisconnectConfirmModal = () => {
-    setIsDisconnectModalOpened(true)
-  }
+    setIsDisconnectModalOpened(true);
+  };
 
   const handleRefresh = () => {
     if (wallet) {
       SUPPORTED_CHAINS.forEach((chain) => {
         if (wallet[chain]) {
-          refreshWalletByChain(chain)
+          refreshWalletByChain(chain);
         }
-      })
+      });
     }
-  }
+  };
 
   return {
     handleAddConnectWallet,
@@ -54,5 +46,5 @@ export const useWalletDrawerActions = () => {
     onCancelDisconnect,
     onConfirmDisconnect,
     isRefreshing: isWalletLoading,
-  }
-}
+  };
+};

@@ -1,87 +1,82 @@
-import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-sdk'
-
-import { MultisigMember } from 'store/multisig/types'
-
-import { multichain } from 'services/multichain'
+import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-sdk';
+import { multichain } from 'services/multichain';
+import { MultisigMember } from 'store/multisig/types';
 
 export type MultisigTransferTxParams = {
-  recipient: string
-  memo: string
-  asset: Asset
-  amount: Amount
-}
+  recipient: string;
+  memo: string;
+  asset: Asset;
+  amount: Amount;
+};
 
 export type MultisigDepositTxParams = {
-  memo: string
-  asset: Asset
-  amount: Amount
-}
+  memo: string;
+  asset: Asset;
+  amount: Amount;
+};
 
 export type TxAmount = {
-  denom: string
-  amount: string
-}
+  denom: string;
+  amount: string;
+};
 
 export type TxMessage = {
-  '@type': string
-  fromAddress: string
-  toAddress: string
-  amount: TxAmount[]
-}
+  '@type': string;
+  fromAddress: string;
+  toAddress: string;
+  amount: TxAmount[];
+};
 
 export type Signer = {
-  pubKey: string
-  signature: string
-}
+  pubKey: string;
+  signature: string;
+};
 
 export type BroadcastResponseData = {
-  code: number
-  txhash: string
-  raw_log: string
-}
+  code: number;
+  txhash: string;
+  raw_log: string;
+};
 
 export type MultisigTx = {
-  auth_info: Record<string, NotWorth>
+  auth_info: Record<string, NotWorth>;
   body: {
-    memo: string
-    messages: TxMessage[]
-  }
-  signatures: []
-}
+    memo: string;
+    messages: TxMessage[];
+  };
+  signatures: [];
+};
 
 export type ImportedMultisigTx = {
-  txBody: MultisigTx
-  signatures: Signer[]
-  signers: MultisigMember[]
-}
+  txBody: MultisigTx;
+  signatures: Signer[];
+  signers: MultisigMember[];
+};
 
-type SignersSequence = boolean[]
+type SignersSequence = boolean[];
 
-export const createMultisigWallet = (
-  members: MultisigMember[],
-  treshold: number,
-) => {
+export const createMultisigWallet = (members: MultisigMember[], treshold: number) => {
   try {
     multichain().thor.createMultisig(
       members.map((member) => member.pubKey),
       Number(treshold),
-    )
+    );
 
-    return multichain().thor.multisigAddress
+    return multichain().thor.multisigAddress;
   } catch (e) {
-    return ''
+    return '';
   }
-}
+};
 
 export const clearMultisigWallet = () => {
-  multichain().thor.clearMultisig()
-}
+  multichain().thor.clearMultisig();
+};
 
 export const importMultisigTx = async (txData: string) => {
-  await multichain().thor.importMultisigTx(txData)
+  await multichain().thor.importMultisigTx(txData);
 
-  return JSON.parse(txData) as MultisigTx
-}
+  return JSON.parse(txData) as MultisigTx;
+};
 
 const buildTransferTx = async (
   { recipient, memo, asset, amount }: MultisigTransferTxParams,
@@ -93,10 +88,10 @@ const buildTransferTx = async (
     asset,
     amount.baseAmount.toNumber(),
     signersSqeuence,
-  )
+  );
 
-  return unsignedTx
-}
+  return unsignedTx;
+};
 
 const buildDepositTx = async (
   { memo, asset, amount }: MultisigDepositTxParams,
@@ -107,92 +102,72 @@ const buildDepositTx = async (
     asset,
     amount.baseAmount.toString(),
     signersSqeuence,
-  )
+  );
 
-  return unsignedTx
-}
+  return unsignedTx;
+};
 
 const signMultisigTx = async (tx: string) => {
-  const signature = await multichain().thor.signMultisigTx(tx)
+  const signature = await multichain().thor.signMultisigTx(tx);
 
-  return signature
-}
+  return signature;
+};
 
 const broadcastMultisigTx = async (tx: string, signers: Signer[]) => {
   const data = (await multichain().thor.broadcastMultisig(
     tx,
     signers.map((signer) => signer.signature),
-  )) as BroadcastResponseData
+  )) as BroadcastResponseData;
 
-  if (!data) return ''
+  if (!data) return '';
 
   if (data.code > 0) {
     const message =
-      data.raw_log && data.raw_log !== '[]'
-        ? data.raw_log
-        : 'Could not broadcast transaction.'
+      data.raw_log && data.raw_log !== '[]' ? data.raw_log : 'Could not broadcast transaction.';
 
-    throw Error(message)
+    throw Error(message);
   }
-  return data.txhash
-}
+  return data.txhash;
+};
 
 const loadMultisigBalances = async (): Promise<AssetAmount[]> => {
-  const address = multichain().thor.multisigAddress
+  const address = multichain().thor.multisigAddress;
 
   if (address) {
-    return multichain().thor.loadAddressBalances(address)
+    return multichain().thor.loadAddressBalances(address);
   }
 
-  return []
-}
+  return [];
+};
 
-const getAssetBalance = (
-  asset: Asset,
-  balances: AssetAmount[],
-): AssetAmount => {
-  const assetBalance = balances.find((data: AssetAmount) =>
-    data.asset.eq(asset),
-  )
+const getAssetBalance = (asset: Asset, balances: AssetAmount[]): AssetAmount => {
+  const assetBalance = balances.find((data: AssetAmount) => data.asset.eq(asset));
 
-  return (
-    assetBalance ||
-    new AssetAmount(asset, Amount.fromAssetAmount(0, asset.decimal))
-  )
-}
+  return assetBalance || new AssetAmount(asset, Amount.fromAssetAmount(0, asset.decimal));
+};
 
 const hasAsset = (asset: Asset, balances: AssetAmount[]): boolean => {
-  const assetBalance = balances.find((data: AssetAmount) =>
-    data.asset.eq(asset),
-  )
+  const assetBalance = balances.find((data: AssetAmount) => data.asset.eq(asset));
 
-  return !!assetBalance
-}
+  return !!assetBalance;
+};
 
-const getMemberPubkeyFromAddress = (
-  address: string,
-  members: MultisigMember[],
-) => {
+const getMemberPubkeyFromAddress = (address: string, members: MultisigMember[]) => {
   const member = members.find((m) => {
-    const memberAddress = multichain().thor.pubKeyToAddr(m.pubKey)
-    return memberAddress === address
-  })
+    const memberAddress = multichain().thor.pubKeyToAddr(m.pubKey);
+    return memberAddress === address;
+  });
 
-  return member?.pubKey || ''
-}
+  return member?.pubKey || '';
+};
 
 const isMultisigInitialized = () => {
-  return multichain().thor.isMultisigInitialized()
-}
+  return multichain().thor.isMultisigInitialized();
+};
 
-const getSignersSequence = (
-  allmembers: MultisigMember[],
-  requiredSigners: MultisigMember[],
-) => {
-  return allmembers.map(
-    (m) => !!requiredSigners.find((s) => s.pubKey === m.pubKey),
-  )
-}
+const getSignersSequence = (allmembers: MultisigMember[], requiredSigners: MultisigMember[]) => {
+  return allmembers.map((m) => !!requiredSigners.find((s) => s.pubKey === m.pubKey));
+};
 
 export const multisig = {
   createMultisigWallet,
@@ -208,4 +183,4 @@ export const multisig = {
   getMemberPubkeyFromAddress,
   isMultisigInitialized,
   getSignersSequence,
-}
+};

@@ -1,11 +1,7 @@
-import { Asset } from '@thorswap-lib/multichain-sdk'
-import { Chain, Network } from '@thorswap-lib/types'
-
-import { getCustomIconImageUrl } from 'components/AssetIcon'
-
-import { config } from 'settings/config'
-
-const { network } = config
+import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Chain, Network } from '@thorswap-lib/types';
+import { getCustomIconImageUrl } from 'components/AssetIcon';
+import { NETWORK } from 'settings/config';
 
 export enum VestingType {
   THOR = 'THOR',
@@ -16,7 +12,7 @@ export const vThorInfo = {
   ticker: 'vTHOR',
   decimals: 18,
   iconUrl: getCustomIconImageUrl('vthor'),
-}
+};
 
 export const stakingV2Addr = {
   [VestingType.THOR]: {
@@ -27,14 +23,10 @@ export const stakingV2Addr = {
     [Network.Mainnet]: '0x815C23eCA83261b6Ec689b60Cc4a58b54BC24D8D',
     [Network.Testnet]: '0x9783e4A7F0BF047Fd7982e75A1A1C8023a7d6A92',
   },
-}
+};
 
-export const getV2Address = (contractType: VestingType) =>
-  stakingV2Addr[contractType][network]
+export const getV2Address = (contractType: VestingType) => stakingV2Addr[contractType][NETWORK];
 
 export const getV2Asset = (contractType: VestingType) => {
-  return new Asset(
-    Chain.Ethereum,
-    `${contractType}-${getV2Address(contractType)}`,
-  )
-}
+  return new Asset(Chain.Ethereum, `${contractType}-${getV2Address(contractType)}`);
+};

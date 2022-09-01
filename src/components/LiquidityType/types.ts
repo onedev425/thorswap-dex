@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-sdk'
+import { Asset } from '@thorswap-lib/multichain-sdk';
 
 export enum LiquidityTypeOption {
   'RUNE' = 'RUNE',
@@ -7,10 +7,10 @@ export enum LiquidityTypeOption {
 }
 
 export type LiquidityTypeProps = {
-  poolAsset: Asset
-  onChange: (val: LiquidityTypeOption) => void
-  selected: LiquidityTypeOption
-  options: LiquidityTypeOption[]
-  title?: string
-  tabsCount?: number
-}
+  poolAsset: Asset;
+  onChange: (val: LiquidityTypeOption) => void;
+  selected: LiquidityTypeOption;
+  options: LiquidityTypeOption[];
+  title?: string;
+  tabsCount?: number;
+};

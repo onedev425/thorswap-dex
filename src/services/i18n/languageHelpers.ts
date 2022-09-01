@@ -1,4 +1,4 @@
-import { SupportedLanguages } from 'types/app'
+import { SupportedLanguages } from 'types/app';
 
 export const FLAG_ICONS: Record<SupportedLanguages, string> = {
   'nl-NL': 'netherlands',
@@ -18,7 +18,7 @@ export const FLAG_ICONS: Record<SupportedLanguages, string> = {
   ru: 'russia',
   ur: 'pakistan',
   jp: 'japan',
-}
+};
 
 export const LANGUAGE_NAMES: Record<SupportedLanguages, string> = {
   'nl-NL': 'Dutch (NLD)',
@@ -38,4 +38,4 @@ export const LANGUAGE_NAMES: Record<SupportedLanguages, string> = {
   ru: 'Русский (RUS)',
   ur: 'اردو (URD)',
   jp: '日本語 (JPN)',
-}
+};

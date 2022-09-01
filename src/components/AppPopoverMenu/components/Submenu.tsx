@@ -1,18 +1,18 @@
-import { MenuItemType } from 'components/AppPopoverMenu/types'
-import { Box } from 'components/Atomic'
+import { MenuItemType } from 'components/AppPopoverMenu/types';
+import { Box } from 'components/Atomic';
 
-import { MenuItem } from './MenuItem'
+import { MenuItem } from './MenuItem';
 
 type Props = {
-  items: MenuItemType[]
-}
+  items: MenuItemType[];
+};
 
 export const Submenu = ({ items }: Props) => {
   return (
-    <Box flex={1} col className="mt-4">
+    <Box col className="mt-4" flex={1}>
       {items.map((item) => (
         <MenuItem key={item.label} {...item} />
       ))}
     </Box>
-  )
-}
+  );
+};

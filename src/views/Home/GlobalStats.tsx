@@ -1,29 +1,26 @@
-import { memo } from 'react'
+import { Box, Typography } from 'components/Atomic';
+import { StatsList } from 'components/StatsList';
+import { memo } from 'react';
+import { t } from 'services/i18n';
+import { useApp } from 'store/app/hooks';
 
-import { Box, Typography } from 'components/Atomic'
-import { StatsList } from 'components/StatsList'
-
-import { useApp } from 'store/app/hooks'
-
-import { t } from 'services/i18n'
-
-import { useGlobalStatsData } from './useGlobalStatsData'
+import { useGlobalStatsData } from './useGlobalStatsData';
 
 export const GlobalStats = memo(() => {
-  const { hideStats } = useApp()
-  const statsData = useGlobalStatsData()
+  const { hideStats } = useApp();
+  const statsData = useGlobalStatsData();
 
   if (hideStats) {
-    return null
+    return null;
   }
 
   return (
     <Box col>
-      <Box className="gap-x-2 rounded-2xl" alignCenter>
+      <Box alignCenter className="gap-x-2 rounded-2xl">
         <Typography variant="h3">{t('common.stats')}</Typography>
       </Box>
 
-      <StatsList list={statsData} scrollable />
+      <StatsList scrollable list={statsData} />
     </Box>
-  )
-})
+  );
+});

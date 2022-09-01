@@ -1,19 +1,18 @@
-import { useDispatch, useSelector } from 'react-redux'
-import type { TypedUseSelectorHook } from 'react-redux'
+import type { Action, ThunkAction } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
+import type { TypedUseSelectorHook } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import type { Action, ThunkAction } from '@reduxjs/toolkit'
-import { setupListeners } from '@reduxjs/toolkit/query'
-
-import appReducer from './app/slice'
-import assetsReducer from './assets/slice'
-import externalConfigReducer from './externalConfig/slice'
-import midgardReducer from './midgard/slice'
-import multisigReducer from './multisig/slice'
-import { staticApi } from './static/api'
-import { thorswapApi } from './thorswap/api'
-import transactionsReducer from './transactions/slice'
-import walletReducer from './wallet/slice'
+import appReducer from './app/slice';
+import assetsReducer from './assets/slice';
+import externalConfigReducer from './externalConfig/slice';
+import midgardReducer from './midgard/slice';
+import multisigReducer from './multisig/slice';
+import { staticApi } from './static/api';
+import { thorswapApi } from './thorswap/api';
+import transactionsReducer from './transactions/slice';
+import walletReducer from './wallet/slice';
 
 const rootReducer = combineReducers({
   [staticApi.reducerPath]: staticApi.reducer,
@@ -26,7 +25,7 @@ const rootReducer = combineReducers({
   multisig: multisigReducer,
   transactions: transactionsReducer,
   wallet: walletReducer,
-})
+});
 
 const store = configureStore({
   devTools: import.meta.env.DEV,
@@ -36,18 +35,18 @@ const store = configureStore({
       staticApi.middleware,
       thorswapApi.middleware,
     ]),
-})
+});
 
-setupListeners(store.dispatch)
+setupListeners(store.dispatch);
 
-export type RootState = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof store.getState>;
 
-export type AppDispatch = typeof store.dispatch
+export type AppDispatch = typeof store.dispatch;
 
-export type AppThunk = ThunkAction<void, RootState, null, Action<string>>
+export type AppThunk = ThunkAction<void, RootState, null, Action<string>>;
 
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-export const useAppDispatch = () => useDispatch<AppDispatch>()
+export const useAppDispatch = () => useDispatch<AppDispatch>();
 
-export { store }
+export { store };

@@ -1,5 +1,3 @@
-import React, { memo, useCallback, useMemo, useState } from 'react'
-
 import {
   Amount,
   AmountType,
@@ -7,32 +5,28 @@ import {
   Percent,
   QuoteMode,
   QuoteRoute,
-} from '@thorswap-lib/multichain-sdk'
-import BigNumber from 'bignumber.js'
-import classNames from 'classnames'
+} from '@thorswap-lib/multichain-sdk';
+import BigNumber from 'bignumber.js';
+import classNames from 'classnames';
+import { Box, Button, Typography } from 'components/Atomic';
+import { HoverIcon } from 'components/HoverIcon';
+import { useFormatPrice } from 'helpers/formatPrice';
+import React, { memo, useCallback, useMemo, useState } from 'react';
+import { t } from 'services/i18n';
+import { useApp } from 'store/app/hooks';
+import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 
-import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved'
-
-import { Box, Button, Typography } from 'components/Atomic'
-import { HoverIcon } from 'components/HoverIcon'
-
-import { useApp } from 'store/app/hooks'
-
-import { t } from 'services/i18n'
-
-import { useFormatPrice } from 'helpers/formatPrice'
-
-import { ProviderLogos } from './ProviderLogos'
-import { RouteGraphModal } from './RouteGraphModal'
+import { ProviderLogos } from './ProviderLogos';
+import { RouteGraphModal } from './RouteGraphModal';
 
 type Props = QuoteRoute & {
-  outputAssetDecimal: number
-  unitPrice: BigNumber
-  slippage: Percent
-  assetTicker: string
-  inputAsset: Asset
-  quoteMode: QuoteMode
-}
+  outputAssetDecimal: number;
+  unitPrice: BigNumber;
+  slippage: Percent;
+  assetTicker: string;
+  inputAsset: Asset;
+  quoteMode: QuoteMode;
+};
 
 export const SelectedRoute = memo(
   ({
@@ -49,51 +43,42 @@ export const SelectedRoute = memo(
     quoteMode,
     contract,
   }: Props) => {
-    const [isOpened, setIsOpened] = useState(false)
-    const { slippageTolerance } = useApp()
-    const formatPrice = useFormatPrice()
+    const [isOpened, setIsOpened] = useState(false);
+    const { slippageTolerance } = useApp();
+    const formatPrice = useFormatPrice();
 
     const { isApproved } = useIsAssetApproved({
       contract,
       asset: inputAsset,
       quoteMode,
-    })
+    });
 
     const expectedAssetOutput = useMemo(
       () =>
         formatPrice(
-          new Amount(
-            new BigNumber(expectedOutput),
-            AmountType.ASSET_AMOUNT,
-            outputAssetDecimal,
-          ),
+          new Amount(new BigNumber(expectedOutput), AmountType.ASSET_AMOUNT, outputAssetDecimal),
           { prefix: '' },
         ),
       [expectedOutput, formatPrice, outputAssetDecimal],
-    )
+    );
 
     const expectedPriceOutput = useMemo(
       () => formatPrice(unitPrice.multipliedBy(expectedOutput).toNumber()),
       [expectedOutput, formatPrice, unitPrice],
-    )
+    );
 
-    const slippageInfo = slippage.gt(0) ? `-${slippage.toFixed(2)}` : '-'
+    const slippageInfo = slippage.gt(0) ? `-${slippage.toFixed(2)}` : '-';
 
-    const openSwapGraph = useCallback(
-      (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        event.stopPropagation()
-        setIsOpened(true)
-      },
-      [],
-    )
+    const openSwapGraph = useCallback((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      event.stopPropagation();
+      setIsOpened(true);
+    }, []);
 
     const approved =
-      [QuoteMode.ETH_TO_ETH, QuoteMode.ETH_TO_TC_SUPPORTED].includes(
-        quoteMode,
-      ) && isApproved
+      [QuoteMode.ETH_TO_ETH, QuoteMode.ETH_TO_TC_SUPPORTED].includes(quoteMode) && isApproved;
 
     return (
-      <Box flex={1} col className="relative">
+      <Box col className="relative" flex={1}>
         <Box
           center
           className={classNames(
@@ -107,28 +92,26 @@ export const SelectedRoute = memo(
         <Box col className="pl-4 py-1">
           <Box justify="between">
             <Box className="py-2">
-              <ProviderLogos size={32} providers={providers} />
+              <ProviderLogos providers={providers} size={32} />
 
               {approved && (
                 <Box className={providers.length > 1 ? 'ml-12' : 'ml-2'}>
-                  <HoverIcon size={22} iconName="approved" />
+                  <HoverIcon iconName="approved" size={22} />
                 </Box>
               )}
             </Box>
 
-            <Box col justify="end" className="pr-2">
-              <Box justify="end" className="gap-x-1">
+            <Box col className="pr-2" justify="end">
+              <Box className="gap-x-1" justify="end">
                 <Typography>{expectedAssetOutput}</Typography>
                 <Typography>{assetTicker}</Typography>
               </Box>
 
               <Box alignCenter className="gap-x-1">
                 <Typography
-                  variant="caption"
+                  color={slippage.gte(slippageTolerance / 100) ? 'red' : 'green'}
                   fontWeight="light"
-                  color={
-                    slippage.gte(slippageTolerance / 100) ? 'red' : 'green'
-                  }
+                  variant="caption"
                 >
                   ({slippageInfo})
                 </Typography>
@@ -140,11 +123,11 @@ export const SelectedRoute = memo(
           <Box>
             <Button
               className="h-6 px-3 w-fit"
-              variant="tint"
               onClick={openSwapGraph}
               tooltip={t('views.swap.swapPath')}
+              variant="tint"
             >
-              <Typography variant="caption-xs" color="secondary">
+              <Typography color="secondary" variant="caption-xs">
                 {t('common.path')}: {path.replaceAll('->', '→')}
               </Typography>
             </Button>
@@ -158,6 +141,6 @@ export const SelectedRoute = memo(
           swaps={swaps}
         />
       </Box>
-    )
+    );
   },
-)
+);

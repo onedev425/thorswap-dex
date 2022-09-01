@@ -1,49 +1,35 @@
-import { ElementRef, useEffect, useRef, useLayoutEffect, useState } from 'react'
+import classNames from 'classnames';
+import { Box, Card, Icon, SwitchToggle, Tooltip, Typography } from 'components/Atomic';
+import { baseHoverClass } from 'components/constants';
+import { Popover } from 'components/Popover';
+import { Scrollbar } from 'components/Scrollbar';
+import { showSuccessToast } from 'components/Toast';
+import { useTxManager } from 'hooks/useTxManager';
+import { ElementRef, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { t } from 'services/i18n';
+import { TxTracker, TxTrackerStatus } from 'store/midgard/types';
 
-import classNames from 'classnames'
-
-import {
-  Box,
-  Card,
-  Icon,
-  SwitchToggle,
-  Tooltip,
-  Typography,
-} from 'components/Atomic'
-import { baseHoverClass } from 'components/constants'
-import { Popover } from 'components/Popover'
-import { Scrollbar } from 'components/Scrollbar'
-import { showSuccessToast } from 'components/Toast'
-
-import { TxTracker, TxTrackerStatus } from 'store/midgard/types'
-
-import { useTxManager } from 'hooks/useTxManager'
-
-import { t } from 'services/i18n'
-
-import { TxContent } from './components/TxContent'
-import { TxHeader } from './components/TxHeader'
-import { TxPanel } from './components/TxPanel'
-import { TxManagerOpenButton } from './TxManagerOpenButton'
-import { getTxType } from './utils'
+import { TxContent } from './components/TxContent';
+import { TxHeader } from './components/TxHeader';
+import { TxPanel } from './components/TxPanel';
+import { TxManagerOpenButton } from './TxManagerOpenButton';
+import { getTxType } from './utils';
 
 export const TxManager = () => {
-  const [onlyPending, setOnlyPending] = useState(false)
-  const [isOpen, setIsOpened] = useState(false)
+  const [onlyPending, setOnlyPending] = useState(false);
+  const [isOpen, setIsOpened] = useState(false);
 
-  const { txTrackers, clearTxTrackers } = useTxManager()
-  const [filteredTxData, setFilteredTxData] = useState(txTrackers)
-  const prevPendingCountRef = useRef(0)
+  const { txTrackers, clearTxTrackers } = useTxManager();
+  const [filteredTxData, setFilteredTxData] = useState(txTrackers);
+  const prevPendingCountRef = useRef(0);
 
   const pendingCount = filteredTxData.filter(
-    (tx) =>
-      tx.status === TxTrackerStatus.Pending ||
-      tx.status === TxTrackerStatus.Submitting,
-  ).length
+    (tx) => tx.status === TxTrackerStatus.Pending || tx.status === TxTrackerStatus.Submitting,
+  ).length;
 
   const prevTxTrackerStatus = useRef<{
-    [key: TxTracker['uuid']]: TxTrackerStatus
-  }>({})
+    [key: TxTracker['uuid']]: TxTrackerStatus;
+  }>({});
 
   useEffect(() => {
     filteredTxData.forEach((txTracker: TxTracker) => {
@@ -53,133 +39,113 @@ export const TxManager = () => {
       ) {
         showSuccessToast(
           t('notification.successfulTransaction'),
-          <Box className="z-10 w-full col alignCenter row" col>
-            <Box className="py-1" row>
-              <Box row alignCenter>
-                <Typography
-                  className="mx-1"
-                  fontWeight="semibold"
-                  variant="caption"
-                >
+          <Box col className="z-10 w-full col alignCenter row">
+            <Box row className="py-1">
+              <Box alignCenter row>
+                <Typography className="mx-1" fontWeight="semibold" variant="caption">
                   {getTxType()[txTracker.type]}
                 </Typography>
               </Box>
               <TxHeader txInfo={txTracker} />
             </Box>
 
-            <Box className="w-full py-2 alignCenter" col>
+            <Box col className="w-full py-2 alignCenter">
               <TxContent txTracker={txTracker} />
             </Box>
           </Box>,
           { position: 'bottom-right' },
-        )
-        prevTxTrackerStatus.current[txTracker.uuid] = txTracker.status
+        );
+        prevTxTrackerStatus.current[txTracker.uuid] = txTracker.status;
       }
-    })
-  }, [filteredTxData])
+    });
+  }, [filteredTxData]);
 
   useEffect(() => {
     if (!onlyPending) {
-      return setFilteredTxData(txTrackers)
+      return setFilteredTxData(txTrackers);
     }
 
     const filteredData = txTrackers.filter((item) =>
-      [TxTrackerStatus.Pending, TxTrackerStatus.Submitting].includes(
-        item.status,
-      ),
-    )
+      [TxTrackerStatus.Pending, TxTrackerStatus.Submitting].includes(item.status),
+    );
 
-    setFilteredTxData(filteredData)
-  }, [onlyPending, txTrackers])
+    setFilteredTxData(filteredData);
+  }, [onlyPending, txTrackers]);
 
-  const popoverRef = useRef<ElementRef<typeof Popover>>(null)
+  const popoverRef = useRef<ElementRef<typeof Popover>>(null);
 
   useEffect(() => {
     if (isOpen) {
-      popoverRef.current?.open()
+      popoverRef.current?.open();
     }
-  }, [isOpen])
+  }, [isOpen]);
 
   useEffect(() => {
     if (!txTrackers.length) {
-      popoverRef.current?.close()
+      popoverRef.current?.close();
     }
-  }, [txTrackers.length])
+  }, [txTrackers.length]);
 
   useLayoutEffect(() => {
     if (pendingCount && pendingCount > prevPendingCountRef.current) {
       // Timeout to wait for modal animation
-      setTimeout(() => setIsOpened(true), 300)
+      setTimeout(() => setIsOpened(true), 300);
     }
 
-    prevPendingCountRef.current = pendingCount
-  }, [pendingCount])
+    prevPendingCountRef.current = pendingCount;
+  }, [pendingCount]);
 
   return (
     <Popover
-      ref={popoverRef}
       disabled={!txTrackers?.length}
-      trigger={<TxManagerOpenButton txData={txTrackers} />}
       onClose={() => setIsOpened(false)}
+      ref={popoverRef}
+      trigger={<TxManagerOpenButton txData={txTrackers} />}
     >
-      <Card
-        className="mt-2 !px-0 md:w-[350px] border border-solid border-btn-primary"
-        size="sm"
-      >
-        <Box className="w-full gap-4 !my-2" col>
-          <Box className="!mx-4" col>
+      <Card className="mt-2 !px-0 md:w-[350px] border border-solid border-btn-primary" size="sm">
+        <Box col className="w-full gap-4 !my-2">
+          <Box col className="!mx-4">
             <Box justify="between">
-              <Typography variant="subtitle2">
-                {t('common.yourTransactions')}
-              </Typography>
+              <Typography variant="subtitle2">{t('common.yourTransactions')}</Typography>
             </Box>
 
-            <Box className="pt-2" justify="between" alignCenter>
+            <Box alignCenter className="pt-2" justify="between">
               <Box alignCenter className="gap-x-2 rounded-2xl">
                 <SwitchToggle
+                  checked={onlyPending}
                   className={classNames(
                     onlyPending
                       ? '!bg-light-border-primary dark:!bg-dark-bg-primary'
                       : 'bg-light-border-primary dark:!bg-dark-gray-light',
                   )}
-                  checked={onlyPending}
                   onChange={setOnlyPending}
                 />
-                <Typography variant="caption">
-                  {t('txManager.onlyPending')}
-                </Typography>
+                <Typography variant="caption">{t('txManager.onlyPending')}</Typography>
               </Box>
 
               <Tooltip content={t('common.clearHistory')}>
                 <Icon
                   className={baseHoverClass}
-                  name="trash"
                   color="secondary"
-                  size={18}
+                  name="trash"
                   onClick={clearTxTrackers}
+                  size={18}
                 />
               </Tooltip>
             </Box>
           </Box>
 
           <Scrollbar maxHeight={450}>
-            <Box className="!mx-4 py-0.5" col>
+            <Box col className="!mx-4 py-0.5">
               {filteredTxData.map((item) => (
-                <Box
-                  className="first:!mt-0 !mt-1"
-                  key={item.uuid}
-                  row
-                  alignCenter
-                >
+                <Box alignCenter row className="first:!mt-0 !mt-1" key={item.uuid}>
                   <TxPanel txTracker={item} />
                 </Box>
               ))}
 
               {!filteredTxData.length && (
-                <Box className="py-3" center>
-                  <Typography color="secondary">
-                    {t('txManager.noTxToDisplay')}
-                  </Typography>
+                <Box center className="py-3">
+                  <Typography color="secondary">{t('txManager.noTxToDisplay')}</Typography>
                 </Box>
               )}
             </Box>
@@ -187,5 +153,5 @@ export const TxManager = () => {
         </Box>
       </Card>
     </Popover>
-  )
-}
+  );
+};

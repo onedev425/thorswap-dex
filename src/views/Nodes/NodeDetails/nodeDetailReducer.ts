@@ -1,19 +1,19 @@
 export type AddLiquidityState = {
-  amount: string
-  favorite: boolean
-  actionIndex: number
-}
+  amount: string;
+  favorite: boolean;
+  actionIndex: number;
+};
 
 export type NodeDetailActions =
   | { type: 'setAmount'; payload: string }
   | {
-      type: 'setFavorite'
-      payload: boolean
+      type: 'setFavorite';
+      payload: boolean;
     }
   | {
-      type: 'setActionIndex'
-      payload: number
-    }
+      type: 'setActionIndex';
+      payload: number;
+    };
 
 export const nodeDetailReducer = (
   state: AddLiquidityState,
@@ -24,22 +24,22 @@ export const nodeDetailReducer = (
       return {
         ...state,
         amount: actions.payload,
-      }
+      };
 
     case 'setFavorite': {
       return {
         ...state,
         favorite: actions.payload,
-      }
+      };
     }
     case 'setActionIndex': {
       return {
         ...state,
         actionIndex: actions.payload,
-      }
+      };
     }
 
     default:
-      return state
+      return state;
   }
-}
+};

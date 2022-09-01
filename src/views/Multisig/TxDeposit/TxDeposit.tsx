@@ -1,21 +1,18 @@
-import { useState } from 'react'
-
-import { AssetInputs } from 'views/AddLiquidity/AssetInputs'
-import { PoolInfo } from 'views/AddLiquidity/PoolInfo'
-import { useTxDeposit } from 'views/Multisig/TxDeposit/hooks'
-
-import { Box, Button } from 'components/Atomic'
-import { InfoTable } from 'components/InfoTable'
-import { InfoTip } from 'components/InfoTip'
-import { LiquidityType } from 'components/LiquidityType/LiquidityType'
-import { LiquidityTypeOption } from 'components/LiquidityType/types'
-import { ConfirmModal } from 'components/Modals/ConfirmModal'
-import { PanelInput } from 'components/PanelInput'
-
-import { t } from 'services/i18n'
+import { Box, Button } from 'components/Atomic';
+import { InfoTable } from 'components/InfoTable';
+import { InfoTip } from 'components/InfoTip';
+import { LiquidityType } from 'components/LiquidityType/LiquidityType';
+import { LiquidityTypeOption } from 'components/LiquidityType/types';
+import { ConfirmModal } from 'components/Modals/ConfirmModal';
+import { PanelInput } from 'components/PanelInput';
+import { useState } from 'react';
+import { t } from 'services/i18n';
+import { AssetInputs } from 'views/AddLiquidity/AssetInputs';
+import { PoolInfo } from 'views/AddLiquidity/PoolInfo';
+import { useTxDeposit } from 'views/Multisig/TxDeposit/hooks';
 
 export const TxDeposit = () => {
-  const [assetSideAddress, setassetSideAddress] = useState('')
+  const [assetSideAddress, setassetSideAddress] = useState('');
   const {
     poolAsset,
     liquidityType,
@@ -39,15 +36,15 @@ export const TxDeposit = () => {
     handleConfirmAdd,
     setVisibleConfirmModal,
     confirmInfo,
-  } = useTxDeposit(assetSideAddress)
+  } = useTxDeposit(assetSideAddress);
 
   return (
     <Box col flex={1}>
       <LiquidityType
-        poolAsset={poolAsset}
-        selected={liquidityType}
         onChange={handleSelectLiquidityType}
         options={[LiquidityTypeOption.SYMMETRICAL, LiquidityTypeOption.RUNE]}
+        poolAsset={poolAsset}
+        selected={liquidityType}
         tabsCount={2}
       />
 
@@ -55,49 +52,45 @@ export const TxDeposit = () => {
 
       {liquidityType === LiquidityTypeOption.SYMMETRICAL && (
         <Box col>
-          <InfoTip
-            className="mb-1"
-            type="warn"
-            content={t('views.multisig.depositSymWarning')}
-          />
+          <InfoTip className="mb-1" content={t('views.multisig.depositSymWarning')} type="warn" />
           <PanelInput
             className="mb-1"
+            onChange={(e) => setassetSideAddress(e.target.value)}
             title={t('views.multisig.assetWalletAddress')}
             value={assetSideAddress}
-            onChange={(e) => setassetSideAddress(e.target.value)}
           />
         </Box>
       )}
 
       <AssetInputs
-        poolAsset={poolAssetInput}
-        runeAsset={runeAssetInput}
-        poolAssetList={poolAssetList}
-        onAssetAmountChange={handleChangeAssetAmount}
-        onRuneAmountChange={handleChangeRuneAmount}
-        onPoolChange={handleSelectPoolAsset}
-        liquidityType={liquidityType}
         isAssetPending={isAssetPending}
         isRunePending={isRunePending}
+        liquidityType={liquidityType}
+        onAssetAmountChange={handleChangeAssetAmount}
+        onPoolChange={handleSelectPoolAsset}
+        onRuneAmountChange={handleChangeRuneAmount}
+        poolAsset={poolAssetInput}
+        poolAssetList={poolAssetList}
+        runeAsset={runeAssetInput}
       />
 
       <PoolInfo
-        poolTicker={poolAssetInput.asset.ticker}
-        runeTicker={runeAssetInput.asset.ticker}
         fee={totalFeeInUSD}
-        slippage={addLiquiditySlip}
         poolShare={poolShareEst}
+        poolTicker={poolAssetInput.asset.ticker}
         rate={pool?.assetPriceInRune?.toSignificant(6) ?? null}
+        runeTicker={runeAssetInput.asset.ticker}
+        slippage={addLiquiditySlip}
       />
 
       <Box className="w-full pt-5">
         <Button
-          stretch
-          size="lg"
           isFancy
+          stretch
           disabled={!isValidDeposit.valid}
           error={!isValidDeposit.valid}
           onClick={handleAddLiquidity}
+          size="lg"
         >
           {t('views.multisig.createTransaction')}
         </Button>
@@ -106,11 +99,11 @@ export const TxDeposit = () => {
       <ConfirmModal
         inputAssets={depositAssets}
         isOpened={visibleConfirmModal}
-        onConfirm={handleConfirmAdd}
         onClose={() => setVisibleConfirmModal(false)}
+        onConfirm={handleConfirmAdd}
       >
         <InfoTable items={confirmInfo} />
       </ConfirmModal>
     </Box>
-  )
-}
+  );
+};

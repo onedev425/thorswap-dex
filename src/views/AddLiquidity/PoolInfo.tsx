@@ -1,27 +1,19 @@
-import { Box, Collapse, Icon, Typography } from 'components/Atomic'
-
-import { t } from 'services/i18n'
+import { Box, Collapse, Icon, Typography } from 'components/Atomic';
+import { t } from 'services/i18n';
 
 type Props = {
-  poolTicker: string
-  runeTicker: string
-  poolShare: string | null
-  fee: string | null
-  slippage: string | null
-  rate: string | null
-}
+  poolTicker: string;
+  runeTicker: string;
+  poolShare: string | null;
+  fee: string | null;
+  slippage: string | null;
+  rate: string | null;
+};
 
 const borderClasses =
-  'gap-2 border-0 border-r border-dotted border-light-typo-gray dark:border-dark-typo-gray'
+  'gap-2 border-0 border-r border-dotted border-light-typo-gray dark:border-dark-typo-gray';
 
-export const PoolInfo = ({
-  poolTicker,
-  runeTicker,
-  poolShare,
-  slippage,
-  fee,
-  rate,
-}: Props) => {
+export const PoolInfo = ({ poolTicker, runeTicker, poolShare, slippage, fee, rate }: Props) => {
   const fields = [
     {
       label: `${runeTicker} ${t('common.per')} ${poolTicker}`,
@@ -33,7 +25,7 @@ export const PoolInfo = ({
       label: t('views.addLiquidity.shareOfPool'),
       value: poolShare || 'N/A',
     },
-  ]
+  ];
 
   return (
     <Collapse
@@ -41,9 +33,9 @@ export const PoolInfo = ({
       shadow={false}
       title={
         <Box row className="gap-x-2">
-          <Icon name="infoCircle" size={16} color="secondary" />
+          <Icon color="secondary" name="infoCircle" size={16} />
 
-          <Typography variant="caption" color="primary" fontWeight="normal">
+          <Typography color="primary" fontWeight="normal" variant="caption">
             {t('views.addLiquidity.pricesAndPoolShare')}
           </Typography>
         </Box>
@@ -51,33 +43,29 @@ export const PoolInfo = ({
     >
       <Box className="w-full">
         {fields.map(({ label, value }, index) => {
-          const first = index === 0
-          const last = index === fields.length - 1
+          const first = index === 0;
+          const last = index === fields.length - 1;
 
           return (
             <Box
               col
-              key={label}
-              flex={1}
               alignCenter={!(first || last)}
-              justify="between"
               className={last ? 'text-right' : borderClasses}
+              flex={1}
+              justify="between"
+              key={label}
             >
-              <Typography
-                variant="caption"
-                color="secondary"
-                fontWeight="semibold"
-              >
+              <Typography color="secondary" fontWeight="semibold" variant="caption">
                 {label}
               </Typography>
 
-              <Typography variant="caption" className="text-base md:text-h4">
+              <Typography className="text-base md:text-h4" variant="caption">
                 {value}
               </Typography>
             </Box>
-          )
+          );
         })}
       </Box>
     </Collapse>
-  )
-}
+  );
+};

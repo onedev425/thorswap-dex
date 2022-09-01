@@ -1,3 +1,7 @@
+import classNames from 'classnames';
+import { Box } from 'components/Atomic';
+import { borderHighlightClass } from 'components/constants';
+import { CustomResizer } from 'components/PanelTextarea/CustomResizer';
 import {
   DetailedHTMLProps,
   forwardRef,
@@ -5,37 +9,31 @@ import {
   useCallback,
   useRef,
   useState,
-} from 'react'
-
-import classNames from 'classnames'
-
-import { Box } from 'components/Atomic'
-import { borderHighlightClass } from 'components/constants'
-import { CustomResizer } from 'components/PanelTextarea/CustomResizer'
+} from 'react';
 
 export type TextAreaProps = DetailedHTMLProps<
   InputHTMLAttributes<HTMLTextAreaElement>,
   HTMLTextAreaElement
 > & {
-  hasError?: boolean
-}
+  hasError?: boolean;
+};
 
 export const PanelTextarea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
   ({ className, hasError, ...props }: TextAreaProps, ref) => {
-    const inputRef = useRef<HTMLTextAreaElement>(null)
-    const [isFocused, setIsFocused] = useState(false)
+    const inputRef = useRef<HTMLTextAreaElement>(null);
+    const [isFocused, setIsFocused] = useState(false);
 
     const onFocus = useCallback(() => {
-      setIsFocused(true)
-    }, [])
+      setIsFocused(true);
+    }, []);
 
     const onBlur = useCallback(() => {
-      setIsFocused(false)
-    }, [])
+      setIsFocused(false);
+    }, []);
 
     return (
       <Box
-        onClick={focus}
+        col
         className={classNames(
           'px-2 py-2 self-stretch !bg-light-bg-primary dark:!bg-dark-gray-light !rounded-2xl md:!rounded-3xl transition-all duration-300',
           'border border-transparent border-solid hover:border-light-gray-primary dark:hover:border-dark-gray-primary',
@@ -45,9 +43,9 @@ export const PanelTextarea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           },
           className,
         )}
-        col
+        onClick={focus}
       >
-        <Box className="gap-3" alignCenter>
+        <Box alignCenter className="gap-3">
           <Box className="flex-1 relative">
             <CustomResizer />
             <textarea
@@ -56,14 +54,14 @@ export const PanelTextarea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
                 'border-none font-normal text-[14px] focus:outline-none resize-y',
                 className,
               )}
-              ref={ref || inputRef}
               onBlur={onBlur}
               onFocus={onFocus}
+              ref={ref || inputRef}
               {...props}
             />
           </Box>
         </Box>
       </Box>
-    )
+    );
   },
-)
+);

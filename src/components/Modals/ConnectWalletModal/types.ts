@@ -1,4 +1,4 @@
-import { SupportedChain, Chain } from '@thorswap-lib/types'
+import { Chain, SupportedChain } from '@thorswap-lib/types';
 
 export enum WalletType {
   Keystore = 'Keystore',
@@ -23,7 +23,7 @@ const Keystore = [
   Chain.Litecoin,
   Chain.Solana,
   Chain.THORChain,
-] as SupportedChain[]
+] as SupportedChain[];
 
 export const availableChainsByWallet: Record<WalletType, SupportedChain[]> = {
   [WalletType.CreateKeystore]: Keystore,
@@ -42,11 +42,11 @@ export const availableChainsByWallet: Record<WalletType, SupportedChain[]> = {
     Chain.Doge,
     Chain.Litecoin,
     Chain.BitcoinCash,
-    // TODO: https://linear.app/thorswap/issue/FRT-810/[add]-ledger-support-for-solana
-    // Chain.Solana,
+    Chain.Solana,
   ],
   [WalletType.Xdefi]: [
     Chain.THORChain,
+    // Chain.Avalanche,
     Chain.Bitcoin,
     Chain.Ethereum,
     Chain.Binance,
@@ -54,13 +54,9 @@ export const availableChainsByWallet: Record<WalletType, SupportedChain[]> = {
     Chain.Litecoin,
     Chain.BitcoinCash,
   ],
-}
+};
 
-const COMMON_WALLETS = [
-  WalletType.Keystore,
-  WalletType.CreateKeystore,
-  WalletType.Phrase,
-] as const
+const COMMON_WALLETS = [WalletType.Keystore, WalletType.CreateKeystore, WalletType.Phrase] as const;
 
 export const ALL_WALLET_OPTIONS = [
   WalletType.Xdefi,
@@ -70,7 +66,7 @@ export const ALL_WALLET_OPTIONS = [
   WalletType.Phantom,
   WalletType.Keplr,
   ...COMMON_WALLETS,
-]
+];
 
 export const availableWalletsByChain: Record<SupportedChain, WalletType[]> = {
   [Chain.Bitcoin]: [WalletType.Xdefi, WalletType.Ledger, ...COMMON_WALLETS],
@@ -88,15 +84,10 @@ export const availableWalletsByChain: Record<SupportedChain, WalletType[]> = {
     ...COMMON_WALLETS,
   ],
   [Chain.Solana]: [WalletType.Phantom, ...COMMON_WALLETS],
-  [Chain.Binance]: [
-    WalletType.Xdefi,
-    WalletType.Ledger,
-    WalletType.TrustWallet,
-    ...COMMON_WALLETS,
-  ],
+  [Chain.Binance]: [WalletType.Xdefi, WalletType.Ledger, WalletType.TrustWallet, ...COMMON_WALLETS],
   [Chain.Doge]: [WalletType.Xdefi, WalletType.Ledger, ...COMMON_WALLETS],
   [Chain.Litecoin]: [WalletType.Xdefi, WalletType.Ledger, ...COMMON_WALLETS],
   [Chain.BitcoinCash]: [WalletType.Xdefi, WalletType.Ledger, ...COMMON_WALLETS],
   [Chain.Cosmos]: [WalletType.Keplr, WalletType.Ledger, ...COMMON_WALLETS],
-  [Chain.Avalanche]: [WalletType.MetaMask, ...COMMON_WALLETS],
-}
+  [Chain.Avalanche]: [WalletType.MetaMask, WalletType.Xdefi, ...COMMON_WALLETS],
+};

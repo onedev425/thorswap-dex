@@ -1,19 +1,18 @@
-import classNames from 'classnames'
-
-import { Box, Typography } from 'components/Atomic'
-import { InfoRowProps } from 'components/InfoRow/types'
+import classNames from 'classnames';
+import { Box, Typography } from 'components/Atomic';
+import { InfoRowProps } from 'components/InfoRow/types';
 
 const labelVariant = {
   sm: 'caption-xs',
   md: 'caption',
   lg: 'body',
-} as const
-const valueVariant = { sm: 'caption-xs', md: 'caption', lg: 'body' } as const
+} as const;
+const valueVariant = { sm: 'caption-xs', md: 'caption', lg: 'body' } as const;
 const heightVariant = {
   sm: 'min-h-[30px]',
   md: 'min-h-[43px]',
   lg: 'min-h-[52px]',
-} as const
+} as const;
 
 export const InfoRow = ({
   label,
@@ -24,26 +23,22 @@ export const InfoRow = ({
   showBorder = true,
 }: InfoRowProps) => {
   const borderClasses =
-    'border-0 border-b border-solid border-bottom border-light-typo-gray dark:border-dark-typo-gray !border-opacity-20'
+    'border-0 border-b border-solid border-bottom border-light-typo-gray dark:border-dark-typo-gray !border-opacity-20';
 
   return (
     <Box
-      onClick={onClick}
+      alignCenter
       className={classNames(
         'gap-4',
         { [borderClasses]: showBorder },
         heightVariant[size],
         className,
       )}
-      alignCenter
       justify="between"
+      onClick={onClick}
     >
       {typeof label === 'string' ? (
-        <Typography
-          variant={labelVariant[size]}
-          fontWeight="medium"
-          color="secondary"
-        >
+        <Typography color="secondary" fontWeight="medium" variant={labelVariant[size]}>
           {label}
         </Typography>
       ) : (
@@ -53,9 +48,9 @@ export const InfoRow = ({
       {typeof value === 'string' || typeof value === 'number' ? (
         <Typography
           className="text-right"
-          variant={valueVariant[size]}
-          fontWeight="semibold"
           color="primary"
+          fontWeight="semibold"
+          variant={valueVariant[size]}
         >
           {value}
         </Typography>
@@ -63,5 +58,5 @@ export const InfoRow = ({
         value
       )}
     </Box>
-  )
-}
+  );
+};

@@ -1,23 +1,19 @@
-import { ChainWallet } from '@thorswap-lib/multichain-sdk'
-import { SupportedChain } from '@thorswap-lib/types'
-
-import { Box, Typography } from 'components/Atomic'
-import { WalletIcon } from 'components/WalletIcon/WalletIcon'
-
-import { chainName } from 'helpers/chainName'
+import { ChainWallet } from '@thorswap-lib/multichain-sdk';
+import { SupportedChain } from '@thorswap-lib/types';
+import { Box, Typography } from 'components/Atomic';
+import { WalletIcon } from 'components/WalletIcon/WalletIcon';
+import { chainName } from 'helpers/chainName';
 
 type Props = {
-  chain: SupportedChain
-  chainWallet: Maybe<ChainWallet>
-  balance: string
-}
+  chain: SupportedChain;
+  chainWallet: Maybe<ChainWallet>;
+  balance: string;
+};
 
 export const HeaderChainInfo = ({ chain, chainWallet, balance }: Props) => {
   return (
     <Box center className="space-x-1">
-      {!!chainWallet && (
-        <WalletIcon walletType={chainWallet?.walletType} size={16} />
-      )}
+      {!!chainWallet && <WalletIcon size={16} walletType={chainWallet?.walletType} />}
       <Typography>{chainName(chain, true)}</Typography>
 
       {!!chainWallet && (
@@ -26,5 +22,5 @@ export const HeaderChainInfo = ({ chain, chainWallet, balance }: Props) => {
         </Typography>
       )}
     </Box>
-  )
-}
+  );
+};

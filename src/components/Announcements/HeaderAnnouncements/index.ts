@@ -1,1 +1,1 @@
-export { HeaderAnnouncements } from './HeaderAnnouncements'
+export { HeaderAnnouncements } from './HeaderAnnouncements';

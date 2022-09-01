@@ -1,20 +1,19 @@
-import { IconName } from 'components/Atomic'
-
-import { ColorType } from 'types/app'
+import { IconName } from 'components/Atomic';
+import { ColorType } from 'types/app';
 
 export type StatsType = {
-  color: ColorType
-  tooltip?: string
-  iconName: IconName
-  label: string
-  value: string
-}
+  color: ColorType;
+  tooltip?: string;
+  iconName: IconName;
+  label: string;
+  value: string;
+};
 
 export type StatsListProps = {
-  list: StatsType[]
-  scrollable?: boolean
-  itemWidth?: number
-}
+  list: StatsType[];
+  scrollable?: boolean;
+  itemWidth?: number;
+};
 
 export const statsBgClasses: Record<ColorType, string> = {
   primary: 'hover:bg-btn-primary dark:hover:bg-btn-primary',
@@ -30,4 +29,4 @@ export const statsBgClasses: Record<ColorType, string> = {
   cyan: 'hover:bg-cyan hover:dark:bg-cyan',
   gray: 'hover:bg-gray hover:dark:bg-gray',
   red: 'hover:bg-red hover:dark:bg-red',
-}
+};

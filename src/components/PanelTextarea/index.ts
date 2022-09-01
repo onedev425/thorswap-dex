@@ -1,1 +1,1 @@
-export { PanelTextarea } from './PanelTextarea'
+export { PanelTextarea } from './PanelTextarea';

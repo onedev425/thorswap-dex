@@ -28,14 +28,6 @@ yarn start:stagenet
 yarn build; yarn preview
 ```
 
-- Storybook commands:
-
-```sh
-yarn storybook
-yarn build-storybook
-yarn release-storybook
-```
-
 - Linting
 
 ```sh

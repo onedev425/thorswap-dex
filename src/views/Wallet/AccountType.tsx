@@ -1,68 +1,58 @@
-import { memo, useCallback, useMemo } from 'react'
+import { chainToSigAsset } from '@thorswap-lib/multichain-sdk';
+import { SupportedChain } from '@thorswap-lib/types';
+import classNames from 'classnames';
+import { Box } from 'components/Atomic';
+import { chainName } from 'helpers/chainName';
+import { useFetchThornames } from 'hooks/useFetchThornames';
+import { memo, useCallback, useMemo } from 'react';
+import { SORTED_CHAINS } from 'settings/chain';
+import { useApp } from 'store/app/hooks';
+import { useWallet } from 'store/wallet/hooks';
+import { ViewMode } from 'types/app';
+import { AccountRow } from 'views/Wallet/AccountRow';
 
-import { chainToSigAsset } from '@thorswap-lib/multichain-sdk'
-import { SupportedChain } from '@thorswap-lib/types'
-import classNames from 'classnames'
-
-import { AccountRow } from 'views/Wallet/AccountRow'
-
-import { Box } from 'components/Atomic'
-
-import { useApp } from 'store/app/hooks'
-import { useWallet } from 'store/wallet/hooks'
-
-import { useFetchThornames } from 'hooks/useFetchThornames'
-
-import { chainName } from 'helpers/chainName'
-
-import { SORTED_CHAINS } from 'settings/chain'
-
-import { ViewMode } from 'types/app'
-
-import { AccountCard } from './AccountCard'
+import { AccountCard } from './AccountCard';
 
 type Props = {
-  keyword: string
-  onlyConnected: boolean
-}
+  keyword: string;
+  onlyConnected: boolean;
+};
 
 export const AccountType = memo(({ onlyConnected, keyword }: Props) => {
-  const { wallet } = useWallet()
-  const { walletViewMode } = useApp()
-  const registeredThornames = useFetchThornames()
+  const { wallet } = useWallet();
+  const { walletViewMode } = useApp();
+  const registeredThornames = useFetchThornames();
 
   const filteredChains = useMemo(
     () =>
       SORTED_CHAINS.filter((chain) => {
-        const sigAsset = chainToSigAsset(chain as SupportedChain)
-        const lowerKeyword = keyword.toLowerCase()
+        const sigAsset = chainToSigAsset(chain as SupportedChain);
+        const lowerKeyword = keyword.toLowerCase();
 
         const isSupported = [
           sigAsset.chain.toLowerCase(),
           sigAsset.symbol.toLowerCase(),
           chainName(chain, true).toLowerCase(),
-        ].some((item) => item.includes(lowerKeyword))
+        ].some((item) => item.includes(lowerKeyword));
 
-        return (
-          isSupported && (onlyConnected ? !!wallet?.[chain]?.address : true)
-        )
+        return isSupported && (onlyConnected ? !!wallet?.[chain]?.address : true);
       }) as SupportedChain[],
     [keyword, onlyConnected, wallet],
-  )
+  );
 
   const getThornames = useCallback(
     (chain: SupportedChain) => {
-      const { address } = wallet?.[chain] || {}
-      if (!(registeredThornames && address)) return []
+      const { address } = wallet?.[chain] || {};
+      if (!(registeredThornames && address)) return [];
 
       return registeredThornames.reduce((acc, { entries, thorname }) => {
-        const entry = entries.find((e) => e.address === address)
-        if (entry) acc.push(`${thorname}.${chain.toLowerCase()}`)
-        return acc
-      }, [] as string[])
+        const entry = entries.find((e) => e.address === address);
+        if (entry) acc.push(`${thorname}.${chain.toLowerCase()}`);
+        return acc;
+      }, [] as string[]);
     },
     [registeredThornames, wallet],
-  )
+  );
 
   return (
     <Box
@@ -75,19 +65,11 @@ export const AccountType = memo(({ onlyConnected, keyword }: Props) => {
     >
       {filteredChains.map((chain) =>
         walletViewMode === ViewMode.CARD ? (
-          <AccountCard
-            thornames={getThornames(chain)}
-            key={chain}
-            chain={chain}
-          />
+          <AccountCard chain={chain} key={chain} thornames={getThornames(chain)} />
         ) : (
-          <AccountRow
-            thornames={getThornames(chain)}
-            key={chain}
-            chain={chain}
-          />
+          <AccountRow chain={chain} key={chain} thornames={getThornames(chain)} />
         ),
       )}
     </Box>
-  )
-})
+  );
+});

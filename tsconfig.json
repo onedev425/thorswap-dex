@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "allowJs": true,
+    "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./src",
     "esModuleInterop": true,
@@ -20,6 +20,7 @@
     "strict": true,
     "strictNullChecks": true,
     "target": "ESNext",
+    "types": ["cypress", "node"],
     "paths": {
       "assets/*": ["assets/*"],
       "components/*": ["components/*"],
@@ -33,5 +34,4 @@
       "views/*": ["views/*"]
     }
   },
-  "include": ["src"]
 }

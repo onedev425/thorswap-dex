@@ -1,24 +1,23 @@
-import classNames from 'classnames'
+import classNames from 'classnames';
+import { Typography } from 'components/Atomic';
 
-import { Typography } from 'components/Atomic'
-
-import { SortIndicator } from './SortIndicator'
-import { columnAlignClasses, SortType, TableHeaderGroupType } from './types'
+import { SortIndicator } from './SortIndicator';
+import { columnAlignClasses, SortType, TableHeaderGroupType } from './types';
 
 type Props = {
-  column: TableHeaderGroupType
-}
+  column: TableHeaderGroupType;
+};
 
 export const TableHeaderColumn = (props: Props) => {
-  const { column } = props
+  const { column } = props;
 
   const getSortType = (): SortType => {
     if (!column.isSorted) {
-      return SortType.None
+      return SortType.None;
     }
 
-    return column.isSortedDesc ? SortType.Desc : SortType.Asc
-  }
+    return column.isSortedDesc ? SortType.Desc : SortType.Asc;
+  };
 
   return (
     <th
@@ -29,16 +28,15 @@ export const TableHeaderColumn = (props: Props) => {
       {...column.getHeaderProps(column.getSortByToggleProps())}
     >
       <Typography
-        variant="caption-xs"
-        color="secondary"
         className={classNames('inline-flex items-center gap-1 transition', {
-          'hover:text-light-typo-primary dark:hover:text-dark-typo-primary':
-            column.canSort,
+          'hover:text-light-typo-primary dark:hover:text-dark-typo-primary': column.canSort,
         })}
+        color="secondary"
+        variant="caption-xs"
       >
         {column.render('Header')}
         {column.canSort && <SortIndicator sortType={getSortType()} />}
       </Typography>
     </th>
-  )
-}
+  );
+};

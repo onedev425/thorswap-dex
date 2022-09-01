@@ -1,1 +1,1 @@
-export { InputAmount } from './InputAmount'
+export { InputAmount } from './InputAmount';

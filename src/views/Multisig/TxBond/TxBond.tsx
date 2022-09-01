@@ -1,16 +1,14 @@
-import { memo } from 'react'
-
-import { useTxBond } from 'views/Multisig/TxBond/hooks'
-import { NodeManagePanel } from 'views/Nodes/NodeManagePanel/NodeManagePanel'
-
-import { Box } from 'components/Atomic'
+import { Box } from 'components/Atomic';
+import { memo } from 'react';
+import { useTxBond } from 'views/Multisig/TxBond/hooks';
+import { NodeManagePanel } from 'views/Nodes/NodeManagePanel/NodeManagePanel';
 
 export const TxBond = memo(() => {
-  const handleBondAction = useTxBond()
+  const handleBondAction = useTxBond();
 
   return (
-    <Box className="gap-1" col flex={1}>
-      <NodeManagePanel handleBondAction={handleBondAction} skipWalletCheck />
+    <Box col className="gap-1" flex={1}>
+      <NodeManagePanel skipWalletCheck handleBondAction={handleBondAction} />
     </Box>
-  )
-})
+  );
+});

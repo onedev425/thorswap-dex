@@ -1,5 +1,5 @@
-import { gridLinesColor } from 'components/Chart/styles/colors'
-import * as styles from 'components/Chart/styles/styles'
+import { gridLinesColor } from 'components/Chart/styles/colors';
+import * as styles from 'components/Chart/styles/styles';
 
 export const getChartOptions = (hideLabel: boolean, hasGrid: boolean) => {
   const gridOptions = {
@@ -8,14 +8,14 @@ export const getChartOptions = (hideLabel: boolean, hasGrid: boolean) => {
     drawBorder: false,
     drawOnChartArea: hasGrid,
     drawTicks: false,
-  }
+  };
 
   const tickOptions = {
     display: hideLabel ? false : true,
     maxRotation: 0,
     minRotation: 0,
     sampleSize: 1,
-  }
+  };
 
   return {
     animation: false,
@@ -41,5 +41,5 @@ export const getChartOptions = (hideLabel: boolean, hasGrid: boolean) => {
         ticks: { ...styles.chartYTicksStyles, ...tickOptions },
       },
     },
-  } as const
-}
+  } as const;
+};

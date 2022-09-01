@@ -1,213 +1,185 @@
-import { useCallback, useEffect, useState } from 'react'
-
 // import { ETH_DECIMAL } from '@thorswap-lib/multichain-sdk'
-import { BigNumber } from '@ethersproject/bignumber'
+import { BigNumber } from '@ethersproject/bignumber';
+import { QuoteMode } from '@thorswap-lib/multichain-sdk';
+import { showErrorToast } from 'components/Toast';
+import { getV2Address, getV2Asset, VestingType } from 'helpers/assets';
+import { toOptionalFixed } from 'helpers/number';
+import { useTxTracker } from 'hooks/useTxTracker';
+import { useCallback, useEffect, useState } from 'react';
+import { ContractType, fromWei, triggerContractCall } from 'services/contract';
+import { t } from 'services/i18n';
+import { multichain } from 'services/multichain';
+import { TxTrackerType } from 'store/midgard/types';
+import { useAppDispatch } from 'store/store';
+import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
+import * as walletActions from 'store/wallet/actions';
+import { useWallet } from 'store/wallet/hooks';
+import { v4 } from 'uuid';
 
-import { showErrorToast } from 'components/Toast'
-
-import { TxTrackerType } from 'store/midgard/types'
-import { useAppDispatch } from 'store/store'
-import * as walletActions from 'store/wallet/actions'
-import { useWallet } from 'store/wallet/hooks'
-
-import { useTxTracker } from 'hooks/useTxTracker'
-
-import { ContractType, fromWei, triggerContractCall } from 'services/contract'
-import { t } from 'services/i18n'
-import { multichain } from 'services/multichain'
-
-import { getV2Address, getV2Asset, VestingType } from 'helpers/assets'
-import { toOptionalFixed } from 'helpers/number'
-
-import { getStakedThorAmount, getVthorState } from './utils'
+import { getStakedThorAmount, getVthorState } from './utils';
 
 export const useVthorUtil = () => {
-  const dispatch = useAppDispatch()
-  // total amount staked in vTHOR contract
-  const [thorStaked, setThorStaked] = useState(BigNumber.from(0))
-  // vTHOR total supply
-  const [vthorTS, setVthorTS] = useState(BigNumber.from(0))
-  // approval status
-  const [thorRedeemable, setTHORRedeemable] = useState(0)
-  const [vthorBalance, setVthorBalance] = useState(BigNumber.from(0))
+  const appDispatch = useAppDispatch();
+  const [thorStaked, setThorStaked] = useState(BigNumber.from(0));
+  const [vthorTS, setVthorTS] = useState(BigNumber.from(0));
+  const [thorRedeemable, setTHORRedeemable] = useState(0);
+  const [vthorBalance, setVthorBalance] = useState(BigNumber.from(0));
 
-  const { setTxFailed, submitTransaction, subscribeEthTx } = useTxTracker()
-  const { wallet } = useWallet()
+  const { setTxFailed, submitTransaction, subscribeEthTx } = useTxTracker();
+  const { wallet } = useWallet();
+
+  const ethAddr = wallet?.ETH?.address;
 
   const getApprovalStatus = useCallback(async () => {
-    dispatch(walletActions.getIsVthorApproved())
-  }, [dispatch])
+    appDispatch(walletActions.getIsVthorApproved());
+  }, [appDispatch]);
 
   const getThorStakedInfo = useCallback(async () => {
-    const res = await getStakedThorAmount().catch(() => BigNumber.from(0))
+    const res = await getStakedThorAmount().catch(() => BigNumber.from(0));
 
-    setThorStaked(res)
-  }, [])
+    setThorStaked(res);
+  }, []);
 
   const getVthorTS = useCallback(async () => {
-    const res = await getVthorState('totalSupply').catch(() =>
-      BigNumber.from(0),
-    )
-    setVthorTS(res)
-  }, [])
+    const res = await getVthorState('totalSupply').catch(() => BigNumber.from(0));
+    setVthorTS(res);
+  }, []);
 
   const getRate = useCallback(
     (isReverted = false) => {
-      const thorStakedNum = fromWei(thorStaked)
-      const vthorTSNum = fromWei(vthorTS)
+      const thorStakedNum = fromWei(thorStaked);
+      const vthorTSNum = fromWei(vthorTS);
 
       if (!isReverted) {
         return thorStakedNum === 0
           ? '1 THOR = 1 vTHOR'
-          : `1 THOR = ${toOptionalFixed(vthorTSNum / thorStakedNum, 3)} vTHOR`
+          : `1 THOR = ${toOptionalFixed(vthorTSNum / thorStakedNum, 3)} vTHOR`;
       }
 
       return vthorTSNum === 0
         ? '1 vTHOR = 1 THOR'
-        : `1 vTHOR = ${toOptionalFixed(thorStakedNum / vthorTSNum, 3)} THOR`
+        : `1 vTHOR = ${toOptionalFixed(thorStakedNum / vthorTSNum, 3)} THOR`;
     },
     [thorStaked, vthorTS],
-  )
+  );
 
   const approveTHOR = useCallback(async () => {
-    const thorAsset = getV2Asset(VestingType.THOR)
+    if (!ethAddr) return;
 
-    const trackId = submitTransaction({
-      type: TxTrackerType.Approve,
-      submitTx: {
-        inAssets: [
-          {
-            asset: thorAsset.toString(),
-            amount: '0',
-          },
-        ],
-      },
-    })
+    const thorAsset = getV2Asset(VestingType.THOR);
+    const id = v4();
+
+    appDispatch(
+      addTransaction({
+        id,
+        from: ethAddr,
+        label: `${t('txManager.approve')} ${thorAsset.name}`,
+        inChain: thorAsset.L1Chain,
+        type: 'approve',
+        quoteMode: QuoteMode.APPROVAL,
+      }),
+    );
 
     try {
-      const txHash = await multichain().approveAssetForStaking(
+      const txid = await multichain().approveAssetForStaking(
         getV2Asset(VestingType.THOR),
         getV2Address(VestingType.VTHOR),
-      )
+      );
 
-      if (txHash) {
-        subscribeEthTx({
-          uuid: trackId,
-          submitTx: {
-            inAssets: [
-              {
-                asset: thorAsset.toString(),
-                amount: '0', // not needed for approve tx
-              },
-            ],
-            txID: txHash,
-          },
-          txHash,
-          callback: getApprovalStatus,
-        })
+      if (txid) {
+        appDispatch(updateTransaction({ id, txid }));
       }
-    } catch {
-      setTxFailed(trackId)
-      showErrorToast(t('notification.approveFailed'))
+    } catch (error) {
+      console.error(error);
+      appDispatch(completeTransaction({ id, status: 'error' }));
+      showErrorToast(t('notification.approveFailed'));
     }
-  }, [getApprovalStatus, submitTransaction, subscribeEthTx, setTxFailed])
+  }, [ethAddr, appDispatch]);
 
   const previewDeposit = useCallback(
     (inputAmount: BigNumber) => {
-      const supply = fromWei(vthorTS)
+      const supply = fromWei(vthorTS);
 
       return supply === 0
         ? fromWei(inputAmount)
-        : fromWei(inputAmount.mul(vthorTS).div(thorStaked))
+        : fromWei(inputAmount.mul(vthorTS).div(thorStaked));
     },
     [thorStaked, vthorTS],
-  )
+  );
 
   const previewRedeem = useCallback(
     (inputAmount: BigNumber) => {
-      const supply = fromWei(vthorTS)
+      const supply = fromWei(vthorTS);
 
       return supply === 0
         ? fromWei(inputAmount)
-        : fromWei(inputAmount.mul(thorStaked).div(vthorTS))
+        : fromWei(inputAmount.mul(thorStaked).div(vthorTS));
     },
     [thorStaked, vthorTS],
-  )
+  );
 
   const getVthorBalance = useCallback(async () => {
-    const ethAddr = wallet?.ETH?.address
-
     if (!ethAddr) {
-      setVthorBalance(BigNumber.from(0))
-      return
+      setVthorBalance(BigNumber.from(0));
+      return;
     }
 
     const res = await getVthorState('balanceOf', [ethAddr]).catch(() =>
       setVthorBalance(BigNumber.from(0)),
-    )
+    );
 
-    setVthorBalance(res)
-  }, [wallet])
+    setVthorBalance(res);
+  }, [ethAddr]);
 
   const getTHORRedeemable = useCallback(async () => {
-    const ethAddr = wallet?.ETH?.address
-
     if (!ethAddr) {
-      setTHORRedeemable(0)
-      return
+      setTHORRedeemable(0);
+      return;
     }
 
-    const vThorBal = await getVthorState('balanceOf', [ethAddr]).catch(() =>
-      setTHORRedeemable(0),
-    )
-    const res = await getVthorState('previewRedeem', [vThorBal]).catch(() =>
-      setTHORRedeemable(0),
-    )
+    const vThorBal = await getVthorState('balanceOf', [ethAddr]).catch(() => setTHORRedeemable(0));
+    const res = await getVthorState('previewRedeem', [vThorBal]).catch(() => setTHORRedeemable(0));
 
-    return setTHORRedeemable(fromWei(res))
-  }, [wallet])
+    return setTHORRedeemable(fromWei(res));
+  }, [ethAddr]);
 
   const handleRefresh = useCallback(() => {
-    const ethAddr = wallet?.ETH?.address
+    getThorStakedInfo();
+    getVthorTS();
+    getApprovalStatus();
+    getTHORRedeemable();
 
-    getThorStakedInfo()
-    getVthorTS()
-    getApprovalStatus()
-    getTHORRedeemable()
-
-    if (ethAddr) getVthorBalance()
+    if (ethAddr) getVthorBalance();
   }, [
-    wallet,
-    getApprovalStatus,
     getThorStakedInfo,
-    getVthorBalance,
     getVthorTS,
+    getApprovalStatus,
     getTHORRedeemable,
-  ])
+    ethAddr,
+    getVthorBalance,
+  ]);
 
   const stakeThor = useCallback(
     async (stakeAmount: BigNumber, receiverAddr: string) => {
-      const parsedAmount = fromWei(stakeAmount)
-      if (parsedAmount === 0) return
+      const parsedAmount = fromWei(stakeAmount);
+      if (parsedAmount === 0) return;
 
-      const thorAsset = getV2Asset(VestingType.THOR)
-      const amount = parsedAmount.toString()
+      const thorAsset = getV2Asset(VestingType.THOR);
+      const amount = parsedAmount.toString();
       const submitTx = {
         inAssets: [{ asset: thorAsset.toString(), amount }],
-      }
+      };
 
       // submit transaction for Stake
-      const trackId = submitTransaction({ type: TxTrackerType.Stake, submitTx })
+      const trackId = submitTransaction({ type: TxTrackerType.Stake, submitTx });
 
       try {
-        const res = await triggerContractCall(
-          multichain(),
-          ContractType.VTHOR,
-          'deposit',
-          [stakeAmount, receiverAddr],
-        )
+        const res = await triggerContractCall(multichain(), ContractType.VTHOR, 'deposit', [
+          stakeAmount,
+          receiverAddr,
+        ]);
 
-        const txHash = res?.hash
+        const txHash = res?.hash;
 
         if (txHash) {
           subscribeEthTx({
@@ -215,44 +187,43 @@ export const useVthorUtil = () => {
             submitTx: { ...submitTx, txID: txHash },
             txHash,
             callback: handleRefresh,
-          })
+          });
         }
       } catch {
-        setTxFailed(trackId)
+        setTxFailed(trackId);
         showErrorToast(
           t('txManager.stakeAssetFailed', {
             amount: fromWei(stakeAmount).toString(),
             asset: thorAsset.ticker,
           }),
-        )
+        );
       }
     },
     [handleRefresh, setTxFailed, submitTransaction, subscribeEthTx],
-  )
+  );
 
   const unstakeThor = useCallback(
     async (unstakeAmount: BigNumber, receiverAddr: string) => {
-      const vthorAsset = getV2Asset(VestingType.VTHOR)
-      const amount = fromWei(unstakeAmount).toString()
+      const vthorAsset = getV2Asset(VestingType.VTHOR);
+      const amount = fromWei(unstakeAmount).toString();
       const submitTx = {
         inAssets: [{ asset: vthorAsset.toString(), amount }],
-      }
+      };
 
       // TODO: update tracker type and submitTx info
       const trackId = submitTransaction({
         type: TxTrackerType.Unstake,
         submitTx,
-      })
+      });
 
       try {
-        const res = await triggerContractCall(
-          multichain(),
-          ContractType.VTHOR,
-          'redeem',
-          [unstakeAmount, receiverAddr, receiverAddr],
-        )
+        const res = await triggerContractCall(multichain(), ContractType.VTHOR, 'redeem', [
+          unstakeAmount,
+          receiverAddr,
+          receiverAddr,
+        ]);
 
-        const txHash = res?.hash
+        const txHash = res?.hash;
 
         if (txHash) {
           subscribeEthTx({
@@ -260,22 +231,22 @@ export const useVthorUtil = () => {
             submitTx: { ...submitTx, txID: txHash },
             txHash,
             callback: handleRefresh,
-          })
+          });
         }
       } catch {
-        setTxFailed(trackId)
+        setTxFailed(trackId);
         showErrorToast(
           t('txManager.redeemedAmountAssetFailed', {
             asset: vthorAsset.ticker,
             amount,
           }),
-        )
+        );
       }
     },
     [handleRefresh, setTxFailed, submitTransaction, subscribeEthTx],
-  )
+  );
 
-  useEffect(() => handleRefresh(), [handleRefresh])
+  useEffect(() => handleRefresh(), [handleRefresh]);
 
   return {
     thorStaked,
@@ -289,5 +260,5 @@ export const useVthorUtil = () => {
     previewRedeem,
     stakeThor,
     unstakeThor,
-  }
-}
+  };
+};

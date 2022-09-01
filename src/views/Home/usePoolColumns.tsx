@@ -1,30 +1,20 @@
-import { useMemo } from 'react'
-
-import { useNavigate } from 'react-router-dom'
-
-import { Amount, Asset, Percent, Pool } from '@thorswap-lib/multichain-sdk'
-
-import { AssetIcon } from 'components/AssetIcon'
-import { Box, Button, Typography } from 'components/Atomic'
-import {
-  getAmountColumnSorter,
-  sortPoolColumn,
-} from 'components/Atomic/Table/utils'
-
-import { useGlobalState } from 'store/hooks'
-
-import { BreakPoint } from 'hooks/useWindowSize'
-
-import { t } from 'services/i18n'
-
-import { chainName } from 'helpers/chainName'
-import { formatPrice } from 'helpers/formatPrice'
-
-import { getAddLiquidityRoute, getSwapRoute } from 'settings/constants'
+import { Amount, Asset, Percent, Pool } from '@thorswap-lib/multichain-sdk';
+import { AssetIcon } from 'components/AssetIcon';
+import { Box, Button, Icon, Typography } from 'components/Atomic';
+import { getAmountColumnSorter, sortPoolColumn } from 'components/Atomic/Table/utils';
+import { formatPrice } from 'helpers/formatPrice';
+import { BreakPoint } from 'hooks/useWindowSize';
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { t } from 'services/i18n';
+import { getAddLiquidityRoute, getSwapRoute } from 'settings/constants';
+import { useGlobalState } from 'store/hooks';
+import { useMidgard } from 'store/midgard/hooks';
 
 export const usePoolColumns = () => {
-  const navigate = useNavigate()
-  const { runeToCurrency } = useGlobalState()
+  const navigate = useNavigate();
+  const { poolLoading } = useMidgard();
+  const { runeToCurrency } = useGlobalState();
 
   const columns = useMemo(
     () => [
@@ -36,17 +26,9 @@ export const usePoolColumns = () => {
         Cell: ({ cell: { value } }: { cell: { value: Pool } }) => (
           <div className="flex flex-row items-center">
             <AssetIcon asset={value.asset} size={40} />
-            <Typography className="hidden pl-4 h4 md:block">
-              {value.asset.ticker}
-            </Typography>
+            <Typography className="hidden pl-4 h4 md:block">{value.asset.ticker}</Typography>
           </div>
         ),
-      },
-      {
-        id: 'network',
-        Header: () => t('common.network'),
-        accessor: (row: Pool) => chainName(row.asset.chain, true),
-        minScreenSize: BreakPoint.xl,
       },
       {
         id: 'price',
@@ -54,15 +36,13 @@ export const usePoolColumns = () => {
         accessor: (row: Pool) =>
           Amount.fromAssetAmount(row.detail.assetPriceUSD, row.asset.decimal),
         align: 'right',
-        Cell: ({ cell: { value } }: { cell: { value: Amount } }) =>
-          formatPrice(value),
+        Cell: ({ cell: { value } }: { cell: { value: Amount } }) => formatPrice(value),
         sortType: getAmountColumnSorter('price'),
       },
       {
         id: 'liquidity',
         Header: () => t('common.liquidity'),
-        accessor: (row: Pool) =>
-          Amount.fromMidgard(row.detail.runeDepth).mul(2),
+        accessor: (row: Pool) => Amount.fromMidgard(row.detail.runeDepth).mul(2),
         align: 'right',
         Cell: ({ cell: { value } }: { cell: { value: Amount } }) =>
           runeToCurrency(value).toCurrencyFormat(2),
@@ -84,7 +64,7 @@ export const usePoolColumns = () => {
         accessor: (row: Pool) => new Percent(row.detail.poolAPY),
         align: 'right',
         Cell: ({ cell: { value } }: { cell: { value: Percent } }) =>
-          value.toFixed(0),
+          value.lte(0) && poolLoading ? <Icon spin name="loader" size={16} /> : value.toFixed(2),
         sortType: getAmountColumnSorter('apr'),
       },
       {
@@ -94,21 +74,21 @@ export const usePoolColumns = () => {
         Cell: ({ cell: { value } }: { cell: { value: Asset } }) => (
           <Box row className="gap-2" justify="end">
             <Button
-              variant="secondary"
-              type="outline"
               onClick={(e) => {
-                e.stopPropagation()
-                navigate(getSwapRoute(value))
+                e.stopPropagation();
+                navigate(getSwapRoute(value));
               }}
+              type="outline"
+              variant="secondary"
             >
               {t('common.swap')}
             </Button>
             <Button
-              type="outline"
               onClick={(e) => {
-                e.stopPropagation()
-                navigate(getAddLiquidityRoute(value))
+                e.stopPropagation();
+                navigate(getAddLiquidityRoute(value));
               }}
+              type="outline"
             >
               {t('common.addLiquidity')}
             </Button>
@@ -118,8 +98,8 @@ export const usePoolColumns = () => {
         minScreenSize: BreakPoint.md,
       },
     ],
-    [navigate, runeToCurrency],
-  )
+    [navigate, poolLoading, runeToCurrency],
+  );
 
-  return columns
-}
+  return columns;
+};

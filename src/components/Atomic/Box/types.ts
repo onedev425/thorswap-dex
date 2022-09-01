@@ -1,69 +1,64 @@
-import { CSSProperties, PropsWithChildren } from 'react'
+import { CSSProperties, PropsWithChildren } from 'react';
 
-export type CustomAlignType = 'start' | 'end' | 'stretch' | 'baseline'
+export type CustomAlignType = 'start' | 'end' | 'stretch' | 'baseline';
 
-export type CustomJustifyType =
-  | 'start'
-  | 'end'
-  | 'between'
-  | 'around'
-  | 'evenly'
+export type CustomJustifyType = 'start' | 'end' | 'between' | 'around' | 'evenly';
 
 type AlignProps = {
-  align?: CustomAlignType
-  alignCenter?: boolean
-}
+  align?: CustomAlignType;
+  alignCenter?: boolean;
+};
 
 type JustifyProps = {
-  justify?: CustomJustifyType
-  justifyCenter?: boolean
-}
+  justify?: CustomJustifyType;
+  justifyCenter?: boolean;
+};
 
 export type BoxProps = PropsWithChildren<
   {
-    onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
-    style?: CSSProperties
-    className?: string
-    col?: boolean
-    row?: boolean
-    flex?: number
+    onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+    style?: CSSProperties;
+    className?: string;
+    col?: boolean;
+    row?: boolean;
+    flex?: number;
   } & (
     | ({
-        justify: CustomJustifyType
-        justifyCenter?: undefined
-        center?: undefined
+        justify: CustomJustifyType;
+        justifyCenter?: undefined;
+        center?: undefined;
       } & AlignProps)
     | ({
-        align: CustomAlignType
-        alignCenter?: undefined
-        center?: undefined
+        align: CustomAlignType;
+        alignCenter?: undefined;
+        center?: undefined;
       } & JustifyProps)
     | {
-        center?: boolean
-        alignCenter?: undefined
-        justifyCenter?: undefined
-        align?: undefined
-        justify?: undefined
+        center?: boolean;
+        alignCenter?: undefined;
+        justifyCenter?: undefined;
+        align?: undefined;
+        justify?: undefined;
       }
     | ({
-        alignCenter: boolean
-        center?: undefined
-        align?: undefined
+        alignCenter: boolean;
+        center?: undefined;
+        align?: undefined;
       } & JustifyProps)
     | ({
-        justifyCenter: boolean
-        center?: undefined
-        justify?: undefined
+        justifyCenter: boolean;
+        center?: undefined;
+        justify?: undefined;
       } & AlignProps)
   )
->
+>;
 
 export const alignClasses: Record<CustomAlignType, string> = {
   start: 'items-start',
   end: 'items-end',
   baseline: 'items-baseline',
   stretch: 'items-stretch',
-}
+};
 
 export const justifyClasses: Record<CustomJustifyType, string> = {
   start: 'justify-start',
@@ -71,4 +66,4 @@ export const justifyClasses: Record<CustomJustifyType, string> = {
   between: 'justify-between',
   around: 'justify-around',
   evenly: 'justify-evenly',
-}
+};

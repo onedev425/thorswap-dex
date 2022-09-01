@@ -1,16 +1,12 @@
-import { useMemo } from 'react'
-
-import { Asset } from '@thorswap-lib/multichain-sdk'
-
-import { ConfirmModal } from 'views/Multisig/components/ConfirmModal'
-import { useTxSend } from 'views/Multisig/TxSend/hooks'
-
-import { AssetInput } from 'components/AssetInput'
-import { Box, Button } from 'components/Atomic'
-import { InfoTable } from 'components/InfoTable'
-import { PanelInput } from 'components/PanelInput'
-
-import { t } from 'services/i18n'
+import { Asset } from '@thorswap-lib/multichain-sdk';
+import { AssetInput } from 'components/AssetInput';
+import { Box, Button } from 'components/Atomic';
+import { InfoTable } from 'components/InfoTable';
+import { PanelInput } from 'components/PanelInput';
+import { useMemo } from 'react';
+import { t } from 'services/i18n';
+import { ConfirmModal } from 'views/Multisig/components/ConfirmModal';
+import { useTxSend } from 'views/Multisig/TxSend/hooks';
 
 export const TxSend = () => {
   const {
@@ -28,7 +24,7 @@ export const TxSend = () => {
     handleCancelConfirm,
     handleCreateTx,
     handleSend,
-  } = useTxSend()
+  } = useTxSend();
 
   const confirmModalInfo = useMemo(
     () => [
@@ -39,51 +35,43 @@ export const TxSend = () => {
       { label: t('common.recipient'), value: recipientAddress },
     ],
     [recipientAddress, sendAmount, sendAsset.name],
-  )
+  );
 
   return (
-    <Box className="gap-1" col flex={1}>
+    <Box col className="gap-1" flex={1}>
       <div className="relative self-stretch md:w-full">
         <AssetInput
-          selectedAsset={assetInput}
           assets={assetInputList}
           onAssetChange={handleSelectAsset}
           onValueChange={handleChangeSendAmount}
+          selectedAsset={assetInput}
         />
       </div>
 
       <PanelInput
-        title={t('common.recipientAddress')}
-        placeholder={`${
-          assetInput.asset.isSynth
-            ? Asset.RUNE().network
-            : assetInput.asset.network
-        } ${t('common.address')}`}
         onChange={handleChangeRecipient}
+        placeholder={`${
+          assetInput.asset.isSynth ? Asset.RUNE().network : assetInput.asset.network
+        } ${t('common.address')}`}
+        title={t('common.recipientAddress')}
         value={recipientAddress}
       />
 
-      <PanelInput
-        collapsible
-        title={t('common.memo')}
-        onChange={handleChangeMemo}
-        value={memo}
-      />
+      <PanelInput collapsible onChange={handleChangeMemo} title={t('common.memo')} value={memo} />
 
       <Box center className="w-full pt-5">
-        <Button isFancy stretch size="lg" onClick={handleSend}>
+        <Button isFancy stretch onClick={handleSend} size="lg">
           {t('views.multisig.createTransaction')}
         </Button>
       </Box>
 
       <ConfirmModal
-        inputAssets={[sendAsset]}
         isOpened={isOpenConfirmModal}
-        onConfirm={handleCreateTx}
         onClose={handleCancelConfirm}
+        onConfirm={handleCreateTx}
       >
         <InfoTable items={confirmModalInfo} />
       </ConfirmModal>
     </Box>
-  )
-}
+  );
+};

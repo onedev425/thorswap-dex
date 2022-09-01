@@ -1,4 +1,4 @@
-import { BreakPoint } from 'hooks/useWindowSize'
+import { BreakPoint } from 'hooks/useWindowSize';
 
 export const columns = [
   {
@@ -37,7 +37,7 @@ export const columns = [
     accessor: 'action',
     minScreenSize: BreakPoint.lg,
   },
-]
+];
 
 export const data = [
   {
@@ -70,4 +70,4 @@ export const data = [
     activeBlock: '2.798.153',
     action: '-',
   },
-]
+];

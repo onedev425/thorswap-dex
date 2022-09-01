@@ -1,105 +1,95 @@
-import { useCallback, useMemo, useState } from 'react'
-
 import {
   Amount,
   Asset,
-  Price,
   AssetAmount,
+  getEstimatedTxTime,
   hasConnectedWallet,
   hasWalletConnected,
-  getEstimatedTxTime,
-} from '@thorswap-lib/multichain-sdk'
-import { Chain, SupportedChain } from '@thorswap-lib/types'
+  Price,
+} from '@thorswap-lib/multichain-sdk';
+import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Box, Button } from 'components/Atomic';
+import { GlobalSettingsPopover } from 'components/GlobalSettings';
+import { InfoTable } from 'components/InfoTable';
+import { LiquidityTypeOption } from 'components/LiquidityType/types';
+import { ConfirmModal } from 'components/Modals/ConfirmModal';
+import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems';
+import { PanelView } from 'components/PanelView';
+import { showErrorToast, showInfoToast } from 'components/Toast';
+import { ViewHeader } from 'components/ViewHeader';
+import { getAssetBalance, getInputAssetsForCreate } from 'helpers/wallet';
+import { useApprove } from 'hooks/useApprove';
+import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
+import { useBalance } from 'hooks/useBalance';
+import { useMimir } from 'hooks/useMimir';
+import { getSumAmountInUSD, useNetworkFee } from 'hooks/useNetworkFee';
+import { useTxTracker } from 'hooks/useTxTracker';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { t } from 'services/i18n';
+import { multichain } from 'services/multichain';
+import { useExternalConfig } from 'store/externalConfig/hooks';
+import { TxTrackerStatus, TxTrackerType } from 'store/midgard/types';
+import { useAppSelector } from 'store/store';
+import { useWallet } from 'store/wallet/hooks';
 
-import { Button, Box } from 'components/Atomic'
-import { GlobalSettingsPopover } from 'components/GlobalSettings'
-import { InfoTable } from 'components/InfoTable'
-import { LiquidityTypeOption } from 'components/LiquidityType/types'
-import { ConfirmModal } from 'components/Modals/ConfirmModal'
-import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems'
-import { PanelView } from 'components/PanelView'
-import { showErrorToast, showInfoToast } from 'components/Toast'
-import { ViewHeader } from 'components/ViewHeader'
-
-import { useExternalConfig } from 'store/externalConfig/hooks'
-import { TxTrackerStatus, TxTrackerType } from 'store/midgard/types'
-import { useAppSelector } from 'store/store'
-import { useWallet } from 'store/wallet/hooks'
-
-import { useApprove } from 'hooks/useApprove'
-import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance'
-import { useBalance } from 'hooks/useBalance'
-import { useMimir } from 'hooks/useMimir'
-import { useNetworkFee, getSumAmountInUSD } from 'hooks/useNetworkFee'
-import { useTxTracker } from 'hooks/useTxTracker'
-
-import { t } from 'services/i18n'
-import { multichain } from 'services/multichain'
-
-import { getAssetBalance, getInputAssetsForCreate } from 'helpers/wallet'
-
-import { AssetInputs } from './AssetInputs'
-import { PoolInfo } from './PoolInfo'
-import { useConfirmInfoItems } from './useConfirmInfoItems'
+import { AssetInputs } from './AssetInputs';
+import { PoolInfo } from './PoolInfo';
+import { useConfirmInfoItems } from './useConfirmInfoItems';
 
 export const CreateLiquidity = () => {
-  const { pools } = useAppSelector(({ midgard }) => midgard)
-  const { wallet, setIsConnectModalOpen } = useWallet()
+  const { pools } = useAppSelector(({ midgard }) => midgard);
+  const { wallet, setIsConnectModalOpen } = useWallet();
+  const [inputAssets, setInputAssets] = useState<Asset[]>([]);
 
-  const inputAssets = useMemo(() => {
-    if (hasConnectedWallet(wallet)) {
-      const assets = getInputAssetsForCreate({ wallet, pools })
-      return assets.filter((asset) => asset.ticker !== 'RUNE' && !asset.isSynth)
-    }
+  useEffect(() => {
+    const getInputAssets = async () => {
+      if (hasConnectedWallet(wallet)) {
+        const assets = await getInputAssetsForCreate({ wallet, pools });
+        const assetsToSet =
+          assets.filter((asset) => asset.ticker !== 'RUNE' && !asset.isSynth) || [];
 
-    return []
-  }, [wallet, pools])
-  const [poolAsset, setPoolAsset] = useState<Asset>(
-    inputAssets?.[0] ?? Asset.RUNE(),
-  )
+        setInputAssets(assetsToSet);
+      } else {
+        setInputAssets([]);
+      }
+    };
+    getInputAssets();
+  }, [wallet, pools]);
 
-  const { getMaxBalance, isWalletAssetConnected } = useBalance()
-  const { isFundsCapReached, isChainPauseLPAction } = useMimir()
-  const { getChainDepositLPPaused } = useExternalConfig()
+  const [poolAsset, setPoolAsset] = useState<Asset>(inputAssets?.[0] ?? Asset.RUNE());
+
+  const { getMaxBalance, isWalletAssetConnected } = useBalance();
+  const { isFundsCapReached, isChainPauseLPAction } = useMimir();
+  const { getChainDepositLPPaused } = useExternalConfig();
   const isLPActionPaused: boolean = useMemo(() => {
     return (
       isChainPauseLPAction(poolAsset.chain) ||
       getChainDepositLPPaused(poolAsset.chain as SupportedChain)
-    )
-  }, [isChainPauseLPAction, poolAsset.chain, getChainDepositLPPaused])
+    );
+  }, [isChainPauseLPAction, poolAsset.chain, getChainDepositLPPaused]);
 
-  const [assetAmount, setAssetAmount] = useState<Amount>(
-    Amount.fromAssetAmount(0, 8),
-  )
-  const [runeAmount, setRuneAmount] = useState<Amount>(
-    Amount.fromAssetAmount(0, 8),
-  )
+  const [assetAmount, setAssetAmount] = useState<Amount>(Amount.fromAssetAmount(0, 8));
+  const [runeAmount, setRuneAmount] = useState<Amount>(Amount.fromAssetAmount(0, 8));
 
-  const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
+  const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker();
 
-  const [visibleConfirmModal, setVisibleConfirmModal] = useState(false)
-  const [visibleApproveModal, setVisibleApproveModal] = useState(false)
+  const [visibleConfirmModal, setVisibleConfirmModal] = useState(false);
+  const [visibleApproveModal, setVisibleApproveModal] = useState(false);
 
-  const { inboundFee: inboundAssetFee } = useNetworkFee({
+  const { inboundFee: inboundAssetFee, outboundFee: inboundRuneFee } = useNetworkFee({
     inputAsset: poolAsset,
-  })
-
-  const { inboundFee: inboundRuneFee } = useNetworkFee({
-    inputAsset: Asset.RUNE(),
-  })
+    outputAsset: Asset.RUNE(),
+  });
 
   const isWalletConnected = useMemo(() => {
     // symm
     return (
       hasWalletConnected({ wallet, inputAssets: [poolAsset] }) &&
       hasWalletConnected({ wallet, inputAssets: [Asset.RUNE()] })
-    )
-  }, [wallet, poolAsset])
+    );
+  }, [wallet, poolAsset]);
 
-  const { isApproved, assetApproveStatus } = useApprove(
-    poolAsset,
-    isWalletConnected,
-  )
+  const { isApproved, assetApproveStatus } = useApprove(poolAsset, isWalletConnected);
 
   const runeAssetPriceInUSD = useMemo(
     () =>
@@ -110,9 +100,9 @@ export const CreateLiquidity = () => {
         priceAmount: runeAmount,
       }),
     [runeAmount, pools],
-  )
+  );
 
-  const poolAssetPriceInUSD = runeAssetPriceInUSD
+  const poolAssetPriceInUSD = runeAssetPriceInUSD;
 
   const poolAssetValueInUSD = useMemo(
     () =>
@@ -123,84 +113,81 @@ export const CreateLiquidity = () => {
         priceAmount: runeAmount.div(assetAmount),
       }),
     [runeAmount, assetAmount, pools],
-  )
+  );
 
   const price: Amount = useMemo(() => {
-    if (assetAmount.eq(0)) return Amount.fromAssetAmount(0, 8)
+    if (assetAmount.eq(0)) return Amount.fromAssetAmount(0, 8);
 
-    return runeAmount.div(assetAmount)
-  }, [runeAmount, assetAmount])
+    return runeAmount.div(assetAmount);
+  }, [runeAmount, assetAmount]);
 
   const poolAssetBalance: Amount = useMemo(() => {
     if (wallet) {
-      return getAssetBalance(poolAsset, wallet).amount
+      return getAssetBalance(poolAsset, wallet).amount;
     }
 
     // allow max amount if wallet is not connected
-    return Amount.fromAssetAmount(10 ** 3, 8)
-  }, [poolAsset, wallet])
+    return Amount.fromAssetAmount(10 ** 3, 8);
+  }, [poolAsset, wallet]);
 
   const maxPoolAssetBalance: Amount = useMemo(
     () => getMaxBalance(poolAsset),
     [poolAsset, getMaxBalance],
-  )
+  );
 
   const runeBalance: Amount = useMemo(() => {
     if (wallet) {
-      return getAssetBalance(Asset.RUNE(), wallet).amount
+      return getAssetBalance(Asset.RUNE(), wallet).amount;
     }
 
     // allow max amount if wallet is not connected
-    return Amount.fromAssetAmount(10 ** 3, 8)
-  }, [wallet])
+    return Amount.fromAssetAmount(10 ** 3, 8);
+  }, [wallet]);
 
-  const maxRuneBalance: Amount = useMemo(
-    () => getMaxBalance(Asset.RUNE()),
-    [getMaxBalance],
-  )
+  const maxRuneBalance: Amount = useMemo(() => getMaxBalance(Asset.RUNE()), [getMaxBalance]);
 
   const handleSelectPoolAsset = useCallback((poolAssetData: Asset) => {
-    setPoolAsset(poolAssetData)
-  }, [])
+    setPoolAsset(poolAssetData);
+  }, []);
 
   const handleChangeAssetAmount = useCallback(
     (amount: Amount) => {
       if (amount.gt(maxPoolAssetBalance)) {
-        setAssetAmount(maxPoolAssetBalance)
+        setAssetAmount(maxPoolAssetBalance);
       } else {
-        setAssetAmount(amount)
+        setAssetAmount(amount);
       }
     },
     [maxPoolAssetBalance],
-  )
+  );
 
   const handleChangeRuneAmount = useCallback(
     (amount: Amount) => {
       if (amount.gt(maxRuneBalance)) {
-        setRuneAmount(maxRuneBalance)
+        setRuneAmount(maxRuneBalance);
       } else {
-        setRuneAmount(amount)
+        setRuneAmount(amount);
       }
     },
     [maxRuneBalance],
-  )
+  );
 
   const handleConfirmAdd = useCallback(async () => {
-    setVisibleConfirmModal(false)
+    setVisibleConfirmModal(false);
     if (wallet) {
-      const runeAssetAmount = new AssetAmount(Asset.RUNE(), runeAmount)
-      const poolAssetAmount = new AssetAmount(poolAsset, assetAmount)
+      const runeAssetAmount = new AssetAmount(Asset.RUNE(), runeAmount);
+      const poolAssetAmount = new AssetAmount(poolAsset, assetAmount);
 
-      const inAssets = []
+      const inAssets = [];
       inAssets.push({
         asset: Asset.RUNE().toString(),
         amount: runeAmount.toSignificant(6),
-      })
+      });
 
       inAssets.push({
         asset: poolAsset.toString(),
         amount: assetAmount.toSignificant(6),
-      })
+      });
 
       // register to tx tracker
       const trackId = submitTransaction({
@@ -210,16 +197,16 @@ export const CreateLiquidity = () => {
           outAssets: [],
           poolAsset: poolAsset.ticker,
         },
-      })
+      });
 
       try {
         const txRes = await multichain().createLiquidity({
           runeAmount: runeAssetAmount,
           assetAmount: poolAssetAmount,
-        })
+        });
 
-        const runeTxHash = txRes?.runeTx
-        const assetTxHash = txRes?.assetTx
+        const runeTxHash = txRes?.runeTx;
+        const assetTxHash = txRes?.assetTx;
 
         if (runeTxHash || assetTxHash) {
           // start polling
@@ -236,27 +223,19 @@ export const CreateLiquidity = () => {
               },
               poolAsset: poolAsset.ticker,
             },
-          })
+          });
         }
       } catch (error: NotWorth) {
-        setTxFailed(trackId)
+        setTxFailed(trackId);
 
-        showErrorToast(t('notification.submitTxFailed'))
-        console.info(error)
+        showErrorToast(t('notification.submitTxFailed'));
+        console.info(error);
       }
     }
-  }, [
-    wallet,
-    poolAsset,
-    runeAmount,
-    assetAmount,
-    submitTransaction,
-    pollTransaction,
-    setTxFailed,
-  ])
+  }, [wallet, poolAsset, runeAmount, assetAmount, submitTransaction, pollTransaction, setTxFailed]);
 
   const handleConfirmApprove = useCallback(async () => {
-    setVisibleApproveModal(false)
+    setVisibleApproveModal(false);
 
     if (isWalletAssetConnected(poolAsset)) {
       // register to tx tracker
@@ -270,15 +249,12 @@ export const CreateLiquidity = () => {
             },
           ],
         },
-      })
+      });
 
       try {
-        const txHash = await multichain().approveAsset(poolAsset)
+        const txHash = await multichain().approveAsset(poolAsset);
 
         if (txHash) {
-          const txURL = multichain().getExplorerTxUrl(poolAsset.chain, txHash)
-
-          console.info('txURL', txURL)
           if (txHash) {
             // start polling
             pollTransaction({
@@ -293,96 +269,84 @@ export const CreateLiquidity = () => {
                 ],
                 txID: txHash,
               },
-            })
+            });
           }
         }
       } catch (error) {
-        setTxFailed(trackId)
+        setTxFailed(trackId);
 
-        showErrorToast(t('notification.approveFailed'))
+        showErrorToast(t('notification.approveFailed'));
       }
     }
-  }, [
-    poolAsset,
-    isWalletAssetConnected,
-    pollTransaction,
-    setTxFailed,
-    submitTransaction,
-  ])
+  }, [poolAsset, isWalletAssetConnected, pollTransaction, setTxFailed, submitTransaction]);
 
   const handleCreateLiquidity = useCallback(() => {
     if (!isWalletConnected) {
-      return showInfoToast(
-        t('notification.walletNotFound'),
-        t('notification.connectWallet'),
-      )
+      return showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
     }
 
     if (isFundsCapReached) {
       return showInfoToast(
         t('notification.fundsCapReached'),
         t('notification.fundsCapReachedDesc'),
-      )
+      );
     }
 
-    setVisibleConfirmModal(true)
-  }, [isWalletConnected, isFundsCapReached])
+    setVisibleConfirmModal(true);
+  }, [isWalletConnected, isFundsCapReached]);
 
   const handleApprove = useCallback(() => {
     if (wallet) {
-      setVisibleApproveModal(true)
+      setVisibleApproveModal(true);
     } else {
-      showInfoToast(
-        t('notification.walletNotFound'),
-        t('notification.connectWallet'),
-      )
+      showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
     }
-  }, [wallet])
+  }, [wallet]);
 
   const totalFeeInUSD = useMemo(() => {
-    const totalFee = getSumAmountInUSD(inboundRuneFee, inboundAssetFee, pools)
-    return `$${totalFee}`
-  }, [inboundRuneFee, inboundAssetFee, pools])
+    const totalFee = getSumAmountInUSD(inboundRuneFee, inboundAssetFee, pools);
+    return `$${totalFee}`;
+  }, [inboundRuneFee, inboundAssetFee, pools]);
 
   const depositAssets: Asset[] = useMemo(() => {
-    return [poolAsset, Asset.RUNE()]
-  }, [poolAsset])
+    return [poolAsset, Asset.RUNE()];
+  }, [poolAsset]);
 
   const depositAssetInputs = useMemo(() => {
     return [
       { asset: Asset.RUNE(), value: runeAmount.toSignificant(6) },
       { asset: poolAsset, value: assetAmount.toSignificant(6) },
-    ]
-  }, [poolAsset, assetAmount, runeAmount])
+    ];
+  }, [poolAsset, assetAmount, runeAmount]);
 
   const minRuneAmount: Amount = useMemo(
     () => AssetAmount.getMinAmountByChain(Chain.THORChain).amount,
     [],
-  )
+  );
   const minAssetAmount: Amount = useMemo(() => {
     if (poolAsset.isGasAsset()) {
-      return AssetAmount.getMinAmountByChain(poolAsset.chain)
+      return AssetAmount.getMinAmountByChain(poolAsset.chain);
     }
 
-    return Amount.fromAssetAmount(0, 8)
-  }, [poolAsset])
+    return Amount.fromAssetAmount(0, 8);
+  }, [poolAsset]);
 
   const isValidDeposit: {
-    valid: boolean
-    msg?: string
+    valid: boolean;
+    msg?: string;
   } = useMemo(() => {
     if (isLPActionPaused) {
       return {
         valid: false,
         msg: t('notification.notAvailableDeposit'),
-      }
+      };
     }
 
     if (inputAssets.length === 0) {
       return {
         valid: false,
         msg: t('notification.assetNotFound'),
-      }
+      };
     }
 
     // only invalid scenario is
@@ -393,22 +357,12 @@ export const CreateLiquidity = () => {
       return {
         valid: false,
         msg: t('notification.invalidAmount'),
-      }
+      };
     }
-    return { valid: true }
-  }, [
-    isLPActionPaused,
-    runeAmount,
-    assetAmount,
-    minRuneAmount,
-    minAssetAmount,
-    inputAssets,
-  ])
+    return { valid: true };
+  }, [isLPActionPaused, runeAmount, assetAmount, minRuneAmount, minAssetAmount, inputAssets]);
 
-  const isApproveRequired = useMemo(
-    () => isApproved !== null && !isApproved,
-    [isApproved],
-  )
+  const isApproveRequired = useMemo(() => isApproved !== null && !isApproved, [isApproved]);
 
   const poolAssetInput = useMemo(
     () => ({
@@ -418,7 +372,7 @@ export const CreateLiquidity = () => {
       usdPrice: poolAssetPriceInUSD,
     }),
     [poolAsset, assetAmount, poolAssetBalance, poolAssetPriceInUSD],
-  )
+  );
 
   const runeAssetInput = useMemo(
     () => ({
@@ -428,22 +382,22 @@ export const CreateLiquidity = () => {
       usdPrice: runeAssetPriceInUSD,
     }),
     [runeAmount, runeBalance, runeAssetPriceInUSD],
-  )
+  );
 
-  const inputAssetList = useAssetsWithBalance(inputAssets)
+  const inputAssetList = useAssetsWithBalance(inputAssets);
 
   const title = useMemo(
     () => `${t('common.create')} ${poolAsset.ticker} ${t('common.liquidity')}`,
     [poolAsset],
-  )
+  );
 
   const btnLabel = useMemo(() => {
-    if (!isValidDeposit.valid) return isValidDeposit.msg
+    if (!isValidDeposit.valid) return isValidDeposit.msg;
 
-    if (isApproveRequired) return t('common.create')
+    if (isApproveRequired) return t('common.create');
 
-    return t('common.createLiquidity')
-  }, [isValidDeposit, isApproveRequired])
+    return t('common.createLiquidity');
+  }, [isValidDeposit, isApproveRequired]);
 
   const estimatedTime = useMemo(
     () =>
@@ -452,7 +406,7 @@ export const CreateLiquidity = () => {
         amount: assetAmount,
       }),
     [assetAmount, poolAsset],
-  )
+  );
 
   const confirmInfo = useConfirmInfoItems({
     assets: depositAssetInputs,
@@ -464,60 +418,59 @@ export const CreateLiquidity = () => {
       { chain: poolAsset.L1Chain, fee: inboundAssetFee.toCurrencyFormat() },
       { chain: Chain.THORChain, fee: inboundRuneFee.toCurrencyFormat() },
     ],
-  })
+  });
 
   const approveConfirmInfo = useApproveInfoItems({
     assetName: poolAsset.name,
     assetValue: assetAmount.toSignificant(6),
     fee: inboundAssetFee.toCurrencyFormat(),
-  })
+  });
 
   const isDepositAvailable = useMemo(
     () => isWalletConnected && !isApproveRequired,
     [isWalletConnected, isApproveRequired],
-  )
+  );
 
   return (
     <PanelView
-      title={title}
       header={
         <ViewHeader
-          title={t('common.createLiquidity')}
           actionsComponent={<GlobalSettingsPopover />}
+          title={t('common.createLiquidity')}
         />
       }
+      title={title}
     >
       <AssetInputs
-        poolAsset={poolAssetInput}
-        runeAsset={runeAssetInput}
-        poolAssetList={inputAssetList}
-        onAssetAmountChange={handleChangeAssetAmount}
-        onRuneAmountChange={handleChangeRuneAmount}
-        onPoolChange={handleSelectPoolAsset}
-        liquidityType={LiquidityTypeOption.SYMMETRICAL}
         isAssetPending={false}
         isRunePending={false}
+        liquidityType={LiquidityTypeOption.SYMMETRICAL}
+        onAssetAmountChange={handleChangeAssetAmount}
+        onPoolChange={handleSelectPoolAsset}
+        onRuneAmountChange={handleChangeRuneAmount}
+        poolAsset={poolAssetInput}
+        poolAssetList={inputAssetList}
+        runeAsset={runeAssetInput}
       />
 
       <PoolInfo
-        poolAsset={poolAssetInput}
-        runeAsset={runeAssetInput}
         assetUSDPrice={poolAssetValueInUSD.toCurrencyFormat(3)}
+        poolAsset={poolAssetInput}
         poolShare="100%"
         rate={price.toSignificant(6)}
+        runeAsset={runeAssetInput}
       />
 
       {isApproveRequired && (
         <Box className="w-full pt-5">
           <Button
-            stretch
-            size="lg"
             isFancy
+            stretch
+            loading={[TxTrackerStatus.Pending, TxTrackerStatus.Submitting].includes(
+              assetApproveStatus,
+            )}
             onClick={handleApprove}
-            loading={[
-              TxTrackerStatus.Pending,
-              TxTrackerStatus.Submitting,
-            ].includes(assetApproveStatus)}
+            size="lg"
           >
             Approve
           </Button>
@@ -527,12 +480,12 @@ export const CreateLiquidity = () => {
       {isDepositAvailable && (
         <Box className="w-full pt-5">
           <Button
-            stretch
-            size="lg"
             isFancy
+            stretch
             disabled={!isValidDeposit.valid}
             error={!isValidDeposit.valid}
             onClick={handleCreateLiquidity}
+            size="lg"
           >
             {btnLabel}
           </Button>
@@ -541,12 +494,7 @@ export const CreateLiquidity = () => {
 
       {!isWalletConnected && (
         <Box className="w-full pt-5">
-          <Button
-            isFancy
-            stretch
-            size="lg"
-            onClick={() => setIsConnectModalOpen(true)}
-          >
+          <Button isFancy stretch onClick={() => setIsConnectModalOpen(true)} size="lg">
             {t('common.connectWallet')}
           </Button>
         </Box>
@@ -555,8 +503,8 @@ export const CreateLiquidity = () => {
       <ConfirmModal
         inputAssets={depositAssets}
         isOpened={visibleConfirmModal}
-        onConfirm={handleConfirmAdd}
         onClose={() => setVisibleConfirmModal(false)}
+        onConfirm={handleConfirmAdd}
       >
         <InfoTable items={confirmInfo} />
       </ConfirmModal>
@@ -570,7 +518,7 @@ export const CreateLiquidity = () => {
         <InfoTable items={approveConfirmInfo} />
       </ConfirmModal>
     </PanelView>
-  )
-}
+  );
+};
 
-export default CreateLiquidity
+export default CreateLiquidity;

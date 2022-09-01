@@ -1,27 +1,18 @@
-import { useNavigate } from 'react-router-dom'
-
-import classNames from 'classnames'
-
-import { Box, Button, Card, Typography } from 'components/Atomic'
-import {
-  borderHoverHighlightClass,
-  baseBorderClass,
-} from 'components/constants'
-
-import { t } from 'services/i18n'
-
-import { ROUTES } from 'settings/constants'
+import classNames from 'classnames';
+import { Box, Button, Card, Typography } from 'components/Atomic';
+import { baseBorderClass, borderHoverHighlightClass } from 'components/constants';
+import { useNavigate } from 'react-router-dom';
+import { t } from 'services/i18n';
+import { ROUTES } from 'settings/constants';
 
 export const MultisigImportTile = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <Box>
       <Card className={classNames(borderHoverHighlightClass, baseBorderClass)}>
-        <Box className="gap-6" col>
-          <Typography variant="subtitle1">
-            {t('views.multisig.addMultisigWallet')}
-          </Typography>
+        <Box col className="gap-6">
+          <Typography variant="subtitle1">{t('views.multisig.addMultisigWallet')}</Typography>
           <Box col>
             <Typography className="my-3" fontWeight="light">
               {t('views.multisig.importMultisigDescription')}
@@ -30,17 +21,13 @@ export const MultisigImportTile = () => {
               {t('views.multisig.importMultisigSecondDescription')}
             </Typography>
           </Box>
-          <Box className="mt-8" flex={1} align="end">
-            <Button
-              stretch
-              variant="primary"
-              onClick={() => navigate(ROUTES.MultisigConnect)}
-            >
+          <Box align="end" className="mt-8" flex={1}>
+            <Button stretch onClick={() => navigate(ROUTES.MultisigConnect)} variant="primary">
               {t('views.multisig.connectMyThorsafe')}
             </Button>
           </Box>
         </Box>
       </Card>
     </Box>
-  )
-}
+  );
+};

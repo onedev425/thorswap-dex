@@ -1,4 +1,4 @@
-import { SupportedChain } from '@thorswap-lib/types'
+import { SupportedChain } from '@thorswap-lib/types';
 
 export enum AnnouncementType {
   Primary = 'primary',
@@ -8,9 +8,9 @@ export enum AnnouncementType {
 }
 
 export type StatusAnnouncementLink = {
-  name?: string
-  url: string
-}
+  name?: string;
+  url: string;
+};
 
 export enum ChainStatusFlag {
   isChainPaused = 'isChainPaused',
@@ -20,27 +20,25 @@ export enum ChainStatusFlag {
   isTradingPaused = 'isTradingPaused',
 }
 
-export type ChainStatusFlags = Partial<Record<ChainStatusFlag, boolean>>
+export type ChainStatusFlags = Partial<Record<ChainStatusFlag, boolean>>;
 
 export type AnnouncementItem = {
-  type?: AnnouncementType
-  dismissed?: boolean
-  title?: string
-  message: string
-  chain?: SupportedChain
-  link?: StatusAnnouncementLink
-  key?: string
-}
+  type?: AnnouncementType;
+  dismissed?: boolean;
+  title?: string;
+  message: string;
+  chain?: SupportedChain;
+  link?: StatusAnnouncementLink;
+  key?: string;
+};
 
 export type StatusAnnouncement = AnnouncementItem & {
-  flags?: ChainStatusFlags
-}
+  flags?: ChainStatusFlags;
+};
 
-export type ChainStatusAnnouncements = Partial<
-  Record<SupportedChain, StatusAnnouncement>
->
+export type ChainStatusAnnouncements = Partial<Record<SupportedChain, StatusAnnouncement>>;
 
 export type AnnouncementsData = {
-  manual: AnnouncementItem[]
-  chainStatus: ChainStatusAnnouncements
-}
+  manual: AnnouncementItem[];
+  chainStatus: ChainStatusAnnouncements;
+};

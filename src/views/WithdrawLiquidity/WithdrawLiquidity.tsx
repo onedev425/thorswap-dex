@@ -1,145 +1,126 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
-
-import { useParams } from 'react-router-dom'
-
 import {
   Amount,
+  AmountType,
   Asset,
-  Pool,
-  Price,
+  hasWalletConnected,
   Liquidity,
   Percent,
-  AmountType,
-  hasWalletConnected,
-} from '@thorswap-lib/multichain-sdk'
-import { SupportedChain, Chain } from '@thorswap-lib/types'
+  Pool,
+  Price,
+} from '@thorswap-lib/multichain-sdk';
+import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Box, Button, Typography } from 'components/Atomic';
+import { GlobalSettingsPopover } from 'components/GlobalSettings';
+import { InfoTable } from 'components/InfoTable';
+import { LiquidityType } from 'components/LiquidityType/LiquidityType';
+import { LiquidityTypeOption } from 'components/LiquidityType/types';
+import { LPTypeSelector } from 'components/LPTypeSelector';
+import { ConfirmModal } from 'components/Modals/ConfirmModal';
+import { PanelView } from 'components/PanelView';
+import { showErrorToast, showInfoToast } from 'components/Toast';
+import { ViewHeader } from 'components/ViewHeader';
+import { useMimir } from 'hooks/useMimir';
+import { useNetworkFee } from 'hooks/useNetworkFee';
+import { useTxTracker } from 'hooks/useTxTracker';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { t } from 'services/i18n';
+import { multichain } from 'services/multichain';
+import { useExternalConfig } from 'store/externalConfig/hooks';
+import { useMidgard } from 'store/midgard/hooks';
+import { PoolMemberData, PoolShareType, TxTrackerType } from 'store/midgard/types';
+import { useWallet } from 'store/wallet/hooks';
+import { AssetInputs } from 'views/WithdrawLiquidity/AssetInputs';
 
-import { AssetInputs } from 'views/WithdrawLiquidity/AssetInputs'
-
-import { Button, Box, Typography } from 'components/Atomic'
-import { GlobalSettingsPopover } from 'components/GlobalSettings'
-import { InfoTable } from 'components/InfoTable'
-import { LiquidityType } from 'components/LiquidityType/LiquidityType'
-import { LiquidityTypeOption } from 'components/LiquidityType/types'
-import { LPTypeSelector } from 'components/LPTypeSelector'
-import { ConfirmModal } from 'components/Modals/ConfirmModal'
-import { PanelView } from 'components/PanelView'
-import { showErrorToast, showInfoToast } from 'components/Toast'
-import { ViewHeader } from 'components/ViewHeader'
-
-import { useExternalConfig } from 'store/externalConfig/hooks'
-import { useMidgard } from 'store/midgard/hooks'
-import {
-  PoolMemberData,
-  PoolShareType,
-  TxTrackerType,
-} from 'store/midgard/types'
-import { useWallet } from 'store/wallet/hooks'
-
-import { useMimir } from 'hooks/useMimir'
-import { useNetworkFee } from 'hooks/useNetworkFee'
-import { useTxTracker } from 'hooks/useTxTracker'
-
-import { t } from 'services/i18n'
-import { multichain } from 'services/multichain'
-
-import { useConfirmInfoItems } from './useConfirmInfoItems'
+import { useConfirmInfoItems } from './useConfirmInfoItems';
 
 // TODO: refactor useState => useReducer
 export const WithdrawLiquidity = () => {
   const { assetParam = Asset.BTC().toString() } = useParams<{
-    assetParam: string
-  }>()
-  const [assetObj, setAssetObj] = useState<Asset>()
-  const [pool, setPool] = useState<Pool>()
+    assetParam: string;
+  }>();
+  const [assetObj, setAssetObj] = useState<Asset>();
+  const [pool, setPool] = useState<Pool>();
 
-  const { pools, poolLoading, loadMemberDetailsByChain, chainMemberDetails } =
-    useMidgard()
+  const { pools, poolLoading, loadMemberDetailsByChain, chainMemberDetails } = useMidgard();
 
   useEffect(() => {
-    if (!pool) return
-    loadMemberDetailsByChain(pool.asset.chain as SupportedChain)
-  }, [loadMemberDetailsByChain, pool])
+    if (!pool) return;
+    loadMemberDetailsByChain(pool.asset.chain as SupportedChain);
+  }, [loadMemberDetailsByChain, pool]);
 
   const poolMemberData: PoolMemberData | null = useMemo(() => {
-    if (!pool) return null
-    return (
-      chainMemberDetails?.[pool.asset.chain]?.[pool.asset.toString()] ?? null
-    )
-  }, [chainMemberDetails, pool])
+    if (!pool) return null;
+    return chainMemberDetails?.[pool.asset.chain]?.[pool.asset.toString()] ?? null;
+  }, [chainMemberDetails, pool]);
 
   useEffect(() => {
     if (!poolLoading && pools.length && assetObj) {
-      const assetPool = Pool.byAsset(assetObj, pools)
+      const assetPool = Pool.byAsset(assetObj, pools);
 
       if (assetPool) {
-        setPool(assetPool)
+        setPool(assetPool);
       }
     }
-  }, [pools, poolLoading, assetObj])
+  }, [pools, poolLoading, assetObj]);
 
   useEffect(() => {
     const getAssetEntity = async () => {
       if (!assetParam) {
-        return
+        return;
       }
-      const assetEntity = Asset.decodeFromURL(assetParam)
+      const assetEntity = Asset.decodeFromURL(assetParam);
 
       if (assetEntity) {
-        if (assetEntity.isRUNE()) return
+        if (assetEntity.isRUNE()) return;
 
         const assetDecimals =
           assetEntity && assetEntity.L1Chain === Chain.Ethereum
             ? await multichain().eth.getERC20AssetDecimal(assetEntity)
-            : undefined
+            : undefined;
 
-        await assetEntity.setDecimal(assetDecimals)
+        await assetEntity.setDecimal(assetDecimals);
 
-        setAssetObj(assetEntity)
+        setAssetObj(assetEntity);
       }
-    }
+    };
 
-    getAssetEntity()
-  }, [assetParam])
+    getAssetEntity();
+  }, [assetParam]);
 
-  if (
-    pool &&
-    pools.length &&
-    poolMemberData &&
-    Object.keys(poolMemberData).length
-  ) {
-    const shares = []
-    if (poolMemberData.pending) shares.push(PoolShareType.PENDING)
+  if (pool && pools.length && poolMemberData && Object.keys(poolMemberData).length) {
+    const shares = [];
+    if (poolMemberData.pending) shares.push(PoolShareType.PENDING);
 
-    if (poolMemberData.sym) shares.push(PoolShareType.SYM)
-    if (poolMemberData.runeAsym) shares.push(PoolShareType.RUNE_ASYM)
-    if (poolMemberData.assetAsym) shares.push(PoolShareType.ASSET_ASYM)
+    if (poolMemberData.sym) shares.push(PoolShareType.SYM);
+    if (poolMemberData.runeAsym) shares.push(PoolShareType.RUNE_ASYM);
+    if (poolMemberData.assetAsym) shares.push(PoolShareType.ASSET_ASYM);
 
     return (
       <WithdrawPanel
         pool={pool}
-        shareTypes={shares}
-        pools={pools}
         poolMemberData={poolMemberData}
+        pools={pools}
+        shareTypes={shares}
       />
-    )
+    );
   }
 
   return (
     <PanelView
-      title={t('views.liquidity.withdrawLiquidity')}
       header={
         <ViewHeader
           withBack
-          title={t('views.liquidity.withdrawLiquidity')}
           actionsComponent={<GlobalSettingsPopover />}
+          title={t('views.liquidity.withdrawLiquidity')}
         />
       }
+      title={t('views.liquidity.withdrawLiquidity')}
     >
       <Typography>{t('views.liquidity.noLiquidityToWithdraw')}</Typography>
     </PanelView>
-  )
-}
+  );
+};
 
 const WithdrawPanel = ({
   poolMemberData,
@@ -147,169 +128,129 @@ const WithdrawPanel = ({
   pools,
   shareTypes,
 }: {
-  poolMemberData: PoolMemberData
-  shareTypes: PoolShareType[]
-  pool: Pool
-  pools: Pool[]
+  poolMemberData: PoolMemberData;
+  shareTypes: PoolShareType[];
+  pool: Pool;
+  pools: Pool[];
 }) => {
-  const { wallet, setIsConnectModalOpen } = useWallet()
-  const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker()
-  const { isChainPauseLPAction } = useMimir()
-  const { getChainWithdrawLPPaused } = useExternalConfig()
+  const { wallet, setIsConnectModalOpen } = useWallet();
+  const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker();
+  const { isChainPauseLPAction } = useMimir();
+  const { getChainWithdrawLPPaused } = useExternalConfig();
 
-  const poolAsset = useMemo(() => pool.asset, [pool])
+  const poolAsset = useMemo(() => pool.asset, [pool]);
   const isLPActionPaused: boolean = useMemo(() => {
     return (
       isChainPauseLPAction(poolAsset.chain) ||
       getChainWithdrawLPPaused(poolAsset.chain as SupportedChain)
-    )
-  }, [isChainPauseLPAction, poolAsset.chain, getChainWithdrawLPPaused])
+    );
+  }, [isChainPauseLPAction, poolAsset.chain, getChainWithdrawLPPaused]);
 
-  const [lpType, setLPType] = useState(shareTypes[0])
+  const [lpType, setLPType] = useState(shareTypes[0]);
+
   const defaultWithdrawType = useMemo(() => {
     switch (lpType) {
       case PoolShareType.RUNE_ASYM:
-        return LiquidityTypeOption.RUNE
+        return LiquidityTypeOption.RUNE;
       case PoolShareType.ASSET_ASYM:
-        return LiquidityTypeOption.ASSET
+        return LiquidityTypeOption.ASSET;
       default:
-        return LiquidityTypeOption.SYMMETRICAL
+        return LiquidityTypeOption.SYMMETRICAL;
     }
-  }, [lpType])
+  }, [lpType]);
 
-  const [withdrawType, setWithdrawType] = useState(defaultWithdrawType)
-  const [percent, setPercent] = useState(0)
-  const [visibleConfirmModal, setVisibleConfirmModal] = useState(false)
+  const [withdrawType, setWithdrawType] = useState(defaultWithdrawType);
+  const [percent, setPercent] = useState(0);
+  const [visibleConfirmModal, setVisibleConfirmModal] = useState(false);
 
   const isWalletConnected = useMemo(() => {
-    if (withdrawType === LiquidityTypeOption.ASSET) {
-      return hasWalletConnected({ wallet, inputAssets: [poolAsset] })
-    }
-    if (withdrawType === LiquidityTypeOption.RUNE) {
-      return hasWalletConnected({ wallet, inputAssets: [Asset.RUNE()] })
-    }
+    const inputAsset = lpType === PoolShareType.ASSET_ASYM ? poolAsset : Asset.RUNE();
 
-    // symm
-    return (
-      (hasWalletConnected({ wallet, inputAssets: [poolAsset] }) &&
-        hasWalletConnected({ wallet, inputAssets: [Asset.RUNE()] })) ||
-      hasWalletConnected({ wallet, inputAssets: [Asset.RUNE()] })
-    )
-  }, [wallet, poolAsset, withdrawType])
+    return hasWalletConnected({ wallet, inputAssets: [inputAsset] });
+  }, [lpType, poolAsset, wallet]);
 
-  const isSymmAndAssetWalletNotConnected = useMemo(() => {
-    return (
-      !hasWalletConnected({ wallet, inputAssets: [poolAsset] }) &&
-      withdrawType === LiquidityTypeOption.SYMMETRICAL
-    )
-  }, [poolAsset, wallet, withdrawType])
-
-  const { inboundFee: inboundAssetFee } = useNetworkFee({
+  const { inboundFee: inboundAssetFee, outboundFee: inboundRuneFee } = useNetworkFee({
     inputAsset: poolAsset,
-  })
-
-  const { inboundFee: inboundRuneFee } = useNetworkFee({
-    inputAsset: Asset.RUNE(),
-  })
-
-  const sendAsset = useMemo(() => {
-    if (withdrawType === LiquidityTypeOption.ASSET) {
-      return poolAsset
-    }
-
-    return Asset.RUNE()
-  }, [withdrawType, poolAsset])
+    outputAsset: Asset.RUNE(),
+  });
 
   const feeLabel = useMemo(() => {
     if (withdrawType === LiquidityTypeOption.ASSET) {
       return `${inboundAssetFee.toCurrencyFormat()} (${inboundAssetFee
         .totalPriceIn(Asset.USD(), pools)
-        .toCurrencyFormat(2)})`
+        .toCurrencyFormat(2)})`;
     }
 
     return `${inboundRuneFee.toCurrencyFormat()} (${inboundRuneFee
       .totalPriceIn(Asset.USD(), pools)
-      .toCurrencyFormat(2)})`
-  }, [inboundAssetFee, inboundRuneFee, pools, withdrawType])
+      .toCurrencyFormat(2)})`;
+  }, [inboundAssetFee, inboundRuneFee, pools, withdrawType]);
 
   const memberPoolData = useMemo(() => {
-    if (lpType === PoolShareType.PENDING) return poolMemberData?.pending
-    if (lpType === PoolShareType.RUNE_ASYM) return poolMemberData.runeAsym
-    if (lpType === PoolShareType.ASSET_ASYM) return poolMemberData.assetAsym
+    if (lpType === PoolShareType.PENDING) return poolMemberData?.pending;
+    if (lpType === PoolShareType.RUNE_ASYM) return poolMemberData.runeAsym;
+    if (lpType === PoolShareType.ASSET_ASYM) return poolMemberData.assetAsym;
     if (lpType === PoolShareType.SYM) {
-      return poolMemberData.sym
+      return poolMemberData.sym;
     }
 
-    return null
-  }, [poolMemberData, lpType])
+    return null;
+  }, [poolMemberData, lpType]);
 
   const liquidityEntity = useMemo(() => {
-    if (!memberPoolData) return null
+    if (!memberPoolData) return null;
 
-    const { liquidityUnits } = memberPoolData
+    const { liquidityUnits } = memberPoolData;
 
-    return new Liquidity(pool, Amount.fromMidgard(liquidityUnits))
-  }, [pool, memberPoolData])
+    return new Liquidity(pool, Amount.fromMidgard(liquidityUnits));
+  }, [pool, memberPoolData]);
 
   const { runeAmount, assetAmount } = useMemo(() => {
     if (lpType === PoolShareType.PENDING) {
       return {
-        runeAmount: Amount.fromMidgard(memberPoolData?.runePending).mul(
-          percent / 100,
-        ),
-        assetAmount: Amount.fromMidgard(memberPoolData?.assetPending).mul(
-          percent / 100,
-        ),
-      }
+        runeAmount: Amount.fromMidgard(memberPoolData?.runePending).mul(percent / 100),
+        assetAmount: Amount.fromMidgard(memberPoolData?.assetPending).mul(percent / 100),
+      };
     }
 
     if (!liquidityEntity) {
       return {
         runeAmount: Amount.fromMidgard(0),
         assetAmount: Amount.fromMidgard(0),
-      }
+      };
     }
 
-    if (
-      withdrawType === LiquidityTypeOption.SYMMETRICAL &&
-      !isSymmAndAssetWalletNotConnected
-    ) {
-      return liquidityEntity.getSymWithdrawAmount(
-        new Percent(percent, AmountType.BASE_AMOUNT),
-      )
+    if (withdrawType === LiquidityTypeOption.SYMMETRICAL) {
+      return liquidityEntity.getSymWithdrawAmount(new Percent(percent, AmountType.BASE_AMOUNT));
     }
 
-    if (
-      withdrawType === LiquidityTypeOption.RUNE ||
-      isSymmAndAssetWalletNotConnected
-    ) {
+    if (withdrawType === LiquidityTypeOption.RUNE) {
       const amount = liquidityEntity.getAsymRuneWithdrawAmount(
         new Percent(percent, AmountType.BASE_AMOUNT),
-      )
+      );
 
       return {
         runeAmount: amount,
         assetAmount: Amount.fromMidgard(0),
-      }
+      };
     }
 
     const amount = liquidityEntity.getAsymAssetWithdrawAmount(
       new Percent(percent, AmountType.BASE_AMOUNT),
-    )
+    );
 
     return {
       runeAmount: Amount.fromMidgard(0),
       assetAmount: amount,
-    }
+    };
   }, [
     lpType,
     liquidityEntity,
     withdrawType,
-    isSymmAndAssetWalletNotConnected,
     percent,
     memberPoolData?.runePending,
     memberPoolData?.assetPending,
-  ])
+  ]);
 
   const runePriceInUSD = useMemo(
     () =>
@@ -319,7 +260,7 @@ const WithdrawPanel = ({
         priceAmount: runeAmount,
       }),
     [runeAmount, pools],
-  )
+  );
 
   const assetPriceInUSD = useMemo(
     () =>
@@ -329,433 +270,149 @@ const WithdrawPanel = ({
         priceAmount: assetAmount,
       }),
     [pool, assetAmount, pools],
-  )
+  );
 
   const handleSetLPType = useCallback((type: PoolShareType) => {
-    setLPType(type)
+    setLPType(type);
     if (type === PoolShareType.RUNE_ASYM) {
-      setWithdrawType(LiquidityTypeOption.RUNE)
+      setWithdrawType(LiquidityTypeOption.RUNE);
     } else if (type === PoolShareType.ASSET_ASYM) {
-      setWithdrawType(LiquidityTypeOption.ASSET)
+      setWithdrawType(LiquidityTypeOption.ASSET);
     } else {
-      setWithdrawType(LiquidityTypeOption.SYMMETRICAL)
+      setWithdrawType(LiquidityTypeOption.SYMMETRICAL);
     }
-  }, [])
+  }, []);
 
   const handleChangePercent = useCallback((p: Amount) => {
-    setPercent(Number(p.toFixed(2)))
-  }, [])
+    setPercent(Number(p.toFixed(2)));
+  }, []);
+
+  const withdrawFrom = useMemo(() => {
+    switch (lpType) {
+      case PoolShareType.PENDING:
+      case PoolShareType.SYM:
+        return 'sym';
+      case PoolShareType.RUNE_ASYM:
+        return 'rune';
+      case PoolShareType.ASSET_ASYM:
+        return 'asset';
+    }
+  }, [lpType]);
+
+  const withdrawTo = useMemo(() => {
+    if ([PoolShareType.ASSET_ASYM, PoolShareType.RUNE_ASYM].includes(lpType)) {
+      return withdrawFrom;
+    }
+
+    switch (withdrawType) {
+      case LiquidityTypeOption.SYMMETRICAL:
+        return 'sym';
+      case LiquidityTypeOption.RUNE:
+        return 'rune';
+      case LiquidityTypeOption.ASSET:
+        return 'asset';
+    }
+  }, [lpType, withdrawFrom, withdrawType]);
 
   const handleConfirmWithdraw = useCallback(async () => {
-    setVisibleConfirmModal(false)
+    setVisibleConfirmModal(false);
 
-    if (wallet) {
-      const poolAssetString = pool.asset.toString()
-      let trackId = ''
-      try {
-        if (lpType === PoolShareType.SYM) {
-          if (
-            withdrawType === LiquidityTypeOption.SYMMETRICAL &&
-            !isSymmAndAssetWalletNotConnected
-          ) {
-            const outAssets = [
-              {
-                asset: Asset.RUNE().toString(),
-                amount: runeAmount.toSignificant(6),
-              },
-              {
-                asset: pool.asset.toString(),
-                amount: assetAmount.toSignificant(6),
-              },
-            ]
+    if (!wallet) return;
 
-            // register to tx tracker
-            trackId = submitTransaction({
-              type: TxTrackerType.Withdraw,
-              submitTx: {
-                inAssets: [],
-                outAssets,
-                poolAsset: poolAssetString,
-              },
-            })
+    let uuid = '';
+    const poolAssetString = pool.asset.toString();
+    const rune = { asset: Asset.RUNE().toString(), amount: runeAmount.toSignificant(6) };
+    const asset = { asset: poolAssetString, amount: assetAmount.toSignificant(6) };
+    const outAssets =
+      withdrawTo === 'sym' ? [rune, asset] : withdrawTo === 'rune' ? [rune] : [asset];
+    const withdrawChain = withdrawTo === 'asset' ? pool.asset.chain : Chain.THORChain;
 
-            const txID = await multichain().withdraw({
-              pool,
-              percent: new Percent(percent),
-              from: 'sym',
-              to: 'sym',
-            })
-            console.info('txID', txID)
+    try {
+      uuid = submitTransaction({
+        type: TxTrackerType.Withdraw,
+        submitTx: { outAssets, inAssets: [], poolAsset: poolAssetString },
+      });
 
-            // start polling
-            pollTransaction({
-              type: TxTrackerType.Withdraw,
-              uuid: trackId,
-              submitTx: {
-                inAssets: [],
-                outAssets,
-                poolAsset: poolAssetString,
-                txID,
-                withdrawChain: Chain.THORChain,
-              },
-            })
-          } else if (
-            withdrawType === LiquidityTypeOption.RUNE ||
-            isSymmAndAssetWalletNotConnected
-          ) {
-            const outAssets = [
-              {
-                asset: Asset.RUNE().toString(),
-                amount: runeAmount.toSignificant(6),
-              },
-            ]
+      const txID = await multichain().withdraw({
+        pool,
+        percent: new Percent(percent),
+        from: withdrawFrom,
+        to: withdrawTo,
+      });
 
-            // register to tx tracker
-            trackId = submitTransaction({
-              type: TxTrackerType.Withdraw,
-              submitTx: {
-                inAssets: [],
-                outAssets,
-                poolAsset: poolAssetString,
-              },
-            })
+      pollTransaction({
+        type: TxTrackerType.Withdraw,
+        uuid,
+        submitTx: {
+          inAssets: [],
+          outAssets,
+          poolAsset: poolAssetString,
+          txID,
+          withdrawChain,
+        },
+      });
+    } catch (error: NotWorth) {
+      console.info(error);
+      setTxFailed(uuid);
 
-            const txID = await multichain().withdraw({
-              pool,
-              percent: new Percent(percent),
-              from: 'sym',
-              to: 'rune',
-            })
-            console.info('txID', txID)
-
-            // start polling
-            pollTransaction({
-              type: TxTrackerType.Withdraw,
-              uuid: trackId,
-              submitTx: {
-                inAssets: [],
-                outAssets,
-                txID,
-                poolAsset: poolAssetString,
-                withdrawChain: Chain.THORChain,
-              },
-            })
-          } else if (withdrawType === LiquidityTypeOption.ASSET) {
-            const outAssets = [
-              {
-                asset: pool.asset.toString(),
-                amount: assetAmount.toSignificant(6),
-              },
-            ]
-
-            // register to tx tracker
-            trackId = submitTransaction({
-              type: TxTrackerType.Withdraw,
-              submitTx: {
-                inAssets: [],
-                outAssets,
-                poolAsset: poolAssetString,
-              },
-            })
-
-            const txID = await multichain().withdraw({
-              pool,
-              percent: new Percent(percent),
-              from: 'sym',
-              to: 'asset',
-            })
-            console.info('txID', txID)
-
-            // start polling
-            pollTransaction({
-              type: TxTrackerType.Withdraw,
-              uuid: trackId,
-              submitTx: {
-                inAssets: [],
-                outAssets,
-                txID,
-                poolAsset: poolAssetString,
-                withdrawChain: Chain.THORChain,
-              },
-            })
-          }
-        } else if (lpType === PoolShareType.ASSET_ASYM) {
-          const outAssets = [
-            {
-              asset: pool.asset.toString(),
-              amount: assetAmount.toSignificant(6),
-            },
-          ]
-
-          // register to tx tracker
-          trackId = submitTransaction({
-            type: TxTrackerType.Withdraw,
-            submitTx: {
-              inAssets: [],
-              outAssets,
-              poolAsset: poolAssetString,
-            },
-          })
-
-          const txID = await multichain().withdraw({
-            pool,
-            percent: new Percent(percent),
-            from: 'asset',
-            to: 'asset',
-          })
-
-          console.info('txID', txID)
-
-          // start polling
-          pollTransaction({
-            type: TxTrackerType.Withdraw,
-            uuid: trackId,
-            submitTx: {
-              inAssets: [],
-              outAssets,
-              txID,
-              poolAsset: poolAssetString,
-              withdrawChain: pool.asset.chain,
-            },
-          })
-        } else if (lpType === PoolShareType.RUNE_ASYM) {
-          const outAssets = [
-            {
-              asset: Asset.RUNE().toString(),
-              amount: runeAmount.toSignificant(6),
-            },
-          ]
-
-          // register to tx tracker
-          trackId = submitTransaction({
-            type: TxTrackerType.Withdraw,
-            submitTx: {
-              inAssets: [],
-              outAssets,
-              poolAsset: poolAssetString,
-            },
-          })
-
-          const txID = await multichain().withdraw({
-            pool,
-            percent: new Percent(percent),
-            from: 'rune',
-            to: 'rune',
-          })
-
-          console.info('txID', txID)
-
-          // start polling
-          pollTransaction({
-            type: TxTrackerType.Withdraw,
-            uuid: trackId,
-            submitTx: {
-              inAssets: [],
-              outAssets,
-              txID,
-              poolAsset: poolAssetString,
-              withdrawChain: Chain.THORChain,
-            },
-          })
-        } else if (lpType === PoolShareType.PENDING) {
-          if (withdrawType === LiquidityTypeOption.SYMMETRICAL) {
-            const outAssets = [
-              {
-                asset: Asset.RUNE().toString(),
-                amount: runeAmount.toSignificant(6),
-              },
-              {
-                asset: pool.asset.toString(),
-                amount: assetAmount.toSignificant(6),
-              },
-            ]
-
-            // register to tx tracker
-            trackId = submitTransaction({
-              type: TxTrackerType.Withdraw,
-              submitTx: {
-                inAssets: [],
-                outAssets,
-                poolAsset: poolAssetString,
-              },
-            })
-
-            const txID = await multichain().withdraw({
-              pool,
-              percent: new Percent(percent),
-              from: 'sym',
-              to: 'sym',
-            })
-            console.info('txID', txID)
-
-            // start polling
-            pollTransaction({
-              type: TxTrackerType.Withdraw,
-              uuid: trackId,
-              submitTx: {
-                inAssets: [],
-                outAssets,
-                poolAsset: poolAssetString,
-                txID,
-                withdrawChain: Chain.THORChain,
-              },
-            })
-          } else if (withdrawType === LiquidityTypeOption.RUNE) {
-            const outAssets = [
-              {
-                asset: Asset.RUNE().toString(),
-                amount: runeAmount.toSignificant(6),
-              },
-            ]
-
-            // register to tx tracker
-            trackId = submitTransaction({
-              type: TxTrackerType.Withdraw,
-              submitTx: {
-                inAssets: [],
-                outAssets,
-                poolAsset: poolAssetString,
-              },
-            })
-
-            const txID = await multichain().withdraw({
-              pool,
-              percent: new Percent(percent),
-              from: 'sym',
-              to: 'rune',
-            })
-            console.info('txID', txID)
-
-            // start polling
-            pollTransaction({
-              type: TxTrackerType.Withdraw,
-              uuid: trackId,
-              submitTx: {
-                inAssets: [],
-                outAssets,
-                txID,
-                poolAsset: poolAssetString,
-                withdrawChain: Chain.THORChain,
-              },
-            })
-          } else if (withdrawType === LiquidityTypeOption.ASSET) {
-            const outAssets = [
-              {
-                asset: pool.asset.toString(),
-                amount: assetAmount.toSignificant(6),
-              },
-            ]
-
-            // register to tx tracker
-            trackId = submitTransaction({
-              type: TxTrackerType.Withdraw,
-              submitTx: {
-                inAssets: [],
-                outAssets,
-                poolAsset: poolAssetString,
-              },
-            })
-
-            const txID = await multichain().withdraw({
-              pool,
-              percent: new Percent(percent),
-              from: 'sym',
-              to: 'asset',
-            })
-            console.info('txID', txID)
-
-            // start polling
-            pollTransaction({
-              type: TxTrackerType.Withdraw,
-              uuid: trackId,
-              submitTx: {
-                inAssets: [],
-                outAssets,
-                txID,
-                poolAsset: poolAssetString,
-                withdrawChain: Chain.THORChain,
-              },
-            })
-          }
-        }
-      } catch (error: NotWorth) {
-        console.info(error)
-        setTxFailed(trackId)
-
-        // TODO: better error translation
-        showErrorToast(t('notification.submitTxFailed'), error?.toString())
-      }
+      showErrorToast(t('notification.submitTxFailed'), error?.toString());
     }
   }, [
-    wallet,
-    pool,
-    lpType,
-    withdrawType,
-    isSymmAndAssetWalletNotConnected,
-    runeAmount,
     assetAmount,
-    submitTransaction,
-    percent,
-    pollTransaction,
     setTxFailed,
-  ])
+    wallet,
+    submitTransaction,
+    pollTransaction,
+    pool,
+    percent,
+    runeAmount,
+    withdrawFrom,
+    withdrawTo,
+  ]);
 
   const handleWithdrawLiquidity = useCallback(() => {
     if (pool.asset.isETH() && pool.detail.status === 'staged') {
       return showInfoToast(
         'notification.cannotWithdrawFromSP',
         t('notification.cannotWithdrawFromSPDesc'),
-      )
+      );
     }
 
     if (wallet) {
-      setVisibleConfirmModal(true)
+      setVisibleConfirmModal(true);
     } else {
-      showInfoToast(
-        t('notification.walletNotFound'),
-        t('notification.connectWallet'),
-      )
+      showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
     }
-  }, [wallet, pool])
+  }, [wallet, pool]);
 
   const title = useMemo(
-    () =>
-      `${t('common.withdraw')} ${poolAsset.ticker} ${t('common.liquidity')}`,
+    () => `${t('common.withdraw')} ${poolAsset.ticker} ${t('common.liquidity')}`,
     [poolAsset],
-  )
+  );
 
   const withdrawOptions = useMemo(() => {
     // allow only sym withdraw for staged pools
-    const isStaged = pool.detail.status === 'staged'
-    const isPendingLP = lpType === PoolShareType.PENDING
+    const isStaged = pool.detail.status === 'staged';
+    const isPendingLP = lpType === PoolShareType.PENDING;
 
     if (isStaged || isPendingLP) {
-      return [LiquidityTypeOption.SYMMETRICAL]
+      return [LiquidityTypeOption.SYMMETRICAL];
     }
 
-    if (lpType === PoolShareType.RUNE_ASYM) return [LiquidityTypeOption.RUNE]
-    if (lpType === PoolShareType.ASSET_ASYM) return [LiquidityTypeOption.ASSET]
+    if (lpType === PoolShareType.RUNE_ASYM) return [LiquidityTypeOption.RUNE];
+    if (lpType === PoolShareType.ASSET_ASYM) return [LiquidityTypeOption.ASSET];
 
-    return [
-      LiquidityTypeOption.ASSET,
-      LiquidityTypeOption.SYMMETRICAL,
-      LiquidityTypeOption.RUNE,
-    ]
-  }, [lpType, pool.detail.status])
+    return [LiquidityTypeOption.ASSET, LiquidityTypeOption.SYMMETRICAL, LiquidityTypeOption.RUNE];
+  }, [lpType, pool.detail.status]);
 
   const withdrawAssets = useMemo(() => {
-    if (
-      withdrawType === LiquidityTypeOption.RUNE ||
-      isSymmAndAssetWalletNotConnected
-    ) {
+    if (withdrawType === LiquidityTypeOption.RUNE) {
       return [
         {
           asset: Asset.RUNE(),
-          value: `${runeAmount.toSignificant(
-            6,
-          )} RUNE (${runePriceInUSD.toCurrencyFormat(2)})`,
+          value: `${runeAmount.toSignificant(6)} RUNE (${runePriceInUSD.toCurrencyFormat(2)})`,
         },
-      ]
+      ];
     }
 
     if (withdrawType === LiquidityTypeOption.ASSET) {
@@ -766,15 +423,13 @@ const WithdrawPanel = ({
             poolAsset.ticker
           } (${assetPriceInUSD.toCurrencyFormat(2)})`,
         },
-      ]
+      ];
     }
 
     return [
       {
         asset: Asset.RUNE(),
-        value: `${runeAmount.toSignificant(
-          6,
-        )} RUNE (${runePriceInUSD.toCurrencyFormat(2)})`,
+        value: `${runeAmount.toSignificant(6)} RUNE (${runePriceInUSD.toCurrencyFormat(2)})`,
       },
       {
         asset: poolAsset,
@@ -782,56 +437,41 @@ const WithdrawPanel = ({
           poolAsset.ticker
         } (${assetPriceInUSD.toCurrencyFormat(2)})`,
       },
-    ]
-  }, [
-    withdrawType,
-    isSymmAndAssetWalletNotConnected,
-    runeAmount,
-    runePriceInUSD,
-    poolAsset,
-    assetAmount,
-    assetPriceInUSD,
-  ])
+    ];
+  }, [withdrawType, runeAmount, runePriceInUSD, poolAsset, assetAmount, assetPriceInUSD]);
 
   const confirmInfo = useConfirmInfoItems({
     assets: withdrawAssets,
     fee: feeLabel,
-  })
+  });
 
   return (
     <PanelView
+      header={<ViewHeader withBack actionsComponent={<GlobalSettingsPopover />} title={title} />}
       title={t('views.liquidity.withdrawLiquidity')}
-      header={
-        <ViewHeader
-          withBack
-          title={title}
-          actionsComponent={<GlobalSettingsPopover />}
-        />
-      }
     >
       <LiquidityType
+        onChange={setWithdrawType}
+        options={withdrawOptions}
         poolAsset={poolAsset}
         selected={withdrawType}
-        options={withdrawOptions}
-        onChange={setWithdrawType}
         title={`${t('views.liquidity.withdraw')}:`}
       />
 
       <LPTypeSelector
+        onChange={handleSetLPType}
+        options={shareTypes}
         poolAsset={poolAsset}
         selected={lpType}
-        options={shareTypes}
-        onChange={handleSetLPType}
         title={`${t('views.liquidity.from')}:`}
       />
       <AssetInputs
+        assetAmount={assetAmount}
+        liquidityType={withdrawType}
+        onPercentChange={handleChangePercent}
+        percent={Amount.fromNormalAmount(percent)}
         poolAsset={poolAsset}
         runeAmount={runeAmount}
-        assetAmount={assetAmount}
-        percent={Amount.fromNormalAmount(percent)}
-        onPercentChange={handleChangePercent}
-        liquidityType={withdrawType}
-        isSymmAndAssetWalletNotConnected={isSymmAndAssetWalletNotConnected}
       />
 
       <Box className="w-full pt-4">
@@ -840,25 +480,20 @@ const WithdrawPanel = ({
 
       <Box className="self-stretch gap-4 pt-5">
         {isLPActionPaused ? (
-          <Button size="lg" stretch variant="secondary">
+          <Button stretch size="lg" variant="secondary">
             {t('views.liquidity.withdrawNotAvailable')}
           </Button>
         ) : isWalletConnected ? (
-          <Button
-            size="lg"
-            stretch
-            variant="secondary"
-            onClick={handleWithdrawLiquidity}
-          >
+          <Button stretch onClick={handleWithdrawLiquidity} size="lg" variant="secondary">
             {t('common.withdraw')}
           </Button>
         ) : (
           <Button
-            size="lg"
             isFancy
             stretch
-            variant="secondary"
             onClick={() => setIsConnectModalOpen(true)}
+            size="lg"
+            variant="secondary"
           >
             {t('common.connectWallet')}
           </Button>
@@ -866,15 +501,15 @@ const WithdrawPanel = ({
       </Box>
 
       <ConfirmModal
-        inputAssets={[sendAsset]}
+        inputAssets={[withdrawType === LiquidityTypeOption.ASSET ? poolAsset : Asset.RUNE()]}
         isOpened={visibleConfirmModal}
-        onConfirm={handleConfirmWithdraw}
         onClose={() => setVisibleConfirmModal(false)}
+        onConfirm={handleConfirmWithdraw}
       >
         <InfoTable items={confirmInfo} />
       </ConfirmModal>
     </PanelView>
-  )
-}
+  );
+};
 
-export default WithdrawLiquidity
+export default WithdrawLiquidity;

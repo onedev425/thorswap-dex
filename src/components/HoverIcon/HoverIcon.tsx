@@ -1,38 +1,31 @@
-import { memo, MouseEventHandler } from 'react'
-
-import classNames from 'classnames'
-
-import {
-  Box,
-  Icon,
-  IconColor,
-  IconName,
-  Link,
-  Tooltip,
-} from 'components/Atomic'
-import { baseHoverClass } from 'components/constants'
+import classNames from 'classnames';
+import { Box, Icon, IconColor, IconName, Link, Tooltip } from 'components/Atomic';
+import { baseHoverClass } from 'components/constants';
+import { memo, MouseEventHandler } from 'react';
 
 type Props = {
-  className?: string
-  tooltip?: string
-  size?: number
-  spin?: boolean
-  iconName: IconName
-  color?: IconColor
-  onClick?: (() => void) | MouseEventHandler
-  href?: string
-  iconHoverHighlight?: boolean
-}
+  className?: string;
+  tooltip?: string;
+  size?: number;
+  spin?: boolean;
+  iconName: IconName;
+  color?: IconColor;
+  onClick?: (() => void) | MouseEventHandler;
+  // TODO: False positive
+  // eslint-disable-next-line react/no-unused-prop-types
+  href?: string;
+  iconHoverHighlight?: boolean;
+};
 
 export const HoverIcon = memo(({ href, ...props }: Props) => {
-  if (!href) return <IconComponent {...props} />
+  if (!href) return <IconComponent {...props} />;
 
   return (
     <Link to={href}>
       <IconComponent {...props} />
     </Link>
-  )
-})
+  );
+});
 
 const IconComponent = memo(
   ({
@@ -46,10 +39,7 @@ const IconComponent = memo(
     iconHoverHighlight = true,
   }: Props) => (
     <Tooltip content={tooltip}>
-      <Box
-        className={classNames(baseHoverClass, 'group')}
-        style={{ width: size, height: size }}
-      >
+      <Box className={classNames(baseHoverClass, 'group')} style={{ width: size, height: size }}>
         <Icon
           className={classNames(
             {
@@ -58,13 +48,13 @@ const IconComponent = memo(
             },
             className,
           )}
-          name={iconName}
           color={color}
+          name={iconName}
+          onClick={onClick}
           size={size}
           spin={spin}
-          onClick={onClick}
         />
       </Box>
     </Tooltip>
   ),
-)
+);

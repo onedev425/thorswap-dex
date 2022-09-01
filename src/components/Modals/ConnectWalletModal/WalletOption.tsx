@@ -1,21 +1,18 @@
-import { memo, useCallback } from 'react'
+import classNames from 'classnames';
+import { Box, Icon, IconName, Typography } from 'components/Atomic';
+import { memo, useCallback } from 'react';
 
-import classNames from 'classnames'
-
-import { Box, Icon, IconName, Typography } from 'components/Atomic'
-
-import { WalletType } from './types'
+import { WalletType } from './types';
 
 type Props = {
-  label: string
-  icon: IconName
-  type: WalletType
-  onClick?: () => void
-  handleTypeSelect: (type: WalletType) => void
-  selected: boolean
-  disabled?: boolean
-  connected?: boolean
-}
+  label: string;
+  icon: IconName;
+  type: WalletType;
+  handleTypeSelect: (type: WalletType) => void;
+  selected: boolean;
+  disabled?: boolean;
+  connected?: boolean;
+};
 
 const WalletOption = ({
   label,
@@ -27,14 +24,12 @@ const WalletOption = ({
   disabled,
 }: Props) => {
   const handleClick = useCallback(() => {
-    if (!disabled) handleTypeSelect(type)
-  }, [disabled, handleTypeSelect, type])
+    if (!disabled) handleTypeSelect(type);
+  }, [disabled, handleTypeSelect, type]);
 
   return (
     <Box
-      onClick={handleClick}
       alignCenter
-      justify="between"
       className={classNames(
         'cursor-pointer relative bg-light-gray-light dark:bg-dark-gray-light hover:brightness-90 dark:hover:brightness-110',
         'w-fit h-10 rounded-xl m-1 gap-x-2 px-2',
@@ -43,6 +38,8 @@ const WalletOption = ({
           'opacity-40 cursor-not-allowed': disabled,
         },
       )}
+      justify="between"
+      onClick={handleClick}
     >
       <Box
         className={classNames(
@@ -52,7 +49,7 @@ const WalletOption = ({
           { '!opacity-100': selected },
         )}
       >
-        <Icon name="connect" size={14} color="cyan" />
+        <Icon color="cyan" name="connect" size={14} />
       </Box>
 
       <Box
@@ -63,16 +60,16 @@ const WalletOption = ({
           { '!opacity-100': connected },
         )}
       >
-        <Icon name="connect" size={14} color="green" />
+        <Icon color="green" name="connect" size={14} />
       </Box>
 
       <Icon name={icon} size={24} />
 
-      <Typography variant="caption" className="text-center">
+      <Typography className="text-center" variant="caption">
         {label}
       </Typography>
     </Box>
-  )
-}
+  );
+};
 
-export default memo(WalletOption)
+export default memo(WalletOption);

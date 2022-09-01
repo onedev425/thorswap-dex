@@ -1,1 +1,1 @@
-export { default } from './UpgradeRune'
+export { default } from './UpgradeRune';

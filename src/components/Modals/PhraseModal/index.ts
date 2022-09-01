@@ -1,1 +1,1 @@
-export { PhraseModal } from './PhraseModal'
+export { PhraseModal } from './PhraseModal';

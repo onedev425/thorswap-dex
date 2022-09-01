@@ -1,50 +1,38 @@
-import { useCallback, useEffect, useState } from 'react'
-
-import { BigNumber } from '@ethersproject/bignumber'
-import { Asset } from '@thorswap-lib/multichain-sdk'
-
-import { FarmActionType } from 'views/Stake/types'
-
-import { Box, Button, Modal, Typography } from 'components/Atomic'
-import { InfoRow } from 'components/InfoRow'
-import { Input } from 'components/Input'
-import { PercentSelect } from 'components/PercentSelect/PercentSelect'
-import { showErrorToast } from 'components/Toast'
-
-import { TxTrackerType } from 'store/midgard/types'
-import { useWallet } from 'store/wallet/hooks'
-
-import { useApproveContract } from 'hooks/useApproveContract'
-import { useTxTracker } from 'hooks/useTxTracker'
-
-import {
-  ContractType,
-  fromWei,
-  toWei,
-  getContractAddress,
-} from 'services/contract'
-import { t } from 'services/i18n'
-import { multichain } from 'services/multichain'
+import { BigNumber } from '@ethersproject/bignumber';
+import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Box, Button, Modal, Typography } from 'components/Atomic';
+import { InfoRow } from 'components/InfoRow';
+import { Input } from 'components/Input';
+import { PercentSelect } from 'components/PercentSelect/PercentSelect';
+import { showErrorToast } from 'components/Toast';
+import { useApproveContract } from 'hooks/useApproveContract';
+import { useTxTracker } from 'hooks/useTxTracker';
+import { useCallback, useEffect, useState } from 'react';
+import { ContractType, fromWei, getContractAddress, toWei } from 'services/contract';
+import { t } from 'services/i18n';
+import { multichain } from 'services/multichain';
+import { TxTrackerType } from 'store/midgard/types';
+import { useWallet } from 'store/wallet/hooks';
+import { FarmActionType } from 'views/Stake/types';
 
 const actionNameKey: Record<FarmActionType, string> = {
   [FarmActionType.DEPOSIT]: 'views.staking.depositAction',
   [FarmActionType.CLAIM]: 'views.staking.harvestAction',
   [FarmActionType.WITHDRAW]: 'views.staking.withdrawAction',
   [FarmActionType.EXIT]: 'views.staking.exitAction',
-}
+};
 
 type Props = {
-  isOpened: boolean
-  farmName: string
-  type: FarmActionType
-  tokenBalance: BigNumber
-  stakedAmount: BigNumber
-  claimableAmount: BigNumber
-  lpAsset: Asset
-  contractType: ContractType
-  onConfirm: (tokenAmount: BigNumber) => void
-  onCancel: () => void
-}
+  isOpened: boolean;
+  type: FarmActionType;
+  tokenBalance: BigNumber;
+  stakedAmount: BigNumber;
+  claimableAmount: BigNumber;
+  lpAsset: Asset;
+  contractType: ContractType;
+  onConfirm: (tokenAmount: BigNumber) => void;
+  onCancel: () => void;
+};
 
 export const StakeConfirmModal = ({
   isOpened,
@@ -57,52 +45,48 @@ export const StakeConfirmModal = ({
   onConfirm,
   onCancel,
 }: Props) => {
-  const [amount, setAmount] = useState<BigNumber>(BigNumber.from(0))
-  const { submitTransaction, setTxFailed, subscribeEthTx } = useTxTracker()
-  const { wallet } = useWallet()
-  const { isApproved } = useApproveContract(
-    lpAsset,
-    getContractAddress(contractType),
-    !!wallet,
-  )
+  const [amount, setAmount] = useState<BigNumber>(BigNumber.from(0));
+  const { submitTransaction, setTxFailed, subscribeEthTx } = useTxTracker();
+  const { wallet } = useWallet();
+  const { isApproved } = useApproveContract(lpAsset, getContractAddress(contractType), !!wallet);
 
-  const actionLabel = t(actionNameKey[type])
-  const isClaim = type === FarmActionType.CLAIM
+  const actionLabel = t(actionNameKey[type]);
+  const isClaim = type === FarmActionType.CLAIM;
 
   const handleChangeAmount = useCallback(
     (percent: number) => {
       if (type === FarmActionType.DEPOSIT) {
-        setAmount(tokenBalance.mul(percent).div(100))
+        setAmount(tokenBalance.mul(percent).div(100));
       } else if (type === FarmActionType.CLAIM) {
-        setAmount(claimableAmount.mul(percent).div(100))
+        setAmount(claimableAmount.mul(percent).div(100));
       } else if (type === FarmActionType.WITHDRAW) {
-        setAmount(stakedAmount.mul(percent).div(100))
+        setAmount(stakedAmount.mul(percent).div(100));
       }
     },
     [type, tokenBalance, claimableAmount, stakedAmount],
-  )
+  );
 
   const onAmountUpdate = useCallback((val: string) => {
     // logic to update amount
-    setAmount(toWei(BigNumber.from(val).toNumber()))
-  }, [])
+    setAmount(toWei(BigNumber.from(val).toNumber()));
+  }, []);
 
   const onPercentSelect = useCallback(
     (val: number) => {
-      handleChangeAmount(val)
+      handleChangeAmount(val);
     },
     [handleChangeAmount],
-  )
+  );
 
   const handleConfirm = useCallback(() => {
-    onConfirm(amount)
+    onConfirm(amount);
 
-    onCancel()
-  }, [amount, onCancel, onConfirm])
+    onCancel();
+  }, [amount, onCancel, onConfirm]);
 
   const handleConfirmApprove = useCallback(async () => {
     if (wallet) {
-      onCancel()
+      onCancel();
       // register to tx tracker
       const trackId = submitTransaction({
         type: TxTrackerType.Approve,
@@ -114,13 +98,13 @@ export const StakeConfirmModal = ({
             },
           ],
         },
-      })
+      });
 
       try {
         const txHash = await multichain().approveAssetForStaking(
           lpAsset,
           getContractAddress(contractType),
-        )
+        );
 
         if (txHash) {
           subscribeEthTx({
@@ -135,31 +119,23 @@ export const StakeConfirmModal = ({
               txID: txHash,
             },
             txHash,
-          })
+          });
         }
       } catch (error) {
-        setTxFailed(trackId)
-        showErrorToast(t('notification.approveFailed'))
-        console.info(error)
+        setTxFailed(trackId);
+        showErrorToast(t('notification.approveFailed'));
+        console.info(error);
       }
     }
-  }, [
-    contractType,
-    lpAsset,
-    wallet,
-    onCancel,
-    setTxFailed,
-    submitTransaction,
-    subscribeEthTx,
-  ])
+  }, [contractType, lpAsset, wallet, onCancel, setTxFailed, submitTransaction, subscribeEthTx]);
 
   useEffect(() => {
-    handleChangeAmount(100)
-  }, [handleChangeAmount])
+    handleChangeAmount(100);
+  }, [handleChangeAmount]);
 
   return (
-    <Modal title={actionLabel} isOpened={isOpened} onClose={onCancel}>
-      <Box className="w-full md:w-atuo md:!min-w-[350px]" col flex={1}>
+    <Modal isOpened={isOpened} onClose={onCancel} title={actionLabel}>
+      <Box col className="w-full md:w-atuo md:!min-w-[350px]" flex={1}>
         <InfoRow
           label={t('views.staking.tokenBalance')}
           value={fromWei(tokenBalance).toLocaleString() || 'N/A'}
@@ -175,48 +151,39 @@ export const StakeConfirmModal = ({
 
         {!isClaim && (
           <>
-            <Box className="gap-3 !mt-8" alignCenter>
+            <Box alignCenter className="gap-3 !mt-8">
               <Typography>
                 {t('views.staking.stakeActionAmount', {
                   stakeAction: actionLabel,
                 })}
               </Typography>
               <Input
-                className="text-right"
                 border="rounded"
-                value={fromWei(amount).toString()}
+                className="text-right"
                 onChange={(e) => onAmountUpdate(e.target.value)}
+                value={fromWei(amount).toString()}
               />
             </Box>
 
             <Box className="!mt-4 flex-1">
-              <PercentSelect
-                options={[25, 50, 75, 100]}
-                onSelect={onPercentSelect}
-              />
+              <PercentSelect onSelect={onPercentSelect} options={[25, 50, 75, 100]} />
             </Box>
           </>
         )}
 
         <Box className="gap-3 !mt-8">
           {type === FarmActionType.DEPOSIT && isApproved === false && wallet && (
-            <Button
-              isFancy
-              stretch
-              variant="primary"
-              onClick={handleConfirmApprove}
-            >
+            <Button isFancy stretch onClick={handleConfirmApprove} variant="primary">
               {t('txManager.approve')}
             </Button>
           )}
-          {((isApproved && type === FarmActionType.DEPOSIT) ||
-            type !== FarmActionType.DEPOSIT) && (
-            <Button isFancy onClick={handleConfirm} stretch variant="primary">
+          {((isApproved && type === FarmActionType.DEPOSIT) || type !== FarmActionType.DEPOSIT) && (
+            <Button isFancy stretch onClick={handleConfirm} variant="primary">
               {actionLabel}
             </Button>
           )}
         </Box>
       </Box>
     </Modal>
-  )
-}
+  );
+};

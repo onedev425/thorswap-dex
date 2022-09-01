@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export enum BreakPoint {
   sm = 'sm',
@@ -12,68 +12,64 @@ const BREAKPOINTS_WIDTHS = {
   [BreakPoint.md]: 768,
   [BreakPoint.lg]: 1024,
   [BreakPoint.xl]: 1280,
-}
+};
 
-const isClient = typeof window === 'object'
+const isClient = typeof window === 'object';
 
-export const getSize = (type: 'innerWidth' | 'innerHeight' = 'innerWidth') =>
-  window[type] || 0
+export const getSize = (type: 'innerWidth' | 'innerHeight' = 'innerWidth') => window[type] || 0;
 
 const getCurrentBreakpoint = () => {
-  const width = getSize('innerWidth')
+  const width = getSize('innerWidth');
 
-  if (width >= BREAKPOINTS_WIDTHS[BreakPoint.lg]) return BreakPoint.lg
-  if (width >= BREAKPOINTS_WIDTHS[BreakPoint.md]) return BreakPoint.md
-  return BreakPoint.sm
-}
+  if (width >= BREAKPOINTS_WIDTHS[BreakPoint.lg]) return BreakPoint.lg;
+  if (width >= BREAKPOINTS_WIDTHS[BreakPoint.md]) return BreakPoint.md;
+  return BreakPoint.sm;
+};
 
 const useWindowSize = () => {
-  const [breakpoint, setBreakpoint] = useState(getCurrentBreakpoint)
+  const [breakpoint, setBreakpoint] = useState(getCurrentBreakpoint);
 
   const isSizeActive = useCallback(
     (minSize?: BreakPoint) => {
       if (!minSize || minSize === breakpoint || minSize === BreakPoint.sm) {
-        return true
+        return true;
       }
 
-      if (
-        minSize === BreakPoint.lg &&
-        [BreakPoint.xl, BreakPoint.lg].includes(breakpoint)
-      ) {
-        return true
+      if (minSize === BreakPoint.lg && [BreakPoint.xl, BreakPoint.lg].includes(breakpoint)) {
+        return true;
       }
 
       if (
         minSize === BreakPoint.md &&
         [BreakPoint.xl, BreakPoint.lg, BreakPoint.md].includes(breakpoint)
       ) {
-        return true
+        return true;
       }
 
-      return false
+      return false;
     },
     [breakpoint],
-  )
+  );
 
   const handleResize = useCallback(() => {
-    const nextBreakpoint = getCurrentBreakpoint()
+    const nextBreakpoint = getCurrentBreakpoint();
 
     if (breakpoint !== nextBreakpoint) {
-      setBreakpoint(nextBreakpoint)
+      setBreakpoint(nextBreakpoint);
     }
-  }, [breakpoint])
+  }, [breakpoint]);
 
   useEffect(() => {
     if (!isClient) {
-      return
+      return;
     }
 
-    window.addEventListener('resize', handleResize)
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [handleResize])
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [handleResize]);
 
   return useMemo(
     () => ({
@@ -83,7 +79,7 @@ const useWindowSize = () => {
       isLgActive: isSizeActive(BreakPoint.lg),
     }),
     [breakpoint, isSizeActive],
-  )
-}
+  );
+};
 
-export default useWindowSize
+export default useWindowSize;

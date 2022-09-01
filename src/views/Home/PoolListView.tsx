@@ -1,54 +1,51 @@
-import { ChangeEvent, memo, useCallback, useState } from 'react'
+import { Box, Icon, Select, Typography } from 'components/Atomic';
+import { HorizontalSlider } from 'components/HorizontalSlider';
+import { Input } from 'components/Input';
+import useWindowSize from 'hooks/useWindowSize';
+import { ChangeEvent, memo, useCallback, useState } from 'react';
+import { t } from 'services/i18n';
+import { useApp } from 'store/app/hooks';
 
-import { Select, Box, Typography } from 'components/Atomic'
-import { HorizontalSlider } from 'components/HorizontalSlider'
-import { Input } from 'components/Input'
-
-import { useApp } from 'store/app/hooks'
-
-import useWindowSize from 'hooks/useWindowSize'
-
-import { t } from 'services/i18n'
-
-import { PoolCard } from './PoolCard'
-import { PoolTable } from './PoolTable'
-import { poolTypeOptions, poolStatusOptions } from './types'
-import { useLiquidityPools } from './useLiquidityPools'
+import { PoolCard } from './PoolCard';
+import { PoolTable } from './PoolTable';
+import { poolStatusOptions, poolTypeOptions } from './types';
+import { useLiquidityPools } from './useLiquidityPools';
 
 export const PoolListView = memo(() => {
-  const [keyword, setKeyword] = useState('')
-  const [selectedPoolType, setSelectedPoolType] = useState(0)
-  const [selectedPoolStatus, setSelectedPoolStatus] = useState(0)
-  const { isMdActive } = useWindowSize()
-  const { arePoolsHidden } = useApp()
+  const [keyword, setKeyword] = useState('');
+  const [selectedPoolType, setSelectedPoolType] = useState(0);
+  const [selectedPoolStatus, setSelectedPoolStatus] = useState(0);
+  const { isMdActive } = useWindowSize();
+  const { arePoolsHidden } = useApp();
 
   const { filteredPools, featuredPools } = useLiquidityPools({
     keyword,
     selectedPoolType,
     selectedPoolStatus,
-  })
+  });
 
-  const handleChangeKeyword = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      setKeyword(e.target.value)
-    },
-    [],
-  )
+  const handleChangeKeyword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value);
+  }, []);
 
   return (
     <Box col>
       {!arePoolsHidden && (
         <Box col>
-          <Box className="gap-x-2 rounded-2xl" alignCenter>
-            <Typography variant="h3">
-              {t('views.home.featuredPools')}
-            </Typography>
+          <Box alignCenter className="gap-x-2 rounded-2xl">
+            <Typography variant="h3">{t('views.home.featuredPools')}</Typography>
           </Box>
-          <HorizontalSlider itemWidth={302}>
-            {featuredPools.map(({ pool, ...rest }) => (
-              <PoolCard key={pool.asset.ticker} pool={pool} {...rest} />
-            ))}
-          </HorizontalSlider>
+          {featuredPools.length ? (
+            <HorizontalSlider itemWidth={302}>
+              {featuredPools.map(({ pool, ...rest }) => (
+                <PoolCard key={pool.asset.ticker} pool={pool} {...rest} />
+              ))}
+            </HorizontalSlider>
+          ) : (
+            <Box center flex={1}>
+              <Icon spin name="loader" size={32} />
+            </Box>
+          )}
         </Box>
       )}
 
@@ -57,34 +54,30 @@ export const PoolListView = memo(() => {
        * Further investigation/optimization needed
        */}
       {isMdActive && (
-        <Box className="gap-8" col>
+        <Box col className="gap-8">
           <Typography variant="h3">{t('common.liquidityPools')}</Typography>
 
-          <Box
-            alignCenter
-            justify="between"
-            className="flex-wrap gap-2 lg:flex-row"
-          >
+          <Box alignCenter className="flex-wrap gap-2 lg:flex-row" justify="between">
             <Box className="w-fit">
               <Input
-                value={keyword}
-                onChange={handleChangeKeyword}
                 border="rounded"
-                placeholder="Search"
                 icon="search"
+                onChange={handleChangeKeyword}
+                placeholder="Search"
+                value={keyword}
               />
             </Box>
 
             <Box className="justify-end w-fit gap-x-6">
               <Select
-                options={poolTypeOptions}
                 activeIndex={selectedPoolType}
                 onChange={setSelectedPoolType}
+                options={poolTypeOptions}
               />
               <Select
-                options={poolStatusOptions}
                 activeIndex={selectedPoolStatus}
                 onChange={setSelectedPoolStatus}
+                options={poolStatusOptions}
               />
             </Box>
           </Box>
@@ -93,5 +86,5 @@ export const PoolListView = memo(() => {
         </Box>
       )}
     </Box>
-  )
-})
+  );
+});

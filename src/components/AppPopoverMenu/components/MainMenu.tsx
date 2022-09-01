@@ -1,20 +1,18 @@
-import { MenuItemType } from 'components/AppPopoverMenu/types'
-import { Box, Icon, Typography } from 'components/Atomic'
+import { MenuItemType } from 'components/AppPopoverMenu/types';
+import { Box, Icon, Typography } from 'components/Atomic';
 
 type Props = {
-  items: MenuItemType[]
-}
+  items: MenuItemType[];
+};
 
 export const MainMenu = ({ items }: Props) => {
   return (
     <Box className="grid grid-cols-2 gap-1 mt-3">
       {items.map((item) => (
         <Box
-          key={item.label}
-          className={
-            'p-4 cursor-pointer rounded-2xl bg-light-bg-primary dark:bg-dark-gray-light hover:brightness-95 dark:hover:brightness-125 transition-colors'
-          }
           col
+          className="p-4 cursor-pointer rounded-2xl bg-light-bg-primary dark:bg-dark-gray-light hover:brightness-95 dark:hover:brightness-125 transition-colors"
+          key={item.label}
           onClick={item.onClick}
         >
           <Box row justify="between">
@@ -24,11 +22,11 @@ export const MainMenu = ({ items }: Props) => {
           </Box>
 
           <Typography className="mt-4">{item.label}</Typography>
-          <Typography variant="caption-xs" color="secondary">
+          <Typography color="secondary" variant="caption-xs">
             {item.desc}
           </Typography>
         </Box>
       ))}
     </Box>
-  )
-}
+  );
+};

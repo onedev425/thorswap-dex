@@ -1,56 +1,47 @@
-import { useEffect } from 'react'
-
-import { Box, Button, Typography } from 'components/Atomic'
-import { InfoTip } from 'components/InfoTip'
-import { useStepper } from 'components/Stepper/StepperContext'
-
-import { t } from 'services/i18n'
+import { Box, Button, Typography } from 'components/Atomic';
+import { InfoTip } from 'components/InfoTip';
+import { useStepper } from 'components/Stepper/StepperContext';
+import { useEffect } from 'react';
+import { t } from 'services/i18n';
 
 type Props = {
-  handleBroadcast: () => void
-  isBroadcasting: boolean
-  canBroadcast: boolean
-}
+  handleBroadcast: () => void;
+  isBroadcasting: boolean;
+  canBroadcast: boolean;
+};
 
-export function BroadcastTxStep({
-  canBroadcast,
-  handleBroadcast,
-  isBroadcasting,
-}: Props) {
-  const { setStep } = useStepper()
+export function BroadcastTxStep({ canBroadcast, handleBroadcast, isBroadcasting }: Props) {
+  const { setStep } = useStepper();
   useEffect(() => {
     if (canBroadcast) {
-      setStep(2)
+      setStep(2);
     }
-  }, [canBroadcast, setStep])
+  }, [canBroadcast, setStep]);
 
   return (
-    <Box className="self-stretch mx-2" col flex={1}>
-      <Box className="gap-6" col>
+    <Box col className="self-stretch mx-2" flex={1}>
+      <Box col className="gap-6">
         {canBroadcast ? (
-          <Typography variant="caption" fontWeight="normal">
+          <Typography fontWeight="normal" variant="caption">
             {t('views.multisig.broadcastTxInfo')}
           </Typography>
         ) : (
-          <InfoTip
-            type="warn"
-            content={t('views.multisig.broadcastTxInfoBlocked')}
-          />
+          <InfoTip content={t('views.multisig.broadcastTxInfoBlocked')} type="warn" />
         )}
 
         <Button
-          variant="primary"
-          stretch
-          size="lg"
           isFancy
-          error={!canBroadcast}
+          stretch
           disabled={!canBroadcast}
-          onClick={handleBroadcast}
+          error={!canBroadcast}
           loading={isBroadcasting}
+          onClick={handleBroadcast}
+          size="lg"
+          variant="primary"
         >
           {t('views.multisig.broadcast')}
         </Button>
       </Box>
     </Box>
-  )
+  );
 }

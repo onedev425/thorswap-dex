@@ -1,64 +1,59 @@
-import { useCallback, useEffect, useState } from 'react'
-
-import { FieldValues, useForm } from 'react-hook-form'
-
-import copy from 'copy-to-clipboard'
-
-import { showSuccessToast } from 'components/Toast'
-
-import { useWallet } from 'store/wallet/hooks'
-
-import { t } from 'services/i18n'
-import { multichain } from 'services/multichain'
+import { showSuccessToast } from 'components/Toast';
+import copy from 'copy-to-clipboard';
+import { useCallback, useEffect, useState } from 'react';
+import { FieldValues, useForm } from 'react-hook-form';
+import { t } from 'services/i18n';
+import { multichain } from 'services/multichain';
+import { useWallet } from 'store/wallet/hooks';
 
 // TODO(@Chillios)
 export const usePhraseModal = (isOpen: boolean) => {
-  const { keystore } = useWallet()
+  const { keystore } = useWallet();
   const {
     register,
     reset,
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm()
+  } = useForm();
 
-  const [showPhrase, setShowPhrase] = useState(false)
-  const passwordField = register('password', { required: true })
+  const [showPhrase, setShowPhrase] = useState(false);
+  const passwordField = register('password', { required: true });
 
   useEffect(() => {
     if (!isOpen) {
       setTimeout(() => {
-        setShowPhrase(false)
-        reset({ password: '' })
-      }, 300)
+        setShowPhrase(false);
+        reset({ password: '' });
+      }, 300);
     }
-  }, [isOpen, reset])
+  }, [isOpen, reset]);
 
   const handleConfirm = useCallback(
     async ({ password }: FieldValues) => {
-      if (!keystore) return
+      if (!keystore) return;
 
       try {
-        const isValid = await multichain().validateKeystore(keystore, password)
+        const isValid = await multichain().validateKeystore(keystore, password);
 
         if (isValid) {
-          setShowPhrase(true)
+          setShowPhrase(true);
         } else {
-          throw Error('Invalid password')
+          throw Error('Invalid password');
         }
       } catch (error) {
-        setError('password', { type: 'value' })
+        setError('password', { type: 'value' });
       }
     },
     [keystore, setError],
-  )
+  );
 
-  const submit = handleSubmit(handleConfirm)
+  const submit = handleSubmit(handleConfirm);
 
   const handleCopyPhrase = useCallback(() => {
-    copy(multichain().getPhrase())
-    showSuccessToast(t('views.walletModal.phraseCopied'))
-  }, [])
+    copy(multichain().getPhrase());
+    showSuccessToast(t('views.walletModal.phraseCopied'));
+  }, []);
 
   return {
     handleConfirm,
@@ -67,5 +62,5 @@ export const usePhraseModal = (isOpen: boolean) => {
     submit,
     passwordField,
     handleCopyPhrase,
-  }
-}
+  };
+};

@@ -1,16 +1,12 @@
-import { memo } from 'react'
-
-import { Button, Icon } from 'components/Atomic'
-
-import { t } from 'services/i18n'
-
-import { stakingV2Addr, vThorInfo } from 'helpers/assets'
-
-import { NETWORK } from 'settings/config'
+import { Button, Icon } from 'components/Atomic';
+import { stakingV2Addr, vThorInfo } from 'helpers/assets';
+import { memo } from 'react';
+import { t } from 'services/i18n';
+import { NETWORK } from 'settings/config';
 
 export const AddVThorMM = memo(() => {
   const addVTHOR = async () => {
-    const vThorAddress = stakingV2Addr.VTHOR[NETWORK]
+    const vThorAddress = stakingV2Addr.VTHOR[NETWORK];
 
     // @ts-expect-error window types
     await window.ethereum.request({
@@ -24,18 +20,18 @@ export const AddVThorMM = memo(() => {
           image: vThorInfo.iconUrl,
         },
       },
-    })
-  }
+    });
+  };
 
   return (
     <Button
-      transform="none"
-      variant="tint"
-      type="outline"
       endIcon={<Icon name="metamask" size={16} />}
       onClick={addVTHOR}
+      transform="none"
+      type="outline"
+      variant="tint"
     >
       {t('views.stakingVThor.addVTHOR')}
     </Button>
-  )
-})
+  );
+});

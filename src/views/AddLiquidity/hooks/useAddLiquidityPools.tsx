@@ -1,82 +1,75 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
-
-import { useNavigate, useParams } from 'react-router-dom'
-
-import { Asset, Pool } from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/types'
-
-import { useMidgard } from 'store/midgard/hooks'
-import { useAppSelector } from 'store/store'
-
-import { multichain } from 'services/multichain'
-
-import { getAddLiquidityRoute } from 'settings/constants'
+import { Asset, Pool } from '@thorswap-lib/multichain-sdk';
+import { Chain } from '@thorswap-lib/types';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { multichain } from 'services/multichain';
+import { getAddLiquidityRoute } from 'settings/constants';
+import { useMidgard } from 'store/midgard/hooks';
+import { useAppSelector } from 'store/store';
 
 type Props = {
-  assetRouteGetter?: (asset: Asset) => string
-}
+  assetRouteGetter?: (asset: Asset) => string;
+};
 
-export const useAddLiquidityPools = ({
-  assetRouteGetter = getAddLiquidityRoute,
-}: Props = {}) => {
-  const { pools, poolLoading } = useAppSelector(({ midgard }) => midgard)
-  const { getAllMemberDetails } = useMidgard()
-  const navigate = useNavigate()
+export const useAddLiquidityPools = ({ assetRouteGetter = getAddLiquidityRoute }: Props = {}) => {
+  const { pools, poolLoading } = useAppSelector(({ midgard }) => midgard);
+  const { getAllMemberDetails } = useMidgard();
+  const navigate = useNavigate();
 
   const { assetParam = Asset.BTC().toString() } = useParams<{
-    assetParam: string
-  }>()
-  const [poolAsset, setPoolAsset] = useState<Asset>(Asset.BTC())
-  const [pool, setPool] = useState<Pool>()
+    assetParam: string;
+  }>();
+  const [poolAsset, setPoolAsset] = useState<Asset>(Asset.BTC());
+  const [pool, setPool] = useState<Pool>();
 
   const poolAssets = useMemo(() => {
-    const assets = pools.map((poolData) => poolData.asset)
-    return assets
-  }, [pools])
+    const assets = pools.map((poolData) => poolData.asset);
+    return assets;
+  }, [pools]);
 
   useEffect(() => {
-    getAllMemberDetails()
-  }, [getAllMemberDetails])
+    getAllMemberDetails();
+  }, [getAllMemberDetails]);
 
   useEffect(() => {
     const getAssetEntity = async () => {
       if (!assetParam) {
-        return
+        return;
       }
 
-      const assetEntity = Asset.decodeFromURL(assetParam)
+      const assetEntity = Asset.decodeFromURL(assetParam);
 
       if (assetEntity) {
-        if (assetEntity.isRUNE()) return
+        if (assetEntity.isRUNE()) return;
         const assetDecimals =
           assetEntity && assetEntity.L1Chain === Chain.Ethereum
             ? await multichain().eth.getERC20AssetDecimal(assetEntity)
-            : undefined
-        await assetEntity.setDecimal(assetDecimals)
+            : undefined;
+        await assetEntity.setDecimal(assetDecimals);
 
-        setPoolAsset(assetEntity)
+        setPoolAsset(assetEntity);
       }
-    }
+    };
 
-    getAssetEntity()
-  }, [assetParam])
+    getAssetEntity();
+  }, [assetParam]);
 
   useEffect(() => {
     if (!poolLoading && pools.length && poolAsset) {
-      const assetPool = Pool.byAsset(poolAsset, pools)
+      const assetPool = Pool.byAsset(poolAsset, pools);
 
       if (assetPool) {
-        setPool(assetPool)
+        setPool(assetPool);
       }
     }
-  }, [pools, poolLoading, poolAsset])
+  }, [pools, poolLoading, poolAsset]);
 
   const handleSelectPoolAsset = useCallback(
     (poolAssetData: Asset) => {
-      navigate(assetRouteGetter(poolAssetData))
+      navigate(assetRouteGetter(poolAssetData));
     },
     [assetRouteGetter, navigate],
-  )
+  );
 
   return {
     poolAssets,
@@ -85,5 +78,5 @@ export const useAddLiquidityPools = ({
     poolAsset,
     assetParam,
     handleSelectPoolAsset,
-  }
-}
+  };
+};

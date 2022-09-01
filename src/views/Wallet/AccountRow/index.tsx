@@ -1,28 +1,24 @@
-import { memo, useCallback, useMemo, useEffect } from 'react'
+import { SupportedChain } from '@thorswap-lib/types';
+import classNames from 'classnames';
+import { Box, Card } from 'components/Atomic';
+import { borderHoverHighlightClass } from 'components/constants';
+import { formatPrice } from 'helpers/formatPrice';
+import { memo, useCallback, useEffect, useMemo } from 'react';
+import { getGeckoData } from 'services/coingecko';
+import { ConnectionActions } from 'views/Wallet/components/ConnectionActions';
+import { CopyAddress } from 'views/Wallet/components/CopyAddress';
+import { GoToAccount } from 'views/Wallet/components/GoToAccount';
+import { HeaderChainInfo } from 'views/Wallet/components/HeaderChainInfo';
+import { ShowQrCode } from 'views/Wallet/components/ShowQrCode';
 
-import { SupportedChain } from '@thorswap-lib/types'
-import classNames from 'classnames'
+import { useAccountData, useWalletChainActions } from '../hooks';
 
-import { ConnectionActions } from 'views/Wallet/components/ConnectionActions'
-import { CopyAddress } from 'views/Wallet/components/CopyAddress'
-import { GoToAccount } from 'views/Wallet/components/GoToAccount'
-import { HeaderChainInfo } from 'views/Wallet/components/HeaderChainInfo'
-import { ShowQrCode } from 'views/Wallet/components/ShowQrCode'
-
-import { Box, Card } from 'components/Atomic'
-import { borderHoverHighlightClass } from 'components/constants'
-
-import { getGeckoData } from 'services/coingecko'
-
-import { formatPrice } from 'helpers/formatPrice'
-
-import { useAccountData, useWalletChainActions } from '../hooks'
-import { ChainInfoTable } from './ChainInfoTable'
+import { ChainInfoTable } from './ChainInfoTable';
 
 type Props = {
-  chain: SupportedChain
-  thornames: string[]
-}
+  chain: SupportedChain;
+  thornames: string[];
+};
 
 export const AccountRow = memo(({ thornames, chain }: Props) => {
   const {
@@ -32,71 +28,63 @@ export const AccountRow = memo(({ thornames, chain }: Props) => {
     setIsConnectModalOpen,
     disconnectWalletByChain,
     chainWallet,
-  } = useAccountData(chain)
+  } = useAccountData(chain);
 
   const chainAssets = useMemo(() => {
-    return chainInfo.map((elem) => elem.asset.name)
-  }, [chainInfo])
+    return chainInfo.map((elem) => elem.asset.name);
+  }, [chainInfo]);
 
   useEffect(() => {
-    getGeckoData(chainAssets)
+    getGeckoData(chainAssets);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chainAssets.length])
+  }, [chainAssets.length]);
 
-  const { isLoading, handleRefreshChain } = useWalletChainActions(chain)
+  const { isLoading, handleRefreshChain } = useWalletChainActions(chain);
 
   const toggleConnect = useCallback(() => {
     if (chainAddress) {
-      disconnectWalletByChain(chain)
+      disconnectWalletByChain(chain);
     } else {
-      setIsConnectModalOpen(true)
+      setIsConnectModalOpen(true);
     }
-  }, [chain, chainAddress, disconnectWalletByChain, setIsConnectModalOpen])
+  }, [chain, chainAddress, disconnectWalletByChain, setIsConnectModalOpen]);
 
-  const accountBalance = formatPrice(balance)
+  const accountBalance = formatPrice(balance);
 
   return (
     <Card className={classNames('overflow-hidden', borderHoverHighlightClass)}>
-      <Box flex={1} className="w-full min-w-fit" col>
+      <Box col className="w-full min-w-fit" flex={1}>
         <Box
-          className="pb-2 border-0 border-b border-solid border-light-gray-light dark:border-dark-border-primary"
-          row
           alignCenter
+          row
+          className="pb-2 border-0 border-b border-solid border-light-gray-light dark:border-dark-border-primary"
           justify="between"
         >
           <Box className="flex-wrap flex-1 gap-3" justify="between">
-            <HeaderChainInfo
-              chain={chain}
-              chainWallet={chainWallet}
-              balance={accountBalance}
-            />
+            <HeaderChainInfo balance={accountBalance} chain={chain} chainWallet={chainWallet} />
             {chainAddress && (
-              <Box className="!mr-4" alignCenter>
+              <Box alignCenter className="!mr-4">
                 {thornames.map((address) => (
-                  <CopyAddress key={address} address={address} type="full" />
+                  <CopyAddress address={address} key={address} type="full" />
                 ))}
                 <CopyAddress address={chainAddress} type="short" />
                 <CopyAddress address={chainAddress} type="icon" />
-                <ShowQrCode chain={chain} address={chainAddress} />
-                <GoToAccount chain={chain} address={chainAddress} />
+                <ShowQrCode address={chainAddress} chain={chain} />
+                <GoToAccount address={chainAddress} chain={chain} />
               </Box>
             )}
           </Box>
 
           <ConnectionActions
-            isLoading={isLoading}
-            isConnected={!!chainAddress}
             handleRefreshChain={handleRefreshChain}
+            isConnected={!!chainAddress}
+            isLoading={isLoading}
             toggleConnect={toggleConnect}
           />
         </Box>
 
-        <ChainInfoTable
-          chainInfo={chainInfo}
-          chain={chain}
-          chainAddress={chainAddress}
-        />
+        <ChainInfoTable chain={chain} chainAddress={chainAddress} chainInfo={chainInfo} />
       </Box>
     </Card>
-  )
-})
+  );
+});

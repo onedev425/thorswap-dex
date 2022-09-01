@@ -1,2 +1,2 @@
-export { default } from './WalletBalance'
-export { WalletDrawer } from './WalletDrawer'
+export { default } from './WalletBalance';
+export { WalletDrawer } from './WalletDrawer';

@@ -1,15 +1,12 @@
-import { useMemo } from 'react'
-
-import { MultisigTxType } from 'views/Multisig/TxCreate/types'
-
-import { DropdownMenu } from 'components/Atomic'
-
-import { t } from 'services/i18n'
+import { DropdownMenu } from 'components/Atomic';
+import { useMemo } from 'react';
+import { t } from 'services/i18n';
+import { MultisigTxType } from 'views/Multisig/TxCreate/types';
 
 type Props = {
-  onChange: (v: MultisigTxType) => void
-  selected: MultisigTxType
-}
+  onChange: (v: MultisigTxType) => void;
+  selected: MultisigTxType;
+};
 
 export const TxTypeSelect = ({ onChange, selected }: Props) => {
   const options: { label: string; value: MultisigTxType }[] = useMemo(
@@ -24,15 +21,15 @@ export const TxTypeSelect = ({ onChange, selected }: Props) => {
       },
     ],
     [],
-  )
+  );
 
   return (
     <DropdownMenu
-      menuItems={options}
-      value={selected || options[0]}
-      onChange={(v) => onChange(v as MultisigTxType)}
-      buttonClassName="shadow-none"
       stretch
+      buttonClassName="shadow-none"
+      menuItems={options}
+      onChange={(v) => onChange(v as MultisigTxType)}
+      value={selected || options[0]}
     />
-  )
-}
+  );
+};

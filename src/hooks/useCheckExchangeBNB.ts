@@ -1,48 +1,42 @@
-import { useEffect, useState } from 'react'
-
-import { Chain } from '@thorswap-lib/types'
-
-import { multichain } from 'services/multichain'
+import { Chain } from '@thorswap-lib/types';
+import { useEffect, useState } from 'react';
+import { multichain } from 'services/multichain';
 
 const checkIfExchangeBNBAddress = async (address: string) => {
   // validate address
   if (!multichain().validateAddress({ address, chain: Chain.Binance })) {
-    return false
+    return false;
   }
 
   try {
-    const response = await multichain()
-      .bnb.getClient()
-      .getBncClient()
-      .getAccount(address)
+    const response = await multichain().bnb.getClient().getBncClient().getAccount(address);
     // if flags === 0, it's not exchange address
 
     if (response && response?.result?.flags !== 0) {
-      return true
+      return true;
     }
-    return false
+    return false;
   } catch (error) {
-    return false
+    return false;
   }
-}
+};
 
 // used for checking if BNB address is an exchange address
 export const useCheckExchangeBNB = (address: string | null) => {
-  const [isExchangeBNBAddress, setIsExchangeBNBAddress] = useState(false)
+  const [isExchangeBNBAddress, setIsExchangeBNBAddress] = useState(false);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const checkFunc = async () => {
       if (address) {
-        const isExchangeAddress = await checkIfExchangeBNBAddress(address)
-        setIsExchangeBNBAddress(isExchangeAddress)
+        const isExchangeAddress = await checkIfExchangeBNBAddress(address);
+        setIsExchangeBNBAddress(isExchangeAddress);
       }
-    }
+    };
 
-    checkFunc()
-  }, [address])
+    checkFunc();
+  }, [address]);
 
   return {
     isExchangeBNBAddress,
-  }
-}
+  };
+};

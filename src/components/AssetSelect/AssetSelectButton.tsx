@@ -1,41 +1,33 @@
-import { Asset } from '@thorswap-lib/multichain-sdk'
-import classNames from 'classnames'
-
-import { AssetButton } from 'components/AssetSelect/AssetButton'
-import { Icon, Button } from 'components/Atomic'
-
-import { t } from 'services/i18n'
+import { Asset } from '@thorswap-lib/multichain-sdk';
+import classNames from 'classnames';
+import { AssetButton } from 'components/AssetSelect/AssetButton';
+import { Button, Icon } from 'components/Atomic';
+import { t } from 'services/i18n';
 
 type Props = {
-  className?: string
-  onClick?: () => void
-  selected?: Maybe<Asset>
-  showAssetType?: boolean
-}
+  className?: string;
+  onClick?: () => void;
+  selected?: Maybe<Asset>;
+  showAssetType?: boolean;
+};
 
-export const AssetSelectButton = ({
-  className,
-  onClick,
-  selected,
-  showAssetType,
-}: Props) => {
+export const AssetSelectButton = ({ className, onClick, selected, showAssetType }: Props) => {
   if (selected) {
     return (
       <AssetButton
         asset={selected}
         className={className}
-        withChevron={Boolean(onClick)}
         onClick={onClick}
         showAssetType={showAssetType}
+        withChevron={Boolean(onClick)}
       />
-    )
+    );
   }
 
   return (
     <div className={classNames('pl-8 pr-4', className)}>
       <Button
-        variant="secondary"
-        transform="uppercase"
+        stretch
         endIcon={
           <Icon
             className="ml-4 transition text-light-btn-secondary dark:text-dark-btn-secondary group-hover:text-light-typo-primary dark:group-hover:text-dark-typo-primary"
@@ -43,10 +35,11 @@ export const AssetSelectButton = ({
           />
         }
         onClick={onClick}
-        stretch
+        transform="uppercase"
+        variant="secondary"
       >
         {t('components.assetSelect.selectAToken')}
       </Button>
     </div>
-  )
-}
+  );
+};

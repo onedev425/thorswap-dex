@@ -1,22 +1,12 @@
-import { useState } from 'react'
-
-import { Asset } from '@thorswap-lib/multichain-sdk'
-
-import { MenuItemType } from 'components/AppPopoverMenu/types'
-import { AssetIcon } from 'components/AssetIcon'
-import { IconName } from 'components/Atomic'
-import { useTheme } from 'components/Theme/ThemeContext'
-
-import { useApp } from 'store/app/hooks'
-
-import { t, changeAppLanguage, FLAG_ICONS, LANGUAGE_NAMES } from 'services/i18n'
-
-import {
-  SupportedLanguages,
-  SUPPORTED_LANGUAGES,
-  ThemeType,
-  ThousandSeparator,
-} from 'types/app'
+import { Asset } from '@thorswap-lib/multichain-sdk';
+import { MenuItemType } from 'components/AppPopoverMenu/types';
+import { AssetIcon } from 'components/AssetIcon';
+import { IconName } from 'components/Atomic';
+import { useTheme } from 'components/Theme/ThemeContext';
+import { useState } from 'react';
+import { changeAppLanguage, FLAG_ICONS, LANGUAGE_NAMES, t } from 'services/i18n';
+import { useApp } from 'store/app/hooks';
+import { SUPPORTED_LANGUAGES, SupportedLanguages, ThemeType, ThousandSeparator } from 'types/app';
 
 type MenuType =
   | 'main'
@@ -25,18 +15,18 @@ type MenuType =
   | 'theme'
   | 'thousandSeparator'
   | 'proMode'
-  | 'settings'
+  | 'settings';
 
 const separatorIcons: Record<ThousandSeparator, IconName> = {
   [ThousandSeparator.Space]: 'spaceBar',
   [ThousandSeparator.Comma]: 'comma',
   [ThousandSeparator.None]: 'blocked',
-}
+};
 
 export const useAppPopoverMenu = () => {
-  const [menuType, setMenuType] = useState<MenuType>('main')
+  const [menuType, setMenuType] = useState<MenuType>('main');
 
-  const onBack = () => setMenuType('main')
+  const onBack = () => setMenuType('main');
 
   const menus = {
     language: {
@@ -67,19 +57,19 @@ export const useAppPopoverMenu = () => {
       title: t('appMenu.customize'),
       items: useCompositionSettingsMenu(),
     },
-  }
+  };
 
   return {
     menus,
     menuType,
     onBack,
-  }
-}
+  };
+};
 
 const useMainMenu = (setMenuType: (val: MenuType) => void) => {
-  const { isLight } = useTheme()
-  const { themeType, thousandSeparator, language, baseCurrency } = useApp()
-  const currencyAsset = Asset.fromAssetString(baseCurrency)
+  const { isLight } = useTheme();
+  const { themeType, thousandSeparator, language, baseCurrency } = useApp();
+  const currencyAsset = Asset.fromAssetString(baseCurrency);
 
   const mainMenu: MenuItemType[] = [
     {
@@ -128,20 +118,20 @@ const useMainMenu = (setMenuType: (val: MenuType) => void) => {
       onClick: () => setMenuType('settings'),
       icon: 'multiSettings',
     },
-  ].filter((i) => !!i) as MenuItemType[]
+  ].filter((i) => !!i) as MenuItemType[];
 
-  return mainMenu
-}
+  return mainMenu;
+};
 
 const useLanguageMenu = (onBack: () => void) => {
-  const { language, setLanguage } = useApp()
+  const { language, setLanguage } = useApp();
   const onLanguageClick = (val: SupportedLanguages) => {
-    onBack()
-    setLanguage(val)
-    changeAppLanguage(val)
-  }
+    onBack();
+    setLanguage(val);
+    changeAppLanguage(val);
+  };
 
-  const isLanguageSelected = (val: SupportedLanguages) => val === language
+  const isLanguageSelected = (val: SupportedLanguages) => val === language;
 
   const languageMenu: MenuItemType[] = SUPPORTED_LANGUAGES.map((lang) => ({
     label: LANGUAGE_NAMES[lang],
@@ -149,18 +139,18 @@ const useLanguageMenu = (onBack: () => void) => {
     onClick: () => onLanguageClick(lang),
     isSelected: isLanguageSelected(lang),
     gap: 'gap-1',
-  }))
+  }));
 
-  return languageMenu
-}
+  return languageMenu;
+};
 
 const useCurrencyMenu = (onBack: () => void) => {
-  const { baseCurrency, setBaseCurrency } = useApp()
+  const { baseCurrency, setBaseCurrency } = useApp();
   const onCurrencyClick = (val: Asset) => {
-    onBack()
-    setBaseCurrency(val)
-  }
-  const isCurrencySelected = (val: Asset) => val.toString() === baseCurrency
+    onBack();
+    setBaseCurrency(val);
+  };
+  const isCurrencySelected = (val: Asset) => val.toString() === baseCurrency;
 
   const currencyMenu: MenuItemType[] = [
     {
@@ -187,19 +177,19 @@ const useCurrencyMenu = (onBack: () => void) => {
       onClick: () => onCurrencyClick(Asset.ETH()),
       isSelected: isCurrencySelected(Asset.ETH()),
     },
-  ]
+  ];
 
-  return currencyMenu
-}
+  return currencyMenu;
+};
 
 const useThemeMenu = (onBack: () => void) => {
-  const { themeType, setTheme } = useApp()
+  const { themeType, setTheme } = useApp();
   const onThemeClick = (val: ThemeType) => {
-    onBack()
-    setTheme(val)
-  }
+    onBack();
+    setTheme(val);
+  };
 
-  const isThemeSelected = (val: ThemeType) => val === themeType
+  const isThemeSelected = (val: ThemeType) => val === themeType;
 
   const menu: MenuItemType[] = [
     {
@@ -220,19 +210,19 @@ const useThemeMenu = (onBack: () => void) => {
       onClick: () => onThemeClick(ThemeType.Auto),
       isSelected: isThemeSelected(ThemeType.Auto),
     },
-  ]
+  ];
 
-  return menu
-}
+  return menu;
+};
 
 const useThousandSeparatorMenu = (onBack: () => void) => {
-  const { thousandSeparator, setThousandSeparator } = useApp()
+  const { thousandSeparator, setThousandSeparator } = useApp();
   const onClick = (val: ThousandSeparator) => {
-    onBack()
-    setThousandSeparator(val)
-  }
+    onBack();
+    setThousandSeparator(val);
+  };
 
-  const isThemeSelected = (val: ThousandSeparator) => val === thousandSeparator
+  const isThemeSelected = (val: ThousandSeparator) => val === thousandSeparator;
 
   const menu: MenuItemType[] = [
     {
@@ -253,23 +243,23 @@ const useThousandSeparatorMenu = (onBack: () => void) => {
       onClick: () => onClick(ThousandSeparator.None),
       isSelected: isThemeSelected(ThousandSeparator.None),
     },
-  ]
+  ];
 
-  return menu
-}
+  return menu;
+};
 
 const useProModeSettings = () => {
-  const { setMultisigShowStatus, multisigVisible } = useApp()
+  const { setMultisigShowStatus, multisigVisible } = useApp();
   const menu: MenuItemType[] = [
     {
       label: t('appMenu.showMultisig'),
       status: multisigVisible,
       onClick: () => setMultisigShowStatus(!multisigVisible),
     },
-  ]
+  ];
 
-  return menu
-}
+  return menu;
+};
 
 const useCompositionSettingsMenu = () => {
   const {
@@ -279,7 +269,7 @@ const useCompositionSettingsMenu = () => {
     hideCharts,
     setPoolsShowStatus,
     arePoolsHidden,
-  } = useApp()
+  } = useApp();
 
   const menu: MenuItemType[] = [
     {
@@ -297,33 +287,33 @@ const useCompositionSettingsMenu = () => {
       status: !arePoolsHidden,
       onClick: () => setPoolsShowStatus(!arePoolsHidden),
     },
-  ]
+  ];
 
-  return menu
-}
+  return menu;
+};
 
 const getThemeLabel = (val: ThemeType) => {
   switch (val) {
     case ThemeType.Auto:
-      return t('appMenu.automaticTheme')
+      return t('appMenu.automaticTheme');
     case ThemeType.Dark:
-      return t('appMenu.darkTheme')
+      return t('appMenu.darkTheme');
     case ThemeType.Light:
-      return t('appMenu.lightTheme')
+      return t('appMenu.lightTheme');
     default:
-      return t('appMenu.theme')
+      return t('appMenu.theme');
   }
-}
+};
 
 const getSeparatorLabel = (val: ThousandSeparator) => {
   switch (val) {
     case ThousandSeparator.Space:
-      return `${t('appMenu.separatorSpace')} (1 000)`
+      return `${t('appMenu.separatorSpace')} (1 000)`;
     case ThousandSeparator.Comma:
-      return `${t('appMenu.separatorComma')} (1,000)`
+      return `${t('appMenu.separatorComma')} (1,000)`;
     case ThousandSeparator.None:
-      return `${t('appMenu.separatorNone')} (1000)`
+      return `${t('appMenu.separatorNone')} (1000)`;
     default:
-      return t('appMenu.separatorComma')
+      return t('appMenu.separatorComma');
   }
-}
+};

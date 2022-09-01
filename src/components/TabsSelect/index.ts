@@ -1,1 +1,1 @@
-export { TabsSelect } from './TabsSelect'
+export { TabsSelect } from './TabsSelect';

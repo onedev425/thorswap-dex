@@ -1,28 +1,20 @@
-import { Fragment, memo, useCallback } from 'react'
-
-import classNames from 'classnames'
-
-import { Typography } from 'components/Atomic'
-import { NavItem } from 'components/Sidebar/NavItem'
-import { SidebarItemProps, SidebarVariant } from 'components/Sidebar/types'
+import classNames from 'classnames';
+import { Typography } from 'components/Atomic';
+import { NavItem } from 'components/Sidebar/NavItem';
+import { SidebarItemProps, SidebarVariant } from 'components/Sidebar/types';
+import { Fragment, memo, useCallback } from 'react';
 
 type Props = {
-  options: SidebarItemProps[]
-  variant: SidebarVariant
-  collapsed: boolean
-  hasBackground?: boolean
-  onItemClick?: () => void
-}
+  options: SidebarItemProps[];
+  variant: SidebarVariant;
+  collapsed: boolean;
+  hasBackground?: boolean;
+  onItemClick?: () => void;
+};
 
 export const SidebarItems = memo(
-  ({
-    collapsed = false,
-    hasBackground = false,
-    onItemClick,
-    options,
-    variant,
-  }: Props) => {
-    const collapseClass = collapsed ? 'scale-0 max-h-0' : 'scale-1 max-h-[20px]'
+  ({ collapsed = false, hasBackground = false, onItemClick, options, variant }: Props) => {
+    const collapseClass = collapsed ? 'scale-0 max-h-0' : 'scale-1 max-h-[20px]';
 
     const renderSidebarItem = useCallback(
       ({
@@ -36,12 +28,7 @@ export const SidebarItems = memo(
         return (
           <Fragment key={label}>
             {(children || variant === 'primary') && (
-              <div
-                className={classNames(
-                  'transition-all overflow-hidden',
-                  collapseClass,
-                )}
-              >
+              <div className={classNames('transition-all overflow-hidden', collapseClass)}>
                 <Typography
                   className={children ? 'mb-1 ml-2' : 'ml2'}
                   color="secondary"
@@ -56,38 +43,34 @@ export const SidebarItems = memo(
 
             {children ? (
               <SidebarItems
-                options={children}
                 collapsed={collapsed}
-                variant="secondary"
                 hasBackground={background || hasBackground}
                 onItemClick={onItemClick}
+                options={children}
+                variant="secondary"
               />
             ) : (
               <NavItem
                 {...rest}
-                href={href}
                 children={undefined}
-                key={label}
-                className={classNames(
-                  'last-of-type:mb-0',
-                  variant === 'primary' ? 'mb-4' : 'mb-1',
-                )}
-                variant={variant}
-                label={navLabel || label}
+                className={classNames('last-of-type:mb-0', variant === 'primary' ? 'mb-4' : 'mb-1')}
                 collapsed={collapsed}
+                href={href}
+                key={label}
+                label={navLabel || label}
                 onItemClickCb={onItemClick}
+                variant={variant}
               />
             )}
           </Fragment>
-        )
+        );
       },
       [collapseClass, collapsed, hasBackground, onItemClick, variant],
-    )
+    );
 
     return (
       <div className="mx-1">
         <ul
-          key={variant}
           className={classNames(
             'flex flex-col rounded-2xl w-full p-0 list-none',
             { 'mb-5': variant === 'secondary' },
@@ -96,10 +79,11 @@ export const SidebarItems = memo(
                 variant === 'secondary' && hasBackground,
             },
           )}
+          key={variant}
         >
           {options.map(renderSidebarItem)}
         </ul>
       </div>
-    )
+    );
   },
-)
+);

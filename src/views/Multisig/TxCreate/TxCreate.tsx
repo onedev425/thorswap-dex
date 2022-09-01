@@ -1,22 +1,19 @@
-import { useMemo } from 'react'
-
-import { RefreshButton } from 'views/Multisig/components/RefreshButton'
-import { useMultisigProtectedRoute } from 'views/Multisig/hooks'
-import { SelectSignersStep } from 'views/Multisig/TxCreate/steps/SelectSignersStep'
-import { TxDetailsStep } from 'views/Multisig/TxCreate/steps/TxDetailsStep'
-import { TxCreateProvider } from 'views/Multisig/TxCreate/TxCreateContext'
-
-import { Box } from 'components/Atomic'
-import { PanelView } from 'components/PanelView'
-import { Stepper } from 'components/Stepper'
-import { StepperProvider } from 'components/Stepper/StepperContext'
-import { StepType } from 'components/Stepper/types'
-import { ViewHeader } from 'components/ViewHeader'
-
-import { t } from 'services/i18n'
+import { Box } from 'components/Atomic';
+import { PanelView } from 'components/PanelView';
+import { Stepper } from 'components/Stepper';
+import { StepperProvider } from 'components/Stepper/StepperContext';
+import { StepType } from 'components/Stepper/types';
+import { ViewHeader } from 'components/ViewHeader';
+import { useMemo } from 'react';
+import { t } from 'services/i18n';
+import { RefreshButton } from 'views/Multisig/components/RefreshButton';
+import { useMultisigProtectedRoute } from 'views/Multisig/hooks';
+import { SelectSignersStep } from 'views/Multisig/TxCreate/steps/SelectSignersStep';
+import { TxDetailsStep } from 'views/Multisig/TxCreate/steps/TxDetailsStep';
+import { TxCreateProvider } from 'views/Multisig/TxCreate/TxCreateContext';
 
 const TxCreate = () => {
-  useMultisigProtectedRoute()
+  useMultisigProtectedRoute();
 
   const steps: StepType[] = useMemo(
     () => [
@@ -33,32 +30,29 @@ const TxCreate = () => {
       },
     ],
     [],
-  )
+  );
 
   return (
     <TxCreateProvider>
       <StepperProvider steps={steps}>
         <PanelView
-          title={t('views.multisig.createTransaction')}
           header={
             <Box className="w-full justify-between align-center">
-              <ViewHeader
-                title={t('views.multisig.createTransaction')}
-                withBack
-              />
+              <ViewHeader withBack title={t('views.multisig.createTransaction')} />
               <Box className="px-6">
                 <RefreshButton />
               </Box>
             </Box>
           }
+          title={t('views.multisig.createTransaction')}
         >
-          <Box className="self-stretch" col flex={1}>
+          <Box col className="self-stretch" flex={1}>
             <Stepper />
           </Box>
         </PanelView>
       </StepperProvider>
     </TxCreateProvider>
-  )
-}
+  );
+};
 
-export default TxCreate
+export default TxCreate;

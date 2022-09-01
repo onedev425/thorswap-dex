@@ -1,23 +1,16 @@
-import { memo } from 'react'
-
-import classNames from 'classnames'
-
-import { Box } from 'components/Atomic/Box/Box'
+import classNames from 'classnames';
+import { Box } from 'components/Atomic/Box/Box';
+import { memo } from 'react';
 
 type Props = {
-  type?: 'solid' | 'dashed'
-  className?: string
-  dividerClassName?: string
-  color?: 'primary' | 'secondary'
-}
+  type?: 'solid' | 'dashed';
+  className?: string;
+  dividerClassName?: string;
+  color?: 'primary' | 'secondary';
+};
 
 export const Divider = memo(
-  ({
-    color = 'primary',
-    type = 'solid',
-    className,
-    dividerClassName,
-  }: Props) => (
+  ({ color = 'primary', type = 'solid', className, dividerClassName }: Props) => (
     <Box className={className}>
       <div
         className={classNames(
@@ -31,4 +24,4 @@ export const Divider = memo(
       />
     </Box>
   ),
-)
+);

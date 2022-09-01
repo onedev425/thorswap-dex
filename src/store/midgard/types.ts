@@ -16,9 +16,9 @@ import {
   SwapHistory,
   THORNode,
   TVLHistory,
-} from '@thorswap-lib/midgard-sdk'
-import { Pool } from '@thorswap-lib/multichain-sdk'
-import { SupportedChain, Chain } from '@thorswap-lib/types'
+} from '@thorswap-lib/midgard-sdk';
+import { Pool } from '@thorswap-lib/multichain-sdk';
+import { Chain, SupportedChain } from '@thorswap-lib/types';
 
 export enum AggregatorSwapType {
   TC2TC = 'TC2TC',
@@ -28,32 +28,32 @@ export enum AggregatorSwapType {
 }
 
 export interface SubmitTx {
-  aggType?: AggregatorSwapType
-  contractAddress?: string
-  inAssets?: Coin[]
-  outAssets?: Coin[]
-  poolAsset?: string
-  recipient?: string
-  submitDate?: Date
-  txID?: string
-  withdrawChain?: Chain // chain for asset used for withdraw tx
+  aggType?: AggregatorSwapType;
+  contractAddress?: string;
+  inAssets?: Coin[];
+  outAssets?: Coin[];
+  poolAsset?: string;
+  recipient?: string;
+  submitDate?: Date;
+  txID?: string;
+  withdrawChain?: Chain; // chain for asset used for withdraw tx
   addTx?: {
-    runeTxID?: string
-    assetTxID?: string
-  }
+    runeTxID?: string;
+    assetTxID?: string;
+  };
 }
 
 export interface TxTracker {
-  uuid: string
-  type: TxTrackerType
-  status: TxTrackerStatus
-  submitTx: SubmitTx
-  action: Action | null
-  refunded: boolean | null
+  uuid: string;
+  type: TxTrackerType;
+  status: TxTrackerStatus;
+  submitTx: SubmitTx;
+  action: Action | null;
+  refunded: boolean | null;
 }
 
 // Record<asset, tracker status>
-export type ApproveStatus = Record<string, TxTrackerStatus>
+export type ApproveStatus = Record<string, TxTrackerStatus>;
 
 export enum TxTrackerStatus {
   Submitting = 'Submitting',
@@ -83,43 +83,43 @@ export enum TxTrackerType {
 }
 
 export type MimirData = {
-  CHURNINTERVAL?: number
-  FUNDMIGRATIONINTERVAL?: number
-  MINIMUMBONDINRUNE?: number
-  MINRUNEPOOLDEPTH?: number
-  NEWPOOLCYCLE?: number
-  ROTATEPERBLOCKHEIGHT?: number
-  MAXLIQUIDITYRUNE?: number
-  MAXIMUMLIQUIDITYRUNE?: number
-  'mimir//MAXIMUMLIQUIDITYRUNE'?: number
-  HALTTHORCHAIN?: number
-  HALTBCHCHAIN?: number
-  HALTBCHTRADING?: number
-  HALTBNBCHAIN?: number
-  HALTBNBTRADING?: number
-  HALTBTCCHAIN?: number
-  HALTBTCTRADING?: number
-  HALTDOGECHAIN?: number
-  HALTDOGETRADING?: number
-  HALTETHCHAIN?: number
-  HALTETHTRADING?: number
-  HALTGAIACHAIN?: number
-  HALTGAIATRADING?: number
-  HALTLTCCHAIN?: number
-  HALTLTCTRADING?: number
-  MAXSYNTHPERASSETDEPTH?: number
-  PAUSELP?: number
-  PAUSELPBCH?: number
-  PAUSELPBNB?: number
-  PAUSELPBTC?: number
-  PAUSELPDOGE?: number
-  PAUSELPETH?: number
-  PAUSELPLTC?: number
-  SOLVENCYHALTBCHCHAIN?: number
-  SOLVENCYHALTETHCHAIN?: number
-}
+  CHURNINTERVAL?: number;
+  FUNDMIGRATIONINTERVAL?: number;
+  MINIMUMBONDINRUNE?: number;
+  MINRUNEPOOLDEPTH?: number;
+  NEWPOOLCYCLE?: number;
+  ROTATEPERBLOCKHEIGHT?: number;
+  MAXLIQUIDITYRUNE?: number;
+  MAXIMUMLIQUIDITYRUNE?: number;
+  'mimir//MAXIMUMLIQUIDITYRUNE'?: number;
+  HALTTHORCHAIN?: number;
+  HALTBCHCHAIN?: number;
+  HALTBCHTRADING?: number;
+  HALTBNBCHAIN?: number;
+  HALTBNBTRADING?: number;
+  HALTBTCCHAIN?: number;
+  HALTBTCTRADING?: number;
+  HALTDOGECHAIN?: number;
+  HALTDOGETRADING?: number;
+  HALTETHCHAIN?: number;
+  HALTETHTRADING?: number;
+  HALTGAIACHAIN?: number;
+  HALTGAIATRADING?: number;
+  HALTLTCCHAIN?: number;
+  HALTLTCTRADING?: number;
+  MAXSYNTHPERASSETDEPTH?: number;
+  PAUSELP?: number;
+  PAUSELPBCH?: number;
+  PAUSELPBNB?: number;
+  PAUSELPBTC?: number;
+  PAUSELPDOGE?: number;
+  PAUSELPETH?: number;
+  PAUSELPLTC?: number;
+  SOLVENCYHALTBCHCHAIN?: number;
+  SOLVENCYHALTETHCHAIN?: number;
+};
 
-export type ShareType = 'sym' | 'runeAsym' | 'assetAsym'
+export type ShareType = 'sym' | 'runeAsym' | 'assetAsym';
 
 export enum PoolShareType {
   SYM = 'sym',
@@ -130,94 +130,94 @@ export enum PoolShareType {
 
 // Pool Member Data for sym, runeAsym, assetAsym
 export type PoolMemberData = {
-  sym?: MemberPool
-  runeAsym?: MemberPool
-  assetAsym?: MemberPool
-  pending?: MemberPool
-}
+  sym?: MemberPool;
+  runeAsym?: MemberPool;
+  assetAsym?: MemberPool;
+  pending?: MemberPool;
+};
 
 // Record<poolString, PoolMemberData>
-export type ChainMemberData = Record<string, PoolMemberData>
+export type ChainMemberData = Record<string, PoolMemberData>;
 
 // Record<chainString, ChainMemberData>
-export type ChainMemberDetails = Record<string, ChainMemberData>
+export type ChainMemberDetails = Record<string, ChainMemberData>;
 
 // Record<chainString, boolean>
-export type ChainMemberDetailsLoading = Record<string, boolean>
+export type ChainMemberDetailsLoading = Record<string, boolean>;
 
 export type LiquidityProvider = {
-  asset: string
-  rune_address?: string
-  asset_address?: string
-  last_add_height: number
-  units: string
-  pending_rune: string
-  pending_asset: string
-  pending_tx_Id?: string
-  rune_deposit_value: string
-  asset_deposit_value: string
-}
+  asset: string;
+  rune_address?: string;
+  asset_address?: string;
+  last_add_height: number;
+  units: string;
+  pending_rune: string;
+  pending_asset: string;
+  pending_tx_Id?: string;
+  rune_deposit_value: string;
+  asset_deposit_value: string;
+};
 
-export type PendingLP = Record<string, LiquidityProvider>
+export type PendingLP = Record<string, LiquidityProvider>;
 
-export type PoolNamesByChain = Record<string, string[]>
+export type PoolNamesByChain = Record<string, string[]>;
 
-export type LpDetailLoading = Record<string, boolean>
+export type LpDetailLoading = Record<string, boolean>;
 
 export type AddedAndWithdrawn = {
-  rune: string | number
-  asset: string | number
-}
+  rune: string | number;
+  asset: string | number;
+};
 
 export type LpDetailCalculatedAddedAndWithdrawn = {
-  added: AddedAndWithdrawn
-  withdrawn: AddedAndWithdrawn
-}
+  added: AddedAndWithdrawn;
+  withdrawn: AddedAndWithdrawn;
+};
 
 export type LpDetailCalculationResult = {
-  [key: string]: LpDetailCalculatedAddedAndWithdrawn
-}
+  [key: string]: LpDetailCalculatedAddedAndWithdrawn;
+};
 
 export interface State {
-  pools: Pool[]
-  poolLoading: boolean
-  memberDetails: MemberDetails
-  chainMemberDetails: ChainMemberDetails
-  chainMemberDetailsLoading: ChainMemberDetailsLoading
-  poolStats: PoolStatsDetail | null
-  poolStatsLoading: boolean
-  depthHistory: DepthHistory | null
-  depthHistoryLoading: boolean
-  earningsHistory: EarningsHistory | null
-  earningsHistoryLoading: boolean
-  tvlHistory: TVLHistory | null
-  tvlHistoryLoading: boolean
-  swapHistory: SwapHistory | null
-  swapGlobalHistory: SwapHistory | null
-  swapHistoryLoading: boolean
-  liquidityHistory: LiquidityHistory | null
-  liquidityGlobalHistory: LiquidityHistory | null
-  liquidityHistoryLoading: boolean
-  stats: StatsData | null
-  networkData: Network | null
-  constants: Constants | null
-  queue: Queue | null
-  txData: ActionsList | null // for tx explorer
-  txDataLoading: boolean
-  txCollapsed: boolean
-  mimirLoading: boolean
-  mimir: MimirData
-  volume24h: number | null
-  inboundGasRate: { [key in Chain]?: string }
-  inboundHalted: { [key in SupportedChain]?: boolean }
-  lastBlock: LastblockItem[]
-  nodes: THORNode[]
-  nodeLoading: boolean
-  txTrackers: TxTracker[]
-  approveStatus: ApproveStatus
-  pendingLP: PendingLP
-  pendingLPLoading: boolean
-  poolNamesByChain: PoolNamesByChain
-  lpDetailLoading: LpDetailLoading
-  lpAddedAndWithdraw: LpDetailCalculationResult
+  pools: Pool[];
+  poolLoading: boolean;
+  memberDetails: MemberDetails;
+  chainMemberDetails: ChainMemberDetails;
+  chainMemberDetailsLoading: ChainMemberDetailsLoading;
+  poolStats: PoolStatsDetail | null;
+  poolStatsLoading: boolean;
+  depthHistory: DepthHistory | null;
+  depthHistoryLoading: boolean;
+  earningsHistory: EarningsHistory | null;
+  earningsHistoryLoading: boolean;
+  tvlHistory: TVLHistory | null;
+  tvlHistoryLoading: boolean;
+  swapHistory: SwapHistory | null;
+  swapGlobalHistory: SwapHistory | null;
+  swapHistoryLoading: boolean;
+  liquidityHistory: LiquidityHistory | null;
+  liquidityGlobalHistory: LiquidityHistory | null;
+  liquidityHistoryLoading: boolean;
+  stats: StatsData | null;
+  networkData: Network | null;
+  constants: Constants | null;
+  queue: Queue | null;
+  txData: ActionsList | null; // for tx explorer
+  txDataLoading: boolean;
+  txCollapsed: boolean;
+  mimirLoading: boolean;
+  mimir: MimirData;
+  volume24h: number | null;
+  inboundGasRate: { [key in Chain]?: string };
+  inboundHalted: { [key in SupportedChain]?: boolean };
+  lastBlock: LastblockItem[];
+  nodes: THORNode[];
+  nodeLoading: boolean;
+  txTrackers: TxTracker[];
+  approveStatus: ApproveStatus;
+  pendingLP: PendingLP;
+  pendingLPLoading: boolean;
+  poolNamesByChain: PoolNamesByChain;
+  lpDetailLoading: LpDetailLoading;
+  lpAddedAndWithdraw: LpDetailCalculationResult;
 }

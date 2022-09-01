@@ -1,61 +1,56 @@
-import { memo, useState } from 'react'
-
-import { Box } from 'components/Atomic'
-import { Chart } from 'components/Chart'
-import { ChartType } from 'components/Chart/types'
-
-import { useApp } from 'store/app/hooks'
-
-import { t } from 'services/i18n'
+import { Box } from 'components/Atomic';
+import { Chart } from 'components/Chart';
+import { ChartType } from 'components/Chart/types';
+import { memo, useState } from 'react';
+import { t } from 'services/i18n';
+import { useApp } from 'store/app/hooks';
 
 import {
   LiquidityChartIndex,
+  liquidityChartIndexes,
   VolumeChartIndex,
   volumeChartIndexes,
-  liquidityChartIndexes,
-} from './types'
-import { useGlobalChartInfo } from './useGlobalChartInfo'
+} from './types';
+import { useGlobalChartInfo } from './useGlobalChartInfo';
 
 export const GlobalChart = memo(() => {
-  const [volumeChartIndex, setVolumeChartIndex] = useState<string>(
-    VolumeChartIndex.Total,
-  )
+  const [volumeChartIndex, setVolumeChartIndex] = useState<string>(VolumeChartIndex.Total);
   const [liquidityChartIndex, setLiquidityChartIndex] = useState<string>(
     LiquidityChartIndex.Liquidity,
-  )
-  const { unit, volumeChartData, liquidityChartData } = useGlobalChartInfo()
-  const { hideCharts } = useApp()
+  );
+  const { unit, volumeChartData, liquidityChartData } = useGlobalChartInfo();
+  const { hideCharts } = useApp();
 
   if (hideCharts) {
-    return null
+    return null;
   }
 
   return (
     <Box col className="lg:space-x-8 lg:flex-row">
       <Box flex={1}>
         <Chart
-          unit={unit}
-          title={t('views.home.chart_volume')}
-          chartIndexes={volumeChartIndexes}
-          chartData={volumeChartData}
-          selectedIndex={volumeChartIndex}
-          selectChart={setVolumeChartIndex}
           abbreviateValues
+          chartData={volumeChartData}
+          chartIndexes={volumeChartIndexes}
+          selectChart={setVolumeChartIndex}
+          selectedIndex={volumeChartIndex}
+          title={t('views.home.chart_volume')}
+          unit={unit}
         />
       </Box>
 
       <Box flex={1}>
         <Chart
-          unit={unit}
-          title={t('views.home.chart_liquidity')}
-          chartIndexes={liquidityChartIndexes}
+          abbreviateValues
           chartData={liquidityChartData}
-          selectedIndex={liquidityChartIndex}
+          chartIndexes={liquidityChartIndexes}
           previewChartType={ChartType.CurvedLine}
           selectChart={setLiquidityChartIndex}
-          abbreviateValues
+          selectedIndex={liquidityChartIndex}
+          title={t('views.home.chart_liquidity')}
+          unit={unit}
         />
       </Box>
     </Box>
-  )
-})
+  );
+});

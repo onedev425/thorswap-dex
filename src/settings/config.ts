@@ -1,41 +1,26 @@
-import { Network } from '@thorswap-lib/types'
+import { Network } from '@thorswap-lib/types';
 
-const safeEnv = (defaultEnv: string, env?: string) => {
-  return env || defaultEnv
-}
+const isEnv = (env: string, urlMatch: string) =>
+  env === 'true' || window.location.href.includes(urlMatch);
 
-export const NETWORK =
-  import.meta.env.VITE_NETWORK === 'mainnet' ? Network.Mainnet : Network.Testnet
+export const IS_DEV_API = isEnv(import.meta.env.VITE_DEV_API, 'dev');
+export const IS_STAGENET = isEnv(import.meta.env.VITE_STAGENET, 'stagenet');
+export const IS_BETA = isEnv(import.meta.env.VITE_BETA, 'beta');
+export const IS_PROD = isEnv(import.meta.env.VITE_PROD, 'app.thorswap.finance');
+export const IS_TESTNET = isEnv(import.meta.env.VITE_TESTNET, 'testnet');
 
-export type Config = {
-  network: Network
-}
+export const NETWORK = `${
+  import.meta.env.VITE_NETWORK || (IS_TESTNET ? Network.Testnet : Network.Mainnet)
+}` as Network;
 
-export const config: Config = {
-  network: (import.meta.env.VITE_NETWORK || Network.Testnet) as Network,
-}
+export const IS_MAINNET = NETWORK === Network.Mainnet;
 
-export const MIDGARD_MAINNET_API_URI = `${
-  import.meta.env.VITE_MAINNET_MIDGARD || 'https://midgard.thorswap.net'
-}/v2`
+const MIDGARD_TESTNET_API = 'https://testnet.midgard.thorswap.net';
+const MIDGARD_MAINNET_API = import.meta.env.VITE_MAINNET_MIDGARD || 'https://midgard.thorswap.net';
+export const MIDGARD_STAGENET_API = 'https://midgard-stage-a.thorswap.net';
 
-export const THORNODE_MAINNET_API_URI = `${
-  import.meta.env.VITE_MAINNET_THORNODE || 'https://thornode.thorchain.info'
-}/thorchain`
-
-export const IS_STAGENET = import.meta.env.VITE_IS_STAGENET === 'true'
-
-export const IS_TESTNET =
-  (import.meta.env.VITE_NETWORK || 'testnet') === 'testnet'
-
-export const IS_MAINNET = !IS_STAGENET && !IS_TESTNET
-
-export const INFURA_PROJECT_ID = safeEnv(
-  '',
-  import.meta.env.VITE_INFURA_PROJECT_ID,
-)
-
-export const BLOCKNATIVE_API_KEY = safeEnv(
-  '',
-  import.meta.env.VITE_BLOCKNATIVE_API_KEY,
-)
+export const MIDGARD_URL = IS_TESTNET
+  ? MIDGARD_TESTNET_API
+  : IS_DEV_API || IS_STAGENET
+  ? MIDGARD_STAGENET_API
+  : MIDGARD_MAINNET_API;

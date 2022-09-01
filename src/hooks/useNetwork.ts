@@ -1,12 +1,9 @@
-import { useMemo } from 'react'
+import { Amount } from '@thorswap-lib/multichain-sdk';
+import { useMemo } from 'react';
+import { t } from 'services/i18n';
+import { useMidgard } from 'store/midgard/hooks';
 
-import { Amount } from '@thorswap-lib/multichain-sdk'
-
-import { useMidgard } from 'store/midgard/hooks'
-
-import { t } from 'services/i18n'
-
-import { useMimir } from './useMimir'
+import { useMimir } from './useMimir';
 
 export enum QueueLevel {
   GOOD = 'GOOD', // queue < 10
@@ -14,8 +11,8 @@ export enum QueueLevel {
   BUSY = 'BUSY', // 30 < queue
 }
 
-const QUEUE_BUSY_LEVEL = 30
-const QUEUE_SLOW_LEVEL = 10
+const QUEUE_BUSY_LEVEL = 30;
+const QUEUE_SLOW_LEVEL = 10;
 
 export enum StatusType {
   Normal = 'Normal',
@@ -24,29 +21,28 @@ export enum StatusType {
 }
 
 export const useNetwork = () => {
-  const { networkData, queue } = useMidgard()
-  const { isFundsCapReached, maxLiquidityRune } = useMimir()
+  const { networkData, queue } = useMidgard();
+  const { isFundsCapReached, maxLiquidityRune } = useMimir();
 
-  const outboundQueue = Number(queue?.outbound ?? 0)
+  const outboundQueue = Number(queue?.outbound ?? 0);
 
   const getQueueLevel = (queueValue: number) => {
-    if (queueValue > QUEUE_BUSY_LEVEL) return QueueLevel.BUSY
-    if (queueValue > QUEUE_SLOW_LEVEL) return QueueLevel.SLOW
-    return QueueLevel.GOOD
-  }
+    if (queueValue > QUEUE_BUSY_LEVEL) return QueueLevel.BUSY;
+    if (queueValue > QUEUE_SLOW_LEVEL) return QueueLevel.SLOW;
+    return QueueLevel.GOOD;
+  };
 
-  const outboundQueueLevel: QueueLevel = getQueueLevel(outboundQueue)
-  const isOutboundBusy = outboundQueueLevel === QueueLevel.BUSY
+  const outboundQueueLevel: QueueLevel = getQueueLevel(outboundQueue);
+  const isOutboundBusy = outboundQueueLevel === QueueLevel.BUSY;
   const isOutboundDelayed =
-    outboundQueueLevel === QueueLevel.BUSY ||
-    outboundQueueLevel === QueueLevel.SLOW
+    outboundQueueLevel === QueueLevel.BUSY || outboundQueueLevel === QueueLevel.SLOW;
 
   const getOutboundBusyTooltip = () => {
-    return t('notification.outboundBusyTooltip')
-  }
+    return t('notification.outboundBusyTooltip');
+  };
 
   const statusOptions: {
-    [key: string]: StatusType
+    [key: string]: StatusType;
   } = useMemo(
     () => ({
       GOOD: StatusType.Normal,
@@ -54,23 +50,21 @@ export const useNetwork = () => {
       BUSY: StatusType.Error,
     }),
     [],
-  )
+  );
 
   const statusType: StatusType = useMemo(() => {
-    if (isFundsCapReached) return StatusType.Warning
+    if (isFundsCapReached) return StatusType.Warning;
 
-    return statusOptions[outboundQueueLevel]
-  }, [statusOptions, isFundsCapReached, outboundQueueLevel])
+    return statusOptions[outboundQueueLevel];
+  }, [statusOptions, isFundsCapReached, outboundQueueLevel]);
 
-  const totalPooledRune: Amount = Amount.fromMidgard(
-    networkData?.totalPooledRune ?? 0,
-  )
+  const totalPooledRune: Amount = Amount.fromMidgard(networkData?.totalPooledRune ?? 0);
 
   const globalRunePooledStatus = maxLiquidityRune.gt(0)
-    ? `${totalPooledRune.toAbbreviate(2)} / ${maxLiquidityRune.toAbbreviate(
-        2,
-      )} ${t('notification.runePooled')}`
-    : `${totalPooledRune.toAbbreviate(2)} ${t('notification.runePooled')}`
+    ? `${totalPooledRune.toAbbreviate(2)} / ${maxLiquidityRune.toAbbreviate(2)} ${t(
+        'notification.runePooled',
+      )}`
+    : `${totalPooledRune.toAbbreviate(2)} ${t('notification.runePooled')}`;
   return {
     globalRunePooledStatus,
     isValidFundCaps: !isFundsCapReached,
@@ -83,5 +77,5 @@ export const useNetwork = () => {
     totalPooledRune,
     maxLiquidityRune,
     getOutboundBusyTooltip,
-  }
-}
+  };
+};

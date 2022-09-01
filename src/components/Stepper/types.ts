@@ -1,8 +1,8 @@
-import { ReactNode } from 'react'
+import { ReactNode } from 'react';
 
 export type StepType = {
-  id: number
-  label: string
-  content: ReactNode
-  tooltip?: string
-}
+  id: number;
+  label: string;
+  content: ReactNode;
+  tooltip?: string;
+};

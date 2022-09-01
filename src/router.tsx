@@ -1,53 +1,41 @@
-import { lazy, memo, Suspense } from 'react'
+import 'chart.js/auto';
 
-import 'chart.js/auto'
-import {
-  Navigate,
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from 'react-router-dom'
+import { Box, Icon } from 'components/Atomic';
+import { Layout } from 'components/Layout';
+import { ToastPortal } from 'components/Toast';
+import { lazy, memo, Suspense } from 'react';
+import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
+import { ROUTES } from 'settings/constants';
+import Swap from 'views/Swap';
+import WalletBalance, { WalletDrawer } from 'views/WalletBalance';
 
-import Swap from 'views/Swap'
-import WalletBalance, { WalletDrawer } from 'views/WalletBalance'
-
-const Multisig = lazy(() => import('views/Multisig/Multisig'))
-const TxBuilder = lazy(() => import('views/Multisig/TxBuilder/TxBuilder'))
-const TxCreate = lazy(() => import('views/Multisig/TxCreate/TxCreate'))
-const TxImport = lazy(() => import('views/Multisig/TxImport/TxImport'))
-const TxMultisig = lazy(() => import('views/Multisig/TxMultisig/TxMultisig'))
-const AddLiquidity = lazy(() => import('views/AddLiquidity'))
-const CreateLiquidity = lazy(() => import('views/CreateLiquidity'))
-const Home = lazy(() => import('views/Home'))
-const Liquidity = lazy(() => import('views/Liquidity'))
-const NodeDetails = lazy(() => import('views/Nodes/NodeDetails'))
-const NodeManager = lazy(() => import('views/Nodes/NodeManager'))
-const Nodes = lazy(() => import('views/Nodes'))
-const Send = lazy(() => import('views/Send'))
-const Stake = lazy(() => import('views/Stake'))
-const StakeVThor = lazy(() => import('views/StakeVThor'))
-const Thorname = lazy(() => import('views/Thorname'))
-const UpgradeRune = lazy(() => import('views/UpgradeRune'))
-const Vesting = lazy(() => import('views/Vesting'))
-const Wallet = lazy(() => import('views/Wallet'))
-const WithdrawLiquidity = lazy(() => import('views/WithdrawLiquidity'))
-const MultisigCreate = lazy(
-  () => import('views/Multisig/MultisigCreate/MultisigCreate'),
-)
-const MultisigImport = lazy(
-  () => import('views/Multisig/MultisigImport/MultisigImport'),
-)
-
-import { Box, Icon } from 'components/Atomic'
-import { Layout } from 'components/Layout'
-import { ToastPortal } from 'components/Toast'
-
-import { ROUTES } from 'settings/constants'
+const Multisig = lazy(() => import('views/Multisig/Multisig'));
+const TxBuilder = lazy(() => import('views/Multisig/TxBuilder/TxBuilder'));
+const TxCreate = lazy(() => import('views/Multisig/TxCreate/TxCreate'));
+const TxImport = lazy(() => import('views/Multisig/TxImport/TxImport'));
+const TxMultisig = lazy(() => import('views/Multisig/TxMultisig/TxMultisig'));
+const AddLiquidity = lazy(() => import('views/AddLiquidity'));
+const CreateLiquidity = lazy(() => import('views/CreateLiquidity'));
+const Home = lazy(() => import('views/Home'));
+const Liquidity = lazy(() => import('views/Liquidity'));
+const NodeDetails = lazy(() => import('views/Nodes/NodeDetails'));
+const NodeManager = lazy(() => import('views/Nodes/NodeManager'));
+const Nodes = lazy(() => import('views/Nodes'));
+const Send = lazy(() => import('views/Send'));
+const Stake = lazy(() => import('views/Stake'));
+const StakeVThor = lazy(() => import('views/StakeVThor'));
+const Thorname = lazy(() => import('views/Thorname'));
+const UpgradeRune = lazy(() => import('views/UpgradeRune'));
+const Vesting = lazy(() => import('views/Vesting'));
+const Wallet = lazy(() => import('views/Wallet'));
+const WithdrawLiquidity = lazy(() => import('views/WithdrawLiquidity'));
+const MultisigCreate = lazy(() => import('views/Multisig/MultisigCreate/MultisigCreate'));
+const MultisigImport = lazy(() => import('views/Multisig/MultisigImport/MultisigImport'));
 
 export type RouteType = {
-  path: string
-  element: NotWorth
-}[]
+  path: string;
+  element: NotWorth;
+}[];
 
 const routes: RouteType = [
   { path: ROUTES.AddLiquidity, element: AddLiquidity },
@@ -82,19 +70,17 @@ const routes: RouteType = [
   { path: ROUTES.TxMultisig, element: TxMultisig },
   { path: ROUTES.MultisigConnect, element: MultisigImport },
   { path: ROUTES.MultisigCreate, element: MultisigCreate },
-]
+];
 
 const PublicRoutes = () => {
   return (
     <Router>
       <Routes>
         {routes.map((route) => {
-          const Component = route.element
+          const Component = route.element;
 
           return (
             <Route
-              key={route.path}
-              path={route.path}
               element={
                 <>
                   <WalletDrawer>
@@ -104,8 +90,8 @@ const PublicRoutes = () => {
                   <Layout>
                     <Suspense
                       fallback={
-                        <Box flex={1} className="p-10" center>
-                          <Icon size={32} spin name="loader" />
+                        <Box center className="p-10" flex={1}>
+                          <Icon spin name="loader" size={32} />
                         </Box>
                       }
                     >
@@ -114,15 +100,17 @@ const PublicRoutes = () => {
                   </Layout>
                 </>
               }
+              key={route.path}
+              path={route.path}
             />
-          )
+          );
         })}
 
-        <Route path="*" element={<Navigate to="/swap" />} />
+        <Route element={<Navigate to="/swap" />} path="*" />
       </Routes>
       <ToastPortal />
     </Router>
-  )
-}
+  );
+};
 
-export default memo(PublicRoutes)
+export default memo(PublicRoutes);

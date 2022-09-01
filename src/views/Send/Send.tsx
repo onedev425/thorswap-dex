@@ -1,65 +1,47 @@
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
-
-import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
-
-import {
-  Amount,
-  Asset,
-  Price,
-  hasWalletConnected,
-} from '@thorswap-lib/multichain-sdk'
-import { Chain } from '@thorswap-lib/types'
-
-import { useConfirmSend } from 'views/Send/useConfirmSend'
-
-import { AssetInput } from 'components/AssetInput'
-import { Button, Box, Tooltip, Icon, Typography } from 'components/Atomic'
-import { GlobalSettingsPopover } from 'components/GlobalSettings'
-import { InfoTable } from 'components/InfoTable'
-import { ConfirmModal } from 'components/Modals/ConfirmModal'
-import { PanelInput } from 'components/PanelInput'
-import { PanelView } from 'components/PanelView'
-import { showErrorToast } from 'components/Toast'
-import { ViewHeader } from 'components/ViewHeader'
-
-import { useMidgard } from 'store/midgard/hooks'
-import { useWallet } from 'store/wallet/hooks'
-
-import { useAddressForTNS } from 'hooks/useAddressForTNS'
-import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance'
-import { useBalance } from 'hooks/useBalance'
-import { useNetworkFee } from 'hooks/useNetworkFee'
-
-import { t } from 'services/i18n'
-import { multichain } from 'services/multichain'
-
-import { chainName } from 'helpers/chainName'
-import { getWalletAssets } from 'helpers/wallet'
-
-import { getSendRoute } from 'settings/constants'
+import { Amount, Asset, hasWalletConnected, Price } from '@thorswap-lib/multichain-sdk';
+import { Chain } from '@thorswap-lib/types';
+import { AssetInput } from 'components/AssetInput';
+import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic';
+import { GlobalSettingsPopover } from 'components/GlobalSettings';
+import { InfoTable } from 'components/InfoTable';
+import { ConfirmModal } from 'components/Modals/ConfirmModal';
+import { PanelInput } from 'components/PanelInput';
+import { PanelView } from 'components/PanelView';
+import { showErrorToast } from 'components/Toast';
+import { ViewHeader } from 'components/ViewHeader';
+import { chainName } from 'helpers/chainName';
+import { getWalletAssets } from 'helpers/wallet';
+import { useAddressForTNS } from 'hooks/useAddressForTNS';
+import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
+import { useBalance } from 'hooks/useBalance';
+import { useNetworkFee } from 'hooks/useNetworkFee';
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { t } from 'services/i18n';
+import { multichain } from 'services/multichain';
+import { getSendRoute } from 'settings/constants';
+import { useMidgard } from 'store/midgard/hooks';
+import { useWallet } from 'store/wallet/hooks';
+import { useConfirmSend } from 'views/Send/useConfirmSend';
 
 // TODO: refactor useReducer
 const Send = () => {
-  const navigate = useNavigate()
-  const { assetParam } = useParams<{ assetParam: string }>()
-  const [searchParams] = useSearchParams()
+  const navigate = useNavigate();
+  const { assetParam } = useParams<{ assetParam: string }>();
+  const [searchParams] = useSearchParams();
 
-  const [sendAsset, setSendAsset] = useState<Asset>(Asset.RUNE())
-  const [sendAmount, setSendAmount] = useState<Amount>(
-    Amount.fromAssetAmount(0, 8),
-  )
+  const [sendAsset, setSendAsset] = useState<Asset>(Asset.RUNE());
+  const [sendAmount, setSendAmount] = useState<Amount>(Amount.fromAssetAmount(0, 8));
 
-  const [memo, setMemo] = useState('')
-  const [recipientAddress, setRecipientAddress] = useState(
-    searchParams.get('recipient') || '',
-  )
-  const [thorname, setThorname] = useState('')
-  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
+  const [memo, setMemo] = useState('');
+  const [recipientAddress, setRecipientAddress] = useState(searchParams.get('recipient') || '');
+  const [thorname, setThorname] = useState('');
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
 
-  const { wallet, setIsConnectModalOpen } = useWallet()
-  const { pools } = useMidgard()
-  const { getMaxBalance } = useBalance()
-  const { inboundFee, totalFeeInUSD } = useNetworkFee({ inputAsset: sendAsset })
+  const { wallet, setIsConnectModalOpen } = useWallet();
+  const { pools } = useMidgard();
+  const { getMaxBalance } = useBalance();
+  const { inboundFee, totalFeeInUSD } = useNetworkFee({ inputAsset: sendAsset });
 
   const handleConfirmSend = useConfirmSend({
     setIsOpenConfirmModal,
@@ -67,61 +49,58 @@ const Send = () => {
     sendAsset,
     recipientAddress,
     memo,
-  })
+  });
 
   const maxSpendableBalance: Amount = useMemo(
     () => getMaxBalance(sendAsset),
     [sendAsset, getMaxBalance],
-  )
+  );
 
-  const { loading, TNS } = useAddressForTNS(recipientAddress)
+  const { loading, TNS } = useAddressForTNS(recipientAddress);
 
   const TNSAddress = useMemo(
-    () =>
-      TNS
-        ? TNS.entries.find(({ chain }) => chain === sendAsset.L1Chain)?.address
-        : '',
+    () => (TNS ? TNS.entries.find(({ chain }) => chain === sendAsset.L1Chain)?.address : ''),
     [TNS, sendAsset.L1Chain],
-  )
+  );
 
   useEffect(() => {
     if (TNS && TNSAddress) {
-      setThorname(TNS.thorname)
-      setRecipientAddress(TNSAddress)
+      setThorname(TNS.thorname);
+      setRecipientAddress(TNSAddress);
     }
-  }, [TNS, TNSAddress])
+  }, [TNS, TNSAddress]);
 
   useEffect(() => {
     const getSendAsset = async () => {
       if (!assetParam) {
-        setSendAsset(Asset.RUNE())
+        setSendAsset(Asset.RUNE());
       } else {
-        const asset = Asset.decodeFromURL(assetParam)
+        const asset = Asset.decodeFromURL(assetParam);
         const assetDecimals =
           asset && asset.L1Chain === Chain.Ethereum
             ? await multichain().eth.getERC20AssetDecimal(asset)
-            : undefined
+            : undefined;
 
         if (asset) {
-          await asset.setDecimal(assetDecimals || undefined)
-          setSendAsset(asset)
+          await asset.setDecimal(assetDecimals || undefined);
+          setSendAsset(asset);
         } else {
-          setSendAsset(Asset.RUNE())
+          setSendAsset(Asset.RUNE());
         }
       }
-    }
+    };
 
-    getSendAsset()
-  }, [assetParam])
+    getSendAsset();
+  }, [assetParam]);
 
   const isWalletConnected = useMemo(
     () => sendAsset && hasWalletConnected({ wallet, inputAssets: [sendAsset] }),
     [wallet, sendAsset],
-  )
+  );
 
-  const walletAssets = useMemo(() => getWalletAssets(wallet), [wallet])
+  const walletAssets = useMemo(() => getWalletAssets(wallet), [wallet]);
 
-  const assetInputList = useAssetsWithBalance(walletAssets)
+  const assetInputList = useAssetsWithBalance(walletAssets);
 
   const assetPriceInUSD = useMemo(
     () =>
@@ -131,42 +110,37 @@ const Send = () => {
         priceAmount: sendAmount,
       }),
     [sendAsset, sendAmount, pools],
-  )
+  );
 
   const handleSelectAsset = useCallback(
     (selected: Asset) => {
-      setRecipientAddress('')
-      navigate(getSendRoute(selected))
+      setRecipientAddress('');
+      navigate(getSendRoute(selected));
     },
     [navigate],
-  )
+  );
 
   const handleChangeSendAmount = useCallback(
     (amount: Amount) =>
-      setSendAmount(
-        amount.gt(maxSpendableBalance) ? maxSpendableBalance : amount,
-      ),
+      setSendAmount(amount.gt(maxSpendableBalance) ? maxSpendableBalance : amount),
     [maxSpendableBalance],
-  )
+  );
 
   const handleChangeRecipient = useCallback(
     ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-      setRecipientAddress(value)
-      setThorname('')
+      setRecipientAddress(value);
+      setThorname('');
     },
     [],
-  )
+  );
 
-  const handleChangeMemo = useCallback(
-    ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-      setMemo(value)
-    },
-    [],
-  )
+  const handleChangeMemo = useCallback(({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
+    setMemo(value);
+  }, []);
 
   const handleCancelSend = useCallback(() => {
-    setIsOpenConfirmModal(false)
-  }, [])
+    setIsOpenConfirmModal(false);
+  }, []);
 
   const handleSend = useCallback(() => {
     if (
@@ -175,13 +149,11 @@ const Send = () => {
         address: recipientAddress,
       })
     ) {
-      showErrorToast(
-        t('notification.invalidL1ChainAddy', { chain: sendAsset.L1Chain }),
-      )
+      showErrorToast(t('notification.invalidL1ChainAddy', { chain: sendAsset.L1Chain }));
     } else {
-      setIsOpenConfirmModal(true)
+      setIsOpenConfirmModal(true);
     }
-  }, [sendAsset, recipientAddress])
+  }, [sendAsset, recipientAddress]);
 
   const assetInput = useMemo(
     () => ({
@@ -190,31 +162,25 @@ const Send = () => {
       balance: isWalletConnected ? maxSpendableBalance : undefined,
       usdPrice: assetPriceInUSD,
     }),
-    [
-      sendAsset,
-      sendAmount,
-      maxSpendableBalance,
-      assetPriceInUSD,
-      isWalletConnected,
-    ],
-  )
+    [sendAsset, sendAmount, maxSpendableBalance, assetPriceInUSD, isWalletConnected],
+  );
 
   const summary = useMemo(
     () => [
       {
         label: t('common.transactionFee'),
         value: (
-          <Box className="gap-2" center>
+          <Box center className="gap-2">
             <Typography variant="caption">{`${inboundFee.toCurrencyFormat()} (${totalFeeInUSD.toCurrencyFormat()})`}</Typography>
             <Tooltip content={t('views.send.txFeeTooltip')}>
-              <Icon size={20} color="secondary" name="infoCircle" />
+              <Icon color="secondary" name="infoCircle" size={20} />
             </Tooltip>
           </Box>
         ),
       },
     ],
     [inboundFee, totalFeeInUSD],
-  )
+  );
 
   const confirmModalInfo = useMemo(
     () => [
@@ -226,17 +192,17 @@ const Send = () => {
       {
         label: t('common.transactionFee'),
         value: (
-          <Box className="gap-2" center>
+          <Box center className="gap-2">
             <Typography variant="caption">{`${inboundFee.toCurrencyFormat()} (${totalFeeInUSD.toCurrencyFormat()})`}</Typography>
             <Tooltip content={t('views.send.txFeeTooltip')}>
-              <Icon size={20} color="secondary" name="infoCircle" />
+              <Icon color="secondary" name="infoCircle" size={20} />
             </Tooltip>
           </Box>
         ),
       },
     ],
     [recipientAddress, sendAsset, sendAmount, inboundFee, totalFeeInUSD],
-  )
+  );
 
   const recipientTitle = useMemo(
     () =>
@@ -244,61 +210,46 @@ const Send = () => {
         TNSAddress && thorname ? ` - ${thorname}.${sendAsset.L1Chain}` : ''
       }`,
     [TNSAddress, sendAsset.L1Chain, thorname],
-  )
+  );
 
   return (
     <PanelView
+      header={<ViewHeader actionsComponent={<GlobalSettingsPopover />} title={t('common.send')} />}
       title={t('common.send')}
-      header={
-        <ViewHeader
-          title={t('common.send')}
-          actionsComponent={<GlobalSettingsPopover />}
-        />
-      }
     >
       <div className="relative self-stretch md:w-full">
         <AssetInput
           hideZeroPrice
-          selectedAsset={assetInput}
           assets={assetInputList}
           onAssetChange={handleSelectAsset}
           onValueChange={handleChangeSendAmount}
+          selectedAsset={assetInput}
         />
       </div>
 
       <PanelInput
-        title={recipientTitle}
+        loading={loading}
+        onChange={handleChangeRecipient}
         placeholder={`THORName / ${
           assetInput.asset.isSynth || assetInput.asset.isRUNE()
             ? Asset.RUNE().network
             : chainName(assetInput.asset.L1Chain)
         } ${t('common.address')}`}
-        onChange={handleChangeRecipient}
+        title={recipientTitle}
         value={recipientAddress}
-        loading={loading}
       />
 
-      <PanelInput
-        collapsible
-        title={t('common.memo')}
-        onChange={handleChangeMemo}
-        value={memo}
-      />
+      <PanelInput collapsible onChange={handleChangeMemo} title={t('common.memo')} value={memo} />
 
       <InfoTable horizontalInset items={summary} />
 
       <Box center className="w-full pt-5">
         {isWalletConnected ? (
-          <Button isFancy stretch size="lg" onClick={handleSend}>
+          <Button isFancy stretch onClick={handleSend} size="lg">
             {t('common.send')}
           </Button>
         ) : (
-          <Button
-            isFancy
-            stretch
-            size="lg"
-            onClick={() => setIsConnectModalOpen(true)}
-          >
+          <Button isFancy stretch onClick={() => setIsConnectModalOpen(true)} size="lg">
             {t('common.connectWallet')}
           </Button>
         )}
@@ -307,13 +258,13 @@ const Send = () => {
       <ConfirmModal
         inputAssets={[sendAsset]}
         isOpened={isOpenConfirmModal}
-        onConfirm={handleConfirmSend}
         onClose={handleCancelSend}
+        onConfirm={handleConfirmSend}
       >
         <InfoTable items={confirmModalInfo} />
       </ConfirmModal>
     </PanelView>
-  )
-}
+  );
+};
 
-export default Send
+export default Send;

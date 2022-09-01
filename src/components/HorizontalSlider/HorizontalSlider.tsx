@@ -1,47 +1,43 @@
-import { ReactNode, Children, useState, useEffect, useCallback } from 'react'
+import 'swiper/css';
 
-import classNames from 'classnames'
-import SwiperCore, { Mousewheel, Navigation } from 'swiper'
+import classNames from 'classnames';
+import { Box, Button, Icon } from 'components/Atomic';
+import { Children, PropsWithChildren, useCallback, useEffect, useState } from 'react';
+import SwiperCore, { Mousewheel, Navigation } from 'swiper';
 // Issue related to this was closed without any notice
 // https://github.com/nolimits4web/swiper/issues/5058
-// eslint-disable-next-line import/no-unresolved
-import { Swiper, SwiperSlide } from 'swiper/react'
-// eslint-disable-next-line import/no-unresolved
-import 'swiper/css'
+import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { Box, Button, Icon } from 'components/Atomic'
+SwiperCore.use([Mousewheel]);
 
-SwiperCore.use([Mousewheel])
-
-type Props = {
-  children: ReactNode[]
-  itemWidth: number
-}
+type Props = PropsWithChildren<{
+  itemWidth: number;
+}>;
 
 export const HorizontalSlider = ({ children, itemWidth }: Props) => {
-  const [swiperRef, setSwiperRef] = useState<SwiperCore | null>(null)
-  const [navState, setNavState] = useState({ isBeginning: false, isEnd: false })
+  const [swiperRef, setSwiperRef] = useState<SwiperCore | null>(null);
+  const [navState, setNavState] = useState({ isBeginning: false, isEnd: false });
 
   const onSlideChange = useCallback(() => {
     setNavState({
       isBeginning: !!swiperRef?.isBeginning,
       isEnd: !!swiperRef?.isEnd,
-    })
-  }, [swiperRef?.isBeginning, swiperRef?.isEnd])
+    });
+  }, [swiperRef?.isBeginning, swiperRef?.isEnd]);
 
   useEffect(() => {
     if (swiperRef) {
-      onSlideChange()
+      onSlideChange();
     }
-  }, [onSlideChange, swiperRef])
+  }, [onSlideChange, swiperRef]);
 
   const navNext = () => {
-    swiperRef?.slideNext()
-  }
+    swiperRef?.slideNext();
+  };
 
   const navPrev = () => {
-    swiperRef?.slidePrev()
-  }
+    swiperRef?.slidePrev();
+  };
 
   return (
     <div className="relative align-center">
@@ -52,8 +48,8 @@ export const HorizontalSlider = ({ children, itemWidth }: Props) => {
             ? '!opacity-0 hover:!opacity-0 pointer-events-none'
             : '!opacity-40 hover:!opacity-100 pointer-events-auto',
         )}
-        type="borderless"
-        variant="tint"
+        disabled={navState.isBeginning}
+        onClick={navPrev}
         startIcon={
           <Icon
             className="hover:text-btn-primary-light dark:hover:text-btn-primary"
@@ -61,8 +57,8 @@ export const HorizontalSlider = ({ children, itemWidth }: Props) => {
             size={40}
           />
         }
-        disabled={navState.isBeginning}
-        onClick={navPrev}
+        type="borderless"
+        variant="tint"
       />
       <Button
         className={classNames(
@@ -71,8 +67,8 @@ export const HorizontalSlider = ({ children, itemWidth }: Props) => {
             ? '!opacity-0 hover:!opacity-0 pointer-events-none'
             : '!opacity-40 hover:!opacity-100 pointer-events-auto',
         )}
-        type="borderless"
-        variant="tint"
+        disabled={navState.isEnd}
+        onClick={navNext}
         startIcon={
           <Icon
             className="hover:text-btn-primary-light dark:hover:text-btn-primary"
@@ -80,19 +76,19 @@ export const HorizontalSlider = ({ children, itemWidth }: Props) => {
             size={40}
           />
         }
-        disabled={navState.isEnd}
-        onClick={navNext}
+        type="borderless"
+        variant="tint"
       />
       <div className="overflow-hidden lg:mx-[16px] faded-horizontal relative">
         <Swiper
-          onSwiper={setSwiperRef}
-          spaceBetween={16}
-          slidesPerView="auto"
+          modules={[Navigation]}
           mousewheel={{ forceToAxis: true }}
+          onSlideChange={onSlideChange}
+          onSwiper={setSwiperRef}
           slidesOffsetAfter={16}
           slidesOffsetBefore={16}
-          modules={[Navigation]}
-          onSlideChange={onSlideChange}
+          slidesPerView="auto"
+          spaceBetween={16}
         >
           {Children.map(children, (child) => (
             <SwiperSlide className="py-8" style={{ width: itemWidth }}>
@@ -102,5 +98,5 @@ export const HorizontalSlider = ({ children, itemWidth }: Props) => {
         </Swiper>
       </div>
     </div>
-  )
-}
+  );
+};

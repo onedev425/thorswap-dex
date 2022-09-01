@@ -1,11 +1,11 @@
-import { Token } from 'store/thorswap/types'
+import { Token } from 'store/thorswap/types';
 
 const providersMap = {
   coingecko: 'coinGecko',
   oneinch: '1inch',
   zerox: '1inch',
   zapper: 'zapper',
-}
+};
 
 const providersInfoMap = {
   thorchain: 'ETH.RUNE-0x3155ba85d5f96b2d030a4966af206230e46849cb',
@@ -22,30 +22,27 @@ const providersInfoMap = {
   pmm3: '',
   pmm4: '',
   psm: '',
-}
+};
 
 export const tokenLogoURL = ({
   provider,
   address,
   identifier,
 }: Pick<Token, 'provider' | 'address' | 'identifier'>): string => {
-  const tokensProvider =
-    providersMap[provider.toLowerCase() as 'oneinch'] || 'coinGecko'
+  const tokensProvider = providersMap[provider.toLowerCase() as 'oneinch'] || 'coinGecko';
 
-  return `https://storage.googleapis.com/thorswap-token-list/assets/${tokensProvider}/${identifier.toLowerCase()}-${address.toLowerCase()}.png`
-}
+  return `https://storage.googleapis.com/thorswap-token-list/assets/${tokensProvider}/${identifier.toLowerCase()}-${address.toLowerCase()}.png`;
+};
 
 export const providerLogoURL = (provider: string) => {
-  const parsedProvider = (provider || '')
-    .replaceAll('_', '')
-    .toLowerCase() as 'thorchain'
+  const parsedProvider = (provider || '').replaceAll('_', '').toLowerCase() as 'thorchain';
 
-  const providerData = providersInfoMap[parsedProvider]
+  const providerData = providersInfoMap[parsedProvider];
 
   if (!providerData) {
-    return ''
+    return '';
   }
 
-  const [identifier, address] = providerData.split('-')
-  return tokenLogoURL({ address, identifier, provider: 'coinGecko' })
-}
+  const [identifier, address] = providerData.split('-');
+  return tokenLogoURL({ address, identifier, provider: 'coinGecko' });
+};

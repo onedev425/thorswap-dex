@@ -1,7 +1,1 @@
-export {
-  ToastPortal,
-  showInfoToast,
-  showSuccessToast,
-  showErrorToast,
-  ToastType,
-} from './Toast'
+export { showErrorToast, showInfoToast, showSuccessToast, ToastPortal, ToastType } from './Toast';

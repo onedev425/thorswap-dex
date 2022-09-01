@@ -1,75 +1,62 @@
-import { memo } from 'react'
-
-import { Amount, Asset } from '@thorswap-lib/multichain-sdk'
-
-import { AssetIcon } from 'components/AssetIcon'
-import { Box, Icon, Typography } from 'components/Atomic'
-import { ChainBadge } from 'components/ChainBadge'
-import { InfoRow } from 'components/InfoRow'
-
-import { t } from 'services/i18n'
-
-import { shortenAddress } from 'helpers/shortenAddress'
+import { Amount, Asset } from '@thorswap-lib/multichain-sdk';
+import { AssetIcon } from 'components/AssetIcon';
+import { Box, Icon, Typography } from 'components/Atomic';
+import { ChainBadge } from 'components/ChainBadge';
+import { InfoRow } from 'components/InfoRow';
+import { shortenAddress } from 'helpers/shortenAddress';
+import { memo } from 'react';
+import { t } from 'services/i18n';
 
 type Props = {
-  inputAsset: Asset
-  recipient: string
-  amount: Amount
-  feeLabel: string
-}
+  inputAsset: Asset;
+  recipient: string;
+  amount: Amount;
+  feeLabel: string;
+};
 
-export const ConfirmContent = memo(
-  ({ inputAsset, recipient, feeLabel, amount }: Props) => {
-    return (
-      <Box col>
-        <Box flex={1} center>
-          <Typography variant="subtitle2">
-            {t('common.upgradeChainRune', { chain: inputAsset.chain })}
-          </Typography>
-        </Box>
+export const ConfirmContent = memo(({ inputAsset, recipient, feeLabel, amount }: Props) => {
+  return (
+    <Box col>
+      <Box center flex={1}>
+        <Typography variant="subtitle2">
+          {t('common.upgradeChainRune', { chain: inputAsset.chain })}
+        </Typography>
+      </Box>
 
-        <Box row alignCenter justify="between">
-          <Box className="flex-1 p-4 rounded-2xl" center col>
-            <AssetIcon asset={inputAsset} />
-            <Box className="pt-2" center>
-              <ChainBadge asset={inputAsset} />
-            </Box>
-            <Box className="w-full" center>
-              <Typography variant="caption" fontWeight="medium">
-                {amount.toSignificant(6)} {inputAsset.ticker}
-              </Typography>
-            </Box>
+      <Box alignCenter row justify="between">
+        <Box center col className="flex-1 p-4 rounded-2xl">
+          <AssetIcon asset={inputAsset} />
+          <Box center className="pt-2">
+            <ChainBadge asset={inputAsset} />
           </Box>
-
-          <Icon className="mx-2 -rotate-90" name="arrowDown" />
-          <Box className="flex-1 p-4 rounded-2xl" center col>
-            <AssetIcon asset={Asset.RUNE()} />
-            <Box className="pt-2" center>
-              <ChainBadge asset={Asset.RUNE()} />
-            </Box>
-            <Box className="w-full" center>
-              <Typography variant="caption" fontWeight="medium">
-                {amount.toSignificant(6)} {Asset.RUNE().ticker}
-              </Typography>
-            </Box>
+          <Box center className="w-full">
+            <Typography fontWeight="medium" variant="caption">
+              {amount.toSignificant(6)} {inputAsset.ticker}
+            </Typography>
           </Box>
         </Box>
 
-        <Box
-          className="p-4 border border-solid rounded-2xl border-light-border-primary dark:border-dark-border-primary"
-          col
-        >
-          <InfoRow
-            label={t('common.recipient')}
-            value={shortenAddress(recipient)}
-          ></InfoRow>
-          <InfoRow
-            label={t('common.transactionFee')}
-            value={feeLabel}
-            showBorder={false}
-          ></InfoRow>
+        <Icon className="mx-2 -rotate-90" name="arrowDown" />
+        <Box center col className="flex-1 p-4 rounded-2xl">
+          <AssetIcon asset={Asset.RUNE()} />
+          <Box center className="pt-2">
+            <ChainBadge asset={Asset.RUNE()} />
+          </Box>
+          <Box center className="w-full">
+            <Typography fontWeight="medium" variant="caption">
+              {amount.toSignificant(6)} {Asset.RUNE().ticker}
+            </Typography>
+          </Box>
         </Box>
       </Box>
-    )
-  },
-)
+
+      <Box
+        col
+        className="p-4 border border-solid rounded-2xl border-light-border-primary dark:border-dark-border-primary"
+      >
+        <InfoRow label={t('common.recipient')} value={shortenAddress(recipient)} />
+        <InfoRow label={t('common.transactionFee')} showBorder={false} value={feeLabel} />
+      </Box>
+    </Box>
+  );
+});

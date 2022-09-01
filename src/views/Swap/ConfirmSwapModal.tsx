@@ -1,27 +1,23 @@
-import { memo, useCallback, useMemo } from 'react'
+import { AssetInputType } from 'components/AssetInput/types';
+import { ConfirmModal } from 'components/Modals/ConfirmModal';
+import { memo, useCallback, useMemo } from 'react';
 
-import { Amount } from '@thorswap-lib/multichain-sdk'
-
-import { AssetInputType } from 'components/AssetInput/types'
-import { ConfirmModal } from 'components/Modals/ConfirmModal'
-
-import { ConfirmContent } from './ConfirmContent'
+import { ConfirmContent } from './ConfirmContent';
 
 type Props = {
-  estimatedTime?: number
-  affiliateFee: string
-  feeAssets: string
-  inputAmount: Amount
-  inputAssetProps: AssetInputType
-  minReceive: string
-  outputAssetProps: AssetInputType
-  recipient: string
-  setVisible: (visible: boolean) => void
-  slippageInfo: string
-  handleSwap: () => Promise<void>
-  totalFee: string
-  visible: boolean
-}
+  estimatedTime?: number;
+  affiliateFee: string;
+  feeAssets: string;
+  inputAssetProps: AssetInputType;
+  minReceive: string;
+  outputAssetProps: AssetInputType;
+  recipient: string;
+  setVisible: (visible: boolean) => void;
+  slippageInfo: string;
+  handleSwap: () => Promise<void>;
+  totalFee: string;
+  visible: boolean;
+};
 
 export const ConfirmSwapModal = memo(
   ({
@@ -38,18 +34,18 @@ export const ConfirmSwapModal = memo(
     visible,
     estimatedTime,
   }: Props) => {
-    const { asset: inputAsset } = inputAssetProps
+    const { asset: inputAsset } = inputAssetProps;
 
     const handleConfirm = useCallback(async () => {
-      setVisible(false)
-      handleSwap()
-    }, [setVisible, handleSwap])
+      setVisible(false);
+      handleSwap();
+    }, [setVisible, handleSwap]);
 
     const estimatedInfo = useMemo(() => {
-      if (!estimatedTime) return '<5s'
-      if (estimatedTime < 60) return `<${estimatedTime}s`
-      return `<${Math.ceil(estimatedTime / 60)}m`
-    }, [estimatedTime])
+      if (!estimatedTime) return '<5s';
+      if (estimatedTime < 60) return `<${estimatedTime}s`;
+      return `<${Math.ceil(estimatedTime / 60)}m`;
+    }, [estimatedTime]);
 
     return (
       <ConfirmModal
@@ -70,6 +66,6 @@ export const ConfirmSwapModal = memo(
           totalFee={totalFee}
         />
       </ConfirmModal>
-    )
+    );
   },
-)
+);

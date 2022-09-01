@@ -1,2 +1,2 @@
-export * from './languageHelpers'
-export * from './i18nService'
+export * from './i18nService';
+export * from './languageHelpers';

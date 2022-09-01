@@ -1,31 +1,20 @@
-import { PropsWithChildren } from 'react'
+import { Listbox } from '@headlessui/react';
+import classNames from 'classnames';
+import { DropdownOptions } from 'components/Atomic/Dropdown/types';
+import { PropsWithChildren } from 'react';
 
-import { Listbox } from '@headlessui/react'
-import classNames from 'classnames'
+type Props = PropsWithChildren<DropdownOptions>;
 
-import { DropdownOptions } from 'components/Atomic/Dropdown/types'
-
-type Props = PropsWithChildren<DropdownOptions>
-
-export const Dropdown = ({
-  className,
-  children,
-  disabled,
-  value,
-  onChange,
-}: Props) => {
+export const Dropdown = ({ className, children, disabled, value, onChange }: Props) => {
   return (
     <Listbox
-      className={classNames(
-        'z-10 relative text-left inline-block w-full',
-        className,
-      )}
       as="div"
+      className={classNames('z-10 relative text-left inline-block w-full', className)}
       disabled={disabled}
-      value={value}
       onChange={onChange}
+      value={value}
     >
       {children}
     </Listbox>
-  )
-}
+  );
+};

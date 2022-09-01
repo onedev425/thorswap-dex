@@ -1,10 +1,10 @@
-import { ChartData as ReactChartData } from 'chart.js'
+import { ChartData as ReactChartData } from 'chart.js';
 
-export type ChartDetail = { value: string; time: number }
+export type ChartDetail = { value: string; time: number };
 
-export type DataPoint = { x: string; y: number }
+export type DataPoint = { x: string; y: number };
 
-export type ChartValues = ChartDetail[]
+export type ChartValues = ChartDetail[];
 
 export enum ChartType {
   Bar = 'bar',
@@ -13,25 +13,21 @@ export enum ChartType {
   CurvedLine = 'curvedLine',
 }
 
-export type BarChartType = ReactChartData<ChartType.Bar, DataPoint[], string>
-export type AreaChartType = ReactChartData<ChartType.Line, DataPoint[], string>
-export type LineChartType = ReactChartData<ChartType.Line, number[], string>
-export type CurvedLineChartType = ReactChartData<
-  ChartType.Line,
-  number[],
-  string
->
+export type BarChartType = ReactChartData<ChartType.Bar, DataPoint[], string>;
+export type AreaChartType = ReactChartData<ChartType.Line, DataPoint[], string>;
+export type LineChartType = ReactChartData<ChartType.Line, number[], string>;
+export type CurvedLineChartType = ReactChartData<ChartType.Line, number[], string>;
 
 export type ChartObject = {
-  values?: ChartValues
-  loading?: boolean
-  type?: ChartType
-  unit?: string
-}
+  values?: ChartValues;
+  loading?: boolean;
+  type?: ChartType;
+  unit?: string;
+};
 
 export type ChartData = {
-  [key: string]: ChartObject
-}
+  [key: string]: ChartObject;
+};
 
 export enum ChartTimeFrame {
   Week = 0,
@@ -39,15 +35,15 @@ export enum ChartTimeFrame {
 }
 
 export type ChartProps = {
-  chartData: ChartData
-  chartIndexes: string[]
-  className?: string
-  hasGrid?: boolean
-  hideLabel?: boolean
-  previewChartType?: ChartType
-  selectChart: (value: string) => void
-  selectedIndex: string
-  title: string
-  unit: string
-  abbreviateValues?: boolean
-}
+  chartData: ChartData;
+  chartIndexes: string[];
+  className?: string;
+  hasGrid?: boolean;
+  hideLabel?: boolean;
+  previewChartType?: ChartType;
+  selectChart: (value: string) => void;
+  selectedIndex: string;
+  title: string;
+  unit: string;
+  abbreviateValues?: boolean;
+};

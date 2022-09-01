@@ -1,2 +1,2 @@
-export { TextField } from './TextField'
-export { FieldLabel } from './FieldLabel'
+export { FieldLabel } from './FieldLabel';
+export { TextField } from './TextField';

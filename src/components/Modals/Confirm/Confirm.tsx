@@ -1,16 +1,15 @@
-import { Box, Button, Modal, Typography } from 'components/Atomic'
-
-import { t } from 'services/i18n'
+import { Box, Button, Modal, Typography } from 'components/Atomic';
+import { t } from 'services/i18n';
 
 type Props = {
-  isOpened: boolean
-  description: string
-  title?: string
-  confirmLabel?: string
-  cancelLabel?: string
-  onConfirm: () => void
-  onCancel: () => void
-}
+  isOpened: boolean;
+  description: string;
+  title?: string;
+  confirmLabel?: string;
+  cancelLabel?: string;
+  onConfirm: () => void;
+  onCancel: () => void;
+};
 
 export const Confirm = ({
   isOpened,
@@ -22,7 +21,7 @@ export const Confirm = ({
   onCancel,
 }: Props) => {
   return (
-    <Modal title={title || ''} isOpened={isOpened} onClose={onCancel}>
+    <Modal isOpened={isOpened} onClose={onCancel} title={title || ''}>
       <Box col>
         <Typography>{description}</Typography>
         <Box className="gap-3 mt-4" justify="end">
@@ -35,5 +34,5 @@ export const Confirm = ({
         </Box>
       </Box>
     </Modal>
-  )
-}
+  );
+};

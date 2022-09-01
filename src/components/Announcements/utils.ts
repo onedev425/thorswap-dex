@@ -1,6 +1,5 @@
-import { id } from '@ethersproject/hash'
-
-import { AnnouncementItem } from 'store/externalConfig/types'
+import { id } from '@ethersproject/hash';
+import { AnnouncementItem } from 'store/externalConfig/types';
 
 export const getAnnouncementId = (ann: AnnouncementItem) => {
   return id(
@@ -9,5 +8,5 @@ export const getAnnouncementId = (ann: AnnouncementItem) => {
       (ann.link?.name || '') +
       (ann.link?.url || '') +
       (ann.chain || ''),
-  )
-}
+  );
+};

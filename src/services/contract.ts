@@ -1,20 +1,17 @@
-import { BigNumber } from '@ethersproject/bignumber'
-import { Contract, type ContractInterface } from '@ethersproject/contracts'
-import { InfuraProvider } from '@ethersproject/providers'
-import { formatUnits, parseUnits } from '@ethersproject/units'
-import { IMultiChain } from '@thorswap-lib/multichain-sdk'
-import { Network } from '@thorswap-lib/types'
+import { BigNumber } from '@ethersproject/bignumber';
+import { type ContractInterface, Contract } from '@ethersproject/contracts';
+import { InfuraProvider } from '@ethersproject/providers';
+import { formatUnits, parseUnits } from '@ethersproject/units';
+import { IMultiChain } from '@thorswap-lib/multichain-sdk';
+import { Network } from '@thorswap-lib/types';
+import { showErrorToast } from 'components/Toast';
+import { t } from 'services/i18n';
+import { IS_TESTNET, NETWORK } from 'settings/config';
 
-import { showErrorToast } from 'components/Toast'
-
-import { t } from 'services/i18n'
-
-import { config, INFURA_PROJECT_ID, IS_TESTNET } from 'settings/config'
-
-import ERC20ABI from './abi/ERC20.json'
-import StakingABI from './abi/Staking.json'
-import VestingABI from './abi/TokenVesting.json'
-import VThorABI from './abi/VThor.json'
+import ERC20ABI from './abi/ERC20.json';
+import StakingABI from './abi/Staking.json';
+import VestingABI from './abi/TokenVesting.json';
+import VThorABI from './abi/VThor.json';
 
 export enum ContractType {
   VESTING = 'vesting',
@@ -29,25 +26,27 @@ export enum LPContractType {
   THOR_ETH = 'THOR_ETH',
 }
 
-export const ContractABI = 'abi'
-export const StakingAddr = 'stakingAddr'
+export const ContractABI = 'abi';
+export const StakingAddr = 'stakingAddr';
+
+const INFURA_PROJECT_ID = import.meta.env.VITE_INFURA_PROJECT_ID;
 
 export type ContractConf = {
-  [Network.Mainnet]: string
-  [Network.Testnet]: string
-  [ContractABI]: ContractInterface
-}
+  [Network.Mainnet]: string;
+  [Network.Testnet]: string;
+  [ContractABI]: ContractInterface;
+};
 
 export type LPContractConf = {
   [Network.Mainnet]: {
-    tokenAddr: string
-    stakingAddr: string
-  }
+    tokenAddr: string;
+    stakingAddr: string;
+  };
   [Network.Testnet]: {
-    tokenAddr: string
-    stakingAddr: string
-  }
-}
+    tokenAddr: string;
+    stakingAddr: string;
+  };
+};
 
 // Some testnet address are incorrect, but mainnet address are 100% correct.
 export const contractConfig: Record<ContractType, ContractConf> = {
@@ -78,7 +77,7 @@ export const contractConfig: Record<ContractType, ContractConf> = {
     [Network.Testnet]: '0xd689bA1169A8FB1cC96f57D0102A4111D4574FCD',
     [ContractABI]: VestingABI,
   },
-}
+};
 
 export const lpContractConfig: Record<LPContractType, LPContractConf> = {
   [LPContractType.THOR]: {
@@ -102,70 +101,59 @@ export const lpContractConfig: Record<LPContractType, LPContractConf> = {
       stakingAddr: '0xae1Fc3947Ee83aeb3b7fEC237BCC1D194C88BC24',
     },
   },
-}
+};
 
 export const fromWei = (amountInWei: BigNumber): number => {
-  return parseFloat(formatUnits(amountInWei, 'ether'))
-}
+  return parseFloat(formatUnits(amountInWei, 'ether'));
+};
 
 export const toWei = (amount: number | string): BigNumber => {
-  return parseUnits(amount.toString(), 'ether')
-}
+  return parseUnits(amount.toString(), 'ether');
+};
 
 export const toWeiFromString = (amount: string): BigNumber => {
-  return parseUnits(amount, 'ether')
-}
+  return parseUnits(amount, 'ether');
+};
 
 export const getEtherscanContract = (contractType: ContractType) => {
-  const { network } = config
-  const provider = new InfuraProvider(IS_TESTNET ? 3 : 1, INFURA_PROJECT_ID)
+  const provider = new InfuraProvider(IS_TESTNET ? 3 : 1, INFURA_PROJECT_ID);
 
-  const activeContract = contractConfig[contractType]
-  const contract = new Contract(
-    activeContract[network],
-    activeContract[ContractABI],
-    provider,
-  )
+  const activeContract = contractConfig[contractType];
+  const contract = new Contract(activeContract[NETWORK], activeContract[ContractABI], provider);
 
-  return contract
-}
+  return contract;
+};
 
-export const getCustomContract = (
-  contractAddr: string,
-  abi?: ContractInterface,
-) => {
-  const provider = new InfuraProvider(IS_TESTNET ? 3 : 1, INFURA_PROJECT_ID)
+export const getCustomContract = (contractAddr: string, abi?: ContractInterface) => {
+  const provider = new InfuraProvider(IS_TESTNET ? 3 : 1, INFURA_PROJECT_ID);
 
-  const contract = new Contract(contractAddr, abi ? abi : ERC20ABI, provider)
+  const contract = new Contract(contractAddr, abi ? abi : ERC20ABI, provider);
 
-  return contract
-}
+  return contract;
+};
 
 export const getLPContractAddress = (contractType: LPContractType) => {
-  const { network } = config
-  return lpContractConfig[contractType][network].tokenAddr.toLowerCase()
-}
+  return lpContractConfig[contractType][NETWORK].tokenAddr.toLowerCase();
+};
 
 export const getContractAddress = (contractType: ContractType) => {
-  const { network } = config
-  return contractConfig[contractType][network]
-}
+  return contractConfig[contractType][NETWORK];
+};
 
 export const getLpTokenBalance = async (contractType: LPContractType) => {
-  const { network } = config
-  const { tokenAddr, stakingAddr } = lpContractConfig[contractType][network]
+  const { tokenAddr, stakingAddr } = lpContractConfig[contractType][NETWORK];
 
-  const tokenContract = getCustomContract(tokenAddr)
+  const tokenContract = getCustomContract(tokenAddr);
 
-  const balance = await tokenContract.balanceOf(stakingAddr)
+  const balance = await tokenContract.balanceOf(stakingAddr);
 
-  return balance
-}
+  return balance;
+};
 
 // add 20%
 export const calculateGasMargin = (value: BigNumber): BigNumber => {
-  return value.mul(BigNumber.from(10000 + 2000)).div(BigNumber.from(10000))
-}
+  return value.mul(BigNumber.from(10000 + 2000)).div(BigNumber.from(10000));
+};
 
 export const triggerContractCall = async (
   multichainInstance: IMultiChain,
@@ -174,48 +162,44 @@ export const triggerContractCall = async (
   args: ToDo[],
 ) => {
   try {
-    const { network } = config
-    const activeContract = contractConfig[contractType]
-    const ethClient = multichainInstance.eth.getClient()
+    const activeContract = contractConfig[contractType];
+    const ethClient = multichainInstance.eth.getClient();
 
-    let gasLimit: BigNumber | number
+    let gasLimit: BigNumber | number;
     try {
       gasLimit = await ethClient.estimateCall({
-        contractAddress: activeContract[network],
+        contractAddress: activeContract[NETWORK],
         abi: activeContract[ContractABI],
         funcName: methodName,
         funcParams: args,
-      })
+      });
     } catch (e) {
-      const methodMultiplier = methodName === 'deposit' ? 4 : 2
-      gasLimit = 70000 * methodMultiplier
+      const methodMultiplier = methodName === 'deposit' ? 4 : 2;
+      gasLimit = 70000 * methodMultiplier;
     }
 
     const resp: ToDo = await ethClient.call({
-      contractAddress: activeContract[network],
+      contractAddress: activeContract[NETWORK],
       abi: activeContract[ContractABI],
       funcName: methodName,
       funcParams: [
         ...args,
         {
-          gasLimit:
-            typeof gasLimit === 'number'
-              ? gasLimit
-              : calculateGasMargin(gasLimit),
+          gasLimit: typeof gasLimit === 'number' ? gasLimit : calculateGasMargin(gasLimit),
         },
       ],
-    })
+    });
 
-    return resp
+    return resp;
   } catch (error) {
-    const plainErrMsg = JSON.stringify(error)
-    const isApprovalError = plainErrMsg.includes('exceeds allowance')
+    const plainErrMsg = JSON.stringify(error);
+    const isApprovalError = plainErrMsg.includes('exceeds allowance');
     const message = isApprovalError
       ? t('notification.approveOverflow', { actionType: methodName })
-      : undefined
+      : undefined;
 
-    showErrorToast(t('notification.gasEstimationFailed'), message)
+    showErrorToast(t('notification.gasEstimationFailed'), message);
 
-    return Promise.reject(error)
+    return Promise.reject(error);
   }
-}
+};

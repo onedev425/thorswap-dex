@@ -1,1 +1,1 @@
-export { AssetSelect } from './AssetSelect'
+export { AssetSelect } from './AssetSelect';

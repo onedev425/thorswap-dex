@@ -1,8 +1,7 @@
-import classNames from 'classnames'
+import classNames from 'classnames';
+import { Typography } from 'components/Atomic';
 
-import { Typography } from 'components/Atomic'
-
-import { SwitchProps } from './types'
+import { SwitchProps } from './types';
 
 export const Switch = ({
   className = '',
@@ -17,9 +16,7 @@ export const Switch = ({
     <span
       className={classNames(
         'inline-block relative h-10 w-28',
-        disabled
-          ? 'cursor-not-allowed bg-opacity-30 border-opacity-30'
-          : 'cursor-pointer',
+        disabled ? 'cursor-not-allowed bg-opacity-30 border-opacity-30' : 'cursor-pointer',
         className,
       )}
     >
@@ -30,9 +27,7 @@ export const Switch = ({
       >
         <span
           className={classNames(
-            checked
-              ? 'translate-x-0 bg-navy'
-              : 'translate-x-14 bg-dark-gray-primary',
+            checked ? 'translate-x-0 bg-navy' : 'translate-x-14 bg-dark-gray-primary',
             'absolute before:block flex items-center justify-center h-10 w-14 rounded-2xl',
           )}
           style={{
@@ -64,18 +59,16 @@ export const Switch = ({
       </span>
 
       <input
+        checked={checked}
         className={classNames(
           'absolute w-full h-full z-10 m-0 rounded-lg top-0 opacity-0',
-          disabled
-            ? 'cursor-not-allowed bg-opacity-30 border-opacity-30'
-            : 'cursor-pointer',
+          disabled ? 'cursor-not-allowed bg-opacity-30 border-opacity-30' : 'cursor-pointer',
         )}
-        type="checkbox"
-        checked={checked}
-        onChange={onChange}
         disabled={disabled}
+        onChange={onChange}
+        type="checkbox"
         {...rest}
       />
     </span>
-  )
-}
+  );
+};

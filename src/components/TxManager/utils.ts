@@ -1,18 +1,15 @@
-import { ActionTypeEnum, Transaction } from '@thorswap-lib/midgard-sdk'
-import { Amount, Asset } from '@thorswap-lib/multichain-sdk'
-import { SupportedChain } from '@thorswap-lib/types'
-
-import { TxProgressStatus } from 'components/TxManager/types'
-
-import { TxTracker, TxTrackerStatus, TxTrackerType } from 'store/midgard/types'
-
-import { t } from 'services/i18n'
-import { multichain } from 'services/multichain'
+import { ActionTypeEnum, Transaction } from '@thorswap-lib/midgard-sdk';
+import { Amount, Asset } from '@thorswap-lib/multichain-sdk';
+import { SupportedChain } from '@thorswap-lib/types';
+import { TxProgressStatus } from 'components/TxManager/types';
+import { t } from 'services/i18n';
+import { multichain } from 'services/multichain';
+import { TxTracker, TxTrackerStatus, TxTrackerType } from 'store/midgard/types';
 
 export type Pair = {
-  sendAsset: string
-  receiveAsset: string
-}
+  sendAsset: string;
+  receiveAsset: string;
+};
 
 // TODO(@Chillios): Refactor
 export const isSwapType = (txTracker: TxTracker): boolean => {
@@ -21,69 +18,65 @@ export const isSwapType = (txTracker: TxTracker): boolean => {
     txTracker.type === TxTrackerType.Mint ||
     txTracker.type === TxTrackerType.Redeem
   ) {
-    return true
+    return true;
   }
 
-  return false
-}
+  return false;
+};
 
 export const getSwapSendTitle = ({ sendAsset, receiveAsset }: Pair) => {
   if (
     Asset.fromAssetString(sendAsset)?.isSynth &&
     Asset.fromAssetString(receiveAsset)?.isSynth === false
   )
-    return t('txManager.burn')
-  return t('txManager.send')
-}
+    return t('txManager.burn');
+  return t('txManager.send');
+};
 
 export const getSwapReceiveTitle = ({
   sendAsset,
   receiveAsset,
 }: {
-  sendAsset: string
-  receiveAsset: string
+  sendAsset: string;
+  receiveAsset: string;
 }) => {
   if (
     Asset.fromAssetString(sendAsset)?.isSynth === false &&
     Asset.fromAssetString(receiveAsset)?.isSynth
   )
-    return t('txManager.mint')
-  return t('txManager.receive')
-}
+    return t('txManager.mint');
+  return t('txManager.receive');
+};
 
 export const getTxProgressStatus = (txTracker: TxTracker): TxProgressStatus => {
-  if (txTracker.status === TxTrackerStatus.Failed) return 'failed'
+  if (txTracker.status === TxTrackerStatus.Failed) return 'failed';
 
   if (txTracker.status === TxTrackerStatus.Success) {
     if (txTracker.refunded) {
-      return 'refunded'
+      return 'refunded';
     }
 
-    return 'success'
+    return 'success';
   }
 
-  return 'pending'
-}
+  return 'pending';
+};
 
-const lastIndex = (arr: ToDo[]) => arr?.length - 1 || 0
-export const getSwapOutTxData = ({
-  action,
-  type,
-}: TxTracker): string | null => {
+const lastIndex = (arr: ToDo[]) => arr?.length - 1 || 0;
+export const getSwapOutTxData = ({ action, type }: TxTracker): string | null => {
   if (action?.out) {
-    const lastOutAction = action.out[lastIndex(action.out)]
+    const lastOutAction = action.out[lastIndex(action.out)];
 
-    const { asset, amount } =
-      lastOutAction?.coins?.[lastIndex(lastOutAction.coins)] || {}
+    const { asset, amount } = lastOutAction?.coins?.[lastIndex(lastOutAction.coins)] || {};
 
-    const [assetName] = asset.split('-')
-    const [chain, ticker] = assetName.split('.')
+    const [assetName] = asset.split('-');
+    const [chain, ticker] = assetName.split('.');
 
     if (asset) {
       const options = {
         amount: Amount.fromMidgard(amount).toSignificant(6),
         asset: ticker || chain,
-      }
+      };
 
       const translationKey =
         action.type === ActionTypeEnum.Swap
@@ -92,171 +85,164 @@ export const getSwapOutTxData = ({
             : type === TxTrackerType.Mint
             ? 'txManager.mintedAmountAsset'
             : 'txManager.redeemedAmountAsset'
-          : 'txManager.sentAmountAsset'
+          : 'txManager.sentAmountAsset';
 
-      return t(translationKey, options)
+      return t(translationKey, options);
     }
   }
 
-  return null
-}
+  return null;
+};
 
 export const getSwapInTxUrl = (submitTx: TxTracker['submitTx']): string => {
   if (submitTx?.txID) {
-    const { inAssets = [], txID } = submitTx
+    const { inAssets = [], txID } = submitTx;
     try {
-      const asset = Asset.fromAssetString(inAssets[0].asset)
+      const asset = Asset.fromAssetString(inAssets[0].asset);
 
       if (asset) {
-        return multichain().getExplorerTxUrl(asset.L1Chain, txID)
+        return multichain().getExplorerTxUrl(asset.L1Chain, txID);
       }
     } catch (e) {
-      return '#'
+      return '#';
     }
   }
 
-  return '#'
-}
+  return '#';
+};
 
 export const getSwapOutTxUrl = (action: TxTracker['action']): string => {
   if (action?.out) {
-    const outTx = action.out[0]
+    const outTx = action.out[0];
     try {
-      const asset = Asset.fromAssetString(outTx?.coins?.[0]?.asset)
+      const asset = Asset.fromAssetString(outTx?.coins?.[0]?.asset);
 
       if (asset) {
         // add 0x for eth tx
         if (asset.L1Chain === 'ETH') {
-          return multichain().getExplorerTxUrl(
-            asset.L1Chain,
-            `0x${outTx?.txID}`,
-          )
+          return multichain().getExplorerTxUrl(asset.L1Chain, `0x${outTx?.txID}`);
         }
-        return multichain().getExplorerTxUrl(asset.L1Chain, outTx?.txID)
+        return multichain().getExplorerTxUrl(asset.L1Chain, outTx?.txID);
       }
     } catch (e) {
-      return '#'
+      return '#';
     }
   }
 
-  return '#'
-}
+  return '#';
+};
 
 export const getAddTxUrl = ({
   asset,
   txTracker,
 }: {
-  asset: Asset
-  txTracker: TxTracker
+  asset: Asset;
+  txTracker: TxTracker;
 }): string => {
-  const { action, submitTx } = txTracker
+  const { action, submitTx } = txTracker;
 
   if (action?.in) {
     const inTx = action.in.find(
       (inData: Transaction) => inData.coins?.[0].asset === asset?.toString(),
-    )
+    );
 
     if (inTx) {
       // add 0x for eth tx
       if (asset.L1Chain === 'ETH') {
-        return multichain().getExplorerTxUrl(asset.L1Chain, `0x${inTx?.txID}`)
+        return multichain().getExplorerTxUrl(asset.L1Chain, `0x${inTx?.txID}`);
       }
 
-      return multichain().getExplorerTxUrl(asset.L1Chain, inTx?.txID)
+      return multichain().getExplorerTxUrl(asset.L1Chain, inTx?.txID);
     }
   } else if (submitTx.addTx) {
-    const { addTx } = submitTx
+    const { addTx } = submitTx;
 
     if (asset.isRUNE() && addTx.runeTxID) {
-      return multichain().getExplorerTxUrl(asset.L1Chain, addTx.runeTxID)
+      return multichain().getExplorerTxUrl(asset.L1Chain, addTx.runeTxID);
     }
 
     if (addTx.assetTxID) {
-      return multichain().getExplorerTxUrl(asset.L1Chain, addTx.assetTxID)
+      return multichain().getExplorerTxUrl(asset.L1Chain, addTx.assetTxID);
     }
   }
 
-  return '#'
-}
+  return '#';
+};
 
 export const getWithdrawSubmitTxUrl = (txTracker: TxTracker): string => {
-  const { submitTx } = txTracker
+  const { submitTx } = txTracker;
 
   if (submitTx?.txID && submitTx?.withdrawChain) {
-    const { withdrawChain, txID } = submitTx
+    const { withdrawChain, txID } = submitTx;
 
-    return multichain().getExplorerTxUrl(withdrawChain as SupportedChain, txID)
+    return multichain().getExplorerTxUrl(withdrawChain as SupportedChain, txID);
   }
 
-  return '#'
-}
+  return '#';
+};
 
 export const getWithdrawTxUrl = ({
   asset,
   txTracker,
 }: {
-  asset: Asset
-  txTracker: TxTracker
+  asset: Asset;
+  txTracker: TxTracker;
 }): string => {
-  const { action } = txTracker
+  const { action } = txTracker;
 
   if (action?.out) {
     const outTx = action.out.find(
       (data: Transaction) => data.coins?.[0].asset === asset?.toString(),
-    )
+    );
 
     if (outTx) {
       // add 0x for eth tx
       if (asset.L1Chain === 'ETH') {
-        return multichain().getExplorerTxUrl(asset.L1Chain, `0x${outTx?.txID}`)
+        return multichain().getExplorerTxUrl(asset.L1Chain, `0x${outTx?.txID}`);
       }
-      return multichain().getExplorerTxUrl(asset.L1Chain, outTx?.txID)
+      return multichain().getExplorerTxUrl(asset.L1Chain, outTx?.txID);
     }
   }
 
-  return '#'
-}
+  return '#';
+};
 
 // we use this method for stake, claim, stakeExit as well
 export const getApproveTxUrl = (txTracker: TxTracker): string => {
-  const { submitTx } = txTracker
+  const { submitTx } = txTracker;
 
   if (submitTx?.txID) {
-    const { inAssets = [], txID } = submitTx
-    const asset = Asset.fromAssetString(inAssets[0].asset)
+    const { inAssets = [], txID } = submitTx;
+    const asset = Asset.fromAssetString(inAssets[0].asset);
 
     if (asset) {
-      return multichain().getExplorerTxUrl(asset.L1Chain, txID)
+      return multichain().getExplorerTxUrl(asset.L1Chain, txID);
     }
   }
 
-  return '#'
-}
+  return '#';
+};
 
-export const getSendTxUrl = ({
-  submitTx,
-}: {
-  submitTx: TxTracker['submitTx']
-}): string => {
+export const getSendTxUrl = ({ submitTx }: { submitTx: TxTracker['submitTx'] }): string => {
   if (submitTx?.txID) {
-    const { inAssets = [], txID } = submitTx
-    const asset = Asset.fromAssetString(inAssets[0].asset)
+    const { inAssets = [], txID } = submitTx;
+    const asset = Asset.fromAssetString(inAssets[0].asset);
 
     if (asset) {
-      return multichain().getExplorerTxUrl(asset.L1Chain, txID)
+      return multichain().getExplorerTxUrl(asset.L1Chain, txID);
     }
   }
 
-  return '#'
-}
+  return '#';
+};
 
 export const getTxTrackerUrl = (txId?: string) => {
   if (!txId) {
-    return ''
+    return '';
   }
 
-  return `https://app.thoryield.com/tx_tracker?tx=${txId}`
-}
+  return `https://app.thoryield.com/tx_tracker?tx=${txId}`;
+};
 
 export const getTxType = (): Record<TxTrackerType, string> => ({
   [TxTrackerType.AddLiquidity]: t('txManager.addLiquidity'),
@@ -275,4 +261,4 @@ export const getTxType = (): Record<TxTrackerType, string> => ({
   [TxTrackerType.Switch]: t('txManager.switch'),
   [TxTrackerType.Withdraw]: t('txManager.withdraw'),
   [TxTrackerType.Unstake]: t('txManager.unstake'),
-})
+});

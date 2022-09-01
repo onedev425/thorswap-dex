@@ -1,31 +1,20 @@
-import { useMemo } from 'react'
-
-import { Amount, Percent } from '@thorswap-lib/multichain-sdk'
-
-import { StatsType } from 'components/StatsList/types'
-
-import { useGlobalState } from 'store/hooks'
-
-import { useGlobalStats } from 'hooks/useGlobalStats'
-import { useMimir } from 'hooks/useMimir'
-
-import { t } from 'services/i18n'
+import { Amount, Percent } from '@thorswap-lib/multichain-sdk';
+import { StatsType } from 'components/StatsList/types';
+import { useGlobalStats } from 'hooks/useGlobalStats';
+import { useMimir } from 'hooks/useMimir';
+import { useMemo } from 'react';
+import { t } from 'services/i18n';
+import { useGlobalState } from 'store/hooks';
 
 export const useGlobalStatsData = () => {
-  const { runeToCurrency } = useGlobalState()
+  const { runeToCurrency } = useGlobalState();
 
-  const {
-    tvlInRune,
-    totalActiveBond,
-    liquidityAPYLabel,
-    totalVolume,
-    volume24h,
-    networkData,
-  } = useGlobalStats()
+  const { tvlInRune, totalActiveBond, liquidityAPYLabel, totalVolume, volume24h, networkData } =
+    useGlobalStats();
 
-  const { totalPooledRune, maxLiquidityRune } = useMimir()
+  const { totalPooledRune, maxLiquidityRune } = useMimir();
 
-  const bondingAPYLabel = new Percent(networkData?.bondingAPY ?? 0).toFixed(2)
+  const bondingAPYLabel = new Percent(networkData?.bondingAPY ?? 0).toFixed(2);
 
   const statsData: StatsType[] = useMemo(() => {
     return [
@@ -64,9 +53,7 @@ export const useGlobalStatsData = () => {
         color: 'yellow',
         label: t('views.stats.24Volume'),
         value: volume24h
-          ? runeToCurrency(Amount.fromMidgard(volume24h || 0)).toCurrencyFormat(
-              2,
-            )
+          ? runeToCurrency(Amount.fromMidgard(volume24h || 0)).toCurrencyFormat(2)
           : '-',
         tooltip: t('views.stats.24VolumeTooltip'),
       },
@@ -81,9 +68,7 @@ export const useGlobalStatsData = () => {
         iconName: 'chartArea2',
         color: 'pink',
         label: t('views.stats.totalRUNE'),
-        value: `${totalPooledRune.toAbbreviate(
-          2,
-        )} / ${maxLiquidityRune.toAbbreviate(2)}`,
+        value: `${totalPooledRune.toAbbreviate(2)} / ${maxLiquidityRune.toAbbreviate(2)}`,
         tooltip: t('views.stats.totalRUNETooltip'),
       },
       {
@@ -92,7 +77,7 @@ export const useGlobalStatsData = () => {
         label: t('views.stats.bondAPY'),
         value: bondingAPYLabel,
       },
-    ]
+    ];
   }, [
     volume24h,
     liquidityAPYLabel,
@@ -104,7 +89,7 @@ export const useGlobalStatsData = () => {
     totalActiveBond,
     bondingAPYLabel,
     runeToCurrency,
-  ])
+  ]);
 
-  return statsData
-}
+  return statsData;
+};

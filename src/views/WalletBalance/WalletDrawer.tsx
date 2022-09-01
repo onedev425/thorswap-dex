@@ -1,15 +1,13 @@
-import { Fragment, ReactNode } from 'react'
-
-import { Dialog, Transition } from '@headlessui/react'
-
-import { useWalletDrawer } from 'hooks/useWalletDrawer'
+import { Dialog, Transition } from '@headlessui/react';
+import { useWalletDrawer } from 'hooks/useWalletDrawer';
+import { Fragment, ReactNode } from 'react';
 
 type Props = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
 export const WalletDrawer = ({ children }: Props) => {
-  const { setIsDrawerVisible, isOpened } = useWalletDrawer()
+  const { setIsDrawerVisible, isOpened } = useWalletDrawer();
 
   return (
     <Transition show={isOpened}>
@@ -42,5 +40,5 @@ export const WalletDrawer = ({ children }: Props) => {
         </div>
       </Dialog>
     </Transition>
-  )
-}
+  );
+};

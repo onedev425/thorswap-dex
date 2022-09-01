@@ -11,7 +11,7 @@ export type ColorType =
   | 'cyan'
   | 'gray'
   | 'red'
-  | 'greenLight'
+  | 'greenLight';
 
 export enum ThemeType {
   Dark = 'dark',
@@ -48,6 +48,6 @@ export const SUPPORTED_LANGUAGES = [
   'ru',
   'zh-Hans',
   'zh-Hant',
-] as const
+] as const;
 
-export type SupportedLanguages = typeof SUPPORTED_LANGUAGES[number]
+export type SupportedLanguages = typeof SUPPORTED_LANGUAGES[number];
