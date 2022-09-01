@@ -1,6 +1,6 @@
 import { Amount, Asset } from '@thorswap-lib/multichain-sdk';
 import { Chain } from '@thorswap-lib/types';
-import { multichain } from 'services/multichain';
+import { getERC20Decimal } from 'helpers/getERC20Decimal';
 import { TxTrackerType } from 'store/midgard/types';
 
 import { Pair } from './types';
@@ -17,7 +17,7 @@ export const getSwapPair = async (pair: string): Promise<Pair | null> => {
 
   const inputDecimals =
     inputAsset && inputAsset.L1Chain === Chain.Ethereum
-      ? await multichain().eth.getERC20AssetDecimal(inputAsset)
+      ? await getERC20Decimal(inputAsset)
       : undefined;
 
   await inputAsset.setDecimal(inputDecimals || undefined);

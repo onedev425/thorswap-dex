@@ -1,6 +1,7 @@
 import { Amount, Asset, Price } from '@thorswap-lib/multichain-sdk';
 import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
+import { getERC20Decimal } from 'helpers/getERC20Decimal';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { t } from 'services/i18n';
@@ -64,7 +65,7 @@ export const useTxSend = () => {
         if (assetObj) {
           const assetDecimals =
             assetObj && assetObj.L1Chain === Chain.Ethereum
-              ? await multichain().eth.getERC20AssetDecimal(assetObj)
+              ? await getERC20Decimal(assetObj)
               : undefined;
 
           await assetObj.setDecimal(assetDecimals);

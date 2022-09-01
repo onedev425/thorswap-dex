@@ -1,10 +1,10 @@
 import { Amount, Asset, AssetAmount, Memo, Percent } from '@thorswap-lib/multichain-sdk';
 import { Chain } from '@thorswap-lib/types';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
+import { getERC20Decimal } from 'helpers/getERC20Decimal';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { multichain } from 'services/multichain';
 import { getMultisigTxCreateRoute, ROUTES } from 'settings/constants';
 import { PoolShareType } from 'store/midgard/types';
 import { useMultisig } from 'store/multisig/hooks';
@@ -68,7 +68,7 @@ export const useTxWithdraw = () => {
         if (assetEntity.isRUNE()) return;
         const assetDecimals =
           assetEntity && assetEntity.L1Chain === Chain.Ethereum
-            ? await multichain().eth.getERC20AssetDecimal(assetEntity)
+            ? await getERC20Decimal(assetEntity)
             : undefined;
 
         await assetEntity.setDecimal(assetDecimals);

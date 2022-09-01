@@ -1,8 +1,8 @@
 import { Asset, Pool } from '@thorswap-lib/multichain-sdk';
 import { Chain } from '@thorswap-lib/types';
+import { getERC20Decimal } from 'helpers/getERC20Decimal';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { multichain } from 'services/multichain';
 import { getAddLiquidityRoute } from 'settings/constants';
 import { useMidgard } from 'store/midgard/hooks';
 import { useAppSelector } from 'store/store';
@@ -43,7 +43,7 @@ export const useAddLiquidityPools = ({ assetRouteGetter = getAddLiquidityRoute }
         if (assetEntity.isRUNE()) return;
         const assetDecimals =
           assetEntity && assetEntity.L1Chain === Chain.Ethereum
-            ? await multichain().eth.getERC20AssetDecimal(assetEntity)
+            ? await getERC20Decimal(assetEntity)
             : undefined;
         await assetEntity.setDecimal(assetDecimals);
 

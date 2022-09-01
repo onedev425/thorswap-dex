@@ -19,6 +19,7 @@ import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { PanelView } from 'components/PanelView';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
+import { getERC20Decimal } from 'helpers/getERC20Decimal';
 import { useMimir } from 'hooks/useMimir';
 import { useNetworkFee } from 'hooks/useNetworkFee';
 import { useTxTracker } from 'hooks/useTxTracker';
@@ -76,7 +77,7 @@ export const WithdrawLiquidity = () => {
 
         const assetDecimals =
           assetEntity && assetEntity.L1Chain === Chain.Ethereum
-            ? await multichain().eth.getERC20AssetDecimal(assetEntity)
+            ? await getERC20Decimal(assetEntity)
             : undefined;
 
         await assetEntity.setDecimal(assetDecimals);

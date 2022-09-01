@@ -10,6 +10,7 @@ import { PanelView } from 'components/PanelView';
 import { showErrorToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
 import { chainName } from 'helpers/chainName';
+import { getERC20Decimal } from 'helpers/getERC20Decimal';
 import { getWalletAssets } from 'helpers/wallet';
 import { useAddressForTNS } from 'hooks/useAddressForTNS';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
@@ -77,9 +78,7 @@ const Send = () => {
       } else {
         const asset = Asset.decodeFromURL(assetParam);
         const assetDecimals =
-          asset && asset.L1Chain === Chain.Ethereum
-            ? await multichain().eth.getERC20AssetDecimal(asset)
-            : undefined;
+          asset && asset.L1Chain === Chain.Ethereum ? await getERC20Decimal(asset) : undefined;
 
         if (asset) {
           await asset.setDecimal(assetDecimals || undefined);
