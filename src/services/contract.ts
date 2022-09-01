@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { type ContractInterface, Contract } from '@ethersproject/contracts';
-import { InfuraProvider } from '@ethersproject/providers';
+import { AlchemyProvider } from '@ethersproject/providers';
 import { formatUnits, parseUnits } from '@ethersproject/units';
 import { IMultiChain } from '@thorswap-lib/multichain-sdk';
 import { Network } from '@thorswap-lib/types';
@@ -28,8 +28,6 @@ export enum LPContractType {
 
 export const ContractABI = 'abi';
 export const StakingAddr = 'stakingAddr';
-
-const INFURA_PROJECT_ID = import.meta.env.VITE_INFURA_PROJECT_ID;
 
 export type ContractConf = {
   [Network.Mainnet]: string;
@@ -116,7 +114,7 @@ export const toWeiFromString = (amount: string): BigNumber => {
 };
 
 export const getEtherscanContract = (contractType: ContractType) => {
-  const provider = new InfuraProvider(IS_TESTNET ? 3 : 1, INFURA_PROJECT_ID);
+  const provider = new AlchemyProvider(IS_TESTNET ? 3 : 1, import.meta.env.VITE_ALCHEMY_KEY);
 
   const activeContract = contractConfig[contractType];
   const contract = new Contract(activeContract[NETWORK], activeContract[ContractABI], provider);
@@ -125,7 +123,7 @@ export const getEtherscanContract = (contractType: ContractType) => {
 };
 
 export const getCustomContract = (contractAddr: string, abi?: ContractInterface) => {
-  const provider = new InfuraProvider(IS_TESTNET ? 3 : 1, INFURA_PROJECT_ID);
+  const provider = new AlchemyProvider(IS_TESTNET ? 3 : 1, import.meta.env.VITE_ALCHEMY_KEY);
 
   const contract = new Contract(contractAddr, abi ? abi : ERC20ABI, provider);
 

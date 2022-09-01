@@ -20,7 +20,7 @@
     "strict": true,
     "strictNullChecks": true,
     "target": "ESNext",
-    "types": ["cypress", "node"],
+    "types": ["cypress", "node", "vite/client"],
     "paths": {
       "assets/*": ["assets/*"],
       "components/*": ["components/*"],

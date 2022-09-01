@@ -44,16 +44,15 @@ jobs:
 
       - name: Build project
         env:
-          VITE_MAINNET_THORNODE: ${{ secrets.VITE_STAGENET_THORNODE }}
+          VITE_ALCHEMY_KEY: ${{ secrets.VITE_ALCHEMY_KEY }}
           VITE_DOGENODE_API_KEY: ${{ secrets.VITE_DOGENODE_API_KEY }}
           VITE_ETHERSCAN_API_KEY: ${{ secrets.VITE_ETHERSCAN_API_KEY }}
           VITE_ETHPLORER_API_KEY: ${{ secrets.VITE_ETHPLORER_API_KEY }}
-          VITE_INFURA_PROJECT_ID: ${{ secrets.VITE_INFURA_PROJECT_ID }}
           VITE_FIGMENT_API_KEY: ${{ secrets.VITE_FIGMENT_API_KEY }}
-          VITE_MAINNET_THORCHAIN_RPC: ${{ secrets.VITE_STAGENET_THORCHAIN_RPC }}
+          VITE_GOOGLE_API_KEY: ${{ secrets.VITE_GOOGLE_API_KEY }}
+          VITE_MAINNET_THORNODE: ${{ secrets.VITE_STAGENET_THORNODE }}
           VITE_THORSWAP_API: ${{ secrets.VITE_THORSWAP_API }}
           VITE_THORSWAP_DEV_API: ${{ secrets.VITE_THORSWAP_DEV_API }}
-          VITE_GOOGLE_API_KEY: ${{ secrets.VITE_GOOGLE_API_KEY }}
 
         run: yarn build
 

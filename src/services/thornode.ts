@@ -3,13 +3,13 @@ import axios, { AxiosResponse } from 'axios';
 import { IS_TESTNET, MIDGARD_URL } from 'settings/config';
 import { LiquidityProvider } from 'store/midgard/types';
 
-const THORNODE_MAINNET_API_URI = `${
+export const THORNODE_URI = `${
   import.meta.env.VITE_MAINNET_THORNODE || 'https://thornode.thorswap.net'
 }/thorchain`;
 
 const THORNODE_API_URI = IS_TESTNET
   ? 'https://testnet.thornode.thorswap.net/thorchain'
-  : THORNODE_MAINNET_API_URI;
+  : THORNODE_URI;
 
 export const midgardAPI = (url: string) => {
   return `${MIDGARD_URL}/v2/${url}`;
