@@ -1,7 +1,6 @@
 import { PoolPeriods } from '@thorswap-lib/midgard-sdk';
 import { Amount, Asset, Price, runeToAssetPrice } from '@thorswap-lib/multichain-sdk';
 import { useCallback, useRef } from 'react';
-import { IS_DEV_API, IS_STAGENET } from 'settings/config';
 import { useMidgard } from 'store/midgard/hooks';
 import { useAppDispatch } from 'store/store';
 
@@ -28,15 +27,12 @@ export const useGlobalState = () => {
     dispatch(actions.getLastblock());
     dispatch(actions.getMimir());
     dispatch(actions.getQueue());
-    if (IS_DEV_API || IS_STAGENET) {
-      await dispatch(actions.getPools(periods[0]));
 
-      isLoading.current = false;
-      for (const period of periods.slice(1)) {
-        await dispatch(actions.getPools(period));
-      }
-    } else {
-      dispatch(actions.getPools());
+    await dispatch(actions.getPools(periods[0]));
+
+    isLoading.current = false;
+    for (const period of periods.slice(1)) {
+      await dispatch(actions.getPools(period));
     }
   }, [dispatch, actions]);
 
