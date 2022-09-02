@@ -345,7 +345,7 @@ const SwapView = () => {
 
       <Box
         className={classNames('overflow-hidden w-full h-[0px] transition-all', {
-          'h-[150px] pt-3': noSlipProtection,
+          '!h-[125px] pt-3': noSlipProtection,
         })}
         onClick={changeOutputToSynth}
       >
@@ -378,6 +378,7 @@ const SwapView = () => {
         handleSwap={handleSwap}
         inputAssetProps={inputAssetProps}
         minReceive={minReceiveInfo}
+        noSlipProtection={noSlipProtection}
         outputAssetProps={outputAssetProps}
         recipient={recipient}
         setVisible={setVisibleConfirmModal}

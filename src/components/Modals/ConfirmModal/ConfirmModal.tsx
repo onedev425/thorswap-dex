@@ -1,5 +1,5 @@
 import { Asset } from '@thorswap-lib/multichain-sdk';
-import { Box, Button, Modal, Typography } from 'components/Atomic';
+import { Box, Button, Checkbox, Modal, Typography } from 'components/Atomic';
 import { PasswordInput } from 'components/PasswordInput';
 import { isKeystoreSignRequired } from 'helpers/wallet';
 import { KeyboardEventHandler, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
@@ -13,14 +13,23 @@ type Props = {
   onClose: () => void;
   onConfirm: () => void;
   children?: ReactNode;
+  noSlipProtection?: boolean;
 };
 
 const MODAL_CLOSE_DELAY = 60 * 1000;
 
-export const ConfirmModal = ({ isOpened, inputAssets, onConfirm, onClose, children }: Props) => {
+export const ConfirmModal = ({
+  children,
+  inputAssets,
+  isOpened,
+  noSlipProtection,
+  onClose,
+  onConfirm,
+}: Props) => {
   const { keystore, wallet } = useWallet();
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [validating, setValidating] = useState(false);
+  const [agreesToNoSlip, setAgreesToNoSlip] = useState(false);
 
   const [password, setPassword] = useState('');
 
@@ -70,8 +79,7 @@ export const ConfirmModal = ({ isOpened, inputAssets, onConfirm, onClose, childr
 
   const handleClickConfirm = useCallback(async () => {
     if (!isKeystoreSigningRequired) {
-      handleProceed();
-      return;
+      return handleProceed();
     }
 
     if (!keystore) return;
@@ -102,33 +110,58 @@ export const ConfirmModal = ({ isOpened, inputAssets, onConfirm, onClose, childr
     [handleClickConfirm, validating],
   );
 
+  const disabled = noSlipProtection && !agreesToNoSlip;
+
   return (
     <Modal isOpened={isOpened} onClose={handleCancel} title={t('common.confirm')}>
       <Box col className="gap-y-4 md:!min-w-[350px]">
         {children && <div>{children}</div>}
 
-        {isKeystoreSigningRequired ? (
+        {noSlipProtection && (
+          <Box className="max-w-[400px]">
+            <Checkbox
+              label={
+                <Typography>
+                  {t('views.walletModal.noSlipProtection_1')}
+                  <Typography className="inline" color="red">{` ${t(
+                    'views.walletModal.noSlipProtection_2',
+                  )} `}</Typography>
+                  {t('views.walletModal.noSlipProtection_3')}
+                </Typography>
+              }
+              onValueChange={setAgreesToNoSlip}
+              value={agreesToNoSlip}
+            />
+          </Box>
+        )}
+
+        {isKeystoreSigningRequired && (
           <>
             <PasswordInput
               onChange={({ target }) => setPassword(target.value)}
               onKeyDown={onPasswordKeyDown}
               value={password}
             />
+
             {invalidPassword && (
               <Typography className="ml-2" color="orange" fontWeight="medium" variant="caption">
                 {t('views.walletModal.wrongPassword')}
               </Typography>
             )}
-
-            <Button isFancy stretch loading={validating} onClick={handleClickConfirm} size="md">
-              {t('common.confirm')}
-            </Button>
           </>
-        ) : (
-          <Button isFancy stretch loading={validating} onClick={handleProceed} size="md">
-            {t('common.confirm')}
-          </Button>
         )}
+
+        <Button
+          isFancy
+          stretch
+          disabled={disabled}
+          error={disabled}
+          loading={validating}
+          onClick={handleClickConfirm}
+          size="md"
+        >
+          {t('common.confirm')}
+        </Button>
       </Box>
     </Modal>
   );

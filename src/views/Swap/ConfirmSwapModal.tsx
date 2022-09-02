@@ -17,22 +17,24 @@ type Props = {
   handleSwap: () => Promise<void>;
   totalFee: string;
   visible: boolean;
+  noSlipProtection: boolean;
 };
 
 export const ConfirmSwapModal = memo(
   ({
     affiliateFee,
+    estimatedTime,
     feeAssets,
     handleSwap,
     inputAssetProps,
     minReceive,
+    noSlipProtection,
     outputAssetProps,
     recipient,
     setVisible,
     slippageInfo,
     totalFee,
     visible,
-    estimatedTime,
   }: Props) => {
     const { asset: inputAsset } = inputAssetProps;
 
@@ -51,6 +53,7 @@ export const ConfirmSwapModal = memo(
       <ConfirmModal
         inputAssets={[inputAsset]}
         isOpened={visible}
+        noSlipProtection={noSlipProtection}
         onClose={() => setVisible(false)}
         onConfirm={handleConfirm}
       >

@@ -13,24 +13,20 @@ import { PendingTransactionType } from 'store/transactions/types';
 export const PendingTransaction = memo(
   ({ id, inChain, txid = '', type, from, label, quoteMode }: PendingTransactionType) => {
     const params = useMemo(() => {
-      const isApprove = type === 'approve';
+      if (!txid) return { from, quoteMode, txid: '' };
+
       const shouldCutTx =
-        type === 'swap' &&
         quoteMode &&
         [QuoteMode.TC_SUPPORTED_TO_TC_SUPPORTED_TO, QuoteMode.TC_SUPPORTED_TO_ETH].includes(
           quoteMode,
         );
 
-      const tx = txid.length
-        ? !isApprove || (isApprove && txid.startsWith('0x'))
-          ? txid
-          : `0x${txid}`
-        : '';
+      const tx = type === 'approve' ? (txid.startsWith('0x') ? txid : `0x${txid}`) : txid;
 
       return {
         from,
         quoteMode,
-        txid: cutTxPrefix(tx, shouldCutTx ? '0x' : ''),
+        txid: cutTxPrefix(tx, type === 'swap' && shouldCutTx ? '0x' : ''),
       };
     }, [from, quoteMode, txid, type]);
 
