@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { multichain } from 'services/multichain';
 import { useMidgard } from 'store/midgard/hooks';
 import { SubmitTx, TxTrackerStatus, TxTrackerType } from 'store/midgard/types';
 import { v4 as uuidv4 } from 'uuid';
@@ -32,48 +31,6 @@ export const useTxTracker = () => {
       return uuid;
     },
     [addNewTxTracker],
-  );
-
-  const subscribeEthTx = useCallback(
-    ({
-      uuid,
-      submitTx,
-      txHash,
-      callback,
-    }: {
-      uuid: string;
-      submitTx: SubmitTx;
-      txHash: string;
-      callback?: () => void;
-    }) => {
-      const ethClient = multichain().eth.getClient();
-      const ethProvider = ethClient.getProvider();
-
-      if (txHash) {
-        updateTxTracker({
-          uuid,
-          txTracker: {
-            status: TxTrackerStatus.Pending,
-            submitTx,
-          },
-        });
-      }
-
-      ethProvider.once(txHash, ({ status }) => {
-        updateTxTracker({
-          uuid,
-          txTracker: {
-            status: status ? TxTrackerStatus.Success : TxTrackerStatus.Failed,
-            submitTx,
-          },
-        });
-
-        if (status) {
-          callback?.();
-        }
-      });
-    },
-    [updateTxTracker],
   );
 
   // start polling a transaction
@@ -117,6 +74,5 @@ export const useTxTracker = () => {
     setTxFailed,
     setTxSuccess,
     submitTransaction,
-    subscribeEthTx,
   };
 };

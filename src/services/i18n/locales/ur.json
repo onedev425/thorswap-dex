@@ -293,7 +293,6 @@
     "claimAsset": "دعوی کریں %{amount} %{asset}",
     "claimAssetFailed": "دعویٰ %{amount} %{asset} ناکام ہو گیا",
     "claimedAsset": "دعوی کیا گیا %{amount} %{asset}",
-    "donate": "عطیہ کریں۔",
     "failed": "ناکام ہو گیا",
     "mint": "Mint",
     "mintedAmountAsset": "Minted %{amount} %{asset}",

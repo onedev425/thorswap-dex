@@ -293,7 +293,6 @@
     "claimAsset": "ទាមទារ %{amount} %{asset}",
     "claimAssetFailed": "ទាមទារ %{amount} %{asset} បានបរាជ័យ",
     "claimedAsset": "បានទាមទារ %{amount} %{asset}",
-    "donate": "បរិច្ចាគ",
     "failed": "មិនបានសម្រេច",
     "mint": "បង្កើត",
     "mintedAmountAsset": "បានបង្កើត %{amount} %{asset} ",

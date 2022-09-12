@@ -293,7 +293,6 @@
     "claimAsset": "提取 %{amount} %{asset}",
     "claimAssetFailed": "已提取 %{amount} %{asset} 失敗",
     "claimedAsset": "已提取 %{amount} %{asset}",
-    "donate": "捐贈",
     "failed": "失敗了",
     "mint": "創建",
     "mintedAmountAsset": "創建了 %{amount} %{asset}",

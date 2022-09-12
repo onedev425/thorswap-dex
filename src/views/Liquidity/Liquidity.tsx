@@ -7,7 +7,7 @@ import { PanelView } from 'components/PanelView';
 import { ReloadButton } from 'components/ReloadButton';
 import { ViewHeader } from 'components/ViewHeader';
 import { sortChains } from 'helpers/chains';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getAddLiquidityRoute, ROUTES } from 'settings/constants';
@@ -18,6 +18,8 @@ import { useWallet } from 'store/wallet/hooks';
 import { ChainLiquidityPanel } from './ChainLiquidityPanel';
 
 const Liquidity = () => {
+  const membersLoading = useRef(false);
+  const detailsLoading = useRef(false);
   const navigate = useNavigate();
   const { wallet, setIsConnectModalOpen } = useWallet();
 
@@ -34,10 +36,6 @@ const Liquidity = () => {
 
   const isWalletConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
 
-  useEffect(() => {
-    getAllMemberDetails();
-  }, [getAllMemberDetails]);
-
   const hasPendingDeposit = useMemo(() => Object.keys(pendingLP).length > 0, [pendingLP]);
 
   const hasPending = useMemo(
@@ -51,8 +49,22 @@ const Liquidity = () => {
   );
 
   useEffect(() => {
-    getAllLpDetails();
-  }, [chainMemberDetails, getAllLpDetails]);
+    if (!membersLoading.current) {
+      membersLoading.current = true;
+      getAllMemberDetails().finally(() => {
+        membersLoading.current = false;
+      });
+    }
+  }, [getAllMemberDetails]);
+
+  useEffect(() => {
+    if (!detailsLoading.current) {
+      detailsLoading.current = true;
+      getAllLpDetails().finally(() => {
+        detailsLoading.current = false;
+      });
+    }
+  }, [getAllLpDetails]);
 
   return (
     <PanelView

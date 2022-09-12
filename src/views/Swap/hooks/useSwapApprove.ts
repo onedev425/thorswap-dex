@@ -6,6 +6,7 @@ import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
+import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 
@@ -30,8 +31,7 @@ export const useSwapApprove = ({ inputAsset, contract, quoteMode }: Params) => {
           from,
           label: `${t('txManager.approve')} ${inputAsset.name}`,
           inChain: inputAsset.L1Chain,
-          type: 'approve',
-          quoteMode: QuoteMode.APPROVAL,
+          type: TransactionType.ETH_APPROVAL,
         }),
       );
 

@@ -1,11 +1,11 @@
 import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-sdk';
 import { showErrorToast } from 'components/Toast';
-import { translateErrorMsg } from 'helpers/error';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
+import { TransactionType } from 'store/transactions/types';
 import { v4 } from 'uuid';
 
 type Params = {
@@ -35,7 +35,13 @@ export const useConfirmSend = ({
       const label = `${t('txManager.send')} ${sendAmount.toSignificant(6)} ${sendAsset.toString()}`;
 
       appDispatch(
-        addTransaction({ id, from: recipient, inChain: sendAsset.L1Chain, type: 'send', label }),
+        addTransaction({
+          id,
+          from: recipient,
+          inChain: sendAsset.L1Chain,
+          type: TransactionType.TC_SEND,
+          label,
+        }),
       );
 
       try {
@@ -45,11 +51,9 @@ export const useConfirmSend = ({
           updateTransaction({ id, txid });
         }
       } catch (error: NotWorth) {
-        const description = translateErrorMsg(error?.toString());
-        console.info('confirmSendError', { error, description });
         appDispatch(completeTransaction({ id, status: 'error' }));
 
-        showErrorToast(t('notification.sendTxFailed'), description);
+        showErrorToast(t('notification.sendTxFailed'), error?.toString());
       }
     }
   }, [setIsOpenConfirmModal, sendAsset, sendAmount, appDispatch, recipient, memo]);

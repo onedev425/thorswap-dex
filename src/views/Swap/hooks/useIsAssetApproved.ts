@@ -9,13 +9,14 @@ import { TS_AGGREGATOR_PROXY_ADDRESS } from 'config/constants';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { multichain } from 'services/multichain';
 import { useAppSelector } from 'store/store';
+import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 
 type Params = {
   force?: boolean;
   asset: Asset;
-  quoteMode: QuoteMode;
-  contract: string;
+  quoteMode?: QuoteMode;
+  contract?: string;
 };
 
 const useApproveResult = ({
@@ -45,8 +46,6 @@ const useApproveResult = ({
         ? multichain().isAssetApprovedForContract(asset, contractAddress)
         : multichain().isAssetApproved(asset));
       setApproved(approved);
-    } catch (error) {
-      console.info(error);
     } finally {
       setIsLoading(false);
     }
@@ -75,7 +74,7 @@ export const useIsAssetApproved = ({ force, contract, asset, quoteMode }: Params
   const { wallet, chainWalletLoading } = useWallet();
   const numberOfPendingApprovals = useAppSelector(
     ({ transactions }) =>
-      transactions.pending.filter(({ quoteMode }) => quoteMode === QuoteMode.APPROVAL).length,
+      transactions.pending.filter(({ type }) => type === TransactionType.ETH_APPROVAL).length,
   );
 
   const isLedger = useMemo(() => {
@@ -89,17 +88,18 @@ export const useIsAssetApproved = ({ force, contract, asset, quoteMode }: Params
     [asset, wallet],
   );
 
-  const assetApprove = useApproveResult({
+  const { isApproved, isLoading } = useApproveResult({
     numberOfPendingApprovals,
     skip: typeof force === 'boolean' ? !force : isLedger,
     asset,
-    contractAddress: [QuoteMode.ETH_TO_TC_SUPPORTED, QuoteMode.ETH_TO_ETH].includes(quoteMode)
-      ? quoteMode === QuoteMode.ETH_TO_TC_SUPPORTED
-        ? TS_AGGREGATOR_PROXY_ADDRESS
-        : contract
-      : undefined,
+    contractAddress:
+      quoteMode && [QuoteMode.ETH_TO_TC_SUPPORTED, QuoteMode.ETH_TO_ETH].includes(quoteMode)
+        ? quoteMode === QuoteMode.ETH_TO_TC_SUPPORTED
+          ? TS_AGGREGATOR_PROXY_ADDRESS
+          : contract
+        : undefined,
     hasWallet: !chainWalletLoading?.[asset?.L1Chain as SupportedChain] || isAssetWalletConnected,
   });
 
-  return assetApprove;
+  return { isApproved, isLoading: isLoading || numberOfPendingApprovals > 0 };
 };

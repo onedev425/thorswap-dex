@@ -293,7 +293,6 @@
     "claimAsset": "Reivindicar %{amount} %{asset}",
     "claimAssetFailed": "Falha ao reivindicar %{amount} %{asset}",
     "claimedAsset": "%{amount} %{asset} reivindicados",
-    "donate": "Doar",
     "failed": "Falhou",
     "mint": "Mintar",
     "mintedAmountAsset": "Mintado %{amount} %{asset}",

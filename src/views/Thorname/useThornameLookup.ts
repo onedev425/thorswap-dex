@@ -3,11 +3,13 @@ import { Amount, Asset, THORName } from '@thorswap-lib/multichain-sdk';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import usePrevious from 'hooks/usePrevious';
-import { useTxTracker } from 'hooks/useTxTracker';
 import { useCallback, useEffect, useReducer } from 'react';
 import { t } from 'services/i18n';
 import { getThornameDetails, registerThorname } from 'services/thorname';
-import { TxTrackerType } from 'store/midgard/types';
+import { useAppDispatch } from 'store/store';
+import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
+import { TransactionType } from 'store/transactions/types';
+import { v4 } from 'uuid';
 
 type Actions =
   | { type: 'setThorname'; payload: string }
@@ -71,7 +73,7 @@ const reducer = (state: typeof initialState, { type, payload }: Actions) => {
 };
 
 export const useThornameLookup = (owner?: string) => {
-  const { submitTransaction, setTxFailed, setTxSuccess, pollTransaction } = useTxTracker();
+  const appDispatch = useAppDispatch();
   const prevOwner = usePrevious(owner);
   const [{ available, chain, details, loading, thorname, years }, dispatch] = useReducer(
     reducer,
@@ -125,61 +127,42 @@ export const useThornameLookup = (owner?: string) => {
         return showErrorToast(t('notification.invalidTHORName'));
       }
 
+      dispatch({ type: 'setLoading', payload: true });
       const amount =
         details?.owner !== owner ? THORName.getCost(years) : Amount.fromNormalAmount(years);
 
-      const submitTx = {
-        inAssets: [{ asset: Asset.RUNE().symbol, amount: amount.toSignificant(6) }],
-      };
+      const prefix =
+        details?.owner !== owner ? t('txManager.registerThorname') : t('txManager.updateThorname');
+      const id = v4();
 
-      const type =
-        details?.owner !== owner ? TxTrackerType.RegisterThorname : TxTrackerType.UpdateThorname;
-
-      const uuid = submitTransaction({ type, submitTx });
+      appDispatch(
+        addTransaction({
+          id,
+          inChain: Chain.THORChain,
+          type: TransactionType.TC_TNS,
+          label: `${prefix} ${thorname} - ${amount.toSignificant(6)} ${Asset.RUNE().symbol}`,
+        }),
+      );
 
       try {
-        dispatch({ type: 'setLoading', payload: true });
-
-        const txID = await registerThorname({
+        const txid = await registerThorname({
           chain,
           amount,
           address,
           name: thorname,
         });
 
-        /**
-         * TODO: REMOVE THIS PART
-         * Temporary solution for midgard API bug which doesn't return actions for successful TNS registration
-         */
-        setTimeout(async () => {
-          const found = await lookupForTNS(thorname);
-
-          if (found) {
-            setTxSuccess(uuid, submitTx);
-          } else {
-            pollTransaction({ type, uuid, submitTx: { ...submitTx, txID } });
-          }
-        }, 10000);
-      } catch (error: ToDo) {
-        setTxFailed(uuid);
-
+        if (txid) {
+          appDispatch(updateTransaction({ id, txid }));
+        }
+      } catch (_error: NotWorth) {
+        appDispatch(completeTransaction({ id, status: 'error' }));
         showErrorToast(t('notification.submitFail'));
       } finally {
         dispatch({ type: 'setLoading', payload: false });
       }
     },
-    [
-      thorname,
-      details?.owner,
-      owner,
-      years,
-      submitTransaction,
-      chain,
-      lookupForTNS,
-      setTxSuccess,
-      pollTransaction,
-      setTxFailed,
-    ],
+    [thorname, details?.owner, owner, years, appDispatch, chain],
   );
 
   useEffect(() => {

@@ -293,7 +293,6 @@
     "claimAsset": "Riscatta %{amount} %{asset}",
     "claimAssetFailed": "Riscatta %{amount} %{asset} fallito",
     "claimedAsset": "Riscattato %{amount} %{asset}",
-    "donate": "Dona",
     "failed": "Fallito",
     "mint": "Mint",
     "mintedAmountAsset": "Minted %{amount} %{asset}",

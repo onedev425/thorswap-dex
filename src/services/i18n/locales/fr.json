@@ -293,7 +293,6 @@
     "claimAsset": "Réclamer %{amount} %{asset}",
     "claimAssetFailed": "Échec de réclamation de %{amount} %{asset}",
     "claimedAsset": "%{amount} %{asset} réclamé",
-    "donate": "Donner",
     "failed": "Échouée",
     "mint": "Minter",
     "mintedAmountAsset": "%{amount} %{asset} minté",

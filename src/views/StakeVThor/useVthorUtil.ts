@@ -1,17 +1,15 @@
 // import { ETH_DECIMAL } from '@thorswap-lib/multichain-sdk'
 import { BigNumber } from '@ethersproject/bignumber';
-import { QuoteMode } from '@thorswap-lib/multichain-sdk';
 import { showErrorToast } from 'components/Toast';
 import { getV2Address, getV2Asset, VestingType } from 'helpers/assets';
 import { toOptionalFixed } from 'helpers/number';
-import { useTxTracker } from 'hooks/useTxTracker';
 import { useCallback, useEffect, useState } from 'react';
 import { ContractType, fromWei, triggerContractCall } from 'services/contract';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
-import { TxTrackerType } from 'store/midgard/types';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
+import { TransactionType } from 'store/transactions/types';
 import * as walletActions from 'store/wallet/actions';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
@@ -25,7 +23,6 @@ export const useVthorUtil = () => {
   const [thorRedeemable, setTHORRedeemable] = useState(0);
   const [vthorBalance, setVthorBalance] = useState(BigNumber.from(0));
 
-  const { setTxFailed, submitTransaction, subscribeEthTx } = useTxTracker();
   const { wallet } = useWallet();
 
   const ethAddr = wallet?.ETH?.address;
@@ -75,8 +72,7 @@ export const useVthorUtil = () => {
         from: ethAddr,
         label: `${t('txManager.approve')} ${thorAsset.name}`,
         inChain: thorAsset.L1Chain,
-        type: 'approve',
-        quoteMode: QuoteMode.APPROVAL,
+        type: TransactionType.ETH_APPROVAL,
       }),
     );
 
@@ -161,89 +157,77 @@ export const useVthorUtil = () => {
 
   const stakeThor = useCallback(
     async (stakeAmount: BigNumber, receiverAddr: string) => {
-      const parsedAmount = fromWei(stakeAmount);
-      if (parsedAmount === 0) return;
+      const amount = fromWei(stakeAmount);
+      if (amount === 0) return;
 
       const thorAsset = getV2Asset(VestingType.THOR);
-      const amount = parsedAmount.toString();
-      const submitTx = {
-        inAssets: [{ asset: thorAsset.toString(), amount }],
-      };
-
-      // submit transaction for Stake
-      const trackId = submitTransaction({ type: TxTrackerType.Stake, submitTx });
+      const id = v4();
+      appDispatch(
+        addTransaction({
+          id,
+          from: ethAddr,
+          label: `${t('txManager.stake')} ${amount.toString()} ${thorAsset.name}`,
+          inChain: thorAsset.L1Chain,
+          type: TransactionType.ETH_STATUS,
+        }),
+      );
 
       try {
-        const res = await triggerContractCall(multichain(), ContractType.VTHOR, 'deposit', [
+        const response = await triggerContractCall(multichain(), ContractType.VTHOR, 'deposit', [
           stakeAmount,
           receiverAddr,
         ]);
 
-        const txHash = res?.hash;
-
-        if (txHash) {
-          subscribeEthTx({
-            uuid: trackId,
-            submitTx: { ...submitTx, txID: txHash },
-            txHash,
-            callback: handleRefresh,
-          });
+        if (response?.hash) {
+          appDispatch(updateTransaction({ id, txid: response?.hash }));
         }
       } catch {
-        setTxFailed(trackId);
+        appDispatch(completeTransaction({ id, status: 'error' }));
         showErrorToast(
           t('txManager.stakeAssetFailed', {
-            amount: fromWei(stakeAmount).toString(),
+            amount: amount.toString(),
             asset: thorAsset.ticker,
           }),
         );
       }
     },
-    [handleRefresh, setTxFailed, submitTransaction, subscribeEthTx],
+    [appDispatch, ethAddr],
   );
 
   const unstakeThor = useCallback(
     async (unstakeAmount: BigNumber, receiverAddr: string) => {
       const vthorAsset = getV2Asset(VestingType.VTHOR);
       const amount = fromWei(unstakeAmount).toString();
-      const submitTx = {
-        inAssets: [{ asset: vthorAsset.toString(), amount }],
-      };
 
-      // TODO: update tracker type and submitTx info
-      const trackId = submitTransaction({
-        type: TxTrackerType.Unstake,
-        submitTx,
-      });
+      const id = v4();
+      appDispatch(
+        addTransaction({
+          id,
+          from: ethAddr,
+          label: `${t('txManager.stake')} ${amount.toString()} ${vthorAsset.name}`,
+          inChain: vthorAsset.L1Chain,
+          type: TransactionType.ETH_STATUS,
+        }),
+      );
 
       try {
-        const res = await triggerContractCall(multichain(), ContractType.VTHOR, 'redeem', [
+        const response = await triggerContractCall(multichain(), ContractType.VTHOR, 'redeem', [
           unstakeAmount,
           receiverAddr,
           receiverAddr,
         ]);
 
-        const txHash = res?.hash;
-
-        if (txHash) {
-          subscribeEthTx({
-            uuid: trackId,
-            submitTx: { ...submitTx, txID: txHash },
-            txHash,
-            callback: handleRefresh,
-          });
+        if (response?.hash) {
+          appDispatch(updateTransaction({ id, txid: response?.hash }));
         }
       } catch {
-        setTxFailed(trackId);
+        appDispatch(completeTransaction({ id, status: 'error' }));
         showErrorToast(
-          t('txManager.redeemedAmountAssetFailed', {
-            asset: vthorAsset.ticker,
-            amount,
-          }),
+          t('txManager.redeemedAmountAssetFailed', { asset: vthorAsset.ticker, amount }),
         );
       }
     },
-    [handleRefresh, setTxFailed, submitTransaction, subscribeEthTx],
+    [appDispatch, ethAddr],
   );
 
   useEffect(() => handleRefresh(), [handleRefresh]);

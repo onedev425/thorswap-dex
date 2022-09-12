@@ -293,7 +293,6 @@
     "claimAsset": "Претензия %{amount} %{asset}",
     "claimAssetFailed": "Претензия %{amount} %{asset} не прошла",
     "claimedAsset": "Заявлено %{amount} %{asset}",
-    "donate": "Задонатить",
     "failed": "Неуспешно",
     "mint": "Минтить",
     "mintedAmountAsset": "Минтить %{amount} %{asset}",

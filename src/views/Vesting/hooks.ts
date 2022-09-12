@@ -1,10 +1,10 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { Amount } from '@thorswap-lib/multichain-sdk';
+import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import dayjs from 'dayjs';
 import { toOptionalFixed } from 'helpers/number';
-import { useTxTracker } from 'hooks/useTxTracker';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ContractType,
   fromWei,
@@ -14,8 +14,11 @@ import {
 } from 'services/contract';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
-import { TxTrackerType } from 'store/midgard/types';
+import { useAppDispatch, useAppSelector } from 'store/store';
+import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
+import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
+import { v4 } from 'uuid';
 import {
   defaultVestingInfo,
   vestingAssets,
@@ -24,6 +27,7 @@ import {
 } from 'views/Vesting/types';
 
 export const useVesting = () => {
+  const appDispatch = useAppDispatch();
   const [vestingAction, setVestingAction] = useState(VestingType.THOR);
   const [vestingInfo, setVestingInfo] = useState<VestingScheduleInfo>(defaultVestingInfo);
   const [isFetching, setIsFetching] = useState(false);
@@ -31,7 +35,10 @@ export const useVesting = () => {
   const [tokenAmount, setTokenAmount] = useState(Amount.fromNormalAmount(0));
 
   const { wallet, setIsConnectModalOpen } = useWallet();
-  const { setTxFailed, submitTransaction, subscribeEthTx } = useTxTracker();
+  const numberOfPendingApprovals = useAppSelector(
+    ({ transactions }) =>
+      transactions.pending.filter(({ type }) => type === TransactionType.ETH_APPROVAL).length,
+  );
 
   const ethAddr = useMemo(() => wallet?.ETH?.address, [wallet]);
 
@@ -104,48 +111,32 @@ export const useVesting = () => {
 
       setIsClaiming(true);
 
-      let trackId = '';
+      const id = v4();
+
+      appDispatch(
+        addTransaction({
+          id,
+          inChain: Chain.Ethereum,
+          type: TransactionType.ETH_STATUS,
+          label: `${t('txManager.claim')} ${toOptionalFixed(
+            fromWei(currentClaimableAmount),
+          )} ${vestingAssets[vestingAction].toString()}`,
+        }),
+      );
 
       try {
-        trackId = submitTransaction({
-          type: TxTrackerType.Claim,
-          submitTx: {
-            inAssets: [
-              {
-                asset: vestingAssets[vestingAction].toString(),
-                amount: toOptionalFixed(fromWei(currentClaimableAmount)),
-              },
-            ],
-          },
-        });
-
-        const res = await triggerContractCall(
+        const response = await triggerContractCall(
           multichain(),
           vestingAction === VestingType.THOR ? ContractType.VESTING : ContractType.VTHOR_VESTING,
           'claim',
           [currentClaimableAmount],
         );
 
-        const txHash = res?.hash;
-
-        if (txHash) {
-          subscribeEthTx({
-            uuid: trackId,
-            submitTx: {
-              inAssets: [
-                {
-                  asset: vestingAssets[vestingAction].toString(),
-                  amount: toOptionalFixed(fromWei(currentClaimableAmount)),
-                },
-              ],
-              txID: txHash,
-            },
-            txHash,
-            callback: handleVestingInfo,
-          });
+        if (response?.hash) {
+          appDispatch(updateTransaction({ id, txid: response.hash }));
         }
       } catch (err) {
-        setTxFailed(trackId);
+        appDispatch(completeTransaction({ id, status: 'error' }));
         showErrorToast(t('notification.submitFail'), t('common.defaultErrMsg'));
       }
 
@@ -153,16 +144,11 @@ export const useVesting = () => {
     } else {
       setIsConnectModalOpen(true);
     }
-  }, [
-    vestingAction,
-    tokenAmount,
-    ethAddr,
-    handleVestingInfo,
-    setIsConnectModalOpen,
-    setTxFailed,
-    submitTransaction,
-    subscribeEthTx,
-  ]);
+  }, [ethAddr, tokenAmount.assetAmount, appDispatch, vestingAction, setIsConnectModalOpen]);
+
+  useEffect(() => {
+    handleVestingInfo();
+  }, [handleVestingInfo, numberOfPendingApprovals]);
 
   return {
     setVestingAction,

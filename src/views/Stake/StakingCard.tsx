@@ -24,6 +24,7 @@ import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
+import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 import { StakeConfirmModal } from 'views/Stake/components/StakeConfirmModal';
@@ -172,11 +173,11 @@ export const StakingCard = ({
   const [methodName, txType] = useMemo(() => {
     switch (modalType) {
       case FarmActionType.DEPOSIT:
-        return ['deposit', 'stake'] as const;
+        return ['deposit', TransactionType.ETH_STATUS] as const;
       case FarmActionType.CLAIM:
-        return ['harvest', 'claim'] as const;
+        return ['harvest', TransactionType.ETH_STATUS] as const;
       case FarmActionType.WITHDRAW:
-        return ['withdrawAndHarvest', 'withdraw'] as const;
+        return ['withdrawAndHarvest', TransactionType.ETH_STATUS] as const;
       default:
         return [] as const;
     }

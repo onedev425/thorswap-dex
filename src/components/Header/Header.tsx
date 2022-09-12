@@ -4,7 +4,6 @@ import { HeaderAnnouncements } from 'components/Announcements/HeaderAnnouncement
 import { AppPopoverMenu } from 'components/AppPopoverMenu';
 import { Box, Button, Icon, Typography } from 'components/Atomic';
 import { TransactionManager } from 'components/TransactionManager';
-import { TxManager } from 'components/TxManager';
 import { useWalletDrawer } from 'hooks/useWalletDrawer';
 import useWindowSize from 'hooks/useWindowSize';
 import { memo, useCallback, useMemo } from 'react';
@@ -42,10 +41,6 @@ export const Header = memo(({ openMenu }: Props) => {
       setIsDrawerVisible(true);
     }
   }, [isConnected, isWalletLoading, setIsConnectModalOpen, setIsDrawerVisible]);
-
-  const newTransactionManager = ['/swap', '/send', '/legacy_stake'].some((path) =>
-    window.location.href.includes(path),
-  );
 
   return (
     <header className="mb-5 min-h-[70px]">
@@ -116,7 +111,7 @@ export const Header = memo(({ openMenu }: Props) => {
           <AnnouncementsPopover />
           <AppPopoverMenu />
 
-          {newTransactionManager ? <TransactionManager /> : <TxManager />}
+          <TransactionManager />
         </Box>
       </Box>
       <HeaderAnnouncements />

@@ -293,7 +293,6 @@
     "claimAsset": "%{राशि} %{संपत्ति} का दावा करें",
     "claimAssetFailed": "दावा %{amount} %{asset} विफल रहा",
     "claimedAsset": "दावा किया गया %{amount} %{asset}",
-    "donate": "दान देना",
     "failed": "असफल हुआ",
     "mint": "Mint",
     "mintedAmountAsset": "Minted %{amount} %{asset}",

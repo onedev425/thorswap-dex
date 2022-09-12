@@ -74,7 +74,13 @@ export const thorswapApi = createApi({
     }),
 
     getTxnStatus: build.query<GetTxnStatusResponse, GetTxnStatusParams>({
-      query: (params) => `/apiusage/txn?${new URLSearchParams(params).toString()}`,
+      query: ({ txid, type, from }) => {
+        const queryParams = new URLSearchParams({ txid });
+        if (from) queryParams.append('from', from);
+        if (type) queryParams.append('type', type);
+
+        return `/apiusage/txn?${queryParams.toString()}`;
+      },
     }),
   }),
 });

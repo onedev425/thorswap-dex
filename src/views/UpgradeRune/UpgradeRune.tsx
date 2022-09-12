@@ -19,24 +19,26 @@ import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { useMimir } from 'hooks/useMimir';
 import { useNetworkFee } from 'hooks/useNetworkFee';
-import { useTxTracker } from 'hooks/useTxTracker';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
 import { IS_STAGENET } from 'settings/config';
 import { useMidgard } from 'store/midgard/hooks';
-import { TxTrackerType } from 'store/midgard/types';
+import { useAppDispatch } from 'store/store';
+import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
+import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
+import { v4 } from 'uuid';
 import { ConfirmContent } from 'views/UpgradeRune/ConfirmContent';
 
 const oldRunes = [Asset.BNB_RUNE(), Asset.ETH_RUNE()];
 
 const UpgradeRune = () => {
+  const appDispatch = useAppDispatch();
   const { isChainTradingHalted } = useMimir();
   const { wallet, setIsConnectModalOpen } = useWallet();
   const { getMaxBalance, isWalletAssetConnected } = useBalance();
   const { lastBlock, pools } = useMidgard();
-  const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker();
 
   const walletAddress = wallet?.[Chain.THORChain]?.address || '';
   const [hasManualAddress, setHasManualAddress] = useState(false);
@@ -108,67 +110,40 @@ const UpgradeRune = () => {
     if (selectedAsset && recipientAddress) {
       const runeAmount = new AssetAmount(selectedAsset, upgradeAmount);
 
-      // register to tx tracker
-      const trackId = submitTransaction({
-        type: TxTrackerType.Switch,
-        submitTx: {
-          inAssets: [
-            {
-              asset: selectedAsset.toString(),
-              amount: upgradeAmount.toSignificant(6),
-            },
-          ],
-          outAssets: [
-            {
-              asset: Asset.RUNE().toString(),
-              amount: upgradeAmount.toSignificant(6),
-            },
-          ],
-          recipient: recipientAddress,
-        },
-      });
+      const id = v4();
+
+      appDispatch(
+        addTransaction({
+          id,
+          from: recipientAddress,
+          inChain: selectedAsset.L1Chain,
+          type: TransactionType.TC_SWITCH,
+          label: `${t('common.upgrade')} ${upgradeAmount.toSignificant(
+            3,
+          )} ${selectedAsset.toString()} ${t('common.to')} ${upgradeAmount.toSignificant(
+            3,
+          )} ${Asset.RUNE().toString()}`,
+        }),
+      );
 
       try {
-        const txHash = await multichain().upgrade({
+        const txid = await multichain().upgrade({
           runeAmount,
           recipient: recipientAddress,
         });
 
-        // start polling
-        pollTransaction({
-          type: TxTrackerType.Switch,
-          uuid: trackId,
-          submitTx: {
-            inAssets: [
-              {
-                asset: selectedAsset.toString(),
-                amount: upgradeAmount.toSignificant(6),
-              },
-            ],
-            outAssets: [
-              {
-                asset: Asset.RUNE().toString(),
-                amount: upgradeAmount.toSignificant(6),
-              },
-            ],
-            txID: txHash,
-            submitDate: new Date(),
-            recipient: recipientAddress,
-          },
-        });
+        appDispatch(
+          updateTransaction({
+            id,
+            txid,
+          }),
+        );
       } catch (error) {
-        setTxFailed(trackId);
+        appDispatch(completeTransaction({ id, status: 'error' }));
         showErrorToast(t('notification.submitTxFailed'));
       }
     }
-  }, [
-    selectedAsset,
-    upgradeAmount,
-    submitTransaction,
-    pollTransaction,
-    recipientAddress,
-    setTxFailed,
-  ]);
+  }, [selectedAsset, recipientAddress, upgradeAmount, appDispatch]);
 
   const handleUpgrade = useCallback(() => {
     if (isTradingHalted) {

@@ -12,7 +12,6 @@ import { ViewHeader } from 'components/ViewHeader';
 import { ADD_LIQUIDITY_GUIDE_URL } from 'config/constants';
 import { useLiquidityType } from 'hooks/useLiquidityType';
 import { t } from 'services/i18n';
-import { TxTrackerStatus } from 'store/midgard/types';
 import { useWallet } from 'store/wallet/hooks';
 import { useAddLiquidity } from 'views/AddLiquidity/hooks/hooks';
 import { useAddLiquidityPools } from 'views/AddLiquidity/hooks/useAddLiquidityPools';
@@ -50,7 +49,7 @@ export const AddLiquidity = () => {
     setExistingLPTipVisible,
     isApproveRequired,
     handleApprove,
-    assetApproveStatus,
+    isAssetApproveLoading,
     isDepositAvailable,
     isValidDeposit,
     handleAddLiquidity,
@@ -167,15 +166,7 @@ export const AddLiquidity = () => {
 
       {isApproveRequired && (
         <Box className="w-full pt-5">
-          <Button
-            isFancy
-            stretch
-            loading={[TxTrackerStatus.Pending, TxTrackerStatus.Submitting].includes(
-              assetApproveStatus,
-            )}
-            onClick={handleApprove}
-            size="lg"
-          >
+          <Button isFancy stretch loading={isAssetApproveLoading} onClick={handleApprove} size="lg">
             {t('common.approve')}
           </Button>
         </Box>

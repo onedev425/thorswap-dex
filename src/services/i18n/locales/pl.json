@@ -293,7 +293,6 @@
     "claimAsset": "Odbierz %{amount} %{asset}",
     "claimAssetFailed": "Odbiór %{amount} %{asset} nie powiódł się",
     "claimedAsset": "Odebrano %{amount} %{asset}",
-    "donate": "Przekaż darowiznę",
     "failed": "Niepowodzenie",
     "mint": "Mintowanie",
     "mintedAmountAsset": "Mint %{amount} %{asset}",

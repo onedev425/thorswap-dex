@@ -293,7 +293,6 @@
     "claimAsset": "%{amount} %{asset} beanspruchen",
     "claimAssetFailed": "Das Beanspruchen von %{amount} %{asset} ist fehlgeschlagen",
     "claimedAsset": "%{amount} %{asset} wurden beansprucht",
-    "donate": "Spenden",
     "failed": "Fehlgeschlagen",
     "mint": "Minten",
     "mintedAmountAsset": "%{amount} %{asset} minted",

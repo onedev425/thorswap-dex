@@ -293,7 +293,6 @@
     "claimAsset": "Claim %{amount} %{asset}",
     "claimAssetFailed": "Claim %{amount} %{asset} failed",
     "claimedAsset": "Claimed %{amount} %{asset}",
-    "donate": "Donate",
     "failed": "Failed",
     "mint": "Mint",
     "mintedAmountAsset": "Minted %{amount} %{asset}",

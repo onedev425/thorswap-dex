@@ -1,6 +1,5 @@
 import {
   AddLiquidityParams,
-  AddLiquidityTxns,
   Amount,
   Asset,
   AssetAmount,
@@ -16,21 +15,22 @@ import { Chain, SupportedChain } from '@thorswap-lib/types';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems';
 import { showErrorToast, showInfoToast } from 'components/Toast';
-import { translateErrorMsg } from 'helpers/error';
-import { useApprove } from 'hooks/useApprove';
 import { useMimir } from 'hooks/useMimir';
 import { getSumAmountInUSD, useNetworkFee } from 'hooks/useNetworkFee';
-import { useTxTracker } from 'hooks/useTxTracker';
 import { useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
 import { useApp } from 'store/app/hooks';
-import { TxTrackerType } from 'store/midgard/types';
 import { isPendingLP } from 'store/midgard/utils';
+import { useAppDispatch } from 'store/store';
+import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
+import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
+import { v4 } from 'uuid';
 import { useAddLiquidityUtils } from 'views/AddLiquidity/hooks/useAddLiquidityUtils';
 import { useChainMember } from 'views/AddLiquidity/hooks/useChainMember';
 import { DepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance';
+import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 
 import { getMaxSymAmounts } from '../utils';
 
@@ -60,6 +60,7 @@ export const useAddLiquidity = ({
   depositAssetsBalance,
   wallet,
 }: Props) => {
+  const appDispatch = useAppDispatch();
   const { expertMode } = useApp();
 
   const {
@@ -87,8 +88,6 @@ export const useAddLiquidity = ({
 
   const [assetAmount, setAssetAmount] = useState<Amount>(Amount.fromAssetAmount(0, 8));
   const [runeAmount, setRuneAmount] = useState<Amount>(Amount.fromAssetAmount(0, 8));
-
-  const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker();
 
   const [visibleConfirmModal, setVisibleConfirmModal] = useState(false);
   const [visibleApproveModal, setVisibleApproveModal] = useState(false);
@@ -138,7 +137,9 @@ export const useAddLiquidity = ({
     );
   }, [wallet, poolAsset, liquidityType]);
 
-  const { isApproved, assetApproveStatus } = useApprove(poolAsset, isWalletConnected);
+  const { isApproved, isLoading } = useIsAssetApproved({
+    asset: poolAsset,
+  });
 
   const poolAssetPriceInUSD = useMemo(() => {
     if (isAssetPending && poolMemberDetail) {
@@ -298,103 +299,64 @@ export const useAddLiquidity = ({
           ? new AssetAmount(poolAsset, assetAmount)
           : undefined;
 
-      const inAssets = [];
+      const runeId = v4();
+      const assetId = v4();
 
-      // if rune is pending, don't deposit rune
-      if (liquidityType !== LiquidityTypeOption.ASSET && !isRunePending) {
-        inAssets.push({
-          asset: Asset.RUNE().toString(),
-          amount: runeAmount.toSignificant(6),
-        });
+      if (!isRunePending && runeAssetAmount) {
+        appDispatch(
+          addTransaction({
+            id: runeId,
+            label: t('txManager.addAmountAsset', {
+              asset: Asset.RUNE().ticker,
+              amount: runeAmount.toSignificant(6),
+            }),
+            type: TransactionType.TC_LP_ADD,
+            inChain: Chain.THORChain,
+          }),
+        );
       }
 
-      // if asset is pending, dont deposit asset
-      if (liquidityType !== LiquidityTypeOption.RUNE && !isAssetPending) {
-        inAssets.push({
-          asset: poolAsset.toString(),
-          amount: assetAmount.toSignificant(6),
-        });
+      if (!isAssetPending && poolAssetAmount) {
+        appDispatch(
+          addTransaction({
+            id: assetId,
+            label: t('txManager.addAmountAsset', {
+              asset: poolAsset.ticker,
+              amount: assetAmount.toSignificant(6),
+            }),
+            type: TransactionType.TC_LP_ADD,
+            inChain: poolAsset.L1Chain,
+          }),
+        );
       }
 
-      // register to tx tracker
-      const trackId = submitTransaction({
-        type: TxTrackerType.AddLiquidity,
-        submitTx: {
-          inAssets,
-          outAssets: [],
-          poolAsset: poolAsset.ticker,
-        },
-      });
+      const addresses = {
+        runeAddr: poolMemberDetail?.runeAddress,
+        assetAddr: poolMemberDetail?.assetAddress,
+      };
+      const params = {
+        pool,
+        runeAmount: isRunePending ? undefined : runeAssetAmount,
+        assetAmount: isAssetPending ? undefined : poolAssetAmount,
+        ...(isRunePending || isAssetPending ? addresses : {}),
+      };
 
       try {
-        let txRes: AddLiquidityTxns = {
-          runeTx: '#',
-          assetTx: '#',
-        };
-        if (isAssetPending) {
-          // deposit only rune if asset is pending
-          // NOTE: important to pass sym_rune and asset address param
-          txRes = await multichain().addLiquidity(
-            {
-              pool,
-              runeAmount: runeAssetAmount,
-              assetAmount: undefined,
-              runeAddr: poolMemberDetail?.runeAddress,
-              assetAddr: poolMemberDetail?.assetAddress,
-            },
-            'sym_rune',
-          );
-        } else if (isRunePending) {
-          // deposit only rune if asset is pending
-          // NOTE: important to pass sym_asset and rune address param
-          txRes = await multichain().addLiquidity(
-            {
-              pool,
-              runeAmount: undefined,
-              assetAmount: poolAssetAmount,
-              runeAddr: poolMemberDetail?.runeAddress,
-              assetAddr: poolMemberDetail?.assetAddress,
-            },
-            'sym_asset',
-          );
-        } else {
-          // no pending
-          txRes = await multichain().addLiquidity({
-            pool,
-            runeAmount: runeAssetAmount,
-            assetAmount: poolAssetAmount,
-          });
-        }
+        const { runeTx, assetTx } = await multichain().addLiquidity(
+          params,
+          isAssetPending ? 'sym_rune' : isRunePending ? 'sym_asset' : undefined,
+        );
 
-        const runeTxHash = txRes?.runeTx;
-        const assetTxHash = txRes?.assetTx;
-
-        if (runeTxHash || assetTxHash) {
-          // start polling
-          pollTransaction({
-            type: TxTrackerType.AddLiquidity,
-            uuid: trackId,
-            submitTx: {
-              inAssets,
-              outAssets: [],
-              txID: runeTxHash || assetTxHash,
-              addTx: {
-                runeTxID: runeTxHash,
-                assetTxID: assetTxHash,
-              },
-              poolAsset: poolAsset.ticker,
-            },
-          });
-        }
+        runeTx && appDispatch(updateTransaction({ id: runeId, txid: runeTx }));
+        assetTx && appDispatch(updateTransaction({ id: assetId, txid: assetTx }));
       } catch (error: NotWorth) {
-        setTxFailed(trackId);
-
-        const description = translateErrorMsg(error?.toString());
-        showErrorToast(t('notification.submitFail'), description);
-        console.info(error);
+        appDispatch(completeTransaction({ id: runeId, status: 'error' }));
+        appDispatch(completeTransaction({ id: assetId, status: 'error' }));
+        showErrorToast(t('notification.submitFail'), error?.toString());
       }
     }
   }, [
+    appDispatch,
     onAddLiquidity,
     pool,
     wallet,
@@ -404,11 +366,8 @@ export const useAddLiquidity = ({
     assetAmount,
     isRunePending,
     isAssetPending,
-    submitTransaction,
     poolMemberDetail?.runeAddress,
     poolMemberDetail?.assetAddress,
-    pollTransaction,
-    setTxFailed,
   ]);
 
   const handleConfirmApprove = useCallback(async () => {
@@ -416,36 +375,30 @@ export const useAddLiquidity = ({
 
     if (isWalletAssetConnected(poolAsset)) {
       // register to tx tracker
-      const trackId = submitTransaction({
-        type: TxTrackerType.Approve,
-        submitTx: {
-          inAssets: [{ asset: poolAsset.toString(), amount: '0' }],
-        },
-      });
+      const id = v4();
+
+      appDispatch(
+        addTransaction({
+          id,
+          label: `${t('txManager.approve')} ${poolAsset.name}`,
+          inChain: poolAsset.L1Chain,
+          type: TransactionType.ETH_APPROVAL,
+        }),
+      );
 
       try {
-        const txHash = await multichain().approveAsset(poolAsset);
+        const txid = await multichain().approveAsset(poolAsset);
 
-        if (txHash) {
-          if (txHash) {
-            // start polling
-            pollTransaction({
-              type: TxTrackerType.Approve,
-              uuid: trackId,
-              submitTx: {
-                inAssets: [{ asset: poolAsset.toString(), amount: '0' }],
-                txID: txHash,
-              },
-            });
-          }
+        if (txid) {
+          appDispatch(updateTransaction({ id, txid }));
         }
       } catch (error) {
-        setTxFailed(trackId);
+        appDispatch(completeTransaction({ id, status: 'error' }));
 
         showErrorToast(t('notification.approveFailed'));
       }
     }
-  }, [poolAsset, isWalletAssetConnected, pollTransaction, setTxFailed, submitTransaction]);
+  }, [appDispatch, poolAsset, isWalletAssetConnected]);
 
   const handleAddLiquidity = useCallback(() => {
     if (!isWalletConnected && !skipWalletCheck) {
@@ -717,7 +670,7 @@ export const useAddLiquidity = ({
     setExistingLPTipVisible,
     isApproveRequired,
     handleApprove,
-    assetApproveStatus,
+    isAssetApproveLoading: isLoading,
     isDepositAvailable,
     isValidDeposit,
     handleAddLiquidity,

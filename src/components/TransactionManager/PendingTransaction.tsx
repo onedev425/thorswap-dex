@@ -1,4 +1,3 @@
-import { QuoteMode } from '@thorswap-lib/multichain-sdk';
 import { Box, Icon, Link, Typography } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { cutTxPrefix, transactionTitle } from 'components/TransactionManager/helpers';
@@ -8,29 +7,22 @@ import { multichain } from 'services/multichain';
 import { useAppDispatch } from 'store/store';
 import { useGetTxnStatusQuery } from 'store/thorswap/api';
 import { completeTransaction } from 'store/transactions/slice';
-import { PendingTransactionType } from 'store/transactions/types';
+import { PendingTransactionType, TransactionType } from 'store/transactions/types';
 
 export const PendingTransaction = memo(
-  ({ id, inChain, txid = '', type, from, label, quoteMode }: PendingTransactionType) => {
+  ({ id, inChain, txid, type, label, from }: PendingTransactionType) => {
     const params = useMemo(() => {
-      if (!txid) return { from, quoteMode, txid: '' };
+      if (!txid) return { from, type, txid: '' };
 
-      const shouldCutTx =
-        quoteMode &&
-        [QuoteMode.TC_SUPPORTED_TO_TC_SUPPORTED_TO, QuoteMode.TC_SUPPORTED_TO_ETH].includes(
-          quoteMode,
-        );
+      const shouldCutTx = [TransactionType.SWAP_TC_TO_TC, TransactionType.SWAP_TC_TO_ETH].includes(
+        type,
+      );
 
-      const tx = type === 'approve' ? (txid.startsWith('0x') ? txid : `0x${txid}`) : txid;
+      const tx =
+        type === TransactionType.ETH_APPROVAL ? (txid.startsWith('0x') ? txid : `0x${txid}`) : txid;
 
-      return {
-        from,
-        quoteMode,
-        txid: cutTxPrefix(tx, type === 'swap' && shouldCutTx ? '0x' : ''),
-      };
-    }, [from, quoteMode, txid, type]);
-
-    const appDispatch = useAppDispatch();
+      return { from, type, txid: cutTxPrefix(tx, shouldCutTx ? '0x' : '') };
+    }, [from, txid, type]);
 
     const { data } = useGetTxnStatusQuery(params, {
       pollingInterval: 3000,
@@ -38,10 +30,12 @@ export const PendingTransaction = memo(
       skip: !params.txid,
     });
 
+    const appDispatch = useAppDispatch();
+
     const url = params.txid && multichain().getExplorerTxUrl(inChain, params.txid);
 
     useEffect(() => {
-      if (data?.ok && data.result) {
+      if (data?.ok && ['mined', 'refund'].includes(data.status) && data.result) {
         appDispatch(completeTransaction({ id, status: data.status, result: data.result }));
       }
     }, [appDispatch, data, id, txid]);

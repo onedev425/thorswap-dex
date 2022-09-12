@@ -6,13 +6,15 @@ import { Input } from 'components/Input';
 import { PercentSelect } from 'components/PercentSelect/PercentSelect';
 import { showErrorToast } from 'components/Toast';
 import { useApproveContract } from 'hooks/useApproveContract';
-import { useTxTracker } from 'hooks/useTxTracker';
 import { useCallback, useEffect, useState } from 'react';
 import { ContractType, fromWei, getContractAddress, toWei } from 'services/contract';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
-import { TxTrackerType } from 'store/midgard/types';
+import { useAppDispatch } from 'store/store';
+import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
+import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
+import { v4 } from 'uuid';
 import { FarmActionType } from 'views/Stake/types';
 
 const actionNameKey: Record<FarmActionType, string> = {
@@ -45,8 +47,8 @@ export const StakeConfirmModal = ({
   onConfirm,
   onCancel,
 }: Props) => {
+  const appDispatch = useAppDispatch();
   const [amount, setAmount] = useState<BigNumber>(BigNumber.from(0));
-  const { submitTransaction, setTxFailed, subscribeEthTx } = useTxTracker();
   const { wallet } = useWallet();
   const { isApproved } = useApproveContract(lpAsset, getContractAddress(contractType), !!wallet);
 
@@ -87,47 +89,33 @@ export const StakeConfirmModal = ({
   const handleConfirmApprove = useCallback(async () => {
     if (wallet) {
       onCancel();
-      // register to tx tracker
-      const trackId = submitTransaction({
-        type: TxTrackerType.Approve,
-        submitTx: {
-          inAssets: [
-            {
-              asset: lpAsset.toString(),
-              amount: '0', // not needed for approve tx
-            },
-          ],
-        },
-      });
+      const id = v4();
+
+      appDispatch(
+        addTransaction({
+          id,
+          label: `${t('txManager.approve')} ${lpAsset.name}`,
+          inChain: lpAsset.L1Chain,
+          type: TransactionType.ETH_APPROVAL,
+        }),
+      );
 
       try {
-        const txHash = await multichain().approveAssetForStaking(
+        const txid = await multichain().approveAssetForStaking(
           lpAsset,
           getContractAddress(contractType),
         );
 
-        if (txHash) {
-          subscribeEthTx({
-            uuid: trackId,
-            submitTx: {
-              inAssets: [
-                {
-                  asset: lpAsset.toString(),
-                  amount: '0', // not needed for approve tx
-                },
-              ],
-              txID: txHash,
-            },
-            txHash,
-          });
+        if (txid) {
+          appDispatch(updateTransaction({ id, txid }));
         }
       } catch (error) {
-        setTxFailed(trackId);
+        appDispatch(completeTransaction({ id, status: 'error' }));
         showErrorToast(t('notification.approveFailed'));
         console.info(error);
       }
     }
-  }, [contractType, lpAsset, wallet, onCancel, setTxFailed, submitTransaction, subscribeEthTx]);
+  }, [wallet, onCancel, lpAsset, appDispatch, contractType]);
 
   useEffect(() => {
     handleChangeAmount(100);

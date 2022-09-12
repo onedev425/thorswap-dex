@@ -1,24 +1,26 @@
-import { QuoteMode } from '@thorswap-lib/multichain-sdk';
-import { TransactionStatus } from 'store/transactions/types';
+import { TransactionStatus, TransactionType } from 'store/transactions/types';
 
-export type GetTokensQuoteParams = {
-  affiliateBasisPoints?: string;
-  buyAsset: string;
-  providers?: string[];
-  recipientAddress?: string;
-  sellAmount: string;
-  sellAsset: string;
-  senderAddress?: string;
-  slippage: string;
+type LiquidityTxResult<T extends TransactionType> = {
+  type: T;
+  liquidityUnits: string;
+  txID: string;
+  inputAssetPriceUSD: { [key: string]: string };
+  inputAssetPriceUSDTimestamp: { [key: string]: string };
 };
 
-export type GetTxnStatusParams = {
-  txid: string;
-  quoteMode?: QuoteMode;
-  from?: string;
+type WithdrawTxResult = LiquidityTxResult<TransactionType.TC_LP_WITHDRAW> & {
+  out: { [key: string]: { address: string; amount: string } };
+};
+type AddLiquidityTxResult = LiquidityTxResult<TransactionType.TC_LP_ADD> & {
+  in: { [key: string]: { address: string; amount: string } };
 };
 
 export type SuccessTxnResult = {
+  type:
+    | TransactionType.SWAP_ETH_TO_ETH
+    | TransactionType.SWAP_ETH_TO_TC
+    | TransactionType.SWAP_TC_TO_ETH
+    | TransactionType.SWAP_TC_TO_TC;
   blockNumber: number;
   cumulativeGasUsed: string;
   effectiveGasPrice: string;
@@ -31,10 +33,7 @@ export type SuccessTxnResult = {
   outputAssetAmount: string;
   outputAssetPriceUSD: number;
   outputAssetPriceUSDTimestamp: string;
-  quoteMode?: QuoteMode;
-  status: number;
   transactionHash: string;
-  type: string;
   userAddress: string;
 };
 
@@ -90,6 +89,29 @@ export type GetProviderTokensParams = {
   version: Version;
 };
 
+export type TxnResult = SuccessTxnResult | WithdrawTxResult | AddLiquidityTxResult;
+
 export type GetTxnStatusResponse =
   | { ok: false; status: 'pending'; result: string }
-  | { ok: true; status: TransactionStatus; result?: SuccessTxnResult };
+  | {
+      ok: true;
+      status: TransactionStatus;
+      result?: TxnResult;
+    };
+
+export type GetTokensQuoteParams = {
+  affiliateBasisPoints?: string;
+  buyAsset: string;
+  providers?: string[];
+  recipientAddress?: string;
+  sellAmount: string;
+  sellAsset: string;
+  senderAddress?: string;
+  slippage: string;
+};
+
+export type GetTxnStatusParams = {
+  txid: string;
+  type?: TransactionType;
+  from?: string;
+};

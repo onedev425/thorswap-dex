@@ -8,6 +8,7 @@ import { multichain } from 'services/multichain';
 import { useApp } from 'store/app/hooks';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
+import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 
@@ -26,6 +27,13 @@ export const gasFeeMultiplier: Record<FeeOption, number> = {
   fast: 1.6,
   fastest: 2,
 };
+
+const quoteModeToTransactionType = {
+  [QuoteMode.ETH_TO_ETH]: TransactionType.SWAP_ETH_TO_ETH,
+  [QuoteMode.ETH_TO_TC_SUPPORTED]: TransactionType.SWAP_ETH_TO_TC,
+  [QuoteMode.TC_SUPPORTED_TO_ETH]: TransactionType.SWAP_TC_TO_ETH,
+  [QuoteMode.TC_SUPPORTED_TO_TC_SUPPORTED_TO]: TransactionType.SWAP_TC_TO_TC,
+} as const;
 
 export const useSwap = ({
   recipient,
@@ -56,9 +64,8 @@ export const useSwap = ({
             id,
             label,
             from,
-            outChain: outputAsset.L1Chain,
             inChain: inputAsset.L1Chain,
-            quoteMode,
+            type: quoteModeToTransactionType[quoteMode as QuoteMode.ETH_TO_ETH],
           }),
         );
 

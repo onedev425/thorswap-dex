@@ -1,7 +1,7 @@
 import { Amount, Asset, Price } from '@thorswap-lib/multichain-sdk';
 import BigNumber from 'bignumber.js';
 import { parseAssetToToken } from 'helpers/parseAssetToToken';
-import { useDebouncedValue } from 'hooks/useDebounceValue';
+import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useMemo } from 'react';
 import { useGetTokenCachedPricesQuery } from 'store/thorswap/api';
 import { GetTokenPriceParams, GetTokenPriceResponse } from 'store/thorswap/types';

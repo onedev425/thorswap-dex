@@ -23,11 +23,10 @@ const PER_DAY = 'day' as HistoryInterval;
 
 export const useMidgard = () => {
   const dispatch = useAppDispatch();
-  const { midgardState, walletState } = useAppSelector(({ midgard, wallet }) => ({
+  const { midgardState, wallet } = useAppSelector(({ midgard, wallet }) => ({
     midgardState: midgard,
-    walletState: wallet,
+    wallet: wallet.wallet,
   }));
-  const wallet = useMemo(() => walletState.wallet, [walletState]);
 
   const isGlobalHistoryLoading = useMemo(
     () =>
@@ -118,34 +117,21 @@ export const useMidgard = () => {
 
   // get pool member details for a specific chain
   const getMemberDetailsByChain = useCallback(
-    async (chain: SupportedChain) => {
-      if (!walletState.wallet) return;
+    async (chain: SupportedChain, chainWalletAddr?: string) => {
+      if (!chainWalletAddr) return;
 
-      const chainWalletAddr = walletState.wallet?.[chain]?.address;
+      await dispatch(
+        actions.getPoolMemberDetailByChain({
+          chain,
+          address: chainWalletAddr,
+        }),
+      );
 
-      if (chainWalletAddr) {
-        dispatch(
-          actions.getPoolMemberDetailByChain({
-            chain,
-            address: chainWalletAddr,
-          }),
-        );
-
-        // load pending deposit
-        getPendingDepositByChain(chain);
-      }
+      // load pending deposit
+      getPendingDepositByChain(chain);
     },
-    [dispatch, walletState.wallet, getPendingDepositByChain],
+    [dispatch, getPendingDepositByChain],
   );
-
-  // get pool member details for all chains
-  const getAllMemberDetails = useCallback(async () => {
-    if (!walletState.wallet) return;
-
-    Object.keys(walletState.wallet).forEach((chain) => {
-      getMemberDetailsByChain(chain as SupportedChain);
-    });
-  }, [getMemberDetailsByChain, walletState.wallet]);
 
   // get tx data
   const getTxData = useCallback(
@@ -301,32 +287,40 @@ export const useMidgard = () => {
 
   const getLpDetails = useCallback(
     async (chain: SupportedChain, pool: string) => {
-      const chainWalletAddr = walletState.wallet?.[chain]?.address;
+      const chainWalletAddr = wallet?.[chain]?.address;
 
       if (chainWalletAddr) {
-        dispatch(
-          actions.getLpDetails({
-            address: chainWalletAddr,
-            pool: pool,
-          }),
-        );
+        dispatch(actions.getLpDetails({ address: chainWalletAddr, pool: pool }));
       }
     },
-    [dispatch, walletState.wallet],
+    [dispatch, wallet],
   );
 
-  const getAllLpDetails = useCallback(async () => {
-    if (!walletState.wallet) return;
+  // get pool member details for all chains
+  const getAllMemberDetails = useCallback(async () => {
+    if (!wallet) return;
 
-    Object.keys(walletState.wallet).forEach((chain) => {
-      if (!midgardState.poolNamesByChain[chain]) return;
-      midgardState.poolNamesByChain[chain].forEach((poolName: string) => {
-        if (midgardState.lpAddedAndWithdraw[poolName] || midgardState.lpDetailLoading[poolName])
+    Object.keys(wallet).forEach((chain) => {
+      getMemberDetailsByChain(chain as SupportedChain, wallet?.[chain as SupportedChain]?.address);
+    });
+  }, [getMemberDetailsByChain, wallet]);
+
+  const { poolNamesByChain, lpAddedAndWithdraw, lpDetailLoading } = midgardState;
+
+  const getAllLpDetails = useCallback(async () => {
+    if (!wallet) return;
+
+    Object.keys(wallet).forEach((chain) => {
+      if (!poolNamesByChain[chain]) return;
+      poolNamesByChain[chain].forEach((poolName: string) => {
+        if (lpAddedAndWithdraw[poolName] || lpDetailLoading[poolName]) {
           return;
+        }
+
         getLpDetails(chain as SupportedChain, poolName);
       });
     });
-  }, [getLpDetails, midgardState, walletState.wallet]);
+  }, [getLpDetails, lpAddedAndWithdraw, lpDetailLoading, poolNamesByChain, wallet]);
 
   return {
     ...midgardState,

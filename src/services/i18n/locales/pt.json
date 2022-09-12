@@ -293,7 +293,6 @@
     "claimAsset": "Reivindicação %{amount} %{asset}",
     "claimAssetFailed": "Reclamação %{amount} %{asset} falhou",
     "claimedAsset": "Alegada %{amount} %{asset}",
-    "donate": "Doar",
     "failed": "Falhou",
     "mint": "Criar",
     "mintedAmountAsset": "Criar %{amount} %{asset}",

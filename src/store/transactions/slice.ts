@@ -1,6 +1,6 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
-import { SuccessTxnResult } from 'store/thorswap/types';
+import { TxnResult } from 'store/thorswap/types';
 
 import type { CompletedTransactionType, PendingTransactionType, TransactionStatus } from './types';
 
@@ -28,24 +28,13 @@ const transactionsSlice = createSlice({
     },
     completeTransaction(
       state,
-      {
-        payload,
-      }: PayloadAction<{
-        result?: SuccessTxnResult;
-        id: string;
-        status: TransactionStatus;
-      }>,
+      { payload }: PayloadAction<{ result?: TxnResult; id: string; status: TransactionStatus }>,
     ) {
       state.pending = state.pending.filter((item) => {
         const isPending = [item.txid, item.id].includes(payload.id);
 
         if (isPending) {
-          state.completed.push({
-            ...payload,
-            ...item,
-            status: payload.status,
-            timestamp: new Date(),
-          });
+          state.completed.push({ ...item, ...payload, timestamp: new Date() });
         }
 
         return !isPending;

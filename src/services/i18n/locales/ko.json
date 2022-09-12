@@ -293,7 +293,6 @@
     "claimAsset": "청구% {amount} %{asset}",
     "claimAssetFailed": "청구 %{amount} %{asset} 실패",
     "claimedAsset": "청구된% {amount}% {자산}",
-    "donate": "기부",
     "failed": "실패",
     "mint": "민트(Mint)",
     "mintedAmountAsset": "%{amount} %{asset} 민트됨",

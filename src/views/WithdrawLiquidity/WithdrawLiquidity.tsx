@@ -22,20 +22,22 @@ import { ViewHeader } from 'components/ViewHeader';
 import { getERC20Decimal } from 'helpers/getERC20Decimal';
 import { useMimir } from 'hooks/useMimir';
 import { useNetworkFee } from 'hooks/useNetworkFee';
-import { useTxTracker } from 'hooks/useTxTracker';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
 import { useExternalConfig } from 'store/externalConfig/hooks';
 import { useMidgard } from 'store/midgard/hooks';
-import { PoolMemberData, PoolShareType, TxTrackerType } from 'store/midgard/types';
+import { PoolMemberData, PoolShareType } from 'store/midgard/types';
+import { useAppDispatch } from 'store/store';
+import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
+import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
+import { v4 } from 'uuid';
 import { AssetInputs } from 'views/WithdrawLiquidity/AssetInputs';
 
 import { useConfirmInfoItems } from './useConfirmInfoItems';
 
-// TODO: refactor useState => useReducer
 export const WithdrawLiquidity = () => {
   const { assetParam = Asset.BTC().toString() } = useParams<{
     assetParam: string;
@@ -134,8 +136,8 @@ const WithdrawPanel = ({
   pool: Pool;
   pools: Pool[];
 }) => {
+  const appDispatch = useAppDispatch();
   const { wallet, setIsConnectModalOpen } = useWallet();
-  const { submitTransaction, pollTransaction, setTxFailed } = useTxTracker();
   const { isChainPauseLPAction } = useMimir();
   const { getChainWithdrawLPPaused } = useExternalConfig();
 
@@ -320,56 +322,38 @@ const WithdrawPanel = ({
 
     if (!wallet) return;
 
-    let uuid = '';
     const poolAssetString = pool.asset.toString();
-    const rune = { asset: Asset.RUNE().toString(), amount: runeAmount.toSignificant(6) };
-    const asset = { asset: poolAssetString, amount: assetAmount.toSignificant(6) };
-    const outAssets =
-      withdrawTo === 'sym' ? [rune, asset] : withdrawTo === 'rune' ? [rune] : [asset];
+    const runeObject = { asset: Asset.RUNE().toString(), amount: runeAmount.toSignificant(6) };
+    const assetObject = { asset: poolAssetString, amount: assetAmount.toSignificant(6) };
     const withdrawChain = withdrawTo === 'asset' ? pool.asset.chain : Chain.THORChain;
+    const outAssets =
+      withdrawTo === 'sym'
+        ? [runeObject, assetObject]
+        : withdrawTo === 'rune'
+        ? [runeObject]
+        : [assetObject];
+
+    const label = outAssets.map(({ asset, amount }) => `${amount} ${asset}`).join(' & ');
+
+    const id = v4();
+    appDispatch(
+      addTransaction({ id, type: TransactionType.TC_LP_WITHDRAW, inChain: withdrawChain, label }),
+    );
 
     try {
-      uuid = submitTransaction({
-        type: TxTrackerType.Withdraw,
-        submitTx: { outAssets, inAssets: [], poolAsset: poolAssetString },
-      });
-
-      const txID = await multichain().withdraw({
+      const txid = await multichain().withdraw({
         pool,
         percent: new Percent(percent),
         from: withdrawFrom,
         to: withdrawTo,
       });
 
-      pollTransaction({
-        type: TxTrackerType.Withdraw,
-        uuid,
-        submitTx: {
-          inAssets: [],
-          outAssets,
-          poolAsset: poolAssetString,
-          txID,
-          withdrawChain,
-        },
-      });
+      appDispatch(updateTransaction({ id, txid }));
     } catch (error: NotWorth) {
-      console.info(error);
-      setTxFailed(uuid);
-
+      appDispatch(completeTransaction({ id, status: 'error' }));
       showErrorToast(t('notification.submitTxFailed'), error?.toString());
     }
-  }, [
-    assetAmount,
-    setTxFailed,
-    wallet,
-    submitTransaction,
-    pollTransaction,
-    pool,
-    percent,
-    runeAmount,
-    withdrawFrom,
-    withdrawTo,
-  ]);
+  }, [appDispatch, assetAmount, wallet, pool, percent, runeAmount, withdrawFrom, withdrawTo]);
 
   const handleWithdrawLiquidity = useCallback(() => {
     if (pool.asset.isETH() && pool.detail.status === 'staged') {

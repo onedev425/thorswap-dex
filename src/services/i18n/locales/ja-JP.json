@@ -293,7 +293,6 @@
     "claimAsset": " %{amount} %{asset} の請求",
     "claimAssetFailed": " %{amount} %{asset} の請求失敗",
     "claimedAsset": " %{amount} %{asset} 請求しました",
-    "donate": "寄付",
     "failed": "失敗",
     "mint": "Mint",
     "mintedAmountAsset": "Minted %{amount} %{asset}",

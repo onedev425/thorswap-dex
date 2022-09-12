@@ -293,7 +293,6 @@
     "claimAsset": "Claim %{amount} %{asset}",
     "claimAssetFailed": "Claimen van %{amount} %{asset} mislukt",
     "claimedAsset": "%{amount} %{asset} geclaimd",
-    "donate": "Doneren",
     "failed": "Mislukt",
     "mint": "Mint",
     "mintedAmountAsset": "%{amount} %{asset} Minted",

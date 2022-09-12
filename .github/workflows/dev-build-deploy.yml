@@ -84,10 +84,12 @@ jobs:
           name: videos
           path: ./cypress/videos
 
-  deploy:
+  deploy-beta:
     name: Deploy to Netlify
     needs: build
     runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, '[skip-beta]') }}
+
 
     steps:
       - name: Download artifact
@@ -111,6 +113,13 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_DEV_SITE_ID }}
         timeout-minutes: 1
 
+  deploy-dev:
+    name: Deploy to Netlify
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, '[skip-dev]') }}
+
+    steps:
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v1.2
         with:

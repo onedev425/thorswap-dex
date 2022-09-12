@@ -1,4 +1,4 @@
-import { Amount, Asset, hasWalletConnected, QuoteMode } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset, hasWalletConnected } from '@thorswap-lib/multichain-sdk';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 import { Box, Button } from 'components/Atomic';
 import { showErrorToast, showInfoToast } from 'components/Toast';
@@ -10,6 +10,7 @@ import { multichain } from 'services/multichain';
 import { useExternalConfig } from 'store/externalConfig/hooks';
 import { useMidgard } from 'store/midgard/hooks';
 import { useAppSelector } from 'store/store';
+import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 
 type Props = {
@@ -43,8 +44,9 @@ export const SwapSubmitButton = ({
   const { inboundHalted, pools } = useMidgard();
   const { maxSynthPerAssetDepth } = useMimir();
   const { getChainTradingPaused } = useExternalConfig();
-  const pendingApprovals = useAppSelector(({ transactions }) =>
-    transactions.pending.filter(({ quoteMode }) => quoteMode === QuoteMode.APPROVAL),
+  const numberOfPendingApprovals = useAppSelector(
+    ({ transactions }) =>
+      transactions.pending.filter(({ type }) => type === TransactionType.ETH_APPROVAL).length,
   );
 
   const isTradingHalted: boolean = useMemo(() => {
@@ -187,7 +189,7 @@ export const SwapSubmitButton = ({
           isFancy
           stretch
           disabled={!hasQuote}
-          loading={!!pendingApprovals.length || isLoading}
+          loading={!!numberOfPendingApprovals || isLoading}
           onClick={handleApprove}
           size="lg"
         >

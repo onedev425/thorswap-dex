@@ -113,10 +113,7 @@ export const TransactionManager = memo(() => {
           <Scrollbar maxHeight={450}>
             <Box col className="!mx-4 py-0.5 gap-y-1">
               {pending.map((item) => (
-                <TransactionContainer
-                  className={transactionBorderColors.pending}
-                  key={item.txid || item.id}
-                >
+                <TransactionContainer className={transactionBorderColors.pending} key={item.id}>
                   <PendingTransaction {...item} />
                 </TransactionContainer>
               ))}
@@ -125,7 +122,7 @@ export const TransactionManager = memo(() => {
                 completed.map((item) => (
                   <TransactionContainer
                     className={transactionBorderColors[item.status]}
-                    key={item.txid || item.id}
+                    key={item.id}
                   >
                     <CompletedTransaction {...item} />
                   </TransactionContainer>

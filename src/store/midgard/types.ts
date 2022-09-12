@@ -69,7 +69,6 @@ export enum TxTrackerType {
   Swap = 'swap',
   AddLiquidity = 'addLiquidity',
   Withdraw = 'withdraw',
-  Donate = 'donate',
   Refund = 'refund',
   Switch = 'switch',
   Mint = 'mint',
