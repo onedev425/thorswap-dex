@@ -85,11 +85,10 @@ jobs:
           path: ./cypress/videos
 
   deploy-beta:
-    name: Deploy to Netlify
+    name: Deploy beta to Netlify
     needs: build
     runs-on: ubuntu-latest
     if: ${{ !contains(github.event.head_commit.message, '[skip-beta]') }}
-
 
     steps:
       - name: Download artifact
@@ -113,13 +112,26 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_DEV_SITE_ID }}
         timeout-minutes: 1
 
+      - name: Discord Notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: 'THORSwap V2 development app has been deployed. - https://beta.thorswap.finance'
+
   deploy-dev:
-    name: Deploy to Netlify
+    name: Deploy dev to Netlify
     needs: build
     runs-on: ubuntu-latest
     if: ${{ !contains(github.event.head_commit.message, '[skip-dev]') }}
 
     steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-files
+          path: ./dist
+
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v1.2
         with:
@@ -134,10 +146,3 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_DEV_API_SITE_ID }}
         timeout-minutes: 1
-
-      - name: Discord Notification
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        uses: Ilshidur/action-discord@master
-        with:
-          args: 'THORSwap V2 development app has been deployed. - https://beta.thorswap.finance'
