@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 
 export type RouterStepProps = {

@@ -1,4 +1,4 @@
-import { Pool } from '@thorswap-lib/multichain-sdk';
+import { Pool } from '@thorswap-lib/multichain-core';
 import { PoolShareType } from 'store/midgard/types';
 
 export type ChainPoolData = {

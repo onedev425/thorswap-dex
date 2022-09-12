@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { Chain, Network } from '@thorswap-lib/types';
 import { ContractType, LPContractType } from 'services/contract';
 import { NETWORK } from 'settings/config';

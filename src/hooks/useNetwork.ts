@@ -1,4 +1,4 @@
-import { Amount } from '@thorswap-lib/multichain-sdk';
+import { Amount } from '@thorswap-lib/multichain-core';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { useMidgard } from 'store/midgard/hooks';

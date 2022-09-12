@@ -1,4 +1,4 @@
-import { WalletOption } from '@thorswap-lib/multichain-sdk';
+import { WalletOption } from '@thorswap-lib/multichain-core';
 import { HoverIcon } from 'components/HoverIcon';
 import { PhraseModal } from 'components/Modals/PhraseModal';
 import { useState } from 'react';

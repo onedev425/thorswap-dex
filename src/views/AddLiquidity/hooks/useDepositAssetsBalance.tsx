@@ -1,4 +1,4 @@
-import { Amount, Asset } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset } from '@thorswap-lib/multichain-core';
 import { getAssetBalance } from 'helpers/wallet';
 import { useBalance } from 'hooks/useBalance';
 import { useMemo } from 'react';

@@ -1,5 +1,5 @@
 import { LpDetail, MemberPool, StakeDetail, WithdrawDetail } from '@thorswap-lib/midgard-sdk';
-import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 import { BigNumber } from 'bignumber.js';
 import isEmpty from 'lodash/isEmpty';

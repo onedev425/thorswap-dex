@@ -1,5 +1,5 @@
 import { PoolPeriods } from '@thorswap-lib/midgard-sdk';
-import { Amount, Asset, Price, runeToAssetPrice } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset, Price, runeToAssetPrice } from '@thorswap-lib/multichain-core';
 import { useCallback, useRef } from 'react';
 import { useMidgard } from 'store/midgard/hooks';
 import { useAppDispatch } from 'store/store';

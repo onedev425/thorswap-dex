@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { AssetButton } from 'components/AssetSelect/AssetButton';
 import { Box, Typography } from 'components/Atomic';
 

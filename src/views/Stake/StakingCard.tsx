@@ -1,5 +1,5 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon, AssetLpIcon } from 'components/AssetIcon';
@@ -186,7 +186,7 @@ export const StakingCard = ({
   const handleStakingAction = useCallback(
     async (tokenAmount: BigNumber) => {
       closeConfirm();
-      if (!methodName || !ethAddr) return;
+      if (!methodName || !ethAddr || !txType) return;
 
       const id = v4();
       const label = `${t(`common.${txType}`)} ${fromWei(

@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { Chain, Network } from '@thorswap-lib/types';
 import { getCustomIconImageUrl } from 'components/AssetIcon';
 import { NETWORK } from 'settings/config';

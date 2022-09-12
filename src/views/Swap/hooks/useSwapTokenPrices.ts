@@ -1,4 +1,4 @@
-import { Amount, Asset, Price } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset, Price } from '@thorswap-lib/multichain-core';
 import BigNumber from 'bignumber.js';
 import { parseAssetToToken } from 'helpers/parseAssetToToken';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';

@@ -1,4 +1,4 @@
-import { WalletOption } from '@thorswap-lib/multichain-sdk';
+import { WalletOption } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import { Box, Tooltip, Typography } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';

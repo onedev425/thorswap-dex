@@ -1,4 +1,4 @@
-// import { ETH_DECIMAL } from '@thorswap-lib/multichain-sdk'
+// import { ETH_DECIMAL } from '@thorswap-lib/multichain-core'
 import { BigNumber } from '@ethersproject/bignumber';
 import { showErrorToast } from 'components/Toast';
 import { getV2Address, getV2Asset, VestingType } from 'helpers/assets';

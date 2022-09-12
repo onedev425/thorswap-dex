@@ -17,7 +17,7 @@ import {
   THORNode,
   TVLHistory,
 } from '@thorswap-lib/midgard-sdk';
-import { Pool } from '@thorswap-lib/multichain-sdk';
+import { Pool } from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 
 export enum AggregatorSwapType {

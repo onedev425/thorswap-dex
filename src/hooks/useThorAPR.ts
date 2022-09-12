@@ -1,4 +1,4 @@
-import { Asset, Pool } from '@thorswap-lib/multichain-sdk';
+import { Asset, Pool } from '@thorswap-lib/multichain-core';
 import { getAPY } from 'helpers/staking';
 import { useMemo } from 'react';
 import { useMidgard } from 'store/midgard/hooks';

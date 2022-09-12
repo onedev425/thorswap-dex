@@ -1,4 +1,4 @@
-import { THORName, THORNameDetails } from '@thorswap-lib/multichain-sdk';
+import { THORName, THORNameDetails } from '@thorswap-lib/multichain-core';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useCallback, useEffect, useState } from 'react';
 import { getThornameDetails } from 'services/thorname';

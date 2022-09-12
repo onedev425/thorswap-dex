@@ -1,4 +1,4 @@
-import { Amount, Pool } from '@thorswap-lib/multichain-sdk';
+import { Amount, Pool } from '@thorswap-lib/multichain-core';
 import { TableData } from 'components/Atomic';
 import { Row } from 'react-table';
 

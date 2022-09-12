@@ -1,4 +1,4 @@
-import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-core';
 import { multichain } from 'services/multichain';
 import { MultisigMember } from 'store/multisig/types';
 

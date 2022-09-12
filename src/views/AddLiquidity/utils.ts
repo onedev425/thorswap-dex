@@ -1,4 +1,4 @@
-import { Amount, Pool } from '@thorswap-lib/multichain-sdk';
+import { Amount, Pool } from '@thorswap-lib/multichain-core';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { PoolShareType } from 'store/midgard/types';
 

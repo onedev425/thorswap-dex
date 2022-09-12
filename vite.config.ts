@@ -38,19 +38,18 @@ export default defineConfig({
       utils: resolve(__dirname, 'src/utils'),
       views: resolve(__dirname, 'src/views'),
 
-      web3: 'web3/dist/web3.min.js',
       crypto: 'crypto-browserify',
       http: 'stream-http',
       https: 'https-browserify',
       os: 'os-browserify/browser',
-      stream: 'stream-browserify',
+      stream: 'readable-stream',
       util: 'util',
 
       /**
        * To operate locally on external libraries you can copy paste their `/src`
        * file and use like below:
        *
-       * '@thorswap-lib/multichain-sdk': resolve(__dirname, 'src/multichain'),
+       * '@thorswap-lib/multichain-core': resolve(__dirname, 'src/multichain'),
        */
     },
   },
@@ -75,7 +74,7 @@ export default defineConfig({
     logOverride: { 'this-is-undefined-in-esm': 'silent' },
   },
   optimizeDeps: {
-    include: ['@binance-chain/javascript-sdk', 'crypto-browserify'],
+    include: ['crypto-browserify'],
     esbuildOptions: {
       target: 'es2020',
       define: { global: 'globalThis' },

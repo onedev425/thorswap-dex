@@ -1,4 +1,4 @@
-import { WalletOption } from '@thorswap-lib/multichain-sdk';
+import { WalletOption } from '@thorswap-lib/multichain-core';
 import { Box, Icon, IconName, Tooltip } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { t } from 'services/i18n';
@@ -12,6 +12,7 @@ type Props = {
 };
 
 const walletIcons: Record<WalletOption, IconName> = {
+  [WalletOption.HAMMER_WALLET]: 'questionCircle',
   [WalletOption.METAMASK]: 'metamask',
   [WalletOption.LEDGER]: 'ledger',
   [WalletOption.KEYSTORE]: 'keystore',

@@ -5,7 +5,7 @@ import {
   Percent,
   QuoteMode,
   QuoteRoute,
-} from '@thorswap-lib/multichain-sdk';
+} from '@thorswap-lib/multichain-core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { Box, Button, Typography } from 'components/Atomic';

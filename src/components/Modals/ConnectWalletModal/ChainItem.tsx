@@ -1,4 +1,4 @@
-import { chainToSigAsset, WalletOption } from '@thorswap-lib/multichain-sdk';
+import { chainToSigAsset, WalletOption } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';

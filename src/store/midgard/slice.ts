@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ActionStatusEnum, ActionTypeEnum, MemberPool } from '@thorswap-lib/midgard-sdk';
-import { Pool } from '@thorswap-lib/multichain-sdk';
+import { Pool } from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 import dayjs from 'dayjs';
 import deepEqual from 'fast-deep-equal';

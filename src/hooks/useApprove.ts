@@ -1,4 +1,4 @@
-import { Asset, hasConnectedWallet } from '@thorswap-lib/multichain-sdk';
+import { Asset, hasConnectedWallet } from '@thorswap-lib/multichain-core';
 import { useEffect, useMemo, useState } from 'react';
 import { multichain } from 'services/multichain';
 import { useMidgard } from 'store/midgard/hooks';

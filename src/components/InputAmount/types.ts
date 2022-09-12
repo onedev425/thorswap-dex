@@ -1,4 +1,4 @@
-import { Amount } from '@thorswap-lib/multichain-sdk';
+import { Amount } from '@thorswap-lib/multichain-core';
 import { InputProps } from 'components/Input/types';
 
 export type AmountProps = {

@@ -1,4 +1,4 @@
-import { Amount } from '@thorswap-lib/multichain-sdk';
+import { Amount } from '@thorswap-lib/multichain-core';
 import { AmountProps } from 'components/InputAmount/types';
 import { getAmountFromString } from 'components/InputAmount/utils';
 import { useFormatPrice } from 'helpers/formatPrice';

@@ -4,7 +4,7 @@ import {
   AssetAmount,
   getNetworkFeeByAsset,
   Wallet,
-} from '@thorswap-lib/multichain-sdk';
+} from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import { Button, Icon } from 'components/Atomic';
 import { formatPrice } from 'helpers/formatPrice';

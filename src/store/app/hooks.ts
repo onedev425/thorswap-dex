@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { FeeOption } from '@thorswap-lib/types';
 import { useCallback } from 'react';
 import { multichain } from 'services/multichain';

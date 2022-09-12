@@ -1,4 +1,4 @@
-import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-core';
 import { showErrorToast } from 'components/Toast';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';

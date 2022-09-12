@@ -1,4 +1,4 @@
-import { Asset, THORName } from '@thorswap-lib/multichain-sdk';
+import { Asset, THORName } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';

@@ -1,4 +1,4 @@
-import { Amount, Asset, AssetAmount, Memo, Percent } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset, AssetAmount, Memo, Percent } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { getERC20Decimal } from 'helpers/getERC20Decimal';

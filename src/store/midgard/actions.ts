@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ActionTypeEnum, PoolPeriods } from '@thorswap-lib/midgard-sdk';
-import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import { midgardApi } from 'services/midgard';
 import { multichain } from 'services/multichain';

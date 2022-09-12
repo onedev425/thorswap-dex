@@ -1,4 +1,4 @@
-import { Amount, AmountType, Asset, QuoteMode } from '@thorswap-lib/multichain-sdk';
+import { Amount, AmountType, Asset, QuoteMode } from '@thorswap-lib/multichain-core';
 import BigNumber from 'bignumber.js';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Typography } from 'components/Atomic';

@@ -1,4 +1,4 @@
-import { Amount, Asset, QuoteMode, QuoteRoute } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset, QuoteMode, QuoteRoute } from '@thorswap-lib/multichain-core';
 import { FeeOption, SupportedChain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { translateErrorMsg } from 'helpers/error';
@@ -88,7 +88,6 @@ export const useSwap = ({
       const description = translateErrorMsg(error?.toString());
       appDispatch(completeTransaction({ id, status: 'error' }));
 
-      console.info(error, description);
       showErrorToast(
         t('notification.submitTxFailed'),
         description.includes('Object') ? '' : description,

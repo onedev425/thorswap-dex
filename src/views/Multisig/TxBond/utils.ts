@@ -1,4 +1,4 @@
-import { Amount, Memo } from '@thorswap-lib/multichain-sdk';
+import { Amount, Memo } from '@thorswap-lib/multichain-core';
 import { BondActionType } from 'views/Nodes/types';
 
 export const getBondMemo = (type: BondActionType, nodeAddress: string, amount?: Amount) => {

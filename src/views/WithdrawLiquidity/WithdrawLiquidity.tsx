@@ -7,7 +7,7 @@ import {
   Percent,
   Pool,
   Price,
-} from '@thorswap-lib/multichain-sdk';
+} from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 import { Box, Button, Typography } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';

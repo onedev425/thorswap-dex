@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { Box, Icon, Typography } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';

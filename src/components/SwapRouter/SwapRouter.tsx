@@ -1,4 +1,4 @@
-import { Asset, Percent, Price, QuoteMode, QuoteRoute } from '@thorswap-lib/multichain-sdk';
+import { Asset, Percent, Price, QuoteMode, QuoteRoute } from '@thorswap-lib/multichain-core';
 import { Box, Collapse } from 'components/Atomic';
 import { memo, useCallback } from 'react';
 

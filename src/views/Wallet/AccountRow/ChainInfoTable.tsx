@@ -1,4 +1,4 @@
-import { Amount, AssetAmount, chainToSigAsset } from '@thorswap-lib/multichain-sdk';
+import { Amount, AssetAmount, chainToSigAsset } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import { Box, Button, Table } from 'components/Atomic';
 import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';

@@ -1,4 +1,4 @@
-import { Amount, Percent } from '@thorswap-lib/multichain-sdk';
+import { Amount, Percent } from '@thorswap-lib/multichain-core';
 import { getTotalActiveBond, getTotalBond, getTotalStandbyBond, getTVL } from 'helpers/network';
 import { useMidgard } from 'store/midgard/hooks';
 

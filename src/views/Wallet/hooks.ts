@@ -1,4 +1,4 @@
-import { Amount, Asset, AssetAmount, chainToSigAsset } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset, AssetAmount, chainToSigAsset } from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 import { BigNumber } from 'bignumber.js';
 import takeRight from 'lodash/takeRight';

@@ -1,5 +1,5 @@
 import type { Network as MidgardNetwork } from '@thorswap-lib/midgard-sdk';
-import { Amount } from '@thorswap-lib/multichain-sdk';
+import { Amount } from '@thorswap-lib/multichain-core';
 
 export const getTVL = (networkData: MidgardNetwork | null) => {
   // totalActiveBond + totalStandbyBond + Total Liquidity

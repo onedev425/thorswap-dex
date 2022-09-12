@@ -1,5 +1,5 @@
 import { MemberPool } from '@thorswap-lib/midgard-sdk';
-import { Amount, Asset, Pool } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset, Pool } from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { useCallback, useEffect, useMemo } from 'react';

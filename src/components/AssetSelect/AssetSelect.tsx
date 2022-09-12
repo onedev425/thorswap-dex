@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton';
 import { AssetSelectList } from 'components/AssetSelect/AssetSelectList';
 import { TokenListProviderSelect } from 'components/AssetSelect/TokenListProviderSelect';

@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { Box, Button, Checkbox, Modal, Typography } from 'components/Atomic';
 import { PasswordInput } from 'components/PasswordInput';
 import { isKeystoreSignRequired } from 'helpers/wallet';

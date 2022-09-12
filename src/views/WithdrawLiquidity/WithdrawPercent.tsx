@@ -1,4 +1,4 @@
-import { Amount } from '@thorswap-lib/multichain-sdk';
+import { Amount } from '@thorswap-lib/multichain-core';
 import { Box, Button, Range, Typography } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { InputAmount } from 'components/InputAmount';

@@ -1,4 +1,4 @@
-import { Amount, Asset } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetInput } from 'components/AssetInput';
 import { AssetInputType } from 'components/AssetInput/types';

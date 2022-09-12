@@ -1,5 +1,5 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { Box, Button, Modal, Typography } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
 import { Input } from 'components/Input';

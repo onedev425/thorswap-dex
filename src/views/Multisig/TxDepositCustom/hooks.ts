@@ -1,4 +1,4 @@
-import { Amount, Asset, Price } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset, Price } from '@thorswap-lib/multichain-core';
 import { showErrorToast } from 'components/Toast';
 import { ChangeEvent, useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';

@@ -1,4 +1,4 @@
-import { MultiChain, setGlobalConfig } from '@thorswap-lib/multichain-sdk';
+import { MultiChain, setGlobalConfig } from '@thorswap-lib/multichain-core';
 import { midgardApi } from 'services/midgard';
 import { THORNODE_URI } from 'services/thornode';
 import { IS_STAGENET, NETWORK } from 'settings/config';

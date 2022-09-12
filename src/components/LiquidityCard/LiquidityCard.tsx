@@ -1,4 +1,4 @@
-import { Amount, Asset, Liquidity } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset, Liquidity } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon';
 import { Box, Button, Icon, Tooltip, Typography, useCollapse } from 'components/Atomic';

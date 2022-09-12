@@ -1,4 +1,4 @@
-import { Percent, Price } from '@thorswap-lib/multichain-sdk';
+import { Percent, Price } from '@thorswap-lib/multichain-core';
 import { FeeOption } from '@thorswap-lib/types';
 import { Box, Button, Collapse, Icon, Select, Typography } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';

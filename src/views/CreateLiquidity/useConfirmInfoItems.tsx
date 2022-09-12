@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Typography } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';

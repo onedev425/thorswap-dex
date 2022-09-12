@@ -1,4 +1,4 @@
-import { Percent, Price } from '@thorswap-lib/multichain-sdk';
+import { Percent, Price } from '@thorswap-lib/multichain-core';
 import { useMemo } from 'react';
 
 export const useSlippage = (input: Price, output: Price | string) => {

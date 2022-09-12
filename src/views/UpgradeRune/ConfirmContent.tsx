@@ -1,4 +1,4 @@
-import { Amount, Asset } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset } from '@thorswap-lib/multichain-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Icon, Typography } from 'components/Atomic';
 import { ChainBadge } from 'components/ChainBadge';

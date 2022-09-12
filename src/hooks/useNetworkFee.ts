@@ -4,7 +4,7 @@ import {
   AssetAmount,
   getNetworkFeeByAsset,
   Pool,
-} from '@thorswap-lib/multichain-sdk';
+} from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import { getGasRateByFeeOption } from 'helpers/networkFee';
 import { useCallback } from 'react';

@@ -1,4 +1,4 @@
-import { Amount, Asset, QuoteMode, QuoteRoute } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset, QuoteMode, QuoteRoute } from '@thorswap-lib/multichain-core';
 import deepEqual from 'fast-deep-equal';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import usePrevious from 'hooks/usePrevious';

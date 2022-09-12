@@ -1,4 +1,4 @@
-import { chainToSigAsset } from '@thorswap-lib/multichain-sdk';
+import { chainToSigAsset } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';

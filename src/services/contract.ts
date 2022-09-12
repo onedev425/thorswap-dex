@@ -1,7 +1,7 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { type ContractInterface, Contract } from '@ethersproject/contracts';
 import { formatUnits, parseUnits } from '@ethersproject/units';
-import { IMultiChain } from '@thorswap-lib/multichain-sdk';
+import { IMultiChain } from '@thorswap-lib/multichain-core';
 import { Network } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { alchemyProvider } from 'services/alchemyProvider';

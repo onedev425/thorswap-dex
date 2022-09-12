@@ -1,4 +1,4 @@
-import { Amount } from '@thorswap-lib/multichain-sdk';
+import { Amount } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { useInputAmount } from 'components/InputAmount/useInputAmount';
 import { useTheme } from 'components/Theme/ThemeContext';

@@ -1,4 +1,4 @@
-import { Amount, Asset, hasWalletConnected, Price } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset, hasWalletConnected, Price } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic';

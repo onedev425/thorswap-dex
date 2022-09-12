@@ -1,6 +1,6 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
-import { Wallet } from '@thorswap-lib/multichain-sdk';
+import { Wallet } from '@thorswap-lib/multichain-core';
 import { Chain, Keystore, SupportedChain } from '@thorswap-lib/types';
 import { saveInStorage } from 'helpers/storage';
 import { GeckoData } from 'store/wallet/types';

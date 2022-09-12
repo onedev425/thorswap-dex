@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { Box, Button, Link, Typography } from 'components/Atomic';
 import { InfoTip } from 'components/InfoTip';
 import { useEffect, useState } from 'react';

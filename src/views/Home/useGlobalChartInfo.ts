@@ -1,4 +1,4 @@
-import { Amount, Asset, Pool, runeToAssetPrice } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset, Pool, runeToAssetPrice } from '@thorswap-lib/multichain-core';
 import { ChartData, ChartDetail, ChartType } from 'components/Chart/types';
 import { useMemo } from 'react';
 import { useApp } from 'store/app/hooks';

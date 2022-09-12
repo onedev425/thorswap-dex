@@ -1,4 +1,4 @@
-import { AssetAmount } from '@thorswap-lib/multichain-sdk';
+import { AssetAmount } from '@thorswap-lib/multichain-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Typography } from 'components/Atomic';
 import { formatPrice } from 'helpers/formatPrice';

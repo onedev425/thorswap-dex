@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Amount } from '@thorswap-lib/multichain-sdk';
+import { Amount } from '@thorswap-lib/multichain-core';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 import { useApp } from 'store/app/hooks';

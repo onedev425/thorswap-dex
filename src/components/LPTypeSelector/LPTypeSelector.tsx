@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { Box } from 'components/Atomic';
 import { TabsSelect } from 'components/TabsSelect';
 import { useCallback, useMemo } from 'react';

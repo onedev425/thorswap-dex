@@ -1,4 +1,4 @@
-import { Asset, getContractAddressFromAsset } from '@thorswap-lib/multichain-sdk';
+import { Asset, getContractAddressFromAsset } from '@thorswap-lib/multichain-core';
 
 import { assetIconMap, BepIconType, customIconMap, CustomIconType } from './iconList';
 import { SecondaryIconPlacement } from './types';

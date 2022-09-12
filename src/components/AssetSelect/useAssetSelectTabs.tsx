@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { AssetsPanel } from 'components/AssetSelect/AssetsPanel';
 import { TabsConfig } from 'components/Atomic/Tabs';
 import { useMemo } from 'react';

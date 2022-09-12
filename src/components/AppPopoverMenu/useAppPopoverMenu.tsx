@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { MenuItemType } from 'components/AppPopoverMenu/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { IconName } from 'components/Atomic';

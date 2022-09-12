@@ -1,4 +1,4 @@
-import { Amount, Asset, hasWalletConnected, QuoteMode } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset, hasWalletConnected, QuoteMode } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';

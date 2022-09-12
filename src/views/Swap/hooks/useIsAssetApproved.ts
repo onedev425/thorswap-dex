@@ -3,7 +3,7 @@ import {
   hasConnectedWallet,
   hasWalletConnected,
   QuoteMode,
-} from '@thorswap-lib/multichain-sdk';
+} from '@thorswap-lib/multichain-core';
 import { SupportedChain, WalletOption } from '@thorswap-lib/types';
 import { TS_AGGREGATOR_PROXY_ADDRESS } from 'config/constants';
 import { useCallback, useEffect, useMemo, useState } from 'react';

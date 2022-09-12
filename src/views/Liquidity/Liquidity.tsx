@@ -1,4 +1,4 @@
-import { hasConnectedWallet } from '@thorswap-lib/multichain-sdk';
+import { hasConnectedWallet } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import { Box, Button } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';

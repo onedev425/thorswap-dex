@@ -1,4 +1,4 @@
-import { THORNameDetails } from '@thorswap-lib/multichain-sdk';
+import { THORNameDetails } from '@thorswap-lib/multichain-core';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { getAddressThornames, getThornameDetails } from 'services/thorname';
 import { useAppSelector } from 'store/store';

@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { Keystore } from '@thorswap-lib/types';
 import { HandleWalletConnectParams } from 'components/Modals/ConnectWalletModal/hooks';
 import { DEFAULT_SLIPPAGE_TOLERANCE } from 'settings/constants/values';

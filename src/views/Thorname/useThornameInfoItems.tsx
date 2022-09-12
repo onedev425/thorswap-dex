@@ -1,5 +1,5 @@
 import { THORNameDetails } from '@thorswap-lib/midgard-sdk';
-import { Asset, THORName } from '@thorswap-lib/multichain-sdk';
+import { Asset, THORName } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic';

@@ -1,4 +1,4 @@
-import { chainToSigAsset } from '@thorswap-lib/multichain-sdk';
+import { chainToSigAsset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { useDismissedAnnouncements, useSeenAnnouncements } from 'components/Announcements/hooks';
 import { AssetIcon } from 'components/AssetIcon';

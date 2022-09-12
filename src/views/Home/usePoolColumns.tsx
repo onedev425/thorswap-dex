@@ -1,4 +1,4 @@
-import { Amount, Asset, Percent, Pool } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset, Percent, Pool } from '@thorswap-lib/multichain-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon, Typography } from 'components/Atomic';
 import { getAmountColumnSorter, sortPoolColumn } from 'components/Atomic/Table/utils';

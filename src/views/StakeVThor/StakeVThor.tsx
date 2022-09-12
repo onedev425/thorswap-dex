@@ -1,5 +1,5 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { Amount, WalletOption } from '@thorswap-lib/multichain-sdk';
+import { Amount, WalletOption } from '@thorswap-lib/multichain-core';
 import BN from 'bignumber.js';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';

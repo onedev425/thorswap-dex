@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { AssetFilterOptionType } from 'components/AssetSelect/assetTypes';
 import { AssetSelectProps } from 'components/AssetSelect/types';
 import { useCallback, useMemo, useState } from 'react';

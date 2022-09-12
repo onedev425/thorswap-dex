@@ -1,4 +1,4 @@
-import { hasConnectedWallet } from '@thorswap-lib/multichain-sdk';
+import { hasConnectedWallet } from '@thorswap-lib/multichain-core';
 import { AnnouncementsPopover } from 'components/Announcements/AnnouncementsPopover/AnnouncementsPopover';
 import { HeaderAnnouncements } from 'components/Announcements/HeaderAnnouncements';
 import { AppPopoverMenu } from 'components/AppPopoverMenu';

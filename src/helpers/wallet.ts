@@ -1,4 +1,4 @@
-import { Amount, Asset, AssetAmount, ChainWallet, Pool } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset, AssetAmount, ChainWallet, Pool } from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 
 type Wallet = Record<SupportedChain, ChainWallet | null>;

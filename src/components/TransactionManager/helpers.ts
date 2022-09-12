@@ -1,4 +1,4 @@
-import { Asset, AssetAmount, ETH_DECIMAL } from '@thorswap-lib/multichain-sdk';
+import { Asset, AssetAmount, ETH_DECIMAL } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import { useCallback, useMemo, useState } from 'react';
 import { getCustomContract } from 'services/contract';

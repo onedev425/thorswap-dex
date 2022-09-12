@@ -1,4 +1,4 @@
-import { Amount, Asset, getNetworkFeeByAsset } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset, getNetworkFeeByAsset } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import { getGasRateByFeeOption } from 'helpers/networkFee';
 import { getAssetBalance } from 'helpers/wallet';

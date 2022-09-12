@@ -1,5 +1,5 @@
 import { QueryStatus } from '@reduxjs/toolkit/dist/query';
-import { Amount, Asset } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetInput } from 'components/AssetInput';

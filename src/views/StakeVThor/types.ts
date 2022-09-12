@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-sdk';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { getV2Asset, VestingType } from 'helpers/assets';
 
 export enum StakeActions {

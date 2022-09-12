@@ -1,4 +1,4 @@
-import { Amount, Asset, Price } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset, Price } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { getERC20Decimal } from 'helpers/getERC20Decimal';

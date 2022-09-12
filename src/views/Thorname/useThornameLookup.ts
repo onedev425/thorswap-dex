@@ -1,5 +1,5 @@
 import { THORNameDetails } from '@thorswap-lib/midgard-sdk';
-import { Amount, Asset, THORName } from '@thorswap-lib/multichain-sdk';
+import { Amount, Asset, THORName } from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import usePrevious from 'hooks/usePrevious';

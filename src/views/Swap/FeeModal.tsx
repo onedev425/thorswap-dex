@@ -1,4 +1,4 @@
-import { Asset, chainToSigAsset } from '@thorswap-lib/multichain-sdk';
+import { Asset, chainToSigAsset } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Modal, Typography } from 'components/Atomic';

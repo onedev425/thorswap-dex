@@ -1,4 +1,4 @@
-import { Asset, Pool } from '@thorswap-lib/multichain-sdk';
+import { Asset, Pool } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import { getERC20Decimal } from 'helpers/getERC20Decimal';
 import { useCallback, useEffect, useMemo, useState } from 'react';

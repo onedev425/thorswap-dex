@@ -1,4 +1,4 @@
-import { Amount, Percent, Pool } from '@thorswap-lib/multichain-sdk';
+import { Amount, Percent, Pool } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Card, Typography } from 'components/Atomic';

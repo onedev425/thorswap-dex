@@ -1,4 +1,3 @@
-/* eslint-disable */
 // Please keep up-to-date for coin list from https://www.coingecko.com/en/api/documentation
 // Do not forget to remove this token info from list - https://www.coingecko.com/en/coins/rune
 // Last Updated: 07:43, 29 Mar 2022 UTC
@@ -13540,4 +13539,4 @@ export const geckoCoinIndex = [
   { id: 'zytara-dollar', symbol: 'zusd' },
   { id: 'zyx', symbol: 'zyx' },
   { id: 'zzz-finance-v2', symbol: 'zzzv2' },
-]
+];

@@ -1,4 +1,4 @@
-import { Asset, QuoteMode } from '@thorswap-lib/multichain-sdk';
+import { Asset, QuoteMode } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { useCallback } from 'react';

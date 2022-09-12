@@ -10,7 +10,7 @@ import {
   Pool,
   Price,
   Wallet,
-} from '@thorswap-lib/multichain-sdk';
+} from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems';
