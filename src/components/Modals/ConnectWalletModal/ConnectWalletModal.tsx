@@ -10,6 +10,7 @@ import useWindowSize from 'hooks/useWindowSize';
 import uniq from 'lodash/uniq';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
+import { IS_STAGENET } from 'settings/config';
 import { useWallet } from 'store/wallet/hooks';
 
 import ChainItem from './ChainItem';
@@ -256,7 +257,7 @@ const ConnectWalletModal = () => {
                 {SUPPORTED_CHAINS.map((chain) => (
                   <ChainItem
                     chain={chain}
-                    disabled={[Chain.Avalanche].includes(chain)}
+                    disabled={!IS_STAGENET && [Chain.Avalanche].includes(chain)}
                     isChainAvailable={availableChainsByWallet[
                       selectedWalletType as WalletType
                     ]?.includes(chain)}

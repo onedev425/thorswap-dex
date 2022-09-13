@@ -1,9 +1,4 @@
-import {
-  KeplrWalletStatus,
-  MetaMaskWalletStatus,
-  PhantomWalletStatus,
-  XdefiWalletStatus,
-} from '@thorswap-lib/multichain-web-extensions';
+import { WalletStatus } from '@thorswap-lib/multichain-web-extensions';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 import { IconName } from 'components/Atomic';
 import { showErrorToast } from 'components/Toast';
@@ -32,25 +27,13 @@ type UseWalletOptionsParams = {
 };
 
 export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): WalletItem[] => {
-  const xDefiNotPrioritized = useMemo(
-    () => xdefi.isWalletDetected() === XdefiWalletStatus.XdefiNotPrioritized,
-    [],
-  );
-  const metamaskNotPrioritized = useMemo(
-    () => metamask.isWalletDetected() === MetaMaskWalletStatus.XdefiDetected,
-    [],
-  );
-
   return useMemo(
     () => [
       {
         icon: 'xdefi',
         type: WalletType.Xdefi,
         visible: isMdActive,
-        disabled: xDefiNotPrioritized,
-        label: xDefiNotPrioritized
-          ? t('views.walletModal.prioritiseXdefi')
-          : t('views.walletModal.xdefi'),
+        label: t('views.walletModal.xdefi'),
       },
       {
         icon: 'phantom',
@@ -72,9 +55,9 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): Wallet
       {
         type: WalletType.MetaMask,
         icon: 'metamask',
-        disabled: metamaskNotPrioritized,
-        label: metamaskNotPrioritized
-          ? t('views.walletModal.metamaskDisableXdefi')
+        disabled: metamask.isXDefiPrioritized(),
+        label: metamask.isXDefiPrioritized()
+          ? t('views.walletModal.metaMaskDisableXDefiPrioritized')
           : t('views.walletModal.metaMask'),
       },
       {
@@ -101,7 +84,7 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): Wallet
         visible: isMdActive,
       },
     ],
-    [xDefiNotPrioritized, isMdActive, metamaskNotPrioritized],
+    [isMdActive],
   );
 };
 
@@ -192,57 +175,43 @@ export const useHandleWalletTypeSelect = ({
   setSelectedChains,
 }: HandleWalletTypeSelectParams) => {
   const handleXdefi = useCallback(() => {
-    const xdefiStatus = xdefi.isWalletDetected();
+    const detected = WalletStatus.Detected === xdefi.isWalletDetected();
 
-    if (xdefiStatus === XdefiWalletStatus.XdefiNotInstalled) {
+    if (!detected) {
       window.open('https://xdefi.io');
     }
 
-    if (xdefiStatus === XdefiWalletStatus.XdefiNotPrioritized) {
-      showErrorToast(t('notification.prioritisationError'), t('notification.xdefiPrioritise'));
-    }
-
-    return xdefiStatus === XdefiWalletStatus.XdefiPrioritized;
+    return detected;
   }, []);
 
   const handleMetamask = useCallback(() => {
-    const xdefiStatus = xdefi.isWalletDetected();
-    const metamaskStatus = metamask.isWalletDetected();
+    const detected = WalletStatus.Detected === metamask.isWalletDetected();
 
-    if (metamaskStatus === MetaMaskWalletStatus.NoWeb3Provider) {
+    if (!detected) {
       window.open('https://metamask.io');
     }
 
-    if (metamaskStatus === MetaMaskWalletStatus.XdefiDetected) {
-      showErrorToast(t('notification.prioritisationError'), t('notification.xdefiDeprioritise'));
-    }
-
-    return (
-      metamaskStatus === MetaMaskWalletStatus.MetaMaskDetected &&
-      xdefiStatus !== XdefiWalletStatus.XdefiPrioritized
-    );
+    return detected;
   }, []);
 
   const handlePhantom = useCallback(() => {
-    const phantomStatus = phantom.isWalletDetected();
+    const detected = WalletStatus.Detected === phantom.isWalletDetected();
 
-    if (phantomStatus === PhantomWalletStatus.PhantomDetected) {
-      return true;
-    } else {
+    if (!detected) {
       window.open('https://phantom.app');
-      return false;
     }
+
+    return detected;
   }, []);
 
   const handleKeplr = useCallback(() => {
-    const keplrStatus = keplr.isWalletDetected();
+    const detected = WalletStatus.Detected === keplr.isWalletDetected();
 
-    if (keplrStatus === KeplrWalletStatus.KeplrDetected) {
-      return true;
-    } else {
+    if (!detected) {
       window.open('https://keplr.app');
-      return false;
     }
+
+    return detected;
   }, []);
 
   const getChainsToSelect = useCallback(

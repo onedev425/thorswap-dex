@@ -1,15 +1,21 @@
+import { WalletOption } from '@thorswap-lib/multichain-core';
 import { Button, Icon } from 'components/Atomic';
 import { stakingV2Addr, vThorInfo } from 'helpers/assets';
 import { memo } from 'react';
 import { t } from 'services/i18n';
 import { NETWORK } from 'settings/config';
+import { useWallet } from 'store/wallet/hooks';
 
 export const AddVThorMM = memo(() => {
+  const { wallet } = useWallet();
   const addVTHOR = async () => {
     const vThorAddress = stakingV2Addr.VTHOR[NETWORK];
 
-    // @ts-expect-error window types
-    await window.ethereum.request({
+    const provider =
+      // @ts-expect-error window types
+      wallet?.ETH?.walletType === WalletOption.XDEFI ? window.xfi?.ethereum : window.ethereum;
+
+    await provider?.request({
       method: 'wallet_watchAsset',
       params: {
         type: 'ERC20',

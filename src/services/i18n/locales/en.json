@@ -835,7 +835,7 @@
       "ledger": "Ledger",
       "ledgerIndex": "Ledger Index",
       "metaMask": "MetaMask",
-      "metamaskDisableXdefi": "MetaMask (disable XDEFI)",
+      "metaMaskDisableXDefiPrioritized": "MetaMask (Deprioritize XDEFI)",
       "noSlipProtection_1": "I understand this trade has been flagged for major slippage and",
       "noSlipProtection_2": "agree to continue with no slip protection.",
       "noSlipProtection_3": "THORSwap shall not be held responsible for any loss of funds.",
