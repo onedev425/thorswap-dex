@@ -11,26 +11,31 @@ import { PendingTransactionType, TransactionType } from 'store/transactions/type
 
 export const PendingTransaction = memo(
   ({ id, inChain, txid, type, label, from }: PendingTransactionType) => {
+    const appDispatch = useAppDispatch();
+
     const params = useMemo(() => {
-      if (!txid) return { from, type, txid: '' };
+      if (!txid) return { txid: '' };
+
+      const isApprove = type === TransactionType.ETH_APPROVAL;
 
       const shouldCutTx = [TransactionType.SWAP_TC_TO_TC, TransactionType.SWAP_TC_TO_ETH].includes(
         type,
       );
 
-      const tx =
-        type === TransactionType.ETH_APPROVAL ? (txid.startsWith('0x') ? txid : `0x${txid}`) : txid;
+      const ethTx = txid.startsWith('0x') ? txid : `0x${txid}`;
 
-      return { from, type, txid: cutTxPrefix(tx, shouldCutTx ? '0x' : '') };
+      return {
+        from,
+        type,
+        txid: cutTxPrefix(isApprove ? ethTx : txid, shouldCutTx ? '0x' : ''),
+      };
     }, [from, txid, type]);
 
     const { data } = useGetTxnStatusQuery(params, {
-      pollingInterval: 3000,
+      pollingInterval: 5000,
       refetchOnFocus: true,
       skip: !params.txid,
     });
-
-    const appDispatch = useAppDispatch();
 
     const url = params.txid && multichain().getExplorerTxUrl(inChain, params.txid);
 
@@ -55,7 +60,7 @@ export const PendingTransaction = memo(
         </Box>
 
         {url ? (
-          <Link className="inline-flex" onClick={(e) => e.stopPropagation()} to={url}>
+          <Link external className="inline-flex" onClick={(e) => e.stopPropagation()} to={url}>
             <Icon
               className={baseHoverClass}
               color="secondary"

@@ -15,7 +15,7 @@ type CalculatedFeeParams = {
   inboundAsset: Asset;
   inboundFee: AssetAmount;
   inputAsset: Asset;
-  outboundAsset: Asset;
+  outboundAsset?: Asset;
   outboundFee: AssetAmount;
 };
 
@@ -24,7 +24,7 @@ const useCalculateFee = () => {
 
   const calculateFee = useCallback(
     ({ outboundAsset, inboundAsset, inboundFee, inputAsset, outboundFee }: CalculatedFeeParams) => {
-      if (!outboundAsset.eq(inboundAsset)) return inboundFee;
+      if (!outboundAsset?.eq(inboundAsset)) return inboundFee;
 
       const outboundFeeInSendAsset = new AssetAmount(
         inboundAsset,
@@ -62,6 +62,8 @@ const getFeeAssetForAsset = (asset: Asset) => {
       return Asset.ETH();
     case Chain.Binance:
       return Asset.BNB();
+    case Chain.Avalanche:
+      return Asset.AVAX();
     default:
       return asset;
   }
@@ -92,14 +94,14 @@ export const useNetworkFee = ({
   const feeGasRate = getGasRateByFeeOption({ gasRate, feeOptionType });
 
   const inboundFee = getNetworkFee(feeGasRate, 'inbound');
-  const outboundFee = getNetworkFee(feeGasRate, 'outbound');
+  const outboundFee = getNetworkFee(outputAsset ? feeGasRate : 0, 'outbound');
 
   return {
     inboundFee,
     outboundFee,
     totalFeeInUSD: calculateFee({
       inboundAsset: getFeeAssetForAsset(inputAsset),
-      outboundAsset: getFeeAssetForAsset(inputAsset || outputAsset),
+      outboundAsset: outputAsset ? getFeeAssetForAsset(outputAsset) : undefined,
       inputAsset,
       outboundFee,
       inboundFee,

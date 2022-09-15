@@ -157,7 +157,7 @@ export const useVthorUtil = () => {
 
   const stakeThor = useCallback(
     async (stakeAmount: BigNumber, receiverAddr: string) => {
-      const amount = fromWei(stakeAmount);
+      const amount = Number(fromWei(stakeAmount).toFixed(4));
       if (amount === 0) return;
 
       const thorAsset = getV2Asset(VestingType.THOR);
@@ -166,7 +166,7 @@ export const useVthorUtil = () => {
         addTransaction({
           id,
           from: ethAddr,
-          label: `${t('txManager.stake')} ${amount.toString()} ${thorAsset.name}`,
+          label: `${t('txManager.stake')} ${amount / 1} ${thorAsset.name}`,
           inChain: thorAsset.L1Chain,
           type: TransactionType.ETH_STATUS,
         }),
@@ -197,14 +197,14 @@ export const useVthorUtil = () => {
   const unstakeThor = useCallback(
     async (unstakeAmount: BigNumber, receiverAddr: string) => {
       const vthorAsset = getV2Asset(VestingType.VTHOR);
-      const amount = fromWei(unstakeAmount).toString();
+      const amount = Number(fromWei(unstakeAmount).toFixed(4)) / 1;
 
       const id = v4();
       appDispatch(
         addTransaction({
           id,
           from: ethAddr,
-          label: `${t('txManager.stake')} ${amount.toString()} ${vthorAsset.name}`,
+          label: `${t('txManager.unstake')} ${amount} ${vthorAsset.name}`,
           inChain: vthorAsset.L1Chain,
           type: TransactionType.ETH_STATUS,
         }),

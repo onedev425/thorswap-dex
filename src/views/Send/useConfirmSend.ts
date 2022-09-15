@@ -48,7 +48,7 @@ export const useConfirmSend = ({
         const txid = await multichain().send({ assetAmount, recipient, memo });
 
         if (txid) {
-          updateTransaction({ id, txid });
+          appDispatch(updateTransaction({ id, txid }));
         }
       } catch (error: NotWorth) {
         appDispatch(completeTransaction({ id, status: 'error' }));

@@ -61,13 +61,23 @@ export const CompletedTransaction = memo(
         </Box>
 
         {txUrl.url ? (
-          <Link className="inline-flex" onClick={(e) => e.stopPropagation()} to={txUrl.url}>
+          <Link
+            external
+            className="inline-flex"
+            onClick={(e) => e.stopPropagation()}
+            to={txUrl.url}
+          >
             <Icon className={baseHoverClass} color="secondary" name={txUrl.icon} size={18} />
           </Link>
         ) : null}
 
         {secondUrl.url ? (
-          <Link className="inline-flex" onClick={(e) => e.stopPropagation()} to={secondUrl.url}>
+          <Link
+            external
+            className="inline-flex"
+            onClick={(e) => e.stopPropagation()}
+            to={secondUrl.url}
+          >
             <Icon className={baseHoverClass} color="secondary" name={secondUrl.icon} size={18} />
           </Link>
         ) : null}

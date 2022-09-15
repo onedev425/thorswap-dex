@@ -14,6 +14,8 @@ import { thorswapApi } from './thorswap/api';
 import transactionsReducer from './transactions/slice';
 import walletReducer from './wallet/slice';
 
+const devTools = import.meta.env.DEV;
+
 const rootReducer = combineReducers({
   [staticApi.reducerPath]: staticApi.reducer,
   [thorswapApi.reducerPath]: thorswapApi.reducer,
@@ -28,7 +30,7 @@ const rootReducer = combineReducers({
 });
 
 const store = configureStore({
-  devTools: import.meta.env.DEV,
+  devTools,
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }).concat([
