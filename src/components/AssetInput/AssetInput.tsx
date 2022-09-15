@@ -43,7 +43,10 @@ export const AssetInput = ({
   );
 
   const assetPriceInUSD = useMemo(
-    () => (hideZeroPrice && usdPrice?.lt(1) ? null : usdPrice?.toCurrencyFormat(2)),
+    () =>
+      (hideZeroPrice && usdPrice?.lt(1)) || !usdPrice?.gte(-1)
+        ? null
+        : usdPrice?.toCurrencyFormat(2),
     [hideZeroPrice, usdPrice],
   );
 

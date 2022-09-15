@@ -29,6 +29,7 @@ const useGroupSeparator = () => {
 };
 
 const getNumberOfDecimals = (amount: Value) => {
+  if (!amount) return 2;
   const price = typeof amount === 'object' ? parseFloat(amount.assetAmount.toFixed(2)) : amount;
 
   if (price > 9) {
