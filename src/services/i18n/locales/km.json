@@ -835,6 +835,8 @@
       "ledger": "Ledger",
       "ledgerIndex": "សន្ទស្សន៍ Ledger",
       "metaMask": "MetaMask",
+      "metaMaskDisableXDefiPrioritized": "MetaMask (កំណត់អាទិភាព XDEFI)",
+      "noSlipProtection_0": "",
       "notConnected": "មិនទាន់ភ្ជាប់",
       "phantom": "Phantom",
       "phrase": "ឃ្លាសម្ងាត់",

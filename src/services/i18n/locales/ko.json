@@ -835,6 +835,8 @@
       "ledger": "Ledger",
       "ledgerIndex": "Ledger Index",
       "metaMask": "MetaMask",
+      "metaMaskDisableXDefiPrioritized": "MetaMask (XDEFI 우선순위 저하)",
+      "noSlipProtection_0": "",
       "notConnected": "연결 안 됨",
       "phantom": "Phantom",
       "phrase": "프레이스 (Phrase)",

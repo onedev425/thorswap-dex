@@ -39,7 +39,7 @@
     "addressCopied": "Adresse copiée",
     "allCaughtUp": "Vous êtes tous rattrapés !",
     "amount": "Montant",
-    "asset": "Asset",
+    "asset": "Actif",
     "auto": "Auto",
     "back": "Dos",
     "balance": "Balance",
@@ -55,7 +55,7 @@
     "copy": "Copier",
     "create": "Créer",
     "createLiquidity": "Créer une liquidité",
-    "customRecipientTooltip": "Recevez des assets sur l'adresse de votre choix.",
+    "customRecipientTooltip": "Recevez des actifs sur l'adresse de votre choix.",
     "defaultErrMsg": "Une erreur est survenue",
     "deleteAll": "Supprimer tout",
     "deposit": "Déposer",
@@ -64,7 +64,7 @@
     "documentation": "Documentation",
     "estimateTime": "Temps estimé",
     "exchange": "Échanger",
-    "expertModeTooltip": "Vous pouvez fournir RUNE + Asset avec un ratio dynamique en mode expert.",
+    "expertModeTooltip": "Vous pouvez fournir RUNE + Actif avec un ratio dynamique en mode expert.",
     "fee": "Commission",
     "feeAverage": "Normal",
     "feeFast": "Rapide",
@@ -273,7 +273,7 @@
   "pendingLiquidity": {
     "complete": "compléter",
     "content": "Les transactions de dépôt en attente doivent être complétées en ajoutant %{asset} symmétriquement.",
-    "pendingInfoGeneral": "Les transactions de dépôt en attente doivent être complétées en ajoutant le asset manquant symmétriquement.",
+    "pendingInfoGeneral": "Les transactions de dépôt en attente doivent être complétées en ajoutant l'actif manquant symmétriquement.",
     "pendingInfoTitle": "Vous avez des transactions de dépôt en attente pour ce pool.",
     "pendingLiquidity": "Liquidité en attente",
     "withdrawWarning": "La transaction de retrait entraînera le retrait de votre position LP existante dans le même pool. Veuillez choisir de terminer si vous ne souhaitez pas retirer votre position LP existante."
@@ -336,7 +336,7 @@
   },
   "views": {
     "addLiquidity": {
-      "asymmetricPoolNotice": "Vos Assets seront re-balancés en entrant dans le Pool. Vous aurez donc une exposition au prix 50:50 entre RUNE et votre asset.",
+      "asymmetricPoolNotice": "Vos actifs seront rebalancés en entrant dans le pool. Vous aurez donc une exposition au prix 50:50 entre RUNE et votre actif.",
       "asymmetricPoolNotice0": "Your %{depositAsset} will be rebalanced upon entering the pool. This means you will have 50:50 exposure to both RUNE and %{asset}.",
       "asymmetricPoolTip": "Vous allez déposer dans un Pool asymétriquement.",
       "existingLpTip": "Your 100 days start now.",
@@ -635,7 +635,7 @@
       "receive": "Recevoir",
       "redeemableThor": "Remboursable THOR",
       "send": "Envoyer",
-      "stakeInfo": "Lorsque vous staker des $THOR (ERC-20), vous recevrez des $vTHOR, un toiken composable et transférable qui représente votre position de staking.\n\nVotre participation recevra automatiquement des récompenses composées automatiquement consistant en (i) des émissions de blocs, et (ii) 75 % de tous les revenus de THORSwap.\n\nLorsque vous retirez  des $THOR, vous recevrez des récompenses relative à la taille du retrait.",
+      "stakeInfo": "Lorsque vous stakez des $THOR (ERC-20), vous recevrez des $vTHOR, un token composable et transférable qui représente votre position de staking.\n\nVotre participation recevra automatiquement des récompenses composées automatiquement consistant en (i) des émissions de blocs, et (ii) 75 % de tous les revenus de THORSwap.\n\nLorsque vous retirez des $THOR, vous recevrez des récompenses relative à la taille du retrait.",
       "stakeInfoDescription": "Vous avez toujours des $THOR dans le contrat v1. Retirez les et utilisez vTHOR.",
       "stakeInfoTitle": "Vous avez toujours des $THOR dans le contrat v1",
       "stakeVThor": "Stake",
@@ -699,8 +699,8 @@
       "autoRouter": "Routeur automatique",
       "autoRouterApi": "API du routeur automatique",
       "check": "Vérifier %{checkType}",
-      "emptyFeatured": "Pas d'assets mis en avant",
-      "emptyFrequent": "Pas d'assets fréquents",
+      "emptyFeatured": "Pas d'actifs mis en avant",
+      "emptyFrequent": "Pas d'actifs fréquents",
       "exchangeFee": "Frais de service",
       "expertMode": "Mode expert",
       "feeExplanation": "Explication des frais",
@@ -798,7 +798,7 @@
       "viewKeystorePhrase": "Voir la phrase du Keystore",
       "wallet": "Portefeuille",
       "walletTypeConnected": "%{walletType} connecté",
-      "yourAssets": "Vos assets"
+      "yourAssets": "Vos actifs"
     },
     "walletDrawer": {
       "confirmDisconnect": "Êtes-vous certain de vouloir déconnecter votre portefeuille?",
@@ -835,6 +835,9 @@
       "ledger": "Ledger",
       "ledgerIndex": "Ledger Index",
       "metaMask": "MetaMask",
+      "metaMaskDisableXDefiPrioritized": "MetaMask (déprioriser XDEFI)",
+      "noSlipProtection": "",
+      "noSlipProtection_plural": "",
       "notConnected": "Non connecté",
       "phantom": "Phantom",
       "phrase": "Phrase",

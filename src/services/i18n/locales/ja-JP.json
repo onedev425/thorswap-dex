@@ -835,6 +835,8 @@
       "ledger": "Ledger",
       "ledgerIndex": "Ledger Index",
       "metaMask": "MetaMask",
+      "metaMaskDisableXDefiPrioritized": "MetaMask（XDEFIの非優先化）",
+      "noSlipProtection_0": "THORSwapは資金の損失に対して責任を負わないものとします。",
       "notConnected": "未接続",
       "phantom": "Phantom",
       "phrase": "フレーズ",
