@@ -200,12 +200,7 @@ export const StakingCard = ({
       const params = methodName === 'harvest' ? [0, ethAddr] : [0, tokenAmount, ethAddr];
 
       try {
-        const { hash: txid } = await triggerContractCall(
-          multichain(),
-          contractType,
-          methodName,
-          params,
-        );
+        const { hash: txid } = await triggerContractCall(contractType, methodName, params);
 
         if (txid) {
           appDispatch(updateTransaction({ id, txid }));

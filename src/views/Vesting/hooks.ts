@@ -13,7 +13,6 @@ import {
   triggerContractCall,
 } from 'services/contract';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { useAppDispatch, useAppSelector } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
@@ -126,7 +125,6 @@ export const useVesting = () => {
 
       try {
         const response = await triggerContractCall(
-          multichain(),
           vestingAction === VestingType.THOR ? ContractType.VESTING : ContractType.VTHOR_VESTING,
           'claim',
           [currentClaimableAmount],

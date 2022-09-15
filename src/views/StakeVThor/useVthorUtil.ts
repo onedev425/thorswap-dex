@@ -172,8 +172,10 @@ export const useVthorUtil = () => {
         }),
       );
 
+      if (!ethAddr) throw new Error('No ETH address');
+
       try {
-        const response = await triggerContractCall(multichain(), ContractType.VTHOR, 'deposit', [
+        const response = await triggerContractCall(ContractType.VTHOR, 'deposit', [
           stakeAmount,
           receiverAddr,
         ]);
@@ -211,7 +213,7 @@ export const useVthorUtil = () => {
       );
 
       try {
-        const response = await triggerContractCall(multichain(), ContractType.VTHOR, 'redeem', [
+        const response = await triggerContractCall(ContractType.VTHOR, 'redeem', [
           unstakeAmount,
           receiverAddr,
           receiverAddr,

@@ -1,11 +1,9 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { type ContractInterface, Contract } from '@ethersproject/contracts';
 import { formatUnits, parseUnits } from '@ethersproject/units';
-import { IMultiChain } from '@thorswap-lib/multichain-core';
-import { Network } from '@thorswap-lib/types';
-import { showErrorToast } from 'components/Toast';
+import { Chain, Network } from '@thorswap-lib/types';
 import { alchemyProvider } from 'services/alchemyProvider';
-import { t } from 'services/i18n';
+import { multichain } from 'services/multichain';
 import { NETWORK } from 'settings/config';
 
 import ERC20ABI from './abi/ERC20.json';
@@ -154,27 +152,21 @@ export const calculateGasMargin = (value: BigNumber): BigNumber => {
 };
 
 export const triggerContractCall = async (
-  multichainInstance: IMultiChain,
   contractType: ContractType,
   methodName: string,
   args: ToDo[],
 ) => {
   try {
     const activeContract = contractConfig[contractType];
-    const ethClient = multichainInstance.eth.getClient();
+    const contract = new Contract(
+      activeContract[NETWORK],
+      activeContract[ContractABI],
+      alchemyProvider(),
+    );
 
-    let gasLimit: BigNumber | number;
-    try {
-      gasLimit = await ethClient.estimateCall({
-        contractAddress: activeContract[NETWORK],
-        abi: activeContract[ContractABI],
-        funcName: methodName,
-        funcParams: args,
-      });
-    } catch (e) {
-      const methodMultiplier = methodName === 'deposit' ? 4 : 2;
-      gasLimit = 70000 * methodMultiplier;
-    }
+    const ethClient = multichain().eth.getClient();
+    const from = multichain().getWalletAddressByChain(Chain.Ethereum);
+    const gasLimit = await contract.estimateGas[methodName](...args, { from });
 
     const resp: ToDo = await ethClient.call({
       contractAddress: activeContract[NETWORK],
@@ -183,21 +175,13 @@ export const triggerContractCall = async (
       funcParams: [
         ...args,
         {
-          gasLimit: typeof gasLimit === 'number' ? gasLimit : calculateGasMargin(gasLimit),
+          gasLimit: gasLimit,
         },
       ],
     });
 
     return resp;
   } catch (error) {
-    const plainErrMsg = JSON.stringify(error);
-    const isApprovalError = plainErrMsg.includes('exceeds allowance');
-    const message = isApprovalError
-      ? t('notification.approveOverflow', { actionType: methodName })
-      : undefined;
-
-    showErrorToast(t('notification.gasEstimationFailed'), message);
-
-    return Promise.reject(error);
+    console.info(error);
   }
 };
