@@ -17,10 +17,13 @@ export const IS_MAINNET = NETWORK === Network.Mainnet;
 
 const MIDGARD_TESTNET_API = 'https://testnet.midgard.thorswap.net';
 const MIDGARD_MAINNET_API = import.meta.env.VITE_MAINNET_MIDGARD || 'https://midgard.thorswap.net';
-export const MIDGARD_STAGENET_API = 'https://midgard-stage-a.thorswap.net';
+export const MIDGARD_DEV_API = 'https://midgard-stage-a.thorswap.net';
+export const MIDGARD_STAGENET_API = 'https://stagenet-midgard.ninerealms.com';
 
 export const MIDGARD_URL = IS_TESTNET
   ? MIDGARD_TESTNET_API
-  : IS_DEV_API || IS_STAGENET
+  : IS_STAGENET
   ? MIDGARD_STAGENET_API
+  : IS_DEV_API
+  ? MIDGARD_DEV_API
   : MIDGARD_MAINNET_API;
