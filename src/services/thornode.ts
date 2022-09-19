@@ -1,15 +1,11 @@
 import type { InboundAddressesItem } from '@thorswap-lib/midgard-sdk';
 import axios, { AxiosResponse } from 'axios';
-import { IS_TESTNET, MIDGARD_URL } from 'settings/config';
+import { IS_TESTNET, MIDGARD_URL, THORNODE_URL } from 'settings/config';
 import { LiquidityProvider } from 'store/midgard/types';
-
-export const THORNODE_URI = `${
-  import.meta.env.VITE_MAINNET_THORNODE || 'https://thornode.thorswap.net'
-}/thorchain`;
 
 const THORNODE_API_URI = IS_TESTNET
   ? 'https://testnet.thornode.thorswap.net/thorchain'
-  : THORNODE_URI;
+  : THORNODE_URL;
 
 export const midgardAPI = (url: string) => {
   return `${MIDGARD_URL}/v2/${url}`;

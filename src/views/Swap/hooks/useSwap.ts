@@ -32,7 +32,7 @@ const quoteModeToTransactionType = {
   [QuoteMode.ETH_TO_ETH]: TransactionType.SWAP_ETH_TO_ETH,
   [QuoteMode.ETH_TO_TC_SUPPORTED]: TransactionType.SWAP_ETH_TO_TC,
   [QuoteMode.TC_SUPPORTED_TO_ETH]: TransactionType.SWAP_TC_TO_ETH,
-  [QuoteMode.TC_SUPPORTED_TO_TC_SUPPORTED_TO]: TransactionType.SWAP_TC_TO_TC,
+  [QuoteMode.TC_SUPPORTED_TO_TC_SUPPORTED]: TransactionType.SWAP_TC_TO_TC,
 } as const;
 
 export const useSwap = ({

@@ -6,6 +6,7 @@ import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfil
 import { resolve } from 'path'
 import removeConsole from 'vite-plugin-remove-console'
 import { defineConfig } from 'vite'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 // TODO: to split build into smaller chunks
 // const initialModules = [...builtinModules,
@@ -23,6 +24,7 @@ export default defineConfig({
     rewriteAll(),
     svgr({ svgrOptions: { icon: true } }),
     removeConsole(),
+    visualizer({ template: 'treemap', sourcemap: true }),
   ],
   resolve: {
     alias: {
@@ -57,7 +59,6 @@ export default defineConfig({
     target: 'es2020',
     commonjsOptions: { transformMixedEsModules: true },
     minify: 'esbuild',
-    polyfillModulePreload: false,
     reportCompressedSize: true,
     sourcemap: false,
     rollupOptions: {
