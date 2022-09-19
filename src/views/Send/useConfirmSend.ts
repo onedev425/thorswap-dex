@@ -32,7 +32,7 @@ export const useConfirmSend = ({
       const assetAmount = new AssetAmount(sendAsset, sendAmount);
 
       const id = v4();
-      const label = `${t('txManager.send')} ${sendAmount.toSignificant(6)} ${sendAsset.toString()}`;
+      const label = `${t('txManager.send')} ${sendAmount.toSignificant(6)} ${sendAsset.name}`;
 
       appDispatch(
         addTransaction({

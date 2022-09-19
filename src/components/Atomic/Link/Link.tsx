@@ -16,10 +16,11 @@ export const Link = memo(({ className, to, children, external, onClick }: LinkPr
   return externalHref ? (
     <a
       className={classNames(className, 'no-underline')}
-      href={to}
-      onClick={onClick}
-      rel="noopener noreferrer"
-      target="_blank"
+      href=""
+      onClick={(e) => {
+        e.preventDefault();
+        window.open(to, '_blank', 'noopener,noreferrer');
+      }}
     >
       {children}
     </a>

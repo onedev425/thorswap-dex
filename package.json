@@ -1,6 +1,6 @@
 {
   "name": "thorswap-web-app-v2",
-  "version": "0.7.2",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "vite",
@@ -34,7 +34,7 @@
     "@thorswap-lib/multichain-core": "0.0.0-development.39",
     "@thorswap-lib/multichain-ledger": "0.2.12",
     "@thorswap-lib/multichain-walletconnect": "0.2.8",
-    "@thorswap-lib/multichain-web-extensions": "0.2.10",
+    "@thorswap-lib/multichain-web-extensions": "0.2.11",
     "@thorswap-lib/types": "0.2.9",
     "@thorswap-lib/xchain-crypto": "0.2.11",
     "axios": "0.27.2",

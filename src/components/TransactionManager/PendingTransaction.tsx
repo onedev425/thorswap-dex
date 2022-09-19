@@ -60,7 +60,7 @@ export const PendingTransaction = memo(
         </Box>
 
         {url ? (
-          <Link external className="inline-flex" onClick={(e) => e.stopPropagation()} to={url}>
+          <Link external className="inline-flex" to={url}>
             <Icon
               className={baseHoverClass}
               color="secondary"

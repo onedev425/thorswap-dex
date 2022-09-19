@@ -1999,10 +1999,10 @@
     "@walletconnect/qrcode-modal" "^1.8.0"
     "@walletconnect/web3-provider" "^1.8.0"
 
-"@thorswap-lib/multichain-web-extensions@0.2.10":
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-web-extensions/-/multichain-web-extensions-0.2.10.tgz#d9779f46b31d388bc68e05e2313b51088bac4775"
-  integrity sha512-OKaUBW+ZOcuwcUrB1iwkNgMMyH4ncV89eglW8n1aj/hKzjTAiFZj5t+XA5ZnK+div60L1aDYvkYSMO8DmEGysA==
+"@thorswap-lib/multichain-web-extensions@0.2.11":
+  version "0.2.11"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-web-extensions/-/multichain-web-extensions-0.2.11.tgz#bd228214f654073625af21ae39bf3a4c0d97f92d"
+  integrity sha512-LJDZd4YPCsqnhnJE94d20uUTIoUHz5D+sfn1ftwpy6BXvmtwXNdbwcOoarWZuEOBr1Ll0YZgD4AAnm9TKkQ+HQ==
   dependencies:
     "@thorswap-lib/types" "^0.2.9"
 
