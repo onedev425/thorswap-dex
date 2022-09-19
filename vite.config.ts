@@ -49,7 +49,7 @@ export default defineConfig({
        * To operate locally on external libraries you can copy paste their `/src`
        * file and use like below:
        *
-       * '@thorswap-lib/multichain-core': resolve(__dirname, 'src/multichain'),
+       * '@thorswap-lib/multichain-core': resolve(__dirname, 'src/m'),
        */
     },
   },
