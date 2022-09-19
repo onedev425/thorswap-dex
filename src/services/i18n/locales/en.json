@@ -747,7 +747,9 @@
       "thornameSubtitle": "Cross-Chain Wallet Name Service.",
       "unavailable": "Unavailable",
       "unavailableForPurchase": "Unavailable for purchase",
-      "updateFee": "Update Fee"
+      "updateFee": "Update Fee",
+	  "year": "year",
+	  "years": "years"
     },
     "vesting": {
       "claim": "Claim",

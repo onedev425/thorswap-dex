@@ -70,7 +70,6 @@ const Thorname = () => {
 
   const handleSubmit = useCallback(async () => {
     if (disabled) return;
-
     if (!(details || available)) {
       setStep(1);
       return lookupForTNS();
@@ -98,6 +97,7 @@ const Thorname = () => {
       if (disabled) return;
 
       if (event.key === 'Enter') {
+        setStep(1);
         lookupForTNS();
       }
     },
@@ -152,7 +152,6 @@ const Thorname = () => {
     setThorname('');
     setStep(0);
   };
-
   return (
     <PanelView
       header={
@@ -225,7 +224,6 @@ const Thorname = () => {
           {buttonLabel}
         </Button>
       </Box>
-
       {!details && <RegisteredThornames editThorname={editThorname} />}
       <ConfirmModal
         inputAssets={[Asset.RUNE()]}
@@ -239,16 +237,32 @@ const Thorname = () => {
         {details ? (
           <Box col>
             <InfoRow label="THORName" value={thorname} />
-            <InfoRow label={t('view.thorname.cost')} value={years} />
+            <InfoRow
+              capitalizeLabel
+              label={t('view.thorname.cost')}
+              value={`${THORName.getCost(years - 10).toSignificant(6)} RUNE`}
+            />
+            {years > 0 && (
+              <InfoRow
+                capitalizeLabel
+                label={t('view.thorname.duration')}
+                value={`${years} ${years > 1 ? t('view.thorname.years') : t('view.thorname.year')}`}
+              />
+            )}
           </Box>
         ) : (
           <Box col>
             <InfoRow label="THORName" value={thorname} />
             <InfoRow
+              capitalizeLabel
               label={t('view.thorname.cost')}
-              value={THORName.getCost(years).toSignificant(6)}
+              value={`${THORName.getCost(years).toSignificant(6)} RUNE`}
             />
-            <InfoRow label={t('view.thorname.duration')} value={years} />
+            <InfoRow
+              capitalizeLabel
+              label={t('view.thorname.duration')}
+              value={`${years} ${years > 1 ? t('view.thorname.years') : t('view.thorname.year')}`}
+            />
           </Box>
         )}
       </ConfirmModal>

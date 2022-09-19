@@ -19,4 +19,5 @@ export type InfoRowType = {
 export type InfoRowProps = {
   className?: string;
   onClick?: () => void;
+  capitalizeLabel?: boolean;
 } & InfoRowType;
