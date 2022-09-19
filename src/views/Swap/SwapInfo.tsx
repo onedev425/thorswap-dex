@@ -9,7 +9,6 @@ import capitalize from 'lodash/capitalize';
 import { MouseEventHandler, useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
-import { gasFeeMultiplier } from 'views/Swap/hooks/useSwap';
 
 type Props = {
   expectedOutput?: string;
@@ -17,7 +16,6 @@ type Props = {
   networkFee: number;
   inputUSDPrice: Price;
   isLoading: boolean;
-  gasPrice?: number;
   minReceive: string;
   minReceiveSlippage: Percent;
   outputUSDPrice: Price;
@@ -33,7 +31,6 @@ export const SwapInfo = ({
   networkFee,
   inputUSDPrice,
   isLoading,
-  gasPrice,
   minReceive,
   minReceiveSlippage,
   outputUSDPrice,
@@ -71,14 +68,8 @@ export const SwapInfo = ({
   const ratePrice = `($${formatPrice(first.unitPrice.toFixed(2))})`;
 
   const feeOptionLabels = useMemo(
-    () =>
-      feeOptions.map(
-        (feeOption) =>
-          `${t(`common.fee${capitalize(feeOption)}`)}\n(${formatPrice(
-            (gasPrice || 0) * gasFeeMultiplier[feeOption],
-          )})`,
-      ),
-    [formatPrice, gasPrice],
+    () => feeOptions.map((feeOption) => t(`common.fee${capitalize(feeOption)}`)),
+    [],
   );
 
   const activeFeeIndex =

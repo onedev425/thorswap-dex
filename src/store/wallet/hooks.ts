@@ -63,7 +63,6 @@ export const useWallet = () => {
         dispatch(walletActions.getWalletByChain(chain as SupportedChain));
         showInfoToast(t('notification.connectedLedger', options));
       } catch (error) {
-        console.info(error);
         showErrorToast(t('notification.ledgerFailed', options));
       }
     },

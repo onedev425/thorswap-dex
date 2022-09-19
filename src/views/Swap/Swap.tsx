@@ -16,8 +16,6 @@ import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
 import { getSwapRoute } from 'settings/constants';
-import { useApp } from 'store/app/hooks';
-import { useMidgard } from 'store/midgard/hooks';
 import { useWallet } from 'store/wallet/hooks';
 import { FeeModal } from 'views/Swap/FeeModal';
 import { RouteFee } from 'views/Swap/types';
@@ -27,7 +25,7 @@ import { AssetInputs } from './AssetInputs';
 import { ConfirmSwapModal } from './ConfirmSwapModal';
 import { CustomRecipientInput } from './CustomRecipientInput';
 import { useIsAssetApproved } from './hooks/useIsAssetApproved';
-import { gasFeeMultiplier, useSwap } from './hooks/useSwap';
+import { useSwap } from './hooks/useSwap';
 import { useSwapApprove } from './hooks/useSwapApprove';
 import { useSwapPair } from './hooks/useSwapPair';
 import { useSwapQuote } from './hooks/useSwapQuote';
@@ -38,26 +36,15 @@ import { SwapSubmitButton } from './SwapSubmitButton';
 
 const SwapView = () => {
   const navigate = useNavigate();
-  const { feeOptionType } = useApp();
   const { getMaxBalance } = useBalance();
   const { inputAmount, setInputAmount, inputAsset, outputAsset } = useSwapPair();
   const { wallet, keystore } = useWallet();
-  const { pools } = useMidgard();
 
-  const ethPrice = useMemo(
-    () =>
-      pools.find(({ asset }) => asset.type === 'Native' && asset.ticker === 'ETH')?.assetUSDPrice ||
-      0,
-    [pools],
-  );
-
-  const formatPrice = useFormatPrice({ groupSize: 0 });
-
-  const [gasPrice, setGasPrice] = useState<number>();
   const [recipient, setRecipient] = useState('');
   const [visibleConfirmModal, setVisibleConfirmModal] = useState(false);
   const [visibleApproveModal, setVisibleApproveModal] = useState(false);
   const [feeModalOpened, setFeeModalOpened] = useState(false);
+  const formatPrice = useFormatPrice({ groupSize: 0 });
 
   useEffect(() => {
     const address = multichain().getWalletAddressByChain(outputAsset.L1Chain);
@@ -146,32 +133,12 @@ const SwapView = () => {
     quoteMode,
   });
 
-  useEffect(() => {
-    if (ethPrice) {
-      multichain()
-        .eth.getClient()
-        .estimateGasPricesFromEtherscan()
-        .then(({ average }) => {
-          const gasFee = new Amount(average.amount(), 0, average.decimal);
-          const gasPrice = gasFee
-            .mul(ethPrice)
-            .mul(10 ** 5)
-            // @ts-expect-error multichain-sdk
-            .toSignificantBigNumber()
-            .toNumber();
-
-          setGasPrice(gasPrice);
-        });
-    }
-  }, [ethPrice]);
-
   // @ts-expect-error cross-chain-api-sdk
   const routeFees: RouteFee | undefined = selectedRoute?.fees;
 
   const { affiliateFee, networkFee, totalFee } = useMemo(() => {
-    if (!routeFees && gasPrice) {
-      const price = gasPrice * gasFeeMultiplier[feeOptionType];
-      return { affiliateFee: 0, networkFee: price, totalFee: price };
+    if (!routeFees) {
+      return { affiliateFee: 0, networkFee: 0, totalFee: 0 };
     }
 
     const feesData = Object.values(routeFees || {}).flat();
@@ -193,7 +160,7 @@ const SwapView = () => {
       networkFee: fees.networkFee,
       totalFee: affiliateFee + fees.networkFee,
     };
-  }, [feeOptionType, gasPrice, hasVThor, routeFees]);
+  }, [hasVThor, routeFees]);
 
   const feeAssets = useMemo(
     () =>
@@ -254,7 +221,12 @@ const SwapView = () => {
     outputAmount,
     outputAsset,
     quoteMode,
-    recipient,
+    recipient: multichain().validateAddress({
+      chain: inputAsset.L1Chain,
+      address: recipient,
+    })
+      ? recipient
+      : '',
     route: selectedRoute,
   });
 
@@ -321,7 +293,6 @@ const SwapView = () => {
       <SwapInfo
         affiliateFee={affiliateFee}
         expectedOutput={`${outputAmount?.toSignificant(6)} ${outputAsset.name.toUpperCase()}`}
-        gasPrice={gasPrice}
         inputUSDPrice={inputUSDPrice}
         isLoading={isPriceLoading}
         minReceive={minReceiveInfo}
