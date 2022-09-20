@@ -1,5 +1,4 @@
 import { Chain, SupportedChain } from '@thorswap-lib/types';
-import { IS_STAGENET } from 'settings/config';
 
 export enum WalletType {
   Keystore = 'Keystore',
@@ -13,10 +12,11 @@ export enum WalletType {
   Keplr = 'Keplr',
 }
 
-const STAGENET_CHAINS = IS_STAGENET ? [Chain.Avalanche] : [];
-
+// Left as a placeholder for future chains
+// const STAGENET_CHAINS = IS_STAGENET ? [Chain.Polkadot] : [];
+// ...STAGENET_CHAINS,
 const Keystore = [
-  ...STAGENET_CHAINS,
+  Chain.Avalanche,
   Chain.Binance,
   Chain.Bitcoin,
   Chain.BitcoinCash,
@@ -48,7 +48,7 @@ export const availableChainsByWallet: Record<WalletType, SupportedChain[]> = {
     Chain.THORChain,
   ],
   [WalletType.Xdefi]: [
-    ...STAGENET_CHAINS,
+    Chain.Avalanche,
     Chain.Binance,
     Chain.Bitcoin,
     Chain.BitcoinCash,
@@ -73,11 +73,7 @@ export const ALL_WALLET_OPTIONS = [
 ];
 
 export const availableWalletsByChain: Record<SupportedChain, WalletType[]> = {
-  [Chain.Avalanche]: [
-    ...(IS_STAGENET ? [WalletType.Xdefi] : []),
-    WalletType.MetaMask,
-    ...COMMON_WALLETS,
-  ],
+  [Chain.Avalanche]: [WalletType.Xdefi, WalletType.MetaMask, ...COMMON_WALLETS],
   [Chain.Bitcoin]: [WalletType.Xdefi, WalletType.Ledger, ...COMMON_WALLETS],
   [Chain.Binance]: [WalletType.Xdefi, WalletType.Ledger, WalletType.TrustWallet, ...COMMON_WALLETS],
   [Chain.BitcoinCash]: [WalletType.Xdefi, WalletType.Ledger, ...COMMON_WALLETS],

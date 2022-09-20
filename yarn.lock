@@ -1932,10 +1932,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.11.tgz#f57392d4bd5467e2cb4eaf80105e2907c987178e"
   integrity sha512-rzfoyOE1IPEpGXYEH2dt2W/Nb2+rmbt97/yhu6aaaHSbwrfQvWt6KFdkNHa8KXa9zoN43gOdDz9Ku0SwwaHZpg==
 
-"@thorswap-lib/multichain-core@0.0.0-development.44":
-  version "0.0.0-development.44"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.0-development.44.tgz#9b5ecccc5d1030aff2617aa911dcdb0fd496ebc1"
-  integrity sha512-+byOLiOkJirA2c/Sqg/IPXgCQfrLEcW9F0zcwEuH96mDdqqPtPOot6kFXmftDAsPw/1jkMSZS1xeisuboki5RQ==
+"@thorswap-lib/multichain-core@0.0.0-development.52":
+  version "0.0.0-development.52"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.0-development.52.tgz#7cc477822810796b9fa797693657ad27dff5389a"
+  integrity sha512-EYDrJ4kGr7oojYzEJ974oRHd1HfSnCH9cDQudYen3OtDDTBdQ0KP/jYEaorfEFBzl7hdx1HIfE/y1Vu8RsDiBw==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.2.0"
     "@cosmjs/amino" "^0.29.0"
@@ -1965,7 +1965,7 @@
     "@thorswap-lib/xchain-cosmos" "^0.20.6"
     "@thorswap-lib/xchain-crypto" "^0.2.11"
     "@thorswap-lib/xchain-doge" "^0.2.14"
-    "@thorswap-lib/xchain-evm" "^0.1.16"
+    "@thorswap-lib/xchain-evm" "^0.1.23"
     "@thorswap-lib/xchain-litecoin" "^0.8.6"
     "@thorswap-lib/xchain-solana" "^0.2.4"
     "@thorswap-lib/xchain-thorchain" "^0.22.6"
@@ -2065,10 +2065,10 @@
   dependencies:
     fast-deep-equal "^3.1.3"
 
-"@thorswap-lib/xchain-evm@^0.1.16":
-  version "0.1.16"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-evm/-/xchain-evm-0.1.16.tgz#70445a07a159bb9d97e3b0ce50c9999c3f4fd243"
-  integrity sha512-lQsrQcLTrOHJ5C8FhQxgXtOjE00GIiL2loj+ZYXgh6K+W0pymkuKhlzjyoIvE6sKPoKOGzwDHS6Ge+tAr8R3Rg==
+"@thorswap-lib/xchain-evm@^0.1.23":
+  version "0.1.23"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-evm/-/xchain-evm-0.1.23.tgz#c3c837d2993c44c2b8cfdcea4cd58c17b0828ecc"
+  integrity sha512-/zce/TjtgHX6F5Ok+RhP82yNUklEwlJJrmuch47gQ8sgjyLq4dwiMZl0+l7Od6bSWvWaG7RReWgPW9Iu/V2Jyw==
   dependencies:
     "@thorswap-lib/atlas" "^0.3.11"
     "@thorswap-lib/multichain-entities" "^0.2.10"
@@ -8606,10 +8606,10 @@ react-helmet@6.1.0:
     react-fast-compare "^3.1.1"
     react-side-effect "^2.1.0"
 
-react-hook-form@7.35.0:
-  version "7.35.0"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.35.0.tgz#b133de48fc84b1e62f9277ba79dfbacd9bb13dd3"
-  integrity sha512-9CYdOed+Itbiu5VMVxW0PK9mBR3f0gDGJcZEyUSm0eJbDymQ913TRs2gHcQZZmfTC+rtxyDFRuelMxx/+xwMcw==
+react-hook-form@7.36.0:
+  version "7.36.0"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.36.0.tgz#27bf64e2a06b994bc64e055b4cc502794b8f6978"
+  integrity sha512-2PmRhTDH90/G1XWbUGpfuFBf7wxj9kYvzPqoZCv4wUGBIfuac0fK3up9sbeoz0ghpLYcFFXRVDKMUXgMutLXTw==
 
 react-hot-toast@2.4.0:
   version "2.4.0"

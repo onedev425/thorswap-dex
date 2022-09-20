@@ -1,4 +1,4 @@
-import { Chain, Keystore, SUPPORTED_CHAINS, SupportedChain } from '@thorswap-lib/types';
+import { Keystore, SUPPORTED_CHAINS, SupportedChain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box, Button, Modal, Typography } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
@@ -10,7 +10,6 @@ import useWindowSize from 'hooks/useWindowSize';
 import uniq from 'lodash/uniq';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
-import { IS_STAGENET } from 'settings/config';
 import { useWallet } from 'store/wallet/hooks';
 
 import ChainItem from './ChainItem';
@@ -38,11 +37,10 @@ const ConnectWalletModal = () => {
   const [saveWallet, setSaveWallet] = useState(getFromStorage('restorePreviousWallet') as boolean);
 
   const supportedByWallet = useMemo(
-    () =>
-      availableChainsByWallet[selectedWalletType as WalletType] ||
-      SUPPORTED_CHAINS.filter((c) => Chain.Avalanche !== c),
+    () => availableChainsByWallet[selectedWalletType as WalletType] || SUPPORTED_CHAINS,
     [selectedWalletType],
   );
+
   const selectedAll = selectedChains?.length === supportedByWallet.length;
 
   const handleSaveStorageChange = useCallback((value: boolean) => {
@@ -257,7 +255,6 @@ const ConnectWalletModal = () => {
                 {SUPPORTED_CHAINS.map((chain) => (
                   <ChainItem
                     chain={chain}
-                    disabled={!IS_STAGENET && [Chain.Avalanche].includes(chain)}
                     isChainAvailable={availableChainsByWallet[
                       selectedWalletType as WalletType
                     ]?.includes(chain)}

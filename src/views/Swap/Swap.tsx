@@ -9,6 +9,7 @@ import { TS_AGGREGATOR_PROXY_ADDRESS } from 'config/constants';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { useBalance } from 'hooks/useBalance';
 import { useSlippage } from 'hooks/useSlippage';
+import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useVthorBalance } from 'hooks/useVthorBalance';
 import uniq from 'lodash/uniq';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -29,7 +30,6 @@ import { useSwap } from './hooks/useSwap';
 import { useSwapApprove } from './hooks/useSwapApprove';
 import { useSwapPair } from './hooks/useSwapPair';
 import { useSwapQuote } from './hooks/useSwapQuote';
-import { useSwapTokenPrices } from './hooks/useSwapTokenPrices';
 import { SwapHeader } from './SwapHeader';
 import { SwapInfo } from './SwapInfo';
 import { SwapSubmitButton } from './SwapSubmitButton';
@@ -83,7 +83,7 @@ const SwapView = () => {
     prices: { inputUSDPrice, outputUSDPrice },
     isLoading: isPriceLoading,
     refetch: refetchPrice,
-  } = useSwapTokenPrices({ inputAmount, inputAsset, outputAmount, outputAsset });
+  } = useTokenPrices({ inputAmount, inputAsset, outputAmount, outputAsset });
 
   const isInputWalletConnected = useMemo(
     () => inputAsset && hasWalletConnected({ wallet, inputAssets: [inputAsset] }),

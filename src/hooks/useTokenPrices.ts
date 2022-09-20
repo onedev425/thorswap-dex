@@ -26,12 +26,7 @@ const findToken =
   ({ identifier, address }: GetTokenPriceResponse[number]) =>
     address ? address === searchedToken.address : identifier === searchedToken.identifier;
 
-export const useSwapTokenPrices = ({
-  inputAsset,
-  inputAmount,
-  outputAmount,
-  outputAsset,
-}: Params) => {
+export const useTokenPrices = ({ inputAsset, inputAmount, outputAmount, outputAsset }: Params) => {
   const tokenParams: [TokenParam, TokenParam] = useMemo(
     () => [
       { asset: inputAsset, amount: inputAmount.assetAmount },

@@ -5,7 +5,6 @@ import {
   getEstimatedTxTime,
   hasConnectedWallet,
   hasWalletConnected,
-  Price,
 } from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 import { Box, Button } from 'components/Atomic';
@@ -22,6 +21,7 @@ import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { useMimir } from 'hooks/useMimir';
 import { getSumAmountInUSD, useNetworkFee } from 'hooks/useNetworkFee';
+import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
@@ -92,29 +92,14 @@ export const CreateLiquidity = () => {
     asset: poolAsset,
   });
 
-  const runeAssetPriceInUSD = useMemo(
-    () =>
-      new Price({
-        baseAsset: Asset.RUNE(),
-        quoteAsset: Asset.USD(),
-        pools,
-        priceAmount: runeAmount,
-      }),
-    [runeAmount, pools],
-  );
-
-  const poolAssetPriceInUSD = runeAssetPriceInUSD;
-
-  const poolAssetValueInUSD = useMemo(
-    () =>
-      new Price({
-        baseAsset: Asset.RUNE(),
-        quoteAsset: Asset.USD(),
-        pools,
-        priceAmount: runeAmount.div(assetAmount),
-      }),
-    [runeAmount, assetAmount, pools],
-  );
+  const {
+    prices: { inputUSDPrice: assetUSDPrice, outputUSDPrice: runeUSDPrice },
+  } = useTokenPrices({
+    inputAmount: assetAmount,
+    inputAsset: poolAsset,
+    outputAmount: runeAmount,
+    outputAsset: Asset.RUNE(),
+  });
 
   const price: Amount = useMemo(
     () => (assetAmount.eq(0) ? Amount.fromAssetAmount(0, 8) : runeAmount.div(assetAmount)),
@@ -323,9 +308,9 @@ export const CreateLiquidity = () => {
       asset: poolAsset,
       value: assetAmount,
       balance: poolAssetBalance,
-      usdPrice: poolAssetPriceInUSD,
+      usdPrice: assetUSDPrice,
     }),
-    [poolAsset, assetAmount, poolAssetBalance, poolAssetPriceInUSD],
+    [poolAsset, assetAmount, poolAssetBalance, assetUSDPrice],
   );
 
   const runeAssetInput = useMemo(
@@ -333,9 +318,9 @@ export const CreateLiquidity = () => {
       asset: Asset.RUNE(),
       value: runeAmount,
       balance: runeBalance,
-      usdPrice: runeAssetPriceInUSD,
+      usdPrice: runeUSDPrice,
     }),
-    [runeAmount, runeBalance, runeAssetPriceInUSD],
+    [runeAmount, runeBalance, runeUSDPrice],
   );
 
   const inputAssetList = useAssetsWithBalance(inputAssets);
@@ -408,7 +393,7 @@ export const CreateLiquidity = () => {
       />
 
       <PoolInfo
-        assetUSDPrice={poolAssetValueInUSD.toCurrencyFormat(3)}
+        assetUSDPrice={assetUSDPrice.toCurrencyFormat(3)}
         poolAsset={poolAssetInput}
         poolShare="100%"
         rate={price.toSignificant(6)}
