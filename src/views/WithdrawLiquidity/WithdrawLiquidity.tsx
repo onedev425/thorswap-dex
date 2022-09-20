@@ -19,7 +19,7 @@ import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { PanelView } from 'components/PanelView';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
-import { getERC20Decimal } from 'helpers/getERC20Decimal';
+import { getERC20Decimal } from 'helpers/getEVMDecimal';
 import { useMimir } from 'hooks/useMimir';
 import { useNetworkFee } from 'hooks/useNetworkFee';
 import { useCallback, useEffect, useMemo, useState } from 'react';

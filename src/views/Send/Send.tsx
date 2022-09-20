@@ -10,7 +10,7 @@ import { PanelView } from 'components/PanelView';
 import { showErrorToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
 import { chainName } from 'helpers/chainName';
-import { getERC20Decimal } from 'helpers/getERC20Decimal';
+import { getERC20Decimal } from 'helpers/getEVMDecimal';
 import { getWalletAssets } from 'helpers/wallet';
 import { useAddressForTNS } from 'hooks/useAddressForTNS';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';

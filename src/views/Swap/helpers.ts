@@ -1,6 +1,6 @@
 import { Amount, Asset } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
-import { getERC20Decimal } from 'helpers/getERC20Decimal';
+import { getERC20Decimal } from 'helpers/getEVMDecimal';
 import { TxTrackerType } from 'store/midgard/types';
 
 import { Pair } from './types';

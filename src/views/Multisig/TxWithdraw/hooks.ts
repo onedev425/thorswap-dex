@@ -1,7 +1,7 @@
 import { Amount, Asset, AssetAmount, Memo, Percent } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
-import { getERC20Decimal } from 'helpers/getERC20Decimal';
+import { getERC20Decimal } from 'helpers/getEVMDecimal';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';

@@ -13,28 +13,14 @@ enum WalletOption {
   'KEPLR' = 'KEPLR',
 }
 
-type TokenType = {
-  address: string;
-  chainId: number;
-  name: string;
-  symbol: string;
-  decimals: number;
-  logoURI?: string;
-};
-
-const tokenList = import('./1inchTokenList').then(({ tokenList }) => tokenList);
-
-export const isTokenWhitelisted = async (asset: Asset) => {
+export const isTokenWhitelisted = (asset: Asset, whitelistedAddresses: string[]) => {
   if (asset.L1Chain !== Chain.Ethereum) return true;
 
   const assetAddress = asset.symbol.split('-')?.[1] ?? '';
-  const tokenList1Inch = await tokenList;
 
-  const isWhitelisted = tokenList1Inch.tokens.find(
-    (data: TokenType) => data.address.toLowerCase() === assetAddress.toLowerCase(),
+  return !!whitelistedAddresses.find(
+    (address) => address.toLowerCase() === assetAddress.toLowerCase(),
   );
-
-  return !!isWhitelisted;
 };
 
 export const getInputAssetsForAdd = ({
@@ -67,16 +53,16 @@ export const getInputAssetsForAdd = ({
 export const getInputAssetsForCreate = async ({
   wallet,
   pools,
+  whitelistedAddresses,
 }: {
   wallet: Wallet | null;
   pools: Pool[];
+  whitelistedAddresses: string[];
 }): Promise<Asset[]> => {
   const assets: Asset[] = [];
-
   const poolAssets = pools.map((pool) => pool.asset);
 
   if (!wallet) return poolAssets;
-
   if (pools.length === 0) return [];
 
   for (const chain of Object.keys(wallet)) {
@@ -91,7 +77,7 @@ export const getInputAssetsForCreate = async ({
         balance.asset.chain !== Chain.THORChain
       ) {
         // if erc20 token is whitelisted for THORChain
-        if (await isTokenWhitelisted(balance.asset)) {
+        if (isTokenWhitelisted(balance.asset, whitelistedAddresses)) {
           assets.push(balance.asset);
         }
       }
@@ -132,19 +118,12 @@ export const isKeystoreSignRequired = ({
   inputAssets: Asset[];
 }): boolean => {
   if (!wallet) return false;
-
-  // eslint-disable-next-line @typescript-eslint/prefer-for-of
-  for (let i = 0; i < inputAssets.length; i++) {
-    const asset = inputAssets[i];
-
-    const chainWallet = wallet?.[asset.L1Chain as SupportedChain];
-
-    if (chainWallet?.walletType === WalletOption.KEYSTORE) {
-      return true;
-    }
+  let needSignIn = false;
+  for (const asset of inputAssets) {
+    needSignIn = wallet?.[asset.L1Chain as SupportedChain]?.walletType === WalletOption.KEYSTORE;
   }
 
-  return false;
+  return needSignIn;
 };
 
 export const getWalletAssets = (wallet: Wallet | null) => {

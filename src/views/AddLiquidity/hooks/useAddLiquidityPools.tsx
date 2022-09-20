@@ -1,6 +1,6 @@
 import { Asset, Pool } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
-import { getERC20Decimal } from 'helpers/getERC20Decimal';
+import { getERC20Decimal } from 'helpers/getEVMDecimal';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getAddLiquidityRoute } from 'settings/constants';

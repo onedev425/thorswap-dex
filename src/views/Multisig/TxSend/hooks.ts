@@ -1,7 +1,7 @@
 import { Amount, Asset, Price } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
-import { getERC20Decimal } from 'helpers/getERC20Decimal';
+import { getERC20Decimal } from 'helpers/getEVMDecimal';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { t } from 'services/i18n';
