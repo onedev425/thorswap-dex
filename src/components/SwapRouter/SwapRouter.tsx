@@ -67,7 +67,7 @@ export const SwapRouter = memo(
                   key={`${route.path}-${route.providers.join(',')}`}
                   onClick={() => setSwapRoute(route)}
                   outputAsset={outputAsset}
-                  quoteMode={route.meta.quoteMode as QuoteMode}
+                  quoteMode={(route.meta?.quoteMode as QuoteMode) || quoteMode}
                   selected={route === selectedRoute}
                   selectedQuoteDiff={getQuoteDiff(route.expectedOutput)}
                   unitPrice={outputUSDPrice.unitPrice}

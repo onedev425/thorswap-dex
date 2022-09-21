@@ -9,6 +9,9 @@ const providersMap = {
 };
 
 const providersInfoMap = {
+  // AVAX
+  pangolin: 'AVAX.PNG-0x60781C2586D68229fde47564546784ab3fACA982',
+  // ETH
   thorchain: 'ETH.RUNE-0x3155ba85d5f96b2d030a4966af206230e46849cb',
   uniswapv2: 'ETH.UNI-0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
   uniswapv3: 'ETH.UNI-0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
