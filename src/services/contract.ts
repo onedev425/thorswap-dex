@@ -122,7 +122,6 @@ export const getEtherscanContract = (contractType: ContractType) => {
 
 export const getCustomContract = (contractAddr: string, abi?: ContractInterface) => {
   const provider = alchemyProvider();
-
   const contract = new Contract(contractAddr, abi ? abi : ERC20ABI, provider);
 
   return contract;

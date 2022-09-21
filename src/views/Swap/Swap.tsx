@@ -8,9 +8,9 @@ import { SwapRouter } from 'components/SwapRouter';
 import { TS_AGGREGATOR_PROXY_ADDRESS } from 'config/constants';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { useBalance } from 'hooks/useBalance';
+import { useHasVTHOR } from 'hooks/useHasVTHOR';
 import { useSlippage } from 'hooks/useSlippage';
 import { useTokenPrices } from 'hooks/useTokenPrices';
-import { useVthorBalance } from 'hooks/useVthorBalance';
 import uniq from 'lodash/uniq';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -59,7 +59,7 @@ const SwapView = () => {
   );
 
   const ethAddr = useMemo(() => wallet?.ETH?.address, [wallet]);
-  const { hasVThor } = useVthorBalance(ethAddr);
+  const hasVThor = useHasVTHOR(ethAddr);
 
   const {
     estimatedTime,
