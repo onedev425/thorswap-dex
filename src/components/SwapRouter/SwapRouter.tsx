@@ -67,8 +67,7 @@ export const SwapRouter = memo(
                   key={`${route.path}-${route.providers.join(',')}`}
                   onClick={() => setSwapRoute(route)}
                   outputAsset={outputAsset}
-                  // @ts-expect-error cross-chain-api-sdk typings
-                  quoteMode={route.meta?.quoteMode || quoteMode}
+                  quoteMode={route.meta.quoteMode as QuoteMode}
                   selected={route === selectedRoute}
                   selectedQuoteDiff={getQuoteDiff(route.expectedOutput)}
                   unitPrice={outputUSDPrice.unitPrice}

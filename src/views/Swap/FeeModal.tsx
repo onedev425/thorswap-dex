@@ -1,4 +1,5 @@
-import { Asset, chainToSigAsset } from '@thorswap-lib/multichain-core';
+import { Fees } from '@thorswap-lib/cross-chain-api-sdk/lib/entities/Fees';
+import { Asset, chainToSigAsset, QuoteRoute } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Modal, Typography } from 'components/Atomic';
@@ -7,12 +8,11 @@ import { InfoTable } from 'components/InfoTable';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { memo, useEffect, useMemo } from 'react';
 import { t } from 'services/i18n';
-import { RouteFee } from 'views/Swap/types';
 
 type Props = {
   isOpened: boolean;
   onClose: () => void;
-  fees?: RouteFee;
+  fees?: QuoteRoute['fees'];
   totalFee: string;
 };
 
@@ -23,54 +23,52 @@ export const FeeModal = memo(({ totalFee, fees, isOpened, onClose }: Props) => {
 
     const { affiliateFee, ...chainsFees } = Object.entries(fees).reduce(
       (acc, fee) => {
-        const [chain, value] = fee;
+        const [chain, value] = fee as [SupportedChain, Fees[]];
 
         value.forEach((a) => (acc.affiliateFee += a.affiliateFeeUSD));
 
-        acc[chain as SupportedChain] = value;
+        acc[chain] = value;
 
         return acc;
       },
       { affiliateFee: 0 } as { affiliateFee: number } & {
-        [key in SupportedChain]: RouteFee['THOR'];
+        [key in SupportedChain]: Fees[];
       },
     );
 
     const rows = Object.entries(chainsFees).reduce((acc, [chain, fee]) => {
-      const chainFees = (fee as RouteFee['THOR']).map(
-        ({ type, networkFee, networkFeeUSD, asset }) => {
-          const chainAsset = chainToSigAsset(chain as SupportedChain);
-          const feeAsset = Asset.fromAssetString(asset);
+      const chainFees = fee.map(({ type, networkFee, networkFeeUSD, asset }) => {
+        const chainAsset = chainToSigAsset(chain as SupportedChain);
+        const feeAsset = Asset.fromAssetString(asset);
 
-          return {
-            label: (
-              <Box center className="gap-x-1">
-                <Typography variant="caption">
-                  {`${t('common.network')} `}
-                  {type ? t(`common.${type}`) : ''}
-                </Typography>
-                <AssetIcon asset={chainAsset} size={20} />
-              </Box>
-            ),
-            value: (
-              <Box center className="gap-x-1">
-                {feeAsset && (
-                  <>
-                    <Typography color="secondary" variant="caption-xs">
-                      (
-                    </Typography>
-                    <AssetIcon asset={feeAsset} size={14} />
-                    <Typography color="secondary" variant="caption-xs">
-                      {formatPrice(networkFee, { prefix: '' })})
-                    </Typography>
-                  </>
-                )}
-                <Typography>{formatPrice(networkFeeUSD)}</Typography>
-              </Box>
-            ),
-          };
-        },
-      );
+        return {
+          label: (
+            <Box center className="gap-x-1">
+              <Typography variant="caption">
+                {`${t('common.network')} `}
+                {type ? t(`common.${type}`) : ''}
+              </Typography>
+              <AssetIcon asset={chainAsset} size={20} />
+            </Box>
+          ),
+          value: (
+            <Box center className="gap-x-1">
+              {feeAsset && (
+                <>
+                  <Typography color="secondary" variant="caption-xs">
+                    (
+                  </Typography>
+                  <AssetIcon asset={feeAsset} size={14} />
+                  <Typography color="secondary" variant="caption-xs">
+                    {formatPrice(networkFee, { prefix: '' })})
+                  </Typography>
+                </>
+              )}
+              <Typography>{formatPrice(networkFeeUSD)}</Typography>
+            </Box>
+          ),
+        };
+      });
 
       return [...chainFees, ...acc];
     }, [] as InfoRowConfig[]);

@@ -20,7 +20,6 @@ import { IS_PROD } from 'settings/config';
 import { getSwapRoute } from 'settings/constants';
 import { useWallet } from 'store/wallet/hooks';
 import { FeeModal } from 'views/Swap/FeeModal';
-import { RouteFee } from 'views/Swap/types';
 
 import { ApproveModal } from './ApproveModal';
 import { AssetInputs } from './AssetInputs';
@@ -120,11 +119,11 @@ const SwapView = () => {
     [outputAsset, outputAmount, outputUSDPrice, isFetching, isPriceLoading],
   );
 
+  const { fees, contract: contractAddress } = selectedRoute;
+
   const contract = useMemo(
-    () =>
-      (quoteMode === QuoteMode.ETH_TO_ETH && selectedRoute?.contract) ||
-      TS_AGGREGATOR_PROXY_ADDRESS,
-    [quoteMode, selectedRoute?.contract],
+    () => (quoteMode === QuoteMode.ETH_TO_ETH && contractAddress) || TS_AGGREGATOR_PROXY_ADDRESS,
+    [quoteMode, contractAddress],
   );
 
   const { isApproved, isLoading: isApproveAssetLoading } = useIsAssetApproved({
@@ -134,43 +133,31 @@ const SwapView = () => {
     quoteMode,
   });
 
-  // @ts-expect-error cross-chain-api-sdk
-  const routeFees: RouteFee | undefined = selectedRoute?.fees;
-
   const { affiliateFee, networkFee, totalFee } = useMemo(() => {
-    if (!routeFees) {
-      return { affiliateFee: 0, networkFee: 0, totalFee: 0 };
-    }
-
-    const feesData = Object.values(routeFees || {}).flat();
-
     const emptyFees = { affiliateFee: 0, networkFee: 0, totalFee: 0 };
+    if (!fees) return emptyFees;
+
+    const feesData = Object.values(fees).flat();
     if (feesData.length === 0) return emptyFees;
 
-    const fees = feesData.reduce((acc, fee) => {
+    const { networkFee, affiliateFee } = feesData.reduce((acc, fee) => {
       acc.affiliateFee += fee.affiliateFeeUSD;
       acc.networkFee += fee.networkFeeUSD;
 
       return acc;
     }, emptyFees);
 
-    const affiliateFee = hasVThor ? 0 : fees.affiliateFee;
-
-    return {
-      affiliateFee,
-      networkFee: fees.networkFee,
-      totalFee: affiliateFee + fees.networkFee,
-    };
-  }, [hasVThor, routeFees]);
+    return { affiliateFee, networkFee, totalFee: affiliateFee + networkFee };
+  }, [fees]);
 
   const feeAssets = useMemo(
     () =>
       uniq(
-        Object.values(routeFees || {})
+        Object.values(fees || {})
           .flat()
           .map(({ asset }) => asset.split('.')[1]),
       ).join(', '),
-    [routeFees],
+    [fees],
   );
 
   const handleSelectAsset = useCallback(
@@ -369,7 +356,7 @@ const SwapView = () => {
       />
 
       <FeeModal
-        fees={routeFees}
+        fees={fees}
         isOpened={feeModalOpened}
         onClose={() => setFeeModalOpened(false)}
         totalFee={formatPrice(totalFee)}

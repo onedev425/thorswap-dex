@@ -106,10 +106,7 @@ export const useSwapQuote = ({
   );
 
   const quoteMode = useMemo(
-    () =>
-      // @ts-expect-error cross-chain-api-sdk
-      (selectedRoute?.meta?.quoteMode as QuoteMode) || QuoteMode.UNSUPPORTED_QUOTE,
-    // @ts-expect-error cross-chain-api-sdk
+    () => (selectedRoute?.meta?.quoteMode as QuoteMode) || QuoteMode.UNSUPPORTED_QUOTE,
     [selectedRoute?.meta?.quoteMode],
   );
 

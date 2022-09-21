@@ -139,10 +139,7 @@ export const pollTx = createAsyncThunk(
   async ({ submitTx: { txID } }: TxTracker) => {
     if (txID) {
       // @ts-expect-error TOOD: fix midgard types
-      const response = await midgardApi.getActions({
-        txId: txID.includes('0x') ? txID.slice(2) : txID,
-      });
-      return response;
+      return await midgardApi.getActions({ txId: txID.includes('0x') ? txID.slice(2) : txID });
     }
   },
 );

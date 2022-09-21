@@ -91,7 +91,7 @@
     "@commitlint/config-conventional": "17.1.0",
     "@esbuild-plugins/node-globals-polyfill": "0.1.1",
     "@evilmartians/lefthook": "^1.1.1",
-    "@thorswap-lib/cross-chain-api-sdk": "0.1.28",
+    "@thorswap-lib/cross-chain-api-sdk": "0.1.31",
     "@types/node": "18.7.18",
     "@types/react": "18.0.20",
     "@types/react-dom": "18.0.6",

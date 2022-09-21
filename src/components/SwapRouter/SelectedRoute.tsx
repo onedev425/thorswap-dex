@@ -134,12 +134,7 @@ export const SelectedRoute = memo(
           </Box>
         </Box>
 
-        <RouteGraphModal
-          isOpened={isOpened}
-          onClose={() => setIsOpened(false)}
-          // @ts-expect-error cross-chain-api-sdk types
-          swaps={swaps}
-        />
+        <RouteGraphModal isOpened={isOpened} onClose={() => setIsOpened(false)} swaps={swaps} />
       </Box>
     );
   },
