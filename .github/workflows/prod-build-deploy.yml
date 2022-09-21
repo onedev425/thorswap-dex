@@ -56,6 +56,7 @@ jobs:
         env:
           VITE_ALCHEMY_KEY: ${{ secrets.VITE_ALCHEMY_KEY }}
           VITE_DOGENODE_API_KEY: ${{ secrets.VITE_DOGENODE_API_KEY }}
+          VITE_COVALENT_API_KEY: ${{ secrets.VITE_COVALENT_API_KEY }}
           VITE_ETHERSCAN_API_KEY: ${{ secrets.VITE_ETHERSCAN_API_KEY }}
           VITE_ETHPLORER_API_KEY: ${{ secrets.VITE_ETHPLORER_API_KEY }}
           VITE_FIGMENT_API_KEY: ${{ secrets.VITE_FIGMENT_API_KEY }}

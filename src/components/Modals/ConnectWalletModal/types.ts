@@ -37,6 +37,7 @@ export const availableChainsByWallet: Record<WalletType, SupportedChain[]> = {
   [WalletType.Phrase]: Keystore,
   [WalletType.TrustWallet]: [Chain.THORChain, Chain.Ethereum, Chain.Binance],
   [WalletType.Ledger]: [
+    Chain.Avalanche,
     Chain.Binance,
     Chain.Bitcoin,
     Chain.BitcoinCash,
@@ -73,7 +74,7 @@ export const ALL_WALLET_OPTIONS = [
 ];
 
 export const availableWalletsByChain: Record<SupportedChain, WalletType[]> = {
-  [Chain.Avalanche]: [WalletType.Xdefi, WalletType.MetaMask, ...COMMON_WALLETS],
+  [Chain.Avalanche]: [WalletType.Xdefi, WalletType.Ledger, WalletType.MetaMask, ...COMMON_WALLETS],
   [Chain.Bitcoin]: [WalletType.Xdefi, WalletType.Ledger, ...COMMON_WALLETS],
   [Chain.Binance]: [WalletType.Xdefi, WalletType.Ledger, WalletType.TrustWallet, ...COMMON_WALLETS],
   [Chain.BitcoinCash]: [WalletType.Xdefi, WalletType.Ledger, ...COMMON_WALLETS],

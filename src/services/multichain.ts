@@ -4,6 +4,7 @@ import { IS_STAGENET, NETWORK, THORNODE_URL } from 'settings/config';
 
 export const globalConfig = {
   alchemyApiKey: import.meta.env.VITE_ALCHEMY_KEY || '',
+  covalentApiKey: import.meta.env.VITE_COVALENT_API_KEY || '',
   dogeNodeApiKey: import.meta.env.VITE_DOGENODE_API_KEY || '',
   etherscanApiKey: import.meta.env.VITE_ETHERSCAN_API_KEY || '',
   ethplorerApiKey: import.meta.env.VITE_ETHPLORER_API_KEY || '',
