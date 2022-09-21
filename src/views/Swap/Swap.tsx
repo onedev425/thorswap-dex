@@ -16,6 +16,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
+import { IS_PROD } from 'settings/config';
 import { getSwapRoute } from 'settings/constants';
 import { useWallet } from 'store/wallet/hooks';
 import { FeeModal } from 'views/Swap/FeeModal';
@@ -71,7 +72,7 @@ const SwapView = () => {
     selectedRoute,
     setSwapRoute,
   } = useSwapQuote({
-    skipAffiliate: hasVThor,
+    skipAffiliate: !IS_PROD || hasVThor,
     inputAmount,
     inputAsset,
     outputAsset,

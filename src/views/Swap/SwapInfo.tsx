@@ -213,7 +213,7 @@ export const SwapInfo = ({
               tooltip={t('views.swap.totalFeeTooltip')}
               variant="tint"
             >
-              <Typography>{formatPrice(networkFee)}</Typography>
+              <Typography>{formatPrice(networkFee + affiliateFee)}</Typography>
             </Button>
           </Box>
         </Box>
