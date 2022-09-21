@@ -119,7 +119,7 @@ const SwapView = () => {
     [outputAsset, outputAmount, outputUSDPrice, isFetching, isPriceLoading],
   );
 
-  const { fees, contract: contractAddress } = selectedRoute;
+  const { fees, contract: contractAddress } = selectedRoute || {};
 
   const contract = useMemo(
     () => (quoteMode === QuoteMode.ETH_TO_ETH && contractAddress) || TS_AGGREGATOR_PROXY_ADDRESS,

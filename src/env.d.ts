@@ -6,7 +6,6 @@ import { Network } from '@thorswap-lib/types';
 interface ImportMetaEnv {
   readonly VITE_NETWORK: Network;
   readonly VITE_THORSWAP_API: string;
-  readonly VITE_THORSWAP_STATIC_API: string;
   readonly VITE_MAINNET_MIDGARD: string;
   readonly VITE_MAINNET_THORNODE: string;
   readonly VITE_GOOGLE_API_KEY: string;

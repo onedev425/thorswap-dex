@@ -1,3 +1,4 @@
+import { STATIC_API } from 'settings/config';
 import { Token } from 'store/thorswap/types';
 
 const providersMap = {
@@ -31,7 +32,7 @@ export const tokenLogoURL = ({
 }: Pick<Token, 'provider' | 'address' | 'identifier'>): string => {
   const tokensProvider = providersMap[provider.toLowerCase() as 'oneinch'] || 'coinGecko';
 
-  return `https://storage.googleapis.com/thorswap-token-list/assets/${tokensProvider}/${identifier.toLowerCase()}-${address.toLowerCase()}.png`;
+  return `${STATIC_API}/token-list/assets/${tokensProvider}/${identifier.toLowerCase()}-${address.toLowerCase()}.png`;
 };
 
 export const providerLogoURL = (provider: string) => {
