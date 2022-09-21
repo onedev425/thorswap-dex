@@ -138,6 +138,7 @@ export const useAddLiquidity = ({
   }, [wallet, poolAsset, liquidityType]);
 
   const { isApproved, isLoading } = useIsAssetApproved({
+    force: true,
     asset: poolAsset,
   });
 

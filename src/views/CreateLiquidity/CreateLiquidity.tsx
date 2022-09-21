@@ -91,6 +91,7 @@ export const CreateLiquidity = () => {
   );
 
   const { isApproved, isLoading } = useIsAssetApproved({
+    force: true,
     asset: poolAsset,
   });
 
