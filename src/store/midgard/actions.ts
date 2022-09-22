@@ -1,12 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ActionTypeEnum, PoolPeriods } from '@thorswap-lib/midgard-sdk';
-import { Asset } from '@thorswap-lib/multichain-core';
+import { Asset, getRequest } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import { midgardApi } from 'services/midgard';
 import { multichain } from 'services/multichain';
-import { getLiquidityProvider, getThorchainMimir } from 'services/thornode';
+import { midgardAPIUrl, THORNODE_API_URI } from 'settings/config';
 
-import { AggregatorSwapType, TxTracker } from './types';
+import { AggregatorSwapType, LiquidityProvider, TxTracker } from './types';
 
 export const getPools = createAsyncThunk('midgard/getPools', async (period?: PoolPeriods) =>
   midgardApi.getPools(undefined, period),
@@ -45,11 +45,9 @@ export const getDepthHistory = createAsyncThunk(
   midgardApi.getDepthHistory,
 );
 
-export const getMimir = createAsyncThunk('thorchain/getThorchainMimir', async () => {
-  const { data } = await getThorchainMimir();
-
-  return data;
-});
+export const getMimir = createAsyncThunk('thorchain/getThorchainMimir', () =>
+  getRequest<any>(midgardAPIUrl('thorchain/mimir')),
+);
 
 // Node
 export const getNodes = createAsyncThunk('midgard/getNodes', midgardApi.getNodes);
@@ -163,12 +161,10 @@ export const pollApprove = createAsyncThunk(
   },
 );
 
-// get liquidity provider
 export const getLiquidityProviderData = createAsyncThunk(
   'thornode/getLiquidityProvider',
-  async ({ address, asset }: { asset: string; address: string }) => {
-    const { data } = await getLiquidityProvider({ asset, address });
-
-    return data;
-  },
+  async ({ address, asset }: { asset: string; address: string }) =>
+    getRequest<LiquidityProvider>(
+      `${THORNODE_API_URI}/pool/${asset}/liquidity_provider/${address}`,
+    ),
 );

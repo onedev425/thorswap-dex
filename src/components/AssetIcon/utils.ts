@@ -1,4 +1,5 @@
 import { Asset, getContractAddressFromAsset } from '@thorswap-lib/multichain-core';
+import { Chain } from '@thorswap-lib/types';
 
 import { assetIconMap, BepIconType, customIconMap, CustomIconType } from './iconList';
 import { SecondaryIconPlacement } from './types';
@@ -34,7 +35,7 @@ export const getAssetIconUrl = (asset: Asset) => {
     return customIconMap[asset.symbol as CustomIconType];
   }
 
-  if (asset.chain === 'ETH' && asset.ticker !== 'ETH') {
+  if (asset.chain === Chain.Ethereum && asset.ticker !== Chain.Ethereum) {
     if (asset.ticker === 'WETH') {
       return 'https://assets.coingecko.com/coins/images/2518/large/weth.png';
     }

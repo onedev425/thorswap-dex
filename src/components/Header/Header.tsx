@@ -83,12 +83,12 @@ export const Header = memo(({ openMenu }: Props) => {
               >
                 {IS_BETA
                   ? 'Beta'
-                  : IS_DEV_API
-                  ? 'Dev Api connected'
                   : IS_STAGENET
                   ? 'Stagenet'
                   : IS_TESTNET
                   ? 'Testnet'
+                  : IS_DEV_API
+                  ? 'Dev Api connected'
                   : 'Local'}
               </Typography>
             </Box>

@@ -2,12 +2,12 @@ import { Amount } from '@thorswap-lib/multichain-core';
 import { StatsList } from 'components/StatsList';
 import { StatsType } from 'components/StatsList/types';
 import { useGlobalStats } from 'hooks/useGlobalStats';
+import { useRuneToCurrency } from 'hooks/useRuneToCurrency';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
-import { useGlobalState } from 'store/hooks';
 
 export const NodeStats = () => {
-  const { runeToCurrency } = useGlobalState();
+  const runeToCurrency = useRuneToCurrency();
 
   const { networkData, totalBond, totalActiveBond, totalStandbyBond, bondingAPYLabel } =
     useGlobalStats();

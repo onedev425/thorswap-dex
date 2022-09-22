@@ -35,11 +35,9 @@ export const useAssetsWithBalanceFromTokens = (tokens: Token[]) => {
   const assetsWithBalance = useMemo(
     () =>
       tokens
-        .map(({ chain, identifier, address, ...rest }: Token) => {
+        .map(({ identifier, address, ...rest }: Token) => {
           try {
-            const asset = Asset.fromAssetString(
-              chain === 'ETH' ? `${identifier}-${address}` : identifier,
-            );
+            const asset = Asset.fromAssetString(`${identifier}${address ? `-${address}` : ''}`);
 
             if (!asset) return null;
 

@@ -96,7 +96,7 @@ export const AssetSelectItem = memo(
                 fontWeight="medium"
                 variant="subtitle1"
               >
-                {cg?.name ? `- ${cg.name}` : ''}
+                {cg?.name ? `- ${cg.name === 'Avalance' ? 'Avalanche' : cg.name}` : ''}
               </Typography>
 
               <Box className="opacity-20 group-hover:opacity-100 transition">

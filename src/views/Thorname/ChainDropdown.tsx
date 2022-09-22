@@ -4,23 +4,23 @@ import { DropdownMenuItem } from 'components/Atomic/Dropdown/types';
 import { chainName } from 'helpers/chainName';
 
 export const thornameChainIcons: Record<string, IconName> = {
-  [Chain.THORChain]: 'thor',
-  [Chain.Bitcoin]: 'bitcoin',
+  [Chain.Avalanche]: 'avax',
   [Chain.Binance]: 'bnb',
-  [Chain.Ethereum]: 'eth',
-  // [Chain.Avalanche]: 'avax',
   [Chain.BitcoinCash]: 'bch',
-  [Chain.Doge]: 'doge',
-  [Chain.Litecoin]: 'ltc',
+  [Chain.Bitcoin]: 'bitcoin',
   [Chain.Cosmos]: 'cos',
+  [Chain.Doge]: 'doge',
+  [Chain.Ethereum]: 'eth',
+  [Chain.Litecoin]: 'ltc',
+  [Chain.THORChain]: 'thor',
 };
 
-const CHAIN_ITEMS: DropdownMenuItem[] = Object.entries(thornameChainIcons).map(([chain, icon]) => ({
-  value: chain,
+const CHAIN_ITEMS: DropdownMenuItem[] = Object.entries(thornameChainIcons).map(([value, icon]) => ({
+  value,
   Component: (
     <Box alignCenter className="gap-x-2">
       <Icon name={icon} />
-      <Typography>{chainName(chain)}</Typography>
+      <Typography>{chainName(value)}</Typography>
     </Box>
   ),
 }));

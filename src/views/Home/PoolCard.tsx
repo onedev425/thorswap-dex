@@ -2,11 +2,11 @@ import { Amount, Percent, Pool } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Card, Typography } from 'components/Atomic';
+import { useRuneToCurrency } from 'hooks/useRuneToCurrency';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getAddLiquidityRoute, getSwapRoute } from 'settings/constants';
-import { useGlobalState } from 'store/hooks';
 import { ColorType } from 'types/app';
 
 type PoolCardProps = {
@@ -16,7 +16,7 @@ type PoolCardProps = {
 
 export const PoolCard = ({ pool, color }: PoolCardProps) => {
   const navigate = useNavigate();
-  const { runeToCurrency } = useGlobalState();
+  const runeToCurrency = useRuneToCurrency();
 
   const handleSwapNavigate = useCallback(() => {
     navigate(getSwapRoute(pool.asset));
@@ -39,7 +39,7 @@ export const PoolCard = ({ pool, color }: PoolCardProps) => {
           </Typography>
 
           <Typography color="green" fontWeight="semibold">
-            {`${t('common.APR')}: ${new Percent(pool.detail.poolAPY).toFixed(0)}`}
+            {`${t('common.APR')}: ${new Percent(pool.detail.poolAPY).toFixed(1)}`}
           </Typography>
         </Box>
 

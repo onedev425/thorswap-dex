@@ -25,6 +25,12 @@ export const THORNODE_URL = `${
   import.meta.env.VITE_MAINNET_THORNODE || 'https://thornode.thorswap.net'
 }/thorchain`;
 
+export const THORNODE_API_URI = IS_TESTNET
+  ? 'https://testnet.thornode.thorswap.net/thorchain'
+  : THORNODE_URL;
+
+export const midgardAPIUrl = (url: string) => `${MIDGARD_URL}/v2/${url}`;
+
 export const MIDGARD_URL = IS_TESTNET
   ? MIDGARD_TESTNET_API
   : IS_STAGENET

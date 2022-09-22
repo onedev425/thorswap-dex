@@ -36,19 +36,6 @@ export const useMidgard = () => {
     [midgardState],
   );
 
-  // get earnings, swap, liquidity history
-  const getGlobalHistory = useCallback(() => {
-    // fetch historical data till past day
-    const query = { interval: PER_DAY, count: MAX_HISTORY_COUNT };
-
-    batch(() => {
-      dispatch(actions.getEarningsHistory(query));
-      dispatch(actions.getTVLHistory(query));
-      dispatch(actions.getSwapHistory({ query }));
-      dispatch(actions.getLiquidityHistory({ query }));
-    });
-  }, [dispatch]);
-
   const getPoolHistory = useCallback(
     (pool: string) => {
       // fetch historical data till past day
@@ -326,7 +313,6 @@ export const useMidgard = () => {
     ...midgardState,
     actions,
     getAllMemberDetails,
-    getGlobalHistory,
     getInboundData,
     getNodes,
     getPoolHistory,

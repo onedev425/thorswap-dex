@@ -1,5 +1,5 @@
+import { getRequest } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
-import axios from 'axios';
 import { getAnnouncementId } from 'components/Announcements/utils';
 import {
   AnnouncementItem,
@@ -27,9 +27,8 @@ export const loadConfig = async (): Promise<AnnouncementsData> => {
     ranges;
 
   try {
-    const { data } = await axios.get(url);
+    const { valueRanges } = await getRequest<any>(url);
 
-    const { valueRanges } = data;
     const manualData: string[][] = valueRanges[0].values;
     const statusData: string[][] = valueRanges[1].values;
 

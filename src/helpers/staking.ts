@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { getRequest } from '@thorswap-lib/multichain-core';
 import takeRight from 'lodash/takeRight';
 
 export const BLOCKS_PER_DAY = 6432;
@@ -44,11 +44,11 @@ function calculateMovingAverage(data: number[], window: number) {
 
 export const getThorBuyback = async () => {
   try {
-    const data = (
-      await axios.get(
-        'https://api.flipsidecrypto.com/api/v2/queries/9daa6cd4-8e78-4432-bdd7-a5f0fc480229/data/latest',
-      )
-    ).data as [{ DATE: string; AFF_ADDRESS: string; AFF_FEE_EARNED_THOR: number }];
+    const data = await getRequest<
+      [{ DATE: string; AFF_ADDRESS: string; AFF_FEE_EARNED_THOR: number }]
+    >(
+      'https://api.flipsidecrypto.com/api/v2/queries/9daa6cd4-8e78-4432-bdd7-a5f0fc480229/data/latest',
+    );
 
     const affiliateFeesDaily: number[] = data.map(({ AFF_FEE_EARNED_THOR }) => AFF_FEE_EARNED_THOR);
     const affiliateFees7dAverage = calculateMovingAverage(affiliateFeesDaily, 7);

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { getRequest } from '@thorswap-lib/multichain-core';
 import { GeckoData, GeckoDataWithSymbols } from 'store/wallet/types';
 const coinIndex = import('./coinIndex').then(({ geckoCoinIndex }) => geckoCoinIndex);
 
@@ -27,7 +27,7 @@ export const getGeckoData = async (
 
   if (connectedCoinId.length === 0) return { data: [] };
 
-  const { data } = await axios.get<GeckoData[]>(
+  const data = await getRequest<GeckoData[]>(
     `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${connectedCoinId}&sparkline=true`,
   );
 

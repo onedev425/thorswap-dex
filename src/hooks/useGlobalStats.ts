@@ -1,6 +1,30 @@
+import type { Network as MidgardNetwork } from '@thorswap-lib/midgard-sdk';
 import { Amount, Percent } from '@thorswap-lib/multichain-core';
-import { getTotalActiveBond, getTotalBond, getTotalStandbyBond, getTVL } from 'helpers/network';
 import { useMidgard } from 'store/midgard/hooks';
+
+const getTotalBond = (networkData: MidgardNetwork | null) => {
+  // totalActiveBond + totalStandbyBond
+  const totalActiveBond = Amount.fromMidgard(networkData?.bondMetrics.totalActiveBond);
+  const totalStandbyBond = Amount.fromMidgard(networkData?.bondMetrics.totalStandbyBond);
+
+  return totalActiveBond.add(totalStandbyBond);
+};
+
+const getTVL = (networkData: MidgardNetwork | null) => {
+  // totalActiveBond + totalStandbyBond + Total Liquidity
+
+  const totalActiveBond = Amount.fromMidgard(networkData?.bondMetrics.totalActiveBond);
+  const totalStandbyBond = Amount.fromMidgard(networkData?.bondMetrics.totalStandbyBond);
+  const totalLiquidity = Amount.fromMidgard(networkData?.totalPooledRune).mul(2);
+
+  return totalActiveBond.add(totalStandbyBond).add(totalLiquidity);
+};
+
+const getTotalStandbyBond = (networkData: MidgardNetwork | null) =>
+  Amount.fromMidgard(networkData?.bondMetrics.totalStandbyBond);
+
+const getTotalActiveBond = (networkData: MidgardNetwork | null) =>
+  Amount.fromMidgard(networkData?.bondMetrics.totalActiveBond);
 
 export const useGlobalStats = () => {
   const { stats, networkData, volume24h } = useMidgard();

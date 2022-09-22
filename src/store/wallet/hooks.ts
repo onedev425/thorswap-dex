@@ -22,7 +22,6 @@ export const useWallet = () => {
   const unlockWallet = useCallback(
     async (keystore: Keystore, phrase: string, chains: SupportedChain[]) => {
       multichain().connectKeystore(phrase, chains);
-
       dispatch(actions.connectKeystore(keystore));
       chains.forEach((chain: SupportedChain) => {
         dispatch(walletActions.getWalletByChain(chain));

@@ -3,18 +3,18 @@ import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon, Typography } from 'components/Atomic';
 import { getAmountColumnSorter, sortPoolColumn } from 'components/Atomic/Table/utils';
 import { formatPrice } from 'helpers/formatPrice';
+import { useRuneToCurrency } from 'hooks/useRuneToCurrency';
 import { BreakPoint } from 'hooks/useWindowSize';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getAddLiquidityRoute, getSwapRoute } from 'settings/constants';
-import { useGlobalState } from 'store/hooks';
 import { useMidgard } from 'store/midgard/hooks';
 
 export const usePoolColumns = () => {
   const navigate = useNavigate();
   const { poolLoading } = useMidgard();
-  const { runeToCurrency } = useGlobalState();
+  const runeToCurrency = useRuneToCurrency();
 
   const columns = useMemo(
     () => [

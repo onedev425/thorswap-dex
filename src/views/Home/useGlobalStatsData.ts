@@ -2,13 +2,12 @@ import { Amount, Percent } from '@thorswap-lib/multichain-core';
 import { StatsType } from 'components/StatsList/types';
 import { useGlobalStats } from 'hooks/useGlobalStats';
 import { useMimir } from 'hooks/useMimir';
+import { useRuneToCurrency } from 'hooks/useRuneToCurrency';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
-import { useGlobalState } from 'store/hooks';
 
 export const useGlobalStatsData = () => {
-  const { runeToCurrency } = useGlobalState();
-
+  const runeToCurrency = useRuneToCurrency();
   const { tvlInRune, totalActiveBond, liquidityAPYLabel, totalVolume, volume24h, networkData } =
     useGlobalStats();
 

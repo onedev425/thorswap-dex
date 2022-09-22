@@ -7,21 +7,21 @@ export const chainName = (chain: string, full?: boolean) => {
     case Chain.THORChain:
       return full ? 'THORChain' : 'Rune';
     case Chain.Avalanche:
-      return full ? 'Avalanche' : 'AVAX';
+      return full ? 'Avalanche' : Chain.Avalanche;
     case Chain.Binance:
-      return full ? 'Binance' : 'BNB';
+      return full ? 'Binance' : Chain.Binance;
     case Chain.BitcoinCash:
-      return full ? 'Bitcoin Cash' : 'BCH';
+      return full ? 'Bitcoin Cash' : Chain.BitcoinCash;
     case Chain.Bitcoin:
-      return full ? 'Bitcoin' : 'BTC';
+      return full ? 'Bitcoin' : Chain.Bitcoin;
     case Chain.Ethereum:
-      return full ? 'Ethereum' : 'ETH';
+      return full ? 'Ethereum' : Chain.Ethereum;
     case Chain.Litecoin:
-      return full ? 'Litecoin' : 'LTC';
+      return full ? 'Litecoin' : Chain.Litecoin;
     case Chain.Solana:
-      return full ? 'Solana' : 'SOL';
+      return full ? 'Solana' : Chain.Solana;
     case Chain.Doge:
-      return full ? 'Dogecoin' : 'DOGE';
+      return full ? 'Dogecoin' : Chain.Doge;
 
     default:
       return chain;

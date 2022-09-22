@@ -1,11 +1,11 @@
 import { Box, DropdownMenu, Typography } from 'components/Atomic';
-import { getHostnameFromUrl } from 'helpers/url';
 import { useMimir } from 'hooks/useMimir';
 import { StatusType, useNetwork } from 'hooks/useNetwork';
 import { memo, useMemo } from 'react';
 import { t } from 'services/i18n';
 import { midgardApi } from 'services/midgard';
 import { globalConfig } from 'services/multichain';
+import { parse } from 'url';
 
 import { StatusBadge } from './StatusBadge';
 
@@ -13,6 +13,13 @@ type StatusItem = {
   label: string;
   value?: string;
   statusType?: StatusType;
+};
+
+const getHostnameFromUrl = (u: string): string | null => {
+  if (typeof u !== 'string') return null;
+
+  const parsed = parse(u, true);
+  return parsed?.hostname ?? null;
 };
 
 export const StatusDropdown = memo(() => {
