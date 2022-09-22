@@ -106,4 +106,4 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'THORSwap V2 production app has been deployed. - https://app.thorswap.finance'
+          args: 'THORSwap production app has been deployed. - https://app.thorswap.finance'

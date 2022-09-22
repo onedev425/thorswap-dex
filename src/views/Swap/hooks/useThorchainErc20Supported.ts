@@ -4,7 +4,7 @@ import { useGetTokenListQuery } from 'store/static/api';
 export const useThorchainErc20SupportedAddresses = () => {
   const [thorchainErc20SupportedAddresses, setThorchainErc20Supported] = useState<string[]>([]);
 
-  const { data } = useGetTokenListQuery('Thorchain-whitelisted-erc20');
+  const { data } = useGetTokenListQuery('Thorchain-supported-ERC20');
 
   useEffect(() => {
     if (data?.tokens?.length) {

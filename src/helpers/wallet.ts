@@ -120,7 +120,9 @@ export const isKeystoreSignRequired = ({
   if (!wallet) return false;
   let needSignIn = false;
   for (const asset of inputAssets) {
-    needSignIn = wallet?.[asset.L1Chain as SupportedChain]?.walletType === WalletOption.KEYSTORE;
+    if (wallet?.[asset.L1Chain as SupportedChain]?.walletType === WalletOption.KEYSTORE) {
+      needSignIn = true;
+    }
   }
 
   return needSignIn;
