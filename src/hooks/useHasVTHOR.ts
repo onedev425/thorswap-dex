@@ -1,26 +1,23 @@
-import usePrevious from 'hooks/usePrevious';
 import { useCallback, useEffect, useState } from 'react';
 import { fromWei } from 'services/contract';
 import { getVthorState } from 'views/StakeVThor/utils';
 
-export const useHasVTHOR = (address?: string) => {
-  const previousAddress = usePrevious(address);
-  const [hasVTHOR, setHasVTHOR] = useState(false);
+export const useVTHORBalance = (address?: string) => {
+  const [VTHORBalance, setVTHORBalance] = useState(0);
   const getVTHORBalance = useCallback(async () => {
-    if (!address || previousAddress !== address) setHasVTHOR(false);
-    if (!address || (previousAddress === address && hasVTHOR)) return;
+    if (!address) return setVTHORBalance(0);
 
     try {
       const vTHORBalance = fromWei(await getVthorState('balanceOf', [address]));
-      setHasVTHOR(vTHORBalance > 0);
+      setVTHORBalance(vTHORBalance);
     } catch (error) {
-      setHasVTHOR(false);
+      setVTHORBalance(0);
     }
-  }, [address, hasVTHOR, previousAddress]);
+  }, [address]);
 
   useEffect(() => {
     getVTHORBalance();
-  }, [address, getVTHORBalance]);
+  }, [getVTHORBalance]);
 
-  return hasVTHOR;
+  return VTHORBalance;
 };

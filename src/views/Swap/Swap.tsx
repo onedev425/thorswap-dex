@@ -8,7 +8,7 @@ import { SwapRouter } from 'components/SwapRouter';
 import { TS_AGGREGATOR_PROXY_ADDRESS } from 'config/constants';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { useBalance } from 'hooks/useBalance';
-import { useHasVTHOR } from 'hooks/useHasVTHOR';
+import { useVTHORBalance } from 'hooks/useHasVTHOR';
 import { useSlippage } from 'hooks/useSlippage';
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import uniq from 'lodash/uniq';
@@ -58,7 +58,18 @@ const SwapView = () => {
   );
 
   const ethAddr = useMemo(() => wallet?.ETH?.address, [wallet]);
-  const hasVThor = useHasVTHOR(ethAddr);
+  const VTHORBalance = useVTHORBalance(ethAddr);
+
+  const affiliateBasisPoints = useMemo(() => {
+    // TODO: Remove next line after adding VTHOR tiers
+    if (IS_PROD) return VTHORBalance > 10 ? '0' : '30';
+
+    if (!IS_PROD || VTHORBalance >= 500_000) return '0';
+    if (VTHORBalance >= 100_000) return '10';
+    if (VTHORBalance >= 10_000) return '20';
+    if (VTHORBalance >= 1_000) return '25';
+    return '30';
+  }, [VTHORBalance]);
 
   const {
     estimatedTime,
@@ -71,7 +82,7 @@ const SwapView = () => {
     selectedRoute,
     setSwapRoute,
   } = useSwapQuote({
-    skipAffiliate: !IS_PROD || hasVThor,
+    affiliateBasisPoints,
     inputAmount,
     inputAsset,
     outputAsset,

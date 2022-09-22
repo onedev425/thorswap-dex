@@ -5,6 +5,7 @@ import { useApp } from 'store/app/hooks';
 import { useGetSupportedProvidersQuery, useGetTokensQuoteQuery } from 'store/thorswap/api';
 
 type Params = {
+  affiliateBasisPoints: string;
   inputAmount: Amount;
   inputAsset: Asset;
   outputAsset: Asset;
@@ -14,12 +15,12 @@ type Params = {
 };
 
 export const useSwapQuote = ({
+  affiliateBasisPoints,
   inputAmount,
   inputAsset,
   outputAsset,
   recipientAddress,
   senderAddress,
-  skipAffiliate,
 }: Params) => {
   const [swapQuote, setSwapRoute] = useState<QuoteRoute>();
   const { slippageTolerance } = useApp();
@@ -29,7 +30,7 @@ export const useSwapQuote = ({
 
   const params = useMemo(
     () => ({
-      affiliateBasisPoints: skipAffiliate ? '0' : undefined,
+      affiliateBasisPoints,
       providers: supportedProvidersData,
       sellAsset: inputAsset.toString(),
       buyAsset: outputAsset.toString(),
@@ -39,14 +40,14 @@ export const useSwapQuote = ({
       recipientAddress,
     }),
     [
-      skipAffiliate,
-      senderAddress,
-      recipientAddress,
-      inputAmount.assetAmount,
+      affiliateBasisPoints,
+      supportedProvidersData,
       inputAsset,
       outputAsset,
       slippageTolerance,
-      supportedProvidersData,
+      inputAmount.assetAmount,
+      senderAddress,
+      recipientAddress,
     ],
   );
 

@@ -43,9 +43,8 @@ export default defineConfig({
       /**
        * To operate locally on external libraries you can copy paste their `/src`
        * file and use like below:
-       *
-       * '@thorswap-lib/multichain-core': resolve(__dirname, 'src/m'),
        */
+      // '@thorswap-lib/multichain-core': resolve(__dirname, 'src/m'),
     },
   },
   build: {
@@ -57,10 +56,7 @@ export default defineConfig({
     rollupOptions: {
       plugins: [nodePolyfills({ sourceMap: false })],
       output: {
-        // chunkFileNames: () => '[hash].js',
-        // manualChunks: (id) => {
-        //   if (id.includes('node_modules')) return 'vendor'
-        // },
+        chunkFileNames: () => '[hash].js',
       },
     },
   },
