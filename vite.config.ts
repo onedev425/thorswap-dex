@@ -8,13 +8,6 @@ import removeConsole from 'vite-plugin-remove-console'
 import { defineConfig } from 'vite'
 import { visualizer } from 'rollup-plugin-visualizer'
 
-// TODO: to split build into smaller chunks
-// const initialModules = [...builtinModules,
-//   'buffer', 'safe-buffer', '@binance-chain', 'html-escaper',
-//   'html-parse-stringify', 'reselect', 'void-elements', 'warning', 'randombytes', 'ripemd160',
-//   '@thorswap-lib', 'sha',
-// ]
-
 export default defineConfig({
   define: {
     'process.env': {},
@@ -24,7 +17,7 @@ export default defineConfig({
     rewriteAll(),
     svgr({ svgrOptions: { icon: true } }),
     removeConsole(),
-    visualizer({ template: 'raw-data', sourcemap: true }),
+    visualizer({ template: 'treemap', sourcemap: true }),
   ],
   resolve: {
     alias: {
@@ -64,10 +57,10 @@ export default defineConfig({
     rollupOptions: {
       plugins: [nodePolyfills({ sourceMap: false })],
       output: {
-        chunkFileNames: () => '[hash].js',
-        manualChunks: (id) => {
-          if (id.includes('node_modules')) return 'vendor'
-        },
+        // chunkFileNames: () => '[hash].js',
+        // manualChunks: (id) => {
+        //   if (id.includes('node_modules')) return 'vendor'
+        // },
       },
     },
   },

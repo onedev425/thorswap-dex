@@ -122,12 +122,12 @@ export const useNodeStats = (nodeInfo: THORNode) => {
     {
       key: 'bond',
       label: t('views.nodes.bond'),
-      value: Amount.fromMidgard(nodeInfo.bond).toFixed(0),
+      value: Amount.fromMidgard(nodeInfo.bond).toFixed(1),
     },
     {
       key: 'current_award',
       label: t('views.nodes.currentReward'),
-      value: Amount.fromMidgard(nodeInfo.current_award).toFixed(0),
+      value: Amount.fromMidgard(nodeInfo.current_award).toFixed(1),
     },
     {
       key: 'slash_points',
@@ -137,7 +137,7 @@ export const useNodeStats = (nodeInfo: THORNode) => {
     {
       key: 'active_block_height',
       label: t('views.nodes.activeBlock'),
-      value: `${Amount.fromNormalAmount(nodeInfo.active_block_height).toFixed(0)}`,
+      value: `${Amount.fromNormalAmount(nodeInfo.active_block_height).toFixed(1)}`,
     },
     {
       key: 'requested_to_leave',

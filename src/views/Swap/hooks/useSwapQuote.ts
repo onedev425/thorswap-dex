@@ -1,7 +1,5 @@
 import { Amount, Asset, QuoteMode, QuoteRoute } from '@thorswap-lib/multichain-core';
-import deepEqual from 'fast-deep-equal';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
-import usePrevious from 'hooks/usePrevious';
 import { useEffect, useMemo, useState } from 'react';
 import { useApp } from 'store/app/hooks';
 import { useGetSupportedProvidersQuery, useGetTokensQuoteQuery } from 'store/thorswap/api';
@@ -80,8 +78,6 @@ export const useSwapQuote = ({
       );
   }, [inputAmount, data?.routes]);
 
-  const previousRoutes = usePrevious(routes);
-
   const selectedRoute = useMemo(
     () => (error || isLoading ? undefined : swapQuote) || routes[0],
     [error, isLoading, routes, swapQuote],
@@ -111,10 +107,10 @@ export const useSwapQuote = ({
   );
 
   useEffect(() => {
-    if (!error && !deepEqual(routes, previousRoutes)) {
+    if (!error) {
       setSwapRoute(routes[0]);
     }
-  }, [error, previousRoutes, routes, selectedRoute]);
+  }, [error, routes, selectedRoute]);
 
   return {
     estimatedTime: data?.estimatedTime,

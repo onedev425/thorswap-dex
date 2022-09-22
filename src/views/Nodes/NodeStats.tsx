@@ -57,7 +57,7 @@ export const NodeStats = () => {
         iconName: 'fire',
         color: 'blueLight',
         label: t('views.nodes.detail.nextChurnHeight'),
-        value: Amount.fromNormalAmount(networkData?.nextChurnHeight).toFixed(0),
+        value: Amount.fromNormalAmount(networkData?.nextChurnHeight).toFixed(1),
       },
     ],
     [runeToCurrency, totalBond, totalActiveBond, totalStandbyBond, bondingAPYLabel, networkData],

@@ -2,7 +2,6 @@ import { WalletStatus } from '@thorswap-lib/multichain-web-extensions';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 import { IconName } from 'components/Atomic';
 import { showErrorToast } from 'components/Toast';
-import deepEqual from 'fast-deep-equal';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import { useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
@@ -217,7 +216,11 @@ export const useHandleWalletTypeSelect = ({
   const getChainsToSelect = useCallback(
     (chains: SupportedChain[], walletType: WalletType, nextWalletType?: WalletType) => {
       if (!nextWalletType) {
-        return deepEqual(chains, availableChainsByWallet[walletType]) ? [] : chains;
+        const allAvailableChainsSelected = chains.every((chain) =>
+          availableChainsByWallet[walletType].includes(chain),
+        );
+
+        return allAvailableChainsSelected ? [] : chains;
       }
 
       switch (walletType) {

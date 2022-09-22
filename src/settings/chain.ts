@@ -6,6 +6,7 @@ export const SORTED_CHAINS = [
   Chain.Solana,
   Chain.Ethereum,
   Chain.Binance,
+  Chain.Avalanche,
   Chain.Doge,
   Chain.BitcoinCash,
   Chain.Litecoin,

@@ -1,9 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ActionStatusEnum, ActionTypeEnum, MemberPool } from '@thorswap-lib/midgard-sdk';
-import { Pool } from '@thorswap-lib/multichain-core';
+import { equalObjects, Pool } from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 import dayjs from 'dayjs';
-import deepEqual from 'fast-deep-equal';
 import {
   checkPendingLP,
   getAddedAndWithdrawn,
@@ -430,9 +429,12 @@ const midgardSlice = createSlice({
           },
         );
 
-        if (!deepEqual(gasRateByChain, state.inboundGasRate)) state.inboundGasRate = gasRateByChain;
-
-        if (!deepEqual(haltedByChain, state.inboundHalted)) state.inboundHalted = haltedByChain;
+        if (!equalObjects(gasRateByChain, state.inboundGasRate)) {
+          state.inboundGasRate = gasRateByChain;
+        }
+        if (!equalObjects(haltedByChain, state.inboundHalted)) {
+          state.inboundHalted = haltedByChain;
+        }
       })
       // get thorchain mimir
       .addCase(midgardActions.getMimir.pending, (state) => {

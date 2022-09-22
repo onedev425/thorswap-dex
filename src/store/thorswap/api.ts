@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { TransactionDetails } from '@thorswap-lib/cross-chain-api-sdk';
+import { TransactionDetails } from '@thorswap-lib/multichain-core';
 import { THORSWAP_AFFILIATE_ADDRESS } from 'config/constants';
 import { IS_DEV_API, IS_STAGENET } from 'settings/config';
 

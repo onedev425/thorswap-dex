@@ -1,4 +1,3 @@
-import { Fees } from '@thorswap-lib/cross-chain-api-sdk/lib/entities/Fees';
 import { Asset, chainToSigAsset, QuoteRoute } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
@@ -9,6 +8,7 @@ import { useFormatPrice } from 'helpers/formatPrice';
 import { memo, useEffect, useMemo } from 'react';
 import { t } from 'services/i18n';
 
+type Fees = ReturnType<QuoteRoute['fees']['get']>;
 type Props = {
   isOpened: boolean;
   onClose: () => void;
@@ -23,20 +23,24 @@ export const FeeModal = memo(({ totalFee, fees, isOpened, onClose }: Props) => {
 
     const { affiliateFee, ...chainsFees } = Object.entries(fees).reduce(
       (acc, fee) => {
-        const [chain, value] = fee as [SupportedChain, Fees[]];
+        const [chain, value] = fee as [SupportedChain, Fees];
 
-        value.forEach((a) => (acc.affiliateFee += a.affiliateFeeUSD));
+        if (value) {
+          value?.forEach((a) => (acc.affiliateFee += a.affiliateFeeUSD));
 
-        acc[chain] = value;
+          acc[chain] = value;
+        }
 
         return acc;
       },
       { affiliateFee: 0 } as { affiliateFee: number } & {
-        [key in SupportedChain]: Fees[];
+        [key in SupportedChain]: Fees;
       },
     );
 
     const rows = Object.entries(chainsFees).reduce((acc, [chain, fee]) => {
+      if (!fee) return acc;
+
       const chainFees = fee.map(({ type, networkFee, networkFeeUSD, asset }) => {
         const chainAsset = chainToSigAsset(chain as SupportedChain);
         const feeAsset = Asset.fromAssetString(asset);
