@@ -308,7 +308,7 @@ export const useAddLiquidity = ({
           addTransaction({
             id: runeId,
             label: t('txManager.addAmountAsset', {
-              asset: Asset.RUNE().ticker,
+              asset: Asset.RUNE().name,
               amount: runeAmount.toSignificant(6),
             }),
             type: TransactionType.TC_LP_ADD,
@@ -322,7 +322,7 @@ export const useAddLiquidity = ({
           addTransaction({
             id: assetId,
             label: t('txManager.addAmountAsset', {
-              asset: poolAsset.ticker,
+              asset: poolAsset.name,
               amount: assetAmount.toSignificant(6),
             }),
             type: TransactionType.TC_LP_ADD,

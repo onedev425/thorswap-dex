@@ -117,9 +117,9 @@ export const useVesting = () => {
           id,
           inChain: Chain.Ethereum,
           type: TransactionType.ETH_STATUS,
-          label: `${t('txManager.claim')} ${toOptionalFixed(
-            fromWei(currentClaimableAmount),
-          )} ${vestingAssets[vestingAction].toString()}`,
+          label: `${t('txManager.claim')} ${toOptionalFixed(fromWei(currentClaimableAmount))} ${
+            vestingAssets[vestingAction].name
+          }`,
         }),
       );
 

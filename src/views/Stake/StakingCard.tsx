@@ -189,9 +189,7 @@ export const StakingCard = ({
       if (!methodName || !ethAddr || !txType) return;
 
       const id = v4();
-      const label = `${t(`common.${txType}`)} ${fromWei(
-        tokenAmount,
-      ).toString()} ${lpAsset.toString()}`;
+      const label = `${t(`common.${txType}`)} ${fromWei(tokenAmount)} ${lpAsset.name}`;
 
       appDispatch(
         addTransaction({ id, from: ethAddr, inChain: Chain.Ethereum, type: txType, label }),

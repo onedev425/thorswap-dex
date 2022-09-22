@@ -322,9 +322,8 @@ const WithdrawPanel = ({
 
     if (!wallet) return;
 
-    const poolAssetString = pool.asset.toString();
-    const runeObject = { asset: Asset.RUNE().toString(), amount: runeAmount.toSignificant(6) };
-    const assetObject = { asset: poolAssetString, amount: assetAmount.toSignificant(6) };
+    const runeObject = { asset: Asset.RUNE().name, amount: runeAmount.toSignificant(6) };
+    const assetObject = { asset: pool.asset.name, amount: assetAmount.toSignificant(6) };
     const withdrawChain = withdrawTo === 'asset' ? pool.asset.chain : Chain.THORChain;
     const outAssets =
       withdrawTo === 'sym'

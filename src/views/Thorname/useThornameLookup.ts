@@ -140,7 +140,7 @@ export const useThornameLookup = (owner?: string) => {
           id,
           inChain: Chain.THORChain,
           type: TransactionType.TC_TNS,
-          label: `${prefix} ${thorname} - ${amount.toSignificant(6)} ${Asset.RUNE().symbol}`,
+          label: `${prefix} ${thorname} - ${amount.toSignificant(6)} ${Asset.RUNE().name}`,
         }),
       );
 

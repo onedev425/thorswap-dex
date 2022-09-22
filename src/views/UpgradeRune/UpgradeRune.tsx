@@ -118,11 +118,9 @@ const UpgradeRune = () => {
           from: recipientAddress,
           inChain: selectedAsset.L1Chain,
           type: TransactionType.TC_SWITCH,
-          label: `${t('common.upgrade')} ${upgradeAmount.toSignificant(
-            3,
-          )} ${selectedAsset.toString()} ${t('common.to')} ${upgradeAmount.toSignificant(
-            3,
-          )} ${Asset.RUNE().toString()}`,
+          label: `${t('common.upgrade')} ${upgradeAmount.toSignificant(3)} ${
+            selectedAsset.name
+          } ${t('common.to')} ${upgradeAmount.toSignificant(3)} ${Asset.RUNE().name}`,
         }),
       );
 
