@@ -27,7 +27,7 @@ export const GlobalChart = memo(() => {
 
   return (
     <Box col className="lg:space-x-8 lg:flex-row">
-      <Box flex={1}>
+      <Box className="w-full lg:w-1/2" flex={1}>
         <Chart
           abbreviateValues
           chartData={volumeChartData}
@@ -39,7 +39,7 @@ export const GlobalChart = memo(() => {
         />
       </Box>
 
-      <Box flex={1}>
+      <Box className="w-full lg:w-1/2" flex={1}>
         <Chart
           abbreviateValues
           chartData={liquidityChartData}
