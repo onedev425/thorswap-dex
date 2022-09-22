@@ -1,5 +1,5 @@
 import { Amount, Asset, getNetworkFeeByAsset } from '@thorswap-lib/multichain-core';
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain, SupportedChain } from '@thorswap-lib/types';
 import { getGasRateByFeeOption } from 'helpers/networkFee';
 import { getAssetBalance } from 'helpers/wallet';
 import { useCallback } from 'react';
@@ -38,35 +38,28 @@ export const useBalance = () => {
 
   const getMaxBalance = useCallback(
     (asset: Asset): Amount => {
-      if (!wallet?.[asset.L1Chain as SupportedChain]) {
-        return Amount.fromAssetAmount(10 ** 8, asset.decimal);
+      const { isGasAsset, L1Chain, decimal } = asset;
+
+      if (!wallet?.[L1Chain as SupportedChain]) {
+        return Amount.fromAssetAmount(10 ** 8, decimal);
       }
 
       // calculate inbound fee
       const gasRate = getGasRateByFeeOption({
-        gasRate: inboundGasRate[asset.L1Chain],
+        gasRate: inboundGasRate[L1Chain],
         feeOptionType,
       });
+
       const inboundFee = getNetworkFeeByAsset({
         asset,
         gasRate,
-        direction: 'inbound',
+        direction: L1Chain === Chain.THORChain ? 'outbound' : 'inbound',
       });
 
       const balance = getAssetBalance(asset, wallet).amount;
+      const maxSpendableAmount = isGasAsset() ? balance.sub(inboundFee) : balance;
 
-      /**
-       * if asset is used for gas, subtract the inbound gas fee from input amount
-       * else allow full amount
-       * Calc: max spendable amount = balance amount - 2 x gas fee(if send asset equals to gas asset)
-       */
-      const maxSpendableAmount = asset.isGasAsset()
-        ? balance.sub(inboundFee.mul(1).amount)
-        : balance;
-
-      return maxSpendableAmount.gt(0)
-        ? maxSpendableAmount
-        : Amount.fromAssetAmount(0, asset.decimal);
+      return maxSpendableAmount.gt(0) ? maxSpendableAmount : Amount.fromAssetAmount(0, decimal);
     },
     [wallet, inboundGasRate, feeOptionType],
   );
