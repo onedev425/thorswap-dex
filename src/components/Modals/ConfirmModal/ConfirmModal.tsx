@@ -1,4 +1,5 @@
 import { Asset } from '@thorswap-lib/multichain-core';
+import { decryptFromKeystore } from '@thorswap-lib/xchain-crypto';
 import { Box, Button, Checkbox, Modal, Typography } from 'components/Atomic';
 import { PasswordInput } from 'components/PasswordInput';
 import { isKeystoreSignRequired } from 'helpers/wallet';
@@ -87,7 +88,8 @@ export const ConfirmModal = ({
 
     setValidating(true);
     try {
-      const isValid = await multichain().validateKeystore(keystore, password);
+      const phrase = await decryptFromKeystore(keystore, password);
+      const isValid = multichain().getPhrase() === phrase;
 
       if (isValid) {
         handleProceed();

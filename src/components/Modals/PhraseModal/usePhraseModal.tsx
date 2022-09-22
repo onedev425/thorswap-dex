@@ -1,3 +1,4 @@
+import { decryptFromKeystore } from '@thorswap-lib/xchain-crypto';
 import { showSuccessToast } from 'components/Toast';
 import copy from 'copy-to-clipboard';
 import { useCallback, useEffect, useState } from 'react';
@@ -34,7 +35,8 @@ export const usePhraseModal = (isOpen: boolean) => {
       if (!keystore) return;
 
       try {
-        const isValid = await multichain().validateKeystore(keystore, password);
+        const phrase = await decryptFromKeystore(keystore, password);
+        const isValid = multichain().getPhrase() === phrase;
 
         if (isValid) {
           setShowPhrase(true);
