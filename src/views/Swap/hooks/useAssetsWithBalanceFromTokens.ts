@@ -1,5 +1,5 @@
 import { Asset } from '@thorswap-lib/multichain-core';
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain, SupportedChain } from '@thorswap-lib/types';
 import { AssetSelectType } from 'components/AssetSelect/types';
 import { useBalance } from 'hooks/useBalance';
 import { useCallback, useMemo } from 'react';
@@ -35,9 +35,13 @@ export const useAssetsWithBalanceFromTokens = (tokens: Token[]) => {
   const assetsWithBalance = useMemo(
     () =>
       tokens
-        .map(({ identifier, address, ...rest }: Token) => {
+        .map(({ identifier, address, chain, ...rest }: Token) => {
           try {
-            const asset = Asset.fromAssetString(`${identifier}${address ? `-${address}` : ''}`);
+            const asset = Asset.fromAssetString(
+              [Chain.Avalanche, Chain.Ethereum].includes(chain as Chain.THORChain)
+                ? `${identifier}-${address}`
+                : identifier,
+            );
 
             if (!asset) return null;
 

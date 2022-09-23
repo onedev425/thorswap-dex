@@ -52,6 +52,7 @@ import { ReactComponent as Phantom } from './phantom.svg';
 import { ReactComponent as Receive } from './receive.svg';
 import { ReactComponent as Router } from './router.svg';
 import { ReactComponent as Settings } from './settings.svg';
+import { ReactComponent as Snowtrace } from './snowtrace.svg';
 import { ReactComponent as Sputnik } from './sputnik.svg';
 import { ReactComponent as Squares } from './squares.svg';
 import { ReactComponent as Station } from './station.svg';
@@ -142,6 +143,7 @@ export const Svgs = {
   russia: Russia,
   saudi: Saudi,
   spain: Spain,
+  snowtrace: Snowtrace,
   trustWallet: TrustWallet,
   usa: USA,
 };

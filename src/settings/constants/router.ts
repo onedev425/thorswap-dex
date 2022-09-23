@@ -77,6 +77,10 @@ export const navigateToEtherScanAddress = (address: string) => {
   navigateToExternalLink(`https://etherscan.io/token/${address}`);
 };
 
+export const navigateToSnowtraceAddress = (address: string) => {
+  navigateToExternalLink(`https://snowtrace.io/address/${address}`);
+};
+
 export const getNodeDetailRoute = (address: string) => {
   return `${ROUTES.Nodes}/${address}`;
 };

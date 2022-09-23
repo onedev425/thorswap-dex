@@ -1,4 +1,5 @@
 import { Asset } from '@thorswap-lib/multichain-core';
+import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, IconName, Tooltip, Typography } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
@@ -8,7 +9,11 @@ import { useFormatPrice } from 'helpers/formatPrice';
 import useWindowSize from 'hooks/useWindowSize';
 import { memo, MouseEventHandler, useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
-import { navigateToEtherScanAddress, navigateToPoolDetail } from 'settings/constants';
+import {
+  navigateToEtherScanAddress,
+  navigateToPoolDetail,
+  navigateToSnowtraceAddress,
+} from 'settings/constants';
 
 import { FeaturedAssetIcon } from './FeaturedAssetIcon';
 import { AssetSelectType } from './types';
@@ -24,33 +29,36 @@ export const AssetSelectItem = memo(
     const formatPrice = useFormatPrice();
     const { isMdActive } = useWindowSize();
     const address = asset.symbol.split('-')[1];
-
-    const isThorchainProvider = useMemo(() => provider?.toLowerCase() === 'thorchain', [provider]);
+    const assetChain = provider?.toLowerCase() === 'thorchain' ? Chain.THORChain : asset.chain;
 
     const navigateToTokenContract: MouseEventHandler<HTMLButtonElement> = useCallback(
       (e) => {
         e.stopPropagation();
+        switch (assetChain) {
+          case Chain.Ethereum:
+            return navigateToEtherScanAddress(address.toLowerCase());
+          case Chain.Avalanche:
+            return navigateToSnowtraceAddress(address.toLowerCase());
 
-        if (isThorchainProvider) {
-          navigateToPoolDetail(asset);
-        } else {
-          navigateToEtherScanAddress(address.toLowerCase());
+          default:
+            return navigateToPoolDetail(asset);
         }
       },
-      [address, asset, isThorchainProvider],
+      [address, asset, assetChain],
     );
 
     const showInfoButton = useMemo(() => isMdActive && !!provider, [isMdActive, provider]);
 
-    const serviceName = useMemo(
-      () => (isThorchainProvider ? 'THORYield' : 'EtherScan'),
-      [isThorchainProvider],
-    );
-
-    const checkType = useMemo(
-      () => (isThorchainProvider ? 'pool' : 'address'),
-      [isThorchainProvider],
-    );
+    const serviceName = useMemo(() => {
+      switch (assetChain) {
+        case Chain.THORChain:
+          return 'THORYield';
+        case Chain.Avalanche:
+          return 'Snowtrace';
+        default:
+          return 'EtherScan';
+      }
+    }, [assetChain]);
 
     const description = useMemo(() => {
       if (asset.isSynth) return `${asset.type}`;
@@ -64,13 +72,17 @@ export const AssetSelectItem = memo(
     }, [asset.decimal, asset.isSynth, asset.type, cg?.market_cap, formatPrice, price]);
 
     const tokenInfoIcon: IconName = useMemo(() => {
-      switch (checkType) {
-        case 'pool':
-          return 'thoryieldColor';
-        case 'address':
+      switch (assetChain) {
+        case Chain.Ethereum:
           return isLight ? 'etherscan' : 'etherscanLight';
+        case Chain.Avalanche:
+          return 'snowtrace';
+        default:
+          return 'thoryieldColor';
       }
-    }, [checkType, isLight]);
+    }, [assetChain, isLight]);
+
+    const checkType = assetChain === Chain.THORChain ? 'pool' : 'address';
 
     return (
       <Box
@@ -102,7 +114,9 @@ export const AssetSelectItem = memo(
               <Box className="opacity-20 group-hover:opacity-100 transition">
                 {showInfoButton && (
                   <Tooltip
-                    content={`${t('views.swap.check', { checkType })} ${t('views.swap.onService', {
+                    content={`${t('views.swap.check', {
+                      checkType,
+                    })} ${t('views.swap.onService', {
                       serviceName,
                     })}`}
                   >
