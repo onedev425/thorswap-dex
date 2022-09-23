@@ -1,7 +1,7 @@
 import { Amount, Asset, Price } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
-import { getERC20Decimal } from 'helpers/getEVMDecimal';
+import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { t } from 'services/i18n';
@@ -60,16 +60,13 @@ export const useTxSend = () => {
       if (!assetParam) {
         setSendAsset(Asset.RUNE());
       } else {
-        const assetObj = Asset.decodeFromURL(assetParam);
+        const assetEntity = Asset.decodeFromURL(assetParam);
 
-        if (assetObj) {
-          const assetDecimals =
-            assetObj && assetObj.L1Chain === Chain.Ethereum
-              ? await getERC20Decimal(assetObj)
-              : undefined;
+        if (assetEntity) {
+          const assetDecimals = await getEVMDecimal(assetEntity);
 
-          await assetObj.setDecimal(assetDecimals);
-          setSendAsset(assetObj);
+          await assetEntity.setDecimal(assetDecimals);
+          setSendAsset(assetEntity);
         } else {
           setSendAsset(Asset.RUNE());
         }

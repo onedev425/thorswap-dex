@@ -1,5 +1,4 @@
 import { Amount, Asset, hasWalletConnected, Price } from '@thorswap-lib/multichain-core';
-import { Chain } from '@thorswap-lib/types';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
@@ -10,7 +9,7 @@ import { PanelView } from 'components/PanelView';
 import { showErrorToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
 import { chainName } from 'helpers/chainName';
-import { getERC20Decimal } from 'helpers/getEVMDecimal';
+import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { getWalletAssets } from 'helpers/wallet';
 import { useAddressForTNS } from 'hooks/useAddressForTNS';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
@@ -76,13 +75,12 @@ const Send = () => {
       if (!assetParam) {
         setSendAsset(Asset.RUNE());
       } else {
-        const asset = Asset.decodeFromURL(assetParam);
-        const assetDecimals =
-          asset && asset.L1Chain === Chain.Ethereum ? await getERC20Decimal(asset) : undefined;
+        const assetEntity = Asset.decodeFromURL(assetParam);
 
-        if (asset) {
-          await asset.setDecimal(assetDecimals || undefined);
-          setSendAsset(asset);
+        if (assetEntity) {
+          const assetDecimals = await getEVMDecimal(assetEntity);
+          await assetEntity.setDecimal(assetDecimals || undefined);
+          setSendAsset(assetEntity);
         } else {
           setSendAsset(Asset.RUNE());
         }

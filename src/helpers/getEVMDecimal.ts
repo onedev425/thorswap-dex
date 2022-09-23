@@ -1,25 +1,33 @@
 import { getAddress } from '@ethersproject/address';
 import { Contract } from '@ethersproject/contracts';
-import { Asset, ETH_DECIMAL } from '@thorswap-lib/multichain-core';
+import { ETH_DECIMAL } from '@thorswap-lib/multichain-core';
 import { Chain, erc20ABI } from '@thorswap-lib/types';
 import { alchemyProvider } from 'services/alchemyProvider';
 
-export const getERC20Decimal = async (asset: Asset) => {
-  if (asset.symbol === Chain.Ethereum) return ETH_DECIMAL;
+type GetDecimalParams = { symbol: string; ticker: string };
 
-  const assetAddress = asset.symbol.slice(asset.ticker.length + 1);
+const getERC20Decimal = async ({ symbol, ticker }: GetDecimalParams) => {
+  if (symbol === Chain.Ethereum) return ETH_DECIMAL;
+
+  const assetAddress = symbol.slice(ticker.length + 1);
   const checkSummedAddress = getAddress(assetAddress.slice(2));
 
   const contract = new Contract(checkSummedAddress, erc20ABI, alchemyProvider());
-  return (await contract.decimals()).toNumber();
+  return (await contract.decimals()).toNumber() as number;
 };
 
-export const getARC20Decimal = async (asset: Asset) => {
-  if (asset.symbol === Chain.Avalanche) return ETH_DECIMAL;
+const getARC20Decimal = async ({ symbol }: GetDecimalParams) => (symbol.startsWith('USD') ? 6 : 18);
 
-  const assetAddress = asset.symbol.slice(asset.ticker.length + 1);
-  const checkSummedAddress = getAddress(assetAddress.slice(2));
-
-  const contract = new Contract(checkSummedAddress, erc20ABI, alchemyProvider());
-  return (await contract.decimals()).toNumber();
+export const getEVMDecimal = async ({
+  L1Chain,
+  ...asset
+}: GetDecimalParams & { L1Chain: Chain }) => {
+  switch (L1Chain) {
+    case Chain.Ethereum:
+      return getERC20Decimal(asset);
+    case Chain.Avalanche:
+      return getARC20Decimal(asset);
+    default:
+      return undefined;
+  }
 };

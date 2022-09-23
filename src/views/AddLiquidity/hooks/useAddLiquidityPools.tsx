@@ -1,6 +1,5 @@
 import { Asset, Pool } from '@thorswap-lib/multichain-core';
-import { Chain } from '@thorswap-lib/types';
-import { getERC20Decimal } from 'helpers/getEVMDecimal';
+import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getAddLiquidityRoute } from 'settings/constants';
@@ -41,10 +40,7 @@ export const useAddLiquidityPools = ({ assetRouteGetter = getAddLiquidityRoute }
 
       if (assetEntity) {
         if (assetEntity.isRUNE()) return;
-        const assetDecimals =
-          assetEntity && assetEntity.L1Chain === Chain.Ethereum
-            ? await getERC20Decimal(assetEntity)
-            : undefined;
+        const assetDecimals = await getEVMDecimal(assetEntity);
         await assetEntity.setDecimal(assetDecimals);
 
         setPoolAsset(assetEntity);

@@ -1,6 +1,5 @@
 import { Amount, Asset } from '@thorswap-lib/multichain-core';
-import { Chain } from '@thorswap-lib/types';
-import { getERC20Decimal } from 'helpers/getEVMDecimal';
+import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { TxTrackerType } from 'store/midgard/types';
 
 import { Pair } from './types';
@@ -15,10 +14,7 @@ export const getSwapPair = async (pair: string): Promise<Pair | null> => {
 
   if (!inputAsset || !outputAsset) return null;
 
-  const inputDecimals =
-    inputAsset && inputAsset.L1Chain === Chain.Ethereum
-      ? await getERC20Decimal(inputAsset)
-      : undefined;
+  const inputDecimals = await getEVMDecimal(inputAsset);
 
   await inputAsset.setDecimal(inputDecimals || undefined);
   await outputAsset.setDecimal();

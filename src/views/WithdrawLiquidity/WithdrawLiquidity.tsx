@@ -19,7 +19,7 @@ import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { PanelView } from 'components/PanelView';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
-import { getERC20Decimal } from 'helpers/getEVMDecimal';
+import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { useMimir } from 'hooks/useMimir';
 import { useNetworkFee } from 'hooks/useNetworkFee';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -76,12 +76,7 @@ export const WithdrawLiquidity = () => {
 
       if (assetEntity) {
         if (assetEntity.isRUNE()) return;
-
-        const assetDecimals =
-          assetEntity && assetEntity.L1Chain === Chain.Ethereum
-            ? await getERC20Decimal(assetEntity)
-            : undefined;
-
+        const assetDecimals = await getEVMDecimal(assetEntity);
         await assetEntity.setDecimal(assetDecimals);
 
         setAssetObj(assetEntity);
