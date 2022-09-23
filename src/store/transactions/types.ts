@@ -35,7 +35,7 @@ export type PendingTransactionType = {
 };
 
 export type CompletedTransactionType = PendingTransactionType & {
-  result?: TxnResult;
+  result?: TxnResult | string;
   status: TransactionStatus;
   timestamp: Date;
   txid?: string;

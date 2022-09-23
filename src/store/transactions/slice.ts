@@ -28,7 +28,9 @@ const transactionsSlice = createSlice({
     },
     completeTransaction(
       state,
-      { payload }: PayloadAction<{ result?: TxnResult; id: string; status: TransactionStatus }>,
+      {
+        payload,
+      }: PayloadAction<{ result?: string | TxnResult; id: string; status: TransactionStatus }>,
     ) {
       state.pending = state.pending.filter((item) => {
         const isPending = [item.txid, item.id].includes(payload.id);

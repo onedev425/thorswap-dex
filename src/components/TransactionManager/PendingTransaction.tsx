@@ -40,10 +40,14 @@ export const PendingTransaction = memo(
     const url = params.txid && multichain().getExplorerTxUrl(inChain, params.txid);
 
     useEffect(() => {
-      if (data?.ok && ['mined', 'refund'].includes(data.status) && data.result) {
-        appDispatch(completeTransaction({ id, status: data.status, result: data.result }));
+      const transactionCompleted = data?.ok && ['mined', 'refund'].includes(data.status);
+      const isSend = type === TransactionType.TC_SEND;
+      const status = data?.status || 'mined';
+
+      if (transactionCompleted || (isSend && url)) {
+        appDispatch(completeTransaction({ id, status, result: data?.result }));
       }
-    }, [appDispatch, data, id, txid]);
+    }, [appDispatch, data, id, txid, type, url]);
 
     return (
       <Box alignCenter flex={1} justify="between">

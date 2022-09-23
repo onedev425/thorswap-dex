@@ -81,9 +81,15 @@ export const transactionBorderColors: Record<TransactionStatus, string> = {
 export const cutTxPrefix = (tx: string, prefix = '0x') =>
   tx?.startsWith(prefix) ? tx.slice(prefix.length) : tx;
 
-export const useTxIDFromResult = ({ txid, result }: { txid?: string; result?: TxnResult }) => {
+export const useTxIDFromResult = ({
+  txid,
+  result,
+}: {
+  txid?: string;
+  result?: string | TxnResult;
+}) => {
   const txidFromResult = useMemo(() => {
-    if (!result?.type) return '';
+    if (typeof result === 'string' || !result?.type) return '';
 
     switch (result.type) {
       case TransactionType.SWAP_ETH_TO_ETH:
@@ -110,7 +116,7 @@ export const useTxLabelUpdate = ({
   outChain,
   setTransactionLabel,
 }: {
-  result?: TxnResult;
+  result?: TxnResult | string;
   inChain: Chain;
   outChain?: Chain;
   setTransactionLabel: (label: string) => void;
@@ -118,6 +124,7 @@ export const useTxLabelUpdate = ({
   const [isLoading, setIsLoading] = useState(true);
   const inputGetter = inChain === Chain.Ethereum ? getEthPart : getTcPart;
   const outputGetter = outChain === Chain.Ethereum ? getEthPart : getTcPart;
+  const resultType = (typeof result === 'string' ? result : result?.type)?.toUpperCase();
 
   const handleLabelUpdate = useCallback(async () => {
     if (
@@ -127,12 +134,12 @@ export const useTxLabelUpdate = ({
         TransactionType.SWAP_TC_TO_ETH,
         TransactionType.SWAP_TC_TO_TC,
         TransactionType.TC_LP_WITHDRAW,
-      ].some((type) => type === result?.type?.toUpperCase())
+      ].some((type) => type === resultType)
     ) {
       return;
     }
 
-    switch (result?.type?.toUpperCase()) {
+    switch (resultType) {
       case TransactionType.TC_LP_WITHDRAW: {
         // @ts-expect-error
         const outAssets = Object.entries(result.out);
@@ -162,7 +169,7 @@ export const useTxLabelUpdate = ({
         break;
       }
     }
-  }, [inputGetter, outputGetter, result, setTransactionLabel]);
+  }, [inputGetter, outputGetter, result, resultType, setTransactionLabel]);
 
   return { isLoading, handleLabelUpdate };
 };
