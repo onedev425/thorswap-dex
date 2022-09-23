@@ -1,5 +1,4 @@
 import { Chain, SupportedChain } from '@thorswap-lib/types';
-import { IS_STAGENET } from 'settings/config';
 
 export enum WalletType {
   Keystore = 'Keystore',
@@ -14,10 +13,10 @@ export enum WalletType {
 }
 
 // Left as a placeholder for future chains
-const STAGENET_CHAINS = IS_STAGENET ? [Chain.Avalanche] : [];
+// const STAGENET_CHAINS = IS_STAGENET ? [] : [];
 
-const Keystore = [
-  ...STAGENET_CHAINS,
+const AllChainsSupported = [
+  Chain.Avalanche,
   Chain.Binance,
   Chain.Bitcoin,
   Chain.BitcoinCash,
@@ -30,27 +29,16 @@ const Keystore = [
 ] as SupportedChain[];
 
 export const availableChainsByWallet: Record<WalletType, SupportedChain[]> = {
-  [WalletType.CreateKeystore]: Keystore,
+  [WalletType.CreateKeystore]: AllChainsSupported,
   [WalletType.Keplr]: [Chain.Cosmos],
-  [WalletType.Keystore]: Keystore,
+  [WalletType.Keystore]: AllChainsSupported,
+  [WalletType.Ledger]: AllChainsSupported,
   [WalletType.MetaMask]: [Chain.Ethereum, Chain.Avalanche],
   [WalletType.Phantom]: [Chain.Solana],
-  [WalletType.Phrase]: Keystore,
+  [WalletType.Phrase]: AllChainsSupported,
   [WalletType.TrustWallet]: [Chain.THORChain, Chain.Ethereum, Chain.Binance],
-  [WalletType.Ledger]: [
-    Chain.Avalanche,
-    Chain.Binance,
-    Chain.Bitcoin,
-    Chain.BitcoinCash,
-    Chain.Cosmos,
-    Chain.Doge,
-    Chain.Ethereum,
-    Chain.Litecoin,
-    Chain.Solana,
-    Chain.THORChain,
-  ],
   [WalletType.Xdefi]: [
-    ...STAGENET_CHAINS,
+    Chain.Avalanche,
     Chain.Binance,
     Chain.Bitcoin,
     Chain.BitcoinCash,
@@ -62,43 +50,27 @@ export const availableChainsByWallet: Record<WalletType, SupportedChain[]> = {
   ],
 };
 
-const COMMON_WALLETS = [WalletType.Keystore, WalletType.CreateKeystore, WalletType.Phrase] as const;
-
-export const ALL_WALLET_OPTIONS = [
-  WalletType.Keplr,
+const COMMON_WALLETS = [
+  WalletType.CreateKeystore,
+  WalletType.Keystore,
   WalletType.Ledger,
-  WalletType.MetaMask,
-  WalletType.Phantom,
-  WalletType.TrustWallet,
-  WalletType.Xdefi,
-  ...COMMON_WALLETS,
-];
+  WalletType.Phrase,
+] as const;
 
 export const availableWalletsByChain: Record<SupportedChain, WalletType[]> = {
-  [Chain.Avalanche]: [
-    ...(IS_STAGENET ? [WalletType.Xdefi] : []),
-    WalletType.Ledger,
-    WalletType.MetaMask,
-    ...COMMON_WALLETS,
-  ],
-  [Chain.Bitcoin]: [WalletType.Xdefi, WalletType.Ledger, ...COMMON_WALLETS],
-  [Chain.Binance]: [WalletType.Xdefi, WalletType.Ledger, WalletType.TrustWallet, ...COMMON_WALLETS],
-  [Chain.BitcoinCash]: [WalletType.Xdefi, WalletType.Ledger, ...COMMON_WALLETS],
-  [Chain.Cosmos]: [WalletType.Keplr, WalletType.Ledger, ...COMMON_WALLETS],
-  [Chain.Doge]: [WalletType.Xdefi, WalletType.Ledger, ...COMMON_WALLETS],
+  [Chain.Avalanche]: [...COMMON_WALLETS, WalletType.MetaMask, WalletType.Xdefi],
+  [Chain.Binance]: [...COMMON_WALLETS, WalletType.TrustWallet, WalletType.Xdefi],
+  [Chain.BitcoinCash]: [...COMMON_WALLETS, WalletType.Xdefi],
+  [Chain.Bitcoin]: [...COMMON_WALLETS, WalletType.Xdefi],
+  [Chain.Cosmos]: [...COMMON_WALLETS, WalletType.Keplr],
+  [Chain.Doge]: [...COMMON_WALLETS, WalletType.Xdefi],
+  [Chain.Litecoin]: [...COMMON_WALLETS, WalletType.Xdefi],
+  [Chain.Solana]: [...COMMON_WALLETS, WalletType.Xdefi, WalletType.Phantom],
+  [Chain.THORChain]: [...COMMON_WALLETS, WalletType.TrustWallet, WalletType.Xdefi],
   [Chain.Ethereum]: [
-    WalletType.Ledger,
+    ...COMMON_WALLETS,
     WalletType.MetaMask,
     WalletType.TrustWallet,
     WalletType.Xdefi,
-    ...COMMON_WALLETS,
   ],
-  [Chain.Litecoin]: [WalletType.Xdefi, WalletType.Ledger, ...COMMON_WALLETS],
-  [Chain.THORChain]: [
-    WalletType.Ledger,
-    WalletType.TrustWallet,
-    WalletType.Xdefi,
-    ...COMMON_WALLETS,
-  ],
-  [Chain.Solana]: [WalletType.Xdefi, WalletType.Phantom, WalletType.Ledger, ...COMMON_WALLETS],
 };
