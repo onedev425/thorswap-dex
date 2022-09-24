@@ -37,17 +37,25 @@ export const PendingTransaction = memo(
       skip: !params.txid,
     });
 
-    const url = params.txid && multichain().getExplorerTxUrl(inChain, params.txid);
+    const transactionUrl = useMemo(() => {
+      if (!txid) return '';
+
+      try {
+        return multichain().getExplorerTxUrl(inChain, cutTxPrefix(txid));
+      } catch (_error) {
+        return;
+      }
+    }, [inChain, txid]);
 
     useEffect(() => {
       const transactionCompleted = data?.ok && ['mined', 'refund'].includes(data.status);
       const isSend = type === TransactionType.TC_SEND;
       const status = data?.status || 'mined';
 
-      if (transactionCompleted || (isSend && url)) {
+      if (transactionCompleted || (isSend && transactionUrl)) {
         appDispatch(completeTransaction({ id, status, result: data?.result }));
       }
-    }, [appDispatch, data, id, txid, type, url]);
+    }, [appDispatch, data, id, transactionUrl, txid, type]);
 
     return (
       <Box alignCenter flex={1} justify="between">
@@ -63,8 +71,8 @@ export const PendingTransaction = memo(
           </Box>
         </Box>
 
-        {url ? (
-          <Link external className="inline-flex" to={url}>
+        {transactionUrl ? (
+          <Link external className="inline-flex" to={transactionUrl}>
             <Icon
               className={baseHoverClass}
               color="secondary"

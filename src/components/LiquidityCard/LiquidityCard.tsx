@@ -139,7 +139,6 @@ export const LiquidityCard = ({
 
         <LiquidityInfo
           asset={pool.asset}
-          assetAdded={Amount.fromNormalAmount(addedOrWithdrawn?.added.asset)}
           assetPending={Amount.fromMidgard(assetPending)}
           assetShare={assetShare}
           assetWithdrawn={Amount.fromNormalAmount(addedOrWithdrawn?.withdrawn.asset)}
@@ -147,7 +146,6 @@ export const LiquidityCard = ({
           lastAddedDate={dayjs.unix(Number(dateLastAdded)).format('YYYY-MM-DD')}
           maxHeightStyle={maxHeightStyle}
           poolShare={poolShare}
-          runeAdded={Amount.fromNormalAmount(addedOrWithdrawn?.added.rune)}
           runePending={Amount.fromMidgard(runePending)}
           runeShare={runeShare}
           runeWithdrawn={Amount.fromNormalAmount(addedOrWithdrawn?.withdrawn.rune)}

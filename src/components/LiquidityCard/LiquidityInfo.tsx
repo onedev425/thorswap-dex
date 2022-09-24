@@ -15,8 +15,6 @@ type Props = {
   shareType: PoolShareType;
   asset: Asset;
   lastAddedDate: string;
-  runeAdded: Amount;
-  assetAdded: Amount;
   runeWithdrawn: Amount;
   assetWithdrawn: Amount;
   runePending: Amount;
@@ -37,8 +35,6 @@ export const LiquidityInfo = memo(
     poolShare,
     runeShare,
     shareType,
-    runeAdded,
-    assetAdded,
     runeWithdrawn,
     assetWithdrawn,
     runePending,
@@ -50,14 +46,6 @@ export const LiquidityInfo = memo(
 
       const infoFields: InfoRowConfig[] = [
         { label: t('views.liquidity.poolShare'), value: poolShareValue },
-        {
-          label: t('views.liquidity.runeAdded'),
-          value: runeAdded.toSignificant(6),
-        },
-        {
-          label: t('views.liquidity.assetAdded'),
-          value: assetAdded.toSignificant(6),
-        },
         {
           label: t('views.liquidity.runeWithdrawn'),
           value: runeWithdrawn.toSignificant(6),
@@ -119,8 +107,6 @@ export const LiquidityInfo = memo(
       poolShare,
       runeShare,
       shareType,
-      runeAdded,
-      assetAdded,
       runePending,
       assetPending,
       runeWithdrawn,

@@ -1890,10 +1890,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.11.tgz#f57392d4bd5467e2cb4eaf80105e2907c987178e"
   integrity sha512-rzfoyOE1IPEpGXYEH2dt2W/Nb2+rmbt97/yhu6aaaHSbwrfQvWt6KFdkNHa8KXa9zoN43gOdDz9Ku0SwwaHZpg==
 
-"@thorswap-lib/multichain-core@0.0.0-development.68":
-  version "0.0.0-development.68"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.0-development.68.tgz#64c34fcb1da2297a1391bdabf0d27043eef3bd4a"
-  integrity sha512-Bf3diCi+KqO+iVrgmTpXZEcqVAhjVHvq3TgJSLeOmseaz8QGVtOpaA5QBJz26dTwygALkxxaMI+eMIF+yEVPrg==
+"@thorswap-lib/multichain-core@0.0.0-development.72":
+  version "0.0.0-development.72"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.0-development.72.tgz#4ee3a1063f359cac531d34742b21bbbd51f96186"
+  integrity sha512-0RY82m99NKRyrs/s4jyFiYhbdz9aWpgwgwX5mBWYIu3uTY0GIDHd1og7GsPgU/f/FKvgfFXEGeEMMacY/vb7tQ==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.2.0"
     "@cosmjs/amino" "^0.29.0"
@@ -1922,7 +1922,7 @@
     "@thorswap-lib/xchain-cosmos" "^0.20.6"
     "@thorswap-lib/xchain-crypto" "^0.2.11"
     "@thorswap-lib/xchain-doge" "^0.2.14"
-    "@thorswap-lib/xchain-evm" "^0.1.35"
+    "@thorswap-lib/xchain-evm" "^0.1.37"
     "@thorswap-lib/xchain-litecoin" "^0.8.6"
     "@thorswap-lib/xchain-solana" "^0.2.14"
     "@thorswap-lib/xchain-thorchain" "^0.22.6"
@@ -2025,10 +2025,10 @@
   dependencies:
     fast-deep-equal "^3.1.3"
 
-"@thorswap-lib/xchain-evm@^0.1.35":
-  version "0.1.35"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-evm/-/xchain-evm-0.1.35.tgz#2824507cc17dd7bf7d7ca1031a5d93b2404febcb"
-  integrity sha512-4nhnWrvdxetp41fQ+5o5kbD8K3whkHU8xm821QT+5n19bX8eEQGHlYPaAUZXJoKr7W/uM3wAYdSkPgU3I24aHw==
+"@thorswap-lib/xchain-evm@^0.1.37":
+  version "0.1.37"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-evm/-/xchain-evm-0.1.37.tgz#20a5a48e8b07360442f2c7d6acdae49971286133"
+  integrity sha512-JjoX3iBeGxnmwKS5DsdW6iOsWIQMwgkwnatLkvOh7/0W1FeZYjm++eB5ix193f2CM8d4j4cbVxfvxV5uIfS5eg==
   dependencies:
     "@thorswap-lib/atlas" "^0.3.19"
     "@thorswap-lib/multichain-entities" "^0.2.15"

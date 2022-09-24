@@ -2,7 +2,7 @@ import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box, Icon, Link, Typography } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
-import { memo, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { multichain } from 'services/multichain';
 import { CompletedTransactionType } from 'store/transactions/types';
 
@@ -24,16 +24,28 @@ export const CompletedTransaction = memo(
       handleLabelUpdate();
     }, [handleLabelUpdate]);
 
+    const transactionUrl = useCallback(
+      (tx: null | string = '') => {
+        if (!tx) return '';
+
+        try {
+          return tx && multichain().getExplorerTxUrl(inChain, cutTxPrefix(tx));
+        } catch (_error) {
+          return;
+        }
+      },
+      [inChain],
+    );
+
     const txUrl = {
-      url: txid && multichain().getExplorerTxUrl(inChain, cutTxPrefix(txid || '')),
+      url: transactionUrl(txid),
       icon: inChain === Chain.Ethereum ? 'etherscanLight' : 'external',
     } as const;
 
     const secondTxid = useTxIDFromResult({ result, txid });
 
     const secondUrl = {
-      url:
-        outChain && secondTxid && multichain().getExplorerTxUrl(outChain, cutTxPrefix(secondTxid)),
+      url: outChain && transactionUrl(secondTxid),
       icon: outChain === Chain.Ethereum ? 'etherscanLight' : 'external',
     } as const;
 
