@@ -43,11 +43,9 @@ export const Tooltip = ({
   }, []);
 
   const hideTooltip = useCallback(() => {
-    setTimeout(() => {
-      if (tooltipRef.current) {
-        tooltipRef.current.setState({ show: false });
-      }
-    }, 300);
+    if (tooltipRef.current) {
+      tooltipRef.current.setState({ show: false });
+    }
   }, []);
 
   return content ? (
