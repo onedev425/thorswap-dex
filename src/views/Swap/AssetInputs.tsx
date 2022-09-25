@@ -78,6 +78,7 @@ export const AssetInputs = memo(
       const unsupportedOutputAfterChange =
         outputAsset.asset.L1Chain !== Chain.Ethereum &&
         !inputAsset.asset.isETH() &&
+        !inputAsset.asset.isAVAX() &&
         !thorchainERC20SupportedAddresses.includes(
           inputAsset.asset.symbol.split('-')[1]?.toLowerCase(),
         );

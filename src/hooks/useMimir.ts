@@ -31,6 +31,7 @@ export const useMimir = () => {
   };
 
   // halt status
+  const isAVAXChainHalted = isEntryPaused('HALTAVAXCHAIN');
   const isGAIAChainHalted = isEntryPaused('HALTGAIACHAIN');
   const isTHORChainHalted = isEntryPaused('HALTTHORCHAIN');
   const isBTCChainHalted = isEntryPaused('HALTBTCCHAIN');
@@ -42,6 +43,7 @@ export const useMimir = () => {
   const isChainHalted: {
     [key: string]: boolean;
   } = {
+    [Chain.Avalanche]: isAVAXChainHalted,
     [Chain.BitcoinCash]: isBCHChainHalted,
     [Chain.Binance]: isBNBChainHalted,
     [Chain.Bitcoin]: isBTCChainHalted,
@@ -56,6 +58,7 @@ export const useMimir = () => {
   const isChainTradingHalted: {
     [key: string]: boolean;
   } = {
+    [Chain.Avalanche]: isEntryPaused('HALTAVAXTRADING'),
     [Chain.BitcoinCash]: isEntryPaused('HALTBCHTRADING'),
     [Chain.Binance]: isEntryPaused('HALTBNBTRADING'),
     [Chain.Bitcoin]: isEntryPaused('HALTBTCTRADING'),
@@ -71,12 +74,13 @@ export const useMimir = () => {
   const isChainPauseLP: {
     [key: string]: boolean;
   } = {
-    [Chain.Bitcoin]: isEntryPaused('PAUSELPBTC'),
+    [Chain.Avalanche]: isEntryPaused('PAUSELPAVAX'),
     [Chain.Binance]: isEntryPaused('PAUSELPBNB'),
+    [Chain.BitcoinCash]: isEntryPaused('PAUSELPBCH'),
+    [Chain.Bitcoin]: isEntryPaused('PAUSELPBTC'),
+    [Chain.Doge]: isEntryPaused('PAUSELPDOGE'),
     [Chain.Ethereum]: isEntryPaused('PAUSELPETH'),
     [Chain.Litecoin]: isEntryPaused('PAUSELPLTC'),
-    [Chain.BitcoinCash]: isEntryPaused('PAUSELPBCH'),
-    [Chain.Doge]: isEntryPaused('PAUSELPDOGE'),
   };
 
   const isChainPauseLPAction = (key: string) => {
@@ -122,6 +126,7 @@ export const useMimir = () => {
     isDOGEChainHalted,
     isETHChainHalted,
     isFundsCapReached,
+    isAVAXChainHalted,
     isGAIAChainHalted,
     isLTCChainHalted,
     isPauseLP,

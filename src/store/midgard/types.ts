@@ -91,9 +91,11 @@ export type MimirData = {
   MAXLIQUIDITYRUNE?: number;
   MAXIMUMLIQUIDITYRUNE?: number;
   'mimir//MAXIMUMLIQUIDITYRUNE'?: number;
+  HALTAVAXCHAIN?: number;
   HALTTHORCHAIN?: number;
   HALTBCHCHAIN?: number;
   HALTBCHTRADING?: number;
+  HALTAVAXTRADING?: number;
   HALTBNBCHAIN?: number;
   HALTBNBTRADING?: number;
   HALTBTCCHAIN?: number;
@@ -108,6 +110,7 @@ export type MimirData = {
   HALTLTCTRADING?: number;
   MAXSYNTHPERASSETDEPTH?: number;
   PAUSELP?: number;
+  PAUSELPAVAX?: number;
   PAUSELPBCH?: number;
   PAUSELPBNB?: number;
   PAUSELPBTC?: number;

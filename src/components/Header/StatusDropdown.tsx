@@ -32,6 +32,7 @@ export const StatusDropdown = memo(() => {
     isDOGEChainHalted,
     isETHChainHalted,
     isFundsCapReached,
+    isAVAXChainHalted,
     isGAIAChainHalted,
     isLTCChainHalted,
     isTHORChainHalted,
@@ -119,6 +120,13 @@ export const StatusDropdown = memo(() => {
           ? t('components.statusDropdown.online')
           : t('components.statusDropdown.offline'),
         statusType: isBCHChainHalted ? StatusType.Error : StatusType.Normal,
+      },
+      {
+        label: t('components.statusDropdown.avaxNetwork'),
+        value: !isAVAXChainHalted
+          ? t('components.statusDropdown.online')
+          : t('components.statusDropdown.offline'),
+        statusType: isAVAXChainHalted ? StatusType.Error : StatusType.Normal,
       },
       {
         label: t('components.statusDropdown.midgard'),
