@@ -23,8 +23,8 @@ const getPrice = ({ asset, amount }: TokenParam, price?: number) =>
 
 const findToken =
   (searchedToken: GetTokenPriceParams[number]) =>
-  ({ identifier, address }: GetTokenPriceResponse[number]) =>
-    address ? address === searchedToken.address : identifier === searchedToken.identifier;
+  ({ identifier }: GetTokenPriceResponse[number]) =>
+    identifier === searchedToken.identifier;
 
 export const useTokenPrices = ({ inputAsset, inputAmount, outputAmount, outputAsset }: Params) => {
   const tokenParams: [TokenParam, TokenParam] = useMemo(
