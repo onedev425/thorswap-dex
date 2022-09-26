@@ -111,7 +111,7 @@ export const useSwapQuote = ({
     if (!error) {
       setSwapRoute(routes[0]);
     }
-  }, [error, routes, selectedRoute]);
+  }, [error, routes]);
 
   return {
     estimatedTime: data?.estimatedTime,
