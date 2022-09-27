@@ -8,7 +8,7 @@ import { useWalletDrawer } from 'hooks/useWalletDrawer';
 import useWindowSize from 'hooks/useWindowSize';
 import { memo, useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
-import { IS_BETA, IS_DEV_API, IS_PROD, IS_STAGENET, IS_TESTNET } from 'settings/config';
+import { IS_BETA, IS_DEV_API, IS_PROD, IS_STAGENET } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 import { useMidgard } from 'store/midgard/hooks';
 import { useWallet } from 'store/wallet/hooks';
@@ -85,8 +85,6 @@ export const Header = memo(({ openMenu }: Props) => {
                   ? 'Beta'
                   : IS_STAGENET
                   ? 'Stagenet'
-                  : IS_TESTNET
-                  ? 'Testnet'
                   : IS_DEV_API
                   ? 'Dev Api connected'
                   : 'Local'}

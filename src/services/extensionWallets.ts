@@ -5,14 +5,10 @@ import {
   PhantomClient,
   XdefiClient,
 } from '@thorswap-lib/multichain-web-extensions';
-import { NETWORK } from 'settings/config';
+import { Network } from '@thorswap-lib/types';
 
-export const keplr = new KeplrClient(NETWORK);
-
-export const metamask = new MetaMaskClient(NETWORK);
-
-export const phantom = new PhantomClient(NETWORK);
-
-export const xdefi = new XdefiClient(NETWORK);
-
-export const brave = new BraveClient(NETWORK);
+export const keplr = new KeplrClient(Network.Mainnet);
+export const metamask = new MetaMaskClient(Network.Mainnet);
+export const phantom = new PhantomClient(Network.Mainnet);
+export const xdefi = new XdefiClient(Network.Mainnet);
+export const brave = new BraveClient(Network.Mainnet);

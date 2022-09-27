@@ -5,7 +5,7 @@ import { ConnectWalletModal } from 'components/Modals/ConnectWalletModal';
 import { Scrollbar } from 'components/Scrollbar';
 import { Sidebar } from 'components/Sidebar';
 import { PropsWithChildren, useCallback, useState } from 'react';
-import { IS_BETA, IS_MAINNET, IS_PROD, IS_STAGENET } from 'settings/config';
+import { IS_STAGENET } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 
 import { NavDrawer } from './NavDrawer';
@@ -30,9 +30,7 @@ export const Layout = ({ children }: PropsWithChildren<{}>) => {
       className={
         IS_STAGENET
           ? 'bg-light-bg-stagenet dark:bg-dark-bg-stagenet'
-          : IS_PROD || IS_MAINNET || IS_BETA
-          ? 'bg-light-layout-primary dark:bg-dark-bg-primary'
-          : 'bg-light-bg-testnet dark:bg-dark-bg-testnet'
+          : 'bg-light-layout-primary dark:bg-dark-bg-primary'
       }
     >
       <Box col className="min-h-screen my-0 px-[calc(50%-720px)]" flex={1}>

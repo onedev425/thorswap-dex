@@ -50,7 +50,11 @@ export const StakeConfirmModal = ({
   const appDispatch = useAppDispatch();
   const [amount, setAmount] = useState<BigNumber>(BigNumber.from(0));
   const { wallet } = useWallet();
-  const { isApproved } = useApproveContract(lpAsset, getContractAddress(contractType), !!wallet);
+  const { isApproved } = useApproveContract(
+    lpAsset,
+    getContractAddress(contractType).address,
+    !!wallet,
+  );
 
   const actionLabel = t(actionNameKey[type]);
   const isClaim = type === FarmActionType.CLAIM;
@@ -103,7 +107,7 @@ export const StakeConfirmModal = ({
       try {
         const txid = await multichain().approveAssetForStaking(
           lpAsset,
-          getContractAddress(contractType),
+          getContractAddress(contractType).address,
         );
 
         if (txid) {

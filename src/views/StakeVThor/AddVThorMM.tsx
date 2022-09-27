@@ -3,14 +3,11 @@ import { Button, Icon } from 'components/Atomic';
 import { stakingV2Addr, vThorInfo } from 'helpers/assets';
 import { memo } from 'react';
 import { t } from 'services/i18n';
-import { NETWORK } from 'settings/config';
 import { useWallet } from 'store/wallet/hooks';
 
 export const AddVThorMM = memo(() => {
   const { wallet } = useWallet();
   const addVTHOR = async () => {
-    const vThorAddress = stakingV2Addr.VTHOR[NETWORK];
-
     const provider =
       // @ts-expect-error window types
       wallet?.ETH?.walletType === WalletOption.XDEFI ? window.xfi?.ethereum : window.ethereum;
@@ -20,7 +17,7 @@ export const AddVThorMM = memo(() => {
       params: {
         type: 'ERC20',
         options: {
-          address: vThorAddress,
+          address: stakingV2Addr.VTHOR,
           symbol: vThorInfo.ticker,
           decimals: vThorInfo.decimals,
           image: vThorInfo.iconUrl,

@@ -4,7 +4,7 @@ import { Asset, getRequest } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import { midgardApi } from 'services/midgard';
 import { multichain } from 'services/multichain';
-import { midgardAPIUrl, THORNODE_API_URI } from 'settings/config';
+import { midgardAPIUrl, THORNODE_URL } from 'settings/config';
 
 import { AggregatorSwapType, LiquidityProvider, TxTracker } from './types';
 
@@ -164,7 +164,5 @@ export const pollApprove = createAsyncThunk(
 export const getLiquidityProviderData = createAsyncThunk(
   'thornode/getLiquidityProvider',
   async ({ address, asset }: { asset: string; address: string }) =>
-    getRequest<LiquidityProvider>(
-      `${THORNODE_API_URI}/pool/${asset}/liquidity_provider/${address}`,
-    ),
+    getRequest<LiquidityProvider>(`${THORNODE_URL}/pool/${asset}/liquidity_provider/${address}`),
 );
