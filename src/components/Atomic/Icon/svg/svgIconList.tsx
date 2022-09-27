@@ -14,6 +14,7 @@ import { FunctionComponent, MouseEventHandler, SVGProps } from 'react';
 import { ReactComponent as App } from './app.svg';
 import { ReactComponent as Binance3d } from './binance.svg';
 import { ReactComponent as Bitcoin3d } from './bitcoin.svg';
+import Brave from './brave.png';
 import { ReactComponent as Bulb } from './bulb.svg';
 import { ReactComponent as ChartCandle } from './chartCandle.svg';
 import { ReactComponent as Cloud } from './cloud.svg';
@@ -142,10 +143,13 @@ export const Svgs = {
   portugal: Portugal,
   russia: Russia,
   saudi: Saudi,
-  spain: Spain,
   snowtrace: Snowtrace,
   trustWallet: TrustWallet,
   usa: USA,
+
+  // png only for typings
+  spain: Spain,
+  brave: Brave,
 };
 
 const Icons = Object.entries(Svgs);
@@ -167,9 +171,12 @@ const IconComponents = Icons.reduce(
       | FunctionComponent<SVGProps<SVGSVGElement> & { title?: string | undefined }>;
   },
 );
+const ImageIcon =
+  (src: any) =>
+  ({ size, ...rest }: CustomIconProps) =>
+    <img src={src} style={{ width: size, height: size }} {...rest} />;
 
-IconComponents.spain = ({ size, ...rest }: CustomIconProps) => (
-  <img src={Spain} style={{ width: size, height: size }} {...rest} />
-);
+IconComponents.brave = ImageIcon(Brave);
+IconComponents.spain = ImageIcon(Spain);
 
 export const SvgIcons = IconComponents;

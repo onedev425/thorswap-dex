@@ -1,15 +1,16 @@
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 
 export enum WalletType {
-  Keystore = 'Keystore',
+  Brave = 'Brave',
   CreateKeystore = 'CreateKeystore',
-  Phrase = 'Phrase',
-  Ledger = 'Ledger',
-  TrustWallet = 'TrustWallet',
-  MetaMask = 'MetaMask',
-  Xdefi = 'Xdefi',
-  Phantom = 'Phantom',
   Keplr = 'Keplr',
+  Keystore = 'Keystore',
+  Ledger = 'Ledger',
+  MetaMask = 'MetaMask',
+  Phantom = 'Phantom',
+  Phrase = 'Phrase',
+  TrustWallet = 'TrustWallet',
+  Xdefi = 'Xdefi',
 }
 
 // Left as a placeholder for future chains
@@ -29,6 +30,7 @@ const AllChainsSupported = [
 ] as SupportedChain[];
 
 export const availableChainsByWallet: Record<WalletType, SupportedChain[]> = {
+  [WalletType.Brave]: [Chain.Ethereum],
   [WalletType.CreateKeystore]: AllChainsSupported,
   [WalletType.Keplr]: [Chain.Cosmos],
   [WalletType.Keystore]: AllChainsSupported,

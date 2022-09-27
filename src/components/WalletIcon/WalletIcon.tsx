@@ -12,6 +12,7 @@ type Props = {
 };
 
 const walletIcons: Record<WalletOption, IconName> = {
+  [WalletOption.BRAVE]: 'brave',
   [WalletOption.HAMMER_WALLET]: 'questionCircle',
   [WalletOption.METAMASK]: 'metamask',
   [WalletOption.LEDGER]: 'ledger',

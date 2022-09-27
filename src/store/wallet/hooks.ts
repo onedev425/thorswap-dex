@@ -79,6 +79,15 @@ export const useWallet = () => {
     [dispatch],
   );
 
+  const connectBraveWallet = useCallback(
+    async (chain: SupportedChain) => {
+      await multichain().connectBraveWallet();
+
+      dispatch(walletActions.getWalletByChain(chain));
+    },
+    [dispatch],
+  );
+
   const connectMetamask = useCallback(
     async (chain: SupportedChain) => {
       await multichain().connectMetamask(chain);
@@ -136,6 +145,7 @@ export const useWallet = () => {
     disconnectWallet,
     disconnectWalletByChain,
     connectXdefiWallet,
+    connectBraveWallet,
     connectMetamask,
     connectPhantom,
     connectKeplr,

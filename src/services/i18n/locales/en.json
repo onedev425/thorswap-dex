@@ -748,8 +748,8 @@
       "unavailable": "Unavailable",
       "unavailableForPurchase": "Unavailable for purchase",
       "updateFee": "Update Fee",
-	  "year": "year",
-	  "years": "years"
+      "year": "year",
+      "years": "years"
     },
     "vesting": {
       "claim": "Claim",
@@ -812,6 +812,7 @@
     },
     "walletModal": {
       "backupKeystore": "Backup Keystore",
+      "braveWallet": "Brave Wallet",
       "chooseKeystore": "Choose file to upload",
       "confirmPassword": "Confirm Password",
       "connectOnboard": "Ethereum Wallets",
@@ -821,6 +822,7 @@
       "createKeystore": "Create Keystore",
       "createWallet": "Create Wallet",
       "disableXdefi": "Metamask (disable XDEFI)",
+      "enableBraveWallet": "Enable Brave Wallet",
       "enterKeystorePassword": "Confirm keystore password",
       "enterPassword": "Enter Password",
       "enterSeed": "Please Enter 12 words Seed Phrase",
@@ -837,6 +839,7 @@
       "ledger": "Ledger",
       "ledgerIndex": "Ledger Index",
       "metaMask": "MetaMask",
+      "metaMaskDisableBrave": "MetaMask (Disable BraveWallet)",
       "metaMaskDisableXDefiPrioritized": "MetaMask (Deprioritize XDEFI)",
       "noSlipProtection": "",
       "noSlipProtection_plural": "THORSwap shall not be held responsible for any loss of funds.",

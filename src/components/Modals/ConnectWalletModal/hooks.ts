@@ -4,11 +4,8 @@ import { IconName } from 'components/Atomic';
 import { showErrorToast } from 'components/Toast';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import { useCallback, useMemo } from 'react';
+import { brave, keplr, metamask, phantom, xdefi } from 'services/extensionWallets';
 import { t } from 'services/i18n';
-import { keplr } from 'services/keplr';
-import { metamask } from 'services/metamask';
-import { phantom } from 'services/phantom';
-import { xdefi } from 'services/xdefi';
 import { useWallet } from 'store/wallet/hooks';
 
 import { availableChainsByWallet, WalletType } from './types';
@@ -54,10 +51,21 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): Wallet
       {
         type: WalletType.MetaMask,
         icon: 'metamask',
-        disabled: metamask.isXDefiPrioritized(),
+        disabled: metamask.isBravePrioritized() || metamask.isXDefiPrioritized(),
         label: metamask.isXDefiPrioritized()
           ? t('views.walletModal.metaMaskDisableXDefiPrioritized')
+          : metamask.isBravePrioritized()
+          ? t('views.walletModal.metaMaskDisableBrave')
           : t('views.walletModal.metaMask'),
+      },
+      {
+        disabled: !brave.isWalletDetected(),
+        icon: 'brave',
+        type: WalletType.Brave,
+        visible: isMdActive,
+        label: brave.isWalletDetected()
+          ? t('views.walletModal.braveWallet')
+          : t('views.walletModal.enableBraveWallet'),
       },
       {
         visible: isMdActive,
@@ -99,12 +107,13 @@ export const useHandleWalletConnect = ({
   chains,
 }: HandleWalletConnectParams) => {
   const {
-    connectXdefiWallet,
-    connectMetamask,
-    connectPhantom,
+    connectBraveWallet,
     connectKeplr,
     connectLedger,
+    connectMetamask,
+    connectPhantom,
     connectTrustWallet,
+    connectXdefiWallet,
   } = useWallet();
 
   const handleConnectWallet = useCallback(
@@ -134,6 +143,8 @@ export const useHandleWalletConnect = ({
             return await connectLedger(selectedChains[0], ledgerIndex);
           case WalletType.MetaMask:
             return await connectMetamask(selectedChains[0]);
+          case WalletType.Brave:
+            return await connectBraveWallet(selectedChains[0]);
           case WalletType.Phantom:
             return await connectPhantom();
           case WalletType.Keplr:
@@ -149,13 +160,14 @@ export const useHandleWalletConnect = ({
       }
     },
     [
-      walletType,
-      connectTrustWallet,
       chains,
+      walletType,
+      ledgerIndex,
+      connectTrustWallet,
       connectXdefiWallet,
       connectLedger,
-      ledgerIndex,
       connectMetamask,
+      connectBraveWallet,
       connectPhantom,
       connectKeplr,
     ],
