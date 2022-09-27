@@ -96,7 +96,12 @@ export const CreateLiquidity = () => {
   });
 
   const {
-    prices: { inputUSDPrice: assetUSDPrice, outputUSDPrice: runeUSDPrice },
+    prices: {
+      inputUnitPrice: assetUnitPrice,
+      outputUnitPrice: runeUnitPrice,
+      inputUSDPrice: assetUSDPrice,
+      outputUSDPrice: runeUSDPrice,
+    },
   } = useTokenPrices({
     inputAmount: assetAmount,
     inputAsset: poolAsset,
@@ -131,11 +136,29 @@ export const CreateLiquidity = () => {
     setPoolAsset(poolAssetData);
   }, []);
 
+  const getBalancedAmountsForAsset = useCallback(
+    (amount: Amount): { assetAmount: Amount; runeAmount: Amount } => {
+      const baseAssetAmount = amount.gt(maxPoolAssetBalance) ? maxPoolAssetBalance : amount;
+      const baseRuneAmount = baseAssetAmount.mul(assetUnitPrice).div(runeUnitPrice);
+      const exceedsRuneAmount = baseRuneAmount.gt(maxRuneBalance);
+
+      const runeAmount = exceedsRuneAmount ? maxRuneBalance : baseRuneAmount;
+      const assetAmount = exceedsRuneAmount
+        ? runeAmount.mul(runeUnitPrice).div(assetUnitPrice)
+        : baseAssetAmount;
+
+      return { assetAmount, runeAmount };
+    },
+    [assetUnitPrice, maxPoolAssetBalance, maxRuneBalance, runeUnitPrice],
+  );
+
   const handleChangeAssetAmount = useCallback(
     (amount: Amount) => {
-      setAssetAmount(amount.gt(maxPoolAssetBalance) ? maxPoolAssetBalance : amount);
+      const { assetAmount, runeAmount } = getBalancedAmountsForAsset(amount);
+      setAssetAmount(assetAmount);
+      setRuneAmount(runeAmount);
     },
-    [maxPoolAssetBalance],
+    [getBalancedAmountsForAsset],
   );
 
   const handleChangeRuneAmount = useCallback(

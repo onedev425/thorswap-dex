@@ -56,7 +56,9 @@ export const useTokenPrices = ({ inputAsset, inputAmount, outputAmount, outputAs
   const prices = useMemo(
     () => ({
       inputUSDPrice: getPrice(tokenParams[0], inputPrice),
+      inputUnitPrice: inputPrice || 0,
       outputUSDPrice: getPrice(tokenParams[1], outputPrice),
+      outputUnitPrice: outputPrice || 0,
     }),
     [inputPrice, outputPrice, tokenParams],
   );
