@@ -16,14 +16,15 @@ type WalletItem = {
   label: string;
   visible?: boolean;
   disabled?: boolean;
+  tooltip?: string;
 };
 
 type UseWalletOptionsParams = {
   isMdActive: boolean;
 };
 
-export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): WalletItem[] => {
-  return useMemo(
+export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): WalletItem[] =>
+  useMemo(
     () => [
       {
         icon: 'xdefi',
@@ -38,7 +39,7 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): Wallet
         visible: isMdActive,
       },
       {
-        icon: 'keplr' as const,
+        icon: 'keplr',
         label: t('views.walletModal.keplr'),
         type: WalletType.Keplr,
         visible: isMdActive,
@@ -52,20 +53,20 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): Wallet
         type: WalletType.MetaMask,
         icon: 'metamask',
         disabled: metamask.isBravePrioritized() || metamask.isXDefiPrioritized(),
-        label: metamask.isXDefiPrioritized()
-          ? t('views.walletModal.metaMaskDisableXDefiPrioritized')
+        label: t('views.walletModal.metaMask'),
+        tooltip: metamask.isXDefiPrioritized()
+          ? t('views.walletModal.deprioritizeXdefi')
           : metamask.isBravePrioritized()
-          ? t('views.walletModal.metaMaskDisableBrave')
-          : t('views.walletModal.metaMask'),
+          ? t('views.walletModal.disableBraveWallet')
+          : '',
       },
       {
         disabled: !brave.isWalletDetected(),
         icon: 'brave',
         type: WalletType.Brave,
         visible: isMdActive,
-        label: brave.isWalletDetected()
-          ? t('views.walletModal.braveWallet')
-          : t('views.walletModal.enableBraveWallet'),
+        label: t('views.walletModal.braveWallet'),
+        tooltip: !brave.isWalletDetected() ? t('views.walletModal.enableBraveWallet') : '',
       },
       {
         visible: isMdActive,
@@ -93,7 +94,6 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): Wallet
     ],
     [isMdActive],
   );
-};
 
 export type HandleWalletConnectParams = {
   walletType?: WalletType;
@@ -144,7 +144,7 @@ export const useHandleWalletConnect = ({
           case WalletType.MetaMask:
             return await connectMetamask(selectedChains[0]);
           case WalletType.Brave:
-            return await connectBraveWallet(selectedChains[0]);
+            return await connectBraveWallet(selectedChains);
           case WalletType.Phantom:
             return await connectPhantom();
           case WalletType.Keplr:

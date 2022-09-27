@@ -1,6 +1,6 @@
 import { Keystore, SUPPORTED_CHAINS, SupportedChain } from '@thorswap-lib/types';
 import classNames from 'classnames';
-import { Box, Button, Modal, Typography } from 'components/Atomic';
+import { Box, Button, Modal, Tooltip, Typography } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoTip } from 'components/InfoTip';
 import { Input } from 'components/Input';
@@ -301,18 +301,19 @@ const ConnectWalletModal = () => {
 
               <Box className="pl-6 pr-4 flex-wrap">
                 {walletOptions.map(
-                  ({ visible = true, type, disabled, icon, label }) =>
+                  ({ visible = true, tooltip, type, disabled, icon, label }) =>
                     visible && (
-                      <WalletOption
-                        connected={connectedWallets.includes(type.toLowerCase())}
-                        disabled={disabled || isWalletTypeDisabled(type)}
-                        handleTypeSelect={handleWalletTypeSelect}
-                        icon={icon}
-                        key={type}
-                        label={label}
-                        selected={type === selectedWalletType}
-                        type={type}
-                      />
+                      <Tooltip content={tooltip} key={type}>
+                        <WalletOption
+                          connected={connectedWallets.includes(type.toLowerCase())}
+                          disabled={disabled || isWalletTypeDisabled(type)}
+                          handleTypeSelect={handleWalletTypeSelect}
+                          icon={icon}
+                          label={label}
+                          selected={type === selectedWalletType}
+                          type={type}
+                        />
+                      </Tooltip>
                     ),
                 )}
               </Box>

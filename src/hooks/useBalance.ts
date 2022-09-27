@@ -1,5 +1,5 @@
 import { Amount, Asset, getNetworkFeeByAsset } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { SupportedChain } from '@thorswap-lib/types';
 import { getGasRateByFeeOption } from 'helpers/networkFee';
 import { getAssetBalance } from 'helpers/wallet';
 import { useCallback } from 'react';
@@ -39,25 +39,16 @@ export const useBalance = () => {
   const getMaxBalance = useCallback(
     (asset: Asset): Amount => {
       const { isGasAsset, L1Chain, decimal } = asset;
+      if (!wallet?.[L1Chain as SupportedChain]) return Amount.fromAssetAmount(10 ** 8, decimal);
 
-      if (!wallet?.[L1Chain as SupportedChain]) {
-        return Amount.fromAssetAmount(10 ** 8, decimal);
-      }
-
-      // calculate inbound fee
-      const gasRate = getGasRateByFeeOption({
-        gasRate: inboundGasRate[L1Chain],
-        feeOptionType,
-      });
-
-      const inboundFee = getNetworkFeeByAsset({
+      const networkFee = getNetworkFeeByAsset({
         asset,
-        gasRate,
-        direction: L1Chain === Chain.THORChain ? 'outbound' : 'inbound',
+        gasRate: getGasRateByFeeOption({ gasRate: inboundGasRate[L1Chain], feeOptionType }),
+        direction: 'outbound',
       });
 
-      const balance = getAssetBalance(asset, wallet).amount;
-      const maxSpendableAmount = isGasAsset() ? balance.sub(inboundFee) : balance;
+      const { amount } = getAssetBalance(asset, wallet);
+      const maxSpendableAmount = isGasAsset() ? amount.sub(networkFee) : amount;
 
       return maxSpendableAmount.gt(0) ? maxSpendableAmount : Amount.fromAssetAmount(0, decimal);
     },

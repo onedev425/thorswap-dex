@@ -80,10 +80,12 @@ export const useWallet = () => {
   );
 
   const connectBraveWallet = useCallback(
-    async (chain: SupportedChain) => {
-      await multichain().connectBraveWallet();
+    async (chains: SupportedChain[]) => {
+      await multichain().connectBraveWallet(chains);
 
-      dispatch(walletActions.getWalletByChain(chain));
+      chains.forEach((chain) => {
+        dispatch(walletActions.getWalletByChain(chain));
+      });
     },
     [dispatch],
   );

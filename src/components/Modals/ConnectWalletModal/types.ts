@@ -30,7 +30,7 @@ const AllChainsSupported = [
 ] as SupportedChain[];
 
 export const availableChainsByWallet: Record<WalletType, SupportedChain[]> = {
-  [WalletType.Brave]: [Chain.Ethereum],
+  [WalletType.Brave]: [Chain.Avalanche, Chain.Ethereum],
   [WalletType.CreateKeystore]: AllChainsSupported,
   [WalletType.Keplr]: [Chain.Cosmos],
   [WalletType.Keystore]: AllChainsSupported,
