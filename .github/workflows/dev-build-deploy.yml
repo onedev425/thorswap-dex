@@ -118,7 +118,7 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'THORSwap development app has been deployed. - https://beta.thorswap.finance'
+          args: "Deployed ✅ - https://beta.thorswap.finance\nEnvironment: mainnet\nAuthor: ${{ github.actor }}"
 
   deploy-dev:
     name: Deploy dev to Netlify
@@ -147,3 +147,10 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_DEV_API_SITE_ID }}
         timeout-minutes: 1
+
+      - name: Discord Notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: "Deployed ✅ - https://dev.thorswap.finance\nEnvironment: mainnet\nAPI: dev-api\nAuthor: ${{ github.actor }}"

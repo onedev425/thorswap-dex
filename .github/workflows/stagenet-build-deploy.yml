@@ -96,4 +96,4 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'THORSwap stagenet app has been deployed. https://stagenet.thorswap.finance'
+          args: "Deployed ✅ - https://stagenet.thorswap.finance\nEnvironment: stagenet\nAPI: dev-api\nAuthor: ${{ github.actor }}"
