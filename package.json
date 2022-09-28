@@ -32,7 +32,7 @@
     "@popperjs/core": "2.11.6",
     "@reduxjs/toolkit": "1.8.5",
     "@thorswap-lib/midgard-sdk": "0.1.11",
-    "@thorswap-lib/multichain-core": "0.0.0-development.79",
+    "@thorswap-lib/multichain-core": "0.0.0-development.80",
     "@thorswap-lib/multichain-ledger": "0.2.20",
     "@thorswap-lib/multichain-walletconnect": "0.2.13",
     "@thorswap-lib/multichain-web-extensions": "0.2.18",

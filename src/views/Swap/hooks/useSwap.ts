@@ -60,8 +60,6 @@ export const useSwap = ({
           inputAsset.name
         } → ${outputAmount.toSignificant(6)} ${outputAsset.name}`;
 
-        debugger;
-
         appDispatch(
           addTransaction({
             id,

@@ -42,7 +42,7 @@ export const SwapSubmitButton = ({
 }: Props) => {
   const { wallet, setIsConnectModalOpen } = useWallet();
   const { inboundHalted, pools } = useMidgard();
-  const { maxSynthPerAssetDepth } = useMimir();
+  const { isChainTradingHalted, maxSynthPerAssetDepth } = useMimir();
   const { getChainTradingPaused } = useExternalConfig();
   const numberOfPendingApprovals = useAppSelector(
     ({ transactions }) =>
@@ -136,15 +136,32 @@ export const SwapSubmitButton = ({
 
   const isSwapValid = useMemo(
     () =>
-      hasQuote && inputAmount.gt(0) && (isSynthMintable || !isTradingHalted) && !swapAmountTooSmall,
-    [hasQuote, inputAmount, isSynthMintable, isTradingHalted, swapAmountTooSmall],
+      !isChainTradingHalted[inputAsset.L1Chain] &&
+      !isChainTradingHalted[outputAsset.L1Chain] &&
+      hasQuote &&
+      inputAmount.gt(0) &&
+      (isSynthMintable || !isTradingHalted) &&
+      !swapAmountTooSmall,
+    [
+      hasQuote,
+      inputAmount,
+      inputAsset.L1Chain,
+      isChainTradingHalted,
+      isSynthMintable,
+      isTradingHalted,
+      outputAsset.L1Chain,
+      swapAmountTooSmall,
+    ],
   );
 
   const btnLabel = useMemo(() => {
-    if (!isSwapValid) {
-      if (isTradingHalted || !isSynthMintable) {
-        return isSynthMintable ? t('notification.swapNotAvailable') : t('txManager.mint');
-      }
+    if (
+      !isSwapValid ||
+      isTradingHalted ||
+      isChainTradingHalted[inputAsset.L1Chain] ||
+      isChainTradingHalted[outputAsset.L1Chain]
+    ) {
+      return t('notification.swapNotAvailable');
     }
 
     if (swapAmountTooSmall) return t('notification.swapAmountTooSmall');
@@ -156,11 +173,13 @@ export const SwapSubmitButton = ({
     return t('common.swap');
   }, [
     isSwapValid,
-    swapAmountTooSmall,
-    inputAsset.isSynth,
-    outputAsset.isSynth,
     isTradingHalted,
-    isSynthMintable,
+    isChainTradingHalted,
+    inputAsset.L1Chain,
+    inputAsset.isSynth,
+    outputAsset.L1Chain,
+    outputAsset.isSynth,
+    swapAmountTooSmall,
   ]);
 
   const isApproveRequired = useMemo(
