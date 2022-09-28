@@ -1,5 +1,4 @@
 import { Asset, AssetAmount, ETH_DECIMAL } from '@thorswap-lib/multichain-core';
-import { Chain } from '@thorswap-lib/types';
 import { useCallback, useMemo, useState } from 'react';
 import { getCustomContract } from 'services/contract';
 import { t } from 'services/i18n';
@@ -112,19 +111,23 @@ export const useTxIDFromResult = ({
 
 export const useTxLabelUpdate = ({
   result,
-  inChain,
-  outChain,
   setTransactionLabel,
 }: {
   result?: TxnResult | string;
-  inChain: Chain;
-  outChain?: Chain;
   setTransactionLabel: (label: string) => void;
 }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const inputGetter = inChain === Chain.Ethereum ? getEthPart : getTcPart;
-  const outputGetter = outChain === Chain.Ethereum ? getEthPart : getTcPart;
-  const resultType = (typeof result === 'string' ? result : result?.type)?.toUpperCase();
+  const resultType = ((typeof result === 'string' ? result : result?.type) || '').toUpperCase();
+  const inputGetter = [TransactionType.SWAP_ETH_TO_ETH, TransactionType.SWAP_ETH_TO_TC].includes(
+    resultType as TransactionType,
+  )
+    ? getEthPart
+    : getTcPart;
+  const outputGetter = [TransactionType.SWAP_ETH_TO_ETH, TransactionType.SWAP_TC_TO_ETH].includes(
+    resultType as TransactionType,
+  )
+    ? getEthPart
+    : getTcPart;
 
   const handleLabelUpdate = useCallback(async () => {
     if (

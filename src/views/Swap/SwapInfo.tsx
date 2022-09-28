@@ -151,21 +151,20 @@ export const SwapInfo = ({
               tooltip={
                 affiliateBasisPoints
                   ? t('views.swap.affiliateFee', {
-                      percent: `${(affiliateBasisPoints / 100).toFixed(1)}%`,
+                      percent: `${(affiliateBasisPoints / 100).toFixed(2)}%`,
                     })
                   : ''
               }
               value={
                 <Box center row className="gap-1">
+                  {affiliateBasisPoints !== DEFAULT_AFFILIATE && (
+                    <Typography color="secondary" variant="caption-xs">
+                      vTHOR {t('views.swap.discountApplied')}
+                    </Typography>
+                  )}
+
                   {affiliateFee ? (
-                    <>
-                      {affiliateBasisPoints !== DEFAULT_AFFILIATE && (
-                        <Typography color="secondary" variant="caption-xs">
-                          vTHOR {t('views.swap.discountApplied')}
-                        </Typography>
-                      )}
-                      <Typography variant="caption">{formatPrice(affiliateFee)}</Typography>
-                    </>
+                    <Typography variant="caption">{formatPrice(affiliateFee)}</Typography>
                   ) : (
                     <Typography color="green" fontWeight="bold" variant="caption">
                       FREE

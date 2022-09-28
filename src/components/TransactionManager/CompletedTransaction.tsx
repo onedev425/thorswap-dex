@@ -4,21 +4,16 @@ import { Box, Icon, Link, Typography } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { multichain } from 'services/multichain';
-import { CompletedTransactionType } from 'store/transactions/types';
+import { CompletedTransactionType, TransactionType } from 'store/transactions/types';
 
 import { cutTxPrefix, transactionTitle, useTxIDFromResult, useTxLabelUpdate } from './helpers';
 import { TransactionStatusIcon } from './TransactionStatusIcon';
 
 export const CompletedTransaction = memo(
-  ({ inChain, outChain, type, txid, label, status, result }: CompletedTransactionType) => {
+  ({ inChain, type, txid, label, status, result }: CompletedTransactionType) => {
     const [transactionLabel, setTransactionLabel] = useState(label);
 
-    const { handleLabelUpdate, isLoading } = useTxLabelUpdate({
-      result,
-      inChain,
-      outChain,
-      setTransactionLabel,
-    });
+    const { handleLabelUpdate, isLoading } = useTxLabelUpdate({ result, setTransactionLabel });
 
     useEffect(() => {
       handleLabelUpdate();
@@ -45,8 +40,10 @@ export const CompletedTransaction = memo(
     const secondTxid = useTxIDFromResult({ result, txid });
 
     const secondUrl = {
-      url: outChain && transactionUrl(secondTxid),
-      icon: outChain === Chain.Ethereum ? 'etherscanLight' : 'external',
+      url: transactionUrl(secondTxid),
+      icon: [TransactionType.SWAP_ETH_TO_ETH, TransactionType.SWAP_TC_TO_ETH].includes(type)
+        ? 'etherscanLight'
+        : 'external',
     } as const;
 
     return (

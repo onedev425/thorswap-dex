@@ -58,9 +58,8 @@ export const TransactionManager = memo(() => {
     );
     completedTransactionIds.current = completed.map(({ id }) => id);
 
-    const chainsToUpdate = transactionsToUpdate.reduce((acc, { inChain, outChain }) => {
+    const chainsToUpdate = transactionsToUpdate.reduce((acc, { inChain }) => {
       if (!acc.includes(inChain)) acc.push(inChain);
-      if (outChain && !acc.includes(outChain)) acc.push(outChain);
 
       return acc;
     }, [] as Chain[]);
