@@ -63,7 +63,7 @@ const SwapView = () => {
   const affiliateBasisPoints = useMemo(() => {
     if ((!IS_PROD && !IS_DEV_API) || VTHORBalance >= 500_000) return '0';
     if (VTHORBalance >= 100_000) return '10';
-    if (VTHORBalance >= 10_000) return '20';
+    if (VTHORBalance >= 10_000) return '15';
     if (VTHORBalance >= 1_000) return '25';
     return '30';
   }, [VTHORBalance]);
@@ -287,6 +287,7 @@ const SwapView = () => {
       />
 
       <SwapInfo
+        affiliateBasisPoints={Number(affiliateBasisPoints)}
         affiliateFee={affiliateFee}
         expectedOutput={`${outputAmount?.toSignificant(6)} ${outputAsset.name.toUpperCase()}`}
         inputUSDPrice={inputUSDPrice}

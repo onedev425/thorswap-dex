@@ -695,7 +695,6 @@
       "withdrawVolume": "Volume de valor retirado"
     },
     "swap": {
-      "affiliateFee": "0.uma taxa de afiliação de 3% é cobrada por THORSwap. 75% das taxas são redistribuídas de volta aos stakers do vTHOR.",
       "autoRouter": "Router automático",
       "autoRouterApi": "API do router automático",
       "check": "Verificar %{checkType}",

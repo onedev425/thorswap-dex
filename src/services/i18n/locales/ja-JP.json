@@ -695,7 +695,6 @@
       "withdrawVolume": "出金量"
     },
     "swap": {
-      "affiliateFee": "0.3%のアフィリエイト手数料がTHORSwapから課金されます。手数料の75%はvTHORのステイカーに再分配されます。",
       "autoRouter": "Auto Router",
       "autoRouterApi": "Auto Router API",
       "check": " %{checkType} の確認",

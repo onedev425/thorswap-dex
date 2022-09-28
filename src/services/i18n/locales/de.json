@@ -695,7 +695,6 @@
       "withdrawVolume": "Abhebevolumen"
     },
     "swap": {
-      "affiliateFee": "0.3% Affiliate-Gebühr wird von THORSwap erhoben. 75% dieser Gebühren werden an Staker von vTHOR ausgeschüttet.",
       "autoRouter": "Auto Router",
       "autoRouterApi": "Auto Router API",
       "check": "Prüfung %{checkType}",

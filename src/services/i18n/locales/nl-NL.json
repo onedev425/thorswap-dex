@@ -695,7 +695,6 @@
       "withdrawVolume": "Opname Volume"
     },
     "swap": {
-      "affiliateFee": "THORSwap rekent een affiliate kost van 0.3%. 75% van deze affiliate kosten worden terug verdeeld onder vTHOR stakers.",
       "autoRouter": "Auto Router",
       "autoRouterApi": "Auto Router API",
       "check": "Controleer %{checkType}",

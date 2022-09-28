@@ -695,7 +695,6 @@
       "withdrawVolume": "Объём выводов "
     },
     "swap": {
-      "affiliateFee": "0.партнерское вознаграждение в размере 3% взимается компанией THORSwap. 75% комиссионных перераспределяются обратно стакерам vTHOR.",
       "autoRouter": "Auto Router",
       "autoRouterApi": "Auto Router API",
       "check": "Проверьте %{checkType}",

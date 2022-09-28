@@ -695,7 +695,6 @@
       "withdrawVolume": "Wolumen wyciągu"
     },
     "swap": {
-      "affiliateFee": "THORSwap pobiera opłatę partnerską w wysokości 0,3%. 75% opłat jest redystrybuowane z powrotem do vTHOR stakers.",
       "autoRouter": "Router automatyczny",
       "autoRouterApi": "Automatyczny Router API",
       "check": "Sprawdź %{checkType}",

@@ -695,7 +695,6 @@
       "withdrawVolume": "Volume em Saques"
     },
     "swap": {
-      "affiliateFee": "THORSwap cobra 0.3% de comissão. \n75% da arrecadação é redistribuída aos stakers de vTHOR.",
       "autoRouter": "Roteamento Automático",
       "autoRouterApi": "API de Roteamento Automático",
       "check": "Verificar %{checkType}",

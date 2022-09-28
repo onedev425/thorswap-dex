@@ -18,9 +18,11 @@ export const InfoWithTooltip = memo(({ value, tooltip }: Props) => {
         value
       )}
 
-      <Tooltip content={tooltip}>
-        <Icon className={baseTextHoverClass} color="secondary" name="infoCircle" size={20} />
-      </Tooltip>
+      {!!tooltip && (
+        <Tooltip content={tooltip}>
+          <Icon className={baseTextHoverClass} color="secondary" name="infoCircle" size={20} />
+        </Tooltip>
+      )}
     </Box>
   );
 });

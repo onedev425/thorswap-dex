@@ -695,7 +695,6 @@
       "withdrawVolume": "واپس لیا ہوا حجم"
     },
     "swap": {
-      "affiliateFee": "0.3% الحاق کی فیس THORSwap کے ذریعے لی جاتی ہے۔ فیس کا 75% دوبارہ vTHOR اسٹیکرز میں تقسیم کیا جاتا ہے۔",
       "autoRouter": "آٹو راؤٹر",
       "autoRouterApi": "آٹو راؤٹر API",
       "check": "چیک کریں% {checktype}",

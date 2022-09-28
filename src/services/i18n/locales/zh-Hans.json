@@ -695,7 +695,6 @@
       "withdrawVolume": "提取交易量"
     },
     "swap": {
-      "affiliateFee": "THORSwap 收取的 0.3% 服务费。其75%将重新分配给 vTHOR 持有者。",
       "autoRouter": "自动路由",
       "autoRouterApi": "自动路由 API",
       "check": "确认 %{checkType}",

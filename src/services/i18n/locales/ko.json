@@ -695,7 +695,6 @@
       "withdrawVolume": "인출 볼륨"
     },
     "swap": {
-      "affiliateFee": "ThorSwap은 0.3% 의 제휴 수수료를 부과합니다. 수수료의 75% 는 vThor 스테이커에게 다시 분배됩니다.",
       "autoRouter": "자동 라우터",
       "autoRouterApi": "자동 라우터 API",
       "check": "체크% {체크타입}",

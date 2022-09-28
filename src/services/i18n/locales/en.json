@@ -695,10 +695,11 @@
       "withdrawVolume": "Withdraw Volume"
     },
     "swap": {
-      "affiliateFee": "0.3% affiliate fee is charged by THORSwap. 75% of fees are redistributed back to vTHOR stakers.",
+      "affiliateFee": "%{percent} affiliate fee is charged by THORSwap. 75% of fees are redistributed back to vTHOR stakers.",
       "autoRouter": "Auto Router",
       "autoRouterApi": "Auto Router API",
       "check": "Check %{checkType}",
+      "discountApplied": "Discount Applied",
       "emptyFeatured": "No featured assets",
       "emptyFrequent": "No frequent assets",
       "exchangeFee": "Exchange Fee",

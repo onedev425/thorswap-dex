@@ -11,6 +11,7 @@ import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
 
 type Props = {
+  affiliateBasisPoints: number;
   expectedOutput?: string;
   affiliateFee: number;
   networkFee: number;
@@ -24,8 +25,10 @@ type Props = {
 };
 
 const feeOptions = [FeeOption.Average, FeeOption.Fast, FeeOption.Fastest];
+const DEFAULT_AFFILIATE = 30;
 
 export const SwapInfo = ({
+  affiliateBasisPoints,
   expectedOutput,
   affiliateFee,
   networkFee,
@@ -145,11 +148,24 @@ export const SwapInfo = ({
           label: t('views.swap.exchangeFee'),
           value: (
             <InfoWithTooltip
-              tooltip={t('views.swap.affiliateFee')}
+              tooltip={
+                affiliateBasisPoints
+                  ? t('views.swap.affiliateFee', {
+                      percent: `${(affiliateBasisPoints / 100).toFixed(1)}%`,
+                    })
+                  : ''
+              }
               value={
                 <Box center row className="gap-1">
                   {affiliateFee ? (
-                    <Typography variant="caption">{formatPrice(affiliateFee)}</Typography>
+                    <>
+                      {affiliateBasisPoints !== DEFAULT_AFFILIATE && (
+                        <Typography color="secondary" variant="caption-xs">
+                          vTHOR {t('views.swap.discountApplied')}
+                        </Typography>
+                      )}
+                      <Typography variant="caption">{formatPrice(affiliateFee)}</Typography>
+                    </>
                   ) : (
                     <Typography color="green" fontWeight="bold" variant="caption">
                       FREE
@@ -163,6 +179,7 @@ export const SwapInfo = ({
       ].filter(Boolean) as InfoRowConfig[],
     [
       activeFeeIndex,
+      affiliateBasisPoints,
       affiliateFee,
       expectedOutput,
       feeOptionLabels,
