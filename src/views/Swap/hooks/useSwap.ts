@@ -58,7 +58,8 @@ export const useSwap = ({
 
         const label = `${inputAmount.toSignificant(6)} ${
           inputAsset.name
-        } → ${outputAmount.toSignificant(6)} ${outputAsset.name.toString()}`;
+        } → ${outputAmount.toSignificant(6)} ${outputAsset.name}`;
+
         appDispatch(
           addTransaction({
             id,

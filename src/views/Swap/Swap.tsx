@@ -61,9 +61,6 @@ const SwapView = () => {
   const VTHORBalance = useVTHORBalance(ethAddr);
 
   const affiliateBasisPoints = useMemo(() => {
-    // TODO: Remove next line after adding VTHOR tiers
-    if (IS_PROD) return VTHORBalance > 10 ? '0' : '30';
-
     if (!IS_PROD || VTHORBalance >= 500_000) return '0';
     if (VTHORBalance >= 100_000) return '10';
     if (VTHORBalance >= 10_000) return '20';
