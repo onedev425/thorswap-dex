@@ -183,7 +183,7 @@ export const useNodeManager = ({
     [tabs],
   );
 
-  const [amount, setAmount] = useState(Amount.fromNormalAmount(0));
+  const [amount, setAmount] = useState(Amount.fromBaseAmount(0, Asset.RUNE().decimal));
   const { rawValue, onChange: onAmountChange } = useInputAmount({
     amountValue: amount,
     onAmountChange: setAmount,
