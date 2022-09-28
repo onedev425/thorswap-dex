@@ -16,7 +16,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
-import { IS_PROD } from 'settings/config';
+import { IS_DEV_API, IS_PROD } from 'settings/config';
 import { getSwapRoute } from 'settings/constants';
 import { useWallet } from 'store/wallet/hooks';
 import { FeeModal } from 'views/Swap/FeeModal';
@@ -61,7 +61,7 @@ const SwapView = () => {
   const VTHORBalance = useVTHORBalance(ethAddr);
 
   const affiliateBasisPoints = useMemo(() => {
-    if (!IS_PROD || VTHORBalance >= 500_000) return '0';
+    if ((!IS_PROD && !IS_DEV_API) || VTHORBalance >= 500_000) return '0';
     if (VTHORBalance >= 100_000) return '10';
     if (VTHORBalance >= 10_000) return '20';
     if (VTHORBalance >= 1_000) return '25';

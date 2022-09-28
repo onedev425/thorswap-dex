@@ -14,10 +14,19 @@ export const getSwapPair = async (pair: string): Promise<Pair | null> => {
 
   if (!inputAsset || !outputAsset) return null;
 
-  const inputDecimals = await getEVMDecimal(inputAsset);
+  try {
+    const inputDecimals = await getEVMDecimal(inputAsset);
+    await inputAsset.setDecimal(inputDecimals || undefined);
+  } catch (_) {
+    // ignore
+  }
 
-  await inputAsset.setDecimal(inputDecimals || undefined);
-  await outputAsset.setDecimal();
+  try {
+    const outputDecimals = await getEVMDecimal(outputAsset);
+    await outputAsset.setDecimal(outputDecimals || undefined);
+  } catch (_) {
+    // ignore
+  }
 
   return { inputAsset, outputAsset };
 };
