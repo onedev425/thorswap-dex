@@ -75,7 +75,6 @@
     "gasTracker": "Gas Tracker",
     "getHelp": "Vraag ondersteuning",
     "globalSettings": "Globale instellingen",
-    "goToV1": "Ga naar V1 applicatie",
     "here": "Hier",
     "ilPaid": "IL betaald",
     "inbound": "Inkomend",
@@ -253,7 +252,6 @@
     "runePooled": "RUNE POOLED",
     "sendTxFailed": "Transactie verzenden mislukt",
     "submitFail": "Transactie verzenden mislukt.",
-    "submitTxFailed": "Transactie verzenden mislukt",
     "successfulTransaction": "Transactie Succesvol",
     "swapAmountTooSmall": "Output bedrag van swap is te klein",
     "swapAmountTooSmallDesc": "Swap output bedrag is klein en kan minder zijn door ethereum gas kosten.",
@@ -694,9 +692,11 @@
       "withdrawVolume": "Opname Volume"
     },
     "swap": {
+      "affiliateFee": "THORSwap rekent een affiliate kost van 0.3%. 75% van deze affiliate kosten worden terug verdeeld onder vTHOR stakers.",
       "autoRouter": "Auto Router",
       "autoRouterApi": "Auto Router API",
       "check": "Controleer %{checkType}",
+      "discountApplied": "Korting toegepast",
       "emptyFeatured": "Geen aanbevolen assets",
       "emptyFrequent": "Geen frequente assets",
       "exchangeFee": "Service Kosten",
@@ -745,7 +745,9 @@
       "thornameSubtitle": "Cross-Chain Wallet Naam Service.",
       "unavailable": "Niet beschikbaar",
       "unavailableForPurchase": "Niet beschikbaar voor aankoop",
-      "updateFee": "Update Kosten"
+      "updateFee": "Update Kosten",
+      "year": "jaar",
+      "years": "jaren"
     },
     "vesting": {
       "claim": "Claim",
@@ -808,6 +810,7 @@
     },
     "walletModal": {
       "backupKeystore": "Backup Keystore",
+      "braveWallet": "Dappere portefeuille",
       "chooseKeystore": "Kies een bestand om te uploaden",
       "confirmPassword": "Bevestig wachtwoord",
       "connectOnboard": "Ethereum Wallets",
@@ -816,7 +819,9 @@
       "copyPhrase": "Seed phrase kopiëren",
       "createKeystore": "Keystore aanmaken",
       "createWallet": "Wallet aanmaken",
-      "disableXdefi": "MetaMask (Schakel XDEFI prioriteit uit)",
+      "deprioritizeXdefi": "Deprioriteren van XDEFI",
+      "disableBraveWallet": "Brave Wallet uitschakelen",
+      "enableBraveWallet": "Brave portemonnee inschakelen",
       "enterKeystorePassword": "Keystore wachtwoord bevestigen",
       "enterPassword": "Wachtwoord invoeren",
       "enterSeed": "Voer uw 12-woorden seed phrase in",
@@ -833,7 +838,6 @@
       "ledger": "Ledger",
       "ledgerIndex": "Ledger Index",
       "metaMask": "MetaMask",
-      "metaMaskDisableXDefiPrioritized": "MetaMask (Deprioritize XDEFI)",
       "noSlipProtection": "",
       "noSlipProtection_plural": "",
       "notConnected": "Niet verbonden",

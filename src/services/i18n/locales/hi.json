@@ -75,7 +75,6 @@
     "gasTracker": "गैस ट्रैकर",
     "getHelp": "मदद लें",
     "globalSettings": "वैश्विक सेटिंग्स",
-    "goToV1": "V1 ऐप पर जाएं",
     "here": "यहां",
     "ilPaid": "आई.एल पेड",
     "inbound": "इनबाउंड",
@@ -253,7 +252,6 @@
     "runePooled": "RUNE जमा",
     "sendTxFailed": "लेन-देन भेजने में विफल",
     "submitFail": "सबमिट करें लेन-देन विफल",
-    "submitTxFailed": "सबमिट करें लेन-देन विफल",
     "successfulTransaction": "लेन-देन सफल",
     "swapAmountTooSmall": "स्वैप आउटपुट राशि बहुत छोटी है",
     "swapAmountTooSmallDesc": "स्वैप आउटपुट राशि छोटी है और इसे एथेरियम गैस शुल्क द्वारा घटाया जा सकता है",
@@ -694,9 +692,11 @@
       "withdrawVolume": " विथ्द्रव  वॉल्यूम "
     },
     "swap": {
+      "affiliateFee": "THORSwap द्वारा 0.3% संबद्ध शुल्क लिया जाता है। फीस का 75% वापस vTHOR स्टेकर्स को पुनर्वितरित किया जाता है।",
       "autoRouter": "ऑटो राउटर",
       "autoRouterApi": "ऑटो राउटर ए.पी.आई",
       "check": "%{checkType} की जांच करें",
+      "discountApplied": "डिस्काउंट एप्लाइड",
       "emptyFeatured": "कोई विशेष रुप से प्रदर्शित संपत्ति नहीं",
       "emptyFrequent": "कोई लगातार संपत्ति नहीं",
       "exchangeFee": "विनिमय शुल्क",
@@ -745,7 +745,9 @@
       "thornameSubtitle": "क्रॉस-चेन वॉलेट नाम सेवा।",
       "unavailable": "अनुपलब्ध",
       "unavailableForPurchase": "खरीद के लिए अनुपलब्ध",
-      "updateFee": "अपडेट  शुल्क"
+      "updateFee": "अपडेट  शुल्क",
+      "year": "बरस",
+      "years": "साल"
     },
     "vesting": {
       "claim": "क्लेम",
@@ -808,6 +810,7 @@
     },
     "walletModal": {
       "backupKeystore": "बैकअप कीस्टोर\n",
+      "braveWallet": "ब्रेव वॉलेट",
       "chooseKeystore": "अपलोड करने के लिए फाइल चुनें\n",
       "confirmPassword": "पासवर्ड की पुष्टि कीजिये",
       "connectOnboard": "एथेरियम वॉलेट\n",
@@ -816,7 +819,9 @@
       "copyPhrase": "वाक्यांश कॉपी करें\n",
       "createKeystore": "कीस्टोर बनाएं\n",
       "createWallet": "वॉलेट बनाएं\n",
-      "disableXdefi": "XDEFI वॉलेट अक्षम करें\n",
+      "deprioritizeXdefi": "XDEFI को वंचित करें",
+      "disableBraveWallet": "ब्रेव वॉलेट को अक्षम करें",
+      "enableBraveWallet": "ब्रेव वॉलेट चालू करें",
       "enterKeystorePassword": "कीस्टोर पासवर्ड की पुष्टि करें\n",
       "enterPassword": "पास वर्ड दर्ज करें\n",
       "enterSeed": "कृपया 12 सीड वाक्यांश दर्ज करें\n",
@@ -833,7 +838,6 @@
       "ledger": "Ledger",
       "ledgerIndex": "लेजर इंडेक्स",
       "metaMask": "MetaMask",
-      "metaMaskDisableXDefiPrioritized": "MetaMask (XDEFI को प्राथमिकता दें)",
       "noSlipProtection": "",
       "noSlipProtection_plural": "",
       "notConnected": "जुड़े नहीं हैं\n",

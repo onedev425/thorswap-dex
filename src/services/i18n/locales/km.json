@@ -75,7 +75,6 @@
     "gasTracker": "កម្មវិធីតាមដាន GAS",
     "getHelp": "ទទួលបានជំនួយ",
     "globalSettings": "ប្រព័ន្ធសកល",
-    "goToV1": "ចូលទៅកាន់កម្មវិធី V1",
     "here": "នៅទីនេះ",
     "ilPaid": "IL Paid",
     "inbound": "ចូល",
@@ -253,7 +252,6 @@
     "runePooled": "គម្រោង RUNE POOLED",
     "sendTxFailed": "ផ្ញើប្រតិបត្តិការបរាជ័យ",
     "submitFail": "ការបញ្ជូនប្រតិបត្តិការ បរាជ័យ។",
-    "submitTxFailed": "បញ្ជូនប្រតិបត្តិការបរាជ័យ",
     "successfulTransaction": "ប្រតិបត្តិការជោគជ័យ",
     "swapAmountTooSmall": "Swap Output Amount is too small\nចំនួនរូបិយប័ណ្ណជួញដូរបញ្ជេញតិចតួចពេក",
     "swapAmountTooSmallDesc": "ចំនួនរូបិយប័ណ្ណជួញដូរបញ្ជេញតិចតួចពេក ហើយអាចត្រូវបានកាត់ចេញដោយថ្លៃហ្គាស ethereum",
@@ -694,9 +692,11 @@
       "withdrawVolume": "រិមាណដែលដកចេញ"
     },
     "swap": {
+      "affiliateFee": "ថ្លៃសេវាសម្ព័ន្ធ 0.3% ត្រូវបានគិតប្រាក់ដោយ THORSwap ។ 75% នៃថ្លៃសេវាត្រូវបានចែកចាយឡើងវិញទៅអ្នកភ្នាល់ vTHOR។",
       "autoRouter": "ប្រព័ន្ធជំនួយការជូញដូរស្វ័យប្រវត្តិ",
       "autoRouterApi": "ផលចំនេញបានពីការជូញដូដោយ ប្រព័ន្ធជំនួយស្វ័យប្រវត្តិ",
       "check": "ពិនិត្យ %{checkType}",
+      "discountApplied": "ការបញ្ចុះតម្លៃត្រូវបានអនុវត្ត",
       "emptyFeatured": " ទ្រព្យមិនមានទម្រង់ពិសេស",
       "emptyFrequent": " ទ្រព្យមិនមានប្រេកង់",
       "exchangeFee": "ថ្លៃផ្លាស់ប្តូរ",
@@ -745,7 +745,9 @@
       "thornameSubtitle": "សេវាឈ្មោះកាបូបឆ្លងខ្សែសង្វាក់។",
       "unavailable": "មិនអាចប្រើបាន",
       "unavailableForPurchase": "មិនអាចរកបានសម្រាប់ការទិញ",
-      "updateFee": "ថ្លៃធ្វើបច្ចុប្បន្នភាព"
+      "updateFee": "ថ្លៃធ្វើបច្ចុប្បន្នភាព",
+      "year": "ឆ្នាំ",
+      "years": "ឆ្នាំ"
     },
     "vesting": {
       "claim": "ទាមទារ",
@@ -808,6 +810,7 @@
     },
     "walletModal": {
       "backupKeystore": "សោសម្ងាត់បម្រុងទុក",
+      "braveWallet": "កាបូបក្លាហាន",
       "chooseKeystore": "ជ្រើសរើសឯកសារដើម្បីបង្ហោះចូល",
       "confirmPassword": "បញ្ជាក់ពាក្យសម្ងាត់",
       "connectOnboard": "កាបូប Ethereum",
@@ -816,7 +819,9 @@
       "copyPhrase": "ចម្លងឃ្លាសម្ងាត់",
       "createKeystore": "បង្កើតលេខកូដសម្ងាត់ Keystore",
       "createWallet": "បង្កើតកាបូប Electronic",
-      "disableXdefi": "បិទដំណើ XDEFI Wallet",
+      "deprioritizeXdefi": "កំណត់អាទិភាព XDEFI",
+      "disableBraveWallet": "បិទកាបូប Brave",
+      "enableBraveWallet": "បើកកាបូប Brave",
       "enterKeystorePassword": "បញ្ជាក់សោពាក្យសម្ងាត់",
       "enterPassword": "វាយពាក្យសម្ងាត់",
       "enterSeed": "សូមបញ្ចូលឃ្លាសម្ងាត់ Seed ទាំង12",
@@ -833,7 +838,6 @@
       "ledger": "Ledger",
       "ledgerIndex": "សន្ទស្សន៍ Ledger",
       "metaMask": "MetaMask",
-      "metaMaskDisableXDefiPrioritized": "MetaMask (កំណត់អាទិភាព XDEFI)",
       "noSlipProtection_0": "",
       "notConnected": "មិនទាន់ភ្ជាប់",
       "phantom": "Phantom",

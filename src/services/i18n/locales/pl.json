@@ -75,7 +75,6 @@
     "gasTracker": "Obserwator gazu",
     "getHelp": "Uzyskaj pomoc",
     "globalSettings": "Ustawienia globalne",
-    "goToV1": "Idź do App V1",
     "here": "Tutaj",
     "ilPaid": "IL Opłacono",
     "inbound": "Przychodzące",
@@ -253,7 +252,6 @@
     "runePooled": "RUNE POOLED",
     "sendTxFailed": "Wysyłanie transakcji nie powiodło się",
     "submitFail": "Transakcja przesyłania nie powiodła się.",
-    "submitTxFailed": "Potwierdzenie transakcji nie powiodło się",
     "successfulTransaction": "Transakcja powiodła się",
     "swapAmountTooSmall": "Wartość wyjściowa wymiany jest zbyt mała",
     "swapAmountTooSmallDesc": "Kwota wyjściowa wymiany jest niewielka i można ją ściąć za pomocą opłaty za gaz ethereum.",
@@ -694,9 +692,11 @@
       "withdrawVolume": "Wolumen wyciągu"
     },
     "swap": {
+      "affiliateFee": "THORSwap pobiera opłatę partnerską w wysokości 0,3%. 75% opłat jest redystrybuowane z powrotem do vTHOR stakers.",
       "autoRouter": "Router automatyczny",
       "autoRouterApi": "Automatyczny Router API",
       "check": "Sprawdź %{checkType}",
+      "discountApplied": "Rabat Zastosowany",
       "emptyFeatured": "Brak wyróżnionych zasobów",
       "emptyFrequent": "Brak częstych aktywów",
       "exchangeFee": "Opłata za usługę",
@@ -745,7 +745,9 @@
       "thornameSubtitle": "Cross-Chain Wallet Name Service.",
       "unavailable": "Niedostępna",
       "unavailableForPurchase": "Niedostępna do kupna",
-      "updateFee": "Opłata za aktualizację"
+      "updateFee": "Opłata za aktualizację",
+      "year": "rok",
+      "years": "lat"
     },
     "vesting": {
       "claim": "Roszczenie",
@@ -808,6 +810,7 @@
     },
     "walletModal": {
       "backupKeystore": "Kopia zapasowa Keystore",
+      "braveWallet": "Dzielny portfel",
       "chooseKeystore": "Wybierz plik do przesłania",
       "confirmPassword": "Potwierdź hasło",
       "connectOnboard": "Portfele Ethereum",
@@ -816,7 +819,9 @@
       "copyPhrase": "Skopiować frazę",
       "createKeystore": "Stwórz Keystore",
       "createWallet": "Stwórz portfel",
-      "disableXdefi": "Wyłącz portfel XDEFI",
+      "deprioritizeXdefi": "Depriorytetyzacja XDEFI",
+      "disableBraveWallet": "Disable Brave Wallet",
+      "enableBraveWallet": "Enable Brave Wallet",
       "enterKeystorePassword": "Potwierdź hasło keystore",
       "enterPassword": "Wpisz hasło",
       "enterSeed": "Wprowadź 12 elementową frazę",
@@ -833,7 +838,6 @@
       "ledger": "Księga rachunkowa",
       "ledgerIndex": "Ledger Index",
       "metaMask": "MetaMask",
-      "metaMaskDisableXDefiPrioritized": "MetaMask (Deprioritize XDEFI)",
       "noSlipProtection_0": "",
       "noSlipProtection_1": "",
       "noSlipProtection_2": "",

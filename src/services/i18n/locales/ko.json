@@ -75,7 +75,6 @@
     "gasTracker": "가스 트래커(Gas Tracker)",
     "getHelp": "도움 받기",
     "globalSettings": "글로벌 설정",
-    "goToV1": "V1 app 가기",
     "here": "여기",
     "ilPaid": "지불된 IL",
     "inbound": "인바운드",
@@ -253,7 +252,6 @@
     "runePooled": "풀된 RUNE",
     "sendTxFailed": "트랙잭션 발송 실패",
     "submitFail": "트랜잭션 제출 실패",
-    "submitTxFailed": "트랙잭션 제출 실패",
     "successfulTransaction": "트랜잭션 성공",
     "swapAmountTooSmall": "스왑 아웃풋 금액이 너무 작습니다",
     "swapAmountTooSmallDesc": "스왑 아웃풋 금액이 적고 이더리움 가스 수수료로 삭감될 수 있습니다",
@@ -694,9 +692,11 @@
       "withdrawVolume": "인출 볼륨"
     },
     "swap": {
+      "affiliateFee": "ThorSwap은 0.3% 의 제휴 수수료를 부과합니다. 수수료의 75% 는 vThor 스테이커에게 다시 분배됩니다.",
       "autoRouter": "자동 라우터",
       "autoRouterApi": "자동 라우터 API",
       "check": "체크% {체크타입}",
+      "discountApplied": "할인 적용",
       "emptyFeatured": "추천 에셋 없음",
       "emptyFrequent": "Frequent 에셋 없음",
       "exchangeFee": "교환 수수료",
@@ -745,7 +745,9 @@
       "thornameSubtitle": "크로스체인 월렛 네임 서비스.",
       "unavailable": "사용할 수 없음",
       "unavailableForPurchase": "구매 불가",
-      "updateFee": "업데이트 수수료"
+      "updateFee": "업데이트 수수료",
+      "year": "연도",
+      "years": "수년"
     },
     "vesting": {
       "claim": "클레임",
@@ -808,6 +810,7 @@
     },
     "walletModal": {
       "backupKeystore": "키스토어 (Keystore) 백업",
+      "braveWallet": "Brave Wallet",
       "chooseKeystore": "파일 선택하여 업로드",
       "confirmPassword": "비밀번호 확인",
       "connectOnboard": "이더리움 (Ethereum) 지갑",
@@ -816,7 +819,9 @@
       "copyPhrase": "프레이스 (Phrase) 복사",
       "createKeystore": "키스토어 (Keystore) 생성",
       "createWallet": "지갑(월렛) 생성",
-      "disableXdefi": "XDEFI 월렛(지갑) 비활성화",
+      "deprioritizeXdefi": "XDEFI 우선순위를 낮게 설정하세요",
+      "disableBraveWallet": "Disable Brave Wallet",
+      "enableBraveWallet": "Enable Brave Wallet",
       "enterKeystorePassword": "키스토어 (Keystore) 비밀번호 확인",
       "enterPassword": "비밀번호 입력",
       "enterSeed": "시드 프레이스 (Seed Phrase) 12개를 입력하세요",
@@ -833,7 +838,6 @@
       "ledger": "Ledger",
       "ledgerIndex": "Ledger Index",
       "metaMask": "MetaMask",
-      "metaMaskDisableXDefiPrioritized": "MetaMask (XDEFI 우선순위 저하)",
       "noSlipProtection_0": "",
       "notConnected": "연결 안 됨",
       "phantom": "Phantom",

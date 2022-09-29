@@ -75,7 +75,6 @@
     "gasTracker": "Gas Tracker",
     "getHelp": "Hilfe",
     "globalSettings": "Globale Einstellungen",
-    "goToV1": "Zur V1 App wechseln",
     "here": "Hier",
     "ilPaid": "IL Bezahlt",
     "inbound": "Eingehend",
@@ -253,7 +252,6 @@
     "runePooled": "RUNE GEPOOLT",
     "sendTxFailed": "Sende-Transaktion fehlgeschlagen",
     "submitFail": "Das Sender der Transaktion ist fehlgeschlagen.",
-    "submitTxFailed": "Submit-Transaktion fehlgeschlagen",
     "successfulTransaction": "Transaktion erfolgreich",
     "swapAmountTooSmall": "Swap Output Betrag ist zu gering",
     "swapAmountTooSmallDesc": "Swap Output Betrag ist gering und könnte durch Ethereum Gas Gebühren aufgebraucht werden",
@@ -694,9 +692,11 @@
       "withdrawVolume": "Abhebevolumen"
     },
     "swap": {
+      "affiliateFee": "0.3% Affiliate-Gebühr wird von THORSwap erhoben. 75% dieser Gebühren werden an Staker von vTHOR ausgeschüttet.",
       "autoRouter": "Auto Router",
       "autoRouterApi": "Auto Router API",
       "check": "Prüfung %{checkType}",
+      "discountApplied": "Angewandter Rabatt",
       "emptyFeatured": "Kein featured Asset",
       "emptyFrequent": "Kein häufiges Asset",
       "exchangeFee": "Service Gebühr",
@@ -745,7 +745,9 @@
       "thornameSubtitle": "Cross-Chain Wallet Name Service.",
       "unavailable": "Nicht verfügbar",
       "unavailableForPurchase": "Nicht zum Kauf erhältlich",
-      "updateFee": "Update Gebühr"
+      "updateFee": "Update Gebühr",
+      "year": "jahr",
+      "years": "jahre"
     },
     "vesting": {
       "claim": "Forderung",
@@ -808,6 +810,7 @@
     },
     "walletModal": {
       "backupKeystore": "Keystore Backup",
+      "braveWallet": "Tapfere Brieftasche",
       "chooseKeystore": "Datei auswählen",
       "confirmPassword": "Passwort bestätigen",
       "connectOnboard": "Ethereum Wallets",
@@ -816,7 +819,9 @@
       "copyPhrase": "Phrase kopieren",
       "createKeystore": "Keystore erstellen",
       "createWallet": "Wallet erstellen",
-      "disableXdefi": "Metamask (XDEFI Wallet deaktivieren)",
+      "deprioritizeXdefi": "XDEFI depriorisieren",
+      "disableBraveWallet": "Brave Wallet deaktivieren",
+      "enableBraveWallet": "Brave Wallet aktivieren",
       "enterKeystorePassword": "Keystore Passwort bestätigen",
       "enterPassword": "Password eingeben",
       "enterSeed": "Bitte 12 stelligen Seed Phrase eingeben",
@@ -833,7 +838,6 @@
       "ledger": "Ledger",
       "ledgerIndex": "Ledger Index",
       "metaMask": "MetaMask",
-      "metaMaskDisableXDefiPrioritized": "MetaMask (XDEFI depriorisieren)",
       "noSlipProtection": "",
       "noSlipProtection_plural": "",
       "notConnected": "Nicht verbunden",

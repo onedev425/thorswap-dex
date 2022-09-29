@@ -75,7 +75,6 @@
     "gasTracker": "Счётчик газа",
     "getHelp": "Помощь",
     "globalSettings": "Общие настройки",
-    "goToV1": "Перейти в V1 app",
     "here": "Здесь",
     "ilPaid": "Выплаченный IL",
     "inbound": "Входящие",
@@ -253,7 +252,6 @@
     "runePooled": "RUNE в пулах",
     "sendTxFailed": "Не удалось выполнить транзакцию перевода",
     "submitFail": "Отправить транзакцию не удалось",
-    "submitTxFailed": "Не удалось транслировать транзакцию в сеть",
     "successfulTransaction": "Транзакция успешна",
     "swapAmountTooSmall": "Сумма результата обмена слишком мала",
     "swapAmountTooSmallDesc": "Сумма результата обмена слишком мала и может быть уменьшена комиссией сети Ethereum.",
@@ -694,9 +692,11 @@
       "withdrawVolume": "Объём выводов "
     },
     "swap": {
+      "affiliateFee": "0.партнерское вознаграждение в размере 3% взимается компанией THORSwap. 75% комиссионных перераспределяются обратно стакерам vTHOR.",
       "autoRouter": "Auto Router",
       "autoRouterApi": "Auto Router API",
       "check": "Проверьте %{checkType}",
+      "discountApplied": "Применяемая скидка",
       "emptyFeatured": "Не популярные активы",
       "emptyFrequent": " Не часто используемые активы ",
       "exchangeFee": "Комиссия за обмен",
@@ -745,7 +745,9 @@
       "thornameSubtitle": "Межцепочечная служба имен кошельков.",
       "unavailable": "Недоступно",
       "unavailableForPurchase": "Недоступно для покупки",
-      "updateFee": "Плата за обновление"
+      "updateFee": "Плата за обновление",
+      "year": "год",
+      "years": "лет"
     },
     "vesting": {
       "claim": "Претензия",
@@ -808,6 +810,7 @@
     },
     "walletModal": {
       "backupKeystore": "Сделать резервную копию файла кейстор",
+      "braveWallet": "Храбрый кошелек",
       "chooseKeystore": "Выбрать файл",
       "confirmPassword": "Подтвердите пароль",
       "connectOnboard": "Кошельки Ethereum ",
@@ -816,7 +819,9 @@
       "copyPhrase": "Копировать фразу",
       "createKeystore": "Создать кейстор",
       "createWallet": "Создать кошелёк",
-      "disableXdefi": "Metamask (отключение XDEFI)",
+      "deprioritizeXdefi": "Деприоритизация XDEFI",
+      "disableBraveWallet": "Отключить Brave Wallet",
+      "enableBraveWallet": "Включить кошелек Brave",
       "enterKeystorePassword": "Подтвердить пароль кейстор",
       "enterPassword": "Введите пароль",
       "enterSeed": "Пожалуйста, введите 12 слов сид фразы",
@@ -833,7 +838,6 @@
       "ledger": "Ledger",
       "ledgerIndex": "Ledger Index",
       "metaMask": "MetaMask",
-      "metaMaskDisableXDefiPrioritized": "MetaMask (Деприоритизация XDEFI)",
       "noSlipProtection_0": "",
       "noSlipProtection_1": "",
       "noSlipProtection_2": "",

@@ -75,7 +75,6 @@
     "gasTracker": "Gasトラッカー",
     "getHelp": "ヘルプ",
     "globalSettings": "グローバル設定",
-    "goToV1": "V1 appへ移動",
     "here": "ここ",
     "ilPaid": "ILの支払い",
     "inbound": "Inbound",
@@ -253,7 +252,6 @@
     "runePooled": "RUNEプール済み",
     "sendTxFailed": "送金トランザクションの失敗",
     "submitFail": "送信トランザクションの失敗",
-    "submitTxFailed": "送信トランザクションの失敗",
     "successfulTransaction": "トランザクション成功",
     "swapAmountTooSmall": "スワップ量が小さすぎます",
     "swapAmountTooSmallDesc": "スワップ量が小さすぎるため、GAS代ですべてなくなる可能性があります",
@@ -694,9 +692,11 @@
       "withdrawVolume": "出金量"
     },
     "swap": {
+      "affiliateFee": "0.3%のアフィリエイト手数料がTHORSwapから課金されます。手数料の75%はvTHORのステイカーに再分配されます。",
       "autoRouter": "Auto Router",
       "autoRouterApi": "Auto Router API",
       "check": " %{checkType} の確認",
+      "discountApplied": "割引適用",
       "emptyFeatured": "注目のアセットがありません",
       "emptyFrequent": "頻度の高いアセットがありません",
       "exchangeFee": "交換手数料",
@@ -745,7 +745,9 @@
       "thornameSubtitle": "クロスチェーンウォレットネームサービス.",
       "unavailable": "使用不可",
       "unavailableForPurchase": "購入不可",
-      "updateFee": "アップデート手数料"
+      "updateFee": "アップデート手数料",
+      "year": "年",
+      "years": "歳月"
     },
     "vesting": {
       "claim": "請求",
@@ -808,6 +810,7 @@
     },
     "walletModal": {
       "backupKeystore": "キーストアのバックアップ",
+      "braveWallet": "Brave Wallet",
       "chooseKeystore": "アップロードするファイルを選択",
       "confirmPassword": "パスワードの確認",
       "connectOnboard": "Ethereumウォレット",
@@ -816,7 +819,9 @@
       "copyPhrase": "フレーズのコピー",
       "createKeystore": "キーストアの作成",
       "createWallet": "ウォレットの作成",
-      "disableXdefi": "Metamask (XDEFIを無効にする)",
+      "deprioritizeXdefi": "XDEFIを非優先化する",
+      "disableBraveWallet": "Disable Brave Wallet",
+      "enableBraveWallet": "Enable Brave Wallet",
       "enterKeystorePassword": "Keystoreパスワードの確認",
       "enterPassword": "パスワードの入力",
       "enterSeed": "12個の単語からできるシードフレーズを入力してください。",
@@ -833,7 +838,6 @@
       "ledger": "Ledger",
       "ledgerIndex": "Ledger Index",
       "metaMask": "MetaMask",
-      "metaMaskDisableXDefiPrioritized": "MetaMask（XDEFIの非優先化）",
       "noSlipProtection_0": "THORSwapは資金の損失に対して責任を負わないものとします。",
       "notConnected": "未接続",
       "phantom": "Phantom",

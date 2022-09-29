@@ -75,7 +75,6 @@
     "gasTracker": "燃料跟蹤器",
     "getHelp": "獲取幫助",
     "globalSettings": "全局設置",
-    "goToV1": "返回 V1 App",
     "here": "在此",
     "ilPaid": "無常損失補償",
     "inbound": "傳入",
@@ -253,7 +252,6 @@
     "runePooled": "RUNE 流動性入池量",
     "sendTxFailed": "發送交易失敗",
     "submitFail": "提交交易失敗",
-    "submitTxFailed": "提交交易失敗",
     "successfulTransaction": "交易成功",
     "swapAmountTooSmall": "兌換輸出量太小",
     "swapAmountTooSmallDesc": "兌換輸出量太小，有風險因以太坊燃料費太高而失敗",
@@ -694,9 +692,11 @@
       "withdrawVolume": "提取交易量"
     },
     "swap": {
+      "affiliateFee": "THORSwap 收取的 0.3% 服務費。其75%將重新分配給 vTHOR 持有者。",
       "autoRouter": "自動路由",
       "autoRouterApi": "自動路由 API",
       "check": "確認 %{checkType}",
+      "discountApplied": "已套用折扣",
       "emptyFeatured": "無精选代幣",
       "emptyFrequent": "無常用代幣",
       "exchangeFee": "交易費",
@@ -745,7 +745,9 @@
       "thornameSubtitle": "跨鏈錢包域名服務",
       "unavailable": "無法註冊",
       "unavailableForPurchase": "無法註冊",
-      "updateFee": "更新費用"
+      "updateFee": "更新費用",
+      "year": "年",
+      "years": "年"
     },
     "vesting": {
       "claim": "領取",
@@ -808,6 +810,7 @@
     },
     "walletModal": {
       "backupKeystore": "備份 Keystore",
+      "braveWallet": "勇敢的錢包",
       "chooseKeystore": "選擇上傳文件",
       "confirmPassword": "確認密碼",
       "connectOnboard": "以太坊錢包",
@@ -816,7 +819,9 @@
       "copyPhrase": "復製助記詞",
       "createKeystore": "創建 Keystore",
       "createWallet": "創建錢包",
-      "disableXdefi": "禁用 XDEFI 錢包",
+      "deprioritizeXdefi": "取消優先順序",
+      "disableBraveWallet": "禁用勇敢的錢包",
+      "enableBraveWallet": "啟用勇敢的錢包",
       "enterKeystorePassword": "確認 Keystore 密碼",
       "enterPassword": "輸入密碼",
       "enterSeed": "請輸入12 字助記詞 ",
@@ -833,7 +838,6 @@
       "ledger": "Ledger",
       "ledgerIndex": "Ledger Index",
       "metaMask": "MetaMask",
-      "metaMaskDisableXDefiPrioritized": "元資料問答（取消優先順序 XDEFI）",
       "noSlipProtection_0": "",
       "notConnected": "未連接",
       "phantom": "Phantom",

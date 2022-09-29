@@ -75,7 +75,6 @@
     "gasTracker": "Gas Tracker",
     "getHelp": "مدد حاصل کریں",
     "globalSettings": "Global ترتیبات",
-    "goToV1": "V1 ایپ پر جائیں",
     "here": "یہاں",
     "ilPaid": "IL ادا کیا گیا",
     "inbound": "باطنی",
@@ -253,7 +252,6 @@
     "runePooled": "RUNE POOLED",
     "sendTxFailed": "ٹرانزیکشن بھیجنا ناکام ہو گیا۔",
     "submitFail": "ٹرانزیکشن جمع کرانے میں ناکام",
-    "submitTxFailed": "ٹرانزیکشن جمع کرانے میں ناکام",
     "successfulTransaction": "لین دین کامیاب",
     "swapAmountTooSmall": "سویپ آؤٹ پٹ کی رقم بہت کم ہے",
     "swapAmountTooSmallDesc": "سویپ آؤٹ پٹ کی رقم کم ہے اور اسے Ethereum  گیس فیس کے ذریعے کم کیا جا سکتا ہے۔",
@@ -694,9 +692,11 @@
       "withdrawVolume": "واپس لیا ہوا حجم"
     },
     "swap": {
+      "affiliateFee": "0.3% الحاق کی فیس THORSwap کے ذریعے لی جاتی ہے۔ فیس کا 75% دوبارہ vTHOR اسٹیکرز میں تقسیم کیا جاتا ہے۔",
       "autoRouter": "آٹو راؤٹر",
       "autoRouterApi": "آٹو راؤٹر API",
       "check": "چیک کریں% {checktype}",
+      "discountApplied": "ڈسکاؤنٹ کا اطلاق",
       "emptyFeatured": "کوئی نمایاں اثاثے نہیں ہیں",
       "emptyFrequent": "کوئی متواتر اثاثے نہیں ہیں",
       "exchangeFee": "ایکسچینج فیس",
@@ -745,7 +745,9 @@
       "thornameSubtitle": "کراس چین والیٹ نام کی خدمت۔",
       "unavailable": "دستیاب نہیں۔",
       "unavailableForPurchase": "خریداری کے لیے دستیاب نہیں ہے۔",
-      "updateFee": "اپ ڈیٹ فیس"
+      "updateFee": "اپ ڈیٹ فیس",
+      "year": "سال",
+      "years": "سال"
     },
     "vesting": {
       "claim": "دعویٰ",
@@ -808,6 +810,7 @@
     },
     "walletModal": {
       "backupKeystore": "بیک اپ Keystore",
+      "braveWallet": "بہادر والٹ",
       "chooseKeystore": "اپ لوڈ کرنے کے لیے فائل کا انتخاب کریں",
       "confirmPassword": "پاس ورڈ کی تصدیق کریں",
       "connectOnboard": "Ethereum Wallets",
@@ -816,7 +819,9 @@
       "copyPhrase": "جملہ کاپی کریں۔",
       "createKeystore": "Keystore بنائیں ",
       "createWallet": "Wallet بنائیں",
-      "disableXdefi": "XDEFI والیٹ کو غیر فعال کریں",
+      "deprioritizeXdefi": "DEFI کو محروم کرنا",
+      "disableBraveWallet": "بہادر والٹ کو غیر فعال کریں",
+      "enableBraveWallet": "بہادر والٹ کو فعال کریں",
       "enterKeystorePassword": "keystore پاس ورڈ کی تصدیق کریں",
       "enterPassword": "پاس ورڈ درج کریں",
       "enterSeed": "براہ کرم 12 لفظوں کا Seed جملہ درج کریں",
@@ -833,7 +838,6 @@
       "ledger": "Ledger",
       "ledgerIndex": "لیجر انڈیکس",
       "metaMask": "MetaMask",
-      "metaMaskDisableXDefiPrioritized": "میٹا ماسک (XDEFI سے محروم)",
       "noSlipProtection": "",
       "noSlipProtection_plural": "",
       "notConnected": "منسلک نہیں",
