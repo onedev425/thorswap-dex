@@ -2,6 +2,7 @@ import { Chain, SUPPORTED_CHAINS, SupportedChain } from '@thorswap-lib/types';
 import { getAnnouncementId } from 'components/Announcements/utils';
 import { chainName } from 'helpers/chainName';
 import { useMimir } from 'hooks/useMimir';
+import { StatusType, useNetwork } from 'hooks/useNetwork';
 import { useCallback, useEffect, useMemo } from 'react';
 import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
@@ -13,14 +14,14 @@ import {
 } from 'store/externalConfig/types';
 
 const REFRESH_INTERVAL = 1000 * 50 * 5; //5min
-const DISABLED_CHAINS: Chain[] = [];
 
-export const useAnouncementsList = () => {
+export const useAnnouncementsList = () => {
   const {
     announcements: storedAnnouncements,
     isTradingGloballyDisabled,
     refreshExternalConfig,
   } = useExternalConfig();
+  const { outboundQueue, outboundQueueLevel } = useNetwork();
   const { isChainHalted, isChainPauseLP, isChainTradingHalted } = useMimir();
 
   const announcements = useMemo(() => {
@@ -35,8 +36,9 @@ export const useAnouncementsList = () => {
     }
 
     return [
+      ...getOutboundAnnouncement({ outboundQueue, outboundQueueLevel }),
       ...storedAnnouncements.manual,
-      ...getAnnouncemetsByChain({
+      ...getAnnouncementsByChain({
         pausedChains: isChainHalted,
         pausedTrade: isChainTradingHalted,
         pausedLP: isChainPauseLP,
@@ -48,6 +50,8 @@ export const useAnouncementsList = () => {
     isChainPauseLP,
     isChainTradingHalted,
     isTradingGloballyDisabled,
+    outboundQueue,
+    outboundQueueLevel,
     storedAnnouncements.chainStatus,
     storedAnnouncements.manual,
   ]);
@@ -65,6 +69,24 @@ type GetAnnouncementsByChainProps = {
   pausedLP: Record<string, boolean>;
   pausedTrade: Record<string, boolean>;
   chainStatus: ChainStatusAnnouncements;
+};
+
+const getOutboundAnnouncement = ({
+  outboundQueue,
+  outboundQueueLevel,
+}: {
+  outboundQueue: number;
+  outboundQueueLevel: StatusType;
+}) => {
+  if (outboundQueueLevel !== StatusType.Busy) return [];
+
+  return [
+    {
+      key: 'outbound',
+      message: t('components.announcements.outboundQueue', { outboundQueue }),
+      type: AnnouncementType.Warn,
+    },
+  ];
 };
 
 const getChainAnnouncement = ({
@@ -119,17 +141,15 @@ const getChainAnnouncement = ({
   return null;
 };
 
-const getAnnouncemetsByChain = (props: GetAnnouncementsByChainProps) => {
-  return SUPPORTED_CHAINS.filter((c) => !DISABLED_CHAINS.includes(c))
-    .map((chain) =>
-      getChainAnnouncement({
-        chain,
-        ...props,
-      }),
-    )
-    .map((ann) => (ann ? { ...ann, key: getAnnouncementId(ann) } : null))
+const getAnnouncementsByChain = (props: GetAnnouncementsByChainProps) =>
+  SUPPORTED_CHAINS.map((chain) =>
+    getChainAnnouncement({
+      chain,
+      ...props,
+    }),
+  )
+    .map((ann) => ann && { ...ann, key: getAnnouncementId(ann) })
     .filter(Boolean) as AnnouncementItem[];
-};
 
 const isChainPaused = (
   chain: SupportedChain,

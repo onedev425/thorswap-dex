@@ -1,26 +1,31 @@
 import classNames from 'classnames';
+import { Box, Typography } from 'components/Atomic';
 import { StatusType } from 'hooks/useNetwork';
 import { memo } from 'react';
 
 export type Props = {
   className?: string;
   status: StatusType;
+  withLabel?: boolean;
 };
 
 const colors: Record<StatusType, string> = {
-  [StatusType.Error]: 'bg-red',
-  [StatusType.Normal]: 'bg-green',
-  [StatusType.Warning]: 'bg-yellow',
+  [StatusType.Good]: 'bg-green',
+  [StatusType.Slow]: 'bg-yellow',
+  [StatusType.Busy]: 'bg-red',
 };
 
-export const StatusBadge = memo(({ className, status }: Props) => {
+export const StatusBadge = memo(({ className, status, withLabel }: Props) => {
   return (
-    <div
-      className={classNames(
-        'w-[14px] h-[14px] border-none rounded-full',
-        colors[status],
-        className,
-      )}
-    />
+    <>
+      <Box
+        className={classNames(
+          'w-[14px] h-[14px] border-none rounded-full',
+          colors[status],
+          className,
+        )}
+      />
+      {withLabel && <Typography className="pl-1">{status}</Typography>}
+    </>
   );
 });

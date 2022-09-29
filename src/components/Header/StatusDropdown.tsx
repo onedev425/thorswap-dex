@@ -1,4 +1,6 @@
+import { Chain } from '@thorswap-lib/types';
 import { Box, DropdownMenu, Typography } from 'components/Atomic';
+import { chainName } from 'helpers/chainName';
 import { useMimir } from 'hooks/useMimir';
 import { StatusType, useNetwork } from 'hooks/useNetwork';
 import { memo, useMemo } from 'react';
@@ -53,107 +55,68 @@ export const StatusDropdown = memo(() => {
     return `${t('components.statusDropdown.capAvailable')} (${capPercent})`;
   }, [isFundsCapReached, capPercent]);
 
+  const chainsData = useMemo(
+    () => [
+      { label: chainName(Chain.THORChain, true), value: isTHORChainHalted },
+      { label: chainName(Chain.Cosmos, true), value: isGAIAChainHalted },
+      { label: chainName(Chain.Binance, true), value: isBNBChainHalted },
+      { label: chainName(Chain.Ethereum, true), value: isETHChainHalted },
+      { label: chainName(Chain.Bitcoin, true), value: isBTCChainHalted },
+      { label: chainName(Chain.Litecoin, true), value: isLTCChainHalted },
+      { label: chainName(Chain.Doge, true), value: isDOGEChainHalted },
+      { label: chainName(Chain.BitcoinCash, true), value: isBCHChainHalted },
+      { label: chainName(Chain.Avalanche, true), value: isAVAXChainHalted },
+    ],
+    [
+      isAVAXChainHalted,
+      isBCHChainHalted,
+      isBNBChainHalted,
+      isBTCChainHalted,
+      isDOGEChainHalted,
+      isETHChainHalted,
+      isGAIAChainHalted,
+      isLTCChainHalted,
+      isTHORChainHalted,
+    ],
+  );
+
   const menuItemData: StatusItem[] = useMemo(
     () => [
-      {
-        label: t('components.statusDropdown.liqCap'),
-        value: liquidityCapLabel,
-        statusType: isFundsCapReached ? StatusType.Warning : StatusType.Normal,
-      },
       {
         label: t('components.statusDropdown.outbound'),
         value: `${t('components.statusDropdown.queue')}: ${outboundQueue} (${outboundQueueLevel})`,
         statusType: statusType,
       },
       {
-        label: t('components.statusDropdown.thorNetwork'),
-        value: !isTHORChainHalted
-          ? t('components.statusDropdown.online')
-          : t('components.statusDropdown.offline'),
-        statusType: isTHORChainHalted ? StatusType.Error : StatusType.Normal,
+        label: t('components.statusDropdown.liqCap'),
+        value: liquidityCapLabel,
+        statusType: isFundsCapReached ? StatusType.Slow : StatusType.Good,
       },
-      {
-        label: t('components.statusDropdown.binanceChain'),
-        value: !isBNBChainHalted
-          ? t('components.statusDropdown.online')
-          : t('components.statusDropdown.offline'),
-        statusType: isBNBChainHalted ? StatusType.Error : StatusType.Normal,
-      },
-      {
-        label: 'Cosmos Chain',
-        value: !isGAIAChainHalted
-          ? t('components.statusDropdown.online')
-          : t('components.statusDropdown.offline'),
-        statusType: isGAIAChainHalted ? StatusType.Error : StatusType.Normal,
-      },
-      {
-        label: t('components.statusDropdown.bitcoinNetwork'),
-        value: !isBTCChainHalted
-          ? t('components.statusDropdown.online')
-          : t('components.statusDropdown.offline'),
-        statusType: isBTCChainHalted ? StatusType.Error : StatusType.Normal,
-      },
-      {
-        label: t('components.statusDropdown.ethNetwork'),
-        value: !isETHChainHalted
-          ? t('components.statusDropdown.online')
-          : t('components.statusDropdown.offline'),
-        statusType: isETHChainHalted ? StatusType.Error : StatusType.Normal,
-      },
-      {
-        label: t('components.statusDropdown.litecoinNetwork'),
-        value: !isLTCChainHalted
-          ? t('components.statusDropdown.online')
-          : t('components.statusDropdown.offline'),
-        statusType: isLTCChainHalted ? StatusType.Error : StatusType.Normal,
-      },
-      {
-        label: t('components.statusDropdown.dogeNetwork'),
-        value: !isDOGEChainHalted
-          ? t('components.statusDropdown.online')
-          : t('components.statusDropdown.offline'),
-        statusType: isDOGEChainHalted ? StatusType.Error : StatusType.Normal,
-      },
-      {
-        label: t('components.statusDropdown.btcCashNetwork'),
-        value: !isBCHChainHalted
-          ? t('components.statusDropdown.online')
-          : t('components.statusDropdown.offline'),
-        statusType: isBCHChainHalted ? StatusType.Error : StatusType.Normal,
-      },
-      {
-        label: t('components.statusDropdown.avaxNetwork'),
-        value: !isAVAXChainHalted
-          ? t('components.statusDropdown.online')
-          : t('components.statusDropdown.offline'),
-        statusType: isAVAXChainHalted ? StatusType.Error : StatusType.Normal,
-      },
+      ...chainsData.map(({ label, value }) => ({
+        label,
+        statusType: value ? StatusType.Busy : StatusType.Good,
+        value: value
+          ? t('components.statusDropdown.offline')
+          : t('components.statusDropdown.online'),
+      })),
       {
         label: t('components.statusDropdown.midgard'),
         value: midgardUrl,
-        statusType: StatusType.Normal,
+        statusType: StatusType.Good,
       },
       {
         label: t('components.statusDropdown.thornode'),
         value: getHostnameFromUrl(globalConfig.thornodeMainnetApiUrl) || '',
-        statusType: StatusType.Normal,
+        statusType: StatusType.Good,
       },
     ],
     [
-      liquidityCapLabel,
-      isFundsCapReached,
       outboundQueue,
       outboundQueueLevel,
       statusType,
-      isTHORChainHalted,
-      isBNBChainHalted,
-      isGAIAChainHalted,
-      isBTCChainHalted,
-      isETHChainHalted,
-      isLTCChainHalted,
-      isDOGEChainHalted,
-      isBCHChainHalted,
-      isAVAXChainHalted,
+      liquidityCapLabel,
+      isFundsCapReached,
+      chainsData,
       midgardUrl,
     ],
   );
@@ -163,7 +126,7 @@ export const StatusDropdown = memo(() => {
       menuItemData.map(({ label, value, statusType: type }) => ({
         Component: (
           <Box alignCenter row className="min-w-[200px]">
-            <StatusBadge status={type || StatusType.Normal} />
+            <StatusBadge status={type || StatusType.Good} />
 
             <Box col className="ml-2">
               <Typography fontWeight="bold" transform="uppercase" variant="caption">
@@ -189,7 +152,7 @@ export const StatusDropdown = memo(() => {
     <DropdownMenu
       menuItems={menuItems}
       onChange={() => {}}
-      openComponent={<StatusBadge status={statusType} />}
+      openComponent={<StatusBadge withLabel status={statusType} />}
       value={t('components.statusDropdown.networkStatus')}
     />
   );

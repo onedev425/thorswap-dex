@@ -1,4 +1,4 @@
-import { useAnouncementsList } from 'components/Announcements/hooks';
+import { useAnnouncementsList } from 'components/Announcements/hooks';
 import { AnnouncementsState } from 'components/Announcements/types';
 import { createContext, ReactNode, useContext, useMemo } from 'react';
 import { useApp } from 'store/app/hooks';
@@ -17,7 +17,7 @@ type Props = {
 export const useAnnouncements = () => useContext(AnnouncementsContext);
 
 export const AnnouncementsProvider = ({ children }: Props) => {
-  const announcementsList = useAnouncementsList();
+  const announcementsList = useAnnouncementsList();
   const { seenAnnList, dismissedAnnList } = useApp();
 
   const announcementsState: AnnouncementsState = useMemo(
