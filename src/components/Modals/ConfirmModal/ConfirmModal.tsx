@@ -124,11 +124,11 @@ export const ConfirmModal = ({
             <Checkbox
               label={
                 <Typography>
-                  {t('views.walletModal.noSlipProtection_1')}
+                  {t('views.walletModal.noSlipProtection_part1')}
                   <Typography className="inline" color="red">{` ${t(
-                    'views.walletModal.noSlipProtection_2',
+                    'views.walletModal.noSlipProtection_part2',
                   )} `}</Typography>
-                  {t('views.walletModal.noSlipProtection_3')}
+                  {t('views.walletModal.noSlipProtection_part3')}
                 </Typography>
               }
               onValueChange={setAgreesToNoSlip}
