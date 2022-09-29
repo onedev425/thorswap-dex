@@ -5,7 +5,6 @@ import { SupportModal } from 'components/Modals/Support/Support';
 import { Scrollbar } from 'components/Scrollbar';
 import { useSidebarOptions } from 'components/Sidebar/hooks';
 import { NavItem } from 'components/Sidebar/NavItem';
-import { V1_URL } from 'config/constants';
 import useWindowSize from 'hooks/useWindowSize';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -63,15 +62,6 @@ export const Sidebar = ({ className, collapsed = false, toggle, onNavItemClick }
       </div>
 
       <ul className="flex flex-col w-full p-0 my-1 list-none rounded-2xl">
-        <NavItem
-          className={classNames('!mx-1')}
-          collapsed={collapsed}
-          href={V1_URL}
-          iconName="external"
-          label={t('components.sidebar.V1App')}
-          onItemClickCb={onNavItemClick}
-        />
-
         <NavItem
           className={classNames('!mx-1')}
           collapsed={collapsed}

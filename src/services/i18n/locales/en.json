@@ -75,7 +75,6 @@
     "gasTracker": "Gas Tracker",
     "getHelp": "Get Help",
     "globalSettings": "Global Settings",
-    "goToV1": "Go to V1 app",
     "here": "Here",
     "ilPaid": "IL Paid",
     "inbound": "Inbound",
@@ -176,7 +175,6 @@
       "week": "Week"
     },
     "sidebar": {
-      "V1App": "V1 app",
       "addLiquidity": "Deposit",
       "collapse": "Collapse",
       "communitySurvey": "Community Survey",
@@ -254,7 +252,6 @@
     "runePooled": "RUNE POOLED",
     "sendTxFailed": "Send Transaction Failed",
     "submitFail": "Submit Transaction Failed.",
-    "submitTxFailed": "Submit Transaction Failed",
     "successfulTransaction": "Transaction Successful",
     "swapAmountTooSmall": "Swap Output Amount is too small",
     "swapAmountTooSmallDesc": "Swap output amount is small and can be slashed out by ethereum gas fee",

@@ -81,7 +81,7 @@ export const useSwap = ({
           appDispatch(updateTransaction({ id, txid }));
         } else {
           appDispatch(completeTransaction({ id, status: 'error' }));
-          showErrorToast(t('notification.submitTxFailed'), JSON.stringify(txid));
+          showErrorToast(t('notification.submitFail'), JSON.stringify(txid));
           if (typeof txid === 'object') console.info(txid);
         }
       }
@@ -90,7 +90,7 @@ export const useSwap = ({
       appDispatch(completeTransaction({ id, status: 'error' }));
 
       showErrorToast(
-        t('notification.submitTxFailed'),
+        t('notification.submitFail'),
         description.includes('Object') ? '' : description,
       );
     }

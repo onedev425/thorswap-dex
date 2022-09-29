@@ -138,7 +138,7 @@ const UpgradeRune = () => {
         );
       } catch (error) {
         appDispatch(completeTransaction({ id, status: 'error' }));
-        showErrorToast(t('notification.submitTxFailed'));
+        showErrorToast(t('notification.submitFail'));
       }
     }
   }, [selectedAsset, recipientAddress, upgradeAmount, appDispatch]);

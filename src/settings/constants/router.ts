@@ -36,7 +36,6 @@ export enum ROUTES {
 export const THORYIELD_ROUTE = 'https://app.thoryield.com';
 export const THORYIELD_LP_PATH = 'accounts'; //TODO: change value to 'lp' when THORYield will be ready
 export const THORYIELD_STATS_ROUTE = 'https://app.thoryield.com/stats';
-export const THOR_STAKING_V1_ROUTE = 'https://v1.thorswap.finance/stake';
 
 const getAssetRoute = (route: ROUTES, asset?: Asset) =>
   `${route}${asset ? `/${asset.toURLEncoded()}` : ''}`;

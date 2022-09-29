@@ -345,7 +345,7 @@ const WithdrawPanel = ({
       appDispatch(updateTransaction({ id, txid }));
     } catch (error: NotWorth) {
       appDispatch(completeTransaction({ id, status: 'error' }));
-      showErrorToast(t('notification.submitTxFailed'), error?.toString());
+      showErrorToast(t('notification.submitFailed'), error?.toString());
     }
   }, [appDispatch, assetAmount, wallet, pool, percent, runeAmount, withdrawFrom, withdrawTo]);
 
