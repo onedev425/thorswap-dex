@@ -68,17 +68,18 @@ export const getInputAssetsForCreate = async ({
   for (const chain of Object.keys(wallet)) {
     const chainWallet = wallet[chain as SupportedChain];
     const balances = chainWallet?.balance || [];
-
-    for (const balance of balances) {
-      // 1. if non-pool asset exists
-      // 2. asset shouldn't be THORChain asset
-      if (
-        !poolAssets.find((poolAsset) => poolAsset.eq(balance.asset)) &&
-        balance.asset.chain !== Chain.THORChain
-      ) {
-        // if erc20 token is whitelisted for THORChain
-        if (isTokenWhitelisted(balance.asset, whitelistedAddresses)) {
-          assets.push(balance.asset);
+    if (![Chain.Solana].includes(chain as SupportedChain)) {
+      for (const balance of balances) {
+        // 1. if non-pool asset exists
+        // 2. asset shouldn't be THORChain asset
+        if (
+          !poolAssets.find((poolAsset) => poolAsset.eq(balance.asset)) &&
+          balance.asset.chain !== Chain.THORChain
+        ) {
+          // if erc20 token is whitelisted for THORChain
+          if (isTokenWhitelisted(balance.asset, whitelistedAddresses)) {
+            assets.push(balance.asset);
+          }
         }
       }
     }

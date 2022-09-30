@@ -1,16 +1,5 @@
-import { Amount } from '@thorswap-lib/multichain-core';
-import { SupportedChain } from '@thorswap-lib/types';
 import dayjs from 'dayjs';
 import { midgardApi } from 'services/midgard';
-import { multichain } from 'services/multichain';
-
-type RegisterThornameParams = {
-  amount: Amount;
-  owner?: string;
-  chain: SupportedChain;
-  address: string;
-  name: string;
-};
 
 export const getThornameDetails = (name: string) => {
   return midgardApi.getTHORNameDetail(name);
@@ -18,16 +7,6 @@ export const getThornameDetails = (name: string) => {
 
 export const getAddressThornames = (address: string) => {
   return midgardApi.getTHORNamesOwnerByAddress(address);
-};
-
-export const registerThorname = ({
-  amount,
-  chain,
-  name,
-  address,
-  owner,
-}: RegisterThornameParams) => {
-  return multichain().registerThorname({ address, owner, name, chain }, amount);
 };
 
 export const getThornameExpireDate = ({

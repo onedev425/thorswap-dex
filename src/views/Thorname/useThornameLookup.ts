@@ -5,7 +5,8 @@ import { showErrorToast } from 'components/Toast';
 import usePrevious from 'hooks/usePrevious';
 import { useCallback, useEffect, useReducer } from 'react';
 import { t } from 'services/i18n';
-import { getThornameDetails, registerThorname } from 'services/thorname';
+import { multichain } from 'services/multichain';
+import { getThornameDetails } from 'services/thorname';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
@@ -145,12 +146,10 @@ export const useThornameLookup = (owner?: string) => {
       );
 
       try {
-        const txid = await registerThorname({
-          chain,
+        const txid = await multichain().registerThorname(
+          { address, owner, name: thorname, chain },
           amount,
-          address,
-          name: thorname,
-        });
+        );
 
         if (txid) {
           appDispatch(updateTransaction({ id, txid }));
