@@ -29,8 +29,9 @@ const AllChainsSupported = [
   Chain.THORChain,
 ] as SupportedChain[];
 
+// @ts-expect-error
 export const availableChainsByWallet: Record<WalletType, SupportedChain[]> = {
-  [WalletType.Brave]: [Chain.Avalanche, Chain.Ethereum],
+  // [WalletType.Brave]: [Chain.Avalanche, Chain.Ethereum],
   [WalletType.CreateKeystore]: AllChainsSupported,
   [WalletType.Keplr]: [Chain.Cosmos],
   [WalletType.Keystore]: AllChainsSupported,

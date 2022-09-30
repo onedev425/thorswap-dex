@@ -15,6 +15,24 @@ import {
 
 const REFRESH_INTERVAL = 1000 * 50 * 5; //5min
 
+const getOutboundAnnouncement = ({
+  outboundQueue,
+  outboundQueueLevel,
+}: {
+  outboundQueue: number;
+  outboundQueueLevel: StatusType;
+}) => {
+  if (outboundQueueLevel !== StatusType.Busy) return [];
+
+  return [
+    {
+      key: new Date(),
+      message: t('components.announcements.outboundQueue', { outboundQueue }),
+      type: AnnouncementType.Warn,
+    },
+  ];
+};
+
 export const useAnnouncementsList = () => {
   const {
     announcements: storedAnnouncements,
@@ -35,8 +53,10 @@ export const useAnnouncementsList = () => {
       ];
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const _outboundAnn = getOutboundAnnouncement({ outboundQueue, outboundQueueLevel });
+
     return [
-      ...getOutboundAnnouncement({ outboundQueue, outboundQueueLevel }),
       ...storedAnnouncements.manual,
       ...getAnnouncementsByChain({
         pausedChains: isChainHalted,
@@ -69,24 +89,6 @@ type GetAnnouncementsByChainProps = {
   pausedLP: Record<string, boolean>;
   pausedTrade: Record<string, boolean>;
   chainStatus: ChainStatusAnnouncements;
-};
-
-const getOutboundAnnouncement = ({
-  outboundQueue,
-  outboundQueueLevel,
-}: {
-  outboundQueue: number;
-  outboundQueueLevel: StatusType;
-}) => {
-  if (outboundQueueLevel !== StatusType.Busy) return [];
-
-  return [
-    {
-      key: 'outbound',
-      message: t('components.announcements.outboundQueue', { outboundQueue }),
-      type: AnnouncementType.Warn,
-    },
-  ];
 };
 
 const getChainAnnouncement = ({
