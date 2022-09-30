@@ -174,6 +174,8 @@ export const StakingCard = ({
     switch (modalType) {
       case FarmActionType.DEPOSIT:
         return ['deposit', TransactionType.ETH_STATUS] as const;
+      case FarmActionType.EXIT:
+        return ['withdraw', TransactionType.ETH_STATUS] as const;
       case FarmActionType.CLAIM:
         return ['harvest', TransactionType.ETH_STATUS] as const;
       case FarmActionType.WITHDRAW:
@@ -355,15 +357,15 @@ export const StakingCard = ({
               </Button>
             ) : (
               <>
-                {!withdrawOnly && (
-                  <Button
-                    className="flex-1"
-                    onClick={() => openConfirm(FarmActionType.DEPOSIT)}
-                    variant="primary"
-                  >
-                    {t('common.deposit')}
-                  </Button>
-                )}
+                <Button
+                  className="flex-1"
+                  onClick={() =>
+                    openConfirm(withdrawOnly ? FarmActionType.EXIT : FarmActionType.DEPOSIT)
+                  }
+                  variant="primary"
+                >
+                  {withdrawOnly ? t('common.withdraw') : t('common.deposit')}
+                </Button>
                 <Button
                   className="flex-1"
                   onClick={() => openConfirm(FarmActionType.CLAIM)}

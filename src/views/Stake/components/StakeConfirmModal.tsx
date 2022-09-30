@@ -65,8 +65,10 @@ export const StakeConfirmModal = ({
         setAmount(tokenBalance.mul(percent).div(100));
       } else if (type === FarmActionType.CLAIM) {
         setAmount(claimableAmount.mul(percent).div(100));
-      } else if (type === FarmActionType.WITHDRAW) {
+      } else if (type === FarmActionType.EXIT) {
         setAmount(stakedAmount.mul(percent).div(100));
+      } else if (type === FarmActionType.WITHDRAW) {
+        setAmount(claimableAmount.add(stakedAmount).mul(percent).div(100));
       }
     },
     [type, tokenBalance, claimableAmount, stakedAmount],
