@@ -31,7 +31,7 @@ export const useSwapQuote = ({
   const params = useMemo(
     () => ({
       affiliateBasisPoints,
-      providers: supportedProvidersData?.filter((p) => p !== 'THORCHAIN'),
+      providers: supportedProvidersData,
       sellAsset: inputAsset.toString(),
       buyAsset: outputAsset.toString(),
       slippage: slippageTolerance.toString(),
