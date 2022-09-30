@@ -174,24 +174,21 @@ export const useVthorUtil = () => {
 
       if (!ethAddr) throw new Error('No ETH address');
 
+      let hash;
       try {
         const response = await triggerContractCall(ContractType.VTHOR, 'deposit', [
           stakeAmount,
           receiverAddr,
         ]);
 
-        if (response?.hash) {
-          appDispatch(updateTransaction({ id, txid: response?.hash }));
-        }
-      } catch {
-        appDispatch(completeTransaction({ id, status: 'error' }));
-        showErrorToast(
-          t('txManager.stakeAssetFailed', {
-            amount: amount.toString(),
-            asset: thorAsset.ticker,
-          }),
-        );
+        hash = response?.hash;
+      } catch (error) {
+        console.error(error);
       }
+
+      hash
+        ? appDispatch(updateTransaction({ id, txid: hash }))
+        : appDispatch(completeTransaction({ id, status: 'mined' }));
     },
     [appDispatch, ethAddr],
   );
@@ -212,6 +209,7 @@ export const useVthorUtil = () => {
         }),
       );
 
+      let hash;
       try {
         const response = await triggerContractCall(ContractType.VTHOR, 'redeem', [
           unstakeAmount,
@@ -219,15 +217,14 @@ export const useVthorUtil = () => {
           receiverAddr,
         ]);
 
-        if (response?.hash) {
-          appDispatch(updateTransaction({ id, txid: response?.hash }));
-        }
-      } catch {
-        appDispatch(completeTransaction({ id, status: 'error' }));
-        showErrorToast(
-          t('txManager.redeemedAmountAssetFailed', { asset: vthorAsset.ticker, amount }),
-        );
+        hash = response?.hash;
+      } catch (error) {
+        console.error(error);
       }
+
+      hash
+        ? appDispatch(updateTransaction({ id, txid: hash }))
+        : appDispatch(completeTransaction({ id, status: 'mined' }));
     },
     [appDispatch, ethAddr],
   );
