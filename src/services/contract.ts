@@ -101,29 +101,18 @@ export const triggerContractCall = async (
   contractType: ContractType,
   methodName: string,
   args: ToDo[],
-) => {
-  try {
-    const { address, abi } = contractConfig[contractType];
-    const contract = getCustomContract(address, abi);
+): Promise<any> => {
+  const { address, abi } = contractConfig[contractType];
+  const contract = getCustomContract(address, abi);
 
-    const ethClient = multichain().eth.getClient();
-    const from = multichain().getWalletAddressByChain(Chain.Ethereum);
-    const gasLimit = await contract.estimateGas[methodName](...args, { from });
+  const ethClient = multichain().eth.getClient();
+  const from = multichain().getWalletAddressByChain(Chain.Ethereum);
+  const gasLimit = await contract.estimateGas[methodName](...args, { from });
 
-    const resp: ToDo = await ethClient.call({
-      contractAddress: address,
-      abi,
-      funcName: methodName,
-      funcParams: [
-        ...args,
-        {
-          gasLimit: gasLimit,
-        },
-      ],
-    });
-
-    return resp;
-  } catch (error) {
-    console.info(error);
-  }
+  return await ethClient.call({
+    contractAddress: address,
+    abi,
+    funcName: methodName,
+    funcParams: [...args, { gasLimit }],
+  });
 };
