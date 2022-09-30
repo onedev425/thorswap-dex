@@ -356,23 +356,21 @@ export const StakingCard = ({
             ) : (
               <>
                 {!withdrawOnly && (
-                  <>
-                    <Button
-                      className="flex-1"
-                      onClick={() => openConfirm(FarmActionType.DEPOSIT)}
-                      variant="primary"
-                    >
-                      {t('common.deposit')}
-                    </Button>
-                    <Button
-                      className="flex-1"
-                      onClick={() => openConfirm(FarmActionType.CLAIM)}
-                      variant="tertiary"
-                    >
-                      {t('common.claim')}
-                    </Button>
-                  </>
+                  <Button
+                    className="flex-1"
+                    onClick={() => openConfirm(FarmActionType.DEPOSIT)}
+                    variant="primary"
+                  >
+                    {t('common.deposit')}
+                  </Button>
                 )}
+                <Button
+                  className="flex-1"
+                  onClick={() => openConfirm(FarmActionType.CLAIM)}
+                  variant="tertiary"
+                >
+                  {t('common.claim')}
+                </Button>
                 <Button
                   className="flex-1"
                   isFancy={withdrawOnly}
