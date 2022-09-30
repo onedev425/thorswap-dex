@@ -53,6 +53,7 @@ export const useAnnouncementsList = () => {
       ];
     }
 
+    // @ts-expect-error
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const _outboundAnn = getOutboundAnnouncement({ outboundQueue, outboundQueueLevel });
 
