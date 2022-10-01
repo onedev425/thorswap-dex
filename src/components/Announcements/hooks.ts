@@ -26,7 +26,7 @@ const getOutboundAnnouncement = ({
 
   return [
     {
-      key: new Date(),
+      key: `${new Date().getTime()}`,
       message: t('components.announcements.outboundQueue', { outboundQueue }),
       type: AnnouncementType.Warn,
     },
@@ -42,40 +42,38 @@ export const useAnnouncementsList = () => {
   const { outboundQueue, outboundQueueLevel } = useNetwork();
   const { isChainHalted, isChainPauseLP, isChainTradingHalted } = useMimir();
 
-  const announcements = useMemo(() => {
-    if (isTradingGloballyDisabled) {
-      return [
-        ...storedAnnouncements.manual,
-        {
-          message: t('components.announcements.tradingGloballyDisabled'),
-          type: AnnouncementType.Error,
-        },
-      ];
-    }
-
-    // @ts-expect-error
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const _outboundAnn = getOutboundAnnouncement({ outboundQueue, outboundQueueLevel });
-
-    return [
+  const announcements = useMemo(
+    () => [
       ...storedAnnouncements.manual,
-      ...getAnnouncementsByChain({
-        pausedChains: isChainHalted,
-        pausedTrade: isChainTradingHalted,
-        pausedLP: isChainPauseLP,
-        chainStatus: storedAnnouncements.chainStatus,
-      }),
-    ];
-  }, [
-    isChainHalted,
-    isChainPauseLP,
-    isChainTradingHalted,
-    isTradingGloballyDisabled,
-    outboundQueue,
-    outboundQueueLevel,
-    storedAnnouncements.chainStatus,
-    storedAnnouncements.manual,
-  ]);
+      ...(isTradingGloballyDisabled
+        ? [
+            {
+              key: `${new Date().getTime()}`,
+              message: t('components.announcements.tradingGloballyDisabled'),
+              type: AnnouncementType.Error,
+            },
+          ]
+        : [
+            ...getOutboundAnnouncement({ outboundQueue, outboundQueueLevel }),
+            ...getAnnouncementsByChain({
+              pausedChains: isChainHalted,
+              pausedTrade: isChainTradingHalted,
+              pausedLP: isChainPauseLP,
+              chainStatus: storedAnnouncements.chainStatus,
+            }),
+          ]),
+    ],
+    [
+      isChainHalted,
+      isChainPauseLP,
+      isChainTradingHalted,
+      isTradingGloballyDisabled,
+      outboundQueue,
+      outboundQueueLevel,
+      storedAnnouncements.chainStatus,
+      storedAnnouncements.manual,
+    ],
+  );
 
   useEffect(() => {
     refreshExternalConfig();
