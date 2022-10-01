@@ -200,17 +200,23 @@ export const CreateLiquidity = () => {
         }),
       );
 
+      let runeTx, assetTx;
+
       try {
-        const { runeTx, assetTx } = await multichain().createLiquidity({
+        const response = await multichain().createLiquidity({
           runeAmount: runeAssetAmount,
           assetAmount: poolAssetAmount,
         });
 
+        runeTx = response.runeTx;
+        assetTx = response.assetTx;
+
         runeTx && appDispatch(updateTransaction({ id: runeId, txid: runeTx }));
         assetTx && appDispatch(updateTransaction({ id: assetId, txid: assetTx }));
       } catch (error: NotWorth) {
-        appDispatch(completeTransaction({ id: runeId, status: 'error' }));
-        appDispatch(completeTransaction({ id: assetId, status: 'error' }));
+        !runeTx && appDispatch(completeTransaction({ id: runeId, status: 'error' }));
+        !assetTx && appDispatch(completeTransaction({ id: assetId, status: 'error' }));
+
         showErrorToast(t('notification.submitFail'), error?.toString());
       }
     }
