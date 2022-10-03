@@ -566,29 +566,25 @@ export const useAddLiquidity = ({
     return false;
   }, [isApproved, liquidityType]);
 
-  const poolAssetInput = useMemo(() => {
-    if (isAssetPending && poolMemberDetail) {
-      return {
-        asset: poolAsset,
-        value: Amount.fromMidgard(poolMemberDetail.assetPending),
-        balance: poolAssetBalance,
-        usdPrice: poolAssetPriceInUSD,
-      };
-    }
-    return {
+  const poolAssetInput = useMemo(
+    () => ({
       asset: poolAsset,
-      value: assetAmount,
       balance: poolAssetBalance,
       usdPrice: poolAssetPriceInUSD,
-    };
-  }, [
-    poolAsset,
-    assetAmount,
-    poolAssetBalance,
-    poolAssetPriceInUSD,
-    isAssetPending,
-    poolMemberDetail,
-  ]);
+      value:
+        isAssetPending && poolMemberDetail
+          ? Amount.fromMidgard(poolMemberDetail.assetPending)
+          : assetAmount,
+    }),
+    [
+      poolAsset,
+      assetAmount,
+      poolAssetBalance,
+      poolAssetPriceInUSD,
+      isAssetPending,
+      poolMemberDetail,
+    ],
+  );
 
   const runeAssetInput = useMemo(() => {
     if (isRunePending && poolMemberDetail) {
