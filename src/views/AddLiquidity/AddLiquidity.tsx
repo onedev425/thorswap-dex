@@ -26,8 +26,8 @@ export const AddLiquidity = () => {
   const { liquidityType, setLiquidityType } = useLiquidityType();
   const { poolAssets, pools, pool, poolAsset, handleSelectPoolAsset } = useAddLiquidityPools();
   const poolAssetList = useAssetsList({ liquidityType, poolAssets, pools });
-  const depositAssetsBalance = useDepositAssetsBalance({ poolAsset });
   const { wallet } = useWallet();
+  const depositAssetsBalance = useDepositAssetsBalance({ poolAsset });
 
   const {
     title,

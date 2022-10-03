@@ -351,9 +351,10 @@ export const useAddLiquidity = ({
         runeTx && appDispatch(updateTransaction({ id: runeId, txid: runeTx }));
         assetTx && appDispatch(updateTransaction({ id: assetId, txid: assetTx }));
       } catch (error: NotWorth) {
+        const message = error?.data?.originalError || error.message;
         appDispatch(completeTransaction({ id: runeId, status: 'error' }));
         appDispatch(completeTransaction({ id: assetId, status: 'error' }));
-        showErrorToast(t('notification.submitFail'), error?.toString());
+        showErrorToast(t('notification.submitFail'), message);
       }
     }
   }, [

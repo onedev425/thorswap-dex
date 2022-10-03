@@ -110,7 +110,7 @@ export const useMidgard = () => {
       await dispatch(
         actions.getPoolMemberDetailByChain({
           chain,
-          address: chainWalletAddr,
+          address: chainWalletAddr.toLowerCase(),
         }),
       );
 
