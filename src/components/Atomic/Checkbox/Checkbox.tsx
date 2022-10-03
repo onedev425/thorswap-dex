@@ -23,7 +23,7 @@ export const Checkbox = ({ value, onValueChange, label, className }: Props) => {
         <input
           checked={value}
           className={classNames(
-            'bg-light-bg-secondary dark:bg-dark-bg-primary appearance-none transition duration-200 h-6 w-6 rounded-md focus:outline-none cursor-pointer',
+            'bg-light-bg-primary dark:bg-dark-bg-primary appearance-none transition duration-200 h-6 w-6 rounded-md focus:outline-none cursor-pointer',
           )}
           onChange={handleChange}
           type="checkbox"

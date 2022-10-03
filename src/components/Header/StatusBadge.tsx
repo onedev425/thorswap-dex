@@ -25,7 +25,7 @@ export const StatusBadge = memo(({ className, status, withLabel }: Props) => {
           className,
         )}
       />
-      {withLabel && <Typography className="pl-1">{status}</Typography>}
+      {withLabel && <Typography className="pl-2">{status}</Typography>}
     </>
   );
 });
