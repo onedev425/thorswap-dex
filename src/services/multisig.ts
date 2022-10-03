@@ -114,9 +114,16 @@ const signMultisigTx = async (tx: string) => {
 };
 
 const broadcastMultisigTx = async (tx: string, signers: Signer[]) => {
+  const txPubKeys = JSON.parse(tx).auth_info.signer_infos[0].public_key.public_keys;
   const data = (await multichain().thor.broadcastMultisig(
     tx,
-    signers.map((signer) => signer.signature),
+    signers
+      .sort(
+        (a, b) =>
+          txPubKeys.findIndex((m: any) => m.key === a.pubKey) -
+          txPubKeys.findIndex((m: any) => m.key === b.pubKey),
+      )
+      .map((signer) => signer.signature),
   )) as BroadcastResponseData;
 
   if (!data) return '';

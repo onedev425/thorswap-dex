@@ -1,11 +1,9 @@
-import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { ImportedMultisigTx, MultisigTx, Signer } from 'services/multisig';
 import { useMultisig } from 'store/multisig/hooks';
 import { MultisigMember } from 'store/multisig/types';
-import { useWallet } from 'store/wallet/hooks';
 
 export type ScreenState = {
   tx: MultisigTx;
@@ -14,9 +12,7 @@ export type ScreenState = {
 };
 
 export const useTxData = (state: ScreenState | null) => {
-  const { signTx, broadcastTx, getPubkeyForAddress, getSortedSigners } = useMultisig();
-  const { wallet } = useWallet();
-  const connectedWalletAddress = wallet?.[Chain.THORChain]?.address || '';
+  const { signTx, broadcastTx, walletPubKey } = useMultisig();
   const txData = useMemo(() => state?.tx || null, [state?.tx]);
   const requiredSigners = useMemo(() => state?.signers || [], [state?.signers]);
 
@@ -27,25 +23,13 @@ export const useTxData = (state: ScreenState | null) => {
   const txBodyStr = JSON.stringify(txData, null, 2) || '';
   const canBroadcast = signatures.length >= requiredSigners.length;
 
-  const pubKey = useMemo(() => {
-    if (!connectedWalletAddress) {
-      return '';
-    }
-
-    try {
-      return getPubkeyForAddress(connectedWalletAddress);
-    } catch (e) {
-      return '';
-    }
-  }, [connectedWalletAddress, getPubkeyForAddress]);
-
   const connectedSignature = useMemo(() => {
-    if (!pubKey) {
+    if (!walletPubKey) {
       return null;
     }
 
-    return signatures.find((s) => s.pubKey === pubKey) || null;
-  }, [pubKey, signatures]);
+    return signatures.find((s) => s.pubKey === walletPubKey) || null;
+  }, [walletPubKey, signatures]);
 
   const exportTxData: ImportedMultisigTx | null = useMemo(() => {
     if (!txData) {
@@ -59,34 +43,31 @@ export const useTxData = (state: ScreenState | null) => {
     };
   }, [requiredSigners, signatures, txData]);
 
-  const addSigner = useCallback(
-    (signer: Signer) => {
-      setSignatures((prev) => {
-        const idx = prev.findIndex((s) => s.pubKey === signer.pubKey);
-        const updated = [...prev];
+  const addSigner = (signer: Signer) => {
+    setSignatures((prev) => {
+      const idx = prev.findIndex((s) => s.pubKey === signer.pubKey);
+      const updated = [...prev];
 
-        if (idx > -1) {
-          updated[idx] = signer;
-        } else {
-          updated.push(signer);
-        }
+      if (idx > -1) {
+        updated[idx] = signer;
+      } else {
+        updated.push(signer);
+      }
 
-        return getSortedSigners(updated);
-      });
-    },
-    [getSortedSigners],
-  );
+      return updated;
+    });
+  };
 
   const sign = useCallback(async () => {
-    if (!pubKey || !requiredSigners.find((s) => s.pubKey === pubKey)) {
+    if (!walletPubKey || !requiredSigners.find((s) => s.pubKey === walletPubKey)) {
       return showErrorToast(t('views.multisig.incorrectSigner'));
     }
 
     const signature = await signTx(JSON.stringify(txData));
     if (signature === undefined) throw Error(`Unable to sign: ${JSON.stringify(txData)}`);
 
-    addSigner({ pubKey, signature });
-  }, [addSigner, pubKey, requiredSigners, signTx, txData]);
+    addSigner({ pubKey: walletPubKey, signature });
+  }, [addSigner, walletPubKey, requiredSigners, signTx, txData]);
 
   // TODO - get recipient and amount from tx
   const txInfo = useMemo(

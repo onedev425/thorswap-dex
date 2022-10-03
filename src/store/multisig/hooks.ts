@@ -17,6 +17,8 @@ import { useAppDispatch, useAppSelector } from 'store/store';
 export const useMultisig = () => {
   const { address, members, treshold } = useAppSelector((state) => state.multisig);
 
+  const { wallet } = useAppSelector((state) => state.wallet);
+
   const dispatch = useAppDispatch();
 
   const multisigActions = useMemo(
@@ -130,19 +132,6 @@ export const useMultisig = () => {
     [members],
   );
 
-  const getSortedSigners = useCallback(
-    (signers: Signer[]) => {
-      const sortedSigners = [...signers];
-
-      return sortedSigners.sort(
-        (a, b) =>
-          members.findIndex((m) => m.pubKey === a.pubKey) -
-          members.findIndex((m) => m.pubKey === b.pubKey),
-      );
-    },
-    [members],
-  );
-
   const isMultsigActivated = useCallback(() => {
     initMultisigWallet();
 
@@ -157,6 +146,16 @@ export const useMultisig = () => {
     [address],
   );
 
+  const walletPubKey = useMemo(() => {
+    if (!wallet?.THOR?.address) return;
+
+    try {
+      return multichain().thor.getPubkey();
+    } catch (error) {
+      console.log('Failed to load public key.', error);
+    }
+  }, [wallet?.THOR?.address]);
+
   return {
     ...multisigActions,
     initMultisigWallet,
@@ -167,9 +166,9 @@ export const useMultisig = () => {
     broadcastTx,
     loadBalances,
     getPubkeyForAddress,
-    getSortedSigners,
     isMultsigActivated,
     isWalletAssetConnected,
+    walletPubKey,
     isConnected: !!address,
   };
 };
