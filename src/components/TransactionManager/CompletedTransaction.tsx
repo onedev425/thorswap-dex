@@ -1,10 +1,9 @@
-import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box, Icon, Link, Typography } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { multichain } from 'services/multichain';
-import { CompletedTransactionType, TransactionType } from 'store/transactions/types';
+import { CompletedTransactionType } from 'store/transactions/types';
 
 import { cutTxPrefix, transactionTitle, useTxIDFromResult, useTxLabelUpdate } from './helpers';
 import { TransactionStatusIcon } from './TransactionStatusIcon';
@@ -32,19 +31,9 @@ export const CompletedTransaction = memo(
       [inChain],
     );
 
-    const txUrl = {
-      url: transactionUrl(txid),
-      icon: inChain === Chain.Ethereum ? 'etherscan' : 'external',
-    } as const;
-
+    const txUrl = transactionUrl(txid);
     const secondTxid = useTxIDFromResult({ result, txid });
-
-    const secondUrl = {
-      url: transactionUrl(secondTxid),
-      icon: [TransactionType.SWAP_ETH_TO_ETH, TransactionType.SWAP_TC_TO_ETH].includes(type)
-        ? 'etherscan'
-        : 'external',
-    } as const;
+    const secondTxUrl = transactionUrl(secondTxid);
 
     return (
       <Box alignCenter flex={1} justify="between">
@@ -69,27 +58,22 @@ export const CompletedTransaction = memo(
           </Box>
         </Box>
 
-        {txUrl.url ? (
-          <Link
-            external
-            className="inline-flex"
-            onClick={(e) => e.stopPropagation()}
-            to={txUrl.url}
-          >
-            <Icon className={baseHoverClass} color="secondary" name={txUrl.icon} size={18} />
+        {txUrl && (
+          <Link external className="inline-flex" onClick={(e) => e.stopPropagation()} to={txUrl}>
+            <Icon className={baseHoverClass} color="secondary" name="external" size={18} />
           </Link>
-        ) : null}
+        )}
 
-        {secondUrl.url ? (
+        {secondTxUrl && (
           <Link
             external
             className="inline-flex"
             onClick={(e) => e.stopPropagation()}
-            to={secondUrl.url}
+            to={secondTxUrl}
           >
-            <Icon className={baseHoverClass} color="secondary" name={secondUrl.icon} size={18} />
+            <Icon className={baseHoverClass} color="secondary" name="external" size={18} />
           </Link>
-        ) : null}
+        )}
       </Box>
     );
   },

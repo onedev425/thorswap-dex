@@ -71,16 +71,11 @@ export const PendingTransaction = memo(
           </Box>
         </Box>
 
-        {transactionUrl ? (
+        {transactionUrl && (
           <Link external className="inline-flex" to={transactionUrl}>
-            <Icon
-              className={baseHoverClass}
-              color="secondary"
-              name={txid?.startsWith('0x') ? 'etherscan' : 'external'}
-              size={18}
-            />
+            <Icon className={baseHoverClass} color="secondary" name="external" size={18} />
           </Link>
-        ) : null}
+        )}
       </Box>
     );
   },
