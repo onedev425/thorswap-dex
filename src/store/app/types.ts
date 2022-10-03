@@ -24,6 +24,7 @@ export interface State {
   walletViewMode: ViewMode;
   hideStats: boolean;
   multisigVisible: boolean;
+  customSendVisible: boolean;
   hideCharts: boolean;
   arePoolsHidden: boolean;
   dismissedAnnList: string[];

@@ -18,6 +18,7 @@ type StorageType = {
   frequentAssets: string[];
   language: SupportedLanguages;
   multisigVisible: boolean;
+  customSendVisible: boolean;
   multisigWallet: MultisigWallet | null;
   nodeWatchList: string[];
   poolsHidden: boolean;
@@ -73,6 +74,7 @@ type StoragePayload =
         | 'sidebarCollapsed'
         | 'statsHidden'
         | 'multisigVisible'
+        | 'customSendVisible'
         | 'tradingHaltStatus'
         | 'restorePreviousWallet';
       value: boolean;
@@ -87,6 +89,7 @@ const defaultValues: StorageType = {
   customRecipientMode: false,
   expertMode: false,
   multisigVisible: true,
+  customSendVisible: false,
   poolsHidden: false,
   readStatus: false,
   restorePreviousWallet: false,
@@ -132,6 +135,7 @@ export const saveInStorage = ({ key, value }: StoragePayload) => {
     case 'customRecipientMode':
     case 'expertMode':
     case 'multisigVisible':
+    case 'customSendVisible':
     case 'poolsHidden':
     case 'readStatus':
     case 'restorePreviousWallet':
@@ -175,6 +179,7 @@ export const getFromStorage = (key: keyof StorageType): StorageType[keyof Storag
     case 'chartsHidden':
     case 'customRecipientMode':
     case 'multisigVisible':
+    case 'customSendVisible':
     case 'poolsHidden':
     case 'readStatus':
     case 'restorePreviousWallet':

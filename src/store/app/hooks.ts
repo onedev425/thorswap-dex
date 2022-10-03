@@ -113,6 +113,13 @@ export const useApp = () => {
     [dispatch],
   );
 
+  const setCustomSendShowStatus = useCallback(
+    (isShown: boolean) => {
+      dispatch(actions.setCustomMemoShowStatus(isShown));
+    },
+    [dispatch],
+  );
+
   const setChartsShowStatus = useCallback(
     (areChartsShown: boolean) => {
       dispatch(actions.setChartsShowStatus(areChartsShown));
@@ -195,5 +202,6 @@ export const useApp = () => {
     setAnnDismissedList,
     setAnnSeenList,
     setMultisigShowStatus,
+    setCustomSendShowStatus,
   };
 };

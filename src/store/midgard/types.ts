@@ -212,6 +212,7 @@ export interface State {
   volume24h: number | null;
   inboundGasRate: { [key in Chain]?: string };
   inboundHalted: { [key in SupportedChain]?: boolean };
+  inboundAddresses: { [key in SupportedChain]?: string };
   lastBlock: LastblockItem[];
   nodes: THORNode[];
   nodeLoading: boolean;

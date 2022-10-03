@@ -48,6 +48,7 @@ const initialState: State = {
   volume24h: null,
   inboundGasRate: {},
   inboundHalted: {},
+  inboundAddresses: {},
   lastBlock: [],
   nodes: [],
   nodeLoading: false,
@@ -414,11 +415,12 @@ const midgardSlice = createSlice({
         state.volume24h = payload;
       })
       .addCase(midgardActions.getThorchainInboundData.fulfilled, (state, { payload }) => {
-        const { gasRateByChain, haltedByChain } = payload.reduce(
-          (acc, { chain, halted, gas_rate }) => {
+        const { gasRateByChain, haltedByChain, poolAddressByChain } = payload.reduce(
+          (acc, { chain, halted, gas_rate, address }) => {
             if (chain) {
               acc.gasRateByChain[chain as SupportedChain] = gas_rate;
               acc.haltedByChain[chain as SupportedChain] = halted;
+              acc.poolAddressByChain[chain as SupportedChain] = address;
             }
 
             return acc;
@@ -426,6 +428,7 @@ const midgardSlice = createSlice({
           {
             gasRateByChain: {} as { [key in SupportedChain]?: string },
             haltedByChain: {} as { [key in SupportedChain]?: boolean },
+            poolAddressByChain: {} as { [key in SupportedChain]?: string },
           },
         );
 
@@ -434,6 +437,9 @@ const midgardSlice = createSlice({
         }
         if (!equalObjects(haltedByChain, state.inboundHalted)) {
           state.inboundHalted = haltedByChain;
+        }
+        if (!equalObjects(poolAddressByChain, state.inboundAddresses)) {
+          state.inboundAddresses = poolAddressByChain;
         }
       })
       // get thorchain mimir

@@ -1,4 +1,5 @@
 import { Amount, Asset, hasWalletConnected, Price } from '@thorswap-lib/multichain-core';
+import { SwitchMenu } from 'components/AppPopoverMenu/components/SwitchMenu';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
@@ -22,6 +23,8 @@ import { multichain } from 'services/multichain';
 import { getSendRoute } from 'settings/constants';
 import { useMidgard } from 'store/midgard/hooks';
 import { useWallet } from 'store/wallet/hooks';
+import { CustomSend } from 'views/Send/components/CustomSend';
+import { useCustomSend } from 'views/Send/hooks/useCustomSend';
 import { useConfirmSend } from 'views/Send/useConfirmSend';
 
 // TODO: refactor useReducer
@@ -43,12 +46,25 @@ const Send = () => {
   const { getMaxBalance } = useBalance();
   const { inboundFee, totalFeeInUSD } = useNetworkFee({ inputAsset: sendAsset });
 
+  const {
+    customMemo,
+    customRecipient,
+    setCustomMemo,
+    setCustomRecipient,
+    customTxEnabled,
+    switchCustomTxEnabledMenu,
+    showCustomTxToggle,
+  } = useCustomSend();
+
+  const txRecipient = customTxEnabled ? customRecipient : recipientAddress;
+  const txMemo = customTxEnabled ? customMemo : memo;
+
   const handleConfirmSend = useConfirmSend({
     setIsOpenConfirmModal,
     sendAmount,
     sendAsset,
-    recipientAddress,
-    memo,
+    recipientAddress: txRecipient,
+    memo: txMemo,
   });
 
   const maxSpendableBalance: Amount = useMemo(
@@ -143,14 +159,14 @@ const Send = () => {
     if (
       !multichain().validateAddress({
         chain: sendAsset.L1Chain,
-        address: recipientAddress,
+        address: txRecipient,
       })
     ) {
       showErrorToast(t('notification.invalidL1ChainAddy', { chain: sendAsset.L1Chain }));
     } else {
       setIsOpenConfirmModal(true);
     }
-  }, [sendAsset, recipientAddress]);
+  }, [sendAsset, txRecipient]);
 
   const assetInput = useMemo(
     () => ({
@@ -185,7 +201,8 @@ const Send = () => {
         label: t('common.send'),
         value: `${sendAmount?.toSignificant(6)} ${sendAsset.name}`,
       },
-      { label: t('common.recipient'), value: recipientAddress },
+      { label: t('common.recipient'), value: txRecipient },
+      { label: t('common.memo'), value: txMemo },
       {
         label: t('common.transactionFee'),
         value: (
@@ -198,7 +215,7 @@ const Send = () => {
         ),
       },
     ],
-    [recipientAddress, sendAsset, sendAmount, inboundFee, totalFeeInUSD],
+    [sendAmount, sendAsset.name, txRecipient, txMemo, inboundFee, totalFeeInUSD],
   );
 
   const recipientTitle = useMemo(
@@ -224,19 +241,44 @@ const Send = () => {
         />
       </div>
 
-      <PanelInput
-        loading={loading}
-        onChange={handleChangeRecipient}
-        placeholder={`THORName / ${
-          assetInput.asset.isSynth || assetInput.asset.isRUNE()
-            ? Asset.RUNE().network
-            : chainName(assetInput.asset.L1Chain)
-        } ${t('common.address')}`}
-        title={recipientTitle}
-        value={recipientAddress}
-      />
+      {!customTxEnabled && (
+        <>
+          <PanelInput
+            loading={loading}
+            onChange={handleChangeRecipient}
+            placeholder={`THORName / ${
+              assetInput.asset.isSynth || assetInput.asset.isRUNE()
+                ? Asset.RUNE().network
+                : chainName(assetInput.asset.L1Chain)
+            } ${t('common.address')}`}
+            title={recipientTitle}
+            value={recipientAddress}
+          />
 
-      <PanelInput collapsible onChange={handleChangeMemo} title={t('common.memo')} value={memo} />
+          <PanelInput
+            collapsible
+            onChange={handleChangeMemo}
+            title={t('common.memo')}
+            value={memo}
+          />
+        </>
+      )}
+
+      {showCustomTxToggle && (
+        <Box className="self-stretch" flex={1}>
+          <SwitchMenu className="mx-0.5" items={switchCustomTxEnabledMenu} />
+        </Box>
+      )}
+
+      {customTxEnabled && (
+        <CustomSend
+          memo={customMemo}
+          poolAddress={customRecipient}
+          sendAsset={sendAsset}
+          setMemo={setCustomMemo}
+          setPoolAddress={setCustomRecipient}
+        />
+      )}
 
       <InfoTable horizontalInset items={summary} />
 

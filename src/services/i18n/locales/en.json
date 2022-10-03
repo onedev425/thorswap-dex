@@ -18,6 +18,7 @@
     "settings": "Settings",
     "showCharts": "Show Charts",
     "showMultisig": "Show Multi-sig Wallet",
+    "showCustomSend": "Show Send Custom Tx",
     "showPools": "Show Featured Pools",
     "showStats": "Show Global Stats",
     "theme": "App Theme",
@@ -603,7 +604,9 @@
       "withdraw": "Withdraw"
     },
     "send": {
-      "txFeeTooltip": "Gas fee to send the transaction, There's no extra charges from THORChain Protocol"
+      "txFeeTooltip": "Gas fee to send the transaction, There's no extra charges from THORChain Protocol",
+      "toggleCustomTxForm": "Toggle custom transaction form",
+      "outputAsset": "Swap Output Asset"
     },
     "setting": {
       "customRecipientMode": "Set Custom Recipient",

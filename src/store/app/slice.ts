@@ -16,6 +16,7 @@ const initialState: State = {
   isAnnOpen: !getFromStorage('annViewStatus') as boolean,
   hideStats: getFromStorage('statsHidden') as boolean,
   multisigVisible: getFromStorage('multisigVisible') as boolean,
+  customSendVisible: getFromStorage('customSendVisible') as boolean,
   hideCharts: getFromStorage('chartsHidden') as boolean,
   arePoolsHidden: getFromStorage('poolsHidden') as boolean,
   dismissedAnnList: getFromStorage('dismissedAnnList') as string[],
@@ -124,6 +125,10 @@ const appSlice = createSlice({
     setMultisigShowStatus(state, action: PayloadAction<boolean>) {
       state.multisigVisible = action.payload;
       saveInStorage({ key: 'multisigVisible', value: action.payload });
+    },
+    setCustomMemoShowStatus(state, action: PayloadAction<boolean>) {
+      state.customSendVisible = action.payload;
+      saveInStorage({ key: 'customSendVisible', value: action.payload });
     },
     setChartsShowStatus(state, action: PayloadAction<boolean>) {
       state.hideCharts = action.payload;
