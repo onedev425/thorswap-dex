@@ -21,10 +21,7 @@ export const useAddLiquidityPools = ({ assetRouteGetter = getAddLiquidityRoute }
   const [poolAsset, setPoolAsset] = useState<Asset>(Asset.BTC());
   const [pool, setPool] = useState<Pool>();
 
-  const poolAssets = useMemo(() => {
-    const assets = pools.map((poolData) => poolData.asset);
-    return assets;
-  }, [pools]);
+  const poolAssets = useMemo(() => pools.map((poolData) => poolData.asset), [pools]);
 
   useEffect(() => {
     getAllMemberDetails();

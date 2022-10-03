@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { Box } from 'components/Atomic/Box/Box';
 import { memo, MouseEventHandler, ReactNode } from 'react';
 import { NavLink } from 'react-router-dom';
 
@@ -14,16 +15,12 @@ export const Link = memo(({ className, to, children, external, onClick }: LinkPr
   const externalHref = external || /^((http|https|ftp):\/\/)/.test(to.trim?.());
 
   return externalHref ? (
-    <a
+    <Box
       className={classNames(className, 'no-underline')}
-      href=""
-      onClick={(e) => {
-        e.preventDefault();
-        window.open(to, '_blank', 'noopener,noreferrer');
-      }}
+      onClick={() => window.open(to, '_blank', 'noopener,noreferrer')}
     >
       {children}
-    </a>
+    </Box>
   ) : (
     <NavLink className={classNames(className, 'no-underline')} onClick={onClick} to={to}>
       {children}

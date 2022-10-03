@@ -1,4 +1,10 @@
-import { Amount, Asset, hasWalletConnected, QuoteMode } from '@thorswap-lib/multichain-core';
+import {
+  Amount,
+  Asset,
+  ETH_DECIMAL,
+  hasWalletConnected,
+  QuoteMode,
+} from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';
@@ -20,6 +26,7 @@ import { IS_DEV_API, IS_PROD } from 'settings/config';
 import { getSwapRoute } from 'settings/constants';
 import { useWallet } from 'store/wallet/hooks';
 import { FeeModal } from 'views/Swap/FeeModal';
+import { useTokenList } from 'views/Swap/hooks/useTokenList';
 
 import { ApproveModal } from './ApproveModal';
 import { AssetInputs } from './AssetInputs';
@@ -46,10 +53,31 @@ const SwapView = () => {
   const [feeModalOpened, setFeeModalOpened] = useState(false);
   const formatPrice = useFormatPrice({ groupSize: 0 });
 
+  const { tokens, isLoading: tokenListLoading } = useTokenList();
+
   useEffect(() => {
     const address = multichain().getWalletAddressByChain(outputAsset.L1Chain);
     setRecipient(address || '');
   }, [outputAsset, wallet]);
+
+  useEffect(() => {
+    const inputToken = tokens.find(
+      ({ identifier }) => identifier === `${inputAsset.L1Chain}.${inputAsset.ticker}`,
+    );
+    const outputToken = tokens.find(
+      ({ identifier }) => identifier === `${outputAsset.L1Chain}.${outputAsset.ticker}`,
+    );
+    const inputDecimal =
+      inputAsset.isETH() || inputAsset.isAVAX() ? ETH_DECIMAL : inputToken?.decimals;
+    const outputDecimal =
+      outputAsset.isETH() || outputAsset.isAVAX() ? ETH_DECIMAL : outputToken?.decimals;
+
+    if (tokens.length) {
+      console.log(inputDecimal, outputDecimal);
+      inputAsset.setDecimal(inputDecimal);
+      outputAsset.setDecimal(outputDecimal);
+    }
+  }, [inputAsset, outputAsset, tokens]);
 
   const senderAddress = useMemo(
     () => multichain().getWalletAddressByChain(inputAsset.L1Chain) || '',
@@ -272,11 +300,13 @@ const SwapView = () => {
     >
       <AssetInputs
         inputAsset={inputAssetProps}
+        listLoading={tokenListLoading}
         onInputAmountChange={handleChangeInputAmount}
         onInputAssetChange={handleSelectAsset('input')}
         onOutputAssetChange={handleSelectAsset('output')}
         onSwitchPair={handleSwitchPair}
         outputAsset={outputAssetProps}
+        tokens={tokens}
       />
 
       <CustomRecipientInput

@@ -1,3 +1,4 @@
+import { getAddress } from '@ethersproject/address';
 import { Asset } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 
@@ -41,8 +42,8 @@ export const getAssetIconUrl = ({ ticker, symbol, chain }: Asset) => {
     }
 
     try {
-      const assetAddress = symbol.slice(ticker.length + 1);
-      return `${twBaseUri}/ethereum/assets/${assetAddress}/logo.png`;
+      const assetAddress = symbol.slice(ticker.length + 1).toLowerCase();
+      return `${twBaseUri}/ethereum/assets/${getAddress(assetAddress)}/logo.png`;
     } catch (error) {
       return undefined;
     }

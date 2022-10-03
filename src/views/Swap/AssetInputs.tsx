@@ -1,4 +1,3 @@
-import { QueryStatus } from '@reduxjs/toolkit/dist/query';
 import { Amount, Asset } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
@@ -10,9 +9,6 @@ import Fuse from 'fuse.js';
 import uniqBy from 'lodash/uniqBy';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAssets } from 'store/assets/hooks';
-import { useLazyGetTokenListQuery } from 'store/static/api';
-import { useAppSelector } from 'store/store';
-import { useGetProvidersQuery } from 'store/thorswap/api';
 import { Token } from 'store/thorswap/types';
 import { useThorchainErc20SupportedAddresses } from 'views/Swap/hooks/useThorchainErc20Supported';
 
@@ -25,12 +21,14 @@ type Props = {
   onInputAmountChange: (value: Amount) => void;
   inputAsset: AssetInputType;
   outputAsset: AssetInputType;
+  tokens: Token[];
+  listLoading: boolean;
 };
 
 const options: Fuse.IFuseOptions<AssetSelectType> = {
   keys: [
-    { name: 'asset.symbol', weight: 0.99 },
-    { name: 'ticker', weight: 0.99 },
+    { name: 'ticker', weight: 1 },
+    { name: 'asset.symbol', weight: 0.5 },
     {
       name: 'identifier',
       weight: 0.01,
@@ -52,27 +50,15 @@ export const AssetInputs = memo(
     onOutputAssetChange,
     onInputAmountChange,
     onSwitchPair,
+    listLoading,
+    tokens,
   }: Props) => {
     const fuse = useRef<Fuse<AssetSelectType>>(new Fuse([], options));
     const [query, setQuery] = useState('');
     const [iconRotate, setIconRotate] = useState(false);
-    const [tokens, setTokens] = useState<Token[]>([]);
-    const [fetchTokenList, { isFetching }] = useLazyGetTokenListQuery();
-    const disabledProviders = useAppSelector(
-      ({ assets: { disabledTokenLists } }) => disabledTokenLists,
-    );
 
     const thorchainERC20SupportedAddresses = useThorchainErc20SupportedAddresses();
-    const { data: providersData } = useGetProvidersQuery();
     const { isFeatured, isFrequent } = useAssets();
-
-    const providers = useMemo(() => {
-      if (!providersData) return [];
-
-      return providersData
-        .map(({ provider }) => provider)
-        .filter((p) => !disabledProviders.includes(p));
-    }, [disabledProviders, providersData]);
 
     const handleAssetSwap = useCallback(() => {
       const unsupportedOutputAfterChange =
@@ -86,25 +72,6 @@ export const AssetInputs = memo(
       onSwitchPair(unsupportedOutputAfterChange);
       setIconRotate((rotate) => !rotate);
     }, [inputAsset, onSwitchPair, outputAsset, thorchainERC20SupportedAddresses]);
-
-    const fetchTokens = useCallback(async () => {
-      if (!providers.length) return;
-
-      const providerRequests = providers.map(async (provider) => fetchTokenList(provider));
-
-      const providersData = await Promise.all(providerRequests);
-      const tokens = providersData.reduce((acc, { data, status }) => {
-        if (!data?.tokens) return acc;
-
-        return status === QueryStatus.rejected ? acc : [...acc, ...data.tokens];
-      }, [] as Token[]);
-
-      setTokens(tokens);
-    }, [fetchTokenList, providers]);
-
-    useEffect(() => {
-      fetchTokens();
-    }, [fetchTokens]);
 
     const assetList = useAssetsWithBalanceFromTokens(tokens);
 
@@ -142,11 +109,11 @@ export const AssetInputs = memo(
 
     const assetInputProps = useMemo(
       () => ({
-        isLoading: isFetching,
+        isLoading: listLoading,
         query,
         setQuery,
       }),
-      [isFetching, query],
+      [listLoading, query],
     );
 
     const outputAssets = useMemo(() => {
