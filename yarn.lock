@@ -1271,10 +1271,10 @@
   resolved "https://registry.yarnpkg.com/@evilmartians/lefthook/-/lefthook-1.1.1.tgz#26e0de9ca3df1c8d2d97840f187a52cd95bb5f59"
   integrity sha512-5C/AD937A6jz4mdBLAKXIeYVkxvLmPWxlv1YWfuHcIwZ2wp4W3z1Htjjtp+7gtO41CoCycIJcaxLfwaAsbS6qA==
 
-"@fontsource/poppins@4.5.9":
-  version "4.5.9"
-  resolved "https://registry.yarnpkg.com/@fontsource/poppins/-/poppins-4.5.9.tgz#e5c192aef005177c87e23c1b783415d1e9b4b7a8"
-  integrity sha512-PMHOYeUpdmdN1xk13aGvhvZZrv9Zt3ubx2PmDvnROHgefm0ixpFd3ogAi0fY/aWtlkUdvgt0mSkGGbtt5i4MsQ==
+"@fontsource/poppins@4.5.10":
+  version "4.5.10"
+  resolved "https://registry.yarnpkg.com/@fontsource/poppins/-/poppins-4.5.10.tgz#44dbfeacb5d89efca5ad7ad6cc941b2ac1ee424b"
+  integrity sha512-oYZVHsnlwV3VWM1SE/m6SUxVh0QLk5+2wB+lBiXcI7N/0KVQWmV9YykaPqfJHBLvmdya+MAOnv+BQHeLU1vOOw==
 
 "@headlessui/react@1.7.3":
   version "1.7.3"
@@ -1891,10 +1891,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.11.tgz#f57392d4bd5467e2cb4eaf80105e2907c987178e"
   integrity sha512-rzfoyOE1IPEpGXYEH2dt2W/Nb2+rmbt97/yhu6aaaHSbwrfQvWt6KFdkNHa8KXa9zoN43gOdDz9Ku0SwwaHZpg==
 
-"@thorswap-lib/multichain-core@0.0.0-development.100":
-  version "0.0.0-development.100"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.0-development.100.tgz#f854b7454da808585c4685b48b977f06ca1d29cb"
-  integrity sha512-0hWc9VwOirq9QP5yjn76dVyTcXsCyTXOVJqEsF0O01wOTBrkw/XhRatB5oQ3e6C+52xGnz8BEkfzS2E79YTpWg==
+"@thorswap-lib/multichain-core@0.0.0-development.101":
+  version "0.0.0-development.101"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.0-development.101.tgz#bd0d7ebc123cf7d53e97a266ad5b8681dbd9d200"
+  integrity sha512-+wkwJwDlz65gyfzKncVnGRRkAdSIO44dF8iTv3e1imHGrV+qYijny+1nkFAlj5etIFx5du3wrxHVBB/nuDz2TQ==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.2.0"
     "@cosmjs/amino" "^0.29.0"
@@ -1961,10 +1961,10 @@
     "@walletconnect/qrcode-modal" "^1.8.0"
     "@walletconnect/web3-provider" "^1.8.0"
 
-"@thorswap-lib/multichain-web-extensions@0.2.20":
-  version "0.2.20"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-web-extensions/-/multichain-web-extensions-0.2.20.tgz#254e713ad9ba768dc1f06daa5a1762f3149a3191"
-  integrity sha512-199WgXwlk7siDRB6s9Eh/II+BTPwLnuD4t/sCKFZ1RNUebh1T4KNF7z5mhRsa/swmU/DfYm+Vsv4iHEu4Rb3JQ==
+"@thorswap-lib/multichain-web-extensions@0.2.21":
+  version "0.2.21"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-web-extensions/-/multichain-web-extensions-0.2.21.tgz#9dadbb1338d382b1e0948ebecdda125d6c570d0e"
+  integrity sha512-PKd0THI+fu07g85mEoy93klubI5WWtMREiWT0zcD2SCr3ZpwUKsdu8isj1h6+MDyGcKdz0FRZz043J82VID7zQ==
   dependencies:
     "@ethersproject/bytes" "^5.7.0"
     "@thorswap-lib/types" "^0.2.15"
@@ -2180,10 +2180,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-11.11.6.tgz#df929d1bb2eee5afdda598a41930fe50b43eaa6a"
   integrity sha512-Exw4yUWMBXM3X+8oqzJNRqZSwUAaS4+7NdvHqQuFi/d+synz++xmX3QIf+BFqneW8N31R8Ky+sikfZUXq07ggQ==
 
-"@types/node@18.7.23":
-  version "18.7.23"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.23.tgz#75c580983846181ebe5f4abc40fe9dfb2d65665f"
-  integrity sha512-DWNcCHolDq0ZKGizjx2DZjR/PqsYwAcYUJmfMWqtVU2MBMG5Mo+xFZrhGId5r/O5HOuMPyQEcM6KUBp5lBZZBg==
+"@types/node@18.8.0":
+  version "18.8.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.8.0.tgz#b8ee8d83a99470c0661bd899417fcd77060682fe"
+  integrity sha512-u+h43R6U8xXDt2vzUaVP3VwjjLyOJk6uEciZS8OSyziUQGOwmk+l+4drxcsDboHXwyTaqS1INebghmWMRxq3LA==
 
 "@types/node@^12.12.54":
   version "12.20.55"
