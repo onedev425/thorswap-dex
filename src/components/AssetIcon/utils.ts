@@ -1,4 +1,4 @@
-import { Asset, getContractAddressFromAsset } from '@thorswap-lib/multichain-core';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 
 import { assetIconMap, BepIconType, customIconMap, CustomIconType } from './iconList';
@@ -26,34 +26,34 @@ export const checkIfImageExists = (url: string): boolean => {
   return false;
 };
 
-export const getAssetIconUrl = (asset: Asset) => {
-  if (Object.keys(customIconMap).includes(asset.ticker)) {
-    return customIconMap[asset.ticker as CustomIconType];
+export const getAssetIconUrl = ({ ticker, symbol, chain }: Asset) => {
+  if (Object.keys(customIconMap).includes(ticker)) {
+    return customIconMap[ticker as CustomIconType];
   }
 
-  if (Object.keys(customIconMap).includes(asset.symbol)) {
-    return customIconMap[asset.symbol as CustomIconType];
+  if (Object.keys(customIconMap).includes(symbol)) {
+    return customIconMap[symbol as CustomIconType];
   }
 
-  if (asset.chain === Chain.Ethereum && asset.ticker !== Chain.Ethereum) {
-    if (asset.ticker === 'WETH') {
+  if (chain === Chain.Ethereum && ticker !== Chain.Ethereum) {
+    if (ticker === 'WETH') {
       return 'https://assets.coingecko.com/coins/images/2518/large/weth.png';
     }
 
     try {
-      const contract = getContractAddressFromAsset(asset);
-      return `${twBaseUri}/ethereum/assets/${contract}/logo.png`;
+      const assetAddress = symbol.slice(ticker.length + 1);
+      return `${twBaseUri}/ethereum/assets/${assetAddress}/logo.png`;
     } catch (error) {
       return undefined;
     }
   }
 
-  const logoSymbol = assetIconMap[asset.ticker as BepIconType];
+  const logoSymbol = assetIconMap[ticker as BepIconType];
   if (logoSymbol) {
     return `${twBaseUri}/binance/assets/${logoSymbol}/logo.png`;
   }
 
-  return `${twBaseUri}/binance/assets/${asset.symbol}/logo.png`;
+  return `${twBaseUri}/binance/assets/${symbol}/logo.png`;
 };
 
 export const getSecondaryIconPlacementStyle = (placement: SecondaryIconPlacement, size: number) => {

@@ -15,7 +15,8 @@ const getERC20Decimal = async ({ symbol, ticker }: GetDecimalParams) => {
   return contractDecimals.toNumber() as number;
 };
 
-const getARC20Decimal = async ({ symbol }: GetDecimalParams) => (symbol.startsWith('USD') ? 6 : 18);
+const getARC20Decimal = async ({ symbol }: GetDecimalParams) =>
+  symbol.startsWith('USD') ? 6 : ETH_DECIMAL;
 
 export const getEVMDecimal = async ({
   L1Chain,

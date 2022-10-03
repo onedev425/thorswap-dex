@@ -1,3 +1,4 @@
+import { getAddress } from '@ethersproject/address';
 import { BigNumber } from '@ethersproject/bignumber';
 import { type ContractInterface, Contract } from '@ethersproject/contracts';
 import { formatUnits, parseUnits } from '@ethersproject/units';
@@ -77,8 +78,10 @@ export const getEtherscanContract = (contractType: ContractType) => {
   return getCustomContract(address, abi);
 };
 
-export const getCustomContract = (contractAddr: string, abi?: ContractInterface) =>
-  new Contract(contractAddr, abi ? abi : ERC20ABI, alchemyProvider());
+export const getCustomContract = (contractAddr: string, abi?: ContractInterface) => {
+  const address = getAddress(contractAddr.toLowerCase());
+  return new Contract(address, abi ? abi : ERC20ABI, alchemyProvider());
+};
 
 export const getLPContractAddress = (contractType: LPContractType) =>
   lpContractConfig[contractType].tokenAddr.toLowerCase();
