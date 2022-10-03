@@ -34,7 +34,7 @@ export const CompletedTransaction = memo(
 
     const txUrl = {
       url: transactionUrl(txid),
-      icon: inChain === Chain.Ethereum ? 'etherscanLight' : 'external',
+      icon: inChain === Chain.Ethereum ? 'etherscan' : 'external',
     } as const;
 
     const secondTxid = useTxIDFromResult({ result, txid });
@@ -42,7 +42,7 @@ export const CompletedTransaction = memo(
     const secondUrl = {
       url: transactionUrl(secondTxid),
       icon: [TransactionType.SWAP_ETH_TO_ETH, TransactionType.SWAP_TC_TO_ETH].includes(type)
-        ? 'etherscanLight'
+        ? 'etherscan'
         : 'external',
     } as const;
 

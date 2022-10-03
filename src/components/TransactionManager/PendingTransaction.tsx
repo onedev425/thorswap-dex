@@ -76,7 +76,7 @@ export const PendingTransaction = memo(
             <Icon
               className={baseHoverClass}
               color="secondary"
-              name={txid?.startsWith('0x') ? 'etherscanLight' : 'external'}
+              name={txid?.startsWith('0x') ? 'etherscan' : 'external'}
               size={18}
             />
           </Link>
