@@ -73,7 +73,6 @@ const SwapView = () => {
       outputAsset.isETH() || outputAsset.isAVAX() ? ETH_DECIMAL : outputToken?.decimals;
 
     if (tokens.length) {
-      console.log(inputDecimal, outputDecimal);
       inputAsset.setDecimal(inputDecimal);
       outputAsset.setDecimal(outputDecimal);
     }

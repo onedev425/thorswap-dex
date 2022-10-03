@@ -4,7 +4,6 @@ import { TxnResult } from 'store/thorswap/types';
 export type TransactionStatus = 'error' | 'mined' | 'refund' | 'pending';
 
 export enum TransactionType {
-  // Old quote mode
   SWAP_TC_TO_TC = 'SWAP:TC-TC',
   SWAP_ETH_TO_TC = 'SWAP:ERC20-TC',
   SWAP_TC_TO_ETH = 'SWAP:TC-ERC20',

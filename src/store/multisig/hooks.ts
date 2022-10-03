@@ -149,11 +149,7 @@ export const useMultisig = () => {
   const walletPubKey = useMemo(() => {
     if (!wallet?.THOR?.address) return;
 
-    try {
-      return multichain().thor.getPubkey();
-    } catch (error) {
-      console.log('Failed to load public key.', error);
-    }
+    return multichain().thor.getPubkey();
   }, [wallet?.THOR?.address]);
 
   return {

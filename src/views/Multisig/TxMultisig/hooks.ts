@@ -43,7 +43,7 @@ export const useTxData = (state: ScreenState | null) => {
     };
   }, [requiredSigners, signatures, txData]);
 
-  const addSigner = (signer: Signer) => {
+  const addSigner = useCallback((signer: Signer) => {
     setSignatures((prev) => {
       const idx = prev.findIndex((s) => s.pubKey === signer.pubKey);
       const updated = [...prev];
@@ -56,7 +56,7 @@ export const useTxData = (state: ScreenState | null) => {
 
       return updated;
     });
-  };
+  }, []);
 
   const sign = useCallback(async () => {
     if (!walletPubKey || !requiredSigners.find((s) => s.pubKey === walletPubKey)) {
