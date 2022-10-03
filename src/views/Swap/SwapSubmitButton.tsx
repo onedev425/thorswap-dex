@@ -49,17 +49,44 @@ export const SwapSubmitButton = ({
       transactions.pending.filter(({ type }) => type === TransactionType.ETH_APPROVAL).length,
   );
 
+  const isSynthMintable = useMemo((): boolean => {
+    if (!outputAsset.isSynth || !pools?.length) return true;
+    const { assetDepth, synthSupply } =
+      pools?.find((p) => p.asset.symbol === outputAsset.symbol)?.detail || {};
+
+    const assetDepthAmount = Amount.fromMidgard(assetDepth);
+    const synthSupplyAmount = Amount.fromMidgard(synthSupply);
+
+    if (assetDepthAmount.eq(0)) return true;
+
+    return synthSupplyAmount
+      .div(assetDepthAmount)
+      .assetAmount.isLessThan(maxSynthPerAssetDepth / 10000);
+  }, [maxSynthPerAssetDepth, outputAsset.isSynth, outputAsset.symbol, pools]);
+
   const isTradingHalted: boolean = useMemo(() => {
-    const inTradeHalted = inboundHalted[inputAsset.L1Chain as SupportedChain];
-    const outTradeHated = inboundHalted[outputAsset.L1Chain as SupportedChain];
+    const inTradeHalted =
+      inboundHalted[inputAsset.L1Chain as SupportedChain] ||
+      isChainTradingHalted[inputAsset.L1Chain];
+    const outTradeHated =
+      inboundHalted[outputAsset.L1Chain as SupportedChain] ||
+      isChainTradingHalted[outputAsset.L1Chain];
 
     return (
-      inTradeHalted ||
-      outTradeHated ||
-      getChainTradingPaused(inputAsset.L1Chain as SupportedChain) ||
-      getChainTradingPaused(outputAsset.L1Chain as SupportedChain)
+      (inTradeHalted ||
+        outTradeHated ||
+        getChainTradingPaused(inputAsset.L1Chain as SupportedChain) ||
+        getChainTradingPaused(outputAsset.L1Chain as SupportedChain)) &&
+      isSynthMintable
     );
-  }, [getChainTradingPaused, inboundHalted, inputAsset.L1Chain, outputAsset.L1Chain]);
+  }, [
+    getChainTradingPaused,
+    inboundHalted,
+    inputAsset.L1Chain,
+    isChainTradingHalted,
+    isSynthMintable,
+    outputAsset.L1Chain,
+  ]);
 
   const walletConnected = useMemo(
     () => hasWalletConnected({ wallet, inputAssets: [inputAsset] }),
@@ -119,33 +146,13 @@ export const SwapSubmitButton = ({
     }
   }, [isInputWalletConnected, setVisibleApproveModal]);
 
-  const isSynthMintable = useMemo((): boolean => {
-    if (!outputAsset.isSynth || !pools?.length) return true;
-    const { assetDepth, synthSupply } =
-      pools?.find((p) => p.asset.symbol === outputAsset.symbol)?.detail || {};
-
-    const assetDepthAmount = Amount.fromMidgard(assetDepth);
-    const synthSupplyAmount = Amount.fromMidgard(synthSupply);
-
-    if (assetDepthAmount.eq(0)) return true;
-
-    return synthSupplyAmount
-      .div(assetDepthAmount)
-      .assetAmount.isLessThan(maxSynthPerAssetDepth / 10000);
-  }, [maxSynthPerAssetDepth, outputAsset.isSynth, outputAsset.symbol, pools]);
-
-  const swapNotAvailable =
-    (isTradingHalted && !isSynthMintable) ||
-    isChainTradingHalted[inputAsset.L1Chain] ||
-    isChainTradingHalted[outputAsset.L1Chain];
-
   const isSwapValid = useMemo(
-    () => !swapNotAvailable && hasQuote && inputAmount.gt(0) && !swapAmountTooSmall,
-    [hasQuote, inputAmount, swapAmountTooSmall, swapNotAvailable],
+    () => !isTradingHalted && hasQuote && inputAmount.gt(0) && !swapAmountTooSmall,
+    [hasQuote, inputAmount, isTradingHalted, swapAmountTooSmall],
   );
 
   const btnLabel = useMemo(() => {
-    if (swapNotAvailable) {
+    if (isTradingHalted) {
       return t('notification.swapNotAvailable');
     }
 
@@ -156,7 +163,7 @@ export const SwapSubmitButton = ({
     if (outputAsset.isSynth) return t('txManager.mint');
 
     return t('common.swap');
-  }, [swapNotAvailable, swapAmountTooSmall, inputAsset.isSynth, outputAsset.isSynth]);
+  }, [isTradingHalted, swapAmountTooSmall, inputAsset.isSynth, outputAsset.isSynth]);
 
   const isApproveRequired = useMemo(
     () => isInputWalletConnected && isApproved === false,
