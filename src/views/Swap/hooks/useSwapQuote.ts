@@ -109,8 +109,12 @@ export const useSwapQuote = ({
 
   useEffect(() => {
     if (!error) {
-      setSwapRoute(routes[0]);
+      const route = routes.find(
+        (r) => JSON.stringify(r.providers) === JSON.stringify(selectedRoute.providers),
+      );
+      setSwapRoute(route || routes[0]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error, routes]);
 
   return {
