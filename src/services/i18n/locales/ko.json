@@ -18,6 +18,7 @@
     "settings": "설정",
     "showCharts": "차트 보기",
     "showMultisig": "멀티시그 월렛 보기",
+    "showCustomSend": "사용자 지정 Tx 보내기 보기",
     "showPools": "추천 풀 보기",
     "showStats": "글로벌 통계 보기",
     "theme": "앱 테마",
@@ -159,6 +160,7 @@
       "chainHalted": "%{chain} 체인이 토르 체인에서 일시적으로 중단되었습니다.현재 모든 거래 및 LP 작업을 사용할 수 없습니다.",
       "chainLPHalted": "%{chain} 체인에 대한 추가 및 인출은 일시적으로 사용할 수 없습니다.",
       "chainTradeHalted": "%{chain} 체인에서의 거래는 일시적으로 불가능합니다.",
+      "outboundQueue": "ThorChain에서 현재 과도한 아웃바운드 대기열 (% {아웃바운드큐}) 을 겪고 있습니다.스왑은 처리하는 데 평소보다 오래 걸릴 수 있습니다. 자금은 안전합니다 🙏",
       "thorChainHalted": "점검 중에는 THORChain을 일시적으로 사용할 수 없습니다.현재 모든 작업이 비활성화되어 있습니다.",
       "thorChainLPHalted": "THORChain에서 유동성 추가 및 인출이 일시적으로 비활성화됩니다.",
       "thorChainTradeHalted": "THORChain에서 거래가 일시적으로 비활성화되었습니다.",
@@ -247,7 +249,6 @@
     "metamaskFailed": "MetaMask 지갑 연결 실패",
     "noValidQuote": "이 자산 쌍에 대한 유효한 견적이 없습니다.",
     "notAvailableDeposit": "예치 불가",
-    "outboundBusyTooltip": "현재 네트워크에서 발신 트랜잭션에 대한 서명이 지연되고 있습니다.",
     "prioritisationError": "우선 순위 지정 오류",
     "runePooled": "풀된 RUNE",
     "sendTxFailed": "트랙잭션 발송 실패",
@@ -603,7 +604,9 @@
       "withdraw": "인출"
     },
     "send": {
-      "txFeeTooltip": "트랜잭션에 지불될 가스 수수료입니다. THORChain 프로토콜로부터 추가 비용은 없습니다."
+      "txFeeTooltip": "트랜잭션에 지불될 가스 수수료입니다. THORChain 프로토콜로부터 추가 비용은 없습니다.",
+      "toggleCustomTxForm": "사용자 지정 거래 양식 전환",
+      "outputAsset": "스왑 출력 에셋"
     },
     "setting": {
       "customRecipientMode": "맞춤 수령인 설정",
@@ -838,7 +841,9 @@
       "ledger": "Ledger",
       "ledgerIndex": "Ledger Index",
       "metaMask": "MetaMask",
-      "noSlipProtection_0": "",
+      "noSlipProtection_part1": "이 거래가 주요 하락으로 신고되었다는 것을 알고 있습니다.",
+      "noSlipProtection_part2": "미끄럼 방지 기능을 계속 사용하기로 동의하십시오.",
+      "noSlipProtection_part3": "ThorSwap은 자금 손실에 대해 책임지지 않습니다.",
       "notConnected": "연결 안 됨",
       "phantom": "Phantom",
       "phrase": "프레이스 (Phrase)",

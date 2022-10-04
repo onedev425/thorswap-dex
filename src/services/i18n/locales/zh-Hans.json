@@ -18,6 +18,7 @@
     "settings": "设置",
     "showCharts": "显示图表",
     "showMultisig": "显示多重签名钱包",
+    "showCustomSend": "显示 发送自定义Tx",
     "showPools": "显示精选流动池",
     "showStats": "显示全网路统计数据",
     "theme": "App 主题",
@@ -159,6 +160,7 @@
       "chainHalted": "%{chain} 链在THORChain上已暂时中止。临时禁用所有的兑换交易和LP服务。",
       "chainLPHalted": "%{chain} 链暂时中止兑换交易。",
       "chainTradeHalted": "%{chain} 链暂时中止添加和提取流动性。",
+      "outboundQueue": "THORChain目前正在经历大量的出站队列（%{outboundQueue}）。交换可能需要比平时更长的时间来处理，资金是安全的🙏",
       "thorChainHalted": "THORChain正在进行维护，在此期间将暂停所有的相关服务。",
       "thorChainLPHalted": "THORChain 已暂时中止添加和提取流动性。",
       "thorChainTradeHalted": "THORChain 已暂时中止兑换交易。",
@@ -247,7 +249,6 @@
     "metamaskFailed": "连接 MetaMask 钱包失败",
     "noValidQuote": "无法提供此对资产的有效报价",
     "notAvailableDeposit": "无法添加",
-    "outboundBusyTooltip": "外出交易签署当前遇到网络延迟。",
     "prioritisationError": "优先级错误",
     "runePooled": "RUNE 流动性入池量",
     "sendTxFailed": "发送交易失败",
@@ -603,7 +604,9 @@
       "withdraw": "提取"
     },
     "send": {
-      "txFeeTooltip": "用于发送交易的燃料费。THORChain 协议没有额外的费用。"
+      "txFeeTooltip": "用于发送交易的燃料费。THORChain 协议没有额外的费用。",
+      "toggleCustomTxForm": "切换自定义交易表格",
+      "outputAsset": "互换输出资产"
     },
     "setting": {
       "customRecipientMode": "设置自定义收款人",
@@ -838,7 +841,9 @@
       "ledger": "Ledger",
       "ledgerIndex": "Ledger Index",
       "metaMask": "MetaMask",
-      "noSlipProtection_0": "",
+      "noSlipProtection_part1": "我知道这个交易已经被标记为重大滑点和",
+      "noSlipProtection_part2": "同意继续没有防滑保护。",
+      "noSlipProtection_part3": "THORSwap不对任何资金损失负责。",
       "notConnected": "未连接",
       "phantom": "Phantom",
       "phrase": "助记词",

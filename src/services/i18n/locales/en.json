@@ -17,8 +17,8 @@
     "separatorSpace": "Space",
     "settings": "Settings",
     "showCharts": "Show Charts",
-    "showMultisig": "Show Multi-sig Wallet",
     "showCustomSend": "Show Send Custom Tx",
+    "showMultisig": "Show Multi-sig Wallet",
     "showPools": "Show Featured Pools",
     "showStats": "Show Global Stats",
     "theme": "App Theme",
@@ -319,6 +319,7 @@
     "success": "Success",
     "swap": "Swap",
     "switch": "Switch",
+    "transaction": "Transaction",
     "unstake": "Unstake",
     "unstakeAsset": "Unstake %{amount} %{asset}",
     "unstakeFailed": "Unstake %{amount} %{asset} failed",
@@ -604,9 +605,9 @@
       "withdraw": "Withdraw"
     },
     "send": {
-      "txFeeTooltip": "Gas fee to send the transaction, There's no extra charges from THORChain Protocol",
+      "outputAsset": "Swap Output Asset",
       "toggleCustomTxForm": "Toggle custom transaction form",
-      "outputAsset": "Swap Output Asset"
+      "txFeeTooltip": "Gas fee to send the transaction, There's no extra charges from THORChain Protocol"
     },
     "setting": {
       "customRecipientMode": "Set Custom Recipient",

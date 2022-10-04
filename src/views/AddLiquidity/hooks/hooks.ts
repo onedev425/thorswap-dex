@@ -17,7 +17,7 @@ import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveIn
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { useMimir } from 'hooks/useMimir';
 import { getSumAmountInUSD, useNetworkFee } from 'hooks/useNetworkFee';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
 import { useApp } from 'store/app/hooks';
@@ -62,6 +62,7 @@ export const useAddLiquidity = ({
 }: Props) => {
   const appDispatch = useAppDispatch();
   const { expertMode } = useApp();
+  const [contract, setContract] = useState<string | undefined>();
 
   const {
     isWalletAssetConnected,
@@ -137,25 +138,30 @@ export const useAddLiquidity = ({
     );
   }, [wallet, poolAsset, liquidityType]);
 
+  useEffect(() => {
+    multichain()
+      .getInboundDataByChain(poolAsset.chain)
+      .then(({ router }) => setContract(router));
+  }, [poolAsset.chain]);
+
   const { isApproved, isLoading } = useIsAssetApproved({
-    force: true,
     asset: poolAsset,
+    contract,
+    force: true,
   });
 
-  const poolAssetPriceInUSD = useMemo(() => {
-    if (isAssetPending && poolMemberDetail) {
-      return new Price({
+  const poolAssetPriceInUSD = useMemo(
+    () =>
+      new Price({
         baseAsset: poolAsset,
         pools,
-        priceAmount: Amount.fromMidgard(poolMemberDetail.assetPending),
-      });
-    }
-    return new Price({
-      baseAsset: poolAsset,
-      pools,
-      priceAmount: assetAmount,
-    });
-  }, [poolAsset, assetAmount, pools, isAssetPending, poolMemberDetail]);
+        priceAmount:
+          isAssetPending && poolMemberDetail
+            ? Amount.fromMidgard(poolMemberDetail.assetPending)
+            : assetAmount,
+      }),
+    [poolAsset, assetAmount, pools, isAssetPending, poolMemberDetail],
+  );
 
   const runeAssetPriceInUSD = useMemo(() => {
     if (isRunePending && poolMemberDetail) {

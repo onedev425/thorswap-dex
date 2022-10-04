@@ -11,7 +11,8 @@ export const ADD_LIQUIDITY_GUIDE_URL =
   'https://docs.thorswap.finance/thorswap/how-tos/tutorials/add-liquidity';
 export const COMMUNITY_FEEDBACK_URL = 'https://forms.gle/K3JcGovTa5irUBp16';
 
-export const TS_AGGREGATOR_PROXY_ADDRESS = '0xF892Fef9dA200d9E84c9b0647ecFF0F34633aBe8';
+export const ETH_AGG_PROXY_ADDRESS = '0xF892Fef9dA200d9E84c9b0647ecFF0F34633aBe8';
+export const AVAX_AGG_PROXY_ADDRESS = '0x69ba883Af416fF5501D54D5e27A1f497fBD97156';
 
 export const THORSWAP_MULTI_SIG =
   'https://docs.thorswap.finance/thorswap/thorswap-products/thorswap/thorsafe';

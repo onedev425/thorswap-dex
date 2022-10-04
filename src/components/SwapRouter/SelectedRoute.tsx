@@ -1,11 +1,5 @@
-import {
-  Amount,
-  AmountType,
-  Asset,
-  Percent,
-  QuoteMode,
-  QuoteRoute,
-} from '@thorswap-lib/multichain-core';
+import { Amount, AmountType, Asset, Percent, QuoteRoute } from '@thorswap-lib/multichain-core';
+import { Chain } from '@thorswap-lib/types';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { Box, Button, Typography } from 'components/Atomic';
@@ -25,7 +19,6 @@ type Props = QuoteRoute & {
   slippage: Percent;
   assetTicker: string;
   inputAsset: Asset;
-  quoteMode: QuoteMode;
 };
 
 export const SelectedRoute = memo(
@@ -40,7 +33,6 @@ export const SelectedRoute = memo(
     slippage,
     assetTicker,
     inputAsset,
-    quoteMode,
     contract,
   }: Props) => {
     const [isOpened, setIsOpened] = useState(false);
@@ -50,7 +42,6 @@ export const SelectedRoute = memo(
     const { isApproved } = useIsAssetApproved({
       contract,
       asset: inputAsset,
-      quoteMode,
     });
 
     const expectedAssetOutput = useMemo(
@@ -74,8 +65,7 @@ export const SelectedRoute = memo(
       setIsOpened(true);
     }, []);
 
-    const approved =
-      [QuoteMode.ETH_TO_ETH, QuoteMode.ETH_TO_TC_SUPPORTED].includes(quoteMode) && isApproved;
+    const approved = [Chain.Ethereum, Chain.Avalanche].includes(inputAsset.L1Chain) && isApproved;
 
     return (
       <Box col className="relative" flex={1}>

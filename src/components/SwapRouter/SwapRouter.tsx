@@ -1,4 +1,4 @@
-import { Asset, Percent, Price, QuoteMode, QuoteRoute } from '@thorswap-lib/multichain-core';
+import { Asset, Percent, Price, QuoteRoute } from '@thorswap-lib/multichain-core';
 import { Box, Collapse } from 'components/Atomic';
 import { memo, useCallback } from 'react';
 
@@ -13,7 +13,6 @@ type Props = {
   outputUSDPrice: Price;
   slippage: Percent;
   inputAsset: Asset;
-  quoteMode: QuoteMode;
 };
 
 export const SwapRouter = memo(
@@ -25,7 +24,6 @@ export const SwapRouter = memo(
     routes,
     inputAsset,
     slippage,
-    quoteMode,
   }: Props) => {
     const getQuoteDiff = useCallback(
       (expectedQuote: string) => {
@@ -52,7 +50,6 @@ export const SwapRouter = memo(
                 assetTicker={outputAsset.ticker}
                 inputAsset={inputAsset}
                 outputAssetDecimal={outputAsset.decimal}
-                quoteMode={quoteMode}
                 slippage={slippage}
                 unitPrice={outputUSDPrice.unitPrice}
               />
@@ -67,7 +64,6 @@ export const SwapRouter = memo(
                   key={`${route.path}-${route.providers.join(',')}`}
                   onClick={() => setSwapRoute(route)}
                   outputAsset={outputAsset}
-                  quoteMode={(route.meta?.quoteMode as QuoteMode) || quoteMode}
                   selected={route === selectedRoute}
                   selectedQuoteDiff={getQuoteDiff(route.expectedOutput)}
                   unitPrice={outputUSDPrice.unitPrice}

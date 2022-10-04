@@ -1,25 +1,8 @@
-import { unwrapResult } from '@reduxjs/toolkit';
-import {
-  Action,
-  ActionListParams,
-  ActionStatusEnum,
-  ActionTypeEnum,
-  HistoryInterval,
-} from '@thorswap-lib/midgard-sdk';
 import { Asset } from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 import { useCallback, useMemo } from 'react';
-import { batch } from 'react-redux';
-import { TX_PUBLIC_PAGE_LIMIT } from 'settings/constants/values';
 import * as actions from 'store/midgard/actions';
-import { actions as sliceActions } from 'store/midgard/slice';
 import { useAppDispatch, useAppSelector } from 'store/store';
-import * as walletActions from 'store/wallet/actions';
-
-import { SubmitTx, TxTracker, TxTrackerType } from './types';
-
-const MAX_HISTORY_COUNT = 100;
-const PER_DAY = 'day' as HistoryInterval;
 
 export const useMidgard = () => {
   const dispatch = useAppDispatch();
@@ -34,23 +17,6 @@ export const useMidgard = () => {
       midgardState.swapHistoryLoading ||
       midgardState.liquidityHistoryLoading,
     [midgardState],
-  );
-
-  const getPoolHistory = useCallback(
-    (pool: string) => {
-      // fetch historical data till past day
-      const query = {
-        pool,
-        query: { interval: PER_DAY, count: MAX_HISTORY_COUNT },
-      };
-
-      batch(() => {
-        dispatch(actions.getSwapHistory(query));
-        dispatch(actions.getDepthHistory(query));
-        dispatch(actions.getLiquidityHistory(query));
-      });
-    },
-    [dispatch],
   );
 
   const getPendingDepositByChain = useCallback(
@@ -120,14 +86,6 @@ export const useMidgard = () => {
     [dispatch, getPendingDepositByChain],
   );
 
-  // get tx data
-  const getTxData = useCallback(
-    ({ limit = TX_PUBLIC_PAGE_LIMIT, ...otherParams }: ActionListParams) => {
-      dispatch(actions.getActions({ ...otherParams, limit }));
-    },
-    [dispatch],
-  );
-
   const getInboundData = useCallback(() => {
     dispatch(actions.getThorchainInboundData());
   }, [dispatch]);
@@ -135,134 +93,6 @@ export const useMidgard = () => {
   const getNodes = useCallback(() => {
     dispatch(actions.getNodes());
   }, [dispatch]);
-
-  const addNewTxTracker = useCallback(
-    (txTracker: TxTracker) => {
-      dispatch(sliceActions.addNewTxTracker(txTracker));
-    },
-    [dispatch],
-  );
-
-  const updateTxTracker = useCallback(
-    ({ uuid, txTracker }: { uuid: string; txTracker: Partial<TxTracker> }) => {
-      dispatch(sliceActions.updateTxTracker({ uuid, txTracker }));
-    },
-    [dispatch],
-  );
-
-  // process tx tracker to update balance after submit
-  // update sent asset balance after submit
-  const processSubmittedTx = useCallback(
-    ({ submitTx, type }: { submitTx: SubmitTx; type: TxTrackerType }) => {
-      if ([TxTrackerType.Swap, TxTrackerType.Switch].includes(type)) {
-        const [inAsset] = submitTx?.inAssets || [];
-        if (inAsset) {
-          const asset = Asset.fromAssetString(inAsset?.asset);
-
-          if (asset) {
-            dispatch(walletActions.getWalletByChain(asset.L1Chain as SupportedChain));
-          }
-        }
-      } else if (type === TxTrackerType.AddLiquidity) {
-        const inAssets = submitTx?.inAssets || [];
-        inAssets.forEach((inAsset) => {
-          const asset = Asset.fromAssetString(inAsset?.asset);
-
-          if (asset) {
-            dispatch(walletActions.getWalletByChain(asset.L1Chain as SupportedChain));
-          }
-        });
-      }
-    },
-    [dispatch],
-  );
-
-  // process tx tracker to update balance after success
-  const processTxTracker = useCallback(
-    ({ txTracker, action }: { txTracker: TxTracker; action?: Action }) => {
-      // update received asset balance after success
-      if (action?.status === ActionStatusEnum.Success) {
-        if (action.type === ActionTypeEnum.Swap) {
-          const outTx = action.out[0];
-          const asset = Asset.fromAssetString(outTx?.coins?.[0]?.asset);
-
-          if (asset) {
-            dispatch(walletActions.getWalletByChain(asset.L1Chain as SupportedChain));
-          }
-        } else if (action.type === ActionTypeEnum.AddLiquidity) {
-          const inAssets = txTracker.submitTx?.inAssets ?? [];
-          inAssets.forEach((inAsset) => {
-            const asset = Asset.fromAssetString(inAsset.asset);
-
-            if (asset) {
-              // reload liquidity member details
-              getMemberDetailsByChain(asset.L1Chain as SupportedChain);
-            }
-          });
-        } else if (action.type === ActionTypeEnum.Withdraw) {
-          const outAssets = txTracker.submitTx?.outAssets ?? [];
-          outAssets.forEach((outAsset) => {
-            const asset = Asset.fromAssetString(outAsset.asset);
-
-            if (asset) {
-              dispatch(walletActions.getWalletByChain(asset.L1Chain as SupportedChain));
-              // reload liquidity member details
-              getMemberDetailsByChain(asset.L1Chain as SupportedChain);
-            }
-          });
-        } else if (action.type === ActionTypeEnum.Switch) {
-          dispatch(walletActions.getWalletByChain(Chain.THORChain));
-        }
-      }
-    },
-    [dispatch, getMemberDetailsByChain],
-  );
-
-  const pollTx = useCallback(
-    (txTracker: TxTracker) => {
-      dispatch(actions.pollTx(txTracker))
-        .then(unwrapResult)
-        .then((response) =>
-          processTxTracker({
-            txTracker,
-            action: response?.actions?.[0],
-          }),
-        );
-    },
-    [dispatch, processTxTracker],
-  );
-
-  const pollUpgradeTx = useCallback(
-    (txTracker: TxTracker) => {
-      dispatch(actions.pollUpgradeTx(txTracker))
-        .then(unwrapResult)
-        .then((response) =>
-          processTxTracker({
-            txTracker,
-            action: response?.actions?.[0],
-          }),
-        );
-    },
-    [dispatch, processTxTracker],
-  );
-
-  const pollApprove = useCallback(
-    (txTracker: TxTracker) => {
-      dispatch(actions.pollApprove(txTracker));
-    },
-    [dispatch],
-  );
-
-  const clearTxTrackers = useCallback(() => {
-    dispatch(sliceActions.clearTxTrackers());
-  }, [dispatch]);
-
-  const setTxCollapsed = useCallback(
-    (collapsed: boolean) => {
-      dispatch(sliceActions.setTxCollapsed(collapsed));
-    },
-    [dispatch],
-  );
 
   const synthAssets = useMemo(
     () =>
@@ -315,20 +145,9 @@ export const useMidgard = () => {
     getAllMemberDetails,
     getInboundData,
     getNodes,
-    getPoolHistory,
-    getTxData,
     isGlobalHistoryLoading,
     loadMemberDetailsByChain,
     synthAssets,
-    // tx tracker actions
-    addNewTxTracker,
-    updateTxTracker,
-    pollTx,
-    pollUpgradeTx,
-    pollApprove,
-    processSubmittedTx,
-    clearTxTrackers,
-    setTxCollapsed,
     getAllLpDetails,
   };
 };

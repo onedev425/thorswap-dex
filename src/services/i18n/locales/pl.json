@@ -18,6 +18,7 @@
     "settings": "Ustawienia",
     "showCharts": "Wyświetl wykresy",
     "showMultisig": "Pokaż portfel wieloznakowy",
+    "showCustomSend": "Show Send Custom Tx",
     "showPools": "Wyświetl powiązane pule",
     "showStats": "Wyświetl statystyki globalne",
     "theme": "Tryb Aplikacji",
@@ -159,6 +160,7 @@
       "chainHalted": "%{chain} Łańcuch jest tymczasowo zatrzymany na THORChain. Wszystkie wymiany i LP są obecnie niedostępne.",
       "chainLPHalted": "Handel na sieci %{chain} jest tymczasowo niedostępny.",
       "chainTradeHalted": "Dodawanie i wyciąganie na sieci %{chain} jest tymczasowo niedostępny.",
+      "outboundQueue": "THORChain doświadcza obecnie ciężkiej kolejki wychodzącej (%{outboundQueue}). Przetwarzanie swapów może potrwać dłużej niż zwykle, FUNDUSZE SĄ BEZPIECZNE 🙏",
       "thorChainHalted": "THORChain jest tymczasowo niedostępny podczas konserwacji. Wszystkie akcje są obecnie wyłączone.",
       "thorChainLPHalted": "Dodawanie i wycofywanie płynności jest tymczasowo wyłączone. THORChain jest tymczasowo niedostępny podczas konserwacji. Wszystkie akcje są obecnie wyłączone.",
       "thorChainTradeHalted": "Handel jest tymczasowo wyłączony na THORChain.",
@@ -247,7 +249,6 @@
     "metamaskFailed": "Połączenie portfela MetaMask nie powiodło się",
     "noValidQuote": "Nie ma ważnego kwotowania dla tej pary aktywów",
     "notAvailableDeposit": "Depozyt niedostępny",
-    "outboundBusyTooltip": "W sieci występują obecnie opóźnienia w podpisywaniu transakcji wychodzących.",
     "prioritisationError": "Błąd priorytetyzacji",
     "runePooled": "RUNE POOLED",
     "sendTxFailed": "Wysyłanie transakcji nie powiodło się",
@@ -603,7 +604,9 @@
       "withdraw": "Wypłać"
     },
     "send": {
-      "txFeeTooltip": "Opłata gazowa za wysłanie transakcji, nie ma żadnych dodatkowych opłat z protokołu THORChain"
+      "txFeeTooltip": "Opłata gazowa za wysłanie transakcji, nie ma żadnych dodatkowych opłat z protokołu THORChain",
+      "toggleCustomTxForm": "Przełączanie niestandardowego formularza transakcji",
+      "outputAsset": "Zamiana Aktywa wyjściowe"
     },
     "setting": {
       "customRecipientMode": "Ustaw odbiorce",
@@ -838,10 +841,9 @@
       "ledger": "Księga rachunkowa",
       "ledgerIndex": "Ledger Index",
       "metaMask": "MetaMask",
-      "noSlipProtection_0": "",
-      "noSlipProtection_1": "",
-      "noSlipProtection_2": "",
-      "noSlipProtection_3": "",
+      "noSlipProtection_part1": "Rozumiem, że ta transakcja została oznaczona za duży poślizg i",
+      "noSlipProtection_part2": "zgodzić się na kontynuację bez zabezpieczenia przed poślizgiem.",
+      "noSlipProtection_part3": "THORSwap nie ponosi odpowiedzialności za utratę środków.",
       "notConnected": "Nie połączony ",
       "phantom": "Fantom",
       "phrase": "Fraza",

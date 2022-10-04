@@ -18,6 +18,7 @@
     "settings": "設定",
     "showCharts": "チャートの表示",
     "showMultisig": "マルチシグウォレットの表示",
+    "showCustomSend": "Show Send Custom Tx",
     "showPools": "注目のプールを表示",
     "showStats": "グローバルデータの表示",
     "theme": "アプリテーマ",
@@ -159,6 +160,7 @@
       "chainHalted": " THORChainにおいて %{chain} チェーンが一時的に停止しています。現在、すべての取引とLPアクションが利用できない状態です",
       "chainLPHalted": "Adding and withdrawing on %{chain} Chain are temporarily unavailable.",
       "chainTradeHalted": " %{chain} チェーンへの追加と引き出しは、一時的に利用できません。",
+      "outboundQueue": "THORChainは現在、重いアウトバウンドキュー(%{outboundQueue})が発生しています。スワップは通常より処理に時間がかかる可能性があります、FUNDS ARE SAFE ᙏ。",
       "thorChainHalted": "THORChainはメンテナンスのため、一時的にご利用いただけません。現在、すべてのアクションが無効になっています。",
       "thorChainLPHalted": "THORChainでは、流動性の追加と引き出しが一時的に無効になっています。",
       "thorChainTradeHalted": "THORChainでは、一時的に取引ができなくなります。",
@@ -247,7 +249,6 @@
     "metamaskFailed": "MetaMaskウォレットの接続に失敗しました",
     "noValidQuote": "このアセットのペアには有効なプールがありません",
     "notAvailableDeposit": "入金不可",
-    "outboundBusyTooltip": "現在ネットワークでは、送信トランザクションへの署名に遅延が発生しています。",
     "prioritisationError": "優先順位エラー",
     "runePooled": "RUNEプール済み",
     "sendTxFailed": "送金トランザクションの失敗",
@@ -603,7 +604,9 @@
       "withdraw": "出金"
     },
     "send": {
-      "txFeeTooltip": "送金にかかるGas代、THORChainプロトコルの手数料は無料です。"
+      "txFeeTooltip": "送金にかかるGas代、THORChainプロトコルの手数料は無料です。",
+      "toggleCustomTxForm": "カスタムトランザクションフォームのトグル",
+      "outputAsset": "スワップアウトプットアセット"
     },
     "setting": {
       "customRecipientMode": "カスタム受信者の設定",
@@ -838,7 +841,9 @@
       "ledger": "Ledger",
       "ledgerIndex": "Ledger Index",
       "metaMask": "MetaMask",
-      "noSlipProtection_0": "THORSwapは資金の損失に対して責任を負わないものとします。",
+      "noSlipProtection_part1": "この取引は、大きなスリッページのフラグが立っていると理解していますし",
+      "noSlipProtection_part2": "は、スリップ防止機能なしで継続することに同意します。",
+      "noSlipProtection_part3": "THORSwapは、資金の損失について責任を負わないものとします。",
       "notConnected": "未接続",
       "phantom": "Phantom",
       "phrase": "フレーズ",

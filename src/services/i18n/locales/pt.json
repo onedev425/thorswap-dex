@@ -18,6 +18,7 @@
     "settings": "Definições",
     "showCharts": "Mostrar gráficos",
     "showMultisig": "Mostrar Carteira Multi-Sig",
+    "showCustomSend": "Mostrar Enviar Tx personalizado",
     "showPools": "Mostrar pools em destaque",
     "showStats": "Mostrar dados globais",
     "theme": "Tema da aplicação",
@@ -159,6 +160,7 @@
       "chainHalted": "%{chain} cadeia é temporariamente suspensa em THORChain. Todas as acções comerciais e LP estão actualmente indisponíveis",
       "chainLPHalted": "Adição e retirada em %{chain} A cadeia está temporariamente indisponível.",
       "chainTradeHalted": "Negociação em %{chain} A cadeia está temporariamente indisponível.",
+      "outboundQueue": "THORChain está actualmente a passar por uma pesada fila de saída (%{outboundQueue}). As trocas podem demorar mais tempo do que o habitual para processar, FUNDOS SÃO SEGUROS 🙏",
       "thorChainHalted": "THORChain está temporariamente indisponível enquanto em manutenção. Todas as acções estão actualmente desactivadas.",
       "thorChainLPHalted": "A adição e a retirada de liquidez são temporariamente desactivadas em THORChain.",
       "thorChainTradeHalted": "O trading é temporariamente desactivado em THORChain.",
@@ -247,7 +249,6 @@
     "metamaskFailed": "Falhou a ligação da carteira MetaMask",
     "noValidQuote": "Não existe uma citação válida para este par de bens",
     "notAvailableDeposit": "Depósito não disponível ",
-    "outboundBusyTooltip": "A rede está a experienciar atrasos em transações de saída.",
     "prioritisationError": "Erro de priorização",
     "runePooled": "RUNE POOLED",
     "sendTxFailed": "Transação enviada falhou",
@@ -603,7 +604,9 @@
       "withdraw": "Retirar"
     },
     "send": {
-      "txFeeTooltip": "Taxa para efetuar a transação, não existe custos extra do protocolo THORChain"
+      "txFeeTooltip": "Taxa para efetuar a transação, não existe custos extra do protocolo THORChain",
+      "toggleCustomTxForm": "Alternar o formulário de transacção personalizada",
+      "outputAsset": "Trocar o activo de saída"
     },
     "setting": {
       "customRecipientMode": "Definir destinatário personalizado",
@@ -838,8 +841,9 @@
       "ledger": "Ledger",
       "ledgerIndex": "Índice da ledger",
       "metaMask": "MetaMask",
-      "noSlipProtection": "",
-      "noSlipProtection_plural": "",
+      "noSlipProtection_part1": "Sei que este comércio tem sido marcado por um grande deslize e",
+      "noSlipProtection_part2": "concordam em continuar sem protecção contra derrapagens.",
+      "noSlipProtection_part3": "THORSwap não será considerado responsável por qualquer perda de fundos.",
       "notConnected": "Não conectado",
       "phantom": "Phantom",
       "phrase": "Frase",

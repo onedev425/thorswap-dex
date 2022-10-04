@@ -6,12 +6,9 @@ import {
   QuoteMode,
 } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
-import classNames from 'classnames';
-import { Box } from 'components/Atomic';
-import { InfoTip } from 'components/InfoTip';
 import { PanelView } from 'components/PanelView';
 import { SwapRouter } from 'components/SwapRouter';
-import { TS_AGGREGATOR_PROXY_ADDRESS } from 'config/constants';
+import { AVAX_AGG_PROXY_ADDRESS, ETH_AGG_PROXY_ADDRESS } from 'config/constants';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { useBalance } from 'hooks/useBalance';
 import { useVTHORBalance } from 'hooks/useHasVTHOR';
@@ -157,7 +154,12 @@ const SwapView = () => {
   const { fees, contract: contractAddress } = selectedRoute || {};
 
   const contract = useMemo(
-    () => (quoteMode === QuoteMode.ETH_TO_ETH && contractAddress) || TS_AGGREGATOR_PROXY_ADDRESS,
+    () =>
+      [QuoteMode.ETH_TO_ETH, QuoteMode.AVAX_TO_AVAX].includes(quoteMode)
+        ? contractAddress
+        : [QuoteMode.AVAX_TO_ETH, QuoteMode.AVAX_TO_TC_SUPPORTED].includes(quoteMode)
+        ? AVAX_AGG_PROXY_ADDRESS
+        : ETH_AGG_PROXY_ADDRESS,
     [quoteMode, contractAddress],
   );
 
@@ -165,7 +167,6 @@ const SwapView = () => {
     force: true,
     asset: inputAsset,
     contract,
-    quoteMode,
   });
 
   const { affiliateFee, networkFee, totalFee } = useMemo(() => {
@@ -222,10 +223,6 @@ const SwapView = () => {
     [getMaxBalance, outputAsset, setInputAmount, outputAmount, navigate, inputAsset],
   );
 
-  const changeOutputToSynth = useCallback(() => {
-    navigate(getSwapRoute(inputAsset, Asset.ETH()));
-  }, [inputAsset, navigate]);
-
   const handleChangeInputAmount = useCallback(
     (amount: Amount) => {
       setInputAmount(isApproved ? (amount.gt(maxInputBalance) ? maxInputBalance : amount) : amount);
@@ -274,11 +271,6 @@ const SwapView = () => {
   const isOutputWalletConnected = useMemo(
     () => outputAsset && hasWalletConnected({ wallet, inputAssets: [outputAsset] }),
     [wallet, outputAsset],
-  );
-
-  const noSlipProtection = useMemo(
-    () => inputAsset.isUTXOAsset() && quoteMode === QuoteMode.TC_SUPPORTED_TO_ETH,
-    [inputAsset, quoteMode],
   );
 
   const showTransactionFeeSelect = useMemo(
@@ -333,26 +325,11 @@ const SwapView = () => {
         inputAsset={inputAsset}
         outputAsset={outputAsset}
         outputUSDPrice={outputUSDPrice}
-        quoteMode={quoteMode}
         routes={routes}
         selectedRoute={selectedRoute}
         setSwapRoute={setSwapRoute}
         slippage={slippage}
       />
-
-      <Box
-        className={classNames('overflow-hidden w-full h-[0px] transition-all', {
-          '!h-[125px] pt-3': noSlipProtection,
-        })}
-        onClick={changeOutputToSynth}
-      >
-        <InfoTip
-          className="w-full"
-          content={t('views.swap.noSlipProtectionDesc')}
-          title={t('views.swap.swapProtectionUnavailable')}
-          type="warn"
-        />
-      </Box>
 
       <SwapSubmitButton
         hasQuote={!!selectedRoute}
@@ -375,7 +352,6 @@ const SwapView = () => {
         handleSwap={handleSwap}
         inputAssetProps={inputAssetProps}
         minReceive={minReceiveInfo}
-        noSlipProtection={noSlipProtection}
         outputAssetProps={outputAssetProps}
         recipient={recipient}
         setVisible={setVisibleConfirmModal}

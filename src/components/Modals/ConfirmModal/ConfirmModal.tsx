@@ -1,6 +1,6 @@
 import { Asset } from '@thorswap-lib/multichain-core';
 import { decryptFromKeystore } from '@thorswap-lib/xchain-crypto';
-import { Box, Button, Checkbox, Modal, Typography } from 'components/Atomic';
+import { Box, Button, Modal, Typography } from 'components/Atomic';
 import { PasswordInput } from 'components/PasswordInput';
 import { isKeystoreSignRequired } from 'helpers/wallet';
 import { KeyboardEventHandler, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
@@ -14,23 +14,14 @@ type Props = {
   onClose: () => void;
   onConfirm: () => void;
   children?: ReactNode;
-  noSlipProtection?: boolean;
 };
 
 const MODAL_CLOSE_DELAY = 60 * 1000;
 
-export const ConfirmModal = ({
-  children,
-  inputAssets,
-  isOpened,
-  noSlipProtection,
-  onClose,
-  onConfirm,
-}: Props) => {
+export const ConfirmModal = ({ children, inputAssets, isOpened, onClose, onConfirm }: Props) => {
   const { keystore, wallet } = useWallet();
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [validating, setValidating] = useState(false);
-  const [agreesToNoSlip, setAgreesToNoSlip] = useState(false);
 
   const [password, setPassword] = useState('');
 
@@ -112,30 +103,10 @@ export const ConfirmModal = ({
     [handleClickConfirm, validating],
   );
 
-  const disabled = noSlipProtection && !agreesToNoSlip;
-
   return (
     <Modal isOpened={isOpened} onClose={handleCancel} title={t('common.confirm')}>
       <Box col className="gap-y-4 md:!min-w-[350px]">
         {children && <div>{children}</div>}
-
-        {noSlipProtection && (
-          <Box className="max-w-[400px]">
-            <Checkbox
-              label={
-                <Typography>
-                  {t('views.walletModal.noSlipProtection_part1')}
-                  <Typography className="inline" color="red">{` ${t(
-                    'views.walletModal.noSlipProtection_part2',
-                  )} `}</Typography>
-                  {t('views.walletModal.noSlipProtection_part3')}
-                </Typography>
-              }
-              onValueChange={setAgreesToNoSlip}
-              value={agreesToNoSlip}
-            />
-          </Box>
-        )}
 
         {isKeystoreSigningRequired && (
           <>
@@ -153,15 +124,7 @@ export const ConfirmModal = ({
           </>
         )}
 
-        <Button
-          isFancy
-          stretch
-          disabled={disabled}
-          error={disabled}
-          loading={validating}
-          onClick={handleClickConfirm}
-          size="md"
-        >
+        <Button isFancy stretch loading={validating} onClick={handleClickConfirm} size="md">
           {t('common.confirm')}
         </Button>
       </Box>

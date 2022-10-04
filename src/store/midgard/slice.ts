@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ActionStatusEnum, ActionTypeEnum, MemberPool } from '@thorswap-lib/midgard-sdk';
+import { MemberPool } from '@thorswap-lib/midgard-sdk';
 import { equalObjects, Pool } from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
-import dayjs from 'dayjs';
 import {
   checkPendingLP,
   getAddedAndWithdrawn,
@@ -12,7 +11,7 @@ import {
 } from 'store/midgard/utils';
 
 import * as midgardActions from './actions';
-import { State, TxTracker, TxTrackerStatus } from './types';
+import { State } from './types';
 
 const initialState: State = {
   pools: [],
@@ -40,9 +39,6 @@ const initialState: State = {
   liquidityHistory: null,
   liquidityGlobalHistory: null,
   liquidityHistoryLoading: false,
-  txData: null,
-  txDataLoading: false,
-  txCollapsed: true,
   mimirLoading: false,
   mimir: {},
   volume24h: null,
@@ -53,7 +49,6 @@ const initialState: State = {
   nodes: [],
   nodeLoading: false,
   approveStatus: {},
-  txTrackers: [],
   pendingLP: {},
   pendingLPLoading: false,
   lpAddedAndWithdraw: {},
@@ -65,26 +60,6 @@ const midgardSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    addNewTxTracker(state, action: PayloadAction<TxTracker>) {
-      state.txTrackers = [...state.txTrackers, action.payload];
-      state.txCollapsed = false;
-    },
-    updateTxTracker(
-      state,
-      {
-        payload: { uuid, txTracker },
-      }: PayloadAction<{ uuid: string; txTracker: Partial<TxTracker> }>,
-    ) {
-      state.txTrackers = state.txTrackers.map((tracker: TxTracker) =>
-        tracker.uuid === uuid ? { ...tracker, ...txTracker } : tracker,
-      );
-    },
-    clearTxTrackers(state) {
-      state.txTrackers = [];
-    },
-    setTxCollapsed(state, action: PayloadAction<boolean>) {
-      state.txCollapsed = action.payload;
-    },
     resetChainMemberDetails(state) {
       state.chainMemberDetails = {};
       state.chainMemberDetailsLoading = {};
@@ -112,9 +87,7 @@ const midgardSlice = createSlice({
                 : pool.detail.poolAPY;
           });
         } else {
-          state.pools = payload
-            .map((poolDetail) => Pool.fromPoolData(poolDetail))
-            .filter(Boolean) as Pool[];
+          state.pools = payload.map(Pool.fromPoolData).filter(Boolean) as Pool[];
         }
 
         state.poolLoading = false;
@@ -317,33 +290,8 @@ const midgardSlice = createSlice({
       .addCase(midgardActions.getLastblock.fulfilled, (state, { payload }) => {
         state.lastBlock = payload;
       })
-      .addCase(midgardActions.getConstants.fulfilled, (state, { payload }) => {
-        state.constants = payload;
-      })
       .addCase(midgardActions.getQueue.fulfilled, (state, { payload }) => {
         state.queue = payload;
-      })
-      // get pool stats
-      .addCase(midgardActions.getPoolStats.pending, (state) => {
-        state.poolStatsLoading = true;
-      })
-      .addCase(midgardActions.getPoolStats.fulfilled, (state, { payload }) => {
-        state.poolStatsLoading = false;
-        state.poolStats = payload;
-      })
-      .addCase(midgardActions.getPoolStats.rejected, (state) => {
-        state.poolStatsLoading = true;
-      })
-      // get depth history
-      .addCase(midgardActions.getDepthHistory.pending, (state) => {
-        state.depthHistoryLoading = true;
-      })
-      .addCase(midgardActions.getDepthHistory.fulfilled, (state, { payload }) => {
-        state.depthHistoryLoading = false;
-        state.depthHistory = payload;
-      })
-      .addCase(midgardActions.getDepthHistory.rejected, (state) => {
-        state.depthHistoryLoading = true;
       })
       // get earnings history
       .addCase(midgardActions.getEarningsHistory.pending, (state) => {
@@ -400,17 +348,6 @@ const midgardSlice = createSlice({
         state.liquidityHistoryLoading = true;
       })
       // get tx
-      .addCase(midgardActions.getActions.pending, (state) => {
-        state.txDataLoading = true;
-      })
-      .addCase(midgardActions.getActions.fulfilled, (state, { payload }) => {
-        state.txDataLoading = false;
-        state.txData = payload;
-      })
-      .addCase(midgardActions.getActions.rejected, (state) => {
-        state.txDataLoading = true;
-      })
-      // get 24h volume
       .addCase(midgardActions.getVolume24h.fulfilled, (state, { payload }) => {
         state.volume24h = payload;
       })
@@ -452,91 +389,7 @@ const midgardSlice = createSlice({
       })
       .addCase(midgardActions.getMimir.rejected, (state) => {
         state.mimirLoading = true;
-      })
-      // poll Tx
-      .addCase(midgardActions.pollTx.fulfilled, (state, { payload, meta: { arg: txTracker } }) => {
-        const txData = payload?.actions?.[0];
-
-        if (txData) {
-          state.txTrackers = state.txTrackers.map((tracker: TxTracker) => {
-            if (tracker.uuid === txTracker.uuid) {
-              const status =
-                txData.status === ActionStatusEnum.Pending
-                  ? TxTrackerStatus.Pending
-                  : TxTrackerStatus.Success;
-
-              const refunded =
-                status === TxTrackerStatus.Success && txData.type === ActionTypeEnum.Refund;
-
-              return {
-                ...tracker,
-                action: txData,
-                status,
-                refunded,
-              };
-            }
-
-            return tracker;
-          });
-        }
-      })
-      // poll Upgrade Tx
-      .addCase(midgardActions.pollUpgradeTx.fulfilled, (state, action) => {
-        const { arg: txTracker } = action.meta;
-        const { actions } = action.payload;
-        const txData = actions?.[0];
-        const {
-          submitTx: { submitDate },
-        } = txTracker;
-
-        if (submitDate && txData) {
-          const { date } = txData;
-
-          if (dayjs.unix(Number(date) / 1000000000).isAfter(dayjs(submitDate))) {
-            state.txTrackers = state.txTrackers.map((tracker: TxTracker) => {
-              if (tracker.uuid === txTracker.uuid) {
-                const status =
-                  txData.status === ActionStatusEnum.Pending
-                    ? TxTrackerStatus.Pending
-                    : TxTrackerStatus.Success;
-
-                const refunded =
-                  status === TxTrackerStatus.Success && txData.type === ActionTypeEnum.Refund;
-
-                return {
-                  ...tracker,
-                  action: txData,
-                  status,
-                  refunded,
-                };
-              }
-
-              return tracker;
-            });
-          }
-        }
-      })
-      // poll Approve Tx
-      .addCase(
-        midgardActions.pollApprove.fulfilled,
-        (state, { meta: { arg: txTracker }, payload: { asset, approved } }) => {
-          if (asset) {
-            state.txTrackers = state.txTrackers.map((tracker: TxTracker) => {
-              if (tracker.uuid !== txTracker.uuid) return tracker;
-
-              const status = approved ? TxTrackerStatus.Success : TxTrackerStatus.Pending;
-
-              // save approve status to state
-              state.approveStatus = {
-                ...state.approveStatus,
-                [asset.toString()]: status,
-              };
-
-              return { ...tracker, status };
-            });
-          }
-        },
-      );
+      });
   },
 });
 

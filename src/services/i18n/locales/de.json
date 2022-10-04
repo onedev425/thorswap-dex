@@ -18,6 +18,7 @@
     "settings": "Einstellungen",
     "showCharts": "Charts anzeigen",
     "showMultisig": "Multisig-Brieftasche anzeigen",
+    "showCustomSend": "Benutzerdefinierten Sendebefehl anzeigen",
     "showPools": "Featured Pools anzeigen",
     "showStats": "Globale Statistiken anzeigen",
     "theme": "App Design",
@@ -159,6 +160,7 @@
       "chainHalted": "Die %{chain} Chain ist zur Zeit auf der THORChain nicht verfügbar. Alle Handles- und LP-Aktionen sind deaktiviert.",
       "chainLPHalted": "Das Einzahlen und Abheben von Liquidität auf der %{chain} Chain ist kurzzeitig deaktiviert.",
       "chainTradeHalted": "Der Handel auf der %{chain} Chain wurde kurzfristig ausgesetzt. ",
+      "outboundQueue": "THORChain hat derzeit eine große ausgehende Warteschlange (%{outboundQueue}). Die Verarbeitung von Swaps könnte länger als üblich dauern, GELDER SIND SICHER 🙏",
       "thorChainHalted": "Die THORChain ist zur Zeit auf Grund von Wartungsarbeiten nicht verfügbar. Alle Aktionen sind deaktiviert.",
       "thorChainLPHalted": "Das Einzahlen und Abheben von Liquidität auf der THORChain ist kurzzeitig deaktiviert.",
       "thorChainTradeHalted": "Handel auf der THORChain wurde kurzfristig ausgesetzt.",
@@ -247,7 +249,6 @@
     "metamaskFailed": "Verbinden des MetaMask Wallets fehlgeschlagen",
     "noValidQuote": "Es gibt keinen gültigen Kurs für dieses Paar von Vermögenswerten",
     "notAvailableDeposit": "Einzahlung nicht verfügbar",
-    "outboundBusyTooltip": "Das Netzwerk hat derzeit Verzögerungen beim Signieren ausgehender Transaktionen.",
     "prioritisationError": "Priorisierungsfehler",
     "runePooled": "RUNE GEPOOLT",
     "sendTxFailed": "Sende-Transaktion fehlgeschlagen",
@@ -603,7 +604,9 @@
       "withdraw": "Abheben"
     },
     "send": {
-      "txFeeTooltip": "Gas Gebühr der Transaktion. Das THORChain Protokoll erhebt keine Gebühr"
+      "txFeeTooltip": "Gas Gebühr der Transaktion. Das THORChain Protokoll erhebt keine Gebühr",
+      "toggleCustomTxForm": "Benutzerdefiniertes Transaktionsformular umschalten",
+      "outputAsset": "Swap Output Asset"
     },
     "setting": {
       "customRecipientMode": "Empfänger selbst bestimmen",
@@ -838,8 +841,9 @@
       "ledger": "Ledger",
       "ledgerIndex": "Ledger Index",
       "metaMask": "MetaMask",
-      "noSlipProtection": "",
-      "noSlipProtection_plural": "",
+      "noSlipProtection_part1": "Ich weiß, dass dieser Handel wegen erheblicher Abweichungen von der Norm gekennzeichnet wurde und",
+      "noSlipProtection_part2": "zustimmen, ohne Rutschsicherung weiterzumachen.",
+      "noSlipProtection_part3": "THORSwap kann nicht für den Verlust von Geldern verantwortlich gemacht werden.",
       "notConnected": "Nicht verbunden",
       "phantom": "Phantom",
       "phrase": "Phrase",

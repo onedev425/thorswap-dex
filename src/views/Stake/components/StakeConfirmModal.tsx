@@ -5,7 +5,6 @@ import { InfoRow } from 'components/InfoRow';
 import { Input } from 'components/Input';
 import { PercentSelect } from 'components/PercentSelect/PercentSelect';
 import { showErrorToast } from 'components/Toast';
-import { useApproveContract } from 'hooks/useApproveContract';
 import { useCallback, useEffect, useState } from 'react';
 import { ContractType, fromWei, getContractAddress, toWei } from 'services/contract';
 import { t } from 'services/i18n';
@@ -16,6 +15,7 @@ import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 import { FarmActionType } from 'views/Stake/types';
+import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 
 const actionNameKey: Record<FarmActionType, string> = {
   [FarmActionType.DEPOSIT]: 'views.staking.depositAction',
@@ -50,11 +50,10 @@ export const StakeConfirmModal = ({
   const appDispatch = useAppDispatch();
   const [amount, setAmount] = useState<BigNumber>(BigNumber.from(0));
   const { wallet } = useWallet();
-  const { isApproved } = useApproveContract(
-    lpAsset,
-    getContractAddress(contractType).address,
-    !!wallet,
-  );
+  const { isApproved } = useIsAssetApproved({
+    asset: lpAsset,
+    contract: getContractAddress(contractType).address,
+  });
 
   const actionLabel = t(actionNameKey[type]);
   const isClaim = type === FarmActionType.CLAIM;

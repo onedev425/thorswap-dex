@@ -1,4 +1,5 @@
-import { Amount, AmountType, Asset, QuoteMode } from '@thorswap-lib/multichain-core';
+import { Amount, AmountType, Asset } from '@thorswap-lib/multichain-core';
+import { Chain } from '@thorswap-lib/types';
 import BigNumber from 'bignumber.js';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Typography } from 'components/Atomic';
@@ -21,7 +22,6 @@ type Props = {
   expectedOutput: string;
   path: string;
   providers: string[];
-  quoteMode: QuoteMode;
   contract: string;
   inputAsset: Asset;
 };
@@ -36,7 +36,6 @@ export const SwapRoute = memo(
     path,
     providers,
     selected,
-    quoteMode,
     contract,
     inputAsset,
   }: Props) => {
@@ -45,7 +44,6 @@ export const SwapRoute = memo(
     const { isApproved } = useIsAssetApproved({
       contract,
       asset: inputAsset,
-      quoteMode,
     });
 
     const routeOutput = useMemo(
@@ -75,8 +73,7 @@ export const SwapRoute = memo(
       [expectedOutput, formatPrice, unitPrice],
     );
 
-    const approved =
-      [QuoteMode.ETH_TO_ETH, QuoteMode.ETH_TO_TC_SUPPORTED].includes(quoteMode) && isApproved;
+    const approved = [Chain.Ethereum, Chain.Avalanche].includes(inputAsset.L1Chain) && isApproved;
 
     return (
       <HighlightCard className="!px-3 !py-1.5 !gap-0" isFocused={selected} onClick={onClick}>

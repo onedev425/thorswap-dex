@@ -1,6 +1,5 @@
 import {
   Action,
-  ActionsList,
   Coin,
   Constants,
   DepthHistory,
@@ -204,9 +203,6 @@ export interface State {
   networkData: Network | null;
   constants: Constants | null;
   queue: Queue | null;
-  txData: ActionsList | null; // for tx explorer
-  txDataLoading: boolean;
-  txCollapsed: boolean;
   mimirLoading: boolean;
   mimir: MimirData;
   volume24h: number | null;
@@ -216,7 +212,6 @@ export interface State {
   lastBlock: LastblockItem[];
   nodes: THORNode[];
   nodeLoading: boolean;
-  txTrackers: TxTracker[];
   approveStatus: ApproveStatus;
   pendingLP: PendingLP;
   pendingLPLoading: boolean;

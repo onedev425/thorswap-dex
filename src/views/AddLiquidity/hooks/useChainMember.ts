@@ -92,16 +92,13 @@ export const useChainMember = ({ poolAsset, pools, pool, liquidityType }: Props)
     return memberData?.assetAsym as MemberPool;
   }, [memberData, liquidityType]);
 
-  const isPendingDeposit = useMemo(() => {
-    if (
+  const isPendingDeposit = useMemo(
+    () =>
       liquidityType === LiquidityTypeOption.SYMMETRICAL &&
       poolMemberDetail &&
-      isPendingLP(poolMemberDetail)
-    ) {
-      return true;
-    }
-    return false;
-  }, [liquidityType, poolMemberDetail]);
+      isPendingLP(poolMemberDetail),
+    [liquidityType, poolMemberDetail],
+  );
 
   const isAssetPending: boolean = useMemo(() => {
     return isPendingDeposit && Amount.fromMidgard(poolMemberDetail?.assetPending ?? 0).gt(0);

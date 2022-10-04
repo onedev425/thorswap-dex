@@ -76,6 +76,8 @@ export const AddLiquidity = () => {
     wallet,
   });
 
+  const isPoolStaged = pool?.detail.status === 'staged';
+
   return (
     <PanelView
       header={
@@ -88,11 +90,11 @@ export const AddLiquidity = () => {
     >
       <LiquidityType
         onChange={handleSelectLiquidityType}
-        options={[
-          LiquidityTypeOption.ASSET,
-          LiquidityTypeOption.SYMMETRICAL,
-          LiquidityTypeOption.RUNE,
-        ]}
+        options={
+          isPoolStaged
+            ? [LiquidityTypeOption.SYMMETRICAL]
+            : [LiquidityTypeOption.ASSET, LiquidityTypeOption.SYMMETRICAL, LiquidityTypeOption.RUNE]
+        }
         poolAsset={poolAsset}
         selected={liquidityType}
       />

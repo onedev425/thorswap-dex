@@ -18,6 +18,7 @@
     "settings": "Instellingen",
     "showCharts": "Laat grafiek zien",
     "showMultisig": "Toon Multi-sig Wallet",
+    "showCustomSend": "Toon Verzend aangepaste Tx",
     "showPools": "Laat aanbevolen pools zien",
     "showStats": "Laat globale statistieken zien",
     "theme": "App thema",
@@ -159,6 +160,7 @@
       "chainHalted": "%{chain} tijdelijk stopgezet op THORChain. Al het handelen, toevoegen en verwijderen is niet beschikbaar.",
       "chainLPHalted": "Handel voor %{chain} tijdelijk niet beschikbaar.",
       "chainTradeHalted": "Toevoegen en verwijderen van liquiditeit op %{chain} is tijdelijk niet beschikbaar.",
+      "outboundQueue": "THORChain heeft momenteel last van een zware uitgaande wachtrij (%{outboundQueue}). Het verwerken van swaps kan langer duren dan normaal, FUNDS ARE SAFE 🙏",
       "thorChainHalted": "THORChain is tijdelijk niet beschikbaar vanwege onderhoud. ",
       "thorChainLPHalted": "Toevoegen en verwijderen van liquiditeit is tijdelijk stopgezet op THORChain.",
       "thorChainTradeHalted": "Handelen is tijdelijk stopgezet op THORChain.",
@@ -247,7 +249,6 @@
     "metamaskFailed": "Verbinding MetaMask Wallet mislukt",
     "noValidQuote": "Er is geen geldige koers voor dit activapaar",
     "notAvailableDeposit": "Storten niet beschikbaar",
-    "outboundBusyTooltip": "Het netwerk ondervindt momenteel vertragingen bij het ondertekenen van uitgaande transacties.",
     "prioritisationError": "Prioriteits foutmelding",
     "runePooled": "RUNE POOLED",
     "sendTxFailed": "Transactie verzenden mislukt",
@@ -603,7 +604,9 @@
       "withdraw": "Opnemen"
     },
     "send": {
-      "txFeeTooltip": "Gas kosten om de transactie te verzenden, Er zijn geen extra kosten van THORChain Protocol"
+      "txFeeTooltip": "Gas kosten om de transactie te verzenden, Er zijn geen extra kosten van THORChain Protocol",
+      "toggleCustomTxForm": "Schakel aangepast transactieformulier in",
+      "outputAsset": "Swap Output Activa"
     },
     "setting": {
       "customRecipientMode": "Aangepaste ontvanger instellen",
@@ -838,8 +841,9 @@
       "ledger": "Ledger",
       "ledgerIndex": "Ledger Index",
       "metaMask": "MetaMask",
-      "noSlipProtection": "",
-      "noSlipProtection_plural": "",
+      "noSlipProtection_part1": "Ik begrijp dat deze handel is gemarkeerd voor grote slip en..",
+      "noSlipProtection_part2": "akkoord om door te gaan zonder slipbescherming.",
+      "noSlipProtection_part3": "THORSwap is niet verantwoordelijk voor enig verlies van fondsen.",
       "notConnected": "Niet verbonden",
       "phantom": "Phantom",
       "phrase": "Seed Phrase",

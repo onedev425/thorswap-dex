@@ -1,11 +1,5 @@
-import {
-  Asset,
-  hasConnectedWallet,
-  hasWalletConnected,
-  QuoteMode,
-} from '@thorswap-lib/multichain-core';
-import { SupportedChain, WalletOption } from '@thorswap-lib/types';
-import { TS_AGGREGATOR_PROXY_ADDRESS } from 'config/constants';
+import { Asset, hasConnectedWallet, hasWalletConnected } from '@thorswap-lib/multichain-core';
+import { Chain, SupportedChain, WalletOption } from '@thorswap-lib/types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { multichain } from 'services/multichain';
 import { useAppSelector } from 'store/store';
@@ -15,20 +9,19 @@ import { useWallet } from 'store/wallet/hooks';
 type Params = {
   force?: boolean;
   asset: Asset;
-  quoteMode?: QuoteMode;
   contract?: string;
 };
 
 const useApproveResult = ({
   numberOfPendingApprovals,
   asset,
-  contractAddress,
+  contract,
   hasWallet,
   skip,
 }: {
   numberOfPendingApprovals: number;
   asset: Asset;
-  contractAddress?: string;
+  contract?: string;
   hasWallet: boolean;
   skip: boolean;
 }) => {
@@ -42,14 +35,14 @@ const useApproveResult = ({
     try {
       setIsLoading(true);
 
-      const approved = await (contractAddress
-        ? multichain().isAssetApprovedForContract(asset, contractAddress)
+      const approved = await (contract
+        ? multichain().isAssetApprovedForContract(asset, contract)
         : multichain().isAssetApproved(asset));
       setApproved(approved);
     } finally {
       setIsLoading(false);
     }
-  }, [asset, contractAddress]);
+  }, [asset, contract]);
 
   useEffect(() => {
     if (skip || !hasWallet || !isWalletConnected) {
@@ -57,20 +50,12 @@ const useApproveResult = ({
     } else {
       checkApproved();
     }
-  }, [
-    numberOfPendingApprovals,
-    asset,
-    hasWallet,
-    isWalletConnected,
-    contractAddress,
-    skip,
-    checkApproved,
-  ]);
+  }, [numberOfPendingApprovals, asset, hasWallet, isWalletConnected, skip, checkApproved]);
 
   return { isApproved, isLoading };
 };
 
-export const useIsAssetApproved = ({ force, contract, asset, quoteMode }: Params) => {
+export const useIsAssetApproved = ({ force, contract, asset }: Params) => {
   const { wallet, chainWalletLoading } = useWallet();
   const numberOfPendingApprovals = useAppSelector(
     ({ transactions }) =>
@@ -88,16 +73,19 @@ export const useIsAssetApproved = ({ force, contract, asset, quoteMode }: Params
     [asset, wallet],
   );
 
+  const possibleApprove = useMemo(
+    () =>
+      !asset.isETH() &&
+      !asset.isAVAX() &&
+      [Chain.Ethereum, Chain.Avalanche].includes(asset.L1Chain),
+    [asset],
+  );
+
   const { isApproved, isLoading } = useApproveResult({
     numberOfPendingApprovals,
     skip: typeof force === 'boolean' ? !force : isLedger,
     asset,
-    contractAddress:
-      quoteMode && [QuoteMode.ETH_TO_TC_SUPPORTED, QuoteMode.ETH_TO_ETH].includes(quoteMode)
-        ? quoteMode === QuoteMode.ETH_TO_TC_SUPPORTED
-          ? TS_AGGREGATOR_PROXY_ADDRESS
-          : contract
-        : undefined,
+    contract: possibleApprove ? contract : undefined,
     hasWallet: !chainWalletLoading?.[asset?.L1Chain as SupportedChain] || isAssetWalletConnected,
   });
 

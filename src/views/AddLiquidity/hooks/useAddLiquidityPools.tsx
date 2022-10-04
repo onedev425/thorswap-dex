@@ -49,11 +49,11 @@ export const useAddLiquidityPools = ({ assetRouteGetter = getAddLiquidityRoute }
 
   useEffect(() => {
     if (!poolLoading && pools.length && poolAsset) {
-      const assetPool = Pool.byAsset(poolAsset, pools);
+      const assetPool = pools.find(
+        ({ asset: { chain, ticker } }) => chain === poolAsset.chain && ticker === poolAsset.ticker,
+      );
 
-      if (assetPool) {
-        setPool(assetPool);
-      }
+      setPool(assetPool);
     }
   }, [pools, poolLoading, poolAsset]);
 

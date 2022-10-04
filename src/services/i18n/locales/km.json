@@ -18,6 +18,7 @@
     "settings": "ប្រព័ន្ធ",
     "showCharts": "បង្ហាញតារាង",
     "showMultisig": "បង្ហាញកាបូបច្រើនស៊ីក",
+    "showCustomSend": "បង្ហាញ Send Custom Tx",
     "showPools": "បង្ហាញទម្រង់គម្រោង pools",
     "showStats": "បង្ហាញស្ថិតិសកល",
     "theme": "ផ្ទាំងរូបរបស់កម្មវិធី",
@@ -159,6 +160,7 @@
       "chainHalted": "ខ្សែសង្វាក់ %{chain} ត្រូវបានបញ្ឈប់ជាបណ្តោះអាសន្ននៅលើ THORChain ។ សកម្មភាពជួញដូរ និង LP ទាំងអស់គឺមិនមាននៅពេលនេះទេ។",
       "chainLPHalted": "ការបន្ថែម និងដកប្រាក់នៅលើខ្សែសង្វាក់ %{chain} គឺមិនមានជាបណ្តោះអាសន្នទេ។",
       "chainTradeHalted": "ការជួញដូរនៅលើខ្សែសង្វាក់ %{chain} គឺមិនមានជាបណ្តោះអាសន្នទេ។",
+      "outboundQueue": "THORChain បច្ចុប្បន្នកំពុងជួបប្រទះជួរចេញក្រៅដ៏ធ្ងន់ (%{outboundQueue})។ ការផ្លាស់ប្តូរអាចចំណាយពេលយូរជាងធម្មតាដើម្បីដំណើរការ មូលនិធិមានសុវត្ថិភាព 🙏",
       "thorChainHalted": "THORChain មិន​អាច​ប្រើ​បាន​ជា​បណ្ដោះអាសន្ន ខណៈ​កំពុង​ស្ថិត​ក្នុង​ការ​ថែទាំ។ បច្ចុប្បន្នសកម្មភាពទាំងអស់ត្រូវបានបិទ។",
       "thorChainLPHalted": "ការបន្ថែម និងដកសាច់ប្រាក់ងាយស្រួលត្រូវបានបិទជាបណ្តោះអាសន្ននៅលើ THORChain ។",
       "thorChainTradeHalted": "ការជួញដូរត្រូវបានបិទជាបណ្តោះអាសន្ននៅលើ THORChain ។",
@@ -247,7 +249,6 @@
     "metamaskFailed": "ការភ្ជាប់កាបូប MetaMask បានបរាជ័យ",
     "noValidQuote": "There is no valid quote for this pair of assets",
     "notAvailableDeposit": "ការដាក់រូបិយប័ណ្ណគឺមិនមានទេ",
-    "outboundBusyTooltip": "បណ្តាញនេះកំពុងជួបប្រទះការពន្យារពេលក្នុងការធ្វើប្រតិបត្តិការចេញក្រៅ។",
     "prioritisationError": "បញ្ហាលើការកំណត់អាទិភាព",
     "runePooled": "គម្រោង RUNE POOLED",
     "sendTxFailed": "ផ្ញើប្រតិបត្តិការបរាជ័យ",
@@ -603,7 +604,9 @@
       "withdraw": "ដក"
     },
     "send": {
-      "txFeeTooltip": "តម្លៃហ្គាសដើម្បីផ្ញើប្រតិបត្តិការ មិនមានការគិតថ្លៃបន្ថែមពីពិធីការ THORChain ទេ"
+      "txFeeTooltip": "តម្លៃហ្គាសដើម្បីផ្ញើប្រតិបត្តិការ មិនមានការគិតថ្លៃបន្ថែមពីពិធីការ THORChain ទេ",
+      "toggleCustomTxForm": "បិទបើកទម្រង់ប្រតិបត្តិការផ្ទាល់ខ្លួន",
+      "outputAsset": "ផ្លាស់ប្តូរទ្រព្យសម្បត្តិទិន្នផល"
     },
     "setting": {
       "customRecipientMode": "កំណត់អ្នកទទួលជាធម្មតា",
@@ -838,7 +841,9 @@
       "ledger": "Ledger",
       "ledgerIndex": "សន្ទស្សន៍ Ledger",
       "metaMask": "MetaMask",
-      "noSlipProtection_0": "",
+      "noSlipProtection_part1": "ខ្ញុំយល់ថាពាណិជ្ជកម្មនេះត្រូវបានគេដាក់ទង់សម្រាប់ការរអិលដ៏សំខាន់ និង",
+      "noSlipProtection_part2": "យល់ព្រមបន្តដោយគ្មានការការពាររអិល។",
+      "noSlipProtection_part3": "THORSwap នឹងមិនទទួលខុសត្រូវចំពោះការបាត់បង់មូលនិធិណាមួយឡើយ។",
       "notConnected": "មិនទាន់ភ្ជាប់",
       "phantom": "Phantom",
       "phrase": "ឃ្លាសម្ងាត់",
