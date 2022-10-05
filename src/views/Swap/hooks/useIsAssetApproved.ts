@@ -78,7 +78,8 @@ export const useIsAssetApproved = ({ force, contract, asset }: Params) => {
       !asset.isETH() &&
       !asset.isAVAX() &&
       [Chain.Ethereum, Chain.Avalanche].includes(asset.L1Chain),
-    [asset],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [asset, contract],
   );
 
   const { isApproved, isLoading } = useApproveResult({
