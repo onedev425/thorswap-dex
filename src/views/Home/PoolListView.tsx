@@ -30,11 +30,12 @@ export const PoolListView = memo(() => {
 
   return (
     <Box col>
-      {!arePoolsHidden && (
+      {!selectedPoolStatus && !arePoolsHidden && (
         <Box col>
           <Box alignCenter className="gap-x-2 rounded-2xl">
             <Typography variant="h3">{t('views.home.featuredPools')}</Typography>
           </Box>
+
           {featuredPools.length ? (
             <HorizontalSlider itemWidth={302}>
               {featuredPools.map(({ pool, ...rest }) => (
