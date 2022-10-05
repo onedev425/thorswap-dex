@@ -36,7 +36,9 @@ export const useVesting = () => {
   const { wallet, setIsConnectModalOpen } = useWallet();
   const numberOfPendingApprovals = useAppSelector(
     ({ transactions }) =>
-      transactions.pending.filter(({ type }) => type === TransactionType.ETH_APPROVAL).length,
+      transactions.pending.filter(({ type }) =>
+        [TransactionType.ETH_APPROVAL, TransactionType.AVAX_APPROVAL].includes(type),
+      ).length,
   );
 
   const ethAddr = useMemo(() => wallet?.ETH?.address, [wallet]);

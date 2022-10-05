@@ -46,7 +46,9 @@ export const SwapSubmitButton = ({
   const { getChainTradingPaused } = useExternalConfig();
   const numberOfPendingApprovals = useAppSelector(
     ({ transactions }) =>
-      transactions.pending.filter(({ type }) => type === TransactionType.ETH_APPROVAL).length,
+      transactions.pending.filter(({ type }) =>
+        [TransactionType.ETH_APPROVAL, TransactionType.AVAX_APPROVAL].includes(type),
+      ).length,
   );
 
   const isSynthMintable = useMemo((): boolean => {

@@ -1,6 +1,7 @@
 import { Amount, Asset, QuoteMode, QuoteRoute } from '@thorswap-lib/multichain-core';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useEffect, useMemo, useState } from 'react';
+import { IS_DEV_API } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 import { useGetSupportedProvidersQuery, useGetTokensQuoteQuery } from 'store/thorswap/api';
 
@@ -31,7 +32,9 @@ export const useSwapQuote = ({
   const params = useMemo(
     () => ({
       affiliateBasisPoints,
-      providers: supportedProvidersData?.filter((p) => p !== 'PANGOLIN'),
+      providers: IS_DEV_API
+        ? supportedProvidersData
+        : supportedProvidersData?.filter((p) => p !== 'PANGOLIN'),
       sellAsset: inputAsset.toString(),
       buyAsset: outputAsset.toString(),
       slippage: slippageTolerance.toString(),

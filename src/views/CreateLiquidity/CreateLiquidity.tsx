@@ -235,15 +235,18 @@ export const CreateLiquidity = () => {
     setVisibleApproveModal(false);
 
     if (isWalletAssetConnected(poolAsset)) {
-      // register to tx tracker
       const id = v4();
+      const type =
+        poolAsset.L1Chain === Chain.Ethereum
+          ? TransactionType.ETH_APPROVAL
+          : TransactionType.AVAX_APPROVAL;
 
       appDispatch(
         addTransaction({
           id,
           label: `${t('txManager.approve')} ${poolAsset.name}`,
           inChain: poolAsset.L1Chain,
-          type: TransactionType.ETH_APPROVAL,
+          type,
         }),
       );
 

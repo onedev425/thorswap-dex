@@ -95,7 +95,6 @@ export const StakeConfirmModal = ({
     if (wallet) {
       onCancel();
       const id = v4();
-
       appDispatch(
         addTransaction({
           id,

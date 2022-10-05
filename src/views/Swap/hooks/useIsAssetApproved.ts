@@ -59,7 +59,9 @@ export const useIsAssetApproved = ({ force, contract, asset }: Params) => {
   const { wallet, chainWalletLoading } = useWallet();
   const numberOfPendingApprovals = useAppSelector(
     ({ transactions }) =>
-      transactions.pending.filter(({ type }) => type === TransactionType.ETH_APPROVAL).length,
+      transactions.pending.filter(({ type }) =>
+        [TransactionType.ETH_APPROVAL, TransactionType.AVAX_APPROVAL].includes(type),
+      ).length,
   );
 
   const isLedger = useMemo(() => {

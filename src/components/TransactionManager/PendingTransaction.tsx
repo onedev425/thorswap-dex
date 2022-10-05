@@ -16,18 +16,20 @@ export const PendingTransaction = memo(
     const params = useMemo(() => {
       if (!txid) return { txid: '' };
 
-      const isApprove = type === TransactionType.ETH_APPROVAL;
+      const isApprove = [TransactionType.AVAX_APPROVAL, TransactionType.ETH_APPROVAL].includes(
+        type,
+      );
 
       const shouldCutTx = [TransactionType.SWAP_TC_TO_TC, TransactionType.SWAP_TC_TO_ETH].includes(
         type,
       );
 
-      const ethTx = txid.startsWith('0x') ? txid : `0x${txid}`;
+      const evmTx = txid.startsWith('0x') ? txid : `0x${txid}`;
 
       return {
         from,
         type,
-        txid: cutTxPrefix(isApprove ? ethTx : txid, shouldCutTx ? '0x' : ''),
+        txid: cutTxPrefix(isApprove ? evmTx : txid, shouldCutTx ? '0x' : ''),
       };
     }, [from, txid, type]);
 
@@ -49,10 +51,12 @@ export const PendingTransaction = memo(
 
     useEffect(() => {
       const transactionCompleted = data?.ok && ['mined', 'refund'].includes(data.status);
-      const isSend = type === TransactionType.TC_SEND;
+      const instantComplete = [TransactionType.TC_SEND, TransactionType.AVAX_APPROVAL].includes(
+        type,
+      );
       const status = data?.status || 'mined';
 
-      if (transactionCompleted || (isSend && transactionUrl)) {
+      if (transactionCompleted || (instantComplete && transactionUrl)) {
         appDispatch(completeTransaction({ id, status, result: data?.result }));
       }
     }, [appDispatch, data, id, transactionUrl, txid, type]);

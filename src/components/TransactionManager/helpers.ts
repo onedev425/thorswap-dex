@@ -1,4 +1,5 @@
 import { Asset, AssetAmount, ETH_DECIMAL } from '@thorswap-lib/multichain-core';
+import { Chain } from '@thorswap-lib/types';
 import { useCallback, useMemo, useState } from 'react';
 import { getCustomContract } from 'services/contract';
 import { t } from 'services/i18n';
@@ -6,7 +7,7 @@ import { TxnResult } from 'store/thorswap/types';
 import { TransactionStatus, TransactionType } from 'store/transactions/types';
 
 const getTcPart = ({
-  asset,
+  asset: assetString,
   amount,
   decimal = 8,
 }: {
@@ -16,8 +17,10 @@ const getTcPart = ({
 }) => {
   try {
     const assetAmount = AssetAmount.fromBaseAmount(amount, decimal);
-    const assetName = Asset.fromAssetString(asset)?.name;
-    return `${assetAmount.toSignificant(6)} ${assetName}`;
+    const asset = Asset.fromAssetString(assetString);
+    return asset?.L1Chain === Chain.Avalanche
+      ? asset?.name
+      : `${assetAmount.toSignificant(6)} ${asset?.name}`;
   } catch {
     return '';
   }
@@ -45,6 +48,7 @@ export const transactionTitle = (type: TransactionType): string => {
     case TransactionType.TC_LP_WITHDRAW:
       return t('txManager.withdraw');
 
+    case TransactionType.AVAX_APPROVAL:
     case TransactionType.ETH_APPROVAL:
       return t('txManager.approve');
 
@@ -146,12 +150,15 @@ export const useTxLabelUpdate = ({
       case TransactionType.TC_LP_WITHDRAW: {
         // @ts-expect-error
         const outAssets = Object.entries(result.out);
-        const label = outAssets
+        const labelParts = outAssets
           // @ts-expect-error
           .map(([asset, { amount }]) => getTcPart({ asset, amount }))
-          .join(' & ');
+          .filter(Boolean);
+        outAssets.length !== labelParts.length;
 
-        setTransactionLabel(label);
+        if (outAssets.length === labelParts.length) {
+          setTransactionLabel(labelParts.join(' & '));
+        }
         break;
       }
 

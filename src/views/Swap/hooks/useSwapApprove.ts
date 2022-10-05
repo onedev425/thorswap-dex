@@ -1,5 +1,5 @@
 import { Asset } from '@thorswap-lib/multichain-core';
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain, SupportedChain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
@@ -23,14 +23,17 @@ export const useSwapApprove = ({ inputAsset, contract }: Params) => {
     const from = wallet?.[inputAsset.L1Chain as SupportedChain]?.address;
     if (from) {
       const id = v4();
+      const inChain = inputAsset.L1Chain;
+      const type =
+        inChain === Chain.Ethereum ? TransactionType.ETH_APPROVAL : TransactionType.AVAX_APPROVAL;
 
       appDispatch(
         addTransaction({
           id,
           from,
+          inChain,
+          type,
           label: `${t('txManager.approve')} ${inputAsset.name}`,
-          inChain: inputAsset.L1Chain,
-          type: TransactionType.ETH_APPROVAL,
         }),
       );
 
