@@ -13,15 +13,15 @@ type Props = {
   onClick?: (() => void) | MouseEventHandler;
   // TODO: False positive
   // eslint-disable-next-line react/no-unused-prop-types
-  href?: string;
+  to?: string;
   iconHoverHighlight?: boolean;
 };
 
-export const HoverIcon = memo(({ href, ...props }: Props) => {
-  if (!href) return <IconComponent {...props} />;
+export const HoverIcon = memo(({ to, ...props }: Props) => {
+  if (!to) return <IconComponent {...props} />;
 
   return (
-    <Link to={href}>
+    <Link to={to}>
       <IconComponent {...props} />
     </Link>
   );

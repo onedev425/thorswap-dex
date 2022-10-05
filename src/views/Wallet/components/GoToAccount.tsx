@@ -17,9 +17,9 @@ export const GoToAccount = ({ chain, address }: Props) => {
 
   return (
     <HoverIcon
-      href={accountUrl}
       iconName="external"
       size={16}
+      to={accountUrl}
       tooltip={t('views.wallet.goToAccount')}
     />
   );
