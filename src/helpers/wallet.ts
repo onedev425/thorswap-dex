@@ -58,11 +58,13 @@ export const getInputAssetsForAdd = ({
 export const getInputAssetsForCreate = async ({
   wallet,
   pools,
-  whitelistedAddresses,
+  erc20Whitelist,
+  arc20Whitelist,
 }: {
   wallet: Wallet | null;
   pools: Pool[];
-  whitelistedAddresses: string[];
+  erc20Whitelist: string[];
+  arc20Whitelist: string[];
 }): Promise<Asset[]> => {
   const assets: Asset[] = [];
   const poolAssets = pools.map((pool) => pool.asset);
@@ -82,7 +84,14 @@ export const getInputAssetsForCreate = async ({
           balance.asset.chain !== Chain.THORChain
         ) {
           // if erc20 token is whitelisted for THORChain
-          if (isTokenWhitelisted(balance.asset, whitelistedAddresses)) {
+          const whitelist =
+            balance.asset.L1Chain === Chain.Ethereum
+              ? erc20Whitelist
+              : balance.asset.L1Chain === Chain.Avalanche
+              ? arc20Whitelist
+              : [];
+
+          if (isTokenWhitelisted(balance.asset, whitelist)) {
             assets.push(balance.asset);
           }
         }

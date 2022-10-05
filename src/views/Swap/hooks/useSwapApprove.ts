@@ -1,4 +1,4 @@
-import { Asset, QuoteMode } from '@thorswap-lib/multichain-core';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { useCallback } from 'react';
@@ -12,11 +12,10 @@ import { v4 } from 'uuid';
 
 type Params = {
   inputAsset: Asset;
-  quoteMode: QuoteMode;
-  contract: string;
+  contract?: string;
 };
 
-export const useSwapApprove = ({ inputAsset, contract, quoteMode }: Params) => {
+export const useSwapApprove = ({ inputAsset, contract }: Params) => {
   const appDispatch = useAppDispatch();
   const { wallet } = useWallet();
 
@@ -36,11 +35,7 @@ export const useSwapApprove = ({ inputAsset, contract, quoteMode }: Params) => {
       );
 
       try {
-        const ethApproveNeeded = [QuoteMode.ETH_TO_TC_SUPPORTED, QuoteMode.ETH_TO_ETH].includes(
-          quoteMode,
-        );
-
-        const txid = await (ethApproveNeeded
+        const txid = await (contract
           ? multichain().approveAssetForStaking(inputAsset, contract)
           : multichain().approveAsset(inputAsset));
 
@@ -53,7 +48,7 @@ export const useSwapApprove = ({ inputAsset, contract, quoteMode }: Params) => {
         showErrorToast(t('notification.approveFailed'));
       }
     }
-  }, [wallet, inputAsset, appDispatch, quoteMode, contract]);
+  }, [wallet, inputAsset, appDispatch, contract]);
 
   return handleApprove;
 };

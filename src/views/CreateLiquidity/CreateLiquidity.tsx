@@ -32,7 +32,10 @@ import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
-import { useThorchainErc20SupportedAddresses } from 'views/Swap/hooks/useThorchainErc20Supported';
+import {
+  useThorchainArc20SupportedAddresses,
+  useThorchainErc20SupportedAddresses,
+} from 'views/Swap/hooks/useThorchainSupported';
 
 import { AssetInputs } from './AssetInputs';
 import { PoolInfo } from './PoolInfo';
@@ -43,12 +46,18 @@ export const CreateLiquidity = () => {
   const { pools } = useAppSelector(({ midgard }) => midgard);
   const { wallet, setIsConnectModalOpen } = useWallet();
   const [inputAssets, setInputAssets] = useState<Asset[]>([]);
-  const whitelistedAddresses = useThorchainErc20SupportedAddresses();
+  const erc20Whitelist = useThorchainErc20SupportedAddresses();
+  const arc20Whitelist = useThorchainArc20SupportedAddresses();
 
   useEffect(() => {
     const getInputAssets = async () => {
-      if (hasConnectedWallet(wallet) && whitelistedAddresses.length > 0) {
-        const assets = await getInputAssetsForCreate({ whitelistedAddresses, wallet, pools });
+      if ((hasConnectedWallet(wallet) && erc20Whitelist.length > 0) || arc20Whitelist.length > 0) {
+        const assets = await getInputAssetsForCreate({
+          erc20Whitelist,
+          arc20Whitelist,
+          wallet,
+          pools,
+        });
         const assetsToSet =
           assets.filter((asset) => asset.ticker !== 'RUNE' && !asset.isSynth) || [];
 
@@ -58,7 +67,7 @@ export const CreateLiquidity = () => {
       }
     };
     getInputAssets();
-  }, [wallet, pools, whitelistedAddresses]);
+  }, [wallet, pools, erc20Whitelist, arc20Whitelist]);
 
   const [poolAsset, setPoolAsset] = useState<Asset>(inputAssets?.[0] ?? Asset.RUNE());
 

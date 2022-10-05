@@ -159,7 +159,9 @@ const SwapView = () => {
         ? contractAddress
         : [QuoteMode.AVAX_TO_ETH, QuoteMode.AVAX_TO_TC_SUPPORTED].includes(quoteMode)
         ? AVAX_AGG_PROXY_ADDRESS
-        : ETH_AGG_PROXY_ADDRESS,
+        : [QuoteMode.ETH_TO_AVAX, QuoteMode.ETH_TO_TC_SUPPORTED].includes(quoteMode)
+        ? ETH_AGG_PROXY_ADDRESS
+        : undefined,
     [quoteMode, contractAddress],
   );
 
@@ -250,11 +252,7 @@ const SwapView = () => {
     route: selectedRoute,
   });
 
-  const handleApprove = useSwapApprove({
-    contract,
-    inputAsset,
-    quoteMode,
-  });
+  const handleApprove = useSwapApprove({ contract, inputAsset });
   const slippage = useSlippage(inputUSDPrice, outputUSDPrice);
 
   const minReceiveSlippage = useSlippage(

@@ -10,7 +10,10 @@ import uniqBy from 'lodash/uniqBy';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAssets } from 'store/assets/hooks';
 import { Token } from 'store/thorswap/types';
-import { useThorchainErc20SupportedAddresses } from 'views/Swap/hooks/useThorchainErc20Supported';
+import {
+  useThorchainArc20SupportedAddresses,
+  useThorchainErc20SupportedAddresses,
+} from 'views/Swap/hooks/useThorchainSupported';
 
 import { useAssetsWithBalanceFromTokens } from './hooks/useAssetsWithBalanceFromTokens';
 
@@ -27,19 +30,16 @@ type Props = {
 
 const options: Fuse.IFuseOptions<AssetSelectType> = {
   keys: [
-    { name: 'ticker', weight: 1 },
-    { name: 'asset.symbol', weight: 0.5 },
-    {
-      name: 'identifier',
-      weight: 0.01,
-      getFn: ({ identifier }) => (identifier ? identifier.split('.')[1] || identifier : ''),
-    },
-    { name: 'cg.name', weight: 0.01 },
+    { name: 'asset.ticker', weight: 1 },
+    { name: 'asset.name', weight: 0.5 },
+    { name: 'asset.type', weight: 0.1 },
+    { name: 'cg.name', weight: 0.1 },
+    { name: 'cg.id', weight: 0.01 },
   ],
-  minMatchCharLength: 1,
-  includeScore: true,
+  isCaseSensitive: false,
+  minMatchCharLength: 2,
   shouldSort: false,
-  threshold: 0.3,
+  threshold: 0.1,
 };
 
 export const AssetInputs = memo(
@@ -57,21 +57,30 @@ export const AssetInputs = memo(
     const [query, setQuery] = useState('');
     const [iconRotate, setIconRotate] = useState(false);
 
-    const thorchainERC20SupportedAddresses = useThorchainErc20SupportedAddresses();
     const { isFeatured, isFrequent } = useAssets();
 
+    const thorchainERC20SupportedAddresses = useThorchainErc20SupportedAddresses();
+    const thorchainARC20SupportedAddresses = useThorchainArc20SupportedAddresses();
     const handleAssetSwap = useCallback(() => {
-      const unsupportedOutputAfterChange =
-        outputAsset.asset.L1Chain !== Chain.Ethereum &&
+      const inputAddress = inputAsset.asset.symbol.split('-')[1]?.toLowerCase();
+      const unsupportedEthOutput =
         !inputAsset.asset.isETH() &&
-        !inputAsset.asset.isAVAX() &&
-        !thorchainERC20SupportedAddresses.includes(
-          inputAsset.asset.symbol.split('-')[1]?.toLowerCase(),
-        );
+        inputAsset.asset.L1Chain === Chain.Ethereum &&
+        !thorchainERC20SupportedAddresses.includes(inputAddress);
 
-      onSwitchPair(unsupportedOutputAfterChange);
+      const unsupportedAvaxOutput =
+        !inputAsset.asset.isAVAX() &&
+        inputAsset.asset.L1Chain === Chain.Avalanche &&
+        !thorchainARC20SupportedAddresses.includes(inputAddress);
+
+      onSwitchPair(unsupportedEthOutput || unsupportedAvaxOutput);
       setIconRotate((rotate) => !rotate);
-    }, [inputAsset, onSwitchPair, outputAsset, thorchainERC20SupportedAddresses]);
+    }, [
+      inputAsset.asset,
+      onSwitchPair,
+      thorchainARC20SupportedAddresses,
+      thorchainERC20SupportedAddresses,
+    ]);
 
     const assetList = useAssetsWithBalanceFromTokens(tokens);
 
@@ -89,7 +98,10 @@ export const AssetInputs = memo(
         const aFeatured = isFeatured(a);
         const aFrequent = isFrequent(a);
         const bFeatured = isFeatured(b);
+
         if (!a.balance && !b.balance) {
+          if (a.asset.type === 'Native') return -1;
+          if (b.asset.type === 'Native') return 1;
           if (aFeatured || (aFrequent && !bFeatured)) {
             return -1;
           }
@@ -118,20 +130,34 @@ export const AssetInputs = memo(
 
     const outputAssets = useMemo(() => {
       if (
-        !thorchainERC20SupportedAddresses?.length ||
-        inputAsset.asset.L1Chain === Chain.Ethereum
+        (!thorchainERC20SupportedAddresses?.length && !thorchainARC20SupportedAddresses?.length) ||
+        (inputAsset.asset.L1Chain === Chain.Ethereum &&
+          outputAsset.asset.L1Chain === Chain.Ethereum) ||
+        (inputAsset.asset.L1Chain === Chain.Avalanche &&
+          outputAsset.asset.L1Chain === Chain.Avalanche)
       ) {
         return assets;
       }
 
-      const thorchainSupported = assets.filter(({ asset }) =>
-        asset.isETH() || asset?.L1Chain !== Chain.Ethereum
-          ? true
-          : thorchainERC20SupportedAddresses.includes(asset.symbol.split('-')[1]?.toLowerCase()),
+      const thorchainSupported = assets.filter(
+        ({ asset }) =>
+          asset.isETH() ||
+          asset.isAVAX() ||
+          ![Chain.Ethereum, Chain.Avalanche].includes(asset?.L1Chain) ||
+          (asset?.L1Chain === Chain.Ethereum &&
+            thorchainERC20SupportedAddresses.includes(asset.symbol.split('-')[1]?.toLowerCase())) ||
+          (asset?.L1Chain === Chain.Avalanche &&
+            thorchainARC20SupportedAddresses.includes(asset.symbol.split('-')[1]?.toLowerCase())),
       );
 
       return thorchainSupported;
-    }, [assets, inputAsset.asset.L1Chain, thorchainERC20SupportedAddresses]);
+    }, [
+      assets,
+      inputAsset.asset.L1Chain,
+      outputAsset.asset.L1Chain,
+      thorchainARC20SupportedAddresses,
+      thorchainERC20SupportedAddresses,
+    ]);
 
     return (
       <div className="relative self-stretch md:w-full">
