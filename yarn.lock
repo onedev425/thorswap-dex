@@ -1889,10 +1889,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.11.tgz#f57392d4bd5467e2cb4eaf80105e2907c987178e"
   integrity sha512-rzfoyOE1IPEpGXYEH2dt2W/Nb2+rmbt97/yhu6aaaHSbwrfQvWt6KFdkNHa8KXa9zoN43gOdDz9Ku0SwwaHZpg==
 
-"@thorswap-lib/multichain-core@0.0.0-development.119":
-  version "0.0.0-development.119"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.0-development.119.tgz#ff2b9df7078b0eac3030bb90a3d63c6b8b1ef778"
-  integrity sha512-xkEaycYavax97DAo3DY1Df25utq5vW2tdl3kyDn9raqvRLAJ22KyOag71LK1eaT29Ew71GpcYzL36QVfWGTOSw==
+"@thorswap-lib/multichain-core@0.0.0-development.120":
+  version "0.0.0-development.120"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.0-development.120.tgz#04e6b2dbc234f569eb8d9c594d40c008014ebbb8"
+  integrity sha512-gtzXhQC6CgePnIHzh2+YIUKXHJL+XYSaqXF0+BlJ7q0QjIK+HveKyMKzfAZDpJgHnl6LVDdj7MNjVBBaph2elA==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.2.0"
     "@cosmjs/amino" "^0.29.0"

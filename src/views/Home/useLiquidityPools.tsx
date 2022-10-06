@@ -55,21 +55,25 @@ export const useLiquidityPools = ({ selectedPoolStatus, selectedPoolType, keywor
     return poolsByType;
   }, [selectedPoolType, poolsByStatus, keyword]);
 
-  const featuredPools = useMemo(() => {
-    const featured = poolsByStatus.filter(
-      ({ asset }) =>
-        asset.isBTC() ||
-        asset.isETH() ||
-        ['atom', 'busd', 'thor'].includes(asset.ticker.toLowerCase()),
-    );
-
-    return featured
-      .map((pool) => ({
-        pool,
-        color: colorMapping[pool.asset.ticker as keyof typeof colorMapping],
-      }))
-      .sort((a, b) => sortAmounts(a.pool.runeDepth, b.pool.runeDepth));
-  }, [poolsByStatus]);
+  const featuredPools = useMemo(
+    () =>
+      poolsByStatus
+        .filter(
+          ({ asset }) =>
+            asset.isBTC() ||
+            asset.isETH() ||
+            asset.isAVAX() ||
+            ['avax.usdc', 'eth.thor', 'gaia.atom', 'bnb.busd'].some((assetTicker) =>
+              asset.toString().toLowerCase().startsWith(assetTicker),
+            ),
+        )
+        .map((pool) => ({
+          pool,
+          color: colorMapping[pool.asset.ticker as keyof typeof colorMapping],
+        }))
+        .sort((a, b) => sortAmounts(a.pool.runeDepth, b.pool.runeDepth)),
+    [poolsByStatus],
+  );
 
   return { filteredPools, featuredPools };
 };

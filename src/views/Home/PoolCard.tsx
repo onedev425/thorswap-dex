@@ -1,4 +1,5 @@
 import { Amount, Percent, Pool } from '@thorswap-lib/multichain-core';
+import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Card, Typography } from 'components/Atomic';
@@ -43,7 +44,11 @@ export const PoolCard = ({ pool, color }: PoolCardProps) => {
           </Typography>
         </Box>
 
-        <AssetIcon asset={pool.asset} hasChainIcon={false} size={110} />
+        <AssetIcon
+          asset={pool.asset}
+          hasChainIcon={[Chain.Avalanche, Chain.Ethereum].includes(pool.asset.L1Chain)}
+          size={110}
+        />
       </Box>
 
       <Box justifyCenter align="end" className="gap-x-2 mt-6">
