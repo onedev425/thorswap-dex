@@ -39,7 +39,7 @@ export const SelectedRoute = memo(
     const { slippageTolerance } = useApp();
     const formatPrice = useFormatPrice();
 
-    const { isApproved } = useIsAssetApproved({
+    const { isApproved, isWalletConnected } = useIsAssetApproved({
       contract,
       asset: inputAsset,
     });
@@ -65,7 +65,10 @@ export const SelectedRoute = memo(
       setIsOpened(true);
     }, []);
 
-    const approved = [Chain.Ethereum, Chain.Avalanche].includes(inputAsset.L1Chain) && isApproved;
+    const approved =
+      isWalletConnected &&
+      [Chain.Ethereum, Chain.Avalanche].includes(inputAsset.L1Chain) &&
+      isApproved;
 
     return (
       <Box col className="relative" flex={1}>

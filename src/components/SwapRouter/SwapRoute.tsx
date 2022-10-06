@@ -41,7 +41,7 @@ export const SwapRoute = memo(
   }: Props) => {
     const formatPrice = useFormatPrice();
     const [, address] = outputAsset.symbol.split('-');
-    const { isApproved } = useIsAssetApproved({
+    const { isApproved, isWalletConnected } = useIsAssetApproved({
       contract,
       asset: inputAsset,
     });
@@ -70,7 +70,10 @@ export const SwapRoute = memo(
       [expectedOutput, formatPrice, unitPrice],
     );
 
-    const approved = [Chain.Ethereum, Chain.Avalanche].includes(inputAsset.L1Chain) && isApproved;
+    const approved =
+      isWalletConnected &&
+      [Chain.Ethereum, Chain.Avalanche].includes(inputAsset.L1Chain) &&
+      isApproved;
 
     return (
       <HighlightCard className="!px-3 !py-1.5 !gap-0" isFocused={selected} onClick={onClick}>

@@ -92,5 +92,9 @@ export const useIsAssetApproved = ({ force, contract, asset }: Params) => {
     hasWallet: !chainWalletLoading?.[asset?.L1Chain as SupportedChain] || isAssetWalletConnected,
   });
 
-  return { isApproved, isLoading: isLoading || numberOfPendingApprovals > 0 };
+  return {
+    isApproved,
+    isWalletConnected: isAssetWalletConnected,
+    isLoading: isLoading || numberOfPendingApprovals > 0,
+  };
 };
