@@ -1,12 +1,19 @@
+import { Chain } from '@thorswap-lib/types';
+import { bepIconMapping } from 'helpers/assets';
 import { STATIC_API } from 'settings/config';
-import { Token } from 'store/thorswap/types';
+
+export const getCustomIconImageUrl = (
+  name: 'avax' | 'bnb' | 'atom' | 'dogecoin' | 'rune' | 'sol' | 'thor' | 'vthor',
+  type: 'png' | 'svg' = 'svg',
+) => new URL(`../assets/images/svg/asset-${name}.${type}`, import.meta.url).href;
 
 const providersMap = {
   coingecko: 'coinGecko',
   oneinch: '1inch',
   zerox: '1inch',
-  zapper: 'zapper',
 };
+
+const twBaseUri = 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains';
 
 const providersInfoMap = {
   // AVAX
@@ -28,14 +35,36 @@ const providersInfoMap = {
   psm: '',
 };
 
+const customIconMap = () => ({
+  ATOM: getCustomIconImageUrl('atom'),
+  AVAX: getCustomIconImageUrl('avax'),
+  BNB: getCustomIconImageUrl('bnb'),
+  DOGE: getCustomIconImageUrl('dogecoin', 'png'),
+  RUNE: getCustomIconImageUrl('rune'),
+  SOL: getCustomIconImageUrl('sol'),
+});
+
 export const tokenLogoURL = ({
   provider,
   address,
   identifier,
-}: Pick<Token, 'provider' | 'address' | 'identifier'>): string => {
-  const tokensProvider = providersMap[provider.toLowerCase() as 'oneinch'] || 'coinGecko';
+}: {
+  provider?: string;
+  address?: string;
+  identifier: string;
+}): string => {
+  const tokensProvider = providersMap[provider?.toLowerCase() as 'oneinch'] || 'coinGecko';
+  const [chain, ticker] = identifier.split('-')?.[0]?.split('.') || [];
 
-  return `${STATIC_API}/token-list/assets/${tokensProvider}/${identifier.toLowerCase()}-${address.toLowerCase()}.png`;
+  const logoSymbol = bepIconMapping[ticker as 'RUNE'] || ticker;
+  const customIcon = customIconMap()[ticker as 'RUNE'];
+
+  return (
+    customIcon ||
+    (Chain.Binance !== (chain as Chain) && address
+      ? `${STATIC_API}/token-list/assets/${tokensProvider}/${identifier.toLowerCase()}-${address.toLowerCase()}.png`
+      : `${twBaseUri}/binance/assets/${logoSymbol}/logo.png`)
+  );
 };
 
 export const providerLogoURL = (provider: string) => {
@@ -43,9 +72,7 @@ export const providerLogoURL = (provider: string) => {
 
   const providerData = providersInfoMap[parsedProvider];
 
-  if (!providerData) {
-    return '';
-  }
+  if (!providerData) return '';
 
   const [identifier, address] = providerData.split('-');
   return tokenLogoURL({ address, identifier, provider: 'coinGecko' });

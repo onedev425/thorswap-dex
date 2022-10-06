@@ -51,14 +51,11 @@ export const SwapRoute = memo(
       [expectedOutput, outputAsset.decimal],
     );
 
-    const logoURI =
-      !outputAsset.isSynth && address
-        ? tokenLogoURL({
-            provider: providers[0],
-            address,
-            identifier: `${outputAsset.L1Chain}.${outputAsset.ticker}`,
-          })
-        : undefined;
+    const logoURI = tokenLogoURL({
+      provider: providers[0],
+      address,
+      identifier: `${outputAsset.L1Chain}.${outputAsset.ticker}`,
+    });
 
     const shortPath = useMemo(() => {
       const [step1, step2, ...rest] = path.split(' -> ');

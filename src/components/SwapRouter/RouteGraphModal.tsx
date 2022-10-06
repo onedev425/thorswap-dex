@@ -1,7 +1,6 @@
-import { Asset, chainToSigAsset, QuoteRoute, QuoteSwap } from '@thorswap-lib/multichain-core';
+import { chainToSigAsset, QuoteRoute, QuoteSwap } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
-import { getAssetIconUrl } from 'components/AssetIcon/utils';
 import { Box, Modal, Typography } from 'components/Atomic';
 import { SwapGraph } from 'components/SwapRouter/SwapGraph';
 import { chainName } from 'helpers/chainName';
@@ -18,19 +17,10 @@ type Props = {
   swaps: QuoteRoute['swaps'];
 };
 
-const parseToSwapItem = ({ address, identifier }: { address?: string; identifier: string }) => {
-  try {
-    const asset = Asset.fromAssetString(identifier);
-    const logoURL =
-      (address
-        ? tokenLogoURL({ address, provider: 'coinGecko', identifier })
-        : asset && getAssetIconUrl(asset)) || '';
-
-    return { identifier, logoURL };
-  } catch (e) {
-    return { identifier: '', logoURL: '' };
-  }
-};
+const parseToSwapItem = ({ address, identifier }: { address?: string; identifier: string }) => ({
+  identifier,
+  logoURL: tokenLogoURL({ address, provider: 'coinGecko', identifier }),
+});
 
 export const RouteGraphModal = memo(({ isOpened, onClose, swaps }: Props) => {
   const swapGraph = useMemo(
@@ -53,7 +43,11 @@ export const RouteGraphModal = memo(({ isOpened, onClose, swaps }: Props) => {
           })),
         );
 
-        acc.push({ name, chainSwaps, logoURL: chainAsset ? getAssetIconUrl(chainAsset) : '' });
+        acc.push({
+          name,
+          chainSwaps,
+          logoURL: tokenLogoURL({ identifier: `${chainAsset.chain}.${chainAsset.ticker}` }),
+        });
         return acc;
       }, [] as SwapGraphType),
     [swaps],

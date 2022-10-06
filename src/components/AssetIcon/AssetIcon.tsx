@@ -3,13 +3,14 @@ import { SupportedChain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { FallbackIcon } from 'components/AssetIcon/FallbackIcon';
 import { Box, Typography } from 'components/Atomic';
+import { tokenLogoURL } from 'helpers/logoURL';
 import { memo, useMemo } from 'react';
 
 import { genericBgClasses } from '../constants';
 
 import { ChainIcon } from './ChainIcon';
 import { AssetIconProps, iconSizes } from './types';
-import { getAssetIconUrl, getSecondaryIconPlacementStyle } from './utils';
+import { getSecondaryIconPlacementStyle } from './utils';
 
 const brokenAssetIcons = new Set<string>();
 
@@ -28,9 +29,9 @@ export const AssetIcon = memo(
   }: AssetIconProps) => {
     const iconSize = typeof size === 'number' ? size : iconSizes[size];
     const secondaryIconSize = iconSize * 0.52;
-
-    const iconUrl = logoURI || getAssetIconUrl(asset);
-    const isTHOR = ['THOR', 'VTHOR'].includes(asset.ticker);
+    const address = asset.symbol.slice(asset.ticker.length + 1).toLowerCase();
+    const iconUrl =
+      logoURI || tokenLogoURL({ address, identifier: `${asset.chain}.${asset.ticker}` });
 
     const style = useMemo(() => ({ width: iconSize, height: iconSize }), [iconSize]);
 
@@ -62,7 +63,7 @@ export const AssetIcon = memo(
           />
         )}
 
-        {iconUrl && (!brokenAssetIcons.has(iconUrl) || isTHOR) ? (
+        {iconUrl && !brokenAssetIcons.has(iconUrl) ? (
           <Box
             center
             className={classNames(
