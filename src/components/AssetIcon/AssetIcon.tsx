@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { FallbackIcon } from 'components/AssetIcon/FallbackIcon';
 import { Box, Typography } from 'components/Atomic';
 import { tokenLogoURL } from 'helpers/logoURL';
-import { memo, useMemo } from 'react';
+import { memo, useMemo, useState } from 'react';
 
 import { genericBgClasses } from '../constants';
 
@@ -30,9 +30,10 @@ export const AssetIcon = memo(
     const iconSize = typeof size === 'number' ? size : iconSizes[size];
     const secondaryIconSize = iconSize * 0.52;
     const address = asset.symbol.slice(asset.ticker.length + 1).toLowerCase();
-    const iconUrl =
-      logoURI || tokenLogoURL({ address, identifier: `${asset.chain}.${asset.ticker}` });
+    const identifier = `${asset.chain}.${asset.ticker}`;
+    const iconUrl = logoURI || tokenLogoURL({ address, identifier });
 
+    const [fallback, setFallback] = useState('');
     const style = useMemo(() => ({ width: iconSize, height: iconSize }), [iconSize]);
 
     const badgeStyle = useMemo(
@@ -63,7 +64,7 @@ export const AssetIcon = memo(
           />
         )}
 
-        {iconUrl && !brokenAssetIcons.has(iconUrl) ? (
+        {(brokenAssetIcons.has(iconUrl) && fallback) || iconUrl ? (
           <Box
             center
             className={classNames(
@@ -75,8 +76,16 @@ export const AssetIcon = memo(
             <img
               alt={asset.symbol}
               className="absolute inset-0 transition-all rounded-full"
-              onError={() => brokenAssetIcons.add(iconUrl)}
-              src={iconUrl}
+              onError={() => {
+                debugger;
+                setFallback(
+                  brokenAssetIcons.has(iconUrl)
+                    ? ''
+                    : tokenLogoURL({ identifier, twFallback: true }),
+                );
+                brokenAssetIcons.add(iconUrl);
+              }}
+              src={fallback || iconUrl}
               style={style}
             />
           </Box>

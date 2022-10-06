@@ -52,6 +52,7 @@ export const tokenLogoURL = ({
   provider?: string;
   address?: string;
   identifier: string;
+  twFallback?: boolean;
 }): string => {
   const tokensProvider = providersMap[provider?.toLowerCase() as 'oneinch'] || 'coinGecko';
   const [chain, ticker] = identifier.split('-')?.[0]?.split('.') || [];

@@ -15,6 +15,7 @@ export const FallbackIcon = ({ ticker, size }: Props) => {
   )})`;
 
   const isLongTicker = ticker.length > 4;
+  const fontSize = size * 0.25;
 
   return (
     <Box
@@ -24,9 +25,10 @@ export const FallbackIcon = ({ ticker, size }: Props) => {
       style={{ background: fallbackBgImg, width: size, height: size }}
     >
       <Typography
-        className={classNames('-m-1 !text-[10px] break-all text-center leading-[10px]', {
+        className={classNames('-m-1 break-all text-center leading-[10px]', {
           '!font-normal': isLongTicker,
         })}
+        style={{ fontSize }}
         variant="caption-xs"
       >
         {ticker}
