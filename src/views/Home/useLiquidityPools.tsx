@@ -63,7 +63,7 @@ export const useLiquidityPools = ({ selectedPoolStatus, selectedPoolType, keywor
             asset.isBTC() ||
             asset.isETH() ||
             asset.isAVAX() ||
-            ['avax.usdc', 'eth.thor', 'gaia.atom', 'bnb.busd'].some((assetTicker) =>
+            ['eth.thor', 'gaia.atom', 'bnb.busd'].some((assetTicker) =>
               asset.toString().toLowerCase().startsWith(assetTicker),
             ),
         )

@@ -32,8 +32,7 @@ export const AssetIcon = memo(
     const address = asset.symbol.slice(asset.ticker.length + 1).toLowerCase();
     const identifier = `${asset.chain}.${asset.ticker}`;
     const iconUrl = logoURI || tokenLogoURL({ address, identifier });
-
-    const [fallback, setFallback] = useState('');
+    const [fallback, setFallback] = useState(brokenAssetIcons.has(iconUrl));
     const style = useMemo(() => ({ width: iconSize, height: iconSize }), [iconSize]);
 
     const badgeStyle = useMemo(
@@ -64,7 +63,7 @@ export const AssetIcon = memo(
           />
         )}
 
-        {(brokenAssetIcons.has(iconUrl) && fallback) || iconUrl ? (
+        {!fallback && iconUrl ? (
           <Box
             center
             className={classNames(
@@ -77,15 +76,10 @@ export const AssetIcon = memo(
               alt={asset.symbol}
               className="absolute inset-0 transition-all rounded-full"
               onError={() => {
-                debugger;
-                setFallback(
-                  brokenAssetIcons.has(iconUrl)
-                    ? ''
-                    : tokenLogoURL({ identifier, twFallback: true }),
-                );
                 brokenAssetIcons.add(iconUrl);
+                setFallback(true);
               }}
-              src={fallback || iconUrl}
+              src={iconUrl}
               style={style}
             />
           </Box>

@@ -52,18 +52,18 @@ export const tokenLogoURL = ({
   provider?: string;
   address?: string;
   identifier: string;
-  twFallback?: boolean;
 }): string => {
   const tokensProvider = providersMap[provider?.toLowerCase() as 'oneinch'] || 'coinGecko';
   const [chain, ticker] = identifier.split('-')?.[0]?.split('.') || [];
 
   const logoSymbol = bepIconMapping[ticker as 'RUNE'] || ticker;
   const customIcon = customIconMap()[ticker as 'RUNE'];
+  const tokenIdentifier = chain === Chain.Avalanche ? `thor.${ticker}` : identifier;
 
   return (
     customIcon ||
     (Chain.Binance !== (chain as Chain) && address
-      ? `${STATIC_API}/token-list/assets/${tokensProvider}/${identifier.toLowerCase()}-${address.toLowerCase()}.png`
+      ? `${STATIC_API}/token-list/assets/${tokensProvider}/${tokenIdentifier.toLowerCase()}-${address.toLowerCase()}.png`
       : `${twBaseUri}/binance/assets/${logoSymbol}/logo.png`)
   );
 };
