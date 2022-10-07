@@ -1,5 +1,6 @@
 import { Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
+import { useAssetFilterTypes } from 'components/AssetSelect/useAssetFilterTypes';
 import { Box, Icon, Typography } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
 import { Input } from 'components/Input';
@@ -10,7 +11,6 @@ import { FixedSizeList as List } from 'react-window';
 import { t } from 'services/i18n';
 
 import { AssetSelectItem } from './AssetSelectItem';
-import { assetFilterTypes } from './assetTypes';
 import { AssetSelectProps } from './types';
 import { useAssetSelect } from './useAssetSelect';
 
@@ -32,6 +32,7 @@ export const AssetSelectList = ({
     onSelect,
     onClose,
   });
+  const assetFilterTypes = useAssetFilterTypes();
 
   const handleSelect = useCallback(
     (asset: Asset) => {
@@ -91,7 +92,12 @@ export const AssetSelectList = ({
           value={query}
         />
 
-        <TabsSelect onChange={setTypeFilterOption} tabs={assetFilterTypes} value={typeFilter} />
+        <TabsSelect
+          buttonClasses="px-3"
+          onChange={setTypeFilterOption}
+          tabs={assetFilterTypes}
+          value={typeFilter}
+        />
       </Box>
 
       <Box

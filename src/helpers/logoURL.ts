@@ -42,6 +42,8 @@ const customIconMap = () => ({
   DOGE: getCustomIconImageUrl('dogecoin', 'png'),
   RUNE: getCustomIconImageUrl('rune'),
   SOL: getCustomIconImageUrl('sol'),
+  VTHOR: getCustomIconImageUrl('vthor', 'png'),
+  THOR: getCustomIconImageUrl('thor', 'png'),
 });
 
 export const tokenLogoURL = ({
@@ -58,12 +60,11 @@ export const tokenLogoURL = ({
 
   const logoSymbol = bepIconMapping[ticker as 'RUNE'] || ticker;
   const customIcon = customIconMap()[ticker as 'RUNE'];
-  const tokenIdentifier = chain === Chain.Avalanche ? `thor.${ticker}` : identifier;
 
   return (
     customIcon ||
     (Chain.Binance !== (chain as Chain) && address
-      ? `${STATIC_API}/token-list/assets/${tokensProvider}/${tokenIdentifier.toLowerCase()}-${address.toLowerCase()}.png`
+      ? `${STATIC_API}/token-list/assets/${tokensProvider}/${identifier.toLowerCase()}-${address.toLowerCase()}.png`
       : `${twBaseUri}/binance/assets/${logoSymbol}/logo.png`)
   );
 };

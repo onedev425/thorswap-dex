@@ -76,7 +76,7 @@ export const useMidgard = () => {
       await dispatch(
         actions.getPoolMemberDetailByChain({
           chain,
-          address: chainWalletAddr.toLowerCase(),
+          address: chain === Chain.Doge ? chainWalletAddr : chainWalletAddr.toLowerCase(),
         }),
       );
 

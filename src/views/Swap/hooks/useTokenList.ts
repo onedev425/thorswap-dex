@@ -1,9 +1,12 @@
 import { QueryStatus } from '@reduxjs/toolkit/dist/query';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { IS_PROD } from 'settings/config';
 import { useLazyGetTokenListQuery } from 'store/static/api';
 import { useAppSelector } from 'store/store';
 import { useGetProvidersQuery } from 'store/thorswap/api';
 import { Token } from 'store/thorswap/types';
+
+export const DISABLED_TOKENLIST_PROVIDERS = IS_PROD ? ['Pangolin'] : [];
 
 export const useTokenList = () => {
   const [tokens, setTokens] = useState<Token[]>([]);
@@ -18,7 +21,7 @@ export const useTokenList = () => {
 
     return providersData
       .map(({ provider }) => provider)
-      .filter((p) => !disabledProviders.includes(p));
+      .filter((p) => ![...disabledProviders, ...DISABLED_TOKENLIST_PROVIDERS].includes(p));
   }, [disabledProviders, providersData]);
 
   const fetchTokens = useCallback(async () => {

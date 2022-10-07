@@ -10,10 +10,11 @@ type Props = {
   tabWidth?: string;
   value: string;
   onChange: (val: string) => void;
+  buttonClasses?: string;
 };
 
 export const TabsSelect = memo(
-  ({ title, titleWidth, tabs, tabWidth, value: selectedValue, onChange }: Props) => {
+  ({ title, titleWidth, tabs, tabWidth, value: selectedValue, onChange, buttonClasses }: Props) => {
     return (
       <Box alignCenter flex={1}>
         {!!title && (
@@ -40,15 +41,20 @@ export const TabsSelect = memo(
             flex={1}
             justify="between"
           >
-            {tabs.map(({ value, label }) => (
+            {tabs.map(({ value, label, tooltip }) => (
               <Button
-                className={classNames('self-stretch', {
-                  'flex-1': !tabWidth,
-                  '!bg-opacity-100 dark:!bg-opacity-50': value === selectedValue,
-                })}
+                className={classNames(
+                  'self-stretch',
+                  {
+                    'flex-1': !tabWidth,
+                    '!bg-opacity-100 dark:!bg-opacity-50': value === selectedValue,
+                  },
+                  buttonClasses,
+                )}
                 key={value}
                 onClick={() => onChange(value)}
                 style={tabWidth ? { width: tabWidth } : {}}
+                tooltip={tooltip}
                 transform="none"
                 type={value === selectedValue ? 'default' : 'borderless'}
                 variant={value === selectedValue ? 'primary' : 'tint'}

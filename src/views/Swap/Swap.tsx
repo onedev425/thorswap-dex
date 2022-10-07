@@ -171,11 +171,11 @@ const SwapView = () => {
     contract,
   });
 
-  const { affiliateFee, networkFee, totalFee } = useMemo(() => {
-    const emptyFees = { affiliateFee: 0, networkFee: 0, totalFee: 0 };
+  const { firstNetworkFee, affiliateFee, networkFee, totalFee } = useMemo(() => {
+    const emptyFees = { firstNetworkFee: 0, affiliateFee: 0, networkFee: 0, totalFee: 0 };
     if (!fees) return emptyFees;
-
     const feesData = Object.values(fees).flat();
+
     if (feesData.length === 0) return emptyFees;
 
     const { networkFee, affiliateFee } = feesData.reduce((acc, fee) => {
@@ -185,7 +185,12 @@ const SwapView = () => {
       return acc;
     }, emptyFees);
 
-    return { affiliateFee, networkFee, totalFee: affiliateFee + networkFee };
+    return {
+      firstNetworkFee: feesData?.[0]?.networkFeeUSD || 0,
+      affiliateFee,
+      networkFee,
+      totalFee: affiliateFee + networkFee,
+    };
   }, [fees]);
 
   const feeAssets = useMemo(
@@ -363,7 +368,7 @@ const SwapView = () => {
         inputAmount={inputAmount}
         inputAsset={inputAsset}
         setVisible={setVisibleApproveModal}
-        totalFee={formatPrice(totalFee)}
+        totalFee={formatPrice(firstNetworkFee)}
         visible={visibleApproveModal}
       />
 
