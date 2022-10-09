@@ -152,7 +152,8 @@
     "wallet": "Wallet",
     "withdraw": "Withdraw",
     "withdrawPercent": "Withdraw Percent",
-    "yourTransactions": "Your Transactions"
+    "yourTransactions": "Your Transactions",
+    "msgDeposit": "MsgDeposit"
   },
   "components": {
     "announcements": {
