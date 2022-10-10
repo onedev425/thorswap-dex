@@ -2,19 +2,19 @@ import { Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { AssetFilterType, assetFilterTypes } from 'components/AssetSelect/assetTypes';
-import { Box, Typography } from 'components/Atomic';
+import { Box, Icon, Typography } from 'components/Atomic';
 
 const FilterTypeLabel = ({
-  asset,
+  icon,
   label,
   className,
 }: {
-  asset?: Asset;
+  icon?: JSX.Element;
   label: string;
   className?: string;
 }) => (
   <Box center className={classNames('whitespace-nowrap gap-1', className)}>
-    {!!asset && <AssetIcon asset={asset} size={20} />}
+    {icon || null}
     <Typography fontWeight="semibold" variant="caption-xs">
       {label}
     </Typography>
@@ -25,19 +25,22 @@ export const useAssetFilterTypes = () => {
   const getTypeLabel = (filterType: AssetFilterType) => {
     switch (filterType.value) {
       case 'all': {
-        return <FilterTypeLabel className="mx-2" label={filterType.label} />;
+        return <FilterTypeLabel className="mx-2" label={filterType.label.toUpperCase()} />;
+      }
+      case 'synth': {
+        return <FilterTypeLabel icon={<Icon name="thor" size={18} />} label={filterType.label} />;
       }
       case 'avax': {
-        return <FilterTypeLabel asset={Asset.AVAX()} label="AVAX" />;
+        return <FilterTypeLabel icon={<AssetIcon asset={Asset.AVAX()} size={20} />} label="AVAX" />;
       }
       case 'erc20': {
-        return <FilterTypeLabel asset={Asset.ETH()} label="ETH" />;
+        return <FilterTypeLabel icon={<AssetIcon asset={Asset.ETH()} size={20} />} label="ETH" />;
       }
       case 'bep2': {
-        return <FilterTypeLabel asset={Asset.BNB()} label="BNB" />;
+        return <FilterTypeLabel icon={<AssetIcon asset={Asset.BNB()} size={20} />} label="BNB" />;
       }
       default:
-        return <FilterTypeLabel label={filterType.label} />;
+        return <FilterTypeLabel label={filterType.label.toUpperCase()} />;
     }
   };
 

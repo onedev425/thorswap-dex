@@ -93,7 +93,7 @@ export const AssetSelectList = ({
         />
 
         <TabsSelect
-          buttonClasses="px-3"
+          buttonClasses="px-2"
           onChange={setTypeFilterOption}
           tabs={assetFilterTypes}
           value={typeFilter}
