@@ -5,7 +5,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/constants';
 import { useApp } from 'store/app/hooks';
-import { useAppSelector } from 'store/store';
 import { useWallet } from 'store/wallet/hooks';
 import { useVesting } from 'views/Vesting/hooks';
 
@@ -16,20 +15,8 @@ export const useSidebarOptions = () => {
   const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
 
   const { multisigVisible } = useApp();
-  const hasMultisigWallet = useAppSelector((state) => !!state.multisig.address);
 
   const multisigMenu: SidebarItemProps = useMemo(() => {
-    const walletItems: SidebarItemProps[] = hasMultisigWallet
-      ? [
-          {
-            beta: true,
-            iconName: 'send',
-            href: ROUTES.TxBuilder,
-            label: t('appMenu.transaction'),
-          },
-        ]
-      : [];
-
     return {
       iconName: 'wallet',
       label: t('appMenu.thorSafe'),
@@ -40,10 +27,15 @@ export const useSidebarOptions = () => {
           href: ROUTES.Multisig,
           label: t('appMenu.multisig'),
         },
-        ...walletItems,
+        {
+          beta: true,
+          iconName: 'send',
+          href: ROUTES.TxBuilder,
+          label: t('appMenu.transaction'),
+        },
       ],
     };
-  }, [hasMultisigWallet]);
+  }, []);
 
   useEffect(() => {
     const getAllocData = async () => {

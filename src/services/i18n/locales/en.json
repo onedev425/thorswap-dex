@@ -394,6 +394,7 @@
       "youWillReceive": "You will receive"
     },
     "multisig": {
+      "createTxDisabledInfo": "You need connected multisig wallet to create new transaction",
       "accountNotAcivated": "THORSafe not yet activated",
       "addMember": "Add another Member",
       "addMembersDescription": "Add members (e.g wallets of your teammates)",
