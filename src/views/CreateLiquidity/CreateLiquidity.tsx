@@ -66,7 +66,7 @@ export const CreateLiquidity = () => {
     handleInputAssetUpdate();
   }, [handleInputAssetUpdate]);
 
-  const [poolAsset, setPoolAsset] = useState<Asset>(inputAssets?.[0] ?? Asset.RUNE());
+  const [poolAsset, setPoolAsset] = useState<Asset>(inputAssets?.[0] ?? Asset.BTC());
 
   const { getMaxBalance, isWalletAssetConnected } = useBalance();
   const { isFundsCapReached, isChainPauseLPAction } = useMimir();

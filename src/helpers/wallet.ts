@@ -75,7 +75,7 @@ export const getInputAssetsForCreate = ({
   for (const chain of Object.keys(wallet)) {
     const chainWallet = wallet[chain as SupportedChain];
     const balances = chainWallet?.balance || [];
-    if (![Chain.Solana].includes(chain as SupportedChain)) {
+    if (![Chain.Solana, Chain.THORChain].includes(chain as SupportedChain)) {
       for (const balance of balances) {
         // 1. if non-pool asset exists
         // 2. asset shouldn't be THORChain asset
