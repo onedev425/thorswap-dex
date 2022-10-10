@@ -14,7 +14,7 @@ enum WalletOption {
 }
 
 export const isTokenWhitelisted = (asset: Asset, whitelistedAddresses: string[]) => {
-  if (asset.L1Chain !== Chain.Ethereum) return true;
+  if (![Chain.Avalanche, Chain.Ethereum].includes(asset.L1Chain)) return true;
 
   const assetAddress = asset.symbol.split('-')?.[1] ?? '';
 
@@ -55,17 +55,17 @@ export const getInputAssetsForAdd = ({
   return assets;
 };
 
-export const getInputAssetsForCreate = async ({
+export const getInputAssetsForCreate = ({
   wallet,
   pools,
-  erc20Whitelist,
-  arc20Whitelist,
+  ethWhitelist,
+  avaxWhitelist,
 }: {
   wallet: Wallet | null;
   pools: Pool[];
-  erc20Whitelist: string[];
-  arc20Whitelist: string[];
-}): Promise<Asset[]> => {
+  ethWhitelist: string[];
+  avaxWhitelist: string[];
+}) => {
   const assets: Asset[] = [];
   const poolAssets = pools.map((pool) => pool.asset);
 
@@ -86,9 +86,9 @@ export const getInputAssetsForCreate = async ({
           // if erc20 token is whitelisted for THORChain
           const whitelist =
             balance.asset.L1Chain === Chain.Ethereum
-              ? erc20Whitelist
+              ? ethWhitelist
               : balance.asset.L1Chain === Chain.Avalanche
-              ? arc20Whitelist
+              ? avaxWhitelist
               : [];
 
           if (isTokenWhitelisted(balance.asset, whitelist)) {

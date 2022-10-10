@@ -11,7 +11,7 @@ import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAssets } from 'store/assets/hooks';
 import { Token } from 'store/thorswap/types';
 import {
-  useThorchainArc20SupportedAddresses,
+  useThorchainAvaxSupportedAddresses,
   useThorchainErc20SupportedAddresses,
 } from 'views/Swap/hooks/useThorchainSupported';
 
@@ -60,25 +60,25 @@ export const AssetInputs = memo(
     const { isFeatured, isFrequent } = useAssets();
 
     const thorchainERC20SupportedAddresses = useThorchainErc20SupportedAddresses();
-    const thorchainARC20SupportedAddresses = useThorchainArc20SupportedAddresses();
+    const thorchainAvaxSupportedAddresses = useThorchainAvaxSupportedAddresses();
     const handleAssetSwap = useCallback(() => {
       const inputAddress = inputAsset.asset.symbol.split('-')[1]?.toLowerCase();
       const unsupportedEthOutput =
-        !inputAsset.asset.isETH() &&
         inputAsset.asset.L1Chain === Chain.Ethereum &&
+        !inputAsset.asset.isETH() &&
         !thorchainERC20SupportedAddresses.includes(inputAddress);
 
       const unsupportedAvaxOutput =
-        !inputAsset.asset.isAVAX() &&
         inputAsset.asset.L1Chain === Chain.Avalanche &&
-        !thorchainARC20SupportedAddresses.includes(inputAddress);
+        !inputAsset.asset.isAVAX() &&
+        !thorchainAvaxSupportedAddresses.includes(inputAddress);
 
       onSwitchPair(unsupportedEthOutput || unsupportedAvaxOutput);
       setIconRotate((rotate) => !rotate);
     }, [
       inputAsset.asset,
       onSwitchPair,
-      thorchainARC20SupportedAddresses,
+      thorchainAvaxSupportedAddresses,
       thorchainERC20SupportedAddresses,
     ]);
 
@@ -130,7 +130,7 @@ export const AssetInputs = memo(
 
     const outputAssets = useMemo(() => {
       if (
-        (!thorchainERC20SupportedAddresses?.length && !thorchainARC20SupportedAddresses?.length) ||
+        (!thorchainERC20SupportedAddresses?.length && !thorchainAvaxSupportedAddresses?.length) ||
         (inputAsset.asset.L1Chain === Chain.Ethereum &&
           outputAsset.asset.L1Chain === Chain.Ethereum) ||
         (inputAsset.asset.L1Chain === Chain.Avalanche &&
@@ -147,7 +147,7 @@ export const AssetInputs = memo(
           (asset?.L1Chain === Chain.Ethereum &&
             thorchainERC20SupportedAddresses.includes(asset.symbol.split('-')[1]?.toLowerCase())) ||
           (asset?.L1Chain === Chain.Avalanche &&
-            thorchainARC20SupportedAddresses.includes(asset.symbol.split('-')[1]?.toLowerCase())),
+            thorchainAvaxSupportedAddresses.includes(asset.symbol.split('-')[1]?.toLowerCase())),
       );
 
       return thorchainSupported;
@@ -155,7 +155,7 @@ export const AssetInputs = memo(
       assets,
       inputAsset.asset.L1Chain,
       outputAsset.asset.L1Chain,
-      thorchainARC20SupportedAddresses,
+      thorchainAvaxSupportedAddresses,
       thorchainERC20SupportedAddresses,
     ]);
 

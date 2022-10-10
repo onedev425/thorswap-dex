@@ -16,17 +16,17 @@ export const useThorchainErc20SupportedAddresses = () => {
   return thorchainErc20SupportedAddresses;
 };
 
-export const useThorchainArc20SupportedAddresses = () => {
-  const [thorchainArc20SupportedAddresses, setThorchainArc20Supported] = useState<string[]>([]);
+export const useThorchainAvaxSupportedAddresses = () => {
+  const [thorchainAvaxSupportedAddresses, setThorchainAvaxSupported] = useState<string[]>([]);
 
   const { data } = useGetTokenListQuery('Thorchain-supported-ARC20');
 
   useEffect(() => {
     if (data?.tokens?.length) {
       const tokenAddresses = data.tokens.map(({ address }) => address.toLowerCase());
-      setThorchainArc20Supported(tokenAddresses);
+      setThorchainAvaxSupported(tokenAddresses);
     }
   }, [data?.tokens]);
 
-  return thorchainArc20SupportedAddresses;
+  return thorchainAvaxSupportedAddresses;
 };

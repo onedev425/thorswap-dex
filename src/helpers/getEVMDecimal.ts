@@ -4,7 +4,7 @@ import { getCustomContract } from 'services/contract';
 
 type GetDecimalParams = { symbol: string; ticker: string };
 
-const getERC20Decimal = async ({ symbol, ticker }: GetDecimalParams) => {
+const getEthereumAssetDecimal = async ({ symbol, ticker }: GetDecimalParams) => {
   if (symbol === Chain.Ethereum) return ETH_DECIMAL;
 
   const assetAddress = symbol.slice(ticker.length + 1);
@@ -15,7 +15,7 @@ const getERC20Decimal = async ({ symbol, ticker }: GetDecimalParams) => {
   return contractDecimals.toNumber() as number;
 };
 
-const getARC20Decimal = async ({ symbol }: GetDecimalParams) =>
+const getAvaxAssetDecimal = async ({ symbol }: GetDecimalParams) =>
   symbol.startsWith('USD') ? 6 : ETH_DECIMAL;
 
 export const getEVMDecimal = async ({
@@ -24,9 +24,9 @@ export const getEVMDecimal = async ({
 }: GetDecimalParams & { L1Chain: Chain }) => {
   switch (L1Chain) {
     case Chain.Ethereum:
-      return getERC20Decimal(asset);
+      return getEthereumAssetDecimal(asset);
     case Chain.Avalanche:
-      return getARC20Decimal(asset);
+      return getAvaxAssetDecimal(asset);
     default:
       return undefined;
   }

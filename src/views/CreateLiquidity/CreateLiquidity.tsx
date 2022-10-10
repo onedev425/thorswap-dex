@@ -33,7 +33,7 @@ import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 import {
-  useThorchainArc20SupportedAddresses,
+  useThorchainAvaxSupportedAddresses,
   useThorchainErc20SupportedAddresses,
 } from 'views/Swap/hooks/useThorchainSupported';
 
@@ -46,28 +46,28 @@ export const CreateLiquidity = () => {
   const { pools } = useAppSelector(({ midgard }) => midgard);
   const { wallet, setIsConnectModalOpen } = useWallet();
   const [inputAssets, setInputAssets] = useState<Asset[]>([]);
-  const erc20Whitelist = useThorchainErc20SupportedAddresses();
-  const arc20Whitelist = useThorchainArc20SupportedAddresses();
+  const ethWhitelist = useThorchainErc20SupportedAddresses();
+  const avaxWhitelist = useThorchainAvaxSupportedAddresses();
+
+  const handleInputAssetUpdate = useCallback(() => {
+    if ((hasConnectedWallet(wallet) && ethWhitelist.length > 0) || avaxWhitelist.length > 0) {
+      const assets = getInputAssetsForCreate({
+        ethWhitelist,
+        avaxWhitelist,
+        wallet,
+        pools,
+      });
+      const assetsToSet = assets.filter((asset) => asset.ticker !== 'RUNE' && !asset.isSynth) || [];
+
+      setInputAssets(assetsToSet);
+    } else {
+      setInputAssets([]);
+    }
+  }, [avaxWhitelist, ethWhitelist, pools, wallet]);
 
   useEffect(() => {
-    const getInputAssets = async () => {
-      if ((hasConnectedWallet(wallet) && erc20Whitelist.length > 0) || arc20Whitelist.length > 0) {
-        const assets = await getInputAssetsForCreate({
-          erc20Whitelist,
-          arc20Whitelist,
-          wallet,
-          pools,
-        });
-        const assetsToSet =
-          assets.filter((asset) => asset.ticker !== 'RUNE' && !asset.isSynth) || [];
-
-        setInputAssets(assetsToSet);
-      } else {
-        setInputAssets([]);
-      }
-    };
-    getInputAssets();
-  }, [wallet, pools, erc20Whitelist, arc20Whitelist]);
+    handleInputAssetUpdate();
+  }, [handleInputAssetUpdate]);
 
   const [poolAsset, setPoolAsset] = useState<Asset>(inputAssets?.[0] ?? Asset.RUNE());
 
