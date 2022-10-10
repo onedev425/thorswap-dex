@@ -32,10 +32,7 @@ import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
-import {
-  useThorchainAvaxSupportedAddresses,
-  useThorchainErc20SupportedAddresses,
-} from 'views/Swap/hooks/useThorchainSupported';
+import { useTokenAddresses } from 'views/Swap/hooks/useTokenAddresses';
 
 import { AssetInputs } from './AssetInputs';
 import { PoolInfo } from './PoolInfo';
@@ -46,8 +43,8 @@ export const CreateLiquidity = () => {
   const { pools } = useAppSelector(({ midgard }) => midgard);
   const { wallet, setIsConnectModalOpen } = useWallet();
   const [inputAssets, setInputAssets] = useState<Asset[]>([]);
-  const ethWhitelist = useThorchainErc20SupportedAddresses();
-  const avaxWhitelist = useThorchainAvaxSupportedAddresses();
+  const ethWhitelist = useTokenAddresses('Thorchain-supported-ERC20');
+  const avaxWhitelist = useTokenAddresses('tc-whitelisted-avax-pools');
 
   const handleInputAssetUpdate = useCallback(() => {
     if ((hasConnectedWallet(wallet) && ethWhitelist.length > 0) || avaxWhitelist.length > 0) {

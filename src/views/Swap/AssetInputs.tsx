@@ -10,10 +10,7 @@ import uniqBy from 'lodash/uniqBy';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAssets } from 'store/assets/hooks';
 import { Token } from 'store/thorswap/types';
-import {
-  useThorchainAvaxSupportedAddresses,
-  useThorchainErc20SupportedAddresses,
-} from 'views/Swap/hooks/useThorchainSupported';
+import { useTokenAddresses } from 'views/Swap/hooks/useTokenAddresses';
 
 import { useAssetsWithBalanceFromTokens } from './hooks/useAssetsWithBalanceFromTokens';
 
@@ -59,8 +56,9 @@ export const AssetInputs = memo(
 
     const { isFeatured, isFrequent } = useAssets();
 
-    const thorchainERC20SupportedAddresses = useThorchainErc20SupportedAddresses();
-    const thorchainAvaxSupportedAddresses = useThorchainAvaxSupportedAddresses();
+    const thorchainERC20SupportedAddresses = useTokenAddresses('Thorchain-supported-ERC20');
+    const thorchainAvaxSupportedAddresses = useTokenAddresses('Thorchain-supported-ARC20');
+
     const handleAssetSwap = useCallback(() => {
       const inputAddress = inputAsset.asset.symbol.split('-')[1]?.toLowerCase();
       const unsupportedEthOutput =
