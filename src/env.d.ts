@@ -12,10 +12,7 @@ interface ImportMetaEnv {
   readonly VITE_ETHERSCAN_API_KEY: string;
   readonly VITE_ETHPLORER_API_KEY: string;
   readonly VITE_FIGMENT_API_KEY: string;
-
-  VITE_STAGENET?: string;
-  VITE_DEV_API?: string;
-  VITE_BETA?: string;
+  readonly VITE_ONRAMPER_KEY: string;
 }
 
 interface ImportMeta {

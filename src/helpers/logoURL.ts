@@ -56,7 +56,8 @@ export const tokenLogoURL = ({
   identifier: string;
 }): string => {
   const tokensProvider = providersMap[provider?.toLowerCase() as 'oneinch'] || 'coinGecko';
-  const [chain, ticker] = identifier.split('-')?.[0]?.split('.') || [];
+  const [chain, ...possibleTicker] = identifier.split('-')?.[0]?.split('.') || [];
+  const ticker = possibleTicker.join('.');
 
   const logoSymbol = bepIconMapping[ticker as 'RUNE'] || ticker;
   const customIcon = customIconMap()[ticker as 'RUNE'];

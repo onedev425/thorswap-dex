@@ -47,7 +47,7 @@ export const CreateLiquidity = () => {
   const avaxWhitelist = useTokenAddresses('tc-whitelisted-avax-pools');
 
   const handleInputAssetUpdate = useCallback(() => {
-    if ((hasConnectedWallet(wallet) && ethWhitelist.length > 0) || avaxWhitelist.length > 0) {
+    if (hasConnectedWallet(wallet) && (ethWhitelist.length > 0 || avaxWhitelist.length > 0)) {
       const assets = getInputAssetsForCreate({
         ethWhitelist,
         avaxWhitelist,

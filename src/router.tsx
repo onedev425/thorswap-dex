@@ -5,6 +5,7 @@ import { Layout } from 'components/Layout';
 import { ToastPortal } from 'components/Toast';
 import { lazy, memo, Suspense } from 'react';
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
+import { IS_PROD } from 'settings/config';
 import { ROUTES } from 'settings/constants';
 import Swap from 'views/Swap';
 import WalletBalance, { WalletDrawer } from 'views/WalletBalance';
@@ -29,6 +30,7 @@ const UpgradeRune = lazy(() => import('views/UpgradeRune'));
 const Vesting = lazy(() => import('views/Vesting'));
 const Wallet = lazy(() => import('views/Wallet'));
 const WithdrawLiquidity = lazy(() => import('views/WithdrawLiquidity'));
+const OnRamp = lazy(() => import('views/OnRamp'));
 const MultisigCreate = lazy(() => import('views/Multisig/MultisigCreate/MultisigCreate'));
 const MultisigImport = lazy(() => import('views/Multisig/MultisigImport/MultisigImport'));
 
@@ -36,6 +38,8 @@ export type RouteType = {
   path: string;
   element: NotWorth;
 }[];
+
+const NOT_PROD_ROUTES = IS_PROD ? [] : [{ path: '/onramp', element: OnRamp }];
 
 const routes: RouteType = [
   { path: ROUTES.AddLiquidity, element: AddLiquidity },
@@ -70,6 +74,7 @@ const routes: RouteType = [
   { path: ROUTES.TxMultisig, element: TxMultisig },
   { path: ROUTES.MultisigConnect, element: MultisigImport },
   { path: ROUTES.MultisigCreate, element: MultisigCreate },
+  ...NOT_PROD_ROUTES,
 ];
 
 const PublicRoutes = () => {
