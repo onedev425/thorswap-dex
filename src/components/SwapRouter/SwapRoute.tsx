@@ -52,7 +52,6 @@ export const SwapRoute = memo(
     );
 
     const logoURI = tokenLogoURL({
-      provider: providers[0],
       address,
       identifier: `${outputAsset.L1Chain}.${outputAsset.ticker}`,
     });

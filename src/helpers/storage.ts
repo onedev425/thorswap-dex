@@ -102,7 +102,7 @@ const defaultValues: StorageType = {
   thorswapAddress: null,
   thorswapKeystore: null,
 
-  disabledTokenLists: ['Zapper', 'CoinGecko', 'Uniswap'] as string[],
+  disabledTokenLists: ['CoinGecko', 'Uniswap'] as string[],
   dismissedAnnList: [] as string[],
   featuredAssets: [] as string[],
   frequentAssets: [] as string[],

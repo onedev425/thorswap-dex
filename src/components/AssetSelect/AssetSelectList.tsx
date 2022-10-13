@@ -130,7 +130,7 @@ export const AssetSelectList = ({
         )}
       </Box>
 
-      <Box justifyCenter className="pt-4 pb-6">
+      <Box justifyCenter className="z-10 pt-4 pb-6">
         <div className="group flex-row flex justify-center" onClick={openManageTokenList}>
           <Icon
             className="cursor-pointer dark:group-hover:text-dark-typo-primary group-hover:text-light-typo-primary"

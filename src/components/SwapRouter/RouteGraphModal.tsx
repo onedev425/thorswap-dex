@@ -19,7 +19,7 @@ type Props = {
 
 const parseToSwapItem = ({ address, identifier }: { address?: string; identifier: string }) => ({
   identifier,
-  logoURL: tokenLogoURL({ address, provider: 'coinGecko', identifier }),
+  logoURL: tokenLogoURL({ address, identifier }),
 });
 
 export const RouteGraphModal = memo(({ isOpened, onClose, swaps }: Props) => {

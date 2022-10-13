@@ -7,12 +7,6 @@ export const getCustomIconImageUrl = (
   type: 'png' | 'svg' = 'svg',
 ) => new URL(`../assets/images/svg/asset-${name}.${type}`, import.meta.url).href;
 
-const providersMap = {
-  coingecko: 'coinGecko',
-  oneinch: '1inch',
-  zerox: '1inch',
-};
-
 const twBaseUri = 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains';
 
 const providersInfoMap = {
@@ -47,15 +41,12 @@ const customIconMap = () => ({
 });
 
 export const tokenLogoURL = ({
-  provider,
   address,
   identifier,
 }: {
-  provider?: string;
   address?: string;
   identifier: string;
 }): string => {
-  const tokensProvider = providersMap[provider?.toLowerCase() as 'oneinch'] || 'coinGecko';
   const [chain, ...possibleTicker] = identifier.split('-')?.[0]?.split('.') || [];
   const ticker = possibleTicker.join('.');
 
@@ -65,7 +56,7 @@ export const tokenLogoURL = ({
   return (
     customIcon ||
     (Chain.Binance !== (chain as Chain) && address
-      ? `${STATIC_API}/token-list/assets/${tokensProvider}/${identifier.toLowerCase()}-${address.toLowerCase()}.png`
+      ? `${STATIC_API}/token-list/images/${identifier.toLowerCase()}-${address.toLowerCase()}.png`
       : `${twBaseUri}/binance/assets/${logoSymbol}/logo.png`)
   );
 };
@@ -78,5 +69,5 @@ export const providerLogoURL = (provider: string) => {
   if (!providerData) return '';
 
   const [identifier, address] = providerData.split('-');
-  return tokenLogoURL({ address, identifier, provider: 'coinGecko' });
+  return tokenLogoURL({ address, identifier });
 };
