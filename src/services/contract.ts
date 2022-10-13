@@ -2,7 +2,6 @@ import { getAddress } from '@ethersproject/address';
 import { BigNumber } from '@ethersproject/bignumber';
 import { type ContractInterface, Contract } from '@ethersproject/contracts';
 import { formatUnits, parseUnits } from '@ethersproject/units';
-import { Chain } from '@thorswap-lib/types';
 import { alchemyProvider } from 'services/alchemyProvider';
 import { multichain } from 'services/multichain';
 
@@ -106,16 +105,14 @@ export const triggerContractCall = async (
   args: ToDo[],
 ): Promise<any> => {
   const { address, abi } = contractConfig[contractType];
-  const contract = getCustomContract(address, abi);
 
-  const ethClient = multichain().eth.getClient();
-  const from = multichain().getWalletAddressByChain(Chain.Ethereum);
-  const gasLimit = await contract.estimateGas[methodName](...args, { from });
+  const ethClient = multichain().eth;
 
-  return await ethClient.call({
+  return await ethClient.callWithWrite({
     contractAddress: address,
     abi,
     funcName: methodName,
-    funcParams: [...args, { gasLimit }],
+    // @ts-expect-error
+    funcParams: args,
   });
 };
