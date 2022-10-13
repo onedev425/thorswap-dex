@@ -38,7 +38,7 @@
     "@psf/bitcoincashjs-lib": "4.0.2",
     "@reduxjs/toolkit": "1.8.6",
     "@thorswap-lib/midgard-sdk": "0.1.11",
-    "@thorswap-lib/multichain-core": "0.0.0-development.132",
+    "@thorswap-lib/multichain-core": "0.0.0-development.133",
     "@thorswap-lib/multichain-ledger": "0.2.28",
     "@thorswap-lib/multichain-walletconnect": "0.2.20",
     "@thorswap-lib/multichain-web-extensions": "0.3.3",
