@@ -429,7 +429,7 @@ const WithdrawPanel = ({
         external
         to={getThorYieldLPInfoRoute({
           chain: Chain.THORChain,
-          address: 'somethingstupid',
+          address: wallet?.THOR?.address || '',
         })}
       >
         <Button
