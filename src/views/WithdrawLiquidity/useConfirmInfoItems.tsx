@@ -3,15 +3,16 @@ import { AssetIcon } from 'components/AssetIcon';
 import { Box, Typography } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
-import { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { t } from 'services/i18n';
 
 type Params = {
   assets: { asset: Asset; value: string }[];
   fee: string;
+  ILP: ReactNode;
 };
 
-export const useConfirmInfoItems = ({ assets, fee }: Params) => {
+export const useConfirmInfoItems = ({ assets, fee, ILP }: Params) => {
   const confirmInfoItems: InfoRowConfig[] = useMemo(() => {
     const items = assets.map((data) => ({
       label: `${t('common.withdraw')} ${data.asset.ticker} (${data.asset.type})`,
@@ -30,8 +31,12 @@ export const useConfirmInfoItems = ({ assets, fee }: Params) => {
         label: t('common.transactionFee'),
         value: <InfoWithTooltip tooltip={t('views.liquidity.gasFeeTooltip')} value={fee} />,
       },
+      {
+        label: t('views.liquidity.ilp'),
+        value: <InfoWithTooltip tooltip={t('views.liquidity.ILPTooltip')} value={ILP} />,
+      },
     ]);
-  }, [assets, fee]);
+  }, [ILP, assets, fee]);
 
   return confirmInfoItems;
 };

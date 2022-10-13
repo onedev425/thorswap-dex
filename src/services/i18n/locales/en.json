@@ -148,6 +148,7 @@
     "value": "Value",
     "valueCopied": "Value copied",
     "viewOnThoryield": "View on Thoryield.com ↗",
+    "viewOnThoryieldNoArrow": "View on Thoryield",
     "volume": "Volume",
     "wallet": "Wallet",
     "withdraw": "Withdraw",
@@ -391,7 +392,9 @@
       "withdrawAmount": "Withdraw amount",
       "withdrawLiquidity": "Withdraw Liquidity",
       "withdrawNotAvailable": "Withdraw not available",
-      "youWillReceive": "You will receive"
+      "youWillReceive": "You will receive",
+      "ILPTooltip": "If you have ILP for you liquidity position it will be added to withdrawn amount.",
+      "ilp": "Impermanent Loss Protection"
     },
     "multisig": {
       "createTxDisabledInfo": "You need connected multisig wallet to create new transaction",

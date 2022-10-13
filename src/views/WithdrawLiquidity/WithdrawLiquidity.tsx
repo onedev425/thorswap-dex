@@ -9,7 +9,7 @@ import {
   Price,
 } from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
-import { Box, Button, Typography } from 'components/Atomic';
+import { Box, Button, Icon, Link, Typography } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { InfoTable } from 'components/InfoTable';
 import { LiquidityType } from 'components/LiquidityType/LiquidityType';
@@ -26,6 +26,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
+import { getThorYieldLPInfoRoute } from 'settings/constants';
 import { useExternalConfig } from 'store/externalConfig/hooks';
 import { useMidgard } from 'store/midgard/hooks';
 import { PoolMemberData, PoolShareType } from 'store/midgard/types';
@@ -423,6 +424,24 @@ const WithdrawPanel = ({
   const confirmInfo = useConfirmInfoItems({
     assets: withdrawAssets,
     fee: feeLabel,
+    ILP: (
+      <Link
+        external
+        to={getThorYieldLPInfoRoute({
+          chain: Chain.THORChain,
+          address: 'somethingstupid',
+        })}
+      >
+        <Button
+          className="px-2.5"
+          startIcon={<Icon name="chart" size={16} />}
+          type="borderless"
+          variant="tint"
+        >
+          {t('common.viewOnThoryieldNoArrow')}
+        </Button>
+      </Link>
+    ),
   });
 
   return (
