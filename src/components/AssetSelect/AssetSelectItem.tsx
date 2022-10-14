@@ -84,6 +84,12 @@ export const AssetSelectItem = memo(
 
     const checkType = assetChain === Chain.THORChain ? 'pool' : 'address';
 
+    const assetName = useMemo(() => {
+      if (!cg?.name) return '';
+      const assetLength = cg.name.length;
+      return assetLength > 26 ? `${cg.name.slice(0, 26)}...` : cg.name;
+    }, [cg?.name]);
+
     return (
       <Box
         alignCenter
@@ -99,19 +105,19 @@ export const AssetSelectItem = memo(
 
           <Box col>
             <Box alignCenter row className="gap-x-1">
-              <Typography className="leading-[24px]" fontWeight="medium" variant="h4">
+              <Typography fontWeight="medium" variant="h4">
                 {asset.ticker}
               </Typography>
               <Typography
-                className="leading-[24px] h-6 overflow-hidden"
+                className="h-6 overflow-hidden"
                 color="secondary"
                 fontWeight="medium"
                 variant="subtitle1"
               >
-                {cg?.name ? `- ${cg.name === 'Avalance' ? 'Avalanche' : cg.name}` : ''}
+                {assetName}
               </Typography>
 
-              <Box className="opacity-20 group-hover:opacity-100 transition">
+              <Box className="opacity-40 group-hover:opacity-100 transition">
                 {showInfoButton && (
                   <Tooltip
                     content={`${t('views.swap.check', {
