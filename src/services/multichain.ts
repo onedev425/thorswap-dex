@@ -1,7 +1,6 @@
 import { MultiChain, setGlobalConfig } from '@thorswap-lib/multichain-core';
 import { Network } from '@thorswap-lib/types';
-import { midgardApi } from 'services/midgard';
-import { IS_STAGENET, THORNODE_URL } from 'settings/config';
+import { IS_STAGENET, MIDGARD_URL, THORNODE_URL } from 'settings/config';
 
 export const globalConfig = {
   alchemyApiKey: import.meta.env.VITE_ALCHEMY_KEY || '',
@@ -13,6 +12,7 @@ export const globalConfig = {
   figmentApiKey: import.meta.env.VITE_FIGMENT_API_KEY || '',
   isThorchainStagenet: IS_STAGENET,
   networkType: Network.Mainnet,
+  midgardUrl: MIDGARD_URL,
   thornodeMainnetApiUrl: THORNODE_URL,
 };
 
@@ -23,6 +23,5 @@ let multichainClient: MultiChain;
 export const multichain = () =>
   (multichainClient ||= new MultiChain({
     network: Network.Mainnet,
-    midgardClient: midgardApi,
     figmentApiKey: import.meta.env.VITE_FIGMENT_API_KEY || '',
   }));
