@@ -11,9 +11,14 @@ const OnRamp = () => {
   const wallets = useMemo(
     () =>
       wallet &&
-      Object.entries(wallet).map(([chain, wallet]) => ({
-        [chain]: { address: wallet?.address },
-      })),
+      Object.entries(wallet)
+        .map(
+          ([chain, wallet]) =>
+            wallet?.address && {
+              [chain]: { address: wallet.address },
+            },
+        )
+        .filter(Boolean),
     [wallet],
   );
 
