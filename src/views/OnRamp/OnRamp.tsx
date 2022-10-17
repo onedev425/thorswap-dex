@@ -19,7 +19,10 @@ const OnRamp = () => {
 
   return (
     <Box center>
-      <Box className="dark:brightness-125" style={{ width: '550px', height: '760px' }}>
+      <Box
+        className="dark:brightness-125"
+        style={{ width: '550px', height: '760px', color: '#1C3346', boxShadow: '0px 5px 20px 1px' }}
+      >
         <OnramperWidget
           supportBuy
           supportSell
