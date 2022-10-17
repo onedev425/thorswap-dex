@@ -1312,10 +1312,10 @@
     "@ethersproject/properties" "^5.7.0"
     "@ethersproject/strings" "^5.7.0"
 
-"@evilmartians/lefthook@1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@evilmartians/lefthook/-/lefthook-1.1.2.tgz#4abe332d9b7a0b061eb8bf839315f66f626077d8"
-  integrity sha512-mxh0P9TktuwdY8SZ422/jzJB278z/4tjzBUvJONCSnZFcRJD3+BkLTLxuBVJZWuaO1D4Qmfdj6KBevNui23uSQ==
+"@evilmartians/lefthook@1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@evilmartians/lefthook/-/lefthook-1.1.3.tgz#de4fe3d20d992b64dfa0ba5b7251c09bba51230d"
+  integrity sha512-4bdWcVw2ImjpBIB+/rKLX8nkrQSO8kV0z1KyhiojCm/EI6hbqWiIlO9beXiAPVQgByNhuS6ACznvyE9TCt/8hg==
 
 "@fontsource/poppins@4.5.10":
   version "4.5.10"
@@ -2100,10 +2100,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.11.tgz#f57392d4bd5467e2cb4eaf80105e2907c987178e"
   integrity sha512-rzfoyOE1IPEpGXYEH2dt2W/Nb2+rmbt97/yhu6aaaHSbwrfQvWt6KFdkNHa8KXa9zoN43gOdDz9Ku0SwwaHZpg==
 
-"@thorswap-lib/multichain-core@0.0.0-development.140":
-  version "0.0.0-development.140"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.0-development.140.tgz#c4f956d4b8ef4801d7fa009654150ebf694f505a"
-  integrity sha512-718qVACsyBwcIRP//UN2qQrG7DhO+k4re6V9UefkQ6ZjDiEVrACRUTRswM/lBRFqQrPEAdtmQonkhbOofm4ceA==
+"@thorswap-lib/multichain-core@0.0.0-development.143":
+  version "0.0.0-development.143"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.0-development.143.tgz#ae9f18a4dbbbd191cfdfbc605b94573c9323128b"
+  integrity sha512-kkVnPekUOazU7rva0MWHWv9uHMowJfcAmnAkIRIzKt6peOprVqJiqExxztR60fyOr1tXbZNJMA8Y7IGu2D3gDw==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.2.0"
     "@cosmjs/amino" "^0.29.0"
@@ -2119,7 +2119,7 @@
     "@thorswap-lib/xchain-client" "^0.11.7"
     "@thorswap-lib/xchain-cosmos" "^0.20.8"
     "@thorswap-lib/xchain-crypto" "^0.2.11"
-    "@thorswap-lib/xchain-evm" "^0.1.63"
+    "@thorswap-lib/xchain-evm" "^0.1.64"
     "@thorswap-lib/xchain-solana" "^0.2.29"
     "@thorswap-lib/xchain-thorchain" "^0.22.10"
     "@thorswap-lib/xchain-util" "^0.4.15"
@@ -2208,10 +2208,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-crypto/-/xchain-crypto-0.2.11.tgz#35eed671dec1b56b883101c93a0c3c032da93530"
   integrity sha512-vbuiNuT7R4kxC+l9RBwYU50vp51UnB2RVwDtHFHGuWUF6rc2iSduFKQsMdpZyBSidtQwlO348cYGs+z17QnceA==
 
-"@thorswap-lib/xchain-evm@^0.1.63":
-  version "0.1.63"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-evm/-/xchain-evm-0.1.63.tgz#f952050c21717c467c73d3fbcf108e00d073288b"
-  integrity sha512-I/rh3gsP5FcSWTPmAd4RQY1hbQt9aMfcDyzkDAUD2LdyPaDNXdbTIQcLcA/qN7mwEcFMMM4gRklPCXckCRv5VQ==
+"@thorswap-lib/xchain-evm@^0.1.64":
+  version "0.1.64"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-evm/-/xchain-evm-0.1.64.tgz#c01d1f4a4d1693003bb7098b9dc4755fa769e66b"
+  integrity sha512-qV3FD5G+ZvmXDYz6GTsH8yXuRAi4PWAqif6AFSN1wQBCkuvLjeeEaE03ME3YSFx4YQWZ2GdaGGGZDkPHnAO8sg==
   dependencies:
     "@thorswap-lib/atlas" "^0.4.9"
     "@thorswap-lib/multichain-entities" "^0.2.27"
@@ -2425,10 +2425,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-11.11.6.tgz#df929d1bb2eee5afdda598a41930fe50b43eaa6a"
   integrity sha512-Exw4yUWMBXM3X+8oqzJNRqZSwUAaS4+7NdvHqQuFi/d+synz++xmX3QIf+BFqneW8N31R8Ky+sikfZUXq07ggQ==
 
-"@types/node@18.8.5":
-  version "18.8.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.8.5.tgz#6a31f820c1077c3f8ce44f9e203e68a176e8f59e"
-  integrity sha512-Bq7G3AErwe5A/Zki5fdD3O6+0zDChhg671NfPjtIcbtzDNZTv4NPKMRFr7gtYPG7y+B8uTiNK4Ngd9T0FTar6Q==
+"@types/node@18.11.0":
+  version "18.11.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.0.tgz#f38c7139247a1d619f6cc6f27b072606af7c289d"
+  integrity sha512-IOXCvVRToe7e0ny7HpT/X9Rb2RYtElG1a+VshjwT00HxrM2dWBApHQoqsI6WiY7Q03vdf2bCrIGzVrkF/5t10w==
 
 "@types/node@^12.12.54":
   version "12.20.55"
@@ -5096,10 +5096,10 @@ eslint-plugin-import@2.26.0:
     resolve "^1.22.0"
     tsconfig-paths "^3.14.1"
 
-eslint-plugin-jest@27.1.1:
-  version "27.1.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-27.1.1.tgz#60f68dee15d4ffd9cdff65158d7fa46a65dbaaf5"
-  integrity sha512-vuSuXGKHHi/UAffIM46QKm4g0tQP+6n52nRxUpMq6x6x9rhnv5WM7ktSu3h9cTnXE4b0Y0ODQTgRlCm9rdRLvg==
+eslint-plugin-jest@27.1.2:
+  version "27.1.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-27.1.2.tgz#5d29f1cf954e70f3d47f2465fca17cddfdb4430b"
+  integrity sha512-+nLOn5jvQKLUywXxXKsLuuENsB/FhygXOLI+l5QlF+ACGe0DM14FlpYrGZ4nEiTo0BGlL5MymG73XA/tC3v3fA==
   dependencies:
     "@typescript-eslint/utils" "^5.10.0"
 
@@ -8289,10 +8289,10 @@ react-i18next@11.18.6, react-i18next@^11.15.5:
     "@babel/runtime" "^7.14.5"
     html-parse-stringify "^3.0.1"
 
-react-icons@4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.4.0.tgz#a13a8a20c254854e1ec9aecef28a95cdf24ef703"
-  integrity sha512-fSbvHeVYo/B5/L4VhB7sBA1i2tS8MkT0Hb9t2H1AVPkwGfVHLJCqyr2Py9dKMxsyM63Eng1GkdZfbWj+Fmv8Rg==
+react-icons@4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.6.0.tgz#f83eda179af5d02c047449a20b702c858653d397"
+  integrity sha512-rR/L9m9340yO8yv1QT1QurxWQvWpbNHqVX0fzMln2HEb9TEIrQRGsqiNFQfiv9/JEUbyHmHPlNTB2LWm2Ttz0g==
 
 react-is@^16.12.0, react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
@@ -8597,10 +8597,10 @@ rollup-plugin-polyfill-node@0.10.2:
   dependencies:
     "@rollup/plugin-inject" "^4.0.0"
 
-rollup-plugin-visualizer@5.8.2:
-  version "5.8.2"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-visualizer/-/rollup-plugin-visualizer-5.8.2.tgz#25a4cc6431aba2eba8ecb7c99d8c3623d493e4bd"
-  integrity sha512-Fh7KoAa7FVVOojmyyX9ro7fBSR7mPG2cgfDbA877HM4IeJJtSZO+I/R3h/u6TB8wVP5J4pXPpTaRMSREyqCS3g==
+rollup-plugin-visualizer@5.8.3:
+  version "5.8.3"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-visualizer/-/rollup-plugin-visualizer-5.8.3.tgz#2f002d6e1e38f4d4fb8638fd8d23ec799c3a2060"
+  integrity sha512-QGJk4Bqe4AOat5AjipOh8esZH1nck5X2KFpf4VytUdSUuuuSwvIQZjMGgjcxe/zXexltqaXp5Vx1V3LmnQH15Q==
   dependencies:
     open "^8.4.0"
     source-map "^0.7.4"

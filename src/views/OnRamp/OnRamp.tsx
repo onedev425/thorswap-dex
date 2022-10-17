@@ -19,16 +19,18 @@ const OnRamp = () => {
 
   return (
     <Box center>
-      <Box style={{ width: '550px', height: '760px' }}>
+      <Box className="dark:brightness-125" style={{ width: '550px', height: '760px' }}>
         <OnramperWidget
+          supportBuy
           supportSell
           API_KEY={import.meta.env.VITE_ONRAMPER_KEY}
-          color="#4DBAD6"
+          color="#3CA9C5"
           darkMode={!isLight}
           defaultAddrs={wallets}
           defaultCrypto={wallet?.ETH ? 'ETH' : 'BTC'}
           defaultFiatSoft="USD"
-          fontFamily="Poppins"
+          displayChatBubble={false}
+          fontFamily="Poppins, sans-serif"
           isAddressEditable={false}
           supportSwap={false}
         />
