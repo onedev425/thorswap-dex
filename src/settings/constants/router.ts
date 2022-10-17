@@ -31,6 +31,7 @@ export enum ROUTES {
   TxCreatePool = '/txcreate/:assetParam',
   TxImport = '/tximport',
   TxMultisig = '/txthorsafe',
+  OnRamp = '/onramp',
 }
 
 export const THORYIELD_ROUTE = 'https://app.thoryield.com';

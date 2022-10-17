@@ -30,6 +30,7 @@ export const useVesting = () => {
   const [vestingAction, setVestingAction] = useState(VestingType.THOR);
   const [vestingInfo, setVestingInfo] = useState<VestingScheduleInfo>(defaultVestingInfo);
   const [isFetching, setIsFetching] = useState(false);
+  const [hasVestingAlloc, setVestingAlloc] = useState(false);
   const [isClaiming, setIsClaiming] = useState(false);
   const [tokenAmount, setTokenAmount] = useState(Amount.fromNormalAmount(0));
 
@@ -100,10 +101,10 @@ export const useVesting = () => {
     setIsFetching(false);
   }, [ethAddr, getVestingInfo, vestingAction]);
 
-  const hasVestingAlloc = useCallback(async () => {
+  const fetchVestingAlloc = useCallback(async () => {
     const promises = [getVestingInfo(VestingType.THOR), getVestingInfo(VestingType.VTHOR)];
     const infos = await Promise.all(promises);
-    return infos?.[0]?.hasAlloc || infos?.[1]?.hasAlloc || false;
+    setVestingAlloc(infos?.[0]?.hasAlloc || infos?.[1]?.hasAlloc || false);
   }, [getVestingInfo]);
 
   const handleClaim = useCallback(async () => {
@@ -148,7 +149,8 @@ export const useVesting = () => {
 
   useEffect(() => {
     handleVestingInfo();
-  }, [handleVestingInfo, numberOfPendingApprovals]);
+    fetchVestingAlloc();
+  }, [handleVestingInfo, fetchVestingAlloc, numberOfPendingApprovals]);
 
   return {
     setVestingAction,

@@ -1,8 +1,9 @@
 import { hasConnectedWallet } from '@thorswap-lib/multichain-core';
 import { IconName } from 'components/Atomic';
 import { SidebarItemProps } from 'components/Sidebar/types';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { t } from 'services/i18n';
+import { IS_PROD } from 'settings/config';
 import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/constants';
 import { useApp } from 'store/app/hooks';
 import { useWallet } from 'store/wallet/hooks';
@@ -10,11 +11,10 @@ import { useVesting } from 'views/Vesting/hooks';
 
 export const useSidebarOptions = () => {
   const { hasVestingAlloc } = useVesting();
-  const [hasAlloc, setHasAlloc] = useState(false);
   const { wallet } = useWallet();
-  const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
-
   const { multisigVisible } = useApp();
+
+  const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
 
   const multisigMenu: SidebarItemProps = useMemo(() => {
     return {
@@ -37,18 +37,9 @@ export const useSidebarOptions = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const getAllocData = async () => {
-      const hasAllocated = await hasVestingAlloc();
-      setHasAlloc(hasAllocated);
-    };
-
-    getAllocData();
-  }, [hasVestingAlloc]);
-
   const thorMenu: SidebarItemProps = useMemo(() => {
     const vestingItems: SidebarItemProps[] =
-      isConnected && hasAlloc
+      isConnected && hasVestingAlloc
         ? [
             {
               iconName: 'chartPieOutline',
@@ -70,7 +61,7 @@ export const useSidebarOptions = () => {
         ...vestingItems,
       ],
     };
-  }, [isConnected, hasAlloc]);
+  }, [isConnected, hasVestingAlloc]);
 
   const sidebarOptions = useMemo(() => {
     const menu: SidebarItemProps[] = [
@@ -99,14 +90,15 @@ export const useSidebarOptions = () => {
       {
         iconName: 'wallet',
         label: t('components.sidebar.wallet'),
+        // @ts-expect-error
         children: [
           {
-            iconName: 'wallet' as IconName,
+            iconName: 'wallet',
             href: ROUTES.Wallet,
             label: t('components.sidebar.wallet'),
           },
           {
-            iconName: 'send' as IconName,
+            iconName: 'send',
             href: ROUTES.Send,
             label: t('components.sidebar.send'),
           },
@@ -114,9 +106,18 @@ export const useSidebarOptions = () => {
             transform: 'none',
             iconName: 'thor',
             href: ROUTES.Thorname,
-            label: t('components.sidebar.thorname'),
+            label: 'THORName',
           },
-        ],
+        ].concat(
+          IS_PROD
+            ? []
+            : {
+                iconName: 'dollarOutlined' as IconName,
+                href: ROUTES.OnRamp,
+                label: 'OnRamp',
+                beta: true,
+              },
+        ),
       },
       {
         iconName: 'settings',
@@ -130,7 +131,7 @@ export const useSidebarOptions = () => {
           {
             transform: 'none',
             label: t('components.sidebar.stats'),
-            navLabel: t('components.sidebar.thoryield'),
+            navLabel: 'THORYield',
             iconName: 'thoryield',
             rightIconName: 'external',
             href: THORYIELD_STATS_ROUTE,
@@ -139,7 +140,7 @@ export const useSidebarOptions = () => {
             iconName: 'cloud',
             href: ROUTES.Nodes,
             transform: 'none',
-            label: t('components.sidebar.thornode'),
+            label: 'THORNode',
           },
         ],
       },
