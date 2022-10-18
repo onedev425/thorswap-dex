@@ -4,8 +4,9 @@ import { IconName } from 'components/Atomic';
 import { showErrorToast } from 'components/Toast';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import { useCallback, useMemo } from 'react';
-import { keplr, metamask, phantom, xdefi } from 'services/extensionWallets';
+import { brave, keplr, metamask, phantom, xdefi } from 'services/extensionWallets';
 import { t } from 'services/i18n';
+import { IS_PROD } from 'settings/config';
 import { useWallet } from 'store/wallet/hooks';
 
 import { availableChainsByWallet, WalletType } from './types';
@@ -49,6 +50,18 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): Wallet
         icon: 'trustWallet',
         label: t('views.walletModal.trustWallet'),
       },
+      ...(IS_PROD
+        ? []
+        : [
+            {
+              disabled: !brave.isWalletDetected(),
+              icon: 'brave' as IconName,
+              type: WalletType.Brave,
+              visible: isMdActive,
+              label: t('views.walletModal.braveWallet'),
+              tooltip: !brave.isWalletDetected() ? t('views.walletModal.enableBraveWallet') : '',
+            },
+          ]),
       {
         type: WalletType.MetaMask,
         icon: 'metamask',
@@ -60,14 +73,6 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): Wallet
           ? t('views.walletModal.disableBraveWallet')
           : '',
       },
-      // {
-      //   disabled: !brave.isWalletDetected(),
-      //   icon: 'brave',
-      //   type: WalletType.Brave,
-      //   visible: isMdActive,
-      //   label: t('views.walletModal.braveWallet'),
-      //   tooltip: !brave.isWalletDetected() ? t('views.walletModal.enableBraveWallet') : '',
-      // },
       {
         visible: isMdActive,
         type: WalletType.Ledger,

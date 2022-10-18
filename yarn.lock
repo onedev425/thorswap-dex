@@ -2077,13 +2077,13 @@
     deepmerge "^4.2.2"
     svgo "^2.8.0"
 
-"@thorswap-lib/atlas@^0.4.9":
-  version "0.4.9"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/atlas/-/atlas-0.4.9.tgz#6596b8b0ac29f2d896538f96bbbcfad3971c24c2"
-  integrity sha512-TbTuvp9wx6VWsWLCz3X7GoWqwZaBBhrcFTN+xSFnHcfRVgOwE2C8b5Ty14XgupdEOefyvbEgUs424+MgVaFJxw==
+"@thorswap-lib/atlas@^0.4.10":
+  version "0.4.10"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/atlas/-/atlas-0.4.10.tgz#93beec396e7ee8c87e02972c8be31a63fe4696ad"
+  integrity sha512-pzfkXlE1Gmf5rpwVP1uEfpWsLuBdEv41E2/tsARVCwHMjr5qWs2theOtKSPstU6WUeuMlN9PYF3jSH4uwOi1wA==
   dependencies:
-    "@thorswap-lib/multichain-entities" "^0.2.27"
-    "@thorswap-lib/types" "^0.3.4"
+    "@thorswap-lib/multichain-entities" "^0.2.28"
+    "@thorswap-lib/types" "^0.3.5"
 
 "@thorswap-lib/cross-chain-api-sdk@0.1.31":
   version "0.1.31"
@@ -2100,10 +2100,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.11.tgz#f57392d4bd5467e2cb4eaf80105e2907c987178e"
   integrity sha512-rzfoyOE1IPEpGXYEH2dt2W/Nb2+rmbt97/yhu6aaaHSbwrfQvWt6KFdkNHa8KXa9zoN43gOdDz9Ku0SwwaHZpg==
 
-"@thorswap-lib/multichain-core@0.0.0-development.150":
-  version "0.0.0-development.150"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.0-development.150.tgz#59dd88238b7a6de148325e7f18962d290d879776"
-  integrity sha512-qnS+EQICrIEZ36B4EMh6IG0Ja/M5RgDPMPwsYGSWF45OkK/dGqy1DZEzwjYO/ROo1MqwgvndOnmZwUoyGFp1oA==
+"@thorswap-lib/multichain-core@0.0.0-development.151":
+  version "0.0.0-development.151"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.0-development.151.tgz#a3f973ae91e28c7c5f97500e7e243a0a7e2e7357"
+  integrity sha512-t2JKf66kJb33RRXF7kL6Cxe2NczF4GfqxkQx4AEP2PfPhC+1HNg51/PMlz4BW+tBAC/YvzOxVFGHnO05tqZUjw==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.2.0"
     "@cosmjs/amino" "^0.29.0"
@@ -2112,19 +2112,19 @@
     "@cosmjs/stargate" "^0.29.0"
     "@cosmos-client/core" "^0.45.13"
     "@solana/web3.js" "^1.63.1"
-    "@thorswap-lib/atlas" "^0.4.9"
+    "@thorswap-lib/atlas" "^0.4.10"
     "@thorswap-lib/midgard-sdk" "^0.1.11"
-    "@thorswap-lib/multichain-entities" "^0.2.27"
-    "@thorswap-lib/types" "^0.3.4"
-    "@thorswap-lib/xchain-binance" "^5.6.23"
+    "@thorswap-lib/multichain-entities" "^0.2.28"
+    "@thorswap-lib/types" "^0.3.5"
+    "@thorswap-lib/xchain-binance" "^5.6.24"
     "@thorswap-lib/xchain-client" "^0.11.7"
     "@thorswap-lib/xchain-cosmos" "^0.20.8"
     "@thorswap-lib/xchain-crypto" "^0.2.11"
-    "@thorswap-lib/xchain-evm" "^0.1.64"
-    "@thorswap-lib/xchain-solana" "^0.2.29"
+    "@thorswap-lib/xchain-evm" "^0.1.65"
+    "@thorswap-lib/xchain-solana" "^0.2.30"
     "@thorswap-lib/xchain-thorchain" "^0.22.10"
     "@thorswap-lib/xchain-util" "^0.4.15"
-    "@thorswap-lib/xchain-utxo" "^0.1.22"
+    "@thorswap-lib/xchain-utxo" "^0.1.23"
     avalanche "^3.15.4"
     base64-js "^1.5.1"
     bchaddrjs "^0.5.2"
@@ -2143,17 +2143,17 @@
     web3-utils "^1.8.0"
     wif "^2.0.6"
 
-"@thorswap-lib/multichain-entities@^0.2.27":
-  version "0.2.27"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-entities/-/multichain-entities-0.2.27.tgz#d3554fa46f5f001d2377c065b9e4fd89dcbcc256"
-  integrity sha512-rDZNglvy2Gdday6JkqOoANT/C//Fu+JNY3RsUQZto3gaY57GteusnYxrsiTAEtHuuWnKtxOYxK8YHview8ZZdQ==
+"@thorswap-lib/multichain-entities@^0.2.28":
+  version "0.2.28"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-entities/-/multichain-entities-0.2.28.tgz#b24037fdb548e224c2f2e675b1f8b1654eff6039"
+  integrity sha512-YpxDLf58tqATPJoGTuoIGG7++BSVvc7sgtEz3QyT+0Navo7nWIEvJxCo/GoGii2hfuKTvmEQit0zGK8spF1z8A==
   dependencies:
-    "@thorswap-lib/types" "^0.3.4"
+    "@thorswap-lib/types" "^0.3.5"
 
-"@thorswap-lib/multichain-ledger@0.2.31":
-  version "0.2.31"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-ledger/-/multichain-ledger-0.2.31.tgz#82e590de44fcb523979f3b2188f95189b1fd6700"
-  integrity sha512-dvBviTZmv3WtVprwSRogO0YOZZJeh6WxJMoMZsIrlifgTVgh0zzY4mlS4/UZqzSvEQgfr793gpbEyK3IFe+rpg==
+"@thorswap-lib/multichain-ledger@0.2.32":
+  version "0.2.32"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-ledger/-/multichain-ledger-0.2.32.tgz#6341d67f941c983c69fd1dd9cf1c1b4e3b33d440"
+  integrity sha512-z6wQjDnyee/nLXXzg9SZeJHfweWDxR3I+C+RFtIrFwKW64srDV/mCkoOqbcn/hPUKSap42xZal+pnnucOuwb1A==
   dependencies:
     "@cosmjs/crypto" "^0.29.0"
     base64-js "^1.5.1"
@@ -2161,38 +2161,38 @@
     ecpair "^2.0.1"
     ripemd160 "^2.0.2"
 
-"@thorswap-lib/multichain-walletconnect@0.2.21":
-  version "0.2.21"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-walletconnect/-/multichain-walletconnect-0.2.21.tgz#d8896fc19497095c3be8a8b73a8a0ec416f40cca"
-  integrity sha512-bRxTrm09PfCsQEZ47YmTAMhGWSpp+pEt/uXHd/QRFicQET71zWH7ktATZK9d0rXt8gOnBOoOxW2eBQCpxVnSjA==
+"@thorswap-lib/multichain-walletconnect@0.2.22":
+  version "0.2.22"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-walletconnect/-/multichain-walletconnect-0.2.22.tgz#26c58fa61352ca6959967978465a81592deb380d"
+  integrity sha512-aEtKOzlcG/10GfgWRf/jlZj2qEQiZ/j8YqbpA/a6nAemDNGqf0btmkG5MyjJ3WiEM64MqC1KYHHJ7fOUfT4fKA==
   dependencies:
-    "@thorswap-lib/types" "^0.3.3"
+    "@thorswap-lib/types" "^0.3.5"
     "@walletconnect/client" "^1.8.0"
     "@walletconnect/qrcode-modal" "^1.8.0"
     "@walletconnect/web3-provider" "^1.8.0"
 
-"@thorswap-lib/multichain-web-extensions@0.3.6":
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-web-extensions/-/multichain-web-extensions-0.3.6.tgz#12e813e8c1c5f425562c42bf15bf84a4ce3889b2"
-  integrity sha512-ggwmUxNUCDu1W0YU5tqbvuJBgj7ExGng7Za/lXUEwlupDMjJvqeoi7WJl5coWMcs1ViAPzBC7N9ETxAaIdt/Ag==
+"@thorswap-lib/multichain-web-extensions@0.3.7":
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-web-extensions/-/multichain-web-extensions-0.3.7.tgz#d0f9fc45d78905565f760bc0667b24c34bd57ac1"
+  integrity sha512-zMJKbRT+0J1V8x2433gMxhDHwq14vXoN0WOeen1HGLDkWzD+RgdDYPaJ3zSH7nJ7X8Xg4GHZySvzTVGtQ/oBvg==
   dependencies:
     "@ethersproject/bytes" "^5.7.0"
-    "@thorswap-lib/atlas" "^0.4.9"
-    "@thorswap-lib/types" "^0.3.4"
+    "@thorswap-lib/atlas" "^0.4.10"
+    "@thorswap-lib/types" "^0.3.5"
     base64-js "^1.5.1"
 
-"@thorswap-lib/types@0.3.4", "@thorswap-lib/types@^0.3.3", "@thorswap-lib/types@^0.3.4":
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/types/-/types-0.3.4.tgz#119d3a2e358b98a0fd3b38a8cd2737b3723c2f07"
-  integrity sha512-UFAeLoohqYl3NJ2eNJwTWSplZ0fwtI4loPk+QhgrnrPqNBj5kkORodr2DyAka9qk9psKLM/IuwPrQ8sLLm6D/w==
+"@thorswap-lib/types@0.3.5", "@thorswap-lib/types@^0.3.5":
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/types/-/types-0.3.5.tgz#9fbdc132343c62731a9396773b1be2510d2d2440"
+  integrity sha512-6IoDSxNWFQGG1PG25amfTXpL7fxDbwt+RmqGeDKDc21v3vRaiIqiyYnW8LrUJvg3Nu4GGu7yRpj3nJHQvip4mg==
 
-"@thorswap-lib/xchain-binance@^5.6.23":
-  version "5.6.23"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-binance/-/xchain-binance-5.6.23.tgz#0792e550ee7f7b9f54c82558fe4d12dc17efc0f7"
-  integrity sha512-QRTIzaforJxt6Oth0q8GrG8np7AxegOVqjTkQEfvnbC9KUxe/lKBr8RTrXt7rklr055hUikKtzjKM6cEBONF2w==
+"@thorswap-lib/xchain-binance@^5.6.24":
+  version "5.6.24"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-binance/-/xchain-binance-5.6.24.tgz#da90b5f49a12ea653125e7c994aa88db4bf7bb33"
+  integrity sha512-VVUavBPKAoWui/plw3jHpz4wx6ivAMHgtSjFJGHcaiLG2VV8rvTodeJ2Swu06KhOFQnH0ujyjZf8gbVP55ye1w==
   dependencies:
-    "@thorswap-lib/atlas" "^0.4.9"
-    "@thorswap-lib/multichain-entities" "^0.2.27"
+    "@thorswap-lib/atlas" "^0.4.10"
+    "@thorswap-lib/multichain-entities" "^0.2.28"
 
 "@thorswap-lib/xchain-client@^0.11.7":
   version "0.11.7"
@@ -2209,23 +2209,23 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-crypto/-/xchain-crypto-0.2.11.tgz#35eed671dec1b56b883101c93a0c3c032da93530"
   integrity sha512-vbuiNuT7R4kxC+l9RBwYU50vp51UnB2RVwDtHFHGuWUF6rc2iSduFKQsMdpZyBSidtQwlO348cYGs+z17QnceA==
 
-"@thorswap-lib/xchain-evm@^0.1.64":
-  version "0.1.64"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-evm/-/xchain-evm-0.1.64.tgz#c01d1f4a4d1693003bb7098b9dc4755fa769e66b"
-  integrity sha512-qV3FD5G+ZvmXDYz6GTsH8yXuRAi4PWAqif6AFSN1wQBCkuvLjeeEaE03ME3YSFx4YQWZ2GdaGGGZDkPHnAO8sg==
+"@thorswap-lib/xchain-evm@^0.1.65":
+  version "0.1.65"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-evm/-/xchain-evm-0.1.65.tgz#7736cb8550d72472f1e65ec540e6c625a0ca0191"
+  integrity sha512-/sgNingXz9GFee0xClHyCBQa3n9yNEBdPGnNEue9YkAGhEZWnWot6157CI6BgX/4BlPwdeOAmRwCe54Ewehswg==
   dependencies:
-    "@thorswap-lib/atlas" "^0.4.9"
-    "@thorswap-lib/multichain-entities" "^0.2.27"
+    "@thorswap-lib/atlas" "^0.4.10"
+    "@thorswap-lib/multichain-entities" "^0.2.28"
 
-"@thorswap-lib/xchain-solana@^0.2.29":
-  version "0.2.29"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-solana/-/xchain-solana-0.2.29.tgz#04f17fab0b9337d59a40c5e1ad2f49594a6cb46c"
-  integrity sha512-kXUsrT2y4B8sRnOFq5i3m1tn8j83kQ3+5p1RYRmPmeMw7xlMcEu17AivmAP40LuAX/0REY5V7brojdAkXP+QTg==
+"@thorswap-lib/xchain-solana@^0.2.30":
+  version "0.2.30"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-solana/-/xchain-solana-0.2.30.tgz#06dbe33daa02ff47749f08b5a35a73061fcbbc93"
+  integrity sha512-W7JJre5eIylogmxuBXifM7VHlUHCxY4M8phPAGzrjZaDQz2i+1BP9s6s0ADbqQCqisrmv98b+j7IB1cfdOByyg==
   dependencies:
     "@solana/spl-token" "^0.3.5"
-    "@thorswap-lib/atlas" "^0.4.9"
-    "@thorswap-lib/multichain-entities" "^0.2.27"
-    "@thorswap-lib/types" "^0.3.4"
+    "@thorswap-lib/atlas" "^0.4.10"
+    "@thorswap-lib/multichain-entities" "^0.2.28"
+    "@thorswap-lib/types" "^0.3.5"
     bip39 "^3.0.4"
     ed25519-hd-key "^1.3.0"
 
@@ -2239,13 +2239,13 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-util/-/xchain-util-0.4.15.tgz#61beb61e3e5c3faa2f2cd88e4900dd9e7eb067cd"
   integrity sha512-N9alogujnYwSi+YKhghwmdLJl10YK8o3L0Y9jzQHtV3nv7N8jCmXK3KffBz/ym2Fl9UoizdxLMcWSFZrDecGvQ==
 
-"@thorswap-lib/xchain-utxo@^0.1.22":
-  version "0.1.22"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-utxo/-/xchain-utxo-0.1.22.tgz#3743b73a8d8124ec6389229e90694b6c44b13749"
-  integrity sha512-fh3ln2HJ2LtMOTe+aN8kHpTYhGv8Tv7+zuv/FhG6Dp1wOst7ahV4LtZslznQLYfFUP4NnwGDvyPwcqBWok7mGQ==
+"@thorswap-lib/xchain-utxo@^0.1.23":
+  version "0.1.23"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-utxo/-/xchain-utxo-0.1.23.tgz#236d046cb0c1e3e272c41f7244226a215ae0bcd0"
+  integrity sha512-KMx21XJa3iKHZQEdSEKnNbkFCgJ+UauF4D5cgJfLjZMSSeE0lGUcrxS6K6QON0SclYO6ZJheGB/UzAbIRnnHrQ==
   dependencies:
-    "@thorswap-lib/atlas" "^0.4.9"
-    "@thorswap-lib/multichain-entities" "^0.2.27"
+    "@thorswap-lib/atlas" "^0.4.10"
+    "@thorswap-lib/multichain-entities" "^0.2.28"
     ecpair "^2.0.1"
     uniqid "^5.4.0"
 
@@ -2534,6 +2534,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/semver@^7.3.12":
+  version "7.3.12"
+  resolved "https://registry.yarnpkg.com/@types/semver/-/semver-7.3.12.tgz#920447fdd78d76b19de0438b7f60df3c4a80bf1c"
+  integrity sha512-WwA1MW0++RfXmCr12xeYOOC5baSC9mSb0ZqCquFzKhcoF4TvHu5MKOuXsncgZcpVFhB1pXd5hZmM0ryAoCp12A==
+
 "@types/sinonjs__fake-timers@8.1.1":
   version "8.1.1"
   resolved "https://registry.yarnpkg.com/@types/sinonjs__fake-timers/-/sinonjs__fake-timers-8.1.1.tgz#b49c2c70150141a15e0fa7e79cf1f92a72934ce3"
@@ -2592,28 +2597,28 @@
   dependencies:
     "@types/node" "*"
 
-"@typescript-eslint/eslint-plugin@5.40.0":
-  version "5.40.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-5.40.0.tgz#0159bb71410eec563968288a17bd4478cdb685bd"
-  integrity sha512-FIBZgS3DVJgqPwJzvZTuH4HNsZhHMa9SjxTKAZTlMsPw/UzpEjcf9f4dfgDJEHjK+HboUJo123Eshl6niwEm/Q==
+"@typescript-eslint/eslint-plugin@5.40.1":
+  version "5.40.1"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-5.40.1.tgz#3203a6ff396b1194083faaa6e5110c401201d7d5"
+  integrity sha512-FsWboKkWdytGiXT5O1/R9j37YgcjO8MKHSUmWnIEjVaz0krHkplPnYi7mwdb+5+cs0toFNQb0HIrN7zONdIEWg==
   dependencies:
-    "@typescript-eslint/scope-manager" "5.40.0"
-    "@typescript-eslint/type-utils" "5.40.0"
-    "@typescript-eslint/utils" "5.40.0"
+    "@typescript-eslint/scope-manager" "5.40.1"
+    "@typescript-eslint/type-utils" "5.40.1"
+    "@typescript-eslint/utils" "5.40.1"
     debug "^4.3.4"
     ignore "^5.2.0"
     regexpp "^3.2.0"
     semver "^7.3.7"
     tsutils "^3.21.0"
 
-"@typescript-eslint/parser@5.40.0":
-  version "5.40.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-5.40.0.tgz#432bddc1fe9154945660f67c1ba6d44de5014840"
-  integrity sha512-Ah5gqyX2ySkiuYeOIDg7ap51/b63QgWZA7w6AHtFrag7aH0lRQPbLzUjk0c9o5/KZ6JRkTTDKShL4AUrQa6/hw==
+"@typescript-eslint/parser@5.40.1":
+  version "5.40.1"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-5.40.1.tgz#e7f8295dd8154d0d37d661ddd8e2f0ecfdee28dd"
+  integrity sha512-IK6x55va5w4YvXd4b3VrXQPldV9vQTxi5ov+g4pMANsXPTXOcfjx08CRR1Dfrcc51syPtXHF5bgLlMHYFrvQtg==
   dependencies:
-    "@typescript-eslint/scope-manager" "5.40.0"
-    "@typescript-eslint/types" "5.40.0"
-    "@typescript-eslint/typescript-estree" "5.40.0"
+    "@typescript-eslint/scope-manager" "5.40.1"
+    "@typescript-eslint/types" "5.40.1"
+    "@typescript-eslint/typescript-estree" "5.40.1"
     debug "^4.3.4"
 
 "@typescript-eslint/scope-manager@5.34.0":
@@ -2624,21 +2629,21 @@
     "@typescript-eslint/types" "5.34.0"
     "@typescript-eslint/visitor-keys" "5.34.0"
 
-"@typescript-eslint/scope-manager@5.40.0":
-  version "5.40.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/scope-manager/-/scope-manager-5.40.0.tgz#d6ea782c8e3a2371ba3ea31458dcbdc934668fc4"
-  integrity sha512-d3nPmjUeZtEWRvyReMI4I1MwPGC63E8pDoHy0BnrYjnJgilBD3hv7XOiETKLY/zTwI7kCnBDf2vWTRUVpYw0Uw==
+"@typescript-eslint/scope-manager@5.40.1":
+  version "5.40.1"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/scope-manager/-/scope-manager-5.40.1.tgz#a7a5197dfd234622a2421ea590ee0ccc02e18dfe"
+  integrity sha512-jkn4xsJiUQucI16OLCXrLRXDZ3afKhOIqXs4R3O+M00hdQLKR58WuyXPZZjhKLFCEP2g+TXdBRtLQ33UfAdRUg==
   dependencies:
-    "@typescript-eslint/types" "5.40.0"
-    "@typescript-eslint/visitor-keys" "5.40.0"
+    "@typescript-eslint/types" "5.40.1"
+    "@typescript-eslint/visitor-keys" "5.40.1"
 
-"@typescript-eslint/type-utils@5.40.0":
-  version "5.40.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/type-utils/-/type-utils-5.40.0.tgz#4964099d0158355e72d67a370249d7fc03331126"
-  integrity sha512-nfuSdKEZY2TpnPz5covjJqav+g5qeBqwSHKBvz7Vm1SAfy93SwKk/JeSTymruDGItTwNijSsno5LhOHRS1pcfw==
+"@typescript-eslint/type-utils@5.40.1":
+  version "5.40.1"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/type-utils/-/type-utils-5.40.1.tgz#091e4ce3bebbdb68f4980bae9dee2e4e1725f601"
+  integrity sha512-DLAs+AHQOe6n5LRraXiv27IYPhleF0ldEmx6yBqBgBLaNRKTkffhV1RPsjoJBhVup2zHxfaRtan8/YRBgYhU9Q==
   dependencies:
-    "@typescript-eslint/typescript-estree" "5.40.0"
-    "@typescript-eslint/utils" "5.40.0"
+    "@typescript-eslint/typescript-estree" "5.40.1"
+    "@typescript-eslint/utils" "5.40.1"
     debug "^4.3.4"
     tsutils "^3.21.0"
 
@@ -2647,10 +2652,10 @@
   resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.34.0.tgz#217bf08049e9e7b86694d982e88a2c1566330c78"
   integrity sha512-49fm3xbbUPuzBIOcy2CDpYWqy/X7VBkxVN+DC21e0zIm3+61Z0NZi6J9mqPmSW1BDVk9FIOvuCFyUPjXz93sjA==
 
-"@typescript-eslint/types@5.40.0":
-  version "5.40.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.40.0.tgz#8de07e118a10b8f63c99e174a3860f75608c822e"
-  integrity sha512-V1KdQRTXsYpf1Y1fXCeZ+uhjW48Niiw0VGt4V8yzuaDTU8Z1Xl7yQDyQNqyAFcVhpYXIVCEuxSIWTsLDpHgTbw==
+"@typescript-eslint/types@5.40.1":
+  version "5.40.1"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.40.1.tgz#de37f4f64de731ee454bb2085d71030aa832f749"
+  integrity sha512-Icg9kiuVJSwdzSQvtdGspOlWNjVDnF3qVIKXdJ103o36yRprdl3Ge5cABQx+csx960nuMF21v8qvO31v9t3OHw==
 
 "@typescript-eslint/typescript-estree@5.34.0":
   version "5.34.0"
@@ -2665,28 +2670,29 @@
     semver "^7.3.7"
     tsutils "^3.21.0"
 
-"@typescript-eslint/typescript-estree@5.40.0":
-  version "5.40.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-5.40.0.tgz#e305e6a5d65226efa5471ee0f12e0ffaab6d3075"
-  integrity sha512-b0GYlDj8TLTOqwX7EGbw2gL5EXS2CPEWhF9nGJiGmEcmlpNBjyHsTwbqpyIEPVpl6br4UcBOYlcI2FJVtJkYhg==
+"@typescript-eslint/typescript-estree@5.40.1":
+  version "5.40.1"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-5.40.1.tgz#9a7d25492f02c69882ce5e0cd1857b0c55645d72"
+  integrity sha512-5QTP/nW5+60jBcEPfXy/EZL01qrl9GZtbgDZtDPlfW5zj/zjNrdI2B5zMUHmOsfvOr2cWqwVdWjobCiHcedmQA==
   dependencies:
-    "@typescript-eslint/types" "5.40.0"
-    "@typescript-eslint/visitor-keys" "5.40.0"
+    "@typescript-eslint/types" "5.40.1"
+    "@typescript-eslint/visitor-keys" "5.40.1"
     debug "^4.3.4"
     globby "^11.1.0"
     is-glob "^4.0.3"
     semver "^7.3.7"
     tsutils "^3.21.0"
 
-"@typescript-eslint/utils@5.40.0":
-  version "5.40.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/utils/-/utils-5.40.0.tgz#647f56a875fd09d33c6abd70913c3dd50759b772"
-  integrity sha512-MO0y3T5BQ5+tkkuYZJBjePewsY+cQnfkYeRqS6tPh28niiIwPnQ1t59CSRcs1ZwJJNOdWw7rv9pF8aP58IMihA==
+"@typescript-eslint/utils@5.40.1":
+  version "5.40.1"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/utils/-/utils-5.40.1.tgz#3204fb73a559d3b7bab7dc9d3c44487c2734a9ca"
+  integrity sha512-a2TAVScoX9fjryNrW6BZRnreDUszxqm9eQ9Esv8n5nXApMW0zeANUYlwh/DED04SC/ifuBvXgZpIK5xeJHQ3aw==
   dependencies:
     "@types/json-schema" "^7.0.9"
-    "@typescript-eslint/scope-manager" "5.40.0"
-    "@typescript-eslint/types" "5.40.0"
-    "@typescript-eslint/typescript-estree" "5.40.0"
+    "@types/semver" "^7.3.12"
+    "@typescript-eslint/scope-manager" "5.40.1"
+    "@typescript-eslint/types" "5.40.1"
+    "@typescript-eslint/typescript-estree" "5.40.1"
     eslint-scope "^5.1.1"
     eslint-utils "^3.0.0"
     semver "^7.3.7"
@@ -2711,12 +2717,12 @@
     "@typescript-eslint/types" "5.34.0"
     eslint-visitor-keys "^3.3.0"
 
-"@typescript-eslint/visitor-keys@5.40.0":
-  version "5.40.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/visitor-keys/-/visitor-keys-5.40.0.tgz#dd2d38097f68e0d2e1e06cb9f73c0173aca54b68"
-  integrity sha512-ijJ+6yig+x9XplEpG2K6FUdJeQGGj/15U3S56W9IqXKJqleuD7zJ2AX/miLezwxpd7ZxDAqO87zWufKg+RPZyQ==
+"@typescript-eslint/visitor-keys@5.40.1":
+  version "5.40.1"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/visitor-keys/-/visitor-keys-5.40.1.tgz#f3d2bf5af192f4432b84cec6fdcb387193518754"
+  integrity sha512-A2DGmeZ+FMja0geX5rww+DpvILpwo1OsiQs0M+joPWJYsiEFBLsH0y1oFymPNul6Z5okSmHpP4ivkc2N0Cgfkw==
   dependencies:
-    "@typescript-eslint/types" "5.40.0"
+    "@typescript-eslint/types" "5.40.1"
     eslint-visitor-keys "^3.3.0"
 
 "@vitejs/plugin-react@2.1.0":
