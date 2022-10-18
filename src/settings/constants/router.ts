@@ -87,3 +87,5 @@ export const getNodeDetailRoute = (address: string) => {
 
 export const getThorYieldLPInfoRoute = ({ chain, address }: { chain: Chain; address: string }) =>
   `${THORYIELD_ROUTE}/${THORYIELD_LP_PATH}?${chain.toLowerCase()}=${address}`;
+
+export const getThorYieldLPInfoBaseRoute = () => `${THORYIELD_ROUTE}/${THORYIELD_LP_PATH}`;

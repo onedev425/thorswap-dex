@@ -26,7 +26,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
-import { getThorYieldLPInfoRoute } from 'settings/constants';
+import { getThorYieldLPInfoBaseRoute } from 'settings/constants';
 import { useExternalConfig } from 'store/externalConfig/hooks';
 import { useMidgard } from 'store/midgard/hooks';
 import { PoolMemberData, PoolShareType } from 'store/midgard/types';
@@ -421,17 +421,27 @@ const WithdrawPanel = ({
     ];
   }, [withdrawType, runeAmount, runePriceInUSD, poolAsset, assetAmount, assetPriceInUSD]);
 
+  const lpLink: string = useMemo((): string => {
+    if (!wallet) return '';
+    const lpRoute = getThorYieldLPInfoBaseRoute();
+    let queryParams = '';
+    if (lpType === PoolShareType.ASSET_ASYM) {
+      queryParams = `${poolAsset.chain.toLowerCase()}=${wallet[poolAsset.chain]?.address}`;
+    } else if (lpType === PoolShareType.RUNE_ASYM) {
+      queryParams = `${Chain.THORChain.toLowerCase()}=${wallet[Chain.THORChain]?.address}`;
+    } else if (lpType === PoolShareType.SYM) {
+      queryParams = `${Chain.THORChain.toLowerCase()}=${
+        wallet[Chain.THORChain]?.address
+      }&${poolAsset.chain.toLowerCase()}=${wallet[poolAsset.chain]?.address}`;
+    }
+    return `${lpRoute}?${queryParams}`;
+  }, [lpType, poolAsset, wallet]);
+
   const confirmInfo = useConfirmInfoItems({
     assets: withdrawAssets,
     fee: feeLabel,
     ILP: (
-      <Link
-        external
-        to={getThorYieldLPInfoRoute({
-          chain: Chain.THORChain,
-          address: wallet?.THOR?.address || '',
-        })}
-      >
+      <Link external to={lpLink}>
         <Button
           className="px-2.5"
           startIcon={<Icon name="chart" size={16} />}
