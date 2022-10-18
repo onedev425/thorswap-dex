@@ -2100,10 +2100,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.11.tgz#f57392d4bd5467e2cb4eaf80105e2907c987178e"
   integrity sha512-rzfoyOE1IPEpGXYEH2dt2W/Nb2+rmbt97/yhu6aaaHSbwrfQvWt6KFdkNHa8KXa9zoN43gOdDz9Ku0SwwaHZpg==
 
-"@thorswap-lib/multichain-core@0.0.0-development.148":
-  version "0.0.0-development.148"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.0-development.148.tgz#bee2dec76d73488f8a6138ed38ab14e64f388fb4"
-  integrity sha512-FrASiPLUgR+Y68r2ovDjHjUrjEnhp4FFpdlKUC3vryeyWZW2ATn3rYNXqHJUBFtKspqpSR3a+7NQkPGx83txTQ==
+"@thorswap-lib/multichain-core@0.0.0-development.149":
+  version "0.0.0-development.149"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.0-development.149.tgz#86b92075654f4186f1836b83a07e3a8a9273b089"
+  integrity sha512-EfDmy/9OkqRoRbxqr4CjXbnv/11jQ4WG3xREZ4asZPoeD9XmGS6srDPwizrgM1pke03fMqVtcmusLqSoVbHhhw==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.2.0"
     "@cosmjs/amino" "^0.29.0"
@@ -2124,7 +2124,7 @@
     "@thorswap-lib/xchain-solana" "^0.2.29"
     "@thorswap-lib/xchain-thorchain" "^0.22.10"
     "@thorswap-lib/xchain-util" "^0.4.15"
-    "@thorswap-lib/xchain-utxo" "^0.1.21"
+    "@thorswap-lib/xchain-utxo" "^0.1.22"
     avalanche "^3.15.4"
     base64-js "^1.5.1"
     bchaddrjs "^0.5.2"
@@ -2239,10 +2239,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-util/-/xchain-util-0.4.15.tgz#61beb61e3e5c3faa2f2cd88e4900dd9e7eb067cd"
   integrity sha512-N9alogujnYwSi+YKhghwmdLJl10YK8o3L0Y9jzQHtV3nv7N8jCmXK3KffBz/ym2Fl9UoizdxLMcWSFZrDecGvQ==
 
-"@thorswap-lib/xchain-utxo@^0.1.21":
-  version "0.1.21"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-utxo/-/xchain-utxo-0.1.21.tgz#e32f8c01aef7b63bb87aa5ea95ba2c94c118dd7c"
-  integrity sha512-+j9khSdwB9D+O1GhySWc6w2pDGqqRwxRY/KfqKEvD9aW0/6sDwVNGTjoqHalXeWqS+Mi6QLdO2fGqYtokd3mag==
+"@thorswap-lib/xchain-utxo@^0.1.22":
+  version "0.1.22"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-utxo/-/xchain-utxo-0.1.22.tgz#3743b73a8d8124ec6389229e90694b6c44b13749"
+  integrity sha512-fh3ln2HJ2LtMOTe+aN8kHpTYhGv8Tv7+zuv/FhG6Dp1wOst7ahV4LtZslznQLYfFUP4NnwGDvyPwcqBWok7mGQ==
   dependencies:
     "@thorswap-lib/atlas" "^0.4.9"
     "@thorswap-lib/multichain-entities" "^0.2.27"
