@@ -89,7 +89,7 @@ export const Modal = ({
                   </Box>
                 </Box>
 
-                <Box className="max-h-[80vh]">
+                <Box className="max-h-[80vh] mt-3">
                   {withBody ? (
                     <Card stretch className="flex items-center justify-center" size="lg">
                       {children}
