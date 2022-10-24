@@ -19,7 +19,7 @@ export const parseAssetToToken = ({
       ? L1Chain === Chain.Ethereum
         ? ChainId.Ethereum
         : L1Chain === Chain.Avalanche
-        ? ChainId.Avalanche
+        ? (Chain.Avalanche as string)
         : 'thorchain'
       : 'thorchain',
     decimals: `${decimal}`,
