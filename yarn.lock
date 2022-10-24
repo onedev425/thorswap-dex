@@ -2077,14 +2077,6 @@
     deepmerge "^4.2.2"
     svgo "^2.8.0"
 
-"@thorswap-lib/atlas@^0.4.10":
-  version "0.4.10"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/atlas/-/atlas-0.4.10.tgz#93beec396e7ee8c87e02972c8be31a63fe4696ad"
-  integrity sha512-pzfkXlE1Gmf5rpwVP1uEfpWsLuBdEv41E2/tsARVCwHMjr5qWs2theOtKSPstU6WUeuMlN9PYF3jSH4uwOi1wA==
-  dependencies:
-    "@thorswap-lib/multichain-entities" "^0.2.28"
-    "@thorswap-lib/types" "^0.3.5"
-
 "@thorswap-lib/atlas@^0.4.11":
   version "0.4.11"
   resolved "https://registry.yarnpkg.com/@thorswap-lib/atlas/-/atlas-0.4.11.tgz#1b553c1aead46cb86cafb306944f7d47df06ca22"
@@ -2108,10 +2100,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.11.tgz#f57392d4bd5467e2cb4eaf80105e2907c987178e"
   integrity sha512-rzfoyOE1IPEpGXYEH2dt2W/Nb2+rmbt97/yhu6aaaHSbwrfQvWt6KFdkNHa8KXa9zoN43gOdDz9Ku0SwwaHZpg==
 
-"@thorswap-lib/multichain-core@0.0.0-development.158":
-  version "0.0.0-development.158"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.0-development.158.tgz#91c3d173599da6ad7752ff45dda61fdffb9b0cc9"
-  integrity sha512-dvHnoK5fdA2u/KBevDBuIW61jwRcjVOdNY+OZc0QjQEvOHmMb3QgwPvpMirxERvq4PVQdhin/wb16Jqh6hmw+w==
+"@thorswap-lib/multichain-core@0.0.0-development.160":
+  version "0.0.0-development.160"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.0-development.160.tgz#236daa8a9eb87e3ba3bf9726603804a53c8a146a"
+  integrity sha512-ThaDQRCll+fa7PhN8bA11lWGUzjNTfHEpmUt6caMvRnfGeOirF0k46iZm5AYhkHQpANfRvPgD+kwLsm2+tIieA==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.2.0"
     "@cosmjs/amino" "^0.29.0"
@@ -2151,13 +2143,6 @@
     web3-utils "^1.8.0"
     wif "^2.0.6"
 
-"@thorswap-lib/multichain-entities@^0.2.28":
-  version "0.2.28"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-entities/-/multichain-entities-0.2.28.tgz#b24037fdb548e224c2f2e675b1f8b1654eff6039"
-  integrity sha512-YpxDLf58tqATPJoGTuoIGG7++BSVvc7sgtEz3QyT+0Navo7nWIEvJxCo/GoGii2hfuKTvmEQit0zGK8spF1z8A==
-  dependencies:
-    "@thorswap-lib/types" "^0.3.5"
-
 "@thorswap-lib/multichain-entities@^0.2.29":
   version "0.2.29"
   resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-entities/-/multichain-entities-0.2.29.tgz#f15782644a54f09ce8f58f5d904fd6e6db3446f7"
@@ -2165,10 +2150,10 @@
   dependencies:
     "@thorswap-lib/types" "^0.3.6"
 
-"@thorswap-lib/multichain-ledger@0.2.32":
-  version "0.2.32"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-ledger/-/multichain-ledger-0.2.32.tgz#6341d67f941c983c69fd1dd9cf1c1b4e3b33d440"
-  integrity sha512-z6wQjDnyee/nLXXzg9SZeJHfweWDxR3I+C+RFtIrFwKW64srDV/mCkoOqbcn/hPUKSap42xZal+pnnucOuwb1A==
+"@thorswap-lib/multichain-ledger@0.2.33":
+  version "0.2.33"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-ledger/-/multichain-ledger-0.2.33.tgz#341711287a89af3703682f02172d968f47471c0f"
+  integrity sha512-UgAPVOTZEmBJkxlaUP0o13wPoO2XrUIAOuKdAjI/kspVGGGTdJcGzeDGmNPq1YQDmlRNlkj1KN4OZLY/WBvvkg==
   dependencies:
     "@cosmjs/crypto" "^0.29.0"
     base64-js "^1.5.1"
@@ -2176,33 +2161,28 @@
     ecpair "^2.0.1"
     ripemd160 "^2.0.2"
 
-"@thorswap-lib/multichain-walletconnect@0.2.22":
-  version "0.2.22"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-walletconnect/-/multichain-walletconnect-0.2.22.tgz#26c58fa61352ca6959967978465a81592deb380d"
-  integrity sha512-aEtKOzlcG/10GfgWRf/jlZj2qEQiZ/j8YqbpA/a6nAemDNGqf0btmkG5MyjJ3WiEM64MqC1KYHHJ7fOUfT4fKA==
+"@thorswap-lib/multichain-walletconnect@0.2.23":
+  version "0.2.23"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-walletconnect/-/multichain-walletconnect-0.2.23.tgz#6420b1f5c737d5e875603a6ac9ea16c9d8c2208b"
+  integrity sha512-XqhaZm1X50LQ4M6v8QfQ2sE/AnHaqeFRbZmCsDcpfIP382us23g8yMVPWV5t4rosrTzYHfnSdUfvKv0uxy0IEw==
   dependencies:
-    "@thorswap-lib/types" "^0.3.5"
+    "@thorswap-lib/types" "^0.3.6"
     "@walletconnect/client" "^1.8.0"
     "@walletconnect/qrcode-modal" "^1.8.0"
     "@walletconnect/web3-provider" "^1.8.0"
 
-"@thorswap-lib/multichain-web-extensions@0.3.9":
-  version "0.3.9"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-web-extensions/-/multichain-web-extensions-0.3.9.tgz#4fea385e6165605f0e74358b7b04461d1bc6b0ea"
-  integrity sha512-IwHf+oS9sDi1wQBiMdeeQJxu9bH9YXWHy+7AwgOtwpM/KLMLTDWYKQJpes+h1TZUHJKj6xKCdOU0LZtQhxvWFg==
+"@thorswap-lib/multichain-web-extensions@0.3.11":
+  version "0.3.11"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-web-extensions/-/multichain-web-extensions-0.3.11.tgz#bd300f4b32c7cb7f3bb22051fd98efdfb8741ef4"
+  integrity sha512-LrxQeFAmA/g8Tu1UEBMi2OCDXICBYmQqlEFblGqges8+56hgNslBwFBeT7u2a2D3EvyU6mrebbp/GzWy+RaJMw==
   dependencies:
     "@ethersproject/bignumber" "^5.7.0"
     "@ethersproject/bytes" "^5.7.0"
-    "@thorswap-lib/atlas" "^0.4.10"
-    "@thorswap-lib/types" "^0.3.5"
+    "@thorswap-lib/atlas" "^0.4.11"
+    "@thorswap-lib/types" "^0.3.6"
     base64-js "^1.5.1"
 
-"@thorswap-lib/types@0.3.5", "@thorswap-lib/types@^0.3.5":
-  version "0.3.5"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/types/-/types-0.3.5.tgz#9fbdc132343c62731a9396773b1be2510d2d2440"
-  integrity sha512-6IoDSxNWFQGG1PG25amfTXpL7fxDbwt+RmqGeDKDc21v3vRaiIqiyYnW8LrUJvg3Nu4GGu7yRpj3nJHQvip4mg==
-
-"@thorswap-lib/types@^0.3.6":
+"@thorswap-lib/types@0.3.6", "@thorswap-lib/types@^0.3.6":
   version "0.3.6"
   resolved "https://registry.yarnpkg.com/@thorswap-lib/types/-/types-0.3.6.tgz#6ce8b06cdadb1030b73590bf4d1ec361094b91b2"
   integrity sha512-PrbrFd/wRF8pqr2G4gDIeue4O94Vl0wD4KMdCk3/hLTaZyVZFqDNoCxNwCCmR946mf+1Y7cO65IROz5jkGeWEA==
@@ -8377,10 +8357,10 @@ react-table@7.8.0:
   resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.8.0.tgz#07858c01c1718c09f7f1aed7034fcfd7bda907d2"
   integrity sha512-hNaz4ygkZO4bESeFfnfOft73iBUj8K5oKi1EcSHPAibEydfsX2MyU6Z8KCr3mv3C9Kqqh71U+DhZkFvibbnPbA==
 
-react-tooltip@4.4.2:
-  version "4.4.2"
-  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-4.4.2.tgz#e81659b07bc9f08081b12366aecb389a9d8fc424"
-  integrity sha512-VncdQWS6wfTZK/J1xW9PLCfKwmeNcxDGZ6mC8ZE7V3UUyNRw/ZpzcqQZm84WWKptAiBwyKL0PgCRrKJk3N440Q==
+react-tooltip@4.4.3:
+  version "4.4.3"
+  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-4.4.3.tgz#44cbb6c8bdb3281c2819d16c92e3c419ebd98582"
+  integrity sha512-l7/TDBwq3JtuLBtq6FvIs7wsqcHjvoHFT8AvNGpf0JhHwzh+ZhCDN25wM/+gxelj8i1ngw/ULFv53XRQ/wCMzQ==
   dependencies:
     prop-types "^15.8.1"
     uuid "^7.0.3"
