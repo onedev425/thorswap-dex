@@ -29,13 +29,13 @@ export const gasFeeMultiplier: Record<FeeOption, number> = {
 };
 
 const quoteModeToTransactionType = {
-  [QuoteMode.AVAX_TO_AVAX]: TransactionType.AVAX_STATUS,
-  [QuoteMode.AVAX_TO_ETH]: TransactionType.AVAX_STATUS,
-  [QuoteMode.AVAX_TO_TC_SUPPORTED]: TransactionType.AVAX_STATUS,
-  [QuoteMode.ETH_TO_AVAX]: TransactionType.ETH_STATUS,
+  [QuoteMode.AVAX_TO_AVAX]: TransactionType.SWAP_AVAX_TO_AVAX,
+  [QuoteMode.AVAX_TO_ETH]: TransactionType.SWAP_AVAX_TO_ETH,
+  [QuoteMode.AVAX_TO_TC_SUPPORTED]: TransactionType.SWAP_AVAX_TO_TC,
+  [QuoteMode.ETH_TO_AVAX]: TransactionType.SWAP_ETH_TO_AVAX,
   [QuoteMode.ETH_TO_ETH]: TransactionType.SWAP_ETH_TO_ETH,
   [QuoteMode.ETH_TO_TC_SUPPORTED]: TransactionType.SWAP_ETH_TO_TC,
-  [QuoteMode.TC_SUPPORTED_TO_AVAX]: TransactionType.TC_STATUS,
+  [QuoteMode.TC_SUPPORTED_TO_AVAX]: TransactionType.SWAP_TC_TO_AVAX,
   [QuoteMode.TC_SUPPORTED_TO_ETH]: TransactionType.SWAP_TC_TO_ETH,
   [QuoteMode.TC_SUPPORTED_TO_TC_SUPPORTED]: TransactionType.SWAP_TC_TO_TC,
 } as const;
