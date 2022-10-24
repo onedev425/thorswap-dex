@@ -345,7 +345,7 @@ const SwapView = () => {
         recipient={recipient}
         setVisibleApproveModal={setVisibleApproveModal}
         setVisibleConfirmModal={setVisibleConfirmModal}
-        swapAmountTooSmall={inputUSDPrice.price.lte(totalFee)}
+        swapAmountTooSmall={inputUSDPrice.price.lte(firstNetworkFee)}
       />
 
       <ConfirmSwapModal
