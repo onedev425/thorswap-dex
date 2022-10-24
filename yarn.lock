@@ -1672,10 +1672,10 @@
     path "^0.12.7"
     ts-node "^10.8.1"
 
-"@onramper/widget@2.2.23":
-  version "2.2.23"
-  resolved "https://registry.yarnpkg.com/@onramper/widget/-/widget-2.2.23.tgz#532e01712446c83ec7e807bc6912adf5fd51b74d"
-  integrity sha512-x5QOO1zBDNC7iTHVQbwMVqbMNpd8GCGwiwDkwajsCmtEtdwSRBn87ophg5COF+/zkx6pwx6WfWKBb/YwbYSwhQ==
+"@onramper/widget@2.2.24":
+  version "2.2.24"
+  resolved "https://registry.yarnpkg.com/@onramper/widget/-/widget-2.2.24.tgz#5aa9b529e13ad59ebe3860027306b28df3d56544"
+  integrity sha512-ZUnSgkBwNSAFfMI91xdHDb6oQn62W2AS4OXFLVqqN/KrWvPov+CMf4PXzyiCng3WvnV0MJheYtqaNK0aN1j9Wg==
   dependencies:
     "@onramper/flag-icons" "^1.0.1"
     "@onramper/moonpay-adapter" "^1.6.19"
@@ -2100,10 +2100,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.11.tgz#f57392d4bd5467e2cb4eaf80105e2907c987178e"
   integrity sha512-rzfoyOE1IPEpGXYEH2dt2W/Nb2+rmbt97/yhu6aaaHSbwrfQvWt6KFdkNHa8KXa9zoN43gOdDz9Ku0SwwaHZpg==
 
-"@thorswap-lib/multichain-core@0.0.0-development.154":
-  version "0.0.0-development.154"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.0-development.154.tgz#00fd7478cfa92f611fc4a95f15550b4025ec27d4"
-  integrity sha512-woOHKB1QMJqBt2RB2veO+fhuMhbjg4V6ZpgSWsqmgvUuwI1doSmfjt2DzAFMAZmwnNdugGguC/2W7h+dOw3/9A==
+"@thorswap-lib/multichain-core@0.0.0-development.156":
+  version "0.0.0-development.156"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.0-development.156.tgz#05602632b1dd4677ffae8b5e4f34bba1cec658aa"
+  integrity sha512-kgB5UwCDXLIsP2EoMw0Fek4jrNKy540C1aRSwK2BXJzFspg7TqADpcUfPZqOAB21CB+08ZuywhOdlqTAin9QZw==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.2.0"
     "@cosmjs/amino" "^0.29.0"
@@ -2171,11 +2171,12 @@
     "@walletconnect/qrcode-modal" "^1.8.0"
     "@walletconnect/web3-provider" "^1.8.0"
 
-"@thorswap-lib/multichain-web-extensions@0.3.8":
-  version "0.3.8"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-web-extensions/-/multichain-web-extensions-0.3.8.tgz#b160be8b09528aed8b7c050f0af0f10ffbd0f46b"
-  integrity sha512-b6kDniklHe9b0SqlqJKgsEGSf34qusaLVvwIzFeHm/37CH9FhPUofHJyytn+IbhNu90hFYKVEM/9HOvl8lL+dw==
+"@thorswap-lib/multichain-web-extensions@0.3.9":
+  version "0.3.9"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-web-extensions/-/multichain-web-extensions-0.3.9.tgz#4fea385e6165605f0e74358b7b04461d1bc6b0ea"
+  integrity sha512-IwHf+oS9sDi1wQBiMdeeQJxu9bH9YXWHy+7AwgOtwpM/KLMLTDWYKQJpes+h1TZUHJKj6xKCdOU0LZtQhxvWFg==
   dependencies:
+    "@ethersproject/bignumber" "^5.7.0"
     "@ethersproject/bytes" "^5.7.0"
     "@thorswap-lib/atlas" "^0.4.10"
     "@thorswap-lib/types" "^0.3.5"
