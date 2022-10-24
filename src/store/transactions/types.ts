@@ -8,9 +8,9 @@ export enum TransactionType {
   SWAP_TC_TO_ETH = 'SWAP:TC-ERC20',
   SWAP_TC_TO_TC = 'SWAP:TC-TC',
   TC_LP_ADD = 'TC:ADDLIQUIDITY',
-  TC_LP_WITHDRAW = 'TC:WITHDRAW', // Supports 'WITHDRAWLIQUIDITY' as well
+  TC_LP_WITHDRAW = 'TC:WITHDRAW',
   TC_SEND = 'TC:SEND',
-  TC_STATUS = 'TC:STATUS', // only track status
+  TC_STATUS = 'TC:STATUS',
   TC_SWITCH = 'TC:SWITCH',
   TC_TNS = 'TC:TNS',
   SWAP_TC_TO_AVAX = 'SWAP:TC-AVAX',
@@ -24,7 +24,7 @@ export enum TransactionType {
 
   // ETH txns
   ETH_APPROVAL = 'ETH:APPROVAL',
-  ETH_STATUS = 'ETH:STATUS', // only track status
+  ETH_STATUS = 'ETH:STATUS',
   SWAP_ETH_TO_AVAX = 'SWAP:ERC20-AVAX',
   SWAP_ETH_TO_ETH = 'SWAP:ERC20-ERC20',
   SWAP_ETH_TO_TC = 'SWAP:ERC20-TC',

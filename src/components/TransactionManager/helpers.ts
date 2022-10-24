@@ -42,9 +42,14 @@ const getEthPart = async ({ asset, amount }: { asset: string; amount: string }) 
 
 export const transactionTitle = (type: TransactionType): string => {
   switch (type) {
+    case TransactionType.TC_SEND:
+      return t('txManager.send');
+    case TransactionType.TC_SWITCH:
+      return t('txManager.switch');
+    case TransactionType.TC_TNS:
+      return t('txManager.registerThorname');
     case TransactionType.TC_LP_ADD:
       return t('txManager.addLiquidity');
-
     case TransactionType.TC_LP_WITHDRAW:
       return t('txManager.withdraw');
 
@@ -52,25 +57,14 @@ export const transactionTitle = (type: TransactionType): string => {
     case TransactionType.ETH_APPROVAL:
       return t('txManager.approve');
 
-    case TransactionType.TC_SEND:
-      return t('txManager.send');
-
-    case TransactionType.TC_SWITCH:
-      return t('txManager.switch');
-
-    case TransactionType.TC_TNS:
-      return t('txManager.registerThorname');
-
-    case TransactionType.SWAP_ETH_TO_ETH:
-    case TransactionType.SWAP_ETH_TO_TC:
-    case TransactionType.SWAP_TC_TO_ETH:
-    case TransactionType.SWAP_TC_TO_TC:
-      return t('txManager.swap');
-
     case TransactionType.TC_STATUS:
+    case TransactionType.AVAX_STATUS:
     case TransactionType.ETH_STATUS:
     case TransactionType.UNSUPPORTED:
       return t('appMenu.transaction');
+
+    default:
+      return t('txManager.swap');
   }
 };
 
