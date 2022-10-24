@@ -19,6 +19,7 @@ export enum TransactionType {
 
   // ARC-20 txns
   AVAX_APPROVAL = 'AVAX:APPROVAL',
+  AVAX_STATUS = 'AVAX:STATUS',
 
   // ERC-20 txns
   ETH_APPROVAL = 'ETH:APPROVAL',
