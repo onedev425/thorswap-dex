@@ -1,5 +1,5 @@
 import { SupportedChain } from '@thorswap-lib/types';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { actions } from 'store/externalConfig/slice';
 import { useAppDispatch, useAppSelector } from 'store/store';
 
@@ -9,6 +9,7 @@ import { AnnouncementsData, ChainStatusFlag } from './types';
 export const useExternalConfig = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.externalConfig);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const setAnnouncements = useCallback(
     (announcements: AnnouncementsData) => {
@@ -27,6 +28,7 @@ export const useExternalConfig = () => {
   const refreshExternalConfig = useCallback(async () => {
     const announcements = await loadConfig();
     setAnnouncements(announcements);
+    setIsLoaded(true);
   }, [setAnnouncements]);
 
   const getChainCustomFlag = useCallback(
@@ -69,5 +71,6 @@ export const useExternalConfig = () => {
     setAnnouncements,
     setTradingGloballyDisabled,
     refreshExternalConfig,
+    isLoaded,
   };
 };

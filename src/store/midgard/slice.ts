@@ -40,6 +40,7 @@ const initialState: State = {
   liquidityGlobalHistory: null,
   liquidityHistoryLoading: false,
   mimirLoading: false,
+  mimirLoaded: false,
   mimir: {},
   volume24h: null,
   inboundGasRate: {},
@@ -385,6 +386,7 @@ const midgardSlice = createSlice({
       })
       .addCase(midgardActions.getMimir.fulfilled, (state, action) => {
         state.mimirLoading = false;
+        state.mimirLoaded = true;
         state.mimir = action.payload;
       })
       .addCase(midgardActions.getMimir.rejected, (state) => {

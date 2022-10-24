@@ -38,9 +38,15 @@ export const useAnnouncementsList = () => {
     announcements: storedAnnouncements,
     isTradingGloballyDisabled,
     refreshExternalConfig,
+    isLoaded: isConfigLoaded,
   } = useExternalConfig();
   const { outboundQueue, outboundQueueLevel } = useNetwork();
-  const { isChainHalted, isChainPauseLP, isChainTradingHalted } = useMimir();
+  const {
+    isChainHalted,
+    isChainPauseLP,
+    isChainTradingHalted,
+    isLoaded: isMimirLoaded,
+  } = useMimir();
 
   const announcements = useMemo(
     () => [
@@ -80,7 +86,7 @@ export const useAnnouncementsList = () => {
     setInterval(refreshExternalConfig, REFRESH_INTERVAL);
   }, [refreshExternalConfig]);
 
-  return announcements;
+  return { announcements, isLoaded: isMimirLoaded && isConfigLoaded };
 };
 
 type GetAnnouncementsByChainProps = {

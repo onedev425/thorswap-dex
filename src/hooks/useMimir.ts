@@ -9,7 +9,7 @@ import { useMidgard } from 'store/midgard/hooks';
 import { MimirData } from 'store/midgard/types';
 
 export const useMimir = () => {
-  const { networkData, mimir } = useMidgard();
+  const { networkData, mimir, mimirLoaded } = useMidgard();
   const { totalActiveBond } = useGlobalStats();
   const { isTradingGloballyDisabled } = useExternalConfig();
 
@@ -134,5 +134,6 @@ export const useMimir = () => {
     maxLiquidityRune,
     maxSynthPerAssetDepth,
     totalPooledRune,
+    isLoaded: mimirLoaded,
   };
 };

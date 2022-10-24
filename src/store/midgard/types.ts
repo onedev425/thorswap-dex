@@ -204,6 +204,7 @@ export interface State {
   constants: Constants | null;
   queue: Queue | null;
   mimirLoading: boolean;
+  mimirLoaded: boolean;
   mimir: MimirData;
   volume24h: number | null;
   inboundGasRate: { [key in Chain]?: string };

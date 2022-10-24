@@ -1,6 +1,7 @@
 import { getRequest } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import { getAnnouncementId } from 'components/Announcements/utils';
+import { IS_PROD, IS_STAGENET } from 'settings/config';
 import {
   AnnouncementItem,
   AnnouncementsData,
@@ -9,7 +10,11 @@ import {
   StatusAnnouncement,
 } from 'store/externalConfig/types';
 
-const SHEET_ID = '13qyyZnv5tyHse4PUJ4548bJdtGQDJpMVjkLXq1gQRS0';
+const SHEET_ID =
+  IS_PROD || IS_STAGENET
+    ? '13qyyZnv5tyHse4PUJ4548bJdtGQDJpMVjkLXq1gQRS0'
+    : '1oK7Xrakd3vmCmTkI32-4L5vXmMH0VaO_DPhTZI8OVXU';
+
 const SHEET_TAB = ':batchGet';
 const ranges = '&ranges=announcements&ranges=status';
 
