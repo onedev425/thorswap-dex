@@ -2171,10 +2171,10 @@
     "@walletconnect/qrcode-modal" "^1.8.0"
     "@walletconnect/web3-provider" "^1.8.0"
 
-"@thorswap-lib/multichain-web-extensions@0.3.11":
-  version "0.3.11"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-web-extensions/-/multichain-web-extensions-0.3.11.tgz#bd300f4b32c7cb7f3bb22051fd98efdfb8741ef4"
-  integrity sha512-LrxQeFAmA/g8Tu1UEBMi2OCDXICBYmQqlEFblGqges8+56hgNslBwFBeT7u2a2D3EvyU6mrebbp/GzWy+RaJMw==
+"@thorswap-lib/multichain-web-extensions@0.3.13":
+  version "0.3.13"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-web-extensions/-/multichain-web-extensions-0.3.13.tgz#e252bd7afa30d6c5b9aed57d5ce24750a1330886"
+  integrity sha512-yxR0w3OlbkhMyaGcbgkPcc9SxyJTg1CF/M5Wi4HTB6hh1L4VE0w6HHIR6cs5ePQLgpi6+E3e3HpiP3eslD4jaw==
   dependencies:
     "@ethersproject/bignumber" "^5.7.0"
     "@ethersproject/bytes" "^5.7.0"

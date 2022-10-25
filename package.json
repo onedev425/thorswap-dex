@@ -41,7 +41,7 @@
     "@thorswap-lib/multichain-core": "0.0.0-development.160",
     "@thorswap-lib/multichain-ledger": "0.2.33",
     "@thorswap-lib/multichain-walletconnect": "0.2.23",
-    "@thorswap-lib/multichain-web-extensions": "0.3.11",
+    "@thorswap-lib/multichain-web-extensions": "0.3.13",
     "@thorswap-lib/types": "0.3.6",
     "@thorswap-lib/xchain-crypto": "0.2.11",
     "@thorswap-lib/xchain-util": "0.4.15",
