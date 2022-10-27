@@ -23,10 +23,6 @@ export const useBalance = () => {
     [dispatch],
   );
 
-  const reloadAllBalance = useCallback(() => {
-    dispatch(walletActions.loadAllWallets());
-  }, [dispatch]);
-
   const isWalletAssetConnected = useCallback(
     (asset: Asset) => {
       return !!wallet?.[asset.L1Chain as SupportedChain];
@@ -59,7 +55,6 @@ export const useBalance = () => {
     isWalletAssetConnected,
     isWalletConnected,
     getMaxBalance,
-    reloadAllBalance,
     reloadBalanceByChain,
     wallet,
   };

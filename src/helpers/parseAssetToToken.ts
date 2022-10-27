@@ -1,5 +1,5 @@
 import { Asset } from '@thorswap-lib/multichain-core';
-import { Chain, ChainId } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { GetTokenPriceParams } from 'store/thorswap/types';
 
 const chainsToCheck = [Chain.Ethereum, Chain.Avalanche];
@@ -15,13 +15,7 @@ export const parseAssetToToken = ({
 
   return {
     address: isEVMAsset ? ticker : '',
-    chain: isEVMAsset
-      ? L1Chain === Chain.Ethereum
-        ? ChainId.Ethereum
-        : L1Chain === Chain.Avalanche
-        ? (Chain.Avalanche as string)
-        : 'thorchain'
-      : 'thorchain',
+    chain: L1Chain,
     decimals: `${decimal}`,
     identifier: `${chain}.${symbol}`,
   };

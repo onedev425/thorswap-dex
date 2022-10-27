@@ -3,6 +3,7 @@ import { Box, Button, Icon, Modal, Typography } from 'components/Atomic';
 import { borderHoverHighlightClass, genericBgClasses } from 'components/constants';
 import { Input } from 'components/Input';
 import { usePhraseModal } from 'components/Modals/PhraseModal/usePhraseModal';
+import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
 
@@ -13,7 +14,7 @@ export type PhraseModalProps = {
 
 export const PhraseModal = ({ isOpen, onCancel = () => {} }: PhraseModalProps): JSX.Element => {
   const { showPhrase, submit, passwordField, errors, handleCopyPhrase } = usePhraseModal(isOpen);
-  const phrases = multichain().getPhrase().split(' ');
+  const phrases = useMemo(() => (isOpen ? multichain().getPhrase().split(' ') : []), [isOpen]);
 
   return (
     <Modal isOpened={isOpen} onClose={onCancel} title={t('views.walletModal.phrase')}>

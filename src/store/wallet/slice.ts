@@ -68,16 +68,6 @@ const walletSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(walletActions.loadAllWallets.pending, (state) => {
-        state.walletLoading = true;
-      })
-      .addCase(walletActions.loadAllWallets.fulfilled, (state, { payload }) => {
-        state.wallet = payload;
-        state.walletLoading = false;
-      })
-      .addCase(walletActions.loadAllWallets.rejected, (state) => {
-        state.walletLoading = false;
-      })
       .addCase(walletActions.getWalletByChain.pending, (state, { meta: { arg: chain } }) => {
         state.chainWalletLoading = {
           ...state.chainWalletLoading,

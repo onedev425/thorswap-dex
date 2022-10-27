@@ -2077,13 +2077,13 @@
     deepmerge "^4.2.2"
     svgo "^2.8.0"
 
-"@thorswap-lib/atlas@^0.4.11":
-  version "0.4.11"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/atlas/-/atlas-0.4.11.tgz#1b553c1aead46cb86cafb306944f7d47df06ca22"
-  integrity sha512-sdRFvyQktkMd7Qj0rvYVHZ0+oqcVfx8dZFVfHqxups31WEtvjtfsX6nsybw8dnLi0eTpIK0EnuaBjSLJEY+7hg==
+"@thorswap-lib/atlas@^0.4.12":
+  version "0.4.12"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/atlas/-/atlas-0.4.12.tgz#17e01e28fe7ae816835aa5defbd7b3c0ed893e50"
+  integrity sha512-enMfAj9i3izq8Nhw0cqq5waeExJvSQXuXtyCSwBnhwt86hSrj0T57lXBlXrVQwAII4PmK89jPiYUwbj73/S/QQ==
   dependencies:
-    "@thorswap-lib/multichain-entities" "^0.2.29"
-    "@thorswap-lib/types" "^0.3.6"
+    "@thorswap-lib/multichain-entities" "^0.2.30"
+    "@thorswap-lib/types" "^0.3.7"
 
 "@thorswap-lib/cross-chain-api-sdk@0.1.31":
   version "0.1.31"
@@ -2100,10 +2100,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.11.tgz#f57392d4bd5467e2cb4eaf80105e2907c987178e"
   integrity sha512-rzfoyOE1IPEpGXYEH2dt2W/Nb2+rmbt97/yhu6aaaHSbwrfQvWt6KFdkNHa8KXa9zoN43gOdDz9Ku0SwwaHZpg==
 
-"@thorswap-lib/multichain-core@0.0.0-development.160":
-  version "0.0.0-development.160"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.0-development.160.tgz#236daa8a9eb87e3ba3bf9726603804a53c8a146a"
-  integrity sha512-ThaDQRCll+fa7PhN8bA11lWGUzjNTfHEpmUt6caMvRnfGeOirF0k46iZm5AYhkHQpANfRvPgD+kwLsm2+tIieA==
+"@thorswap-lib/multichain-core@0.0.1-development.4":
+  version "0.0.1-development.4"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.1-development.4.tgz#da22f88c9f3e6d997d1b6e3d596d9d3521aa3b8b"
+  integrity sha512-lGb+mvPmlIQqA4POQOJdAeVse6JcywZvsYu5yfxBCc3aUESoeiZi4ythvTiA5h2Q/Xt6O+k9LBfzIbKi8K/QVQ==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.2.0"
     "@cosmjs/amino" "^0.29.0"
@@ -2112,19 +2112,16 @@
     "@cosmjs/stargate" "^0.29.0"
     "@cosmos-client/core" "^0.45.13"
     "@solana/web3.js" "^1.63.1"
-    "@thorswap-lib/atlas" "^0.4.11"
+    "@thorswap-lib/atlas" "^0.4.12"
     "@thorswap-lib/midgard-sdk" "^0.1.11"
-    "@thorswap-lib/multichain-entities" "^0.2.29"
-    "@thorswap-lib/types" "^0.3.6"
-    "@thorswap-lib/xchain-binance" "^5.6.27"
-    "@thorswap-lib/xchain-client" "^0.11.7"
-    "@thorswap-lib/xchain-cosmos" "^0.20.8"
-    "@thorswap-lib/xchain-crypto" "^0.2.11"
-    "@thorswap-lib/xchain-evm" "^0.1.68"
-    "@thorswap-lib/xchain-solana" "^0.2.32"
-    "@thorswap-lib/xchain-thorchain" "^0.22.10"
-    "@thorswap-lib/xchain-util" "^0.4.15"
-    "@thorswap-lib/xchain-utxo" "^0.1.25"
+    "@thorswap-lib/multichain-entities" "^0.2.30"
+    "@thorswap-lib/types" "^0.3.7"
+    "@thorswap-lib/xchain-binance" "^5.6.28"
+    "@thorswap-lib/xchain-cosmos" "^0.21.1"
+    "@thorswap-lib/xchain-evm" "^0.1.70"
+    "@thorswap-lib/xchain-solana" "^0.2.33"
+    "@thorswap-lib/xchain-thorchain" "^0.23.1"
+    "@thorswap-lib/xchain-utxo" "^0.1.26"
     avalanche "^3.15.4"
     base64-js "^1.5.1"
     bchaddrjs "^0.5.2"
@@ -2143,17 +2140,17 @@
     web3-utils "^1.8.0"
     wif "^2.0.6"
 
-"@thorswap-lib/multichain-entities@^0.2.29":
-  version "0.2.29"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-entities/-/multichain-entities-0.2.29.tgz#f15782644a54f09ce8f58f5d904fd6e6db3446f7"
-  integrity sha512-NBKYDAJr69dcnlNoI9WHO6KjBv9i5jm5uGzm6F05ZxGPiK+/9WFIFK5vvfw3//ldMsqKLT/a6oR7fUu84aBxKg==
+"@thorswap-lib/multichain-entities@^0.2.30":
+  version "0.2.30"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-entities/-/multichain-entities-0.2.30.tgz#d50be254e28bc2c524d6bcc9804278dc8b4b0e2b"
+  integrity sha512-3sIyPYkDifKxkiPXNP23DLimXT2/9LJnqh85f4Qjan1DWNvRBcYYmljJDssTlaZ4J7AT/G5F+/Uof5BsyzG43g==
   dependencies:
-    "@thorswap-lib/types" "^0.3.6"
+    "@thorswap-lib/types" "^0.3.7"
 
-"@thorswap-lib/multichain-ledger@0.2.33":
-  version "0.2.33"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-ledger/-/multichain-ledger-0.2.33.tgz#341711287a89af3703682f02172d968f47471c0f"
-  integrity sha512-UgAPVOTZEmBJkxlaUP0o13wPoO2XrUIAOuKdAjI/kspVGGGTdJcGzeDGmNPq1YQDmlRNlkj1KN4OZLY/WBvvkg==
+"@thorswap-lib/multichain-ledger@0.2.34":
+  version "0.2.34"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-ledger/-/multichain-ledger-0.2.34.tgz#66c2b934323e224c13d820e86e6dd76031b84e61"
+  integrity sha512-X9gJtI2ZqQ1rPhaRqIPcJJANco+kSi25/lXySB4Vke63kQdMpzuUkOO5qQ8XG/K8KoTc+I+W+v9xLx0/GbKk2Q==
   dependencies:
     "@cosmjs/crypto" "^0.29.0"
     base64-js "^1.5.1"
@@ -2161,92 +2158,88 @@
     ecpair "^2.0.1"
     ripemd160 "^2.0.2"
 
-"@thorswap-lib/multichain-walletconnect@0.2.23":
-  version "0.2.23"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-walletconnect/-/multichain-walletconnect-0.2.23.tgz#6420b1f5c737d5e875603a6ac9ea16c9d8c2208b"
-  integrity sha512-XqhaZm1X50LQ4M6v8QfQ2sE/AnHaqeFRbZmCsDcpfIP382us23g8yMVPWV5t4rosrTzYHfnSdUfvKv0uxy0IEw==
+"@thorswap-lib/multichain-walletconnect@0.2.24":
+  version "0.2.24"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-walletconnect/-/multichain-walletconnect-0.2.24.tgz#aeba4540f48771645e47d0a96a3138ab81fa6274"
+  integrity sha512-s50CtVsN/me6BbIbm8rVXc3vm9DgdY4Ed40TuurelB9GLtKgxVe7u9FCU8i+WW8H9qCfhud2VwkTICQ8KJcV5w==
   dependencies:
-    "@thorswap-lib/types" "^0.3.6"
+    "@thorswap-lib/types" "^0.3.7"
     "@walletconnect/client" "^1.8.0"
     "@walletconnect/qrcode-modal" "^1.8.0"
     "@walletconnect/web3-provider" "^1.8.0"
 
-"@thorswap-lib/multichain-web-extensions@0.3.13":
-  version "0.3.13"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-web-extensions/-/multichain-web-extensions-0.3.13.tgz#e252bd7afa30d6c5b9aed57d5ce24750a1330886"
-  integrity sha512-yxR0w3OlbkhMyaGcbgkPcc9SxyJTg1CF/M5Wi4HTB6hh1L4VE0w6HHIR6cs5ePQLgpi6+E3e3HpiP3eslD4jaw==
+"@thorswap-lib/multichain-web-extensions@0.3.15":
+  version "0.3.15"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-web-extensions/-/multichain-web-extensions-0.3.15.tgz#ed7603a8d81c6349d6d5659a8bdf0c36580c4cda"
+  integrity sha512-NmueOpRbYjFmHDWBs0zERZxoELgrS10xIjtKKqbo6cGWg+1bc85tv2r6YQ9lPEyXP2jRzSwjejeU9WOn9P1lzw==
   dependencies:
     "@ethersproject/bignumber" "^5.7.0"
     "@ethersproject/bytes" "^5.7.0"
-    "@thorswap-lib/atlas" "^0.4.11"
-    "@thorswap-lib/types" "^0.3.6"
+    "@thorswap-lib/atlas" "^0.4.12"
+    "@thorswap-lib/types" "^0.3.7"
     base64-js "^1.5.1"
 
-"@thorswap-lib/types@0.3.6", "@thorswap-lib/types@^0.3.6":
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/types/-/types-0.3.6.tgz#6ce8b06cdadb1030b73590bf4d1ec361094b91b2"
-  integrity sha512-PrbrFd/wRF8pqr2G4gDIeue4O94Vl0wD4KMdCk3/hLTaZyVZFqDNoCxNwCCmR946mf+1Y7cO65IROz5jkGeWEA==
+"@thorswap-lib/types@0.3.7", "@thorswap-lib/types@^0.3.7":
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/types/-/types-0.3.7.tgz#f899d876084295cfea729ffed97564e429a098f1"
+  integrity sha512-EgTWuhd2rPokTLdy7YN9z3j3oh4PVNTuSA5v1Dn08KoKW9aDYFSzGb2vr5GX8ir84hUx6AqlGzmf+LdZtEdm9A==
 
-"@thorswap-lib/xchain-binance@^5.6.27":
-  version "5.6.27"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-binance/-/xchain-binance-5.6.27.tgz#b36f621c96e6012b6ab2848a188af1e6aad8b4fe"
-  integrity sha512-ucHVikxAtGp0uwYiyjkiANbapSlJn3Shof5uXQIqSQ+wpcxrq/H59LWbZomWGRboEKNbUr8d2RmXfNMv5FHGSQ==
+"@thorswap-lib/xchain-binance@^5.6.28":
+  version "5.6.28"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-binance/-/xchain-binance-5.6.28.tgz#1c34c4946864f71873c8ed081e1eefdcc4b32056"
+  integrity sha512-yF9DqRqI9Uozq+oTokIJMisunI6oC0cbhaT42M5+M6VmYc2w7/hOqhPZhHJXXCk051cGCKnhI/XfHUpQ7buQsw==
   dependencies:
-    "@thorswap-lib/atlas" "^0.4.11"
-    "@thorswap-lib/multichain-entities" "^0.2.29"
+    "@thorswap-lib/atlas" "^0.4.12"
+    "@thorswap-lib/multichain-entities" "^0.2.30"
 
-"@thorswap-lib/xchain-client@^0.11.7":
-  version "0.11.7"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-client/-/xchain-client-0.11.7.tgz#cf0ba4c95a2250a53126443a040c7a40d97c1335"
-  integrity sha512-9prxV95yDhRQJsnGHowLXCT16D3oKm+p6i5SUcGTDsDwnr9oI7VXbBilnNjXSDT0jP7Ms1BWSYVI0OSqQ/HNfw==
+"@thorswap-lib/xchain-cosmos@^0.21.1":
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-cosmos/-/xchain-cosmos-0.21.1.tgz#46e5d07c19bac391e59ca3eb537b96f940e0e2fa"
+  integrity sha512-1h/kM0L+HxZSMdTG2SoBsq3Vp+6zDzMGGWFdwCUiAYM4GcZIaSsa6LJLmWW//aM9BekAO8teioGE+LJdXybjVw==
+  dependencies:
+    "@thorswap-lib/atlas" "^0.4.12"
+    "@thorswap-lib/types" "^0.3.7"
 
-"@thorswap-lib/xchain-cosmos@^0.20.8":
-  version "0.20.8"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-cosmos/-/xchain-cosmos-0.20.8.tgz#92dac09397cb66a4c70ed29c4c8cc82837447130"
-  integrity sha512-ZadhWnwNIxO9uhYqWDsEBKelG2zyHIzI+d0rHQJZx0UbGTnQGCICWWz3JB32OmvZ2xg23Jfhlx3YIPnyMRNeNQ==
-
-"@thorswap-lib/xchain-crypto@0.2.11", "@thorswap-lib/xchain-crypto@^0.2.11":
+"@thorswap-lib/xchain-crypto@0.2.11":
   version "0.2.11"
   resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-crypto/-/xchain-crypto-0.2.11.tgz#35eed671dec1b56b883101c93a0c3c032da93530"
   integrity sha512-vbuiNuT7R4kxC+l9RBwYU50vp51UnB2RVwDtHFHGuWUF6rc2iSduFKQsMdpZyBSidtQwlO348cYGs+z17QnceA==
 
-"@thorswap-lib/xchain-evm@^0.1.68":
-  version "0.1.68"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-evm/-/xchain-evm-0.1.68.tgz#dc37c7e077dc6b7ffe59d2dd63aa1b7334bc454f"
-  integrity sha512-ozUrAl4hz50hs8RLGkQd0a6et+0aamYPiFk2tZShJ1MhNmlOvT1dmEsyy8Yk5on8ExjpiLHGvr+uX2irdgG7Zg==
+"@thorswap-lib/xchain-evm@^0.1.70":
+  version "0.1.70"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-evm/-/xchain-evm-0.1.70.tgz#37c0ba742d51bf81a1cf3c25c8358c10c7697fed"
+  integrity sha512-raxtTPG+bp8rtf2OfacSX1Zlm/JMPN6HlHNxgvWSwK/BlSOyKIDfOtm/wEG8ql0ibA59uTqKKMYh6QsTjrCyMQ==
   dependencies:
-    "@thorswap-lib/atlas" "^0.4.11"
-    "@thorswap-lib/multichain-entities" "^0.2.29"
+    "@thorswap-lib/atlas" "^0.4.12"
+    "@thorswap-lib/multichain-entities" "^0.2.30"
 
-"@thorswap-lib/xchain-solana@^0.2.32":
-  version "0.2.32"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-solana/-/xchain-solana-0.2.32.tgz#cb1301f35824ddc9167aa3ea05038a9a6208a95d"
-  integrity sha512-x9ENPz7YoSAngGFrnvFjel0PwBBIa9Cu4MCE3WeL33H0Ih5Qbyire8cg1JlEmV85XAqF4jp3Zs6YqXZKEc0uOQ==
+"@thorswap-lib/xchain-solana@^0.2.33":
+  version "0.2.33"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-solana/-/xchain-solana-0.2.33.tgz#e8a1f488f071f129e462bff5faee64dbd8df182a"
+  integrity sha512-59efuZ/Usj1SNVZamjaBv9Tnukkh39T65fYKPVQSyvR8o/04IqtBDDir6Zu7pnuoFBYN5DOeqzJG5S8CEgRjXw==
   dependencies:
     "@solana/spl-token" "^0.3.5"
-    "@thorswap-lib/atlas" "^0.4.11"
-    "@thorswap-lib/multichain-entities" "^0.2.29"
-    "@thorswap-lib/types" "^0.3.6"
+    "@thorswap-lib/atlas" "^0.4.12"
+    "@thorswap-lib/multichain-entities" "^0.2.30"
+    "@thorswap-lib/types" "^0.3.7"
     bip39 "^3.0.4"
     ed25519-hd-key "^1.3.0"
 
-"@thorswap-lib/xchain-thorchain@^0.22.10":
-  version "0.22.10"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-thorchain/-/xchain-thorchain-0.22.10.tgz#f2e812b3cee9ff38d5a844d69e1d84359154de0b"
-  integrity sha512-kuT5OtS+PqVVi6b/ZzKlpxqjhFC/8JCV9Oqkrd7SPs+AvfpniYS/Ijx5QThyq2LdRr/iVxEjQVe0U9oAvLunAw==
-
-"@thorswap-lib/xchain-util@0.4.15", "@thorswap-lib/xchain-util@^0.4.15":
-  version "0.4.15"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-util/-/xchain-util-0.4.15.tgz#61beb61e3e5c3faa2f2cd88e4900dd9e7eb067cd"
-  integrity sha512-N9alogujnYwSi+YKhghwmdLJl10YK8o3L0Y9jzQHtV3nv7N8jCmXK3KffBz/ym2Fl9UoizdxLMcWSFZrDecGvQ==
-
-"@thorswap-lib/xchain-utxo@^0.1.25":
-  version "0.1.25"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-utxo/-/xchain-utxo-0.1.25.tgz#bff7a3a6b544bac3b3bb081e2c8b71979b4cc2fa"
-  integrity sha512-w0mIT75gkOipheQjMFIlRp9iFbi31+HRLvVqT2ugWGr8dp+v13Yw6k9jv4j7Jc/HmWGqvQqh4LuPLF221f+8OQ==
+"@thorswap-lib/xchain-thorchain@^0.23.1":
+  version "0.23.1"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-thorchain/-/xchain-thorchain-0.23.1.tgz#c4a6303edd9bf21f8522fd7fc743a819c0bdd5bb"
+  integrity sha512-8LEXxwbCIM6Pyrly8DY7uIZ3EeQWEs5j+badDOWUa22m1JnFXghXTOx30tJ5jXp7x/RY97KZ8rsr05VlydR9Ng==
   dependencies:
-    "@thorswap-lib/atlas" "^0.4.11"
-    "@thorswap-lib/multichain-entities" "^0.2.29"
+    "@thorswap-lib/atlas" "^0.4.12"
+    "@thorswap-lib/types" "^0.3.7"
+
+"@thorswap-lib/xchain-utxo@^0.1.26":
+  version "0.1.26"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-utxo/-/xchain-utxo-0.1.26.tgz#55fa8390bcb98924ae1feff6fcb690ce45f68726"
+  integrity sha512-/iHGiKlslUdrHtDnKiDWTWNcEBaU6X41NFqBo+BprKpG7mKblsrRDg7omY2YcW+bf4rvVuWnDsYm7iTDV5Sv4g==
+  dependencies:
+    "@thorswap-lib/atlas" "^0.4.12"
+    "@thorswap-lib/multichain-entities" "^0.2.30"
     ecpair "^2.0.1"
     uniqid "^5.4.0"
 

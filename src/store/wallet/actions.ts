@@ -4,11 +4,6 @@ import { getV2Address, VestingType } from 'helpers/assets';
 import { getGeckoData } from 'services/coingecko';
 import { multichain } from 'services/multichain';
 
-export const loadAllWallets = createAsyncThunk(
-  'midgard/loadAllWallets',
-  multichain().loadAllWallets,
-);
-
 export const getWalletByChain = createAsyncThunk(
   'midgard/getWalletByChain',
   async (chain: SupportedChain) => {

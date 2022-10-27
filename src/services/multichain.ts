@@ -20,8 +20,14 @@ setGlobalConfig(globalConfig);
 
 let multichainClient: MultiChain;
 
-export const multichain = () =>
-  (multichainClient ||= new MultiChain({
-    network: Network.Mainnet,
-    figmentApiKey: import.meta.env.VITE_FIGMENT_API_KEY || '',
-  }));
+export const multichain = () => {
+  try {
+    return (multichainClient ||= new MultiChain({
+      network: Network.Mainnet,
+      figmentApiKey: import.meta.env.VITE_FIGMENT_API_KEY || '',
+    }));
+  } catch (error: any) {
+    console.error(error);
+    return multichainClient;
+  }
+};
