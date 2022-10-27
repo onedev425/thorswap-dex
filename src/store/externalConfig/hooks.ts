@@ -1,41 +1,25 @@
 import { SupportedChain } from '@thorswap-lib/types';
-import { useCallback, useState } from 'react';
-import { actions } from 'store/externalConfig/slice';
-import { useAppDispatch, useAppSelector } from 'store/store';
+import { useCallback, useMemo } from 'react';
+import { useGetAnnouncementsQuery } from 'store/thorswap/api';
 
-import { loadConfig } from './loadConfig';
-import { AnnouncementsData, ChainStatusFlag } from './types';
+import { ChainStatusFlag } from './types';
 
 export const useExternalConfig = () => {
-  const dispatch = useAppDispatch();
-  const state = useAppSelector((state) => state.externalConfig);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  const setAnnouncements = useCallback(
-    (announcements: AnnouncementsData) => {
-      dispatch(actions.setAnnouncements(announcements));
-    },
-    [dispatch],
-  );
-
-  const setTradingGloballyDisabled = useCallback(
-    (isDisabled: boolean) => {
-      dispatch(actions.setTradingGloballyDisabled(isDisabled));
-    },
-    [dispatch],
-  );
+  const { data, refetch } = useGetAnnouncementsQuery();
+  const isLoaded = typeof data !== 'undefined';
+  const announcements = useMemo(() => data || { chainStatus: {}, manual: [] }, [data]);
+  // Not used for now, but we might want it in the future
+  const isTradingGloballyDisabled = false;
 
   const refreshExternalConfig = useCallback(async () => {
-    const announcements = await loadConfig();
-    setAnnouncements(announcements);
-    setIsLoaded(true);
-  }, [setAnnouncements]);
+    refetch();
+  }, [refetch]);
 
   const getChainCustomFlag = useCallback(
     (chain: SupportedChain, flag: ChainStatusFlag) => {
-      return state.announcements.chainStatus[chain]?.flags?.[flag] || false;
+      return announcements?.chainStatus[chain]?.flags?.[flag] || false;
     },
-    [state.announcements.chainStatus],
+    [announcements],
   );
 
   const getChainPaused = (chain: SupportedChain) => {
@@ -63,13 +47,12 @@ export const useExternalConfig = () => {
   };
 
   return {
-    ...state,
+    announcements,
+    isTradingGloballyDisabled,
     getChainCustomFlag,
     getChainDepositLPPaused,
     getChainWithdrawLPPaused,
     getChainTradingPaused,
-    setAnnouncements,
-    setTradingGloballyDisabled,
     refreshExternalConfig,
     isLoaded,
   };

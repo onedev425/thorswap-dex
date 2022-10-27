@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import appReducer from './app/slice';
 import assetsReducer from './assets/slice';
-import externalConfigReducer from './externalConfig/slice';
 import midgardReducer from './midgard/slice';
 import multisigReducer from './multisig/slice';
 import { staticApi } from './static/api';
@@ -22,7 +21,6 @@ const rootReducer = combineReducers({
 
   app: appReducer,
   assets: assetsReducer,
-  externalConfig: externalConfigReducer,
   midgard: midgardReducer,
   multisig: multisigReducer,
   transactions: transactionsReducer,

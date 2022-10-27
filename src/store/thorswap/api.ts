@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { TransactionDetails } from '@thorswap-lib/multichain-core';
 import { THORSWAP_AFFILIATE_ADDRESS } from 'config/constants';
 import { IS_DEV_API, IS_STAGENET } from 'settings/config';
+import { AnnouncementsData } from 'store/externalConfig/types';
 
 import {
   GetProvidersResponse,
@@ -83,6 +84,10 @@ export const thorswapApi = createApi({
         return `/apiusage/txn?${queryParams.toString()}`;
       },
     }),
+
+    getAnnouncements: build.query<AnnouncementsData, void>({
+      query: () => `/announcements`,
+    }),
   }),
 });
 
@@ -92,4 +97,5 @@ export const {
   useGetTokenCachedPricesQuery,
   useGetTokensQuoteQuery,
   useGetSupportedProvidersQuery,
+  useGetAnnouncementsQuery,
 } = thorswapApi;
