@@ -20,9 +20,11 @@ export const PendingTransaction = memo(
         type,
       );
 
-      const shouldCutTx = [TransactionType.SWAP_TC_TO_TC, TransactionType.SWAP_TC_TO_ETH].includes(
-        type,
-      );
+      const shouldCutTx = [
+        TransactionType.SWAP_TC_TO_TC,
+        TransactionType.SWAP_TC_TO_AVAX,
+        TransactionType.SWAP_TC_TO_ETH,
+      ].includes(type);
 
       const evmTx = txid.startsWith('0x') ? txid : `0x${txid}`;
 
@@ -42,11 +44,7 @@ export const PendingTransaction = memo(
     const transactionUrl = useMemo(() => {
       if (!txid) return '';
 
-      try {
-        return multichain().getExplorerTxUrl(inChain, cutTxPrefix(txid));
-      } catch (_error) {
-        return;
-      }
+      return multichain().getExplorerTxUrl(inChain, cutTxPrefix(txid));
     }, [inChain, txid]);
 
     useEffect(() => {
