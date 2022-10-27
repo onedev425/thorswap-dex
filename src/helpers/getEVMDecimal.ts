@@ -15,8 +15,13 @@ const getEthereumAssetDecimal = async ({ symbol, ticker }: GetDecimalParams) => 
   return contractDecimals.toNumber() as number;
 };
 
-const getAvaxAssetDecimal = async ({ symbol }: GetDecimalParams) =>
-  symbol.startsWith('USD') ? 6 : ETH_DECIMAL;
+const getAvaxAssetDecimal = async ({ symbol }: GetDecimalParams) => {
+  if (symbol.startsWith('USDT') || symbol.startsWith('USDC') || symbol === 'UST') return 6;
+  if (['BTC.b', 'WBTC.e'].includes(symbol)) return 8;
+  if (symbol === 'Time') return 9;
+
+  return ETH_DECIMAL;
+};
 
 export const getEVMDecimal = async ({
   L1Chain,
