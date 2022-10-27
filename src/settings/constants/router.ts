@@ -63,8 +63,8 @@ export const getMultisigTxCreateRoute = (asset?: Asset) => {
   return getAssetRoute(ROUTES.TxCreate, asset);
 };
 
-export const getSwapRoute = (input: Asset, output: Asset = Asset.RUNE()) => {
-  const outputAsset = input.isRUNE() && output.isRUNE() ? Asset.BTC() : output;
+export const getSwapRoute = (input: Asset, output: Asset = Asset.ETH()) => {
+  const outputAsset = input.isETH() && output.isETH() ? Asset.THOR() : output;
 
   return `${ROUTES.Swap}/${input.toURLEncoded()}_${outputAsset.toURLEncoded()}`;
 };

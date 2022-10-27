@@ -6,8 +6,8 @@ import { Pair } from 'views/Swap/types';
 
 export const useSwapPair = () => {
   const [swapPair, setSwapPair] = useState<Pair>({
-    inputAsset: Asset.BTC(),
-    outputAsset: Asset.RUNE(),
+    inputAsset: Asset.ETH(),
+    outputAsset: Asset.THOR(),
   });
 
   const [inputAmount, setInputAmount] = useState(

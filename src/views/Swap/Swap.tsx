@@ -223,7 +223,7 @@ const SwapView = () => {
     (unsupportedOutput?: boolean) => {
       const maxNewInputBalance = getMaxBalance(outputAsset);
       setInputAmount(outputAmount.gt(maxNewInputBalance) ? maxNewInputBalance : outputAmount);
-      const defaultAsset = outputAsset.isRUNE() ? Asset.BTC() : Asset.RUNE();
+      const defaultAsset = outputAsset.isETH() ? Asset.THOR() : Asset.ETH();
 
       navigate(getSwapRoute(outputAsset, unsupportedOutput ? defaultAsset : inputAsset));
     },
