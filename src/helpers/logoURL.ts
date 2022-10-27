@@ -53,12 +53,11 @@ export const tokenLogoURL = ({
   const logoSymbol = bepIconMapping[ticker as 'RUNE'] || ticker;
   const customIcon = customIconMap()[ticker as 'RUNE'];
 
-  return (
-    customIcon ||
-    (Chain.Binance !== (chain as Chain) && address
-      ? `${STATIC_API}/token-list/images/${identifier.toLowerCase()}-${address.toLowerCase()}.png`
-      : `${twBaseUri}/binance/assets/${logoSymbol}/logo.png`)
-  );
+  if (customIcon) return customIcon;
+
+  return Chain.Binance !== (chain as Chain) && address
+    ? `${STATIC_API}/token-list/images/${identifier.toLowerCase()}-${address.toLowerCase()}.png`
+    : `${twBaseUri}/binance/assets/${logoSymbol}/logo.png`;
 };
 
 export const providerLogoURL = (provider: string) => {
