@@ -49,9 +49,7 @@ export const PendingTransaction = memo(
 
     useEffect(() => {
       const transactionCompleted = data?.ok && ['mined', 'refund'].includes(data.status);
-      const instantComplete = [TransactionType.TC_SEND, TransactionType.AVAX_APPROVAL].includes(
-        type,
-      );
+      const instantComplete = [TransactionType.TC_SEND].includes(type);
       const status = data?.status || 'mined';
 
       if (transactionCompleted || (instantComplete && transactionUrl)) {
