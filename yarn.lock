@@ -2100,10 +2100,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.11.tgz#f57392d4bd5467e2cb4eaf80105e2907c987178e"
   integrity sha512-rzfoyOE1IPEpGXYEH2dt2W/Nb2+rmbt97/yhu6aaaHSbwrfQvWt6KFdkNHa8KXa9zoN43gOdDz9Ku0SwwaHZpg==
 
-"@thorswap-lib/multichain-core@0.0.1-development.7":
-  version "0.0.1-development.7"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.1-development.7.tgz#17bcdef6a3dc62e3f9806d7d8e4e7383c60a7604"
-  integrity sha512-3I4U/UlXdMlZrzt/9Vakn975qIVssuQ1ITq+Y9frgDCkyqFjoG432z4QlZvNgxFqaz3eQEVUuxvoC3FVjvhvTw==
+"@thorswap-lib/multichain-core@0.0.1-development.8":
+  version "0.0.1-development.8"
+  resolved "https://registry.npmjs.org/@thorswap-lib/multichain-core/-/multichain-core-0.0.1-development.8.tgz#5d7b3aac81de27f2316dbafe1629482385226192"
+  integrity sha512-kxKNAXqAd+/5j7CVoNaWm0k19KcKx1xD617jJEMpVSnRIg8AsXI/gWweqpUf8SuhZB8M95XEtgaiN4kQcmKO9g==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.2.0"
     "@cosmjs/amino" "^0.29.0"
@@ -2122,6 +2122,7 @@
     "@thorswap-lib/xchain-evm" "^0.1.70"
     "@thorswap-lib/xchain-solana" "^0.2.33"
     "@thorswap-lib/xchain-thorchain" "0.22.10"
+    "@thorswap-lib/xchain-util" "^0.4.15"
     "@thorswap-lib/xchain-utxo" "^0.1.26"
     avalanche "^3.15.4"
     base64-js "^1.5.1"
@@ -2233,9 +2234,9 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-thorchain/-/xchain-thorchain-0.22.10.tgz#f2e812b3cee9ff38d5a844d69e1d84359154de0b"
   integrity sha512-kuT5OtS+PqVVi6b/ZzKlpxqjhFC/8JCV9Oqkrd7SPs+AvfpniYS/Ijx5QThyq2LdRr/iVxEjQVe0U9oAvLunAw==
 
-"@thorswap-lib/xchain-util@0.4.15":
+"@thorswap-lib/xchain-util@0.4.15", "@thorswap-lib/xchain-util@^0.4.15":
   version "0.4.15"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-util/-/xchain-util-0.4.15.tgz#61beb61e3e5c3faa2f2cd88e4900dd9e7eb067cd"
+  resolved "https://registry.npmjs.org/@thorswap-lib/xchain-util/-/xchain-util-0.4.15.tgz#61beb61e3e5c3faa2f2cd88e4900dd9e7eb067cd"
   integrity sha512-N9alogujnYwSi+YKhghwmdLJl10YK8o3L0Y9jzQHtV3nv7N8jCmXK3KffBz/ym2Fl9UoizdxLMcWSFZrDecGvQ==
 
 "@thorswap-lib/xchain-utxo@^0.1.26":
