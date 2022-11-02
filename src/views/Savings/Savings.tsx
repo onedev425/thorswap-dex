@@ -1,7 +1,10 @@
 import { Amount, Asset, AssetAmount, Percent } from '@thorswap-lib/multichain-core';
+import { AssetIcon } from 'components/AssetIcon';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Card, Typography } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
+import { InfoRow } from 'components/InfoRow';
+import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { TabsSelect } from 'components/TabsSelect';
 import { ViewHeader } from 'components/ViewHeader';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
@@ -27,6 +30,7 @@ enum SavingsTab {
 
 const Savings = () => {
   const appDispatch = useAppDispatch();
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const { wallet, setIsConnectModalOpen } = useWallet();
   const { getMaxBalance } = useBalance();
@@ -93,6 +97,8 @@ const Savings = () => {
   }, [amount, asset, isDeposit, withdrawPercent]);
 
   const handleSavingsSubmit = useCallback(async () => {
+    setIsConnectModalOpen(false);
+
     const id = v4();
 
     appDispatch(
@@ -114,7 +120,15 @@ const Savings = () => {
       console.error(error);
       appDispatch(completeTransaction({ id, status: 'error' }));
     }
-  }, [amount, appDispatch, asset.L1Chain, asset.name, handleMultichainAction, isDeposit]);
+  }, [
+    amount,
+    appDispatch,
+    asset.L1Chain,
+    asset.name,
+    handleMultichainAction,
+    isDeposit,
+    setIsConnectModalOpen,
+  ]);
 
   const tabs = useMemo(
     () => [
@@ -163,7 +177,7 @@ const Savings = () => {
 
           <SavingsButton
             address={address}
-            handleSubmit={handleSavingsSubmit}
+            handleSubmit={() => setIsConfirmOpen(true)}
             label={tab === SavingsTab.Deposit ? t('common.deposit') : t('common.withdraw')}
             setIsConnectModalOpen={setIsConnectModalOpen}
           />
@@ -176,6 +190,26 @@ const Savings = () => {
         refresh={refreshPositions}
         withdrawAsset={withdrawAsset}
       />
+
+      <ConfirmModal
+        inputAssets={[asset]}
+        isOpened={isConfirmOpen}
+        onClose={() => setIsConfirmOpen(false)}
+        onConfirm={handleSavingsSubmit}
+      >
+        <InfoRow
+          label={tab === SavingsTab.Deposit ? t('common.deposit') : t('common.withdraw')}
+          value={
+            <Box center className="gap-1">
+              <Typography variant="caption">
+                {amount.toSignificant(6)}
+                {asset.name}
+              </Typography>
+              <AssetIcon asset={asset} size={22} />
+            </Box>
+          }
+        />
+      </ConfirmModal>
     </Box>
   );
 };
