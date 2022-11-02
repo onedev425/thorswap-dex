@@ -117,15 +117,6 @@ export const AssetInputs = memo(
       return uniqBy(sortedAssets, ({ asset }) => asset.toString());
     }, [assetList, isFeatured, isFrequent, query]);
 
-    const assetInputProps = useMemo(
-      () => ({
-        isLoading: listLoading,
-        query,
-        setQuery,
-      }),
-      [listLoading, query],
-    );
-
     const outputAssets = useMemo(() => {
       if (
         (!thorchainERC20SupportedAddresses?.length && !thorchainAvaxSupportedAddresses?.length) ||
@@ -156,6 +147,15 @@ export const AssetInputs = memo(
       thorchainAvaxSupportedAddresses,
       thorchainERC20SupportedAddresses,
     ]);
+
+    const assetInputProps = useMemo(
+      () => ({
+        isLoading: listLoading,
+        query,
+        setQuery,
+      }),
+      [listLoading, query],
+    );
 
     return (
       <div className="relative self-stretch md:w-full">

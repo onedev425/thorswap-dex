@@ -39,7 +39,7 @@ export const useAssetsWithBalanceFromTokens = (tokens: Token[]) => {
           try {
             const asset = Asset.fromAssetString(
               [Chain.Avalanche, Chain.Ethereum].includes(chain as Chain.THORChain)
-                ? `${identifier}-${address}`
+                ? `${identifier}${address ? `-${address}` : ''}`
                 : identifier,
             );
 
