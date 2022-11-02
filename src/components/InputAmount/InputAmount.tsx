@@ -5,7 +5,7 @@ import { memo } from 'react';
 import { InputAmountProps } from './types';
 
 export const InputAmount = memo(
-  ({ amountValue, onAmountChange, ref: _ref, ...otherProps }: InputAmountProps) => {
+  ({ amountValue, onAmountChange, disabled, ref: _ref, ...otherProps }: InputAmountProps) => {
     const { rawValue, onChange } = useInputAmount({
       amountValue,
       onAmountChange,
@@ -14,7 +14,7 @@ export const InputAmount = memo(
     return (
       <Input
         {...otherProps}
-        disabled={!onAmountChange}
+        disabled={disabled || !onAmountChange}
         onChange={onChange}
         placeholder="0"
         value={rawValue}

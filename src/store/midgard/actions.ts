@@ -5,7 +5,7 @@ import { SupportedChain } from '@thorswap-lib/types';
 import { midgardApi } from 'services/midgard';
 import { midgardAPIUrl, THORNODE_URL } from 'settings/config';
 
-import { LiquidityProvider } from './types';
+import { LiquidityProvider, SaverProvider } from './types';
 
 export const getNetworkData = createAsyncThunk('midgard/getNetworkData', midgardApi.getNetworkData);
 export const getLastblock = createAsyncThunk('midgard/getLastblock', midgardApi.getLastblock);
@@ -99,3 +99,6 @@ export const getLiquidityProviderData = createAsyncThunk(
   async ({ address, asset }: { asset: string; address: string }) =>
     getRequest<LiquidityProvider>(`${THORNODE_URL}/pool/${asset}/liquidity_provider/${address}`),
 );
+
+export const getSaverData = ({ asset, address }: { asset: string; address: string }) =>
+  getRequest<SaverProvider>(`${THORNODE_URL}/pool/${asset}/saver/${address}`);

@@ -32,6 +32,7 @@ export enum ROUTES {
   TxImport = '/tximport',
   TxMultisig = '/txthorsafe',
   OnRamp = '/onramp',
+  Savings = '/savings',
 }
 
 export const THORYIELD_ROUTE = 'https://app.thoryield.com';

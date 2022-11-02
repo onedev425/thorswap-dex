@@ -17,8 +17,8 @@
     "separatorSpace": "Spacja",
     "settings": "Ustawienia",
     "showCharts": "Wyświetl wykresy",
-    "showMultisig": "Pokaż portfel wieloznakowy",
     "showCustomSend": "Show Send Custom Tx",
+    "showMultisig": "Pokaż portfel wieloznakowy",
     "showPools": "Wyświetl powiązane pule",
     "showStats": "Wyświetl statystyki globalne",
     "theme": "Tryb Aplikacji",
@@ -604,9 +604,9 @@
       "withdraw": "Wypłać"
     },
     "send": {
-      "txFeeTooltip": "Opłata gazowa za wysłanie transakcji, nie ma żadnych dodatkowych opłat z protokołu THORChain",
+      "outputAsset": "Zamiana Aktywa wyjściowe",
       "toggleCustomTxForm": "Przełączanie niestandardowego formularza transakcji",
-      "outputAsset": "Zamiana Aktywa wyjściowe"
+      "txFeeTooltip": "Opłata gazowa za wysłanie transakcji, nie ma żadnych dodatkowych opłat z protokołu THORChain"
     },
     "setting": {
       "customRecipientMode": "Ustaw odbiorce",

@@ -37,14 +37,14 @@ export type AssetInputProps = {
       assets: AssetSelectType[];
       onAssetChange: (asset: Asset) => void;
       poolAsset: AssetInputType;
-      showSecondaryChainSelector: boolean;
-      singleAsset: true;
+      singleAsset?: true;
+      showSecondaryChainSelector?: boolean;
     }
   | {
       assets?: undefined;
       onAssetChange?: undefined;
       poolAsset?: undefined;
       showSecondaryChainSelector?: undefined;
-      singleAsset: true;
+      singleAsset?: true;
     }
 );

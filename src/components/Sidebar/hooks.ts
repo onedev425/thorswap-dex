@@ -111,12 +111,20 @@ export const useSidebarOptions = () => {
         ].concat(
           IS_PROD
             ? []
-            : {
-                iconName: 'dollarOutlined' as IconName,
-                href: ROUTES.OnRamp,
-                label: 'OnRamp',
-                beta: true,
-              },
+            : [
+                {
+                  iconName: 'piggyBank' as IconName,
+                  href: ROUTES.Savings,
+                  label: 'Savings',
+                },
+                {
+                  iconName: 'dollarOutlined' as IconName,
+                  href: ROUTES.OnRamp,
+                  label: 'OnRamp',
+                  // @ts-expect-error
+                  beta: true,
+                },
+              ],
         ),
       },
       {

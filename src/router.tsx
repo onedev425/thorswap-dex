@@ -10,6 +10,7 @@ import { ROUTES } from 'settings/constants';
 import Swap from 'views/Swap';
 import WalletBalance, { WalletDrawer } from 'views/WalletBalance';
 
+const Savings = lazy(() => import('views/Savings'));
 const Multisig = lazy(() => import('views/Multisig/Multisig'));
 const TxBuilder = lazy(() => import('views/Multisig/TxBuilder/TxBuilder'));
 const TxCreate = lazy(() => import('views/Multisig/TxCreate/TxCreate'));
@@ -39,7 +40,12 @@ export type RouteType = {
   element: NotWorth;
 }[];
 
-const NOT_PROD_ROUTES = IS_PROD ? [] : [{ path: '/onramp', element: OnRamp }];
+const NOT_PROD_ROUTES = IS_PROD
+  ? []
+  : [
+      { path: ROUTES.OnRamp, element: OnRamp },
+      { path: ROUTES.Savings, element: Savings },
+    ];
 
 const routes: RouteType = [
   { path: ROUTES.AddLiquidity, element: AddLiquidity },

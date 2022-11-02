@@ -9,7 +9,7 @@ type Props = {
   tabs: TabSelectType[];
   tabWidth?: string;
   value: string;
-  onChange: (val: string) => void;
+  onChange: (value: string) => void;
   buttonClasses?: string;
 };
 

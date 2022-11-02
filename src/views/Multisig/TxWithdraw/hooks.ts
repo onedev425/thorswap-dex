@@ -105,12 +105,18 @@ export const useTxWithdraw = () => {
     let memo: string;
 
     if (lpType === PoolShareType.RUNE_ASYM) {
-      memo = Memo.withdrawMemo(poolAsset, new Percent(percent));
+      memo = Memo.withdrawMemo(poolAsset, new Percent(percent), { singleSide: false });
     } else {
       if (withdrawType === LiquidityTypeOption.SYMMETRICAL) {
-        memo = Memo.withdrawMemo(poolAsset, new Percent(percent), poolAsset);
+        memo = Memo.withdrawMemo(poolAsset, new Percent(percent), {
+          targetAsset: poolAsset,
+          singleSide: false,
+        });
       } else {
-        memo = Memo.withdrawMemo(poolAsset, new Percent(percent), Asset.RUNE());
+        memo = Memo.withdrawMemo(poolAsset, new Percent(percent), {
+          targetAsset: Asset.RUNE(),
+          singleSide: false,
+        });
       }
     }
 

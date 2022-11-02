@@ -159,6 +159,16 @@ export type LiquidityProvider = {
   asset_deposit_value: string;
 };
 
+export type SaverProvider = {
+  asset: string;
+  asset_address: string;
+  units: string;
+  pending_rune: string;
+  pending_asset: string;
+  rune_deposit_value: string;
+  asset_deposit_value: string;
+};
+
 export type PendingLP = Record<string, LiquidityProvider>;
 
 export type PoolNamesByChain = Record<string, string[]>;

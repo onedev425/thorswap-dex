@@ -63,6 +63,7 @@
     "disconnect": "Disconnect",
     "dismiss": "Dismiss",
     "documentation": "Documentation",
+    "earnings": "Earnings",
     "estimateTime": "Est. Time",
     "exchange": "Exchange",
     "expertModeTooltip": "You are able to pool RUNE + Asset with the dynamic ratio in Expert Mode.",
@@ -96,6 +97,7 @@
     "merchStore": "Merch Store",
     "minReceived": "Min Received",
     "minutes": "Minutes",
+    "msgDeposit": "MsgDeposit",
     "network": "Network",
     "next": "Next",
     "noTxHistory": "No transactions in history",
@@ -153,8 +155,7 @@
     "wallet": "Wallet",
     "withdraw": "Withdraw",
     "withdrawPercent": "Withdraw Percent",
-    "yourTransactions": "Your Transactions",
-    "msgDeposit": "MsgDeposit"
+    "yourTransactions": "Your Transactions"
   },
   "components": {
     "announcements": {
@@ -358,6 +359,7 @@
       "featuredPools": "Featured Pools"
     },
     "liquidity": {
+      "ILPTooltip": "If you have ILP for you liquidity position it will be added to withdrawn amount.",
       "addButton": "Add",
       "amountToRemove": "Amount to remove",
       "approve": "Approve",
@@ -375,6 +377,7 @@
       "enterAmount": "Enter an amount",
       "from": "From",
       "gasFeeTooltip": "Gas fee used for submitting the transaction using the thorchain protocol",
+      "ilp": "Impermanent Loss Protection",
       "lastAdded": "Last Added",
       "noLiquidityToWithdraw": "You don't have LP to withdraw",
       "poolShare": "Pool share",
@@ -392,12 +395,9 @@
       "withdrawAmount": "Withdraw amount",
       "withdrawLiquidity": "Withdraw Liquidity",
       "withdrawNotAvailable": "Withdraw not available",
-      "youWillReceive": "You will receive",
-      "ILPTooltip": "If you have ILP for you liquidity position it will be added to withdrawn amount.",
-      "ilp": "Impermanent Loss Protection"
+      "youWillReceive": "You will receive"
     },
     "multisig": {
-      "createTxDisabledInfo": "You need connected multisig wallet to create new transaction",
       "accountNotAcivated": "THORSafe not yet activated",
       "addMember": "Add another Member",
       "addMembersDescription": "Add members (e.g wallets of your teammates)",
@@ -428,6 +428,7 @@
       "createThorSafeWallet": "Create new THORSafe",
       "createThorsafe": "Create THORSafe",
       "createTransaction": "Create Transaction",
+      "createTxDisabledInfo": "You need connected multisig wallet to create new transaction",
       "createdWalletAddress": "Your THORSafe has been created. You can view its address below:",
       "currentSigners": "Current signers",
       "customDeposit": "Custom deposit",
@@ -608,6 +609,14 @@
       "pending": "Pending",
       "pendingLiquidity": "Pending Liquidity",
       "withdraw": "Withdraw"
+    },
+    "savings": {
+      "currentBalance": "Current Balance",
+      "description": "Provide single sided %{chain} Liquidity with no exposure to RUNE.",
+      "earn": "Earn",
+      "yourDeposit": "Your Deposit",
+      "yourEarnings": "Your Earnings",
+      "yourPositions": "Your Positions"
     },
     "send": {
       "outputAsset": "Swap Output Asset",

@@ -1,3 +1,4 @@
+import { Asset } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 
 export const SORTED_CHAINS = [
@@ -12,3 +13,15 @@ export const SORTED_CHAINS = [
   Chain.Litecoin,
   Chain.Cosmos,
 ] as const;
+
+export const SORTED_BASE_ASSETS = [
+  Asset.BTC(),
+  Asset.ETH(),
+  Asset.BNB(),
+  Asset.AVAX(),
+  Asset.ATOM(),
+  Asset.SOL(),
+  Asset.DOGE(),
+  Asset.BCH(),
+  Asset.LTC(),
+];
