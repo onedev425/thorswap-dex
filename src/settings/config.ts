@@ -16,10 +16,6 @@ export const THORNODE_URL = `${
 
 const MIDGARD_STAGENET_API = 'https://stagenet-midgard.ninerealms.com';
 const MIDGARD_MAINNET_API = import.meta.env.VITE_MAINNET_MIDGARD || 'https://midgard.thorswap.net';
-export const MIDGARD_URL = IS_STAGENET
-  ? MIDGARD_STAGENET_API
-  : IS_DEV_API
-  ? MIDGARD_DEV_API
-  : MIDGARD_MAINNET_API;
+export const MIDGARD_URL = IS_STAGENET ? MIDGARD_STAGENET_API : MIDGARD_MAINNET_API;
 
 export const midgardAPIUrl = (url: string) => `${MIDGARD_URL}/v2/${url}`;
