@@ -18,15 +18,12 @@ import { addTransaction, completeTransaction, updateTransaction } from 'store/tr
 import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
-import { SavingsButton } from 'views/Savings/SavingsButton';
-import { SavingsPositions } from 'views/Savings/SavingsPositions';
-import { useSaverPositions } from 'views/Savings/useSaverPositions';
 import { WithdrawPercent } from 'views/WithdrawLiquidity/WithdrawPercent';
 
-enum SavingsTab {
-  Deposit = 'deposit',
-  Withdraw = 'withdraw',
-}
+import { SavingsButton } from './SavingsButton';
+import { SavingsPositions } from './SavingsPositions';
+import { SavingsTab } from './types';
+import { useSaverPositions } from './useSaverPositions';
 
 const Savings = () => {
   const appDispatch = useAppDispatch();
@@ -69,35 +66,29 @@ const Savings = () => {
   );
 
   useEffect(() => {
-    if (asset) {
-      refreshPositions();
-    }
-  }, [asset, refreshPositions]);
-
-  useEffect(() => {
     const pos = getPosition(asset);
     setAvailableToWithdraw(pos?.amount || Amount.fromAssetAmount(0, 8));
   }, [asset, getPosition, positions]);
 
   useEffect(() => {
     refreshPositions();
-  }, [refreshPositions]);
+  }, [asset, refreshPositions]);
 
   const selectedAsset = useMemo(
     () => ({ asset, value: amount, balance: address ? getMaxBalance(asset) : undefined }),
     [address, asset, amount, getMaxBalance],
   );
 
-  const handleMultichainAction = useCallback(() => {
-    if (isDeposit) {
-      return multichain().addSavings(new AssetAmount(asset, amount));
-    } else {
-      return multichain().withdrawSavings({ asset, percent: withdrawPercent });
-    }
-  }, [amount, asset, isDeposit, withdrawPercent]);
+  const handleMultichainAction = useCallback(
+    () =>
+      isDeposit
+        ? multichain().addSavings(new AssetAmount(asset, amount))
+        : multichain().withdrawSavings({ asset, percent: withdrawPercent }),
+    [amount, asset, isDeposit, withdrawPercent],
+  );
 
   const handleSavingsSubmit = useCallback(async () => {
-    setIsConnectModalOpen(false);
+    setIsConfirmOpen(false);
 
     const id = v4();
 
@@ -120,15 +111,7 @@ const Savings = () => {
       console.error(error);
       appDispatch(completeTransaction({ id, status: 'error' }));
     }
-  }, [
-    amount,
-    appDispatch,
-    asset.L1Chain,
-    asset.name,
-    handleMultichainAction,
-    isDeposit,
-    setIsConnectModalOpen,
-  ]);
+  }, [amount, appDispatch, asset.L1Chain, asset.name, handleMultichainAction, isDeposit]);
 
   const tabs = useMemo(
     () => [
@@ -202,8 +185,7 @@ const Savings = () => {
           value={
             <Box center className="gap-1">
               <Typography variant="caption">
-                {amount.toSignificant(6)}
-                {asset.name}
+                {amount.toSignificant(6)} {asset.name}
               </Typography>
               <AssetIcon asset={asset} size={22} />
             </Box>

@@ -1,3 +1,4 @@
+import { Chain } from '@thorswap-lib/types';
 import { Box, Icon, Link, Typography } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { cutTxPrefix, transactionTitle } from 'components/TransactionManager/helpers';
@@ -43,9 +44,12 @@ export const PendingTransaction = memo(
 
     const transactionUrl = useMemo(() => {
       if (!txid) return '';
+      const chain = [TransactionType.TC_LP_ADD, TransactionType.TC_LP_WITHDRAW].includes(type)
+        ? Chain.THORChain
+        : inChain;
 
-      return multichain().getExplorerTxUrl(inChain, cutTxPrefix(txid));
-    }, [inChain, txid]);
+      return multichain().getExplorerTxUrl(chain, cutTxPrefix(txid));
+    }, [inChain, txid, type]);
 
     useEffect(() => {
       const transactionCompleted = data?.ok && ['mined', 'refund'].includes(data.status);

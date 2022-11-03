@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const SavingsPosition = ({ position, withdraw, deposit }: Props) => {
-  const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse();
+  const { collapse, isActive, contentRef, toggle, maxHeightStyle } = useCollapse();
 
   return (
     <Box col justifyCenter className="self-stretch" key={position.asset.toString()}>
@@ -56,7 +56,10 @@ export const SavingsPosition = ({ position, withdraw, deposit }: Props) => {
             <Button
               stretch
               className="px-8 md:px-12"
-              onClick={() => deposit(position.asset)}
+              onClick={() => {
+                deposit(position.asset);
+                collapse();
+              }}
               variant="primary"
             >
               {t('views.liquidity.addButton')}
@@ -65,7 +68,10 @@ export const SavingsPosition = ({ position, withdraw, deposit }: Props) => {
             <Button
               stretch
               className="px-8 md:px-12"
-              onClick={() => withdraw(position.asset)}
+              onClick={() => {
+                withdraw(position.asset);
+                collapse();
+              }}
               variant="secondary"
             >
               {t('common.withdraw')}

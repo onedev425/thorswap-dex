@@ -38,32 +38,6 @@ export const SavingsInfo = memo(({ depositValue, providerData, address }: Props)
               {depositValue || '-'}
             </Typography>
           </Box>
-
-          {address && (
-            <>
-              {/* <Box alignCenter row className="gap-2" justify="between">
-                <Box alignCenter row className="gap-x-1">
-                  <Typography color="secondary" fontWeight="medium" variant="caption">
-                    {t('common.balance')}
-                  </Typography>
-                </Box>
-                <Typography fontWeight="medium" variant="subtitle2">
-                  -
-                </Typography>
-              </Box> */}
-
-              {/* <Box alignCenter row className="gap-2" justify="between">
-                <Box alignCenter row className="gap-x-1">
-                  <Typography color="secondary" fontWeight="medium" variant="caption">
-                    {t('views.savings.yourEarnings')}
-                  </Typography>
-                </Box>
-                <Typography fontWeight="medium" variant="subtitle2">
-                  -
-                </Typography>
-              </Box> */}
-            </>
-          )}
         </Box>
       </InfoTip>
     </Box>

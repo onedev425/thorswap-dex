@@ -5,7 +5,7 @@ import { getSaverData } from 'store/midgard/actions';
 import { useWallet } from 'store/wallet/hooks';
 import { SaverPosition } from 'views/Savings/types';
 
-export function useSaverPositions() {
+export const useSaverPositions = () => {
   const { wallet } = useWallet();
   const [positions, setPositions] = useState<SaverPosition[]>([]);
 
@@ -14,31 +14,23 @@ export function useSaverPositions() {
       const address = wallet?.[asset.L1Chain]?.address || '';
       if (address) {
         const response = await getSaverData({ asset: asset.toString().toLowerCase(), address });
-        const position: SaverPosition = {
-          asset,
-          amount: Amount.fromMidgard(response.asset_deposit_value),
-          provider: response,
-        };
+        const amount = Amount.fromMidgard(response.asset_deposit_value);
 
-        return position.amount.gt(0) ? position : null;
+        return amount.gt(0) ? { asset, amount, provider: response } : null;
       }
     },
     [wallet],
   );
 
   const refreshPositions = useCallback(async () => {
-    const promises = SORTED_BASE_ASSETS.map((asset) => {
-      return getSaverPosition(asset);
-    });
+    const promises = SORTED_BASE_ASSETS.map(getSaverPosition);
 
     const pos = await Promise.all(promises);
     setPositions(pos.filter(Boolean) as SaverPosition[]);
   }, [getSaverPosition]);
 
   const getPosition = useCallback(
-    (asset: Asset) => {
-      return positions.find((item) => item.asset.eq(asset));
-    },
+    (asset: Asset) => positions.find((item) => item.asset.eq(asset)),
     [positions],
   );
 
@@ -48,4 +40,4 @@ export function useSaverPositions() {
     refreshPositions,
     getPosition,
   };
-}
+};
