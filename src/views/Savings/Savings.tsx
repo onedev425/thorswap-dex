@@ -106,6 +106,7 @@ const Savings = () => {
 
     try {
       const txid = await handleMultichainAction();
+      setAmount(Amount.fromAssetAmount(0, 8));
       if (txid) appDispatch(updateTransaction({ id, txid }));
     } catch (error) {
       console.error(error);
