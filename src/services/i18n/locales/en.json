@@ -282,6 +282,7 @@
   "txManager": {
     "addAmountAsset": "Add %{amount} %{asset}",
     "addLiquidity": "Add Liquidity",
+    "addSavings": "Add Savings",
     "addedAmountAsset": "Added %{amount} %{asset}",
     "approve": "Approve",
     "approveAsset": "Approve %{asset}",

@@ -1,9 +1,10 @@
+import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box, Icon, Link, Typography } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { multichain } from 'services/multichain';
-import { CompletedTransactionType } from 'store/transactions/types';
+import { CompletedTransactionType, TransactionType } from 'store/transactions/types';
 
 import { cutTxPrefix, transactionTitle, useTxIDFromResult, useTxLabelUpdate } from './helpers';
 import { TransactionStatusIcon } from './TransactionStatusIcon';
@@ -18,22 +19,29 @@ export const CompletedTransaction = memo(
       handleLabelUpdate();
     }, [handleLabelUpdate]);
 
-    const transactionUrl = useCallback(
-      (tx: null | string = '') => {
-        if (!tx) return '';
+    const transactionUrl = useCallback((tx: null | string = '', chain: Chain) => {
+      if (!tx) return '';
 
-        try {
-          return tx && multichain().getExplorerTxUrl(inChain, cutTxPrefix(tx));
-        } catch (_error) {
-          return;
-        }
-      },
-      [inChain],
-    );
+      try {
+        return tx && multichain().getExplorerTxUrl(chain, cutTxPrefix(tx));
+      } catch (_error) {
+        return;
+      }
+    }, []);
 
-    const txUrl = transactionUrl(txid);
+    const txUrl = transactionUrl(txid, inChain);
     const secondTxid = useTxIDFromResult({ result, txid });
-    const secondTxUrl = transactionUrl(secondTxid);
+    const secondTxUrl = transactionUrl(
+      secondTxid,
+      [
+        TransactionType.TC_LP_ADD,
+        TransactionType.TC_LP_WITHDRAW,
+        TransactionType.TC_SAVINGS_ADD,
+        TransactionType.TC_SAVINGS_WITHDRAW,
+      ].includes(type)
+        ? Chain.THORChain
+        : inChain,
+    );
 
     return (
       <Box alignCenter flex={1} justify="between">

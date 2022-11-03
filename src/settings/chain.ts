@@ -20,7 +20,6 @@ export const SORTED_BASE_ASSETS = [
   Asset.BNB(),
   Asset.AVAX(),
   Asset.ATOM(),
-  Asset.SOL(),
   Asset.DOGE(),
   Asset.BCH(),
   Asset.LTC(),

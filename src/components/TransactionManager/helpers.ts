@@ -50,6 +50,10 @@ export const transactionTitle = (type: TransactionType): string => {
       return t('txManager.registerThorname');
     case TransactionType.TC_LP_ADD:
       return t('txManager.addLiquidity');
+    case TransactionType.TC_SAVINGS_ADD:
+      return t('txManager.addSavings');
+
+    case TransactionType.TC_SAVINGS_WITHDRAW:
     case TransactionType.TC_LP_WITHDRAW:
       return t('txManager.withdraw');
 
@@ -158,8 +162,7 @@ export const useTxLabelUpdate = ({
 
       case TransactionType.SWAP_ETH_TO_TC:
       case TransactionType.SWAP_TC_TO_ETH:
-      case TransactionType.SWAP_TC_TO_TC:
-      case TransactionType.SWAP_ETH_TO_ETH: {
+      case TransactionType.SWAP_TC_TO_TC: {
         // @ts-expect-error
         const { inputAsset, outputAsset, outputAssetAmount, inputAssetAmount } = result;
         const inputLabel = await inputGetter({ asset: inputAsset, amount: inputAssetAmount });
