@@ -44,12 +44,23 @@ export const PendingTransaction = memo(
 
     const transactionUrl = useMemo(() => {
       if (!txid) return '';
-      const chain = [TransactionType.TC_LP_ADD, TransactionType.TC_LP_WITHDRAW].includes(type)
-        ? Chain.THORChain
-        : inChain;
 
-      return multichain().getExplorerTxUrl(chain, cutTxPrefix(txid));
-    }, [inChain, txid, type]);
+      return multichain().getExplorerTxUrl(inChain, cutTxPrefix(txid));
+    }, [inChain, txid]);
+
+    const secondUrl = useMemo(
+      () =>
+        txid &&
+        [
+          TransactionType.TC_LP_ADD,
+          TransactionType.TC_LP_WITHDRAW,
+          TransactionType.TC_SAVINGS_ADD,
+          TransactionType.TC_SAVINGS_WITHDRAW,
+        ].includes(type)
+          ? multichain().getExplorerTxUrl(Chain.THORChain, cutTxPrefix(txid))
+          : '',
+      [txid, type],
+    );
 
     const secondUrl = useMemo(
       () =>
