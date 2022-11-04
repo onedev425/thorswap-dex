@@ -17,8 +17,8 @@
     "separatorSpace": "Espaço",
     "settings": "Configurações",
     "showCharts": "Mostrar Gráficos",
-    "showMultisig": "Exibir Carteira Multisig",
     "showCustomSend": "Mostrar Enviar Tx personalizado",
+    "showMultisig": "Exibir Carteira Multisig",
     "showPools": "Mostrar Pools em Destaque",
     "showStats": "Mostrar Estatísticas Gerais",
     "theme": "Tema do App",
@@ -63,6 +63,7 @@
     "disconnect": "Desconectar",
     "dismiss": "Dispensar",
     "documentation": "Documentação",
+    "earnings": "Rendimentos",
     "estimateTime": "Tempo estimado",
     "exchange": "Trocar",
     "expertModeTooltip": "Você pode adicionar RUNE + Ativo com proporção dinâmica no Modo Expert.",
@@ -96,6 +97,7 @@
     "merchStore": "Loja de Mercadorias",
     "minReceived": "Mínimo",
     "minutes": "Minutos",
+    "msgDeposit": "MsgDeposit",
     "network": "Rede",
     "next": "Próximo",
     "noTxHistory": "Nenhuma transação no histórico",
@@ -148,6 +150,7 @@
     "value": "Valor",
     "valueCopied": "Valor copiado",
     "viewOnThoryield": "Ver em Thoryield.com ↗",
+    "viewOnThoryieldNoArrow": "Vista em Thoryield",
     "volume": "Volume",
     "wallet": "Carteira",
     "withdraw": "Sacar",
@@ -319,6 +322,7 @@
     "success": "Sucesso!",
     "swap": "Trocar",
     "switch": "Alternar",
+    "transaction": "Transacção",
     "unstake": "Destakear",
     "unstakeAsset": "Destakear %{amount} %{asset}",
     "unstakeFailed": "O destake de %{amount} %{asset} falhou",
@@ -355,6 +359,7 @@
       "featuredPools": "Pools em Destaque"
     },
     "liquidity": {
+      "ILPTooltip": "Se tiver uma posição de liquidez de ILP para si, esta será adicionada ao montante retirado.",
       "addButton": "Adicionar",
       "amountToRemove": "Quantia para retirar",
       "approve": "Aprovar",
@@ -372,6 +377,7 @@
       "enterAmount": "Insira uma quantia",
       "from": "De",
       "gasFeeTooltip": "Taxa de gas para enviar a transação usando o protocolo Thorchain",
+      "ilp": "Protecção contra Perdas Impermanentes",
       "lastAdded": "Última adição",
       "noLiquidityToWithdraw": "Você não tem PL para sacar",
       "poolShare": "Participação",
@@ -422,6 +428,7 @@
       "createThorSafeWallet": "Criar novo THORSafe",
       "createThorsafe": "Criar THORSafe",
       "createTransaction": "Criar transação",
+      "createTxDisabledInfo": "Precisa de uma carteira multissig para criar uma nova transacção",
       "createdWalletAddress": "O seu THORSafe foi criado. Pode ver o seu endereço abaixo:",
       "currentSigners": "Assinantes actuais",
       "customDeposit": "Depósito personalizado",
@@ -603,10 +610,18 @@
       "pendingLiquidity": "Liquidez Pendente",
       "withdraw": "Sacar"
     },
+    "savings": {
+      "currentBalance": "Balanço actual",
+      "description": "Fornecer lado a lado %{cadeia} Liquidez sem exposição à RUNE.",
+      "earn": "Ganhe",
+      "yourDeposit": "O seu depósito",
+      "yourEarnings": "Os seus ganhos",
+      "yourPositions": "As suas posições"
+    },
     "send": {
-      "txFeeTooltip": "Taxa de gas para enviar a transação, não há nenhuma cobrança extra pelo Protocolo THORChain",
+      "outputAsset": "Trocar o activo de saída",
       "toggleCustomTxForm": "Alternar o formulário de transacção personalizada",
-      "outputAsset": "Trocar o activo de saída"
+      "txFeeTooltip": "Taxa de gas para enviar a transação, não há nenhuma cobrança extra pelo Protocolo THORChain"
     },
     "setting": {
       "customRecipientMode": "Definir Destinatário Personalizado",

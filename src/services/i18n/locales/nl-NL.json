@@ -17,8 +17,8 @@
     "separatorSpace": "Spatie",
     "settings": "Instellingen",
     "showCharts": "Laat grafiek zien",
-    "showMultisig": "Toon Multi-sig Wallet",
     "showCustomSend": "Toon Verzend aangepaste Tx",
+    "showMultisig": "Toon Multi-sig Wallet",
     "showPools": "Laat aanbevolen pools zien",
     "showStats": "Laat globale statistieken zien",
     "theme": "App thema",
@@ -63,6 +63,7 @@
     "disconnect": "Loskoppelen",
     "dismiss": "Verwijder",
     "documentation": "Documentatie",
+    "earnings": "Winst",
     "estimateTime": "Verwachte tijd",
     "exchange": "Wissel",
     "expertModeTooltip": "U kan RUNE + Asset poolen met een dynamisch ratio via Expert Mode.",
@@ -96,6 +97,7 @@
     "merchStore": "Merchandise winkel",
     "minReceived": "Minimaal ontvangen",
     "minutes": "Minuten",
+    "msgDeposit": "MsgDeposit",
     "network": "Netwerk",
     "next": "Volgende",
     "noTxHistory": "Geen transacties in geschiedenis",
@@ -148,6 +150,7 @@
     "value": "Waarde",
     "valueCopied": "Waarde gekopieerd",
     "viewOnThoryield": "Bekijk op Thoryield.com ",
+    "viewOnThoryieldNoArrow": "Zicht op Thoryield",
     "volume": "Volume",
     "wallet": "Wallet",
     "withdraw": "Opnemen",
@@ -319,6 +322,7 @@
     "success": "Succes",
     "swap": "Swap",
     "switch": "Wissel",
+    "transaction": "Verrichting",
     "unstake": "Unstake",
     "unstakeAsset": "Unstake %{amount} %{asset}",
     "unstakeFailed": "Unstake %{amount} %{asset} mislukt",
@@ -355,6 +359,7 @@
       "featuredPools": "Aanbevolen pools"
     },
     "liquidity": {
+      "ILPTooltip": "Als u ILP hebt voor uw liquiditeitspositie, wordt dit toegevoegd aan het opgenomen bedrag.",
       "addButton": "Toevoegen",
       "amountToRemove": "Te verwijderen bedrag",
       "approve": "Goedkeuren ",
@@ -372,6 +377,7 @@
       "enterAmount": "Voer een bedrag in",
       "from": "Van",
       "gasFeeTooltip": "Gas kost gebruikt voor het verzenden van de transactie met behulp van het THORChain protocol",
+      "ilp": "Bescherming tegen onherstelbare verliezen",
       "lastAdded": "Laatst toegevoegd",
       "noLiquidityToWithdraw": "U heeft geen LP positie om op te nemen",
       "poolShare": "Pool aandeel",
@@ -422,6 +428,7 @@
       "createThorSafeWallet": "Maak een THORSafe wallet aan",
       "createThorsafe": "THORSafe aanmaken",
       "createTransaction": "Transactie maken",
+      "createTxDisabledInfo": "Je hebt een multisig-portemonnee nodig om een nieuwe transactie aan te maken",
       "createdWalletAddress": "Uw THORSafe is aangemaakt. U kunt het adres ervan hieronder bekijken:",
       "currentSigners": "Huidige ondertekenaars",
       "customDeposit": "Aangepaste storting",
@@ -603,10 +610,18 @@
       "pendingLiquidity": "Liquiditeit in afwachting",
       "withdraw": "Opnemen"
     },
+    "savings": {
+      "currentBalance": "Huidige balans",
+      "description": "Zorg voor eenzijdige %{chain} Liquiditeit zonder blootstelling aan RUNE.",
+      "earn": "Verdien",
+      "yourDeposit": "Uw storting",
+      "yourEarnings": "Uw inkomsten",
+      "yourPositions": "Uw posities"
+    },
     "send": {
-      "txFeeTooltip": "Gas kosten om de transactie te verzenden, Er zijn geen extra kosten van THORChain Protocol",
+      "outputAsset": "Swap Output Activa",
       "toggleCustomTxForm": "Schakel aangepast transactieformulier in",
-      "outputAsset": "Swap Output Activa"
+      "txFeeTooltip": "Gas kosten om de transactie te verzenden, Er zijn geen extra kosten van THORChain Protocol"
     },
     "setting": {
       "customRecipientMode": "Aangepaste ontvanger instellen",

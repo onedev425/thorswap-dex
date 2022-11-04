@@ -17,8 +17,8 @@
     "separatorSpace": "空格",
     "settings": "設置",
     "showCharts": "顯示圖表",
-    "showMultisig": "顯示多重簽名錢包",
     "showCustomSend": "顯示傳送自訂 Tx",
+    "showMultisig": "顯示多重簽名錢包",
     "showPools": "顯示精選流動池",
     "showStats": "顯示全網路統計數據",
     "theme": "App 主題",
@@ -63,6 +63,7 @@
     "disconnect": "斷開",
     "dismiss": "撤銷",
     "documentation": "文檔",
+    "earnings": "收益",
     "estimateTime": "預計時間",
     "exchange": "交易所",
     "expertModeTooltip": "在專家模式下，您能夠以動態比例匯集RUNE+代幣入流動池。",
@@ -96,6 +97,7 @@
     "merchStore": "商店",
     "minReceived": "收到的最低數額",
     "minutes": "分鐘",
+    "msgDeposit": "信息存款",
     "network": "網絡",
     "next": "下一步",
     "noTxHistory": "沒有任何交易歷史",
@@ -148,6 +150,7 @@
     "value": "價值",
     "valueCopied": "已復制",
     "viewOnThoryield": "在Thoryield.com上查看↗",
+    "viewOnThoryieldNoArrow": "查看, 上, 索爾良率",
     "volume": "交易量",
     "wallet": "錢包",
     "withdraw": "提取",
@@ -319,6 +322,7 @@
     "success": "成功",
     "swap": "交換",
     "switch": "轉換",
+    "transaction": "交易",
     "unstake": "解除質押",
     "unstakeAsset": "解除質押 %{amount} %{asset} ",
     "unstakeFailed": "解除質押 %{amount} %{asset} 失敗",
@@ -355,6 +359,7 @@
       "featuredPools": "精選流動池"
     },
     "liquidity": {
+      "ILPTooltip": "如果您擁有流動性頭寸的 ILP，它將被添加到提取金額中。",
       "addButton": "添加",
       "amountToRemove": "需移除金額",
       "approve": "授權",
@@ -372,6 +377,7 @@
       "enterAmount": "請輸入金額",
       "from": "來自",
       "gasFeeTooltip": "用於提交使用 THORChain 交易的燃料費",
+      "ilp": "無常損失保障",
       "lastAdded": "最近添加",
       "noLiquidityToWithdraw": "您沒有可提取的 LP",
       "poolShare": "流動池占比",
@@ -422,6 +428,7 @@
       "createThorSafeWallet": "創建新的 THORSafe",
       "createThorsafe": "創建 THORSafe",
       "createTransaction": "創建交易",
+      "createTxDisabledInfo": "您需要連接的多重簽名錢包才能創建新交易",
       "createdWalletAddress": "您的 THORSafe 已被創建。請在下方查看地址。",
       "currentSigners": "目前的簽署者",
       "customDeposit": "自定義添加",
@@ -603,10 +610,18 @@
       "pendingLiquidity": "待定的流動性",
       "withdraw": "提取"
     },
+    "savings": {
+      "currentBalance": "目前餘額",
+      "description": "提供單面% {鏈} 流動性，而不暴露於 RUNE。",
+      "earn": "賺取",
+      "yourDeposit": "您的存款",
+      "yourEarnings": "您的收入",
+      "yourPositions": "您的職位"
+    },
     "send": {
-      "txFeeTooltip": "用於發送交易的燃料費。THORChain 協議沒有額外的費用。",
+      "outputAsset": "掉期輸出資產",
       "toggleCustomTxForm": "切換自訂交易表單",
-      "outputAsset": "掉期輸出資產"
+      "txFeeTooltip": "用於發送交易的燃料費。THORChain 協議沒有額外的費用。"
     },
     "setting": {
       "customRecipientMode": "設置自定義收款人",

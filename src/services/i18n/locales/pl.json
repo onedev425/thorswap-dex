@@ -63,6 +63,7 @@
     "disconnect": "Rozłącz",
     "dismiss": "Odrzucić",
     "documentation": "Dokumentacja",
+    "earnings": "Zarobki",
     "estimateTime": "Szac. czas",
     "exchange": "Wymiana",
     "expertModeTooltip": "Możesz łączyć RUNE + Asset z dynamicznym współczynnikiem w trybie eksperta.",
@@ -96,6 +97,7 @@
     "merchStore": "Merch Store",
     "minReceived": "Min. otrzymane",
     "minutes": "Minut",
+    "msgDeposit": "MsgDeposit",
     "network": "Sieć",
     "next": "Następny",
     "noTxHistory": "Brak historii transakcji",
@@ -148,6 +150,7 @@
     "value": "Wartość",
     "valueCopied": "Wartość skopiowana",
     "viewOnThoryield": "Zobacz na Thoryield.com ↗",
+    "viewOnThoryieldNoArrow": "Widok na Thoryield",
     "volume": "Wolumen",
     "wallet": "Portfel",
     "withdraw": "Wypłać",
@@ -319,6 +322,7 @@
     "success": "Sukces",
     "swap": "Wymiana",
     "switch": "Przełącz",
+    "transaction": "Transakcja",
     "unstake": "Unstake",
     "unstakeAsset": "Odstakuj %{amount} %{asset}",
     "unstakeFailed": "Odstakowanie %{amount} %{asset} nie powiodło się",
@@ -355,6 +359,7 @@
       "featuredPools": "Polecane pule"
     },
     "liquidity": {
+      "ILPTooltip": "Jeśli posiadasz ILP dla swojej pozycji płynnościowej, zostanie on dodany do wypłacanej kwoty.",
       "addButton": "dodaj",
       "amountToRemove": "Kwota do usunięcia",
       "approve": "Zatwierdzenie",
@@ -372,6 +377,7 @@
       "enterAmount": "Wprowadź kwotę",
       "from": "Z",
       "gasFeeTooltip": "Opłata za złożenie transakcji za pomocą protokołu thorchain",
+      "ilp": "Ochrona przed nietrwałymi stratami",
       "lastAdded": "Ostatnio dodane",
       "noLiquidityToWithdraw": "Nie masz LP do wypłaty",
       "poolShare": "Udział puli",
@@ -422,6 +428,7 @@
       "createThorSafeWallet": "Utwórz nowy THORSafe",
       "createThorsafe": "Utwórz THORSafe",
       "createTransaction": "Utwórz transakcję",
+      "createTxDisabledInfo": "Musisz mieć podłączony portfel multisig do tworzenia nowych transakcji",
       "createdWalletAddress": "Twój THORSafe został utworzony. Możesz zobaczyć jego adres poniżej:",
       "currentSigners": "Obecni sygnatariusze",
       "customDeposit": "Depozyt własny",
@@ -602,6 +609,14 @@
       "pending": "W toku",
       "pendingLiquidity": "Płynność w toku",
       "withdraw": "Wypłać"
+    },
+    "savings": {
+      "currentBalance": "Saldo bieżące",
+      "description": "Zapewnij jednostronną %{chain} Płynność bez ekspozycji na RUNE.",
+      "earn": "Zarabiaj",
+      "yourDeposit": "Twoja wpłata",
+      "yourEarnings": "Twoje zarobki",
+      "yourPositions": "Wasze stanowiska"
     },
     "send": {
       "outputAsset": "Zamiana Aktywa wyjściowe",

@@ -17,8 +17,8 @@
     "separatorSpace": "Пробел",
     "settings": "Настройки",
     "showCharts": "Показать графики",
-    "showMultisig": "Показать кошелек с мультисигмой",
     "showCustomSend": "Show Send Custom Tx",
+    "showMultisig": "Показать кошелек с мультисигмой",
     "showPools": "Показать популярные пулы",
     "showStats": "Показать общие настройки",
     "theme": "Оригинальная тема ",
@@ -63,6 +63,7 @@
     "disconnect": "Отключить",
     "dismiss": "Отклонить",
     "documentation": "Документация",
+    "earnings": "Заработок",
     "estimateTime": "Ориентировочное время ожидания",
     "exchange": "Обмен",
     "expertModeTooltip": "Мы можете поместить $RUNE + Актив в пул, используя Expert Mode",
@@ -96,6 +97,7 @@
     "merchStore": "Магазин товаров",
     "minReceived": "Мин. сумма к получению",
     "minutes": "Минуты",
+    "msgDeposit": "MsgDeposit",
     "network": "Сеть",
     "next": "Следующий",
     "noTxHistory": "В истории нет транзакций",
@@ -148,6 +150,7 @@
     "value": "Сумма",
     "valueCopied": "Копирование значений",
     "viewOnThoryield": "Перейти на Thoryield.com ↗",
+    "viewOnThoryieldNoArrow": "Вид на Ториелд",
     "volume": "Объём ",
     "wallet": "Кошелёк",
     "withdraw": "Вывести",
@@ -319,6 +322,7 @@
     "success": "Успех",
     "swap": "Обмен",
     "switch": "Переключить",
+    "transaction": "Транзакция",
     "unstake": "Unstake",
     "unstakeAsset": "Расстаться с %{amount} %{asset}",
     "unstakeFailed": "Расстаться с %{amount} %{asset} не удалось",
@@ -355,6 +359,7 @@
       "featuredPools": "Популярные пулы"
     },
     "liquidity": {
+      "ILPTooltip": "Если у вас есть ILP для вашей ликвидной позиции, он будет добавлен к снимаемой сумме.",
       "addButton": "Добавить",
       "amountToRemove": "Сумма вывода",
       "approve": "Подтвердить",
@@ -372,6 +377,7 @@
       "enterAmount": "Введите кол-во",
       "from": "из",
       "gasFeeTooltip": "Плата за газ, использованная для обработки транзакции в протоколе Thorchain",
+      "ilp": "Непостоянная защита от потерь",
       "lastAdded": "Последний добавленный",
       "noLiquidityToWithdraw": "У Вас нет LP для вывода",
       "poolShare": "Доля пула",
@@ -422,6 +428,7 @@
       "createThorSafeWallet": "Создать новый THORSafe",
       "createThorsafe": "Создать THORSafe",
       "createTransaction": "Создать транзакцию",
+      "createTxDisabledInfo": "Для создания новой транзакции вам необходим подключенный мультисиг-кошелек",
       "createdWalletAddress": "Ваш THORSafe уже создан. Вы можете посмотреть его адрес ниже:",
       "currentSigners": "Нынешние подписавшие",
       "customDeposit": "Пользовательский депозит",
@@ -603,10 +610,18 @@
       "pendingLiquidity": "Ожидающая ликвидность",
       "withdraw": "Вывести"
     },
+    "savings": {
+      "currentBalance": "Текущий баланс",
+      "description": "Обеспечивают одностороннюю %{цепь} Ликвидность без риска для RUNE.",
+      "earn": "Зарабатывайте",
+      "yourDeposit": "Ваш депозит",
+      "yourEarnings": "Ваш заработок",
+      "yourPositions": "Ваши позиции"
+    },
     "send": {
-      "txFeeTooltip": "Плата за газ для отправки транзакции. Протокол THORChain не взимает дополнительных сборов.",
+      "outputAsset": "Своп Выходной актив",
       "toggleCustomTxForm": "Переключение пользовательской формы транзакции",
-      "outputAsset": "Своп Выходной актив"
+      "txFeeTooltip": "Плата за газ для отправки транзакции. Протокол THORChain не взимает дополнительных сборов."
     },
     "setting": {
       "customRecipientMode": "Укажите получателя",

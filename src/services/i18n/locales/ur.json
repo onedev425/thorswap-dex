@@ -17,8 +17,8 @@
     "separatorSpace": "Space",
     "settings": "ترتیبات",
     "showCharts": "چارٹس دکھائیں",
-    "showMultisig": "Multi-sig والیٹ دکھائیں۔",
     "showCustomSend": "اپنی مرضی کے مطابق ٹیکس بھیجیں دکھائیں",
+    "showMultisig": "Multi-sig والیٹ دکھائیں۔",
     "showPools": "نمایاں پولز دکھائیں",
     "showStats": "عالمی اعدادوشمار دکھائیں",
     "theme": "ایپ تھیم",
@@ -63,6 +63,7 @@
     "disconnect": "منقطع کریں",
     "dismiss": "برطرف کریں",
     "documentation": "Documentation",
+    "earnings": "آمدنی",
     "estimateTime": "تخمینہ (.Est) وقت",
     "exchange": "Exchange",
     "expertModeTooltip": "آپ ماہر موڈ میں متحرک تناسب(Dynamic ratio) کے ساتھ RUNE + Asset کو پول کرنے کے قابل ہیں۔",
@@ -96,6 +97,7 @@
     "merchStore": "Merch Store",
     "minReceived": "کم از کم موصول",
     "minutes": "منٹ",
+    "msgDeposit": "ایم ایس جی ڈپازٹ",
     "network": "نیٹ ورک",
     "next": "آگے",
     "noTxHistory": "تاریخ میں کوئی ٹرانزیکشن نہیں۔",
@@ -148,6 +150,7 @@
     "value": "قدر",
     "valueCopied": "Value کاپی ہو گئی۔",
     "viewOnThoryield": "Thoryield.com پر دیکھیں ↗",
+    "viewOnThoryieldNoArrow": "تھوک پیداوار پر دیکھیں",
     "volume": "حجم",
     "wallet": "Wallet",
     "withdraw": "واپس لیں",
@@ -319,6 +322,7 @@
     "success": "کامیاب",
     "swap": "تبادلہ کریں",
     "switch": "سوئچ",
+    "transaction": "ٹرانزیکشن",
     "unstake": "staking سے ہٹا دیں",
     "unstakeAsset": "%{amount} %{asset} ہٹائیں",
     "unstakeFailed": "%{amount} %{asset} کو ہٹانا ناکام ہو گیا۔",
@@ -355,6 +359,7 @@
       "featuredPools": "نمایاں پولز"
     },
     "liquidity": {
+      "ILPTooltip": "اگر آپ کے پاس لیکویڈیٹی پوزیشن کے لئے ILP ہے تو اسے واپس لینے والی رقم میں شامل کیا جائے گا۔",
       "addButton": "شامل کریں",
       "amountToRemove": "ہٹانے کی رقم",
       "approve": "منظور کریں",
@@ -372,6 +377,7 @@
       "enterAmount": "رقم درج کریں",
       "from": "طرف سے",
       "gasFeeTooltip": "Thorchain پروٹوکول کا استعمال کرتے ہوئے لین دین جمع کرانے کے لیے استعمال ہونے والی گیس فیس",
+      "ilp": "غیر مستقل نقصان تحفظ",
       "lastAdded": "آخری بار شامل کیا گیا",
       "noLiquidityToWithdraw": "آپ کے پاس واپس لینے کے لیے LP نہیں ہے",
       "poolShare": "پول شیئر",
@@ -422,6 +428,7 @@
       "createThorSafeWallet": "THORSafe والیٹ بنائیں",
       "createThorsafe": "تھورسیف بنائیں",
       "createTransaction": "Transaction بنائیں",
+      "createTxDisabledInfo": "نئی ٹرانزیکشن تخلیق کرنے کیلئے آپ کو ملٹیسگ والیٹ سے منسلک کرنے کی",
       "createdWalletAddress": "آپ کا تھورسیف تخلیق کیا گیا ہے. آپ ذیل میں اس کا پتہ دیکھ سکتے ہیں:",
       "currentSigners": "موجودہ signers",
       "customDeposit": "اپنی مرضی کے ڈپازٹ",
@@ -603,10 +610,18 @@
       "pendingLiquidity": "Pending Liquidity",
       "withdraw": "واپس لین"
     },
+    "savings": {
+      "currentBalance": "موجودہ بیلنس",
+      "description": "ایک رخا فراہم کرتے ہیں% {زنجیر} لیکویڈیٹی RUNE کے لئے کوئی نمائش کے ساتھ.",
+      "earn": "کمائیں",
+      "yourDeposit": "آپ کا ڈپازٹ",
+      "yourEarnings": "آپ کی آمدنی",
+      "yourPositions": "آپ کی پوزیشنوں"
+    },
     "send": {
-      "txFeeTooltip": "ٹرانزیکشن بھیجنے کے لیے گیس فیس، THORchain پروٹوکول سے کوئی اضافی چارجز نہیں ہیں۔",
+      "outputAsset": "آؤٹ پٹ اثاثہ",
       "toggleCustomTxForm": "اپنی مرضی کے لین دین فارم کو ٹوگل کریں",
-      "outputAsset": "آؤٹ پٹ اثاثہ"
+      "txFeeTooltip": "ٹرانزیکشن بھیجنے کے لیے گیس فیس، THORchain پروٹوکول سے کوئی اضافی چارجز نہیں ہیں۔"
     },
     "setting": {
       "customRecipientMode": " اپنی مرضی کے مطابق وصول کنندہ سیٹ کریں۔",

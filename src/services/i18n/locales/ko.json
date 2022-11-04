@@ -17,8 +17,8 @@
     "separatorSpace": "공백",
     "settings": "설정",
     "showCharts": "차트 보기",
-    "showMultisig": "멀티시그 월렛 보기",
     "showCustomSend": "사용자 지정 Tx 보내기 보기",
+    "showMultisig": "멀티시그 월렛 보기",
     "showPools": "추천 풀 보기",
     "showStats": "글로벌 통계 보기",
     "theme": "앱 테마",
@@ -63,6 +63,7 @@
     "disconnect": "연결 끊기",
     "dismiss": "기각",
     "documentation": "문서",
+    "earnings": "수익",
     "estimateTime": "예상시간",
     "exchange": "교환",
     "expertModeTooltip": "엑스퍼트 모드에서 동적 비율로 RUNE + Asset(에셋)을 풀링하실 수 있습니다.",
@@ -96,6 +97,7 @@
     "merchStore": "상품 스토어",
     "minReceived": "최소 수령",
     "minutes": "분",
+    "msgDeposit": "메시지 입금",
     "network": "네트워크",
     "next": "다음",
     "noTxHistory": "트랜잭션 기록 없음",
@@ -148,6 +150,7 @@
     "value": "가치(Value)",
     "valueCopied": "복사된 값",
     "viewOnThoryield": "Thoryield.com에서 보기",
+    "viewOnThoryieldNoArrow": "토리이드에 대해 보기",
     "volume": "볼륨",
     "wallet": "지갑",
     "withdraw": "인출",
@@ -319,6 +322,7 @@
     "success": "성공",
     "swap": "스왑",
     "switch": "스위치(Switch)",
+    "transaction": "트랜잭션",
     "unstake": "언스테이크",
     "unstakeAsset": "언스테이크 %{amount} %{asset}",
     "unstakeFailed": "%{amount} %{asset} 언스테이킹 실패",
@@ -355,6 +359,7 @@
       "featuredPools": "추천 풀"
     },
     "liquidity": {
+      "ILPTooltip": "유동성 포지션에 대한 ILP가 있는 경우 인출 금액에 해당 금액이 가산됩니다.",
       "addButton": "추가",
       "amountToRemove": "빼실 금액",
       "approve": "승인",
@@ -372,6 +377,7 @@
       "enterAmount": "금액을 입력하십시오",
       "from": "에서",
       "gasFeeTooltip": "토르체인(Thorchain) 프로토콜로 트랜잭션을 제출하는 데 사용되는 가스 수수료",
+      "ilp": "비영구적 손실 방지",
       "lastAdded": "마지막으로 추가됨",
       "noLiquidityToWithdraw": "인출된 LP 없습니다.",
       "poolShare": "풀 셰어 (Pool share)",
@@ -422,6 +428,7 @@
       "createThorSafeWallet": "새 토르 세이프 만들기",
       "createThorsafe": "토르 세이프 만들기",
       "createTransaction": "트랜잭션 생성",
+      "createTxDisabledInfo": "새 거래를 생성하려면 연결된 멀티시그 지갑이 필요합니다",
       "createdWalletAddress": "ThorSafe가 생성되었습니다.아래에서 해당 주소를 볼 수 있습니다.",
       "currentSigners": "현재 서명자",
       "customDeposit": "맞춤 입금",
@@ -603,10 +610,18 @@
       "pendingLiquidity": "보류 중인 유동성",
       "withdraw": "인출"
     },
+    "savings": {
+      "currentBalance": "현재 잔액",
+      "description": "RUNE에 노출되지 않고 단면% {chain} 유동성을 제공합니다.",
+      "earn": "적립",
+      "yourDeposit": "귀하의 입금",
+      "yourEarnings": "귀하의 수익",
+      "yourPositions": "귀하의 포지션"
+    },
     "send": {
-      "txFeeTooltip": "트랜잭션에 지불될 가스 수수료입니다. THORChain 프로토콜로부터 추가 비용은 없습니다.",
+      "outputAsset": "스왑 출력 에셋",
       "toggleCustomTxForm": "사용자 지정 거래 양식 전환",
-      "outputAsset": "스왑 출력 에셋"
+      "txFeeTooltip": "트랜잭션에 지불될 가스 수수료입니다. THORChain 프로토콜로부터 추가 비용은 없습니다."
     },
     "setting": {
       "customRecipientMode": "맞춤 수령인 설정",

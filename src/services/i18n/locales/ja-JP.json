@@ -17,8 +17,8 @@
     "separatorSpace": "スペース",
     "settings": "設定",
     "showCharts": "チャートの表示",
-    "showMultisig": "マルチシグウォレットの表示",
     "showCustomSend": "Show Send Custom Tx",
+    "showMultisig": "マルチシグウォレットの表示",
     "showPools": "注目のプールを表示",
     "showStats": "グローバルデータの表示",
     "theme": "アプリテーマ",
@@ -63,6 +63,7 @@
     "disconnect": "接続解除",
     "dismiss": "却下",
     "documentation": "ドキュメント",
+    "earnings": "収益",
     "estimateTime": "Est. Time",
     "exchange": "交換",
     "expertModeTooltip": "エキスパートモードでは、RUNE＋Assetをダイナミックレシオでプールすることができます。",
@@ -96,6 +97,7 @@
     "merchStore": "グッズショップ",
     "minReceived": "最小受け取り量",
     "minutes": "分",
+    "msgDeposit": "MsgDeposit",
     "network": "ネットワーク",
     "next": "次",
     "noTxHistory": "取引履歴がありません",
@@ -148,6 +150,7 @@
     "value": "価格",
     "valueCopied": "価格のコピー",
     "viewOnThoryield": "Thoryield.comで見る ↗",
+    "viewOnThoryieldNoArrow": "ソリエルドでの眺め",
     "volume": "ボリューム",
     "wallet": "ウォレット",
     "withdraw": "出金",
@@ -319,6 +322,7 @@
     "success": "完了",
     "swap": "スワップ",
     "switch": "スイッチ",
+    "transaction": "トランザクション",
     "unstake": "アンステーク",
     "unstakeAsset": " %{amount} %{asset} のアンステーク",
     "unstakeFailed": " %{amount} %{asset} アンステーク失敗",
@@ -355,6 +359,7 @@
       "featuredPools": "注目のプール"
     },
     "liquidity": {
+      "ILPTooltip": "流動性ポジションにILPがある場合、それは出金額に加算されます。",
       "addButton": "追加",
       "amountToRemove": "取り除く量",
       "approve": "承認",
@@ -372,6 +377,7 @@
       "enterAmount": "金額の入力",
       "from": "から",
       "gasFeeTooltip": "GThorchainプロトコルを使用してトランザクションを送信するために使用されるガス代",
+      "ilp": "不滅の損失保護",
       "lastAdded": "最後に追加した",
       "noLiquidityToWithdraw": "出金できるLPがありません",
       "poolShare": "プールシェア",
@@ -422,6 +428,7 @@
       "createThorSafeWallet": "新たなTHORSafeの作成",
       "createThorsafe": "THORSafeの作成",
       "createTransaction": "トランザクションの作成",
+      "createTxDisabledInfo": "新しいトランザクションを作成するには、マルチシグウォレットに接続する必要があります。",
       "createdWalletAddress": "あなたのTHORSafeが完成しました。アドレスは以下から確認できます。:",
       "currentSigners": "現在の署名者",
       "customDeposit": "カスタム入金",
@@ -603,10 +610,18 @@
       "pendingLiquidity": "保留流の流動性",
       "withdraw": "出金"
     },
+    "savings": {
+      "currentBalance": "現在の残高",
+      "description": "シングルサイドの%{chain}を提供します。RUNEへのエクスポージャーを伴わない流動性。",
+      "earn": "アーン",
+      "yourDeposit": "預け入れ",
+      "yourEarnings": "お客様の収益",
+      "yourPositions": "ポジション"
+    },
     "send": {
-      "txFeeTooltip": "送金にかかるGas代、THORChainプロトコルの手数料は無料です。",
+      "outputAsset": "スワップアウトプットアセット",
       "toggleCustomTxForm": "カスタムトランザクションフォームのトグル",
-      "outputAsset": "スワップアウトプットアセット"
+      "txFeeTooltip": "送金にかかるGas代、THORChainプロトコルの手数料は無料です。"
     },
     "setting": {
       "customRecipientMode": "カスタム受信者の設定",

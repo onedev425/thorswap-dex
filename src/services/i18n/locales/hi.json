@@ -17,8 +17,8 @@
     "separatorSpace": "स्पेस",
     "settings": "समायोजन",
     "showCharts": "चार्ट दिखाएं",
-    "showMultisig": "मल्टी-सिग वॉलेट दिखाएं",
     "showCustomSend": "कस्टम टीएक्स भेजें दिखाएं",
+    "showMultisig": "मल्टी-सिग वॉलेट दिखाएं",
     "showPools": "चुनिंदा पूल दिखाएं",
     "showStats": "वैश्विक आँकड़े दिखाएं",
     "theme": "App थीम",
@@ -63,6 +63,7 @@
     "disconnect": "डिस्कनेक्ट",
     "dismiss": "खारिज करें",
     "documentation": "दस्तावेजीकरण",
+    "earnings": "कमाई",
     "estimateTime": "अनुमानित समय",
     "exchange": "इक्सचेइन्ज्",
     "expertModeTooltip": "आप विशेषज्ञ मोड में गतिशील अनुपात के साथ RUNE + एसेट को पूल करने में सक्षम हैं।",
@@ -96,6 +97,7 @@
     "merchStore": "मर्च स्टोर",
     "minReceived": "न्यूनतम प्राप्त",
     "minutes": "मिनट",
+    "msgDeposit": "MSG डिपॉजिट",
     "network": "नेटवर्क",
     "next": "नेक्स्ट",
     "noTxHistory": "इतिहास में कोई लेनदेन नहीं",
@@ -148,6 +150,7 @@
     "value": "मूल्य",
     "valueCopied": "कॉपी किया गया मान",
     "viewOnThoryield": "Thoryield.com पर देखें ↗",
+    "viewOnThoryieldNoArrow": "थोरीदेड पर देखें",
     "volume": "मात्रा",
     "wallet": "बटुआ",
     "withdraw": "विथ्द्रव",
@@ -319,6 +322,7 @@
     "success": "सफलता",
     "swap": "Swap",
     "switch": " स्विच करें",
+    "transaction": "ट्रांजेक्शन",
     "unstake": "अनस्टेक करें",
     "unstakeAsset": "अनस्टेक %{राशि} %{asset} ",
     "unstakeFailed": "अनस्टेक %{राशि} %{asset} विफल रहा",
@@ -355,6 +359,7 @@
       "featuredPools": "विशेष रुप से प्रदर्शित पूल"
     },
     "liquidity": {
+      "ILPTooltip": "अगर आपके पास लिक्विडिटी पोजीशन के लिए ILP है तो इसे निकाली गई राशि में जोड़ा जाएगा।",
       "addButton": "जोड़ें",
       "amountToRemove": "निकालने के लिए राशि",
       "approve": "मंज़ूरी दे",
@@ -372,6 +377,7 @@
       "enterAmount": "एक राशि दर्ज करें",
       "from": "से",
       "gasFeeTooltip": "Thorchain प्रोटोकॉल का उपयोग करके लेनदेन जमा करने के लिए प्रयुक्त गैस शुल्क",
+      "ilp": "अस्थायी नुकसान से सुरक्षा",
       "lastAdded": "पिछली बार जोड़ा गया",
       "noLiquidityToWithdraw": "आपके पास वापस लेने के लिए एल.पी नहीं है",
       "poolShare": "पूल शेयर",
@@ -422,6 +428,7 @@
       "createThorSafeWallet": "नया थोरसेफ बनाएं",
       "createThorsafe": "थोरसेफ बनाएं",
       "createTransaction": "ट्रांजेक्शन बनाएं",
+      "createTxDisabledInfo": "नया लेनदेन बनाने के लिए आपको कनेक्टेड मल्टीसिग वॉलेट की आवश्यकता है",
       "createdWalletAddress": "आपका ThorSafe बनाया गया है। आप इसका पता नीचे देख सकते हैं:",
       "currentSigners": "वर्तमान हस्ताक्षरकर्ता",
       "customDeposit": "कस्टम डिपॉज़िट",
@@ -603,10 +610,18 @@
       "pendingLiquidity": "लंबित लिक्विडिटी",
       "withdraw": "निकालना"
     },
+    "savings": {
+      "currentBalance": "मौज़ूदा बैलेंस",
+      "description": "RUNE के संपर्क में न आने पर एक तरफा% {चेन} लिक्विडिटी प्रदान करें।",
+      "earn": "कमाएं",
+      "yourDeposit": "आपका डिपॉज़िट",
+      "yourEarnings": "आपकी कमाई",
+      "yourPositions": "आपकी स्थितियाँ"
+    },
     "send": {
-      "txFeeTooltip": "लेनदेन भेजने के लिए गैस शुल्क, Thorchain प्रोटोकॉल से कोई अतिरिक्त शुल्क नहीं है",
+      "outputAsset": "स्वैप आउटपुट एसेट",
       "toggleCustomTxForm": "कस्टम ट्रांजेक्शन फ़ॉर्म को टॉगल करें",
-      "outputAsset": "स्वैप आउटपुट एसेट"
+      "txFeeTooltip": "लेनदेन भेजने के लिए गैस शुल्क, Thorchain प्रोटोकॉल से कोई अतिरिक्त शुल्क नहीं है"
     },
     "setting": {
       "customRecipientMode": "कस्टम प्राप्तकर्ता सेट करें",

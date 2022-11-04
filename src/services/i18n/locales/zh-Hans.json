@@ -17,8 +17,8 @@
     "separatorSpace": "空格",
     "settings": "设置",
     "showCharts": "显示图表",
-    "showMultisig": "显示多重签名钱包",
     "showCustomSend": "显示 发送自定义Tx",
+    "showMultisig": "显示多重签名钱包",
     "showPools": "显示精选流动池",
     "showStats": "显示全网路统计数据",
     "theme": "App 主题",
@@ -63,6 +63,7 @@
     "disconnect": "断开",
     "dismiss": "撤销",
     "documentation": "文档",
+    "earnings": "收益",
     "estimateTime": "预计时间",
     "exchange": "交易所",
     "expertModeTooltip": "在专家模式下，您能够以动态比例汇集RUNE+代币入流动池。",
@@ -96,6 +97,7 @@
     "merchStore": "商店",
     "minReceived": "收到的最低数额",
     "minutes": "分钟",
+    "msgDeposit": "MsgDeposit",
     "network": "网络",
     "next": "下一步",
     "noTxHistory": "没有任何交易历史",
@@ -148,6 +150,7 @@
     "value": "价值",
     "valueCopied": "已复制",
     "viewOnThoryield": "在Thoryield.com上查看↗",
+    "viewOnThoryieldNoArrow": "查看索里菲尔德",
     "volume": "交易量",
     "wallet": "钱包",
     "withdraw": "提取",
@@ -319,6 +322,7 @@
     "success": "成功",
     "swap": "兑换",
     "switch": "转换",
+    "transaction": "交易",
     "unstake": "解除质押",
     "unstakeAsset": "解除质押 %{amount} %{asset}",
     "unstakeFailed": "解除质押 %{amount} %{asset} 失败",
@@ -355,6 +359,7 @@
       "featuredPools": "精选流动池"
     },
     "liquidity": {
+      "ILPTooltip": "如果你的流动资金头寸有ILP，它将被添加到提取的金额中。",
       "addButton": "添加",
       "amountToRemove": "需移除金额",
       "approve": "授权",
@@ -372,6 +377,7 @@
       "enterAmount": "请输入金额",
       "from": "来自",
       "gasFeeTooltip": "用于提交使用 THORChain 交易的燃料费",
+      "ilp": "无效的损失保护",
       "lastAdded": "最近添加",
       "noLiquidityToWithdraw": "您没有可提取的 LP",
       "poolShare": "流动池占比",
@@ -422,6 +428,7 @@
       "createThorSafeWallet": "创建新的 THORSafe",
       "createThorsafe": "创建THORSafe",
       "createTransaction": "创建交易",
+      "createTxDisabledInfo": "你需要连接多签名钱包来创建新的交易",
       "createdWalletAddress": "您的 THORSafe 已被创建。请在下方查看地址。",
       "currentSigners": "目前的签署者",
       "customDeposit": "自定义添加",
@@ -603,10 +610,18 @@
       "pendingLiquidity": "待定的流动性",
       "withdraw": "提取"
     },
+    "savings": {
+      "currentBalance": "当前余额",
+      "description": "提供单边%{链}的流动性，对RUNE没有任何风险。",
+      "earn": "赚取",
+      "yourDeposit": "你的存款",
+      "yourEarnings": "你的收入",
+      "yourPositions": "您的职位"
+    },
     "send": {
-      "txFeeTooltip": "用于发送交易的燃料费。THORChain 协议没有额外的费用。",
+      "outputAsset": "互换输出资产",
       "toggleCustomTxForm": "切换自定义交易表格",
-      "outputAsset": "互换输出资产"
+      "txFeeTooltip": "用于发送交易的燃料费。THORChain 协议没有额外的费用。"
     },
     "setting": {
       "customRecipientMode": "设置自定义收款人",

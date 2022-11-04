@@ -17,8 +17,8 @@
     "separatorSpace": "ដកឃ្លា",
     "settings": "ប្រព័ន្ធ",
     "showCharts": "បង្ហាញតារាង",
-    "showMultisig": "បង្ហាញកាបូបច្រើនស៊ីក",
     "showCustomSend": "បង្ហាញ Send Custom Tx",
+    "showMultisig": "បង្ហាញកាបូបច្រើនស៊ីក",
     "showPools": "បង្ហាញទម្រង់គម្រោង pools",
     "showStats": "បង្ហាញស្ថិតិសកល",
     "theme": "ផ្ទាំងរូបរបស់កម្មវិធី",
@@ -63,6 +63,7 @@
     "disconnect": "ផ្តាច់",
     "dismiss": "ច្រានចោល",
     "documentation": "ឯកសារ",
+    "earnings": "ប្រាក់ចំណូល",
     "estimateTime": "ពេលវេលាប៉ាន់ស្មាន ",
     "exchange": "ប្តូរ រូបិយប័ណ្ណ",
     "expertModeTooltip": "អ្នកអាចបញ្ចូល RUNE + Asset ជាមួយនឹងសមាមាត្រដ៍មានអនុភាពតាមរបៀបអ្នកជំនាញ។",
@@ -96,6 +97,7 @@
     "merchStore": "ហាងលក់ទំនិញ",
     "minReceived": "ទទួលបានអប្បបរមា",
     "minutes": "នាទី",
+    "msgDeposit": "MsgDeposit",
     "network": "បណ្តាញ",
     "next": "បន្ទាប់",
     "noTxHistory": "មិនមានប្រវត្តិប្រតិបត្តិការទេ",
@@ -148,6 +150,7 @@
     "value": "តម្លៃ",
     "valueCopied": "តម្លៃត្រូវបានចម្លង",
     "viewOnThoryield": "មើលនៅលើ Thoryield.com",
+    "viewOnThoryieldNoArrow": "មើលនៅលើ Thoryield",
     "volume": "បរិមាណ",
     "wallet": "កាបូប  Electronic",
     "withdraw": "ដក",
@@ -319,6 +322,7 @@
     "success": "ជោគជ័យ",
     "swap": "ជួញដូរ",
     "switch": "ផ្លាស់ប្ដូរ",
+    "transaction": "ប្រតិបត្តិការ",
     "unstake": "ដកភាគហ៊ុន",
     "unstakeAsset": "ដកភាគហ៊ុន %{amount} %{asset}",
     "unstakeFailed": "ការដកភាគហ៊ុន %{amount} %{asset} បានបរាជ័យ",
@@ -355,6 +359,7 @@
       "featuredPools": "គម្រោងពិសេស"
     },
     "liquidity": {
+      "ILPTooltip": "ប្រសិនបើអ្នកមាន ILP សម្រាប់អ្នក ទីតាំងសាច់ប្រាក់ងាយស្រួល វានឹងបញ្ចូលទៅក្នុងចំនួនទឹកប្រាក់ដក។",
       "addButton": "បន្ថែម",
       "amountToRemove": "ចំនួនដែលត្រូវដកចេញ",
       "approve": "អនុញ្ញាត្តិ",
@@ -372,6 +377,7 @@
       "enterAmount": "ដាក់ចំនួន",
       "from": "ពី",
       "gasFeeTooltip": "តម្លៃហ្គាសដែលប្រើសម្រាប់ការបញ្ជូនប្រតិបត្តិការលើពិធីការ thorchain protocol",
+      "ilp": "ការការពារការបាត់បង់អចិន្រ្តៃយ៍",
       "lastAdded": "ការបន្ថែមចុងក្រោយ",
       "noLiquidityToWithdraw": "អ្នកមិនមាន LP ដើម្បីដកទេ។",
       "poolShare": "គម្រោងដែលត្រូវចែក",
@@ -422,6 +428,7 @@
       "createThorSafeWallet": "បង្កើត THORSafe ថ្មី។",
       "createThorsafe": "បង្កើត THORSafe",
       "createTransaction": "Create Transaction",
+      "createTxDisabledInfo": "អ្នក​ត្រូវ​ការ​កាបូប multisig ដែល​បាន​តភ្ជាប់​ដើម្បី​បង្កើត​ប្រតិបត្តិការ​ថ្មី។",
       "createdWalletAddress": "Your THORSafe has been created. You can view its address below:",
       "currentSigners": "Current signers",
       "customDeposit": "Custom deposit",
@@ -603,10 +610,18 @@
       "pendingLiquidity": "រូបិយប័ណ្ណដែលមិនទាន់សម្រេច",
       "withdraw": "ដក"
     },
+    "savings": {
+      "currentBalance": "តុល្យភាព​បច្ចុប្បន្ន",
+      "description": "ផ្តល់សាច់ប្រាក់ %{chain} តែមួយចំហៀងដោយគ្មានការប៉ះពាល់ជាមួយ RUNE ។",
+      "earn": "រកបាន។",
+      "yourDeposit": "ប្រាក់បញ្ញើរបស់អ្នក។",
+      "yourEarnings": "ប្រាក់ចំណូលរបស់អ្នក។",
+      "yourPositions": "មុខតំណែងរបស់អ្នក។"
+    },
     "send": {
-      "txFeeTooltip": "តម្លៃហ្គាសដើម្បីផ្ញើប្រតិបត្តិការ មិនមានការគិតថ្លៃបន្ថែមពីពិធីការ THORChain ទេ",
+      "outputAsset": "ផ្លាស់ប្តូរទ្រព្យសម្បត្តិទិន្នផល",
       "toggleCustomTxForm": "បិទបើកទម្រង់ប្រតិបត្តិការផ្ទាល់ខ្លួន",
-      "outputAsset": "ផ្លាស់ប្តូរទ្រព្យសម្បត្តិទិន្នផល"
+      "txFeeTooltip": "តម្លៃហ្គាសដើម្បីផ្ញើប្រតិបត្តិការ មិនមានការគិតថ្លៃបន្ថែមពីពិធីការ THORChain ទេ"
     },
     "setting": {
       "customRecipientMode": "កំណត់អ្នកទទួលជាធម្មតា",
