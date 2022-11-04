@@ -99,6 +99,8 @@ export const useTxIDFromResult = ({
       case TransactionType.SWAP_TC_TO_TC:
         return txid !== result.transactionHash ? result.transactionHash : null;
 
+      case TransactionType.TC_SAVINGS_ADD:
+      case TransactionType.TC_SAVINGS_WITHDRAW:
       case TransactionType.TC_LP_ADD:
       case TransactionType.TC_LP_WITHDRAW:
         return txid !== result.txID ? result.txID : null;

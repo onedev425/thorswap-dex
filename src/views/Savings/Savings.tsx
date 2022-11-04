@@ -99,7 +99,7 @@ const Savings = () => {
           asset: asset.name,
           amount: amount.toSignificant(6),
         }),
-        type: isDeposit ? TransactionType.TC_LP_ADD : TransactionType.TC_SAVINGS_WITHDRAW,
+        type: isDeposit ? TransactionType.TC_SAVINGS_ADD : TransactionType.TC_SAVINGS_WITHDRAW,
         inChain: asset.L1Chain,
       }),
     );

@@ -8,10 +8,14 @@ type LiquidityTxResult<T extends TransactionType> = {
   inputAssetPriceUSDTimestamp: { [key: string]: string };
 };
 
-type WithdrawTxResult = LiquidityTxResult<TransactionType.TC_LP_WITHDRAW> & {
+type WithdrawTxResult = LiquidityTxResult<
+  TransactionType.TC_LP_WITHDRAW | TransactionType.TC_SAVINGS_WITHDRAW
+> & {
   out: { [key: string]: { address: string; amount: string } };
 };
-type AddLiquidityTxResult = LiquidityTxResult<TransactionType.TC_LP_ADD> & {
+type AddLiquidityTxResult = LiquidityTxResult<
+  TransactionType.TC_LP_ADD | TransactionType.TC_SAVINGS_ADD
+> & {
   in: { [key: string]: { address: string; amount: string } };
 };
 
