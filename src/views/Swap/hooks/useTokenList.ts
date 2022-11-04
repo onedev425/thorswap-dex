@@ -6,7 +6,7 @@ import { useAppSelector } from 'store/store';
 import { useGetProvidersQuery } from 'store/thorswap/api';
 import { Token } from 'store/thorswap/types';
 
-export const DISABLED_TOKENLIST_PROVIDERS = IS_PROD ? ['Pangolin'] : [];
+export const DISABLED_TOKENLIST_PROVIDERS = IS_PROD ? [] : [];
 
 export const useTokenList = () => {
   const [tokens, setTokens] = useState<Token[]>([]);

@@ -32,9 +32,7 @@ export const useSwapQuote = ({
   const params = useMemo(
     () => ({
       affiliateBasisPoints,
-      providers: IS_PROD
-        ? supportedProvidersData?.filter((p) => p !== 'PANGOLIN')
-        : supportedProvidersData,
+      providers: IS_PROD ? supportedProvidersData : supportedProvidersData,
       sellAsset: inputAsset.toString(),
       buyAsset: outputAsset.toString(),
       slippage: slippageTolerance.toString(),
