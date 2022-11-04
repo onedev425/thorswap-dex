@@ -37,9 +37,10 @@ export const useAssetsWithBalanceFromTokens = (tokens: Token[]) => {
       tokens
         .map(({ identifier, address, chain, ...rest }: Token) => {
           try {
+            const [id] = identifier.split('-');
             const asset = Asset.fromAssetString(
               [Chain.Avalanche, Chain.Ethereum].includes(chain as Chain.THORChain)
-                ? `${identifier}${address ? `-${address}` : ''}`
+                ? `${id}${address ? `-${address}` : ''}`
                 : identifier,
             );
 
