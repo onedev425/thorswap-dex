@@ -19,15 +19,7 @@ import {
 import { Pool } from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 
-export enum AggregatorSwapType {
-  TC2TC = 'TC2TC',
-  ERC20 = 'ERC20',
-  SwapIn = 'swapIn',
-  SwapOut = 'swapOut',
-}
-
 export interface SubmitTx {
-  aggType?: AggregatorSwapType;
   contractAddress?: string;
   inAssets?: Coin[];
   outAssets?: Coin[];
