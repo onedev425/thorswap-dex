@@ -9,6 +9,7 @@ export const globalConfig = {
   dogeNodeApiKey: import.meta.env.VITE_DOGENODE_API_KEY || '',
   etherscanApiKey: import.meta.env.VITE_ETHERSCAN_API_KEY || '',
   ethplorerApiKey: import.meta.env.VITE_ETHPLORER_API_KEY || '',
+  allthatnodeApiKey: import.meta.env.VITE_ALLTHATNODE_KEY || '',
   figmentApiKey: import.meta.env.VITE_FIGMENT_API_KEY || '',
   isThorchainStagenet: IS_STAGENET,
   networkType: Network.Mainnet,
@@ -24,7 +25,7 @@ export const multichain = () => {
   try {
     return (multichainClient ||= new MultiChain({
       network: Network.Mainnet,
-      figmentApiKey: import.meta.env.VITE_FIGMENT_API_KEY || '',
+      allthatnodeApiKey: import.meta.env.VITE_ALLTHATNODE_KEY || '',
     }));
   } catch (error: any) {
     console.error(error);
