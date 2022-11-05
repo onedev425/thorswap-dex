@@ -62,20 +62,6 @@ export const PendingTransaction = memo(
       [txid, type],
     );
 
-    const secondUrl = useMemo(
-      () =>
-        txid &&
-        [
-          TransactionType.TC_LP_ADD,
-          TransactionType.TC_LP_WITHDRAW,
-          TransactionType.TC_SAVINGS_ADD,
-          TransactionType.TC_SAVINGS_WITHDRAW,
-        ].includes(type)
-          ? multichain().getExplorerTxUrl(Chain.THORChain, cutTxPrefix(txid))
-          : '',
-      [txid, type],
-    );
-
     useEffect(() => {
       const transactionCompleted = data?.ok && ['mined', 'refund'].includes(data.status);
       const instantComplete = [TransactionType.TC_SEND].includes(type);
