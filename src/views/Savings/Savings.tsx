@@ -1,12 +1,13 @@
 import { Amount, Asset, AssetAmount, Percent } from '@thorswap-lib/multichain-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { AssetInput } from 'components/AssetInput';
-import { Box, Card, Typography } from 'components/Atomic';
+import { Box, Card, Icon, Link, Tooltip, Typography } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { InfoRow } from 'components/InfoRow';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { TabsSelect } from 'components/TabsSelect';
 import { ViewHeader } from 'components/ViewHeader';
+import { YIELD_BEARING_YOUTUBE } from 'config/constants';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -141,16 +142,23 @@ const Savings = () => {
   return (
     <Box col className="self-center w-full max-w-[480px] mt-2">
       <Helmet content={t('views.savings.earn')} title={t('views.savings.earn')} />
-      <ViewHeader title={t('views.savings.earn')} />
+      <ViewHeader title={`${t('views.savings.earn')} ${asset.name}`} />
 
       <Box alignCenter className="px-3" justify="between">
         <Typography color="secondary" fontWeight="medium" variant="caption">
           {t('views.savings.description', { chain: asset.L1Chain })}
+          <Link className="text-twitter-blue cursor-pointer" to={YIELD_BEARING_YOUTUBE}>
+            <Typography color="blue" fontWeight="medium" variant="caption">
+              {`${t('common.learnMore')} →`}
+            </Typography>
+          </Link>
         </Typography>
-
-        {/* <Tooltip content={t('views.savings.stakeInfo')} place="bottom">
-          <Icon color="secondary" name="chart" size={24} />
-        </Tooltip> */}
+        <Tooltip
+          content={t('views.savings.tooltipDescription', { asset: asset.name })}
+          place="bottom"
+        >
+          <Icon color="primaryBtn" name="infoCircle" size={24} />
+        </Tooltip>
       </Box>
 
       <Card
@@ -166,6 +174,7 @@ const Savings = () => {
           )}
 
           <AssetInput
+            noFilters
             assets={listAssets}
             className="flex-1"
             disabled={tab === SavingsTab.Withdraw}

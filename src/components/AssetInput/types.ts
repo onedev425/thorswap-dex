@@ -25,6 +25,7 @@ export type AssetInputProps = {
   secondaryLabel?: string;
   selectedAsset: AssetInputType;
   warning?: string;
+  noFilters?: boolean;
 } & (
   | {
       assets: AssetSelectType[];

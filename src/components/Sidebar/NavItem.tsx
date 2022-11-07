@@ -73,15 +73,17 @@ export const NavItem = memo(
               <Box className=" justify-center w-full px-4">
                 <div className="min-w-[18px] min-h-[18px]">
                   <Box center>
-                    <Icon
-                      className={classNames(
-                        'transition group-hover:stroke-white group-hover:text-white font-bold',
-                        iconClasses[variant],
-                        { 'stroke-white !text-white': isActive },
-                      )}
-                      name={iconName}
-                      size={18}
-                    />
+                    {iconName && (
+                      <Icon
+                        className={classNames(
+                          'transition group-hover:stroke-white group-hover:text-white font-bold',
+                          iconClasses[variant],
+                          { 'stroke-white !text-white': isActive },
+                        )}
+                        name={iconName}
+                        size={18}
+                      />
+                    )}
                   </Box>
                 </div>
 

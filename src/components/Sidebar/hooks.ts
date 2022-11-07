@@ -66,8 +66,6 @@ export const useSidebarOptions = () => {
   const sidebarOptions = useMemo(() => {
     const menu: SidebarItemProps[] = [
       {
-        iconName: 'tradeLightning',
-        label: t('components.sidebar.trade'),
         hasBackground: true,
         children: [
           {
@@ -75,6 +73,17 @@ export const useSidebarOptions = () => {
             href: ROUTES.Swap,
             label: t('components.sidebar.swap'),
           },
+          {
+            iconName: 'piggyBank' as IconName,
+            href: ROUTES.Savings,
+            label: 'Earn',
+          },
+        ],
+      },
+      {
+        iconName: 'tradeLightning',
+        label: t('components.sidebar.pool'),
+        children: [
           {
             iconName: 'inIcon',
             href: ROUTES.AddLiquidity,
@@ -112,11 +121,6 @@ export const useSidebarOptions = () => {
           IS_PROD
             ? []
             : [
-                {
-                  iconName: 'piggyBank' as IconName,
-                  href: ROUTES.Savings,
-                  label: 'Savings',
-                },
                 {
                   iconName: 'dollarOutlined' as IconName,
                   href: ROUTES.OnRamp,

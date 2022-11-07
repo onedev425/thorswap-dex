@@ -24,6 +24,7 @@ export const AssetSelectList = ({
   openManageTokenList,
   query,
   setQuery,
+  noFilters,
 }: AssetSelectProps) => {
   const listRef = useRef<List<NotWorth>>(null);
   const { isLgActive } = useWindowSize();
@@ -78,26 +79,34 @@ export const AssetSelectList = ({
           genericBgClasses.secondary,
         )}
       >
-        <Input
-          autoFocus
-          stretch
-          border="rounded"
-          className="!text-md p-1.5 flex-1 border"
-          containerClassName="bg-light-gray-light dark:bg-dark-gray-light !bg-opacity-80"
-          onChange={handleQueryChange}
-          placeholder={t('components.assetSelect.searchTokenName')}
-          suffix={
-            query ? <Icon color="secondary" name="close" onClick={() => handleQueryChange()} /> : ''
-          }
-          value={query}
-        />
+        {!noFilters && (
+          <>
+            <Input
+              autoFocus
+              stretch
+              border="rounded"
+              className="!text-md p-1.5 flex-1 border"
+              containerClassName="bg-light-gray-light dark:bg-dark-gray-light !bg-opacity-80"
+              onChange={handleQueryChange}
+              placeholder={t('components.assetSelect.searchTokenName')}
+              suffix={
+                query ? (
+                  <Icon color="secondary" name="close" onClick={() => handleQueryChange()} />
+                ) : (
+                  ''
+                )
+              }
+              value={query}
+            />
 
-        <TabsSelect
-          buttonClasses="px-2"
-          onChange={setTypeFilterOption}
-          tabs={assetFilterTypes}
-          value={typeFilter}
-        />
+            <TabsSelect
+              buttonClasses="px-2"
+              onChange={setTypeFilterOption}
+              tabs={assetFilterTypes}
+              value={typeFilter}
+            />
+          </>
+        )}
       </Box>
 
       <Box
@@ -131,20 +140,22 @@ export const AssetSelectList = ({
       </Box>
 
       <Box justifyCenter className="z-10 pt-4 pb-6">
-        <div className="group flex-row flex justify-center" onClick={openManageTokenList}>
-          <Icon
-            className="cursor-pointer dark:group-hover:text-dark-typo-primary group-hover:text-light-typo-primary"
-            color="secondary"
-            name="edit"
-            size={18}
-          />
+        {!noFilters && (
+          <div className="group flex-row flex justify-center" onClick={openManageTokenList}>
+            <Icon
+              className="cursor-pointer dark:group-hover:text-dark-typo-primary group-hover:text-light-typo-primary"
+              color="secondary"
+              name="edit"
+              size={18}
+            />
 
-          <div className="cursor-pointer overflow-hidden transition-all">
-            <div className="text-caption uppercase font-semibold px-3 transition-all whitespace-nowrap text-light-typo-gray dark:text-dark-typo-gray dark:group-hover:text-dark-typo-primary group-hover:text-light-typo-primary font-primary">
-              {t('components.assetSelect.manageTokenList')}
+            <div className="cursor-pointer overflow-hidden transition-all">
+              <div className="text-caption uppercase font-semibold px-3 transition-all whitespace-nowrap text-light-typo-gray dark:text-dark-typo-gray dark:group-hover:text-dark-typo-primary group-hover:text-light-typo-primary font-primary">
+                {t('components.assetSelect.manageTokenList')}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </Box>
     </Box>
   );

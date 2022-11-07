@@ -9,6 +9,7 @@ export type AssetSelectProps = {
   onSelect: (asset: Asset) => void;
   onClose?: () => void;
   openManageTokenList?: () => void;
+  noFilters?: boolean;
 };
 
 export type AssetSelectType = Pick<Token, 'logoURI' | 'cg'> & {

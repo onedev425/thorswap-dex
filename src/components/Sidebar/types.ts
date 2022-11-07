@@ -4,7 +4,7 @@ import { MouseEventHandler } from 'react';
 export type SidebarVariant = 'primary' | 'secondary';
 
 type ItemProps = {
-  iconName: IconName;
+  iconName?: IconName;
   rightIconName?: IconName;
   hasBackground?: boolean;
   beta?: boolean;
@@ -22,7 +22,7 @@ export type NavItemProps = ItemProps & {
 
 export type SidebarItemProps = ItemProps & {
   children?: SidebarItemProps[];
-  label: string;
+  label?: string;
   navLabel?: string;
   transform?: TextTransform;
 };

@@ -187,6 +187,7 @@
       "expand": "Expand",
       "joinDiscord": "Join Discord Server",
       "liquidity": "Liquidity",
+      "pool": "Pool",
       "send": "Send",
       "staking": "Staking",
       "stats": "Stats",
@@ -613,8 +614,9 @@
     },
     "savings": {
       "currentBalance": "Current Balance",
-      "description": "Provide single sided %{chain} Liquidity with no exposure to RUNE.",
+      "description": "Earn passive income on your idle assets with Savers Vaults.",
       "earn": "Earn",
+      "tooltipDescription": "Earn yield by providing single sided $%{asset} Liquidity with no $RUNE exposure and Impermanent Loss",
       "yourDeposit": "Your Deposit",
       "yourEarnings": "Your Earnings",
       "yourPositions": "Your Positions"
