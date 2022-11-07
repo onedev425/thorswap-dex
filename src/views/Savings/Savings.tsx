@@ -122,6 +122,22 @@ const Savings = () => {
     [],
   );
 
+  const txInfos = [
+    {
+      label: 'Action:',
+      value: tab === SavingsTab.Deposit ? t('common.deposit') : t('common.withdraw'),
+    },
+    {
+      label: 'Asset:',
+      value: `${asset.name}`,
+      icon: asset,
+    },
+    {
+      label: 'Amount:',
+      value: `${amount.toSignificant(6)} ${asset.name}`,
+    },
+  ];
+
   return (
     <Box col className="self-center w-full max-w-[480px] mt-2">
       <Helmet content={t('views.savings.earn')} title={t('views.savings.earn')} />
@@ -181,17 +197,18 @@ const Savings = () => {
         onClose={() => setIsConfirmOpen(false)}
         onConfirm={handleSavingsSubmit}
       >
-        <InfoRow
-          label={tab === SavingsTab.Deposit ? t('common.deposit') : t('common.withdraw')}
-          value={
-            <Box center className="gap-1">
-              <Typography variant="caption">
-                {amount.toSignificant(6)} {asset.name}
-              </Typography>
-              <AssetIcon asset={asset} size={22} />
-            </Box>
-          }
-        />
+        {txInfos.map((info) => (
+          <InfoRow
+            key={info.label}
+            label={info.label}
+            value={
+              <Box center className="gap-1">
+                <Typography variant="caption">{info.value}</Typography>
+                {info.icon && <AssetIcon asset={info.icon} size={22} />}
+              </Box>
+            }
+          />
+        ))}
       </ConfirmModal>
     </Box>
   );
