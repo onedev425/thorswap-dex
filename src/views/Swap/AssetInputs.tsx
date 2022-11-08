@@ -114,12 +114,7 @@ export const AssetInputs = memo(
         return bFeatured ? 1 : aFeatured ? -1 : b.balance.gt(a.balance) ? 1 : -1;
       });
 
-      return uniqBy(sortedAssets, ({ asset }) => {
-        const assetName = asset.toString();
-        if (assetName.includes('ETH.USDT')) console.log(assetName, asset);
-
-        return assetName;
-      });
+      return uniqBy(sortedAssets, ({ asset }) => asset.toString());
     }, [assetList, isFeatured, isFrequent, query]);
 
     const outputAssets = useMemo(() => {
