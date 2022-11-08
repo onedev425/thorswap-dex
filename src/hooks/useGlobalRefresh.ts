@@ -1,9 +1,7 @@
 import type { HistoryInterval, PoolPeriods } from '@thorswap-lib/midgard-sdk';
-import { getRequest } from '@thorswap-lib/multichain-core';
 import useInterval from 'hooks/useInterval';
 import { useCallback, useRef } from 'react';
 import { batch } from 'react-redux';
-import { midgardAPIUrl } from 'settings/config';
 import { POLL_DATA_INTERVAL, POLL_GAS_RATE_INTERVAL } from 'settings/constants';
 import {
   getEarningsHistory,
@@ -15,6 +13,7 @@ import {
   getQueue,
   getStats,
   getSwapHistory,
+  getThorchainInboundData,
   getTVLHistory,
   getVolume24h,
 } from 'store/midgard/actions';
@@ -26,8 +25,6 @@ import { useEffectOnce } from './useEffectOnce';
  * hooks for reloading all data
  * NOTE: useRefresh hooks should be imported and used only once, to avoid multiple usage of useInterval
  */
-
-const getInboundData = () => getRequest(midgardAPIUrl('thorchain/inbound_addresses'));
 
 const MAX_HISTORY_COUNT = 100;
 const PER_DAY = 'day' as HistoryInterval;
@@ -82,13 +79,13 @@ export const useGlobalRefresh = () => {
   }, [appDispatch]);
 
   useEffectOnce(() => {
-    getInboundData();
     refreshPage();
+    appDispatch(getThorchainInboundData());
     getGlobalHistory();
   });
 
   useInterval(() => {
-    getInboundData();
+    appDispatch(getThorchainInboundData());
   }, POLL_GAS_RATE_INTERVAL);
 
   useInterval(() => {

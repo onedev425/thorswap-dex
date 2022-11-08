@@ -212,6 +212,7 @@ export interface State {
   inboundGasRate: { [key in Chain]?: string };
   inboundHalted: { [key in SupportedChain]?: boolean };
   inboundAddresses: { [key in SupportedChain]?: string };
+  outboundFee: { [key in SupportedChain]?: string };
   lastBlock: LastblockItem[];
   nodes: THORNode[];
   nodeLoading: boolean;

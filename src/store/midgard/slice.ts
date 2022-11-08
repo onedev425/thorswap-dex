@@ -44,6 +44,7 @@ const initialState: State = {
   mimir: {},
   volume24h: null,
   inboundGasRate: {},
+  outboundFee: {},
   inboundHalted: {},
   inboundAddresses: {},
   lastBlock: [],
@@ -353,22 +354,26 @@ const midgardSlice = createSlice({
         state.volume24h = payload;
       })
       .addCase(midgardActions.getThorchainInboundData.fulfilled, (state, { payload }) => {
-        const { gasRateByChain, haltedByChain, poolAddressByChain } = payload.reduce(
-          (acc, { chain, halted, gas_rate, address }) => {
-            if (chain) {
-              acc.gasRateByChain[chain as SupportedChain] = gas_rate;
-              acc.haltedByChain[chain as SupportedChain] = halted;
-              acc.poolAddressByChain[chain as SupportedChain] = address;
-            }
+        const { gasRateByChain, haltedByChain, poolAddressByChain, outboundFeeByChain } =
+          payload.reduce(
+            // @ts-expect-error TODO: Update midgard types
+            (acc, { chain, halted, gas_rate, address, outbound_fee }) => {
+              if (chain) {
+                acc.gasRateByChain[chain as SupportedChain] = gas_rate;
+                acc.haltedByChain[chain as SupportedChain] = halted;
+                acc.poolAddressByChain[chain as SupportedChain] = address;
+                acc.outboundFeeByChain[chain as SupportedChain] = outbound_fee;
+              }
 
-            return acc;
-          },
-          {
-            gasRateByChain: {} as { [key in SupportedChain]?: string },
-            haltedByChain: {} as { [key in SupportedChain]?: boolean },
-            poolAddressByChain: {} as { [key in SupportedChain]?: string },
-          },
-        );
+              return acc;
+            },
+            {
+              gasRateByChain: {} as { [key in SupportedChain]?: string },
+              haltedByChain: {} as { [key in SupportedChain]?: boolean },
+              poolAddressByChain: {} as { [key in SupportedChain]?: string },
+              outboundFeeByChain: {} as { [key in SupportedChain]?: string },
+            },
+          );
 
         if (!equalObjects(gasRateByChain, state.inboundGasRate)) {
           state.inboundGasRate = gasRateByChain;
@@ -378,6 +383,9 @@ const midgardSlice = createSlice({
         }
         if (!equalObjects(poolAddressByChain, state.inboundAddresses)) {
           state.inboundAddresses = poolAddressByChain;
+        }
+        if (!equalObjects(outboundFeeByChain, state.outboundFee)) {
+          state.outboundFee = outboundFeeByChain;
         }
       })
       // get thorchain mimir

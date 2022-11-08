@@ -1,4 +1,4 @@
-import { Amount, Asset, AssetAmount, Percent } from '@thorswap-lib/multichain-core';
+import { Amount, AmountType, Asset, AssetAmount, Percent } from '@thorswap-lib/multichain-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Card, Icon, Link, Tooltip, Typography } from 'components/Atomic';
@@ -10,10 +10,12 @@ import { ViewHeader } from 'components/ViewHeader';
 import { YIELD_BEARING_YOUTUBE } from 'config/constants';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
+import { useMimir } from 'hooks/useMimir';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
 import { SORTED_BASE_ASSETS } from 'settings/chain';
+import { useMidgard } from 'store/midgard/hooks';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
@@ -28,22 +30,28 @@ import { useSaverPositions } from './useSaverPositions';
 
 const Savings = () => {
   const appDispatch = useAppDispatch();
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-
-  const { wallet, setIsConnectModalOpen } = useWallet();
-  const { getMaxBalance } = useBalance();
-
   const listAssets = useAssetsWithBalance(SORTED_BASE_ASSETS);
-
-  const [availableToWithdraw, setAvailableToWithdraw] = useState(Amount.fromAssetAmount(0, 8));
+  const { getMaxBalance } = useBalance();
+  const { inboundHalted, outboundFee, pools } = useMidgard();
+  const { isChainTradingHalted, maxSynthPerAssetDepth } = useMimir();
+  const { positions, refreshPositions, getPosition } = useSaverPositions();
+  const { wallet, setIsConnectModalOpen } = useWallet();
   const [amount, setAmount] = useState(Amount.fromAssetAmount(0, 8));
   const [asset, setAsset] = useState(Asset.BTC());
-  const [withdrawPercent, setWithdrawPercent] = useState(new Percent(0));
+  const [availableToWithdraw, setAvailableToWithdraw] = useState(Amount.fromAssetAmount(0, 8));
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [tab, setTab] = useState(SavingsTab.Deposit);
-  const { positions, refreshPositions, getPosition } = useSaverPositions();
-  const isDeposit = tab === SavingsTab.Deposit;
+  const [withdrawPercent, setWithdrawPercent] = useState(new Percent(0));
 
+  const isDeposit = tab === SavingsTab.Deposit;
   const address = useMemo(() => wallet?.[asset.L1Chain]?.address || '', [wallet, asset.L1Chain]);
+  const tabs = useMemo(
+    () => [
+      { label: t('common.deposit'), value: SavingsTab.Deposit },
+      { label: t('common.withdraw'), value: SavingsTab.Withdraw },
+    ],
+    [],
+  );
 
   const depositAsset = useCallback((asset: Asset) => {
     setTab(SavingsTab.Deposit);
@@ -74,11 +82,6 @@ const Savings = () => {
   useEffect(() => {
     refreshPositions();
   }, [asset, refreshPositions]);
-
-  const selectedAsset = useMemo(
-    () => ({ asset, value: amount, balance: address ? getMaxBalance(asset) : undefined }),
-    [address, asset, amount, getMaxBalance],
-  );
 
   const handleMultichainAction = useCallback(
     () =>
@@ -115,29 +118,64 @@ const Savings = () => {
     }
   }, [amount, appDispatch, asset.L1Chain, asset.name, handleMultichainAction, isDeposit]);
 
-  const tabs = useMemo(
-    () => [
-      { label: t('common.deposit'), value: SavingsTab.Deposit },
-      { label: t('common.withdraw'), value: SavingsTab.Withdraw },
-    ],
-    [],
+  const { isSynthInCapacity, assetDepthAmount } = useMemo(() => {
+    const defaultOptions = {
+      isSynthInCapacity: true,
+      assetDepthAmount: Amount.fromAssetAmount(0, 8),
+    };
+    if (!pools?.length) return defaultOptions;
+
+    const { assetDepth, synthSupply } =
+      pools?.find((p) => p.asset.symbol === asset.symbol)?.detail || {};
+
+    const assetDepthAmount = Amount.fromMidgard(assetDepth);
+    if (assetDepthAmount.eq(0)) return defaultOptions;
+
+    return {
+      assetDepthAmount,
+      isSynthInCapacity: Amount.fromMidgard(synthSupply)
+        .div(assetDepthAmount)
+        .assetAmount.isLessThan(maxSynthPerAssetDepth / 10000),
+    };
+  }, [asset.symbol, maxSynthPerAssetDepth, pools]);
+
+  const buttonDisabled = useMemo(
+    () => !isSynthInCapacity || inboundHalted[asset.L1Chain] || isChainTradingHalted[asset.L1Chain],
+    [asset.L1Chain, inboundHalted, isChainTradingHalted, isSynthInCapacity],
   );
 
+  const slippage = useMemo(() => {
+    const networkFee = new Amount(
+      parseInt(outboundFee[asset.L1Chain] || '0') * (isDeposit ? 1 / 3 : 1),
+      AmountType.BASE_AMOUNT,
+      asset.decimal,
+    );
+    const liquidityFee = amount.div(amount.add(assetDepthAmount).mul(amount));
+
+    return liquidityFee.add(networkFee);
+  }, [amount, asset.L1Chain, asset.decimal, assetDepthAmount, isDeposit, outboundFee]);
+
+  const selectedAsset = useMemo(
+    () => ({ asset, value: amount, balance: address ? getMaxBalance(asset) : undefined }),
+    [address, asset, amount, getMaxBalance],
+  );
+
+  const tabLabel = tab === SavingsTab.Deposit ? t('common.deposit') : t('common.withdraw');
   const txInfos = [
+    { label: t('common.action'), value: tabLabel },
+    { label: t('common.asset'), value: `${asset.name}`, icon: asset },
+    { label: t('common.amount'), value: `${amount.toSignificant(6)} ${asset.name}` },
+    { label: t('common.slippage'), value: `${slippage.toSignificant(6)} ${asset.name}` },
     {
-      label: 'Action:',
-      value: tab === SavingsTab.Deposit ? t('common.deposit') : t('common.withdraw'),
-    },
-    {
-      label: 'Asset:',
-      value: `${asset.name}`,
-      icon: asset,
-    },
-    {
-      label: 'Amount:',
-      value: `${amount.toSignificant(6)} ${asset.name}`,
+      label: tabLabel,
+      value: `${amount.sub(slippage).toSignificant(6)} ${asset.name}`,
     },
   ];
+
+  const buttonLabel = useMemo(
+    () => (buttonDisabled ? t('common.disabled') : tabLabel),
+    [buttonDisabled, tabLabel],
+  );
 
   return (
     <Box col className="self-center w-full max-w-[480px] mt-2">
@@ -186,8 +224,9 @@ const Savings = () => {
 
           <SavingsButton
             address={address}
+            disabled={buttonDisabled}
             handleSubmit={() => setIsConfirmOpen(true)}
-            label={tab === SavingsTab.Deposit ? t('common.deposit') : t('common.withdraw')}
+            label={buttonLabel}
             setIsConnectModalOpen={setIsConnectModalOpen}
           />
         </Box>
