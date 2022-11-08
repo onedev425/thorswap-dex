@@ -187,6 +187,7 @@
       "expand": "پھیلائیں",
       "joinDiscord": "Discord سرور میں شامل ہوں۔",
       "liquidity": "Liquidity",
+      "pool": "پول",
       "send": "بھیجیں",
       "staking": "Staking",
       "stats": "اعدادوشمار",
@@ -282,6 +283,7 @@
   "txManager": {
     "addAmountAsset": "شامل کریں %{amount} %{asset}",
     "addLiquidity": "Liquidity شامل کریں",
+    "addSavings": "بچت شامل کریں",
     "addedAmountAsset": "شامل کی گیی %{amount} %{asset}",
     "approve": "منظور کریں",
     "approveAsset": " %{asset} منظور کریں",
@@ -614,9 +616,12 @@
       "currentBalance": "موجودہ بیلنس",
       "description": "ایک رخا فراہم کرتے ہیں% {زنجیر} لیکویڈیٹی RUNE کے لئے کوئی نمائش کے ساتھ.",
       "earn": "کمائیں",
+      "tooltipDescription": "کوئی $ RUNE نمائش اور غیر مستقل نقصان کے ساتھ واحد رخصت $% {اثاثہ} لیکویڈیٹی فراہم کرنے کی طرف سے پیداوار کمائیں",
       "yourDeposit": "آپ کا ڈپازٹ",
       "yourEarnings": "آپ کی آمدنی",
-      "yourPositions": "آپ کی پوزیشنوں"
+      "yourPositions": "آپ کی پوزیشنوں",
+      "aprTipTitle": "جلد ہی آنے والے APR میٹرکس کمائیں!",
+      "aprTipContent": "Savers Vaults پیداوار اپریل آئندہ Thorchain v1.99 اپ ڈیٹ کے بعد دستیاب ہو جائے گا."
     },
     "send": {
       "outputAsset": "آؤٹ پٹ اثاثہ",

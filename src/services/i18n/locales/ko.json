@@ -187,6 +187,7 @@
       "expand": "펼침",
       "joinDiscord": "Discord 서버 참여",
       "liquidity": "유동성",
+      "pool": "풀",
       "send": "발송",
       "staking": "스테이킹",
       "stats": "통계",
@@ -282,6 +283,7 @@
   "txManager": {
     "addAmountAsset": "%{amount} %{asset} 추가",
     "addLiquidity": "유동성 추가",
+    "addSavings": "저축 추가",
     "addedAmountAsset": "%{amount} %{asset} 추가됨",
     "approve": "승인",
     "approveAsset": "%{asset} 승인",
@@ -614,9 +616,12 @@
       "currentBalance": "현재 잔액",
       "description": "RUNE에 노출되지 않고 단면% {chain} 유동성을 제공합니다.",
       "earn": "적립",
+      "tooltipDescription": "$RUNE 노출 및 비영구적 손실 없이 단일화된 $% {asset} 유동성을 제공하여 수익을 창출하세요.",
       "yourDeposit": "귀하의 입금",
       "yourEarnings": "귀하의 수익",
-      "yourPositions": "귀하의 포지션"
+      "yourPositions": "귀하의 포지션",
+      "aprTipTitle": "곧 APR 지표를 획득할 수 있습니다!",
+      "aprTipContent": "세이버스 볼트 수익률 APR은 다가오는 ThorChain v1.99 업데이트 이후에 사용할 수 있습니다."
     },
     "send": {
       "outputAsset": "스왑 출력 에셋",

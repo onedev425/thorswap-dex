@@ -187,6 +187,7 @@
       "expand": "Expandir",
       "joinDiscord": "Entrar no Discord",
       "liquidity": "Liquidez",
+      "pool": "Pool",
       "send": "Enviar",
       "staking": "Staking",
       "stats": "Estatísticas",
@@ -282,6 +283,7 @@
   "txManager": {
     "addAmountAsset": "Adicionar %{amount} %{asset}",
     "addLiquidity": "Adicionar Liquidez",
+    "addSavings": "Adicionar Poupança",
     "addedAmountAsset": "Adicionado %{amount} %{asset}",
     "approve": "Aprovar",
     "approveAsset": "Aprovar %{asset}",
@@ -614,9 +616,12 @@
       "currentBalance": "Balanço actual",
       "description": "Fornecer lado a lado %{cadeia} Liquidez sem exposição à RUNE.",
       "earn": "Ganhe",
+      "tooltipDescription": "Ganhe rendimento fornecendo uma única face $%{asset} Liquidez sem exposição a $RUNE e Perda Impermanente",
       "yourDeposit": "O seu depósito",
       "yourEarnings": "Os seus ganhos",
-      "yourPositions": "As suas posições"
+      "yourPositions": "As suas posições",
+      "aprTipTitle": "Ganhe métricas de APR em breve!",
+      "aprTipContent": "O rendimento dos abóbadas Savers Vaults APR estará disponível após a próxima actualização THORChain v1.99."
     },
     "send": {
       "outputAsset": "Trocar o activo de saída",

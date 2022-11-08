@@ -187,6 +187,7 @@
       "expand": "展開",
       "joinDiscord": "加入Discord服務器",
       "liquidity": "流動性",
+      "pool": "游泳池",
       "send": "發送",
       "staking": "質押",
       "stats": "統計",
@@ -282,6 +283,7 @@
   "txManager": {
     "addAmountAsset": "添加 %{amount} %{asset}",
     "addLiquidity": "增加流動性",
+    "addSavings": "增加儲蓄",
     "addedAmountAsset": "添加了 %{amount} %{asset}",
     "approve": "授權",
     "approveAsset": "授權 %{asset}",
@@ -614,9 +616,12 @@
       "currentBalance": "目前餘額",
       "description": "提供單面% {鏈} 流動性，而不暴露於 RUNE。",
       "earn": "賺取",
+      "tooltipDescription": "通過提供單面 $% {資產} 流動性而沒有 $RUNE 風險和無永久損失來賺取收益",
       "yourDeposit": "您的存款",
       "yourEarnings": "您的收入",
-      "yourPositions": "您的職位"
+      "yourPositions": "您的職位",
+      "aprTipTitle": "即將推出即將獲得 APR 指標！",
+      "aprTipContent": "儲戶保險庫產量 APR 將在即將到來的索鏈 v1.99 更新後可用。"
     },
     "send": {
       "outputAsset": "掉期輸出資產",

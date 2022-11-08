@@ -187,6 +187,7 @@
       "expand": "Uitbreiden",
       "joinDiscord": "Join Discord Server",
       "liquidity": "Liquiditeit",
+      "pool": "Zwembad",
       "send": "Stuur",
       "staking": "Staking",
       "stats": "Stats",
@@ -282,6 +283,7 @@
   "txManager": {
     "addAmountAsset": "Voeg %{amount} %{asset} toe",
     "addLiquidity": "Liquiditeit toevoegen",
+    "addSavings": "Spaargeld toevoegen",
     "addedAmountAsset": " %{amount} %{asset} Toegevoegd",
     "approve": "Goedkeuren",
     "approveAsset": "Goedkeuren %{asset}",
@@ -614,9 +616,12 @@
       "currentBalance": "Huidige balans",
       "description": "Zorg voor eenzijdige %{chain} Liquiditeit zonder blootstelling aan RUNE.",
       "earn": "Verdien",
+      "tooltipDescription": "Verdien rendement door het verstrekken van eenzijdige $%{asset} Liquiditeit zonder $RUNE blootstelling en Impermanent Verlies",
       "yourDeposit": "Uw storting",
       "yourEarnings": "Uw inkomsten",
-      "yourPositions": "Uw posities"
+      "yourPositions": "Uw posities",
+      "aprTipTitle": "Verdien APR metingen binnenkort!",
+      "aprTipContent": "Savers Vaults opbrengst APR zal beschikbaar zijn na de komende THORChain v1.99 update."
     },
     "send": {
       "outputAsset": "Swap Output Activa",

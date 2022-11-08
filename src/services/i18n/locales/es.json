@@ -187,6 +187,7 @@
       "expand": "Expandir",
       "joinDiscord": "Entrar al servidor Discord",
       "liquidity": "Liquidez",
+      "pool": "Pool",
       "send": "Enviar",
       "staking": "Staking",
       "stats": "Estadísticas",
@@ -282,6 +283,7 @@
   "txManager": {
     "addAmountAsset": "Añadir %{amount} %{asset}",
     "addLiquidity": "Añadir Liquidez",
+    "addSavings": "Añadir ahorro",
     "addedAmountAsset": "Añadidos: %{amount} %{asset}",
     "approve": "Aprobar",
     "approveAsset": "Aprobar %{asset}",
@@ -614,9 +616,12 @@
       "currentBalance": "Saldo actual",
       "description": "Proporcionar una sola cara %{cadena} Liquidez sin exposición a la RUNE.",
       "earn": "Gana",
+      "tooltipDescription": "Ganar rendimiento proporcionando $%{activo} unilateral Liquidez sin exposición a $RUNE y Pérdida Impermanente",
       "yourDeposit": "Su depósito",
       "yourEarnings": "Sus ingresos",
-      "yourPositions": "Sus posiciones"
+      "yourPositions": "Sus posiciones",
+      "aprTipTitle": "Próximamente, las métricas de la APR",
+      "aprTipContent": "El rendimiento de las bóvedas de ahorro APR estará disponible tras la próxima actualización de THORChain v1.99."
     },
     "send": {
       "outputAsset": "Activo de salida de intercambio",

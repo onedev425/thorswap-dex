@@ -187,6 +187,7 @@
       "expand": "拡大",
       "joinDiscord": "Discordへ参加",
       "liquidity": "流動性",
+      "pool": "プール",
       "send": "送る",
       "staking": "ステーキング",
       "stats": "情報",
@@ -282,6 +283,7 @@
   "txManager": {
     "addAmountAsset": " %{amount} %{asset} の追加",
     "addLiquidity": "流動性の追加",
+    "addSavings": "貯蓄を追加する",
     "addedAmountAsset": " %{amount} %{asset} を追加しました",
     "approve": "承認",
     "approveAsset": " %{asset} の承認",
@@ -614,9 +616,12 @@
       "currentBalance": "現在の残高",
       "description": "シングルサイドの%{chain}を提供します。RUNEへのエクスポージャーを伴わない流動性。",
       "earn": "アーン",
+      "tooltipDescription": "片面$%{asset}で利回りを稼ぐ。流動性があり、$RUNEエクスポージャーがなく、永久的な損失がない。",
       "yourDeposit": "預け入れ",
       "yourEarnings": "お客様の収益",
-      "yourPositions": "ポジション"
+      "yourPositions": "ポジション",
+      "aprTipTitle": "APR指標を獲得するのはもうすぐです",
+      "aprTipContent": "Savers Vaults yield APRは、THORChain v1.99のアップデート後に利用可能になる予定です。"
     },
     "send": {
       "outputAsset": "スワップアウトプットアセット",

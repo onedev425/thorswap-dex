@@ -187,6 +187,7 @@
       "expand": "Развернуть",
       "joinDiscord": "Зайти в Discord",
       "liquidity": "Ликвидность",
+      "pool": "Бассейн",
       "send": "Отправить ",
       "staking": "Staking",
       "stats": "Статистика",
@@ -282,6 +283,7 @@
   "txManager": {
     "addAmountAsset": "Добавить %{amount} %{asset}",
     "addLiquidity": "Добавить ликвидность",
+    "addSavings": "Добавить сбережения",
     "addedAmountAsset": "Добавлено %{amount} %{asset}",
     "approve": "Подтвердить",
     "approveAsset": "Подтвердить %{asset}",
@@ -614,9 +616,12 @@
       "currentBalance": "Текущий баланс",
       "description": "Обеспечивают одностороннюю %{цепь} Ликвидность без риска для RUNE.",
       "earn": "Зарабатывайте",
+      "tooltipDescription": "Получайте доходность, обеспечивая одностороннюю $%{актив} Ликвидность без риска $RUNE и непостоянных потерь",
       "yourDeposit": "Ваш депозит",
       "yourEarnings": "Ваш заработок",
-      "yourPositions": "Ваши позиции"
+      "yourPositions": "Ваши позиции",
+      "aprTipTitle": "Зарабатывайте метрики APR в ближайшее время!",
+      "aprTipContent": "Доходность Savers Vaults APR будет доступна после предстоящего обновления THORChain v1.99."
     },
     "send": {
       "outputAsset": "Своп Выходной актив",

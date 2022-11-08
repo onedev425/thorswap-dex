@@ -187,6 +187,7 @@
       "expand": "Rozwiń",
       "joinDiscord": "Dołącz do serwera Discord",
       "liquidity": "Płynność",
+      "pool": "Basen",
       "send": "Wyślij",
       "staking": "Tyczenie",
       "stats": "Statystyki",
@@ -282,6 +283,7 @@
   "txManager": {
     "addAmountAsset": "Wpłać %{amount} %{asset}",
     "addLiquidity": "Dodaj płynność",
+    "addSavings": "Dodaj oszczędności",
     "addedAmountAsset": "Wpłacono %{amount} %{asset}",
     "approve": "Potwierdź",
     "approveAsset": "Zatwierdź %{asset}",
@@ -614,9 +616,12 @@
       "currentBalance": "Saldo bieżące",
       "description": "Zapewnij jednostronną %{chain} Płynność bez ekspozycji na RUNE.",
       "earn": "Zarabiaj",
+      "tooltipDescription": "Zarabiaj na stopie zwrotu, zapewniając jednostronną $%{asset}płynność bez ekspozycji na $RUNE Płynność bez ekspozycji na $RUNE i nietrwałą stratę",
       "yourDeposit": "Twoja wpłata",
       "yourEarnings": "Twoje zarobki",
-      "yourPositions": "Wasze stanowiska"
+      "yourPositions": "Wasze stanowiska",
+      "aprTipTitle": "Metryki APR z zarobkami już wkrótce!",
+      "aprTipContent": "Savers Vaults yield APR będzie dostępny po nadchodzącej aktualizacji THORChain v1.99."
     },
     "send": {
       "outputAsset": "Zamiana Aktywa wyjściowe",

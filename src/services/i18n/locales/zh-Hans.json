@@ -187,6 +187,7 @@
       "expand": "展开",
       "joinDiscord": "加入Discord服务器",
       "liquidity": "流动性",
+      "pool": "游泳池",
       "send": "发送",
       "staking": "质押",
       "stats": "统计",
@@ -282,6 +283,7 @@
   "txManager": {
     "addAmountAsset": "添加 %{amount} %{asset}",
     "addLiquidity": "添加流动性",
+    "addSavings": "增加储蓄",
     "addedAmountAsset": "添加了 %{amount} %{asset}",
     "approve": "授权",
     "approveAsset": "授权 %{asset} ",
@@ -614,9 +616,12 @@
       "currentBalance": "当前余额",
       "description": "提供单边%{链}的流动性，对RUNE没有任何风险。",
       "earn": "赚取",
+      "tooltipDescription": "通过提供单边的$%{资产}赚取收益。流动性，没有$RUNE风险和不永久的损失",
       "yourDeposit": "你的存款",
       "yourEarnings": "你的收入",
-      "yourPositions": "您的职位"
+      "yourPositions": "您的职位",
+      "aprTipTitle": "赚取APR的指标即将到来!",
+      "aprTipContent": "Savers Vaults APR将在即将到来的THORChain v1.99更新后提供。"
     },
     "send": {
       "outputAsset": "互换输出资产",

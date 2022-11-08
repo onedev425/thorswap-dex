@@ -187,6 +187,7 @@
       "expand": "Étendre",
       "joinDiscord": "Rejoindre le serveur Discord",
       "liquidity": "Liquidité",
+      "pool": "Pool",
       "send": "Envoyer",
       "staking": "Staking",
       "stats": "Statistiques",
@@ -282,6 +283,7 @@
   "txManager": {
     "addAmountAsset": "Ajouter %{amount} %{asset}",
     "addLiquidity": "Ajouter de la liquidité",
+    "addSavings": "Ajouter des économies",
     "addedAmountAsset": "%{amount} %{asset} ajouté",
     "approve": "Approuver",
     "approveAsset": "Approuver %{asset}",
@@ -614,9 +616,12 @@
       "currentBalance": "Solde actuel",
       "description": "Fournir une %{chaîne} unilatérale Liquidité sans exposition à RUNE.",
       "earn": "Gagner",
+      "tooltipDescription": "Obtenez un rendement en fournissant un seul côté $%{asset} Liquidité sans exposition au risque de perte et de perte impermanente",
       "yourDeposit": "Votre dépôt",
       "yourEarnings": "Vos gains",
-      "yourPositions": "Vos positions"
+      "yourPositions": "Vos positions",
+      "aprTipTitle": "Gagnez des mesures de APR bientôt !",
+      "aprTipContent": "L'APR de rendement Savers Vaults sera disponible après la prochaine mise à jour THORChain v1.99."
     },
     "send": {
       "outputAsset": "Swap Output Asset",

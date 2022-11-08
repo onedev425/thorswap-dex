@@ -187,6 +187,7 @@
       "expand": "बढ़ाना",
       "joinDiscord": "डिस्कॉर्ड सर्वर से जुड़ें",
       "liquidity": "तरलता ",
+      "pool": "पूल",
       "send": "भेजें",
       "staking": "स्टेकिंग",
       "stats": "आँकड़े",
@@ -282,6 +283,7 @@
   "txManager": {
     "addAmountAsset": "%{amount}%{asset} जोड़ें",
     "addLiquidity": "तरलता जोड़ें",
+    "addSavings": "बचत जोड़ें",
     "addedAmountAsset": "जोड़ा गया %{amount}%{asset}",
     "approve": "मंज़ूरी दे",
     "approveAsset": "%{asset} को स्वीकृति दें",
@@ -614,9 +616,12 @@
       "currentBalance": "मौज़ूदा बैलेंस",
       "description": "RUNE के संपर्क में न आने पर एक तरफा% {चेन} लिक्विडिटी प्रदान करें।",
       "earn": "कमाएं",
+      "tooltipDescription": "बिना $RUNE एक्सपोज़र और इम्परमानेंट लॉस के साथ एक तरफा $% {एसेट} लिक्विडिटी प्रदान करके उपज अर्जित करें",
       "yourDeposit": "आपका डिपॉज़िट",
       "yourEarnings": "आपकी कमाई",
-      "yourPositions": "आपकी स्थितियाँ"
+      "yourPositions": "आपकी स्थितियाँ",
+      "aprTipTitle": "जल्द ही आने वाले APR मेट्रिक्स कमाएं!",
+      "aprTipContent": "आने वाले थोरचैन v1.99 अपडेट के बाद सेवर्स वॉल्ट्स की उपज APR उपलब्ध होगी।"
     },
     "send": {
       "outputAsset": "स्वैप आउटपुट एसेट",
