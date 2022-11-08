@@ -1,48 +1,54 @@
-import OnramperWidget from '@onramper/widget';
+import { Chain } from '@thorswap-lib/types';
 import { Box } from 'components/Atomic';
-import { useTheme } from 'components/Theme/ThemeContext';
+import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useMemo } from 'react';
 import { useWallet } from 'store/wallet/hooks';
 
+const baseKadoUrl = 'https://app.kado.money';
+
+const chainToNetwork = {
+  [Chain.Ethereum]: 'ETHEREUM',
+  [Chain.Binance]: 'BINANCE',
+  [Chain.Avalanche]: 'AVALANCHE',
+  [Chain.Solana]: 'SOLANA',
+  [Chain.Cosmos]: 'OSMOSIS',
+};
+
 const OnRamp = () => {
   const { wallet } = useWallet();
-  const { isLight } = useTheme();
 
-  const wallets = useMemo(
+  const preselectedChain = useMemo(
     () =>
-      wallet &&
-      Object.entries(wallet)
-        .map(
-          ([chain, wallet]) =>
-            wallet?.address && {
-              [chain]: { address: wallet.address },
-            },
-        )
-        .filter(Boolean),
-    [wallet],
+      wallet?.ETH
+        ? Chain.Ethereum
+        : wallet?.AVAX
+        ? Chain.Avalanche
+        : wallet?.GAIA
+        ? Chain.Cosmos
+        : wallet?.SOL
+        ? Chain.Solana
+        : Chain.Ethereum,
+    [wallet?.AVAX, wallet?.ETH, wallet?.GAIA, wallet?.SOL],
   );
+
+  const src = useMemo(() => {
+    const address = wallet?.[preselectedChain]?.address;
+    // @ts-expect-error false positive - array works as expected here
+    const queryParams = new URLSearchParams({
+      apiKey: 'asdf',
+      networkList: ['ETHEREUM', 'SOLANA', 'AVALANCHE', 'OSMOSIS'],
+      network: chainToNetwork[preselectedChain],
+      onToAddress: address,
+    });
+
+    return `${baseKadoUrl}?${queryParams.toString()}`;
+  }, [preselectedChain, wallet]);
+
+  const debouncedSrc = useDebouncedValue(src, 1000);
 
   return (
     <Box center>
-      <Box
-        className="dark:brightness-125"
-        style={{ width: '550px', height: '760px', color: '#1C3346', boxShadow: '0px 5px 20px 1px' }}
-      >
-        <OnramperWidget
-          supportBuy
-          supportSell
-          API_KEY={import.meta.env.VITE_ONRAMPER_KEY}
-          color="#3CA9C5"
-          darkMode={!isLight}
-          defaultAddrs={wallets}
-          defaultCrypto={wallet?.ETH ? 'ETH' : 'BTC'}
-          defaultFiatSoft="USD"
-          displayChatBubble={false}
-          fontFamily="Poppins, sans-serif"
-          isAddressEditable={false}
-          supportSwap={false}
-        />
-      </Box>
+      <iframe src={debouncedSrc} style={{ width: '600px', height: '780px', border: '0px' }} />
     </Box>
   );
 };
