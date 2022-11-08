@@ -72,6 +72,7 @@ export const useSwapQuote = ({
     if (!data?.routes || inputAmount.lte(0)) return [];
 
     return data.routes
+      .filter(Boolean)
       .concat()
       .sort(
         (a, b) =>
