@@ -50,7 +50,7 @@ const SwapView = () => {
   const [feeModalOpened, setFeeModalOpened] = useState(false);
   const formatPrice = useFormatPrice({ groupSize: 0 });
 
-  const { tokens, isLoading: tokenListLoading } = useTokenList();
+  const { tokens } = useTokenList();
 
   useEffect(() => {
     const address = multichain().getWalletAddressByChain(outputAsset.L1Chain);
@@ -294,7 +294,6 @@ const SwapView = () => {
     >
       <AssetInputs
         inputAsset={inputAssetProps}
-        listLoading={tokenListLoading}
         onInputAmountChange={handleChangeInputAmount}
         onInputAssetChange={handleSelectAsset('input')}
         onOutputAssetChange={handleSelectAsset('output')}

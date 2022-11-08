@@ -17,6 +17,8 @@ import { useAddLiquidity } from 'views/AddLiquidity/hooks/hooks';
 import { useAddLiquidityPools } from 'views/AddLiquidity/hooks/useAddLiquidityPools';
 import { useAssetsList } from 'views/AddLiquidity/hooks/useAssetsList';
 import { useDepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance';
+import { useAssetsWithBalanceFromTokens } from 'views/Swap/hooks/useAssetsWithBalanceFromTokens';
+import { useTokenList } from 'views/Swap/hooks/useTokenList';
 
 import { AssetInputs } from './AssetInputs';
 import { PoolInfo } from './PoolInfo';
@@ -28,6 +30,12 @@ export const AddLiquidity = () => {
   const poolAssetList = useAssetsList({ liquidityType, poolAssets, pools });
   const { wallet } = useWallet();
   const depositAssetsBalance = useDepositAssetsBalance({ poolAsset });
+  const { tokens } = useTokenList();
+
+  const assetSelectList = useAssetsWithBalanceFromTokens(tokens);
+  const filteredAssets = assetSelectList.filter((x) =>
+    poolAssetList.some((asset) => asset.asset.eq(x.asset)),
+  );
 
   const {
     title,
@@ -107,7 +115,7 @@ export const AddLiquidity = () => {
         onPoolChange={handleSelectPoolAsset}
         onRuneAmountChange={handleChangeRuneAmount}
         poolAsset={poolAssetInput}
-        poolAssetList={poolAssetList}
+        poolAssetList={filteredAssets}
         runeAsset={runeAssetInput}
       />
 

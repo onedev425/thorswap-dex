@@ -3,12 +3,9 @@ import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetInput } from 'components/AssetInput';
 import { AssetInputType } from 'components/AssetInput/types';
-import { AssetSelectType } from 'components/AssetSelect/types';
 import { Box, Icon } from 'components/Atomic';
-import Fuse from 'fuse.js';
-import uniqBy from 'lodash/uniqBy';
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useAssets } from 'store/assets/hooks';
+import { useAssetListSearch } from 'hooks/useAssetListSearch';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { Token } from 'store/thorswap/types';
 import { useTokenAddresses } from 'views/Swap/hooks/useTokenAddresses';
 
@@ -22,21 +19,6 @@ type Props = {
   inputAsset: AssetInputType;
   outputAsset: AssetInputType;
   tokens: Token[];
-  listLoading: boolean;
-};
-
-const options: Fuse.IFuseOptions<AssetSelectType> = {
-  keys: [
-    { name: 'asset.ticker', weight: 1 },
-    { name: 'asset.name', weight: 0.5 },
-    { name: 'asset.type', weight: 0.1 },
-    { name: 'cg.name', weight: 0.1 },
-    { name: 'cg.id', weight: 0.01 },
-  ],
-  isCaseSensitive: false,
-  minMatchCharLength: 2,
-  shouldSort: false,
-  threshold: 0.1,
 };
 
 export const AssetInputs = memo(
@@ -47,14 +29,9 @@ export const AssetInputs = memo(
     onOutputAssetChange,
     onInputAmountChange,
     onSwitchPair,
-    listLoading,
     tokens,
   }: Props) => {
-    const fuse = useRef<Fuse<AssetSelectType>>(new Fuse([], options));
-    const [query, setQuery] = useState('');
     const [iconRotate, setIconRotate] = useState(false);
-
-    const { isFeatured, isFrequent } = useAssets();
 
     const thorchainERC20SupportedAddresses = useTokenAddresses('Thorchain-supported-ERC20');
     const thorchainAvaxSupportedAddresses = useTokenAddresses('Thorchain-supported-ARC20');
@@ -82,40 +59,7 @@ export const AssetInputs = memo(
 
     const assetList = useAssetsWithBalanceFromTokens(tokens);
 
-    useEffect(() => {
-      fuse.current = new Fuse<AssetSelectType>(assetList, options);
-    }, [assetList]);
-
-    const assets = useMemo(() => {
-      const searchedAssets =
-        query.length > 0
-          ? fuse.current.search(query, { limit: 50 }).map(({ item }) => item)
-          : assetList;
-
-      const sortedAssets = searchedAssets.concat().sort((a, b) => {
-        const aFeatured = isFeatured(a);
-        const aFrequent = isFrequent(a);
-        const bFeatured = isFeatured(b);
-
-        if (!a.balance && !b.balance) {
-          if (a.asset.type === 'Native') return -1;
-          if (b.asset.type === 'Native') return 1;
-          if (aFeatured || (aFrequent && !bFeatured)) {
-            return -1;
-          }
-          const mcDiff = (b?.cg?.market_cap || 0) - (a?.cg?.market_cap || 0);
-
-          return mcDiff;
-        }
-
-        if (!a.balance) return 1;
-        if (!b.balance) return -1;
-
-        return bFeatured ? 1 : aFeatured ? -1 : b.balance.gt(a.balance) ? 1 : -1;
-      });
-
-      return uniqBy(sortedAssets, ({ asset }) => asset.toString());
-    }, [assetList, isFeatured, isFrequent, query]);
+    const { assetInputProps, assets } = useAssetListSearch(assetList);
 
     const outputAssets = useMemo(() => {
       if (
@@ -147,15 +91,6 @@ export const AssetInputs = memo(
       thorchainAvaxSupportedAddresses,
       thorchainERC20SupportedAddresses,
     ]);
-
-    const assetInputProps = useMemo(
-      () => ({
-        isLoading: listLoading,
-        query,
-        setQuery,
-      }),
-      [listLoading, query],
-    );
 
     return (
       <div className="relative self-stretch md:w-full">

@@ -17,7 +17,6 @@ import { PanelView } from 'components/PanelView';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
 import { getAssetBalance, getInputAssetsForCreate } from 'helpers/wallet';
-import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { useMimir } from 'hooks/useMimir';
 import { getSumAmountInUSD, useNetworkFee } from 'hooks/useNetworkFee';
@@ -31,8 +30,10 @@ import { addTransaction, completeTransaction, updateTransaction } from 'store/tr
 import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
+import { useAssetsWithBalanceFromTokens } from 'views/Swap/hooks/useAssetsWithBalanceFromTokens';
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 import { useTokenAddresses } from 'views/Swap/hooks/useTokenAddresses';
+import { useTokenList } from 'views/Swap/hooks/useTokenList';
 
 import { AssetInputs } from './AssetInputs';
 import { PoolInfo } from './PoolInfo';
@@ -45,6 +46,7 @@ export const CreateLiquidity = () => {
   const [inputAssets, setInputAssets] = useState<Asset[]>([]);
   const ethWhitelist = useTokenAddresses('Thorchain-supported-ERC20');
   const avaxWhitelist = useTokenAddresses('tc-whitelisted-avax-pools');
+  const { tokens } = useTokenList();
 
   const handleInputAssetUpdate = useCallback(() => {
     if (hasConnectedWallet(wallet) && (ethWhitelist.length > 0 || avaxWhitelist.length > 0)) {
@@ -364,7 +366,10 @@ export const CreateLiquidity = () => {
     [runeAmount, runeBalance, runeUSDPrice],
   );
 
-  const inputAssetList = useAssetsWithBalance(inputAssets);
+  const assetSelectList = useAssetsWithBalanceFromTokens(tokens);
+  const filteredAssets = assetSelectList.filter((x) =>
+    inputAssets.some((asset) => asset.eq(x.asset)),
+  );
 
   const title = useMemo(
     () => `${t('common.create')} ${poolAsset.ticker} ${t('common.liquidity')}`,
@@ -429,7 +434,7 @@ export const CreateLiquidity = () => {
         onPoolChange={handleSelectPoolAsset}
         onRuneAmountChange={handleChangeRuneAmount}
         poolAsset={poolAssetInput}
-        poolAssetList={inputAssetList}
+        poolAssetList={filteredAssets}
         runeAsset={runeAssetInput}
       />
 

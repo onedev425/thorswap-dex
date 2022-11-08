@@ -2,8 +2,10 @@ import { Amount, Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetInput } from 'components/AssetInput';
 import { AssetInputType } from 'components/AssetInput/types';
+import { AssetSelectType } from 'components/AssetSelect/types';
 import { Box, Icon } from 'components/Atomic';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
+import { useAssetListSearch } from 'hooks/useAssetListSearch';
 import { memo } from 'react';
 import { t } from 'services/i18n';
 
@@ -13,7 +15,7 @@ type Props = {
   onRuneAmountChange: (value: Amount) => void;
   poolAsset: AssetInputType;
   runeAsset: AssetInputType;
-  poolAssetList: AssetInputType[];
+  poolAssetList: AssetSelectType[];
   liquidityType: LiquidityTypeOption;
   isRunePending: boolean;
   isAssetPending: boolean;
@@ -31,6 +33,8 @@ export const AssetInputs = memo(
     isAssetPending,
     isRunePending,
   }: Props) => {
+    const { assetInputProps, assets } = useAssetListSearch(poolAssetList);
+
     return (
       <Box col className="relative self-stretch w-full">
         <Box
@@ -53,7 +57,8 @@ export const AssetInputs = memo(
           })}
         >
           <AssetInput
-            assets={poolAssetList}
+            {...assetInputProps}
+            assets={assets}
             className="!mb-1 flex-1"
             disabled={isAssetPending}
             maxButtonLabel={isRunePending ? t('pendingLiquidity.complete') : ''}
