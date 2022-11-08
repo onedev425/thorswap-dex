@@ -35,7 +35,7 @@ const OnRamp = () => {
     const address = wallet?.[preselectedChain]?.address;
     // @ts-expect-error false positive - array works as expected here
     const queryParams = new URLSearchParams({
-      apiKey: 'asdf',
+      apiKey: import.meta.env.VITE_KADO_KEY,
       networkList: ['ETHEREUM', 'SOLANA', 'AVALANCHE', 'OSMOSIS'],
       network: chainToNetwork[preselectedChain],
       onToAddress: address,
