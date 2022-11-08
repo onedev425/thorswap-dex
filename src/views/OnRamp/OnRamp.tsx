@@ -21,10 +21,10 @@ const OnRamp = () => {
     () =>
       wallet?.ETH
         ? Chain.Ethereum
-        : wallet?.AVAX
-        ? Chain.Avalanche
         : wallet?.GAIA
         ? Chain.Cosmos
+        : wallet?.AVAX
+        ? Chain.Avalanche
         : wallet?.SOL
         ? Chain.Solana
         : Chain.Ethereum,
