@@ -17,6 +17,7 @@ import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveIn
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { useMimir } from 'hooks/useMimir';
 import { getSumAmountInUSD, useNetworkFee } from 'hooks/useNetworkFee';
+import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
@@ -150,18 +151,13 @@ export const useAddLiquidity = ({
     force: true,
   });
 
-  const poolAssetPriceInUSD = useMemo(
-    () =>
-      new Price({
-        baseAsset: poolAsset,
-        pools,
-        priceAmount:
-          isAssetPending && poolMemberDetail
-            ? Amount.fromMidgard(poolMemberDetail.assetPending)
-            : assetAmount,
-      }),
-    [poolAsset, assetAmount, pools, isAssetPending, poolMemberDetail],
-  );
+  const poolAssetPriceInUSD = usePoolAssetPriceInUsd({
+    asset: poolAsset,
+    amount:
+      isAssetPending && poolMemberDetail
+        ? Amount.fromMidgard(poolMemberDetail.assetPending)
+        : assetAmount,
+  });
 
   const runeAssetPriceInUSD = useMemo(() => {
     if (isRunePending && poolMemberDetail) {

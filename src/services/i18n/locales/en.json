@@ -619,7 +619,9 @@
       "tooltipDescription": "Earn yield by providing single sided $%{asset} Liquidity with no $RUNE exposure and Impermanent Loss",
       "yourDeposit": "Your Deposit",
       "yourEarnings": "Your Earnings",
-      "yourPositions": "Your Positions"
+      "yourPositions": "Your Positions",
+      "aprTipTitle": "Vaults APR is coming soon!",
+      "aprTipContent": "The APR will be available after THORNode v1.99 will be adopted by nodes, stay tuned for further announcements."
     },
     "send": {
       "outputAsset": "Swap Output Asset",

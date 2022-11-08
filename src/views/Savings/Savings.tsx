@@ -4,6 +4,7 @@ import { AssetInput } from 'components/AssetInput';
 import { Box, Card, Icon, Link, Tooltip, Typography } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { InfoRow } from 'components/InfoRow';
+import { InfoTip } from 'components/InfoTip';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { TabsSelect } from 'components/TabsSelect';
 import { ViewHeader } from 'components/ViewHeader';
@@ -11,6 +12,7 @@ import { YIELD_BEARING_YOUTUBE } from 'config/constants';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { useMimir } from 'hooks/useMimir';
+import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
@@ -42,6 +44,8 @@ const Savings = () => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [tab, setTab] = useState(SavingsTab.Deposit);
   const [withdrawPercent, setWithdrawPercent] = useState(new Percent(0));
+  const [tipVisible, setTipVisible] = useState(true);
+  const usdPrice = usePoolAssetPriceInUsd({ asset, amount });
 
   const isDeposit = tab === SavingsTab.Deposit;
   const address = useMemo(() => wallet?.[asset.L1Chain]?.address || '', [wallet, asset.L1Chain]);
@@ -156,8 +160,8 @@ const Savings = () => {
   }, [amount, asset.L1Chain, asset.decimal, assetDepthAmount, isDeposit, outboundFee]);
 
   const selectedAsset = useMemo(
-    () => ({ asset, value: amount, balance: address ? getMaxBalance(asset) : undefined }),
-    [address, asset, amount, getMaxBalance],
+    () => ({ asset, value: amount, balance: address ? getMaxBalance(asset) : undefined, usdPrice }),
+    [address, asset, amount, getMaxBalance, usdPrice],
   );
 
   const tabLabel = tab === SavingsTab.Deposit ? t('common.deposit') : t('common.withdraw');
@@ -231,6 +235,23 @@ const Savings = () => {
           />
         </Box>
       </Card>
+
+      {tipVisible && (
+        <InfoTip
+          className="mt-3"
+          content={
+            <>
+              {`${t('views.savings.aprTipContent')} `}
+              <Link className="text-twitter-blue" to={YIELD_BEARING_YOUTUBE}>
+                {t('common.learnMore')}
+              </Link>
+            </>
+          }
+          onClose={() => setTipVisible(false)}
+          title={t('views.savings.aprTipTitle')}
+          type="info"
+        />
+      )}
 
       <SavingsPositions
         depositAsset={depositAsset}
