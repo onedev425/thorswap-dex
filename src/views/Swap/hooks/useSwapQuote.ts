@@ -81,8 +81,9 @@ export const useSwapQuote = ({
   }, [inputAmount, data?.routes]);
 
   const selectedRoute = useMemo(
-    () => (error || isLoading ? undefined : swapQuote) || routes[0],
-    [error, isLoading, routes, swapQuote],
+    () =>
+      (error || isLoading || inputAmount.assetAmount.isZero() ? undefined : swapQuote) || routes[0],
+    [error, inputAmount.assetAmount, isLoading, routes, swapQuote],
   );
 
   const outputAmount: Amount = useMemo(

@@ -9,13 +9,12 @@ import { ThemeType } from 'types/app';
 type Props = {
   className?: string;
   duration?: number;
-  resetIndicator: boolean;
   size?: number;
-  onClick?: () => void;
+  refresh?: () => void;
 };
 
 export const CountDownIndicator = memo(
-  ({ className, resetIndicator, size = 24, duration = 10, onClick }: Props) => {
+  ({ className, size = 24, duration = 10, refresh }: Props) => {
     const { themeType } = useApp();
     const playing = useRef(false);
     const interval = useRef<NodeJS.Timer>(setTimeout(() => {}, 0));
@@ -39,25 +38,28 @@ export const CountDownIndicator = memo(
           setCountdown((countdown) => {
             if (countdown > 1) return countdown - 1;
 
-            onClick?.();
+            refresh?.();
             return duration;
           });
         }, 1000);
       }
-    }, [duration, onClick]);
+    }, [duration, refresh]);
 
     const handleRefresh = useCallback(() => {
-      onClick?.();
+      refresh?.();
       setCountdown(duration);
-    }, [duration, onClick]);
+    }, [duration, refresh]);
 
     useEffect(() => {
-      if (resetIndicator) {
-        playing.current = false;
-        setCountdown(duration);
+      setCountdown(duration);
+      playing.current = !refresh;
+
+      if (refresh) {
         startTimer();
+      } else {
+        clearInterval(interval.current);
       }
-    }, [startTimer, resetIndicator, duration]);
+    }, [startTimer, duration, refresh]);
 
     const countdownStyles = useMemo(() => ({ height: size, width: size }), [size]);
 
@@ -67,11 +69,7 @@ export const CountDownIndicator = memo(
       <Tooltip content={t('common.refresh')} place="top">
         <Box
           center
-          className={classNames(
-            'm-auto relative -rotate-90',
-            { [baseHoverClass]: onClick },
-            className,
-          )}
+          className={classNames('m-auto relative -rotate-90', baseHoverClass, className)}
           onClick={handleRefresh}
           style={countdownStyles}
         >

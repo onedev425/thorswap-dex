@@ -9,11 +9,10 @@ import { navigateToPoolDetail } from 'settings/constants';
 
 type Props = {
   asset: Asset;
-  refetchData: () => void;
-  isLoading: boolean;
+  refetchData?: () => void;
 };
 
-export const SwapHeader = memo(({ asset, refetchData, isLoading }: Props) => {
+export const SwapHeader = memo(({ asset, refetchData }: Props) => {
   const navigateToPoolInfo = useCallback(() => {
     navigateToPoolDetail(asset);
   }, [asset]);
@@ -22,7 +21,7 @@ export const SwapHeader = memo(({ asset, refetchData, isLoading }: Props) => {
     <ViewHeader
       actionsComponent={
         <Box center row className="space-x-2">
-          <CountDownIndicator duration={60} onClick={refetchData} resetIndicator={isLoading} />
+          <CountDownIndicator duration={60} refresh={refetchData} />
 
           <Button
             className="w-10 px-1.5 group"

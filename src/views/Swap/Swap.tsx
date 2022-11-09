@@ -286,8 +286,7 @@ const SwapView = () => {
       header={
         <SwapHeader
           asset={inputAsset.isRUNE() ? outputAsset : inputAsset}
-          isLoading={isFetching || isPriceLoading}
-          refetchData={refetchData}
+          refetchData={!selectedRoute || isFetching || isPriceLoading ? undefined : refetchData}
         />
       }
       title={`${t('common.swap')} ${inputAsset.name} >> ${outputAsset.name}`}
