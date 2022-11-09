@@ -2,7 +2,6 @@ import type { HistoryInterval, PoolPeriods } from '@thorswap-lib/midgard-sdk';
 import useInterval from 'hooks/useInterval';
 import { useCallback, useRef } from 'react';
 import { batch } from 'react-redux';
-import { POLL_DATA_INTERVAL, POLL_GAS_RATE_INTERVAL } from 'settings/constants';
 import {
   getEarningsHistory,
   getLastblock,
@@ -26,6 +25,8 @@ import { useEffectOnce } from './useEffectOnce';
  * NOTE: useRefresh hooks should be imported and used only once, to avoid multiple usage of useInterval
  */
 
+const POLL_GAS_RATE_INTERVAL = 10 * 1000; // 10s
+const POLL_DATA_INTERVAL = 5 * 60 * 1000; // 5m
 const MAX_HISTORY_COUNT = 100;
 const PER_DAY = 'day' as HistoryInterval;
 const periods: PoolPeriods[] = ['180d', '100d', '90d', '30d', '7d', '24h', '1h'];

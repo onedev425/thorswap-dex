@@ -7,7 +7,7 @@ import useWindowSize, { BreakPoint } from 'hooks/useWindowSize';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { getSendRoute, getSwapRoute } from 'settings/constants';
+import { getSendRoute, getSwapRoute } from 'settings/router';
 import { useMidgard } from 'store/midgard/hooks';
 import { useWallet } from 'store/wallet/hooks';
 import { ViewMode } from 'types/app';

@@ -7,7 +7,7 @@ import { useLiquidityType } from 'hooks/useLiquidityType';
 import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { getMultisigTxCreateRoute, ROUTES } from 'settings/constants/router';
+import { getMultisigTxCreateRoute, ROUTES } from 'settings/router';
 import { useMultisig } from 'store/multisig/hooks';
 import { useAddLiquidity } from 'views/AddLiquidity/hooks/hooks';
 import { useAddLiquidityPools } from 'views/AddLiquidity/hooks/useAddLiquidityPools';

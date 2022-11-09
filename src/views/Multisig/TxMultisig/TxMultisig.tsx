@@ -7,7 +7,7 @@ import { ViewHeader } from 'components/ViewHeader';
 import { useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { t } from 'services/i18n';
-import { ROUTES } from 'settings/constants';
+import { ROUTES } from 'settings/router';
 import { SignerCheckBox } from 'views/Multisig/components/SignerCheckBox';
 import { ScreenState, useTxData } from 'views/Multisig/TxMultisig/hooks';
 import { BroadcastTxStep } from 'views/Multisig/TxMultisig/steps/BroadcastTxStep';

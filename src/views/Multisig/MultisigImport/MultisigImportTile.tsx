@@ -3,7 +3,7 @@ import { Box, Button, Card, Typography } from 'components/Atomic';
 import { baseBorderClass, borderHoverHighlightClass } from 'components/constants';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { ROUTES } from 'settings/constants';
+import { ROUTES } from 'settings/router';
 
 export const MultisigImportTile = () => {
   const navigate = useNavigate();

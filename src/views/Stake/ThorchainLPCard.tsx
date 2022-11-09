@@ -6,7 +6,7 @@ import { borderHoverHighlightClass } from 'components/constants';
 import { useThorAPR } from 'hooks/useThorAPR';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
-import { getAddLiquidityRoute, getWithdrawRoute } from 'settings/constants';
+import { getAddLiquidityRoute, getWithdrawRoute } from 'settings/router';
 import { useWallet } from 'store/wallet/hooks';
 
 import { tcFarmData } from './farmData';

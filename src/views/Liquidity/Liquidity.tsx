@@ -10,7 +10,7 @@ import { sortChains } from 'helpers/chains';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { getAddLiquidityRoute, ROUTES } from 'settings/constants';
+import { getAddLiquidityRoute, ROUTES } from 'settings/router';
 import { useMidgard } from 'store/midgard/hooks';
 import { hasPendingLP } from 'store/midgard/utils';
 import { useWallet } from 'store/wallet/hooks';

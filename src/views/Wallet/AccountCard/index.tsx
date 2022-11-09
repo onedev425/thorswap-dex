@@ -12,7 +12,7 @@ import { memo, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getGeckoData } from 'services/coingecko';
 import { t } from 'services/i18n';
-import { getSendRoute, getSwapRoute } from 'settings/constants';
+import { getSendRoute, getSwapRoute } from 'settings/router';
 import { ViewMode } from 'types/app';
 import { AssetChart } from 'views/Wallet/AssetChart';
 import { ConnectionActions } from 'views/Wallet/components/ConnectionActions';

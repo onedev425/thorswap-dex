@@ -20,7 +20,7 @@ import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
 import { IS_DEV_API, IS_PROD } from 'settings/config';
-import { getSwapRoute } from 'settings/constants';
+import { getSwapRoute } from 'settings/router';
 import { useWallet } from 'store/wallet/hooks';
 import { FeeModal } from 'views/Swap/FeeModal';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';

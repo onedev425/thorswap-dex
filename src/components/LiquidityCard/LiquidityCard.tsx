@@ -8,7 +8,7 @@ import useWindowSize from 'hooks/useWindowSize';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { getAddLiquidityRoute, getWithdrawRoute } from 'settings/constants';
+import { getAddLiquidityRoute, getWithdrawRoute } from 'settings/router';
 import { LpDetailCalculationResult, PoolShareType } from 'store/midgard/types';
 import { ChainPoolData } from 'views/Liquidity/types';
 

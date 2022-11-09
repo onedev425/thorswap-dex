@@ -3,7 +3,7 @@ import { showErrorToast } from 'components/Toast';
 import { ChangeEvent, useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { ROUTES } from 'settings/constants';
+import { ROUTES } from 'settings/router';
 import { useMidgard } from 'store/midgard/hooks';
 import { useMultisig } from 'store/multisig/hooks';
 import { useMultissigAssets } from 'views/Multisig/hooks';

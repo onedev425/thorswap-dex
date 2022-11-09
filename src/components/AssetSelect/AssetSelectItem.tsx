@@ -13,7 +13,7 @@ import {
   navigateToEtherScanAddress,
   navigateToPoolDetail,
   navigateToSnowtraceAddress,
-} from 'settings/constants';
+} from 'settings/router';
 
 import { FeaturedAssetIcon } from './FeaturedAssetIcon';
 import { AssetSelectType } from './types';

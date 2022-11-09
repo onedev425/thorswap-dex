@@ -5,7 +5,7 @@ import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { ViewHeader } from 'components/ViewHeader';
 import { memo, useCallback } from 'react';
 import { t } from 'services/i18n';
-import { navigateToPoolDetail } from 'settings/constants';
+import { navigateToPoolDetail } from 'settings/router';
 
 type Props = {
   asset: Asset;

@@ -15,7 +15,7 @@ import { useWalletDrawer } from 'hooks/useWalletDrawer';
 import { MouseEventHandler, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { getSendRoute, getSwapRoute, ROUTES } from 'settings/constants';
+import { getSendRoute, getSwapRoute, ROUTES } from 'settings/router';
 import { useWallet } from 'store/wallet/hooks';
 import { WalletHeader } from 'views/WalletBalance/WalletHeader';
 

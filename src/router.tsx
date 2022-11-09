@@ -6,7 +6,7 @@ import { ToastPortal } from 'components/Toast';
 import { lazy, memo, Suspense } from 'react';
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import { IS_PROD } from 'settings/config';
-import { ROUTES } from 'settings/constants';
+import { ROUTES } from 'settings/router';
 import Swap from 'views/Swap';
 import WalletBalance, { WalletDrawer } from 'views/WalletBalance';
 

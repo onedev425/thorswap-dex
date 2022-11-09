@@ -5,7 +5,7 @@ import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getMultisigTxCreateRoute, ROUTES } from 'settings/constants';
+import { getMultisigTxCreateRoute, ROUTES } from 'settings/router';
 import { PoolShareType } from 'store/midgard/types';
 import { useMultisig } from 'store/multisig/hooks';
 import { useAppSelector } from 'store/store';

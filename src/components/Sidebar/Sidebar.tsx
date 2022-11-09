@@ -9,7 +9,7 @@ import useWindowSize from 'hooks/useWindowSize';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { ROUTES } from 'settings/constants';
+import { ROUTES } from 'settings/router';
 
 import { SidebarItems } from './SidebarItems';
 import { SidebarProps } from './types';

@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { ImportedMultisigTx } from 'services/multisig';
-import { ROUTES } from 'settings/constants';
+import { ROUTES } from 'settings/router';
 import { useMultisig } from 'store/multisig/hooks';
 import { useAppSelector } from 'store/store';
 

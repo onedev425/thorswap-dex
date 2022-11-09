@@ -20,7 +20,7 @@ import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
-import { getSendRoute } from 'settings/constants';
+import { getSendRoute } from 'settings/router';
 import { useMidgard } from 'store/midgard/hooks';
 import { useWallet } from 'store/wallet/hooks';
 import { CustomSend } from 'views/Send/components/CustomSend';

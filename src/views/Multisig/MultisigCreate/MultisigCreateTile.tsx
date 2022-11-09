@@ -4,7 +4,7 @@ import { baseBorderClass, borderHoverHighlightClass } from 'components/constants
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { t } from 'services/i18n';
-import { ROUTES } from 'settings/constants';
+import { ROUTES } from 'settings/router';
 import { MultisigModal } from 'views/Multisig/MultisigModal/MultisigModal';
 import { PubKeyInfo } from 'views/Multisig/PubKeyInfo';
 

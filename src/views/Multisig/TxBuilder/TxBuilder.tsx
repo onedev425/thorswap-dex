@@ -4,7 +4,7 @@ import { InfoTable } from 'components/InfoTable';
 import { PanelView } from 'components/PanelView';
 import { ViewHeader } from 'components/ViewHeader';
 import { t } from 'services/i18n';
-import { ROUTES } from 'settings/constants';
+import { ROUTES } from 'settings/router';
 import { useAppSelector } from 'store/store';
 import { useMultisigWalletInfo } from 'views/Multisig/hooks';
 

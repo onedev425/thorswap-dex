@@ -1,7 +1,7 @@
 import { Pool } from '@thorswap-lib/multichain-core';
 import { Box, Icon, Table, TableRowType } from 'components/Atomic';
 import { useCallback } from 'react';
-import { navigateToPoolDetail } from 'settings/constants';
+import { navigateToPoolDetail } from 'settings/router';
 
 import { usePoolColumns } from './usePoolColumns';
 

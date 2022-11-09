@@ -4,7 +4,7 @@ import { Input } from 'components/Input';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { getNodeDetailRoute } from 'settings/constants';
+import { getNodeDetailRoute } from 'settings/router';
 import { useMidgard } from 'store/midgard/hooks';
 import { useNodesColumns } from 'views/Nodes/hooks/useNodesColumns';
 

@@ -8,7 +8,7 @@ import { chainName } from 'helpers/chainName';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
-import { getThorYieldLPInfoRoute } from 'settings/constants';
+import { getThorYieldLPInfoRoute } from 'settings/router';
 import { useMidgard } from 'store/midgard/hooks';
 import { ChainMemberData, LpDetailCalculationResult, PoolShareType } from 'store/midgard/types';
 import { isPendingLP } from 'store/midgard/utils';

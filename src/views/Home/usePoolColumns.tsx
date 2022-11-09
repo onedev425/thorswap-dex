@@ -8,7 +8,7 @@ import { BreakPoint } from 'hooks/useWindowSize';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { getAddLiquidityRoute, getSwapRoute } from 'settings/constants';
+import { getAddLiquidityRoute, getSwapRoute } from 'settings/router';
 import { useMidgard } from 'store/midgard/hooks';
 
 export const usePoolColumns = () => {

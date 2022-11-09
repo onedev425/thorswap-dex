@@ -6,7 +6,7 @@ import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
-import { getMultisigTxCreateRoute, ROUTES } from 'settings/constants';
+import { getMultisigTxCreateRoute, ROUTES } from 'settings/router';
 import { useMidgard } from 'store/midgard/hooks';
 import { useMultisig } from 'store/multisig/hooks';
 import { useMultissigAssets } from 'views/Multisig/hooks';

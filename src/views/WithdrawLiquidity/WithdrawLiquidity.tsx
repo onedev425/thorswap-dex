@@ -26,7 +26,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
-import { getThorYieldLPInfoBaseRoute } from 'settings/constants';
+import { getThorYieldLPInfoBaseRoute } from 'settings/router';
 import { useExternalConfig } from 'store/externalConfig/hooks';
 import { useMidgard } from 'store/midgard/hooks';
 import { PoolMemberData, PoolShareType } from 'store/midgard/types';

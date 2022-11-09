@@ -4,7 +4,7 @@ import { StepActions } from 'components/Stepper';
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { ROUTES } from 'settings/constants';
+import { ROUTES } from 'settings/router';
 import { MultisigMember } from 'store/multisig/types';
 import { useAppSelector } from 'store/store';
 import { SignerCheckBox } from 'views/Multisig/components/SignerCheckBox';

@@ -7,7 +7,7 @@ import { useRuneToCurrency } from 'hooks/useRuneToCurrency';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { getAddLiquidityRoute, getSwapRoute } from 'settings/constants';
+import { getAddLiquidityRoute, getSwapRoute } from 'settings/router';
 import { ColorType } from 'types/app';
 
 type PoolCardProps = {

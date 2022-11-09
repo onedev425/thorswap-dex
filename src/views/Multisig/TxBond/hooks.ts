@@ -2,7 +2,7 @@ import { Asset, AssetAmount } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from 'settings/constants';
+import { ROUTES } from 'settings/router';
 import { useMultisig } from 'store/multisig/hooks';
 import { useTxCreate } from 'views/Multisig/TxCreate/TxCreateContext';
 import { BondActionType, HandleBondAction } from 'views/Nodes/types';

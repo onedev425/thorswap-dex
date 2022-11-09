@@ -4,7 +4,7 @@ import { StepActions } from 'components/Stepper';
 import { useAddressUtils } from 'hooks/useAddressUtils';
 import { useNavigate } from 'react-router';
 import { t } from 'services/i18n';
-import { ROUTES } from 'settings/constants';
+import { ROUTES } from 'settings/router';
 import { useAppSelector } from 'store/store';
 import { InactiveAccountWarning } from 'views/Multisig/components/InactiveAccountWarning';
 import { useMultisigWalletInfo } from 'views/Multisig/hooks';

@@ -3,7 +3,7 @@ import { Box, Button, Link, Typography } from 'components/Atomic';
 import { InfoTip } from 'components/InfoTip';
 import { useEffect, useState } from 'react';
 import { t } from 'services/i18n';
-import { getSendRoute } from 'settings/constants';
+import { getSendRoute } from 'settings/router';
 import { useMultisig } from 'store/multisig/hooks';
 import { useAppSelector } from 'store/store';
 import { useMultissigAssets } from 'views/Multisig/hooks';

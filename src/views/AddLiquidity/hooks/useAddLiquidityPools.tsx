@@ -2,7 +2,7 @@ import { Asset, Pool } from '@thorswap-lib/multichain-core';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getAddLiquidityRoute } from 'settings/constants';
+import { getAddLiquidityRoute } from 'settings/router';
 import { useMidgard } from 'store/midgard/hooks';
 import { useAppSelector } from 'store/store';
 

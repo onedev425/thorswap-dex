@@ -4,7 +4,7 @@ import { SidebarItemProps } from 'components/Sidebar/types';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { IS_PROD } from 'settings/config';
-import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/constants';
+import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/router';
 import { useApp } from 'store/app/hooks';
 import { useWallet } from 'store/wallet/hooks';
 import { useVesting } from 'views/Vesting/hooks';

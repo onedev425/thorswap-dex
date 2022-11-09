@@ -7,7 +7,7 @@ import { fetchVthorApr } from 'helpers/staking';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { fromWei } from 'services/contract';
 import { t } from 'services/i18n';
-import { ROUTES } from 'settings/constants';
+import { ROUTES } from 'settings/router';
 import { useV1ThorStakeInfo } from 'views/Stake/hooks';
 import { AddVThorMM } from 'views/StakeVThor/AddVThorMM';
 import { useVthorUtil } from 'views/StakeVThor/useVthorUtil';

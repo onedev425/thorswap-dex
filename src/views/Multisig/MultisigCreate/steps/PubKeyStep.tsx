@@ -8,7 +8,7 @@ import { showSuccessToast } from 'components/Toast';
 import copy from 'copy-to-clipboard';
 import { useNavigate } from 'react-router';
 import { t } from 'services/i18n';
-import { ROUTES } from 'settings/constants';
+import { ROUTES } from 'settings/router';
 import { useWallet } from 'store/wallet/hooks';
 
 type Props = {
