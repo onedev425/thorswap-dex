@@ -1,7 +1,6 @@
 import { Amount, Asset, QuoteMode, QuoteRoute } from '@thorswap-lib/multichain-core';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useEffect, useMemo, useState } from 'react';
-import { IS_PROD } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 import { useGetSupportedProvidersQuery, useGetTokensQuoteQuery } from 'store/thorswap/api';
 
@@ -32,7 +31,7 @@ export const useSwapQuote = ({
   const params = useMemo(
     () => ({
       affiliateBasisPoints,
-      providers: IS_PROD ? supportedProvidersData : supportedProvidersData,
+      providers: supportedProvidersData,
       sellAsset: inputAsset.toString(),
       buyAsset: outputAsset.toString(),
       slippage: slippageTolerance.toString(),

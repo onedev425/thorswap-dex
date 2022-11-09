@@ -6,6 +6,9 @@ import { useAppSelector } from 'store/store';
 import { useGetProvidersQuery } from 'store/thorswap/api';
 import { Token } from 'store/thorswap/types';
 
+/**
+ * Leave this as easy to navigate and clear as possible.
+ */
 export const DISABLED_TOKENLIST_PROVIDERS = IS_PROD ? [] : [];
 
 export const useTokenList = () => {

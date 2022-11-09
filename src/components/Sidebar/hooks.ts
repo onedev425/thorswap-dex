@@ -73,11 +73,6 @@ export const useSidebarOptions = () => {
             href: ROUTES.Swap,
             label: t('components.sidebar.swap'),
           },
-          {
-            iconName: 'piggyBank' as IconName,
-            href: ROUTES.Savings,
-            label: 'Earn',
-          },
         ],
       },
       {
@@ -121,6 +116,11 @@ export const useSidebarOptions = () => {
           IS_PROD
             ? []
             : [
+                {
+                  iconName: 'piggyBank' as IconName,
+                  href: ROUTES.Savings,
+                  label: 'Earn',
+                },
                 {
                   iconName: 'dollarOutlined' as IconName,
                   href: ROUTES.OnRamp,

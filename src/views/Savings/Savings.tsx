@@ -149,7 +149,7 @@ const Savings = () => {
 
   const buttonDisabled = useMemo(
     () =>
-      amount.gt(balance) ||
+      (balance && amount.gt(balance)) ||
       !isSynthInCapacity ||
       inboundHalted[asset.L1Chain] ||
       isChainTradingHalted[asset.L1Chain],
