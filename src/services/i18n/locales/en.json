@@ -163,7 +163,7 @@
       "chainHalted": "%{chain} Chain is temporarily halted on THORChain. All trading and LP actions are currently unavailable",
       "chainLPHalted": "Adding and withdrawing on %{chain} Chain are temporarily unavailable.",
       "chainTradeHalted": "Trading on %{chain} Chain is temporarily unavailable.",
-      "outboundQueue": "THORChain is currently experiencing heavy outbound queue (%{outboundQueue}). Swaps could take longer than usual to process, FUNDS ARE SAFE 🙏",
+      "outboundQueue": "THORChain is currently experiencing heavy outbound queue (%{outboundQueue}). Swaps could take longer than usual to process.",
       "thorChainHalted": "THORChain is temporarily unavailable while undergoing maintenance. All actions are currently disabled.",
       "thorChainLPHalted": "Adding and withdrawing liquidity are temporarily disabled on THORChain.",
       "thorChainTradeHalted": "Trading is temporarily disabled on THORChain.",
