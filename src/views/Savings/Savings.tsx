@@ -49,6 +49,10 @@ const Savings = () => {
 
   const isDeposit = tab === SavingsTab.Deposit;
   const address = useMemo(() => wallet?.[asset.L1Chain]?.address || '', [wallet, asset.L1Chain]);
+  const balance = useMemo(
+    () => (address ? getMaxBalance(asset) : undefined),
+    [address, asset, getMaxBalance],
+  );
   const tabs = useMemo(
     () => [
       { label: t('common.deposit'), value: SavingsTab.Deposit },
@@ -144,24 +148,29 @@ const Savings = () => {
   }, [asset.symbol, maxSynthPerAssetDepth, pools]);
 
   const buttonDisabled = useMemo(
-    () => !isSynthInCapacity || inboundHalted[asset.L1Chain] || isChainTradingHalted[asset.L1Chain],
-    [asset.L1Chain, inboundHalted, isChainTradingHalted, isSynthInCapacity],
+    () =>
+      amount.gt(balance) ||
+      !isSynthInCapacity ||
+      inboundHalted[asset.L1Chain] ||
+      isChainTradingHalted[asset.L1Chain],
+    [amount, asset.L1Chain, balance, inboundHalted, isChainTradingHalted, isSynthInCapacity],
   );
 
-  const slippage = useMemo(() => {
-    const networkFee = new Amount(
-      parseInt(outboundFee[asset.L1Chain] || '0') * (isDeposit ? 1 / 3 : 1),
-      AmountType.BASE_AMOUNT,
-      asset.decimal,
-    );
-    const liquidityFee = amount.div(amount.add(assetDepthAmount).mul(amount));
-
-    return liquidityFee.add(networkFee);
-  }, [amount, asset.L1Chain, asset.decimal, assetDepthAmount, isDeposit, outboundFee]);
+  const { slippage, networkFee } = useMemo(
+    () => ({
+      slippage: amount.div(amount.add(assetDepthAmount).mul(amount)),
+      networkFee: new Amount(
+        parseInt(outboundFee[asset.L1Chain] || '0') * (isDeposit ? 1 / 3 : 1),
+        AmountType.BASE_AMOUNT,
+        asset.decimal,
+      ),
+    }),
+    [amount, asset.L1Chain, asset.decimal, assetDepthAmount, isDeposit, outboundFee],
+  );
 
   const selectedAsset = useMemo(
-    () => ({ asset, value: amount, balance: address ? getMaxBalance(asset) : undefined, usdPrice }),
-    [address, asset, amount, getMaxBalance, usdPrice],
+    () => ({ asset, value: amount, balance, usdPrice }),
+    [asset, amount, balance, usdPrice],
   );
 
   const tabLabel = tab === SavingsTab.Deposit ? t('common.deposit') : t('common.withdraw');
@@ -169,17 +178,13 @@ const Savings = () => {
     { label: t('common.action'), value: tabLabel },
     { label: t('common.asset'), value: `${asset.name}`, icon: asset },
     { label: t('common.amount'), value: `${amount.toSignificant(6)} ${asset.name}` },
+    { label: t('views.wallet.networkFee'), value: `${networkFee.toSignificant(6)} ${asset.name}` },
     { label: t('common.slippage'), value: `${slippage.toSignificant(6)} ${asset.name}` },
     {
       label: tabLabel,
-      value: `${amount.sub(slippage).toSignificant(6)} ${asset.name}`,
+      value: `${amount.sub(slippage).sub(networkFee).toSignificant(6)} ${asset.name}`,
     },
   ];
-
-  const buttonLabel = useMemo(
-    () => (buttonDisabled ? t('common.disabled') : tabLabel),
-    [buttonDisabled, tabLabel],
-  );
 
   return (
     <Box col className="self-center w-full max-w-[480px] mt-2">
@@ -230,7 +235,7 @@ const Savings = () => {
             address={address}
             disabled={buttonDisabled}
             handleSubmit={() => setIsConfirmOpen(true)}
-            label={buttonLabel}
+            label={tabLabel}
             setIsConnectModalOpen={setIsConnectModalOpen}
           />
         </Box>
