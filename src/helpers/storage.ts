@@ -1,7 +1,6 @@
 import { Asset } from '@thorswap-lib/multichain-core';
 import { Keystore } from '@thorswap-lib/types';
 import { HandleWalletConnectParams } from 'components/Modals/ConnectWalletModal/hooks';
-import { DEFAULT_SLIPPAGE_TOLERANCE } from 'settings/constants/values';
 import { MultisigWallet } from 'store/multisig/types';
 import { SupportedLanguages, ThemeType, ThousandSeparator, ViewMode } from 'types/app';
 
@@ -111,7 +110,7 @@ const defaultValues: StorageType = {
 
   baseCurrency: Asset.USD().toString(),
   language: 'en',
-  slippageTolerance: `${DEFAULT_SLIPPAGE_TOLERANCE}`,
+  slippageTolerance: '3',
   themeType: ThemeType.Auto,
   thousandSeparator: ThousandSeparator.Comma,
   transactionDeadline: '30',
