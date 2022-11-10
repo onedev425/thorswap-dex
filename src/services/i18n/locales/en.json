@@ -46,7 +46,6 @@
     "balance": "Balance",
     "cancel": "Cancel",
     "claim": "Claim",
-    "claimAndWithdraw": "Claim and Withdraw",
     "clearHistory": "Clear History",
     "comingSoon": "Coming Soon",
     "confirm": "Confirm",
@@ -613,15 +612,15 @@
       "withdraw": "Withdraw"
     },
     "savings": {
+      "aprTipContent": "Savers Vaults yield APR will be available after the upcoming THORChain v1.99 update.",
+      "aprTipTitle": "Earn APR metrics coming soon!",
       "currentBalance": "Current Balance",
       "description": "Earn passive income on your idle assets with Savers Vaults.",
       "earn": "Earn",
       "tooltipDescription": "Earn yield by providing single sided $%{asset} Liquidity with no $RUNE exposure and Impermanent Loss",
       "yourDeposit": "Your Deposit",
       "yourEarnings": "Your Earnings",
-      "yourPositions": "Your Positions",
-      "aprTipTitle": "Earn APR metrics coming soon!",
-      "aprTipContent": "Savers Vaults yield APR will be available after the upcoming THORChain v1.99 update."
+      "yourPositions": "Your Positions"
     },
     "send": {
       "outputAsset": "Swap Output Asset",

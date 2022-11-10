@@ -178,8 +178,6 @@ export const StakingCard = ({
         return ['withdraw', TransactionType.ETH_STATUS] as const;
       case FarmActionType.CLAIM:
         return ['harvest', TransactionType.ETH_STATUS] as const;
-      case FarmActionType.WITHDRAW:
-        return ['withdrawAndHarvest', TransactionType.ETH_STATUS] as const;
       default:
         return [] as const;
     }
@@ -359,6 +357,7 @@ export const StakingCard = ({
               <>
                 <Button
                   className="flex-1"
+                  isFancy={withdrawOnly}
                   onClick={() =>
                     openConfirm(withdrawOnly ? FarmActionType.EXIT : FarmActionType.DEPOSIT)
                   }
@@ -368,18 +367,11 @@ export const StakingCard = ({
                 </Button>
                 <Button
                   className="flex-1"
+                  isFancy={withdrawOnly}
                   onClick={() => openConfirm(FarmActionType.CLAIM)}
                   variant="tertiary"
                 >
                   {t('common.claim')}
-                </Button>
-                <Button
-                  className="flex-1"
-                  isFancy={withdrawOnly}
-                  onClick={() => openConfirm(FarmActionType.WITHDRAW)}
-                  variant="secondary"
-                >
-                  {withdrawOnly ? t('common.claimAndWithdraw') : t('common.withdraw')}
                 </Button>
               </>
             )}

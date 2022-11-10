@@ -20,7 +20,6 @@ import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 const actionNameKey: Record<FarmActionType, string> = {
   [FarmActionType.DEPOSIT]: 'views.staking.depositAction',
   [FarmActionType.CLAIM]: 'views.staking.harvestAction',
-  [FarmActionType.WITHDRAW]: 'views.staking.withdrawAction',
   [FarmActionType.EXIT]: 'views.staking.exitAction',
 };
 
@@ -66,8 +65,6 @@ export const StakeConfirmModal = ({
         setAmount(claimableAmount.mul(percent).div(100));
       } else if (type === FarmActionType.EXIT) {
         setAmount(stakedAmount.mul(percent).div(100));
-      } else if (type === FarmActionType.WITHDRAW) {
-        setAmount(claimableAmount.add(stakedAmount).mul(percent).div(100));
       }
     },
     [type, tokenBalance, claimableAmount, stakedAmount],
