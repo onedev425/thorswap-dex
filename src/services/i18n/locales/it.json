@@ -613,15 +613,14 @@
       "withdraw": "Preleva"
     },
     "savings": {
+      "aprTipTitle": "Statistiche APR in arrivo!",
       "currentBalance": "Saldo corrente",
       "description": "Fornisci %{chain} Liquidità senza esposizione a RUNE.",
       "earn": "Guadagna",
       "tooltipDescription": "Ottenere un rendimento fornendo un $%{asset} singolo Liquidità senza esposizione a $RUNE e perdita impermanente",
       "yourDeposit": "Il tuo deposito",
       "yourEarnings": "I tuoi guadagni",
-      "yourPositions": "Le tue posizioni",
-      "aprTipTitle": "Statistiche APR in arrivo!",
-      "aprTipContent": "Il rendimento dei Savers Vaults APR sarà disponibile dopo l'aggiornamento v1.99. di THORChain "
+      "yourPositions": "Le tue posizioni"
     },
     "send": {
       "outputAsset": "Swap Output Asset",

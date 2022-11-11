@@ -613,15 +613,14 @@
       "withdraw": "ដក"
     },
     "savings": {
+      "aprTipTitle": "ទទួលបានម៉ែត្រ APR នឹងមកដល់ឆាប់ៗនេះ!",
       "currentBalance": "តុល្យភាព​បច្ចុប្បន្ន",
       "description": "ផ្តល់សាច់ប្រាក់ %{chain} តែមួយចំហៀងដោយគ្មានការប៉ះពាល់ជាមួយ RUNE ។",
       "earn": "រកបាន។",
       "tooltipDescription": "ទទួលបានទិន្នផលដោយការផ្តល់នូវផ្នែកតែមួយ $%{asset} Liquidity ដោយមិនមាន $RUNE exposure និង impermanent Loss",
       "yourDeposit": "ប្រាក់បញ្ញើរបស់អ្នក។",
       "yourEarnings": "ប្រាក់ចំណូលរបស់អ្នក។",
-      "yourPositions": "មុខតំណែងរបស់អ្នក។",
-      "aprTipTitle": "ទទួលបានម៉ែត្រ APR នឹងមកដល់ឆាប់ៗនេះ!",
-      "aprTipContent": "ទិន្នផល APR របស់ Savers Vaults នឹងមានបន្ទាប់ពីការអាប់ដេត THORChain v1.99 នាពេលខាងមុខ។"
+      "yourPositions": "មុខតំណែងរបស់អ្នក។"
     },
     "send": {
       "outputAsset": "ផ្លាស់ប្តូរទ្រព្យសម្បត្តិទិន្នផល",

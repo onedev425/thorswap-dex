@@ -67,13 +67,18 @@ export const useSidebarOptions = () => {
     const menu: SidebarItemProps[] = [
       {
         hasBackground: true,
+        // @ts-expect-error
         children: [
           {
             iconName: 'swap',
             href: ROUTES.Swap,
             label: t('components.sidebar.swap'),
           },
-        ],
+        ].concat(
+          IS_PROD
+            ? []
+            : [{ iconName: 'piggyBank' as IconName, href: ROUTES.Savings, label: 'Earn' }],
+        ),
       },
       {
         iconName: 'tradeLightning',
@@ -116,11 +121,6 @@ export const useSidebarOptions = () => {
           IS_PROD
             ? []
             : [
-                {
-                  iconName: 'piggyBank' as IconName,
-                  href: ROUTES.Savings,
-                  label: 'Earn',
-                },
                 {
                   iconName: 'dollarOutlined' as IconName,
                   href: ROUTES.OnRamp,

@@ -613,15 +613,14 @@
       "withdraw": "Retirer"
     },
     "savings": {
+      "aprTipTitle": "Gagnez des mesures de APR bientôt !",
       "currentBalance": "Solde actuel",
       "description": "Fournir une %{chaîne} unilatérale Liquidité sans exposition à RUNE.",
       "earn": "Gagner",
       "tooltipDescription": "Obtenez un rendement en fournissant un seul côté $%{asset} Liquidité sans exposition au risque de perte et de perte impermanente",
       "yourDeposit": "Votre dépôt",
       "yourEarnings": "Vos gains",
-      "yourPositions": "Vos positions",
-      "aprTipTitle": "Gagnez des mesures de APR bientôt !",
-      "aprTipContent": "L'APR de rendement Savers Vaults sera disponible après la prochaine mise à jour THORChain v1.99."
+      "yourPositions": "Vos positions"
     },
     "send": {
       "outputAsset": "Swap Output Asset",

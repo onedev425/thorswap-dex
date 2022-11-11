@@ -612,7 +612,7 @@
       "withdraw": "Withdraw"
     },
     "savings": {
-      "aprTipContent": "Savers Vaults yield APR will be available after the upcoming THORChain v1.99 update.",
+      "aprTipContent": "Savers Vaults yield APR will be available soon.",
       "aprTipTitle": "Earn APR metrics coming soon!",
       "currentBalance": "Current Balance",
       "description": "Earn passive income on your idle assets with Savers Vaults.",

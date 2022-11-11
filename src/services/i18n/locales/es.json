@@ -613,15 +613,14 @@
       "withdraw": "Retirar"
     },
     "savings": {
+      "aprTipTitle": "Próximamente, las métricas de la APR",
       "currentBalance": "Saldo actual",
       "description": "Proporcionar una sola cara %{cadena} Liquidez sin exposición a la RUNE.",
       "earn": "Gana",
       "tooltipDescription": "Ganar rendimiento proporcionando $%{activo} unilateral Liquidez sin exposición a $RUNE y Pérdida Impermanente",
       "yourDeposit": "Su depósito",
       "yourEarnings": "Sus ingresos",
-      "yourPositions": "Sus posiciones",
-      "aprTipTitle": "Próximamente, las métricas de la APR",
-      "aprTipContent": "El rendimiento de las bóvedas de ahorro APR estará disponible tras la próxima actualización de THORChain v1.99."
+      "yourPositions": "Sus posiciones"
     },
     "send": {
       "outputAsset": "Activo de salida de intercambio",

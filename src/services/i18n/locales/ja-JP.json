@@ -613,15 +613,14 @@
       "withdraw": "出金"
     },
     "savings": {
+      "aprTipTitle": "APR指標を獲得するのはもうすぐです",
       "currentBalance": "現在の残高",
       "description": "シングルサイドの%{chain}を提供します。RUNEへのエクスポージャーを伴わない流動性。",
       "earn": "アーン",
       "tooltipDescription": "片面$%{asset}で利回りを稼ぐ。流動性があり、$RUNEエクスポージャーがなく、永久的な損失がない。",
       "yourDeposit": "預け入れ",
       "yourEarnings": "お客様の収益",
-      "yourPositions": "ポジション",
-      "aprTipTitle": "APR指標を獲得するのはもうすぐです",
-      "aprTipContent": "Savers Vaults yield APRは、THORChain v1.99のアップデート後に利用可能になる予定です。"
+      "yourPositions": "ポジション"
     },
     "send": {
       "outputAsset": "スワップアウトプットアセット",

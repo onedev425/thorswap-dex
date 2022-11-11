@@ -613,15 +613,14 @@
       "withdraw": "Retirar"
     },
     "savings": {
+      "aprTipTitle": "Ganhe métricas de RPA em breve!",
       "currentBalance": "Balanço actual",
       "description": "Fornecer lado a lado %{cadeia} Liquidez sem exposição à RUNE.",
       "earn": "Ganhe",
       "tooltipDescription": "Ganhe rendimento fornecendo uma única face $%{asset} Liquidez sem exposição a $RUNE e Perda Impermanente",
       "yourDeposit": "O seu depósito",
       "yourEarnings": "Os seus ganhos",
-      "yourPositions": "As suas posições",
-      "aprTipTitle": "Ganhe métricas de RPA em breve!",
-      "aprTipContent": "O rendimento dos abóbadas Savers Vaults APR estará disponível após a próxima actualização THORChain v1.99."
+      "yourPositions": "As suas posições"
     },
     "send": {
       "outputAsset": "Trocar o activo de saída",
