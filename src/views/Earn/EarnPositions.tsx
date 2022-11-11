@@ -4,8 +4,8 @@ import { InfoRow } from 'components/InfoRow';
 import { ReloadButton } from 'components/ReloadButton';
 import { useCallback, useState } from 'react';
 import { t } from 'services/i18n';
-import { SavingsPosition } from 'views/Savings/SavingsPosition';
-import { SaverPosition } from 'views/Savings/types';
+import { EarnPosition } from 'views/Earn/EarnPosition';
+import { SaverPosition } from 'views/Earn/types';
 
 type Props = {
   positions: SaverPosition[];
@@ -14,7 +14,7 @@ type Props = {
   depositAsset: (asset: Asset) => void;
 };
 
-export const SavingsPositions = ({ positions, refresh, withdrawAsset, depositAsset }: Props) => {
+export const EarnPositions = ({ positions, refresh, withdrawAsset, depositAsset }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const onReload = useCallback(() => {
     setIsLoading(true);
@@ -40,7 +40,7 @@ export const SavingsPositions = ({ positions, refresh, withdrawAsset, depositAss
       />
 
       {positions.map((position) => (
-        <SavingsPosition
+        <EarnPosition
           deposit={depositAsset}
           key={position.asset.toString()}
           position={position}

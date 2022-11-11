@@ -10,7 +10,7 @@ import { ROUTES } from 'settings/router';
 import Swap from 'views/Swap';
 import WalletBalance, { WalletDrawer } from 'views/WalletBalance';
 
-const Savings = lazy(() => import('views/Savings'));
+const Earn = lazy(() => import('views/Earn'));
 const Multisig = lazy(() => import('views/Multisig/Multisig'));
 const TxBuilder = lazy(() => import('views/Multisig/TxBuilder/TxBuilder'));
 const TxCreate = lazy(() => import('views/Multisig/TxCreate/TxCreate'));
@@ -44,7 +44,7 @@ const NOT_PROD_ROUTES = IS_PROD
   ? []
   : [
       { path: ROUTES.OnRamp, element: OnRamp },
-      { path: ROUTES.Savings, element: Savings },
+      { path: ROUTES.Earn, element: Earn },
     ];
 
 const routes: RouteType = [

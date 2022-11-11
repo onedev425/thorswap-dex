@@ -11,7 +11,7 @@ type Props = {
   providerData: SaverProvider | null;
 };
 
-export const SavingsInfo = memo(({ depositValue, providerData, address }: Props) => {
+export const EarnInfo = memo(({ depositValue, providerData, address }: Props) => {
   return (
     <Box col className="mt-5 gap-2">
       <InfoTip type="info">

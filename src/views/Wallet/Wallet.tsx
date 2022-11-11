@@ -41,7 +41,11 @@ const Wallet = () => {
 
   return (
     <Box col className="w-full">
-      <Helmet content={t('views.wallet.wallet')} title={t('views.wallet.wallet')} />
+      <Helmet
+        content="Manage you tokens in your custodial wallet on THORSwap"
+        keywords="Wallet, Tokens, THORSwap, THORChain, DEFI, DEX"
+        title={t('views.wallet.wallet')}
+      />
       <SearchAndFilters
         keyword={keyword}
         onlyConnected={onlyConnected}

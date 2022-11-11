@@ -25,12 +25,12 @@ import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 import { WithdrawPercent } from 'views/WithdrawLiquidity/WithdrawPercent';
 
-import { SavingsButton } from './SavingsButton';
-import { SavingsPositions } from './SavingsPositions';
-import { SavingsTab } from './types';
-import { useSaverPositions } from './useSaverPositions';
+import { EarnButton } from './EarnButton';
+import { EarnPositions } from './EarnPositions';
+import { EarnTab } from './types';
+import { useSaverPositions } from './useEarnPositions';
 
-const Savings = () => {
+const Earn = () => {
   const appDispatch = useAppDispatch();
   const listAssets = useAssetsWithBalance(SORTED_BASE_ASSETS);
   const { getMaxBalance } = useBalance();
@@ -42,12 +42,12 @@ const Savings = () => {
   const [asset, setAsset] = useState(Asset.BTC());
   const [availableToWithdraw, setAvailableToWithdraw] = useState(Amount.fromAssetAmount(0, 8));
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-  const [tab, setTab] = useState(SavingsTab.Deposit);
+  const [tab, setTab] = useState(EarnTab.Deposit);
   const [withdrawPercent, setWithdrawPercent] = useState(new Percent(0));
   const [tipVisible, setTipVisible] = useState(true);
   const usdPrice = usePoolAssetPriceInUsd({ asset, amount });
 
-  const isDeposit = tab === SavingsTab.Deposit;
+  const isDeposit = tab === EarnTab.Deposit;
   const address = useMemo(() => wallet?.[asset.L1Chain]?.address || '', [wallet, asset.L1Chain]);
   const balance = useMemo(
     () => (address ? getMaxBalance(asset) : undefined),
@@ -55,19 +55,19 @@ const Savings = () => {
   );
   const tabs = useMemo(
     () => [
-      { label: t('common.deposit'), value: SavingsTab.Deposit },
-      { label: t('common.withdraw'), value: SavingsTab.Withdraw },
+      { label: t('common.deposit'), value: EarnTab.Deposit },
+      { label: t('common.withdraw'), value: EarnTab.Withdraw },
     ],
     [],
   );
 
   const depositAsset = useCallback((asset: Asset) => {
-    setTab(SavingsTab.Deposit);
+    setTab(EarnTab.Deposit);
     setAsset(asset);
   }, []);
 
   const withdrawAsset = useCallback((asset: Asset) => {
-    setTab(SavingsTab.Withdraw);
+    setTab(EarnTab.Withdraw);
     setAsset(asset);
   }, []);
 
@@ -99,7 +99,7 @@ const Savings = () => {
     [amount, asset, isDeposit, withdrawPercent],
   );
 
-  const handleSavingsSubmit = useCallback(async () => {
+  const handleEarnSubmit = useCallback(async () => {
     setIsConfirmOpen(false);
 
     const id = v4();
@@ -173,7 +173,7 @@ const Savings = () => {
     [asset, amount, balance, usdPrice],
   );
 
-  const tabLabel = tab === SavingsTab.Deposit ? t('common.deposit') : t('common.withdraw');
+  const tabLabel = tab === EarnTab.Deposit ? t('common.deposit') : t('common.withdraw');
   const txInfos = [
     { label: t('common.action'), value: tabLabel },
     { label: t('common.asset'), value: `${asset.name}`, icon: asset },
@@ -188,7 +188,11 @@ const Savings = () => {
 
   return (
     <Box col className="self-center w-full max-w-[480px] mt-2">
-      <Helmet content={t('views.savings.earn')} title={t('views.savings.earn')} />
+      <Helmet
+        content="Earn APY on native assets with THORSwap EARN"
+        keywords="Earn, Savings, THORSwap, APY, Native assets"
+        title={t('views.savings.earn')}
+      />
       <ViewHeader title={`${t('views.savings.earn')} ${asset.name}`} />
 
       <Box alignCenter className="px-3" justify="between">
@@ -214,9 +218,9 @@ const Savings = () => {
         size="lg"
       >
         <Box col className="self-stretch gap-2">
-          <TabsSelect onChange={(value) => setTab(value as SavingsTab)} tabs={tabs} value={tab} />
+          <TabsSelect onChange={(value) => setTab(value as EarnTab)} tabs={tabs} value={tab} />
 
-          {tab === SavingsTab.Withdraw && (
+          {tab === EarnTab.Withdraw && (
             <WithdrawPercent onChange={handlePercentWithdrawChange} percent={withdrawPercent} />
           )}
 
@@ -224,14 +228,14 @@ const Savings = () => {
             noFilters
             assets={listAssets}
             className="flex-1"
-            disabled={tab === SavingsTab.Withdraw}
+            disabled={tab === EarnTab.Withdraw}
             onAssetChange={setAsset}
             onValueChange={setAmount}
             poolAsset={selectedAsset}
             selectedAsset={selectedAsset}
           />
 
-          <SavingsButton
+          <EarnButton
             address={address}
             disabled={buttonDisabled}
             handleSubmit={() => setIsConfirmOpen(true)}
@@ -258,7 +262,7 @@ const Savings = () => {
         />
       )}
 
-      <SavingsPositions
+      <EarnPositions
         depositAsset={depositAsset}
         positions={positions}
         refresh={refreshPositions}
@@ -269,7 +273,7 @@ const Savings = () => {
         inputAssets={[asset]}
         isOpened={isConfirmOpen}
         onClose={() => setIsConfirmOpen(false)}
-        onConfirm={handleSavingsSubmit}
+        onConfirm={handleEarnSubmit}
       >
         {txInfos.map((info) => (
           <InfoRow
@@ -288,4 +292,4 @@ const Savings = () => {
   );
 };
 
-export default Savings;
+export default Earn;

@@ -11,7 +11,7 @@ type Props = {
   label: string;
 };
 
-export const SavingsButton = memo(
+export const EarnButton = memo(
   ({ loading, label, disabled, handleSubmit, address, setIsConnectModalOpen }: Props) => (
     <Box className="self-stretch pt-5">
       {address ? (

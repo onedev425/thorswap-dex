@@ -289,7 +289,7 @@ const SwapView = () => {
           refetchData={!selectedRoute || isFetching || isPriceLoading ? undefined : refetchData}
         />
       }
-      title={`${t('common.swap')} ${inputAsset.name} >> ${outputAsset.name}`}
+      title={`${t('common.swap')} ${inputAsset.name} to ${outputAsset.name}`}
     >
       <AssetInputs
         inputAsset={inputAssetProps}

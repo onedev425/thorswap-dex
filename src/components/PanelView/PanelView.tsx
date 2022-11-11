@@ -6,12 +6,14 @@ export type Props = {
   title: string;
   header: ReactNode;
   children: ReactNode;
+  description?: string;
+  keywords?: string;
 };
 
-export const PanelView = memo(({ title, header, children }: Props) => {
+export const PanelView = memo(({ title, description, keywords, header, children }: Props) => {
   return (
     <Box col className="self-center w-full max-w-[480px] mt-2">
-      <Helmet content={title} title={title} />
+      <Helmet content={description || title} keywords={keywords} title={title} />
 
       <Box col className="w-full mx-2">
         {header}

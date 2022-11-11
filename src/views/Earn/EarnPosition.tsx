@@ -4,7 +4,7 @@ import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon, Typography, useCollapse } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { t } from 'services/i18n';
-import { SaverPosition } from 'views/Savings/types';
+import { SaverPosition } from 'views/Earn/types';
 
 type Props = {
   position: SaverPosition;
@@ -12,7 +12,7 @@ type Props = {
   deposit: (asset: Asset) => void;
 };
 
-export const SavingsPosition = ({ position, withdraw, deposit }: Props) => {
+export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
   const { collapse, isActive, contentRef, toggle, maxHeightStyle } = useCollapse();
 
   return (

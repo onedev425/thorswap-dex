@@ -7,7 +7,7 @@ export type SaverPosition = {
   amount: Amount;
 };
 
-export enum SavingsTab {
+export enum EarnTab {
   Deposit = 'deposit',
   Withdraw = 'withdraw',
 }

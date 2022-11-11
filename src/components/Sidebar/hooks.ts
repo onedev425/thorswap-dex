@@ -3,7 +3,7 @@ import { IconName } from 'components/Atomic';
 import { SidebarItemProps } from 'components/Sidebar/types';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
-import { IS_PROD } from 'settings/config';
+import { IS_PROD, IS_STAGENET } from 'settings/config';
 import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/router';
 import { useApp } from 'store/app/hooks';
 import { useWallet } from 'store/wallet/hooks';
@@ -75,9 +75,9 @@ export const useSidebarOptions = () => {
             label: t('components.sidebar.swap'),
           },
         ].concat(
-          IS_PROD
+          IS_PROD || IS_STAGENET
             ? []
-            : [{ iconName: 'piggyBank' as IconName, href: ROUTES.Savings, label: 'Earn' }],
+            : [{ iconName: 'piggyBank' as IconName, href: ROUTES.Earn, label: 'Earn' }],
         ),
       },
       {
@@ -118,7 +118,7 @@ export const useSidebarOptions = () => {
             label: 'THORName',
           },
         ].concat(
-          IS_PROD
+          IS_PROD || IS_STAGENET
             ? []
             : [
                 {

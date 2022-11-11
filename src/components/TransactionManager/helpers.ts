@@ -51,7 +51,7 @@ export const transactionTitle = (type: TransactionType): string => {
     case TransactionType.TC_LP_ADD:
       return t('txManager.addLiquidity');
     case TransactionType.TC_SAVINGS_ADD:
-      return t('txManager.addSavings');
+      return t('txManager.addEarn');
 
     case TransactionType.TC_SAVINGS_WITHDRAW:
     case TransactionType.TC_LP_WITHDRAW:

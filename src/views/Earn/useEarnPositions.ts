@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react';
 import { SORTED_BASE_ASSETS } from 'settings/chain';
 import { getSaverData } from 'store/midgard/actions';
 import { useWallet } from 'store/wallet/hooks';
-import { SaverPosition } from 'views/Savings/types';
+import { SaverPosition } from 'views/Earn/types';
 
 export const useSaverPositions = () => {
   const { wallet } = useWallet();
