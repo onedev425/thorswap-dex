@@ -40,46 +40,42 @@ export type RouteType = {
   element: NotWorth;
 }[];
 
-const NOT_PROD_ROUTES = IS_PROD
-  ? []
-  : [
-      { path: ROUTES.OnRamp, element: OnRamp },
-      { path: ROUTES.Earn, element: Earn },
-    ];
+const NOT_PROD_ROUTES = IS_PROD ? [] : [{ path: ROUTES.OnRamp, element: OnRamp }];
 
 const routes: RouteType = [
   { path: ROUTES.AddLiquidity, element: AddLiquidity },
   { path: ROUTES.AddLiquidityPool, element: AddLiquidity },
   { path: ROUTES.CreateLiquidity, element: CreateLiquidity },
+  { path: ROUTES.Earn, element: Earn },
   { path: ROUTES.Home, element: Home },
+  { path: ROUTES.LegacyStake, element: Stake },
   { path: ROUTES.Liquidity, element: Liquidity },
+  { path: ROUTES.Multisig, element: Multisig },
+  { path: ROUTES.MultisigConnect, element: MultisigImport },
+  { path: ROUTES.MultisigCreate, element: MultisigCreate },
+  { path: ROUTES.NodeDetail, element: NodeDetails },
   { path: ROUTES.NodeDetail, element: NodeDetails },
   { path: ROUTES.NodeManager, element: NodeManager },
+  { path: ROUTES.NodeManager, element: NodeManager },
+  { path: ROUTES.Nodes, element: Nodes },
   { path: ROUTES.Nodes, element: Nodes },
   { path: ROUTES.Send, element: Send },
   { path: ROUTES.SendAsset, element: Send },
-  { path: ROUTES.LegacyStake, element: Stake },
   { path: ROUTES.Stake, element: StakeVThor },
   { path: ROUTES.Swap, element: Swap },
   { path: ROUTES.SwapPair, element: Swap },
   { path: ROUTES.Thorname, element: Thorname },
-  { path: ROUTES.UpgradeRune, element: UpgradeRune },
-  { path: ROUTES.Vesting, element: Vesting },
-  { path: ROUTES.Wallet, element: Wallet },
-  { path: ROUTES.WithdrawLiquidity, element: WithdrawLiquidity },
-  { path: ROUTES.WithdrawLiquidityPool, element: WithdrawLiquidity },
-  { path: ROUTES.Nodes, element: Nodes },
-  { path: ROUTES.NodeManager, element: NodeManager },
-  { path: ROUTES.NodeDetail, element: NodeDetails },
-  { path: ROUTES.Vesting, element: Vesting },
-  { path: ROUTES.Multisig, element: Multisig },
   { path: ROUTES.TxBuilder, element: TxBuilder },
   { path: ROUTES.TxCreate, element: TxCreate },
   { path: ROUTES.TxCreatePool, element: TxCreate },
   { path: ROUTES.TxImport, element: TxImport },
   { path: ROUTES.TxMultisig, element: TxMultisig },
-  { path: ROUTES.MultisigConnect, element: MultisigImport },
-  { path: ROUTES.MultisigCreate, element: MultisigCreate },
+  { path: ROUTES.UpgradeRune, element: UpgradeRune },
+  { path: ROUTES.Vesting, element: Vesting },
+  { path: ROUTES.Vesting, element: Vesting },
+  { path: ROUTES.Wallet, element: Wallet },
+  { path: ROUTES.WithdrawLiquidity, element: WithdrawLiquidity },
+  { path: ROUTES.WithdrawLiquidityPool, element: WithdrawLiquidity },
   ...NOT_PROD_ROUTES,
 ];
 
