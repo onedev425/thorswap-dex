@@ -615,7 +615,7 @@
       "aprTipContent": "Savers Vaults yield APR will be available soon.",
       "aprTipTitle": "Earn APR metrics coming soon!",
       "currentBalance": "Current Balance",
-      "description": "Earn passive income on your idle assets with Savers Vaults.",
+      "description": "Earn %{chain} on your %{chain} with Savers Vaults",
       "earn": "Earn",
       "tooltipDescription": "Earn yield by providing single sided $%{asset} Liquidity with no $RUNE exposure and Impermanent Loss",
       "yourDeposit": "Your Deposit",
