@@ -171,7 +171,7 @@ const Earn = () => {
 
       <Box alignCenter className="px-3" justify="between">
         <Typography color="secondary" fontWeight="medium" variant="caption">
-          {t('views.savings.description', { chain: asset.L1Chain })}
+          {t('views.savings.description', { asset: asset.name })}
           <Link className="text-twitter-blue cursor-pointer" to={YIELD_BEARING_YOUTUBE}>
             <Typography color="blue" fontWeight="medium" variant="caption">
               {`${t('common.learnMore')} →`}
@@ -224,7 +224,8 @@ const Earn = () => {
           className="mt-3"
           content={
             <>
-              {`${t('views.savings.aprTipContent')} `}
+              {t('views.savings.aprTipContent')}
+
               <Link className="text-twitter-blue" to={YIELD_BEARING_YOUTUBE}>
                 {t('common.learnMore')}
               </Link>

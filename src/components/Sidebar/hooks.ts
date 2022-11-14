@@ -67,18 +67,10 @@ export const useSidebarOptions = () => {
     const menu: SidebarItemProps[] = [
       {
         hasBackground: true,
-        // @ts-expect-error
         children: [
-          {
-            iconName: 'swap',
-            href: ROUTES.Swap,
-            label: t('components.sidebar.swap'),
-          },
-        ].concat(
-          IS_PROD || IS_STAGENET
-            ? []
-            : [{ iconName: 'piggyBank' as IconName, href: ROUTES.Earn, label: 'Earn' }],
-        ),
+          { iconName: 'swap', href: ROUTES.Swap, label: t('components.sidebar.swap') },
+          { iconName: 'piggyBank', href: ROUTES.Earn, label: 'Earn' },
+        ],
       },
       {
         iconName: 'tradeLightning',
@@ -89,11 +81,7 @@ export const useSidebarOptions = () => {
             href: ROUTES.AddLiquidity,
             label: t('components.sidebar.addLiquidity'),
           },
-          {
-            iconName: 'sputnik',
-            href: ROUTES.Liquidity,
-            label: t('components.sidebar.liquidity'),
-          },
+          { iconName: 'sputnik', href: ROUTES.Liquidity, label: t('components.sidebar.liquidity') },
         ],
       },
       {
@@ -101,22 +89,9 @@ export const useSidebarOptions = () => {
         label: t('components.sidebar.wallet'),
         // @ts-expect-error
         children: [
-          {
-            iconName: 'wallet',
-            href: ROUTES.Wallet,
-            label: t('components.sidebar.wallet'),
-          },
-          {
-            iconName: 'send',
-            href: ROUTES.Send,
-            label: t('components.sidebar.send'),
-          },
-          {
-            transform: 'none',
-            iconName: 'thor',
-            href: ROUTES.Thorname,
-            label: 'THORName',
-          },
+          { iconName: 'wallet', href: ROUTES.Wallet, label: t('components.sidebar.wallet') },
+          { iconName: 'send', href: ROUTES.Send, label: t('components.sidebar.send') },
+          { transform: 'none', iconName: 'thor', href: ROUTES.Thorname, label: 'THORName' },
         ].concat(
           IS_PROD || IS_STAGENET
             ? []
@@ -135,11 +110,7 @@ export const useSidebarOptions = () => {
         iconName: 'settings',
         label: t('components.sidebar.stats'),
         children: [
-          {
-            iconName: 'app',
-            href: ROUTES.Home,
-            label: t('components.sidebar.dashboard'),
-          },
+          { iconName: 'app', href: ROUTES.Home, label: t('components.sidebar.dashboard') },
           {
             transform: 'none',
             label: t('components.sidebar.stats'),
@@ -148,12 +119,7 @@ export const useSidebarOptions = () => {
             rightIconName: 'external',
             href: THORYIELD_STATS_ROUTE,
           },
-          {
-            iconName: 'cloud',
-            href: ROUTES.Nodes,
-            transform: 'none',
-            label: 'THORNode',
-          },
+          { iconName: 'cloud', href: ROUTES.Nodes, transform: 'none', label: 'THORNode' },
         ],
       },
     ];

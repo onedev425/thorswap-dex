@@ -281,8 +281,8 @@
   },
   "txManager": {
     "addAmountAsset": "Add %{amount} %{asset}",
+    "addEarn": "Add Savings",
     "addLiquidity": "Add Liquidity",
-    "addSavings": "Add Savings",
     "addedAmountAsset": "Added %{amount} %{asset}",
     "approve": "Approve",
     "approveAsset": "Approve %{asset}",
@@ -612,12 +612,12 @@
       "withdraw": "Withdraw"
     },
     "savings": {
-      "aprTipContent": "Savers Vaults yield APR will be available soon.",
+      "aprTipContent": "Savers Vaults yield APR & earnings will be available soon!",
       "aprTipTitle": "Earn APR metrics coming soon!",
       "currentBalance": "Current Balance",
-      "description": "Earn %{chain} on your %{chain} with Savers Vaults",
+      "description": "Deposit %{asset} and earn more %{asset} with Savers Vaults",
       "earn": "Earn",
-      "tooltipDescription": "Earn yield by providing single sided $%{asset} Liquidity with no $RUNE exposure and Impermanent Loss",
+      "tooltipDescription": "Provide %{asset} liquidity to earn yield in BTC with no exposure to RUNE or impermanent loss. Withdraw at any time with no lockup period. Slippage fee applies on entry and exit.",
       "yourDeposit": "Your Deposit",
       "yourEarnings": "Your Earnings",
       "yourPositions": "Your Positions"
