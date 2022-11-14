@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { TransactionDetails } from '@thorswap-lib/multichain-core';
 import { THORSWAP_AFFILIATE_ADDRESS } from 'config/constants';
-import { IS_DEV_API, IS_STAGENET } from 'settings/config';
+import { IS_DEV_API } from 'settings/config';
 import { AnnouncementsData } from 'store/externalConfig/types';
 
 import {
@@ -14,9 +14,8 @@ import {
 } from './types';
 
 const baseUrl =
-  (IS_DEV_API || IS_STAGENET
-    ? import.meta.env.VITE_THORSWAP_DEV_API
-    : import.meta.env.VITE_THORSWAP_API) || 'https://dev-api.thorswap.net';
+  (IS_DEV_API ? import.meta.env.VITE_THORSWAP_DEV_API : import.meta.env.VITE_THORSWAP_API) ||
+  'https://dev-api.thorswap.net';
 
 export const thorswapApi = createApi({
   reducerPath: 'thorswap',

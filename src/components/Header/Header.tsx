@@ -112,6 +112,7 @@ export const Header = memo(({ openMenu }: Props) => {
           <TransactionManager />
         </Box>
       </Box>
+
       <HeaderAnnouncements />
     </header>
   );

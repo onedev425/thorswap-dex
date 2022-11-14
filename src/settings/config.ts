@@ -5,7 +5,6 @@ export const IS_DEV_API = isEnv(import.meta.env.VITE_DEV_API, 'dev');
 export const IS_STAGENET = isEnv(import.meta.env.VITE_STAGENET, 'stagenet');
 export const IS_BETA = isEnv(import.meta.env.VITE_BETA, 'beta');
 export const IS_PROD = isEnv(import.meta.env.VITE_PROD, 'app.thorswap.finance');
-export const IS_MAINNET = !IS_STAGENET;
 
 export const MIDGARD_DEV_API = 'https://midgard-stage-a.thorswap.net';
 export const STATIC_API = 'https://static.thorswap.net';
