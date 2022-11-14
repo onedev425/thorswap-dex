@@ -6,6 +6,7 @@ import {
   QuoteMode,
 } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
+import { InfoTip } from 'components/InfoTip';
 import { PanelView } from 'components/PanelView';
 import { SwapRouter } from 'components/SwapRouter';
 import { AVAX_AGG_PROXY_ADDRESS, ETH_AGG_PROXY_ADDRESS } from 'config/constants';
@@ -24,6 +25,7 @@ import { getSwapRoute } from 'settings/router';
 import { useWallet } from 'store/wallet/hooks';
 import { FeeModal } from 'views/Swap/FeeModal';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';
+import THORInfoContent from 'views/Swap/THORInfoContent';
 
 import { ApproveModal } from './ApproveModal';
 import { AssetInputs } from './AssetInputs';
@@ -281,6 +283,11 @@ const SwapView = () => {
     [inputAsset.L1Chain, isInputWalletConnected, keystore],
   );
 
+  const thorTooltipVisible = useMemo(
+    () => outputAsset.ticker.includes('THOR') && outputAsset.chain === Chain.Avalanche,
+    [outputAsset.chain, outputAsset.ticker],
+  );
+
   return (
     <PanelView
       header={
@@ -321,6 +328,10 @@ const SwapView = () => {
         setFeeModalOpened={setFeeModalOpened}
         showTransactionFeeSelect={showTransactionFeeSelect}
       />
+
+      {thorTooltipVisible && (
+        <InfoTip className="!mt-2" content={<THORInfoContent />} type="warn" />
+      )}
 
       <SwapRouter
         inputAsset={inputAsset}
