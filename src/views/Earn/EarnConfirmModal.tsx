@@ -101,6 +101,8 @@ export const EarnConfirmModal = ({
           AmountType.BASE_AMOUNT,
           MULTICHAIN_DECIMAL,
         ).toSignificant(6)} ${asset.name}`
+      ) : networkFee.gte(amount) ? (
+        'Not enough amount to cover outbound fee'
       ) : (
         <Icon spin color="primary" name="loader" size={24} />
       ),

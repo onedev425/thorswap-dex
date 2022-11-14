@@ -7,7 +7,7 @@ const THORInfoContent = ({ inputAsset }: { inputAsset: Asset }) => (
     <Typography color="yellow" variant="caption">
       {`Are you looking for THORSwap's protocol token `}
       <Link className="text-twitter-blue" to={getSwapRoute(inputAsset, Asset.THOR())}>
-        $THOR? (Ethereum ERC-20)?
+        $THOR (Ethereum ERC-20)?
       </Link>
     </Typography>
     <Typography variant="caption-xs">&nbsp;</Typography>
