@@ -1,11 +1,8 @@
-import { Amount, AmountType, Asset, AssetAmount, Percent } from '@thorswap-lib/multichain-core';
-import { AssetIcon } from 'components/AssetIcon';
+import { Amount, Asset, AssetAmount, Percent } from '@thorswap-lib/multichain-core';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Card, Icon, Link, Tooltip, Typography } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
-import { InfoRow } from 'components/InfoRow';
 import { InfoTip } from 'components/InfoTip';
-import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { TabsSelect } from 'components/TabsSelect';
 import { ViewHeader } from 'components/ViewHeader';
 import { YIELD_BEARING_YOUTUBE } from 'config/constants';
@@ -16,13 +13,14 @@ import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
-import { SORTED_BASE_ASSETS } from 'settings/chain';
+import { SORTED_EARN_ASSETS } from 'settings/chain';
 import { useMidgard } from 'store/midgard/hooks';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
+import { EarnConfirmModal } from 'views/Earn/EarnConfirmModal';
 import { WithdrawPercent } from 'views/WithdrawLiquidity/WithdrawPercent';
 
 import { EarnButton } from './EarnButton';
@@ -32,9 +30,9 @@ import { useSaverPositions } from './useEarnPositions';
 
 const Earn = () => {
   const appDispatch = useAppDispatch();
-  const listAssets = useAssetsWithBalance(SORTED_BASE_ASSETS);
+  const listAssets = useAssetsWithBalance(SORTED_EARN_ASSETS);
   const { getMaxBalance } = useBalance();
-  const { inboundHalted, outboundFee, pools } = useMidgard();
+  const { inboundHalted, pools } = useMidgard();
   const { isChainTradingHalted, maxSynthPerAssetDepth } = useMimir();
   const { positions, refreshPositions, getPosition } = useSaverPositions();
   const { wallet, setIsConnectModalOpen } = useWallet();
@@ -156,35 +154,11 @@ const Earn = () => {
     [amount, asset.L1Chain, balance, inboundHalted, isChainTradingHalted, isSynthInCapacity],
   );
 
-  const { slippage, networkFee } = useMemo(
-    () => ({
-      slippage: amount.div(amount.add(assetDepthAmount).mul(amount)),
-      networkFee: new Amount(
-        parseInt(outboundFee[asset.L1Chain] || '0') * (isDeposit ? 1 / 3 : 1),
-        AmountType.BASE_AMOUNT,
-        asset.decimal,
-      ),
-    }),
-    [amount, asset.L1Chain, asset.decimal, assetDepthAmount, isDeposit, outboundFee],
-  );
-
+  const tabLabel = tab === EarnTab.Deposit ? t('common.deposit') : t('common.withdraw');
   const selectedAsset = useMemo(
     () => ({ asset, value: amount, balance, usdPrice }),
     [asset, amount, balance, usdPrice],
   );
-
-  const tabLabel = tab === EarnTab.Deposit ? t('common.deposit') : t('common.withdraw');
-  const txInfos = [
-    { label: t('common.action'), value: tabLabel },
-    { label: t('common.asset'), value: `${asset.name}`, icon: asset },
-    { label: t('common.amount'), value: `${amount.toSignificant(6)} ${asset.name}` },
-    { label: t('views.wallet.networkFee'), value: `${networkFee.toSignificant(6)} ${asset.name}` },
-    { label: t('common.slippage'), value: `${slippage.toSignificant(6)} ${asset.name}` },
-    {
-      label: tabLabel,
-      value: `${amount.sub(slippage).sub(networkFee).toSignificant(6)} ${asset.name}`,
-    },
-  ];
 
   return (
     <Box col className="self-center w-full max-w-[480px] mt-2">
@@ -269,25 +243,17 @@ const Earn = () => {
         withdrawAsset={withdrawAsset}
       />
 
-      <ConfirmModal
-        inputAssets={[asset]}
+      <EarnConfirmModal
+        amount={amount}
+        asset={asset}
+        assetDepthAmount={assetDepthAmount}
+        isDeposit={isDeposit}
         isOpened={isConfirmOpen}
         onClose={() => setIsConfirmOpen(false)}
         onConfirm={handleEarnSubmit}
-      >
-        {txInfos.map((info) => (
-          <InfoRow
-            key={info.label}
-            label={info.label}
-            value={
-              <Box center className="gap-1">
-                <Typography variant="caption">{info.value}</Typography>
-                {info.icon && <AssetIcon asset={info.icon} size={22} />}
-              </Box>
-            }
-          />
-        ))}
-      </ConfirmModal>
+        tabLabel={tabLabel}
+        withdrawPercent={withdrawPercent}
+      />
     </Box>
   );
 };

@@ -1,6 +1,6 @@
 import { Amount, Asset } from '@thorswap-lib/multichain-core';
 import { useCallback, useState } from 'react';
-import { SORTED_BASE_ASSETS } from 'settings/chain';
+import { SORTED_EARN_ASSETS } from 'settings/chain';
 import { getSaverData } from 'store/midgard/actions';
 import { useWallet } from 'store/wallet/hooks';
 import { SaverPosition } from 'views/Earn/types';
@@ -23,7 +23,7 @@ export const useSaverPositions = () => {
   );
 
   const refreshPositions = useCallback(async () => {
-    const promises = SORTED_BASE_ASSETS.map(getSaverPosition);
+    const promises = SORTED_EARN_ASSETS.map(getSaverPosition);
 
     const pos = await Promise.all(promises);
     setPositions(pos.filter(Boolean) as SaverPosition[]);

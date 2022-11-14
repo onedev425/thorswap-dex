@@ -14,11 +14,11 @@ export const SORTED_CHAINS = [
   Chain.Cosmos,
 ] as const;
 
-export const SORTED_BASE_ASSETS = [
+export const SORTED_EARN_ASSETS = [
   Asset.BTC(),
   Asset.ETH(),
   Asset.BNB(),
-  Asset.AVAX(),
+  // Asset.AVAX(),
   Asset.ATOM(),
   Asset.DOGE(),
   Asset.BCH(),

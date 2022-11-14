@@ -102,3 +102,14 @@ export const getLiquidityProviderData = createAsyncThunk(
 
 export const getSaverData = ({ asset, address }: { asset: string; address: string }) =>
   getRequest<SaverProvider>(`${THORNODE_URL}/pool/${asset}/saver/${address}`);
+
+export const getSaverQuote = ({
+  type,
+  ...rest
+}: {
+  type: 'deposit' | 'withdraw';
+  asset: string;
+  amount?: string;
+  address?: string;
+  withdraw_bps?: string;
+}) => getRequest(`${THORNODE_URL}/quote/saver/${type}?${new URLSearchParams(rest).toString()}`);
