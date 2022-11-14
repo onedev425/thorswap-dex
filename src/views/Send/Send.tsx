@@ -228,8 +228,10 @@ const Send = () => {
 
   return (
     <PanelView
+      description={t('views.send.description')}
       header={<ViewHeader actionsComponent={<GlobalSettingsPopover />} title={t('common.send')} />}
-      title={t('common.send')}
+      keywords="Wallet, Tokens, THORSwap, THORChain, DEFI, DEX"
+      title={t('views.send.title')}
     >
       <div className="relative self-stretch md:w-full">
         <AssetInput

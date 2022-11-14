@@ -128,9 +128,11 @@ const StakeVThor = () => {
   return (
     <Box col className="self-center w-full max-w-[480px] mt-2">
       <Helmet
-        content={t('views.stakingVThor.stakeVThorTitle')}
-        title={t('views.stakingVThor.stakeVThorTitle')}
+        content={t('views.stakingVThor.description')}
+        keywords="THOR, vTHOR, Staking, THORSwap, DEFI, DEX"
+        title={t('views.stakingVThor.title')}
       />
+
       <ViewHeader title={t('views.stakingVThor.stakeVThorTitle')} />
 
       <Box alignCenter className="px-3" justify="between">

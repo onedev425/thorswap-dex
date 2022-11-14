@@ -38,7 +38,6 @@ export const AddLiquidity = () => {
   );
 
   const {
-    title,
     handleSelectLiquidityType,
     poolAssetInput,
     runeAssetInput,
@@ -88,13 +87,15 @@ export const AddLiquidity = () => {
 
   return (
     <PanelView
+      description={t('views.addLiquidity.description')}
       header={
         <ViewHeader
           actionsComponent={<GlobalSettingsPopover transactionMode />}
           title={t('common.addLiquidity')}
         />
       }
-      title={title}
+      keywords=" LP, Liquidity provider, THORSwap, THORChain, DEFI, DEX"
+      title={t('views.addLiquidity.title')}
     >
       <LiquidityType
         onChange={handleSelectLiquidityType}

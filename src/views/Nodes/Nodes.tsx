@@ -60,7 +60,11 @@ const Nodes = () => {
 
   return (
     <Box col>
-      <Helmet content="Node Manager" title="Node Manager" />
+      <Helmet
+        content={t('views.nodes.description')}
+        keywords=" THORChain, Nodes, Overview, Management, DEFI, DEX"
+        title={t('views.nodes.title')}
+      />
       <NodeStats />
       {watchListData?.length > 0 && (
         <Box col className="mt-4 mb-4">

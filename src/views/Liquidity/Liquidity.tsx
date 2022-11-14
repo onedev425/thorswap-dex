@@ -68,6 +68,7 @@ const Liquidity = () => {
 
   return (
     <PanelView
+      description={t('views.liquidity.description')}
       header={
         <ViewHeader
           actionsComponent={
@@ -81,7 +82,8 @@ const Liquidity = () => {
           title={t('common.liquidityPosition')}
         />
       }
-      title={t('common.liquidity')}
+      keywords="LP, Liquidity provider, THORSwap, THORChain, DEFI, DEX"
+      title={t('views.liquidity.title')}
     >
       <Box col className="gap-3 self-stretch">
         {hasPending && tipVisible && (

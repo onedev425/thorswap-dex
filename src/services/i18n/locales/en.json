@@ -345,7 +345,9 @@
       "existingLpTip": "Your 100 days start now.",
       "existingLpTipNotice": "You have existing LP position for this Asset. Adding more LP with same address will reset IL protection period, Are you certain you want to add more LP with this address?",
       "pricesAndPoolShare": "Prices and Pool Share",
-      "shareOfPool": "Share of Pool"
+      "shareOfPool": "Share of Pool",
+	  "title":"Provide liquidity to THORChain",
+	  "description": "Provide native liquidity to THORChain "
     },
     "home": {
       "chart_add": "Add",
@@ -357,7 +359,9 @@
       "chart_total": "Total",
       "chart_volume": "Volume",
       "chart_withdraw": "Withdraw",
-      "featuredPools": "Featured Pools"
+      "featuredPools": "Featured Pools",
+	  "title": "THORChain pool statistics", 
+	  "description": "Statistics for THORChain token pools"
     },
     "liquidity": {
       "ILPTooltip": "If you have ILP for you liquidity position it will be added to withdrawn amount.",
@@ -396,7 +400,9 @@
       "withdrawAmount": "Withdraw amount",
       "withdrawLiquidity": "Withdraw Liquidity",
       "withdrawNotAvailable": "Withdraw not available",
-      "youWillReceive": "You will receive"
+      "youWillReceive": "You will receive",
+      "description": "Manage you liquidity positions on THORChain",
+      "title": "Manage you liquidity positions on THORChain"
     },
     "multisig": {
       "accountNotAcivated": "THORSafe not yet activated",
@@ -554,6 +560,8 @@
       "bondAmount": "Bond Amount",
       "complete": "Complete",
       "currentReward": "Current Reward",
+	  "title": "THORChain nodes overview",
+	  "description": "THORChain nodes overview and management",
       "detail": {
         "AddressDonNotMatch": "Node bonder address does not match to your address",
         "ConnectThorChainAgainPlease": "Please connect THORChain wallet and try again.",
@@ -617,7 +625,7 @@
       "currentBalance": "Current Balance",
       "description": "Deposit %{asset} and earn more %{asset} with Savers Vaults",
       "earn": "Earn",
-      "tooltipDescription": "Provide %{asset} liquidity to earn yield in BTC with no exposure to RUNE or impermanent loss. Withdraw at any time with no lockup period. Slippage fee applies on entry and exit.",
+      "tooltipDescription": "Provide %{asset} liquidity to earn yield in %{asset} with no exposure to RUNE or impermanent loss. Withdraw at any time with no lockup period. Slippage fee applies on entry and exit.",
       "yourDeposit": "Your Deposit",
       "yourEarnings": "Your Earnings",
       "yourPositions": "Your Positions"
@@ -625,7 +633,9 @@
     "send": {
       "outputAsset": "Swap Output Asset",
       "toggleCustomTxForm": "Toggle custom transaction form",
-      "txFeeTooltip": "Gas fee to send the transaction, There's no extra charges from THORChain Protocol"
+      "txFeeTooltip": "Gas fee to send the transaction, There's no extra charges from THORChain Protocol",
+	  "title": "Send tokens",
+	  "description": "Send tokens to other wallets and manage your assets"
     },
     "setting": {
       "customRecipientMode": "Set Custom Recipient",
@@ -671,7 +681,9 @@
       "unstake": "Unstake",
       "unstaked": "Unstaked",
       "vthorBal": "vTHOR Balance",
-      "yesterdayApr": "Yesterday's APR"
+      "yesterdayApr": "Yesterday's APR",
+      "title": "vTHOR Staking",
+      "description": "Stake THOR for vTHOR"
     },
     "stats": {
       "24Volume": "24H Volume",
@@ -744,7 +756,8 @@
       "totalFeeTooltip": "Total Fee for Swap.",
       "transactionDeadline": "Transaction Deadline",
       "transactionSettings": "Transaction Settings",
-      "txAssetsFee": "TX Fee Tokens"
+      "txAssetsFee": "TX Fee Tokens",
+	  "description": "Swap %{inputAsset} to %{outputAsset} in an easy and decentralized way"
     },
     "thorname": {
       "available": "Available",
@@ -769,7 +782,9 @@
       "unavailableForPurchase": "Unavailable for purchase",
       "updateFee": "Update Fee",
       "year": "year",
-      "years": "years"
+      "years": "years",
+	  "title": "Manage your THORName",
+	  "description": " Manage your THORName"
     },
     "vesting": {
       "claim": "Claim",
@@ -884,6 +899,9 @@
       "walletSaveInfo": "Your wallet settings will be saved in browser. We do not store anything secure, just selected configuration. It will be saved until manual disconnect",
       "wrongPassword": "Password is wrong",
       "xdefi": "XDEFI"
-    }
+    },
+	"onRamp":{
+		"title": "Fiat onramp"
+	}
   }
 }

@@ -154,6 +154,7 @@ const Thorname = () => {
   };
   return (
     <PanelView
+      description={t('views.thorname.description')}
       header={
         <Box col>
           <ViewHeader title={t('components.sidebar.thorname')} />
@@ -169,7 +170,8 @@ const Thorname = () => {
           </Box>
         </Box>
       }
-      title={t('views.thorname.searchName')}
+      keywords="THORName, THORSwap, THORChain, DEFI, DEX"
+      title={t('views.thorname.title')}
     >
       <Input
         autoFocus

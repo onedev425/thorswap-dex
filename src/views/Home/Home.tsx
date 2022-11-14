@@ -9,7 +9,11 @@ import { PoolListView } from './PoolListView';
 const Home = () => {
   return (
     <Box col>
-      <Helmet content={t('common.thorswapDescription')} title={t('common.THORSwap')} />
+      <Helmet
+        content={t('views.home.description')}
+        keywords="Liquidity, Pools, THORChain, THORSwap, DEFI, DEX"
+        title={t('views.home.title')}
+      />
 
       <Box col>
         <GlobalStats />

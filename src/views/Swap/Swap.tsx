@@ -290,12 +290,17 @@ const SwapView = () => {
 
   return (
     <PanelView
+      description={t('views.swap.description', {
+        inputAsset: inputAsset.name.toUpperCase(),
+        outputAsset: outputAsset.name.toUpperCase(),
+      })}
       header={
         <SwapHeader
           asset={inputAsset.isRUNE() ? outputAsset : inputAsset}
           refetchData={!selectedRoute || isFetching || isPriceLoading ? undefined : refetchData}
         />
       }
+      keywords={`${inputAsset.name}, ${outputAsset.name}, SWAP, THORSwap, THORChain, DEX, DeFi`}
       title={`${t('common.swap')} ${inputAsset.name} to ${outputAsset.name}`}
     >
       <AssetInputs

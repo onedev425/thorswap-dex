@@ -1,6 +1,8 @@
 import { Chain } from '@thorswap-lib/types';
 import { Box } from 'components/Atomic';
+import { Helmet } from 'components/Helmet';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
+import { t } from 'i18next';
 import { useMemo } from 'react';
 import { useWallet } from 'store/wallet/hooks';
 
@@ -48,6 +50,8 @@ const OnRamp = () => {
 
   return (
     <Box center>
+      <Helmet content="Create Wallet" title={t('views.onRamp.title')} />
+
       <iframe src={debouncedSrc} style={{ width: '600px', height: '780px', border: '0px' }} />
     </Box>
   );
