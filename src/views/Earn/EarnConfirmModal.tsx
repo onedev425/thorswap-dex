@@ -1,4 +1,10 @@
-import { Amount, AmountType, Asset, Percent } from '@thorswap-lib/multichain-core';
+import {
+  Amount,
+  AmountType,
+  Asset,
+  MULTICHAIN_DECIMAL,
+  Percent,
+} from '@thorswap-lib/multichain-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Icon, Typography } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
@@ -47,10 +53,10 @@ export const EarnConfirmModal = ({
       networkFee: new Amount(
         parseInt(outboundFee[asset.L1Chain] || '0') * (isDeposit ? 1 / 3 : 1),
         AmountType.BASE_AMOUNT,
-        asset.decimal,
+        MULTICHAIN_DECIMAL,
       ),
     }),
-    [amount, asset.L1Chain, asset.decimal, assetDepthAmount, isDeposit, outboundFee],
+    [amount, asset.L1Chain, assetDepthAmount, isDeposit, outboundFee],
   );
 
   const getConfirmData = useCallback(async () => {
@@ -58,7 +64,7 @@ export const EarnConfirmModal = ({
       const quoteParams = isDeposit
         ? {
             type: 'deposit' as const,
-            amount: `${Math.floor(amount.assetAmount.toNumber() * 10 ** asset.decimal)}`,
+            amount: `${Math.floor(amount.assetAmount.toNumber() * 10 ** MULTICHAIN_DECIMAL)}`,
           }
         : {
             address,
@@ -93,7 +99,7 @@ export const EarnConfirmModal = ({
         `${new Amount(
           saverQuote.expected_amount_out,
           AmountType.BASE_AMOUNT,
-          asset.decimal,
+          MULTICHAIN_DECIMAL,
         ).toSignificant(6)} ${asset.name}`
       ) : (
         <Icon spin color="primary" name="loader" size={24} />
@@ -102,7 +108,13 @@ export const EarnConfirmModal = ({
   ];
 
   return (
-    <ConfirmModal inputAssets={[asset]} isOpened={isOpened} onClose={onClose} onConfirm={onConfirm}>
+    <ConfirmModal
+      buttonDisabled={!parseInt(saverQuote?.expected_amount_out || '0')}
+      inputAssets={[asset]}
+      isOpened={isOpened}
+      onClose={onClose}
+      onConfirm={onConfirm}
+    >
       {txInfos.map((info) => (
         <InfoRow
           key={info.label}

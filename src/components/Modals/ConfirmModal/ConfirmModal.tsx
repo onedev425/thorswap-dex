@@ -14,11 +14,19 @@ type Props = {
   onClose: () => void;
   onConfirm: () => void;
   children?: ReactNode;
+  buttonDisabled?: boolean;
 };
 
 const MODAL_CLOSE_DELAY = 60 * 1000;
 
-export const ConfirmModal = ({ children, inputAssets, isOpened, onClose, onConfirm }: Props) => {
+export const ConfirmModal = ({
+  buttonDisabled,
+  children,
+  inputAssets,
+  isOpened,
+  onClose,
+  onConfirm,
+}: Props) => {
   const { keystore, wallet } = useWallet();
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [validating, setValidating] = useState(false);
@@ -124,7 +132,14 @@ export const ConfirmModal = ({ children, inputAssets, isOpened, onClose, onConfi
           </>
         )}
 
-        <Button isFancy stretch loading={validating} onClick={handleClickConfirm} size="md">
+        <Button
+          isFancy
+          stretch
+          disabled={buttonDisabled}
+          loading={validating}
+          onClick={handleClickConfirm}
+          size="md"
+        >
           {t('common.confirm')}
         </Button>
       </Box>
