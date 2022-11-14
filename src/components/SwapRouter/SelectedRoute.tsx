@@ -103,7 +103,6 @@ export const SelectedRoute = memo(
               <Box alignCenter className="gap-x-1">
                 <Typography
                   color={slippage.gte(slippageTolerance / 100) ? 'red' : 'green'}
-                  fontWeight="light"
                   variant="caption"
                 >
                   ({slippageInfo})
