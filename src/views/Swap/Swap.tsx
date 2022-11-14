@@ -330,7 +330,11 @@ const SwapView = () => {
       />
 
       {thorTooltipVisible && (
-        <InfoTip className="!mt-2" content={<THORInfoContent />} type="warn" />
+        <InfoTip
+          className="!mt-2"
+          content={<THORInfoContent inputAsset={inputAsset} />}
+          type="warn"
+        />
       )}
 
       <SwapRouter
