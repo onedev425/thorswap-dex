@@ -147,12 +147,20 @@ const Earn = () => {
 
   const buttonDisabled = useMemo(
     () =>
-      amount.lte(0) ||
-      (balance && amount.gt(balance)) ||
+      amount.lt(Amount.fromAssetAmount(1, 8)) ||
+      (isDeposit && balance && amount.gt(balance)) ||
       !isSynthInCapacity ||
       inboundHalted[asset.L1Chain] ||
       isChainTradingHalted[asset.L1Chain],
-    [amount, asset.L1Chain, balance, inboundHalted, isChainTradingHalted, isSynthInCapacity],
+    [
+      amount,
+      asset.L1Chain,
+      balance,
+      inboundHalted,
+      isChainTradingHalted,
+      isDeposit,
+      isSynthInCapacity,
+    ],
   );
 
   const tabLabel = tab === EarnTab.Deposit ? t('common.deposit') : t('common.withdraw');
