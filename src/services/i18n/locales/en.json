@@ -632,7 +632,7 @@
     },
     "send": {
       "outputAsset": "Swap Output Asset",
-      "toggleCustomTxForm": "Toggle custom transaction form",
+      "toggleCustomTxForm": "Toggle custom MsgDeposit form",
       "txFeeTooltip": "Gas fee to send the transaction, There's no extra charges from THORChain Protocol",
 	  "title": "Send tokens",
 	  "description": "Send tokens to other wallets and manage your assets"

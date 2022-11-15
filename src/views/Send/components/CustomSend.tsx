@@ -15,13 +15,11 @@ enum MemoType {
 type Props = {
   sendAsset: Asset | null;
   memo: string;
-  poolAddress: string;
   setMemo: (memo: string) => void;
-  setPoolAddress: (memo: string) => void;
 };
 
-export const CustomSend = ({ sendAsset, poolAddress, memo, setPoolAddress, setMemo }: Props) => {
-  const { inboundAddresses, getInboundData, pools } = useMidgard();
+export const CustomSend = ({ sendAsset, memo, setMemo }: Props) => {
+  const { getInboundData, pools } = useMidgard();
   const [memoType] = useState(MemoType.deposit);
   const [outputAsset, setOutputAsset] = useState<Asset>(Asset.RUNE());
 
@@ -34,11 +32,6 @@ export const CustomSend = ({ sendAsset, poolAddress, memo, setPoolAddress, setMe
   useEffect(() => {
     getInboundData();
   }, [getInboundData]);
-
-  const updatePoolAddress = useCallback(() => {
-    const poolAddress = sendAsset?.L1Chain ? inboundAddresses[sendAsset.L1Chain] : '';
-    setPoolAddress(poolAddress || '');
-  }, [inboundAddresses, sendAsset?.L1Chain, setPoolAddress]);
 
   const udpateMemo = useCallback(() => {
     let memo = '';
@@ -56,17 +49,6 @@ export const CustomSend = ({ sendAsset, poolAddress, memo, setPoolAddress, setMe
   useEffect(() => {
     udpateMemo();
   }, [udpateMemo]);
-
-  useEffect(() => {
-    updatePoolAddress();
-  }, [updatePoolAddress]);
-
-  const handleChangeRecipient = useCallback(
-    ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-      setPoolAddress(value);
-    },
-    [setPoolAddress],
-  );
 
   const handleChangeMemo = useCallback(
     ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
@@ -87,13 +69,6 @@ export const CustomSend = ({ sendAsset, poolAddress, memo, setPoolAddress, setMe
           <AssetSelect assets={outputAssetsList} onSelect={setOutputAsset} selected={outputAsset} />
         </Box>
       )}
-
-      <PanelInput
-        onChange={handleChangeRecipient}
-        placeholder="Pool Address"
-        title="Pool Address"
-        value={poolAddress}
-      />
 
       <PanelInput onChange={handleChangeMemo} title={t('common.memo')} value={memo} />
     </Box>

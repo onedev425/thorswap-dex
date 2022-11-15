@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
 
+const THORCHAIN_POOL_ADDRESS = '';
+
 export const useCustomSend = () => {
   const { customSendVisible } = useApp();
-  const [customRecipient, setCustomRecipient] = useState('');
   const [customMemo, setCustomMemo] = useState('');
   const [customTxEnabled, setCustomTxEnabled] = useState(false);
 
@@ -23,8 +24,7 @@ export const useCustomSend = () => {
   ];
 
   return {
-    customRecipient,
-    setCustomRecipient,
+    customRecipient: THORCHAIN_POOL_ADDRESS,
     customMemo,
     setCustomMemo,
     customTxEnabled,

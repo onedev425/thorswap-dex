@@ -50,7 +50,6 @@ const Send = () => {
     customMemo,
     customRecipient,
     setCustomMemo,
-    setCustomRecipient,
     customTxEnabled,
     switchCustomTxEnabledMenu,
     showCustomTxToggle,
@@ -273,13 +272,7 @@ const Send = () => {
       )}
 
       {customTxEnabled && (
-        <CustomSend
-          memo={customMemo}
-          poolAddress={customRecipient}
-          sendAsset={sendAsset}
-          setMemo={setCustomMemo}
-          setPoolAddress={setCustomRecipient}
-        />
+        <CustomSend memo={customMemo} sendAsset={sendAsset} setMemo={setCustomMemo} />
       )}
 
       <InfoTable horizontalInset items={summary} />
