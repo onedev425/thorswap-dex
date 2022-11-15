@@ -6,7 +6,7 @@ import { useWallet } from 'store/wallet/hooks';
 import { SaverPosition } from 'views/Earn/types';
 
 export const useSaverPositions = () => {
-  const { wallet } = useWallet();
+  const { wallet, isWalletLoading } = useWallet();
   const [positions, setPositions] = useState<SaverPosition[]>([]);
 
   const getSaverPosition = useCallback(
@@ -23,11 +23,15 @@ export const useSaverPositions = () => {
   );
 
   const refreshPositions = useCallback(async () => {
+    if (!isWalletLoading) {
+      return;
+    }
+
     const promises = SORTED_EARN_ASSETS.map(getSaverPosition);
 
     const pos = await Promise.all(promises);
     setPositions(pos.filter(Boolean) as SaverPosition[]);
-  }, [getSaverPosition]);
+  }, [getSaverPosition, isWalletLoading]);
 
   const getPosition = useCallback(
     (asset: Asset) => positions.find((item) => item.asset.eq(asset)),
