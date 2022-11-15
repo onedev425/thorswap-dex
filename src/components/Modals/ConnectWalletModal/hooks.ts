@@ -35,10 +35,15 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): Wallet
   useMemo(
     () => [
       {
-        icon: 'xdefi',
-        type: WalletType.Xdefi,
-        visible: isMdActive,
-        label: t('views.walletModal.xdefi'),
+        type: WalletType.TrustWallet,
+        icon: 'trustWallet',
+        label: t('views.walletModal.trustWallet'),
+      },
+      {
+        type: WalletType.TrustWalletExtension,
+        icon: 'trustWalletWhite',
+        label: t('views.walletModal.trustWalletExtension'),
+        disabled: metamask.isBravePrioritized() || metamask.isXDefiPrioritized(),
       },
       {
         icon: 'phantom',
@@ -53,15 +58,10 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): Wallet
         visible: isMdActive,
       },
       {
-        type: WalletType.TrustWallet,
-        icon: 'trustWallet',
-        label: t('views.walletModal.trustWallet'),
-      },
-      {
-        type: WalletType.TrustWalletExtension,
-        icon: 'trustWalletWhite',
-        label: t('views.walletModal.trustWalletExtension'),
-        disabled: metamask.isBravePrioritized() || metamask.isXDefiPrioritized(),
+        icon: 'xdefi',
+        type: WalletType.Xdefi,
+        visible: isMdActive,
+        label: t('views.walletModal.xdefi'),
       },
       ...(IS_PROD
         ? []

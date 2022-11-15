@@ -27,6 +27,10 @@ export const WalletIcon = ({ className, walletType, size, tooltipDisabled, onCli
   const tooltipContent =
     walletType === WalletOption.KEYSTORE
       ? t('views.walletModal.viewPhrase')
+      : walletType === WalletOption.TRUSTWALLET_EXTENSION
+      ? t('views.wallet.walletTypeConnected', {
+          walletType: 'Trustwallet Browser',
+        })
       : t('views.wallet.walletTypeConnected', {
           walletType,
         });
