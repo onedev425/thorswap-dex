@@ -4,7 +4,14 @@ import { IconName } from 'components/Atomic';
 import { showErrorToast } from 'components/Toast';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import { useCallback, useMemo } from 'react';
-import { brave, keplr, metamask, phantom, xdefi } from 'services/extensionWallets';
+import {
+  brave,
+  keplr,
+  metamask,
+  phantom,
+  trustWalletExtension,
+  xdefi,
+} from 'services/extensionWallets';
 import { t } from 'services/i18n';
 import { IS_PROD } from 'settings/config';
 import { useWallet } from 'store/wallet/hooks';
@@ -50,6 +57,12 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): Wallet
         icon: 'trustWallet',
         label: t('views.walletModal.trustWallet'),
       },
+      {
+        type: WalletType.TrustWalletExtension,
+        icon: 'trustWalletWhite',
+        label: t('views.walletModal.trustWalletExtension'),
+        disabled: metamask.isBravePrioritized() || metamask.isXDefiPrioritized(),
+      },
       ...(IS_PROD
         ? []
         : [
@@ -65,7 +78,10 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): Wallet
       {
         type: WalletType.MetaMask,
         icon: 'metamask',
-        disabled: metamask.isBravePrioritized() || metamask.isXDefiPrioritized(),
+        disabled:
+          metamask.isBravePrioritized() ||
+          metamask.isXDefiPrioritized() ||
+          metamask.isTrustPrioritized(),
         label: t('views.walletModal.metaMask'),
         tooltip: metamask.isXDefiPrioritized()
           ? t('views.walletModal.deprioritizeXdefi')
@@ -118,6 +134,7 @@ export const useHandleWalletConnect = ({
     connectMetamask,
     connectPhantom,
     connectTrustWallet,
+    connectTrustWalletExtension,
     connectXdefiWallet,
   } = useWallet();
 
@@ -150,6 +167,8 @@ export const useHandleWalletConnect = ({
             return await connectMetamask(selectedChains[0]);
           case WalletType.Brave:
             return await connectBraveWallet(selectedChains);
+          case WalletType.TrustWalletExtension:
+            return await connectTrustWalletExtension(selectedChains[0]);
           case WalletType.Phantom:
             return await connectPhantom();
           case WalletType.Keplr:
@@ -173,6 +192,7 @@ export const useHandleWalletConnect = ({
       connectLedger,
       connectMetamask,
       connectBraveWallet,
+      connectTrustWalletExtension,
       connectPhantom,
       connectKeplr,
     ],
@@ -230,6 +250,16 @@ export const useHandleWalletTypeSelect = ({
     return detected;
   }, []);
 
+  const handleTrustWalletExtension = useCallback(() => {
+    const detected = WalletStatus.Detected === trustWalletExtension.isWalletDetected();
+
+    if (!detected) {
+      window.open('https://trustwallet.com/browser-extension/');
+    }
+
+    return detected;
+  }, []);
+
   const getChainsToSelect = useCallback(
     (chains: SupportedChain[], walletType: WalletType, nextWalletType?: WalletType) => {
       if (!nextWalletType) {
@@ -282,12 +312,14 @@ export const useHandleWalletTypeSelect = ({
           return handlePhantom();
         case WalletType.Keplr:
           return handleKeplr();
+        case WalletType.TrustWalletExtension:
+          return handleTrustWalletExtension();
 
         default:
           return true;
       }
     },
-    [handleMetamask, handlePhantom, handleXdefi, handleKeplr],
+    [handleMetamask, handlePhantom, handleXdefi, handleKeplr, handleTrustWalletExtension],
   );
 
   const handleWalletTypeSelect = useCallback(

@@ -1924,10 +1924,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.11.tgz#f57392d4bd5467e2cb4eaf80105e2907c987178e"
   integrity sha512-rzfoyOE1IPEpGXYEH2dt2W/Nb2+rmbt97/yhu6aaaHSbwrfQvWt6KFdkNHa8KXa9zoN43gOdDz9Ku0SwwaHZpg==
 
-"@thorswap-lib/multichain-core@0.0.1-development.28":
-  version "0.0.1-development.28"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.1-development.28.tgz#21b01d886b3b857023729987aa3d94afdcb5de07"
-  integrity sha512-k61S/enx6M+e9LfrREyjOC4N8t05N00JzEldBUQIPAu5wsp1aURWwN1VbNTsQSb88EC+BPmiUF6m8XbtcrGJfg==
+"@thorswap-lib/multichain-core@0.0.1-development.31":
+  version "0.0.1-development.31"
+  resolved "https://registry.npmjs.org/@thorswap-lib/multichain-core/-/multichain-core-0.0.1-development.31.tgz#17e53b96e89c20a72a8085ff5e8a3fff01970a36"
+  integrity sha512-ucatLnDNIsF40zgiIRzkgGemXr58GHcBVEm96PdTQ4iq9MVRAgVn3P06mh4ZIH+Dw4B4wR7GTZbli+DNALfCzQ==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.2.0"
     "@cosmjs/amino" "^0.29.0"
@@ -1992,10 +1992,10 @@
     "@walletconnect/qrcode-modal" "^1.8.0"
     "@walletconnect/web3-provider" "^1.8.0"
 
-"@thorswap-lib/multichain-web-extensions@0.3.20":
-  version "0.3.20"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-web-extensions/-/multichain-web-extensions-0.3.20.tgz#7ae758e5fdc7d0525d1ff7b391fa5622d7e16c62"
-  integrity sha512-z9b8joTmT+nJf4BGRFXXDSKChLqU7IurlKqV0s4FVPs41H6n8KQ7oYgtuFVcabUHulsTcTIJyG68f+Rg92QtZQ==
+"@thorswap-lib/multichain-web-extensions@0.3.21":
+  version "0.3.21"
+  resolved "https://registry.npmjs.org/@thorswap-lib/multichain-web-extensions/-/multichain-web-extensions-0.3.21.tgz#c8bcd29e845b1622330c11af29859b1b21a0baed"
+  integrity sha512-38ttJbhyitY4FkLrgfm3n5P/iAWtBOugM/tUyv4axYaYAsoTi8I8svjUNig8GCSDyprqEw02p6oX2/xPnVFgRg==
   dependencies:
     "@ethersproject/bignumber" "^5.7.0"
     "@ethersproject/bytes" "^5.7.0"

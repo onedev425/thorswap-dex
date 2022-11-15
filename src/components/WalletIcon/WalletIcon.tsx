@@ -14,6 +14,7 @@ type Props = {
 const walletIcons: Record<WalletOption, IconName> = {
   [WalletOption.BRAVE]: 'brave',
   [WalletOption.METAMASK]: 'metamask',
+  [WalletOption.TRUSTWALLET_EXTENSION]: 'trustWallet',
   [WalletOption.LEDGER]: 'ledger',
   [WalletOption.KEYSTORE]: 'keystore',
   [WalletOption.TRUSTWALLET]: 'walletConnect',

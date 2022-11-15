@@ -10,6 +10,7 @@ export enum WalletType {
   Phantom = 'Phantom',
   Phrase = 'Phrase',
   TrustWallet = 'TrustWallet',
+  TrustWalletExtension = 'TrustWalletExtension',
   Xdefi = 'Xdefi',
 }
 
@@ -39,6 +40,7 @@ export const availableChainsByWallet: Record<WalletType, SupportedChain[]> = {
   [WalletType.Phantom]: [Chain.Solana],
   [WalletType.Phrase]: AllChainsSupported,
   [WalletType.TrustWallet]: [Chain.THORChain, Chain.Ethereum, Chain.Binance],
+  [WalletType.TrustWalletExtension]: [Chain.Ethereum, Chain.Avalanche],
   [WalletType.Xdefi]: [
     Chain.Avalanche,
     Chain.Binance,
