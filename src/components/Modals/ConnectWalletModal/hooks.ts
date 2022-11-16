@@ -132,6 +132,7 @@ export const useHandleWalletConnect = ({
   walletType,
   ledgerIndex,
   chains,
+  derivationPathType,
 }: HandleWalletConnectParams) => {
   const {
     connectBraveWallet,
@@ -157,6 +158,7 @@ export const useHandleWalletConnect = ({
             walletType: selectedWalletType,
             chains: selectedChains,
             ledgerIndex,
+            derivationPathType,
           },
         });
       }
@@ -168,7 +170,7 @@ export const useHandleWalletConnect = ({
           case WalletType.Xdefi:
             return await connectXdefiWallet(selectedChains);
           case WalletType.Ledger:
-            return await connectLedger(selectedChains[0], ledgerIndex, params?.derivationPathType);
+            return await connectLedger(selectedChains[0], ledgerIndex, derivationPathType);
           case WalletType.MetaMask:
             return await connectMetamask(selectedChains[0]);
           case WalletType.Brave:
@@ -201,6 +203,7 @@ export const useHandleWalletConnect = ({
       connectTrustWalletExtension,
       connectPhantom,
       connectKeplr,
+      derivationPathType,
     ],
   );
 
