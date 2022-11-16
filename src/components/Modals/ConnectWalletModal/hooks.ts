@@ -44,6 +44,11 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): Wallet
         icon: 'trustWalletWhite',
         label: t('views.walletModal.trustWalletExtension'),
         disabled: metamask.isBravePrioritized() || metamask.isXDefiPrioritized(),
+        tooltip: metamask.isXDefiPrioritized()
+          ? t('views.walletModal.deprioritizeXdefi')
+          : metamask.isBravePrioritized()
+          ? t('views.walletModal.disableBraveWallet')
+          : '',
       },
       {
         icon: 'phantom',
@@ -120,6 +125,7 @@ export type HandleWalletConnectParams = {
   walletType?: WalletType;
   ledgerIndex: number;
   chains?: SupportedChain[];
+  derivationPathType?: 'legacy' | 'metaMask' | 'ledgerLive';
 };
 
 export const useHandleWalletConnect = ({
@@ -162,7 +168,7 @@ export const useHandleWalletConnect = ({
           case WalletType.Xdefi:
             return await connectXdefiWallet(selectedChains);
           case WalletType.Ledger:
-            return await connectLedger(selectedChains[0], ledgerIndex);
+            return await connectLedger(selectedChains[0], ledgerIndex, params?.derivationPathType);
           case WalletType.MetaMask:
             return await connectMetamask(selectedChains[0]);
           case WalletType.Brave:
@@ -272,9 +278,9 @@ export const useHandleWalletTypeSelect = ({
 
       switch (walletType) {
         case WalletType.Ledger:
+        case WalletType.TrustWalletExtension:
         case WalletType.MetaMask: {
-          const defaultChain =
-            walletType === WalletType.MetaMask ? Chain.Ethereum : Chain.THORChain;
+          const defaultChain = walletType === WalletType.Ledger ? Chain.THORChain : Chain.Ethereum;
 
           return [chains[0] || defaultChain];
         }

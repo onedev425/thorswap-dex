@@ -25,7 +25,7 @@ import { PhraseView } from './Phrase';
 import { availableChainsByWallet, WalletType } from './types';
 import WalletOption from './WalletOption';
 
-const evmLedgerTypes = [
+const evmLedgerTypes: { value: 'metaMask' | 'legacy' | 'ledgerLive'; label: string }[] = [
   { value: 'metaMask', label: "MetaMask (m/44'/60'/0'/0/{index})" },
   { value: 'legacy', label: "Legacy (m/44'/60'/0'/{index})" },
   { value: 'ledgerLive', label: "Ledger Live (m/44'/60'/{index}'/0/0)" },
@@ -39,7 +39,7 @@ const ConnectWalletModal = () => {
   const [selectedWalletType, setSelectedWalletType] = useState<WalletType>();
   const [ledgerIndex, setLedgerIndex] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [ledgerType, setLedgerType] = useState('metaMask');
+  const [ledgerType, setLedgerType] = useState<'metaMask' | 'legacy' | 'ledgerLive'>('metaMask');
   const [customFlow, setCustomFlow] = useState(false);
   const [saveWallet, setSaveWallet] = useState(getFromStorage('restorePreviousWallet') as boolean);
 
@@ -76,10 +76,12 @@ const ConnectWalletModal = () => {
     ledgerIndex,
     chains: selectedChains,
     walletType: selectedWalletType,
+    derivationPathType: ledgerType,
   });
 
   const handleAllClick = useCallback(() => {
     if (selectedWalletType === WalletType.Ledger) return;
+    if (selectedWalletType === WalletType.TrustWalletExtension) return;
 
     setSelectedChains(selectedAll ? [] : supportedByWallet);
   }, [selectedAll, selectedWalletType, supportedByWallet]);
@@ -89,7 +91,10 @@ const ConnectWalletModal = () => {
       if (!skipReset) setSelectedWalletType(undefined);
 
       setSelectedChains((prevSelectedChains) =>
-        selectedWalletType && [WalletType.Ledger, WalletType.MetaMask].includes(selectedWalletType)
+        selectedWalletType &&
+        [WalletType.Ledger, WalletType.MetaMask, WalletType.TrustWalletExtension].includes(
+          selectedWalletType,
+        )
           ? [chain]
           : prevSelectedChains.includes(chain)
           ? prevSelectedChains.filter((c) => c !== chain)
@@ -245,9 +250,11 @@ const ConnectWalletModal = () => {
 
                 <Button
                   className="!h-5 !px-1.5 justify-end"
-                  disabled={[WalletType.Ledger, WalletType.MetaMask].includes(
-                    selectedWalletType || WalletType.Keystore,
-                  )}
+                  disabled={[
+                    WalletType.Ledger,
+                    WalletType.MetaMask,
+                    WalletType.TrustWalletExtension,
+                  ].includes(selectedWalletType || WalletType.Keystore)}
                   onClick={handleAllClick}
                   size="sm"
                   transform="uppercase"
@@ -349,6 +356,7 @@ const ConnectWalletModal = () => {
                       <DropdownMenu
                         stretch
                         menuItems={evmLedgerTypes}
+                        //@ts-ignore
                         onChange={setLedgerType}
                         openComponent={
                           <Box alignCenter className="gap-2 w-fit">
