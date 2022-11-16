@@ -34,7 +34,7 @@ const Earn = () => {
   const { getMaxBalance } = useBalance();
   const { inboundHalted, pools } = useMidgard();
   const { isChainTradingHalted, maxSynthPerAssetDepth } = useMimir();
-  const { positions, refreshPositions, getPosition } = useSaverPositions();
+  const { positions, refreshPositions, getPosition, synthAvailability } = useSaverPositions();
   const { wallet, setIsConnectModalOpen } = useWallet();
   const [amount, setAmount] = useState(Amount.fromAssetAmount(0, 8));
   const [asset, setAsset] = useState(Asset.BTC());
@@ -126,7 +126,7 @@ const Earn = () => {
 
   const { isSynthInCapacity, assetDepthAmount } = useMemo(() => {
     const defaultOptions = {
-      isSynthInCapacity: true,
+      isSynthInCapacity: !synthAvailability?.[asset.L1Chain],
       assetDepthAmount: Amount.fromAssetAmount(0, 8),
     };
     if (!pools?.length) return defaultOptions;
@@ -139,11 +139,13 @@ const Earn = () => {
 
     return {
       assetDepthAmount,
-      isSynthInCapacity: Amount.fromMidgard(synthSupply)
-        .div(assetDepthAmount)
-        .assetAmount.isLessThan(maxSynthPerAssetDepth / 10000),
+      isSynthInCapacity:
+        !synthAvailability?.[asset.L1Chain] &&
+        Amount.fromMidgard(synthSupply)
+          .div(assetDepthAmount)
+          .assetAmount.isLessThan(maxSynthPerAssetDepth / 10000),
     };
-  }, [asset.symbol, maxSynthPerAssetDepth, pools]);
+  }, [asset.L1Chain, asset.symbol, maxSynthPerAssetDepth, pools, synthAvailability]);
 
   const buttonDisabled = useMemo(
     () =>

@@ -5,7 +5,7 @@ import { SupportedChain } from '@thorswap-lib/types';
 import { midgardApi } from 'services/midgard';
 import { midgardAPIUrl, THORNODE_URL } from 'settings/config';
 
-import { LiquidityProvider, SaverProvider } from './types';
+import { LiquidityProvider, SaverProvider, ThornodePoolType } from './types';
 
 export const getNetworkData = createAsyncThunk('midgard/getNetworkData', midgardApi.getNetworkData);
 export const getLastblock = createAsyncThunk('midgard/getLastblock', midgardApi.getLastblock);
@@ -113,3 +113,5 @@ export const getSaverQuote = ({
   address?: string;
   withdraw_bps?: string;
 }) => getRequest(`${THORNODE_URL}/quote/saver/${type}?${new URLSearchParams(rest).toString()}`);
+
+export const getSaverPools = () => getRequest<ThornodePoolType[]>(`${THORNODE_URL}/pools`);

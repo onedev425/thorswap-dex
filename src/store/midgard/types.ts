@@ -223,3 +223,19 @@ export interface State {
   lpDetailLoading: LpDetailLoading;
   lpAddedAndWithdraw: LpDetailCalculationResult;
 }
+
+export type ThornodePoolType = {
+  LP_units: string;
+  asset: string;
+  balance_asset: string;
+  balance_rune: string;
+  pending_inbound_asset: string;
+  pending_inbound_rune: string;
+  pool_units: string;
+  savers_depth: string;
+  savers_units: string;
+  status: string;
+  synth_mint_paused: boolean;
+  synth_supply: string;
+  synth_units: string;
+};

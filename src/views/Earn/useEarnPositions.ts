@@ -1,13 +1,15 @@
 import { Amount, Asset } from '@thorswap-lib/multichain-core';
-import { useCallback, useState } from 'react';
+import { Chain } from '@thorswap-lib/types';
+import { useCallback, useEffect, useState } from 'react';
 import { SORTED_EARN_ASSETS } from 'settings/chain';
-import { getSaverData } from 'store/midgard/actions';
+import { getSaverData, getSaverPools } from 'store/midgard/actions';
 import { useWallet } from 'store/wallet/hooks';
 import { SaverPosition } from 'views/Earn/types';
 
 export const useSaverPositions = () => {
   const { wallet, isWalletLoading } = useWallet();
   const [positions, setPositions] = useState<SaverPosition[]>([]);
+  const [synthAvailability, setSynthAvailability] = useState<Record<Chain, boolean>>();
 
   const getSaverPosition = useCallback(
     async (asset: Asset) => {
@@ -38,10 +40,27 @@ export const useSaverPositions = () => {
     [positions],
   );
 
+  const handlePoolsAvailability = useCallback(async () => {
+    const response = await getSaverPools();
+    const availability = response.reduce((acc, pool) => {
+      if (!pool.asset.includes('-')) {
+        const [chain] = pool.asset.split('.');
+        acc[chain as Chain] = pool.synth_mint_paused;
+      }
+      return acc;
+    }, {} as Record<Chain, boolean>);
+    setSynthAvailability(availability);
+  }, []);
+
+  useEffect(() => {
+    handlePoolsAvailability();
+  }, [handlePoolsAvailability]);
+
   return {
-    positions,
-    getSaverPosition,
-    refreshPositions,
     getPosition,
+    getSaverPosition,
+    positions,
+    refreshPositions,
+    synthAvailability,
   };
 };
