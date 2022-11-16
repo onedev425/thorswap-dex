@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import { useGlobalRefresh } from 'hooks/useGlobalRefresh';
 import Plausible from 'plausible-tracker';
+import { HelmetProvider } from 'react-helmet-async';
 import { Provider as ReduxProvider } from 'react-redux';
 import { IS_BETA, IS_DEV_API, IS_PROD } from 'settings/config';
 import { store as reduxStore } from 'store/store';
@@ -41,13 +42,15 @@ function App() {
   if (!checkOrigin()) return null;
 
   return (
-    <ReduxProvider store={reduxStore}>
-      <ThemeProvider>
-        <AnnouncementsProvider>
-          <MainApp />
-        </AnnouncementsProvider>
-      </ThemeProvider>
-    </ReduxProvider>
+    <HelmetProvider>
+      <ReduxProvider store={reduxStore}>
+        <ThemeProvider>
+          <AnnouncementsProvider>
+            <MainApp />
+          </AnnouncementsProvider>
+        </ThemeProvider>
+      </ReduxProvider>
+    </HelmetProvider>
   );
 }
 

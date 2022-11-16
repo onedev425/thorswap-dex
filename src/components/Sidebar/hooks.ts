@@ -66,6 +66,8 @@ export const useSidebarOptions = () => {
   const sidebarOptions = useMemo(() => {
     const menu: SidebarItemProps[] = [
       {
+        // Leave it for key
+        label: ' ',
         hasBackground: true,
         children: [
           { iconName: 'swap', href: ROUTES.Swap, label: t('components.sidebar.swap') },
