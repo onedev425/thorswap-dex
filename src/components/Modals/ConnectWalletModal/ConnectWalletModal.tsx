@@ -1,6 +1,6 @@
-import { Keystore, SUPPORTED_CHAINS, SupportedChain } from '@thorswap-lib/types';
+import { Chain, Keystore, SUPPORTED_CHAINS, SupportedChain } from '@thorswap-lib/types';
 import classNames from 'classnames';
-import { Box, Button, Modal, Tooltip, Typography } from 'components/Atomic';
+import { Box, Button, DropdownMenu, Modal, Tooltip, Typography } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoTip } from 'components/InfoTip';
 import { Input } from 'components/Input';
@@ -25,6 +25,12 @@ import { PhraseView } from './Phrase';
 import { availableChainsByWallet, WalletType } from './types';
 import WalletOption from './WalletOption';
 
+const evmLedgerTypes = [
+  { value: 'metaMask', label: "MetaMask (m/44'/60'/0'/0/{index})" },
+  { value: 'legacy', label: "Legacy (m/44'/60'/0'/{index})" },
+  { value: 'ledgerLive', label: "Ledger Live (m/44'/60'/{index}'/0/0)" },
+];
+
 const ConnectWalletModal = () => {
   const { isMdActive } = useWindowSize();
   const { unlockWallet, isWalletLoading, setIsConnectModalOpen, isConnectModalOpen, wallet } =
@@ -33,6 +39,7 @@ const ConnectWalletModal = () => {
   const [selectedWalletType, setSelectedWalletType] = useState<WalletType>();
   const [ledgerIndex, setLedgerIndex] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [ledgerType, setLedgerType] = useState('metaMask');
   const [customFlow, setCustomFlow] = useState(false);
   const [saveWallet, setSaveWallet] = useState(getFromStorage('restorePreviousWallet') as boolean);
 
@@ -229,7 +236,7 @@ const ConnectWalletModal = () => {
                 isMdActive ? 'rounded-l-3xl' : 'rounded-t-3xl',
               )}
             >
-              <Box alignCenter className="p-4 w-[90%] md:gap-4 md:pt-4 " col={isMdActive}>
+              <Box alignCenter className="p-4 pb-8 w-[90%] md:gap-4 md:pt-4 " col={isMdActive}>
                 <Box flex={1}>
                   <Typography variant={isMdActive ? 'h4' : 'subtitle2'}>
                     {t('views.walletModal.selectChains')}
@@ -319,19 +326,48 @@ const ConnectWalletModal = () => {
               </Box>
 
               {selectedWalletType === WalletType.Ledger && (
-                <Box alignCenter className="py-2 px-6 gap-2 p-1 gap-x-2" flex={1} justify="between">
-                  <Typography>{t('common.index')}:</Typography>
-                  <Input
-                    border="rounded"
-                    onChange={(e) => setLedgerIndex(parseInt(e.target.value))}
-                    type="number"
-                    value={ledgerIndex}
-                  />
+                <Box col justify="end">
+                  <Box
+                    alignCenter
+                    className="py-2 px-6 gap-2 p-1 gap-x-2"
+                    flex={1}
+                    justify="between"
+                  >
+                    <Typography>{t('common.index')}:</Typography>
+                    <Input
+                      border="rounded"
+                      onChange={(e) => setLedgerIndex(parseInt(e.target.value))}
+                      type="number"
+                      value={ledgerIndex}
+                    />
+                  </Box>
+
+                  <Box className="ml-auto mr-4 w-70 h-10">
+                    {selectedChains.every((chain) =>
+                      [Chain.Ethereum, Chain.Avalanche].includes(chain),
+                    ) && (
+                      <DropdownMenu
+                        stretch
+                        menuItems={evmLedgerTypes}
+                        onChange={setLedgerType}
+                        openComponent={
+                          <Box alignCenter className="gap-2 w-fit">
+                            <Typography variant="caption">
+                              {evmLedgerTypes
+                                .find(({ value }) => value === ledgerType)
+                                ?.label?.replace('{index}', (ledgerIndex || 0).toString())}
+                            </Typography>
+                          </Box>
+                        }
+                        value={ledgerType}
+                      />
+                    )}
+                  </Box>
                 </Box>
               )}
 
               {!customFlow && (
-                <Box col className="pb-0.5 pt-4 md:pt-0 mb-8" flex={1} justify="end">
+                <Box col className="pb pt-4 md:pt-0 mb-8" flex={1} justify="end">
                   <Button
                     isFancy
                     className="w-2/3 self-center"

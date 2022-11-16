@@ -60,7 +60,7 @@ export const Modal = ({
             >
               <div
                 className={classNames(
-                  'max-w-md inline-block overflow-y-auto mx-2 drop-shadow-2xl text-left transition-all transform',
+                  'max-w-md inline-block mx-2 drop-shadow-2xl text-left transition-all transform',
                   className,
                 )}
               >
@@ -89,7 +89,7 @@ export const Modal = ({
                   </Box>
                 </Box>
 
-                <Box className="max-h-[80vh] mt-3">
+                <Box className="max-h-[85vh] mt-3">
                   {withBody ? (
                     <Card stretch className="flex items-center justify-center" size="lg">
                       {children}

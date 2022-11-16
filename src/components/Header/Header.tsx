@@ -70,6 +70,7 @@ export const Header = memo(({ openMenu }: Props) => {
             <StatusDropdown />
           </Box>
         </Box>
+
         {!IS_PROD && (
           <Box>
             <Box
