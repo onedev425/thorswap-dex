@@ -25,7 +25,9 @@ import { PhraseView } from './Phrase';
 import { availableChainsByWallet, WalletType } from './types';
 import WalletOption from './WalletOption';
 
-const evmLedgerTypes: { value: 'metaMask' | 'legacy' | 'ledgerLive'; label: string }[] = [
+type DerivationPathType = 'metaMask' | 'legacy' | 'ledgerLive';
+
+const evmLedgerTypes: { value: DerivationPathType; label: string }[] = [
   { value: 'metaMask', label: "MetaMask (m/44'/60'/0'/0/{index})" },
   { value: 'legacy', label: "Legacy (m/44'/60'/0'/{index})" },
   { value: 'ledgerLive', label: "Ledger Live (m/44'/60'/{index}'/0/0)" },
@@ -39,7 +41,7 @@ const ConnectWalletModal = () => {
   const [selectedWalletType, setSelectedWalletType] = useState<WalletType>();
   const [ledgerIndex, setLedgerIndex] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [ledgerType, setLedgerType] = useState<'metaMask' | 'legacy' | 'ledgerLive'>('metaMask');
+  const [ledgerType, setLedgerType] = useState<DerivationPathType>('metaMask');
   const [customFlow, setCustomFlow] = useState(false);
   const [saveWallet, setSaveWallet] = useState(getFromStorage('restorePreviousWallet') as boolean);
 
@@ -356,8 +358,7 @@ const ConnectWalletModal = () => {
                       <DropdownMenu
                         stretch
                         menuItems={evmLedgerTypes}
-                        //@ts-ignore
-                        onChange={setLedgerType}
+                        onChange={(v) => setLedgerType(v as DerivationPathType)}
                         openComponent={
                           <Box alignCenter className="gap-2 w-fit">
                             <Typography variant="caption">

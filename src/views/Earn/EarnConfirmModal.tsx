@@ -21,7 +21,7 @@ type Props = {
   isDeposit: boolean;
   onClose: () => void;
   isOpened: boolean;
-  onConfirm: () => void;
+  onConfirm: (expectedAmount: string) => void;
   tabLabel: string;
   withdrawPercent: Percent;
 };
@@ -110,7 +110,6 @@ export const EarnConfirmModal = ({
   const txInfos = [
     { label: t('common.action'), value: tabLabel },
     { label: t('common.asset'), value: `${asset.name}`, icon: asset },
-    { label: t('common.amount'), value: `${amount.toSignificant(6)} ${asset.name}` },
     { label: t('views.wallet.networkFee'), value: `${networkFee.toSignificant(6)} ${asset.name}` },
     { label: t('views.wallet.estimatedTime'), value: estimatedTime },
     { label: t('common.slippage'), value: `${slippage?.toSignificant(6)} ${asset.name}` },
@@ -132,7 +131,7 @@ export const EarnConfirmModal = ({
       inputAssets={[asset]}
       isOpened={isOpened}
       onClose={onClose}
-      onConfirm={onConfirm}
+      onConfirm={() => onConfirm(saverQuote?.expected_amount_out || '0')}
     >
       {txInfos.map(({ label, value, icon }) => (
         <InfoRow

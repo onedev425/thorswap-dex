@@ -97,32 +97,35 @@ const Earn = () => {
     [amount, asset, isDeposit, withdrawPercent],
   );
 
-  const handleEarnSubmit = useCallback(async () => {
-    setIsConfirmOpen(false);
+  const handleEarnSubmit = useCallback(
+    async (expectedAmount: string) => {
+      setIsConfirmOpen(false);
 
-    const id = v4();
+      const id = v4();
 
-    appDispatch(
-      addTransaction({
-        id,
-        label: t(isDeposit ? 'txManager.addAmountAsset' : 'txManager.withdrawAmountAsset', {
-          asset: asset.name,
-          amount: amount.toSignificant(6),
+      appDispatch(
+        addTransaction({
+          id,
+          label: t(isDeposit ? 'txManager.addAmountAsset' : 'txManager.withdrawAmountAsset', {
+            asset: asset.name,
+            amount: expectedAmount,
+          }),
+          type: isDeposit ? TransactionType.TC_SAVINGS_ADD : TransactionType.TC_SAVINGS_WITHDRAW,
+          inChain: asset.L1Chain,
         }),
-        type: isDeposit ? TransactionType.TC_SAVINGS_ADD : TransactionType.TC_SAVINGS_WITHDRAW,
-        inChain: asset.L1Chain,
-      }),
-    );
+      );
 
-    try {
-      const txid = await handleMultichainAction();
-      setAmount(Amount.fromAssetAmount(0, 8));
-      if (txid) appDispatch(updateTransaction({ id, txid }));
-    } catch (error) {
-      console.error(error);
-      appDispatch(completeTransaction({ id, status: 'error' }));
-    }
-  }, [amount, appDispatch, asset.L1Chain, asset.name, handleMultichainAction, isDeposit]);
+      try {
+        const txid = await handleMultichainAction();
+        setAmount(Amount.fromAssetAmount(0, 8));
+        if (txid) appDispatch(updateTransaction({ id, txid }));
+      } catch (error) {
+        console.error(error);
+        appDispatch(completeTransaction({ id, status: 'error' }));
+      }
+    },
+    [appDispatch, asset.L1Chain, asset.name, handleMultichainAction, isDeposit],
+  );
 
   const isSynthInCapacity = useMemo(() => {
     const defaultOptions = {

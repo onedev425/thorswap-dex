@@ -16,7 +16,7 @@ export const useSaverPositions = () => {
       const address = wallet?.[asset.L1Chain]?.address || '';
       if (address) {
         const response = await getSaverData({ asset: asset.toString().toLowerCase(), address });
-        const amount = Amount.fromMidgard(response.asset_deposit_value);
+        const amount = Amount.fromMidgard(response.units);
 
         return amount.gt(0) ? { asset, amount, provider: response } : null;
       }
