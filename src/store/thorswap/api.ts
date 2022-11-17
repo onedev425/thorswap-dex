@@ -24,28 +24,9 @@ export const thorswapApi = createApi({
     mode: 'cors',
   }),
   endpoints: (build) => ({
-    getSupportedProviders: build.query<string[], void>({
-      query: () => `/aggregator/providers/supportedProviders`,
-    }),
     getTokensQuote: build.query<TransactionDetails, GetTokensQuoteParams>({
-      query: ({
-        providers,
-        senderAddress = '',
-        recipientAddress = '',
-        affiliateBasisPoints,
-        ...rest
-      }) => {
-        const queryParams = new URLSearchParams({
-          ...rest,
-          senderAddress,
-          recipientAddress,
-        });
-
-        if (providers) {
-          providers.forEach((provider) => {
-            queryParams.append('providers', provider);
-          });
-        }
+      query: ({ senderAddress = '', recipientAddress = '', affiliateBasisPoints, ...rest }) => {
+        const queryParams = new URLSearchParams({ ...rest, senderAddress, recipientAddress });
 
         if (affiliateBasisPoints) {
           queryParams.append('affiliateBasisPoints', affiliateBasisPoints);
@@ -95,6 +76,5 @@ export const {
   useGetProvidersQuery,
   useGetTokenCachedPricesQuery,
   useGetTokensQuoteQuery,
-  useGetSupportedProvidersQuery,
   useGetAnnouncementsQuery,
 } = thorswapApi;

@@ -106,7 +106,6 @@ export type GetTxnStatusResponse =
 export type GetTokensQuoteParams = {
   affiliateBasisPoints?: string;
   buyAsset: string;
-  providers?: string[];
   recipientAddress?: string;
   sellAmount: string;
   sellAsset: string;

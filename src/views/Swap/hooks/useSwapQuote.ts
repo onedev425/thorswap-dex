@@ -2,7 +2,7 @@ import { Amount, Asset, QuoteMode, QuoteRoute } from '@thorswap-lib/multichain-c
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useEffect, useMemo, useState } from 'react';
 import { useApp } from 'store/app/hooks';
-import { useGetSupportedProvidersQuery, useGetTokensQuoteQuery } from 'store/thorswap/api';
+import { useGetTokensQuoteQuery } from 'store/thorswap/api';
 
 type Params = {
   affiliateBasisPoints: string;
@@ -25,13 +25,9 @@ export const useSwapQuote = ({
   const [swapQuote, setSwapRoute] = useState<QuoteRoute>();
   const { slippageTolerance } = useApp();
 
-  const { data: supportedProvidersData, isLoading: supportedProvidersLoading } =
-    useGetSupportedProvidersQuery();
-
   const params = useMemo(
     () => ({
       affiliateBasisPoints,
-      providers: supportedProvidersData,
       sellAsset: inputAsset.toString(),
       buyAsset: outputAsset.toString(),
       slippage: slippageTolerance.toString(),
@@ -41,7 +37,6 @@ export const useSwapQuote = ({
     }),
     [
       affiliateBasisPoints,
-      supportedProvidersData,
       inputAsset,
       outputAsset,
       slippageTolerance,
@@ -60,11 +55,7 @@ export const useSwapQuote = ({
     currentData: data,
     isFetching,
   } = useGetTokensQuoteQuery(tokenQuoteParams, {
-    skip:
-      tokenQuoteParams.sellAmount === '0' ||
-      inputAmount.assetAmount.isZero() ||
-      supportedProvidersLoading ||
-      !supportedProvidersData?.length,
+    skip: tokenQuoteParams.sellAmount === '0' || inputAmount.assetAmount.isZero(),
   });
 
   const routes = useMemo(() => {

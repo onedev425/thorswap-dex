@@ -4,6 +4,7 @@ import {
   ETH_DECIMAL,
   hasWalletConnected,
   QuoteMode,
+  WalletOption,
 } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import { InfoTip } from 'components/InfoTip';
@@ -288,6 +289,11 @@ const SwapView = () => {
     [outputAsset.chain, outputAsset.ticker],
   );
 
+  const noPriceProtection = useMemo(
+    () => inputAsset.L1Chain === Chain.Litecoin && wallet?.LTC?.walletType === WalletOption.LEDGER,
+    [inputAsset.L1Chain, wallet?.LTC?.walletType],
+  );
+
   return (
     <PanelView
       description={t('views.swap.description', {
@@ -338,6 +344,15 @@ const SwapView = () => {
         <InfoTip
           className="!mt-2"
           content={<THORInfoContent inputAsset={inputAsset} />}
+          type="warn"
+        />
+      )}
+
+      {noPriceProtection && (
+        <InfoTip
+          className="!mt-2"
+          content={t('views.swap.priceProtectionUnavailableDesc')}
+          title={t('views.swap.priceProtectionUnavailable')}
           type="warn"
         />
       )}
