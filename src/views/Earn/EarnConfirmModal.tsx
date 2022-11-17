@@ -18,7 +18,6 @@ import { useWallet } from 'store/wallet/hooks';
 type Props = {
   asset: Asset;
   amount: Amount;
-  assetDepthAmount: Amount;
   isDeposit: boolean;
   onClose: () => void;
   isOpened: boolean;
@@ -30,6 +29,8 @@ type Props = {
 type SaverQuoteResponse = {
   expected_amount_out: string;
   fees: { affiliate: string; asset: string; outbound: string };
+  slippage_bps: number;
+  outbound_delay_seconds: number;
 };
 
 export const EarnConfirmModal = ({
@@ -40,24 +41,12 @@ export const EarnConfirmModal = ({
   amount,
   isDeposit,
   tabLabel,
-  assetDepthAmount,
   withdrawPercent,
 }: Props) => {
   const { wallet } = useWallet();
   const address = wallet?.[asset.L1Chain]?.address || '';
   const [saverQuote, setSaverQuoteData] = useState<SaverQuoteResponse>();
   const { outboundFee } = useMidgard();
-  const { slippage, networkFee } = useMemo(
-    () => ({
-      slippage: amount.div(amount.add(assetDepthAmount).mul(amount)),
-      networkFee: new Amount(
-        parseInt(outboundFee[asset.L1Chain] || '0') * (isDeposit ? 1 / 3 : 1),
-        AmountType.BASE_AMOUNT,
-        MULTICHAIN_DECIMAL,
-      ),
-    }),
-    [amount, asset.L1Chain, assetDepthAmount, isDeposit, outboundFee],
-  );
 
   const getConfirmData = useCallback(async () => {
     if (isOpened) {
@@ -87,20 +76,48 @@ export const EarnConfirmModal = ({
     }
   }, [getConfirmData, isOpened]);
 
+  const expectedOutput = useMemo(
+    () =>
+      saverQuote?.expected_amount_out
+        ? new Amount(saverQuote.expected_amount_out, AmountType.BASE_AMOUNT, MULTICHAIN_DECIMAL)
+        : undefined,
+    [saverQuote?.expected_amount_out],
+  );
+
+  const slippage = expectedOutput?.mul(saverQuote?.slippage_bps || 0).div(10000);
+  const estimatedTime = useMemo(() => {
+    if (!saverQuote?.outbound_delay_seconds) return undefined;
+    const seconds = saverQuote.outbound_delay_seconds;
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const hoursString = hours > 0 ? `${hours}h ` : '';
+    const minutesString = minutes > 0 ? `${minutes % 60}m ` : '';
+    const secondsString = seconds % 60 > 0 ? ` ${seconds % 60}s` : '';
+
+    return `${hoursString}${minutesString}${secondsString}`;
+  }, [saverQuote?.outbound_delay_seconds]);
+
+  const networkFee = useMemo(
+    () =>
+      new Amount(
+        parseInt(outboundFee[asset.L1Chain] || '0') * (isDeposit ? 1 / 3 : 1),
+        AmountType.BASE_AMOUNT,
+        MULTICHAIN_DECIMAL,
+      ),
+    [asset.L1Chain, isDeposit, outboundFee],
+  );
+
   const txInfos = [
     { label: t('common.action'), value: tabLabel },
     { label: t('common.asset'), value: `${asset.name}`, icon: asset },
     { label: t('common.amount'), value: `${amount.toSignificant(6)} ${asset.name}` },
     { label: t('views.wallet.networkFee'), value: `${networkFee.toSignificant(6)} ${asset.name}` },
-    { label: t('common.slippage'), value: `${slippage.toSignificant(6)} ${asset.name}` },
+    { label: t('views.wallet.estimatedTime'), value: estimatedTime },
+    { label: t('common.slippage'), value: `${slippage?.toSignificant(6)} ${asset.name}` },
     {
       label: tabLabel,
-      value: saverQuote?.expected_amount_out ? (
-        `${new Amount(
-          saverQuote.expected_amount_out,
-          AmountType.BASE_AMOUNT,
-          MULTICHAIN_DECIMAL,
-        ).toSignificant(6)} ${asset.name}`
+      value: expectedOutput ? (
+        `${expectedOutput.toSignificant(6)} ${asset.name}`
       ) : networkFee.gte(amount) ? (
         'Not enough amount to cover outbound fee'
       ) : (
@@ -117,14 +134,14 @@ export const EarnConfirmModal = ({
       onClose={onClose}
       onConfirm={onConfirm}
     >
-      {txInfos.map((info) => (
+      {txInfos.map(({ label, value, icon }) => (
         <InfoRow
-          key={info.label}
-          label={info.label}
+          key={label}
+          label={label}
           value={
             <Box center className="gap-1">
-              <Typography variant="caption">{info.value}</Typography>
-              {info.icon && <AssetIcon asset={info.icon} size={22} />}
+              <Typography variant="caption">{value}</Typography>
+              {icon && <AssetIcon asset={icon} size={22} />}
             </Box>
           }
         />

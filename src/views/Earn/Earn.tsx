@@ -124,7 +124,7 @@ const Earn = () => {
     }
   }, [amount, appDispatch, asset.L1Chain, asset.name, handleMultichainAction, isDeposit]);
 
-  const { isSynthInCapacity, assetDepthAmount } = useMemo(() => {
+  const isSynthInCapacity = useMemo(() => {
     const defaultOptions = {
       isSynthInCapacity: !synthAvailability?.[asset.L1Chain],
       assetDepthAmount: Amount.fromAssetAmount(0, 8),
@@ -137,14 +137,12 @@ const Earn = () => {
     const assetDepthAmount = Amount.fromMidgard(assetDepth);
     if (assetDepthAmount.eq(0)) return defaultOptions;
 
-    return {
-      assetDepthAmount,
-      isSynthInCapacity:
-        !synthAvailability?.[asset.L1Chain] &&
-        Amount.fromMidgard(synthSupply)
-          .div(assetDepthAmount)
-          .assetAmount.isLessThan(maxSynthPerAssetDepth / 10000),
-    };
+    return (
+      !synthAvailability?.[asset.L1Chain] &&
+      Amount.fromMidgard(synthSupply)
+        .div(assetDepthAmount)
+        .assetAmount.isLessThan(maxSynthPerAssetDepth / 10000)
+    );
   }, [asset.L1Chain, asset.symbol, maxSynthPerAssetDepth, pools, synthAvailability]);
 
   const buttonDisabled = useMemo(
@@ -258,7 +256,6 @@ const Earn = () => {
       <EarnConfirmModal
         amount={amount}
         asset={asset}
-        assetDepthAmount={assetDepthAmount}
         isDeposit={isDeposit}
         isOpened={isConfirmOpen}
         onClose={() => setIsConfirmOpen(false)}
