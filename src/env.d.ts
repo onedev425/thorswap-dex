@@ -11,7 +11,6 @@ interface ImportMetaEnv {
   readonly VITE_DOGENODE_API_KEY: string;
   readonly VITE_ETHERSCAN_API_KEY: string;
   readonly VITE_ETHPLORER_API_KEY: string;
-  readonly VITE_FIGMENT_API_KEY: string;
   readonly VITE_KADO_KEY: string;
   readonly VITE_BLOCKCHAIR_API_KEY: string;
 }
