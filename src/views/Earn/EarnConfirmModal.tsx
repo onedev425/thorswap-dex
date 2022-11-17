@@ -110,8 +110,8 @@ export const EarnConfirmModal = ({
   const txInfos = [
     { label: t('common.action'), value: tabLabel },
     { label: t('common.asset'), value: `${asset.name}`, icon: asset },
-    { label: t('views.wallet.networkFee'), value: `${networkFee.toSignificant(6)} ${asset.name}` },
     { label: t('views.wallet.estimatedTime'), value: estimatedTime },
+    { label: t('views.wallet.networkFee'), value: `${networkFee.toSignificant(6)} ${asset.name}` },
     { label: t('common.slippage'), value: `${slippage?.toSignificant(6)} ${asset.name}` },
     {
       label: tabLabel,

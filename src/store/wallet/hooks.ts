@@ -67,7 +67,7 @@ export const useWallet = () => {
         case 'legacy':
           return "m/44'/60'/0'/";
         case 'ledgerLive':
-          return `m/44'/60'/${index}'/0/0`;
+          return `m/44'/60'/${index}'/0/`;
 
         default:
           return "m/44'/60'/0'/0/";
