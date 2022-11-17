@@ -12,6 +12,10 @@ const twBaseUri = 'https://raw.githubusercontent.com/trustwallet/assets/master/b
 const providersInfoMap = {
   // AVAX
   pangolin: 'AVAX.PNG-0x60781C2586D68229fde47564546784ab3fACA982',
+  traderjoe: 'AVAX.JOE-0X6E84A6216EA6DACC71EE8E6B0A5B7322EEBC0FDD',
+  platypus: 'AVAX.AVAX',
+  kyberswapv2: 'ETH.KNC-0xdefa4e8a7bcba345f687a2f1456f5edd9ce97202',
+  kyber: 'ETH.KNC-0xdefa4e8a7bcba345f687a2f1456f5edd9ce97202',
   // ETH
   thorchain: 'ETH.RUNE-0x3155ba85d5f96b2d030a4966af206230e46849cb',
   uniswapv2: 'ETH.UNI-0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',

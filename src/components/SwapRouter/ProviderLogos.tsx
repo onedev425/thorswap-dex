@@ -12,6 +12,9 @@ export const normalizedProviderName = {
   THORCHAIN: 'THORChain',
   ONEINCH: '1inch',
   UNISWAPV2: 'UniswapV2',
+  KYBERSWAPV2: 'KyberSwapV2',
+  TRADERJOE: 'TraderJoe',
+  PLATYPUS: 'Platypus',
   BALANCERV2: 'Balancer',
   UNISWAPV3: 'UniswapV3',
   ZEROX: '0x',
@@ -36,10 +39,11 @@ export const ProviderLogos = memo(({ size = 24, providers }: Props) => {
     [size],
   );
   const providerStyle = useMemo(() => ({ fontSize: size / 3 }), [size]);
+  const shortenProviders = useMemo(() => providers.map((p) => p.split('-')[0]), [providers]);
 
   return (
     <Box row className="px-1 max-w-[100px]" flex={1} justify="between">
-      {providers.map((provider, index, array) => (
+      {shortenProviders.map((provider, index, array) => (
         <Fragment key={provider}>
           <Box center col>
             <AssetIcon
