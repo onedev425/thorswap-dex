@@ -25,7 +25,7 @@ export const useSaverPositions = () => {
   );
 
   const refreshPositions = useCallback(async () => {
-    if (!isWalletLoading) {
+    if (isWalletLoading) {
       return;
     }
 
