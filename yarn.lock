@@ -1919,7 +1919,12 @@
     envalid "^7.3.1"
     node-fetch "2"
 
-"@thorswap-lib/midgard-sdk@0.1.11", "@thorswap-lib/midgard-sdk@^0.1.11":
+"@thorswap-lib/midgard-sdk@0.1.13":
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.13.tgz#f2d1b9c47643cb4b2ba31bf45e9686f0eea9722e"
+  integrity sha512-HeqpDfAI6nZzT0EyybohcRJLJNVcLh5+hIvlHzhWu3bs4/1nd/mGXwqYcCat10P0fDG07Tf3EnSAXSQrWrHI7g==
+
+"@thorswap-lib/midgard-sdk@^0.1.11":
   version "0.1.11"
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.11.tgz#f57392d4bd5467e2cb4eaf80105e2907c987178e"
   integrity sha512-rzfoyOE1IPEpGXYEH2dt2W/Nb2+rmbt97/yhu6aaaHSbwrfQvWt6KFdkNHa8KXa9zoN43gOdDz9Ku0SwwaHZpg==

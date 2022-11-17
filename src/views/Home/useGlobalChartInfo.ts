@@ -1,4 +1,5 @@
 import { Amount, Asset, Pool, runeToAssetPrice } from '@thorswap-lib/multichain-core';
+import BigNumber from 'bignumber.js';
 import { ChartData, ChartDetail, ChartType } from 'components/Chart/types';
 import { useMemo } from 'react';
 import { useApp } from 'store/app/hooks';
@@ -85,17 +86,10 @@ export const useGlobalChartInfo = () => {
           .add(Amount.fromMidgard(data?.synthRedeemVolume))
           .toSignificant(6),
       );
+      const total = new BigNumber(data?.totalVolumeUsd).multipliedBy(10 ** -8);
 
-      const total = format(
-        String(
-          Number(data?.totalVolume) +
-            Number(liquidityValue?.addLiquidityVolume) +
-            Number(liquidityValue?.withdrawVolume),
-        ),
-      );
-
-      if (total.baseAmount.toNumber()) {
-        totalVolume.push({ time, value: total.toCurrencyFormat(2, false) });
+      if (total.toNumber()) {
+        totalVolume.push({ time, value: total.toFixed(2) });
       }
 
       if (swapValue.baseAmount.toNumber()) {
