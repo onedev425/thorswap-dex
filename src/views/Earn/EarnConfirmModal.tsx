@@ -131,7 +131,7 @@ export const EarnConfirmModal = ({
       inputAssets={[asset]}
       isOpened={isOpened}
       onClose={onClose}
-      onConfirm={() => onConfirm(saverQuote?.expected_amount_out || '0')}
+      onConfirm={() => onConfirm(expectedOutput?.toSignificant(6) || '0')}
     >
       {txInfos.map(({ label, value, icon }) => (
         <InfoRow
