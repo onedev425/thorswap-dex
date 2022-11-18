@@ -50,6 +50,7 @@ jobs:
           VITE_ETHERSCAN_API_KEY: ${{ secrets.VITE_ETHERSCAN_API_KEY }}
           VITE_ETHPLORER_API_KEY: ${{ secrets.VITE_ETHPLORER_API_KEY }}
           VITE_ALLTHATNODE_KEY: ${{ secrets.VITE_ALLTHATNODE_KEY }}
+          VITE_FIGMENT_API_KEY: ${{ secrets.VITE_FIGMENT_API_KEY }}
           VITE_GOOGLE_API_KEY: ${{ secrets.VITE_GOOGLE_API_KEY }}
           VITE_MAINNET_THORNODE: ${{ secrets.VITE_STAGENET_THORNODE }}
           VITE_THORSWAP_API: ${{ secrets.VITE_THORSWAP_API }}

@@ -27,118 +27,95 @@ type WalletItem = {
   tooltip?: string;
 };
 
-type WalletSection = {
-  title: string;
-  visible?: boolean;
-  items: WalletItem[];
-};
-
 type UseWalletOptionsParams = {
   isMdActive: boolean;
 };
 
-export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): WalletSection[] =>
+export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): WalletItem[] =>
   useMemo(
     () => [
       {
-        title: t('views.walletModal.softwareWallets'),
-        items: [
-          {
-            type: WalletType.TrustWallet,
-            icon: 'trustWallet',
-            label: t('views.walletModal.trustWallet'),
-          },
-          {
-            visible: isMdActive,
-            type: WalletType.TrustWalletExtension,
-            icon: 'trustWalletWhite',
-            label: t('views.walletModal.trustWalletExtension'),
-            disabled: metamask.isBravePrioritized() || metamask.isXDefiPrioritized(),
-            tooltip: metamask.isXDefiPrioritized()
-              ? t('views.walletModal.deprioritizeXdefi')
-              : metamask.isBravePrioritized()
-              ? t('views.walletModal.disableBraveWallet')
-              : '',
-          },
-          {
-            type: WalletType.MetaMask,
-            icon: 'metamask',
-            disabled:
-              metamask.isBravePrioritized() ||
-              metamask.isXDefiPrioritized() ||
-              metamask.isTrustPrioritized(),
-            label: t('views.walletModal.metaMask'),
-            tooltip: metamask.isXDefiPrioritized()
-              ? t('views.walletModal.deprioritizeXdefi')
-              : metamask.isBravePrioritized()
-              ? t('views.walletModal.disableBraveWallet')
-              : '',
-          },
-          {
-            icon: 'xdefi',
-            type: WalletType.Xdefi,
-            visible: isMdActive,
-            label: t('views.walletModal.xdefi'),
-          },
-          ...(IS_PROD
-            ? []
-            : [
-                {
-                  disabled: !brave.isWalletDetected(),
-                  icon: 'brave' as IconName,
-                  type: WalletType.Brave,
-                  visible: isMdActive,
-                  label: t('views.walletModal.braveWallet'),
-                  tooltip: !brave.isWalletDetected()
-                    ? t('views.walletModal.enableBraveWallet')
-                    : '',
-                },
-              ]),
-          {
-            icon: 'keplr',
-            label: t('views.walletModal.keplr'),
-            type: WalletType.Keplr,
-            visible: isMdActive,
-          },
-          {
-            icon: 'phantom',
-            label: t('views.walletModal.phantom'),
-            type: WalletType.Phantom,
-            visible: isMdActive,
-          },
-        ],
+        type: WalletType.TrustWallet,
+        icon: 'trustWallet',
+        label: t('views.walletModal.trustWallet'),
       },
       {
-        title: t('views.walletModal.hardwareWallets'),
-        visible: isMdActive,
-        items: [
-          {
-            type: WalletType.Ledger,
-            icon: 'ledger',
-            label: t('views.walletModal.ledger'),
-          },
-        ],
+        type: WalletType.TrustWalletExtension,
+        icon: 'trustWalletWhite',
+        label: t('views.walletModal.trustWalletExtension'),
+        disabled: metamask.isBravePrioritized() || metamask.isXDefiPrioritized(),
+        tooltip: metamask.isXDefiPrioritized()
+          ? t('views.walletModal.deprioritizeXdefi')
+          : metamask.isBravePrioritized()
+          ? t('views.walletModal.disableBraveWallet')
+          : '',
       },
       {
-        title: 'Keystore',
+        icon: 'phantom',
+        label: t('views.walletModal.phantom'),
+        type: WalletType.Phantom,
         visible: isMdActive,
-        items: [
-          {
-            type: WalletType.Keystore,
-            icon: 'keystore',
-            label: t('views.walletModal.keystore'),
-          },
-          {
-            type: WalletType.CreateKeystore,
-            icon: 'plusCircle',
-            label: t('views.walletModal.createKeystore'),
-          },
-          {
-            type: WalletType.Phrase,
-            icon: 'import',
-            label: t('views.walletModal.importPhrase'),
-          },
-        ],
+      },
+      {
+        icon: 'keplr',
+        label: t('views.walletModal.keplr'),
+        type: WalletType.Keplr,
+        visible: isMdActive,
+      },
+      {
+        icon: 'xdefi',
+        type: WalletType.Xdefi,
+        visible: isMdActive,
+        label: t('views.walletModal.xdefi'),
+      },
+      ...(IS_PROD
+        ? []
+        : [
+            {
+              disabled: !brave.isWalletDetected(),
+              icon: 'brave' as IconName,
+              type: WalletType.Brave,
+              visible: isMdActive,
+              label: t('views.walletModal.braveWallet'),
+              tooltip: !brave.isWalletDetected() ? t('views.walletModal.enableBraveWallet') : '',
+            },
+          ]),
+      {
+        type: WalletType.MetaMask,
+        icon: 'metamask',
+        disabled:
+          metamask.isBravePrioritized() ||
+          metamask.isXDefiPrioritized() ||
+          metamask.isTrustPrioritized(),
+        label: t('views.walletModal.metaMask'),
+        tooltip: metamask.isXDefiPrioritized()
+          ? t('views.walletModal.deprioritizeXdefi')
+          : metamask.isBravePrioritized()
+          ? t('views.walletModal.disableBraveWallet')
+          : '',
+      },
+      {
+        visible: isMdActive,
+        type: WalletType.Ledger,
+        icon: 'ledger',
+        label: t('views.walletModal.ledger'),
+      },
+      {
+        type: WalletType.Keystore,
+        icon: 'keystore',
+        label: t('views.walletModal.keystore'),
+      },
+      {
+        type: WalletType.CreateKeystore,
+        icon: 'plusCircle',
+        label: t('views.walletModal.createKeystore'),
+        visible: isMdActive,
+      },
+      {
+        type: WalletType.Phrase,
+        icon: 'import',
+        label: t('views.walletModal.importPhrase'),
+        visible: isMdActive,
       },
     ],
     [isMdActive],
@@ -148,14 +125,14 @@ export type HandleWalletConnectParams = {
   walletType?: WalletType;
   ledgerIndex: number;
   chains?: SupportedChain[];
-  customDerivationPath?: string;
+  derivationPathType?: 'legacy' | 'metaMask' | 'ledgerLive';
 };
 
 export const useHandleWalletConnect = ({
   walletType,
   ledgerIndex,
   chains,
-  customDerivationPath,
+  derivationPathType,
 }: HandleWalletConnectParams) => {
   const {
     connectBraveWallet,
@@ -177,7 +154,12 @@ export const useHandleWalletConnect = ({
       if (getFromStorage('restorePreviousWallet')) {
         saveInStorage({
           key: 'previousWallet',
-          value: { walletType: selectedWalletType, chains: selectedChains, ledgerIndex },
+          value: {
+            walletType: selectedWalletType,
+            chains: selectedChains,
+            ledgerIndex,
+            derivationPathType,
+          },
         });
       }
 
@@ -188,7 +170,7 @@ export const useHandleWalletConnect = ({
           case WalletType.Xdefi:
             return await connectXdefiWallet(selectedChains);
           case WalletType.Ledger:
-            return await connectLedger(selectedChains[0], ledgerIndex, customDerivationPath);
+            return await connectLedger(selectedChains[0], ledgerIndex, derivationPathType);
           case WalletType.MetaMask:
             return await connectMetamask(selectedChains[0]);
           case WalletType.Brave:
@@ -216,12 +198,12 @@ export const useHandleWalletConnect = ({
       connectTrustWallet,
       connectXdefiWallet,
       connectLedger,
-      customDerivationPath,
       connectMetamask,
       connectBraveWallet,
       connectTrustWalletExtension,
       connectPhantom,
       connectKeplr,
+      derivationPathType,
     ],
   );
 

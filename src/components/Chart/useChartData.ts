@@ -39,7 +39,7 @@ export const useChartData = ({
   } = chartData?.[selectedIndex] || {};
   const formatPrice = useFormatPrice({ prefix: unit });
   const formatter = abbreviateValues
-    ? (value: number) => `${unit}${abbreviateNumber(value)}`
+    ? (value: number) => `${unit}${abbreviateNumber(value, 2)}`
     : formatPrice;
 
   const slicedByTime = useMemo(

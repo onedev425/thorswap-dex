@@ -17,5 +17,5 @@ export const chartYTicksStyles = {
     size: 11,
     weight: '700',
   },
-  padding: 8,
+  padding: 6,
 };

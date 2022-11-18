@@ -1,8 +1,11 @@
+import { gridLinesColor } from 'components/Chart/styles/colors';
 import * as styles from 'components/Chart/styles/styles';
 
 export const getChartOptions = (hideLabel: boolean, hasGrid: boolean) => {
   const gridOptions = {
-    display: false,
+    color: gridLinesColor,
+    display: true,
+    drawBorder: false,
     drawOnChartArea: hasGrid,
     drawTicks: false,
   };

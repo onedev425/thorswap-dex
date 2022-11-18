@@ -1,10 +1,9 @@
-import { Keystore, SUPPORTED_CHAINS, SupportedChain } from '@thorswap-lib/types';
+import { Chain, Keystore, SUPPORTED_CHAINS, SupportedChain } from '@thorswap-lib/types';
 import classNames from 'classnames';
-import { Box, Button, Modal, Tooltip, Typography } from 'components/Atomic';
+import { Box, Button, DropdownMenu, Modal, Tooltip, Typography } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoTip } from 'components/InfoTip';
 import { Input } from 'components/Input';
-import { DerivationPathDropdown } from 'components/Modals/ConnectWalletModal/DerivationPathsDropdown';
 import { showErrorToast } from 'components/Toast';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import useWindowSize from 'hooks/useWindowSize';
@@ -26,6 +25,14 @@ import { PhraseView } from './Phrase';
 import { availableChainsByWallet, WalletType } from './types';
 import WalletOption from './WalletOption';
 
+type DerivationPathType = 'metaMask' | 'legacy' | 'ledgerLive';
+
+const evmLedgerTypes: { value: DerivationPathType; label: string }[] = [
+  { value: 'metaMask', label: "MetaMask (m/44'/60'/0'/0/{index})" },
+  { value: 'legacy', label: "Legacy (m/44'/60'/0'/{index})" },
+  { value: 'ledgerLive', label: "Ledger Live (m/44'/60'/{index}'/0/0)" },
+];
+
 const ConnectWalletModal = () => {
   const { isMdActive } = useWindowSize();
   const { unlockWallet, isWalletLoading, setIsConnectModalOpen, isConnectModalOpen, wallet } =
@@ -34,7 +41,7 @@ const ConnectWalletModal = () => {
   const [selectedWalletType, setSelectedWalletType] = useState<WalletType>();
   const [ledgerIndex, setLedgerIndex] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [customDerivationPath, setCustomDerivationPath] = useState<string | undefined>();
+  const [ledgerType, setLedgerType] = useState<DerivationPathType>('metaMask');
   const [customFlow, setCustomFlow] = useState(false);
   const [saveWallet, setSaveWallet] = useState(getFromStorage('restorePreviousWallet') as boolean);
 
@@ -71,7 +78,7 @@ const ConnectWalletModal = () => {
     ledgerIndex,
     chains: selectedChains,
     walletType: selectedWalletType,
-    customDerivationPath,
+    derivationPathType: ledgerType,
   });
 
   const handleAllClick = useCallback(() => {
@@ -192,7 +199,7 @@ const ConnectWalletModal = () => {
           )}
         </Box>
       }
-      className="md:!max-w-[700px] -mt-24"
+      className="md:!max-w-[600px] -mt-24"
       isOpened={isConnectModalOpen}
       onBack={customFlow ? () => setCustomFlow(false) : undefined}
       onClose={clearState}
@@ -202,7 +209,7 @@ const ConnectWalletModal = () => {
       <Box
         col
         className={classNames(
-          'bg-light-layout-primary md:!max-w-[700px] dark:bg-dark-bg-secondary rounded-3xl',
+          'bg-light-layout-primary dark:bg-dark-bg-secondary rounded-3xl !p-0 md:max-w-[600px] h-fit',
           { '!px-2 !py-4': customFlow },
         )}
         justify="between"
@@ -232,11 +239,11 @@ const ConnectWalletModal = () => {
               col
               className={classNames(
                 'bg-light-bg-primary dark:bg-dark-bg-primary',
-                'md:px-8 pb-10 dark:drop-shadow-4xl z-10',
+                'md:px-6 pb-10 dark:drop-shadow-4xl z-10',
                 isMdActive ? 'rounded-l-3xl' : 'rounded-t-3xl',
               )}
             >
-              <Box alignCenter className="p-4 w-[100%] md:gap-4" col={isMdActive}>
+              <Box alignCenter className="p-4 pb-8 w-[90%] md:gap-4 md:pt-4 " col={isMdActive}>
                 <Box flex={1}>
                   <Typography variant={isMdActive ? 'h4' : 'subtitle2'}>
                     {t('views.walletModal.selectChains')}
@@ -256,7 +263,7 @@ const ConnectWalletModal = () => {
                   type={selectedAll ? 'default' : 'outline'}
                   variant="primary"
                 >
-                  <Typography variant="caption-xs">{t('views.walletModal.selectAll')}</Typography>
+                  <Typography variant="caption">{t('views.walletModal.selectAll')}</Typography>
                 </Button>
               </Box>
 
@@ -277,8 +284,8 @@ const ConnectWalletModal = () => {
               </Box>
             </Box>
 
-            <Box col>
-              <Box alignCenter className="pr-6 md:pr-10 px-4">
+            <Box col flex={1}>
+              <Box alignCenter className="pr-4 md:pr-10 px-4">
                 <Box flex={1}>
                   <Typography className="py-4" variant={isMdActive ? 'h4' : 'subtitle2'}>
                     {t('views.walletModal.selectWallet')}
@@ -310,37 +317,33 @@ const ConnectWalletModal = () => {
 
               <Box className="pl-6 pr-4 flex-wrap">
                 {walletOptions.map(
-                  ({ visible = true, title, items }) =>
+                  ({ visible = true, tooltip, type, disabled, icon, label }) =>
                     visible && (
-                      <Box col className="py-1" key={title}>
-                        <Typography fontWeight="semibold">{title}</Typography>
-
-                        <Box className="flex-wrap">
-                          {items.map(({ tooltip, type, disabled, icon, label }) => (
-                            <Tooltip content={tooltip} key={type}>
-                              <WalletOption
-                                connected={connectedWallets.includes(type.toLowerCase())}
-                                disabled={disabled || isWalletTypeDisabled(type)}
-                                handleTypeSelect={handleWalletTypeSelect}
-                                icon={icon}
-                                label={label}
-                                selected={type === selectedWalletType}
-                                type={type}
-                              />
-                            </Tooltip>
-                          ))}
-                        </Box>
-                      </Box>
+                      <Tooltip content={tooltip} key={type}>
+                        <WalletOption
+                          connected={connectedWallets.includes(type.toLowerCase())}
+                          disabled={disabled || isWalletTypeDisabled(type)}
+                          handleTypeSelect={handleWalletTypeSelect}
+                          icon={icon}
+                          label={label}
+                          selected={type === selectedWalletType}
+                          type={type}
+                        />
+                      </Tooltip>
                     ),
                 )}
               </Box>
 
               {selectedWalletType === WalletType.Ledger && (
-                <Box center>
-                  <Box alignCenter className="pt-2 mx-6 gap-x-2" flex={1} justify="between">
+                <Box col justify="end">
+                  <Box
+                    alignCenter
+                    className="py-2 px-6 gap-2 p-1 gap-x-2"
+                    flex={1}
+                    justify="between"
+                  >
                     <Typography>{t('common.index')}:</Typography>
                     <Input
-                      stretch
                       border="rounded"
                       onChange={(e) => setLedgerIndex(parseInt(e.target.value))}
                       type="number"
@@ -348,11 +351,27 @@ const ConnectWalletModal = () => {
                     />
                   </Box>
 
-                  <DerivationPathDropdown
-                    chain={selectedChains[0]}
-                    ledgerIndex={ledgerIndex}
-                    setCustomDerivationPath={setCustomDerivationPath}
-                  />
+                  <Box className="ml-auto mr-4 w-70 h-10">
+                    {selectedChains.every((chain) =>
+                      [Chain.Ethereum, Chain.Avalanche].includes(chain),
+                    ) && (
+                      <DropdownMenu
+                        stretch
+                        menuItems={evmLedgerTypes}
+                        onChange={(v) => setLedgerType(v as DerivationPathType)}
+                        openComponent={
+                          <Box alignCenter className="gap-2 w-fit">
+                            <Typography variant="caption">
+                              {evmLedgerTypes
+                                .find(({ value }) => value === ledgerType)
+                                ?.label?.replace('{index}', (ledgerIndex || 0).toString())}
+                            </Typography>
+                          </Box>
+                        }
+                        value={ledgerType}
+                      />
+                    )}
+                  </Box>
                 </Box>
               )}
 

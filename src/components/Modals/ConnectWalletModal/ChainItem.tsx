@@ -44,18 +44,18 @@ const ChainItem = ({
     >
       <Tooltip content={disabled ? t('common.comingSoon') : chainName(chain, true)}>
         <Box
-          className={classNames('rounded-full p-[3px] border-transparent', {
+          className={classNames('rounded-full p-[2.5px] border-transparent', {
             'bg-gradient-teal': selected,
           })}
         >
-          <AssetIcon asset={chainToSigAsset(chain)} size={isMdActive ? 42 : 32} />
+          <AssetIcon asset={chainToSigAsset(chain)} size={isMdActive ? 40 : 32} />
 
           <Box
             className={classNames(
               'opacity-0 duration-200 transition-all bg-light-layout-primary dark:bg-dark-bg-secondary',
               'absolute z-20 p-0.5 rounded-xl right-3',
               'border border-solid border-cyan',
-              isMdActive ? 'top-10 right-2.5' : 'top-8 right-1',
+              isMdActive ? 'top-9 right-2' : 'top-8 right-1',
               { '!opacity-100': selected },
             )}
           >
