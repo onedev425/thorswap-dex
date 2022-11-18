@@ -17,9 +17,9 @@ import { ViewMode } from 'types/app';
 import { AssetChart } from 'views/Wallet/AssetChart';
 import { ConnectionActions } from 'views/Wallet/components/ConnectionActions';
 import { CopyAddress } from 'views/Wallet/components/CopyAddress';
-import { GoToAccount } from 'views/Wallet/components/GoToAccount';
 import { HeaderChainInfo } from 'views/Wallet/components/HeaderChainInfo';
 import { ShowQrCode } from 'views/Wallet/components/ShowQrCode';
+import { WalletHeaderActions } from 'views/Wallet/components/WalletHeaderActions';
 
 import { useAccountData, useWalletChainActions } from '../hooks';
 
@@ -101,7 +101,6 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
             <Box alignCenter>
               <Box col>
                 <Box alignCenter row>
-                  <CopyAddress address={chainAddress} type="short" />
                   {thornames.length > 0 && (
                     <Box onClick={toggle}>
                       <CollapseChevron isActive={isActive} />
@@ -118,9 +117,7 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
                 </div>
               </Box>
 
-              <CopyAddress address={chainAddress} type="icon" />
-              <ShowQrCode address={chainAddress} chain={chain} />
-              <GoToAccount address={chainAddress} chain={chain} />
+              <WalletHeaderActions address={chainAddress} chain={chain} />
             </Box>
           )}
         </Box>

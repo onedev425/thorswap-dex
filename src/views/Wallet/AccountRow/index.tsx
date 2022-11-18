@@ -7,9 +7,8 @@ import { memo, useCallback, useEffect, useMemo } from 'react';
 import { getGeckoData } from 'services/coingecko';
 import { ConnectionActions } from 'views/Wallet/components/ConnectionActions';
 import { CopyAddress } from 'views/Wallet/components/CopyAddress';
-import { GoToAccount } from 'views/Wallet/components/GoToAccount';
 import { HeaderChainInfo } from 'views/Wallet/components/HeaderChainInfo';
-import { ShowQrCode } from 'views/Wallet/components/ShowQrCode';
+import { WalletHeaderActions } from 'views/Wallet/components/WalletHeaderActions';
 
 import { useAccountData, useWalletChainActions } from '../hooks';
 
@@ -67,10 +66,7 @@ export const AccountRow = memo(({ thornames, chain }: Props) => {
                 {thornames.map((address) => (
                   <CopyAddress address={address} key={address} type="full" />
                 ))}
-                <CopyAddress address={chainAddress} type="short" />
-                <CopyAddress address={chainAddress} type="icon" />
-                <ShowQrCode address={chainAddress} chain={chain} />
-                <GoToAccount address={chainAddress} chain={chain} />
+                <WalletHeaderActions address={chainAddress} chain={chain} />
               </Box>
             )}
           </Box>

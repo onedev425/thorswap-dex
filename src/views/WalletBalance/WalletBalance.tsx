@@ -141,7 +141,6 @@ const WalletBalanceList = () => {
           <ChainHeader
             address={address}
             chain={chain}
-            hasHiddenAssets={!!hiddenAssets[chain]}
             walletLoading={!!chainWalletLoading?.[chain]}
             walletType={walletType}
           />
