@@ -27,9 +27,8 @@ export const getChartOptions = ({ formatter, hideLabel, hasGrid, unit = '$' }: P
     responsive: true,
     normalized: true,
     interaction: {
-      intersect: true,
-      mode: 'nearest' as const,
-      axis: 'xy' as const,
+      intersect: false,
+      axis: 'x' as const,
     },
     plugins: {
       legend: {

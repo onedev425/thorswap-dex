@@ -68,23 +68,12 @@ jobs:
 
         run: yarn build
 
-      - name: Cypress E2E Tests
-        uses: cypress-io/github-action@v4
-        with:
-          start: yarn preview --host
-          browser: chrome
-
       - name: Upload build files
         uses: actions/upload-artifact@v3
         with:
           name: build-files
           path: ./dist
 
-      - name: Upload test videos
-        uses: actions/upload-artifact@v3
-        with:
-          name: videos
-          path: ./cypress/videos
 
   deploy-beta:
     name: Deploy beta to Netlify
@@ -155,3 +144,5 @@ jobs:
         uses: Ilshidur/action-discord@master
         with:
           args: "Deployed ✅ - https://dev.thorswap.finance\nEnvironment: mainnet\nAPI: dev-api\nAuthor: ${{ github.actor }}"
+
+  run-e2e-tests:

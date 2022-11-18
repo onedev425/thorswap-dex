@@ -22,8 +22,7 @@ export const getChartOptions = (hideLabel: boolean, hasGrid: boolean) => {
     normalized: true,
     interaction: {
       intersect: false,
-      mode: 'nearest' as const,
-      axis: 'xy' as const,
+      axis: 'x' as const,
     },
     plugins: {
       legend: { display: false },
