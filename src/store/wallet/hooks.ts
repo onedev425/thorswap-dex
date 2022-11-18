@@ -51,43 +51,14 @@ export const useWallet = () => {
     [dispatch],
   );
 
-  const getDerivationPath = useCallback(
-    ({
-      chain,
-      index,
-      type,
-    }: {
-      chain: Chain;
-      index: number;
-      type?: 'legacy' | 'metaMask' | 'ledgerLive';
-    }) => {
-      if (![Chain.Avalanche, Chain.Ethereum].includes(chain)) return undefined;
-
-      switch (type) {
-        case 'legacy':
-          return "m/44'/60'/0'/";
-        case 'ledgerLive':
-          return `m/44'/60'/${index}'/0/`;
-
-        default:
-          return "m/44'/60'/0'/0/";
-      }
-    },
-    [],
-  );
-
   const connectLedger = useCallback(
-    async (chain: Chain, index: number, type?: 'legacy' | 'metaMask' | 'ledgerLive') => {
+    async (chain: Chain, index: number, customDerivationPath?: string) => {
       const options = { chain: chainName(chain), index: index };
 
       try {
         showInfoToast(t('notification.connectingLedger', options));
 
-        await multichain().connectLedger({
-          chain,
-          customDerivationPath: getDerivationPath({ chain, index, type }),
-          addressIndex: type === 'ledgerLive' ? 0 : index,
-        });
+        await multichain().connectLedger({ chain, customDerivationPath, addressIndex: index });
 
         dispatch(walletActions.getWalletByChain(chain as SupportedChain));
         showInfoToast(t('notification.connectedLedger', options));
@@ -95,7 +66,7 @@ export const useWallet = () => {
         showErrorToast(t('notification.ledgerFailed', options));
       }
     },
-    [dispatch, getDerivationPath],
+    [dispatch],
   );
 
   const connectXdefiWallet = useCallback(

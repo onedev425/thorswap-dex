@@ -6,7 +6,7 @@ import { StatusType, useNetwork } from 'hooks/useNetwork';
 import { memo, useMemo } from 'react';
 import { t } from 'services/i18n';
 import { midgardApi } from 'services/midgard';
-import { globalConfig } from 'services/multichain';
+import { THORNODE_URL } from 'settings/config';
 import { parse } from 'url';
 
 import { StatusBadge } from './StatusBadge';
@@ -106,7 +106,7 @@ export const StatusDropdown = memo(() => {
       },
       {
         label: t('components.statusDropdown.thornode'),
-        value: getHostnameFromUrl(globalConfig.thornodeMainnetApiUrl) || '',
+        value: getHostnameFromUrl(THORNODE_URL) || '',
         statusType: StatusType.Good,
       },
     ],

@@ -34,3 +34,5 @@ yarn-error.log*
 
 
 cypress/videos
+pre-commit
+prepare-commit-msg
