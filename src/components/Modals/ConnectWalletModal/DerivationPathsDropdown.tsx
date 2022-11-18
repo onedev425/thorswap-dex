@@ -11,7 +11,7 @@ const CHAINS_WITH_CUSTOM_DERIVATION_PATH = [
 
 const evmLedgerTypes = [
   { value: "44'/60'/0'/0/{index}", label: "MetaMask (m/44'/60'/0'/0/{index})" },
-  { value: "44'/60'/{index}'/0/0", label: "Ledger Live (m/44'/60'/{index}'/0/0)" },
+  { value: "44'/60'/{index}'/0/", label: "Ledger Live (m/44'/60'/{index}'/0/0)" },
   { value: "44'/60'/0'/{index}", label: "Legacy (m/44'/60'/0'/{index})" },
 ];
 
@@ -58,7 +58,10 @@ export const DerivationPathDropdown = ({ chain, ledgerIndex, setCustomDerivation
   const handleDerivationPathChange = useCallback(
     (pathTemplate: string) => {
       setPathTemplate(pathTemplate);
-      setCustomDerivationPath(pathTemplate.replace('{index}', ledgerIndex.toString()));
+      const isLedgerLive = pathTemplate.includes('{index}');
+      setCustomDerivationPath(
+        pathTemplate.replace('{index}', isLedgerLive ? ledgerIndex.toString() : ''),
+      );
     },
     [ledgerIndex, setCustomDerivationPath, setPathTemplate],
   );
