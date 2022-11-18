@@ -236,7 +236,7 @@ const ConnectWalletModal = () => {
                 isMdActive ? 'rounded-l-3xl' : 'rounded-t-3xl',
               )}
             >
-              <Box alignCenter className="p-4 w-[100%] md:gap-4" col={isMdActive}>
+              <Box alignCenter className="p-4 w-[90%] md:w-[100%] md:gap-4" col={isMdActive}>
                 <Box flex={1}>
                   <Typography variant={isMdActive ? 'h4' : 'subtitle2'}>
                     {t('views.walletModal.selectChains')}
@@ -260,7 +260,7 @@ const ConnectWalletModal = () => {
                 </Button>
               </Box>
 
-              <Box className="flex-wrap md:w-36">
+              <Box className="flex-wrap w-[80%] md:w-36">
                 {SUPPORTED_CHAINS.map((chain) => (
                   <ChainItem
                     chain={chain}

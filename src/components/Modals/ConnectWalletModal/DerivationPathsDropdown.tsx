@@ -17,6 +17,7 @@ const evmLedgerTypes = [
 
 const btcLedgerTypes = [
   { value: "84'/0'/0'/0/{index}", label: "Native Segwit (m/84'/0'/0'/0/{index})" },
+  { value: "86'/0'/0'/0/{index}", label: "Taproot (86'/0'/0'/0/{index})" },
   { value: "49'/0'/0'/0/{index}", label: "Segwit (m/49'/0'/0'/0/{index})" },
   { value: "44'/0'/0'/0/{index}", label: "Legacy (m/44'/0'/0'/0/{index})" },
 ];
