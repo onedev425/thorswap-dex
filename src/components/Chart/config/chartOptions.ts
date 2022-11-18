@@ -1,7 +1,5 @@
 import { TooltipCallbacks } from 'chart.js';
-import { gridLinesColor } from 'components/Chart/styles/colors';
 import * as styles from 'components/Chart/styles/styles';
-import { abbreviateNumber } from 'helpers/number';
 
 type Params = {
   animated?: boolean;
@@ -21,20 +19,15 @@ const parseTooltipLabel =
       ? formatter(parseFloat(`${formattedValue}`.replace(/[^0-9.]/g, '')))
       : `${unit}${formattedValue}`;
 
-export const getChartOptions = ({
-  animated = true,
-  formatter,
-  hideLabel,
-  hasGrid,
-  unit = '$',
-}: Params) =>
+export const getChartOptions = ({ formatter, hideLabel, hasGrid, unit = '$' }: Params) =>
   ({
-    animated,
-    responsive: true,
+    animation: false,
     maintainAspectRatio: false,
     resizeDelay: 1000,
+    responsive: true,
+    normalized: true,
     interaction: {
-      intersect: false,
+      intersect: true,
       mode: 'nearest' as const,
       axis: 'xy' as const,
     },
@@ -46,47 +39,32 @@ export const getChartOptions = ({
         backgroundColor: 'rgba(0, 0, 0, 0.9)',
         bodyFont: { size: 16 },
         bodySpacing: 10,
-        borderWidth: 5,
+        borderWidth: 0,
         boxPadding: 5,
-        caretSize: 10,
-        cornerRadius: 15,
+        caretSize: 14,
+        cornerRadius: 16,
         footerMarginTop: 10,
-        padding: 16,
-        titleFont: { size: 20 },
-        titleMarginBottom: 20,
-        titleSpacing: 20,
-        width: 500,
-        callbacks: { label: parseTooltipLabel(unit, formatter) },
+        padding: 24,
+        titleFont: { size: 18 },
+        titleMarginBottom: 16,
+        titleSpacing: 8,
+        width: 400,
+        callbacks: { label: parseTooltipLabel(unit) },
       },
     },
     scales: {
       x: {
-        grid: {
-          display: true,
-          drawBorder: false,
-          drawOnChartArea: hasGrid,
-          drawTicks: false,
-          color: gridLinesColor,
-        },
-        ticks: {
-          ...styles.chartXTicksStyles,
-          display: hideLabel ? false : true,
-        },
+        grid: { display: false, drawOnChartArea: hasGrid, drawTicks: false },
+        ticks: { ...styles.chartXTicksStyles, display: hideLabel ? false : true },
       },
       y: {
-        grid: {
-          display: true,
-          drawBorder: false,
-          drawOnChartArea: hasGrid,
-          drawTicks: false,
-          color: gridLinesColor,
-        },
+        grid: { display: false, drawOnChartArea: hasGrid, drawTicks: false },
         ticks: {
           ...styles.chartYTicksStyles,
           callback: (value: number | string, index: number) => {
             if (index % 2 === 0) return '';
 
-            return typeof value === 'number' ? `${unit}${abbreviateNumber(value)}` : value;
+            return typeof value === 'number' ? formatter?.(value) : value;
           },
           display: hideLabel ? false : true,
         },
