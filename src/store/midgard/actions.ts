@@ -45,6 +45,14 @@ export const getPoolMemberDetailByChain = createAsyncThunk(
   },
 );
 
+export const getFullMemberDetail = createAsyncThunk(
+  'midgard/getFullMemberDetail',
+  async (addresses: string[]) => {
+    const response = await midgardApi.getFullMemberDetail(addresses.join(','));
+    return response;
+  },
+);
+
 export const getLpDetails = createAsyncThunk(
   'midgard/getLpDetails',
   async ({ address, pool }: { address: string; pool: string }) => {

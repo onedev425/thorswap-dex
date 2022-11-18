@@ -57,7 +57,7 @@ export const getChainMemberDetails = ({
   memPools,
   chainMemberDetails, // previous chain member details
 }: {
-  chain: SupportedChain;
+  chain: SupportedChain | undefined;
   memPools: MemberPool[];
   chainMemberDetails: ChainMemberDetails;
 }): ChainMemberDetails => {

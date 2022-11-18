@@ -187,6 +187,7 @@ export interface State {
   memberDetails: MemberDetails;
   chainMemberDetails: ChainMemberDetails;
   chainMemberDetailsLoading: ChainMemberDetailsLoading;
+  fullMemberDetailsLoading: boolean;
   poolStats: PoolStatsDetail | null;
   poolStatsLoading: boolean;
   depthHistory: DepthHistory | null;

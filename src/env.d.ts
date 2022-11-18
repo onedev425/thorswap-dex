@@ -13,6 +13,7 @@ interface ImportMetaEnv {
   readonly VITE_ETHPLORER_API_KEY: string;
   readonly VITE_KADO_KEY: string;
   readonly VITE_BLOCKCHAIR_API_KEY: string;
+  readonly VITE_USING_FALLBACK_MIDGARD: string;
 }
 
 interface ImportMeta {

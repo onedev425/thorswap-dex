@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { MemberPool } from '@thorswap-lib/midgard-sdk';
-import { equalObjects, Pool } from '@thorswap-lib/multichain-core';
+import { FullMemberPool, MemberPool } from '@thorswap-lib/midgard-sdk';
+import { Asset, equalObjects, Pool } from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 import {
   checkPendingLP,
@@ -56,6 +56,7 @@ const initialState: State = {
   lpAddedAndWithdraw: {},
   poolNamesByChain: {},
   lpDetailLoading: {},
+  fullMemberDetailsLoading: false,
 };
 
 const midgardSlice = createSlice({
@@ -193,6 +194,46 @@ const midgardSlice = createSlice({
           ...state.chainMemberDetailsLoading,
           [chain]: false,
         };
+      })
+      .addCase(midgardActions.getFullMemberDetail.pending, (state) => {
+        state.fullMemberDetailsLoading = true;
+      })
+      .addCase(midgardActions.getFullMemberDetail.fulfilled, (state, { payload }) => {
+        if (!payload) return;
+        const memberPools: MemberPool[] = payload.map((elem: FullMemberPool) => ({
+          ...elem,
+          liquidityUnits: elem.sharedUnits.toString(),
+        }));
+        const fetchedChainMemberDetails = getChainMemberDetails({
+          memPools: memberPools,
+          chainMemberDetails: state.chainMemberDetails,
+          chain: undefined,
+        });
+
+        memberPools.forEach((memPool) => {
+          const asset = Asset.fromAssetString(memPool.pool);
+          if (!asset) return;
+          const { chain } = asset;
+
+          state.chainMemberDetails = fetchedChainMemberDetails;
+          const previousPoolNamesByChain = state.poolNamesByChain[chain]
+            ? state.poolNamesByChain[chain]
+            : [];
+
+          const poolAsArray = [memPool];
+
+          const poolNamesByChain = [
+            ...previousPoolNamesByChain,
+            ...poolAsArray
+              .map((pool: MemberPool) => pool.pool)
+              .filter((elem: string) => !previousPoolNamesByChain.includes(elem)),
+          ];
+          state.poolNamesByChain[chain] = poolNamesByChain;
+        });
+        state.fullMemberDetailsLoading = false;
+      })
+      .addCase(midgardActions.getFullMemberDetail.rejected, (state) => {
+        state.fullMemberDetailsLoading = false;
       })
       // used for getting pool share for a specific chain
       .addCase(midgardActions.reloadPoolMemberDetailByChain.pending, (state, { meta }) => {

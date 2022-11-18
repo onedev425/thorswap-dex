@@ -68,6 +68,13 @@ export const useMidgard = () => {
     [dispatch, wallet, getPendingDepositByChain],
   );
 
+  const loadFullMemberDetails = useCallback(
+    async (addresses: string[]) => {
+      await dispatch(actions.getFullMemberDetail(addresses));
+    },
+    [dispatch],
+  );
+
   // get pool member details for a specific chain
   const getMemberDetailsByChain = useCallback(
     async (chain: SupportedChain, chainWalletAddr?: string) => {
@@ -117,10 +124,28 @@ export const useMidgard = () => {
   const getAllMemberDetails = useCallback(async () => {
     if (!wallet) return;
 
-    Object.keys(wallet).forEach((chain) => {
-      getMemberDetailsByChain(chain as SupportedChain, wallet?.[chain as SupportedChain]?.address);
-    });
-  }, [getMemberDetailsByChain, wallet]);
+    if (import.meta.env.VITE_USING_FALLBACK_MIDGARD === 'true') {
+      Object.keys(wallet).forEach((chain) => {
+        getMemberDetailsByChain(
+          chain as SupportedChain,
+          wallet?.[chain as SupportedChain]?.address,
+        );
+      });
+    } else {
+      const thorchainAddress = wallet?.[Chain.THORChain]?.address;
+
+      if (thorchainAddress) {
+        getMemberDetailsByChain(Chain.THORChain, thorchainAddress);
+      }
+      const otherChainsAddress = Object.keys(wallet)
+        .filter((chain) => chain !== Chain.THORChain)
+        .map((chain) => wallet?.[chain as SupportedChain]?.address)
+        .filter((address) => !!address);
+      if (otherChainsAddress.length > 0) {
+        loadFullMemberDetails(otherChainsAddress as string[]);
+      }
+    }
+  }, [getMemberDetailsByChain, loadFullMemberDetails, wallet]);
 
   const { poolNamesByChain, lpAddedAndWithdraw, lpDetailLoading } = midgardState;
 

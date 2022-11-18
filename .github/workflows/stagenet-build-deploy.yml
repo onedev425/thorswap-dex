@@ -55,6 +55,7 @@ jobs:
           VITE_THORSWAP_API: ${{ secrets.VITE_THORSWAP_API }}
           VITE_THORSWAP_DEV_API: ${{ secrets.VITE_THORSWAP_DEV_API }}
           VITE_BLOCKCHAIR_API_KEY: ${{ secrets.VITE_BLOCKCHAIR_API_KEY }}
+          VITE_USING_FALLBACK_MIDGARD: ${{ secrets.VITE_USING_FALLBACK_MIDGARD }}
 
         run: yarn build
 
