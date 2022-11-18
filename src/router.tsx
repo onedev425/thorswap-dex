@@ -7,9 +7,9 @@ import { lazy, memo, Suspense } from 'react';
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import { IS_PROD } from 'settings/config';
 import { ROUTES } from 'settings/router';
-import Swap from 'views/Swap';
-import WalletBalance, { WalletDrawer } from 'views/WalletBalance';
 
+const Swap = lazy(() => import('views/Swap'));
+const WalletBalance = lazy(() => import('views/WalletBalance'));
 const Earn = lazy(() => import('views/Earn'));
 const Multisig = lazy(() => import('views/Multisig/Multisig'));
 const TxBuilder = lazy(() => import('views/Multisig/TxBuilder/TxBuilder'));
@@ -40,7 +40,7 @@ export type RouteType = {
   element: NotWorth;
 }[];
 
-const NOT_PROD_ROUTES = IS_PROD ? [] : [{ path: ROUTES.OnRamp, element: OnRamp }];
+const NOT_PROD_ROUTES = IS_PROD ? [] : [];
 
 const routes: RouteType = [
   { path: ROUTES.AddLiquidity, element: AddLiquidity },
@@ -59,6 +59,7 @@ const routes: RouteType = [
   { path: ROUTES.NodeManager, element: NodeManager },
   { path: ROUTES.Nodes, element: Nodes },
   { path: ROUTES.Nodes, element: Nodes },
+  { path: ROUTES.OnRamp, element: OnRamp },
   { path: ROUTES.Send, element: Send },
   { path: ROUTES.SendAsset, element: Send },
   { path: ROUTES.Stake, element: StakeVThor },
@@ -79,7 +80,7 @@ const routes: RouteType = [
   ...NOT_PROD_ROUTES,
 ];
 
-const PublicRoutes = () => {
+export const PublicRoutes = memo(() => {
   return (
     <Router>
       <Routes>
@@ -90,9 +91,7 @@ const PublicRoutes = () => {
             <Route
               element={
                 <>
-                  <WalletDrawer>
-                    <WalletBalance />
-                  </WalletDrawer>
+                  <WalletBalance />
 
                   <Layout>
                     <Suspense
@@ -118,6 +117,4 @@ const PublicRoutes = () => {
       <ToastPortal />
     </Router>
   );
-};
-
-export default memo(PublicRoutes);
+});

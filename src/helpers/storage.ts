@@ -1,5 +1,5 @@
 import { Asset } from '@thorswap-lib/multichain-core';
-import { Keystore } from '@thorswap-lib/types';
+import { Chain, Keystore } from '@thorswap-lib/types';
 import { HandleWalletConnectParams } from 'components/Modals/ConnectWalletModal/hooks';
 import { MultisigWallet } from 'store/multisig/types';
 import { SupportedLanguages, ThemeType, ThousandSeparator, ViewMode } from 'types/app';
@@ -10,14 +10,15 @@ type StorageType = {
   baseCurrency: string;
   chartsHidden: boolean;
   customRecipientMode: boolean;
+  customSendVisible: boolean;
   disabledTokenLists: string[];
   dismissedAnnList: string[];
   expertMode: boolean;
   featuredAssets: string[];
   frequentAssets: string[];
+  hiddenAssets: Record<Chain, string[]> | null;
   language: SupportedLanguages;
   multisigVisible: boolean;
-  customSendVisible: boolean;
   multisigWallet: MultisigWallet | null;
   nodeWatchList: string[];
   poolsHidden: boolean;
@@ -79,7 +80,8 @@ type StoragePayload =
       value: boolean;
     }
   | { key: 'multisigWallet'; value: MultisigWallet }
-  | { key: 'previousWallet'; value: HandleWalletConnectParams | null };
+  | { key: 'previousWallet'; value: HandleWalletConnectParams | null }
+  | { key: 'hiddenAssets'; value: Record<Chain, string[]> };
 
 const defaultValues: StorageType = {
   annViewStatus: false,
@@ -96,6 +98,7 @@ const defaultValues: StorageType = {
   statsHidden: false,
   tradingHaltStatus: false,
 
+  hiddenAssets: null,
   multisigWallet: null,
   previousWallet: null,
   thorswapAddress: null,
@@ -123,6 +126,7 @@ export const saveInStorage = ({ key, value }: StoragePayload) => {
     case 'dismissedAnnList':
     case 'featuredAssets':
     case 'frequentAssets':
+    case 'hiddenAssets':
     case 'multisigWallet':
     case 'nodeWatchList':
     case 'seenAnnList':
@@ -168,6 +172,7 @@ export const getFromStorage = (key: keyof StorageType): StorageType[keyof Storag
     case 'dismissedAnnList':
     case 'disabledTokenLists':
     case 'frequentAssets':
+    case 'hiddenAssets':
     case 'multisigWallet': {
       const item = localStorage.getItem(key);
       return item ? JSON.parse(item) : defaultValues[key];

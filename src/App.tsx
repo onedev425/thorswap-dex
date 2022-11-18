@@ -12,7 +12,7 @@ import { store as reduxStore } from 'store/store';
 
 import { checkOrigin } from './helpers/checkOrigin';
 import DrawerProvider from './hooks/useWalletDrawer';
-import Router from './router';
+import { PublicRoutes } from './router';
 
 dayjs.extend(duration);
 
@@ -32,7 +32,7 @@ const MainApp = () => {
       <div id="headlessui-portal-root" />
 
       <DrawerProvider>
-        <Router />
+        <PublicRoutes />
       </DrawerProvider>
     </Box>
   );

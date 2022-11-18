@@ -16,10 +16,13 @@ import { MouseEventHandler, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getSendRoute, getSwapRoute, ROUTES } from 'settings/router';
+import { useAppDispatch } from 'store/store';
 import { useWallet } from 'store/wallet/hooks';
-import { WalletHeader } from 'views/WalletBalance/WalletHeader';
+import { actions } from 'store/wallet/slice';
 
 import { ChainHeader } from './ChainHeader';
+import { WalletDrawer } from './WalletDrawer';
+import { WalletHeader } from './WalletHeader';
 
 const sortedChains = [
   Chain.THORChain,
@@ -34,10 +37,11 @@ const sortedChains = [
   Chain.Cosmos,
 ];
 
-const WalletBalance = () => {
+const WalletBalanceList = () => {
   const navigate = useNavigate();
-  const { chainWalletLoading, wallet } = useWallet();
+  const { chainWalletLoading, wallet, hiddenAssets } = useWallet();
   const { close } = useWalletDrawer();
+  const appDispatch = useAppDispatch();
 
   const handleNavigate = useCallback(
     (route: string): MouseEventHandler<HTMLDivElement | HTMLButtonElement> =>
@@ -49,6 +53,15 @@ const WalletBalance = () => {
     [close, navigate],
   );
 
+  const hideAsset = useCallback(
+    (asset: Asset): MouseEventHandler<HTMLDivElement | HTMLButtonElement> =>
+      (event) => {
+        event.stopPropagation();
+        appDispatch(actions.addAssetToHidden({ chain: asset.L1Chain, address: asset.toString() }));
+      },
+    [appDispatch],
+  );
+
   const isOldRune = useCallback(
     (asset: Asset) =>
       asset.ticker === 'RUNE' && (asset.chain === Chain.Binance || asset.chain === Chain.Ethereum),
@@ -58,7 +71,6 @@ const WalletBalance = () => {
   const renderBalance = useCallback(
     (chain: SupportedChain, balance: AssetAmount[]) => {
       const sigBalance = new AssetAmount(chainToSigAsset(chain), Amount.fromNormalAmount(0));
-
       const walletBalance = [...balance, ...(balance.length === 0 ? [sigBalance] : [])];
 
       return walletBalance.map((data: AssetAmount) => (
@@ -91,6 +103,16 @@ const WalletBalance = () => {
                   variant="tint"
                 />
               )}
+
+              {!data.asset.isGasAsset() && (
+                <Button
+                  className="px-3 hover:bg-transparent dark:hover:bg-transparent"
+                  onClick={hideAsset(data.asset)}
+                  startIcon={<Icon color="primaryBtn" name="eyeSlash" size={16} />}
+                  tooltip={t('common.hide')}
+                  variant="tint"
+                />
+              )}
               <Button
                 className="px-3 hover:bg-transparent dark:hover:bg-transparent"
                 onClick={handleNavigate(getSendRoute(data.asset))}
@@ -103,43 +125,57 @@ const WalletBalance = () => {
         </div>
       ));
     },
-    [handleNavigate, isOldRune],
+    [handleNavigate, hideAsset, isOldRune],
   );
 
   const renderChainBalance = useCallback(
     (chain: SupportedChain, chainBalance: ChainWallet) => {
       const { address, balance } = chainBalance;
       const { walletType } = chainBalance;
+      const filteredBalances = balance.filter(
+        ({ asset }) => !hiddenAssets[chain]?.includes(asset.toString()),
+      );
 
       return (
         <Box col className="mt-2" key={chain.toString()}>
           <ChainHeader
             address={address}
             chain={chain}
-            walletLoading={chainWalletLoading?.[chain]}
+            hasHiddenAssets={!!hiddenAssets[chain]}
+            walletLoading={!!chainWalletLoading?.[chain]}
             walletType={walletType}
           />
-          {renderBalance(chain, balance)}
+          {renderBalance(chain, filteredBalances)}
         </Box>
       );
     },
-    [chainWalletLoading, renderBalance],
+    [chainWalletLoading, hiddenAssets, renderBalance],
   );
 
   return (
     <Scrollbar>
       <WalletHeader />
       <Box col>
-        {wallet &&
-          sortedChains.map((chain) => {
-            const chainBalance = wallet[chain as SupportedChain];
+        {sortedChains.map((chain) => {
+          const chainBalance = wallet?.[chain as SupportedChain];
+          if (!chainBalance) return null;
 
-            if (!chainBalance) return null;
-
-            return renderChainBalance(chain as SupportedChain, chainBalance);
-          })}
+          return renderChainBalance(chain as SupportedChain, chainBalance);
+        })}
       </Box>
     </Scrollbar>
+  );
+};
+
+const WalletBalance = () => {
+  const { wallet } = useWallet();
+
+  if (!wallet) return null;
+
+  return (
+    <WalletDrawer>
+      <WalletBalanceList />
+    </WalletDrawer>
   );
 };
 

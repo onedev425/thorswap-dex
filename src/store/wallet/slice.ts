@@ -2,7 +2,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { Wallet } from '@thorswap-lib/multichain-core';
 import { Chain, Keystore, SupportedChain } from '@thorswap-lib/types';
-import { saveInStorage } from 'helpers/storage';
+import { getFromStorage, saveInStorage } from 'helpers/storage';
 import { GeckoData } from 'store/wallet/types';
 
 import * as walletActions from './actions';
@@ -18,29 +18,19 @@ const initialWallet = {
   [Chain.Doge]: null,
   [Chain.Solana]: null,
   [Chain.Cosmos]: null,
-} as Wallet;
+};
 
 const initialState = {
   isConnectModalOpen: false,
   keystore: null as Keystore | null,
   wallet: initialWallet as Wallet | null,
   walletLoading: false,
-  chainWalletLoading: {
-    [Chain.Bitcoin]: false,
-    [Chain.Binance]: false,
-    [Chain.THORChain]: false,
-    [Chain.Ethereum]: false,
-    [Chain.Avalanche]: false,
-    [Chain.Litecoin]: false,
-    [Chain.BitcoinCash]: false,
-    [Chain.Doge]: false,
-    [Chain.Solana]: false,
-    [Chain.Cosmos]: false,
-  } as { [key in SupportedChain]: boolean },
+  chainWalletLoading: initialWallet as Record<Chain, boolean | null>,
   geckoData: {} as Record<string, GeckoData>,
   geckoDataLoading: {} as Record<string, boolean>,
   isVthorApproved: false,
   isVthorApprovedLoading: false,
+  hiddenAssets: (getFromStorage('hiddenAssets') || {}) as Record<Chain, string[]>,
 };
 
 const walletSlice = createSlice({
@@ -51,8 +41,20 @@ const walletSlice = createSlice({
       saveInStorage({ key: 'previousWallet', value: null });
       saveInStorage({ key: 'restorePreviousWallet', value: false });
       state.keystore = null;
-      state.wallet = initialWallet;
+      state.wallet = initialWallet as Wallet;
       state.walletLoading = false;
+    },
+    addAssetToHidden: (
+      state,
+      { payload: { address, chain } }: PayloadAction<{ chain: Chain; address: string }>,
+    ) => {
+      const assets = [...(state.hiddenAssets[chain] || []), address];
+      state.hiddenAssets[chain] = assets;
+      saveInStorage({ key: 'hiddenAssets', value: state.hiddenAssets });
+    },
+    clearChainHiddenAssets: (state, { payload }: PayloadAction<Chain>) => {
+      state.hiddenAssets[payload] = [];
+      saveInStorage({ key: 'hiddenAssets', value: state.hiddenAssets });
     },
     disconnectByChain: (state, action: PayloadAction<SupportedChain>) => {
       saveInStorage({ key: 'previousWallet', value: null });

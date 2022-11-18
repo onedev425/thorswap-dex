@@ -71,7 +71,7 @@ import {
   FiX,
 } from 'react-icons/fi';
 import { GoBook, GoSettings } from 'react-icons/go';
-import { HiOutlineChartPie, HiOutlineCog, HiOutlineDocumentText } from 'react-icons/hi';
+import { HiEyeOff, HiOutlineChartPie, HiOutlineCog, HiOutlineDocumentText } from 'react-icons/hi';
 import { ImBlocked } from 'react-icons/im';
 import {
   IoCart,
@@ -157,6 +157,7 @@ const Icons = {
   export: BiExport,
   external: BiLinkExternal,
   eye: CgEye,
+  eyeSlash: HiEyeOff,
   feedback: FaRegCommentDots,
   fire: FaFire,
   gas: FaGasPump,

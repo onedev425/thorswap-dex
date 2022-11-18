@@ -9,6 +9,8 @@ import { chainName } from 'helpers/chainName';
 import { useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
+import { useAppDispatch } from 'store/store';
+import { actions } from 'store/wallet/slice';
 import { CopyAddress } from 'views/Wallet/components/CopyAddress';
 import { GoToAccount } from 'views/Wallet/components/GoToAccount';
 import { ShowQrCode } from 'views/Wallet/components/ShowQrCode';
@@ -17,7 +19,8 @@ import { useWalletChainActions } from 'views/Wallet/hooks';
 export type ChainHeaderProps = {
   chain: SupportedChain;
   address: string;
-  walletLoading?: boolean;
+  walletLoading: boolean;
+  hasHiddenAssets: boolean;
   walletType: WalletOption;
 };
 
@@ -25,8 +28,10 @@ export const ChainHeader = ({
   chain,
   address,
   walletType,
+  hasHiddenAssets,
   walletLoading = false,
 }: ChainHeaderProps) => {
+  const appDispatch = useAppDispatch();
   const { handleRefreshChain, handleWalletDisconnect } = useWalletChainActions(chain);
 
   const [isPhraseModalVisible, setIsPhraseModalVisible] = useState(false);
@@ -60,6 +65,10 @@ export const ChainHeader = ({
     return `${walletType} ${t('common.connected')}`;
   }, [walletType]);
 
+  const handleResetHiddenAssets = useCallback(() => {
+    appDispatch(actions.clearChainHiddenAssets(chain));
+  }, [appDispatch, chain]);
+
   return (
     <Box className="px-2 py-1 bg-btn-light-tint dark:bg-btn-dark-tint" justify="between">
       <Box alignCenter>
@@ -80,7 +89,15 @@ export const ChainHeader = ({
 
       <Box alignCenter>
         <CopyAddress address={address} type="mini" />
-        <CopyAddress address={address} type="icon" />
+        {hasHiddenAssets && (
+          <HoverIcon
+            color="secondary"
+            iconName="eye"
+            onClick={handleResetHiddenAssets}
+            size={16}
+            tooltip={t('views.walletModal.showHiddenAssets')}
+          />
+        )}
         <ShowQrCode address={address} chain={chain} />
         <GoToAccount address={address} chain={chain} />
         <HoverIcon

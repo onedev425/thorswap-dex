@@ -78,7 +78,7 @@ export const AccountRow = memo(({ thornames, chain }: Props) => {
           <ConnectionActions
             handleRefreshChain={handleRefreshChain}
             isConnected={!!chainAddress}
-            isLoading={isLoading}
+            isLoading={!!isLoading}
             toggleConnect={toggleConnect}
           />
         </Box>
