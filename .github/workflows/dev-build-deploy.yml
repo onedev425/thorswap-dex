@@ -65,9 +65,6 @@ jobs:
           VITE_MAINNET_THORNODE: ${{ secrets.VITE_MAINNET_THORNODE }}
           VITE_THORSWAP_API: ${{ secrets.VITE_THORSWAP_API }}
           VITE_THORSWAP_DEV_API: ${{ secrets.VITE_THORSWAP_DEV_API }}
-          VITE_ONRAMPER_KEY: ${{ secrets.VITE_ONRAMPER_KEY }}
-          VITE_BLOCKCHAIR_API_KEY: ${{ secrets.VITE_BLOCKCHAIR_API_KEY }}
-          VITE_USING_FALLBACK_MIDGARD: ${{ secrets.VITE_USING_FALLBACK_MIDGARD }}
 
         run: yarn build
 
@@ -76,7 +73,6 @@ jobs:
         with:
           name: build-files
           path: ./dist
-
 
   deploy-beta:
     name: Deploy beta to Netlify
@@ -147,5 +143,3 @@ jobs:
         uses: Ilshidur/action-discord@master
         with:
           args: "Deployed ✅ - https://dev.thorswap.finance\nEnvironment: mainnet\nAPI: dev-api\nAuthor: ${{ github.actor }}"
-
-  run-e2e-tests:
