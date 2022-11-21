@@ -2,6 +2,7 @@ import { Amount, Asset, AssetAmount, Percent } from '@thorswap-lib/multichain-co
 import { AssetInput } from 'components/AssetInput';
 import { Box, Card, Icon, Link, Tooltip, Typography } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
+import { InfoTable } from 'components/InfoTable';
 import { InfoTip } from 'components/InfoTip';
 import { TabsSelect } from 'components/TabsSelect';
 import { ViewHeader } from 'components/ViewHeader';
@@ -21,6 +22,7 @@ import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 import { EarnConfirmModal } from 'views/Earn/EarnConfirmModal';
+import { useEarnCalculations } from 'views/Earn/useEarnCalculations';
 import { WithdrawPercent } from 'views/WithdrawLiquidity/WithdrawPercent';
 
 import { EarnButton } from './EarnButton';
@@ -38,14 +40,19 @@ const Earn = () => {
   const { wallet, setIsConnectModalOpen } = useWallet();
   const [amount, setAmount] = useState(Amount.fromAssetAmount(0, 8));
   const [asset, setAsset] = useState(Asset.BTC());
-  const [availableToWithdraw, setAvailableToWithdraw] = useState(Amount.fromAssetAmount(0, 8));
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [tab, setTab] = useState(EarnTab.Deposit);
   const [withdrawPercent, setWithdrawPercent] = useState(new Percent(0));
+  const [availableToWithdraw, setAvailableToWithdraw] = useState(Amount.fromAssetAmount(0, 8));
   const [tipVisible, setTipVisible] = useState(true);
   const usdPrice = usePoolAssetPriceInUsd({ asset, amount });
-
   const isDeposit = tab === EarnTab.Deposit;
+  const { slippage, saverQuote, expectedOutputAmount, networkFee } = useEarnCalculations({
+    isDeposit,
+    asset,
+    withdrawPercent,
+    amount,
+  });
   const address = useMemo(() => wallet?.[asset.L1Chain]?.address || '', [wallet, asset.L1Chain]);
   const balance = useMemo(
     () => (address ? getMaxBalance(asset) : undefined),
@@ -172,6 +179,22 @@ const Earn = () => {
     [asset, amount, balance, usdPrice],
   );
 
+  const summary = useMemo(
+    () => [
+      {
+        label: t('common.slippage'),
+        value: (
+          <Box center>
+            <Typography variant="caption">
+              {`${slippage ? slippage?.toSignificant(6) : 0} ${asset.name}`}
+            </Typography>
+          </Box>
+        ),
+      },
+    ],
+    [slippage, asset],
+  );
+
   return (
     <Box col className="self-center w-full max-w-[480px] mt-2">
       <Helmet
@@ -221,6 +244,8 @@ const Earn = () => {
             selectedAsset={selectedAsset}
           />
 
+          <InfoTable horizontalInset items={summary} />
+
           <EarnButton
             address={address}
             disabled={buttonDisabled}
@@ -259,12 +284,14 @@ const Earn = () => {
       <EarnConfirmModal
         amount={amount}
         asset={asset}
-        isDeposit={isDeposit}
+        expectedOutputAmount={expectedOutputAmount}
         isOpened={isConfirmOpen}
+        networkFee={networkFee}
         onClose={() => setIsConfirmOpen(false)}
         onConfirm={handleEarnSubmit}
+        saverQuote={saverQuote}
+        slippage={slippage}
         tabLabel={tabLabel}
-        withdrawPercent={withdrawPercent}
       />
     </Box>
   );

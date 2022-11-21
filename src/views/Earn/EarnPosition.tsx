@@ -1,10 +1,12 @@
 import { Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Button, Icon, Typography, useCollapse } from 'components/Atomic';
+import { Box, Button, Icon, Tooltip, Typography, useCollapse } from 'components/Atomic';
+import { baseTextHoverClass } from 'components/constants';
 import { HighlightCard } from 'components/HighlightCard';
 import { t } from 'services/i18n';
 import { SaverPosition } from 'views/Earn/types';
+import { useEarnCalculations } from 'views/Earn/useEarnCalculations';
 
 type Props = {
   position: SaverPosition;
@@ -14,6 +16,13 @@ type Props = {
 
 export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
   const { collapse, isActive, contentRef, toggle, maxHeightStyle } = useCollapse();
+  const { expectedOutputAmount, networkFee } = useEarnCalculations({
+    asset: position.asset,
+    amount: position.amount,
+    isDeposit: false,
+  });
+
+  const positionTooSmall = networkFee.gte(position?.amount);
 
   return (
     <Box col justifyCenter className="self-stretch" key={position.asset.toString()}>
@@ -33,9 +42,23 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
               </Typography>
             </Box>
 
-            <Typography>
-              {position.amount.toSignificant(6)} {position.asset.name}
-            </Typography>
+            {!positionTooSmall ? (
+              <Typography>
+                {expectedOutputAmount?.toSignificant(6) || 'n/a'} {position.asset.name}
+              </Typography>
+            ) : (
+              <Box className="gap-1 mr-1">
+                <Typography variant="caption">n/a</Typography>
+                <Tooltip content={t('views.savings.positionTooSmall')}>
+                  <Icon
+                    className={baseTextHoverClass}
+                    color="secondary"
+                    name="infoCircle"
+                    size={20}
+                  />
+                </Tooltip>
+              </Box>
+            )}
           </Box>
 
           <Icon
