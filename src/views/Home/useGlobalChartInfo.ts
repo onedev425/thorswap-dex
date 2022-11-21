@@ -65,11 +65,6 @@ export const useGlobalChartInfo = () => {
     const synthVolume: ChartDetail[] = [];
 
     swapData.forEach((data, index) => {
-      // don't include historical data for the last day
-      if (index === swapData.length - 1) {
-        return;
-      }
-
       const liquidityValue = liquidityData[index];
       const time = Number(data?.startTime ?? 0);
 
