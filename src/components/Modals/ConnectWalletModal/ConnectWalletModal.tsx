@@ -55,6 +55,7 @@ const ConnectWalletModal = () => {
       if (closeModal) setIsConnectModalOpen(false);
       setTimeout(
         () => {
+          setCustomDerivationPath(undefined);
           setCustomFlow(false);
           setLedgerIndex(0);
           setLoading(false);
@@ -84,6 +85,8 @@ const ConnectWalletModal = () => {
   const selectChain = useCallback(
     (chain: SupportedChain, skipReset: boolean) => () => {
       if (!skipReset) setSelectedWalletType(undefined);
+      setCustomDerivationPath(undefined);
+      setLedgerIndex(0);
 
       setSelectedChains((prevSelectedChains) =>
         selectedWalletType &&
