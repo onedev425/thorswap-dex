@@ -5,8 +5,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 const CHAINS_WITH_CUSTOM_DERIVATION_PATH = [
   Chain.Ethereum,
   Chain.Avalanche,
-  Chain.Bitcoin,
-  Chain.Litecoin,
+  // Chain.Bitcoin,
+  // Chain.Litecoin,
 ];
 
 const ledgerLivePath = "44'/60'/{index}'/0/";

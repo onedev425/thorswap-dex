@@ -290,8 +290,10 @@ const SwapView = () => {
   );
 
   const noPriceProtection = useMemo(
-    () => inputAsset.L1Chain === Chain.Litecoin && wallet?.LTC?.walletType === WalletOption.LEDGER,
-    [inputAsset.L1Chain, wallet?.LTC?.walletType],
+    () =>
+      [Chain.Litecoin, Chain.Doge, Chain.BitcoinCash].includes(inputAsset.L1Chain) &&
+      wallet?.[inputAsset.L1Chain]?.walletType === WalletOption.LEDGER,
+    [inputAsset.L1Chain, wallet],
   );
 
   return (

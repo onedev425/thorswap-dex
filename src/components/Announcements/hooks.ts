@@ -52,31 +52,25 @@ export const useAnnouncementsList = () => {
   const { wallet } = useWallet();
 
   const oldRuneAvailableAnn = useMemo(() => {
-    if (!wallet) return [];
+    if (!wallet?.ETH?.balance && !wallet?.BNB?.balance) return [];
     const ethBalances = wallet.ETH?.balance || [];
     const bnbBalances = wallet.BNB?.balance || [];
-    const bothChainBalances = [...ethBalances, ...bnbBalances];
-    for (let assetAmount of bothChainBalances) {
-      const { asset } = assetAmount;
-      if (
-        asset.ticker === 'RUNE' &&
-        (asset.chain === Chain.Binance || asset.chain === Chain.Ethereum)
-      ) {
-        return [
+    const hasRuneInBalances = [...ethBalances, ...bnbBalances].find(
+      ({ asset: { chain, ticker } }) =>
+        ticker === 'RUNE' && (chain === Chain.Binance || chain === Chain.Ethereum),
+    );
+
+    return hasRuneInBalances
+      ? [
           {
             key: `${new Date().getTime()}-old-rune`,
             message: t('components.announcements.oldRune'),
             type: AnnouncementType.Error,
-            link: {
-              url: '/upgrade',
-              name: 'Upgrade now →',
-            },
+            link: { url: '/upgrade', name: 'Upgrade now →' },
           },
-        ];
-      }
-    }
-    return [];
-  }, [wallet]);
+        ]
+      : [];
+  }, [wallet?.BNB?.balance, wallet?.ETH?.balance]);
 
   const announcements = useMemo(
     () => [
@@ -105,6 +99,7 @@ export const useAnnouncementsList = () => {
       isChainPauseLP,
       isChainTradingHalted,
       isTradingGloballyDisabled,
+      oldRuneAvailableAnn,
       outboundQueue,
       outboundQueueLevel,
       storedAnnouncements.chainStatus,
