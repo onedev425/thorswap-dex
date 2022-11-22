@@ -167,7 +167,8 @@
       "thorChainHalted": "THORChain is temporarily unavailable while undergoing maintenance. All actions are currently disabled.",
       "thorChainLPHalted": "Adding and withdrawing liquidity are temporarily disabled on THORChain.",
       "thorChainTradeHalted": "Trading is temporarily disabled on THORChain.",
-      "tradingGloballyDisabled": "THORChain is currently experiencing technical difficulties. Team is investigating."
+      "tradingGloballyDisabled": "THORChain is currently experiencing technical difficulties. Team is investigating.",
+	  "oldRune": "We've detected a deprecated version of RUNE in your wallet. The legacy RUNE killswitch has been activated and you should upgrade it immediately, it is losing value with every block."
     },
     "assetSelect": {
       "manageTokenList": "Manage Token Lists",

@@ -12,6 +12,7 @@ import {
   AnnouncementType,
   ChainStatusAnnouncements,
 } from 'store/externalConfig/types';
+import { useWallet } from 'store/wallet/hooks';
 
 const REFRESH_INTERVAL = 1000 * 50 * 5; //5min
 
@@ -48,9 +49,39 @@ export const useAnnouncementsList = () => {
     isLoaded: isMimirLoaded,
   } = useMimir();
 
+  const { wallet } = useWallet();
+
+  const oldRuneAvailableAnn = useMemo(() => {
+    if (!wallet) return [];
+    const ethBalances = wallet.ETH?.balance || [];
+    const bnbBalances = wallet.BNB?.balance || [];
+    const bothChainBalances = [...ethBalances, ...bnbBalances];
+    for (let assetAmount of bothChainBalances) {
+      const { asset } = assetAmount;
+      if (
+        asset.ticker === 'RUNE' &&
+        (asset.chain === Chain.Binance || asset.chain === Chain.Ethereum)
+      ) {
+        return [
+          {
+            key: `${new Date().getTime()}-old-rune`,
+            message: t('components.announcements.oldRune'),
+            type: AnnouncementType.Error,
+            link: {
+              url: '/upgrade',
+              name: 'Upgrade now →',
+            },
+          },
+        ];
+      }
+    }
+    return [];
+  }, [wallet]);
+
   const announcements = useMemo(
     () => [
       ...storedAnnouncements.manual,
+      ...oldRuneAvailableAnn,
       ...(isTradingGloballyDisabled
         ? [
             {
