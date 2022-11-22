@@ -67,7 +67,6 @@ jobs:
           VITE_MAINNET_THORNODE: ${{ secrets.VITE_MAINNET_THORNODE }}
           VITE_THORSWAP_API: ${{ secrets.VITE_THORSWAP_API }}
           VITE_THORSWAP_DEV_API: ${{ secrets.VITE_THORSWAP_DEV_API }}
-          VITE_MAINNET_MIDGARD: ${{ secrets.VITE_MAINNET_MIDGARD }}
           VITE_USING_FALLBACK_MIDGARD: ${{ secrets.VITE_USING_FALLBACK_MIDGARD }}
 
         run: yarn build
