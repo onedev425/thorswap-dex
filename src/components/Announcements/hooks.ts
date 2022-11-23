@@ -15,6 +15,12 @@ import {
 import { useWallet } from 'store/wallet/hooks';
 
 const REFRESH_INTERVAL = 1000 * 50 * 5; //5min
+const sortOrder = {
+  [AnnouncementType.Error]: 0,
+  [AnnouncementType.Warn]: 1,
+  [AnnouncementType.Info]: 2,
+  [AnnouncementType.Primary]: 3,
+};
 
 const getOutboundAnnouncement = ({
   outboundQueue,
@@ -73,27 +79,28 @@ export const useAnnouncementsList = () => {
   }, [wallet?.BNB?.balance, wallet?.ETH?.balance]);
 
   const announcements = useMemo(
-    () => [
-      ...storedAnnouncements.manual,
-      ...oldRuneAvailableAnn,
-      ...(isTradingGloballyDisabled
-        ? [
-            {
-              key: `${new Date().getTime()}`,
-              message: t('components.announcements.tradingGloballyDisabled'),
-              type: AnnouncementType.Error,
-            },
-          ]
-        : [
-            ...getOutboundAnnouncement({ outboundQueue, outboundQueueLevel }),
-            ...getAnnouncementsByChain({
-              pausedChains: isChainHalted,
-              pausedTrade: isChainTradingHalted,
-              pausedLP: isChainPauseLP,
-              chainStatus: storedAnnouncements.chainStatus,
-            }),
-          ]),
-    ],
+    () =>
+      [
+        ...storedAnnouncements.manual,
+        ...oldRuneAvailableAnn,
+        ...(isTradingGloballyDisabled
+          ? [
+              {
+                key: `${new Date().getTime()}`,
+                message: t('components.announcements.tradingGloballyDisabled'),
+                type: AnnouncementType.Error,
+              },
+            ]
+          : [
+              ...getOutboundAnnouncement({ outboundQueue, outboundQueueLevel }),
+              ...getAnnouncementsByChain({
+                pausedChains: isChainHalted,
+                pausedTrade: isChainTradingHalted,
+                pausedLP: isChainPauseLP,
+                chainStatus: storedAnnouncements.chainStatus,
+              }),
+            ]),
+      ].sort((a, b) => sortOrder[a.type!] - sortOrder[b.type!]),
     [
       isChainHalted,
       isChainPauseLP,

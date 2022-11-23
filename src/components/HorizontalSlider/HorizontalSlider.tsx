@@ -11,10 +11,11 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 SwiperCore.use([Mousewheel]);
 
 type Props = PropsWithChildren<{
-  itemWidth: number;
+  itemWidth: number | string;
+  showButtons?: boolean;
 }>;
 
-export const HorizontalSlider = ({ children, itemWidth }: Props) => {
+export const HorizontalSlider = ({ children, itemWidth, showButtons = false }: Props) => {
   const [swiperRef, setSwiperRef] = useState<SwiperCore | null>(null);
   const [navState, setNavState] = useState({ isBeginning: false, isEnd: false });
 
@@ -43,10 +44,11 @@ export const HorizontalSlider = ({ children, itemWidth }: Props) => {
     <div className="relative align-center">
       <Button
         className={classNames(
-          '!bg-opacity-0 hover:!bg-opacity-0 dark:hover:!bg-opacity-0 absolute px-0 -left-[10px] z-10 top-[50%] translate-y-[-50%] hidden md:flex transition',
+          '!bg-opacity-0 hover:!bg-opacity-0 dark:hover:!bg-opacity-0 absolute px-0 -left-[10px] z-10 top-[50%] translate-y-[-50%] md:flex transition',
           navState.isBeginning
             ? '!opacity-0 hover:!opacity-0 pointer-events-none'
             : '!opacity-40 hover:!opacity-100 pointer-events-auto',
+          !showButtons && 'hidden',
         )}
         disabled={navState.isBeginning}
         onClick={navPrev}
@@ -62,10 +64,11 @@ export const HorizontalSlider = ({ children, itemWidth }: Props) => {
       />
       <Button
         className={classNames(
-          '!bg-opacity-0 hover:!bg-opacity-0 dark:hover:!bg-opacity-0 absolute px-0 -right-[10px] z-10 top-[50%] translate-y-[-50%] hidden md:flex transition',
+          '!bg-opacity-0 hover:!bg-opacity-0 dark:hover:!bg-opacity-0 absolute px-0 -right-[10px] z-10 top-[50%] translate-y-[-50%] md:flex transition',
           navState.isEnd
             ? '!opacity-0 hover:!opacity-0 pointer-events-none'
             : '!opacity-40 hover:!opacity-100 pointer-events-auto',
+          !showButtons && 'hidden',
         )}
         disabled={navState.isEnd}
         onClick={navNext}
@@ -91,8 +94,11 @@ export const HorizontalSlider = ({ children, itemWidth }: Props) => {
           spaceBetween={16}
         >
           {Children.map(children, (child) => (
-            <SwiperSlide className="py-8" style={{ width: itemWidth }}>
-              <Box style={{ width: itemWidth }}>{child}</Box>
+            <SwiperSlide
+              className="py-8 flex justify-center self-center px-0.5"
+              style={{ width: itemWidth }}
+            >
+              <Box style={{ width: itemWidth, justifyContent: 'center' }}>{child}</Box>
             </SwiperSlide>
           ))}
         </Swiper>
