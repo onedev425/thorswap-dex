@@ -1,13 +1,11 @@
 import { Chain } from '@thorswap-lib/types';
 import { Box, DropdownMenu, Typography } from 'components/Atomic';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { IS_PROD } from 'settings/config';
 
-const CHAINS_WITH_CUSTOM_DERIVATION_PATH = [
-  Chain.Ethereum,
-  Chain.Avalanche,
-  // Chain.Bitcoin,
-  // Chain.Litecoin,
-];
+const CHAINS_WITH_CUSTOM_DERIVATION_PATH = [Chain.Ethereum, Chain.Avalanche].concat(
+  IS_PROD ? [] : [Chain.Bitcoin, Chain.Litecoin],
+);
 
 const ledgerLivePath = "44'/60'/{index}'/0/";
 
