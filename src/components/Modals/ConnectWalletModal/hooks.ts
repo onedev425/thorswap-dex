@@ -121,7 +121,6 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): Wallet
       },
       {
         title: 'Keystore',
-        visible: isMdActive,
         items: [
           {
             type: WalletType.Keystore,

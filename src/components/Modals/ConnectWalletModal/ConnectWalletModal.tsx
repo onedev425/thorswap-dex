@@ -234,12 +234,11 @@ const ConnectWalletModal = () => {
               alignCenter
               col
               className={classNames(
-                'bg-light-bg-primary dark:bg-dark-bg-primary',
-                'md:px-8 pb-10 dark:drop-shadow-4xl z-10',
-                isMdActive ? 'rounded-l-3xl' : 'rounded-t-3xl',
+                'bg-light-bg-primary dark:bg-dark-bg-primary z-10',
+                isMdActive ? 'dark:drop-shadow-4xl pb-4 rounded-l-3xl px-8' : 'rounded-t-3xl pb-2',
               )}
             >
-              <Box alignCenter className="p-4 w-[90%] md:w-[100%] md:gap-4" col={isMdActive}>
+              <Box alignCenter className="p-2 w-[90%] md:p-4 md:w-[100%] md:gap-4" col={isMdActive}>
                 <Box flex={1}>
                   <Typography variant={isMdActive ? 'h4' : 'subtitle2'}>
                     {t('views.walletModal.selectChains')}
@@ -283,7 +282,7 @@ const ConnectWalletModal = () => {
             <Box col>
               <Box alignCenter className="pr-6 md:pr-10 px-4">
                 <Box flex={1}>
-                  <Typography className="py-4" variant={isMdActive ? 'h4' : 'subtitle2'}>
+                  <Typography className="md:py-4 pt-4" variant={isMdActive ? 'h4' : 'subtitle2'}>
                     {t('views.walletModal.selectWallet')}
                   </Typography>
                 </Box>
@@ -315,8 +314,8 @@ const ConnectWalletModal = () => {
                 {walletOptions.map(
                   ({ visible = true, title, items }) =>
                     visible && (
-                      <Box col className="py-1" key={title}>
-                        <Typography fontWeight="semibold">{title}</Typography>
+                      <Box col className="md:py-1" key={title}>
+                        {isMdActive && <Typography fontWeight="semibold">{title}</Typography>}
 
                         <Box className="flex-wrap">
                           {items.map(({ tooltip, type, disabled, icon, label }) => (
@@ -360,7 +359,7 @@ const ConnectWalletModal = () => {
               )}
 
               {!customFlow && (
-                <Box col className="pb pt-4 md:pt-0 mb-8" flex={1} justify="end">
+                <Box col className="pt-2 md:pt-0 mb-8" flex={1} justify="end">
                   <Button
                     isFancy
                     className="w-2/3 self-center"
