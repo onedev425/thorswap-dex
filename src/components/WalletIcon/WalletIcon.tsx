@@ -16,6 +16,7 @@ const walletIcons: Record<WalletOption, IconName> = {
   [WalletOption.METAMASK]: 'metamask',
   [WalletOption.TRUSTWALLET_EXTENSION]: 'trustWallet',
   [WalletOption.LEDGER]: 'ledger',
+  [WalletOption.LEDGER_LIVE]: 'ledger',
   [WalletOption.KEYSTORE]: 'keystore',
   [WalletOption.TRUSTWALLET]: 'walletConnect',
   [WalletOption.XDEFI]: 'xdefi',
