@@ -15,7 +15,6 @@ const options: Fuse.IFuseOptions<AssetSelectType> = {
   ],
   isCaseSensitive: false,
   minMatchCharLength: 2,
-  shouldSort: false,
   threshold: 0.1,
 };
 
