@@ -318,19 +318,22 @@ const ConnectWalletModal = () => {
                         {isMdActive && <Typography fontWeight="semibold">{title}</Typography>}
 
                         <Box className="flex-wrap">
-                          {items.map(({ tooltip, type, disabled, icon, label }) => (
-                            <Tooltip content={tooltip} key={type}>
-                              <WalletOption
-                                connected={connectedWallets.includes(type.toLowerCase())}
-                                disabled={disabled || isWalletTypeDisabled(type)}
-                                handleTypeSelect={handleWalletTypeSelect}
-                                icon={icon}
-                                label={label}
-                                selected={type === selectedWalletType}
-                                type={type}
-                              />
-                            </Tooltip>
-                          ))}
+                          {items.map(
+                            ({ visible = true, tooltip, type, disabled, icon, label }) =>
+                              visible && (
+                                <Tooltip content={tooltip} key={type}>
+                                  <WalletOption
+                                    connected={connectedWallets.includes(type.toLowerCase())}
+                                    disabled={disabled || isWalletTypeDisabled(type)}
+                                    handleTypeSelect={handleWalletTypeSelect}
+                                    icon={icon}
+                                    label={label}
+                                    selected={type === selectedWalletType}
+                                    type={type}
+                                  />
+                                </Tooltip>
+                              ),
+                          )}
                         </Box>
                       </Box>
                     ),
