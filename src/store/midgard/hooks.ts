@@ -139,7 +139,11 @@ export const useMidgard = () => {
       }
       const otherChainsAddress = Object.keys(wallet)
         .filter((chain) => chain !== Chain.THORChain)
-        .map((chain) => wallet?.[chain as SupportedChain]?.address)
+        .map((chain) =>
+          chain === Chain.Ethereum
+            ? wallet?.[chain as SupportedChain]?.address.toLowerCase()
+            : wallet?.[chain as SupportedChain]?.address,
+        )
         .filter((address) => !!address);
       if (otherChainsAddress.length > 0) {
         loadFullMemberDetails(otherChainsAddress as string[]);
