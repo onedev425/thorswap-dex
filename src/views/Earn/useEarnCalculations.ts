@@ -28,6 +28,10 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount 
   const address = useMemo(() => wallet?.[asset.L1Chain]?.address || '', [wallet, asset.L1Chain]);
 
   const getConfirmData = useCallback(async () => {
+    if (!debouncedAmount?.assetAmount) {
+      return;
+    }
+
     const quoteParams = isDeposit
       ? {
           type: 'deposit' as const,
@@ -47,7 +51,7 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount 
     })) as SaverQuoteResponse;
 
     setSaverQuoteData(response);
-  }, [address, debouncedAmount.assetAmount, asset, isDeposit, withdrawPercent]);
+  }, [address, debouncedAmount?.assetAmount, asset, isDeposit, withdrawPercent]);
 
   useEffect(() => {
     getConfirmData();

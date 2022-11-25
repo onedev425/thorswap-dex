@@ -45,7 +45,8 @@ export const useSaverPositions = () => {
         const response = await getSaverData({ asset: asset.toString().toLowerCase(), address });
         const units = Amount.fromMidgard(response.units);
 
-        return units.gt(0) ? { asset, units, provider: response } : null;
+        // amount will be filled be updated with correct value when pools are loaded
+        return units.gt(0) ? { asset, units, provider: response, amount: units } : null;
       }
     },
     [wallet],

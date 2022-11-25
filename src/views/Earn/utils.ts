@@ -5,5 +5,7 @@ export function getSaverPoolNameForAsset(asset: Asset): string {
 }
 
 export function getSaverPool(asset: Asset, pools: Pool[]): Pool | undefined {
-  return pools.find((pool) => pool.detail.asset === getSaverPoolNameForAsset(asset));
+  return pools.find(
+    (pool) => pool.detail.asset.toLowerCase() === getSaverPoolNameForAsset(asset).toLowerCase(),
+  );
 }
