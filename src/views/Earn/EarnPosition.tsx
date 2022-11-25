@@ -16,7 +16,7 @@ type Props = {
 
 export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
   const { collapse, isActive, contentRef, toggle, maxHeightStyle } = useCollapse();
-  const { expectedOutputAmount, networkFee } = useEarnCalculations({
+  const { networkFee } = useEarnCalculations({
     asset: position.asset,
     amount: position.amount,
     isDeposit: false,
@@ -44,7 +44,7 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
 
             {!positionTooSmall ? (
               <Typography>
-                {expectedOutputAmount?.toSignificant(6) || 'n/a'} {position.asset.name}
+                {position.amount?.toSignificant(6) || 'n/a'} {position.asset.name}
               </Typography>
             ) : (
               <Box className="gap-1 mr-1">

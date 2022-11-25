@@ -1,10 +1,12 @@
 import { Amount, Asset } from '@thorswap-lib/multichain-core';
-import { SaverProvider } from 'store/midgard/types';
+import { SaverProvider, ThornodePoolType } from 'store/midgard/types';
 
 export type SaverPosition = {
   asset: Asset;
   provider: SaverProvider;
+  units: Amount;
   amount: Amount;
+  pool: ThornodePoolType;
 };
 
 export enum EarnTab {
