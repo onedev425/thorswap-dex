@@ -24,8 +24,9 @@ export const useSaverPositions = () => {
         if (saverPool) {
           const saverDepth = Amount.fromMidgard(saverPool.savers_depth);
           const saverUnits = Amount.fromMidgard(saverPool.savers_units);
-          const saverRatio = p.units.div(saverUnits);
-          const amount = saverRatio.mul(saverDepth);
+
+          // position amount = (saverUnits / totalSaverUnits) * saverDepth
+          const amount = p.units.div(saverUnits).mul(saverDepth);
 
           return { ...p, saverPool, amount };
         }
