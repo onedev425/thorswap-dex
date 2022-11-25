@@ -14,7 +14,7 @@ const options: Fuse.IFuseOptions<AssetSelectType> = {
     { name: 'cg.id', weight: 0.01 },
   ],
   isCaseSensitive: false,
-  minMatchCharLength: 2,
+  minMatchCharLength: 1,
   threshold: 0.1,
 };
 
