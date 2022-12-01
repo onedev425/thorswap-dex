@@ -12,7 +12,7 @@ export { Select } from './Select';
 export { Switch } from './Switch';
 export { SwitchToggle } from './SwitchToggle';
 export { Table } from './Table/Table';
-export { Tooltip, TooltipPortal } from './Tooltip';
+export { Tooltip } from './Tooltip';
 export { Typography } from './Typography';
 
 // Collapse

@@ -1,4 +1,3 @@
-import { TooltipPortal } from 'components/Atomic'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
@@ -14,6 +13,5 @@ root.render(
     <StrictMode>
       <App />
     </StrictMode>
-    <TooltipPortal />
   </>,
 );
