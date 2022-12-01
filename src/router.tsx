@@ -49,6 +49,8 @@ const routes: RouteType = [
   { path: ROUTES.Earn, element: Earn },
   { path: ROUTES.Home, element: Home },
   { path: ROUTES.LegacyStake, element: Stake },
+  { path: ROUTES.Kyber, element: Swap },
+  { path: ROUTES.KyberPair, element: Swap },
   { path: ROUTES.Liquidity, element: Liquidity },
   { path: ROUTES.Multisig, element: Multisig },
   { path: ROUTES.MultisigConnect, element: MultisigImport },

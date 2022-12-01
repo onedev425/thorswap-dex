@@ -22,9 +22,10 @@ import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
 import { IS_DEV_API, IS_PROD } from 'settings/config';
-import { getSwapRoute } from 'settings/router';
+import { getKyberSwapRoute, getSwapRoute } from 'settings/router';
 import { useWallet } from 'store/wallet/hooks';
 import { FeeModal } from 'views/Swap/FeeModal';
+import { useKyberSwap } from 'views/Swap/hooks/useKyberSwap';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';
 import THORInfoContent from 'views/Swap/THORInfoContent';
 
@@ -112,6 +113,10 @@ const SwapView = () => {
     outputAsset,
     senderAddress,
     recipientAddress: recipient,
+  });
+
+  const { isKyberSwapPage, kyberRoutes } = useKyberSwap({
+    routes,
   });
 
   const {
@@ -217,9 +222,17 @@ const SwapView = () => {
         setInputAmount(inputAmount.gt(maxNewInputBalance) ? maxNewInputBalance : inputAmount);
       }
 
-      navigate(getSwapRoute(input, output));
+      navigate(!isKyberSwapPage ? getSwapRoute(input, output) : getKyberSwapRoute(input, output));
     },
-    [getMaxBalance, inputAmount, inputAsset, navigate, outputAsset, setInputAmount],
+    [
+      getMaxBalance,
+      inputAmount,
+      inputAsset,
+      navigate,
+      outputAsset,
+      setInputAmount,
+      isKyberSwapPage,
+    ],
   );
 
   const handleSwitchPair = useCallback(
@@ -227,10 +240,22 @@ const SwapView = () => {
       const maxNewInputBalance = getMaxBalance(outputAsset);
       setInputAmount(outputAmount.gt(maxNewInputBalance) ? maxNewInputBalance : outputAmount);
       const defaultAsset = outputAsset.isETH() ? Asset.THOR() : Asset.ETH();
-
-      navigate(getSwapRoute(outputAsset, unsupportedOutput ? defaultAsset : inputAsset));
+      const output = unsupportedOutput ? defaultAsset : inputAsset;
+      navigate(
+        !isKyberSwapPage
+          ? getSwapRoute(outputAsset, output)
+          : getKyberSwapRoute(outputAsset, output),
+      );
     },
-    [getMaxBalance, outputAsset, setInputAmount, outputAmount, navigate, inputAsset],
+    [
+      getMaxBalance,
+      outputAsset,
+      setInputAmount,
+      outputAmount,
+      navigate,
+      inputAsset,
+      isKyberSwapPage,
+    ],
   );
 
   const handleChangeInputAmount = useCallback(
@@ -363,8 +388,8 @@ const SwapView = () => {
         inputAsset={inputAsset}
         outputAsset={outputAsset}
         outputUSDPrice={outputUSDPrice}
-        routes={routes}
-        selectedRoute={selectedRoute}
+        routes={!isKyberSwapPage ? routes : kyberRoutes}
+        selectedRoute={!isKyberSwapPage ? selectedRoute : kyberRoutes[0]}
         setSwapRoute={setSwapRoute}
         slippage={slippage}
       />
