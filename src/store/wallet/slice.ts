@@ -16,7 +16,6 @@ const initialWallet = {
   [Chain.Litecoin]: null,
   [Chain.BitcoinCash]: null,
   [Chain.Doge]: null,
-  [Chain.Solana]: null,
   [Chain.Cosmos]: null,
 };
 

@@ -11,6 +11,7 @@ type Props = {
   tooltipDisabled?: boolean;
 };
 
+// @ts-expect-error remove after solana update on core
 const walletIcons: Record<WalletOption, IconName> = {
   [WalletOption.BRAVE]: 'brave',
   [WalletOption.METAMASK]: 'metamask',
@@ -20,7 +21,6 @@ const walletIcons: Record<WalletOption, IconName> = {
   [WalletOption.KEYSTORE]: 'keystore',
   [WalletOption.TRUSTWALLET]: 'walletConnect',
   [WalletOption.XDEFI]: 'xdefi',
-  [WalletOption.PHANTOM]: 'phantom',
   [WalletOption.KEPLR]: 'keplr',
 };
 

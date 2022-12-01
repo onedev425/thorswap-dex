@@ -1,5 +1,5 @@
 import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { SupportedChain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon, Typography } from 'components/Atomic';
 import { useFormatPrice } from 'helpers/formatPrice';
@@ -145,7 +145,6 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
             />
 
             <Button
-              disabled={chain === Chain.Solana}
               onClick={() => navigate(getSwapRoute(value))}
               startIcon={
                 <Icon
@@ -155,7 +154,6 @@ export const useColumns = (chainAddress: string, chain: SupportedChain) => {
                   size={20}
                 />
               }
-              tooltip={chain === Chain.Solana ? t('common.comingSoon') : undefined}
               variant="tint"
             >
               {isLgActive ? t('common.swap') : null}

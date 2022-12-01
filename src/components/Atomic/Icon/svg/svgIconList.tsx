@@ -7,7 +7,6 @@ import { ReactComponent as Cosmos } from 'assets/images/svg/cosmos.svg';
 import { ReactComponent as Dogecoin } from 'assets/images/svg/dogecoin.svg';
 import { ReactComponent as Ethereum } from 'assets/images/svg/ethereum.svg';
 import { ReactComponent as Litecoin } from 'assets/images/svg/litecoin.svg';
-import { ReactComponent as Solana } from 'assets/images/svg/solana.svg';
 import { ReactComponent as Thorchain } from 'assets/images/svg/thorchain.svg';
 import { FunctionComponent, MouseEventHandler, SVGProps } from 'react';
 
@@ -49,7 +48,6 @@ import { ReactComponent as Ledger } from './ledger.svg';
 import { ReactComponent as Lightning } from './lightningThorswap.svg';
 import { ReactComponent as Metamask } from './metamask.svg';
 import { ReactComponent as Moon } from './moon.svg';
-import { ReactComponent as Phantom } from './phantom.svg';
 import { ReactComponent as Receive } from './receive.svg';
 import { ReactComponent as Router } from './router.svg';
 import { ReactComponent as Settings } from './settings.svg';
@@ -84,7 +82,6 @@ export const Svgs = {
   doge: Dogecoin,
   eth: Ethereum,
   ltc: Litecoin,
-  sol: Solana,
   cos: Cosmos,
   thor: Thorchain,
   thoryield: Thoryield,
@@ -107,7 +104,6 @@ export const Svgs = {
   lightning: Lightning,
   metamask: Metamask,
   moon: Moon,
-  phantom: Phantom,
   receive: Receive,
   router: Router,
   settings: Settings,

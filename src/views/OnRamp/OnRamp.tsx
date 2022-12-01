@@ -12,7 +12,6 @@ const chainToNetwork = {
   [Chain.Ethereum]: 'ETHEREUM',
   [Chain.Binance]: 'BINANCE',
   [Chain.Avalanche]: 'AVALANCHE',
-  [Chain.Solana]: 'SOLANA',
   [Chain.Cosmos]: 'OSMOSIS',
 };
 
@@ -27,10 +26,8 @@ const OnRamp = () => {
         ? Chain.Cosmos
         : wallet?.AVAX
         ? Chain.Avalanche
-        : wallet?.SOL
-        ? Chain.Solana
         : Chain.Ethereum,
-    [wallet?.AVAX, wallet?.ETH, wallet?.GAIA, wallet?.SOL],
+    [wallet?.AVAX, wallet?.ETH, wallet?.GAIA],
   );
 
   const src = useMemo(() => {
@@ -38,7 +35,7 @@ const OnRamp = () => {
     // @ts-expect-error false positive - array works as expected here
     const queryParams = new URLSearchParams({
       apiKey: import.meta.env.VITE_KADO_KEY,
-      networkList: ['ETHEREUM', 'SOLANA', 'AVALANCHE', 'OSMOSIS'],
+      networkList: ['ETHEREUM', 'AVALANCHE', 'OSMOSIS'],
       network: chainToNetwork[preselectedChain],
       onToAddress: address,
     });

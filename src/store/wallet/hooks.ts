@@ -109,12 +109,6 @@ export const useWallet = () => {
     [dispatch],
   );
 
-  const connectPhantom = useCallback(async () => {
-    await multichain().connectPhantom();
-
-    dispatch(walletActions.getWalletByChain(Chain.Solana));
-  }, [dispatch]);
-
   const connectKeplr = useCallback(async () => {
     await multichain().connectKeplr();
 
@@ -160,7 +154,6 @@ export const useWallet = () => {
     connectBraveWallet,
     connectTrustWalletExtension,
     connectMetamask,
-    connectPhantom,
     connectKeplr,
     connectTrustWallet,
     connectLedger,

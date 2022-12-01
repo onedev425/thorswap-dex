@@ -39,7 +39,6 @@ const customIconMap = () => ({
   BNB: getCustomIconImageUrl('bnb'),
   DOGE: getCustomIconImageUrl('dogecoin', 'png'),
   RUNE: getCustomIconImageUrl('rune'),
-  SOL: getCustomIconImageUrl('sol'),
   VTHOR: getCustomIconImageUrl('vthor', 'png'),
   THOR: getCustomIconImageUrl('thor', 'png'),
 });

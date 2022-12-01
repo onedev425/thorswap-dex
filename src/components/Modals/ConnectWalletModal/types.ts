@@ -7,7 +7,6 @@ export enum WalletType {
   Keystore = 'Keystore',
   Ledger = 'Ledger',
   MetaMask = 'MetaMask',
-  Phantom = 'Phantom',
   Phrase = 'Phrase',
   TrustWallet = 'TrustWallet',
   TrustWalletExtension = 'TrustWalletExtension',
@@ -26,7 +25,6 @@ const AllChainsSupported = [
   Chain.Doge,
   Chain.Ethereum,
   Chain.Litecoin,
-  Chain.Solana,
   Chain.THORChain,
 ] as SupportedChain[];
 
@@ -37,7 +35,6 @@ export const availableChainsByWallet: Record<WalletType, SupportedChain[]> = {
   [WalletType.Keystore]: AllChainsSupported,
   [WalletType.Ledger]: AllChainsSupported,
   [WalletType.MetaMask]: [Chain.Ethereum, Chain.Avalanche],
-  [WalletType.Phantom]: [Chain.Solana],
   [WalletType.Phrase]: AllChainsSupported,
   [WalletType.TrustWallet]: [Chain.THORChain, Chain.Ethereum, Chain.Binance],
   [WalletType.TrustWalletExtension]: [Chain.Ethereum, Chain.Avalanche],
@@ -49,7 +46,6 @@ export const availableChainsByWallet: Record<WalletType, SupportedChain[]> = {
     Chain.Doge,
     Chain.Ethereum,
     Chain.Litecoin,
-    Chain.Solana,
     Chain.THORChain,
   ],
 };
@@ -61,7 +57,8 @@ const COMMON_WALLETS = [
   WalletType.Phrase,
 ] as const;
 
-export const availableWalletsByChain: Record<SupportedChain, WalletType[]> = {
+// @ts-expect-error
+export const availableWalletsByChain: Record<Chain, WalletType[]> = {
   [Chain.Avalanche]: [...COMMON_WALLETS, WalletType.MetaMask, WalletType.Xdefi],
   [Chain.Binance]: [...COMMON_WALLETS, WalletType.TrustWallet, WalletType.Xdefi],
   [Chain.BitcoinCash]: [...COMMON_WALLETS, WalletType.Xdefi],
@@ -69,7 +66,6 @@ export const availableWalletsByChain: Record<SupportedChain, WalletType[]> = {
   [Chain.Cosmos]: [...COMMON_WALLETS, WalletType.Keplr],
   [Chain.Doge]: [...COMMON_WALLETS, WalletType.Xdefi],
   [Chain.Litecoin]: [...COMMON_WALLETS, WalletType.Xdefi],
-  [Chain.Solana]: [...COMMON_WALLETS, WalletType.Xdefi, WalletType.Phantom],
   [Chain.THORChain]: [...COMMON_WALLETS, WalletType.TrustWallet, WalletType.Xdefi],
   [Chain.Ethereum]: [
     ...COMMON_WALLETS,

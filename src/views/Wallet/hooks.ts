@@ -16,7 +16,6 @@ const emptyWallet = {
   [Chain.Doge]: null,
   [Chain.Ethereum]: null,
   [Chain.Litecoin]: null,
-  [Chain.Solana]: null,
   [Chain.THORChain]: null,
 };
 
@@ -32,7 +31,7 @@ const getBalanceByChain = (balance: AssetAmount[], geckoData: Record<string, Gec
   return total.toNumber();
 };
 
-export const useAccountData = (chain: SupportedChain) => {
+export const useAccountData = (chain: Chain) => {
   const sigAsset = chainToSigAsset(chain);
   const { stats } = useMidgard();
   const {
@@ -44,8 +43,9 @@ export const useAccountData = (chain: SupportedChain) => {
     hiddenAssets,
   } = useWallet();
   const wallet = reduxWallet || emptyWallet;
-  const chainWallet = wallet[chain];
-  const { balance: walletBalance, address: chainAddress } = wallet[chain] || {
+  // TODO: remove after solana
+  const chainWallet = wallet[chain as Chain.THORChain];
+  const { balance: walletBalance, address: chainAddress } = chainWallet || {
     balance: [] as AssetAmount[],
     address: '',
   };

@@ -15,6 +15,7 @@ import { useWalletDrawer } from 'hooks/useWalletDrawer';
 import { MouseEventHandler, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
+import { SORTED_CHAINS } from 'settings/chain';
 import { getSendRoute, getSwapRoute, ROUTES } from 'settings/router';
 import { useAppDispatch } from 'store/store';
 import { useWallet } from 'store/wallet/hooks';
@@ -23,19 +24,6 @@ import { actions } from 'store/wallet/slice';
 import { ChainHeader } from './ChainHeader';
 import { WalletDrawer } from './WalletDrawer';
 import { WalletHeader } from './WalletHeader';
-
-const sortedChains = [
-  Chain.THORChain,
-  Chain.Bitcoin,
-  Chain.Ethereum,
-  Chain.Avalanche,
-  Chain.Solana,
-  Chain.Doge,
-  Chain.Binance,
-  Chain.Litecoin,
-  Chain.BitcoinCash,
-  Chain.Cosmos,
-];
 
 const WalletBalanceList = () => {
   const navigate = useNavigate();
@@ -155,7 +143,7 @@ const WalletBalanceList = () => {
     <Scrollbar>
       <WalletHeader />
       <Box col>
-        {sortedChains.map((chain) => {
+        {SORTED_CHAINS.map((chain) => {
           const chainBalance = wallet?.[chain as SupportedChain];
           if (!chainBalance) return null;
 

@@ -1,17 +1,5 @@
-import { Amount, Asset, AssetAmount, ChainWallet, Pool } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain } from '@thorswap-lib/types';
-
-type Wallet = Record<SupportedChain, ChainWallet | null>;
-
-enum WalletOption {
-  'KEYSTORE' = 'KEYSTORE',
-  'XDEFI' = 'XDEFI',
-  'METAMASK' = 'METAMASK',
-  'TRUSTWALLET' = 'TRUSTWALLET',
-  'LEDGER' = 'LEDGER',
-  'PHANTOM' = 'PHANTOM',
-  'KEPLR' = 'KEPLR',
-}
+import { Amount, Asset, AssetAmount, Pool, Wallet } from '@thorswap-lib/multichain-core';
+import { Chain, SupportedChain, WalletOption } from '@thorswap-lib/types';
 
 export const isTokenWhitelisted = (asset: Asset, whitelistedAddresses: string[]) => {
   if (![Chain.Avalanche, Chain.Ethereum].includes(asset.L1Chain)) return true;
@@ -75,7 +63,7 @@ export const getInputAssetsForCreate = ({
   for (const chain of Object.keys(wallet)) {
     const chainWallet = wallet[chain as SupportedChain];
     const balances = chainWallet?.balance || [];
-    if (![Chain.Solana, Chain.THORChain].includes(chain as SupportedChain)) {
+    if (Chain.THORChain !== chain) {
       for (const balance of balances) {
         // 1. if non-pool asset exists
         // 2. asset shouldn't be THORChain asset

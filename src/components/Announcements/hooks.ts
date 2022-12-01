@@ -182,12 +182,7 @@ const getChainAnnouncement = ({
 };
 
 const getAnnouncementsByChain = (props: GetAnnouncementsByChainProps) =>
-  SUPPORTED_CHAINS.map((chain) =>
-    getChainAnnouncement({
-      chain,
-      ...props,
-    }),
-  )
+  SUPPORTED_CHAINS.map((chain) => getChainAnnouncement({ chain, ...props }))
     .map((ann) => ann && { ...ann, key: getAnnouncementId(ann) })
     .filter(Boolean) as AnnouncementItem[];
 

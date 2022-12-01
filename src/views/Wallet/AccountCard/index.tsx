@@ -1,5 +1,5 @@
 import { chainToSigAsset } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { SupportedChain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Card, Typography, useCollapse } from 'components/Atomic';
@@ -167,11 +167,9 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
           />
 
           <AccountCardButton
-            disabled={chain === Chain.Solana}
             icon="swap"
             label={t('common.swap')}
             onClick={() => navigate(getSwapRoute(sigAsset))}
-            tooltip={chain === Chain.Solana ? t('common.comingSoon') : undefined}
           />
         </Box>
 

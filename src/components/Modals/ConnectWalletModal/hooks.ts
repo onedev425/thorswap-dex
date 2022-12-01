@@ -4,14 +4,7 @@ import { IconName } from 'components/Atomic';
 import { showErrorToast } from 'components/Toast';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import { useCallback, useMemo } from 'react';
-import {
-  brave,
-  keplr,
-  metamask,
-  phantom,
-  trustWalletExtension,
-  xdefi,
-} from 'services/extensionWallets';
+import { brave, keplr, metamask, trustWalletExtension, xdefi } from 'services/extensionWallets';
 import { t } from 'services/i18n';
 import { IS_PROD } from 'settings/config';
 import { useWallet } from 'store/wallet/hooks';
@@ -100,12 +93,6 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): Wallet
             type: WalletType.Keplr,
             visible: isMdActive,
           },
-          {
-            icon: 'phantom',
-            label: t('views.walletModal.phantom'),
-            type: WalletType.Phantom,
-            visible: isMdActive,
-          },
         ],
       },
       {
@@ -161,7 +148,6 @@ export const useHandleWalletConnect = ({
     connectKeplr,
     connectLedger,
     connectMetamask,
-    connectPhantom,
     connectTrustWallet,
     connectTrustWalletExtension,
     connectXdefiWallet,
@@ -194,8 +180,6 @@ export const useHandleWalletConnect = ({
             return await connectBraveWallet(selectedChains);
           case WalletType.TrustWalletExtension:
             return await connectTrustWalletExtension(selectedChains[0]);
-          case WalletType.Phantom:
-            return await connectPhantom();
           case WalletType.Keplr:
             return await connectKeplr();
 
@@ -219,7 +203,6 @@ export const useHandleWalletConnect = ({
       connectMetamask,
       connectBraveWallet,
       connectTrustWalletExtension,
-      connectPhantom,
       connectKeplr,
     ],
   );
@@ -251,16 +234,6 @@ export const useHandleWalletTypeSelect = ({
 
     if (!detected) {
       window.open('https://metamask.io');
-    }
-
-    return detected;
-  }, []);
-
-  const handlePhantom = useCallback(() => {
-    const detected = WalletStatus.Detected === phantom.isWalletDetected();
-
-    if (!detected) {
-      window.open('https://phantom.app');
     }
 
     return detected;
@@ -334,8 +307,6 @@ export const useHandleWalletTypeSelect = ({
           return handleXdefi();
         case WalletType.MetaMask:
           return handleMetamask();
-        case WalletType.Phantom:
-          return handlePhantom();
         case WalletType.Keplr:
           return handleKeplr();
         case WalletType.TrustWalletExtension:
@@ -345,7 +316,7 @@ export const useHandleWalletTypeSelect = ({
           return true;
       }
     },
-    [handleMetamask, handlePhantom, handleXdefi, handleKeplr, handleTrustWalletExtension],
+    [handleMetamask, handleXdefi, handleKeplr, handleTrustWalletExtension],
   );
 
   const handleWalletTypeSelect = useCallback(

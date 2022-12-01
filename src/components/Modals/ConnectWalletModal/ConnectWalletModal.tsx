@@ -1,4 +1,4 @@
-import { Keystore, SUPPORTED_CHAINS, SupportedChain } from '@thorswap-lib/types';
+import { Chain, Keystore, SUPPORTED_CHAINS, SupportedChain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box, Button, Modal, Tooltip, Typography } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
@@ -26,6 +26,9 @@ import { PhraseView } from './Phrase';
 import { availableChainsByWallet, WalletType } from './types';
 import WalletOption from './WalletOption';
 
+// TODO: remove after core update
+const supportedChains = SUPPORTED_CHAINS.filter((c) => c !== Chain.Solana);
+
 const ConnectWalletModal = () => {
   const { isMdActive } = useWindowSize();
   const { unlockWallet, isWalletLoading, setIsConnectModalOpen, isConnectModalOpen, wallet } =
@@ -39,7 +42,7 @@ const ConnectWalletModal = () => {
   const [saveWallet, setSaveWallet] = useState(getFromStorage('restorePreviousWallet') as boolean);
 
   const supportedByWallet = useMemo(
-    () => availableChainsByWallet[selectedWalletType as WalletType] || SUPPORTED_CHAINS,
+    () => availableChainsByWallet[selectedWalletType as WalletType] || supportedChains,
     [selectedWalletType],
   );
 
@@ -143,7 +146,7 @@ const ConnectWalletModal = () => {
   const connectedWallets = useMemo(
     () =>
       uniq(
-        SUPPORTED_CHAINS.reduce((acc, chain) => {
+        supportedChains.reduce((acc, chain) => {
           const { walletType } = wallet?.[chain] || {};
           if (walletType) acc.push(walletType.toLowerCase());
           return acc;
@@ -263,7 +266,7 @@ const ConnectWalletModal = () => {
               </Box>
 
               <Box className="flex-wrap w-[80%] md:w-36">
-                {SUPPORTED_CHAINS.map((chain) => (
+                {supportedChains.map((chain) => (
                   <ChainItem
                     chain={chain}
                     isChainAvailable={availableChainsByWallet[
