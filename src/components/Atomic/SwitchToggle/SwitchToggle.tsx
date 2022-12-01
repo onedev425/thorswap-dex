@@ -1,4 +1,4 @@
-import { Switch } from '@headlessui/react';
+import { Switch } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { memo } from 'react';
 
@@ -13,9 +13,8 @@ export const SwitchToggle = memo(
   ({ className = '', checked = false, disabled = false, onChange }: SwitchToggleProps) => {
     return (
       <Switch
-        checked={checked}
         className={classNames(
-          'inline-flex items-center h-6 border-0 rounded-full w-12 transition-colors cursor-pointer',
+          'inline-flex relative h-6 border-0 rounded-full w-12 transition-colors cursor-pointer',
           checked
             ? 'bg-btn-light-tint-active dark:bg-dark-bg-secondary'
             : 'bg-light-gray-light dark:bg-dark-gray-primary',
@@ -23,11 +22,12 @@ export const SwitchToggle = memo(
           className,
         )}
         disabled={disabled}
-        onChange={onChange}
+        isChecked={checked}
+        onChange={(e) => onChange(e.target.checked)}
       >
         <span
           className={classNames(
-            'inline-block w-5 h-5 transform rounded-full transition ease-in-out duration-200',
+            'w-5 h-5 absolute left-[6px] top-[2px] transform rounded-full transition ease-in-out duration-200',
             checked ? 'translate-x-5 bg-cyan' : 'translate-x-[-4px] bg-white',
           )}
         />
