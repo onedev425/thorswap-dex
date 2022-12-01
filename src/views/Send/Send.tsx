@@ -156,6 +156,7 @@ const Send = () => {
 
   const handleSend = useCallback(() => {
     if (
+      !customTxEnabled &&
       !multichain().validateAddress({
         chain: sendAsset.L1Chain,
         address: txRecipient,
@@ -165,7 +166,7 @@ const Send = () => {
     } else {
       setIsOpenConfirmModal(true);
     }
-  }, [sendAsset, txRecipient]);
+  }, [customTxEnabled, sendAsset.L1Chain, txRecipient]);
 
   const assetInput = useMemo(
     () => ({
