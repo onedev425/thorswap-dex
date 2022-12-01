@@ -149,11 +149,13 @@ export const StatusDropdown = memo(() => {
   );
 
   return (
-    <DropdownMenu
-      menuItems={menuItems}
-      onChange={() => {}}
-      openComponent={<StatusBadge withLabel status={statusType} />}
-      value={t('components.statusDropdown.networkStatus')}
-    />
+    <>
+      <DropdownMenu
+        menuItems={menuItems}
+        onChange={() => {}}
+        openComponent={<StatusBadge withLabel status={statusType} />}
+        value={t('components.statusDropdown.networkStatus')}
+      />
+    </>
   );
 });

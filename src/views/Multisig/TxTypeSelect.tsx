@@ -1,4 +1,4 @@
-import { DropdownMenu } from 'components/Atomic';
+import { DropdownMenu } from 'components/Atomic/Dropdown/DropdownMenu';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { MultisigTxType } from 'views/Multisig/TxCreate/types';

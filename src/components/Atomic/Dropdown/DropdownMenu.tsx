@@ -1,10 +1,9 @@
-import { Transition } from '@headlessui/react';
+import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+import classNames from 'classnames';
+import { Icon, Typography } from 'components/Atomic';
+import { baseHoverClass, genericBgClasses } from 'components/constants';
 import { ReactNode } from 'react';
 
-import { Dropdown } from './Dropdown';
-import { DropdownButton } from './DropdownButton';
-import { Menu } from './Menu';
-import { MenuOption } from './MenuOption';
 import { DropdownMenuItem, DropdownOptions } from './types';
 
 type DropdownMenuProps = {
@@ -32,32 +31,73 @@ export const DropdownMenu = ({
   const defaultOpenLabel = menuItems.find((i) => i.value === value)?.label || '-';
 
   return (
-    <Dropdown className={className} disabled={disabled} onChange={onChange} value={value}>
-      <DropdownButton
-        className={buttonClassName}
-        disabled={disabled}
-        label={openComponent || openLabel || defaultOpenLabel}
-        stretch={stretch}
-      />
+    <Menu>
+      {({ isOpen }) => (
+        <div className={classNames(className, 'w-full flex relative ')}>
+          <MenuButton
+            as="div"
+            className={classNames(
+              genericBgClasses.secondary,
+              baseHoverClass,
+              disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+              'shadow-md h-10 flex dir justify-between rounded-2xl items-center px-3 !py-0 transition-all',
+              { 'flex flex-1 self-stretch': stretch },
+              buttonClassName,
+            )}
+            disabled={disabled}
+          >
+            <div className="flex justify-between items-center">
+              {openComponent || <Typography>{openLabel || defaultOpenLabel}</Typography>}
 
-      <Transition
-        enter="transition duration-100 ease-out"
-        enterFrom="transform scale-y-50 opacity-0"
-        enterTo="transform scale-100 opacity-100"
-        leave="transition duration-75 ease-out"
-        leaveFrom="transform scale-100 opacity-100"
-        leaveTo="transform scale-y-90 opacity-0"
-      >
-        <Menu className={menuClassName}>
-          {menuItems.map((option) => (
-            <MenuOption
-              className="hover:brightness-90 hover:dark:brightness-110"
-              key={option.value}
-              {...option}
-            />
-          ))}
-        </Menu>
-      </Transition>
-    </Dropdown>
+              <Icon
+                className={classNames(
+                  'w-5 h-5 ml-2 -mr-1 transition-all duration-300 ease-in-out',
+                  {
+                    'rotate-180': isOpen,
+                  },
+                )}
+                color="secondary"
+                name="chevronDown"
+                size={12}
+              />
+            </div>
+          </MenuButton>
+
+          <MenuList
+            className={classNames(
+              'absolute left-0 origin-top-right rounded-2xl overflow-hidden focus:outline-none shadow-2xl min-w-full mt-[-4px]',
+              'border border-solid border-light-border-primary dark:border-dark-border-primary',
+              genericBgClasses.primary,
+              menuClassName,
+            )}
+            rootProps={{ className: 'z-50 w-full' }}
+          >
+            {menuItems.map(({ value, Component, className, disabled, label }) => (
+              <MenuItem
+                as="div"
+                className={className}
+                disabled={disabled}
+                key={value}
+                onClick={() => onChange(value)}
+                value={value}
+              >
+                <div
+                  className={classNames(
+                    'p-2',
+                    {
+                      'hover:bg-light-gray-light dark:hover:bg-dark-bg-secondary w-full': !disabled,
+                      'opacity-80': disabled,
+                    },
+                    disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+                  )}
+                >
+                  {Component || <Typography>{label}</Typography>}
+                </div>
+              </MenuItem>
+            ))}
+          </MenuList>
+        </div>
+      )}
+    </Menu>
   );
 };

@@ -15,8 +15,7 @@
   },
   "dependencies": {
     "@binance-chain/javascript-sdk": "4.2.0",
-    "@chakra-ui/anatomy": "2.1.0",
-    "@chakra-ui/react": "2.4.1",
+    "@chakra-ui/react": "2.4.2",
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
     "@ethersproject/abstract-provider": "5.7.0",
@@ -63,7 +62,7 @@
     "crypto-js": "4.1.1",
     "dayjs": "1.11.6",
     "foundry-primitives": "0.2.1",
-    "framer-motion": "7.6.12",
+    "framer-motion": "7.6.15",
     "fuse.js": "6.6.2",
     "hdkey": "2.0.1",
     "i18next": "22.0.6",
