@@ -1451,11 +1451,6 @@
     secp256k1 "^4.0.2"
     tweetnacl "^1.0.3"
 
-"@ctrl/tinycolor@^3.4.0":
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/@ctrl/tinycolor/-/tinycolor-3.4.1.tgz#75b4c27948c81e88ccd3a8902047bcd797f38d32"
-  integrity sha512-ej5oVy6lykXsvieQtqZxCOaLT+xD4+QNarq78cIYISHmZXshCvROLudpQN3lfL8G0NL7plMSSK+zlyvCaIJ4Iw==
-
 "@cypress/request@^2.88.10":
   version "2.88.10"
   resolved "https://registry.yarnpkg.com/@cypress/request/-/request-2.88.10.tgz#b66d76b07f860d3a4b8d7a0604d020c662752cce"
@@ -2862,10 +2857,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.11.tgz#f57392d4bd5467e2cb4eaf80105e2907c987178e"
   integrity sha512-rzfoyOE1IPEpGXYEH2dt2W/Nb2+rmbt97/yhu6aaaHSbwrfQvWt6KFdkNHa8KXa9zoN43gOdDz9Ku0SwwaHZpg==
 
-"@thorswap-lib/multichain-core@0.0.1-development.48":
-  version "0.0.1-development.48"
-  resolved "https://registry.npmjs.org/@thorswap-lib/multichain-core/-/multichain-core-0.0.1-development.48.tgz#d45e5630544a6968e44ee5e567418e49247f3f27"
-  integrity sha512-DX+SrnK4uKgJId7u53ky5f3EEUUujcXDalWQnc/gwazd/hDYV+/fvdMC1pCJgPDXMp5FL+z+A02KXIz5KW5GkA==
+"@thorswap-lib/multichain-core@0.0.1-development.50":
+  version "0.0.1-development.50"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.1-development.50.tgz#ab2f53969d83ded2a15574e5fdf08cd669b6d522"
+  integrity sha512-RynjuARBrzib9bq4/kYnTcAQc+knIYzbfUMH+zRoIPuaSnGsiPoApV0wS19Dhg3e1nDEfIoEpKPM7+5K9vNFfA==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.2.0"
     "@cosmjs/amino" "^0.29.0"
