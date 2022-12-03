@@ -25,7 +25,7 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
 
   const commonColumns = useMemo(
     () => [
-      { label: t('components.sidebar.thorname'), value: thorname },
+      !details && { label: t('components.sidebar.thorname'), value: thorname },
       {
         label: t('views.thorname.status'),
         value: (

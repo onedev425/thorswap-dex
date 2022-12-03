@@ -2,6 +2,7 @@ import { THORNameDetails } from '@thorswap-lib/midgard-sdk';
 import { Amount, Asset, THORName } from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
+import { shortenAddress } from 'helpers/shortenAddress';
 import usePrevious from 'hooks/usePrevious';
 import { useCallback, useEffect, useReducer } from 'react';
 import { t } from 'services/i18n';
@@ -93,19 +94,26 @@ export const useThornameLookup = (owner?: string) => {
     dispatch({ type: 'setYears', payload: years });
   }, []);
 
+  const loadDetails = useCallback(
+    async (providedThorname?: string) => {
+      const details = await getThornameDetails(providedThorname || thorname);
+
+      dispatch({
+        type: 'setDetails',
+        payload: {
+          details,
+          available: owner ? details.owner === owner : false,
+        },
+      });
+    },
+    [owner, thorname],
+  );
+
   const lookupForTNS = useCallback(
     async (providedThorname?: string) => {
       try {
         dispatch({ type: 'setLoading', payload: true });
-        const details = await getThornameDetails(providedThorname || thorname);
-
-        dispatch({
-          type: 'setDetails',
-          payload: {
-            details,
-            available: owner ? details.owner === owner : false,
-          },
-        });
+        loadDetails(providedThorname);
 
         return true;
       } catch (error: ToDo) {
@@ -119,14 +127,16 @@ export const useThornameLookup = (owner?: string) => {
         return false;
       }
     },
-    [owner, thorname],
+    [loadDetails],
   );
 
   const registerThornameAddress = useCallback(
-    async (address: string) => {
+    async (address: string, newOwner?: string) => {
       if (!THORName.isValidName(thorname)) {
         return showErrorToast(t('notification.invalidTHORName'));
       }
+
+      const isTransfer = !!newOwner;
 
       dispatch({ type: 'setLoading', payload: true });
       const amount =
@@ -134,6 +144,11 @@ export const useThornameLookup = (owner?: string) => {
 
       const prefix =
         details?.owner !== owner ? t('txManager.registerThorname') : t('txManager.updateThorname');
+
+      let label = `${prefix} ${thorname} - ${amount.toSignificant(6)} ${Asset.RUNE().name}`;
+      if (details?.owner && isTransfer) {
+        label = `${t('common.transfer')} ${thorname} - ${shortenAddress(newOwner, 6, 8)}`;
+      }
       const id = v4();
 
       appDispatch(
@@ -141,15 +156,16 @@ export const useThornameLookup = (owner?: string) => {
           id,
           inChain: Chain.THORChain,
           type: TransactionType.TC_TNS,
-          label: `${prefix} ${thorname} - ${amount.toSignificant(6)} ${Asset.RUNE().name}`,
+          label,
         }),
       );
 
+      const registerParams = isTransfer
+        ? { address: newOwner, owner: newOwner || owner, name: thorname, chain: Chain.THORChain }
+        : { address, owner: owner, name: thorname, chain };
+
       try {
-        const txid = await multichain().registerThorname(
-          { address, owner, name: thorname, chain },
-          amount,
-        );
+        const txid = await multichain().registerThorname(registerParams, amount);
 
         if (txid) {
           appDispatch(updateTransaction({ id, txid }));
@@ -159,9 +175,11 @@ export const useThornameLookup = (owner?: string) => {
         showErrorToast(t('notification.submitFail'));
       } finally {
         dispatch({ type: 'setLoading', payload: false });
+        // TODO - remove this hack once tx tracker will be fixed
+        setTimeout(loadDetails, 5000);
       }
     },
-    [thorname, details?.owner, owner, years, appDispatch, chain],
+    [thorname, details?.owner, owner, years, appDispatch, chain, loadDetails],
   );
 
   useEffect(() => {

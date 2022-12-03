@@ -1,12 +1,16 @@
 import { Asset, THORName } from '@thorswap-lib/multichain-core';
-import { SupportedChain } from '@thorswap-lib/types';
-import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic';
+import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Box, Button, Collapse, Icon, Tooltip, Typography } from 'components/Atomic';
+import { FieldLabel } from 'components/Form';
+import { HighlightCard } from 'components/HighlightCard';
 import { InfoRow } from 'components/InfoRow';
 import { InfoTable } from 'components/InfoTable';
 import { Input } from 'components/Input';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { PanelView } from 'components/PanelView';
+import { showErrorToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
+import { shortenAddress } from 'helpers/shortenAddress';
 import { isKeystoreSignRequired } from 'helpers/wallet';
 import { KeyboardEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
@@ -36,7 +40,11 @@ const Thorname = () => {
   } = useThornameLookup(thorAddress);
   const [validAddress, setValidAddress] = useState(false);
   const [address, setAddress] = useState<null | string>(null);
+  const [transferAddress, setTransferAddress] = useState<string>('');
+
   const [isOpened, setIsOpened] = useState(false);
+  const [isOpenedTransfer, setIsOpenedTransfer] = useState(false);
+
   const [step, setStep] = useState(0);
   const chainWalletAddress = wallet?.[chain]?.address;
 
@@ -133,6 +141,22 @@ const Thorname = () => {
     return t('views.wallet.search');
   }, [unavailableForPurchase, available, thorAddress, registeredChains.length]);
 
+  const onTransfer = useCallback(() => {
+    const isValidAddress = multichain().validateAddress({
+      chain: Chain.THORChain,
+      address: transferAddress || '',
+    });
+
+    if (!isValidAddress) {
+      return showErrorToast(
+        t('views.thorname.invalidTransferAddress'),
+        t('views.thorname.inputValidThorAddress'),
+      );
+    }
+
+    setIsOpenedTransfer(true);
+  }, [transferAddress]);
+
   useEffect(() => {
     if (chainWalletAddress) {
       setAddress(chainWalletAddress);
@@ -187,6 +211,53 @@ const Thorname = () => {
         suffix={thorname && <Icon color="secondary" name="close" onClick={handleResetThorname} />}
         value={thorname}
       />
+      {available && details && (
+        <HighlightCard className="!mt-2 !p-0 w-full">
+          <Collapse
+            className="!py-1"
+            shadow={false}
+            title={
+              <Box className="flex justify-between w-full">
+                <Typography color="secondary" fontWeight="medium">
+                  {t('components.sidebar.thorname')}
+                </Typography>
+                <Typography className="text-right" color="primary" fontWeight="semibold">
+                  {thorname}
+                </Typography>
+              </Box>
+            }
+          >
+            <Box col className="gap-4">
+              <Box col>
+                <FieldLabel label={t('views.thorname.transferTHORName')} />
+                <Box row className="w-full gap-x-4">
+                  <Input
+                    autoFocus
+                    stretch
+                    border="rounded"
+                    className="!text-md !p-1.5 border pt-5"
+                    containerClassName="bg-light-gray-light dark:bg-dark-gray-light !bg-opacity-80"
+                    onChange={({ target }) => setTransferAddress(target.value)}
+                    placeholder={`${Chain.THORChain} ${t('common.address')}`}
+                    value={transferAddress || ''}
+                  />
+                </Box>
+              </Box>
+              <Button
+                stretch
+                disabled={!transferAddress}
+                error={!!details && available && !validAddress}
+                loading={isWalletLoading || loading}
+                onClick={onTransfer}
+                size="sm"
+                variant="secondary"
+              >
+                {t('common.transfer')}
+              </Button>
+            </Box>
+          </Collapse>
+        </HighlightCard>
+      )}
 
       <InfoTable horizontalInset items={thornameInfoItems} size="lg" />
 
@@ -206,7 +277,6 @@ const Thorname = () => {
           />
         </Box>
       )}
-
       <Box className="w-full pt-6">
         <Button
           isFancy
@@ -267,6 +337,24 @@ const Thorname = () => {
             />
           </Box>
         )}
+      </ConfirmModal>
+      <ConfirmModal
+        inputAssets={[Asset.RUNE()]}
+        isOpened={isOpenedTransfer}
+        onClose={() => setIsOpenedTransfer(false)}
+        onConfirm={() => {
+          registerThornameAddress(address || '', transferAddress);
+          setIsOpenedTransfer(false);
+        }}
+      >
+        <Box col>
+          <InfoRow label="THORName" value={thorname} />
+          <InfoRow
+            capitalizeLabel
+            label={t('common.transferAddress')}
+            value={shortenAddress(transferAddress, 6, 8)}
+          />
+        </Box>
       </ConfirmModal>
     </PanelView>
   );

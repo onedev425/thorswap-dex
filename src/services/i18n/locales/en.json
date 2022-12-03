@@ -155,7 +155,9 @@
     "wallet": "Wallet",
     "withdraw": "Withdraw",
     "withdrawPercent": "Withdraw Percent",
-    "yourTransactions": "Your Transactions"
+    "yourTransactions": "Your Transactions",
+    "transfer": "Transfer",
+    "transferAddress": "Transfer Address"
   },
   "components": {
     "announcements": {
@@ -791,7 +793,10 @@
       "unavailableForPurchase": "Unavailable for purchase",
       "updateFee": "Update Fee",
       "year": "year",
-      "years": "years"
+      "years": "years",
+      "invalidTransferAddress": "Invalid transfer address",
+      "inputValidThorAddress": "Please input a valid THORChain address",
+      "transferTHORName": "Transfer THORName"
     },
     "vesting": {
       "claim": "Claim",
