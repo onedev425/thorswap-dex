@@ -27,6 +27,7 @@ import { useWallet } from 'store/wallet/hooks';
 import { FeeModal } from 'views/Swap/FeeModal';
 import { useKyberSwap } from 'views/Swap/hooks/useKyberSwap';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';
+import RUNEInfoContent from 'views/Swap/RUNEInfoContent';
 import THORInfoContent from 'views/Swap/THORInfoContent';
 
 import { ApproveModal } from './ApproveModal';
@@ -309,17 +310,31 @@ const SwapView = () => {
     [inputAsset.L1Chain, isInputWalletConnected, keystore],
   );
 
-  const thorTooltipVisible = useMemo(
+  const isAvaxTHOR = useMemo(
     () => outputAsset.ticker.includes('THOR') && outputAsset.chain === Chain.Avalanche,
-    [outputAsset.chain, outputAsset.ticker],
+    [outputAsset],
   );
-
+  const isEthRUNE = useMemo(
+    () => outputAsset.ticker === 'RUNE' && outputAsset.chain === Chain.Ethereum,
+    [outputAsset],
+  );
+  const tokenOutputWarning = useMemo(() => isAvaxTHOR || isEthRUNE, [isAvaxTHOR, isEthRUNE]);
   const noPriceProtection = useMemo(
     () =>
       [Chain.Litecoin, Chain.Doge, Chain.BitcoinCash].includes(inputAsset.L1Chain) &&
       wallet?.[inputAsset.L1Chain]?.walletType === WalletOption.LEDGER,
     [inputAsset.L1Chain, wallet],
   );
+
+  const tokenOutputContent = useMemo(() => {
+    if (isAvaxTHOR) {
+      return <THORInfoContent inputAsset={inputAsset} />;
+    } else if (isEthRUNE) {
+      return <RUNEInfoContent inputAsset={inputAsset} />;
+    } else {
+      return null;
+    }
+  }, [inputAsset, isAvaxTHOR, isEthRUNE]);
 
   return (
     <PanelView
@@ -367,13 +382,7 @@ const SwapView = () => {
         showTransactionFeeSelect={showTransactionFeeSelect}
       />
 
-      {thorTooltipVisible && (
-        <InfoTip
-          className="!mt-2"
-          content={<THORInfoContent inputAsset={inputAsset} />}
-          type="warn"
-        />
-      )}
+      {tokenOutputWarning && <InfoTip className="!mt-2" content={tokenOutputContent} type="warn" />}
 
       {noPriceProtection && (
         <InfoTip
