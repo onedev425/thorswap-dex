@@ -1,5 +1,6 @@
 import { getRequest } from '@thorswap-lib/multichain-core';
 import takeRight from 'lodash/takeRight';
+import { getBlockRewards } from 'services/contract';
 
 export const BLOCKS_PER_DAY = 6432;
 export const BLOCKS_PER_YEAR = BLOCKS_PER_DAY * 365;
@@ -56,7 +57,7 @@ export const getThorBuyback = async () => {
 };
 
 export const fetchVthorApr = async (tvl: number) => {
-  const vthorBlockReward = THOR_BLOCK_REWARD * BLOCKS_PER_YEAR;
+  const vthorBlockReward = (await getBlockRewards()) * BLOCKS_PER_YEAR;
   const buybackThor = await getThorBuyback().catch(() => 0);
 
   return ((vthorBlockReward + buybackThor) / tvl) * 100;

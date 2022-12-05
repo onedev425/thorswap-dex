@@ -1,11 +1,12 @@
 import { getAddress } from '@ethersproject/address';
 import { BigNumber } from '@ethersproject/bignumber';
 import { type ContractInterface, Contract } from '@ethersproject/contracts';
-import { formatUnits, parseUnits } from '@ethersproject/units';
+import { formatEther, formatUnits, parseUnits } from '@ethersproject/units';
 import { alchemyProvider } from 'services/alchemyProvider';
 import { multichain } from 'services/multichain';
 
 import ERC20ABI from './abi/ERC20.json';
+import RewardsPerBlockABI from './abi/RewardPerBlock.json';
 import StakingABI from './abi/Staking.json';
 import VestingABI from './abi/TokenVesting.json';
 import VThorABI from './abi/VThor.json';
@@ -16,6 +17,7 @@ export enum ContractType {
   STAKING_THOR = 'staking_thor',
   STAKING_SUSHI_WETH = 'staking_sushi_weth',
   VTHOR = 'vthor',
+  REWARDS_PER_BLOCK = 'rewards_per_block',
 }
 
 export enum LPContractType {
@@ -44,6 +46,10 @@ export const contractConfig: Record<ContractType, { address: string; abi: any }>
   [ContractType.VTHOR_VESTING]: {
     address: '0xB54147e6031086eD015602248E0Cc34E64c0D25f',
     abi: VestingABI,
+  },
+  [ContractType.REWARDS_PER_BLOCK]: {
+    address: '0x8f631816043c8e8Cad0C4c602bFe7Bff1B22b182',
+    abi: RewardsPerBlockABI,
   },
 };
 
@@ -92,6 +98,14 @@ export const getLpTokenBalance = async (contractType: LPContractType) => {
 
   const tokenContract = getCustomContract(tokenAddr);
   return await tokenContract.balanceOf(stakingAddr);
+};
+
+export const getBlockRewards = async (): Promise<number> => {
+  let blockReward = parseFloat(
+    formatEther(await getEtherscanContract(ContractType.REWARDS_PER_BLOCK).rewardPerBlock()),
+  );
+
+  return blockReward;
 };
 
 // add 20%
