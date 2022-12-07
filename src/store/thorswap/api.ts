@@ -17,10 +17,14 @@ const baseUrl =
   (IS_DEV_API ? import.meta.env.VITE_THORSWAP_DEV_API : import.meta.env.VITE_THORSWAP_API) ||
   'https://dev-api.thorswap.net';
 
+const tempTokenlist = 'https://tokenlist-prod-aulilvmdlq-uc.a.run.app';
+
+const tokenlistUrl = IS_DEV_API ? tempTokenlist : `${baseUrl}/tokenlist`;
+
 export const thorswapApi = createApi({
   reducerPath: 'thorswap',
   baseQuery: fetchBaseQuery({
-    baseUrl,
+    baseUrl: '',
     mode: 'cors',
   }),
   endpoints: (build) => ({
@@ -33,12 +37,12 @@ export const thorswapApi = createApi({
           queryParams.append('affiliateAddress', THORSWAP_AFFILIATE_ADDRESS);
         }
 
-        return `/aggregator/tokens/quote?${queryParams.toString()}`;
+        return `${baseUrl}/aggregator/tokens/quote?${queryParams.toString()}`;
       },
     }),
 
     getProviders: build.query<GetProvidersResponse, void>({
-      query: () => `/tokenlist/providers`,
+      query: () => `${tokenlistUrl}/providers`,
     }),
 
     getTokenCachedPrices: build.query<GetTokenPriceResponse, GetTokenPriceParams>({
@@ -48,7 +52,7 @@ export const thorswapApi = createApi({
 
         return {
           method: 'POST',
-          url: `/tokenlist/cached-price`,
+          url: `${tokenlistUrl}/cached-price`,
           body,
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         };
@@ -61,12 +65,12 @@ export const thorswapApi = createApi({
         if (from) queryParams.append('from', from);
         if (type) queryParams.append('type', type);
 
-        return `/apiusage/txn?${queryParams.toString()}`;
+        return `${baseUrl}/apiusage/txn?${queryParams.toString()}`;
       },
     }),
 
     getAnnouncements: build.query<AnnouncementsData, void>({
-      query: () => `/announcements`,
+      query: () => `${baseUrl}/announcements`,
     }),
   }),
 });
