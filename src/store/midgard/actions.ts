@@ -5,7 +5,7 @@ import { SupportedChain } from '@thorswap-lib/types';
 import { midgardApi } from 'services/midgard';
 import { midgardAPIUrl, THORNODE_URL } from 'settings/config';
 
-import { LiquidityProvider, SaverProvider, ThornodePoolType } from './types';
+import { LiquidityProvider, MidgardEarnPoolType, SaverProvider, ThornodePoolType } from './types';
 
 export const getNetworkData = createAsyncThunk('midgard/getNetworkData', midgardApi.getNetworkData);
 export const getLastblock = createAsyncThunk('midgard/getLastblock', midgardApi.getLastblock);
@@ -123,3 +123,7 @@ export const getSaverQuote = ({
 }) => getRequest(`${THORNODE_URL}/quote/saver/${type}?${new URLSearchParams(rest).toString()}`);
 
 export const getSaverPools = () => getRequest<ThornodePoolType[]>(`${THORNODE_URL}/pools`);
+
+export const getEarnMidgardPools = () =>
+  // temp fetch directly from 9realms midgard
+  getRequest<MidgardEarnPoolType[]>(`https://midgard.ninerealms.com/v2/pools?period=7d`);

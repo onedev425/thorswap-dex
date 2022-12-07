@@ -240,3 +240,8 @@ export type ThornodePoolType = {
   synth_supply: string;
   synth_units: string;
 };
+
+export type MidgardEarnPoolType = {
+  asset: string;
+  saversAPR: string;
+};

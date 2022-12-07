@@ -7,11 +7,18 @@ export type SaverPosition = {
   units: Amount;
   amount: Amount;
   pool: ThornodePoolType;
+  depositAmount: Amount;
+  earnedAmount: Amount | null;
 };
 
 export enum EarnTab {
   Deposit = 'deposit',
   Withdraw = 'withdraw',
+}
+
+export enum EarnViewTab {
+  Earn = 'earn',
+  Positions = 'positions',
 }
 
 export type SaverQuoteResponse = {

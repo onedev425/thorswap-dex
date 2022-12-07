@@ -1,8 +1,9 @@
 import { Amount, Asset, Price } from '@thorswap-lib/multichain-core';
-import { AssetSelectType } from 'components/AssetSelect/types';
+import { AssetSelectProps, AssetSelectType } from 'components/AssetSelect/types';
 
 export type AssetInputType = {
   asset: Asset;
+  apr?: string;
   usdPrice?: Price;
   balance?: Amount;
   value?: Amount;
@@ -12,6 +13,7 @@ export type AssetInputType = {
 
 export type AssetInputProps = {
   hideZeroPrice?: boolean;
+  AssetListComponent?: (props: AssetSelectProps) => JSX.Element;
   isLoading?: boolean;
   className?: string;
   setQuery?: (query: string) => void;

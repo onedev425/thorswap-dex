@@ -11,11 +11,20 @@ type Props = {
   selected?: Asset | null;
   className?: string;
   showAssetType?: boolean;
+  AssetListComponent?: (props: AssetSelectProps) => JSX.Element;
 } & AssetSelectProps;
 
-export const AssetSelect = ({ selected, className, showAssetType, ...restProps }: Props) => {
+export const AssetSelect = ({
+  selected,
+  className,
+  showAssetType,
+  AssetListComponent,
+  ...restProps
+}: Props) => {
   const [isOpened, setIsOpened] = useState(false);
   const [manageTokenListIsOpened, setManageTokenListIsOpened] = useState(false);
+
+  const ListComponent = AssetListComponent || AssetSelectList;
 
   return (
     <>
@@ -44,7 +53,7 @@ export const AssetSelect = ({ selected, className, showAssetType, ...restProps }
           {manageTokenListIsOpened ? (
             <TokenListProviderSelect {...restProps} />
           ) : (
-            <AssetSelectList
+            <ListComponent
               {...restProps}
               onClose={() => setIsOpened(false)}
               openManageTokenList={() => setManageTokenListIsOpened(true)}

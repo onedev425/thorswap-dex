@@ -27,8 +27,12 @@ export const useSaverPositions = () => {
 
           // position amount = (saverUnits / totalSaverUnits) * saverDepth
           const amount = p.units.div(saverUnits).mul(saverDepth);
-
-          return { ...p, saverPool, amount };
+          let earnedAmount = null;
+          if (p.depositAmount && amount.gt(p.depositAmount)) {
+            // earnedAmount = reedemeable amount - deposit amount
+            earnedAmount = amount.sub(p.depositAmount);
+          }
+          return { ...p, saverPool, amount, earnedAmount };
         }
 
         return p;
@@ -44,9 +48,12 @@ export const useSaverPositions = () => {
       if (address) {
         const response = await getSaverData({ asset: asset.toString().toLowerCase(), address });
         const units = Amount.fromMidgard(response.units);
+        const depositAmount = Amount.fromMidgard(response.asset_deposit_value);
 
         // amount will be filled be updated with correct value when pools are loaded
-        return units.gt(0) ? { asset, units, provider: response, amount: units } : null;
+        return units.gt(0)
+          ? { asset, units, provider: response, amount: units, depositAmount }
+          : null;
       }
     },
     [wallet],

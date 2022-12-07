@@ -1,10 +1,12 @@
 import { Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Button, Icon, Tooltip, Typography, useCollapse } from 'components/Atomic';
-import { baseTextHoverClass } from 'components/constants';
+import { Box, Button, Icon, Typography, useCollapse } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
+import { InfoRowConfig } from 'components/InfoRow/types';
+import { InfoTable } from 'components/InfoTable';
 import { t } from 'services/i18n';
+import { PositionTooSmallInfo } from 'views/Earn/PositionTooSmallInfo';
 import { SaverPosition } from 'views/Earn/types';
 import { useEarnCalculations } from 'views/Earn/useEarnCalculations';
 
@@ -16,6 +18,7 @@ type Props = {
 
 export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
   const { collapse, isActive, contentRef, toggle, maxHeightStyle } = useCollapse();
+
   const { networkFee } = useEarnCalculations({
     asset: position.asset,
     amount: position.amount,
@@ -23,6 +26,30 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
   });
 
   const positionTooSmall = networkFee.gte(position?.amount);
+
+  const infoFields: InfoRowConfig[] = [
+    {
+      label: 'Amount Deposited',
+      value: `${position.depositAmount.toSignificant(6)} ${position.asset.symbol}`,
+    },
+    {
+      label: 'Amount Redeemable',
+      value: !positionTooSmall ? (
+        `${position?.amount?.toSignificant(6)} ${position.asset.symbol}`
+      ) : (
+        <PositionTooSmallInfo />
+      ),
+    },
+    {
+      label: 'Total Earned',
+      value:
+        position?.earnedAmount && !positionTooSmall ? (
+          `${position?.earnedAmount?.toSignificant(6)} ${position.asset.symbol}`
+        ) : (
+          <PositionTooSmallInfo />
+        ),
+    },
+  ];
 
   return (
     <Box col justifyCenter className="self-stretch" key={position.asset.toString()}>
@@ -47,17 +74,7 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
                 {position.amount?.toSignificant(6) || 'n/a'} {position.asset.name}
               </Typography>
             ) : (
-              <Box className="gap-1 mr-1">
-                <Typography variant="caption">n/a</Typography>
-                <Tooltip content={t('views.savings.positionTooSmall')}>
-                  <Icon
-                    className={baseTextHoverClass}
-                    color="secondary"
-                    name="infoCircle"
-                    size={20}
-                  />
-                </Tooltip>
-              </Box>
+              <PositionTooSmallInfo />
             )}
           </Box>
 
@@ -75,6 +92,8 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
           ref={contentRef}
           style={maxHeightStyle}
         >
+          <InfoTable horizontalInset className="my-3" items={infoFields} size="md" />
+
           <Box justifyCenter className="space-x-6 md:pr-0 mt-3">
             <Button
               stretch

@@ -636,6 +636,7 @@
       "yourDeposit": "Your Deposit",
       "yourEarnings": "Your Earnings",
       "yourPositions": "Your Positions",
+      "myPortfolio": "My Portfolio",
       "notEnoughForOutboundFee": "Not enough amount to cover outbound fee",
       "positionTooSmall": "Position too small to calculate"
     },
