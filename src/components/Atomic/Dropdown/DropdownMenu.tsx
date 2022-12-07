@@ -64,21 +64,25 @@ export const DropdownMenu = ({
           </MenuButton>
 
           <MenuList
+            borderRadius={16}
             className={classNames(
-              'absolute left-0 origin-top-right rounded-2xl overflow-hidden focus:outline-none shadow-2xl min-w-full mt-[-4px]',
+              'absolute left-0 origin-top-right overflow-hidden focus:outline-none shadow-2xl min-w-full mt-[-4px]',
               'border border-solid border-light-border-primary dark:border-dark-border-primary',
               genericBgClasses.primary,
               menuClassName,
             )}
+            p={0}
             rootProps={{ className: 'z-50 w-full' }}
           >
             {menuItems.map(({ value, Component, className, disabled, label }) => (
               <MenuItem
                 as="div"
+                bg="none"
                 className={className}
                 disabled={disabled}
                 key={value}
                 onClick={() => onChange(value)}
+                p={0}
                 value={value}
               >
                 <div

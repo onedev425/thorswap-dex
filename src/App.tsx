@@ -1,3 +1,4 @@
+import { ChakraProvider } from '@chakra-ui/react';
 import { AnnouncementsProvider } from 'components/Announcements/AnnouncementsContext';
 import { Box } from 'components/Atomic';
 import { ThemeProvider } from 'components/Theme/ThemeContext';
@@ -13,6 +14,7 @@ import { store as reduxStore } from 'store/store';
 import { checkOrigin } from './helpers/checkOrigin';
 import DrawerProvider from './hooks/useWalletDrawer';
 import { PublicRoutes } from './router';
+import theme from './theme/index';
 
 dayjs.extend(duration);
 
@@ -29,8 +31,6 @@ const MainApp = () => {
 
   return (
     <Box className="overflow-x-hidden" flex={1}>
-      <div id="headlessui-portal-root" />
-
       <DrawerProvider>
         <PublicRoutes />
       </DrawerProvider>
@@ -42,15 +42,17 @@ function App() {
   if (!checkOrigin()) return null;
 
   return (
-    <HelmetProvider>
-      <ReduxProvider store={reduxStore}>
-        <ThemeProvider>
-          <AnnouncementsProvider>
-            <MainApp />
-          </AnnouncementsProvider>
-        </ThemeProvider>
-      </ReduxProvider>
-    </HelmetProvider>
+    <ChakraProvider resetCSS={false} theme={theme}>
+      <HelmetProvider>
+        <ReduxProvider store={reduxStore}>
+          <ThemeProvider>
+            <AnnouncementsProvider>
+              <MainApp />
+            </AnnouncementsProvider>
+          </ThemeProvider>
+        </ReduxProvider>
+      </HelmetProvider>
+    </ChakraProvider>
   );
 }
 

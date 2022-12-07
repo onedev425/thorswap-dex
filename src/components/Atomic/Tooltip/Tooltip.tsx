@@ -42,7 +42,7 @@ export const Tooltip = ({
       label={
         <div
           className={classNames(
-            'hidden sm:block px-5 py-2 rounded-2xl max-w-[260px]',
+            'hidden w-full h-full sm:block px-5 py-2 rounded-2xl max-w-[260px]',
             'bg-light-bg-primary border border-light-border-primary border-solid dark:bg-dark-bg-primary dark:border-dark-border-primary',
           )}
         >
@@ -51,6 +51,7 @@ export const Tooltip = ({
           </Typography>
         </div>
       }
+      p={0}
       placement={place}
     >
       <div>
