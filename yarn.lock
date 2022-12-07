@@ -2866,10 +2866,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.11.tgz#f57392d4bd5467e2cb4eaf80105e2907c987178e"
   integrity sha512-rzfoyOE1IPEpGXYEH2dt2W/Nb2+rmbt97/yhu6aaaHSbwrfQvWt6KFdkNHa8KXa9zoN43gOdDz9Ku0SwwaHZpg==
 
-"@thorswap-lib/multichain-core@0.0.1-development.52":
-  version "0.0.1-development.52"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.1-development.52.tgz#c9482eedce23cf745a5d5cf54b0308ef2b2a1711"
-  integrity sha512-WFhnaAXbLZ3/s6aEaqqQ+/VcnmxXkH6vfDyC/lcv4mhHVaEELB5f+OGjjPb5rDxgq/qCEEgUPMOlTr6pPfGZjg==
+"@thorswap-lib/multichain-core@0.0.1-development.54":
+  version "0.0.1-development.54"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.1-development.54.tgz#735a19a43e95ac13011179b63ecbcee1b16f56d3"
+  integrity sha512-CBW75WXgfVJADojcBL6a8We3426jjzUZMrsOAScLxo+sqWP7flrxbRmYo0C7GL9VX6hv2R2QO/Z1k0CdXuO6Xg==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.2.0"
     "@cosmjs/amino" "^0.29.0"
@@ -2883,7 +2883,7 @@
     "@thorswap-lib/multichain-entities" "^0.2.34"
     "@thorswap-lib/types" "^0.3.8"
     "@thorswap-lib/xchain-binance" "^5.6.33"
-    "@thorswap-lib/xchain-cosmos" "^0.21.9"
+    "@thorswap-lib/xchain-cosmos" "^0.21.11"
     "@thorswap-lib/xchain-evm" "^0.1.77"
     "@thorswap-lib/xchain-solana" "^0.2.38"
     "@thorswap-lib/xchain-utxo" "^0.1.32"
@@ -2961,10 +2961,10 @@
     "@thorswap-lib/atlas" "^0.4.16"
     "@thorswap-lib/multichain-entities" "^0.2.34"
 
-"@thorswap-lib/xchain-cosmos@^0.21.9":
-  version "0.21.9"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-cosmos/-/xchain-cosmos-0.21.9.tgz#54abab4a6c72c15e7a62e5a90af40eb594ba389c"
-  integrity sha512-+OVvHHSfgs/eEpBBcYkUIeEvDb+mfNlybh0r0bH/wByYAWP5AKyNBWmFd4AeZwMph9Tqx/LECyLyiDzvICbEAA==
+"@thorswap-lib/xchain-cosmos@^0.21.11":
+  version "0.21.11"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xchain-cosmos/-/xchain-cosmos-0.21.11.tgz#39ed4e0f814e7e668e1f39dc6446b6dbcb60bac2"
+  integrity sha512-rAVq92MeVdW7BrpNAmkicQINUfu0R9foo6uWvzjGN9wbQxW1TjP8wXJ3gNuk4O5JSWymw/U+NO1iyOJIcDP99A==
   dependencies:
     "@cosmjs/encoding" "^0.29.4"
     "@thorswap-lib/atlas" "^0.4.16"
