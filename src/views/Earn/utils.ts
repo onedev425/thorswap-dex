@@ -23,3 +23,16 @@ export function getFilledColor(value?: string): ColorType {
 
   return 'green';
 }
+
+export function getFormattedPercent(percent?: number): string {
+  if (!percent) {
+    return '';
+  }
+
+  let value = percent < 10 ? percent.toFixed(2) : percent.toFixed(1);
+  if (percent > 100) {
+    value = percent.toFixed(0);
+  }
+
+  return `${value}%`;
+}

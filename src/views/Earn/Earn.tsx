@@ -10,7 +10,6 @@ import { Box, Button, Card, Icon, Link, Tooltip, Typography } from 'components/A
 import { Helmet } from 'components/Helmet';
 import { InfoTable } from 'components/InfoTable';
 import { TabsSelect } from 'components/TabsSelect';
-import { ViewHeader } from 'components/ViewHeader';
 import { YIELD_BEARING_YOUTUBE } from 'config/constants';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
@@ -239,11 +238,14 @@ const Earn = () => {
             title={t('views.savings.earn')}
           />
           <Box className="flex w-full justify-between">
-            <ViewHeader
-              title={`${t('views.savings.earn')} ${asset.name} ${
-                assetAPR?.apr ? assetAPR?.apr : 'N/A'
-              } ${t('commoon.APR')}`}
-            />
+            <Box alignCenter>
+              <Typography className="ml-3 mr-2" variant="h3">
+                {t('views.savings.earn')} {asset.name}
+              </Typography>
+              <Typography color="primaryBtn" variant="h3">
+                {assetAPR?.apr ? assetAPR?.apr : 'N/A'} {t('common.apr').toUpperCase()}
+              </Typography>
+            </Box>
           </Box>
           <Box alignCenter className="px-3" justify="between">
             <Typography color="secondary" fontWeight="medium" variant="caption">
