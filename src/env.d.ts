@@ -14,6 +14,7 @@ interface ImportMetaEnv {
   readonly VITE_KADO_KEY: string;
   readonly VITE_BLOCKCHAIR_API_KEY: string;
   readonly VITE_USING_FALLBACK_MIDGARD: string;
+  readonly VITE_WALLETCONNECT_PROJECT_ID: string;
 }
 
 interface ImportMeta {

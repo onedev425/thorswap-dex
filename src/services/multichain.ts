@@ -13,6 +13,7 @@ setGlobalConfig({
   networkType: Network.Mainnet,
   midgardUrl: MIDGARD_URL,
   thornodeMainnetApiUrl: THORNODE_URL,
+  walletconnectProjectId: import.meta.env.VITE_WALLETCONNECT_PROJECT_ID,
 });
 
 let multichainClient: MultiChain;
