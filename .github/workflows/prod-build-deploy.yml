@@ -63,6 +63,7 @@ jobs:
           VITE_ETHPLORER_API_KEY: ${{ secrets.VITE_ETHPLORER_API_KEY }}
           VITE_GOOGLE_API_KEY: ${{ secrets.VITE_GOOGLE_API_KEY }}
           VITE_KADO_KEY: ${{ secrets.VITE_KADO_KEY }}
+          VITE_WALLETCONNECT_PROJECT_ID: ${{ secrets.VITE_WALLETCONNECT_PROJECT_ID }}
           VITE_MAINNET_MIDGARD: ${{ secrets.VITE_MAINNET_MIDGARD }}
           VITE_MAINNET_THORNODE: ${{ secrets.VITE_MAINNET_THORNODE }}
           VITE_THORSWAP_API: ${{ secrets.VITE_THORSWAP_API }}
