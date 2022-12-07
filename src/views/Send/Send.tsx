@@ -201,7 +201,7 @@ const Send = () => {
         label: t('common.send'),
         value: `${sendAmount?.toSignificant(6)} ${sendAsset.name}`,
       },
-      { label: t('common.recipient'), value: txRecipient },
+      { label: t('common.recipient'), value: t('common.msgDeposit') },
       { label: t('common.memo'), value: txMemo },
       {
         label: t('common.transactionFee'),
@@ -215,7 +215,7 @@ const Send = () => {
         ),
       },
     ],
-    [sendAmount, sendAsset.name, txRecipient, txMemo, inboundFee, totalFeeInUSD],
+    [sendAmount, sendAsset.name, txMemo, inboundFee, totalFeeInUSD],
   );
 
   const recipientTitle = useMemo(
@@ -272,9 +272,7 @@ const Send = () => {
         </Box>
       )}
 
-      {customTxEnabled && (
-        <CustomSend memo={customMemo} sendAsset={sendAsset} setMemo={setCustomMemo} />
-      )}
+      {customTxEnabled && <CustomSend memo={customMemo} setMemo={setCustomMemo} />}
 
       <InfoTable horizontalInset items={summary} />
 

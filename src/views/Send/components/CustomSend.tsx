@@ -1,10 +1,9 @@
-import { Asset, Memo } from '@thorswap-lib/multichain-core';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { AssetSelect } from 'components/AssetSelect';
 import { Box, Typography } from 'components/Atomic';
 import { PanelInput } from 'components/PanelInput';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { useMidgard } from 'store/midgard/hooks';
 
 enum MemoType {
@@ -13,12 +12,11 @@ enum MemoType {
 }
 
 type Props = {
-  sendAsset: Asset | null;
   memo: string;
   setMemo: (memo: string) => void;
 };
 
-export const CustomSend = ({ sendAsset, memo, setMemo }: Props) => {
+export const CustomSend = ({ memo, setMemo }: Props) => {
   const { getInboundData, pools } = useMidgard();
   const [memoType] = useState(MemoType.deposit);
   const [outputAsset, setOutputAsset] = useState<Asset>(Asset.RUNE());
@@ -32,23 +30,6 @@ export const CustomSend = ({ sendAsset, memo, setMemo }: Props) => {
   useEffect(() => {
     getInboundData();
   }, [getInboundData]);
-
-  const udpateMemo = useCallback(() => {
-    let memo = '';
-    if (memoType === MemoType.deposit) {
-      if (sendAsset) {
-        memo = Memo.depositMemo(sendAsset);
-      }
-    } else {
-      const address = multichain().getWalletAddressByChain(outputAsset?.L1Chain);
-      memo = Memo.swapMemo(outputAsset, address || '');
-    }
-    setMemo(memo);
-  }, [memoType, outputAsset, sendAsset, setMemo]);
-
-  useEffect(() => {
-    udpateMemo();
-  }, [udpateMemo]);
 
   const handleChangeMemo = useCallback(
     ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
