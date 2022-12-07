@@ -110,6 +110,7 @@ export type MimirData = {
   PAUSELPLTC?: number;
   SOLVENCYHALTBCHCHAIN?: number;
   SOLVENCYHALTETHCHAIN?: number;
+  MAXSYNTHPERPOOLDEPTH?: number;
 };
 
 export type ShareType = 'sym' | 'runeAsym' | 'assetAsym';
@@ -244,4 +245,6 @@ export type ThornodePoolType = {
 export type MidgardEarnPoolType = {
   asset: string;
   saversAPR: string;
+  synthSupply: string;
+  assetDepth: string;
 };

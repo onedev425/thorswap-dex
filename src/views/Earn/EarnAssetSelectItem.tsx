@@ -4,6 +4,7 @@ import { Box, Typography } from 'components/Atomic';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { memo } from 'react';
 import { t } from 'services/i18n';
+import { getFilledColor } from 'views/Earn/utils';
 
 import { AssetSelectType } from '../../components/AssetSelect/types';
 
@@ -12,7 +13,7 @@ type Props = AssetSelectType & {
 };
 
 export const EarnAssetSelectItem = memo(
-  ({ asset, logoURI, balance, select, value, apr }: Props) => {
+  ({ asset, logoURI, balance, select, value, apr, filled }: Props) => {
     const formatPrice = useFormatPrice();
 
     return (
@@ -30,18 +31,34 @@ export const EarnAssetSelectItem = memo(
             <Typography fontWeight="medium" variant="body">
               {asset?.ticker}
             </Typography>
-            <Box alignCenter row className="gap-x-1">
-              <Typography
-                color={asset?.isSynth ? 'primaryBtn' : 'secondary'}
-                fontWeight="light"
-                transform="uppercase"
-                variant="body"
-              >
-                {t('common.APR')}
-              </Typography>
-              <Typography fontWeight="medium" variant="body">
-                {apr ? apr : 'N/A'}
-              </Typography>
+            <Box alignCenter row className="gap-x-2">
+              <Box center className="gap-1">
+                <Typography
+                  color="secondary"
+                  fontWeight="light"
+                  transform="uppercase"
+                  variant="caption"
+                >
+                  {t('common.APR')}
+                </Typography>
+                <Typography color="primaryBtn" variant="caption">
+                  {apr ? apr : 'N/A'}
+                </Typography>
+              </Box>
+
+              <Box center className="gap-1">
+                <Typography
+                  color="secondary"
+                  fontWeight="light"
+                  transform="uppercase"
+                  variant="caption"
+                >
+                  {t('common.filled')}
+                </Typography>
+                <Typography color={getFilledColor(filled)} variant="caption">
+                  {filled ? filled : 'N/A'}
+                </Typography>
+              </Box>
             </Box>
           </Box>
         </Box>

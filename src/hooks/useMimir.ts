@@ -114,6 +114,8 @@ export const useMimir = () => {
     [mimir?.MAXSYNTHPERASSETDEPTH],
   );
 
+  const synthCap = 2 * ((mimir.MAXSYNTHPERPOOLDEPTH || 0) / 10000);
+
   return {
     capPercent,
     isBCHChainHalted,
@@ -135,5 +137,6 @@ export const useMimir = () => {
     maxSynthPerAssetDepth,
     totalPooledRune,
     isLoaded: mimirLoaded,
+    synthCap,
   };
 };

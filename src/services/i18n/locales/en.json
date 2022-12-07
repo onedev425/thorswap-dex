@@ -157,7 +157,8 @@
     "withdrawPercent": "Withdraw Percent",
     "yourTransactions": "Your Transactions",
     "transfer": "Transfer",
-    "transferAddress": "Transfer Address"
+    "transferAddress": "Transfer Address",
+    "filled": "Filled"
   },
   "components": {
     "announcements": {

@@ -1,4 +1,10 @@
-import { Amount, Asset, AssetAmount, Percent } from '@thorswap-lib/multichain-core';
+import {
+  Amount,
+  Asset,
+  AssetAmount,
+  hasConnectedWallet,
+  Percent,
+} from '@thorswap-lib/multichain-core';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Button, Card, Icon, Link, Tooltip, Typography } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
@@ -47,6 +53,7 @@ const Earn = () => {
   const { isChainTradingHalted, maxSynthPerAssetDepth } = useMimir();
   const { positions, refreshPositions, getPosition, synthAvailability } = useSaverPositions();
   const { wallet, setIsConnectModalOpen } = useWallet();
+  const isWalletConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
   const [amount, setAmount] = useState(Amount.fromAssetAmount(0, 8));
   const [asset, setAsset] = useState(Asset.BTC());
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
@@ -321,7 +328,7 @@ const Earn = () => {
       )}
       {viewTab === EarnViewTab.Positions && (
         <Box className="w-full self-stretch">
-          {address ? (
+          {isWalletConnected ? (
             <EarnPositions
               depositAsset={depositAsset}
               positions={positions}
