@@ -7,7 +7,7 @@ export const IS_BETA = isEnv(import.meta.env.VITE_BETA, 'beta');
 export const IS_PROD = isEnv(import.meta.env.VITE_PROD, 'app.thorswap.finance');
 
 export const MIDGARD_DEV_API = 'https://midgard-stage-a.thorswap.net';
-export const STATIC_API = 'https://static.thorswap.net';
+export const STATIC_API = import.meta.env.VITE_THORSWAP_STATIC_API || 'https://static.thorswap.net';
 
 export const THORNODE_URL = `${
   import.meta.env.VITE_MAINNET_THORNODE || 'https://thornode.thorswap.net'
