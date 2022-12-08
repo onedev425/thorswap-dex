@@ -266,7 +266,11 @@ const Earn = () => {
           <Box row className="w-full justify-center gap-5">
             {isLgActive && (
               <Box className="w-9/12">
-                <EarnAssetSelectList assets={listAssets} onSelect={setAsset} />
+                <EarnAssetSelectList
+                  assets={listAssets}
+                  onSelect={setAsset}
+                  selectedAsset={asset}
+                />
               </Box>
             )}
             <Box col className="flex h-full lg:w-full">

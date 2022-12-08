@@ -214,7 +214,7 @@ const ConnectWalletModal = () => {
         justify="between"
       >
         {customFlow ? (
-          <Box className="w-[360px] px-6">
+          <Box className="w-[360px] px-6 self-center">
             {selectedWalletType === WalletType.Keystore && (
               <ConnectKeystoreView
                 loading={isWalletLoading}
@@ -265,7 +265,7 @@ const ConnectWalletModal = () => {
                 </Button>
               </Box>
 
-              <Box className="flex-wrap w-[80%] md:w-36">
+              <Box className="flex-wrap justify-center w-[80%] md:w-36">
                 {supportedChains.map((chain) => (
                   <ChainItem
                     chain={chain}

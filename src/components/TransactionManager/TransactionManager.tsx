@@ -1,5 +1,4 @@
 import { Chain, SupportedChain } from '@thorswap-lib/types';
-import classNames from 'classnames';
 import { Box, Card, Icon, SwitchToggle, Tooltip, Typography } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { Popover } from 'components/Popover';
@@ -85,15 +84,7 @@ export const TransactionManager = memo(() => {
 
             <Box alignCenter className="pt-2" justify="between">
               <Box alignCenter className="gap-x-2 rounded-2xl">
-                <SwitchToggle
-                  checked={onlyPending}
-                  className={classNames(
-                    onlyPending
-                      ? '!bg-light-border-primary dark:!bg-dark-bg-primary'
-                      : 'bg-light-border-primary dark:!bg-dark-gray-light',
-                  )}
-                  onChange={setOnlyPending}
-                />
+                <SwitchToggle checked={onlyPending} onChange={setOnlyPending} variant="secondary" />
                 <Typography variant="caption">{t('txManager.onlyPending')}</Typography>
               </Box>
 

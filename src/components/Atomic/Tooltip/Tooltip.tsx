@@ -33,7 +33,7 @@ export const Tooltip = ({
       className={classNames(
         'flex items-center justify-center m-0.5',
         {
-          'border border-solid bg-light-bg-secondary dark:bg-dark-bg-secondary border-light-border-primary dark:border-dark-border-primary rounded-3xl w-6 h-6':
+          'border border-solid bg-light-bg-secondary dark:bg-dark-bg-secondary border-light-border-primary dark:border-dark-border-primary rounded-3xl':
             !children,
         },
         className,

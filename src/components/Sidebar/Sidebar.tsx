@@ -83,23 +83,25 @@ export const Sidebar = ({ className, collapsed = false, toggle, onNavItemClick }
           onClick={toggle}
         >
           <Tooltip content={t('components.sidebar.expand')} disabled={!collapsed}>
-            <div>
-              <Icon className={classNames({ '-scale-x-100': collapsed })} name="collapse" />
-            </div>
+            <Box center>
+              <div>
+                <Icon className={classNames({ '-scale-x-100': collapsed })} name="collapse" />
+              </div>
 
-            <Box
-              className={classNames(
-                'overflow-hidden transition-all',
-                collapsed ? 'w-[0%]' : 'w-full',
-              )}
-            >
-              <Typography
-                className={classNames('px-3 dark:group-hover:text-white font-bold opacity-60')}
-                transform="uppercase"
-                variant="caption-xs"
+              <Box
+                className={classNames(
+                  'overflow-hidden transition-all',
+                  collapsed ? 'w-[0%]' : 'w-full',
+                )}
               >
-                {t('components.sidebar.collapse')}
-              </Typography>
+                <Typography
+                  className={classNames('px-3 dark:group-hover:text-white font-bold opacity-60')}
+                  transform="uppercase"
+                  variant="caption-xs"
+                >
+                  {t('components.sidebar.collapse')}
+                </Typography>
+              </Box>
             </Box>
           </Tooltip>
         </Box>

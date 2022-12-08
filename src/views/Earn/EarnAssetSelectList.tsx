@@ -14,7 +14,8 @@ export const EarnAssetSelectList = ({
   onClose,
   isLoading,
   setQuery,
-}: AssetSelectProps) => {
+  selectedAsset,
+}: AssetSelectProps & { selectedAsset: Asset }) => {
   const { filteredAssets, select } = useAssetSelect({
     assets,
     onSelect,
@@ -43,6 +44,7 @@ export const EarnAssetSelectList = ({
           {filteredAssets.map((item) => (
             <EarnAssetSelectItem
               {...item}
+              isSelected={selectedAsset?.eq(item.asset)}
               key={`${item.asset.symbol}${item.asset.type}`}
               select={handleSelect}
             />

@@ -113,7 +113,11 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
 
       <Box row className="space-x-2 mt-6 mb-2">
         <Typography variant="subtitle2">{t('views.walletModal.keystorePassword')}</Typography>
-        <Tooltip content="Password for recovery" iconName="question" place="top" />
+        <Tooltip
+          content={t('views.walletModal.recoveryPassword')}
+          iconName="question"
+          place="top"
+        />
       </Box>
       <Box className="flex-1 w-full">
         <Input

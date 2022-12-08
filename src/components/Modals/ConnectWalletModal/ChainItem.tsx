@@ -38,7 +38,6 @@ const ChainItem = ({
       className={classNames('relative px-2 py-3 cursor-pointer', {
         'opacity-30': disabled || (selectedWalletType && !isChainAvailable),
       })}
-      flex={1}
       key={chain}
       onClick={disabled ? () => {} : onClick(chain, !!selectedWalletType && isChainAvailable)}
     >

@@ -1,6 +1,6 @@
-import { ChakraProvider } from '@chakra-ui/react';
 import { AnnouncementsProvider } from 'components/Announcements/AnnouncementsContext';
 import { Box } from 'components/Atomic';
+import { ChakraThemeProvider } from 'components/Theme/ChakraThemeProvider';
 import { ThemeProvider } from 'components/Theme/ThemeContext';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
@@ -14,7 +14,6 @@ import { store as reduxStore } from 'store/store';
 import { checkOrigin } from './helpers/checkOrigin';
 import DrawerProvider from './hooks/useWalletDrawer';
 import { PublicRoutes } from './router';
-import theme from './theme/index';
 
 dayjs.extend(duration);
 
@@ -42,17 +41,17 @@ function App() {
   if (!checkOrigin()) return null;
 
   return (
-    <ChakraProvider resetCSS={false} theme={theme}>
-      <HelmetProvider>
-        <ReduxProvider store={reduxStore}>
-          <ThemeProvider>
+    <HelmetProvider>
+      <ReduxProvider store={reduxStore}>
+        <ThemeProvider>
+          <ChakraThemeProvider>
             <AnnouncementsProvider>
               <MainApp />
             </AnnouncementsProvider>
-          </ThemeProvider>
-        </ReduxProvider>
-      </HelmetProvider>
-    </ChakraProvider>
+          </ChakraThemeProvider>
+        </ThemeProvider>
+      </ReduxProvider>
+    </HelmetProvider>
   );
 }
 
