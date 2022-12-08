@@ -20,4 +20,10 @@ export const colors = {
   bgDarkBgSecondary: '#232E42',
   bgLightGrayLight: '#E5E5E5',
   bgDarkGrayPrimary: '#75849D',
+  dark: {
+    textPrimary: '#E2EBFB',
+  },
+  light: {
+    textPrimary: '#1F1F41',
+  },
 };

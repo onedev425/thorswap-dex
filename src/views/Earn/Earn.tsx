@@ -243,7 +243,7 @@ const Earn = () => {
                 {t('views.savings.earn')} {asset.name}
               </Typography>
               <Typography color="primaryBtn" variant="h3">
-                {assetAPR?.apr ? assetAPR?.apr : 'N/A'} {t('common.apr').toUpperCase()}
+                {assetAPR?.apr ? `${assetAPR?.apr} ${t('common.apr').toUpperCase()}` : ''} {}
               </Typography>
             </Box>
           </Box>
@@ -295,6 +295,7 @@ const Earn = () => {
 
                   <AssetInput
                     noFilters
+                    AssetListComponent={EarnAssetSelectList}
                     assets={listAssets}
                     className="flex-1"
                     disabled={tab === EarnTab.Withdraw}

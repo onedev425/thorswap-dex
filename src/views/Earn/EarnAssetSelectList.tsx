@@ -15,7 +15,7 @@ export const EarnAssetSelectList = ({
   isLoading,
   setQuery,
   selectedAsset,
-}: AssetSelectProps & { selectedAsset: Asset }) => {
+}: AssetSelectProps & { selectedAsset?: Asset }) => {
   const { filteredAssets, select } = useAssetSelect({
     assets,
     onSelect,

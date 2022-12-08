@@ -42,6 +42,11 @@ export const theme = extendTheme({
         p: 0,
       },
     },
+    Spinner: {
+      baseStyle: (props: StyleFunctionProps) => ({
+        color: mode(colors.light.textPrimary, colors.dark.textPrimary)(props),
+      }),
+    },
     Switch: {
       sizes: {
         lg: { track: { h: 5, w: '42px' }, thumb: { h: 5, w: 5 } },

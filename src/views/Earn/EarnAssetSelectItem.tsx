@@ -1,3 +1,4 @@
+import { Spinner } from '@chakra-ui/react';
 import { Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
@@ -46,15 +47,23 @@ export const EarnAssetSelectItem = memo(
                 >
                   {t('common.APR')}
                 </Typography>
-                <Typography color="primaryBtn" variant="caption">
-                  {apr ? apr : 'N/A'}
-                </Typography>
+                {typeof apr !== 'undefined' ? (
+                  <Typography color="primaryBtn" variant="caption">
+                    {apr ? apr : 'N/A'}
+                  </Typography>
+                ) : (
+                  <Spinner size="xs" />
+                )}
               </Box>
 
               <Box center className="gap-1">
-                <Typography color={getFilledColor(filled)} variant="caption">
-                  {filled ? filled : 'N/A'}
-                </Typography>
+                {typeof filled !== 'undefined' ? (
+                  <Typography color={getFilledColor(filled)} variant="caption">
+                    {filled ? filled : 'N/A'}
+                  </Typography>
+                ) : (
+                  <Spinner size="xs" />
+                )}
                 <Typography
                   color="secondary"
                   fontWeight="light"

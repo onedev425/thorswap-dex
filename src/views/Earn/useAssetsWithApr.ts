@@ -39,7 +39,7 @@ export const useAssetsWithApr = (assets: Asset[]) => {
       };
     }
 
-    return { asset, apr: '', filled: '' };
+    return { asset };
   });
 
   return assetsWithAPR;
