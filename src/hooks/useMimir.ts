@@ -90,23 +90,15 @@ export const useMimir = () => {
   };
 
   const isFundsCapReached: boolean = useMemo(() => {
-    // if (!maxLiquidityRuneMimir) return false
+    if (maxLiquidityRune.lte(0)) return false;
 
-    // totalPooledRune >= maxLiquidityRune - 100k RUNE
-    return (
-      maxLiquidityRune
-        // .sub(Amount.fromMidgard(100000 * 10 ** 8))
-        .lte(totalPooledRune)
-    );
+    return maxLiquidityRune.lte(totalPooledRune);
   }, [totalPooledRune, maxLiquidityRune]);
 
   const capPercent = useMemo(() => {
-    // if (!maxLiquidityRuneMimir) return null
+    if (maxLiquidityRune.lte(0)) return 'N/A';
 
-    // const poolLimit = maxLiquidityRune.sub(Amount.fromMidgard(100000 * 10 ** 8))
-    const poolLimit = maxLiquidityRune;
-
-    return `${totalPooledRune.div(poolLimit).mul(100).toFixed(1)}%`;
+    return `${totalPooledRune.div(maxLiquidityRune).mul(100).toFixed(1)}%`;
   }, [totalPooledRune, maxLiquidityRune]);
 
   const maxSynthPerAssetDepth = useMemo(
