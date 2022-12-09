@@ -49,7 +49,7 @@ export const AssetSelect = ({
         )}
         withBody={false}
       >
-        <Box className="w-[95vw] md:w-[520px] overflow-hidden max-h-[80%] h-[80vh] lg:h-[40rem]">
+        <Box className="md:w-[520px] overflow-hidden max-h-[80%] h-[80vh] lg:h-[40rem]">
           {manageTokenListIsOpened ? (
             <TokenListProviderSelect {...restProps} />
           ) : (

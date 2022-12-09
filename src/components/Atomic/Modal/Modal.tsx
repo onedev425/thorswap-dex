@@ -29,10 +29,10 @@ export const Modal = ({
       <ModalOverlay className="fixed inset-0 backdrop-blur-xl backdrop-brightness-90 dark:backdrop-brightness-50" />
 
       <ModalContent bg="none" boxShadow="none" className={className} m="auto">
-        <ModalBody className="flex justify-center max-h-[85vh] mt-3 lg:mt-0 flex-col" p={0}>
+        <ModalBody className="flex justify-center mx-3 md:mx-0 max-h-[85vh] flex-col" p={0}>
           <Box col>
             {HeaderComponent}
-            <Box alignCenter row className="lg:m-5 mx-5" justify="between">
+            <Box alignCenter row className="lg:m-5 mb-3 mx-5" justify="between">
               <Box alignCenter row>
                 {onBack && (
                   <Icon
