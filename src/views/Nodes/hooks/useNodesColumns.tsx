@@ -121,7 +121,7 @@ export const useNodesColumns = () => {
       {
         id: 'Bond',
         Header: (() => t('views.nodes.bond')) as () => string,
-        accessor: (row: THORNode) => Amount.fromMidgard(row.bond),
+        accessor: (row: THORNode) => Amount.fromMidgard(row.total_bond),
         Cell: ({ cell: { value } }: { cell: { value: Amount } }) => value.toFixed(1),
         sortType: getAmountColumnSorter('Bond'),
       },

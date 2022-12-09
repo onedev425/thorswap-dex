@@ -122,7 +122,7 @@ export const useNodeStats = (nodeInfo: THORNode) => {
     {
       key: 'bond',
       label: t('views.nodes.bond'),
-      value: Amount.fromMidgard(nodeInfo.bond).toFixed(1),
+      value: Amount.fromMidgard(nodeInfo.total_bond).toFixed(1),
     },
     {
       key: 'current_award',
