@@ -11,6 +11,7 @@ import { showErrorToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
 import { chainName } from 'helpers/chainName';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';
+import { shortenAddress } from 'helpers/shortenAddress';
 import { getWalletAssets } from 'helpers/wallet';
 import { useAddressForTNS } from 'hooks/useAddressForTNS';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
@@ -201,7 +202,10 @@ const Send = () => {
         label: t('common.send'),
         value: `${sendAmount?.toSignificant(6)} ${sendAsset.name}`,
       },
-      { label: t('common.recipient'), value: t('common.msgDeposit') },
+      {
+        label: t('common.recipient'),
+        value: customTxEnabled ? t('common.msgDeposit') : shortenAddress(txRecipient, 6),
+      },
       { label: t('common.memo'), value: txMemo },
       {
         label: t('common.transactionFee'),
@@ -215,7 +219,7 @@ const Send = () => {
         ),
       },
     ],
-    [sendAmount, sendAsset.name, txMemo, inboundFee, totalFeeInUSD],
+    [sendAmount, sendAsset.name, customTxEnabled, txRecipient, txMemo, inboundFee, totalFeeInUSD],
   );
 
   const recipientTitle = useMemo(
