@@ -36,7 +36,7 @@ export const availableChainsByWallet: Record<WalletType, SupportedChain[]> = {
   [WalletType.Ledger]: AllChainsSupported,
   [WalletType.MetaMask]: [Chain.Ethereum, Chain.Avalanche],
   [WalletType.Phrase]: AllChainsSupported,
-  [WalletType.TrustWallet]: [Chain.Ethereum],
+  [WalletType.TrustWallet]: [Chain.THORChain, Chain.Ethereum, Chain.Binance],
   [WalletType.TrustWalletExtension]: [Chain.Ethereum, Chain.Avalanche],
   [WalletType.Xdefi]: [
     Chain.Avalanche,
