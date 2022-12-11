@@ -184,8 +184,7 @@ const Earn = () => {
   const buttonDisabled = useMemo(
     () =>
       amount.lte(Amount.fromAssetAmount(0, 8)) ||
-      (isDeposit && balance && amount.gt(balance)) ||
-      !isSynthInCapacity ||
+      (isDeposit && ((balance && amount.gt(balance)) || !isSynthInCapacity)) ||
       inboundHalted[asset.L1Chain] ||
       isChainTradingHalted[asset.L1Chain],
     [
