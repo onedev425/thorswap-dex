@@ -1,6 +1,6 @@
 {
   "name": "thorswap-web-app-v2",
-  "version": "2.4.4",
+  "version": "2.4.5",
   "private": true,
   "scripts": {
     "start": "vite",
@@ -39,9 +39,9 @@
     "@popperjs/core": "2.11.6",
     "@psf/bitcoincashjs-lib": "4.0.2",
     "@reduxjs/toolkit": "1.9.0",
-    "@thorswap-lib/multichain-core": "0.0.1-development.57",
+    "@thorswap-lib/multichain-core": "0.0.1-development.58",
     "@thorswap-lib/midgard-sdk": "0.1.14",
-    "@thorswap-lib/multichain-ledger": "0.2.36",
+    "@thorswap-lib/multichain-ledger": "0.2.38",
     "@thorswap-lib/multichain-walletconnect": "0.2.26",
     "@thorswap-lib/multichain-web-extensions": "0.3.21",
     "@thorswap-lib/types": "0.3.8",
