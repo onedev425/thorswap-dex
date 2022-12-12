@@ -20,7 +20,7 @@ export const EarnAssetSelectItem = memo(
       <Box
         alignCenter
         className={classNames(
-          'dark:bg-dark-dark-gray bg-btn-light-tint lig rounded-3xl p-2 hover:duration-150 transition cursor-pointer  dark:hover:bg-dark-border-primary hover:bg-btn-light-tint-active',
+          'dark:bg-dark-dark-gray bg-btn-light-tint z-0 lig rounded-3xl p-2 hover:duration-150 transition cursor-pointer  dark:hover:bg-dark-border-primary hover:bg-btn-light-tint-active',
           {
             'brightness-90 dark:brightness-110 dark:!bg-dark-border-primary !bg-btn-light-tint-active':
               isSelected,
