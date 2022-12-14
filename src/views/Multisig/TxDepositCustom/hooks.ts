@@ -85,14 +85,8 @@ export const useTxDepositCustom = () => {
       return;
     }
 
-    if (depositAmount.lte(0)) {
-      showErrorToast(t('views.multisig.incorrectRuneAmount'));
-
-      return;
-    }
-
     setIsOpenConfirmModal(true);
-  }, [depositAmount, memo]);
+  }, [memo]);
 
   return {
     isOpenConfirmModal,

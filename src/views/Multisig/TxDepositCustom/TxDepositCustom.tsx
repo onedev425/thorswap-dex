@@ -3,6 +3,7 @@ import { AssetInput } from 'components/AssetInput';
 import { Box, Button } from 'components/Atomic';
 import { InfoTable } from 'components/InfoTable';
 import { PanelInput } from 'components/PanelInput';
+import { shortenAddress } from 'helpers/shortenAddress';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { ConfirmModal } from 'views/Multisig/components/ConfirmModal';
@@ -27,7 +28,7 @@ export const TxDepositCustom = () => {
         label: t('common.deposit'),
         value: `${depositAmount?.toSignificant(6)} ${Asset.RUNE().name}`,
       },
-      { label: t('common.memo'), value: memo },
+      { label: t('common.memo'), value: memo.length < 30 ? memo : shortenAddress(memo, 14) },
     ],
     [memo, depositAmount],
   );
