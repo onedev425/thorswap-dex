@@ -58,7 +58,9 @@ export const tokenLogoURL = ({
 
   if (customIcon) return customIcon;
 
-  return Chain.Binance !== (chain as Chain) && address
+  return Chain.Binance !== (chain as Chain) &&
+    address &&
+    address.toLocaleLowerCase() !== '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
     ? `${STATIC_API}/token-list/images/${identifier.toLowerCase()}-${address.toLowerCase()}.png`
     : `${twBaseUri}/binance/assets/${logoSymbol}/logo.png`;
 };
