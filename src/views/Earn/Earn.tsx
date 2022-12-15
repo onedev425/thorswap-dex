@@ -13,7 +13,6 @@ import { TabsSelect } from 'components/TabsSelect';
 import { YIELD_BEARING_YOUTUBE } from 'config/constants';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
-import { useMimir } from 'hooks/useMimir';
 import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
 import useWindowSize from 'hooks/useWindowSize';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -48,8 +47,7 @@ const Earn = () => {
   );
 
   const { getMaxBalance } = useBalance();
-  const { inboundHalted, pools } = useMidgard();
-  const { isChainTradingHalted, maxSynthPerAssetDepth } = useMimir();
+  const { inboundHalted } = useMidgard();
   const { positions, refreshPositions, getPosition, synthAvailability } = useSaverPositions();
   const { wallet, setIsConnectModalOpen } = useWallet();
   const isWalletConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
@@ -160,42 +158,22 @@ const Earn = () => {
     [appDispatch, asset.L1Chain, asset.name, handleMultichainAction, isDeposit],
   );
 
-  const isSynthInCapacity = useMemo(() => {
-    const defaultOptions = {
-      isSynthInCapacity: !synthAvailability?.[asset.L1Chain],
-      assetDepthAmount: Amount.fromAssetAmount(0, 8),
-    };
-    if (!pools?.length) return defaultOptions;
+  const currentAsset = useMemo(
+    () => listAssets.find(({ asset: { name } }) => name === asset.name),
+    [asset.name, listAssets],
+  );
 
-    const { assetDepth, synthSupply } =
-      pools?.find((p) => p.asset.symbol === asset.symbol)?.detail || {};
-
-    const assetDepthAmount = Amount.fromMidgard(assetDepth);
-    if (assetDepthAmount.eq(0)) return defaultOptions;
-
-    return (
-      !synthAvailability?.[asset.L1Chain] &&
-      Amount.fromMidgard(synthSupply)
-        .div(assetDepthAmount)
-        .assetAmount.isLessThan(maxSynthPerAssetDepth / 10000)
-    );
-  }, [asset.L1Chain, asset.symbol, maxSynthPerAssetDepth, pools, synthAvailability]);
+  const isSynthInCapacity = useMemo(
+    () => !synthAvailability?.[asset.L1Chain] && (currentAsset?.filled || 0) < 99.5,
+    [asset.L1Chain, currentAsset?.filled, synthAvailability],
+  );
 
   const buttonDisabled = useMemo(
     () =>
       amount.lte(Amount.fromAssetAmount(0, 8)) ||
       (isDeposit && ((balance && amount.gt(balance)) || !isSynthInCapacity)) ||
-      inboundHalted[asset.L1Chain] ||
-      isChainTradingHalted[asset.L1Chain],
-    [
-      amount,
-      asset.L1Chain,
-      balance,
-      inboundHalted,
-      isChainTradingHalted,
-      isDeposit,
-      isSynthInCapacity,
-    ],
+      inboundHalted[asset.L1Chain],
+    [amount, asset.L1Chain, balance, inboundHalted, isDeposit, isSynthInCapacity],
   );
 
   const tabLabel = tab === EarnTab.Deposit ? t('common.deposit') : t('common.withdraw');
@@ -203,8 +181,6 @@ const Earn = () => {
     () => ({ asset, value: amount, balance, usdPrice }),
     [asset, amount, balance, usdPrice],
   );
-
-  const assetAPR = listAssets.find((assetWithApr) => assetWithApr.asset.name === asset.name);
 
   const summary = useMemo(
     () => [
@@ -229,6 +205,7 @@ const Earn = () => {
         tabs={viewTabs}
         value={viewTab}
       />
+
       {viewTab === EarnViewTab.Earn && (
         <>
           <Helmet
@@ -242,10 +219,11 @@ const Earn = () => {
                 {t('views.savings.earn')} {asset.name}
               </Typography>
               <Typography color="primaryBtn" variant="h3">
-                {assetAPR?.apr ? `${assetAPR?.apr} ${t('common.apr').toUpperCase()}` : ''} {}
+                {currentAsset?.apr ? `${currentAsset?.apr} ${t('common.apr').toUpperCase()}` : ''}
               </Typography>
             </Box>
           </Box>
+
           <Box alignCenter className="px-3" justify="between">
             <Typography color="secondary" fontWeight="medium" variant="caption">
               {t('views.savings.description', { asset: asset.name })}
@@ -255,6 +233,7 @@ const Earn = () => {
                 </Typography>
               </Link>
             </Typography>
+
             <Tooltip
               content={t('views.savings.tooltipDescription', { asset: asset.name })}
               place="bottom"
@@ -262,6 +241,7 @@ const Earn = () => {
               <Icon color="primaryBtn" name="infoCircle" size={24} />
             </Tooltip>
           </Box>
+
           <Box row className="w-full justify-center gap-5">
             {isLgActive && (
               <Box className="w-9/12">
@@ -272,6 +252,7 @@ const Earn = () => {
                 />
               </Box>
             )}
+
             <Box col className="flex h-full lg:w-full">
               <Card
                 stretch
@@ -332,6 +313,7 @@ const Earn = () => {
           </Box>
         </>
       )}
+
       {viewTab === EarnViewTab.Positions && (
         <Box className="w-full self-stretch">
           {isWalletConnected ? (

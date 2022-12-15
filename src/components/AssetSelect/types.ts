@@ -15,7 +15,7 @@ export type AssetSelectProps = {
 export type AssetSelectType = Pick<Token, 'logoURI' | 'cg'> & {
   asset: Asset;
   apr?: string;
-  filled?: string;
+  filled?: number;
   value?: Amount;
   price?: number;
   provider?: string;

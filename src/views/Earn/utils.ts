@@ -1,38 +1,25 @@
 import { Asset, Pool } from '@thorswap-lib/multichain-core';
 import { ColorType } from 'types/app';
 
-export function getSaverPoolNameForAsset(asset: Asset): string {
+export const getSaverPoolNameForAsset = (asset: Asset) => {
   return `${asset.chain}.${asset.symbol}`;
-}
+};
 
-export function getSaverPool(asset: Asset, pools: Pool[]): Pool | undefined {
+export const getSaverPool = (asset: Asset, pools: Pool[]) => {
   return pools.find(
     (pool) => pool.detail.asset.toLowerCase() === getSaverPoolNameForAsset(asset).toLowerCase(),
   );
-}
+};
 
-export function getFilledColor(value?: string): ColorType {
-  const numValue = Number(value?.replace('%', ''));
-  if (numValue > 90) {
-    return 'red';
-  }
-
-  if (numValue > 60) {
-    return 'yellow';
-  }
-
+export const getFilledColor = (value: number = 0): ColorType => {
+  if (value > 90) return 'red';
+  if (value > 60) return 'yellow';
   return 'green';
-}
+};
 
-export function getFormattedPercent(percent?: number): string {
-  if (!percent) {
-    return '';
-  }
+export const getFormattedPercent = (percent?: number) => {
+  if (!percent) return '';
 
-  let value = percent < 10 ? percent.toFixed(2) : percent.toFixed(1);
-  if (percent > 100) {
-    value = percent.toFixed(0);
-  }
-
-  return `${value}%`;
-}
+  const toFixed = percent > 100 ? 0 : percent < 10 ? 2 : 1;
+  return `${percent.toFixed(toFixed)}%`;
+};

@@ -5,7 +5,7 @@ import { AssetIcon } from 'components/AssetIcon';
 import { Box, Typography } from 'components/Atomic';
 import { memo } from 'react';
 import { t } from 'services/i18n';
-import { getFilledColor } from 'views/Earn/utils';
+import { getFilledColor, getFormattedPercent } from 'views/Earn/utils';
 
 import { AssetSelectType } from '../../components/AssetSelect/types';
 
@@ -59,7 +59,7 @@ export const EarnAssetSelectItem = memo(
               <Box center className="gap-1">
                 {typeof filled !== 'undefined' ? (
                   <Typography color={getFilledColor(filled)} variant="caption">
-                    {filled ? filled : 'N/A'}
+                    {getFormattedPercent(filled) || 'N/A'}
                   </Typography>
                 ) : (
                   <Spinner size="xs" />
