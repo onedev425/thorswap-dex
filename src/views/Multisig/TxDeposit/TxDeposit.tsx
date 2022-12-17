@@ -31,7 +31,6 @@ export const TxDeposit = () => {
     pool,
     isValidDeposit,
     handleAddLiquidity,
-    depositAssets,
     visibleConfirmModal,
     handleConfirmAdd,
     setVisibleConfirmModal,
@@ -97,7 +96,7 @@ export const TxDeposit = () => {
       </Box>
 
       <ConfirmModal
-        inputAssets={depositAssets}
+        inputAssets={[]}
         isOpened={visibleConfirmModal}
         onClose={() => setVisibleConfirmModal(false)}
         onConfirm={handleConfirmAdd}
