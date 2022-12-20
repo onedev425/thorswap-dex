@@ -155,7 +155,10 @@
     "wallet": "កាបូប  Electronic",
     "withdraw": "ដក",
     "withdrawPercent": "ភាគរយដកចេញ",
-    "yourTransactions": "ប្រតិបត្តិការរបស់អ្នក"
+    "yourTransactions": "ប្រតិបត្តិការរបស់អ្នក",
+    "transfer": "ផ្ទេរ",
+    "transferAddress": "ផ្ទេរអាសយដ្ឋាន",
+    "filled": "ពេញ"
   },
   "components": {
     "announcements": {
@@ -167,7 +170,8 @@
       "thorChainHalted": "THORChain មិន​អាច​ប្រើ​បាន​ជា​បណ្ដោះអាសន្ន ខណៈ​កំពុង​ស្ថិត​ក្នុង​ការ​ថែទាំ។ បច្ចុប្បន្នសកម្មភាពទាំងអស់ត្រូវបានបិទ។",
       "thorChainLPHalted": "ការបន្ថែម និងដកសាច់ប្រាក់ងាយស្រួលត្រូវបានបិទជាបណ្តោះអាសន្ននៅលើ THORChain ។",
       "thorChainTradeHalted": "ការជួញដូរត្រូវបានបិទជាបណ្តោះអាសន្ននៅលើ THORChain ។",
-      "tradingGloballyDisabled": "THORChain បច្ចុប្បន្នកំពុងជួបប្រទះបញ្ហាបច្ចេកទេស។ ក្រុមការងារកំពុងស៊ើបអង្កេត។"
+      "tradingGloballyDisabled": "THORChain បច្ចុប្បន្នកំពុងជួបប្រទះបញ្ហាបច្ចេកទេស។ ក្រុមការងារកំពុងស៊ើបអង្កេត។",
+      "oldRune": "យើងបានរកឃើញកំណែ RUNE ដែលបានបដិសេធនៅក្នុងកាបូបរបស់អ្នក។ កេរ្តិ៍ដំណែល RUNE killswitch ត្រូវបានធ្វើឱ្យសកម្ម ហើយអ្នកគួរតែដំឡើងវាភ្លាមៗ វាបាត់បង់តម្លៃជាមួយរាល់ប្លុក។"
     },
     "assetSelect": {
       "manageTokenList": "គ្រប់គ្រងបញ្ជីនិមិត្តសញ្ញា",
@@ -632,7 +636,10 @@
       "tooltipDescription": "ទទួលបានទិន្នផលដោយការផ្តល់នូវផ្នែកតែមួយ $%{asset} Liquidity ដោយមិនមាន $RUNE exposure និង impermanent Loss",
       "yourDeposit": "ប្រាក់បញ្ញើរបស់អ្នក។",
       "yourEarnings": "ប្រាក់ចំណូលរបស់អ្នក។",
-      "yourPositions": "មុខតំណែងរបស់អ្នក។"
+      "yourPositions": "មុខតំណែងរបស់អ្នក។",
+      "myPositions": "មុខតំណែងរបស់ខ្ញុំ",
+      "notEnoughForOutboundFee": "មិន​មាន​ចំនួន​គ្រប់គ្រាន់​សម្រាប់​បង់​ថ្លៃ​ចេញ​ក្រៅ​ប្រទេស",
+      "positionTooSmall": "ទីតាំងតូចពេកក្នុងការគណនា"
     },
     "send": {
       "description": "ផ្ញើសញ្ញាសម្ងាត់ទៅកាបូបផ្សេងទៀត និងគ្រប់គ្រងទ្រព្យសម្បត្តិរបស់អ្នក។",
@@ -788,7 +795,10 @@
       "unavailableForPurchase": "មិនអាចរកបានសម្រាប់ការទិញ",
       "updateFee": "ថ្លៃធ្វើបច្ចុប្បន្នភាព",
       "year": "ឆ្នាំ",
-      "years": "ឆ្នាំ"
+      "years": "ឆ្នាំ",
+      "invalidTransferAddress": "អាសយដ្ឋានផ្ទេរមិនត្រឹមត្រូវ",
+      "inputValidThorAddress": "សូមបញ្ចូលអាសយដ្ឋាន THORChain ត្រឹមត្រូវ។",
+      "transferTHORName": "ផ្ទេរឈ្មោះ THORName"
     },
     "vesting": {
       "claim": "ទាមទារ",
@@ -884,7 +894,6 @@
       "noSlipProtection_part2": "យល់ព្រមបន្តដោយគ្មានការការពាររអិល។",
       "noSlipProtection_part3": "THORSwap នឹងមិនទទួលខុសត្រូវចំពោះការបាត់បង់មូលនិធិណាមួយឡើយ។",
       "notConnected": "មិនទាន់ភ្ជាប់",
-      "phantom": "Phantom",
       "phrase": "ឃ្លាសម្ងាត់",
       "phraseCopied": "ឃ្លាសម្ងាត់ត្រូវបានចម្លង",
       "prioritiseXdefi": "ផ្តល់អាទិភាពលើកាបូប XDEFI ",

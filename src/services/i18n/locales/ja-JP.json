@@ -155,7 +155,10 @@
     "wallet": "ウォレット",
     "withdraw": "出金",
     "withdrawPercent": "出金割合",
-    "yourTransactions": "あなたのトランザクション"
+    "yourTransactions": "あなたのトランザクション",
+    "transfer": "転送",
+    "transferAddress": "転送先住所",
+    "filled": "フィルド"
   },
   "components": {
     "announcements": {
@@ -167,7 +170,8 @@
       "thorChainHalted": "THORChainはメンテナンスのため、一時的にご利用いただけません。現在、すべてのアクションが無効になっています。",
       "thorChainLPHalted": "THORChainでは、流動性の追加と引き出しが一時的に無効になっています。",
       "thorChainTradeHalted": "THORChainでは、一時的に取引ができなくなります。",
-      "tradingGloballyDisabled": "THORChainは現在、技術的な問題が発生しています。チームが調査中です。"
+      "tradingGloballyDisabled": "THORChainは現在、技術的な問題が発生しています。チームが調査中です。",
+      "oldRune": "あなたのウォレットに非推奨のバージョンのRUNEが検出されました。レガシーRUNEのキルスイッチが作動しましたので、すぐにアップグレードしてください。ブロックごとに価値が下がっています。"
     },
     "assetSelect": {
       "manageTokenList": "トークン一覧の管理",
@@ -632,7 +636,10 @@
       "tooltipDescription": "片面$%{asset}で利回りを稼ぐ。流動性があり、$RUNEエクスポージャーがなく、永久的な損失がない。",
       "yourDeposit": "預け入れ",
       "yourEarnings": "お客様の収益",
-      "yourPositions": "ポジション"
+      "yourPositions": "ポジション",
+      "myPositions": "私のポジション",
+      "notEnoughForOutboundFee": "アウトバウンド料金をまかなうには十分な金額ではない",
+      "positionTooSmall": "位置が小さすぎて計算できない"
     },
     "send": {
       "description": "他のウォレットへのトークン送信と資産管理",
@@ -781,14 +788,17 @@
       "registrationFee": "登録手数料",
       "searchName": "名前の検索",
       "status": "ステータス",
-      "thornameInfo": "THORName BETA: 登録とウォレットアドレスの割り当てが可能です（取引は近日開始予定）。THORNameは大文字小文字を区別せず、a-Z、すべての数字0-9、-_+を含む30文字以内です。",
+      "thornameInfo": "THORNameです。登録とウォレットアドレスの割り当てが可能です（取引は近日開始）。THORNameは大文字小文字を区別せず、a-Z、すべての数字0-9、-_+を含む30文字までとなります。",
       "thornameSubtitle": "クロスチェーンウォレットネームサービス.",
       "title": "THORNameの管理",
       "unavailable": "使用不可",
       "unavailableForPurchase": "購入不可",
       "updateFee": "アップデート手数料",
       "year": "年",
-      "years": "歳月"
+      "years": "歳月",
+      "invalidTransferAddress": "転送アドレスが無効",
+      "inputValidThorAddress": "有効なTHORChainアドレスを入力してください。",
+      "transferTHORName": "転送 THORName"
     },
     "vesting": {
       "claim": "請求",
@@ -884,7 +894,6 @@
       "noSlipProtection_part2": "は、スリップ防止機能なしで継続することに同意します。",
       "noSlipProtection_part3": "THORSwapは、資金の損失について責任を負わないものとします。",
       "notConnected": "未接続",
-      "phantom": "Phantom",
       "phrase": "フレーズ",
       "phraseCopied": "フレーズをコピーしました",
       "prioritiseXdefi": "XDEFIを優先する",

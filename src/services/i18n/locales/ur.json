@@ -155,7 +155,10 @@
     "wallet": "Wallet",
     "withdraw": "واپس لیں",
     "withdrawPercent": "واپس لیا گیا فیصد",
-    "yourTransactions": "آپ کی ٹرانزیکشن"
+    "yourTransactions": "آپ کی ٹرانزیکشن",
+    "transfer": "ٹرانسفر",
+    "transferAddress": "ٹرانسفر ایڈریس",
+    "filled": "بھرا ہوا"
   },
   "components": {
     "announcements": {
@@ -167,7 +170,8 @@
       "thorChainHalted": "THORchain بحالی کے دوران عارضی طور پر دستیاب نہیں ہے۔ تمام کارروائیاں فی الحال غیر فعال ہیں۔",
       "thorChainLPHalted": "لیکویڈیٹی کو شامل کرنا اور نکالنا THORchain پر عارضی طور پر غیر فعال ہے۔",
       "thorChainTradeHalted": "THORchain پر ٹریڈنگ عارضی طور پر غیر فعال ہے۔",
-      "tradingGloballyDisabled": "THORchain کو اس وقت تکنیکی مشکلات کا سامنا ہے۔ ٹیم تحقیقات کر رہی ہے۔"
+      "tradingGloballyDisabled": "THORchain کو اس وقت تکنیکی مشکلات کا سامنا ہے۔ ٹیم تحقیقات کر رہی ہے۔",
+      "oldRune": "ہم نے آپ کے بٹوے میں RUNE کے ایک غیر فعال ورژن کا پتہ چلا ہے. میراث RUNE KillSwitch چالو کیا گیا ہے اور آپ کو فوری طور پر اپ گریڈ کرنا چاہئے، یہ ہر بلاک کے ساتھ قیمت کھو رہا ہے."
     },
     "assetSelect": {
       "manageTokenList": "ٹوکن فہرستوں کا انتظام کریں",
@@ -632,7 +636,10 @@
       "tooltipDescription": "کوئی $ RUNE نمائش اور غیر مستقل نقصان کے ساتھ واحد رخصت $% {اثاثہ} لیکویڈیٹی فراہم کرنے کی طرف سے پیداوار کمائیں",
       "yourDeposit": "آپ کا ڈپازٹ",
       "yourEarnings": "آپ کی آمدنی",
-      "yourPositions": "آپ کی پوزیشنوں"
+      "yourPositions": "آپ کی پوزیشنوں",
+      "myPositions": "میری پوزیشنوں",
+      "notEnoughForOutboundFee": "آؤٹ باؤنڈ فیس کا احاطہ کرنے کے لئے کافی رقم نہیں",
+      "positionTooSmall": "حساب کرنے کے لئے بہت چھوٹا پوزیشن"
     },
     "send": {
       "description": "دیگر بٹوے کو ٹوکن بھیجیں اور اپنے اثاثوں کا انتظام کریں",
@@ -781,14 +788,17 @@
       "registrationFee": "رجسٹر فیس",
       "searchName": "نام تلاش کریں۔",
       "status": "Status",
-      "thornameInfo": "THORName BETA: Address رجسٹریشن اور اسائنمنٹ دستیاب ہے (تجارت جلد آرہی ہے)۔ THORNames کیس غیر حساس ہوتے ہیں، 30 حروف تک محدود ہوتے ہیں، بشمول a-Z، تمام نمبر 0-9 اور -_+",
+      "thornameInfo": "ThorName: دستیاب بٹوے پتے کے رجسٹریشن اور تفویض (ٹریڈنگ جلد ہی آ رہا ہے). ThorNames کیس بے حساس ہیں، جو 30 حروف تک محدود ہیں، بشمول A-Z، تمام اعداد 0—9 اور -_+",
       "thornameSubtitle": "کراس چین والیٹ نام کی خدمت۔",
       "title": "اپنے thorName کا انتظام کریں",
       "unavailable": "دستیاب نہیں۔",
       "unavailableForPurchase": "خریداری کے لیے دستیاب نہیں ہے۔",
       "updateFee": "اپ ڈیٹ فیس",
       "year": "سال",
-      "years": "سال"
+      "years": "سال",
+      "invalidTransferAddress": "غلط ٹرانسفر ایڈریس",
+      "inputValidThorAddress": "براہ مہربانی ان پٹ ایک درست Thorchain ایڈریس",
+      "transferTHORName": "ٹرانسفر ThorName"
     },
     "vesting": {
       "claim": "دعویٰ",
@@ -884,7 +894,6 @@
       "noSlipProtection_part2": "کوئی پرچی تحفظ کے ساتھ جاری رکھنے کے لئے اتفاق کرتا ہوں.",
       "noSlipProtection_part3": "Thorسویپ کو فنڈز کے کسی بھی نقصان کا ذمہ دار نہیں ٹھہرایا جائے گا۔",
       "notConnected": "منسلک نہیں",
-      "phantom": "Phantom",
       "phrase": "جملہ",
       "phraseCopied": "جملہ کاپی ہو گیا",
       "prioritiseXdefi": "XDEFI والیٹ کو ترجیح دیں",

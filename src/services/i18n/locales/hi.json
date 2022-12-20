@@ -155,7 +155,10 @@
     "wallet": "बटुआ",
     "withdraw": "विथ्द्रव",
     "withdrawPercent": "विथ्द्रव प्रतिशत",
-    "yourTransactions": "आपके लेन-देन"
+    "yourTransactions": "आपके लेन-देन",
+    "transfer": "ट्रांसफ़र",
+    "transferAddress": "ट्रांसफर एड्रेस",
+    "filled": "भरा हुआ"
   },
   "components": {
     "announcements": {
@@ -167,7 +170,8 @@
       "thorChainHalted": "रखरखाव के दौरान THORChain अस्थायी रूप से अनुपलब्ध है। सभी कार्य वर्तमान में अक्षम हैं",
       "thorChainLPHalted": "THORChain पर तरलता जोड़ना और निकालना अस्थायी रूप से अक्षम है।",
       "thorChainTradeHalted": "THORChain  पर ट्रेडिंग अस्थायी रूप से अक्षम है।",
-      "tradingGloballyDisabled": "THORChain  वर्तमान में तकनीकी कठिनाइयों का सामना कर रहा है। टीम जांच कर रही है।"
+      "tradingGloballyDisabled": "THORChain  वर्तमान में तकनीकी कठिनाइयों का सामना कर रहा है। टीम जांच कर रही है।",
+      "oldRune": "हमने आपके वॉलेट में RUNE के एक बहिष्कृत संस्करण का पता लगाया है। लीगेसी RUNE किलस्विच को सक्रिय कर दिया गया है और आपको इसे तुरंत अपग्रेड करना चाहिए, यह हर ब्लॉक के साथ मूल्य खो रहा है।"
     },
     "assetSelect": {
       "manageTokenList": "टोकन सूची प्रबंधित करें",
@@ -632,7 +636,10 @@
       "tooltipDescription": "बिना $RUNE एक्सपोज़र और इम्परमानेंट लॉस के साथ एक तरफा $% {एसेट} लिक्विडिटी प्रदान करके उपज अर्जित करें",
       "yourDeposit": "आपका डिपॉज़िट",
       "yourEarnings": "आपकी कमाई",
-      "yourPositions": "आपकी स्थितियाँ"
+      "yourPositions": "आपकी स्थितियाँ",
+      "myPositions": "मेरी स्थितियाँ",
+      "notEnoughForOutboundFee": "आउटबाउंड शुल्क को कवर करने के लिए पर्याप्त राशि नहीं",
+      "positionTooSmall": "गणना करने के लिए स्थिति बहुत छोटी है"
     },
     "send": {
       "description": "अन्य वॉलेट में टोकन भेजें और अपनी संपत्ति का प्रबंधन करें",
@@ -781,14 +788,17 @@
       "registrationFee": "रजिस्ट्रेशन शुल्क",
       "searchName": "नाम खोजें",
       "status": "स्थति",
-      "thornameInfo": "THORName BETA : उपलब्ध वॉलेट पतों का पंजीकरण और असाइनमेंट (ट्रेडिंग जल्द ही आ रही है)। THORनाम केस-असंवेदनशील होते हैं, 30 वर्णों तक सीमित होते हैं, जिनमें a-Z, सभी संख्याएँ 0–9 और -_+ शामिल हैं",
+      "thornameInfo": "ThorName: वॉलेट पतों का पंजीकरण और असाइनमेंट उपलब्ध है (ट्रेडिंग जल्द ही आ रही है)। ThorNames केस-असंवेदनशील हैं, जो 30 वर्णों तक सीमित हैं, जिनमें A-z, सभी नंबर 0—9 और -_+ शामिल हैं",
       "thornameSubtitle": "क्रॉस-चेन वॉलेट नाम सेवा।",
       "title": "अपना थॉर्ननाम प्रबंधित करें",
       "unavailable": "अनुपलब्ध",
       "unavailableForPurchase": "खरीद के लिए अनुपलब्ध",
       "updateFee": "अपडेट  शुल्क",
       "year": "बरस",
-      "years": "साल"
+      "years": "साल",
+      "invalidTransferAddress": "अवैध ट्रांसफर पता",
+      "inputValidThorAddress": "कृपया एक मान्य थोरचैन पता इनपुट करें",
+      "transferTHORName": "अपना नाम ट्रांसफर करें"
     },
     "vesting": {
       "claim": "क्लेम",
@@ -884,7 +894,6 @@
       "noSlipProtection_part2": "बिना किसी पर्ची सुरक्षा के जारी रखने के लिए सहमत हैं।",
       "noSlipProtection_part3": "धन के किसी भी नुकसान के लिए थोरस्वैप को जिम्मेदार नहीं ठहराया जाएगा।",
       "notConnected": "जुड़े नहीं हैं\n",
-      "phantom": "Phantom",
       "phrase": "वाक्यांश\n",
       "phraseCopied": "वाक्यांश कॉपी किया गया\n",
       "prioritiseXdefi": "XDEFI वॉलेट को प्राथमिकता दें",

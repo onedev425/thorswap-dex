@@ -155,7 +155,10 @@
     "wallet": "Carteira",
     "withdraw": "Retirar",
     "withdrawPercent": "Percentagem de retirada",
-    "yourTransactions": "As suas transações"
+    "yourTransactions": "As suas transações",
+    "transfer": "Transferência",
+    "transferAddress": "Endereço de transferência",
+    "filled": "Preenchido"
   },
   "components": {
     "announcements": {
@@ -167,7 +170,8 @@
       "thorChainHalted": "THORChain está temporariamente indisponível enquanto em manutenção. Todas as acções estão actualmente desactivadas.",
       "thorChainLPHalted": "A adição e a retirada de liquidez são temporariamente desactivadas em THORChain.",
       "thorChainTradeHalted": "O trading é temporariamente desactivado em THORChain.",
-      "tradingGloballyDisabled": "A THORChain está actualmente a passar por dificuldades técnicas. A equipa está a investigar."
+      "tradingGloballyDisabled": "A THORChain está actualmente a passar por dificuldades técnicas. A equipa está a investigar.",
+      "oldRune": "Detectámos uma versão depreciada de RUNE na sua carteira. O legado RUNE killwitch foi activado e deverá actualizá-lo imediatamente, está a perder valor com cada bloco."
     },
     "assetSelect": {
       "manageTokenList": "Gerir Listas de Ficheiros",
@@ -632,7 +636,10 @@
       "tooltipDescription": "Ganhe rendimento fornecendo uma única face $%{asset} Liquidez sem exposição a $RUNE e Perda Impermanente",
       "yourDeposit": "O seu depósito",
       "yourEarnings": "Os seus ganhos",
-      "yourPositions": "As suas posições"
+      "yourPositions": "As suas posições",
+      "myPositions": "As minhas posições",
+      "notEnoughForOutboundFee": "Não há montante suficiente para cobrir a taxa de saída",
+      "positionTooSmall": "Posição demasiado pequena para calcular"
     },
     "send": {
       "description": "Enviar tokens para outras carteiras e gerir os seus bens",
@@ -781,14 +788,17 @@
       "registrationFee": "Taxa de inscrição",
       "searchName": "Nome da pesquisa",
       "status": "Estado",
-      "thornameInfo": "THORName BETA: Registos e Atribuição de endereços de carteira disponíveis (a comercialização está para breve). Os nomes THORNames são insensíveis a maiúsculas e minúsculas, limitados a 30 caracteres, incluindo a-Z, todos os números 0-9 e -_+",
+      "thornameInfo": "THORName: Inscrições e atribuição de endereços de carteira disponíveis (a negociar em breve). Os nomes THORNames são insensíveis a maiúsculas e minúsculas, limitados a 30 caracteres, incluindo a-Z, todos os números 0-9 e -_+",
       "thornameSubtitle": "Serviço de Nome de Carteira Transversal.",
       "title": "Gerir o seu THORName",
       "unavailable": "Inacessível",
       "unavailableForPurchase": "Indisponível para compra",
       "updateFee": "Taxa de actualização",
       "year": "ano",
-      "years": "anos"
+      "years": "anos",
+      "invalidTransferAddress": "Endereço de transferência inválido",
+      "inputValidThorAddress": "Por favor introduza um endereço THORChain válido",
+      "transferTHORName": "Transferir THORName"
     },
     "vesting": {
       "claim": "Reivindicação",
@@ -884,7 +894,6 @@
       "noSlipProtection_part2": "concordam em continuar sem protecção contra derrapagens.",
       "noSlipProtection_part3": "THORSwap não será considerado responsável por qualquer perda de fundos.",
       "notConnected": "Não conectado",
-      "phantom": "Phantom",
       "phrase": "Frase",
       "phraseCopied": "Frase copiada",
       "prioritiseXdefi": "Priorizar carteira XDEFI",

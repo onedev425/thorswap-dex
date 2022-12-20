@@ -155,7 +155,10 @@
     "wallet": "錢包",
     "withdraw": "提取",
     "withdrawPercent": "提取百分比",
-    "yourTransactions": "您的交易"
+    "yourTransactions": "您的交易",
+    "transfer": "轉移",
+    "transferAddress": "轉移地址",
+    "filled": "已填滿"
   },
   "components": {
     "announcements": {
@@ -167,7 +170,8 @@
       "thorChainHalted": "THORChain正在進行維護，在此期間將暫停所有的相關服務。",
       "thorChainLPHalted": "THORChain 已暫時中止添加和提取流動性功能。",
       "thorChainTradeHalted": "THORChain 已暫時中止兌換交易。",
-      "tradingGloballyDisabled": "THORChain目前網絡不穩定。團隊正在進行調查。"
+      "tradingGloballyDisabled": "THORChain目前網絡不穩定。團隊正在進行調查。",
+      "oldRune": "我們在您的錢包中偵測到不推薦使用的 RUNE 版本。傳統的 RUNE 殺戮開關已被激活，您應該立即對其進行升級，每個塊都會失去價值。"
     },
     "assetSelect": {
       "manageTokenList": "管理代幣列表",
@@ -629,10 +633,13 @@
       "currentBalance": "目前餘額",
       "description": "使用儲戶金庫存入 %{asset} 並賺取更多 %{asset}",
       "earn": "賺取",
-      "tooltipDescription": "Provide %{asset} liquidity to earn yield in %{asset} with no exposure to RUNE or impermanent loss. Withdraw at any time with no lockup period. Slippage fee applies on entry and exit.",
+      "tooltipDescription": "提供% {asset} 流動性，以賺取% {asset} 的收益率，而不會承受 RUNE 或無永久損失的風險。在沒有鎖定期限的情況下隨時提款。滑點費用適用於入境和出口。",
       "yourDeposit": "您的存款",
       "yourEarnings": "您的收入",
-      "yourPositions": "您的職位"
+      "yourPositions": "您的職位",
+      "myPositions": "我的職位",
+      "notEnoughForOutboundFee": "不足以支付出境費用",
+      "positionTooSmall": "位置太小而無法計算"
     },
     "send": {
       "description": "將令牌發送到其他錢包並管理您的資產",
@@ -781,14 +788,17 @@
       "registrationFee": "註冊費",
       "searchName": "搜索",
       "status": "狀態",
-      "thornameInfo": "THORName (內測）: 註冊和管理錢包地址（交易/ 轉讓功能正在開發中）。THORName 不區分大小寫，限制在30個字符，包括a-Z，所有數字0-9和-_+。",
+      "thornameInfo": "ThorName：可用的錢包地址的註冊和分配（交易即將推出）。荊棘名稱不區分大小寫，限制為 30 個字符，包括 A-Z，所有數字 0-9 和-_+",
       "thornameSubtitle": "跨鏈錢包域名服務",
       "title": "管理您的索爾名",
       "unavailable": "無法註冊",
       "unavailableForPurchase": "無法註冊",
       "updateFee": "更新費用",
       "year": "年",
-      "years": "年"
+      "years": "年",
+      "invalidTransferAddress": "無效的傳送地址",
+      "inputValidThorAddress": "請輸入有效的地址",
+      "transferTHORName": "轉移荊棘名"
     },
     "vesting": {
       "claim": "領取",
@@ -884,7 +894,6 @@
       "noSlipProtection_part2": "同意繼續使用無滑動保護。",
       "noSlipProtection_part3": "ThorSwap 對任何資金損失概不負責。",
       "notConnected": "未連接",
-      "phantom": "Phantom",
       "phrase": "助記詞",
       "phraseCopied": "助記詞已復製",
       "prioritiseXdefi": "優先 XDEFI 錢包",

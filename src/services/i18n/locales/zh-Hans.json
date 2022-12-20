@@ -77,7 +77,7 @@
     "getHelp": "获取帮助",
     "globalSettings": "全局设置",
     "here": "在此",
-    "hide": "Hide",
+    "hide": "隐藏",
     "ilPaid": "无常损失补偿",
     "inbound": "传入",
     "index": "索引",
@@ -155,7 +155,10 @@
     "wallet": "钱包",
     "withdraw": "提取",
     "withdrawPercent": "提取百分比",
-    "yourTransactions": "您的交易"
+    "yourTransactions": "您的交易",
+    "transfer": "转移",
+    "transferAddress": "转移地址",
+    "filled": "已填充"
   },
   "components": {
     "announcements": {
@@ -167,7 +170,8 @@
       "thorChainHalted": "THORChain正在进行维护，在此期间将暂停所有的相关服务。",
       "thorChainLPHalted": "THORChain 已暂时中止添加和提取流动性。",
       "thorChainTradeHalted": "THORChain 已暂时中止兑换交易。",
-      "tradingGloballyDisabled": "THORChain 目前网络不稳定。团队正在进行调查。"
+      "tradingGloballyDisabled": "THORChain 目前网络不稳定。团队正在进行调查。",
+      "oldRune": "我们在你的钱包中检测到一个过时的RUNE版本。传统的RUNE杀戮开关已经被激活，你应该立即升级它，它的价值正在随着每一个区块流失。"
     },
     "assetSelect": {
       "manageTokenList": "管理代币列表",
@@ -632,7 +636,10 @@
       "tooltipDescription": "通过提供单边的$%{资产}赚取收益。流动性，没有$RUNE风险和不永久的损失",
       "yourDeposit": "你的存款",
       "yourEarnings": "你的收入",
-      "yourPositions": "您的职位"
+      "yourPositions": "您的职位",
+      "myPositions": "我的职位",
+      "notEnoughForOutboundFee": "没有足够的金额来支付出境费用",
+      "positionTooSmall": "位置太小，无法计算"
     },
     "send": {
       "description": "发送代币到其他钱包并管理你的资产",
@@ -781,14 +788,17 @@
       "registrationFee": "注册费",
       "searchName": "搜索",
       "status": "状态",
-      "thornameInfo": "THORName (内测）: 注册和管理钱包地址（交易/ 转让功能正在开发中）。THORName 不区分大小写，限制在30个字符，包括a-Z，所有数字0-9和-_+。",
+      "thornameInfo": "THORName: 注册和管理钱包地址（交易/ 转让功能正在开发中）。THORName 不区分大小写，限制在30个字符，包括a-Z，所有数字0-9和-_+。",
       "thornameSubtitle": "跨链钱包域名服务",
       "title": "管理您的THORName",
       "unavailable": "无法注册",
       "unavailableForPurchase": "无法注册",
       "updateFee": "更新费用",
       "year": "年",
-      "years": "年"
+      "years": "年",
+      "invalidTransferAddress": "无效的传输地址",
+      "inputValidThorAddress": "请输入一个有效的THORChain地址",
+      "transferTHORName": "转移THOR名称"
     },
     "vesting": {
       "claim": "领取",
@@ -884,7 +894,6 @@
       "noSlipProtection_part2": "同意继续没有防滑保护。",
       "noSlipProtection_part3": "THORSwap不对任何资金损失负责。",
       "notConnected": "未连接",
-      "phantom": "Phantom",
       "phrase": "助记词",
       "phraseCopied": "助记词已复制",
       "prioritiseXdefi": "优先 XDEFI 錢包",
@@ -896,7 +905,7 @@
       "selectKeystore": "请选择 Keystore 文件",
       "selectWallet": "选择钱包",
       "selectingKeyError": "选择 Key 文件失败",
-      "showHiddenAssets": "Show Hidden Assets",
+      "showHiddenAssets": "显示隐藏资产",
       "softwareWallets": "软件钱包",
       "trustWallet": "Trust Mobile",
       "trustWalletExtension": "Trust Browser",
