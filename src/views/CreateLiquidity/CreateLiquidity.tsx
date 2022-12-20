@@ -388,6 +388,7 @@ export const CreateLiquidity = () => {
     () =>
       getEstimatedTxTime({
         chain: poolAsset.chain as SupportedChain,
+        // @ts-expect-error TODO: will be fixed with new multichain-core
         amount: assetAmount,
       }),
     [assetAmount, poolAsset],

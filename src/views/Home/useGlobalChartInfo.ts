@@ -18,6 +18,7 @@ const getFormatter =
     const runeAmount = Amount.fromMidgard(value);
     const quoteAsset = Asset.fromAssetString(baseCurrency);
 
+    // @ts-expect-error TODO: will be fixed with new multichain-core
     return runeToAssetPrice({ runeAmount, quoteAsset, pools });
   };
 

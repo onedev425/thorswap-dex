@@ -9,11 +9,8 @@ export const useRuneToCurrency = () => {
 
   const runeToCurrency = useCallback(
     (runeAmount: Amount): Price =>
-      runeToAssetPrice({
-        pools,
-        runeAmount,
-        quoteAsset: Asset.fromAssetString(baseCurrency),
-      }),
+      // @ts-expect-error TODO: will be fixed with new multichain-core
+      runeToAssetPrice({ pools, runeAmount, quoteAsset: Asset.fromAssetString(baseCurrency) }),
     [baseCurrency, pools],
   );
 

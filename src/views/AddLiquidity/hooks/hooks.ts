@@ -623,6 +623,7 @@ export const useAddLiquidity = ({
     const isRuneLiquidity = liquidityType === LiquidityTypeOption.RUNE;
 
     return getEstimatedTxTime({
+      // @ts-expect-error TODO: will be fixed with new multichain-core
       amount: isRuneLiquidity ? runeAmount : assetAmount,
       chain: isRuneLiquidity
         ? (Chain.THORChain as SupportedChain)
