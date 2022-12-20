@@ -116,15 +116,17 @@ export const getSumAmountInUSD = (
 ) => {
   const assetAmount1InUSD = assetAmount1?.totalPriceIn(Asset.USD(), pools);
   const assetAmount2InUSD = assetAmount2?.totalPriceIn(Asset.USD(), pools);
-
-  if (assetAmount1 === null && assetAmount2InUSD) return assetAmount2InUSD.toCurrencyFormat(2);
-  if (assetAmount2 === null && assetAmount1InUSD) return assetAmount1InUSD.toCurrencyFormat(2);
+  const decimal = assetAmount1?.asset.decimal || 8;
 
   if (assetAmount1InUSD && assetAmount2InUSD) {
     const sum = assetAmount1InUSD.raw().plus(assetAmount2InUSD.raw());
 
-    return Amount.fromAssetAmount(sum, assetAmount1?.asset.decimal || 8).toFixed(2);
+    return Amount.fromAssetAmount(sum, decimal).toFixed(2);
   }
 
-  return Amount.fromAssetAmount(0, assetAmount1?.asset.decimal || 8).toFixed();
+  return (
+    assetAmount1InUSD?.toCurrencyFormat(2) ||
+    assetAmount2InUSD?.toCurrencyFormat(2) ||
+    Amount.fromAssetAmount(0, decimal).toFixed(2)
+  );
 };
