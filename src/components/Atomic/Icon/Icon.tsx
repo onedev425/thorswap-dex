@@ -51,7 +51,7 @@ export const Icon = ({
   return (
     <IconComp
       className={classNames(
-        'transition-all',
+        'transition-all box-content',
         colorClasses[color],
         spin ? 'animate-spin' : 'animate-none',
         onClick ? 'cursor-pointer' : '',

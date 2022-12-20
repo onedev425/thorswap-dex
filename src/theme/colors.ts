@@ -20,10 +20,16 @@ export const colors = {
   bgDarkBgSecondary: '#232E42',
   bgLightGrayLight: '#E5E5E5',
   bgDarkGrayPrimary: '#75849D',
-  dark: {
-    textPrimary: '#E2EBFB',
-  },
+  btnPrimary: '#4DBAD6',
+  btnSecondary: '#46B2A7',
   light: {
     textPrimary: '#1F1F41',
+    textSecondary: '#7C859F',
+    borderPrimary: '#E5E5E5',
+  },
+  dark: {
+    textPrimary: '#E2EBFB',
+    textSecondary: '#75849D',
+    borderPrimary: '#2E3C56',
   },
 };

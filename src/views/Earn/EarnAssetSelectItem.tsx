@@ -1,11 +1,11 @@
-import { Spinner } from '@chakra-ui/react';
+import { CircularProgress, Flex, Spinner } from '@chakra-ui/react';
 import { Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Typography } from 'components/Atomic';
+import { Box, Tooltip, Typography } from 'components/Atomic';
 import { memo } from 'react';
 import { t } from 'services/i18n';
-import { getFilledColor, getFormattedPercent } from 'views/Earn/utils';
+import { getFormattedPercent } from 'views/Earn/utils';
 
 import { AssetSelectType } from '../../components/AssetSelect/types';
 
@@ -20,9 +20,9 @@ export const EarnAssetSelectItem = memo(
       <Box
         alignCenter
         className={classNames(
-          'dark:bg-dark-dark-gray bg-btn-light-tint z-0 lig rounded-3xl p-2 hover:duration-150 transition cursor-pointer  dark:hover:bg-dark-border-primary hover:bg-btn-light-tint-active',
+          'dark:bg-dark-dark-gray bg-btn-light-tint z-0 lig rounded-3xl p-2 hover:duration-150 transition cursor-pointer  dark:hover:bg-dark-border-primary hover:bg-btn-light-tint-active border border-transparent',
           {
-            'brightness-90 dark:brightness-110 dark:!bg-dark-border-primary !bg-btn-light-tint-active':
+            'brightness-90 dark:brightness-110 dark:!bg-dark-border-primary !bg-btn-light-tint-active border-btn-primary':
               isSelected,
           },
         )}
@@ -55,25 +55,47 @@ export const EarnAssetSelectItem = memo(
                   <Spinner size="xs" />
                 )}
               </Box>
-
-              <Box center className="gap-1">
-                {typeof filled !== 'undefined' ? (
-                  <Typography color={getFilledColor(filled)} variant="caption">
-                    {getFormattedPercent(filled) || 'N/A'}
-                  </Typography>
-                ) : (
-                  <Spinner size="xs" />
-                )}
-                <Typography
-                  color="secondary"
-                  fontWeight="light"
-                  transform="uppercase"
-                  variant="caption"
-                >
-                  {t('common.filled')}
-                </Typography>
-              </Box>
             </Box>
+          </Box>
+
+          <Box center className="gap-1">
+            {typeof filled !== 'undefined' && (
+              // <Typography
+              //   color="secondary"
+              //   // color={getFilledColor(filled)}
+              //   variant="caption"
+              // >
+              //   {getFormattedPercent(filled) || 'N/A'}
+              // </Typography>
+              <Tooltip content={`${t('common.filled')}: ${getFormattedPercent(filled) || 'N/A'}`}>
+                <Flex position="relative">
+                  <CircularProgress
+                    color="brand.btnPrimary"
+                    size="35px"
+                    trackColor="borderPrimary"
+                    value={filled}
+                  />
+                  <Flex
+                    alignItems="center"
+                    bottom={0}
+                    justifyContent="center"
+                    left={0}
+                    position="absolute"
+                    right={0}
+                    top={0}
+                  >
+                    <Typography
+                      className={classNames('text-[10px]', { 'text-[9px]': filled >= 100 })}
+                      color="secondary"
+                      fontWeight="semibold"
+                      variant="caption-xs"
+                    >
+                      {Math.floor(filled)}%
+                    </Typography>
+                  </Flex>
+                </Flex>
+              </Tooltip>
+            )}
           </Box>
         </Box>
       </Box>

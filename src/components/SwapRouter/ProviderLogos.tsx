@@ -53,28 +53,38 @@ export const ProviderLogos = memo(({ size = 24, providers }: Props) => {
 
   return (
     <Box row className="px-1 max-w-[100px]" flex={1} justify="between">
-      {shortenProviders.map((provider, index, array) => (
-        <Fragment key={provider}>
-          <Box center col>
-            <AssetIcon
-              badge={uniswapBadge(provider)}
-              logoURI={providerLogoURL(provider)}
-              size={size}
-            />
+      {shortenProviders.map((provider, index, array) => {
+        const providerDisplayName = normalizedProviderName[provider as 'THORCHAIN'] || provider;
 
-            <Typography
-              className="w-18 text-center"
-              color="secondary"
-              style={providerStyle}
-              variant="caption-xs"
-            >
-              {normalizedProviderName[provider as 'THORCHAIN'] || provider}
-            </Typography>
-          </Box>
+        return (
+          <Fragment key={provider}>
+            <Box center col>
+              <AssetIcon
+                badge={uniswapBadge(provider)}
+                logoURI={providerLogoURL(provider)}
+                size={size}
+              />
 
-          <Typography style={arrowStyle}>{index !== array.length - 1 && '→'}</Typography>
-        </Fragment>
-      ))}
+              <Typography
+                className="text-center"
+                color="secondary"
+                style={{
+                  ...providerStyle,
+                  fontSize:
+                    providerDisplayName.length > 8
+                      ? providerStyle.fontSize * 0.9
+                      : providerStyle.fontSize,
+                }}
+                variant="caption-xs"
+              >
+                {providerDisplayName}
+              </Typography>
+            </Box>
+
+            <Typography style={arrowStyle}>{index !== array.length - 1 && '→'}</Typography>
+          </Fragment>
+        );
+      })}
     </Box>
   );
 });

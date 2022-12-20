@@ -69,7 +69,11 @@ export const CountDownIndicator = memo(
       <Tooltip content={t('common.refresh')} place="top">
         <Box
           center
-          className={classNames('m-auto relative -rotate-90', baseHoverClass, className)}
+          className={classNames(
+            'm-auto relative -rotate-90 box-content',
+            baseHoverClass,
+            className,
+          )}
           onClick={handleRefresh}
           style={countdownStyles}
         >

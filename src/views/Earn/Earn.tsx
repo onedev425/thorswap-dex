@@ -1,12 +1,7 @@
-import {
-  Amount,
-  Asset,
-  AssetAmount,
-  hasConnectedWallet,
-  Percent,
-} from '@thorswap-lib/multichain-core';
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { Amount, Asset, AssetAmount, Percent } from '@thorswap-lib/multichain-core';
 import { AssetInput } from 'components/AssetInput';
-import { Box, Button, Card, Icon, Link, Tooltip, Typography } from 'components/Atomic';
+import { Box, Card, Icon, Link, Tooltip, Typography } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { InfoTable } from 'components/InfoTable';
 import { TabsSelect } from 'components/TabsSelect';
@@ -27,12 +22,12 @@ import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 import { EarnAssetSelectList } from 'views/Earn/EarnAssetSelectList';
 import { EarnConfirmModal } from 'views/Earn/EarnConfirmModal';
+import { EarnPositionsTab } from 'views/Earn/EarnPositionsTab';
 import { useAssetsWithApr } from 'views/Earn/useAssetsWithApr';
 import { useEarnCalculations } from 'views/Earn/useEarnCalculations';
 import { WithdrawPercent } from 'views/WithdrawLiquidity/WithdrawPercent';
 
 import { EarnButton } from './EarnButton';
-import { EarnPositions } from './EarnPositions';
 import { EarnTab, EarnViewTab } from './types';
 import { useSaverPositions } from './useEarnPositions';
 
@@ -50,7 +45,6 @@ const Earn = () => {
   const { inboundHalted } = useMidgard();
   const { positions, refreshPositions, getPosition, synthAvailability } = useSaverPositions();
   const { wallet, setIsConnectModalOpen } = useWallet();
-  const isWalletConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
   const [amount, setAmount] = useState(Amount.fromAssetAmount(0, 8));
   const [asset, setAsset] = useState(Asset.BTC());
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
@@ -81,13 +75,6 @@ const Earn = () => {
     [],
   );
 
-  const viewTabs = useMemo(
-    () => [
-      { label: t('views.savings.earn'), value: EarnViewTab.Earn },
-      { label: t('views.savings.myPortfolio'), value: EarnViewTab.Positions },
-    ],
-    [],
-  );
   const depositAsset = useCallback((asset: Asset) => {
     setViewTab(EarnViewTab.Earn);
     setTab(EarnTab.Deposit);
@@ -200,144 +187,132 @@ const Earn = () => {
 
   return (
     <Box col className="w-full max-w-[880px] flex self-center gap-3 mt-2">
-      <TabsSelect
-        onChange={(value) => setViewTab(value as EarnViewTab)}
-        tabs={viewTabs}
-        value={viewTab}
+      <Helmet
+        content="Earn APY on native assets with THORSwap EARN"
+        keywords="Earn, Savings, THORSwap, APY, Native assets"
+        title={t('views.savings.earn')}
       />
 
-      {viewTab === EarnViewTab.Earn && (
-        <>
-          <Helmet
-            content="Earn APY on native assets with THORSwap EARN"
-            keywords="Earn, Savings, THORSwap, APY, Native assets"
-            title={t('views.savings.earn')}
-          />
-          <Box className="flex w-full justify-between">
-            <Box alignCenter>
-              <Typography className="ml-3 mr-2" variant="h3">
-                {t('views.savings.earn')} {asset.name}
-              </Typography>
-              <Typography color="primaryBtn" variant="h3">
-                {currentAsset?.apr ? `${currentAsset?.apr} ${t('common.apr').toUpperCase()}` : ''}
-              </Typography>
-            </Box>
-          </Box>
-
-          <Box alignCenter className="px-3" justify="between">
-            <Typography color="secondary" fontWeight="medium" variant="caption">
-              {t('views.savings.description', { asset: asset.name })}
-              <Link className="text-twitter-blue cursor-pointer" to={YIELD_BEARING_YOUTUBE}>
-                <Typography color="blue" fontWeight="medium" variant="caption">
-                  {`${t('common.learnMore')} →`}
-                </Typography>
-              </Link>
-            </Typography>
-
-            <Tooltip
-              content={t('views.savings.tooltipDescription', { asset: asset.name })}
-              place="bottom"
-            >
-              <Icon color="primaryBtn" name="infoCircle" size={24} />
-            </Tooltip>
-          </Box>
-
-          <Box row className="w-full justify-center gap-5">
-            {isLgActive && (
-              <Box className="w-9/12">
-                <EarnAssetSelectList
-                  assets={listAssets}
-                  onSelect={setAsset}
-                  selectedAsset={asset}
-                />
+      <Tabs index={viewTab} onChange={setViewTab}>
+        <TabList>
+          <Tab>{t('views.savings.earn')}</Tab>
+          <Tab>{t('views.savings.myPositions')}</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <Box col className="gap-3">
+              <Box className="flex w-full justify-between">
+                <Box alignCenter>
+                  <Typography className="ml-3 mr-2" variant="h3">
+                    {t('views.savings.earn')} {asset.name}
+                  </Typography>
+                  <Typography color="primaryBtn" variant="h3">
+                    {currentAsset?.apr
+                      ? `${currentAsset?.apr} ${t('common.apr').toUpperCase()}`
+                      : ''}
+                  </Typography>
+                </Box>
               </Box>
-            )}
 
-            <Box col className="flex h-full lg:w-full">
-              <Card
-                stretch
-                className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-2 space-y-1 shadow-lg md:w-full md:h-auto"
-                size="lg"
-              >
-                <Box col className="self-stretch gap-2">
-                  <TabsSelect
-                    onChange={(value) => setTab(value as EarnTab)}
-                    tabs={tabs}
-                    value={tab}
-                  />
+              <Box alignCenter className="px-3" justify="between">
+                <Typography color="secondary" fontWeight="medium" variant="caption">
+                  {t('views.savings.description', { asset: asset.name })}
+                  <Link className="text-twitter-blue cursor-pointer" to={YIELD_BEARING_YOUTUBE}>
+                    <Typography color="blue" fontWeight="medium" variant="caption">
+                      {`${t('common.learnMore')} →`}
+                    </Typography>
+                  </Link>
+                </Typography>
 
-                  {tab === EarnTab.Withdraw && (
-                    <WithdrawPercent
-                      onChange={handlePercentWithdrawChange}
-                      percent={withdrawPercent}
+                <Tooltip
+                  content={t('views.savings.tooltipDescription', { asset: asset.name })}
+                  place="bottom"
+                >
+                  <Icon color="primaryBtn" name="infoCircle" size={24} />
+                </Tooltip>
+              </Box>
+
+              <Box row className="w-full justify-center gap-5">
+                {isLgActive && (
+                  <Box className="w-9/12">
+                    <EarnAssetSelectList
+                      assets={listAssets}
+                      onSelect={setAsset}
+                      selectedAsset={asset}
                     />
-                  )}
+                  </Box>
+                )}
 
-                  <AssetInput
-                    noFilters
-                    AssetListComponent={EarnAssetSelectList}
-                    assets={listAssets}
-                    className="flex-1"
-                    disabled={tab === EarnTab.Withdraw}
-                    onAssetChange={setAsset}
-                    onValueChange={setAmount}
-                    poolAsset={selectedAsset}
-                    selectedAsset={selectedAsset}
-                  />
+                <Box col className="flex h-full lg:w-full">
+                  <Card
+                    stretch
+                    className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-2 space-y-1 shadow-lg md:w-full md:h-auto"
+                    size="lg"
+                  >
+                    <Box col className="self-stretch gap-2">
+                      <TabsSelect
+                        onChange={(value) => setTab(value as EarnTab)}
+                        tabs={tabs}
+                        value={tab}
+                      />
 
-                  <InfoTable horizontalInset items={summary} />
+                      {tab === EarnTab.Withdraw && (
+                        <WithdrawPercent
+                          onChange={handlePercentWithdrawChange}
+                          percent={withdrawPercent}
+                        />
+                      )}
 
-                  <EarnButton
-                    address={address}
-                    disabled={buttonDisabled}
-                    handleSubmit={() => setIsConfirmOpen(true)}
-                    label={tabLabel}
-                    setIsConnectModalOpen={setIsConnectModalOpen}
+                      <AssetInput
+                        noFilters
+                        AssetListComponent={EarnAssetSelectList}
+                        assets={listAssets}
+                        className="flex-1"
+                        disabled={tab === EarnTab.Withdraw}
+                        onAssetChange={setAsset}
+                        onValueChange={setAmount}
+                        poolAsset={selectedAsset}
+                        selectedAsset={selectedAsset}
+                      />
+
+                      <InfoTable horizontalInset items={summary} />
+
+                      <EarnButton
+                        address={address}
+                        disabled={buttonDisabled}
+                        handleSubmit={() => setIsConfirmOpen(true)}
+                        label={tabLabel}
+                        setIsConnectModalOpen={setIsConnectModalOpen}
+                      />
+                    </Box>
+                  </Card>
+
+                  <EarnConfirmModal
+                    amount={amount}
+                    asset={asset}
+                    expectedOutputAmount={expectedOutputAmount}
+                    isOpened={isConfirmOpen}
+                    networkFee={networkFee}
+                    onClose={() => setIsConfirmOpen(false)}
+                    onConfirm={handleEarnSubmit}
+                    saverQuote={saverQuote}
+                    slippage={slippage}
+                    tabLabel={tabLabel}
                   />
                 </Box>
-              </Card>
-
-              <EarnConfirmModal
-                amount={amount}
-                asset={asset}
-                expectedOutputAmount={expectedOutputAmount}
-                isOpened={isConfirmOpen}
-                networkFee={networkFee}
-                onClose={() => setIsConfirmOpen(false)}
-                onConfirm={handleEarnSubmit}
-                saverQuote={saverQuote}
-                slippage={slippage}
-                tabLabel={tabLabel}
-              />
+              </Box>
             </Box>
-          </Box>
-        </>
-      )}
-
-      {viewTab === EarnViewTab.Positions && (
-        <Box className="w-full self-stretch">
-          {isWalletConnected ? (
-            <EarnPositions
-              depositAsset={depositAsset}
+          </TabPanel>
+          <TabPanel>
+            <EarnPositionsTab
+              onDeposit={depositAsset}
+              onWithdraw={withdrawAsset}
               positions={positions}
-              refresh={refreshPositions}
-              withdrawAsset={withdrawAsset}
+              refreshPositions={refreshPositions}
             />
-          ) : (
-            <Box center className="self-stretch w-full">
-              <Button
-                isFancy
-                stretch
-                className="mt-3 max-w-[460px] self-center"
-                onClick={() => setIsConnectModalOpen(true)}
-                size="lg"
-              >
-                {t('common.connectWallet')}
-              </Button>
-            </Box>
-          )}
-        </Box>
-      )}
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </Box>
   );
 };

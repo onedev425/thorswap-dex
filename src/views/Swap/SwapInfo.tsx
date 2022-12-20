@@ -197,7 +197,7 @@ export const SwapInfo = ({
       className="self-stretch mt-5 !bg-light-bg-primary dark:!bg-dark-gray-light !rounded-2xl flex-col"
       shadow={false}
       title={
-        <Box className="gap-1 flex-1" justify="between">
+        <Box alignCenter className="gap-1 flex-1" justify="between">
           <Button
             className="!p-1 !h-auto"
             onClick={toggle}

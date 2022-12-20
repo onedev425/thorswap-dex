@@ -39,7 +39,10 @@ const IconComponent = memo(
     iconHoverHighlight = true,
   }: Props) => (
     <Tooltip content={tooltip}>
-      <Box className={classNames(baseHoverClass, 'group')} style={{ width: size, height: size }}>
+      <Box
+        className={classNames(baseHoverClass, 'group box-content')}
+        style={{ width: size, height: size }}
+      >
         <Icon
           className={classNames(
             {

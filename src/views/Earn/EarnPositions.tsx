@@ -1,6 +1,5 @@
 import { Asset } from '@thorswap-lib/multichain-core';
 import { Box, Icon, Typography } from 'components/Atomic';
-import { InfoRow } from 'components/InfoRow';
 import { ReloadButton } from 'components/ReloadButton';
 import { useCallback, useState } from 'react';
 import { t } from 'services/i18n';
@@ -26,35 +25,33 @@ export const EarnPositions = ({ positions, refresh, withdrawAsset, depositAsset 
   }, [refresh]);
 
   return (
-    <Box col className="gap-1 mt-3 w-full">
-      <InfoRow
-        className="!mx-1.5 pl-1.5"
-        label={<Typography> {t('views.savings.yourPositions')}</Typography>}
-        size="sm"
-        value={
-          <Box className="gap-x-2 mb-1">
+    <Box center col className="w-full">
+      <Box col className="max-w-[480px] w-full gap-1">
+        {!!positions.length && (
+          <Box className="gap-x-2 mb-1 w-full" justify="between">
+            <Box />
             <ReloadButton loading={isLoading} onLoad={onReload} size={16} />
           </Box>
-        }
-      />
+        )}
 
-      {positions.length ? (
-        positions.map((position) => (
-          <EarnPosition
-            deposit={depositAsset}
-            key={position.asset.toString()}
-            position={position}
-            withdraw={withdrawAsset}
-          />
-        ))
-      ) : (
-        <Box center className="gap-2" flex={1}>
-          <Typography color="primary" variant="subtitle2">
-            {isWalletLoading ? t('common.loading') : t('views.wallet.noDataToShow')}
-          </Typography>
-          {isWalletLoading && <Icon spin name="loader" size={32} />}
-        </Box>
-      )}
+        {positions.length ? (
+          positions.map((position) => (
+            <EarnPosition
+              deposit={depositAsset}
+              key={position.asset.toString()}
+              position={position}
+              withdraw={withdrawAsset}
+            />
+          ))
+        ) : (
+          <Box center className="gap-2" flex={1}>
+            <Typography color="primary" variant="subtitle2">
+              {isWalletLoading ? t('common.loading') : t('views.wallet.noDataToShow')}
+            </Typography>
+            {isWalletLoading && <Icon spin name="loader" size={32} />}
+          </Box>
+        )}
+      </Box>
     </Box>
   );
 };

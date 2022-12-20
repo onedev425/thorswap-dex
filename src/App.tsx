@@ -33,13 +33,13 @@ function App() {
   return (
     <HelmetProvider>
       <ReduxProvider store={reduxStore}>
-        <ThemeProvider>
-          <ChakraThemeProvider>
+        <ChakraThemeProvider>
+          <ThemeProvider>
             <AnnouncementsProvider>
               <MainApp />
             </AnnouncementsProvider>
-          </ChakraThemeProvider>
-        </ThemeProvider>
+          </ThemeProvider>
+        </ChakraThemeProvider>
       </ReduxProvider>
     </HelmetProvider>
   );

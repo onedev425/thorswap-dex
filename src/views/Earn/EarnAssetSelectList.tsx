@@ -40,7 +40,7 @@ export const EarnAssetSelectList = ({
       flex={1}
     >
       {filteredAssets.length ? (
-        <Box className="!overflow-x-clip flex-col overflow-y-auto gap-2 w-full h-full">
+        <Box className="!overflow-x-clip flex-col overflow-y-auto gap-1.5 w-full h-full">
           {filteredAssets.map((item) => (
             <EarnAssetSelectItem
               {...item}

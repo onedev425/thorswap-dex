@@ -116,13 +116,14 @@ export const AssetInputs = memo(
         <AssetInput
           {...assetInputProps}
           assets={assets}
-          className="!mb-1 flex-1"
+          className="!mb-1 flex-1 h-[111px]"
           onAssetChange={onInputAssetChange}
           onValueChange={onInputAmountChange}
           selectedAsset={inputAsset}
         />
 
         <AssetInput
+          className="h-[111px]"
           {...assetInputProps}
           hideMaxButton
           assets={outputAssets}

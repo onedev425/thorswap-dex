@@ -17,8 +17,8 @@ export enum EarnTab {
 }
 
 export enum EarnViewTab {
-  Earn = 'earn',
-  Positions = 'positions',
+  Earn = 0,
+  Positions = 1,
 }
 
 export type SaverQuoteResponse = {

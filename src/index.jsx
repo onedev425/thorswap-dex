@@ -1,5 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { ColorModeScript } from '@chakra-ui/react'
 
 import './index.css';
 
@@ -11,6 +12,7 @@ const root = createRoot(container);
 root.render(
   <>
     <StrictMode>
+      <ColorModeScript />
       <App />
     </StrictMode>
   </>,

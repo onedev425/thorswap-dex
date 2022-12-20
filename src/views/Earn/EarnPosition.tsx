@@ -1,7 +1,7 @@
 import { Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Button, Icon, Typography, useCollapse } from 'components/Atomic';
+import { Box, Button, Typography } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
@@ -17,8 +17,6 @@ type Props = {
 };
 
 export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
-  const { collapse, isActive, contentRef, toggle, maxHeightStyle } = useCollapse();
-
   const { networkFee } = useEarnCalculations({
     asset: position.asset,
     amount: position.amount,
@@ -53,8 +51,8 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
 
   return (
     <Box col justifyCenter className="self-stretch" key={position.asset.toString()}>
-      <HighlightCard className="!rounded-2xl p-2 !gap-0" type="primary">
-        <Box alignCenter className="cursor-pointer" justify="between" onClick={toggle}>
+      <HighlightCard className="!rounded-2xl pt-2 !pb-0 !gap-0" type="primary">
+        <Box alignCenter className="cursor-pointer" justify="between">
           <Box alignCenter flex={1} justify="between">
             <Box center>
               <Box col>
@@ -77,30 +75,17 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
               <PositionTooSmallInfo />
             )}
           </Box>
-
-          <Icon
-            className={classNames('transform duration-300 ease', {
-              '-rotate-180': isActive,
-            })}
-            color="secondary"
-            name="chevronDown"
-          />
         </Box>
 
-        <div
-          className="overflow-hidden ease-in-out transition-all"
-          ref={contentRef}
-          style={maxHeightStyle}
-        >
-          <InfoTable horizontalInset className="my-3" items={infoFields} size="md" />
+        <Box className="gap-2">
+          <InfoTable horizontalInset className="my-3" items={infoFields} size="sm" />
 
-          <Box justifyCenter className="space-x-6 md:pr-0 mt-3">
+          <Box col justifyCenter className="gap-1">
             <Button
               stretch
-              className="px-8 md:px-12"
+              className="!h-[32px]"
               onClick={() => {
                 deposit(position.asset);
-                collapse();
               }}
               variant="primary"
             >
@@ -109,17 +94,17 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
 
             <Button
               stretch
-              className="px-8 md:px-12"
+              className="md:min-w-[100px] !h-[32px]"
               onClick={() => {
                 withdraw(position.asset);
-                collapse();
               }}
+              type="outline"
               variant="secondary"
             >
               {t('common.withdraw')}
             </Button>
           </Box>
-        </div>
+        </Box>
       </HighlightCard>
     </Box>
   );

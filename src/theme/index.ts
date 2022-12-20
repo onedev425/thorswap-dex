@@ -11,6 +11,32 @@ const config: ThemeConfig = {
 
 export const theme = extendTheme({
   config,
+  colors: {
+    brand: colors,
+  },
+  styles: {
+    global: (props: StyleFunctionProps) => ({
+      body: {
+        color: mode(colors.light.textPrimary, colors.dark.textPrimary)(props),
+      },
+    }),
+  },
+  semanticTokens: {
+    colors: {
+      textPrimary: {
+        default: colors.light.textPrimary,
+        _dark: colors.dark.textPrimary,
+      },
+      textSecondary: {
+        default: colors.light.textSecondary,
+        _dark: colors.dark.textSecondary,
+      },
+      borderPrimary: {
+        default: colors.light.borderPrimary,
+        _dark: colors.dark.borderPrimary,
+      },
+    },
+  },
   components: {
     Drawer: {
       sizes: {
@@ -56,7 +82,6 @@ export const theme = extendTheme({
         'secondary': (props: StyleFunctionProps) => ({
           track: {
             _focus: { boxShadow: 'none' },
-
             _checked: {
               backgroundColor: mode(colors.bgBtnLightTintActive, colors.bgDarkBgPrimary)(props),
             },
@@ -73,6 +98,24 @@ export const theme = extendTheme({
         },
         thumb: {
           _checked: { backgroundColor: colors.cyan },
+        },
+      }),
+    },
+    Tabs: {
+      baseStyle: () => ({
+        root: {
+          borderColor: 'borderPrimary',
+          color: 'textSecondary',
+        },
+        tab: {
+          letterSpacing: '0.03em',
+          fontWeight: 600,
+          _selected: {
+            color: 'brand.btnPrimary',
+          },
+        },
+        tabpanel: {
+          px: 0,
         },
       }),
     },

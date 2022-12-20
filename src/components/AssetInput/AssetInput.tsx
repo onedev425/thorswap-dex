@@ -135,9 +135,9 @@ export const AssetInput = ({
       </Box>
 
       <Box alignCenter className="pl-4 md:pl-0" flex={1} justify="between">
-        <Box>
+        <Box className="min-h-[21px]">
           {localPriceLoading ? (
-            <Icon spin className="flex w-full" color="primary" name="loader" size={10} />
+            <Icon spin className="flex w-full" color="primary" name="loader" size={12} />
           ) : assetPriceInUSD ? (
             <Typography color="secondary" fontWeight="semibold">
               {secondaryLabel || `${assetPriceInUSD}`}
