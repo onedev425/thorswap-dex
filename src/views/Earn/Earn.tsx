@@ -5,7 +5,7 @@ import { Box, Card, Icon, Link, Tooltip, Typography } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { InfoTable } from 'components/InfoTable';
 import { TabsSelect } from 'components/TabsSelect';
-import { YIELD_BEARING_YOUTUBE } from 'config/constants';
+import { SAVERS_MEDIUM } from 'config/constants';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
@@ -217,7 +217,7 @@ const Earn = () => {
               <Box alignCenter className="px-3" justify="between">
                 <Typography color="secondary" fontWeight="medium" variant="caption">
                   {t('views.savings.description', { asset: asset.name })}
-                  <Link className="text-twitter-blue cursor-pointer" to={YIELD_BEARING_YOUTUBE}>
+                  <Link className="text-twitter-blue cursor-pointer" to={SAVERS_MEDIUM}>
                     <Typography color="blue" fontWeight="medium" variant="caption">
                       {`${t('common.learnMore')} →`}
                     </Typography>
