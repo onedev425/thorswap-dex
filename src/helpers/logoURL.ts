@@ -2,10 +2,8 @@ import { Chain } from '@thorswap-lib/types';
 import { bepIconMapping } from 'helpers/assets';
 import { STATIC_API } from 'settings/config';
 
-export const getCustomIconImageUrl = (
-  name: 'avax' | 'bnb' | 'atom' | 'dogecoin' | 'rune' | 'sol' | 'thor' | 'vthor',
-  type: 'png' | 'svg' = 'svg',
-) => new URL(`../assets/images/svg/asset-${name}.${type}`, import.meta.url).href;
+export const getCustomIconImageUrl = (name: 'rune' | 'vthor', type: 'png' | 'svg') =>
+  new URL(`../assets/images/svg/asset-${name}.${type}`, import.meta.url).href;
 
 const twBaseUri = 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains';
 
@@ -48,16 +46,6 @@ const providersInfoMap = {
   psm: '',
 };
 
-const customIconMap = () => ({
-  ATOM: getCustomIconImageUrl('atom'),
-  AVAX: getCustomIconImageUrl('avax'),
-  BNB: getCustomIconImageUrl('bnb'),
-  DOGE: getCustomIconImageUrl('dogecoin', 'png'),
-  RUNE: getCustomIconImageUrl('rune'),
-  VTHOR: getCustomIconImageUrl('vthor', 'png'),
-  THOR: getCustomIconImageUrl('thor', 'png'),
-});
-
 export const tokenLogoURL = ({
   address,
   identifier,
@@ -68,15 +56,19 @@ export const tokenLogoURL = ({
   const [chain, ...possibleTicker] = identifier.split('-')?.[0]?.split('.') || [];
   const ticker = possibleTicker.join('.');
 
-  const logoSymbol = bepIconMapping[ticker as 'RUNE'] || ticker;
-  const customIcon = customIconMap()[ticker as 'RUNE'];
+  if (['VTHOR', 'RUNE'].includes(ticker)) {
+    return getCustomIconImageUrl(
+      ticker.toLowerCase() as 'vthor',
+      ticker === 'VTHOR' ? 'png' : 'svg',
+    );
+  }
+  const logoSymbol = bepIconMapping[ticker as 'TWT'] || ticker;
 
-  if (customIcon) return customIcon;
-
-  return Chain.Binance !== (chain as Chain) &&
-    address &&
-    address.toLocaleLowerCase() !== '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
-    ? `${STATIC_API}/token-list/images/${identifier.toLowerCase()}-${address.toLowerCase()}.png`
+  return (identifier === 'BNB.BNB' || Chain.Binance !== (chain as Chain)) &&
+    address?.toLocaleLowerCase() !== '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
+    ? `${STATIC_API}/token-list/images/${identifier.toLowerCase()}${
+        address ? `-${address.toLowerCase()}` : ''
+      }.png`
     : `${twBaseUri}/binance/assets/${logoSymbol}/logo.png`;
 };
 

@@ -2,7 +2,6 @@ import nodePolyfills from 'rollup-plugin-polyfill-node'
 import react from '@vitejs/plugin-react'
 import svgr from 'vite-plugin-svgr'
 import rewriteAll from 'vite-plugin-rewrite-all'
-import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
 import { resolve } from 'path'
 import removeConsole from 'vite-plugin-remove-console'
 import { defineConfig } from 'vite'
@@ -11,6 +10,7 @@ import { visualizer } from 'rollup-plugin-visualizer'
 export default defineConfig({
   define: {
     'process.env': {},
+    'process.version': JSON.stringify('v16.0.0'),
   },
   plugins: [
     react(),
@@ -69,13 +69,6 @@ export default defineConfig({
       target: 'es2020',
       define: { global: 'globalThis' },
       reserveProps: /(BigInteger|ECPair|Point)/,
-      plugins: [
-        NodeGlobalsPolyfillPlugin({
-          define: { global: 'globalThis' },
-          buffer: true,
-          process: true,
-        }),
-      ],
     },
   },
 })

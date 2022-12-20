@@ -1,34 +1,43 @@
 import { Chain, SupportedChain } from '@thorswap-lib/types';
-import { Box, Icon, IconName } from 'components/Atomic';
+import classNames from 'classnames';
+import { AssetIcon } from 'components/AssetIcon/AssetIcon';
+import { Box } from 'components/Atomic';
+import { tokenLogoURL } from 'helpers/logoURL';
 import { memo, useMemo } from 'react';
 
 type ChainIconProps = {
   chain: SupportedChain;
   size?: number;
+  withoutBackground?: boolean;
   style?: React.CSSProperties;
 };
 
-export const ChainIcon = memo(({ chain, style, size = 16 }: ChainIconProps) => {
-  const chainIcon: IconName = useMemo(() => {
-    switch (chain) {
-      case Chain.Ethereum:
-        return 'ethereum' as IconName;
+export const ChainIcon = memo(
+  ({ withoutBackground = false, chain, style, size = 16 }: ChainIconProps) => {
+    const identifier = useMemo(() => {
+      switch (chain) {
+        case Chain.THORChain:
+          return `${chain}.RUNE`;
 
-      case Chain.Cosmos:
-        return 'cos' as IconName;
+        case Chain.Cosmos:
+          return `${chain}.ATOM`;
 
-      default:
-        return chain.toLowerCase() as IconName;
-    }
-  }, [chain]);
+        default:
+          return `${chain}.${chain}`;
+      }
+    }, [chain]);
 
-  return (
-    <Box
-      center
-      className="rounded-full bg-light-gray-light dark:bg-dark-gray-light absolute z-10 scale-[65%]"
-      style={style}
-    >
-      <Icon className="p-0.5" name={chainIcon} size={size} />
-    </Box>
-  );
-});
+    return (
+      <Box
+        center
+        className={classNames({
+          'rounded-full scale-[65%] bg-light-gray-light dark:bg-dark-gray-light absolute z-10':
+            !withoutBackground,
+        })}
+        style={style}
+      >
+        <AssetIcon logoURI={tokenLogoURL({ identifier })} size={size} />
+      </Box>
+    );
+  },
+);

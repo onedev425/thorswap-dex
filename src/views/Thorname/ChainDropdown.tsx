@@ -1,26 +1,16 @@
-import { Chain, SupportedChain } from '@thorswap-lib/types';
-import { Box, DropdownMenu, Icon, IconName, Typography } from 'components/Atomic';
+import { SupportedChain } from '@thorswap-lib/types';
+import { ChainIcon } from 'components/AssetIcon/ChainIcon';
+import { Box, DropdownMenu, Typography } from 'components/Atomic';
 import { DropdownMenuItem } from 'components/Atomic/Dropdown/types';
 import { chainName } from 'helpers/chainName';
+import { SORTED_CHAINS } from 'settings/chain';
 
-export const thornameChainIcons: Record<string, IconName> = {
-  [Chain.Avalanche]: 'avax',
-  [Chain.Binance]: 'bnb',
-  [Chain.BitcoinCash]: 'bch',
-  [Chain.Bitcoin]: 'bitcoin',
-  [Chain.Cosmos]: 'cos',
-  [Chain.Doge]: 'doge',
-  [Chain.Ethereum]: 'eth',
-  [Chain.Litecoin]: 'ltc',
-  [Chain.THORChain]: 'thor',
-};
-
-const CHAIN_ITEMS: DropdownMenuItem[] = Object.entries(thornameChainIcons).map(([value, icon]) => ({
-  value,
+const CHAIN_ITEMS: DropdownMenuItem[] = SORTED_CHAINS.map((chain) => ({
+  value: chain,
   Component: (
     <Box alignCenter className="gap-x-2">
-      <Icon name={icon} />
-      <Typography>{chainName(value)}</Typography>
+      <ChainIcon withoutBackground chain={chain} size={24} />
+      <Typography>{chainName(chain)}</Typography>
     </Box>
   ),
 }));
@@ -33,12 +23,12 @@ type Props = {
 export const ChainDropdown = ({ chain, onChange }: Props) => {
   return (
     <DropdownMenu
-      buttonClassName="w-[95px] !py-2"
+      buttonClassName="w-[120px]"
       menuItems={CHAIN_ITEMS}
       onChange={onChange}
       openComponent={
         <Box alignCenter className="gap-x-2">
-          <Icon name={thornameChainIcons[chain]} />
+          <ChainIcon withoutBackground chain={chain} size={24} />
           <Typography>{chainName(chain)}</Typography>
         </Box>
       }

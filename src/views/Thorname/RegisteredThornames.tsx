@@ -1,5 +1,6 @@
-import { SupportedChain } from '@thorswap-lib/types';
-import { Box, Collapse, Icon, Tooltip, Typography } from 'components/Atomic';
+import { Chain } from '@thorswap-lib/types';
+import { ChainIcon } from 'components/AssetIcon/ChainIcon';
+import { Box, Collapse, Tooltip, Typography } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoTable } from 'components/InfoTable';
@@ -10,7 +11,6 @@ import { memo } from 'react';
 import { t } from 'services/i18n';
 import { getThornameExpireDate } from 'services/thorname';
 import { useMidgard } from 'store/midgard/hooks';
-import { thornameChainIcons } from 'views/Thorname/ChainDropdown';
 
 type Props = {
   editThorname: (thorname: string) => void;
@@ -64,9 +64,7 @@ export const RegisteredThornames = memo(({ editThorname }: Props) => {
                   },
                   { label: t('views.thorname.owner'), value: owner },
                   ...entries.map(({ address, chain }) => ({
-                    label: (
-                      <Icon className="px-2" name={thornameChainIcons[chain as SupportedChain]} />
-                    ),
+                    label: <ChainIcon withoutBackground chain={chain as Chain} size={24} />,
                     value: shortenAddress(address, 15),
                   })),
                 ]}

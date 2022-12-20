@@ -18,10 +18,8 @@ const ThemeContext = createContext<ThemeContextType>({
 
 export const useTheme = () => useContext(ThemeContext);
 
-const ThemeProvider = ({ children }: Props) => {
+export const ThemeProvider = ({ children }: Props) => {
   const theme = useThemeState();
 
   return <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>;
 };
-
-export { ThemeProvider };

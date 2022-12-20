@@ -16,7 +16,6 @@ export const useThemeState = () => {
     return isDark ? ThemeMode.Dark : ThemeMode.Light;
   };
   const [activeTheme, setActiveTheme] = useState<ThemeMode | null>(null);
-  const isLight = activeTheme === ThemeMode.Light;
 
   const activateTheme = useCallback(
     (updatedTheme: ThemeMode) => {
@@ -43,5 +42,5 @@ export const useThemeState = () => {
     activateTheme(getThemeMode(themeType));
   }, [activateTheme, themeType]);
 
-  return { theme: activeTheme, isLight };
+  return { theme: activeTheme, isLight: activeTheme === ThemeMode.Light };
 };

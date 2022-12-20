@@ -1,17 +1,10 @@
 import { Asset } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
-import { getCustomIconImageUrl } from 'helpers/logoURL';
 
 export enum VestingType {
   THOR = 'THOR',
   VTHOR = 'VTHOR',
 }
-
-export const vThorInfo = {
-  ticker: 'vTHOR',
-  decimals: 18,
-  iconUrl: getCustomIconImageUrl('vthor', 'png'),
-};
 
 export const stakingV2Addr = {
   [VestingType.THOR]: '0xa5f2211B9b8170F694421f2046281775E8468044',

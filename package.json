@@ -96,7 +96,6 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "17.3.0",
-    "@esbuild-plugins/node-globals-polyfill": "0.1.1",
     "@evilmartians/lefthook": "1.2.6",
     "@thorswap-lib/cross-chain-api-sdk": "0.1.31",
     "@types/node": "18.11.17",

@@ -42,7 +42,7 @@ export const Select = ({
       <Box className={classNames('gap-2', { 'hidden md:flex': !disableDropdown }, className)}>
         {options.map((option, index) => (
           <Button
-            className={classNames('w-20', size === 'md' ? 'h-10' : 'h-8', {
+            className={classNames('w-21', size === 'md' ? 'h-10' : 'h-8', {
               '!bg-opacity-100 dark:!bg-opacity-50': index === activeIndex,
             })}
             key={option}

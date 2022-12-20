@@ -262,7 +262,7 @@ const Thorname = () => {
       <InfoTable horizontalInset items={thornameInfoItems} size="lg" />
 
       {available && details?.owner === thorAddress && (
-        <Box row className="w-full pt-4 gap-x-4">
+        <Box row className="w-full pt-4">
           <ChainDropdown chain={chain} onChange={handleChainChange} />
 
           <Input
@@ -296,7 +296,9 @@ const Thorname = () => {
           {buttonLabel}
         </Button>
       </Box>
+
       {!details && <RegisteredThornames editThorname={editThorname} />}
+
       <ConfirmModal
         inputAssets={[Asset.RUNE()]}
         isOpened={isOpened}
@@ -338,6 +340,7 @@ const Thorname = () => {
           </Box>
         )}
       </ConfirmModal>
+
       <ConfirmModal
         inputAssets={[Asset.RUNE()]}
         isOpened={isOpenedTransfer}
