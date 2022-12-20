@@ -55,41 +55,43 @@ export const RouteGraphModal = memo(({ isOpened, onClose, swaps }: Props) => {
 
   return (
     <Modal isOpened={isOpened} onClose={onClose} title={t('common.swapPath')}>
-      <Box alignCenter className="gap-x-4 max-w-[80vw]" flex={1}>
+      <Box className="gap-x-4 max-h-[80vh] max-w-[80vw]">
         {swapGraph.map(({ name, logoURL, chainSwaps }, index) => (
-          <Fragment key={name}>
-            <Box col>
-              <Box alignCenter className="gap-2 pb-2">
-                {logoURL && <AssetIcon logoURI={logoURL} size={28} />}
-                <Typography variant="subtitle2">{name}</Typography>
+          <div key={name}>
+            <Box center>
+              <Box col>
+                <Box alignCenter className="gap-2 pb-2">
+                  {logoURL && <AssetIcon logoURI={logoURL} size={28} />}
+                  <Typography variant="subtitle2">{name}</Typography>
+                </Box>
+
+                <Box alignCenter col flex={1}>
+                  {chainSwaps.map((swaps) => (
+                    <Box
+                      alignCenter
+                      row
+                      className="gap-6"
+                      key={`${swaps[0].fromAsset.identifier}-${swaps[0].toAsset.identifier}`}
+                    >
+                      {swaps.map((swapGraph, index) => (
+                        <Fragment
+                          key={`${swapGraph.fromAsset.identifier}-${swapGraph.toAsset.identifier}`}
+                        >
+                          <SwapGraph {...swapGraph} />
+
+                          {index !== swaps.length - 1 && (
+                            <Typography className="text-[24px]">→</Typography>
+                          )}
+                        </Fragment>
+                      ))}
+                    </Box>
+                  ))}
+                </Box>
               </Box>
 
-              <Box alignCenter col flex={1}>
-                {chainSwaps.map((swaps) => (
-                  <Box
-                    alignCenter
-                    row
-                    className="gap-6"
-                    key={`${swaps[0].fromAsset.identifier}-${swaps[0].toAsset.identifier}`}
-                  >
-                    {swaps.map((swapGraph, index) => (
-                      <Fragment
-                        key={`${swapGraph.fromAsset.identifier}-${swapGraph.toAsset.identifier}`}
-                      >
-                        <SwapGraph {...swapGraph} />
-
-                        {index !== swaps.length - 1 && (
-                          <Typography className="text-[24px]">→</Typography>
-                        )}
-                      </Fragment>
-                    ))}
-                  </Box>
-                ))}
-              </Box>
+              {index !== swapGraph.length - 1 && <Typography className="text-[34px]">→</Typography>}
             </Box>
-
-            {index !== swapGraph.length - 1 && <Typography className="text-[34px]">→</Typography>}
-          </Fragment>
+          </div>
         ))}
       </Box>
     </Modal>

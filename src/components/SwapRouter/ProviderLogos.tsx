@@ -11,18 +11,28 @@ type Props = {
 export const normalizedProviderName = {
   THORCHAIN: 'THORChain',
   ONEINCH: '1inch',
+  UNISWAP: 'UniswapV1',
+  UNISWAP_V1: 'UniswapV1',
   UNISWAPV2: 'UniswapV2',
+  Uniswap_V2: 'UniswapV2',
+  KYBERSWAP: 'KyberSwap',
   KYBERSWAPV2: 'KyberSwapV2',
+  KYBERSWAP_V2: 'KyberSwapV2',
   TRADERJOE: 'TraderJoe',
   PLATYPUS: 'Platypus',
   BALANCERV2: 'Balancer',
   UNISWAPV3: 'UniswapV3',
+  Uniswap_V3: 'UniswapV3',
   ZEROX: '0x',
-  CURVEV2: 'Curve',
+  CURVEV2: 'CurveV2',
+  Curve_V2: 'CurveV2',
   CURVE: 'Curve',
   SUSHISWAP: 'SushiSwap',
   SUSHI: 'SushiSwap',
   SYNTHETIXATOMIC: 'Syntetix',
+  SYNTHETIX_ATOMIC_SIP288: 'Syntetix',
+  KYBERSWAPELASTIC: 'KyberSwap',
+  SYNAPSE: 'Synapse',
 };
 
 export const ProviderLogos = memo(({ size = 24, providers }: Props) => {
@@ -53,7 +63,7 @@ export const ProviderLogos = memo(({ size = 24, providers }: Props) => {
             />
 
             <Typography
-              className="w-14 text-center"
+              className="w-18 text-center"
               color="secondary"
               style={providerStyle}
               variant="caption-xs"
