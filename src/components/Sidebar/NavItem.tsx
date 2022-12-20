@@ -1,8 +1,7 @@
 import classNames from 'classnames';
 import { Box, Icon, Link, Tooltip, Typography } from 'components/Atomic';
-import { memo, MouseEventHandler, useCallback, useLayoutEffect } from 'react';
+import { memo, MouseEventHandler, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import ReactTooltip from 'react-tooltip';
 
 import { iconClasses, itemClasses, NavItemProps } from './types';
 
@@ -20,12 +19,6 @@ export const NavItem = memo(
     onItemClickCb,
     beta,
   }: NavItemProps) => {
-    useLayoutEffect(() => {
-      if (collapsed) {
-        setTimeout(ReactTooltip.rebuild, 0);
-      }
-    }, [collapsed]);
-
     const isActive = useLocation().pathname.includes(href);
 
     const onClickHandler: MouseEventHandler = useCallback(
