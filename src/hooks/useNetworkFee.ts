@@ -90,7 +90,9 @@ export const useNetworkFee = ({
     [inputAsset, outputAsset],
   );
 
-  const gasRate = inboundGasRate[(outputAsset || inputAsset).L1Chain];
+  const chainAsset = (outputAsset?.isRUNE() ? inputAsset : outputAsset || inputAsset).L1Chain;
+
+  const gasRate = inboundGasRate[chainAsset];
   const feeGasRate = getGasRateByFeeOption({ gasRate, feeOptionType });
 
   const inboundFee = getNetworkFee(feeGasRate, 'inbound');
