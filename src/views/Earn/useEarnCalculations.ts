@@ -6,9 +6,9 @@ import {
   Percent,
 } from '@thorswap-lib/multichain-core';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
+import { useNetworkFee } from 'hooks/useNetworkFee';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getSaverQuote } from 'store/midgard/actions';
-import { useMidgard } from 'store/midgard/hooks';
 import { useWallet } from 'store/wallet/hooks';
 import { SaverQuoteResponse } from 'views/Earn/types';
 
@@ -22,7 +22,6 @@ type Props = {
 export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount }: Props) => {
   const [saverQuote, setSaverQuoteData] = useState<SaverQuoteResponse>();
   const { wallet } = useWallet();
-  const { outboundFee } = useMidgard();
 
   const debouncedAmount = useDebouncedValue(amount);
   const address = useMemo(() => wallet?.[asset.L1Chain]?.address || '', [wallet, asset.L1Chain]);
@@ -67,15 +66,7 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount 
 
   const slippage = expectedOutputAmount?.mul(saverQuote?.slippage_bps || 0).div(10000);
 
-  const networkFee = useMemo(
-    () =>
-      new Amount(
-        parseInt(outboundFee[asset.L1Chain] || '0') * (isDeposit ? 1 / 3 : 1),
-        AmountType.BASE_AMOUNT,
-        MULTICHAIN_DECIMAL,
-      ),
-    [asset.L1Chain, isDeposit, outboundFee],
-  );
+  const { inboundFee: networkFee } = useNetworkFee({ inputAsset: asset });
 
   return {
     slippage,

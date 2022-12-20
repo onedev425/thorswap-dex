@@ -5,10 +5,9 @@ import {
   getNetworkFeeByAsset,
   Pool,
 } from '@thorswap-lib/multichain-core';
-import { Chain } from '@thorswap-lib/types';
+import { Chain, FeeOption } from '@thorswap-lib/types';
 import { getGasRateByFeeOption } from 'helpers/networkFee';
 import { useCallback } from 'react';
-import { useApp } from 'store/app/hooks';
 import { useMidgard } from 'store/midgard/hooks';
 
 type CalculatedFeeParams = {
@@ -77,7 +76,6 @@ export const useNetworkFee = ({
   outputAsset?: Asset;
 }) => {
   const calculateFee = useCalculateFee();
-  const { feeOptionType } = useApp();
   const { inboundGasRate, pools } = useMidgard();
 
   const getNetworkFee = useCallback(
@@ -92,8 +90,8 @@ export const useNetworkFee = ({
 
   const chainAsset = (outputAsset?.isRUNE() ? inputAsset : outputAsset || inputAsset).L1Chain;
 
-  const gasRate = inboundGasRate[chainAsset];
-  const feeGasRate = getGasRateByFeeOption({ gasRate, feeOptionType });
+  const gasRate = `${parseInt(inboundGasRate[chainAsset] || '0') + 0.01}`;
+  const feeGasRate = getGasRateByFeeOption({ gasRate, feeOptionType: FeeOption.Fast });
 
   const inboundFee = getNetworkFee(feeGasRate, 'inbound');
   const outboundFee = getNetworkFee(outputAsset ? feeGasRate : 0, 'outbound');
