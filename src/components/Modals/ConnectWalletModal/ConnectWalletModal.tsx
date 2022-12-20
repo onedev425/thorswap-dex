@@ -241,7 +241,11 @@ const ConnectWalletModal = () => {
                 isMdActive ? 'dark:drop-shadow-4xl pb-4 rounded-l-3xl px-8' : 'rounded-t-3xl pb-2',
               )}
             >
-              <Box alignCenter className="p-2 w-[90%] md:p-4 md:w-[100%] md:gap-4" col={isMdActive}>
+              <Box
+                alignCenter
+                className="p-2 w-[90%] md:p-4 md:w-[100%] md:gap-4 box-content"
+                col={isMdActive}
+              >
                 <Box flex={1}>
                   <Typography variant={isMdActive ? 'h4' : 'subtitle2'}>
                     {t('views.walletModal.selectChains')}

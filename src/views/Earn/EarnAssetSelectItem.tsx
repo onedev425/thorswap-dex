@@ -15,7 +15,7 @@ type Props = AssetSelectType & {
 };
 
 export const EarnAssetSelectItem = memo(
-  ({ asset, logoURI, select, apr, filled, isSelected }: Props) => {
+  ({ asset, logoURI, select, apr, filled, isSelected, balance }: Props) => {
     return (
       <Box
         alignCenter
@@ -34,9 +34,11 @@ export const EarnAssetSelectItem = memo(
           </Box>
 
           <Box col flex={1}>
-            <Typography fontWeight="medium" variant="body">
-              {asset?.ticker}
-            </Typography>
+            <Box alignCenter justify="between">
+              <Typography fontWeight="medium" variant="body">
+                {asset?.ticker}
+              </Typography>
+            </Box>
             <Box row className="gap-x-2 justify-between pr-2">
               <Box center className="gap-1">
                 <Typography
@@ -58,7 +60,13 @@ export const EarnAssetSelectItem = memo(
             </Box>
           </Box>
 
-          <Box center className="gap-1">
+          <Box center className="gap-2">
+            {!!balance && (
+              <Typography color="secondary" fontWeight="medium" variant="caption-xs">
+                {balance.toSignificant(6)}
+              </Typography>
+            )}
+
             {typeof filled !== 'undefined' && (
               // <Typography
               //   color="secondary"
