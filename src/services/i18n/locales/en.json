@@ -788,7 +788,7 @@
       "registrationFee": "Registration Fee",
       "searchName": "Search Name",
       "status": "Status",
-      "thornameInfo": "THORName BETA: Registrations and Assignment of wallet addresses available (trading coming soon). THORNames are case-insensitive, limited to 30 characters, including a-Z, all numbers 0–9 and -_+",
+      "thornameInfo": "THORName: Registrations and Assignment of wallet addresses available (trading coming soon). THORNames are case-insensitive, limited to 30 characters, including a-Z, all numbers 0–9 and -_+",
       "thornameSubtitle": "Cross-Chain Wallet Name Service.",
       "title": "Manage your THORName",
       "unavailable": "Unavailable",
