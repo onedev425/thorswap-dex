@@ -3006,10 +3006,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.11.tgz#f57392d4bd5467e2cb4eaf80105e2907c987178e"
   integrity sha512-rzfoyOE1IPEpGXYEH2dt2W/Nb2+rmbt97/yhu6aaaHSbwrfQvWt6KFdkNHa8KXa9zoN43gOdDz9Ku0SwwaHZpg==
 
-"@thorswap-lib/multichain-core@0.0.1-development.62":
-  version "0.0.1-development.62"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.1-development.62.tgz#7eb9d8715354d481625fe1c6ef839ae2ec51ed5e"
-  integrity sha512-7jAElPZbKGzHuvjArrFPkVeMgbbI3THvaumxl55p3aiAH36yuX8xkMv9pWKQ5oFW66e4M3AflHuVvNLbpgUqfw==
+"@thorswap-lib/multichain-core@0.0.1-development.63":
+  version "0.0.1-development.63"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-core/-/multichain-core-0.0.1-development.63.tgz#6b2373c095735fc077ab430275270c38dcb0deca"
+  integrity sha512-wp40GzKRh7V4cqHh4i00ZjqwKH/nFcwq4jcQeSXBqUzE0LgQg+ELYynhQwbJVa1E6l7DEFU6xMvLGx2kjBasSw==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.2.0"
     "@cosmjs/amino" "^0.29.0"
@@ -3019,7 +3019,7 @@
     "@solana/web3.js" "^1.63.1"
     "@thorswap-lib/atlas" "^0.4.16"
     "@thorswap-lib/midgard-sdk" "^0.1.11"
-    "@thorswap-lib/multichain-entities" "^0.2.34"
+    "@thorswap-lib/multichain-entities" "^0.2.35"
     "@thorswap-lib/types" "^0.3.8"
     "@thorswap-lib/xchain-binance" "^5.6.33"
     "@thorswap-lib/xchain-cosmos" "^0.21.14"
@@ -3050,6 +3050,13 @@
   integrity sha512-mlhOjMfwbN7mfrhempacobR7EJ48ME3Rc+2EPsZbduLiqwZY8IYK3PxBt511rfk/YZvRIwMTchr06TOedqmLFA==
   dependencies:
     "@thorswap-lib/types" "^0.3.7"
+
+"@thorswap-lib/multichain-entities@^0.2.35":
+  version "0.2.35"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-entities/-/multichain-entities-0.2.35.tgz#673957d7c478ab339e733fb567163208c0ec1e67"
+  integrity sha512-li/qkWFjVtKaBuZSUsZUJg+ns/t9R7jOLWou9qGhASmxkVsLrPbmHDCbMcLT859J530nJsFq7BzJ35lmxlxfnw==
+  dependencies:
+    "@thorswap-lib/types" "^0.3.8"
 
 "@thorswap-lib/multichain-ledger@0.2.38":
   version "0.2.38"
