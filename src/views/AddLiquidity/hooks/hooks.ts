@@ -3,8 +3,6 @@ import {
   Amount,
   Asset,
   AssetAmount,
-  getEstimatedTxTime,
-  hasWalletConnected,
   Liquidity,
   Percent,
   Pool,
@@ -15,6 +13,8 @@ import { Chain, SupportedChain } from '@thorswap-lib/types';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems';
 import { showErrorToast, showInfoToast } from 'components/Toast';
+import { getEstimatedTxTime } from 'helpers/getEstimatedTxTime';
+import { hasWalletConnected } from 'helpers/wallet';
 import { useMimir } from 'hooks/useMimir';
 import { getSumAmountInUSD, useNetworkFee } from 'hooks/useNetworkFee';
 import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
@@ -623,7 +623,6 @@ export const useAddLiquidity = ({
     const isRuneLiquidity = liquidityType === LiquidityTypeOption.RUNE;
 
     return getEstimatedTxTime({
-      // @ts-expect-error TODO: will be fixed with new multichain-core
       amount: isRuneLiquidity ? runeAmount : assetAmount,
       chain: isRuneLiquidity
         ? (Chain.THORChain as SupportedChain)

@@ -1,4 +1,4 @@
-import { Amount, Asset, hasWalletConnected, Price } from '@thorswap-lib/multichain-core';
+import { Amount, Asset, Price } from '@thorswap-lib/multichain-core';
 import { SwitchMenu } from 'components/AppPopoverMenu/components/SwitchMenu';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic';
@@ -12,7 +12,7 @@ import { ViewHeader } from 'components/ViewHeader';
 import { chainName } from 'helpers/chainName';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { shortenAddress } from 'helpers/shortenAddress';
-import { getWalletAssets } from 'helpers/wallet';
+import { getWalletAssets, hasWalletConnected } from 'helpers/wallet';
 import { useAddressForTNS } from 'hooks/useAddressForTNS';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';

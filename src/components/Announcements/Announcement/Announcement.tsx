@@ -1,10 +1,10 @@
-import { chainToSigAsset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { useDismissedAnnouncements, useSeenAnnouncements } from 'components/Announcements/hooks';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Link, Typography } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
 import { HoverIcon } from 'components/HoverIcon';
+import { chainToSigAsset } from 'helpers/assets';
 import { memo, ReactNode } from 'react';
 import { t } from 'services/i18n';
 import { AnnouncementItem, AnnouncementType } from 'store/externalConfig/types';

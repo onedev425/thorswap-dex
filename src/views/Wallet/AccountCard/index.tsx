@@ -1,4 +1,3 @@
-import { chainToSigAsset } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
@@ -7,6 +6,7 @@ import { maxHeightTransitionClass } from 'components/Atomic/Collapse/Collapse';
 import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';
 import { borderHoverHighlightClass } from 'components/constants';
 import { Scrollbar } from 'components/Scrollbar';
+import { chainToSigAsset } from 'helpers/assets';
 import { formatPrice } from 'helpers/formatPrice';
 import { memo, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';

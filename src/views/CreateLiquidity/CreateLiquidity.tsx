@@ -1,11 +1,4 @@
-import {
-  Amount,
-  Asset,
-  AssetAmount,
-  getEstimatedTxTime,
-  hasConnectedWallet,
-  hasWalletConnected,
-} from '@thorswap-lib/multichain-core';
+import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 import { Box, Button } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
@@ -16,7 +9,13 @@ import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveIn
 import { PanelView } from 'components/PanelView';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
-import { getAssetBalance, getInputAssetsForCreate } from 'helpers/wallet';
+import { getEstimatedTxTime } from 'helpers/getEstimatedTxTime';
+import {
+  getAssetBalance,
+  getInputAssetsForCreate,
+  hasConnectedWallet,
+  hasWalletConnected,
+} from 'helpers/wallet';
 import { useBalance } from 'hooks/useBalance';
 import { useMimir } from 'hooks/useMimir';
 import { getSumAmountInUSD, useNetworkFee } from 'hooks/useNetworkFee';
@@ -385,12 +384,7 @@ export const CreateLiquidity = () => {
   }, [isValidDeposit, isApproveRequired]);
 
   const estimatedTime = useMemo(
-    () =>
-      getEstimatedTxTime({
-        chain: poolAsset.chain as SupportedChain,
-        // @ts-expect-error TODO: will be fixed with new multichain-core
-        amount: assetAmount,
-      }),
+    () => getEstimatedTxTime({ chain: poolAsset.chain as SupportedChain, amount: assetAmount }),
     [assetAmount, poolAsset],
   );
 

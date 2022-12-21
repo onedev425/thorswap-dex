@@ -1,6 +1,6 @@
-import { hasConnectedWallet } from '@thorswap-lib/multichain-core';
 import { IconName } from 'components/Atomic';
 import { SidebarItemProps } from 'components/Sidebar/types';
+import { hasConnectedWallet } from 'helpers/wallet';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { IS_PROD, IS_STAGENET } from 'settings/config';

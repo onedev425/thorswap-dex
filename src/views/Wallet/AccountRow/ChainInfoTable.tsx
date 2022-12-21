@@ -1,7 +1,8 @@
-import { Amount, AssetAmount, chainToSigAsset } from '@thorswap-lib/multichain-core';
+import { Amount, AssetAmount } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import { Box, Button, Table } from 'components/Atomic';
 import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';
+import { chainToSigAsset } from 'helpers/assets';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { t } from 'services/i18n';
 import { useAppDispatch } from 'store/store';

@@ -1,17 +1,11 @@
-import {
-  Amount,
-  Asset,
-  ETH_DECIMAL,
-  hasWalletConnected,
-  QuoteMode,
-  WalletOption,
-} from '@thorswap-lib/multichain-core';
+import { Amount, Asset, ETH_DECIMAL, QuoteMode, WalletOption } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import { InfoTip } from 'components/InfoTip';
 import { PanelView } from 'components/PanelView';
 import { SwapRouter } from 'components/SwapRouter';
 import { AVAX_AGG_PROXY_ADDRESS, ETH_AGG_PROXY_ADDRESS } from 'config/constants';
 import { useFormatPrice } from 'helpers/formatPrice';
+import { hasWalletConnected } from 'helpers/wallet';
 import { useBalance } from 'hooks/useBalance';
 import { useVTHORBalance } from 'hooks/useHasVTHOR';
 import { useSlippage } from 'hooks/useSlippage';

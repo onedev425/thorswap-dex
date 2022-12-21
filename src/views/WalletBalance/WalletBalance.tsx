@@ -1,16 +1,11 @@
-import {
-  Amount,
-  Asset,
-  AssetAmount,
-  chainToSigAsset,
-  ChainWallet,
-} from '@thorswap-lib/multichain-core';
+import { Amount, Asset, AssetAmount, ChainWallet } from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon, Typography } from 'components/Atomic';
 import { baseBgHoverClass } from 'components/constants';
 import { Scrollbar } from 'components/Scrollbar';
+import { chainToSigAsset } from 'helpers/assets';
 import { useWalletDrawer } from 'hooks/useWalletDrawer';
 import { MouseEventHandler, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';

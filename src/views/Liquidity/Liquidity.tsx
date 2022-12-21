@@ -1,4 +1,3 @@
-import { hasConnectedWallet } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import { Box, Button } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
@@ -7,6 +6,7 @@ import { PanelView } from 'components/PanelView';
 import { ReloadButton } from 'components/ReloadButton';
 import { ViewHeader } from 'components/ViewHeader';
 import { sortChains } from 'helpers/chains';
+import { hasConnectedWallet } from 'helpers/wallet';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';

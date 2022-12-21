@@ -1,15 +1,11 @@
 import { THORNode } from '@thorswap-lib/midgard-sdk';
-import {
-  Amount,
-  Asset,
-  hasConnectedWallet,
-  hasWalletConnected,
-} from '@thorswap-lib/multichain-core';
+import { Amount, Asset } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Icon, Link, Typography } from 'components/Atomic';
 import { useInputAmount } from 'components/InputAmount/useInputAmount';
 import { showErrorToast, showInfoToast, showSuccessToast } from 'components/Toast';
 import copy from 'copy-to-clipboard';
+import { hasConnectedWallet, hasWalletConnected } from 'helpers/wallet';
 import { useBalance } from 'hooks/useBalance';
 import useWindowSize from 'hooks/useWindowSize';
 import { useCallback, useEffect, useMemo, useState } from 'react';

@@ -1,5 +1,6 @@
-import { Asset, hasConnectedWallet, hasWalletConnected } from '@thorswap-lib/multichain-core';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain, WalletOption } from '@thorswap-lib/types';
+import { hasConnectedWallet, hasWalletConnected } from 'helpers/wallet';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { multichain } from 'services/multichain';
 import { useAppSelector } from 'store/store';

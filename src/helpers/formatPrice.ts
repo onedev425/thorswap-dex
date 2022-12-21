@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Amount } from '@thorswap-lib/multichain-core';
+import { Amount, Asset, Pool, Price } from '@thorswap-lib/multichain-core';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 import { useApp } from 'store/app/hooks';
@@ -98,3 +98,19 @@ export const useFormatPrice = (options?: FormatOptions) => {
     [format, options],
   );
 };
+
+export const runeToAssetPrice = ({
+  runeAmount,
+  quoteAsset,
+  pools,
+}: {
+  runeAmount: Amount;
+  quoteAsset?: Asset | null;
+  pools: Pool[];
+}) =>
+  new Price({
+    baseAsset: Asset.RUNE(),
+    quoteAsset: quoteAsset || Asset.RUNE(),
+    pools,
+    priceAmount: runeAmount,
+  });

@@ -1,10 +1,4 @@
-import {
-  Amount,
-  Asset,
-  AssetAmount,
-  hasWalletConnected,
-  Price,
-} from '@thorswap-lib/multichain-core';
+import { Amount, Asset, AssetAmount, Price } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Button, Card, Icon, Tooltip, Typography } from 'components/Atomic';
@@ -14,7 +8,7 @@ import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { PanelInput } from 'components/PanelInput';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
-import { getRuneToUpgrade } from 'helpers/wallet';
+import { getRuneToUpgrade, hasWalletConnected } from 'helpers/wallet';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { useMimir } from 'hooks/useMimir';

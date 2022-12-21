@@ -1,6 +1,7 @@
-import { Amount, Asset, AssetAmount, chainToSigAsset } from '@thorswap-lib/multichain-core';
+import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 import { BigNumber } from 'bignumber.js';
+import { chainToSigAsset } from 'helpers/assets';
 import takeRight from 'lodash/takeRight';
 import { useCallback, useMemo } from 'react';
 import { useMidgard } from 'store/midgard/hooks';

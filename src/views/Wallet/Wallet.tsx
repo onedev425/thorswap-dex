@@ -1,7 +1,7 @@
-import { chainToSigAsset } from '@thorswap-lib/multichain-core';
 import { SUPPORTED_CHAINS } from '@thorswap-lib/types';
 import { Box } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
+import { chainToSigAsset } from 'helpers/assets';
 import { useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';

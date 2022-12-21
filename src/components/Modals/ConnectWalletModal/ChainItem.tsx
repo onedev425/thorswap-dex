@@ -1,9 +1,10 @@
-import { chainToSigAsset, WalletOption } from '@thorswap-lib/multichain-core';
+import { WalletOption } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Icon, Tooltip } from 'components/Atomic';
 import { WalletIcon } from 'components/WalletIcon/WalletIcon';
+import { chainToSigAsset } from 'helpers/assets';
 import { chainName } from 'helpers/chainName';
 import useWindowSize from 'hooks/useWindowSize';
 import { memo } from 'react';

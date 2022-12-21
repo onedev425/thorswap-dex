@@ -1,9 +1,10 @@
-import { Asset, chainToSigAsset, QuoteRoute } from '@thorswap-lib/multichain-core';
+import { Asset, QuoteRoute } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Modal, Typography } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
+import { chainToSigAsset } from 'helpers/assets';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { memo, useEffect, useMemo } from 'react';
 import { t } from 'services/i18n';

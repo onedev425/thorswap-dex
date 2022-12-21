@@ -1,6 +1,7 @@
-import { Amount, Asset, Pool, runeToAssetPrice } from '@thorswap-lib/multichain-core';
+import { Amount, Asset, Pool } from '@thorswap-lib/multichain-core';
 import BigNumber from 'bignumber.js';
 import { ChartData, ChartDetail, ChartType } from 'components/Chart/types';
+import { runeToAssetPrice } from 'helpers/formatPrice';
 import { useMemo } from 'react';
 import { useApp } from 'store/app/hooks';
 import { useMidgard } from 'store/midgard/hooks';
@@ -18,7 +19,6 @@ const getFormatter =
     const runeAmount = Amount.fromMidgard(value);
     const quoteAsset = Asset.fromAssetString(baseCurrency);
 
-    // @ts-expect-error TODO: will be fixed with new multichain-core
     return runeToAssetPrice({ runeAmount, quoteAsset, pools });
   };
 

@@ -1,6 +1,6 @@
-import { Asset, hasConnectedWallet, Pool } from '@thorswap-lib/multichain-core';
+import { Asset, Pool } from '@thorswap-lib/multichain-core';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
-import { getInputAssetsForAdd } from 'helpers/wallet';
+import { getInputAssetsForAdd, hasConnectedWallet } from 'helpers/wallet';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useMemo } from 'react';
 import { useWallet } from 'store/wallet/hooks';

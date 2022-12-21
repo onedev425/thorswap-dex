@@ -1,9 +1,9 @@
-import { hasConnectedWallet } from '@thorswap-lib/multichain-core';
 import { AnnouncementsPopover } from 'components/Announcements/AnnouncementsPopover/AnnouncementsPopover';
 import { HeaderAnnouncements } from 'components/Announcements/HeaderAnnouncements';
 import { AppPopoverMenu } from 'components/AppPopoverMenu';
 import { Box, Button, Icon, Typography } from 'components/Atomic';
 import { TransactionManager } from 'components/TransactionManager';
+import { hasConnectedWallet } from 'helpers/wallet';
 import { useWalletDrawer } from 'hooks/useWalletDrawer';
 import useWindowSize from 'hooks/useWindowSize';
 import { memo, useCallback, useMemo } from 'react';

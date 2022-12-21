@@ -2,7 +2,6 @@ import {
   Amount,
   AmountType,
   Asset,
-  hasWalletConnected,
   Liquidity,
   Percent,
   Pool,
@@ -20,6 +19,7 @@ import { PanelView } from 'components/PanelView';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';
+import { hasWalletConnected } from 'helpers/wallet';
 import { useMimir } from 'hooks/useMimir';
 import { useNetworkFee } from 'hooks/useNetworkFee';
 import { useCallback, useEffect, useMemo, useState } from 'react';

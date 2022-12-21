@@ -1,7 +1,8 @@
-import { Amount, Asset, hasWalletConnected } from '@thorswap-lib/multichain-core';
+import { Amount, Asset } from '@thorswap-lib/multichain-core';
 import { Chain, SupportedChain } from '@thorswap-lib/types';
 import { Box, Button } from 'components/Atomic';
 import { showErrorToast, showInfoToast } from 'components/Toast';
+import { hasWalletConnected } from 'helpers/wallet';
 import { useCheckExchangeBNB } from 'hooks/useCheckExchangeBNB';
 import { useMimir } from 'hooks/useMimir';
 import { useCallback, useMemo } from 'react';

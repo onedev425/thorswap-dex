@@ -1,7 +1,7 @@
-import { chainToSigAsset } from '@thorswap-lib/multichain-core';
 import { SupportedChain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';
+import { chainToSigAsset } from 'helpers/assets';
 import { chainName } from 'helpers/chainName';
 import { useFetchThornames } from 'hooks/useFetchThornames';
 import { memo, useCallback, useMemo } from 'react';

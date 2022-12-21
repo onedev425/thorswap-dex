@@ -1,5 +1,6 @@
-import { Asset, hasConnectedWallet } from '@thorswap-lib/multichain-core';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { Box, Button } from 'components/Atomic';
+import { hasConnectedWallet } from 'helpers/wallet';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';

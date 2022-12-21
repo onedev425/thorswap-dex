@@ -161,3 +161,35 @@ export const getAssetBalance = (asset: Asset, wallet: Wallet): AssetAmount => {
 
   return emptyAmount;
 };
+
+export const hasConnectedWallet = (wallet: Wallet | null) => {
+  if (!wallet) return false;
+
+  let connected = false;
+
+  Object.keys(wallet).forEach((chain) => {
+    if (wallet?.[chain as Chain]?.walletType) {
+      connected = true;
+    }
+  });
+
+  return connected;
+};
+
+export const hasWalletConnected = ({
+  wallet,
+  inputAssets,
+}: {
+  wallet: Wallet | null;
+  inputAssets: Asset[];
+}): boolean => {
+  if (!wallet) return false;
+
+  for (const asset of inputAssets) {
+    const chainWallet = wallet?.[asset.L1Chain as Chain];
+
+    if (!chainWallet) return false;
+  }
+
+  return true;
+};
