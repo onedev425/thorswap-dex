@@ -1,6 +1,6 @@
 import { LpDetail, MemberPool, StakeDetail, WithdrawDetail } from '@thorswap-lib/midgard-sdk';
 import { Asset } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { BigNumber } from 'bignumber.js';
 import isEmpty from 'lodash/isEmpty';
 
@@ -57,7 +57,7 @@ export const getChainMemberDetails = ({
   memPools,
   chainMemberDetails, // previous chain member details
 }: {
-  chain: SupportedChain | undefined;
+  chain: Chain | undefined;
   memPools: MemberPool[];
   chainMemberDetails: ChainMemberDetails;
 }): ChainMemberDetails => {
@@ -66,7 +66,7 @@ export const getChainMemberDetails = ({
     memPools.forEach((memPool: MemberPool) => {
       const { pool, runeAdded, assetAdded, runePending } = memPool;
 
-      const poolChain = pool.split('.')[0] as SupportedChain;
+      const poolChain = pool.split('.')[0] as Chain;
       let chainMemberData = chainMemberDetails?.[poolChain] ?? {};
       let poolMemberData = chainMemberData?.[pool] ?? {};
 
@@ -107,7 +107,7 @@ export const getChainMemberDetails = ({
     memPools.forEach((memPool: MemberPool) => {
       const { pool, runeAdded, assetAdded, assetPending } = memPool;
 
-      const poolChain = pool.split('.')[0] as SupportedChain;
+      const poolChain = pool.split('.')[0] as Chain;
       let chainMemberData = chainMemberDetails?.[poolChain] ?? {};
 
       let poolMemberData = chainMemberData?.[pool] ?? {};

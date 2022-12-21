@@ -1,5 +1,5 @@
 import { Asset, QuoteRoute } from '@thorswap-lib/multichain-core';
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Modal, Typography } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';
@@ -24,7 +24,7 @@ export const FeeModal = memo(({ totalFee, fees, isOpened, onClose }: Props) => {
 
     const { affiliateFee, ...chainsFees } = Object.entries(fees).reduce(
       (acc, fee) => {
-        const [chain, value] = fee as [SupportedChain, Fees];
+        const [chain, value] = fee as [Chain, Fees];
 
         if (value) {
           value?.forEach((a) => (acc.affiliateFee += a.affiliateFeeUSD));
@@ -35,7 +35,7 @@ export const FeeModal = memo(({ totalFee, fees, isOpened, onClose }: Props) => {
         return acc;
       },
       { affiliateFee: 0 } as { affiliateFee: number } & {
-        [key in SupportedChain]: Fees;
+        [key in Chain]: Fees;
       },
     );
 
@@ -43,7 +43,7 @@ export const FeeModal = memo(({ totalFee, fees, isOpened, onClose }: Props) => {
       if (!fee) return acc;
 
       const chainFees = fee.map(({ type, networkFee, networkFeeUSD, asset }) => {
-        const chainAsset = chainToSigAsset(chain as SupportedChain);
+        const chainAsset = chainToSigAsset(chain as Chain);
         const feeAsset = Asset.fromAssetString(asset);
 
         return {

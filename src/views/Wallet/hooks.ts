@@ -1,5 +1,5 @@
 import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { BigNumber } from 'bignumber.js';
 import { chainToSigAsset } from 'helpers/assets';
 import takeRight from 'lodash/takeRight';
@@ -138,7 +138,7 @@ export const useChartData = (asset: Asset) => {
   return chartData;
 };
 
-export const useWalletChainActions = (chain: SupportedChain) => {
+export const useWalletChainActions = (chain: Chain) => {
   const { wallet, refreshWalletByChain, disconnectWalletByChain, chainWalletLoading } = useWallet();
 
   const isLoading = chainWalletLoading?.[chain];

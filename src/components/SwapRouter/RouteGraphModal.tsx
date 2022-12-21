@@ -1,5 +1,5 @@
 import { chainToSigAsset, QuoteRoute, QuoteSwap } from '@thorswap-lib/multichain-core';
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Modal, Typography } from 'components/Atomic';
 import { SwapGraph } from 'components/SwapRouter/SwapGraph';
@@ -27,7 +27,7 @@ export const RouteGraphModal = memo(({ isOpened, onClose, swaps }: Props) => {
     () =>
       Object.entries(swaps).reduce((acc, [chain, value]) => {
         const name = chainName(chain, true);
-        const chainAsset = chainToSigAsset(chain as SupportedChain);
+        const chainAsset = chainToSigAsset(chain as Chain);
         const chainSwaps = (value as QuoteSwap[][]).map((swapParts) =>
           swapParts.map(({ from, to, parts, fromTokenAddress, toTokenAddress }) => ({
             fromAsset: parseToSwapItem({ address: fromTokenAddress, identifier: from }),

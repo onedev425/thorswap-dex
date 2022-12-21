@@ -1,4 +1,4 @@
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Card, Typography, useCollapse } from 'components/Atomic';
@@ -27,7 +27,7 @@ import { AccountCardButton } from './AccountCardButton';
 import { ChainInfo } from './ChainInfo';
 
 type Props = {
-  chain: SupportedChain;
+  chain: Chain;
   thornames: string[];
 };
 

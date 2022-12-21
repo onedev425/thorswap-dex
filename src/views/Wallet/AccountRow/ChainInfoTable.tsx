@@ -1,5 +1,5 @@
 import { Amount, AssetAmount } from '@thorswap-lib/multichain-core';
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Table } from 'components/Atomic';
 import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';
 import { chainToSigAsset } from 'helpers/assets';
@@ -13,7 +13,7 @@ import { useColumns } from './useColumns';
 
 type Props = {
   chainInfo: AssetAmount[];
-  chain: SupportedChain;
+  chain: Chain;
   chainAddress: string;
 };
 

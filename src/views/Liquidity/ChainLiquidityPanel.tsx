@@ -1,5 +1,5 @@
 import { Asset, Pool } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Icon, Link, Typography } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
 import { LiquidityCard } from 'components/LiquidityCard';
@@ -15,7 +15,7 @@ import { isPendingLP } from 'store/midgard/utils';
 import { ChainPoolData } from 'views/Liquidity/types';
 
 type Props = {
-  chain: SupportedChain;
+  chain: Chain;
   data: ChainMemberData;
   isLoading: boolean;
   lpAddedAndWithdraw: LpDetailCalculationResult;

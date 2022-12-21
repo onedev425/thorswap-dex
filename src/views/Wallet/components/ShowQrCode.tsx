@@ -1,4 +1,4 @@
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { Box } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { QRCodeModal } from 'components/Modals/QRCodeModal';
@@ -7,7 +7,7 @@ import { ReactNode, useCallback, useState } from 'react';
 import { t } from 'services/i18n';
 
 type Props = {
-  chain: SupportedChain;
+  chain: Chain;
   address: string;
   openComponent?: ReactNode;
 };

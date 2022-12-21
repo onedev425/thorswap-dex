@@ -1,5 +1,5 @@
 import { Asset } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
@@ -20,7 +20,7 @@ export const useSwapApprove = ({ inputAsset, contract }: Params) => {
   const { wallet } = useWallet();
 
   const handleApprove = useCallback(async () => {
-    const from = wallet?.[inputAsset.L1Chain as SupportedChain]?.address;
+    const from = wallet?.[inputAsset.L1Chain as Chain]?.address;
     if (from) {
       const id = v4();
       const inChain = inputAsset.L1Chain;

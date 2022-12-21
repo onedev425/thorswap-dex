@@ -1,4 +1,4 @@
-import { Chain, Keystore, SUPPORTED_CHAINS, SupportedChain } from '@thorswap-lib/types';
+import { Chain, Keystore, SUPPORTED_CHAINS } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box, Button, Modal, Tooltip, Typography } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
@@ -33,7 +33,7 @@ const ConnectWalletModal = () => {
   const { isMdActive } = useWindowSize();
   const { unlockWallet, isWalletLoading, setIsConnectModalOpen, isConnectModalOpen, wallet } =
     useWallet();
-  const [selectedChains, setSelectedChains] = useState<SupportedChain[]>([]);
+  const [selectedChains, setSelectedChains] = useState<Chain[]>([]);
   const [selectedWalletType, setSelectedWalletType] = useState<WalletType>();
   const [ledgerIndex, setLedgerIndex] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -86,7 +86,7 @@ const ConnectWalletModal = () => {
   }, [selectedAll, selectedWalletType, supportedByWallet]);
 
   const selectChain = useCallback(
-    (chain: SupportedChain, skipReset: boolean) => () => {
+    (chain: Chain, skipReset: boolean) => () => {
       if (!skipReset) setSelectedWalletType(undefined);
       setCustomDerivationPath(undefined);
       setLedgerIndex(0);

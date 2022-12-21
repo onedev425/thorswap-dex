@@ -9,7 +9,7 @@ import {
   Price,
   Wallet,
 } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems';
 import { showErrorToast, showInfoToast } from 'components/Toast';
@@ -489,7 +489,7 @@ export const useAddLiquidity = ({
   }, [liquidityType, poolAsset, assetAmount, runeAmount]);
 
   const minRuneAmount: Amount = useMemo(
-    () => AssetAmount.getMinAmountByChain(Chain.THORChain as SupportedChain).amount,
+    () => AssetAmount.getMinAmountByChain(Chain.THORChain as Chain).amount,
     [],
   );
   const minAssetAmount: Amount = useMemo(() => {
@@ -624,9 +624,7 @@ export const useAddLiquidity = ({
 
     return getEstimatedTxTime({
       amount: isRuneLiquidity ? runeAmount : assetAmount,
-      chain: isRuneLiquidity
-        ? (Chain.THORChain as SupportedChain)
-        : (poolAsset.chain as SupportedChain),
+      chain: isRuneLiquidity ? (Chain.THORChain as Chain) : (poolAsset.chain as Chain),
     });
   }, [liquidityType, assetAmount, runeAmount, poolAsset]);
 

@@ -1,5 +1,5 @@
 import { WalletStatus } from '@thorswap-lib/multichain-web-extensions';
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { IconName } from 'components/Atomic';
 import { showErrorToast } from 'components/Toast';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
@@ -133,7 +133,7 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): Wallet
 export type HandleWalletConnectParams = {
   walletType?: WalletType;
   ledgerIndex: number;
-  chains?: SupportedChain[];
+  chains?: Chain[];
   customDerivationPath?: string;
 };
 
@@ -212,7 +212,7 @@ export const useHandleWalletConnect = ({
 
 type HandleWalletTypeSelectParams = {
   setSelectedWalletType: React.Dispatch<React.SetStateAction<WalletType | undefined>>;
-  setSelectedChains: React.Dispatch<React.SetStateAction<SupportedChain[]>>;
+  setSelectedChains: React.Dispatch<React.SetStateAction<Chain[]>>;
 };
 
 export const useHandleWalletTypeSelect = ({
@@ -260,7 +260,7 @@ export const useHandleWalletTypeSelect = ({
   }, []);
 
   const getChainsToSelect = useCallback(
-    (chains: SupportedChain[], walletType: WalletType, nextWalletType?: WalletType) => {
+    (chains: Chain[], walletType: WalletType, nextWalletType?: WalletType) => {
       if (!nextWalletType) {
         const allAvailableChainsSelected = chains.every((chain) =>
           availableChainsByWallet[walletType].includes(chain),
@@ -291,7 +291,7 @@ export const useHandleWalletTypeSelect = ({
         const nextWalletType = type === walletType ? undefined : walletType;
 
         setSelectedChains(
-          (chains) => getChainsToSelect(chains, walletType, nextWalletType) as SupportedChain[],
+          (chains) => getChainsToSelect(chains, walletType, nextWalletType) as Chain[],
         );
 
         return nextWalletType;

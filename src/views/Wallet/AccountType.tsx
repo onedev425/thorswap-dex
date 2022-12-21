@@ -1,4 +1,4 @@
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';
 import { chainToSigAsset } from 'helpers/assets';
@@ -26,7 +26,7 @@ export const AccountType = memo(({ onlyConnected, keyword }: Props) => {
   const filteredChains = useMemo(
     () =>
       SORTED_CHAINS.filter((chain) => {
-        const sigAsset = chainToSigAsset(chain as SupportedChain);
+        const sigAsset = chainToSigAsset(chain as Chain);
         const lowerKeyword = keyword.toLowerCase();
 
         const isSupported = [
@@ -36,12 +36,12 @@ export const AccountType = memo(({ onlyConnected, keyword }: Props) => {
         ].some((item) => item.includes(lowerKeyword));
 
         return isSupported && (onlyConnected ? !!wallet?.[chain]?.address : true);
-      }) as SupportedChain[],
+      }) as Chain[],
     [keyword, onlyConnected, wallet],
   );
 
   const getThornames = useCallback(
-    (chain: SupportedChain) => {
+    (chain: Chain) => {
       const { address } = wallet?.[chain] || {};
       if (!(registeredThornames && address)) return [];
 

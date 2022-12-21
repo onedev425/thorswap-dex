@@ -1,5 +1,5 @@
 import { Amount, Asset } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { Box, Button } from 'components/Atomic';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { hasWalletConnected } from 'helpers/wallet';
@@ -69,17 +69,15 @@ export const SwapSubmitButton = ({
 
   const isTradingHalted: boolean = useMemo(() => {
     const inTradeHalted =
-      inboundHalted[inputAsset.L1Chain as SupportedChain] ||
-      isChainTradingHalted[inputAsset.L1Chain];
+      inboundHalted[inputAsset.L1Chain as Chain] || isChainTradingHalted[inputAsset.L1Chain];
     const outTradeHated =
-      inboundHalted[outputAsset.L1Chain as SupportedChain] ||
-      isChainTradingHalted[outputAsset.L1Chain];
+      inboundHalted[outputAsset.L1Chain as Chain] || isChainTradingHalted[outputAsset.L1Chain];
 
     return (
       (inTradeHalted ||
         outTradeHated ||
-        getChainTradingPaused(inputAsset.L1Chain as SupportedChain) ||
-        getChainTradingPaused(outputAsset.L1Chain as SupportedChain)) &&
+        getChainTradingPaused(inputAsset.L1Chain as Chain) ||
+        getChainTradingPaused(outputAsset.L1Chain as Chain)) &&
       isSynthMintable
     );
   }, [

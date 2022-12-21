@@ -1,5 +1,5 @@
 import { Asset } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain, WalletOption } from '@thorswap-lib/types';
+import { Chain, WalletOption } from '@thorswap-lib/types';
 import { hasConnectedWallet, hasWalletConnected } from 'helpers/wallet';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { multichain } from 'services/multichain';
@@ -68,7 +68,7 @@ export const useIsAssetApproved = ({ force, contract, asset }: Params) => {
   const isLedger = useMemo(() => {
     if (!wallet) return false;
 
-    return wallet[asset.L1Chain as SupportedChain]?.walletType === WalletOption.LEDGER;
+    return wallet[asset.L1Chain as Chain]?.walletType === WalletOption.LEDGER;
   }, [asset.L1Chain, wallet]);
 
   const isAssetWalletConnected = useMemo(
@@ -90,7 +90,7 @@ export const useIsAssetApproved = ({ force, contract, asset }: Params) => {
     skip: typeof force === 'boolean' ? !force : isLedger,
     asset,
     contract: possibleApprove ? contract : undefined,
-    hasWallet: !chainWalletLoading?.[asset?.L1Chain as SupportedChain] || isAssetWalletConnected,
+    hasWallet: !chainWalletLoading?.[asset?.L1Chain as Chain] || isAssetWalletConnected,
   });
 
   return {

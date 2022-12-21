@@ -1,4 +1,4 @@
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { Box, Card, Icon, SwitchToggle, Tooltip, Typography } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { Popover } from 'components/Popover';
@@ -64,7 +64,7 @@ export const TransactionManager = memo(() => {
     }, [] as Chain[]);
 
     for (const chain of chainsToUpdate) {
-      appDispatch(getWalletByChain(chain as SupportedChain));
+      appDispatch(getWalletByChain(chain as Chain));
     }
   }, [appDispatch, completed]);
 

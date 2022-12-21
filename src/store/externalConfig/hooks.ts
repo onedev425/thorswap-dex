@@ -1,4 +1,4 @@
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { useCallback, useMemo } from 'react';
 import { useGetAnnouncementsQuery } from 'store/thorswap/api';
 
@@ -16,21 +16,21 @@ export const useExternalConfig = () => {
   }, [refetch]);
 
   const getChainCustomFlag = useCallback(
-    (chain: SupportedChain, flag: ChainStatusFlag) => {
+    (chain: Chain, flag: ChainStatusFlag) => {
       return announcements?.chainStatus[chain]?.flags?.[flag] || false;
     },
     [announcements],
   );
 
-  const getChainPaused = (chain: SupportedChain) => {
+  const getChainPaused = (chain: Chain) => {
     return getChainCustomFlag(chain, ChainStatusFlag.isChainPaused);
   };
 
-  const getChainTradingPaused = (chain: SupportedChain) => {
+  const getChainTradingPaused = (chain: Chain) => {
     return getChainPaused(chain) || getChainCustomFlag(chain, ChainStatusFlag.isTradingPaused);
   };
 
-  const getChainDepositLPPaused = (chain: SupportedChain) => {
+  const getChainDepositLPPaused = (chain: Chain) => {
     return (
       getChainPaused(chain) ||
       getChainCustomFlag(chain, ChainStatusFlag.isLPPaused) ||
@@ -38,7 +38,7 @@ export const useExternalConfig = () => {
     );
   };
 
-  const getChainWithdrawLPPaused = (chain: SupportedChain) => {
+  const getChainWithdrawLPPaused = (chain: Chain) => {
     return (
       getChainPaused(chain) ||
       getChainCustomFlag(chain, ChainStatusFlag.isLPPaused) ||

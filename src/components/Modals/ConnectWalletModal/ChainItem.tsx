@@ -1,10 +1,9 @@
 import { WalletOption } from '@thorswap-lib/multichain-core';
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
-import { AssetIcon } from 'components/AssetIcon';
+import { ChainIcon } from 'components/AssetIcon/ChainIcon';
 import { Box, Icon, Tooltip } from 'components/Atomic';
 import { WalletIcon } from 'components/WalletIcon/WalletIcon';
-import { chainToSigAsset } from 'helpers/assets';
 import { chainName } from 'helpers/chainName';
 import useWindowSize from 'hooks/useWindowSize';
 import { memo } from 'react';
@@ -14,12 +13,12 @@ import { WalletType } from './types';
 
 type Props = {
   disabled?: boolean;
-  chain: SupportedChain;
+  chain: Chain;
   walletType?: WalletOption;
   selected: boolean;
   isChainAvailable: boolean;
   selectedWalletType?: WalletType;
-  onClick: (chain: SupportedChain, skipReset: boolean) => () => void;
+  onClick: (chain: Chain, skipReset: boolean) => () => void;
 };
 
 const ChainItem = ({
@@ -48,7 +47,7 @@ const ChainItem = ({
             'bg-gradient-teal': selected,
           })}
         >
-          <AssetIcon asset={chainToSigAsset(chain)} size={isMdActive ? 42 : 32} />
+          <ChainIcon withoutBackground chain={chain} size={isMdActive ? 42 : 32} />
 
           <Box
             className={classNames(

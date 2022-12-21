@@ -1,4 +1,4 @@
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 
 export enum WalletType {
   Brave = 'Brave',
@@ -26,9 +26,9 @@ const AllChainsSupported = [
   Chain.Ethereum,
   Chain.Litecoin,
   Chain.THORChain,
-] as SupportedChain[];
+] as Chain[];
 
-export const availableChainsByWallet: Record<WalletType, SupportedChain[]> = {
+export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.Brave]: [Chain.Ethereum],
   [WalletType.CreateKeystore]: AllChainsSupported,
   [WalletType.Keplr]: [Chain.Cosmos],

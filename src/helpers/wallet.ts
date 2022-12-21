@@ -1,5 +1,5 @@
 import { Amount, Asset, AssetAmount, Pool, Wallet } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain, WalletOption } from '@thorswap-lib/types';
+import { Chain, WalletOption } from '@thorswap-lib/types';
 
 export const isTokenWhitelisted = (asset: Asset, whitelistedAddresses: string[]) => {
   if (![Chain.Avalanche, Chain.Ethereum].includes(asset.L1Chain)) return true;
@@ -27,7 +27,7 @@ export const getInputAssetsForAdd = ({
   if (pools.length === 0) return [];
 
   Object.keys(wallet).forEach((chain) => {
-    const chainWallet = wallet[chain as SupportedChain];
+    const chainWallet = wallet[chain as Chain];
     chainWallet?.balance.forEach((data: AssetAmount) => {
       if (
         poolAssets.find(
@@ -61,7 +61,7 @@ export const getInputAssetsForCreate = ({
   if (pools.length === 0) return [];
 
   for (const chain of Object.keys(wallet)) {
-    const chainWallet = wallet[chain as SupportedChain];
+    const chainWallet = wallet[chain as Chain];
     const balances = chainWallet?.balance || [];
     if (Chain.THORChain !== chain) {
       for (const balance of balances) {
@@ -123,7 +123,7 @@ export const isKeystoreSignRequired = ({
   if (!wallet) return false;
   let needSignIn = false;
   for (const asset of inputAssets) {
-    if (wallet?.[asset.L1Chain as SupportedChain]?.walletType === WalletOption.KEYSTORE) {
+    if (wallet?.[asset.L1Chain as Chain]?.walletType === WalletOption.KEYSTORE) {
       needSignIn = true;
     }
   }
@@ -137,7 +137,7 @@ export const getWalletAssets = (wallet: Wallet | null) => {
   if (!wallet) return assets;
 
   Object.keys(wallet).forEach((chain) => {
-    const chainWallet = wallet[chain as SupportedChain];
+    const chainWallet = wallet[chain as Chain];
     chainWallet?.balance.forEach((data: AssetAmount) => {
       assets.push(data.asset);
     });
@@ -150,7 +150,7 @@ export const getAssetBalance = (asset: Asset, wallet: Wallet): AssetAmount => {
   const emptyAmount = new AssetAmount(asset, Amount.fromBaseAmount(0, asset.decimal));
 
   if (asset.L1Chain in wallet) {
-    const chainWallet = wallet?.[asset.L1Chain as SupportedChain];
+    const chainWallet = wallet?.[asset.L1Chain as Chain];
 
     return (
       chainWallet?.balance.find((assetData: AssetAmount) => {

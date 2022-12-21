@@ -1,4 +1,4 @@
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { Box, Button } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { InfoTip } from 'components/InfoTip';
@@ -112,7 +112,7 @@ const Liquidity = () => {
               <Box col className="w-full gap-2">
                 {sortChains(Object.keys(chainMemberDetails)).map((chain) => (
                   <ChainLiquidityPanel
-                    chain={chain as SupportedChain}
+                    chain={chain as Chain}
                     data={chainMemberDetails[chain]}
                     isLoading={chainMemberDetailsLoading?.[chain] ?? false}
                     key={chain}

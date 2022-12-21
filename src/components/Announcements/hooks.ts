@@ -1,4 +1,4 @@
-import { Chain, SUPPORTED_CHAINS, SupportedChain } from '@thorswap-lib/types';
+import { Chain, SUPPORTED_CHAINS } from '@thorswap-lib/types';
 import { getAnnouncementId } from 'components/Announcements/utils';
 import { chainName } from 'helpers/chainName';
 import { useMimir } from 'hooks/useMimir';
@@ -135,7 +135,7 @@ const getChainAnnouncement = ({
   pausedLP,
   pausedTrade,
   chainStatus,
-}: GetAnnouncementsByChainProps & { chain: SupportedChain }) => {
+}: GetAnnouncementsByChainProps & { chain: Chain }) => {
   if (
     isChainPaused(Chain.THORChain, pausedChains, pausedLP, pausedTrade) &&
     chain !== Chain.THORChain
@@ -187,7 +187,7 @@ const getAnnouncementsByChain = (props: GetAnnouncementsByChainProps) =>
     .filter(Boolean) as AnnouncementItem[];
 
 const isChainPaused = (
-  chain: SupportedChain,
+  chain: Chain,
   pausedChains: Record<string, boolean>,
   pausedLP: Record<string, boolean>,
   pausedTrade: Record<string, boolean>,

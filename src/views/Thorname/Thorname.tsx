@@ -1,5 +1,5 @@
 import { Asset, THORName } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Collapse, Icon, Tooltip, Typography } from 'components/Atomic';
 import { FieldLabel } from 'components/Form';
 import { HighlightCard } from 'components/HighlightCard';
@@ -112,10 +112,7 @@ const Thorname = () => {
     [lookupForTNS, disabled],
   );
 
-  const handleChainChange = useCallback(
-    (chain: string) => setChain(chain as SupportedChain),
-    [setChain],
-  );
+  const handleChainChange = useCallback((chain: string) => setChain(chain as Chain), [setChain]);
 
   const editThorname = useCallback(
     (thorname: string) => {

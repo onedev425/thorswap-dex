@@ -17,8 +17,19 @@ export const getV2Asset = (contractType: VestingType) => {
   return new Asset(Chain.Ethereum, `${contractType}-${getV2Address(contractType)}`);
 };
 
-export const chainToSigAsset = (chain: Chain) =>
-  chain === Chain.Avalanche ? Asset.AVAX() : Asset.RUNE();
+export const chainToSigAsset = (chain: Chain) => {
+  if (chain === Chain.Avalanche) return Asset.AVAX();
+  if (chain === Chain.BitcoinCash) return Asset.BCH();
+  if (chain === Chain.Binance) return Asset.BNB();
+  if (chain === Chain.Bitcoin) return Asset.BTC();
+  if (chain === Chain.Cosmos) return Asset.ATOM();
+  if (chain === Chain.Ethereum) return Asset.ETH();
+  if (chain === Chain.Litecoin) return Asset.LTC();
+  if (chain === Chain.Doge) return Asset.DOGE();
+
+  // return RUNE by default
+  return Asset.RUNE();
+};
 
 export const bepIconMapping = {
   ABCD: 'ABCD-5D8',

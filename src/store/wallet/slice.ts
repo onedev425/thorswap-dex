@@ -1,7 +1,7 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { Wallet } from '@thorswap-lib/multichain-core';
-import { Chain, Keystore, SupportedChain } from '@thorswap-lib/types';
+import { Chain, Keystore } from '@thorswap-lib/types';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import { GeckoData } from 'store/wallet/types';
 
@@ -55,7 +55,7 @@ const walletSlice = createSlice({
       state.hiddenAssets[payload] = [];
       saveInStorage({ key: 'hiddenAssets', value: state.hiddenAssets });
     },
-    disconnectByChain: (state, action: PayloadAction<SupportedChain>) => {
+    disconnectByChain: (state, action: PayloadAction<Chain>) => {
       saveInStorage({ key: 'previousWallet', value: null });
       saveInStorage({ key: 'restorePreviousWallet', value: false });
       if (state.wallet) state.wallet[action.payload] = null;

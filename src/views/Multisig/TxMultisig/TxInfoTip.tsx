@@ -1,4 +1,4 @@
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Icon, Link, Modal, Typography } from 'components/Atomic';
 import { InfoTip } from 'components/InfoTip';
 import { useState } from 'react';
@@ -14,9 +14,7 @@ type Props = {
 
 export const TxInfoTip = ({ canBroadcast, txHash, txBodyStr }: Props) => {
   const [isTxModalVisible, setIsTxModalVisible] = useState(false);
-  const txUrl = txHash
-    ? multichain().getExplorerTxUrl(Chain.THORChain as SupportedChain, txHash)
-    : '';
+  const txUrl = txHash ? multichain().getExplorerTxUrl(Chain.THORChain as Chain, txHash) : '';
 
   if (txHash) {
     return (

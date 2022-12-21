@@ -1,5 +1,5 @@
 import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-core';
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon, Typography } from 'components/Atomic';
 import { useFormatPrice } from 'helpers/formatPrice';
@@ -14,7 +14,7 @@ import { ViewMode } from 'types/app';
 import { AssetChart } from 'views/Wallet/AssetChart';
 import { ShowQrCode } from 'views/Wallet/components/ShowQrCode';
 
-export const useColumns = (chainAddress: string, chain: SupportedChain) => {
+export const useColumns = (chainAddress: string, chain: Chain) => {
   const formatPrice = useFormatPrice();
   const navigate = useNavigate();
   const { stats } = useMidgard();

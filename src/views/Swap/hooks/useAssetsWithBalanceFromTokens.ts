@@ -1,5 +1,5 @@
 import { Asset } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { AssetSelectType } from 'components/AssetSelect/types';
 import { useBalance } from 'hooks/useBalance';
 import { useCallback, useMemo } from 'react';
@@ -14,9 +14,7 @@ export const useAssetsWithBalanceFromTokens = (tokens: Token[]) => {
     (asset: Asset) => {
       const maxBalance = getMaxBalance(asset);
 
-      return isWalletConnected(asset.L1Chain as SupportedChain) && maxBalance.gt(0)
-        ? maxBalance
-        : undefined;
+      return isWalletConnected(asset.L1Chain as Chain) && maxBalance.gt(0) ? maxBalance : undefined;
     },
     [getMaxBalance, isWalletConnected],
   );

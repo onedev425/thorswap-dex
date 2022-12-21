@@ -18,7 +18,7 @@ const Wallet = () => {
   const [keyword, setKeyword] = useState('');
   const [onlyConnected, setOnlyConnected] = useState(false);
 
-  const filteredSupportedChains = useMemo(
+  const filteredChains = useMemo(
     () =>
       SUPPORTED_CHAINS.filter((chain) => {
         const { ticker } = chainToSigAsset(chain);
@@ -28,8 +28,8 @@ const Wallet = () => {
   );
 
   const sigSymbols = useMemo(
-    () => filteredSupportedChains.map((chain) => chainToSigAsset(chain).ticker),
-    [filteredSupportedChains],
+    () => filteredChains.map((chain) => chainToSigAsset(chain).ticker),
+    [filteredChains],
   );
 
   useEffect(() => {

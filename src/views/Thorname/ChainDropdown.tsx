@@ -1,4 +1,4 @@
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { ChainIcon } from 'components/AssetIcon/ChainIcon';
 import { Box, DropdownMenu, Typography } from 'components/Atomic';
 import { DropdownMenuItem } from 'components/Atomic/Dropdown/types';
@@ -16,7 +16,7 @@ const CHAIN_ITEMS: DropdownMenuItem[] = SORTED_CHAINS.map((chain) => ({
 }));
 
 type Props = {
-  chain: SupportedChain;
+  chain: Chain;
   onChange: (chain: string) => void;
 };
 

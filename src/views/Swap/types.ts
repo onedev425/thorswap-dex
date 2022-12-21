@@ -1,5 +1,5 @@
 import { Asset } from '@thorswap-lib/multichain-core';
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 
 export type RouterStepProps = {
   assets: [Asset, Asset];
@@ -12,7 +12,7 @@ export type Pair = {
 };
 
 export type RouteFee = {
-  [key in SupportedChain]: {
+  [key in Chain]: {
     affiliateFee: number;
     affiliateFeeUSD: number;
     asset: string;

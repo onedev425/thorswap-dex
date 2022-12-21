@@ -1,5 +1,5 @@
 import { Amount, Asset, QuoteMode, QuoteRoute } from '@thorswap-lib/multichain-core';
-import { FeeOption, SupportedChain } from '@thorswap-lib/types';
+import { Chain, FeeOption } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { translateErrorMsg } from 'helpers/error';
 import { useCallback } from 'react';
@@ -58,7 +58,7 @@ export const useSwap = ({
 
     try {
       if (wallet && route) {
-        const from = wallet?.[inputAsset.L1Chain as SupportedChain]?.address;
+        const from = wallet?.[inputAsset.L1Chain as Chain]?.address;
         if (!from) throw new Error('No address found');
 
         const label = `${inputAmount.toSignificant(6)} ${

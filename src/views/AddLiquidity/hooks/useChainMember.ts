@@ -1,6 +1,6 @@
 import { MemberPool } from '@thorswap-lib/midgard-sdk';
 import { Amount, Asset, Pool } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { useCallback, useEffect, useMemo } from 'react';
 import * as actions from 'store/midgard/actions';
@@ -23,7 +23,7 @@ export const useChainMember = ({ poolAsset, pools, pool, liquidityType }: Props)
   const dispatch = useAppDispatch();
 
   const loadMemberDetailsByChain = useCallback(
-    (chain: SupportedChain) => {
+    (chain: Chain) => {
       if (!wallet) return;
       const assetChainAddress = wallet?.[chain]?.address;
       const thorchainAddress = wallet?.[Chain.THORChain]?.address;
@@ -45,7 +45,7 @@ export const useChainMember = ({ poolAsset, pools, pool, liquidityType }: Props)
     if (!poolAsset) return;
 
     if (wallet && poolAsset) {
-      loadMemberDetailsByChain(poolAsset?.chain as SupportedChain);
+      loadMemberDetailsByChain(poolAsset?.chain as Chain);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

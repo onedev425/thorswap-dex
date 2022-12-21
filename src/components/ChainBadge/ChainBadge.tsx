@@ -1,5 +1,5 @@
 import { Asset } from '@thorswap-lib/multichain-core';
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box, Typography } from 'components/Atomic';
 
@@ -7,7 +7,7 @@ type Props = {
   asset: Asset;
 };
 
-const colorMapping: Record<SupportedChain, string> = {
+const colorMapping: Record<Chain, string> = {
   BTC: 'bg-chain-btc',
   ETH: 'bg-chain-eth',
   AVAX: 'bg-chain-eth',
@@ -22,7 +22,7 @@ const colorMapping: Record<SupportedChain, string> = {
 
 export const ChainBadge = ({ asset }: Props) => {
   return (
-    <Box className={classNames('px-2 rounded-full', colorMapping[asset.chain as SupportedChain])}>
+    <Box className={classNames('px-2 rounded-full', colorMapping[asset.chain as Chain])}>
       <Typography variant="caption">{asset.type}</Typography>
     </Box>
   );

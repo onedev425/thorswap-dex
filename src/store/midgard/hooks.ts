@@ -1,5 +1,5 @@
 import { Asset } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { useCallback, useMemo } from 'react';
 import * as actions from 'store/midgard/actions';
 import { useAppDispatch, useAppSelector } from 'store/store';
@@ -20,7 +20,7 @@ export const useMidgard = () => {
   );
 
   const getPendingDepositByChain = useCallback(
-    (chain: SupportedChain) => {
+    (chain: Chain) => {
       if (!wallet) return;
 
       const thorchainAddress = wallet?.[Chain.THORChain]?.address;
@@ -46,7 +46,7 @@ export const useMidgard = () => {
    * 2. fetch pool member data for thorchain wallet addr (rune asymm share)
    */
   const loadMemberDetailsByChain = useCallback(
-    (chain: SupportedChain) => {
+    (chain: Chain) => {
       if (!wallet) return;
 
       const assetChainAddress = wallet?.[chain]?.address;
@@ -77,7 +77,7 @@ export const useMidgard = () => {
 
   // get pool member details for a specific chain
   const getMemberDetailsByChain = useCallback(
-    async (chain: SupportedChain, chainWalletAddr?: string) => {
+    async (chain: Chain, chainWalletAddr?: string) => {
       if (!chainWalletAddr) return;
 
       await dispatch(
@@ -110,7 +110,7 @@ export const useMidgard = () => {
   );
 
   const getLpDetails = useCallback(
-    async (chain: SupportedChain, pool: string) => {
+    async (chain: Chain, pool: string) => {
       const chainWalletAddr = wallet?.[chain]?.address;
 
       if (chainWalletAddr) {
@@ -126,10 +126,7 @@ export const useMidgard = () => {
 
     if (import.meta.env.VITE_USING_FALLBACK_MIDGARD === 'true') {
       Object.keys(wallet).forEach((chain) => {
-        getMemberDetailsByChain(
-          chain as SupportedChain,
-          wallet?.[chain as SupportedChain]?.address,
-        );
+        getMemberDetailsByChain(chain as Chain, wallet?.[chain as Chain]?.address);
       });
     } else {
       const thorchainAddress = wallet?.[Chain.THORChain]?.address;
@@ -141,8 +138,8 @@ export const useMidgard = () => {
         .filter((chain) => chain !== Chain.THORChain)
         .map((chain) =>
           chain === Chain.Ethereum
-            ? wallet?.[chain as SupportedChain]?.address.toLowerCase()
-            : wallet?.[chain as SupportedChain]?.address,
+            ? wallet?.[chain as Chain]?.address.toLowerCase()
+            : wallet?.[chain as Chain]?.address,
         )
         .filter((address) => !!address);
       if (otherChainsAddress.length > 0) {
@@ -163,7 +160,7 @@ export const useMidgard = () => {
           return;
         }
 
-        getLpDetails(chain as SupportedChain, poolName);
+        getLpDetails(chain as Chain, poolName);
       });
     });
   }, [getLpDetails, lpAddedAndWithdraw, lpDetailLoading, poolNamesByChain, wallet]);

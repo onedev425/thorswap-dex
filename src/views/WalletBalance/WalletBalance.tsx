@@ -1,5 +1,5 @@
 import { Amount, Asset, AssetAmount, ChainWallet } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon, Typography } from 'components/Atomic';
@@ -52,7 +52,7 @@ const WalletBalanceList = () => {
   );
 
   const renderBalance = useCallback(
-    (chain: SupportedChain, balance: AssetAmount[]) => {
+    (chain: Chain, balance: AssetAmount[]) => {
       const sigBalance = new AssetAmount(chainToSigAsset(chain), Amount.fromNormalAmount(0));
       const walletBalance = [...balance, ...(balance.length === 0 ? [sigBalance] : [])];
 
@@ -112,7 +112,7 @@ const WalletBalanceList = () => {
   );
 
   const renderChainBalance = useCallback(
-    (chain: SupportedChain, chainBalance: ChainWallet) => {
+    (chain: Chain, chainBalance: ChainWallet) => {
       const { address, balance } = chainBalance;
       const { walletType } = chainBalance;
       const filteredBalances = balance.filter(
@@ -139,10 +139,10 @@ const WalletBalanceList = () => {
       <WalletHeader />
       <Box col>
         {SORTED_CHAINS.map((chain) => {
-          const chainBalance = wallet?.[chain as SupportedChain];
+          const chainBalance = wallet?.[chain as Chain];
           if (!chainBalance) return null;
 
-          return renderChainBalance(chain as SupportedChain, chainBalance);
+          return renderChainBalance(chain as Chain, chainBalance);
         })}
       </Box>
     </Scrollbar>

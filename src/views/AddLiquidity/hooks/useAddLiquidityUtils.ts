@@ -1,5 +1,5 @@
 import { Asset } from '@thorswap-lib/multichain-core';
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { useMimir } from 'hooks/useMimir';
 import { useMemo } from 'react';
 import { useExternalConfig } from 'store/externalConfig/hooks';
@@ -14,8 +14,7 @@ export const useAddLiquidityUtils = ({ poolAsset }: Props) => {
 
   const isLPActionPaused: boolean = useMemo(() => {
     return (
-      isChainPauseLPAction(poolAsset.chain) ||
-      getChainDepositLPPaused(poolAsset.chain as SupportedChain)
+      isChainPauseLPAction(poolAsset.chain) || getChainDepositLPPaused(poolAsset.chain as Chain)
     );
   }, [isChainPauseLPAction, poolAsset.chain, getChainDepositLPPaused]);
 

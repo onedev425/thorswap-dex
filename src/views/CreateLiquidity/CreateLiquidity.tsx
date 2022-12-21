@@ -1,5 +1,5 @@
 import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { Box, Button } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { InfoTable } from 'components/InfoTable';
@@ -74,8 +74,7 @@ export const CreateLiquidity = () => {
   const { getChainDepositLPPaused } = useExternalConfig();
   const isLPActionPaused: boolean = useMemo(() => {
     return (
-      isChainPauseLPAction(poolAsset.chain) ||
-      getChainDepositLPPaused(poolAsset.chain as SupportedChain)
+      isChainPauseLPAction(poolAsset.chain) || getChainDepositLPPaused(poolAsset.chain as Chain)
     );
   }, [isChainPauseLPAction, poolAsset.chain, getChainDepositLPPaused]);
 
@@ -384,7 +383,7 @@ export const CreateLiquidity = () => {
   }, [isValidDeposit, isApproveRequired]);
 
   const estimatedTime = useMemo(
-    () => getEstimatedTxTime({ chain: poolAsset.chain as SupportedChain, amount: assetAmount }),
+    () => getEstimatedTxTime({ chain: poolAsset.chain as Chain, amount: assetAmount }),
     [assetAmount, poolAsset],
   );
 

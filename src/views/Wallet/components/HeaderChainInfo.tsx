@@ -1,11 +1,11 @@
 import { ChainWallet } from '@thorswap-lib/multichain-core';
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { Box, Typography } from 'components/Atomic';
 import { WalletIcon } from 'components/WalletIcon/WalletIcon';
 import { chainName } from 'helpers/chainName';
 
 type Props = {
-  chain: SupportedChain;
+  chain: Chain;
   chainWallet: Maybe<ChainWallet>;
   balance: string;
 };

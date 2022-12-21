@@ -1,4 +1,4 @@
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon/AssetIcon';
 import { Box } from 'components/Atomic';
@@ -6,7 +6,7 @@ import { tokenLogoURL } from 'helpers/logoURL';
 import { memo, useMemo } from 'react';
 
 type ChainIconProps = {
-  chain: SupportedChain;
+  chain: Chain;
   size?: number;
   withoutBackground?: boolean;
   style?: React.CSSProperties;

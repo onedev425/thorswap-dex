@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { FullMemberPool, MemberPool } from '@thorswap-lib/midgard-sdk';
 import { Asset, equalObjects, Pool } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import {
   checkPendingLP,
   getAddedAndWithdrawn,
@@ -400,19 +400,19 @@ const midgardSlice = createSlice({
             // @ts-expect-error TODO: Update midgard types
             (acc, { chain, halted, gas_rate, address, outbound_fee }) => {
               if (chain) {
-                acc.gasRateByChain[chain as SupportedChain] = gas_rate;
-                acc.haltedByChain[chain as SupportedChain] = halted;
-                acc.poolAddressByChain[chain as SupportedChain] = address;
-                acc.outboundFeeByChain[chain as SupportedChain] = outbound_fee;
+                acc.gasRateByChain[chain as Chain] = gas_rate;
+                acc.haltedByChain[chain as Chain] = halted;
+                acc.poolAddressByChain[chain as Chain] = address;
+                acc.outboundFeeByChain[chain as Chain] = outbound_fee;
               }
 
               return acc;
             },
             {
-              gasRateByChain: {} as { [key in SupportedChain]?: string },
-              haltedByChain: {} as { [key in SupportedChain]?: boolean },
-              poolAddressByChain: {} as { [key in SupportedChain]?: string },
-              outboundFeeByChain: {} as { [key in SupportedChain]?: string },
+              gasRateByChain: {} as { [key in Chain]?: string },
+              haltedByChain: {} as { [key in Chain]?: boolean },
+              poolAddressByChain: {} as { [key in Chain]?: string },
+              outboundFeeByChain: {} as { [key in Chain]?: string },
             },
           );
 

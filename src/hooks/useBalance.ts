@@ -1,5 +1,5 @@
 import { Amount, Asset, getNetworkFeeByAsset } from '@thorswap-lib/multichain-core';
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { getGasRateByFeeOption } from 'helpers/networkFee';
 import { getAssetBalance } from 'helpers/wallet';
 import { useCallback } from 'react';
@@ -17,7 +17,7 @@ export const useBalance = () => {
   );
 
   const reloadBalanceByChain = useCallback(
-    (chain: SupportedChain) => {
+    (chain: Chain) => {
       dispatch(walletActions.getWalletByChain(chain));
     },
     [dispatch],
@@ -25,17 +25,17 @@ export const useBalance = () => {
 
   const isWalletAssetConnected = useCallback(
     (asset: Asset) => {
-      return !!wallet?.[asset.L1Chain as SupportedChain];
+      return !!wallet?.[asset.L1Chain as Chain];
     },
     [wallet],
   );
 
-  const isWalletConnected = useCallback((chain: SupportedChain) => !!wallet?.[chain], [wallet]);
+  const isWalletConnected = useCallback((chain: Chain) => !!wallet?.[chain], [wallet]);
 
   const getMaxBalance = useCallback(
     (asset: Asset): Amount => {
       const { isGasAsset, L1Chain, decimal } = asset;
-      if (!wallet?.[L1Chain as SupportedChain]) return Amount.fromAssetAmount(10 ** 8, decimal);
+      if (!wallet?.[L1Chain as Chain]) return Amount.fromAssetAmount(10 ** 8, decimal);
 
       const networkFee = getNetworkFeeByAsset({
         asset,

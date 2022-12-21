@@ -17,7 +17,7 @@ import {
   TVLHistory,
 } from '@thorswap-lib/midgard-sdk';
 import { Pool } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 
 export interface SubmitTx {
   contractAddress?: string;
@@ -212,9 +212,9 @@ export interface State {
   mimir: MimirData;
   volume24h: number | null;
   inboundGasRate: { [key in Chain]?: string };
-  inboundHalted: { [key in SupportedChain]?: boolean };
-  inboundAddresses: { [key in SupportedChain]?: string };
-  outboundFee: { [key in SupportedChain]?: string };
+  inboundHalted: { [key in Chain]?: boolean };
+  inboundAddresses: { [key in Chain]?: string };
+  outboundFee: { [key in Chain]?: string };
   lastBlock: LastblockItem[];
   nodes: THORNode[];
   nodeLoading: boolean;

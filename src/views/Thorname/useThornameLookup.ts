@@ -1,6 +1,6 @@
 import { THORNameDetails } from '@thorswap-lib/midgard-sdk';
 import { Amount, Asset, THORName } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { shortenAddress } from 'helpers/shortenAddress';
 import usePrevious from 'hooks/usePrevious';
@@ -20,12 +20,12 @@ type Actions =
       type: 'setDetails';
       payload: { details: THORNameDetails; available: boolean };
     }
-  | { type: 'setChain'; payload: SupportedChain }
+  | { type: 'setChain'; payload: Chain }
   | { type: 'setYears'; payload: number };
 
 const initialState = {
   available: false,
-  chain: Chain.THORChain as SupportedChain,
+  chain: Chain.THORChain as Chain,
   details: null as THORNameDetails | null,
   loading: false,
   thorname: '',
@@ -82,7 +82,7 @@ export const useThornameLookup = (owner?: string) => {
     initialState,
   );
 
-  const setChain = useCallback((chain: SupportedChain) => {
+  const setChain = useCallback((chain: Chain) => {
     dispatch({ type: 'setChain', payload: chain });
   }, []);
 

@@ -1,5 +1,5 @@
 import { WalletOption } from '@thorswap-lib/multichain-core';
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { Box, Tooltip, Typography } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { PhraseModal } from 'components/Modals/PhraseModal';
@@ -13,7 +13,7 @@ import { WalletHeaderActions } from 'views/Wallet/components/WalletHeaderActions
 import { useWalletChainActions } from 'views/Wallet/hooks';
 
 export type ChainHeaderProps = {
-  chain: SupportedChain;
+  chain: Chain;
   address: string;
   walletLoading: boolean;
   walletType: WalletOption;

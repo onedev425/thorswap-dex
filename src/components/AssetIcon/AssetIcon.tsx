@@ -1,5 +1,4 @@
 import { Asset } from '@thorswap-lib/multichain-core';
-import { SupportedChain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { FallbackIcon } from 'components/AssetIcon/FallbackIcon';
 import { Box, Typography } from 'components/Atomic';
@@ -89,7 +88,7 @@ export const AssetIcon = memo(
 
         {hasChainIcon && asset.type !== 'Native' ? (
           <ChainIcon
-            chain={asset.chain as SupportedChain}
+            chain={asset.chain}
             size={secondaryIconSize}
             style={getSecondaryIconPlacementStyle(secondaryIconPlacement, secondaryIconSize)}
           />

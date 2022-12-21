@@ -1,4 +1,4 @@
-import { Chain, Keystore, SupportedChain } from '@thorswap-lib/types';
+import { Chain, Keystore } from '@thorswap-lib/types';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { chainName } from 'helpers/chainName';
 import { useCallback } from 'react';
@@ -20,10 +20,10 @@ export const useWallet = () => {
     Object.values(walletState.chainWalletLoading).some((loading) => loading);
 
   const unlockWallet = useCallback(
-    async (keystore: Keystore, phrase: string, chains: SupportedChain[]) => {
+    async (keystore: Keystore, phrase: string, chains: Chain[]) => {
       multichain().connectKeystore(phrase, chains);
       dispatch(actions.connectKeystore(keystore));
-      chains.forEach((chain: SupportedChain) => {
+      chains.forEach((chain: Chain) => {
         dispatch(walletActions.getWalletByChain(chain));
       });
     },
@@ -40,7 +40,7 @@ export const useWallet = () => {
   }, [dispatch]);
 
   const disconnectWalletByChain = useCallback(
-    (chain: SupportedChain) => {
+    (chain: Chain) => {
       multichain().resetChain(chain);
 
       batch(() => {
@@ -60,7 +60,7 @@ export const useWallet = () => {
 
         await multichain().connectLedger({ chain, customDerivationPath, addressIndex: index });
 
-        dispatch(walletActions.getWalletByChain(chain as SupportedChain));
+        dispatch(walletActions.getWalletByChain(chain as Chain));
         showInfoToast(t('notification.connectedLedger', options));
       } catch (error) {
         showErrorToast(t('notification.ledgerFailed', options));
@@ -70,7 +70,7 @@ export const useWallet = () => {
   );
 
   const connectXdefiWallet = useCallback(
-    async (chains: SupportedChain[]) => {
+    async (chains: Chain[]) => {
       await multichain().connectXDefiWallet(chains);
 
       chains.forEach((chain) => {
@@ -81,7 +81,7 @@ export const useWallet = () => {
   );
 
   const connectBraveWallet = useCallback(
-    async (chains: SupportedChain[]) => {
+    async (chains: Chain[]) => {
       await multichain().connectBraveWallet(chains);
 
       chains.forEach((chain) => {
@@ -92,7 +92,7 @@ export const useWallet = () => {
   );
 
   const connectTrustWalletExtension = useCallback(
-    async (chain: SupportedChain) => {
+    async (chain: Chain) => {
       await multichain().connectTrustWalletExtension(chain);
 
       dispatch(walletActions.getWalletByChain(chain));
@@ -101,7 +101,7 @@ export const useWallet = () => {
   );
 
   const connectMetamask = useCallback(
-    async (chain: SupportedChain) => {
+    async (chain: Chain) => {
       await multichain().connectMetamask(chain);
 
       dispatch(walletActions.getWalletByChain(chain));
@@ -116,7 +116,7 @@ export const useWallet = () => {
   }, [dispatch]);
 
   const connectTrustWallet = useCallback(
-    async (chains: SupportedChain[]) => {
+    async (chains: Chain[]) => {
       await multichain().connectTrustWallet(chains, {
         listeners: { disconnect: disconnectWallet },
       });
@@ -136,7 +136,7 @@ export const useWallet = () => {
   );
 
   const refreshWalletByChain = useCallback(
-    (chain: SupportedChain) => {
+    (chain: Chain) => {
       dispatch(walletActions.getWalletByChain(chain));
     },
     [dispatch],

@@ -1,12 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { getV2Address, VestingType } from 'helpers/assets';
 import { getGeckoData } from 'services/coingecko';
 import { multichain } from 'services/multichain';
 
 export const getWalletByChain = createAsyncThunk(
   'midgard/getWalletByChain',
-  async (chain: SupportedChain) => {
+  async (chain: Chain) => {
     const data = await multichain().getWalletByChain(chain);
 
     return { chain, data };

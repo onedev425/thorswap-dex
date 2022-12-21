@@ -1,11 +1,11 @@
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { HoverIcon } from 'components/HoverIcon';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
 
 type Props = {
-  chain: SupportedChain;
+  chain: Chain;
   address: string;
 };
 

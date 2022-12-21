@@ -1,10 +1,9 @@
 import classNames from 'classnames';
 import { useDismissedAnnouncements, useSeenAnnouncements } from 'components/Announcements/hooks';
-import { AssetIcon } from 'components/AssetIcon';
+import { ChainIcon } from 'components/AssetIcon/ChainIcon';
 import { Box, Link, Typography } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
 import { HoverIcon } from 'components/HoverIcon';
-import { chainToSigAsset } from 'helpers/assets';
 import { memo, ReactNode } from 'react';
 import { t } from 'services/i18n';
 import { AnnouncementItem, AnnouncementType } from 'store/externalConfig/types';
@@ -61,7 +60,7 @@ export const Announcement = memo(
       >
         {chain && (
           <Box className="absolute left-4">
-            <AssetIcon asset={chainToSigAsset(chain)} size={26} />
+            <ChainIcon chain={chain} size={26} />
           </Box>
         )}
         <Box

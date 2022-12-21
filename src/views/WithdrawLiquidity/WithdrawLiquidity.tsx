@@ -7,7 +7,7 @@ import {
   Pool,
   Price,
 } from '@thorswap-lib/multichain-core';
-import { Chain, SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Icon, Link, Typography } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { InfoTable } from 'components/InfoTable';
@@ -50,7 +50,7 @@ export const WithdrawLiquidity = () => {
 
   useEffect(() => {
     if (!pool) return;
-    loadMemberDetailsByChain(pool.asset.chain as SupportedChain);
+    loadMemberDetailsByChain(pool.asset.chain as Chain);
   }, [loadMemberDetailsByChain, pool]);
 
   const poolMemberData: PoolMemberData | null = useMemo(() => {
@@ -140,8 +140,7 @@ const WithdrawPanel = ({
   const poolAsset = useMemo(() => pool.asset, [pool]);
   const isLPActionPaused: boolean = useMemo(() => {
     return (
-      isChainPauseLPAction(poolAsset.chain) ||
-      getChainWithdrawLPPaused(poolAsset.chain as SupportedChain)
+      isChainPauseLPAction(poolAsset.chain) || getChainWithdrawLPPaused(poolAsset.chain as Chain)
     );
   }, [isChainPauseLPAction, poolAsset.chain, getChainWithdrawLPPaused]);
 

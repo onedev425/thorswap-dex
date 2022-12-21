@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { PoolPeriods } from '@thorswap-lib/midgard-sdk';
 import { getRequest } from '@thorswap-lib/multichain-core';
-import { SupportedChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { midgardApi } from 'services/midgard';
 import { midgardAPIUrl, THORNODE_URL } from 'settings/config';
 
@@ -91,7 +91,7 @@ export const reloadPoolMemberDetailByChain = createAsyncThunk(
     thorchainAddress,
     assetChainAddress,
   }: {
-    chain: SupportedChain;
+    chain: Chain;
     thorchainAddress: string;
     assetChainAddress: string;
   }) => {
