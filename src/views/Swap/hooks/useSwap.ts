@@ -61,9 +61,9 @@ export const useSwap = ({
         const from = wallet?.[inputAsset.L1Chain as Chain]?.address;
         if (!from) throw new Error('No address found');
 
-        const label = `${inputAmount.toSignificant(6)} ${
+        const label = `${inputAmount.toSignificantWithMaxDecimals(6)} ${
           inputAsset.name
-        } → ${outputAmount.toSignificant(6)} ${outputAsset.name}`;
+        } → ${outputAmount.toSignificantWithMaxDecimals(6)} ${outputAsset.name}`;
 
         appDispatch(
           addTransaction({

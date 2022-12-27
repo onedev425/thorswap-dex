@@ -41,7 +41,7 @@ export const ConfirmContent = memo(
             </Box>
             <Box center className="w-full">
               <Typography fontWeight="medium" variant="caption">
-                {inputAsset.value?.toSignificant(6)} {inputAsset.asset.ticker}
+                {inputAsset.value?.toSignificantWithMaxDecimals(6)} {inputAsset.asset.ticker}
               </Typography>
             </Box>
           </Box>
@@ -54,7 +54,7 @@ export const ConfirmContent = memo(
             </Box>
             <Box center className="w-full">
               <Typography fontWeight="medium" variant="caption">
-                {outputAsset.value?.toSignificant(6)} {outputAsset.asset.ticker}
+                {outputAsset.value?.toSignificantWithMaxDecimals(6)} {outputAsset.asset.ticker}
               </Typography>
             </Box>
           </Box>

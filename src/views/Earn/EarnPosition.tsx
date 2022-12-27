@@ -28,12 +28,12 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
   const infoFields: InfoRowConfig[] = [
     {
       label: 'Amount Deposited',
-      value: `${position.depositAmount.toSignificant(6)} ${position.asset.symbol}`,
+      value: `${position.depositAmount.toSignificantWithMaxDecimals(6)} ${position.asset.symbol}`,
     },
     {
       label: 'Amount Redeemable',
       value: !positionTooSmall ? (
-        `${position?.amount?.toSignificant(6)} ${position.asset.symbol}`
+        `${position?.amount?.toSignificantWithMaxDecimals(6)} ${position.asset.symbol}`
       ) : (
         <PositionTooSmallInfo />
       ),
@@ -42,7 +42,7 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
       label: 'Total Earned',
       value:
         position?.earnedAmount && !positionTooSmall ? (
-          `${position?.earnedAmount?.toSignificant(6)} ${position.asset.symbol}`
+          `${position?.earnedAmount?.toSignificantWithMaxDecimals(6)} ${position.asset.symbol}`
         ) : (
           <PositionTooSmallInfo />
         ),
@@ -69,7 +69,7 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
 
             {!positionTooSmall ? (
               <Typography>
-                {position.amount?.toSignificant(6) || 'n/a'} {position.asset.name}
+                {position.amount?.toSignificantWithMaxDecimals(6) || 'n/a'} {position.asset.name}
               </Typography>
             ) : (
               <PositionTooSmallInfo />

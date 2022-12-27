@@ -112,9 +112,11 @@ const UpgradeRune = () => {
           from: recipientAddress,
           inChain: selectedAsset.L1Chain,
           type: TransactionType.TC_SWITCH,
-          label: `${t('common.upgrade')} ${upgradeAmount.toSignificant(3)} ${
+          label: `${t('common.upgrade')} ${upgradeAmount.toSignificantWithMaxDecimals(3)} ${
             selectedAsset.name
-          } ${t('common.to')} ${upgradeAmount.toSignificant(3)} ${Asset.RUNE().name}`,
+          } ${t('common.to')} ${upgradeAmount.toSignificantWithMaxDecimals(3)} ${
+            Asset.RUNE().name
+          }`,
         }),
       );
 
@@ -222,7 +224,7 @@ const UpgradeRune = () => {
 
     if (Number.isNaN(rate) || assetInput.value.lte(0)) return '-';
 
-    const runeAmount = assetInput.value.mul(rate).toSignificant(8);
+    const runeAmount = assetInput.value.mul(rate).toSignificantWithMaxDecimals(8);
 
     return `${t('common.receive')} ${runeAmount} Native RUNE`;
   }, [assetInput.value, redemptionRate]);

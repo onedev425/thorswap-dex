@@ -176,7 +176,7 @@ const Earn = () => {
         value: (
           <Box center>
             <Typography variant="caption">
-              {`${slippage ? slippage?.toSignificant(6) : 0} ${asset.name}`}
+              {`${slippage ? slippage?.toSignificantWithMaxDecimals(6) : 0} ${asset.name}`}
             </Typography>
           </Box>
         ),

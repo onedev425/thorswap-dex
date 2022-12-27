@@ -85,7 +85,8 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
                 <Box center className="gap-x-2">
                   <AssetIcon asset={Asset.RUNE()} size="tiny" />
                   <Typography>
-                    {details ? years : THORName.getCost(years).toSignificant(6)} $RUNE
+                    {details ? years : THORName.getCost(years).toSignificantWithMaxDecimals(6)}{' '}
+                    $RUNE
                   </Typography>
                 </Box>
               ),

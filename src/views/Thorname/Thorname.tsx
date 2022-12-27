@@ -311,7 +311,7 @@ const Thorname = () => {
             <InfoRow
               capitalizeLabel
               label={t('view.thorname.cost')}
-              value={`${THORName.getCost(years - 10).toSignificant(6)} RUNE`}
+              value={`${THORName.getCost(years - 10).toSignificantWithMaxDecimals(6)} RUNE`}
             />
             {years > 0 && (
               <InfoRow
@@ -327,7 +327,7 @@ const Thorname = () => {
             <InfoRow
               capitalizeLabel
               label={t('view.thorname.cost')}
-              value={`${THORName.getCost(years).toSignificant(6)} RUNE`}
+              value={`${THORName.getCost(years).toSignificantWithMaxDecimals(6)} RUNE`}
             />
             <InfoRow
               capitalizeLabel

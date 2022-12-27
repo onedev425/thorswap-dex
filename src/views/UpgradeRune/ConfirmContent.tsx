@@ -31,7 +31,7 @@ export const ConfirmContent = memo(({ inputAsset, recipient, feeLabel, amount }:
           </Box>
           <Box center className="w-full">
             <Typography fontWeight="medium" variant="caption">
-              {amount.toSignificant(6)} {inputAsset.ticker}
+              {amount.toSignificantWithMaxDecimals(6)} {inputAsset.ticker}
             </Typography>
           </Box>
         </Box>
@@ -44,7 +44,7 @@ export const ConfirmContent = memo(({ inputAsset, recipient, feeLabel, amount }:
           </Box>
           <Box center className="w-full">
             <Typography fontWeight="medium" variant="caption">
-              {amount.toSignificant(6)} {Asset.RUNE().ticker}
+              {amount.toSignificantWithMaxDecimals(6)} {Asset.RUNE().ticker}
             </Typography>
           </Box>
         </Box>

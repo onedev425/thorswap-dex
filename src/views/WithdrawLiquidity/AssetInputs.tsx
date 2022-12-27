@@ -45,7 +45,11 @@ export const AssetInputs = memo(
               })}
               flex={liquidityType === LiquidityTypeOption.RUNE ? 0 : 1}
             >
-              <AssetAmountBox stretch amount={assetAmount.toSignificant(6)} asset={poolAsset} />
+              <AssetAmountBox
+                stretch
+                amount={assetAmount.toSignificantWithMaxDecimals(6)}
+                asset={poolAsset}
+              />
             </Box>
             <Box
               className={classNames('overflow-hidden transition-all origin-right', {
@@ -53,7 +57,11 @@ export const AssetInputs = memo(
               })}
               flex={liquidityType === LiquidityTypeOption.ASSET ? 0 : 1}
             >
-              <AssetAmountBox stretch amount={runeAmount.toSignificant(6)} asset={Asset.RUNE()} />
+              <AssetAmountBox
+                stretch
+                amount={runeAmount.toSignificantWithMaxDecimals(6)}
+                asset={Asset.RUNE()}
+              />
             </Box>
           </Box>
         </HighlightCard>

@@ -74,7 +74,7 @@ const WalletBalanceList = () => {
                   {data.asset.type}
                 </Typography>
               </Box>
-              <Typography color="primary">{data.amount.toSignificant(6)}</Typography>
+              <Typography color="primary">{data.amount.toSignificantWithMaxDecimals(6)}</Typography>
             </Box>
 
             <Box row className="space-x-1">

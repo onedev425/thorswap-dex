@@ -290,7 +290,9 @@ const SwapView = () => {
 
   const minReceiveInfo = useMemo(
     () =>
-      minReceive.gte(0) ? `${minReceive.toSignificant(6)} ${outputAsset.name.toUpperCase()}` : '-',
+      minReceive.gte(0)
+        ? `${minReceive.toSignificantWithMaxDecimals(6)} ${outputAsset.name.toUpperCase()}`
+        : '-',
     [minReceive, outputAsset.name],
   );
 
@@ -365,7 +367,9 @@ const SwapView = () => {
       <SwapInfo
         affiliateBasisPoints={Number(affiliateBasisPoints)}
         affiliateFee={affiliateFee}
-        expectedOutput={`${outputAmount?.toSignificant(6)} ${outputAsset.name.toUpperCase()}`}
+        expectedOutput={`${outputAmount?.toSignificantWithMaxDecimals(
+          6,
+        )} ${outputAsset.name.toUpperCase()}`}
         inputUSDPrice={inputUSDPrice}
         isLoading={isPriceLoading}
         minReceive={minReceiveInfo}

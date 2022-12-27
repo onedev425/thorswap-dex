@@ -30,7 +30,7 @@ export const TxSend = () => {
     () => [
       {
         label: t('common.send'),
-        value: `${sendAmount?.toSignificant(6)} ${sendAsset.name}`,
+        value: `${sendAmount?.toSignificantWithMaxDecimals(6)} ${sendAsset.name}`,
       },
       { label: t('common.recipient'), value: recipientAddress },
     ],

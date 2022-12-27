@@ -48,25 +48,25 @@ export const LiquidityInfo = memo(
         { label: t('views.liquidity.poolShare'), value: poolShareValue },
         {
           label: t('views.liquidity.runeWithdrawn'),
-          value: runeWithdrawn.toSignificant(6),
+          value: runeWithdrawn.toSignificantWithMaxDecimals(6),
         },
         {
           label: t('views.liquidity.assetWithdrawn'),
-          value: assetWithdrawn.toSignificant(6),
+          value: assetWithdrawn.toSignificantWithMaxDecimals(6),
         },
       ];
 
       if (runePending.gt(0)) {
         infoFields.push({
           label: t('views.liquidity.runePending'),
-          value: runePending.toSignificant(6),
+          value: runePending.toSignificantWithMaxDecimals(6),
         });
       }
 
       if (assetPending.gt(0)) {
         infoFields.push({
           label: t('views.liquidity.assetPending'),
-          value: assetPending.toSignificant(6),
+          value: assetPending.toSignificantWithMaxDecimals(6),
         });
       }
 
@@ -75,7 +75,9 @@ export const LiquidityInfo = memo(
           label: `${asset.ticker} ${t('views.liquidity.share')}`,
           value: (
             <Box center className="gap-2">
-              <Typography>{`${assetShare.toSignificant(6)} ${asset.ticker}`}</Typography>
+              <Typography>{`${assetShare.toSignificantWithMaxDecimals(6)} ${
+                asset.ticker
+              }`}</Typography>
               <AssetIcon asset={asset} size={24} />
             </Box>
           ),

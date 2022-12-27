@@ -20,7 +20,7 @@ const getTcPart = ({
     const asset = Asset.fromAssetString(assetString);
     return asset?.L1Chain === Chain.Avalanche
       ? asset?.name
-      : `${assetAmount.toSignificant(6)} ${asset?.name}`;
+      : `${assetAmount.toSignificantWithMaxDecimals(6)} ${asset?.name}`;
   } catch {
     return '';
   }
@@ -34,7 +34,7 @@ const getEthPart = async ({ asset, amount }: { asset: string; amount: string }) 
 
     const assetAmount = AssetAmount.fromBaseAmount(amount, decimals.toNumber() || ETH_DECIMAL);
 
-    return `${assetAmount.toSignificant(6)} ${name}`;
+    return `${assetAmount.toSignificantWithMaxDecimals(6)} ${name}`;
   } catch {
     return '';
   }

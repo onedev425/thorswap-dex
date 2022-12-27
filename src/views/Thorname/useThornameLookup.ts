@@ -145,7 +145,9 @@ export const useThornameLookup = (owner?: string) => {
       const prefix =
         details?.owner !== owner ? t('txManager.registerThorname') : t('txManager.updateThorname');
 
-      let label = `${prefix} ${thorname} - ${amount.toSignificant(6)} ${Asset.RUNE().name}`;
+      let label = `${prefix} ${thorname} - ${amount.toSignificantWithMaxDecimals(6)} ${
+        Asset.RUNE().name
+      }`;
       if (details?.owner && isTransfer) {
         label = `${t('common.transfer')} ${thorname} - ${shortenAddress(newOwner, 6, 8)}`;
       }

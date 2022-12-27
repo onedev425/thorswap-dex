@@ -41,7 +41,9 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount 
       : {
           address,
           type: 'withdraw' as const,
-          withdraw_bps: `${parseInt(withdrawPercent?.toSignificant() || '100') * 100}`,
+          withdraw_bps: `${
+            parseInt(withdrawPercent?.toSignificantWithMaxDecimals() || '100') * 100
+          }`,
         };
 
     const response = (await getSaverQuote({

@@ -150,7 +150,7 @@ export const AssetSelectItem = memo(
 
         <Box col className="pr-6" justify="end">
           <Typography className="text-right" color="secondary" variant="caption">
-            {balance?.gt(0) ? balance.toSignificant(6) : ''}
+            {balance?.gt(0) ? balance.toSignificantWithMaxDecimals(6) : ''}
           </Typography>
 
           <Box className="gap-x-1" justify="end">

@@ -75,7 +75,7 @@ export const useTxDeposit = (assetSideAddress: string) => {
         value: (
           <Box alignCenter justify="between">
             <Typography className="mx-2" fontWeight="semibold">
-              {addLiquidity.poolAssetInput.value.toSignificant(6)}
+              {addLiquidity.poolAssetInput.value.toSignificantWithMaxDecimals(6)}
             </Typography>
             <AssetIcon asset={addLiquidity.poolAssetInput.asset} size={24} />
           </Box>
@@ -88,7 +88,7 @@ export const useTxDeposit = (assetSideAddress: string) => {
       value: (
         <Box alignCenter justify="between">
           <Typography className="mx-2" fontWeight="semibold">
-            {addLiquidity.runeAssetInput.value.toSignificant(6)}
+            {addLiquidity.runeAssetInput.value.toSignificantWithMaxDecimals(6)}
           </Typography>
           <AssetIcon asset={Asset.RUNE()} size={24} />
         </Box>

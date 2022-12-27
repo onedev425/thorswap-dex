@@ -63,7 +63,7 @@ export const EarnAssetSelectItem = memo(
           <Box center className="gap-2">
             {!!balance && (
               <Typography color="secondary" fontWeight="medium" variant="caption-xs">
-                {balance.toSignificant(6)}
+                {balance.toSignificantWithMaxDecimals(6)}
               </Typography>
             )}
 

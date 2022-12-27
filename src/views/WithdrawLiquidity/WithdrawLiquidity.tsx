@@ -317,8 +317,14 @@ const WithdrawPanel = ({
 
     if (!wallet) return;
 
-    const runeObject = { asset: Asset.RUNE().name, amount: runeAmount.toSignificant(6) };
-    const assetObject = { asset: pool.asset.name, amount: assetAmount.toSignificant(6) };
+    const runeObject = {
+      asset: Asset.RUNE().name,
+      amount: runeAmount.toSignificantWithMaxDecimals(6),
+    };
+    const assetObject = {
+      asset: pool.asset.name,
+      amount: assetAmount.toSignificantWithMaxDecimals(6),
+    };
     const withdrawChain = withdrawTo === 'asset' ? pool.asset.chain : Chain.THORChain;
     const outAssets =
       withdrawTo === 'sym'
@@ -390,7 +396,9 @@ const WithdrawPanel = ({
       return [
         {
           asset: Asset.RUNE(),
-          value: `${runeAmount.toSignificant(6)} RUNE (${runePriceInUSD.toCurrencyFormat(2)})`,
+          value: `${runeAmount.toSignificantWithMaxDecimals(
+            6,
+          )} RUNE (${runePriceInUSD.toCurrencyFormat(2)})`,
         },
       ];
     }
@@ -399,7 +407,7 @@ const WithdrawPanel = ({
       return [
         {
           asset: poolAsset,
-          value: `${assetAmount.toSignificant(6)} ${
+          value: `${assetAmount.toSignificantWithMaxDecimals(6)} ${
             poolAsset.ticker
           } (${assetPriceInUSD.toCurrencyFormat(2)})`,
         },
@@ -409,11 +417,13 @@ const WithdrawPanel = ({
     return [
       {
         asset: Asset.RUNE(),
-        value: `${runeAmount.toSignificant(6)} RUNE (${runePriceInUSD.toCurrencyFormat(2)})`,
+        value: `${runeAmount.toSignificantWithMaxDecimals(
+          6,
+        )} RUNE (${runePriceInUSD.toCurrencyFormat(2)})`,
       },
       {
         asset: poolAsset,
-        value: `${assetAmount.toSignificant(6)} ${
+        value: `${assetAmount.toSignificantWithMaxDecimals(6)} ${
           poolAsset.ticker
         } (${assetPriceInUSD.toCurrencyFormat(2)})`,
       },

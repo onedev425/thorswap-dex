@@ -187,7 +187,7 @@ export const CreateLiquidity = () => {
           id: runeId,
           label: t('txManager.addAmountAsset', {
             asset: Asset.RUNE().name,
-            amount: runeAmount.toSignificant(6),
+            amount: runeAmount.toSignificantWithMaxDecimals(6),
           }),
           type: TransactionType.TC_LP_ADD,
           inChain: Chain.THORChain,
@@ -199,7 +199,7 @@ export const CreateLiquidity = () => {
           id: assetId,
           label: t('txManager.addAmountAsset', {
             asset: poolAsset.name,
-            amount: assetAmount.toSignificant(6),
+            amount: assetAmount.toSignificantWithMaxDecimals(6),
           }),
           type: TransactionType.TC_LP_ADD,
           inChain: poolAsset.L1Chain,
@@ -292,8 +292,8 @@ export const CreateLiquidity = () => {
 
   const depositAssetInputs = useMemo(
     () => [
-      { asset: Asset.RUNE(), value: runeAmount.toSignificant(6) },
-      { asset: poolAsset, value: assetAmount.toSignificant(6) },
+      { asset: Asset.RUNE(), value: runeAmount.toSignificantWithMaxDecimals(6) },
+      { asset: poolAsset, value: assetAmount.toSignificantWithMaxDecimals(6) },
     ],
     [poolAsset, assetAmount, runeAmount],
   );
@@ -401,7 +401,7 @@ export const CreateLiquidity = () => {
 
   const approveConfirmInfo = useApproveInfoItems({
     assetName: poolAsset.name,
-    assetValue: assetAmount.toSignificant(6),
+    assetValue: assetAmount.toSignificantWithMaxDecimals(6),
     fee: inboundAssetFee.toCurrencyFormat(),
   });
 
@@ -436,7 +436,7 @@ export const CreateLiquidity = () => {
         assetUSDPrice={assetUSDPrice.toCurrencyFormat(3)}
         poolAsset={poolAssetInput}
         poolShare="100%"
-        rate={price.toSignificant(6)}
+        rate={price.toSignificantWithMaxDecimals(6)}
         runeAsset={runeAssetInput}
       />
 

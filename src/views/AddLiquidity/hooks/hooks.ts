@@ -311,7 +311,7 @@ export const useAddLiquidity = ({
             id: runeId,
             label: t('txManager.addAmountAsset', {
               asset: Asset.RUNE().name,
-              amount: runeAmount.toSignificant(6),
+              amount: runeAmount.toSignificantWithMaxDecimals(6),
             }),
             type: TransactionType.TC_LP_ADD,
             inChain: Chain.THORChain,
@@ -325,7 +325,7 @@ export const useAddLiquidity = ({
             id: assetId,
             label: t('txManager.addAmountAsset', {
               asset: poolAsset.name,
-              amount: assetAmount.toSignificant(6),
+              amount: assetAmount.toSignificantWithMaxDecimals(6),
             }),
             type: TransactionType.TC_LP_ADD,
             inChain: poolAsset.L1Chain,
@@ -462,7 +462,7 @@ export const useAddLiquidity = ({
       return [
         {
           asset: Asset.RUNE(),
-          value: runeAmount.toSignificant(6),
+          value: runeAmount.toSignificantWithMaxDecimals(6),
         },
       ];
     }
@@ -471,7 +471,7 @@ export const useAddLiquidity = ({
       return [
         {
           asset: poolAsset,
-          value: assetAmount.toSignificant(6),
+          value: assetAmount.toSignificantWithMaxDecimals(6),
         },
       ];
     }
@@ -479,11 +479,11 @@ export const useAddLiquidity = ({
     return [
       {
         asset: Asset.RUNE(),
-        value: runeAmount.toSignificant(6),
+        value: runeAmount.toSignificantWithMaxDecimals(6),
       },
       {
         asset: poolAsset,
-        value: assetAmount.toSignificant(6),
+        value: assetAmount.toSignificantWithMaxDecimals(6),
       },
     ];
   }, [liquidityType, poolAsset, assetAmount, runeAmount]);
@@ -642,7 +642,7 @@ export const useAddLiquidity = ({
 
   const approveConfirmInfo = useApproveInfoItems({
     assetName: poolAsset.name,
-    assetValue: assetAmount.toSignificant(6),
+    assetValue: assetAmount.toSignificantWithMaxDecimals(6),
     fee: inboundAssetFee.toCurrencyFormat(),
   });
 
