@@ -1,13 +1,27 @@
-import { useEffect, useState } from 'react';
+import { Amount, Asset, Price } from '@thorswap-lib/multichain-core';
+import { useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
+import { useMidgard } from 'store/midgard/hooks';
 
 const THORCHAIN_POOL_ADDRESS = '';
+const RUNE_FEE = '0.02';
 
 export const useCustomSend = () => {
   const { customSendVisible } = useApp();
+  const { pools } = useMidgard();
   const [customMemo, setCustomMemo] = useState('');
   const [customTxEnabled, setCustomTxEnabled] = useState(false);
+  const customFeeRune = useMemo(() => Amount.fromAssetAmount(RUNE_FEE, Asset.RUNE().decimal), []);
+  const customFeeUsd = useMemo(
+    () =>
+      new Price({
+        baseAsset: Asset.RUNE(),
+        pools,
+        priceAmount: customFeeRune,
+      }),
+    [customFeeRune, pools],
+  );
 
   useEffect(() => {
     if (!customSendVisible) {
@@ -30,5 +44,7 @@ export const useCustomSend = () => {
     customTxEnabled,
     switchCustomTxEnabledMenu,
     showCustomTxToggle: customSendVisible,
+    customFeeRune: `${customFeeRune.toSignificant(4)} ${Asset.RUNE().symbol}`,
+    customFeeUsd: customFeeUsd.toCurrencyFormat(2),
   };
 };

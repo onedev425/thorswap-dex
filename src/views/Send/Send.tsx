@@ -54,10 +54,14 @@ const Send = () => {
     customTxEnabled,
     switchCustomTxEnabledMenu,
     showCustomTxToggle,
+    customFeeRune,
+    customFeeUsd,
   } = useCustomSend();
 
   const txRecipient = customTxEnabled ? customRecipient : recipientAddress;
   const txMemo = customTxEnabled ? customMemo : memo;
+  const txFee = customTxEnabled ? customFeeRune : inboundFee.toCurrencyFormat();
+  const txFeeUsd = customTxEnabled ? customFeeUsd : totalFeeInUSD.toCurrencyFormat();
 
   const handleConfirmSend = useConfirmSend({
     setIsOpenConfirmModal,
@@ -85,6 +89,12 @@ const Send = () => {
       setRecipientAddress(TNSAddress);
     }
   }, [TNS, TNSAddress]);
+
+  useEffect(() => {
+    if (customTxEnabled) {
+      setSendAsset(Asset.RUNE());
+    }
+  }, [customTxEnabled]);
 
   useEffect(() => {
     const getSendAsset = async () => {
@@ -185,7 +195,7 @@ const Send = () => {
         label: t('common.transactionFee'),
         value: (
           <Box center className="gap-2">
-            <Typography variant="caption">{`${inboundFee.toCurrencyFormat()} (${totalFeeInUSD.toCurrencyFormat()})`}</Typography>
+            <Typography variant="caption">{`${txFee} (${txFeeUsd})`}</Typography>
             <Tooltip content={t('views.send.txFeeTooltip')}>
               <Icon color="secondary" name="infoCircle" size={20} />
             </Tooltip>
@@ -193,7 +203,7 @@ const Send = () => {
         ),
       },
     ],
-    [inboundFee, totalFeeInUSD],
+    [txFee, txFeeUsd],
   );
 
   const confirmModalInfo = useMemo(
@@ -211,7 +221,7 @@ const Send = () => {
         label: t('common.transactionFee'),
         value: (
           <Box center className="gap-2">
-            <Typography variant="caption">{`${inboundFee.toCurrencyFormat()} (${totalFeeInUSD.toCurrencyFormat()})`}</Typography>
+            <Typography variant="caption">{`${txFee} (${txFeeUsd})`}</Typography>
             <Tooltip content={t('views.send.txFeeTooltip')}>
               <Icon color="secondary" name="infoCircle" size={20} />
             </Tooltip>
@@ -219,7 +229,7 @@ const Send = () => {
         ),
       },
     ],
-    [sendAmount, sendAsset.name, customTxEnabled, txRecipient, txMemo, inboundFee, totalFeeInUSD],
+    [sendAmount, sendAsset.name, customTxEnabled, txRecipient, txMemo, txFee, txFeeUsd],
   );
 
   const recipientTitle = useMemo(
@@ -238,13 +248,22 @@ const Send = () => {
       title={t('views.send.title')}
     >
       <div className="relative self-stretch md:w-full">
-        <AssetInput
-          hideZeroPrice
-          assets={assetInputList}
-          onAssetChange={handleSelectAsset}
-          onValueChange={handleChangeSendAmount}
-          selectedAsset={assetInput}
-        />
+        {customTxEnabled ? (
+          <AssetInput
+            hideZeroPrice
+            singleAsset
+            onValueChange={handleChangeSendAmount}
+            selectedAsset={assetInput}
+          />
+        ) : (
+          <AssetInput
+            hideZeroPrice
+            assets={assetInputList}
+            onAssetChange={handleSelectAsset}
+            onValueChange={handleChangeSendAmount}
+            selectedAsset={assetInput}
+          />
+        )}
       </div>
 
       {!customTxEnabled && (
