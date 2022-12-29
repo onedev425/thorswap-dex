@@ -72,6 +72,7 @@
     "feeFastest": "Instant",
     "feeInstant": "Instant",
     "feeNormal": "Normal",
+    "filled": "Filled",
     "foundsCap": "Funds Cap (i)",
     "gasTracker": "Gas Tracker",
     "getHelp": "Get Help",
@@ -141,6 +142,8 @@
     "totalVol": "Total Vol",
     "transactionFee": "Transaction Fee",
     "transactions": "Transactions",
+    "transfer": "Transfer",
+    "transferAddress": "Transfer Address",
     "txFeeTooltip": "Accelerating a transaction by using a higher gas price increases its chances of getting processed by the network faster.",
     "update": "Update",
     "upgrade": "Upgrade",
@@ -155,10 +158,7 @@
     "wallet": "Wallet",
     "withdraw": "Withdraw",
     "withdrawPercent": "Withdraw Percent",
-    "yourTransactions": "Your Transactions",
-    "transfer": "Transfer",
-    "transferAddress": "Transfer Address",
-    "filled": "Filled"
+    "yourTransactions": "Your Transactions"
   },
   "components": {
     "announcements": {
@@ -166,12 +166,12 @@
       "chainHalted": "%{chain} Chain is temporarily halted on THORChain. All trading and LP actions are currently unavailable",
       "chainLPHalted": "Adding and withdrawing on %{chain} Chain are temporarily unavailable.",
       "chainTradeHalted": "Trading on %{chain} Chain is temporarily unavailable.",
+      "oldRune": "We've detected a deprecated version of RUNE in your wallet. The legacy RUNE killswitch has been activated and you should upgrade it immediately, it is losing value with every block.",
       "outboundQueue": "THORChain is currently experiencing heavy outbound queue (%{outboundQueue}). Swaps could take longer than usual to process.",
       "thorChainHalted": "THORChain is temporarily unavailable while undergoing maintenance. All actions are currently disabled.",
       "thorChainLPHalted": "Adding and withdrawing liquidity are temporarily disabled on THORChain.",
       "thorChainTradeHalted": "Trading is temporarily disabled on THORChain.",
-      "tradingGloballyDisabled": "THORChain is currently experiencing technical difficulties. Team is investigating.",
-      "oldRune": "We've detected a deprecated version of RUNE in your wallet. The legacy RUNE killswitch has been activated and you should upgrade it immediately, it is losing value with every block."
+      "tradingGloballyDisabled": "THORChain is currently experiencing technical difficulties. Team is investigating."
     },
     "assetSelect": {
       "manageTokenList": "Manage Token Lists",
@@ -633,13 +633,13 @@
       "currentBalance": "Current Balance",
       "description": "Deposit %{asset} and earn more %{asset} with Savers Vaults",
       "earn": "Earn",
+      "myPositions": "My Positions",
+      "notEnoughForOutboundFee": "Not enough amount to cover outbound fee",
+      "positionTooSmall": "Position too small to calculate",
       "tooltipDescription": "Provide %{asset} liquidity to earn yield in %{asset} with no exposure to RUNE or impermanent loss. Withdraw at any time with no lockup period. Slippage fee applies on entry and exit.",
       "yourDeposit": "Your Deposit",
       "yourEarnings": "Your Earnings",
-      "yourPositions": "Your Positions",
-      "myPositions": "My Positions",
-      "notEnoughForOutboundFee": "Not enough amount to cover outbound fee",
-      "positionTooSmall": "Position too small to calculate"
+      "yourPositions": "Your Positions"
     },
     "send": {
       "description": "Send tokens to other wallets and manage your assets",
@@ -741,6 +741,7 @@
       "autoRouter": "Auto Router",
       "autoRouterApi": "Auto Router API",
       "check": "Check %{checkType}",
+      "connectOrFillRecipient": "Connect wallet / Fill recipient",
       "description": "Swap %{inputAsset} to %{outputAsset} in an easy and decentralized way",
       "discountApplied": "Discount Applied",
       "emptyFeatured": "No featured assets",
@@ -780,6 +781,8 @@
       "expire": "Expire",
       "extend": "Extend (in years)",
       "feeOnSale": "Fee on Sale",
+      "inputValidThorAddress": "Please input a valid THORChain address",
+      "invalidTransferAddress": "Invalid transfer address",
       "myThornames": "My THORNames",
       "ownedByYou": "Owned by you",
       "owner": "Owner",
@@ -791,14 +794,12 @@
       "thornameInfo": "THORName: Registrations and Assignment of wallet addresses available (trading coming soon). THORNames are case-insensitive, limited to 30 characters, including a-Z, all numbers 0–9 and -_+",
       "thornameSubtitle": "Cross-Chain Wallet Name Service.",
       "title": "Manage your THORName",
+      "transferTHORName": "Transfer THORName",
       "unavailable": "Unavailable",
       "unavailableForPurchase": "Unavailable for purchase",
       "updateFee": "Update Fee",
       "year": "year",
-      "years": "years",
-      "invalidTransferAddress": "Invalid transfer address",
-      "inputValidThorAddress": "Please input a valid THORChain address",
-      "transferTHORName": "Transfer THORName"
+      "years": "years"
     },
     "vesting": {
       "claim": "Claim",

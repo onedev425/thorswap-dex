@@ -185,7 +185,9 @@ export const SwapSubmitButton = ({
     <Box className="w-full pt-5 gap-x-2">
       {isWalletRequired ? (
         <Button isFancy stretch onClick={() => setIsConnectModalOpen(true)} size="lg">
-          {t('common.connectWallet')}
+          {isInputWalletConnected
+            ? t('views.swap.connectOrFillRecipient')
+            : t('common.connectWallet')}
         </Button>
       ) : isApproveRequired ? (
         <Button
