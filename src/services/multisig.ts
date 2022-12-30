@@ -1,3 +1,5 @@
+import { fromBase64 } from '@cosmjs/encoding';
+import { cosmosclient, proto } from '@cosmos-client/core';
 import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-core';
 import { multichain } from 'services/multichain';
 import { MultisigMember } from 'store/multisig/types';
@@ -159,9 +161,16 @@ const hasAsset = (asset: Asset, balances: AssetAmount[]): boolean => {
   return !!assetBalance;
 };
 
+const pubKeyToAddr = (pubKey: string) =>
+  cosmosclient.AccAddress.fromPublicKey(
+    new proto.cosmos.crypto.secp256k1.PubKey({
+      key: fromBase64(pubKey),
+    }),
+  ).toString();
+
 const getMemberPubkeyFromAddress = (address: string, members: MultisigMember[]) => {
   const member = members.find((m) => {
-    const memberAddress = multichain().thor.pubKeyToAddr(m.pubKey);
+    const memberAddress = pubKeyToAddr(m.pubKey);
     return memberAddress === address;
   });
 
