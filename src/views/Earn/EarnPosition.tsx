@@ -1,11 +1,15 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { Flex } from '@chakra-ui/react';
+import { Amount, Asset, Price } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Typography } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
+import { InfoWithTooltip } from 'components/InfoWithTooltip';
+import { useCallback } from 'react';
 import { t } from 'services/i18n';
+import { useMidgard } from 'store/midgard/hooks';
 import { PositionTooSmallInfo } from 'views/Earn/PositionTooSmallInfo';
 import { SaverPosition } from 'views/Earn/types';
 import { useEarnCalculations } from 'views/Earn/useEarnCalculations';
@@ -17,6 +21,7 @@ type Props = {
 };
 
 export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
+  const { pools } = useMidgard();
   const { networkFee } = useEarnCalculations({
     asset: position.asset,
     amount: position.amount,
@@ -25,15 +30,36 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
 
   const positionTooSmall = networkFee.gte(position?.amount);
 
+  const amountUsd = useCallback(
+    (amount: Amount) => {
+      return new Price({
+        baseAsset: position.asset,
+        pools,
+        priceAmount: amount,
+      });
+    },
+    [pools, position.asset],
+  );
+
   const infoFields: InfoRowConfig[] = [
     {
       label: 'Amount Deposited',
-      value: `${position.depositAmount.toSignificantWithMaxDecimals(6)} ${position.asset.symbol}`,
+      value: (
+        <InfoWithTooltip
+          tooltip={amountUsd(position.depositAmount).toCurrencyFormat(2)}
+          value={`${position.depositAmount.toSignificantWithMaxDecimals(6)} ${
+            position.asset.symbol
+          }`}
+        />
+      ),
     },
     {
       label: 'Amount Redeemable',
       value: !positionTooSmall ? (
-        `${position?.amount?.toSignificantWithMaxDecimals(6)} ${position.asset.symbol}`
+        <InfoWithTooltip
+          tooltip={amountUsd(position.amount).toCurrencyFormat(2)}
+          value={`${position?.amount?.toSignificantWithMaxDecimals(6)} ${position.asset.symbol}`}
+        />
       ) : (
         <PositionTooSmallInfo />
       ),
@@ -42,7 +68,12 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
       label: 'Total Earned',
       value:
         position?.earnedAmount && !positionTooSmall ? (
-          `${position?.earnedAmount?.toSignificantWithMaxDecimals(6)} ${position.asset.symbol}`
+          <InfoWithTooltip
+            tooltip={amountUsd(position.earnedAmount).toCurrencyFormat(2)}
+            value={`${position?.earnedAmount?.toSignificantWithMaxDecimals(6)} ${
+              position.asset.symbol
+            }`}
+          />
         ) : (
           <PositionTooSmallInfo />
         ),
@@ -68,9 +99,13 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
             </Box>
 
             {!positionTooSmall ? (
-              <Typography>
-                {position.amount?.toSignificantWithMaxDecimals(6) || 'n/a'} {position.asset.name}
-              </Typography>
+              <Flex>
+                <Typography fontWeight="bold">
+                  {position.amount?.toSignificantWithMaxDecimals(6) || 'n/a'} {position.asset.name}
+                </Typography>
+                <Typography>&nbsp;</Typography>
+                <Typography>{`(${amountUsd(position.amount).toCurrencyFormat(2)})`}</Typography>
+              </Flex>
             ) : (
               <PositionTooSmallInfo />
             )}
