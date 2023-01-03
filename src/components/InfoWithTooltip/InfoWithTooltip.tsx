@@ -1,13 +1,14 @@
-import { Box, Icon, Tooltip, Typography } from 'components/Atomic';
+import { Box, Icon, IconName, Tooltip, Typography } from 'components/Atomic';
 import { baseTextHoverClass } from 'components/constants';
 import { memo, ReactNode } from 'react';
 
 type Props = {
   value: string | ReactNode;
   tooltip: string;
+  icon?: IconName;
 };
 
-export const InfoWithTooltip = memo(({ value, tooltip }: Props) => {
+export const InfoWithTooltip = memo(({ value, tooltip, icon = 'infoCircle' }: Props) => {
   return (
     <Box alignCenter className="gap-x-2">
       {typeof value === 'string' ? (
@@ -20,7 +21,7 @@ export const InfoWithTooltip = memo(({ value, tooltip }: Props) => {
 
       {!!tooltip && (
         <Tooltip content={tooltip}>
-          <Icon className={baseTextHoverClass} color="secondary" name="infoCircle" size={20} />
+          <Icon className={baseTextHoverClass} color="secondary" name={icon} size={20} />
         </Tooltip>
       )}
     </Box>

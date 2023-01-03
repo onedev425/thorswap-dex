@@ -6,6 +6,7 @@ import {
   AiOutlineAppstore,
   AiOutlineArrowLeft,
   AiOutlineArrowRight,
+  AiOutlineDollar,
   AiOutlineHeart,
   AiOutlineHistory,
   AiOutlineInfo,
@@ -217,6 +218,7 @@ const Icons = {
   wifi: FaWifi,
   xCircle: VscError,
   youtube: BsYoutube,
+  usdCircle: AiOutlineDollar,
   ...SvgIcons,
 } as const;
 
