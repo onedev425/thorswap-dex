@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { TransactionDetails } from '@thorswap-lib/multichain-core';
 import { THORSWAP_AFFILIATE_ADDRESS } from 'config/constants';
-import { IS_DEV_API } from 'settings/config';
+import { IS_DEV_API, IS_LOCAL } from 'settings/config';
 import { AnnouncementsData } from 'store/externalConfig/types';
 
 import {
@@ -35,6 +35,11 @@ export const thorswapApi = createApi({
         if (affiliateBasisPoints) {
           queryParams.append('affiliateBasisPoints', affiliateBasisPoints);
           queryParams.append('affiliateAddress', THORSWAP_AFFILIATE_ADDRESS);
+        }
+
+        // TODO: remove this after testing dev api
+        if (IS_DEV_API || IS_LOCAL) {
+          queryParams.append('isAffiliateFeeFlat', 'true');
         }
 
         return `${baseUrl}/aggregator/tokens/quote?${queryParams.toString()}`;
