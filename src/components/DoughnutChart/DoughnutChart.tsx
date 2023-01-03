@@ -14,15 +14,32 @@ import { Doughnut } from 'react-chartjs-2';
 type Props = {
   labels: string[];
   data: string[];
+  unit?: string;
+  title?: string;
 };
 
-export const DoughnutChart = ({ labels, data }: Props) => {
+export const DoughnutChart = ({ labels, data, unit = '$', title }: Props) => {
   const options = {
+    cutout: '70%',
+    responsive: true,
     plugins: {
+      legend: {
+        position: 'right',
+      },
+      title: {
+        display: !!title,
+        text: title,
+      },
       tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+        bodyFont: { size: 12 },
+        cornerRadius: 16,
+        padding: 14,
+        titleFont: { size: 14 },
+        titleSpacing: 8,
         callbacks: {
-          label: (context) => {
-            return `${context.raw} $`;
+          label: (context: any) => {
+            return `${context.dataset.label} ${context.raw} ${unit}`;
           },
         },
       },
@@ -45,7 +62,7 @@ export const DoughnutChart = ({ labels, data }: Props) => {
       labels: labels,
       datasets: [
         {
-          label: 'You Earned',
+          label: 'You Earned:',
           data: data,
           backgroundColor: colors.map((color) => color + '20'),
           borderColor: colors,

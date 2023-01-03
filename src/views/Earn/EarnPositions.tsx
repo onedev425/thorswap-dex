@@ -1,3 +1,4 @@
+import { Flex } from '@chakra-ui/react';
 import { Amount, Asset, Price } from '@thorswap-lib/multichain-core';
 import { Box, Icon, Typography } from 'components/Atomic';
 import { DoughnutChart } from 'components/DoughnutChart/DoughnutChart';
@@ -48,12 +49,13 @@ export const EarnPositions = ({ positions, refresh, withdrawAsset, depositAsset 
           </Box>
         )}
 
-        <Box className="h-[250px] w-[200px] ">
+        <Flex h={300} justify="center" w={450}>
           <DoughnutChart
             data={positions.map((position) => amountUsd(position).toFixedRaw(2))}
             labels={positions.map((position) => position.asset.name)}
+            title="YOur shares"
           />
-        </Box>
+        </Flex>
         {positions.length ? (
           positions.map((position) => (
             <EarnPosition
