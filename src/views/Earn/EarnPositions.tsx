@@ -1,8 +1,10 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { Amount, Asset, Price } from '@thorswap-lib/multichain-core';
 import { Box, Icon, Typography } from 'components/Atomic';
+import { DoughnutChart } from 'components/DoughnutChart/DoughnutChart';
 import { ReloadButton } from 'components/ReloadButton';
 import { useCallback, useState } from 'react';
 import { t } from 'services/i18n';
+import { useMidgard } from 'store/midgard/hooks';
 import { useWallet } from 'store/wallet/hooks';
 import { EarnPosition } from 'views/Earn/EarnPosition';
 import { SaverPosition } from 'views/Earn/types';
@@ -17,6 +19,18 @@ type Props = {
 export const EarnPositions = ({ positions, refresh, withdrawAsset, depositAsset }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const { isWalletLoading } = useWallet();
+  const { pools } = useMidgard();
+
+  const amountUsd = useCallback(
+    (position: SaverPosition) => {
+      return new Price({
+        baseAsset: position.asset,
+        pools,
+        priceAmount: position.earnedAmount as Amount,
+      });
+    },
+    [pools],
+  );
 
   const onReload = useCallback(() => {
     setIsLoading(true);
@@ -34,6 +48,12 @@ export const EarnPositions = ({ positions, refresh, withdrawAsset, depositAsset 
           </Box>
         )}
 
+        <Box className="h-[250px] w-[200px] ">
+          <DoughnutChart
+            data={positions.map((position) => amountUsd(position).toFixedRaw(2))}
+            labels={positions.map((position) => position.asset.name)}
+          />
+        </Box>
         {positions.length ? (
           positions.map((position) => (
             <EarnPosition

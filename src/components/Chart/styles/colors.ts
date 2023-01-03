@@ -5,6 +5,11 @@ export const StrokeColor2 = '#4594c7';
 export const StrokeColor3 = '#4cbee3';
 export const StrokeColor4 = '#75e9ed';
 export const StrokeColor5 = '#5cd29c';
+export const StrokeColor6 = '#5cd270';
+export const StrokeColor7 = '#a7d25c';
+export const StrokeColor8 = '#d2c05c';
+export const StrokeColor9 = '#d2935c';
+export const StrokeColor10 = '#d25c5c';
 
 export const LightStrokeColor1 = '#39BBF3';
 
