@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react';
-import { Amount, Asset, Price } from '@thorswap-lib/multichain-core';
+import { Asset, Price } from '@thorswap-lib/multichain-core';
 import { Box, Icon, Typography } from 'components/Atomic';
 import { DoughnutChart } from 'components/DoughnutChart/DoughnutChart';
 import { ReloadButton } from 'components/ReloadButton';
@@ -27,7 +27,7 @@ export const EarnPositions = ({ positions, refresh, withdrawAsset, depositAsset 
       return new Price({
         baseAsset: position.asset,
         pools,
-        priceAmount: position.earnedAmount as Amount,
+        priceAmount: position.amount,
       });
     },
     [pools],
@@ -48,12 +48,11 @@ export const EarnPositions = ({ positions, refresh, withdrawAsset, depositAsset 
             <ReloadButton loading={isLoading} onLoad={onReload} size={16} />
           </Box>
         )}
-
-        <Flex h={300} justify="center" w={450}>
+        <Flex align="center" direction="column" h={280} justify="center" pt={2}>
+          <Typography variant="subtitle2">Your shares</Typography>
           <DoughnutChart
             data={positions.map((position) => amountUsd(position).toFixedRaw(2))}
             labels={positions.map((position) => position.asset.name)}
-            title="YOur shares"
           />
         </Flex>
         {positions.length ? (

@@ -47,7 +47,7 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
       value: (
         <InfoWithTooltip
           icon="usdCircle"
-          tooltip={amountUsd(position.depositAmount).toCurrencyFormat(2)}
+          tooltip={`$${amountUsd(position.depositAmount).toFixedRaw(2)}`}
           value={`${position.depositAmount.toSignificantWithMaxDecimals(6)} ${
             position.asset.symbol
           }`}
@@ -107,7 +107,7 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
                   {position.amount?.toSignificantWithMaxDecimals(6) || 'n/a'} {position.asset.name}
                 </Typography>
                 <Typography>&nbsp;</Typography>
-                <Typography fontWeight="light">{`(${amountUsd(position.amount).toCurrencyFormat(
+                <Typography fontWeight="light">{`($${amountUsd(position.amount).toFixedRaw(
                   2,
                 )})`}</Typography>
               </Flex>
