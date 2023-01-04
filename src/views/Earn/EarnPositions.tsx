@@ -1,14 +1,14 @@
 import { Flex } from '@chakra-ui/react';
-import { Asset, Price } from '@thorswap-lib/multichain-core';
+import { Asset } from '@thorswap-lib/multichain-core';
 import { Box, Icon, Typography } from 'components/Atomic';
-import { DoughnutChart } from 'components/DoughnutChart/DoughnutChart';
+import { DoughnutChart } from 'components/Chart/DoughnutChart/DoughnutChart';
 import { ReloadButton } from 'components/ReloadButton';
 import { useCallback, useState } from 'react';
 import { t } from 'services/i18n';
-import { useMidgard } from 'store/midgard/hooks';
 import { useWallet } from 'store/wallet/hooks';
 import { EarnPosition } from 'views/Earn/EarnPosition';
 import { SaverPosition } from 'views/Earn/types';
+import { ShareChartIndex, sharesChartIndexes } from 'views/Home/types';
 
 type Props = {
   positions: SaverPosition[];
@@ -19,19 +19,8 @@ type Props = {
 
 export const EarnPositions = ({ positions, refresh, withdrawAsset, depositAsset }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [volumeChartIndex, setVolumeChartIndex] = useState<string>(ShareChartIndex.Earned);
   const { isWalletLoading } = useWallet();
-  const { pools } = useMidgard();
-
-  const amountUsd = useCallback(
-    (position: SaverPosition) => {
-      return new Price({
-        baseAsset: position.asset,
-        pools,
-        priceAmount: position.amount,
-      });
-    },
-    [pools],
-  );
 
   const onReload = useCallback(() => {
     setIsLoading(true);
@@ -48,13 +37,17 @@ export const EarnPositions = ({ positions, refresh, withdrawAsset, depositAsset 
             <ReloadButton loading={isLoading} onLoad={onReload} size={16} />
           </Box>
         )}
-        <Flex align="center" direction="column" h={280} justify="center" pt={2}>
-          <Typography variant="subtitle2">Your shares</Typography>
-          <DoughnutChart
-            data={positions.map((position) => amountUsd(position).toFixedRaw(2))}
-            labels={positions.map((position) => position.asset.name)}
-          />
-        </Flex>
+        {!!positions.length && (
+          <Flex align="center" direction="column" pb={4}>
+            <Typography variant="subtitle2">Your shares</Typography>
+            <DoughnutChart
+              chartIndexes={sharesChartIndexes}
+              data={positions}
+              selectChart={setVolumeChartIndex}
+              selectedIndex={volumeChartIndex}
+            />
+          </Flex>
+        )}
         {positions.length ? (
           positions.map((position) => (
             <EarnPosition

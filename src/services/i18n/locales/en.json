@@ -364,6 +364,7 @@
       "chart_total": "Total",
       "chart_volume": "Volume",
       "chart_withdraw": "Withdraw",
+      "chart_earned": "Earned",
       "description": "Statistics for THORChain token pools",
       "featuredPools": "Featured Pools",
       "title": "THORChain pool statistics"

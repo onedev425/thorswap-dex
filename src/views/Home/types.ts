@@ -22,6 +22,11 @@ export enum VolumeChartIndex {
   Synth = 'synth',
 }
 
+export enum ShareChartIndex {
+  Total = 'total',
+  Earned = 'earned',
+}
+
 export enum LiquidityChartIndex {
   Liquidity = 'liquidity',
   LpEarning = 'lpEarning',
@@ -34,6 +39,8 @@ export const volumeChartIndexes = [
   VolumeChartIndex.Add,
   VolumeChartIndex.Withdraw,
 ];
+
+export const sharesChartIndexes = [ShareChartIndex.Earned, ShareChartIndex.Total];
 
 export const liquidityChartIndexes = [
   LiquidityChartIndex.Liquidity,
