@@ -158,7 +158,14 @@ export const DoughnutChart = ({
             const hovered = chartHovered === index;
             return (
               <Flex
-                _dark={{ bgColor: hovered ? colors.gray : colors.bgDarkGray }}
+                _dark={{
+                  bgColor: hovered ? colors.gray : colors.bgDarkGray,
+                  _hover: { bgColor: colors.gray },
+                }}
+                _hover={{
+                  border: `1px solid ${colors.btnPrimary}`,
+                  bgColor: colors.bgBtnLightTintActive,
+                }}
                 align="center"
                 bgColor={hovered ? colors.bgBtnLightTintActive : colors.bgLightGray}
                 border={hovered ? `1px solid ${colors.btnPrimary}` : '1px solid transparent'}
