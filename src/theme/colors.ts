@@ -22,6 +22,8 @@ export const colors = {
   bgDarkGrayPrimary: '#75849D',
   btnPrimary: '#4DBAD6',
   btnSecondary: '#46B2A7',
+  bgDarkGray: '#29354A',
+  bgLightGray: '#EDEEF2',
   light: {
     textPrimary: '#1F1F41',
     textSecondary: '#7C859F',

@@ -1,7 +1,7 @@
-import { Flex } from '@chakra-ui/react';
 import { Asset } from '@thorswap-lib/multichain-core';
 import { Box, Icon, Typography } from 'components/Atomic';
 import { DoughnutChart } from 'components/Chart/DoughnutChart/DoughnutChart';
+import { HighlightCard } from 'components/HighlightCard';
 import { ReloadButton } from 'components/ReloadButton';
 import { useCallback, useState } from 'react';
 import { t } from 'services/i18n';
@@ -38,15 +38,15 @@ export const EarnPositions = ({ positions, refresh, withdrawAsset, depositAsset 
           </Box>
         )}
         {!!positions.length && (
-          <Flex align="center" direction="column" pb={4}>
-            <Typography variant="subtitle2">Your shares</Typography>
+          <HighlightCard>
             <DoughnutChart
               chartIndexes={sharesChartIndexes}
               data={positions}
               selectChart={setVolumeChartIndex}
               selectedIndex={volumeChartIndex}
+              title="Your Shares"
             />
-          </Flex>
+          </HighlightCard>
         )}
         {positions.length ? (
           positions.map((position) => (

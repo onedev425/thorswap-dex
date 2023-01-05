@@ -13,14 +13,16 @@ import {
   StrokeColor9,
   StrokeColor10,
 } from 'components/Chart/styles/colors';
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { ChartJSOrUndefined } from 'react-chartjs-2/dist/types';
 import { useMidgard } from 'store/midgard/hooks';
 import { SaverPosition } from 'views/Earn/types';
 import { ShareChartIndex } from 'views/Home/types';
 
-const colors = [
+import { colors } from '../../../theme/colors';
+
+const chartColors = [
   StrokeColor3,
   StrokeColor5,
   StrokeColor4,
@@ -37,6 +39,7 @@ type Props = {
   chartIndexes: string[];
   selectChart: (value: string) => void;
   selectedIndex: string;
+  title?: string;
 };
 
 export const DoughnutChart = ({
@@ -45,9 +48,10 @@ export const DoughnutChart = ({
   chartIndexes,
   selectChart,
   selectedIndex,
+  title,
 }: Props) => {
   const chartRef = useRef<ChartJSOrUndefined<'doughnut', any, any>>(null);
-  console.log('🔥', chartRef.current?.tooltip);
+  const [chartHovered, setChartHovered] = useState<number | null>(null);
   const { pools } = useMidgard();
   const totalUsd = useCallback(
     (position: SaverPosition) => {
@@ -61,7 +65,6 @@ export const DoughnutChart = ({
   );
 
   const onLegendHover = (index: number | null) => {
-    console.log('🔥index', index, chartRef.current);
     const activeElement = index === null ? [] : [{ datasetIndex: 0, index }];
     chartRef.current?.tooltip?.setActiveElements(activeElement, { x: 0, y: 0 });
     chartRef.current?.setActiveElements(activeElement);
@@ -96,6 +99,7 @@ export const DoughnutChart = ({
         display: false,
       },
       tooltip: {
+        usePointStyle: true,
         backgroundColor: 'rgba(0, 0, 0, 0.9)',
         bodyFont: { size: 12 },
         cornerRadius: 16,
@@ -109,8 +113,11 @@ export const DoughnutChart = ({
         },
       },
     },
-    onHover: (e, elements) => {
-      console.log(elements[0]?.index);
+    onHover: (_e: any, elements: { element: Element; datasetIndex: number; index: number }[]) => {
+      if (elements[0]?.index === chartHovered) {
+        return;
+      }
+      setChartHovered(elements[0]?.index);
     },
   };
 
@@ -121,16 +128,20 @@ export const DoughnutChart = ({
         {
           label: datasLabel,
           data: datas,
-          backgroundColor: colors.map((color) => color + '20'),
-          borderColor: colors,
+          backgroundColor: chartColors.map((color) => color + '30'),
+          borderColor: chartColors,
           borderWidth: 1,
         },
       ],
     }),
     [data, datas, datasLabel],
   );
+
   return (
     <Flex direction="column" w="full">
+      <Flex justify="center">
+        <Typography variant="subtitle2">{title}</Typography>
+      </Flex>
       <Box p={2}>
         <ChartTypeSelect
           chartTypeIndexes={chartIndexes}
@@ -142,15 +153,22 @@ export const DoughnutChart = ({
       <Flex height={200} justify="space-between">
         <Doughnut data={chartData} id="myChart" options={options} ref={chartRef} />
         <Flex direction="column" gap={2}>
-          {data.map((share) => {
+          {data.map((share, index) => {
             const selectedShare = isEarned ? share.earnedAmount : share.amount;
+            const hovered = chartHovered === index;
             return (
               <Flex
+                _dark={{ bgColor: hovered ? colors.gray : colors.bgDarkGray }}
                 align="center"
+                bgColor={hovered ? colors.bgBtnLightTintActive : colors.bgLightGray}
+                border={hovered ? `1px solid ${colors.btnPrimary}` : '1px solid transparent'}
+                borderRadius="3xl"
+                display="flex"
                 gap={1}
                 key={share.amount?.toFixed() + share.earnedAmount?.toFixed()}
                 onMouseEnter={() => onLegendHover(data.indexOf(share))}
                 onMouseLeave={() => onLegendHover(null)}
+                p={2}
               >
                 <AssetIcon asset={share.asset} size={28} />
                 <Typography>{share.asset.name}</Typography>
