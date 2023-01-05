@@ -44,7 +44,7 @@ export const EarnPositions = ({ positions, refresh, withdrawAsset, depositAsset 
               data={positions}
               selectChart={setVolumeChartIndex}
               selectedIndex={volumeChartIndex}
-              title="Your Shares"
+              title="Earn positions"
             />
           </HighlightCard>
         )}

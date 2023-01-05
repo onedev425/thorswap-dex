@@ -1,4 +1,4 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { Amount, Price } from '@thorswap-lib/multichain-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Typography } from 'components/Atomic';
@@ -13,6 +13,7 @@ import {
   StrokeColor9,
   StrokeColor10,
 } from 'components/Chart/styles/colors';
+import useWindowSize from 'hooks/useWindowSize';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { ChartJSOrUndefined } from 'react-chartjs-2/dist/types';
@@ -53,6 +54,7 @@ export const DoughnutChart = ({
   const chartRef = useRef<ChartJSOrUndefined<'doughnut', any, any>>(null);
   const [chartHovered, setChartHovered] = useState<number | null>(null);
   const { pools } = useMidgard();
+  const { isMdActive } = useWindowSize();
   const totalUsd = useCallback(
     (position: SaverPosition) => {
       return new Price({
@@ -99,7 +101,7 @@ export const DoughnutChart = ({
         display: false,
       },
       tooltip: {
-        usePointStyle: true,
+        displayColors: false,
         backgroundColor: 'rgba(0, 0, 0, 0.9)',
         bodyFont: { size: 12 },
         cornerRadius: 16,
@@ -138,21 +140,21 @@ export const DoughnutChart = ({
   );
 
   return (
-    <Flex direction="column" w="full">
-      <Flex justify="center">
+    <Flex direction="column" p={2} w="full">
+      <Flex justify="space-between" pb={4}>
         <Typography variant="subtitle2">{title}</Typography>
-      </Flex>
-      <Box p={2}>
         <ChartTypeSelect
           chartTypeIndexes={chartIndexes}
           selectChartTypeIndex={selectChart}
           selectedChartTypeIndex={selectedIndex}
         />
-      </Box>
+      </Flex>
 
-      <Flex height={200} justify="space-between">
-        <Doughnut data={chartData} id="myChart" options={options} ref={chartRef} />
-        <Flex direction="column" gap={2}>
+      <Flex align="center" justify="space-between">
+        <Flex height={isMdActive ? 200 : 150}>
+          <Doughnut data={chartData} id="myChart" options={options} ref={chartRef} />
+        </Flex>
+        <Flex direction="column" gap={1.5} h="full" pl={2} w="full">
           {data.map((share, index) => {
             const selectedShare = isEarned ? share.earnedAmount : share.amount;
             const hovered = chartHovered === index;
@@ -172,14 +174,18 @@ export const DoughnutChart = ({
                 borderRadius="3xl"
                 display="flex"
                 gap={1}
+                justify="space-between"
                 key={share.amount?.toFixed() + share.earnedAmount?.toFixed()}
                 onMouseEnter={() => onLegendHover(data.indexOf(share))}
                 onMouseLeave={() => onLegendHover(null)}
                 p={2}
+                pl={3}
               >
+                <Flex gap={1}>
+                  <Typography>{selectedShare?.toSignificantWithMaxDecimals(6)}</Typography>
+                  <Typography>{share.asset.name}</Typography>
+                </Flex>
                 <AssetIcon asset={share.asset} size={28} />
-                <Typography>{share.asset.name}</Typography>
-                <Typography>{selectedShare?.toSignificantWithMaxDecimals(6)}</Typography>
               </Flex>
             );
           })}
