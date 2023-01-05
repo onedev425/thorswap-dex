@@ -1,6 +1,5 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { Amount, Price } from '@thorswap-lib/multichain-core';
-import { Chart as ChartJS } from 'chart.js';
 import { AssetIcon } from 'components/AssetIcon';
 import { Typography } from 'components/Atomic';
 import { ChartTypeSelect } from 'components/Chart/ChartTypeSelect';
@@ -16,9 +15,21 @@ import {
 } from 'components/Chart/styles/colors';
 import { useCallback, useMemo, useRef } from 'react';
 import { Doughnut } from 'react-chartjs-2';
+import { ChartJSOrUndefined } from 'react-chartjs-2/dist/types';
 import { useMidgard } from 'store/midgard/hooks';
 import { SaverPosition } from 'views/Earn/types';
 import { ShareChartIndex } from 'views/Home/types';
+
+const colors = [
+  StrokeColor3,
+  StrokeColor5,
+  StrokeColor4,
+  StrokeColor6,
+  StrokeColor8,
+  StrokeColor7,
+  StrokeColor10,
+  StrokeColor9,
+];
 
 type Props = {
   data: SaverPosition[];
@@ -35,10 +46,9 @@ export const DoughnutChart = ({
   selectChart,
   selectedIndex,
 }: Props) => {
-  const chartRef = useRef<ChartJS>(null);
-
+  const chartRef = useRef<ChartJSOrUndefined<'doughnut', any, any>>(null);
+  console.log('🔥', chartRef.current?.tooltip);
   const { pools } = useMidgard();
-
   const totalUsd = useCallback(
     (position: SaverPosition) => {
       return new Price({
@@ -49,6 +59,14 @@ export const DoughnutChart = ({
     },
     [pools],
   );
+
+  const onLegendHover = (index: number | null) => {
+    console.log('🔥index', index, chartRef.current);
+    const activeElement = index === null ? [] : [{ datasetIndex: 0, index }];
+    chartRef.current?.tooltip?.setActiveElements(activeElement, { x: 0, y: 0 });
+    chartRef.current?.setActiveElements(activeElement);
+    chartRef.current?.update();
+  };
 
   const earnedUsd = useCallback(
     (position: SaverPosition) => {
@@ -91,18 +109,10 @@ export const DoughnutChart = ({
         },
       },
     },
+    onHover: (e, elements) => {
+      console.log(elements[0]?.index);
+    },
   };
-
-  const colors = [
-    StrokeColor3,
-    StrokeColor5,
-    StrokeColor4,
-    StrokeColor6,
-    StrokeColor8,
-    StrokeColor7,
-    StrokeColor10,
-    StrokeColor9,
-  ];
 
   const chartData: any = useMemo(
     () => ({
@@ -117,7 +127,7 @@ export const DoughnutChart = ({
         },
       ],
     }),
-    [selectedIndex, data, datas, datasLabel],
+    [data, datas, datasLabel],
   );
   return (
     <Flex direction="column" w="full">
@@ -139,6 +149,8 @@ export const DoughnutChart = ({
                 align="center"
                 gap={1}
                 key={share.amount?.toFixed() + share.earnedAmount?.toFixed()}
+                onMouseEnter={() => onLegendHover(data.indexOf(share))}
+                onMouseLeave={() => onLegendHover(null)}
               >
                 <AssetIcon asset={share.asset} size={28} />
                 <Typography>{share.asset.name}</Typography>
