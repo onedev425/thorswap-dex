@@ -93,7 +93,7 @@ export const DoughnutChart = ({
   const datasLabel = isEarned ? 'Earned' : 'Total';
 
   const options: any = {
-    cutout: '60%',
+    cutout: '70%',
     padding: 0,
     responsive: true,
     plugins: {
@@ -130,7 +130,7 @@ export const DoughnutChart = ({
         {
           label: datasLabel,
           data: datas,
-          backgroundColor: chartColors.map((color) => color + '30'),
+          backgroundColor: chartColors.map((color) => color + '50'),
           borderColor: chartColors,
           borderWidth: 1,
         },
@@ -151,10 +151,10 @@ export const DoughnutChart = ({
       </Flex>
 
       <Flex align="center" justify="space-between">
-        <Flex height={isMdActive ? 200 : 150}>
+        <Flex height={isMdActive ? 150 : 150}>
           <Doughnut data={chartData} id="myChart" options={options} ref={chartRef} />
         </Flex>
-        <Flex direction="column" gap={1.5} h="full" pl={2} w="full">
+        <Flex direction="column" gap={1} h="full" pl={2} w="full">
           {data.map((share, index) => {
             const selectedShare = isEarned ? share.earnedAmount : share.amount;
             const hovered = chartHovered === index;
@@ -173,12 +173,12 @@ export const DoughnutChart = ({
                 border={hovered ? `1px solid ${colors.btnPrimary}` : '1px solid transparent'}
                 borderRadius="3xl"
                 display="flex"
-                gap={1}
+                gap={2}
                 justify="space-between"
                 key={share.amount?.toFixed() + share.earnedAmount?.toFixed()}
                 onMouseEnter={() => onLegendHover(data.indexOf(share))}
                 onMouseLeave={() => onLegendHover(null)}
-                p={2}
+                p={1}
                 pl={3}
               >
                 <Flex gap={1}>
