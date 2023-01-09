@@ -8,6 +8,7 @@ const CHAINS_WITH_CUSTOM_DERIVATION_PATH = [Chain.Ethereum, Chain.Avalanche].con
 );
 
 const ledgerLivePath = "44'/60'/{index}'/0/";
+const nativeSegwitMiddlePath = "84'/0'/{index}'/0/0";
 
 const evmLedgerTypes = [
   { value: "44'/60'/0'/0/{index}", label: "MetaMask (m/44'/60'/0'/0/{index})" },
@@ -17,7 +18,7 @@ const evmLedgerTypes = [
 
 const btcLedgerTypes = [
   { value: "84'/0'/0'/0/{index}", label: "Native Segwit (m/84'/0'/0'/0/{index})" },
-  { value: "86'/0'/0'/0/{index}", label: "Taproot (86'/0'/0'/0/{index})" },
+  { value: nativeSegwitMiddlePath, label: "Native Segwit (86'/0'/{index}'/0/0)" },
   { value: "49'/0'/0'/0/{index}", label: "Segwit (m/49'/0'/0'/0/{index})" },
   { value: "44'/0'/0'/0/{index}", label: "Legacy (m/44'/0'/0'/0/{index})" },
 ];
@@ -59,9 +60,9 @@ export const DerivationPathDropdown = ({ chain, ledgerIndex, setCustomDerivation
   const handleDerivationPathChange = useCallback(
     (pathTemplate: string) => {
       setPathTemplate(pathTemplate);
-      const isLedgerLive = ledgerLivePath === pathTemplate;
+      const indexInMiddle = [nativeSegwitMiddlePath, ledgerLivePath].includes(pathTemplate);
       setCustomDerivationPath(
-        pathTemplate.replace('{index}', isLedgerLive ? ledgerIndex.toString() : ''),
+        pathTemplate.replace('{index}', indexInMiddle ? ledgerIndex.toString() : ''),
       );
     },
     [ledgerIndex, setCustomDerivationPath, setPathTemplate],
