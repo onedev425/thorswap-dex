@@ -41,18 +41,20 @@ export const Modal = ({
                     onClick={onBack}
                   />
                 )}
-                <Typography variant="h3">{title}</Typography>
+                <Typography className="text-dark-typo-primary" variant="h3">
+                  {title}
+                </Typography>
               </Box>
 
               <Box
                 center
                 className={classNames(
                   'h-10 w-10 rounded-2xl self-center border border-solid cursor-pointer hover:brightness-90 dark:hover:brightness-110',
-                  'border-light-typo-primary dark:border-dark-typo-primary',
+                  'border-dark-typo-primary dark:border-dark-typo-primary',
                 )}
                 onClick={onClose}
               >
-                <Icon className="self-center" color="primary" name="close" size={24} />
+                <Icon className="self-center" color="light" name="close" size={24} />
               </Box>
             </Box>
           </Box>
