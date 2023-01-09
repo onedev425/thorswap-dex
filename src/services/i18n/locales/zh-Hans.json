@@ -72,6 +72,7 @@
     "feeFastest": "立即",
     "feeInstant": "立即",
     "feeNormal": "正常",
+    "filled": "已填充",
     "foundsCap": "封顶上限 (i)",
     "gasTracker": "燃料跟踪器",
     "getHelp": "获取帮助",
@@ -141,6 +142,8 @@
     "totalVol": "交易量总计",
     "transactionFee": "交易费用",
     "transactions": "交易",
+    "transfer": "转移",
+    "transferAddress": "转移地址",
     "txFeeTooltip": "通过使用较高的燃料价格来加速交易，增加其被网络快速处理的机会。",
     "update": "更新",
     "upgrade": "升级",
@@ -155,10 +158,7 @@
     "wallet": "钱包",
     "withdraw": "提取",
     "withdrawPercent": "提取百分比",
-    "yourTransactions": "您的交易",
-    "transfer": "转移",
-    "transferAddress": "转移地址",
-    "filled": "已填充"
+    "yourTransactions": "您的交易"
   },
   "components": {
     "announcements": {
@@ -166,12 +166,12 @@
       "chainHalted": "%{chain} 链在THORChain上已暂时中止。临时禁用所有的兑换交易和LP服务。",
       "chainLPHalted": "%{chain} 链暂时中止兑换交易。",
       "chainTradeHalted": "%{chain} 链暂时中止添加和提取流动性。",
+      "oldRune": "我们在你的钱包中检测到一个过时的RUNE版本。传统的RUNE杀戮开关已经被激活，你应该立即升级它，它的价值正在随着每一个区块流失。",
       "outboundQueue": "THORChain目前正在经历大量的出站队列（%{outboundQueue}）。交换可能需要比平时更长的时间来处理，资金是安全的🙏",
       "thorChainHalted": "THORChain正在进行维护，在此期间将暂停所有的相关服务。",
       "thorChainLPHalted": "THORChain 已暂时中止添加和提取流动性。",
       "thorChainTradeHalted": "THORChain 已暂时中止兑换交易。",
-      "tradingGloballyDisabled": "THORChain 目前网络不稳定。团队正在进行调查。",
-      "oldRune": "我们在你的钱包中检测到一个过时的RUNE版本。传统的RUNE杀戮开关已经被激活，你应该立即升级它，它的价值正在随着每一个区块流失。"
+      "tradingGloballyDisabled": "THORChain 目前网络不稳定。团队正在进行调查。"
     },
     "assetSelect": {
       "manageTokenList": "管理代币列表",
@@ -633,13 +633,13 @@
       "currentBalance": "当前余额",
       "description": "提供单边%{链}的流动性，对RUNE没有任何风险。",
       "earn": "赚取",
+      "myPositions": "我的职位",
+      "notEnoughForOutboundFee": "没有足够的金额来支付出境费用",
+      "positionTooSmall": "位置太小，无法计算",
       "tooltipDescription": "通过提供单边的$%{资产}赚取收益。流动性，没有$RUNE风险和不永久的损失",
       "yourDeposit": "你的存款",
       "yourEarnings": "你的收入",
-      "yourPositions": "您的职位",
-      "myPositions": "我的职位",
-      "notEnoughForOutboundFee": "没有足够的金额来支付出境费用",
-      "positionTooSmall": "位置太小，无法计算"
+      "yourPositions": "您的职位"
     },
     "send": {
       "description": "发送代币到其他钱包并管理你的资产",
@@ -741,6 +741,7 @@
       "autoRouter": "自动路由",
       "autoRouterApi": "自动路由 API",
       "check": "确认 %{checkType}",
+      "connectOrFillRecipient": "连接钱包/填充收件人",
       "description": "以一种简单和分散的方式将%{inputAsset}交换到%{outputAsset}。",
       "discountApplied": "适用的折扣",
       "emptyFeatured": "无精选代币",
@@ -780,6 +781,8 @@
       "expire": "有效期",
       "extend": "延长 (年)",
       "feeOnSale": "出售费用",
+      "inputValidThorAddress": "请输入一个有效的THORChain地址",
+      "invalidTransferAddress": "无效的传输地址",
       "myThornames": "我的 THORNames",
       "ownedByYou": "由您拥有",
       "owner": "所有者",
@@ -791,14 +794,12 @@
       "thornameInfo": "THORName: 注册和管理钱包地址（交易/ 转让功能正在开发中）。THORName 不区分大小写，限制在30个字符，包括a-Z，所有数字0-9和-_+。",
       "thornameSubtitle": "跨链钱包域名服务",
       "title": "管理您的THORName",
+      "transferTHORName": "转移THOR名称",
       "unavailable": "无法注册",
       "unavailableForPurchase": "无法注册",
       "updateFee": "更新费用",
       "year": "年",
-      "years": "年",
-      "invalidTransferAddress": "无效的传输地址",
-      "inputValidThorAddress": "请输入一个有效的THORChain地址",
-      "transferTHORName": "转移THOR名称"
+      "years": "年"
     },
     "vesting": {
       "claim": "领取",

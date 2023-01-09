@@ -72,6 +72,7 @@
     "feeFastest": "Instant",
     "feeInstant": "Direct",
     "feeNormal": "Normaal",
+    "filled": "Gevuld",
     "foundsCap": "Liquiditeitsplafond (i) ",
     "gasTracker": "Gas Tracker",
     "getHelp": "Vraag ondersteuning",
@@ -141,6 +142,8 @@
     "totalVol": "Totale hoeveelheid",
     "transactionFee": "Transactiekosten",
     "transactions": "Transacties",
+    "transfer": "Transfer",
+    "transferAddress": "Overdracht Adres",
     "txFeeTooltip": "Een hogere gas prijs verhoogt de kansen dat het netwerk uw transactie sneller zal verwerken.",
     "update": "Update",
     "upgrade": "Upgraden",
@@ -155,10 +158,7 @@
     "wallet": "Wallet",
     "withdraw": "Opnemen",
     "withdrawPercent": "Opname percentage",
-    "yourTransactions": "Uw transacties",
-    "transfer": "Transfer",
-    "transferAddress": "Overdracht Adres",
-    "filled": "Gevuld"
+    "yourTransactions": "Uw transacties"
   },
   "components": {
     "announcements": {
@@ -166,12 +166,12 @@
       "chainHalted": "%{chain} tijdelijk stopgezet op THORChain. Al het handelen, toevoegen en verwijderen is niet beschikbaar.",
       "chainLPHalted": "Handel voor %{chain} tijdelijk niet beschikbaar.",
       "chainTradeHalted": "Toevoegen en verwijderen van liquiditeit op %{chain} is tijdelijk niet beschikbaar.",
+      "oldRune": "We hebben een verouderde versie van RUNE in uw portefeuille ontdekt. De legacy RUNE killswitch is geactiveerd en u moet het onmiddellijk upgraden, het verliest waarde met elk blok.",
       "outboundQueue": "THORChain heeft momenteel last van een zware uitgaande wachtrij (%{outboundQueue}). Het verwerken van swaps kan langer duren dan normaal, FUNDS ARE SAFE 🙏",
       "thorChainHalted": "THORChain is tijdelijk niet beschikbaar vanwege onderhoud. ",
       "thorChainLPHalted": "Toevoegen en verwijderen van liquiditeit is tijdelijk stopgezet op THORChain.",
       "thorChainTradeHalted": "Handelen is tijdelijk stopgezet op THORChain.",
-      "tradingGloballyDisabled": "THORChain ondervindt momenteel technische problemen, ons team is dit aan het onderzoeken.",
-      "oldRune": "We hebben een verouderde versie van RUNE in uw portefeuille ontdekt. De legacy RUNE killswitch is geactiveerd en u moet het onmiddellijk upgraden, het verliest waarde met elk blok."
+      "tradingGloballyDisabled": "THORChain ondervindt momenteel technische problemen, ons team is dit aan het onderzoeken."
     },
     "assetSelect": {
       "manageTokenList": "Beheer Token Lijsten",
@@ -633,13 +633,13 @@
       "currentBalance": "Huidige balans",
       "description": "Zorg voor eenzijdige %{chain} Liquiditeit zonder blootstelling aan RUNE.",
       "earn": "Verdien",
+      "myPositions": "Mijn posities",
+      "notEnoughForOutboundFee": "Niet genoeg om de uitgaande kosten te dekken",
+      "positionTooSmall": "Positie te klein om te berekenen",
       "tooltipDescription": "Verdien rendement door het verstrekken van eenzijdige $%{asset} Liquiditeit zonder $RUNE blootstelling en Impermanent Verlies",
       "yourDeposit": "Uw storting",
       "yourEarnings": "Uw inkomsten",
-      "yourPositions": "Uw posities",
-      "myPositions": "Mijn posities",
-      "notEnoughForOutboundFee": "Niet genoeg om de uitgaande kosten te dekken",
-      "positionTooSmall": "Positie te klein om te berekenen"
+      "yourPositions": "Uw posities"
     },
     "send": {
       "description": "Stuur tokens naar andere wallets en beheer uw activa",
@@ -741,6 +741,7 @@
       "autoRouter": "Auto Router",
       "autoRouterApi": "Auto Router API",
       "check": "Controleer %{checkType}",
+      "connectOrFillRecipient": "Portefeuille aansluiten / ontvanger vullen",
       "description": "Wissel %{inputAsset} om naar %{outputAsset} op een gemakkelijke en gedecentraliseerde manier",
       "discountApplied": "Korting toegepast",
       "emptyFeatured": "Geen aanbevolen assets",
@@ -780,6 +781,8 @@
       "expire": "Vervaldatum",
       "extend": "Verlengen (in jaren)",
       "feeOnSale": "Verkoopkosten",
+      "inputValidThorAddress": "Voer een geldig THORChain-adres in",
+      "invalidTransferAddress": "Ongeldig overdrachtsadres",
       "myThornames": "Mijn THORNames",
       "ownedByYou": "Eigendom van u",
       "owner": "Eigenaar",
@@ -791,14 +794,12 @@
       "thornameInfo": "THORName: Registraties en wallet adressen toevoegen beschikbaar (Uitwisselen binnenkort beschikbaar). THORNames zijn niet hoofdletter gevoelig, gelimiteerd tot 30 karakters van a-Z, alle nummers van 0–9 en -_+",
       "thornameSubtitle": "Cross-Chain Wallet Naam Service.",
       "title": "Beheer uw THORName",
+      "transferTHORName": "Overdracht THORName",
       "unavailable": "Niet beschikbaar",
       "unavailableForPurchase": "Niet beschikbaar voor aankoop",
       "updateFee": "Update Kosten",
       "year": "jaar",
-      "years": "jaren",
-      "invalidTransferAddress": "Ongeldig overdrachtsadres",
-      "inputValidThorAddress": "Voer een geldig THORChain-adres in",
-      "transferTHORName": "Overdracht THORName"
+      "years": "jaren"
     },
     "vesting": {
       "claim": "Claim",

@@ -72,6 +72,7 @@
     "feeFastest": "즉시",
     "feeInstant": "즉시",
     "feeNormal": "보통",
+    "filled": "채워진",
     "foundsCap": "펀드 캡 (i)",
     "gasTracker": "가스 트래커(Gas Tracker)",
     "getHelp": "도움 받기",
@@ -141,6 +142,8 @@
     "totalVol": "총 볼륨",
     "transactionFee": "거래 수수료",
     "transactions": "트랜잭션",
+    "transfer": "양도",
+    "transferAddress": "전송 주소",
     "txFeeTooltip": "더 높은 가스 가격을 사용하여 거래를 가속화할 경우 네트워크에서 더 빨리 처리될 가능성이 높아집니다.",
     "update": "업데이트",
     "upgrade": "업그레이드",
@@ -155,10 +158,7 @@
     "wallet": "지갑",
     "withdraw": "인출",
     "withdrawPercent": "인출 비율",
-    "yourTransactions": "내 트랜잭션",
-    "transfer": "양도",
-    "transferAddress": "전송 주소",
-    "filled": "채워진"
+    "yourTransactions": "내 트랜잭션"
   },
   "components": {
     "announcements": {
@@ -166,12 +166,12 @@
       "chainHalted": "%{chain} 체인이 토르 체인에서 일시적으로 중단되었습니다.현재 모든 거래 및 LP 작업을 사용할 수 없습니다.",
       "chainLPHalted": "%{chain} 체인에 대한 추가 및 인출은 일시적으로 사용할 수 없습니다.",
       "chainTradeHalted": "%{chain} 체인에서의 거래는 일시적으로 불가능합니다.",
+      "oldRune": "지갑에서 더 이상 사용되지 않는 RUNE 버전을 발견했습니다.레거시 RUNE 킬 스위치가 활성화되었으므로 즉시 업그레이드해야 합니다. 블록할 때마다 가치가 떨어집니다.",
       "outboundQueue": "ThorChain에서 현재 과도한 아웃바운드 대기열 (% {아웃바운드큐}) 을 겪고 있습니다.스왑은 처리하는 데 평소보다 오래 걸릴 수 있습니다. 자금은 안전합니다 🙏",
       "thorChainHalted": "점검 중에는 THORChain을 일시적으로 사용할 수 없습니다.현재 모든 작업이 비활성화되어 있습니다.",
       "thorChainLPHalted": "THORChain에서 유동성 추가 및 인출이 일시적으로 비활성화됩니다.",
       "thorChainTradeHalted": "THORChain에서 거래가 일시적으로 비활성화되었습니다.",
-      "tradingGloballyDisabled": "토르체인은 현재 기술적인 어려움을 겪고 있습니다.팀이 조사 중입니다.",
-      "oldRune": "지갑에서 더 이상 사용되지 않는 RUNE 버전을 발견했습니다.레거시 RUNE 킬 스위치가 활성화되었으므로 즉시 업그레이드해야 합니다. 블록할 때마다 가치가 떨어집니다."
+      "tradingGloballyDisabled": "토르체인은 현재 기술적인 어려움을 겪고 있습니다.팀이 조사 중입니다."
     },
     "assetSelect": {
       "manageTokenList": "토큰 목록 관리",
@@ -633,13 +633,13 @@
       "currentBalance": "현재 잔액",
       "description": "RUNE에 노출되지 않고 단면% {chain} 유동성을 제공합니다.",
       "earn": "적립",
+      "myPositions": "내 포지션",
+      "notEnoughForOutboundFee": "아웃바운드 수수료를 지불하기에 충분한 금액이 아닙니다.",
+      "positionTooSmall": "위치가 너무 작아 계산할 수 없습니다",
       "tooltipDescription": "$RUNE 노출 및 비영구적 손실 없이 단일화된 $% {asset} 유동성을 제공하여 수익을 창출하세요.",
       "yourDeposit": "귀하의 입금",
       "yourEarnings": "귀하의 수익",
-      "yourPositions": "귀하의 포지션",
-      "myPositions": "내 포지션",
-      "notEnoughForOutboundFee": "아웃바운드 수수료를 지불하기에 충분한 금액이 아닙니다.",
-      "positionTooSmall": "위치가 너무 작아 계산할 수 없습니다"
+      "yourPositions": "귀하의 포지션"
     },
     "send": {
       "description": "다른 지갑으로 토큰을 보내고 자산을 관리하세요",
@@ -741,6 +741,7 @@
       "autoRouter": "자동 라우터",
       "autoRouterApi": "자동 라우터 API",
       "check": "체크% {체크타입}",
+      "connectOrFillRecipient": "월렛 연결/수신자 채우기",
       "description": "쉽고 분산된 방식으로 %{InputAsset} 을 (를) %{OutputAsset} 으로 교환하세요.",
       "discountApplied": "할인 적용",
       "emptyFeatured": "추천 에셋 없음",
@@ -780,6 +781,8 @@
       "expire": "만료",
       "extend": "연장 (년 단위)",
       "feeOnSale": "판매 수수료",
+      "inputValidThorAddress": "올바른 THORChain 주소를 입력하십시오.",
+      "invalidTransferAddress": "잘못된 전송 주소",
       "myThornames": "내 쏜 이름",
       "ownedByYou": "소유한 사용자",
       "owner": "소유자",
@@ -791,14 +794,12 @@
       "thornameInfo": "ThorName 베타: 사용 가능한 지갑 주소 등록 및 할당 (곧 거래 예정).토르 이름은 대소문자를 구분하지 않으며 a-z, 모든 숫자 0—9 및 -_+를 포함하여 30자로 제한됩니다.",
       "thornameSubtitle": "크로스체인 월렛 네임 서비스.",
       "title": "토르 이름 관리",
+      "transferTHORName": "전송 또는 이름",
       "unavailable": "사용할 수 없음",
       "unavailableForPurchase": "구매 불가",
       "updateFee": "업데이트 수수료",
       "year": "연도",
-      "years": "수년",
-      "invalidTransferAddress": "잘못된 전송 주소",
-      "inputValidThorAddress": "올바른 THORChain 주소를 입력하십시오.",
-      "transferTHORName": "전송 또는 이름"
+      "years": "수년"
     },
     "vesting": {
       "claim": "클레임",

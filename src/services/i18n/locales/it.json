@@ -72,6 +72,7 @@
     "feeFastest": "Immediato",
     "feeInstant": "Istante",
     "feeNormal": "Normale",
+    "filled": "Riempito",
     "foundsCap": "Funds Cap (i)",
     "gasTracker": "Gas Tracker",
     "getHelp": "Supporto",
@@ -141,6 +142,8 @@
     "totalVol": "Volume Totale",
     "transactionFee": "Commissione Transazione",
     "transactions": "Transazioni",
+    "transfer": "Trasferimento",
+    "transferAddress": "Indirizzo di trasferimento",
     "txFeeTooltip": "Accelerare una transazione utilizzando un prezzo del gas più elevato aumenta le sue possibilità di essere elaborata dalla rete più velocemente.",
     "update": "Aggiornare",
     "upgrade": "Aggiorna",
@@ -155,10 +158,7 @@
     "wallet": "Portafoglio",
     "withdraw": "Preleva",
     "withdrawPercent": "Percentuale Prelievo",
-    "yourTransactions": "Le tue transazioni",
-    "transfer": "Trasferimento",
-    "transferAddress": "Indirizzo di trasferimento",
-    "filled": "Riempito"
+    "yourTransactions": "Le tue transazioni"
   },
   "components": {
     "announcements": {
@@ -166,12 +166,12 @@
       "chainHalted": "%{chain} Chain è temporaneamente interrotta su THORChain. Tutte le azioni di trading e LP non sono attualmente disponibili",
       "chainLPHalted": "Il trading su %{chain} Chain è temporaneamente non disponibile.",
       "chainTradeHalted": "L'aggiunta e il prelievo su %{chain} Chain sono temporaneamente non disponibili.",
+      "oldRune": "Abbiamo rilevato una versione deprecata di RUNE nel tuo portafoglio. Il killswitch RUNE legacy è stato attivato e dovresti aggiornarlo immediatamente, perché sta perdendo valore a ogni blocco.",
       "outboundQueue": "THORChain sta sperimentando una forte coda in uscita (%{outboundQueue}). Gli swap potrebbero richiedere più tempo del solito per essere processati, I FONDI SONO SICURI 🙏",
       "thorChainHalted": "THORChain è temporaneamente non disponibile durante la manutenzione. Tutte le azioni sono attualmente disabilitate.",
       "thorChainLPHalted": "L'aggiunta e il prelievo di liquidità sono temporaneamente disabilitati su THORChain.",
       "thorChainTradeHalted": "Il trading è temporaneamente disabilitato su THORChain.",
-      "tradingGloballyDisabled": "THORChain sta attualmente riscontrando difficoltà tecniche. Il Team sta indagando.",
-      "oldRune": "Abbiamo rilevato una versione deprecata di RUNE nel tuo portafoglio. Il killswitch RUNE legacy è stato attivato e dovresti aggiornarlo immediatamente, perché sta perdendo valore a ogni blocco."
+      "tradingGloballyDisabled": "THORChain sta attualmente riscontrando difficoltà tecniche. Il Team sta indagando."
     },
     "assetSelect": {
       "manageTokenList": "Gestione degli elenchi di token",
@@ -633,13 +633,13 @@
       "currentBalance": "Saldo corrente",
       "description": "Fornisci %{chain} Liquidità senza esposizione a RUNE.",
       "earn": "Guadagna",
+      "myPositions": "Le mie posizioni",
+      "notEnoughForOutboundFee": "Importo insufficiente a coprire la commissione di invio",
+      "positionTooSmall": "Posizione troppo piccola per essere calcolata",
       "tooltipDescription": "Ottenere un rendimento fornendo un $%{asset} singolo Liquidità senza esposizione a $RUNE e perdita impermanente",
       "yourDeposit": "Il tuo deposito",
       "yourEarnings": "I tuoi guadagni",
-      "yourPositions": "Le tue posizioni",
-      "myPositions": "Le mie posizioni",
-      "notEnoughForOutboundFee": "Importo insufficiente a coprire la commissione di invio",
-      "positionTooSmall": "Posizione troppo piccola per essere calcolata"
+      "yourPositions": "Le tue posizioni"
     },
     "send": {
       "description": "Inviare token ad altri portafogli e gestire le proprie attività",
@@ -741,6 +741,7 @@
       "autoRouter": "Auto Router",
       "autoRouterApi": "Auto Router API",
       "check": "Controllare %{checkType}",
+      "connectOrFillRecipient": "Collegare il portafoglio / Riempire il destinatario",
       "description": "Scambiare %{inputAsset} con %{outputAsset} in modo semplice e decentralizzato",
       "discountApplied": "Sconto applicato",
       "emptyFeatured": "Nessun Asset in Primo Piano",
@@ -780,6 +781,8 @@
       "expire": "Scadenza",
       "extend": "Estendi (in anni)",
       "feeOnSale": "Tariffa di Vendita",
+      "inputValidThorAddress": "Inserire un indirizzo THORChain valido",
+      "invalidTransferAddress": "Indirizzo di trasferimento non valido",
       "myThornames": "I miei THORNames",
       "ownedByYou": "Di proprietà",
       "owner": "Proprietario",
@@ -791,14 +794,12 @@
       "thornameInfo": "THORName: Sono disponibili le registrazioni e l'assegnazione degli indirizzi dei portafogli (il trading è in arrivo). I THORName non fanno distinzione tra maiuscole e minuscole e sono limitati a 30 caratteri, tra cui a-Z, tutti i numeri 0-9 e -_+",
       "thornameSubtitle": "Cross-Chain Wallet Name Service.",
       "title": "Gestisci il tuo THORName",
+      "transferTHORName": "Trasferimento THORName",
       "unavailable": "Non Disponibile",
       "unavailableForPurchase": "Non disponibile per l'acquisto",
       "updateFee": "Fee per Aggiornare",
       "year": "anno",
-      "years": "anni",
-      "invalidTransferAddress": "Indirizzo di trasferimento non valido",
-      "inputValidThorAddress": "Inserire un indirizzo THORChain valido",
-      "transferTHORName": "Trasferimento THORName"
+      "years": "anni"
     },
     "vesting": {
       "claim": "Riscatta",
