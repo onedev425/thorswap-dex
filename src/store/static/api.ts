@@ -5,9 +5,7 @@ import { GetProviderTokensParams } from 'store/thorswap/types';
 /**
  * This is not proper way of having 2 urls but API can't make it one endpoint under different base urls
  */
-const baseUrl = IS_DEV_API
-  ? 'https://static-tokenlist-dev.thorswap.net'
-  : `${STATIC_API}/token-list`;
+const baseUrl = IS_DEV_API ? 'https://dev-api.thorswap.net/tokenlist' : `${STATIC_API}/token-list`;
 
 export const staticApi = createApi({
   reducerPath: 'static',
