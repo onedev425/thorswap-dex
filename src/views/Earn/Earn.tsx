@@ -4,6 +4,7 @@ import { AssetInput } from 'components/AssetInput';
 import { Box, Card, Icon, Link, Tooltip, Typography } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { InfoTable } from 'components/InfoTable';
+import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { TabsSelect } from 'components/TabsSelect';
 import { SAVERS_MEDIUM } from 'config/constants';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
@@ -54,12 +55,20 @@ const Earn = () => {
   const [availableToWithdraw, setAvailableToWithdraw] = useState(Amount.fromAssetAmount(0, 8));
   const usdPrice = usePoolAssetPriceInUsd({ asset, amount });
   const isDeposit = tab === EarnTab.Deposit;
-  const { slippage, saverQuote, expectedOutputAmount, networkFee } = useEarnCalculations({
-    isDeposit,
-    asset,
-    withdrawPercent,
-    amount,
-  });
+
+  const currentAsset = useMemo(
+    () => listAssets.find(({ asset: { name } }) => name === asset.name),
+    [asset.name, listAssets],
+  );
+
+  const { slippage, saverQuote, expectedOutputAmount, networkFee, daysToBreakEven } =
+    useEarnCalculations({
+      isDeposit,
+      asset,
+      withdrawPercent,
+      amount,
+      apr: currentAsset?.aprRaw,
+    });
   const { isLgActive } = useWindowSize();
 
   const address = useMemo(() => wallet?.[asset.L1Chain]?.address || '', [wallet, asset.L1Chain]);
@@ -145,11 +154,6 @@ const Earn = () => {
     [appDispatch, asset.L1Chain, asset.name, handleMultichainAction, isDeposit],
   );
 
-  const currentAsset = useMemo(
-    () => listAssets.find(({ asset: { name } }) => name === asset.name),
-    [asset.name, listAssets],
-  );
-
   const isSynthInCapacity = useMemo(
     () => !synthAvailability?.[asset.L1Chain] && (currentAsset?.filled || 0) < 99.5,
     [asset.L1Chain, currentAsset?.filled, synthAvailability],
@@ -169,6 +173,22 @@ const Earn = () => {
     [asset, amount, balance, usdPrice],
   );
 
+  const timeToBreakEvenInfo = useMemo(
+    () => (
+      <Box center>
+        <Typography transform="uppercase" variant="caption">
+          <InfoWithTooltip
+            tooltip={t('views.savings.timeToBrakeEvenTip')}
+            value={`${isFinite(daysToBreakEven) ? daysToBreakEven : 0} ${
+              daysToBreakEven === 1 ? t('views.savings.day') : t('views.savings.days')
+            }`}
+          />
+        </Typography>
+      </Box>
+    ),
+    [daysToBreakEven],
+  );
+
   const summary = useMemo(
     () => [
       {
@@ -181,8 +201,12 @@ const Earn = () => {
           </Box>
         ),
       },
+      {
+        label: t('views.savings.timeToBrakeEven'),
+        value: timeToBreakEvenInfo,
+      },
     ],
-    [slippage, asset],
+    [slippage, asset.name, timeToBreakEvenInfo],
   );
 
   return (
@@ -298,6 +322,7 @@ const Earn = () => {
                     saverQuote={saverQuote}
                     slippage={slippage}
                     tabLabel={tabLabel}
+                    timeToBreakEvenInfo={timeToBreakEvenInfo}
                   />
                 </Box>
               </Box>

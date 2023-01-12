@@ -18,6 +18,7 @@ type Props = {
   slippage?: Amount;
   expectedOutputAmount?: Amount;
   networkFee: Amount;
+  timeToBreakEvenInfo: React.ReactNode;
 };
 
 export const EarnConfirmModal = ({
@@ -31,6 +32,7 @@ export const EarnConfirmModal = ({
   slippage,
   expectedOutputAmount,
   networkFee,
+  timeToBreakEvenInfo,
 }: Props) => {
   const estimatedTime = useMemo(() => {
     if (!saverQuote?.outbound_delay_seconds) return undefined;
@@ -67,6 +69,10 @@ export const EarnConfirmModal = ({
         <Icon spin color="primary" name="loader" size={24} />
       ),
     },
+    {
+      label: t('views.savings.timeToBrakeEven'),
+      value: timeToBreakEvenInfo,
+    },
   ];
 
   return (
@@ -77,18 +83,20 @@ export const EarnConfirmModal = ({
       onClose={onClose}
       onConfirm={() => onConfirm(expectedOutputAmount?.toSignificantWithMaxDecimals(6) || '0')}
     >
-      {txInfos.map(({ label, value, icon }) => (
-        <InfoRow
-          key={label}
-          label={label}
-          value={
-            <Box center className="gap-1">
-              <Typography variant="caption">{value}</Typography>
-              {icon && <AssetIcon asset={icon} size={22} />}
-            </Box>
-          }
-        />
-      ))}
+      <Box col className="mb-5">
+        {txInfos.map(({ label, value, icon }) => (
+          <InfoRow
+            key={label}
+            label={label}
+            value={
+              <Box center className="gap-1">
+                <Typography variant="caption">{value}</Typography>
+                {icon && <AssetIcon asset={icon} size={22} />}
+              </Box>
+            }
+          />
+        ))}
+      </Box>
     </ConfirmModal>
   );
 };

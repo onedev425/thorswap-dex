@@ -26,7 +26,7 @@ const Range = ({ onAmountChange, amountValue }: Props) => {
       min="0"
       onChange={onChange}
       ref={slider}
-      step="25"
+      step="1"
       type="range"
       value={rawValue || '0'}
     />

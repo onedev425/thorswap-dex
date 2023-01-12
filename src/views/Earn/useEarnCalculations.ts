@@ -17,9 +17,10 @@ type Props = {
   asset: Asset;
   withdrawPercent?: Percent;
   amount: Amount;
+  apr?: number;
 };
 
-export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount }: Props) => {
+export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount, apr }: Props) => {
   const [saverQuote, setSaverQuoteData] = useState<SaverQuoteResponse>();
   const { wallet } = useWallet();
 
@@ -70,11 +71,17 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount 
 
   const { inboundFee: networkFee } = useNetworkFee({ inputAsset: asset });
 
+  const daysToBreakEven = useMemo(() => {
+    const daysAmount = slippage?.div(expectedOutputAmount?.mul(apr || 0).div(365) || 0);
+    return Math.round(Number(daysAmount?.toFixedDecimal(2)));
+  }, [apr, expectedOutputAmount, slippage]);
+
   return {
     slippage,
     getConfirmData,
     saverQuote,
     expectedOutputAmount,
     networkFee,
+    daysToBreakEven,
   };
 };

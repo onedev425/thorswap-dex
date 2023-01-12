@@ -640,7 +640,11 @@
       "tooltipDescription": "Provide %{asset} liquidity to earn yield in %{asset} with no exposure to RUNE or impermanent loss. Withdraw at any time with no lockup period. Slippage fee applies on entry and exit.",
       "yourDeposit": "Your Deposit",
       "yourEarnings": "Your Earnings",
-      "yourPositions": "Your Positions"
+      "yourPositions": "Your Positions",
+      "timeToBrakeEven": "Time to break even",
+      "timeToBrakeEvenTip": "Estimated time to cover deposit fee and earnings",
+      "day": "day",
+      "days": "days"
     },
     "send": {
       "description": "Send tokens to other wallets and manage your assets",

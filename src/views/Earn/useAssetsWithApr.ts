@@ -31,7 +31,12 @@ export const useAssetsWithApr = (assets: Asset[]) => {
       const saverCap = Amount.fromNormalAmount(synthCap).mul(assetDepthAmount);
       const filled = Amount.fromMidgard(pool?.synthSupply).div(saverCap).mul(100).toFixedDecimal(2);
 
-      return { asset, apr: getFormattedPercent(apr), filled: Math.min(100, Number(filled)) };
+      return {
+        asset,
+        apr: getFormattedPercent(apr),
+        aprRaw: apr / 100,
+        filled: Math.min(100, Number(filled)),
+      };
     }
 
     return { asset };
