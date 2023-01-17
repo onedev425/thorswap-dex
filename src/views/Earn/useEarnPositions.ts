@@ -15,31 +15,27 @@ export const useSaverPositions = () => {
   const [thornodePools, setThornodePools] = useState<ThornodePoolType[]>([]);
 
   const saverPositions = useMemo(() => {
-    if (thornodePools.length) {
-      return positions.map((p) => {
-        const saverPool = thornodePools.find(
-          (pool) => pool.asset === getSaverPoolNameForAsset(p.asset),
-        );
+    if (!thornodePools.length) return positions;
 
-        if (saverPool) {
-          const saverDepth = Amount.fromMidgard(saverPool.savers_depth);
-          const saverUnits = Amount.fromMidgard(saverPool.savers_units);
+    return positions.map((p) => {
+      const saverPool = thornodePools.find(
+        ({ asset }) => asset === getSaverPoolNameForAsset(p.asset),
+      );
+      if (!saverPool) return p;
 
-          // position amount = (saverUnits / totalSaverUnits) * saverDepth
-          const amount = p.units.div(saverUnits).mul(saverDepth);
-          let earnedAmount = null;
-          if (p.depositAmount && amount.gt(p.depositAmount)) {
-            // earnedAmount = reedemeable amount - deposit amount
-            earnedAmount = amount.sub(p.depositAmount);
-          }
-          return { ...p, saverPool, amount, earnedAmount };
-        }
+      const saverDepth = Amount.fromMidgard(saverPool.savers_depth);
+      const saverUnits = Amount.fromMidgard(saverPool.savers_units);
 
-        return p;
-      });
-    }
-
-    return positions;
+      // position amount = (saverUnits / totalSaverUnits) * saverDepth
+      const amount = p.units.div(saverUnits).mul(saverDepth);
+      return {
+        ...p,
+        saverPool,
+        amount,
+        earnedAmount:
+          p.depositAmount && amount.gt(p.depositAmount) ? amount.sub(p.depositAmount) : null,
+      };
+    });
   }, [positions, thornodePools]);
 
   const getSaverPosition = useCallback(
@@ -60,9 +56,7 @@ export const useSaverPositions = () => {
   );
 
   const refreshPositions = useCallback(async () => {
-    if (isWalletLoading) {
-      return;
-    }
+    if (isWalletLoading) return;
 
     const promises = SORTED_EARN_ASSETS.map(getSaverPosition);
 

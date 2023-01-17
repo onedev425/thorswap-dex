@@ -32,21 +32,21 @@ export const EarnPositions = ({ positions, refresh, withdrawAsset, depositAsset 
     <Box center col className="w-full">
       <Box col className="max-w-[480px] w-full gap-1">
         {!!positions.length && (
-          <Box className="gap-x-2 mb-1 w-full" justify="between">
-            <Box />
-            <ReloadButton loading={isLoading} onLoad={onReload} size={16} />
-          </Box>
-        )}
-        {!!positions.length && (
-          <HighlightCard>
-            <DoughnutChart
-              chartIndexes={sharesChartIndexes}
-              data={positions}
-              selectChart={setVolumeChartIndex}
-              selectedIndex={volumeChartIndex}
-              title="Earn positions"
-            />
-          </HighlightCard>
+          <>
+            <Box className="gap-x-2 mb-1 w-full" justify="between">
+              <Box />
+              <ReloadButton loading={isLoading} onLoad={onReload} size={16} />
+            </Box>
+            <HighlightCard>
+              <DoughnutChart
+                chartIndexes={sharesChartIndexes}
+                data={positions}
+                selectChart={setVolumeChartIndex}
+                selectedIndex={volumeChartIndex}
+                title="Earn positions"
+              />
+            </HighlightCard>
+          </>
         )}
         {positions.length ? (
           positions.map((position) => (

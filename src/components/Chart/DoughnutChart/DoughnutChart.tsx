@@ -13,7 +13,6 @@ import {
   StrokeColor9,
   StrokeColor10,
 } from 'components/Chart/styles/colors';
-import useWindowSize from 'hooks/useWindowSize';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { ChartJSOrUndefined } from 'react-chartjs-2/dist/types';
@@ -54,24 +53,17 @@ export const DoughnutChart = ({
   const chartRef = useRef<ChartJSOrUndefined<'doughnut', any, any>>(null);
   const [chartHovered, setChartHovered] = useState<number | null>(null);
   const { pools } = useMidgard();
-  const { isMdActive } = useWindowSize();
+  const isEarned = selectedIndex === ShareChartIndex.Earned;
+
   const totalUsd = useCallback(
-    (position: SaverPosition) => {
-      return new Price({
+    (position: SaverPosition) =>
+      new Price({
         baseAsset: position.asset,
         pools,
         priceAmount: position.amount,
-      });
-    },
+      }),
     [pools],
   );
-
-  const onLegendHover = (index: number | null) => {
-    const activeElement = index === null ? [] : [{ datasetIndex: 0, index }];
-    chartRef.current?.tooltip?.setActiveElements(activeElement, { x: 0, y: 0 });
-    chartRef.current?.setActiveElements(activeElement);
-    chartRef.current?.update();
-  };
 
   const earnedUsd = useCallback(
     (position: SaverPosition) => {
@@ -84,59 +76,57 @@ export const DoughnutChart = ({
     [pools],
   );
 
-  const isEarned = selectedIndex === ShareChartIndex.Earned;
+  const onLegendHover = useCallback((index: number | null) => {
+    const activeElement = index === null ? [] : [{ datasetIndex: 0, index }];
+    chartRef.current?.tooltip?.setActiveElements(activeElement, { x: 0, y: 0 });
+    chartRef.current?.setActiveElements(activeElement);
+    chartRef.current?.update();
+  }, []);
 
-  const datas = isEarned
-    ? data.map((position) => earnedUsd(position).toFixedRaw(2))
-    : data.map((position) => totalUsd(position).toFixedRaw(2));
-
-  const datasLabel = isEarned ? 'Earned' : 'Total';
-
-  const options: any = {
-    cutout: '70%',
-    padding: 0,
-    responsive: true,
-    plugins: {
-      legend: {
-        display: false,
-      },
-      tooltip: {
-        displayColors: false,
-        backgroundColor: 'rgba(0, 0, 0, 0.9)',
-        bodyFont: { size: 12 },
-        cornerRadius: 16,
-        padding: 14,
-        titleFont: { size: 14 },
-        titleSpacing: 8,
-        callbacks: {
-          label: (context: any) => {
-            return `${context.dataset.label} ${context.raw} ${unit}`;
+  const options: any = useMemo(
+    () => ({
+      cutout: '70%',
+      padding: 0,
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          displayColors: false,
+          backgroundColor: 'rgba(0, 0, 0, 0.9)',
+          bodyFont: { size: 12 },
+          cornerRadius: 16,
+          padding: 14,
+          titleFont: { size: 14 },
+          titleSpacing: 8,
+          callbacks: {
+            label: (context: any) => `${context.dataset.label} ${context.raw} ${unit}`,
           },
         },
       },
-    },
-    onHover: (_e: any, elements: { element: Element; datasetIndex: number; index: number }[]) => {
-      if (elements[0]?.index === chartHovered) {
-        return;
-      }
-      setChartHovered(elements[0]?.index);
-    },
-  };
+      onHover: (_e: any, elements: { element: Element; datasetIndex: number; index: number }[]) => {
+        if (elements[0]?.index === chartHovered) return;
+        setChartHovered(elements[0]?.index);
+      },
+    }),
+    [chartHovered, unit],
+  );
 
-  const chartData: any = useMemo(
+  const chartData = useMemo(
     () => ({
       labels: data.map((position) => position.asset.name),
       datasets: [
         {
-          label: datasLabel,
-          data: datas,
+          label: isEarned ? 'Earned' : 'Total',
+          data: isEarned
+            ? data.map((position) => earnedUsd(position).toFixedRaw(2))
+            : data.map((position) => totalUsd(position).toFixedRaw(2)),
           backgroundColor: chartColors.map((color) => color + '50'),
           borderColor: chartColors,
           borderWidth: 1,
         },
       ],
     }),
-    [data, datas, datasLabel],
+    [data, earnedUsd, isEarned, totalUsd],
   );
 
   return (
@@ -151,7 +141,7 @@ export const DoughnutChart = ({
       </Flex>
 
       <Flex align="center" justify="space-between">
-        <Flex height={isMdActive ? 150 : 150}>
+        <Flex height={150} width={40}>
           <Doughnut data={chartData} id="myChart" options={options} ref={chartRef} />
         </Flex>
         <Flex direction="column" gap={1} h="full" pl={2} w="full">
@@ -175,7 +165,7 @@ export const DoughnutChart = ({
                 display="flex"
                 gap={2}
                 justify="space-between"
-                key={share.amount?.toFixed() + share.earnedAmount?.toFixed()}
+                key={`${share.amount?.toFixed()}-${share.earnedAmount?.toFixed()}`}
                 onMouseEnter={() => onLegendHover(data.indexOf(share))}
                 onMouseLeave={() => onLegendHover(null)}
                 p={1}
