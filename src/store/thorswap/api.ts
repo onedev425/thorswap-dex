@@ -17,7 +17,7 @@ const baseUrl =
   (IS_DEV_API ? import.meta.env.VITE_THORSWAP_DEV_API : import.meta.env.VITE_THORSWAP_API) ||
   'https://dev-api.thorswap.net';
 
-const tempTokenlist = 'https://tokenlist-prod-aulilvmdlq-uc.a.run.app';
+const tempTokenlist = 'https://token-list-dev-vlpfe7es4a-uc.a.run.app';
 
 const tokenlistUrl = IS_DEV_API ? tempTokenlist : `${baseUrl}/tokenlist`;
 
