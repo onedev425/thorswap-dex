@@ -19,7 +19,7 @@ const baseUrl =
 
 const tempTokenlist = 'https://token-list-dev-vlpfe7es4a-uc.a.run.app';
 
-const tokenlistUrl = IS_DEV_API ? tempTokenlist : `${baseUrl}/tokenlist`;
+const tokenlistUrl = tempTokenlist
 
 export const thorswapApi = createApi({
   reducerPath: 'thorswap',
