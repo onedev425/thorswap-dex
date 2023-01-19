@@ -1,21 +1,10 @@
 import { Asset } from '@thorswap-lib/multichain-core';
-import { Chain } from '@thorswap-lib/types';
 import { GetTokenPriceParams } from 'store/thorswap/types';
 
 export const parseAssetToToken = ({
-  L1Chain,
+  isSynth,
   symbol,
   chain,
-}: Asset): GetTokenPriceParams[number] => {
-  const isSynth = L1Chain === Chain.THORChain && symbol !== 'RUNE';
-
-  return {
-    ...(!isSynth
-      ? {
-          identifier: `${chain}.${symbol}`,
-        }
-      : {
-          identifier: `${chain}/${symbol}`,
-        }),
-  };
-};
+}: Asset): GetTokenPriceParams[number] => ({
+  identifier: `${chain}${isSynth ? '/' : '.'}${symbol}`,
+});
