@@ -68,9 +68,6 @@ export type Token = {
 };
 
 export type GetTokenPriceParams = {
-  chain: string | number;
-  address: string;
-  decimals: string;
   identifier?: string;
 }[];
 
