@@ -125,5 +125,4 @@ export const getSaverQuote = ({
 export const getSaverPools = () => getRequest<ThornodePoolType[]>(`${THORNODE_URL}/pools`);
 
 export const getEarnMidgardPools = () =>
-  // temp fetch directly from 9realms midgard
-  getRequest<MidgardEarnPoolType[]>(`https://midgard.ninerealms.com/v2/pools`);
+  getRequest<MidgardEarnPoolType[]>(`https://midgard.thorswap.net/v2/pools`);

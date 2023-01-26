@@ -14,7 +14,6 @@ export const farmData = [
     farmName: '$THOR Staking',
     assets: [new Asset(Chain.Ethereum, `THOR-${tokenAddr.THOR}`)],
     lpAsset: new Asset(Chain.Ethereum, `THOR-${tokenAddr.THOR}`),
-    withdrawOnly: true,
     lpToken: tokenAddr.THOR,
     contractType: ContractType.STAKING_THOR,
     lpContractType: LPContractType.THOR,
