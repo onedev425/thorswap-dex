@@ -18,7 +18,7 @@ type Actions =
   | { type: 'setAvailable' | 'setLoading'; payload: boolean }
   | {
       type: 'setDetails';
-      payload: { details: THORNameDetails; available: boolean };
+      payload: { details: THORNameDetails | null; available: boolean };
     }
   | { type: 'setChain'; payload: Chain }
   | { type: 'setYears'; payload: number };
@@ -98,13 +98,23 @@ export const useThornameLookup = (owner?: string) => {
     async (providedThorname?: string) => {
       const details = await getThornameDetails(providedThorname || thorname);
 
-      dispatch({
-        type: 'setDetails',
-        payload: {
-          details,
-          available: owner ? details.owner === owner : false,
-        },
-      });
+      if (!details) {
+        dispatch({
+          type: 'setDetails',
+          payload: {
+            details: null,
+            available: true,
+          },
+        });
+      } else {
+        dispatch({
+          type: 'setDetails',
+          payload: {
+            details,
+            available: owner ? details.owner === owner : false,
+          },
+        });
+      }
     },
     [owner, thorname],
   );
