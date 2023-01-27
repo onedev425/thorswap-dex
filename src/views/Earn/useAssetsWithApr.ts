@@ -1,19 +1,18 @@
 import { Amount, Asset } from '@thorswap-lib/multichain-core';
 import { useMimir } from 'hooks/useMimir';
 import { useEffect, useState } from 'react';
-import { getEarnMidgardPools } from 'store/midgard/actions';
+import { midgardApi } from 'services/midgard';
 import { MidgardEarnPoolType } from 'store/midgard/types';
 import { getFormattedPercent, getSaverPoolNameForAsset } from 'views/Earn/utils';
 
 export const useAssetsWithApr = (assets: Asset[]) => {
-  //TODO - use midgard from redux when data will be available in the api (soon)
   const [pools, setPools] = useState<MidgardEarnPoolType[]>([]);
   const { synthCap } = useMimir();
 
   useEffect(() => {
     const getPools = async () => {
-      const res = await getEarnMidgardPools();
-      setPools(res);
+      const res = await midgardApi.getPools();
+      setPools(res as unknown as MidgardEarnPoolType[]);
     };
 
     getPools();
