@@ -98,14 +98,17 @@ export const useThornameLookup = (owner?: string) => {
     async (providedThorname?: string) => {
       const details = await getThornameDetails(providedThorname || thorname);
 
-      const payload = details ? {
+      const payload = details
+        ? {
             details,
             available: owner ? details.owner === owner : false,
-          } : {
+          }
+        : {
             details: null,
             available: true,
-          }
-      dispatch({ type: 'setDetails', payload })
+          };
+      dispatch({ type: 'setDetails', payload });
+    },
     [owner, thorname],
   );
 
