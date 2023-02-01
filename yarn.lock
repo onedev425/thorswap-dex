@@ -3045,10 +3045,10 @@
     envalid "^7.3.1"
     node-fetch "2"
 
-"@thorswap-lib/midgard-sdk@0.1.14":
-  version "0.1.14"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.14.tgz#98da73c32fe3837d6e5bcb8e0d0b03b0db48ce6c"
-  integrity sha512-XX7ASkCOGf/Zl4grhZYA5p3nROyVlsx8AvP0QNTHYbn/HmhB0rK2nQl4UD9Oni/TKoGbY32h16BSWiw1uQWAIQ==
+"@thorswap-lib/midgard-sdk@0.1.15":
+  version "0.1.15"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.15.tgz#007af08134b53a042664bcc824ca546ccf92c87d"
+  integrity sha512-/fdr08d3bE6k9hMVBs76zZaRchC7Kb2jT91qgCrO7rkdAgG/Xlo5oMdc69crJW95PQcHNHTZyNslrp9SVrpaOA==
 
 "@thorswap-lib/midgard-sdk@^0.1.11":
   version "0.1.11"
