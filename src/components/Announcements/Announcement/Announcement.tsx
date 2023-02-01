@@ -60,7 +60,7 @@ export const Announcement = memo(
         )}
       >
         {chain && (
-          <Box className="absolute left-4">
+          <Box center className="absolute left-6">
             <ChainIcon chain={chain} size={26} />
           </Box>
         )}
