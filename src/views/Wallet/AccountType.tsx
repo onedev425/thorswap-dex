@@ -45,7 +45,7 @@ export const AccountType = memo(({ onlyConnected, keyword }: Props) => {
       const { address } = wallet?.[chain] || {};
       if (!(registeredThornames && address)) return [];
 
-      return registeredThornames.reduce((acc, { entries, thorname }) => {
+      return registeredThornames.reduce((acc, { entries = [], thorname }) => {
         const entry = entries.find((e) => e.address === address);
         if (entry) acc.push(`${thorname}.${chain.toLowerCase()}`);
         return acc;

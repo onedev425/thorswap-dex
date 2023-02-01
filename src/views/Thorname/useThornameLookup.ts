@@ -97,17 +97,14 @@ export const useThornameLookup = (owner?: string) => {
   const loadDetails = useCallback(
     async (providedThorname?: string) => {
       const details = await getThornameDetails(providedThorname || thorname);
-
-      const payload = details
-        ? {
-            details,
-            available: owner ? details.owner === owner : false,
-          }
-        : {
-            details: null,
-            available: true,
-          };
-      dispatch({ type: 'setDetails', payload });
+      const payload =
+        typeof details === 'boolean'
+          ? { details: null, available: true }
+          : { details, available: owner ? details.owner === owner : false };
+      dispatch({
+        type: 'setDetails',
+        payload,
+      });
     },
     [owner, thorname],
   );

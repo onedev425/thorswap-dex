@@ -1,4 +1,4 @@
-import { THORNameDetails } from '@thorswap-lib/multichain-core';
+import { THORNameEntry } from '@thorswap-lib/multichain-core';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { getAddressThornames, getThornameDetails } from 'services/thorname';
 import { useAppSelector } from 'store/store';
@@ -6,7 +6,7 @@ import { useAppSelector } from 'store/store';
 export const useFetchThornames = () => {
   const fetching = useRef(false);
   const [registeredThornames, setRegisteredThornames] = useState<
-    null | (THORNameDetails & { thorname: string })[]
+    null | { entries?: THORNameEntry[]; owner?: string; expire?: string; thorname: string }[]
   >(null);
 
   const thorAddress = useAppSelector(({ wallet }) => wallet?.wallet?.THOR?.address);
@@ -20,8 +20,7 @@ export const useFetchThornames = () => {
       const thornamesDetails = await Promise.all(
         thornames.map(async (name) => {
           const details = await getThornameDetails(name);
-
-          return { ...details, thorname: name };
+          return typeof details === 'boolean' ? { thorname: name } : { ...details, thorname: name };
         }),
       );
 

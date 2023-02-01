@@ -25,7 +25,8 @@ export const CustomRecipientInput = memo(
     const { loading, TNS, setTNS } = useAddressForTNS(recipient);
 
     const TNSAddress = useMemo(
-      () => (TNS ? TNS.entries.find(({ chain }) => chain === outputAssetL1Chain)?.address : ''),
+      () =>
+        TNS?.entries ? TNS.entries.find(({ chain }) => chain === outputAssetL1Chain)?.address : '',
       [TNS, outputAssetL1Chain],
     );
 

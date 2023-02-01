@@ -79,7 +79,8 @@ const Send = () => {
   const { loading, TNS } = useAddressForTNS(recipientAddress);
 
   const TNSAddress = useMemo(
-    () => (TNS ? TNS.entries.find(({ chain }) => chain === sendAsset.L1Chain)?.address : ''),
+    () =>
+      TNS?.entries ? TNS.entries.find(({ chain }) => chain === sendAsset.L1Chain)?.address : '',
     [TNS, sendAsset.L1Chain],
   );
 

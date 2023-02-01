@@ -29,7 +29,7 @@ export const RegisteredThornames = memo(({ editThorname }: Props) => {
       </Typography>
 
       <Scrollbar secondary maxHeight="60vh" scrollClassName="!mr-2">
-        {thornames.map(({ thorname, expire, entries, owner }) => (
+        {thornames.map(({ thorname, expire, entries = [], owner }) => (
           <HighlightCard className="!p-0 m-2" key={`${thorname}-${owner}-${expire}`}>
             <Collapse
               className="!py-1"
@@ -55,7 +55,7 @@ export const RegisteredThornames = memo(({ editThorname }: Props) => {
                         />
                         <Typography>
                           {getThornameExpireDate({
-                            expire,
+                            expire: expire || '0',
                             lastThorchainBlock: lastBlock?.[0]?.thorchain,
                           })}
                         </Typography>
