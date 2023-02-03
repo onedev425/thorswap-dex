@@ -74,11 +74,11 @@ export const SwapSubmitButton = ({
       inboundHalted[outputAsset.L1Chain as Chain] || isChainTradingHalted[outputAsset.L1Chain];
 
     return (
-      (inTradeHalted ||
-        outTradeHated ||
-        getChainTradingPaused(inputAsset.L1Chain as Chain) ||
-        getChainTradingPaused(outputAsset.L1Chain as Chain)) &&
-      isSynthMintable
+      inTradeHalted ||
+      outTradeHated ||
+      getChainTradingPaused(inputAsset.L1Chain as Chain) ||
+      getChainTradingPaused(outputAsset.L1Chain as Chain) ||
+      !isSynthMintable
     );
   }, [
     getChainTradingPaused,
