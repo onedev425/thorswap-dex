@@ -41,9 +41,9 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.Xdefi]: [
     Chain.Avalanche,
     Chain.Binance,
-    Chain.Bitcoin,
-    Chain.BitcoinCash,
-    Chain.Doge,
+    // Chain.Bitcoin,
+    // Chain.BitcoinCash,
+    // Chain.Doge,
     Chain.Ethereum,
     Chain.Litecoin,
     Chain.THORChain,
@@ -61,10 +61,10 @@ const COMMON_WALLETS = [
 export const availableWalletsByChain: Record<Chain, WalletType[]> = {
   [Chain.Avalanche]: [...COMMON_WALLETS, WalletType.MetaMask, WalletType.Xdefi],
   [Chain.Binance]: [...COMMON_WALLETS, WalletType.TrustWallet, WalletType.Xdefi],
-  [Chain.BitcoinCash]: [...COMMON_WALLETS, WalletType.Xdefi],
-  [Chain.Bitcoin]: [...COMMON_WALLETS, WalletType.Xdefi],
+  [Chain.BitcoinCash]: [...COMMON_WALLETS],
+  [Chain.Bitcoin]: [...COMMON_WALLETS],
   [Chain.Cosmos]: [...COMMON_WALLETS, WalletType.Keplr],
-  [Chain.Doge]: [...COMMON_WALLETS, WalletType.Xdefi],
+  [Chain.Doge]: [...COMMON_WALLETS],
   [Chain.Litecoin]: [...COMMON_WALLETS, WalletType.Xdefi],
   [Chain.THORChain]: [...COMMON_WALLETS, WalletType.TrustWallet, WalletType.Xdefi],
   [Chain.Ethereum]: [
