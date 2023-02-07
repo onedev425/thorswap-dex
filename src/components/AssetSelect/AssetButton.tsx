@@ -27,10 +27,10 @@ export function AssetButton({
         'pl-1 pr-2 !rounded-full !h-10 !hover:bg-light-gray-primary border !border-solid !border-opacity-40 border-dark-gray-primary !hover:bg-dark-gray-primary',
         { 'pr-4': !withChevron },
       )}
-      endIcon={withChevron ? <Icon color="primary" name="chevronDown" /> : null}
+      leftIcon={<AssetIcon asset={asset} size={28} />}
       onClick={onClick}
+      rightIcon={withChevron ? <Icon color="primary" name="chevronDown" /> : undefined}
       size={size}
-      startIcon={<AssetIcon asset={asset} size={28} />}
       transform="uppercase"
       variant="tint"
     >

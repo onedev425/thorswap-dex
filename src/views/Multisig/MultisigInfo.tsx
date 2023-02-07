@@ -37,23 +37,21 @@ export const MultisigInfo = () => {
             <Box className="gap-2">
               <Button
                 className="px-3"
-                onClick={loadBalances}
-                startIcon={
+                leftIcon={
                   <Icon color="primaryBtn" name="refresh" size={16} spin={loadingBalances} />
                 }
+                onClick={loadBalances}
                 tooltip={t('common.refresh')}
                 tooltipPlacement="bottom"
-                type="borderless"
-                variant="primary"
+                variant="borderlessPrimary"
               />
               <Button
                 className="px-3"
+                leftIcon={<Icon color="orange" name="disconnect" size={16} />}
                 onClick={() => setIsConfirmVisible(true)}
-                startIcon={<Icon color="orange" name="disconnect" size={16} />}
                 tooltip={t('views.multisig.disconnect')}
                 tooltipPlacement="left"
-                type="borderless"
-                variant="warn"
+                variant="borderlessWarn"
               />
             </Box>
           }
@@ -69,7 +67,7 @@ export const MultisigInfo = () => {
             <MultisigExport />
             <Link to={accountUrl}>
               <Button
-                endIcon={<Icon name="external" size={18} />}
+                rightIcon={<Icon name="external" size={18} />}
                 tooltip={t('views.wallet.goToAccount')}
                 variant="tint"
               />

@@ -47,10 +47,11 @@ export const Header = memo(({ openMenu }: Props) => {
       <Box justify="between">
         <Box className="mt-auto shrink-0 gap-x-2 mr-2">
           <Button
-            className="flex !p-1 md:hidden"
+            className="flex !p-1"
+            display={{ md: 'none' }}
+            leftIcon={<Icon name="menu" size={isMdActive ? 24 : 20} />}
             onClick={openMenu}
-            startIcon={<Icon name="menu" size={isMdActive ? 24 : 20} />}
-            type="borderless"
+            variant="borderlessPrimary"
           />
 
           <Box
@@ -96,10 +97,10 @@ export const Header = memo(({ openMenu }: Props) => {
         <Box justify="between">
           <Button
             className="mr-2"
-            endIcon={isWalletLoading ? <Icon spin name="loader" size={14} /> : null}
+            loading={isWalletLoading}
             onClick={handleClickWalletBtn}
             size="sm"
-            type={themeType === ThemeType.Light ? 'default' : 'outline'}
+            variant={themeType === ThemeType.Light ? 'primary' : 'outlinePrimary'}
           >
             {isWalletLoading
               ? t('common.loading')

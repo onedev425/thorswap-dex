@@ -21,6 +21,68 @@ export const theme = extendTheme({
       },
     }),
   },
+  textStyles: {
+    h1: {
+      fontSize: '48px',
+      lineHeight: '42px',
+      letterSpacing: '-0.04em',
+      fontWeight: 500,
+    },
+    h2: {
+      fontSize: '28px',
+      lineHeight: '42px',
+      letterSpacing: '0.02em',
+      fontWeight: 600,
+    },
+    h3: {
+      fontSize: '24px',
+      lineHeight: '36px',
+      letterSpacing: '0.025em',
+      fontWeight: 800,
+    },
+    h4: {
+      fontSize: '21px',
+      lineHeight: '31px',
+      letterSpacing: '-0.01em',
+      fontWeight: 800,
+    },
+    h5: {
+      fontSize: '21px',
+      lineHeight: '17px',
+      letterSpacing: '-0.01em',
+      fontWeight: 800,
+    },
+    subtitle1: {
+      fontSize: '17px',
+      lineHeight: '25px',
+      letterSpacing: '-0.02em',
+      fontWeight: 800,
+    },
+    subtitle2: {
+      fontSize: '17px',
+      lineHeight: '25px',
+      letterSpacing: '-0.01em',
+      fontWeight: 600,
+    },
+    body: {
+      fontSize: '14px',
+      lineHeight: '21px',
+      letterSpacing: '0.03em',
+      fontWeight: 500,
+    },
+    caption: {
+      fontSize: '12px',
+      lineHeight: '18px',
+      letterSpacing: '0.03em',
+      fontWeight: '700',
+    },
+    'caption-xs': {
+      fontSize: '11px',
+      lineHeight: '18px',
+      letterSpacing: '0.03em',
+      fontWeight: 700,
+    },
+  },
   semanticTokens: {
     colors: {
       textPrimary: {
@@ -54,6 +116,32 @@ export const theme = extendTheme({
         },
       },
     },
+    Text: {
+      baseStyle: {
+        fontFamily: 'Poppins, sans-serif',
+      },
+      variants: {
+        primary: (props: StyleFunctionProps) => ({
+          color: mode(colors.light.textPrimary, colors.dark.textPrimary)(props),
+        }),
+        secondary: (props: StyleFunctionProps) => ({
+          color: mode(colors.light.typoGray, colors.dark.typoGray)(props),
+        }),
+        purple: { color: colors.purple },
+        yellow: { color: colors.yellow },
+        pink: { color: colors.pink },
+        blue: { color: colors.blue },
+        blueLight: { color: colors.blueLight },
+        greenLight: { color: colors.greenLight },
+        green: { color: colors.green },
+        orange: { color: colors.orange },
+        cyan: { color: colors.cyan },
+        gray: { color: colors.gray },
+        red: { color: colors.red },
+        primaryBtn: { color: colors.btnPrimary },
+        secondaryBtn: { color: colors.btnSecondary },
+      },
+    },
     Modal: {
       sizes: {
         md: { dialog: { maxW: '520px' } },
@@ -67,6 +155,148 @@ export const theme = extendTheme({
       body: {
         p: 0,
       },
+    },
+    Button: {
+      defaultProps: { size: 'sm' },
+      variants: {
+        outlinePrimary: {
+          borderColor: colors.blueLight,
+          _dark: { borderColor: colors.btnPrimary },
+          _hover: {
+            bgColor: colors.blueLight + '33',
+            _dark: { bgColor: colors.btnPrimary + '33' },
+          },
+        },
+        outlineSecondary: {
+          borderColor: colors.btnSecondary,
+          _hover: { bgColor: colors.btnSecondary + '33' },
+        },
+        outlineTertiary: { borderColor: colors.purple, _hover: { bgColor: colors.purple + '33' } },
+        outlineWarn: { borderColor: colors.orange, _hover: { bgColor: colors.orange + '33' } },
+        outlineTint: {
+          borderColor: colors.light.btnBorderPrimary,
+          _dark: { borderColor: colors.gray },
+          _hover: {
+            bgColor: colors.light.btnBorderPrimary + '33',
+            _dark: { bgColor: colors.gray + '33' },
+          },
+        },
+
+        borderlessPrimary: {
+          _hover: {
+            bgColor: colors.blueLight + '33',
+            _dark: { bgColor: colors.btnPrimary + '33' },
+          },
+        },
+        borderlessSecondary: {
+          _hover: { bgColor: colors.btnSecondary + '33' },
+        },
+        borderlessTertiary: {
+          _hover: { bgColor: colors.purple + '33' },
+        },
+        borderlessWarn: {
+          _hover: { bgColor: colors.orange + '33' },
+        },
+        borderlessTint: {
+          _hover: {
+            bgColor: colors.bgBtnLightTintActive + '33',
+            _dark: { bgColor: colors.tintHover },
+          },
+        },
+
+        primary: {
+          color: colors.dark.textPrimary,
+          bgColor: colors.blueLight,
+          _dark: { bgColor: colors.btnPrimary },
+          _hover: {
+            bgColor: colors.blueLight + 'CC',
+            _dark: { bgColor: colors.btnPrimary + 'CC' },
+          },
+        },
+        secondary: {
+          color: colors.dark.textPrimary,
+          bgColor: colors.btnSecondary,
+          _hover: {
+            bgColor: colors.btnSecondary + 'CC',
+          },
+        },
+        tertiary: {
+          color: colors.dark.textPrimary,
+          bgColor: colors.purple,
+          _hover: {
+            bgColor: colors.purple + 'CC',
+          },
+        },
+        warn: {
+          color: colors.dark.textPrimary,
+          bgColor: colors.orange,
+          _hover: {
+            bgColor: colors.orange + 'CC',
+          },
+        },
+        tint: {
+          bgColor: colors.bgLightGray,
+          _dark: { bgColor: colors.gray },
+          _hover: {
+            bgColor: colors.bgBtnLightTintActive,
+            _dark: { bgColor: colors.tintHover },
+          },
+        },
+        fancy: {
+          color: colors.white,
+          border: 'none',
+          bg: `linear-gradient(90deg, ${colors.btnSecondary} 0%, ${colors.blueLight} 80%)`,
+          _hover: {
+            bg: `linear-gradient(90deg, ${colors.btnSecondary + 'DD'} 0%, ${
+              colors.blueLight + 'DD'
+            } 80%)`,
+          },
+        },
+        fancyError: {
+          color: colors.white,
+          border: 'none',
+          bg: `linear-gradient(90deg, ${colors.fancyErrorStart} 0%, ${colors.fancyErrorStop} 80%)`,
+          _hover: {
+            bg: `linear-gradient(90deg, ${colors.fancyErrorStart + 'DD'} 0%, ${
+              colors.fancyErrorStop + 'DD'
+            } 80%)`,
+          },
+        },
+      },
+      sizes: {
+        lg: {
+          h: 14,
+          px: 7,
+          borderRadius: 'full',
+        },
+        md: {
+          h: 12,
+          px: 7,
+          borderRadius: 24,
+        },
+        sm: { h: 10, px: 4, borderRadius: 16 },
+      },
+      baseStyle: (props: StyleFunctionProps) => ({
+        display: 'flex',
+        align: 'center',
+        color: mode(colors.light.textPrimary, colors.dark.textPrimary)(props),
+        justify: 'center',
+        outline: 'none',
+        p: 0,
+        border: '1px solid',
+        borderColor: 'transparent',
+        fontFamily: 'Poppins, sans-serif',
+
+        _active: { opacity: 1 },
+
+        _disabled: {
+          cursor: 'not-allowed',
+          opacity: 0.75,
+          _dark: {
+            opacity: 0.6,
+          },
+        },
+      }),
     },
     Spinner: {
       baseStyle: (props: StyleFunctionProps) => ({

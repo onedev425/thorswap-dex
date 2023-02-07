@@ -120,13 +120,12 @@ export const TxWithdraw = () => {
       </Box>
       <Box className="self-stretch gap-4 pt-5">
         <Button
-          isFancy
           stretch
           disabled={!isValid}
           error={!isValid}
           onClick={() => setVisibleConfirmModal(true)}
           size="lg"
-          variant="secondary"
+          variant="fancy"
         >
           {t('views.multisig.createTransaction')}
         </Button>

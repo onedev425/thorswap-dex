@@ -55,7 +55,7 @@ export const ExportTxStep = ({ exportTxData, signatures }: Props) => {
         <Typography fontWeight="normal" variant="caption">
           {t('views.multisig.exportTxInfo')}
         </Typography>
-        <Button stretch endIcon={<Icon name="export" />} onClick={handleExport}>
+        <Button stretch onClick={handleExport} rightIcon={<Icon name="export" />}>
           {t('views.multisig.export')}
         </Button>
       </Box>

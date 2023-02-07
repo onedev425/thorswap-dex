@@ -337,7 +337,8 @@
     "withdraw": "Withdraw",
     "withdrawAmountAsset": "Withdraw %{amount} %{asset}",
     "withdrawAmountFailed": "Withdraw %{amount} %{asset} failed",
-    "withdrawnAmountAsset": "Withdrew %{amount} %{asset}"
+    "withdrawnAmountAsset": "Withdrew %{amount} %{asset}",
+    "transactionHistory": "Transaction History"
   },
   "validation": {
     "invalidPassword": "Invalid Password"

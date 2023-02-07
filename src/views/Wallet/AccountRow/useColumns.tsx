@@ -104,8 +104,7 @@ export const useColumns = (chainAddress: string, chain: Chain) => {
         Cell: ({ cell: { value } }: { cell: { value: Asset } }) => (
           <Box row className="gap-2" justify="end">
             <Button
-              onClick={() => navigate(getSendRoute(value))}
-              startIcon={
+              leftIcon={
                 <Icon
                   className="rotate-180 group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
                   color="secondary"
@@ -113,6 +112,7 @@ export const useColumns = (chainAddress: string, chain: Chain) => {
                   size={20}
                 />
               }
+              onClick={() => navigate(getSendRoute(value))}
               variant="tint"
             >
               {isLgActive ? t('common.send') : null}
@@ -124,7 +124,7 @@ export const useColumns = (chainAddress: string, chain: Chain) => {
               openComponent={
                 <Button
                   disabled={!chainAddress}
-                  startIcon={
+                  leftIcon={
                     <Icon
                       className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
                       color="secondary"
@@ -145,8 +145,7 @@ export const useColumns = (chainAddress: string, chain: Chain) => {
             />
 
             <Button
-              onClick={() => navigate(getSwapRoute(value))}
-              startIcon={
+              leftIcon={
                 <Icon
                   className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
                   color="secondary"
@@ -154,6 +153,7 @@ export const useColumns = (chainAddress: string, chain: Chain) => {
                   size={20}
                 />
               }
+              onClick={() => navigate(getSwapRoute(value))}
               variant="tint"
             >
               {isLgActive ? t('common.swap') : null}

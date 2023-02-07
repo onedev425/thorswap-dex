@@ -442,7 +442,7 @@ export const CreateLiquidity = () => {
 
       {isApproveRequired && (
         <Box className="w-full pt-5">
-          <Button isFancy stretch loading={isLoading} onClick={handleApprove} size="lg">
+          <Button stretch loading={isLoading} onClick={handleApprove} size="lg" variant="fancy">
             {t('common.approve')}
           </Button>
         </Box>
@@ -451,12 +451,12 @@ export const CreateLiquidity = () => {
       {isDepositAvailable && (
         <Box className="w-full pt-5">
           <Button
-            isFancy
             stretch
             disabled={!isValidDeposit.valid}
             error={!isValidDeposit.valid}
             onClick={handleCreateLiquidity}
             size="lg"
+            variant="fancy"
           >
             {btnLabel}
           </Button>
@@ -465,7 +465,7 @@ export const CreateLiquidity = () => {
 
       {!isWalletConnected && (
         <Box className="w-full pt-5">
-          <Button isFancy stretch onClick={() => setIsConnectModalOpen(true)} size="lg">
+          <Button stretch onClick={() => setIsConnectModalOpen(true)} size="lg" variant="fancy">
             {t('common.connectWallet')}
           </Button>
         </Box>

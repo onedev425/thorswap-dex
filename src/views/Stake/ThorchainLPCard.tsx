@@ -73,7 +73,7 @@ export const ThorchainLPCard = () => {
           </Box>
           <Box alignCenter className="flex-col-reverse flex-grow w-full mt-4">
             {!ethAddr ? (
-              <Button isFancy stretch onClick={() => setIsConnectModalOpen(true)} size="lg">
+              <Button stretch onClick={() => setIsConnectModalOpen(true)} size="lg" variant="fancy">
                 {t('common.connectWallet')}
               </Button>
             ) : (

@@ -10,8 +10,7 @@ import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
 import { useExternalConfig } from 'store/externalConfig/hooks';
 import { useMidgard } from 'store/midgard/hooks';
-import { useAppSelector } from 'store/store';
-import { TransactionType } from 'store/transactions/types';
+import { useTransactionsState } from 'store/transactions/hooks';
 import { useWallet } from 'store/wallet/hooks';
 
 type Props = {
@@ -45,12 +44,7 @@ export const SwapSubmitButton = ({
   const { inboundHalted, pools } = useMidgard();
   const { isChainTradingHalted, maxSynthPerAssetDepth } = useMimir();
   const { getChainTradingPaused } = useExternalConfig();
-  const numberOfPendingApprovals = useAppSelector(
-    ({ transactions }) =>
-      transactions.pending.filter(({ type }) =>
-        [TransactionType.ETH_APPROVAL, TransactionType.AVAX_APPROVAL].includes(type),
-      ).length,
-  );
+  const { numberOfPendingApprovals } = useTransactionsState();
 
   const isSynthMintable = useMemo((): boolean => {
     if (!outputAsset.isSynth || !pools?.length) return true;
@@ -184,31 +178,31 @@ export const SwapSubmitButton = ({
   return (
     <Box className="w-full pt-5 gap-x-2">
       {isWalletRequired ? (
-        <Button isFancy stretch onClick={() => setIsConnectModalOpen(true)} size="lg">
+        <Button stretch onClick={() => setIsConnectModalOpen(true)} size="lg" variant="fancy">
           {isInputWalletConnected
             ? t('views.swap.connectOrFillRecipient')
             : t('common.connectWallet')}
         </Button>
       ) : isApproveRequired ? (
         <Button
-          isFancy
           stretch
           disabled={!hasQuote}
           loading={!!numberOfPendingApprovals || isLoading}
           onClick={handleApprove}
           size="lg"
+          variant="fancy"
         >
           {t('txManager.approve')}
         </Button>
       ) : (
         <Button
-          isFancy
           stretch
           disabled={!isSwapValid}
           error={!isSwapValid || swapAmountTooSmall}
           loading={isLoading}
           onClick={showSwapConfirmationModal}
           size="lg"
+          variant="fancy"
         >
           {btnLabel}
         </Button>

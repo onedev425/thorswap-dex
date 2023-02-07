@@ -124,7 +124,7 @@ const Liquidity = () => {
           </>
         ) : (
           <Box className="w-full gap-x-8" justify="between">
-            <Button isFancy stretch onClick={() => setIsConnectModalOpen(true)} size="lg">
+            <Button stretch onClick={() => setIsConnectModalOpen(true)} size="lg" variant="fancy">
               {t('common.connectWallet')}
             </Button>
           </Box>

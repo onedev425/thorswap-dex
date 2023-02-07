@@ -157,8 +157,7 @@ export const AssetInput = ({
               className="!h-5 !px-1.5"
               onClick={handleMaxClick}
               transform="uppercase"
-              type="outline"
-              variant="secondary"
+              variant="outlineSecondary"
             >
               {maxButtonLabel || t('common.max')}
             </Button>

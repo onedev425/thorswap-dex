@@ -11,8 +11,8 @@ export const MultisigExport = () => {
 
   return (
     <Button
-      endIcon={<Icon name="export" />}
       onClick={handleExport}
+      rightIcon={<Icon name="export" />}
       tooltip={t('views.multisig.exportTooltip')}
       variant="tint"
     >

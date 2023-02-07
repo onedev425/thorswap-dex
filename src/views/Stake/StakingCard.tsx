@@ -350,17 +350,16 @@ export const StakingCard = ({
 
           <Box alignCenter className="w-full gap-2 mt-4">
             {!ethAddr ? (
-              <Button isFancy stretch onClick={() => setIsConnectModalOpen(true)} size="lg">
+              <Button stretch onClick={() => setIsConnectModalOpen(true)} size="lg" variant="fancy">
                 {t('common.connectWallet')}
               </Button>
             ) : (
               <>
                 {withdrawOnly ? (
                   <Button
-                    isFancy
                     className="flex-1"
                     onClick={() => openConfirm(FarmActionType.EXIT)}
-                    variant="primary"
+                    variant="fancy"
                   >
                     {withdrawOnly ? t('common.withdraw') : t('common.deposit')}
                   </Button>
@@ -384,9 +383,8 @@ export const StakingCard = ({
                 )}
                 <Button
                   className="flex-1"
-                  isFancy={withdrawOnly}
                   onClick={() => openConfirm(FarmActionType.CLAIM)}
-                  variant="tertiary"
+                  variant={withdrawOnly ? 'fancy' : 'tertiary'}
                 >
                   {t('common.claim')}
                 </Button>

@@ -25,18 +25,17 @@ export const SwapHeader = memo(({ asset, refetchData }: Props) => {
 
           <Button
             className="w-10 px-1.5 group"
-            onClick={navigateToPoolInfo}
-            startIcon={
+            leftIcon={
               <Icon
                 className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
                 color="secondary"
                 name="chart"
               />
             }
+            onClick={navigateToPoolInfo}
             tooltip={t('common.poolAnalytics')}
             tooltipPlacement="top"
-            type="borderless"
-            variant="tint"
+            variant="borderlessTint"
           />
           <GlobalSettingsPopover transactionMode />
         </Box>

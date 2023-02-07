@@ -133,12 +133,12 @@ export const ConfirmModal = ({
         )}
 
         <Button
-          isFancy
           stretch
           disabled={buttonDisabled}
           loading={validating}
           onClick={handleClickConfirm}
           size="md"
+          variant="fancy"
         >
           {t('common.confirm')}
         </Button>

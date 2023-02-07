@@ -44,43 +44,45 @@ export const HorizontalSlider = ({ children, itemWidth, showButtons = false }: P
     <div className="relative align-center">
       <Button
         className={classNames(
-          '!bg-opacity-0 hover:!bg-opacity-0 dark:hover:!bg-opacity-0 absolute px-0 -left-[10px] z-10 top-[50%] translate-y-[-50%] md:flex transition',
+          '!bg-opacity-0 hover:!bg-opacity-0 dark:hover:!bg-opacity-0 px-0 -left-[10px] z-10 top-[50%] translate-y-[-50%] md:flex transition',
           navState.isBeginning
             ? '!opacity-0 hover:!opacity-0 pointer-events-none'
             : '!opacity-40 hover:!opacity-100 pointer-events-auto',
           !showButtons && 'hidden',
         )}
         disabled={navState.isBeginning}
-        onClick={navPrev}
-        startIcon={
+        leftIcon={
           <Icon
             className="hover:text-btn-primary-light dark:hover:text-btn-primary"
             name="chevronLeft"
             size={40}
           />
         }
-        type="borderless"
-        variant="tint"
+        onClick={navPrev}
+        paddingInline={0}
+        position="absolute"
+        variant="borderlessTint"
       />
       <Button
         className={classNames(
-          '!bg-opacity-0 hover:!bg-opacity-0 dark:hover:!bg-opacity-0 absolute px-0 -right-[10px] z-10 top-[50%] translate-y-[-50%] md:flex transition',
+          '!bg-opacity-0 hover:!bg-opacity-0 dark:hover:!bg-opacity-0 px-0 -right-[10px] z-10 top-[50%] translate-y-[-50%] md:flex transition',
           navState.isEnd
             ? '!opacity-0 hover:!opacity-0 pointer-events-none'
             : '!opacity-40 hover:!opacity-100 pointer-events-auto',
           !showButtons && 'hidden',
         )}
         disabled={navState.isEnd}
-        onClick={navNext}
-        startIcon={
+        leftIcon={
           <Icon
             className="hover:text-btn-primary-light dark:hover:text-btn-primary"
             name="chevronRight"
             size={40}
           />
         }
-        type="borderless"
-        variant="tint"
+        onClick={navNext}
+        paddingInline={0}
+        position="absolute"
+        variant="borderlessTint"
       />
       <div className="overflow-hidden lg:mx-[16px] faded-horizontal relative">
         <Swiper

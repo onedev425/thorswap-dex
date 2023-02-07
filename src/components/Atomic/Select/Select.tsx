@@ -47,8 +47,7 @@ export const Select = ({
             })}
             key={option}
             onClick={() => onHandleChange(index)}
-            type={activeIndex === index ? 'default' : 'outline'}
-            variant={activeIndex === index ? 'primary' : 'tint'}
+            variant={activeIndex === index ? 'primary' : 'outlineTint'}
           >
             <Typography
               className="leading-4"

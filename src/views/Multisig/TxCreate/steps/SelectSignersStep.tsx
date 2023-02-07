@@ -48,8 +48,8 @@ export const SelectSignersStep = () => {
 
           <Button
             className="!py-1.5 !h-auto"
-            endIcon={<Icon name="checkBoxes" size={18} />}
             onClick={toggleAllSigners}
+            rightIcon={<Icon name="checkBoxes" size={18} />}
             variant="tint"
           >
             <Typography variant="caption-xs">{t('views.multisig.selectAll')}</Typography>

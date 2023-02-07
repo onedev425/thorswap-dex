@@ -50,7 +50,7 @@ export const TxDepositCustom = () => {
       />
 
       <Box center className="w-full pt-5">
-        <Button isFancy stretch onClick={handleDeposit} size="lg">
+        <Button stretch onClick={handleDeposit} size="lg" variant="fancy">
           {t('views.multisig.createTransaction')}
         </Button>
       </Box>

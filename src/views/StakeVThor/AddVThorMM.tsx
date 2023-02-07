@@ -29,11 +29,10 @@ export const AddVThorMM = memo(() => {
 
   return (
     <Button
-      endIcon={<Icon name="metamask" size={16} />}
       onClick={addVTHOR}
+      rightIcon={<Icon name="metamask" size={16} />}
       transform="none"
-      type="outline"
-      variant="tint"
+      variant="outlineTint"
     >
       {t('views.stakingVThor.addVTHOR')}
     </Button>

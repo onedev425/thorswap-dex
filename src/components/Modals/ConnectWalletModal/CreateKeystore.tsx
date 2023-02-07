@@ -127,9 +127,11 @@ export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
         <Button
           className="flex-1 group"
           disabled={!ready}
-          endIcon={<Icon className="transition dark:group-hover:text-white" name="key" size={18} />}
           loading={processing}
           onClick={handleCreate}
+          rightIcon={
+            <Icon className="transition dark:group-hover:text-white" name="key" size={18} />
+          }
           size="sm"
         >
           {t('common.create')}
@@ -137,11 +139,10 @@ export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
 
         <Button
           className="flex-1 group"
-          endIcon={<Icon name="wallet" size={18} />}
           onClick={onKeystore}
+          rightIcon={<Icon name="wallet" size={18} />}
           size="sm"
-          type="outline"
-          variant="tint"
+          variant="outlineTint"
         >
           {t('views.walletModal.connectWallet')}
         </Button>

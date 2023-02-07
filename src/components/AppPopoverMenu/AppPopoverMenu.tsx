@@ -12,10 +12,9 @@ export const AppPopoverMenu = () => {
       trigger={
         <Button
           className="!px-2"
-          startIcon={<Icon name="cog" size={isMdActive ? 24 : 20} />}
+          leftIcon={<Icon name="cog" size={isMdActive ? 24 : 20} />}
           tooltip={t('common.globalSettings')}
-          type="borderless"
-          variant="tint"
+          variant="borderlessTint"
         />
       }
     >

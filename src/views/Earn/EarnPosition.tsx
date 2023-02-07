@@ -138,8 +138,7 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
               onClick={() => {
                 withdraw(position.asset);
               }}
-              type="outline"
-              variant="secondary"
+              variant="outlineSecondary"
             >
               {t('common.withdraw')}
             </Button>

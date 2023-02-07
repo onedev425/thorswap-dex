@@ -81,8 +81,8 @@ const WalletBalanceList = () => {
               {isOldRune(data.asset) && (
                 <Button
                   className="px-3 hover:bg-transparent dark:hover:bg-transparent"
+                  leftIcon={<Icon color="primaryBtn" name="switch" size={16} />}
                   onClick={handleNavigate(ROUTES.UpgradeRune)}
-                  startIcon={<Icon color="primaryBtn" name="switch" size={16} />}
                   variant="tint"
                 />
               )}
@@ -90,16 +90,16 @@ const WalletBalanceList = () => {
               {!data.asset.isGasAsset() && (
                 <Button
                   className="px-3 hover:bg-transparent dark:hover:bg-transparent"
+                  leftIcon={<Icon color="primaryBtn" name="eyeSlash" size={16} />}
                   onClick={hideAsset(data.asset)}
-                  startIcon={<Icon color="primaryBtn" name="eyeSlash" size={16} />}
                   tooltip={t('common.hide')}
                   variant="tint"
                 />
               )}
               <Button
                 className="px-3 hover:bg-transparent dark:hover:bg-transparent"
+                leftIcon={<Icon color="primaryBtn" name="send" size={16} />}
                 onClick={handleNavigate(getSendRoute(data.asset))}
-                startIcon={<Icon color="primaryBtn" name="send" size={16} />}
                 tooltip={t('common.send')}
                 variant="tint"
               />

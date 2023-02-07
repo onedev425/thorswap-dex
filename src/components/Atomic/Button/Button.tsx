@@ -1,38 +1,55 @@
+import { Button as ChakraButton, ButtonProps, ResponsiveValue, Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Icon, Typography } from 'components/Atomic';
-import { Tooltip } from 'components/Atomic/Tooltip/Tooltip';
-import { MouseEvent, useLayoutEffect, useRef } from 'react';
+import { Icon, TextTransform, Tooltip } from 'components/Atomic';
+import { ButtonSizes } from 'components/Atomic/Button/types';
+import { TooltipPlacement } from 'components/Atomic/Tooltip/types';
+import {
+  MouseEvent,
+  MouseEventHandler,
+  ReactElement,
+  ReactNode,
+  useLayoutEffect,
+  useRef,
+} from 'react';
 
-import { ButtonProps } from './types';
-import { useButtonClasses } from './useButtonClasses';
-
+type Props = {
+  children?: ReactNode;
+  disabled?: boolean;
+  variant?: string;
+  loading?: boolean;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+  leftIcon?: ReactElement;
+  rightIcon?: ReactElement;
+  transform?: ResponsiveValue<TextTransform>;
+  textColor?: string;
+  typographyVariant?: string;
+  size?: ButtonSizes;
+  tooltipPlacement?: TooltipPlacement;
+  tooltip?: string;
+  error?: boolean;
+  stretch?: boolean;
+  tooltipClasses?: string;
+} & ButtonProps;
 export const Button = ({
-  className = '',
-  disabled = false,
-  size = 'sm',
-  startIcon,
-  endIcon,
-  textColor,
-  transform = 'capitalize',
-  type = 'default',
-  stretch = false,
-  variant = 'primary',
   children,
-  onClick,
-  tooltip,
-  tooltipPlacement,
+  disabled,
+  variant = 'primary',
+  transform = 'capitalize',
   loading,
-  isFancy = false,
+  onClick,
+  leftIcon,
+  rightIcon,
+  textColor,
+  typographyVariant,
+  size = 'sm',
+  tooltipPlacement = 'top',
+  tooltip,
   error = false,
+  stretch = false,
   tooltipClasses = '',
-  ...rest
-}: ButtonProps) => {
+  ...props
+}: Props) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const { backgroundClass, buttonClass, outlinedClass, typographyVariant, typographyClasses } =
-    useButtonClasses({ size, variant, isFancy, error });
-
-  const isOutlined = type === 'outline';
-  const isBorderless = type === 'borderless';
 
   const timeoutBlur = (timeout = 0) => {
     setTimeout(() => buttonRef.current?.blur(), timeout);
@@ -48,57 +65,43 @@ export const Button = ({
     timeoutBlur();
   };
 
+  const isFancy = variant === 'fancy';
   return (
-    <Tooltip className={tooltipClasses} content={tooltip} place={tooltipPlacement}>
-      <button
-        className={classNames(
-          'flex border border-solid items-center justify-center outline-none p-0',
-          'transition group disabled:opacity-75 dark:disabled:opacity-60',
-          buttonClass,
-          disabled || loading ? 'cursor-not-allowed' : 'cursor-pointer',
-          {
-            [backgroundClass]: type === 'default',
-            [outlinedClass]: isOutlined || isBorderless,
-            'w-full': stretch,
-            '!border-transparent': !isOutlined,
-          },
-          className,
-        )}
+    <Tooltip
+      className={classNames(tooltipClasses, { 'w-full': stretch })}
+      content={tooltip}
+      place={tooltipPlacement}
+    >
+      <ChakraButton
         disabled={disabled || loading}
+        iconSpacing={leftIcon && !children ? '0px' : '8px'}
+        leftIcon={loading ? undefined : leftIcon && leftIcon}
         onClick={handleClick}
         onMouseDown={() => timeoutBlur(300)}
         ref={buttonRef}
-        type="button"
-        {...rest}
+        rightIcon={loading ? undefined : rightIcon && rightIcon}
+        size={size}
+        variant={error && isFancy ? 'fancyError' : variant}
+        width={stretch ? 'full' : 'auto'}
+        {...props}
       >
         {loading ? <Icon spin color="primary" name="loader" size={24} /> : null}
-        {loading ? null : startIcon && startIcon}
 
         {loading
           ? null
           : children && (
-              <Typography
-                className={classNames(
-                  'transition !no-underline',
-                  isOutlined || isBorderless || variant === 'tint'
-                    ? 'text-light-typo-primary dark:text-dark-typo-primary'
-                    : typographyClasses,
-                  {
-                    'ml-2': startIcon,
-                    'mr-2': endIcon,
-                  },
-                )}
+              <Text
                 color={textColor}
-                fontWeight={isFancy ? 'semibold' : 'bold'}
-                transform={transform}
+                fontSize={size === 'sm' ? '11px' : size === 'md' ? '12px' : '17px'}
+                fontWeight={isFancy ? 600 : 700}
+                textDecorationLine="none"
+                textTransform={transform}
                 variant={typographyVariant}
               >
                 {children}
-              </Typography>
+              </Text>
             )}
-
-        {loading ? null : endIcon && endIcon}
-      </button>
+      </ChakraButton>
     </Tooltip>
   );
 };

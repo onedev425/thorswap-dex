@@ -23,10 +23,9 @@ export const PhraseModal = ({ isOpen, onCancel = () => {} }: PhraseModalProps): 
           <Box col className="gap-2">
             <Box justify="end">
               <Button
-                endIcon={<Icon color="primaryBtn" name="copy" />}
                 onClick={handleCopyPhrase}
-                type="borderless"
-                variant="tint"
+                rightIcon={<Icon color="primaryBtn" name="copy" />}
+                variant="borderlessTint"
               >
                 {t('views.walletModal.copyPhrase')}
               </Button>

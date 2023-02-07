@@ -30,11 +30,11 @@ export const EarnPositionsTab = ({ onWithdraw, onDeposit, positions, refreshPosi
       ) : (
         <Box center className="self-stretch w-full">
           <Button
-            isFancy
             stretch
             className="mt-3 max-w-[460px] self-center"
             onClick={() => setIsConnectModalOpen(true)}
             size="lg"
+            variant="fancy"
           >
             {t('common.connectWallet')}
           </Button>

@@ -41,15 +41,14 @@ export const useMultisigWalletInfo = () => {
       value: (
         <Button
           className="!px-2 h-[30px]"
-          endIcon={<Icon name="copy" size={14} />}
           onClick={(e) => {
             handleCopyAddress();
             e.stopPropagation();
             e.preventDefault();
           }}
+          rightIcon={<Icon name="copy" size={14} />}
           tooltip={t('common.copy')}
-          type="borderless"
-          variant="tint"
+          variant="borderlessTint"
         >
           {shortAddress}
         </Button>

@@ -262,8 +262,7 @@ const ConnectWalletModal = () => {
                   onClick={handleAllClick}
                   size="sm"
                   transform="uppercase"
-                  type={selectedAll ? 'default' : 'outline'}
-                  variant="primary"
+                  variant={selectedAll ? 'primary' : 'outlinePrimary'}
                 >
                   <Typography variant="caption-xs">{t('views.walletModal.selectAll')}</Typography>
                 </Button>
@@ -309,8 +308,7 @@ const ConnectWalletModal = () => {
                     className="!h-5 !px-1.5 justify-end"
                     onClick={() => clearState(false)}
                     transform="uppercase"
-                    type="outline"
-                    variant="primary"
+                    variant="outlinePrimary"
                   >
                     <Typography variant="caption">{t('common.reset')}</Typography>
                   </Button>
@@ -371,12 +369,12 @@ const ConnectWalletModal = () => {
               {!customFlow && (
                 <Box col className="pt-2 md:pt-0 mb-8" flex={1} justify="end">
                   <Button
-                    isFancy
                     className="w-2/3 self-center"
                     disabled={!selectedWalletType || !selectedChains.length}
                     loading={loading}
                     onClick={connectWallet}
                     size="md"
+                    variant="fancy"
                   >
                     <Typography>{t('common.connectWallet')}</Typography>
                   </Button>

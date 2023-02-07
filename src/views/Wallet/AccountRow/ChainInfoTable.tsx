@@ -57,8 +57,8 @@ export const ChainInfoTable = memo(({ chainInfo, chain, chainAddress }: Props) =
       />
       {!!altAssets.length && (
         <Button
+          leftIcon={<CollapseChevron isActive={showAllTokens} />}
           onClick={handleToggleTokens}
-          startIcon={<CollapseChevron isActive={showAllTokens} />}
           variant="tint"
         >
           {showAllTokens ? t('views.wallet.hideTokens') : t('views.wallet.showAllTokens')}

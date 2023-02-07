@@ -3,8 +3,7 @@ import { Chain, WalletOption } from '@thorswap-lib/types';
 import { hasConnectedWallet, hasWalletConnected } from 'helpers/wallet';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { multichain } from 'services/multichain';
-import { useAppSelector } from 'store/store';
-import { TransactionType } from 'store/transactions/types';
+import { useTransactionsState } from 'store/transactions/hooks';
 import { useWallet } from 'store/wallet/hooks';
 
 type Params = {
@@ -58,12 +57,7 @@ const useApproveResult = ({
 
 export const useIsAssetApproved = ({ force, contract, asset }: Params) => {
   const { wallet, chainWalletLoading } = useWallet();
-  const numberOfPendingApprovals = useAppSelector(
-    ({ transactions }) =>
-      transactions.pending.filter(({ type }) =>
-        [TransactionType.ETH_APPROVAL, TransactionType.AVAX_APPROVAL].includes(type),
-      ).length,
-  );
+  const { numberOfPendingApprovals } = useTransactionsState();
 
   const isLedger = useMemo(() => {
     if (!wallet) return false;

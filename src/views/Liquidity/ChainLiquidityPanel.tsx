@@ -112,10 +112,9 @@ export const ChainLiquidityPanel = ({ chain, data, isLoading, lpAddedAndWithdraw
             <Link external to={lpLink}>
               <Button
                 className="px-2.5"
-                startIcon={<Icon name="chart" size={16} />}
+                leftIcon={<Icon name="chart" size={16} />}
                 tooltip={t('common.viewOnThoryield')}
-                type="borderless"
-                variant="tint"
+                variant="borderlessTint"
               />
             </Link>
 

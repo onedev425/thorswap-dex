@@ -47,16 +47,15 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
                 <Box alignCenter className="gap-x-2" justify="between">
                   <Button
                     className="px-1.5 group"
-                    onClick={() => setYears(years - 1)}
-                    startIcon={
+                    leftIcon={
                       <Icon
                         className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
                         color="secondary"
                         name="minusCircle"
                       />
                     }
-                    type="borderless"
-                    variant="tint"
+                    onClick={() => setYears(years - 1)}
+                    variant="borderlessTint"
                   />
 
                   <Box center className="w-3">
@@ -65,16 +64,15 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
 
                   <Button
                     className="px-1.5 group"
-                    onClick={() => setYears(years + 1)}
-                    startIcon={
+                    leftIcon={
                       <Icon
                         className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
                         color="secondary"
                         name="plusCircle"
                       />
                     }
-                    type="borderless"
-                    variant="tint"
+                    onClick={() => setYears(years + 1)}
+                    variant="borderlessTint"
                   />
                 </Box>
               ),

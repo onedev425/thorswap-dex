@@ -1,30 +1,33 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
+import { getFromStorage, saveInStorage } from 'helpers/storage';
 import { TxnResult } from 'store/thorswap/types';
+import { filterInitialTransactions, findTxIndexById } from 'store/transactions/utils';
 
-import type { CompletedTransactionType, PendingTransactionType, TransactionStatus } from './types';
+import type { PendingTransactionType, TransactionsState, TransactionStatus } from './types';
 
-const initialState = {
-  pending: [] as PendingTransactionType[],
-  completed: [] as CompletedTransactionType[],
-};
+const initialState = filterInitialTransactions(getFromStorage('txHistory') as TransactionsState);
 
 const transactionsSlice = createSlice({
   name: 'transactions',
   initialState,
   reducers: {
     addTransaction(state, { payload }: PayloadAction<Omit<PendingTransactionType, 'timestamp'>>) {
-      state.pending.push({ ...payload, timestamp: new Date() });
+      state.push({ ...payload, timestamp: new Date() });
+      saveInStorage({ key: 'txHistory', value: state });
     },
     updateTransaction(state, { payload }: PayloadAction<Partial<PendingTransactionType>>) {
-      const index = state.pending.findIndex(({ id }) => id === payload.id);
+      const index = findTxIndexById(state, payload.id);
 
       if (index !== -1) {
-        state.pending[index] = { ...state.pending[index], ...payload };
+        state[index] = { ...state[index], ...payload };
       }
+      saveInStorage({ key: 'txHistory', value: state });
     },
     removeTransaction(state, { payload }: PayloadAction<string>) {
-      state.pending = state.pending.filter(({ txid }) => txid !== payload);
+      // update this
+      state = state.filter(({ txid }) => txid !== payload);
+      saveInStorage({ key: 'txHistory', value: state });
     },
     completeTransaction(
       state,
@@ -32,17 +35,15 @@ const transactionsSlice = createSlice({
         payload,
       }: PayloadAction<{ result?: string | TxnResult; id: string; status: TransactionStatus }>,
     ) {
-      state.pending = state.pending.filter((item) => {
-        const isPending = [item.txid, item.id].includes(payload.id);
+      const index = findTxIndexById(state, payload.id);
 
-        if (isPending) {
-          state.completed.push({ ...item, ...payload, timestamp: new Date() });
-        }
-
-        return !isPending;
-      });
+      if (index !== -1) {
+        state[index] = { ...state[index], ...payload, timestamp: new Date(), completed: true };
+      }
+      saveInStorage({ key: 'txHistory', value: state });
     },
     clearTransactions() {
+      saveInStorage({ key: 'txHistory', value: [] });
       return initialState;
     },
   },

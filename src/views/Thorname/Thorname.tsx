@@ -276,7 +276,6 @@ const Thorname = () => {
       )}
       <Box className="w-full pt-6">
         <Button
-          isFancy
           stretch
           disabled={disabled}
           error={!!details && available && !validAddress}
@@ -289,6 +288,7 @@ const Thorname = () => {
             }
           }}
           size="lg"
+          variant="fancy"
         >
           {buttonLabel}
         </Button>

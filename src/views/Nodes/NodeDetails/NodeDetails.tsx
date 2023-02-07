@@ -65,10 +65,9 @@ const NodeDetails = () => {
           </div>
           <Box className="!mt-2" flex={1} justify="end">
             <Button
-              endIcon={<CollapseChevron isActive={isTableActive} />}
               onClick={toggleTable}
-              type="borderless"
-              variant="primary"
+              rightIcon={<CollapseChevron isActive={isTableActive} />}
+              variant="borderlessPrimary"
             >
               {isTableActive
                 ? t('views.nodes.detail.hideDetails')

@@ -12,7 +12,7 @@ const getTooltipContent = (hasHistory: boolean, pendingCount: number) =>
   pendingCount > 0
     ? `${t('common.pendingTransactions')}:${'\u00A0\u00A0'}${pendingCount}`
     : hasHistory
-    ? t('common.yourTransactions')
+    ? t('txManager.transactionHistory')
     : t('common.noTxHistory');
 
 export const OpenButton = memo(({ pendingCount, hasHistory }: Props) => {
@@ -23,15 +23,14 @@ export const OpenButton = memo(({ pendingCount, hasHistory }: Props) => {
       <Button
         className="!px-2"
         disabled={!hasHistory}
-        startIcon={
+        leftIcon={
           pendingCount ? (
             <Icon spin name="loader" />
           ) : (
-            <Icon name="menuFold" size={isMdActive ? 24 : 20} />
+            <Icon name="history" size={isMdActive ? 24 : 20} />
           )
         }
-        type="borderless"
-        variant="tint"
+        variant="borderlessTint"
       />
     </Tooltip>
   );

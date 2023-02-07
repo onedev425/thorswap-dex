@@ -17,11 +17,10 @@ export const ReloadButton = ({
   return (
     <Button
       className="px-2.5"
+      leftIcon={<Icon name="refresh" size={size} spin={loading} />}
       onClick={onLoad}
-      startIcon={<Icon name="refresh" size={size} spin={loading} />}
       tooltip={onLoad ? tooltip : ''}
-      type="borderless"
-      variant="tint"
+      variant="borderlessTint"
     />
   );
 };

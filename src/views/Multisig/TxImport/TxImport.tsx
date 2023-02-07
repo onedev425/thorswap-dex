@@ -49,7 +49,7 @@ const TxImport = () => {
       </Box>
 
       <Box center className="w-full pt-5">
-        <Button isFancy stretch disabled={!isValid} onClick={handleImportTx} size="lg">
+        <Button stretch disabled={!isValid} onClick={handleImportTx} size="lg" variant="fancy">
           {t('views.multisig.importTransaction')}
         </Button>
       </Box>

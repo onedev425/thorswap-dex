@@ -27,35 +27,35 @@ export const ConfirmVThorButton = memo(
               <>
                 {isVthorApproved ? (
                   <Button
-                    isFancy
                     stretch
                     disabled={emptyInput}
                     loading={false}
                     onClick={handleVthorAction}
                     size="lg"
+                    variant="fancy"
                   >
                     {t('txManager.stake')}
                   </Button>
                 ) : (
-                  <Button isFancy stretch loading={false} onClick={approveTHOR} size="lg">
+                  <Button stretch loading={false} onClick={approveTHOR} size="lg" variant="fancy">
                     {t('txManager.approve')}
                   </Button>
                 )}
               </>
             ) : (
               <Button
-                isFancy
                 stretch
                 disabled={emptyInput || fromWei(vthorBalance) === 0}
                 onClick={handleVthorAction}
                 size="lg"
+                variant="fancy"
               >
                 {t('views.stakingVThor.unstake')}
               </Button>
             )}
           </Box>
         ) : (
-          <Button isFancy stretch onClick={() => setIsConnectModalOpen(true)} size="lg">
+          <Button stretch onClick={() => setIsConnectModalOpen(true)} size="lg" variant="fancy">
             {t('common.connectWallet')}
           </Button>
         )}

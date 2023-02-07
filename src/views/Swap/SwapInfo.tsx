@@ -200,10 +200,10 @@ export const SwapInfo = ({
         <Box alignCenter className="gap-1 flex-1" justify="between">
           <Button
             className="!p-1 !h-auto"
+            leftIcon={<Icon name="switch" size={16} />}
             onClick={toggle}
-            startIcon={<Icon name="switch" size={16} />}
             tooltip={t('views.swap.swapAssets')}
-            type="outline"
+            variant="outlinePrimary"
           />
           {isLoading ? (
             <Box alignCenter className="px-2" flex={1} justify="start">
@@ -225,7 +225,7 @@ export const SwapInfo = ({
           <Box className="pr-1">
             <Button
               className="h-[30px] px-2"
-              startIcon={<Icon color="secondary" name="fees" size={18} />}
+              leftIcon={<Icon color="secondary" name="fees" size={18} />}
               tooltip={t('views.swap.totalFeeTooltip')}
               variant="tint"
             >

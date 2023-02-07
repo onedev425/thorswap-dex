@@ -78,8 +78,7 @@ export const GlobalSettings = ({ transactionMode }: Props) => {
               key={option.key}
               onClick={() => setSlippage(option.value)}
               size="sm"
-              type={slippageTolerance === option.value ? 'default' : 'outline'}
-              variant={slippageTolerance === option.value ? 'primary' : 'tint'}
+              variant={slippageTolerance === option.value ? 'primary' : 'outlineTint'}
             >
               <Typography variant="caption-xs">{option.text}</Typography>
             </Button>
@@ -106,8 +105,7 @@ export const GlobalSettings = ({ transactionMode }: Props) => {
               key={feeOption.key}
               onClick={() => setFeeOptionType(feeOption.type)}
               size="sm"
-              type={feeOptionType === feeOption.type ? 'default' : 'outline'}
-              variant={feeOptionType === feeOption.type ? 'primary' : 'tint'}
+              variant={feeOptionType === feeOption.type ? 'primary' : 'outlineTint'}
             >
               <Typography variant="caption-xs">{feeOption.text}</Typography>
             </Button>

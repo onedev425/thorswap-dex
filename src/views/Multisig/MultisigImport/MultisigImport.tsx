@@ -79,12 +79,12 @@ const MultisigImport = () => {
 
         <Box center className="w-full pt-5">
           <Button
-            isFancy
             stretch
             disabled={!isValid}
             error={!!fileError}
             onClick={handleConnectWallet}
             size="lg"
+            variant="fancy"
           >
             {t('common.connect')}
           </Button>

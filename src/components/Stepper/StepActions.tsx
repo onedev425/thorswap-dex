@@ -27,7 +27,7 @@ export const StepActions = ({
       flex={1}
     >
       {!backHidden && (
-        <Button stretch onClick={backAction || prevStep} type="borderless" variant="tint">
+        <Button stretch onClick={backAction || prevStep} variant="borderlessTint">
           {backLabel || t('common.back')}
         </Button>
       )}
@@ -35,8 +35,7 @@ export const StepActions = ({
         stretch
         disabled={nextDisabled}
         onClick={nextAction || nextStep}
-        type="outline"
-        variant="primary"
+        variant="outlinePrimary"
       >
         {nextLabel || t('common.next')}
       </Button>

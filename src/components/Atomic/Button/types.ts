@@ -6,7 +6,7 @@ import { ColorType } from 'types/app';
 export type ButtonTypes = 'default' | 'outline' | 'borderless';
 export type ButtonSizes = 'sm' | 'md' | 'lg';
 export type ButtonVariants = 'primary' | 'secondary' | 'tertiary' | 'tint' | 'warn';
-
+export type TransformClasses = 'normal-case' | 'capitalize' | 'uppercase' | 'lowercase';
 export type VariantClasses = Record<ButtonVariants, string>;
 export type SizeClasses = Record<ButtonSizes, string>;
 

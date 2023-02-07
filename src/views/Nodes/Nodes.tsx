@@ -99,7 +99,7 @@ const Nodes = () => {
             />
           </div>
           <Link className="no-underline" to="/node-manager">
-            <Button size="sm" type="outline" variant="secondary">
+            <Button size="sm" variant="outlineSecondary">
               {t('common.manage')}
             </Button>
           </Link>

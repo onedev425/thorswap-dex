@@ -56,7 +56,7 @@ export const TxInfoTip = ({ canBroadcast, txHash, txBodyStr }: Props) => {
           </Typography>
         )}
 
-        <Button onClick={() => setIsTxModalVisible(true)} type="borderless" variant="tint">
+        <Button onClick={() => setIsTxModalVisible(true)} variant="borderlessTint">
           {t('views.multisig.viewTxData')}
         </Button>
       </Box>

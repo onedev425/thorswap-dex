@@ -18,9 +18,7 @@ export const AccountCardButton = memo(
         <Button
           className="!w-12 px-0"
           disabled={disabled}
-          onClick={onClick}
-          size="md"
-          startIcon={
+          leftIcon={
             <Icon
               className={classNames(
                 'group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary min-w-[20px]',
@@ -31,6 +29,8 @@ export const AccountCardButton = memo(
               size={20}
             />
           }
+          onClick={onClick}
+          size="md"
           tooltip={tooltip}
           variant="tint"
         />

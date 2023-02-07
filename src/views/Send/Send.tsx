@@ -302,11 +302,11 @@ const Send = () => {
 
       <Box center className="w-full pt-5">
         {isWalletConnected ? (
-          <Button isFancy stretch onClick={handleSend} size="lg">
+          <Button stretch onClick={handleSend} size="lg" variant="fancy">
             {t('common.send')}
           </Button>
         ) : (
-          <Button isFancy stretch onClick={() => setIsConnectModalOpen(true)} size="lg">
+          <Button stretch onClick={() => setIsConnectModalOpen(true)} size="lg" variant="fancy">
             {t('common.connectWallet')}
           </Button>
         )}

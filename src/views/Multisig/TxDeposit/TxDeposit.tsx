@@ -84,12 +84,12 @@ export const TxDeposit = () => {
 
       <Box className="w-full pt-5">
         <Button
-          isFancy
           stretch
           disabled={!isValidDeposit.valid}
           error={!isValidDeposit.valid}
           onClick={handleAddLiquidity}
           size="lg"
+          variant="fancy"
         >
           {t('views.multisig.createTransaction')}
         </Button>

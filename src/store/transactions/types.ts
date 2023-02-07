@@ -43,6 +43,8 @@ export type PendingTransactionType = {
   timestamp: Date;
   txid?: string;
   type: TransactionType;
+  completed?: boolean;
+  hash?: string;
 };
 
 export type CompletedTransactionType = PendingTransactionType & {
@@ -50,4 +52,7 @@ export type CompletedTransactionType = PendingTransactionType & {
   status: TransactionStatus;
   timestamp: Date;
   txid?: string;
+  completed: true;
 };
+
+export type TransactionsState = (PendingTransactionType | CompletedTransactionType)[];

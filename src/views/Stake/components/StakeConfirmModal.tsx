@@ -162,12 +162,12 @@ export const StakeConfirmModal = ({
 
         <Box className="gap-3 !mt-8">
           {type === FarmActionType.DEPOSIT && isApproved === false && wallet && (
-            <Button isFancy stretch onClick={handleConfirmApprove} variant="primary">
+            <Button stretch onClick={handleConfirmApprove} variant="fancy">
               {t('txManager.approve')}
             </Button>
           )}
           {((isApproved && type === FarmActionType.DEPOSIT) || type !== FarmActionType.DEPOSIT) && (
-            <Button isFancy stretch onClick={handleConfirm} variant="primary">
+            <Button stretch onClick={handleConfirm} variant="fancy">
               {actionLabel}
             </Button>
           )}

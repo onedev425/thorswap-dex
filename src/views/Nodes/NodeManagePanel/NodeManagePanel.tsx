@@ -72,10 +72,10 @@ export const NodeManagePanel = ({
 
       <Box center className="w-full pt-5">
         <Button
-          isFancy
           stretch
           onClick={isWalletConnected ? handleComplete : () => setIsConnectModalOpen(true)}
           size="lg"
+          variant="fancy"
         >
           {isWalletConnected ? activeTab.label : t('common.connectWallet')}
         </Button>

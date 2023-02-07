@@ -20,26 +20,24 @@ export const ConnectionActions = ({
         <>
           <Button
             className="px-3"
+            leftIcon={<Icon color="primaryBtn" name="refresh" size={16} spin={isLoading} />}
             onClick={handleRefreshChain}
-            startIcon={<Icon color="primaryBtn" name="refresh" size={16} spin={isLoading} />}
             tooltip={t('common.refresh')}
-            type="outline"
-            variant="primary"
+            variant="outlinePrimary"
           />
           <Button
             className="px-3"
+            leftIcon={<Icon color="orange" name="disconnect" size={16} />}
             onClick={toggleConnect}
-            startIcon={<Icon color="orange" name="disconnect" size={16} />}
             tooltip={t('common.disconnect')}
-            type="outline"
-            variant="warn"
+            variant="outlineWarn"
           />
         </>
       ) : (
         <Button
           disabled={isLoading}
           onClick={toggleConnect}
-          type={isConnected ? 'outline' : 'default'}
+          variant={isConnected ? 'outlinePrimary' : 'primary'}
         >
           <Box center className="gap-x-2">
             {t('common.connect')}

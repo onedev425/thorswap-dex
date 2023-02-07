@@ -13,7 +13,8 @@ import {
   triggerContractCall,
 } from 'services/contract';
 import { t } from 'services/i18n';
-import { useAppDispatch, useAppSelector } from 'store/store';
+import { useAppDispatch } from 'store/store';
+import { useTransactionsState } from 'store/transactions/hooks';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
@@ -35,12 +36,7 @@ export const useVesting = () => {
   const [tokenAmount, setTokenAmount] = useState(Amount.fromNormalAmount(0));
 
   const { wallet, setIsConnectModalOpen } = useWallet();
-  const numberOfPendingApprovals = useAppSelector(
-    ({ transactions }) =>
-      transactions.pending.filter(({ type }) =>
-        [TransactionType.ETH_APPROVAL, TransactionType.AVAX_APPROVAL].includes(type),
-      ).length,
-  );
+  const { numberOfPendingApprovals } = useTransactionsState();
 
   const ethAddr = useMemo(() => wallet?.ETH?.address, [wallet]);
 

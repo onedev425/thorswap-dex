@@ -453,9 +453,8 @@ const WithdrawPanel = ({
       <Link external to={lpLink}>
         <Button
           className="px-2.5"
-          startIcon={<Icon name="chart" size={16} />}
-          type="borderless"
-          variant="tint"
+          leftIcon={<Icon name="chart" size={16} />}
+          variant="borderlessTint"
         >
           {t('common.viewOnThoryieldNoArrow')}
         </Button>
@@ -506,13 +505,7 @@ const WithdrawPanel = ({
             {t('common.withdraw')}
           </Button>
         ) : (
-          <Button
-            isFancy
-            stretch
-            onClick={() => setIsConnectModalOpen(true)}
-            size="lg"
-            variant="secondary"
-          >
+          <Button stretch onClick={() => setIsConnectModalOpen(true)} size="lg" variant="fancy">
             {t('common.connectWallet')}
           </Button>
         )}

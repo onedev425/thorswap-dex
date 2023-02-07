@@ -105,7 +105,7 @@ export const MembersStep = ({
             </Box>
           ))}
 
-          <Button stretch onClick={addMember} type="outline" variant="tertiary">
+          <Button stretch onClick={addMember} variant="outlineTertiary">
             {t('views.multisig.addMember')}
           </Button>
         </Box>

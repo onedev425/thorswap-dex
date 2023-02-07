@@ -60,7 +60,7 @@ export const TxSend = () => {
       <PanelInput collapsible onChange={handleChangeMemo} title={t('common.memo')} value={memo} />
 
       <Box center className="w-full pt-5">
-        <Button isFancy stretch onClick={handleSend} size="lg">
+        <Button stretch onClick={handleSend} size="lg" variant="fancy">
           {t('views.multisig.createTransaction')}
         </Button>
       </Box>

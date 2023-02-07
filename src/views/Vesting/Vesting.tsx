@@ -109,22 +109,22 @@ const Vesting = () => {
 
         {!ethAddr ? (
           <Button
-            isFancy
             stretch
             className="mt-4"
             onClick={() => setIsConnectModalOpen(true)}
             size="lg"
+            variant="fancy"
           >
             {t('common.connectWallet')}
           </Button>
         ) : (
           <Button
-            isFancy
             stretch
             className="mt-4"
             loading={isClaiming}
             onClick={handleClaim}
             size="lg"
+            variant="fancy"
           >
             {t('views.vesting.claim')}
           </Button>

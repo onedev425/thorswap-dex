@@ -27,10 +27,9 @@ export const AnnouncementsPopover = () => {
       trigger={
         <Button
           className="relative !px-2"
-          startIcon={<Icon name="bell" size={isMdActive ? 28 : 22} />}
+          leftIcon={<Icon name="bell" size={isMdActive ? 28 : 22} />}
           tooltip={t('components.announcements.announcements')}
-          type="borderless"
-          variant="tint"
+          variant="borderlessTint"
         >
           {unreadAnnouncementsCount > 0 && (
             <Box center className="absolute bg-red rounded-full w-4 h-4 right-3 top-1">

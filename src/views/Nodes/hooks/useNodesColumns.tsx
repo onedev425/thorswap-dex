@@ -75,16 +75,15 @@ export const useNodesColumns = () => {
         Cell: ({ cell: { value } }: { cell: { value: string } }) => (
           <Button
             className="!px-2 justify-items-start"
-            endIcon={<Icon name="copy" size={16} />}
             onClick={(e) => {
               copy(value);
               e.stopPropagation();
               e.preventDefault();
             }}
+            rightIcon={<Icon name="copy" size={16} />}
             tooltip={t('common.copy')}
             tooltipClasses="mx-auto w-fit"
-            type="borderless"
-            variant="tint"
+            variant="borderlessTint"
           >
             {shortenAddress(value, 6, 4)}
           </Button>

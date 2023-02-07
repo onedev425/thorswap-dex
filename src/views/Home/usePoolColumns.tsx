@@ -78,8 +78,7 @@ export const usePoolColumns = () => {
                 e.stopPropagation();
                 navigate(getSwapRoute(value));
               }}
-              type="outline"
-              variant="secondary"
+              variant="outlineSecondary"
             >
               {t('common.swap')}
             </Button>
@@ -88,7 +87,7 @@ export const usePoolColumns = () => {
                 e.stopPropagation();
                 navigate(getAddLiquidityRoute(value));
               }}
-              type="outline"
+              variant="outlinePrimary"
             >
               {t('common.addLiquidity')}
             </Button>

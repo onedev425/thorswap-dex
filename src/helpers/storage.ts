@@ -2,6 +2,7 @@ import { Asset } from '@thorswap-lib/multichain-core';
 import { Chain, Keystore } from '@thorswap-lib/types';
 import { HandleWalletConnectParams } from 'components/Modals/ConnectWalletModal/hooks';
 import { MultisigWallet } from 'store/multisig/types';
+import { TransactionsState } from 'store/transactions/types';
 import { SupportedLanguages, ThemeType, ThousandSeparator, ViewMode } from 'types/app';
 
 type StorageType = {
@@ -36,6 +37,7 @@ type StorageType = {
   tradingHaltStatus: boolean;
   transactionDeadline: string;
   walletViewMode: ViewMode;
+  txHistory: TransactionsState | null;
 };
 
 type StoragePayload =
@@ -80,6 +82,7 @@ type StoragePayload =
       value: boolean;
     }
   | { key: 'multisigWallet'; value: MultisigWallet }
+  | { key: 'txHistory'; value: TransactionsState }
   | { key: 'previousWallet'; value: HandleWalletConnectParams | null }
   | { key: 'hiddenAssets'; value: Record<Chain, string[]> };
 
@@ -118,6 +121,7 @@ const defaultValues: StorageType = {
   thousandSeparator: ThousandSeparator.Comma,
   transactionDeadline: '30',
   walletViewMode: ViewMode.CARD,
+  txHistory: [],
 };
 
 export const saveInStorage = ({ key, value }: StoragePayload) => {
@@ -130,6 +134,7 @@ export const saveInStorage = ({ key, value }: StoragePayload) => {
     case 'multisigWallet':
     case 'nodeWatchList':
     case 'seenAnnList':
+    case 'txHistory':
       localStorage.setItem(key, JSON.stringify(value));
       break;
 
@@ -173,7 +178,8 @@ export const getFromStorage = (key: keyof StorageType): StorageType[keyof Storag
     case 'disabledTokenLists':
     case 'frequentAssets':
     case 'hiddenAssets':
-    case 'multisigWallet': {
+    case 'multisigWallet':
+    case 'txHistory': {
       const item = localStorage.getItem(key);
       return item ? JSON.parse(item) : defaultValues[key];
     }

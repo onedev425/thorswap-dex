@@ -105,9 +105,9 @@ export const PhraseView = () => {
         <Button
           className="flex-1 group"
           disabled={!ready}
-          endIcon={<Icon className="transition group-hover:text-white" name="backup" size={18} />}
           loading={processing}
           onClick={handleBackupKeystore}
+          rightIcon={<Icon className="transition group-hover:text-white" name="backup" size={18} />}
           size="sm"
         >
           {t('views.walletModal.backupKeystore')}

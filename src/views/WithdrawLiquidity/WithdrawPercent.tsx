@@ -62,8 +62,7 @@ export const WithdrawPercent = ({ onChange, percent }: Props) => {
             className="!h-5 !px-1.5"
             onClick={() => handlePercentChange(getAmountFromString('100', 0) as Amount)}
             transform="uppercase"
-            type="outline"
-            variant="secondary"
+            variant="outlineSecondary"
           >
             {t('common.max')}
           </Button>

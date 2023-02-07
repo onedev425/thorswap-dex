@@ -17,18 +17,18 @@ export const EarnButton = memo(
       {address ? (
         <Box className="w-full">
           <Button
-            isFancy
             stretch
             disabled={disabled}
             loading={loading}
             onClick={handleSubmit}
             size="lg"
+            variant="fancy"
           >
             {label}
           </Button>
         </Box>
       ) : (
-        <Button isFancy stretch onClick={() => setIsConnectModalOpen(true)} size="lg">
+        <Button stretch onClick={() => setIsConnectModalOpen(true)} size="lg" variant="fancy">
           {t('common.connectWallet')}
         </Button>
       )}

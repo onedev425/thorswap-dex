@@ -29,10 +29,9 @@ export const TextareaPaste = forwardRef<HTMLTextAreaElement, Props>(
           <Box className="absolute top-2 right-5">
             <Button
               className="!px-2 h-[30px]"
-              endIcon={<Icon name="paste" size={14} />}
               onClick={paste}
-              type="borderless"
-              variant="tint"
+              rightIcon={<Icon name="paste" size={14} />}
+              variant="borderlessTint"
             >
               {t('common.paste')}
             </Button>

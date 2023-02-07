@@ -30,14 +30,13 @@ export function BroadcastTxStep({ canBroadcast, handleBroadcast, isBroadcasting 
         )}
 
         <Button
-          isFancy
           stretch
           disabled={!canBroadcast}
           error={!canBroadcast}
           loading={isBroadcasting}
           onClick={handleBroadcast}
           size="lg"
-          variant="primary"
+          variant="fancy"
         >
           {t('views.multisig.broadcast')}
         </Button>

@@ -37,10 +37,9 @@ export const TextareaCopy = forwardRef<HTMLTextAreaElement, Props>(
         <Box className="absolute top-2 right-5">
           <Button
             className="!px-2 h-[30px]"
-            endIcon={<Icon name="copy" size={14} />}
             onClick={handleCopy}
-            type="borderless"
-            variant="tint"
+            rightIcon={<Icon name="copy" size={14} />}
+            variant="borderlessTint"
           >
             {t('common.copy')}
           </Button>

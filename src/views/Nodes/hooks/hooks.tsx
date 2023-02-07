@@ -66,15 +66,14 @@ export const useNodeStats = (nodeInfo: THORNode) => {
       value: (
         <Button
           className="!px-2 h-auto"
-          endIcon={<Icon name="copy" size={14} />}
           onClick={(e) => {
             copy(nodeInfo.node_address);
             e.stopPropagation();
             e.preventDefault();
           }}
+          rightIcon={<Icon name="copy" size={14} />}
           tooltip={t('common.copy')}
-          type="borderless"
-          variant="tint"
+          variant="borderlessTint"
         >
           {isMdActive ? nodeInfo.node_address : shortenAddress(nodeInfo.node_address, 6, 4)}
         </Button>
@@ -86,15 +85,14 @@ export const useNodeStats = (nodeInfo: THORNode) => {
       value: (
         <Button
           className="!px-2 h-auto"
-          endIcon={<Icon name="copy" size={14} />}
           onClick={(e) => {
             copy(nodeInfo.bond_address);
             e.stopPropagation();
             e.preventDefault();
           }}
+          rightIcon={<Icon name="copy" size={14} />}
           tooltip={t('common.copy')}
-          type="borderless"
-          variant="tint"
+          variant="borderlessTint"
         >
           {isMdActive ? nodeInfo.bond_address : shortenAddress(nodeInfo.bond_address, 6, 4)}
         </Button>
@@ -246,7 +244,7 @@ export const useNodeManager = ({
               {t('views.nodes.detail.transactionSentSuccessfully')}
             </Typography>
             <Link className="no-underline" to={txURL}>
-              <Button size="sm" type="outline" variant="tint">
+              <Button size="sm" variant="outlineTint">
                 {t('views.nodes.detail.ViewTransaction')}
               </Button>
             </Link>
@@ -261,7 +259,7 @@ export const useNodeManager = ({
               {t('views.nodes.detail.transactionSentSuccessfully')}
             </Typography>
             <Link className="no-underline pt-3" to={txURL}>
-              <Button size="sm" type="outline" variant="tint">
+              <Button size="sm" variant="outlineTint">
                 {t('views.nodes.detail.ViewTransaction')}
               </Button>
             </Link>
@@ -276,7 +274,7 @@ export const useNodeManager = ({
               {t('views.nodes.detail.transactionSentSuccessfully')}
             </Typography>
             <Link className="no-underline pt-3" to={txURL}>
-              <Button size="sm" type="outline" variant="tint">
+              <Button size="sm" variant="outlineTint">
                 {t('views.nodes.detail.ViewTransaction')}
               </Button>
             </Link>

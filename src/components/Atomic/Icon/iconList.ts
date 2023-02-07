@@ -8,7 +8,6 @@ import {
   AiOutlineArrowRight,
   AiOutlineDollar,
   AiOutlineHeart,
-  AiOutlineHistory,
   AiOutlineInfo,
   AiOutlineLineChart,
   AiOutlineMenuFold,
@@ -84,6 +83,7 @@ import {
 } from 'react-icons/io5';
 import {
   MdAreaChart,
+  MdHistory,
   MdKeyboardArrowDown,
   MdKeyboardArrowUp,
   MdLanguage,
@@ -165,7 +165,7 @@ const Icons = {
   grid: AiOutlineAppstore,
   heart: AiOutlineHeart,
   heartFilled: AiFillHeart,
-  history: AiOutlineHistory,
+  history: MdHistory,
   import: BiImport,
   info: AiOutlineInfo,
   infoCircle: VscInfo,

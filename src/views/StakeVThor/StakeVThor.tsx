@@ -204,8 +204,7 @@ const StakeVThor = () => {
                       className="!h-5 !px-1.5"
                       onClick={handleMaxClick}
                       transform="uppercase"
-                      type="outline"
-                      variant="secondary"
+                      variant="outlineSecondary"
                     >
                       {t('common.max')}
                     </Button>
@@ -270,9 +269,9 @@ const StakeVThor = () => {
             <Box center className="gap-2">
               <Button
                 className="!p-1 !h-auto"
+                leftIcon={<Icon name="switch" size={16} />}
                 onClick={() => setReverted((prev) => !prev)}
-                startIcon={<Icon name="switch" size={16} />}
-                type="outline"
+                variant="outlinePrimary"
               />
 
               <Typography color="primary" fontWeight="normal" variant="caption">

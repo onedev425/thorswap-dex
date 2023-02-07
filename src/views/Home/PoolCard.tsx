@@ -52,11 +52,11 @@ export const PoolCard = ({ pool, color }: PoolCardProps) => {
       </Box>
 
       <Box justifyCenter align="end" className="gap-x-2 mt-6">
-        <Button stretch onClick={handleSwapNavigate} type="outline">
+        <Button stretch onClick={handleSwapNavigate} variant="outlineSecondary">
           {t('common.swap')}
         </Button>
 
-        <Button stretch onClick={handleAddLiquidityNavigate} type="outline" variant="tertiary">
+        <Button stretch onClick={handleAddLiquidityNavigate} variant="outlineTertiary">
           {t('common.addLiquidity')}
         </Button>
       </Box>

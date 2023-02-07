@@ -28,13 +28,13 @@ export const AssetSelectButton = ({ className, onClick, selected, showAssetType 
     <div className={classNames('pl-8 pr-4', className)}>
       <Button
         stretch
-        endIcon={
+        onClick={onClick}
+        rightIcon={
           <Icon
             className="ml-4 transition text-light-btn-secondary dark:text-dark-btn-secondary group-hover:text-light-typo-primary dark:group-hover:text-dark-typo-primary"
             name="chevronDown"
           />
         }
-        onClick={onClick}
         transform="uppercase"
         variant="secondary"
       >

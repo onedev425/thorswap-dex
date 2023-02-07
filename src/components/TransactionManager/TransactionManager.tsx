@@ -7,9 +7,10 @@ import { CompletedTransaction } from 'components/TransactionManager/CompletedTra
 import { transactionBorderColors } from 'components/TransactionManager/helpers';
 import { PendingTransaction } from 'components/TransactionManager/PendingTransaction';
 import { TransactionContainer } from 'components/TransactionManager/TransactionContainer';
-import { ElementRef, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { ElementRef, memo, useCallback, useEffect, useRef, useState } from 'react';
 import { t } from 'services/i18n';
-import { useAppDispatch, useAppSelector } from 'store/store';
+import { useAppDispatch } from 'store/store';
+import { useTransactionsState } from 'store/transactions/hooks';
 import { clearTransactions } from 'store/transactions/slice';
 import { getWalletByChain } from 'store/wallet/actions';
 
@@ -21,21 +22,12 @@ export const TransactionManager = memo(() => {
   const appDispatch = useAppDispatch();
   const [onlyPending, setOnlyPending] = useState(false);
   const [isOpen, setIsOpened] = useState(false);
-
-  const { pending, completed } = useAppSelector(({ transactions }) => ({
-    pending: transactions.pending
-      .concat()
-      .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime()),
-    completed: transactions.completed
-      .concat()
-      .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime()),
-  }));
+  const { pending, completed, transactions } = useTransactionsState();
+  const prevTxLength = useRef(transactions.length);
 
   const handleTransactionsClear = useCallback(() => {
     appDispatch(clearTransactions());
   }, [appDispatch]);
-
-  const transactions = useMemo(() => [...pending, ...completed], [completed, pending]);
 
   useEffect(() => {
     if (isOpen) {
@@ -46,9 +38,11 @@ export const TransactionManager = memo(() => {
   useEffect(() => {
     if (!transactions.length) {
       popoverRef.current?.close();
-    } else {
+    } else if (prevTxLength.current < transactions.length) {
       popoverRef.current?.open();
     }
+
+    prevTxLength.current = transactions.length;
   }, [transactions.length]);
 
   useEffect(() => {
@@ -79,7 +73,7 @@ export const TransactionManager = memo(() => {
         <Box col className="w-full gap-4 !my-2">
           <Box col className="!mx-4">
             <Box justify="between">
-              <Typography variant="subtitle2">{t('common.yourTransactions')}</Typography>
+              <Typography variant="subtitle2">{t('txManager.transactionHistory')}</Typography>
             </Box>
 
             <Box alignCenter className="pt-2" justify="between">

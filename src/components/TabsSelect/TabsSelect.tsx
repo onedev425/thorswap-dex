@@ -56,8 +56,7 @@ export const TabsSelect = memo(
                 style={tabWidth ? { width: tabWidth } : {}}
                 tooltip={tooltip}
                 transform="none"
-                type={value === selectedValue ? 'default' : 'borderless'}
-                variant={value === selectedValue ? 'primary' : 'tint'}
+                variant={value === selectedValue ? 'primary' : 'borderlessTint'}
               >
                 {label}
               </Button>

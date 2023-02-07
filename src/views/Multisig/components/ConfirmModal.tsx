@@ -44,7 +44,7 @@ export const ConfirmModal = ({ isOpened, onConfirm, onClose, children }: Props) 
       <Box col className="gap-y-4 md:!min-w-[350px]">
         {children && <div>{children}</div>}
 
-        <Button isFancy stretch onClick={handleProceed} size="md">
+        <Button stretch onClick={handleProceed} size="md" variant="fancy">
           {t('common.confirm')}
         </Button>
       </Box>
