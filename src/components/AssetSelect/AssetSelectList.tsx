@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import { Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { useAssetFilterTypes } from 'components/AssetSelect/useAssetFilterTypes';
-import { Box, Icon, Typography } from 'components/Atomic';
+import { Box, Icon } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
 import { Input } from 'components/Input';
 import { TabsSelect } from 'components/TabsSelect';
@@ -133,7 +134,7 @@ export const AssetSelectList = ({
             {isLoading ? (
               <Icon spin name="loader" size={24} />
             ) : (
-              <Typography>{t('components.assetSelect.noResultsFound')}</Typography>
+              <Text>{t('components.assetSelect.noResultsFound')}</Text>
             )}
           </Box>
         )}

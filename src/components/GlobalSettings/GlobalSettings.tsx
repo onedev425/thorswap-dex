@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { FeeOption } from '@thorswap-lib/types';
 import classNames from 'classnames';
-import { Box, Button, Card, Icon, Switch, Tooltip, Typography } from 'components/Atomic';
+import { Box, Button, Card, Icon, Switch, Tooltip } from 'components/Atomic';
 import { Input } from 'components/Input';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
@@ -49,12 +50,12 @@ export const GlobalSettings = ({ transactionMode }: Props) => {
     <Card withBorder className="w-[350px] px-8 py-6 shadow-2xl">
       <Box col className="w-full gap-4">
         <Box>
-          <Typography variant="caption">{t('views.swap.transactionSettings')}</Typography>
+          <Text textStyle="caption">{t('views.swap.transactionSettings')}</Text>
         </Box>
         <Box className="space-x-2">
-          <Typography color="secondary" variant="caption-xs">
+          <Text textStyle="caption-xs" variant="secondary">
             {t('views.swap.slippageTolerance')}
-          </Typography>
+          </Text>
           <Tooltip content={t('common.slippageTooltip')} place="top">
             <Icon color="secondary" name="questionCircle" size={16} />
           </Tooltip>
@@ -80,15 +81,15 @@ export const GlobalSettings = ({ transactionMode }: Props) => {
               size="sm"
               variant={slippageTolerance === option.value ? 'primary' : 'outlineTint'}
             >
-              <Typography variant="caption-xs">{option.text}</Typography>
+              <Text textStyle="caption-xs">{option.text}</Text>
             </Button>
           ))}
         </Box>
 
         <Box className="space-x-2">
-          <Typography color="secondary" variant="caption-xs">
+          <Text textStyle="caption-xs" variant="secondary">
             {t('common.transactionFee')}
-          </Typography>
+          </Text>
           <Tooltip content={t('common.txFeeTooltip')} place="top">
             <Icon color="secondary" name="questionCircle" size={16} />
           </Tooltip>
@@ -107,7 +108,7 @@ export const GlobalSettings = ({ transactionMode }: Props) => {
               size="sm"
               variant={feeOptionType === feeOption.type ? 'primary' : 'outlineTint'}
             >
-              <Typography variant="caption-xs">{feeOption.text}</Typography>
+              <Text textStyle="caption-xs">{feeOption.text}</Text>
             </Button>
           ))}
         </Box>
@@ -115,14 +116,14 @@ export const GlobalSettings = ({ transactionMode }: Props) => {
         {transactionMode && (
           <>
             <Box>
-              <Typography variant="caption">{t('views.setting.transactionMode')}</Typography>
+              <Text textStyle="caption">{t('views.setting.transactionMode')}</Text>
             </Box>
 
             <Box alignCenter justify="between">
               <Box alignCenter className="space-x-2">
-                <Typography color="secondary" variant="caption-xs">
+                <Text textStyle="caption-xs" variant="secondary">
                   {t('views.swap.expertMode')}
-                </Typography>
+                </Text>
                 <Tooltip content={t('common.expertModeTooltip')} place="top">
                   <Icon color="secondary" name="questionCircle" size={16} />
                 </Tooltip>
@@ -138,9 +139,9 @@ export const GlobalSettings = ({ transactionMode }: Props) => {
 
             <Box alignCenter justify="between">
               <Box alignCenter className="space-x-2">
-                <Typography color="secondary" variant="caption-xs">
+                <Text textStyle="caption-xs" variant="secondary">
                   {t('views.setting.customRecipientMode')}
-                </Typography>
+                </Text>
                 <Tooltip content={t('common.customRecipientTooltip')} place="top">
                   <Icon color="secondary" name="questionCircle" size={16} />
                 </Tooltip>

@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { Amount, Asset } from '@thorswap-lib/multichain-core';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Icon, Typography } from 'components/Atomic';
+import { Box, Icon } from 'components/Atomic';
 import { ChainBadge } from 'components/ChainBadge';
 import { InfoRow } from 'components/InfoRow';
 import { shortenAddress } from 'helpers/shortenAddress';
@@ -18,9 +19,9 @@ export const ConfirmContent = memo(({ inputAsset, recipient, feeLabel, amount }:
   return (
     <Box col>
       <Box center flex={1}>
-        <Typography variant="subtitle2">
+        <Text textStyle="subtitle2">
           {t('common.upgradeChainRune', { chain: inputAsset.chain })}
-        </Typography>
+        </Text>
       </Box>
 
       <Box alignCenter row justify="between">
@@ -30,9 +31,9 @@ export const ConfirmContent = memo(({ inputAsset, recipient, feeLabel, amount }:
             <ChainBadge asset={inputAsset} />
           </Box>
           <Box center className="w-full">
-            <Typography fontWeight="medium" variant="caption">
+            <Text fontWeight="medium" textStyle="caption">
               {amount.toSignificantWithMaxDecimals(6)} {inputAsset.ticker}
-            </Typography>
+            </Text>
           </Box>
         </Box>
 
@@ -43,9 +44,9 @@ export const ConfirmContent = memo(({ inputAsset, recipient, feeLabel, amount }:
             <ChainBadge asset={Asset.RUNE()} />
           </Box>
           <Box center className="w-full">
-            <Typography fontWeight="medium" variant="caption">
+            <Text fontWeight="medium" textStyle="caption">
               {amount.toSignificantWithMaxDecimals(6)} {Asset.RUNE().ticker}
-            </Typography>
+            </Text>
           </Box>
         </Box>
       </Box>

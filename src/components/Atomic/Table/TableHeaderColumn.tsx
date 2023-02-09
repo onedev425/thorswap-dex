@@ -1,5 +1,5 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Typography } from 'components/Atomic';
 
 import { SortIndicator } from './SortIndicator';
 import { columnAlignClasses, SortType, TableHeaderGroupType } from './types';
@@ -27,16 +27,16 @@ export const TableHeaderColumn = (props: Props) => {
       )}
       {...column.getHeaderProps(column.getSortByToggleProps())}
     >
-      <Typography
+      <Text
         className={classNames('inline-flex items-center gap-1 transition', {
           'hover:text-light-typo-primary dark:hover:text-dark-typo-primary': column.canSort,
         })}
-        color="secondary"
-        variant="caption-xs"
+        textStyle="caption-xs"
+        variant="secondary"
       >
         {column.render('Header')}
         {column.canSort && <SortIndicator sortType={getSortType()} />}
-      </Typography>
+      </Text>
     </th>
   );
 };

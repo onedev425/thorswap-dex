@@ -1,9 +1,10 @@
+import { Text } from '@chakra-ui/react';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Amount, WalletOption } from '@thorswap-lib/multichain-core';
 import BN from 'bignumber.js';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Button, Card, Icon, Tooltip, Typography } from 'components/Atomic';
+import { Box, Button, Card, Icon, Tooltip } from 'components/Atomic';
 import { baseTextHoverClass } from 'components/constants';
 import { Helmet } from 'components/Helmet';
 import { HighlightCard } from 'components/HighlightCard';
@@ -136,9 +137,9 @@ const StakeVThor = () => {
       <ViewHeader title={t('views.stakingVThor.stakeVThorTitle')} />
 
       <Box alignCenter className="px-3" justify="between">
-        <Typography color="secondary" fontWeight="medium" variant="caption">
+        <Text fontWeight="medium" textStyle="caption" variant="secondary">
           {t('views.stakingVThor.stakeVThorSubtitle')}
-        </Typography>
+        </Text>
 
         <Tooltip content={t('views.stakingVThor.stakeInfo')} place="bottom">
           <Icon color="primaryBtn" name="infoCircle" size={24} />
@@ -189,21 +190,21 @@ const StakeVThor = () => {
             <Box alignCenter col className="self-stretch flex-1 md:pl-0">
               <Box className="gap-3 self-stretch !mb-3">
                 <Box alignCenter flex={1} justify="between">
-                  <Typography className="-ml-1" color="secondary" fontWeight="normal">
+                  <Text className="-ml-1" fontWeight="normal" variant="secondary">
                     {t('views.stakingVThor.send')}
-                  </Typography>
+                  </Text>
                   <Box center row className="gap-1 pr-2 md:pr-0">
-                    <Typography color="secondary" fontWeight="medium">
+                    <Text fontWeight="medium" variant="secondary">
                       {t('common.balance')}:{' '}
                       {action === StakeActions.Deposit
                         ? toOptionalFixed(fromWei(thorBalBn))
                         : toOptionalFixed(fromWei(vthorBalBn))}
-                    </Typography>
+                    </Text>
 
                     <Button
                       className="!h-5 !px-1.5"
                       onClick={handleMaxClick}
-                      transform="uppercase"
+                      textTransform="uppercase"
                       variant="outlineSecondary"
                     >
                       {t('common.max')}
@@ -224,9 +225,9 @@ const StakeVThor = () => {
                 </Box>
 
                 <Box center className="gap-3">
-                  <Typography variant="subtitle2">
+                  <Text textStyle="subtitle2">
                     {action === StakeActions.Deposit ? 'THOR' : 'vTHOR'}
-                  </Typography>
+                  </Text>
                   <AssetIcon asset={vThorAssets[action]} size={34} />
                 </Box>
               </Box>
@@ -236,22 +237,22 @@ const StakeVThor = () => {
         <Card className="!bg-light-bg-primary dark:!bg-dark-gray-light !rounded-2xl self-stretch !py-3 gap-2 justify-between md:px-6">
           <Box col className="self-stretch flex-1 md:pl-0">
             <Box className="gap-3 self-stretch !mb-3">
-              <Typography className="-ml-1" color="secondary" fontWeight="normal">
+              <Text className="-ml-1" fontWeight="normal" variant="secondary">
                 {t('views.stakingVThor.receive')}:
-              </Typography>
+              </Text>
             </Box>
 
             <Box className="self-stretch flex-1">
               <Box flex={1}>
-                <Typography className="-ml-1 !text-2xl text-left flex-1" fontWeight="normal">
+                <Text className="-ml-1 !text-2xl text-left flex-1" fontWeight="normal">
                   {formatter(toOptionalFixed(outputAmount))}
-                </Typography>
+                </Text>
               </Box>
 
               <Box center className="gap-3">
-                <Typography variant="subtitle2">
+                <Text textStyle="subtitle2">
                   {action === StakeActions.Deposit ? 'vTHOR' : 'THOR'}
-                </Typography>
+                </Text>
                 <AssetIcon
                   asset={
                     action === StakeActions.Deposit
@@ -274,9 +275,9 @@ const StakeVThor = () => {
                 variant="outlinePrimary"
               />
 
-              <Typography color="primary" fontWeight="normal" variant="caption">
+              <Text fontWeight="normal" textStyle="caption" variant="primary">
                 {getRate(isReverted)}
-              </Typography>
+              </Text>
             </Box>
 
             <Tooltip content={t('views.wallet.priceRate')}>

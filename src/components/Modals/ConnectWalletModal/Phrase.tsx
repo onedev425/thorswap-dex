@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import { encryptToKeyStore, validatePhrase } from '@thorswap-lib/xchain-crypto';
-import { Box, Button, Icon, Typography } from 'components/Atomic';
+import { Box, Button, Icon } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { Input } from 'components/Input';
 import { downloadAsFile } from 'helpers/download';
@@ -61,9 +62,9 @@ export const PhraseView = () => {
         title={t('views.walletModal.importPhrase')}
       />
       <Box row className="space-x-2">
-        <Typography className="mb-2" fontWeight="semibold" variant="subtitle2">
+        <Text className="mb-2" fontWeight="semibold" textStyle="subtitle2">
           {t('views.walletModal.enterSeed')}
-        </Typography>
+        </Text>
       </Box>
       <Box className="w-full">
         <Input
@@ -76,12 +77,12 @@ export const PhraseView = () => {
         />
       </Box>
       {invalidPhrase && (
-        <Typography className="mt-2 ml-3" color="red" variant="caption">
+        <Text className="mt-2 ml-3" textStyle="caption" variant="red">
           {t('views.walletModal.invalidPhrase')}
-        </Typography>
+        </Text>
       )}
       <Box row className="space-x-2 mt-6 mb-2">
-        <Typography variant="subtitle2">{t('views.walletModal.keystorePassword')}</Typography>
+        <Text textStyle="subtitle2">{t('views.walletModal.keystorePassword')}</Text>
       </Box>
       <Box className="w-full">
         <Input
@@ -96,9 +97,9 @@ export const PhraseView = () => {
         />
       </Box>
       {invalidStatus && (
-        <Typography className="mt-2 ml-3" color="red" variant="caption">
+        <Text className="mt-2 ml-3" textStyle="caption" variant="red">
           {t('common.defaultErrMsg')}
-        </Typography>
+        </Text>
       )}
 
       <Box className="mt-6">

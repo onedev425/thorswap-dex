@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { Chain } from '@thorswap-lib/types';
 import { ChainIcon } from 'components/AssetIcon/ChainIcon';
-import { Box, Collapse, Tooltip, Typography } from 'components/Atomic';
+import { Box, Collapse, Tooltip } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoTable } from 'components/InfoTable';
@@ -24,9 +25,9 @@ export const RegisteredThornames = memo(({ editThorname }: Props) => {
 
   return (
     <Box col className="pt-8 w-full">
-      <Typography className="pb-4" variant="h5">
+      <Text className="pb-4" textStyle="h5">
         {t('views.thorname.myThornames')}
-      </Typography>
+      </Text>
 
       <Scrollbar secondary maxHeight="60vh" scrollClassName="!mr-2">
         {thornames.map(({ thorname, expire, entries = [], owner }) => (
@@ -36,7 +37,7 @@ export const RegisteredThornames = memo(({ editThorname }: Props) => {
               shadow={false}
               title={
                 <Box alignCenter row className="gap-2" flex={1} justify="between">
-                  <Typography>{thorname}</Typography>
+                  <Text>{thorname}</Text>
                   <HoverIcon iconName="edit" onClick={() => editThorname(thorname)} size={16} />
                 </Box>
               }
@@ -53,12 +54,12 @@ export const RegisteredThornames = memo(({ editThorname }: Props) => {
                           })}
                           iconName="infoCircle"
                         />
-                        <Typography>
+                        <Text>
                           {getThornameExpireDate({
                             expire: expire || '0',
                             lastThorchainBlock: lastBlock?.[0]?.thorchain,
                           })}
-                        </Typography>
+                        </Text>
                       </Box>
                     ),
                   },

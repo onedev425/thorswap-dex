@@ -1,4 +1,5 @@
-import { Box, Collapse, Icon, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box, Collapse, Icon } from 'components/Atomic';
 import { t } from 'services/i18n';
 
 type Props = {
@@ -35,9 +36,9 @@ export const PoolInfo = ({ poolTicker, runeTicker, poolShare, slippage, fee, rat
         <Box row className="gap-x-2">
           <Icon color="secondary" name="infoCircle" size={16} />
 
-          <Typography color="primary" fontWeight="normal" variant="caption">
+          <Text fontWeight="normal" textStyle="caption" variant="primary">
             {t('views.addLiquidity.pricesAndPoolShare')}
-          </Typography>
+          </Text>
         </Box>
       }
     >
@@ -55,13 +56,13 @@ export const PoolInfo = ({ poolTicker, runeTicker, poolShare, slippage, fee, rat
               justify="between"
               key={label}
             >
-              <Typography color="secondary" fontWeight="semibold" variant="caption">
+              <Text fontWeight="semibold" textStyle="caption" variant="secondary">
                 {label}
-              </Typography>
+              </Text>
 
-              <Typography className="text-base md:text-h4" variant="caption">
+              <Text className="text-base md:text-h4" textStyle="caption">
                 {value}
-              </Typography>
+              </Text>
             </Box>
           );
         })}

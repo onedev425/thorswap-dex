@@ -1,4 +1,5 @@
-import { Box, Button, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box, Button } from 'components/Atomic';
 import { InfoTip } from 'components/InfoTip';
 import { useStepper } from 'components/Stepper/StepperContext';
 import { useEffect } from 'react';
@@ -22,9 +23,9 @@ export function BroadcastTxStep({ canBroadcast, handleBroadcast, isBroadcasting 
     <Box col className="self-stretch mx-2" flex={1}>
       <Box col className="gap-6">
         {canBroadcast ? (
-          <Typography fontWeight="normal" variant="caption">
+          <Text fontWeight="normal" textStyle="caption">
             {t('views.multisig.broadcastTxInfo')}
-          </Typography>
+          </Text>
         ) : (
           <InfoTip content={t('views.multisig.broadcastTxInfoBlocked')} type="warn" />
         )}

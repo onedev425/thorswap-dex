@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic';
+import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import { genericBgClasses, lightInputBorder } from 'components/constants';
 import { FieldLabel } from 'components/Form';
 import { HighlightCard } from 'components/HighlightCard';
@@ -27,12 +28,12 @@ export const PubKeyStep = ({ pubKey }: Props) => {
   return (
     <Box col className="self-stretch mx-2" flex={1}>
       <Box col className="gap-5" flex={1}>
-        <Typography fontWeight="normal" variant="caption">
+        <Text fontWeight="normal" textStyle="caption">
           {t('views.multisig.createMultisigPubKeyInfo')}
-        </Typography>
-        <Typography fontWeight="normal" variant="caption">
+        </Text>
+        <Text fontWeight="normal" textStyle="caption">
           {t('views.multisig.connectThorchainCurrentlyKeystore')}
-        </Typography>
+        </Text>
         <Box align="end" flex={1}>
           {!pubKey ? (
             <Button stretch onClick={() => setIsConnectModalOpen(true)} variant="primary">
@@ -52,13 +53,13 @@ export const PubKeyStep = ({ pubKey }: Props) => {
                     )}
                   >
                     <Box justify="between">
-                      <Typography
+                      <Text
                         className="break-all whitespace-normal"
-                        color="secondary"
-                        variant="caption"
+                        textStyle="caption"
+                        variant="secondary"
                       >
                         {pubKey}
-                      </Typography>
+                      </Text>
                       <div>
                         <Icon className="px-2" name="copy" size={16} />
                       </div>

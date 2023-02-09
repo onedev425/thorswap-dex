@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Button, Icon, Typography } from 'components/Atomic';
+import { Box, Button, Icon } from 'components/Atomic';
 import { FieldLabel } from 'components/Form';
 import { Input } from 'components/Input';
 import { PanelView } from 'components/PanelView';
@@ -31,7 +32,7 @@ const MultisigImport = () => {
       title={t('views.multisig.thorSafeWallet')}
     >
       <Box col className="self-stretch gap-8">
-        <Typography>{t('views.multisig.selectWalletJson')}</Typography>
+        <Text>{t('views.multisig.selectWalletJson')}</Text>
 
         <Box col className="gap-8">
           <Box col>
@@ -44,22 +45,22 @@ const MultisigImport = () => {
                 {!walletData && !fileError && <Icon name="upload" size={18} />}
                 {walletData && !fileError && <Icon color="green" name="valid" size={18} />}
                 {fileError && <Icon color="red" name="invalid" size={18} />}
-                <Typography
+                <Text
                   className={classNames('text-[11px] opacity-80 ml-2', {
                     'opacity-100': walletData && !fileError,
                   })}
                   fontWeight="semibold"
-                  variant="caption-xs"
+                  textStyle="caption-xs"
                 >
                   {t('views.walletModal.chooseKeystore')}
-                </Typography>
+                </Text>
               </Box>
             </FilePicker>
             {!!fileError && (
               <Box className="my-1 mx-2">
-                <Typography color="red" fontWeight="normal" variant="caption">
+                <Text fontWeight="normal" textStyle="caption" variant="red">
                   {fileError}
-                </Typography>
+                </Text>
               </Box>
             )}
           </Box>

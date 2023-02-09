@@ -1,8 +1,9 @@
+import { Text } from '@chakra-ui/react';
 import { Amount, Asset, AssetAmount, ChainWallet } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Button, Icon, Typography } from 'components/Atomic';
+import { Box, Button, Icon } from 'components/Atomic';
 import { baseBgHoverClass } from 'components/constants';
 import { Scrollbar } from 'components/Scrollbar';
 import { chainToSigAsset } from 'helpers/assets';
@@ -69,12 +70,12 @@ const WalletBalanceList = () => {
             <Box alignCenter row className="flex-1">
               <AssetIcon asset={data.asset} size={36} />
               <Box col className="pl-2 w-[80px]">
-                <Typography>{data.asset.ticker}</Typography>
-                <Typography color="secondary" fontWeight="medium" variant="caption-xs">
+                <Text>{data.asset.ticker}</Text>
+                <Text fontWeight="medium" textStyle="caption-xs" variant="secondary">
                   {data.asset.type}
-                </Typography>
+                </Text>
               </Box>
-              <Typography color="primary">{data.amount.toSignificantWithMaxDecimals(6)}</Typography>
+              <Text variant="primary">{data.amount.toSignificantWithMaxDecimals(6)}</Text>
             </Box>
 
             <Box row className="space-x-1">

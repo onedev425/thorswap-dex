@@ -1,4 +1,5 @@
-import { Box, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box } from 'components/Atomic';
 import { StatsList } from 'components/StatsList';
 import { memo } from 'react';
 import { useApp } from 'store/app/hooks';
@@ -16,7 +17,7 @@ export const GlobalStats = memo(() => {
   return (
     <Box col>
       <Box alignCenter className="gap-x-2 rounded-2xl">
-        <Typography variant="h3">THORChain Stats</Typography>
+        <Text textStyle="h3">THORChain Stats</Text>
       </Box>
 
       <StatsList scrollable list={statsData} />

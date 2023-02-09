@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Icon, IconName, Link, Typography } from 'components/Atomic';
+import { Box, Icon, IconName, Link } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
 import { useMemo } from 'react';
 
@@ -28,10 +29,10 @@ export const MenuItem = ({
         <Box alignCenter className={gap}>
           {icon && <Icon name={icon as IconName} size={16} />}
 
-          <Typography className={classNames('mx-2', labelClassName)}>{label}</Typography>
+          <Text className={classNames('mx-2', labelClassName)}>{label}</Text>
         </Box>
         <Box center>
-          {!!value && <Typography>{value}</Typography>}
+          {!!value && <Text>{value}</Text>}
           {isSelected && <Icon name="checkmark" size={16} />}
         </Box>
       </button>

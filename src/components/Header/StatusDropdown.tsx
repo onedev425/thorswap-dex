@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import { Chain } from '@thorswap-lib/types';
-import { Box, DropdownMenu, Typography } from 'components/Atomic';
+import { Box, DropdownMenu } from 'components/Atomic';
 import { chainName } from 'helpers/chainName';
 import { useMimir } from 'hooks/useMimir';
 import { StatusType, useNetwork } from 'hooks/useNetwork';
@@ -129,17 +130,17 @@ export const StatusDropdown = memo(() => {
             <StatusBadge status={type || StatusType.Good} />
 
             <Box col className="ml-2">
-              <Typography fontWeight="bold" transform="uppercase" variant="caption">
+              <Text fontWeight="bold" textStyle="caption" textTransform="uppercase">
                 {label}
-              </Typography>
-              <Typography
-                color="secondary"
+              </Text>
+              <Text
                 fontWeight="normal"
-                transform="uppercase"
-                variant="caption-xs"
+                textStyle="caption-xs"
+                textTransform="uppercase"
+                variant="secondary"
               >
                 {value}
-              </Typography>
+              </Text>
             </Box>
           </Box>
         ),

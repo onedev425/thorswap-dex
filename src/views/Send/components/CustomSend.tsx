@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { Asset } from '@thorswap-lib/multichain-core';
 import { AssetSelect } from 'components/AssetSelect';
-import { Box, Typography } from 'components/Atomic';
+import { Box } from 'components/Atomic';
 import { PanelInput } from 'components/PanelInput';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
@@ -41,12 +42,12 @@ export const CustomSend = ({ memo, setMemo }: Props) => {
   return (
     <Box col className="self-stretch gap-1" flex={1}>
       <Box className="self-stretch px-1.5">
-        <Typography>{t('common.msgDeposit')}</Typography>
+        <Text>{t('common.msgDeposit')}</Text>
       </Box>
 
       {memoType === MemoType.swap && (
         <Box alignCenter className="px-1.5" justify="between">
-          <Typography variant="caption">{t('views.send.outputAsset')}:</Typography>
+          <Text textStyle="caption">{t('views.send.outputAsset')}:</Text>
           <AssetSelect assets={outputAssetsList} onSelect={setOutputAsset} selected={outputAsset} />
         </Box>
       )}

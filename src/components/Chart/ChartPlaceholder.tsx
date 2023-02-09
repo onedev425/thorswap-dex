@@ -1,4 +1,5 @@
-import { Box, Icon, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box, Icon } from 'components/Atomic';
 import { memo, useMemo } from 'react';
 import { Bar, Line } from 'react-chartjs-2';
 import { t } from 'services/i18n';
@@ -43,7 +44,7 @@ export const ChartPlaceholder = memo(({ previewChartType, options }: Props) => {
 
       <Box center col className="absolute w-full h-full backdrop-blur-sm">
         <Icon spin color="primary" name="refresh" size={16} />
-        <Typography className="mt-2">{t('common.loading')}</Typography>
+        <Text className="mt-2">{t('common.loading')}</Text>
       </Box>
     </>
   );

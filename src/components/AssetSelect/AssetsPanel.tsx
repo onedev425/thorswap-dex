@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { Asset } from '@thorswap-lib/multichain-core';
 import { AssetButton } from 'components/AssetSelect/AssetButton';
-import { Box, Typography } from 'components/Atomic';
+import { Box } from 'components/Atomic';
 
 type Props = {
   assets: Asset[];
@@ -13,7 +14,7 @@ export const AssetsPanel = ({ assets, emptyTitle, onSelect }: Props) => {
     <Box center className="flex-1 flex-wrap gap-2 pt-2">
       {!assets.length && emptyTitle && (
         <Box center className="h-[40px] flex-1">
-          <Typography>{emptyTitle}</Typography>
+          <Text>{emptyTitle}</Text>
         </Box>
       )}
       {assets.map((item) => (

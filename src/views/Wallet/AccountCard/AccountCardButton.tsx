@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Button, Icon, IconName, Typography } from 'components/Atomic';
+import { Box, Button, Icon, IconName } from 'components/Atomic';
 import { memo } from 'react';
 
 type Props = {
@@ -34,14 +35,14 @@ export const AccountCardButton = memo(
           tooltip={tooltip}
           variant="tint"
         />
-        <Typography
+        <Text
           className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
-          color="secondary"
           fontWeight="medium"
-          variant="caption"
+          textStyle="caption"
+          variant="secondary"
         >
           {label}
-        </Typography>
+        </Text>
       </Box>
     );
   },

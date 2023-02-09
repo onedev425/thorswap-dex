@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { Amount, Asset } from '@thorswap-lib/multichain-core';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Icon, Typography } from 'components/Atomic';
+import { Box, Icon } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { useMemo } from 'react';
@@ -90,7 +91,7 @@ export const EarnConfirmModal = ({
             label={label}
             value={
               <Box center className="gap-1">
-                <Typography variant="caption">{value}</Typography>
+                <Text textStyle="caption">{value}</Text>
                 {icon && <AssetIcon asset={icon} size={22} />}
               </Box>
             }

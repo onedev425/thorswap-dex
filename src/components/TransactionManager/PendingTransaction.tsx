@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import { Chain } from '@thorswap-lib/types';
-import { Box, Icon, Link, Typography } from 'components/Atomic';
+import { Box, Icon, Link } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { cutTxPrefix, transactionTitle } from 'components/TransactionManager/helpers';
 import { TransactionStatusIcon } from 'components/TransactionManager/TransactionStatusIcon';
@@ -78,11 +79,11 @@ export const PendingTransaction = memo(
           <TransactionStatusIcon size={20} status="pending" />
 
           <Box col className="gap-x-2">
-            <Typography fontWeight="semibold">{transactionTitle(type)}</Typography>
+            <Text fontWeight="semibold">{transactionTitle(type)}</Text>
 
-            <Typography color="secondary" fontWeight="semibold" variant="caption">
+            <Text fontWeight="semibold" textStyle="caption" variant="secondary">
               {label}
-            </Typography>
+            </Text>
           </Box>
         </Box>
 

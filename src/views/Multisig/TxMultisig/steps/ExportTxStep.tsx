@@ -1,4 +1,5 @@
-import { Box, Button, Icon, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box, Button, Icon } from 'components/Atomic';
 import { StepActions } from 'components/Stepper';
 import { showErrorToast } from 'components/Toast';
 import { downloadAsFile } from 'helpers/download';
@@ -52,9 +53,9 @@ export const ExportTxStep = ({ exportTxData, signatures }: Props) => {
   return (
     <Box col className="self-stretch mx-2" flex={1}>
       <Box col className="gap-2 mt-6">
-        <Typography fontWeight="normal" variant="caption">
+        <Text fontWeight="normal" textStyle="caption">
           {t('views.multisig.exportTxInfo')}
-        </Typography>
+        </Text>
         <Button stretch onClick={handleExport} rightIcon={<Icon name="export" />}>
           {t('views.multisig.export')}
         </Button>

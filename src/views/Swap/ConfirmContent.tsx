@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { AssetInputType } from 'components/AssetInput/types';
-import { Box, Icon, Typography } from 'components/Atomic';
+import { Box, Icon } from 'components/Atomic';
 import { ChainBadge } from 'components/ChainBadge';
 import { shortenAddress } from 'helpers/shortenAddress';
 import { memo } from 'react';
@@ -40,9 +41,9 @@ export const ConfirmContent = memo(
               <ChainBadge asset={inputAsset.asset} />
             </Box>
             <Box center className="w-full">
-              <Typography fontWeight="medium" variant="caption">
+              <Text fontWeight="medium" textStyle="caption">
                 {inputAsset.value?.toSignificantWithMaxDecimals(6)} {inputAsset.asset.ticker}
-              </Typography>
+              </Text>
             </Box>
           </Box>
 
@@ -53,9 +54,9 @@ export const ConfirmContent = memo(
               <ChainBadge asset={outputAsset.asset} />
             </Box>
             <Box center className="w-full">
-              <Typography fontWeight="medium" variant="caption">
+              <Text fontWeight="medium" textStyle="caption">
                 {outputAsset.value?.toSignificantWithMaxDecimals(6)} {outputAsset.asset.ticker}
-              </Typography>
+              </Text>
             </Box>
           </Box>
         </Box>
@@ -66,22 +67,22 @@ export const ConfirmContent = memo(
         >
           <Box row className="w-full">
             <Box center col className="flex-1 gap-y-2">
-              <Typography color="secondary" fontWeight="medium" variant="caption">
+              <Text fontWeight="medium" textStyle="caption" variant="secondary">
                 {t('common.estimateTime')}
-              </Typography>
-              <Typography variant="caption">{estimatedTime}</Typography>
+              </Text>
+              <Text textStyle="caption">{estimatedTime}</Text>
             </Box>
             <Box center col className="flex-1 gap-y-2">
-              <Typography color="secondary" fontWeight="medium" variant="caption">
+              <Text fontWeight="medium" textStyle="caption" variant="secondary">
                 {t('common.fee')}
-              </Typography>
-              <Typography variant="caption">{totalFee}</Typography>
+              </Text>
+              <Text textStyle="caption">{totalFee}</Text>
             </Box>
             <Box center col className="flex-1 gap-y-2">
-              <Typography color="secondary" fontWeight="medium" variant="caption">
+              <Text fontWeight="medium" textStyle="caption" variant="secondary">
                 {t('common.slippage')}
-              </Typography>
-              <Typography variant="caption">{slippageInfo}</Typography>
+              </Text>
+              <Text textStyle="caption">{slippageInfo}</Text>
             </Box>
           </Box>
 
@@ -91,32 +92,32 @@ export const ConfirmContent = memo(
 
           <Box row className="w-full py-2">
             <Box center col className="flex-1 gap-y-2">
-              <Typography color="secondary" fontWeight="medium" variant="caption">
+              <Text fontWeight="medium" textStyle="caption" variant="secondary">
                 {t('views.swap.exchangeFee')}
-              </Typography>
+              </Text>
 
-              <Typography
+              <Text
                 className={classNames({
                   'line-through': affiliateFee === '$0.00',
                 })}
-                variant="caption"
+                textStyle="caption"
               >
                 {affiliateFee === '$0.00' ? 'FREE' : affiliateFee}
-              </Typography>
+              </Text>
             </Box>
 
             <Box center col className="flex-1 gap-y-2">
-              <Typography color="secondary" fontWeight="medium" variant="caption">
+              <Text fontWeight="medium" textStyle="caption" variant="secondary">
                 {t('common.recipient')}
-              </Typography>
-              <Typography variant="caption">{shortenAddress(recipient)}</Typography>
+              </Text>
+              <Text textStyle="caption">{shortenAddress(recipient)}</Text>
             </Box>
 
             <Box center col className="flex-1 gap-y-2">
-              <Typography color="secondary" fontWeight="medium" variant="caption">
+              <Text fontWeight="medium" textStyle="caption" variant="secondary">
                 {t('views.swap.txAssetsFee')}
-              </Typography>
-              <Typography variant="caption">{feeAssets}</Typography>
+              </Text>
+              <Text textStyle="caption">{feeAssets}</Text>
             </Box>
           </Box>
 
@@ -126,10 +127,10 @@ export const ConfirmContent = memo(
 
           <Box row className="w-full">
             <Box center col className="flex-1 gap-y-2">
-              <Typography color="secondary" fontWeight="medium" variant="caption">
+              <Text fontWeight="medium" textStyle="caption" variant="secondary">
                 {t('common.minReceived')}
-              </Typography>
-              <Typography variant="caption">{minReceive}</Typography>
+              </Text>
+              <Text textStyle="caption">{minReceive}</Text>
             </Box>
           </Box>
         </Box>

@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Typography } from 'components/Atomic';
+import { Box } from 'components/Atomic';
 import { InfoRowProps } from 'components/InfoRow/types';
 
 const labelVariant = {
@@ -39,27 +40,27 @@ export const InfoRow = ({
       onClick={onClick}
     >
       {typeof label === 'string' ? (
-        <Typography
-          color="secondary"
+        <Text
           fontWeight="medium"
-          transform={capitalizeLabel ? 'capitalize' : 'none'}
-          variant={labelVariant[size]}
+          textStyle={labelVariant[size]}
+          textTransform={capitalizeLabel ? 'capitalize' : 'none'}
+          variant="secondary"
         >
           {label}
-        </Typography>
+        </Text>
       ) : (
         label
       )}
 
       {typeof value === 'string' || typeof value === 'number' ? (
-        <Typography
+        <Text
           className="text-right"
-          color="primary"
           fontWeight="semibold"
-          variant={valueVariant[size]}
+          textStyle={valueVariant[size]}
+          variant="primary"
         >
           {value}
-        </Typography>
+        </Text>
       ) : (
         value
       )}

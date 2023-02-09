@@ -1,5 +1,5 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Typography } from 'components/Atomic';
 import { NavItem } from 'components/Sidebar/NavItem';
 import { SidebarItemProps, SidebarVariant } from 'components/Sidebar/types';
 import { Fragment, memo, useCallback } from 'react';
@@ -29,15 +29,15 @@ export const SidebarItems = memo(
           <Fragment key={label}>
             {(children || variant === 'primary') && (
               <div className={classNames('transition-all overflow-hidden', collapseClass)}>
-                <Typography
+                <Text
                   className={children ? 'mb-1 ml-2' : 'ml2'}
-                  color="secondary"
                   fontWeight="semibold"
-                  transform="uppercase"
-                  variant="caption-xs"
+                  textStyle="caption-xs"
+                  textTransform="uppercase"
+                  variant="secondary"
                 >
                   {label}
-                </Typography>
+                </Text>
               </div>
             )}
 

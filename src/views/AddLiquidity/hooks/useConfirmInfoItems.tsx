@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { Asset } from '@thorswap-lib/multichain-core';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Typography } from 'components/Atomic';
+import { Box } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { t } from 'services/i18n';
@@ -26,9 +27,9 @@ export const useConfirmInfoItems = ({
     label: `${t('views.liquidity.depositAmount')} ${data.asset.symbol}`,
     value: (
       <Box alignCenter justify="between">
-        <Typography className="mx-2" fontWeight="semibold">
+        <Text className="mx-2" fontWeight="semibold">
           {data.value}
-        </Typography>
+        </Text>
         <AssetIcon asset={data.asset} size={24} />
       </Box>
     ),

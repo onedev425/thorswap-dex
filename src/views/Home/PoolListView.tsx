@@ -1,4 +1,5 @@
-import { Box, Icon, Select, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box, Icon, Select } from 'components/Atomic';
 import { HorizontalSlider } from 'components/HorizontalSlider';
 import { Input } from 'components/Input';
 import useWindowSize from 'hooks/useWindowSize';
@@ -33,7 +34,7 @@ export const PoolListView = memo(() => {
       {!selectedPoolStatus && !arePoolsHidden && (
         <Box col>
           <Box alignCenter className="gap-x-2 rounded-2xl">
-            <Typography variant="h3">{t('views.home.featuredPools')}</Typography>
+            <Text textStyle="h3">{t('views.home.featuredPools')}</Text>
           </Box>
 
           {featuredPools.length ? (
@@ -56,7 +57,7 @@ export const PoolListView = memo(() => {
        */}
       {isMdActive && (
         <Box col className="gap-8">
-          <Typography variant="h3">{t('common.liquidityPools')}</Typography>
+          <Text textStyle="h3">{t('common.liquidityPools')}</Text>
 
           <Box alignCenter className="flex-wrap gap-2 lg:flex-row" justify="between">
             <Box className="w-fit">

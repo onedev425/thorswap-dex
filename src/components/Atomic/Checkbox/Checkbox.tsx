@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Icon, Typography } from 'components/Atomic';
+import { Box, Icon } from 'components/Atomic';
 import { ReactNode, useCallback } from 'react';
 
 type Props = {
@@ -40,14 +41,9 @@ export const Checkbox = ({ value, onValueChange, label, className }: Props) => {
       </Box>
 
       {typeof label === 'string' ? (
-        <Typography
-          className="cursor-pointer"
-          color="secondary"
-          component="label"
-          fontWeight="semibold"
-        >
+        <Text as="label" className="cursor-pointer" fontWeight="semibold" variant="secondary">
           {label}
-        </Typography>
+        </Text>
       ) : (
         label || null
       )}

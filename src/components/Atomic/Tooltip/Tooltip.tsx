@@ -1,6 +1,6 @@
-import { Tooltip as CustomizeTooltip } from '@chakra-ui/react';
+import { Text, Tooltip as CustomizeTooltip } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Icon, IconName, Typography } from 'components/Atomic';
+import { Icon, IconName } from 'components/Atomic';
 import { TooltipPlacement } from 'components/Atomic/Tooltip/types';
 import useWindowSize from 'hooks/useWindowSize';
 import { ReactNode } from 'react';
@@ -46,9 +46,9 @@ export const Tooltip = ({
             'bg-light-bg-primary border border-light-border-primary border-solid dark:bg-dark-bg-primary dark:border-dark-border-primary',
           )}
         >
-          <Typography className="font-bold" variant="caption-xs">
+          <Text className="font-bold" textStyle="caption-xs">
             {content}
-          </Typography>
+          </Text>
         </div>
       }
       p={0}

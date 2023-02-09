@@ -1,4 +1,5 @@
-import { Box, Button, Link, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box, Button, Link } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { InfoTable } from 'components/InfoTable';
 import { PanelView } from 'components/PanelView';
@@ -21,10 +22,10 @@ const TxBuilder = () => {
         {hasConnectedMultisig && <InfoTable horizontalInset items={info} size="lg" />}
         <Box className="gap-5 flex-col sm:flex-row">
           <HighlightCard className="sm:w-full p-3">
-            <Typography variant="caption">{t('views.multisig.newTransaction')}</Typography>
-            <Typography className="my-3" fontWeight="medium" variant="caption-xs">
+            <Text textStyle="caption">{t('views.multisig.newTransaction')}</Text>
+            <Text className="my-3" fontWeight="medium" textStyle="caption-xs">
               {t('views.multisig.newTransactionDescription')}
-            </Typography>
+            </Text>
             {hasConnectedMultisig ? (
               <Link to={ROUTES.TxCreate}>
                 <Button stretch variant="primary">
@@ -43,12 +44,12 @@ const TxBuilder = () => {
             )}
           </HighlightCard>
           <HighlightCard className="sm:w-full p-3">
-            <Typography variant="caption">{t('views.multisig.importTransaction')}</Typography>
-            <Typography className="my-3" fontWeight="medium" variant="caption-xs">
+            <Text textStyle="caption">{t('views.multisig.importTransaction')}</Text>
+            <Text className="my-3" fontWeight="medium" textStyle="caption-xs">
               {t('views.multisig.importTransactionDescription')}
-            </Typography>
+            </Text>
             <Link to={ROUTES.TxImport}>
-              <Button stretch variant="secondary">
+              <Button stretch textStyle="secondary">
                 {t('views.multisig.importTransaction')}
               </Button>
             </Link>

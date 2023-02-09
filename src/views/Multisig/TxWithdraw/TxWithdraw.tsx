@@ -1,8 +1,9 @@
+import { Text } from '@chakra-ui/react';
 import { Amount, Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetSelect } from 'components/AssetSelect';
 import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton';
-import { Box, Button, Icon, Typography } from 'components/Atomic';
+import { Box, Button, Icon } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
@@ -81,7 +82,7 @@ export const TxWithdraw = () => {
 
         <HighlightCard className="min-h-[107px] p-4 flex-col md:flex-row items-end md:items-center gap-2">
           <Box>
-            <Typography className="whitespace-nowrap">{`${t('common.receive')}:`}</Typography>
+            <Text className="whitespace-nowrap">{`${t('common.receive')}:`}</Text>
           </Box>
 
           <Box className="gap-2 py-1 flex-1 self-stretch md:self-center">

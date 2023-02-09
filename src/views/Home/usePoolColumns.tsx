@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { Amount, Asset, Percent, Pool } from '@thorswap-lib/multichain-core';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Button, Icon, Typography } from 'components/Atomic';
+import { Box, Button, Icon } from 'components/Atomic';
 import { getAmountColumnSorter, sortPoolColumn } from 'components/Atomic/Table/utils';
 import { formatPrice } from 'helpers/formatPrice';
 import { useRuneToCurrency } from 'hooks/useRuneToCurrency';
@@ -26,7 +27,7 @@ export const usePoolColumns = () => {
         Cell: ({ cell: { value } }: { cell: { value: Pool } }) => (
           <div className="flex flex-row items-center">
             <AssetIcon asset={value.asset} size={40} />
-            <Typography className="hidden pl-4 h4 md:block">{value.asset.ticker}</Typography>
+            <Text className="hidden pl-4 h4 md:block">{value.asset.ticker}</Text>
           </div>
         ),
       },

@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Typography } from 'components/Atomic';
+import { Box } from 'components/Atomic';
 import { Fragment } from 'react';
 import { t } from 'services/i18n';
 
@@ -18,23 +19,23 @@ export const ChartTypeSelect = ({
     <Box row className="space-x-2">
       {chartTypeIndexes.map((chartIndex, index) => (
         <Fragment key={chartIndex}>
-          {index !== 0 && <Typography> / </Typography>}
+          {index !== 0 && <Text> / </Text>}
 
           <div
             className="cursor-pointer"
             key={chartIndex}
             onClick={() => selectChartTypeIndex(chartIndex)}
           >
-            <Typography
+            <Text
               className={classNames('hover:underline underline-offset-4', {
                 underline: chartIndex === selectedChartTypeIndex,
               })}
-              color={chartIndex === selectedChartTypeIndex ? 'primary' : 'secondary'}
               fontWeight="bold"
-              variant="body"
+              textStyle="body"
+              variant={chartIndex === selectedChartTypeIndex ? 'primary' : 'secondary'}
             >
               {t('views.home.chart', { context: chartIndex })}
-            </Typography>
+            </Text>
           </div>
         </Fragment>
       ))}

@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import Logo from 'assets/images/logo.png';
-import { Box, Icon, Modal, Tooltip, Typography } from 'components/Atomic';
+import { Box, Icon, Modal, Tooltip } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { useAddressUtils } from 'hooks/useAddressUtils';
 import QRCode from 'qrcode-react';
@@ -32,12 +33,12 @@ export const QRCodeModal = ({ title, address, onCancel, chain }: Props) => {
   return (
     <Modal isOpened={isOpened} onClose={onClose} title={title || ''}>
       <Box center col>
-        <Typography variant="subtitle2">{chain}</Typography>
+        <Text textStyle="subtitle2">{chain}</Text>
         <Box className="gap-3 p-2 bg-white rounded-xl mt-4">
           <QRCode logo={Logo} logoWidth={64} size={256} value={address} />
         </Box>
         <Box alignCenter className="space-x-2 mt-3">
-          <Typography>{shortAddress}</Typography>
+          <Text>{shortAddress}</Text>
           <Tooltip content={t('common.copy')}>
             <Box className={baseHoverClass}>
               <Icon

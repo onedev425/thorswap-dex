@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Asset } from '@thorswap-lib/multichain-core';
-import { Box, Button, Modal, Typography } from 'components/Atomic';
+import { Box, Button, Modal } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
 import { Input } from 'components/Input';
 import { PercentSelect } from 'components/PercentSelect/PercentSelect';
@@ -141,11 +142,11 @@ export const StakeConfirmModal = ({
         {!isClaim && (
           <>
             <Box alignCenter className="gap-3 !mt-8">
-              <Typography>
+              <Text>
                 {t('views.staking.stakeActionAmount', {
                   stakeAction: actionLabel,
                 })}
-              </Typography>
+              </Text>
               <Input
                 border="rounded"
                 className="text-right"

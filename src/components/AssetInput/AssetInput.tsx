@@ -1,8 +1,9 @@
+import { Text } from '@chakra-ui/react';
 import { Amount, Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetSelect } from 'components/AssetSelect';
 import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton';
-import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic';
+import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { InputAmount } from 'components/InputAmount';
 import { useFormatPrice } from 'helpers/formatPrice';
@@ -139,24 +140,24 @@ export const AssetInput = ({
           {localPriceLoading ? (
             <Icon spin className="flex w-full" color="primary" name="loader" size={12} />
           ) : assetPriceInUSD ? (
-            <Typography color="secondary" fontWeight="semibold">
+            <Text fontWeight="semibold" variant="secondary">
               {secondaryLabel || `${assetPriceInUSD}`}
-            </Typography>
+            </Text>
           ) : null}
         </Box>
 
         <Box center row className="gap-1 pb-2 pr-2 md:pr-0">
           {balance && (
-            <Typography color="secondary" fontWeight="medium">
+            <Text fontWeight="medium" variant="secondary">
               {t('common.balance')}: {balance?.toSignificantWithMaxDecimals(6) || '0'}
-            </Typography>
+            </Text>
           )}
 
           {(balance || !hideMaxButton) && !disabled && (
             <Button
               className="!h-5 !px-1.5"
               onClick={handleMaxClick}
-              transform="uppercase"
+              textTransform="uppercase"
               variant="outlineSecondary"
             >
               {maxButtonLabel || t('common.max')}

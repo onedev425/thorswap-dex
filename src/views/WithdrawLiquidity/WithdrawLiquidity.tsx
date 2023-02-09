@@ -1,3 +1,4 @@
+import { Text } from '@chakra-ui/react';
 import {
   Amount,
   AmountType,
@@ -8,7 +9,7 @@ import {
   Price,
 } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
-import { Box, Button, Icon, Link, Typography } from 'components/Atomic';
+import { Box, Button, Icon, Link } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { InfoTable } from 'components/InfoTable';
 import { LiquidityType } from 'components/LiquidityType/LiquidityType';
@@ -116,7 +117,7 @@ export const WithdrawLiquidity = () => {
       }
       title={t('views.liquidity.withdrawLiquidity')}
     >
-      <Typography>{t('views.liquidity.noLiquidityToWithdraw')}</Typography>
+      <Text>{t('views.liquidity.noLiquidityToWithdraw')}</Text>
     </PanelView>
   );
 };

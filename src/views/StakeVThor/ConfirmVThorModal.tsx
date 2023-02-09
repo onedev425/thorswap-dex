@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { Amount } from '@thorswap-lib/multichain-core';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Icon, Typography } from 'components/Atomic';
+import { Box, Icon } from 'components/Atomic';
 import { ChainBadge } from 'components/ChainBadge';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { toOptionalFixed } from 'helpers/number';
@@ -46,9 +47,9 @@ export const ConfirmVThorModal = ({
               <ChainBadge asset={vThorAssets[action]} />
             </Box>
             <Box center className="w-full">
-              <Typography fontWeight="medium" variant="caption">
+              <Text fontWeight="medium" textStyle="caption">
                 {toOptionalFixed(inputAmount.assetAmount.toNumber())} {vThorAssets[action].ticker}
-              </Typography>
+              </Text>
             </Box>
           </Box>
           <Icon className="mx-2 -rotate-90" name="arrowDown" />
@@ -58,9 +59,9 @@ export const ConfirmVThorModal = ({
               <ChainBadge asset={asset} />
             </Box>
             <Box center className="w-full">
-              <Typography fontWeight="medium" variant="caption">
+              <Text fontWeight="medium" textStyle="caption">
                 {toOptionalFixed(outputAmount)} {asset.ticker}
-              </Typography>
+              </Text>
             </Box>
           </Box>
         </Box>

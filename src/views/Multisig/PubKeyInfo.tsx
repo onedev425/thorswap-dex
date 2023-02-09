@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
-import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic';
+import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
 import { FieldLabel } from 'components/Form';
 import { HighlightCard } from 'components/HighlightCard';
@@ -34,12 +35,12 @@ export const PubKeyInfo = () => {
     <InfoTip title="Public key" type="info">
       <Box col className="self-stretch mx-2" flex={1}>
         <Box col className="gap-1" flex={1}>
-          <Typography className="my-3" fontWeight="light">
+          <Text className="my-3" fontWeight="light">
             {t('views.multisig.publicKeyInfo')}
-          </Typography>
-          <Typography className="my-3" fontWeight="light">
+          </Text>
+          <Text className="my-3" fontWeight="light">
             {t('views.multisig.connectThorchainWallet')}
-          </Typography>
+          </Text>
           <Box align="end" flex={1}>
             {!pubKey ? (
               <Button stretch onClick={() => setIsConnectModalOpen(true)} variant="primary">
@@ -58,13 +59,13 @@ export const PubKeyInfo = () => {
                       )}
                     >
                       <Box justify="between">
-                        <Typography
+                        <Text
                           className="break-all whitespace-normal"
-                          color="secondary"
-                          variant="caption"
+                          textStyle="caption"
+                          variant="secondary"
                         >
                           {pubKey}
-                        </Typography>
+                        </Text>
                         <div>
                           <Icon className="pl-2" name="copy" size={16} />
                         </div>

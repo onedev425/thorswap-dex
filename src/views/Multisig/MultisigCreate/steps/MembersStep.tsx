@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Button, Typography } from 'components/Atomic';
+import { Box, Button } from 'components/Atomic';
 import { FieldLabel, TextField } from 'components/Form';
 import { HoverIcon } from 'components/HoverIcon';
 import { Input } from 'components/Input';
@@ -38,14 +39,14 @@ export const MembersStep = ({
   return (
     <Box col className="self-stretch mx-2 gap-6" flex={1}>
       <Box col className="gap-3" flex={1}>
-        <Typography fontWeight="normal" variant="caption">
+        <Text fontWeight="normal" textStyle="caption">
           {t('views.multisig.addMembersToWallet')}
-        </Typography>
+        </Text>
       </Box>
       <Box className="justify-between">
-        <Typography fontWeight="bold" variant="body">
+        <Text fontWeight="bold" textStyle="body">
           {t('views.multisig.members')}
-        </Typography>
+        </Text>
         <HoverIcon
           color="secondary"
           iconName="infoCircle"
@@ -59,10 +60,10 @@ export const MembersStep = ({
 
         <Box className="mx-2">
           <Box flex={1}>
-            <Typography variant="caption">{t('views.multisig.memberName')}</Typography>
+            <Text textStyle="caption">{t('views.multisig.memberName')}</Text>
           </Box>
           <Box flex={2}>
-            <Typography variant="caption">{t('common.pubKey')}</Typography>
+            <Text textStyle="caption">{t('common.pubKey')}</Text>
           </Box>
         </Box>
 
@@ -111,9 +112,9 @@ export const MembersStep = ({
         </Box>
       </Box>
       <Box className="justify-between">
-        <Typography fontWeight="bold" variant="body">
+        <Text fontWeight="bold" textStyle="body">
           {t('views.multisig.signers')}
-        </Typography>
+        </Text>
         <HoverIcon
           color="secondary"
           iconName="infoCircle"
@@ -121,7 +122,7 @@ export const MembersStep = ({
         />
       </Box>
       <Box center className="mx-1 gap-2">
-        <Typography variant="caption">{t('views.multisig.setMultisigSigners')}</Typography>
+        <Text textStyle="caption">{t('views.multisig.setMultisigSigners')}</Text>
 
         <Box center className="gap-2">
           <Input
@@ -134,10 +135,10 @@ export const MembersStep = ({
             {...formFields.treshold}
           />
 
-          <Typography className="whitespace-nowrap" variant="caption">
+          <Text className="whitespace-nowrap" textStyle="caption">
             {t('views.multisig.outOf')}
             {formFields.members.length}
-          </Typography>
+          </Text>
         </Box>
       </Box>
 

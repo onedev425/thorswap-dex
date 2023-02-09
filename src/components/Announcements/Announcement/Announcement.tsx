@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { useDismissedAnnouncements, useSeenAnnouncements } from 'components/Announcements/hooks';
 import { ChainIcon } from 'components/AssetIcon/ChainIcon';
-import { Box, Link, Typography } from 'components/Atomic';
+import { Box, Link } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
 import { HoverIcon } from 'components/HoverIcon';
 import { memo, ReactNode } from 'react';
@@ -79,15 +80,15 @@ export const Announcement = memo(
 
         <Box col className={classNames('z-0', dismissed ? 'textl-left' : 'text-center')}>
           {!!title && (
-            <Typography fontWeight="bold" variant={dismissed ? 'body' : 'subtitle1'}>
+            <Text fontWeight="bold" textStyle={dismissed ? 'body' : 'subtitle1'}>
               {title}
-            </Typography>
+            </Text>
           )}
 
           {!!message && (
-            <Typography
+            <Text
               fontWeight={dismissed ? 'normal' : undefined}
-              variant={dismissed ? 'caption' : 'body'}
+              textStyle={dismissed ? 'caption' : 'body'}
             >
               {`${message} `}
               {!!link?.url && (
@@ -98,7 +99,7 @@ export const Announcement = memo(
                   {link.name || t('common.learnMore')}
                 </Link>
               )}
-            </Typography>
+            </Text>
           )}
         </Box>
 

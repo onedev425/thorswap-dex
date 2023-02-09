@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { AssetSelectProps } from 'components/AssetSelect/types';
 import { useAssetSelect } from 'components/AssetSelect/useAssetSelect';
-import { Box, Icon, Switch, Typography } from 'components/Atomic';
+import { Box, Icon, Switch } from 'components/Atomic';
 import { genericBgClasses, styledScrollbarClass } from 'components/constants';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
@@ -59,23 +60,23 @@ export const TokenListProviderSelect = ({ onSelect, onClose, assets }: AssetSele
               onClick={() => toggleTokenList(provider)}
             >
               <Box col className="flex-1">
-                <Typography
+                <Text
                   className="leading-[24px]"
                   fontWeight="medium"
-                  transform="capitalize"
-                  variant="h4"
+                  textStyle="h4"
+                  textTransform="capitalize"
                 >
                   {provider}
-                </Typography>
-                <Typography
+                </Text>
+                <Text
                   className="leading-[14px]"
-                  color={provider ? 'primaryBtn' : 'secondary'}
                   fontWeight="light"
-                  transform="uppercase"
-                  variant="caption-xs"
+                  textStyle="caption-xs"
+                  textTransform="uppercase"
+                  variant={provider ? 'primaryBtn' : 'secondary'}
                 >
                   {nbTokens} {t('common.tokens')} | v{major}.{minor}.{patch}
-                </Typography>
+                </Text>
               </Box>
 
               <Switch
@@ -94,7 +95,7 @@ export const TokenListProviderSelect = ({ onSelect, onClose, assets }: AssetSele
               </Box>
             ) : (
               <Box justifyCenter className="pt-4">
-                <Typography>{t('components.assetSelect.noResultsFound')}</Typography>
+                <Text>{t('components.assetSelect.noResultsFound')}</Text>
               </Box>
             ))}
         </Box>

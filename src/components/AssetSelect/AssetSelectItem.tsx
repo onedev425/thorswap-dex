@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import { Asset } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, IconName, Tooltip, Typography } from 'components/Atomic';
+import { Box, IconName, Tooltip } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { getAmountFromString } from 'components/InputAmount/utils';
 import { useTheme } from 'components/Theme/ThemeContext';
@@ -105,17 +106,17 @@ export const AssetSelectItem = memo(
 
           <Box col>
             <Box alignCenter row className="gap-x-1">
-              <Typography fontWeight="medium" variant="h4">
+              <Text fontWeight="medium" textStyle="h4">
                 {asset.ticker}
-              </Typography>
-              <Typography
+              </Text>
+              <Text
                 className="h-6 overflow-hidden"
-                color="secondary"
                 fontWeight="medium"
-                variant="subtitle1"
+                textStyle="subtitle1"
+                variant="secondary"
               >
                 {assetName}
-              </Typography>
+              </Text>
 
               <Box className="opacity-40 group-hover:opacity-100 transition">
                 {showInfoButton && (
@@ -136,27 +137,27 @@ export const AssetSelectItem = memo(
               </Box>
             </Box>
 
-            <Typography
+            <Text
               className="leading-[14px]"
-              color={asset.isSynth ? 'primaryBtn' : 'secondary'}
               fontWeight="light"
-              transform="uppercase"
-              variant="caption-xs"
+              textStyle="caption-xs"
+              textTransform="uppercase"
+              variant={asset.isSynth ? 'primaryBtn' : 'secondary'}
             >
               {description}
-            </Typography>
+            </Text>
           </Box>
         </Box>
 
         <Box col className="pr-6" justify="end">
-          <Typography className="text-right" color="secondary" variant="caption">
+          <Text className="text-right" textStyle="caption" variant="secondary">
             {balance?.gt(0) ? balance.toSignificantWithMaxDecimals(6) : ''}
-          </Typography>
+          </Text>
 
           <Box className="gap-x-1" justify="end">
-            <Typography color="secondary" variant="caption-xs">
+            <Text textStyle="caption-xs" variant="secondary">
               {value?.gt(0) ? `${formatPrice(value)} ` : ''}
-            </Typography>
+            </Text>
           </Box>
         </Box>
       </Box>

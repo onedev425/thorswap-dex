@@ -1,7 +1,7 @@
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
 import { Amount, Asset, AssetAmount, Percent } from '@thorswap-lib/multichain-core';
 import { AssetInput } from 'components/AssetInput';
-import { Box, Card, Icon, Link, Tooltip, Typography } from 'components/Atomic';
+import { Box, Card, Icon, Link, Tooltip } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { InfoTable } from 'components/InfoTable';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
@@ -176,14 +176,14 @@ const Earn = () => {
   const timeToBreakEvenInfo = useMemo(
     () => (
       <Box center>
-        <Typography transform="uppercase" variant="caption">
+        <Text textStyle="caption" textTransform="uppercase">
           <InfoWithTooltip
             tooltip={t('views.savings.timeToBrakeEvenTip')}
             value={`${isFinite(daysToBreakEven) ? daysToBreakEven : 0} ${
               daysToBreakEven === 1 ? t('views.savings.day') : t('views.savings.days')
             }`}
           />
-        </Typography>
+        </Text>
       </Box>
     ),
     [daysToBreakEven],
@@ -195,9 +195,9 @@ const Earn = () => {
         label: t('common.slippage'),
         value: (
           <Box center>
-            <Typography variant="caption">
+            <Text textStyle="caption">
               {`${slippage ? slippage?.toSignificantWithMaxDecimals(6) : 0} ${asset.name}`}
-            </Typography>
+            </Text>
           </Box>
         ),
       },
@@ -227,26 +227,26 @@ const Earn = () => {
             <Box col className="gap-3">
               <Box className="flex w-full justify-between">
                 <Box alignCenter>
-                  <Typography className="ml-3 mr-2" variant="h3">
+                  <Text className="ml-3 mr-2" textStyle="h3">
                     {t('views.savings.earn')} {asset.name}
-                  </Typography>
-                  <Typography color="primaryBtn" variant="h3">
+                  </Text>
+                  <Text textStyle="h3" variant="primaryBtn">
                     {currentAsset?.apr
                       ? `${currentAsset?.apr} ${t('common.apr').toUpperCase()}`
                       : ''}
-                  </Typography>
+                  </Text>
                 </Box>
               </Box>
 
               <Box alignCenter className="px-3" justify="between">
-                <Typography color="secondary" fontWeight="medium" variant="caption">
+                <Text fontWeight="medium" textStyle="caption" variant="secondary">
                   {t('views.savings.description', { asset: asset.name })}
                   <Link className="text-twitter-blue cursor-pointer" to={SAVERS_MEDIUM}>
-                    <Typography color="blue" fontWeight="medium" variant="caption">
+                    <Text fontWeight="medium" textStyle="caption" variant="blue">
                       {`${t('common.learnMore')} →`}
-                    </Typography>
+                    </Text>
                   </Link>
-                </Typography>
+                </Text>
 
                 <Tooltip
                   content={t('views.savings.tooltipDescription', { asset: asset.name })}

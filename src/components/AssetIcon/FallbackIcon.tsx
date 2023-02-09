@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Typography } from 'components/Atomic';
+import { Box } from 'components/Atomic';
 
 import { getIntFromName, rainbowStop } from './utils';
 
@@ -24,15 +25,15 @@ export const FallbackIcon = ({ ticker, size }: Props) => {
       className="rounded-full z-10"
       style={{ background: fallbackBgImg, width: size, height: size }}
     >
-      <Typography
+      <Text
         className={classNames('-m-1 break-all text-center leading-[10px]', {
           '!font-normal': isLongTicker,
         })}
         style={{ fontSize }}
-        variant="caption-xs"
+        textStyle="caption-xs"
       >
         {ticker}
-      </Typography>
+      </Text>
     </Box>
   );
 };

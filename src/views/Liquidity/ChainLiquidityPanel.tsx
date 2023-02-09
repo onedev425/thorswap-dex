@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { Asset, Pool } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
-import { Box, Button, Icon, Link, Typography } from 'components/Atomic';
+import { Box, Button, Icon, Link } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
 import { LiquidityCard } from 'components/LiquidityCard';
 import { ReloadButton } from 'components/ReloadButton';
@@ -105,7 +106,7 @@ export const ChainLiquidityPanel = ({ chain, data, isLoading, lpAddedAndWithdraw
     <Box col className="gap-1">
       <InfoRow
         className="!mx-1.5 pl-1.5"
-        label={<Typography>{chainName(chain, true)}</Typography>}
+        label={<Text>{chainName(chain, true)}</Text>}
         size="sm"
         value={
           <Box className="gap-x-2 mb-1">

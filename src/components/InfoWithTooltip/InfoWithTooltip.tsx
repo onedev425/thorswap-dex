@@ -1,4 +1,5 @@
-import { Box, Icon, IconName, Tooltip, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box, Icon, IconName, Tooltip } from 'components/Atomic';
 import { baseTextHoverClass } from 'components/constants';
 import { memo, ReactNode } from 'react';
 
@@ -12,9 +13,9 @@ export const InfoWithTooltip = memo(({ value, tooltip, icon = 'infoCircle' }: Pr
   return (
     <Box alignCenter className="gap-x-2">
       {typeof value === 'string' ? (
-        <Typography className="text-right" color="primary" fontWeight="semibold" variant="caption">
+        <Text className="text-right" fontWeight="semibold" textStyle="caption" variant="primary">
           {value}
-        </Typography>
+        </Text>
       ) : (
         value
       )}

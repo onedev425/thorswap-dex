@@ -1,4 +1,5 @@
-import { Box, Button, Link, Select, Table, TableRowType, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box, Button, Link, Select, Table, TableRowType } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { Input } from 'components/Input';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
@@ -68,9 +69,9 @@ const Nodes = () => {
       <NodeStats />
       {watchListData?.length > 0 && (
         <Box col className="mt-4 mb-4">
-          <Typography className="mb-2 text-light-typo-primary dark:text-dark-typo-primary">
+          <Text className="mb-2 text-light-typo-primary dark:text-dark-typo-primary">
             {`${t('views.nodes.watchList')} (${watchListData.length})`}
-          </Typography>
+          </Text>
           <Table
             sortable
             // @ts-expect-error TODO: Overall typing for `react-table` is broken on our side

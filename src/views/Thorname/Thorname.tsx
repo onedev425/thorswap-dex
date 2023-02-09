@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { Asset, THORName } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
-import { Box, Button, Collapse, Icon, Tooltip, Typography } from 'components/Atomic';
+import { Box, Button, Collapse, Icon, Tooltip } from 'components/Atomic';
 import { FieldLabel } from 'components/Form';
 import { HighlightCard } from 'components/HighlightCard';
 import { InfoRow } from 'components/InfoRow';
@@ -181,9 +182,9 @@ const Thorname = () => {
           <ViewHeader title={t('components.sidebar.thorname')} />
 
           <Box className="px-2.5 pt-1" justify="between">
-            <Typography color="secondary" fontWeight="medium" variant="caption">
+            <Text fontWeight="medium" textStyle="caption" variant="secondary">
               {t('views.thorname.thornameSubtitle')}
-            </Typography>
+            </Text>
 
             <Tooltip content={t('views.thorname.thornameInfo')} place="bottom">
               <Icon color="primaryBtn" name="infoCircle" size={24} />
@@ -215,12 +216,12 @@ const Thorname = () => {
             shadow={false}
             title={
               <Box className="flex justify-between w-full">
-                <Typography color="secondary" fontWeight="medium">
+                <Text fontWeight="medium" variant="secondary">
                   {t('components.sidebar.thorname')}
-                </Typography>
-                <Typography className="text-right" color="primary" fontWeight="semibold">
+                </Text>
+                <Text className="text-right" fontWeight="semibold" variant="primary">
                   {thorname}
-                </Typography>
+                </Text>
               </Box>
             }
           >

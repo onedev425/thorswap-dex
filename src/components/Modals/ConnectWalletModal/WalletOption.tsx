@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Icon, IconName, Typography } from 'components/Atomic';
+import { Box, Icon, IconName } from 'components/Atomic';
 import { memo, useCallback } from 'react';
 
 import { WalletType } from './types';
@@ -65,9 +66,9 @@ const WalletOption = ({
 
       <Icon name={icon} size={24} />
 
-      <Typography className="text-center" variant="caption">
+      <Text className="text-center" textStyle="caption">
         {label}
-      </Typography>
+      </Text>
     </Box>
   );
 };

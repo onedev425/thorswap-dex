@@ -1,6 +1,6 @@
-import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+import { Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Icon, Typography } from 'components/Atomic';
+import { Icon } from 'components/Atomic';
 import { baseHoverClass, genericBgClasses } from 'components/constants';
 import { ReactNode } from 'react';
 
@@ -47,7 +47,7 @@ export const DropdownMenu = ({
             disabled={disabled}
           >
             <div className="flex justify-between items-center">
-              {openComponent || <Typography>{openLabel || defaultOpenLabel}</Typography>}
+              {openComponent || <Text>{openLabel || defaultOpenLabel}</Text>}
 
               <Icon
                 className={classNames(
@@ -95,7 +95,7 @@ export const DropdownMenu = ({
                     disabled ? 'cursor-not-allowed' : 'cursor-pointer',
                   )}
                 >
-                  {Component || <Typography>{label}</Typography>}
+                  {Component || <Text>{label}</Text>}
                 </div>
               </MenuItem>
             ))}

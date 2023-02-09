@@ -1,4 +1,5 @@
-import { Box, Link, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box, Link } from 'components/Atomic';
 import { THORSWAP_MULTI_SIG } from 'config/constants';
 import { t } from 'services/i18n';
 import { useAppSelector } from 'store/store';
@@ -15,21 +16,21 @@ const Multisig = () => {
     <Box col>
       <Box className="gap-5">
         <Box alignCenter flex={1} justify="between">
-          <Typography className="mb-5 mx-3" variant="h3">
+          <Text className="mb-5 mx-3" textStyle="h3">
             {t('views.multisig.thorSafeWallet')}
-          </Typography>
+          </Text>
         </Box>
       </Box>
       <Box col className="gap-3 mb-3 mx-3 lg:w-11/12">
-        <Typography color="secondary" fontWeight="semibold" variant="caption">
+        <Text fontWeight="semibold" textStyle="caption" variant="secondary">
           {t('views.multisig.thorsafeDescription')}
-        </Typography>
-        <Typography color="secondary" fontWeight="normal" variant="caption">
+        </Text>
+        <Text fontWeight="normal" textStyle="caption" variant="secondary">
           {t('views.multisig.thorsafeSecondDescription')}
           <Link className="text-twitter-blue" to={THORSWAP_MULTI_SIG}>
             {t('common.learnMore')}
           </Link>
-        </Typography>
+        </Text>
       </Box>
 
       <Box className="flex-col md:flex-row gap-5">

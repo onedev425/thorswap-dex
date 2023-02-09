@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import { THORNode } from '@thorswap-lib/midgard-sdk';
 import { Amount, Asset } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
-import { Box, Button, Icon, Link, Typography } from 'components/Atomic';
+import { Box, Button, Icon, Link } from 'components/Atomic';
 import { useInputAmount } from 'components/InputAmount/useInputAmount';
 import { showErrorToast, showInfoToast, showSuccessToast } from 'components/Toast';
 import copy from 'copy-to-clipboard';
@@ -240,9 +241,9 @@ export const useNodeManager = ({
         showSuccessToast(
           t('views.nodes.detail.ViewBondTx'),
           <Box className="align-center py-2">
-            <Typography fontWeight="light" variant="caption-xs">
+            <Text fontWeight="light" textStyle="caption-xs">
               {t('views.nodes.detail.transactionSentSuccessfully')}
-            </Typography>
+            </Text>
             <Link className="no-underline" to={txURL}>
               <Button size="sm" variant="outlineTint">
                 {t('views.nodes.detail.ViewTransaction')}
@@ -255,9 +256,9 @@ export const useNodeManager = ({
         showSuccessToast(
           t('views.nodes.detail.ViewUnBondTx'),
           <>
-            <Typography fontWeight="light" variant="caption-xs">
+            <Text fontWeight="light" textStyle="caption-xs">
               {t('views.nodes.detail.transactionSentSuccessfully')}
-            </Typography>
+            </Text>
             <Link className="no-underline pt-3" to={txURL}>
               <Button size="sm" variant="outlineTint">
                 {t('views.nodes.detail.ViewTransaction')}
@@ -270,9 +271,9 @@ export const useNodeManager = ({
         showSuccessToast(
           t('views.nodes.detail.ViewLeaveTx'),
           <>
-            <Typography fontWeight="light" variant="caption-xs">
+            <Text fontWeight="light" textStyle="caption-xs">
               {t('views.nodes.detail.transactionSentSuccessfully')}
-            </Typography>
+            </Text>
             <Link className="no-underline pt-3" to={txURL}>
               <Button size="sm" variant="outlineTint">
                 {t('views.nodes.detail.ViewTransaction')}

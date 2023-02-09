@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import { Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { FallbackIcon } from 'components/AssetIcon/FallbackIcon';
-import { Box, Typography } from 'components/Atomic';
+import { Box } from 'components/Atomic';
 import { tokenLogoURL } from 'helpers/logoURL';
 import { memo, useMemo, useState } from 'react';
 
@@ -102,9 +103,9 @@ export const AssetIcon = memo(
               height: secondaryIconSize * 1.8,
             }}
           >
-            <Typography style={badgeStyle} variant="caption">
+            <Text style={badgeStyle} textStyle="caption">
               {badge}
-            </Typography>
+            </Text>
           </Box>
         ) : null}
 

@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import Logo from 'assets/images/logo.png';
 import classNames from 'classnames';
-import { Box, Icon, Tooltip, Typography } from 'components/Atomic';
+import { Box, Icon, Tooltip } from 'components/Atomic';
 import { SupportModal } from 'components/Modals/Support/Support';
 import { Scrollbar } from 'components/Scrollbar';
 import { useSidebarOptions } from 'components/Sidebar/hooks';
@@ -94,13 +95,13 @@ export const Sidebar = ({ className, collapsed = false, toggle, onNavItemClick }
                   collapsed ? 'w-[0%]' : 'w-full',
                 )}
               >
-                <Typography
+                <Text
                   className={classNames('px-3 dark:group-hover:text-white font-bold opacity-60')}
-                  transform="uppercase"
-                  variant="caption-xs"
+                  textStyle="caption-xs"
+                  textTransform="uppercase"
                 >
                   {t('components.sidebar.collapse')}
-                </Typography>
+                </Text>
               </Box>
             </Box>
           </Tooltip>

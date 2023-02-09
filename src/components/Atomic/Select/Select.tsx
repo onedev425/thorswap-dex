@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Button, DropdownMenu, Typography } from 'components/Atomic';
+import { Box, Button, DropdownMenu } from 'components/Atomic';
 import { useCallback, useMemo } from 'react';
 
 type Props = {
@@ -49,13 +50,13 @@ export const Select = ({
             onClick={() => onHandleChange(index)}
             variant={activeIndex === index ? 'primary' : 'outlineTint'}
           >
-            <Typography
+            <Text
               className="leading-4"
-              transform="capitalize"
-              variant={size === 'md' ? 'caption' : 'caption-xs'}
+              textStyle={size === 'md' ? 'caption' : 'caption-xs'}
+              textTransform="capitalize"
             >
               {option}
-            </Typography>
+            </Text>
           </Button>
         ))}
       </Box>
@@ -66,7 +67,7 @@ export const Select = ({
           onChange={onDropdownChange}
           openComponent={
             <Box alignCenter className="gap-2 w-fit">
-              <Typography variant="caption">{options[activeIndex]}</Typography>
+              <Text textStyle="caption">{options[activeIndex]}</Text>
             </Box>
           }
           value={options[activeIndex]}

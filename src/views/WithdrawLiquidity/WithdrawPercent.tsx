@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import { Amount } from '@thorswap-lib/multichain-core';
-import { Box, Button, Range, Typography } from 'components/Atomic';
+import { Box, Button, Range } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { InputAmount } from 'components/InputAmount';
 import { getAmountFromString } from 'components/InputAmount/utils';
@@ -31,7 +32,7 @@ export const WithdrawPercent = ({ onChange, percent }: Props) => {
     >
       <Box className="w-full row-span-1 flex-row">
         <Box alignCenter className="flex-1 items-center">
-          <Typography className="inline-flex">{`${t('common.withdrawPercent')}:`}</Typography>
+          <Text className="inline-flex">{`${t('common.withdrawPercent')}:`}</Text>
         </Box>
 
         <Box alignCenter className="flex-1">
@@ -42,7 +43,7 @@ export const WithdrawPercent = ({ onChange, percent }: Props) => {
               className="!text-2xl text-right mr-3"
               containerClassName="py-1"
               onAmountChange={handlePercentChange}
-              suffix={<Typography variant="subtitle1">%</Typography>}
+              suffix={<Text textStyle="subtitle1">%</Text>}
             />
           </Box>
         </Box>
@@ -61,7 +62,7 @@ export const WithdrawPercent = ({ onChange, percent }: Props) => {
           <Button
             className="!h-5 !px-1.5"
             onClick={() => handlePercentChange(getAmountFromString('100', 0) as Amount)}
-            transform="uppercase"
+            textTransform="uppercase"
             variant="outlineSecondary"
           >
             {t('common.max')}

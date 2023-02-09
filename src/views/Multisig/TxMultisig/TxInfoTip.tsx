@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import { Chain } from '@thorswap-lib/types';
-import { Box, Button, Icon, Link, Modal, Typography } from 'components/Atomic';
+import { Box, Button, Icon, Link, Modal } from 'components/Atomic';
 import { InfoTip } from 'components/InfoTip';
 import { useState } from 'react';
 import { t } from 'services/i18n';
@@ -21,19 +22,19 @@ export const TxInfoTip = ({ canBroadcast, txHash, txBodyStr }: Props) => {
       <InfoTip className="self-stretch flex-1" type="success">
         <Box className="self-stretch m-2">
           <Box className="self-stretch w-full" flex={1}>
-            <Typography color="green" variant="caption">
+            <Text textStyle="caption" variant="green">
               {t('views.multisig.txBroadcasted')}
-            </Typography>
+            </Text>
             <Link to={txUrl}>
               <Box center>
-                <Typography
+                <Text
                   className="underline ml-1.5"
-                  color="green"
                   fontWeight="bold"
-                  variant="caption"
+                  textStyle="caption"
+                  variant="green"
                 >
                   {t('views.multisig.viewTx')}
-                </Typography>
+                </Text>
                 <Icon color="green" name="external" size={14} />
               </Box>
             </Link>
@@ -47,13 +48,13 @@ export const TxInfoTip = ({ canBroadcast, txHash, txBodyStr }: Props) => {
     <InfoTip className="self-stretch flex-1" type={canBroadcast ? 'info' : 'warn'}>
       <Box alignCenter className="self-stretch ml-2.5" justify="between">
         {canBroadcast ? (
-          <Typography color="primaryBtn" variant="caption">
+          <Text textStyle="caption" variant="primaryBtn">
             {t('views.multisig.pendingTx')} - {t('views.multisig.txReadyToBroadcast')}
-          </Typography>
+          </Text>
         ) : (
-          <Typography color="yellow" variant="caption">
+          <Text textStyle="caption" variant="yellow">
             {t('views.multisig.pendingTx')} - {t('views.multisig.txMissingSignatures')}
-          </Typography>
+          </Text>
         )}
 
         <Button onClick={() => setIsTxModalVisible(true)} variant="borderlessTint">

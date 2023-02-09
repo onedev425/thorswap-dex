@@ -1,4 +1,4 @@
-import { Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
 import { memo } from 'react';
 
 type Props = {
@@ -8,8 +8,8 @@ type Props = {
 
 export const FieldLabel = memo(({ label, hasError }: Props) => {
   return (
-    <Typography className="mx-2 mb-0.5" color={hasError ? 'red' : 'primary'} variant="caption">
+    <Text className="mx-2 mb-0.5" textStyle="caption" variant={hasError ? 'red' : 'primary'}>
       {label}
-    </Typography>
+    </Text>
   );
 });

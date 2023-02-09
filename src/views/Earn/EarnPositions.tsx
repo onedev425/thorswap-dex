@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import { Asset } from '@thorswap-lib/multichain-core';
-import { Box, Icon, Typography } from 'components/Atomic';
+import { Box, Icon } from 'components/Atomic';
 import { DoughnutChart } from 'components/Chart/DoughnutChart/DoughnutChart';
 import { HighlightCard } from 'components/HighlightCard';
 import { ReloadButton } from 'components/ReloadButton';
@@ -59,9 +60,9 @@ export const EarnPositions = ({ positions, refresh, withdrawAsset, depositAsset 
           ))
         ) : (
           <Box center className="gap-2" flex={1}>
-            <Typography color="primary" variant="subtitle2">
+            <Text textStyle="subtitle2" variant="primary">
               {isWalletLoading ? t('common.loading') : t('views.wallet.noDataToShow')}
-            </Typography>
+            </Text>
             {isWalletLoading && <Icon spin name="loader" size={32} />}
           </Box>
         )}

@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Card, Icon, Tooltip, Typography } from 'components/Atomic';
+import { Box, Card, Icon, Tooltip } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
 import { memo } from 'react';
 
@@ -33,13 +34,13 @@ export const Stats = memo(({ tooltip, color, iconName, label, value }: StatsType
       <Box col justifyCenter className="gap-4">
         <Box row className="gap-x-1">
           <div className="grid">
-            <Typography
+            <Text
               className="overflow-hidden transition group-hover:text-dark-typo-primary text-ellipsis whitespace-nowrap"
-              color="secondary"
-              variant="caption"
+              textStyle="caption"
+              variant="secondary"
             >
               {label}
-            </Typography>
+            </Text>
           </div>
 
           {tooltip && (
@@ -55,13 +56,13 @@ export const Stats = memo(({ tooltip, color, iconName, label, value }: StatsType
         </Box>
 
         <div className="grid">
-          <Typography
+          <Text
             className="overflow-hidden transition group-hover:text-dark-typo-primary text-ellipsis whitespace-nowrap"
-            transform="uppercase"
-            variant="subtitle1"
+            textStyle="subtitle1"
+            textTransform="uppercase"
           >
             {value}
-          </Typography>
+          </Text>
         </div>
       </Box>
     </Card>

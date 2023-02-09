@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Icon, Typography, useCollapse } from 'components/Atomic';
+import { Box, Icon, useCollapse } from 'components/Atomic';
 import { maxHeightTransitionClass } from 'components/Atomic/Collapse/Collapse';
 import { borderHighlightClass } from 'components/constants';
 import { Input } from 'components/Input';
@@ -66,9 +67,9 @@ export const PanelInput = ({
       >
         <Box center className="gap-x-2">
           {typeof title === 'string' ? (
-            <Typography fontWeight="normal" variant="caption">
+            <Text fontWeight="normal" textStyle="caption">
               {title}
-            </Typography>
+            </Text>
           ) : (
             title
           )}
@@ -111,9 +112,9 @@ export const PanelInput = ({
 
           {suffix &&
             (typeof suffix === 'string' ? (
-              <Typography color="secondary" variant="caption-xs">
+              <Text textStyle="caption-xs" variant="secondary">
                 {suffix}
-              </Typography>
+              </Text>
             ) : (
               suffix
             ))}

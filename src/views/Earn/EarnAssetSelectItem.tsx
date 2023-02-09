@@ -1,8 +1,8 @@
-import { CircularProgress, Flex, Spinner } from '@chakra-ui/react';
+import { CircularProgress, Flex, Spinner, Text } from '@chakra-ui/react';
 import { Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Tooltip, Typography } from 'components/Atomic';
+import { Box, Tooltip } from 'components/Atomic';
 import { memo } from 'react';
 import { t } from 'services/i18n';
 import { getFormattedPercent } from 'views/Earn/utils';
@@ -35,24 +35,24 @@ export const EarnAssetSelectItem = memo(
 
           <Box col flex={1}>
             <Box alignCenter justify="between">
-              <Typography fontWeight="medium" variant="body">
+              <Text fontWeight="medium" textStyle="body">
                 {asset?.ticker}
-              </Typography>
+              </Text>
             </Box>
             <Box row className="gap-x-2 justify-between pr-2">
               <Box center className="gap-1">
-                <Typography
-                  color="secondary"
+                <Text
                   fontWeight="light"
-                  transform="uppercase"
-                  variant="caption"
+                  textStyle="caption"
+                  textTransform="uppercase"
+                  variant="secondary"
                 >
                   {t('common.APR')}
-                </Typography>
+                </Text>
                 {typeof apr !== 'undefined' ? (
-                  <Typography color="primaryBtn" variant="caption">
+                  <Text textStyle="caption" variant="primaryBtn">
                     {apr ? apr : 'N/A'}
-                  </Typography>
+                  </Text>
                 ) : (
                   <Spinner size="xs" />
                 )}
@@ -62,9 +62,9 @@ export const EarnAssetSelectItem = memo(
 
           <Box center className="gap-2">
             {!!balance && (
-              <Typography color="secondary" fontWeight="medium" variant="caption-xs">
+              <Text fontWeight="medium" textStyle="caption-xs" variant="secondary">
                 {balance.toSignificantWithMaxDecimals(6)}
-              </Typography>
+              </Text>
             )}
 
             {typeof filled !== 'undefined' && (
@@ -92,14 +92,14 @@ export const EarnAssetSelectItem = memo(
                     right={0}
                     top={0}
                   >
-                    <Typography
+                    <Text
                       className={classNames('text-[10px]', { 'text-[9px]': filled >= 100 })}
-                      color="secondary"
                       fontWeight="semibold"
-                      variant="caption-xs"
+                      textStyle="caption-xs"
+                      variant="secondary"
                     >
                       {Math.floor(filled)}%
-                    </Typography>
+                    </Text>
                   </Flex>
                 </Flex>
               </Tooltip>

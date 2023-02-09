@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import { Chain } from '@thorswap-lib/types';
-import { Box, Button, Icon, Link, Typography } from 'components/Atomic';
+import { Box, Button, Icon, Link } from 'components/Atomic';
 import { InfoTable } from 'components/InfoTable';
 import { Confirm } from 'components/Modals/Confirm';
 import { PanelView } from 'components/PanelView';
@@ -62,7 +63,7 @@ export const MultisigInfo = () => {
     >
       <Box col className="gap-5 self-stretch" flex={1}>
         <Box alignCenter row className="mx-1 gap-2" justify="between">
-          <Typography variant="subtitle2">{name || 'Your THORSafe'}</Typography>
+          <Text textStyle="subtitle2">{name || 'Your THORSafe'}</Text>
           <Box className="gap-2">
             <MultisigExport />
             <Link to={accountUrl}>

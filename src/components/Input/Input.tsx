@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Icon, Typography } from 'components/Atomic';
+import { Box, Icon } from 'components/Atomic';
 import { InputProps } from 'components/Input/types';
 import { forwardRef, RefObject, useRef } from 'react';
 
@@ -52,9 +53,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         >
           {customPrefix &&
             (typeof customPrefix === 'string' ? (
-              <Typography color="secondary" variant="caption-xs">
+              <Text textStyle="caption-xs" variant="secondary">
                 {customPrefix}
-              </Typography>
+              </Text>
             ) : (
               customPrefix
             ))}
@@ -87,24 +88,24 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           />
 
           {symbol && (
-            <Typography className="pr-2" variant="caption-xs">
+            <Text className="pr-2" textStyle="caption-xs">
               {symbol}
-            </Typography>
+            </Text>
           )}
           {suffix &&
             (typeof suffix === 'string' ? (
-              <Typography color="secondary" variant="caption-xs">
+              <Text textStyle="caption-xs" variant="secondary">
                 {suffix}
-              </Typography>
+              </Text>
             ) : (
               suffix
             ))}
         </Box>
 
         {error && (
-          <Typography className="pt-2 pl-2" color="red" fontWeight="semibold" variant="caption">
+          <Text className="pt-2 pl-2" fontWeight="semibold" textStyle="caption" variant="red">
             {error}
-          </Typography>
+          </Text>
         )}
       </Box>
     );

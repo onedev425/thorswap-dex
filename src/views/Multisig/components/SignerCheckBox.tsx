@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Icon, Typography } from 'components/Atomic';
+import { Box, Icon } from 'components/Atomic';
 import {
   borderHighlightClass,
   borderHoverHighlightClass,
@@ -40,13 +41,13 @@ export const SignerCheckBox = ({ signer, onClick, isSelected }: Props) => {
         />
         <Box col className="gap-1">
           <div className="flex justify-between">
-            <Typography color="secondary" variant="caption-xs">
+            <Text textStyle="caption-xs" variant="secondary">
               {signer.name}
-            </Typography>
+            </Text>
           </div>
-          <Typography className="break-all whitespace-normal" variant="caption-xs">
+          <Text className="break-all whitespace-normal" textStyle="caption-xs">
             {signer.pubKey}
-          </Typography>
+          </Text>
         </Box>
       </Box>
     </Box>

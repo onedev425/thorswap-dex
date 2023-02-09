@@ -1,4 +1,5 @@
-import { Box, Card, Icon, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box, Card, Icon } from 'components/Atomic';
 import { Scrollbar } from 'components/Scrollbar';
 import { BUILD_NUMBER } from 'config/constants';
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
@@ -78,16 +79,16 @@ export const AppMenu = () => {
                 <Icon name="chevronLeft" />
               </Box>
             )}
-            <Typography variant="subtitle2">{menus[menuType].title}</Typography>
+            <Text textStyle="subtitle2">{menus[menuType].title}</Text>
           </Box>
         </Box>
 
         {menuElement}
 
         <Box justify="end">
-          <Typography color="secondary" variant="caption-xs">
+          <Text textStyle="caption-xs" variant="secondary">
             {`v${packageJson.version} (${BUILD_NUMBER})`}
-          </Typography>
+          </Text>
         </Box>
       </Card>
     </div>

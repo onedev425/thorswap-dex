@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import { Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon/AssetIcon';
-import { Box, Typography } from 'components/Atomic';
+import { Box } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
 
 type Props = {
@@ -25,10 +26,10 @@ export const AssetAmountBox = ({ className, asset, amount, stretch }: Props) => 
       <AssetIcon asset={asset} />
 
       <Box col className="ml-3">
-        <Typography>{amount || '-'}</Typography>
-        <Typography color="secondary" fontWeight="normal">
+        <Text>{amount || '-'}</Text>
+        <Text fontWeight="normal" variant="secondary">
           {asset.ticker}
-        </Typography>
+        </Text>
       </Box>
     </Box>
   );

@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Button, Icon, Modal, Typography } from 'components/Atomic';
+import { Box, Button, Icon, Modal } from 'components/Atomic';
 import { borderHoverHighlightClass, genericBgClasses } from 'components/constants';
 import { Input } from 'components/Input';
 import { usePhraseModal } from 'components/Modals/PhraseModal/usePhraseModal';
@@ -40,9 +41,9 @@ export const PhraseModal = ({ isOpen, onCancel = () => {} }: PhraseModalProps): 
               {phrases.map((phrase: string, index: number) => {
                 return (
                   <Box alignCenter className="p-1.5" key={phrase}>
-                    <Typography>
+                    <Text>
                       {index + 1}. {phrase}
-                    </Typography>
+                    </Text>
                   </Box>
                 );
               })}
@@ -51,7 +52,7 @@ export const PhraseModal = ({ isOpen, onCancel = () => {} }: PhraseModalProps): 
         ) : (
           <Box col className="gap-1.5" flex={1}>
             <Box className="px-1.5">
-              <Typography>{t('views.walletModal.enterKeystorePassword')}</Typography>
+              <Text>{t('views.walletModal.enterKeystorePassword')}</Text>
             </Box>
             <Input
               autoFocus
@@ -66,7 +67,7 @@ export const PhraseModal = ({ isOpen, onCancel = () => {} }: PhraseModalProps): 
             />
             {errors.password && (
               <Box className="px-1.5">
-                <Typography color="orange">{t('views.walletModal.wrongPassword')}</Typography>
+                <Text variant="orange">{t('views.walletModal.wrongPassword')}</Text>
               </Box>
             )}
             <Box justifyCenter className="mt-4">

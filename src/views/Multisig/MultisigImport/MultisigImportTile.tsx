@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Button, Card, Typography } from 'components/Atomic';
+import { Box, Button, Card } from 'components/Atomic';
 import { baseBorderClass, borderHoverHighlightClass } from 'components/constants';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
@@ -12,14 +13,14 @@ export const MultisigImportTile = () => {
     <Box>
       <Card className={classNames(borderHoverHighlightClass, baseBorderClass)}>
         <Box col className="gap-6">
-          <Typography variant="subtitle1">{t('views.multisig.addMultisigWallet')}</Typography>
+          <Text textStyle="subtitle1">{t('views.multisig.addMultisigWallet')}</Text>
           <Box col>
-            <Typography className="my-3" fontWeight="light">
+            <Text className="my-3" fontWeight="light">
               {t('views.multisig.importMultisigDescription')}
-            </Typography>
-            <Typography className="my-3" fontWeight="light">
+            </Text>
+            <Text className="my-3" fontWeight="light">
               {t('views.multisig.importMultisigSecondDescription')}
-            </Typography>
+            </Text>
           </Box>
           <Box align="end" className="mt-8" flex={1}>
             <Button stretch onClick={() => navigate(ROUTES.MultisigConnect)} variant="primary">

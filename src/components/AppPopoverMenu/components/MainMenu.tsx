@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import { MenuItemType } from 'components/AppPopoverMenu/types';
-import { Box, Icon, Typography } from 'components/Atomic';
+import { Box, Icon } from 'components/Atomic';
 
 type Props = {
   items: MenuItemType[];
@@ -21,10 +22,10 @@ export const MainMenu = ({ items }: Props) => {
             <Icon name="chevronRight" />
           </Box>
 
-          <Typography className="mt-4">{item.label}</Typography>
-          <Typography color="secondary" variant="caption-xs">
+          <Text className="mt-4">{item.label}</Text>
+          <Text textStyle="caption-xs" variant="secondary">
             {item.desc}
-          </Typography>
+          </Text>
         </Box>
       ))}
     </Box>

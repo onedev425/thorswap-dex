@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Icon, Tooltip, Typography } from 'components/Atomic';
+import { Box, Icon, Tooltip } from 'components/Atomic';
 import { genericBgClasses, lightInputBorder } from 'components/constants';
 import { HighlightCard } from 'components/HighlightCard';
 import { StepActions } from 'components/Stepper';
@@ -15,9 +16,9 @@ export const ExportWalletStep = () => {
   return (
     <Box col className="gap-5">
       <Box col className="gap-3">
-        <Typography fontWeight="normal" variant="caption">
+        <Text fontWeight="normal" textStyle="caption">
           {`${t('views.multisig.createdWalletAddress')}:`}
-        </Typography>
+        </Text>
         <Tooltip className="flex flex-1" content={t('common.copy')}>
           <Box center className="gap-2 cursor-pointer" flex={1} onClick={handleCopyAddress}>
             <HighlightCard
@@ -28,13 +29,13 @@ export const ExportWalletStep = () => {
               )}
             >
               <Box justify="between">
-                <Typography
+                <Text
                   className="break-all whitespace-normal"
-                  color="secondary"
-                  variant="caption"
+                  textStyle="caption"
+                  variant="secondary"
                 >
                   {address}
-                </Typography>
+                </Text>
                 <div>
                   <Icon className="px-2" name="copy" size={16} />
                 </div>
@@ -45,7 +46,7 @@ export const ExportWalletStep = () => {
       </Box>
 
       <Box className="gap-2">
-        <Typography variant="caption">{t('views.multisig.exportWalletInfoToFile')}</Typography>
+        <Text textStyle="caption">{t('views.multisig.exportWalletInfoToFile')}</Text>
         <MultisigExport />
       </Box>
 

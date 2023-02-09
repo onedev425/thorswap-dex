@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import { Asset, QuoteRoute } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Modal, Typography } from 'components/Atomic';
+import { Box, Modal } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
 import { chainToSigAsset } from 'helpers/assets';
@@ -49,10 +50,10 @@ export const FeeModal = memo(({ totalFee, fees, isOpened, onClose }: Props) => {
         return {
           label: (
             <Box center className="gap-x-1">
-              <Typography variant="caption">
+              <Text textStyle="caption">
                 {`${t('common.network')} `}
                 {type ? t(`common.${type}`) : ''}
-              </Typography>
+              </Text>
               <AssetIcon asset={chainAsset} size={20} />
             </Box>
           ),
@@ -60,16 +61,16 @@ export const FeeModal = memo(({ totalFee, fees, isOpened, onClose }: Props) => {
             <Box center className="gap-x-1">
               {feeAsset && (
                 <>
-                  <Typography color="secondary" variant="caption-xs">
+                  <Text textStyle="caption-xs" variant="secondary">
                     (
-                  </Typography>
+                  </Text>
                   <AssetIcon asset={feeAsset} size={14} />
-                  <Typography color="secondary" variant="caption-xs">
+                  <Text textStyle="caption-xs" variant="secondary">
                     {formatPrice(networkFee, { prefix: '' })})
-                  </Typography>
+                  </Text>
                 </>
               )}
-              <Typography>{formatPrice(networkFeeUSD)}</Typography>
+              <Text>{formatPrice(networkFeeUSD)}</Text>
             </Box>
           ),
         };
@@ -83,24 +84,19 @@ export const FeeModal = memo(({ totalFee, fees, isOpened, onClose }: Props) => {
       {
         label: (
           <Box center className="gap-x-1">
-            <Typography variant="caption">{t('views.swap.exchangeFee')}</Typography>
+            <Text textStyle="caption">{t('views.swap.exchangeFee')}</Text>
             <AssetIcon asset={Asset.THOR()} hasChainIcon={false} size={20} />
           </Box>
         ),
-        value:
-          affiliateFee > 0 ? (
-            formatPrice(affiliateFee)
-          ) : (
-            <Typography color="green">FREE</Typography>
-          ),
+        value: affiliateFee > 0 ? formatPrice(affiliateFee) : <Text variant="green">FREE</Text>,
       },
       {
         label: (
           <Box center>
-            <Typography variant="caption">{t('views.wallet.totalFee')}</Typography>
+            <Text textStyle="caption">{t('views.wallet.totalFee')}</Text>
           </Box>
         ),
-        value: <Typography>{totalFee}</Typography>,
+        value: <Text>{totalFee}</Text>,
       },
     ];
   }, [fees, formatPrice, totalFee]);

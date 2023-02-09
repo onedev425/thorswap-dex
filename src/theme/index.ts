@@ -119,13 +119,14 @@ export const theme = extendTheme({
     Text: {
       baseStyle: {
         fontFamily: 'Poppins, sans-serif',
+        textStyle: 'body',
       },
       variants: {
         primary: (props: StyleFunctionProps) => ({
           color: mode(colors.light.textPrimary, colors.dark.textPrimary)(props),
         }),
         secondary: (props: StyleFunctionProps) => ({
-          color: mode(colors.light.typoGray, colors.dark.typoGray)(props),
+          color: mode(colors.light.textSecondary, colors.dark.typoGray)(props),
         }),
         purple: { color: colors.purple },
         yellow: { color: colors.yellow },

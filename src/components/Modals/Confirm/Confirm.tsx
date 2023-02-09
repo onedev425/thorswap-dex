@@ -1,4 +1,5 @@
-import { Box, Button, Modal, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box, Button, Modal } from 'components/Atomic';
 import { t } from 'services/i18n';
 
 type Props = {
@@ -23,7 +24,7 @@ export const Confirm = ({
   return (
     <Modal isOpened={isOpened} onClose={onCancel} title={title || ''}>
       <Box col>
-        <Typography>{description}</Typography>
+        <Text>{description}</Text>
         <Box className="gap-3 mt-4" justify="end">
           <Button onClick={onCancel} variant="tint">
             {cancelLabel || t('common.cancel')}

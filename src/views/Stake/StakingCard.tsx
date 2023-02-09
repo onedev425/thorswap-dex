@@ -1,9 +1,10 @@
+import { Text } from '@chakra-ui/react';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Asset } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon, AssetLpIcon } from 'components/AssetIcon';
-import { Box, Button, Card, Icon, Link, Typography } from 'components/Atomic';
+import { Box, Button, Card, Icon, Link } from 'components/Atomic';
 import { borderHoverHighlightClass } from 'components/constants';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoRow } from 'components/InfoRow';
@@ -248,9 +249,9 @@ export const StakingCard = ({
 
           <Box alignCenter row className="mt-8" justify="between">
             <Box flex={1} />
-            <Typography className="mr-2" variant="h4">
+            <Text className="mr-2" textStyle="h4">
               {farmName}
-            </Typography>
+            </Text>
             <Box flex={1} justify="end">
               {ethAddr && (
                 <HoverIcon
@@ -265,31 +266,31 @@ export const StakingCard = ({
 
           <Box className="flex-row justify-between">
             <Box col className="p-4">
-              <Typography
-                color="secondary"
+              <Text
                 fontWeight="bold"
-                transform="uppercase"
-                variant="caption-xs"
+                textStyle="caption-xs"
+                textTransform="uppercase"
+                variant="secondary"
               >
                 {t('common.exchange')}
-              </Typography>
-              <Typography color="primary" fontWeight="bold" variant="body">
+              </Text>
+              <Text fontWeight="bold" textStyle="body" variant="primary">
                 {exchange}
-              </Typography>
+              </Text>
             </Box>
             <Box col className="p-4">
-              <Typography
+              <Text
                 className="text-right"
-                color="secondary"
                 fontWeight="bold"
-                variant="caption-xs"
+                textStyle="caption-xs"
+                variant="secondary"
               >
                 {t('common.APR')}
-              </Typography>
+              </Text>
 
-              <Typography className="text-right" color="green" fontWeight="bold" variant="body">
+              <Text className="text-right" fontWeight="bold" textStyle="body" variant="green">
                 {aprRate?.toFixed(2) || '-'}%
-              </Typography>
+              </Text>
             </Box>
           </Box>
           <Box className="flex-col px-4">
@@ -298,14 +299,14 @@ export const StakingCard = ({
               size="md"
               value={
                 <Box alignCenter row className="space-x-1">
-                  <Typography
+                  <Text
                     className="overflow-hidden text-ellipsis whitespace-nowrap"
-                    color="primary"
                     fontWeight="bold"
-                    variant="caption-xs"
+                    textStyle="caption-xs"
+                    variant="primary"
                   >
                     {shortenAddress(stakingToken)}
-                  </Typography>
+                  </Text>
                   <Link external to={getAccountUrl(stakingToken)}>
                     <Icon color="cyan" name="share" size={16} />
                   </Link>
@@ -317,14 +318,14 @@ export const StakingCard = ({
               size="md"
               value={
                 <Box alignCenter row className="space-x-1">
-                  <Typography
+                  <Text
                     className="overflow-hidden text-ellipsis whitespace-nowrap"
-                    color="primary"
                     fontWeight="bold"
-                    variant="caption-xs"
+                    textStyle="caption-xs"
+                    variant="primary"
                   >
                     {shortenAddress(stakeAddr)}
-                  </Typography>
+                  </Text>
                   <Link external to={getAccountUrl(stakeAddr)}>
                     <Icon color="cyan" name="share" size={16} />
                   </Link>

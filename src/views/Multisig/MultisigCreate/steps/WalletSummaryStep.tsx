@@ -1,4 +1,5 @@
-import { Box, Tooltip, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box, Tooltip } from 'components/Atomic';
 import { InfoTable } from 'components/InfoTable';
 import { StepActions } from 'components/Stepper';
 import { useAddressUtils } from 'hooks/useAddressUtils';
@@ -18,9 +19,9 @@ export const WalletSummaryStep = () => {
   return (
     <Box col className="gap-5">
       <Box col className="gap-3">
-        <Typography fontWeight="normal" variant="caption">
+        <Text fontWeight="normal" textStyle="caption">
           {`${t('views.multisig.thorSafeInfo')}:`}
-        </Typography>
+        </Text>
         <Tooltip className="flex flex-1" content={t('common.copy')}>
           <Box center className="gap-2 cursor-pointer" flex={1} onClick={handleCopyAddress}>
             <InfoTable horizontalInset items={info} />

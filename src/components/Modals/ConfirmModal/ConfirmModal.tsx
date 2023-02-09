@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { Asset } from '@thorswap-lib/multichain-core';
 import { decryptFromKeystore } from '@thorswap-lib/xchain-crypto';
-import { Box, Button, Modal, Typography } from 'components/Atomic';
+import { Box, Button, Modal } from 'components/Atomic';
 import { PasswordInput } from 'components/PasswordInput';
 import { isKeystoreSignRequired } from 'helpers/wallet';
 import { KeyboardEventHandler, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
@@ -125,9 +126,9 @@ export const ConfirmModal = ({
             />
 
             {invalidPassword && (
-              <Typography className="ml-2" color="orange" fontWeight="medium" variant="caption">
+              <Text className="ml-2" fontWeight="medium" textStyle="caption" variant="orange">
                 {t('views.walletModal.wrongPassword')}
-              </Typography>
+              </Text>
             )}
           </>
         )}

@@ -1,4 +1,5 @@
-import { Box, Icon, Link, Tooltip, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box, Icon, Link, Tooltip } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoTip } from 'components/InfoTip';
 import { useFormatPrice } from 'helpers/formatPrice';
@@ -80,9 +81,9 @@ export const VThorInfo = memo(({ ethAddress }: Props) => {
             className="pb-2 border-0 border-b border-solid border-opacity-20 border-light-border-primary dark:border-dark-border-primary"
             justify="between"
           >
-            <Typography fontWeight="semibold" variant="subtitle2">
+            <Text fontWeight="semibold" textStyle="subtitle2">
               {t('views.stakingVThor.statTitle')}
-            </Typography>
+            </Text>
 
             <Box alignCenter row className="gap-2">
               <AddVThorMM />
@@ -92,43 +93,43 @@ export const VThorInfo = memo(({ ethAddress }: Props) => {
 
           <Box alignCenter row className="gap-2" justify="between">
             <Box alignCenter row className="gap-x-1">
-              <Typography color="secondary" fontWeight="medium" variant="caption">
+              <Text fontWeight="medium" textStyle="caption" variant="secondary">
                 {t('views.stakingVThor.stakingApy')}
-              </Typography>
+              </Text>
 
               <Tooltip className="cursor-pointer" content={t('views.stakingVThor.apyTip')}>
                 <Icon color="primaryBtn" name="infoCircle" size={16} />
               </Tooltip>
             </Box>
-            <Typography fontWeight="medium" variant="subtitle2">
+            <Text fontWeight="medium" textStyle="subtitle2">
               {vthorApr > 0 ? `${toOptionalFixed(vthorApr)}%` : '-'}
-            </Typography>
+            </Text>
           </Box>
 
           <Box alignCenter row className="gap-2" justify="between">
             <Box alignCenter row className="gap-x-1">
-              <Typography color="secondary" fontWeight="medium" variant="caption">
+              <Text fontWeight="medium" textStyle="caption" variant="secondary">
                 {t('views.stakingVThor.redeemableThor')}
-              </Typography>
+              </Text>
 
               <Tooltip className="cursor-pointer" content={t('views.stakingVThor.totalThorTip')}>
                 <Icon color="primaryBtn" name="infoCircle" size={16} />
               </Tooltip>
             </Box>
-            <Typography fontWeight="medium" variant="subtitle2">
+            <Text fontWeight="medium" textStyle="subtitle2">
               {ethAddress ? formatPrice(thorRedeemable) : '-'}
-            </Typography>
+            </Text>
           </Box>
 
           <Box alignCenter row className="gap-2" justify="between">
             <Box alignCenter row className="gap-x-1">
-              <Typography color="secondary" fontWeight="medium" variant="caption">
+              <Text fontWeight="medium" textStyle="caption" variant="secondary">
                 {t('views.stakingVThor.vthorBal')}
-              </Typography>
+              </Text>
             </Box>
-            <Typography fontWeight="medium" variant="subtitle2">
+            <Text fontWeight="medium" textStyle="subtitle2">
               {ethAddress ? formatPrice(fromWei(vthorBalance)) : '-'}
-            </Typography>
+            </Text>
           </Box>
         </Box>
       </InfoTip>

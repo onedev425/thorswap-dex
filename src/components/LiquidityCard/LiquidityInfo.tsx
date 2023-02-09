@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { Amount, Asset, Percent } from '@thorswap-lib/multichain-core';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Typography } from 'components/Atomic';
+import { Box } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
 import { memo, RefObject, useMemo } from 'react';
@@ -75,9 +76,7 @@ export const LiquidityInfo = memo(
           label: `${asset.ticker} ${t('views.liquidity.share')}`,
           value: (
             <Box center className="gap-2">
-              <Typography>{`${assetShare.toSignificantWithMaxDecimals(6)} ${
-                asset.ticker
-              }`}</Typography>
+              <Text>{`${assetShare.toSignificantWithMaxDecimals(6)} ${asset.ticker}`}</Text>
               <AssetIcon asset={asset} size={24} />
             </Box>
           ),
@@ -89,7 +88,7 @@ export const LiquidityInfo = memo(
           label: `${RuneAsset.symbol} ${t('views.liquidity.share')}`,
           value: (
             <Box center className="gap-2">
-              <Typography>{`${runeShare.toFixed(4)} ${RuneAsset.symbol}`}</Typography>
+              <Text>{`${runeShare.toFixed(4)} ${RuneAsset.symbol}`}</Text>
               <AssetIcon asset={RuneAsset} size={24} />
             </Box>
           ),
@@ -134,15 +133,15 @@ export const LiquidityInfo = memo(
         style={maxHeightStyle}
       >
         {!!tickerPending && (
-          <Typography className="brightness-90" color="yellow" variant="caption">
+          <Text className="brightness-90" textStyle="caption" variant="yellow">
             {t('pendingLiquidity.content', { asset: tickerPending })}
-          </Typography>
+          </Text>
         )}
         <Box col className="self-stretch pt-1 pb-2">
           <Box alignCenter row justify="between">
-            <Typography className="px-1.5" color="cyan" variant="caption">
+            <Text className="px-1.5" textStyle="caption" variant="cyan">
               {poolAssetsInfo}
-            </Typography>
+            </Text>
           </Box>
 
           <InfoTable horizontalInset items={summary} size="sm" />

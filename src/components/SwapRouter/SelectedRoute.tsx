@@ -1,8 +1,9 @@
+import { Text } from '@chakra-ui/react';
 import { Amount, AmountType, Asset, Percent, QuoteRoute } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
-import { Box, Button, Typography } from 'components/Atomic';
+import { Box, Button } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { useFormatPrice } from 'helpers/formatPrice';
 import React, { memo, useCallback, useMemo, useState } from 'react';
@@ -79,7 +80,7 @@ export const SelectedRoute = memo(
             { '!opacity-100': optimal },
           )}
         >
-          <Typography variant="caption-xs">{t('common.optimal')}</Typography>
+          <Text textStyle="caption-xs">{t('common.optimal')}</Text>
         </Box>
 
         <Box col className="pl-4 py-1">
@@ -96,18 +97,18 @@ export const SelectedRoute = memo(
 
             <Box col className="pr-2" justify="end">
               <Box className="gap-x-1" justify="end">
-                <Typography>{expectedAssetOutput}</Typography>
-                <Typography>{assetTicker}</Typography>
+                <Text>{expectedAssetOutput}</Text>
+                <Text>{assetTicker}</Text>
               </Box>
 
               <Box alignCenter className="gap-x-1">
-                <Typography
-                  color={slippage.gte(slippageTolerance / 100) ? 'red' : 'green'}
-                  variant="caption"
+                <Text
+                  textStyle="caption"
+                  variant={slippage.gte(slippageTolerance / 100) ? 'red' : 'green'}
                 >
                   ({slippageInfo})
-                </Typography>
-                <Typography color="secondary">{expectedPriceOutput}</Typography>
+                </Text>
+                <Text variant="secondary">{expectedPriceOutput}</Text>
               </Box>
             </Box>
           </Box>
@@ -119,9 +120,9 @@ export const SelectedRoute = memo(
               tooltip={t('views.swap.swapPath')}
               variant="tint"
             >
-              <Typography color="secondary" variant="caption-xs">
+              <Text textStyle="caption-xs" variant="secondary">
                 {t('common.path')}: {path.replaceAll('->', '→')}
-              </Typography>
+              </Text>
             </Button>
           </Box>
         </Box>

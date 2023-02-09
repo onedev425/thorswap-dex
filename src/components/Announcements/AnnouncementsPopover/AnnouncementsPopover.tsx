@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import { Announcement } from 'components/Announcements/Announcement/Announcement';
 import { useAnnouncements } from 'components/Announcements/AnnouncementsContext';
 import { useSeenAnnouncements } from 'components/Announcements/hooks';
-import { Box, Button, Card, Icon, Typography } from 'components/Atomic';
+import { Box, Button, Card, Icon } from 'components/Atomic';
 import { Popover } from 'components/Popover';
 import { Scrollbar } from 'components/Scrollbar';
 import useWindowSize from 'hooks/useWindowSize';
@@ -33,9 +34,9 @@ export const AnnouncementsPopover = () => {
         >
           {unreadAnnouncementsCount > 0 && (
             <Box center className="absolute bg-red rounded-full w-4 h-4 right-3 top-1">
-              <Typography className="text-white" variant="caption-xs">
+              <Text className="text-white" textStyle="caption-xs">
                 {unreadAnnouncementsCount}
-              </Typography>
+              </Text>
             </Box>
           )}
         </Button>
@@ -47,9 +48,9 @@ export const AnnouncementsPopover = () => {
           size="sm"
         >
           <Scrollbar height="480px">
-            <Typography className="p-2" variant="subtitle2">
+            <Text className="p-2" textStyle="subtitle2">
               {t('components.announcements.announcements')}
-            </Typography>
+            </Text>
             <Box col className="pt-3 self-stretch gap-1 px-0.5">
               {announcementsToShow.length > 0 ? (
                 announcementsToShow.map((announcement) => (
@@ -60,9 +61,9 @@ export const AnnouncementsPopover = () => {
                   />
                 ))
               ) : (
-                <Typography className="p-2 text-center" variant="caption">
+                <Text className="p-2 text-center" textStyle="caption">
                   {t('common.allCaughtUp')}
-                </Typography>
+                </Text>
               )}
             </Box>
           </Scrollbar>

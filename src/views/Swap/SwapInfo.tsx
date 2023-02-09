@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { Percent, Price } from '@thorswap-lib/multichain-core';
 import { FeeOption } from '@thorswap-lib/types';
-import { Box, Button, Collapse, Icon, Select, Typography } from 'components/Atomic';
+import { Box, Button, Collapse, Icon, Select } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
@@ -115,18 +116,18 @@ export const SwapInfo = ({
         {
           label: (
             <Box center className="gap-2 group">
-              <Typography color="secondary" fontWeight="medium" variant="caption">
+              <Text fontWeight="medium" textStyle="caption" variant="secondary">
                 {t('views.wallet.networkFee')}
-              </Typography>
+              </Text>
               <Box center>
-                <Typography
+                <Text
                   className="italic underline"
-                  color="secondary"
                   fontWeight="normal"
-                  variant="caption-xs"
+                  textStyle="caption-xs"
+                  variant="secondary"
                 >
                   details
-                </Typography>
+                </Text>
 
                 <Icon className="mx-1" color="secondary" name="eye" size={16} />
               </Box>
@@ -138,7 +139,7 @@ export const SwapInfo = ({
               tooltip={t('views.swap.networkFeeTooltip')}
               value={
                 <Box center>
-                  <Typography variant="caption">{formatPrice(networkFee)}</Typography>
+                  <Text textStyle="caption">{formatPrice(networkFee)}</Text>
                 </Box>
               }
             />
@@ -158,17 +159,17 @@ export const SwapInfo = ({
               value={
                 <Box center row className="gap-1">
                   {affiliateBasisPoints !== DEFAULT_AFFILIATE && (
-                    <Typography color="secondary" variant="caption-xs">
+                    <Text textStyle="caption-xs" variant="secondary">
                       vTHOR {t('views.swap.discountApplied')}
-                    </Typography>
+                    </Text>
                   )}
 
                   {affiliateFee ? (
-                    <Typography variant="caption">{formatPrice(affiliateFee)}</Typography>
+                    <Text textStyle="caption">{formatPrice(affiliateFee)}</Text>
                   ) : (
-                    <Typography color="green" fontWeight="bold" variant="caption">
+                    <Text fontWeight="bold" textStyle="caption" variant="green">
                       FREE
-                    </Typography>
+                    </Text>
                   )}
                 </Box>
               }
@@ -212,13 +213,13 @@ export const SwapInfo = ({
           ) : (
             <Box alignCenter className="gap-x-1 flex-wrap flex-1 pl-1">
               <Box center className="gap-1.5">
-                <Typography color="primary" fontWeight="normal" variant="caption">
+                <Text fontWeight="normal" textStyle="caption" variant="primary">
                   {rateDesc}
-                </Typography>
+                </Text>
               </Box>
-              <Typography color="secondary" fontWeight="normal" variant="caption">
+              <Text fontWeight="normal" textStyle="caption" variant="secondary">
                 {ratePrice}
-              </Typography>
+              </Text>
             </Box>
           )}
 
@@ -229,7 +230,7 @@ export const SwapInfo = ({
               tooltip={t('views.swap.totalFeeTooltip')}
               variant="tint"
             >
-              <Typography>{formatPrice(networkFee + affiliateFee)}</Typography>
+              <Text>{formatPrice(networkFee + affiliateFee)}</Text>
             </Button>
           </Box>
         </Box>

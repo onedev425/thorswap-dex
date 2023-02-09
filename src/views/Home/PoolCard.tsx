@@ -1,8 +1,9 @@
+import { Text } from '@chakra-ui/react';
 import { Amount, Percent, Pool } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Button, Card, Typography } from 'components/Atomic';
+import { Box, Button, Card } from 'components/Atomic';
 import { useRuneToCurrency } from 'hooks/useRuneToCurrency';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -31,17 +32,17 @@ export const PoolCard = ({ pool, color }: PoolCardProps) => {
     <Card stretch className="flex-col min-w-fit max-w-[288px]">
       <Box className="px-6 pt-6" justify="between">
         <Box col>
-          <Typography className="mb-4" fontWeight="bold" transform="uppercase" variant="h2">
+          <Text className="mb-4" fontWeight="bold" textStyle="h2" textTransform="uppercase">
             {pool.asset.ticker}
-          </Typography>
+          </Text>
 
-          <Typography className="mb-2" color="secondary" fontWeight="semibold">
+          <Text className="mb-2" fontWeight="semibold" variant="secondary">
             {runeToCurrency(Amount.fromMidgard(pool.detail.runeDepth).mul(2)).toCurrencyFormat(2)}
-          </Typography>
+          </Text>
 
-          <Typography color="green" fontWeight="semibold">
+          <Text fontWeight="semibold" variant="green">
             {`${t('common.APR')}: ${new Percent(pool.detail.poolAPY).toFixed(1)}`}
-          </Typography>
+          </Text>
         </Box>
 
         <AssetIcon

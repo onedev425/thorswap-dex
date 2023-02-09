@@ -1,4 +1,5 @@
-import { Box, Collapse, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box, Collapse } from 'components/Atomic';
 import { PanelView } from 'components/PanelView';
 import { Stepper } from 'components/Stepper';
 import { StepperProvider } from 'components/Stepper/StepperContext';
@@ -89,30 +90,25 @@ const TxMultisig = () => {
               className="!bg-light-bg-primary dark:!bg-dark-gray-light "
               title={
                 <Box align="end" className="gap-1 my-1.5">
-                  <Typography className="leading-[24px]" variant="body">
+                  <Text className="leading-[24px]" textStyle="body">
                     {t('views.multisig.requiredSignatures')}:
-                  </Typography>
-                  <Typography color="primaryBtn" variant="subtitle1">
+                  </Text>
+                  <Text textStyle="subtitle1" variant="primaryBtn">
                     {signatures.length}
-                  </Typography>
-                  <Typography className="leading-[24px]" variant="body">
+                  </Text>
+                  <Text className="leading-[24px]" textStyle="body">
                     of
-                  </Typography>
-                  <Typography color="primaryBtn" variant="subtitle1">
+                  </Text>
+                  <Text textStyle="subtitle1" variant="primaryBtn">
                     {requiredSigners.length}
-                  </Typography>
+                  </Text>
                 </Box>
               }
             >
               <Box col className="gap-1">
-                <Typography
-                  className="mb-2"
-                  color="secondary"
-                  fontWeight="normal"
-                  variant="caption"
-                >
+                <Text className="mb-2" fontWeight="normal" textStyle="caption" variant="secondary">
                   {t('views.multisig.txSignaturesInfo')}
-                </Typography>
+                </Text>
 
                 {requiredSigners.map((s) => (
                   <SignerCheckBox isSelected={hasMemberSignature(s)} key={s.pubKey} signer={s} />

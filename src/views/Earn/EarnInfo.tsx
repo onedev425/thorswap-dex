@@ -1,4 +1,5 @@
-import { Box, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoTip } from 'components/InfoTip';
 import { memo } from 'react';
@@ -22,21 +23,21 @@ export const EarnInfo = memo(({ depositValue, providerData, address }: Props) =>
             className="pb-2 border-0 border-b border-solid border-opacity-20 border-light-border-primary dark:border-dark-border-primary"
             justify="between"
           >
-            <Typography fontWeight="semibold" variant="subtitle2">
+            <Text fontWeight="semibold" textStyle="subtitle2">
               {t('views.savings.yourPosition')}
-            </Typography>
+            </Text>
 
             <HoverIcon iconName="refresh" onClick={() => {}} spin={!!address && !providerData} />
           </Box>
 
           <Box alignCenter row className="gap-2" justify="between">
-            <Typography color="secondary" fontWeight="medium" variant="caption">
+            <Text fontWeight="medium" textStyle="caption" variant="secondary">
               {t('views.savings.yourDeposit')}
-            </Typography>
+            </Text>
 
-            <Typography fontWeight="medium" variant="subtitle2">
+            <Text fontWeight="medium" textStyle="subtitle2">
               {depositValue || '-'}
-            </Typography>
+            </Text>
           </Box>
         </Box>
       </InfoTip>

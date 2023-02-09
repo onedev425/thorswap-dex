@@ -1,8 +1,9 @@
+import { Text } from '@chakra-ui/react';
 import { Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetSelectProps } from 'components/AssetSelect/types';
 import { useAssetSelect } from 'components/AssetSelect/useAssetSelect';
-import { Box, Icon, Typography } from 'components/Atomic';
+import { Box, Icon } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
@@ -55,7 +56,7 @@ export const EarnAssetSelectList = ({
           {isLoading ? (
             <Icon spin name="loader" size={24} />
           ) : (
-            <Typography>{t('components.assetSelect.noResultsFound')}</Typography>
+            <Text>{t('components.assetSelect.noResultsFound')}</Text>
           )}
         </Box>
       )}

@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Tooltip, Typography } from 'components/Atomic';
+import { Box, Tooltip } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { t } from 'services/i18n';
@@ -77,9 +78,9 @@ export const CountDownIndicator = memo(
           onClick={handleRefresh}
           style={countdownStyles}
         >
-          <Typography className="rotate-90" variant="caption-xs">
+          <Text className="rotate-90" textStyle="caption-xs">
             {countdown.toFixed()}
-          </Typography>
+          </Text>
 
           <svg className={svgClass}>
             <circle

@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Button, Icon, Typography } from 'components/Atomic';
+import { Box, Button, Icon } from 'components/Atomic';
 import { useFormatPrice } from 'helpers/formatPrice';
 import useWindowSize, { BreakPoint } from 'hooks/useWindowSize';
 import { useMemo } from 'react';
@@ -42,8 +43,8 @@ export const useColumns = (chainAddress: string, chain: Chain) => {
         accessor: (row: AssetAmount) => row.asset,
         Cell: ({ cell: { value } }: { cell: { value: Asset } }) => (
           <Box col className="pl-4" justify="between">
-            <Typography>{value.name}</Typography>
-            <Typography color="secondary">{value.type}</Typography>
+            <Text>{value.name}</Text>
+            <Text variant="secondary">{value.type}</Text>
           </Box>
         ),
       },
@@ -53,7 +54,7 @@ export const useColumns = (chainAddress: string, chain: Chain) => {
         align: 'right',
         accessor: (row: Amount) => row.assetAmount.toFixed(2),
         Cell: ({ cell: { value } }: { cell: { value: String } }) => (
-          <Typography fontWeight="bold">{chainAddress ? value : '-'}</Typography>
+          <Text fontWeight="bold">{chainAddress ? value : '-'}</Text>
         ),
       },
       {
@@ -66,7 +67,7 @@ export const useColumns = (chainAddress: string, chain: Chain) => {
             ? `$${parseFloat(runePrice || '').toFixed(2)}`
             : geckoData[symbol]?.current_price || 0,
         Cell: ({ cell: { value } }: { cell: { value: string } }) => (
-          <Typography fontWeight="bold">{formatPrice(value)}</Typography>
+          <Text fontWeight="bold">{formatPrice(value)}</Text>
         ),
         sortType: 'basic',
       },
@@ -78,9 +79,9 @@ export const useColumns = (chainAddress: string, chain: Chain) => {
           geckoData[row.asset.symbol]?.price_change_percentage_24h || 0,
         minScreenSize: BreakPoint.md,
         Cell: ({ cell: { value } }: { cell: { value: number } }) => (
-          <Typography color={value >= 0 ? 'green' : 'red'} fontWeight="bold">
+          <Text fontWeight="bold" variant={value >= 0 ? 'green' : 'red'}>
             {value.toFixed(2)}%
-          </Typography>
+          </Text>
         ),
         sortType: 'basic',
       },

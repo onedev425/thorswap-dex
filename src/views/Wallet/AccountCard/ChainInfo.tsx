@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { AssetAmount } from '@thorswap-lib/multichain-core';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Typography } from 'components/Atomic';
+import { Box } from 'components/Atomic';
 import { formatPrice } from 'helpers/formatPrice';
 import { memo } from 'react';
 import { GeckoData } from 'store/wallet/types';
@@ -29,22 +30,22 @@ export const ChainInfo = memo(({ geckoData, info: { asset, assetAmount } }: Prop
       <Box>
         <AssetIcon asset={asset} hasChainIcon={false} />
         <Box col className="pl-2">
-          <Typography>{asset.name}</Typography>
-          <Typography color="secondary" fontWeight="semibold" variant="caption">
+          <Text>{asset.name}</Text>
+          <Text fontWeight="semibold" textStyle="caption" variant="secondary">
             {value}
-          </Typography>
+          </Text>
         </Box>
       </Box>
 
       <Box col align="end">
-        <Typography>{formatPrice(currentPrice)}</Typography>
-        <Typography
-          color={priceChangePercentage24h >= 0 ? 'green' : 'red'}
+        <Text>{formatPrice(currentPrice)}</Text>
+        <Text
           fontWeight="semibold"
-          variant="caption"
+          textStyle="caption"
+          variant={priceChangePercentage24h >= 0 ? 'green' : 'red'}
         >
           {priceChangePercentage24h?.toFixed(2)}%
-        </Typography>
+        </Text>
       </Box>
     </Box>
   );

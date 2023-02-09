@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import { Asset } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
-import { Box, Typography } from 'components/Atomic';
+import { Box } from 'components/Atomic';
 
 type Props = {
   asset: Asset;
@@ -23,7 +24,7 @@ const colorMapping: Record<Chain, string> = {
 export const ChainBadge = ({ asset }: Props) => {
   return (
     <Box className={classNames('px-2 rounded-full', colorMapping[asset.chain as Chain])}>
-      <Typography variant="caption">{asset.type}</Typography>
+      <Text textStyle="caption">{asset.type}</Text>
     </Box>
   );
 };

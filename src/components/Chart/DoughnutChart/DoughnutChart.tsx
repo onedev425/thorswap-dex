@@ -1,7 +1,6 @@
-import { Flex } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import { Amount, Price } from '@thorswap-lib/multichain-core';
 import { AssetIcon } from 'components/AssetIcon';
-import { Typography } from 'components/Atomic';
 import { ChartTypeSelect } from 'components/Chart/ChartTypeSelect';
 import {
   StrokeColor3,
@@ -132,7 +131,7 @@ export const DoughnutChart = ({
   return (
     <Flex direction="column" p={2} w="full">
       <Flex justify="space-between" pb={4}>
-        <Typography variant="subtitle2">{title}</Typography>
+        <Text textStyle="subtitle2">{title}</Text>
         <ChartTypeSelect
           chartTypeIndexes={chartIndexes}
           selectChartTypeIndex={selectChart}
@@ -172,8 +171,8 @@ export const DoughnutChart = ({
                 pl={3}
               >
                 <Flex gap={1}>
-                  <Typography>{selectedShare?.toSignificantWithMaxDecimals(6)}</Typography>
-                  <Typography>{share.asset.name}</Typography>
+                  <Text>{selectedShare?.toSignificantWithMaxDecimals(6)}</Text>
+                  <Text>{share.asset.name}</Text>
                 </Flex>
                 <AssetIcon asset={share.asset} size={28} />
               </Flex>

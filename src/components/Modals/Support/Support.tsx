@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Icon, Link, Modal, Typography } from 'components/Atomic';
+import { Box, Icon, Link, Modal } from 'components/Atomic';
 import {
   COMMUNITY_FEEDBACK_URL,
   DISCORD_URL,
@@ -20,7 +21,7 @@ export const SupportModal = ({ isOpen, onCancel = () => {} }: Props): JSX.Elemen
   return (
     <Modal isOpened={isOpen} onClose={onCancel} title={t('common.support')}>
       <Box col className="!w-[300px] md:!w-[350px] gap-3">
-        <Typography>{t('components.sidebar.supportInfo')}</Typography>
+        <Text>{t('components.sidebar.supportInfo')}</Text>
 
         <Link to={DISCORD_URL}>
           <Box
@@ -28,16 +29,14 @@ export const SupportModal = ({ isOpen, onCancel = () => {} }: Props): JSX.Elemen
             className={classNames(commonClasses, 'bg-discord-purple')}
             justify="between"
           >
-            <Typography className="!text-white">{t('components.sidebar.joinDiscord')}</Typography>
+            <Text className="!text-white">{t('components.sidebar.joinDiscord')}</Text>
             <Icon className="fill-white" name="discord" />
           </Box>
         </Link>
 
         <Link to={THORSWAP_YOUTUBE_URL}>
           <Box alignCenter className={classNames(commonClasses, 'bg-red')} justify="between">
-            <Typography className="!text-white">
-              {t('components.sidebar.thorswapCommunityYoutube')}
-            </Typography>
+            <Text className="!text-white">{t('components.sidebar.thorswapCommunityYoutube')}</Text>
             <Icon className="fill-white" name="youtube" />
           </Box>
         </Link>
@@ -48,9 +47,7 @@ export const SupportModal = ({ isOpen, onCancel = () => {} }: Props): JSX.Elemen
             className={classNames(commonClasses, 'bg-btn-primary')}
             justify="between"
           >
-            <Typography className="!text-white">
-              {t('components.sidebar.thorswapDocumentation')}
-            </Typography>
+            <Text className="!text-white">{t('components.sidebar.thorswapDocumentation')}</Text>
             <Icon className="fill-white" name="docs" />
           </Box>
         </Link>
@@ -61,17 +58,13 @@ export const SupportModal = ({ isOpen, onCancel = () => {} }: Props): JSX.Elemen
             className={classNames(commonClasses, 'bg-btn-secondary')}
             justify="between"
           >
-            <Typography className="!text-white">
-              {t('components.sidebar.submitFeatureRequest')}
-            </Typography>
+            <Text className="!text-white">{t('components.sidebar.submitFeatureRequest')}</Text>
             <Icon className="fill-white" name="feedback" />
           </Box>
         </Link>
         <Link to={COMMUNITY_FEEDBACK_URL}>
           <Box alignCenter className={classNames(commonClasses, 'bg-orange')} justify="between">
-            <Typography className="!text-white">
-              {t('components.sidebar.communitySurvey')}
-            </Typography>
+            <Text className="!text-white">{t('components.sidebar.communitySurvey')}</Text>
             <Icon className="fill-white" name="survey" />
           </Box>
         </Link>

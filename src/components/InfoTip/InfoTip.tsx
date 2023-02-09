@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Icon, Typography } from 'components/Atomic';
+import { Box, Icon } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { cardFontColors, CardStyleType } from 'components/HighlightCard/types';
 import { ReactNode } from 'react';
@@ -45,7 +46,7 @@ export const InfoTip = ({
             <Box>
               {icons[type]}
 
-              <Typography className="mx-2">{title}</Typography>
+              <Text className="mx-2">{title}</Text>
             </Box>
           )}
 
@@ -56,14 +57,14 @@ export const InfoTip = ({
       )}
 
       {children || (
-        <Typography
+        <Text
           className={classNames('px-2 py-2 brightness-90', contentClassName)}
-          color={cardFontColors[type]}
           fontWeight="semibold"
-          variant="caption"
+          textStyle="caption"
+          variant={cardFontColors[type]}
         >
           {content}
-        </Typography>
+        </Text>
       )}
     </HighlightCard>
   );

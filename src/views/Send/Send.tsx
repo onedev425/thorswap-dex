@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import { Amount, Asset, Price } from '@thorswap-lib/multichain-core';
 import { SwitchMenu } from 'components/AppPopoverMenu/components/SwitchMenu';
 import { AssetInput } from 'components/AssetInput';
-import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic';
+import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { InfoTable } from 'components/InfoTable';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
@@ -196,7 +197,7 @@ const Send = () => {
         label: t('common.transactionFee'),
         value: (
           <Box center className="gap-2">
-            <Typography variant="caption">{`${txFee} (${txFeeUsd})`}</Typography>
+            <Text textStyle="caption">{`${txFee} (${txFeeUsd})`}</Text>
             <Tooltip content={t('views.send.txFeeTooltip')}>
               <Icon color="secondary" name="infoCircle" size={20} />
             </Tooltip>
@@ -222,7 +223,7 @@ const Send = () => {
         label: t('common.transactionFee'),
         value: (
           <Box center className="gap-2">
-            <Typography variant="caption">{`${txFee} (${txFeeUsd})`}</Typography>
+            <Text variant="caption">{`${txFee} (${txFeeUsd})`}</Text>
             <Tooltip content={t('views.send.txFeeTooltip')}>
               <Icon color="secondary" name="infoCircle" size={20} />
             </Tooltip>

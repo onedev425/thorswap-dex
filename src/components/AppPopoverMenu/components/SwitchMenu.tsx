@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { MenuItemType } from 'components/AppPopoverMenu/types';
-import { Box, SwitchToggle, Typography } from 'components/Atomic';
+import { Box, SwitchToggle } from 'components/Atomic';
 
 type Props = {
   items: MenuItemType[];
@@ -18,7 +19,7 @@ export const SwitchMenu = ({ items, className }: Props) => {
           })}
           key={item.label}
         >
-          <Typography>{item.label}</Typography>
+          <Text>{item.label}</Text>
           <SwitchToggle checked={!!item.status} onChange={item.onClick as () => void} />
         </Box>
       ))}

@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { AddLiquidityParams, Asset, Memo } from '@thorswap-lib/multichain-core';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Typography } from 'components/Atomic';
+import { Box } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { useLiquidityType } from 'hooks/useLiquidityType';
@@ -74,9 +75,9 @@ export const useTxDeposit = (assetSideAddress: string) => {
         label: `${t('views.liquidity.depositAmount')} ${addLiquidity.poolAssetInput.asset.symbol}`,
         value: (
           <Box alignCenter justify="between">
-            <Typography className="mx-2" fontWeight="semibold">
+            <Text className="mx-2" fontWeight="semibold">
               {addLiquidity.poolAssetInput.value.toSignificantWithMaxDecimals(6)}
-            </Typography>
+            </Text>
             <AssetIcon asset={addLiquidity.poolAssetInput.asset} size={24} />
           </Box>
         ),
@@ -87,9 +88,9 @@ export const useTxDeposit = (assetSideAddress: string) => {
       label: `${t('views.liquidity.depositAmount')} ${Asset.RUNE().symbol}`,
       value: (
         <Box alignCenter justify="between">
-          <Typography className="mx-2" fontWeight="semibold">
+          <Text className="mx-2" fontWeight="semibold">
             {addLiquidity.runeAssetInput.value.toSignificantWithMaxDecimals(6)}
-          </Typography>
+          </Text>
           <AssetIcon asset={Asset.RUNE()} size={24} />
         </Box>
       ),

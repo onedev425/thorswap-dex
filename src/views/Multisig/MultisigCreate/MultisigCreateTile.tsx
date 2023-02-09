@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Button, Card, Typography } from 'components/Atomic';
+import { Box, Button, Card } from 'components/Atomic';
 import { baseBorderClass, borderHoverHighlightClass } from 'components/constants';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -16,21 +17,21 @@ export const MultisigCreateTile = () => {
     <Box col>
       <Card className={classNames(borderHoverHighlightClass, baseBorderClass)}>
         <Box col className="gap-6">
-          <Typography variant="subtitle1">{t('views.multisig.createThorsafe')}</Typography>
+          <Text textStyle="subtitle1">{t('views.multisig.createThorsafe')}</Text>
           <Box col className="gap-10">
             <Box col flex={1}>
-              <Typography className="my-3" fontWeight="light">
+              <Text className="my-3" fontWeight="light">
                 {t('views.multisig.createMultisigDescription')}
-              </Typography>
+              </Text>
 
               <PubKeyInfo />
             </Box>
 
             <Box col flex={1}>
-              <Typography variant="subtitle1">Get started</Typography>
-              <Typography className="my-3" fontWeight="light">
+              <Text textStyle="subtitle1">Get started</Text>
+              <Text className="my-3" fontWeight="light">
                 {t('views.multisig.createMultisigStart')}
-              </Typography>
+              </Text>
               <Button
                 stretch
                 className="mt-3"

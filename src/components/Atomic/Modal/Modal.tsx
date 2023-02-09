@@ -1,6 +1,12 @@
-import { Modal as CustomModal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react';
+import {
+  Modal as CustomModal,
+  ModalBody,
+  ModalContent,
+  ModalOverlay,
+  Text,
+} from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Card, Icon, Typography } from 'components/Atomic';
+import { Box, Card, Icon } from 'components/Atomic';
 import { ReactNode } from 'react';
 
 type Props = {
@@ -41,9 +47,9 @@ export const Modal = ({
                     onClick={onBack}
                   />
                 )}
-                <Typography className="text-dark-typo-primary" variant="h3">
+                <Text className="text-dark-typo-primary" textStyle="h3">
                   {title}
-                </Typography>
+                </Text>
               </Box>
 
               <Box

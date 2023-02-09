@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { WalletOption } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
-import { Box, Tooltip, Typography } from 'components/Atomic';
+import { Box, Tooltip } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { PhraseModal } from 'components/Modals/PhraseModal';
 import { showInfoToast } from 'components/Toast';
@@ -71,9 +72,9 @@ export const ChainHeader = ({
         <Tooltip content={walletTooltip}>
           <WalletIcon onClick={handleClickWalletIcon} size={16} walletType={walletType} />
         </Tooltip>
-        <Typography className="ml-1" variant="caption">
+        <Text className="ml-1" textStyle="caption">
           {chainName(chain, true)}
-        </Typography>
+        </Text>
       </Box>
 
       <Box alignCenter>

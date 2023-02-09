@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import { Amount, Asset, Liquidity } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon';
-import { Box, Button, Icon, Tooltip, Typography, useCollapse } from 'components/Atomic';
+import { Box, Button, Icon, Tooltip, useCollapse } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import dayjs from 'dayjs';
 import useWindowSize from 'hooks/useWindowSize';
@@ -96,7 +97,7 @@ export const LiquidityCard = ({
               />
             </Box>
 
-            <Typography
+            <Text
               className={classNames(
                 'mx-1 md:mx-3 !transition-all',
                 isActive ? 'text-body md:!text-subtitle1' : '!text-body',
@@ -104,19 +105,19 @@ export const LiquidityCard = ({
               fontWeight="semibold"
             >
               {lpType}
-            </Typography>
+            </Text>
           </Box>
 
           <Box center className="gap-2">
             <Box col align="end">
-              <Typography
+              <Text
                 className={classNames('!transition-all', isActive ? '!text-body' : '!text-caption')}
                 fontWeight="normal"
               >
                 {` ${t('views.liquidity.poolShare')}`}
-              </Typography>
+              </Text>
 
-              <Typography
+              <Text
                 className={classNames(
                   '!transition-all',
                   isActive ? '!text-subtitle1' : '!text-body',
@@ -124,7 +125,7 @@ export const LiquidityCard = ({
                 fontWeight="bold"
               >
                 {poolShare.toFixed(4) === '0 %' ? '~0 %' : poolShare.toFixed(4)}
-              </Typography>
+              </Text>
             </Box>
 
             <Icon

@@ -1,4 +1,5 @@
-import { Box, Tooltip, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box, Tooltip } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { HoverIcon } from 'components/HoverIcon';
 import { useAddressUtils } from 'hooks/useAddressUtils';
@@ -28,9 +29,9 @@ export const CopyAddress = ({ type = 'icon', address }: Props) => {
   return (
     <Tooltip content={t('views.wallet.copyAddress')}>
       <Box onClick={handleCopyAddress}>
-        <Typography className={baseHoverClass} fontWeight="semibold" variant="caption">
+        <Text className={baseHoverClass} fontWeight="semibold" textStyle="caption">
           {displayAddress}
-        </Typography>
+        </Text>
       </Box>
     </Tooltip>
   );

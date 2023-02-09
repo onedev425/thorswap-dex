@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { Amount, Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
-import { Box, Icon, Typography } from 'components/Atomic';
+import { Box, Icon } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { memo } from 'react';
@@ -35,7 +36,7 @@ export const AssetInputs = memo(
 
         <HighlightCard className="min-h-[107px] p-4 flex-col md:flex-row items-end md:items-center gap-2">
           <Box>
-            <Typography className="whitespace-nowrap">{`${t('common.receive')}:`}</Typography>
+            <Text className="whitespace-nowrap">{`${t('common.receive')}:`}</Text>
           </Box>
 
           <Box className="gap-2 py-1 flex-1 self-stretch md:self-center">

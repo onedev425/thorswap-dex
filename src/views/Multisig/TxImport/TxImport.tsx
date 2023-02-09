@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Button, Icon, Typography } from 'components/Atomic';
+import { Box, Button, Icon } from 'components/Atomic';
 import { FieldLabel } from 'components/Form';
 import { HoverIcon } from 'components/HoverIcon';
 import { PanelView } from 'components/PanelView';
@@ -19,7 +20,7 @@ const TxImport = () => {
     >
       <Box col className="self-stretch">
         <Box className="pb-8">
-          <Typography>{t('views.multisig.selectTxJsonFile')}</Typography>
+          <Text>{t('views.multisig.selectTxJsonFile')}</Text>
           <HoverIcon
             color="secondary"
             iconName="infoCircle"
@@ -35,15 +36,15 @@ const TxImport = () => {
             {!importedTx && !fileError && <Icon name="upload" size={18} />}
             {importedTx && !fileError && <Icon color="green" name="valid" size={18} />}
             {fileError && <Icon color="red" name="invalid" size={18} />}
-            <Typography
+            <Text
               className={classNames('text-[11px] opacity-80 ml-2', {
                 'opacity-100': importedTx && !fileError,
               })}
               fontWeight="semibold"
-              variant="caption-xs"
+              textStyle="caption-xs"
             >
               {t('views.walletModal.chooseKeystore')}
-            </Typography>
+            </Text>
           </Box>
         </FilePicker>
       </Box>

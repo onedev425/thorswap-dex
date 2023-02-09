@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import { Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Button, Typography } from 'components/Atomic';
+import { Box, Button } from 'components/Atomic';
 import { PanelInput } from 'components/PanelInput';
 import { TabsSelect } from 'components/TabsSelect';
 import { useState } from 'react';
@@ -57,7 +58,7 @@ export const NodeManagePanel = ({
           placeholder={t('common.amount')}
           suffix={
             <Box className="w-[84px] gap-x-2 pt-2">
-              <Typography variant="subtitle2">{Asset.RUNE().ticker}</Typography>
+              <Text textStyle="subtitle2">{Asset.RUNE().ticker}</Text>
               <AssetIcon asset={Asset.RUNE()} size={26} />
             </Box>
           }

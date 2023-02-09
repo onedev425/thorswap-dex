@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Icon, Link, Tooltip, Typography } from 'components/Atomic';
+import { Box, Icon, Link, Tooltip } from 'components/Atomic';
 import { memo, MouseEventHandler, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -52,9 +53,9 @@ export const NavItem = memo(
                   collapsed ? 'h-2 px-2.5 top-2 -right-3' : 'h-3 px-4 top-2 -right-4',
                 )}
               >
-                <Typography className="transition group-hover:text-white font-thin text-xs !text-[10px]">
+                <Text className="transition group-hover:text-white font-thin text-xs !text-[10px]">
                   Beta
-                </Typography>
+                </Text>
               </Box>
             )}
 
@@ -86,17 +87,17 @@ export const NavItem = memo(
                     collapsed ? 'w-[0%]' : 'w-full',
                   )}
                 >
-                  <Typography
+                  <Text
                     className={classNames(
                       'px-2 group-hover:text-white transition-all whitespace-nowrap',
                       isActive ? 'text-white dark:text-white' : iconClasses[variant],
                     )}
                     fontWeight="semibold"
-                    transform={transform}
-                    variant="caption"
+                    textStyle="caption"
+                    textTransform={transform}
                   >
                     {label}
-                  </Typography>
+                  </Text>
 
                   {rightIconName && (
                     <Icon

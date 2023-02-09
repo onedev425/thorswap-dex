@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import { Amount, Asset, AssetAmount, Price } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetInput } from 'components/AssetInput';
-import { Box, Button, Card, Icon, Tooltip, Typography } from 'components/Atomic';
+import { Box, Button, Card, Icon, Tooltip } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { InfoTable } from 'components/InfoTable';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
@@ -194,7 +195,7 @@ const UpgradeRune = () => {
         label: t('common.transactionFee'),
         value: (
           <Box center className="gap-2">
-            <Typography variant="caption">{feeLabel}</Typography>
+            <Text textStyle="caption">{feeLabel}</Text>
             <Tooltip content={t('views.send.txFeeTooltip')}>
               <Icon color="secondary" name="infoCircle" size={20} />
             </Tooltip>
@@ -205,7 +206,7 @@ const UpgradeRune = () => {
         label: t('common.runeRedemptionRate'),
         value: (
           <Box center className="gap-2">
-            <Typography variant="caption">{redemptionRate}</Typography>
+            <Text textStyle="caption">{redemptionRate}</Text>
             <Box
               center
               className="p-0.5 border-[1.5px] border-solid rounded-xl border-light-border-primary dark:border-dark-gray-primary"

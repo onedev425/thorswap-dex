@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import { Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon/AssetIcon';
-import { Box, Button, Icon, Typography } from 'components/Atomic';
+import { Box, Button, Icon } from 'components/Atomic';
 
 type Props = {
   className?: string;
@@ -31,28 +32,28 @@ export function AssetButton({
       onClick={onClick}
       rightIcon={withChevron ? <Icon color="primary" name="chevronDown" /> : undefined}
       size={size}
-      transform="uppercase"
+      textTransform="uppercase"
       variant="tint"
     >
       <Box col className="text-left">
-        <Typography
+        <Text
           className="!leading-5"
           fontWeight="medium"
-          transform="uppercase"
-          variant="subtitle2"
+          textStyle="subtitle2"
+          textTransform="uppercase"
         >
           {asset.ticker}
-        </Typography>
+        </Text>
         {showAssetType && (
-          <Typography
+          <Text
             className="!leading-4"
-            color={asset.isSynth ? 'primaryBtn' : 'secondary'}
             fontWeight="normal"
-            transform="uppercase"
-            variant="caption-xs"
+            textStyle="caption-xs"
+            textTransform="uppercase"
+            variant={asset.isSynth ? 'primaryBtn' : 'secondary'}
           >
             {asset.type}
-          </Typography>
+          </Text>
         )}
       </Box>
     </Button>

@@ -35,7 +35,7 @@ export const AssetSelectButton = ({ className, onClick, selected, showAssetType 
             name="chevronDown"
           />
         }
-        transform="uppercase"
+        textTransform="uppercase"
         variant="secondary"
       >
         {t('components.assetSelect.selectAToken')}

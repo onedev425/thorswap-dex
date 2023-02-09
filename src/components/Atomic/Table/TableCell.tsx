@@ -1,5 +1,5 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Typography } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
 
 import { columnAlignClasses, TableCellType } from './types';
@@ -19,14 +19,14 @@ export const TableCell = (props: Props) => {
       )}
       {...cell.getCellProps()}
     >
-      <Typography
+      <Text
         className={classNames(
           'text-caption md:text-body',
           columnAlignClasses[cell.column.align || 'left'],
         )}
       >
         {cell.render('Cell')}
-      </Typography>
+      </Text>
     </td>
   );
 };

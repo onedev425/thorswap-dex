@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Button, Icon, SwitchToggle, Typography } from 'components/Atomic';
+import { Box, Button, Icon, SwitchToggle } from 'components/Atomic';
 import { Input } from 'components/Input';
 import { memo } from 'react';
 import { t } from 'services/i18n';
@@ -35,7 +36,7 @@ export const SearchAndFilters = memo(
 
         <Box alignCenter className="space-x-6">
           <Box center className="gap-x-2 rounded-2xl">
-            <Typography variant="caption">{t('views.wallet.showOnlyConnectedChains')}</Typography>
+            <Text textStyle="caption">{t('views.wallet.showOnlyConnectedChains')}</Text>
             <SwitchToggle checked={onlyConnected} onChange={setOnlyConnected} />
           </Box>
 

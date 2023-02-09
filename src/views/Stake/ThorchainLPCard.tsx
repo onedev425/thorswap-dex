@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import { Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetLpIcon } from 'components/AssetIcon';
-import { Box, Button, Card, Link, Typography } from 'components/Atomic';
+import { Box, Button, Card, Link } from 'components/Atomic';
 import { borderHoverHighlightClass } from 'components/constants';
 import { useThorAPR } from 'hooks/useThorAPR';
 import { useMemo } from 'react';
@@ -34,42 +35,42 @@ export const ThorchainLPCard = () => {
           </div>
 
           <Box center className="mt-8">
-            <Typography className="mr-2" variant="h4">
+            <Text className="mr-2" textStyle="h4">
               THOR-RUNE LP
-            </Typography>
+            </Text>
           </Box>
 
           <Box className="flex-row justify-between">
             <Box col className="p-4">
-              <Typography
-                color="secondary"
+              <Text
                 fontWeight="bold"
-                transform="uppercase"
-                variant="caption-xs"
+                textStyle="caption-xs"
+                textTransform="uppercase"
+                variant="secondary"
               >
                 {t('common.exchange')}
-              </Typography>
-              <Typography color="primary" fontWeight="bold" variant="body">
+              </Text>
+              <Text fontWeight="bold" textStyle="body" variant="primary">
                 {t('common.THORSwap')}
-              </Typography>
+              </Text>
             </Box>
             <Box col className="p-4">
-              <Typography
+              <Text
                 className="text-right"
-                color="secondary"
                 fontWeight="bold"
-                variant="caption-xs"
+                textStyle="caption-xs"
+                variant="secondary"
               >
                 {t('common.APR')}
-              </Typography>
+              </Text>
 
-              <Typography className="text-right" color="green" fontWeight="bold" variant="body">
+              <Text className="text-right" fontWeight="bold" textStyle="body" variant="green">
                 {thorAPR}%
-              </Typography>
+              </Text>
             </Box>
           </Box>
           <Box className="flex-col px-4">
-            <Typography>{t('views.staking.tcStakingDesc')}</Typography>
+            <Text>{t('views.staking.tcStakingDesc')}</Text>
           </Box>
           <Box alignCenter className="flex-col-reverse flex-grow w-full mt-4">
             {!ethAddr ? (

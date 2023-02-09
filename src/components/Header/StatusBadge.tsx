@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Typography } from 'components/Atomic';
+import { Box } from 'components/Atomic';
 import { StatusType } from 'hooks/useNetwork';
 import { memo } from 'react';
 
@@ -25,7 +26,7 @@ export const StatusBadge = memo(({ className, status, withLabel }: Props) => {
           className,
         )}
       />
-      {withLabel && <Typography className="pl-2">{status}</Typography>}
+      {withLabel && <Text className="pl-2">{status}</Text>}
     </>
   );
 });

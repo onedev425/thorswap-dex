@@ -1,4 +1,5 @@
-import { Box, Button, Icon, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box, Button, Icon } from 'components/Atomic';
 import { InfoTip } from 'components/InfoTip';
 import { StepActions } from 'components/Stepper';
 import { useCallback, useState } from 'react';
@@ -27,24 +28,24 @@ export const SelectSignersStep = () => {
   return (
     <Box col className="self-stretch mx-2" flex={1}>
       <Box col className="gap-3" flex={1}>
-        <Typography fontWeight="normal" variant="caption">
+        <Text fontWeight="normal" textStyle="caption">
           {t('views.multisig.selectMembesToSign')}
-        </Typography>
+        </Text>
 
         {infoVisible && (
           <InfoTip onClose={() => setInfoVisible(false)} title="NOTE" type="warn">
             <Box className="self-stretch mx-2">
-              <Typography color="yellow" variant="caption">
+              <Text textStyle="caption" variant="yellow">
                 {t('views.multisig.allMembersNeedToSignTx')}
-              </Typography>
+              </Text>
             </Box>
           </InfoTip>
         )}
 
         <Box alignCenter flex={1} justify="between">
-          <Typography color={isValid ? 'primary' : 'red'} variant="caption">
+          <Text textStyle="caption" variant={isValid ? 'primary' : 'red'}>
             {t('views.multisig.minMembers')}: {treshold}
-          </Typography>
+          </Text>
 
           <Button
             className="!py-1.5 !h-auto"
@@ -52,7 +53,7 @@ export const SelectSignersStep = () => {
             rightIcon={<Icon name="checkBoxes" size={18} />}
             variant="tint"
           >
-            <Typography variant="caption-xs">{t('views.multisig.selectAll')}</Typography>
+            <Text textStyle="caption-xs">{t('views.multisig.selectAll')}</Text>
           </Button>
         </Box>
 

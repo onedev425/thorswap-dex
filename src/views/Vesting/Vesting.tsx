@@ -1,4 +1,5 @@
-import { Box, Button, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box, Button } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoRow } from 'components/InfoRow';
 import { InputAmount } from 'components/InputAmount';
@@ -91,7 +92,7 @@ const Vesting = () => {
         {ethAddr && (
           <>
             <Box alignCenter row className="!mt-6" justify="between">
-              <Typography className="pr-4 min-w-fit">{t('views.vesting.claimAmount')}</Typography>
+              <Text className="pr-4 min-w-fit">{t('views.vesting.claimAmount')}</Text>
 
               <InputAmount
                 stretch

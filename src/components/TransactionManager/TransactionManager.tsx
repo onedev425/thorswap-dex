@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import { Chain } from '@thorswap-lib/types';
-import { Box, Card, Icon, SwitchToggle, Tooltip, Typography } from 'components/Atomic';
+import { Box, Card, Icon, SwitchToggle, Tooltip } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { Popover } from 'components/Popover';
 import { Scrollbar } from 'components/Scrollbar';
@@ -73,13 +74,13 @@ export const TransactionManager = memo(() => {
         <Box col className="w-full gap-4 !my-2">
           <Box col className="!mx-4">
             <Box justify="between">
-              <Typography variant="subtitle2">{t('txManager.transactionHistory')}</Typography>
+              <Text textStyle="subtitle2">{t('txManager.transactionHistory')}</Text>
             </Box>
 
             <Box alignCenter className="pt-2" justify="between">
               <Box alignCenter className="gap-x-2 rounded-2xl">
                 <SwitchToggle checked={onlyPending} onChange={setOnlyPending} variant="secondary" />
-                <Typography variant="caption">{t('txManager.onlyPending')}</Typography>
+                <Text textStyle="caption">{t('txManager.onlyPending')}</Text>
               </Box>
 
               <Tooltip content={t('common.clearHistory')}>

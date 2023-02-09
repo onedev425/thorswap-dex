@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import { Chain } from '@thorswap-lib/types';
-import { Box, Typography } from 'components/Atomic';
+import { Box } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { PanelInput } from 'components/PanelInput';
 import { showInfoToast } from 'components/Toast';
@@ -73,9 +74,9 @@ export const CustomRecipientInput = memo(
         placeholder={t('common.thornameOrRecipient')}
         title={
           <Box alignCenter flex={1} justify="between">
-            <Typography fontWeight="normal" variant="caption">
+            <Text fontWeight="normal" textStyle="caption">
               {recipientTitle}
-            </Typography>
+            </Text>
 
             <Box>
               <HoverIcon iconName={disabled ? 'edit' : 'lock'} onClick={toggleDisabled} size={16} />

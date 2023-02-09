@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import { Keystore } from '@thorswap-lib/types';
 import { decryptFromKeystore } from '@thorswap-lib/xchain-crypto';
 import classNames from 'classnames';
-import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic';
+import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import { Input } from 'components/Input';
 import { ChangeEvent, useCallback, useState } from 'react';
 import { FilePicker } from 'react-file-picker';
@@ -84,9 +85,9 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
   );
   return (
     <Box col className="w-full">
-      <Typography className="mb-2" fontWeight="semibold" variant="subtitle2">
+      <Text className="mb-2" fontWeight="semibold" textStyle="subtitle2">
         {t('views.walletModal.selectKeystore')}
-      </Typography>
+      </Text>
       <FilePicker onChange={onChangeFile} onError={onErrorFile}>
         <Box
           alignCenter
@@ -95,24 +96,24 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
           {!keystore && !keystoreError && <Icon name="upload" size={18} />}
           {keystore && !keystoreError && <Icon color="green" name="valid" size={18} />}
           {keystoreError && <Icon color="red" name="invalid" size={18} />}
-          <Typography
+          <Text
             className={classNames('!text-[11px] opacity-80 ml-2', {
               'opacity-100': keystore && !keystoreError,
             })}
             fontWeight="semibold"
-            variant="caption-xs"
+            textStyle="caption-xs"
           >
             {t('views.walletModal.chooseKeystore')}
-          </Typography>
+          </Text>
         </Box>
       </FilePicker>
 
-      <Typography className="mt-2 ml-3" color="red" fontWeight="normal" variant="caption">
+      <Text className="mt-2 ml-3" fontWeight="normal" textStyle="caption" variant="red">
         {keystoreError ? t('views.walletModal.invalidKeystore') : ''}
-      </Typography>
+      </Text>
 
       <Box row className="space-x-2 mt-6 mb-2">
-        <Typography variant="subtitle2">{t('views.walletModal.keystorePassword')}</Typography>
+        <Text textStyle="subtitle2">{t('views.walletModal.keystorePassword')}</Text>
         <Tooltip
           content={t('views.walletModal.recoveryPassword')}
           iconName="question"
@@ -132,9 +133,9 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
         />
       </Box>
       {invalidStatus && (
-        <Typography className="mt-2 ml-3" color="orange" variant="caption">
+        <Text className="mt-2 ml-3" textStyle="caption" variant="orange">
           {t('views.walletModal.wrongPassword')}
-        </Typography>
+        </Text>
       )}
 
       <Box className="gap-x-4 mt-6">

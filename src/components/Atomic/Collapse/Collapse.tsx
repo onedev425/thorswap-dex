@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Card, Typography } from 'components/Atomic';
+import { Box, Card } from 'components/Atomic';
 import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';
 import { forwardRef, useImperativeHandle } from 'react';
 
@@ -43,9 +44,9 @@ export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
         >
           <Box alignCenter row justify="between">
             {typeof title === 'string' ? (
-              <Typography color="primary" fontWeight="normal" variant="subtitle1">
+              <Text fontWeight="normal" textStyle="subtitle1" variant="primary">
                 {title}
-              </Typography>
+              </Text>
             ) : (
               <Box flex={1}>{title}</Box>
             )}

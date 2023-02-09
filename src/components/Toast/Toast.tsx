@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Icon, Typography } from 'components/Atomic';
+import { Box, Icon } from 'components/Atomic';
 import React, { ReactNode } from 'react';
 import { toast, ToastBar, Toaster, ToastOptions } from 'react-hot-toast';
 
@@ -60,9 +61,9 @@ const showToast: ShowToastFunction = ({
                 <Box>{icon}</Box>
 
                 <Box col className={classNames('pr-2', { 'pl-2': icon })}>
-                  <Typography fontWeight={description ? 'bold' : 'medium'} variant="caption">
+                  <Text fontWeight={description ? 'bold' : 'medium'} textStyle="caption">
                     {message}
-                  </Typography>
+                  </Text>
                 </Box>
               </Box>
 
@@ -71,9 +72,9 @@ const showToast: ShowToastFunction = ({
 
             <Box className="pl-8 pr-4">
               {typeof description === 'string' ? (
-                <Typography fontWeight="light" variant="caption-xs">
+                <Text fontWeight="light" textStyle="caption-xs">
                   {description}
-                </Typography>
+                </Text>
               ) : (
                 description
               )}

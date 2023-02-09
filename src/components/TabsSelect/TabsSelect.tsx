@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Button, Typography } from 'components/Atomic';
+import { Box, Button } from 'components/Atomic';
 import { TabSelectType } from 'components/TabsSelect/types';
 import { memo } from 'react';
 
@@ -19,9 +20,9 @@ export const TabsSelect = memo(
       <Box alignCenter flex={1}>
         {!!title && (
           <Box style={titleWidth ? { width: titleWidth } : {}}>
-            <Typography className="px-2" color="secondary" variant="caption">
+            <Text className="px-2" textStyle="caption" variant="secondary">
               {title}
-            </Typography>
+            </Text>
           </Box>
         )}
 
@@ -54,8 +55,8 @@ export const TabsSelect = memo(
                 key={value}
                 onClick={() => onChange(value)}
                 style={tabWidth ? { width: tabWidth } : {}}
+                textTransform="none"
                 tooltip={tooltip}
-                transform="none"
                 variant={value === selectedValue ? 'primary' : 'borderlessTint'}
               >
                 {label}

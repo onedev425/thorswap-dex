@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import { AnnouncementsPopover } from 'components/Announcements/AnnouncementsPopover/AnnouncementsPopover';
 import { HeaderAnnouncements } from 'components/Announcements/HeaderAnnouncements';
 import { AppPopoverMenu } from 'components/AppPopoverMenu';
-import { Box, Button, Icon, Typography } from 'components/Atomic';
+import { Box, Button, Icon } from 'components/Atomic';
 import { TransactionManager } from 'components/TransactionManager';
 import { hasConnectedWallet } from 'helpers/wallet';
 import { useWalletDrawer } from 'hooks/useWalletDrawer';
@@ -58,13 +59,13 @@ export const Header = memo(({ openMenu }: Props) => {
             center
             className="h-9.5 px-2 bg-white border border-transparent border-solid shadow-md rounded-2xl dark:border-cyan dark:bg-transparent"
           >
-            <Typography
+            <Text
               className="transition-[font-size]"
               fontWeight="semibold"
-              variant={isMdActive ? 'caption' : 'caption-xs'}
+              textStyle={isMdActive ? 'caption' : 'caption-xs'}
             >
               1ᚱ = {runeLabel}
-            </Typography>
+            </Text>
           </Box>
 
           <Box className="hidden md:flex gap-x-2">
@@ -78,10 +79,10 @@ export const Header = memo(({ openMenu }: Props) => {
               center
               className="h-9.5 px-2 bg-white border border-transparent border-solid shadow-md rounded-2xl dark:border-cyan dark:bg-transparent"
             >
-              <Typography
+              <Text
                 className="transition-[font-size]"
                 fontWeight="semibold"
-                variant={isMdActive ? 'caption' : 'caption-xs'}
+                textStyle={isMdActive ? 'caption' : 'caption-xs'}
               >
                 {IS_BETA
                   ? 'Beta'
@@ -90,7 +91,7 @@ export const Header = memo(({ openMenu }: Props) => {
                   : IS_DEV_API
                   ? 'Dev Api connected'
                   : 'Local'}
-              </Typography>
+              </Text>
             </Box>
           </Box>
         )}

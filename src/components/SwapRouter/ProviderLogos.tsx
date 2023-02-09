@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Typography } from 'components/Atomic';
+import { Box } from 'components/Atomic';
 import { providerLogoURL } from 'helpers/logoURL';
 import { Fragment, memo, useCallback, useMemo } from 'react';
 
@@ -65,9 +66,8 @@ export const ProviderLogos = memo(({ size = 24, providers }: Props) => {
                 size={size}
               />
 
-              <Typography
+              <Text
                 className="text-center"
-                color="secondary"
                 style={{
                   ...providerStyle,
                   fontSize:
@@ -75,13 +75,14 @@ export const ProviderLogos = memo(({ size = 24, providers }: Props) => {
                       ? providerStyle.fontSize * 0.9
                       : providerStyle.fontSize,
                 }}
-                variant="caption-xs"
+                textStyle="caption-xs"
+                variant="secondary"
               >
                 {providerDisplayName}
-              </Typography>
+              </Text>
             </Box>
 
-            <Typography style={arrowStyle}>{index !== array.length - 1 && '→'}</Typography>
+            <Text style={arrowStyle}>{index !== array.length - 1 && '→'}</Text>
           </Fragment>
         );
       })}

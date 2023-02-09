@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { ChainWallet } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
-import { Box, Typography } from 'components/Atomic';
+import { Box } from 'components/Atomic';
 import { WalletIcon } from 'components/WalletIcon/WalletIcon';
 import { chainName } from 'helpers/chainName';
 
@@ -14,12 +15,12 @@ export const HeaderChainInfo = ({ chain, chainWallet, balance }: Props) => {
   return (
     <Box center className="space-x-1">
       {!!chainWallet && <WalletIcon size={16} walletType={chainWallet?.walletType} />}
-      <Typography>{chainName(chain, true)}</Typography>
+      <Text>{chainName(chain, true)}</Text>
 
       {!!chainWallet && (
-        <Typography color="primaryBtn" fontWeight="semibold">
+        <Text fontWeight="semibold" variant="primaryBtn">
           {balance}
-        </Typography>
+        </Text>
       )}
     </Box>
   );

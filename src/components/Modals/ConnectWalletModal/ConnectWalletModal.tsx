@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { Chain, Keystore, SUPPORTED_CHAINS } from '@thorswap-lib/types';
 import classNames from 'classnames';
-import { Box, Button, Modal, Tooltip, Typography } from 'components/Atomic';
+import { Box, Button, Modal, Tooltip } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoTip } from 'components/InfoTip';
 import { Input } from 'components/Input';
@@ -247,9 +248,9 @@ const ConnectWalletModal = () => {
                 col={isMdActive}
               >
                 <Box flex={1}>
-                  <Typography variant={isMdActive ? 'h4' : 'subtitle2'}>
+                  <Text textStyle={isMdActive ? 'h4' : 'subtitle2'}>
                     {t('views.walletModal.selectChains')}
-                  </Typography>
+                  </Text>
                 </Box>
 
                 <Button
@@ -261,10 +262,10 @@ const ConnectWalletModal = () => {
                   ].includes(selectedWalletType || WalletType.Keystore)}
                   onClick={handleAllClick}
                   size="sm"
-                  transform="uppercase"
+                  textTransform="uppercase"
                   variant={selectedAll ? 'primary' : 'outlinePrimary'}
                 >
-                  <Typography variant="caption-xs">{t('views.walletModal.selectAll')}</Typography>
+                  <Text textStyle="caption-xs">{t('views.walletModal.selectAll')}</Text>
                 </Button>
               </Box>
 
@@ -288,9 +289,9 @@ const ConnectWalletModal = () => {
             <Box col>
               <Box alignCenter className="pr-6 md:pr-10 px-4">
                 <Box flex={1}>
-                  <Typography className="md:py-4 pt-4" variant={isMdActive ? 'h4' : 'subtitle2'}>
+                  <Text className="md:py-4 pt-4" textStyle={isMdActive ? 'h4' : 'subtitle2'}>
                     {t('views.walletModal.selectWallet')}
-                  </Typography>
+                  </Text>
                 </Box>
 
                 <Box alignCenter className="gap-x-2">
@@ -307,10 +308,10 @@ const ConnectWalletModal = () => {
                   <Button
                     className="!h-5 !px-1.5 justify-end"
                     onClick={() => clearState(false)}
-                    transform="uppercase"
+                    textTransform="uppercase"
                     variant="outlinePrimary"
                   >
-                    <Typography variant="caption">{t('common.reset')}</Typography>
+                    <Text textStyle="caption">{t('common.reset')}</Text>
                   </Button>
                 </Box>
               </Box>
@@ -320,7 +321,7 @@ const ConnectWalletModal = () => {
                   ({ visible = true, title, items }) =>
                     visible && (
                       <Box col className="md:py-1" key={title}>
-                        {isMdActive && <Typography fontWeight="semibold">{title}</Typography>}
+                        {isMdActive && <Text fontWeight="semibold">{title}</Text>}
 
                         <Box className="flex-wrap">
                           {items.map(
@@ -348,7 +349,7 @@ const ConnectWalletModal = () => {
               {selectedWalletType === WalletType.Ledger && (
                 <Box center>
                   <Box alignCenter className="pt-2 mx-6 gap-x-2" flex={1} justify="between">
-                    <Typography>{t('common.index')}:</Typography>
+                    <Text>{t('common.index')}:</Text>
                     <Input
                       stretch
                       border="rounded"
@@ -376,7 +377,7 @@ const ConnectWalletModal = () => {
                     size="md"
                     variant="fancy"
                   >
-                    <Typography>{t('common.connectWallet')}</Typography>
+                    <Text>{t('common.connectWallet')}</Text>
                   </Button>
                 </Box>
               )}

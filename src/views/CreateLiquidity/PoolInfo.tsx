@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import { AssetInputType } from 'components/AssetInput/types';
-import { Box, Collapse, Icon, Typography } from 'components/Atomic';
+import { Box, Collapse, Icon } from 'components/Atomic';
 import { t } from 'services/i18n';
 
 type Props = {
@@ -19,9 +20,9 @@ export const PoolInfo = ({ poolAsset, runeAsset, poolShare, assetUSDPrice, rate 
         <div className="flex flex-row gap-x-2">
           <Icon color="secondary" name="infoCircle" size={16} />
 
-          <Typography color="primary" fontWeight="normal" variant="caption">
+          <Text fontWeight="normal" textStyle="caption" variant="primary">
             {t('views.addLiquidity.pricesAndPoolShare')}
-          </Typography>
+          </Text>
         </div>
       }
     >
@@ -30,29 +31,29 @@ export const PoolInfo = ({ poolAsset, runeAsset, poolShare, assetUSDPrice, rate 
           col
           className="flex-1 gap-2 border-0 border-r border-dotted border-light-typo-gray dark:border-dark-typo-gray"
         >
-          <Typography color="secondary" fontWeight="semibold" variant="caption">
+          <Text fontWeight="semibold" textStyle="caption" variant="secondary">
             {poolAsset.asset.ticker}
             {` ${t('common.per')} `}
             {runeAsset.asset.ticker}
-          </Typography>
-          <Typography variant="h4">{rate || 'N/A'}</Typography>
+          </Text>
+          <Text textStyle="h4">{rate || 'N/A'}</Text>
         </Box>
 
         <Box
           col
           className="flex-1 gap-2 text-center border-0 border-r border-dotted border-light-typo-gray dark:border-dark-typo-gray"
         >
-          <Typography color="secondary" fontWeight="semibold" variant="caption">
+          <Text fontWeight="semibold" textStyle="caption" variant="secondary">
             {t('views.liquidity.assetUSDPrice')}
-          </Typography>
-          <Typography variant="h4">{assetUSDPrice || 'N/A'}</Typography>
+          </Text>
+          <Text textStyle="h4">{assetUSDPrice || 'N/A'}</Text>
         </Box>
 
         <Box col className="flex-1 gap-2 text-right">
-          <Typography color="secondary" fontWeight="semibold" variant="caption">
+          <Text fontWeight="semibold" textStyle="caption" variant="secondary">
             {t('views.addLiquidity.shareOfPool')}
-          </Typography>
-          <Typography variant="h4">{`${poolShare || 'N/A'}`}</Typography>
+          </Text>
+          <Text textStyle="h4">{`${poolShare || 'N/A'}`}</Text>
         </Box>
       </Box>
     </Collapse>

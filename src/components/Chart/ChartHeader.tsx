@@ -1,4 +1,5 @@
-import { Box, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box } from 'components/Atomic';
 import { abbreviateNumber } from 'helpers/number';
 import { memo } from 'react';
 
@@ -14,26 +15,26 @@ export const ChartHeader = memo(({ unit, values, title }: Props) => {
 
   return (
     <Box alignCenter className="lg:flex-row" justify="start">
-      <Typography component="span" variant="h3">
+      <Text as="span" textStyle="h3">
         {title}
 
         <span className="text-blue dark:text-btn-primary">
           {` ${unit}${abbreviateNumber(values?.[values.length - 1] ?? 0, 2)} `}
         </span>
 
-        <Typography
+        <Text
+          as="span"
           className="mb-1"
-          color={changePercentage >= 0 ? 'green' : 'red'}
-          component="span"
           fontWeight="semibold"
+          variant={changePercentage >= 0 ? 'green' : 'red'}
         >
           ({changePercentage >= 0 ? '+' : '-'}
           {changePercentage
             ? `${Math.abs(changePercentage).toFixed(2)}%`
             : `$${Math.abs(changePercentage).toFixed(2)}`}
           )
-        </Typography>
-      </Typography>
+        </Text>
+      </Text>
     </Box>
   );
 });

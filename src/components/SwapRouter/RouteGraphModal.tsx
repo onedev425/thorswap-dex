@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import { chainToSigAsset, QuoteRoute, QuoteSwap } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Modal, Typography } from 'components/Atomic';
+import { Box, Modal } from 'components/Atomic';
 import { SwapGraph } from 'components/SwapRouter/SwapGraph';
 import { chainName } from 'helpers/chainName';
 import { providerLogoURL, tokenLogoURL } from 'helpers/logoURL';
@@ -62,7 +63,7 @@ export const RouteGraphModal = memo(({ isOpened, onClose, swaps }: Props) => {
               <Box col>
                 <Box alignCenter className="gap-2 pb-2">
                   {logoURL && <AssetIcon logoURI={logoURL} size={28} />}
-                  <Typography variant="subtitle2">{name}</Typography>
+                  <Text textStyle="subtitle2">{name}</Text>
                 </Box>
 
                 <Box alignCenter col flex={1}>
@@ -79,9 +80,7 @@ export const RouteGraphModal = memo(({ isOpened, onClose, swaps }: Props) => {
                         >
                           <SwapGraph {...swapGraph} />
 
-                          {index !== swaps.length - 1 && (
-                            <Typography className="text-[24px]">→</Typography>
-                          )}
+                          {index !== swaps.length - 1 && <Text className="text-[24px]">→</Text>}
                         </Fragment>
                       ))}
                     </Box>
@@ -89,7 +88,7 @@ export const RouteGraphModal = memo(({ isOpened, onClose, swaps }: Props) => {
                 </Box>
               </Box>
 
-              {index !== swapGraph.length - 1 && <Typography className="text-[34px]">→</Typography>}
+              {index !== swapGraph.length - 1 && <Text className="text-[34px]">→</Text>}
             </Box>
           </div>
         ))}

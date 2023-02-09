@@ -1,4 +1,5 @@
-import { Box, Icon, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box, Icon } from 'components/Atomic';
 import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,9 +18,9 @@ export const ViewHeader = ({ title, withBack, actionsComponent }: Props) => {
         {withBack && (
           <Icon className="" color="secondary" name="arrowBack" onClick={() => navigate(-1)} />
         )}
-        <Typography className="mx-3" variant="h3">
+        <Text className="mx-3" textStyle="h3">
           {title}
-        </Typography>
+        </Text>
       </Box>
 
       {!!actionsComponent && (

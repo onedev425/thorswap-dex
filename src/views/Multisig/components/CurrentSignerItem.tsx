@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Icon, Tooltip, Typography } from 'components/Atomic';
+import { Box, Icon, Tooltip } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
 import { HighlightCard } from 'components/HighlightCard';
 import { showSuccessToast } from 'components/Toast';
@@ -23,14 +24,14 @@ export const CurrentSignerItem = ({ pubKey, signature }: Props) => {
           className={classNames(genericBgClasses.primary, '!py-2 !px-4 truncate overflow-hidden')}
         >
           <div className="flex justify-between">
-            <Typography color="secondary" variant="caption">
+            <Text textStyle="caption" variant="secondary">
               {t('views.multisig.yourSignature')}
-            </Typography>
+            </Text>
             <Icon className="px-2" name="copy" size={16} />
           </div>
-          <Typography className="break-all whitespace-normal" variant="caption">
+          <Text className="break-all whitespace-normal" textStyle="caption">
             {signature}
-          </Typography>
+          </Text>
         </HighlightCard>
       </Box>
     </Tooltip>

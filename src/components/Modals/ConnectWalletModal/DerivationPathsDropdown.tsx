@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import { Chain } from '@thorswap-lib/types';
-import { Box, DropdownMenu, Typography } from 'components/Atomic';
+import { Box, DropdownMenu } from 'components/Atomic';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { IS_PROD } from 'settings/config';
 
@@ -78,11 +79,11 @@ export const DerivationPathDropdown = ({ chain, ledgerIndex, setCustomDerivation
         onChange={handleDerivationPathChange}
         openComponent={
           <Box alignCenter className="gap-2 w-fit">
-            <Typography variant="caption">
+            <Text textStyle="caption">
               {types
                 .find(({ value }) => value === pathTemplate)
                 ?.label?.replace('{index}', (ledgerIndex || 0).toString())}
-            </Typography>
+            </Text>
           </Box>
         }
         value={pathTemplate}

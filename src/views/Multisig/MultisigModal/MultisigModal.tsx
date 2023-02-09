@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Button, Modal, Typography } from 'components/Atomic';
+import { Box, Button, Modal } from 'components/Atomic';
 import { FieldLabel, TextField } from 'components/Form';
 import { HoverIcon } from 'components/HoverIcon';
 import { Input } from 'components/Input';
@@ -25,9 +26,9 @@ export const MultisigModal = ({ isOpen, onCancel = () => {} }: Props): JSX.Eleme
         >
           <Scrollbar maxHeight="65vh">
             <Box col className="gap-6 pr-7">
-              <Typography className="mx-2 my-3" variant="caption">
+              <Text className="mx-2 my-3" textStyle="caption">
                 {t('views.multisig.nameYourMultisigWallet')}
-              </Typography>
+              </Text>
 
               <Box col>
                 <TextField
@@ -45,15 +46,15 @@ export const MultisigModal = ({ isOpen, onCancel = () => {} }: Props): JSX.Eleme
                     errors.signatureValidation ? ` (${errors.signatureValidation.message})` : ''
                   }`}
                 />
-                <Typography className="mx-2 my-3" fontWeight="semibold" variant="caption-xs">
+                <Text className="mx-2 my-3" fontWeight="semibold" textStyle="caption-xs">
                   {t('views.multisig.addMembersDescription')}
-                </Typography>
+                </Text>
                 <Box className="mx-2">
                   <Box flex={1}>
-                    <Typography variant="caption">{t('views.multisig.walletName')}</Typography>
+                    <Text textStyle="caption">{t('views.multisig.walletName')}</Text>
                   </Box>
                   <Box flex={2}>
-                    <Typography variant="caption">{t('common.pubKey')}</Typography>
+                    <Text textStyle="caption">{t('common.pubKey')}</Text>
                   </Box>
                 </Box>
                 <Box col className="gap-4">
@@ -102,7 +103,7 @@ export const MultisigModal = ({ isOpen, onCancel = () => {} }: Props): JSX.Eleme
               </Box>
 
               <Box center className="mx-1 gap-2">
-                <Typography variant="caption">{t('views.multisig.setMultisigSigners')}</Typography>
+                <Text textStyle="caption">{t('views.multisig.setMultisigSigners')}</Text>
 
                 <Box center className="gap-2">
                   <Input
@@ -115,10 +116,10 @@ export const MultisigModal = ({ isOpen, onCancel = () => {} }: Props): JSX.Eleme
                     {...formFields.treshold}
                   />
 
-                  <Typography className="whitespace-nowrap" variant="caption">
+                  <Text className="whitespace-nowrap" textStyle="caption">
                     {t('views.multisig.outOf')}
                     {formFields.members.length}
-                  </Typography>
+                  </Text>
                 </Box>
               </Box>
 

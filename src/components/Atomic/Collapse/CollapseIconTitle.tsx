@@ -1,4 +1,5 @@
-import { Icon, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Icon } from 'components/Atomic';
 
 import { CollapseTitleProps } from './types';
 
@@ -6,12 +7,12 @@ export const CollapseIconTitle = ({ iconName, title, subTitle }: CollapseTitlePr
   return (
     <div className="flex flex-row gap-x-2 items-center">
       <Icon color="secondary" name={iconName} />
-      <Typography color="primary" fontWeight="normal" variant="subtitle1">
+      <Text fontWeight="normal" textStyle="subtitle1" variant="primary">
         {title}
-      </Typography>
-      <Typography color="secondary" fontWeight="normal" variant="subtitle1">
+      </Text>
+      <Text fontWeight="normal" textStyle="subtitle1" variant="secondary">
         {`(${subTitle})`}
-      </Typography>
+      </Text>
     </div>
   );
 };

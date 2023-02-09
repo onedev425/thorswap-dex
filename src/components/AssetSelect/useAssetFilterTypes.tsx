@@ -1,8 +1,9 @@
+import { Text } from '@chakra-ui/react';
 import { Asset } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { AssetFilterType, assetFilterTypes } from 'components/AssetSelect/assetTypes';
-import { Box, Icon, Typography } from 'components/Atomic';
+import { Box, Icon } from 'components/Atomic';
 
 const FilterTypeLabel = ({
   icon,
@@ -15,9 +16,9 @@ const FilterTypeLabel = ({
 }) => (
   <Box center className={classNames('whitespace-nowrap gap-1', className)}>
     {icon || null}
-    <Typography fontWeight="semibold" variant="caption-xs">
+    <Text fontWeight="semibold" textStyle="caption-xs">
       {label}
-    </Typography>
+    </Text>
   </Box>
 );
 

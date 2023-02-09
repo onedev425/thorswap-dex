@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Typography, useCollapse } from 'components/Atomic';
+import { Box, useCollapse } from 'components/Atomic';
 import { maxHeightTransitionClass } from 'components/Atomic/Collapse/Collapse';
 import { genericBgClasses } from 'components/constants';
 import { HighlightCard } from 'components/HighlightCard';
@@ -42,12 +43,12 @@ export const Step = ({ step, isOpened, isDisabled, open }: Props) => {
               isDisabled ? genericBgClasses.primary : 'bg-btn-primary',
             )}
           >
-            <Typography color="primary" variant="caption-xs">
+            <Text textStyle="caption-xs" variant="primary">
               {step.id + 1}
-            </Typography>
+            </Text>
           </Box>
           <Box className="justify-between align-middle w-full">
-            <Typography className="flex items-center">{step.label}</Typography>
+            <Text className="flex items-center">{step.label}</Text>
             {step.tooltip && (
               <HoverIcon color="secondary" iconName="infoCircle" tooltip={step.tooltip} />
             )}

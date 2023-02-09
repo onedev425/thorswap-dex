@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { Keystore } from '@thorswap-lib/types';
 import { encryptToKeyStore, generatePhrase, validatePhrase } from '@thorswap-lib/xchain-crypto';
-import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic';
+import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { Input } from 'components/Input';
 import { downloadAsFile } from 'helpers/download';
@@ -81,9 +82,9 @@ export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
     <Box col className="w-full">
       <Helmet content="Create Wallet" title="Create Wallet" />
       <Box row className="space-x-2">
-        <Typography className="mb-2" fontWeight="semibold" variant="subtitle2">
+        <Text className="mb-2" fontWeight="semibold" textStyle="subtitle2">
           {t('views.walletModal.inputPassword')}
-        </Typography>
+        </Text>
         <Tooltip
           content={t('views.walletModal.recoveryPassword')}
           iconName="question"
@@ -103,7 +104,7 @@ export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
         />
       </Box>
       <Box row className="space-x-2 mt-6 mb-2">
-        <Typography variant="subtitle2">{t('views.walletModal.confirmPassword')}</Typography>
+        <Text textStyle="subtitle2">{t('views.walletModal.confirmPassword')}</Text>
       </Box>
       <Box className="w-full">
         <Input
@@ -118,9 +119,9 @@ export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
         />
       </Box>
       {invalidStatus && (
-        <Typography className="mt-2 ml-3" color="orange" variant="caption">
+        <Text className="mt-2 ml-3" textStyle="caption" variant="orange">
           {t('views.walletModal.wrongPassword')}
-        </Typography>
+        </Text>
       )}
 
       <Box className="gap-x-4 mt-6">

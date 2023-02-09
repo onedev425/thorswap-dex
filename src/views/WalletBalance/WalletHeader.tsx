@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Button, Icon, Typography } from 'components/Atomic';
+import { Box, Button, Icon } from 'components/Atomic';
 import { Confirm } from 'components/Modals/Confirm';
 import { t } from 'services/i18n';
 import { useWalletDrawerActions } from 'views/WalletBalance/hooks/useWalletDrawerActions';
@@ -18,7 +19,7 @@ export const WalletHeader = () => {
   return (
     <Box alignCenter className="pt-6 pb-4 pl-4 pr-2" justify="between">
       <Box alignCenter className="gap-1">
-        <Typography variant="h5">{t('common.wallet')}</Typography>
+        <Text textStyle="h5">{t('common.wallet')}</Text>
         <Button
           className="px-3"
           leftIcon={

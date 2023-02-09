@@ -1,4 +1,5 @@
-import { Box, Card, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box, Card } from 'components/Atomic';
 import { useState } from 'react';
 import { t } from 'services/i18n';
 import { TxBond } from 'views/Multisig/TxBond/TxBond';
@@ -16,7 +17,7 @@ export const TxDetailsStep = () => {
     <Box col className="w-full gap-1 self-stretch" flex={1}>
       <Box center className="self-stretch mx-2 mb-2" flex={1}>
         <Box flex={1}>
-          <Typography color="secondary">{`${t('views.multisig.txType')}:`}</Typography>
+          <Text variant="secondary">{`${t('views.multisig.txType')}:`}</Text>
         </Box>
         <Box className="z-20" flex={1}>
           <TxTypeSelect onChange={setTxType} selected={txType} />

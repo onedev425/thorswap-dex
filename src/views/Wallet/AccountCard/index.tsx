@@ -1,7 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Card, Typography, useCollapse } from 'components/Atomic';
+import { Box, Card, useCollapse } from 'components/Atomic';
 import { maxHeightTransitionClass } from 'components/Atomic/Collapse/Collapse';
 import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';
 import { borderHoverHighlightClass } from 'components/constants';
@@ -90,10 +91,10 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
           <Box>
             <AssetIcon hasShadow asset={sigAsset} size={40} />
             <Box col className="ml-2">
-              <Typography>{sigAsset.ticker}</Typography>
-              <Typography color="secondary" fontWeight="medium" variant="caption-xs">
+              <Text>{sigAsset.ticker}</Text>
+              <Text fontWeight="medium" textStyle="caption-xs" variant="secondary">
                 {sigAsset.type}
-              </Typography>
+              </Text>
             </Box>
           </Box>
 
@@ -124,18 +125,18 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
 
         <Box center col className="mt-2">
           <Box alignCenter flex={1} justify="between">
-            <Typography fontWeight="semibold" variant="h3">
+            <Text fontWeight="semibold" textStyle="h3">
               {formatPrice(activeAssetPrice)}
-            </Typography>
+            </Text>
           </Box>
 
-          <Typography
-            color={activeAsset24hChange >= 0 ? 'green' : 'red'}
+          <Text
             fontWeight="semibold"
-            variant="caption"
+            textStyle="caption"
+            variant={activeAsset24hChange >= 0 ? 'green' : 'red'}
           >
             {activeAsset24hChange.toFixed(2)}%
-          </Typography>
+          </Text>
         </Box>
 
         <AssetChart asset={sigAsset} mode={ViewMode.CARD} />
@@ -184,9 +185,9 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
             </Box>
           ) : (
             <Box center flex={1}>
-              <Typography color="secondary" variant="subtitle2">
+              <Text textStyle="subtitle2" variant="secondary">
                 {t('views.wallet.noDataToShow')}
-              </Typography>
+              </Text>
             </Box>
           )}
         </Box>

@@ -1,6 +1,7 @@
+import { Text } from '@chakra-ui/react';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
-import { Box, Icon, Link, Typography } from 'components/Atomic';
+import { Box, Icon, Link } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { multichain } from 'services/multichain';
@@ -50,19 +51,19 @@ export const CompletedTransaction = memo(
 
           <Box col>
             <Box alignCenter row>
-              <Typography
+              <Text
                 className={classNames('text-[15px] pr-1 opacity-75 transition-all', {
                   '!opacity-100': isLoading,
                 })}
                 fontWeight="semibold"
               >
                 {transactionTitle(type)}
-              </Typography>
+              </Text>
             </Box>
 
-            <Typography color="secondary" fontWeight="semibold" variant="caption">
+            <Text fontWeight="semibold" textStyle="caption" variant="secondary">
               {transactionLabel}
-            </Typography>
+            </Text>
           </Box>
         </Box>
 

@@ -1,5 +1,5 @@
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Typography } from 'components/Atomic';
 
 import { SwitchProps } from './types';
 
@@ -34,27 +34,27 @@ export const Switch = ({
             transition: 'transform 100ms cubic-bezier(0.4, 0, 0.2, 1)',
           }}
         >
-          <Typography color="primary" fontWeight="semibold">
+          <Text fontWeight="semibold" variant="primary">
             {checked ? selectedText : unselectedText}
-          </Typography>
+          </Text>
         </span>
 
         <span className="flex items-center justify-around h-full opacity-60">
-          <Typography
+          <Text
             className={classNames({ invisible: checked })}
-            color="secondary"
             fontWeight="semibold"
+            variant="secondary"
           >
             {selectedText}
-          </Typography>
+          </Text>
 
-          <Typography
+          <Text
             className={classNames({ invisible: !checked })}
-            color="secondary"
             fontWeight="semibold"
+            variant="secondary"
           >
             {unselectedText}
-          </Typography>
+          </Text>
         </span>
       </span>
 

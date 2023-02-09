@@ -1,9 +1,10 @@
+import { Text } from '@chakra-ui/react';
 import { THORNameDetails } from '@thorswap-lib/midgard-sdk';
 import { Asset, THORName } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { ChainIcon } from 'components/AssetIcon/ChainIcon';
-import { Box, Button, Icon, Tooltip, Typography } from 'components/Atomic';
+import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';
 import { shortenAddress } from 'helpers/shortenAddress';
 import { useMemo } from 'react';
@@ -29,13 +30,13 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
       {
         label: t('views.thorname.status'),
         value: (
-          <Typography color={isAvailable ? 'green' : 'red'}>
+          <Text variant={isAvailable ? 'green' : 'red'}>
             {t(
               `views.thorname.${
                 isAvailable ? (details ? 'ownedByYou' : 'available') : 'unavailable'
               }`,
             )}
-          </Typography>
+          </Text>
         ),
       },
 
@@ -59,7 +60,7 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
                   />
 
                   <Box center className="w-3">
-                    <Typography>{years}</Typography>
+                    <Text>{years}</Text>
                   </Box>
 
                   <Button
@@ -82,10 +83,10 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
               value: (
                 <Box center className="gap-x-2">
                   <AssetIcon asset={Asset.RUNE()} size="tiny" />
-                  <Typography>
+                  <Text>
                     {details ? years : THORName.getCost(years).toSignificantWithMaxDecimals(6)}{' '}
                     $RUNE
-                  </Typography>
+                  </Text>
                 </Box>
               ),
             },
@@ -109,12 +110,12 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
                     })}
                     iconName="infoCircle"
                   />
-                  <Typography>
+                  <Text>
                     {getThornameExpireDate({
                       expire: details.expire,
                       lastThorchainBlock: lastBlock?.[0]?.thorchain,
                     })}
-                  </Typography>
+                  </Text>
                 </Box>
               ),
             },

@@ -1,8 +1,8 @@
-import { Flex } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import { Amount, Asset, Price } from '@thorswap-lib/multichain-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Button, Typography } from 'components/Atomic';
+import { Box, Button } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
@@ -93,23 +93,18 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
                 <AssetIcon asset={position.asset} size={32} />
               </Box>
 
-              <Typography
-                className={classNames('mx-1 md:mx-3 !transition-all')}
-                fontWeight="semibold"
-              >
+              <Text className={classNames('mx-1 md:mx-3 !transition-all')} fontWeight="semibold">
                 {position.asset.name}
-              </Typography>
+              </Text>
             </Box>
 
             {!positionTooSmall ? (
               <Flex>
-                <Typography fontWeight="bold">
+                <Text fontWeight="bold">
                   {position.amount?.toSignificantWithMaxDecimals(6) || 'n/a'} {position.asset.name}
-                </Typography>
-                <Typography>&nbsp;</Typography>
-                <Typography fontWeight="light">{`($${amountUsd(position.amount).toFixedRaw(
-                  2,
-                )})`}</Typography>
+                </Text>
+                <Text>&nbsp;</Text>
+                <Text fontWeight="light">{`($${amountUsd(position.amount).toFixedRaw(2)})`}</Text>
               </Flex>
             ) : (
               <PositionTooSmallInfo />

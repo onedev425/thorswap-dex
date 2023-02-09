@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Typography } from 'components/Atomic';
+import { Box } from 'components/Atomic';
 import { SwapGraphType } from 'components/SwapRouter/types';
 import { memo } from 'react';
 
@@ -12,7 +13,7 @@ export const SwapGraph = memo(({ fromAsset, toAsset, swapParts }: Props) => {
     <Box col className="w-full">
       <Box center row className="gap-2 py-2">
         <AssetIcon logoURI={fromAsset.logoURL} size={24} />
-        <Typography className="text-[18px]">→</Typography>
+        <Text className="text-[18px]">→</Text>
         <AssetIcon logoURI={toAsset.logoURL} size={24} />
       </Box>
 

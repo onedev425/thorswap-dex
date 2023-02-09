@@ -1,8 +1,9 @@
+import { Text } from '@chakra-ui/react';
 import { Amount, AmountType, Asset } from '@thorswap-lib/multichain-core';
 import { Chain } from '@thorswap-lib/types';
 import BigNumber from 'bignumber.js';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Typography } from 'components/Atomic';
+import { Box } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { HoverIcon } from 'components/HoverIcon';
 import { useFormatPrice } from 'helpers/formatPrice';
@@ -94,27 +95,25 @@ export const SwapRoute = memo(
             <Box center className="gap-x-1.5">
               <Box col>
                 <Box className="gap-x-1" justify="end">
-                  <Typography fontWeight="bold">
-                    {routeOutput.toSignificantWithMaxDecimals(6)}
-                  </Typography>
+                  <Text fontWeight="bold">{routeOutput.toSignificantWithMaxDecimals(6)}</Text>
 
-                  <Typography>{outputAsset.ticker}</Typography>
+                  <Text>{outputAsset.ticker}</Text>
                   <AssetIcon asset={outputAsset} hasChainIcon={false} logoURI={logoURI} size={18} />
                 </Box>
 
                 <Box alignCenter className="gap-x-1" justify="end">
                   {Number.isFinite(selectedQuoteDiff) && selectedQuoteDiff !== 0 && (
-                    <Typography
+                    <Text
                       className="!text-[10px] text-right"
-                      color={selectedQuoteDiff >= 0 ? 'green' : 'red'}
-                      variant="caption-xs"
+                      textStyle="caption-xs"
+                      variant={selectedQuoteDiff >= 0 ? 'green' : 'red'}
                     >
                       ({selectedQuoteDiff.toFixed(2)}%)
-                    </Typography>
+                    </Text>
                   )}
-                  <Typography className="text-right" color="secondary">
+                  <Text className="text-right" variant="secondary">
                     {expectedOutputPrice}
-                  </Typography>
+                  </Text>
                 </Box>
               </Box>
             </Box>
@@ -122,9 +121,9 @@ export const SwapRoute = memo(
         </Box>
 
         <Box className="px-1 pt-0.5">
-          <Typography className="!text-[9px]" color="secondary" variant="caption-xs">
+          <Text className="!text-[9px]" textStyle="caption-xs" variant="secondary">
             {shortPath}
-          </Typography>
+          </Text>
         </Box>
       </HighlightCard>
     );

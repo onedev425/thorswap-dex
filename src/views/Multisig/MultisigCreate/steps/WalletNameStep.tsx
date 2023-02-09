@@ -1,4 +1,5 @@
-import { Box, Typography } from 'components/Atomic';
+import { Text } from '@chakra-ui/react';
+import { Box } from 'components/Atomic';
 import { TextField } from 'components/Form';
 import { StepActions } from 'components/Stepper';
 import { UseFormRegisterReturn } from 'react-hook-form';
@@ -13,9 +14,9 @@ export const WalletNameStep = ({ field, hasError }: Props) => {
   return (
     <Box col className="self-stretch mx-2" flex={1}>
       <Box col className="gap-3" flex={1}>
-        <Typography fontWeight="normal" variant="caption">
+        <Text fontWeight="normal" textStyle="caption">
           {t('views.multisig.nameYourWalletOptionaly')}
-        </Typography>
+        </Text>
 
         <Box col>
           <TextField

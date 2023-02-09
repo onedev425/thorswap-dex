@@ -1,5 +1,6 @@
+import { Text } from '@chakra-ui/react';
 import { Chain } from '@thorswap-lib/types';
-import { Box, Button, Typography } from 'components/Atomic';
+import { Box, Button } from 'components/Atomic';
 import { StepActions } from 'components/Stepper';
 import { useStepper } from 'components/Stepper/StepperContext';
 import { useCallback, useEffect } from 'react';
@@ -38,9 +39,9 @@ export function SignTxStep({ handleSign, connectedSignature }: Props) {
   return (
     <Box col className="self-stretch mx-2" flex={1}>
       <Box col className="gap-2">
-        <Typography fontWeight="normal" variant="caption">
+        <Text fontWeight="normal" textStyle="caption">
           {t('views.multisig.addYourSignatureInfo')}
-        </Typography>
+        </Text>
         {!connectedSignature ? (
           <Button stretch onClick={handleSignClick} variant="primary">
             {connectedWalletAddress ? t('views.multisig.signTx') : t('common.connectWallet')}
