@@ -2500,6 +2500,14 @@
     "@ledgerhq/errors" "^6.11.1"
     events "^3.3.0"
 
+"@ledgerhq/live-app-sdk@^0.8.1":
+  version "0.8.2"
+  resolved "https://registry.npmjs.org/@ledgerhq/live-app-sdk/-/live-app-sdk-0.8.2.tgz#dcf85f3fb93c7401f48d4b3e82fe8b42e40c7ecf"
+  integrity sha512-yD+L02pAwTfjeSyixWkfqlh6Xg3yAGFnFitrcHk2WWUtKg1TVmNpWNHLS22LKYYWJ7Lflj/pLLQ0nKm1OsJB9g==
+  dependencies:
+    bignumber.js "^9.0.2"
+    json-rpc-2.0 "^1.1.0"
+
 "@ledgerhq/logs@^5.30.0", "@ledgerhq/logs@^5.50.0":
   version "5.50.0"
   resolved "https://registry.yarnpkg.com/@ledgerhq/logs/-/logs-5.50.0.tgz#29c6419e8379d496ab6d0426eadf3c4d100cd186"
@@ -3055,10 +3063,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.11.tgz#f57392d4bd5467e2cb4eaf80105e2907c987178e"
   integrity sha512-rzfoyOE1IPEpGXYEH2dt2W/Nb2+rmbt97/yhu6aaaHSbwrfQvWt6KFdkNHa8KXa9zoN43gOdDz9Ku0SwwaHZpg==
 
-"@thorswap-lib/multichain-core@0.0.1-development.67":
-  version "0.0.1-development.67"
-  resolved "https://registry.npmjs.org/@thorswap-lib/multichain-core/-/multichain-core-0.0.1-development.67.tgz#7eede9665f53596b6805c1cd18882621cda49f6a"
-  integrity sha512-AamoB/xwB2OY+MfQ6t4NJdb27RU+af2rwMrPsi8j7hTHlyusrmNnTgZjQvLD856/6MV0v8T5a6HQdDdTnbTGwQ==
+"@thorswap-lib/multichain-core@0.0.1-development.71":
+  version "0.0.1-development.71"
+  resolved "https://registry.npmjs.org/@thorswap-lib/multichain-core/-/multichain-core-0.0.1-development.71.tgz#77457d5c824f0983a0f2c9cf5f007079bbe78362"
+  integrity sha512-LIlXsjgFv/Umi7OpRdZpTzgB+GT57gyat4fGcAY4fqjWJoS96Ry7CiG8z7wmvzZ2wCfCvA3CcFuhMNQyV0wTqQ==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.2.0"
     "@cosmjs/amino" "^0.29.0"
@@ -3074,7 +3082,7 @@
     "@thorswap-lib/xchain-cosmos" "^0.21.14"
     "@thorswap-lib/xchain-evm" "^0.1.77"
     "@thorswap-lib/xchain-solana" "^0.2.38"
-    "@thorswap-lib/xchain-utxo" "^0.1.33"
+    "@thorswap-lib/xchain-utxo" "^0.1.37"
     avalanche "^3.15.4"
     base64-js "^1.5.1"
     bchaddrjs "^0.5.2"
@@ -3100,19 +3108,21 @@
   dependencies:
     "@thorswap-lib/types" "^0.3.7"
 
-"@thorswap-lib/multichain-entities@^0.2.35":
-  version "0.2.35"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/multichain-entities/-/multichain-entities-0.2.35.tgz#673957d7c478ab339e733fb567163208c0ec1e67"
-  integrity sha512-li/qkWFjVtKaBuZSUsZUJg+ns/t9R7jOLWou9qGhASmxkVsLrPbmHDCbMcLT859J530nJsFq7BzJ35lmxlxfnw==
-  dependencies:
-    "@thorswap-lib/types" "^0.3.8"
-
 "@thorswap-lib/multichain-entities@^0.2.36":
   version "0.2.36"
   resolved "https://registry.npmjs.org/@thorswap-lib/multichain-entities/-/multichain-entities-0.2.36.tgz#36097b0924b5d70d0ba9eb24f3f8833a83e0a4dd"
   integrity sha512-1Gb/KAaX42DjCBSp1gmnuxJW5tZ7v0iCx+VcGu54ch2JeicmO1ozJTBGvxoKB3CT7wEh4J3xqul2P/vh/aQ0tQ==
   dependencies:
     "@thorswap-lib/types" "^0.3.8"
+
+"@thorswap-lib/multichain-ledger-live@0.0.6":
+  version "0.0.6"
+  resolved "https://registry.npmjs.org/@thorswap-lib/multichain-ledger-live/-/multichain-ledger-live-0.0.6.tgz#099127ac26d52da5b2dd3d81d20c046d63dcfbc4"
+  integrity sha512-oBuu5wVyeqN3+sB63ywKWdmni/nocgHpuIqCf61gH1E75hwnYDUAiGodQbmMmTb/6fpSOnKy83Qnb9YXt0ColA==
+  dependencies:
+    "@ledgerhq/live-app-sdk" "^0.8.1"
+    "@thorswap-lib/atlas" "^0.4.16"
+    "@thorswap-lib/multichain-entities" "^0.2.34"
 
 "@thorswap-lib/multichain-ledger@0.2.39":
   version "0.2.39"
@@ -3211,13 +3221,13 @@
   resolved "https://registry.npmjs.org/@thorswap-lib/xchain-util/-/xchain-util-0.4.15.tgz#61beb61e3e5c3faa2f2cd88e4900dd9e7eb067cd"
   integrity sha512-N9alogujnYwSi+YKhghwmdLJl10YK8o3L0Y9jzQHtV3nv7N8jCmXK3KffBz/ym2Fl9UoizdxLMcWSFZrDecGvQ==
 
-"@thorswap-lib/xchain-utxo@^0.1.33":
-  version "0.1.33"
-  resolved "https://registry.npmjs.org/@thorswap-lib/xchain-utxo/-/xchain-utxo-0.1.33.tgz#a61f6bf3ceef75d1a13bdf3f27ff93d960d68e97"
-  integrity sha512-ddOGjKvoUVxmAE9+hfeHTqggiG0OmL7XasbkqP8gkgD+OnvBFCraswTUBBm7sqrbRyRGD3T1Jq/keC2spa+clQ==
+"@thorswap-lib/xchain-utxo@^0.1.37":
+  version "0.1.37"
+  resolved "https://registry.npmjs.org/@thorswap-lib/xchain-utxo/-/xchain-utxo-0.1.37.tgz#3c53d4897cb48402aa84b2bcd5c480c3ee3f9c77"
+  integrity sha512-CCnZT6diCGFj7zVzRoltLlp4t01uF3kQl8FtvfheWtPmmSfoLu4CPLmVrOb7f5y1KbvMrFpY7NsckH05afxZ1Q==
   dependencies:
     "@thorswap-lib/atlas" "^0.4.16"
-    "@thorswap-lib/multichain-entities" "^0.2.35"
+    "@thorswap-lib/multichain-entities" "^0.2.36"
     ecpair "^2.0.1"
     uniqid "^5.4.0"
 
@@ -4608,6 +4618,11 @@ bignumber.js@^7.2.1:
   version "7.2.1"
   resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-7.2.1.tgz#80c048759d826800807c4bfd521e50edbba57a5f"
   integrity sha512-S4XzBk5sMB+Rcb/LNcpzXr57VRTxgAvaAEDAl1AwRx27j00hT84O6OkteE7u8UB3NuaaygCRrEpqox4uDOrbdQ==
+
+bignumber.js@^9.0.2:
+  version "9.1.1"
+  resolved "https://registry.npmjs.org/bignumber.js/-/bignumber.js-9.1.1.tgz#c4df7dc496bd849d4c9464344c1aa74228b4dac6"
+  integrity sha512-pHm4LsMJ6lzgNGVfZHjMoO8sdoRhOzOH4MLmY65Jg70bpxCKu5iOHNJyfF6OyvYw7t8Fpf35RuzUyqnQsj8Vig==
 
 binary-extensions@^2.0.0:
   version "2.2.0"
@@ -7742,6 +7757,11 @@ json-parse-even-better-errors@^2.3.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/json-parse-even-better-errors/-/json-parse-even-better-errors-2.3.1.tgz#7c47805a94319928e05777405dc12e1f7a4ee02d"
   integrity sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w==
+
+json-rpc-2.0@^1.1.0:
+  version "1.5.1"
+  resolved "https://registry.npmjs.org/json-rpc-2.0/-/json-rpc-2.0-1.5.1.tgz#adf4cd4ac39c29a90740b642b2e2781bea6157f9"
+  integrity sha512-ZY/vYl/uUgKN3tNrZMq7w+CGLcoUT+8AzDO/HJZVa+K4XcwgfgES1QDa5y7ieAeh4NgRo3hLexMxgdaiEiK9aA==
 
 json-rpc-engine@^5.3.0:
   version "5.4.0"
