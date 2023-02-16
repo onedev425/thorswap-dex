@@ -23,6 +23,7 @@ export const TokenListProviderSelect = ({ onSelect, onClose, assets }: AssetSele
       data
         ? data
             .concat()
+            .filter((provider) => !provider.error)
             .sort((a, b) => {
               const aDisabled = disabledTokenLists.includes(a.provider);
               const bDisabled = disabledTokenLists.includes(b.provider);

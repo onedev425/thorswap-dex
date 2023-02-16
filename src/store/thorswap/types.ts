@@ -79,6 +79,7 @@ export type GetProvidersResponse = {
   nbTokens: number;
   provider: string;
   version: Version;
+  error: boolean;
 }[];
 
 export type GetProviderTokensParams = {
