@@ -102,8 +102,8 @@ export const useMimir = () => {
   }, [totalPooledRune, maxLiquidityRune]);
 
   const maxSynthPerAssetDepth = useMemo(
-    () => (mimir?.MAXSYNTHPERASSETDEPTH === -1 ? 0 : mimir?.MAXSYNTHPERASSETDEPTH ?? 0),
-    [mimir?.MAXSYNTHPERASSETDEPTH],
+    () => (mimir?.MAXSYNTHPERPOOLDEPTH === -1 ? 0 : mimir?.MAXSYNTHPERPOOLDEPTH ?? 0),
+    [mimir?.MAXSYNTHPERPOOLDEPTH],
   );
 
   const synthCap = 2 * ((mimir.MAXSYNTHPERPOOLDEPTH || 0) / 10000);

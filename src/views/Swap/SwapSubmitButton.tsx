@@ -54,7 +54,7 @@ export const SwapSubmitButton = ({
     const assetDepthAmount = Amount.fromMidgard(assetDepth);
     const synthSupplyAmount = Amount.fromMidgard(synthSupply);
 
-    if (assetDepthAmount.eq(0)) return true;
+    if (assetDepthAmount.eq(0) || maxSynthPerAssetDepth === 0) return true;
 
     return synthSupplyAmount
       .div(assetDepthAmount)
