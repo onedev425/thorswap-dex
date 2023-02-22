@@ -49,10 +49,10 @@ export const AnnouncementsProvider = ({ children }: Props) => {
     setAnnSeenList,
   ]);
 
-  const announcementsState: AnnouncementsState = useMemo(
+  const announcementsState = useMemo(
     () => ({
       all: announcementsList,
-      // Dismissed - uses clicked "x" button (displayed in popup, not dashboard)
+      // Dismissed - user clicked "x" button (displayed in popup, not dashboard)
       dismissed: announcementsList.filter((ann) => dismissedAnnList?.includes(ann.key || '')) || [],
       // Fresh - not dismissed, displayed on dashboard and popup
       fresh:

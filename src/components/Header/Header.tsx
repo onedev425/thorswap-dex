@@ -9,7 +9,7 @@ import { useWalletDrawer } from 'hooks/useWalletDrawer';
 import useWindowSize from 'hooks/useWindowSize';
 import { memo, useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
-import { IS_BETA, IS_DEV_API, IS_PROD, IS_STAGENET } from 'settings/config';
+import { IS_BETA, IS_DEV_API, IS_LOCAL, IS_PROD, IS_STAGENET } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 import { useMidgard } from 'store/midgard/hooks';
 import { useWallet } from 'store/wallet/hooks';
@@ -45,6 +45,30 @@ export const Header = memo(({ openMenu }: Props) => {
 
   return (
     <header className="mb-5 min-h-[70px]">
+      {!IS_PROD && (
+        <Box
+          center
+          className="bottom-4 p-3 absolute bg-white border border-transparent border-solid shadow-md rounded-2xl dark:border-cyan dark:bg-transparent"
+        >
+          <Text
+            className="transition-[font-size]"
+            fontSize="large"
+            fontWeight="semibold"
+            textStyle={isMdActive ? 'caption' : 'caption-xs'}
+          >
+            {IS_BETA
+              ? 'Beta'
+              : IS_STAGENET
+              ? 'Stagenet'
+              : IS_DEV_API
+              ? 'Dev Api'
+              : IS_LOCAL
+              ? 'Local'
+              : 'Test deploy'}
+          </Text>
+        </Box>
+      )}
+
       <Box justify="between">
         <Box className="mt-auto shrink-0 gap-x-2 mr-2">
           <Button
@@ -73,28 +97,6 @@ export const Header = memo(({ openMenu }: Props) => {
           </Box>
         </Box>
 
-        {!IS_PROD && (
-          <Box>
-            <Box
-              center
-              className="h-9.5 px-2 bg-white border border-transparent border-solid shadow-md rounded-2xl dark:border-cyan dark:bg-transparent"
-            >
-              <Text
-                className="transition-[font-size]"
-                fontWeight="semibold"
-                textStyle={isMdActive ? 'caption' : 'caption-xs'}
-              >
-                {IS_BETA
-                  ? 'Beta'
-                  : IS_STAGENET
-                  ? 'Stagenet'
-                  : IS_DEV_API
-                  ? 'Dev Api connected'
-                  : 'Local'}
-              </Text>
-            </Box>
-          </Box>
-        )}
         <Box justify="between">
           <Button
             className="mr-2"
