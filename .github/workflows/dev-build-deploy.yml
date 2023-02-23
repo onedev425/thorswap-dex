@@ -54,7 +54,6 @@ jobs:
       - name: Build project
         env:
           VITE_ALCHEMY_KEY: ${{ secrets.VITE_ALCHEMY_KEY }}
-          VITE_ALLTHATNODE_KEY: ${{ secrets.VITE_ALLTHATNODE_KEY }}
           VITE_BLOCKCHAIR_API_KEY: ${{ secrets.VITE_BLOCKCHAIR_API_KEY }}
           VITE_COVALENT_API_KEY: ${{ secrets.VITE_COVALENT_API_KEY }}
           VITE_DOGENODE_API_KEY: ${{ secrets.VITE_DOGENODE_API_KEY }}

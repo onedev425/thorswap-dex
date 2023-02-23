@@ -20,10 +20,7 @@ let multichainClient: MultiChain;
 
 export const multichain = () => {
   try {
-    return (multichainClient ||= new MultiChain({
-      network: Network.Mainnet,
-      allthatnodeApiKey: import.meta.env.VITE_ALLTHATNODE_KEY || '',
-    }));
+    return (multichainClient ||= new MultiChain({ network: Network.Mainnet }));
   } catch (error: any) {
     console.error(error);
     return multichainClient;
