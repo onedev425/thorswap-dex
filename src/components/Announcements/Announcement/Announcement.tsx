@@ -60,9 +60,9 @@ export const Announcement = memo(
       <Box
         center
         className={classNames(
-          'rounded-2xl relative',
+          'rounded-2xl',
           genericBgClasses.primary,
-          isSmall ? 'py-1 px-4' : 'px-12 py-3',
+          isSmall ? 'py-1 px-4' : 'px-12 py-3 relative',
           { 'cursor-pointer': onClick },
           { '!px-4': dismissed && !chain },
           { '!pr-4': dismissed && chain },
@@ -96,7 +96,7 @@ export const Announcement = memo(
             </Text>
           )}
 
-          {!!message && (
+          {typeof message === 'string' ? (
             <Text textStyle={dismissed || isSmall ? 'caption-xs' : 'body'}>
               {`${message} `}
               {!!link?.url && (
@@ -108,6 +108,8 @@ export const Announcement = memo(
                 </Link>
               )}
             </Text>
+          ) : (
+            message
           )}
         </Box>
 

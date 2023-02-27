@@ -63,7 +63,7 @@ export const Header = memo(({ openMenu }: Props) => {
       )}
 
       <Box justify="between">
-        <Box className="mt-auto shrink-0 gap-x-2 mr-2" flex={1}>
+        <Box className="mt-auto shrink-0 gap-x-2 mr-2">
           <Button
             className="flex !p-1"
             display={{ md: 'none' }}
@@ -90,7 +90,7 @@ export const Header = memo(({ openMenu }: Props) => {
           </Box>
         </Box>
 
-        <Box justifyCenter className="hidden md:flex" flex={3}>
+        <Box className="hidden md:flex mx-20" flex={3} justify="start">
           <PromoBanner />
         </Box>
 

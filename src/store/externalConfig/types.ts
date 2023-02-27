@@ -1,4 +1,5 @@
 import { Chain } from '@thorswap-lib/types';
+import { ReactNode } from 'react';
 
 export enum AnnouncementType {
   Primary = 'primary',
@@ -26,7 +27,7 @@ export type AnnouncementItem = {
   type?: AnnouncementType;
   dismissed?: boolean;
   title?: string;
-  message: string;
+  message: string | ReactNode;
   chain?: Chain;
   link?: StatusAnnouncementLink;
   key?: string;
