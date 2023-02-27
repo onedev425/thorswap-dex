@@ -120,7 +120,7 @@ export const Header = memo(({ openMenu }: Props) => {
       {isXlActive ? (
         <HeaderAnnouncements />
       ) : (
-        <Box className="pt-4 flex xl:hidden">
+        <Box className="pt-3 flex xl:hidden">
           <PromoBannerSlider />
         </Box>
       )}

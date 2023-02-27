@@ -68,7 +68,7 @@ const PromoBannerSlider = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((prevIndex) => (prevIndex + 1) % promoItems.length);
-    }, 4000);
+    }, 10000);
 
     return () => clearInterval(interval);
   }, [promoItems.length]);
