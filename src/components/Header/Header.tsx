@@ -3,7 +3,7 @@ import { AnnouncementsPopover } from 'components/Announcements/AnnouncementsPopo
 import { HeaderAnnouncements } from 'components/Announcements/HeaderAnnouncements';
 import { AppPopoverMenu } from 'components/AppPopoverMenu';
 import { Box, Button, Icon } from 'components/Atomic';
-import PromoBanner from 'components/Header/PromoBanner';
+import PromoBannerSlider from 'components/Header/PromoBannerSlider';
 import { TransactionManager } from 'components/TransactionManager';
 import { hasConnectedWallet } from 'helpers/wallet';
 import { useWalletDrawer } from 'hooks/useWalletDrawer';
@@ -27,7 +27,7 @@ export const Header = memo(({ openMenu }: Props) => {
   const { isWalletLoading, wallet, setIsConnectModalOpen } = useWallet();
   const { setIsDrawerVisible } = useWalletDrawer();
   const { stats } = useMidgard();
-  const { isMdActive } = useWindowSize();
+  const { isMdActive, isXlActive } = useWindowSize();
 
   const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
 
@@ -62,7 +62,7 @@ export const Header = memo(({ openMenu }: Props) => {
         </Box>
       )}
 
-      <Box justify="between">
+      <Box flex={1} justify="between">
         <Box className="mt-auto shrink-0 gap-x-2 mr-2">
           <Button
             className="flex !p-1"
@@ -90,8 +90,10 @@ export const Header = memo(({ openMenu }: Props) => {
           </Box>
         </Box>
 
-        <Box className="hidden md:flex mx-20" flex={3} justify="start">
-          <PromoBanner />
+        <Box flex={3}>
+          <Box className="hidden xl:flex">
+            <PromoBannerSlider />
+          </Box>
         </Box>
 
         <Box flex={1} justify="between">
@@ -115,11 +117,11 @@ export const Header = memo(({ openMenu }: Props) => {
         </Box>
       </Box>
 
-      {isMdActive ? (
+      {isXlActive ? (
         <HeaderAnnouncements />
       ) : (
-        <Box className="pt-4">
-          <PromoBanner />
+        <Box className="pt-4 flex xl:hidden">
+          <PromoBannerSlider />
         </Box>
       )}
     </header>

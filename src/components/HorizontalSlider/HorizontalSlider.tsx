@@ -1,10 +1,9 @@
 import 'swiper/css';
-import 'swiper/css/autoplay';
 
 import classNames from 'classnames';
 import { Box, Button, Icon } from 'components/Atomic';
 import { Children, PropsWithChildren, useCallback, useEffect, useState } from 'react';
-import SwiperCore, { Autoplay, Mousewheel, Navigation } from 'swiper';
+import SwiperCore, { Mousewheel, Navigation } from 'swiper';
 // Issue related to this was closed without any notice
 // https://github.com/nolimits4web/swiper/issues/5058
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -91,8 +90,7 @@ export const HorizontalSlider = ({ children, itemWidth, showButtons = false }: P
 
       <div className="overflow-hidden faded-horizontal">
         <Swiper
-          autoplay={{ delay: 5000, pauseOnMouseEnter: true, disableOnInteraction: false }}
-          modules={[Autoplay, Navigation]}
+          modules={[Navigation]}
           mousewheel={{ forceToAxis: true }}
           onSlideChange={onSlideChange}
           onSwiper={setSwiperRef}

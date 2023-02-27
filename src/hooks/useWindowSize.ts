@@ -77,6 +77,7 @@ const useWindowSize = () => {
       isSizeActive,
       isMdActive: isSizeActive(BreakPoint.md),
       isLgActive: isSizeActive(BreakPoint.lg),
+      isXlActive: isSizeActive(BreakPoint.xl),
     }),
     [breakpoint, isSizeActive],
   );
