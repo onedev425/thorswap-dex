@@ -26,14 +26,20 @@ const transactionsSlice = createSlice({
     },
     removeTransaction(state, { payload }: PayloadAction<string>) {
       // update this
-      state = state.filter(({ txid }) => txid !== payload);
-      saveInStorage({ key: 'txHistory', value: state });
+      const filtered = state.filter(({ txid }) => txid !== payload);
+      saveInStorage({ key: 'txHistory', value: filtered });
+
+      return filtered;
     },
     completeTransaction(
       state,
       {
         payload,
-      }: PayloadAction<{ result?: string | TxnResult; id: string; status: TransactionStatus }>,
+      }: PayloadAction<{
+        result?: string | TxnResult;
+        id: string;
+        status: TransactionStatus;
+      }>,
     ) {
       const index = findTxIndexById(state, payload.id);
 
@@ -42,9 +48,11 @@ const transactionsSlice = createSlice({
       }
       saveInStorage({ key: 'txHistory', value: state });
     },
-    clearTransactions() {
-      saveInStorage({ key: 'txHistory', value: [] });
-      return initialState;
+    clearTransactions(state) {
+      const filtered = state.filter(({ completed }) => !completed);
+      saveInStorage({ key: 'txHistory', value: filtered });
+
+      return filtered;
     },
   },
 });
