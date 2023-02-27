@@ -8,6 +8,11 @@ export enum AnnouncementType {
   Error = 'error',
 }
 
+export enum AnnouncementPlacement {
+  Announcement = 'announcement',
+  PromoBanner = 'promoBanner',
+}
+
 export type StatusAnnouncementLink = {
   name?: string;
   url: string;
@@ -31,6 +36,7 @@ export type AnnouncementItem = {
   chain?: Chain;
   link?: StatusAnnouncementLink;
   key?: string;
+  placement?: AnnouncementPlacement;
 };
 
 export type StatusAnnouncement = AnnouncementItem & {
