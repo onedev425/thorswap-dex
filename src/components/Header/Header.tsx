@@ -3,6 +3,7 @@ import { AnnouncementsPopover } from 'components/Announcements/AnnouncementsPopo
 import { HeaderAnnouncements } from 'components/Announcements/HeaderAnnouncements';
 import { AppPopoverMenu } from 'components/AppPopoverMenu';
 import { Box, Button, Icon } from 'components/Atomic';
+import PromoBanner from 'components/Header/PromoBanner';
 import { TransactionManager } from 'components/TransactionManager';
 import { hasConnectedWallet } from 'helpers/wallet';
 import { useWalletDrawer } from 'hooks/useWalletDrawer';
@@ -46,16 +47,8 @@ export const Header = memo(({ openMenu }: Props) => {
   return (
     <header className="mb-5 min-h-[70px]">
       {!IS_PROD && (
-        <Box
-          center
-          className="bottom-4 p-3 absolute bg-white border border-transparent border-solid shadow-md rounded-2xl dark:border-cyan dark:bg-transparent"
-        >
-          <Text
-            className="transition-[font-size]"
-            fontSize="large"
-            fontWeight="semibold"
-            textStyle={isMdActive ? 'caption' : 'caption-xs'}
-          >
+        <Box className="bottom-4 p-2.5 !absolute bg-white border border-transparent border-solid shadow-md rounded-2xl dark:border-cyan dark:bg-transparent">
+          <Text className="transition-[font-size]" fontWeight="semibold" textStyle="caption">
             {IS_BETA
               ? 'Beta'
               : IS_STAGENET
@@ -70,7 +63,7 @@ export const Header = memo(({ openMenu }: Props) => {
       )}
 
       <Box justify="between">
-        <Box className="mt-auto shrink-0 gap-x-2 mr-2">
+        <Box className="mt-auto shrink-0 gap-x-2 mr-2" flex={1}>
           <Button
             className="flex !p-1"
             display={{ md: 'none' }}
@@ -81,7 +74,7 @@ export const Header = memo(({ openMenu }: Props) => {
 
           <Box
             center
-            className="h-9.5 px-2 bg-white border border-transparent border-solid shadow-md rounded-2xl dark:border-cyan dark:bg-transparent"
+            className="hidden md:flex px-2 bg-white border border-transparent border-solid shadow-md rounded-2xl dark:border-cyan dark:bg-transparent"
           >
             <Text
               className="transition-[font-size]"
@@ -92,12 +85,16 @@ export const Header = memo(({ openMenu }: Props) => {
             </Text>
           </Box>
 
-          <Box className="hidden md:flex gap-x-2">
+          <Box className="hidden md:flex">
             <StatusDropdown />
           </Box>
         </Box>
 
-        <Box justify="between">
+        <Box justifyCenter className="hidden md:flex" flex={3}>
+          <PromoBanner />
+        </Box>
+
+        <Box flex={1} justify="between">
           <Button
             className="mr-2"
             loading={isWalletLoading}
@@ -118,7 +115,13 @@ export const Header = memo(({ openMenu }: Props) => {
         </Box>
       </Box>
 
-      <HeaderAnnouncements />
+      {isMdActive ? (
+        <HeaderAnnouncements />
+      ) : (
+        <Box className="pt-4">
+          <PromoBanner />
+        </Box>
+      )}
     </header>
   );
 });

@@ -43,59 +43,60 @@ export const HorizontalSlider = ({ children, itemWidth, showButtons = false }: P
 
   return (
     <Box center className="relative">
-      <Button
-        className={classNames(
-          '!bg-opacity-0 hover:!bg-opacity-0 dark:hover:!bg-opacity-0 px-0 -left-[10px] mt-4 z-10 md:flex transition',
-          navState.isBeginning
-            ? '!opacity-0 hover:!opacity-0 pointer-events-none'
-            : '!opacity-40 hover:!opacity-100 pointer-events-auto',
-          !showButtons && 'hidden',
-        )}
-        disabled={navState.isBeginning}
-        leftIcon={
-          <Icon
-            className="hover:text-btn-primary-light dark:hover:text-btn-primary"
-            name="chevronLeft"
-            size={40}
+      {showButtons && (
+        <>
+          <Button
+            className={classNames(
+              '!bg-opacity-0 hover:!bg-opacity-0 dark:hover:!bg-opacity-0 px-0 -left-[10px] mt-4 z-10 md:flex transition',
+              navState.isBeginning
+                ? '!opacity-0 hover:!opacity-0 pointer-events-none'
+                : '!opacity-40 hover:!opacity-100 pointer-events-auto',
+            )}
+            disabled={navState.isBeginning}
+            leftIcon={
+              <Icon
+                className="hover:text-btn-primary-light dark:hover:text-btn-primary"
+                name="chevronLeft"
+                size={40}
+              />
+            }
+            onClick={navPrev}
+            paddingInline={0}
+            position="absolute"
+            variant="borderlessTint"
           />
-        }
-        onClick={navPrev}
-        paddingInline={0}
-        position="absolute"
-        variant="borderlessTint"
-      />
-      <Button
-        className={classNames(
-          '!bg-opacity-0 hover:!bg-opacity-0 dark:hover:!bg-opacity-0 px-0 -right-[10px] mt-4 z-10 md:flex transition',
-          navState.isEnd
-            ? '!opacity-0 hover:!opacity-0 pointer-events-none'
-            : '!opacity-40 hover:!opacity-100 pointer-events-auto',
-          !showButtons && 'hidden',
-        )}
-        disabled={navState.isEnd}
-        leftIcon={
-          <Icon
-            className="hover:text-btn-primary-light dark:hover:text-btn-primary"
-            name="chevronRight"
-            size={40}
+          <Button
+            className={classNames(
+              '!bg-opacity-0 hover:!bg-opacity-0 dark:hover:!bg-opacity-0 px-0 -right-[10px] mt-4 z-10 md:flex transition',
+              navState.isEnd
+                ? '!opacity-0 hover:!opacity-0 pointer-events-none'
+                : '!opacity-40 hover:!opacity-100 pointer-events-auto',
+              !showButtons && 'hidden',
+            )}
+            disabled={navState.isEnd}
+            leftIcon={
+              <Icon
+                className="hover:text-btn-primary-light dark:hover:text-btn-primary"
+                name="chevronRight"
+                size={40}
+              />
+            }
+            onClick={navNext}
+            paddingInline={0}
+            position="absolute"
+            variant="borderlessTint"
           />
-        }
-        onClick={navNext}
-        paddingInline={0}
-        position="absolute"
-        variant="borderlessTint"
-      />
-      <div className="overflow-hidden faded-horizontal relative">
+        </>
+      )}
+
+      <div className="overflow-hidden faded-horizontal">
         <Swiper
           autoplay={{ delay: 5000, pauseOnMouseEnter: true, disableOnInteraction: false }}
           modules={[Autoplay, Navigation]}
           mousewheel={{ forceToAxis: true }}
           onSlideChange={onSlideChange}
           onSwiper={setSwiperRef}
-          slidesOffsetAfter={16}
-          slidesOffsetBefore={16}
           slidesPerView="auto"
-          spaceBetween={16}
         >
           {Children.map(children, (child) => (
             <SwiperSlide

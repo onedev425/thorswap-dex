@@ -10,6 +10,9 @@ import { t } from 'services/i18n';
 import { AnnouncementItem, AnnouncementType } from 'store/externalConfig/types';
 
 type AnnouncementProps = {
+  onClick?: () => void;
+  showClose?: boolean;
+  size?: 'sm' | 'md';
   announcement: AnnouncementItem;
   rightComponent?: ReactNode;
   dismissed?: boolean;
@@ -38,12 +41,16 @@ const announcementBorderClasses: Record<AnnouncementType, string> = {
 
 export const Announcement = memo(
   ({
+    size = 'md',
+    showClose = true,
     announcement: { type = AnnouncementType.Primary, message, title, chain, link, key },
     rightComponent,
     dismissed,
+    onClick,
   }: AnnouncementProps) => {
     const { dismissAnnouncement } = useDismissedAnnouncements();
     const { seeAnnouncements } = useSeenAnnouncements();
+    const isSmall = size === 'sm';
 
     if (!message && !title) {
       return null;
@@ -53,17 +60,21 @@ export const Announcement = memo(
       <Box
         center
         className={classNames(
-          'rounded-2xl px-12 py-3.5 md:w-auto relative',
+          'rounded-2xl relative',
           genericBgClasses.primary,
+          isSmall ? 'py-1 px-4' : 'px-12 py-3',
+          { 'cursor-pointer': onClick },
           { '!px-4': dismissed && !chain },
           { '!pr-4': dismissed && chain },
         )}
+        onClick={onClick}
       >
         {chain && (
           <Box center className="absolute left-6">
             <ChainIcon chain={chain} size={26} />
           </Box>
         )}
+
         <Box
           className={classNames(
             'absolute inset-0 rounded-2xl opacity-40',
@@ -86,10 +97,7 @@ export const Announcement = memo(
           )}
 
           {!!message && (
-            <Text
-              fontWeight={dismissed ? 'normal' : undefined}
-              textStyle={dismissed ? 'caption' : 'body'}
-            >
+            <Text textStyle={dismissed || isSmall ? 'caption-xs' : 'body'}>
               {`${message} `}
               {!!link?.url && (
                 <Link
@@ -103,7 +111,7 @@ export const Announcement = memo(
           )}
         </Box>
 
-        {!dismissed && (
+        {!dismissed && showClose && (
           <Box className="absolute right-2 top-2">
             <HoverIcon
               color="secondary"
@@ -116,6 +124,7 @@ export const Announcement = memo(
             />
           </Box>
         )}
+
         {rightComponent ? rightComponent : null}
       </Box>
     );

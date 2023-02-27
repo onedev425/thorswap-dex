@@ -12,12 +12,14 @@ export const HeaderAnnouncements = () => {
 
   if (showSlider) {
     return (
-      <HorizontalSlider showButtons itemWidth={isLgActive ? '94%' : '90%'}>
+      <HorizontalSlider showButtons itemWidth={isLgActive ? '100%' : '90%'}>
         {fresh.map((announcement) => (
-          <Announcement
-            announcement={announcement}
+          <Box
+            className="!max-w-[90%]"
             key={`${announcement.message}${announcement.title}${announcement.type}`}
-          />
+          >
+            <Announcement announcement={announcement} />
+          </Box>
         ))}
       </HorizontalSlider>
     );
