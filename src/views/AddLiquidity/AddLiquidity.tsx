@@ -51,9 +51,6 @@ export const AddLiquidity = () => {
     poolMemberDetail,
     asymmTipVisible,
     setAsymmTipVisible,
-    currentAssetHaveLP,
-    existingLPTipVisible,
-    setExistingLPTipVisible,
     isApproveRequired,
     handleApprove,
     isAssetApproveLoading,
@@ -157,23 +154,6 @@ export const AddLiquidity = () => {
             type="warn"
           />
         )}
-
-      {currentAssetHaveLP && existingLPTipVisible && (
-        <InfoTip
-          content={
-            <>
-              {t('views.addLiquidity.existingLpTipNotice')}
-              <Link className="text-twitter-blue" to={ADD_LIQUIDITY_GUIDE_URL}>
-                {' '}
-                {t('common.learnMore')}
-              </Link>
-            </>
-          }
-          onClose={() => setExistingLPTipVisible(false)}
-          title={t('views.addLiquidity.existingLpTip')}
-          type="warn"
-        />
-      )}
 
       {isApproveRequired && (
         <Box className="w-full pt-5">

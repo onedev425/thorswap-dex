@@ -329,6 +329,7 @@
     "swap": "Swap",
     "switch": "Switch",
     "transaction": "Transaction",
+    "transactionHistory": "Transaction History",
     "unstake": "Unstake",
     "unstakeAsset": "Unstake %{amount} %{asset}",
     "unstakeFailed": "Unstake %{amount} %{asset} failed",
@@ -337,8 +338,7 @@
     "withdraw": "Withdraw",
     "withdrawAmountAsset": "Withdraw %{amount} %{asset}",
     "withdrawAmountFailed": "Withdraw %{amount} %{asset} failed",
-    "withdrawnAmountAsset": "Withdrew %{amount} %{asset}",
-    "transactionHistory": "Transaction History"
+    "withdrawnAmountAsset": "Withdrew %{amount} %{asset}"
   },
   "validation": {
     "invalidPassword": "Invalid Password"
@@ -349,8 +349,6 @@
       "asymmetricPoolNotice0": "Your %{depositAsset} will be rebalanced upon entering the pool. This means you will have 50:50 exposure to both RUNE and %{asset}.",
       "asymmetricPoolTip": "You are about to deposit to a pool asymmetrically.",
       "description": "Provide native liquidity to THORChain ",
-      "existingLpTip": "Your 100 days start now.",
-      "existingLpTipNotice": "You have existing LP position for this Asset. Adding more LP with same address will reset IL protection period, Are you certain you want to add more LP with this address?",
       "pricesAndPoolShare": "Prices and Pool Share",
       "shareOfPool": "Share of Pool",
       "title": "Provide liquidity to THORChain"
@@ -358,6 +356,7 @@
     "home": {
       "chart_add": "Add",
       "chart_bondEarning": "Bond Earning",
+      "chart_earned": "Earned",
       "chart_liquidity": "Liquidity",
       "chart_lpEarning": "LP Earning",
       "chart_runePrice": "$RUNE Price",
@@ -365,7 +364,6 @@
       "chart_total": "Total",
       "chart_volume": "Volume",
       "chart_withdraw": "Withdraw",
-      "chart_earned": "Earned",
       "description": "Statistics for THORChain token pools",
       "featuredPools": "Featured Pools",
       "title": "THORChain pool statistics"
@@ -633,19 +631,19 @@
       "aprTipContent": "Savers Vaults yield APR & earnings will be available soon!",
       "aprTipTitle": "Earn APR metrics coming soon!",
       "currentBalance": "Current Balance",
+      "day": "day",
+      "days": "days",
       "description": "Deposit %{asset} and earn more %{asset} with Savers Vaults",
       "earn": "Earn",
       "myPositions": "My Positions",
       "notEnoughForOutboundFee": "Not enough amount to cover outbound fee",
       "positionTooSmall": "Position too small to calculate",
+      "timeToBrakeEven": "Time to break even",
+      "timeToBrakeEvenTip": "Estimated time to cover deposit fee and earnings",
       "tooltipDescription": "Provide %{asset} liquidity to earn yield in %{asset} with no exposure to RUNE or impermanent loss. Withdraw at any time with no lockup period. Slippage fee applies on entry and exit.",
       "yourDeposit": "Your Deposit",
       "yourEarnings": "Your Earnings",
-      "yourPositions": "Your Positions",
-      "timeToBrakeEven": "Time to break even",
-      "timeToBrakeEvenTip": "Estimated time to cover deposit fee and earnings",
-      "day": "day",
-      "days": "days"
+      "yourPositions": "Your Positions"
     },
     "send": {
       "description": "Send tokens to other wallets and manage your assets",
