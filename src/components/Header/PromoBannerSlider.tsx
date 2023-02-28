@@ -48,19 +48,6 @@ const PromoBannerSlider = () => {
         ),
         onClick: () => navigate(ROUTES.Stake),
       },
-      {
-        key: 'promo-2',
-        message: (
-          <Text textStyle="caption-xs">
-            Stake
-            <Text className="inline px-0.5" decoration="underline" textStyle="caption-xs">
-              $THOR
-            </Text>
-            to receive real-yield rewards and trading fee discounts.
-          </Text>
-        ),
-        onClick: () => navigate(ROUTES.Stake),
-      },
     ],
     [navigate],
   );
@@ -74,7 +61,7 @@ const PromoBannerSlider = () => {
   }, [promoItems.length]);
 
   return (
-    <Box className="xl:absolute">
+    <Box className="justify-center xl:justify-start xl:absolute" flex={1}>
       {promoItems.map(({ key, message, onClick }, index) => (
         <PromoBanner active={index === activeIndex} key={key} message={message} onClick={onClick} />
       ))}
