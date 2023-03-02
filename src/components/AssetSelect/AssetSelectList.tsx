@@ -101,7 +101,7 @@ export const AssetSelectList = ({
             />
 
             <TabsSelect
-              buttonClasses="px-2"
+              buttonStyle={{ px: 2 }}
               onChange={setTypeFilterOption}
               tabs={assetFilterTypes}
               value={typeFilter}

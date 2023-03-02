@@ -97,6 +97,22 @@ export const theme = extendTheme({
         default: colors.light.borderPrimary,
         _dark: colors.dark.borderPrimary,
       },
+      bgPrimary: {
+        default: colors.light.bgPrimary,
+        _dark: colors.dark.bgPrimary,
+      },
+      bgSecondary: {
+        default: colors.light.bgSecondary,
+        _dark: colors.dark.bgSecondary,
+      },
+      grayPrimary: {
+        default: colors.light.grayPrimary,
+        _dark: colors.dark.grayPrimary,
+      },
+      tintHoverPrimary: {
+        default: colors.light.btnBorderPrimary,
+        _dark: colors.dark.btnBorderPrimary,
+      },
     },
   },
   components: {
@@ -116,10 +132,57 @@ export const theme = extendTheme({
         },
       },
     },
+    Card: {
+      baseStyle: {
+        dialog: {
+          backgroundColor: 'transparent',
+        },
+        body: {
+          p: 0,
+        },
+        container: {
+          border: '1px solid transparent',
+          transition: 'all 0.2s ease-in-out',
+        },
+      },
+      variants: {
+        filledContainerPrimary: () => ({
+          container: {
+            p: 4,
+            bgColor: 'bgPrimary',
+          },
+        }),
+        filledContainerSecondary: () => ({
+          container: {
+            padding: 4,
+            bgColor: 'bgSecondary',
+          },
+        }),
+        filled: () => ({
+          container: {
+            bgColor: 'bgPrimary',
+            _hover: {
+              bgColor: 'tintHoverPrimary',
+              borderColor: 'grayPrimary',
+            },
+          },
+        }),
+        elevated: () => ({
+          container: {
+            bgColor: 'bgPrimary',
+            _hover: {
+              bgColor: 'tintHoverPrimary',
+              borderColor: 'grayPrimary',
+            },
+          },
+        }),
+      },
+    },
     Text: {
       baseStyle: {
         fontFamily: 'Poppins, sans-serif',
         textStyle: 'body',
+        variant: 'primary',
       },
       variants: {
         primary: (props: StyleFunctionProps) => ({
@@ -251,6 +314,11 @@ export const theme = extendTheme({
             bg: `linear-gradient(90deg, ${colors.btnSecondary + 'DD'} 0%, ${
               colors.blueLight + 'DD'
             } 80%)`,
+            _disabled: {
+              bg: `linear-gradient(90deg, ${colors.btnSecondary + 'DD'} 0%, ${
+                colors.blueLight + 'DD'
+              } 80%)`,
+            },
           },
         },
         fancyError: {
@@ -261,6 +329,11 @@ export const theme = extendTheme({
             bg: `linear-gradient(90deg, ${colors.fancyErrorStart + 'DD'} 0%, ${
               colors.fancyErrorStop + 'DD'
             } 80%)`,
+            _disabled: {
+              bg: `linear-gradient(90deg, ${colors.fancyErrorStart + 'DD'} 0%, ${
+                colors.fancyErrorStop + 'DD'
+              } 80%)`,
+            },
           },
         },
       },
@@ -272,10 +345,11 @@ export const theme = extendTheme({
         },
         md: {
           h: 12,
-          px: 7,
+          px: 6,
           borderRadius: 24,
         },
-        sm: { h: 10, px: 4, borderRadius: 16 },
+        sm: { h: 10, px: 3, borderRadius: 16 },
+        xs: { h: 7, px: 3, borderRadius: 16 },
       },
       baseStyle: (props: StyleFunctionProps) => ({
         display: 'flex',

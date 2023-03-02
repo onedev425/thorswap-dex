@@ -1,4 +1,4 @@
-import { Text } from '@chakra-ui/react';
+import { SystemStyleObject, Text, useTheme } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { Box, Button } from 'components/Atomic';
 import { TabSelectType } from 'components/TabsSelect/types';
@@ -11,11 +11,12 @@ type Props = {
   tabWidth?: string;
   value: string;
   onChange: (value: string) => void;
-  buttonClasses?: string;
+  buttonStyle?: SystemStyleObject;
 };
 
 export const TabsSelect = memo(
-  ({ title, titleWidth, tabs, tabWidth, value: selectedValue, onChange, buttonClasses }: Props) => {
+  ({ title, titleWidth, tabs, tabWidth, value: selectedValue, onChange, buttonStyle }: Props) => {
+    const theme = useTheme();
     return (
       <Box alignCenter flex={1}>
         {!!title && (
@@ -44,17 +45,14 @@ export const TabsSelect = memo(
           >
             {tabs.map(({ value, label, tooltip }) => (
               <Button
-                className={classNames(
-                  'self-stretch',
-                  {
-                    'flex-1': !tabWidth,
-                    '!bg-opacity-100 dark:!bg-opacity-50': value === selectedValue,
-                  },
-                  buttonClasses,
-                )}
+                _dark={{ bgColor: value === selectedValue && theme.colors.brand.btnPrimary + '80' }}
+                _light={{ color: theme.colors.brand.light.textPrimary }}
+                alignSelf="stretch"
+                flex={!tabWidth ? 1 : 'initial'}
                 key={value}
                 onClick={() => onChange(value)}
                 style={tabWidth ? { width: tabWidth } : {}}
+                sx={buttonStyle}
                 textTransform="none"
                 tooltip={tooltip}
                 variant={value === selectedValue ? 'primary' : 'borderlessTint'}

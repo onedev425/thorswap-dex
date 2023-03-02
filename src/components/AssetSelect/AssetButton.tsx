@@ -25,11 +25,12 @@ export function AssetButton({
     <Button
       className={classNames(
         className,
-        'pl-1 pr-2 !rounded-full !h-10 !hover:bg-light-gray-primary border !border-solid !border-opacity-40 border-dark-gray-primary !hover:bg-dark-gray-primary',
-        { 'pr-4': !withChevron },
+        '!rounded-full !h-10 !hover:bg-light-gray-primary border !border-solid !border-opacity-40 border-dark-gray-primary !hover:bg-dark-gray-primary',
       )}
       leftIcon={<AssetIcon asset={asset} size={28} />}
       onClick={onClick}
+      pl={withChevron ? '22px' : 1}
+      pr={withChevron ? '22px' : 4}
       rightIcon={withChevron ? <Icon color="primary" name="chevronDown" /> : undefined}
       size={size}
       textTransform="uppercase"
