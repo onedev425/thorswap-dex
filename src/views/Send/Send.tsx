@@ -1,10 +1,12 @@
 import { Text } from '@chakra-ui/react';
 import { Amount, Asset, Price } from '@thorswap-lib/multichain-core';
+import { Chain } from '@thorswap-lib/types';
 import { SwitchMenu } from 'components/AppPopoverMenu/components/SwitchMenu';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { InfoTable } from 'components/InfoTable';
+import { InfoTip } from 'components/InfoTip';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { PanelInput } from 'components/PanelInput';
 import { PanelView } from 'components/PanelView';
@@ -28,6 +30,8 @@ import { useWallet } from 'store/wallet/hooks';
 import { CustomSend } from 'views/Send/components/CustomSend';
 import { useCustomSend } from 'views/Send/hooks/useCustomSend';
 import { useConfirmSend } from 'views/Send/useConfirmSend';
+
+const mayaRouterAddress = '0xe9495f24fF1E8DD8E803B6717Fb9264683CdD7bC';
 
 // TODO: refactor useReducer
 const Send = () => {
@@ -143,6 +147,13 @@ const Send = () => {
       navigate(getSendRoute(selected));
     },
     [navigate],
+  );
+
+  const isMayaRouter = useMemo(
+    () =>
+      sendAsset.L1Chain === Chain.Ethereum &&
+      recipientAddress.toLocaleLowerCase() === mayaRouterAddress.toLocaleLowerCase(),
+    [sendAsset, recipientAddress],
   );
 
   const handleChangeSendAmount = useCallback(
@@ -270,6 +281,15 @@ const Send = () => {
 
       {!customTxEnabled && (
         <>
+          {isMayaRouter && (
+            <InfoTip
+              className="m-auto !pt-2 !pb-1 !px-2"
+              content="Sending funds to this address will likely result in a loss of funds. Users should deposit using the 'depositWithExpiry' method on Etherscan."
+              contentClassName="py-0"
+              title="Warning"
+              type="warn"
+            />
+          )}
           <PanelInput
             loading={loading}
             onChange={handleChangeRecipient}
@@ -281,7 +301,15 @@ const Send = () => {
             title={recipientTitle}
             value={recipientAddress}
           />
-
+          {memo && (
+            <InfoTip
+              className="m-auto !pt-2 !pb-1 !px-2"
+              content="Sending funds to an address with a custom memo is offered as a convenience tool and should only be used by advanced users knowing precisely what they are doing. THORSwap is not responsible for any loss of funds using this functionality."
+              contentClassName="py-0"
+              title="Warning"
+              type="warn"
+            />
+          )}
           <PanelInput
             collapsible
             onChange={handleChangeMemo}
@@ -303,7 +331,7 @@ const Send = () => {
 
       <Box center className="w-full pt-5">
         {isWalletConnected ? (
-          <Button stretch onClick={handleSend} size="lg" variant="fancy">
+          <Button stretch disabled={isMayaRouter} onClick={handleSend} size="lg" variant="fancy">
             {t('common.send')}
           </Button>
         ) : (
