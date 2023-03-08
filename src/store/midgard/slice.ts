@@ -90,7 +90,10 @@ const midgardSlice = createSlice({
                 : pool.detail.poolAPY;
           });
         } else {
-          state.pools = payload.map(Pool.fromPoolData).filter(Boolean) as Pool[];
+          const withoutInfinityApyPools = payload.map((pool) =>
+            pool.poolAPY !== '+Inf' ? pool : { ...pool, poolAPY: '0' },
+          );
+          state.pools = withoutInfinityApyPools.map(Pool.fromPoolData).filter(Boolean) as Pool[];
         }
 
         state.poolLoading = false;
