@@ -11,6 +11,7 @@ type Props = {
   content?: string | ReactNode;
   children?: ReactNode;
   onClose?: () => void;
+  onClick?: () => void;
   type?: CardStyleType;
   contentClassName?: string;
 };
@@ -29,6 +30,7 @@ export const InfoTip = ({
   content,
   type = 'primary',
   onClose,
+  onClick,
   contentClassName,
 }: Props) => {
   return (
@@ -36,8 +38,10 @@ export const InfoTip = ({
       className={classNames(
         'self-stretch items-center !px-2 !pb-2',
         title || onClose ? '!pt-4' : '!pt-2',
+        { 'cursor-pointer': !!onClick },
         className,
       )}
+      onClick={onClick}
       type={type}
     >
       {(!!title || !!onClose) && (

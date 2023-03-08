@@ -12,6 +12,7 @@ import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Icon, Link } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { InfoTable } from 'components/InfoTable';
+import { InfoTip } from 'components/InfoTip';
 import { LiquidityType } from 'components/LiquidityType/LiquidityType';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { LPTypeSelector } from 'components/LPTypeSelector';
@@ -24,10 +25,10 @@ import { hasWalletConnected } from 'helpers/wallet';
 import { useMimir } from 'hooks/useMimir';
 import { useNetworkFee } from 'hooks/useNetworkFee';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { multichain } from 'services/multichain';
-import { getThorYieldLPInfoBaseRoute } from 'settings/router';
+import { getAddLiquidityRoute, getThorYieldLPInfoBaseRoute } from 'settings/router';
 import { useExternalConfig } from 'store/externalConfig/hooks';
 import { useMidgard } from 'store/midgard/hooks';
 import { PoolMemberData, PoolShareType } from 'store/midgard/types';
@@ -88,14 +89,23 @@ export const WithdrawLiquidity = () => {
     getAssetEntity();
   }, [assetParam]);
 
-  if (pool && pools.length && poolMemberData && Object.keys(poolMemberData).length) {
-    const shares = [];
-    if (poolMemberData.pending) shares.push(PoolShareType.PENDING);
+  const shares = useMemo(
+    () =>
+      [
+        poolMemberData?.pending && PoolShareType.PENDING,
+        poolMemberData?.sym && PoolShareType.SYM,
+        poolMemberData?.runeAsym && PoolShareType.RUNE_ASYM,
+        poolMemberData?.assetAsym && PoolShareType.ASSET_ASYM,
+      ].filter(Boolean) as PoolShareType[],
+    [
+      poolMemberData?.assetAsym,
+      poolMemberData?.pending,
+      poolMemberData?.runeAsym,
+      poolMemberData?.sym,
+    ],
+  );
 
-    if (poolMemberData.sym) shares.push(PoolShareType.SYM);
-    if (poolMemberData.runeAsym) shares.push(PoolShareType.RUNE_ASYM);
-    if (poolMemberData.assetAsym) shares.push(PoolShareType.ASSET_ASYM);
-
+  if (pool && pools.length && shares.length > 0) {
     return (
       <WithdrawPanel
         pool={pool}
@@ -128,11 +138,12 @@ const WithdrawPanel = ({
   pools,
   shareTypes,
 }: {
-  poolMemberData: PoolMemberData;
+  poolMemberData: PoolMemberData | null;
   shareTypes: PoolShareType[];
   pool: Pool;
   pools: Pool[];
 }) => {
+  const navigate = useNavigate();
   const appDispatch = useAppDispatch();
   const { wallet, setIsConnectModalOpen } = useWallet();
   const { isChainPauseLPAction } = useMimir();
@@ -187,11 +198,9 @@ const WithdrawPanel = ({
 
   const memberPoolData = useMemo(() => {
     if (lpType === PoolShareType.PENDING) return poolMemberData?.pending;
-    if (lpType === PoolShareType.RUNE_ASYM) return poolMemberData.runeAsym;
-    if (lpType === PoolShareType.ASSET_ASYM) return poolMemberData.assetAsym;
-    if (lpType === PoolShareType.SYM) {
-      return poolMemberData.sym;
-    }
+    if (lpType === PoolShareType.RUNE_ASYM) return poolMemberData?.runeAsym;
+    if (lpType === PoolShareType.ASSET_ASYM) return poolMemberData?.assetAsym;
+    if (lpType === PoolShareType.SYM) return poolMemberData?.sym;
 
     return null;
   }, [poolMemberData, lpType]);
@@ -463,6 +472,15 @@ const WithdrawPanel = ({
     ),
   });
 
+  const disabledPendingWithdraw = useMemo(() => {
+    const hasPending = shareTypes.some((type) => type === PoolShareType.PENDING);
+    const hasLiquidityDeposit = shareTypes.some((type) =>
+      [PoolShareType.SYM, PoolShareType.ASSET_ASYM, PoolShareType.RUNE_ASYM].includes(type),
+    );
+
+    return hasPending && hasLiquidityDeposit;
+  }, [shareTypes]);
+
   return (
     <PanelView
       header={<ViewHeader withBack actionsComponent={<GlobalSettingsPopover />} title={title} />}
@@ -483,6 +501,7 @@ const WithdrawPanel = ({
         selected={lpType}
         title={`${t('views.liquidity.from')}:`}
       />
+
       <AssetInputs
         assetAmount={assetAmount}
         liquidityType={withdrawType}
@@ -490,6 +509,12 @@ const WithdrawPanel = ({
         percent={Amount.fromNormalAmount(percent)}
         poolAsset={poolAsset}
         runeAmount={runeAmount}
+      />
+
+      <InfoTip
+        onClick={() => navigate(getAddLiquidityRoute(pool.asset))}
+        title={t('pendingLiquidity.content', { asset: `${poolAsset.ticker} or RUNE` })}
+        type="warn"
       />
 
       <Box className="w-full pt-4">
@@ -502,7 +527,13 @@ const WithdrawPanel = ({
             {t('views.liquidity.withdrawNotAvailable')}
           </Button>
         ) : isWalletConnected ? (
-          <Button stretch onClick={handleWithdrawLiquidity} size="lg" variant="secondary">
+          <Button
+            stretch
+            disabled={disabledPendingWithdraw}
+            onClick={handleWithdrawLiquidity}
+            size="lg"
+            variant="secondary"
+          >
             {t('common.withdraw')}
           </Button>
         ) : (

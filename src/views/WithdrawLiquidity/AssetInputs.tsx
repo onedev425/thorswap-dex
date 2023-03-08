@@ -25,7 +25,7 @@ export const AssetInputs = memo(
       <div className="relative self-stretch md:w-full">
         <div
           className={classNames(
-            'absolute flex items-center justify-center top-1/2 rounded-3xl left-6 -translate-y-1/2 w-[52px] h-[52px]',
+            'absolute flex items-center justify-center top-1/2 rounded-3xl left-1/2 -translate-y-2 -translate-x-1/2 w-[52px] h-[52px]',
             'border-10 border-solid bg-blue dark:border-dark-border-primary border-light-border-primary',
           )}
         >
@@ -52,6 +52,7 @@ export const AssetInputs = memo(
                 asset={poolAsset}
               />
             </Box>
+
             <Box
               className={classNames('overflow-hidden transition-all origin-right', {
                 'scale-x-0': liquidityType === LiquidityTypeOption.ASSET,
