@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 
 export enum ROUTES {
@@ -38,7 +38,7 @@ export enum ROUTES {
 }
 
 export const THORYIELD_ROUTE = 'https://app.thoryield.com';
-export const THORYIELD_LP_PATH = 'accounts'; //TODO: change value to 'lp' when THORYield will be ready
+export const THORYIELD_LP_PATH = 'accounts';
 export const THORYIELD_STATS_ROUTE = 'https://app.thoryield.com/stats';
 
 const getAssetRoute = (route: ROUTES, asset?: Asset) =>

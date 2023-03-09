@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { AssetAmount } from '@thorswap-lib/multichain-core';
+import { AssetAmount } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
 import { formatPrice } from 'helpers/formatPrice';

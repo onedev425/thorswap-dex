@@ -1,4 +1,4 @@
-import { Asset, Percent, Price, QuoteRoute } from '@thorswap-lib/multichain-core';
+import { AssetEntity as Asset, Percent, Price, QuoteRoute } from '@thorswap-lib/swapkit-core';
 import { Box, Collapse } from 'components/Atomic';
 import { memo, useCallback } from 'react';
 

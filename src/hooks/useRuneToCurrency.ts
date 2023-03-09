@@ -1,4 +1,4 @@
-import { Amount, Asset, Price } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity, Price } from '@thorswap-lib/swapkit-core';
 import { runeToAssetPrice } from 'helpers/formatPrice';
 import { useCallback } from 'react';
 import { useApp } from 'store/app/hooks';
@@ -10,7 +10,11 @@ export const useRuneToCurrency = () => {
 
   const runeToCurrency = useCallback(
     (runeAmount: Amount): Price =>
-      runeToAssetPrice({ pools, runeAmount, quoteAsset: Asset.fromAssetString(baseCurrency) }),
+      runeToAssetPrice({
+        pools,
+        runeAmount,
+        quoteAsset: AssetEntity.fromAssetString(baseCurrency),
+      }),
     [baseCurrency, pools],
   );
 

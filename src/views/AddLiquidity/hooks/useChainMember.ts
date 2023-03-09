@@ -1,5 +1,5 @@
 import { MemberPool } from '@thorswap-lib/midgard-sdk';
-import { Amount, Asset, Pool } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { useCallback, useEffect, useMemo } from 'react';
@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from 'store/store';
 import { useWallet } from 'store/wallet/hooks';
 
 type Props = {
-  poolAsset: Asset;
+  poolAsset: AssetEntity;
   pools: Pool[];
   pool?: Pool;
   liquidityType: LiquidityTypeOption;

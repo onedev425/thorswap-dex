@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon/AssetIcon';
 import { Box, Button, Icon } from 'components/Atomic';
@@ -8,7 +8,7 @@ type Props = {
   className?: string;
   size?: 'sm' | 'md';
   onClick?: () => void;
-  asset: Asset;
+  asset: AssetEntity;
   withChevron?: boolean;
   showAssetType?: boolean;
 };

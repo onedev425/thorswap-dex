@@ -1,6 +1,6 @@
 // https://docs.thorchain.org/how-it-works/governance#mimir
 
-import { Amount } from '@thorswap-lib/multichain-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { useGlobalStats } from 'hooks/useGlobalStats';
 import { useMemo } from 'react';

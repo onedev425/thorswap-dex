@@ -1,5 +1,4 @@
-import { WalletOption } from '@thorswap-lib/multichain-core';
-import { Chain } from '@thorswap-lib/types';
+import { Chain, WalletOption } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { ChainIcon } from 'components/AssetIcon/ChainIcon';
 import { Box, Icon, Tooltip } from 'components/Atomic';

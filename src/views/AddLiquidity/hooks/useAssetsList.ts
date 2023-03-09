@@ -1,4 +1,4 @@
-import { Asset, Pool } from '@thorswap-lib/multichain-core';
+import { AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { getInputAssetsForAdd, hasConnectedWallet } from 'helpers/wallet';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
@@ -6,7 +6,7 @@ import { useMemo } from 'react';
 import { useWallet } from 'store/wallet/hooks';
 
 type Props = {
-  poolAssets: Asset[];
+  poolAssets: AssetEntity[];
   pools: Pool[];
   liquidityType: LiquidityTypeOption;
 };

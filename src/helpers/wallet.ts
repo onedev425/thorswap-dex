@@ -1,7 +1,7 @@
-import { Amount, Asset, AssetAmount, Pool, Wallet } from '@thorswap-lib/multichain-core';
+import { Amount, AssetAmount, AssetEntity, Pool, Wallet } from '@thorswap-lib/swapkit-core';
 import { Chain, WalletOption } from '@thorswap-lib/types';
 
-export const isTokenWhitelisted = (asset: Asset, whitelistedAddresses: string[]) => {
+export const isTokenWhitelisted = (asset: AssetEntity, whitelistedAddresses: string[]) => {
   if (![Chain.Avalanche, Chain.Ethereum].includes(asset.L1Chain)) return true;
 
   const assetAddress = asset.symbol.split('-')?.[1] ?? '';
@@ -18,7 +18,7 @@ export const getInputAssetsForAdd = ({
   wallet: Wallet | null;
   pools: Pool[];
 }) => {
-  const assets: Asset[] = [];
+  const assets: AssetEntity[] = [];
 
   const poolAssets = pools.map((pool) => pool.asset);
 
@@ -54,7 +54,7 @@ export const getInputAssetsForCreate = ({
   ethWhitelist: string[];
   avaxWhitelist: string[];
 }) => {
-  const assets: Asset[] = [];
+  const assets: AssetEntity[] = [];
   const poolAssets = pools.map((pool) => pool.asset);
 
   if (!wallet) return poolAssets;
@@ -90,7 +90,7 @@ export const getInputAssetsForCreate = ({
   return assets;
 };
 
-export const getRuneToUpgrade = (wallet: Wallet | null): Asset[] | null => {
+export const getRuneToUpgrade = (wallet: Wallet | null): AssetEntity[] | null => {
   if (!wallet) return null;
   const runeToUpgrade = [];
 
@@ -118,7 +118,7 @@ export const isKeystoreSignRequired = ({
   inputAssets,
 }: {
   wallet: Wallet | null;
-  inputAssets: Asset[];
+  inputAssets: AssetEntity[];
 }): boolean => {
   if (!wallet) return false;
   let needSignIn = false;
@@ -132,7 +132,7 @@ export const isKeystoreSignRequired = ({
 };
 
 export const getWalletAssets = (wallet: Wallet | null) => {
-  const assets: Asset[] = [];
+  const assets: AssetEntity[] = [];
 
   if (!wallet) return assets;
 
@@ -146,17 +146,18 @@ export const getWalletAssets = (wallet: Wallet | null) => {
   return assets;
 };
 
-export const getAssetBalance = (asset: Asset, wallet: Wallet): AssetAmount => {
+export const getAssetBalance = (asset: AssetEntity, wallet: Wallet) => {
   const emptyAmount = new AssetAmount(asset, Amount.fromBaseAmount(0, asset.decimal));
 
   if (asset.L1Chain in wallet) {
     const chainWallet = wallet?.[asset.L1Chain as Chain];
-
-    return (
-      chainWallet?.balance.find((assetData: AssetAmount) => {
-        return assetData.asset.eq(asset);
-      }) || emptyAmount
+    const walletBalanceItem = chainWallet?.balance.find((assetData) =>
+      assetData?.asset?.eq?.(asset),
     );
+
+    return walletBalanceItem
+      ? new AssetAmount(walletBalanceItem.asset, walletBalanceItem.amount)
+      : emptyAmount;
   }
 
   return emptyAmount;
@@ -181,7 +182,7 @@ export const hasWalletConnected = ({
   inputAssets,
 }: {
   wallet: Wallet | null;
-  inputAssets: Asset[];
+  inputAssets: AssetEntity[];
 }): boolean => {
   if (!wallet) return false;
 

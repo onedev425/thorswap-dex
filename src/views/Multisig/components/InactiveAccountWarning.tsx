@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Box, Button, Link } from 'components/Atomic';
 import { InfoTip } from 'components/InfoTip';
 import { useEffect, useState } from 'react';
@@ -35,7 +35,7 @@ export const InactiveAccountWarning = () => {
       content={
         <Box col className="gap-2">
           <Text>{t('views.multisig.notActiveAccount')}</Text>
-          <Link to={getSendRoute(Asset.RUNE(), address)}>
+          <Link to={getSendRoute(AssetEntity.RUNE(), address)}>
             <Button stretch variant="secondary">
               {`${t('common.send')} RUNE`}
             </Button>

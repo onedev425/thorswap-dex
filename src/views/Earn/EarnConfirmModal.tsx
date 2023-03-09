@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, Asset } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Icon } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
@@ -9,7 +9,7 @@ import { t } from 'services/i18n';
 import { SaverQuoteResponse } from 'views/Earn/types';
 
 type Props = {
-  asset: Asset;
+  asset: AssetEntity;
   amount: Amount;
   onClose: () => void;
   isOpened: boolean;

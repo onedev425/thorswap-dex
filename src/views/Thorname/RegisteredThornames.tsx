@@ -10,7 +10,7 @@ import { shortenAddress } from 'helpers/shortenAddress';
 import { useFetchThornames } from 'hooks/useFetchThornames';
 import { memo } from 'react';
 import { t } from 'services/i18n';
-import { getThornameExpireDate } from 'services/thorname';
+import { getThornameExpireDate } from 'store/midgard/actions';
 import { useMidgard } from 'store/midgard/hooks';
 
 type Props = {

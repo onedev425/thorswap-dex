@@ -1,4 +1,4 @@
-import { Asset, Pool } from '@thorswap-lib/multichain-core';
+import { AssetEntity as Asset, Pool } from '@thorswap-lib/swapkit-core';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';

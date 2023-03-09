@@ -24,7 +24,7 @@ const NodeDetails = lazy(() => import('views/Nodes/NodeDetails'));
 const NodeManager = lazy(() => import('views/Nodes/NodeManager'));
 const Nodes = lazy(() => import('views/Nodes'));
 const Send = lazy(() => import('views/Send'));
-const Stake = lazy(() => import('views/Stake'));
+const LegacyStake = lazy(() => import('views/LegacyStake'));
 const StakeVThor = lazy(() => import('views/StakeVThor'));
 const Thorname = lazy(() => import('views/Thorname'));
 const UpgradeRune = lazy(() => import('views/UpgradeRune'));
@@ -48,7 +48,7 @@ const routes: RouteType = [
   { path: ROUTES.CreateLiquidity, element: CreateLiquidity },
   { path: ROUTES.Earn, element: Earn },
   { path: ROUTES.Home, element: Home },
-  { path: ROUTES.LegacyStake, element: Stake },
+  { path: ROUTES.LegacyStake, element: LegacyStake },
   { path: ROUTES.Kyber, element: Swap },
   { path: ROUTES.KyberPair, element: Swap },
   { path: ROUTES.Liquidity, element: Liquidity },

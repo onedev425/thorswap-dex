@@ -1,8 +1,7 @@
-import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-core';
+import { Amount, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { BigNumber } from 'bignumber.js';
 import { chainToSigAsset } from 'helpers/assets';
-import takeRight from 'lodash/takeRight';
 import { useCallback, useMemo } from 'react';
 import { useMidgard } from 'store/midgard/hooks';
 import { useWallet } from 'store/wallet/hooks';
@@ -18,6 +17,7 @@ const emptyWallet = {
   [Chain.Ethereum]: null,
   [Chain.Litecoin]: null,
   [Chain.THORChain]: null,
+  [Chain.BinanceSmartChain]: null,
 };
 
 const getBalanceByChain = (balance: AssetAmount[], geckoData: Record<string, GeckoData>) => {
@@ -44,8 +44,7 @@ export const useAccountData = (chain: Chain) => {
     hiddenAssets,
   } = useWallet();
   const wallet = reduxWallet || emptyWallet;
-  // TODO: remove after solana
-  const chainWallet = wallet[chain as Chain.THORChain];
+  const chainWallet = wallet[chain];
   const { balance: walletBalance, address: chainAddress } = chainWallet || {
     balance: [] as AssetAmount[],
     address: '',
@@ -110,7 +109,7 @@ export const useAccountData = (chain: Chain) => {
   return data;
 };
 
-export const useChartData = (asset: Asset) => {
+export const useChartData = (asset: AssetEntity) => {
   const { stats } = useMidgard();
   const { geckoData } = useWallet();
 
@@ -129,7 +128,7 @@ export const useChartData = (asset: Asset) => {
   const chartData = useMemo(
     () => ({
       label: `${asset.symbol} Price`,
-      values: takeRight(prices, 64),
+      values: prices.slice(-64),
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [prices.length],
@@ -156,6 +155,6 @@ export const useWalletChainActions = (chain: Chain) => {
   return { handleRefreshChain, handleWalletDisconnect, isLoading };
 };
 
-const getNoBalanceAsset = (asset: Asset): AssetAmount => {
+const getNoBalanceAsset = (asset: AssetEntity): AssetAmount => {
   return new AssetAmount(asset, Amount.fromNormalAmount(0));
 };

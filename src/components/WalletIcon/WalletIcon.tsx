@@ -1,4 +1,4 @@
-import { WalletOption } from '@thorswap-lib/multichain-core';
+import { WalletOption } from '@thorswap-lib/types';
 import { Box, Icon, IconName, Tooltip } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { t } from 'services/i18n';
@@ -11,13 +11,12 @@ type Props = {
   tooltipDisabled?: boolean;
 };
 
-// @ts-expect-error remove after solana update on core
 const walletIcons: Record<WalletOption, IconName> = {
   [WalletOption.BRAVE]: 'brave',
   [WalletOption.METAMASK]: 'metamask',
-  [WalletOption.TRUSTWALLET_EXTENSION]: 'trustWallet',
+  [WalletOption.TRUSTWALLET_WEB]: 'trustWallet',
   [WalletOption.LEDGER]: 'ledger',
-  [WalletOption.LEDGER_LIVE]: 'ledger',
+  // [WalletOption.LEDGER_LIVE]: 'ledger',
   [WalletOption.KEYSTORE]: 'keystore',
   [WalletOption.TRUSTWALLET]: 'walletConnect',
   [WalletOption.XDEFI]: 'xdefi',
@@ -28,7 +27,7 @@ export const WalletIcon = ({ className, walletType, size, tooltipDisabled, onCli
   const tooltipContent =
     walletType === WalletOption.KEYSTORE
       ? t('views.walletModal.viewPhrase')
-      : walletType === WalletOption.TRUSTWALLET_EXTENSION
+      : walletType === WalletOption.TRUSTWALLET_WEB
       ? t('views.wallet.walletTypeConnected', {
           walletType: 'Trustwallet Browser',
         })

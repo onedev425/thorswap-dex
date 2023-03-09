@@ -1,4 +1,4 @@
-import { AssetAmount } from '@thorswap-lib/multichain-core';
+import { AssetAmount } from '@thorswap-lib/swapkit-core';
 
 export type MultisigMember = { name: string; pubKey: string };
 

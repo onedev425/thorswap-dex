@@ -1,4 +1,4 @@
-import { Amount, Asset, Price } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity as Asset, Price } from '@thorswap-lib/swapkit-core';
 import { useMemo } from 'react';
 import { useMidgard } from 'store/midgard/hooks';
 

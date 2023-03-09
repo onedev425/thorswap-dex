@@ -9,26 +9,24 @@ import { DerivationPathDropdown } from 'components/Modals/ConnectWalletModal/Der
 import { showErrorToast } from 'components/Toast';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import useWindowSize from 'hooks/useWindowSize';
-import uniq from 'lodash/uniq';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
+import { DerivationPathType } from 'store/wallet/types';
 
 import ChainItem from './ChainItem';
 import { ConnectKeystoreView } from './ConnectKeystore';
 import { CreateKeystoreView } from './CreateKeystore';
 import {
+  getWalletOptions,
   HandleWalletConnectParams,
   useHandleWalletConnect,
   useHandleWalletTypeSelect,
-  useWalletOptions,
+  WalletSection,
 } from './hooks';
 import { PhraseView } from './Phrase';
 import { availableChainsByWallet, WalletType } from './types';
 import WalletOption from './WalletOption';
-
-// TODO: remove after core update
-const supportedChains = SUPPORTED_CHAINS.filter((c) => c !== Chain.Solana);
 
 const ConnectWalletModal = () => {
   const { isMdActive } = useWindowSize();
@@ -38,12 +36,17 @@ const ConnectWalletModal = () => {
   const [selectedWalletType, setSelectedWalletType] = useState<WalletType>();
   const [ledgerIndex, setLedgerIndex] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [customDerivationPath, setCustomDerivationPath] = useState<string | undefined>();
+  const [derivationPathType, setDerivationPathType] = useState<DerivationPathType>();
   const [customFlow, setCustomFlow] = useState(false);
   const [saveWallet, setSaveWallet] = useState(getFromStorage('restorePreviousWallet') as boolean);
+  const [walletOptions, setWalletOptions] = useState([] as WalletSection[]);
+
+  useEffect(() => {
+    getWalletOptions({ isMdActive }).then(setWalletOptions);
+  }, [isMdActive]);
 
   const supportedByWallet = useMemo(
-    () => availableChainsByWallet[selectedWalletType as WalletType] || supportedChains,
+    () => availableChainsByWallet[selectedWalletType as WalletType] || SUPPORTED_CHAINS,
     [selectedWalletType],
   );
 
@@ -59,7 +62,7 @@ const ConnectWalletModal = () => {
       if (closeModal) setIsConnectModalOpen(false);
       setTimeout(
         () => {
-          setCustomDerivationPath(undefined);
+          setDerivationPathType(undefined);
           setCustomFlow(false);
           setLedgerIndex(0);
           setLoading(false);
@@ -72,24 +75,28 @@ const ConnectWalletModal = () => {
     [setIsConnectModalOpen],
   );
 
-  const handleWalletConnect = useHandleWalletConnect({
+  const { handleConnectWallet, addReconnectionOnAccountsChanged } = useHandleWalletConnect({
     ledgerIndex,
     chains: selectedChains,
     walletType: selectedWalletType,
-    customDerivationPath,
+    derivationPathType,
   });
 
   const handleAllClick = useCallback(() => {
-    if (selectedWalletType === WalletType.Ledger) return;
-    if (selectedWalletType === WalletType.TrustWalletExtension) return;
+    const nextWallets =
+      (selectedWalletType &&
+        [WalletType.Ledger, WalletType.TrustWalletExtension].includes(selectedWalletType)) ||
+      selectedAll
+        ? []
+        : supportedByWallet;
 
-    setSelectedChains(selectedAll ? [] : supportedByWallet);
+    setSelectedChains(nextWallets);
   }, [selectedAll, selectedWalletType, supportedByWallet]);
 
   const selectChain = useCallback(
     (chain: Chain, skipReset: boolean) => () => {
       if (!skipReset) setSelectedWalletType(undefined);
-      setCustomDerivationPath(undefined);
+      setDerivationPathType(undefined);
       setLedgerIndex(0);
 
       setSelectedChains((prevSelectedChains) =>
@@ -130,29 +137,36 @@ const ConnectWalletModal = () => {
 
     try {
       clearState();
-      await handleWalletConnect();
+      addReconnectionOnAccountsChanged();
+      await handleConnectWallet();
     } catch (error) {
       console.error(error);
       showErrorToast(`${t('txManager.failed')} ${selectedWalletType}`);
     }
-  }, [clearState, handleWalletConnect, selectedWalletType, setIsConnectModalOpen]);
+  }, [
+    addReconnectionOnAccountsChanged,
+    clearState,
+    handleConnectWallet,
+    selectedWalletType,
+    setIsConnectModalOpen,
+  ]);
 
   const handleWalletTypeSelect = useHandleWalletTypeSelect({
     setSelectedWalletType,
     setSelectedChains,
+    selectedChains,
   });
 
-  const walletOptions = useWalletOptions({ isMdActive });
-
   const connectedWallets = useMemo(
-    () =>
-      uniq(
-        supportedChains.reduce((acc, chain) => {
+    () => [
+      ...new Set(
+        SUPPORTED_CHAINS.reduce((acc, chain) => {
           const { walletType } = wallet?.[chain] || {};
           if (walletType) acc.push(walletType.toLowerCase());
           return acc;
         }, [] as string[]),
       ),
+    ],
     [wallet],
   );
 
@@ -161,7 +175,7 @@ const ConnectWalletModal = () => {
     const restorePreviousWallet = getFromStorage('restorePreviousWallet');
     if (previousWallet && restorePreviousWallet) {
       setTimeout(() => {
-        handleWalletConnect(previousWallet as HandleWalletConnectParams);
+        handleConnectWallet(previousWallet as HandleWalletConnectParams);
       }, 1000);
     }
 
@@ -270,7 +284,7 @@ const ConnectWalletModal = () => {
               </Box>
 
               <Box className="flex-wrap justify-center w-[80%] md:w-36">
-                {supportedChains.map((chain) => (
+                {SUPPORTED_CHAINS.filter((c) => c !== Chain.BinanceSmartChain).map((chain) => (
                   <ChainItem
                     chain={chain}
                     isChainAvailable={availableChainsByWallet[
@@ -361,8 +375,9 @@ const ConnectWalletModal = () => {
 
                   <DerivationPathDropdown
                     chain={selectedChains[0]}
+                    derivationPathType={derivationPathType}
                     ledgerIndex={ledgerIndex}
-                    setCustomDerivationPath={setCustomDerivationPath}
+                    setDerivationPathType={setDerivationPathType}
                   />
                 </Box>
               )}

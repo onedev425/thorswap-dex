@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton';
 import { AssetSelectList } from 'components/AssetSelect/AssetSelectList';
 import { TokenListProviderSelect } from 'components/AssetSelect/TokenListProviderSelect';
@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { t } from 'services/i18n';
 
 type Props = {
-  selected?: Asset | null;
+  selected?: AssetEntity | null;
   className?: string;
   showAssetType?: boolean;
   AssetListComponent?: (props: AssetSelectProps) => JSX.Element;

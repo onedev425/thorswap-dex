@@ -1,14 +1,13 @@
 import { Text } from '@chakra-ui/react';
-import { Asset, Pool } from '@thorswap-lib/multichain-core';
+import { AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Icon, Link } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
 import { LiquidityCard } from 'components/LiquidityCard';
 import { ReloadButton } from 'components/ReloadButton';
 import { chainName } from 'helpers/chainName';
-import { useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { getThorYieldLPInfoBaseRoute } from 'settings/router';
 import { useMidgard } from 'store/midgard/hooks';
 import { ChainMemberData, LpDetailCalculationResult, PoolShareType } from 'store/midgard/types';
@@ -24,6 +23,7 @@ type Props = {
 
 export const ChainLiquidityPanel = ({ chain, data, isLoading, lpAddedAndWithdraw }: Props) => {
   const { pools, loadMemberDetailsByChain } = useMidgard();
+  const [lpLink, setLpLink] = useState('#');
 
   // get symm, asset asym, rune asym LPs
   const chainLiquidityPositions = useMemo(() => {
@@ -33,7 +33,7 @@ export const ChainLiquidityPanel = ({ chain, data, isLoading, lpAddedAndWithdraw
 
     poolNames.forEach((poolAssetName: string) => {
       const poolMemberData = data[poolAssetName];
-      const poolAsset = Asset.fromAssetString(poolAssetName);
+      const poolAsset = AssetEntity.fromAssetString(poolAssetName);
       if (!poolAsset) return null;
 
       const pool = Pool.byAsset(poolAsset, pools);
@@ -77,30 +77,36 @@ export const ChainLiquidityPanel = ({ chain, data, isLoading, lpAddedAndWithdraw
     return liquidityPositions;
   }, [data, pools]);
 
-  const lpLink: string = useMemo((): string => {
+  const setLiquidityLink = useCallback(async () => {
     if (!chainLiquidityPositions || chainLiquidityPositions.length === 0) return '#';
+    const { getWalletAddressByChain } = await (
+      await import('services/multichain')
+    ).getSwapKitClient();
     const lpRoute = getThorYieldLPInfoBaseRoute();
 
     let queryParams = '';
     chainLiquidityPositions.forEach(({ shareType, pool }) => {
       if (shareType === PoolShareType.ASSET_ASYM) {
-        queryParams = `${pool.asset.chain.toLowerCase()}=${multichain().getWalletAddressByChain(
+        queryParams = `${pool.asset.chain.toLowerCase()}=${getWalletAddressByChain(
           pool.asset.chain,
         )}`;
       } else if (shareType === PoolShareType.RUNE_ASYM) {
-        queryParams = `${Chain.THORChain.toLowerCase()}=${multichain().getWalletAddressByChain(
+        queryParams = `${Chain.THORChain.toLowerCase()}=${getWalletAddressByChain(
           Chain.THORChain,
         )}`;
       } else if (shareType === PoolShareType.SYM) {
-        queryParams = `${Chain.THORChain.toLowerCase()}=${multichain().getWalletAddressByChain(
+        queryParams = `${Chain.THORChain.toLowerCase()}=${getWalletAddressByChain(
           Chain.THORChain,
-        )}&${pool.asset.chain.toLowerCase()}=${multichain().getWalletAddressByChain(
-          pool.asset.chain,
-        )}`;
+        )}&${pool.asset.chain.toLowerCase()}=${getWalletAddressByChain(pool.asset.chain)}`;
       }
     });
-    return `${lpRoute}?${queryParams}`;
+
+    setLpLink(`${lpRoute}?${queryParams}`);
   }, [chainLiquidityPositions]);
+
+  useEffect(() => {
+    setLiquidityLink();
+  }, [setLiquidityLink]);
 
   return (
     <Box col className="gap-1">

@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, AmountType, Asset } from '@thorswap-lib/multichain-core';
+import { Amount, AmountType, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import BigNumber from 'bignumber.js';
 import { AssetIcon } from 'components/AssetIcon';
@@ -18,13 +18,13 @@ type Props = {
   selected?: boolean;
   onClick: () => void;
   selectedQuoteDiff: number;
-  outputAsset: Asset;
+  outputAsset: AssetEntity;
   unitPrice: BigNumber;
   expectedOutput: string;
   path: string;
   providers: string[];
   contract: string;
-  inputAsset: Asset;
+  inputAsset: AssetEntity;
 };
 
 export const SwapRoute = memo(

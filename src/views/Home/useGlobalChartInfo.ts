@@ -1,4 +1,4 @@
-import { Amount, Asset, Pool } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
 import BigNumber from 'bignumber.js';
 import { ChartData, ChartDetail, ChartType } from 'components/Chart/types';
 import { runeToAssetPrice } from 'helpers/formatPrice';
@@ -17,7 +17,7 @@ const getFormatter =
   ({ pools, baseCurrency }: { pools: Pool[]; baseCurrency: string }) =>
   (value: string) => {
     const runeAmount = Amount.fromMidgard(value);
-    const quoteAsset = Asset.fromAssetString(baseCurrency);
+    const quoteAsset = AssetEntity.fromAssetString(baseCurrency);
 
     return runeToAssetPrice({ runeAmount, quoteAsset, pools });
   };
@@ -34,7 +34,7 @@ export const useGlobalChartInfo = () => {
   } = useMidgard();
 
   const chartValueUnit = useMemo(() => {
-    const baseCurrencyAsset = Asset.fromAssetString(baseCurrency);
+    const baseCurrencyAsset = AssetEntity.fromAssetString(baseCurrency);
 
     if (!baseCurrencyAsset || baseCurrencyAsset?.isRUNE()) return 'ᚱ';
     if (baseCurrencyAsset?.ticker === 'USD') return '$';

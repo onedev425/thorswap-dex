@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Button } from 'components/Atomic';
 import { InfoTable } from 'components/InfoTable';

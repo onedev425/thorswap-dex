@@ -1,11 +1,11 @@
 import { Text } from '@chakra-ui/react';
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { AssetButton } from 'components/AssetSelect/AssetButton';
 import { Box } from 'components/Atomic';
 
 type Props = {
-  assets: Asset[];
-  onSelect: (val: Asset) => void;
+  assets: AssetEntity[];
+  onSelect: (val: AssetEntity) => void;
   emptyTitle?: string;
 };
 

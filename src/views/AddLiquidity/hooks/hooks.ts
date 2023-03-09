@@ -1,14 +1,14 @@
 import {
   AddLiquidityParams,
   Amount,
-  Asset,
   AssetAmount,
+  AssetEntity,
   Liquidity,
   Percent,
   Pool,
   Price,
   Wallet,
-} from '@thorswap-lib/multichain-core';
+} from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems';
@@ -20,7 +20,7 @@ import { getSumAmountInUSD, useNetworkFee } from 'hooks/useNetworkFee';
 import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
+import { midgardApi } from 'services/midgard';
 import { useApp } from 'store/app/hooks';
 import { isPendingLP } from 'store/midgard/utils';
 import { useAppDispatch } from 'store/store';
@@ -44,11 +44,13 @@ type Props = {
   setLiquidityType: (option: LiquidityTypeOption) => void;
   pools: Pool[];
   pool?: Pool;
-  poolAsset: Asset;
-  poolAssets: Asset[];
+  poolAsset: AssetEntity;
+  poolAssets: AssetEntity[];
   depositAssetsBalance: DepositAssetsBalance;
   wallet: Wallet | null;
 };
+
+const runeAsset = AssetEntity.RUNE();
 
 export const useAddLiquidity = ({
   onAddLiquidity,
@@ -98,7 +100,7 @@ export const useAddLiquidity = ({
 
   const { inboundFee: inboundAssetFee, outboundFee: inboundRuneFee } = useNetworkFee({
     inputAsset: poolAsset,
-    outputAsset: Asset.RUNE(),
+    outputAsset: runeAsset,
   });
 
   const liquidityUnits = useMemo(() => {
@@ -129,21 +131,30 @@ export const useAddLiquidity = ({
       return hasWalletConnected({ wallet, inputAssets: [poolAsset] });
     }
     if (liquidityType === LiquidityTypeOption.RUNE) {
-      return hasWalletConnected({ wallet, inputAssets: [Asset.RUNE()] });
+      return hasWalletConnected({ wallet, inputAssets: [runeAsset] });
     }
 
     // symm
     return (
       hasWalletConnected({ wallet, inputAssets: [poolAsset] }) &&
-      hasWalletConnected({ wallet, inputAssets: [Asset.RUNE()] })
+      hasWalletConnected({ wallet, inputAssets: [runeAsset] })
     );
   }, [wallet, poolAsset, liquidityType]);
 
+  const getContractAddress = useCallback(async (chain: Chain) => {
+    const inboundData = (await midgardApi.getInboundAddresses()) || [];
+    const { router, halted } = inboundData.find((item) => item.chain === chain) || {};
+
+    if (halted && !router) {
+      throw new Error('Trading & LP is temporarily halted, please try again later.');
+    }
+
+    setContract(router);
+  }, []);
+
   useEffect(() => {
-    multichain()
-      .getInboundDataByChain(poolAsset.chain)
-      .then(({ router }) => setContract(router));
-  }, [poolAsset.chain]);
+    getContractAddress(poolAsset.chain);
+  }, [getContractAddress, poolAsset.chain]);
 
   const { isApproved, isLoading } = useIsAssetApproved({
     asset: poolAsset,
@@ -162,14 +173,14 @@ export const useAddLiquidity = ({
   const runeAssetPriceInUSD = useMemo(() => {
     if (isRunePending && poolMemberDetail) {
       return new Price({
-        baseAsset: Asset.RUNE(),
+        baseAsset: runeAsset,
         pools,
         priceAmount: Amount.fromMidgard(poolMemberDetail.runePending),
       });
     }
 
     new Price({
-      baseAsset: Asset.RUNE(),
+      baseAsset: runeAsset,
       pools,
       priceAmount: runeAmount,
     });
@@ -274,7 +285,7 @@ export const useAddLiquidity = ({
     if (onAddLiquidity && pool) {
       const runeAssetAmount =
         liquidityType !== LiquidityTypeOption.ASSET
-          ? new AssetAmount(Asset.RUNE(), runeAmount)
+          ? new AssetAmount(runeAsset, runeAmount)
           : undefined;
       const poolAssetAmount =
         liquidityType !== LiquidityTypeOption.RUNE
@@ -295,7 +306,7 @@ export const useAddLiquidity = ({
     if (wallet && pool) {
       const runeAssetAmount =
         liquidityType !== LiquidityTypeOption.ASSET
-          ? new AssetAmount(Asset.RUNE(), runeAmount)
+          ? new AssetAmount(runeAsset, runeAmount)
           : undefined;
       const poolAssetAmount =
         liquidityType !== LiquidityTypeOption.RUNE
@@ -310,7 +321,7 @@ export const useAddLiquidity = ({
           addTransaction({
             id: runeId,
             label: t('txManager.addAmountAsset', {
-              asset: Asset.RUNE().name,
+              asset: runeAsset.name,
               amount: runeAmount.toSignificantWithMaxDecimals(6),
             }),
             type: TransactionType.TC_LP_ADD,
@@ -344,11 +355,10 @@ export const useAddLiquidity = ({
         ...(isRunePending || isAssetPending ? addresses : {}),
       };
 
+      const { addLiquidity } = await (await import('services/multichain')).getSwapKitClient();
+
       try {
-        const { runeTx, assetTx } = await multichain().addLiquidity(
-          params,
-          isAssetPending ? 'sym_rune' : isRunePending ? 'sym_asset' : undefined,
-        );
+        const { runeTx, assetTx } = await addLiquidity(params);
 
         runeTx && appDispatch(updateTransaction({ id: runeId, txid: runeTx }));
         assetTx && appDispatch(updateTransaction({ id: assetId, txid: assetTx }));
@@ -393,13 +403,16 @@ export const useAddLiquidity = ({
         }),
       );
 
-      try {
-        const txid = await multichain().approveAsset(poolAsset);
+      const { approveAsset } = await (await import('services/multichain')).getSwapKitClient();
 
-        if (txid) {
+      try {
+        const txid = await approveAsset(poolAsset);
+
+        if (typeof txid === 'string') {
           appDispatch(updateTransaction({ id, txid }));
         }
-      } catch (error) {
+      } catch (error: NotWorth) {
+        console.error(error);
         appDispatch(completeTransaction({ id, status: 'error' }));
 
         showErrorToast(t('notification.approveFailed'));
@@ -438,30 +451,30 @@ export const useAddLiquidity = ({
     }
 
     if (liquidityType === LiquidityTypeOption.ASSET) {
-      return inboundAssetFee.totalPriceIn(Asset.USD(), pools).toCurrencyFormat(2);
+      return inboundAssetFee.totalPriceIn(AssetEntity.USD(), pools).toCurrencyFormat(2);
     }
 
     // Rune asym
-    return inboundRuneFee.totalPriceIn(Asset.USD(), pools).toCurrencyFormat(2);
+    return inboundRuneFee.totalPriceIn(AssetEntity.USD(), pools).toCurrencyFormat(2);
   }, [liquidityType, inboundRuneFee, inboundAssetFee, pools]);
 
-  const depositAssets: Asset[] = useMemo(() => {
+  const depositAssets: AssetEntity[] = useMemo(() => {
     if (liquidityType === LiquidityTypeOption.RUNE) {
-      return [Asset.RUNE()];
+      return [runeAsset];
     }
 
     if (liquidityType === LiquidityTypeOption.ASSET) {
       return [poolAsset];
     }
 
-    return [poolAsset, Asset.RUNE()];
+    return [poolAsset, runeAsset];
   }, [liquidityType, poolAsset]);
 
   const depositAssetInputs = useMemo(() => {
     if (liquidityType === LiquidityTypeOption.RUNE) {
       return [
         {
-          asset: Asset.RUNE(),
+          asset: runeAsset,
           value: runeAmount.toSignificantWithMaxDecimals(6),
         },
       ];
@@ -478,7 +491,7 @@ export const useAddLiquidity = ({
 
     return [
       {
-        asset: Asset.RUNE(),
+        asset: runeAsset,
         value: runeAmount.toSignificantWithMaxDecimals(6),
       },
       {
@@ -594,7 +607,7 @@ export const useAddLiquidity = ({
   const runeAssetInput = useMemo(() => {
     if (isRunePending && poolMemberDetail) {
       return {
-        asset: Asset.RUNE(),
+        asset: runeAsset,
         value: Amount.fromMidgard(poolMemberDetail.runePending),
         balance: runeBalance,
         usdPrice: runeAssetPriceInUSD,
@@ -602,7 +615,7 @@ export const useAddLiquidity = ({
     }
 
     return {
-      asset: Asset.RUNE(),
+      asset: runeAsset,
       value: runeAmount,
       balance: runeBalance,
       usdPrice: runeAssetPriceInUSD,
@@ -624,7 +637,7 @@ export const useAddLiquidity = ({
 
     return getEstimatedTxTime({
       amount: isRuneLiquidity ? runeAmount : assetAmount,
-      chain: isRuneLiquidity ? (Chain.THORChain as Chain) : (poolAsset.chain as Chain),
+      chain: isRuneLiquidity ? Chain.THORChain : poolAsset.chain,
     });
   }, [liquidityType, assetAmount, runeAmount, poolAsset]);
 

@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Box, Button, Link } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { InfoTable } from 'components/InfoTable';

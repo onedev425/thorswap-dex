@@ -1,10 +1,5 @@
-import {
-  Amount,
-  AmountType,
-  Asset,
-  MULTICHAIN_DECIMAL,
-  Percent,
-} from '@thorswap-lib/multichain-core';
+import { Amount, AmountType, AssetEntity as Asset, Percent } from '@thorswap-lib/swapkit-core';
+import { BaseDecimal } from '@thorswap-lib/types';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useNetworkFee } from 'hooks/useNetworkFee';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -36,9 +31,7 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount,
     const quoteParams = isDeposit
       ? {
           type: 'deposit' as const,
-          amount: `${Math.floor(
-            debouncedAmount.assetAmount.toNumber() * 10 ** MULTICHAIN_DECIMAL,
-          )}`,
+          amount: `${Math.floor(debouncedAmount.assetAmount.toNumber() * 10 ** BaseDecimal.THOR)}`,
         }
       : {
           address,
@@ -63,7 +56,7 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount,
   const expectedOutputAmount = useMemo(
     () =>
       saverQuote?.expected_amount_out
-        ? new Amount(saverQuote.expected_amount_out, AmountType.BASE_AMOUNT, MULTICHAIN_DECIMAL)
+        ? new Amount(saverQuote.expected_amount_out, AmountType.BASE_AMOUNT, BaseDecimal.THOR)
         : undefined,
     [saverQuote?.expected_amount_out],
   );

@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Box, Button, Icon } from 'components/Atomic';
 import { CountDownIndicator } from 'components/CountDownIndicator';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';

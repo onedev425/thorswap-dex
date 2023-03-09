@@ -1,4 +1,4 @@
-import { Amount, Asset } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getSwapPair } from 'views/Swap/helpers';
@@ -6,8 +6,8 @@ import { Pair } from 'views/Swap/types';
 
 export const useSwapPair = () => {
   const [swapPair, setSwapPair] = useState<Pair>({
-    inputAsset: Asset.ETH(),
-    outputAsset: Asset.THOR(),
+    inputAsset: AssetEntity.ETH(),
+    outputAsset: AssetEntity.THOR(),
   });
 
   const [inputAmount, setInputAmount] = useState(

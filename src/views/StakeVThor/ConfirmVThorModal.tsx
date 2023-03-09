@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount } from '@thorswap-lib/multichain-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Icon } from 'components/Atomic';
 import { ChainBadge } from 'components/ChainBadge';

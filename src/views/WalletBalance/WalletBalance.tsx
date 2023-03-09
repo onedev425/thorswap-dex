@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, Asset, AssetAmount, ChainWallet } from '@thorswap-lib/multichain-core';
+import { Amount, AssetAmount, AssetEntity, ChainWallet } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
@@ -38,7 +38,7 @@ const WalletBalanceList = () => {
   );
 
   const hideAsset = useCallback(
-    (asset: Asset): MouseEventHandler<HTMLDivElement | HTMLButtonElement> =>
+    (asset: AssetEntity): MouseEventHandler<HTMLDivElement | HTMLButtonElement> =>
       (event) => {
         event.stopPropagation();
         appDispatch(actions.addAssetToHidden({ chain: asset.L1Chain, address: asset.toString() }));
@@ -47,7 +47,7 @@ const WalletBalanceList = () => {
   );
 
   const isOldRune = useCallback(
-    (asset: Asset) =>
+    (asset: AssetEntity) =>
       asset.ticker === 'RUNE' && (asset.chain === Chain.Binance || asset.chain === Chain.Ethereum),
     [],
   );

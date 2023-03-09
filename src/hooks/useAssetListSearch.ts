@@ -1,6 +1,5 @@
 import { AssetSelectType } from 'components/AssetSelect/types';
 import Fuse from 'fuse.js';
-import uniqBy from 'lodash/uniqBy';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAssets } from 'store/assets/hooks';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';
@@ -16,6 +15,20 @@ const options: Fuse.IFuseOptions<AssetSelectType> = {
   isCaseSensitive: false,
   minMatchCharLength: 1,
   threshold: 0.1,
+};
+
+const uniqBy = <T>(arr: T[], predicate: (item: T) => boolean | string) => {
+  const cb = typeof predicate === 'function' ? predicate : (o: any) => o[predicate];
+
+  return [
+    ...arr
+      .reduce((map, item) => {
+        const key = item === null || item === undefined ? item : cb(item);
+        map.has(key) || map.set(key, item);
+        return map;
+      }, new Map())
+      .values(),
+  ];
 };
 
 export const useAssetListSearch = (assetList: AssetSelectType[]) => {

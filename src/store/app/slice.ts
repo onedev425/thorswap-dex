@@ -1,6 +1,5 @@
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { createSlice } from '@reduxjs/toolkit';
-import { Asset } from '@thorswap-lib/multichain-core';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { FeeOption } from '@thorswap-lib/types';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import { SupportedLanguages, ThemeType, ThousandSeparator, ViewMode } from 'types/app';

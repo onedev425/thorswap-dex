@@ -50,7 +50,8 @@ export const useMultisigImport = ({ onSuccess }: Props) => {
           const rawData = JSON.parse(reader.result as string);
           const data = parseData(rawData);
           setWalletData(data);
-        } catch (e: ErrorType) {
+        } catch (error: NotWorth) {
+          console.error(error);
           setFileError(t('views.multisig.jsonError'));
           setWalletData(null);
         }
@@ -70,14 +71,14 @@ export const useMultisigImport = ({ onSuccess }: Props) => {
     setWalletData(null);
   }, []);
 
-  const handleConnectWallet = useCallback(() => {
+  const handleConnectWallet = useCallback(async () => {
     if (!walletData) {
       return;
     }
 
     try {
       const { members, treshold } = walletData;
-      const address = multisig.createMultisigWallet(members, treshold);
+      const address = await multisig.createMultisigWallet(members, treshold);
 
       if (!address) {
         throw Error('Incorrect wallet data');
@@ -85,7 +86,8 @@ export const useMultisigImport = ({ onSuccess }: Props) => {
 
       addMultisigWallet({ members, treshold, address, name });
       onSuccess();
-    } catch (e: ErrorType) {
+    } catch (error: NotWorth) {
+      console.error(error);
       showErrorToast('');
     }
   }, [addMultisigWallet, name, onSuccess, walletData]);

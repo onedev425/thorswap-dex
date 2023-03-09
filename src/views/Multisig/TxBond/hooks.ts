@@ -1,4 +1,4 @@
-import { Asset, AssetAmount } from '@thorswap-lib/multichain-core';
+import { AssetAmount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';

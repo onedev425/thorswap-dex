@@ -1,12 +1,9 @@
-import { WalletStatus } from '@thorswap-lib/multichain-web-extensions';
-import { Chain } from '@thorswap-lib/types';
+import { Chain, WalletOption } from '@thorswap-lib/types';
 import { IconName } from 'components/Atomic';
 import { showErrorToast } from 'components/Toast';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
-import { useCallback, useMemo } from 'react';
-import { brave, keplr, metamask, trustWalletExtension, xdefi } from 'services/extensionWallets';
+import { useCallback } from 'react';
 import { t } from 'services/i18n';
-import { IS_PROD } from 'settings/config';
 import { useWallet } from 'store/wallet/hooks';
 
 import { availableChainsByWallet, WalletType } from './types';
@@ -20,7 +17,7 @@ type WalletItem = {
   tooltip?: string;
 };
 
-type WalletSection = {
+export type WalletSection = {
   title: string;
   visible?: boolean;
   items: WalletItem[];
@@ -30,118 +27,114 @@ type UseWalletOptionsParams = {
   isMdActive: boolean;
 };
 
-export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams): WalletSection[] =>
-  useMemo(
-    () => [
-      {
-        title: t('views.walletModal.softwareWallets'),
-        items: [
-          {
-            type: WalletType.TrustWallet,
-            icon: 'trustWallet',
-            label: t('views.walletModal.trustWallet'),
-          },
-          {
-            visible: isMdActive,
-            type: WalletType.TrustWalletExtension,
-            icon: 'trustWalletWhite',
-            label: t('views.walletModal.trustWalletExtension'),
-            disabled: metamask.isBravePrioritized() || metamask.isXDefiPrioritized(),
-            tooltip: metamask.isXDefiPrioritized()
-              ? t('views.walletModal.deprioritizeXdefi')
-              : metamask.isBravePrioritized()
-              ? t('views.walletModal.disableBraveWallet')
-              : '',
-          },
-          {
-            type: WalletType.MetaMask,
-            icon: 'metamask',
-            disabled:
-              metamask.isBravePrioritized() ||
-              metamask.isXDefiPrioritized() ||
-              metamask.isTrustPrioritized(),
-            label: t('views.walletModal.metaMask'),
-            tooltip: metamask.isXDefiPrioritized()
-              ? t('views.walletModal.deprioritizeXdefi')
-              : metamask.isBravePrioritized()
-              ? t('views.walletModal.disableBraveWallet')
-              : '',
-          },
-          {
-            icon: 'xdefi',
-            type: WalletType.Xdefi,
-            visible: isMdActive,
-            label: t('views.walletModal.xdefi'),
-          },
-          ...(IS_PROD
-            ? []
-            : [
-                {
-                  disabled: !brave.isWalletDetected(),
-                  icon: 'brave' as IconName,
-                  type: WalletType.Brave,
-                  visible: isMdActive,
-                  label: t('views.walletModal.braveWallet'),
-                  tooltip: !brave.isWalletDetected()
-                    ? t('views.walletModal.enableBraveWallet')
-                    : '',
-                },
-              ]),
-          {
-            icon: 'keplr',
-            label: t('views.walletModal.keplr'),
-            type: WalletType.Keplr,
-            visible: isMdActive,
-          },
-        ],
-      },
-      {
-        title: t('views.walletModal.hardwareWallets'),
-        visible: isMdActive,
-        items: [
-          {
-            type: WalletType.Ledger,
-            icon: 'ledger',
-            label: t('views.walletModal.ledger'),
-          },
-        ],
-      },
-      {
-        title: 'Keystore',
-        items: [
-          {
-            type: WalletType.Keystore,
-            icon: 'keystore',
-            label: t('views.walletModal.keystore'),
-          },
-          {
-            type: WalletType.CreateKeystore,
-            icon: 'plusCircle',
-            label: t('views.walletModal.createKeystore'),
-          },
-          {
-            type: WalletType.Phrase,
-            icon: 'import',
-            label: t('views.walletModal.importPhrase'),
-          },
-        ],
-      },
-    ],
-    [isMdActive],
-  );
+export const getWalletOptions = async ({ isMdActive }: UseWalletOptionsParams) => {
+  const { evmWallet } = await import('@thorswap-lib/web-extensions');
+
+  return [
+    {
+      title: t('views.walletModal.softwareWallets'),
+      items: [
+        {
+          type: WalletType.TrustWallet,
+          icon: 'trustWallet',
+          label: t('views.walletModal.trustWallet'),
+        },
+        {
+          visible: isMdActive,
+          type: WalletType.TrustWalletExtension,
+          icon: 'trustWalletWhite',
+          label: t('views.walletModal.trustWalletExtension'),
+          tooltip: evmWallet.isDetected(WalletOption.BRAVE)
+            ? t('views.walletModal.disableBraveWallet')
+            : '',
+        },
+        {
+          type: WalletType.MetaMask,
+          icon: 'metamask',
+          disabled:
+            evmWallet.isDetected(WalletOption.TRUSTWALLET_WEB) ||
+            evmWallet.isDetected(WalletOption.BRAVE),
+          label: t('views.walletModal.metaMask'),
+          tooltip: evmWallet.isDetected(WalletOption.BRAVE)
+            ? t('views.walletModal.disableBraveWallet')
+            : evmWallet.isDetected(WalletOption.TRUSTWALLET_WEB)
+            ? t('views.walletModal.disableTrustWallet')
+            : '',
+        },
+        {
+          icon: 'xdefi',
+          type: WalletType.Xdefi,
+          visible: isMdActive,
+          label: t('views.walletModal.xdefi'),
+        },
+        // ...(IS_PROD
+        //   ? []
+        //   : [
+        //       {
+        //         disabled: !evmWallet.isDetected(WalletOption.BRAVE),
+        //         icon: 'brave' as IconName,
+        //         type: WalletType.Brave,
+        //         visible: isMdActive,
+        //         label: t('views.walletModal.braveWallet'),
+        //         tooltip: !evmWallet.isDetected(WalletOption.BRAVE)
+        //           ? t('views.walletModal.enableBraveWallet')
+        //           : '',
+        //       },
+        //     ]),
+        {
+          icon: 'keplr',
+          label: t('views.walletModal.keplr'),
+          type: WalletType.Keplr,
+          visible: isMdActive,
+        },
+      ],
+    },
+    {
+      title: t('views.walletModal.hardwareWallets'),
+      visible: isMdActive,
+      items: [
+        {
+          type: WalletType.Ledger,
+          icon: 'ledger',
+          label: t('views.walletModal.ledger'),
+        },
+      ],
+    },
+    {
+      title: 'Keystore',
+      items: [
+        {
+          type: WalletType.Keystore,
+          icon: 'keystore',
+          label: t('views.walletModal.keystore'),
+        },
+        {
+          type: WalletType.CreateKeystore,
+          icon: 'plusCircle',
+          label: t('views.walletModal.createKeystore'),
+        },
+        {
+          type: WalletType.Phrase,
+          icon: 'import',
+          label: t('views.walletModal.importPhrase'),
+        },
+      ],
+    },
+  ] as WalletSection[];
+};
 
 export type HandleWalletConnectParams = {
   walletType?: WalletType;
   ledgerIndex: number;
   chains?: Chain[];
-  customDerivationPath?: string;
+  derivationPathType?: 'nativeSegwitMiddleAccount' | 'segwit' | 'legacy' | 'ledgerLive';
 };
 
 export const useHandleWalletConnect = ({
   walletType,
   ledgerIndex,
   chains,
-  customDerivationPath,
+  derivationPathType,
 }: HandleWalletConnectParams) => {
   const {
     connectBraveWallet,
@@ -154,9 +147,10 @@ export const useHandleWalletConnect = ({
   } = useWallet();
 
   const handleConnectWallet = useCallback(
-    async (params?: HandleWalletConnectParams) => {
+    (params?: HandleWalletConnectParams) => {
       const selectedChains = params?.chains || chains;
       const selectedWalletType = params?.walletType || walletType;
+      const type = params?.derivationPathType || derivationPathType;
       if (!selectedChains || !selectedWalletType) return;
 
       if (getFromStorage('restorePreviousWallet')) {
@@ -169,19 +163,19 @@ export const useHandleWalletConnect = ({
       try {
         switch (selectedWalletType) {
           case WalletType.TrustWallet:
-            return await connectTrustWallet(selectedChains);
+            return connectTrustWallet(selectedChains);
           case WalletType.Xdefi:
-            return await connectXdefiWallet(selectedChains);
+            return connectXdefiWallet(selectedChains);
           case WalletType.Ledger:
-            return await connectLedger(selectedChains[0], ledgerIndex, customDerivationPath);
+            return connectLedger(selectedChains[0], ledgerIndex, type);
           case WalletType.MetaMask:
-            return await connectMetamask(selectedChains[0]);
+            return connectMetamask(selectedChains[0]);
           case WalletType.Brave:
-            return await connectBraveWallet(selectedChains);
+            return connectBraveWallet(selectedChains);
           case WalletType.TrustWalletExtension:
-            return await connectTrustWalletExtension(selectedChains[0]);
+            return connectTrustWalletExtension(selectedChains[0]);
           case WalletType.Keplr:
-            return await connectKeplr();
+            return connectKeplr();
 
           default:
             console.error(selectedWalletType);
@@ -194,69 +188,62 @@ export const useHandleWalletConnect = ({
     },
     [
       chains,
-      walletType,
-      ledgerIndex,
-      connectTrustWallet,
-      connectXdefiWallet,
-      connectLedger,
-      customDerivationPath,
-      connectMetamask,
       connectBraveWallet,
-      connectTrustWalletExtension,
       connectKeplr,
+      connectLedger,
+      connectMetamask,
+      connectTrustWallet,
+      connectTrustWalletExtension,
+      connectXdefiWallet,
+      derivationPathType,
+      ledgerIndex,
+      walletType,
     ],
   );
 
-  return handleConnectWallet;
+  const addReconnectionOnAccountsChanged = useCallback(async () => {
+    const { addAccountsChangedCallback } = await import('@thorswap-lib/toolbox-evm');
+    addAccountsChangedCallback(() => {
+      handleConnectWallet();
+    });
+  }, [handleConnectWallet]);
+
+  return { handleConnectWallet, addReconnectionOnAccountsChanged };
 };
 
 type HandleWalletTypeSelectParams = {
   setSelectedWalletType: React.Dispatch<React.SetStateAction<WalletType | undefined>>;
   setSelectedChains: React.Dispatch<React.SetStateAction<Chain[]>>;
+  selectedChains: Chain[];
 };
 
 export const useHandleWalletTypeSelect = ({
   setSelectedWalletType,
   setSelectedChains,
+  selectedChains,
 }: HandleWalletTypeSelectParams) => {
-  const handleXdefi = useCallback(() => {
-    const detected = WalletStatus.Detected === xdefi.isWalletDetected();
-
-    if (!detected) {
-      window.open('https://xdefi.io');
-    }
-
-    return detected;
+  const handleXdefi = useCallback(async () => {
+    const { evmWallet } = await import('@thorswap-lib/web-extensions');
+    if (evmWallet.isDetected(WalletOption.XDEFI)) return true;
+    window.open('https://xdefi.io');
   }, []);
 
-  const handleMetamask = useCallback(() => {
-    const detected = WalletStatus.Detected === metamask.isWalletDetected();
-
-    if (!detected) {
-      window.open('https://metamask.io');
-    }
-
-    return detected;
+  const handleMetamask = useCallback(async () => {
+    const { evmWallet } = await import('@thorswap-lib/web-extensions');
+    if (evmWallet.isDetected(WalletOption.METAMASK)) return true;
+    window.open('https://metamask.io');
   }, []);
 
-  const handleKeplr = useCallback(() => {
-    const detected = WalletStatus.Detected === keplr.isWalletDetected();
-
-    if (!detected) {
-      window.open('https://keplr.app');
-    }
-
-    return detected;
+  const handleKeplr = useCallback(async () => {
+    const { keplrWallet } = await import('@thorswap-lib/web-extensions');
+    if (keplrWallet.isDetected()) return true;
+    window.open('https://keplr.app');
   }, []);
 
-  const handleTrustWalletExtension = useCallback(() => {
-    const detected = WalletStatus.Detected === trustWalletExtension.isWalletDetected();
-
-    if (!detected) {
-      window.open('https://trustwallet.com/browser-extension/');
-    }
-
-    return detected;
+  const handleTrustWalletExtension = useCallback(async () => {
+    const { evmWallet } = await import('@thorswap-lib/web-extensions');
+    if (evmWallet.isDetected(WalletOption.TRUSTWALLET_WEB)) return true;
+    window.open('https://trustwallet.com/browser-extension/');
   }, []);
 
   const getChainsToSelect = useCallback(
@@ -273,16 +260,14 @@ export const useHandleWalletTypeSelect = ({
         case WalletType.Ledger:
         case WalletType.TrustWalletExtension:
         case WalletType.MetaMask: {
-          const defaultChain = walletType === WalletType.Ledger ? Chain.THORChain : Chain.Ethereum;
-
-          return [chains[0] || defaultChain];
+          return [selectedChains[0] || Chain.Ethereum];
         }
 
         default:
           return chains.length ? chains : availableChainsByWallet[walletType];
       }
     },
-    [],
+    [selectedChains],
   );
 
   const handleSuccessWalletConnection = useCallback(
@@ -301,7 +286,7 @@ export const useHandleWalletTypeSelect = ({
   );
 
   const connectSelectedWallet = useCallback(
-    (selectedWallet: WalletType): boolean => {
+    (selectedWallet: WalletType) => {
       switch (selectedWallet) {
         case WalletType.Xdefi:
           return handleXdefi();

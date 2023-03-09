@@ -1,6 +1,5 @@
 import { Chart } from 'chart.js';
 import dayjs from 'dayjs';
-import random from 'lodash/random';
 
 type ColorType = 'background' | 'stroke';
 
@@ -54,7 +53,7 @@ export const generateRandomTimeSeries = (minValue: number, maxValue: number) => 
   const values: number[] = [];
   for (let date = dayjs().subtract(30, 'days'); date.isBefore(dayjs()); date = date.add(1, 'day')) {
     labels.push(date.format('MMM DD'));
-    values.push(minValue + (random(100) / 100) * (maxValue - minValue));
+    values.push(minValue + (Math.floor(Math.random() * 100) / 100) * (maxValue - minValue));
   }
 
   return { labels, values };

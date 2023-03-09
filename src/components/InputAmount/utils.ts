@@ -1,4 +1,4 @@
-import { Amount } from '@thorswap-lib/multichain-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import BigNumber from 'bignumber.js';
 
 export const getAmountFromString = (value: string, decimal: number): Amount | null => {

@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, Asset } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Icon } from 'components/Atomic';
 import { ChainBadge } from 'components/ChainBadge';
@@ -9,7 +9,7 @@ import { memo } from 'react';
 import { t } from 'services/i18n';
 
 type Props = {
-  inputAsset: Asset;
+  inputAsset: AssetEntity;
   recipient: string;
   amount: Amount;
   feeLabel: string;
@@ -39,13 +39,13 @@ export const ConfirmContent = memo(({ inputAsset, recipient, feeLabel, amount }:
 
         <Icon className="mx-2 -rotate-90" name="arrowDown" />
         <Box center col className="flex-1 p-4 rounded-2xl">
-          <AssetIcon asset={Asset.RUNE()} />
+          <AssetIcon asset={AssetEntity.RUNE()} />
           <Box center className="pt-2">
-            <ChainBadge asset={Asset.RUNE()} />
+            <ChainBadge asset={AssetEntity.RUNE()} />
           </Box>
           <Box center className="w-full">
             <Text fontWeight="medium" textStyle="caption">
-              {amount.toSignificantWithMaxDecimals(6)} {Asset.RUNE().ticker}
+              {amount.toSignificantWithMaxDecimals(6)} {AssetEntity.RUNE().ticker}
             </Text>
           </Box>
         </Box>

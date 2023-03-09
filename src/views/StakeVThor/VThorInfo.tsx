@@ -9,7 +9,7 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import { fromWei } from 'services/contract';
 import { t } from 'services/i18n';
 import { ROUTES } from 'settings/router';
-import { useV1ThorStakeInfo } from 'views/Stake/hooks';
+import { useV1ThorStakeInfo } from 'views/LegacyStake/hooks';
 import { AddVThorMM } from 'views/StakeVThor/AddVThorMM';
 import { useVthorUtil } from 'views/StakeVThor/useVthorUtil';
 
@@ -40,8 +40,8 @@ export const VThorInfo = memo(({ ethAddress }: Props) => {
       try {
         const apr = await fetchVthorApr(stakedAmount);
         setVthorApr(apr);
-      } catch (err) {
-        console.info(err);
+      } catch (error: NotWorth) {
+        console.error(error);
         setVthorApr(0);
       }
     }

@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 
 export enum LiquidityTypeOption {
   'RUNE' = 'RUNE',

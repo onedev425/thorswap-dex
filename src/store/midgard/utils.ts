@@ -1,8 +1,7 @@
 import { LpDetail, MemberPool, StakeDetail, WithdrawDetail } from '@thorswap-lib/midgard-sdk';
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { BigNumber } from 'bignumber.js';
-import isEmpty from 'lodash/isEmpty';
 
 import {
   ChainMemberDetails,
@@ -150,7 +149,7 @@ export const mergePendingLP = ({
   pendingLP: LiquidityProvider;
   chainMemberDetails: ChainMemberDetails;
 }): ChainMemberDetails => {
-  const chain = Asset.fromAssetString(pendingLP.asset)?.chain;
+  const chain = AssetEntity.fromAssetString(pendingLP.asset)?.chain;
 
   if (!chain) return chainMemberDetails;
 
@@ -196,7 +195,7 @@ export const removePendingLP = ({
   asset: string;
   chainMemberDetails: ChainMemberDetails;
 }): ChainMemberDetails => {
-  const chain = Asset.fromAssetString(asset)?.chain;
+  const chain = AssetEntity.fromAssetString(asset)?.chain;
 
   if (!chain) return chainMemberDetails;
 
@@ -209,7 +208,7 @@ export const removePendingLP = ({
     }
   });
 
-  if (!isEmpty(poolMemberData)) {
+  if (!Object.entries(poolMemberData).length) {
     poolMemberData = {
       ...poolMemberData,
       pending: undefined,

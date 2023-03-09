@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetSelectType } from 'components/AssetSelect/types';
 import { useBalance } from 'hooks/useBalance';
@@ -11,7 +11,7 @@ export const useAssetsWithBalanceFromTokens = (tokens: Token[]) => {
   const { getMaxBalance, isWalletConnected } = useBalance();
 
   const getBalance = useCallback(
-    (asset: Asset) => {
+    (asset: AssetEntity) => {
       const maxBalance = getMaxBalance(asset);
 
       return isWalletConnected(asset.L1Chain as Chain) && maxBalance.gt(0) ? maxBalance : undefined;
@@ -36,7 +36,7 @@ export const useAssetsWithBalanceFromTokens = (tokens: Token[]) => {
         .map(({ identifier, address, chain, ...rest }: Token) => {
           try {
             const [id] = identifier.split('-');
-            const asset = Asset.fromAssetString(
+            const asset = AssetEntity.fromAssetString(
               [Chain.Avalanche, Chain.Ethereum].includes(chain as Chain.THORChain)
                 ? `${id}${address ? `-${address}` : ''}`
                 : identifier,
@@ -45,8 +45,8 @@ export const useAssetsWithBalanceFromTokens = (tokens: Token[]) => {
             if (!asset) return null;
 
             return { asset, balance: getBalance(asset), identifier, ...rest };
-          } catch (error) {
-            console.info(error);
+          } catch (error: NotWorth) {
+            console.error(error);
             return null;
           }
         })

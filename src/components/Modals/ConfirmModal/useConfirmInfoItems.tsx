@@ -45,7 +45,6 @@ export const useConfirmInfoItems = ({
     },
     {
       label: t('views.wallet.slip'),
-      // TODO: warning color for invalid slippage
       value: <InfoWithTooltip tooltip={t('views.wallet.slippageTooltip')} value={`${slippage}`} />,
     },
     {

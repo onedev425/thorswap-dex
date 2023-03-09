@@ -1,11 +1,11 @@
 import { Text } from '@chakra-ui/react';
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';
 
 type Props = {
-  asset: Asset;
+  asset: AssetEntity;
 };
 
 const colorMapping: Record<Chain, string> = {
@@ -17,8 +17,8 @@ const colorMapping: Record<Chain, string> = {
   THOR: 'bg-chain-thor',
   DOGE: 'bg-chain-doge',
   LTC: 'bg-chain-ltc',
-  SOL: 'bg-chain-sol',
   GAIA: 'bg-chain-cos',
+  BSC: 'bg-chain-bsc',
 };
 
 export const ChainBadge = ({ asset }: Props) => {

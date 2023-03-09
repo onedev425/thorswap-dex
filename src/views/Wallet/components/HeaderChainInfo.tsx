@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { ChainWallet } from '@thorswap-lib/multichain-core';
+import { ChainWallet } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Box } from 'components/Atomic';
 import { WalletIcon } from 'components/WalletIcon/WalletIcon';

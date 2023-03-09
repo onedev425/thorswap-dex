@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { AssetFilterType, assetFilterTypes } from 'components/AssetSelect/assetTypes';
@@ -32,13 +32,19 @@ export const useAssetFilterTypes = () => {
         return <FilterTypeLabel icon={<Icon name="thor" size={18} />} label={filterType.label} />;
       }
       case 'avax': {
-        return <FilterTypeLabel icon={<AssetIcon asset={Asset.AVAX()} size={20} />} label="AVAX" />;
+        return (
+          <FilterTypeLabel icon={<AssetIcon asset={AssetEntity.AVAX()} size={20} />} label="AVAX" />
+        );
       }
       case 'erc20': {
-        return <FilterTypeLabel icon={<AssetIcon asset={Asset.ETH()} size={20} />} label="ETH" />;
+        return (
+          <FilterTypeLabel icon={<AssetIcon asset={AssetEntity.ETH()} size={20} />} label="ETH" />
+        );
       }
       case 'bep2': {
-        return <FilterTypeLabel icon={<AssetIcon asset={Asset.BNB()} size={20} />} label="BNB" />;
+        return (
+          <FilterTypeLabel icon={<AssetIcon asset={AssetEntity.BNB()} size={20} />} label="BNB" />
+        );
       }
       default:
         return <FilterTypeLabel label={filterType.label.toUpperCase()} />;

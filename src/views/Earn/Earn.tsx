@@ -1,5 +1,5 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
-import { Amount, Asset, AssetAmount, Percent } from '@thorswap-lib/multichain-core';
+import { Amount, AssetAmount, AssetEntity, Percent } from '@thorswap-lib/swapkit-core';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Card, Icon, Link, Tooltip } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
@@ -13,7 +13,6 @@ import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
 import useWindowSize from 'hooks/useWindowSize';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { SORTED_EARN_ASSETS } from 'settings/chain';
 import { useMidgard } from 'store/midgard/hooks';
 import { useAppDispatch } from 'store/store';
@@ -47,7 +46,7 @@ const Earn = () => {
   const { positions, refreshPositions, getPosition, synthAvailability } = useSaverPositions();
   const { wallet, setIsConnectModalOpen } = useWallet();
   const [amount, setAmount] = useState(Amount.fromAssetAmount(0, 8));
-  const [asset, setAsset] = useState(Asset.BTC());
+  const [asset, setAsset] = useState(AssetEntity.BTC());
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [tab, setTab] = useState(EarnTab.Deposit);
   const [viewTab, setViewTab] = useState(EarnViewTab.Earn);
@@ -84,13 +83,13 @@ const Earn = () => {
     [],
   );
 
-  const depositAsset = useCallback((asset: Asset) => {
+  const depositAsset = useCallback((asset: AssetEntity) => {
     setViewTab(EarnViewTab.Earn);
     setTab(EarnTab.Deposit);
     setAsset(asset);
   }, []);
 
-  const withdrawAsset = useCallback((asset: Asset) => {
+  const withdrawAsset = useCallback((asset: AssetEntity) => {
     setViewTab(EarnViewTab.Earn);
     setTab(EarnTab.Withdraw);
     setAsset(asset);
@@ -116,13 +115,15 @@ const Earn = () => {
     refreshPositions();
   }, [asset, refreshPositions]);
 
-  const handleMultichainAction = useCallback(
-    () =>
-      isDeposit
-        ? multichain().addSavings(new AssetAmount(asset, amount))
-        : multichain().withdrawSavings({ asset, percent: withdrawPercent }),
-    [amount, asset, isDeposit, withdrawPercent],
-  );
+  const handleSwapkitAction = useCallback(async () => {
+    const { addSavings, withdrawSavings } = await (
+      await import('services/multichain')
+    ).getSwapKitClient();
+
+    return isDeposit
+      ? addSavings(new AssetAmount(asset, amount))
+      : withdrawSavings({ asset, percent: withdrawPercent });
+  }, [amount, asset, isDeposit, withdrawPercent]);
 
   const handleEarnSubmit = useCallback(
     async (expectedAmount: string) => {
@@ -143,7 +144,7 @@ const Earn = () => {
       );
 
       try {
-        const txid = await handleMultichainAction();
+        const txid = await handleSwapkitAction();
         setAmount(Amount.fromAssetAmount(0, 8));
         if (txid) appDispatch(updateTransaction({ id, txid }));
       } catch (error) {
@@ -151,7 +152,7 @@ const Earn = () => {
         appDispatch(completeTransaction({ id, status: 'error' }));
       }
     },
-    [appDispatch, asset.L1Chain, asset.name, handleMultichainAction, isDeposit],
+    [appDispatch, asset.L1Chain, asset.name, handleSwapkitAction, isDeposit],
   );
 
   const isSynthInCapacity = useMemo(

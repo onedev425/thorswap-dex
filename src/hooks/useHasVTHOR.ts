@@ -10,7 +10,8 @@ export const useVTHORBalance = (address?: string) => {
     try {
       const vTHORBalance = fromWei(await getVthorState('balanceOf', [address]));
       setVTHORBalance(vTHORBalance);
-    } catch (error) {
+    } catch (error: NotWorth) {
+      console.error(error);
       setVTHORBalance(0);
     }
   }, [address]);

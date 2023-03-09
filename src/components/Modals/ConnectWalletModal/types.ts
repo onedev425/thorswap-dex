@@ -57,7 +57,6 @@ const COMMON_WALLETS = [
   WalletType.Phrase,
 ] as const;
 
-// @ts-expect-error
 export const availableWalletsByChain: Record<Chain, WalletType[]> = {
   [Chain.Avalanche]: [...COMMON_WALLETS, WalletType.MetaMask, WalletType.Xdefi],
   [Chain.Binance]: [...COMMON_WALLETS, WalletType.TrustWallet, WalletType.Xdefi],
@@ -73,4 +72,5 @@ export const availableWalletsByChain: Record<Chain, WalletType[]> = {
     WalletType.TrustWallet,
     WalletType.Xdefi,
   ],
+  [Chain.BinanceSmartChain]: [],
 };

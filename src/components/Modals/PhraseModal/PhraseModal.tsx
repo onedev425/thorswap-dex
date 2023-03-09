@@ -6,7 +6,7 @@ import { Input } from 'components/Input';
 import { usePhraseModal } from 'components/Modals/PhraseModal/usePhraseModal';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
+import { useWallet } from 'store/wallet/hooks';
 
 export type PhraseModalProps = {
   isOpen: boolean;
@@ -14,8 +14,9 @@ export type PhraseModalProps = {
 };
 
 export const PhraseModal = ({ isOpen, onCancel = () => {} }: PhraseModalProps): JSX.Element => {
+  const { phrase } = useWallet();
   const { showPhrase, submit, passwordField, errors, handleCopyPhrase } = usePhraseModal(isOpen);
-  const phrases = useMemo(() => (isOpen ? multichain().getPhrase().split(' ') : []), [isOpen]);
+  const phrases = useMemo(() => (isOpen ? phrase.split(' ') : []), [isOpen, phrase]);
 
   return (
     <Modal isOpened={isOpen} onClose={onCancel} title={t('views.walletModal.phrase')}>

@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import { THORNameDetails } from '@thorswap-lib/midgard-sdk';
-import { Asset, THORName } from '@thorswap-lib/multichain-core';
+import { AssetEntity, THORName } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { ChainIcon } from 'components/AssetIcon/ChainIcon';
@@ -9,7 +9,7 @@ import { InfoRowConfig } from 'components/InfoRow/types';
 import { shortenAddress } from 'helpers/shortenAddress';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
-import { getThornameExpireDate } from 'services/thorname';
+import { getThornameExpireDate } from 'store/midgard/actions';
 import { useMidgard } from 'store/midgard/hooks';
 
 type Params = {
@@ -82,7 +82,7 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
               label: details ? t('views.thorname.updateFee') : t('views.thorname.registrationFee'),
               value: (
                 <Box center className="gap-x-2">
-                  <AssetIcon asset={Asset.RUNE()} size="tiny" />
+                  <AssetIcon asset={AssetEntity.RUNE()} size="tiny" />
                   <Text>
                     {details ? years : THORName.getCost(years).toSignificantWithMaxDecimals(6)}{' '}
                     $RUNE

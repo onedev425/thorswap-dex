@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, Percent, Pool } from '@thorswap-lib/multichain-core';
+import { Amount, Percent, Pool } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';

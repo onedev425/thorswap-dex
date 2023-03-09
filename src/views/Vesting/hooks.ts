@@ -1,5 +1,5 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { Amount } from '@thorswap-lib/multichain-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import dayjs from 'dayjs';
@@ -65,8 +65,8 @@ export const useVesting = () => {
           setVestingInfo(info);
 
           return info;
-        } catch (err) {
-          console.info('ERR - ', err);
+        } catch (error) {
+          console.error(error);
         }
       }
     },
@@ -132,7 +132,8 @@ export const useVesting = () => {
         if (response?.hash) {
           appDispatch(updateTransaction({ id, txid: response.hash }));
         }
-      } catch (err) {
+      } catch (error) {
+        console.error(error);
         appDispatch(completeTransaction({ id, status: 'error' }));
         showErrorToast(t('notification.submitFail'), t('common.defaultErrMsg'));
       }

@@ -44,7 +44,8 @@ export const ExportTxStep = ({ exportTxData, signatures }: Props) => {
         `${MULTISIG_FILE_NAME}-${fileNameSuffix}.json`,
         JSON.stringify(exportTxData),
       );
-    } catch (error: ErrorType) {
+    } catch (error: NotWorth) {
+      console.error(error);
       const message = error.message || t('views.multisig.exportError');
       showErrorToast(message);
     }

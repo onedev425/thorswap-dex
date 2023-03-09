@@ -1,5 +1,5 @@
 import { Chain, SUPPORTED_CHAINS } from '@thorswap-lib/types';
-import { getAnnouncementId } from 'components/Announcements/utils';
+import hmacSHA512 from 'crypto-js/hmac-sha512';
 import { chainName } from 'helpers/chainName';
 import { useMimir } from 'hooks/useMimir';
 import { StatusType, useNetwork } from 'hooks/useNetwork';
@@ -179,6 +179,18 @@ const getChainAnnouncement = ({
     };
   }
   return null;
+};
+
+const getAnnouncementId = (ann: AnnouncementItem) => {
+  return hmacSHA512(
+    ann.message +
+      (ann.type || '') +
+      (ann.link?.name || '') +
+      (ann.link?.url || '') +
+      (ann.chain || ''),
+  )
+    .toString()
+    .slice(0, 8);
 };
 
 const getAnnouncementsByChain = (props: GetAnnouncementsByChainProps) =>

@@ -1,14 +1,14 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 
 export type RouterStepProps = {
-  assets: [Asset, Asset];
+  assets: [AssetEntity, AssetEntity];
   commission: string;
 };
 
 export type Pair = {
-  inputAsset: Asset;
-  outputAsset: Asset;
+  inputAsset: AssetEntity;
+  outputAsset: AssetEntity;
 };
 
 export type RouteFee = {

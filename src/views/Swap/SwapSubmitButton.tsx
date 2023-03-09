@@ -1,4 +1,4 @@
-import { Amount, Asset } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button } from 'components/Atomic';
 import { showErrorToast, showInfoToast } from 'components/Toast';
@@ -7,7 +7,6 @@ import { useCheckExchangeBNB } from 'hooks/useCheckExchangeBNB';
 import { useMimir } from 'hooks/useMimir';
 import { useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { useExternalConfig } from 'store/externalConfig/hooks';
 import { useMidgard } from 'store/midgard/hooks';
 import { useTransactionsState } from 'store/transactions/hooks';
@@ -16,11 +15,11 @@ import { useWallet } from 'store/wallet/hooks';
 type Props = {
   hasQuote: boolean;
   inputAmount: Amount;
-  inputAsset: Asset;
+  inputAsset: AssetEntity;
   isApproved: boolean | null;
   isInputWalletConnected: boolean;
   isLoading: boolean;
-  outputAsset: Asset;
+  outputAsset: AssetEntity;
   recipient: string | null;
   setVisibleApproveModal: (visible: boolean) => void;
   setVisibleConfirmModal: (visible: boolean) => void;
@@ -92,22 +91,22 @@ export const SwapSubmitButton = ({
     outputAsset.L1Chain === Chain.Binance ? recipient : null,
   );
 
-  const isValidAddress = useMemo(() => {
+  const isValidAddress = useCallback(async () => {
     try {
       if (!recipient) return true;
       if (isExchangeBNBAddress) return false;
+      const { validateAddress } = await (await import('services/multichain')).getSwapKitClient();
 
-      return multichain().validateAddress({
-        chain: outputAsset.L1Chain,
-        address: recipient,
-      });
-    } catch (error) {
-      console.info(error);
+      const validated = validateAddress({ chain: outputAsset.L1Chain, address: recipient });
+
+      return typeof validated === 'undefined' ? true : validated;
+    } catch (error: NotWorth) {
+      console.error(error);
       return false;
     }
   }, [outputAsset, recipient, isExchangeBNBAddress]);
 
-  const showSwapConfirmationModal = useCallback(() => {
+  const showSwapConfirmationModal = useCallback(async () => {
     if (!walletConnected) {
       showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
     } else if (!hasQuote) {
@@ -116,7 +115,7 @@ export const SwapSubmitButton = ({
       showInfoToast(t('notification.swapAmountTooSmall'), t('notification.swapAmountTooSmallDesc'));
     } else if (isExchangeBNBAddress) {
       showErrorToast(t('notification.exchangeBNBAddy'), t('notification.exchangeBNBAddyDesc'));
-    } else if (!isValidAddress) {
+    } else if (!(await isValidAddress())) {
       showErrorToast(
         t('notification.invalidRecipientAddy'),
         t('notification.invalidRecipientAddyDesc'),

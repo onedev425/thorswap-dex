@@ -1,8 +1,8 @@
-import { Amount, Asset, Price } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity, Price } from '@thorswap-lib/swapkit-core';
 import { AssetSelectProps, AssetSelectType } from 'components/AssetSelect/types';
 
 export type AssetInputType = {
-  asset: Asset;
+  asset: AssetEntity;
   apr?: string;
   usdPrice?: Price;
   balance?: Amount;
@@ -31,14 +31,14 @@ export type AssetInputProps = {
 } & (
   | {
       assets: AssetSelectType[];
-      onAssetChange: (asset: Asset) => void;
+      onAssetChange: (asset: AssetEntity) => void;
       poolAsset?: undefined;
       showSecondaryChainSelector?: undefined;
       singleAsset?: undefined;
     }
   | {
       assets: AssetSelectType[];
-      onAssetChange: (asset: Asset) => void;
+      onAssetChange: (asset: AssetEntity) => void;
       poolAsset: AssetInputType;
       singleAsset?: true;
       showSecondaryChainSelector?: boolean;

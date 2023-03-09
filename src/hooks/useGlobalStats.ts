@@ -1,5 +1,5 @@
 import type { Network as MidgardNetwork } from '@thorswap-lib/midgard-sdk';
-import { Amount, Percent } from '@thorswap-lib/multichain-core';
+import { Amount, Percent } from '@thorswap-lib/swapkit-core';
 import { useMidgard } from 'store/midgard/hooks';
 
 const getTotalBond = (networkData: MidgardNetwork | null) => {

@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import { BigNumber } from '@ethersproject/bignumber';
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon, AssetLpIcon } from 'components/AssetIcon';
@@ -22,16 +22,15 @@ import {
   triggerContractCall,
 } from 'services/contract';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
-import { StakeConfirmModal } from 'views/Stake/components/StakeConfirmModal';
-import { FarmActionType } from 'views/Stake/types';
 
+import { StakeConfirmModal } from './components/StakeConfirmModal';
 import { useStakingModal } from './hooks';
+import { FarmActionType } from './types';
 
 type Props = {
   exchange: string;
@@ -67,6 +66,10 @@ export const StakingCard = ({
   const [stakedAmountBn, setStakedAmountBn] = useState(BigNumber.from(0));
   const [pendingRewardDebt, setPendingRewardDebt] = useState(0);
   const [pendingRewardDebtBn, setPendingRewardDebtBn] = useState(BigNumber.from(0));
+  const [{ stakingTokenUrl, stakeAddrUrl }, setUrls] = useState({
+    stakingTokenUrl: '',
+    stakeAddrUrl: '',
+  });
 
   const {
     isOpened: isModalOpened,
@@ -76,11 +79,6 @@ export const StakingCard = ({
   } = useStakingModal();
 
   const ethAddr = useMemo(() => wallet?.ETH?.address, [wallet]);
-
-  const getAccountUrl = useCallback(
-    (accountAddr: string) => multichain().getExplorerAddressUrl(Chain.Ethereum, accountAddr),
-    [],
-  );
 
   const getPoolUserInfo = useCallback(async () => {
     setIsFetching(true);
@@ -105,8 +103,8 @@ export const StakingCard = ({
         setStakedAmountBn(amount);
         setPendingRewardDebt(fromWei(pendingReward));
         setPendingRewardDebtBn(pendingReward);
-      } catch (error) {
-        console.info(error);
+      } catch (error: NotWorth) {
+        console.error(error);
       }
     }
 
@@ -166,8 +164,8 @@ export const StakingCard = ({
         const apr = getAPR(fromWei(blockReward) * thorPrice, totalLPAmountUSD);
         setAPRRate(apr);
       }
-    } catch (error) {
-      console.info(error);
+    } catch (error: NotWorth) {
+      console.error(error);
     }
   }, [contractType, lpContractType, getBlockReward]);
 
@@ -204,9 +202,9 @@ export const StakingCard = ({
         if (txid) {
           appDispatch(updateTransaction({ id, txid }));
         }
-      } catch (error) {
+      } catch (error: NotWorth) {
+        console.error(error);
         appDispatch(completeTransaction({ id, status: 'error' }));
-        console.info(error);
       }
     },
     [closeConfirm, methodName, ethAddr, txType, lpAsset, appDispatch, contractType],
@@ -227,7 +225,16 @@ export const StakingCard = ({
 
   useEffect(() => {
     getAPRRate();
-  }, [getAPRRate]);
+
+    import('services/multichain')
+      .then(({ getSwapKitClient }) => getSwapKitClient())
+      .then(({ getExplorerAddressUrl }) => {
+        setUrls({
+          stakeAddrUrl: getExplorerAddressUrl(Chain.Ethereum, stakeAddr) || '',
+          stakingTokenUrl: getExplorerAddressUrl(Chain.Ethereum, stakingToken) || '',
+        });
+      });
+  }, [getAPRRate, stakeAddr, stakingToken]);
 
   return (
     <Box col className="flex-1 !min-w-[360px] lg:!max-w-[50%]">
@@ -307,7 +314,7 @@ export const StakingCard = ({
                   >
                     {shortenAddress(stakingToken)}
                   </Text>
-                  <Link external to={getAccountUrl(stakingToken)}>
+                  <Link external to={stakingTokenUrl}>
                     <Icon color="cyan" name="share" size={16} />
                   </Link>
                 </Box>
@@ -326,7 +333,7 @@ export const StakingCard = ({
                   >
                     {shortenAddress(stakeAddr)}
                   </Text>
-                  <Link external to={getAccountUrl(stakeAddr)}>
+                  <Link external to={stakeAddrUrl}>
                     <Icon color="cyan" name="share" size={16} />
                   </Link>
                 </Box>

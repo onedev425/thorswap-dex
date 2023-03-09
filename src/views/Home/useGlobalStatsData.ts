@@ -1,4 +1,4 @@
-import { Amount, Percent } from '@thorswap-lib/multichain-core';
+import { Amount, Percent } from '@thorswap-lib/swapkit-core';
 import { StatsType } from 'components/StatsList/types';
 import { useGlobalStats } from 'hooks/useGlobalStats';
 import { useMimir } from 'hooks/useMimir';

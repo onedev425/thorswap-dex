@@ -1,10 +1,11 @@
-import { getRequest } from '@thorswap-lib/multichain-core';
+import { getRequest } from '@thorswap-lib/helpers';
 import { GeckoData, GeckoDataWithSymbols } from 'store/wallet/types';
-const coinIndex = import('./coinIndex').then(({ geckoCoinIndex }) => geckoCoinIndex);
 
 export const getGeckoData = async (
   symbols: string[],
 ): Promise<{ data: GeckoDataWithSymbols[] }> => {
+  const { geckoCoinIndex } = await import('./coinIndex');
+
   const symbolsMap: Record<string, string> = {};
   const parsedSymbols: string[] = [];
 
@@ -14,9 +15,8 @@ export const getGeckoData = async (
     symbolsMap[coinSymbol] = symbol;
   });
 
-  const coinGeckoIndex = await coinIndex;
   const coinIds = parsedSymbols.map((parsedSymbol) => {
-    const coinId = coinGeckoIndex.find((coin) => coin.symbol === parsedSymbol.toLowerCase());
+    const coinId = geckoCoinIndex.find((coin) => coin.symbol === parsedSymbol.toLowerCase());
 
     if (!coinId) return null;
 

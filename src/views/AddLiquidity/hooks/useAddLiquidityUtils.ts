@@ -1,11 +1,11 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { useMimir } from 'hooks/useMimir';
 import { useMemo } from 'react';
 import { useExternalConfig } from 'store/externalConfig/hooks';
 
 type Props = {
-  poolAsset: Asset;
+  poolAsset: AssetEntity;
 };
 
 export const useAddLiquidityUtils = ({ poolAsset }: Props) => {

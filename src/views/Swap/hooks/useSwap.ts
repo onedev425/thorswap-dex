@@ -1,10 +1,9 @@
-import { Amount, Asset, QuoteMode, QuoteRoute } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity, QuoteMode, QuoteRoute } from '@thorswap-lib/swapkit-core';
 import { Chain, FeeOption } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { translateErrorMsg } from 'helpers/error';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { useApp } from 'store/app/hooks';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
@@ -16,9 +15,9 @@ type SwapParams = {
   route?: QuoteRoute;
   quoteMode: QuoteMode;
   recipient: string;
-  inputAsset: Asset;
+  inputAsset: AssetEntity;
   inputAmount: Amount;
-  outputAsset: Asset;
+  outputAsset: AssetEntity;
   outputAmount: Amount;
 };
 
@@ -75,22 +74,35 @@ export const useSwap = ({
           }),
         );
 
-        const txid = await multichain().swapThroughAggregator({
-          route,
-          recipient,
-          quoteMode,
-          feeOptionKey: feeOptionType,
-        });
+        const { swap, validateAddress } = await (
+          await import('services/multichain')
+        ).getSwapKitClient();
 
-        if (typeof txid === 'string') {
-          appDispatch(updateTransaction({ id, txid }));
-        } else {
+        try {
+          const txid = await swap({
+            route,
+            quoteMode,
+            feeOptionKey: feeOptionType,
+            recipient: validateAddress({ chain: outputAsset.L1Chain, address: recipient })
+              ? recipient
+              : '',
+          });
+
+          if (typeof txid === 'string') {
+            appDispatch(updateTransaction({ id, txid }));
+          } else {
+            appDispatch(completeTransaction({ id, status: 'error' }));
+            showErrorToast(t('notification.submitFail'), JSON.stringify(txid));
+            if (typeof txid === 'object') console.info(txid);
+          }
+        } catch (error) {
+          console.error(error);
           appDispatch(completeTransaction({ id, status: 'error' }));
-          showErrorToast(t('notification.submitFail'), JSON.stringify(txid));
-          if (typeof txid === 'object') console.info(txid);
+          showErrorToast(t('notification.submitFail'), error?.toString());
         }
       }
     } catch (error: NotWorth) {
+      console.error(error);
       const description = translateErrorMsg(error?.toString());
       appDispatch(completeTransaction({ id, status: 'error' }));
 

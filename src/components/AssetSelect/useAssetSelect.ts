@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { AssetFilterOptionType, assetFilterTypes } from 'components/AssetSelect/assetTypes';
 import { AssetSelectProps } from 'components/AssetSelect/types';
 import { useCallback, useMemo, useState } from 'react';

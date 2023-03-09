@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { MenuItemType } from 'components/AppPopoverMenu/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { IconName } from 'components/Atomic';
@@ -69,7 +69,7 @@ export const useAppPopoverMenu = () => {
 const useMainMenu = (setMenuType: (val: MenuType) => void) => {
   const { isLight } = useTheme();
   const { themeType, thousandSeparator, language, baseCurrency } = useApp();
-  const currencyAsset = Asset.fromAssetString(baseCurrency);
+  const currencyAsset = AssetEntity.fromAssetString(baseCurrency);
 
   const mainMenu: MenuItemType[] = [
     {
@@ -146,36 +146,36 @@ const useLanguageMenu = (onBack: () => void) => {
 
 const useCurrencyMenu = (onBack: () => void) => {
   const { baseCurrency, setBaseCurrency } = useApp();
-  const onCurrencyClick = (val: Asset) => {
+  const onCurrencyClick = (val: AssetEntity) => {
     onBack();
     setBaseCurrency(val);
   };
-  const isCurrencySelected = (val: Asset) => val.toString() === baseCurrency;
+  const isCurrencySelected = (val: AssetEntity) => val.toString() === baseCurrency;
 
   const currencyMenu: MenuItemType[] = [
     {
       label: 'USD',
       icon: 'currencyDollar',
-      onClick: () => onCurrencyClick(Asset.USD()),
-      isSelected: isCurrencySelected(Asset.USD()),
+      onClick: () => onCurrencyClick(AssetEntity.USD()),
+      isSelected: isCurrencySelected(AssetEntity.USD()),
     },
     {
       label: 'RUNE',
       icon: 'thor',
-      onClick: () => onCurrencyClick(Asset.RUNE()),
-      isSelected: isCurrencySelected(Asset.RUNE()),
+      onClick: () => onCurrencyClick(AssetEntity.RUNE()),
+      isSelected: isCurrencySelected(AssetEntity.RUNE()),
     },
     {
       label: 'BTC',
       icon: 'btc',
-      onClick: () => onCurrencyClick(Asset.BTC()),
-      isSelected: isCurrencySelected(Asset.BTC()),
+      onClick: () => onCurrencyClick(AssetEntity.BTC()),
+      isSelected: isCurrencySelected(AssetEntity.BTC()),
     },
     {
       label: 'ETH',
       icon: 'eth',
-      onClick: () => onCurrencyClick(Asset.ETH()),
-      isSelected: isCurrencySelected(Asset.ETH()),
+      onClick: () => onCurrencyClick(AssetEntity.ETH()),
+      isSelected: isCurrencySelected(AssetEntity.ETH()),
     },
   ];
 

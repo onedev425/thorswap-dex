@@ -37,12 +37,12 @@ export const Header = memo(({ openMenu }: Props) => {
   );
 
   const handleClickWalletBtn = useCallback(() => {
-    if (!isConnected && !isWalletLoading) {
+    if (!isConnected) {
       setIsConnectModalOpen(true);
     } else {
       setIsDrawerVisible(true);
     }
-  }, [isConnected, isWalletLoading, setIsConnectModalOpen, setIsDrawerVisible]);
+  }, [isConnected, setIsConnectModalOpen, setIsDrawerVisible]);
 
   return (
     <header className="mb-5 min-h-[70px]">
@@ -99,16 +99,19 @@ export const Header = memo(({ openMenu }: Props) => {
         <Box flex={1} justify="between">
           <Button
             className="mr-2"
-            loading={isWalletLoading}
             onClick={handleClickWalletBtn}
             size="sm"
             variant={themeType === ThemeType.Light ? 'primary' : 'outlinePrimary'}
           >
-            {isWalletLoading
-              ? t('common.loading')
-              : isConnected
-              ? t('common.wallet')
-              : t('common.connect')}
+            {isWalletLoading ? (
+              <Box center row className="gap-1">
+                {t('common.loading')} <Icon spin color="primary" name="loader" size={20} />
+              </Box>
+            ) : isConnected ? (
+              t('common.wallet')
+            ) : (
+              t('common.connect')
+            )}
           </Button>
           <AnnouncementsPopover />
           <AppPopoverMenu />

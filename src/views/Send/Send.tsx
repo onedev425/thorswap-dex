@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, Asset, Price } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity, Price } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { SwitchMenu } from 'components/AppPopoverMenu/components/SwitchMenu';
 import { AssetInput } from 'components/AssetInput';
@@ -23,7 +23,6 @@ import { useNetworkFee } from 'hooks/useNetworkFee';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { getSendRoute } from 'settings/router';
 import { useMidgard } from 'store/midgard/hooks';
 import { useWallet } from 'store/wallet/hooks';
@@ -39,8 +38,8 @@ const Send = () => {
   const { assetParam } = useParams<{ assetParam: string }>();
   const [searchParams] = useSearchParams();
 
-  const [sendAsset, setSendAsset] = useState<Asset>(Asset.RUNE());
-  const [sendAmount, setSendAmount] = useState<Amount>(Amount.fromAssetAmount(0, 8));
+  const [sendAsset, setSendAsset] = useState(AssetEntity.RUNE());
+  const [sendAmount, setSendAmount] = useState(Amount.fromAssetAmount(0, 8));
 
   const [memo, setMemo] = useState('');
   const [recipientAddress, setRecipientAddress] = useState(searchParams.get('recipient') || '');
@@ -74,6 +73,7 @@ const Send = () => {
     sendAsset,
     recipientAddress: txRecipient,
     memo: txMemo,
+    from: wallet ? wallet[sendAsset.chain]?.address : undefined,
   });
 
   const maxSpendableBalance: Amount = useMemo(
@@ -98,23 +98,24 @@ const Send = () => {
 
   useEffect(() => {
     if (customTxEnabled) {
-      setSendAsset(Asset.RUNE());
+      setSendAsset(AssetEntity.RUNE());
     }
   }, [customTxEnabled]);
 
   useEffect(() => {
     const getSendAsset = async () => {
       if (!assetParam) {
-        setSendAsset(Asset.RUNE());
+        setSendAsset(AssetEntity.RUNE());
       } else {
-        const assetEntity = Asset.decodeFromURL(assetParam);
+        const assetEntity = AssetEntity.decodeFromURL(assetParam);
 
         if (assetEntity) {
-          const assetDecimals = await getEVMDecimal(assetEntity);
-          await assetEntity.setDecimal(assetDecimals || undefined);
+          const assetDecimals = (await getEVMDecimal(assetEntity)) || 8;
+          assetEntity.setDecimal(assetDecimals || undefined);
+          setSendAmount(Amount.fromAssetAmount(0, assetDecimals));
           setSendAsset(assetEntity);
         } else {
-          setSendAsset(Asset.RUNE());
+          setSendAsset(AssetEntity.RUNE());
         }
       }
     };
@@ -142,7 +143,7 @@ const Send = () => {
   );
 
   const handleSelectAsset = useCallback(
-    (selected: Asset) => {
+    (selected: AssetEntity) => {
       setRecipientAddress('');
       navigate(getSendRoute(selected));
     },
@@ -178,14 +179,10 @@ const Send = () => {
     setIsOpenConfirmModal(false);
   }, []);
 
-  const handleSend = useCallback(() => {
-    if (
-      !customTxEnabled &&
-      !multichain().validateAddress({
-        chain: sendAsset.L1Chain,
-        address: txRecipient,
-      })
-    ) {
+  const handleSend = useCallback(async () => {
+    const { validateAddress } = await (await import('services/multichain')).getSwapKitClient();
+
+    if (!customTxEnabled && !validateAddress({ chain: sendAsset.L1Chain, address: txRecipient })) {
       showErrorToast(t('notification.invalidL1ChainAddy', { chain: sendAsset.L1Chain }));
     } else {
       setIsOpenConfirmModal(true);
@@ -295,7 +292,7 @@ const Send = () => {
             onChange={handleChangeRecipient}
             placeholder={`THORName / ${
               assetInput.asset.isSynth || assetInput.asset.isRUNE()
-                ? Asset.RUNE().network
+                ? AssetEntity.RUNE().network
                 : chainName(assetInput.asset.L1Chain)
             } ${t('common.address')}`}
             title={recipientTitle}

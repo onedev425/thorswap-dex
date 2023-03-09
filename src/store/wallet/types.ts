@@ -27,3 +27,5 @@ export interface GeckoData {
 }
 
 export type GeckoDataWithSymbols = { geckoData: GeckoData; symbol: string };
+
+export type DerivationPathType = 'nativeSegwitMiddleAccount' | 'segwit' | 'legacy' | 'ledgerLive';

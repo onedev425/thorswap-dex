@@ -1,6 +1,7 @@
-import { THORName, THORNameEntry } from '@thorswap-lib/multichain-core';
+import { THORName, THORNameEntry } from '@thorswap-lib/swapkit-core';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useCallback, useEffect, useState } from 'react';
+import { midgardApi } from 'services/midgard';
 import { getThornameDetails } from 'services/thorname';
 
 export const useAddressForTNS = (address: string) => {
@@ -33,7 +34,8 @@ export const useAddressForTNS = (address: string) => {
     const [possibleThorname] = debouncedAddress.toLowerCase().split('.');
 
     if (THORName.isValidName(possibleThorname)) {
-      getThornameDetails(possibleThorname)
+      midgardApi
+        .getTHORNameDetail(possibleThorname)
         .then((details) => {
           const payload =
             typeof details === 'boolean'

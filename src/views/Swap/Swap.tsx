@@ -1,5 +1,5 @@
-import { Amount, Asset, ETH_DECIMAL, QuoteMode, WalletOption } from '@thorswap-lib/multichain-core';
-import { Chain } from '@thorswap-lib/types';
+import { Amount, AssetEntity, QuoteMode } from '@thorswap-lib/swapkit-core';
+import { BaseDecimal, Chain, WalletOption } from '@thorswap-lib/types';
 import { InfoTip } from 'components/InfoTip';
 import { PanelView } from 'components/PanelView';
 import { SwapRouter } from 'components/SwapRouter';
@@ -10,11 +10,9 @@ import { useBalance } from 'hooks/useBalance';
 import { useVTHORBalance } from 'hooks/useHasVTHOR';
 import { useSlippage } from 'hooks/useSlippage';
 import { useTokenPrices } from 'hooks/useTokenPrices';
-import uniq from 'lodash/uniq';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { IS_DEV_API, IS_PROD } from 'settings/config';
 import { getKyberSwapRoute, getSwapRoute } from 'settings/router';
 import { useWallet } from 'store/wallet/hooks';
@@ -44,6 +42,7 @@ const SwapView = () => {
   const { wallet, keystore } = useWallet();
 
   const [recipient, setRecipient] = useState('');
+  const [sender, setSender] = useState('');
   const [visibleConfirmModal, setVisibleConfirmModal] = useState(false);
   const [visibleApproveModal, setVisibleApproveModal] = useState(false);
   const [feeModalOpened, setFeeModalOpened] = useState(false);
@@ -52,9 +51,13 @@ const SwapView = () => {
   const { tokens } = useTokenList();
 
   useEffect(() => {
-    const address = multichain().getWalletAddressByChain(outputAsset.L1Chain);
-    setRecipient(address || '');
-  }, [outputAsset, wallet]);
+    import('services/multichain')
+      .then(({ getSwapKitClient }) => getSwapKitClient())
+      .then(({ getWalletAddressByChain }) => {
+        setRecipient(getWalletAddressByChain(outputAsset.L1Chain) || '');
+        setSender(getWalletAddressByChain(inputAsset.L1Chain) || '');
+      });
+  }, [inputAsset.L1Chain, outputAsset, wallet]);
 
   useEffect(() => {
     const inputToken = tokens.find(
@@ -64,21 +67,15 @@ const SwapView = () => {
       ({ identifier }) => identifier === `${outputAsset.L1Chain}.${outputAsset.ticker}`,
     );
     const inputDecimal =
-      inputAsset.isETH() || inputAsset.isAVAX() ? ETH_DECIMAL : inputToken?.decimals;
+      inputAsset.isETH() || inputAsset.isAVAX() ? BaseDecimal.ETH : inputToken?.decimals;
     const outputDecimal =
-      outputAsset.isETH() || outputAsset.isAVAX() ? ETH_DECIMAL : outputToken?.decimals;
+      outputAsset.isETH() || outputAsset.isAVAX() ? BaseDecimal.ETH : outputToken?.decimals;
 
     if (tokens.length) {
       inputAsset.setDecimal(inputDecimal);
       outputAsset.setDecimal(outputDecimal);
     }
   }, [inputAsset, outputAsset, tokens]);
-
-  const senderAddress = useMemo(
-    () => multichain().getWalletAddressByChain(inputAsset.L1Chain) || '',
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [inputAsset, wallet],
-  );
 
   const ethAddr = useMemo(() => wallet?.ETH?.address, [wallet]);
   const VTHORBalance = useVTHORBalance(ethAddr);
@@ -106,7 +103,7 @@ const SwapView = () => {
     inputAmount,
     inputAsset,
     outputAsset,
-    senderAddress,
+    senderAddress: sender,
     recipientAddress: recipient,
   });
 
@@ -198,16 +195,18 @@ const SwapView = () => {
 
   const feeAssets = useMemo(
     () =>
-      uniq(
-        Object.values(fees || {})
-          .flat()
-          .map(({ asset }) => asset.split('.')[1]),
-      ).join(', '),
+      [
+        ...new Set(
+          Object.values(fees || {})
+            .flat()
+            .map(({ asset }) => asset.split('.')[1]),
+        ),
+      ].join(', '),
     [fees],
   );
 
   const handleSelectAsset = useCallback(
-    (type: 'input' | 'output') => (asset: Asset) => {
+    (type: 'input' | 'output') => (asset: AssetEntity) => {
       const isInput = type === 'input';
       const input = !isInput ? (asset.eq(inputAsset) ? outputAsset : inputAsset) : asset;
       const output = isInput ? (asset.eq(outputAsset) ? inputAsset : outputAsset) : asset;
@@ -234,7 +233,7 @@ const SwapView = () => {
     (unsupportedOutput?: boolean) => {
       const maxNewInputBalance = getMaxBalance(outputAsset);
       setInputAmount(outputAmount.gt(maxNewInputBalance) ? maxNewInputBalance : outputAmount);
-      const defaultAsset = outputAsset.isETH() ? Asset.THOR() : Asset.ETH();
+      const defaultAsset = outputAsset.isETH() ? AssetEntity.THOR() : AssetEntity.ETH();
       const output = unsupportedOutput ? defaultAsset : inputAsset;
       navigate(
         !isKyberSwapPage
@@ -271,12 +270,7 @@ const SwapView = () => {
     outputAmount,
     outputAsset,
     quoteMode,
-    recipient: multichain().validateAddress({
-      chain: inputAsset.L1Chain,
-      address: recipient,
-    })
-      ? recipient
-      : '',
+    recipient,
     route: selectedRoute,
   });
 

@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { AddLiquidityParams, Asset, Memo } from '@thorswap-lib/multichain-core';
+import { AddLiquidityParams, AssetEntity, Memo } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';
@@ -20,7 +20,7 @@ import { useDepositAssetsBalance } from 'views/Multisig/TxDeposit/useDepositAsse
 export const useTxDeposit = (assetSideAddress: string) => {
   const { signers } = useTxCreate();
   const { wallet } = useMultisigWallet();
-  const assetRouteGetter = useCallback((asset: Asset) => getMultisigTxCreateRoute(asset), []);
+  const assetRouteGetter = useCallback((asset: AssetEntity) => getMultisigTxCreateRoute(asset), []);
 
   const { liquidityType, setLiquidityType } = useLiquidityType();
   const { poolAssets, pools, pool, poolAsset, handleSelectPoolAsset } = useAddLiquidityPools({
@@ -85,13 +85,13 @@ export const useTxDeposit = (assetSideAddress: string) => {
     }
 
     info.push({
-      label: `${t('views.liquidity.depositAmount')} ${Asset.RUNE().symbol}`,
+      label: `${t('views.liquidity.depositAmount')} ${AssetEntity.RUNE().symbol}`,
       value: (
         <Box alignCenter justify="between">
           <Text className="mx-2" fontWeight="semibold">
             {addLiquidity.runeAssetInput.value.toSignificantWithMaxDecimals(6)}
           </Text>
-          <AssetIcon asset={Asset.RUNE()} size={24} />
+          <AssetIcon asset={AssetEntity.RUNE()} size={24} />
         </Box>
       ),
     });
@@ -117,13 +117,12 @@ export const useTxDeposit = (assetSideAddress: string) => {
   ]);
 
   return {
+    ...addLiquidity,
     handleSelectPoolAsset,
     poolAssetList,
     liquidityType,
     pool,
     poolAsset,
-
-    ...addLiquidity,
     confirmInfo,
   };
 };

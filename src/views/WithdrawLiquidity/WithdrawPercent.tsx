@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount } from '@thorswap-lib/multichain-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { Box, Button, Range } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { InputAmount } from 'components/InputAmount';

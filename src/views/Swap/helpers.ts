@@ -1,4 +1,4 @@
-import { Amount, Asset } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { TxTrackerType } from 'store/midgard/types';
 
 import { Pair } from './types';

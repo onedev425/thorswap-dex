@@ -4,8 +4,7 @@ import { Box, Icon, Link } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { cutTxPrefix, transactionTitle } from 'components/TransactionManager/helpers';
 import { TransactionStatusIcon } from 'components/TransactionManager/TransactionStatusIcon';
-import { memo, useEffect, useMemo } from 'react';
-import { multichain } from 'services/multichain';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useAppDispatch } from 'store/store';
 import { useGetTxnStatusQuery } from 'store/thorswap/api';
 import { completeTransaction } from 'store/transactions/slice';
@@ -14,6 +13,7 @@ import { PendingTransactionType, TransactionType } from 'store/transactions/type
 export const PendingTransaction = memo(
   ({ id, inChain, txid, type, label, from }: PendingTransactionType) => {
     const appDispatch = useAppDispatch();
+    const [txUrl, setTxUrls] = useState('');
 
     const params = useMemo(() => {
       if (!txid) return { txid: '' };
@@ -43,25 +43,25 @@ export const PendingTransaction = memo(
       skip: !params.txid,
     });
 
-    const transactionUrl = useMemo(() => {
-      if (!txid) return '';
+    const transactionUrl = useCallback(async (tx: null | string = '', chain: Chain) => {
+      if (!tx) return '';
+      const { getExplorerTxUrl } = await (await import('services/multichain')).getSwapKitClient();
 
-      return multichain().getExplorerTxUrl(inChain, cutTxPrefix(txid));
-    }, [inChain, txid]);
+      try {
+        return tx && getExplorerTxUrl(chain, cutTxPrefix(tx));
+      } catch (error: NotWorth) {
+        console.error(error);
+        return '';
+      }
+    }, []);
 
-    const secondUrl = useMemo(
-      () =>
-        txid &&
-        [
-          TransactionType.TC_LP_ADD,
-          TransactionType.TC_LP_WITHDRAW,
-          TransactionType.TC_SAVINGS_ADD,
-          TransactionType.TC_SAVINGS_WITHDRAW,
-        ].includes(type)
-          ? multichain().getExplorerTxUrl(Chain.THORChain, cutTxPrefix(txid))
-          : '',
-      [txid, type],
-    );
+    useEffect(() => {
+      const getTxUrl = async () => {
+        setTxUrls(await transactionUrl(txid, inChain));
+      };
+
+      getTxUrl();
+    }, [txid, transactionUrl, type, inChain]);
 
     useEffect(() => {
       const transactionCompleted = data?.ok && ['mined', 'refund'].includes(data.status);
@@ -87,14 +87,8 @@ export const PendingTransaction = memo(
           </Box>
         </Box>
 
-        {transactionUrl && (
-          <Link external className="inline-flex" to={transactionUrl}>
-            <Icon className={baseHoverClass} color="secondary" name="external" size={18} />
-          </Link>
-        )}
-
-        {secondUrl && (
-          <Link external className="inline-flex" to={secondUrl}>
+        {txUrl && (
+          <Link external className="inline-flex" to={txUrl}>
             <Icon className={baseHoverClass} color="secondary" name="external" size={18} />
           </Link>
         )}

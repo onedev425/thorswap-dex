@@ -1,5 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { Amount, Price } from '@thorswap-lib/multichain-core';
+import { Amount, Price } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { ChartTypeSelect } from 'components/Chart/ChartTypeSelect';
 import {

@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import { THORNode } from '@thorswap-lib/midgard-sdk';
-import { Amount, Asset } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Icon, Link } from 'components/Atomic';
 import { useInputAmount } from 'components/InputAmount/useInputAmount';
@@ -10,7 +10,6 @@ import { hasConnectedWallet, hasWalletConnected } from 'helpers/wallet';
 import { useBalance } from 'hooks/useBalance';
 import useWindowSize from 'hooks/useWindowSize';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { multichain } from 'services/multichain';
 import { useWallet } from 'store/wallet/hooks';
 import { BondActionType, NodeManagePanelProps } from 'views/Nodes/types';
 
@@ -178,7 +177,7 @@ export const useNodeManager = ({
     [tabs],
   );
 
-  const [amount, setAmount] = useState(Amount.fromBaseAmount(0, Asset.RUNE().decimal));
+  const [amount, setAmount] = useState(Amount.fromBaseAmount(0, AssetEntity.RUNE().decimal));
   const { rawValue, onChange: onAmountChange } = useInputAmount({
     amountValue: amount,
     onAmountChange: setAmount,
@@ -191,13 +190,13 @@ export const useNodeManager = ({
   );
 
   const thorWalletConnected = useMemo(
-    () => hasWalletConnected({ wallet, inputAssets: [Asset.RUNE()] }),
+    () => hasWalletConnected({ wallet, inputAssets: [AssetEntity.RUNE()] }),
     [wallet],
   );
 
   const { getMaxBalance } = useBalance();
 
-  const maxInputBalance: Amount = useMemo(() => getMaxBalance(Asset.RUNE()), [getMaxBalance]);
+  const maxInputBalance: Amount = useMemo(() => getMaxBalance(AssetEntity.RUNE()), [getMaxBalance]);
 
   const [tab, setTab] = useState(tabs[0]);
 
@@ -206,7 +205,11 @@ export const useNodeManager = ({
    * 2. check if node address matches to wallet address
    */
   const handleComplete = useCallback(async () => {
-    const isValidAddress = multichain().validateAddress({
+    const { validateAddress, bond, leave, unbond } = await (
+      await import('services/multichain')
+    ).getSwapKitClient();
+
+    const isValidAddress = validateAddress({
       chain: Chain.THORChain,
       address: address || '',
     });
@@ -237,7 +240,7 @@ export const useNodeManager = ({
     try {
       if (tab.value === BondActionType.Bond) {
         // bond action
-        const txURL = await multichain().bond(address || '', amount);
+        const txURL = await bond(address || '', amount);
         showSuccessToast(
           t('views.nodes.detail.ViewBondTx'),
           <Box className="align-center py-2">
@@ -252,7 +255,7 @@ export const useNodeManager = ({
           </Box>,
         );
       } else if (tab.value === BondActionType.Unbond) {
-        const txURL = await multichain().unbond(address || '', amount.assetAmount.toNumber());
+        const txURL = await unbond(address || '', amount.assetAmount.toNumber());
         showSuccessToast(
           t('views.nodes.detail.ViewUnBondTx'),
           <>
@@ -267,7 +270,7 @@ export const useNodeManager = ({
           </>,
         );
       } else {
-        const txURL = await multichain().leave(address || '');
+        const txURL = await leave(address || '');
         showSuccessToast(
           t('views.nodes.detail.ViewLeaveTx'),
           <>
@@ -282,7 +285,8 @@ export const useNodeManager = ({
           </>,
         );
       }
-    } catch (error) {
+    } catch (error: NotWorth) {
+      console.error(error);
       showErrorToast(t('views.nodes.detail.TransactionFailed'), `${error}`);
     }
   }, [amount, handleBondAction, address, tab.value, thorWalletConnected]);

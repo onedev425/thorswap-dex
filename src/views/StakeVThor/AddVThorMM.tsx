@@ -1,4 +1,4 @@
-import { ETH_DECIMAL, WalletOption } from '@thorswap-lib/multichain-core';
+import { BaseDecimal, WalletOption } from '@thorswap-lib/types';
 import { Button, Icon } from 'components/Atomic';
 import { stakingV2Addr } from 'helpers/assets';
 import { getCustomIconImageUrl } from 'helpers/logoURL';
@@ -20,7 +20,7 @@ export const AddVThorMM = memo(() => {
         options: {
           address: stakingV2Addr.VTHOR,
           symbol: 'vTHOR',
-          decimals: ETH_DECIMAL,
+          decimals: BaseDecimal.ETH,
           image: getCustomIconImageUrl('vthor', 'png'),
         },
       },

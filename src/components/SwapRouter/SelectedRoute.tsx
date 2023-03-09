@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, AmountType, Asset, Percent, QuoteRoute } from '@thorswap-lib/multichain-core';
+import { Amount, AmountType, AssetEntity, Percent, QuoteRoute } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
@@ -19,7 +19,7 @@ type Props = QuoteRoute & {
   unitPrice: BigNumber;
   slippage: Percent;
   assetTicker: string;
-  inputAsset: Asset;
+  inputAsset: AssetEntity;
 };
 
 export const SelectedRoute = memo(

@@ -1,9 +1,10 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { toBase64 } from '@cosmjs/encoding';
+import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { useCallback, useMemo } from 'react';
-import { multichain } from 'services/multichain';
 import {
+  getMultisigAddress,
   multisig,
   MultisigDepositTxParams,
   MultisigTransferTxParams,
@@ -17,7 +18,7 @@ import { useAppDispatch, useAppSelector } from 'store/store';
 export const useMultisig = () => {
   const { address, members, treshold } = useAppSelector((state) => state.multisig);
 
-  const { wallet } = useAppSelector((state) => state.wallet);
+  const { wallet, privateKey, publicKey } = useAppSelector((state) => state.wallet);
 
   const dispatch = useAppDispatch();
 
@@ -35,7 +36,7 @@ export const useMultisig = () => {
   );
 
   const initMultisigWallet = useCallback(() => {
-    const existingAddress = multichain().thor.multisigAddress;
+    const existingAddress = getMultisigAddress();
 
     return existingAddress === address ? address : multisig.createMultisigWallet(members, treshold);
   }, [address, members, treshold]);
@@ -49,14 +50,14 @@ export const useMultisig = () => {
 
   const createTransferTx = useCallback(
     async (txParams: MultisigTransferTxParams, signers: MultisigMember[]) => {
-      initMultisigWallet();
+      await initMultisigWallet();
       const signersSequece = getSignersSequence(signers);
 
       try {
-        const tx = await multisig.buildTransferTx(txParams, signersSequece);
-        return tx;
-      } catch (e: ErrorType) {
-        showErrorToast(e.message);
+        return await multisig.buildTransferTx(txParams, signersSequece);
+      } catch (error: NotWorth) {
+        console.error(error);
+        showErrorToast(error.message);
       }
     },
     [getSignersSequence, initMultisigWallet],
@@ -68,10 +69,10 @@ export const useMultisig = () => {
       const signersSequece = getSignersSequence(signers);
 
       try {
-        const tx = await multisig.buildDepositTx(txParams, signersSequece);
-        return tx;
-      } catch (e: ErrorType) {
-        showErrorToast(e.message);
+        return await multisig.buildDepositTx(txParams, signersSequece);
+      } catch (error: NotWorth) {
+        console.error(error);
+        showErrorToast(error.message);
       }
     },
     [getSignersSequence, initMultisigWallet],
@@ -82,10 +83,10 @@ export const useMultisig = () => {
       initMultisigWallet();
 
       try {
-        const tx = await multisig.importMultisigTx(txStr);
-        return tx;
-      } catch (e: ErrorType) {
-        showErrorToast(e.message);
+        return await multisig.importMultisigTx(txStr);
+      } catch (error: NotWorth) {
+        console.error(error);
+        showErrorToast(error.message);
       }
     },
     [initMultisigWallet],
@@ -96,12 +97,13 @@ export const useMultisig = () => {
       initMultisigWallet();
 
       try {
-        return await multisig.signMultisigTx(tx);
-      } catch (e: ErrorType) {
-        showErrorToast(e.message);
+        return await multisig.signMultisigTx(privateKey, tx);
+      } catch (error: NotWorth) {
+        console.error(error);
+        showErrorToast(error.message);
       }
     },
-    [initMultisigWallet],
+    [initMultisigWallet, privateKey],
   );
 
   const broadcastTx = useCallback(
@@ -110,8 +112,9 @@ export const useMultisig = () => {
 
       try {
         return await multisig.broadcastMultisigTx(tx, signers);
-      } catch (e: ErrorType) {
-        showErrorToast(e.message);
+      } catch (error: NotWorth) {
+        console.error(error);
+        showErrorToast(error.message);
       }
     },
     [initMultisigWallet],
@@ -120,17 +123,10 @@ export const useMultisig = () => {
   const loadBalances = useCallback(async () => {
     initMultisigWallet();
 
-    if (multichain().thor.multisigAddress) {
+    if (getMultisigAddress()) {
       dispatch(loadMultisigBalances());
     }
   }, [dispatch, initMultisigWallet]);
-
-  const getPubkeyForAddress = useCallback(
-    (address: string) => {
-      return multisig.getMemberPubkeyFromAddress(address, members);
-    },
-    [members],
-  );
 
   const isMultsigActivated = useCallback(() => {
     initMultisigWallet();
@@ -146,11 +142,11 @@ export const useMultisig = () => {
     [address],
   );
 
-  const walletPubKey = useMemo(() => {
-    if (!wallet?.THOR?.address) return;
-
-    return multichain().thor.getPubkey();
-  }, [wallet?.THOR?.address]);
+  const walletPubKey = useMemo(
+    () => (publicKey ? toBase64(publicKey.key) : ''),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [members, wallet?.THOR?.address],
+  );
 
   return {
     ...multisigActions,
@@ -161,7 +157,6 @@ export const useMultisig = () => {
     signTx,
     broadcastTx,
     loadBalances,
-    getPubkeyForAddress,
     isMultsigActivated,
     isWalletAssetConnected,
     walletPubKey,

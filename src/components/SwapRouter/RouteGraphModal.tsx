@@ -1,9 +1,10 @@
 import { Text } from '@chakra-ui/react';
-import { chainToSigAsset, QuoteRoute, QuoteSwap } from '@thorswap-lib/multichain-core';
+import { QuoteRoute, QuoteSwap } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Modal } from 'components/Atomic';
 import { SwapGraph } from 'components/SwapRouter/SwapGraph';
+import { chainToSigAsset } from 'helpers/assets';
 import { chainName } from 'helpers/chainName';
 import { providerLogoURL, tokenLogoURL } from 'helpers/logoURL';
 import { Fragment, memo, useMemo } from 'react';

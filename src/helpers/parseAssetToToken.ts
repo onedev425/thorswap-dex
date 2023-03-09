@@ -1,10 +1,10 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { GetTokenPriceParams } from 'store/thorswap/types';
 
 export const parseAssetToToken = ({
   isSynth,
   symbol,
   chain,
-}: Asset): GetTokenPriceParams[number] => ({
+}: AssetEntity): GetTokenPriceParams[number] => ({
   identifier: `${chain}${isSynth ? '/' : '.'}${symbol}`,
 });

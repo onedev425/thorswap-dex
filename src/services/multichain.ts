@@ -1,28 +1,35 @@
-import { MultiChain, setGlobalConfig } from '@thorswap-lib/multichain-core';
-import { Network } from '@thorswap-lib/types';
-import { IS_STAGENET, MIDGARD_URL, THORNODE_URL } from 'settings/config';
+import { type SwapKitCore as SwapKitCoreType } from '@thorswap-lib/swapkit-core';
+import { IS_STAGENET, MIDGARD_URL } from 'settings/config';
 
-setGlobalConfig({
-  alchemyApiKey: import.meta.env.VITE_ALCHEMY_KEY || '',
-  blockchairApiKey: import.meta.env.VITE_BLOCKCHAIR_API_KEY || '',
-  covalentApiKey: import.meta.env.VITE_COVALENT_API_KEY || '',
-  dogeNodeApiKey: import.meta.env.VITE_DOGENODE_API_KEY || '',
-  etherscanApiKey: import.meta.env.VITE_ETHERSCAN_API_KEY || '',
-  ethplorerApiKey: import.meta.env.VITE_ETHPLORER_API_KEY || '',
-  isThorchainStagenet: IS_STAGENET,
-  networkType: Network.Mainnet,
-  midgardUrl: MIDGARD_URL,
-  thornodeMainnetApiUrl: THORNODE_URL,
-  walletconnectProjectId: import.meta.env.VITE_WALLETCONNECT_PROJECT_ID,
-});
+let sdkClient: SwapKitCoreType;
 
-let multichainClient: MultiChain;
+export const getSwapKitClient = async () => {
+  if (sdkClient) return sdkClient;
+  const { SwapKitCore } = await import('@thorswap-lib/swapkit-core');
+  const { keystoreWallet } = await import('@thorswap-lib/keystore');
+  const { ledgerWallet } = await import('@thorswap-lib/ledger');
+  const { walletconnectWallet } = await import('@thorswap-lib/walletconnect');
+  const { evmWallet, keplrWallet, xdefiWallet } = await import('@thorswap-lib/web-extensions');
 
-export const multichain = () => {
-  try {
-    return (multichainClient ||= new MultiChain({ network: Network.Mainnet }));
-  } catch (error: any) {
-    console.error(error);
-    return multichainClient;
-  }
+  const core = new SwapKitCore({ midgardUrl: MIDGARD_URL, stagenet: IS_STAGENET });
+
+  core.extend({
+    config: {
+      covalentApiKey: import.meta.env.VITE_COVALENT_API_KEY || '',
+      ethplorerApiKey: import.meta.env.VITE_ETHPLORER_API_KEY || '',
+      stagenet: IS_STAGENET,
+      utxoApiKey: import.meta.env.VITE_BLOCKCHAIR_API_KEY || '',
+    },
+    wallets: [
+      keystoreWallet,
+      ledgerWallet,
+      walletconnectWallet,
+      evmWallet,
+      keplrWallet,
+      xdefiWallet,
+    ],
+  });
+  sdkClient = core;
+
+  return sdkClient;
 };

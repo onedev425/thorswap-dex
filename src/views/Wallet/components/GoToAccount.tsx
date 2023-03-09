@@ -1,8 +1,7 @@
 import { Chain } from '@thorswap-lib/types';
 import { HoverIcon } from 'components/HoverIcon';
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 
 type Props = {
   chain: Chain;
@@ -10,10 +9,15 @@ type Props = {
 };
 
 export const GoToAccount = ({ chain, address }: Props) => {
-  const accountUrl = useMemo(
-    () => multichain().getExplorerAddressUrl(chain, address),
-    [chain, address],
-  );
+  const [accountUrl, setAccountUrl] = useState('');
+
+  useEffect(() => {
+    import('services/multichain')
+      .then(({ getSwapKitClient }) => getSwapKitClient())
+      .then(({ getExplorerAddressUrl }) =>
+        setAccountUrl(getExplorerAddressUrl(chain, address) || ''),
+      );
+  }, [address, chain]);
 
   return (
     <HoverIcon

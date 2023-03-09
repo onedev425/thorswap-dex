@@ -9,7 +9,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Provider as ReduxProvider } from 'react-redux';
 import { store as reduxStore } from 'store/store';
 
-import { checkOrigin } from './helpers/checkOrigin';
+// import { checkOrigin } from './helpers/checkOrigin';
 import DrawerProvider from './hooks/useWalletDrawer';
 import { PublicRoutes } from './router';
 
@@ -28,20 +28,20 @@ const MainApp = () => {
 };
 
 function App() {
-  if (!checkOrigin()) return null;
+  // if (!checkOrigin()) return null;
 
   return (
-    <HelmetProvider>
-      <ReduxProvider store={reduxStore}>
-        <ChakraThemeProvider>
+    <ChakraThemeProvider>
+      <HelmetProvider>
+        <ReduxProvider store={reduxStore}>
           <ThemeProvider>
             <AnnouncementsProvider>
               <MainApp />
             </AnnouncementsProvider>
           </ThemeProvider>
-        </ChakraThemeProvider>
-      </ReduxProvider>
-    </HelmetProvider>
+        </ReduxProvider>
+      </HelmetProvider>
+    </ChakraThemeProvider>
   );
 }
 

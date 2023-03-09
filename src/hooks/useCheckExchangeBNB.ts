@@ -1,24 +1,22 @@
 import { Chain } from '@thorswap-lib/types';
 import { useEffect, useState } from 'react';
-import { multichain } from 'services/multichain';
 
 const checkIfExchangeBNBAddress = async (address: string) => {
-  // validate address
-  if (!multichain().validateAddress({ address, chain: Chain.Binance })) {
+  const { connectedWallets, validateAddress } = await (
+    await import('services/multichain')
+  ).getSwapKitClient();
+
+  if (!connectedWallets.BNB || !validateAddress({ address, chain: Chain.Binance })) {
     return false;
   }
 
-  try {
-    const response = await multichain().bnb.getClient().getBncClient().getAccount(address);
-    // if flags === 0, it's not exchange address
+  const { BinanceToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+  const binanceToolbox = BinanceToolbox({});
+  const { flags } = await binanceToolbox.getAccount(address);
 
-    if (response && response?.result?.flags !== 0) {
-      return true;
-    }
-    return false;
-  } catch (error) {
-    return false;
-  }
+  // // if flags === 0, it's not exchange address
+
+  return flags !== 0;
 };
 
 // used for checking if BNB address is an exchange address
@@ -36,7 +34,5 @@ export const useCheckExchangeBNB = (address: string | null) => {
     checkFunc();
   }, [address]);
 
-  return {
-    isExchangeBNBAddress,
-  };
+  return { isExchangeBNBAddress };
 };

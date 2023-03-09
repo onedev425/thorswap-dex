@@ -2,12 +2,12 @@ import { Text } from '@chakra-ui/react';
 import {
   Amount,
   AmountType,
-  Asset,
+  AssetEntity,
   Liquidity,
   Percent,
   Pool,
   Price,
-} from '@thorswap-lib/multichain-core';
+} from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Icon, Link } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
@@ -27,7 +27,6 @@ import { useNetworkFee } from 'hooks/useNetworkFee';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { getAddLiquidityRoute, getThorYieldLPInfoBaseRoute } from 'settings/router';
 import { useExternalConfig } from 'store/externalConfig/hooks';
 import { useMidgard } from 'store/midgard/hooks';
@@ -42,10 +41,10 @@ import { AssetInputs } from 'views/WithdrawLiquidity/AssetInputs';
 import { useConfirmInfoItems } from './useConfirmInfoItems';
 
 export const WithdrawLiquidity = () => {
-  const { assetParam = Asset.BTC().toString() } = useParams<{
+  const { assetParam = AssetEntity.BTC().toString() } = useParams<{
     assetParam: string;
   }>();
-  const [assetObj, setAssetObj] = useState<Asset>();
+  const [assetObj, setAssetObj] = useState<AssetEntity>();
   const [pool, setPool] = useState<Pool>();
 
   const { pools, poolLoading, loadMemberDetailsByChain, chainMemberDetails } = useMidgard();
@@ -75,7 +74,7 @@ export const WithdrawLiquidity = () => {
       if (!assetParam) {
         return;
       }
-      const assetEntity = Asset.decodeFromURL(assetParam);
+      const assetEntity = AssetEntity.decodeFromURL(assetParam);
 
       if (assetEntity) {
         if (assetEntity.isRUNE()) return;
@@ -174,25 +173,25 @@ const WithdrawPanel = ({
   const [visibleConfirmModal, setVisibleConfirmModal] = useState(false);
 
   const isWalletConnected = useMemo(() => {
-    const inputAsset = lpType === PoolShareType.ASSET_ASYM ? poolAsset : Asset.RUNE();
+    const inputAsset = lpType === PoolShareType.ASSET_ASYM ? poolAsset : AssetEntity.RUNE();
 
     return hasWalletConnected({ wallet, inputAssets: [inputAsset] });
   }, [lpType, poolAsset, wallet]);
 
   const { inboundFee: inboundAssetFee, outboundFee: inboundRuneFee } = useNetworkFee({
     inputAsset: poolAsset,
-    outputAsset: Asset.RUNE(),
+    outputAsset: AssetEntity.RUNE(),
   });
 
   const feeLabel = useMemo(() => {
     if (withdrawType === LiquidityTypeOption.ASSET) {
       return `${inboundAssetFee.toCurrencyFormat()} (${inboundAssetFee
-        .totalPriceIn(Asset.USD(), pools)
+        .totalPriceIn(AssetEntity.USD(), pools)
         .toCurrencyFormat(2)})`;
     }
 
     return `${inboundRuneFee.toCurrencyFormat()} (${inboundRuneFee
-      .totalPriceIn(Asset.USD(), pools)
+      .totalPriceIn(AssetEntity.USD(), pools)
       .toCurrencyFormat(2)})`;
   }, [inboundAssetFee, inboundRuneFee, pools, withdrawType]);
 
@@ -263,7 +262,7 @@ const WithdrawPanel = ({
   const runePriceInUSD = useMemo(
     () =>
       new Price({
-        baseAsset: Asset.RUNE(),
+        baseAsset: AssetEntity.RUNE(),
         pools,
         priceAmount: runeAmount,
       }),
@@ -328,7 +327,7 @@ const WithdrawPanel = ({
     if (!wallet) return;
 
     const runeObject = {
-      asset: Asset.RUNE().name,
+      asset: AssetEntity.RUNE().name,
       amount: runeAmount.toSignificantWithMaxDecimals(6),
     };
     const assetObject = {
@@ -349,9 +348,10 @@ const WithdrawPanel = ({
     appDispatch(
       addTransaction({ id, type: TransactionType.TC_LP_WITHDRAW, inChain: withdrawChain, label }),
     );
+    const { withdraw } = await (await import('services/multichain')).getSwapKitClient();
 
     try {
-      const txid = await multichain().withdraw({
+      const txid = await withdraw({
         pool,
         percent: new Percent(percent),
         from: withdrawFrom,
@@ -360,6 +360,7 @@ const WithdrawPanel = ({
 
       appDispatch(updateTransaction({ id, txid }));
     } catch (error: NotWorth) {
+      console.error(error);
       const message = error?.data?.originMessage || error;
       appDispatch(completeTransaction({ id, status: 'error' }));
       showErrorToast(t('notification.submitFail'), message);
@@ -405,7 +406,7 @@ const WithdrawPanel = ({
     if (withdrawType === LiquidityTypeOption.RUNE) {
       return [
         {
-          asset: Asset.RUNE(),
+          asset: AssetEntity.RUNE(),
           value: `${runeAmount.toSignificantWithMaxDecimals(
             6,
           )} RUNE (${runePriceInUSD.toCurrencyFormat(2)})`,
@@ -426,7 +427,7 @@ const WithdrawPanel = ({
 
     return [
       {
-        asset: Asset.RUNE(),
+        asset: AssetEntity.RUNE(),
         value: `${runeAmount.toSignificantWithMaxDecimals(
           6,
         )} RUNE (${runePriceInUSD.toCurrencyFormat(2)})`,
@@ -544,7 +545,7 @@ const WithdrawPanel = ({
       </Box>
 
       <ConfirmModal
-        inputAssets={[withdrawType === LiquidityTypeOption.ASSET ? poolAsset : Asset.RUNE()]}
+        inputAssets={[withdrawType === LiquidityTypeOption.ASSET ? poolAsset : AssetEntity.RUNE()]}
         isOpened={visibleConfirmModal}
         onClose={() => setVisibleConfirmModal(false)}
         onConfirm={handleConfirmWithdraw}

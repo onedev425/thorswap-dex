@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetSelectProps } from 'components/AssetSelect/types';
 import { useAssetSelect } from 'components/AssetSelect/useAssetSelect';
@@ -16,7 +16,7 @@ export const EarnAssetSelectList = ({
   isLoading,
   setQuery,
   selectedAsset,
-}: AssetSelectProps & { selectedAsset?: Asset }) => {
+}: AssetSelectProps & { selectedAsset?: AssetEntity }) => {
   const { filteredAssets, select } = useAssetSelect({
     assets,
     onSelect,
@@ -24,7 +24,7 @@ export const EarnAssetSelectList = ({
   });
 
   const handleSelect = useCallback(
-    (asset: Asset) => {
+    (asset: AssetEntity) => {
       select(asset);
       setTimeout(() => setQuery?.(''), 500);
     },

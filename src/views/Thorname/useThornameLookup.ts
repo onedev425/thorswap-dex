@@ -1,12 +1,11 @@
 import { THORNameDetails } from '@thorswap-lib/midgard-sdk';
-import { Amount, Asset, THORName } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity, THORName } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { shortenAddress } from 'helpers/shortenAddress';
 import usePrevious from 'hooks/usePrevious';
 import { useCallback, useEffect, useReducer } from 'react';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { getThornameDetails } from 'services/thorname';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
@@ -116,7 +115,8 @@ export const useThornameLookup = (owner?: string) => {
         loadDetails(providedThorname);
 
         return true;
-      } catch (error: ToDo) {
+      } catch (error: NotWorth) {
+        console.error(error);
         const notFound = error?.response?.status === 404;
         dispatch({ type: 'setAvailable', payload: notFound });
 
@@ -146,7 +146,7 @@ export const useThornameLookup = (owner?: string) => {
         details?.owner !== owner ? t('txManager.registerThorname') : t('txManager.updateThorname');
 
       let label = `${prefix} ${thorname} - ${amount.toSignificantWithMaxDecimals(6)} ${
-        Asset.RUNE().name
+        AssetEntity.RUNE().name
       }`;
       if (details?.owner && isTransfer) {
         label = `${t('common.transfer')} ${thorname} - ${shortenAddress(newOwner, 6, 8)}`;
@@ -166,18 +166,20 @@ export const useThornameLookup = (owner?: string) => {
         ? { address: newOwner, owner: newOwner || owner, name: thorname, chain: Chain.THORChain }
         : { address, owner: owner, name: thorname, chain };
 
+      const { registerThorname } = await (await import('services/multichain')).getSwapKitClient();
+
       try {
-        const txid = await multichain().registerThorname(registerParams, amount);
+        const txid = await registerThorname(registerParams, amount);
 
         if (txid) {
           appDispatch(updateTransaction({ id, txid }));
         }
-      } catch (_error: NotWorth) {
+      } catch (error) {
+        console.error(error);
         appDispatch(completeTransaction({ id, status: 'error' }));
         showErrorToast(t('notification.submitFail'));
       } finally {
         dispatch({ type: 'setLoading', payload: false });
-        // TODO - remove this hack once tx tracker will be fixed
         setTimeout(loadDetails, 5000);
       }
     },

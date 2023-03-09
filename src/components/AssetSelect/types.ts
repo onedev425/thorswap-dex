@@ -1,4 +1,4 @@
-import { Amount, Asset } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Token } from 'store/thorswap/types';
 
 export type AssetSelectProps = {
@@ -6,14 +6,14 @@ export type AssetSelectProps = {
   isLoading?: boolean;
   query?: string;
   setQuery?: (query: string) => void;
-  onSelect: (asset: Asset) => void;
+  onSelect: (asset: AssetEntity) => void;
   onClose?: () => void;
   openManageTokenList?: () => void;
   noFilters?: boolean;
 };
 
 export type AssetSelectType = Pick<Token, 'logoURI' | 'cg'> & {
-  asset: Asset;
+  asset: AssetEntity;
   apr?: string;
   filled?: number;
   value?: Amount;

@@ -1,4 +1,4 @@
-import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-core';
+import { Amount, AssetAmount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
@@ -22,7 +22,6 @@ import { getSumAmountInUSD, useNetworkFee } from 'hooks/useNetworkFee';
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { useExternalConfig } from 'store/externalConfig/hooks';
 import { useAppDispatch, useAppSelector } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
@@ -208,8 +207,10 @@ export const CreateLiquidity = () => {
 
       let runeTx, assetTx;
 
+      const { createLiquidity } = await (await import('services/multichain')).getSwapKitClient();
+
       try {
-        const response = await multichain().createLiquidity({
+        const response = await createLiquidity({
           runeAmount: runeAssetAmount,
           assetAmount: poolAssetAmount,
         });
@@ -220,6 +221,7 @@ export const CreateLiquidity = () => {
         runeTx && appDispatch(updateTransaction({ id: runeId, txid: runeTx }));
         assetTx && appDispatch(updateTransaction({ id: assetId, txid: assetTx }));
       } catch (error: NotWorth) {
+        console.error(error);
         !runeTx && appDispatch(completeTransaction({ id: runeId, status: 'error' }));
         !assetTx && appDispatch(completeTransaction({ id: assetId, status: 'error' }));
 
@@ -247,13 +249,16 @@ export const CreateLiquidity = () => {
         }),
       );
 
-      try {
-        const txid = await multichain().approveAsset(poolAsset);
+      const { approveAsset } = await (await import('services/multichain')).getSwapKitClient();
 
-        if (txid) {
+      try {
+        const txid = await approveAsset(poolAsset);
+
+        if (typeof txid === 'string') {
           appDispatch(updateTransaction({ id, txid }));
         }
-      } catch (error) {
+      } catch (error: NotWorth) {
+        console.error(error);
         appDispatch(completeTransaction({ id, status: 'error' }));
         showErrorToast(t('notification.approveFailed'));
       }

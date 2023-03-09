@@ -2,7 +2,8 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { useCallback, useEffect, useState } from 'react';
 import { ContractType, getEtherscanContract } from 'services/contract';
 import { useWallet } from 'store/wallet/hooks';
-import { FarmActionType } from 'views/Stake/types';
+
+import { FarmActionType } from './types';
 
 export const useStakingModal = () => {
   const [isOpened, setIsOpened] = useState(false);

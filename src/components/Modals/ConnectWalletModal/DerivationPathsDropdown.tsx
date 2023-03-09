@@ -1,73 +1,60 @@
 import { Text } from '@chakra-ui/react';
 import { Chain } from '@thorswap-lib/types';
 import { Box, DropdownMenu } from 'components/Atomic';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { IS_PROD } from 'settings/config';
+import { DerivationPathType } from 'store/wallet/types';
 
 const CHAINS_WITH_CUSTOM_DERIVATION_PATH = [Chain.Ethereum, Chain.Avalanche].concat(
   IS_PROD ? [] : [Chain.Bitcoin, Chain.Litecoin],
 );
 
-const ledgerLivePath = "44'/60'/{index}'/0/";
-const nativeSegwitMiddlePath = "84'/0'/{index}'/0/0";
-
 const evmLedgerTypes = [
-  { value: "44'/60'/0'/0/{index}", label: "MetaMask (m/44'/60'/0'/0/{index})" },
-  { value: ledgerLivePath, label: "Ledger Live (m/44'/60'/{index}'/0/0)" },
-  { value: "44'/60'/0'/{index}", label: "Legacy (m/44'/60'/0'/{index})" },
+  { value: '', label: "MetaMask (m/44'/60'/0'/0/{index})" },
+  { value: 'ledgerLive', label: "Ledger Live (m/44'/60'/{index}'/0/0)" },
+  { value: 'legacy', label: "Legacy (m/44'/60'/0'/{index})" },
 ];
 
-const btcLedgerTypes = [
-  { value: "84'/0'/0'/0/{index}", label: "Native Segwit (m/84'/0'/0'/0/{index})" },
-  { value: nativeSegwitMiddlePath, label: "Native Segwit (86'/0'/{index}'/0/0)" },
-  { value: "49'/0'/0'/0/{index}", label: "Segwit (m/49'/0'/0'/0/{index})" },
-  { value: "44'/0'/0'/0/{index}", label: "Legacy (m/44'/0'/0'/0/{index})" },
-];
-
-const ltcLedgerTypes = [
-  { value: "84'/2'/0'/0/{index}", label: "Native Segwit (m/84'/2'/0'/0/{index})" },
-  { value: "49'/2'/0'/0/{index}", label: "Segwit (m/49'/2'/0'/0/{index})" },
-  { value: "44'/2'/0'/0/{index}", label: "Legacy (m/44'/2'/0'/0/{index})" },
+const utxoLedgerTypes = (network = 0) => [
+  { value: '', label: `Native Segwit (m/84'/${network}'/0'/0/{index})` },
+  { value: 'nativeSegwitMiddle', label: `Native Segwit (m/84'/${network}'/{index}'/0/0)` },
+  { value: 'segwit', label: `Segwit (m/49'/${network}'/0'/0/{index})` },
+  { value: 'legacy', label: `Legacy (m/44'/${network}'/0'/0/{index})` },
 ];
 
 const useLedgerTypes = (chain: Chain) => {
-  const [pathTemplate, setPathTemplate] = useState<string>('');
   const types = useMemo(() => {
     switch (chain) {
       case Chain.Bitcoin:
-        return btcLedgerTypes;
       case Chain.Litecoin:
-        return ltcLedgerTypes;
-      default:
+        return utxoLedgerTypes(chain === Chain.Bitcoin ? 0 : 2);
+
+      case Chain.Ethereum:
+      case Chain.Avalanche:
         return evmLedgerTypes;
+
+      default:
+        return [];
     }
   }, [chain]);
 
-  useEffect(() => {
-    setPathTemplate(types[0].value);
-  }, [chain, types]);
-
-  return { types, pathTemplate, setPathTemplate };
+  return types;
 };
 
 type Props = {
   chain: Chain;
   ledgerIndex: number;
-  setCustomDerivationPath: (path: string) => void;
+  derivationPathType?: DerivationPathType;
+  setDerivationPathType: (path?: DerivationPathType) => void;
 };
 
-export const DerivationPathDropdown = ({ chain, ledgerIndex, setCustomDerivationPath }: Props) => {
-  const { types, setPathTemplate, pathTemplate } = useLedgerTypes(chain);
-  const handleDerivationPathChange = useCallback(
-    (pathTemplate: string) => {
-      setPathTemplate(pathTemplate);
-      const indexInMiddle = [nativeSegwitMiddlePath, ledgerLivePath].includes(pathTemplate);
-      setCustomDerivationPath(
-        pathTemplate.replace('{index}', indexInMiddle ? ledgerIndex.toString() : ''),
-      );
-    },
-    [ledgerIndex, setCustomDerivationPath, setPathTemplate],
-  );
+export const DerivationPathDropdown = ({
+  derivationPathType,
+  chain,
+  ledgerIndex,
+  setDerivationPathType,
+}: Props) => {
+  const types = useLedgerTypes(chain);
 
   if (!CHAINS_WITH_CUSTOM_DERIVATION_PATH.includes(chain)) return null;
 
@@ -76,17 +63,17 @@ export const DerivationPathDropdown = ({ chain, ledgerIndex, setCustomDerivation
       <DropdownMenu
         stretch
         menuItems={types}
-        onChange={handleDerivationPathChange}
+        onChange={(v) => setDerivationPathType(v as DerivationPathType)}
         openComponent={
           <Box alignCenter className="gap-2 w-fit">
             <Text textStyle="caption">
               {types
-                .find(({ value }) => value === pathTemplate)
+                .find(({ value }) => !derivationPathType || value === derivationPathType)
                 ?.label?.replace('{index}', (ledgerIndex || 0).toString())}
             </Text>
           </Box>
         }
-        value={pathTemplate}
+        value={derivationPathType || ''}
       />
     </Box>
   );

@@ -1,5 +1,5 @@
 import { THORNode } from '@thorswap-lib/midgard-sdk';
-import { Amount } from '@thorswap-lib/multichain-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { Button, Icon, Tooltip } from 'components/Atomic';
 import { getAmountColumnSorter } from 'components/Atomic/Table/utils';
 import { HoverIcon } from 'components/HoverIcon';

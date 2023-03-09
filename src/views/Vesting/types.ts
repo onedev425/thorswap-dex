@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { t } from 'services/i18n';
 
@@ -58,10 +58,10 @@ export const vestingAddr = {
 };
 
 export const getV2Asset = (contractType: VestingType) => {
-  return new Asset(Chain.Ethereum, `${contractType}-${vestingAddr[contractType]}`);
+  return new AssetEntity(Chain.Ethereum, `${contractType}-${vestingAddr[contractType]}`);
 };
 
-export const vestingAssets: Record<VestingType, Asset> = {
+export const vestingAssets: Record<VestingType, AssetEntity> = {
   [VestingType.THOR]: getV2Asset(VestingType.THOR),
   [VestingType.VTHOR]: getV2Asset(VestingType.VTHOR),
 };

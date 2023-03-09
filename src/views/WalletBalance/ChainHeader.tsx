@@ -1,6 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { WalletOption } from '@thorswap-lib/multichain-core';
-import { Chain } from '@thorswap-lib/types';
+import { Chain, WalletOption } from '@thorswap-lib/types';
 import { Box, Tooltip } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { PhraseModal } from 'components/Modals/PhraseModal';
@@ -9,7 +8,6 @@ import { WalletIcon } from 'components/WalletIcon/WalletIcon';
 import { chainName } from 'helpers/chainName';
 import { useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { WalletHeaderActions } from 'views/Wallet/components/WalletHeaderActions';
 import { useWalletChainActions } from 'views/Wallet/hooks';
 
@@ -38,13 +36,10 @@ export const ChainHeader = ({
     if (walletType === WalletOption.KEYSTORE) {
       setIsPhraseModalVisible(true);
     }
+    const { getAddress } = await (await import('services/multichain')).getSwapKitClient();
 
-    if (walletType === WalletOption.LEDGER && chain === 'THOR') {
-      const addr = await multichain().thor.verifyLedgerAddress();
-
-      showInfoToast(t('notification.verifyLedgerAddy'), addr, {
-        duration: 20 * 1000,
-      });
+    if (walletType === WalletOption.LEDGER) {
+      showInfoToast(t('notification.verifyLedgerAddy'), getAddress(chain), { duration: 20 * 1000 });
     }
   }, [walletType, chain]);
 

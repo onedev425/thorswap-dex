@@ -4,15 +4,16 @@ import classNames from 'classnames';
 import { Box, Icon, Link } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { memo, useCallback, useEffect, useState } from 'react';
-import { multichain } from 'services/multichain';
+import { TxnResult } from 'store/thorswap/types';
 import { CompletedTransactionType, TransactionType } from 'store/transactions/types';
 
-import { cutTxPrefix, transactionTitle, useTxIDFromResult, useTxLabelUpdate } from './helpers';
+import { cutTxPrefix, transactionTitle, useTxLabelUpdate } from './helpers';
 import { TransactionStatusIcon } from './TransactionStatusIcon';
 
 export const CompletedTransaction = memo(
   ({ inChain, type, txid, label, status, result }: CompletedTransactionType) => {
     const [transactionLabel, setTransactionLabel] = useState(label);
+    const [{ txUrl, secondTxUrl }, setTxUrls] = useState({ txUrl: '', secondTxUrl: '' });
 
     const { handleLabelUpdate, isLoading } = useTxLabelUpdate({ result, setTransactionLabel });
 
@@ -20,29 +21,61 @@ export const CompletedTransaction = memo(
       handleLabelUpdate();
     }, [handleLabelUpdate]);
 
-    const transactionUrl = useCallback((tx: null | string = '', chain: Chain) => {
+    const transactionUrl = useCallback(async (tx: null | string = '', chain: Chain) => {
       if (!tx) return '';
+      const { getExplorerTxUrl } = await (await import('services/multichain')).getSwapKitClient();
 
       try {
-        return tx && multichain().getExplorerTxUrl(chain, cutTxPrefix(tx));
-      } catch (_error) {
-        return;
+        return tx && getExplorerTxUrl(chain, cutTxPrefix(tx));
+      } catch (error: NotWorth) {
+        console.error(error);
+        return '';
       }
     }, []);
 
-    const txUrl = transactionUrl(txid, inChain);
-    const secondTxid = useTxIDFromResult({ result, txid });
-    const secondTxUrl = transactionUrl(
-      secondTxid,
-      [
-        TransactionType.TC_LP_ADD,
-        TransactionType.TC_LP_WITHDRAW,
-        TransactionType.TC_SAVINGS_ADD,
-        TransactionType.TC_SAVINGS_WITHDRAW,
-      ].includes(type)
-        ? Chain.THORChain
-        : inChain,
+    const getTxIDFromResult = useCallback(
+      ({ result, txid }: { txid?: string; result?: string | TxnResult }) => {
+        if (typeof result === 'string' || !result?.type) return '';
+
+        switch (result.type) {
+          case TransactionType.SWAP_ETH_TO_ETH:
+          case TransactionType.SWAP_ETH_TO_TC:
+          case TransactionType.SWAP_TC_TO_ETH:
+          case TransactionType.SWAP_TC_TO_TC:
+            return txid !== result.transactionHash ? result.transactionHash : null;
+
+          case TransactionType.TC_SAVINGS_ADD:
+          case TransactionType.TC_SAVINGS_WITHDRAW:
+          case TransactionType.TC_LP_ADD:
+          case TransactionType.TC_LP_WITHDRAW:
+            return txid !== result.txID ? result.txID : null;
+
+          default:
+            return '';
+        }
+      },
+      [],
     );
+
+    useEffect(() => {
+      const getTxUrl = async () => {
+        const txUrl = await transactionUrl(txid, inChain);
+        const secondTxUrl = await transactionUrl(
+          getTxIDFromResult({ result, txid }),
+          [
+            TransactionType.TC_LP_ADD,
+            TransactionType.TC_LP_WITHDRAW,
+            TransactionType.TC_SAVINGS_ADD,
+            TransactionType.TC_SAVINGS_WITHDRAW,
+          ].includes(type)
+            ? Chain.THORChain
+            : inChain,
+        );
+        setTxUrls({ txUrl, secondTxUrl });
+      };
+
+      getTxUrl();
+    }, [inChain, txid, transactionUrl, getTxIDFromResult, result, type]);
 
     return (
       <Box alignCenter flex={1} justify="between">

@@ -1,9 +1,8 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
@@ -11,7 +10,7 @@ import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 
 type Params = {
-  inputAsset: Asset;
+  inputAsset: AssetEntity;
   contract?: string;
 };
 
@@ -37,12 +36,16 @@ export const useSwapApprove = ({ inputAsset, contract }: Params) => {
         }),
       );
 
+      const { approveAssetForContract, approveAsset } = await (
+        await import('services/multichain')
+      ).getSwapKitClient();
+
       try {
         const txid = await (contract
-          ? multichain().approveAssetForStaking(inputAsset, contract)
-          : multichain().approveAsset(inputAsset));
+          ? approveAssetForContract(inputAsset, contract)
+          : approveAsset(inputAsset));
 
-        if (txid) {
+        if (typeof txid === 'string') {
           appDispatch(updateTransaction({ id, txid }));
         }
       } catch (error) {

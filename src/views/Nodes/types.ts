@@ -1,4 +1,4 @@
-import { Amount } from '@thorswap-lib/multichain-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 
 export enum NodeStatus {
   Active = 'Active',

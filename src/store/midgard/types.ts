@@ -16,7 +16,7 @@ import {
   THORNode,
   TVLHistory,
 } from '@thorswap-lib/midgard-sdk';
-import { Pool } from '@thorswap-lib/multichain-core';
+import { Pool } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 
 export interface SubmitTx {

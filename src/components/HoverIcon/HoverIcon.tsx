@@ -11,8 +11,7 @@ type Props = {
   iconName: IconName;
   color?: IconColor;
   onClick?: (() => void) | MouseEventHandler;
-  // TODO: False positive
-  // eslint-disable-next-line react/no-unused-prop-types
+  // eslint-disable-next-line react/no-unused-prop-types -- False positive
   to?: string;
   iconHoverHighlight?: boolean;
 };

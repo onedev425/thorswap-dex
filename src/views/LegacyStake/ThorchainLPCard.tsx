@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetLpIcon } from 'components/AssetIcon';
 import { Box, Button, Card, Link } from 'components/Atomic';
@@ -15,8 +15,8 @@ import { tcFarmData } from './farmData';
 export const ThorchainLPCard = () => {
   const { wallet, setIsConnectModalOpen } = useWallet();
   const thorAPR = useThorAPR();
-  const liquidityRouter = getAddLiquidityRoute(Asset.THOR());
-  const withdrawRouter = getWithdrawRoute(Asset.THOR());
+  const liquidityRouter = getAddLiquidityRoute(AssetEntity.THOR());
+  const withdrawRouter = getWithdrawRoute(AssetEntity.THOR());
 
   const ethAddr = useMemo(() => wallet?.ETH?.address, [wallet]);
 

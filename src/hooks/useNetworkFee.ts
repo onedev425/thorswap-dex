@@ -1,12 +1,6 @@
-import {
-  Amount,
-  Asset,
-  AssetAmount,
-  getNetworkFeeByAsset,
-  Pool,
-} from '@thorswap-lib/multichain-core';
+import { Amount, AssetAmount, AssetEntity as Asset, Pool } from '@thorswap-lib/swapkit-core';
 import { Chain, FeeOption } from '@thorswap-lib/types';
-import { getGasRateByFeeOption } from 'helpers/networkFee';
+import { getGasRateByFeeOption, getNetworkFeeByAsset } from 'helpers/networkFee';
 import { useCallback } from 'react';
 import { useMidgard } from 'store/midgard/hooks';
 

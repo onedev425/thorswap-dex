@@ -1,5 +1,4 @@
 import { Text } from '@chakra-ui/react';
-import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
@@ -8,26 +7,19 @@ import { HighlightCard } from 'components/HighlightCard';
 import { InfoTip } from 'components/InfoTip';
 import { showSuccessToast } from 'components/Toast';
 import copy from 'copy-to-clipboard';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
+import { useMultisig } from 'store/multisig/hooks';
 import { useWallet } from 'store/wallet/hooks';
 import { MultisigModal } from 'views/Multisig/MultisigModal/MultisigModal';
 
 export const PubKeyInfo = () => {
   const [isMultisigModalOpened, setMultisigModalOpened] = useState(false);
-  const { wallet, setIsConnectModalOpen } = useWallet();
-  const connectedWalletAddress = wallet?.[Chain.THORChain]?.address || '';
-  const pubKey = useMemo(() => {
-    try {
-      return connectedWalletAddress ? multichain().thor.getPubkey() : '';
-    } catch (e) {
-      return '';
-    }
-  }, [connectedWalletAddress]);
+  const { setIsConnectModalOpen } = useWallet();
+  const { walletPubKey } = useMultisig();
 
   const handleCopyPubKey = () => {
-    copy(pubKey);
+    copy(walletPubKey);
     showSuccessToast(t('views.multisig.pubKeyCopied'));
   };
 
@@ -42,7 +34,7 @@ export const PubKeyInfo = () => {
             {t('views.multisig.connectThorchainWallet')}
           </Text>
           <Box align="end" flex={1}>
-            {!pubKey ? (
+            {!walletPubKey ? (
               <Button stretch onClick={() => setIsConnectModalOpen(true)} variant="primary">
                 {/* {t('views.multisig.multisigModalTitle')} */}
                 {t('common.connectWallet')}
@@ -64,7 +56,7 @@ export const PubKeyInfo = () => {
                           textStyle="caption"
                           variant="secondary"
                         >
-                          {pubKey}
+                          {walletPubKey}
                         </Text>
                         <div>
                           <Icon className="pl-2" name="copy" size={16} />

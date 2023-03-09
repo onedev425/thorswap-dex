@@ -1,14 +1,8 @@
-import {
-  Amount,
-  Asset,
-  AssetAmount,
-  getNetworkFeeByAsset,
-  Wallet,
-} from '@thorswap-lib/multichain-core';
+import { Amount, AssetAmount, AssetEntity as Asset, Wallet } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Button, Icon } from 'components/Atomic';
 import { formatPrice } from 'helpers/formatPrice';
-import { getGasRateByFeeOption } from 'helpers/networkFee';
+import { getGasRateByFeeOption, getNetworkFeeByAsset } from 'helpers/networkFee';
 import { useAddressUtils } from 'hooks/useAddressUtils';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';

@@ -1,14 +1,13 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain, WalletOption } from '@thorswap-lib/types';
 import { hasConnectedWallet, hasWalletConnected } from 'helpers/wallet';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { multichain } from 'services/multichain';
 import { useTransactionsState } from 'store/transactions/hooks';
 import { useWallet } from 'store/wallet/hooks';
 
 type Params = {
   force?: boolean;
-  asset: Asset;
+  asset: AssetEntity;
   contract?: string;
 };
 
@@ -20,7 +19,7 @@ const useApproveResult = ({
   skip,
 }: {
   numberOfPendingApprovals: number;
-  asset: Asset;
+  asset: AssetEntity;
   contract?: string;
   hasWallet: boolean;
   skip: boolean;
@@ -34,11 +33,14 @@ const useApproveResult = ({
   const checkApproved = useCallback(async () => {
     try {
       setIsLoading(true);
+      const { isAssetApprovedForContract, isAssetApproved } = await (
+        await import('services/multichain')
+      ).getSwapKitClient();
 
       const approved = await (contract
-        ? multichain().isAssetApprovedForContract(asset, contract)
-        : multichain().isAssetApproved(asset));
-      setApproved(approved);
+        ? isAssetApprovedForContract(asset, contract)
+        : isAssetApproved(asset));
+      setApproved(!!approved);
     } finally {
       setIsLoading(false);
     }

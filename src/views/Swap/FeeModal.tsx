@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Asset, QuoteRoute } from '@thorswap-lib/multichain-core';
+import { AssetEntity, QuoteRoute } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Modal } from 'components/Atomic';
@@ -45,7 +45,7 @@ export const FeeModal = memo(({ totalFee, fees, isOpened, onClose }: Props) => {
 
       const chainFees = fee.map(({ type, networkFee, networkFeeUSD, asset }) => {
         const chainAsset = chainToSigAsset(chain as Chain);
-        const feeAsset = Asset.fromAssetString(asset);
+        const feeAsset = AssetEntity.fromAssetString(asset);
 
         return {
           label: (
@@ -85,7 +85,7 @@ export const FeeModal = memo(({ totalFee, fees, isOpened, onClose }: Props) => {
         label: (
           <Box center className="gap-x-1">
             <Text textStyle="caption">{t('views.swap.exchangeFee')}</Text>
-            <AssetIcon asset={Asset.THOR()} hasChainIcon={false} size={20} />
+            <AssetIcon asset={AssetEntity.THOR()} hasChainIcon={false} size={20} />
           </Box>
         ),
         value: affiliateFee > 0 ? formatPrice(affiliateFee) : <Text variant="green">FREE</Text>,

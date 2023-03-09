@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, Asset, Liquidity } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity, Liquidity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon';
 import { Box, Button, Icon, Tooltip, useCollapse } from 'components/Atomic';
@@ -20,7 +20,7 @@ type LiquidityCardProps = ChainPoolData & {
   lpAddedAndWithdraw?: LpDetailCalculationResult;
 };
 
-const RuneAsset = Asset.RUNE();
+const RuneAsset = AssetEntity.RUNE();
 
 export const LiquidityCard = ({
   dateLastAdded,
@@ -60,7 +60,7 @@ export const LiquidityCard = ({
   );
 
   const tickerPending =
-    (isPendingLP && (Number(runePending) > 0 ? pool.asset.ticker : Asset.RUNE().ticker)) || '';
+    (isPendingLP && (Number(runePending) > 0 ? pool.asset.ticker : RuneAsset.ticker)) || '';
 
   const lpType = useMemo(() => {
     switch (shareType) {

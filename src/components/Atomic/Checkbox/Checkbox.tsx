@@ -12,7 +12,7 @@ type Props = {
 
 export const Checkbox = ({ value, onValueChange, label, className }: Props) => {
   const handleChange = useCallback(
-    ({ target }: ToDo) => {
+    ({ target }: any) => {
       onValueChange(target?.checked || !value);
     },
     [onValueChange, value],

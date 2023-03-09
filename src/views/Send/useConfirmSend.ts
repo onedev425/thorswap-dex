@@ -1,8 +1,7 @@
-import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { showErrorToast } from 'components/Toast';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
@@ -14,6 +13,7 @@ type Params = {
   recipientAddress: string;
   memo: string;
   setIsOpenConfirmModal: (isOpen: boolean) => void;
+  from?: string;
 };
 
 export const useConfirmSend = ({
@@ -22,6 +22,7 @@ export const useConfirmSend = ({
   recipientAddress: recipient,
   memo,
   setIsOpenConfirmModal,
+  from,
 }: Params) => {
   const appDispatch = useAppDispatch();
 
@@ -29,8 +30,6 @@ export const useConfirmSend = ({
     setIsOpenConfirmModal(false);
 
     if (sendAsset) {
-      const assetAmount = new AssetAmount(sendAsset, sendAmount);
-
       const id = v4();
       const label = `${t('txManager.send')} ${sendAmount.toSignificantWithMaxDecimals(6)} ${
         sendAsset.name
@@ -45,20 +44,28 @@ export const useConfirmSend = ({
           label,
         }),
       );
+      const { transfer } = await (await import('services/multichain')).getSwapKitClient();
 
       try {
-        const txid = await multichain().send({ assetAmount, recipient, memo });
+        debugger;
+        const txid = await transfer({
+          // @ts-expect-error
+          assetAmount: { asset: sendAsset, amount: sendAmount },
+          recipient,
+          memo,
+          from,
+        });
 
         if (txid) {
           appDispatch(updateTransaction({ id, txid }));
         }
       } catch (error: NotWorth) {
+        console.error(error);
         appDispatch(completeTransaction({ id, status: 'error' }));
-
         showErrorToast(t('notification.sendTxFailed'), error?.toString());
       }
     }
-  }, [setIsOpenConfirmModal, sendAsset, sendAmount, appDispatch, recipient, memo]);
+  }, [setIsOpenConfirmModal, sendAsset, sendAmount, appDispatch, recipient, memo, from]);
 
   return handleConfirmSend;
 };

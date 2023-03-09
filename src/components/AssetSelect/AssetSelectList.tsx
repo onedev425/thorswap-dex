@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { useAssetFilterTypes } from 'components/AssetSelect/useAssetFilterTypes';
 import { Box, Icon } from 'components/Atomic';
@@ -37,7 +37,7 @@ export const AssetSelectList = ({
   const assetFilterTypes = useAssetFilterTypes();
 
   const handleSelect = useCallback(
-    (asset: Asset) => {
+    (asset: AssetEntity) => {
       select(asset);
       setTimeout(() => setQuery?.(''), 500);
     },

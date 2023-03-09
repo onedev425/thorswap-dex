@@ -5,9 +5,8 @@ import { InfoTable } from 'components/InfoTable';
 import { Confirm } from 'components/Modals/Confirm';
 import { PanelView } from 'components/PanelView';
 import { ViewHeader } from 'components/ViewHeader';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { ROUTES } from 'settings/router';
 import { useMultisig } from 'store/multisig/hooks';
 import { useAppSelector } from 'store/store';
@@ -20,15 +19,20 @@ export const MultisigInfo = () => {
   const info = useMultisigWalletInfo();
   const { loadingBalances, name, address } = useAppSelector((state) => state.multisig);
   const { loadBalances, clearMultisigWallet } = useMultisig();
-  const accountUrl = useMemo(
-    () => multichain().getExplorerAddressUrl(Chain.THORChain, address),
-    [address],
-  );
+  const [accountUrl, setAccountUrl] = useState('');
 
   const handleClearWallet = useCallback(() => {
     clearMultisigWallet();
     setIsConfirmVisible(false);
   }, [clearMultisigWallet, setIsConfirmVisible]);
+
+  useEffect(() => {
+    import('services/multichain')
+      .then(({ getSwapKitClient }) => getSwapKitClient())
+      .then(({ getExplorerAddressUrl }) =>
+        setAccountUrl(getExplorerAddressUrl(Chain.THORChain, address) || ''),
+      );
+  }, [address]);
 
   return (
     <PanelView

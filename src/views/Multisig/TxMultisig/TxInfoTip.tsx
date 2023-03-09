@@ -2,9 +2,8 @@ import { Text } from '@chakra-ui/react';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Icon, Link, Modal } from 'components/Atomic';
 import { InfoTip } from 'components/InfoTip';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { TextareaCopy } from 'views/Multisig/components/TextareaCopy';
 
 type Props = {
@@ -15,7 +14,15 @@ type Props = {
 
 export const TxInfoTip = ({ canBroadcast, txHash, txBodyStr }: Props) => {
   const [isTxModalVisible, setIsTxModalVisible] = useState(false);
-  const txUrl = txHash ? multichain().getExplorerTxUrl(Chain.THORChain as Chain, txHash) : '';
+  const [txUrl, setTxUrl] = useState('');
+
+  useEffect(() => {
+    import('services/multichain')
+      .then(({ getSwapKitClient }) => getSwapKitClient())
+      .then(({ getExplorerTxUrl }) =>
+        setTxUrl(txHash ? getExplorerTxUrl(Chain.THORChain as Chain, txHash) : ''),
+      );
+  }, [setTxUrl, txHash]);
 
   if (txHash) {
     return (

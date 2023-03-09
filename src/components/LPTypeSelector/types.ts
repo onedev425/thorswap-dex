@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { PoolShareType } from 'store/midgard/types';
 
 export type LPTypeSelectorProps = {

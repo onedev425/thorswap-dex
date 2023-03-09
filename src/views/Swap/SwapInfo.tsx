@@ -1,12 +1,11 @@
 import { Text } from '@chakra-ui/react';
-import { Percent, Price } from '@thorswap-lib/multichain-core';
+import { Percent, Price } from '@thorswap-lib/swapkit-core';
 import { FeeOption } from '@thorswap-lib/types';
 import { Box, Button, Collapse, Icon, Select } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { useFormatPrice } from 'helpers/formatPrice';
-import capitalize from 'lodash/capitalize';
 import { MouseEventHandler, useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
@@ -24,6 +23,7 @@ type Props = {
   setFeeModalOpened: (isOpened: boolean) => void;
   showTransactionFeeSelect?: boolean;
 };
+const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
 
 const feeOptions = [FeeOption.Average, FeeOption.Fast, FeeOption.Fastest];
 const DEFAULT_AFFILIATE = 30;

@@ -16,7 +16,8 @@ export const useMultisigExport = () => {
     try {
       const walletData = { members, treshold };
       await downloadAsFile(`${MULTISIG_FILE_NAME}-${fileSuffix}.json`, JSON.stringify(walletData));
-    } catch (error: ErrorType) {
+    } catch (error: NotWorth) {
+      console.error(error);
       const message = error.message || t('views.multisig.exportError');
       showErrorToast(message);
     }

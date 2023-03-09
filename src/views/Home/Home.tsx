@@ -15,7 +15,7 @@ const Home = () => {
         title={t('views.home.title')}
       />
 
-      <Box col>
+      <Box col className="pt-4">
         <GlobalStats />
         <GlobalChart />
         <PoolListView />

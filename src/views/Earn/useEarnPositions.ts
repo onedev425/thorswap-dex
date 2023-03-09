@@ -1,4 +1,4 @@
-import { Amount, Asset } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { SORTED_EARN_ASSETS } from 'settings/chain';

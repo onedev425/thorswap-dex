@@ -1,4 +1,4 @@
-import { Amount } from '@thorswap-lib/multichain-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 
 export const blockReward: Record<Chain, number> = {
@@ -11,7 +11,7 @@ export const blockReward: Record<Chain, number> = {
   [Chain.THORChain]: 0,
   [Chain.Avalanche]: 0,
   [Chain.Cosmos]: 0,
-  [Chain.Solana]: 0,
+  [Chain.BinanceSmartChain]: 0,
 };
 
 // time secs for 1 block confirmation
@@ -25,10 +25,10 @@ export const blockTime: Record<Chain, number> = {
   [Chain.THORChain]: 0,
   [Chain.Avalanche]: 0,
   [Chain.Cosmos]: 0,
-  [Chain.Solana]: 0,
+  [Chain.BinanceSmartChain]: 0,
 };
 
-export const getEstimatedTxSeconds = ({ chain, amount }: { chain: Chain; amount: Amount }) => {
+const getEstimatedTxSeconds = ({ chain, amount }: { chain: Chain; amount: Amount }) => {
   const chainBlockReward = blockReward?.[chain] ?? 0;
   const chainBlockTime = blockTime?.[chain] ?? 0;
 

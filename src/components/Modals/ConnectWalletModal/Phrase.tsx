@@ -1,5 +1,4 @@
 import { Text } from '@chakra-ui/react';
-import { encryptToKeyStore, validatePhrase } from '@thorswap-lib/xchain-crypto';
 import { Box, Button, Icon } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { Input } from 'components/Input';
@@ -28,6 +27,8 @@ export const PhraseView = () => {
   const handleBackupKeystore = useCallback(async () => {
     if (phrase && password) {
       setProcessing(true);
+      const { validatePhrase } = await import('@thorswap-lib/toolbox-utxo');
+      const { encryptToKeyStore } = await import('@thorswap-lib/keystore');
 
       try {
         const isValidPhrase = validatePhrase(phrase);
@@ -45,9 +46,9 @@ export const PhraseView = () => {
         // clean up
         setPassword('');
         setPhrase('');
-      } catch (error) {
-        setInvalidStatus(true);
+      } catch (error: NotWorth) {
         console.error(error);
+        setInvalidStatus(true);
       }
       setProcessing(false);
     }

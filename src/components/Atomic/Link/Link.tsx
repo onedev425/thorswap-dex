@@ -16,7 +16,7 @@ export const Link = memo(({ className, to, children, external, onClick }: LinkPr
 
   return externalHref ? (
     <Box
-      className={classNames(className, '!inline-block no-underline')}
+      className={classNames(className, 'no-underline cursor-pointer')}
       onClick={() => window.open(to, '_blank', 'noopener,noreferrer')}
     >
       {children}

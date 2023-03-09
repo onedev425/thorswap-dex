@@ -1,5 +1,5 @@
 import { CircularProgress, Flex, Spinner, Text } from '@chakra-ui/react';
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Tooltip } from 'components/Atomic';
@@ -10,7 +10,7 @@ import { getFormattedPercent } from 'views/Earn/utils';
 import { AssetSelectType } from '../../components/AssetSelect/types';
 
 type Props = AssetSelectType & {
-  select: (asset: Asset) => void;
+  select: (asset: AssetEntity) => void;
   isSelected?: boolean;
 };
 

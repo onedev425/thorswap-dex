@@ -1,0 +1,19 @@
+name: Lint & Unit tests
+
+on:
+  push:
+    branches:
+      - e2e
+
+concurrency:
+  group: e2e-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests_and_lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup-repo
+
+      - name: E2E Tests
+        run: yarn e2e

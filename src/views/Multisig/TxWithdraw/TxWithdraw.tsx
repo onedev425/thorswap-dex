@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, Asset } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetSelect } from 'components/AssetSelect';
 import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton';
@@ -110,7 +110,7 @@ export const TxWithdraw = () => {
               <AssetSelectButton
                 showAssetType
                 className="pr-3 m-2 md:m-0 flex-1"
-                selected={Asset.RUNE()}
+                selected={AssetEntity.RUNE()}
               />
             </Box>
           </Box>

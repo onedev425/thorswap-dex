@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon/AssetIcon';
 import { Box } from 'components/Atomic';
@@ -7,7 +7,7 @@ import { genericBgClasses } from 'components/constants';
 
 type Props = {
   className?: string;
-  asset: Asset;
+  asset: AssetEntity;
   amount: string;
   stretch?: boolean;
 };

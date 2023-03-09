@@ -1,4 +1,4 @@
-import { Amount, Asset, QuoteMode, QuoteRoute } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity, QuoteMode, QuoteRoute } from '@thorswap-lib/swapkit-core';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useEffect, useMemo, useState } from 'react';
 import { useApp } from 'store/app/hooks';
@@ -7,8 +7,8 @@ import { useGetTokensQuoteQuery } from 'store/thorswap/api';
 type Params = {
   affiliateBasisPoints: string;
   inputAmount: Amount;
-  inputAsset: Asset;
-  outputAsset: Asset;
+  inputAsset: AssetEntity;
+  outputAsset: AssetEntity;
   recipientAddress?: string;
   senderAddress?: string;
   skipAffiliate?: boolean;

@@ -1,4 +1,3 @@
-// import { ETH_DECIMAL } from '@thorswap-lib/multichain-core'
 import { BigNumber } from '@ethersproject/bignumber';
 import { showErrorToast } from 'components/Toast';
 import { getV2Address, getV2Asset, VestingType } from 'helpers/assets';
@@ -6,11 +5,9 @@ import { toOptionalFixed } from 'helpers/number';
 import { useCallback, useEffect, useState } from 'react';
 import { ContractType, fromWei, triggerContractCall } from 'services/contract';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
-import * as walletActions from 'store/wallet/actions';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 
@@ -26,10 +23,6 @@ export const useVthorUtil = () => {
   const { wallet } = useWallet();
 
   const ethAddr = wallet?.ETH?.address;
-
-  const getApprovalStatus = useCallback(async () => {
-    appDispatch(walletActions.getIsVthorApproved());
-  }, [appDispatch]);
 
   const getThorStakedInfo = useCallback(async () => {
     const res = await getStakedThorAmount().catch(() => BigNumber.from(0));
@@ -76,13 +69,17 @@ export const useVthorUtil = () => {
       }),
     );
 
+    const { approveAssetForContract } = await (
+      await import('services/multichain')
+    ).getSwapKitClient();
+
     try {
-      const txid = await multichain().approveAssetForStaking(
+      const txid = await approveAssetForContract(
         getV2Asset(VestingType.THOR),
         getV2Address(VestingType.VTHOR),
       );
 
-      if (txid) {
+      if (typeof txid === 'string') {
         appDispatch(updateTransaction({ id, txid }));
       }
     } catch (error) {
@@ -142,18 +139,10 @@ export const useVthorUtil = () => {
   const handleRefresh = useCallback(() => {
     getThorStakedInfo();
     getVthorTS();
-    getApprovalStatus();
     getTHORRedeemable();
 
     if (ethAddr) getVthorBalance();
-  }, [
-    getThorStakedInfo,
-    getVthorTS,
-    getApprovalStatus,
-    getTHORRedeemable,
-    ethAddr,
-    getVthorBalance,
-  ]);
+  }, [getThorStakedInfo, getVthorTS, getTHORRedeemable, ethAddr, getVthorBalance]);
 
   const stakeThor = useCallback(
     async (stakeAmount: BigNumber, receiverAddr: string) => {
@@ -184,6 +173,7 @@ export const useVthorUtil = () => {
         hash = response?.hash;
       } catch (error) {
         console.error(error);
+        return appDispatch(completeTransaction({ id, status: 'error' }));
       }
 
       hash
@@ -220,6 +210,7 @@ export const useVthorUtil = () => {
         hash = response?.hash;
       } catch (error) {
         console.error(error);
+        return appDispatch(completeTransaction({ id, status: 'error' }));
       }
 
       hash

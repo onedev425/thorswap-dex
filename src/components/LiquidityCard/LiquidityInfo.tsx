@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, Asset, Percent } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity, Percent } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';
@@ -14,7 +14,7 @@ type Props = {
   poolShare: Percent;
   contentRef: RefObject<HTMLDivElement>;
   shareType: PoolShareType;
-  asset: Asset;
+  asset: AssetEntity;
   lastAddedDate: string;
   runeWithdrawn: Amount;
   assetWithdrawn: Amount;
@@ -24,7 +24,7 @@ type Props = {
   tickerPending?: string;
 };
 
-const RuneAsset = Asset.RUNE();
+const RuneAsset = AssetEntity.RUNE();
 
 export const LiquidityInfo = memo(
   ({

@@ -1,16 +1,14 @@
 import { Text } from '@chakra-ui/react';
-import { Asset } from '@thorswap-lib/multichain-core';
-import { decryptFromKeystore } from '@thorswap-lib/xchain-crypto';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Box, Button, Modal } from 'components/Atomic';
 import { PasswordInput } from 'components/PasswordInput';
 import { isKeystoreSignRequired } from 'helpers/wallet';
 import { KeyboardEventHandler, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { useWallet } from 'store/wallet/hooks';
 
 type Props = {
-  inputAssets: Asset[];
+  inputAssets: AssetEntity[];
   isOpened: boolean;
   onClose: () => void;
   onConfirm: () => void;
@@ -28,7 +26,7 @@ export const ConfirmModal = ({
   onClose,
   onConfirm,
 }: Props) => {
-  const { keystore, wallet } = useWallet();
+  const { keystore, phrase, wallet } = useWallet();
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [validating, setValidating] = useState(false);
 
@@ -79,6 +77,7 @@ export const ConfirmModal = ({
   }, [onClose]);
 
   const handleClickConfirm = useCallback(async () => {
+    const { decryptFromKeystore } = await import('@thorswap-lib/keystore');
     if (!isKeystoreSigningRequired) {
       return handleProceed();
     }
@@ -87,11 +86,11 @@ export const ConfirmModal = ({
     if (!password) return setInvalidPassword(true);
 
     setValidating(true);
-    try {
-      const phrase = await decryptFromKeystore(keystore, password);
-      const isValid = multichain().getPhrase() === phrase;
 
-      if (isValid) {
+    try {
+      const decodedPhrase = await decryptFromKeystore(keystore, password);
+
+      if (decodedPhrase === phrase) {
         handleProceed();
       } else {
         setInvalidPassword(true);
@@ -101,7 +100,7 @@ export const ConfirmModal = ({
     }
 
     setValidating(false);
-  }, [keystore, password, handleProceed, isKeystoreSigningRequired]);
+  }, [isKeystoreSigningRequired, keystore, password, handleProceed, phrase]);
 
   const onPasswordKeyDown: KeyboardEventHandler<HTMLInputElement> = useCallback(
     (event) => {

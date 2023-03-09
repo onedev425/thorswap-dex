@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, Asset, AssetAmount } from '@thorswap-lib/multichain-core';
+import { Amount, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon } from 'components/Atomic';
@@ -31,7 +31,7 @@ export const useColumns = (chainAddress: string, chain: Chain) => {
         Header: () => t('common.asset'),
         disableSortBy: true,
         accessor: (row: AssetAmount) => row.asset,
-        Cell: ({ cell: { value } }: { cell: { value: Asset } }) => (
+        Cell: ({ cell: { value } }: { cell: { value: AssetEntity } }) => (
           <AssetIcon asset={value} hasChainIcon={false} size={40} />
         ),
       },
@@ -41,7 +41,7 @@ export const useColumns = (chainAddress: string, chain: Chain) => {
         disableSortBy: true,
         minScreenSize: BreakPoint.md,
         accessor: (row: AssetAmount) => row.asset,
-        Cell: ({ cell: { value } }: { cell: { value: Asset } }) => (
+        Cell: ({ cell: { value } }: { cell: { value: AssetEntity } }) => (
           <Box col className="pl-4" justify="between">
             <Text>{value.name}</Text>
             <Text variant="secondary">{value.type}</Text>
@@ -92,7 +92,7 @@ export const useColumns = (chainAddress: string, chain: Chain) => {
         align: 'center',
         disableSortBy: true,
         accessor: (row: AssetAmount) => row.asset,
-        Cell: ({ cell: { value } }: { cell: { value: Asset } }) => (
+        Cell: ({ cell: { value } }: { cell: { value: AssetEntity } }) => (
           <AssetChart asset={value} mode={ViewMode.LIST} />
         ),
       },
@@ -102,7 +102,7 @@ export const useColumns = (chainAddress: string, chain: Chain) => {
         Header: () => '',
         align: 'right',
         disableSortBy: true,
-        Cell: ({ cell: { value } }: { cell: { value: Asset } }) => (
+        Cell: ({ cell: { value } }: { cell: { value: AssetEntity } }) => (
           <Box row className="gap-2" justify="end">
             <Button
               leftIcon={

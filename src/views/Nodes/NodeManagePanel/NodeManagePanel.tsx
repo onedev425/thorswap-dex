@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button } from 'components/Atomic';
@@ -58,8 +58,8 @@ export const NodeManagePanel = ({
           placeholder={t('common.amount')}
           suffix={
             <Box className="w-[84px] gap-x-2 pt-2">
-              <Text textStyle="subtitle2">{Asset.RUNE().ticker}</Text>
-              <AssetIcon asset={Asset.RUNE()} size={26} />
+              <Text textStyle="subtitle2">{AssetEntity.RUNE().ticker}</Text>
+              <AssetIcon asset={AssetEntity.RUNE()} size={26} />
             </Box>
           }
           title={

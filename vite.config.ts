@@ -4,21 +4,31 @@ import svgr from 'vite-plugin-svgr'
 import rewriteAll from 'vite-plugin-rewrite-all'
 import { resolve } from 'path'
 import removeConsole from 'vite-plugin-remove-console'
+import { visualizer } from "rollup-plugin-visualizer";
 import { defineConfig } from 'vite'
-import { visualizer } from 'rollup-plugin-visualizer'
+
+const withSourcemap = process.env.SOURCEMAP === 'true'
+const analyze = process.env.ANALYZE_BUNDLE === 'true'
+const sourcemap= withSourcemap || analyze
+
+const plugins = [
+  react(),
+  rewriteAll(),
+  svgr({ svgrOptions: { icon: true } }),
+  removeConsole(),
+]
+  .concat(
+    analyze
+      ? [visualizer({ open: true, sourcemap: true, template: process.env.TEMPLATE as 'treemap' || 'treemap' })]
+      : []
+  )
 
 export default defineConfig({
   define: {
     'process.env': {},
     'process.version': JSON.stringify('v16.0.0'),
   },
-  plugins: [
-    react(),
-    rewriteAll(),
-    svgr({ svgrOptions: { icon: true } }),
-    removeConsole(),
-    visualizer({ template: 'treemap', sourcemap: true }),
-  ],
+  plugins,
   resolve: {
     alias: {
       assets: resolve(__dirname, 'src/assets'),
@@ -44,18 +54,25 @@ export default defineConfig({
        * To operate locally on external libraries you can copy paste their `/src`
        * file and use like below:
        */
-      // '@thorswap-lib/multichain-core': resolve(__dirname, 'src/m'),
-      },
+      // '@thorswap-lib/keystore': resolve(__dirname, 'src/k'),
+      // '@thorswap-lib/ledger': resolve(__dirname, 'src/l'),
+      // '@thorswap-lib/swapkit-core': resolve(__dirname, 'src/sk'),
+      // '@thorswap-lib/toolbox-cosmos': resolve(__dirname, 'src/c'),
+      // '@thorswap-lib/toolbox-evm': resolve(__dirname, 'src/e'),
+      // '@thorswap-lib/toolbox-utxo': resolve(__dirname, 'src/u'),
+      // '@thorswap-lib/web-extensions': resolve(__dirname, 'src/w'),
+      // '@thorswap-lib/walletconnect': resolve(__dirname, 'src/wc'),
+    },
   },
   build: {
     target: 'es2020',
-    commonjsOptions: { transformMixedEsModules: true },
-    minify: 'esbuild',
     reportCompressedSize: true,
-    sourcemap: false,
+    sourcemap,
     rollupOptions: {
-      plugins: [nodePolyfills({ sourceMap: false })],
+      maxParallelFileOps: 2,
+      plugins: [nodePolyfills({ sourceMap: sourcemap })],
       output: {
+        sourcemap,
         chunkFileNames: () => '[hash].js',
       },
     },
@@ -64,7 +81,6 @@ export default defineConfig({
     logOverride: { 'this-is-undefined-in-esm': 'silent' },
   },
   optimizeDeps: {
-    include: ['crypto-browserify'],
     esbuildOptions: {
       target: 'es2020',
       define: { global: 'globalThis' },

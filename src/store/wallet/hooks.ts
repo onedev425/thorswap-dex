@@ -1,10 +1,9 @@
-import { Chain, Keystore } from '@thorswap-lib/types';
+import { Chain, Keystore, WalletOption } from '@thorswap-lib/types';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { chainName } from 'helpers/chainName';
 import { useCallback } from 'react';
 import { batch } from 'react-redux';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { actions as midgardActions } from 'store/midgard/slice';
 import { useAppDispatch, useAppSelector } from 'store/store';
 
@@ -19,20 +18,36 @@ export const useWallet = () => {
     walletState.walletLoading ||
     Object.values(walletState.chainWalletLoading).some((loading) => loading);
 
-  const unlockWallet = useCallback(
-    async (keystore: Keystore, phrase: string, chains: Chain[]) => {
-      multichain().connectKeystore(phrase, chains);
-      dispatch(actions.connectKeystore(keystore));
-      chains.forEach((chain: Chain) => {
-        dispatch(walletActions.getWalletByChain(chain));
-      });
-    },
+  const setWallets = useCallback(
+    (chains: Chain[]) => chains.forEach((chain) => dispatch(walletActions.getWalletByChain(chain))),
     [dispatch],
   );
 
-  const disconnectWallet = useCallback(() => {
-    multichain().resetClients();
+  const unlockWallet = useCallback(
+    async (keystore: Keystore, phrase: string, chains: Chain[]) => {
+      const { ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const { connectKeystore } = await (await import('services/multichain')).getSwapKitClient();
 
+      await connectKeystore(chains, phrase);
+      const thorchainToolbox = ThorchainToolbox({});
+      const thorchainPrivateKey = chains.includes(Chain.THORChain)
+        ? thorchainToolbox.createKeyPair(phrase)
+        : undefined;
+      const thorchainPublicKey = thorchainPrivateKey?.pubKey();
+      dispatch(
+        actions.connectKeystore({
+          keystore,
+          phrase,
+          privateKey: thorchainPrivateKey,
+          publicKey: thorchainPublicKey,
+        }),
+      );
+      setWallets(chains);
+    },
+    [dispatch, setWallets],
+  );
+
+  const disconnectWallet = useCallback(() => {
     batch(() => {
       dispatch(actions.disconnect());
       dispatch(midgardActions.resetChainMemberDetails());
@@ -41,8 +56,6 @@ export const useWallet = () => {
 
   const disconnectWalletByChain = useCallback(
     (chain: Chain) => {
-      multichain().resetChain(chain);
-
       batch(() => {
         dispatch(actions.disconnectByChain(chain));
         dispatch(midgardActions.resetChainMemberDetail(chain));
@@ -52,17 +65,27 @@ export const useWallet = () => {
   );
 
   const connectLedger = useCallback(
-    async (chain: Chain, index: number, customDerivationPath?: string) => {
-      const options = { chain: chainName(chain), index: index };
+    async (
+      chain: Chain,
+      index: number,
+      type?: 'nativeSegwitMiddleAccount' | 'segwit' | 'legacy' | 'ledgerLive',
+    ) => {
+      const options = { chain: chainName(chain), index };
+
+      const { getDerivationPathFor } = await import('@thorswap-lib/ledger');
+      const { connectLedger: swapKitConnectLedger } = await (
+        await import('services/multichain')
+      ).getSwapKitClient();
 
       try {
         showInfoToast(t('notification.connectingLedger', options));
-
-        await multichain().connectLedger({ chain, customDerivationPath, addressIndex: index });
+        const derivationPath = getDerivationPathFor({ chain, index, type });
+        await swapKitConnectLedger(chain, derivationPath);
 
         dispatch(walletActions.getWalletByChain(chain as Chain));
         showInfoToast(t('notification.connectedLedger', options));
-      } catch (error) {
+      } catch (error: NotWorth) {
+        console.error(error);
         showErrorToast(t('notification.ledgerFailed', options));
       }
     },
@@ -71,61 +94,79 @@ export const useWallet = () => {
 
   const connectXdefiWallet = useCallback(
     async (chains: Chain[]) => {
-      await multichain().connectXDefiWallet(chains);
+      const { connectXDEFI: swapKitConnectXDEFI } = await (
+        await import('services/multichain')
+      ).getSwapKitClient();
 
-      chains.forEach((chain) => {
-        dispatch(walletActions.getWalletByChain(chain));
-      });
+      await swapKitConnectXDEFI(chains);
+
+      setWallets(chains);
     },
-    [dispatch],
+    [setWallets],
   );
 
   const connectBraveWallet = useCallback(
     async (chains: Chain[]) => {
-      await multichain().connectBraveWallet(chains);
+      const { connectEVMWallet: swapKitConnectEVMWallet } = await (
+        await import('services/multichain')
+      ).getSwapKitClient();
 
-      chains.forEach((chain) => {
-        dispatch(walletActions.getWalletByChain(chain));
-      });
+      await swapKitConnectEVMWallet(chains, WalletOption.BRAVE);
+
+      setWallets(chains);
     },
-    [dispatch],
+    [setWallets],
   );
 
   const connectTrustWalletExtension = useCallback(
     async (chain: Chain) => {
-      await multichain().connectTrustWalletExtension(chain);
+      const { connectEVMWallet: swapKitConnectEVMWallet } = await (
+        await import('services/multichain')
+      ).getSwapKitClient();
 
-      dispatch(walletActions.getWalletByChain(chain));
+      await swapKitConnectEVMWallet([chain], WalletOption.TRUSTWALLET_WEB);
+
+      setWallets([chain]);
     },
-    [dispatch],
+    [setWallets],
   );
 
   const connectMetamask = useCallback(
     async (chain: Chain) => {
-      await multichain().connectMetamask(chain);
+      const { connectEVMWallet: swapKitConnectEVMWallet } = await (
+        await import('services/multichain')
+      ).getSwapKitClient();
 
-      dispatch(walletActions.getWalletByChain(chain));
+      await swapKitConnectEVMWallet([chain], WalletOption.METAMASK);
+
+      setWallets([chain]);
     },
-    [dispatch],
+    [setWallets],
   );
 
   const connectKeplr = useCallback(async () => {
-    await multichain().connectKeplr();
+    const { connectKeplr: swapKitConnectKeplr } = await (
+      await import('services/multichain')
+    ).getSwapKitClient();
 
-    dispatch(walletActions.getWalletByChain(Chain.Cosmos));
-  }, [dispatch]);
+    await swapKitConnectKeplr();
+
+    setWallets([Chain.Cosmos]);
+  }, [setWallets]);
 
   const connectTrustWallet = useCallback(
     async (chains: Chain[]) => {
-      await multichain().connectTrustWallet(chains, {
+      const { connectWalletconnect } = await (
+        await import('services/multichain')
+      ).getSwapKitClient();
+
+      await connectWalletconnect(chains, {
         listeners: { disconnect: disconnectWallet },
       });
 
-      chains.forEach((chain) => {
-        dispatch(walletActions.getWalletByChain(chain));
-      });
+      setWallets(chains);
     },
-    [dispatch, disconnectWallet],
+    [disconnectWallet, setWallets],
   );
 
   const setIsConnectModalOpen = useCallback(

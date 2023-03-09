@@ -51,10 +51,6 @@ export const PoolListView = memo(() => {
         </Box>
       )}
 
-      {/*
-       * TODO: Temporary solution for safari mobile browser which crashes on rendering this part.
-       * Further investigation/optimization needed
-       */}
       {isMdActive && (
         <Box col className="gap-8">
           <Text textStyle="h3">{t('common.liquidityPools')}</Text>

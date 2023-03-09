@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, Asset } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetSelect } from 'components/AssetSelect';
 import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton';
@@ -58,7 +58,7 @@ export const AssetInput = ({
   const assetSelectProps = useMemo(
     () => ({
       ...rest,
-      onSelect: rest.onAssetChange as (asset: Asset) => void,
+      onSelect: rest.onAssetChange as (asset: AssetEntity) => void,
       showAssetType: true,
     }),
     [rest],

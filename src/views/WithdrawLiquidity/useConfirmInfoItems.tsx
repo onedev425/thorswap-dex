@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';
@@ -8,7 +8,7 @@ import { ReactNode, useMemo } from 'react';
 import { t } from 'services/i18n';
 
 type Params = {
-  assets: { asset: Asset; value: string }[];
+  assets: { asset: AssetEntity; value: string }[];
   fee: string;
   ILP: ReactNode;
 };

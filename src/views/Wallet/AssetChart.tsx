@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';
 import { ChartPreview } from 'components/ChartPreview';
@@ -7,7 +7,7 @@ import { ViewMode } from 'types/app';
 import { useChartData } from 'views/Wallet/hooks';
 
 type Props = {
-  asset: Asset;
+  asset: AssetEntity;
   mode: ViewMode;
 };
 

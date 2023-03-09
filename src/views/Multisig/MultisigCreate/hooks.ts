@@ -52,12 +52,15 @@ export const useMultisigForm = ({ pubKey }: Props = {}) => {
 
   const [walletAddress, setWalletAddress] = useState('');
 
-  const generateMultisigAddress = useCallback((members: MultisigMember[], treshold: number) => {
-    const address = multisig.createMultisigWallet(members, treshold);
-    setWalletAddress(address || '');
+  const generateMultisigAddress = useCallback(
+    async (members: MultisigMember[], treshold: number) => {
+      const address = await multisig.createMultisigWallet(members, treshold);
+      setWalletAddress(address || '');
 
-    return address;
-  }, []);
+      return address;
+    },
+    [],
+  );
 
   useEffect(() => {
     const members = getValues('members');
@@ -70,15 +73,13 @@ export const useMultisigForm = ({ pubKey }: Props = {}) => {
   }, [getValues, pubKey, setValue]);
 
   useEffect(() => {
-    const subscription = watch((values) => {
-      const address = generateMultisigAddress(
+    const subscription = watch(async (values) => {
+      const address = await generateMultisigAddress(
         values.members as MultisigMember[],
         values.treshold as number,
       );
 
-      if (address) {
-        clearErrors('signatureValidation');
-      }
+      if (address) clearErrors('signatureValidation');
     });
 
     return () => subscription.unsubscribe();
@@ -86,7 +87,8 @@ export const useMultisigForm = ({ pubKey }: Props = {}) => {
 
   const handleConfirm = useCallback(
     async (values: MultisigFormValues, onSubmit?: () => void) => {
-      const address = walletAddress || generateMultisigAddress(values.members, values.treshold);
+      const address =
+        walletAddress || (await generateMultisigAddress(values.members, values.treshold));
 
       if (!address) {
         setError('signatureValidation', {

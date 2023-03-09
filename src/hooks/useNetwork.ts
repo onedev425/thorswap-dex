@@ -1,4 +1,4 @@
-import { Amount } from '@thorswap-lib/multichain-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { t } from 'services/i18n';
 import { useMidgard } from 'store/midgard/hooks';
 

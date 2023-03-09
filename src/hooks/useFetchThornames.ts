@@ -1,6 +1,7 @@
-import { THORNameEntry } from '@thorswap-lib/multichain-core';
+import { THORNameEntry } from '@thorswap-lib/swapkit-core';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { getAddressThornames, getThornameDetails } from 'services/thorname';
+import { midgardApi } from 'services/midgard';
+import { getThornameDetails } from 'services/thorname';
 import { useAppSelector } from 'store/store';
 
 export const useFetchThornames = () => {
@@ -16,7 +17,7 @@ export const useFetchThornames = () => {
     fetching.current = true;
 
     try {
-      const thornames = await getAddressThornames(thorAddress);
+      const thornames = await midgardApi.getTHORNamesOwnerByAddress(thorAddress);
       const thornamesDetails = await Promise.all(
         thornames.map(async (name) => {
           const details = await getThornameDetails(name);

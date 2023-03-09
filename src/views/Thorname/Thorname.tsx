@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Asset, THORName } from '@thorswap-lib/multichain-core';
+import { AssetEntity, THORName } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Collapse, Icon, Tooltip } from 'components/Atomic';
 import { FieldLabel } from 'components/Form';
@@ -15,7 +15,6 @@ import { shortenAddress } from 'helpers/shortenAddress';
 import { isKeystoreSignRequired } from 'helpers/wallet';
 import { KeyboardEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { useWallet } from 'store/wallet/hooks';
 
 import { ChainDropdown } from './ChainDropdown';
@@ -50,7 +49,7 @@ const Thorname = () => {
   const chainWalletAddress = wallet?.[chain]?.address;
 
   const isKeystoreSigningRequired = useMemo(
-    () => isKeystoreSignRequired({ wallet, inputAssets: [Asset.RUNE()] }),
+    () => isKeystoreSignRequired({ wallet, inputAssets: [AssetEntity.RUNE()] }),
     [wallet],
   );
 
@@ -139,8 +138,10 @@ const Thorname = () => {
     return t('views.wallet.search');
   }, [unavailableForPurchase, available, thorAddress, registeredChains.length]);
 
-  const onTransfer = useCallback(() => {
-    const isValidAddress = multichain().validateAddress({
+  const onTransfer = useCallback(async () => {
+    const { validateAddress } = await (await import('services/multichain')).getSwapKitClient();
+
+    const isValidAddress = validateAddress({
       chain: Chain.THORChain,
       address: transferAddress || '',
     });
@@ -165,8 +166,9 @@ const Thorname = () => {
 
   useEffect(() => {
     if (address) {
-      const isValidAddress = multichain().validateAddress({ chain, address });
-      setValidAddress(isValidAddress);
+      import('services/multichain')
+        .then(({ getSwapKitClient }) => getSwapKitClient())
+        .then(({ validateAddress }) => setValidAddress(!!validateAddress({ chain, address })));
     }
   }, [address, chain]);
 
@@ -298,7 +300,7 @@ const Thorname = () => {
       {!details && <RegisteredThornames editThorname={editThorname} />}
 
       <ConfirmModal
-        inputAssets={[Asset.RUNE()]}
+        inputAssets={[AssetEntity.RUNE()]}
         isOpened={isOpened}
         onClose={() => setIsOpened(false)}
         onConfirm={() => {
@@ -340,7 +342,7 @@ const Thorname = () => {
       </ConfirmModal>
 
       <ConfirmModal
-        inputAssets={[Asset.RUNE()]}
+        inputAssets={[AssetEntity.RUNE()]}
         isOpened={isOpenedTransfer}
         onClose={() => setIsOpenedTransfer(false)}
         onConfirm={() => {

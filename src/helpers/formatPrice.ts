@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import { Amount, Asset, Pool, Price } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity, Pool, Price } from '@thorswap-lib/swapkit-core';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 import { useApp } from 'store/app/hooks';
@@ -80,6 +79,7 @@ const formatter = ({
 };
 
 export const formatPrice = (amount: Value, options?: FormatOptions) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const format = useFormat(options);
 
   return formatter({ amount, format });
@@ -105,12 +105,12 @@ export const runeToAssetPrice = ({
   pools,
 }: {
   runeAmount: Amount;
-  quoteAsset?: Asset | null;
+  quoteAsset?: AssetEntity | null;
   pools: Pool[];
 }) =>
   new Price({
-    baseAsset: Asset.RUNE(),
-    quoteAsset: quoteAsset || Asset.RUNE(),
+    baseAsset: AssetEntity.RUNE(),
+    quoteAsset: quoteAsset || AssetEntity.RUNE(),
     pools,
     priceAmount: runeAmount,
   });

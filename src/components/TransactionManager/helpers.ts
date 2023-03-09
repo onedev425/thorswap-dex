@@ -1,6 +1,6 @@
-import { Asset, AssetAmount, ETH_DECIMAL } from '@thorswap-lib/multichain-core';
-import { Chain } from '@thorswap-lib/types';
-import { useCallback, useMemo, useState } from 'react';
+import { AssetAmount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import { BaseDecimal, Chain } from '@thorswap-lib/types';
+import { useCallback, useState } from 'react';
 import { getCustomContract } from 'services/contract';
 import { t } from 'services/i18n';
 import { TxnResult } from 'store/thorswap/types';
@@ -32,7 +32,7 @@ const getEthPart = async ({ asset, amount }: { asset: string; amount: string }) 
     const name = await contract.symbol();
     const decimals = await contract.decimals();
 
-    const assetAmount = AssetAmount.fromBaseAmount(amount, decimals.toNumber() || ETH_DECIMAL);
+    const assetAmount = AssetAmount.fromBaseAmount(amount, decimals.toNumber() || BaseDecimal.ETH);
 
     return `${assetAmount.toSignificantWithMaxDecimals(6)} ${name}`;
   } catch {
@@ -81,37 +81,6 @@ export const transactionBorderColors: Record<TransactionStatus, string> = {
 
 export const cutTxPrefix = (tx: string, prefix = '0x') =>
   tx?.startsWith(prefix) ? tx.slice(prefix.length) : tx;
-
-export const useTxIDFromResult = ({
-  txid,
-  result,
-}: {
-  txid?: string;
-  result?: string | TxnResult;
-}) => {
-  const txidFromResult = useMemo(() => {
-    if (typeof result === 'string' || !result?.type) return '';
-
-    switch (result.type) {
-      case TransactionType.SWAP_ETH_TO_ETH:
-      case TransactionType.SWAP_ETH_TO_TC:
-      case TransactionType.SWAP_TC_TO_ETH:
-      case TransactionType.SWAP_TC_TO_TC:
-        return txid !== result.transactionHash ? result.transactionHash : null;
-
-      case TransactionType.TC_SAVINGS_ADD:
-      case TransactionType.TC_SAVINGS_WITHDRAW:
-      case TransactionType.TC_LP_ADD:
-      case TransactionType.TC_LP_WITHDRAW:
-        return txid !== result.txID ? result.txID : null;
-
-      default:
-        return '';
-    }
-  }, [txid, result]);
-
-  return txidFromResult;
-};
 
 export const useTxLabelUpdate = ({
   result,

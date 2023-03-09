@@ -1,6 +1,5 @@
 import { useFormatPrice } from 'helpers/formatPrice';
 import useWindowSize from 'hooks/useWindowSize';
-import takeRight from 'lodash/takeRight';
 import { useMemo } from 'react';
 import { useApp } from 'store/app/hooks';
 import { ThemeType } from 'types/app';
@@ -43,7 +42,7 @@ export const useChartData = ({
     : formatPrice;
 
   const slicedByTime = useMemo(
-    () => takeRight(selectedChartValues, chartTimeFrame === ChartTimeFrame.AllTime ? 60 : 7),
+    () => selectedChartValues.slice(chartTimeFrame === ChartTimeFrame.AllTime ? -60 : -7),
     [selectedChartValues, chartTimeFrame],
   );
 

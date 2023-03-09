@@ -1,15 +1,13 @@
-import { decryptFromKeystore } from '@thorswap-lib/xchain-crypto';
 import { showSuccessToast } from 'components/Toast';
 import copy from 'copy-to-clipboard';
 import { useCallback, useEffect, useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { useWallet } from 'store/wallet/hooks';
 
 // TODO(@Chillios)
 export const usePhraseModal = (isOpen: boolean) => {
-  const { keystore } = useWallet();
+  const { keystore, phrase } = useWallet();
   const {
     register,
     reset,
@@ -34,28 +32,30 @@ export const usePhraseModal = (isOpen: boolean) => {
     async ({ password }: FieldValues) => {
       if (!keystore) return;
 
-      try {
-        const phrase = await decryptFromKeystore(keystore, password);
-        const isValid = multichain().getPhrase() === phrase;
+      const { decryptFromKeystore } = await import('@thorswap-lib/keystore');
 
-        if (isValid) {
+      try {
+        const decodedPhrase = await decryptFromKeystore(keystore, password);
+
+        if (phrase === decodedPhrase) {
           setShowPhrase(true);
         } else {
           throw Error('Invalid password');
         }
-      } catch (error) {
+      } catch (error: NotWorth) {
+        console.error(error);
         setError('password', { type: 'value' });
       }
     },
-    [keystore, setError],
+    [keystore, phrase, setError],
   );
 
   const submit = handleSubmit(handleConfirm);
 
   const handleCopyPhrase = useCallback(() => {
-    copy(multichain().getPhrase());
+    copy(phrase);
     showSuccessToast(t('views.walletModal.phraseCopied'));
-  }, []);
+  }, [phrase]);
 
   return {
     handleConfirm,

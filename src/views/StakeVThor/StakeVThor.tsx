@@ -1,6 +1,7 @@
 import { Text } from '@chakra-ui/react';
 import { BigNumber } from '@ethersproject/bignumber';
-import { Amount, WalletOption } from '@thorswap-lib/multichain-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
+import { WalletOption } from '@thorswap-lib/types';
 import BN from 'bignumber.js';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
@@ -44,8 +45,10 @@ const StakeVThor = () => {
   const { getRate, previewDeposit, previewRedeem, stakeThor, unstakeThor } = useVthorUtil();
   const { wallet, setIsConnectModalOpen } = useWallet();
 
-  const ethAddress = useMemo(() => wallet?.ETH?.address, [wallet]);
-  const ethWalletType = useMemo(() => wallet?.ETH?.walletType, [wallet]);
+  const { walletType: ethWalletType, address: ethAddress } = useMemo(
+    () => wallet?.ETH || { walletType: undefined, address: undefined },
+    [wallet?.ETH],
+  );
 
   const getTokenInfo = useCallback(
     async (contractType: VestingType, address: string, setBalance: (num: BigNumber) => void) => {
@@ -91,7 +94,6 @@ const StakeVThor = () => {
   const onAmountChange = useCallback(
     (amount: Amount, targetAction?: StakeActions) => {
       const stakeAction = targetAction || action;
-      // TODO: validation (cannot exceed max amount)
       setInputAmount(amount);
       const amountBN = BigNumber.from(toWei(amount.assetAmount.toNumber()));
       const expectedOutput =

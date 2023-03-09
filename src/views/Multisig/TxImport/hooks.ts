@@ -66,7 +66,8 @@ export const useTxImportForm = () => {
           const data = await parseData(rawData);
 
           setImportedTx(data);
-        } catch (e: ErrorType) {
+        } catch (error: NotWorth) {
+          console.error(error);
           setFileError(t('views.multisig.jsonError'));
           setImportedTx(null);
         }

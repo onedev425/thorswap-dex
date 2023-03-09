@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Chain, Keystore } from '@thorswap-lib/types';
 import { HandleWalletConnectParams } from 'components/Modals/ConnectWalletModal/hooks';
 import { MultisigWallet } from 'store/multisig/types';

@@ -1,4 +1,4 @@
-import { Amount } from '@thorswap-lib/multichain-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { StatsList } from 'components/StatsList';
 import { StatsType } from 'components/StatsList/types';
 import { useGlobalStats } from 'hooks/useGlobalStats';

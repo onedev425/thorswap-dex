@@ -1,4 +1,4 @@
-import { QueryStatus } from '@reduxjs/toolkit/dist/query';
+import { QueryStatus } from '@reduxjs/toolkit/query';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { IS_PROD } from 'settings/config';
 import { useLazyGetTokenListQuery } from 'store/static/api';

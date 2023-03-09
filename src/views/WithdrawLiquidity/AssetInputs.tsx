@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, Asset } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { Box, Icon } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
@@ -11,7 +11,7 @@ import { WithdrawPercent } from 'views/WithdrawLiquidity/WithdrawPercent';
 import { AssetAmountBox } from './AssetAmountBox';
 
 type Props = {
-  poolAsset: Asset;
+  poolAsset: AssetEntity;
   percent: Amount;
   runeAmount: Amount;
   assetAmount: Amount;
@@ -62,7 +62,7 @@ export const AssetInputs = memo(
               <AssetAmountBox
                 stretch
                 amount={runeAmount.toSignificantWithMaxDecimals(6)}
-                asset={Asset.RUNE()}
+                asset={AssetEntity.RUNE()}
               />
             </Box>
           </Box>

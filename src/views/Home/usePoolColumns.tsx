@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, Asset, Percent, Pool } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity, Percent, Pool } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon } from 'components/Atomic';
 import { getAmountColumnSorter, sortPoolColumn } from 'components/Atomic/Table/utils';
@@ -72,7 +72,7 @@ export const usePoolColumns = () => {
         id: 'action',
         Header: () => t('common.action'),
         accessor: (row: Pool) => row.asset,
-        Cell: ({ cell: { value } }: { cell: { value: Asset } }) => (
+        Cell: ({ cell: { value } }: { cell: { value: AssetEntity } }) => (
           <Box row className="gap-2" justify="end">
             <Button
               onClick={(e) => {

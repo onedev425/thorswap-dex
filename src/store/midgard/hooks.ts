@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { useCallback, useMemo } from 'react';
 import * as actions from 'store/midgard/actions';
@@ -105,7 +105,7 @@ export const useMidgard = () => {
     () =>
       midgardState.pools
         .filter(({ detail }) => detail.status.toLowerCase() === 'available')
-        .map(({ asset: { chain, symbol } }) => new Asset(chain, symbol, true)),
+        .map(({ asset: { chain, symbol } }) => new AssetEntity(chain, symbol, true)),
     [midgardState.pools],
   );
 

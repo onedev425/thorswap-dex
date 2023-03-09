@@ -1,0 +1,26 @@
+name: Lint & Unit tests
+
+on:
+  push:
+    branches-ignore:
+      - 'stagenet'
+      - 'main'
+
+concurrency:
+  group: lint-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests_and_lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-repo
+
+      - name: Lint
+        run: |
+          yarn lint
+          yarn typescript
+
+      # - name: Tests
+      #   run: yarn test:ci

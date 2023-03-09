@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import { BigNumber } from '@ethersproject/bignumber';
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Box, Button, Modal } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
 import { Input } from 'components/Input';
@@ -9,14 +9,14 @@ import { showErrorToast } from 'components/Toast';
 import { useCallback, useEffect, useState } from 'react';
 import { ContractType, fromWei, getContractAddress, toWei } from 'services/contract';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
-import { FarmActionType } from 'views/Stake/types';
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
+
+import { FarmActionType } from '../types';
 
 const actionNameKey: Record<FarmActionType, string> = {
   [FarmActionType.DEPOSIT]: 'views.staking.depositAction',
@@ -30,7 +30,7 @@ type Props = {
   tokenBalance: BigNumber;
   stakedAmount: BigNumber;
   claimableAmount: BigNumber;
-  lpAsset: Asset;
+  lpAsset: AssetEntity;
   contractType: ContractType;
   onConfirm: (tokenAmount: BigNumber) => void;
   onCancel: () => void;
@@ -102,19 +102,23 @@ export const StakeConfirmModal = ({
         }),
       );
 
+      const { approveAssetForContract } = await (
+        await import('services/multichain')
+      ).getSwapKitClient();
+
       try {
-        const txid = await multichain().approveAssetForStaking(
+        const txid = await approveAssetForContract(
           lpAsset,
           getContractAddress(contractType).address,
         );
 
-        if (txid) {
+        if (typeof txid === 'string') {
           appDispatch(updateTransaction({ id, txid }));
         }
-      } catch (error) {
+      } catch (error: NotWorth) {
+        console.error(error);
         appDispatch(completeTransaction({ id, status: 'error' }));
         showErrorToast(t('notification.approveFailed'));
-        console.info(error);
       }
     }
   }, [wallet, onCancel, lpAsset, appDispatch, contractType]);

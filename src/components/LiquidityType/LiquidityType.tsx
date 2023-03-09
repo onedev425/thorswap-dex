@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Box } from 'components/Atomic';
 import { LiquidityTypeOption, LiquidityTypeProps } from 'components/LiquidityType/types';
 import { TabsSelect } from 'components/TabsSelect';

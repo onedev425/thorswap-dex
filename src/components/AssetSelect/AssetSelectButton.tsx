@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetButton } from 'components/AssetSelect/AssetButton';
 import { Button, Icon } from 'components/Atomic';
@@ -7,7 +7,7 @@ import { t } from 'services/i18n';
 type Props = {
   className?: string;
   onClick?: () => void;
-  selected?: Maybe<Asset>;
+  selected?: Maybe<AssetEntity>;
   showAssetType?: boolean;
 };
 

@@ -1,9 +1,10 @@
 import { getAddress } from '@ethersproject/address';
 import { BigNumber } from '@ethersproject/bignumber';
-import { type ContractInterface, Contract } from '@ethersproject/contracts';
+import { Contract, type ContractInterface } from '@ethersproject/contracts';
 import { formatEther, formatUnits, parseUnits } from '@ethersproject/units';
-import { alchemyProvider } from 'services/alchemyProvider';
-import { multichain } from 'services/multichain';
+import { getProvider } from '@thorswap-lib/toolbox-evm';
+import { Chain, FeeOption } from '@thorswap-lib/types';
+import { getSwapKitClient } from 'services/multichain';
 
 import ERC20ABI from './abi/ERC20.json';
 import RewardsPerBlockABI from './abi/RewardPerBlock.json';
@@ -66,15 +67,15 @@ export const lpContractConfig: Record<LPContractType, { tokenAddr: string; staki
     },
   };
 
-export const fromWei = (amountInWei: BigNumber): number => {
+export const fromWei = (amountInWei: BigNumber) => {
   return parseFloat(formatUnits(amountInWei, 'ether'));
 };
 
-export const toWei = (amount: number | string): BigNumber => {
+export const toWei = (amount: number | string) => {
   return parseUnits(amount.toString(), 'ether');
 };
 
-export const toWeiFromString = (amount: string): BigNumber => {
+export const toWeiFromString = (amount: string) => {
   return parseUnits(amount, 'ether');
 };
 
@@ -85,7 +86,8 @@ export const getEtherscanContract = (contractType: ContractType) => {
 
 export const getCustomContract = (contractAddr: string, abi?: ContractInterface) => {
   const address = getAddress(contractAddr.toLowerCase());
-  return new Contract(address, abi ? abi : ERC20ABI, alchemyProvider());
+
+  return new Contract(address, abi ? abi : ERC20ABI, getProvider(Chain.Ethereum));
 };
 
 export const getLPContractAddress = (contractType: LPContractType) =>
@@ -100,7 +102,7 @@ export const getLpTokenBalance = async (contractType: LPContractType) => {
   return await tokenContract.balanceOf(stakingAddr);
 };
 
-export const getBlockRewards = async (): Promise<number> => {
+export const getBlockRewards = async () => {
   let blockReward = parseFloat(
     formatEther(await getEtherscanContract(ContractType.REWARDS_PER_BLOCK).rewardPerBlock()),
   );
@@ -109,24 +111,29 @@ export const getBlockRewards = async (): Promise<number> => {
 };
 
 // add 20%
-export const calculateGasMargin = (value: BigNumber): BigNumber => {
+export const calculateGasMargin = (value: BigNumber) => {
   return value.mul(BigNumber.from(10000 + 2000)).div(BigNumber.from(10000));
 };
 
 export const triggerContractCall = async (
   contractType: ContractType,
-  methodName: string,
-  args: ToDo[],
-): Promise<any> => {
+  funcName: string,
+  funcParams: ToDo[],
+) => {
+  const ethWalletMethods = (await getSwapKitClient()).connectedWallets[Chain.Ethereum];
+  if (!ethWalletMethods) throw new Error('No ETH wallet connected');
+
   const { address, abi } = contractConfig[contractType];
 
-  const ethClient = multichain().eth;
-
-  return await ethClient.callWithWrite({
+  //@ts-ignore
+  const populatedTransaction = await ethWalletMethods.createContractTxObject({
     contractAddress: address,
     abi,
-    funcName: methodName,
-    // @ts-expect-error
-    funcParams: args,
+    funcName,
+    //@ts-ignore
+    funcParams: [...funcParams, { from: await ethWalletMethods.getAddress() }],
   });
+
+  //@ts-ignore
+  return ethWalletMethods.sendTransaction(populatedTransaction, FeeOption.Fast);
 };

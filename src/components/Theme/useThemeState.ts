@@ -1,12 +1,11 @@
 import { useColorMode } from '@chakra-ui/react';
 import { ThemeMode } from 'components/Theme/types';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useApp } from 'store/app/hooks';
 import { ThemeType } from 'types/app';
 
 export const useThemeState = () => {
   const { themeType } = useApp();
-  const mounted = useRef(false);
   const { setColorMode } = useColorMode();
 
   const getThemeMode = (type: ThemeType) => {
@@ -32,11 +31,6 @@ export const useThemeState = () => {
     },
     [setColorMode],
   );
-
-  if (!mounted.current) {
-    activateTheme(getThemeMode(themeType));
-    mounted.current = true;
-  }
 
   useEffect(() => {
     activateTheme(getThemeMode(themeType));

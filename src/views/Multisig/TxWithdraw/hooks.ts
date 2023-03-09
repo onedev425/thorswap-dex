@@ -1,4 +1,10 @@
-import { Amount, Asset, AssetAmount, Memo, Percent } from '@thorswap-lib/multichain-core';
+import {
+  Amount,
+  AssetAmount,
+  AssetEntity as Asset,
+  Memo,
+  Percent,
+} from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';

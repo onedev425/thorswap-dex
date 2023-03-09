@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { FallbackIcon } from 'components/AssetIcon/FallbackIcon';
 import { Box } from 'components/Atomic';
@@ -16,7 +16,7 @@ const brokenAssetIcons = new Set<string>();
 
 export const AssetIcon = memo(
   ({
-    asset = Asset.RUNE(),
+    asset = AssetEntity.RUNE(),
     bgColor,
     className,
     hasChainIcon = true,

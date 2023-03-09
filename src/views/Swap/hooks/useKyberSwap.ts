@@ -1,4 +1,4 @@
-import { QuoteRoute } from '@thorswap-lib/multichain-core';
+import { QuoteRoute } from '@thorswap-lib/swapkit-core';
 import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 

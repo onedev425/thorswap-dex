@@ -1,4 +1,4 @@
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { IconColor } from 'components/Atomic';
 import { ColorType } from 'types/app';
 
@@ -19,8 +19,8 @@ type AssetStyleType = {
 };
 
 export type AssetIconProps = (
-  | { asset: Asset; logoURI?: string }
-  | { logoURI: string; asset?: Asset }
+  | { asset: AssetEntity; logoURI?: string }
+  | { logoURI: string; asset?: AssetEntity }
 ) & {
   badge?: string;
   hasChainIcon?: boolean;
@@ -31,8 +31,8 @@ export type AssetIconProps = (
 } & AssetStyleType;
 
 export type AssetLpIconProps = {
-  asset1: Asset;
-  asset2: Asset;
+  asset1: AssetEntity;
+  asset2: AssetEntity;
   inline?: boolean;
   hasShadow?: boolean;
 } & AssetStyleType;

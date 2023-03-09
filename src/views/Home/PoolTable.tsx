@@ -1,4 +1,4 @@
-import { Pool } from '@thorswap-lib/multichain-core';
+import { Pool } from '@thorswap-lib/swapkit-core';
 import { Box, Icon, Table, TableRowType } from 'components/Atomic';
 import { useCallback } from 'react';
 import { navigateToPoolDetail } from 'settings/router';

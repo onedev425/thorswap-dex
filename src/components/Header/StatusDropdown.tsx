@@ -6,8 +6,7 @@ import { useMimir } from 'hooks/useMimir';
 import { StatusType, useNetwork } from 'hooks/useNetwork';
 import { memo, useMemo } from 'react';
 import { t } from 'services/i18n';
-import { midgardApi } from 'services/midgard';
-import { THORNODE_URL } from 'settings/config';
+import { MIDGARD_URL, THORNODE_URL } from 'settings/config';
 import { parse } from 'url';
 
 import { StatusBadge } from './StatusBadge';
@@ -42,17 +41,11 @@ export const StatusDropdown = memo(() => {
   } = useMimir();
 
   // Midgard IP on devnet OR on test|chaos|mainnet
-  const midgardUrl = getHostnameFromUrl(midgardApi.getBaseUrl()) || '';
+  const midgardUrl = getHostnameFromUrl(MIDGARD_URL) || '';
 
   const liquidityCapLabel = useMemo(() => {
-    if (!capPercent) {
-      return t('components.statusDropdown.capAvailable');
-    }
-
-    if (isFundsCapReached) {
-      return `${t('components.statusDropdown.capLimit')} (${capPercent})`;
-    }
-
+    if (!capPercent) return t('components.statusDropdown.capAvailable');
+    if (isFundsCapReached) return `${t('components.statusDropdown.capLimit')} (${capPercent})`;
     return `${t('components.statusDropdown.capAvailable')} (${capPercent})`;
   }, [isFundsCapReached, capPercent]);
 

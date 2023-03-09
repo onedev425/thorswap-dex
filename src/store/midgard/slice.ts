@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { FullMemberPool, MemberPool } from '@thorswap-lib/midgard-sdk';
-import { Asset, equalObjects, Pool } from '@thorswap-lib/multichain-core';
+import { AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import {
   checkPendingLP,
@@ -12,6 +12,8 @@ import {
 
 import * as midgardActions from './actions';
 import { State } from './types';
+
+const equalObject = (a: any, b: any) => JSON.stringify(a) === JSON.stringify(b);
 
 const initialState: State = {
   pools: [],
@@ -68,7 +70,6 @@ const midgardSlice = createSlice({
       state.chainMemberDetailsLoading = {};
     },
     resetChainMemberDetail(state, { payload }: PayloadAction<string>) {
-      // TODO: fix this
       // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
       delete state.chainMemberDetails[payload];
       state.chainMemberDetailsLoading[payload] = false;
@@ -214,7 +215,7 @@ const midgardSlice = createSlice({
         });
 
         memberPools.forEach((memPool) => {
-          const asset = Asset.fromAssetString(memPool.pool);
+          const asset = AssetEntity.fromAssetString(memPool.pool);
           if (!asset) return;
           const { chain } = asset;
 
@@ -400,7 +401,7 @@ const midgardSlice = createSlice({
       .addCase(midgardActions.getThorchainInboundData.fulfilled, (state, { payload }) => {
         const { gasRateByChain, haltedByChain, poolAddressByChain, outboundFeeByChain } =
           payload.reduce(
-            // @ts-expect-error TODO: Update midgard types
+            // @ts-expect-error Update midgard types
             (acc, { chain, halted, gas_rate, address, outbound_fee }) => {
               if (chain) {
                 acc.gasRateByChain[chain as Chain] = gas_rate;
@@ -419,16 +420,16 @@ const midgardSlice = createSlice({
             },
           );
 
-        if (!equalObjects(gasRateByChain, state.inboundGasRate)) {
+        if (!equalObject(gasRateByChain, state.inboundGasRate)) {
           state.inboundGasRate = gasRateByChain;
         }
-        if (!equalObjects(haltedByChain, state.inboundHalted)) {
+        if (!equalObject(haltedByChain, state.inboundHalted)) {
           state.inboundHalted = haltedByChain;
         }
-        if (!equalObjects(poolAddressByChain, state.inboundAddresses)) {
+        if (!equalObject(poolAddressByChain, state.inboundAddresses)) {
           state.inboundAddresses = poolAddressByChain;
         }
-        if (!equalObjects(outboundFeeByChain, state.outboundFee)) {
+        if (!equalObject(outboundFeeByChain, state.outboundFee)) {
           state.outboundFee = outboundFeeByChain;
         }
       })

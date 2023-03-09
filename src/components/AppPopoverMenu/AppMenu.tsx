@@ -1,7 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import { Box, Card, Icon } from 'components/Atomic';
 import { Scrollbar } from 'components/Scrollbar';
-import { BUILD_NUMBER } from 'config/constants';
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 import packageJson from '../../../package.json';
@@ -87,7 +86,7 @@ export const AppMenu = () => {
 
         <Box justify="end">
           <Text textStyle="caption-xs" variant="secondary">
-            {`v${packageJson.version} (${BUILD_NUMBER})`}
+            {`v${packageJson.version}`}
           </Text>
         </Box>
       </Card>

@@ -1,11 +1,10 @@
-import { Amount, Asset, Price } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity as Asset, Price } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { getMultisigTxCreateRoute, ROUTES } from 'settings/router';
 import { useMidgard } from 'store/midgard/hooks';
 import { useMultisig } from 'store/multisig/hooks';
@@ -123,13 +122,10 @@ export const useTxSend = () => {
     }
   };
 
-  const handleSend = useCallback(() => {
-    if (
-      !multichain().validateAddress({
-        chain: Chain.THORChain,
-        address: recipientAddress,
-      })
-    ) {
+  const handleSend = useCallback(async () => {
+    const { validateAddress } = await (await import('services/multichain')).getSwapKitClient();
+
+    if (!validateAddress({ chain: Chain.THORChain, address: recipientAddress })) {
       showErrorToast(t('notification.invalidL1ChainAddy', { chain: Chain.THORChain }));
     } else {
       setIsOpenConfirmModal(true);

@@ -1,4 +1,4 @@
-import { Amount, Asset } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { InfoTable } from 'components/InfoTable';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems';

@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, Asset, AssetAmount, Price } from '@thorswap-lib/multichain-core';
+import { Amount, AssetAmount, AssetEntity, Price } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Button, Card, Icon, Tooltip } from 'components/Atomic';
@@ -16,7 +16,6 @@ import { useMimir } from 'hooks/useMimir';
 import { useNetworkFee } from 'hooks/useNetworkFee';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
 import { IS_STAGENET } from 'settings/config';
 import { useMidgard } from 'store/midgard/hooks';
 import { useAppDispatch } from 'store/store';
@@ -26,7 +25,7 @@ import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 import { ConfirmContent } from 'views/UpgradeRune/ConfirmContent';
 
-const oldRunes = [Asset.BNB_RUNE(), Asset.ETH_RUNE()];
+const oldRunes = [AssetEntity.BNB_RUNE(), AssetEntity.ETH_RUNE()];
 
 const UpgradeRune = () => {
   const appDispatch = useAppDispatch();
@@ -52,7 +51,7 @@ const UpgradeRune = () => {
     }
   }, [hasManualAddress, walletAddress]);
 
-  const [selectedAsset, setSelectedAsset] = useState<Asset>(oldRunes[0]);
+  const [selectedAsset, setSelectedAsset] = useState<AssetEntity>(oldRunes[0]);
   const [upgradeAmount, setUpgradeAmount] = useState<Amount>(
     Amount.fromAssetAmount(0, selectedAsset.decimal),
   );
@@ -85,7 +84,7 @@ const UpgradeRune = () => {
   const assetPriceInUSD = useMemo(
     () =>
       new Price({
-        baseAsset: Asset.RUNE(),
+        baseAsset: AssetEntity.RUNE(),
         pools,
         priceAmount: upgradeAmount,
       }),
@@ -116,16 +115,15 @@ const UpgradeRune = () => {
           label: `${t('common.upgrade')} ${upgradeAmount.toSignificantWithMaxDecimals(3)} ${
             selectedAsset.name
           } ${t('common.to')} ${upgradeAmount.toSignificantWithMaxDecimals(3)} ${
-            Asset.RUNE().name
+            AssetEntity.RUNE().name
           }`,
         }),
       );
 
+      const { upgrade } = await (await import('services/multichain')).getSwapKitClient();
+
       try {
-        const txid = await multichain().upgrade({
-          runeAmount,
-          recipient: recipientAddress,
-        });
+        const txid = await upgrade({ runeAmount, recipient: recipientAddress });
 
         appDispatch(
           updateTransaction({
@@ -134,13 +132,14 @@ const UpgradeRune = () => {
           }),
         );
       } catch (error) {
+        console.error(error);
         appDispatch(completeTransaction({ id, status: 'error' }));
         showErrorToast(t('notification.submitFail'));
       }
     }
   }, [selectedAsset, recipientAddress, upgradeAmount, appDispatch]);
 
-  const handleUpgrade = useCallback(() => {
+  const handleUpgrade = useCallback(async () => {
     if (isTradingHalted) {
       return showInfoToast(t('notification.upgradeTradingHalt'));
     }
@@ -149,10 +148,12 @@ const UpgradeRune = () => {
       return showInfoToast(t('notification.tcWalletRequest'));
     }
 
+    const { validateAddress } = await (await import('services/multichain')).getSwapKitClient();
+
     if (
       !(
         IS_STAGENET ||
-        multichain().validateAddress({
+        validateAddress({
           chain: Chain.THORChain,
           address: recipientAddress,
         })

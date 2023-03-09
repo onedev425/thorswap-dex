@@ -1,4 +1,4 @@
-import { Amount, Asset } from '@thorswap-lib/multichain-core';
+import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { useMemo } from 'react';
 import { useMultisig } from 'store/multisig/hooks';
 import { DepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance';

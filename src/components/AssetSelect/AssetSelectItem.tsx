@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Asset } from '@thorswap-lib/multichain-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, IconName, Tooltip } from 'components/Atomic';
@@ -20,7 +20,7 @@ import { FeaturedAssetIcon } from './FeaturedAssetIcon';
 import { AssetSelectType } from './types';
 
 type Props = AssetSelectType & {
-  select: (asset: Asset) => void;
+  select: (asset: AssetEntity) => void;
   style: NotWorth;
 };
 

@@ -1,4 +1,3 @@
-import { Chain } from '@thorswap-lib/types';
 import { Box } from 'components/Atomic';
 import { PanelView } from 'components/PanelView';
 import { Stepper } from 'components/Stepper';
@@ -7,8 +6,7 @@ import { StepType } from 'components/Stepper/types';
 import { ViewHeader } from 'components/ViewHeader';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
-import { multichain } from 'services/multichain';
-import { useWallet } from 'store/wallet/hooks';
+import { useMultisig } from 'store/multisig/hooks';
 import { useMultisigForm } from 'views/Multisig/MultisigCreate/hooks';
 import { ExportWalletStep } from 'views/Multisig/MultisigCreate/steps/ExportWalletStep';
 import { MembersStep } from 'views/Multisig/MultisigCreate/steps/MembersStep';
@@ -17,15 +15,7 @@ import { WalletNameStep } from 'views/Multisig/MultisigCreate/steps/WalletNameSt
 import { WalletSummaryStep } from 'views/Multisig/MultisigCreate/steps/WalletSummaryStep';
 
 const MultisigCreate = () => {
-  const { wallet } = useWallet();
-  const connectedWalletAddress = wallet?.[Chain.THORChain]?.address || '';
-  const pubKey = useMemo(() => {
-    try {
-      return connectedWalletAddress ? multichain().thor.getPubkey() : '';
-    } catch {
-      return '';
-    }
-  }, [connectedWalletAddress]);
+  const { walletPubKey: pubKey } = useMultisig();
 
   const { formFields, submit, errors, register, addMember, removeMember, isRequiredMember } =
     useMultisigForm({ pubKey });

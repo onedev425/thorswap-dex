@@ -1,4 +1,4 @@
-import { Amount } from '@thorswap-lib/multichain-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { useInputAmount } from 'components/InputAmount/useInputAmount';
 import { useTheme } from 'components/Theme/ThemeContext';
