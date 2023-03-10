@@ -1986,7 +1986,7 @@
     rxjs "6"
     semver "^7.3.5"
 
-"@ledgerhq/devices@^8.0.0", "@ledgerhq/devices@^8.0.0-ios-builds-improvement.0":
+"@ledgerhq/devices@^8.0.0":
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/@ledgerhq/devices/-/devices-8.0.0.tgz#8fe9f9e442e28b7a20bcdf4c2eed06ce7b8f76ae"
   integrity sha512-gSnRT0KPca+LIpaC6D/WZQjOAlSI5uCvK1dmxXtKhODLAj735rX5Z3SnGnLUavRCHNbUi44FzgvloF5BKTkh7A==
@@ -2099,14 +2099,14 @@
     "@ledgerhq/logs" "^5.30.0"
     u2f-api "0.2.7"
 
-"@ledgerhq/hw-transport-web-ble@6.27.12-ios-builds-improvement.0":
-  version "6.27.12-ios-builds-improvement.0"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport-web-ble/-/hw-transport-web-ble-6.27.12-ios-builds-improvement.0.tgz#c0681d3cdb71c598167d62bd2e4f5baeee6dd07c"
-  integrity sha512-Lck+o1gj+9Lda9+7tTMyoDwNjKjDBaamQ3JVIVNrnZobvHSLyraRYnlAKfbPXJYrmgopab+SLbCmno0ftKzBQQ==
+"@ledgerhq/hw-transport-web-ble@6.27.12":
+  version "6.27.12"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport-web-ble/-/hw-transport-web-ble-6.27.12.tgz#d2df31e2d6a6efb685a98a7ff8ff24a1ee216b79"
+  integrity sha512-0GNZXstgZldEsBqc3OwE+YPINY7Srd2aUukMbDVMFhaCw21FWYGxjNwwxP1oPhb8EQGoEqqwpWFcAzp1IYl7ig==
   dependencies:
-    "@ledgerhq/devices" "^8.0.0-ios-builds-improvement.0"
+    "@ledgerhq/devices" "^8.0.0"
     "@ledgerhq/errors" "^6.12.3"
-    "@ledgerhq/hw-transport" "^6.28.1-ios-builds-improvement.0"
+    "@ledgerhq/hw-transport" "^6.28.1"
     "@ledgerhq/logs" "^6.10.1"
     rxjs "6"
 
@@ -2151,21 +2151,12 @@
     "@ledgerhq/hw-transport" "^6.27.9-protect.1"
     "@ledgerhq/logs" "^6.10.1"
 
-"@ledgerhq/hw-transport@6.28.1", "@ledgerhq/hw-transport@^6.27.6", "@ledgerhq/hw-transport@^6.27.8", "@ledgerhq/hw-transport@^6.27.9-protect.1", "@ledgerhq/hw-transport@^6.28.1", "@ledgerhq/hw-transport@^6.28.1-ios-builds-improvement.0":
+"@ledgerhq/hw-transport@6.28.1", "@ledgerhq/hw-transport@^6.27.6", "@ledgerhq/hw-transport@^6.27.8", "@ledgerhq/hw-transport@^6.27.9-protect.1", "@ledgerhq/hw-transport@^6.28.1":
   version "6.28.1"
   resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport/-/hw-transport-6.28.1.tgz#cb22fe9bc23af4682c30f2aac7fe6f7ab13ed65a"
   integrity sha512-RaZe+abn0zBIz82cE9tp7Y7aZkHWWbEaE2yJpfxT8AhFz3fx+BU0kLYzuRN9fmA7vKueNJ1MTVUCY+Ex9/CHSQ==
   dependencies:
     "@ledgerhq/devices" "^8.0.0"
-    "@ledgerhq/errors" "^6.12.3"
-    events "^3.3.0"
-
-"@ledgerhq/hw-transport@6.28.1-ios-builds-improvement.0":
-  version "6.28.1-ios-builds-improvement.0"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport/-/hw-transport-6.28.1-ios-builds-improvement.0.tgz#9d12e8ad527f5346ec2f25ba7480bba4fab3bd44"
-  integrity sha512-nFYMGDfc/tdbleWSFLPrn4GSw0whptLRG6RLZ+7kV6Neu2qpl//mI5xJgiUzEgSEH8pwdkM+MIwZ5Jzb/KpTAQ==
-  dependencies:
-    "@ledgerhq/devices" "^8.0.0-ios-builds-improvement.0"
     "@ledgerhq/errors" "^6.12.3"
     events "^3.3.0"
 
@@ -2534,15 +2525,15 @@
     "@thorswap-lib/atlas" "^0.4.16"
     "@thorswap-lib/multichain-entities" "^0.2.34"
 
-"@thorswap-lib/swapkit-core@1.0.0-development.102":
-  version "1.0.0-development.102"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-core/-/swapkit-core-1.0.0-development.102.tgz#1b8d3e99f4dfb16583c1e4fef18af0f568a16e28"
-  integrity sha512-f8qFfNhCgIz2yqh2bbxTzqBh9QmygA2d8pj9+FXL3c2WAwmysH0zzg5O+u/sfTdTTxuFpCclSqRArcaDwzK9hQ==
+"@thorswap-lib/swapkit-core@1.0.0-development.104":
+  version "1.0.0-development.104"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-core/-/swapkit-core-1.0.0-development.104.tgz#df91c1b154da50d1249fef367961b20761011a5a"
+  integrity sha512-OEZCPE0C3lovA4OutcSIo32Vz2OqUtfWbz9UaapmncovIKdT7CaQXHUV+GaJbUcJPI6hIxlurWLe0SkxBA8PVQ==
   dependencies:
     "@thorswap-lib/helpers" "0.0.0-development.46"
     "@thorswap-lib/midgard-sdk" "0.1.15"
     "@thorswap-lib/swapkit-entities" "0.3.0-development.54"
-    "@thorswap-lib/swapkit-explorers" "0.1.0-development.2"
+    "@thorswap-lib/swapkit-explorers" "0.1.0-development.4"
     "@thorswap-lib/types" "1.0.0-development.53"
     avalanche "3.15.5"
     bignumber.js "9.1.1"
@@ -2558,10 +2549,10 @@
   dependencies:
     "@thorswap-lib/types" "1.0.0-development.53"
 
-"@thorswap-lib/swapkit-explorers@0.1.0-development.2":
-  version "0.1.0-development.2"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-explorers/-/swapkit-explorers-0.1.0-development.2.tgz#9832a6f30b37c9830c2ecb06e9abf771e8a7e341"
-  integrity sha512-hnRugyFkjII1FaOVdhslO5FQDLM/w18H5/711y2xsSFFxfz5JBWMkY3KyIsAggtjl32QetgWmL22wiMWxwmxJQ==
+"@thorswap-lib/swapkit-explorers@0.1.0-development.4":
+  version "0.1.0-development.4"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-explorers/-/swapkit-explorers-0.1.0-development.4.tgz#13fd923a4aa1cca93a81a6060c828c86d5dbfd53"
+  integrity sha512-8cyfEWMnVVftLq+tmgvzA8UT6M1/LLzjtJrz+MC0X2tsFWNZ8iQ872KKWCEkESV6q28Jea4JY9wcDXhMsw+tFw==
   dependencies:
     "@thorswap-lib/types" "1.0.0-development.53"
 

@@ -47,7 +47,6 @@ export const useConfirmSend = ({
       const { transfer } = await (await import('services/multichain')).getSwapKitClient();
 
       try {
-        debugger;
         const txid = await transfer({
           // @ts-expect-error
           assetAmount: { asset: sendAsset, amount: sendAmount },

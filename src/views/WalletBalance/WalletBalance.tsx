@@ -38,10 +38,10 @@ const WalletBalanceList = () => {
   );
 
   const hideAsset = useCallback(
-    (asset: AssetEntity): MouseEventHandler<HTMLDivElement | HTMLButtonElement> =>
+    (chain: Chain, asset: AssetEntity): MouseEventHandler<HTMLDivElement | HTMLButtonElement> =>
       (event) => {
         event.stopPropagation();
-        appDispatch(actions.addAssetToHidden({ chain: asset.L1Chain, address: asset.toString() }));
+        appDispatch(actions.addAssetToHidden({ chain, address: asset.toString() }));
       },
     [appDispatch],
   );
@@ -92,7 +92,7 @@ const WalletBalanceList = () => {
                 <Button
                   className="px-3 hover:bg-transparent dark:hover:bg-transparent"
                   leftIcon={<Icon color="primaryBtn" name="eyeSlash" size={16} />}
-                  onClick={hideAsset(data.asset)}
+                  onClick={hideAsset(chain, data.asset)}
                   tooltip={t('common.hide')}
                   variant="tint"
                 />
