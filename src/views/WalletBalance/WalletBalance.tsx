@@ -117,7 +117,9 @@ const WalletBalanceList = () => {
       const { address, balance } = chainBalance;
       const { walletType } = chainBalance;
       const filteredBalances = balance.filter(
-        ({ asset }) => !hiddenAssets[chain]?.includes(asset.toString()),
+        ({ asset }) =>
+          !hiddenAssets[chain]?.includes(asset.toString()) &&
+          !(!asset.symbol || [' ', '/', '.'].some((c) => asset.symbol.includes(c))),
       );
 
       return (
