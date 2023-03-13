@@ -237,6 +237,7 @@
     "approveFailed": "Approve Failed",
     "approveOverflow": "%{actionType} amount exceeds allowance",
     "assetNotFound": "Assets not found",
+    "cancelledByUser": "Cancelled by user",
     "cannotWithdrawFromSP": "Cannot withdraw from staged pool",
     "cannotWithdrawFromSPDesc": "Please try withdraw after pool is activated",
     "connectWallet": "Please connect wallet",
