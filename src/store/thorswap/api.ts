@@ -17,14 +17,10 @@ const baseUrl =
   (IS_DEV_API ? import.meta.env.VITE_THORSWAP_DEV_API : import.meta.env.VITE_THORSWAP_API) ||
   'https://dev-api.thorswap.net';
 
-const tempTokenlist = 'https://token-list-dev-vlpfe7es4a-uc.a.run.app';
-
-const tokenlistUrl = tempTokenlist;
-
 export const thorswapApi = createApi({
   reducerPath: 'thorswap',
   baseQuery: fetchBaseQuery({
-    baseUrl: '',
+    baseUrl,
     mode: 'cors',
   }),
   endpoints: (build) => ({
@@ -44,7 +40,7 @@ export const thorswapApi = createApi({
     }),
 
     getProviders: build.query<GetProvidersResponse, void>({
-      query: () => `${tokenlistUrl}/providers`,
+      query: () => '/tokenlist/providers',
     }),
 
     getTokenCachedPrices: build.query<GetTokenPriceResponse, GetTokenPriceParams>({
@@ -54,7 +50,7 @@ export const thorswapApi = createApi({
 
         return {
           method: 'POST',
-          url: `${tokenlistUrl}/cached-price`,
+          url: '/tokenlist/cached-price',
           body,
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         };
@@ -67,12 +63,12 @@ export const thorswapApi = createApi({
         if (from) queryParams.append('from', from);
         if (type) queryParams.append('type', type);
 
-        return `${baseUrl}/apiusage/txn?${queryParams.toString()}`;
+        return `/apiusage/txn?${queryParams.toString()}`;
       },
     }),
 
     getAnnouncements: build.query<AnnouncementsData, void>({
-      query: () => `${baseUrl}/announcements`,
+      query: () => '/announcements',
     }),
   }),
 });
