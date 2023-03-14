@@ -79,8 +79,14 @@ export const transactionBorderColors: Record<TransactionStatus, string> = {
   error: 'border-pink dark:hover:border-pink',
 };
 
-export const cutTxPrefix = (tx: string, prefix = '0x') =>
-  tx?.startsWith(prefix) ? tx.slice(prefix.length) : tx;
+export const cutTxPrefix = (tx = '', prefix = '0x') => {
+  const isHex = tx.startsWith(prefix);
+  const isUpperHex = tx.startsWith(prefix.toUpperCase());
+
+  if (isHex) return tx.slice(prefix.length);
+  if (isUpperHex) return tx.toLowerCase().slice(prefix.length).toUpperCase();
+  return tx;
+};
 
 export const useTxLabelUpdate = ({
   result,
