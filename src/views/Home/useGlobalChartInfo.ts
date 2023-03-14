@@ -171,11 +171,16 @@ export const useGlobalChartInfo = () => {
 
       const tvlValue = tvlData[index];
 
-      const liquidityValue = format(tvlValue?.totalValuePooled);
+      // HOTFIX: ignore liquidity value if it's less than zero
+      // should be removed when it gets fixed on midgard side
+      if (parseFloat(tvlValue?.totalValuePooled) > 0) {
+        const liquidityValue = format(tvlValue?.totalValuePooled);
+        liquidity.push({ time, value: liquidityValue.toCurrencyFormat(2, false) });
+      }
+
       const bondingValue = format(data?.bondingEarnings);
       const liquidityEarningValue = format(data?.liquidityEarnings);
 
-      liquidity.push({ time, value: liquidityValue.toCurrencyFormat(2, false) });
       bondingEarnings.push({
         time,
         value: bondingValue.toCurrencyFormat(2, false),
