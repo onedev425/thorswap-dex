@@ -14,9 +14,7 @@ const checkIfExchangeBNBAddress = async (address: string) => {
   const binanceToolbox = BinanceToolbox({});
   const { flags } = await binanceToolbox.getAccount(address);
 
-  // // if flags === 0, it's not exchange address
-
-  return flags !== 0;
+  return typeof flags === 'number' && flags !== 0;
 };
 
 // used for checking if BNB address is an exchange address
