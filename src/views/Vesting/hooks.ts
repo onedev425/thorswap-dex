@@ -123,14 +123,14 @@ export const useVesting = () => {
       );
 
       try {
-        const response = await triggerContractCall(
+        const hash = await triggerContractCall(
           vestingAction === VestingType.THOR ? ContractType.VESTING : ContractType.VTHOR_VESTING,
           'claim',
           [currentClaimableAmount],
         );
 
-        if (response?.hash) {
-          appDispatch(updateTransaction({ id, txid: response.hash }));
+        if (hash) {
+          appDispatch(updateTransaction({ id, txid: hash }));
         }
       } catch (error) {
         console.error(error);

@@ -197,10 +197,10 @@ export const StakingCard = ({
       const params = methodName === 'harvest' ? [0, ethAddr] : [0, tokenAmount, ethAddr];
 
       try {
-        const { hash: txid } = await triggerContractCall(contractType, methodName, params);
+        const hash = await triggerContractCall(contractType, methodName, params);
 
-        if (txid) {
-          appDispatch(updateTransaction({ id, txid }));
+        if (hash) {
+          appDispatch(updateTransaction({ id, txid: hash }));
         }
       } catch (error: NotWorth) {
         console.error(error);
