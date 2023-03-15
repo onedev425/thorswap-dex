@@ -201,7 +201,7 @@ const ConnectWalletModal = () => {
   return (
     <Modal
       HeaderComponent={
-        <Box className="!h-20">
+        <Box className="!h-24">
           {selectedWalletType === WalletType.Ledger && (
             <InfoTip
               className="m-auto !pt-2 !pb-1 !px-2"

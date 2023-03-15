@@ -2,12 +2,15 @@ import { Text } from '@chakra-ui/react';
 import { Chain } from '@thorswap-lib/types';
 import { Box, DropdownMenu } from 'components/Atomic';
 import { useMemo } from 'react';
-import { IS_PROD } from 'settings/config';
 import { DerivationPathType } from 'store/wallet/types';
 
-const CHAINS_WITH_CUSTOM_DERIVATION_PATH = [Chain.Ethereum, Chain.Avalanche].concat(
-  IS_PROD ? [] : [Chain.Bitcoin, Chain.Litecoin],
-);
+const CHAINS_WITH_CUSTOM_DERIVATION_PATH = [
+  Chain.Ethereum,
+  Chain.Avalanche,
+  Chain.Bitcoin,
+  Chain.BitcoinCash,
+  Chain.Litecoin,
+];
 
 const evmLedgerTypes = [
   { value: '', label: "MetaMask (m/44'/60'/0'/0/{index})" },
@@ -26,8 +29,12 @@ const useLedgerTypes = (chain: Chain) => {
   const types = useMemo(() => {
     switch (chain) {
       case Chain.Bitcoin:
-      case Chain.Litecoin:
-        return utxoLedgerTypes(chain === Chain.Bitcoin ? 0 : 2);
+      case Chain.BitcoinCash:
+      case Chain.Litecoin: {
+        const chainId = chain === Chain.Bitcoin ? 0 : chain === Chain.BitcoinCash ? 145 : 2;
+
+        return utxoLedgerTypes(chainId);
+      }
 
       case Chain.Ethereum:
       case Chain.Avalanche:
