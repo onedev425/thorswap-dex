@@ -9,12 +9,14 @@ import { borderHoverHighlightClass } from 'components/constants';
 import { Scrollbar } from 'components/Scrollbar';
 import { chainToSigAsset } from 'helpers/assets';
 import { formatPrice } from 'helpers/formatPrice';
+import { parseAssetToToken } from 'helpers/parseAssetToToken';
 import { memo, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getGeckoData } from 'services/coingecko';
 import { t } from 'services/i18n';
 import { getSendRoute, getSwapRoute } from 'settings/router';
 import { ViewMode } from 'types/app';
+import { useTokenPrices } from 'views/Wallet/AccountCard/hooks';
 import { AssetChart } from 'views/Wallet/AssetChart';
 import { ConnectionActions } from 'views/Wallet/components/ConnectionActions';
 import { CopyAddress } from 'views/Wallet/components/CopyAddress';
@@ -49,6 +51,8 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
   } = useAccountData(chain);
 
   const chainAssets = useMemo(() => chainInfo.map((elem) => elem.asset.name), [chainInfo]);
+
+  const { data } = useTokenPrices(chainInfo);
 
   useEffect(() => {
     getGeckoData(chainAssets);
@@ -179,7 +183,18 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
             <Box col className="!-mb-6" flex={1}>
               <Scrollbar>
                 {chainInfo.map((info) => (
-                  <ChainInfo geckoData={geckoData} info={info} key={info.asset.ticker} />
+                  <ChainInfo
+                    geckoData={geckoData}
+                    info={info}
+                    key={info.asset.ticker}
+                    tokenListData={
+                      data
+                        ? data.find(
+                            (elem) => elem.identifier === parseAssetToToken(info.asset)?.identifier,
+                          )
+                        : undefined
+                    }
+                  />
                 ))}
               </Scrollbar>
             </Box>

@@ -44,10 +44,13 @@ export const thorswapApi = createApi({
     }),
 
     getTokenCachedPrices: build.query<GetTokenPriceResponse, GetTokenPriceParams>({
-      query: (tokens) => {
+      query: ({ tokens, options = {} }) => {
         const body = new URLSearchParams();
         tokens.forEach((token) => body.append('tokens', JSON.stringify(token)));
 
+        if (options.includeMetadata) {
+          body.append('metadata', 'true');
+        }
         return {
           method: 'POST',
           url: '/tokenlist/cached-price',

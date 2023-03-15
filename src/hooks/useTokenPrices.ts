@@ -4,7 +4,7 @@ import { parseAssetToToken } from 'helpers/parseAssetToToken';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useMemo } from 'react';
 import { useGetTokenCachedPricesQuery } from 'store/thorswap/api';
-import { GetTokenPriceParams, GetTokenPriceResponse } from 'store/thorswap/types';
+import { GetTokenPriceIdentifiers, GetTokenPriceResponse } from 'store/thorswap/types';
 export type TokenParam = { asset: Asset; amount: BigNumber };
 
 type Params = {
@@ -22,7 +22,7 @@ const getPrice = ({ asset, amount }: TokenParam, price?: number) =>
   });
 
 const findToken =
-  (searchedToken: GetTokenPriceParams[number]) =>
+  (searchedToken: GetTokenPriceIdentifiers) =>
   ({ identifier }: GetTokenPriceResponse[number]) =>
     identifier === searchedToken.identifier;
 
@@ -42,7 +42,9 @@ export const useTokenPrices = ({ inputAsset, inputAmount, outputAmount, outputAs
 
   const debouncedTokens = useDebouncedValue(tokens, 500);
 
-  const { data, refetch, isLoading, isFetching } = useGetTokenCachedPricesQuery(debouncedTokens);
+  const { data, refetch, isLoading, isFetching } = useGetTokenCachedPricesQuery({
+    tokens: debouncedTokens,
+  });
 
   const [inputPrice, outputPrice] = useMemo(() => {
     const [input, output] = tokens;

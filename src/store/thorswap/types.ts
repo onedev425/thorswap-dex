@@ -67,13 +67,34 @@ export type Token = {
   ticker: string;
 };
 
-export type GetTokenPriceParams = {
+export type GetTokenPriceIdentifiers = {
   identifier?: string;
-}[];
+};
+export type GetTokenListOptions = {
+  includeMetadata?: boolean;
+};
 
-export type GetTokenPriceResponse = (GetTokenPriceParams[number] & {
+export type GetTokenPriceParams = {
+  tokens: GetTokenPriceIdentifiers[];
+  options?: GetTokenListOptions;
+};
+
+export type CoingGecko = {
+  id?: string;
+  name?: string;
+  market_cap?: number;
+  total_volume?: number;
+  price_change_24h_usd?: number;
+  price_change_percentage_24h_usd?: number;
+  timestamp?: number;
+};
+
+export type GetTokenPriceResponseOject = GetTokenPriceIdentifiers & {
   price_usd: number;
-})[];
+  cg?: CoingGecko;
+};
+
+export type GetTokenPriceResponse = GetTokenPriceResponseOject[];
 
 export type GetProvidersResponse = {
   nbTokens: number;
