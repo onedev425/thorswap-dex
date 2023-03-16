@@ -3,6 +3,11 @@ import { IS_STAGENET, MIDGARD_URL } from 'settings/config';
 
 let sdkClient: SwapKitCoreType;
 
+const covalentApiKey = import.meta.env.VITE_COVALENT_API_KEY || process.env.VITE_COVALENT_API_KEY;
+const utxoApiKey = import.meta.env.VITE_BLOCKCHAIR_API_KEY || process.env.VITE_BLOCKCHAIR_API_KEY;
+const ethplorerApiKey =
+  import.meta.env.VITE_ETHPLORER_API_KEY || process.env.VITE_ETHPLORER_API_KEY;
+
 export const getSwapKitClient = async () => {
   if (sdkClient) return sdkClient;
   const { SwapKitCore } = await import('@thorswap-lib/swapkit-core');
@@ -14,12 +19,7 @@ export const getSwapKitClient = async () => {
   const core = new SwapKitCore({ midgardUrl: MIDGARD_URL, stagenet: IS_STAGENET });
 
   core.extend({
-    config: {
-      covalentApiKey: import.meta.env.VITE_COVALENT_API_KEY || '',
-      ethplorerApiKey: import.meta.env.VITE_ETHPLORER_API_KEY || '',
-      stagenet: IS_STAGENET,
-      utxoApiKey: import.meta.env.VITE_BLOCKCHAIR_API_KEY || '',
-    },
+    config: { covalentApiKey, ethplorerApiKey, utxoApiKey, stagenet: IS_STAGENET },
     wallets: [
       keystoreWallet,
       ledgerWallet,

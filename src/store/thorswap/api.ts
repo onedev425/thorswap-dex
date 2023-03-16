@@ -16,9 +16,7 @@ import {
   GetTxnStatusResponse,
 } from './types';
 
-const baseUrl =
-  (IS_DEV_API ? import.meta.env.VITE_THORSWAP_DEV_API : import.meta.env.VITE_THORSWAP_API) ||
-  'https://dev-api.thorswap.net';
+const baseUrl = IS_DEV_API ? 'https://dev-api.thorswap.net' : 'https://api.thorswap.net';
 
 export const thorswapApi = createApi({
   reducerPath: 'thorswap',
