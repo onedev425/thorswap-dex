@@ -2422,10 +2422,10 @@
     long "4.0.0"
     uuid "9.0.0"
 
-"@thorswap-lib/ledger@1.0.0-development.117":
-  version "1.0.0-development.117"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/ledger/-/ledger-1.0.0-development.117.tgz#1c2893ab4a808ece974911b75b731c814eaa4267"
-  integrity sha512-dHuqBS9XwOvnfczyNKQm7iYyAxU8lAPhgL+YGgSPyzIco0xOguD6jLD9JZwzSC3n+7lcGF7n/EHhFCIeG5mPKA==
+"@thorswap-lib/ledger@1.0.0-development.118":
+  version "1.0.0-development.118"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/ledger/-/ledger-1.0.0-development.118.tgz#bc3e741306c6c13d1e20396459549ab3cade29a4"
+  integrity sha512-5Mvufk6SrqXwuflGPnuiV4oJw75YEeg+IYTs7oqOgWh+QbiyaD7BbDsXraLMuelUWpwxmNdFltwDavl3L5T5/Q==
   dependencies:
     "@cosmjs/amino" "0.29.5"
     "@cosmjs/crypto" "0.29.5"
@@ -2566,10 +2566,10 @@
     "@walletconnect/web3-provider" "1.8.0"
     base64-js "1.5.1"
 
-"@thorswap-lib/web-extensions@1.0.0-development.105":
-  version "1.0.0-development.105"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/web-extensions/-/web-extensions-1.0.0-development.105.tgz#005c0ca3e0761ca7f2f00e23ba387342a1f53404"
-  integrity sha512-hsJF2aFmWhpaUP5vZUAEVsStrZPeZr3t8CxKj/lZvNZaK8fI6rmU1V/AUqeSDPuFldrdYhc3Yqk8Hi8CQoqIPg==
+"@thorswap-lib/web-extensions@1.0.0-development.106":
+  version "1.0.0-development.106"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/web-extensions/-/web-extensions-1.0.0-development.106.tgz#9da716d33a4cab64a303affd283320218243ca36"
+  integrity sha512-LEW4ncGPF3qAOhdZOuTtr/HlTRV1mKdMuYGm5L0PzthN9sGtrkvFmiKgxPaCwWXAgEiX6GGuyOneESIgxSqIPA==
   dependencies:
     "@cosmjs/stargate" "0.29.5"
     "@thorswap-lib/helpers" "0.0.0-development.50"
