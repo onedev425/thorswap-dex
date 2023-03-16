@@ -6,12 +6,12 @@ import { TransactionsModalProvider } from 'components/TransactionTracker/useTran
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { checkOrigin } from 'helpers/checkOrigin';
 import { useGlobalRefresh } from 'hooks/useGlobalRefresh';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider as ReduxProvider } from 'react-redux';
 import { store as reduxStore } from 'store/store';
 
-// import { checkOrigin } from './helpers/checkOrigin';
 import DrawerProvider from './hooks/useWalletDrawer';
 import { PublicRoutes } from './router';
 
@@ -32,8 +32,8 @@ const MainApp = () => {
   );
 };
 
-function App() {
-  // if (!checkOrigin()) return null;
+export const App = () => {
+  if (!checkOrigin()) return null;
 
   return (
     <ChakraThemeProvider>
@@ -48,6 +48,4 @@ function App() {
       </HelmetProvider>
     </ChakraThemeProvider>
   );
-}
-
-export default App;
+};

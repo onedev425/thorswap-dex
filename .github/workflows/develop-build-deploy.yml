@@ -1,4 +1,4 @@
-name: Development Build & deploy
+name: Beta & Development Build & deploy
 
 on:
   push:
@@ -30,41 +30,6 @@ jobs:
         with:
           name: build-files
           path: ./dist
-
-  deploy-beta:
-    name: Deploy beta to Netlify
-    needs: build
-    runs-on: ubuntu-latest
-    if: ${{ !contains(github.event.head_commit.message, '[skip-beta]') }}
-
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: build-files
-          path: ./dist
-
-      - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v1.2
-        with:
-          publish-dir: './dist'
-          production-branch: develop
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: 'Deploy from GitHub Actions'
-          enable-pull-request-comment: false
-          enable-commit-comment: true
-          overwrites-pull-request-comment: true
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_DEV_SITE_ID }}
-        timeout-minutes: 1
-
-      - name: Discord Notification
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        uses: Ilshidur/action-discord@master
-        with:
-          args: "Deployed ✅ - https://beta.thorswap.finance\nEnvironment: mainnet\nAuthor: ${{ github.actor }}"
 
   deploy-dev:
     name: Deploy dev to Netlify
