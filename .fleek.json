@@ -1,0 +1,18 @@
+{
+  "build": {
+    "command": "yarn install; yarn build",
+    "environment": {
+      "VITE_BLOCKCHAIR_API_KEY": "A___AOdjVtXyq7ptv9wHJoUo5x3vGDgE",
+      "VITE_COVALENT_API_KEY": "ckey_ef8b6be0d7f94770a590bbe57bc",
+      "VITE_ETHPLORER_API_KEY": "EK-uB3Fv-ehKXfyN-Chujs",
+      "VITE_MAINNET_MIDGARD": "https://midgard.thorswap.net",
+      "VITE_MAINNET_THORNODE": "https://thornode.thorswap.net",
+      "VITE_THORSWAP_API": "https://api.thorswap.net",
+      "VITE_THORSWAP_DEV_API": "https://dev-api.thorswap.net",
+      "VITE_THORSWAP_STATIC_API": "https://static.thorswap.net",
+      "VITE_WALLETCONNECT_PROJECT_ID": "fece421c7897fe057c2debeed3cc7c3e"
+    },
+    "image": "node:lts",
+    "publicDir": "dist"
+  }
+}
