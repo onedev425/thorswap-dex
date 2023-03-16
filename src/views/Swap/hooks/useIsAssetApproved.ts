@@ -1,7 +1,7 @@
 import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain, WalletOption } from '@thorswap-lib/types';
 import { hasConnectedWallet, hasWalletConnected } from 'helpers/wallet';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTransactionsState } from 'store/transactions/hooks';
 import { useWallet } from 'store/wallet/hooks';
 
@@ -24,6 +24,8 @@ const useApproveResult = ({
   hasWallet: boolean;
   skip: boolean;
 }) => {
+  const prevNumberOfPendingApprovals = useRef(0);
+
   const { wallet } = useWallet();
   const [isApproved, setApproved] = useState(hasWallet ? null : true);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +34,6 @@ const useApproveResult = ({
 
   const checkApproved = useCallback(async () => {
     try {
-      setIsLoading(true);
       const { isAssetApprovedForContract, isAssetApproved } = await (
         await import('services/multichain')
       ).getSwapKitClient();
@@ -40,17 +41,28 @@ const useApproveResult = ({
       const approved = await (contract
         ? isAssetApprovedForContract(asset, contract)
         : isAssetApproved(asset));
+
       setApproved(!!approved);
     } finally {
+      prevNumberOfPendingApprovals.current = numberOfPendingApprovals;
       setIsLoading(false);
     }
-  }, [asset, contract]);
+  }, [asset, contract, numberOfPendingApprovals]);
 
   useEffect(() => {
     if (skip || !hasWallet || !isWalletConnected) {
       setApproved(!skip);
     } else {
-      checkApproved();
+      setIsLoading(true);
+      /**
+       * Place a timeout to avoid the case where the user approves the asset
+       * and rpc returns the old state. This will cause the UI to show the
+       * approve button again.
+       */
+      const timeoutDuration =
+        prevNumberOfPendingApprovals.current > numberOfPendingApprovals ? 15000 : 0;
+
+      setTimeout(() => checkApproved(), timeoutDuration);
     }
   }, [numberOfPendingApprovals, asset, hasWallet, isWalletConnected, skip, checkApproved]);
 

@@ -61,7 +61,7 @@ export const Button = ({
 
   // It helps to remove focus state from button focus styles be applied only on `tab` select
   const handleClick = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
-    if (error || loading) return;
+    if (error || disabled || loading) return;
 
     onClick?.(event);
     timeoutBlur();

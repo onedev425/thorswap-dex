@@ -185,7 +185,7 @@ export const SwapSubmitButton = ({
       ) : isApproveRequired ? (
         <Button
           stretch
-          disabled={!hasQuote}
+          error={!hasQuote}
           loading={!!numberOfPendingApprovals || isLoading}
           onClick={handleApprove}
           size="lg"
