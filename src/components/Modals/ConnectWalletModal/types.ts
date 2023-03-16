@@ -38,16 +38,7 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.Phrase]: AllChainsSupported,
   [WalletType.TrustWallet]: [Chain.THORChain, Chain.Ethereum, Chain.Binance],
   [WalletType.TrustWalletExtension]: [Chain.Ethereum, Chain.Avalanche],
-  [WalletType.Xdefi]: [
-    Chain.Avalanche,
-    Chain.Binance,
-    Chain.Bitcoin,
-    Chain.BitcoinCash,
-    Chain.Doge,
-    Chain.Ethereum,
-    Chain.Litecoin,
-    Chain.THORChain,
-  ],
+  [WalletType.Xdefi]: AllChainsSupported,
 };
 
 const COMMON_WALLETS = [
