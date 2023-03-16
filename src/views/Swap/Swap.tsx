@@ -98,6 +98,7 @@ const SwapView = () => {
     routes,
     selectedRoute,
     setSwapRoute,
+    quoteId,
   } = useSwapQuote({
     affiliateBasisPoints,
     inputAmount,
@@ -272,6 +273,7 @@ const SwapView = () => {
     quoteMode,
     recipient,
     route: selectedRoute,
+    quoteId,
   });
 
   const handleApprove = useSwapApprove({ contract, inputAsset });

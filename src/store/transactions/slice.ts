@@ -3,7 +3,12 @@ import { getFromStorage, saveInStorage } from 'helpers/storage';
 import { TxnResult } from 'store/thorswap/types';
 import { filterInitialTransactions, findTxIndexById } from 'store/transactions/utils';
 
-import type { PendingTransactionType, TransactionsState, TransactionStatus } from './types';
+import type {
+  PendingTransactionType,
+  TransactionsState,
+  TransactionStatus,
+  TxTrackerDetails,
+} from './types';
 
 const initialState = filterInitialTransactions(getFromStorage('txHistory') as TransactionsState);
 
@@ -38,6 +43,7 @@ const transactionsSlice = createSlice({
         result?: string | TxnResult;
         id: string;
         status: TransactionStatus;
+        details?: TxTrackerDetails;
       }>,
     ) {
       const index = findTxIndexById(state, payload.id);

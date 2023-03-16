@@ -3,6 +3,7 @@ import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box, Icon, Link } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
+import { TxDetailsButton } from 'components/TransactionManager/TxDetailsButton';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { TxnResult } from 'store/thorswap/types';
 import { CompletedTransactionType, TransactionType } from 'store/transactions/types';
@@ -11,7 +12,7 @@ import { cutTxPrefix, transactionTitle, useTxLabelUpdate } from './helpers';
 import { TransactionStatusIcon } from './TransactionStatusIcon';
 
 export const CompletedTransaction = memo(
-  ({ inChain, type, txid, label, status, result }: CompletedTransactionType) => {
+  ({ inChain, type, txid, label, status, result, details }: CompletedTransactionType) => {
     const [transactionLabel, setTransactionLabel] = useState(label);
     const [{ txUrl, secondTxUrl }, setTxUrls] = useState({ txUrl: '', secondTxUrl: '' });
 
@@ -100,21 +101,31 @@ export const CompletedTransaction = memo(
           </Box>
         </Box>
 
-        {txUrl && (
-          <Link external className="inline-flex" onClick={(e) => e.stopPropagation()} to={txUrl}>
-            <Icon className={baseHoverClass} color="secondary" name="external" size={18} />
-          </Link>
-        )}
-
-        {secondTxUrl && (
-          <Link
-            external
-            className="inline-flex"
-            onClick={(e) => e.stopPropagation()}
-            to={secondTxUrl}
-          >
-            <Icon className={baseHoverClass} color="secondary" name="external" size={18} />
-          </Link>
+        {details ? (
+          <TxDetailsButton txid={details.firstTransactionHash} />
+        ) : (
+          <>
+            {txUrl && (
+              <Link
+                external
+                className="inline-flex"
+                onClick={(e) => e.stopPropagation()}
+                to={txUrl}
+              >
+                <Icon className={baseHoverClass} color="secondary" name="external" size={18} />
+              </Link>
+            )}
+            {secondTxUrl && (
+              <Link
+                external
+                className="inline-flex"
+                onClick={(e) => e.stopPropagation()}
+                to={secondTxUrl}
+              >
+                <Icon className={baseHoverClass} color="secondary" name="external" size={18} />
+              </Link>
+            )}
+          </>
         )}
       </Box>
     );

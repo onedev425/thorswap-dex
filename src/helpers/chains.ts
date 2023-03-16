@@ -10,3 +10,16 @@ export const sortChains = (chains: string[]) => {
 
   return sorted;
 };
+
+export const getChainIdentifier = (chain: Chain) => {
+  switch (chain) {
+    case Chain.THORChain:
+      return `${chain}.RUNE`;
+
+    case Chain.Cosmos:
+      return `${chain}.ATOM`;
+
+    default:
+      return `${chain}.${chain}`;
+  }
+};

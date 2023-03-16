@@ -34,6 +34,7 @@ const WithdrawLiquidity = lazy(() => import('views/WithdrawLiquidity'));
 const OnRamp = lazy(() => import('views/OnRamp'));
 const MultisigCreate = lazy(() => import('views/Multisig/MultisigCreate/MultisigCreate'));
 const MultisigImport = lazy(() => import('views/Multisig/MultisigImport/MultisigImport'));
+const Transaction = lazy(() => import('views/Transaction/Transaction'));
 
 export type RouteType = {
   path: string;
@@ -79,6 +80,7 @@ const routes: RouteType = [
   { path: ROUTES.Wallet, element: Wallet },
   { path: ROUTES.WithdrawLiquidity, element: WithdrawLiquidity },
   { path: ROUTES.WithdrawLiquidityPool, element: WithdrawLiquidity },
+  { path: ROUTES.Transaction, element: Transaction },
   ...NOT_PROD_ROUTES,
 ];
 

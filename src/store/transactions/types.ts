@@ -1,7 +1,8 @@
+import { QuoteRoute } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { TxnResult } from 'store/thorswap/types';
 
-export type TransactionStatus = 'error' | 'mined' | 'refund' | 'pending';
+export type TransactionStatus = 'error' | 'mined' | 'refund' | 'pending' | 'unknown' | 'notStarted';
 
 export enum TransactionType {
   // TC txns
@@ -45,6 +46,11 @@ export type PendingTransactionType = {
   type: TransactionType;
   completed?: boolean;
   hash?: string;
+  quoteId?: string;
+  route?: QuoteRoute;
+  details?: TxTrackerDetails;
+  sellAmount?: string;
+  status?: TransactionStatus;
 };
 
 export type CompletedTransactionType = PendingTransactionType & {
@@ -53,6 +59,52 @@ export type CompletedTransactionType = PendingTransactionType & {
   timestamp: Date;
   txid?: string;
   completed: true;
+  hideDetails?: boolean;
 };
 
 export type TransactionsState = (PendingTransactionType | CompletedTransactionType)[];
+
+export enum TxStatus {
+  PENDING = 'pending',
+  SUCCESS = 'success',
+  CANCELLED = 'cancelled',
+  REFUNDED = 'refunded',
+  REPLACED = 'replaced',
+  ERROR = 'error',
+  UNKNOWN = 'unknown',
+  NOT_STARTED = 'not_started',
+}
+
+export type TxTrackerLeg = {
+  hash?: string;
+  chain: Chain;
+  provider?: string;
+  txnType?: TransactionType;
+
+  // transaction details
+  fromAsset?: string;
+  fromAssetImage?: string;
+  toAsset?: string;
+  toAssetImage?: string;
+  fromAmount?: string;
+  toAmount?: string;
+  toAmountLimit?: string;
+  startTimestamp?: number | null; // null before this leg has started
+  updateTimestamp?: number | null; // timestamp of last update
+  endTimestamp?: number | null; // null before this leg has ended
+  estimatedEndTimestamp?: number | null; // null before this leg has started
+  estimatedDuration?: number | null; // null before this leg has started
+  status?: TxStatus;
+  waitingFor?: string;
+  opaque?: any;
+};
+
+export interface TxTrackerDetails {
+  quoteId: string;
+  firstTransactionHash: string;
+  currentLegIndex: number;
+  legs: TxTrackerLeg[];
+  status?: TxStatus;
+  startTimestamp?: number | null;
+  estimatedDuration?: number | null;
+}

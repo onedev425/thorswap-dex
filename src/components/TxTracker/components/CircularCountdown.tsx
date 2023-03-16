@@ -1,33 +1,62 @@
 import { CircularProgress, Flex, Text } from '@chakra-ui/react';
+import { Icon, Tooltip } from 'components/Atomic';
+import { formatDuration } from 'components/TransactionTracker/helpers';
 import { CountdownProps, useCountdown } from 'hooks/useCountdown';
+import { useLayoutEffect, useMemo, useState } from 'react';
+import { t } from 'services/i18n';
 
-export const CircularCountdown = ({ startTimestamp, endTimestamp }: CountdownProps) => {
-  const countdown = useCountdown({ startTimestamp, endTimestamp });
+export const CircularCountdown = (props: CountdownProps) => {
+  const { timeLeft, percent } = useCountdown(props);
+  const [size, setSize] = useState('20px');
+  const [showTime, setShowTime] = useState(false);
 
-  // return just spinner in this case?
-  if (!countdown) return null;
+  useLayoutEffect(() => {
+    if (timeLeft !== null) {
+      setSize('50px');
+      setTimeout(() => setShowTime(true), 200);
+    } else {
+      setSize('20px');
+      setShowTime(false);
+    }
+  }, [timeLeft]);
 
-  // handle hours
-  const { minutes, seconds, percent } = countdown;
+  const tooltipContent = useMemo(() => {
+    if (timeLeft == null) return '';
+    if (timeLeft <= 0) return t('txManager.txFinishing');
+    return t('txManager.estimatedTime', {
+      timeLeft: formatDuration(timeLeft),
+    });
+  }, [timeLeft]);
 
   return (
-    <Flex position="relative">
-      <CircularProgress
-        color="brand.btnPrimary"
-        size="50px"
-        thickness="5px"
-        trackColor="borderPrimary"
-        value={percent}
-      />
-      <Flex align="center" h="full" justify="center" position="absolute" w="full">
-        <Text fontSize="xs">{`${getTimeValueLabel(minutes)}:${getTimeValueLabel(seconds)}`}</Text>
+    <Tooltip content={tooltipContent}>
+      <Flex position="relative">
+        <CircularProgress
+          animation="linear 0.2"
+          color="brand.btnPrimary"
+          isIndeterminate={!percent || !timeLeft || timeLeft < 0}
+          size={size}
+          sx={{
+            '& svg': {
+              transition: 'all 0.2s ease-in-out',
+            },
+          }}
+          thickness="5px"
+          trackColor="borderPrimary"
+          value={percent}
+        />
+
+        {showTime && (
+          <Flex align="center" h="full" justify="center" position="absolute" w="full">
+            {!!timeLeft && timeLeft > 0 && (
+              <Text fontSize="xs">{formatDuration(timeLeft, { approx: true, noUnits: true })}</Text>
+            )}
+            {timeLeft !== null && timeLeft <= 0 && (
+              <Icon color="secondary" name="hourglass" size={14} />
+            )}
+          </Flex>
+        )}
       </Flex>
-    </Flex>
+    </Tooltip>
   );
-};
-
-const getTimeValueLabel = (value: number) => {
-  if (value < 10) return `0${value}`;
-
-  return value;
 };

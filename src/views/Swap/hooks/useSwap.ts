@@ -19,6 +19,7 @@ type SwapParams = {
   inputAmount: Amount;
   outputAsset: AssetEntity;
   outputAmount: Amount;
+  quoteId?: string;
 };
 
 export const gasFeeMultiplier: Record<FeeOption, number> = {
@@ -47,6 +48,7 @@ export const useSwap = ({
   outputAmount,
   route,
   quoteMode,
+  quoteId,
 }: SwapParams) => {
   const appDispatch = useAppDispatch();
   const { feeOptionType } = useApp();
@@ -71,6 +73,8 @@ export const useSwap = ({
             from,
             inChain: inputAsset.L1Chain,
             type: quoteModeToTransactionType[quoteMode as QuoteMode.ETH_TO_ETH],
+            quoteId,
+            sellAmount: inputAmount.toSignificant(),
           }),
         );
 
@@ -89,7 +93,7 @@ export const useSwap = ({
           });
 
           if (typeof txid === 'string') {
-            appDispatch(updateTransaction({ id, txid }));
+            appDispatch(updateTransaction({ id, txid, quoteId, route }));
           } else {
             appDispatch(completeTransaction({ id, status: 'error' }));
             showErrorToast(t('notification.submitFail'), JSON.stringify(txid));
@@ -119,14 +123,16 @@ export const useSwap = ({
   }, [
     wallet,
     route,
-    inputAsset,
-    outputAsset,
-    quoteMode,
+    inputAsset.L1Chain,
+    inputAsset.name,
     inputAmount,
     outputAmount,
+    outputAsset.name,
+    appDispatch,
+    quoteMode,
+    quoteId,
     recipient,
     feeOptionType,
-    appDispatch,
   ]);
 
   return handleSwap;

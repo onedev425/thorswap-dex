@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import { Chain } from '@thorswap-lib/types';
-import { Box, Card, Icon, SwitchToggle, Tooltip } from 'components/Atomic';
+import { Box, Button, Card, Icon, SwitchToggle, Tooltip } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { Popover } from 'components/Popover';
 import { Scrollbar } from 'components/Scrollbar';
@@ -8,6 +8,8 @@ import { CompletedTransaction } from 'components/TransactionManager/CompletedTra
 import { transactionBorderColors } from 'components/TransactionManager/helpers';
 import { PendingTransaction } from 'components/TransactionManager/PendingTransaction';
 import { TransactionContainer } from 'components/TransactionManager/TransactionContainer';
+import { TransactionTrackerModal } from 'components/TransactionTracker/TransactionTrackerModal';
+import { useTransactionsModal } from 'components/TransactionTracker/useTransactionsModal';
 import { ElementRef, memo, useCallback, useEffect, useRef, useState } from 'react';
 import { t } from 'services/i18n';
 import { useAppDispatch } from 'store/store';
@@ -25,6 +27,7 @@ export const TransactionManager = memo(() => {
   const [isOpen, setIsOpened] = useState(false);
   const { pending, completed, transactions } = useTransactionsState();
   const prevTxLength = useRef(transactions.length);
+  const { open: openModal, isOpened: modalOpened, close: closeModal } = useTransactionsModal();
 
   const handleTransactionsClear = useCallback(() => {
     appDispatch(clearTransactions());
@@ -70,11 +73,14 @@ export const TransactionManager = memo(() => {
       ref={popoverRef}
       trigger={<OpenButton hasHistory={!!transactions.length} pendingCount={pending.length} />}
     >
-      <Card className="mt-2 !px-0 md:w-[350px] border border-solid border-btn-primary" size="sm">
+      <Card className="mt-2 !px-0 md:w-[360px] border border-solid border-btn-primary" size="sm">
         <Box col className="w-full gap-4 !my-2">
           <Box col className="!mx-4">
-            <Box justify="between">
+            <Box className="flex items-center" justify="between">
               <Text textStyle="subtitle2">{t('txManager.transactionHistory')}</Text>
+              <Button h={8} onClick={() => openModal()} variant="fancy">
+                {t('txManager.viewDetails')}
+              </Button>
             </Box>
 
             <Box alignCenter className="pt-2" justify="between">
@@ -116,6 +122,7 @@ export const TransactionManager = memo(() => {
           </Scrollbar>
         </Box>
       </Card>
+      <TransactionTrackerModal isOpened={modalOpened} onClose={closeModal} />
     </Popover>
   );
 });

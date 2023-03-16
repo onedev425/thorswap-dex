@@ -27,7 +27,7 @@ export const useMimir = () => {
       return false;
     }
 
-    return mimir[entry] === 1;
+    return mimir[entry] !== 0;
   };
 
   // halt status

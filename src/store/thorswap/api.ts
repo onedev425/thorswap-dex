@@ -9,6 +9,9 @@ import {
   GetTokenPriceParams,
   GetTokenPriceResponse,
   GetTokensQuoteParams,
+  GetTxnStatusDetailsParams,
+  GetTxnStatusDetailsResponse,
+  GetTxnStatusDetailsUpdateParams,
   GetTxnStatusParams,
   GetTxnStatusResponse,
 } from './types';
@@ -70,6 +73,20 @@ export const thorswapApi = createApi({
       },
     }),
 
+    getTxnStatusDetails: build.query<
+      GetTxnStatusDetailsResponse,
+      GetTxnStatusDetailsParams | GetTxnStatusDetailsUpdateParams
+    >({
+      query: (body) => {
+        return {
+          method: 'POST',
+          url: `${baseUrl}/apiusage/v2/txn`,
+          body: JSON.stringify(body),
+          headers: { 'Content-Type': 'application/json' },
+        };
+      },
+    }),
+
     getAnnouncements: build.query<AnnouncementsData, void>({
       query: () => '/announcements',
     }),
@@ -78,6 +95,7 @@ export const thorswapApi = createApi({
 
 export const {
   useGetTxnStatusQuery,
+  useGetTxnStatusDetailsQuery,
   useGetProvidersQuery,
   useGetTokenCachedPricesQuery,
   useGetTokensQuoteQuery,

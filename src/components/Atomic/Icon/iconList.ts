@@ -28,6 +28,7 @@ import {
   BiLinkExternal,
   BiPaste,
   BiSelectMultiple,
+  BiTimer,
   BiUndo,
 } from 'react-icons/bi';
 import {
@@ -35,6 +36,7 @@ import {
   BsDiscord,
   BsEmojiSmile,
   BsExclamationCircle,
+  BsHourglass,
   BsMedium,
   BsPersonCheckFill,
   BsPiggyBank,
@@ -84,6 +86,7 @@ import {
 import {
   MdAreaChart,
   MdHistory,
+  MdIosShare,
   MdKeyboardArrowDown,
   MdKeyboardArrowUp,
   MdLanguage,
@@ -100,7 +103,8 @@ import {
   RiShareBoxLine,
   RiSurveyLine,
 } from 'react-icons/ri';
-import { TbPlugConnected } from 'react-icons/tb';
+import { RxCountdownTimer } from 'react-icons/rx';
+import { TbListDetails, TbPlugConnected } from 'react-icons/tb';
 import {
   VscAdd,
   VscCloudUpload,
@@ -219,6 +223,11 @@ const Icons = {
   xCircle: VscError,
   youtube: BsYoutube,
   usdCircle: AiOutlineDollar,
+  txDetails: TbListDetails,
+  hourglass: BsHourglass,
+  timer: BiTimer,
+  timerCountdown: RxCountdownTimer,
+  shareUrl: MdIosShare,
   ...SvgIcons,
 } as const;
 

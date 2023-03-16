@@ -1,98 +1,59 @@
-import { Text } from '@chakra-ui/react';
-import { Chain } from '@thorswap-lib/types';
+import { Skeleton, Text } from '@chakra-ui/react';
 import { Box, Icon, Link } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
-import { cutTxPrefix, transactionTitle } from 'components/TransactionManager/helpers';
-import { TransactionStatusIcon } from 'components/TransactionManager/TransactionStatusIcon';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { useAppDispatch } from 'store/store';
-import { useGetTxnStatusQuery } from 'store/thorswap/api';
-import { completeTransaction } from 'store/transactions/slice';
-import { PendingTransactionType, TransactionType } from 'store/transactions/types';
+import { transactionTitle } from 'components/TransactionManager/helpers';
+import { TxDetailsButton } from 'components/TransactionManager/TxDetailsButton';
+import { useAdvancedTracker } from 'components/TransactionManager/useAdvancedTracker';
+import { useSimpleTracker } from 'components/TransactionManager/useSimpleTracker';
+import { CircularCountdown } from 'components/TxTracker/components/CircularCountdown';
+import { memo } from 'react';
+import { PendingTransactionType } from 'store/transactions/types';
 
-export const PendingTransaction = memo(
-  ({ id, inChain, txid, type, label, from }: PendingTransactionType) => {
-    const appDispatch = useAppDispatch();
-    const [txUrl, setTxUrls] = useState('');
+export const PendingTransaction = memo((pendingTx: PendingTransactionType) => {
+  const { quoteId, route, txid, details: txDetails } = pendingTx;
+  const hasDetailsParams = (txid && route && quoteId) || txDetails;
 
-    const params = useMemo(() => {
-      if (!txid) return { txid: '' };
+  const simpleTrackerData = useSimpleTracker(hasDetailsParams ? null : pendingTx);
+  const advancedTrackerData = useAdvancedTracker(!hasDetailsParams ? null : pendingTx);
+  const txData = simpleTrackerData || advancedTrackerData || pendingTx;
 
-      const isApprove = [TransactionType.AVAX_APPROVAL, TransactionType.ETH_APPROVAL].includes(
-        type,
-      );
+  const { label, type, details } = txData;
+  const transactionUrl = 'txUrl' in txData ? txData.txUrl : '';
 
-      const shouldCutTx = [
-        TransactionType.SWAP_TC_TO_TC,
-        TransactionType.SWAP_TC_TO_AVAX,
-        TransactionType.SWAP_TC_TO_ETH,
-      ].includes(type);
+  return (
+    <Box alignCenter flex={1} justify="between">
+      <Box alignCenter className="w-full gap-2">
+        <CircularCountdown
+          estimatedDuration={txDetails?.estimatedDuration}
+          startTimestamp={txDetails?.startTimestamp}
+        />
 
-      const evmTx = txid.startsWith('0x') ? txid : `0x${txid}`;
-
-      return {
-        from,
-        type,
-        txid: cutTxPrefix(isApprove ? evmTx : txid, shouldCutTx ? '0x' : ''),
-      };
-    }, [from, txid, type]);
-
-    const { data } = useGetTxnStatusQuery(params, {
-      pollingInterval: 5000,
-      refetchOnFocus: true,
-      skip: !params.txid,
-    });
-
-    const transactionUrl = useCallback(async (tx: null | string = '', chain: Chain) => {
-      if (!tx) return '';
-      const { getExplorerTxUrl } = await (await import('services/multichain')).getSwapKitClient();
-
-      try {
-        return tx && getExplorerTxUrl(chain, cutTxPrefix(tx));
-      } catch (error: NotWorth) {
-        console.error(error);
-        return '';
-      }
-    }, []);
-
-    useEffect(() => {
-      const getTxUrl = async () => {
-        setTxUrls(await transactionUrl(txid, inChain));
-      };
-
-      getTxUrl();
-    }, [txid, transactionUrl, type, inChain]);
-
-    useEffect(() => {
-      const transactionCompleted = data?.ok && ['mined', 'refund'].includes(data.status);
-      const instantComplete = [TransactionType.TC_SEND].includes(type);
-      const status = data?.status || 'mined';
-
-      if (transactionCompleted || (instantComplete && transactionUrl)) {
-        appDispatch(completeTransaction({ id, status, result: data?.result }));
-      }
-    }, [appDispatch, data, id, transactionUrl, txid, type]);
-
-    return (
-      <Box alignCenter flex={1} justify="between">
-        <Box alignCenter className="w-full gap-2">
-          <TransactionStatusIcon size={20} status="pending" />
-
-          <Box col className="gap-x-2">
+        <Box col className="gap-1 w-full">
+          {type ? (
             <Text fontWeight="semibold">{transactionTitle(type)}</Text>
+          ) : (
+            <Skeleton height="15px" width="50%" />
+          )}
 
+          {label ? (
             <Text fontWeight="semibold" textStyle="caption" variant="secondary">
               {label}
             </Text>
-          </Box>
+          ) : (
+            <Skeleton height="20px" />
+          )}
         </Box>
+      </Box>
 
-        {txUrl && (
-          <Link external className="inline-flex" to={txUrl}>
+      <Box className="w-[80px]" justify="end">
+        {transactionUrl && (
+          <Link external className="inline-flex" to={transactionUrl}>
             <Icon className={baseHoverClass} color="secondary" name="external" size={18} />
           </Link>
         )}
+
+        {details && <TxDetailsButton txid={details.firstTransactionHash} />}
       </Box>
-    );
-  },
-);
+    </Box>
+  );
+});

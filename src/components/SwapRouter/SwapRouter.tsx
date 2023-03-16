@@ -32,7 +32,6 @@ export const SwapRouter = memo(
         if (Number.isNaN(expectedQuoteNumber) || Number.isNaN(selectedQuoteNumber)) {
           return 0;
         }
-
         return (1 - expectedQuoteNumber / selectedQuoteNumber) * -100;
       },
       [selectedRoute?.expectedOutput],

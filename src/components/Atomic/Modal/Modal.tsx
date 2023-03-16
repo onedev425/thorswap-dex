@@ -3,6 +3,7 @@ import {
   ModalBody,
   ModalContent,
   ModalOverlay,
+  SystemStyleObject,
   Text,
 } from '@chakra-ui/react';
 import classNames from 'classnames';
@@ -18,6 +19,7 @@ type Props = {
   onBack?: () => void;
   onClose: () => void;
   className?: string;
+  sx?: SystemStyleObject;
 };
 
 export const Modal = ({
@@ -29,12 +31,13 @@ export const Modal = ({
   onClose,
   children,
   className,
+  sx,
 }: Props) => {
   return (
     <CustomModal isCentered isOpen={isOpened} onClose={onClose} size="md">
       <ModalOverlay className="fixed inset-0 backdrop-blur-xl backdrop-brightness-90 dark:backdrop-brightness-50" />
 
-      <ModalContent bg="none" boxShadow="none" className={className} m="auto">
+      <ModalContent bg="none" boxShadow="none" className={className} m="auto" sx={sx}>
         <ModalBody className="flex justify-center mx-3 md:mx-0 max-h-[85vh] flex-col" p={0}>
           <Box col>
             {HeaderComponent}

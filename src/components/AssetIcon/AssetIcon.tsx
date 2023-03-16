@@ -26,6 +26,7 @@ export const AssetIcon = memo(
     shadowPosition = 'corner',
     size = 40,
     badge,
+    ticker,
   }: AssetIconProps) => {
     const iconSize = typeof size === 'number' ? size : iconSizes[size];
     const secondaryIconSize = iconSize * 0.52;
@@ -84,7 +85,10 @@ export const AssetIcon = memo(
             />
           </Box>
         ) : (
-          <FallbackIcon size={iconSize} ticker={asset.ticker} />
+          <FallbackIcon
+            size={iconSize}
+            ticker={asset.eq(AssetEntity.RUNE()) ? ticker || '??' : asset.ticker}
+          />
         )}
 
         {hasChainIcon && asset.type !== 'Native' ? (

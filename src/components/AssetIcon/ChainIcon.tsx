@@ -2,6 +2,7 @@ import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon/AssetIcon';
 import { Box } from 'components/Atomic';
+import { getChainIdentifier } from 'helpers/chains';
 import { tokenLogoURL } from 'helpers/logoURL';
 import { memo, useMemo } from 'react';
 
@@ -15,16 +16,7 @@ type ChainIconProps = {
 export const ChainIcon = memo(
   ({ withoutBackground = false, chain, style, size = 16 }: ChainIconProps) => {
     const identifier = useMemo(() => {
-      switch (chain) {
-        case Chain.THORChain:
-          return `${chain}.RUNE`;
-
-        case Chain.Cosmos:
-          return `${chain}.ATOM`;
-
-        default:
-          return `${chain}.${chain}`;
-      }
+      return getChainIdentifier(chain);
     }, [chain]);
 
     return (

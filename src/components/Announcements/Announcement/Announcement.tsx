@@ -70,7 +70,7 @@ export const Announcement = memo(
         onClick={onClick}
       >
         {chain && (
-          <Box center className="absolute left-6">
+          <Box className="absolute left-4 h-full items-center">
             <ChainIcon chain={chain} size={26} />
           </Box>
         )}

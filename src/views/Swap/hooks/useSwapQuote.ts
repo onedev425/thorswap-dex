@@ -120,5 +120,6 @@ export const useSwapQuote = ({
     routes,
     selectedRoute,
     setSwapRoute,
+    quoteId: data?.quoteId,
   };
 };

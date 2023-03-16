@@ -1,4 +1,10 @@
-import { TransactionStatus, TransactionType } from 'store/transactions/types';
+import { QuoteRoute } from '@thorswap-lib/swapkit-core';
+import {
+  TransactionStatus,
+  TransactionType,
+  TxStatus,
+  TxTrackerDetails,
+} from 'store/transactions/types';
 
 type LiquidityTxResult<T extends TransactionType> = {
   type: T;
@@ -100,7 +106,6 @@ export type GetProvidersResponse = {
   nbTokens: number;
   provider: string;
   version: Version;
-  error: boolean;
 }[];
 
 export type GetProviderTokensParams = {
@@ -136,4 +141,25 @@ export type GetTxnStatusParams = {
   txid: string;
   type?: TransactionType;
   from?: string;
+};
+
+export type GetTxnStatusDetailsParams = {
+  txn: {
+    hash: string;
+    quoteId: string;
+    sellAmount: string;
+    route?: QuoteRoute;
+    startTimestamp?: number;
+  };
+};
+
+export type GetTxnStatusDetailsUpdateParams = {
+  hash: string;
+};
+
+export type GetTxnStatusDetailsResponse = {
+  result: TxTrackerDetails;
+  done: boolean;
+  status: TxStatus;
+  error?: { message: string };
 };

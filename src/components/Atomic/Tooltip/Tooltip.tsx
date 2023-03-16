@@ -46,10 +46,7 @@ export const Tooltip = ({
             'bg-light-bg-primary border border-light-border-primary border-solid dark:bg-dark-bg-primary dark:border-dark-border-primary',
           )}
         >
-          <Text
-            className="font-bold text-light-typo-primary dark:text-dark-typo-primary"
-            textStyle="caption-xs"
-          >
+          <Text className="font-bold" textStyle="caption-xs" variant="primary">
             {content}
           </Text>
         </div>

@@ -46,6 +46,11 @@ const providersInfoMap = {
   psm: '',
 };
 
+export const getTickerFromIdentifier = (identifier: string) => {
+  const [, ...possibleTicker] = identifier.split('-')?.[0]?.split('.') || [];
+  return possibleTicker.join('.');
+};
+
 export const tokenLogoURL = ({
   address,
   identifier,
@@ -73,7 +78,10 @@ export const tokenLogoURL = ({
 };
 
 export const providerLogoURL = (provider: string) => {
-  const parsedProvider = (provider || '').replaceAll('_', '').toLowerCase() as 'thorchain';
+  const parsedProvider = (provider || '')
+    .replaceAll('_', '')
+    .toLowerCase()
+    .split('-')[0] as 'thorchain';
 
   const providerData = providersInfoMap[parsedProvider];
 

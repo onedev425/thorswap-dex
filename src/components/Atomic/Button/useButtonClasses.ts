@@ -7,12 +7,14 @@ const buttonClasses: Record<ButtonSizes, string> = {
   lg: 'h-14 px-7 rounded-full',
   md: 'h-12 px-7 rounded-3xl',
   sm: 'h-10 px-4 rounded-2xl',
+  xs: 'h-10 px-4 rounded-2xl',
 };
 
 const typographyVariants: Record<ButtonSizes, TypographyVariant> = {
   lg: 'subtitle2',
   md: 'caption',
   sm: 'caption-xs',
+  xs: 'caption-xs',
 };
 
 const typographyClasses: Record<ButtonVariants, string> = {

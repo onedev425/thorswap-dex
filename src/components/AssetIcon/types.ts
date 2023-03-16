@@ -28,6 +28,7 @@ export type AssetIconProps = (
   hasShadow?: boolean;
   bgColor?: ColorType;
   shadowPosition?: 'corner' | 'center';
+  ticker?: string;
 } & AssetStyleType;
 
 export type AssetLpIconProps = {

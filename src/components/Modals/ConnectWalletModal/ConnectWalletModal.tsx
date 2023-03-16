@@ -385,12 +385,13 @@ const ConnectWalletModal = () => {
               {!customFlow && (
                 <Box col className="pt-2 md:pt-0 mb-8" flex={1} justify="end">
                   <Button
-                    className="w-2/3 self-center"
+                    alignSelf="center"
                     disabled={!selectedWalletType || !selectedChains.length}
                     loading={loading}
                     onClick={connectWallet}
                     size="md"
                     variant="fancy"
+                    width="66.6%"
                   >
                     <Text>{t('common.connectWallet')}</Text>
                   </Button>

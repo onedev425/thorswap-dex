@@ -4,7 +4,7 @@ import { useCallback, useState } from 'react';
 import { getCustomContract } from 'services/contract';
 import { t } from 'services/i18n';
 import { TxnResult } from 'store/thorswap/types';
-import { TransactionStatus, TransactionType } from 'store/transactions/types';
+import { TransactionStatus, TransactionType, TxStatus } from 'store/transactions/types';
 
 const getTcPart = ({
   asset: assetString,
@@ -75,6 +75,8 @@ export const transactionTitle = (type: TransactionType): string => {
 export const transactionBorderColors: Record<TransactionStatus, string> = {
   mined: 'border-btn-secondary dark:hover:!border-btn-secondary',
   pending: 'hover:border-btn-primary dark:hover:!border-btn-primary',
+  unknown: 'hover:border-btn-primary dark:hover:!border-btn-primary',
+  notStarted: 'hover:border-btn-primary dark:hover:!border-btn-primary',
   refund: 'border-yellow dark:hover:!border-yellow',
   error: 'border-pink dark:hover:border-pink',
 };
@@ -156,4 +158,25 @@ export const useTxLabelUpdate = ({
   }, [inputGetter, outputGetter, result, resultType, setTransactionLabel]);
 
   return { isLoading, handleLabelUpdate };
+};
+
+export const getSimpleTxStatus = (status: TxStatus): TransactionStatus => {
+  switch (status) {
+    case TxStatus.SUCCESS:
+      return 'mined';
+    case TxStatus.PENDING:
+      return 'pending';
+    case TxStatus.REFUNDED:
+    case TxStatus.REPLACED:
+      return 'refund';
+    case TxStatus.ERROR:
+    case TxStatus.CANCELLED:
+      return 'error';
+    case TxStatus.UNKNOWN:
+      return 'unknown';
+    case TxStatus.NOT_STARTED:
+      return 'notStarted';
+    default:
+      return 'pending';
+  }
 };

@@ -1,15 +1,18 @@
 import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';
+import { ReactNode } from 'react';
 
 import { getIntFromName, rainbowStop } from './utils';
 
 type Props = {
   ticker: string;
   size: number;
+  bg?: string;
+  icon?: ReactNode;
 };
 
-export const FallbackIcon = ({ ticker, size }: Props) => {
+export const FallbackIcon = ({ ticker, size, bg, icon }: Props) => {
   const tickerNums = getIntFromName(ticker);
   const fallbackBgImg = `linear-gradient(45deg, ${rainbowStop(tickerNums[0])}, ${rainbowStop(
     tickerNums[1],
@@ -23,17 +26,21 @@ export const FallbackIcon = ({ ticker, size }: Props) => {
       alignCenter
       justifyCenter
       className="rounded-full z-10"
-      style={{ background: fallbackBgImg, width: size, height: size }}
+      style={{ background: bg || fallbackBgImg, width: size, height: size }}
     >
-      <Text
-        className={classNames('-m-1 break-all text-center leading-[10px]', {
-          '!font-normal': isLongTicker,
-        })}
-        style={{ fontSize }}
-        textStyle="caption-xs"
-      >
-        {ticker}
-      </Text>
+      {icon ? (
+        icon
+      ) : (
+        <Text
+          className={classNames('-m-1 break-all text-center leading-[10px]', {
+            '!font-normal': isLongTicker,
+          })}
+          style={{ fontSize }}
+          textStyle="caption-xs"
+        >
+          {ticker}
+        </Text>
+      )}
     </Box>
   );
 };

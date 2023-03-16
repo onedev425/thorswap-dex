@@ -16,6 +16,10 @@ export const TransactionStatusIcon = memo(({ status, size = 24 }: Props) => {
         return ['xCircle', 'pink'];
       case 'refund':
         return ['revert', 'yellow'];
+      case 'unknown':
+        return ['question', 'secondary'];
+      case 'notStarted':
+        return ['hourglass', 'secondary'];
       default:
         return ['checkmark', 'secondaryBtn'];
     }

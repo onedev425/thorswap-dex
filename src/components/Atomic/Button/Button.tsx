@@ -1,4 +1,4 @@
-import { Button as ChakraButton, ButtonProps, ResponsiveValue, Text } from '@chakra-ui/react';
+import { Box, Button as ChakraButton, ButtonProps, ResponsiveValue, Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { Icon, TextTransform, Tooltip } from 'components/Atomic';
 import { ButtonSizes } from 'components/Atomic/Button/types';
@@ -68,6 +68,8 @@ export const Button = ({
   };
 
   const isFancy = variant === 'fancy';
+  const ContentWrapper = ['string', 'number'].includes(typeof children) ? Text : Box;
+
   return (
     <Tooltip
       className={classNames(tooltipClasses, { 'w-full': stretch })}
@@ -78,6 +80,7 @@ export const Button = ({
         disabled={disabled || loading}
         iconSpacing={leftIcon && !children ? '0px' : '8px'}
         leftIcon={loading ? undefined : leftIcon && leftIcon}
+        minW={0}
         onClick={handleClick}
         onMouseDown={() => timeoutBlur(300)}
         ref={buttonRef}
@@ -92,16 +95,22 @@ export const Button = ({
         {loading
           ? null
           : children && (
-              <Text
+              <ContentWrapper
                 color={textColor}
-                fontSize={size === 'sm' ? '11px' : size === 'md' ? '12px' : '17px'}
                 fontWeight={isFancy ? 600 : 700}
                 textDecorationLine="none"
+                textStyle={
+                  ['sm', 'xs'].includes(size)
+                    ? 'caption-xs'
+                    : size === 'md'
+                    ? 'caption'
+                    : 'subtitle2'
+                }
                 textTransform={transform}
                 variant={typographyVariant}
               >
                 {children}
-              </Text>
+              </ContentWrapper>
             )}
       </ChakraButton>
     </Tooltip>
