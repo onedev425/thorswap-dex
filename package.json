@@ -10,6 +10,7 @@
     "lint": "eslint ./src",
     "lint:fix": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json,css}' && yarn lint --fix",
     "postinstall": "patch-package",
+    "generate:pagePassword": "node ./scripts/generatePagePassword.js",
     "e2e": "yarn cypress run",
     "e2e:open": "yarn cypress open",
     "typescript": "tsc --noEmit",

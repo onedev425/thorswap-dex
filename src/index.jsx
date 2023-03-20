@@ -20,7 +20,7 @@ const checkAppPassword = () => {
     const pagePassword = localStorage.getItem('pagePassword') || prompt('Please enter the password to access this page')
     localStorage.setItem('pagePassword', pagePassword)
 
-    const decodedPass = hmacSHA512(pagePassword, 'I!(G#s@1ADgjAlcSW!@()GF#(!@').toString().toString().slice(-10)
+    const decodedPass = hmacSHA512(pagePassword, 'I!(G#s@1ADgjAlcSW!@()GF#(!@').toString().slice(-10)
 
     if (decodedPass === '64127a68bc') {
       renderApp()
