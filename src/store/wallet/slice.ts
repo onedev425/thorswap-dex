@@ -82,8 +82,17 @@ const walletSlice = createSlice({
       .addCase(walletActions.getWalletByChain.fulfilled, (state, { payload: { chain, data } }) => {
         state.chainWalletLoading[chain] = false;
         if (state.wallet && chain in state.wallet) {
+          const balance = data?.balance.filter(
+            ({ asset }) =>
+              !state.hiddenAssets[chain]?.includes(asset.toString()) &&
+              /**
+               * Filter out assets with invalid symbols or scam tokens with symbols like ' ', '/', '.'
+               */
+              !(!asset.symbol || [' ', '/', '.'].some((c) => asset.symbol.includes(c))),
+          );
+
           // @ts-expect-error
-          state.wallet[chain] = data;
+          state.wallet[chain] = { ...data, balance };
         }
       })
       .addCase(walletActions.getWalletByChain.rejected, (state, { meta: { arg: chain } }) => {

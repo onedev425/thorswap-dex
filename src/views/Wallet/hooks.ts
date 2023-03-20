@@ -41,7 +41,6 @@ export const useAccountData = (chain: Chain) => {
     chainWalletLoading,
     setIsConnectModalOpen,
     disconnectWalletByChain,
-    hiddenAssets,
   } = useWallet();
   const wallet = reduxWallet || emptyWallet;
   const chainWallet = wallet[chain];
@@ -58,24 +57,22 @@ export const useAccountData = (chain: Chain) => {
   const runePrice = stats?.runePriceUSD;
 
   const chainInfo = useMemo(() => {
-    const info: AssetAmount[] = (walletBalance as AssetAmount[])
-      .filter(({ asset }) => !hiddenAssets[chain]?.includes(asset.toString()))
-      .reduce((acc, item) => {
-        if (item.asset.eq(sigAsset)) {
-          acc.unshift(item);
-        } else {
-          acc.push(item);
-        }
+    const info: AssetAmount[] = (walletBalance as AssetAmount[]).reduce((acc, item) => {
+      if (item.asset.eq(sigAsset)) {
+        acc.unshift(item);
+      } else {
+        acc.push(item);
+      }
 
-        return acc as AssetAmount[];
-      }, [] as AssetAmount[]);
+      return acc as AssetAmount[];
+    }, [] as AssetAmount[]);
 
     if (chainAddress && !info.length) {
       info.push(getNoBalanceAsset(sigAsset));
     }
 
     return info;
-  }, [walletBalance, chainAddress, hiddenAssets, chain, sigAsset]);
+  }, [walletBalance, chainAddress, sigAsset]);
 
   const data = useMemo(
     () => ({

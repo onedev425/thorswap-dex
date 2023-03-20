@@ -23,7 +23,7 @@ import { WalletHeader } from './WalletHeader';
 
 const WalletBalanceList = () => {
   const navigate = useNavigate();
-  const { chainWalletLoading, wallet, hiddenAssets } = useWallet();
+  const { chainWalletLoading, wallet } = useWallet();
   const { close } = useWalletDrawer();
   const appDispatch = useAppDispatch();
 
@@ -116,11 +116,6 @@ const WalletBalanceList = () => {
     (chain: Chain, chainBalance: ChainWallet) => {
       const { address, balance } = chainBalance;
       const { walletType } = chainBalance;
-      const filteredBalances = balance.filter(
-        ({ asset }) =>
-          !hiddenAssets[chain]?.includes(asset.toString()) &&
-          !(!asset.symbol || [' ', '/', '.'].some((c) => asset.symbol.includes(c))),
-      );
 
       return (
         <Box col className="mt-2" key={chain.toString()}>
@@ -130,11 +125,11 @@ const WalletBalanceList = () => {
             walletLoading={!!chainWalletLoading?.[chain]}
             walletType={walletType}
           />
-          {renderBalance(chain, filteredBalances)}
+          {renderBalance(chain, balance)}
         </Box>
       );
     },
-    [chainWalletLoading, hiddenAssets, renderBalance],
+    [chainWalletLoading, renderBalance],
   );
 
   return (
