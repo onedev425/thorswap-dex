@@ -10,13 +10,12 @@ import { Scrollbar } from 'components/Scrollbar';
 import { chainToSigAsset } from 'helpers/assets';
 import { formatPrice } from 'helpers/formatPrice';
 import { parseAssetToToken } from 'helpers/parseAssetToToken';
-import { memo, useCallback, useEffect, useMemo } from 'react';
+import { useTokenPrices } from 'hooks/useTokenPrices';
+import { memo, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getGeckoData } from 'services/coingecko';
 import { t } from 'services/i18n';
 import { getSendRoute, getSwapRoute } from 'settings/router';
 import { ViewMode } from 'types/app';
-import { useTokenPrices } from 'views/Wallet/AccountCard/hooks';
 import { AssetChart } from 'views/Wallet/AssetChart';
 import { ConnectionActions } from 'views/Wallet/components/ConnectionActions';
 import { CopyAddress } from 'views/Wallet/components/CopyAddress';
@@ -50,15 +49,8 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
     chainWallet,
   } = useAccountData(chain);
 
-  const chainAssets = useMemo(() => chainInfo.map((elem) => elem.asset.name), [chainInfo]);
-
-  const { data } = useTokenPrices(chainInfo);
-
-  useEffect(() => {
-    getGeckoData(chainAssets);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chainAssets.length]);
-
+  const chainAssets = useMemo(() => chainInfo.map(({ asset }) => asset), [chainInfo]);
+  const { data } = useTokenPrices(chainAssets);
   const { isLoading, handleRefreshChain } = useWalletChainActions(chain);
   const sigAsset = chainToSigAsset(chain);
 

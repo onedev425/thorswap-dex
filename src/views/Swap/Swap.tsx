@@ -9,7 +9,7 @@ import { hasWalletConnected } from 'helpers/wallet';
 import { useBalance } from 'hooks/useBalance';
 import { useVTHORBalance } from 'hooks/useHasVTHOR';
 import { useSlippage } from 'hooks/useSlippage';
-import { useTokenPrices } from 'hooks/useTokenPrices';
+import { useSwapTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
@@ -116,7 +116,7 @@ const SwapView = () => {
     prices: { inputUSDPrice, outputUSDPrice },
     isLoading: isPriceLoading,
     refetch: refetchPrice,
-  } = useTokenPrices({ inputAmount, inputAsset, outputAmount, outputAsset });
+  } = useSwapTokenPrices({ inputAmount, inputAsset, outputAmount, outputAsset });
 
   const isInputWalletConnected = useMemo(
     () => inputAsset && hasWalletConnected({ wallet, inputAssets: [inputAsset] }),

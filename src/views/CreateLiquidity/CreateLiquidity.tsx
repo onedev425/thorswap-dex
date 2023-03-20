@@ -19,7 +19,7 @@ import {
 import { useBalance } from 'hooks/useBalance';
 import { useMimir } from 'hooks/useMimir';
 import { getSumAmountInUSD, useNetworkFee } from 'hooks/useNetworkFee';
-import { useTokenPrices } from 'hooks/useTokenPrices';
+import { useSwapTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useExternalConfig } from 'store/externalConfig/hooks';
@@ -107,7 +107,7 @@ export const CreateLiquidity = () => {
       inputUSDPrice: assetUSDPrice,
       outputUSDPrice: runeUSDPrice,
     },
-  } = useTokenPrices({
+  } = useSwapTokenPrices({
     inputAmount: assetAmount,
     inputAsset: poolAsset,
     outputAmount: runeAmount,

@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { Wallet } from '@thorswap-lib/swapkit-core';
+import { AssetAmount, Wallet } from '@thorswap-lib/swapkit-core';
 import { Chain, Keystore } from '@thorswap-lib/types';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import { GeckoData } from 'store/wallet/types';
@@ -24,7 +24,8 @@ const initialState = {
   publicKey: undefined as any,
   isConnectModalOpen: false,
   keystore: null as Keystore | null,
-  wallet: initialWallet as Wallet | null,
+  wallet: initialWallet as Wallet,
+  oldBalance: initialWallet as Record<Chain, AssetAmount[] | null>,
   walletLoading: false,
   chainWalletLoading: initialWallet as Record<Chain, boolean | null>,
   geckoData: {} as Record<string, GeckoData>,
@@ -47,11 +48,23 @@ const walletSlice = createSlice({
       state,
       { payload: { address, chain } }: PayloadAction<{ chain: Chain; address: string }>,
     ) => {
-      state.hiddenAssets[chain] = [...(state.hiddenAssets[chain] || []), address];
+      state.hiddenAssets[chain] = [...new Set([...(state.hiddenAssets[chain] || []), address])];
+
+      if (state.wallet?.[chain]?.balance) {
+        // @ts-expect-error
+        state.wallet[chain].balance = state.wallet[chain]?.balance.filter(
+          ({ asset }) => asset.toString() !== address,
+        );
+      }
+
       saveInStorage({ key: 'hiddenAssets', value: state.hiddenAssets });
     },
     clearChainHiddenAssets: (state, { payload }: PayloadAction<Chain>) => {
       state.hiddenAssets[payload] = [];
+      if (state.wallet?.[payload]?.balance) {
+        // @ts-expect-error
+        state.wallet[payload].balance = state.oldBalance[payload];
+      }
       saveInStorage({ key: 'hiddenAssets', value: state.hiddenAssets });
     },
     disconnectByChain: (state, action: PayloadAction<Chain>) => {
@@ -81,15 +94,19 @@ const walletSlice = createSlice({
       })
       .addCase(walletActions.getWalletByChain.fulfilled, (state, { payload: { chain, data } }) => {
         state.chainWalletLoading[chain] = false;
-        if (state.wallet && chain in state.wallet) {
-          const balance = data?.balance.filter(
-            ({ asset }) =>
-              !state.hiddenAssets[chain]?.includes(asset.toString()) &&
-              /**
-               * Filter out assets with invalid symbols or scam tokens with symbols like ' ', '/', '.'
-               */
-              !(!asset.symbol || [' ', '/', '.'].some((c) => asset.symbol.includes(c))),
-          );
+        if (!data?.address || !data?.balance) {
+          state.wallet[chain] = null;
+        } else {
+          state.oldBalance[chain] = data.balance;
+          const balance =
+            data?.balance?.filter(
+              ({ asset }) =>
+                !state.hiddenAssets[chain]?.includes(asset.toString()) &&
+                /**
+                 * Filter out assets with invalid symbols or scam tokens with symbols like ' ', '/', '.'
+                 */
+                !(!asset.symbol || [' ', '/', '.'].some((c) => asset.symbol.includes(c))),
+            ) || null;
 
           // @ts-expect-error
           state.wallet[chain] = { ...data, balance };

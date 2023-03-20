@@ -26,7 +26,7 @@ const getBalanceByChain = (balance: AssetAmount[], geckoData: Record<string, Gec
 
   balance.forEach(({ asset, amount }) => {
     const usdPrice = geckoData?.[asset.symbol]?.current_price || 0;
-    total = total.plus(amount.assetAmount.multipliedBy(usdPrice));
+    total = total.plus(amount.assetAmount.multipliedBy(usdPrice)) || 0;
   });
 
   return total.toNumber();

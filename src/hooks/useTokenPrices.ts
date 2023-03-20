@@ -26,7 +26,12 @@ const findToken =
   ({ identifier }: GetTokenPriceResponse[number]) =>
     identifier === searchedToken.identifier;
 
-export const useTokenPrices = ({ inputAsset, inputAmount, outputAmount, outputAsset }: Params) => {
+export const useSwapTokenPrices = ({
+  inputAsset,
+  inputAmount,
+  outputAmount,
+  outputAsset,
+}: Params) => {
   const tokenParams: [TokenParam, TokenParam] = useMemo(
     () => [
       { asset: inputAsset, amount: inputAmount.assetAmount },
@@ -42,9 +47,10 @@ export const useTokenPrices = ({ inputAsset, inputAmount, outputAmount, outputAs
 
   const debouncedTokens = useDebouncedValue(tokens, 500);
 
-  const { data, refetch, isLoading, isFetching } = useGetTokenCachedPricesQuery({
-    tokens: debouncedTokens,
-  });
+  const { data, refetch, isLoading, isFetching } = useGetTokenCachedPricesQuery(
+    { tokens: debouncedTokens },
+    { skip: !debouncedTokens.length },
+  );
 
   const [inputPrice, outputPrice] = useMemo(() => {
     const [input, output] = tokens;
@@ -66,4 +72,15 @@ export const useTokenPrices = ({ inputAsset, inputAmount, outputAmount, outputAs
   );
 
   return { prices, refetch, isLoading: isLoading || isFetching } as const;
+};
+
+export const useTokenPrices = (assets?: Asset[]) => {
+  const tokens = useMemo(() => assets?.map(parseAssetToToken) || [], [assets]);
+
+  const { data, refetch, isLoading, isFetching } = useGetTokenCachedPricesQuery(
+    { tokens, options: { includeMetadata: true } },
+    { skip: !tokens.length },
+  );
+
+  return { data, refetch, isLoading: isLoading || isFetching } as const;
 };
