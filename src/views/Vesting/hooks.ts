@@ -26,7 +26,7 @@ import {
   VestingType,
 } from 'views/Vesting/types';
 
-export const useVesting = () => {
+export const useVesting = ({ fetchVestingStatus }: { fetchVestingStatus?: boolean } = {}) => {
   const appDispatch = useAppDispatch();
   const [vestingAction, setVestingAction] = useState(VestingType.THOR);
   const [vestingInfo, setVestingInfo] = useState<VestingScheduleInfo>(defaultVestingInfo);
@@ -42,32 +42,38 @@ export const useVesting = () => {
 
   const getVestingInfo = useCallback(
     async (type: VestingType) => {
-      if (ethAddr) {
-        try {
-          const vestingContract = getEtherscanContract(
-            type === VestingType.THOR ? ContractType.VESTING : ContractType.VTHOR_VESTING,
-          );
+      try {
+        const contractType =
+          type === VestingType.THOR ? ContractType.VESTING : ContractType.VTHOR_VESTING;
+        const vestingContract = getEtherscanContract(contractType);
 
-          const totalAlloc = await vestingContract.vestingSchedule(ethAddr);
+        const [
+          totalVestedAmount,
+          totalClaimedAmount,
+          startTime,
+          vestingPeriod,
+          cliff,
+          initialRelease,
+        ] = (await vestingContract.vestingSchedule(ethAddr)) || [];
+        const claimableAmount = await vestingContract.claimableAmount(ethAddr);
 
-          const claimableAmount = await vestingContract.claimableAmount(ethAddr);
-          const info = {
-            totalVestedAmount: fromWei(totalAlloc[0]).toString(),
-            totalClaimedAmount: fromWei(totalAlloc[1]),
-            startTime: dayjs.unix(totalAlloc[2]).format('YYYY-MM-DD HH:MM:ss'),
-            vestingPeriod: dayjs.duration(totalAlloc[3] * 1000).asDays() / 365,
-            cliff: dayjs.duration(totalAlloc[4] * 1000).asDays() / 30,
-            initialRelease: fromWei(totalAlloc[5]).toString(),
-            claimableAmount: fromWei(claimableAmount),
-            hasAlloc: BigNumber.from(totalAlloc[0]).gt(0) || BigNumber.from(totalAlloc[1]).gt(0),
-          };
+        const info = {
+          totalVestedAmount: fromWei(totalVestedAmount).toString(),
+          totalClaimedAmount: fromWei(totalClaimedAmount),
+          startTime: dayjs.unix(startTime).format('YYYY-MM-DD HH:MM:ss'),
+          vestingPeriod: dayjs.duration(vestingPeriod * 1000).asDays() / 365,
+          cliff: dayjs.duration(cliff * 1000).asDays() / 30,
+          initialRelease: fromWei(initialRelease).toString(),
+          claimableAmount: fromWei(claimableAmount),
+          hasAlloc:
+            BigNumber.from(totalVestedAmount).gt(0) || BigNumber.from(totalClaimedAmount).gt(0),
+        };
 
-          setVestingInfo(info);
+        setVestingInfo(info);
 
-          return info;
-        } catch (error) {
-          console.error(error);
-        }
+        return info;
+      } catch (error) {
+        console.error(error);
       }
     },
     [ethAddr],
@@ -96,12 +102,6 @@ export const useVesting = () => {
 
     setIsFetching(false);
   }, [ethAddr, getVestingInfo, vestingAction]);
-
-  const fetchVestingAlloc = useCallback(async () => {
-    const promises = [getVestingInfo(VestingType.THOR), getVestingInfo(VestingType.VTHOR)];
-    const infos = await Promise.all(promises);
-    setVestingAlloc(infos?.[0]?.hasAlloc || infos?.[1]?.hasAlloc || false);
-  }, [getVestingInfo]);
 
   const handleClaim = useCallback(async () => {
     if (ethAddr) {
@@ -146,8 +146,18 @@ export const useVesting = () => {
 
   useEffect(() => {
     handleVestingInfo();
+  }, [handleVestingInfo, numberOfPendingApprovals]);
+
+  const fetchVestingAlloc = useCallback(async () => {
+    if (!ethAddr || !fetchVestingStatus) return;
+    const promises = [getVestingInfo(VestingType.THOR), getVestingInfo(VestingType.VTHOR)];
+    const infos = await Promise.all(promises);
+    setVestingAlloc(infos?.[0]?.hasAlloc || infos?.[1]?.hasAlloc || false);
+  }, [ethAddr, fetchVestingStatus, getVestingInfo]);
+
+  useEffect(() => {
     fetchVestingAlloc();
-  }, [handleVestingInfo, fetchVestingAlloc, numberOfPendingApprovals]);
+  }, [fetchVestingAlloc]);
 
   return {
     setVestingAction,

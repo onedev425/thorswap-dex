@@ -10,7 +10,7 @@ import { useWallet } from 'store/wallet/hooks';
 import { useVesting } from 'views/Vesting/hooks';
 
 export const useSidebarOptions = () => {
-  const { hasVestingAlloc } = useVesting();
+  const { hasVestingAlloc } = useVesting({ fetchVestingStatus: true });
   const { wallet } = useWallet();
   const { multisigVisible } = useApp();
 

@@ -22,7 +22,11 @@ const checkAppPassword = () => {
 
     const decodedPass = hmacSHA512(pagePassword, 'I!(G#s@1ADgjAlcSW!@()GF#(!@').toString().slice(-10)
 
-    if (decodedPass === '64127a68bc') {
+    /**
+     * Replace with new password hash generated from command line.
+     */
+    const currentPasswordHash = '64127a68bc'
+    if (decodedPass === currentPasswordHash) {
       renderApp()
     } else {
       alert('Incorrect password')
