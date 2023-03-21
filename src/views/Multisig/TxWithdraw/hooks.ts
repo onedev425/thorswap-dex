@@ -2,7 +2,8 @@ import {
   Amount,
   AssetAmount,
   AssetEntity as Asset,
-  Memo,
+  getMemoFor,
+  MemoType,
   Percent,
 } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
@@ -105,26 +106,19 @@ export const useTxWithdraw = () => {
   }, []);
 
   const handleConfirmWithdraw = async () => {
-    if (!isValid) {
-      return;
-    }
-    let memo: string;
+    if (!isValid) return;
 
-    if (lpType === PoolShareType.RUNE_ASYM) {
-      memo = Memo.withdrawMemo(poolAsset, new Percent(percent), { singleSide: false });
-    } else {
-      if (withdrawType === LiquidityTypeOption.SYMMETRICAL) {
-        memo = Memo.withdrawMemo(poolAsset, new Percent(percent), {
-          targetAsset: poolAsset,
-          singleSide: false,
-        });
-      } else {
-        memo = Memo.withdrawMemo(poolAsset, new Percent(percent), {
-          targetAsset: Asset.RUNE(),
-          singleSide: false,
-        });
-      }
-    }
+    const { chain, symbol, ticker } =
+      lpType === PoolShareType.RUNE_ASYM || withdrawType === LiquidityTypeOption.RUNE
+        ? poolAsset
+        : Asset.RUNE();
+
+    const memo = getMemoFor(MemoType.WITHDRAW, {
+      chain,
+      symbol,
+      ticker,
+      basisPoints: new Percent(percent).mul(100).assetAmount.toNumber(),
+    });
 
     const tx = await createDepositTx(
       {

@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { AddLiquidityParams, AssetEntity, Memo } from '@thorswap-lib/swapkit-core';
+import { AddLiquidityParams, AssetEntity, getMemoFor, MemoType } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';
@@ -36,10 +36,12 @@ export const useTxDeposit = (assetSideAddress: string) => {
     if (runeAmount?.gt(0)) {
       const tx = await createDepositTx(
         {
-          memo: Memo.depositMemo(
-            pool.asset,
-            liquidityType === LiquidityTypeOption.SYMMETRICAL ? assetSideAddress : undefined,
-          ),
+          memo: getMemoFor(MemoType.DEPOSIT, {
+            chain: pool.asset.chain,
+            symbol: pool.asset.symbol,
+            address:
+              liquidityType === LiquidityTypeOption.SYMMETRICAL ? assetSideAddress : undefined,
+          }),
           amount: runeAmount.amount,
           asset: runeAmount.asset,
         },
@@ -99,10 +101,11 @@ export const useTxDeposit = (assetSideAddress: string) => {
     if (pool) {
       info.push({
         label: t('common.memo'),
-        value: Memo.depositMemo(
-          pool.asset,
-          liquidityType === LiquidityTypeOption.SYMMETRICAL ? assetSideAddress : undefined,
-        ),
+        value: getMemoFor(MemoType.DEPOSIT, {
+          chain: pool.asset.chain,
+          symbol: pool.asset.symbol,
+          address: liquidityType === LiquidityTypeOption.SYMMETRICAL ? assetSideAddress : undefined,
+        }),
       });
     }
 
