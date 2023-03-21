@@ -58,7 +58,7 @@ export type ImportedMultisigTx = {
 
 type SignersSequence = boolean[];
 
-let _thorchainToolbox: ToDo = {};
+let _thorchainToolbox: ToDo | null = null;
 let _multisigPubKey: ToDo | null = null;
 let _multisigAddress: string | null = null;
 
@@ -67,7 +67,7 @@ export const getMultisigAddress = () => _multisigAddress;
 export const getThorchainToolbox = async () => {
   const { ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
 
-  return (_thorchainToolbox ||= new ThorchainToolbox({}));
+  return (_thorchainToolbox ||= ThorchainToolbox({}));
 };
 
 export const createMultisigWallet = async (members: MultisigMember[], treshold: number) => {
