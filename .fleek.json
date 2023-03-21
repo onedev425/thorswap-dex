@@ -1,11 +1,6 @@
 {
   "build": {
     "command": "yarn install; yarn build",
-    "environment": {
-      "VITE_BLOCKCHAIR_API_KEY": "A___AOdjVtXyq7ptv9wHJoUo5x3vGDgE",
-      "VITE_COVALENT_API_KEY": "ckey_ef8b6be0d7f94770a590bbe57bc",
-      "VITE_ETHPLORER_API_KEY": "EK-uB3Fv-ehKXfyN-Chujs"
-    },
     "image": "node:lts",
     "publicDir": "dist"
   }
