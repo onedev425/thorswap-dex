@@ -6,7 +6,7 @@ import { useCallback } from 'react';
 import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
 
-import { availableChainsByWallet, WalletType } from './types';
+import { availableChainsByWallet, WalletNameByWalletOption, WalletType } from './types';
 
 type WalletItem = {
   type: WalletType;
@@ -44,21 +44,20 @@ export const getWalletOptions = async ({ isMdActive }: UseWalletOptionsParams) =
           type: WalletType.TrustWalletExtension,
           icon: 'trustWalletWhite',
           label: t('views.walletModal.trustWalletExtension'),
-          tooltip: evmWallet.isDetected(WalletOption.BRAVE)
-            ? t('views.walletModal.disableBraveWallet')
-            : '',
         },
         {
           type: WalletType.MetaMask,
           icon: 'metamask',
           disabled:
-            evmWallet.isDetected(WalletOption.TRUSTWALLET_WEB) ||
+            evmWallet.getETHDefaultWallet() !== WalletOption.METAMASK ||
             evmWallet.isDetected(WalletOption.BRAVE),
           label: t('views.walletModal.metaMask'),
           tooltip: evmWallet.isDetected(WalletOption.BRAVE)
             ? t('views.walletModal.disableBraveWallet')
-            : evmWallet.isDetected(WalletOption.TRUSTWALLET_WEB)
-            ? t('views.walletModal.disableTrustWallet')
+            : evmWallet.getETHDefaultWallet() !== WalletOption.METAMASK
+            ? t('views.walletModal.disableDefaultWallet', {
+                wallet: WalletNameByWalletOption[evmWallet.getETHDefaultWallet()],
+              })
             : '',
         },
         {
@@ -67,20 +66,16 @@ export const getWalletOptions = async ({ isMdActive }: UseWalletOptionsParams) =
           visible: isMdActive,
           label: t('views.walletModal.xdefi'),
         },
-        // ...(IS_PROD
-        //   ? []
-        //   : [
-        //       {
-        //         disabled: !evmWallet.isDetected(WalletOption.BRAVE),
-        //         icon: 'brave' as IconName,
-        //         type: WalletType.Brave,
-        //         visible: isMdActive,
-        //         label: t('views.walletModal.braveWallet'),
-        //         tooltip: !evmWallet.isDetected(WalletOption.BRAVE)
-        //           ? t('views.walletModal.enableBraveWallet')
-        //           : '',
-        //       },
-        //     ]),
+        {
+          disabled: !evmWallet.isDetected(WalletOption.BRAVE),
+          icon: 'brave' as IconName,
+          type: WalletType.Brave,
+          visible: isMdActive,
+          label: t('views.walletModal.braveWallet'),
+          tooltip: !evmWallet.isDetected(WalletOption.BRAVE)
+            ? t('views.walletModal.enableBraveWallet')
+            : '',
+        },
         {
           icon: 'keplr',
           label: t('views.walletModal.keplr'),

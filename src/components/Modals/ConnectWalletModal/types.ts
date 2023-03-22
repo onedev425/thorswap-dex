@@ -1,4 +1,4 @@
-import { Chain } from '@thorswap-lib/types';
+import { Chain, WalletOption } from '@thorswap-lib/types';
 
 export enum WalletType {
   Brave = 'Brave',
@@ -12,6 +12,17 @@ export enum WalletType {
   TrustWalletExtension = 'TrustWalletExtension',
   Xdefi = 'Xdefi',
 }
+
+export const WalletNameByWalletOption: Record<WalletOption, string> = {
+  [WalletOption.BRAVE]: WalletType.Brave,
+  [WalletOption.KEPLR]: WalletType.Keplr,
+  [WalletOption.LEDGER]: WalletType.Ledger,
+  [WalletOption.METAMASK]: WalletType.MetaMask,
+  [WalletOption.TRUSTWALLET]: WalletType.TrustWallet,
+  [WalletOption.TRUSTWALLET_WEB]: 'Trustwallet Web',
+  [WalletOption.XDEFI]: WalletType.Xdefi,
+  [WalletOption.KEYSTORE]: WalletType.Keystore,
+};
 
 // Left as a placeholder for future chains
 // const STAGENET_CHAINS = IS_STAGENET ? [] : [];

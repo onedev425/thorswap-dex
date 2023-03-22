@@ -907,7 +907,7 @@
       "createWallet": "Create Wallet",
       "deprioritizeXdefi": "Deprioritize XDEFI",
       "disableBraveWallet": "Disable Brave Wallet",
-      "disableTrustWallet": "Disable Trust Wallet",
+      "disableDefaultWallet": "Disable %{wallet} Wallet",
       "enableBraveWallet": "Enable Brave Wallet",
       "enterKeystorePassword": "Confirm keystore password",
       "enterPassword": "Enter Password",
