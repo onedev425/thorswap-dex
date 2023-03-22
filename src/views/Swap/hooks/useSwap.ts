@@ -128,11 +128,12 @@ export const useSwap = ({
     inputAmount,
     outputAmount,
     outputAsset.name,
+    outputAsset.L1Chain,
     appDispatch,
     quoteMode,
     quoteId,
-    recipient,
     feeOptionType,
+    recipient,
   ]);
 
   return handleSwap;

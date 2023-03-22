@@ -344,15 +344,20 @@ export const useAddLiquidity = ({
         );
       }
 
-      const addresses = {
-        runeAddr: poolMemberDetail?.runeAddress,
-        assetAddr: poolMemberDetail?.assetAddress,
-      };
+      const addresses =
+        isRunePending || isAssetPending || liquidityType === LiquidityTypeOption.SYMMETRICAL
+          ? {
+              runeAddr: poolMemberDetail?.runeAddress,
+              assetAddr: poolMemberDetail?.assetAddress,
+            }
+          : {};
+
       const params = {
         pool,
         runeAmount: isRunePending ? undefined : runeAssetAmount,
         assetAmount: isAssetPending ? undefined : poolAssetAmount,
-        ...(isRunePending || isAssetPending ? addresses : {}),
+        isPendingSymmAsset: isAssetPending && liquidityType === LiquidityTypeOption.SYMMETRICAL,
+        ...addresses,
       };
 
       const { addLiquidity } = await (await import('services/multichain')).getSwapKitClient();

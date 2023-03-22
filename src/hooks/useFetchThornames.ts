@@ -1,8 +1,8 @@
-import { THORNameEntry } from '@thorswap-lib/swapkit-core';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { midgardApi } from 'services/midgard';
 import { getThornameDetails } from 'services/thorname';
 import { useAppSelector } from 'store/store';
+import { THORNameEntry } from 'types/app';
 
 export const useFetchThornames = () => {
   const fetching = useRef(false);

@@ -51,3 +51,14 @@ export const SUPPORTED_LANGUAGES = [
 ] as const;
 
 export type SupportedLanguages = (typeof SUPPORTED_LANGUAGES)[number];
+
+export type THORNameEntry = {
+  address: string;
+  chain: string;
+};
+
+export type THORNameDetails = {
+  entries: THORNameEntry[];
+  owner: string;
+  expire: string;
+};

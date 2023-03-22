@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { AssetEntity, THORName } from '@thorswap-lib/swapkit-core';
+import { AssetEntity, getTHORNameCost } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Collapse, Icon, Tooltip } from 'components/Atomic';
 import { FieldLabel } from 'components/Form';
@@ -314,7 +314,7 @@ const Thorname = () => {
             <InfoRow
               capitalizeLabel
               label={t('view.thorname.cost')}
-              value={`${THORName.getCost(years - 10).toSignificantWithMaxDecimals(6)} RUNE`}
+              value={`${getTHORNameCost(Math.max(0, years - 10))} RUNE`}
             />
             {years > 0 && (
               <InfoRow
@@ -330,7 +330,7 @@ const Thorname = () => {
             <InfoRow
               capitalizeLabel
               label={t('view.thorname.cost')}
-              value={`${THORName.getCost(years).toSignificantWithMaxDecimals(6)} RUNE`}
+              value={`${getTHORNameCost(years)} RUNE`}
             />
             <InfoRow
               capitalizeLabel

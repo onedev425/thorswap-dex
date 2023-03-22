@@ -1,8 +1,9 @@
-import { THORName, THORNameEntry } from '@thorswap-lib/swapkit-core';
+import { validateTHORName } from '@thorswap-lib/swapkit-core';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useCallback, useEffect, useState } from 'react';
 import { midgardApi } from 'services/midgard';
 import { getThornameDetails } from 'services/thorname';
+import { THORNameEntry } from 'types/app';
 
 export const useAddressForTNS = (address: string) => {
   const debouncedAddress = useDebouncedValue(address, 1200);
@@ -33,7 +34,7 @@ export const useAddressForTNS = (address: string) => {
   useEffect(() => {
     const [possibleThorname] = debouncedAddress.toLowerCase().split('.');
 
-    if (THORName.isValidName(possibleThorname)) {
+    if (validateTHORName(possibleThorname)) {
       midgardApi
         .getTHORNameDetail(possibleThorname)
         .then((details) => {
@@ -51,7 +52,7 @@ export const useAddressForTNS = (address: string) => {
   }, [debouncedAddress, lookupForTNS]);
 
   useEffect(() => {
-    if (THORName.isValidName(address)) {
+    if (validateTHORName(address)) {
       setLoading(true);
     }
   }, [address]);

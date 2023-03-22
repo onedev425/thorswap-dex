@@ -1,5 +1,4 @@
-import { THORNameDetails } from '@thorswap-lib/midgard-sdk';
-import { Amount, AssetEntity, THORName } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetEntity, getTHORNameCost, validateTHORName } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { shortenAddress } from 'helpers/shortenAddress';
@@ -10,6 +9,7 @@ import { getThornameDetails } from 'services/thorname';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
+import { THORNameDetails } from 'types/app';
 import { v4 } from 'uuid';
 
 type Actions =
@@ -17,7 +17,7 @@ type Actions =
   | { type: 'setAvailable' | 'setLoading'; payload: boolean }
   | {
       type: 'setDetails';
-      payload: { details: THORNameDetails | null; available: boolean };
+      payload: { details: Maybe<THORNameDetails>; available: boolean };
     }
   | { type: 'setChain'; payload: Chain }
   | { type: 'setYears'; payload: number };
@@ -25,7 +25,7 @@ type Actions =
 const initialState = {
   available: false,
   chain: Chain.THORChain as Chain,
-  details: null as THORNameDetails | null,
+  details: null as Maybe<THORNameDetails>,
   loading: false,
   thorname: '',
   years: 1,
@@ -46,7 +46,7 @@ const reducer = (state: typeof initialState, { type, payload }: Actions) => {
       return {
         ...(hasPayload ? state : initialState),
         thorname: hasPayload
-          ? THORName.isValidName(payload)
+          ? validateTHORName(payload)
             ? payload.toLowerCase()
             : state.thorname
           : '',
@@ -59,7 +59,7 @@ const reducer = (state: typeof initialState, { type, payload }: Actions) => {
         details: payload.details,
         available: payload.available,
         loading: false,
-        years: 0,
+        years: payload.details ? 0 : 1,
       };
 
     case 'setYears':
@@ -132,22 +132,19 @@ export const useThornameLookup = (owner?: string) => {
 
   const registerThornameAddress = useCallback(
     async (address: string, newOwner?: string) => {
-      if (!THORName.isValidName(thorname)) {
+      if (!validateTHORName(thorname)) {
         return showErrorToast(t('notification.invalidTHORName'));
       }
 
       const isTransfer = !!newOwner;
 
       dispatch({ type: 'setLoading', payload: true });
-      const amount =
-        details?.owner !== owner ? THORName.getCost(years) : Amount.fromNormalAmount(years);
+      const amount = details?.owner !== owner ? getTHORNameCost(years) : years;
 
       const prefix =
         details?.owner !== owner ? t('txManager.registerThorname') : t('txManager.updateThorname');
 
-      let label = `${prefix} ${thorname} - ${amount.toSignificantWithMaxDecimals(6)} ${
-        AssetEntity.RUNE().name
-      }`;
+      let label = `${prefix} ${thorname} - ${amount} ${AssetEntity.RUNE().name}`;
       if (details?.owner && isTransfer) {
         label = `${t('common.transfer')} ${thorname} - ${shortenAddress(newOwner, 6, 8)}`;
       }
@@ -169,7 +166,7 @@ export const useThornameLookup = (owner?: string) => {
       const { registerThorname } = await (await import('services/multichain')).getSwapKitClient();
 
       try {
-        const txid = await registerThorname(registerParams, amount);
+        const txid = await registerThorname(registerParams, Amount.fromNormalAmount(amount));
 
         if (txid) {
           appDispatch(updateTransaction({ id, txid }));
