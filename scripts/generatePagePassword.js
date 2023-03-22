@@ -1,7 +1,3 @@
-/**
- * use crypto HMAC512 with key 'I!(G#s@1ADgjAlcSW!@()GF#(!@' and message as user prompt
- */
-
 const crypto = require('crypto');
 const readline = require('readline');
 const { exec } = require('child_process');
@@ -11,8 +7,10 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
+const hashSalt = 'I!(G#s@1ADgjAlcSW!@()GF#(!@'
+
 rl.question('Enter password: ', (answer) => {
-  const hash = crypto.createHmac('sha512', 'I!(G#s@1ADgjAlcSW!@()GF#(!@')
+  const hash = crypto.createHmac('sha512', hashSalt)
                    .update(answer)
                    .digest('hex');
 

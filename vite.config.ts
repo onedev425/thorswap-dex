@@ -69,7 +69,7 @@ export default defineConfig({
     reportCompressedSize: true,
     sourcemap,
     rollupOptions: {
-      maxParallelFileOps: 2,
+      maxParallelFileOps: 20,
       plugins: [nodePolyfills({ sourceMap: sourcemap })],
       output: {
         sourcemap,
