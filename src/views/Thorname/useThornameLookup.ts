@@ -137,12 +137,12 @@ export const useThornameLookup = (owner?: string) => {
       }
 
       const isTransfer = !!newOwner;
+      const isRegister = details?.owner !== owner;
 
       dispatch({ type: 'setLoading', payload: true });
-      const amount = details?.owner !== owner ? getTHORNameCost(years) : years;
 
-      const prefix =
-        details?.owner !== owner ? t('txManager.registerThorname') : t('txManager.updateThorname');
+      const amount = isRegister ? getTHORNameCost(years) : years;
+      const prefix = isRegister ? t('txManager.registerThorname') : t('txManager.updateThorname');
 
       let label = `${prefix} ${thorname} - ${amount} ${AssetEntity.RUNE().name}`;
       if (details?.owner && isTransfer) {
@@ -154,7 +154,7 @@ export const useThornameLookup = (owner?: string) => {
         addTransaction({
           id,
           inChain: Chain.THORChain,
-          type: TransactionType.TC_TNS,
+          type: isTransfer ? TransactionType.TC_TNS_UPDATE : TransactionType.TC_TNS_CREATE,
           label,
         }),
       );

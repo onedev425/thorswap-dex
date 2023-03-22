@@ -182,15 +182,14 @@ const getChainAnnouncement = ({
 };
 
 const getAnnouncementId = (ann: AnnouncementItem) => {
-  return hmacSHA512(
+  const annId =
     ann.message +
-      (ann.type || '') +
-      (ann.link?.name || '') +
-      (ann.link?.url || '') +
-      (ann.chain || ''),
-  )
-    .toString()
-    .slice(0, 8);
+    (ann.type || '') +
+    (ann.link?.name || '') +
+    (ann.link?.url || '') +
+    (ann.chain || '');
+
+  return hmacSHA512(annId, 'announcements').toString().slice(-10);
 };
 
 const getAnnouncementsByChain = (props: GetAnnouncementsByChainProps) =>

@@ -1,4 +1,5 @@
 import {
+  Badge,
   Box,
   chakra,
   CircularProgress,
@@ -8,6 +9,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { Amount } from '@thorswap-lib/swapkit-core';
+import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { FallbackIcon } from 'components/AssetIcon/FallbackIcon';
 import { Button, Icon } from 'components/Atomic';
@@ -20,7 +22,13 @@ import { getChainIdentifier } from 'helpers/chains';
 import { getTickerFromIdentifier, tokenLogoURL } from 'helpers/logoURL';
 import { useTxUrl } from 'hooks/useTxUrl';
 import { useMemo } from 'react';
-import { TransactionStatus, TxStatus, TxTrackerLeg } from 'store/transactions/types';
+import { t } from 'services/i18n';
+import {
+  TransactionStatus,
+  TransactionType,
+  TxStatus,
+  TxTrackerLeg,
+} from 'store/transactions/types';
 
 type Props = {
   leg: TxTrackerLeg;
@@ -33,6 +41,26 @@ type Props = {
 const AnimatedBox = chakra(motion.div, {
   shouldForwardProp: (prop) => isValidMotionProp(prop) || shouldForwardProp(prop),
 });
+
+const getLabelForType = (type?: TransactionType) => {
+  if (!type) return;
+  if (type.includes(TransactionType.TRANSFER_FROM_TC)) return 'fromTCRouter';
+  if (type.includes(TransactionType.TRANSFER_TO_TC)) return 'toTCRouter';
+  if (type.includes('SWAP')) return 'swap';
+};
+
+const colorSchemeForChain = {
+  [Chain.Avalanche]: 'red',
+  [Chain.Binance]: 'yellow',
+  [Chain.BinanceSmartChain]: 'yellow',
+  [Chain.Bitcoin]: 'orange',
+  [Chain.BitcoinCash]: 'greenLight',
+  [Chain.Cosmos]: 'cyan',
+  [Chain.Doge]: 'yellow',
+  [Chain.Ethereum]: 'purple',
+  [Chain.Litecoin]: 'blue',
+  [Chain.THORChain]: 'green',
+};
 
 export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: Props) => {
   const { finished: isTxFinished } = getTxState(txStatus);
@@ -59,6 +87,14 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
 
     return leg.status ? getSimpleTxStatus(leg.status) : 'unknown';
   }, [currentLegIndex, index, leg.status, isTxFinished, txStatus]);
+
+  const { badgeLabel, badgeColorScheme } = useMemo(
+    () => ({
+      badgeLabel: leg.txnType ? t(`txManager.txBadge.${getLabelForType(leg.txnType)}`) : undefined,
+      badgeColorScheme: colorSchemeForChain[leg.chain],
+    }),
+    [leg.chain, leg.txnType],
+  );
 
   return (
     <Flex gap={2} key={leg.hash}>
@@ -165,25 +201,32 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
           </Flex>
           <Flex alignItems="space-between" gap={2} justify="space-between" mt={1}>
             <Flex align="center" direction="column">
-              <Text fontSize="10px" lineHeight="12px" textStyle="caption-xs">
-                {Amount.fromAssetAmount(leg.fromAmount || '0', 6).toSignificant(3)}{' '}
-              </Text>
+              {leg.fromAmount ? (
+                <Text fontSize="10px" lineHeight="12px" textStyle="caption-xs">
+                  {Amount.fromAssetAmount(leg.fromAmount.replace(',', ''), 6).toSignificant(3)}
+                </Text>
+              ) : (
+                <Icon spin className="self-center" name="loader" size={12} />
+              )}
+
               <Text fontSize="10px" lineHeight="12px">
                 {getTickerFromIdentifier(leg.fromAsset || '')}
               </Text>
             </Flex>
 
             {!isTransfer && (
-              <>
-                <Flex align="center" direction="column">
+              <Flex align="center" direction="column">
+                {leg.toAmount ? (
                   <Text fontSize="10px" lineHeight="12px" textStyle="caption-xs">
-                    {Amount.fromAssetAmount(leg.toAmount || '0', 6).toSignificant(3)}{' '}
+                    {Amount.fromAssetAmount(leg.toAmount.replace(',', ''), 6).toSignificant(3)}
                   </Text>
-                  <Text fontSize="10px" lineHeight="12px">
-                    {getTickerFromIdentifier(leg.toAsset || '')}
-                  </Text>
-                </Flex>
-              </>
+                ) : (
+                  <Icon spin name="loader" size={14} />
+                )}
+                <Text fontSize="10px" lineHeight="12px">
+                  {getTickerFromIdentifier(leg.toAsset || '')}
+                </Text>
+              </Flex>
             )}
           </Flex>
 
@@ -223,6 +266,14 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
             View tx
           </Button>
         </Link>
+
+        {badgeLabel && (
+          <Flex align="center" direction="column" gap={1}>
+            <Badge colorScheme={badgeColorScheme} fontSize="12">
+              {badgeLabel}
+            </Badge>
+          </Flex>
+        )}
       </Flex>
 
       {!isLast && <TxLegProvider isTransfer={isTransfer} leg={leg} />}
