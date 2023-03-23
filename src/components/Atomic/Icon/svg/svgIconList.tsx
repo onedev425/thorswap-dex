@@ -169,6 +169,7 @@ const IconComponents = Icons.reduce(
       | FunctionComponent<SVGProps<SVGSVGElement> & { title?: string | undefined }>;
   },
 );
+
 const ImageIcon =
   (src: any) =>
   ({ size, ...rest }: CustomIconProps) =>

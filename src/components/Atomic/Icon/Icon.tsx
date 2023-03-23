@@ -39,7 +39,7 @@ export type IconProps = {
 
 export const Icon = ({
   className,
-  color = 'primary',
+  color,
   spin = false,
   name,
   size = 24,
@@ -52,9 +52,9 @@ export const Icon = ({
     <IconComp
       className={classNames(
         'transition-all box-content',
-        colorClasses[color],
         spin ? 'animate-spin' : 'animate-none',
         onClick ? 'cursor-pointer' : '',
+        color ? colorClasses[color] : '',
         className,
       )}
       onClick={onClick}
