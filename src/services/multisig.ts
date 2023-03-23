@@ -1,4 +1,5 @@
 import { fromBase64 } from '@cosmjs/encoding';
+import { proto } from '@cosmos-client/core';
 import { baseAmount, getTcNodeUrl } from '@thorswap-lib/helpers';
 import { Amount, AssetAmount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Chain, ChainId } from '@thorswap-lib/types';
@@ -59,7 +60,7 @@ export type ImportedMultisigTx = {
 type SignersSequence = boolean[];
 
 let _thorchainToolbox: ToDo | null = null;
-let _multisigPubKey: ToDo | null = null;
+let _multisigPubKey: proto.cosmos.crypto.multisig.LegacyAminoPubKey | null = null;
 let _multisigAddress: string | null = null;
 
 export const getMultisigAddress = () => _multisigAddress;
@@ -76,6 +77,7 @@ export const createMultisigWallet = async (members: MultisigMember[], treshold: 
       members.map((member) => member.pubKey),
       Number(treshold),
     );
+    _multisigPubKey!.constructor = proto.cosmos.crypto.multisig.LegacyAminoPubKey;
     _multisigAddress = (await getThorchainToolbox()).getMultisigAddress(_multisigPubKey);
     return _multisigAddress;
   } catch (error: NotWorth) {
