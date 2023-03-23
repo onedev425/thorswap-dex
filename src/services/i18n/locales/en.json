@@ -352,10 +352,13 @@
     "transactionPath": "Transaction path",
     "transfer": "Transfer",
     "txBadge": {
-      "fromTCRouter": "From THORChain",
-      "swap": "Swap",
-      "toTCRouter": "To THORChain"
+      "fromTCRouter": "Transfer from THORChain",
+      "swap": "Swap assets",
+      "toTCRouter": "Transfer to THORChain",
+      "transfer": "Transfer tokens"
     },
+    "confirmRemovePending": "Are you sure you want to remove pending transaction from the history?",
+    "transferToRouter": "Transfer to router",
     "txDetails": "Transaction Details",
     "txDuration": "Transaction duration",
     "txEstimatedTimeLeft": "Estimated time left",

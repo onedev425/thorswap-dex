@@ -38,7 +38,7 @@ export const useSimpleTracker = (tx: PendingTransactionType | null) => {
     skip: !params.txid,
   });
 
-  const txUrl = useTxUrl({ txHash: tx?.id || '', chain: inChain });
+  const txUrl = useTxUrl({ txHash: tx?.txid || '', chain: inChain });
 
   useEffect(() => {
     const transactionCompleted = data?.ok && ['mined', 'refund'].includes(data.status);

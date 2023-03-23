@@ -30,6 +30,10 @@ export const TxLegTimer = ({ leg, isTxFinished, legIndex }: Props) => {
   });
 
   const timeLabel = useMemo(() => {
+    if (!startTimestamp && estimatedDuration) {
+      return formatDuration(estimatedDuration);
+    }
+
     if (timeLeft === null) {
       return 'Estimating...';
     }
@@ -39,13 +43,13 @@ export const TxLegTimer = ({ leg, isTxFinished, legIndex }: Props) => {
     }
 
     return formatDuration(timeLeft);
-  }, [timeLeft]);
+  }, [estimatedDuration, startTimestamp, timeLeft]);
 
   if (isTxFinished || isLegFinished) {
     return (
       <Tooltip content={t('txManager.txDuration')}>
         <Flex alignItems="center" gap={1}>
-          {duration ? (
+          {duration !== null ? (
             <>
               <Icon name="timer" size={14} />
               <Text fontWeight="light" textStyle="caption-xs">

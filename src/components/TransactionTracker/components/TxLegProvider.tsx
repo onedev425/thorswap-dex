@@ -24,7 +24,11 @@ export const TxLegProvider = ({ leg, isTransfer }: Props) => {
           <AssetIcon logoURI={providerLogoURL(leg.provider)} size={30} />
         </Tooltip>
       )}
-      {isTransfer && <Icon color="secondaryBtn" name="switch" size={30} />}
+      {isTransfer && (
+        <Tooltip content={t('txManager.transferToRouter')}>
+          <Icon color="secondaryBtn" name="switch" size={30} />
+        </Tooltip>
+      )}
       <Flex mt={8}>
         <Icon name="chevronRight" />
       </Flex>

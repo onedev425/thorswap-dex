@@ -2,6 +2,7 @@ import { Text } from '@chakra-ui/react';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Card, Icon, SwitchToggle, Tooltip } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
+import { Confirm } from 'components/Modals/Confirm';
 import { Popover } from 'components/Popover';
 import { Scrollbar } from 'components/Scrollbar';
 import { CompletedTransaction } from 'components/TransactionManager/CompletedTransaction';
@@ -29,9 +30,19 @@ export const TransactionManager = memo(() => {
   const prevTxLength = useRef(transactions.length);
   const { open: openModal, isOpened: modalOpened, close: closeModal } = useTransactionsModal();
 
+  const [confirmClearOpened, setConfirmClearOpened] = useState(false);
+
   const handleTransactionsClear = useCallback(() => {
     appDispatch(clearTransactions());
   }, [appDispatch]);
+
+  const onClearHistory = useCallback(() => {
+    if (pending.length) {
+      setConfirmClearOpened(true);
+    } else {
+      handleTransactionsClear();
+    }
+  }, [handleTransactionsClear, pending.length]);
 
   useEffect(() => {
     if (isOpen) {
@@ -94,7 +105,7 @@ export const TransactionManager = memo(() => {
                   className={baseHoverClass}
                   color="secondary"
                   name="trash"
-                  onClick={handleTransactionsClear}
+                  onClick={onClearHistory}
                   size={18}
                 />
               </Tooltip>
@@ -123,6 +134,16 @@ export const TransactionManager = memo(() => {
         </Box>
       </Card>
       <TransactionTrackerModal isOpened={modalOpened} onClose={closeModal} />
+      <Confirm
+        description={t('txManager.confirmRemovePending')}
+        isOpened={confirmClearOpened}
+        onCancel={() => setConfirmClearOpened(false)}
+        onConfirm={() => {
+          handleTransactionsClear();
+          setConfirmClearOpened(false);
+        }}
+        title={t('common.confirm')}
+      />
     </Popover>
   );
 });

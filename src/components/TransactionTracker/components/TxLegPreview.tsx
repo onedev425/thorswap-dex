@@ -12,7 +12,7 @@ import { Amount } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { FallbackIcon } from 'components/AssetIcon/FallbackIcon';
-import { Button, Icon } from 'components/Atomic';
+import { Button, Icon, Tooltip } from 'components/Atomic';
 import { getSimpleTxStatus } from 'components/TransactionManager/helpers';
 import { TxLegProvider } from 'components/TransactionTracker/components/TxLegProvider';
 import { TxLegTimer } from 'components/TransactionTracker/components/TxLegTimer';
@@ -47,6 +47,8 @@ const getLabelForType = (type?: TransactionType) => {
   if (type.includes(TransactionType.TRANSFER_FROM_TC)) return 'fromTCRouter';
   if (type.includes(TransactionType.TRANSFER_TO_TC)) return 'toTCRouter';
   if (type.includes('SWAP')) return 'swap';
+
+  return 'transferTokens';
 };
 
 const colorSchemeForChain = {
@@ -69,8 +71,7 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
   const outAssetIdentifier = leg.toAsset;
   const transactionUrl = useTxUrl({ txHash: leg?.hash || '', chain: leg.chain });
 
-  const isTransfer =
-    !leg.provider && leg.txnType?.includes('STATUS') && leg.fromAsset === leg.toAsset;
+  const isTransfer = !leg.provider && leg.fromAsset === leg.toAsset;
 
   const status = useMemo(() => {
     if (!isTxFinished && currentLegIndex === index) {
@@ -156,6 +157,14 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
             </Flex>
           </Flex>
 
+          <Flex align="center" justify="center" opacity={0.8}>
+            <Tooltip content={badgeLabel}>
+              <Badge colorScheme={badgeColorScheme} fontSize="10" variant="outline">
+                {isTransfer ? t('txManager.transfer') : t('txManager.swap')}
+              </Badge>
+            </Tooltip>
+          </Flex>
+
           <Flex gap={2} justify="center" mt={3}>
             <Flex align="center" direction="column" gap={1}>
               {inAssetIdentifier ? (
@@ -199,7 +208,7 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
               </>
             )}
           </Flex>
-          <Flex alignItems="space-between" gap={2} justify="space-between" mt={1}>
+          <Flex gap={2} justify={isTransfer ? 'center' : 'space-between'} mt={1}>
             <Flex align="center" direction="column">
               {leg.fromAmount ? (
                 <Text fontSize="10px" lineHeight="12px" textStyle="caption-xs">
@@ -266,14 +275,6 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
             View tx
           </Button>
         </Link>
-
-        {badgeLabel && (
-          <Flex align="center" direction="column" gap={1}>
-            <Badge colorScheme={badgeColorScheme} fontSize="12">
-              {badgeLabel}
-            </Badge>
-          </Flex>
-        )}
       </Flex>
 
       {!isLast && <TxLegProvider isTransfer={isTransfer} leg={leg} />}

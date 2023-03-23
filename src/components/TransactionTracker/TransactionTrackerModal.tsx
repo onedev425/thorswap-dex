@@ -44,7 +44,12 @@ export const TransactionTrackerModal = memo(({ isOpened, onClose }: Props) => {
           </Text>
           <Card height="full" variant="filledContainerSecondary">
             <Flex direction="column" flex={1} justifyContent="flex-start" maxH="80vh">
-              {selectedTx && <TxActions txHash={selectedTx.hash || ''} />}
+              {selectedTx && (
+                <TxActions
+                  isPending={selectedTx.details?.status === 'pending'}
+                  txHash={selectedTx.id || ''}
+                />
+              )}
 
               {selectedTx && !selectedTx.details && (
                 <>
