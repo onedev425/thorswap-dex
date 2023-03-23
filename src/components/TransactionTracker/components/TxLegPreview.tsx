@@ -103,14 +103,14 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
         <Flex
           borderRadius={4}
           flexDirection="column"
-          gap={2}
+          gap={1.5}
           maxW="130px"
           minW="110px"
           opacity={status === null ? 0.6 : 1}
           overflow="hidden"
           pb={2}
           position="relative"
-          pt={8}
+          pt={6}
           px={4}
           w="full"
         >
@@ -165,7 +165,7 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
             </Tooltip>
           </Flex>
 
-          <Flex gap={2} justify="center" mt={3}>
+          <Flex gap={2} justify="center" mt={1}>
             <Flex align="center" direction="column" gap={1}>
               {inAssetIdentifier ? (
                 <AssetIcon
