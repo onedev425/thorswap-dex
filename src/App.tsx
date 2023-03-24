@@ -2,6 +2,7 @@ import { AnnouncementsProvider } from 'components/Announcements/AnnouncementsCon
 import { Box } from 'components/Atomic';
 import { ChakraThemeProvider } from 'components/Theme/ChakraThemeProvider';
 import { ThemeProvider } from 'components/Theme/ThemeContext';
+import { TransactionTrackerModal } from 'components/TransactionTracker/TransactionTrackerModal';
 import { TransactionsModalProvider } from 'components/TransactionTracker/useTransactionsModal';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
@@ -26,6 +27,8 @@ const MainApp = () => {
       <DrawerProvider>
         <TransactionsModalProvider>
           <PublicRoutes />
+
+          <TransactionTrackerModal />
         </TransactionsModalProvider>
       </DrawerProvider>
     </Box>

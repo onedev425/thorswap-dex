@@ -53,12 +53,7 @@ export const InfoRow = ({
       )}
 
       {typeof value === 'string' || typeof value === 'number' ? (
-        <Text
-          className="text-right"
-          fontWeight="semibold"
-          textStyle={valueVariant[size]}
-          variant="primary"
-        >
+        <Text className="text-right" fontWeight="semibold" textStyle={valueVariant[size]}>
           {value}
         </Text>
       ) : (

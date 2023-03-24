@@ -357,6 +357,8 @@
       "toTCRouter": "Transfer to THORChain",
       "transfer": "Transfer tokens"
     },
+    "nextTx": "Next transaction",
+    "prevTx": "Previous transaction",
     "confirmRemovePending": "Are you sure you want to remove pending transaction from the history?",
     "transferToRouter": "Transfer to router",
     "txDetails": "Transaction Details",

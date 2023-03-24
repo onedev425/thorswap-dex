@@ -1,4 +1,12 @@
-import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useTransactionsState } from 'store/transactions/hooks';
 import { CompletedTransactionType, PendingTransactionType } from 'store/transactions/types';
 import { findTxIndexById } from 'store/transactions/utils';
@@ -9,7 +17,13 @@ type WalletDrawerContextType = {
   selectedTx: PendingTransactionType | CompletedTransactionType | null;
   setSelectedTxId: (txid: string) => void;
   close: () => void;
+  next: () => void;
+  previous: () => void;
+  hasNext: boolean;
+  hasPrev: boolean;
   open: (txid?: string) => void;
+  selectedIndex: number | null;
+  allCount: number;
 };
 
 export const TransactionsModalContext = createContext({
@@ -20,6 +34,12 @@ export const TransactionsModalContext = createContext({
   selectedTxId: '',
   setSelectedTxId: (_: string) => {},
   selectedTx: null,
+  next: () => {},
+  previous: () => {},
+  hasNext: false,
+  hasPrev: false,
+  selectedIndex: null,
+  allCount: 0,
 } as WalletDrawerContextType);
 
 type Props = {
@@ -33,6 +53,11 @@ export const TransactionsModalProvider = ({ children }: Props) => {
   const [selectedTx, setSelectedTx] = useState<
     PendingTransactionType | CompletedTransactionType | null
   >(null);
+  const selectedIndex = useMemo(() => {
+    return selectedTxId ? findTxIndexById(transactions, selectedTxId) : null;
+  }, [selectedTxId, transactions]);
+  const hasNext = selectedIndex !== null && selectedIndex < transactions.length - 1;
+  const hasPrev = selectedIndex !== null && selectedIndex > 0;
 
   useEffect(() => {
     const idx = findTxIndexById(transactions, selectedTxId);
@@ -66,9 +91,36 @@ export const TransactionsModalProvider = ({ children }: Props) => {
     setIsOpened(false);
   }, []);
 
+  const next = useCallback(() => {
+    if (hasNext) {
+      const nextTx = transactions[selectedIndex + 1];
+      setSelectedTxId(nextTx?.txid || '');
+    }
+  }, [hasNext, selectedIndex, transactions]);
+
+  const previous = useCallback(() => {
+    if (hasPrev) {
+      const prevTx = transactions[selectedIndex - 1];
+      setSelectedTxId(prevTx?.txid || '');
+    }
+  }, [hasPrev, selectedIndex, transactions]);
+
   return (
     <TransactionsModalContext.Provider
-      value={{ isOpened, open, close, selectedTx, selectedTxId, setSelectedTxId }}
+      value={{
+        isOpened,
+        open,
+        close,
+        selectedTx,
+        selectedTxId,
+        setSelectedTxId,
+        next,
+        previous,
+        hasNext,
+        hasPrev,
+        selectedIndex,
+        allCount: transactions.length,
+      }}
     >
       {children}
     </TransactionsModalContext.Provider>

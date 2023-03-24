@@ -179,6 +179,9 @@ export const theme = extendTheme({
       },
     },
     Text: {
+      defaultProps: {
+        variant: 'primary',
+      },
       baseStyle: {
         fontFamily: 'Poppins, sans-serif',
         textStyle: 'body',

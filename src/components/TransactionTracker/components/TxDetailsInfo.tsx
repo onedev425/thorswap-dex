@@ -13,6 +13,7 @@ import {
   getTxStatusColor,
   getTxStatusLabel,
 } from 'components/TransactionTracker/helpers';
+import { CircularCountdown } from 'components/TxTracker/components/CircularCountdown';
 import copy from 'copy-to-clipboard';
 import { getTickerFromIdentifier } from 'helpers/logoURL';
 import { shortenAddress } from 'helpers/shortenAddress';
@@ -33,7 +34,7 @@ export const TxDetailsInfo = ({ txDetails, isCompleted }: Props) => {
   if (!txDetails) return null;
 
   const { legs, firstTransactionHash, status } = txDetails;
-  const { error } = getTxState(status);
+  const { error, finished } = getTxState(status);
   const txid = firstTransactionHash;
   const txStatus = getTxDisplayStatus(status);
   const hasLegs = legs.length > 0;
@@ -59,7 +60,7 @@ export const TxDetailsInfo = ({ txDetails, isCompleted }: Props) => {
         label={t('views.thorname.status')}
         size="md"
         value={
-          <Flex gap={1}>
+          <Flex align="center" gap={1} justify="center">
             <Text
               color={getTxStatusColor(txStatus)}
               textStyle="caption-xs"
@@ -67,7 +68,14 @@ export const TxDetailsInfo = ({ txDetails, isCompleted }: Props) => {
             >
               {getTxStatusLabel(txStatus)}
             </Text>
-            <TransactionStatusIcon size={18} status={txStatus} />
+            {finished ? (
+              <TransactionStatusIcon size={18} status={txStatus} />
+            ) : (
+              <CircularCountdown
+                estimatedDuration={txDetails?.estimatedDuration}
+                startTimestamp={txDetails?.startTimestamp}
+              />
+            )}
           </Flex>
         }
       />
@@ -80,10 +88,10 @@ export const TxDetailsInfo = ({ txDetails, isCompleted }: Props) => {
           value={
             <Flex flexWrap="wrap" gap={2} justifyContent="space-between" py={1} w="full">
               <Flex align="center" gap={1}>
-                <Text color="textSecondary" textStyle="caption-xs">
+                <Text color="textSecondary" fontWeight="medium" textStyle="caption">
                   {t('txManager.started')}:
                 </Text>
-                <Text fontWeight="textPrimary" textStyle="caption-xs">
+                <Text fontWeight="semibold" textStyle="caption">
                   {new Date(firstLeg?.startTimestamp || '').toLocaleString('default', {
                     dateStyle: 'short',
                     timeStyle: 'medium',
@@ -92,10 +100,10 @@ export const TxDetailsInfo = ({ txDetails, isCompleted }: Props) => {
               </Flex>
               {isCompleted && !error && (
                 <Flex align="center" gap={1}>
-                  <Text color="textSecondary" textStyle="caption-xs">
+                  <Text color="textSecondary" fontWeight="medium" textStyle="caption">
                     {t('txManager.completed')}:
                   </Text>
-                  <Text fontWeight="textPrimary" textStyle="caption-xs">
+                  <Text fontWeight="semibold" textStyle="caption">
                     {new Date(lastLeg?.endTimestamp || '').toLocaleString('default', {
                       dateStyle: 'short',
                       timeStyle: 'medium',
@@ -106,7 +114,7 @@ export const TxDetailsInfo = ({ txDetails, isCompleted }: Props) => {
 
               {((!!txCounter && !!txCounter.timeSince) || !!duration) && (
                 <Flex align="center" gap={1}>
-                  <Text color="textSecondary" textStyle="caption-xs">
+                  <Text color="textSecondary" fontWeight="medium" textStyle="caption">
                     {t('txManager.duration')}:
                   </Text>
                   <InfoWithTooltip
@@ -114,8 +122,8 @@ export const TxDetailsInfo = ({ txDetails, isCompleted }: Props) => {
                     tooltip={t('txManager.totalTimeTooltip')}
                     value={
                       <Text
-                        fontWeight="textPrimary"
-                        minW="50px"
+                        fontWeight="semibold"
+                        minW="45px"
                         textStyle="caption-xs"
                         whiteSpace="nowrap"
                       >
@@ -134,7 +142,7 @@ export const TxDetailsInfo = ({ txDetails, isCompleted }: Props) => {
         label={t('txManager.shareTransaction')}
         size="md"
         value={
-          <Flex>
+          <Flex flexWrap="wrap">
             <Button
               className="!px-2 h-auto"
               onClick={() => {
@@ -154,7 +162,9 @@ export const TxDetailsInfo = ({ txDetails, isCompleted }: Props) => {
                 showSuccessToast(t('txManager.txUrlCopied'));
                 copy(txUrl);
               }}
-              rightIcon={<Icon color="primaryBtn" name="shareUrl" size={14} />}
+              rightIcon={
+                <Icon className="-mt-[5px]" color="primaryBtn" name="shareUrl" size={14} />
+              }
               size="xs"
               tooltip={`${t('txManager.copyTxUrl')}: ${txUrl}`}
               variant="borderlessTint"

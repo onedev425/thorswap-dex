@@ -22,7 +22,6 @@ export const TxList = ({ selectedId, onSelect }: Props) => {
       direction="column"
       gap={1}
       minW="200px"
-      mr="-5px"
       overflowY="auto"
       sx={{
         '&::-webkit-scrollbar': {

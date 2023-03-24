@@ -83,6 +83,7 @@ export const useSwap = ({
         ).getSwapKitClient();
 
         try {
+          const timestamp = new Date();
           const txid = await swap({
             route,
             quoteMode,
@@ -93,7 +94,7 @@ export const useSwap = ({
           });
 
           if (typeof txid === 'string') {
-            appDispatch(updateTransaction({ id, txid, quoteId, route, timestamp: new Date() }));
+            appDispatch(updateTransaction({ id, txid, quoteId, route, timestamp }));
           } else {
             appDispatch(completeTransaction({ id, status: 'error' }));
             showErrorToast(t('notification.submitFail'), JSON.stringify(txid));

@@ -11,25 +11,20 @@ import { useTransactionsModal } from 'components/TransactionTracker/useTransacti
 import { memo } from 'react';
 import { t } from 'services/i18n';
 
-type Props = {
-  isOpened: boolean;
-  onClose: () => void;
-};
-
-export const TransactionTrackerModal = memo(({ isOpened, onClose }: Props) => {
-  const { selectedTx, selectedTxId, setSelectedTxId } = useTransactionsModal();
+export const TransactionTrackerModal = memo(() => {
+  const { selectedTx, selectedTxId, setSelectedTxId, isOpened, close } = useTransactionsModal();
   const hasDetailsParams = selectedTx?.txid && selectedTx?.route && selectedTx?.quoteId;
 
   return (
     <Modal
       isOpened={isOpened}
-      onClose={onClose}
+      onClose={close}
       sx={{ maxW: { base: '90vw', lg: '900px' } }}
       title=""
       withBody={false}
     >
       <Flex flex={1} gap={3} justifyContent="space-between" minH="350px">
-        <Flex alignSelf="stretch" direction="column">
+        <Flex alignSelf="stretch" direction="column" display={['none', 'none', 'flex']}>
           <Text fontWeight={600} mx={3} my={1} textStyle="h4" variant="primary">
             {t('txManager.history')}
           </Text>

@@ -24,7 +24,7 @@ export const TxPreview = ({ txDetails, isCompleted }: Props) => {
               currentLegIndex={Number(txDetails.currentLegIndex)}
               index={index}
               isLast={(txDetails.legs.length || 1) - 1 === index}
-              key={leg.hash}
+              key={`${leg.hash}${leg.txnType}`}
               leg={leg}
               txStatus={txDetails.status}
             />

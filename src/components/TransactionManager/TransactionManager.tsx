@@ -9,7 +9,6 @@ import { CompletedTransaction } from 'components/TransactionManager/CompletedTra
 import { transactionBorderColors } from 'components/TransactionManager/helpers';
 import { PendingTransaction } from 'components/TransactionManager/PendingTransaction';
 import { TransactionContainer } from 'components/TransactionManager/TransactionContainer';
-import { TransactionTrackerModal } from 'components/TransactionTracker/TransactionTrackerModal';
 import { useTransactionsModal } from 'components/TransactionTracker/useTransactionsModal';
 import { ElementRef, memo, useCallback, useEffect, useRef, useState } from 'react';
 import { t } from 'services/i18n';
@@ -28,7 +27,7 @@ export const TransactionManager = memo(() => {
   const [isOpen, setIsOpened] = useState(false);
   const { pending, completed, transactions } = useTransactionsState();
   const prevTxLength = useRef(transactions.length);
-  const { open: openModal, isOpened: modalOpened, close: closeModal } = useTransactionsModal();
+  const { open: openModal } = useTransactionsModal();
 
   const [confirmClearOpened, setConfirmClearOpened] = useState(false);
 
@@ -133,7 +132,7 @@ export const TransactionManager = memo(() => {
           </Scrollbar>
         </Box>
       </Card>
-      <TransactionTrackerModal isOpened={modalOpened} onClose={closeModal} />
+
       <Confirm
         description={t('txManager.confirmRemovePending')}
         isOpened={confirmClearOpened}
