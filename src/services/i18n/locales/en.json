@@ -955,6 +955,7 @@
       "softwareWallets": "Software Wallets",
       "trustWallet": "Trust Mobile",
       "trustWalletExtension": "Trust Browser",
+      "coinbaseWalletWeb": "Coinbase Browser",
       "unlock": "Unlock",
       "verifyAddress": "Verify Address",
       "viewPhrase": "View Phrase",

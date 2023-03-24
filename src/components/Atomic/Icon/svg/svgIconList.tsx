@@ -17,6 +17,7 @@ import Brave from './brave.png';
 import { ReactComponent as Bulb } from './bulb.svg';
 import { ReactComponent as ChartCandle } from './chartCandle.svg';
 import { ReactComponent as Cloud } from './cloud.svg';
+import { ReactComponent as CoinbaseWallet } from './coinbaseWallet.svg';
 import { ReactComponent as Collapse } from './collapse.svg';
 import { ReactComponent as Comma } from './comma.svg';
 import { ReactComponent as Ethereum3d } from './ethereum.svg';
@@ -142,6 +143,7 @@ export const Svgs = {
   saudi: Saudi,
   snowtrace: Snowtrace,
   trustWallet: TrustWallet,
+  coinbaseWallet: CoinbaseWallet,
   trustWalletWhite: TrustWalletWhite,
   usa: USA,
 

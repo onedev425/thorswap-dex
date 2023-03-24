@@ -1,4 +1,4 @@
-import { Chain, Keystore, WalletOption } from '@thorswap-lib/types';
+import { Chain, EVMWalletOptions, Keystore, WalletOption } from '@thorswap-lib/types';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { chainName } from 'helpers/chainName';
 import { useCallback } from 'react';
@@ -105,6 +105,19 @@ export const useWallet = () => {
     [setWallets],
   );
 
+  const connectEVMWalletExtension = useCallback(
+    async (chains: Chain[], wallet: EVMWalletOptions) => {
+      const { connectEVMWallet: swapKitConnectEVMWallet } = await (
+        await import('services/multichain')
+      ).getSwapKitClient();
+
+      await swapKitConnectEVMWallet(chains, wallet);
+
+      setWallets(chains);
+    },
+    [setWallets],
+  );
+
   const connectBraveWallet = useCallback(
     async (chains: Chain[]) => {
       const { connectEVMWallet: swapKitConnectEVMWallet } = await (
@@ -125,6 +138,19 @@ export const useWallet = () => {
       ).getSwapKitClient();
 
       await swapKitConnectEVMWallet([chain], WalletOption.TRUSTWALLET_WEB);
+
+      setWallets([chain]);
+    },
+    [setWallets],
+  );
+
+  const connectCoinbaseWalletExtension = useCallback(
+    async (chain: Chain) => {
+      const { connectEVMWallet: swapKitConnectEVMWallet } = await (
+        await import('services/multichain')
+      ).getSwapKitClient();
+
+      await swapKitConnectEVMWallet([chain], WalletOption.COINBASE_WEB);
 
       setWallets([chain]);
     },
@@ -194,6 +220,8 @@ export const useWallet = () => {
     connectXdefiWallet,
     connectBraveWallet,
     connectTrustWalletExtension,
+    connectCoinbaseWalletExtension,
+    connectEVMWalletExtension,
     connectMetamask,
     connectKeplr,
     connectTrustWallet,

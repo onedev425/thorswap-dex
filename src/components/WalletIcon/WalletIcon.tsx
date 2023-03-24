@@ -1,6 +1,7 @@
 import { WalletOption } from '@thorswap-lib/types';
 import { Box, Icon, IconName, Tooltip } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
+import { WalletNameByWalletOption } from 'components/Modals/ConnectWalletModal/types';
 import { t } from 'services/i18n';
 
 type Props = {
@@ -15,6 +16,7 @@ const walletIcons: Record<WalletOption, IconName> = {
   [WalletOption.BRAVE]: 'brave',
   [WalletOption.METAMASK]: 'metamask',
   [WalletOption.TRUSTWALLET_WEB]: 'trustWallet',
+  [WalletOption.COINBASE_WEB]: 'coinbaseWallet',
   [WalletOption.LEDGER]: 'ledger',
   // [WalletOption.LEDGER_LIVE]: 'ledger',
   [WalletOption.KEYSTORE]: 'keystore',
@@ -27,12 +29,8 @@ export const WalletIcon = ({ className, walletType, size, tooltipDisabled, onCli
   const tooltipContent =
     walletType === WalletOption.KEYSTORE
       ? t('views.walletModal.viewPhrase')
-      : walletType === WalletOption.TRUSTWALLET_WEB
-      ? t('views.wallet.walletTypeConnected', {
-          walletType: 'Trustwallet Browser',
-        })
       : t('views.wallet.walletTypeConnected', {
-          walletType,
+          walletType: walletType ? WalletNameByWalletOption[walletType] : 'This should not happen',
         });
 
   return (

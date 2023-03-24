@@ -101,9 +101,12 @@ const ConnectWalletModal = () => {
 
       setSelectedChains((prevSelectedChains) =>
         selectedWalletType &&
-        [WalletType.Ledger, WalletType.MetaMask, WalletType.TrustWalletExtension].includes(
-          selectedWalletType,
-        )
+        [
+          WalletType.Ledger,
+          WalletType.MetaMask,
+          WalletType.TrustWalletExtension,
+          WalletType.CoinbaseExtension,
+        ].includes(selectedWalletType)
           ? [chain]
           : prevSelectedChains.includes(chain)
           ? prevSelectedChains.filter((c) => c !== chain)
@@ -273,6 +276,7 @@ const ConnectWalletModal = () => {
                     WalletType.Ledger,
                     WalletType.MetaMask,
                     WalletType.TrustWalletExtension,
+                    WalletType.CoinbaseExtension,
                   ].includes(selectedWalletType || WalletType.Keystore)}
                   onClick={handleAllClick}
                   size="sm"

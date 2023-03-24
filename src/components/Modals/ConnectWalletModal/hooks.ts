@@ -1,4 +1,4 @@
-import { Chain, WalletOption } from '@thorswap-lib/types';
+import { Chain, EVMWalletOptions, WalletOption } from '@thorswap-lib/types';
 import { IconName } from 'components/Atomic';
 import { showErrorToast } from 'components/Toast';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
@@ -6,7 +6,12 @@ import { useCallback } from 'react';
 import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
 
-import { availableChainsByWallet, WalletNameByWalletOption, WalletType } from './types';
+import {
+  availableChainsByWallet,
+  WalletNameByWalletOption,
+  WalletOptionByWalletType,
+  WalletType,
+} from './types';
 
 type WalletItem = {
   type: WalletType;
@@ -59,6 +64,13 @@ export const getWalletOptions = async ({ isMdActive }: UseWalletOptionsParams) =
                 wallet: WalletNameByWalletOption[evmWallet.getETHDefaultWallet()],
               })
             : '',
+        },
+        {
+          disabled: !evmWallet.isDetected(WalletOption.COINBASE_WEB),
+          icon: 'coinbaseWallet' as IconName,
+          type: WalletType.CoinbaseExtension,
+          visible: isMdActive,
+          label: t('views.walletModal.coinbaseWalletWeb'),
         },
         {
           icon: 'xdefi',
@@ -132,12 +144,10 @@ export const useHandleWalletConnect = ({
   derivationPathType,
 }: HandleWalletConnectParams) => {
   const {
-    connectBraveWallet,
     connectKeplr,
     connectLedger,
-    connectMetamask,
     connectTrustWallet,
-    connectTrustWalletExtension,
+    connectEVMWalletExtension,
     connectXdefiWallet,
   } = useWallet();
 
@@ -163,12 +173,14 @@ export const useHandleWalletConnect = ({
             return connectXdefiWallet(selectedChains);
           case WalletType.Ledger:
             return connectLedger(selectedChains[0], ledgerIndex, type);
-          case WalletType.MetaMask:
-            return connectMetamask(selectedChains[0]);
           case WalletType.Brave:
-            return connectBraveWallet(selectedChains);
+          case WalletType.MetaMask:
           case WalletType.TrustWalletExtension:
-            return connectTrustWalletExtension(selectedChains[0]);
+          case WalletType.CoinbaseExtension:
+            return connectEVMWalletExtension(
+              selectedChains,
+              WalletOptionByWalletType[selectedWalletType] as EVMWalletOptions,
+            );
           case WalletType.Keplr:
             return connectKeplr();
 
@@ -183,12 +195,10 @@ export const useHandleWalletConnect = ({
     },
     [
       chains,
-      connectBraveWallet,
+      connectEVMWalletExtension,
       connectKeplr,
       connectLedger,
-      connectMetamask,
       connectTrustWallet,
-      connectTrustWalletExtension,
       connectXdefiWallet,
       derivationPathType,
       ledgerIndex,
@@ -241,6 +251,12 @@ export const useHandleWalletTypeSelect = ({
     window.open('https://trustwallet.com/browser-extension/');
   }, []);
 
+  const handleCoinbaseExtension = useCallback(async () => {
+    const { evmWallet } = await import('@thorswap-lib/web-extensions');
+    if (evmWallet.isDetected(WalletOption.COINBASE_WEB)) return true;
+    window.open('https://www.coinbase.com/wallet/articles/getting-started-extension');
+  }, []);
+
   const getChainsToSelect = useCallback(
     (chains: Chain[], walletType: WalletType, nextWalletType?: WalletType) => {
       if (!nextWalletType) {
@@ -254,6 +270,7 @@ export const useHandleWalletTypeSelect = ({
       switch (walletType) {
         case WalletType.Ledger:
         case WalletType.TrustWalletExtension:
+        case WalletType.CoinbaseExtension:
         case WalletType.MetaMask: {
           return [selectedChains[0] || Chain.Ethereum];
         }
@@ -291,6 +308,8 @@ export const useHandleWalletTypeSelect = ({
           return handleKeplr();
         case WalletType.TrustWalletExtension:
           return handleTrustWalletExtension();
+        case WalletType.CoinbaseExtension:
+          return handleCoinbaseExtension();
 
         default:
           return true;
