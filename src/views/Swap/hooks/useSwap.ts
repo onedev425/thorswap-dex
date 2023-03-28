@@ -103,11 +103,12 @@ export const useSwap = ({
         } catch (error) {
           console.error(error);
           appDispatch(completeTransaction({ id, status: 'error' }));
+          // @ts-expect-error
+          const userCancelled = error?.code === 4001 || error?.toString().includes('4001');
 
           showErrorToast(
             t('notification.submitFail'),
-            // @ts-expect-error
-            error?.code === 4001 ? t('notification.cancelledByUser') : error?.toString(),
+            userCancelled ? t('notification.cancelledByUser') : error?.toString(),
           );
         }
       }

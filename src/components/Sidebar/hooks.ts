@@ -3,7 +3,7 @@ import { SidebarItemProps } from 'components/Sidebar/types';
 import { hasConnectedWallet } from 'helpers/wallet';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
-import { IS_PROD, IS_STAGENET } from 'settings/config';
+import { IS_DEV_API, IS_LOCAL } from 'settings/config';
 import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/router';
 import { useApp } from 'store/app/hooks';
 import { useWallet } from 'store/wallet/hooks';
@@ -64,6 +64,22 @@ export const useSidebarOptions = () => {
   }, [isConnected, hasVestingAlloc]);
 
   const sidebarOptions = useMemo(() => {
+    const walletItems: SidebarItemProps[] = [
+      { iconName: 'wallet', href: ROUTES.Wallet, label: t('components.sidebar.wallet') },
+      { iconName: 'send', href: ROUTES.Send, label: t('components.sidebar.send') },
+      { transform: 'none', iconName: 'thor', href: ROUTES.Thorname, label: 'THORName' },
+      ...(IS_LOCAL || IS_DEV_API
+        ? [
+            {
+              iconName: 'dollarOutlined' as IconName,
+              href: ROUTES.OnRamp,
+              label: 'OnRamp',
+              beta: true,
+            },
+          ]
+        : []),
+    ];
+
     const menu: SidebarItemProps[] = [
       {
         // Leave it for key
@@ -89,24 +105,7 @@ export const useSidebarOptions = () => {
       {
         iconName: 'wallet',
         label: t('components.sidebar.wallet'),
-        // @ts-expect-error
-        children: [
-          { iconName: 'wallet', href: ROUTES.Wallet, label: t('components.sidebar.wallet') },
-          { iconName: 'send', href: ROUTES.Send, label: t('components.sidebar.send') },
-          { transform: 'none', iconName: 'thor', href: ROUTES.Thorname, label: 'THORName' },
-        ].concat(
-          IS_PROD || IS_STAGENET
-            ? []
-            : [
-                {
-                  iconName: 'dollarOutlined' as IconName,
-                  href: ROUTES.OnRamp,
-                  label: 'OnRamp',
-                  // @ts-expect-error
-                  beta: true,
-                },
-              ],
-        ),
+        children: walletItems,
       },
       {
         iconName: 'settings',

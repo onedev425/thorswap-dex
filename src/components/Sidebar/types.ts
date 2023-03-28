@@ -20,12 +20,13 @@ export type NavItemProps = ItemProps & {
   onItemClickCb?: () => void;
 };
 
-export type SidebarItemProps = ItemProps & {
-  children?: SidebarItemProps[];
+type SideBarItem = ItemProps & {
   label?: string;
   navLabel?: string;
   transform?: TextTransform;
 };
+
+export type SidebarItemProps = SideBarItem & { children?: SideBarItem[] };
 
 export type SidebarProps = {
   className?: string;

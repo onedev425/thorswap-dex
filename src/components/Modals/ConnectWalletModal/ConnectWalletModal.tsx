@@ -43,7 +43,7 @@ const ConnectWalletModal = () => {
 
   useEffect(() => {
     getWalletOptions({ isMdActive }).then(setWalletOptions);
-  }, [isMdActive]);
+  }, [isMdActive, isConnectModalOpen]);
 
   const supportedByWallet = useMemo(
     () => availableChainsByWallet[selectedWalletType as WalletType] || SUPPORTED_CHAINS,
@@ -204,7 +204,7 @@ const ConnectWalletModal = () => {
   return (
     <Modal
       HeaderComponent={
-        <Box className="!h-24">
+        <Box className="pb-2">
           {selectedWalletType === WalletType.Ledger && (
             <InfoTip
               className="m-auto !pt-2 !pb-1 !px-2"
@@ -387,7 +387,7 @@ const ConnectWalletModal = () => {
               )}
 
               {!customFlow && (
-                <Box col className="pt-2 md:pt-0 mb-8" flex={1} justify="end">
+                <Box col className="pt-2 mb-8" flex={1} justify="end">
                   <Button
                     alignSelf="center"
                     disabled={!selectedWalletType || !selectedChains.length}

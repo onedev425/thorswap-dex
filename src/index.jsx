@@ -25,7 +25,7 @@ const checkAppPassword = () => {
     /**
      * Replace with new password hash generated from command line.
      */
-    const currentPasswordHash = '64127a68bc'
+    const currentPasswordHash = '3fa5cd5047'
     if (decodedPass === currentPasswordHash) {
       renderApp()
     } else {

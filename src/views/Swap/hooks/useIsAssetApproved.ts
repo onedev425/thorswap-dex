@@ -1,5 +1,5 @@
 import { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Chain, WalletOption } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import debounce from 'lodash.debounce';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTransactionsState } from 'store/transactions/hooks';
@@ -44,7 +44,10 @@ const useApproveResult = ({
   );
 
   const checkApproved = useCallback(async () => {
-    if (cachedResults[cacheKey]) return setApproved(cachedResults[cacheKey]);
+    if (cachedResults[cacheKey]) {
+      setIsLoading(false);
+      return setApproved(cachedResults[cacheKey]);
+    }
 
     try {
       const approved = await debouncedCheckAssetApprove.current({ asset, contract });
@@ -79,14 +82,7 @@ const useApproveResult = ({
 export const useIsAssetApproved = ({ force, contract, asset }: Params) => {
   const { wallet } = useWallet();
   const { numberOfPendingApprovals } = useTransactionsState();
-
   const walletAddress = useMemo(() => wallet?.[asset.L1Chain]?.address, [asset.L1Chain, wallet]);
-
-  const isLedger = useMemo(() => {
-    if (!wallet) return false;
-
-    return wallet[asset.L1Chain as Chain]?.walletType === WalletOption.LEDGER;
-  }, [asset.L1Chain, wallet]);
 
   const possibleApprove = useMemo(
     () =>
@@ -100,7 +96,7 @@ export const useIsAssetApproved = ({ force, contract, asset }: Params) => {
   const { isApproved, isLoading } = useApproveResult({
     isWalletConnected: !!walletAddress,
     numberOfPendingApprovals,
-    skip: typeof force === 'boolean' ? !force : isLedger,
+    skip: typeof force === 'boolean' ? !force : false,
     asset,
     contract: possibleApprove ? contract : undefined,
   });
