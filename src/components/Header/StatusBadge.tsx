@@ -14,6 +14,7 @@ const colors: Record<StatusType, string> = {
   [StatusType.Good]: 'bg-green',
   [StatusType.Slow]: 'bg-yellow',
   [StatusType.Busy]: 'bg-red',
+  [StatusType.Offline]: 'bg-red',
 };
 
 export const StatusBadge = memo(({ className, status, withLabel }: Props) => {

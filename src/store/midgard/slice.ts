@@ -11,7 +11,7 @@ import {
 } from 'store/midgard/utils';
 
 import * as midgardActions from './actions';
-import { State } from './types';
+import { MimirData, State } from './types';
 
 const equalObject = (a: any, b: any) => JSON.stringify(a) === JSON.stringify(b);
 
@@ -43,7 +43,7 @@ const initialState: State = {
   liquidityHistoryLoading: false,
   mimirLoading: false,
   mimirLoaded: false,
-  mimir: {},
+  mimir: {} as MimirData,
   volume24h: null,
   inboundGasRate: {},
   outboundFee: {},

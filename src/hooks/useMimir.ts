@@ -4,14 +4,12 @@ import { Amount } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { useGlobalStats } from 'hooks/useGlobalStats';
 import { useMemo } from 'react';
-import { useExternalConfig } from 'store/externalConfig/hooks';
 import { useMidgard } from 'store/midgard/hooks';
 import { MimirData } from 'store/midgard/types';
 
 export const useMimir = () => {
   const { networkData, mimir, mimirLoaded } = useMidgard();
   const { totalActiveBond } = useGlobalStats();
-  const { isTradingGloballyDisabled } = useExternalConfig();
 
   // const maxLiquidityRuneMimir = mimir?.MAXIMUMLIQUIDITYRUNE
   // const maxLiquidityRune = Amount.fromMidgard(maxLiquidityRuneMimir)
@@ -19,18 +17,15 @@ export const useMimir = () => {
   const totalPooledRune = Amount.fromMidgard(networkData?.totalPooledRune);
 
   const isEntryPaused = (entry: keyof MimirData) => {
-    if (isTradingGloballyDisabled) {
-      return true;
-    }
-
     if (!mimir || typeof mimir[entry] !== 'number') {
       return false;
     }
 
-    return mimir[entry] !== 0;
+    return mimir?.HALTCHAINGLOBAL === 1 || mimir[entry] !== 0;
   };
 
   // halt status
+  const isGlobalHalted = isEntryPaused('HALTCHAINGLOBAL');
   const isAVAXChainHalted = isEntryPaused('HALTAVAXCHAIN');
   const isGAIAChainHalted = isEntryPaused('HALTGAIACHAIN');
   const isTHORChainHalted = isEntryPaused('HALTTHORCHAIN');
@@ -113,6 +108,7 @@ export const useMimir = () => {
     isBCHChainHalted,
     isBNBChainHalted,
     isBTCChainHalted,
+    isGlobalHalted,
     isChainHalted,
     isChainPauseLP,
     isChainPauseLPAction,

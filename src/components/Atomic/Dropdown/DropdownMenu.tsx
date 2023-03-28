@@ -33,7 +33,7 @@ export const DropdownMenu = ({
   return (
     <Menu>
       {({ isOpen }) => (
-        <div className={classNames(className, 'w-full flex relative ')}>
+        <div className={classNames(className, 'z-20 w-full flex relative ')}>
           <MenuButton
             as="div"
             className={classNames(

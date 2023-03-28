@@ -38,6 +38,7 @@ export const StatusDropdown = memo(() => {
     isGAIAChainHalted,
     isLTCChainHalted,
     isTHORChainHalted,
+    isGlobalHalted,
   } = useMimir();
 
   // Midgard IP on devnet OR on test|chaos|mainnet
@@ -115,6 +116,11 @@ export const StatusDropdown = memo(() => {
     ],
   );
 
+  const dropdownStatus = useMemo(
+    () => (isGlobalHalted ? StatusType.Offline : statusType),
+    [isGlobalHalted, statusType],
+  );
+
   const menuItems = useMemo(
     () =>
       menuItemData.map(({ label, value, statusType: type }) => ({
@@ -146,7 +152,7 @@ export const StatusDropdown = memo(() => {
     <DropdownMenu
       menuItems={menuItems}
       onChange={() => {}}
-      openComponent={<StatusBadge withLabel status={statusType} />}
+      openComponent={<StatusBadge withLabel status={dropdownStatus} />}
       value={t('components.statusDropdown.networkStatus')}
     />
   );

@@ -1,4 +1,5 @@
 import { Amount } from '@thorswap-lib/swapkit-core';
+import { useCallback } from 'react';
 import { t } from 'services/i18n';
 import { useMidgard } from 'store/midgard/hooks';
 
@@ -11,6 +12,7 @@ export enum StatusType {
   Good = 'Good',
   Slow = 'Slow',
   Busy = 'Busy',
+  Offline = 'Offline',
 }
 
 export const useNetwork = () => {
@@ -19,11 +21,11 @@ export const useNetwork = () => {
 
   const outboundQueue = Number(queue?.outbound ?? 0);
 
-  const getQueueLevel = (queueValue: number) => {
+  const getQueueLevel = useCallback((queueValue: number) => {
     if (queueValue > QUEUE_BUSY_LEVEL) return StatusType.Busy;
     if (queueValue > QUEUE_SLOW_LEVEL) return StatusType.Slow;
     return StatusType.Good;
-  };
+  }, []);
 
   const outboundQueueLevel = getQueueLevel(outboundQueue);
 
