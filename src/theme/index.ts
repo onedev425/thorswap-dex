@@ -119,9 +119,10 @@ export const theme = extendTheme({
     Drawer: {
       sizes: {
         sm: { dialog: { maxW: '92.5%' } },
+        md: { dialog: { maxW: '365px' } },
       },
       defaultProps: {
-        size: 'sm',
+        size: 'md',
       },
       baseStyle: {
         dialog: {
