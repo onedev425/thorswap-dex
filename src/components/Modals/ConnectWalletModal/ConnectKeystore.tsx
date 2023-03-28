@@ -9,7 +9,7 @@ import { t } from 'services/i18n';
 
 type Props = {
   loading?: boolean;
-  onConnect: (keystore: Keystore, phrase: string) => void;
+  onConnect: (keystore: Keystore, phrase: string) => Promise<void>;
   onCreate: () => void;
 };
 
@@ -55,10 +55,10 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
         const phrase = await decryptFromKeystore(keystore, password);
 
         // clean up
+        await onConnect(keystore, phrase);
         setPassword('');
         setKeystore(undefined);
         setProcessing(false);
-        onConnect(keystore, phrase);
       } catch (error) {
         setProcessing(false);
 

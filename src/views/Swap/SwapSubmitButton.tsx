@@ -14,6 +14,7 @@ import { useWallet } from 'store/wallet/hooks';
 
 type Props = {
   hasQuote: boolean;
+  invalidSwap: boolean;
   inputAmount: Amount;
   inputAsset: AssetEntity;
   isApproved: boolean | null;
@@ -23,11 +24,11 @@ type Props = {
   recipient: string | null;
   setVisibleApproveModal: (visible: boolean) => void;
   setVisibleConfirmModal: (visible: boolean) => void;
-  swapAmountTooSmall: boolean;
 };
 
 export const SwapSubmitButton = ({
   hasQuote,
+  invalidSwap,
   inputAmount,
   inputAsset,
   isApproved,
@@ -37,7 +38,6 @@ export const SwapSubmitButton = ({
   recipient,
   setVisibleApproveModal,
   setVisibleConfirmModal,
-  swapAmountTooSmall,
 }: Props) => {
   const { wallet, setIsConnectModalOpen } = useWallet();
   const { inboundHalted, pools } = useMidgard();
@@ -94,7 +94,6 @@ export const SwapSubmitButton = ({
   const isValidAddress = useCallback(async () => {
     try {
       if (!recipient) return true;
-      if (isExchangeBNBAddress) return false;
       const { validateAddress } = await (await import('services/multichain')).getSwapKitClient();
 
       const validated = validateAddress({ chain: outputAsset.L1Chain, address: recipient });
@@ -104,15 +103,13 @@ export const SwapSubmitButton = ({
       console.error(error);
       return false;
     }
-  }, [outputAsset, recipient, isExchangeBNBAddress]);
+  }, [outputAsset, recipient]);
 
   const showSwapConfirmationModal = useCallback(async () => {
     if (!walletConnected) {
       showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
     } else if (!hasQuote) {
       showInfoToast(t('notification.noValidQuote'));
-    } else if (swapAmountTooSmall) {
-      showInfoToast(t('notification.swapAmountTooSmall'), t('notification.swapAmountTooSmallDesc'));
     } else if (isExchangeBNBAddress) {
       showErrorToast(t('notification.exchangeBNBAddy'), t('notification.exchangeBNBAddyDesc'));
     } else if (!(await isValidAddress())) {
@@ -123,14 +120,7 @@ export const SwapSubmitButton = ({
     } else {
       setVisibleConfirmModal(true);
     }
-  }, [
-    walletConnected,
-    hasQuote,
-    swapAmountTooSmall,
-    isExchangeBNBAddress,
-    isValidAddress,
-    setVisibleConfirmModal,
-  ]);
+  }, [walletConnected, hasQuote, isExchangeBNBAddress, isValidAddress, setVisibleConfirmModal]);
 
   const handleApprove = useCallback(() => {
     if (isInputWalletConnected) {
@@ -141,8 +131,8 @@ export const SwapSubmitButton = ({
   }, [isInputWalletConnected, setVisibleApproveModal]);
 
   const isSwapValid = useMemo(
-    () => !isTradingHalted && hasQuote && inputAmount.gt(0) && !swapAmountTooSmall,
-    [hasQuote, inputAmount, isTradingHalted, swapAmountTooSmall],
+    () => !invalidSwap && !isTradingHalted && hasQuote && inputAmount.gt(0),
+    [hasQuote, inputAmount, invalidSwap, isTradingHalted],
   );
 
   const btnLabel = useMemo(() => {
@@ -150,14 +140,12 @@ export const SwapSubmitButton = ({
       return t('notification.swapNotAvailable');
     }
 
-    if (swapAmountTooSmall) return t('notification.swapAmountTooSmall');
-
     if (inputAsset.isSynth && outputAsset.isSynth) return t('common.swap');
     if (inputAsset.isSynth) return t('txManager.redeem');
     if (outputAsset.isSynth) return t('txManager.mint');
 
     return t('common.swap');
-  }, [isTradingHalted, swapAmountTooSmall, inputAsset.isSynth, outputAsset.isSynth]);
+  }, [isTradingHalted, inputAsset.isSynth, outputAsset.isSynth]);
 
   const isApproveRequired = useMemo(
     () => isInputWalletConnected && isApproved === false,
@@ -197,7 +185,7 @@ export const SwapSubmitButton = ({
         <Button
           stretch
           disabled={!isSwapValid}
-          error={!isSwapValid || swapAmountTooSmall}
+          error={!isSwapValid}
           loading={isLoading}
           onClick={showSwapConfirmationModal}
           size="lg"

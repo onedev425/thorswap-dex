@@ -1,4 +1,4 @@
-import { Amount, AssetEntity, QuoteMode } from '@thorswap-lib/swapkit-core';
+import { AssetEntity, QuoteMode } from '@thorswap-lib/swapkit-core';
 import { BaseDecimal, Chain, WalletOption } from '@thorswap-lib/types';
 import { InfoTip } from 'components/InfoTip';
 import { PanelView } from 'components/PanelView';
@@ -253,13 +253,6 @@ const SwapView = () => {
     ],
   );
 
-  const handleChangeInputAmount = useCallback(
-    (amount: Amount) => {
-      setInputAmount(isApproved ? (amount.gt(maxInputBalance) ? maxInputBalance : amount) : amount);
-    },
-    [isApproved, maxInputBalance, setInputAmount],
-  );
-
   const refetchData = useCallback(() => {
     refetchPrice();
     refetchQuote();
@@ -328,6 +321,11 @@ const SwapView = () => {
     }
   }, [inputAsset, isAvaxTHOR, isEthRUNE]);
 
+  const invalidSwap = useMemo(
+    () => !isApproved || inputAmount.gt(maxInputBalance),
+    [inputAmount, isApproved, maxInputBalance],
+  );
+
   return (
     <PanelView
       description={t('views.swap.description', {
@@ -345,7 +343,7 @@ const SwapView = () => {
     >
       <AssetInputs
         inputAsset={inputAssetProps}
-        onInputAmountChange={handleChangeInputAmount}
+        onInputAmountChange={setInputAmount}
         onInputAssetChange={handleSelectAsset('input')}
         onOutputAssetChange={handleSelectAsset('output')}
         onSwitchPair={handleSwitchPair}
@@ -401,6 +399,7 @@ const SwapView = () => {
         hasQuote={!!selectedRoute}
         inputAmount={inputAmount}
         inputAsset={inputAsset}
+        invalidSwap={invalidSwap}
         isApproved={isApproved}
         isInputWalletConnected={isInputWalletConnected}
         isLoading={isFetching || isPriceLoading || isApproveAssetLoading}
@@ -408,7 +407,6 @@ const SwapView = () => {
         recipient={recipient}
         setVisibleApproveModal={setVisibleApproveModal}
         setVisibleConfirmModal={setVisibleConfirmModal}
-        swapAmountTooSmall={false}
       />
 
       <ConfirmSwapModal

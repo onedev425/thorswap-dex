@@ -2506,10 +2506,10 @@
     "@thorswap-lib/atlas" "^0.4.16"
     "@thorswap-lib/multichain-entities" "^0.2.34"
 
-"@thorswap-lib/swapkit-core@1.0.0-development.126":
-  version "1.0.0-development.126"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-core/-/swapkit-core-1.0.0-development.126.tgz#44c5c35d829785373d548d5ec14b26f7e1ba2aee"
-  integrity sha512-9l3rYKLoC46FJTilMPhg8Po7V85kUZrWnZeU3PWmWcv7wUcRi02ExZ5D8gEq7AddJ+0LF5Gd88lPqIr3JT+lTA==
+"@thorswap-lib/swapkit-core@1.0.0-development.127":
+  version "1.0.0-development.127"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-core/-/swapkit-core-1.0.0-development.127.tgz#ba6fc47994a0ee1d5ae1c7d63c8acec969613697"
+  integrity sha512-VpJPSBdKQXYjr0dUXdkKg9Os8sLVFtLvkoG/mg6h+yTXSL8Xm2gu0s+lgx4cB1lH1QW6Obhezbn3R1bH4l9sXQ==
   dependencies:
     "@thorswap-lib/helpers" "0.0.0-development.54"
     "@thorswap-lib/midgard-sdk" "0.1.15"
@@ -2723,6 +2723,13 @@
   integrity sha512-vep+6yZnGv6owAthIY0w3f72w4dJIb4+yE5PCHveInTlZE9wukvU6Wc5Eig0OUUxcdhTazzeZx1xUaNVLqyQSg==
   dependencies:
     "@types/node" "*"
+
+"@types/lodash.debounce@4.0.7":
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/@types/lodash.debounce/-/lodash.debounce-4.0.7.tgz#0285879defb7cdb156ae633cecd62d5680eded9f"
+  integrity sha512-X1T4wMZ+gT000M2/91SYj0d/7JfeNZ9PeeOldSNoE/lunLeQXKvkmIumI29IaKMotU/ln/McOIvgzZcQ/3TrSA==
+  dependencies:
+    "@types/lodash" "*"
 
 "@types/lodash.mergewith@4.6.7":
   version "4.6.7"
@@ -6844,7 +6851,7 @@ locate-path@^6.0.0:
   dependencies:
     p-locate "^5.0.0"
 
-lodash.debounce@^4.0.8:
+lodash.debounce@4.0.8, lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==

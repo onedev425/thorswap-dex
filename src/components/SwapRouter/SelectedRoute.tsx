@@ -70,6 +70,7 @@ export const SelectedRoute = memo(
       isWalletConnected &&
       [Chain.Ethereum, Chain.Avalanche].includes(inputAsset.L1Chain) &&
       isApproved;
+
     return (
       <Box col className="relative" flex={1}>
         <Box
