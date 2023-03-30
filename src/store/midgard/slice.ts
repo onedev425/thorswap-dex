@@ -80,7 +80,8 @@ const midgardSlice = createSlice({
       .addCase(midgardActions.getPools.pending, (state) => {
         state.poolLoading = true;
       })
-      .addCase(midgardActions.getPools.fulfilled, (state, { payload }) => {
+      .addCase(midgardActions.getPools.fulfilled, (state, { payload, meta }) => {
+        const period = meta.arg as string;
         if (state.pools.length) {
           state.pools.forEach((pool) => {
             const updatedPool = payload.find(({ asset }) => asset === pool.detail.asset);
@@ -89,11 +90,15 @@ const midgardSlice = createSlice({
               pool.detail.poolAPY === '0' && updatedPool
                 ? updatedPool.poolAPY
                 : pool.detail.poolAPY;
+            pool.detail.apyPeriod =
+              pool.detail.poolAPY === '0' && updatedPool ? period : pool.detail.apyPeriod;
           });
         } else {
-          const withoutInfinityApyPools = payload.map((pool) =>
-            pool.poolAPY !== '+Inf' ? pool : { ...pool, poolAPY: '0' },
-          );
+          const withoutInfinityApyPools = payload.map((pool) => ({
+            ...pool,
+            poolAPY: pool.poolAPY !== '+Inf' ? pool.poolAPY : '0',
+            apyPeriod: period,
+          }));
           state.pools = withoutInfinityApyPools.map(Pool.fromPoolData).filter(Boolean) as Pool[];
         }
 

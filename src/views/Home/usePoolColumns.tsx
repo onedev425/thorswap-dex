@@ -12,6 +12,26 @@ import { t } from 'services/i18n';
 import { getAddLiquidityRoute, getSwapRoute } from 'settings/router';
 import { useMidgard } from 'store/midgard/hooks';
 
+type TimePeriods = {
+  '180d': string;
+  '100d': string;
+  '90d': string;
+  '30d': string;
+  '7d': string;
+  '24h': string;
+  '1h': string;
+};
+
+const timePeriods: TimePeriods = {
+  '180d': '180 days',
+  '100d': '100 days',
+  '90d': '90 days',
+  '30d': '30 days',
+  '7d': '7 days',
+  '24h': '24 hours',
+  '1h': '1 hour',
+};
+
 export const usePoolColumns = () => {
   const navigate = useNavigate();
   const { poolLoading } = useMidgard();
@@ -67,6 +87,17 @@ export const usePoolColumns = () => {
         Cell: ({ cell: { value } }: { cell: { value: Percent } }) =>
           value.lte(0) && poolLoading ? <Icon spin name="loader" size={16} /> : value.toFixed(2),
         sortType: getAmountColumnSorter('apr'),
+      },
+      {
+        id: 'aprPeriod',
+        Header: () => t('common.APRPeriod'),
+        accessor: (row: Pool) => row.detail.apyPeriod,
+        align: 'right',
+        Cell: ({ cell: { value } }: { cell: { value: string } }) => (
+          <div className="flex flex-row items-center justify-center">
+            <Text className="pl-4 h4 md:block">{timePeriods[value as keyof TimePeriods]}</Text>
+          </div>
+        ),
       },
       {
         id: 'action',
