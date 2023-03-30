@@ -1115,7 +1115,7 @@
     "@noble/hashes" "^1.0.0"
     protobufjs "^6.8.8"
 
-"@cosmjs/amino@0.29.5", "@cosmjs/amino@^0.29.5":
+"@cosmjs/amino@^0.29.5":
   version "0.29.5"
   resolved "https://registry.yarnpkg.com/@cosmjs/amino/-/amino-0.29.5.tgz#053b4739a90b15b9e2b781ccd484faf64bd49aec"
   integrity sha512-Qo8jpC0BiziTSUqpkNatBcwtKNhCovUnFul9SlT/74JUCdLYaeG5hxr3q1cssQt++l4LvlcpF+OUXL48XjNjLw==
@@ -1125,7 +1125,7 @@
     "@cosmjs/math" "^0.29.5"
     "@cosmjs/utils" "^0.29.5"
 
-"@cosmjs/crypto@0.29.5", "@cosmjs/crypto@^0.29.5":
+"@cosmjs/crypto@^0.29.5":
   version "0.29.5"
   resolved "https://registry.yarnpkg.com/@cosmjs/crypto/-/crypto-0.29.5.tgz#ab99fc382b93d8a8db075780cf07487a0f9519fd"
   integrity sha512-2bKkaLGictaNL0UipQCL6C1afaisv6k8Wr/GCLx9FqiyFkh9ZgRHDyetD64ZsjnWV/N/D44s/esI+k6oPREaiQ==
@@ -2019,6 +2019,15 @@
     tiny-secp256k1 "1.1.6"
     varuint-bitcoin "1.1.2"
 
+"@ledgerhq/hw-app-cosmos@6.27.12":
+  version "6.27.12"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-app-cosmos/-/hw-app-cosmos-6.27.12.tgz#7ab7e7f9431bd557dbea3edc83894d93bfa84ad3"
+  integrity sha512-7ZgmDn3uOVB6nrYee5NkHAtYOyl5TZJIE5daSWqfjR4+nDiVMCQaatWYa2HTT/339F60hTodfw8UjB6qW6L3Hg==
+  dependencies:
+    "@ledgerhq/errors" "^6.12.3"
+    "@ledgerhq/hw-transport" "^6.28.1"
+    bip32-path "^0.4.2"
+
 "@ledgerhq/hw-app-eth@6.32.1":
   version "6.32.1"
   resolved "https://registry.yarnpkg.com/@ledgerhq/hw-app-eth/-/hw-app-eth-6.32.1.tgz#8c1999d7228902c556c5f3d93759072816daa206"
@@ -2467,15 +2476,13 @@
     long "4.0.0"
     uuid "9.0.0"
 
-"@thorswap-lib/ledger@1.0.0-development.132":
-  version "1.0.0-development.132"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/ledger/-/ledger-1.0.0-development.132.tgz#f6cb1912808debcadebb43f3fd1e78e0358a0523"
-  integrity sha512-IMIy2Eu8Qa6CuPi9PltHBZCt0EVi+mkxIXX0LFufVX14cv1S1n7gaaGFh10l+6syKEr57edGml8UCkr34cKP9Q==
+"@thorswap-lib/ledger@1.0.0-development.133":
+  version "1.0.0-development.133"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/ledger/-/ledger-1.0.0-development.133.tgz#7341b6ee96e4b85deedfc916a3c79e6440bba321"
+  integrity sha512-/5p/zxQP+GvOLuJVHc6ZQcJRFSWyLMrWmNRNiQDOwM1MeBzIW6vcjhaXFG+W47PGZH35JxMtH+umblIiPWoQOQ==
   dependencies:
-    "@cosmjs/amino" "0.29.5"
-    "@cosmjs/crypto" "0.29.5"
-    "@cosmjs/stargate" "0.29.5"
     "@ledgerhq/hw-app-btc" "8.1.1"
+    "@ledgerhq/hw-app-cosmos" "6.27.12"
     "@ledgerhq/hw-app-eth" "6.32.1"
     "@ledgerhq/hw-transport" "6.28.1"
     "@ledgerhq/hw-transport-webusb" "6.27.12"
@@ -2484,6 +2491,8 @@
     "@thorswap-lib/types" "1.0.0-development.62"
     base64-js "1.5.1"
     ripemd160 "2.0.2"
+    secp256k1 "^5.0.0"
+    sort-keys "^5.0.0"
 
 "@thorswap-lib/midgard-sdk@0.1.15":
   version "0.1.15"
@@ -2537,10 +2546,10 @@
   dependencies:
     "@thorswap-lib/types" "1.0.0-development.62"
 
-"@thorswap-lib/toolbox-cosmos@0.1.0-development.72":
-  version "0.1.0-development.72"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/toolbox-cosmos/-/toolbox-cosmos-0.1.0-development.72.tgz#88209972cc1a42f0cda994e8f0094c0664c19c3e"
-  integrity sha512-o2sfQAKUTdNYPd+OtuFQArNrOMptd/mNqNb3v0qs0vNcsrga2YJEtHt07glGKMnQ7b6rGQJ/wZd/NQOt35cZmw==
+"@thorswap-lib/toolbox-cosmos@0.1.0-development.73":
+  version "0.1.0-development.73"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/toolbox-cosmos/-/toolbox-cosmos-0.1.0-development.73.tgz#443cd8341f1f2266155b3bddfa416418a42cc71d"
+  integrity sha512-0snmmw2GCTVMRHHgQ2DLC3QqOvnLmj0MCsxeFBzGc1Vfa2FVBebLS9jX7Nb5zFaFipsauK5z6cHzzpgCWrrtBQ==
   dependencies:
     "@cosmjs/encoding" "0.29.5"
     "@thorswap-lib/helpers" "0.0.0-development.55"
@@ -2599,10 +2608,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/types/-/types-0.3.9.tgz#ba38cb80e4f62306f143d364a7f0af215c3bce2b"
   integrity sha512-wzCLESPFpRNrV4yZyq/L3Pv7kq44jd5mRvxewulF3TtYwyFDnh4t4vAgpyVPA0SlZY6Di2MAyPTxgaOIiMmdYg==
 
-"@thorswap-lib/walletconnect@1.0.0-development.107":
-  version "1.0.0-development.107"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/walletconnect/-/walletconnect-1.0.0-development.107.tgz#7a71eacad90457072eb5a87c955c9ae5d543b654"
-  integrity sha512-L7dmKIA53aYvgDKTRpOXNvgcP2/Kkb+v6TVfz2jXW7y76t1KcJWzRk8owcyi79CJQO9tzYsNK8CcfDHtqdc9Xw==
+"@thorswap-lib/walletconnect@1.0.0-development.108":
+  version "1.0.0-development.108"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/walletconnect/-/walletconnect-1.0.0-development.108.tgz#f210ff43f745c715e4757020283d986f1bd2e91c"
+  integrity sha512-HcSNziiSV+cRq+hRkEaQQ9Yaw8Ii1bA0dCMs4XX4wXNLh1siVh5FlgZwgNp9ZTcS+fc1Fj2QVnbJR1AmDTtpaA==
   dependencies:
     "@thorswap-lib/helpers" "0.0.0-development.55"
     "@thorswap-lib/types" "1.0.0-development.62"
@@ -2611,10 +2620,10 @@
     "@walletconnect/web3-provider" "1.8.0"
     base64-js "1.5.1"
 
-"@thorswap-lib/web-extensions@1.0.0-development.120":
-  version "1.0.0-development.120"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/web-extensions/-/web-extensions-1.0.0-development.120.tgz#a649124751e25a76fc2177fb324931e0db49c851"
-  integrity sha512-UZcvgJyBMbcow4w8mzlozhWZq6paR4steqAgfbyn/Gwjluez+sa0zv5c5h38A0wA3StKI3mJasC+9UgJku7uHw==
+"@thorswap-lib/web-extensions@1.0.0-development.121":
+  version "1.0.0-development.121"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/web-extensions/-/web-extensions-1.0.0-development.121.tgz#37ea4fabb610c4dc1b2d97cd518cf796451b4a5e"
+  integrity sha512-8cQS6vvBTxQJ8HFFKzY06/prnAvwJnG+hNusLxQ3Knk8Ms70arz7jkpAy7FZGLjYuO3X6oWgLEA3ug3zZaxXVg==
   dependencies:
     "@cosmjs/stargate" "0.29.5"
     "@thorswap-lib/helpers" "0.0.0-development.55"
@@ -6458,6 +6467,11 @@ is-path-inside@^3.0.2, is-path-inside@^3.0.3:
   resolved "https://registry.yarnpkg.com/is-path-inside/-/is-path-inside-3.0.3.tgz#d231362e53a07ff2b0e0ea7fed049161ffd16283"
   integrity sha512-Fd4gABb+ycGAmKou8eMftCupSir5lRxqf4aD/vd0cD2qc4HL07OjCeuHMr8Ro4CoMaeCKDB0/ECBOVWjTwUvPQ==
 
+is-plain-obj@^4.0.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/is-plain-obj/-/is-plain-obj-4.1.0.tgz#d65025edec3657ce032fd7db63c97883eaed71f0"
+  integrity sha512-+Pgi+vMuUNkJyExiMBt5IlFoMyKnr5zhJ4Uspz58WOhBF5QoIZkFyNHIbBAtHwzVAgk5RtndVNsDRN61/mmDqg==
+
 is-regex@^1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/is-regex/-/is-regex-1.1.4.tgz#eef5663cd59fa4c0ae339505323df6854bb15958"
@@ -7140,6 +7154,11 @@ node-addon-api@^4.2.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-4.3.0.tgz#52a1a0b475193e0928e98e0426a0d1254782b77f"
   integrity sha512-73sE9+3UaLYYFmDsFZnqCInzPyh3MqIwZO9cw58yIqAZhONrrabrYyYe3TuIqtIiOuTXVhsGau8hcrhhwSsDIQ==
+
+node-addon-api@^5.0.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-5.1.0.tgz#49da1ca055e109a23d537e9de43c09cca21eb762"
+  integrity sha512-eh0GgfEkpnoWDq+VY8OyvYhFEzBk6jIYbRKdIlyTiAXIVJ8PyBaKb0rp7oDtoddbdoHWhq8wwr+XZ81F1rpNdA==
 
 node-fetch@2, node-fetch@^2.6.0, node-fetch@^2.6.1, node-fetch@^2.6.7:
   version "2.6.9"
@@ -8357,6 +8376,15 @@ secp256k1@^4.0.0, secp256k1@^4.0.1, secp256k1@^4.0.2:
     node-addon-api "^2.0.0"
     node-gyp-build "^4.2.0"
 
+secp256k1@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/secp256k1/-/secp256k1-5.0.0.tgz#be6f0c8c7722e2481e9773336d351de8cddd12f7"
+  integrity sha512-TKWX8xvoGHrxVdqbYeZM9w+izTF4b9z3NhSaDkdn81btvuh+ivbIMGT/zQvDtTFWhRlThpoz6LEYTr7n8A5GcA==
+  dependencies:
+    elliptic "^6.5.4"
+    node-addon-api "^5.0.0"
+    node-gyp-build "^4.2.0"
+
 secure-random@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/secure-random/-/secure-random-1.1.2.tgz#ed103b460a851632d420d46448b2a900a41e7f7c"
@@ -8503,6 +8531,13 @@ slice-ansi@^4.0.0:
     ansi-styles "^4.0.0"
     astral-regex "^2.0.0"
     is-fullwidth-code-point "^3.0.0"
+
+sort-keys@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/sort-keys/-/sort-keys-5.0.0.tgz#5d775f8ae93ecc29bc7312bbf3acac4e36e3c446"
+  integrity sha512-Pdz01AvCAottHTPQGzndktFNdbRA75BgOfeT1hH+AMnJFv8lynkPi42rfeEhpx1saTEI3YNMWxfqu0sFD1G8pw==
+  dependencies:
+    is-plain-obj "^4.0.0"
 
 source-map-js@^1.0.2:
   version "1.0.2"

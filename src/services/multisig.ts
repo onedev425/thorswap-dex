@@ -1,8 +1,8 @@
-import { fromBase64 } from '@cosmjs/encoding';
 import { proto } from '@cosmos-client/core';
 import { baseAmount, getTcNodeUrl } from '@thorswap-lib/helpers';
 import { Amount, AssetAmount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Chain, ChainId } from '@thorswap-lib/types';
+import { toByteArray } from 'base64-js';
 import Long from 'long';
 import { MultisigMember } from 'store/multisig/types';
 
@@ -196,8 +196,8 @@ const signMultisigTx = async (privateKey: any, tx: string) => {
     const message = (importedTx.toProtoJSON() as any).body.messages[0];
     const messageType = message['@type'] as string;
     accAddress = messageType.includes('MsgSend')
-      ? fromBase64(message.fromAddress)
-      : fromBase64(message.signer);
+      ? toByteArray(message.fromAddress)
+      : toByteArray(message.signer);
   } catch (error: NotWorth) {
     console.error(error);
   }

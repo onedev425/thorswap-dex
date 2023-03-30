@@ -1,6 +1,6 @@
-import { toBase64 } from '@cosmjs/encoding';
 import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
+import { fromByteArray } from 'base64-js';
 import { showErrorToast } from 'components/Toast';
 import { useCallback, useMemo } from 'react';
 import {
@@ -143,7 +143,7 @@ export const useMultisig = () => {
   );
 
   const walletPubKey = useMemo(
-    () => (publicKey ? toBase64(publicKey.key) : ''),
+    () => (publicKey ? fromByteArray(publicKey.key) : ''),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [members, wallet?.THOR?.address],
   );
