@@ -5,7 +5,7 @@ import { getGeckoData } from 'services/coingecko';
 export const getWalletByChain = createAsyncThunk(
   'midgard/getWalletByChain',
   async (chain: Chain) => {
-    const { getWalletByChain } = await (await import('services/multichain')).getSwapKitClient();
+    const { getWalletByChain } = await (await import('services/swapKit')).getSwapKitClient();
 
     return { chain, data: await getWalletByChain(chain) };
   },

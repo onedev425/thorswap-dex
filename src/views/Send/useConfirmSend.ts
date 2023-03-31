@@ -44,7 +44,7 @@ export const useConfirmSend = ({
           label,
         }),
       );
-      const { transfer } = await (await import('services/multichain')).getSwapKitClient();
+      const { transfer } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
         const txid = await transfer({

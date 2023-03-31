@@ -348,7 +348,7 @@ const WithdrawPanel = ({
     appDispatch(
       addTransaction({ id, type: TransactionType.TC_LP_WITHDRAW, inChain: withdrawChain, label }),
     );
-    const { withdraw } = await (await import('services/multichain')).getSwapKitClient();
+    const { withdraw } = await (await import('services/swapKit')).getSwapKitClient();
 
     try {
       const txid = await withdraw({

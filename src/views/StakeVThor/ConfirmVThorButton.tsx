@@ -4,7 +4,7 @@ import { getV2Address } from 'helpers/assets';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { fromWei } from 'services/contract';
 import { t } from 'services/i18n';
-import { getSwapKitClient } from 'services/multichain';
+import { getSwapKitClient } from 'services/swapKit';
 import { useWallet } from 'store/wallet/hooks';
 import { StakeActions } from 'views/StakeVThor/types';
 import { useVthorUtil } from 'views/StakeVThor/useVthorUtil';

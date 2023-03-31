@@ -26,7 +26,7 @@ export const useWallet = () => {
   const unlockWallet = useCallback(
     async (keystore: Keystore, phrase: string, chains: Chain[]) => {
       const { ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
-      const { connectKeystore } = await (await import('services/multichain')).getSwapKitClient();
+      const { connectKeystore } = await (await import('services/swapKit')).getSwapKitClient();
 
       await connectKeystore(chains, phrase);
       const thorchainToolbox = ThorchainToolbox({});
@@ -74,7 +74,7 @@ export const useWallet = () => {
 
       const { getDerivationPathFor } = await import('@thorswap-lib/ledger');
       const { connectLedger: swapKitConnectLedger } = await (
-        await import('services/multichain')
+        await import('services/swapKit')
       ).getSwapKitClient();
 
       try {
@@ -95,7 +95,7 @@ export const useWallet = () => {
   const connectXdefiWallet = useCallback(
     async (chains: Chain[]) => {
       const { connectXDEFI: swapKitConnectXDEFI } = await (
-        await import('services/multichain')
+        await import('services/swapKit')
       ).getSwapKitClient();
 
       await swapKitConnectXDEFI(chains);
@@ -108,7 +108,7 @@ export const useWallet = () => {
   const connectEVMWalletExtension = useCallback(
     async (chains: Chain[], wallet: EVMWalletOptions) => {
       const { connectEVMWallet: swapKitConnectEVMWallet } = await (
-        await import('services/multichain')
+        await import('services/swapKit')
       ).getSwapKitClient();
 
       await swapKitConnectEVMWallet(chains, wallet);
@@ -121,7 +121,7 @@ export const useWallet = () => {
   const connectBraveWallet = useCallback(
     async (chains: Chain[]) => {
       const { connectEVMWallet: swapKitConnectEVMWallet } = await (
-        await import('services/multichain')
+        await import('services/swapKit')
       ).getSwapKitClient();
 
       await swapKitConnectEVMWallet(chains, WalletOption.BRAVE);
@@ -134,7 +134,7 @@ export const useWallet = () => {
   const connectTrustWalletExtension = useCallback(
     async (chain: Chain) => {
       const { connectEVMWallet: swapKitConnectEVMWallet } = await (
-        await import('services/multichain')
+        await import('services/swapKit')
       ).getSwapKitClient();
 
       await swapKitConnectEVMWallet([chain], WalletOption.TRUSTWALLET_WEB);
@@ -147,7 +147,7 @@ export const useWallet = () => {
   const connectCoinbaseWalletExtension = useCallback(
     async (chain: Chain) => {
       const { connectEVMWallet: swapKitConnectEVMWallet } = await (
-        await import('services/multichain')
+        await import('services/swapKit')
       ).getSwapKitClient();
 
       await swapKitConnectEVMWallet([chain], WalletOption.COINBASE_WEB);
@@ -160,7 +160,7 @@ export const useWallet = () => {
   const connectMetamask = useCallback(
     async (chain: Chain) => {
       const { connectEVMWallet: swapKitConnectEVMWallet } = await (
-        await import('services/multichain')
+        await import('services/swapKit')
       ).getSwapKitClient();
 
       await swapKitConnectEVMWallet([chain], WalletOption.METAMASK);
@@ -172,7 +172,7 @@ export const useWallet = () => {
 
   const connectKeplr = useCallback(async () => {
     const { connectKeplr: swapKitConnectKeplr } = await (
-      await import('services/multichain')
+      await import('services/swapKit')
     ).getSwapKitClient();
 
     await swapKitConnectKeplr();
@@ -182,9 +182,7 @@ export const useWallet = () => {
 
   const connectTrustWallet = useCallback(
     async (chains: Chain[]) => {
-      const { connectWalletconnect } = await (
-        await import('services/multichain')
-      ).getSwapKitClient();
+      const { connectWalletconnect } = await (await import('services/swapKit')).getSwapKitClient();
 
       await connectWalletconnect(chains, {
         listeners: { disconnect: disconnectWallet },

@@ -117,7 +117,7 @@ const Earn = () => {
 
   const handleSwapkitAction = useCallback(async () => {
     const { addSavings, withdrawSavings } = await (
-      await import('services/multichain')
+      await import('services/swapKit')
     ).getSwapKitClient();
 
     return isDeposit

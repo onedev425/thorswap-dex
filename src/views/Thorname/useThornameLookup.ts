@@ -163,7 +163,7 @@ export const useThornameLookup = (owner?: string) => {
         ? { address: newOwner, owner: newOwner || owner, name: thorname, chain: Chain.THORChain }
         : { address, owner: owner, name: thorname, chain };
 
-      const { registerThorname } = await (await import('services/multichain')).getSwapKitClient();
+      const { registerThorname } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
         const txid = await registerThorname(registerParams, Amount.fromNormalAmount(amount));

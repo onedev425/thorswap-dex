@@ -70,7 +70,7 @@ export const useVthorUtil = () => {
     );
 
     const { approveAssetForContract } = await (
-      await import('services/multichain')
+      await import('services/swapKit')
     ).getSwapKitClient();
 
     try {

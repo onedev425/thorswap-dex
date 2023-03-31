@@ -206,7 +206,7 @@ export const useNodeManager = ({
    */
   const handleComplete = useCallback(async () => {
     const { validateAddress, bond, leave, unbond } = await (
-      await import('services/multichain')
+      await import('services/swapKit')
     ).getSwapKitClient();
 
     const isValidAddress = validateAddress({

@@ -79,7 +79,7 @@ export const useSwap = ({
         );
 
         const { swap, validateAddress } = await (
-          await import('services/multichain')
+          await import('services/swapKit')
         ).getSwapKitClient();
 
         try {

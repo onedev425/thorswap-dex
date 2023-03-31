@@ -27,7 +27,7 @@ export const MultisigInfo = () => {
   }, [clearMultisigWallet, setIsConfirmVisible]);
 
   useEffect(() => {
-    import('services/multichain')
+    import('services/swapKit')
       .then(({ getSwapKitClient }) => getSwapKitClient())
       .then(({ getExplorerAddressUrl }) =>
         setAccountUrl(getExplorerAddressUrl(Chain.THORChain, address) || ''),

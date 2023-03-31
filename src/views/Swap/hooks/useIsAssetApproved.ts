@@ -13,7 +13,7 @@ type Params = {
 
 const checkAssetApprove = async ({ contract, asset }: Params) => {
   const { isAssetApprovedForContract, isAssetApproved } = await (
-    await import('services/multichain')
+    await import('services/swapKit')
   ).getSwapKitClient();
 
   return await (contract ? isAssetApprovedForContract(asset, contract) : isAssetApproved(asset));

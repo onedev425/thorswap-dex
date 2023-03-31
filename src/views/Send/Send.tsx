@@ -180,7 +180,7 @@ const Send = () => {
   }, []);
 
   const handleSend = useCallback(async () => {
-    const { validateAddress } = await (await import('services/multichain')).getSwapKitClient();
+    const { validateAddress } = await (await import('services/swapKit')).getSwapKitClient();
 
     if (!customTxEnabled && !validateAddress({ chain: sendAsset.L1Chain, address: txRecipient })) {
       showErrorToast(t('notification.invalidL1ChainAddy', { chain: sendAsset.L1Chain }));

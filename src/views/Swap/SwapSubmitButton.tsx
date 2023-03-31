@@ -94,7 +94,7 @@ export const SwapSubmitButton = ({
   const isValidAddress = useCallback(async () => {
     try {
       if (!recipient) return true;
-      const { validateAddress } = await (await import('services/multichain')).getSwapKitClient();
+      const { validateAddress } = await (await import('services/swapKit')).getSwapKitClient();
 
       const validated = validateAddress({ chain: outputAsset.L1Chain, address: recipient });
 

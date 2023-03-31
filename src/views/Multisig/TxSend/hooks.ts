@@ -123,7 +123,7 @@ export const useTxSend = () => {
   };
 
   const handleSend = useCallback(async () => {
-    const { validateAddress } = await (await import('services/multichain')).getSwapKitClient();
+    const { validateAddress } = await (await import('services/swapKit')).getSwapKitClient();
 
     if (!validateAddress({ chain: Chain.THORChain, address: recipientAddress })) {
       showErrorToast(t('notification.invalidL1ChainAddy', { chain: Chain.THORChain }));

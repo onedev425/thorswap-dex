@@ -12,7 +12,7 @@ export const useTxUrl = ({ chain, txHash }: Props) => {
 
   const getTransactionUrl = useCallback(async (tx: null | string = '', chain: Chain) => {
     if (!tx) return '';
-    const { getExplorerTxUrl } = await (await import('services/multichain')).getSwapKitClient();
+    const { getExplorerTxUrl } = await (await import('services/swapKit')).getSwapKitClient();
 
     try {
       return tx && getExplorerTxUrl(chain, cutTxPrefix(tx));

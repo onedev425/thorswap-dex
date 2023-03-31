@@ -360,7 +360,7 @@ export const useAddLiquidity = ({
         ...addresses,
       };
 
-      const { addLiquidity } = await (await import('services/multichain')).getSwapKitClient();
+      const { addLiquidity } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
         const { runeTx, assetTx } = await addLiquidity(params);
@@ -408,7 +408,7 @@ export const useAddLiquidity = ({
         }),
       );
 
-      const { approveAsset } = await (await import('services/multichain')).getSwapKitClient();
+      const { approveAsset } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
         const txid = await approveAsset(poolAsset);

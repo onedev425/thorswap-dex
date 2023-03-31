@@ -36,7 +36,7 @@ export const ChainHeader = ({
     if (walletType === WalletOption.KEYSTORE) {
       setIsPhraseModalVisible(true);
     }
-    const { getAddress } = await (await import('services/multichain')).getSwapKitClient();
+    const { getAddress } = await (await import('services/swapKit')).getSwapKitClient();
 
     if (walletType === WalletOption.LEDGER) {
       showInfoToast(t('notification.verifyLedgerAddy'), getAddress(chain), { duration: 20 * 1000 });

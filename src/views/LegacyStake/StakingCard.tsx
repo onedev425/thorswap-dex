@@ -226,7 +226,7 @@ export const StakingCard = ({
   useEffect(() => {
     getAPRRate();
 
-    import('services/multichain')
+    import('services/swapKit')
       .then(({ getSwapKitClient }) => getSwapKitClient())
       .then(({ getExplorerAddressUrl }) => {
         setUrls({

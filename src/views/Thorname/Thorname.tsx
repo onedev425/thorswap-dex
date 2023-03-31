@@ -139,7 +139,7 @@ const Thorname = () => {
   }, [unavailableForPurchase, available, thorAddress, registeredChains.length]);
 
   const onTransfer = useCallback(async () => {
-    const { validateAddress } = await (await import('services/multichain')).getSwapKitClient();
+    const { validateAddress } = await (await import('services/swapKit')).getSwapKitClient();
 
     const isValidAddress = validateAddress({
       chain: Chain.THORChain,
@@ -166,7 +166,7 @@ const Thorname = () => {
 
   useEffect(() => {
     if (address) {
-      import('services/multichain')
+      import('services/swapKit')
         .then(({ getSwapKitClient }) => getSwapKitClient())
         .then(({ validateAddress }) => setValidAddress(!!validateAddress({ chain, address })));
     }

@@ -207,7 +207,7 @@ export const CreateLiquidity = () => {
 
       let runeTx, assetTx;
 
-      const { createLiquidity } = await (await import('services/multichain')).getSwapKitClient();
+      const { createLiquidity } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
         const response = await createLiquidity({
@@ -249,7 +249,7 @@ export const CreateLiquidity = () => {
         }),
       );
 
-      const { approveAsset } = await (await import('services/multichain')).getSwapKitClient();
+      const { approveAsset } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
         const txid = await approveAsset(poolAsset);

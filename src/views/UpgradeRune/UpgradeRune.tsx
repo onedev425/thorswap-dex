@@ -120,7 +120,7 @@ const UpgradeRune = () => {
         }),
       );
 
-      const { upgrade } = await (await import('services/multichain')).getSwapKitClient();
+      const { upgrade } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
         const txid = await upgrade({ runeAmount, recipient: recipientAddress });
@@ -148,7 +148,7 @@ const UpgradeRune = () => {
       return showInfoToast(t('notification.tcWalletRequest'));
     }
 
-    const { validateAddress } = await (await import('services/multichain')).getSwapKitClient();
+    const { validateAddress } = await (await import('services/swapKit')).getSwapKitClient();
 
     if (
       !(

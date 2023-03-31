@@ -17,7 +17,7 @@ export const TxInfoTip = ({ canBroadcast, txHash, txBodyStr }: Props) => {
   const [txUrl, setTxUrl] = useState('');
 
   useEffect(() => {
-    import('services/multichain')
+    import('services/swapKit')
       .then(({ getSwapKitClient }) => getSwapKitClient())
       .then(({ getExplorerTxUrl }) =>
         setTxUrl(txHash ? getExplorerTxUrl(Chain.THORChain as Chain, txHash) : ''),

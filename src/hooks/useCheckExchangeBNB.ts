@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 const checkIfExchangeBNBAddress = async (address: string) => {
   const { connectedWallets, validateAddress } = await (
-    await import('services/multichain')
+    await import('services/swapKit')
   ).getSwapKitClient();
 
   if (!connectedWallets.BNB || !validateAddress({ address, chain: Chain.Binance })) {

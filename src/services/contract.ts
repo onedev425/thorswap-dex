@@ -4,7 +4,7 @@ import { Contract, type ContractInterface } from '@ethersproject/contracts';
 import { formatEther, formatUnits, parseUnits } from '@ethersproject/units';
 import { getProvider } from '@thorswap-lib/toolbox-evm';
 import { Chain, FeeOption } from '@thorswap-lib/types';
-import { getSwapKitClient } from 'services/multichain';
+import { getSwapKitClient } from 'services/swapKit';
 
 import ERC20ABI from './abi/ERC20.json';
 import RewardsPerBlockABI from './abi/RewardPerBlock.json';

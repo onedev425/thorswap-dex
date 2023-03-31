@@ -12,7 +12,7 @@ export const GoToAccount = ({ chain, address }: Props) => {
   const [accountUrl, setAccountUrl] = useState('');
 
   useEffect(() => {
-    import('services/multichain')
+    import('services/swapKit')
       .then(({ getSwapKitClient }) => getSwapKitClient())
       .then(({ getExplorerAddressUrl }) =>
         setAccountUrl(getExplorerAddressUrl(chain, address) || ''),

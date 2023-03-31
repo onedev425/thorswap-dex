@@ -69,17 +69,19 @@ const AllChainsSupported = [
   Chain.THORChain,
 ] as Chain[];
 
+const EVMChainsSupported = [Chain.Ethereum, Chain.Avalanche] as Chain[];
+
 export const availableChainsByWallet: Record<WalletType, Chain[]> = {
-  [WalletType.Brave]: [Chain.Ethereum],
+  [WalletType.Brave]: EVMChainsSupported,
+  [WalletType.CoinbaseExtension]: EVMChainsSupported,
   [WalletType.CreateKeystore]: AllChainsSupported,
   [WalletType.Keplr]: [Chain.Cosmos],
   [WalletType.Keystore]: AllChainsSupported,
   [WalletType.Ledger]: AllChainsSupported,
-  [WalletType.MetaMask]: [Chain.Ethereum, Chain.Avalanche],
-  [WalletType.CoinbaseExtension]: [Chain.Ethereum, Chain.Avalanche],
+  [WalletType.MetaMask]: EVMChainsSupported,
   [WalletType.Phrase]: AllChainsSupported,
+  [WalletType.TrustWalletExtension]: EVMChainsSupported,
   [WalletType.TrustWallet]: [Chain.THORChain, Chain.Ethereum, Chain.Binance],
-  [WalletType.TrustWalletExtension]: [Chain.Ethereum, Chain.Avalanche],
   [WalletType.Xdefi]: AllChainsSupported,
 };
 

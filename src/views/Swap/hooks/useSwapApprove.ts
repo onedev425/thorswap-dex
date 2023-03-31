@@ -37,7 +37,7 @@ export const useSwapApprove = ({ inputAsset, contract }: Params) => {
       );
 
       const { approveAssetForContract, approveAsset } = await (
-        await import('services/multichain')
+        await import('services/swapKit')
       ).getSwapKitClient();
 
       try {

@@ -51,7 +51,7 @@ const SwapView = () => {
   const { tokens } = useTokenList();
 
   useEffect(() => {
-    import('services/multichain')
+    import('services/swapKit')
       .then(({ getSwapKitClient }) => getSwapKitClient())
       .then(({ getWalletAddressByChain }) => {
         setRecipient(getWalletAddressByChain(outputAsset.L1Chain) || '');
