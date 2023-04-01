@@ -255,7 +255,7 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
 
           <Flex align="center" direction="row" gap={1} justify="center" mb={1} mt={2}>
             <Text fontWeight="light" textAlign="center" textStyle="caption-xs">
-              {leg.provider || leg.chain || 'unknown'}
+              {leg.chain || 'unknown'}
             </Text>
 
             {leg && (

@@ -25,7 +25,7 @@ import { useEffectOnce } from './useEffectOnce';
  * NOTE: useRefresh hooks should be imported and used only once, to avoid multiple usage of useInterval
  */
 
-const POLL_GAS_RATE_INTERVAL = 10 * 1000; // 10s
+const POLL_GAS_RATE_INTERVAL = 10 * 6000; // 60s
 const POLL_DATA_INTERVAL = 5 * 60 * 1000; // 5m
 const MAX_HISTORY_COUNT = 100;
 const PER_DAY = 'day' as HistoryInterval;
