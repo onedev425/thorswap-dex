@@ -1,4 +1,4 @@
-import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { FullMemberPool, MemberPool } from '@thorswap-lib/midgard-sdk';
 import { AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';

@@ -1,4 +1,4 @@
-import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import { TxnResult } from 'store/thorswap/types';
 import { filterInitialTransactions, findTxIndexById } from 'store/transactions/utils';

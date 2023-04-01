@@ -1,4 +1,4 @@
-import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { AssetAmount, Wallet } from '@thorswap-lib/swapkit-core';
 import { Chain, Keystore } from '@thorswap-lib/types';
 import { getFromStorage, saveInStorage } from 'helpers/storage';

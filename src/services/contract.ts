@@ -1,6 +1,6 @@
 import { getAddress } from '@ethersproject/address';
 import { BigNumber } from '@ethersproject/bignumber';
-import { type ContractInterface, Contract } from '@ethersproject/contracts';
+import { Contract, type ContractInterface } from '@ethersproject/contracts';
 import { formatEther, formatUnits, parseUnits } from '@ethersproject/units';
 import { getProvider } from '@thorswap-lib/toolbox-evm';
 import { Chain, FeeOption } from '@thorswap-lib/types';
