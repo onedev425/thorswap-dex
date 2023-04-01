@@ -79,9 +79,7 @@ export const ChainLiquidityPanel = ({ chain, data, isLoading, lpAddedAndWithdraw
 
   const setLiquidityLink = useCallback(async () => {
     if (!chainLiquidityPositions || chainLiquidityPositions.length === 0) return '#';
-    const { getWalletAddressByChain } = await (
-      await import('services/swapKit')
-    ).getSwapKitClient();
+    const { getWalletAddressByChain } = await (await import('services/swapKit')).getSwapKitClient();
     const lpRoute = getThorYieldLPInfoBaseRoute();
 
     let queryParams = '';

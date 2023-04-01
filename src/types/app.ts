@@ -50,7 +50,7 @@ export const SUPPORTED_LANGUAGES = [
   'zh-Hant',
 ] as const;
 
-export type SupportedLanguages = (typeof SUPPORTED_LANGUAGES)[number];
+export type SupportedLanguages = typeof SUPPORTED_LANGUAGES[number];
 
 export type THORNameEntry = {
   address: string;

@@ -1,4 +1,4 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 
 import * as multisigActions from './actions';

@@ -314,7 +314,7 @@ export const useHandleWalletTypeSelect = ({
           return true;
       }
     },
-    [handleMetamask, handleXdefi, handleKeplr, handleTrustWalletExtension],
+    [handleXdefi, handleMetamask, handleKeplr, handleTrustWalletExtension, handleCoinbaseExtension],
   );
 
   const handleWalletTypeSelect = useCallback(

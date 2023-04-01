@@ -69,9 +69,7 @@ export const useVthorUtil = () => {
       }),
     );
 
-    const { approveAssetForContract } = await (
-      await import('services/swapKit')
-    ).getSwapKitClient();
+    const { approveAssetForContract } = await (await import('services/swapKit')).getSwapKitClient();
 
     try {
       const txid = await approveAssetForContract(
