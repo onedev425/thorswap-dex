@@ -42,13 +42,28 @@ const AnimatedBox = chakra(motion.div, {
   shouldForwardProp: (prop) => isValidMotionProp(prop) || shouldForwardProp(prop),
 });
 
-const getLabelForType = (type?: TransactionType) => {
+const getLabelForType = ({
+  type,
+  fromAsset,
+  toAsset,
+  provider,
+}: {
+  type?: TransactionType;
+  fromAsset: string;
+  toAsset: string;
+  provider?: string;
+}) => {
   if (!type) return;
-  if (type.includes(TransactionType.TRANSFER_FROM_TC)) return 'fromTCRouter';
-  if (type.includes(TransactionType.TRANSFER_TO_TC)) return 'toTCRouter';
-  if (type.includes('SWAP')) return 'swap';
+  if (type.includes('SWAP'))
+    return `${t(`txManager.txBadge.swap`, { fromAsset, toAsset })}${
+      provider ? ` (${provider})` : ''
+    }`;
+  if (type.includes(TransactionType.TRANSFER_FROM_TC))
+    return t(`txManager.txBadge.fromTCRouter`, { asset: fromAsset });
+  if (type.includes(TransactionType.TRANSFER_TO_TC))
+    return t(`txManager.txBadge.toTCRouter`, { asset: fromAsset });
 
-  return 'transferTokens';
+  return t(`txManager.txBadge.transfer`, { asset: fromAsset });
 };
 
 const colorSchemeForChain = {
@@ -70,6 +85,8 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
   const inAssetIdentifier = leg.fromAsset;
   const outAssetIdentifier = leg.toAsset;
   const transactionUrl = useTxUrl({ txHash: leg?.hash || '', chain: leg.chain });
+  const fromAssetTicker = getTickerFromIdentifier(inAssetIdentifier || '') || '??';
+  const toAssetTicker = getTickerFromIdentifier(outAssetIdentifier || '') || '??';
 
   const isTransfer = !leg.provider && leg.fromAsset === leg.toAsset;
 
@@ -91,10 +108,19 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
 
   const { badgeLabel, badgeColorScheme } = useMemo(
     () => ({
-      badgeLabel: leg.txnType ? t(`txManager.txBadge.${getLabelForType(leg.txnType)}`) : undefined,
+      badgeLabel: leg.txnType
+        ? t(
+            `txManager.txBadge.${getLabelForType({
+              fromAsset: fromAssetTicker,
+              toAsset: toAssetTicker,
+              type: leg.txnType,
+              provider: leg.provider,
+            })}`,
+          )
+        : undefined,
       badgeColorScheme: colorSchemeForChain[leg.chain],
     }),
-    [leg.chain, leg.txnType],
+    [fromAssetTicker, leg.chain, leg.provider, leg.txnType, toAssetTicker],
   );
 
   return (
@@ -167,19 +193,11 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
 
           <Flex gap={2} justify="center" mt={1}>
             <Flex align="center" direction="column" gap={1}>
-              {inAssetIdentifier ? (
-                <AssetIcon
-                  logoURI={tokenLogoURL({ identifier: inAssetIdentifier })}
-                  size={36}
-                  ticker={getTickerFromIdentifier(inAssetIdentifier)}
-                />
-              ) : (
-                <FallbackIcon
-                  icon={<Icon name="question" size={14} />}
-                  size={36}
-                  ticker={leg.hash || 'unknown'}
-                />
-              )}
+              <AssetIcon
+                logoURI={`${leg.fromAssetImage}` || '??'}
+                size={36}
+                ticker={fromAssetTicker}
+              />
             </Flex>
 
             {!isTransfer && (
@@ -191,19 +209,11 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
                 </Flex>
 
                 <Flex align="center" direction="column" gap={1}>
-                  {outAssetIdentifier ? (
-                    <AssetIcon
-                      logoURI={tokenLogoURL({ identifier: outAssetIdentifier })}
-                      size={36}
-                      ticker={getTickerFromIdentifier(outAssetIdentifier)}
-                    />
-                  ) : (
-                    <FallbackIcon
-                      icon={<Icon name="question" size={14} />}
-                      size={36}
-                      ticker={leg.hash || 'unknown'}
-                    />
-                  )}
+                  <AssetIcon
+                    logoURI={`${leg.toAssetImage}` || '??'}
+                    size={36}
+                    ticker={toAssetTicker}
+                  />
                 </Flex>
               </>
             )}
@@ -219,7 +229,7 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
               )}
 
               <Text fontSize="10px" lineHeight="12px">
-                {getTickerFromIdentifier(leg.fromAsset || '')}
+                {fromAssetTicker}
               </Text>
             </Flex>
 
@@ -233,7 +243,7 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
                   <Icon spin name="loader" size={14} />
                 )}
                 <Text fontSize="10px" lineHeight="12px">
-                  {getTickerFromIdentifier(leg.toAsset || '')}
+                  {toAssetTicker}
                 </Text>
               </Flex>
             )}
@@ -241,7 +251,7 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
 
           <Flex align="center" direction="row" gap={1} justify="center" mb={1} mt={2}>
             <Text fontWeight="light" textAlign="center" textStyle="caption-xs">
-              Chain: {leg.chain || '-'}
+              {leg.chain || '-'}
             </Text>
             {leg && (
               <Box>

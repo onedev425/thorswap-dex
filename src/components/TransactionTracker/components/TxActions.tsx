@@ -31,7 +31,7 @@ export const TxActions = ({ txHash, isPending }: Props) => {
   }, [isPending, removeTx]);
 
   return (
-    <Flex flex={1} justifyContent="space-between" mb={2}>
+    <Flex justifyContent="space-between" mb={2}>
       <Flex align="center" gap={2}>
         <Button
           className="!px-2"

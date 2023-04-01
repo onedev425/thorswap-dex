@@ -14,10 +14,20 @@ export const useTransactionsState = () => {
 
   const pending = useMemo(() => sortedTransactions.filter(isTxPending), [sortedTransactions]);
   const completed = useMemo(() => sortedTransactions.filter(isTxCompleted), [sortedTransactions]);
+  const advancedTracking = useMemo(
+    () => sortedTransactions.filter((t) => (t.txid && t.route && t.quoteId) || t.details),
+    [sortedTransactions],
+  );
 
   const numberOfPendingApprovals = pending.filter(({ type }) =>
     [TransactionType.ETH_APPROVAL, TransactionType.AVAX_APPROVAL].includes(type),
   ).length;
 
-  return { transactions: sortedTransactions, pending, completed, numberOfPendingApprovals };
+  return {
+    transactions: sortedTransactions,
+    pending,
+    completed,
+    numberOfPendingApprovals,
+    advancedTracking,
+  };
 };

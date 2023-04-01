@@ -47,8 +47,13 @@ const providersInfoMap = {
 };
 
 export const getTickerFromIdentifier = (identifier: string) => {
+  // regular identifier: CHAIN.TICKER-ADDRESS
   const [, ...possibleTicker] = identifier.split('-')?.[0]?.split('.') || [];
-  return possibleTicker.join('.');
+  if (possibleTicker.length) return possibleTicker.join('.');
+
+  // synth identifier: CHAIN/TICKER-ADDRESS
+  const [, ...possibleSynthTicker] = identifier.split('-')?.[0]?.split('/') || [];
+  return possibleSynthTicker.join('.');
 };
 
 export const tokenLogoURL = ({

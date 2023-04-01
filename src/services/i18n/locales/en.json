@@ -306,7 +306,7 @@
     "confirmRemovePending": "Are you sure you want to remove pending transaction from the history?",
     "copyTxId": "Copy transaction id",
     "copyTxUrl": "Copy transaction url",
-    "couldNotLoadTx": "Could not load transaction details",
+    "couldNotLoadTx": "Transaction is no longer tracked by our services.",
     "deleteFromHistory": "Delete from history",
     "details": "Details",
     "duration": "Duration",
@@ -357,10 +357,10 @@
     "transfer": "Transfer",
     "transferToRouter": "Transfer to router",
     "txBadge": {
-      "fromTCRouter": "Transfer from THORChain",
-      "swap": "Swap assets",
-      "toTCRouter": "Transfer to THORChain",
-      "transfer": "Transfer tokens"
+      "fromTCRouter": "Transfer %{asset} from THORChain",
+      "swap": "Swap %{fromAsset} to %{toAsset}",
+      "toTCRouter": "Transfer %{asset} to THORChain",
+      "transfer": "Transfer %{asset}"
     },
     "txDetails": "Transaction Details",
     "txDuration": "Transaction duration",
