@@ -1,6 +1,5 @@
 import {
   Badge,
-  Box,
   chakra,
   CircularProgress,
   Flex,
@@ -218,6 +217,7 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
               </>
             )}
           </Flex>
+
           <Flex gap={2} justify={isTransfer ? 'center' : 'space-between'} mt={1}>
             <Flex align="center" direction="column">
               {leg.fromAmount ? (
@@ -235,13 +235,17 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
 
             {!isTransfer && (
               <Flex align="center" direction="column">
-                {leg.toAmount ? (
+                {leg.toAmount || status === 'refund' ? (
                   <Text fontSize="10px" lineHeight="12px" textStyle="caption-xs">
-                    {Amount.fromAssetAmount(leg.toAmount.replace(',', ''), 6).toSignificant(3)}
+                    {Amount.fromAssetAmount(
+                      (leg.toAmount || '0').replace(',', ''),
+                      6,
+                    ).toSignificant(3)}
                   </Text>
                 ) : (
                   <Icon spin name="loader" size={14} />
                 )}
+
                 <Text fontSize="10px" lineHeight="12px">
                   {toAssetTicker}
                 </Text>
@@ -251,10 +255,11 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
 
           <Flex align="center" direction="row" gap={1} justify="center" mb={1} mt={2}>
             <Text fontWeight="light" textAlign="center" textStyle="caption-xs">
-              {leg.chain || '-'}
+              {leg.provider || leg.chain || 'unknown'}
             </Text>
+
             {leg && (
-              <Box>
+              <Flex>
                 {leg.chain ? (
                   <AssetIcon
                     logoURI={tokenLogoURL({
@@ -270,7 +275,7 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
                     ticker={leg.hash || 'unknown'}
                   />
                 )}
-              </Box>
+              </Flex>
             )}
           </Flex>
         </Flex>
