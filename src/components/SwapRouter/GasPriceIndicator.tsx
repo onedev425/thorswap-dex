@@ -11,17 +11,17 @@ type Props = {
 };
 
 export const GasPriceIndicator = memo(({ fees, size = 'md' }: Props) => {
-  const { totalFee } = useRouteFees(fees);
+  const { outOfPocketFee } = useRouteFees(fees);
 
   const iconSize = useMemo(() => (size === 'md' ? 14 : 10), [size]);
 
-  if (!totalFee) return null;
+  if (!outOfPocketFee) return null;
 
   return (
     <Tooltip>
       <Box center>
         <Text textStyle="caption-xs" variant="secondaryBtn">{`$${formatBigNumber(
-          BigNumber(totalFee),
+          BigNumber(outOfPocketFee),
           2,
         )}`}</Text>
         <Icon className="pl-0.5" color="secondaryBtn" name="gas" size={iconSize} />

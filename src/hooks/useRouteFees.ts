@@ -3,14 +3,21 @@ import { useMemo } from 'react';
 
 export const useRouteFees = (routeFees: QuoteRoute['fees']) => {
   const data = useMemo(() => {
-    const emptyData = { firstNetworkFee: 0, affiliateFee: 0, networkFee: 0, totalFee: 0 };
+    const emptyData = {
+      outOfPocketFee: 0,
+      firstNetworkFee: 0,
+      affiliateFee: 0,
+      networkFee: 0,
+      totalFee: 0,
+    };
     const feesData = Object.values(routeFees || {}).flat();
     if (feesData.length === 0) return emptyData;
 
-    const { networkFee, affiliateFee } = feesData.reduce(
-      (acc, { affiliateFeeUSD, networkFeeUSD }) => {
+    const { outOfPocketFee, networkFee, affiliateFee } = feesData.reduce(
+      (acc, { affiliateFeeUSD, networkFeeUSD, isOutOfPocket }) => {
         acc.affiliateFee += affiliateFeeUSD;
         acc.networkFee += networkFeeUSD;
+        acc.outOfPocketFee += isOutOfPocket ? networkFeeUSD : 0;
 
         return acc;
       },
@@ -21,6 +28,7 @@ export const useRouteFees = (routeFees: QuoteRoute['fees']) => {
       firstNetworkFee: feesData?.[0]?.networkFeeUSD || 0,
       affiliateFee,
       networkFee,
+      outOfPocketFee,
       totalFee: affiliateFee + networkFee,
     };
   }, [routeFees]);
