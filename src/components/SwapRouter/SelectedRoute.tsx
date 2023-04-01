@@ -5,6 +5,7 @@ import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { Box, Button } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
+import { GasPriceIndicator } from 'components/SwapRouter/GasPriceIndicator';
 import { useFormatPrice } from 'helpers/formatPrice';
 import React, { memo, useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
@@ -35,15 +36,12 @@ export const SelectedRoute = memo(
     assetTicker,
     inputAsset,
     contract,
+    fees,
   }: Props) => {
     const [isOpened, setIsOpened] = useState(false);
     const { slippageTolerance } = useApp();
     const formatPrice = useFormatPrice();
-
-    const { isApproved, isWalletConnected } = useIsAssetApproved({
-      contract,
-      asset: inputAsset,
-    });
+    const { isApproved, isWalletConnected } = useIsAssetApproved({ contract, asset: inputAsset });
 
     const expectedAssetOutput = useMemo(
       () =>
@@ -59,7 +57,7 @@ export const SelectedRoute = memo(
       [expectedOutput, formatPrice, unitPrice],
     );
 
-    const slippageInfo = slippage.gt(0) ? `-${slippage.toFixed(2)}` : '-';
+    const slippageInfo = slippage.gt(0) ? `-${slippage.toFixed(2)}` : '';
 
     const openSwapGraph = useCallback((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       event.stopPropagation();
@@ -102,12 +100,15 @@ export const SelectedRoute = memo(
               </Box>
 
               <Box alignCenter className="gap-x-1">
-                <Text
-                  textStyle="caption"
-                  variant={slippage.gte(slippageTolerance / 100) ? 'red' : 'green'}
-                >
-                  ({slippageInfo})
-                </Text>
+                <GasPriceIndicator fees={fees} />
+                {slippageInfo && (
+                  <Text
+                    textStyle="caption"
+                    variant={slippage.gte(slippageTolerance / 100) ? 'red' : 'green'}
+                  >
+                    ({slippageInfo})
+                  </Text>
+                )}
                 <Text variant="secondary">{expectedPriceOutput}</Text>
               </Box>
             </Box>

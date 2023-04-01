@@ -10,5 +10,6 @@
   "npm.packageManager": "yarn",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.preferences.importModuleSpecifier": "non-relative",
-  "typescript.updateImportsOnFileMove.enabled": "always"
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

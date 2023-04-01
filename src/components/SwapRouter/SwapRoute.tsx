@@ -1,11 +1,12 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, AmountType, AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount, AmountType, AssetEntity, QuoteRoute } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import BigNumber from 'bignumber.js';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { HoverIcon } from 'components/HoverIcon';
+import { GasPriceIndicator } from 'components/SwapRouter/GasPriceIndicator';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { tokenLogoURL } from 'helpers/logoURL';
 import { memo, useMemo } from 'react';
@@ -14,16 +15,12 @@ import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 
 import { ProviderLogos } from './ProviderLogos';
 
-type Props = {
+type Props = QuoteRoute & {
   selected?: boolean;
   onClick: () => void;
   selectedQuoteDiff: number;
   outputAsset: AssetEntity;
   unitPrice: BigNumber;
-  expectedOutput: string;
-  path: string;
-  providers: string[];
-  contract: string;
   inputAsset: AssetEntity;
 };
 
@@ -39,6 +36,7 @@ export const SwapRoute = memo(
     selected,
     contract,
     inputAsset,
+    fees,
   }: Props) => {
     const formatPrice = useFormatPrice();
     const [, address] = outputAsset.symbol.split('-');
@@ -102,6 +100,7 @@ export const SwapRoute = memo(
                 </Box>
 
                 <Box alignCenter className="gap-x-1" justify="end">
+                  <GasPriceIndicator fees={fees} size="sm" />
                   {Number.isFinite(selectedQuoteDiff) && selectedQuoteDiff !== 0 && (
                     <Text
                       className="!text-[10px] text-right"

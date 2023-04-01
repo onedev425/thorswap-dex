@@ -8,6 +8,7 @@ import { useFormatPrice } from 'helpers/formatPrice';
 import { hasWalletConnected } from 'helpers/wallet';
 import { useBalance } from 'hooks/useBalance';
 import { useVTHORBalance } from 'hooks/useHasVTHOR';
+import { useRouteFees } from 'hooks/useRouteFees';
 import { useSlippage } from 'hooks/useSlippage';
 import { useSwapTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -153,7 +154,7 @@ const SwapView = () => {
   );
 
   const { fees, contract: contractAddress } = selectedRoute || {};
-
+  const { firstNetworkFee, affiliateFee, networkFee, totalFee } = useRouteFees(fees);
   const contract = useMemo(
     () =>
       [QuoteMode.ETH_TO_ETH, QuoteMode.AVAX_TO_AVAX].includes(quoteMode)
@@ -171,28 +172,7 @@ const SwapView = () => {
     asset: inputAsset,
     contract,
   });
-
-  const { firstNetworkFee, affiliateFee, networkFee, totalFee } = useMemo(() => {
-    const emptyFees = { firstNetworkFee: 0, affiliateFee: 0, networkFee: 0, totalFee: 0 };
-    if (!fees) return emptyFees;
-    const feesData = Object.values(fees).flat();
-
-    if (feesData.length === 0) return emptyFees;
-
-    const { networkFee, affiliateFee } = feesData.reduce((acc, fee) => {
-      acc.affiliateFee += fee.affiliateFeeUSD;
-      acc.networkFee += fee.networkFeeUSD;
-
-      return acc;
-    }, emptyFees);
-
-    return {
-      firstNetworkFee: feesData?.[0]?.networkFeeUSD || 0,
-      affiliateFee,
-      networkFee,
-      totalFee: affiliateFee + networkFee,
-    };
-  }, [fees]);
+  const handleApprove = useSwapApprove({ contract, inputAsset });
 
   const feeAssets = useMemo(
     () =>
@@ -269,7 +249,6 @@ const SwapView = () => {
     quoteId,
   });
 
-  const handleApprove = useSwapApprove({ contract, inputAsset });
   const slippage = useSlippage(inputUSDPrice, outputUSDPrice);
 
   const minReceiveSlippage = useSlippage(
