@@ -29,9 +29,9 @@ const checkAppPassword = () => {
     if (decodedPass === currentPasswordHash) {
       renderApp()
     } else {
+      localStorage.setItem('pagePassword', '')
       alert('Incorrect password')
-      localStorage.removeItem('pagePassword')
-      window.location.reload()
+      setTimeout(() => window.location.reload(), 500)
     }
   }
 }
