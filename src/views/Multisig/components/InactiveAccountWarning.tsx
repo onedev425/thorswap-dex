@@ -1,7 +1,7 @@
 import { Text } from '@chakra-ui/react';
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Box, Button, Link } from 'components/Atomic';
 import { InfoTip } from 'components/InfoTip';
+import { RUNEAsset } from 'helpers/assets';
 import { useEffect, useState } from 'react';
 import { t } from 'services/i18n';
 import { getSendRoute } from 'settings/router';
@@ -35,7 +35,7 @@ export const InactiveAccountWarning = () => {
       content={
         <Box col className="gap-2">
           <Text>{t('views.multisig.notActiveAccount')}</Text>
-          <Link to={getSendRoute(AssetEntity.RUNE(), address)}>
+          <Link to={getSendRoute(RUNEAsset, address)}>
             <Button stretch variant="secondary">
               {`${t('common.send')} RUNE`}
             </Button>

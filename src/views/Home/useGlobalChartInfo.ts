@@ -80,7 +80,7 @@ export const useGlobalChartInfo = () => {
       const synthValue = format(
         Amount.fromMidgard(data?.synthMintVolume)
           .add(Amount.fromMidgard(data?.synthRedeemVolume))
-          .toSignificantWithMaxDecimals(6),
+          .toSignificant(6),
       );
       const total = new BigNumber(data?.totalVolumeUsd).multipliedBy(10 ** -8);
 

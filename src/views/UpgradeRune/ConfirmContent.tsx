@@ -4,6 +4,7 @@ import { AssetIcon } from 'components/AssetIcon';
 import { Box, Icon } from 'components/Atomic';
 import { ChainBadge } from 'components/ChainBadge';
 import { InfoRow } from 'components/InfoRow';
+import { RUNEAsset } from 'helpers/assets';
 import { shortenAddress } from 'helpers/shortenAddress';
 import { memo } from 'react';
 import { t } from 'services/i18n';
@@ -32,20 +33,20 @@ export const ConfirmContent = memo(({ inputAsset, recipient, feeLabel, amount }:
           </Box>
           <Box center className="w-full">
             <Text fontWeight="medium" textStyle="caption">
-              {amount.toSignificantWithMaxDecimals(6)} {inputAsset.ticker}
+              {amount.toSignificant(6)} {inputAsset.ticker}
             </Text>
           </Box>
         </Box>
 
         <Icon className="mx-2 -rotate-90" name="arrowDown" />
         <Box center col className="flex-1 p-4 rounded-2xl">
-          <AssetIcon asset={AssetEntity.RUNE()} />
+          <AssetIcon asset={RUNEAsset} />
           <Box center className="pt-2">
-            <ChainBadge asset={AssetEntity.RUNE()} />
+            <ChainBadge asset={RUNEAsset} />
           </Box>
           <Box center className="w-full">
             <Text fontWeight="medium" textStyle="caption">
-              {amount.toSignificantWithMaxDecimals(6)} {AssetEntity.RUNE().ticker}
+              {amount.toSignificant(6)} {RUNEAsset.ticker}
             </Text>
           </Box>
         </Box>

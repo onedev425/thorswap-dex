@@ -1,9 +1,10 @@
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
+import { Chain } from '@thorswap-lib/types';
 import { MenuItemType } from 'components/AppPopoverMenu/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { IconName } from 'components/Atomic';
 import { useTheme } from 'components/Theme/ThemeContext';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { changeAppLanguage, FLAG_ICONS, LANGUAGE_NAMES, t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
 import { SUPPORTED_LANGUAGES, SupportedLanguages, ThemeType, ThousandSeparator } from 'types/app';
@@ -69,7 +70,16 @@ export const useAppPopoverMenu = () => {
 const useMainMenu = (setMenuType: (val: MenuType) => void) => {
   const { isLight } = useTheme();
   const { themeType, thousandSeparator, language, baseCurrency } = useApp();
-  const currencyAsset = AssetEntity.fromAssetString(baseCurrency);
+
+  const currencyAsset = useMemo(() => {
+    if (baseCurrency.includes('USD')) return getSignatureAssetFor('USD');
+    if (baseCurrency.includes(Chain.Bitcoin)) return getSignatureAssetFor(Chain.Bitcoin);
+    if (baseCurrency.includes(Chain.Ethereum)) return getSignatureAssetFor(Chain.Ethereum);
+
+    return getSignatureAssetFor(Chain.THORChain);
+  }, [baseCurrency]);
+
+  console.log(baseCurrency);
 
   const mainMenu: MenuItemType[] = [
     {
@@ -95,7 +105,7 @@ const useMainMenu = (setMenuType: (val: MenuType) => void) => {
       value: thousandSeparator,
     },
     {
-      label: currencyAsset?.currencySymbol() || t('appMenu.currency'),
+      label: currencyAsset?.ticker || t('appMenu.currency'),
       desc: t('appMenu.currencyDesc'),
       onClick: () => setMenuType('currency'),
       icon: 'dollarOutlined',
@@ -156,26 +166,26 @@ const useCurrencyMenu = (onBack: () => void) => {
     {
       label: 'USD',
       icon: 'currencyDollar',
-      onClick: () => onCurrencyClick(AssetEntity.USD()),
-      isSelected: isCurrencySelected(AssetEntity.USD()),
+      onClick: () => onCurrencyClick(getSignatureAssetFor('USD')),
+      isSelected: isCurrencySelected(getSignatureAssetFor('USD')),
     },
     {
       label: 'RUNE',
       icon: 'thor',
-      onClick: () => onCurrencyClick(AssetEntity.RUNE()),
-      isSelected: isCurrencySelected(AssetEntity.RUNE()),
+      onClick: () => onCurrencyClick(getSignatureAssetFor(Chain.THORChain)),
+      isSelected: isCurrencySelected(getSignatureAssetFor(Chain.THORChain)),
     },
     {
       label: 'BTC',
       icon: 'btc',
-      onClick: () => onCurrencyClick(AssetEntity.BTC()),
-      isSelected: isCurrencySelected(AssetEntity.BTC()),
+      onClick: () => onCurrencyClick(getSignatureAssetFor(Chain.Bitcoin)),
+      isSelected: isCurrencySelected(getSignatureAssetFor(Chain.Bitcoin)),
     },
     {
       label: 'ETH',
       icon: 'eth',
-      onClick: () => onCurrencyClick(AssetEntity.ETH()),
-      isSelected: isCurrencySelected(AssetEntity.ETH()),
+      onClick: () => onCurrencyClick(getSignatureAssetFor(Chain.Ethereum)),
+      isSelected: isCurrencySelected(getSignatureAssetFor(Chain.Ethereum)),
     },
   ];
 

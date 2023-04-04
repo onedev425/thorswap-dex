@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { Box, Icon } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
+import { RUNEAsset } from 'helpers/assets';
 import { memo } from 'react';
 import { t } from 'services/i18n';
 import { WithdrawPercent } from 'views/WithdrawLiquidity/WithdrawPercent';
@@ -46,11 +47,7 @@ export const AssetInputs = memo(
               })}
               flex={liquidityType === LiquidityTypeOption.RUNE ? 0 : 1}
             >
-              <AssetAmountBox
-                stretch
-                amount={assetAmount.toSignificantWithMaxDecimals(6)}
-                asset={poolAsset}
-              />
+              <AssetAmountBox stretch amount={assetAmount.toSignificant(6)} asset={poolAsset} />
             </Box>
 
             <Box
@@ -59,11 +56,7 @@ export const AssetInputs = memo(
               })}
               flex={liquidityType === LiquidityTypeOption.ASSET ? 0 : 1}
             >
-              <AssetAmountBox
-                stretch
-                amount={runeAmount.toSignificantWithMaxDecimals(6)}
-                asset={AssetEntity.RUNE()}
-              />
+              <AssetAmountBox stretch amount={runeAmount.toSignificant(6)} asset={RUNEAsset} />
             </Box>
           </Box>
         </HighlightCard>

@@ -1,5 +1,11 @@
-import { Amount, AssetAmount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import {
+  Amount,
+  AssetAmount,
+  AssetEntity as Asset,
+  getSignatureAssetFor,
+} from '@thorswap-lib/swapkit-core';
 import { BaseDecimal, Chain, FeeOption } from '@thorswap-lib/types';
+import { RUNEAsset } from 'helpers/assets';
 
 const multiplier: Record<FeeOption, number> = {
   average: 0.67,
@@ -8,15 +14,13 @@ const multiplier: Record<FeeOption, number> = {
 };
 
 const getFeeAssetForAsset = (asset: Asset) => {
-  if (asset.isSynth) return Asset.RUNE();
+  if (asset.isSynth) return RUNEAsset;
 
   switch (asset.L1Chain) {
     case Chain.Avalanche:
-      return Asset.AVAX();
     case Chain.Ethereum:
-      return Asset.ETH();
     case Chain.Binance:
-      return Asset.BNB();
+      return getSignatureAssetFor(asset.L1Chain);
     default:
       return asset;
   }

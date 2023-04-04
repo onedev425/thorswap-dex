@@ -1,8 +1,8 @@
 import { Text } from '@chakra-ui/react';
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { AssetSelect } from 'components/AssetSelect';
 import { Box } from 'components/Atomic';
 import { PanelInput } from 'components/PanelInput';
+import { RUNEAsset } from 'helpers/assets';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useMidgard } from 'store/midgard/hooks';
@@ -20,7 +20,7 @@ type Props = {
 export const CustomSend = ({ memo, setMemo }: Props) => {
   const { getInboundData, pools } = useMidgard();
   const [memoType] = useState(MemoType.deposit);
-  const [outputAsset, setOutputAsset] = useState(AssetEntity.RUNE());
+  const [outputAsset, setOutputAsset] = useState(RUNEAsset);
 
   const outputAssetsList = useMemo(() => {
     return pools.map((p) => ({

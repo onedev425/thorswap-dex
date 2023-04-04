@@ -3,6 +3,9 @@ import {
   Amount,
   AssetAmount,
   AssetEntity,
+  getMinAmountByChain,
+  getSignatureAssetFor,
+  isGasAsset,
   Liquidity,
   Percent,
   Pool,
@@ -50,7 +53,7 @@ type Props = {
   wallet: Wallet | null;
 };
 
-const runeAsset = AssetEntity.RUNE();
+const runeAsset = getSignatureAssetFor(Chain.THORChain);
 
 export const useAddLiquidity = ({
   onAddLiquidity,
@@ -121,9 +124,7 @@ export const useAddLiquidity = ({
 
   const poolShareEst = useMemo(() => {
     if (!liquidityEntity) return null;
-    return liquidityEntity
-      .getPoolShareEst(runeAmount, assetAmount)
-      .toSignificantWithMaxDecimals(6, 5);
+    return liquidityEntity.getPoolShareEst(runeAmount, assetAmount).toSignificant(6, 5);
   }, [liquidityEntity, assetAmount, runeAmount]);
 
   const isWalletConnected = useMemo(() => {
@@ -322,7 +323,7 @@ export const useAddLiquidity = ({
             id: runeId,
             label: t('txManager.addAmountAsset', {
               asset: runeAsset.name,
-              amount: runeAmount.toSignificantWithMaxDecimals(6),
+              amount: runeAmount.toSignificant(6),
             }),
             type: TransactionType.TC_LP_ADD,
             inChain: Chain.THORChain,
@@ -336,7 +337,7 @@ export const useAddLiquidity = ({
             id: assetId,
             label: t('txManager.addAmountAsset', {
               asset: poolAsset.name,
-              amount: assetAmount.toSignificantWithMaxDecimals(6),
+              amount: assetAmount.toSignificant(6),
             }),
             type: TransactionType.TC_LP_ADD,
             inChain: poolAsset.L1Chain,
@@ -456,11 +457,11 @@ export const useAddLiquidity = ({
     }
 
     if (liquidityType === LiquidityTypeOption.ASSET) {
-      return inboundAssetFee.totalPriceIn(AssetEntity.USD(), pools).toCurrencyFormat(2);
+      return inboundAssetFee.totalPriceIn(getSignatureAssetFor('USD'), pools).toCurrencyFormat(2);
     }
 
     // Rune asym
-    return inboundRuneFee.totalPriceIn(AssetEntity.USD(), pools).toCurrencyFormat(2);
+    return inboundRuneFee.totalPriceIn(getSignatureAssetFor('USD'), pools).toCurrencyFormat(2);
   }, [liquidityType, inboundRuneFee, inboundAssetFee, pools]);
 
   const depositAssets: AssetEntity[] = useMemo(() => {
@@ -480,7 +481,7 @@ export const useAddLiquidity = ({
       return [
         {
           asset: runeAsset,
-          value: runeAmount.toSignificantWithMaxDecimals(6),
+          value: runeAmount.toSignificant(6),
         },
       ];
     }
@@ -489,7 +490,7 @@ export const useAddLiquidity = ({
       return [
         {
           asset: poolAsset,
-          value: assetAmount.toSignificantWithMaxDecimals(6),
+          value: assetAmount.toSignificant(6),
         },
       ];
     }
@@ -497,22 +498,22 @@ export const useAddLiquidity = ({
     return [
       {
         asset: runeAsset,
-        value: runeAmount.toSignificantWithMaxDecimals(6),
+        value: runeAmount.toSignificant(6),
       },
       {
         asset: poolAsset,
-        value: assetAmount.toSignificantWithMaxDecimals(6),
+        value: assetAmount.toSignificant(6),
       },
     ];
   }, [liquidityType, poolAsset, assetAmount, runeAmount]);
 
   const minRuneAmount: Amount = useMemo(
-    () => AssetAmount.getMinAmountByChain(Chain.THORChain as Chain).amount,
+    () => getMinAmountByChain(Chain.THORChain as Chain).amount,
     [],
   );
   const minAssetAmount: Amount = useMemo(() => {
-    if (poolAsset.isGasAsset()) {
-      return AssetAmount.getMinAmountByChain(poolAsset.chain);
+    if (isGasAsset(poolAsset)) {
+      return getMinAmountByChain(poolAsset.chain);
     }
 
     return Amount.fromAssetAmount(0, 8);
@@ -660,7 +661,7 @@ export const useAddLiquidity = ({
 
   const approveConfirmInfo = useApproveInfoItems({
     assetName: poolAsset.name,
-    assetValue: assetAmount.toSignificantWithMaxDecimals(6),
+    assetValue: assetAmount.toSignificant(6),
     fee: inboundAssetFee.toCurrencyFormat(),
   });
 

@@ -1,8 +1,7 @@
-import { Amount, AssetAmount } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetAmount, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Table } from 'components/Atomic';
 import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';
-import { chainToSigAsset } from 'helpers/assets';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { t } from 'services/i18n';
 import { useAppDispatch } from 'store/store';
@@ -32,7 +31,7 @@ export const ChainInfoTable = memo(({ chainInfo, chain, chainAddress }: Props) =
   }, [chainWalletBalances]);
 
   const [showAllTokens, setShowAllTokens] = useState(false);
-  const sigAsset = chainToSigAsset(chain);
+  const sigAsset = getSignatureAssetFor(chain);
 
   const altAssets = chainInfo.filter((item) => !item.asset.eq(sigAsset));
   const sigAssetAmount =

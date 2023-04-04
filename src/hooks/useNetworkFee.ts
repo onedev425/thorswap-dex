@@ -1,4 +1,10 @@
-import { Amount, AssetAmount, AssetEntity as Asset, Pool } from '@thorswap-lib/swapkit-core';
+import {
+  Amount,
+  AssetAmount,
+  AssetEntity as Asset,
+  getSignatureAssetFor,
+  Pool,
+} from '@thorswap-lib/swapkit-core';
 import { Chain, FeeOption } from '@thorswap-lib/types';
 import { getGasRateByFeeOption, getNetworkFeeByAsset } from 'helpers/networkFee';
 import { useCallback } from 'react';
@@ -48,15 +54,13 @@ const useCalculateFee = () => {
 };
 
 const getFeeAssetForAsset = (asset: Asset) => {
-  if (asset.isSynth) return Asset.RUNE();
+  if (asset.isSynth) return getSignatureAssetFor(Chain.THORChain);
 
   switch (asset.L1Chain) {
     case Chain.Ethereum:
-      return Asset.ETH();
     case Chain.Binance:
-      return Asset.BNB();
     case Chain.Avalanche:
-      return Asset.AVAX();
+      return getSignatureAssetFor(asset.L1Chain);
     default:
       return asset;
   }
@@ -99,7 +103,7 @@ export const useNetworkFee = ({
       inputAsset,
       outboundFee,
       inboundFee,
-    }).totalPriceIn(Asset.USD(), pools),
+    }).totalPriceIn(getSignatureAssetFor('USD'), pools),
   };
 };
 
@@ -108,8 +112,8 @@ export const getSumAmountInUSD = (
   assetAmount2: AssetAmount | null,
   pools: Pool[],
 ) => {
-  const assetAmount1InUSD = assetAmount1?.totalPriceIn(Asset.USD(), pools);
-  const assetAmount2InUSD = assetAmount2?.totalPriceIn(Asset.USD(), pools);
+  const assetAmount1InUSD = assetAmount1?.totalPriceIn(getSignatureAssetFor('USD'), pools);
+  const assetAmount2InUSD = assetAmount2?.totalPriceIn(getSignatureAssetFor('USD'), pools);
   const decimal = assetAmount1?.asset.decimal || 8;
 
   if (assetAmount1InUSD && assetAmount2InUSD) {

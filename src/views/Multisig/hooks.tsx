@@ -1,4 +1,11 @@
-import { Amount, AssetAmount, AssetEntity as Asset, Wallet } from '@thorswap-lib/swapkit-core';
+import {
+  Amount,
+  AssetAmount,
+  AssetEntity as Asset,
+  getSignatureAssetFor,
+  isGasAsset,
+  Wallet,
+} from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Button, Icon } from 'components/Atomic';
 import { formatPrice } from 'helpers/formatPrice';
@@ -19,7 +26,7 @@ export const useMultisigWalletInfo = () => {
   const { shortAddress, handleCopyAddress } = useAddressUtils(address);
   const formattedRune = `${formatPrice(runeBalance?.amount || 0, {
     prefix: '',
-  })} ${Asset.RUNE().ticker}`;
+  })} ${getSignatureAssetFor(Chain.THORChain).ticker}`;
 
   const runeValue = useMemo(() => {
     if (runeBalance) {
@@ -75,7 +82,7 @@ export const useMultissigAssets = () => {
   }, [loadBalances]);
 
   useEffect(() => {
-    const balance = multisig.getAssetBalance(Asset.RUNE(), balances);
+    const balance = multisig.getAssetBalance(getSignatureAssetFor(Chain.THORChain), balances);
     setRuneBalance(balance);
   }, [balances]);
 
@@ -105,7 +112,7 @@ export const useMultissigAssets = () => {
        * Calc: max spendable amount = balance amount - 2 x gas fee(if send asset equals to gas asset)
        */
 
-      const maxSpendableAmount = asset.isGasAsset()
+      const maxSpendableAmount = isGasAsset(asset)
         ? balance.sub(inboundFee.mul(1).amount)
         : balance;
 

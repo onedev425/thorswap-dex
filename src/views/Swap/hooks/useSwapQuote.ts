@@ -1,4 +1,4 @@
-import { Amount, AssetEntity, QuoteMode, QuoteRoute } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetEntity, QuoteRoute } from '@thorswap-lib/swapkit-core';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useEffect, useMemo, useState } from 'react';
 import { useApp } from 'store/app/hooks';
@@ -95,11 +95,6 @@ export const useSwapQuote = ({
     [selectedRoute, outputAsset],
   );
 
-  const quoteMode = useMemo(
-    () => (selectedRoute?.meta?.quoteMode as QuoteMode) || QuoteMode.UNSUPPORTED_QUOTE,
-    [selectedRoute?.meta?.quoteMode],
-  );
-
   useEffect(() => {
     if (!error) {
       const route = routes.find(
@@ -115,7 +110,6 @@ export const useSwapQuote = ({
     isFetching,
     minReceive,
     outputAmount,
-    quoteMode,
     refetch,
     routes,
     selectedRoute,

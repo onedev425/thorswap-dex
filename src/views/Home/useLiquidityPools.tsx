@@ -1,4 +1,5 @@
 import { sortAmounts } from 'components/Atomic/Table/utils';
+import { isAVAXAsset, isBTCAsset, isETHAsset } from 'helpers/assets';
 import { chainName } from 'helpers/chainName';
 import { useMemo } from 'react';
 import { useMidgard } from 'store/midgard/hooks';
@@ -60,9 +61,9 @@ export const useLiquidityPools = ({ selectedPoolStatus, selectedPoolType, keywor
       poolsByStatus
         .filter(
           ({ asset }) =>
-            asset.isBTC() ||
-            asset.isETH() ||
-            asset.isAVAX() ||
+            isBTCAsset(asset) ||
+            isETHAsset(asset) ||
+            isAVAXAsset(asset) ||
             ['eth.thor', 'gaia.atom', 'bnb.busd'].some((assetTicker) =>
               asset.toString().toLowerCase().startsWith(assetTicker),
             ),

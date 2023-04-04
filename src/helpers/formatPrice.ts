@@ -1,5 +1,6 @@
 import { Amount, AssetEntity, Pool, Price } from '@thorswap-lib/swapkit-core';
 import BigNumber from 'bignumber.js';
+import { RUNEAsset } from 'helpers/assets';
 import { useCallback, useMemo } from 'react';
 import { useApp } from 'store/app/hooks';
 
@@ -73,7 +74,7 @@ const formatter = ({
   const numOfDecimals = decimals || getNumberOfDecimals(amount);
 
   if (amount && typeof amount === 'object') {
-    return amount.toSignificantWithMaxDecimals(6, 8, format);
+    return amount.toSignificant(6, 8, format);
   } else if (typeof amount === 'number') {
     const bigNumber = new BigNumber(amount.toFixed(numOfDecimals));
 
@@ -114,8 +115,8 @@ export const runeToAssetPrice = ({
   pools: Pool[];
 }) =>
   new Price({
-    baseAsset: AssetEntity.RUNE(),
-    quoteAsset: quoteAsset || AssetEntity.RUNE(),
+    baseAsset: RUNEAsset,
+    quoteAsset: quoteAsset || RUNEAsset,
     pools,
     priceAmount: runeAmount,
   });

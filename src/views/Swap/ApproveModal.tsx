@@ -23,7 +23,7 @@ export const ApproveModal = memo(
 
     const approveConfirmInfo = useApproveInfoItems({
       assetName: inputAsset.name,
-      assetValue: inputAmount.toSignificantWithMaxDecimals(6),
+      assetValue: inputAmount.toSignificant(6),
       fee: totalFee,
     });
 

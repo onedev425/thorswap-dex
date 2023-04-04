@@ -1,7 +1,6 @@
-import { Amount, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetAmount, AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { BigNumber } from 'bignumber.js';
-import { chainToSigAsset } from 'helpers/assets';
 import { useCallback, useMemo } from 'react';
 import { useMidgard } from 'store/midgard/hooks';
 import { useWallet } from 'store/wallet/hooks';
@@ -33,7 +32,7 @@ const getBalanceByChain = (balance: AssetAmount[], geckoData: Record<string, Gec
 };
 
 export const useAccountData = (chain: Chain) => {
-  const sigAsset = chainToSigAsset(chain);
+  const sigAsset = getSignatureAssetFor(chain);
   const { stats } = useMidgard();
   const {
     geckoData,

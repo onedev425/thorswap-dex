@@ -42,7 +42,7 @@ export const ConfirmContent = memo(
             </Box>
             <Box center className="w-full">
               <Text fontWeight="medium" textStyle="caption">
-                {inputAsset.value?.toSignificantWithMaxDecimals(6)} {inputAsset.asset.ticker}
+                {inputAsset.value?.toSignificant(6)} {inputAsset.asset.ticker}
               </Text>
             </Box>
           </Box>
@@ -55,7 +55,7 @@ export const ConfirmContent = memo(
             </Box>
             <Box center className="w-full">
               <Text fontWeight="medium" textStyle="caption">
-                {outputAsset.value?.toSignificantWithMaxDecimals(6)} {outputAsset.asset.ticker}
+                {outputAsset.value?.toSignificant(6)} {outputAsset.asset.ticker}
               </Text>
             </Box>
           </Box>

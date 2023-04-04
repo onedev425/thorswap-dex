@@ -13,23 +13,21 @@ type ChainIconProps = {
   style?: React.CSSProperties;
 };
 
-export const ChainIcon = memo(
-  ({ withoutBackground = false, chain, style, size = 16 }: ChainIconProps) => {
-    const identifier = useMemo(() => {
-      return getChainIdentifier(chain);
-    }, [chain]);
+const Icon = ({ withoutBackground = false, chain, style, size = 16 }: ChainIconProps) => {
+  const logoURI = useMemo(() => tokenLogoURL({ identifier: getChainIdentifier(chain) }), [chain]);
 
-    return (
-      <Box
-        center
-        className={classNames({
-          'rounded-full scale-[65%] bg-light-gray-light dark:bg-dark-gray-light absolute z-10':
-            !withoutBackground,
-        })}
-        style={style}
-      >
-        <AssetIcon logoURI={tokenLogoURL({ identifier })} size={size} />
-      </Box>
-    );
-  },
-);
+  return (
+    <Box
+      center
+      className={classNames({
+        'rounded-full scale-[65%] bg-light-gray-light dark:bg-dark-gray-light absolute z-10':
+          !withoutBackground,
+      })}
+      style={style}
+    >
+      <AssetIcon hasChainIcon={false} logoURI={logoURI} size={size} />
+    </Box>
+  );
+};
+
+export const ChainIcon = memo(Icon);

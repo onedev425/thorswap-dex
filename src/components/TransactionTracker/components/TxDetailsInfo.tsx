@@ -45,7 +45,7 @@ export const TxDetailsInfo = ({ txDetails, isCompleted, totalTimeLeft }: Props) 
   const firstLegInfo =
     (!!firstLeg.fromAmount &&
       parseFloat(firstLeg.fromAmount) &&
-      `${Amount.fromAssetAmount(firstLeg.fromAmount, 18).toSignificantWithMaxDecimals(
+      `${Amount.fromAssetAmount(firstLeg.fromAmount, 18).toSignificant(
         6,
       )} ${getTickerFromIdentifier(firstLeg.fromAsset || '')}`) ||
     '';
@@ -53,9 +53,9 @@ export const TxDetailsInfo = ({ txDetails, isCompleted, totalTimeLeft }: Props) 
   const lastLegInfo =
     (!!lastLeg.toAmount &&
       parseFloat(lastLeg.toAmount) &&
-      `${Amount.fromAssetAmount(lastLeg.toAmount, 18).toSignificantWithMaxDecimals(
-        6,
-      )} ${getTickerFromIdentifier(lastLeg.toAsset || '')}`) ||
+      `${Amount.fromAssetAmount(lastLeg.toAmount, 18).toSignificant(6)} ${getTickerFromIdentifier(
+        lastLeg.toAsset || '',
+      )}`) ||
     '';
 
   const swapLabel = `${firstLegInfo}${lastLegInfo ? ` -> ${lastLegInfo}` : ''}`;

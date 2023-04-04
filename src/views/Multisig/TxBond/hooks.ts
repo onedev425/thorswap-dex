@@ -1,4 +1,4 @@
-import { AssetAmount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import { getMinAmountByChain, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -29,8 +29,8 @@ export const useTxBond = () => {
           amount:
             type === BondActionType.Bond && amount
               ? amount
-              : AssetAmount.getMinAmountByChain(Chain.THORChain).amount,
-          asset: Asset.RUNE(),
+              : getMinAmountByChain(Chain.THORChain).amount,
+          asset: getSignatureAssetFor(Chain.THORChain),
         },
         signers,
       );

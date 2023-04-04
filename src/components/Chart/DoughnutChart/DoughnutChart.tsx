@@ -171,7 +171,7 @@ export const DoughnutChart = ({
                 pl={3}
               >
                 <Flex gap={1}>
-                  <Text>{selectedShare?.toSignificantWithMaxDecimals(6)}</Text>
+                  <Text>{selectedShare?.toSignificant(6)}</Text>
                   <Text>{share.asset.name}</Text>
                 </Flex>
                 <AssetIcon asset={share.asset} size={28} />

@@ -783,6 +783,7 @@
     },
     "swap": {
       "affiliateFee": "%{percent} affiliate fee is charged by THORSwap. 75% of fees are redistributed back to vTHOR stakers.",
+      "approveCapacity": "Approval limit reached (%{approvedAmount}), please approve additional spending",
       "autoRouter": "Auto Router",
       "autoRouterApi": "Auto Router API",
       "check": "Check %{checkType}",

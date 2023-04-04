@@ -1,9 +1,10 @@
-import { AssetEntity, QuoteMode } from '@thorswap-lib/swapkit-core';
+import { AssetEntity, getSignatureAssetFor, QuoteMode } from '@thorswap-lib/swapkit-core';
 import { BaseDecimal, Chain, WalletOption } from '@thorswap-lib/types';
 import { InfoTip } from 'components/InfoTip';
 import { PanelView } from 'components/PanelView';
 import { SwapRouter } from 'components/SwapRouter';
 import { AVAX_AGG_PROXY_ADDRESS, ETH_AGG_PROXY_ADDRESS } from 'config/constants';
+import { isAVAXAsset, isETHAsset } from 'helpers/assets';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { hasWalletConnected } from 'helpers/wallet';
 import { useBalance } from 'hooks/useBalance';
@@ -54,9 +55,9 @@ const SwapView = () => {
   useEffect(() => {
     import('services/swapKit')
       .then(({ getSwapKitClient }) => getSwapKitClient())
-      .then(({ getWalletAddressByChain }) => {
-        setRecipient(getWalletAddressByChain(outputAsset.L1Chain) || '');
-        setSender(getWalletAddressByChain(inputAsset.L1Chain) || '');
+      .then(({ getAddress }) => {
+        setRecipient(getAddress(outputAsset.L1Chain) || '');
+        setSender(getAddress(inputAsset.L1Chain) || '');
       });
   }, [inputAsset.L1Chain, outputAsset, wallet]);
 
@@ -68,9 +69,9 @@ const SwapView = () => {
       ({ identifier }) => identifier === `${outputAsset.L1Chain}.${outputAsset.ticker}`,
     );
     const inputDecimal =
-      inputAsset.isETH() || inputAsset.isAVAX() ? BaseDecimal.ETH : inputToken?.decimals;
+      isETHAsset(inputAsset) || isAVAXAsset(inputAsset) ? BaseDecimal.ETH : inputToken?.decimals;
     const outputDecimal =
-      outputAsset.isETH() || outputAsset.isAVAX() ? BaseDecimal.ETH : outputToken?.decimals;
+      isETHAsset(outputAsset) || isAVAXAsset(outputAsset) ? BaseDecimal.ETH : outputToken?.decimals;
 
     if (tokens.length) {
       inputAsset.setDecimal(inputDecimal);
@@ -94,7 +95,6 @@ const SwapView = () => {
     isFetching,
     minReceive,
     outputAmount,
-    quoteMode,
     refetch: refetchQuote,
     routes,
     selectedRoute,
@@ -154,7 +154,13 @@ const SwapView = () => {
   );
 
   const { fees, contract: contractAddress } = selectedRoute || {};
+  const quoteMode = useMemo(
+    () => (selectedRoute?.meta?.quoteMode || '') as QuoteMode,
+    [selectedRoute?.meta?.quoteMode],
+  );
+
   const { firstNetworkFee, affiliateFee, networkFee, totalFee } = useRouteFees(fees);
+
   const contract = useMemo(
     () =>
       [QuoteMode.ETH_TO_ETH, QuoteMode.AVAX_TO_AVAX].includes(quoteMode)
@@ -167,10 +173,15 @@ const SwapView = () => {
     [quoteMode, contractAddress],
   );
 
-  const { isApproved, isLoading: isApproveAssetLoading } = useIsAssetApproved({
+  const {
+    isApproved,
+    approvedAmount,
+    isLoading: isApproveAssetLoading,
+  } = useIsAssetApproved({
     force: true,
     asset: inputAsset,
     contract,
+    amount: inputAmount,
   });
   const handleApprove = useSwapApprove({ contract, inputAsset });
 
@@ -214,7 +225,9 @@ const SwapView = () => {
     (unsupportedOutput?: boolean) => {
       const maxNewInputBalance = getMaxBalance(outputAsset);
       setInputAmount(outputAmount.gt(maxNewInputBalance) ? maxNewInputBalance : outputAmount);
-      const defaultAsset = outputAsset.isETH() ? AssetEntity.THOR() : AssetEntity.ETH();
+      const defaultAsset = isETHAsset(outputAsset)
+        ? getSignatureAssetFor('ETH_THOR')
+        : getSignatureAssetFor(Chain.Ethereum);
       const output = unsupportedOutput ? defaultAsset : inputAsset;
       navigate(
         !isKyberSwapPage
@@ -258,9 +271,7 @@ const SwapView = () => {
 
   const minReceiveInfo = useMemo(
     () =>
-      minReceive.gte(0)
-        ? `${minReceive.toSignificantWithMaxDecimals(6)} ${outputAsset.name.toUpperCase()}`
-        : '-',
+      minReceive.gte(0) ? `${minReceive.toSignificant(6)} ${outputAsset.name.toUpperCase()}` : '-',
     [minReceive, outputAsset.name],
   );
 
@@ -340,9 +351,7 @@ const SwapView = () => {
       <SwapInfo
         affiliateBasisPoints={Number(affiliateBasisPoints)}
         affiliateFee={affiliateFee}
-        expectedOutput={`${outputAmount?.toSignificantWithMaxDecimals(
-          6,
-        )} ${outputAsset.name.toUpperCase()}`}
+        expectedOutput={`${outputAmount?.toSignificant(6)} ${outputAsset.name.toUpperCase()}`}
         inputUSDPrice={inputUSDPrice}
         isLoading={isPriceLoading}
         minReceive={minReceiveInfo}
@@ -375,6 +384,7 @@ const SwapView = () => {
       />
 
       <SwapSubmitButton
+        approvedAmount={approvedAmount}
         hasQuote={!!selectedRoute}
         inputAmount={inputAmount}
         inputAsset={inputAsset}

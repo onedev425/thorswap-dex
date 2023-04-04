@@ -1,5 +1,6 @@
-import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import { AssetEntity as Asset, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
+import { isETHAsset } from 'helpers/assets';
 
 export enum ROUTES {
   AddLiquidity = '/add',
@@ -67,14 +68,22 @@ export const getMultisigTxCreateRoute = (asset?: Asset) => {
   return getAssetRoute(ROUTES.TxCreate, asset);
 };
 
-export const getSwapRoute = (input: Asset, output: Asset = Asset.ETH()) => {
-  const outputAsset = input.isETH() && output.isETH() ? Asset.THOR() : output;
+export const getSwapRoute = (
+  input: Asset,
+  output: Asset = getSignatureAssetFor(Chain.Ethereum),
+) => {
+  const outputAsset =
+    isETHAsset(input) && isETHAsset(output) ? getSignatureAssetFor('ETH_THOR') : output;
 
   return `${ROUTES.Swap}/${input.toURLEncoded()}_${outputAsset.toURLEncoded()}`;
 };
 
-export const getKyberSwapRoute = (input: Asset, output: Asset = Asset.ETH()) => {
-  const outputAsset = input.isETH() && output.isETH() ? Asset.THOR() : output;
+export const getKyberSwapRoute = (
+  input: Asset,
+  output: Asset = getSignatureAssetFor(Chain.Ethereum),
+) => {
+  const outputAsset =
+    isETHAsset(input) && isETHAsset(output) ? getSignatureAssetFor('ETH_THOR') : output;
 
   return `${ROUTES.Kyber}/${input.toURLEncoded()}_${outputAsset.toURLEncoded()}`;
 };

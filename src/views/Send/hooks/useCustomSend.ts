@@ -1,4 +1,5 @@
-import { Amount, AssetEntity, Price } from '@thorswap-lib/swapkit-core';
+import { Amount, Price } from '@thorswap-lib/swapkit-core';
+import { RUNEAsset } from 'helpers/assets';
 import { useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
@@ -12,14 +13,11 @@ export const useCustomSend = () => {
   const { pools } = useMidgard();
   const [customMemo, setCustomMemo] = useState('');
   const [customTxEnabled, setCustomTxEnabled] = useState(false);
-  const customFeeRune = useMemo(
-    () => Amount.fromAssetAmount(RUNE_FEE, AssetEntity.RUNE().decimal),
-    [],
-  );
+  const customFeeRune = useMemo(() => Amount.fromAssetAmount(RUNE_FEE, RUNEAsset.decimal), []);
   const customFeeUsd = useMemo(
     () =>
       new Price({
-        baseAsset: AssetEntity.RUNE(),
+        baseAsset: RUNEAsset,
         pools,
         priceAmount: customFeeRune,
       }),
@@ -47,7 +45,7 @@ export const useCustomSend = () => {
     customTxEnabled,
     switchCustomTxEnabledMenu,
     showCustomTxToggle: customSendVisible,
-    customFeeRune: `${customFeeRune.toSignificant(4)} ${AssetEntity.RUNE().symbol}`,
+    customFeeRune: `${customFeeRune.toSignificant(4)} ${RUNEAsset.symbol}`,
     customFeeUsd: customFeeUsd.toCurrencyFormat(2),
   };
 };

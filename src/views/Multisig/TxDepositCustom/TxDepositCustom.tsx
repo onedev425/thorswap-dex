@@ -1,8 +1,8 @@
-import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Button } from 'components/Atomic';
 import { InfoTable } from 'components/InfoTable';
 import { PanelInput } from 'components/PanelInput';
+import { RUNEAsset } from 'helpers/assets';
 import { shortenAddress } from 'helpers/shortenAddress';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
@@ -26,7 +26,7 @@ export const TxDepositCustom = () => {
     () => [
       {
         label: t('common.deposit'),
-        value: `${depositAmount?.toSignificantWithMaxDecimals(6)} ${Asset.RUNE().name}`,
+        value: `${depositAmount?.toSignificant(6)} ${RUNEAsset.name}`,
       },
       { label: t('common.memo'), value: memo.length < 30 ? memo : shortenAddress(memo, 14) },
     ],

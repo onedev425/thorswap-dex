@@ -52,7 +52,7 @@ export const TokenListProviderSelect = ({ onSelect, onClose, assets }: AssetSele
         )}
       >
         <Box col className="flex-1 pt-2">
-          {sortedProviders.map(({ provider, nbTokens, version: { major, minor, patch } }) => (
+          {sortedProviders.map(({ provider, nbTokens, version }) => (
             <Box
               alignCenter
               className="gap-3 px-6 py-2 cursor-pointer dark:hover:bg-dark-border-primary hover:bg-light-bg-secondary transition"
@@ -75,7 +75,8 @@ export const TokenListProviderSelect = ({ onSelect, onClose, assets }: AssetSele
                   textTransform="uppercase"
                   variant={provider ? 'primaryBtn' : 'secondary'}
                 >
-                  {nbTokens} {t('common.tokens')} | v{major}.{minor}.{patch}
+                  {nbTokens} {t('common.tokens')}{' '}
+                  {`${version ? `| v${version.major}.${version.minor}.${version.patch}` : ''}`}
                 </Text>
               </Box>
 

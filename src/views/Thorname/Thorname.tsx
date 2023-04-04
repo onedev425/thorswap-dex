@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { AssetEntity, getTHORNameCost } from '@thorswap-lib/swapkit-core';
+import { getTHORNameCost } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Collapse, Icon, Tooltip } from 'components/Atomic';
 import { FieldLabel } from 'components/Form';
@@ -11,6 +11,7 @@ import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { PanelView } from 'components/PanelView';
 import { showErrorToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
+import { RUNEAsset } from 'helpers/assets';
 import { shortenAddress } from 'helpers/shortenAddress';
 import { isKeystoreSignRequired } from 'helpers/wallet';
 import { KeyboardEvent, useCallback, useEffect, useMemo, useState } from 'react';
@@ -49,7 +50,7 @@ const Thorname = () => {
   const chainWalletAddress = wallet?.[chain]?.address;
 
   const isKeystoreSigningRequired = useMemo(
-    () => isKeystoreSignRequired({ wallet, inputAssets: [AssetEntity.RUNE()] }),
+    () => isKeystoreSignRequired({ wallet, inputAssets: [RUNEAsset] }),
     [wallet],
   );
 
@@ -300,7 +301,7 @@ const Thorname = () => {
       {!details && <RegisteredThornames editThorname={editThorname} />}
 
       <ConfirmModal
-        inputAssets={[AssetEntity.RUNE()]}
+        inputAssets={[RUNEAsset]}
         isOpened={isOpened}
         onClose={() => setIsOpened(false)}
         onConfirm={() => {
@@ -342,7 +343,7 @@ const Thorname = () => {
       </ConfirmModal>
 
       <ConfirmModal
-        inputAssets={[AssetEntity.RUNE()]}
+        inputAssets={[RUNEAsset]}
         isOpened={isOpenedTransfer}
         onClose={() => setIsOpenedTransfer(false)}
         onConfirm={() => {

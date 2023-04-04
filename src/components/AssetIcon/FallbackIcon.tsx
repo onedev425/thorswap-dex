@@ -6,13 +6,13 @@ import { ReactNode } from 'react';
 import { getIntFromName, rainbowStop } from './utils';
 
 type Props = {
-  ticker: string;
+  ticker?: string;
   size: number;
   bg?: string;
   icon?: ReactNode;
 };
 
-export const FallbackIcon = ({ ticker, size, bg, icon }: Props) => {
+export const FallbackIcon = ({ ticker = '', size, bg, icon }: Props) => {
   const tickerNums = getIntFromName(ticker);
   const fallbackBgImg = `linear-gradient(45deg, ${rainbowStop(tickerNums[0])}, ${rainbowStop(
     tickerNums[1],

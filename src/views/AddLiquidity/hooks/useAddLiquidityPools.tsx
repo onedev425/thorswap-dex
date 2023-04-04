@@ -1,4 +1,5 @@
-import { AssetEntity as Asset, Pool } from '@thorswap-lib/swapkit-core';
+import { AssetEntity as Asset, getSignatureAssetFor, Pool } from '@thorswap-lib/swapkit-core';
+import { Chain } from '@thorswap-lib/types';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -15,10 +16,10 @@ export const useAddLiquidityPools = ({ assetRouteGetter = getAddLiquidityRoute }
   const { getAllMemberDetails } = useMidgard();
   const navigate = useNavigate();
 
-  const { assetParam = Asset.BTC().toString() } = useParams<{
+  const { assetParam = getSignatureAssetFor(Chain.Bitcoin).toString() } = useParams<{
     assetParam: string;
   }>();
-  const [poolAsset, setPoolAsset] = useState<Asset>(Asset.BTC());
+  const [poolAsset, setPoolAsset] = useState<Asset>(getSignatureAssetFor(Chain.Bitcoin));
   const [pool, setPool] = useState<Pool>();
 
   const poolAssets = useMemo(() => pools.map((poolData) => poolData.asset), [pools]);

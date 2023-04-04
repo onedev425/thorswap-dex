@@ -48,9 +48,7 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
         <InfoWithTooltip
           icon="usdCircle"
           tooltip={`$${amountUsd(position.depositAmount).toFixedRaw(2)}`}
-          value={`${position.depositAmount.toSignificantWithMaxDecimals(6)} ${
-            position.asset.symbol
-          }`}
+          value={`${position.depositAmount.toSignificant(6)} ${position.asset.symbol}`}
         />
       ),
     },
@@ -60,7 +58,7 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
         <InfoWithTooltip
           icon="usdCircle"
           tooltip={`$${amountUsd(position.amount).toFixedRaw(2)}`}
-          value={`${position?.amount?.toSignificantWithMaxDecimals(6)} ${position.asset.symbol}`}
+          value={`${position?.amount?.toSignificant(6)} ${position.asset.symbol}`}
         />
       ) : (
         <PositionTooSmallInfo />
@@ -73,9 +71,7 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
           <InfoWithTooltip
             icon="usdCircle"
             tooltip={`$${amountUsd(position.earnedAmount).toFixedRaw(2)}`}
-            value={`${position?.earnedAmount?.toSignificantWithMaxDecimals(6)} ${
-              position.asset.symbol
-            }`}
+            value={`${position?.earnedAmount?.toSignificant(6)} ${position.asset.symbol}`}
           />
         ) : (
           <PositionTooSmallInfo />
@@ -101,7 +97,7 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
             {!positionTooSmall ? (
               <Flex>
                 <Text fontWeight="bold">
-                  {position.amount?.toSignificantWithMaxDecimals(6) || 'n/a'} {position.asset.name}
+                  {position.amount?.toSignificant(6) || 'n/a'} {position.asset.name}
                 </Text>
                 <Text>&nbsp;</Text>
                 <Text fontWeight="light">{`($${amountUsd(position.amount).toFixedRaw(2)})`}</Text>

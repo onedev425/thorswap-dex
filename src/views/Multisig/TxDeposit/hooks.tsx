@@ -4,6 +4,7 @@ import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
+import { RUNEAsset } from 'helpers/assets';
 import { useLiquidityType } from 'hooks/useLiquidityType';
 import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -78,7 +79,7 @@ export const useTxDeposit = (assetSideAddress: string) => {
         value: (
           <Box alignCenter justify="between">
             <Text className="mx-2" fontWeight="semibold">
-              {addLiquidity.poolAssetInput.value.toSignificantWithMaxDecimals(6)}
+              {addLiquidity.poolAssetInput.value.toSignificant(6)}
             </Text>
             <AssetIcon asset={addLiquidity.poolAssetInput.asset} size={24} />
           </Box>
@@ -87,13 +88,13 @@ export const useTxDeposit = (assetSideAddress: string) => {
     }
 
     info.push({
-      label: `${t('views.liquidity.depositAmount')} ${AssetEntity.RUNE().symbol}`,
+      label: `${t('views.liquidity.depositAmount')} ${RUNEAsset.symbol}`,
       value: (
         <Box alignCenter justify="between">
           <Text className="mx-2" fontWeight="semibold">
-            {addLiquidity.runeAssetInput.value.toSignificantWithMaxDecimals(6)}
+            {addLiquidity.runeAssetInput.value.toSignificant(6)}
           </Text>
-          <AssetIcon asset={AssetEntity.RUNE()} size={24} />
+          <AssetIcon asset={RUNEAsset} size={24} />
         </Box>
       ),
     });

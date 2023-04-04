@@ -1,10 +1,11 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, AssetEntity, Liquidity } from '@thorswap-lib/swapkit-core';
+import { Amount, Liquidity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon';
 import { Box, Button, Icon, Tooltip, useCollapse } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import dayjs from 'dayjs';
+import { RUNEAsset } from 'helpers/assets';
 import useWindowSize from 'hooks/useWindowSize';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -19,8 +20,6 @@ type LiquidityCardProps = ChainPoolData & {
   withFooter?: boolean;
   lpAddedAndWithdraw?: LpDetailCalculationResult;
 };
-
-const RuneAsset = AssetEntity.RUNE();
 
 export const LiquidityCard = ({
   dateLastAdded,
@@ -60,7 +59,7 @@ export const LiquidityCard = ({
   );
 
   const tickerPending =
-    (isPendingLP && (Number(runePending) > 0 ? pool.asset.ticker : RuneAsset.ticker)) || '';
+    (isPendingLP && (Number(runePending) > 0 ? pool.asset.ticker : RUNEAsset.ticker)) || '';
 
   const lpType = useMemo(() => {
     switch (shareType) {
@@ -92,7 +91,7 @@ export const LiquidityCard = ({
               <AssetLpIcon
                 inline
                 asset1={pool.asset}
-                asset2={RuneAsset}
+                asset2={RUNEAsset}
                 size={isActive && isMdActive ? 40 : 32}
               />
             </Box>

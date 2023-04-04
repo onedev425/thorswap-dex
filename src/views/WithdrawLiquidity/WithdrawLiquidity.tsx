@@ -3,6 +3,7 @@ import {
   Amount,
   AmountType,
   AssetEntity,
+  getSignatureAssetFor,
   Liquidity,
   Percent,
   Pool,
@@ -20,6 +21,7 @@ import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { PanelView } from 'components/PanelView';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
+import { isETHAsset, poolByAsset } from 'helpers/assets';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { hasWalletConnected } from 'helpers/wallet';
 import { useMimir } from 'hooks/useMimir';
@@ -41,7 +43,7 @@ import { AssetInputs } from 'views/WithdrawLiquidity/AssetInputs';
 import { useConfirmInfoItems } from './useConfirmInfoItems';
 
 export const WithdrawLiquidity = () => {
-  const { assetParam = AssetEntity.BTC().toString() } = useParams<{
+  const { assetParam = getSignatureAssetFor(Chain.Bitcoin).toString() } = useParams<{
     assetParam: string;
   }>();
   const [assetObj, setAssetObj] = useState<AssetEntity>();
@@ -61,7 +63,7 @@ export const WithdrawLiquidity = () => {
 
   useEffect(() => {
     if (!poolLoading && pools.length && assetObj) {
-      const assetPool = Pool.byAsset(assetObj, pools);
+      const assetPool = poolByAsset(assetObj, pools);
 
       if (assetPool) {
         setPool(assetPool);
@@ -173,25 +175,26 @@ const WithdrawPanel = ({
   const [visibleConfirmModal, setVisibleConfirmModal] = useState(false);
 
   const isWalletConnected = useMemo(() => {
-    const inputAsset = lpType === PoolShareType.ASSET_ASYM ? poolAsset : AssetEntity.RUNE();
+    const inputAsset =
+      lpType === PoolShareType.ASSET_ASYM ? poolAsset : getSignatureAssetFor(Chain.THORChain);
 
     return hasWalletConnected({ wallet, inputAssets: [inputAsset] });
   }, [lpType, poolAsset, wallet]);
 
   const { inboundFee: inboundAssetFee, outboundFee: inboundRuneFee } = useNetworkFee({
     inputAsset: poolAsset,
-    outputAsset: AssetEntity.RUNE(),
+    outputAsset: getSignatureAssetFor(Chain.THORChain),
   });
 
   const feeLabel = useMemo(() => {
     if (withdrawType === LiquidityTypeOption.ASSET) {
       return `${inboundAssetFee.toCurrencyFormat()} (${inboundAssetFee
-        .totalPriceIn(AssetEntity.USD(), pools)
+        .totalPriceIn(getSignatureAssetFor('USD'), pools)
         .toCurrencyFormat(2)})`;
     }
 
     return `${inboundRuneFee.toCurrencyFormat()} (${inboundRuneFee
-      .totalPriceIn(AssetEntity.USD(), pools)
+      .totalPriceIn(getSignatureAssetFor('USD'), pools)
       .toCurrencyFormat(2)})`;
   }, [inboundAssetFee, inboundRuneFee, pools, withdrawType]);
 
@@ -262,7 +265,7 @@ const WithdrawPanel = ({
   const runePriceInUSD = useMemo(
     () =>
       new Price({
-        baseAsset: AssetEntity.RUNE(),
+        baseAsset: getSignatureAssetFor(Chain.THORChain),
         pools,
         priceAmount: runeAmount,
       }),
@@ -327,12 +330,12 @@ const WithdrawPanel = ({
     if (!wallet) return;
 
     const runeObject = {
-      asset: AssetEntity.RUNE().name,
-      amount: runeAmount.toSignificantWithMaxDecimals(6),
+      asset: getSignatureAssetFor(Chain.THORChain).name,
+      amount: runeAmount.toSignificant(6),
     };
     const assetObject = {
       asset: pool.asset.name,
-      amount: assetAmount.toSignificantWithMaxDecimals(6),
+      amount: assetAmount.toSignificant(6),
     };
     const withdrawChain = withdrawTo === 'asset' ? pool.asset.chain : Chain.THORChain;
     const outAssets =
@@ -368,7 +371,7 @@ const WithdrawPanel = ({
   }, [appDispatch, assetAmount, wallet, pool, percent, runeAmount, withdrawFrom, withdrawTo]);
 
   const handleWithdrawLiquidity = useCallback(() => {
-    if (pool.asset.isETH() && pool.detail.status === 'staged') {
+    if (isETHAsset(pool.asset) && pool.detail.status === 'staged') {
       return showInfoToast(
         'notification.cannotWithdrawFromSP',
         t('notification.cannotWithdrawFromSPDesc'),
@@ -406,10 +409,8 @@ const WithdrawPanel = ({
     if (withdrawType === LiquidityTypeOption.RUNE) {
       return [
         {
-          asset: AssetEntity.RUNE(),
-          value: `${runeAmount.toSignificantWithMaxDecimals(
-            6,
-          )} RUNE (${runePriceInUSD.toCurrencyFormat(2)})`,
+          asset: getSignatureAssetFor(Chain.THORChain),
+          value: `${runeAmount.toSignificant(6)} RUNE (${runePriceInUSD.toCurrencyFormat(2)})`,
         },
       ];
     }
@@ -418,7 +419,7 @@ const WithdrawPanel = ({
       return [
         {
           asset: poolAsset,
-          value: `${assetAmount.toSignificantWithMaxDecimals(6)} ${
+          value: `${assetAmount.toSignificant(6)} ${
             poolAsset.ticker
           } (${assetPriceInUSD.toCurrencyFormat(2)})`,
         },
@@ -427,14 +428,12 @@ const WithdrawPanel = ({
 
     return [
       {
-        asset: AssetEntity.RUNE(),
-        value: `${runeAmount.toSignificantWithMaxDecimals(
-          6,
-        )} RUNE (${runePriceInUSD.toCurrencyFormat(2)})`,
+        asset: getSignatureAssetFor(Chain.THORChain),
+        value: `${runeAmount.toSignificant(6)} RUNE (${runePriceInUSD.toCurrencyFormat(2)})`,
       },
       {
         asset: poolAsset,
-        value: `${assetAmount.toSignificantWithMaxDecimals(6)} ${
+        value: `${assetAmount.toSignificant(6)} ${
           poolAsset.ticker
         } (${assetPriceInUSD.toCurrencyFormat(2)})`,
       },
@@ -545,7 +544,11 @@ const WithdrawPanel = ({
       </Box>
 
       <ConfirmModal
-        inputAssets={[withdrawType === LiquidityTypeOption.ASSET ? poolAsset : AssetEntity.RUNE()]}
+        inputAssets={[
+          withdrawType === LiquidityTypeOption.ASSET
+            ? poolAsset
+            : getSignatureAssetFor(Chain.THORChain),
+        ]}
         isOpened={visibleConfirmModal}
         onClose={() => setVisibleConfirmModal(false)}
         onConfirm={handleConfirmWithdraw}

@@ -1,10 +1,11 @@
 import { Text } from '@chakra-ui/react';
-import { AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Icon, Link } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
 import { LiquidityCard } from 'components/LiquidityCard';
 import { ReloadButton } from 'components/ReloadButton';
+import { poolByAsset } from 'helpers/assets';
 import { chainName } from 'helpers/chainName';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
@@ -36,7 +37,7 @@ export const ChainLiquidityPanel = ({ chain, data, isLoading, lpAddedAndWithdraw
       const poolAsset = AssetEntity.fromAssetString(poolAssetName);
       if (!poolAsset) return null;
 
-      const pool = Pool.byAsset(poolAsset, pools);
+      const pool = poolByAsset(poolAsset, pools);
       if (!pool) return null;
 
       if (poolMemberData?.sym) {
@@ -79,23 +80,19 @@ export const ChainLiquidityPanel = ({ chain, data, isLoading, lpAddedAndWithdraw
 
   const setLiquidityLink = useCallback(async () => {
     if (!chainLiquidityPositions || chainLiquidityPositions.length === 0) return '#';
-    const { getWalletAddressByChain } = await (await import('services/swapKit')).getSwapKitClient();
+    const { getAddress } = await (await import('services/swapKit')).getSwapKitClient();
     const lpRoute = getThorYieldLPInfoBaseRoute();
 
     let queryParams = '';
     chainLiquidityPositions.forEach(({ shareType, pool }) => {
       if (shareType === PoolShareType.ASSET_ASYM) {
-        queryParams = `${pool.asset.chain.toLowerCase()}=${getWalletAddressByChain(
-          pool.asset.chain,
-        )}`;
+        queryParams = `${pool.asset.chain.toLowerCase()}=${getAddress(pool.asset.chain)}`;
       } else if (shareType === PoolShareType.RUNE_ASYM) {
-        queryParams = `${Chain.THORChain.toLowerCase()}=${getWalletAddressByChain(
-          Chain.THORChain,
-        )}`;
+        queryParams = `${Chain.THORChain.toLowerCase()}=${getAddress(Chain.THORChain)}`;
       } else if (shareType === PoolShareType.SYM) {
-        queryParams = `${Chain.THORChain.toLowerCase()}=${getWalletAddressByChain(
+        queryParams = `${Chain.THORChain.toLowerCase()}=${getAddress(
           Chain.THORChain,
-        )}&${pool.asset.chain.toLowerCase()}=${getWalletAddressByChain(pool.asset.chain)}`;
+        )}&${pool.asset.chain.toLowerCase()}=${getAddress(pool.asset.chain)}`;
       }
     });
 

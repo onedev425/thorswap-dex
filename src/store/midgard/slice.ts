@@ -90,7 +90,9 @@ const midgardSlice = createSlice({
               pool.detail.poolAPY === '0' && updatedPool
                 ? updatedPool.poolAPY
                 : pool.detail.poolAPY;
+            // @ts-expect-error
             pool.detail.apyPeriod =
+              // @ts-expect-error
               pool.detail.poolAPY === '0' && updatedPool ? period : pool.detail.apyPeriod;
           });
         } else {

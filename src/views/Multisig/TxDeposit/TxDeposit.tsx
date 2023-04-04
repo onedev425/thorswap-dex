@@ -77,7 +77,7 @@ export const TxDeposit = () => {
         fee={totalFeeInUSD}
         poolShare={poolShareEst}
         poolTicker={poolAssetInput.asset.ticker}
-        rate={pool?.assetPriceInRune?.toSignificantWithMaxDecimals(6) ?? null}
+        rate={pool?.assetPriceInRune?.toSignificant(6) ?? null}
         runeTicker={runeAssetInput.asset.ticker}
         slippage={addLiquiditySlip}
       />

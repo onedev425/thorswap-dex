@@ -1,8 +1,8 @@
-import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Button } from 'components/Atomic';
 import { InfoTable } from 'components/InfoTable';
 import { PanelInput } from 'components/PanelInput';
+import { RUNEAsset } from 'helpers/assets';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { ConfirmModal } from 'views/Multisig/components/ConfirmModal';
@@ -30,7 +30,7 @@ export const TxSend = () => {
     () => [
       {
         label: t('common.send'),
-        value: `${sendAmount?.toSignificantWithMaxDecimals(6)} ${sendAsset.name}`,
+        value: `${sendAmount?.toSignificant(6)} ${sendAsset.name}`,
       },
       { label: t('common.recipient'), value: recipientAddress },
     ],
@@ -51,7 +51,7 @@ export const TxSend = () => {
       <PanelInput
         onChange={handleChangeRecipient}
         placeholder={`${
-          assetInput.asset.isSynth ? Asset.RUNE().network : assetInput.asset.network
+          assetInput.asset.isSynth ? RUNEAsset.network : assetInput.asset.network
         } ${t('common.address')}`}
         title={t('common.recipientAddress')}
         value={recipientAddress}

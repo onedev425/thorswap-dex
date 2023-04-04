@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetSelect } from 'components/AssetSelect';
 import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton';
@@ -11,6 +11,7 @@ import { LiquidityType } from 'components/LiquidityType/LiquidityType';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { LPTypeSelector } from 'components/LPTypeSelector';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
+import { RUNEAsset } from 'helpers/assets';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { useTxWithdraw } from 'views/Multisig/TxWithdraw/hooks';
@@ -110,7 +111,7 @@ export const TxWithdraw = () => {
               <AssetSelectButton
                 showAssetType
                 className="pr-3 m-2 md:m-0 flex-1"
-                selected={AssetEntity.RUNE()}
+                selected={RUNEAsset}
               />
             </Box>
           </Box>

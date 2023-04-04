@@ -1,5 +1,6 @@
-import { Amount, AssetEntity as Asset, Price } from '@thorswap-lib/swapkit-core';
+import { Amount, Price } from '@thorswap-lib/swapkit-core';
 import { showErrorToast } from 'components/Toast';
+import { RUNEAsset } from 'helpers/assets';
 import { ChangeEvent, useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
@@ -8,8 +9,6 @@ import { useMidgard } from 'store/midgard/hooks';
 import { useMultisig } from 'store/multisig/hooks';
 import { useMultissigAssets } from 'views/Multisig/hooks';
 import { useTxCreate } from 'views/Multisig/TxCreate/TxCreateContext';
-
-const runeAsset = Asset.RUNE();
 
 export const useTxDepositCustom = () => {
   const { signers } = useTxCreate();
@@ -26,18 +25,18 @@ export const useTxDepositCustom = () => {
   const assetPriceInUSD = useMemo(
     () =>
       new Price({
-        baseAsset: runeAsset,
+        baseAsset: RUNEAsset,
         pools,
         priceAmount: depositAmount,
       }),
     [depositAmount, pools],
   );
 
-  const maxSpendableBalance: Amount = useMemo(() => getMaxBalance(runeAsset), [getMaxBalance]);
+  const maxSpendableBalance: Amount = useMemo(() => getMaxBalance(RUNEAsset), [getMaxBalance]);
 
   const assetInput = useMemo(
     () => ({
-      asset: runeAsset,
+      asset: RUNEAsset,
       value: depositAmount,
       balance: maxSpendableBalance,
       usdPrice: assetPriceInUSD,
@@ -65,7 +64,7 @@ export const useTxDepositCustom = () => {
     const tx = await createDepositTx(
       {
         memo,
-        asset: runeAsset,
+        asset: RUNEAsset,
         amount: depositAmount,
       },
       signers,

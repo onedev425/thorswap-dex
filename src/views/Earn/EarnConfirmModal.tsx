@@ -54,16 +54,16 @@ export const EarnConfirmModal = ({
     { label: t('views.wallet.estimatedTime'), value: estimatedTime || 'N/A' },
     {
       label: t('views.wallet.networkFee'),
-      value: `${networkFee.toSignificantWithMaxDecimals(6)} ${asset.name}`,
+      value: `${networkFee.toSignificant(6)} ${asset.name}`,
     },
     {
       label: t('common.slippage'),
-      value: `${slippage?.toSignificantWithMaxDecimals(6) || 0} ${asset.name}`,
+      value: `${slippage?.toSignificant(6) || 0} ${asset.name}`,
     },
     {
       label: tabLabel,
       value: expectedOutputAmount ? (
-        `${expectedOutputAmount.toSignificantWithMaxDecimals(6)} ${asset.name}`
+        `${expectedOutputAmount.toSignificant(6)} ${asset.name}`
       ) : networkFee.gte(amount) ? (
         t('views.savings.notEnoughForOutboundFee')
       ) : (
@@ -82,7 +82,7 @@ export const EarnConfirmModal = ({
       inputAssets={[asset]}
       isOpened={isOpened}
       onClose={onClose}
-      onConfirm={() => onConfirm(expectedOutputAmount?.toSignificantWithMaxDecimals(6) || '0')}
+      onConfirm={() => onConfirm(expectedOutputAmount?.toSignificant(6) || '0')}
     >
       <Box col className="mb-5">
         {txInfos.map(({ label, value, icon }) => (

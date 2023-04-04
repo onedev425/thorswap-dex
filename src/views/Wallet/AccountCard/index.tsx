@@ -1,4 +1,5 @@
 import { Text } from '@chakra-ui/react';
+import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
@@ -7,7 +8,6 @@ import { maxHeightTransitionClass } from 'components/Atomic/Collapse/Collapse';
 import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';
 import { borderHoverHighlightClass } from 'components/constants';
 import { Scrollbar } from 'components/Scrollbar';
-import { chainToSigAsset } from 'helpers/assets';
 import { formatPrice } from 'helpers/formatPrice';
 import { parseAssetToToken } from 'helpers/parseAssetToToken';
 import { useTokenPrices } from 'hooks/useTokenPrices';
@@ -52,7 +52,7 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
   const chainAssets = useMemo(() => chainInfo.map(({ asset }) => asset), [chainInfo]);
   const { data } = useTokenPrices(chainAssets);
   const { isLoading, handleRefreshChain } = useWalletChainActions(chain);
-  const sigAsset = chainToSigAsset(chain);
+  const sigAsset = getSignatureAssetFor(chain);
 
   const toggleConnect = useCallback(() => {
     if (chainAddress) {

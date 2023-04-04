@@ -1,11 +1,10 @@
 import { Text } from '@chakra-ui/react';
-import { AssetEntity, QuoteRoute } from '@thorswap-lib/swapkit-core';
+import { AssetEntity, getSignatureAssetFor, QuoteRoute } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Modal } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
-import { chainToSigAsset } from 'helpers/assets';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { memo, useEffect, useMemo } from 'react';
 import { t } from 'services/i18n';
@@ -44,7 +43,7 @@ export const FeeModal = memo(({ totalFee, fees, isOpened, onClose }: Props) => {
       if (!fee) return acc;
 
       const chainFees = fee.map(({ type, networkFee, networkFeeUSD, asset }) => {
-        const chainAsset = chainToSigAsset(chain as Chain);
+        const chainAsset = getSignatureAssetFor(chain as Chain);
         const feeAsset = AssetEntity.fromAssetString(asset);
 
         return {
@@ -85,7 +84,7 @@ export const FeeModal = memo(({ totalFee, fees, isOpened, onClose }: Props) => {
         label: (
           <Box center className="gap-x-1">
             <Text textStyle="caption">{t('views.swap.exchangeFee')}</Text>
-            <AssetIcon asset={AssetEntity.THOR()} hasChainIcon={false} size={20} />
+            <AssetIcon asset={getSignatureAssetFor('ETH_THOR')} hasChainIcon={false} size={20} />
           </Box>
         ),
         value: affiliateFee > 0 ? formatPrice(affiliateFee) : <Text variant="green">FREE</Text>,

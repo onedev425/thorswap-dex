@@ -91,6 +91,7 @@ export const usePoolColumns = () => {
       {
         id: 'aprPeriod',
         Header: () => t('common.APRPeriod'),
+        // @ts-expect-error
         accessor: (row: Pool) => row.detail.apyPeriod,
         align: 'right',
         Cell: ({ cell: { value } }: { cell: { value: string } }) => (

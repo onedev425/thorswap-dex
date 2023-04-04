@@ -1,8 +1,9 @@
 import { Text } from '@chakra-ui/react';
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { FallbackIcon } from 'components/AssetIcon/FallbackIcon';
 import { Box } from 'components/Atomic';
+import { RUNEAsset } from 'helpers/assets';
 import { tokenLogoURL } from 'helpers/logoURL';
 import { memo, useMemo, useState } from 'react';
 
@@ -14,109 +15,171 @@ import { getSecondaryIconPlacementStyle } from './utils';
 
 const brokenAssetIcons = new Set<string>();
 
+const AssetIconComponent = ({
+  shadowPosition = 'corner',
+  iconUrl,
+  showChainIcon,
+  className,
+  isSynth,
+  hasShadow,
+  symbol,
+  chain,
+  bgColor,
+  badge,
+  ticker,
+  secondaryIconPlacement = 'br',
+  size = 40,
+}: Pick<
+  AssetIconProps,
+  | 'badge'
+  | 'secondaryIconPlacement'
+  | 'bgColor'
+  | 'size'
+  | 'hasShadow'
+  | 'shadowPosition'
+  | 'className'
+> & {
+  chain: Chain;
+  iconUrl: string;
+  symbol: string;
+  ticker: string;
+  isSynth: boolean;
+  showChainIcon: boolean;
+}) => {
+  const { iconSize, secondaryIconSize } = useMemo(() => {
+    const iconSize = typeof size === 'number' ? size : iconSizes[size];
+    return { iconSize, secondaryIconSize: iconSize * 0.52 };
+  }, [size]);
+  const [fallback, setFallback] = useState(brokenAssetIcons.has(iconUrl));
+
+  const style = useMemo(() => ({ width: iconSize, height: iconSize }), [iconSize]);
+  const badgeStyle = useMemo(
+    () => ({
+      fontSize: secondaryIconSize * 0.9,
+      padding: 3,
+    }),
+    [secondaryIconSize],
+  );
+
+  const secondaryIconPlacementStyle = useMemo(
+    () => getSecondaryIconPlacementStyle(secondaryIconPlacement, secondaryIconSize),
+    [secondaryIconPlacement, secondaryIconSize],
+  );
+
+  const badgeContanerStyle = useMemo(
+    () => ({
+      ...getSecondaryIconPlacementStyle(secondaryIconPlacement, secondaryIconSize * 1.8),
+      width: secondaryIconSize * 1.8,
+      height: secondaryIconSize * 1.8,
+    }),
+    [secondaryIconPlacement, secondaryIconSize],
+  );
+
+  return (
+    <div
+      className={classNames(
+        'relative flex rounded-full',
+        { 'p-[1px] bg-btn-primary': isSynth },
+        className,
+      )}
+    >
+      {hasShadow && (
+        <img
+          alt={symbol}
+          className={classNames(
+            'absolute blur-xl transition-all',
+            shadowPosition === 'corner' ? '-top-2 -left-2' : '-bottom-2',
+          )}
+          src={iconUrl}
+          style={style}
+        />
+      )}
+
+      {!fallback && iconUrl ? (
+        <Box
+          center
+          className={classNames(
+            'rounded-full box-border overflow-hidden relative transition-all z-10',
+            { [genericBgClasses[bgColor || 'secondary']]: bgColor },
+          )}
+          style={style}
+        >
+          <img
+            alt={symbol}
+            className="absolute inset-0 transition-all rounded-full"
+            onError={() => {
+              brokenAssetIcons.add(iconUrl);
+              setFallback(true);
+            }}
+            src={iconUrl}
+            style={style}
+          />
+        </Box>
+      ) : (
+        <FallbackIcon size={iconSize} ticker={ticker} />
+      )}
+
+      {showChainIcon ? (
+        <ChainIcon chain={chain} size={secondaryIconSize} style={secondaryIconPlacementStyle} />
+      ) : badge ? (
+        <Box
+          center
+          className="bg-light-bg-secondary dark:bg-dark-bg-secondary absolute z-10 scale-[65%] rounded-full"
+          style={badgeContanerStyle}
+        >
+          <Text style={badgeStyle} textStyle="caption">
+            {badge}
+          </Text>
+        </Box>
+      ) : null}
+
+      {isSynth && <Box className="absolute inset-0 bg-btn-primary blur-[6px] rounded-full" />}
+    </div>
+  );
+};
+
+const AssetIconMemo = memo(AssetIconComponent);
+
 export const AssetIcon = memo(
   ({
-    asset = AssetEntity.RUNE(),
+    asset,
     bgColor,
     className,
     hasChainIcon = true,
     hasShadow = false,
     logoURI,
-    secondaryIconPlacement = 'br',
-    shadowPosition = 'corner',
+    secondaryIconPlacement,
     size = 40,
     badge,
     ticker,
   }: AssetIconProps) => {
-    const iconSize = typeof size === 'number' ? size : iconSizes[size];
-    const secondaryIconSize = iconSize * 0.52;
-    const address = asset.symbol.slice(asset.ticker.length + 1).toLowerCase();
-    const identifier = `${asset.chain}.${asset.ticker}`;
-    const iconUrl = logoURI || tokenLogoURL({ address, identifier });
-    const [fallback, setFallback] = useState(brokenAssetIcons.has(iconUrl));
-    const style = useMemo(() => ({ width: iconSize, height: iconSize }), [iconSize]);
+    const {
+      symbol,
+      type,
+      isSynth,
+      ticker: assetTicker,
+      chain,
+    } = useMemo(() => asset || RUNEAsset, [asset]);
 
-    const badgeStyle = useMemo(
-      () => ({
-        fontSize: secondaryIconSize * 0.9,
-        padding: 3,
-      }),
-      [secondaryIconSize],
-    );
+    const address = symbol.slice(assetTicker.length + 1).toLowerCase();
+    const identifier = `${chain}.${assetTicker}`;
+    const iconUrl = logoURI || tokenLogoURL({ address, identifier });
 
     return (
-      <div
-        className={classNames(
-          'relative flex rounded-full',
-          { 'p-[1px] bg-btn-primary': asset.isSynth },
-          className,
-        )}
-      >
-        {hasShadow && (
-          <img
-            alt={asset.symbol}
-            className={classNames(
-              'absolute blur-xl transition-all',
-              shadowPosition === 'corner' ? '-top-2 -left-2' : '-bottom-2',
-            )}
-            src={iconUrl}
-            style={style}
-          />
-        )}
-
-        {!fallback && iconUrl ? (
-          <Box
-            center
-            className={classNames(
-              'rounded-full box-border overflow-hidden relative transition-all z-10',
-              { [genericBgClasses[bgColor || 'secondary']]: bgColor },
-            )}
-            style={style}
-          >
-            <img
-              alt={asset.symbol}
-              className="absolute inset-0 transition-all rounded-full"
-              onError={() => {
-                brokenAssetIcons.add(iconUrl);
-                setFallback(true);
-              }}
-              src={iconUrl}
-              style={style}
-            />
-          </Box>
-        ) : (
-          <FallbackIcon
-            size={iconSize}
-            ticker={asset.eq(AssetEntity.RUNE()) ? ticker || '??' : asset.ticker}
-          />
-        )}
-
-        {hasChainIcon && asset.type !== 'Native' ? (
-          <ChainIcon
-            chain={asset.chain}
-            size={secondaryIconSize}
-            style={getSecondaryIconPlacementStyle(secondaryIconPlacement, secondaryIconSize)}
-          />
-        ) : badge ? (
-          <Box
-            center
-            className="bg-light-bg-secondary dark:bg-dark-bg-secondary absolute z-10 scale-[65%] rounded-full"
-            style={{
-              ...getSecondaryIconPlacementStyle(secondaryIconPlacement, secondaryIconSize * 1.8),
-              width: secondaryIconSize * 1.8,
-              height: secondaryIconSize * 1.8,
-            }}
-          >
-            <Text style={badgeStyle} textStyle="caption">
-              {badge}
-            </Text>
-          </Box>
-        ) : null}
-
-        {asset.isSynth && (
-          <Box className="absolute inset-0 bg-btn-primary blur-[6px] rounded-full" />
-        )}
-      </div>
+      <AssetIconMemo
+        badge={badge}
+        bgColor={bgColor}
+        chain={chain}
+        className={className}
+        hasShadow={hasShadow}
+        iconUrl={iconUrl}
+        isSynth={isSynth}
+        secondaryIconPlacement={secondaryIconPlacement}
+        showChainIcon={hasChainIcon && type !== 'Native'}
+        size={size}
+        symbol={symbol}
+        ticker={ticker || assetTicker || ''}
+      />
     );
   },
 );

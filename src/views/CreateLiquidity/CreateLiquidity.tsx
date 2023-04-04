@@ -1,4 +1,11 @@
-import { Amount, AssetAmount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import {
+  Amount,
+  AssetAmount,
+  AssetEntity as Asset,
+  getMinAmountByChain,
+  getSignatureAssetFor,
+  isGasAsset,
+} from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
@@ -66,7 +73,9 @@ export const CreateLiquidity = () => {
     handleInputAssetUpdate();
   }, [handleInputAssetUpdate]);
 
-  const [poolAsset, setPoolAsset] = useState<Asset>(inputAssets?.[0] ?? Asset.BTC());
+  const [poolAsset, setPoolAsset] = useState<Asset>(
+    inputAssets?.[0] ?? getSignatureAssetFor(Chain.Bitcoin),
+  );
 
   const { getMaxBalance, isWalletAssetConnected } = useBalance();
   const { isFundsCapReached, isChainPauseLPAction } = useMimir();
@@ -85,13 +94,13 @@ export const CreateLiquidity = () => {
 
   const { inboundFee: inboundAssetFee, outboundFee: inboundRuneFee } = useNetworkFee({
     inputAsset: poolAsset,
-    outputAsset: Asset.RUNE(),
+    outputAsset: getSignatureAssetFor(Chain.THORChain),
   });
 
   const isWalletConnected = useMemo(
     () =>
       hasWalletConnected({ wallet, inputAssets: [poolAsset] }) &&
-      hasWalletConnected({ wallet, inputAssets: [Asset.RUNE()] }),
+      hasWalletConnected({ wallet, inputAssets: [getSignatureAssetFor(Chain.THORChain)] }),
     [wallet, poolAsset],
   );
 
@@ -111,7 +120,7 @@ export const CreateLiquidity = () => {
     inputAmount: assetAmount,
     inputAsset: poolAsset,
     outputAmount: runeAmount,
-    outputAsset: Asset.RUNE(),
+    outputAsset: getSignatureAssetFor(Chain.THORChain),
   });
 
   const price: Amount = useMemo(
@@ -131,11 +140,16 @@ export const CreateLiquidity = () => {
 
   const runeBalance: Amount = useMemo(
     () =>
-      wallet ? getAssetBalance(Asset.RUNE(), wallet).amount : Amount.fromAssetAmount(10 ** 3, 8),
+      wallet
+        ? getAssetBalance(getSignatureAssetFor(Chain.THORChain), wallet).amount
+        : Amount.fromAssetAmount(10 ** 3, 8),
     [wallet],
   );
 
-  const maxRuneBalance: Amount = useMemo(() => getMaxBalance(Asset.RUNE()), [getMaxBalance]);
+  const maxRuneBalance: Amount = useMemo(
+    () => getMaxBalance(getSignatureAssetFor(Chain.THORChain)),
+    [getMaxBalance],
+  );
 
   const handleSelectPoolAsset = useCallback((poolAssetData: Asset) => {
     setPoolAsset(poolAssetData);
@@ -176,7 +190,7 @@ export const CreateLiquidity = () => {
   const handleConfirmAdd = useCallback(async () => {
     setVisibleConfirmModal(false);
     if (wallet) {
-      const runeAssetAmount = new AssetAmount(Asset.RUNE(), runeAmount);
+      const runeAssetAmount = new AssetAmount(getSignatureAssetFor(Chain.THORChain), runeAmount);
       const poolAssetAmount = new AssetAmount(poolAsset, assetAmount);
       const runeId = v4();
       const assetId = v4();
@@ -185,8 +199,8 @@ export const CreateLiquidity = () => {
         addTransaction({
           id: runeId,
           label: t('txManager.addAmountAsset', {
-            asset: Asset.RUNE().name,
-            amount: runeAmount.toSignificantWithMaxDecimals(6),
+            asset: getSignatureAssetFor(Chain.THORChain).name,
+            amount: runeAmount.toSignificant(6),
           }),
           type: TransactionType.TC_LP_ADD,
           inChain: Chain.THORChain,
@@ -198,7 +212,7 @@ export const CreateLiquidity = () => {
           id: assetId,
           label: t('txManager.addAmountAsset', {
             asset: poolAsset.name,
-            amount: assetAmount.toSignificantWithMaxDecimals(6),
+            amount: assetAmount.toSignificant(6),
           }),
           type: TransactionType.TC_LP_ADD,
           inChain: poolAsset.L1Chain,
@@ -293,25 +307,23 @@ export const CreateLiquidity = () => {
     return `$${totalFee}`;
   }, [inboundRuneFee, inboundAssetFee, pools]);
 
-  const depositAssets: Asset[] = useMemo(() => [poolAsset, Asset.RUNE()], [poolAsset]);
+  const depositAssets: Asset[] = useMemo(
+    () => [poolAsset, getSignatureAssetFor(Chain.THORChain)],
+    [poolAsset],
+  );
 
   const depositAssetInputs = useMemo(
     () => [
-      { asset: Asset.RUNE(), value: runeAmount.toSignificantWithMaxDecimals(6) },
-      { asset: poolAsset, value: assetAmount.toSignificantWithMaxDecimals(6) },
+      { asset: getSignatureAssetFor(Chain.THORChain), value: runeAmount.toSignificant(6) },
+      { asset: poolAsset, value: assetAmount.toSignificant(6) },
     ],
     [poolAsset, assetAmount, runeAmount],
   );
 
-  const minRuneAmount: Amount = useMemo(
-    () => AssetAmount.getMinAmountByChain(Chain.THORChain).amount,
-    [],
-  );
+  const minRuneAmount: Amount = useMemo(() => getMinAmountByChain(Chain.THORChain).amount, []);
   const minAssetAmount: Amount = useMemo(
     () =>
-      poolAsset.isGasAsset()
-        ? AssetAmount.getMinAmountByChain(poolAsset.chain)
-        : Amount.fromAssetAmount(0, 8),
+      isGasAsset(poolAsset) ? getMinAmountByChain(poolAsset.chain) : Amount.fromAssetAmount(0, 8),
     [poolAsset],
   );
 
@@ -361,7 +373,7 @@ export const CreateLiquidity = () => {
 
   const runeAssetInput = useMemo(
     () => ({
-      asset: Asset.RUNE(),
+      asset: getSignatureAssetFor(Chain.THORChain),
       value: runeAmount,
       balance: runeBalance,
       usdPrice: runeUSDPrice,
@@ -406,7 +418,7 @@ export const CreateLiquidity = () => {
 
   const approveConfirmInfo = useApproveInfoItems({
     assetName: poolAsset.name,
-    assetValue: assetAmount.toSignificantWithMaxDecimals(6),
+    assetValue: assetAmount.toSignificant(6),
     fee: inboundAssetFee.toCurrencyFormat(),
   });
 
@@ -441,7 +453,7 @@ export const CreateLiquidity = () => {
         assetUSDPrice={assetUSDPrice.toCurrencyFormat(3)}
         poolAsset={poolAssetInput}
         poolShare="100%"
-        rate={price.toSignificantWithMaxDecimals(6)}
+        rate={price.toSignificant(6)}
         runeAsset={runeAssetInput}
       />
 

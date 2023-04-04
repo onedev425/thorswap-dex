@@ -1,7 +1,10 @@
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { BigNumber } from '@ethersproject/bignumber';
+import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
+import { isAVAXAsset, isETHAsset } from 'helpers/assets';
 import debounce from 'lodash.debounce';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { fromWei } from 'services/contract';
 import { useTransactionsState } from 'store/transactions/hooks';
 import { useWallet } from 'store/wallet/hooks';
 
@@ -9,6 +12,7 @@ type Params = {
   force?: boolean;
   asset: AssetEntity;
   contract?: string;
+  amount?: Amount;
 };
 
 const checkAssetApprove = async ({ contract, asset }: Params) => {
@@ -20,7 +24,7 @@ const checkAssetApprove = async ({ contract, asset }: Params) => {
 };
 
 let prevNumberOfPendingApprovals = 0;
-let cachedResults: Record<string, boolean> = {};
+let cachedResults: Record<string, { isApproved: boolean; approvedAmount: number }> = {};
 
 const useApproveResult = ({
   isWalletConnected,
@@ -28,41 +32,55 @@ const useApproveResult = ({
   asset,
   contract,
   skip,
+  amount,
 }: {
   isWalletConnected: boolean;
   numberOfPendingApprovals: number;
   asset: AssetEntity;
   contract?: string;
   skip: boolean;
+  amount?: Amount;
 }) => {
-  const [isApproved, setApproved] = useState(isWalletConnected ? null : true);
+  const [{ isApproved, approvedAmount }, setApproved] = useState({
+    approvedAmount: 0,
+    isApproved: !isWalletConnected,
+  });
   const [isLoading, setIsLoading] = useState(false);
   const cacheKey = useMemo(() => `${asset.symbol}-${contract || 'all'}`, [asset.symbol, contract]);
+  const assetAmount = useMemo(() => parseFloat(amount?.toSignificant(6) || '0'), [amount]);
 
   const debouncedCheckAssetApprove = useRef(
     debounce(checkAssetApprove, 1000, { leading: true, trailing: false }),
   );
 
   const checkApproved = useCallback(async () => {
-    if (cachedResults[cacheKey]) {
+    console.log(cachedResults[cacheKey], assetAmount);
+    if (
+      cachedResults[cacheKey]?.isApproved &&
+      cachedResults[cacheKey]?.approvedAmount - assetAmount > 0
+    ) {
       setIsLoading(false);
       return setApproved(cachedResults[cacheKey]);
     }
 
     try {
-      const approved = await debouncedCheckAssetApprove.current({ asset, contract });
+      const approvedAmountResponse = await debouncedCheckAssetApprove.current({ asset, contract });
+      const approvedAmount = fromWei(BigNumber.from(approvedAmountResponse));
 
-      cachedResults[cacheKey] = !!approved;
-      setApproved(!!approved);
+      const isApproved = approvedAmount - assetAmount > 0;
+      const approveResponse = { isApproved, approvedAmount };
+
+      cachedResults[cacheKey] = approveResponse;
+      setApproved(approveResponse);
     } finally {
       prevNumberOfPendingApprovals = numberOfPendingApprovals;
       setIsLoading(false);
     }
-  }, [asset, cacheKey, contract, debouncedCheckAssetApprove, numberOfPendingApprovals]);
+  }, [asset, assetAmount, cacheKey, contract, numberOfPendingApprovals]);
 
   useEffect(() => {
     if (skip || !isWalletConnected) {
-      setApproved(!skip);
+      setApproved({ isApproved: !skip, approvedAmount: 0 });
     } else {
       setIsLoading(true);
       /**
@@ -76,33 +94,35 @@ const useApproveResult = ({
     }
   }, [checkApproved, isWalletConnected, numberOfPendingApprovals, skip]);
 
-  return { isApproved, isLoading };
+  return { isApproved, approvedAmount, isLoading };
 };
 
-export const useIsAssetApproved = ({ force, contract, asset }: Params) => {
+export const useIsAssetApproved = ({ force, contract, asset, amount }: Params) => {
   const { wallet } = useWallet();
   const { numberOfPendingApprovals } = useTransactionsState();
   const walletAddress = useMemo(() => wallet?.[asset.L1Chain]?.address, [asset.L1Chain, wallet]);
 
   const possibleApprove = useMemo(
     () =>
-      !asset.isETH() &&
-      !asset.isAVAX() &&
+      !isETHAsset(asset) &&
+      !isAVAXAsset(asset) &&
       [Chain.Ethereum, Chain.Avalanche].includes(asset.L1Chain),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [asset, contract],
   );
 
-  const { isApproved, isLoading } = useApproveResult({
+  const { isApproved, approvedAmount, isLoading } = useApproveResult({
     isWalletConnected: !!walletAddress,
     numberOfPendingApprovals,
     skip: typeof force === 'boolean' ? !force : false,
     asset,
     contract: possibleApprove ? contract : undefined,
+    amount,
   });
 
   return {
     isApproved,
+    approvedAmount,
     isWalletConnected: !!walletAddress,
     isLoading: isLoading || numberOfPendingApprovals > 0,
   };

@@ -1,11 +1,12 @@
 import { Text } from '@chakra-ui/react';
 import { THORNode } from '@thorswap-lib/midgard-sdk';
-import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Icon, Link } from 'components/Atomic';
 import { useInputAmount } from 'components/InputAmount/useInputAmount';
 import { showErrorToast, showInfoToast, showSuccessToast } from 'components/Toast';
 import copy from 'copy-to-clipboard';
+import { RUNEAsset } from 'helpers/assets';
 import { hasConnectedWallet, hasWalletConnected } from 'helpers/wallet';
 import { useBalance } from 'hooks/useBalance';
 import useWindowSize from 'hooks/useWindowSize';
@@ -177,7 +178,7 @@ export const useNodeManager = ({
     [tabs],
   );
 
-  const [amount, setAmount] = useState(Amount.fromBaseAmount(0, AssetEntity.RUNE().decimal));
+  const [amount, setAmount] = useState(Amount.fromBaseAmount(0, RUNEAsset.decimal));
   const { rawValue, onChange: onAmountChange } = useInputAmount({
     amountValue: amount,
     onAmountChange: setAmount,
@@ -190,13 +191,13 @@ export const useNodeManager = ({
   );
 
   const thorWalletConnected = useMemo(
-    () => hasWalletConnected({ wallet, inputAssets: [AssetEntity.RUNE()] }),
+    () => hasWalletConnected({ wallet, inputAssets: [RUNEAsset] }),
     [wallet],
   );
 
   const { getMaxBalance } = useBalance();
 
-  const maxInputBalance: Amount = useMemo(() => getMaxBalance(AssetEntity.RUNE()), [getMaxBalance]);
+  const maxInputBalance: Amount = useMemo(() => getMaxBalance(RUNEAsset), [getMaxBalance]);
 
   const [tab, setTab] = useState(tabs[0]);
 

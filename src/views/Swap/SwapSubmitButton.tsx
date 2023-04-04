@@ -1,6 +1,6 @@
 import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
-import { Box, Button } from 'components/Atomic';
+import { Box, Button, Tooltip } from 'components/Atomic';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { hasWalletConnected } from 'helpers/wallet';
 import { useCheckExchangeBNB } from 'hooks/useCheckExchangeBNB';
@@ -22,6 +22,7 @@ type Props = {
   isLoading: boolean;
   outputAsset: AssetEntity;
   recipient: string | null;
+  approvedAmount: number;
   setVisibleApproveModal: (visible: boolean) => void;
   setVisibleConfirmModal: (visible: boolean) => void;
 };
@@ -30,6 +31,7 @@ export const SwapSubmitButton = ({
   hasQuote,
   invalidSwap,
   inputAmount,
+  approvedAmount,
   inputAsset,
   isApproved,
   isInputWalletConnected,
@@ -162,6 +164,9 @@ export const SwapSubmitButton = ({
     [isInputWalletConnected, isOutputWalletConnected, recipient],
   );
 
+  const tooltipContent =
+    approvedAmount > 0 ? t('views.swap.approveCapacity', { approvedAmount }) : '';
+
   return (
     <Box className="w-full pt-5 gap-x-2">
       {isWalletRequired ? (
@@ -171,16 +176,18 @@ export const SwapSubmitButton = ({
             : t('common.connectWallet')}
         </Button>
       ) : isApproveRequired ? (
-        <Button
-          stretch
-          error={!hasQuote}
-          loading={!!numberOfPendingApprovals || isLoading}
-          onClick={handleApprove}
-          size="lg"
-          variant="fancy"
-        >
-          {t('txManager.approve')}
-        </Button>
+        <Tooltip stretch content={tooltipContent}>
+          <Button
+            stretch
+            error={!hasQuote}
+            loading={!!numberOfPendingApprovals || isLoading}
+            onClick={handleApprove}
+            size="lg"
+            variant="fancy"
+          >
+            {t('txManager.approve')}
+          </Button>
+        </Tooltip>
       ) : (
         <Button
           stretch

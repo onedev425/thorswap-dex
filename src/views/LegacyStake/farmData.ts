@@ -1,5 +1,6 @@
-import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import { AssetEntity as Asset, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
+import { RUNEAsset } from 'helpers/assets';
 import { ContractType, LPContractType } from 'services/contract';
 
 export const tokenAddr = {
@@ -22,7 +23,10 @@ export const farmData = [
   },
   {
     farmName: 'ETH-THOR LP',
-    assets: [Asset.ETH(), new Asset(Chain.Ethereum, `THOR-${tokenAddr.THOR}`)],
+    assets: [
+      getSignatureAssetFor(Chain.Ethereum),
+      new Asset(Chain.Ethereum, `THOR-${tokenAddr.THOR}`),
+    ],
     lpAsset: new Asset(Chain.Ethereum, `SLP-${tokenAddr.ETH_THOR}`),
     lpToken: tokenAddr.ETH_THOR,
     contractType: ContractType.STAKING_SUSHI_WETH,
@@ -34,7 +38,7 @@ export const farmData = [
 
 export const tcFarmData = {
   farmName: 'RUNE-THOR',
-  assets: [new Asset(Chain.Ethereum, `THOR-${tokenAddr.THOR}`), Asset.RUNE()],
+  assets: [new Asset(Chain.Ethereum, `THOR-${tokenAddr.THOR}`), RUNEAsset],
   lpToken: tokenAddr.THOR,
   contractType: ContractType.STAKING_THOR,
   exchange: 'THORSwap',

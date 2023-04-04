@@ -1,4 +1,5 @@
-import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
+import { Chain } from '@thorswap-lib/types';
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getSwapPair } from 'views/Swap/helpers';
@@ -6,8 +7,8 @@ import { Pair } from 'views/Swap/types';
 
 export const useSwapPair = () => {
   const [swapPair, setSwapPair] = useState<Pair>({
-    inputAsset: AssetEntity.ETH(),
-    outputAsset: AssetEntity.THOR(),
+    inputAsset: getSignatureAssetFor(Chain.Ethereum),
+    outputAsset: getSignatureAssetFor('ETH_THOR'),
   });
 
   const [inputAmount, setInputAmount] = useState(

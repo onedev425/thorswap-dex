@@ -1,6 +1,7 @@
-import { Amount, AssetEntity, getTHORNameCost, validateTHORName } from '@thorswap-lib/swapkit-core';
+import { Amount, getTHORNameCost, validateTHORName } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
+import { RUNEAsset } from 'helpers/assets';
 import { shortenAddress } from 'helpers/shortenAddress';
 import usePrevious from 'hooks/usePrevious';
 import { useCallback, useEffect, useReducer } from 'react';
@@ -144,7 +145,7 @@ export const useThornameLookup = (owner?: string) => {
       const amount = isRegister ? getTHORNameCost(years) : years;
       const prefix = isRegister ? t('txManager.registerThorname') : t('txManager.updateThorname');
 
-      let label = `${prefix} ${thorname} - ${amount} ${AssetEntity.RUNE().name}`;
+      let label = `${prefix} ${thorname} - ${amount} ${RUNEAsset.name}`;
       if (details?.owner && isTransfer) {
         label = `${t('common.transfer')} ${thorname} - ${shortenAddress(newOwner, 6, 8)}`;
       }

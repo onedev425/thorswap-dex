@@ -49,6 +49,7 @@ export default defineConfig({
       os: 'os-browserify/browser',
       stream: 'readable-stream',
       util: 'util',
+      url: 'url',
 
       /**
        * To operate locally on external libraries you can copy paste their `/src`

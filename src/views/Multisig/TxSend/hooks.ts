@@ -1,6 +1,7 @@
 import { Amount, AssetEntity as Asset, Price } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
+import { RUNEAsset } from 'helpers/assets';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -19,7 +20,7 @@ export const useTxSend = () => {
   const { assetParam } = useParams<{ assetParam: string }>();
   const navigate = useNavigate();
 
-  const [sendAsset, setSendAsset] = useState<Asset>(Asset.RUNE());
+  const [sendAsset, setSendAsset] = useState<Asset>(RUNEAsset);
 
   const [sendAmount, setSendAmount] = useState<Amount>(Amount.fromAssetAmount(0, 8));
 
@@ -57,7 +58,7 @@ export const useTxSend = () => {
   useEffect(() => {
     const getSendAsset = async () => {
       if (!assetParam) {
-        setSendAsset(Asset.RUNE());
+        setSendAsset(RUNEAsset);
       } else {
         const assetEntity = Asset.decodeFromURL(assetParam);
 
@@ -67,7 +68,7 @@ export const useTxSend = () => {
           await assetEntity.setDecimal(assetDecimals);
           setSendAsset(assetEntity);
         } else {
-          setSendAsset(Asset.RUNE());
+          setSendAsset(RUNEAsset);
         }
       }
     };

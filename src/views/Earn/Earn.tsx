@@ -1,5 +1,12 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
-import { Amount, AssetAmount, AssetEntity, Percent } from '@thorswap-lib/swapkit-core';
+import {
+  Amount,
+  AssetAmount,
+  AssetEntity,
+  getSignatureAssetFor,
+  Percent,
+} from '@thorswap-lib/swapkit-core';
+import { Chain } from '@thorswap-lib/types';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Card, Icon, Link, Tooltip } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
@@ -46,7 +53,7 @@ const Earn = () => {
   const { positions, refreshPositions, getPosition, synthAvailability } = useSaverPositions();
   const { wallet, setIsConnectModalOpen } = useWallet();
   const [amount, setAmount] = useState(Amount.fromAssetAmount(0, 8));
-  const [asset, setAsset] = useState(AssetEntity.BTC());
+  const [asset, setAsset] = useState(getSignatureAssetFor(Chain.Bitcoin));
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [tab, setTab] = useState(EarnTab.Deposit);
   const [viewTab, setViewTab] = useState(EarnViewTab.Earn);
@@ -197,7 +204,7 @@ const Earn = () => {
         value: (
           <Box center>
             <Text textStyle="caption">
-              {`${slippage ? slippage?.toSignificantWithMaxDecimals(6) : 0} ${asset.name}`}
+              {`${slippage ? slippage?.toSignificant(6) : 0} ${asset.name}`}
             </Text>
           </Box>
         ),

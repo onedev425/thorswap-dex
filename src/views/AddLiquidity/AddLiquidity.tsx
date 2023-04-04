@@ -1,4 +1,3 @@
-import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Box, Button, Link } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { InfoTable } from 'components/InfoTable';
@@ -10,6 +9,7 @@ import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { PanelView } from 'components/PanelView';
 import { ViewHeader } from 'components/ViewHeader';
 import { ADD_LIQUIDITY_GUIDE_URL } from 'config/constants';
+import { RUNEAsset } from 'helpers/assets';
 import { useLiquidityType } from 'hooks/useLiquidityType';
 import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
@@ -121,7 +121,7 @@ export const AddLiquidity = () => {
         fee={totalFeeInUSD}
         poolShare={poolShareEst}
         poolTicker={poolAssetInput.asset.ticker}
-        rate={pool?.assetPriceInRune?.toSignificantWithMaxDecimals(6) ?? null}
+        rate={pool?.assetPriceInRune?.toSignificant(6) ?? null}
         runeTicker={runeAssetInput.asset.ticker}
         slippage={addLiquiditySlip}
       />
@@ -141,7 +141,7 @@ export const AddLiquidity = () => {
               <>
                 {`${t('views.addLiquidity.asymmetricPoolNotice0', {
                   depositAsset:
-                    liquidityType === LiquidityTypeOption.ASSET ? poolAsset.ticker : Asset.RUNE(),
+                    liquidityType === LiquidityTypeOption.ASSET ? poolAsset.ticker : RUNEAsset,
                   asset: poolAsset.ticker,
                 })} `}
                 <Link className="text-twitter-blue" to={ADD_LIQUIDITY_GUIDE_URL}>

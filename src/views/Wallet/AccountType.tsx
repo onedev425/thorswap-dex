@@ -1,7 +1,7 @@
+import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';
-import { chainToSigAsset } from 'helpers/assets';
 import { chainName } from 'helpers/chainName';
 import { useFetchThornames } from 'hooks/useFetchThornames';
 import { memo, useCallback, useMemo } from 'react';
@@ -26,7 +26,7 @@ export const AccountType = memo(({ onlyConnected, keyword }: Props) => {
   const filteredChains = useMemo(
     () =>
       SORTED_CHAINS.filter((chain) => {
-        const sigAsset = chainToSigAsset(chain as Chain);
+        const sigAsset = getSignatureAssetFor(chain as Chain);
         const lowerKeyword = keyword.toLowerCase();
 
         const isSupported = [

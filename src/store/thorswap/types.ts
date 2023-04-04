@@ -105,7 +105,7 @@ export type GetTokenPriceResponse = GetTokenPriceResponseOject[];
 export type GetProvidersResponse = {
   nbTokens: number;
   provider: string;
-  version: Version;
+  version?: Version;
 }[];
 
 export type GetProviderTokensParams = {

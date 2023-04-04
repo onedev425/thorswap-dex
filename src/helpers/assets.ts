@@ -1,4 +1,9 @@
-import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import {
+  AssetEntity as Asset,
+  AssetEntity,
+  getSignatureAssetFor,
+  Pool,
+} from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 
 export enum VestingType {
@@ -15,20 +20,6 @@ export const getV2Address = (contractType: VestingType) => stakingV2Addr[contrac
 
 export const getV2Asset = (contractType: VestingType) => {
   return new Asset(Chain.Ethereum, `${contractType}-${getV2Address(contractType)}`);
-};
-
-export const chainToSigAsset = (chain: Chain) => {
-  if (chain === Chain.Avalanche) return Asset.AVAX();
-  if (chain === Chain.BitcoinCash) return Asset.BCH();
-  if (chain === Chain.Binance) return Asset.BNB();
-  if (chain === Chain.Bitcoin) return Asset.BTC();
-  if (chain === Chain.Cosmos) return Asset.ATOM();
-  if (chain === Chain.Ethereum) return Asset.ETH();
-  if (chain === Chain.Litecoin) return Asset.LTC();
-  if (chain === Chain.Doge) return Asset.DOGE();
-
-  // return RUNE by default
-  return Asset.RUNE();
 };
 
 export const bepIconMapping = {
@@ -189,3 +180,15 @@ export const bepIconMapping = {
   XTZ: 'XTZ-F7A',
   ZEBI: 'ZEBI-84F',
 };
+
+export const poolByAsset = (asset: AssetEntity, pools: Pool[]) =>
+  pools.find((pool) => asset.shallowEq(pool.asset));
+
+export const isETHAsset = ({ ticker, L1Chain }: AssetEntity) =>
+  ticker === 'ETH' && L1Chain === Chain.Ethereum;
+export const isAVAXAsset = ({ ticker, L1Chain }: AssetEntity) =>
+  ticker === 'AVAX' && L1Chain === Chain.Avalanche;
+export const isBTCAsset = ({ ticker, L1Chain }: AssetEntity) =>
+  ticker === 'BTC' && L1Chain === Chain.Bitcoin;
+
+export const RUNEAsset = getSignatureAssetFor(Chain.THORChain);

@@ -5,6 +5,7 @@ import { AssetInputType } from 'components/AssetInput/types';
 import { AssetSelectType } from 'components/AssetSelect/types';
 import { Box, Icon } from 'components/Atomic';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
+import { RUNEAsset } from 'helpers/assets';
 import { useAssetListSearch } from 'hooks/useAssetListSearch';
 import { memo } from 'react';
 import { t } from 'services/i18n';
@@ -66,7 +67,7 @@ export const AssetInputs = memo(
             onValueChange={onAssetAmountChange}
             selectedAsset={poolAsset}
             warning={
-              isAssetPending ? t('pendingLiquidity.content', { asset: Asset.RUNE().ticker }) : ''
+              isAssetPending ? t('pendingLiquidity.content', { asset: RUNEAsset.ticker }) : ''
             }
           />
         </Box>

@@ -1,4 +1,5 @@
 import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import { RUNEAsset } from 'helpers/assets';
 import { useMemo } from 'react';
 import { useMultisig } from 'store/multisig/hooks';
 import { DepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance';
@@ -28,14 +29,14 @@ export const useDepositAssetsBalance = ({ poolAsset }: Props): DepositAssetsBala
 
   const runeBalance: Amount = useMemo(() => {
     if (isConnected) {
-      return getAssetBalance(Asset.RUNE()).amount;
+      return getAssetBalance(RUNEAsset).amount;
     }
 
     // allow max amount if wallet is not connected
     return Amount.fromAssetAmount(10 ** 3, 8);
   }, [getAssetBalance, isConnected]);
 
-  const maxRuneBalance: Amount = useMemo(() => getMaxBalance(Asset.RUNE()), [getMaxBalance]);
+  const maxRuneBalance: Amount = useMemo(() => getMaxBalance(RUNEAsset), [getMaxBalance]);
 
   return {
     isWalletAssetConnected,

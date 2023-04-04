@@ -149,7 +149,7 @@ export const AssetInput = ({
         <Box center row className="gap-1 pb-2 pr-2 md:pr-0">
           {balance && (
             <Text fontWeight="medium" variant="secondary">
-              {t('common.balance')}: {balance?.toSignificantWithMaxDecimals(6) || '0'}
+              {t('common.balance')}: {balance?.toSignificant(6) || '0'}
             </Text>
           )}
 

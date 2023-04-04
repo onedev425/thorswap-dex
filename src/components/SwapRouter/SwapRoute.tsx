@@ -93,7 +93,7 @@ export const SwapRoute = memo(
             <Box center className="gap-x-1.5">
               <Box col>
                 <Box className="gap-x-1" justify="end">
-                  <Text fontWeight="bold">{routeOutput.toSignificantWithMaxDecimals(6)}</Text>
+                  <Text fontWeight="bold">{routeOutput.toSignificant(6)}</Text>
 
                   <Text>{outputAsset.ticker}</Text>
                   <AssetIcon asset={outputAsset} hasChainIcon={false} logoURI={logoURI} size={18} />

@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { AssetInput } from 'components/AssetInput';
 import { AssetInputType } from 'components/AssetInput/types';
 import { Box, Icon } from 'components/Atomic';
+import { isAVAXAsset, isETHAsset } from 'helpers/assets';
 import { useAssetListSearch } from 'hooks/useAssetListSearch';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { Token } from 'store/thorswap/types';
@@ -40,12 +41,12 @@ export const AssetInputs = memo(
       const inputAddress = inputAsset.asset.symbol.split('-')[1]?.toLowerCase();
       const unsupportedEthOutput =
         inputAsset.asset.L1Chain === Chain.Ethereum &&
-        !inputAsset.asset.isETH() &&
+        !isETHAsset(inputAsset.asset) &&
         !thorchainERC20SupportedAddresses.includes(inputAddress);
 
       const unsupportedAvaxOutput =
         inputAsset.asset.L1Chain === Chain.Avalanche &&
-        !inputAsset.asset.isAVAX() &&
+        !isAVAXAsset(inputAsset.asset) &&
         !thorchainAvaxSupportedAddresses.includes(inputAddress);
 
       onSwitchPair(unsupportedEthOutput || unsupportedAvaxOutput);
@@ -74,8 +75,8 @@ export const AssetInputs = memo(
 
       const thorchainSupported = assets.filter(
         ({ asset }) =>
-          asset.isETH() ||
-          asset.isAVAX() ||
+          isETHAsset(asset) ||
+          isAVAXAsset(asset) ||
           ![Chain.Ethereum, Chain.Avalanche].includes(asset?.L1Chain) ||
           (asset?.L1Chain === Chain.Ethereum &&
             thorchainERC20SupportedAddresses.includes(asset.symbol.split('-')[1]?.toLowerCase())) ||

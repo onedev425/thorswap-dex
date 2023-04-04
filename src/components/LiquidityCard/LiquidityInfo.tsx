@@ -4,6 +4,7 @@ import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
+import { RUNEAsset } from 'helpers/assets';
 import { memo, RefObject, useMemo } from 'react';
 import { t } from 'services/i18n';
 import { PoolShareType } from 'store/midgard/types';
@@ -23,8 +24,6 @@ type Props = {
   maxHeightStyle: { maxHeight: string; overflow: string };
   tickerPending?: string;
 };
-
-const RuneAsset = AssetEntity.RUNE();
 
 export const LiquidityInfo = memo(
   ({
@@ -49,25 +48,25 @@ export const LiquidityInfo = memo(
         { label: t('views.liquidity.poolShare'), value: poolShareValue },
         {
           label: t('views.liquidity.runeWithdrawn'),
-          value: runeWithdrawn.toSignificantWithMaxDecimals(6),
+          value: runeWithdrawn.toSignificant(6),
         },
         {
           label: t('views.liquidity.assetWithdrawn'),
-          value: assetWithdrawn.toSignificantWithMaxDecimals(6),
+          value: assetWithdrawn.toSignificant(6),
         },
       ];
 
       if (runePending.gt(0)) {
         infoFields.push({
           label: t('views.liquidity.runePending'),
-          value: runePending.toSignificantWithMaxDecimals(6),
+          value: runePending.toSignificant(6),
         });
       }
 
       if (assetPending.gt(0)) {
         infoFields.push({
           label: t('views.liquidity.assetPending'),
-          value: assetPending.toSignificantWithMaxDecimals(6),
+          value: assetPending.toSignificant(6),
         });
       }
 
@@ -76,7 +75,7 @@ export const LiquidityInfo = memo(
           label: `${asset.ticker} ${t('views.liquidity.share')}`,
           value: (
             <Box center className="gap-2">
-              <Text>{`${assetShare.toSignificantWithMaxDecimals(6)} ${asset.ticker}`}</Text>
+              <Text>{`${assetShare.toSignificant(6)} ${asset.ticker}`}</Text>
               <AssetIcon asset={asset} size={24} />
             </Box>
           ),
@@ -85,11 +84,11 @@ export const LiquidityInfo = memo(
 
       if ([PoolShareType.SYM, PoolShareType.RUNE_ASYM].includes(shareType)) {
         infoFields.unshift({
-          label: `${RuneAsset.symbol} ${t('views.liquidity.share')}`,
+          label: `${RUNEAsset.symbol} ${t('views.liquidity.share')}`,
           value: (
             <Box center className="gap-2">
-              <Text>{`${runeShare.toFixed(4)} ${RuneAsset.symbol}`}</Text>
-              <AssetIcon asset={RuneAsset} size={24} />
+              <Text>{`${runeShare.toFixed(4)} ${RUNEAsset.symbol}`}</Text>
+              <AssetIcon asset={RUNEAsset} size={24} />
             </Box>
           ),
         });

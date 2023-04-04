@@ -1,10 +1,11 @@
 import { Text } from '@chakra-ui/react';
-import { AssetEntity, getTHORNameCost } from '@thorswap-lib/swapkit-core';
+import { getTHORNameCost } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { ChainIcon } from 'components/AssetIcon/ChainIcon';
 import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';
+import { RUNEAsset } from 'helpers/assets';
 import { shortenAddress } from 'helpers/shortenAddress';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
@@ -82,7 +83,7 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
               label: details ? t('views.thorname.updateFee') : t('views.thorname.registrationFee'),
               value: (
                 <Box center className="gap-x-2">
-                  <AssetIcon asset={AssetEntity.RUNE()} size="tiny" />
+                  <AssetIcon asset={RUNEAsset} size="tiny" />
                   <Text>{details ? years : getTHORNameCost(years)} $RUNE</Text>
                 </Box>
               ),

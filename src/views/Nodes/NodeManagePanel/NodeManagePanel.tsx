@@ -1,10 +1,10 @@
 import { Text } from '@chakra-ui/react';
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button } from 'components/Atomic';
 import { PanelInput } from 'components/PanelInput';
 import { TabsSelect } from 'components/TabsSelect';
+import { RUNEAsset } from 'helpers/assets';
 import { useState } from 'react';
 import { t } from 'services/i18n';
 import { useNodeManager } from 'views/Nodes/hooks/hooks';
@@ -58,8 +58,8 @@ export const NodeManagePanel = ({
           placeholder={t('common.amount')}
           suffix={
             <Box className="w-[84px] gap-x-2 pt-2">
-              <Text textStyle="subtitle2">{AssetEntity.RUNE().ticker}</Text>
-              <AssetIcon asset={AssetEntity.RUNE()} size={26} />
+              <Text textStyle="subtitle2">{RUNEAsset.ticker}</Text>
+              <AssetIcon asset={RUNEAsset} size={26} />
             </Box>
           }
           title={

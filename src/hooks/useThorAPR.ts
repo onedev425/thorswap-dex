@@ -1,4 +1,5 @@
-import { AssetEntity as Asset, Pool } from '@thorswap-lib/swapkit-core';
+import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
+import { poolByAsset } from 'helpers/assets';
 import { useMemo } from 'react';
 import { useMidgard } from 'store/midgard/hooks';
 
@@ -15,7 +16,7 @@ const getAPY = (blockReward: number, totalAmount: number) => {
 export const useThorAPR = () => {
   const { pools } = useMidgard();
 
-  const thorPool = useMemo(() => Pool.byAsset(Asset.THOR(), pools), [pools]);
+  const thorPool = useMemo(() => poolByAsset(getSignatureAssetFor('ETH_THOR'), pools), [pools]);
   const thorDepth = useMemo(
     () => (thorPool?.assetDepth.assetAmount.toNumber() ?? 0) * 2,
     [thorPool],

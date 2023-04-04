@@ -65,6 +65,7 @@ export const tokenLogoURL = ({
 }): string => {
   const [chain, ...possibleTicker] = identifier.split('-')?.[0]?.split('.') || [];
   const ticker = possibleTicker.join('.');
+  if (chain === ticker) return `${STATIC_API}/token-list/images/${identifier.toLowerCase()}.png`;
 
   if (['VTHOR', 'RUNE'].includes(ticker)) {
     return getCustomIconImageUrl(

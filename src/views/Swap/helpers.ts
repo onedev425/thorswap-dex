@@ -31,5 +31,5 @@ export const getSwapTrackerType = ({
 
 export const getTxAsset = (asset: Asset, amount: Amount) => ({
   asset: asset.toString(),
-  amount: amount.toSignificantWithMaxDecimals(8),
+  amount: amount.toSignificant(8),
 });

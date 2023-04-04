@@ -1,4 +1,5 @@
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
+import { Chain } from '@thorswap-lib/types';
 
 export type AssetFilterOptionType = 'all' | 'avax' | 'synth' | 'native' | 'erc20' | 'bep2';
 
@@ -17,18 +18,18 @@ export const assetFilterTypes: AssetFilterType[] = [
     value: 'erc20',
     label: 'ERC20',
     tooltip: 'Ethereum Mainnet (ERC-20)',
-    chainAsset: AssetEntity.ETH(),
+    chainAsset: getSignatureAssetFor(Chain.Ethereum),
   },
   {
     value: 'avax',
     label: 'ERC20',
     tooltip: 'Avalanche C-Chain (ERC-20)',
-    chainAsset: AssetEntity.AVAX(),
+    chainAsset: getSignatureAssetFor(Chain.Avalanche),
   },
   {
     value: 'bep2',
     label: 'BEP2',
     tooltip: 'BNB Beacon Chain (BEP2)',
-    chainAsset: AssetEntity.BNB(),
+    chainAsset: getSignatureAssetFor(Chain.Binance),
   },
 ];

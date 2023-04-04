@@ -1,4 +1,4 @@
-import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetEntity, isGasAsset } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { getGasRateByFeeOption, getNetworkFeeByAsset } from 'helpers/networkFee';
 import { getAssetBalance } from 'helpers/wallet';
@@ -31,8 +31,8 @@ export const useBalance = () => {
   const isWalletConnected = useCallback((chain: Chain) => !!wallet?.[chain], [wallet]);
 
   const getMaxBalance = useCallback(
-    (asset: AssetEntity): Amount => {
-      const { isGasAsset, L1Chain, decimal } = asset;
+    (asset: AssetEntity) => {
+      const { L1Chain, decimal } = asset;
       if (!wallet?.[L1Chain as Chain]) return Amount.fromAssetAmount(10 ** 8, decimal);
 
       const networkFee = getNetworkFeeByAsset({
@@ -43,7 +43,7 @@ export const useBalance = () => {
 
       const { amount } = getAssetBalance(asset, wallet);
 
-      const maxSpendableAmount = isGasAsset() ? amount.sub(networkFee) : amount;
+      const maxSpendableAmount = isGasAsset(asset) ? amount.sub(networkFee) : amount;
 
       return maxSpendableAmount.gt(0) ? maxSpendableAmount : Amount.fromAssetAmount(0, decimal);
     },

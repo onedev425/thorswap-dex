@@ -12,6 +12,7 @@ import { PanelInput } from 'components/PanelInput';
 import { PanelView } from 'components/PanelView';
 import { showErrorToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
+import { RUNEAsset } from 'helpers/assets';
 import { chainName } from 'helpers/chainName';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { shortenAddress } from 'helpers/shortenAddress';
@@ -38,7 +39,7 @@ const Send = () => {
   const { assetParam } = useParams<{ assetParam: string }>();
   const [searchParams] = useSearchParams();
 
-  const [sendAsset, setSendAsset] = useState(AssetEntity.RUNE());
+  const [sendAsset, setSendAsset] = useState(RUNEAsset);
   const [sendAmount, setSendAmount] = useState(Amount.fromAssetAmount(0, 8));
 
   const [memo, setMemo] = useState('');
@@ -98,14 +99,14 @@ const Send = () => {
 
   useEffect(() => {
     if (customTxEnabled) {
-      setSendAsset(AssetEntity.RUNE());
+      setSendAsset(RUNEAsset);
     }
   }, [customTxEnabled]);
 
   useEffect(() => {
     const getSendAsset = async () => {
       if (!assetParam) {
-        setSendAsset(AssetEntity.RUNE());
+        setSendAsset(RUNEAsset);
       } else {
         const assetEntity = AssetEntity.decodeFromURL(assetParam);
 
@@ -115,7 +116,7 @@ const Send = () => {
           setSendAmount(Amount.fromAssetAmount(0, assetDecimals));
           setSendAsset(assetEntity);
         } else {
-          setSendAsset(AssetEntity.RUNE());
+          setSendAsset(RUNEAsset);
         }
       }
     };
@@ -220,7 +221,7 @@ const Send = () => {
     () => [
       {
         label: t('common.send'),
-        value: `${sendAmount?.toSignificantWithMaxDecimals(6)} ${sendAsset.name}`,
+        value: `${sendAmount?.toSignificant(6)} ${sendAsset.name}`,
       },
       {
         label: t('common.recipient'),
@@ -292,7 +293,7 @@ const Send = () => {
             onChange={handleChangeRecipient}
             placeholder={`THORName / ${
               assetInput.asset.isSynth || assetInput.asset.isRUNE()
-                ? AssetEntity.RUNE().network
+                ? RUNEAsset.network
                 : chainName(assetInput.asset.L1Chain)
             } ${t('common.address')}`}
             title={recipientTitle}

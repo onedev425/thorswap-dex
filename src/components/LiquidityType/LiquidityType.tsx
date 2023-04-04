@@ -2,6 +2,7 @@ import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Box } from 'components/Atomic';
 import { LiquidityTypeOption, LiquidityTypeProps } from 'components/LiquidityType/types';
 import { TabsSelect } from 'components/TabsSelect';
+import { RUNEAsset } from 'helpers/assets';
 import { useCallback, useMemo } from 'react';
 
 export const LiquidityType = ({
@@ -46,13 +47,13 @@ const getOptionsProp = (types: LiquidityTypeOption[], asset: Asset) => {
   if (types.includes(LiquidityTypeOption.SYMMETRICAL)) {
     options.push({
       value: LiquidityTypeOption.SYMMETRICAL,
-      label: `${asset.ticker}+${Asset.RUNE().ticker}`,
+      label: `${asset.ticker}+${RUNEAsset.ticker}`,
     });
   }
   if (types.includes(LiquidityTypeOption.RUNE)) {
     options.push({
       value: LiquidityTypeOption.RUNE,
-      label: Asset.RUNE().ticker,
+      label: RUNEAsset.ticker,
     });
   }
 

@@ -47,7 +47,6 @@ export const useSwap = ({
   outputAsset,
   outputAmount,
   route,
-  quoteMode,
   quoteId,
 }: SwapParams) => {
   const appDispatch = useAppDispatch();
@@ -62,9 +61,9 @@ export const useSwap = ({
         const from = wallet?.[inputAsset.L1Chain as Chain]?.address;
         if (!from) throw new Error('No address found');
 
-        const label = `${inputAmount.toSignificantWithMaxDecimals(6)} ${
+        const label = `${inputAmount.toSignificant(6)} ${
           inputAsset.name
-        } → ${outputAmount.toSignificantWithMaxDecimals(6)} ${outputAsset.name}`;
+        } → ${outputAmount.toSignificant(6)} ${outputAsset.name}`;
 
         appDispatch(
           addTransaction({
@@ -72,7 +71,7 @@ export const useSwap = ({
             label,
             from,
             inChain: inputAsset.L1Chain,
-            type: quoteModeToTransactionType[quoteMode as QuoteMode.ETH_TO_ETH],
+            type: quoteModeToTransactionType[route.meta.quoteMode as QuoteMode.ETH_TO_ETH],
             quoteId,
             sellAmount: inputAmount.toSignificant(),
           }),
@@ -86,7 +85,6 @@ export const useSwap = ({
           const timestamp = new Date();
           const txid = await swap({
             route,
-            quoteMode,
             feeOptionKey: feeOptionType,
             recipient: validateAddress({ chain: outputAsset.L1Chain, address: recipient })
               ? recipient
@@ -132,7 +130,6 @@ export const useSwap = ({
     outputAsset.name,
     outputAsset.L1Chain,
     appDispatch,
-    quoteMode,
     quoteId,
     feeOptionType,
     recipient,

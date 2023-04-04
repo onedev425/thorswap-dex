@@ -1,13 +1,14 @@
 import { Text } from '@chakra-ui/react';
 import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Link } from 'components/Atomic';
+import { RUNEAsset } from 'helpers/assets';
 import { getSwapRoute } from 'settings/router';
 
 const RUNEInfoContent = ({ inputAsset }: { inputAsset: AssetEntity }) => (
   <>
     <Text textStyle="caption" variant="yellow">
       {`Are you looking for native token `}
-      <Link className="text-twitter-blue" to={getSwapRoute(inputAsset, AssetEntity.RUNE())}>
+      <Link className="text-twitter-blue" to={getSwapRoute(inputAsset, RUNEAsset)}>
         $RUNE?
       </Link>
     </Text>

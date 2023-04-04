@@ -1,5 +1,11 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, AssetAmount, AssetEntity, Price } from '@thorswap-lib/swapkit-core';
+import {
+  Amount,
+  AssetAmount,
+  AssetEntity,
+  getSignatureAssetFor,
+  Price,
+} from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Button, Card, Icon, Tooltip } from 'components/Atomic';
@@ -9,6 +15,7 @@ import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { PanelInput } from 'components/PanelInput';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
+import { RUNEAsset } from 'helpers/assets';
 import { getRuneToUpgrade, hasWalletConnected } from 'helpers/wallet';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
@@ -25,7 +32,7 @@ import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 import { ConfirmContent } from 'views/UpgradeRune/ConfirmContent';
 
-const oldRunes = [AssetEntity.BNB_RUNE(), AssetEntity.ETH_RUNE()];
+const oldRunes = [getSignatureAssetFor('BNB_RUNE'), getSignatureAssetFor('ETH_RUNE')];
 
 const UpgradeRune = () => {
   const appDispatch = useAppDispatch();
@@ -84,7 +91,7 @@ const UpgradeRune = () => {
   const assetPriceInUSD = useMemo(
     () =>
       new Price({
-        baseAsset: AssetEntity.RUNE(),
+        baseAsset: RUNEAsset,
         pools,
         priceAmount: upgradeAmount,
       }),
@@ -112,11 +119,9 @@ const UpgradeRune = () => {
           from: recipientAddress,
           inChain: selectedAsset.L1Chain,
           type: TransactionType.TC_SWITCH,
-          label: `${t('common.upgrade')} ${upgradeAmount.toSignificantWithMaxDecimals(3)} ${
+          label: `${t('common.upgrade')} ${upgradeAmount.toSignificant(3)} ${
             selectedAsset.name
-          } ${t('common.to')} ${upgradeAmount.toSignificantWithMaxDecimals(3)} ${
-            AssetEntity.RUNE().name
-          }`,
+          } ${t('common.to')} ${upgradeAmount.toSignificant(3)} ${RUNEAsset.name}`,
         }),
       );
 
@@ -226,7 +231,7 @@ const UpgradeRune = () => {
 
     if (Number.isNaN(rate) || assetInput.value.lte(0)) return '-';
 
-    const runeAmount = assetInput.value.mul(rate).toSignificantWithMaxDecimals(8);
+    const runeAmount = assetInput.value.mul(rate).toSignificant(8);
 
     return `${t('common.receive')} ${runeAmount} Native RUNE`;
   }, [assetInput.value, redemptionRate]);

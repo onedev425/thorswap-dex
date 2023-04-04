@@ -3,14 +3,15 @@ import classNames from 'classnames';
 import { Icon, IconName } from 'components/Atomic';
 import { TooltipPlacement } from 'components/Atomic/Tooltip/types';
 import useWindowSize from 'hooks/useWindowSize';
-import { ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 
 type Props = {
   place?: TooltipPlacement;
   content?: string;
   className?: string;
   disabled?: boolean;
-} & ({ iconName: IconName; children?: undefined } | { children: ReactNode; iconName?: undefined });
+  stretch?: boolean;
+} & ({ iconName: IconName; children?: undefined } | PropsWithChildren<{ iconName?: undefined }>);
 
 const TOOLTIP_ICON = 14;
 
@@ -19,12 +20,15 @@ export const Tooltip = ({
   className,
   place = 'top',
   iconName,
+  stretch = false,
   content,
   disabled = false,
 }: Props) => {
   const { isMdActive } = useWindowSize();
 
-  return content ? (
+  if (!content) return (children as JSX.Element) || null;
+
+  return (
     <CustomizeTooltip
       hasArrow
       arrowSize={11}
@@ -54,11 +58,9 @@ export const Tooltip = ({
       p={0}
       placement={place}
     >
-      <div>
+      <div className={classNames({ 'w-full': stretch })}>
         {children || <Icon color="secondary" name={iconName as IconName} size={TOOLTIP_ICON} />}
       </div>
     </CustomizeTooltip>
-  ) : (
-    <>{children}</>
   );
 };

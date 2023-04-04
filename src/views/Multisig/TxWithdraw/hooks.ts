@@ -1,8 +1,9 @@
 import {
   Amount,
-  AssetAmount,
   AssetEntity as Asset,
   getMemoFor,
+  getMinAmountByChain,
+  getSignatureAssetFor,
   MemoType,
   Percent,
 } from '@thorswap-lib/swapkit-core';
@@ -29,7 +30,7 @@ export const useTxWithdraw = () => {
     return pools.map((poolData) => poolData.asset);
   }, [pools]);
   const poolAssetList = useAssetsWithBalance(poolAssets);
-  const [poolAsset, setPoolAsset] = useState<Asset>(Asset.BTC());
+  const [poolAsset, setPoolAsset] = useState<Asset>(getSignatureAssetFor(Chain.Bitcoin));
   const [lpType, setLPType] = useState(SHARE_TYPES[0]);
   const defaultWithdrawType = useMemo(() => {
     switch (lpType) {
@@ -43,7 +44,7 @@ export const useTxWithdraw = () => {
   const [withdrawType, setWithdrawType] = useState(defaultWithdrawType);
   const [percent, setPercent] = useState(0);
 
-  const { assetParam = Asset.BTC().toString() } = useParams<{
+  const { assetParam = getSignatureAssetFor(Chain.Bitcoin).toString() } = useParams<{
     assetParam: string;
   }>();
 
@@ -58,7 +59,7 @@ export const useTxWithdraw = () => {
       return poolAsset;
     }
 
-    return Asset.RUNE();
+    return getSignatureAssetFor(Chain.THORChain);
   }, [withdrawType, poolAsset]);
 
   const isValid = percent > 0;
@@ -111,7 +112,7 @@ export const useTxWithdraw = () => {
     const { chain, symbol, ticker } =
       lpType === PoolShareType.RUNE_ASYM || withdrawType === LiquidityTypeOption.RUNE
         ? poolAsset
-        : Asset.RUNE();
+        : getSignatureAssetFor(Chain.THORChain);
 
     const memo = getMemoFor(MemoType.WITHDRAW, {
       chain,
@@ -123,8 +124,8 @@ export const useTxWithdraw = () => {
     const tx = await createDepositTx(
       {
         memo,
-        amount: AssetAmount.getMinAmountByChain(Chain.THORChain).amount,
-        asset: Asset.RUNE(),
+        amount: getMinAmountByChain(Chain.THORChain).amount,
+        asset: getSignatureAssetFor(Chain.THORChain),
       },
       signers,
     );

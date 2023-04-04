@@ -1,7 +1,7 @@
+import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { SUPPORTED_CHAINS } from '@thorswap-lib/types';
 import { Box } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
-import { chainToSigAsset } from 'helpers/assets';
 import { useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
@@ -21,14 +21,14 @@ const Wallet = () => {
   const filteredChains = useMemo(
     () =>
       SUPPORTED_CHAINS.filter((chain) => {
-        const { ticker } = chainToSigAsset(chain);
+        const { ticker } = getSignatureAssetFor(chain);
         return !geckoData?.[ticker];
       }),
     [geckoData],
   );
 
   const sigSymbols = useMemo(
-    () => filteredChains.map((chain) => chainToSigAsset(chain).ticker),
+    () => filteredChains.map((chain) => getSignatureAssetFor(chain).ticker),
     [filteredChains],
   );
 

@@ -1,12 +1,18 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, AssetAmount, AssetEntity, ChainWallet } from '@thorswap-lib/swapkit-core';
+import {
+  Amount,
+  AssetAmount,
+  AssetEntity,
+  ChainWallet,
+  getSignatureAssetFor,
+  isGasAsset,
+} from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon } from 'components/Atomic';
 import { baseBgHoverClass } from 'components/constants';
 import { Scrollbar } from 'components/Scrollbar';
-import { chainToSigAsset } from 'helpers/assets';
 import { useWalletDrawer } from 'hooks/useWalletDrawer';
 import { MouseEventHandler, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -54,7 +60,7 @@ const WalletBalanceList = () => {
 
   const renderBalance = useCallback(
     (chain: Chain, balance: AssetAmount[]) => {
-      const sigBalance = new AssetAmount(chainToSigAsset(chain), Amount.fromNormalAmount(0));
+      const sigBalance = new AssetAmount(getSignatureAssetFor(chain), Amount.fromNormalAmount(0));
       const walletBalance = [...balance, ...(balance.length === 0 ? [sigBalance] : [])];
 
       return walletBalance.map((data: AssetAmount) => (
@@ -75,7 +81,7 @@ const WalletBalanceList = () => {
                   {data.asset.type}
                 </Text>
               </Box>
-              <Text variant="primary">{data.amount.toSignificantWithMaxDecimals(6)}</Text>
+              <Text variant="primary">{data.amount.toSignificant(6)}</Text>
             </Box>
 
             <Box row className="space-x-1">
@@ -88,7 +94,7 @@ const WalletBalanceList = () => {
                 />
               )}
 
-              {!data.asset.isGasAsset() && (
+              {!isGasAsset(data.asset) && (
                 <Button
                   className="px-3 hover:bg-transparent dark:hover:bg-transparent"
                   leftIcon={<Icon color="primaryBtn" name="eyeSlash" size={16} />}
