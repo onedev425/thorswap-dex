@@ -18,11 +18,10 @@ import ChainItem from './ChainItem';
 import { ConnectKeystoreView } from './ConnectKeystore';
 import { CreateKeystoreView } from './CreateKeystore';
 import {
-  getWalletOptions,
   HandleWalletConnectParams,
   useHandleWalletConnect,
   useHandleWalletTypeSelect,
-  WalletSection,
+  useWalletOptions,
 } from './hooks';
 import { PhraseView } from './Phrase';
 import { availableChainsByWallet, WalletType } from './types';
@@ -39,11 +38,8 @@ const ConnectWalletModal = () => {
   const [derivationPathType, setDerivationPathType] = useState<DerivationPathType>();
   const [customFlow, setCustomFlow] = useState(false);
   const [saveWallet, setSaveWallet] = useState(getFromStorage('restorePreviousWallet') as boolean);
-  const [walletOptions, setWalletOptions] = useState([] as WalletSection[]);
 
-  useEffect(() => {
-    setWalletOptions(getWalletOptions({ isMdActive }));
-  }, [isMdActive, isConnectModalOpen]);
+  const walletOptions = useWalletOptions({ isMdActive });
 
   const supportedByWallet = useMemo(
     () => availableChainsByWallet[selectedWalletType as WalletType] || SUPPORTED_CHAINS,
