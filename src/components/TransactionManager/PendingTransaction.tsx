@@ -1,10 +1,11 @@
 import { Skeleton, Text } from '@chakra-ui/react';
 import { Box, Icon, Link } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
-import { transactionTitle } from 'components/TransactionManager/helpers';
+import { getEstimatedTxDuration, transactionTitle } from 'components/TransactionManager/helpers';
 import { TxDetailsButton } from 'components/TransactionManager/TxDetailsButton';
 import { useAdvancedTracker } from 'components/TransactionManager/useAdvancedTracker';
 import { useSimpleTracker } from 'components/TransactionManager/useSimpleTracker';
+import { useTransactionTimers } from 'components/TransactionManager/useTransactionTimers';
 import { CircularCountdown } from 'components/TxTracker/components/CircularCountdown';
 import { memo } from 'react';
 import { PendingTransactionType } from 'store/transactions/types';
@@ -15,6 +16,7 @@ export const PendingTransaction = memo((pendingTx: PendingTransactionType) => {
 
   const simpleTrackerData = useSimpleTracker(hasDetailsParams ? null : pendingTx);
   const advancedTrackerData = useAdvancedTracker(!hasDetailsParams ? null : pendingTx);
+  const { totalTimeLeft } = useTransactionTimers(txDetails?.legs || [], { isTxFinished: false });
   const txData = simpleTrackerData || advancedTrackerData || pendingTx;
 
   const { label, type, details } = txData;
@@ -24,8 +26,9 @@ export const PendingTransaction = memo((pendingTx: PendingTransactionType) => {
     <Box alignCenter flex={1} justify="between">
       <Box alignCenter className="w-full gap-2">
         <CircularCountdown
-          estimatedDuration={txDetails?.estimatedDuration}
-          startTimestamp={txDetails?.startTimestamp}
+          estimatedDuration={getEstimatedTxDuration(txDetails)}
+          hasDetails={!!txDetails}
+          timeLeft={totalTimeLeft}
         />
 
         <Box col className="gap-1 w-full">

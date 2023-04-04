@@ -4,7 +4,12 @@ import { useCallback, useState } from 'react';
 import { getCustomContract } from 'services/contract';
 import { t } from 'services/i18n';
 import { TxnResult } from 'store/thorswap/types';
-import { TransactionStatus, TransactionType, TxStatus } from 'store/transactions/types';
+import {
+  TransactionStatus,
+  TransactionType,
+  TxStatus,
+  TxTrackerDetails,
+} from 'store/transactions/types';
 
 const getTcPart = ({
   asset: assetString,
@@ -182,3 +187,20 @@ export const getSimpleTxStatus = (status: TxStatus): TransactionStatus => {
       return 'pending';
   }
 };
+
+export function getEstimatedTxDuration(txDetails?: TxTrackerDetails) {
+  if (!txDetails) return null;
+
+  const totalDurationFromLegs = txDetails.legs.reduce<number | null>((acc, leg) => {
+    if (
+      acc === null ||
+      leg.estimatedDuration === null ||
+      typeof leg.estimatedDuration === 'undefined'
+    )
+      return null;
+
+    return acc + Number(leg.estimatedDuration);
+  }, 0);
+
+  return totalDurationFromLegs || Number(txDetails.estimatedDuration) || null;
+}

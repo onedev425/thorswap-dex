@@ -1,24 +1,31 @@
 import { CircularProgress, Flex, Text } from '@chakra-ui/react';
 import { Icon, Tooltip } from 'components/Atomic';
 import { formatDuration } from 'components/TransactionTracker/helpers';
-import { CountdownProps, useCountdown } from 'hooks/useCountdown';
 import { useLayoutEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 
-export const CircularCountdown = (props: CountdownProps) => {
-  const { timeLeft, percent } = useCountdown(props);
+export const CircularCountdown = ({
+  timeLeft,
+  estimatedDuration,
+  hasDetails,
+}: {
+  timeLeft: number | null;
+  estimatedDuration: number | null;
+  hasDetails?: boolean;
+}) => {
   const [size, setSize] = useState('20px');
   const [showTime, setShowTime] = useState(false);
+  const percent = timeLeft && estimatedDuration ? (timeLeft / estimatedDuration) * 100 : 0;
 
   useLayoutEffect(() => {
-    if (timeLeft !== null) {
+    if (hasDetails) {
       setSize('50px');
       setTimeout(() => setShowTime(true), 200);
     } else {
       setSize('20px');
       setShowTime(false);
     }
-  }, [timeLeft]);
+  }, [hasDetails]);
 
   const tooltipContent = useMemo(() => {
     if (timeLeft == null) return '';
@@ -51,7 +58,7 @@ export const CircularCountdown = (props: CountdownProps) => {
             {!!timeLeft && timeLeft > 0 && (
               <Text fontSize="xs">{formatDuration(timeLeft, { approx: true, noUnits: true })}</Text>
             )}
-            {timeLeft !== null && timeLeft <= 0 && (
+            {((!timeLeft && hasDetails) || (timeLeft && timeLeft <= 0)) && (
               <Icon color="secondary" name="hourglass" size={14} />
             )}
           </Flex>

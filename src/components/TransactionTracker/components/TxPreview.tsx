@@ -1,4 +1,5 @@
 import { Flex } from '@chakra-ui/react';
+import { useTransactionTimers } from 'components/TransactionManager/useTransactionTimers';
 import { TxDetailsInfo } from 'components/TransactionTracker/components/TxDetailsInfo';
 import { TxLegPreview } from 'components/TransactionTracker/components/TxLegPreview';
 import { TxTrackerDetails } from 'store/transactions/types';
@@ -10,6 +11,10 @@ type Props = {
 
 export const TxPreview = ({ txDetails, isCompleted }: Props) => {
   const hasLegs = txDetails?.legs?.length > 0;
+  const { totalTimeLeft, legsTimers } = useTransactionTimers(txDetails.legs || [], {
+    estimatedDuration: txDetails.estimatedDuration,
+    isTxFinished: false,
+  });
 
   if (!txDetails) {
     return null;
@@ -26,12 +31,17 @@ export const TxPreview = ({ txDetails, isCompleted }: Props) => {
               isLast={(txDetails.legs.length || 1) - 1 === index}
               key={`${leg.hash}${leg.txnType}`}
               leg={leg}
+              legTimeLeft={legsTimers[index]?.timeLeft}
               txStatus={txDetails.status}
             />
           ))}
       </Flex>
 
-      <TxDetailsInfo isCompleted={isCompleted} txDetails={txDetails} />
+      <TxDetailsInfo
+        isCompleted={isCompleted}
+        totalTimeLeft={totalTimeLeft}
+        txDetails={txDetails}
+      />
     </Flex>
   );
 };

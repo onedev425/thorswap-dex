@@ -35,6 +35,7 @@ type Props = {
   index: number;
   currentLegIndex: number;
   txStatus?: TxStatus;
+  legTimeLeft?: number | null;
 };
 
 const AnimatedBox = chakra(motion.div, {
@@ -78,7 +79,14 @@ const colorSchemeForChain = {
   [Chain.THORChain]: 'green',
 };
 
-export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: Props) => {
+export const TxLegPreview = ({
+  leg,
+  isLast,
+  index,
+  currentLegIndex,
+  txStatus,
+  legTimeLeft,
+}: Props) => {
   const { finished: isTxFinished } = getTxState(txStatus);
 
   const inAssetIdentifier = leg.fromAsset;
@@ -178,7 +186,7 @@ export const TxLegPreview = ({ leg, isLast, index, currentLegIndex, txStatus }: 
 
           <Flex left={2} position="absolute" top={2}>
             <Flex alignSelf="stretch">
-              <TxLegTimer isTxFinished={isTxFinished} leg={leg} legIndex={index} />
+              <TxLegTimer isTxFinished={isTxFinished} leg={leg} timeLeft={legTimeLeft} />
             </Flex>
           </Flex>
 

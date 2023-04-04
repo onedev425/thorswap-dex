@@ -4,6 +4,7 @@ import { Button, Icon } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { showSuccessToast } from 'components/Toast';
+import { getEstimatedTxDuration } from 'components/TransactionManager/helpers';
 import { TransactionStatusIcon } from 'components/TransactionManager/TransactionStatusIcon';
 import {
   formatDuration,
@@ -24,9 +25,10 @@ import { TxTrackerDetails } from 'store/transactions/types';
 type Props = {
   txDetails: TxTrackerDetails;
   isCompleted: boolean;
+  totalTimeLeft: number | null;
 };
 
-export const TxDetailsInfo = ({ txDetails, isCompleted }: Props) => {
+export const TxDetailsInfo = ({ txDetails, isCompleted, totalTimeLeft }: Props) => {
   const txCounter = useCounter({
     startTimestamp: isCompleted ? null : txDetails.legs?.[0]?.startTimestamp,
   });
@@ -72,8 +74,9 @@ export const TxDetailsInfo = ({ txDetails, isCompleted }: Props) => {
               <TransactionStatusIcon size={18} status={txStatus} />
             ) : (
               <CircularCountdown
-                estimatedDuration={txDetails?.estimatedDuration}
-                startTimestamp={txDetails?.startTimestamp}
+                estimatedDuration={getEstimatedTxDuration(txDetails)}
+                hasDetails={!!txDetails}
+                timeLeft={totalTimeLeft}
               />
             )}
           </Flex>
