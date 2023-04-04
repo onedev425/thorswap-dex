@@ -37,24 +37,29 @@ export const TxDetailsInfo = ({ txDetails, isCompleted, totalTimeLeft }: Props) 
 
   const { legs, firstTransactionHash, status } = txDetails;
   const { error, finished } = getTxState(status);
-  const txid = firstTransactionHash;
   const txStatus = getTxDisplayStatus(status);
-  const hasLegs = legs.length > 0;
   const firstLeg = legs[0];
   const lastLeg = legs[legs.length - 1];
   const duration = getTxDuration(legs);
 
-  const swapLabel =
-    firstLeg.fromAmount && lastLeg.toAmount
-      ? `${Amount.fromAssetAmount(firstLeg.fromAmount, 18).toSignificantWithMaxDecimals(
-          6,
-        )} ${getTickerFromIdentifier(firstLeg.fromAsset || '')} → ${Amount.fromAssetAmount(
-          lastLeg.toAmount,
-          18,
-        ).toSignificantWithMaxDecimals(6)} ${getTickerFromIdentifier(lastLeg.toAsset || '')} `
-      : '';
+  const firstLegInfo =
+    (!!firstLeg.fromAmount &&
+      parseFloat(firstLeg.fromAmount) &&
+      `${Amount.fromAssetAmount(firstLeg.fromAmount, 18).toSignificantWithMaxDecimals(
+        6,
+      )} ${getTickerFromIdentifier(firstLeg.fromAsset || '')}`) ||
+    '';
 
-  const txUrl = `${window.location.origin}/tx/${txid}`;
+  const lastLegInfo =
+    (!!lastLeg.toAmount &&
+      parseFloat(lastLeg.toAmount) &&
+      `${Amount.fromAssetAmount(lastLeg.toAmount, 18).toSignificantWithMaxDecimals(
+        6,
+      )} ${getTickerFromIdentifier(lastLeg.toAsset || '')}`) ||
+    '';
+
+  const swapLabel = `${firstLegInfo}${lastLegInfo ? ` -> ${lastLegInfo}` : ''}`;
+  const txUrl = `${window.location.origin}/tx/${firstTransactionHash}`;
 
   return (
     <Flex direction="column" mt={8} w="full">
@@ -82,9 +87,10 @@ export const TxDetailsInfo = ({ txDetails, isCompleted, totalTimeLeft }: Props) 
           </Flex>
         }
       />
+
       {swapLabel && <InfoRow label={t('txManager.swap')} size="md" value={swapLabel} />}
 
-      {hasLegs && (
+      {legs.length > 0 && (
         <InfoRow
           label={null}
           size="md"
@@ -150,14 +156,14 @@ export const TxDetailsInfo = ({ txDetails, isCompleted, totalTimeLeft }: Props) 
               className="!px-2 h-auto"
               onClick={() => {
                 showSuccessToast(t('txManager.txIdCopied'));
-                copy(txid);
+                copy(firstTransactionHash);
               }}
               rightIcon={<Icon color="primaryBtn" name="copy" size={14} />}
               size="xs"
               tooltip={t('txManager.copyTxId')}
               variant="borderlessTint"
             >
-              {shortenAddress(txid, 8, 8)}
+              {shortenAddress(firstTransactionHash, 8, 8)}
             </Button>
             <Button
               className="!px-2 h-auto"
