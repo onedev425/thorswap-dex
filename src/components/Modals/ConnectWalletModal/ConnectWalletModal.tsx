@@ -42,7 +42,7 @@ const ConnectWalletModal = () => {
   const [walletOptions, setWalletOptions] = useState([] as WalletSection[]);
 
   useEffect(() => {
-    getWalletOptions({ isMdActive }).then(setWalletOptions);
+    setWalletOptions(getWalletOptions({ isMdActive }));
   }, [isMdActive, isConnectModalOpen]);
 
   const supportedByWallet = useMemo(
@@ -140,8 +140,8 @@ const ConnectWalletModal = () => {
 
     try {
       clearState();
-      addReconnectionOnAccountsChanged();
       await handleConnectWallet();
+      addReconnectionOnAccountsChanged();
     } catch (error) {
       console.error(error);
       showErrorToast(`${t('txManager.failed')} ${selectedWalletType}`);
