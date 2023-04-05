@@ -1,4 +1,4 @@
-import type { HistoryInterval, PoolPeriods } from '@thorswap-lib/midgard-sdk';
+import type { HistoryInterval } from '@thorswap-lib/midgard-sdk';
 import useInterval from 'hooks/useInterval';
 import { useCallback, useRef } from 'react';
 import { batch } from 'react-redux';
@@ -29,7 +29,6 @@ const POLL_GAS_RATE_INTERVAL = 10 * 6000; // 60s
 const POLL_DATA_INTERVAL = 5 * 60 * 1000; // 5m
 const MAX_HISTORY_COUNT = 100;
 const PER_DAY = 'day' as HistoryInterval;
-const periods: PoolPeriods[] = ['180d', '100d', '90d', '30d', '7d', '24h', '1h'];
 
 export const useGlobalRefresh = () => {
   const isLoading = useRef(false);
@@ -47,12 +46,9 @@ export const useGlobalRefresh = () => {
       appDispatch(getQueue());
     });
 
-    await appDispatch(getPools(periods[0]));
+    await appDispatch(getPools('180d'));
 
     isLoading.current = false;
-    for (const period of periods.slice(1)) {
-      await appDispatch(getPools(period));
-    }
   }, [appDispatch]);
 
   const refreshPage = useCallback(

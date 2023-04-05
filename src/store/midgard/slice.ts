@@ -82,27 +82,17 @@ const midgardSlice = createSlice({
       })
       .addCase(midgardActions.getPools.fulfilled, (state, { payload, meta }) => {
         const period = meta.arg as string;
-        if (state.pools.length) {
-          state.pools.forEach((pool) => {
-            const updatedPool = payload.find(({ asset }) => asset === pool.detail.asset);
-
-            pool.detail.poolAPY =
-              pool.detail.poolAPY === '0' && updatedPool
-                ? updatedPool.poolAPY
-                : pool.detail.poolAPY;
-            // @ts-expect-error
-            pool.detail.apyPeriod =
-              // @ts-expect-error
-              pool.detail.poolAPY === '0' && updatedPool ? period : pool.detail.apyPeriod;
-          });
-        } else {
-          const withoutInfinityApyPools = payload.map((pool) => ({
+        state.pools = payload
+          .map((pool) => ({
             ...pool,
-            poolAPY: pool.poolAPY !== '+Inf' ? pool.poolAPY : '0',
+            annualPercentageRate:
+              pool.annualPercentageRate === '+Inf' || pool.annualPercentageRate === 'NaN'
+                ? '0'
+                : pool.annualPercentageRate,
             apyPeriod: period,
-          }));
-          state.pools = withoutInfinityApyPools.map(Pool.fromPoolData).filter(Boolean) as Pool[];
-        }
+          }))
+          .map(Pool.fromPoolData)
+          .filter(Boolean) as Pool[];
 
         state.poolLoading = false;
       })

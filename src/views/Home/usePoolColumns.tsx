@@ -1,8 +1,9 @@
 import { Text } from '@chakra-ui/react';
 import { Amount, AssetEntity, Percent, Pool } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Button, Icon } from 'components/Atomic';
+import { Box, Button, Icon, Link, Tooltip } from 'components/Atomic';
 import { getAmountColumnSorter, sortPoolColumn } from 'components/Atomic/Table/utils';
+import { INTRODUCTION_TO_LUVI_URL } from 'config/constants';
 import { formatPrice } from 'helpers/formatPrice';
 import { useRuneToCurrency } from 'hooks/useRuneToCurrency';
 import { BreakPoint } from 'hooks/useWindowSize';
@@ -14,22 +15,10 @@ import { useMidgard } from 'store/midgard/hooks';
 
 type TimePeriods = {
   '180d': string;
-  '100d': string;
-  '90d': string;
-  '30d': string;
-  '7d': string;
-  '24h': string;
-  '1h': string;
 };
 
 const timePeriods: TimePeriods = {
   '180d': '180 days',
-  '100d': '100 days',
-  '90d': '90 days',
-  '30d': '30 days',
-  '7d': '7 days',
-  '24h': '24 hours',
-  '1h': '1 hour',
 };
 
 export const usePoolColumns = () => {
@@ -79,11 +68,24 @@ export const usePoolColumns = () => {
       },
       {
         id: 'apr',
-        Header: () => t('common.APR'),
-        accessor: (row: Pool) => new Percent(row.detail.poolAPY),
+        Header: () => (
+          <>
+            {t('common.APR')}
+            <Tooltip content={t('views.home.aprExplanation')} place="bottom">
+              <Link onClick={(e) => e.stopPropagation()} to={INTRODUCTION_TO_LUVI_URL}>
+                <Icon
+                  className="p-1 text-xs rounded-lg transform mx-1 hover:bg-btn-primary fill-btn-primary hover:fill-white"
+                  name="question"
+                  size={16}
+                />
+              </Link>
+            </Tooltip>
+          </>
+        ),
+        accessor: (row: Pool) => new Percent(row.detail.annualPercentageRate),
         align: 'right',
         Cell: ({ cell: { value } }: { cell: { value: Percent } }) =>
-          value.lte(0) || poolLoading ? (
+          poolLoading ? (
             <Box justify="end">
               <Icon spin name="loader" size={16} />
             </Box>
@@ -94,7 +96,8 @@ export const usePoolColumns = () => {
       },
       {
         id: 'aprPeriod',
-        Header: () => t('common.APRPeriod'),
+        Header: () => <>{t('common.APRPeriod')}</>,
+        disableSortBy: true,
         // @ts-expect-error
         accessor: (row: Pool) => row.detail.apyPeriod,
         align: 'right',
