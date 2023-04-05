@@ -3,10 +3,9 @@ import { Chain } from '@thorswap-lib/types';
 import { getGasRateByFeeOption, getNetworkFeeByAsset } from 'helpers/networkFee';
 import { getAssetBalance } from 'helpers/wallet';
 import { useCallback } from 'react';
-import { useAppDispatch, useAppSelector } from 'store/store';
+import { useAppSelector } from 'store/store';
 
 export const useBalance = () => {
-  const dispatch = useAppDispatch();
   const { feeOptionType, wallet, inboundGasRate } = useAppSelector(
     ({ app: { feeOptionType }, wallet: { wallet }, midgard: { inboundGasRate } }) => ({
       wallet,

@@ -45,7 +45,10 @@ export const useRuneToCurrency = (abbreviate: boolean = true) => {
   const { baseCurrency } = useApp();
   const { pools } = useMidgard();
 
-  const formatter = useCallback((value: number) => (abbreviate ? toAbbreviate(value) : value), []);
+  const formatter = useCallback(
+    (value: number) => (abbreviate ? toAbbreviate(value) : value),
+    [abbreviate],
+  );
   const runePrice = useRunePrice(pools[0]);
 
   const runeToCurrency = useCallback(
