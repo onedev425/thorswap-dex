@@ -359,7 +359,15 @@ export const CreateLiquidity = () => {
     return { valid: true };
   }, [isLPActionPaused, runeAmount, assetAmount, minRuneAmount, minAssetAmount, inputAssets]);
 
-  const isApproveRequired = useMemo(() => isApproved !== null && !isApproved, [isApproved]);
+  const isInputWalletConnected = useMemo(
+    () => poolAsset && hasWalletConnected({ wallet, inputAssets: [poolAsset] }),
+    [wallet, poolAsset],
+  );
+
+  const isApproveRequired = useMemo(
+    () => isInputWalletConnected && isApproved === false,
+    [isInputWalletConnected, isApproved],
+  );
 
   const poolAssetInput = useMemo(
     () => ({

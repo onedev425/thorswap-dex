@@ -1,9 +1,8 @@
 import { Chain, EVMWalletOptions, WalletOption } from '@thorswap-lib/types';
-import { evmWallet } from '@thorswap-lib/web-extensions';
 import { IconName } from 'components/Atomic';
 import { showErrorToast } from 'components/Toast';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
 
@@ -34,9 +33,11 @@ type UseWalletOptionsParams = {
 };
 
 export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
-  const walletOptions = useMemo(
-    () =>
-      [
+  const [walletOptions, setWalletOptions] = useState<WalletSection[]>([]);
+
+  useEffect(() => {
+    import('@thorswap-lib/toolbox-evm').then(({ getETHDefaultWallet, isDetected }) => {
+      setWalletOptions([
         {
           title: t('views.walletModal.softwareWallets'),
           items: [
@@ -55,19 +56,18 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
               type: WalletType.MetaMask,
               icon: 'metamask',
               disabled:
-                evmWallet.getETHDefaultWallet() !== WalletOption.METAMASK ||
-                evmWallet.isDetected(WalletOption.BRAVE),
+                getETHDefaultWallet() !== WalletOption.METAMASK || isDetected(WalletOption.BRAVE),
               label: t('views.walletModal.metaMask'),
-              tooltip: evmWallet.isDetected(WalletOption.BRAVE)
+              tooltip: isDetected(WalletOption.BRAVE)
                 ? t('views.walletModal.disableBraveWallet')
-                : evmWallet.getETHDefaultWallet() !== WalletOption.METAMASK
+                : getETHDefaultWallet() !== WalletOption.METAMASK
                 ? t('views.walletModal.disableDefaultWallet', {
-                    wallet: WalletNameByWalletOption[evmWallet.getETHDefaultWallet()],
+                    wallet: WalletNameByWalletOption[getETHDefaultWallet()],
                   })
                 : '',
             },
             {
-              disabled: !evmWallet.isDetected(WalletOption.COINBASE_WEB),
+              disabled: !isDetected(WalletOption.COINBASE_WEB),
               icon: 'coinbaseWallet' as IconName,
               type: WalletType.CoinbaseExtension,
               visible: isMdActive,
@@ -80,12 +80,12 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
               label: t('views.walletModal.xdefi'),
             },
             {
-              disabled: !evmWallet.isDetected(WalletOption.BRAVE),
+              disabled: !isDetected(WalletOption.BRAVE),
               icon: 'brave' as IconName,
               type: WalletType.Brave,
               visible: isMdActive,
               label: t('views.walletModal.braveWallet'),
-              tooltip: !evmWallet.isDetected(WalletOption.BRAVE)
+              tooltip: !isDetected(WalletOption.BRAVE)
                 ? t('views.walletModal.enableBraveWallet')
                 : '',
             },
@@ -101,36 +101,24 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
           title: t('views.walletModal.hardwareWallets'),
           visible: isMdActive,
           items: [
-            {
-              type: WalletType.Ledger,
-              icon: 'ledger',
-              label: t('views.walletModal.ledger'),
-            },
+            { type: WalletType.Ledger, icon: 'ledger', label: t('views.walletModal.ledger') },
           ],
         },
         {
           title: 'Keystore',
           items: [
-            {
-              type: WalletType.Keystore,
-              icon: 'keystore',
-              label: t('views.walletModal.keystore'),
-            },
+            { type: WalletType.Keystore, icon: 'keystore', label: t('views.walletModal.keystore') },
             {
               type: WalletType.CreateKeystore,
               icon: 'plusCircle',
               label: t('views.walletModal.createKeystore'),
             },
-            {
-              type: WalletType.Phrase,
-              icon: 'import',
-              label: t('views.walletModal.importPhrase'),
-            },
+            { type: WalletType.Phrase, icon: 'import', label: t('views.walletModal.importPhrase') },
           ],
         },
-      ] as WalletSection[],
-    [isMdActive],
-  );
+      ]);
+    });
+  }, [isMdActive]);
 
   return walletOptions;
 };

@@ -36,11 +36,17 @@ const toAbbreviate = (value: number, decimalPlaces = 2) => {
 const formatAssetToNumber = (amount: Amount) =>
   parseFloat(amount.toSignificant(8).replace(/,/gi, ''));
 
+export const useRunePrice = (pool?: Pool) => {
+  if (!pool) return 0;
+  return formatAssetToNumber(pool.runePriceInAsset.mul(pool.assetUSDPrice));
+};
+
 export const useRuneToCurrency = (abbreviate: boolean = true) => {
   const { baseCurrency } = useApp();
   const { pools } = useMidgard();
 
   const formatter = useCallback((value: number) => (abbreviate ? toAbbreviate(value) : value), []);
+  const runePrice = useRunePrice(pools[0]);
 
   const runeToCurrency = useCallback(
     (runeAmount: Amount) => {
@@ -55,7 +61,6 @@ export const useRuneToCurrency = (abbreviate: boolean = true) => {
       if (!pool || runeAmountNumber === 0) return `$0.00`;
       if (baseCurrency.includes('RUNE')) return `ᚱ ${formatter(runeAmountNumber)}`;
 
-      const runePrice = formatAssetToNumber(pool.runePriceInAsset.mul(pool.assetUSDPrice));
       const runeValue = runeAmountNumber * runePrice;
 
       if (isUSD) return `$${formatter(runeValue)}`;
@@ -65,7 +70,7 @@ export const useRuneToCurrency = (abbreviate: boolean = true) => {
 
       return `${quoteAsset.ticker} ${formatter(assetValue)}`;
     },
-    [baseCurrency, formatter, pools],
+    [baseCurrency, formatter, pools, runePrice],
   );
 
   return runeToCurrency;

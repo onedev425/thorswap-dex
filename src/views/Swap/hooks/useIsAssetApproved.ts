@@ -54,7 +54,6 @@ const useApproveResult = ({
   );
 
   const checkApproved = useCallback(async () => {
-    console.log(cachedResults[cacheKey], assetAmount);
     if (
       cachedResults[cacheKey]?.isApproved &&
       cachedResults[cacheKey]?.approvedAmount - assetAmount > 0

@@ -13,15 +13,17 @@ import {
   Wallet,
 } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
+import BigNumber from 'bignumber.js';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems';
 import { showErrorToast, showInfoToast } from 'components/Toast';
-import { USDAsset } from 'helpers/assets';
+import { RUNEAsset, USDAsset } from 'helpers/assets';
 import { getEstimatedTxTime } from 'helpers/getEstimatedTxTime';
 import { hasWalletConnected } from 'helpers/wallet';
 import { useMimir } from 'hooks/useMimir';
 import { getSumAmountInUSD, useNetworkFee } from 'hooks/useNetworkFee';
 import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
+import { useRunePrice } from 'hooks/useRuneToCurrency';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { midgardApi } from 'services/midgard';
@@ -89,6 +91,7 @@ export const useAddLiquidity = ({
       liquidityType,
     });
 
+  const runePrice = useRunePrice(pools[0]);
   const isSymDeposit = useMemo(
     () => liquidityType === LiquidityTypeOption.SYMMETRICAL && !expertMode,
     [liquidityType, expertMode],
@@ -171,22 +174,6 @@ export const useAddLiquidity = ({
         ? Amount.fromMidgard(poolMemberDetail.assetPending)
         : assetAmount,
   });
-
-  const runeAssetPriceInUSD = useMemo(() => {
-    if (isRunePending && poolMemberDetail) {
-      return new Price({
-        baseAsset: runeAsset,
-        pools,
-        priceAmount: Amount.fromMidgard(poolMemberDetail.runePending),
-      });
-    }
-
-    new Price({
-      baseAsset: runeAsset,
-      pools,
-      priceAmount: runeAmount,
-    });
-  }, [runeAmount, pools, isRunePending, poolMemberDetail]);
 
   const { maxSymAssetAmount, maxSymRuneAmount } = useMemo(() => {
     if (!pool) {
@@ -583,13 +570,15 @@ export const useAddLiquidity = ({
     memberData,
   ]);
 
-  const isApproveRequired = useMemo(() => {
-    if (liquidityType !== LiquidityTypeOption.RUNE && isApproved !== null && !isApproved) {
-      return true;
-    }
+  const isInputWalletConnected = useMemo(
+    () => poolAsset && hasWalletConnected({ wallet, inputAssets: [poolAsset] }),
+    [wallet, poolAsset],
+  );
 
-    return false;
-  }, [isApproved, liquidityType]);
+  const isApproveRequired = useMemo(
+    () => isInputWalletConnected && isApproved === false,
+    [isInputWalletConnected, isApproved],
+  );
 
   const poolAssetInput = useMemo(
     () => ({
@@ -612,22 +601,22 @@ export const useAddLiquidity = ({
   );
 
   const runeAssetInput = useMemo(() => {
-    if (isRunePending && poolMemberDetail) {
-      return {
-        asset: runeAsset,
-        value: Amount.fromMidgard(poolMemberDetail.runePending),
-        balance: runeBalance,
-        usdPrice: runeAssetPriceInUSD,
-      };
-    }
+    const value =
+      isRunePending && poolMemberDetail
+        ? Amount.fromMidgard(poolMemberDetail.runePending)
+        : runeAmount;
 
     return {
       asset: runeAsset,
-      value: runeAmount,
       balance: runeBalance,
-      usdPrice: runeAssetPriceInUSD,
+      usdPrice: new Price({
+        baseAsset: RUNEAsset,
+        unitPrice: new BigNumber(runePrice || 0),
+        priceAmount: value,
+      }),
+      value,
     };
-  }, [runeAmount, runeBalance, runeAssetPriceInUSD, isRunePending, poolMemberDetail]);
+  }, [isRunePending, poolMemberDetail, runeAmount, runeBalance, runePrice]);
 
   const title = useMemo(() => `Add ${poolAsset.ticker} Liquidity`, [poolAsset]);
 
