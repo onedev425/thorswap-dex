@@ -1,5 +1,5 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetEntity, isGasAsset } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { isAVAXAsset, isETHAsset } from 'helpers/assets';
 import debounce from 'lodash.debounce';
@@ -43,7 +43,7 @@ const useApproveResult = ({
 }) => {
   const [{ isApproved, approvedAmount }, setApproved] = useState({
     approvedAmount: 0,
-    isApproved: !isWalletConnected,
+    isApproved: isGasAsset(asset) || !isWalletConnected,
   });
   const [isLoading, setIsLoading] = useState(false);
   const cacheKey = useMemo(() => `${asset.symbol}-${contract || 'all'}`, [asset.symbol, contract]);

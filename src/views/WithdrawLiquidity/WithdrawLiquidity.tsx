@@ -472,14 +472,17 @@ const WithdrawPanel = ({
     ),
   });
 
+  const hasPending = useMemo(
+    () => shareTypes.some((type) => type === PoolShareType.PENDING),
+    [shareTypes],
+  );
   const disabledPendingWithdraw = useMemo(() => {
-    const hasPending = shareTypes.some((type) => type === PoolShareType.PENDING);
     const hasLiquidityDeposit = shareTypes.some((type) =>
       [PoolShareType.SYM, PoolShareType.ASSET_ASYM, PoolShareType.RUNE_ASYM].includes(type),
     );
 
     return hasPending && hasLiquidityDeposit;
-  }, [shareTypes]);
+  }, [hasPending, shareTypes]);
 
   return (
     <PanelView
@@ -511,11 +514,13 @@ const WithdrawPanel = ({
         runeAmount={runeAmount}
       />
 
-      <InfoTip
-        onClick={() => navigate(getAddLiquidityRoute(pool.asset))}
-        title={t('pendingLiquidity.content', { asset: `${poolAsset.ticker} or RUNE` })}
-        type="warn"
-      />
+      {hasPending && (
+        <InfoTip
+          onClick={() => navigate(getAddLiquidityRoute(pool.asset))}
+          title={t('pendingLiquidity.content', { asset: `${poolAsset.ticker} or RUNE` })}
+          type="warn"
+        />
+      )}
 
       <Box className="w-full pt-4">
         <InfoTable horizontalInset items={confirmInfo} />
