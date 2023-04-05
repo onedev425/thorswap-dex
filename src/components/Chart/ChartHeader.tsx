@@ -1,26 +1,28 @@
 import { Text } from '@chakra-ui/react';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { Box } from 'components/Atomic';
-import { abbreviateNumber } from 'helpers/number';
+import { useRuneToCurrency } from 'hooks/useRuneToCurrency';
 import { memo } from 'react';
 
 type Props = {
   title: string;
   values: number[];
-  unit: string;
 };
 
-export const ChartHeader = memo(({ unit, values, title }: Props) => {
+export const ChartHeader = memo(({ values, title }: Props) => {
+  const runeToCurrency = useRuneToCurrency();
+  const lastValue = values?.[values?.length - 1] ?? 0;
   const changePercentage =
-    values.length >= 2 ? (values[values.length - 1] / values[values.length - 2]) * 100 - 100 : 0;
+    values.length >= 2 ? (lastValue / values[values.length - 2]) * 100 - 100 : 0;
+
+  const formattedValue = runeToCurrency(Amount.fromNormalAmount(lastValue));
 
   return (
     <Box alignCenter className="lg:flex-row" justify="start">
       <Text as="span" textStyle="h3">
         {title}
 
-        <span className="text-blue dark:text-btn-primary">
-          {` ${unit}${abbreviateNumber(values?.[values.length - 1] ?? 0, 2)} `}
-        </span>
+        <span className="text-blue dark:text-btn-primary">{` ${formattedValue} `}</span>
 
         <Text
           as="span"

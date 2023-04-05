@@ -18,12 +18,10 @@ export const GlobalChart = memo(() => {
   const [liquidityChartIndex, setLiquidityChartIndex] = useState<string>(
     LiquidityChartIndex.Liquidity,
   );
-  const { unit, volumeChartData, liquidityChartData } = useGlobalChartInfo();
+  const { volumeChartData, liquidityChartData } = useGlobalChartInfo();
   const { hideCharts } = useApp();
 
-  if (hideCharts) {
-    return null;
-  }
+  if (hideCharts) return null;
 
   return (
     <Box col className="lg:grid lg:grid-rows-1 lg:grid-cols-2 lg:gap-x-8 w-full box-border">
@@ -35,7 +33,6 @@ export const GlobalChart = memo(() => {
           selectChart={setVolumeChartIndex}
           selectedIndex={volumeChartIndex}
           title={t('views.home.chart_volume')}
-          unit={unit}
         />
       </Box>
 
@@ -48,7 +45,6 @@ export const GlobalChart = memo(() => {
           selectChart={setLiquidityChartIndex}
           selectedIndex={liquidityChartIndex}
           title={t('views.home.chart_liquidity')}
-          unit={unit}
         />
       </Box>
     </Box>

@@ -21,7 +21,6 @@ export const Chart = memo(
     hasGrid = false,
     previewChartType = ChartType.Bar,
     selectChart,
-    unit,
     abbreviateValues,
   }: ChartProps) => {
     const chartTimeFrames = [t('components.chart.week'), t('components.chart.all')];
@@ -35,7 +34,6 @@ export const Chart = memo(
       hasGrid,
       hideLabel,
       abbreviateValues,
-      unit,
     });
 
     const chartElement = useMemo(() => {
@@ -55,7 +53,7 @@ export const Chart = memo(
     return (
       <Box col className={classNames('w-full h-full', className)}>
         <Box alignCenter row justify="between">
-          <ChartHeader title={title} unit={unit} values={values} />
+          <ChartHeader title={title} values={values} />
 
           <Select
             activeIndex={chartTimeFrame}

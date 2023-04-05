@@ -44,6 +44,5 @@ export type ChartProps = {
   selectChart: (value: string) => void;
   selectedIndex: string;
   title: string;
-  unit: string;
   abbreviateValues?: boolean;
 };
