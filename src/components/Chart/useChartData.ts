@@ -17,6 +17,7 @@ type Params = {
   hasGrid: boolean;
   chartTimeFrame: ChartTimeFrame;
   abbreviateValues?: boolean;
+  unit: string;
 };
 
 export const useChartData = ({

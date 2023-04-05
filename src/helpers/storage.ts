@@ -1,6 +1,6 @@
-import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain, Keystore } from '@thorswap-lib/types';
 import { HandleWalletConnectParams } from 'components/Modals/ConnectWalletModal/hooks';
+import { USDAsset } from 'helpers/assets';
 import { MultisigWallet } from 'store/multisig/types';
 import { TransactionsState } from 'store/transactions/types';
 import { SupportedLanguages, ThemeType, ThousandSeparator, ViewMode } from 'types/app';
@@ -114,7 +114,7 @@ const defaultValues: StorageType = {
   nodeWatchList: [] as string[],
   seenAnnList: [] as string[],
 
-  baseCurrency: getSignatureAssetFor('USD').toString(),
+  baseCurrency: USDAsset.toString(),
   language: 'en',
   slippageTolerance: '3',
   themeType: ThemeType.Auto,

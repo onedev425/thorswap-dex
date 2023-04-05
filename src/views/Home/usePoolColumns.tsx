@@ -65,8 +65,7 @@ export const usePoolColumns = () => {
         Header: () => t('common.liquidity'),
         accessor: (row: Pool) => Amount.fromMidgard(row.detail.runeDepth).mul(2),
         align: 'right',
-        Cell: ({ cell: { value } }: { cell: { value: Amount } }) =>
-          runeToCurrency(value).toCurrencyFormat(2),
+        Cell: ({ cell: { value } }: { cell: { value: Amount } }) => runeToCurrency(value),
         sortType: getAmountColumnSorter('liquidity'),
       },
       {
@@ -74,8 +73,7 @@ export const usePoolColumns = () => {
         Header: () => t('common.24Volume'),
         accessor: (row: Pool) => Amount.fromMidgard(row.detail.volume24h),
         align: 'right',
-        Cell: ({ cell: { value } }: { cell: { value: Amount } }) =>
-          runeToCurrency(value).toCurrencyFormat(2),
+        Cell: ({ cell: { value } }: { cell: { value: Amount } }) => runeToCurrency(value),
         minScreenSize: BreakPoint.lg,
         sortType: getAmountColumnSorter('volume24h'),
       },
@@ -85,7 +83,13 @@ export const usePoolColumns = () => {
         accessor: (row: Pool) => new Percent(row.detail.poolAPY),
         align: 'right',
         Cell: ({ cell: { value } }: { cell: { value: Percent } }) =>
-          value.lte(0) && poolLoading ? <Icon spin name="loader" size={16} /> : value.toFixed(2),
+          !value.lte(0) && !poolLoading ? (
+            <Box justify="end">
+              <Icon spin name="loader" size={16} />
+            </Box>
+          ) : (
+            value.toFixed(2)
+          ),
         sortType: getAmountColumnSorter('apr'),
       },
       {

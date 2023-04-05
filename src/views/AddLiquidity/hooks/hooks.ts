@@ -16,6 +16,7 @@ import { Chain } from '@thorswap-lib/types';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems';
 import { showErrorToast, showInfoToast } from 'components/Toast';
+import { USDAsset } from 'helpers/assets';
 import { getEstimatedTxTime } from 'helpers/getEstimatedTxTime';
 import { hasWalletConnected } from 'helpers/wallet';
 import { useMimir } from 'hooks/useMimir';
@@ -457,11 +458,11 @@ export const useAddLiquidity = ({
     }
 
     if (liquidityType === LiquidityTypeOption.ASSET) {
-      return inboundAssetFee.totalPriceIn(getSignatureAssetFor('USD'), pools).toCurrencyFormat(2);
+      return inboundAssetFee.totalPriceIn(USDAsset, pools).toCurrencyFormat(2);
     }
 
     // Rune asym
-    return inboundRuneFee.totalPriceIn(getSignatureAssetFor('USD'), pools).toCurrencyFormat(2);
+    return inboundRuneFee.totalPriceIn(USDAsset, pools).toCurrencyFormat(2);
   }, [liquidityType, inboundRuneFee, inboundAssetFee, pools]);
 
   const depositAssets: AssetEntity[] = useMemo(() => {

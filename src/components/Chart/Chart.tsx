@@ -35,6 +35,7 @@ export const Chart = memo(
       hasGrid,
       hideLabel,
       abbreviateValues,
+      unit,
     });
 
     const chartElement = useMemo(() => {

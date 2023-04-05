@@ -6,6 +6,7 @@ import {
   Pool,
 } from '@thorswap-lib/swapkit-core';
 import { Chain, FeeOption } from '@thorswap-lib/types';
+import { USDAsset } from 'helpers/assets';
 import { getGasRateByFeeOption, getNetworkFeeByAsset } from 'helpers/networkFee';
 import { useCallback } from 'react';
 import { useMidgard } from 'store/midgard/hooks';
@@ -103,7 +104,7 @@ export const useNetworkFee = ({
       inputAsset,
       outboundFee,
       inboundFee,
-    }).totalPriceIn(getSignatureAssetFor('USD'), pools),
+    }).totalPriceIn(USDAsset, pools),
   };
 };
 
@@ -112,8 +113,8 @@ export const getSumAmountInUSD = (
   assetAmount2: AssetAmount | null,
   pools: Pool[],
 ) => {
-  const assetAmount1InUSD = assetAmount1?.totalPriceIn(getSignatureAssetFor('USD'), pools);
-  const assetAmount2InUSD = assetAmount2?.totalPriceIn(getSignatureAssetFor('USD'), pools);
+  const assetAmount1InUSD = assetAmount1?.totalPriceIn(USDAsset, pools);
+  const assetAmount2InUSD = assetAmount2?.totalPriceIn(USDAsset, pools);
   const decimal = assetAmount1?.asset.decimal || 8;
 
   if (assetAmount1InUSD && assetAmount2InUSD) {

@@ -37,7 +37,7 @@ export const PoolCard = ({ pool, color }: PoolCardProps) => {
           </Text>
 
           <Text className="mb-2" fontWeight="semibold" variant="secondary">
-            {runeToCurrency(Amount.fromMidgard(pool.detail.runeDepth).mul(2)).toCurrencyFormat(2)}
+            {runeToCurrency(Amount.fromMidgard(pool.detail.runeDepth).mul(2))}
           </Text>
 
           <Text fontWeight="semibold" variant="green">

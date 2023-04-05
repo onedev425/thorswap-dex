@@ -4,6 +4,7 @@ import { MenuItemType } from 'components/AppPopoverMenu/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { IconName } from 'components/Atomic';
 import { useTheme } from 'components/Theme/ThemeContext';
+import { USDAsset } from 'helpers/assets';
 import { useMemo, useState } from 'react';
 import { changeAppLanguage, FLAG_ICONS, LANGUAGE_NAMES, t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
@@ -72,14 +73,12 @@ const useMainMenu = (setMenuType: (val: MenuType) => void) => {
   const { themeType, thousandSeparator, language, baseCurrency } = useApp();
 
   const currencyAsset = useMemo(() => {
-    if (baseCurrency.includes('USD')) return getSignatureAssetFor('USD');
+    if (baseCurrency.includes('USD')) return USDAsset;
     if (baseCurrency.includes(Chain.Bitcoin)) return getSignatureAssetFor(Chain.Bitcoin);
     if (baseCurrency.includes(Chain.Ethereum)) return getSignatureAssetFor(Chain.Ethereum);
 
     return getSignatureAssetFor(Chain.THORChain);
   }, [baseCurrency]);
-
-  console.log(baseCurrency);
 
   const mainMenu: MenuItemType[] = [
     {
@@ -166,8 +165,8 @@ const useCurrencyMenu = (onBack: () => void) => {
     {
       label: 'USD',
       icon: 'currencyDollar',
-      onClick: () => onCurrencyClick(getSignatureAssetFor('USD')),
-      isSelected: isCurrencySelected(getSignatureAssetFor('USD')),
+      onClick: () => onCurrencyClick(USDAsset),
+      isSelected: isCurrencySelected(USDAsset),
     },
     {
       label: 'RUNE',

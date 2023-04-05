@@ -62,9 +62,11 @@ export const generateRandomTimeSeries = (minValue: number, maxValue: number) => 
 export const parseChartData = (chartData: { value: string; time: number }[]) =>
   chartData.reduce(
     (acc, { time, value }) => {
-      const [amount] = value.split(' ');
+      const amount = value.split(' ')[1] || value;
+      const parsedValue = Number(amount.replace('$', '').split(',').join(''));
+
       acc.labels.push(dayjs.unix(time).format('MMM DD'));
-      acc.values.push(Number(amount.replace('$', '').split(',').join('')));
+      acc.values.push(parsedValue);
       return acc;
     },
     { labels: [] as string[], values: [] as number[] },

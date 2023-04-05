@@ -12,7 +12,7 @@ export const STATIC_API = 'https://static.thorswap.net';
 export const THORNODE_URL = 'https://thornode.thorswap.net/thorchain';
 
 const MIDGARD_STAGENET_API = 'https://stagenet-midgard.ninerealms.com';
-const MIDGARD_MAINNET_API = 'https://midgard.thorswap.net';
+const MIDGARD_MAINNET_API = MIDGARD_DEV_API; // 'https://midgard.thorswap.net';
 export const MIDGARD_URL = IS_STAGENET ? MIDGARD_STAGENET_API : MIDGARD_MAINNET_API;
 
 export const midgardAPIUrl = (url: string) => `${MIDGARD_URL}/v2/${url}`;

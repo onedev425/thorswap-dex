@@ -18,25 +18,21 @@ export const NodeStats = () => {
         iconName: 'chartPie',
         color: 'yellow',
         label: t('views.nodes.totalBond'),
-        value: `${runeToCurrency(totalBond).toCurrencyFormat(2)} (${totalBond.toAbbreviate(1)} ᚱ)`,
+        value: `${runeToCurrency(totalBond)} (${totalBond.toAbbreviate(1)} ᚱ)`,
         tooltip: t('views.nodes.detail.totalBond'),
       },
       {
         iconName: 'lightning',
         color: 'pink',
         label: t('views.nodes.detail.activeBond'),
-        value: `${runeToCurrency(totalActiveBond).toCurrencyFormat(
-          2,
-        )} (${totalActiveBond.toAbbreviate(1)} ᚱ)`,
+        value: `${runeToCurrency(totalActiveBond)} (${totalActiveBond.toAbbreviate(1)} ᚱ)`,
         tooltip: t('views.nodes.detail.activeBondTooltip'),
       },
       {
         iconName: 'wifi',
         color: 'red',
         label: t('views.nodes.detail.standbyBond'),
-        value: `${runeToCurrency(totalStandbyBond).toCurrencyFormat(
-          2,
-        )} (${totalStandbyBond.toAbbreviate(1)} ᚱ)`,
+        value: `${runeToCurrency(totalStandbyBond)} (${totalStandbyBond.toAbbreviate(1)} ᚱ)`,
         tooltip: t('views.nodes.detail.standbyBondTooltip'),
       },
       {
@@ -51,7 +47,7 @@ export const NodeStats = () => {
         label: t('views.nodes.detail.dailyBondRewards'),
         value: `${runeToCurrency(
           Amount.fromMidgard(networkData?.blockRewards?.bondReward).mul(14400),
-        ).toCurrencyFormat(2)} `,
+        )} `,
       },
       {
         iconName: 'fire',

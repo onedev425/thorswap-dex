@@ -21,39 +21,35 @@ export const useGlobalStatsData = () => {
         iconName: 'lockFill',
         color: 'yellow',
         label: 'TVL',
-        value: runeToCurrency(tvlInRune).toCurrencyFormat(2),
+        value: runeToCurrency(tvlInRune),
         tooltip: t('views.stats.tvlTooltip'),
       },
       {
         iconName: 'chartArea',
         color: 'purple',
         label: t('views.stats.totalLiq'),
-        value: runeToCurrency(
-          Amount.fromMidgard(networkData?.totalPooledRune).mul(2),
-        ).toCurrencyFormat(2),
+        value: runeToCurrency(Amount.fromMidgard(networkData?.totalPooledRune).mul(2)),
         tooltip: t('views.stats.totalLiqTooltip'),
       },
       {
         iconName: 'chartCandle',
         color: 'pink',
         label: t('views.stats.totalBond'),
-        value: `${runeToCurrency(totalActiveBond).toCurrencyFormat(2)}`,
+        value: `${runeToCurrency(totalActiveBond)}`,
         tooltip: t('views.stats.totalBondTooltip'),
       },
       {
         iconName: 'barchart',
         color: 'blueLight',
         label: t('views.stats.totalVolume'),
-        value: runeToCurrency(totalVolume).toCurrencyFormat(2),
+        value: runeToCurrency(totalVolume),
         tooltip: t('views.stats.totalVolumeTooltip'),
       },
       {
         iconName: 'history',
         color: 'yellow',
         label: t('views.stats.24Volume'),
-        value: volume24h
-          ? runeToCurrency(Amount.fromMidgard(volume24h || 0)).toCurrencyFormat(2)
-          : '-',
+        value: volume24h ? runeToCurrency(Amount.fromMidgard(volume24h || 0)) : '-',
         tooltip: t('views.stats.24VolumeTooltip'),
       },
       {

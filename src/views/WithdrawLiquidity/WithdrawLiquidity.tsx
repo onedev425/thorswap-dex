@@ -21,7 +21,7 @@ import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { PanelView } from 'components/PanelView';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
-import { isETHAsset, poolByAsset } from 'helpers/assets';
+import { isETHAsset, poolByAsset, USDAsset } from 'helpers/assets';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { hasWalletConnected } from 'helpers/wallet';
 import { useMimir } from 'hooks/useMimir';
@@ -189,12 +189,12 @@ const WithdrawPanel = ({
   const feeLabel = useMemo(() => {
     if (withdrawType === LiquidityTypeOption.ASSET) {
       return `${inboundAssetFee.toCurrencyFormat()} (${inboundAssetFee
-        .totalPriceIn(getSignatureAssetFor('USD'), pools)
+        .totalPriceIn(USDAsset, pools)
         .toCurrencyFormat(2)})`;
     }
 
     return `${inboundRuneFee.toCurrencyFormat()} (${inboundRuneFee
-      .totalPriceIn(getSignatureAssetFor('USD'), pools)
+      .totalPriceIn(USDAsset, pools)
       .toCurrencyFormat(2)})`;
   }, [inboundAssetFee, inboundRuneFee, pools, withdrawType]);
 

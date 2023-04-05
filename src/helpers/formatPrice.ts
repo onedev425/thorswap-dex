@@ -1,6 +1,5 @@
-import { Amount, AssetEntity, Pool, Price } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import BigNumber from 'bignumber.js';
-import { RUNEAsset } from 'helpers/assets';
 import { useCallback, useMemo } from 'react';
 import { useApp } from 'store/app/hooks';
 
@@ -104,19 +103,3 @@ export const useFormatPrice = (options?: FormatOptions) => {
     [format, options],
   );
 };
-
-export const runeToAssetPrice = ({
-  runeAmount,
-  quoteAsset,
-  pools,
-}: {
-  runeAmount: Amount;
-  quoteAsset?: AssetEntity | null;
-  pools: Pool[];
-}) =>
-  new Price({
-    baseAsset: RUNEAsset,
-    quoteAsset: quoteAsset || RUNEAsset,
-    pools,
-    priceAmount: runeAmount,
-  });
