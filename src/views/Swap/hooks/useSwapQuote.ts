@@ -1,8 +1,11 @@
-import { Amount, AssetEntity, QuoteRoute } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
+import { getOutOufPocketFee } from 'hooks/useRouteFees';
 import { useEffect, useMemo, useState } from 'react';
 import { useApp } from 'store/app/hooks';
 import { useGetTokensQuoteQuery } from 'store/thorswap/api';
+import { useAssetApprovalCheck } from 'views/Swap/hooks/useIsAssetApproved';
 
 type Params = {
   affiliateBasisPoints: string;
@@ -22,8 +25,10 @@ export const useSwapQuote = ({
   recipientAddress,
   senderAddress,
 }: Params) => {
-  const [swapQuote, setSwapRoute] = useState<QuoteRoute>();
+  const [approvalsLoading, setApprovalsLoading] = useState<boolean>(false);
+  const [swapQuote, setSwapRoute] = useState<RouteWithApproveType>();
   const { slippageTolerance } = useApp();
+  const [routes, setRoutes] = useState<RouteWithApproveType[]>([]);
 
   const params = useMemo(
     () => ({
@@ -47,6 +52,7 @@ export const useSwapQuote = ({
   );
 
   const tokenQuoteParams = useDebouncedValue(params, 300);
+  const checkApprove = useAssetApprovalCheck();
 
   const {
     refetch,
@@ -58,18 +64,42 @@ export const useSwapQuote = ({
     skip: tokenQuoteParams.sellAmount === '0' || inputAmount.assetAmount.isZero(),
   });
 
-  const routes = useMemo(() => {
-    if (!data?.routes || inputAmount.lte(0)) return [];
+  useEffect(() => {
+    if (!data?.routes || inputAmount.lte(0)) return setRoutes([]);
 
-    return data.routes
-      .filter(Boolean)
-      .concat()
-      .sort(
-        (a, b) =>
-          Number(b.optimal) - Number(a.optimal) ||
-          Number(b.expectedOutputMaxSlippage) - Number(a.expectedOutputMaxSlippage),
-      );
-  }, [inputAmount, data?.routes]);
+    setApprovalsLoading(true);
+    try {
+      const routesWithApprovePromise = data.routes.map(async (route) => {
+        const { isApproved } = await checkApprove({ asset: inputAsset, contract: route.contract });
+
+        return { ...route, isApproved };
+      });
+
+      Promise.all(routesWithApprovePromise).then((routesWithApprove) => {
+        const sortedRoutes = routesWithApprove
+          .filter(Boolean)
+          .concat()
+          .sort((a, b) => {
+            const isOptimal = Number(b.optimal) - Number(a.optimal) > 0;
+            const aValue = Number(a.expectedOutputMaxSlippageUSD);
+            const bValue = Number(b.expectedOutputMaxSlippageUSD);
+
+            const aSlippValue = a.isApproved ? aValue + getOutOufPocketFee(a.fees) : aValue;
+            const bSlippValue = b.isApproved ? bValue + getOutOufPocketFee(b.fees) : bValue;
+            const slippDiff = bSlippValue - aSlippValue;
+
+            const feeDiff =
+              slippDiff === 0 ? getOutOufPocketFee(b.fees) - getOutOufPocketFee(a.fees) : 0;
+
+            return slippDiff || feeDiff || (isOptimal ? 1 : -1);
+          });
+
+        setRoutes(sortedRoutes);
+      });
+    } finally {
+      setApprovalsLoading(false);
+    }
+  }, [checkApprove, data?.routes, inputAmount, inputAsset]);
 
   const selectedRoute = useMemo(
     () =>
@@ -106,8 +136,8 @@ export const useSwapQuote = ({
   }, [error, routes]);
 
   return {
-    estimatedTime: data?.estimatedTime,
-    isFetching,
+    estimatedTime: selectedRoute?.estimatedTime,
+    isFetching: approvalsLoading || isLoading || isFetching,
     minReceive,
     outputAmount,
     refetch,

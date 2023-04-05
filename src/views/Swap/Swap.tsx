@@ -1,4 +1,9 @@
-import { AssetEntity, getSignatureAssetFor, QuoteMode } from '@thorswap-lib/swapkit-core';
+import {
+  AssetEntity,
+  getSignatureAssetFor,
+  QuoteMode,
+  QuoteRoute,
+} from '@thorswap-lib/swapkit-core';
 import { BaseDecimal, Chain, WalletOption } from '@thorswap-lib/types';
 import { Box } from 'components/Atomic';
 import { InfoTip } from 'components/InfoTip';
@@ -260,7 +265,7 @@ const SwapView = () => {
     outputAsset,
     quoteMode,
     recipient,
-    route: selectedRoute,
+    route: selectedRoute as unknown as QuoteRoute,
     quoteId,
   });
 
@@ -389,7 +394,6 @@ const SwapView = () => {
       )}
 
       <SwapRouter
-        inputAsset={inputAsset}
         outputAsset={outputAsset}
         outputUSDPrice={outputUSDPrice}
         routes={!isKyberSwapPage ? routes : kyberRoutes}

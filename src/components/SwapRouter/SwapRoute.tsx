@@ -1,49 +1,42 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, AmountType, AssetEntity, QuoteRoute } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { Amount, AmountType, AssetEntity } from '@thorswap-lib/swapkit-core';
 import BigNumber from 'bignumber.js';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { HoverIcon } from 'components/HoverIcon';
 import { GasPriceIndicator } from 'components/SwapRouter/GasPriceIndicator';
+import { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { tokenLogoURL } from 'helpers/logoURL';
 import { memo, useMemo } from 'react';
 import { t } from 'services/i18n';
-import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 
 import { ProviderLogos } from './ProviderLogos';
 
-type Props = QuoteRoute & {
+type Props = RouteWithApproveType & {
   selected?: boolean;
   onClick: () => void;
   selectedQuoteDiff: number;
   outputAsset: AssetEntity;
   unitPrice: BigNumber;
-  inputAsset: AssetEntity;
 };
 
 export const SwapRoute = memo(
   ({
     expectedOutput,
     onClick,
+    isApproved,
     selectedQuoteDiff,
     outputAsset,
     unitPrice,
     path,
     providers,
     selected,
-    contract,
-    inputAsset,
     fees,
   }: Props) => {
     const formatPrice = useFormatPrice();
     const [, address] = outputAsset.symbol.split('-');
-    const { isApproved, isWalletConnected } = useIsAssetApproved({
-      contract,
-      asset: inputAsset,
-    });
 
     const routeOutput = useMemo(
       () => new Amount(new BigNumber(expectedOutput), AmountType.ASSET_AMOUNT, outputAsset.decimal),
@@ -68,17 +61,12 @@ export const SwapRoute = memo(
       [expectedOutput, formatPrice, unitPrice],
     );
 
-    const approved =
-      isWalletConnected &&
-      [Chain.Ethereum, Chain.Avalanche].includes(inputAsset.L1Chain) &&
-      isApproved;
-
     return (
       <HighlightCard className="!px-3 !py-1.5 !gap-0" isFocused={selected} onClick={onClick}>
         <Box justify="between">
           <Box className="py-2">
             <ProviderLogos providers={providers} />
-            {approved && (
+            {isApproved && (
               <Box className={providers.length > 1 ? 'ml-6' : ''}>
                 <HoverIcon
                   iconName="approved"

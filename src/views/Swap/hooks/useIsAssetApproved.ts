@@ -8,19 +8,40 @@ import { fromWei } from 'services/contract';
 import { useTransactionsState } from 'store/transactions/hooks';
 import { useWallet } from 'store/wallet/hooks';
 
-type Params = {
-  force?: boolean;
+export const checkAssetApprove = async ({
+  assetAmount,
+  cacheKey,
+  contract,
+  asset,
+}: {
   asset: AssetEntity;
   contract?: string;
-  amount?: Amount;
-};
+  cacheKey: string;
+  assetAmount: number;
+}) => {
+  if (
+    cachedResults[cacheKey]?.isApproved &&
+    cachedResults[cacheKey]?.approvedAmount - assetAmount > 0
+  ) {
+    return cachedResults[cacheKey];
+  }
 
-const checkAssetApprove = async ({ contract, asset }: Params) => {
   const { isAssetApprovedForContract, isAssetApproved } = await (
     await import('services/swapKit')
   ).getSwapKitClient();
 
-  return await (contract ? isAssetApprovedForContract(asset, contract) : isAssetApproved(asset));
+  const response = await (contract
+    ? isAssetApprovedForContract(asset, contract)
+    : isAssetApproved(asset));
+
+  const approvedAmount =
+    typeof response === 'boolean' ? 100000000 : fromWei(BigNumber.from(response));
+
+  const isApproved = approvedAmount - assetAmount > 0;
+  const approveResponse = { isApproved, approvedAmount };
+
+  cachedResults[cacheKey] = approveResponse;
+  return approveResponse;
 };
 
 let prevNumberOfPendingApprovals = 0;
@@ -54,25 +75,14 @@ const useApproveResult = ({
   );
 
   const checkApproved = useCallback(async () => {
-    if (
-      cachedResults[cacheKey]?.isApproved &&
-      cachedResults[cacheKey]?.approvedAmount - assetAmount > 0
-    ) {
-      setIsLoading(false);
-      return setApproved(cachedResults[cacheKey]);
-    }
-
     try {
-      const approvedAmountResponse = await debouncedCheckAssetApprove.current({ asset, contract });
-      const approvedAmount =
-        typeof approvedAmountResponse === 'boolean'
-          ? 100000000
-          : fromWei(BigNumber.from(approvedAmountResponse));
+      const approveResponse = await debouncedCheckAssetApprove.current({
+        cacheKey,
+        asset,
+        contract,
+        assetAmount,
+      });
 
-      const isApproved = approvedAmount - assetAmount > 0;
-      const approveResponse = { isApproved, approvedAmount };
-
-      cachedResults[cacheKey] = approveResponse;
       setApproved(approveResponse);
     } finally {
       prevNumberOfPendingApprovals = numberOfPendingApprovals;
@@ -99,7 +109,17 @@ const useApproveResult = ({
   return { isApproved, approvedAmount, isLoading };
 };
 
-export const useIsAssetApproved = ({ force, contract, asset, amount }: Params) => {
+export const useIsAssetApproved = ({
+  force,
+  contract,
+  asset,
+  amount,
+}: {
+  force?: boolean;
+  asset: AssetEntity;
+  contract?: string;
+  amount?: Amount;
+}) => {
   const { wallet } = useWallet();
   const { numberOfPendingApprovals } = useTransactionsState();
   const walletAddress = useMemo(() => wallet?.[asset.L1Chain]?.address, [asset.L1Chain, wallet]);
@@ -128,4 +148,23 @@ export const useIsAssetApproved = ({ force, contract, asset, amount }: Params) =
     isWalletConnected: !!walletAddress,
     isLoading: isLoading || numberOfPendingApprovals > 0,
   };
+};
+
+export const useAssetApprovalCheck = () => {
+  const { wallet } = useWallet();
+
+  const handleApprove = useCallback(
+    ({ asset, contract }: { asset: AssetEntity; contract?: string }) =>
+      wallet?.[asset.L1Chain]?.address
+        ? checkAssetApprove({
+            asset,
+            contract,
+            cacheKey: `${asset.symbol}-${contract || 'all'}`,
+            assetAmount: 0,
+          })
+        : Promise.resolve({ isApproved: false, approvedAmount: 0 }),
+    [wallet],
+  );
+
+  return handleApprove;
 };

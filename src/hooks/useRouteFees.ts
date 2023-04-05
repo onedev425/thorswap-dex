@@ -35,3 +35,16 @@ export const useRouteFees = (routeFees: QuoteRoute['fees']) => {
 
   return data;
 };
+
+export const getOutOufPocketFee = (routeFees: QuoteRoute['fees']) => {
+  const data = Object.values(routeFees || {}).flat();
+  if (data.length === 0) return 0;
+
+  const outOfPocketFee = data.reduce((acc, { networkFeeUSD, isOutOfPocket }) => {
+    acc += isOutOfPocket ? networkFeeUSD : 0;
+
+    return acc;
+  }, 0);
+
+  return outOfPocketFee;
+};
