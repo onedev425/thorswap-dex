@@ -83,7 +83,7 @@ export const usePoolColumns = () => {
         accessor: (row: Pool) => new Percent(row.detail.poolAPY),
         align: 'right',
         Cell: ({ cell: { value } }: { cell: { value: Percent } }) =>
-          !value.lte(0) && !poolLoading ? (
+          value.lte(0) || poolLoading ? (
             <Box justify="end">
               <Icon spin name="loader" size={16} />
             </Box>
