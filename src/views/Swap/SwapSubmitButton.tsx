@@ -150,8 +150,8 @@ export const SwapSubmitButton = ({
   }, [isTradingHalted, inputAsset.isSynth, outputAsset.isSynth]);
 
   const isApproveRequired = useMemo(
-    () => isInputWalletConnected && isApproved === false,
-    [isInputWalletConnected, isApproved],
+    () => isInputWalletConnected && !invalidSwap && isApproved === false,
+    [isInputWalletConnected, invalidSwap, isApproved],
   );
 
   const isOutputWalletConnected = useMemo(

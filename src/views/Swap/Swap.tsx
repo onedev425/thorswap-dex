@@ -314,8 +314,8 @@ const SwapView = () => {
   }, [inputAsset, isAvaxTHOR, isEthRUNE]);
 
   const invalidSwap = useMemo(
-    () => !isApproved || inputAmount.gt(maxInputBalance),
-    [inputAmount, isApproved, maxInputBalance],
+    () => inputAmount.gt(maxInputBalance),
+    [inputAmount, maxInputBalance],
   );
 
   const handlePercentInput = useCallback(
