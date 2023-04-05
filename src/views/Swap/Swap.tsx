@@ -1,7 +1,9 @@
 import { AssetEntity, getSignatureAssetFor, QuoteMode } from '@thorswap-lib/swapkit-core';
 import { BaseDecimal, Chain, WalletOption } from '@thorswap-lib/types';
+import { Box } from 'components/Atomic';
 import { InfoTip } from 'components/InfoTip';
 import { PanelView } from 'components/PanelView';
+import { PercentSelect } from 'components/PercentSelect/PercentSelect';
 import { SwapRouter } from 'components/SwapRouter';
 import { AVAX_AGG_PROXY_ADDRESS, ETH_AGG_PROXY_ADDRESS } from 'config/constants';
 import { isAVAXAsset, isETHAsset } from 'helpers/assets';
@@ -316,6 +318,13 @@ const SwapView = () => {
     [inputAmount, isApproved, maxInputBalance],
   );
 
+  const handlePercentInput = useCallback(
+    (value: number) => {
+      setInputAmount(maxInputBalance.mul(value).div(100));
+    },
+    [maxInputBalance, setInputAmount],
+  );
+
   return (
     <PanelView
       description={t('views.swap.description', {
@@ -340,6 +349,12 @@ const SwapView = () => {
         outputAsset={outputAssetProps}
         tokens={tokens}
       />
+
+      {isInputWalletConnected && maxInputBalance.gt(0) && (
+        <Box className="w-full">
+          <PercentSelect onSelect={handlePercentInput} options={[25, 50, 75, 100]} />
+        </Box>
+      )}
 
       <CustomRecipientInput
         isOutputWalletConnected={isOutputWalletConnected}

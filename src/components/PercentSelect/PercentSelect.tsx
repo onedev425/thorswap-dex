@@ -6,9 +6,7 @@ type Props = {
 };
 
 export const PercentSelect = ({ options, onSelect }: Props) => {
-  if (!options.length) {
-    return null;
-  }
+  if (!options.length) return null;
 
   return (
     <Box className="gap-2 flex-1">
