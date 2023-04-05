@@ -312,8 +312,8 @@ export const useHandleWalletTypeSelect = ({
   );
 
   const handleWalletTypeSelect = useCallback(
-    (selectedWallet: WalletType) => {
-      const success = connectSelectedWallet(selectedWallet);
+    async (selectedWallet: WalletType) => {
+      const success = await connectSelectedWallet(selectedWallet);
 
       if (success) {
         handleSuccessWalletConnection(selectedWallet);
