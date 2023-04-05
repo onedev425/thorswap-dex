@@ -2471,10 +2471,10 @@
     "@walletconnect/web3-provider" "1.8.0"
     base64-js "1.5.1"
 
-"@thorswap-lib/web-extensions@1.0.0-development.130":
-  version "1.0.0-development.130"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/web-extensions/-/web-extensions-1.0.0-development.130.tgz#9f082507ef30fcf8ebf9acad2c99cf8931b87f45"
-  integrity sha512-xK+t8ZGy9s7qofFeyJ9WNPtmLT/Du0s9FrIanCPl2oXSgXE6a2XsZ5C8OeKZPnMxAguzeB+2yBkG6AnQEpu8gg==
+"@thorswap-lib/web-extensions@1.0.0-development.131":
+  version "1.0.0-development.131"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/web-extensions/-/web-extensions-1.0.0-development.131.tgz#0314593fbf54cbc7adafd6004ac03787ed8fb9a8"
+  integrity sha512-7obHL6pndfEZGHXIkkNZ+9qp+jPffLPvdSU0qPU9eJfvTF2Xr6wqVA3auvmwvohYAjSRJy4WQ9uBPBor8GLvzQ==
   dependencies:
     "@cosmjs/stargate" "0.29.5"
     "@thorswap-lib/helpers" "0.0.0-development.60"

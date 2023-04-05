@@ -4,7 +4,6 @@ import { getGasRateByFeeOption, getNetworkFeeByAsset } from 'helpers/networkFee'
 import { getAssetBalance } from 'helpers/wallet';
 import { useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/store';
-import * as walletActions from 'store/wallet/actions';
 
 export const useBalance = () => {
   const dispatch = useAppDispatch();
@@ -14,13 +13,6 @@ export const useBalance = () => {
       inboundGasRate,
       feeOptionType,
     }),
-  );
-
-  const reloadBalanceByChain = useCallback(
-    (chain: Chain) => {
-      dispatch(walletActions.getWalletByChain(chain));
-    },
-    [dispatch],
   );
 
   const isWalletAssetConnected = useCallback(
@@ -54,7 +46,6 @@ export const useBalance = () => {
     isWalletAssetConnected,
     isWalletConnected,
     getMaxBalance,
-    reloadBalanceByChain,
     wallet,
   };
 };

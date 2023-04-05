@@ -64,7 +64,10 @@ const useApproveResult = ({
 
     try {
       const approvedAmountResponse = await debouncedCheckAssetApprove.current({ asset, contract });
-      const approvedAmount = fromWei(BigNumber.from(approvedAmountResponse));
+      const approvedAmount =
+        typeof approvedAmountResponse === 'boolean'
+          ? 100000000
+          : fromWei(BigNumber.from(approvedAmountResponse));
 
       const isApproved = approvedAmount - assetAmount > 0;
       const approveResponse = { isApproved, approvedAmount };

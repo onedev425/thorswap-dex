@@ -7,7 +7,9 @@ export const getWalletByChain = createAsyncThunk(
   async (chain: Chain) => {
     const { getWalletByChain } = await (await import('services/swapKit')).getSwapKitClient();
 
-    return { chain, data: await getWalletByChain(chain) };
+    const data = await getWalletByChain(chain);
+
+    return { chain, data };
   },
 );
 
