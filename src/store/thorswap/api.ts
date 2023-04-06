@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { TransactionDetails } from '@thorswap-lib/swapkit-core';
 import { THORSWAP_AFFILIATE_ADDRESS } from 'config/constants';
 import { IS_DEV_API } from 'settings/config';
 import { AnnouncementsData } from 'store/externalConfig/types';
@@ -8,7 +9,6 @@ import {
   GetTokenPriceParams,
   GetTokenPriceResponse,
   GetTokensQuoteParams,
-  GetTokensQuoteResponse,
   GetTxnStatusDetailsParams,
   GetTxnStatusDetailsResponse,
   GetTxnStatusDetailsUpdateParams,
@@ -25,7 +25,7 @@ export const thorswapApi = createApi({
     mode: 'cors',
   }),
   endpoints: (build) => ({
-    getTokensQuote: build.query<GetTokensQuoteResponse, GetTokensQuoteParams>({
+    getTokensQuote: build.query<TransactionDetails, GetTokensQuoteParams>({
       query: ({ senderAddress = '', recipientAddress = '', affiliateBasisPoints, ...rest }) => {
         const queryParams = new URLSearchParams({ ...rest, senderAddress, recipientAddress });
 

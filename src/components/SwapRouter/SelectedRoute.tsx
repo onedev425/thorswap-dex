@@ -1,24 +1,26 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, AmountType, Percent } from '@thorswap-lib/swapkit-core';
+import { Amount, AmountType, AssetEntity, Percent, QuoteRoute } from '@thorswap-lib/swapkit-core';
+import { Chain } from '@thorswap-lib/types';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { Box, Button } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { GasPriceIndicator } from 'components/SwapRouter/GasPriceIndicator';
-import { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useFormatPrice } from 'helpers/formatPrice';
 import React, { memo, useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
+import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 
 import { ProviderLogos } from './ProviderLogos';
 import { RouteGraphModal } from './RouteGraphModal';
 
-type Props = RouteWithApproveType & {
+type Props = QuoteRoute & {
   outputAssetDecimal: number;
   unitPrice: BigNumber;
   slippage: Percent;
   assetTicker: string;
+  inputAsset: AssetEntity;
 };
 
 export const SelectedRoute = memo(
@@ -30,14 +32,16 @@ export const SelectedRoute = memo(
     optimal,
     path,
     providers,
-    isApproved,
     slippage,
     assetTicker,
+    inputAsset,
+    contract,
     fees,
   }: Props) => {
     const [isOpened, setIsOpened] = useState(false);
     const { slippageTolerance } = useApp();
     const formatPrice = useFormatPrice();
+    const { isApproved, isWalletConnected } = useIsAssetApproved({ contract, asset: inputAsset });
 
     const expectedAssetOutput = useMemo(
       () =>
@@ -60,6 +64,11 @@ export const SelectedRoute = memo(
       setIsOpened(true);
     }, []);
 
+    const approved =
+      isWalletConnected &&
+      [Chain.Ethereum, Chain.Avalanche].includes(inputAsset.L1Chain) &&
+      isApproved;
+
     return (
       <Box col className="relative" flex={1}>
         <Box
@@ -77,7 +86,7 @@ export const SelectedRoute = memo(
             <Box className="py-2">
               <ProviderLogos providers={providers} size={32} />
 
-              {isApproved && (
+              {approved && (
                 <Box className={providers.length > 1 ? 'ml-12' : 'ml-2'}>
                   <HoverIcon iconName="approved" size={22} />
                 </Box>

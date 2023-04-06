@@ -1,22 +1,30 @@
-import { AssetEntity as Asset, Percent, Price } from '@thorswap-lib/swapkit-core';
+import { AssetEntity as Asset, Percent, Price, QuoteRoute } from '@thorswap-lib/swapkit-core';
 import { Box, Collapse } from 'components/Atomic';
-import { RouteWithApproveType } from 'components/SwapRouter/types';
 import { memo, useCallback } from 'react';
 
 import { SelectedRoute } from './SelectedRoute';
 import { SwapRoute } from './SwapRoute';
 
 type Props = {
-  routes: RouteWithApproveType[];
+  routes: (QuoteRoute & { approved?: boolean })[];
   outputAsset: Asset;
-  setSwapRoute: (route: RouteWithApproveType) => void;
-  selectedRoute?: RouteWithApproveType;
+  setSwapRoute: (route: QuoteRoute) => void;
+  selectedRoute?: QuoteRoute;
   outputUSDPrice: Price;
   slippage: Percent;
+  inputAsset: Asset;
 };
 
 export const SwapRouter = memo(
-  ({ setSwapRoute, selectedRoute, outputUSDPrice, outputAsset, routes, slippage }: Props) => {
+  ({
+    setSwapRoute,
+    selectedRoute,
+    outputUSDPrice,
+    outputAsset,
+    routes,
+    inputAsset,
+    slippage,
+  }: Props) => {
     const getQuoteDiff = useCallback(
       (expectedQuote: string) => {
         const expectedQuoteNumber = parseFloat(expectedQuote);
@@ -39,6 +47,7 @@ export const SwapRouter = memo(
               <SelectedRoute
                 {...selectedRoute}
                 assetTicker={outputAsset.ticker}
+                inputAsset={inputAsset}
                 outputAssetDecimal={outputAsset.decimal}
                 slippage={slippage}
                 unitPrice={outputUSDPrice.unitPrice}
@@ -50,6 +59,7 @@ export const SwapRouter = memo(
               {routes.map((route) => (
                 <SwapRoute
                   {...route}
+                  inputAsset={inputAsset}
                   key={`${route.path}-${route.providers.join(',')}`}
                   onClick={() => setSwapRoute(route)}
                   outputAsset={outputAsset}

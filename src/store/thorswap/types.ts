@@ -137,63 +137,6 @@ export type GetTokensQuoteParams = {
   slippage: string;
 };
 
-export type GetTokensQuoteResponse = {
-  quoteId: string;
-  routes: [
-    {
-      path: string;
-      providers: string[];
-      subProviders: string[];
-      swaps: QuoteRoute['swaps'];
-      expectedOutput: string;
-      expectedOutputMaxSlippage: string;
-      expectedOutputUSD: string;
-      expectedOutputMaxSlippageUSD: string;
-      transaction: {
-        from: string;
-        to: string;
-        value: number;
-        data: string;
-        gas: number;
-        gasPrice: number;
-      };
-      optimal: boolean;
-      complete: boolean;
-      fees: QuoteRoute['fees'];
-      meta: {
-        sellChain: string;
-        sellChainGasRate: string;
-        buyChain: string;
-        buyChainGasRate: string;
-        priceProtectionRequired: true;
-        priceProtectionDetected: true;
-        quoteMode: string;
-        lastLegEffectiveSlipPercentage: number;
-        thornodeMeta: null;
-      };
-      inboundAddress: string;
-      targetAddress: string;
-      calldata: {
-        fromAsset: string;
-        userAddress: string;
-        assetAddress: string;
-        amountIn: string;
-        amountOut: string;
-        amountOutMin: string;
-        memo: string;
-        expiration: number;
-        tcVault: string;
-        tcRouter: string;
-      };
-      contract: string;
-      contractMethod: string;
-      contractInfo: string;
-      index: number;
-      estimatedTime: number;
-    },
-  ];
-};
-
 export type GetTxnStatusParams = {
   txid: string;
   type?: TransactionType;
