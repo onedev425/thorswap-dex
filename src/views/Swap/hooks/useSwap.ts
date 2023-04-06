@@ -76,6 +76,7 @@ export const useSwap = ({
             sellAmount: inputAmount.toSignificant(),
             sellAmountNormalized: inputAmount.toSignificant(undefined, undefined, {
               groupSeparator: '',
+              decimalSeparator: '.',
             }),
           }),
         );
