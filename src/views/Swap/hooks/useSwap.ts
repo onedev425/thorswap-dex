@@ -74,6 +74,9 @@ export const useSwap = ({
             type: quoteModeToTransactionType[route.meta.quoteMode as QuoteMode.ETH_TO_ETH],
             quoteId,
             sellAmount: inputAmount.toSignificant(),
+            sellAmountNormalized: inputAmount.toSignificant(undefined, undefined, {
+              groupSeparator: '',
+            }),
           }),
         );
 

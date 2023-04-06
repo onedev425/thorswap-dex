@@ -81,6 +81,7 @@ export type PendingTransactionType = {
   route?: QuoteRoute;
   details?: TxTrackerDetails;
   sellAmount?: string;
+  sellAmountNormalized?: string;
   status?: TransactionStatus;
 };
 

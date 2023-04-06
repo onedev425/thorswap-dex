@@ -8,8 +8,18 @@ import { PendingTransactionType } from 'store/transactions/types';
 
 export const useAdvancedTracker = (tx: PendingTransactionType | null) => {
   const appDispatch = useAppDispatch();
-  const { id, txid, type, label, quoteId, route, details, sellAmount, completed, timestamp } =
-    tx || {};
+  const {
+    id,
+    txid,
+    type,
+    label,
+    quoteId,
+    route,
+    details,
+    sellAmountNormalized,
+    completed,
+    timestamp,
+  } = tx || {};
 
   const hasDetailsParams = txid && route && quoteId;
   const canFetchDetails = hasDetailsParams || (txid && !!details);
@@ -23,7 +33,7 @@ export const useAdvancedTracker = (tx: PendingTransactionType | null) => {
             hash: txid || '',
             quoteId: quoteId || '',
             route,
-            sellAmount: sellAmount || '0',
+            sellAmount: sellAmountNormalized || '0',
             startTimestamp: timestamp ? new Date(timestamp).getTime() : Date.now(),
           },
         };
