@@ -408,7 +408,7 @@
       "description": "Statistics for THORChain token pools",
       "featuredPools": "Featured Pools",
       "title": "THORChain pool statistics",
-	  "aprExplanation":"Based on LUVI metrics, past performance is not an exact projection of future yield. Click to learn more."
+	  "aprExplanation":"Based on LUVI metrics, past performance is not an exact projection of future yield. Click on ? to learn more."
     },
     "liquidity": {
       "ILPTooltip": "If you have ILP for you liquidity position it will be added to withdrawn amount.",

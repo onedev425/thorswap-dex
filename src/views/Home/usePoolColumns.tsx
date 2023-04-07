@@ -30,7 +30,7 @@ export const usePoolColumns = () => {
     () => [
       {
         id: 'pool',
-        Header: () => t('common.pool'),
+        Header: (): string => t('common.pool'),
         accessor: (row: Pool) => row,
         sortType: sortPoolColumn,
         Cell: ({ cell: { value } }: { cell: { value: Pool } }) => (
@@ -68,20 +68,7 @@ export const usePoolColumns = () => {
       },
       {
         id: 'apr',
-        Header: () => (
-          <>
-            {t('common.APR')}
-            <Tooltip content={t('views.home.aprExplanation')} place="bottom">
-              <Link onClick={(e) => e.stopPropagation()} to={INTRODUCTION_TO_LUVI_URL}>
-                <Icon
-                  className="p-1 text-xs rounded-lg transform mx-1 hover:bg-btn-primary fill-btn-primary hover:fill-white"
-                  name="question"
-                  size={16}
-                />
-              </Link>
-            </Tooltip>
-          </>
-        ),
+        Header: (): string => t('common.APR'),
         accessor: (row: Pool) => new Percent(row.detail.annualPercentageRate),
         align: 'right',
         Cell: ({ cell: { value } }: { cell: { value: Percent } }) =>
@@ -93,10 +80,21 @@ export const usePoolColumns = () => {
             value.toFixed(2)
           ),
         sortType: getAmountColumnSorter('apr'),
+        toolTip: (
+          <Tooltip content={t('views.home.aprExplanation')} place="bottom">
+            <Link onClick={(e) => e.stopPropagation()} to={INTRODUCTION_TO_LUVI_URL}>
+              <Icon
+                className="p-1 absolute top-1.5 text-xs rounded-lg transform mx-1 hover:bg-btn-primary fill-btn-primary hover:fill-white"
+                name="question"
+                size={16}
+              />
+            </Link>
+          </Tooltip>
+        ),
       },
       {
         id: 'aprPeriod',
-        Header: () => <>{t('common.APRPeriod')}</>,
+        Header: () => t('common.APRPeriod'),
         disableSortBy: true,
         // @ts-expect-error
         accessor: (row: Pool) => row.detail.apyPeriod,
