@@ -4,6 +4,7 @@ import { Box } from 'components/Atomic';
 import { memo, ReactNode, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { ROUTES } from 'settings/router';
+import { useEggAvailableQuery } from 'store/swapKitDashboard/api';
 
 const PromoBanner = ({
   active,
@@ -30,11 +31,28 @@ const PromoBanner = ({
 );
 
 const PromoBannerSlider = () => {
+  const { data: isEasterEggAvailable } = useEggAvailableQuery();
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
 
   const promoItems = useMemo(
     () => [
+      ...(isEasterEggAvailable
+        ? [
+            {
+              key: 'promo-2',
+              message: (
+                <Text textStyle="caption-xs">
+                  Easter is here 🥚! Find hidden eggs 🐣 and claim $THOR rewards!{' '}
+                  <Text className="inline px-0.5" decoration="underline" textStyle="caption-xs">
+                    Learn more
+                  </Text>
+                </Text>
+              ),
+              onClick: () => alert('TODO REDIRECT'),
+            },
+          ]
+        : []),
       {
         key: 'promo-1',
         message: (
@@ -49,13 +67,13 @@ const PromoBannerSlider = () => {
         onClick: () => navigate(ROUTES.Stake),
       },
     ],
-    [navigate],
+    [isEasterEggAvailable, navigate],
   );
 
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((prevIndex) => (prevIndex + 1) % promoItems.length);
-    }, 10000);
+    }, 7000);
 
     return () => clearInterval(interval);
   }, [promoItems.length]);
