@@ -59,7 +59,7 @@ export const SwapRoute = memo(
       const [step1, step2, ...rest] = path.split(' -> ');
 
       return rest.length > 1
-        ? `${step1} → ${step2}... → ${rest[rest.length - 1]}`
+        ? `${step1} → ${step2} ... ${rest[rest.length - 1]}`
         : path.replaceAll('->', '→');
     }, [path]);
 

@@ -69,6 +69,14 @@ export const SelectedRoute = memo(
       [Chain.Ethereum, Chain.Avalanche].includes(inputAsset.L1Chain) &&
       isApproved;
 
+    const shortPath = useMemo(() => {
+      const [step1, step2, ...rest] = path.split(' -> ');
+
+      return rest.length > 1
+        ? `${step1} → ${step2} ... ${rest[rest.length - 1]}`
+        : path.replaceAll('->', '→');
+    }, [path]);
+
     return (
       <Box col className="relative" flex={1}>
         <Box
@@ -122,7 +130,7 @@ export const SelectedRoute = memo(
               variant="tint"
             >
               <Text textStyle="caption-xs" variant="secondary">
-                {t('common.path')}: {path.replaceAll('->', '→')}
+                {t('common.path')}: {shortPath}
               </Text>
             </Button>
           </Box>

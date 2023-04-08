@@ -34,6 +34,7 @@ export const normalizedProviderName = {
   SYNTHETIX_ATOMIC_SIP288: 'Syntetix',
   KYBERSWAPELASTIC: 'KyberSwap',
   SYNAPSE: 'Synapse',
+  AVALANCHE_TRADERJOE_V2: 'TraderJoe',
 };
 
 export const ProviderLogos = memo(({ size = 24, providers }: Props) => {

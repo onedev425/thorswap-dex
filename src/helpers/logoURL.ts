@@ -92,7 +92,7 @@ export const providerLogoURL = (provider: string) => {
   const providerData = providersInfoMap[parsedProvider];
 
   if (!providerData) return '';
-
   const [identifier, address] = providerData.split('-');
+
   return tokenLogoURL({ address, identifier });
 };
