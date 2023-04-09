@@ -49,7 +49,12 @@ const PromoBannerSlider = () => {
                   </Text>
                 </Text>
               ),
-              onClick: () => alert('TODO REDIRECT'),
+              onClick: () =>
+                window.open(
+                  'https://medium.com/@thorswap/join-thorswaps-easter-egg-hunt-ae236bb7f73c',
+                  '_blank',
+                  'noopener,noreferrer',
+                ),
             },
           ]
         : []),
