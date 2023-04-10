@@ -50,7 +50,12 @@ export const Tooltip = ({
             'bg-light-bg-primary border border-light-border-primary border-solid dark:bg-dark-bg-primary dark:border-dark-border-primary',
           )}
         >
-          <Text className="font-bold" textStyle="caption-xs" variant="primary">
+          <Text
+            className="font-bold"
+            textStyle="caption-xs"
+            variant="primary"
+            whiteSpace="pre-line"
+          >
             {content}
           </Text>
         </div>

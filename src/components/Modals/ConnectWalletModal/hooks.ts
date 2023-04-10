@@ -36,7 +36,7 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
   const [walletOptions, setWalletOptions] = useState<WalletSection[]>([]);
 
   useEffect(() => {
-    import('@thorswap-lib/toolbox-evm').then(({ getETHDefaultWallet, isDetected }) => {
+    import('@thorswap-lib/toolbox-evm').then(async ({ getETHDefaultWallet, isDetected }) => {
       setWalletOptions([
         {
           title: t('views.walletModal.softwareWallets'),
@@ -72,6 +72,11 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
               type: WalletType.CoinbaseExtension,
               visible: isMdActive,
               label: t('views.walletModal.coinbaseWalletWeb'),
+              tooltip: isDetected(WalletOption.BRAVE)
+                ? t('views.walletModal.disableDefaultWallet', {
+                    wallet: WalletNameByWalletOption[getETHDefaultWallet()],
+                  })
+                : '',
             },
             {
               icon: 'xdefi',
@@ -80,12 +85,16 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
               label: t('views.walletModal.xdefi'),
             },
             {
-              disabled: !isDetected(WalletOption.BRAVE),
+              disabled:
+                !isDetected(WalletOption.BRAVE) || getETHDefaultWallet() !== WalletOption.BRAVE,
               icon: 'brave' as IconName,
               type: WalletType.Brave,
               visible: isMdActive,
               label: t('views.walletModal.braveWallet'),
-              tooltip: !isDetected(WalletOption.BRAVE)
+              //@ts-ignore
+              tooltip: !(navigator.brave && (await navigator.brave.isBrave()))
+                ? t('views.walletModal.installBraveBrowser')
+                : getETHDefaultWallet() !== WalletOption.BRAVE
                 ? t('views.walletModal.enableBraveWallet')
                 : '',
             },
