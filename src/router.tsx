@@ -1,7 +1,6 @@
 import 'chart.js/auto';
 
 import { Box, Icon } from 'components/Atomic';
-import { EggHunt } from 'components/easter/EggHunt';
 import { Layout } from 'components/Layout';
 import { ToastPortal } from 'components/Toast';
 import { lazy, memo, Suspense } from 'react';
@@ -106,7 +105,6 @@ export const PublicRoutes = memo(() => {
                         </Box>
                       }
                     >
-                      <EggHunt />
                       <Component />
                     </Suspense>
                   </Layout>

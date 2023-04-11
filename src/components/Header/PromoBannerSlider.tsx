@@ -4,7 +4,6 @@ import { Box } from 'components/Atomic';
 import { memo, ReactNode, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { ROUTES } from 'settings/router';
-import { useEggAvailableQuery } from 'store/swapKitDashboard/api';
 
 const PromoBanner = ({
   active,
@@ -31,35 +30,30 @@ const PromoBanner = ({
 );
 
 const PromoBannerSlider = () => {
-  const { data: isEasterEggAvailable } = useEggAvailableQuery();
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
 
   const promoItems = useMemo(
     () => [
-      ...(isEasterEggAvailable
-        ? [
-            {
-              key: 'promo-2',
-              message: (
-                <Text textStyle="caption-xs">
-                  Easter is here 🥚! Find hidden eggs 🐣 and claim $THOR rewards!{' '}
-                  <Text className="inline px-0.5" decoration="underline" textStyle="caption-xs">
-                    Learn more
-                  </Text>
-                </Text>
-              ),
-              onClick: () =>
-                window.open(
-                  'https://medium.com/@thorswap/join-thorswaps-easter-egg-hunt-ae236bb7f73c',
-                  '_blank',
-                  'noopener,noreferrer',
-                ),
-            },
-          ]
-        : []),
       {
         key: 'promo-1',
+        message: (
+          <Text textStyle="caption-xs">
+            New Transaction Tracker has landed!{' '}
+            <Text className="inline px-0.5" decoration="underline" textStyle="caption-xs">
+              Check out explainer video
+            </Text>
+          </Text>
+        ),
+        onClick: () =>
+          window.open(
+            'https://www.youtube.com/watch?v=-mLX_MwnsQQ',
+            '_blank',
+            'noopener,noreferrer',
+          ),
+      },
+      {
+        key: 'promo-2',
         message: (
           <Text textStyle="caption-xs">
             Stake
@@ -72,7 +66,7 @@ const PromoBannerSlider = () => {
         onClick: () => navigate(ROUTES.Stake),
       },
     ],
-    [isEasterEggAvailable, navigate],
+    [navigate],
   );
 
   useEffect(() => {
