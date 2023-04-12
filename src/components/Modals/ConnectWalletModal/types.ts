@@ -84,28 +84,3 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.TrustWallet]: [Chain.THORChain, Chain.Ethereum, Chain.Binance],
   [WalletType.Xdefi]: AllChainsSupported,
 };
-
-const COMMON_WALLETS = [
-  WalletType.CreateKeystore,
-  WalletType.Keystore,
-  WalletType.Ledger,
-  WalletType.Phrase,
-] as const;
-
-export const availableWalletsByChain: Record<Chain, WalletType[]> = {
-  [Chain.Avalanche]: [...COMMON_WALLETS, WalletType.MetaMask, WalletType.Xdefi],
-  [Chain.Binance]: [...COMMON_WALLETS, WalletType.TrustWallet, WalletType.Xdefi],
-  [Chain.BitcoinCash]: [...COMMON_WALLETS, WalletType.Xdefi],
-  [Chain.Bitcoin]: [...COMMON_WALLETS, WalletType.Xdefi],
-  [Chain.Cosmos]: [...COMMON_WALLETS, WalletType.Keplr],
-  [Chain.Doge]: [...COMMON_WALLETS, WalletType.Xdefi],
-  [Chain.Litecoin]: [...COMMON_WALLETS, WalletType.Xdefi],
-  [Chain.THORChain]: [...COMMON_WALLETS, WalletType.TrustWallet, WalletType.Xdefi],
-  [Chain.Ethereum]: [
-    ...COMMON_WALLETS,
-    WalletType.MetaMask,
-    WalletType.TrustWallet,
-    WalletType.Xdefi,
-  ],
-  [Chain.BinanceSmartChain]: [],
-};
