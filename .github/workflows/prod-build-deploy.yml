@@ -22,7 +22,6 @@ jobs:
           VITE_BLOCKCHAIR_API_KEY: ${{ secrets.VITE_BLOCKCHAIR_API_KEY }}
           VITE_COVALENT_API_KEY: ${{ secrets.VITE_COVALENT_API_KEY }}
           VITE_ETHPLORER_API_KEY: ${{ secrets.VITE_ETHPLORER_API_KEY }}
-          VITE_USING_FALLBACK_MIDGARD: ${{ secrets.VITE_USING_FALLBACK_MIDGARD }}
 
         run: yarn build
 

@@ -2356,10 +2356,10 @@
     long "4.0.0"
     uuid "9.0.0"
 
-"@thorswap-lib/ledger@1.0.0-development.147":
-  version "1.0.0-development.147"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/ledger/-/ledger-1.0.0-development.147.tgz#c08ee448db6710529bd171c0e2812d59bc8a47bb"
-  integrity sha512-JpK234Vd2v8HtMggGvcYuEQIJuXVa3uzbl/7J75o8+C44ahkK+YEMHq9QDv8igmPLsjfl1MoZ4Ouh34cuFHOxw==
+"@thorswap-lib/ledger@1.0.0-development.148":
+  version "1.0.0-development.148"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/ledger/-/ledger-1.0.0-development.148.tgz#7746463a7b3619bb3a10b63ffbe41d9873162be0"
+  integrity sha512-3w41cf5Xi7FyvYjY6saP91eVV9ppRS7GR/ww5ZdkebQPDsYA7mllIeSnZlt9y/5iSbSqateX14t/fTlh+FjjPA==
   dependencies:
     "@ledgerhq/hw-app-btc" "8.1.1"
     "@ledgerhq/hw-app-cosmos" "6.27.12"

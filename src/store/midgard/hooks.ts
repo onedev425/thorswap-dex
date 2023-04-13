@@ -124,27 +124,21 @@ export const useMidgard = () => {
   const getAllMemberDetails = useCallback(async () => {
     if (!wallet) return;
 
-    if (import.meta.env.VITE_USING_FALLBACK_MIDGARD === 'true') {
-      Object.keys(wallet).forEach((chain) => {
-        getMemberDetailsByChain(chain as Chain, wallet?.[chain as Chain]?.address);
-      });
-    } else {
-      const thorchainAddress = wallet?.[Chain.THORChain]?.address;
+    const thorchainAddress = wallet?.[Chain.THORChain]?.address;
 
-      if (thorchainAddress) {
-        getMemberDetailsByChain(Chain.THORChain, thorchainAddress);
-      }
-      const otherChainsAddress = Object.keys(wallet)
-        .filter((chain) => chain !== Chain.THORChain)
-        .map((chain) =>
-          chain === Chain.Ethereum
-            ? wallet?.[chain as Chain]?.address.toLowerCase()
-            : wallet?.[chain as Chain]?.address,
-        )
-        .filter((address) => !!address);
-      if (otherChainsAddress.length > 0) {
-        loadFullMemberDetails(otherChainsAddress as string[]);
-      }
+    if (thorchainAddress) {
+      getMemberDetailsByChain(Chain.THORChain, thorchainAddress);
+    }
+    const otherChainsAddress = Object.keys(wallet)
+      .filter((chain) => chain !== Chain.THORChain)
+      .map((chain) =>
+        chain === Chain.Ethereum
+          ? wallet?.[chain as Chain]?.address.toLowerCase()
+          : wallet?.[chain as Chain]?.address,
+      )
+      .filter((address) => !!address);
+    if (otherChainsAddress.length > 0) {
+      loadFullMemberDetails(otherChainsAddress as string[]);
     }
   }, [getMemberDetailsByChain, loadFullMemberDetails, wallet]);
 
