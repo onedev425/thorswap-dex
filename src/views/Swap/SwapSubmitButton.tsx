@@ -42,8 +42,8 @@ export const SwapSubmitButton = ({
   setVisibleConfirmModal,
 }: Props) => {
   const { wallet, setIsConnectModalOpen } = useWallet();
-  const { inboundHalted, pools } = useMidgard();
-  const { isChainTradingHalted, maxSynthPerAssetDepth } = useMimir();
+  const { pools } = useMidgard();
+  const { maxSynthPerAssetDepth } = useMimir();
   const { getChainTradingPaused } = useExternalConfig();
   const { numberOfPendingApprovals } = useTransactionsState();
 
@@ -63,26 +63,12 @@ export const SwapSubmitButton = ({
   }, [maxSynthPerAssetDepth, outputAsset.isSynth, outputAsset.symbol, pools]);
 
   const isTradingHalted: boolean = useMemo(() => {
-    const inTradeHalted =
-      inboundHalted[inputAsset.L1Chain as Chain] || isChainTradingHalted[inputAsset.L1Chain];
-    const outTradeHated =
-      inboundHalted[outputAsset.L1Chain as Chain] || isChainTradingHalted[outputAsset.L1Chain];
-
     return (
-      inTradeHalted ||
-      outTradeHated ||
       getChainTradingPaused(inputAsset.L1Chain as Chain) ||
       getChainTradingPaused(outputAsset.L1Chain as Chain) ||
       !isSynthMintable
     );
-  }, [
-    getChainTradingPaused,
-    inboundHalted,
-    inputAsset.L1Chain,
-    isChainTradingHalted,
-    isSynthMintable,
-    outputAsset.L1Chain,
-  ]);
+  }, [getChainTradingPaused, inputAsset.L1Chain, isSynthMintable, outputAsset.L1Chain]);
 
   const walletConnected = useMemo(
     () => hasWalletConnected({ wallet, inputAssets: [inputAsset] }),
