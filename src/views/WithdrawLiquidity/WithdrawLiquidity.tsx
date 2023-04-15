@@ -476,6 +476,7 @@ const WithdrawPanel = ({
     () => shareTypes.some((type) => type === PoolShareType.PENDING),
     [shareTypes],
   );
+
   const disabledPendingWithdraw = useMemo(() => {
     const hasLiquidityDeposit = shareTypes.some((type) =>
       [PoolShareType.SYM, PoolShareType.ASSET_ASYM, PoolShareType.RUNE_ASYM].includes(type),
@@ -527,7 +528,7 @@ const WithdrawPanel = ({
       </Box>
 
       <Box className="self-stretch gap-4 pt-5">
-        {isLPActionPaused ? (
+        {isLPActionPaused || disabledPendingWithdraw ? (
           <Button stretch size="lg" variant="secondary">
             {t('views.liquidity.withdrawNotAvailable')}
           </Button>

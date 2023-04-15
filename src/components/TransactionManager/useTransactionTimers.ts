@@ -32,8 +32,8 @@ export const useTransactionTimers = (
 
     return legsState;
   }, [legs]);
+  const [legsTimers, setLegTimers] = useState<LegTimer[]>(getLegsState);
 
-  const [legsTimers, setLegTimers] = useState<LegTimer[]>(() => getLegsState());
   const canUseLegsDuration = useMemo(() => {
     return legs.length && legs.every((leg) => typeof leg.estimatedDuration !== 'undefined');
   }, [legs]);
@@ -62,7 +62,8 @@ export const useTransactionTimers = (
 
   useEffect(() => {
     setLegTimers(getLegsState());
-  }, [getLegsState, legs]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (
