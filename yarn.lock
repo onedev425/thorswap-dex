@@ -2383,10 +2383,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.16.tgz#c65271f77bfcc75d7a272ecc67553d5d95fac07b"
   integrity sha512-j+yb5QjAfgknurpoRXZ0t/xWoeDXNEQEMv/a5OU4rBab3HGhXbfs4Nu5Ip+nrfeDWLa0oRMeAp4TpUnBA4pAxQ==
 
-"@thorswap-lib/swapkit-core@1.0.0-development.137":
-  version "1.0.0-development.137"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-core/-/swapkit-core-1.0.0-development.137.tgz#4392fd2a2e15ae7bf22b78a874f928ff45b8e938"
-  integrity sha512-gxEmR5RvFpXWI3WRJ+tEJ2cy/12gxctXAl82O3RP3l0IX1OkOjX+5kb/iJDBf1PiXwWH10now2puI9BqpNyiPw==
+"@thorswap-lib/swapkit-core@1.0.0-development.139":
+  version "1.0.0-development.139"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-core/-/swapkit-core-1.0.0-development.139.tgz#a68b640fee82dfb2f1d6075c760fdbea9a642615"
+  integrity sha512-Uxm/XWeEGKsfKW9g74ScGlE8K+dMBmoZy0MzOWFiH0pudeDcYNnXyHPAxcLTgo3p3hYzd5itIcADEjF+hfr2xg==
   dependencies:
     "@ethersproject/bytes" "5.7.0"
     "@ethersproject/units" "5.7.0"
