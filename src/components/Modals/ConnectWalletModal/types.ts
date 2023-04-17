@@ -82,5 +82,5 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.Phrase]: AllChainsSupported,
   [WalletType.TrustWalletExtension]: EVMChainsSupported,
   [WalletType.TrustWallet]: [Chain.THORChain, Chain.Ethereum, Chain.Binance],
-  [WalletType.Xdefi]: AllChainsSupported.filter((e) => !EVMChainsSupported.includes(e)),
+  [WalletType.Xdefi]: AllChainsSupported,
 };
