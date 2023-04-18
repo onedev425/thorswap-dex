@@ -23,7 +23,7 @@ export const Header = memo(({ openMenu }: Props) => {
   const { themeType } = useApp();
   const { isWalletLoading, wallet, setIsConnectModalOpen } = useWallet();
   const { setIsDrawerVisible } = useWalletDrawer();
-  const { isMdActive, isXlActive } = useWindowSize();
+  const { isMdActive } = useWindowSize();
 
   const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
 
