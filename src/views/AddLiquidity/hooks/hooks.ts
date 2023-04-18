@@ -333,6 +333,9 @@ export const useAddLiquidity = ({
         );
       }
 
+      const isPendingSymmAsset =
+        isRunePending || isAssetPending || liquidityType === LiquidityTypeOption.SYMMETRICAL;
+
       const addresses =
         isRunePending || isAssetPending || liquidityType === LiquidityTypeOption.SYMMETRICAL
           ? {
@@ -345,7 +348,7 @@ export const useAddLiquidity = ({
         pool,
         runeAmount: isRunePending ? undefined : runeAssetAmount,
         assetAmount: isAssetPending ? undefined : poolAssetAmount,
-        isPendingSymmAsset: isAssetPending && liquidityType === LiquidityTypeOption.SYMMETRICAL,
+        isPendingSymmAsset,
         ...addresses,
       };
 
