@@ -150,9 +150,12 @@ export const StatusDropdown = memo(() => {
 
   return (
     <DropdownMenu
+      hideIcon
       menuItems={menuItems}
       onChange={() => {}}
-      openComponent={<StatusBadge withLabel status={dropdownStatus} />}
+      openComponent={<StatusBadge status={dropdownStatus} />}
+      placement="top-end"
+      tooltipContent={t('components.statusDropdown.networkStatus')}
       value={t('components.statusDropdown.networkStatus')}
     />
   );

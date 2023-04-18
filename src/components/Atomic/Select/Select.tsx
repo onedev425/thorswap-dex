@@ -1,4 +1,4 @@
-import { Text } from '@chakra-ui/react';
+import { PlacementWithLogical, Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { Box, Button, DropdownMenu } from 'components/Atomic';
 import { useCallback, useMemo } from 'react';
@@ -10,6 +10,7 @@ type Props = {
   onChange?: (selectedIndex: number) => void;
   size?: 'md' | 'sm';
   disableDropdown?: boolean;
+  dropdownPlacement?: PlacementWithLogical;
 };
 
 export const Select = ({
@@ -18,6 +19,7 @@ export const Select = ({
   disableDropdown,
   activeIndex = 0,
   onChange,
+  dropdownPlacement,
   size = 'md',
 }: Props) => {
   const onHandleChange = useCallback(
@@ -70,6 +72,7 @@ export const Select = ({
               <Text textStyle="caption">{options[activeIndex]}</Text>
             </Box>
           }
+          placement={dropdownPlacement}
           value={options[activeIndex]}
         />
       </Box>

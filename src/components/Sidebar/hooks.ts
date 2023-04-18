@@ -63,6 +63,16 @@ export const useSidebarOptions = () => {
     };
   }, [isConnected, hasVestingAlloc]);
 
+  const stickyMenu: SidebarItemProps = {
+    // Leave it for key
+    label: ' ',
+    hasBackground: true,
+    children: [
+      { iconName: 'swap', href: ROUTES.Swap, label: t('components.sidebar.swap') },
+      { iconName: 'piggyBank', href: ROUTES.Earn, label: 'Earn' },
+    ],
+  };
+
   const sidebarOptions = useMemo(() => {
     const walletItems: SidebarItemProps[] = [
       { iconName: 'wallet', href: ROUTES.Wallet, label: t('components.sidebar.wallet') },
@@ -81,15 +91,6 @@ export const useSidebarOptions = () => {
     ];
 
     const menu: SidebarItemProps[] = [
-      {
-        // Leave it for key
-        label: ' ',
-        hasBackground: true,
-        children: [
-          { iconName: 'swap', href: ROUTES.Swap, label: t('components.sidebar.swap') },
-          { iconName: 'piggyBank', href: ROUTES.Earn, label: 'Earn' },
-        ],
-      },
       {
         iconName: 'tradeLightning',
         label: t('components.sidebar.pool'),
@@ -132,5 +133,5 @@ export const useSidebarOptions = () => {
     return [...menu, thorMenu];
   }, [multisigVisible, multisigMenu, thorMenu]);
 
-  return sidebarOptions;
+  return { sidebarOptions, stickyMenu };
 };

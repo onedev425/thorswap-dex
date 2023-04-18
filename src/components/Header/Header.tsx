@@ -3,6 +3,7 @@ import { AnnouncementsPopover } from 'components/Announcements/AnnouncementsPopo
 import { AppPopoverMenu } from 'components/AppPopoverMenu';
 import { Box, Button, Icon } from 'components/Atomic';
 import PromoBannerSlider from 'components/Header/PromoBannerSlider';
+import { StatusDropdown } from 'components/Header/StatusDropdown';
 import { TransactionManager } from 'components/TransactionManager';
 import { hasConnectedWallet } from 'helpers/wallet';
 import { useWalletDrawer } from 'hooks/useWalletDrawer';
@@ -11,11 +12,8 @@ import { memo, useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
 import { IS_BETA, IS_DEV_API, IS_LOCAL, IS_PROD, IS_STAGENET } from 'settings/config';
 import { useApp } from 'store/app/hooks';
-import { useMidgard } from 'store/midgard/hooks';
 import { useWallet } from 'store/wallet/hooks';
 import { ThemeType } from 'types/app';
-
-import { StatusDropdown } from './StatusDropdown';
 
 type Props = {
   openMenu: () => void;
@@ -25,15 +23,9 @@ export const Header = memo(({ openMenu }: Props) => {
   const { themeType } = useApp();
   const { isWalletLoading, wallet, setIsConnectModalOpen } = useWallet();
   const { setIsDrawerVisible } = useWalletDrawer();
-  const { stats } = useMidgard();
-  const { isMdActive } = useWindowSize();
+  const { isMdActive, isXlActive } = useWindowSize();
 
   const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
-
-  const runeLabel = useMemo(
-    () => (stats?.runePriceUSD ? `$${parseFloat(stats.runePriceUSD || '').toFixed(2)}` : '$ -'),
-    [stats],
-  );
 
   const handleClickWalletBtn = useCallback(() => {
     if (!isConnected) {
@@ -71,20 +63,7 @@ export const Header = memo(({ openMenu }: Props) => {
             variant="borderlessPrimary"
           />
 
-          <Box
-            center
-            className="hidden md:flex px-2 bg-white border border-transparent border-solid shadow-md rounded-2xl dark:border-cyan dark:bg-transparent"
-          >
-            <Text
-              className="transition-[font-size]"
-              fontWeight="semibold"
-              textStyle={isMdActive ? 'caption' : 'caption-xs'}
-            >
-              1ᚱ = {runeLabel}
-            </Text>
-          </Box>
-
-          <Box className="hidden md:flex">
+          <Box className="hidden md:flex bottom-4 right-4 fixed z-50">
             <StatusDropdown />
           </Box>
         </Box>
@@ -95,7 +74,7 @@ export const Header = memo(({ openMenu }: Props) => {
           </Box>
         </Box>
 
-        <Box flex={1} justify="between">
+        <Box className="gap-1" flex={1} justify="end">
           <Button
             className="mr-2"
             onClick={handleClickWalletBtn}

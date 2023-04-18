@@ -106,6 +106,7 @@ export const SwapInfo = ({
               value: (
                 <Select
                   activeIndex={activeFeeIndex}
+                  dropdownPlacement="bottom-end"
                   onChange={(index) => setFeeOptionType(feeOptions[index])}
                   options={feeOptionLabels}
                   size="sm"

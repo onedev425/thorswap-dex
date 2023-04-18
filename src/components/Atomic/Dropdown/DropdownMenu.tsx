@@ -1,8 +1,8 @@
-import { Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
+import { Menu, MenuButton, MenuItem, MenuList, PlacementWithLogical, Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Icon } from 'components/Atomic';
+import { Icon, Tooltip } from 'components/Atomic';
 import { baseHoverClass, genericBgClasses } from 'components/constants';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 
 import { DropdownMenuItem, DropdownOptions } from './types';
 
@@ -14,6 +14,9 @@ type DropdownMenuProps = {
   openComponent?: ReactNode;
   openLabel?: string;
   stretch?: boolean;
+  hideIcon?: boolean;
+  placement?: PlacementWithLogical;
+  tooltipContent?: string;
 } & DropdownOptions;
 
 export const DropdownMenu = ({
@@ -27,46 +30,56 @@ export const DropdownMenu = ({
   openLabel,
   value,
   stretch,
+  hideIcon,
+  placement = 'bottom-start',
+  tooltipContent,
 }: DropdownMenuProps) => {
   const defaultOpenLabel = menuItems.find((i) => i.value === value)?.label || '-';
+  const [tooltipOpen, setTooltipOpen] = useState(false);
 
   return (
-    <Menu>
+    <Menu placement={placement}>
       {({ isOpen }) => (
         <div className={classNames(className, 'z-20 w-full flex relative ')}>
-          <MenuButton
-            as="div"
-            className={classNames(
-              genericBgClasses.secondary,
-              baseHoverClass,
-              disabled ? 'cursor-not-allowed' : 'cursor-pointer',
-              'shadow-md h-10 flex dir justify-between rounded-2xl items-center px-3 !py-0 transition-all',
-              { 'flex flex-1 self-stretch': stretch },
-              buttonClassName,
-            )}
-            disabled={disabled}
-          >
-            <div className="flex justify-between items-center">
-              {openComponent || <Text>{openLabel || defaultOpenLabel}</Text>}
-
-              <Icon
-                className={classNames(
-                  'w-5 h-5 ml-2 -mr-1 transition-all duration-300 ease-in-out',
-                  {
-                    'rotate-180': isOpen,
-                  },
+          <Tooltip content={tooltipContent} isOpen={tooltipOpen}>
+            <MenuButton
+              as="div"
+              className={classNames(
+                genericBgClasses.secondary,
+                baseHoverClass,
+                disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+                'shadow-md h-10 flex dir justify-between rounded-2xl items-center px-3 !py-0 transition-all',
+                { 'flex flex-1 self-stretch': stretch },
+                buttonClassName,
+              )}
+              disabled={disabled}
+              onClick={() => setTooltipOpen(false)}
+              onMouseEnter={() => setTooltipOpen(true)}
+              onMouseLeave={() => setTooltipOpen(false)}
+            >
+              <div className="flex justify-between items-center">
+                {openComponent || <Text>{openLabel || defaultOpenLabel}</Text>}
+                {!hideIcon && (
+                  <Icon
+                    className={classNames(
+                      'w-5 h-5 ml-2 -mr-1 transition-all duration-300 ease-in-out',
+                      {
+                        'rotate-180': isOpen,
+                      },
+                    )}
+                    color="secondary"
+                    name="chevronDown"
+                    size={12}
+                  />
                 )}
-                color="secondary"
-                name="chevronDown"
-                size={12}
-              />
-            </div>
-          </MenuButton>
+              </div>
+            </MenuButton>
+          </Tooltip>
 
           <MenuList
             borderRadius={16}
             className={classNames(
-              'absolute left-0 origin-top-right overflow-hidden focus:outline-none shadow-2xl min-w-full mt-[-4px]',
+              'overflow-hidden focus:outline-none shadow-2xl min-w-full mt-[-4px]',
               'border border-solid border-light-border-primary dark:border-dark-border-primary',
               genericBgClasses.primary,
               menuClassName,

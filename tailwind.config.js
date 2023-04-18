@@ -252,8 +252,8 @@ module.exports = {
         ...theme('spacing'),
       }),
       height: {
-        sidebar: 'calc(100vh - 32px)',
-        'sidebar-content': 'calc(100vh - 192px)',
+        sidebar: 'calc(100vh - 18px)',
+        'sidebar-content': 'calc(100vh - 182px)',
       },
     },
   },

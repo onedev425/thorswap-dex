@@ -162,7 +162,7 @@ export const SwapSubmitButton = ({
             : t('common.connectWallet')}
         </Button>
       ) : isApproveRequired ? (
-        <Tooltip stretch content={tooltipContent}>
+        <Tooltip stretchHorizontally content={tooltipContent}>
           <Button
             stretch
             error={!hasQuote}
