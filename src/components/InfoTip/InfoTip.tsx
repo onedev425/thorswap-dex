@@ -36,9 +36,10 @@ export const InfoTip = ({
   return (
     <HighlightCard
       className={classNames(
-        'self-stretch items-center !px-2 !pb-2',
+        'self-stretch items-center !px-2',
         title || onClose ? '!pt-4' : '!pt-2',
         { 'cursor-pointer': !!onClick },
+        content ? 'pb-2' : 'pb-4',
         className,
       )}
       onClick={onClick}
@@ -60,16 +61,17 @@ export const InfoTip = ({
         </Box>
       )}
 
-      {children || (
-        <Text
-          className={classNames('px-2 py-2 brightness-90', contentClassName)}
-          fontWeight="semibold"
-          textStyle="caption"
-          variant={cardFontColors[type]}
-        >
-          {content}
-        </Text>
-      )}
+      {children ||
+        (content && (
+          <Text
+            className={classNames('px-2 py-2 brightness-90', contentClassName)}
+            fontWeight="semibold"
+            textStyle="caption"
+            variant={cardFontColors[type]}
+          >
+            {content}
+          </Text>
+        ))}
     </HighlightCard>
   );
 };

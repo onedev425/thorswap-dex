@@ -1,4 +1,4 @@
-import { Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import {
   Amount,
   AmountType,
@@ -456,6 +456,19 @@ const WithdrawPanel = ({
     return `${lpRoute}?${queryParams}`;
   }, [lpType, poolAsset, wallet]);
 
+  const hasPending = useMemo(
+    () => shareTypes.some((type) => type === PoolShareType.PENDING),
+    [shareTypes],
+  );
+
+  const warningWithPendingWithdraw = useMemo(() => {
+    const hasLiquidityDeposit = shareTypes.some((type) =>
+      [PoolShareType.SYM, PoolShareType.ASSET_ASYM, PoolShareType.RUNE_ASYM].includes(type),
+    );
+
+    return hasPending && hasLiquidityDeposit;
+  }, [hasPending, shareTypes]);
+
   const confirmInfo = useConfirmInfoItems({
     assets: withdrawAssets,
     fee: feeLabel,
@@ -472,18 +485,24 @@ const WithdrawPanel = ({
     ),
   });
 
-  const hasPending = useMemo(
-    () => shareTypes.some((type) => type === PoolShareType.PENDING),
-    [shareTypes],
+  const modalInfoItems = useMemo(
+    () =>
+      confirmInfo.concat(
+        warningWithPendingWithdraw
+          ? [
+              {
+                label: '',
+                value: (
+                  <Flex alignSelf="center" justify="center" p="4">
+                    <Text color="yellow.400">{t('pendingLiquidity.withdrawWarning')}</Text>
+                  </Flex>
+                ),
+              },
+            ]
+          : [],
+      ),
+    [confirmInfo, warningWithPendingWithdraw],
   );
-
-  const disabledPendingWithdraw = useMemo(() => {
-    const hasLiquidityDeposit = shareTypes.some((type) =>
-      [PoolShareType.SYM, PoolShareType.ASSET_ASYM, PoolShareType.RUNE_ASYM].includes(type),
-    );
-
-    return hasPending && hasLiquidityDeposit;
-  }, [hasPending, shareTypes]);
 
   return (
     <PanelView
@@ -523,23 +542,25 @@ const WithdrawPanel = ({
         />
       )}
 
+      {warningWithPendingWithdraw && (
+        <InfoTip
+          onClick={() => navigate(getAddLiquidityRoute(pool.asset))}
+          title={t('pendingLiquidity.withdrawWarning')}
+          type="warn"
+        />
+      )}
+
       <Box className="w-full pt-4">
         <InfoTable horizontalInset items={confirmInfo} />
       </Box>
 
       <Box className="self-stretch gap-4 pt-5">
-        {isLPActionPaused || disabledPendingWithdraw ? (
+        {isLPActionPaused ? (
           <Button stretch size="lg" variant="secondary">
             {t('views.liquidity.withdrawNotAvailable')}
           </Button>
         ) : isWalletConnected ? (
-          <Button
-            stretch
-            disabled={disabledPendingWithdraw}
-            onClick={handleWithdrawLiquidity}
-            size="lg"
-            variant="secondary"
-          >
+          <Button stretch onClick={handleWithdrawLiquidity} size="lg" variant="secondary">
             {t('common.withdraw')}
           </Button>
         ) : (
@@ -559,7 +580,7 @@ const WithdrawPanel = ({
         onClose={() => setVisibleConfirmModal(false)}
         onConfirm={handleConfirmWithdraw}
       >
-        <InfoTable items={confirmInfo} />
+        <InfoTable items={modalInfoItems} />
       </ConfirmModal>
     </PanelView>
   );
