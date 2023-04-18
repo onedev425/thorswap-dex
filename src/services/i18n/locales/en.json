@@ -284,7 +284,7 @@
     "pendingInfoGeneral": "Pending Deposit Transactions must be completed by adding missing asset symmetrically",
     "pendingInfoTitle": "You have Pending Deposit Transaction for pool.",
     "pendingLiquidity": "Pending Liquidity",
-    "withdrawWarning": "Withdraw transaction will result the withdrawal of your existing LP position in the same pool, Please choose to complete if you don't want to withdraw your existing LP."
+    "withdrawWarning": "Withdraw LP or pending LP will result the withdrawal of your existing LP position in the same pool. Please choose to complete if you don't want to withdraw your existing LP."
   },
   "txManager": {
     "addAmountAsset": "Add %{amount} %{asset}",
@@ -395,6 +395,7 @@
       "title": "Provide liquidity to THORChain"
     },
     "home": {
+      "aprExplanation": "Based on LUVI metrics, past performance is not an exact projection of future yield. Click on ? to learn more.",
       "chart_add": "Add",
       "chart_bondEarning": "Bond Earning",
       "chart_earned": "Earned",
@@ -407,8 +408,7 @@
       "chart_withdraw": "Withdraw",
       "description": "Statistics for THORChain token pools",
       "featuredPools": "Featured Pools",
-      "title": "THORChain pool statistics",
-	  "aprExplanation":"Based on LUVI metrics, past performance is not an exact projection of future yield. Click on ? to learn more."
+      "title": "THORChain pool statistics"
     },
     "liquidity": {
       "ILPTooltip": "If you have ILP for you liquidity position it will be added to withdrawn amount.",
@@ -920,7 +920,6 @@
       "createKeystore": "Create Keystore",
       "createWallet": "Create Wallet",
       "deprioritizeXdefi": "Deprioritize XDEFI",
-      "installBraveBrowser": "Install Brave Browser",
       "disableBraveWallet": "Disable Brave Wallet",
       "disableDefaultWallet": "Disable %{wallet} Wallet",
       "enableBraveWallet": "Enable Brave Wallet:\nSettings > Default Ethereum wallet > Brave Wallet",
@@ -930,6 +929,7 @@
       "hardwareWallets": "Hardware Wallets",
       "importPhrase": "Import Phrase",
       "inputPassword": "Input Password",
+      "installBraveBrowser": "Install Brave Browser",
       "invalidKeystore": "Invalid Keystore File",
       "invalidPhrase": "Phrase is invalid",
       "jsonError": "Not a valid json file",

@@ -168,7 +168,8 @@ export const useVthorUtil = () => {
           receiverAddr,
         ]);
       } catch (error) {
-        console.error(error);
+        // @ts-expect-error
+        showErrorToast(t('notification.stakeFailed'), error?.message || error?.toString());
         return appDispatch(completeTransaction({ id, status: 'error' }));
       }
 
@@ -203,7 +204,8 @@ export const useVthorUtil = () => {
           receiverAddr,
         ]);
       } catch (error) {
-        console.error(error);
+        // @ts-expect-error
+        showErrorToast(t('notification.stakeFailed'), error?.message || error?.toString());
         return appDispatch(completeTransaction({ id, status: 'error' }));
       }
 
