@@ -1,6 +1,5 @@
 import { Text } from '@chakra-ui/react';
 import { AnnouncementsPopover } from 'components/Announcements/AnnouncementsPopover/AnnouncementsPopover';
-import { HeaderAnnouncements } from 'components/Announcements/HeaderAnnouncements';
 import { AppPopoverMenu } from 'components/AppPopoverMenu';
 import { Box, Button, Icon } from 'components/Atomic';
 import PromoBannerSlider from 'components/Header/PromoBannerSlider';
@@ -27,7 +26,7 @@ export const Header = memo(({ openMenu }: Props) => {
   const { isWalletLoading, wallet, setIsConnectModalOpen } = useWallet();
   const { setIsDrawerVisible } = useWalletDrawer();
   const { stats } = useMidgard();
-  const { isMdActive, isXlActive } = useWindowSize();
+  const { isMdActive } = useWindowSize();
 
   const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
 
@@ -120,13 +119,9 @@ export const Header = memo(({ openMenu }: Props) => {
         </Box>
       </Box>
 
-      {isXlActive ? (
-        <HeaderAnnouncements />
-      ) : (
-        <Box className="pt-3 xl:hidden">
-          <PromoBannerSlider />
-        </Box>
-      )}
+      <Box className="pt-3 xl:hidden">
+        <PromoBannerSlider />
+      </Box>
     </header>
   );
 });

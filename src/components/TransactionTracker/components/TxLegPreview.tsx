@@ -1,5 +1,6 @@
 import {
   Badge,
+  Box,
   chakra,
   CircularProgress,
   Flex,
@@ -36,6 +37,7 @@ type Props = {
   currentLegIndex: number;
   txStatus?: TxStatus;
   legTimeLeft?: number | null;
+  horizontalView?: boolean;
 };
 
 const AnimatedBox = chakra(motion.div, {
@@ -86,6 +88,7 @@ export const TxLegPreview = ({
   currentLegIndex,
   txStatus,
   legTimeLeft,
+  horizontalView,
 }: Props) => {
   const { finished: isTxFinished } = getTxState(txStatus);
 
@@ -131,20 +134,20 @@ export const TxLegPreview = ({
   );
 
   return (
-    <Flex gap={2} key={leg.hash}>
-      <Flex align="center" direction="column" gap={1}>
+    <Flex key={leg.hash}>
+      <Flex align="start" direction="column" gap={0.5} w="full">
         <Flex
           borderRadius={4}
           flexDirection="column"
           gap={1.5}
-          maxW="130px"
-          minW="110px"
+          maxW={horizontalView ? '130px' : 'none'}
+          minW={horizontalView ? '110px' : 'none'}
           opacity={status === null ? 0.6 : 1}
           overflow="hidden"
           pb={2}
           position="relative"
           pt={6}
-          px={4}
+          px={2}
           w="full"
         >
           {status === 'pending' ? (
@@ -180,17 +183,58 @@ export const TxLegPreview = ({
             />
           )}
 
-          <Flex position="absolute" right={2} top={2}>
+          <Flex position="absolute" right={2} top={horizontalView ? 2 : 1}>
             {getTxIcon(status)}
           </Flex>
 
-          <Flex left={2} position="absolute" top={2}>
+          <Flex left={2} position="absolute" top={horizontalView ? 2 : 1}>
             <Flex alignSelf="stretch">
               <TxLegTimer isTxFinished={isTxFinished} leg={leg} timeLeft={legTimeLeft} />
             </Flex>
           </Flex>
 
-          <Flex align="center" justify="center" opacity={0.8}>
+          <Flex
+            align="center"
+            display={horizontalView ? 'none' : 'flex'}
+            gap={1}
+            justify="center"
+            position="absolute"
+            right={8}
+            top={1}
+          >
+            <Text fontWeight="light" textAlign="center" textStyle="caption-xs">
+              {leg.chain || 'unknown'}
+            </Text>
+            {leg && (
+              <Flex>
+                {leg.chain ? (
+                  <AssetIcon
+                    logoURI={tokenLogoURL({
+                      identifier: getChainIdentifier(leg.chain),
+                    })}
+                    size={18}
+                    ticker={leg.chain}
+                  />
+                ) : (
+                  <FallbackIcon
+                    icon={<Icon name="hourglass" size={18} />}
+                    size={22}
+                    ticker={leg.hash || 'unknown'}
+                  />
+                )}
+              </Flex>
+            )}
+          </Flex>
+
+          <Flex
+            display={horizontalView ? 'none' : 'flex'}
+            justify="center"
+            left={0}
+            opacity={0.8}
+            position="absolute"
+            top={0}
+            w="full"
+          >
             <Tooltip content={badgeLabel}>
               <Badge colorScheme={badgeColorScheme} fontSize="10" variant="outline">
                 {isTransfer ? t('txManager.transfer') : t('txManager.swap')}
@@ -198,70 +242,95 @@ export const TxLegPreview = ({
             </Tooltip>
           </Flex>
 
-          <Flex gap={2} justify="center" mt={1}>
-            <Flex align="center" direction="column" gap={1}>
-              <AssetIcon
-                logoURI={`${leg.fromAssetImage}` || '??'}
-                size={36}
-                ticker={fromAssetTicker}
-              />
-            </Flex>
-
-            {!isTransfer && (
-              <>
-                <Flex alignItems="center">
-                  <Text textAlign="center" textStyle="subtitle2">
-                    →
-                  </Text>
-                </Flex>
-
-                <Flex align="center" direction="column" gap={1}>
-                  <AssetIcon
-                    logoURI={`${leg.toAssetImage}` || '??'}
-                    size={36}
-                    ticker={toAssetTicker}
-                  />
-                </Flex>
-              </>
-            )}
+          <Flex
+            align="center"
+            display={horizontalView ? 'flex' : 'none'}
+            justify="center"
+            mt={1}
+            opacity={0.8}
+          >
+            <Tooltip content={badgeLabel}>
+              <Badge colorScheme={badgeColorScheme} fontSize="10" variant="outline">
+                {isTransfer ? t('txManager.transfer') : t('txManager.swap')}
+              </Badge>
+            </Tooltip>
           </Flex>
 
-          <Flex gap={2} justify={isTransfer ? 'center' : 'space-between'} mt={1}>
-            <Flex align="center" direction="column">
-              {leg.fromAmount ? (
-                <Text fontSize="10px" lineHeight="12px" textStyle="caption-xs">
-                  {Amount.fromAssetAmount(leg.fromAmount.replace(',', ''), 6).toSignificant(3)}
-                </Text>
-              ) : (
-                <Icon spin className="self-center" name="loader" size={12} />
-              )}
-
-              <Text fontSize="10px" lineHeight="12px">
-                {fromAssetTicker}
-              </Text>
-            </Flex>
-
-            {!isTransfer && (
-              <Flex align="center" direction="column">
-                {leg.toAmount || status === 'refund' ? (
+          <Flex gap={3} mt={1}>
+            <Flex
+              align="center"
+              direction={horizontalView ? 'column-reverse' : 'row'}
+              flex={4}
+              gap={1}
+              justifyContent={isTransfer ? 'center' : 'end'}
+            >
+              <Flex align="center" direction="column" gap={horizontalView ? 1 : 0}>
+                {leg.fromAmount ? (
                   <Text fontSize="10px" lineHeight="12px" textStyle="caption-xs">
-                    {Amount.fromAssetAmount(
-                      (leg.toAmount || '0').replace(',', ''),
-                      6,
-                    ).toSignificant(3)}
+                    {Amount.fromAssetAmount(leg.fromAmount.replace(',', ''), 6).toSignificant(3)}
                   </Text>
                 ) : (
-                  <Icon spin name="loader" size={14} />
+                  <Icon spin className="self-center" name="loader" size={12} />
                 )}
 
                 <Text fontSize="10px" lineHeight="12px">
-                  {toAssetTicker}
+                  {fromAssetTicker}
+                </Text>
+              </Flex>
+              <AssetIcon
+                logoURI={`${leg.fromAssetImage}` || '??'}
+                size={horizontalView ? 30 : 22}
+                ticker={fromAssetTicker}
+              />
+            </Flex>
+            {!isTransfer && (
+              <Flex alignItems="center" flex={1} justify="center">
+                <Text textAlign="center" textStyle="subtitle2">
+                  →
                 </Text>
               </Flex>
             )}
-          </Flex>
+            {!isTransfer && (
+              <Flex
+                align="center"
+                direction={horizontalView ? 'column' : 'row'}
+                flex={4}
+                gap={1}
+                justifyContent="start"
+              >
+                <AssetIcon
+                  logoURI={`${leg.toAssetImage}` || '??'}
+                  size={horizontalView ? 30 : 22}
+                  ticker={toAssetTicker}
+                />
+                <Flex align="center" direction="column" gap={horizontalView ? 1 : 0}>
+                  {leg.toAmount || status === 'refund' ? (
+                    <Text fontSize="10px" lineHeight="12px" textStyle="caption-xs">
+                      {Amount.fromAssetAmount(
+                        (leg.toAmount || '0').replace(',', ''),
+                        6,
+                      ).toSignificant(3)}
+                    </Text>
+                  ) : (
+                    <Icon spin name="loader" size={14} />
+                  )}
 
-          <Flex align="center" direction="row" gap={1} justify="center" mb={1} mt={2}>
+                  <Text fontSize="10px" lineHeight="12px">
+                    {toAssetTicker}
+                  </Text>
+                </Flex>
+              </Flex>
+            )}
+          </Flex>
+          <Flex
+            align="center"
+            direction="row"
+            display={horizontalView ? 'flex' : 'none'}
+            gap={1}
+            justify="center"
+            mb={1}
+            mt={2}
+          >
             <Text fontWeight="light" textAlign="center" textStyle="caption-xs">
               {leg.chain || 'unknown'}
             </Text>
@@ -287,20 +356,37 @@ export const TxLegPreview = ({
             )}
           </Flex>
         </Flex>
-
-        <Link href={transactionUrl} target="_blank" w="full">
-          <Button
-            rightIcon={<Icon name="external" size={16} />}
-            size="xs"
-            sx={{ w: 'full' }}
-            variant="borderlessTint"
-          >
-            View tx
-          </Button>
-        </Link>
+        <Flex justify={horizontalView ? 'center' : 'end'} position="relative" w="full">
+          <Link href={transactionUrl} target="_blank" zIndex={1}>
+            <Button
+              rightIcon={<Icon name="external" size={16} />}
+              size="xs"
+              sx={{ w: 'full' }}
+              variant="borderlessTint"
+            >
+              {t('txManager.viewTx')}
+            </Button>
+          </Link>
+          {!isLast && (
+            <Flex
+              align="center"
+              display={horizontalView ? 'none' : 'flex'}
+              justify="center"
+              position="absolute"
+              right={0}
+              top={1}
+              w="full"
+            >
+              <Icon name="chevronDown" />
+            </Flex>
+          )}
+        </Flex>
       </Flex>
-
-      {!isLast && <TxLegProvider isTransfer={isTransfer} leg={leg} />}
+      <Box display={horizontalView ? 'flex' : 'none'}>
+        {!isLast && (
+          <TxLegProvider horizontalView={horizontalView} isTransfer={isTransfer} leg={leg} />
+        )}
+      </Box>
     </Flex>
   );
 };

@@ -8,9 +8,9 @@ export enum BreakPoint {
 }
 
 const BREAKPOINTS_WIDTHS = {
-  [BreakPoint.sm]: 640,
+  [BreakPoint.sm]: 480,
   [BreakPoint.md]: 768,
-  [BreakPoint.lg]: 1024,
+  [BreakPoint.lg]: 992,
   [BreakPoint.xl]: 1280,
 };
 
@@ -21,6 +21,7 @@ export const getSize = (type: 'innerWidth' | 'innerHeight' = 'innerWidth') => wi
 const getCurrentBreakpoint = () => {
   const width = getSize('innerWidth');
 
+  if (width >= BREAKPOINTS_WIDTHS[BreakPoint.xl]) return BreakPoint.xl;
   if (width >= BREAKPOINTS_WIDTHS[BreakPoint.lg]) return BreakPoint.lg;
   if (width >= BREAKPOINTS_WIDTHS[BreakPoint.md]) return BreakPoint.md;
   return BreakPoint.sm;
@@ -46,6 +47,9 @@ const useWindowSize = () => {
         return true;
       }
 
+      if (minSize === BreakPoint.xl && [BreakPoint.xl].includes(breakpoint)) {
+        return true;
+      }
       return false;
     },
     [breakpoint],

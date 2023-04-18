@@ -363,6 +363,7 @@
       "transfer": "Transfer %{asset}"
     },
     "txDetails": "Transaction Details",
+    "viewTx": "View tx",
     "txDuration": "Transaction duration",
     "txEstimatedTimeLeft": "Estimated time left",
     "txEstimating": "Estimating...",

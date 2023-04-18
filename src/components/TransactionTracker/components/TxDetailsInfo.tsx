@@ -62,7 +62,7 @@ export const TxDetailsInfo = ({ txDetails, isCompleted, totalTimeLeft }: Props) 
   const txUrl = `${window.location.origin}/tx/${firstTransactionHash}`;
 
   return (
-    <Flex direction="column" mt={8} w="full">
+    <Flex direction="column" mt={{ base: 2, lg: 6 }} w="full">
       <InfoRow
         label={t('views.thorname.status')}
         size="md"

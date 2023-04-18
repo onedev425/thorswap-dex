@@ -42,7 +42,7 @@ const Transaction = () => {
         keywords="Transaction tracker, SWAP, THORSwap, THORChain, DEX, DeFi"
         title="Transaction tracker"
       />
-      <ViewHeader title="Transaction details" />
+      <ViewHeader title={t('txManager.txDetails')} />
       <Card
         stretch
         className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-4 space-y-1 shadow-lg md:w-full md:h-auto"

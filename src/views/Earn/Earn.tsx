@@ -7,6 +7,7 @@ import {
   Percent,
 } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
+import classNames from 'classnames';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Card, Icon, Link, Tooltip } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
@@ -275,7 +276,7 @@ const Earn = () => {
                   </Box>
                 )}
 
-                <Box col className="flex h-full lg:w-full">
+                <Box col className={classNames('flex h-full', isLgActive && 'w-full')}>
                   <Card
                     stretch
                     className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-2 space-y-1 shadow-lg md:w-full md:h-auto"
