@@ -1,5 +1,6 @@
 import { Text } from '@chakra-ui/react';
-import LogoTs from 'assets/images/header_logo.png';
+import LogoTsDark from 'assets/images/header_logo_black.png';
+import LogoTsWhite from 'assets/images/header_logo_white.png';
 import Logo from 'assets/images/logo.png';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
@@ -54,7 +55,8 @@ export const Sidebar = ({ className, collapsed = false, toggle, onNavItemClick }
         className="mt-4 mb-2 min-w-[48px] h-12 transition-colors cursor-pointer px-5"
         onClick={() => navigate(ROUTES.Home)}
       >
-        <img alt="Logo" src={collapsed ? Logo : LogoTs} />
+        <img alt="Logo" className="dark:hidden" src={collapsed ? Logo : LogoTsDark} />
+        <img alt="Logo" className="hidden dark:block" src={collapsed ? Logo : LogoTsWhite} />
       </div>
 
       <div className="w-full h-sidebar-content">
