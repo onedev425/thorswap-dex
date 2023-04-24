@@ -1,9 +1,10 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetEntity, Percent } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
+import { MaxPopover } from 'components/AssetInput/MaxPopover';
 import { AssetSelect } from 'components/AssetSelect';
 import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton';
-import { Box, Button, Icon, Tooltip } from 'components/Atomic';
+import { Box, Icon, Tooltip } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { InputAmount } from 'components/InputAmount';
 import { useFormatPrice } from 'helpers/formatPrice';
@@ -51,9 +52,15 @@ export const AssetInput = ({
     [hideZeroPrice, usdPrice],
   );
 
-  const handleMaxClick = useCallback(() => {
-    onValueChange?.(balance || Amount.fromAssetAmount(0, asset.decimal));
-  }, [onValueChange, asset, balance]);
+  const handleMaxClick = useCallback(
+    (maxValue = 1) => {
+      const maxBalance = (balance || Amount.fromAssetAmount(0, asset.decimal)).mul(
+        new Percent(maxValue),
+      );
+      onValueChange?.(maxBalance);
+    },
+    [asset.decimal, balance, onValueChange],
+  );
 
   const assetSelectProps = useMemo(
     () => ({
@@ -154,14 +161,11 @@ export const AssetInput = ({
           )}
 
           {(balance || !hideMaxButton) && !disabled && (
-            <Button
-              className="!h-5 !px-1.5"
-              onClick={handleMaxClick}
-              textTransform="uppercase"
-              variant="outlineSecondary"
-            >
-              {maxButtonLabel || t('common.max')}
-            </Button>
+            <MaxPopover
+              disabled={!balance}
+              maxButtonLabel={maxButtonLabel}
+              onChange={handleMaxClick}
+            />
           )}
         </Box>
       </Box>

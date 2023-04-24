@@ -5,16 +5,17 @@ import { forwardRef, ReactNode, useCallback, useImperativeHandle, useRef, useSta
 import { usePopper } from 'react-popper';
 
 interface PopoverProps {
+  openOnHover?: boolean;
   trigger: ReactNode;
   children: ReactNode;
   disabled?: boolean;
   onClose?: () => void;
 }
 
-type ForwarderProps = { close: () => void; open: () => void };
+export type ForwarderProps = { close: () => void; open: () => void };
 
 export const Popover = forwardRef<ForwarderProps, PopoverProps>(
-  ({ trigger, children, disabled, onClose }, popoverRef) => {
+  ({ trigger, children, disabled, onClose, openOnHover }, popoverRef) => {
     const [isOpened, setIsOpened] = useState(false);
     const [btnRef, setReferenceElement] = useState<HTMLElement | null>();
     const [popperElement, setPopperElement] = useState<HTMLElement | null>();
@@ -43,12 +44,24 @@ export const Popover = forwardRef<ForwarderProps, PopoverProps>(
       open: openPopover,
     }));
 
+    const openPopoverOnHover = () => {
+      if (openOnHover) {
+        setIsOpened(true);
+      }
+    };
+
+    const closePopoverOnHoverOut = () => {
+      if (openOnHover) {
+        setTimeout(() => setIsOpened(false), 200);
+      }
+    };
+
     return (
-      <div ref={containerRef}>
+      <div onMouseLeave={closePopoverOnHoverOut} ref={containerRef}>
         {disabled ? (
           trigger
         ) : (
-          <div onClick={togglePopover} ref={setReferenceElement}>
+          <div onClick={togglePopover} onMouseEnter={openPopoverOnHover} ref={setReferenceElement}>
             {trigger}
           </div>
         )}
