@@ -1,14 +1,15 @@
-import { Text } from '@chakra-ui/react';
+import { Box, Flex, ListItem, Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Icon, Link, Tooltip } from 'components/Atomic';
+import { Icon, Link, Tooltip } from 'components/Atomic';
+import { easeInOutTransition } from 'components/constants';
 import { memo, MouseEventHandler, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { iconClasses, itemClasses, NavItemProps } from './types';
+import { iconClasses, NavItemProps } from './types';
 
 export const NavItem = memo(
   ({
-    className = '',
+    sx,
     iconName,
     href = '',
     variant = 'primary',
@@ -21,7 +22,6 @@ export const NavItem = memo(
     beta,
   }: NavItemProps) => {
     const isActive = useLocation().pathname.includes(href);
-
     const onClickHandler: MouseEventHandler = useCallback(
       (e) => {
         onClick?.(e);
@@ -31,32 +31,63 @@ export const NavItem = memo(
     );
 
     return (
-      <li className={className}>
+      <ListItem sx={sx}>
         <Tooltip content={label} disabled={!collapsed} place="right">
-          <Box
-            center
-            className={classNames(
-              'relative overflow-hidden w-full h-9 box-border rounded-2xl group transition-all',
-              itemClasses[variant],
-              {
-                'items-center': collapsed,
-                'bg-btn-primary dark:bg-btn-primary': isActive && variant === 'primary',
-                'bg-btn-secondary dark:bg-btn-secondary': isActive && variant === 'secondary',
-              },
-            )}
+          <Flex
+            _hover={{
+              bg:
+                variant === 'primary'
+                  ? 'brand.alpha.btnPrimary'
+                  : variant === 'secondary'
+                  ? 'brand.alpha.btnSecondary'
+                  : undefined,
+            }}
+            align="center"
+            bg={
+              isActive && variant === 'primary'
+                ? 'brand.btnPrimary'
+                : isActive && variant === 'secondary'
+                ? 'brand.btnSecondary'
+                : undefined
+            }
+            borderRadius="2xl"
+            boxSizing="border-box"
+            className="group"
+            h={9}
+            justify="center"
+            overflow="hidden"
+            position="relative"
+            role="group"
+            transition={easeInOutTransition}
+            w="full"
           >
             {beta && !isActive && (
-              <Box
-                center
-                className={classNames(
-                  'transition-all rounded-xl absolute bg-btn-secondary-translucent group-hover:bg-transparent rotate-[48deg]',
-                  collapsed ? 'h-2 px-2.5 top-2 -right-3' : 'h-3 px-4 top-2 -right-4',
-                )}
+              <Flex
+                _groupHover={{ bgColor: 'transparent' }}
+                align="center"
+                bgColor="brand.btnSecondary"
+                borderRadius="xl"
+                h={collapsed ? 2 : 3}
+                justify="center"
+                position="absolute"
+                px={collapsed ? 2.5 : 4}
+                right={collapsed ? -3 : -4}
+                top={2}
+                transform="rotate(48deg)"
+                transition={easeInOutTransition}
               >
-                <Text className="transition group-hover:text-white font-thin text-xs !text-[10px]">
+                <Text
+                  _groupHover={{
+                    color: 'white',
+                  }}
+                  fontSize="10px"
+                  fontWeight={500}
+                  lineHeight="16px"
+                  transition="ease"
+                >
                   Beta
                 </Text>
-              </Box>
+              </Flex>
             )}
 
             <Link
@@ -64,9 +95,9 @@ export const NavItem = memo(
               onClick={onClickHandler}
               to={href}
             >
-              <Box className=" justify-center w-full px-4">
-                <div className="min-w-[18px] min-h-[18px]">
-                  <Box center>
+              <Flex justify="center" px={4} w="full">
+                <Box minH="18px" minW="18px">
+                  <Flex align="center" justify="center">
                     {iconName && (
                       <Icon
                         className={classNames(
@@ -78,23 +109,19 @@ export const NavItem = memo(
                         size={18}
                       />
                     )}
-                  </Box>
-                </div>
+                  </Flex>
+                </Box>
 
-                <Box
-                  className={classNames(
-                    'overflow-hidden transition-all',
-                    collapsed ? 'w-[0%]' : 'w-full',
-                  )}
-                >
+                <Flex overflow="hidden" transition={easeInOutTransition} w={collapsed ? 0 : 'full'}>
                   <Text
-                    className={classNames(
-                      'px-2 group-hover:text-white transition-all whitespace-nowrap',
-                      isActive ? 'text-white dark:text-white' : iconClasses[variant],
-                    )}
+                    _dark={{ color: isActive ? 'white' : 'brand.dark.textGreenLight' }}
+                    _groupHover={{ color: 'white' }}
                     fontWeight="semibold"
+                    px={2}
                     textStyle="caption"
                     textTransform={transform}
+                    transition={easeInOutTransition}
+                    whiteSpace="nowrap"
                   >
                     {label}
                   </Text>
@@ -110,12 +137,12 @@ export const NavItem = memo(
                       size={18}
                     />
                   )}
-                </Box>
-              </Box>
+                </Flex>
+              </Flex>
             </Link>
-          </Box>
+          </Flex>
         </Tooltip>
-      </li>
+      </ListItem>
     );
   },
 );

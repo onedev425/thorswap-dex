@@ -1,10 +1,10 @@
-import { Text } from '@chakra-ui/react';
+import { Box, Flex, List, Text } from '@chakra-ui/react';
 import LogoTsDark from 'assets/images/header_logo_black.png';
 import LogoTsWhite from 'assets/images/header_logo_white.png';
 import Logo from 'assets/images/logo.png';
-import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Icon, Tooltip } from 'components/Atomic';
+import { Icon, Tooltip } from 'components/Atomic';
+import { easeInOutTransition } from 'components/constants';
 import { SupportModal } from 'components/Modals/Support/Support';
 import { Scrollbar } from 'components/Scrollbar';
 import { useSidebarOptions } from 'components/Sidebar/hooks';
@@ -24,42 +24,58 @@ const noScrollHeight = 238;
 const toggleHeight = 50;
 const stickyMenuHeight = 100;
 
-export const Sidebar = ({ className, collapsed = false, toggle, onNavItemClick }: SidebarProps) => {
+export const Sidebar = ({ sx, collapsed = false, toggle, onNavItemClick }: SidebarProps) => {
   const { sidebarOptions, stickyMenu } = useSidebarOptions();
-
   const { isMdActive } = useWindowSize();
   const { stats } = useMidgard();
   const navigate = useNavigate();
-  const [isSupportModalOpened, setIsSupportModalOpened] = useState(false);
 
-  const runeLabel = useMemo(
-    () => (stats?.runePriceUSD ? `$${parseFloat(stats.runePriceUSD || '').toFixed(2)}` : '$ -'),
-    [stats],
-  );
+  const [isSupportModalOpened, setIsSupportModalOpened] = useState(false);
   const scrollbarHeight = `calc(100vh - ${
     toggle ? noScrollHeight + toggleHeight : noScrollHeight
   }px)`;
   const mobileScrollbarHeight = `calc(98% - ${stickyMenuHeight}px)`;
 
+  const runeLabel = useMemo(
+    () => (stats?.runePriceUSD ? `$${parseFloat(stats.runePriceUSD || '').toFixed(2)}` : '$ -'),
+    [stats],
+  );
   return (
-    <nav
-      className={classNames(
-        'flex flex-col items-center my-2 transition-all ml-2',
-        'rounded-3xl border-box sticky top-0 bg-white dark:bg-dark-bg-secondary md:dark:!bg-opacity-30',
-        'h-sidebar shadow-md border-opacity-30 border border-solid border-light-typo-gray dark:border-none',
-        collapsed ? 'w-[72px]' : 'w-[180px]',
-        className,
-      )}
+    <Flex
+      _dark={{
+        bgColor: 'brand.bgDarkNavyGray',
+        border: 'none',
+      }}
+      align="center"
+      bgColor="white"
+      border="1px solid"
+      borderColor="borderPrimary"
+      borderRadius={24}
+      boxShadow="md"
+      boxSizing="border-box"
+      direction="column"
+      h="calc(100vh - 18px)"
+      ml={2}
+      my={2}
+      position="sticky"
+      sx={sx}
+      top={0}
+      transition={easeInOutTransition}
+      width={collapsed ? '72px' : '180px'}
     >
-      <div
-        className="mt-4 mb-2 min-w-[48px] h-12 transition-colors cursor-pointer px-5"
+      <Box
+        cursor="pointer"
+        h="48px"
+        mb={2}
+        minW="48px"
+        mt={4}
         onClick={() => navigate(ROUTES.Home)}
+        px={5}
       >
         <img alt="Logo" className="dark:hidden" src={collapsed ? Logo : LogoTsDark} />
-        <img alt="Logo" className="hidden dark:block" src={collapsed ? Logo : LogoTsWhite} />
-      </div>
-
-      <div className="w-full h-sidebar-content">
+        <img alt="Logo" className="hidden dark:block" src={collapsed ? Logo : LogoTsWhite} />{' '}
+      </Box>
+      <Box h="calc(100vh - 182px)" w="full">
         <SidebarItems
           collapsed={collapsed}
           onItemClick={onNavItemClick}
@@ -68,17 +84,24 @@ export const Sidebar = ({ className, collapsed = false, toggle, onNavItemClick }
         />
         <Scrollbar height={isMdActive ? scrollbarHeight : mobileScrollbarHeight}>
           <SidebarItems
+            verticallyCollapsable
             collapsed={collapsed}
             onItemClick={onNavItemClick}
             options={sidebarOptions}
             variant="primary"
           />
         </Scrollbar>
-      </div>
-
-      <ul className="flex mr-2 flex-col w-full p-0 my-1 list-none rounded-2xl">
+      </Box>
+      <List
+        borderRadius="2xl"
+        display="flex"
+        flexDirection="column"
+        listStyleType="none"
+        my={1}
+        p={0}
+        w="full"
+      >
         <NavItem
-          className={classNames('!mx-1')}
           collapsed={collapsed}
           href="/"
           iconName="infoCircle"
@@ -88,42 +111,52 @@ export const Sidebar = ({ className, collapsed = false, toggle, onNavItemClick }
             setIsSupportModalOpened(true);
           }}
           onItemClickCb={onNavItemClick}
+          sx={{ mx: 1 }}
         />
-      </ul>
-
+      </List>
       <Tooltip stretchHorizontally content="Rune Price">
-        <Box
-          center
-          className="gap-1 h-full border-0 py-3.5 border-t border-solid border-light-typo-gray dark:border-dark-typo-gray !border-opacity-30"
+        <Flex
+          alignItems="center"
+          borderTop="1px solid"
+          borderTopColor="borderPrimary"
+          gap={1}
+          height="full"
+          justifyContent="center"
+          py={3.5}
         >
           <AssetIcon asset={RUNEAsset} size={16} />
           <Text
-            className="transition-[font-size] text-center"
             fontWeight="semibold"
+            textAlign="center"
             textStyle={isMdActive ? 'caption' : 'caption-xs'}
+            transition={easeInOutTransition}
           >
             {runeLabel}
           </Text>
-        </Box>
+        </Flex>
       </Tooltip>
 
       <Box
-        className="absolute hidden md:flex right-[-11px] rounded-md bottom-[37px] z-50 p-.5 bg-light-bg-primary hover:bg-light-gray-light dark:bg-dark-dark-gray cursor-pointer hover:dark:bg-dark-gray-light light:"
+        _hover={{ bg: 'bgLightGrayLight', _dark: { bg: 'borderPrimary' } }}
+        bg="bgSecondary"
+        borderRadius="md"
+        bottom="38px"
+        cursor="pointer"
+        display={{ base: 'none', md: 'flex' }}
         onClick={toggle}
+        position="absolute"
+        right="-11px"
+        zIndex={10}
       >
         <Tooltip
           content={collapsed ? t('components.sidebar.expand') : t('components.sidebar.collapse')}
         >
-          <Box center>
-            <Icon
-              className={classNames({ '-scale-x-100': !collapsed })}
-              name="chevronRight"
-              size={18}
-            />
-          </Box>
+          <Flex align="center" justify="center" transform={!collapsed ? 'scaleX(-1)' : 'none'}>
+            <Icon name="chevronRight" size={18} />
+          </Flex>
         </Tooltip>
       </Box>
       <SupportModal isOpen={isSupportModalOpened} onCancel={() => setIsSupportModalOpened(false)} />
-    </nav>
+    </Flex>
   );
 };

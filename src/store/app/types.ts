@@ -29,4 +29,5 @@ export interface State {
   arePoolsHidden: boolean;
   dismissedAnnList: string[];
   seenAnnList: string[];
+  collapsedSidebarGroups: string[];
 }

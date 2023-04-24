@@ -1,7 +1,8 @@
-import { Text } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { AnnouncementsPopover } from 'components/Announcements/AnnouncementsPopover/AnnouncementsPopover';
 import { AppPopoverMenu } from 'components/AppPopoverMenu';
-import { Box, Button, Icon } from 'components/Atomic';
+import { Button, Icon } from 'components/Atomic';
+import { easeInOutTransition } from 'components/constants';
 import PromoBannerSlider from 'components/Header/PromoBannerSlider';
 import { StatusDropdown } from 'components/Header/StatusDropdown';
 import { TransactionManager } from 'components/TransactionManager';
@@ -38,8 +39,18 @@ export const Header = memo(({ openMenu }: Props) => {
   return (
     <header className="mb-5 min-h-[70px]">
       {!IS_PROD && (
-        <Box className="bottom-4 p-2.5 !absolute bg-white border border-transparent border-solid shadow-md rounded-2xl dark:border-cyan dark:bg-transparent">
-          <Text className="transition-[font-size]" fontWeight="semibold" textStyle="caption">
+        <Box
+          _dark={{ borderColor: 'brand.cyan', bgColor: 'transparent' }}
+          bg="white"
+          border="1px solid"
+          borderColor="transparent"
+          borderRadius="2xl"
+          bottom={4}
+          boxShadow="md"
+          p={2.5}
+          position="absolute"
+        >
+          <Text fontWeight="semibold" textStyle="caption" transition={easeInOutTransition}>
             {IS_BETA
               ? 'Beta'
               : IS_STAGENET
@@ -53,8 +64,8 @@ export const Header = memo(({ openMenu }: Props) => {
         </Box>
       )}
 
-      <Box flex={1} justify="between">
-        <Box className="mt-auto shrink-0 gap-x-2 mr-2">
+      <Flex flex={1} justify="between">
+        <Flex flex={1} gap={2} mr={2} mt="auto" shrink={0}>
           <Button
             className="flex !p-1"
             display={{ md: 'none' }}
@@ -63,28 +74,34 @@ export const Header = memo(({ openMenu }: Props) => {
             variant="borderlessPrimary"
           />
 
-          <Box className="hidden md:flex bottom-4 right-4 fixed z-50">
+          <Box
+            bottom={4}
+            display={{ base: 'none', md: 'flex' }}
+            position="fixed"
+            right={4}
+            zIndex={50}
+          >
             <StatusDropdown />
           </Box>
-        </Box>
+        </Flex>
 
-        <Box flex={3}>
-          <Box className="hidden xl:flex">
+        <Flex flex={3} justify="center">
+          <Box display={{ base: 'none', xl: 'flex' }} mx="auto" w="500px">
             <PromoBannerSlider />
           </Box>
-        </Box>
+        </Flex>
 
-        <Box className="gap-1" flex={1} justify="end">
+        <Flex flex={1} gap={1} justify="end">
           <Button
-            className="mr-2"
+            mr={2}
             onClick={handleClickWalletBtn}
             size="sm"
             variant={themeType === ThemeType.Light ? 'primary' : 'outlinePrimary'}
           >
             {isWalletLoading ? (
-              <Box center row className="gap-1">
+              <Flex gap={1} justify="center">
                 {t('common.loading')} <Icon spin color="primary" name="loader" size={20} />
-              </Box>
+              </Flex>
             ) : isConnected ? (
               t('common.wallet')
             ) : (
@@ -95,10 +112,10 @@ export const Header = memo(({ openMenu }: Props) => {
           <AppPopoverMenu />
 
           <TransactionManager />
-        </Box>
-      </Box>
+        </Flex>
+      </Flex>
 
-      <Box className="pt-3 xl:hidden">
+      <Box display={{ xl: 'none' }} pt={3}>
         <PromoBannerSlider />
       </Box>
     </header>

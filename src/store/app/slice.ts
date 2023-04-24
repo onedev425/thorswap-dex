@@ -20,6 +20,7 @@ const initialState: State = {
   arePoolsHidden: getFromStorage('poolsHidden') as boolean,
   dismissedAnnList: getFromStorage('dismissedAnnList') as string[],
   seenAnnList: getFromStorage('seenAnnList') as string[],
+  collapsedSidebarGroups: getFromStorage('collapsedSidebarGroups') as string[],
   isSidebarCollapsed: getFromStorage('sidebarCollapsed') as boolean,
   isSettingOpen: false,
   isSidebarOpen: false,
@@ -148,6 +149,10 @@ const appSlice = createSlice({
     toggleSidebarCollapse(state, action: PayloadAction<boolean>) {
       state.isSidebarCollapsed = action.payload;
       saveInStorage({ key: 'sidebarCollapsed', value: action.payload });
+    },
+    setCollapsedSidebarGroups(state, action: PayloadAction<string[]>) {
+      state.collapsedSidebarGroups = action.payload;
+      saveInStorage({ key: 'collapsedSidebarGroups', value: action.payload });
     },
   },
 });

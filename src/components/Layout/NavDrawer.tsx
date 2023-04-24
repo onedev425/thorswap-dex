@@ -29,7 +29,7 @@ export const NavDrawer = memo(({ isVisible, hideMenu }: Props) => {
         )}
         ref={navRef}
       >
-        <Sidebar className="!bg-opacity-100" onNavItemClick={hideMenu} />
+        <Sidebar onNavItemClick={hideMenu} sx={{ bg: '!transparent' }} />
       </div>
     </>
   );

@@ -27,6 +27,7 @@ type StorageType = {
   readStatus: boolean;
   restorePreviousWallet: boolean;
   seenAnnList: string[];
+  collapsedSidebarGroups: string[];
   sidebarCollapsed: boolean;
   slippageTolerance: string;
   statsHidden: boolean;
@@ -61,7 +62,8 @@ type StoragePayload =
         | 'frequentAssets'
         | 'featuredAssets'
         | 'dismissedAnnList'
-        | 'seenAnnList';
+        | 'seenAnnList'
+        | 'collapsedSidebarGroups';
       value: string[];
     }
   | {
@@ -113,6 +115,7 @@ const defaultValues: StorageType = {
   frequentAssets: [] as string[],
   nodeWatchList: [] as string[],
   seenAnnList: [] as string[],
+  collapsedSidebarGroups: [] as string[],
 
   baseCurrency: USDAsset.toString(),
   language: 'en',
@@ -134,6 +137,7 @@ export const saveInStorage = ({ key, value }: StoragePayload) => {
     case 'multisigWallet':
     case 'nodeWatchList':
     case 'seenAnnList':
+    case 'collapsedSidebarGroups':
     case 'txHistory':
       localStorage.setItem(key, JSON.stringify(value));
       break;

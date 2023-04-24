@@ -1,3 +1,4 @@
+import { SystemStyleObject } from '@chakra-ui/react';
 import { IconName, TextTransform } from 'components/Atomic';
 import { MouseEventHandler } from 'react';
 
@@ -14,7 +15,7 @@ type ItemProps = {
 export type NavItemProps = ItemProps & {
   transform?: TextTransform;
   variant?: SidebarVariant;
-  className?: string;
+  sx?: SystemStyleObject;
   collapsed?: boolean;
   onClick?: MouseEventHandler;
   onItemClickCb?: () => void;
@@ -29,7 +30,7 @@ type SideBarItem = ItemProps & {
 export type SidebarItemProps = SideBarItem & { children?: SideBarItem[] };
 
 export type SidebarProps = {
-  className?: string;
+  sx?: SystemStyleObject;
   collapsed?: boolean;
   toggle?: () => void;
   onNavItemClick?: () => void;

@@ -20,6 +20,7 @@ export const colors = {
   bgBtnLightTintActive: '#dfe3f5',
   bgDarkBgPrimary: '#121526',
   bgDarkBgSecondary: '#232E42',
+  bgDarkNavyGray: '#181d2e',
   bgLightGrayLight: '#E5E5E5',
   bgDarkGrayPrimary: '#75849D',
   btnPrimary: '#4DBAD6',
@@ -36,6 +37,7 @@ export const colors = {
     btnBorderPrimary: '#afb6cc',
     typoGray: '#e2ebfb',
     grayPrimary: '#7C859F',
+    textGreenLight: '#6a8e8b',
   },
   dark: {
     textPrimary: '#E2EBFB',
@@ -46,5 +48,11 @@ export const colors = {
     btnBorderPrimary: '#273855',
     typoGray: '#75849d',
     grayPrimary: '#75849D',
+    textGreenLight: '#6a8e8b',
+  },
+  alpha: {
+    btnPrimary: '#4DBAD6AA',
+    btnSecondary: '#46B2A7AA',
+    bgBtnSecondary: '#46B2A71F',
   },
 };

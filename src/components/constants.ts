@@ -36,3 +36,5 @@ export const borderHoverHighlightClass =
   'border border-transparent border-solid hover:border-light-border-primary dark:hover:border-dark-gray-primary transition';
 
 export const lightInputBorder = 'border-light-typo-gray dark:border-dark-typo-gray';
+
+export const easeInOutTransition = `all 0.3s cubic-bezier(0.4, 0, 0.2, 1)`;

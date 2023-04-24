@@ -174,6 +174,13 @@ export const useApp = () => {
     [dispatch],
   );
 
+  const setCollapsedSidebarGroups = useCallback(
+    (collapsedSidebarGroups: string[]) => {
+      dispatch(actions.setCollapsedSidebarGroups(collapsedSidebarGroups));
+    },
+    [dispatch],
+  );
+
   return {
     ...appState,
     baseCurrencyAsset,
@@ -201,5 +208,6 @@ export const useApp = () => {
     setAnnSeenList,
     setMultisigShowStatus,
     setCustomSendShowStatus,
+    setCollapsedSidebarGroups,
   };
 };
