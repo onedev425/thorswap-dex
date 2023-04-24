@@ -16,9 +16,6 @@ import { MimirData, State } from './types';
 const initialState: State = {
   pools: [],
   poolLoading: false,
-  memberDetails: {
-    pools: [],
-  },
   chainMemberDetails: {},
   chainMemberDetailsLoading: {},
   stats: null,

@@ -4,7 +4,7 @@ import { PoolPeriods } from '@thorswap-lib/midgard-sdk';
 import { Chain } from '@thorswap-lib/types';
 import dayjs from 'dayjs';
 import { midgardApi } from 'services/midgard';
-import { midgardAPIUrl, THORNODE_URL } from 'settings/config';
+import { THORNODE_URL } from 'settings/config';
 
 import { LiquidityProvider, SaverProvider, ThornodePoolType } from './types';
 
@@ -23,9 +23,13 @@ export const getThornameExpireDate = ({
 };
 
 export const getNetworkData = createAsyncThunk('midgard/getNetworkData', midgardApi.getNetworkData);
-export const getLastblock = createAsyncThunk('midgard/getLastblock', midgardApi.getLastblock);
+export const getLastblock = createAsyncThunk('midgard/getLastblock', () =>
+  getRequest<any>(`${THORNODE_URL}/lastblock`),
+);
 export const getStats = createAsyncThunk('midgard/getStats', midgardApi.getStats);
-export const getQueue = createAsyncThunk('midgard/getQueue', midgardApi.getQueue);
+export const getQueue = createAsyncThunk('midgard/getQueue', () =>
+  getRequest<any>(`${THORNODE_URL}/queue`),
+);
 export const getTVLHistory = createAsyncThunk('midgard/getTVLHistory', midgardApi.getTVLHistory);
 export const getSwapHistory = createAsyncThunk('midgard/getSwapHistory', midgardApi.getSwapHistory);
 
@@ -44,7 +48,7 @@ export const getEarningsHistory = createAsyncThunk(
 );
 
 export const getMimir = createAsyncThunk('thorchain/getThorchainMimir', () =>
-  getRequest<any>(midgardAPIUrl('thorchain/mimir')),
+  getRequest<any>(`${THORNODE_URL}/mimir`),
 );
 
 export const getNodes = createAsyncThunk('midgard/getNodes', midgardApi.getNodes);

@@ -6,7 +6,6 @@ import {
   EarningsHistory,
   LastblockItem,
   LiquidityHistory,
-  MemberDetails,
   MemberPool,
   Network,
   PoolStatsDetail,
@@ -242,7 +241,6 @@ export type LpDetailCalculationResult = {
 export interface State {
   pools: Pool[];
   poolLoading: boolean;
-  memberDetails: MemberDetails;
   chainMemberDetails: ChainMemberDetails;
   chainMemberDetailsLoading: ChainMemberDetailsLoading;
   fullMemberDetailsLoading: boolean;
