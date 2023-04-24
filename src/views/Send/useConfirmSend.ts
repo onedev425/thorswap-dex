@@ -54,7 +54,6 @@ export const useConfirmSend = ({
         });
 
         if (txid) {
-          // @ts-expect-error
           appDispatch(updateTransaction({ id, txid }));
         }
       } catch (error: NotWorth) {

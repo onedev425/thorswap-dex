@@ -61,6 +61,7 @@ export const getChainMemberDetails = ({
   chainMemberDetails: ChainMemberDetails;
 }): ChainMemberDetails => {
   // get sym and rune asym share from memPools fetched with thorchain address
+
   if (chain === Chain.THORChain) {
     memPools.forEach((memPool: MemberPool) => {
       const { pool, runeAdded, assetAdded, runePending } = memPool;
@@ -104,7 +105,7 @@ export const getChainMemberDetails = ({
   // get sym and asset asym share
   if (chain !== Chain.THORChain) {
     memPools.forEach((memPool: MemberPool) => {
-      const { pool, runeAdded, assetAdded, assetPending } = memPool;
+      const { runePending, pool, runeAdded, assetAdded, assetPending } = memPool;
 
       const poolChain = pool.split('.')[0] as Chain;
       let chainMemberData = chainMemberDetails?.[poolChain] ?? {};
@@ -112,7 +113,7 @@ export const getChainMemberDetails = ({
       let poolMemberData = chainMemberData?.[pool] ?? {};
 
       // check asset asymm share
-      if (Number(runeAdded) === 0 && Number(assetAdded) > 0) {
+      if ((Number(runeAdded) === 0 && Number(assetAdded) > 0) || Number(runePending) > 0) {
         // if there's no pending Asset, it's "Asset Asym" position
         if (Number(assetPending) === 0) {
           poolMemberData = {

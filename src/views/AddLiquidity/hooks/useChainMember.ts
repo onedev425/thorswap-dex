@@ -29,13 +29,7 @@ export const useChainMember = ({ poolAsset, pools, pool, liquidityType }: Props)
       const thorchainAddress = wallet?.[Chain.THORChain]?.address;
 
       if (assetChainAddress && thorchainAddress) {
-        dispatch(
-          actions.reloadPoolMemberDetailByChain({
-            chain,
-            thorchainAddress,
-            assetChainAddress,
-          }),
-        );
+        dispatch(actions.getFullMemberDetail([thorchainAddress, assetChainAddress]));
       }
     },
     [dispatch, wallet],

@@ -120,13 +120,11 @@ export const useMidgard = () => {
   const getAllMemberDetails = useCallback(async () => {
     if (!wallet) return;
 
-    const thorchainAddress = wallet?.[Chain.THORChain]?.address;
-
-    if (thorchainAddress) {
-      getMemberDetailsByChain(Chain.THORChain, thorchainAddress);
+    if (wallet?.THOR?.address) {
+      await getMemberDetailsByChain(Chain.THORChain, wallet?.THOR?.address);
     }
+
     const otherChainsAddress = Object.keys(wallet)
-      .filter((chain) => chain !== Chain.THORChain)
       .map((chain) =>
         chain === Chain.Ethereum
           ? wallet?.[chain as Chain]?.address.toLowerCase()

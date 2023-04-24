@@ -192,6 +192,7 @@ const midgardSlice = createSlice({
       })
       .addCase(midgardActions.getFullMemberDetail.fulfilled, (state, { payload }) => {
         if (!payload) return;
+
         const memberPools: MemberPool[] = payload.map((elem: FullMemberPool) => ({
           ...elem,
           liquidityUnits: elem.sharedUnits.toString(),
@@ -220,8 +221,10 @@ const midgardSlice = createSlice({
               .map((pool: MemberPool) => pool.pool)
               .filter((elem: string) => !previousPoolNamesByChain.includes(elem)),
           ];
+
           state.poolNamesByChain[chain] = poolNamesByChain;
         });
+
         state.fullMemberDetailsLoading = false;
       })
       .addCase(midgardActions.getFullMemberDetail.rejected, (state) => {
