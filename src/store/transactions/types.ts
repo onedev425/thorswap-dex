@@ -83,6 +83,7 @@ export type PendingTransactionType = {
   sellAmount?: string;
   sellAmountNormalized?: string;
   status?: TransactionStatus;
+  recipient?: string;
 };
 
 export type CompletedTransactionType = PendingTransactionType & {
@@ -105,6 +106,8 @@ export enum TxStatus {
   ERROR = 'error',
   UNKNOWN = 'unknown',
   NOT_STARTED = 'not_started',
+  NOT_FOUND = 'not_found',
+  RETRIES_EXCEEDED = 'retries_exceeded',
 }
 
 export type TxTrackerLeg = {

@@ -180,6 +180,7 @@ export const getSimpleTxStatus = (status: TxStatus): TransactionStatus => {
     case TxStatus.CANCELLED:
       return 'error';
     case TxStatus.UNKNOWN:
+    case TxStatus.RETRIES_EXCEEDED:
       return 'unknown';
     case TxStatus.NOT_STARTED:
       return 'notStarted';

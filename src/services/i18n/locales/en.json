@@ -380,7 +380,9 @@
     "withdraw": "Withdraw",
     "withdrawAmountAsset": "Withdraw %{amount} %{asset}",
     "withdrawAmountFailed": "Withdraw %{amount} %{asset} failed",
-    "withdrawnAmountAsset": "Withdrew %{amount} %{asset}"
+    "withdrawnAmountAsset": "Withdrew %{amount} %{asset}",
+    "txTimeoutTooltip": "This tx took too long to estimate and it cannot be tracked",
+    "txTimeout": "Tracker time-out"
   },
   "validation": {
     "invalidPassword": "Invalid Password"

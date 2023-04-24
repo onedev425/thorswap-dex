@@ -150,6 +150,8 @@ export type GetTxnStatusDetailsParams = {
     sellAmount: string;
     route?: QuoteRoute;
     startTimestamp?: number;
+    fromAddress: string;
+    toAddress: string;
   };
 };
 

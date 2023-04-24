@@ -41,14 +41,15 @@ export const getTxStatusLabel = (status: TransactionStatus | null) => {
 };
 
 export const getTxState = (status?: TxStatus) => {
-  if (!status) return { completed: false, error: false, finished: false };
+  if (!status) return { completed: false, error: false, finished: false, timedOut: false };
 
   const error = status === TxStatus.ERROR || status === TxStatus.CANCELLED;
   const completed =
     status === TxStatus.SUCCESS || status === TxStatus.REFUNDED || status === TxStatus.REPLACED;
-  const finished = completed || error;
+  const timedOut = status === TxStatus.RETRIES_EXCEEDED;
+  const finished = completed || error || timedOut;
 
-  return { completed, error, finished };
+  return { completed, error, finished, timedOut };
 };
 
 type DurationFormatConfig = { noUnits?: boolean; approx?: boolean };

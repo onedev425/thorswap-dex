@@ -4,17 +4,8 @@ import { Button, Icon } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { showSuccessToast } from 'components/Toast';
-import { getEstimatedTxDuration } from 'components/TransactionManager/helpers';
-import { TransactionStatusIcon } from 'components/TransactionManager/TransactionStatusIcon';
-import {
-  formatDuration,
-  getTxDisplayStatus,
-  getTxDuration,
-  getTxState,
-  getTxStatusColor,
-  getTxStatusLabel,
-} from 'components/TransactionTracker/helpers';
-import { CircularCountdown } from 'components/TxTracker/components/CircularCountdown';
+import { TxDetailsStatusInfo } from 'components/TransactionTracker/components/TxDetailsStatusInfo';
+import { formatDuration, getTxDuration, getTxState } from 'components/TransactionTracker/helpers';
 import copy from 'copy-to-clipboard';
 import { getTickerFromIdentifier } from 'helpers/logoURL';
 import { shortenAddress } from 'helpers/shortenAddress';
@@ -36,8 +27,7 @@ export const TxDetailsInfo = ({ txDetails, isCompleted, totalTimeLeft }: Props) 
   if (!txDetails) return null;
 
   const { legs, firstTransactionHash, status } = txDetails;
-  const { error, finished } = getTxState(status);
-  const txStatus = getTxDisplayStatus(status);
+  const { error } = getTxState(status);
   const firstLeg = legs[0];
   const lastLeg = legs[legs.length - 1];
   const duration = getTxDuration(legs);
@@ -68,22 +58,7 @@ export const TxDetailsInfo = ({ txDetails, isCompleted, totalTimeLeft }: Props) 
         size="md"
         value={
           <Flex align="center" gap={1} justify="center">
-            <Text
-              color={getTxStatusColor(txStatus)}
-              textStyle="caption-xs"
-              textTransform="uppercase"
-            >
-              {getTxStatusLabel(txStatus)}
-            </Text>
-            {finished ? (
-              <TransactionStatusIcon size={18} status={txStatus} />
-            ) : (
-              <CircularCountdown
-                estimatedDuration={getEstimatedTxDuration(txDetails)}
-                hasDetails={!!txDetails}
-                timeLeft={totalTimeLeft}
-              />
-            )}
+            <TxDetailsStatusInfo totalTimeLeft={totalTimeLeft} txDetails={txDetails} />
           </Flex>
         }
       />

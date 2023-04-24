@@ -65,6 +65,14 @@ export const useSwap = ({
           inputAsset.name
         } → ${outputAmount.toSignificant(6)} ${outputAsset.name}`;
 
+        const { swap, validateAddress } = await (
+          await import('services/swapKit')
+        ).getSwapKitClient();
+
+        const swapRecipient = validateAddress({ chain: outputAsset.L1Chain, address: recipient })
+          ? recipient
+          : '';
+
         appDispatch(
           addTransaction({
             id,
@@ -78,21 +86,16 @@ export const useSwap = ({
               groupSeparator: '',
               decimalSeparator: '.',
             }),
+            recipient: swapRecipient || from,
           }),
         );
-
-        const { swap, validateAddress } = await (
-          await import('services/swapKit')
-        ).getSwapKitClient();
 
         try {
           const timestamp = new Date();
           const txid = await swap({
             route,
             feeOptionKey: feeOptionType,
-            recipient: validateAddress({ chain: outputAsset.L1Chain, address: recipient })
-              ? recipient
-              : '',
+            recipient: swapRecipient,
           });
 
           if (typeof txid === 'string') {

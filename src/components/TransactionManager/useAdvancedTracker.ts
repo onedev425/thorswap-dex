@@ -19,6 +19,8 @@ export const useAdvancedTracker = (tx: PendingTransactionType | null) => {
     sellAmountNormalized,
     completed,
     timestamp,
+    from,
+    recipient,
   } = tx || {};
 
   const hasDetailsParams = txid && route && quoteId;
@@ -35,6 +37,8 @@ export const useAdvancedTracker = (tx: PendingTransactionType | null) => {
             route,
             sellAmount: sellAmountNormalized || '0',
             startTimestamp: timestamp ? new Date(timestamp).getTime() : Date.now(),
+            fromAddress: from || '',
+            toAddress: recipient || '',
           },
         };
 
