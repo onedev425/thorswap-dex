@@ -290,7 +290,7 @@ const StakeVThor = () => {
 
         <ConfirmVThorButton
           action={action}
-          emptyInput={inputAmount.assetAmount.toNumber() === 0}
+          emptyInput={inputAmount.lte(0)}
           ethAddress={ethAddress}
           handleVthorAction={handleVthorAction}
           setIsConnectModalOpen={setIsConnectModalOpen}

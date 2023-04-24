@@ -16,7 +16,7 @@ type Props = {
 
 export const QRCodeModal = ({ title, address, onCancel, chain }: Props) => {
   const [isOpened, setIsOpened] = useState(false);
-  const { shortAddress, handleCopyAddress } = useAddressUtils(address);
+  const { handleCopyAddress } = useAddressUtils(address);
 
   useEffect(() => {
     if (address) {
@@ -38,7 +38,7 @@ export const QRCodeModal = ({ title, address, onCancel, chain }: Props) => {
           <QRCode logo={Logo} logoWidth={64} size={256} value={address} />
         </Box>
         <Box alignCenter className="space-x-2 mt-3">
-          <Text>{shortAddress}</Text>
+          <Text>{address}</Text>
           <Tooltip content={t('common.copy')}>
             <Box className={baseHoverClass}>
               <Icon

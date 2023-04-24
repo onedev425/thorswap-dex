@@ -173,11 +173,7 @@ const SwapView = () => {
     [quoteMode, contractAddress],
   );
 
-  const {
-    isApproved,
-    approvedAmount,
-    isLoading: isApproveAssetLoading,
-  } = useIsAssetApproved({
+  const { isApproved, isLoading: isApproveAssetLoading } = useIsAssetApproved({
     force: true,
     asset: inputAsset,
     contract,
@@ -384,7 +380,6 @@ const SwapView = () => {
       />
 
       <SwapSubmitButton
-        approvedAmount={approvedAmount}
         hasQuote={!!selectedRoute}
         inputAmount={inputAmount}
         inputAsset={inputAsset}

@@ -190,7 +190,7 @@ const UpgradeRune = () => {
     const lastTCBlock = lastBlock?.[0]?.thorchain;
     const rate = 1 - (lastTCBlock - 6500000) / 5256000;
 
-    return lastTCBlock ? rate.toFixed(6) : '-';
+    return lastTCBlock ? parseFloat(rate.toFixed(6)) : 0;
   }, [lastBlock]);
 
   const summary = useMemo(
@@ -225,11 +225,9 @@ const UpgradeRune = () => {
   );
 
   const receivedRune = useMemo(() => {
-    const rate = parseFloat(redemptionRate);
+    if (Number.isNaN(redemptionRate) || assetInput.value.lte(0)) return '-';
 
-    if (Number.isNaN(rate) || assetInput.value.lte(0)) return '-';
-
-    const runeAmount = assetInput.value.mul(rate).toSignificant(8);
+    const runeAmount = assetInput.value.mul(redemptionRate).toSignificant(8);
 
     return `${t('common.receive')} ${runeAmount} Native RUNE`;
   }, [assetInput.value, redemptionRate]);
@@ -271,7 +269,13 @@ const UpgradeRune = () => {
 
         <Box className="w-full pt-5">
           {isWalletConnected ? (
-            <Button stretch onClick={handleUpgrade} size="lg">
+            <Button
+              stretch
+              error={assetInput.value.lte(0)}
+              onClick={handleUpgrade}
+              size="lg"
+              variant="fancy"
+            >
               {t('common.upgrade')}
             </Button>
           ) : (
@@ -290,6 +294,7 @@ const UpgradeRune = () => {
               amount={upgradeAmount}
               feeLabel={feeLabel}
               inputAsset={selectedAsset}
+              rate={redemptionRate}
               recipient={recipientAddress}
             />
           </ConfirmModal>

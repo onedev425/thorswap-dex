@@ -163,10 +163,10 @@ export const useVthorUtil = () => {
 
       let hash;
       try {
-        hash = await triggerContractCall(ContractType.VTHOR, 'deposit', [
+        hash = (await triggerContractCall(ContractType.VTHOR, 'deposit', [
           stakeAmount,
           receiverAddr,
-        ]);
+        ])) as string;
       } catch (error: any) {
         showErrorToast(t('notification.stakeFailed'), error?.message || error?.toString());
         return appDispatch(completeTransaction({ id, status: 'error' }));
@@ -197,11 +197,11 @@ export const useVthorUtil = () => {
 
       let hash;
       try {
-        hash = await triggerContractCall(ContractType.VTHOR, 'redeem', [
+        hash = (await triggerContractCall(ContractType.VTHOR, 'redeem', [
           unstakeAmount,
           receiverAddr,
           receiverAddr,
-        ]);
+        ])) as string;
       } catch (error: any) {
         showErrorToast(t('notification.stakeFailed'), error?.message || error?.toString());
         return appDispatch(completeTransaction({ id, status: 'error' }));

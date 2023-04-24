@@ -123,14 +123,14 @@ export const useVesting = ({ fetchVestingStatus }: { fetchVestingStatus?: boolea
       );
 
       try {
-        const hash = await triggerContractCall(
+        const txHash = (await triggerContractCall(
           vestingAction === VestingType.THOR ? ContractType.VESTING : ContractType.VTHOR_VESTING,
           'claim',
           [currentClaimableAmount],
-        );
+        )) as string;
 
-        if (hash) {
-          appDispatch(updateTransaction({ id, txid: hash }));
+        if (txHash) {
+          appDispatch(updateTransaction({ id, txid: txHash }));
         }
       } catch (error) {
         console.error(error);

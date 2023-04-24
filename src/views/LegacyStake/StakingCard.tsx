@@ -197,7 +197,7 @@ export const StakingCard = ({
       const params = methodName === 'harvest' ? [0, ethAddr] : [0, tokenAmount, ethAddr];
 
       try {
-        const hash = await triggerContractCall(contractType, methodName, params);
+        const hash = (await triggerContractCall(contractType, methodName, params)) as string;
 
         if (hash) {
           appDispatch(updateTransaction({ id, txid: hash }));

@@ -363,13 +363,14 @@
       "transfer": "Transfer %{asset}"
     },
     "txDetails": "Transaction Details",
-    "viewTx": "View tx",
     "txDuration": "Transaction duration",
     "txEstimatedTimeLeft": "Estimated time left",
     "txEstimating": "Estimating...",
     "txFinishing": "Finishing...",
     "txIdCopied": "Transaction hash copied",
     "txTime": "Transaction time",
+    "txTimeout": "Tracker time-out",
+    "txTimeoutTooltip": "This tx took too long to estimate and it cannot be tracked",
     "txUrlCopied": "Transaction url copied",
     "unstake": "Unstake",
     "unstakeAsset": "Unstake %{amount} %{asset}",
@@ -377,12 +378,11 @@
     "unstakedAsset": "Unstaked %{amount} %{asset}",
     "updateThorname": "Update THORName",
     "viewDetails": "View details",
+    "viewTx": "View tx",
     "withdraw": "Withdraw",
     "withdrawAmountAsset": "Withdraw %{amount} %{asset}",
     "withdrawAmountFailed": "Withdraw %{amount} %{asset} failed",
-    "withdrawnAmountAsset": "Withdrew %{amount} %{asset}",
-    "txTimeoutTooltip": "This tx took too long to estimate and it cannot be tracked",
-    "txTimeout": "Tracker time-out"
+    "withdrawnAmountAsset": "Withdrew %{amount} %{asset}"
   },
   "validation": {
     "invalidPassword": "Invalid Password"
@@ -787,7 +787,6 @@
     },
     "swap": {
       "affiliateFee": "%{percent} affiliate fee is charged by THORSwap. 75% of fees are redistributed back to vTHOR stakers.",
-      "approveCapacity": "Approval limit reached (%{approvedAmount}), please approve additional spending",
       "autoRouter": "Auto Router",
       "autoRouterApi": "Auto Router API",
       "check": "Check %{checkType}",

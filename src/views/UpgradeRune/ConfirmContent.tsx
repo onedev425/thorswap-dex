@@ -14,9 +14,10 @@ type Props = {
   recipient: string;
   amount: Amount;
   feeLabel: string;
+  rate: number;
 };
 
-export const ConfirmContent = memo(({ inputAsset, recipient, feeLabel, amount }: Props) => {
+export const ConfirmContent = memo(({ rate, inputAsset, recipient, feeLabel, amount }: Props) => {
   return (
     <Box col>
       <Box center flex={1}>
@@ -46,7 +47,7 @@ export const ConfirmContent = memo(({ inputAsset, recipient, feeLabel, amount }:
           </Box>
           <Box center className="w-full">
             <Text fontWeight="medium" textStyle="caption">
-              {amount.toSignificant(6)} {RUNEAsset.ticker}
+              {amount.mul(rate).toSignificant(6)} {RUNEAsset.ticker}
             </Text>
           </Box>
         </Box>
