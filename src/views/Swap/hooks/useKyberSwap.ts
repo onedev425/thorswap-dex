@@ -1,9 +1,9 @@
-import { QuoteRoute } from '@thorswap-lib/swapkit-core';
+import { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 
 type KyberSwapParams = {
-  routes: QuoteRoute[];
+  routes: RouteWithApproveType[];
 };
 
 export const useKyberSwap = ({ routes }: KyberSwapParams) => {

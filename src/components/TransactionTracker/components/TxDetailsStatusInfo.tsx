@@ -22,7 +22,7 @@ export const TxDetailsStatusInfo = ({ txDetails, totalTimeLeft }: Props) => {
   const { finished, timedOut } = getTxState(status);
   const txStatus = getTxDisplayStatus(status);
 
-  if (!timedOut) {
+  if (timedOut) {
     return (
       <InfoWithTooltip
         tooltip={t('txManager.txTimeoutTooltip')}

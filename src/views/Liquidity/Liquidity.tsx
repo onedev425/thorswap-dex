@@ -21,7 +21,7 @@ const Liquidity = () => {
   const membersLoading = useRef(false);
   const detailsLoading = useRef(false);
   const navigate = useNavigate();
-  const { wallet, setIsConnectModalOpen } = useWallet();
+  const { wallet, isWalletLoading, setIsConnectModalOpen } = useWallet();
 
   const {
     pendingLP,
@@ -49,13 +49,13 @@ const Liquidity = () => {
   );
 
   useEffect(() => {
-    if (!membersLoading.current) {
+    if (!membersLoading.current && !isWalletLoading) {
       membersLoading.current = true;
       getAllMemberDetails().finally(() => {
         membersLoading.current = false;
       });
     }
-  }, [getAllMemberDetails]);
+  }, [getAllMemberDetails, isWalletLoading]);
 
   useEffect(() => {
     if (!detailsLoading.current) {

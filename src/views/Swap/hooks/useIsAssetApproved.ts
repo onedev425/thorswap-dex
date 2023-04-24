@@ -107,3 +107,17 @@ export const useIsAssetApproved = ({ force, contract, asset }: Params) => {
     isLoading: isLoading || numberOfPendingApprovals > 0,
   };
 };
+
+export const useAssetApprovalCheck = () => {
+  const { wallet } = useWallet();
+
+  const handleApprove = useCallback(
+    ({ asset, contract }: { asset: AssetEntity; contract?: string }) =>
+      wallet?.[asset.L1Chain]?.address
+        ? checkAssetApprove({ asset, contract })
+        : Promise.resolve(false),
+    [wallet],
+  );
+
+  return handleApprove;
+};
