@@ -1,61 +1,43 @@
+import { gasFeeMultiplier } from '@thorswap-lib/helpers';
 import {
   Amount,
   AssetAmount,
-  AssetEntity as Asset,
+  AssetEntity,
   getSignatureAssetFor,
   Pool,
+  Price,
 } from '@thorswap-lib/swapkit-core';
-import { Chain, FeeOption } from '@thorswap-lib/types';
-import { USDAsset } from 'helpers/assets';
-import { getGasRateByFeeOption, getNetworkFeeByAsset } from 'helpers/networkFee';
-import { useCallback } from 'react';
-import { useMidgard } from 'store/midgard/hooks';
+import { BaseDecimal, Chain, FeeOption } from '@thorswap-lib/types';
+import BigNumber from 'bignumber.js';
+import { isAVAXAsset, isBTCAsset, isETHAsset, USDAsset } from 'helpers/assets';
+import { parseAssetToToken } from 'helpers/parseAssetToToken';
+import { useTokenPrices } from 'hooks/useTokenPrices';
+import { useMemo } from 'react';
+import { useApp } from 'store/app/hooks';
+import { useGetGasPriceRatesQuery } from 'store/thorswap/api';
+import { GasPriceInfo } from 'store/thorswap/types';
 
-type CalculatedFeeParams = {
-  inboundAsset: Asset;
-  inboundFee: AssetAmount;
-  inputAsset: Asset;
-  outboundAsset?: Asset;
-  outboundFee: AssetAmount;
+type DirectionType = 'inbound' | 'outbound' | 'transfer';
+
+const getTxSizeByAsset = (asset: AssetEntity): number => {
+  switch (asset.L1Chain) {
+    case Chain.Avalanche:
+    case Chain.Ethereum:
+      return 80000;
+    case Chain.BitcoinCash:
+      return 1500;
+    case Chain.Bitcoin:
+    case Chain.Doge:
+      return 1000;
+    case Chain.Litecoin:
+      return 250;
+    default:
+      return 1;
+  }
 };
 
-const useCalculateFee = () => {
-  const { pools } = useMidgard();
-
-  const calculateFee = useCallback(
-    ({ outboundAsset, inboundAsset, inboundFee, inputAsset, outboundFee }: CalculatedFeeParams) => {
-      if (!outboundAsset?.eq(inboundAsset)) return inboundFee;
-
-      const outboundFeeInSendAsset = new AssetAmount(
-        inboundAsset,
-        Amount.fromAssetAmount(
-          outboundFee.totalPriceIn(inboundAsset, pools).price,
-          inputAsset.decimal,
-        ),
-      );
-
-      if (inboundAsset.eq(inputAsset)) {
-        return inboundFee.add(outboundFeeInSendAsset);
-      }
-
-      const inboundFeeInSendAsset = new AssetAmount(
-        inboundAsset,
-        Amount.fromAssetAmount(
-          inboundFee.totalPriceIn(inboundAsset, pools).price,
-          inputAsset.decimal,
-        ),
-      );
-
-      return inboundFeeInSendAsset.add(outboundFeeInSendAsset);
-    },
-    [pools],
-  );
-
-  return calculateFee;
-};
-
-const getFeeAssetForAsset = (asset: Asset) => {
-  if (asset.isSynth) return getSignatureAssetFor(Chain.THORChain);
+const getGasFeeAssetForAsset = (asset?: AssetEntity) => {
+  if (!asset || asset.isSynth) return getSignatureAssetFor(Chain.THORChain);
 
   switch (asset.L1Chain) {
     case Chain.Ethereum:
@@ -67,45 +49,129 @@ const getFeeAssetForAsset = (asset: Asset) => {
   }
 };
 
+const getTypeMultiplier = ({
+  direction,
+  multiplier,
+}: {
+  direction: DirectionType;
+  multiplier: number;
+}) => (direction === 'transfer' ? multiplier : direction === 'inbound' ? 2 / 3 : 2);
+
+export const getMultiplierForAsset = (asset?: AssetEntity) => {
+  if (!asset || asset.isSynth) return 1;
+  if (isETHAsset(asset) || isAVAXAsset(asset) || isBTCAsset(asset)) return undefined;
+
+  return 1;
+};
+
+export const parseFeeToAssetAmount = ({
+  asset,
+  gasRate,
+}: {
+  asset?: AssetEntity;
+  gasRate: number;
+}) =>
+  asset
+    ? new AssetAmount(
+        getGasFeeAssetForAsset(asset),
+        Amount.fromNormalAmount(gasRate).mul(getTxSizeByAsset(asset)),
+      )
+    : new AssetAmount(
+        getSignatureAssetFor(Chain.THORChain),
+        Amount.fromBaseAmount(0, BaseDecimal.THOR),
+      );
+
+export const getNetworkFee = ({
+  gasPrice,
+  direction = 'transfer',
+  feeOptionType = FeeOption.Fast,
+  multiplier,
+}: {
+  gasPrice: number;
+  direction?: DirectionType;
+  feeOptionType?: FeeOption;
+  multiplier?: number;
+}) =>
+  gasPrice *
+  getTypeMultiplier({ direction, multiplier: multiplier || gasFeeMultiplier[feeOptionType] });
+
+export const useAssetNetworkFee = ({
+  asset,
+  type = 'transfer',
+  chainInfo,
+}: {
+  chainInfo: GasPriceInfo | undefined;
+  asset: AssetEntity;
+  type?: 'inbound' | 'outbound' | 'transfer';
+}) => {
+  const { feeOptionType } = useApp();
+
+  const assetNetworkFee = useMemo(() => {
+    const gasRate = getNetworkFee({
+      gasPrice: chainInfo?.gasAsset || 0,
+      feeOptionType,
+      multiplier: getMultiplierForAsset(asset),
+      direction: type === 'inbound' ? 'inbound' : 'transfer',
+    });
+
+    return parseFeeToAssetAmount({ gasRate, asset });
+  }, [asset, chainInfo, feeOptionType, type]);
+
+  return assetNetworkFee;
+};
+
 export const useNetworkFee = ({
   inputAsset,
   outputAsset,
+  type = 'transfer',
 }: {
-  inputAsset: Asset;
-  outputAsset?: Asset;
+  inputAsset: AssetEntity;
+  type?: 'inbound' | 'outbound' | 'transfer';
+  outputAsset?: AssetEntity;
 }) => {
-  const calculateFee = useCalculateFee();
-  const { inboundGasRate, pools } = useMidgard();
+  const inputGasAsset = getGasFeeAssetForAsset(inputAsset);
+  const outputGasAsset = getGasFeeAssetForAsset(outputAsset);
 
-  const getNetworkFee = useCallback(
-    (gasRate: number, direction: 'inbound' | 'outbound' = 'inbound') =>
-      getNetworkFeeByAsset({
-        asset: direction === 'inbound' ? inputAsset : outputAsset || inputAsset,
-        gasRate,
-        direction,
-      }),
-    [inputAsset, outputAsset],
+  const { data: tokenPrices, isLoading: tokenPricesLoading } = useTokenPrices(
+    [inputGasAsset, outputGasAsset].filter(Boolean) as AssetEntity[],
   );
 
-  const chainAsset = (outputAsset?.isRUNE() ? inputAsset : outputAsset || inputAsset).L1Chain;
+  const { data: gasPriceRates, isLoading: priceRatesLoading } = useGetGasPriceRatesQuery();
+  const [inputChainInfo, outputChainInfo] = useMemo(() => {
+    const inputChainInfo = gasPriceRates?.find(({ asset }) =>
+      asset.includes(inputGasAsset?.L1Chain),
+    );
+    const outputChainInfo = gasPriceRates?.find(({ asset }) =>
+      asset.includes(outputGasAsset?.L1Chain),
+    );
 
-  const gasRate = `${parseInt(inboundGasRate[chainAsset] || '0') + 0.01}`;
-  const feeGasRate = getGasRateByFeeOption({ gasRate, feeOptionType: FeeOption.Fast });
+    return [inputChainInfo, outputChainInfo];
+  }, [gasPriceRates, inputGasAsset?.L1Chain, outputGasAsset?.L1Chain]);
 
-  const inboundFee = getNetworkFee(feeGasRate, 'inbound');
-  const outboundFee = getNetworkFee(outputAsset ? feeGasRate : 0, 'outbound');
+  const inputFee = useAssetNetworkFee({ asset: inputGasAsset, type, chainInfo: inputChainInfo });
+  const outputFee = useAssetNetworkFee({ asset: outputGasAsset, type, chainInfo: outputChainInfo });
 
-  return {
-    inboundFee,
-    outboundFee,
-    totalFeeInUSD: calculateFee({
-      inboundAsset: getFeeAssetForAsset(inputAsset),
-      outboundAsset: outputAsset ? getFeeAssetForAsset(outputAsset) : undefined,
-      inputAsset,
-      outboundFee,
-      inboundFee,
-    }).totalPriceIn(USDAsset, pools),
-  };
+  const feeInUSD = useMemo(() => {
+    if (!inputGasAsset) return new Price({ baseAsset: inputAsset, unitPrice: new BigNumber(0) });
+
+    const inputUSDPrice =
+      tokenPrices?.find(
+        ({ identifier }) => identifier === parseAssetToToken(inputGasAsset)?.identifier,
+      )?.price_usd || 0;
+    const inputFeePrice = new BigNumber(inputUSDPrice).multipliedBy(inputFee.amount.assetAmount);
+
+    if (!outputGasAsset) return `$${inputFeePrice.toFixed(2)}`;
+
+    const outputUSDPrice =
+      tokenPrices?.find(
+        ({ identifier }) => identifier === parseAssetToToken(outputGasAsset)?.identifier,
+      )?.price_usd || 0;
+    const outputFeePrice = new BigNumber(outputUSDPrice).multipliedBy(outputFee.amount.assetAmount);
+
+    return `$${inputFeePrice.plus(outputFeePrice).toFixed(2)}`;
+  }, [inputAsset, inputFee, inputGasAsset, outputFee, outputGasAsset, tokenPrices]);
+
+  return { inputFee, outputFee, feeInUSD, isLoading: priceRatesLoading || tokenPricesLoading };
 };
 
 export const getSumAmountInUSD = (

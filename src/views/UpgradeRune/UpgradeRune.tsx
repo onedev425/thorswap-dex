@@ -74,9 +74,7 @@ const UpgradeRune = () => {
     [selectedAsset, getMaxBalance],
   );
 
-  const { inboundFee, totalFeeInUSD } = useNetworkFee({
-    inputAsset: selectedAsset,
-  });
+  const { inputFee, feeInUSD } = useNetworkFee({ inputAsset: selectedAsset });
 
   const isWalletConnected = useMemo(
     () => selectedAsset && hasWalletConnected({ wallet, inputAssets: [selectedAsset] }),
@@ -184,7 +182,7 @@ const UpgradeRune = () => {
   );
 
   const assetInputList = useAssetsWithBalance(runeToUpgrade);
-  const feeLabel = `${inboundFee.toCurrencyFormat()} (${totalFeeInUSD.toCurrencyFormat(2)})`;
+  const feeLabel = `${inputFee.toCurrencyFormat()} (${feeInUSD})`;
 
   const redemptionRate = useMemo(() => {
     // Current Ratio = 1-((CurrentBlockHeight - KILLSWITCH_BLOCK) / KILLSWITCH_DURATION_IN_BLOCKS)

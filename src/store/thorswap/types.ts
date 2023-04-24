@@ -165,3 +165,13 @@ export type GetTxnStatusDetailsResponse = {
   status: TxStatus;
   error?: { message: string };
 };
+
+export type GasPriceInfo = {
+  asset: string;
+  units: string;
+  gas: number;
+  chainId: string;
+  gasAsset: number;
+};
+
+export type GetGasPriceRatesResponse = GasPriceInfo[];

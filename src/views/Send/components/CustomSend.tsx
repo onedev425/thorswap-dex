@@ -3,7 +3,7 @@ import { AssetSelect } from 'components/AssetSelect';
 import { Box } from 'components/Atomic';
 import { PanelInput } from 'components/PanelInput';
 import { RUNEAsset } from 'helpers/assets';
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useMidgard } from 'store/midgard/hooks';
 
@@ -18,19 +18,11 @@ type Props = {
 };
 
 export const CustomSend = ({ memo, setMemo }: Props) => {
-  const { getInboundData, pools } = useMidgard();
+  const { pools } = useMidgard();
   const [memoType] = useState(MemoType.deposit);
   const [outputAsset, setOutputAsset] = useState(RUNEAsset);
 
-  const outputAssetsList = useMemo(() => {
-    return pools.map((p) => ({
-      asset: p.asset,
-    }));
-  }, [pools]);
-
-  useEffect(() => {
-    getInboundData();
-  }, [getInboundData]);
+  const outputAssetsList = useMemo(() => pools.map(({ asset }) => ({ asset })), [pools]);
 
   const handleChangeMemo = useCallback(
     ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {

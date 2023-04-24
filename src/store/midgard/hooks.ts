@@ -93,10 +93,6 @@ export const useMidgard = () => {
     [dispatch, getPendingDepositByChain],
   );
 
-  const getInboundData = useCallback(() => {
-    dispatch(actions.getThorchainInboundData());
-  }, [dispatch]);
-
   const getNodes = useCallback(() => {
     dispatch(actions.getNodes());
   }, [dispatch]);
@@ -163,7 +159,6 @@ export const useMidgard = () => {
     ...midgardState,
     actions,
     getAllMemberDetails,
-    getInboundData,
     getNodes,
     isGlobalHistoryLoading,
     loadMemberDetailsByChain,

@@ -25,7 +25,7 @@ export const InfoTable = memo(
             ? label?.toString()
             : typeof value === 'string'
             ? value
-            : 'not-a-proper-key';
+            : `not-a-proper-key-${index}`;
 
           return (
             <InfoRow

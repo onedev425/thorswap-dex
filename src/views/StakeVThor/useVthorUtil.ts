@@ -167,8 +167,7 @@ export const useVthorUtil = () => {
           stakeAmount,
           receiverAddr,
         ]);
-      } catch (error) {
-        // @ts-expect-error
+      } catch (error: any) {
         showErrorToast(t('notification.stakeFailed'), error?.message || error?.toString());
         return appDispatch(completeTransaction({ id, status: 'error' }));
       }
@@ -203,8 +202,7 @@ export const useVthorUtil = () => {
           receiverAddr,
           receiverAddr,
         ]);
-      } catch (error) {
-        // @ts-expect-error
+      } catch (error: any) {
         showErrorToast(t('notification.stakeFailed'), error?.message || error?.toString());
         return appDispatch(completeTransaction({ id, status: 'error' }));
       }

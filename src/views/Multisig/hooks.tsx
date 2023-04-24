@@ -9,8 +9,8 @@ import {
 import { Chain } from '@thorswap-lib/types';
 import { Button, Icon } from 'components/Atomic';
 import { formatPrice } from 'helpers/formatPrice';
-import { getGasRateByFeeOption, getNetworkFeeByAsset } from 'helpers/networkFee';
 import { useAddressUtils } from 'hooks/useAddressUtils';
+import { getMultiplierForAsset, getNetworkFee, parseFeeToAssetAmount } from 'hooks/useNetworkFee';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
@@ -18,6 +18,7 @@ import { multisig } from 'services/multisig';
 import { ROUTES } from 'settings/router';
 import { useMultisig } from 'store/multisig/hooks';
 import { useAppSelector } from 'store/store';
+import { useGetGasPriceRatesQuery } from 'store/thorswap/api';
 
 export const useMultisigWalletInfo = () => {
   const { runeBalance, loadingBalances } = useMultissigAssets();
@@ -66,16 +67,14 @@ export const useMultisigWalletInfo = () => {
 };
 
 export const useMultissigAssets = () => {
+  const { data: gasPriceRates } = useGetGasPriceRatesQuery();
   const { loadBalances } = useMultisig();
   const [runeBalance, setRuneBalance] = useState<AssetAmount | null>(null);
   const { balances, loadingBalances } = useAppSelector((state) => state.multisig);
-  const { feeOptionType, inboundGasRate } = useAppSelector(
-    ({ app: { feeOptionType }, wallet: { wallet }, midgard: { inboundGasRate } }) => ({
-      wallet,
-      inboundGasRate,
-      feeOptionType,
-    }),
-  );
+  const { feeOptionType } = useAppSelector(({ app: { feeOptionType }, wallet: { wallet } }) => ({
+    wallet,
+    feeOptionType,
+  }));
 
   useEffect(() => {
     loadBalances();
@@ -93,16 +92,14 @@ export const useMultissigAssets = () => {
 
   const getMaxBalance = useCallback(
     (asset: Asset): Amount => {
-      // calculate inbound fee
-      const gasRate = getGasRateByFeeOption({
-        gasRate: inboundGasRate[asset.L1Chain],
+      const chainInfo = gasPriceRates?.find((gasRate) => gasRate.asset.includes(asset.L1Chain));
+      const gasRate = getNetworkFee({
+        gasPrice: chainInfo?.gasAsset || 0,
         feeOptionType,
+        multiplier: getMultiplierForAsset(asset),
       });
-      const inboundFee = getNetworkFeeByAsset({
-        asset,
-        gasRate,
-        direction: 'inbound',
-      });
+
+      const networkFee = parseFeeToAssetAmount({ gasRate, asset });
 
       const balance = multisig.getAssetBalance(asset, balances).amount;
 
@@ -112,15 +109,13 @@ export const useMultissigAssets = () => {
        * Calc: max spendable amount = balance amount - 2 x gas fee(if send asset equals to gas asset)
        */
 
-      const maxSpendableAmount = isGasAsset(asset)
-        ? balance.sub(inboundFee.mul(1).amount)
-        : balance;
+      const maxSpendableAmount = isGasAsset(asset) ? balance.sub(networkFee) : balance;
 
       return maxSpendableAmount.gt(0)
         ? maxSpendableAmount
         : Amount.fromAssetAmount(0, asset.decimal);
     },
-    [balances, feeOptionType, inboundGasRate],
+    [balances, feeOptionType, gasPriceRates],
   );
 
   const getBalanceForAssets = useCallback(

@@ -12,7 +12,6 @@ import {
   getQueue,
   getStats,
   getSwapHistory,
-  getThorchainInboundData,
   getTVLHistory,
   getVolume24h,
 } from 'store/midgard/actions';
@@ -25,7 +24,6 @@ import { useEffectOnce } from './useEffectOnce';
  * NOTE: useRefresh hooks should be imported and used only once, to avoid multiple usage of useInterval
  */
 
-const POLL_GAS_RATE_INTERVAL = 10 * 6000; // 60s
 const POLL_DATA_INTERVAL = 5 * 60 * 1000; // 5m
 const MAX_HISTORY_COUNT = 100;
 const PER_DAY = 'day' as HistoryInterval;
@@ -77,13 +75,8 @@ export const useGlobalRefresh = () => {
 
   useEffectOnce(() => {
     refreshPage();
-    appDispatch(getThorchainInboundData());
     getGlobalHistory();
   });
-
-  useInterval(() => {
-    appDispatch(getThorchainInboundData());
-  }, POLL_GAS_RATE_INTERVAL);
 
   useInterval(() => {
     refreshPage();

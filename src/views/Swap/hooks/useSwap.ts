@@ -1,5 +1,5 @@
 import { Amount, AssetEntity, QuoteMode, QuoteRoute } from '@thorswap-lib/swapkit-core';
-import { Chain, FeeOption } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { translateErrorMsg } from 'helpers/error';
 import { useCallback } from 'react';
@@ -20,12 +20,6 @@ type SwapParams = {
   outputAsset: AssetEntity;
   outputAmount: Amount;
   quoteId?: string;
-};
-
-export const gasFeeMultiplier: Record<FeeOption, number> = {
-  average: 1.2,
-  fast: 1.6,
-  fastest: 2,
 };
 
 const quoteModeToTransactionType = {
@@ -105,10 +99,9 @@ export const useSwap = ({
             showErrorToast(t('notification.submitFail'), JSON.stringify(txid));
             if (typeof txid === 'object') console.info(txid);
           }
-        } catch (error) {
+        } catch (error: any) {
           console.error(error);
           appDispatch(completeTransaction({ id, status: 'error' }));
-          // @ts-expect-error
           const userCancelled = error?.code === 4001 || error?.toString().includes('4001');
 
           showErrorToast(

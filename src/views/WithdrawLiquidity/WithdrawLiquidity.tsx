@@ -65,9 +65,7 @@ export const WithdrawLiquidity = () => {
     if (!poolLoading && pools.length && assetObj) {
       const assetPool = poolByAsset(assetObj, pools);
 
-      if (assetPool) {
-        setPool(assetPool);
-      }
+      if (assetPool) setPool(assetPool);
     }
   }, [pools, poolLoading, assetObj]);
 
@@ -181,7 +179,7 @@ const WithdrawPanel = ({
     return hasWalletConnected({ wallet, inputAssets: [inputAsset] });
   }, [lpType, poolAsset, wallet]);
 
-  const { inboundFee: inboundAssetFee, outboundFee: inboundRuneFee } = useNetworkFee({
+  const { inputFee: inboundAssetFee, outputFee: inboundRuneFee } = useNetworkFee({
     inputAsset: poolAsset,
     outputAsset: getSignatureAssetFor(Chain.THORChain),
   });

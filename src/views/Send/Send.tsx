@@ -1,4 +1,4 @@
-import { Text } from '@chakra-ui/react';
+import { Spinner, Text } from '@chakra-ui/react';
 import { Amount, AssetEntity, Price } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { SwitchMenu } from 'components/AppPopoverMenu/components/SwitchMenu';
@@ -50,7 +50,10 @@ const Send = () => {
   const { wallet, setIsConnectModalOpen } = useWallet();
   const { pools } = useMidgard();
   const { getMaxBalance } = useBalance();
-  const { inboundFee, totalFeeInUSD } = useNetworkFee({ inputAsset: sendAsset });
+  const { inputFee, feeInUSD, isLoading } = useNetworkFee({
+    type: 'transfer',
+    inputAsset: sendAsset,
+  });
 
   const {
     customMemo,
@@ -65,8 +68,8 @@ const Send = () => {
 
   const txRecipient = customTxEnabled ? customRecipient : recipientAddress;
   const txMemo = customTxEnabled ? customMemo : memo;
-  const txFee = customTxEnabled ? customFeeRune : inboundFee.toCurrencyFormat();
-  const txFeeUsd = customTxEnabled ? customFeeUsd : totalFeeInUSD.toCurrencyFormat();
+  const txFee = customTxEnabled ? customFeeRune : inputFee.toCurrencyFormat();
+  const txFeeUsd = customTxEnabled ? customFeeUsd : feeInUSD;
 
   const handleConfirmSend = useConfirmSend({
     setIsOpenConfirmModal,
@@ -204,7 +207,9 @@ const Send = () => {
     () => [
       {
         label: t('common.transactionFee'),
-        value: (
+        value: isLoading ? (
+          <Spinner />
+        ) : (
           <Box center className="gap-2">
             <Text textStyle="caption">{`${txFee} (${txFeeUsd})`}</Text>
             <Tooltip content={t('views.send.txFeeTooltip')}>
@@ -214,7 +219,7 @@ const Send = () => {
         ),
       },
     ],
-    [txFee, txFeeUsd],
+    [isLoading, txFee, txFeeUsd],
   );
 
   const confirmModalInfo = useMemo(

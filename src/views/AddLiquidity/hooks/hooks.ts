@@ -105,7 +105,7 @@ export const useAddLiquidity = ({
   const [asymmTipVisible, setAsymmTipVisible] = useState(true);
   const [existingLPTipVisible, setExistingLPTipVisible] = useState(true);
 
-  const { inboundFee: inboundAssetFee, outboundFee: inboundRuneFee } = useNetworkFee({
+  const { inputFee: inboundAssetFee, outputFee: inboundRuneFee } = useNetworkFee({
     inputAsset: poolAsset,
     outputAsset: runeAsset,
   });

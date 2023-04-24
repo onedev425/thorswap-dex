@@ -92,11 +92,6 @@ export const getVolume24h = createAsyncThunk('midgard/getVolume24h', async () =>
   return volume24h;
 });
 
-export const getThorchainInboundData = createAsyncThunk(
-  'midgard/getInboundAddresses',
-  midgardApi.getInboundAddresses,
-);
-
 export const reloadPoolMemberDetailByChain = createAsyncThunk(
   'midgard/reloadPoolMemberDetailByChain',
   async ({

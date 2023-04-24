@@ -92,7 +92,7 @@ export const CreateLiquidity = () => {
   const [visibleConfirmModal, setVisibleConfirmModal] = useState(false);
   const [visibleApproveModal, setVisibleApproveModal] = useState(false);
 
-  const { inboundFee: inboundAssetFee, outboundFee: inboundRuneFee } = useNetworkFee({
+  const { inputFee: inboundAssetFee, outputFee: inboundRuneFee } = useNetworkFee({
     inputAsset: poolAsset,
     outputAsset: getSignatureAssetFor(Chain.THORChain),
   });

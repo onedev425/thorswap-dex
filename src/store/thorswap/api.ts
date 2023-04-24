@@ -5,6 +5,7 @@ import { IS_DEV_API } from 'settings/config';
 import { AnnouncementsData } from 'store/externalConfig/types';
 
 import {
+  GetGasPriceRatesResponse,
   GetProvidersResponse,
   GetTokenPriceParams,
   GetTokenPriceResponse,
@@ -75,18 +76,21 @@ export const thorswapApi = createApi({
       GetTxnStatusDetailsResponse,
       GetTxnStatusDetailsParams | GetTxnStatusDetailsUpdateParams
     >({
-      query: (body) => {
-        return {
-          method: 'POST',
-          url: `${baseUrl}/apiusage/v2/txn`,
-          body: JSON.stringify(body),
-          headers: { 'Content-Type': 'application/json' },
-        };
-      },
+      query: (body) => ({
+        method: 'POST',
+        url: `${baseUrl}/apiusage/v2/txn`,
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' },
+      }),
     }),
 
     getAnnouncements: build.query<AnnouncementsData, void>({
       query: () => '/announcements',
+    }),
+
+    getGasPriceRates: build.query<GetGasPriceRatesResponse, void>({
+      query: () => '/resource-worker/gasPrice/getAll',
+      keepUnusedDataFor: 60,
     }),
   }),
 });
@@ -98,4 +102,5 @@ export const {
   useGetTokenCachedPricesQuery,
   useGetTokensQuoteQuery,
   useGetAnnouncementsQuery,
+  useGetGasPriceRatesQuery,
 } = thorswapApi;

@@ -61,7 +61,7 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount,
 
   const slippage = expectedOutputAmount?.mul(saverQuote?.slippage_bps || 0).div(10000);
 
-  const { inboundFee: networkFee } = useNetworkFee({ inputAsset: asset });
+  const { inputFee } = useNetworkFee({ inputAsset: asset });
 
   const daysToBreakEven = useMemo(() => {
     const daysAmount = slippage?.div(expectedOutputAmount?.mul(apr || 0).div(365) || 0);
@@ -73,7 +73,7 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount,
     getConfirmData,
     saverQuote,
     expectedOutputAmount,
-    networkFee,
+    networkFee: inputFee,
     daysToBreakEven,
   };
 };

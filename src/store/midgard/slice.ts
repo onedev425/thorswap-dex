@@ -13,8 +13,6 @@ import {
 import * as midgardActions from './actions';
 import { MimirData, State } from './types';
 
-const equalObject = (a: any, b: any) => JSON.stringify(a) === JSON.stringify(b);
-
 const initialState: State = {
   pools: [],
   poolLoading: false,
@@ -45,10 +43,6 @@ const initialState: State = {
   mimirLoaded: false,
   mimir: {} as MimirData,
   volume24h: null,
-  inboundGasRate: {},
-  outboundFee: {},
-  inboundHalted: {},
-  inboundAddresses: {},
   lastBlock: [],
   nodes: [],
   nodeLoading: false,
@@ -394,41 +388,6 @@ const midgardSlice = createSlice({
       // get tx
       .addCase(midgardActions.getVolume24h.fulfilled, (state, { payload }) => {
         state.volume24h = payload;
-      })
-      .addCase(midgardActions.getThorchainInboundData.fulfilled, (state, { payload }) => {
-        const { gasRateByChain, haltedByChain, poolAddressByChain, outboundFeeByChain } =
-          payload.reduce(
-            // @ts-expect-error Update midgard types
-            (acc, { chain, halted, gas_rate, address, outbound_fee }) => {
-              if (chain) {
-                acc.gasRateByChain[chain as Chain] = gas_rate;
-                acc.haltedByChain[chain as Chain] = halted;
-                acc.poolAddressByChain[chain as Chain] = address;
-                acc.outboundFeeByChain[chain as Chain] = outbound_fee;
-              }
-
-              return acc;
-            },
-            {
-              gasRateByChain: {} as { [key in Chain]?: string },
-              haltedByChain: {} as { [key in Chain]?: boolean },
-              poolAddressByChain: {} as { [key in Chain]?: string },
-              outboundFeeByChain: {} as { [key in Chain]?: string },
-            },
-          );
-
-        if (!equalObject(gasRateByChain, state.inboundGasRate)) {
-          state.inboundGasRate = gasRateByChain;
-        }
-        if (!equalObject(haltedByChain, state.inboundHalted)) {
-          state.inboundHalted = haltedByChain;
-        }
-        if (!equalObject(poolAddressByChain, state.inboundAddresses)) {
-          state.inboundAddresses = poolAddressByChain;
-        }
-        if (!equalObject(outboundFeeByChain, state.outboundFee)) {
-          state.outboundFee = outboundFeeByChain;
-        }
       })
       // get thorchain mimir
       .addCase(midgardActions.getMimir.pending, (state) => {

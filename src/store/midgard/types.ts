@@ -268,10 +268,6 @@ export interface State {
   mimirLoaded: boolean;
   mimir: MimirData;
   volume24h: number | null;
-  inboundGasRate: { [key in Chain]?: string };
-  inboundHalted: { [key in Chain]?: boolean };
-  inboundAddresses: { [key in Chain]?: string };
-  outboundFee: { [key in Chain]?: string };
   lastBlock: LastblockItem[];
   nodes: THORNode[];
   nodeLoading: boolean;

@@ -17,12 +17,12 @@ import { TabsSelect } from 'components/TabsSelect';
 import { SAVERS_MEDIUM } from 'config/constants';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
+import { useMimir } from 'hooks/useMimir';
 import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
 import useWindowSize from 'hooks/useWindowSize';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { SORTED_EARN_ASSETS } from 'settings/chain';
-import { useMidgard } from 'store/midgard/hooks';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
@@ -50,7 +50,7 @@ const Earn = () => {
   );
 
   const { getMaxBalance } = useBalance();
-  const { inboundHalted } = useMidgard();
+  const { isChainHalted } = useMimir();
   const { positions, refreshPositions, getPosition, synthAvailability } = useSaverPositions();
   const { wallet, setIsConnectModalOpen } = useWallet();
   const [amount, setAmount] = useState(Amount.fromAssetAmount(0, 8));
@@ -172,8 +172,8 @@ const Earn = () => {
     () =>
       amount.lte(Amount.fromAssetAmount(0, 8)) ||
       (isDeposit && ((balance && amount.gt(balance)) || !isSynthInCapacity)) ||
-      inboundHalted[asset.L1Chain],
-    [amount, asset.L1Chain, balance, inboundHalted, isDeposit, isSynthInCapacity],
+      isChainHalted[asset.L1Chain],
+    [amount, asset.L1Chain, balance, isChainHalted, isDeposit, isSynthInCapacity],
   );
 
   const tabLabel = tab === EarnTab.Deposit ? t('common.deposit') : t('common.withdraw');
