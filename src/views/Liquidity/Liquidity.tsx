@@ -73,9 +73,10 @@ const Liquidity = () => {
         <ViewHeader
           actionsComponent={
             <>
-              {isWalletConnected && (
-                <ReloadButton loading={isLoadingLiquidities} onLoad={getAllMemberDetails} />
-              )}
+              <ReloadButton
+                loading={isWalletLoading || isLoadingLiquidities}
+                onLoad={getAllMemberDetails}
+              />
               <GlobalSettingsPopover />
             </>
           }
