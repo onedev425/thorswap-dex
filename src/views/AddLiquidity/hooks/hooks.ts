@@ -344,11 +344,19 @@ export const useAddLiquidity = ({
             }
           : {};
 
+      const mode =
+        liquidityType === LiquidityTypeOption.SYMMETRICAL
+          ? ('sym' as const)
+          : liquidityType === LiquidityTypeOption.ASSET
+          ? ('asset' as const)
+          : ('rune' as const);
+
       const params = {
         pool,
         runeAmount: isRunePending ? undefined : runeAssetAmount,
         assetAmount: isAssetPending ? undefined : poolAssetAmount,
         isPendingSymmAsset,
+        mode,
         ...addresses,
       };
 
@@ -357,8 +365,17 @@ export const useAddLiquidity = ({
       try {
         const { runeTx, assetTx } = await addLiquidity(params);
 
-        runeTx && appDispatch(updateTransaction({ id: runeId, txid: runeTx }));
-        assetTx && appDispatch(updateTransaction({ id: assetId, txid: assetTx }));
+        if (runeTx !== 'failed') {
+          appDispatch(updateTransaction({ id: runeId, txid: runeTx }));
+        } else {
+          appDispatch(completeTransaction({ id: runeId, status: 'error' }));
+        }
+
+        if (assetTx !== 'failed') {
+          appDispatch(updateTransaction({ id: assetId, txid: assetTx }));
+        } else {
+          appDispatch(completeTransaction({ id: assetId, status: 'error' }));
+        }
       } catch (error: NotWorth) {
         const message = error?.data?.originalError || error.message;
         appDispatch(completeTransaction({ id: runeId, status: 'error' }));
@@ -579,8 +596,9 @@ export const useAddLiquidity = ({
   );
 
   const isApproveRequired = useMemo(
-    () => isInputWalletConnected && isApproved === false,
-    [isInputWalletConnected, isApproved],
+    () =>
+      isInputWalletConnected && isApproved === false && liquidityType !== LiquidityTypeOption.RUNE,
+    [isInputWalletConnected, isApproved, liquidityType],
   );
 
   const poolAssetInput = useMemo(

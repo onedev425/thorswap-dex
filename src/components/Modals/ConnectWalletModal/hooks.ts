@@ -83,7 +83,6 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
               type: WalletType.Xdefi,
               visible: isMdActive,
               label: t('views.walletModal.xdefi'),
-              tooltip: "ETH & AVAX Chains are currently disabled. We'll be back soon!",
             },
             {
               disabled:
