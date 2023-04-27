@@ -74,12 +74,15 @@ export const useSwapTokenPrices = ({
   return { prices, refetch, isLoading: isLoading || isFetching } as const;
 };
 
-export const useTokenPrices = (assets?: Asset[]) => {
+export const useTokenPrices = (
+  assets?: Asset[],
+  { pollingInterval }: { pollingInterval?: number } = {},
+) => {
   const tokens = useMemo(() => assets?.map(parseAssetToToken) || [], [assets]);
 
   const { data, refetch, isLoading, isFetching } = useGetTokenCachedPricesQuery(
     { tokens, options: { includeMetadata: true } },
-    { skip: !tokens.length },
+    { skip: !tokens.length, pollingInterval },
   );
 
   return { data, refetch, isLoading: isLoading || isFetching } as const;

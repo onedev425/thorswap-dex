@@ -9,13 +9,14 @@ import { SupportModal } from 'components/Modals/Support/Support';
 import { Scrollbar } from 'components/Scrollbar';
 import { useSidebarOptions } from 'components/Sidebar/hooks';
 import { NavItem } from 'components/Sidebar/NavItem';
-import { RUNEAsset } from 'helpers/assets';
+import { RUNEAsset, THORAsset } from 'helpers/assets';
+import { parseAssetToToken } from 'helpers/parseAssetToToken';
+import { useTokenPrices } from 'hooks/useTokenPrices';
 import useWindowSize from 'hooks/useWindowSize';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { ROUTES } from 'settings/router';
-import { useMidgard } from 'store/midgard/hooks';
 
 import { SidebarItems } from './SidebarItems';
 import { SidebarProps } from './types';
@@ -23,11 +24,11 @@ import { SidebarProps } from './types';
 const noScrollHeight = 238;
 const toggleHeight = 50;
 const stickyMenuHeight = 100;
+const SIDEBAR_ASSETS = [RUNEAsset, THORAsset];
 
 export const Sidebar = ({ sx, collapsed = false, toggle, onNavItemClick }: SidebarProps) => {
   const { sidebarOptions, stickyMenu } = useSidebarOptions();
   const { isMdActive } = useWindowSize();
-  const { stats } = useMidgard();
   const navigate = useNavigate();
 
   const [isSupportModalOpened, setIsSupportModalOpened] = useState(false);
@@ -36,10 +37,18 @@ export const Sidebar = ({ sx, collapsed = false, toggle, onNavItemClick }: Sideb
   }px)`;
   const mobileScrollbarHeight = `calc(98% - ${stickyMenuHeight}px)`;
 
-  const runeLabel = useMemo(
-    () => (stats?.runePriceUSD ? `$${parseFloat(stats.runePriceUSD || '').toFixed(2)}` : '$ -'),
-    [stats],
+  const { data, isLoading } = useTokenPrices(SIDEBAR_ASSETS, { pollingInterval: 60000 });
+
+  const [runePrice, thorPrice] = useMemo(
+    () => [
+      data?.find(({ identifier }) => identifier === parseAssetToToken(RUNEAsset).identifier)
+        ?.price_usd,
+      data?.find(({ identifier }) => identifier === parseAssetToToken(THORAsset).identifier)
+        ?.price_usd,
+    ],
+    [data],
   );
+
   return (
     <Flex
       _dark={{
@@ -84,7 +93,7 @@ export const Sidebar = ({ sx, collapsed = false, toggle, onNavItemClick }: Sideb
         />
         <Scrollbar height={isMdActive ? scrollbarHeight : mobileScrollbarHeight}>
           <SidebarItems
-            verticallyCollapsable
+            verticallyCollapsible
             collapsed={collapsed}
             onItemClick={onNavItemClick}
             options={sidebarOptions}
@@ -114,27 +123,63 @@ export const Sidebar = ({ sx, collapsed = false, toggle, onNavItemClick }: Sideb
           sx={{ mx: 1 }}
         />
       </List>
-      <Tooltip stretchHorizontally content="Rune Price">
-        <Flex
-          alignItems="center"
-          borderTop="1px solid"
-          borderTopColor="borderPrimary"
-          gap={1}
-          height="full"
-          justifyContent="center"
-          py={3.5}
-        >
-          <AssetIcon asset={RUNEAsset} size={16} />
-          <Text
-            fontWeight="semibold"
-            textAlign="center"
-            textStyle={isMdActive ? 'caption' : 'caption-xs'}
-            transition={easeInOutTransition}
+
+      <Flex
+        borderTop="1px solid"
+        borderTopColor="borderPrimary"
+        direction={collapsed ? 'column' : 'row'}
+        gap={collapsed ? 1 : 0}
+        justify="space-between"
+        px="6"
+        py={collapsed ? 2 : 0}
+        width="full"
+      >
+        <Tooltip content={`$RUNE Price - $${runePrice?.toFixed(8)}`}>
+          <Flex
+            alignItems="center"
+            gap={1}
+            height="full"
+            justifyContent="center"
+            opacity={isLoading ? 0.4 : 1}
+            py={collapsed ? 1 : 3}
           >
-            {runeLabel}
-          </Text>
-        </Flex>
-      </Tooltip>
+            <AssetIcon asset={RUNEAsset} size={16} />
+            <Text
+              fontWeight="semibold"
+              textAlign="center"
+              textStyle={isMdActive && !collapsed ? 'caption' : 'caption-xs'}
+              transition={easeInOutTransition}
+            >
+              ${runePrice?.toFixed(3) || '-'}
+            </Text>
+          </Flex>
+        </Tooltip>
+        {isLoading && (
+          <Box alignSelf="center" bottom="7" pos={collapsed ? 'absolute' : 'inherit'} right="6">
+            <Icon spin name="loader" size={16} />
+          </Box>
+        )}
+        <Tooltip content={`$THOR Price - $${thorPrice?.toFixed(8)}`}>
+          <Flex
+            alignItems="center"
+            gap={1}
+            height="full"
+            justifyContent="center"
+            opacity={isLoading ? 0.4 : 1}
+            py={collapsed ? 1 : 3}
+          >
+            <AssetIcon asset={THORAsset} hasChainIcon={false} size={16} />
+            <Text
+              fontWeight="semibold"
+              textAlign="center"
+              textStyle={isMdActive && !collapsed ? 'caption' : 'caption-xs'}
+              transition={easeInOutTransition}
+            >
+              ${thorPrice?.toFixed(3) || '-'}
+            </Text>
+          </Flex>
+        </Tooltip>
+      </Flex>
 
       <Box
         _hover={{ bg: 'bgLightGrayLight', _dark: { bg: 'borderPrimary' } }}

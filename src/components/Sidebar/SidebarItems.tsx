@@ -12,12 +12,12 @@ type Props = {
   collapsed: boolean;
   hasBackground?: boolean;
   onItemClick?: () => void;
-  verticallyCollapsable?: boolean;
+  verticallyCollapsible?: boolean;
 };
 
 export const SidebarItems = memo(
   ({
-    verticallyCollapsable,
+    verticallyCollapsible,
     collapsed = false,
     hasBackground = false,
     onItemClick,
@@ -33,7 +33,7 @@ export const SidebarItems = memo(
 
     const toggleGroup = useCallback(
       (groupLabel: string) => {
-        if (verticallyCollapsable) {
+        if (verticallyCollapsible) {
           const updatedCollapsedSidebarGroups = () => {
             if (parsedCollapsedSidebarGroups.includes(groupLabel)) {
               const filteredGroups = parsedCollapsedSidebarGroups.filter(
@@ -47,7 +47,7 @@ export const SidebarItems = memo(
           setCollapsedSidebarGroups(updatedCollapsedSidebarGroups());
         }
       },
-      [parsedCollapsedSidebarGroups, setCollapsedSidebarGroups, verticallyCollapsable],
+      [parsedCollapsedSidebarGroups, setCollapsedSidebarGroups, verticallyCollapsible],
     );
 
     const renderSidebarItem = useCallback(
