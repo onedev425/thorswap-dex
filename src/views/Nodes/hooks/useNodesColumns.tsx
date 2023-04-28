@@ -83,6 +83,7 @@ export const useNodesColumns = () => {
             rightIcon={<Icon name="copy" size={16} />}
             tooltip={t('common.copy')}
             tooltipClasses="mx-auto w-fit"
+            transform="none"
             variant="borderlessTint"
           >
             {shortenAddress(value, 6, 4)}

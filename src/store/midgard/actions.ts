@@ -51,7 +51,9 @@ export const getMimir = createAsyncThunk('thorchain/getThorchainMimir', () =>
   getRequest<any>(`${THORNODE_URL}/mimir`),
 );
 
-export const getNodes = createAsyncThunk('midgard/getNodes', midgardApi.getNodes);
+export const getNodes = createAsyncThunk('midgard/getNodes', () =>
+  getRequest<any>(`${THORNODE_URL}/nodes`),
+);
 
 export const getPoolMemberDetailByChain = createAsyncThunk(
   'midgard/getPoolMemberDetailByChain',
