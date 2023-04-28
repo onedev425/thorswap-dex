@@ -4,6 +4,7 @@ import { showErrorToast } from 'components/Toast';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import { useCallback, useEffect, useState } from 'react';
 import { t } from 'services/i18n';
+import { IS_PROD } from 'settings/config';
 import { useWallet } from 'store/wallet/hooks';
 
 import {
@@ -91,7 +92,7 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
               type: WalletType.Brave,
               visible: isMdActive,
               label: t('views.walletModal.braveWallet'),
-              //@ts-ignore
+              // @ts-ignore
               tooltip: !(navigator.brave && (await navigator.brave.isBrave()))
                 ? t('views.walletModal.installBraveBrowser')
                 : getETHDefaultWallet() !== WalletOption.BRAVE
@@ -109,9 +110,14 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
         {
           title: t('views.walletModal.hardwareWallets'),
           visible: isMdActive,
+          // @ts-expect-error
           items: [
             { type: WalletType.Ledger, icon: 'ledger', label: t('views.walletModal.ledger') },
-          ],
+          ].concat(
+            IS_PROD
+              ? []
+              : [{ type: WalletType.Trezor, icon: 'trezor', label: t('views.walletModal.trezor') }],
+          ),
         },
         {
           title: 'Keystore',
@@ -148,6 +154,7 @@ export const useHandleWalletConnect = ({
   const {
     connectKeplr,
     connectLedger,
+    connectTrezor,
     connectTrustWallet,
     connectEVMWalletExtension,
     connectXdefiWallet,
@@ -185,6 +192,8 @@ export const useHandleWalletConnect = ({
             );
           case WalletType.Keplr:
             return connectKeplr();
+          case WalletType.Trezor:
+            return connectTrezor(selectedChains[0], ledgerIndex, type);
 
           default:
             console.error(selectedWalletType);
@@ -200,6 +209,7 @@ export const useHandleWalletConnect = ({
       connectEVMWalletExtension,
       connectKeplr,
       connectLedger,
+      connectTrezor,
       connectTrustWallet,
       connectXdefiWallet,
       derivationPathType,
@@ -271,6 +281,7 @@ export const useHandleWalletTypeSelect = ({
 
       switch (walletType) {
         case WalletType.Ledger:
+        case WalletType.Trezor:
         case WalletType.TrustWalletExtension:
         case WalletType.CoinbaseExtension:
         case WalletType.MetaMask: {

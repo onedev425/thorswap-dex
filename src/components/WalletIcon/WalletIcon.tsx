@@ -21,6 +21,7 @@ const walletIcons: Record<WalletOption, IconName> = {
   // [WalletOption.LEDGER_LIVE]: 'ledger',
   [WalletOption.KEYSTORE]: 'keystore',
   [WalletOption.TRUSTWALLET]: 'walletConnect',
+  [WalletOption.TREZOR]: 'trezor',
   [WalletOption.XDEFI]: 'xdefi',
   [WalletOption.KEPLR]: 'keplr',
 };

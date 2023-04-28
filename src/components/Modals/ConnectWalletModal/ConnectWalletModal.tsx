@@ -81,7 +81,9 @@ const ConnectWalletModal = () => {
   const handleAllClick = useCallback(() => {
     const nextWallets =
       (selectedWalletType &&
-        [WalletType.Ledger, WalletType.TrustWalletExtension].includes(selectedWalletType)) ||
+        [WalletType.Ledger, WalletType.Trezor, WalletType.TrustWalletExtension].includes(
+          selectedWalletType,
+        )) ||
       selectedAll
         ? []
         : supportedByWallet;
@@ -100,6 +102,7 @@ const ConnectWalletModal = () => {
         [
           WalletType.Ledger,
           WalletType.MetaMask,
+          WalletType.Trezor,
           WalletType.TrustWalletExtension,
           WalletType.CoinbaseExtension,
         ].includes(selectedWalletType)
@@ -186,6 +189,7 @@ const ConnectWalletModal = () => {
     WalletType.Keystore,
     WalletType.Phrase,
     WalletType.Ledger,
+    WalletType.Trezor,
     WalletType.TrustWallet,
   ].includes(selectedWalletType || WalletType.Keystore);
 
@@ -271,6 +275,7 @@ const ConnectWalletModal = () => {
                   disabled={[
                     WalletType.Ledger,
                     WalletType.MetaMask,
+                    WalletType.Trezor,
                     WalletType.TrustWalletExtension,
                     WalletType.CoinbaseExtension,
                   ].includes(selectedWalletType || WalletType.Keystore)}
@@ -360,7 +365,8 @@ const ConnectWalletModal = () => {
                 )}
               </Box>
 
-              {selectedWalletType === WalletType.Ledger && (
+              {(selectedWalletType === WalletType.Ledger ||
+                selectedWalletType === WalletType.Trezor) && (
                 <Box center>
                   <Box alignCenter className="pt-2 mx-6 gap-x-2" flex={1} justify="between">
                     <Text>{t('common.index')}:</Text>

@@ -13,6 +13,7 @@ export const getSwapKitClient = async () => {
   const { SwapKitCore } = await import('@thorswap-lib/swapkit-core');
   const { keystoreWallet } = await import('@thorswap-lib/keystore');
   const { ledgerWallet } = await import('@thorswap-lib/ledger');
+  const { trezorWallet } = await import('@thorswap-lib/trezor');
   const { walletconnectWallet } = await import('@thorswap-lib/walletconnect');
   const { evmWallet, keplrWallet, xdefiWallet } = await import('@thorswap-lib/web-extensions');
 
@@ -23,6 +24,7 @@ export const getSwapKitClient = async () => {
     wallets: [
       keystoreWallet,
       ledgerWallet,
+      trezorWallet,
       walletconnectWallet,
       evmWallet,
       keplrWallet,

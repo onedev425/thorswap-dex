@@ -63,6 +63,7 @@ import { ReactComponent as ThoryieldColor } from './thoryieldColor.svg';
 import { ReactComponent as ThreeDots } from './threedots.svg';
 import { ReactComponent as Tick } from './tick.svg';
 import { ReactComponent as TradeLightning } from './tradeLightning.svg';
+import { ReactComponent as Trezor } from './trezor.svg';
 import { ReactComponent as TrustWallet } from './trustWallet.svg';
 import { ReactComponent as TrustWalletWhite } from './trustWalletWhite.svg';
 import { ReactComponent as Upload } from './upload.svg';
@@ -116,6 +117,7 @@ export const Svgs = {
   threedots: ThreeDots,
   tick: Tick,
   tradeLightning: TradeLightning,
+  trezor: Trezor,
   upload: Upload,
   usdt: Usdt,
   walletConnect: WalletConnect,

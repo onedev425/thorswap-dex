@@ -92,6 +92,34 @@ export const useWallet = () => {
     [dispatch],
   );
 
+  const connectTrezor = useCallback(
+    async (
+      chain: Chain,
+      index: number,
+      type?: 'nativeSegwitMiddleAccount' | 'segwit' | 'legacy' | 'ledgerLive',
+    ) => {
+      const options = { chain: chainName(chain), index };
+
+      const { getDerivationPathFor } = await import('@thorswap-lib/ledger');
+      const { connectTrezor: swapKitConnectTrezor } = await (
+        await import('services/swapKit')
+      ).getSwapKitClient();
+
+      try {
+        showInfoToast(t('notification.connectingTrezor', options));
+        const derivationPath = getDerivationPathFor({ chain, index, type });
+        await swapKitConnectTrezor(chain, derivationPath);
+
+        dispatch(walletActions.getWalletByChain(chain as Chain));
+        showInfoToast(t('notification.connectedTrezor', options));
+      } catch (error: NotWorth) {
+        console.error(error);
+        showErrorToast(t('notification.trezorFailed', options));
+      }
+    },
+    [dispatch],
+  );
+
   const connectXdefiWallet = useCallback(
     async (chains: Chain[]) => {
       const { connectXDEFI: swapKitConnectXDEFI } = await (
@@ -224,6 +252,7 @@ export const useWallet = () => {
     connectKeplr,
     connectTrustWallet,
     connectLedger,
+    connectTrezor,
     refreshWalletByChain,
   };
 };
