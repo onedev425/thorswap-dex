@@ -299,3 +299,35 @@ export type MidgardEarnPoolType = {
   synthSupply: string;
   assetDepth: string;
 };
+
+export type MidgardTradeHistoryDetails = {
+  averageSlip: string;
+  endTime: string;
+  runePriceUSD: string;
+  startTime: string;
+  synthMintAverageSlip: string;
+  synthMintCount: string;
+  synthMintFees: string;
+  synthMintVolume: string;
+  synthRedeemAverageSlip: string;
+  synthRedeemCount: string;
+  synthRedeemFees: string;
+  synthRedeemVolume: string;
+  toAssetAverageSlip: string;
+  toAssetCount: string;
+  toAssetFees: string;
+  toAssetVolume: string;
+  toRuneAverageSlip: string;
+  toRuneCount: string;
+  toRuneFees: string;
+  toRuneVolume: string;
+  totalCount: string;
+  totalFees: string;
+  totalVolume: string;
+  totalVolumeUsd: string;
+};
+
+export type MidgardTradeHistory = {
+  intervals: MidgardTradeHistoryDetails[];
+  meta: MidgardTradeHistoryDetails[];
+};

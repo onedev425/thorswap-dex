@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { THORSWAP_AFFILIATE_ADDRESS } from 'config/constants';
-import { IS_DEV_API } from 'settings/config';
+import { IS_DEV_API, midgardAPIUrl } from 'settings/config';
 import { AnnouncementsData } from 'store/externalConfig/types';
+import { MidgardTradeHistory } from 'store/midgard/types';
 
 import {
   GetGasPriceRatesResponse,
@@ -92,6 +93,10 @@ export const thorswapApi = createApi({
       query: () => '/resource-worker/gasPrice/getAll',
       keepUnusedDataFor: 60,
     }),
+
+    getMonthlyTradeVolume: build.query<MidgardTradeHistory, void>({
+      query: () => midgardAPIUrl('history/ts-swaps?interval=month&count=1&unique=true'),
+    }),
   }),
 });
 
@@ -103,4 +108,5 @@ export const {
   useGetTokensQuoteQuery,
   useGetAnnouncementsQuery,
   useGetGasPriceRatesQuery,
+  useGetMonthlyTradeVolumeQuery,
 } = thorswapApi;

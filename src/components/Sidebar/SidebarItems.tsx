@@ -2,7 +2,8 @@ import { Box, Collapse, Flex, List, Text } from '@chakra-ui/react';
 import { Icon } from 'components/Atomic';
 import { easeInOutTransition } from 'components/constants';
 import { NavItem } from 'components/Sidebar/NavItem';
-import { SidebarItemProps, SidebarVariant } from 'components/Sidebar/types';
+import { SidebarWidgets } from 'components/Sidebar/SidebarWidgets';
+import { SidebarItemProps, SidebarVariant, SidebarWidgetOption } from 'components/Sidebar/types';
 import { Fragment, memo, useCallback } from 'react';
 import { useApp } from 'store/app/hooks';
 
@@ -13,6 +14,7 @@ type Props = {
   hasBackground?: boolean;
   onItemClick?: () => void;
   verticallyCollapsible?: boolean;
+  widgets?: SidebarWidgetOption[];
 };
 
 export const SidebarItems = memo(
@@ -23,6 +25,7 @@ export const SidebarItems = memo(
     onItemClick,
     options,
     variant,
+    widgets,
   }: Props) => {
     const { collapsedSidebarGroups, setCollapsedSidebarGroups } = useApp();
 
@@ -57,6 +60,7 @@ export const SidebarItems = memo(
         children,
         hasBackground: background,
         href,
+        widgets,
         ...rest
       }: SidebarItemProps) => {
         if (!label) {
@@ -108,9 +112,11 @@ export const SidebarItems = memo(
                   onItemClick={onItemClick}
                   options={children}
                   variant="secondary"
+                  widgets={widgets}
                 />
               </Collapse>
             )}
+
             {!children && (
               <NavItem
                 {...rest}
@@ -146,6 +152,8 @@ export const SidebarItems = memo(
           w="full"
         >
           {options.map(renderSidebarItem)}
+
+          <SidebarWidgets collapsed={collapsed} widgets={widgets} />
         </List>
       </Box>
     );

@@ -4,12 +4,17 @@ import { MouseEventHandler } from 'react';
 
 export type SidebarVariant = 'primary' | 'secondary';
 
+export enum SidebarWidgetOption {
+  ThorBurn = 'thorBurn',
+}
+
 type ItemProps = {
   iconName?: IconName;
   rightIconName?: IconName;
   hasBackground?: boolean;
   beta?: boolean;
   label?: string;
+  widgets?: [SidebarWidgetOption];
 } & ({ href: string; children?: undefined } | { href?: undefined; children: SidebarItemProps[] });
 
 export type NavItemProps = ItemProps & {

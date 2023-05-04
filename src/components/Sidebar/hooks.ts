@@ -1,5 +1,5 @@
 import { IconName } from 'components/Atomic';
-import { SidebarItemProps } from 'components/Sidebar/types';
+import { SidebarItemProps, SidebarWidgetOption } from 'components/Sidebar/types';
 import { hasConnectedWallet } from 'helpers/wallet';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
@@ -60,6 +60,7 @@ export const useSidebarOptions = () => {
         },
         ...vestingItems,
       ],
+      widgets: [SidebarWidgetOption.ThorBurn],
     };
   }, [isConnected, hasVestingAlloc]);
 
