@@ -191,6 +191,7 @@ const ConnectWalletModal = () => {
     WalletType.Ledger,
     WalletType.Trezor,
     WalletType.TrustWallet,
+    WalletType.Walletconnect,
   ].includes(selectedWalletType || WalletType.Keystore);
 
   const isWalletTypeDisabled = useCallback(

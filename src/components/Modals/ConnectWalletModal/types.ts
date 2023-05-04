@@ -10,6 +10,7 @@ export enum WalletType {
   Phrase = 'Phrase',
   Trezor = 'Trezor',
   TrustWallet = 'TrustWallet',
+  Walletconnect = 'Walletconnect',
   TrustWalletExtension = 'TrustWalletExtension',
   CoinbaseExtension = 'CoinbaseExtension',
   Xdefi = 'Xdefi',
@@ -28,6 +29,7 @@ export const WalletNameByWalletType: Record<WalletType, string> = {
   [WalletType.TrustWalletExtension]: 'TrustWallet Extension',
   [WalletType.CoinbaseExtension]: 'Coinbase Extension',
   [WalletType.Xdefi]: 'Xdefi',
+  [WalletType.Walletconnect]: 'Walletconnect',
 };
 
 export const WalletOptionByWalletType: Record<WalletType, WalletOption> = {
@@ -43,6 +45,7 @@ export const WalletOptionByWalletType: Record<WalletType, WalletOption> = {
   [WalletType.TrustWalletExtension]: WalletOption.TRUSTWALLET_WEB,
   [WalletType.CoinbaseExtension]: WalletOption.COINBASE_WEB,
   [WalletType.Xdefi]: WalletOption.XDEFI,
+  [WalletType.Walletconnect]: WalletOption.WALLETCONNECT,
 };
 
 export const WalletNameByWalletOption: Record<WalletOption, string> = {
@@ -53,6 +56,7 @@ export const WalletNameByWalletOption: Record<WalletOption, string> = {
   [WalletOption.TREZOR]: WalletType.Trezor,
   [WalletOption.TRUSTWALLET]: WalletType.TrustWallet,
   [WalletOption.TRUSTWALLET_WEB]: 'Trustwallet Web',
+  [WalletOption.WALLETCONNECT]: WalletType.Walletconnect,
   [WalletOption.COINBASE_WEB]: 'Coinbase Extension',
   [WalletOption.XDEFI]: WalletType.Xdefi,
   [WalletOption.KEYSTORE]: WalletType.Keystore,
@@ -88,4 +92,5 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.TrustWalletExtension]: EVMChainsSupported,
   [WalletType.TrustWallet]: [Chain.THORChain, Chain.Ethereum, Chain.Binance],
   [WalletType.Xdefi]: AllChainsSupported,
+  [WalletType.Walletconnect]: [Chain.Ethereum],
 };

@@ -55,6 +55,7 @@ export default defineConfig({
        * To operate locally on external libraries you can copy paste their `/src`
        * file and use like below:
        */
+      // '@thorswap-lib/types': resolve(__dirname, 'src/t'),
       // '@thorswap-lib/keystore': resolve(__dirname, 'src/k'),
       // '@thorswap-lib/ledger': resolve(__dirname, 'src/l'),
       // '@thorswap-lib/swapkit-core': resolve(__dirname, 'src/sk'),
@@ -63,6 +64,7 @@ export default defineConfig({
       // '@thorswap-lib/toolbox-utxo': resolve(__dirname, 'src/u'),
       // '@thorswap-lib/web-extensions': resolve(__dirname, 'src/w'),
       // '@thorswap-lib/walletconnect': resolve(__dirname, 'src/wc'),
+      // '@thorswap-lib/trustwallet': resolve(__dirname, 'src/tw'),
     },
   },
   build: {

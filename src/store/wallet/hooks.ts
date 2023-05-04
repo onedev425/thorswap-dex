@@ -210,6 +210,19 @@ export const useWallet = () => {
 
   const connectTrustWallet = useCallback(
     async (chains: Chain[]) => {
+      const { connectTrustwallet } = await (await import('services/swapKit')).getSwapKitClient();
+
+      await connectTrustwallet(chains, {
+        listeners: { disconnect: disconnectWallet },
+      });
+
+      setWallets(chains);
+    },
+    [disconnectWallet, setWallets],
+  );
+
+  const connectWalletconnect = useCallback(
+    async (chains: Chain[]) => {
       const { connectWalletconnect } = await (await import('services/swapKit')).getSwapKitClient();
 
       await connectWalletconnect(chains, {
@@ -251,6 +264,7 @@ export const useWallet = () => {
     connectMetamask,
     connectKeplr,
     connectTrustWallet,
+    connectWalletconnect,
     connectLedger,
     connectTrezor,
     refreshWalletByChain,
