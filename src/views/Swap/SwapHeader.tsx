@@ -21,7 +21,7 @@ export const SwapHeader = memo(({ asset, refetchData }: Props) => {
     <ViewHeader
       actionsComponent={
         <Box center row className="space-x-2">
-          <CountDownIndicator duration={60} refresh={refetchData} />
+          {refetchData && <CountDownIndicator duration={60} refresh={refetchData} />}
 
           <Button
             className="w-10 px-1.5 group"
