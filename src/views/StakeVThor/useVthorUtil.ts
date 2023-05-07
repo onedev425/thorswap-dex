@@ -40,17 +40,29 @@ export const useVthorUtil = () => {
       const thorStakedNum = fromWei(thorStaked);
       const vthorTSNum = fromWei(vthorTS);
 
-      if (!isReverted) {
-        return thorStakedNum === 0
-          ? '1 THOR = 1 vTHOR'
-          : `1 THOR = ${toOptionalFixed(vthorTSNum / thorStakedNum, 3)} vTHOR`;
+      if (isReverted) {
+        return vthorTSNum === 0 ? 1 : thorStakedNum / vthorTSNum;
+      } else {
+        return thorStakedNum === 0 ? 1 : vthorTSNum / thorStakedNum;
       }
-
-      return vthorTSNum === 0
-        ? '1 vTHOR = 1 THOR'
-        : `1 vTHOR = ${toOptionalFixed(thorStakedNum / vthorTSNum, 3)} THOR`;
     },
     [thorStaked, vthorTS],
+  );
+
+  const getRateString = useCallback(
+    (isReverted = false) => {
+      const thorStakedNum = fromWei(thorStaked);
+      const vthorTSNum = fromWei(vthorTS);
+
+      const rate = toOptionalFixed(getRate(isReverted));
+
+      if (!isReverted) {
+        return thorStakedNum === 0 ? '1 THOR = 1 vTHOR' : `1 THOR = ${rate} vTHOR`;
+      }
+
+      return vthorTSNum === 0 ? '1 vTHOR = 1 THOR' : `1 vTHOR = ${rate} THOR`;
+    },
+    [thorStaked, vthorTS, getRate],
   );
 
   const approveTHOR = useCallback(async () => {
@@ -222,6 +234,7 @@ export const useVthorUtil = () => {
     vthorBalance,
     vthorTS,
     getRate,
+    getRateString,
     approveTHOR,
     handleRefresh,
     previewDeposit,

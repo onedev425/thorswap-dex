@@ -46,6 +46,30 @@ export const thorswapApi = createApi({
       query: () => '/tokenlist/providers',
     }),
 
+    getAirdropVerify: build.query<any, any>({
+      query: ({ address = '' }) => {
+        const queryParams = new URLSearchParams({ address });
+
+        return `/aggregator/airdrop/verify?${queryParams.toString()}`;
+      },
+    }),
+
+    getIsWhitelisted: build.query<any, any>({
+      query: ({ address = '' }) => {
+        const queryParams = new URLSearchParams({ address });
+
+        return `/aggregator/airdrop/isWhitelisted?${queryParams.toString()}`;
+      },
+    }),
+
+    getMerkleProof: build.query<any, any>({
+      query: ({ address = '' }) => {
+        const queryParams = new URLSearchParams({ address });
+
+        return `/aggregator/airdrop/merkleProof?${queryParams.toString()}`;
+      },
+    }),
+
     getTokenCachedPrices: build.query<GetTokenPriceResponse, GetTokenPriceParams>({
       query: ({ tokens, options = {} }) => {
         const body = new URLSearchParams();
@@ -106,6 +130,9 @@ export const {
   useGetProvidersQuery,
   useGetTokenCachedPricesQuery,
   useGetTokensQuoteQuery,
+  useGetAirdropVerifyQuery,
+  useGetIsWhitelistedQuery,
+  useGetMerkleProofQuery,
   useGetAnnouncementsQuery,
   useGetGasPriceRatesQuery,
   useGetMonthlyTradeVolumeQuery,

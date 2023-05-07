@@ -207,6 +207,7 @@
       "thoryield": "THORYield",
       "trade": "Trade",
       "vesting": "Vesting",
+      "airdrop": "Airdrop",
       "wallet": "Wallet"
     },
     "statusDropdown": {
@@ -265,6 +266,7 @@
     "runePooled": "RUNE POOLED",
     "sendTxFailed": "Send Transaction Failed",
     "submitFail": "Submit Transaction Failed.",
+    "airdropClaimFailed": "Airdrop Claim Failed",
     "successfulTransaction": "Transaction Successful",
     "swapAmountTooSmall": "Swap Output Amount is too small",
     "swapAmountTooSmallDesc": "Swap output amount is small and can be slashed out by ethereum gas fee",
@@ -852,6 +854,13 @@
       "updateFee": "Update Fee",
       "year": "year",
       "years": "years"
+    },
+    "airdrop": {
+      "airdrop": "Airdrop",
+      "claim": "Claim",
+      "claimAndStake": "Claim & Stake",
+      "claimableAmount": "Claimable Amount",
+      "alreadyClaimed": "You have already claimed this airdrop"
     },
     "vesting": {
       "claim": "Claim",

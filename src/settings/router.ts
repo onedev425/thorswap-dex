@@ -23,6 +23,7 @@ export enum ROUTES {
   Thorname = '/thorname',
   UpgradeRune = '/upgrade',
   Vesting = '/vesting',
+  Airdrop = '/airdrop',
   Wallet = '/wallet',
   WithdrawLiquidity = '/withdraw',
   WithdrawLiquidityPool = '/withdraw/:assetParam',

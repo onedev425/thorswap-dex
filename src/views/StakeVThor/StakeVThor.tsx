@@ -42,7 +42,7 @@ const StakeVThor = () => {
   const [isModalOpened, setModalOpened] = useState(false);
 
   const formatter = useFormatPrice({ prefix: '' });
-  const { getRate, previewDeposit, previewRedeem, stakeThor, unstakeThor } = useVthorUtil();
+  const { getRateString, previewDeposit, previewRedeem, stakeThor, unstakeThor } = useVthorUtil();
   const { wallet, setIsConnectModalOpen } = useWallet();
 
   const { walletType: ethWalletType, address: ethAddress } = useMemo(
@@ -278,7 +278,7 @@ const StakeVThor = () => {
               />
 
               <Text fontWeight="normal" textStyle="caption" variant="primary">
-                {getRate(isReverted)}
+                {getRateString(isReverted)}
               </Text>
             </Box>
 

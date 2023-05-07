@@ -6,6 +6,7 @@ import { getProvider } from '@thorswap-lib/toolbox-evm';
 import { Chain, FeeOption } from '@thorswap-lib/types';
 import { getSwapKitClient } from 'services/swapKit';
 
+import Airdrop from './abi/Airdrop.json';
 import ERC20ABI from './abi/ERC20.json';
 import RewardsPerBlockABI from './abi/RewardPerBlock.json';
 import StakingABI from './abi/Staking.json';
@@ -19,6 +20,8 @@ export enum ContractType {
   STAKING_SUSHI_WETH = 'staking_sushi_weth',
   VTHOR = 'vthor',
   REWARDS_PER_BLOCK = 'rewards_per_block',
+  CLAIM_AIRDROP = 'claim_airdrop',
+  CLAIM_AND_STAKE_AIRDROP = 'claim_and_stake_airdrop',
 }
 
 export enum LPContractType {
@@ -51,6 +54,14 @@ export const contractConfig: Record<ContractType, { address: string; abi: any }>
   [ContractType.REWARDS_PER_BLOCK]: {
     address: '0x8f631816043c8e8Cad0C4c602bFe7Bff1B22b182',
     abi: RewardsPerBlockABI,
+  },
+  [ContractType.CLAIM_AIRDROP]: {
+    address: '0x5505BE604dFA8A1ad402A71f8A357fba47F9bf5a',
+    abi: Airdrop,
+  },
+  [ContractType.CLAIM_AND_STAKE_AIRDROP]: {
+    address: '0x5505BE604dFA8A1ad402A71f8A357fba47F9bf5a',
+    abi: Airdrop,
   },
 };
 

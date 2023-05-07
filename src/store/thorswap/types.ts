@@ -137,6 +137,10 @@ export type GetTokensQuoteParams = {
   slippage: string;
 };
 
+export type GetAirdropVerifyParams = {
+  address: string;
+};
+
 export type GetTokensQuoteResponse = {
   quoteId: string;
   routes: [

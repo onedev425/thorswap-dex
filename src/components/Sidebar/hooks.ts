@@ -38,6 +38,14 @@ export const useSidebarOptions = () => {
   }, []);
 
   const thorMenu: SidebarItemProps = useMemo(() => {
+    const airdropItems: SidebarItemProps[] = [
+      {
+        iconName: 'chartPieOutline',
+        href: ROUTES.Airdrop,
+        label: t('components.sidebar.airdrop'),
+      },
+    ];
+
     const vestingItems: SidebarItemProps[] =
       isConnected && hasVestingAlloc
         ? [
@@ -59,6 +67,7 @@ export const useSidebarOptions = () => {
           label: t('components.sidebar.staking'),
         },
         ...vestingItems,
+        ...airdropItems,
       ],
       widgets: [SidebarWidgetOption.ThorBurn],
     };
