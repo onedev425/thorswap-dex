@@ -1,3 +1,4 @@
+import { baseAmount } from '@thorswap-lib/helpers';
 import { Amount, AssetEntity, isGasAsset } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { isAVAXAsset, isETHAsset } from 'helpers/assets';
@@ -13,12 +14,18 @@ type Params = {
   amount?: Amount;
 };
 
-const checkAssetApprove = async ({ contract, asset }: Params) => {
+const checkAssetApprove = async ({ contract, asset, amount }: Params) => {
   const { isAssetApprovedForContract, isAssetApproved } = await (
     await import('services/swapKit')
   ).getSwapKitClient();
 
-  return await (contract ? isAssetApprovedForContract(asset, contract) : isAssetApproved(asset));
+  return await (contract
+    ? isAssetApprovedForContract(
+        asset,
+        contract,
+        amount ? baseAmount(Math.ceil(amount.assetAmount.toNumber() || 0)) : undefined,
+      )
+    : isAssetApproved(asset));
 };
 
 let prevNumberOfPendingApprovals = 0;
@@ -28,12 +35,14 @@ const useApproveResult = ({
   isWalletConnected,
   numberOfPendingApprovals,
   asset,
+  amount,
   contract,
   skip,
 }: {
   isWalletConnected: boolean;
   numberOfPendingApprovals: number;
   asset: AssetEntity;
+  amount?: Amount;
   contract?: string;
   skip: boolean;
 }) => {
@@ -52,7 +61,11 @@ const useApproveResult = ({
     }
 
     try {
-      const isApproved = (await debouncedCheckAssetApprove.current({ asset, contract })) as boolean;
+      const isApproved = (await debouncedCheckAssetApprove.current({
+        amount,
+        asset,
+        contract,
+      })) as boolean;
       setApproved(isApproved);
     } finally {
       prevNumberOfPendingApprovals = numberOfPendingApprovals;
@@ -112,9 +125,9 @@ export const useAssetApprovalCheck = () => {
   const { wallet } = useWallet();
 
   const handleApprove = useCallback(
-    ({ asset, contract }: { asset: AssetEntity; contract?: string }) =>
+    ({ asset, contract, amount }: { amount?: Amount; asset: AssetEntity; contract?: string }) =>
       wallet?.[asset.L1Chain]?.address
-        ? checkAssetApprove({ asset, contract })
+        ? checkAssetApprove({ asset, contract, amount })
         : Promise.resolve(false),
     [wallet],
   );

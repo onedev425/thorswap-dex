@@ -2,9 +2,10 @@ import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { getOutOfPocketFee } from 'hooks/useRouteFees';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useApp } from 'store/app/hooks';
 import { useGetTokensQuoteQuery } from 'store/thorswap/api';
+import { GetTokensQuoteResponse } from 'store/thorswap/types';
 import { useAssetApprovalCheck } from 'views/Swap/hooks/useIsAssetApproved';
 
 type Params = {
@@ -64,18 +65,21 @@ export const useSwapQuote = ({
     skip: tokenQuoteParams.sellAmount === '0' || inputAmount.assetAmount.isZero(),
   });
 
-  useEffect(() => {
-    if (!data?.routes || inputAmount.lte(0)) return setRoutes([]);
+  const setSortedRoutes = useCallback(
+    async (routes: GetTokensQuoteResponse['routes']) => {
+      try {
+        const routesWithApprovePromise = routes.map(async (route) => {
+          const isApproved = await checkApprove({
+            amount: inputAmount,
+            asset: inputAsset,
+            contract: route.contract,
+          });
 
-    setApprovalsLoading(true);
-    try {
-      const routesWithApprovePromise = data.routes.map(async (route) => {
-        const isApproved = await checkApprove({ asset: inputAsset, contract: route.contract });
+          return { ...route, isApproved };
+        });
 
-        return { ...route, isApproved };
-      });
+        const routesWithApprove = await Promise.all(routesWithApprovePromise);
 
-      Promise.all(routesWithApprovePromise).then((routesWithApprove) => {
         const sortedRoutes = routesWithApprove
           .filter(Boolean)
           .concat()
@@ -95,11 +99,20 @@ export const useSwapQuote = ({
           }) as RouteWithApproveType[];
 
         setRoutes(sortedRoutes);
-      });
-    } finally {
-      setApprovalsLoading(false);
-    }
-  }, [checkApprove, data?.routes, inputAmount, inputAsset]);
+      } finally {
+        setApprovalsLoading(false);
+      }
+    },
+    [checkApprove, inputAmount, inputAsset],
+  );
+
+  useEffect(() => {
+    if (!data?.routes || inputAmount.lte(0)) return setRoutes([]);
+
+    setSortedRoutes(data.routes);
+
+    setApprovalsLoading(true);
+  }, [checkApprove, data?.routes, inputAmount, inputAsset, setSortedRoutes]);
 
   const selectedRoute = useMemo(
     () =>
