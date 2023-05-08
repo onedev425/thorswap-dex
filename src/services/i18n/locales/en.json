@@ -859,6 +859,8 @@
       "airdrop": "Airdrop",
       "claim": "Claim",
       "claimAndStake": "Claim & Stake",
+      "vTHORRatio": "vTHOR Ratio",
+      "vTHORAfterStaking": "vTHOR after staking",
       "claimableAmount": "Claimable Amount",
       "alreadyClaimed": "You have already claimed this airdrop"
     },

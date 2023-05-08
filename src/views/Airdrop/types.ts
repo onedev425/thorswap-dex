@@ -9,12 +9,12 @@ export enum AirdropType {
 
 export const airdropTabs = [
   {
-    label: t('views.airdrop.claim'),
-    value: AirdropType.CLAIM,
-  },
-  {
     label: t('views.airdrop.claimAndStake'),
     value: AirdropType.CLAIM_AND_STAKE,
+  },
+  {
+    label: t('views.airdrop.claim'),
+    value: AirdropType.CLAIM,
   },
 ];
 

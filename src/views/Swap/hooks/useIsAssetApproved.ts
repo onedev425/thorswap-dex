@@ -71,7 +71,7 @@ const useApproveResult = ({
       prevNumberOfPendingApprovals = numberOfPendingApprovals;
       setIsLoading(false);
     }
-  }, [asset, cacheKey, contract, numberOfPendingApprovals]);
+  }, [asset, cacheKey, contract, numberOfPendingApprovals, amount]);
 
   useEffect(() => {
     if (skip || !isWalletConnected) {

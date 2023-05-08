@@ -9,13 +9,15 @@ import { addTransaction, completeTransaction, updateTransaction } from 'store/tr
 import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
+import { useVthorUtil } from 'views/StakeVThor/useVthorUtil';
 
 import { AIRDROP_THOR_AMOUNT } from './constants';
 import { airdropAssets, AirdropType } from './types';
 
 export const useAirdrop = () => {
   const appDispatch = useAppDispatch();
-  const [airdropAction, setAirdropAction] = useState(AirdropType.CLAIM);
+  const { getRate } = useVthorUtil();
+  const [airdropAction, setAirdropAction] = useState(AirdropType.CLAIM_AND_STAKE);
   const [isClaiming, setIsClaiming] = useState(false);
 
   const { wallet, setIsConnectModalOpen } = useWallet();
@@ -56,9 +58,12 @@ export const useAirdrop = () => {
           id,
           inChain: Chain.Ethereum,
           type: TransactionType.ETH_STATUS,
-          label: `${t('txManager.claim')} ${AIRDROP_THOR_AMOUNT} ${
-            airdropAssets[airdropAction].name
-          }`,
+          label: `
+            ${t('txManager.claim')} ${
+            airdropAction === AirdropType.CLAIM
+              ? AIRDROP_THOR_AMOUNT
+              : (AIRDROP_THOR_AMOUNT * getRate()).toFixed(2)
+          } ${airdropAssets[airdropAction].name}`,
         }),
       );
 
@@ -82,7 +87,7 @@ export const useAirdrop = () => {
 
       setIsClaiming(false);
     }
-  }, [setIsClaiming, appDispatch, ethAddr, isWhitelisted, airdropAction, merkleProofData]);
+  }, [setIsClaiming, appDispatch, ethAddr, isWhitelisted, airdropAction, merkleProofData, getRate]);
 
   return {
     airdropAction,
