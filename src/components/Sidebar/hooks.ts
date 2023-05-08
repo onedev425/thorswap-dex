@@ -3,7 +3,7 @@ import { SidebarItemProps, SidebarWidgetOption } from 'components/Sidebar/types'
 import { hasConnectedWallet } from 'helpers/wallet';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
-import { IS_DEV_API, IS_LOCAL } from 'settings/config';
+import { IS_DEV_API, IS_LOCAL, IS_PROD } from 'settings/config';
 import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/router';
 import { useApp } from 'store/app/hooks';
 import { useWallet } from 'store/wallet/hooks';
@@ -67,7 +67,7 @@ export const useSidebarOptions = () => {
           label: t('components.sidebar.staking'),
         },
         ...vestingItems,
-        ...airdropItems,
+        ...(IS_PROD ? [] : airdropItems),
       ],
       widgets: [SidebarWidgetOption.ThorBurn],
     };
