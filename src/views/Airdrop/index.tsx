@@ -41,11 +41,15 @@ const Airdrop = () => {
       </Box>
       <Box col className="w-full p-2 pt-0">
         <InfoRow label={t('views.airdrop.claimableAmount')} value={`${AIRDROP_THOR_AMOUNT} THOR`} />
-        <InfoRow label={t('views.airdrop.vTHORRatio')} value={`${getRate(true).toFixed(2)}`} />
-        <InfoRow
-          label={t('views.airdrop.vTHORAfterStaking')}
-          value={`${(AIRDROP_THOR_AMOUNT * getRate()).toFixed(2)} vTHOR`}
-        />
+        {airdropAction === AirdropType.CLAIM_AND_STAKE && (
+          <>
+            <InfoRow label={t('views.airdrop.vTHORRatio')} value={`${getRate(true).toFixed(2)}`} />
+            <InfoRow
+              label={t('views.airdrop.vTHORAfterStaking')}
+              value={`${(AIRDROP_THOR_AMOUNT * getRate()).toFixed(2)} vTHOR`}
+            />
+          </>
+        )}
         {!ethAddr ? (
           <Button
             stretch
