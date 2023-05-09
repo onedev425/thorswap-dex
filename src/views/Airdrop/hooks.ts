@@ -28,10 +28,7 @@ export const useAirdrop = () => {
     useGetIsWhitelistedQuery({ address: ethAddr }, { refetchOnMountOrArgChange: true });
 
   const { currentData: merkleProofData, isFetching: isFetchingMerkleProof } =
-    useGetMerkleProofQuery(
-      { address: ethAddr },
-      { refetchOnMountOrArgChange: true },
-    );
+    useGetMerkleProofQuery({ address: ethAddr }, { refetchOnMountOrArgChange: true });
 
   const isWhitelisted = useMemo(() => !!isWhitelistedData?.whitelisted, [isWhitelistedData]);
 
