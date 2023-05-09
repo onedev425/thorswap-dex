@@ -29,7 +29,7 @@ export const useAirdrop = () => {
 
   const { currentData: merkleProofData, isFetching: isFetchingMerkleProof } =
     useGetMerkleProofQuery(
-      { address: '0xa3364C6643d6E94bBa64435680ED9eF91a263C1F' },
+      { address: ethAddr },
       { refetchOnMountOrArgChange: true },
     );
 
