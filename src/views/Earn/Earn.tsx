@@ -1,10 +1,10 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
 import {
   Amount,
+  AmountType,
   AssetAmount,
   AssetEntity,
   getSignatureAssetFor,
-  Percent,
 } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
@@ -58,7 +58,7 @@ const Earn = () => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [tab, setTab] = useState(EarnTab.Deposit);
   const [viewTab, setViewTab] = useState(EarnViewTab.Earn);
-  const [withdrawPercent, setWithdrawPercent] = useState(new Percent(0));
+  const [withdrawPercent, setWithdrawPercent] = useState(new Amount(0, AmountType.ASSET_AMOUNT, 2));
   const [availableToWithdraw, setAvailableToWithdraw] = useState(Amount.fromAssetAmount(0, 8));
   const usdPrice = usePoolAssetPriceInUsd({ asset, amount });
   const isDeposit = tab === EarnTab.Deposit;
@@ -104,11 +104,11 @@ const Earn = () => {
   }, []);
 
   const handlePercentWithdrawChange = useCallback(
-    (percent: Percent) => {
-      setWithdrawPercent(percent);
+    (amount: Amount) => {
+      setWithdrawPercent(amount);
 
       if (address) {
-        setAmount(availableToWithdraw.mul(percent.div(100)));
+        setAmount(availableToWithdraw.mul(amount.div(100)));
       }
     },
     [address, availableToWithdraw],

@@ -1,5 +1,6 @@
 import type { Network as MidgardNetwork } from '@thorswap-lib/midgard-sdk';
-import { Amount, Percent } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
+import { parseToPercent } from 'helpers/parseHelpers';
 import { useMidgard } from 'store/midgard/hooks';
 
 const getTotalBond = (networkData: MidgardNetwork | null) => {
@@ -34,8 +35,8 @@ export const useGlobalStats = () => {
   const totalActiveBond = getTotalActiveBond(networkData);
   const totalStandbyBond = getTotalStandbyBond(networkData);
 
-  const bondingAPYLabel = new Percent(networkData?.bondingAPY ?? 0).toFixed(2);
-  const liquidityAPYLabel = new Percent(networkData?.liquidityAPY ?? 0).toFixed(2);
+  const bondingAPYLabel = parseToPercent(networkData?.bondingAPY ?? 0);
+  const liquidityAPYLabel = parseToPercent(networkData?.liquidityAPY ?? 0);
 
   const swapVolume = Amount.fromMidgard(stats?.swapVolume);
   const addLiquidityVolume = Amount.fromMidgard(stats?.addLiquidityVolume);

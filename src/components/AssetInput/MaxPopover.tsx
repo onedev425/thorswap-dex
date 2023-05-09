@@ -28,8 +28,8 @@ export const MaxPopover = ({ maxButtonLabel, onChange, disabled }: Props) => {
   };
 
   const onHandleChange = useCallback(
-    (selectedIndex: number) => {
-      onChange?.(selectedIndex);
+    (value: number) => {
+      onChange?.(value);
       closePopover();
     },
     [onChange],

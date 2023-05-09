@@ -3,11 +3,11 @@ import {
   Amount,
   AssetAmount,
   AssetEntity,
+  getEstimatedPoolShare,
+  getLiquiditySlippage,
   getMinAmountByChain,
   getSignatureAssetFor,
   isGasAsset,
-  Liquidity,
-  Percent,
   Pool,
   Price,
   Wallet,
@@ -110,26 +110,34 @@ export const useAddLiquidity = ({
     outputAsset: runeAsset,
   });
 
-  const liquidityUnits = useMemo(() => {
-    if (!poolMemberDetail) return Amount.fromMidgard(0);
+  const liquidityParams = useMemo(
+    () => ({
+      runeAmount: runeAmount.toString(),
+      assetAmount: assetAmount.toString(),
+      runeDepth: pool?.detail.runeDepth ?? '0',
+      assetDepth: pool?.detail.assetDepth ?? '0',
+      liquidityUnits: pool?.detail.liquidityUnits ?? '0',
+      poolUnits: pool?.detail.units ?? '0',
+    }),
+    [
+      assetAmount,
+      pool?.detail.assetDepth,
+      pool?.detail.liquidityUnits,
+      pool?.detail.runeDepth,
+      pool?.detail.units,
+      runeAmount,
+    ],
+  );
 
-    return Amount.fromMidgard(poolMemberDetail.liquidityUnits);
-  }, [poolMemberDetail]);
+  const addLiquiditySlip = useMemo(
+    () => getLiquiditySlippage(liquidityParams).toFixed(2),
+    [liquidityParams],
+  );
 
-  const liquidityEntity = useMemo(() => {
-    if (!pool) return null;
-    return new Liquidity(pool, liquidityUnits);
-  }, [pool, liquidityUnits]);
-
-  const addLiquiditySlip = useMemo(() => {
-    if (!liquidityEntity) return null;
-    return (liquidityEntity.getLiquiditySlip(runeAmount, assetAmount) as Percent).toFixed(2);
-  }, [liquidityEntity, assetAmount, runeAmount]);
-
-  const poolShareEst = useMemo(() => {
-    if (!liquidityEntity) return null;
-    return liquidityEntity.getPoolShareEst(runeAmount, assetAmount).toSignificant(6, 5);
-  }, [liquidityEntity, assetAmount, runeAmount]);
+  const poolShareEst = useMemo(
+    () => getEstimatedPoolShare(liquidityParams).toSignificant(6, 5),
+    [liquidityParams],
+  );
 
   const isWalletConnected = useMemo(() => {
     if (liquidityType === LiquidityTypeOption.ASSET) {

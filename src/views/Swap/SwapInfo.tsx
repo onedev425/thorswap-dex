@@ -1,11 +1,12 @@
 import { Text } from '@chakra-ui/react';
-import { Percent, Price } from '@thorswap-lib/swapkit-core';
+import { Price } from '@thorswap-lib/swapkit-core';
 import { FeeOption } from '@thorswap-lib/types';
 import { Box, Button, Collapse, Icon, Select } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { useFormatPrice } from 'helpers/formatPrice';
+import { parseToPercent } from 'helpers/parseHelpers';
 import { MouseEventHandler, useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
@@ -18,7 +19,7 @@ type Props = {
   inputUSDPrice: Price;
   isLoading: boolean;
   minReceive: string;
-  minReceiveSlippage: Percent;
+  minReceiveSlippage: number;
   outputUSDPrice: Price;
   setFeeModalOpened: (isOpened: boolean) => void;
   showTransactionFeeSelect?: boolean;
@@ -93,7 +94,7 @@ export const SwapInfo = ({
         },
         {
           label: t('views.swap.minReceivedAfterSlip', {
-            slippage: minReceiveSlippage.gte(0) ? minReceiveSlippage.toFixed(2) : '-',
+            slippage: minReceiveSlippage > 0 ? parseToPercent(minReceiveSlippage) : '-',
           }),
           value: (
             <InfoWithTooltip tooltip={t('views.wallet.minReceivedTooltip')} value={minReceive} />

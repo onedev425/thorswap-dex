@@ -10,7 +10,7 @@ import { Scrollbar } from 'components/Scrollbar';
 import { useSidebarOptions } from 'components/Sidebar/hooks';
 import { NavItem } from 'components/Sidebar/NavItem';
 import { RUNEAsset, THORAsset } from 'helpers/assets';
-import { parseAssetToToken } from 'helpers/parseAssetToToken';
+import { parseAssetToToken } from 'helpers/parseHelpers';
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import useWindowSize from 'hooks/useWindowSize';
 import { useMemo, useState } from 'react';

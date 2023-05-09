@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, AssetEntity, Percent } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { MaxPopover } from 'components/AssetInput/MaxPopover';
 import { AssetSelect } from 'components/AssetSelect';
@@ -52,11 +52,9 @@ export const AssetInput = ({
     [hideZeroPrice, usdPrice],
   );
 
-  const handleMaxClick = useCallback(
+  const handlePercentageClick = useCallback(
     (maxValue = 1) => {
-      const maxBalance = (balance || Amount.fromAssetAmount(0, asset.decimal)).mul(
-        new Percent(maxValue),
-      );
+      const maxBalance = (balance || Amount.fromAssetAmount(0, asset.decimal)).mul(maxValue);
       onValueChange?.(maxBalance);
     },
     [asset.decimal, balance, onValueChange],
@@ -164,7 +162,7 @@ export const AssetInput = ({
             <MaxPopover
               disabled={!balance}
               maxButtonLabel={maxButtonLabel}
-              onChange={handleMaxClick}
+              onChange={handlePercentageClick}
             />
           )}
         </Box>

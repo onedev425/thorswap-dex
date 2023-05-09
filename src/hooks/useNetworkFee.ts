@@ -10,7 +10,7 @@ import {
 import { BaseDecimal, Chain, FeeOption } from '@thorswap-lib/types';
 import BigNumber from 'bignumber.js';
 import { isAVAXAsset, isBTCAsset, isETHAsset, USDAsset } from 'helpers/assets';
-import { parseAssetToToken } from 'helpers/parseAssetToToken';
+import { parseAssetToToken } from 'helpers/parseHelpers';
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useMemo } from 'react';
 import { useApp } from 'store/app/hooks';

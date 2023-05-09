@@ -1,4 +1,4 @@
-import { Amount, AssetEntity, QuoteMode, QuoteRoute } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetEntity, QuoteMode } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { translateErrorMsg } from 'helpers/error';
@@ -12,7 +12,7 @@ import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 
 type SwapParams = {
-  route?: QuoteRoute;
+  route?: ToDo;
   quoteMode: QuoteMode;
   recipient: string;
   inputAsset: AssetEntity;

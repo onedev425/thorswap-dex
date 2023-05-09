@@ -1,4 +1,4 @@
-import { AssetEntity as Asset, Percent, Price } from '@thorswap-lib/swapkit-core';
+import { AssetEntity as Asset, Price } from '@thorswap-lib/swapkit-core';
 import { Box, Collapse } from 'components/Atomic';
 import { RouteWithApproveType } from 'components/SwapRouter/types';
 import { memo, useCallback } from 'react';
@@ -12,7 +12,7 @@ type Props = {
   setSwapRoute: (route: RouteWithApproveType) => void;
   selectedRoute?: RouteWithApproveType;
   outputUSDPrice: Price;
-  slippage: Percent;
+  slippage: number;
 };
 
 export const SwapRouter = memo(

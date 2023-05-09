@@ -9,7 +9,7 @@ import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';
 import { borderHoverHighlightClass } from 'components/constants';
 import { Scrollbar } from 'components/Scrollbar';
 import { formatPrice } from 'helpers/formatPrice';
-import { parseAssetToToken } from 'helpers/parseAssetToToken';
+import { parseAssetToToken } from 'helpers/parseHelpers';
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import { memo, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';

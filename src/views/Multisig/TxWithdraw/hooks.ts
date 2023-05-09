@@ -1,11 +1,11 @@
 import {
   Amount,
+  AmountType,
   AssetEntity as Asset,
   getMemoFor,
   getMinAmountByChain,
   getSignatureAssetFor,
   MemoType,
-  Percent,
 } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { LiquidityTypeOption } from 'components/LiquidityType/types';
@@ -118,7 +118,7 @@ export const useTxWithdraw = () => {
       chain,
       symbol,
       ticker,
-      basisPoints: new Percent(percent).mul(100).assetAmount.toNumber(),
+      basisPoints: new Amount(percent, AmountType.ASSET_AMOUNT, 2).mul(100).assetAmount.toNumber(),
     });
 
     const tx = await createDepositTx(

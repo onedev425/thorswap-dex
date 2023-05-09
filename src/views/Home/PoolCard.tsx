@@ -1,9 +1,10 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, Percent, Pool } from '@thorswap-lib/swapkit-core';
+import { Amount, Pool } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Card } from 'components/Atomic';
+import { parseToPercent } from 'helpers/parseHelpers';
 import { useRuneToCurrency } from 'hooks/useRuneToCurrency';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -41,7 +42,7 @@ export const PoolCard = ({ pool, color }: PoolCardProps) => {
           </Text>
 
           <Text fontWeight="semibold" variant="green">
-            {`${t('common.APR')}: ${new Percent(pool.detail.poolAPY).toFixed(1)}`}
+            {`${t('common.APR')}: ${parseToPercent(pool.detail.poolAPY)}`}
           </Text>
         </Box>
 

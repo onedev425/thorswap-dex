@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, AssetEntity, Percent } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';
@@ -12,7 +12,7 @@ import { PoolShareType } from 'store/midgard/types';
 type Props = {
   assetShare: Amount;
   runeShare: Amount;
-  poolShare: Percent;
+  poolShare: string;
   contentRef: RefObject<HTMLDivElement>;
   shareType: PoolShareType;
   asset: AssetEntity;
@@ -42,10 +42,8 @@ export const LiquidityInfo = memo(
     tickerPending,
   }: Props) => {
     const summary = useMemo(() => {
-      const poolShareValue = poolShare.toFixed(4) === '0 %' ? '~0 %' : poolShare.toFixed(4);
-
       const infoFields: InfoRowConfig[] = [
-        { label: t('views.liquidity.poolShare'), value: poolShareValue },
+        { label: t('views.liquidity.poolShare'), value: poolShare === '0 %' ? '~0 %' : poolShare },
         {
           label: t('views.liquidity.runeWithdrawn'),
           value: runeWithdrawn.toSignificant(6),

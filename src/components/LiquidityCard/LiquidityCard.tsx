@@ -1,11 +1,18 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, Liquidity } from '@thorswap-lib/swapkit-core';
+import {
+  Amount,
+  getAssetShare,
+  getAsymmetricAssetShare,
+  getAsymmetricRuneShare,
+  getRuneShare,
+} from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon';
 import { Box, Button, Icon, Tooltip, useCollapse } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import dayjs from 'dayjs';
 import { RUNEAsset } from 'helpers/assets';
+import { parseToPercent } from 'helpers/parseHelpers';
 import useWindowSize from 'hooks/useWindowSize';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -23,7 +30,10 @@ type LiquidityCardProps = ChainPoolData & {
 
 export const LiquidityCard = ({
   dateLastAdded,
-  pool,
+  pool: {
+    asset,
+    detail: { asset: poolName, units, runeDepth, assetDepth },
+  },
   shareType,
   withFooter,
   liquidityUnits,
@@ -35,23 +45,24 @@ export const LiquidityCard = ({
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse();
   const { isMdActive } = useWindowSize();
 
-  const liquidityObj = useMemo(
-    () => new Liquidity(pool, Amount.fromMidgard(liquidityUnits)),
-    [liquidityUnits, pool],
+  const poolShare = useMemo(
+    () => parseToPercent(Amount.fromMidgard(liquidityUnits).div(units).assetAmount.toNumber()),
+    [liquidityUnits, units],
   );
-  const { poolShare } = liquidityObj;
+
   const runeShare = useMemo(() => {
-    if (shareType === PoolShareType.RUNE_ASYM) {
-      return liquidityObj.getAsymRuneShare();
-    }
-    return liquidityObj.runeShare;
-  }, [shareType, liquidityObj]);
+    const params = { liquidityUnits, poolUnits: units, runeDepth };
+    return shareType === PoolShareType.RUNE_ASYM
+      ? getAsymmetricRuneShare(params)
+      : getRuneShare(params);
+  }, [liquidityUnits, units, runeDepth, shareType]);
+
   const assetShare = useMemo(() => {
-    if (shareType === PoolShareType.ASSET_ASYM) {
-      return liquidityObj.getAsymAssetShare();
-    }
-    return liquidityObj.assetShare;
-  }, [shareType, liquidityObj]);
+    const params = { liquidityUnits, poolUnits: units, assetDepth };
+    return shareType === PoolShareType.ASSET_ASYM
+      ? getAsymmetricAssetShare(params)
+      : getAssetShare(params);
+  }, [assetDepth, liquidityUnits, shareType, units]);
 
   const isPendingLP = useMemo(
     () => !!(Number(runePending) > 0 || Number(assetPending)),
@@ -59,20 +70,18 @@ export const LiquidityCard = ({
   );
 
   const tickerPending =
-    (isPendingLP && (Number(runePending) > 0 ? pool.asset.ticker : RUNEAsset.ticker)) || '';
+    (isPendingLP && (Number(runePending) > 0 ? asset.ticker : RUNEAsset.ticker)) || '';
 
   const lpType = useMemo(() => {
     switch (shareType) {
       case PoolShareType.SYM:
-        return `RUNE + ${pool.asset.ticker} LP`;
+        return `RUNE + ${asset.ticker} LP`;
       case PoolShareType.ASSET_ASYM:
-        return `${pool.asset.ticker} LP`;
+        return `${asset.ticker} LP`;
       case PoolShareType.RUNE_ASYM:
         return 'RUNE LP';
     }
-  }, [pool.asset.ticker, shareType]);
-
-  const poolName = pool.detail.asset;
+  }, [asset.ticker, shareType]);
 
   const addedOrWithdrawn = lpAddedAndWithdraw ? lpAddedAndWithdraw[poolName] : null;
 
@@ -90,7 +99,7 @@ export const LiquidityCard = ({
             <Box col>
               <AssetLpIcon
                 inline
-                asset1={pool.asset}
+                asset1={asset}
                 asset2={RUNEAsset}
                 size={isActive && isMdActive ? 40 : 32}
               />
@@ -123,7 +132,7 @@ export const LiquidityCard = ({
                 )}
                 fontWeight="bold"
               >
-                {poolShare.toFixed(4) === '0 %' ? '~0 %' : poolShare.toFixed(4)}
+                {poolShare === '0 %' ? '~0 %' : poolShare}
               </Text>
             </Box>
 
@@ -138,7 +147,7 @@ export const LiquidityCard = ({
         </Box>
 
         <LiquidityInfo
-          asset={pool.asset}
+          asset={asset}
           assetPending={Amount.fromMidgard(assetPending)}
           assetShare={assetShare}
           assetWithdrawn={Amount.fromNormalAmount(addedOrWithdrawn?.withdrawn.asset)}
@@ -158,7 +167,7 @@ export const LiquidityCard = ({
             <Button
               stretch
               className="px-8 md:px-12"
-              onClick={() => navigate(getAddLiquidityRoute(pool.asset))}
+              onClick={() => navigate(getAddLiquidityRoute(asset))}
               variant="primary"
             >
               {isPendingLP ? t('views.liquidity.completeButton') : t('views.liquidity.addButton')}
@@ -167,7 +176,7 @@ export const LiquidityCard = ({
             <Button
               stretch
               className="px-8 md:px-12"
-              onClick={() => navigate(getWithdrawRoute(pool.asset))}
+              onClick={() => navigate(getWithdrawRoute(asset))}
               variant="secondary"
             >
               {t('common.withdraw')}

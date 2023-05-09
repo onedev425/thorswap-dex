@@ -1,5 +1,6 @@
-import { Amount, Percent } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { StatsType } from 'components/StatsList/types';
+import { parseToPercent } from 'helpers/parseHelpers';
 import { useGlobalStats } from 'hooks/useGlobalStats';
 import { useMimir } from 'hooks/useMimir';
 import { useRuneToCurrency } from 'hooks/useRuneToCurrency';
@@ -13,7 +14,7 @@ export const useGlobalStatsData = () => {
 
   const { totalPooledRune, maxLiquidityRune } = useMimir();
 
-  const bondingAPYLabel = new Percent(networkData?.bondingAPY ?? 0).toFixed(2);
+  const bondingAPYLabel = parseToPercent(networkData?.bondingAPY);
 
   const statsData: StatsType[] = useMemo(() => {
     return [

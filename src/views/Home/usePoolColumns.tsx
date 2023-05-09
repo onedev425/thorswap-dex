@@ -1,10 +1,11 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, AssetEntity, Percent, Pool } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon, Link, Tooltip } from 'components/Atomic';
 import { getAmountColumnSorter, sortPoolColumn } from 'components/Atomic/Table/utils';
 import { INTRODUCTION_TO_LUVI_URL } from 'config/constants';
 import { formatPrice } from 'helpers/formatPrice';
+import { parseToPercent } from 'helpers/parseHelpers';
 import { useRuneToCurrency } from 'hooks/useRuneToCurrency';
 import { BreakPoint } from 'hooks/useWindowSize';
 import { useMemo } from 'react';
@@ -69,15 +70,15 @@ export const usePoolColumns = () => {
       {
         id: 'apr',
         Header: (): string => t('common.APR'),
-        accessor: (row: Pool) => new Percent(row.detail.annualPercentageRate),
+        accessor: (row: Pool) => parseToPercent(row.detail.annualPercentageRate),
         align: 'right',
-        Cell: ({ cell: { value } }: { cell: { value: Percent } }) =>
+        Cell: ({ cell: { value } }: { cell: { value: string } }) =>
           poolLoading ? (
             <Box justify="end">
               <Icon spin name="loader" size={16} />
             </Box>
           ) : (
-            value.toFixed(2)
+            value
           ),
         sortType: getAmountColumnSorter('apr'),
         toolTip: (

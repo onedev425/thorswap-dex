@@ -1,5 +1,5 @@
 import { type SwapKitCore as SwapKitCoreType } from '@thorswap-lib/swapkit-core';
-import { IS_STAGENET, MIDGARD_URL } from 'settings/config';
+import { IS_STAGENET } from 'settings/config';
 
 let sdkClient: SwapKitCoreType;
 
@@ -20,7 +20,7 @@ export const getSwapKitClient = async () => {
   const { trustwalletWallet } = await import('@thorswap-lib/trustwallet');
   const { evmWallet, keplrWallet, xdefiWallet } = await import('@thorswap-lib/web-extensions');
 
-  const core = new SwapKitCore({ midgardUrl: MIDGARD_URL, stagenet: IS_STAGENET });
+  const core = new SwapKitCore({ stagenet: IS_STAGENET });
 
   core.extend({
     config: {

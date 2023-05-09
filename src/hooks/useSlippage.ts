@@ -1,4 +1,4 @@
-import { Percent, Price } from '@thorswap-lib/swapkit-core';
+import { Price } from '@thorswap-lib/swapkit-core';
 import { useMemo } from 'react';
 
 export const useSlippage = (input: Price, output: Price | string) => {
@@ -7,7 +7,7 @@ export const useSlippage = (input: Price, output: Price | string) => {
     const outputValue = typeof output === 'string' ? output : output.raw();
     const priceSlippage = BNInput.minus(outputValue).dividedBy(BNInput);
 
-    return new Percent(priceSlippage.lt(0) ? 0 : priceSlippage);
+    return priceSlippage.toNumber();
   }, [input, output]);
 
   return slippage;

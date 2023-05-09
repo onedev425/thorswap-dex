@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, AmountType, Percent } from '@thorswap-lib/swapkit-core';
+import { Amount, AmountType } from '@thorswap-lib/swapkit-core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { Box, Button } from 'components/Atomic';
@@ -7,6 +7,7 @@ import { HoverIcon } from 'components/HoverIcon';
 import { GasPriceIndicator } from 'components/SwapRouter/GasPriceIndicator';
 import { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useFormatPrice } from 'helpers/formatPrice';
+import { parseToPercent } from 'helpers/parseHelpers';
 import React, { memo, useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
@@ -17,7 +18,7 @@ import { RouteGraphModal } from './RouteGraphModal';
 type Props = RouteWithApproveType & {
   outputAssetDecimal: number;
   unitPrice: BigNumber;
-  slippage: Percent;
+  slippage: number;
   assetTicker: string;
 };
 
@@ -53,7 +54,7 @@ export const SelectedRoute = memo(
       [expectedOutput, formatPrice, unitPrice],
     );
 
-    const slippageInfo = slippage.gt(0) ? `-${slippage.toFixed(2)}` : '';
+    const slippageInfo = slippage > 0 ? `-${parseToPercent(slippage)}` : '';
 
     const openSwapGraph = useCallback((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       event.stopPropagation();
@@ -103,7 +104,7 @@ export const SelectedRoute = memo(
                 {slippageInfo && (
                   <Text
                     textStyle="caption"
-                    variant={slippage.gte(slippageTolerance / 100) ? 'red' : 'green'}
+                    variant={slippage > slippageTolerance ? 'red' : 'green'}
                   >
                     ({slippageInfo})
                   </Text>

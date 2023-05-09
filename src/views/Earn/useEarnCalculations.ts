@@ -1,4 +1,4 @@
-import { Amount, AmountType, AssetEntity as Asset, Percent } from '@thorswap-lib/swapkit-core';
+import { Amount, AmountType, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { BaseDecimal } from '@thorswap-lib/types';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useNetworkFee } from 'hooks/useNetworkFee';
@@ -10,7 +10,7 @@ import { SaverQuoteResponse } from 'views/Earn/types';
 type Props = {
   isDeposit: boolean;
   asset: Asset;
-  withdrawPercent?: Percent;
+  withdrawPercent?: Amount;
   amount: Amount;
   apr?: number;
 };

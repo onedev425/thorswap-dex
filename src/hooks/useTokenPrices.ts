@@ -1,6 +1,6 @@
 import { Amount, AssetEntity as Asset, Price } from '@thorswap-lib/swapkit-core';
 import BigNumber from 'bignumber.js';
-import { parseAssetToToken } from 'helpers/parseAssetToToken';
+import { parseAssetToToken } from 'helpers/parseHelpers';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useMemo } from 'react';
 import { useGetTokenCachedPricesQuery } from 'store/thorswap/api';

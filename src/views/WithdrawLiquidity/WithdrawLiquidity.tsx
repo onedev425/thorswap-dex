@@ -3,9 +3,10 @@ import {
   Amount,
   AmountType,
   AssetEntity,
+  getAsymmetricAssetWithdrawAmount,
+  getAsymmetricRuneWithdrawAmount,
   getSignatureAssetFor,
-  Liquidity,
-  Percent,
+  getSymmetricWithdraw,
   Pool,
   Price,
 } from '@thorswap-lib/swapkit-core';
@@ -205,14 +206,6 @@ const WithdrawPanel = ({
     return null;
   }, [poolMemberData, lpType]);
 
-  const liquidityEntity = useMemo(() => {
-    if (!memberPoolData) return null;
-
-    const { liquidityUnits } = memberPoolData;
-
-    return new Liquidity(pool, Amount.fromMidgard(liquidityUnits));
-  }, [pool, memberPoolData]);
-
   const { runeAmount, assetAmount } = useMemo(() => {
     if (lpType === PoolShareType.PENDING) {
       return {
@@ -221,41 +214,34 @@ const WithdrawPanel = ({
       };
     }
 
-    if (!liquidityEntity) {
-      return {
-        runeAmount: Amount.fromMidgard(0),
-        assetAmount: Amount.fromMidgard(0),
-      };
-    }
-
-    if (withdrawType === LiquidityTypeOption.SYMMETRICAL) {
-      return liquidityEntity.getSymWithdrawAmount(new Percent(percent, AmountType.BASE_AMOUNT));
-    }
-
-    if (withdrawType === LiquidityTypeOption.RUNE) {
-      const amount = liquidityEntity.getAsymRuneWithdrawAmount(
-        new Percent(percent, AmountType.BASE_AMOUNT),
-      );
-
-      return {
-        runeAmount: amount,
-        assetAmount: Amount.fromMidgard(0),
-      };
-    }
-
-    const amount = liquidityEntity.getAsymAssetWithdrawAmount(
-      new Percent(percent, AmountType.BASE_AMOUNT),
-    );
-
-    return {
-      runeAmount: Amount.fromMidgard(0),
-      assetAmount: amount,
+    const params = {
+      percent,
+      liquidityUnits: pool.detail.liquidityUnits,
+      poolUnits: pool.detail.units,
+      assetDepth: pool.detail.assetDepth,
+      runeDepth: pool.detail.runeDepth,
     };
+
+    return withdrawType === LiquidityTypeOption.SYMMETRICAL
+      ? getSymmetricWithdraw(params)
+      : {
+          runeAmount:
+            withdrawType === LiquidityTypeOption.RUNE
+              ? getAsymmetricRuneWithdrawAmount(params)
+              : Amount.fromMidgard(0),
+          assetAmount:
+            withdrawType === LiquidityTypeOption.ASSET
+              ? getAsymmetricAssetWithdrawAmount(params)
+              : Amount.fromMidgard(0),
+        };
   }, [
     lpType,
-    liquidityEntity,
-    withdrawType,
     percent,
+    pool.detail.liquidityUnits,
+    pool.detail.units,
+    pool.detail.assetDepth,
+    pool.detail.runeDepth,
+    withdrawType,
     memberPoolData?.runePending,
     memberPoolData?.assetPending,
   ]);
@@ -353,8 +339,8 @@ const WithdrawPanel = ({
 
     try {
       const txid = await withdraw({
-        pool,
-        percent: new Percent(percent),
+        asset: pool.asset,
+        percent: new Amount(percent, AmountType.ASSET_AMOUNT, 2),
         from: withdrawFrom,
         to: withdrawTo,
       });
