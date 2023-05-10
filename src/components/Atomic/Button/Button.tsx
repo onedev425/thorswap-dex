@@ -88,8 +88,8 @@ export const Button = ({
       {/* @ts-ignore */}
       <ChakraButton
         {...props}
-        disabled={disabledButton}
         iconSpacing={iconSpacing}
+        isDisabled={disabledButton}
         leftIcon={leftIconItem}
         minW={0}
         onClick={handleClick}
