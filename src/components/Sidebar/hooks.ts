@@ -40,7 +40,7 @@ export const useSidebarOptions = () => {
   const thorMenu: SidebarItemProps = useMemo(() => {
     const airdropItems: SidebarItemProps[] = [
       {
-        iconName: 'chartPieOutline',
+        iconName: 'plane',
         href: ROUTES.Airdrop,
         label: t('components.sidebar.airdrop'),
       },

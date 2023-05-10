@@ -32,6 +32,7 @@ import {
   BiUndo,
 } from 'react-icons/bi';
 import {
+  BsAirplane,
   BsCurrencyDollar,
   BsDiscord,
   BsEmojiSmile,
@@ -228,6 +229,7 @@ const Icons = {
   timer: BiTimer,
   timerCountdown: RxCountdownTimer,
   shareUrl: MdIosShare,
+  plane: BsAirplane,
   ...SvgIcons,
 } as const;
 
