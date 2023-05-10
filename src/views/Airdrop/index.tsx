@@ -46,7 +46,7 @@ const Airdrop = () => {
         <Box col className="w-full p-2 pt-0">
           <InfoRow
             label={t('views.airdrop.claimableAmount')}
-            value={claimed ? 'Already Claimed!' : `${airdropAmount} THOR`}
+            value={claimed ? t('views.airdrop.alreadyClaimed') : `${airdropAmount} THOR`}
           />
           {airdropAction === AirdropType.CLAIM_AND_STAKE && (
             <>
@@ -61,7 +61,9 @@ const Airdrop = () => {
               <InfoRow
                 label={t('views.airdrop.vTHORAfterStaking')}
                 value={
-                  claimed ? 'Already Claimed!' : `${(airdropAmount * getRate()).toFixed(2)} vTHOR`
+                  claimed
+                    ? t('views.airdrop.alreadyClaimed')
+                    : `${(airdropAmount * getRate()).toFixed(2)} vTHOR`
                 }
               />
             </>

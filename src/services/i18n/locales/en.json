@@ -863,7 +863,10 @@
       "stakingAPY": "Staking APY",
       "vTHORAfterStaking": "vTHOR after staking",
       "claimableAmount": "Claimable Amount",
-      "alreadyClaimed": "You have already claimed this airdrop"
+      "alreadyClaimedNotification": "You have already claimed this airdrop",
+      "alreadyClaimed": "Already Claimed!",
+      "bannerTitle": "Celebrating THORSwap's two year anniversary!",
+      "bannerMessage": "Connect your wallet to determine your airdrop eligibility"
     },
     "vesting": {
       "claim": "Claim",

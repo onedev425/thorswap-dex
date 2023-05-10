@@ -1,4 +1,5 @@
 import { Flex, Image, Text } from '@chakra-ui/react';
+import { t } from 'services/i18n';
 
 import Plane from '../assets/airthor.png';
 import Bg from '../assets/bg.png';
@@ -8,7 +9,7 @@ export const AirdropBanner = () => {
   return (
     <Flex direction="column" mt={5} w="full">
       <Text mb={2} mr={7} textStyle="h4">
-        Celebrating THORSwap&apos;s two year anniversary!
+        {t('views.airdrop.bannerTitle')}
       </Text>
       <Flex position="relative">
         <Image borderRadius={8} src={Bg} w="full" />
@@ -25,9 +26,7 @@ export const AirdropBanner = () => {
           py={1}
           width="full"
         >
-          <Text color="whiteAlpha.800">
-            Connect your wallet to determine your airdrop eligibility
-          </Text>
+          <Text color="whiteAlpha.800">{t('views.airdrop.bannerMessage')}</Text>
           {/* <a href="#TODO" target="_blank">
             <Button size="xs">Learn more</Button>
           </a> */}

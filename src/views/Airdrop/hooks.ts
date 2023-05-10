@@ -85,7 +85,10 @@ export const useAirdrop = () => {
       setIsClaiming(true);
       if (claimed) {
         setIsClaiming(false);
-        showErrorToast(t('notification.airdropClaimFailed'), t('views.airdrop.alreadyClaimed'));
+        showErrorToast(
+          t('notification.airdropClaimFailed'),
+          t('views.airdrop.alreadyClaimedNotification'),
+        );
         return;
       }
 
