@@ -6,7 +6,6 @@ import { ViewHeader } from 'components/ViewHeader';
 import { t } from 'services/i18n';
 import { useVthorUtil } from 'views/StakeVThor/useVthorUtil';
 
-import { AIRDROP_THOR_AMOUNT } from './constants';
 import { useAirdrop } from './hooks';
 import { airdropTabs, AirdropType } from './types';
 
@@ -15,6 +14,7 @@ const Airdrop = () => {
     isWhitelisted,
     handleClaim,
     isClaiming,
+    airdropAmount,
     isFetchingMerkleProof,
     isFetchingWhitelisted,
     ethAddr,
@@ -40,13 +40,13 @@ const Airdrop = () => {
         />
       </Box>
       <Box col className="w-full p-2 pt-0">
-        <InfoRow label={t('views.airdrop.claimableAmount')} value={`${AIRDROP_THOR_AMOUNT} THOR`} />
+        <InfoRow label={t('views.airdrop.claimableAmount')} value={`${airdropAmount} THOR`} />
         {airdropAction === AirdropType.CLAIM_AND_STAKE && (
           <>
             <InfoRow label={t('views.airdrop.vTHORRatio')} value={`${getRate(true).toFixed(2)}`} />
             <InfoRow
               label={t('views.airdrop.vTHORAfterStaking')}
-              value={`${(AIRDROP_THOR_AMOUNT * getRate()).toFixed(2)} vTHOR`}
+              value={`${(airdropAmount * getRate()).toFixed(2)} vTHOR`}
             />
           </>
         )}

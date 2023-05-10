@@ -1,6 +1,6 @@
 import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ContractType, getEtherscanContract, triggerContractCall } from 'services/contract';
 import { t } from 'services/i18n';
 import { useAppDispatch } from 'store/store';
@@ -19,6 +19,8 @@ export const useAirdrop = () => {
   const { getRate } = useVthorUtil();
   const [airdropAction, setAirdropAction] = useState(AirdropType.CLAIM_AND_STAKE);
   const [isClaiming, setIsClaiming] = useState(false);
+  const [claimed, setClaimed] = useState(false);
+  const [airdropAmount, setAirdropAmount] = useState(0);
 
   const { wallet, setIsConnectModalOpen } = useWallet();
 
@@ -32,16 +34,30 @@ export const useAirdrop = () => {
 
   const isWhitelisted = useMemo(() => !!isWhitelistedData?.whitelisted, [isWhitelistedData]);
 
+  const contractType = useMemo(
+    () =>
+      airdropAction === AirdropType.CLAIM
+        ? ContractType.CLAIM_AIRDROP
+        : ContractType.CLAIM_AND_STAKE_AIRDROP,
+    [airdropAction],
+  );
+
+  const fetchClaimed = useCallback(async () => {
+    const airdropContract = getEtherscanContract(contractType);
+    const hasClaimed = await airdropContract.claimed(ethAddr);
+
+    setClaimed(hasClaimed);
+
+    setAirdropAmount(isWhitelisted && !hasClaimed ? AIRDROP_THOR_AMOUNT : 0);
+  }, [contractType, ethAddr, setClaimed, isWhitelisted]);
+
+  useEffect(() => {
+    fetchClaimed();
+  }, [fetchClaimed]);
+
   const handleClaim = useCallback(async () => {
     if (isWhitelisted) {
       setIsClaiming(true);
-      const contractType =
-        airdropAction === AirdropType.CLAIM
-          ? ContractType.CLAIM_AIRDROP
-          : ContractType.CLAIM_AND_STAKE_AIRDROP;
-      const airdropContract = getEtherscanContract(contractType);
-      const claimed = await airdropContract.claimed(ethAddr);
-
       if (claimed) {
         setIsClaiming(false);
         showErrorToast(t('notification.airdropClaimFailed'), t('views.airdrop.alreadyClaimed'));
@@ -84,13 +100,14 @@ export const useAirdrop = () => {
 
       setIsClaiming(false);
     }
-  }, [setIsClaiming, appDispatch, ethAddr, isWhitelisted, airdropAction, merkleProofData, getRate]);
+  }, [claimed, setIsClaiming, appDispatch, isWhitelisted, airdropAction, merkleProofData, getRate]);
 
   return {
     airdropAction,
     setAirdropAction,
     handleClaim,
     isClaiming,
+    airdropAmount,
     ethAddr,
     isFetchingWhitelisted,
     isFetchingMerkleProof,
