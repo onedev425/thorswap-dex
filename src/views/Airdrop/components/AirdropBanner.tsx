@@ -25,7 +25,9 @@ export const AirdropBanner = () => {
           py={1}
           width="full"
         >
-          <Text>Connect your wallet to determine your airdrop eligibility</Text>
+          <Text color="whiteAlpha.800">
+            Connect your wallet to determine your airdrop eligibility
+          </Text>
           {/* <a href="#TODO" target="_blank">
             <Button size="xs">Learn more</Button>
           </a> */}

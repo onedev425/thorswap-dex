@@ -16,6 +16,8 @@ const Airdrop = () => {
     isWhitelisted,
     handleClaim,
     isClaiming,
+    claimed,
+    vthorApr,
     airdropAmount,
     isFetchingMerkleProof,
     isFetchingWhitelisted,
@@ -42,16 +44,25 @@ const Airdrop = () => {
           />
         </Box>
         <Box col className="w-full p-2 pt-0">
-          <InfoRow label={t('views.airdrop.claimableAmount')} value={`${airdropAmount} THOR`} />
+          <InfoRow
+            label={t('views.airdrop.claimableAmount')}
+            value={claimed ? 'Already Claimed!' : `${airdropAmount} THOR`}
+          />
           {airdropAction === AirdropType.CLAIM_AND_STAKE && (
             <>
+              <InfoRow
+                label={t('views.airdrop.stakingAPY')}
+                value={`${vthorApr === 0 ? '-' : vthorApr.toFixed(1)}%`}
+              />
               <InfoRow
                 label={t('views.airdrop.vTHORRatio')}
                 value={`${getRate(true).toFixed(2)}`}
               />
               <InfoRow
                 label={t('views.airdrop.vTHORAfterStaking')}
-                value={`${(airdropAmount * getRate()).toFixed(2)} vTHOR`}
+                value={
+                  claimed ? 'Already Claimed!' : `${(airdropAmount * getRate()).toFixed(2)} vTHOR`
+                }
               />
             </>
           )}

@@ -1,7 +1,13 @@
 import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
+import { fetchVthorApr } from 'helpers/staking';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ContractType, getEtherscanContract, triggerContractCall } from 'services/contract';
+import {
+  ContractType,
+  fromWei,
+  getEtherscanContract,
+  triggerContractCall,
+} from 'services/contract';
 import { t } from 'services/i18n';
 import { useAppDispatch } from 'store/store';
 import { useGetIsWhitelistedQuery, useGetMerkleProofQuery } from 'store/thorswap/api';
@@ -16,7 +22,8 @@ import { airdropAssets, AirdropType } from './types';
 
 export const useAirdrop = () => {
   const appDispatch = useAppDispatch();
-  const { getRate } = useVthorUtil();
+  const { getRate, thorStaked } = useVthorUtil();
+  const [vthorApr, setVthorApr] = useState(0);
   const [airdropAction, setAirdropAction] = useState(AirdropType.CLAIM_AND_STAKE);
   const [isClaiming, setIsClaiming] = useState(false);
   const [claimed, setClaimed] = useState(false);
@@ -41,6 +48,24 @@ export const useAirdrop = () => {
         : ContractType.CLAIM_AND_STAKE_AIRDROP,
     [airdropAction],
   );
+
+  const getVthorAPR = useCallback(async () => {
+    const stakedAmount = fromWei(thorStaked);
+
+    if (stakedAmount > 0) {
+      try {
+        const apr = await fetchVthorApr(stakedAmount);
+        setVthorApr(apr);
+      } catch (error: NotWorth) {
+        console.error(error);
+        setVthorApr(0);
+      }
+    }
+  }, [thorStaked]);
+
+  useEffect(() => {
+    getVthorAPR();
+  }, [getVthorAPR]);
 
   const fetchClaimed = useCallback(async () => {
     const airdropContract = getEtherscanContract(contractType);
@@ -107,6 +132,8 @@ export const useAirdrop = () => {
     setAirdropAction,
     handleClaim,
     isClaiming,
+    claimed,
+    vthorApr,
     airdropAmount,
     ethAddr,
     isFetchingWhitelisted,
