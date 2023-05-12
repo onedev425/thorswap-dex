@@ -32,7 +32,7 @@ export const AirdropBanner = () => {
             rel="noreferrer"
             target="_blank"
           >
-            <Button size="xs">Learn more</Button>
+            <Button size="xs">{t('common.learnMore')}</Button>
           </a>
         </Flex>
       </Flex>
