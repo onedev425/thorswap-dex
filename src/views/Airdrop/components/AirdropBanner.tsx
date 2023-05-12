@@ -1,4 +1,4 @@
-import { Flex, Image, Text } from '@chakra-ui/react';
+import { Button, Flex, Image, Text } from '@chakra-ui/react';
 import { t } from 'services/i18n';
 
 import Plane from '../assets/airthor.png';
@@ -27,9 +27,13 @@ export const AirdropBanner = () => {
           width="full"
         >
           <Text color="whiteAlpha.800">{t('views.airdrop.bannerMessage')}</Text>
-          {/* <a href="#TODO" target="_blank">
+          <a
+            href="https://medium.com/@thorswap/2nd-anniversary-airdrop-cf9a7c53188f"
+            rel="noreferrer"
+            target="_blank"
+          >
             <Button size="xs">Learn more</Button>
-          </a> */}
+          </a>
         </Flex>
       </Flex>
     </Flex>
