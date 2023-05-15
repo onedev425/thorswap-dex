@@ -215,7 +215,7 @@ const WithdrawPanel = ({
 
     const params = {
       percent,
-      liquidityUnits: pool.detail.liquidityUnits,
+      liquidityUnits: memberPoolData?.liquidityUnits || '0',
       poolUnits: pool.detail.units,
       assetDepth: pool.detail.assetDepth,
       runeDepth: pool.detail.runeDepth,
@@ -236,13 +236,13 @@ const WithdrawPanel = ({
   }, [
     lpType,
     percent,
-    pool.detail.liquidityUnits,
+    memberPoolData?.liquidityUnits,
+    memberPoolData?.runePending,
+    memberPoolData?.assetPending,
     pool.detail.units,
     pool.detail.assetDepth,
     pool.detail.runeDepth,
     withdrawType,
-    memberPoolData?.runePending,
-    memberPoolData?.assetPending,
   ]);
 
   const runePriceInUSD = useMemo(
