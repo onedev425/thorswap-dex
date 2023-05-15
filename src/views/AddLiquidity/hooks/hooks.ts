@@ -14,7 +14,6 @@ import {
 } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import BigNumber from 'bignumber.js';
-import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { RUNEAsset, USDAsset } from 'helpers/assets';
@@ -28,6 +27,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { midgardApi } from 'services/midgard';
 import { useApp } from 'store/app/hooks';
+import { LiquidityTypeOption } from 'store/midgard/types';
 import { isPendingLP } from 'store/midgard/utils';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';

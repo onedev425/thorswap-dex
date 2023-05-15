@@ -37,12 +37,15 @@ const MultisigCreate = lazy(() => import('views/Multisig/MultisigCreate/Multisig
 const MultisigImport = lazy(() => import('views/Multisig/MultisigImport/MultisigImport'));
 const Transaction = lazy(() => import('views/Transaction/Transaction'));
 
+// New LP
+const NewLiquidity = lazy(() => import('views/new-liquidity'));
+
 export type RouteType = {
   path: string;
   element: NotWorth;
 }[];
 
-const NOT_PROD_ROUTES = IS_PROD ? [] : [];
+const NOT_PROD_ROUTES = IS_PROD ? [] : [{ path: ROUTES.NewLiquidity, element: NewLiquidity }];
 
 const routes: RouteType = [
   { path: ROUTES.AddLiquidity, element: AddLiquidity },

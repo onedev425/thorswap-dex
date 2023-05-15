@@ -3,10 +3,10 @@ import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { Box, Icon } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
-import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { RUNEAsset } from 'helpers/assets';
 import { memo } from 'react';
 import { t } from 'services/i18n';
+import { LiquidityTypeOption } from 'store/midgard/types';
 import { WithdrawPercent } from 'views/WithdrawLiquidity/WithdrawPercent';
 
 import { AssetAmountBox } from './AssetAmountBox';

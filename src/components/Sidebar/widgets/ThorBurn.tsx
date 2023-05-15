@@ -5,7 +5,7 @@ import { baseTextHoverClass } from 'components/constants';
 import { Fire } from 'components/Fire/Fire';
 import dayjs from 'dayjs';
 import { useEffect, useMemo, useState } from 'react';
-import { useGetMonthlyTradeVolumeQuery } from 'store/thorswap/api';
+import { useGetMonthlyTradeVolumeQuery } from 'store/midgard/api';
 
 const TARGET_AMOUNT = Amount.fromNormalAmount(8000000); // 8M RUNE
 const currentMonth = dayjs().format('MMMM');

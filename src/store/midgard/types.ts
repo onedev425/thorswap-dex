@@ -331,3 +331,9 @@ export type MidgardTradeHistory = {
   intervals: MidgardTradeHistoryDetails[];
   meta: MidgardTradeHistoryDetails[];
 };
+
+export enum LiquidityTypeOption {
+  'RUNE' = 'RUNE',
+  'ASSET' = 'ASSET',
+  'SYMMETRICAL' = 'SYMMETRICAL',
+}

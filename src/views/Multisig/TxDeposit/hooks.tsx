@@ -3,13 +3,13 @@ import { AddLiquidityParams, AssetEntity, getMemoFor, MemoType } from '@thorswap
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';
-import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { RUNEAsset } from 'helpers/assets';
 import { useLiquidityType } from 'hooks/useLiquidityType';
 import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getMultisigTxCreateRoute, ROUTES } from 'settings/router';
+import { LiquidityTypeOption } from 'store/midgard/types';
 import { useMultisig } from 'store/multisig/hooks';
 import { useAddLiquidity } from 'views/AddLiquidity/hooks/hooks';
 import { useAddLiquidityPools } from 'views/AddLiquidity/hooks/useAddLiquidityPools';

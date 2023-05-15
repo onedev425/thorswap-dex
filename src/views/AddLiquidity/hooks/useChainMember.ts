@@ -1,9 +1,9 @@
 import { MemberPool } from '@thorswap-lib/midgard-sdk';
 import { Amount, AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
-import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { useCallback, useEffect, useMemo } from 'react';
 import * as actions from 'store/midgard/actions';
+import { LiquidityTypeOption } from 'store/midgard/types';
 import { isPendingLP } from 'store/midgard/utils';
 import { useAppDispatch, useAppSelector } from 'store/store';
 import { useWallet } from 'store/wallet/hooks';

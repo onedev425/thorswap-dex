@@ -4,7 +4,7 @@ import {
   getSignatureAssetFor,
   Pool,
 } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { BaseDecimal, Chain } from '@thorswap-lib/types';
 
 export enum VestingType {
   THOR = 'THOR',
@@ -194,3 +194,16 @@ export const isBTCAsset = ({ ticker, L1Chain }: AssetEntity) =>
 export const RUNEAsset = getSignatureAssetFor(Chain.THORChain);
 export const THORAsset = getSignatureAssetFor('ETH_THOR');
 export const USDAsset = new AssetEntity(Chain.THORChain, 'USD', false, 'USD');
+
+export const unitToValue = (
+  unit: string | number,
+  {
+    decimals = BaseDecimal.THOR,
+    toFixed,
+  }: { decimals?: BaseDecimal | number; toFixed?: number } = {},
+) => {
+  const value = typeof unit === 'string' ? parseFloat(unit) : unit;
+  const valueWithDecimalShift = decimals > 1 ? value / Math.pow(10, decimals) : value;
+
+  return toFixed ? parseFloat(valueWithDecimalShift.toFixed(toFixed)) : valueWithDecimalShift;
+};

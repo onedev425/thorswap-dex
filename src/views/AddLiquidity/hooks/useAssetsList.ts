@@ -1,8 +1,8 @@
 import { AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
-import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { getInputAssetsForAdd, hasConnectedWallet } from 'helpers/wallet';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useMemo } from 'react';
+import { LiquidityTypeOption } from 'store/midgard/types';
 import { useWallet } from 'store/wallet/hooks';
 
 type Props = {

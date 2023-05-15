@@ -4,11 +4,11 @@ import { AssetInput } from 'components/AssetInput';
 import { AssetInputType } from 'components/AssetInput/types';
 import { AssetSelectType } from 'components/AssetSelect/types';
 import { Box, Icon } from 'components/Atomic';
-import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { RUNEAsset } from 'helpers/assets';
 import { useAssetListSearch } from 'hooks/useAssetListSearch';
 import { memo } from 'react';
 import { t } from 'services/i18n';
+import { LiquidityTypeOption } from 'store/midgard/types';
 
 type Props = {
   onPoolChange: (asset: Asset) => void;

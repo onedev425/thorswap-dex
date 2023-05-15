@@ -2,6 +2,7 @@ import { type Action, combineReducers, configureStore, type ThunkAction } from '
 import { setupListeners } from '@reduxjs/toolkit/query';
 import type { TypedUseSelectorHook } from 'react-redux';
 import { useDispatch, useSelector } from 'react-redux';
+import { midgardApi } from 'store/midgard/api';
 
 import appReducer from './app/slice';
 import assetsReducer from './assets/slice';
@@ -16,9 +17,10 @@ import walletReducer from './wallet/slice';
 const devTools = import.meta.env.DEV;
 
 const rootReducer = combineReducers({
+  [midgardApi.reducerPath]: midgardApi.reducer,
   [staticApi.reducerPath]: staticApi.reducer,
-  [thorswapApi.reducerPath]: thorswapApi.reducer,
   [swapKitDashboard.reducerPath]: swapKitDashboard.reducer,
+  [thorswapApi.reducerPath]: thorswapApi.reducer,
 
   app: appReducer,
   assets: assetsReducer,
@@ -33,9 +35,10 @@ const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }).concat([
+      midgardApi.middleware,
       staticApi.middleware,
-      thorswapApi.middleware,
       swapKitDashboard.middleware,
+      thorswapApi.middleware,
     ]),
 });
 

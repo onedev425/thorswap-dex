@@ -3,7 +3,7 @@ import { SidebarItemProps, SidebarWidgetOption } from 'components/Sidebar/types'
 import { hasConnectedWallet } from 'helpers/wallet';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
-import { IS_DEV_API, IS_LOCAL } from 'settings/config';
+import { IS_DEV_API, IS_LOCAL, IS_PROD } from 'settings/config';
 import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/router';
 import { useApp } from 'store/app/hooks';
 import { useWallet } from 'store/wallet/hooks';
@@ -92,6 +92,7 @@ export const useSidebarOptions = () => {
       {
         iconName: 'tradeLightning',
         label: t('components.sidebar.pool'),
+        // @ts-expect-error
         children: [
           {
             iconName: 'inIcon',
@@ -99,7 +100,17 @@ export const useSidebarOptions = () => {
             label: t('components.sidebar.addLiquidity'),
           },
           { iconName: 'sputnik', href: ROUTES.Liquidity, label: t('components.sidebar.liquidity') },
-        ],
+        ].concat(
+          IS_PROD
+            ? []
+            : [
+                {
+                  iconName: 'rocket',
+                  href: ROUTES.NewLiquidity,
+                  label: 'New Liquidity',
+                },
+              ],
+        ),
       },
       {
         iconName: 'wallet',

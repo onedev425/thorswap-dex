@@ -8,12 +8,12 @@ import { HighlightCard } from 'components/HighlightCard';
 import { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
 import { LiquidityType } from 'components/LiquidityType/LiquidityType';
-import { LiquidityTypeOption } from 'components/LiquidityType/types';
 import { LPTypeSelector } from 'components/LPTypeSelector';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { RUNEAsset } from 'helpers/assets';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
+import { LiquidityTypeOption } from 'store/midgard/types';
 import { useTxWithdraw } from 'views/Multisig/TxWithdraw/hooks';
 import { WithdrawPercent } from 'views/WithdrawLiquidity/WithdrawPercent';
 

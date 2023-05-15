@@ -6,8 +6,8 @@ import { useCallback } from 'react';
 import { useAppSelector } from 'store/store';
 import { useGetGasPriceRatesQuery } from 'store/thorswap/api';
 
-export const useBalance = () => {
-  const { data: gasPriceRates } = useGetGasPriceRatesQuery();
+export const useBalance = (skipFees?: boolean) => {
+  const { data: gasPriceRates } = useGetGasPriceRatesQuery(undefined, { skip: skipFees });
 
   const { feeOptionType, wallet } = useAppSelector(
     ({ app: { feeOptionType }, wallet: { wallet } }) => ({ wallet, feeOptionType }),
