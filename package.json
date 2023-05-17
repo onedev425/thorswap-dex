@@ -43,7 +43,7 @@
     "@thorswap-lib/trustwallet": "1.0.0-development.146",
     "@thorswap-lib/types": "1.0.0-development.80",
     "@thorswap-lib/walletconnect": "1.0.1-development.11",
-    "@thorswap-lib/web-extensions": "1.0.0-development.160",
+    "@thorswap-lib/web-extensions": "1.0.0-development.164",
     "base64-js": "1.5.1",
     "bignumber.js": "9.1.1",
     "bip39": "3.0.4",
