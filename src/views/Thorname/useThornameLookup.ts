@@ -6,7 +6,7 @@ import { shortenAddress } from 'helpers/shortenAddress';
 import usePrevious from 'hooks/usePrevious';
 import { useCallback, useEffect, useReducer } from 'react';
 import { t } from 'services/i18n';
-import { getThornameDetails } from 'services/thorname';
+import { useLazyGetTNSDetailQuery } from 'store/midgard/api';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
@@ -82,6 +82,8 @@ export const useThornameLookup = (owner?: string) => {
     initialState,
   );
 
+  const [getTNSDetail] = useLazyGetTNSDetailQuery();
+
   const setChain = useCallback((chain: Chain) => {
     dispatch({ type: 'setChain', payload: chain });
   }, []);
@@ -96,9 +98,9 @@ export const useThornameLookup = (owner?: string) => {
 
   const loadDetails = useCallback(
     async (providedThorname?: string) => {
-      const details = await getThornameDetails(providedThorname || thorname);
+      const { data: details } = await getTNSDetail(providedThorname || thorname);
       const payload =
-        typeof details === 'boolean'
+        !details || typeof details === 'boolean'
           ? { details: null, available: true }
           : { details, available: owner ? details.owner === owner : false };
       dispatch({
@@ -106,7 +108,7 @@ export const useThornameLookup = (owner?: string) => {
         payload,
       });
     },
-    [owner, thorname],
+    [getTNSDetail, owner, thorname],
   );
 
   const lookupForTNS = useCallback(

@@ -107,7 +107,7 @@ export const useSidebarOptions = () => {
                 {
                   iconName: 'rocket',
                   href: ROUTES.NewLiquidity,
-                  label: 'New Liquidity',
+                  label: 'Liquidity - BETA',
                 },
               ],
         ),

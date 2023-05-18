@@ -1,7 +1,7 @@
 import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { useMimir } from 'hooks/useMimir';
 import { useEffect, useState } from 'react';
-import { midgardApi } from 'services/midgard';
+import { midgardSdk } from 'services/midgard';
 import { MidgardEarnPoolType } from 'store/midgard/types';
 import { getFormattedPercent, getSaverPoolNameForAsset } from 'views/Earn/utils';
 
@@ -11,7 +11,7 @@ export const useAssetsWithApr = (assets: Asset[]) => {
 
   useEffect(() => {
     const getPools = async () => {
-      const res = await midgardApi.getPools();
+      const res = await midgardSdk.getPools();
       setPools(res as unknown as MidgardEarnPoolType[]);
     };
 

@@ -1,8 +1,7 @@
 import { validateTHORName } from '@thorswap-lib/swapkit-core';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useCallback, useEffect, useState } from 'react';
-import { midgardApi } from 'services/midgard';
-import { getThornameDetails } from 'services/thorname';
+import { useLazyGetTNSDetailQuery } from 'store/midgard/api';
 import { THORNameEntry } from 'types/app';
 
 export const useAddressForTNS = (address: string) => {
@@ -13,14 +12,16 @@ export const useAddressForTNS = (address: string) => {
       Maybe<{ entries?: THORNameEntry[]; owner?: string; expire?: string; thorname: string }>
     >(null);
 
+  const [getTNSDetail] = useLazyGetTNSDetailQuery();
+
   const lookupForTNS = useCallback(
     async (providedThorname: string) => {
       try {
-        const details = await getThornameDetails(providedThorname);
+        const { data: details } = await getTNSDetail(providedThorname);
         const payload =
           typeof details === 'boolean'
             ? { thorname: providedThorname }
-            : { ...details, thorname: providedThorname };
+            : { ...(details || {}), thorname: providedThorname };
         setTNS(payload);
       } catch {
         setTNS(null);
@@ -28,15 +29,14 @@ export const useAddressForTNS = (address: string) => {
         setLoading(false);
       }
     },
-    [setTNS],
+    [getTNSDetail],
   );
 
   useEffect(() => {
     const [possibleThorname] = debouncedAddress.toLowerCase().split('.');
 
     if (validateTHORName(possibleThorname)) {
-      midgardApi
-        .getTHORNameDetail(possibleThorname)
+      getTNSDetail(possibleThorname)
         .then((details) => {
           const payload =
             typeof details === 'boolean'
@@ -49,7 +49,7 @@ export const useAddressForTNS = (address: string) => {
 
       lookupForTNS(possibleThorname.toLowerCase());
     }
-  }, [debouncedAddress, lookupForTNS]);
+  }, [debouncedAddress, getTNSDetail, lookupForTNS]);
 
   useEffect(() => {
     if (validateTHORName(address)) {

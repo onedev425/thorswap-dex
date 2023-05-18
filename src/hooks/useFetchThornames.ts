@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { midgardApi } from 'services/midgard';
-import { getThornameDetails } from 'services/thorname';
+import { useGetTNSByOwnerAddressQuery, useLazyGetTNSDetailQuery } from 'store/midgard/api';
 import { useAppSelector } from 'store/store';
 import { THORNameEntry } from 'types/app';
 
@@ -10,18 +9,22 @@ export const useFetchThornames = () => {
     null | { entries?: THORNameEntry[]; owner?: string; expire?: string; thorname: string }[]
   >(null);
 
-  const thorAddress = useAppSelector(({ wallet }) => wallet?.wallet?.THOR?.address);
+  const thorAddress = useAppSelector(({ wallet }) => wallet?.wallet?.THOR?.address || '');
+
+  const { data: thornames } = useGetTNSByOwnerAddressQuery(thorAddress);
+  const [getTNSDetail] = useLazyGetTNSDetailQuery();
 
   const fetchRegisteredThornames = useCallback(async () => {
-    if (!thorAddress || fetching.current) return;
+    if (!thornames || !thorAddress || fetching.current) return;
     fetching.current = true;
 
     try {
-      const thornames = await midgardApi.getTHORNamesOwnerByAddress(thorAddress);
       const thornamesDetails = await Promise.all(
         thornames.map(async (name) => {
-          const details = await getThornameDetails(name);
-          return typeof details === 'boolean' ? { thorname: name } : { ...details, thorname: name };
+          const { data: details } = await getTNSDetail(name);
+          return typeof details === 'boolean'
+            ? { thorname: name }
+            : { ...(details || {}), thorname: name };
         }),
       );
 
@@ -29,7 +32,7 @@ export const useFetchThornames = () => {
     } finally {
       fetching.current = false;
     }
-  }, [setRegisteredThornames, thorAddress]);
+  }, [getTNSDetail, thorAddress, thornames]);
 
   useEffect(() => {
     if (thorAddress) {
