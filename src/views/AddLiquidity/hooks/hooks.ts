@@ -1,3 +1,5 @@
+import { getRequest } from '@thorswap-lib/helpers';
+import { InboundAddressesItem } from '@thorswap-lib/midgard-sdk';
 import {
   AddLiquidityParams,
   Amount,
@@ -25,7 +27,7 @@ import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
 import { useRunePrice } from 'hooks/useRuneToCurrency';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
-import { midgardApi } from 'services/midgard';
+import { THORNODE_URL } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 import { LiquidityTypeOption } from 'store/midgard/types';
 import { isPendingLP } from 'store/midgard/utils';
@@ -57,6 +59,11 @@ type Props = {
 };
 
 const runeAsset = getSignatureAssetFor(Chain.THORChain);
+
+// TEMPORARY SOLUTION
+const getInboundData = () => {
+  return getRequest<InboundAddressesItem[]>(`${THORNODE_URL}/inbound_addresses`);
+};
 
 export const useAddLiquidity = ({
   onAddLiquidity,
@@ -155,7 +162,7 @@ export const useAddLiquidity = ({
   }, [wallet, poolAsset, liquidityType]);
 
   const getContractAddress = useCallback(async (chain: Chain) => {
-    const inboundData = (await midgardApi.getInboundAddresses()) || [];
+    const inboundData = (await getInboundData()) || [];
     const { router, halted } = inboundData.find((item) => item.chain === chain) || {};
 
     if (halted && !router) {
