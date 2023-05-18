@@ -1,4 +1,4 @@
-import { QuoteRoute } from '@thorswap-lib/swapkit-core';
+import { QuoteRoute } from '@thorswap-lib/swapkit-api';
 import { Chain } from '@thorswap-lib/types';
 import { TxnResult } from 'store/thorswap/types';
 

@@ -15,6 +15,7 @@ import { HighlightCard } from 'components/HighlightCard';
 import dayjs from 'dayjs';
 import { RUNEAsset } from 'helpers/assets';
 import { getTickerFromIdentifier } from 'helpers/logoURL';
+import { parseToPercent } from 'helpers/parseHelpers';
 import useWindowSize from 'hooks/useWindowSize';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -91,7 +92,7 @@ export const LiquidityCard = ({
     return {
       runeShare: runeShare.toSignificant(6),
       assetShare: assetShare.toSignificant(6),
-      poolShare: poolShare.assetAmount.toNumber() > 0.001 ? `${poolShare.toSignificant(4)}` : '~0%',
+      poolShare: poolShare > 0.001 ? `${parseToPercent(poolShare, 4)}` : '~0%',
     };
   }, [poolAssetDepth, poolRuneDepth, poolUnits, shareType, sharedUnits]);
 

@@ -1,5 +1,6 @@
 import { Text } from '@chakra-ui/react';
-import { getSignatureAssetFor, QuoteRoute, QuoteSwap } from '@thorswap-lib/swapkit-core';
+import { QuoteRoute } from '@thorswap-lib/swapkit-api';
+import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Modal } from 'components/Atomic';
@@ -12,10 +13,12 @@ import { t } from 'services/i18n';
 import { normalizedProviderName } from './ProviderLogos';
 import { SwapGraphType } from './types';
 
+type QuoteSwaps = QuoteRoute['swaps'];
+
 type Props = {
   isOpened: boolean;
   onClose: () => void;
-  swaps: QuoteRoute['swaps'];
+  swaps: QuoteSwaps;
 };
 
 const parseToSwapItem = ({ address, identifier }: { address?: string; identifier: string }) => ({
@@ -29,7 +32,8 @@ export const RouteGraphModal = memo(({ isOpened, onClose, swaps }: Props) => {
       Object.entries(swaps).reduce((acc, [chain, value]) => {
         const name = chainName(chain, true);
         const chainAsset = getSignatureAssetFor(chain as Chain);
-        const chainSwaps = (value as QuoteSwap[][]).map((swapParts) =>
+        const chainSwaps = (value as QuoteSwaps[string]).map((swapParts) =>
+          // @ts-expect-error
           swapParts.map(({ from, to, parts, fromTokenAddress, toTokenAddress }) => ({
             fromAsset: parseToSwapItem({ address: fromTokenAddress, identifier: from }),
             toAsset: parseToSwapItem({ address: toTokenAddress, identifier: to }),

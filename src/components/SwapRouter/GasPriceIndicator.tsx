@@ -1,5 +1,6 @@
 import { Text } from '@chakra-ui/react';
-import { formatBigNumber, QuoteRoute } from '@thorswap-lib/swapkit-core';
+import { QuoteRoute } from '@thorswap-lib/swapkit-api';
+import { formatBigNumber } from '@thorswap-lib/swapkit-core';
 import BigNumber from 'bignumber.js';
 import { Box, Icon, Tooltip } from 'components/Atomic';
 import { useRouteFees } from 'hooks/useRouteFees';

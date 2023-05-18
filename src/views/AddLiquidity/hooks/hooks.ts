@@ -20,6 +20,7 @@ import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveIn
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { RUNEAsset, USDAsset } from 'helpers/assets';
 import { getEstimatedTxTime } from 'helpers/getEstimatedTxTime';
+import { parseToPercent } from 'helpers/parseHelpers';
 import { hasWalletConnected } from 'helpers/wallet';
 import { useMimir } from 'hooks/useMimir';
 import { getSumAmountInUSD, useNetworkFee } from 'hooks/useNetworkFee';
@@ -142,7 +143,7 @@ export const useAddLiquidity = ({
   );
 
   const poolShareEst = useMemo(
-    () => getEstimatedPoolShare(liquidityParams).toSignificant(6, 5),
+    () => parseToPercent(getEstimatedPoolShare(liquidityParams)),
     [liquidityParams],
   );
 

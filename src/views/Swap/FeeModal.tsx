@@ -1,5 +1,6 @@
 import { Text } from '@chakra-ui/react';
-import { AssetEntity, getSignatureAssetFor, QuoteRoute } from '@thorswap-lib/swapkit-core';
+import { QuoteRoute } from '@thorswap-lib/swapkit-api';
+import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Modal } from 'components/Atomic';
@@ -9,7 +10,8 @@ import { useFormatPrice } from 'helpers/formatPrice';
 import { memo, useEffect, useMemo } from 'react';
 import { t } from 'services/i18n';
 
-type Fees = ReturnType<QuoteRoute['fees']['get']>;
+type Fees = QuoteRoute['fees'][Chain];
+
 type Props = {
   isOpened: boolean;
   onClose: () => void;
