@@ -82,6 +82,7 @@ const midgardSlice = createSlice({
                 : pool.annualPercentageRate,
             apyPeriod: period,
           }))
+          // @ts-expect-error
           .map(Pool.fromPoolData)
           .filter(Boolean) as Pool[];
 
