@@ -214,7 +214,7 @@ const WithdrawPanel = ({
     }
 
     const params = {
-      percent,
+      percent: percent / 100,
       liquidityUnits: memberPoolData?.liquidityUnits || '0',
       poolUnits: pool.detail.units,
       assetDepth: pool.detail.assetDepth,
