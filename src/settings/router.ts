@@ -38,8 +38,6 @@ export enum ROUTES {
   OnRamp = '/onramp',
   Earn = '/earn',
   Transaction = '/tx/:txid',
-
-  NewLiquidity = '/new-liquidity',
 }
 
 export const THORYIELD_ROUTE = 'https://app.thoryield.com';

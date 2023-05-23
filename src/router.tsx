@@ -19,7 +19,6 @@ const TxMultisig = lazy(() => import('views/Multisig/TxMultisig/TxMultisig'));
 const AddLiquidity = lazy(() => import('views/AddLiquidity'));
 const CreateLiquidity = lazy(() => import('views/CreateLiquidity'));
 const Home = lazy(() => import('views/Home'));
-const Liquidity = lazy(() => import('views/Liquidity'));
 const NodeDetails = lazy(() => import('views/Nodes/NodeDetails'));
 const NodeManager = lazy(() => import('views/Nodes/NodeManager'));
 const Nodes = lazy(() => import('views/Nodes'));
@@ -45,7 +44,7 @@ export type RouteType = {
   element: NotWorth;
 }[];
 
-const NOT_PROD_ROUTES = IS_PROD ? [] : [{ path: ROUTES.NewLiquidity, element: NewLiquidity }];
+const NOT_PROD_ROUTES = IS_PROD ? [] : [];
 
 const routes: RouteType = [
   { path: ROUTES.AddLiquidity, element: AddLiquidity },
@@ -56,7 +55,7 @@ const routes: RouteType = [
   { path: ROUTES.LegacyStake, element: LegacyStake },
   { path: ROUTES.Kyber, element: Swap },
   { path: ROUTES.KyberPair, element: Swap },
-  { path: ROUTES.Liquidity, element: Liquidity },
+  { path: ROUTES.Liquidity, element: NewLiquidity },
   { path: ROUTES.Multisig, element: Multisig },
   { path: ROUTES.MultisigConnect, element: MultisigImport },
   { path: ROUTES.MultisigCreate, element: MultisigCreate },
