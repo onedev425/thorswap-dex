@@ -10,6 +10,8 @@ type StorageType = {
   autoRouter: boolean;
   baseCurrency: string;
   chartsHidden: boolean;
+  collapsedSidebarGroups: string[];
+  affTimestamp: string;
   customRecipientMode: boolean;
   customSendVisible: boolean;
   disabledTokenLists: string[];
@@ -27,7 +29,6 @@ type StorageType = {
   readStatus: boolean;
   restorePreviousWallet: boolean;
   seenAnnList: string[];
-  collapsedSidebarGroups: string[];
   sidebarCollapsed: boolean;
   slippageTolerance: string;
   statsHidden: boolean;
@@ -37,13 +38,14 @@ type StorageType = {
   thousandSeparator: string;
   tradingHaltStatus: boolean;
   transactionDeadline: string;
-  walletViewMode: ViewMode;
   txHistory: TransactionsState | null;
+  walletViewMode: ViewMode;
 };
 
 type StoragePayload =
   | {
       key:
+        | 'affTimestamp'
         | 'baseCurrency'
         | 'language'
         | 'slippageTolerance'
@@ -117,6 +119,7 @@ const defaultValues: StorageType = {
   seenAnnList: [] as string[],
   collapsedSidebarGroups: [] as string[],
 
+  affTimestamp: '',
   baseCurrency: USDAsset.toString(),
   language: 'en',
   slippageTolerance: '3',
