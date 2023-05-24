@@ -35,6 +35,7 @@ export const normalizedProviderName = {
   KYBERSWAPELASTIC: 'KyberSwap',
   SYNAPSE: 'Synapse',
   AVALANCHE_TRADERJOE_V2: 'TraderJoe',
+  'WOOFI-AVAX': 'WOOFI',
 };
 
 export const ProviderLogos = memo(({ size = 24, providers }: Props) => {

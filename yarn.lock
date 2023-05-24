@@ -2740,10 +2740,10 @@
   dependencies:
     "@thorswap-lib/types" "1.0.0-development.84"
 
-"@thorswap-lib/swapkit-core@1.0.0-development.169":
-  version "1.0.0-development.169"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-core/-/swapkit-core-1.0.0-development.169.tgz#6f89b10d653c8e1181d1ada40ed5a83a7591ab7f"
-  integrity sha512-P1ZwEfhoFrG5Eh/f+AvnV5iTotaPkpMJ4nM6k4cikLW/UMbA2/3LemuEye/KPBk35UU1sdbALjeMjfQUuHxuVQ==
+"@thorswap-lib/swapkit-core@1.0.0-development.170":
+  version "1.0.0-development.170"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-core/-/swapkit-core-1.0.0-development.170.tgz#f4abcf8d4decf111492756e7695fb01ba63c5292"
+  integrity sha512-zHq5CWPd+bOTTtAPaZe2mSZqsEr3pFzccnSJDjyBVnqDdtTKB7JN7qH7Y8byKWAqC9ry5H3gr/mobMzT9W3IuQ==
   dependencies:
     "@ethersproject/bytes" "5.7.0"
     "@ethersproject/units" "5.7.0"
