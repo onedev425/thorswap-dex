@@ -248,31 +248,31 @@ export const useHandleWalletTypeSelect = ({
   selectedChains,
 }: HandleWalletTypeSelectParams) => {
   const handleXdefi = useCallback(async () => {
-    const { evmWallet } = await import('@thorswap-lib/web-extensions');
-    if (evmWallet.isDetected(WalletOption.XDEFI)) return true;
+    const { xdefiWallet } = await import('@thorswap-lib/xdefi');
+    if (xdefiWallet.isDetected(WalletOption.XDEFI)) return true;
     window.open('https://xdefi.io');
   }, []);
 
   const handleMetamask = useCallback(async () => {
-    const { evmWallet } = await import('@thorswap-lib/web-extensions');
+    const { evmWallet } = await import('@thorswap-lib/evm-web3-wallets');
     if (evmWallet.isDetected(WalletOption.METAMASK)) return true;
     window.open('https://metamask.io');
   }, []);
 
   const handleKeplr = useCallback(async () => {
-    const { keplrWallet } = await import('@thorswap-lib/web-extensions');
+    const { keplrWallet } = await import('@thorswap-lib/keplr');
     if (keplrWallet.isDetected()) return true;
     window.open('https://keplr.app');
   }, []);
 
   const handleTrustWalletExtension = useCallback(async () => {
-    const { evmWallet } = await import('@thorswap-lib/web-extensions');
+    const { evmWallet } = await import('@thorswap-lib/evm-web3-wallets');
     if (evmWallet.isDetected(WalletOption.TRUSTWALLET_WEB)) return true;
     window.open('https://trustwallet.com/browser-extension/');
   }, []);
 
   const handleCoinbaseExtension = useCallback(async () => {
-    const { evmWallet } = await import('@thorswap-lib/web-extensions');
+    const { evmWallet } = await import('@thorswap-lib/evm-web3-wallets');
     if (evmWallet.isDetected(WalletOption.COINBASE_WEB)) return true;
     window.open('https://www.coinbase.com/wallet/articles/getting-started-extension');
   }, []);
