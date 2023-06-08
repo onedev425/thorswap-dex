@@ -2751,13 +2751,14 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/types/-/types-1.0.0-development.86.tgz#ff23f0b57da52c40873597a1ad1498638d3dd444"
   integrity sha512-PrIZBUOZ9jD1fy2IbcbgzbhtD9yyCcy4apmaiWd3rbhbXLRSK9NcX4tYlPA4hVwRMC3CWTsGHe9aI6EebvZe9Q==
 
-"@thorswap-lib/walletconnect@1.0.1-development.22":
-  version "1.0.1-development.22"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/walletconnect/-/walletconnect-1.0.1-development.22.tgz#5febe6f12745a875390e2ca044074e0fcd17532d"
-  integrity sha512-MKLo+qAlhqeo+p4LFPfPYxrSoXKQ2eRmMzQ/y9R5GxHGarwrMhE9etCuCNUBKPncUDXjkaBcHH58931KjH8NEA==
+"@thorswap-lib/walletconnect@1.0.1-development.23":
+  version "1.0.1-development.23"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/walletconnect/-/walletconnect-1.0.1-development.23.tgz#d7889d2d5a940c8195af13210848cc4b0fe832a3"
+  integrity sha512-fJFnuTMuaZRjFRo1x21pK62495ZwJb0D74fwdmwbkx6S0KYJJH5cMqab37V2MHcDLxCpL1TPTa2dLDVSi7Uo0Q==
   dependencies:
     "@coinbase/wallet-sdk" "3.6.6"
     "@thorswap-lib/types" "1.0.0-development.86"
+    "@walletconnect/web3-provider" "1.8.0"
     web3modal "1.9.12"
 
 "@thorswap-lib/xdefi@1.0.0-development.7":
