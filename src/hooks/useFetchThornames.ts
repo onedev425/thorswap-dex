@@ -42,6 +42,9 @@ export const useFetchThornames = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [thorAddress]);
+  useEffect(() => {
+    fetchRegisteredThornames();
+  }, [fetchRegisteredThornames]);
 
   return registeredThornames;
 };
