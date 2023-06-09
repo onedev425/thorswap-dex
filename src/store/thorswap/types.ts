@@ -190,6 +190,7 @@ export type GetTokensQuoteResponse = {
         tcRouter: string;
       };
       contract: string;
+      allowanceTarget: string;
       contractMethod: string;
       contractInfo: string;
       index: number;
