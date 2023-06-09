@@ -1,5 +1,5 @@
+import { Box } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box } from 'components/Atomic';
 import { memo, useMemo } from 'react';
 import { Line } from 'react-chartjs-2';
 
@@ -8,25 +8,46 @@ import { getChartOptions } from './config/chartOptions';
 
 type ChartProps = {
   className?: string;
-  label: string;
+  labels: string[];
   values: number[];
   hideLabel?: boolean;
   hasGrid?: boolean;
+  onHover?: (index: number) => void;
+  hoveredIndex?: number | null;
+  hideTooltip?: boolean;
+  hideAxisLines?: boolean;
 };
 
 export const ChartPreview = memo(
-  ({ className, label, values, hideLabel = false, hasGrid = false }: ChartProps) => {
+  ({
+    className,
+    labels,
+    values,
+    hideLabel = false,
+    hasGrid = false,
+    onHover,
+    hoveredIndex,
+    hideTooltip,
+    hideAxisLines,
+  }: ChartProps) => {
     const { chartData, options } = useMemo(
       () => ({
-        chartData: getDataForCurvedLineChart([label], values),
-        options: getChartOptions(hideLabel, hasGrid),
+        chartData: getDataForCurvedLineChart(labels, values),
+        options: getChartOptions(
+          hideLabel,
+          hasGrid,
+          hideAxisLines,
+          onHover,
+          hoveredIndex,
+          hideTooltip,
+        ),
       }),
-      [hasGrid, hideLabel, label, values],
+      [hasGrid, hideLabel, labels, values, onHover, hoveredIndex, hideTooltip, hideAxisLines],
     );
 
     return (
       <Box className={classNames('flex-1 w-full h-full relative', className)}>
-        <Box className="absolute inset-0">
+        <Box>
           <Line data={chartData} options={options} />
         </Box>
       </Box>

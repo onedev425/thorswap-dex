@@ -12,7 +12,7 @@ export const GlobalSettingsPopover = ({ transactionMode }: Props) => {
     <Popover
       trigger={
         <Button
-          className="px-1.5 group"
+          className="group"
           leftIcon={
             <Icon
               className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
@@ -20,6 +20,7 @@ export const GlobalSettingsPopover = ({ transactionMode }: Props) => {
               name="cog"
             />
           }
+          px="2!"
           tooltip={t('common.settings')}
           tooltipPlacement="top"
           variant="borderlessTint"

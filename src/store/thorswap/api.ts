@@ -4,6 +4,7 @@ import { IS_DEV_API } from 'settings/config';
 import { AnnouncementsData } from 'store/externalConfig/types';
 
 import {
+  getGasHistoryResponse,
   GetGasPriceRatesResponse,
   GetProvidersResponse,
   GetTokenPriceParams,
@@ -116,6 +117,11 @@ export const thorswapApi = createApi({
       query: () => '/resource-worker/gasPrice/getAll',
       keepUnusedDataFor: 60,
     }),
+
+    getGasHistory: build.query<getGasHistoryResponse[], void>({
+      query: () => `${baseUrl}/resource-worker/gasHistory/getAll`,
+      keepUnusedDataFor: 60,
+    }),
   }),
 });
 
@@ -130,4 +136,5 @@ export const {
   useGetMerkleProofQuery,
   useGetAnnouncementsQuery,
   useGetGasPriceRatesQuery,
+  useGetGasHistoryQuery,
 } = thorswapApi;

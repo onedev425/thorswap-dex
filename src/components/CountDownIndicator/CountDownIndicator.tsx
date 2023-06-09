@@ -5,6 +5,7 @@ import { baseHoverClass } from 'components/constants';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
+import { useGetGasHistoryQuery } from 'store/thorswap/api';
 import { ThemeType } from 'types/app';
 
 type Props = {
@@ -17,6 +18,7 @@ type Props = {
 export const CountDownIndicator = memo(
   ({ className, size = 24, duration = 10, refresh }: Props) => {
     const { themeType } = useApp();
+    const { refetch: refetchGasHistory } = useGetGasHistoryQuery();
     const playing = useRef(false);
     const interval = useRef<NodeJS.Timer>(setTimeout(() => {}, 0));
     const lightTheme = themeType === ThemeType.Light;
@@ -40,16 +42,18 @@ export const CountDownIndicator = memo(
             if (countdown > 1) return countdown - 1;
 
             refresh?.();
+            refetchGasHistory();
             return duration;
           });
         }, 1000);
       }
-    }, [duration, refresh]);
+    }, [duration, refresh, refetchGasHistory]);
 
     const handleRefresh = useCallback(() => {
       refresh?.();
+      refetchGasHistory();
       setCountdown(duration);
-    }, [duration, refresh]);
+    }, [duration, refresh, refetchGasHistory]);
 
     useEffect(() => {
       setCountdown(duration);

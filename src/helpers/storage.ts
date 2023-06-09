@@ -30,6 +30,7 @@ type StorageType = {
   restorePreviousWallet: boolean;
   seenAnnList: string[];
   sidebarCollapsed: boolean;
+  analyticsVisible: boolean;
   slippageTolerance: string;
   statsHidden: boolean;
   themeType: string;
@@ -78,6 +79,7 @@ type StoragePayload =
         | 'poolsHidden'
         | 'readStatus'
         | 'sidebarCollapsed'
+        | 'analyticsVisible'
         | 'statsHidden'
         | 'multisigVisible'
         | 'customSendVisible'
@@ -102,6 +104,7 @@ const defaultValues: StorageType = {
   readStatus: false,
   restorePreviousWallet: false,
   sidebarCollapsed: false,
+  analyticsVisible: false,
   statsHidden: false,
   tradingHaltStatus: false,
 
@@ -155,6 +158,7 @@ export const saveInStorage = ({ key, value }: StoragePayload) => {
     case 'readStatus':
     case 'restorePreviousWallet':
     case 'sidebarCollapsed':
+    case 'analyticsVisible':
     case 'statsHidden':
     case 'tradingHaltStatus':
     case 'autoRouter':
@@ -201,6 +205,7 @@ export const getFromStorage = (key: keyof StorageType): StorageType[keyof Storag
     case 'readStatus':
     case 'restorePreviousWallet':
     case 'sidebarCollapsed':
+    case 'analyticsVisible':
     case 'statsHidden':
     case 'tradingHaltStatus':
     case 'expertMode': {

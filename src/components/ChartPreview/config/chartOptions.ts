@@ -1,6 +1,14 @@
+import { Element } from 'chart.js';
 import * as styles from 'components/Chart/styles/styles';
 
-export const getChartOptions = (hideLabel: boolean, hasGrid: boolean) => {
+export const getChartOptions = (
+  hideLabel: boolean,
+  hasGrid: boolean,
+  hideAxisLines?: boolean,
+  onHover?: (index: number) => void,
+  hoveredIndex?: number | null,
+  hideTooltip?: boolean,
+) => {
   const gridOptions = {
     display: false,
     drawOnChartArea: hasGrid,
@@ -26,16 +34,25 @@ export const getChartOptions = (hideLabel: boolean, hasGrid: boolean) => {
     },
     plugins: {
       legend: { display: false },
+      tooltip: {
+        enabled: hideTooltip ? false : true,
+      },
     },
     scales: {
       x: {
+        display: hideAxisLines ? false : true,
         grid: gridOptions,
         ticks: { ...styles.chartXTicksStyles, ...tickOptions },
       },
       y: {
+        display: hideAxisLines ? false : true,
         grid: gridOptions,
         ticks: { ...styles.chartYTicksStyles, ...tickOptions },
       },
+    },
+    onHover: (_e: any, elements: { element: Element; datasetIndex: number; index: number }[]) => {
+      if (elements[0]?.index === hoveredIndex || !onHover || elements[0]?.index === 0) return;
+      onHover(elements[0]?.index);
     },
   } as const;
 };

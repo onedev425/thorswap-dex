@@ -1,6 +1,9 @@
+import { Box, Flex } from '@chakra-ui/react';
 import { QuoteRoute } from '@thorswap-lib/swapkit-api';
 import { AssetEntity, getSignatureAssetFor, QuoteMode } from '@thorswap-lib/swapkit-core';
 import { BaseDecimal, Chain, WalletOption } from '@thorswap-lib/types';
+import { Analysis } from 'components/Analysis/Analysis';
+import { easeInOutTransition } from 'components/constants';
 import { InfoTip } from 'components/InfoTip';
 import { PanelView } from 'components/PanelView';
 import { SwapRouter } from 'components/SwapRouter';
@@ -18,6 +21,7 @@ import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { IS_DEV_API, IS_PROD } from 'settings/config';
 import { getKyberSwapRoute, getSwapRoute } from 'settings/router';
+import { useApp } from 'store/app/hooks';
 import { useWallet } from 'store/wallet/hooks';
 import { FeeModal } from 'views/Swap/FeeModal';
 import { useKyberSwap } from 'views/Swap/hooks/useKyberSwap';
@@ -43,6 +47,7 @@ const SwapView = () => {
   const { getMaxBalance } = useBalance();
   const { inputAmount, setInputAmount, inputAsset, outputAsset } = useSwapPair();
   const { wallet, keystore } = useWallet();
+  const { analyticsVisible, toggleAnalytics } = useApp();
 
   const [recipient, setRecipient] = useState('');
   const [sender, setSender] = useState('');
@@ -314,116 +319,132 @@ const SwapView = () => {
   );
 
   return (
-    <PanelView
-      description={t('views.swap.description', {
-        inputAsset: inputAsset.name.toUpperCase(),
-        outputAsset: outputAsset.name.toUpperCase(),
-      })}
-      header={
-        <SwapHeader
-          asset={inputAsset.isRUNE() ? outputAsset : inputAsset}
-          refetchData={!selectedRoute || isFetching || isPriceLoading ? undefined : refetchData}
-        />
-      }
-      keywords={`${inputAsset.name}, ${outputAsset.name}, SWAP, THORSwap, THORChain, DEX, DeFi`}
-      title={`${t('common.swap')} ${inputAsset.name} to ${outputAsset.name}`}
-    >
-      <AssetInputs
-        inputAsset={inputAssetProps}
-        onInputAmountChange={setInputAmount}
-        onInputAssetChange={handleSelectAsset('input')}
-        onOutputAssetChange={handleSelectAsset('output')}
-        onSwitchPair={handleSwitchPair}
-        outputAsset={outputAssetProps}
-        tokens={tokens}
+    <Flex alignSelf="center" gap={3} mt={2} w="full">
+      <Box m="auto" transition={easeInOutTransition}>
+        <PanelView
+          description={t('views.swap.description', {
+            inputAsset: inputAsset.name.toUpperCase(),
+            outputAsset: outputAsset.name.toUpperCase(),
+          })}
+          header={
+            <SwapHeader
+              inputAssetChain={inputAsset.L1Chain}
+              isSidebarVisible={analyticsVisible}
+              refetchData={!selectedRoute || isFetching || isPriceLoading ? undefined : refetchData}
+              toggleSidebar={() => toggleAnalytics(!analyticsVisible)}
+            />
+          }
+          keywords={`${inputAsset.name}, ${outputAsset.name}, SWAP, THORSwap, THORChain, DEX, DeFi`}
+          title={`${t('common.swap')} ${inputAsset.name} to ${outputAsset.name}`}
+        >
+          <AssetInputs
+            inputAsset={inputAssetProps}
+            onInputAmountChange={setInputAmount}
+            onInputAssetChange={handleSelectAsset('input')}
+            onOutputAssetChange={handleSelectAsset('output')}
+            onSwitchPair={handleSwitchPair}
+            outputAsset={outputAssetProps}
+            tokens={tokens}
+          />
+
+          <CustomRecipientInput
+            isOutputWalletConnected={isOutputWalletConnected}
+            outputAssetL1Chain={outputAsset.L1Chain}
+            recipient={recipient}
+            setRecipient={setRecipient}
+          />
+
+          <SwapInfo
+            affiliateBasisPoints={Number(affiliateBasisPoints)}
+            affiliateFee={affiliateFee}
+            expectedOutput={`${outputAmount?.toSignificant(6)} ${outputAsset.name.toUpperCase()}`}
+            inputUSDPrice={inputUSDPrice}
+            isLoading={isPriceLoading}
+            minReceive={minReceiveInfo}
+            minReceiveSlippage={minReceiveSlippage}
+            networkFee={networkFee}
+            outputUSDPrice={outputUSDPrice}
+            setFeeModalOpened={setFeeModalOpened}
+            showTransactionFeeSelect={showTransactionFeeSelect}
+          />
+
+          {tokenOutputWarning && (
+            <InfoTip className="!mt-2" content={tokenOutputContent} type="warn" />
+          )}
+
+          {noPriceProtection && (
+            <InfoTip
+              className="!mt-2"
+              content={t('views.swap.priceProtectionUnavailableDesc', {
+                chain: inputAsset.L1Chain,
+              })}
+              title={t('views.swap.priceProtectionUnavailable')}
+              type="warn"
+            />
+          )}
+
+          <SwapRouter
+            outputAsset={outputAsset}
+            outputUSDPrice={outputUSDPrice}
+            routes={!isKyberSwapPage ? routes : kyberRoutes}
+            selectedRoute={!isKyberSwapPage ? selectedRoute : kyberRoutes[0]}
+            setSwapRoute={setSwapRoute}
+            slippage={slippage}
+          />
+
+          <SwapSubmitButton
+            hasQuote={!!selectedRoute}
+            inputAmount={inputAmount}
+            inputAsset={inputAsset}
+            invalidSwap={invalidSwap}
+            isApproved={isApproved}
+            isInputWalletConnected={isInputWalletConnected}
+            isLoading={isFetching || isPriceLoading || isApproveAssetLoading}
+            outputAsset={outputAsset}
+            recipient={recipient}
+            setVisibleApproveModal={setVisibleApproveModal}
+            setVisibleConfirmModal={setVisibleConfirmModal}
+          />
+
+          <ConfirmSwapModal
+            affiliateFee={formatPrice(affiliateFee)}
+            estimatedTime={estimatedTime}
+            feeAssets={feeAssets}
+            handleSwap={handleSwap}
+            inputAssetProps={inputAssetProps}
+            minReceive={minReceiveInfo}
+            outputAssetProps={outputAssetProps}
+            recipient={recipient}
+            setVisible={setVisibleConfirmModal}
+            slippageInfo={slippage.toFixed(3)}
+            totalFee={formatPrice(totalFee)}
+            visible={visibleConfirmModal}
+          />
+
+          <ApproveModal
+            handleApprove={handleApprove}
+            inputAmount={inputAmount}
+            inputAsset={inputAsset}
+            setVisible={setVisibleApproveModal}
+            totalFee={formatPrice(firstNetworkFee)}
+            visible={visibleApproveModal}
+          />
+
+          <FeeModal
+            fees={fees}
+            isOpened={feeModalOpened}
+            onClose={() => setFeeModalOpened(false)}
+            totalFee={formatPrice(totalFee)}
+          />
+        </PanelView>
+      </Box>
+
+      <Analysis
+        analyticsVisible={analyticsVisible}
+        inputAssetChain={inputAsset.L1Chain}
+        toggleAnalytics={toggleAnalytics}
       />
-
-      <CustomRecipientInput
-        isOutputWalletConnected={isOutputWalletConnected}
-        outputAssetL1Chain={outputAsset.L1Chain}
-        recipient={recipient}
-        setRecipient={setRecipient}
-      />
-
-      <SwapInfo
-        affiliateBasisPoints={Number(affiliateBasisPoints)}
-        affiliateFee={affiliateFee}
-        expectedOutput={`${outputAmount?.toSignificant(6)} ${outputAsset.name.toUpperCase()}`}
-        inputUSDPrice={inputUSDPrice}
-        isLoading={isPriceLoading}
-        minReceive={minReceiveInfo}
-        minReceiveSlippage={minReceiveSlippage}
-        networkFee={networkFee}
-        outputUSDPrice={outputUSDPrice}
-        setFeeModalOpened={setFeeModalOpened}
-        showTransactionFeeSelect={showTransactionFeeSelect}
-      />
-
-      {tokenOutputWarning && <InfoTip className="!mt-2" content={tokenOutputContent} type="warn" />}
-
-      {noPriceProtection && (
-        <InfoTip
-          className="!mt-2"
-          content={t('views.swap.priceProtectionUnavailableDesc', { chain: inputAsset.L1Chain })}
-          title={t('views.swap.priceProtectionUnavailable')}
-          type="warn"
-        />
-      )}
-
-      <SwapRouter
-        outputAsset={outputAsset}
-        outputUSDPrice={outputUSDPrice}
-        routes={!isKyberSwapPage ? routes : kyberRoutes}
-        selectedRoute={!isKyberSwapPage ? selectedRoute : kyberRoutes[0]}
-        setSwapRoute={setSwapRoute}
-        slippage={slippage}
-      />
-
-      <SwapSubmitButton
-        hasQuote={!!selectedRoute}
-        inputAmount={inputAmount}
-        inputAsset={inputAsset}
-        invalidSwap={invalidSwap}
-        isApproved={isApproved}
-        isInputWalletConnected={isInputWalletConnected}
-        isLoading={isFetching || isPriceLoading || isApproveAssetLoading}
-        outputAsset={outputAsset}
-        recipient={recipient}
-        setVisibleApproveModal={setVisibleApproveModal}
-        setVisibleConfirmModal={setVisibleConfirmModal}
-      />
-
-      <ConfirmSwapModal
-        affiliateFee={formatPrice(affiliateFee)}
-        estimatedTime={estimatedTime}
-        feeAssets={feeAssets}
-        handleSwap={handleSwap}
-        inputAssetProps={inputAssetProps}
-        minReceive={minReceiveInfo}
-        outputAssetProps={outputAssetProps}
-        recipient={recipient}
-        setVisible={setVisibleConfirmModal}
-        slippageInfo={slippage.toFixed(3)}
-        totalFee={formatPrice(totalFee)}
-        visible={visibleConfirmModal}
-      />
-
-      <ApproveModal
-        handleApprove={handleApprove}
-        inputAmount={inputAmount}
-        inputAsset={inputAsset}
-        setVisible={setVisibleApproveModal}
-        totalFee={formatPrice(firstNetworkFee)}
-        visible={visibleApproveModal}
-      />
-
-      <FeeModal
-        fees={fees}
-        isOpened={feeModalOpened}
-        onClose={() => setFeeModalOpened(false)}
-        totalFee={formatPrice(totalFee)}
-      />
-    </PanelView>
+    </Flex>
   );
 };
 

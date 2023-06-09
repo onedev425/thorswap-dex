@@ -181,6 +181,13 @@ export const useApp = () => {
     [dispatch],
   );
 
+  const toggleAnalytics = useCallback(
+    (analyticsVisible: boolean) => {
+      dispatch(actions.toggleAnalytics(analyticsVisible));
+    },
+    [dispatch],
+  );
+
   return {
     ...appState,
     baseCurrencyAsset,
@@ -209,5 +216,6 @@ export const useApp = () => {
     setMultisigShowStatus,
     setCustomSendShowStatus,
     setCollapsedSidebarGroups,
+    toggleAnalytics,
   };
 };

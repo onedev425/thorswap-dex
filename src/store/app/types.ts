@@ -30,4 +30,5 @@ export interface State {
   dismissedAnnList: string[];
   seenAnnList: string[];
   collapsedSidebarGroups: string[];
+  analyticsVisible: boolean;
 }

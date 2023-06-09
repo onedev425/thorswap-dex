@@ -105,7 +105,14 @@ import {
   RiSurveyLine,
 } from 'react-icons/ri';
 import { RxCountdownTimer } from 'react-icons/rx';
-import { TbListDetails, TbPlugConnected } from 'react-icons/tb';
+import {
+  TbChartBar,
+  TbChartBarOff,
+  TbGasStation,
+  TbGasStationOff,
+  TbListDetails,
+  TbPlugConnected,
+} from 'react-icons/tb';
 import {
   VscAdd,
   VscCloudUpload,
@@ -141,6 +148,8 @@ const Icons = {
   chartArea: MdAreaChart,
   chartPie: FaChartPie,
   chartPieOutline: HiOutlineChartPie,
+  chartBar: TbChartBar,
+  chartBarOff: TbChartBarOff,
   checkBoxBlank: MdOutlineCheckBoxOutlineBlank,
   checkBoxChecked: MdOutlineCheckBox,
   checkBoxes: RiCheckboxMultipleLine,
@@ -167,6 +176,8 @@ const Icons = {
   feedback: FaRegCommentDots,
   fire: FaFire,
   gas: FaGasPump,
+  gasStation: TbGasStation,
+  gasStationOff: TbGasStationOff,
   grid: AiOutlineAppstore,
   heart: AiOutlineHeart,
   heartFilled: AiFillHeart,

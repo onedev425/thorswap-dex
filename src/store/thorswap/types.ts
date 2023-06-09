@@ -237,3 +237,26 @@ export type GasPriceInfo = {
 };
 
 export type GetGasPriceRatesResponse = GasPriceInfo[];
+
+export interface History {
+  value: number;
+  timestamp: number;
+}
+
+export interface GasHistoryData {
+  lastTimestamp: number;
+  chainId: string;
+  chainName: string;
+  unitName: string;
+  history: number[];
+  redisKey: string;
+}
+
+export interface getGasHistoryResponse {
+  average7d?: number;
+  average24h?: number;
+  lastTimestamp: number;
+  chainId: string;
+  unitName: string;
+  history: { value: number; timestamp: number }[];
+}

@@ -1,7 +1,7 @@
 import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';
-import { ChartPreview } from 'components/ChartPreview';
+import { ChartPreview } from 'components/ChartPreview/ChartPreview';
 import { memo } from 'react';
 import { ViewMode } from 'types/app';
 import { useChartData } from 'views/Wallet/hooks';
@@ -23,7 +23,7 @@ export const AssetChart = memo(({ asset, mode }: Props) => {
       })}
       style={{ height: mode === ViewMode.CARD ? 100 : 80 }}
     >
-      {values.length > 0 && <ChartPreview hideLabel label={label} values={values} />}
+      {values.length > 0 && <ChartPreview hideLabel labels={[label]} values={values} />}
     </Box>
   );
 });

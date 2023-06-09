@@ -1,46 +1,37 @@
-import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import { Box, Button, Icon } from 'components/Atomic';
+import { Chain } from '@thorswap-lib/types';
+import { Box } from 'components/Atomic';
 import { CountDownIndicator } from 'components/CountDownIndicator';
+import { GasButton } from 'components/GasButton/GasButton';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { ViewHeader } from 'components/ViewHeader';
-import { memo, useCallback } from 'react';
+import { memo } from 'react';
 import { t } from 'services/i18n';
-import { navigateToPoolDetail } from 'settings/router';
 
 type Props = {
-  asset: Asset;
+  isSidebarVisible: boolean;
+  toggleSidebar: () => void;
   refetchData?: () => void;
+  inputAssetChain: Chain;
 };
 
-export const SwapHeader = memo(({ asset, refetchData }: Props) => {
-  const navigateToPoolInfo = useCallback(() => {
-    navigateToPoolDetail(asset);
-  }, [asset]);
+export const SwapHeader = memo(
+  ({ refetchData, toggleSidebar, isSidebarVisible, inputAssetChain }: Props) => {
+    return (
+      <ViewHeader
+        actionsComponent={
+          <Box center row className="space-x-2">
+            {refetchData && <CountDownIndicator duration={60} refresh={refetchData} />}
 
-  return (
-    <ViewHeader
-      actionsComponent={
-        <Box center row className="space-x-2">
-          {refetchData && <CountDownIndicator duration={60} refresh={refetchData} />}
-
-          <Button
-            className="w-10 px-1.5 group"
-            leftIcon={
-              <Icon
-                className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
-                color="secondary"
-                name="chart"
-              />
-            }
-            onClick={navigateToPoolInfo}
-            tooltip={t('common.poolAnalytics')}
-            tooltipPlacement="top"
-            variant="borderlessTint"
-          />
-          <GlobalSettingsPopover transactionMode />
-        </Box>
-      }
-      title={t('common.swap')}
-    />
-  );
-});
+            <GasButton
+              inputAssetChain={inputAssetChain}
+              isSidebarVisible={isSidebarVisible}
+              toggleSidebar={toggleSidebar}
+            />
+            <GlobalSettingsPopover transactionMode />
+          </Box>
+        }
+        title={t('common.swap')}
+      />
+    );
+  },
+);

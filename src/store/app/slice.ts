@@ -24,6 +24,7 @@ const initialState: State = {
   isSidebarCollapsed: getFromStorage('sidebarCollapsed') as boolean,
   isSettingOpen: false,
   isSidebarOpen: false,
+  analyticsVisible: getFromStorage('analyticsVisible') as boolean,
   language: getFromStorage('language') as SupportedLanguages,
   nodeWatchList: getFromStorage('nodeWatchList') as string[],
   showAnnouncement: !getFromStorage('readStatus') as boolean,
@@ -153,6 +154,10 @@ const appSlice = createSlice({
     setCollapsedSidebarGroups(state, action: PayloadAction<string[]>) {
       state.collapsedSidebarGroups = action.payload;
       saveInStorage({ key: 'collapsedSidebarGroups', value: action.payload });
+    },
+    toggleAnalytics(state, action: PayloadAction<boolean>) {
+      state.analyticsVisible = action.payload;
+      saveInStorage({ key: 'analyticsVisible', value: action.payload });
     },
   },
 });
