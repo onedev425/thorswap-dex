@@ -105,7 +105,12 @@ const walletSlice = createSlice({
                 /**
                  * Filter out assets with invalid symbols or scam tokens with symbols like ' ', '/', '.'
                  */
-                !(!asset.symbol || [' ', '/', '.'].some((c) => asset.symbol.includes(c))),
+                !(
+                  !asset.symbol ||
+                  [' ', '/', ...(asset.L1Chain !== Chain.Avalanche ? ['.'] : [])].some((c) =>
+                    asset.symbol.includes(c),
+                  )
+                ),
             ) || null;
 
           // @ts-expect-error
