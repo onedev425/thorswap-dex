@@ -14,8 +14,8 @@ export const calculateAverage = (array?: number[]) => {
   return average;
 };
 
-export const gasState = (array?: number[], average24h?: number) => {
-  const averageValue = average24h || calculateAverage(array);
+export const gasState = (array?: number[], estimatedAverage?: number) => {
+  const averageValue = estimatedAverage || calculateAverage(array);
   if (!averageValue || !array) return;
   const latestGasValue = array[array?.length - 1];
 

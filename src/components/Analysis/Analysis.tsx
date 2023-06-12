@@ -47,7 +47,10 @@ export const Analysis = ({ analyticsVisible, toggleAnalytics, inputAssetChain }:
   }, [historyData]);
 
   const chain = chainName(inputAssetChain);
-  const historyGasState = gasState(historyData?.values, historyData?.average24h);
+  const historyGasState = gasState(
+    historyData?.values,
+    historyData?.average7d || historyData?.average24h,
+  );
 
   return isLgActive ? (
     <Box

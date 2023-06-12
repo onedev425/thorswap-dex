@@ -439,11 +439,13 @@ const SwapView = () => {
         </PanelView>
       </Box>
 
-      <Analysis
-        analyticsVisible={analyticsVisible}
-        inputAssetChain={inputAsset.L1Chain}
-        toggleAnalytics={toggleAnalytics}
-      />
+      {!IS_PROD && (
+        <Analysis
+          analyticsVisible={analyticsVisible}
+          inputAssetChain={inputAsset.L1Chain}
+          toggleAnalytics={toggleAnalytics}
+        />
+      )}
     </Flex>
   );
 };

@@ -15,14 +15,27 @@ export const GasButton = ({ isSidebarVisible, inputAssetChain, toggleSidebar }: 
   const { data: gasHistoryData } = useGetGasHistoryQuery();
   const chain = inputAssetChain;
 
-  const gasValues = useMemo(() => {
+  const gasHistory = useMemo(() => {
     if (!gasHistoryData) return undefined;
-    return gasHistoryData
+    const values = gasHistoryData
       .find((item) => item && item.chainId === ChainToChainId[chain])
       ?.history.map((val) => val.value);
+    const historyData = gasHistoryData.find(
+      (item) => item && item.chainId === ChainToChainId[chain],
+    );
+    return { values, historyData };
   }, [gasHistoryData, chain]);
 
-  const state = gasState(gasValues)?.state;
+  const state = gasState(
+    gasHistory?.values,
+    gasHistory?.historyData?.average7d || gasHistory?.historyData?.average24h,
+  )?.state;
+
+  const color = gasState(
+    gasHistory?.values,
+    gasHistory?.historyData?.average7d || gasHistory?.historyData?.average24h,
+  )?.color;
+
   return (
     <>
       <Button
@@ -30,7 +43,7 @@ export const GasButton = ({ isSidebarVisible, inputAssetChain, toggleSidebar }: 
         leftIcon={
           <Icon
             className="group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary"
-            color={gasState(gasValues)?.color as ColorType}
+            color={color as ColorType}
             name={isSidebarVisible ? 'gasStationOff' : 'gasStation'}
           />
         }
