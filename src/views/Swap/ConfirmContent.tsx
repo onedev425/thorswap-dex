@@ -18,6 +18,7 @@ type Props = {
   totalFee: string;
   affiliateFee: string;
   feeAssets: string;
+  showSmallSwapWarning: boolean;
 };
 
 export const ConfirmContent = memo(
@@ -31,6 +32,7 @@ export const ConfirmContent = memo(
     totalFee,
     affiliateFee,
     feeAssets,
+    showSmallSwapWarning,
   }: Props) => {
     return (
       <Box col>
@@ -121,19 +123,30 @@ export const ConfirmContent = memo(
             </Box>
           </Box>
 
-          <Box className="px-4">
-            <Box className="w-full h-[1px] bg-light-border-primary dark:bg-dark-border-primary my-2" />
-          </Box>
-
-          <Box row className="w-full">
-            <Box center col className="flex-1 gap-y-2">
-              <Text fontWeight="medium" textStyle="caption" variant="secondary">
-                {t('common.minReceived')}
-              </Text>
-              <Text textStyle="caption">{minReceive}</Text>
-            </Box>
-          </Box>
+          {!showSmallSwapWarning && (
+            <>
+              <Box className="px-4">
+                <Box className="w-full h-[1px] bg-light-border-primary dark:bg-dark-border-primary my-2" />
+              </Box>
+              <Box row className="w-full">
+                <Box center col className="flex-1 gap-y-2">
+                  <Text fontWeight="medium" textStyle="caption" variant="secondary">
+                    {t('common.minReceived')}
+                  </Text>
+                  <Text textStyle="caption">{minReceive}</Text>
+                </Box>
+              </Box>
+            </>
+          )}
         </Box>
+        {showSmallSwapWarning && (
+          <Box row className="w-full my-2 px-4">
+            <Icon className="inline" color="orange" name="infoCircle" size={26} />{' '}
+            <Text className="ml-2" fontWeight="medium" textStyle="caption" variant="orange">
+              {t('views.swap.smallSwapDisclaimer')}
+            </Text>
+          </Box>
+        )}
       </Box>
     );
   },

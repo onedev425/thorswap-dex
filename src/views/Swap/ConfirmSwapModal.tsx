@@ -1,3 +1,4 @@
+import { Price } from '@thorswap-lib/swapkit-core';
 import { AssetInputType } from 'components/AssetInput/types';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { memo, useCallback, useMemo } from 'react';
@@ -17,6 +18,7 @@ type Props = {
   handleSwap: () => Promise<void>;
   totalFee: string;
   visible: boolean;
+  inputUSDPrice: Price;
 };
 
 export const ConfirmSwapModal = memo(
@@ -33,6 +35,7 @@ export const ConfirmSwapModal = memo(
     slippageInfo,
     totalFee,
     visible,
+    inputUSDPrice,
   }: Props) => {
     const { asset: inputAsset } = inputAssetProps;
 
@@ -62,6 +65,7 @@ export const ConfirmSwapModal = memo(
           minReceive={minReceive}
           outputAsset={outputAssetProps}
           recipient={recipient}
+          showSmallSwapWarning={parseFloat(inputUSDPrice.toAbbreviateRaw()) <= 500}
           slippageInfo={slippageInfo}
           totalFee={totalFee}
         />
