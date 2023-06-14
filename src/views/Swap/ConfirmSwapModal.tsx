@@ -1,6 +1,7 @@
 import { Price } from '@thorswap-lib/swapkit-core';
 import { AssetInputType } from 'components/AssetInput/types';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
+import { RouteWithApproveType } from 'components/SwapRouter/types';
 import { memo, useCallback, useMemo } from 'react';
 
 import { ConfirmContent } from './ConfirmContent';
@@ -19,6 +20,7 @@ type Props = {
   totalFee: string;
   visible: boolean;
   inputUSDPrice: Price;
+  selectedRoute: RouteWithApproveType;
 };
 
 export const ConfirmSwapModal = memo(
@@ -36,8 +38,16 @@ export const ConfirmSwapModal = memo(
     totalFee,
     visible,
     inputUSDPrice,
+    selectedRoute,
   }: Props) => {
     const { asset: inputAsset } = inputAssetProps;
+
+    const showSmallSwapWarning = useMemo(
+      () =>
+        parseFloat(inputUSDPrice.toAbbreviateRaw()) <= 500 &&
+        selectedRoute?.providers.includes('THORCHAIN'),
+      [inputUSDPrice, selectedRoute],
+    );
 
     const handleConfirm = useCallback(async () => {
       setVisible(false);
@@ -65,7 +75,7 @@ export const ConfirmSwapModal = memo(
           minReceive={minReceive}
           outputAsset={outputAssetProps}
           recipient={recipient}
-          showSmallSwapWarning={parseFloat(inputUSDPrice.toAbbreviateRaw()) <= 500}
+          showSmallSwapWarning={showSmallSwapWarning}
           slippageInfo={slippageInfo}
           totalFee={totalFee}
         />

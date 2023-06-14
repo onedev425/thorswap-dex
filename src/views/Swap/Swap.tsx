@@ -416,6 +416,7 @@ const SwapView = () => {
             minReceive={minReceiveInfo}
             outputAssetProps={outputAssetProps}
             recipient={recipient}
+            selectedRoute={selectedRoute}
             setVisible={setVisibleConfirmModal}
             slippageInfo={slippage.toFixed(3)}
             totalFee={formatPrice(totalFee)}

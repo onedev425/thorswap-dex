@@ -142,7 +142,7 @@ export const ConfirmContent = memo(
         {showSmallSwapWarning && (
           <Box row className="w-full my-2 px-4">
             <Icon className="inline" color="orange" name="infoCircle" size={26} />{' '}
-            <Text className="ml-2" fontWeight="medium" textStyle="caption" variant="orange">
+            <Text className="ml-2" fontWeight="medium" textStyle="caption">
               {t('views.swap.smallSwapDisclaimer')}
             </Text>
           </Box>

@@ -837,7 +837,7 @@
       "low": "low",
       "gasTooltip": "%{chain} gas rate: %{state}\n Click to view details",
       "hideGasHistory": "Hide Gas History",
-      "smallSwapDisclaimer": "Swaps under $500 USD do not include price protection (on Thorchain Leg) and will be executed at market rate"
+      "smallSwapDisclaimer": "Swaps under $500 USD do not have price protection on the Thorchain part of the swap and will be executed at market rate."
     },
     "thorname": {
       "available": "Available",
