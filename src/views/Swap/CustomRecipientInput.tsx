@@ -9,6 +9,7 @@ import { useAddressForTNS } from 'hooks/useAddressForTNS';
 import { ChangeEvent, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
+import { useGetThornamesByAddressQuery } from 'store/thorswap/api';
 
 type Props = {
   recipient: string;
@@ -30,6 +31,18 @@ export const CustomRecipientInput = memo(
         TNS?.entries ? TNS.entries.find(({ chain }) => chain === outputAssetL1Chain)?.address : '',
       [TNS, outputAssetL1Chain],
     );
+
+    const { data: thornames, isLoading: thornameForAddressLoading } = useGetThornamesByAddressQuery(
+      { address: recipient },
+    );
+
+    const thornameForAddress = useMemo(() => {
+      const recipientArray = thornames?.[recipient];
+      if (recipientArray && Array.isArray(recipientArray) && recipientArray.length > 0) {
+        return recipientArray[0];
+      }
+      return null;
+    }, [thornames, recipient]);
 
     const toggleDisabled = useCallback(() => setDisabled((d) => !d), []);
 
@@ -69,7 +82,7 @@ export const CustomRecipientInput = memo(
         stretch
         className="transition-all"
         disabled={disabled}
-        loading={loading}
+        loading={loading || thornameForAddressLoading}
         onChange={handleChangeRecipient}
         placeholder={t('common.thornameOrRecipient')}
         title={
@@ -84,7 +97,7 @@ export const CustomRecipientInput = memo(
             </Box>
           </Box>
         }
-        value={recipient}
+        value={thornameForAddress ? thornameForAddress : recipient}
       />
     );
   },

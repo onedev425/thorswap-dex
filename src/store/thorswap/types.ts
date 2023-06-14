@@ -260,3 +260,11 @@ export interface getGasHistoryResponse {
   unitName: string;
   history: { value: number; timestamp: number }[];
 }
+
+export interface IThornameForAddressResponse {
+  [key: string]: string[] | null;
+}
+
+export interface IThornameForAddressParams {
+  address: string | string[];
+}

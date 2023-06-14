@@ -16,6 +16,8 @@ import {
   GetTxnStatusDetailsUpdateParams,
   GetTxnStatusParams,
   GetTxnStatusResponse,
+  IThornameForAddressParams,
+  IThornameForAddressResponse,
 } from './types';
 
 const baseUrl = IS_DEV_API ? 'https://dev-api.thorswap.net' : 'https://api.thorswap.net';
@@ -122,6 +124,17 @@ export const thorswapApi = createApi({
       query: () => `${baseUrl}/resource-worker/gasHistory/getAll`,
       keepUnusedDataFor: 60,
     }),
+    getThornamesByAddress: build.query<IThornameForAddressResponse, IThornameForAddressParams>({
+      query: ({ address }) => {
+        if (typeof address === 'string') {
+          return `${baseUrl}/aggregator/thorname/rlookup?addresses[]=${address}`;
+        }
+        const queryParams = new URLSearchParams();
+        address.forEach((addr) => queryParams.append('addresses', addr));
+        return `${baseUrl}/aggregator/thorname/rlookup?addresses=${queryParams.toString()}`;
+      },
+      keepUnusedDataFor: 60,
+    }),
   }),
 });
 
@@ -137,4 +150,5 @@ export const {
   useGetAnnouncementsQuery,
   useGetGasPriceRatesQuery,
   useGetGasHistoryQuery,
+  useGetThornamesByAddressQuery,
 } = thorswapApi;
