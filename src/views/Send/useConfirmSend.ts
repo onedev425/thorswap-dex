@@ -14,6 +14,7 @@ type Params = {
   memo: string;
   setIsOpenConfirmModal: (isOpen: boolean) => void;
   from?: string;
+  customTxEnabled?: boolean;
 };
 
 export const useConfirmSend = ({
@@ -23,6 +24,7 @@ export const useConfirmSend = ({
   memo,
   setIsOpenConfirmModal,
   from,
+  customTxEnabled = false,
 }: Params) => {
   const appDispatch = useAppDispatch();
 
@@ -38,20 +40,28 @@ export const useConfirmSend = ({
           id,
           from: recipient,
           inChain: sendAsset.L1Chain,
-          type: TransactionType.TC_SEND,
+          type: customTxEnabled ? TransactionType.TC_DEPOSIT : TransactionType.TC_SEND,
           label,
         }),
       );
-      const { transfer } = await (await import('services/swapKit')).getSwapKitClient();
+      const { transfer, deposit } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
-        const txid = await transfer({
-          // @ts-expect-error
-          assetAmount: { asset: sendAsset, amount: sendAmount },
-          recipient,
-          memo,
-          from,
-        });
+        const txid = customTxEnabled
+          ? await deposit({
+              // @ts-expect-error
+              assetAmount: { asset: sendAsset, amount: sendAmount },
+              recipient,
+              memo,
+              from,
+            })
+          : await transfer({
+              // @ts-expect-error
+              assetAmount: { asset: sendAsset, amount: sendAmount },
+              recipient,
+              memo,
+              from,
+            });
 
         if (txid) {
           appDispatch(updateTransaction({ id, txid }));
@@ -62,7 +72,16 @@ export const useConfirmSend = ({
         showErrorToast(t('notification.sendTxFailed'), error?.toString());
       }
     }
-  }, [setIsOpenConfirmModal, sendAsset, sendAmount, appDispatch, recipient, memo, from]);
+  }, [
+    setIsOpenConfirmModal,
+    sendAsset,
+    sendAmount,
+    appDispatch,
+    recipient,
+    memo,
+    from,
+    customTxEnabled,
+  ]);
 
   return handleConfirmSend;
 };

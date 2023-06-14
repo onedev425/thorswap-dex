@@ -318,6 +318,7 @@
     "copyTxUrl": "Copy transaction url",
     "couldNotLoadTx": "Transaction is no longer tracked by our services.",
     "deleteFromHistory": "Delete from history",
+    "deposit": "Deposit",
     "details": "Details",
     "duration": "Duration",
     "estimatedTime": "Estimated Time left %{timeLeft}",

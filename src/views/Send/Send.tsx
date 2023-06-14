@@ -78,6 +78,7 @@ const Send = () => {
     recipientAddress: txRecipient,
     memo: txMemo,
     from: wallet ? wallet[sendAsset.chain]?.address : undefined,
+    customTxEnabled,
   });
 
   const maxSpendableBalance: Amount = useMemo(

@@ -37,6 +37,7 @@ export enum TransactionType {
   // TC txns
   TC_STATUS = 'TC:STATUS', // only track status
   TC_TRANSFER = 'TC:TRANSFER', // only track status
+  TC_DEPOSIT = 'TC:DEPOSIT',
   TC_SEND = 'TC:SEND',
   TC_SWITCH = 'TC:SWITCH',
   TC_LP_ADD = 'TC:ADDLIQUIDITY',

@@ -47,6 +47,8 @@ const getEthPart = async ({ asset, amount }: { asset: string; amount: string }) 
 
 export const transactionTitle = (type: TransactionType): string => {
   switch (type) {
+    case TransactionType.TC_DEPOSIT:
+      return t('txManager.deposit');
     case TransactionType.TC_SEND:
       return t('txManager.send');
     case TransactionType.TC_SWITCH:
