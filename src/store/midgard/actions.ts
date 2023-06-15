@@ -112,6 +112,15 @@ export const reloadPoolMemberDetailByChain = createAsyncThunk(
   },
 );
 
+export const reloadPoolMemberDetailByAssetChain = createAsyncThunk(
+  'midgard/reloadPoolMemberDetailByAssetChain',
+  async ({ assetChainAddress }: { chain: Chain; assetChainAddress: string }) => {
+    const assetMemberData = await midgardSdk.getMemberDetail(assetChainAddress);
+
+    return { assetMemberData };
+  },
+);
+
 export const getLiquidityProviderData = createAsyncThunk(
   'thornode/getLiquidityProvider',
   ({ address, asset }: { asset: string; address: string }) =>

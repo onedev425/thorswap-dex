@@ -282,6 +282,44 @@ const midgardSlice = createSlice({
           [chain]: false,
         };
       })
+      .addCase(midgardActions.reloadPoolMemberDetailByAssetChain.pending, (state, { meta }) => {
+        const { chain } = meta.arg;
+
+        state.chainMemberDetailsLoading = {
+          ...state.chainMemberDetailsLoading,
+          [chain]: true,
+        };
+      })
+      .addCase(
+        midgardActions.reloadPoolMemberDetailByAssetChain.fulfilled,
+        (state, { meta, payload: { assetMemberData } }) => {
+          const { chain } = meta.arg;
+
+          const { pools: assetMemberDetails } = assetMemberData;
+
+          // add sym, asset asymm
+          const fetchedChainMemberDetails2 = getChainMemberDetails({
+            chain,
+            memPools: assetMemberDetails,
+            chainMemberDetails: state.chainMemberDetails,
+          });
+
+          state.chainMemberDetails = fetchedChainMemberDetails2;
+
+          state.chainMemberDetailsLoading = {
+            ...state.chainMemberDetailsLoading,
+            [chain]: false,
+          };
+        },
+      )
+      .addCase(midgardActions.reloadPoolMemberDetailByAssetChain.rejected, (state, { meta }) => {
+        const { chain } = meta.arg;
+
+        state.chainMemberDetailsLoading = {
+          ...state.chainMemberDetailsLoading,
+          [chain]: false,
+        };
+      })
       // get pending LP
       .addCase(midgardActions.getLiquidityProviderData.pending, (state) => {
         state.pendingLPLoading = true;

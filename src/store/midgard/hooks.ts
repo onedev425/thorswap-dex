@@ -60,10 +60,16 @@ export const useMidgard = () => {
             assetChainAddress,
           }),
         );
-
-        // load pending deposit
-        getPendingDepositByChain(chain);
+      } else if (assetChainAddress) {
+        dispatch(
+          actions.reloadPoolMemberDetailByAssetChain({
+            chain,
+            assetChainAddress,
+          }),
+        );
       }
+      // load pending deposit
+      getPendingDepositByChain(chain);
     },
     [dispatch, wallet, getPendingDepositByChain],
   );
