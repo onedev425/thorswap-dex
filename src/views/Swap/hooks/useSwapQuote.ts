@@ -84,18 +84,17 @@ export const useSwapQuote = ({
           .filter(Boolean)
           .concat()
           .sort((a, b) => {
-            const isOptimal = Number(b.optimal) - Number(a.optimal) > 0;
-            const aValue = Number(a.expectedOutputMaxSlippageUSD);
-            const bValue = Number(b.expectedOutputMaxSlippageUSD);
+            const approveStatusDiff = Number(b.isApproved) - Number(a.isApproved);
 
-            const aSlippValue = a.isApproved ? aValue + getOutOfPocketFee(a.fees) : aValue;
-            const bSlippValue = b.isApproved ? bValue + getOutOfPocketFee(b.fees) : bValue;
-            const slippDiff = bSlippValue - aSlippValue;
+            if (!approveStatusDiff) {
+              const aAfterFee = Number(a.expectedOutputUSD) - getOutOfPocketFee(a.fees);
+              const bAfterFee = Number(b.expectedOutputUSD) - getOutOfPocketFee(b.fees);
+              const valueDiff = bAfterFee - aAfterFee;
 
-            const feeDiff =
-              slippDiff === 0 ? getOutOfPocketFee(b.fees) - getOutOfPocketFee(a.fees) : 0;
+              return valueDiff || (b.optimal ? 1 : -1);
+            }
 
-            return slippDiff || feeDiff || (isOptimal ? 1 : -1);
+            return approveStatusDiff;
           }) as RouteWithApproveType[];
 
         setRoutes(sortedRoutes);
