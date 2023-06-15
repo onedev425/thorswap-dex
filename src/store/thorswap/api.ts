@@ -125,15 +125,9 @@ export const thorswapApi = createApi({
       keepUnusedDataFor: 60,
     }),
     getThornamesByAddress: build.query<IThornameForAddressResponse, IThornameForAddressParams>({
-      query: ({ address }) => {
-        if (typeof address === 'string') {
-          return `${baseUrl}/aggregator/thorname/rlookup?addresses[]=${address}`;
-        }
-        const queryParams = new URLSearchParams();
-        address.forEach((addr) => queryParams.append('addresses', addr));
-        return `${baseUrl}/aggregator/thorname/rlookup?addresses=${queryParams.toString()}`;
+      query: ({ address, chain }) => {
+        return `${baseUrl}/aggregator/thorname/rlookup?address=${address}&chain=${chain}`;
       },
-      keepUnusedDataFor: 60,
     }),
   }),
 });

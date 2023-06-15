@@ -32,17 +32,23 @@ export const CustomRecipientInput = memo(
       [TNS, outputAssetL1Chain],
     );
 
-    const { data: thornames, isLoading: thornameForAddressLoading } = useGetThornamesByAddressQuery(
-      { address: recipient },
-    );
+    const {
+      data: thornamesData,
+      isLoading: thornameForAddressLoading,
+      error,
+    } = useGetThornamesByAddressQuery({
+      address: recipient.toLowerCase(),
+      chain: outputAssetL1Chain,
+    });
 
     const thornameForAddress = useMemo(() => {
-      const recipientArray = thornames?.[recipient];
-      if (recipientArray && Array.isArray(recipientArray) && recipientArray.length > 0) {
-        return recipientArray[0];
+      if (!thornamesData || error) return null;
+      const { result } = thornamesData;
+      if (result?.length > 0) {
+        return result[0];
       }
       return null;
-    }, [thornames, recipient]);
+    }, [thornamesData, error]);
 
     const toggleDisabled = useCallback(() => setDisabled((d) => !d), []);
 

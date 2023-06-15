@@ -262,9 +262,10 @@ export interface getGasHistoryResponse {
 }
 
 export interface IThornameForAddressResponse {
-  [key: string]: string[] | null;
+  result: string[];
 }
 
 export interface IThornameForAddressParams {
-  address: string | string[];
+  address: string;
+  chain: string;
 }
