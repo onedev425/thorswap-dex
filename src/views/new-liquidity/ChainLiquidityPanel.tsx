@@ -14,9 +14,10 @@ import { LiquidityCard } from './Card';
 type Props = {
   chain: Chain;
   data: FullMemberPool[];
+  hardCapReached?: boolean;
 };
 
-export const ChainLiquidityPanel = ({ chain, data }: Props) => {
+export const ChainLiquidityPanel = ({ chain, data, hardCapReached }: Props) => {
   const getShareType = useCallback(({ assetAddress, runeAddress }: FullMemberPool) => {
     if (assetAddress && runeAddress) return PoolShareType.SYM;
     if (assetAddress) return PoolShareType.ASSET_ASYM;
@@ -60,7 +61,13 @@ export const ChainLiquidityPanel = ({ chain, data }: Props) => {
       />
 
       {data.map((member) => (
-        <LiquidityCard {...member} withFooter key={member.pool} shareType={getShareType(member)} />
+        <LiquidityCard
+          {...member}
+          withFooter
+          hardCapReached={hardCapReached}
+          key={member.pool}
+          shareType={getShareType(member)}
+        />
       ))}
     </Box>
   );

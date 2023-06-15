@@ -17,6 +17,7 @@ import { TabsSelect } from 'components/TabsSelect';
 import { SAVERS_MEDIUM } from 'config/constants';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
+import { useCheckHardCap } from 'hooks/useCheckHardCap';
 import { useMimir } from 'hooks/useMimir';
 import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
 import useWindowSize from 'hooks/useWindowSize';
@@ -43,6 +44,7 @@ const Earn = () => {
   const appDispatch = useAppDispatch();
   const aprAssets = useAssetsWithApr(SORTED_EARN_ASSETS);
   const balanceAssets = useAssetsWithBalance(SORTED_EARN_ASSETS);
+  const hardCapReached = useCheckHardCap();
 
   const listAssets = useMemo(
     () => balanceAssets.map((asset, i) => ({ ...asset, ...aprAssets[i] })),
@@ -314,6 +316,7 @@ const Earn = () => {
                         address={address}
                         disabled={buttonDisabled}
                         handleSubmit={() => setIsConfirmOpen(true)}
+                        hardCapReached={tab === EarnTab.Deposit && hardCapReached}
                         label={tabLabel}
                         setIsConnectModalOpen={setIsConnectModalOpen}
                       />

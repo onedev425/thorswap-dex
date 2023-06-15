@@ -1,5 +1,4 @@
 import { Box, Button as ChakraButton, ButtonProps, ResponsiveValue, Text } from '@chakra-ui/react';
-import classNames from 'classnames';
 import { Icon, TextTransform, Tooltip } from 'components/Atomic';
 import { ButtonSizes } from 'components/Atomic/Button/types';
 import { TooltipPlacement } from 'components/Atomic/Tooltip/types';
@@ -81,9 +80,10 @@ export const Button = ({
 
   return (
     <Tooltip
-      className={classNames(tooltipClasses, { 'w-full': stretch })}
+      className={tooltipClasses}
       content={tooltip}
       place={tooltipPlacement}
+      stretch={stretch}
     >
       {/* @ts-ignore */}
       <ChakraButton

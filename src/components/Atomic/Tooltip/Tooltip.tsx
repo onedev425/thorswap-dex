@@ -10,9 +10,8 @@ type Props = {
   content?: string;
   className?: string;
   disabled?: boolean;
-  stretchVertically?: boolean;
-  stretchHorizontally?: boolean;
   isOpen?: boolean;
+  stretch?: boolean;
 } & ({ iconName: IconName; children?: undefined } | PropsWithChildren<{ iconName?: undefined }>);
 
 const TOOLTIP_ICON = 14;
@@ -22,11 +21,10 @@ export const Tooltip = ({
   className,
   place = 'top',
   iconName,
-  stretchVertically = false,
   content,
   disabled = false,
-  stretchHorizontally = false,
   isOpen,
+  stretch,
 }: Props) => {
   const { isMdActive } = useWindowSize();
 
@@ -68,9 +66,7 @@ export const Tooltip = ({
       p={0}
       placement={place}
     >
-      <div
-        className={classNames({ 'w-full': stretchHorizontally }, { 'h-full': stretchVertically })}
-      >
+      <div className={classNames({ 'w-full': stretch })}>
         {children || <Icon color="secondary" name={iconName as IconName} size={TOOLTIP_ICON} />}
       </div>
     </CustomizeTooltip>

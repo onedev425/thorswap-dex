@@ -31,6 +31,7 @@ type LiquidityCardProps = FullMemberPool & {
   poolUnits?: string;
   poolAssetDepth?: string;
   poolRuneDepth?: string;
+  hardCapReached?: boolean;
 };
 
 export const LiquidityCard = ({
@@ -41,6 +42,7 @@ export const LiquidityCard = ({
   poolUnits = '0',
   sharedUnits,
   runePending,
+  hardCapReached,
   assetPending,
   assetWithdrawn,
   runeWithdrawn,
@@ -176,23 +178,32 @@ export const LiquidityCard = ({
 
         {withFooter && (
           <Box justifyCenter className="space-x-6 md:pr-0">
-            <Button
-              stretch
-              className="px-8 md:px-12"
-              onClick={() => navigate(getAddLiquidityRoute(poolAsset))}
-              variant="primary"
-            >
-              {pendingTicker ? t('views.liquidity.completeButton') : t('views.liquidity.addButton')}
-            </Button>
-
-            <Button
-              stretch
-              className="px-8 md:px-12"
-              onClick={() => navigate(getWithdrawRoute(poolAsset))}
-              variant="secondary"
-            >
-              {t('common.withdraw')}
-            </Button>
+            <Box className="w-full">
+              <Button
+                stretch
+                className="px-8 md:px-12"
+                disabled={hardCapReached}
+                onClick={() => navigate(getAddLiquidityRoute(poolAsset))}
+                rightIcon={hardCapReached ? <Icon name="infoCircle" size={20} /> : undefined}
+                tooltip={hardCapReached ? t('views.liquidity.hardCapReachedTooltip') : undefined}
+                tooltipClasses="text-center mx-[-2px]"
+                variant={hardCapReached ? 'fancyError' : 'primary'}
+              >
+                {pendingTicker
+                  ? t('views.liquidity.completeButton')
+                  : t('views.liquidity.addButton')}
+              </Button>
+            </Box>
+            <Box className="w-full">
+              <Button
+                stretch
+                className="px-8 md:px-12"
+                onClick={() => navigate(getWithdrawRoute(poolAsset))}
+                variant="secondary"
+              >
+                {t('common.withdraw')}
+              </Button>
+            </Box>
           </Box>
         )}
       </HighlightCard>

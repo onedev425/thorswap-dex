@@ -1,7 +1,7 @@
-import { Text } from '@chakra-ui/react';
+import { Link, Text } from '@chakra-ui/react';
 import { Amount, AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Button, Icon, Link, Tooltip } from 'components/Atomic';
+import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import { getAmountColumnSorter, sortPoolColumn } from 'components/Atomic/Table/utils';
 import { INTRODUCTION_TO_LUVI_URL } from 'config/constants';
 import { formatPrice } from 'helpers/formatPrice';
@@ -83,7 +83,12 @@ export const usePoolColumns = () => {
         sortType: getAmountColumnSorter('apr'),
         toolTip: (
           <Tooltip content={t('views.home.aprExplanation')} place="bottom">
-            <Link onClick={(e) => e.stopPropagation()} to={INTRODUCTION_TO_LUVI_URL}>
+            <Link
+              href={INTRODUCTION_TO_LUVI_URL}
+              onClick={(e) => e.stopPropagation()}
+              target="_blank"
+              zIndex={1}
+            >
               <Icon
                 className="p-1 absolute top-1.5 text-xs rounded-lg transform mx-1 hover:bg-btn-primary fill-btn-primary hover:fill-white"
                 name="question"

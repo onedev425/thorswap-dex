@@ -1,11 +1,12 @@
 import { FullMemberPool } from '@thorswap-lib/midgard-sdk';
 import { Chain } from '@thorswap-lib/types';
-import { Box, Button, Modal } from 'components/Atomic';
+import { Box, Button, Icon, Modal } from 'components/Atomic';
 import { InfoTip } from 'components/InfoTip';
 import { Input } from 'components/Input';
 import { PanelView } from 'components/PanelView';
 import { ReloadButton } from 'components/ReloadButton';
 import { ViewHeader } from 'components/ViewHeader';
+import { useCheckHardCap } from 'hooks/useCheckHardCap';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { t } from 'services/i18n';
@@ -18,6 +19,7 @@ import { ChainLiquidityPanel } from 'views/new-liquidity/ChainLiquidityPanel';
 export const Liquidity = () => {
   const navigate = useNavigate();
   const { wallet, isWalletLoading, setIsConnectModalOpen } = useWallet();
+  const hardCapReached = useCheckHardCap();
   const [tipVisible, setTipVisible] = useState(true);
   const [isTestModalVisible, setIsTestModalVisible] = useState(false);
   const [formTestAddresses, setFormValue] = useState<{ [key in Chain]?: string }>({});
@@ -103,7 +105,16 @@ export const Liquidity = () => {
         <Box className="w-full gap-x-8" justify="between">
           {walletAddresses.length > 0 ? (
             <>
-              <Button stretch onClick={() => navigate(getAddLiquidityRoute())} size="lg">
+              <Button
+                stretch
+                disabled={hardCapReached}
+                onClick={() => navigate(getAddLiquidityRoute())}
+                rightIcon={hardCapReached ? <Icon name="infoCircle" size={20} /> : undefined}
+                size="lg"
+                tooltip={hardCapReached ? t('views.liquidity.hardCapReachedTooltip') : undefined}
+                tooltipClasses="text-center mx-[-2px]"
+                variant={hardCapReached ? 'fancyError' : 'primary'}
+              >
                 {t('common.deposit')}
               </Button>
 
@@ -119,7 +130,12 @@ export const Liquidity = () => {
         </Box>
 
         {Object.entries(LPPerChain).map(([chain, data]) => (
-          <ChainLiquidityPanel chain={chain as Chain} data={data} key={chain} />
+          <ChainLiquidityPanel
+            chain={chain as Chain}
+            data={data}
+            hardCapReached={hardCapReached}
+            key={chain}
+          />
         ))}
       </Box>
 
