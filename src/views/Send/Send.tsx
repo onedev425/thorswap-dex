@@ -115,9 +115,9 @@ const Send = () => {
         const assetEntity = AssetEntity.decodeFromURL(assetParam);
 
         if (assetEntity) {
-          const assetDecimals = (await getEVMDecimal(assetEntity)) || 8;
-          assetEntity.setDecimal(assetDecimals || undefined);
-          setSendAmount(Amount.fromAssetAmount(0, assetDecimals));
+          const assetDecimals = await getEVMDecimal(assetEntity);
+          assetEntity.setDecimal(assetDecimals);
+          setSendAmount(Amount.fromAssetAmount(0, assetEntity.decimal));
           setSendAsset(assetEntity);
         } else {
           setSendAsset(RUNEAsset);
