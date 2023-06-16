@@ -94,7 +94,7 @@ export const LiquidityCard = ({
     return {
       runeShare: runeShare.toSignificant(6),
       assetShare: assetShare.toSignificant(6),
-      poolShare: poolShare > 0.001 ? `${parseToPercent(poolShare, 4)}` : '~0%',
+      poolShare: poolShare > 0.0001 ? `${parseToPercent(poolShare, 5)}` : '~0%',
     };
   }, [poolAssetDepth, poolRuneDepth, poolUnits, shareType, sharedUnits]);
 
