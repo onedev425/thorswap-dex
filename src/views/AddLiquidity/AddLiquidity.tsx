@@ -1,4 +1,4 @@
-import { Box, Button, Link } from 'components/Atomic';
+import { Box, Button, Icon, Link } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { InfoTable } from 'components/InfoTable';
 import { InfoTip } from 'components/InfoTip';
@@ -9,6 +9,7 @@ import { PanelView } from 'components/PanelView';
 import { ViewHeader } from 'components/ViewHeader';
 import { ADD_LIQUIDITY_GUIDE_URL } from 'config/constants';
 import { RUNEAsset } from 'helpers/assets';
+import { useCheckHardCap } from 'hooks/useCheckHardCap';
 import { useLiquidityType } from 'hooks/useLiquidityType';
 import { t } from 'services/i18n';
 import { LiquidityTypeOption } from 'store/midgard/types';
@@ -31,6 +32,7 @@ export const AddLiquidity = () => {
   const { wallet } = useWallet();
   const depositAssetsBalance = useDepositAssetsBalance({ poolAsset });
   const { tokens } = useTokenList();
+  const hardCapReached = useCheckHardCap();
 
   const assetSelectList = useAssetsWithBalanceFromTokens(tokens);
   const filteredAssets = assetSelectList.filter((x) =>
@@ -159,9 +161,13 @@ export const AddLiquidity = () => {
         <Box className="w-full pt-5">
           <Button
             stretch
+            disabled={hardCapReached}
+            error={hardCapReached}
             loading={isAssetApproveLoading}
             onClick={handleApprove}
+            rightIcon={hardCapReached ? <Icon name="infoCircle" size={20} /> : undefined}
             size="lg"
+            tooltip={hardCapReached ? t('views.liquidity.hardCapReachedTooltip') : undefined}
             variant="fancy"
           >
             {t('common.approve')}
@@ -173,10 +179,12 @@ export const AddLiquidity = () => {
         <Box className="w-full pt-5">
           <Button
             stretch
-            disabled={!isValidDeposit.valid}
-            error={!isValidDeposit.valid}
+            disabled={!isValidDeposit.valid || hardCapReached}
+            error={!isValidDeposit.valid || hardCapReached}
             onClick={handleAddLiquidity}
+            rightIcon={hardCapReached ? <Icon name="infoCircle" size={20} /> : undefined}
             size="lg"
+            tooltip={hardCapReached ? t('views.liquidity.hardCapReachedTooltip') : undefined}
             variant="fancy"
           >
             {btnLabel}

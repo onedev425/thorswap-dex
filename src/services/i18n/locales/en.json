@@ -464,7 +464,7 @@
       "withdrawLiquidity": "Withdraw Liquidity",
       "withdrawNotAvailable": "Withdraw not available",
       "youWillReceive": "You will receive",
-      "hardCapReachedTooltip": "Deposits are temporairly disabled because capacity has been reached."
+      "hardCapReachedTooltip": "Deposits are temporarily disabled because capacity has been reached."
     },
     "multisig": {
       "accountNotAcivated": "THORSafe not yet activated",

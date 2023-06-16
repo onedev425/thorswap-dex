@@ -105,22 +105,25 @@ export const Liquidity = () => {
         <Box className="w-full gap-x-8" justify="between">
           {walletAddresses.length > 0 ? (
             <>
-              <Button
-                stretch
-                disabled={hardCapReached}
-                onClick={() => navigate(getAddLiquidityRoute())}
-                rightIcon={hardCapReached ? <Icon name="infoCircle" size={20} /> : undefined}
-                size="lg"
-                tooltip={hardCapReached ? t('views.liquidity.hardCapReachedTooltip') : undefined}
-                tooltipClasses="text-center mx-[-2px]"
-                variant={hardCapReached ? 'fancyError' : 'primary'}
-              >
-                {t('common.deposit')}
-              </Button>
-
-              <Button stretch onClick={() => navigate(ROUTES.CreateLiquidity)} size="lg">
-                {t('common.create')}
-              </Button>
+              <Box className="w-full">
+                <Button
+                  stretch
+                  disabled={hardCapReached}
+                  onClick={() => navigate(getAddLiquidityRoute())}
+                  rightIcon={hardCapReached ? <Icon name="infoCircle" size={20} /> : undefined}
+                  size="lg"
+                  tooltip={hardCapReached ? t('views.liquidity.hardCapReachedTooltip') : undefined}
+                  tooltipClasses="text-center mx-[-2px]"
+                  variant={hardCapReached ? 'fancyError' : 'primary'}
+                >
+                  {t('common.deposit')}
+                </Button>
+              </Box>
+              <Box className="w-full">
+                <Button stretch onClick={() => navigate(ROUTES.CreateLiquidity)} size="lg">
+                  {t('common.create')}
+                </Button>
+              </Box>
             </>
           ) : (
             <Button stretch onClick={() => setIsConnectModalOpen(true)} size="lg" variant="fancy">
