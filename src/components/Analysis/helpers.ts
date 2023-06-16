@@ -2,16 +2,8 @@ import { t } from 'services/i18n';
 
 export const calculateAverage = (array?: number[]) => {
   if (!array) return;
-  let sum = 0;
-  let count = 0;
-
-  for (const num of array) {
-    sum += num;
-    count++;
-  }
-
-  const average = sum / count;
-  return average;
+  const mean = array.reduce((sum, value) => sum + value, 0) / array.length;
+  return mean;
 };
 
 export const gasState = (array?: number[], estimatedAverage?: number) => {

@@ -19,7 +19,8 @@ export const GasButton = ({ isSidebarVisible, inputAssetChain, toggleSidebar }: 
     if (!gasHistoryData) return undefined;
     const values = gasHistoryData
       .find((item) => item && item.chainId === ChainToChainId[chain])
-      ?.history.map((val) => val.value);
+      ?.history.map((val) => val.value)
+      .filter(Boolean);
     const historyData = gasHistoryData.find(
       (item) => item && item.chainId === ChainToChainId[chain],
     );

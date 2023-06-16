@@ -31,9 +31,18 @@ export const Analysis = ({ analyticsVisible, toggleAnalytics, inputAssetChain }:
     const timestamps =
       gasData?.history.map((val) => dayjs(val.timestamp).format('DD MMM YYYY, HH:mm')) ?? [];
 
+    const nullIndexes: number[] = values.reduce((indexes: number[], el, index) => {
+      if (el === null) {
+        indexes.push(index);
+      }
+      return indexes;
+    }, []);
+
+    const filteredLabels = timestamps.filter((_, index) => !nullIndexes.includes(index));
+
     return {
-      values: values,
-      labels: timestamps,
+      values: values.filter(Boolean),
+      labels: filteredLabels,
       average24h: gasData.average24h,
       average7d: gasData.average7d,
     };
@@ -52,6 +61,13 @@ export const Analysis = ({ analyticsVisible, toggleAnalytics, inputAssetChain }:
     historyData?.average7d || historyData?.average24h,
   );
 
+  const resetChartValue = () => {
+    if (!historyData) return;
+    setTimeout(() => {
+      setHoveredIndex(historyData?.values.length - 1);
+    }, 100);
+  };
+
   return isLgActive ? (
     <Box
       position={{ base: 'static', xl: 'absolute' }}
@@ -69,6 +85,7 @@ export const Analysis = ({ analyticsVisible, toggleAnalytics, inputAssetChain }:
           historyData={historyData}
           hoveredIndex={hoveredIndex}
           isLoading={isLoading}
+          resetChartValue={resetChartValue}
           setHoveredIndex={setHoveredIndex}
           unitName={gasData?.unitName}
         />
@@ -82,6 +99,7 @@ export const Analysis = ({ analyticsVisible, toggleAnalytics, inputAssetChain }:
       hoveredIndex={hoveredIndex}
       isLoading={isLoading}
       isOpened={analyticsVisible}
+      resetChartValue={resetChartValue}
       setHoveredIndex={setHoveredIndex}
       setIsOpened={toggleAnalytics}
       title="Analysis"

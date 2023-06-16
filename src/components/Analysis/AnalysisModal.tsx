@@ -18,6 +18,7 @@ type Props = {
   setHoveredIndex: (index: number) => void;
   isLoading: boolean;
   gasState?: { color: string; state: string };
+  resetChartValue?: () => void;
 };
 
 export const AnalysisModal = ({
@@ -31,6 +32,7 @@ export const AnalysisModal = ({
   setHoveredIndex,
   isLoading,
   gasState,
+  resetChartValue,
 }: Props) => {
   const onClose = () => {
     setIsOpened(false);
@@ -54,7 +56,7 @@ export const AnalysisModal = ({
               } ${unitName})`}</Text>
             </Flex>
           </Box>
-          <Flex bg="borderPrimary" borderRadius="3xl" direction="column" pt={2} px={1} w="full">
+          <Flex bg="borderPrimary" borderRadius="md" direction="column" pt={2} px={1} w="full">
             <Flex direction="column" ml={3}>
               <Flex>
                 <Text color="brand.navy">{hoveredIndex && historyData.values[hoveredIndex]}</Text>
@@ -63,7 +65,7 @@ export const AnalysisModal = ({
               </Flex>
               <Text>{hoveredIndex && historyData.labels[hoveredIndex]}</Text>
             </Flex>
-            <Box ml={-3.5} width="calc(100% + 28px)">
+            <Box ml="-13px" onMouseLeave={resetChartValue} width="calc(100% + 26px)">
               <ChartPreview
                 hideAxisLines
                 hideLabel

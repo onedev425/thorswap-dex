@@ -17,6 +17,7 @@ type SidebarProps = {
   setHoveredIndex: (index: number) => void;
   isLoading: boolean;
   gasState?: { color: string; state: string };
+  resetChartValue?: () => void;
 };
 
 export const AnalysisSidebar = ({
@@ -28,6 +29,7 @@ export const AnalysisSidebar = ({
   setHoveredIndex,
   isLoading,
   gasState,
+  resetChartValue,
 }: SidebarProps) => {
   return (
     <Flex
@@ -80,7 +82,7 @@ export const AnalysisSidebar = ({
                 {hoveredIndex && historyData.labels[hoveredIndex]}
               </Text>
             </Flex>
-            <Box ml={-2.5} width="108%">
+            <Box ml="-9px" onMouseLeave={resetChartValue} width="calc(100% + 18px)">
               <ChartPreview
                 hideAxisLines
                 hideLabel
