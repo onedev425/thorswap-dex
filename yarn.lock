@@ -2600,6 +2600,14 @@
     "@thorswap-lib/swapkit-entities" "1.0.0-development.92"
     "@thorswap-lib/types" "1.0.0-development.86"
 
+"@thorswap-lib/helpers@0.0.0-development.85":
+  version "0.0.0-development.85"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/helpers/-/helpers-0.0.0-development.85.tgz#7043ac34cb927b2089fadf6f136157a5b46ff2e9"
+  integrity sha512-Oj5Ek8uBRh5TnxMF9hllE3M+GNn0IOtPIt3iNYx5bWM5gPYfH+pBzPpuL70fmsw7HGqpD8cOtuWF3EN/+dgrXQ==
+  dependencies:
+    "@thorswap-lib/swapkit-entities" "1.0.0-development.93"
+    "@thorswap-lib/types" "1.0.0-development.86"
+
 "@thorswap-lib/keplr@1.0.0-development.6":
   version "1.0.0-development.6"
   resolved "https://registry.yarnpkg.com/@thorswap-lib/keplr/-/keplr-1.0.0-development.6.tgz#14bb369c6a25acb14a148c2bf5831bf7539125e6"
@@ -2679,6 +2687,14 @@
     "@thorswap-lib/types" "1.0.0-development.86"
     tiny-invariant "1.3.1"
 
+"@thorswap-lib/swapkit-entities@1.0.0-development.93":
+  version "1.0.0-development.93"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-entities/-/swapkit-entities-1.0.0-development.93.tgz#1c818b765a5fd31338c158b33aa58672c2183477"
+  integrity sha512-9qVE33IlZK9Bitlu1EtRSVeDs6rqxLd2/VON0Ubi0BA+xYz68NN4/JyjZ63vWMJ40lWtfFSDJaYE9W8P0psMyA==
+  dependencies:
+    "@thorswap-lib/types" "1.0.0-development.86"
+    tiny-invariant "1.3.1"
+
 "@thorswap-lib/swapkit-explorers@1.0.0-development.37":
   version "1.0.0-development.37"
   resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-explorers/-/swapkit-explorers-1.0.0-development.37.tgz#d1a228bf985b4678c0ca2e7f965035a8e98dc344"
@@ -2750,13 +2766,13 @@
     tiny-secp256k1 "1.1.6"
     uniqid "5.4.0"
 
-"@thorswap-lib/trezor@1.0.0-development.21":
-  version "1.0.0-development.21"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/trezor/-/trezor-1.0.0-development.21.tgz#24c868bc79a1938b746b54e5089ff937b1a52947"
-  integrity sha512-8AhQc1rwKuuoTtBmMTzWC1atBeT+AgIaygzzqR8igsDj5L+eglqx1gZeMJKUWWO2JwGobEDbvIZ85UEjnb+zAw==
+"@thorswap-lib/trezor@1.0.0-development.23":
+  version "1.0.0-development.23"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/trezor/-/trezor-1.0.0-development.23.tgz#22d5ec951821cac7cf7214031fbe1b2de90cfe3d"
+  integrity sha512-tY/HacVZYlRGGZG/nEpslmGXKgR24Q3s0bijuAkH+jKVM+W4KUTDboJUxS98gFzGq83JvNlJaQ+ztEk0+AFJwg==
   dependencies:
-    "@thorswap-lib/helpers" "0.0.0-development.84"
-    "@thorswap-lib/swapkit-entities" "1.0.0-development.92"
+    "@thorswap-lib/helpers" "0.0.0-development.85"
+    "@thorswap-lib/swapkit-entities" "1.0.0-development.93"
     "@thorswap-lib/types" "1.0.0-development.86"
     "@trezor/connect-web" "9.0.10"
 
