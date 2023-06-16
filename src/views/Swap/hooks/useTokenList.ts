@@ -1,4 +1,5 @@
 import { QueryStatus } from '@reduxjs/toolkit/query';
+import { Chain } from '@thorswap-lib/types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { IS_PROD } from 'settings/config';
 import { useLazyGetTokenListQuery } from 'store/static/api';
@@ -33,13 +34,16 @@ export const useTokenList = () => {
     const providerRequests = providers.map(async (provider) => fetchTokenList(provider));
 
     const providersData = await Promise.all(providerRequests);
-    const tokens = providersData.reduce(
-      (acc, { data, status }) =>
-        !data?.tokens || status === QueryStatus.rejected
-          ? acc
-          : ([...acc, ...data.tokens] as Token[]),
-      [] as Token[],
-    );
+    const tokens = providersData
+      .reduce(
+        (acc, { data, status }) =>
+          !data?.tokens || status === QueryStatus.rejected
+            ? acc
+            : ([...acc, ...data.tokens] as Token[]),
+        [] as Token[],
+      )
+      //TODO remove after BSC release
+      .filter((token) => token.chain !== Chain.BinanceSmartChain);
 
     setTokens(tokens);
   }, [fetchTokenList, providers]);
