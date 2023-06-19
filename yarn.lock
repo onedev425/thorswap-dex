@@ -2748,14 +2748,14 @@
     "@thorswap-lib/swapkit-entities" "1.0.0-development.92"
     "@thorswap-lib/types" "1.0.0-development.86"
 
-"@thorswap-lib/toolbox-utxo@1.0.0-development.108":
-  version "1.0.0-development.108"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/toolbox-utxo/-/toolbox-utxo-1.0.0-development.108.tgz#2f4ad69ceddf4d2ac38c96a833ad01cfe306648d"
-  integrity sha512-2djEOyKMmOh/VdmiZa6eBnBbSZ59b+8fMZga1YmGf/jZ0pP+VwONOzg2hHOVuQ/p4RQKs5n1tTHX/IyACkPSLw==
+"@thorswap-lib/toolbox-utxo@1.0.0-development.110":
+  version "1.0.0-development.110"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/toolbox-utxo/-/toolbox-utxo-1.0.0-development.110.tgz#1899093b091e7d340b5c05e83d0a6c14a2ec1bc6"
+  integrity sha512-iSTgAX0GHvzJDiRXfH6yOZ7qJCQwU13Sj0NVNOnRxKMCLAj2OFa7SntEe2kZ7MRCblrdYL0xuWzsD8e61yDX3g==
   dependencies:
     "@psf/bitcoincashjs-lib" "4.0.3"
-    "@thorswap-lib/helpers" "0.0.0-development.84"
-    "@thorswap-lib/swapkit-entities" "1.0.0-development.92"
+    "@thorswap-lib/helpers" "0.0.0-development.85"
+    "@thorswap-lib/swapkit-entities" "1.0.0-development.93"
     "@thorswap-lib/types" "1.0.0-development.86"
     bchaddrjs "0.5.2"
     bip32 "2.0.6"
@@ -2764,12 +2764,11 @@
     coinselect "3.1.13"
     ecpair "2.0.1"
     tiny-secp256k1 "1.1.6"
-    uniqid "5.4.0"
 
-"@thorswap-lib/trezor@1.0.0-development.23":
-  version "1.0.0-development.23"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/trezor/-/trezor-1.0.0-development.23.tgz#22d5ec951821cac7cf7214031fbe1b2de90cfe3d"
-  integrity sha512-tY/HacVZYlRGGZG/nEpslmGXKgR24Q3s0bijuAkH+jKVM+W4KUTDboJUxS98gFzGq83JvNlJaQ+ztEk0+AFJwg==
+"@thorswap-lib/trezor@1.0.0-development.24":
+  version "1.0.0-development.24"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/trezor/-/trezor-1.0.0-development.24.tgz#ae75b938cffe636c7d0afe8ee1500e62bc85401d"
+  integrity sha512-kgB8bKmhDiLOT8E5j+dNav8rWk6LmKNhyfYYaTXFYu3PujcKhsfWuD4P6b/I1UhLD/YRf1u2g4koGjWnNzGnBQ==
   dependencies:
     "@thorswap-lib/helpers" "0.0.0-development.85"
     "@thorswap-lib/swapkit-entities" "1.0.0-development.93"
