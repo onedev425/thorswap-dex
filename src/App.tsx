@@ -4,10 +4,10 @@ import { ChakraThemeProvider } from 'components/Theme/ChakraThemeProvider';
 import { ThemeProvider } from 'components/Theme/ThemeContext';
 import { TransactionTrackerModal } from 'components/TransactionTracker/TransactionTrackerModal';
 import { TransactionsModalProvider } from 'components/TransactionTracker/useTransactionsModal';
+import { HmacSHA512 } from 'crypto-js';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { checkOrigin } from 'helpers/checkOrigin';
 import { useGlobalRefresh } from 'hooks/useGlobalRefresh';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider as ReduxProvider } from 'react-redux';
@@ -18,6 +18,19 @@ import { PublicRoutes } from './router';
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
+
+const checkOrigin = () => {
+  const [, site, dns] = window.location.host.split('.');
+
+  return (
+    ['localhost', '.thorswap.finance', '.on.fleek.', '.ipns.', '.ipfs.'].some((s) =>
+      window.location.host.includes(s),
+    ) ||
+    !window.location.href.includes('.') ||
+    parseInt(site) === 0 ||
+    HmacSHA512(`${site}.${dns}`, '!%Zfh5EKmv7LoX9b*x75DQhK').toString().slice(-10) === '6240a643b9'
+  );
+};
 
 const MainApp = () => {
   useGlobalRefresh();
