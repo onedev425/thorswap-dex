@@ -1,6 +1,5 @@
 import { Chain } from '@thorswap-lib/types';
 import { bepIconMapping } from 'helpers/assets';
-import { STATIC_API } from 'settings/config';
 
 export const getCustomIconImageUrl = (name: 'rune' | 'vthor', type: 'png' | 'svg') =>
   new URL(`../assets/images/svg/asset-${name}.${type}`, import.meta.url).href;
@@ -66,7 +65,9 @@ export const tokenLogoURL = ({
 }): string => {
   const [chain, ...possibleTicker] = identifier?.split('-')?.[0]?.split('.') || [];
   const ticker = possibleTicker.join('.');
-  if (chain === ticker) return `${STATIC_API}/token-list/images/${identifier.toLowerCase()}.png`;
+  if (chain === ticker) {
+    return `https://static.thorswap.net/token-list/images/${identifier.toLowerCase()}.png`;
+  }
 
   if (['VTHOR', 'RUNE'].includes(ticker)) {
     return getCustomIconImageUrl(
@@ -78,7 +79,7 @@ export const tokenLogoURL = ({
 
   return (identifier === 'BNB.BNB' || Chain.Binance !== (chain as Chain)) &&
     address?.toLocaleLowerCase() !== '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
-    ? `${STATIC_API}/token-list/images/${identifier.toLowerCase()}${
+    ? `https://static.thorswap.net/token-list/images/${identifier.toLowerCase()}${
         address ? `-${address.toLowerCase()}` : ''
       }.png`
     : `${twBaseUri}/binance/assets/${logoSymbol}/logo.png`;

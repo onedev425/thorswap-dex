@@ -11,7 +11,7 @@ import { useWalletDrawer } from 'hooks/useWalletDrawer';
 import useWindowSize from 'hooks/useWindowSize';
 import { memo, useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
-import { IS_BETA, IS_DEV_API, IS_LOCAL, IS_PROD, IS_STAGENET } from 'settings/config';
+import { IS_PROD, TEST_ENVIRONMENT_NAME } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 import { useWallet } from 'store/wallet/hooks';
 import { ThemeType } from 'types/app';
@@ -45,21 +45,14 @@ export const Header = memo(({ openMenu }: Props) => {
           border="1px solid"
           borderColor="transparent"
           borderRadius="2xl"
-          bottom={4}
+          bottom={16}
           boxShadow="md"
           p={2.5}
           position="absolute"
+          right={4}
         >
           <Text fontWeight="semibold" textStyle="caption" transition={easeInOutTransition}>
-            {IS_BETA
-              ? 'Beta'
-              : IS_STAGENET
-              ? 'Stagenet'
-              : IS_DEV_API
-              ? 'Dev Api'
-              : IS_LOCAL
-              ? 'Local'
-              : 'Test deploy'}
+            {TEST_ENVIRONMENT_NAME}
           </Text>
         </Box>
       )}

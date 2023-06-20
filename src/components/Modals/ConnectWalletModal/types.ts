@@ -1,5 +1,4 @@
 import { Chain, WalletOption } from '@thorswap-lib/types';
-import { IS_PROD } from 'settings/config';
 
 export enum WalletType {
   Brave = 'Brave',
@@ -63,9 +62,6 @@ export const WalletNameByWalletOption: Record<WalletOption, string> = {
   [WalletOption.KEYSTORE]: WalletType.Keystore,
 };
 
-// Left as a placeholder for future chains
-// const STAGENET_CHAINS = IS_STAGENET ? [] : [];
-
 const AllChainsSupported = [
   Chain.Avalanche,
   Chain.Binance,
@@ -89,9 +85,7 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.Ledger]: AllChainsSupported,
   [WalletType.MetaMask]: EVMChainsSupported,
   [WalletType.Phrase]: AllChainsSupported,
-  [WalletType.Trezor]: [...EVMChainsSupported, Chain.Bitcoin, Chain.Doge].concat(
-    IS_PROD ? [] : [Chain.Litecoin],
-  ),
+  [WalletType.Trezor]: [...EVMChainsSupported, Chain.Bitcoin, Chain.Litecoin, Chain.Doge],
   [WalletType.TrustWalletExtension]: EVMChainsSupported,
   [WalletType.TrustWallet]: [Chain.THORChain, Chain.Ethereum, Chain.Binance],
   [WalletType.Xdefi]: AllChainsSupported,

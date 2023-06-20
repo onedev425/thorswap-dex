@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IS_DEV_API, STATIC_API } from 'settings/config';
+import { IS_DEV_API } from 'settings/config';
 import { GetProviderTokensParams } from 'store/thorswap/types';
 
 /**
@@ -7,7 +7,7 @@ import { GetProviderTokensParams } from 'store/thorswap/types';
  */
 const baseUrl = IS_DEV_API
   ? 'https://static-tokenlist-dev.thorswap.net'
-  : `${STATIC_API}/token-list`;
+  : 'https://static.thorswap.net/token-list';
 
 export const staticApi = createApi({
   reducerPath: 'static',

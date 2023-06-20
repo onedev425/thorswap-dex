@@ -9,12 +9,19 @@ import './index.css';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
+const renderApp = async () => {
+  const { App } = await import('./App')
 
+  root.render(
+    <StrictMode>
+      <ColorModeScript />
+      <App />
+    </StrictMode>,
+  );
+}
 
-const checkAppPassword = () => {
-  const shouldCheckPassword = !IS_LOCAL && !IS_STAGENET && !IS_PROD
-
-  if (!shouldCheckPassword) {
+const checkAppRender = () => {
+  if (IS_LOCAL || IS_STAGENET || IS_PROD) {
     renderApp()
   } else {
     const pagePassword = localStorage.getItem('pagePassword') || prompt('Please enter the password to access this page')
@@ -36,15 +43,4 @@ const checkAppPassword = () => {
   }
 }
 
-const renderApp = async () => {
-  const { App } = await import('./App')
-
-  root.render(
-    <StrictMode>
-      <ColorModeScript />
-      <App />
-    </StrictMode>,
-  );
-}
-
-checkAppPassword()
+checkAppRender()
