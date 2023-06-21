@@ -26,7 +26,7 @@ export const ThorBurn = ({ collapsed }: { collapsed?: boolean }) => {
   const filledPercent = useMemo(() => {
     const percentString = totalVolume.div(TARGET_AMOUNT).mul(100).toFixedDecimal(2);
 
-    return Math.min(100, Math.round(Number(percentString) || 0));
+    return Math.round(Number(percentString) || 0);
   }, [totalVolume]);
 
   const tooltipContent = `${currentMonth} burn trade volume:\n${totalVolume.toAbbreviate(
@@ -57,9 +57,10 @@ export const ThorBurn = ({ collapsed }: { collapsed?: boolean }) => {
           onMouseEnter={() => setShowAnimation(true)}
           onMouseLeave={() => setShowAnimation(false)}
         >
-          <Box position="relative">
+          <Box position="relative" zIndex={10}>
             <Progress
               size="sm"
+              style={{ width: `${filledPercent}%` }}
               sx={{
                 '& > div': {
                   transitionProperty: 'width',
