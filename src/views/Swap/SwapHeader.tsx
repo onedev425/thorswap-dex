@@ -6,7 +6,6 @@ import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { ViewHeader } from 'components/ViewHeader';
 import { memo } from 'react';
 import { t } from 'services/i18n';
-import { IS_PROD } from 'settings/config';
 
 type Props = {
   isSidebarVisible: boolean;
@@ -23,13 +22,11 @@ export const SwapHeader = memo(
           <Box center row className="space-x-2">
             {refetchData && <CountDownIndicator duration={60} refresh={refetchData} />}
 
-            {!IS_PROD && (
-              <GasButton
-                inputAssetChain={inputAssetChain}
-                isSidebarVisible={isSidebarVisible}
-                toggleSidebar={toggleSidebar}
-              />
-            )}
+            <GasButton
+              inputAssetChain={inputAssetChain}
+              isSidebarVisible={isSidebarVisible}
+              toggleSidebar={toggleSidebar}
+            />
             <GlobalSettingsPopover transactionMode />
           </Box>
         }
