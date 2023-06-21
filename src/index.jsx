@@ -3,7 +3,6 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import hmacSHA512 from 'crypto-js/hmac-sha512';
 
-
 import { IS_LOCAL, IS_PROD, IS_STAGENET } from './settings/config'
 import './index.css';
 

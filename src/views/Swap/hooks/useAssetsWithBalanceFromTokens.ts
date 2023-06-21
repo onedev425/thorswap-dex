@@ -1,5 +1,5 @@
 import { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { Chain, EVMChain } from '@thorswap-lib/types';
 import { AssetSelectType } from 'components/AssetSelect/types';
 import { useBalance } from 'hooks/useBalance';
 import { useCallback, useMemo } from 'react';
@@ -35,9 +35,12 @@ export const useAssetsWithBalanceFromTokens = (tokens: Token[]) => {
       tokens
         .map(({ identifier, address, chain, ...rest }: Token) => {
           try {
+            const assetChain = (chain || identifier.split('.')[0]) as EVMChain;
             const [id] = identifier.split('-');
+            if (id.includes('/') && !id.startsWith(Chain.THORChain)) return null;
+
             const asset = AssetEntity.fromAssetString(
-              [Chain.Avalanche, Chain.Ethereum].includes(chain as Chain.THORChain)
+              [Chain.Avalanche, Chain.Ethereum].includes(assetChain)
                 ? `${id}${address ? `-${address}` : ''}`
                 : identifier,
             );
