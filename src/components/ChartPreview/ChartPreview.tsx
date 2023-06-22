@@ -47,9 +47,7 @@ export const ChartPreview = memo(
 
     return (
       <Box className={classNames('flex-1 w-full h-full relative', className)}>
-        <Box>
-          <Line data={chartData} options={options} />
-        </Box>
+        <Line data={chartData} options={options} />
       </Box>
     );
   },

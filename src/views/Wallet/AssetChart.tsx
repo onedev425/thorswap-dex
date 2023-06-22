@@ -17,7 +17,7 @@ export const AssetChart = memo(({ asset, mode }: Props) => {
   return (
     <Box
       center
-      className={classNames('opacity-0 transition-opacity duration-500', {
+      className={classNames('opacity-0 w-[99%] transition-opacity duration-500', {
         '!opacity-100': values.length > 0,
         '!-my-[20px] lg:w-[100px] xl:w-[320px]': mode === ViewMode.LIST,
       })}
