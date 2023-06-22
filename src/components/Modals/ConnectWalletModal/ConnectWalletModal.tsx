@@ -11,6 +11,7 @@ import { getFromStorage, saveInStorage } from 'helpers/storage';
 import useWindowSize from 'hooks/useWindowSize';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
+import { IS_PROD } from 'settings/config';
 import { useWallet } from 'store/wallet/hooks';
 import { DerivationPathType } from 'store/wallet/types';
 
@@ -290,7 +291,9 @@ const ConnectWalletModal = () => {
               </Box>
 
               <Box className="flex-wrap justify-center w-[80%] md:w-36">
-                {SUPPORTED_CHAINS.map((chain) => (
+                {SUPPORTED_CHAINS.filter(
+                  (chain) => !IS_PROD || chain !== Chain.BinanceSmartChain,
+                ).map((chain) => (
                   <ChainItem
                     chain={chain}
                     isChainAvailable={availableChainsByWallet[
