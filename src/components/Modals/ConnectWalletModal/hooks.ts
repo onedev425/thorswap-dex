@@ -4,7 +4,6 @@ import { showErrorToast } from 'components/Toast';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import { useCallback, useEffect, useState } from 'react';
 import { t } from 'services/i18n';
-import { IS_BETA } from 'settings/config';
 import { useWallet } from 'store/wallet/hooks';
 
 import {
@@ -118,11 +117,8 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
           // @ts-expect-error
           items: [
             { type: WalletType.Ledger, icon: 'ledger', label: t('views.walletModal.ledger') },
-          ].concat(
-            IS_BETA
-              ? [{ type: WalletType.Trezor, icon: 'trezor', label: t('views.walletModal.trezor') }]
-              : [],
-          ),
+            { type: WalletType.Trezor, icon: 'trezor', label: t('views.walletModal.trezor') },
+          ],
         },
         {
           title: 'Keystore',
