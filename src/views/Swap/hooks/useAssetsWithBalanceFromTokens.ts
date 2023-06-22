@@ -40,7 +40,7 @@ export const useAssetsWithBalanceFromTokens = (tokens: Token[]) => {
             if (id.includes('/') && !id.startsWith(Chain.THORChain)) return null;
 
             const asset = AssetEntity.fromAssetString(
-              [Chain.Avalanche, Chain.Ethereum].includes(assetChain)
+              [Chain.Avalanche, Chain.Ethereum, Chain.BinanceSmartChain].includes(assetChain)
                 ? `${id}${address ? `-${address}` : ''}`
                 : identifier,
             );

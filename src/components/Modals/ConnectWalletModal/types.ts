@@ -65,6 +65,7 @@ export const WalletNameByWalletOption: Record<WalletOption, string> = {
 const AllChainsSupported = [
   Chain.Avalanche,
   Chain.Binance,
+  Chain.BinanceSmartChain,
   Chain.Bitcoin,
   Chain.BitcoinCash,
   Chain.Cosmos,
@@ -74,7 +75,7 @@ const AllChainsSupported = [
   Chain.THORChain,
 ] as Chain[];
 
-const EVMChainsSupported = [Chain.Ethereum, Chain.Avalanche] as Chain[];
+const EVMChainsSupported = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain] as Chain[];
 
 export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.Brave]: EVMChainsSupported,
@@ -87,7 +88,12 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.Phrase]: AllChainsSupported,
   [WalletType.Trezor]: [...EVMChainsSupported, Chain.Bitcoin, Chain.Litecoin, Chain.Doge],
   [WalletType.TrustWalletExtension]: EVMChainsSupported,
-  [WalletType.TrustWallet]: [Chain.THORChain, Chain.Ethereum, Chain.Binance],
+  [WalletType.TrustWallet]: [
+    Chain.THORChain,
+    Chain.Ethereum,
+    Chain.Binance,
+    // Chain.BinanceSmartChain,
+  ],
   [WalletType.Xdefi]: AllChainsSupported,
   [WalletType.Walletconnect]: [Chain.Ethereum],
 };

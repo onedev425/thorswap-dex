@@ -290,7 +290,7 @@ const ConnectWalletModal = () => {
               </Box>
 
               <Box className="flex-wrap justify-center w-[80%] md:w-36">
-                {SUPPORTED_CHAINS.filter((c) => c !== Chain.BinanceSmartChain).map((chain) => (
+                {SUPPORTED_CHAINS.map((chain) => (
                   <ChainItem
                     chain={chain}
                     isChainAvailable={availableChainsByWallet[

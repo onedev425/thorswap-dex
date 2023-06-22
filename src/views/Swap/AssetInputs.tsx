@@ -68,7 +68,9 @@ export const AssetInputs = memo(
         (inputAsset.asset.L1Chain === Chain.Ethereum &&
           outputAsset.asset.L1Chain === Chain.Ethereum) ||
         (inputAsset.asset.L1Chain === Chain.Avalanche &&
-          outputAsset.asset.L1Chain === Chain.Avalanche)
+          outputAsset.asset.L1Chain === Chain.Avalanche) ||
+        (inputAsset.asset.L1Chain === Chain.BinanceSmartChain &&
+          outputAsset.asset.L1Chain === Chain.BinanceSmartChain)
       ) {
         return assets;
       }

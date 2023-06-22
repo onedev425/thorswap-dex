@@ -22,6 +22,18 @@ const getAvaxAssetDecimal = async ({ symbol }: GetDecimalParams) => {
   return BaseDecimal.ETH;
 };
 
+// TODO implement this function
+// const getBscAssetDecimal = async ({ symbol, ticker }: GetDecimalParams) => {
+//   if (symbol === Chain.Ethereum) return BaseDecimal.BSC;
+
+//   const assetAddress = symbol.slice(ticker.length + 1);
+
+//   const contract = getCustomContract(assetAddress, erc20ABI);
+//   const contractDecimals = await contract.decimals();
+
+//   return contractDecimals.toNumber() as number;
+// };
+
 export const getEVMDecimal = async ({
   L1Chain,
   ...asset
@@ -31,6 +43,9 @@ export const getEVMDecimal = async ({
       return getEthereumAssetDecimal(asset);
     case Chain.Avalanche:
       return getAvaxAssetDecimal(asset);
+    case Chain.BinanceSmartChain:
+      return undefined;
+    // return getBscAssetDecimal(asset);
     default:
       return undefined;
   }

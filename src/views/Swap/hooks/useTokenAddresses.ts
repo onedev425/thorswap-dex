@@ -4,7 +4,8 @@ import { useGetTokenListQuery } from 'store/static/api';
 type TokenLists =
   | 'Thorchain-supported-ERC20'
   | 'Thorchain-supported-ARC20'
-  | 'tc-whitelisted-avax-pools';
+  | 'tc-whitelisted-avax-pools'
+  | 'tc-whitelisted-bsc-pools';
 
 export const useTokenAddresses = (tokenListPath: TokenLists) => {
   const [addresses, setAddresses] = useState<string[]>([]);

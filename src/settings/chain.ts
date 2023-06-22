@@ -6,6 +6,7 @@ export const SORTED_CHAINS = [
   Chain.Bitcoin,
   Chain.Ethereum,
   Chain.Binance,
+  Chain.BinanceSmartChain,
   Chain.Avalanche,
   Chain.Doge,
   Chain.BitcoinCash,
@@ -16,6 +17,7 @@ export const SORTED_CHAINS = [
 export const SORTED_EARN_ASSETS = [
   getSignatureAssetFor(Chain.Bitcoin),
   getSignatureAssetFor(Chain.Ethereum),
+  getSignatureAssetFor(Chain.BinanceSmartChain),
   getSignatureAssetFor(Chain.Binance),
   getSignatureAssetFor(Chain.Avalanche),
   getSignatureAssetFor(Chain.Cosmos),

@@ -14,6 +14,8 @@ import { ReactComponent as App } from './app.svg';
 import { ReactComponent as Binance3d } from './binance.svg';
 import { ReactComponent as Bitcoin3d } from './bitcoin.svg';
 import Brave from './brave.png';
+import { ReactComponent as BscScan } from './bscscan.svg';
+import { ReactComponent as BscScanLight } from './bscscanLight.svg';
 import { ReactComponent as Bulb } from './bulb.svg';
 import { ReactComponent as ChartCandle } from './chartCandle.svg';
 import { ReactComponent as Cloud } from './cloud.svg';
@@ -79,6 +81,8 @@ export const Svgs = {
   // chain icons
   avax: Avalanche,
   bch: BitcoinCash,
+  bscscan: BscScan,
+  bscscanLight: BscScanLight,
   btc: Bitcoin,
   bnb: Bnb,
   doge: Dogecoin,

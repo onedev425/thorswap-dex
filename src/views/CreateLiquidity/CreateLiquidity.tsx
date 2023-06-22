@@ -51,6 +51,7 @@ export const CreateLiquidity = () => {
   const [inputAssets, setInputAssets] = useState<Asset[]>([]);
   const ethWhitelist = useTokenAddresses('Thorchain-supported-ERC20');
   const avaxWhitelist = useTokenAddresses('tc-whitelisted-avax-pools');
+  const bscWhitelist = useTokenAddresses('tc-whitelisted-bsc-pools');
   const { tokens } = useTokenList();
 
   const handleInputAssetUpdate = useCallback(() => {
@@ -58,6 +59,7 @@ export const CreateLiquidity = () => {
       const assets = getInputAssetsForCreate({
         ethWhitelist,
         avaxWhitelist,
+        bscWhitelist,
         wallet,
         pools,
       });
@@ -67,7 +69,7 @@ export const CreateLiquidity = () => {
     } else {
       setInputAssets([]);
     }
-  }, [avaxWhitelist, ethWhitelist, pools, wallet]);
+  }, [avaxWhitelist, bscWhitelist, ethWhitelist, pools, wallet]);
 
   useEffect(() => {
     handleInputAssetUpdate();

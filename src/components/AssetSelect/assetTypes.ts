@@ -1,7 +1,14 @@
 import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 
-export type AssetFilterOptionType = 'all' | 'avax' | 'synth' | 'native' | 'erc20' | 'bep2';
+export type AssetFilterOptionType =
+  | 'all'
+  | 'avax'
+  | 'synth'
+  | 'native'
+  | 'erc20'
+  | 'bep2'
+  | 'bep20';
 
 export type AssetFilterType = {
   value: AssetFilterOptionType;
@@ -31,5 +38,11 @@ export const assetFilterTypes: AssetFilterType[] = [
     label: 'BEP2',
     tooltip: 'BNB Beacon Chain (BEP2)',
     chainAsset: getSignatureAssetFor(Chain.Binance),
+  },
+  {
+    value: 'bep20',
+    label: 'BEP20',
+    tooltip: 'Binance Smart Chain (BEP20)',
+    chainAsset: getSignatureAssetFor(Chain.BinanceSmartChain),
   },
 ];

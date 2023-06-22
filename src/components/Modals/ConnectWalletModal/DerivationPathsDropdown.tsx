@@ -7,6 +7,7 @@ import { DerivationPathType } from 'store/wallet/types';
 const CHAINS_WITH_CUSTOM_DERIVATION_PATH = [
   Chain.Ethereum,
   Chain.Avalanche,
+  Chain.BinanceSmartChain,
   Chain.Bitcoin,
   Chain.BitcoinCash,
   Chain.Litecoin,
@@ -38,6 +39,7 @@ const useLedgerTypes = (chain: Chain) => {
 
       case Chain.Ethereum:
       case Chain.Avalanche:
+      case Chain.BinanceSmartChain:
         return evmLedgerTypes;
 
       default:

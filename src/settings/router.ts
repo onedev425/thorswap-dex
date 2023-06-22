@@ -101,6 +101,10 @@ export const navigateToSnowtraceAddress = (address: string) => {
   navigateToExternalLink(`https://snowtrace.io/address/${address}`);
 };
 
+export const navigateToBscscanAddress = (address: string) => {
+  navigateToExternalLink(`https://bscscan.com/address/${address}`);
+};
+
 export const getNodeDetailRoute = (address: string) => {
   return `${ROUTES.Nodes}/${address}`;
 };

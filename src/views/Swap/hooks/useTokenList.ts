@@ -43,7 +43,7 @@ export const useTokenList = () => {
         [] as Token[],
       )
       //TODO remove after BSC release
-      .filter((token) => token.chain !== Chain.BinanceSmartChain);
+      .filter((token) => (IS_PROD && token.chain !== Chain.BinanceSmartChain) || !IS_PROD);
 
     setTokens(tokens);
   }, [fetchTokenList, providers]);

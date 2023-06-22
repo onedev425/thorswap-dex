@@ -1,7 +1,7 @@
 import { baseAmount } from '@thorswap-lib/helpers';
 import { Amount, AssetEntity, isGasAsset } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
-import { isAVAXAsset, isETHAsset } from 'helpers/assets';
+import { isAVAXAsset, isBSCAsset, isETHAsset } from 'helpers/assets';
 import debounce from 'lodash.debounce';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTransactionsState } from 'store/transactions/hooks';
@@ -101,7 +101,8 @@ export const useIsAssetApproved = ({ force, contract, asset }: Params) => {
     () =>
       !isETHAsset(asset) &&
       !isAVAXAsset(asset) &&
-      [Chain.Ethereum, Chain.Avalanche].includes(asset.L1Chain),
+      !isBSCAsset(asset) &&
+      [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(asset.L1Chain),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [asset, contract],
   );

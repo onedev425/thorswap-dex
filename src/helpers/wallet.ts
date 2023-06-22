@@ -2,7 +2,8 @@ import { Amount, AssetAmount, AssetEntity, Pool, Wallet } from '@thorswap-lib/sw
 import { Chain, WalletOption } from '@thorswap-lib/types';
 
 export const isTokenWhitelisted = (asset: AssetEntity, whitelistedAddresses: string[]) => {
-  if (![Chain.Avalanche, Chain.Ethereum].includes(asset.L1Chain)) return true;
+  if (![Chain.Avalanche, Chain.Ethereum, Chain.BinanceSmartChain].includes(asset.L1Chain))
+    return true;
 
   const assetAddress = asset.symbol.split('-')?.[1] ?? '';
 
@@ -48,11 +49,14 @@ export const getInputAssetsForCreate = ({
   pools,
   ethWhitelist,
   avaxWhitelist,
+  //TODO remove initial value after release
+  bscWhitelist = [],
 }: {
   wallet: Wallet | null;
   pools: Pool[];
   ethWhitelist: string[];
   avaxWhitelist: string[];
+  bscWhitelist: string[];
 }) => {
   const assets: AssetEntity[] = [];
   const poolAssets = pools.map((pool) => pool.asset);
@@ -77,6 +81,8 @@ export const getInputAssetsForCreate = ({
               ? ethWhitelist
               : balance.asset.L1Chain === Chain.Avalanche
               ? avaxWhitelist
+              : balance.asset.L1Chain === Chain.BinanceSmartChain
+              ? bscWhitelist
               : [];
 
           if (isTokenWhitelisted(balance.asset, whitelist)) {

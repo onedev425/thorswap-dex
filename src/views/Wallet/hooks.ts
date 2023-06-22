@@ -9,6 +9,7 @@ import { GeckoData } from 'store/wallet/types';
 const emptyWallet = {
   [Chain.Avalanche]: null,
   [Chain.Binance]: null,
+  [Chain.BinanceSmartChain]: null,
   [Chain.BitcoinCash]: null,
   [Chain.Bitcoin]: null,
   [Chain.Cosmos]: null,
@@ -16,7 +17,6 @@ const emptyWallet = {
   [Chain.Ethereum]: null,
   [Chain.Litecoin]: null,
   [Chain.THORChain]: null,
-  [Chain.BinanceSmartChain]: null,
 };
 
 const getBalanceByChain = (balance: AssetAmount[], geckoData: Record<string, GeckoData>) => {

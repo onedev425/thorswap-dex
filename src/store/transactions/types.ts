@@ -58,6 +58,11 @@ export enum TransactionType {
   AVAX_STATUS = 'AVAX:STATUS', // only track status
   AVAX_TRANSFER_TO_TC = 'AVAX:TRANSFER:IN',
   AVAX_TRANSFER_FROM_TC = 'AVAX:TRANSFER:OUT',
+  // BSC
+  BSC_APPROVAL = 'BSC:APPROVAL',
+  BSC_STATUS = 'BSC:STATUS', // only track status
+  BSC_TRANSFER_TO_TC = 'BSC:TRANSFER:IN',
+  BSC_TRANSFER_FROM_TC = 'BSC:TRANSFER:OUT',
   // Generic types
   APPROVAL = 'APPROVAL',
   STATUS = 'STATUS',

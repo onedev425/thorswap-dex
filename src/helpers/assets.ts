@@ -188,6 +188,8 @@ export const isETHAsset = ({ ticker, L1Chain }: AssetEntity) =>
   ticker === 'ETH' && L1Chain === Chain.Ethereum;
 export const isAVAXAsset = ({ ticker, L1Chain }: AssetEntity) =>
   ticker === 'AVAX' && L1Chain === Chain.Avalanche;
+export const isBSCAsset = ({ ticker, L1Chain }: AssetEntity) =>
+  ticker === 'BNB' && L1Chain === Chain.BinanceSmartChain;
 export const isBTCAsset = ({ ticker, L1Chain }: AssetEntity) =>
   ticker === 'BTC' && L1Chain === Chain.Bitcoin;
 

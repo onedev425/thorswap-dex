@@ -163,6 +163,7 @@ export const AssetIcon = memo(
 
     const address = symbol.slice(assetTicker.length + 1).toLowerCase();
     const identifier = `${chain}.${assetTicker}`;
+
     const iconUrl = logoURI || tokenLogoURL({ address, identifier });
 
     return (

@@ -5,6 +5,8 @@ import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { AssetFilterType, assetFilterTypes } from 'components/AssetSelect/assetTypes';
 import { Box, Icon } from 'components/Atomic';
+import { getChainIdentifier } from 'helpers/chains';
+import { tokenLogoURL } from 'helpers/logoURL';
 
 const FilterTypeLabel = ({
   icon,
@@ -53,6 +55,20 @@ export const useAssetFilterTypes = () => {
           <FilterTypeLabel
             icon={<AssetIcon asset={getSignatureAssetFor(Chain.Binance)} size={20} />}
             label="BNB"
+          />
+        );
+      }
+      case 'bep20': {
+        return (
+          <FilterTypeLabel
+            icon={
+              <AssetIcon
+                asset={getSignatureAssetFor(Chain.BinanceSmartChain)}
+                logoURI={tokenLogoURL({ identifier: getChainIdentifier(Chain.BinanceSmartChain) })}
+                size={20}
+              />
+            }
+            label="BSC"
           />
         );
       }

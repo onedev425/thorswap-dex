@@ -48,7 +48,9 @@ export const PoolCard = ({ pool, color }: PoolCardProps) => {
 
         <AssetIcon
           asset={pool.asset}
-          hasChainIcon={[Chain.Avalanche, Chain.Ethereum].includes(pool.asset.L1Chain)}
+          hasChainIcon={[Chain.Avalanche, Chain.Ethereum, Chain.BinanceSmartChain].includes(
+            pool.asset.L1Chain,
+          )}
           size={110}
         />
       </Box>

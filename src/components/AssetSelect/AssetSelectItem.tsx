@@ -11,6 +11,7 @@ import useWindowSize from 'hooks/useWindowSize';
 import { memo, MouseEventHandler, useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
 import {
+  navigateToBscscanAddress,
   navigateToEtherScanAddress,
   navigateToPoolDetail,
   navigateToSnowtraceAddress,
@@ -40,7 +41,8 @@ export const AssetSelectItem = memo(
             return navigateToEtherScanAddress(address.toLowerCase());
           case Chain.Avalanche:
             return navigateToSnowtraceAddress(address.toLowerCase());
-
+          case Chain.BinanceSmartChain:
+            return navigateToBscscanAddress(address.toLowerCase());
           default:
             return navigateToPoolDetail(asset);
         }
@@ -56,6 +58,8 @@ export const AssetSelectItem = memo(
           return 'THORYield';
         case Chain.Avalanche:
           return 'Snowtrace';
+        case Chain.BinanceSmartChain:
+          return 'BscScan';
         default:
           return 'EtherScan';
       }
@@ -78,6 +82,8 @@ export const AssetSelectItem = memo(
           return isLight ? 'etherscan' : 'etherscanLight';
         case Chain.Avalanche:
           return 'snowtrace';
+        case Chain.BinanceSmartChain:
+          return isLight ? 'bscscan' : 'bscscanLight';
         default:
           return 'thoryieldColor';
       }

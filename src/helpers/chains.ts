@@ -19,6 +19,9 @@ export const getChainIdentifier = (chain: Chain) => {
     case Chain.Cosmos:
       return `${chain}.ATOM`;
 
+    case Chain.BinanceSmartChain:
+      return `${chain}`;
+
     default:
       return `${chain}.${chain}`;
   }
