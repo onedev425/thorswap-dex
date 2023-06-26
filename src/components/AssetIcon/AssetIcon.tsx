@@ -9,7 +9,7 @@ import { memo, useMemo, useState } from 'react';
 
 import { genericBgClasses } from '../constants';
 
-import { ChainIcon } from './ChainIcon';
+import { ChainIcon, FORCE_ICON_CHAINS } from './ChainIcon';
 import { AssetIconProps, iconSizes } from './types';
 import { getSecondaryIconPlacementStyle } from './utils';
 
@@ -176,7 +176,7 @@ export const AssetIcon = memo(
         iconUrl={iconUrl}
         isSynth={isSynth}
         secondaryIconPlacement={secondaryIconPlacement}
-        showChainIcon={hasChainIcon && type !== 'Native'}
+        showChainIcon={hasChainIcon && (type !== 'Native' || FORCE_ICON_CHAINS.includes(chain))}
         size={size}
         symbol={symbol}
         ticker={ticker || assetTicker || ''}

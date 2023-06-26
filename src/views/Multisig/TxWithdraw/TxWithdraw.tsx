@@ -10,7 +10,7 @@ import { InfoTable } from 'components/InfoTable';
 import { LiquidityType } from 'components/LiquidityType/LiquidityType';
 import { LPTypeSelector } from 'components/LPTypeSelector';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
-import { WithdrawPercent } from 'views/withdraw-liquidity/WithdrawPercent';
+import { WithdrawPercent } from 'components/WithdrawPercent';
 import { RUNEAsset } from 'helpers/assets';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';

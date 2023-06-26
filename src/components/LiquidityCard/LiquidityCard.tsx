@@ -5,6 +5,7 @@ import {
   getAsymmetricAssetShare,
   getAsymmetricRuneShare,
   getRuneShare,
+  Pool,
 } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon';
@@ -19,11 +20,16 @@ import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getAddLiquidityRoute, getWithdrawRoute } from 'settings/router';
 import { LpDetailCalculationResult, PoolShareType } from 'store/midgard/types';
-import { ChainPoolData } from 'views/Liquidity/types';
 
 import { LiquidityInfo } from './LiquidityInfo';
 
-type LiquidityCardProps = ChainPoolData & {
+type LiquidityCardProps = {
+  assetPending: string;
+  dateLastAdded: string;
+  liquidityUnits: string;
+  pool: Pool;
+  runePending: string;
+  shareType: PoolShareType;
   withFooter?: boolean;
   lpAddedAndWithdraw?: LpDetailCalculationResult;
 };

@@ -14,7 +14,7 @@ import { Helmet } from 'components/Helmet';
 import { InfoTable } from 'components/InfoTable';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { TabsSelect } from 'components/TabsSelect';
-import { WithdrawPercent } from 'views/withdraw-liquidity/WithdrawPercent';
+import { WithdrawPercent } from 'components/WithdrawPercent';
 import { SAVERS_MEDIUM } from 'config/constants';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';

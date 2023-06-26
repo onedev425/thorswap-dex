@@ -3,7 +3,7 @@ import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { Box, Icon } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
-import { WithdrawPercent } from 'views/withdraw-liquidity/WithdrawPercent';
+import { WithdrawPercent } from 'components/WithdrawPercent';
 import { RUNEAsset } from 'helpers/assets';
 import { memo } from 'react';
 import { t } from 'services/i18n';

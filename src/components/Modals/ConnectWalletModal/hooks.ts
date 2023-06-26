@@ -114,7 +114,6 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
         {
           title: t('views.walletModal.hardwareWallets'),
           visible: isMdActive,
-          // @ts-expect-error
           items: [
             { type: WalletType.Ledger, icon: 'ledger', label: t('views.walletModal.ledger') },
             { type: WalletType.Trezor, icon: 'trezor', label: t('views.walletModal.trezor') },

@@ -7,7 +7,7 @@
     "start:stagenet": "yarn start --mode=stagenet",
     "build": "rm -rf dist; NODE_OPTIONS=--max_old_space_size=32768 vite build",
     "preview": "vite preview",
-    "lint": "eslint ./src",
+    "lint": "eslint ./src --fix",
     "lint:fix": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json,css}' && yarn lint --fix",
     "postinstall": "patch-package",
     "generate:pagePassword": "node ./scripts/generatePagePassword.js",

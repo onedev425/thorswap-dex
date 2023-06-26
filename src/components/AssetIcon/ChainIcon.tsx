@@ -13,6 +13,8 @@ type ChainIconProps = {
   style?: React.CSSProperties;
 };
 
+export const FORCE_ICON_CHAINS = [Chain.BinanceSmartChain, Chain.Binance];
+
 const Icon = ({ withoutBackground = false, chain, style, size = 16 }: ChainIconProps) => {
   const logoURI = useMemo(() => tokenLogoURL({ identifier: getChainIdentifier(chain) }), [chain]);
 
