@@ -1,4 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react';
+import { FullMemberPool } from '@thorswap-lib/midgard-sdk';
 import {
   Amount,
   AmountType,
@@ -7,140 +8,56 @@ import {
   getAsymmetricRuneWithdrawAmount,
   getSignatureAssetFor,
   getSymmetricWithdraw,
-  Pool,
-  Price,
 } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
+import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon, Link } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { InfoTable } from 'components/InfoTable';
 import { InfoTip } from 'components/InfoTip';
+import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { LiquidityType } from 'components/LiquidityType/LiquidityType';
 import { LPTypeSelector } from 'components/LPTypeSelector';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { PanelView } from 'components/PanelView';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
-import { isETHAsset, poolByAsset, USDAsset } from 'helpers/assets';
+import { isETHAsset, RUNEAsset } from 'helpers/assets';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';
+import { parseAssetToToken } from 'helpers/parseHelpers';
 import { hasWalletConnected } from 'helpers/wallet';
 import { useMimir } from 'hooks/useMimir';
 import { useNetworkFee } from 'hooks/useNetworkFee';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useTokenPrices } from 'hooks/useTokenPrices';
+import { useCallback, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getAddLiquidityRoute, getThorYieldLPInfoBaseRoute } from 'settings/router';
 import { useExternalConfig } from 'store/externalConfig/hooks';
-import { useMidgard } from 'store/midgard/hooks';
-import { LiquidityTypeOption, PoolMemberData, PoolShareType } from 'store/midgard/types';
+import { LiquidityTypeOption, PoolShareType } from 'store/midgard/types';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
-import { AssetInputs } from 'views/WithdrawLiquidity/AssetInputs';
 
-import { useConfirmInfoItems } from './useConfirmInfoItems';
+import { AssetInputs } from './AssetInputs';
 
-export const WithdrawLiquidity = () => {
-  const { assetParam = getSignatureAssetFor(Chain.Bitcoin).toString() } = useParams<{
-    assetParam: string;
-  }>();
-  const [assetObj, setAssetObj] = useState<AssetEntity>();
-  const [pool, setPool] = useState<Pool>();
-
-  const { pools, poolLoading, loadMemberDetailsByChain, chainMemberDetails } = useMidgard();
-
-  useEffect(() => {
-    if (!pool) return;
-    loadMemberDetailsByChain(pool.asset.chain as Chain);
-  }, [loadMemberDetailsByChain, pool]);
-
-  const poolMemberData: PoolMemberData | null = useMemo(() => {
-    if (!pool) return null;
-    return chainMemberDetails?.[pool.asset.chain]?.[pool.asset.toString()] ?? null;
-  }, [chainMemberDetails, pool]);
-
-  useEffect(() => {
-    if (!poolLoading && pools.length && assetObj) {
-      const assetPool = poolByAsset(assetObj, pools);
-
-      if (assetPool) setPool(assetPool);
-    }
-  }, [pools, poolLoading, assetObj]);
-
-  useEffect(() => {
-    const getAssetEntity = async () => {
-      if (!assetParam) {
-        return;
-      }
-      const assetEntity = AssetEntity.decodeFromURL(assetParam);
-
-      if (assetEntity) {
-        if (assetEntity.isRUNE()) return;
-        const assetDecimals = await getEVMDecimal(assetEntity);
-        await assetEntity.setDecimal(assetDecimals);
-
-        setAssetObj(assetEntity);
-      }
-    };
-
-    getAssetEntity();
-  }, [assetParam]);
-
-  const shares = useMemo(
-    () =>
-      [
-        poolMemberData?.pending && PoolShareType.PENDING,
-        poolMemberData?.sym && PoolShareType.SYM,
-        poolMemberData?.runeAsym && PoolShareType.RUNE_ASYM,
-        poolMemberData?.assetAsym && PoolShareType.ASSET_ASYM,
-      ].filter(Boolean) as PoolShareType[],
-    [
-      poolMemberData?.assetAsym,
-      poolMemberData?.pending,
-      poolMemberData?.runeAsym,
-      poolMemberData?.sym,
-    ],
-  );
-
-  if (pool && pools.length && shares.length > 0) {
-    return (
-      <WithdrawPanel
-        pool={pool}
-        poolMemberData={poolMemberData}
-        pools={pools}
-        shareTypes={shares}
-      />
-    );
-  }
-
-  return (
-    <PanelView
-      header={
-        <ViewHeader
-          withBack
-          actionsComponent={<GlobalSettingsPopover />}
-          title={t('views.liquidity.withdrawLiquidity')}
-        />
-      }
-      title={t('views.liquidity.withdrawLiquidity')}
-    >
-      <Text>{t('views.liquidity.noLiquidityToWithdraw')}</Text>
-    </PanelView>
-  );
-};
-
-const WithdrawPanel = ({
-  poolMemberData,
-  pool,
-  pools,
-  shareTypes,
+export const WithdrawPanel = ({
+  poolAsset,
+  shares,
 }: {
-  poolMemberData: PoolMemberData | null;
-  shareTypes: PoolShareType[];
-  pool: Pool;
-  pools: Pool[];
+  shares: Record<
+    PoolShareType,
+    | null
+    | undefined
+    | (FullMemberPool & {
+        poolUnits?: string;
+        poolAssetDepth?: string;
+        poolRuneDepth?: string;
+      })
+  >;
+  poolAsset: AssetEntity;
 }) => {
   const navigate = useNavigate();
   const appDispatch = useAppDispatch();
@@ -148,14 +65,14 @@ const WithdrawPanel = ({
   const { isChainPauseLPAction } = useMimir();
   const { getChainWithdrawLPPaused } = useExternalConfig();
 
-  const poolAsset = useMemo(() => pool.asset, [pool]);
   const isLPActionPaused: boolean = useMemo(() => {
     return (
       isChainPauseLPAction(poolAsset.chain) || getChainWithdrawLPPaused(poolAsset.chain as Chain)
     );
   }, [isChainPauseLPAction, poolAsset.chain, getChainWithdrawLPPaused]);
 
-  const [lpType, setLPType] = useState(shareTypes[0]);
+  const [lpType, setLPType] = useState(Object.keys(shares)[0] as PoolShareType);
+  const poolData = shares[lpType];
 
   const defaultWithdrawType = useMemo(() => {
     switch (lpType) {
@@ -179,46 +96,32 @@ const WithdrawPanel = ({
     return hasWalletConnected({ wallet, inputAssets: [inputAsset] });
   }, [lpType, poolAsset, wallet]);
 
-  const { inputFee: inboundAssetFee, outputFee: inboundRuneFee } = useNetworkFee({
-    inputAsset: poolAsset,
-    outputAsset: getSignatureAssetFor(Chain.THORChain),
+  const { feeInUSD } = useNetworkFee({
+    inputAsset: withdrawType === LiquidityTypeOption.ASSET ? poolAsset : RUNEAsset,
+    type: 'outbound',
   });
 
-  const feeLabel = useMemo(() => {
-    if (withdrawType === LiquidityTypeOption.ASSET) {
-      return `${inboundAssetFee.toCurrencyFormat()} (${inboundAssetFee
-        .totalPriceIn(USDAsset, pools)
-        .toCurrencyFormat(2)})`;
+  const { runeAmount, assetAmount } = useMemo(() => {
+    if (!poolData) {
+      return { runeAmount: Amount.fromMidgard(0), assetAmount: Amount.fromMidgard(0) };
     }
 
-    return `${inboundRuneFee.toCurrencyFormat()} (${inboundRuneFee
-      .totalPriceIn(USDAsset, pools)
-      .toCurrencyFormat(2)})`;
-  }, [inboundAssetFee, inboundRuneFee, pools, withdrawType]);
+    const { assetPending, runePending, sharedUnits, poolUnits, poolAssetDepth, poolRuneDepth } =
+      poolData;
 
-  const memberPoolData = useMemo(() => {
-    if (lpType === PoolShareType.PENDING) return poolMemberData?.pending;
-    if (lpType === PoolShareType.RUNE_ASYM) return poolMemberData?.runeAsym;
-    if (lpType === PoolShareType.ASSET_ASYM) return poolMemberData?.assetAsym;
-    if (lpType === PoolShareType.SYM) return poolMemberData?.sym;
-
-    return null;
-  }, [poolMemberData, lpType]);
-
-  const { runeAmount, assetAmount } = useMemo(() => {
     if (lpType === PoolShareType.PENDING) {
       return {
-        runeAmount: Amount.fromMidgard(memberPoolData?.runePending).mul(percent / 100),
-        assetAmount: Amount.fromMidgard(memberPoolData?.assetPending).mul(percent / 100),
+        runeAmount: Amount.fromMidgard(runePending).mul(percent / 100),
+        assetAmount: Amount.fromMidgard(assetPending).mul(percent / 100),
       };
     }
 
     const params = {
       percent: percent / 100,
-      liquidityUnits: memberPoolData?.liquidityUnits || '0',
-      poolUnits: pool.detail.units,
-      assetDepth: pool.detail.assetDepth,
-      runeDepth: pool.detail.runeDepth,
+      liquidityUnits: sharedUnits,
+      poolUnits: poolUnits || '0',
+      assetDepth: poolAssetDepth || '0',
+      runeDepth: poolRuneDepth || '0',
     };
 
     return withdrawType === LiquidityTypeOption.SYMMETRICAL
@@ -233,36 +136,22 @@ const WithdrawPanel = ({
               ? getAsymmetricAssetWithdrawAmount(params)
               : Amount.fromMidgard(0),
         };
-  }, [
-    lpType,
-    percent,
-    memberPoolData?.liquidityUnits,
-    memberPoolData?.runePending,
-    memberPoolData?.assetPending,
-    pool.detail.units,
-    pool.detail.assetDepth,
-    pool.detail.runeDepth,
-    withdrawType,
-  ]);
+  }, [lpType, poolData, percent, withdrawType]);
 
-  const runePriceInUSD = useMemo(
-    () =>
-      new Price({
-        baseAsset: getSignatureAssetFor(Chain.THORChain),
-        pools,
-        priceAmount: runeAmount,
-      }),
-    [runeAmount, pools],
-  );
+  const { data: tokenPricesData } = useTokenPrices([RUNEAsset, poolAsset], {
+    pollingInterval: 60000,
+  });
 
-  const assetPriceInUSD = useMemo(
-    () =>
-      new Price({
-        baseAsset: pool.asset,
-        pools,
-        priceAmount: assetAmount,
-      }),
-    [pool, assetAmount, pools],
+  const [runePrice, assetPrice] = useMemo(
+    () => [
+      tokenPricesData?.find(
+        ({ identifier }) => identifier === parseAssetToToken(RUNEAsset).identifier,
+      )?.price_usd,
+      tokenPricesData?.find(
+        ({ identifier }) => identifier === parseAssetToToken(poolAsset).identifier,
+      )?.price_usd,
+    ],
+    [tokenPricesData, poolAsset],
   );
 
   const handleSetLPType = useCallback((type: PoolShareType) => {
@@ -312,15 +201,20 @@ const WithdrawPanel = ({
 
     if (!wallet) return;
 
+    if (!poolAsset.isRUNE()) {
+      const assetDecimals = await getEVMDecimal(poolAsset);
+      poolAsset.setDecimal(assetDecimals);
+    }
+
     const runeObject = {
       asset: getSignatureAssetFor(Chain.THORChain).name,
       amount: runeAmount.toSignificant(6),
     };
     const assetObject = {
-      asset: pool.asset.name,
+      asset: poolAsset.name,
       amount: assetAmount.toSignificant(6),
     };
-    const withdrawChain = withdrawTo === 'asset' ? pool.asset.chain : Chain.THORChain;
+    const withdrawChain = withdrawTo === 'asset' ? poolAsset.chain : Chain.THORChain;
     const outAssets =
       withdrawTo === 'sym'
         ? [runeObject, assetObject]
@@ -338,7 +232,7 @@ const WithdrawPanel = ({
 
     try {
       const txid = await withdraw({
-        asset: pool.asset,
+        asset: poolAsset,
         percent: new Amount(percent, AmountType.ASSET_AMOUNT, 2),
         from: withdrawFrom,
         to: withdrawTo,
@@ -351,10 +245,10 @@ const WithdrawPanel = ({
       appDispatch(completeTransaction({ id, status: 'error' }));
       showErrorToast(t('notification.submitFail'), message);
     }
-  }, [appDispatch, assetAmount, wallet, pool, percent, runeAmount, withdrawFrom, withdrawTo]);
+  }, [wallet, runeAmount, poolAsset, assetAmount, withdrawTo, appDispatch, percent, withdrawFrom]);
 
   const handleWithdrawLiquidity = useCallback(() => {
-    if (isETHAsset(pool.asset) && pool.detail.status === 'staged') {
+    if (isETHAsset(poolAsset)) {
       return showInfoToast(
         'notification.cannotWithdrawFromSP',
         t('notification.cannotWithdrawFromSPDesc'),
@@ -366,7 +260,7 @@ const WithdrawPanel = ({
     } else {
       showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
     }
-  }, [wallet, pool]);
+  }, [poolAsset, wallet]);
 
   const title = useMemo(
     () => `${t('common.withdraw')} ${poolAsset.ticker} ${t('common.liquidity')}`,
@@ -375,10 +269,9 @@ const WithdrawPanel = ({
 
   const withdrawOptions = useMemo(() => {
     // allow only sym withdraw for staged pools
-    const isStaged = pool.detail.status === 'staged';
     const isPendingLP = lpType === PoolShareType.PENDING;
 
-    if (isStaged || isPendingLP) {
+    if (isPendingLP) {
       return [LiquidityTypeOption.SYMMETRICAL];
     }
 
@@ -386,42 +279,33 @@ const WithdrawPanel = ({
     if (lpType === PoolShareType.ASSET_ASYM) return [LiquidityTypeOption.ASSET];
 
     return [LiquidityTypeOption.ASSET, LiquidityTypeOption.SYMMETRICAL, LiquidityTypeOption.RUNE];
-  }, [lpType, pool.detail.status]);
+  }, [lpType]);
 
   const withdrawAssets = useMemo(() => {
-    if (withdrawType === LiquidityTypeOption.RUNE) {
-      return [
-        {
-          asset: getSignatureAssetFor(Chain.THORChain),
-          value: `${runeAmount.toSignificant(6)} RUNE (${runePriceInUSD.toCurrencyFormat(2)})`,
-        },
-      ];
-    }
+    const withdrawArray = [];
 
-    if (withdrawType === LiquidityTypeOption.ASSET) {
-      return [
-        {
-          asset: poolAsset,
-          value: `${assetAmount.toSignificant(6)} ${
-            poolAsset.ticker
-          } (${assetPriceInUSD.toCurrencyFormat(2)})`,
-        },
-      ];
-    }
-
-    return [
-      {
+    if (
+      withdrawType === LiquidityTypeOption.SYMMETRICAL ||
+      withdrawType === LiquidityTypeOption.RUNE
+    ) {
+      withdrawArray.push({
         asset: getSignatureAssetFor(Chain.THORChain),
-        value: `${runeAmount.toSignificant(6)} RUNE (${runePriceInUSD.toCurrencyFormat(2)})`,
-      },
-      {
+        value: `${runeAmount.toSignificant(6)} RUNE (${runePrice?.toFixed(2)})`,
+      });
+    }
+
+    if (
+      withdrawType === LiquidityTypeOption.SYMMETRICAL ||
+      withdrawType === LiquidityTypeOption.ASSET
+    ) {
+      withdrawArray.push({
         asset: poolAsset,
-        value: `${assetAmount.toSignificant(6)} ${
-          poolAsset.ticker
-        } (${assetPriceInUSD.toCurrencyFormat(2)})`,
-      },
-    ];
-  }, [withdrawType, runeAmount, runePriceInUSD, poolAsset, assetAmount, assetPriceInUSD]);
+        value: `${assetAmount.toSignificant(6)} ${poolAsset.ticker} (${assetPrice?.toFixed(2)})`,
+      });
+    }
+
+    return withdrawArray;
+  }, [withdrawType, runeAmount, runePrice, poolAsset, assetAmount, assetPrice]);
 
   const lpLink: string = useMemo((): string => {
     if (!wallet) return '';
@@ -439,34 +323,54 @@ const WithdrawPanel = ({
     return `${lpRoute}?${queryParams}`;
   }, [lpType, poolAsset, wallet]);
 
-  const hasPending = useMemo(
-    () => shareTypes.some((type) => type === PoolShareType.PENDING),
-    [shareTypes],
+  const warningWithPendingWithdraw = useMemo(
+    () => !!shares.pending && Object.keys(shares).length > 1,
+    [shares],
   );
 
-  const warningWithPendingWithdraw = useMemo(() => {
-    const hasLiquidityDeposit = shareTypes.some((type) =>
-      [PoolShareType.SYM, PoolShareType.ASSET_ASYM, PoolShareType.RUNE_ASYM].includes(type),
-    );
-
-    return hasPending && hasLiquidityDeposit;
-  }, [hasPending, shareTypes]);
-
-  const confirmInfo = useConfirmInfoItems({
-    assets: withdrawAssets,
-    fee: feeLabel,
-    ILP: (
-      <Link external to={lpLink}>
-        <Button
-          className="px-2.5"
-          leftIcon={<Icon name="chart" size={16} />}
-          variant="borderlessTint"
-        >
-          {t('common.viewOnThoryieldNoArrow')}
-        </Button>
-      </Link>
-    ),
-  });
+  const confirmInfo = useMemo(
+    () =>
+      withdrawAssets
+        .map((data) => ({
+          label: `${t('common.withdraw')} ${data.asset.ticker} (${data.asset.type})`,
+          value: (
+            <Box alignCenter justify="between">
+              <Text className="mx-2" fontWeight="semibold">
+                {data.value}
+              </Text>
+              <AssetIcon asset={data.asset} size={24} />
+            </Box>
+          ),
+        }))
+        .concat([
+          {
+            label: t('common.transactionFee'),
+            value: (
+              <InfoWithTooltip tooltip={t('views.liquidity.gasFeeTooltip')} value={feeInUSD} />
+            ),
+          },
+          {
+            label: t('views.liquidity.ilp'),
+            value: (
+              <InfoWithTooltip
+                tooltip={t('views.liquidity.ILPTooltip')}
+                value={
+                  <Link external to={lpLink}>
+                    <Button
+                      className="px-2.5"
+                      leftIcon={<Icon name="chart" size={16} />}
+                      variant="borderlessTint"
+                    >
+                      {t('common.viewOnThoryieldNoArrow')}
+                    </Button>
+                  </Link>
+                }
+              />
+            ),
+          },
+        ]),
+    [feeInUSD, lpLink, withdrawAssets],
+  );
 
   const modalInfoItems = useMemo(
     () =>
@@ -502,7 +406,7 @@ const WithdrawPanel = ({
 
       <LPTypeSelector
         onChange={handleSetLPType}
-        options={shareTypes}
+        options={Object.keys(shares) as PoolShareType[]}
         poolAsset={poolAsset}
         selected={lpType}
         title={`${t('views.liquidity.from')}:`}
@@ -517,9 +421,9 @@ const WithdrawPanel = ({
         runeAmount={runeAmount}
       />
 
-      {hasPending && (
+      {shares.pending && (
         <InfoTip
-          onClick={() => navigate(getAddLiquidityRoute(pool.asset))}
+          onClick={() => navigate(getAddLiquidityRoute(poolAsset))}
           title={t('pendingLiquidity.content', { asset: `${poolAsset.ticker} or RUNE` })}
           type="warn"
         />
@@ -527,7 +431,7 @@ const WithdrawPanel = ({
 
       {warningWithPendingWithdraw && (
         <InfoTip
-          onClick={() => navigate(getAddLiquidityRoute(pool.asset))}
+          onClick={() => navigate(getAddLiquidityRoute(poolAsset))}
           title={t('pendingLiquidity.withdrawWarning')}
           type="warn"
         />
@@ -568,5 +472,3 @@ const WithdrawPanel = ({
     </PanelView>
   );
 };
-
-export default WithdrawLiquidity;

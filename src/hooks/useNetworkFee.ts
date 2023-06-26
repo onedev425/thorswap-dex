@@ -149,7 +149,9 @@ export const useNetworkFee = ({
   const outputFee = useAssetNetworkFee({ asset: outputGasAsset, type, chainInfo: outputChainInfo });
 
   const feeInUSD = useMemo(() => {
-    if (!inputGasAsset) return new Price({ baseAsset: inputAsset, unitPrice: new BigNumber(0) });
+    if (!inputGasAsset) {
+      return new Price({ baseAsset: inputAsset, unitPrice: new BigNumber(0) }).toCurrencyFormat(2);
+    }
 
     const inputUSDPrice =
       tokenPrices?.find(

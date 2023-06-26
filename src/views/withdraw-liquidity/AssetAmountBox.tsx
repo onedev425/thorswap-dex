@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon/AssetIcon';
 import { Box } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
+import { memo } from 'react';
 
 type Props = {
   className?: string;
@@ -12,7 +13,7 @@ type Props = {
   stretch?: boolean;
 };
 
-export const AssetAmountBox = ({ className, asset, amount, stretch }: Props) => {
+const AmountBox = ({ className, asset, amount, stretch }: Props) => {
   return (
     <Box
       alignCenter
@@ -34,3 +35,5 @@ export const AssetAmountBox = ({ className, asset, amount, stretch }: Props) => 
     </Box>
   );
 };
+
+export const AssetAmountBox = memo(AmountBox);

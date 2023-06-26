@@ -14,6 +14,7 @@ import { Helmet } from 'components/Helmet';
 import { InfoTable } from 'components/InfoTable';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { TabsSelect } from 'components/TabsSelect';
+import { WithdrawPercent } from 'views/withdraw-liquidity/WithdrawPercent';
 import { SAVERS_MEDIUM } from 'config/constants';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
@@ -34,7 +35,6 @@ import { EarnConfirmModal } from 'views/Earn/EarnConfirmModal';
 import { EarnPositionsTab } from 'views/Earn/EarnPositionsTab';
 import { useAssetsWithApr } from 'views/Earn/useAssetsWithApr';
 import { useEarnCalculations } from 'views/Earn/useEarnCalculations';
-import { WithdrawPercent } from 'views/WithdrawLiquidity/WithdrawPercent';
 
 import { EarnButton } from './EarnButton';
 import { EarnTab, EarnViewTab } from './types';

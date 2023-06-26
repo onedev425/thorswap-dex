@@ -17,6 +17,7 @@ export const midgardApi = createApi({
   endpoints: (build) => ({
     getFullMember: build.query<FullMemberPool[], string[]>({
       query: (addresses) => `/full_member?address=${addresses.join(',')}`,
+      keepUnusedDataFor: 10,
     }),
     getPools: build.query<PoolDetail[], PoolPeriods | void>({
       query: (period) => `/pools${period ? `?period=${period}` : ''}`,

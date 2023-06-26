@@ -29,14 +29,14 @@ const UpgradeRune = lazy(() => import('views/UpgradeRune'));
 const Vesting = lazy(() => import('views/Vesting'));
 const Airdrop = lazy(() => import('views/Airdrop'));
 const Wallet = lazy(() => import('views/Wallet'));
-const WithdrawLiquidity = lazy(() => import('views/WithdrawLiquidity'));
 const OnRamp = lazy(() => import('views/OnRamp'));
 const MultisigCreate = lazy(() => import('views/Multisig/MultisigCreate/MultisigCreate'));
 const MultisigImport = lazy(() => import('views/Multisig/MultisigImport/MultisigImport'));
 const Transaction = lazy(() => import('views/Transaction/Transaction'));
 
 // New LP
-const NewLiquidity = lazy(() => import('views/new-liquidity'));
+const Liquidity = lazy(() => import('views/new-liquidity'));
+const WithdrawLiquidity = lazy(() => import('views/withdraw-liquidity'));
 
 export type RouteType = {
   path: string;
@@ -52,7 +52,7 @@ const routes: RouteType = [
   { path: ROUTES.LegacyStake, element: LegacyStake },
   { path: ROUTES.Kyber, element: Swap },
   { path: ROUTES.KyberPair, element: Swap },
-  { path: ROUTES.Liquidity, element: NewLiquidity },
+  { path: ROUTES.Liquidity, element: Liquidity },
   { path: ROUTES.Multisig, element: Multisig },
   { path: ROUTES.MultisigConnect, element: MultisigImport },
   { path: ROUTES.MultisigCreate, element: MultisigCreate },
