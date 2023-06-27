@@ -2600,17 +2600,17 @@
     "@thorswap-lib/swapkit-entities" "1.0.0-development.96"
     "@thorswap-lib/types" "1.0.0-development.89"
 
-"@thorswap-lib/keplr@1.0.0-development.10":
-  version "1.0.0-development.10"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/keplr/-/keplr-1.0.0-development.10.tgz#069f9c867b80844a1b649a0a1fc7132cfe9ee225"
-  integrity sha512-LssFpOOxeLKZfb3hBCkMtdRDBb6cH6LCNUK1SL9De9wdjE5bCmn36h1kIyg7sW3PKoQfWBc6wxYfNz32dG4ACQ==
+"@thorswap-lib/keplr@1.0.0-development.11":
+  version "1.0.0-development.11"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/keplr/-/keplr-1.0.0-development.11.tgz#4dc1d45a3be3e40cbde012f7b4cf826dacdfc223"
+  integrity sha512-cSgIRKiNshiTyJB5z29ldxxEq+gP6Dai+t98GKnFZSU83kTYqa6Tbe76tcLP7sTS8IFxaOTi3eE0ZuF818Gplg==
   dependencies:
     "@thorswap-lib/types" "1.0.0-development.89"
 
-"@thorswap-lib/keystore@1.0.0-development.175":
-  version "1.0.0-development.175"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/keystore/-/keystore-1.0.0-development.175.tgz#73459b4121d3b28ab3b7f8d843f6f323a165d242"
-  integrity sha512-8PORMUEiJCCzohw0hLGE5h5Bg72yswXbCCcU44r8oP3+FTg1NKIdoiV2HUddtdBIoolEFib4EhS/+fEFoVlBig==
+"@thorswap-lib/keystore@1.0.0-development.176":
+  version "1.0.0-development.176"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/keystore/-/keystore-1.0.0-development.176.tgz#2992d3a7751a890fd677956f0b37496631dca0b7"
+  integrity sha512-qbwElty0R8XjID01VWCGwZ9X6KlFXPq40mRMupL5UNOsvvA0YsGqAvxCd2YvFmGOhAnqhCEmiVsmFXUqbSMjAQ==
   dependencies:
     "@ethersproject/hdnode" "5.7.0"
     "@ethersproject/wallet" "5.7.0"
@@ -2621,10 +2621,10 @@
     long "4.0.0"
     uuid "9.0.0"
 
-"@thorswap-lib/ledger@1.0.0-development.194":
-  version "1.0.0-development.194"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/ledger/-/ledger-1.0.0-development.194.tgz#94c56c5a5a8e5a185d524f1a370b5480ce96d756"
-  integrity sha512-rbYYSmxpJ/oFj2sOEp21gooehE6oUempYzD24T1HipD/A3E1IRIZsLfyY3A0/B9DLwNRCHPnNQErm17yG1rs1Q==
+"@thorswap-lib/ledger@1.0.0-development.195":
+  version "1.0.0-development.195"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/ledger/-/ledger-1.0.0-development.195.tgz#f29f489000fae8be6ed5960e598889741918a402"
+  integrity sha512-XRHpC4vj2xAYGlxh+Dvrgp/cn7hclDibzE7J9jLfT4Odgm0B1AqJXHT/sMBnxjPiPyElWu9/sovbwcQDoaHEEw==
   dependencies:
     "@cosmjs/amino" "0.30.1"
     "@cosmjs/crypto" "0.30.1"
@@ -2651,10 +2651,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.16.tgz#c65271f77bfcc75d7a272ecc67553d5d95fac07b"
   integrity sha512-j+yb5QjAfgknurpoRXZ0t/xWoeDXNEQEMv/a5OU4rBab3HGhXbfs4Nu5Ip+nrfeDWLa0oRMeAp4TpUnBA4pAxQ==
 
-"@thorswap-lib/swapkit-api@0.1.0-development.19":
-  version "0.1.0-development.19"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-api/-/swapkit-api-0.1.0-development.19.tgz#1e1822453db99361018e862563d2403d24b595da"
-  integrity sha512-NNSgarp8Z4KzTS2ono2FfXiLiuHcuB1c7Ptg/Oa08FCqbKdHsFGMZCx1kOIwc+3qQWGHVoFJCJJWd1g2iS4uzw==
+"@thorswap-lib/swapkit-api@0.1.0-development.20":
+  version "0.1.0-development.20"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-api/-/swapkit-api-0.1.0-development.20.tgz#6bb04fd96dbc7982c083ff27e560e9e49a767207"
+  integrity sha512-PNH5h0TMwm+FipB/LeDrtlEU8MjcRwQfTgNKQQHtEFqoNA0Kusk2APAq2wE3jlu7WfjRxA/Cd1dgidafP2/gzg==
   dependencies:
     "@thorswap-lib/types" "1.0.0-development.89"
 
@@ -2686,10 +2686,10 @@
   dependencies:
     "@thorswap-lib/types" "1.0.0-development.89"
 
-"@thorswap-lib/toolbox-cosmos@1.0.0-development.115":
-  version "1.0.0-development.115"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/toolbox-cosmos/-/toolbox-cosmos-1.0.0-development.115.tgz#798619472ae8e9bf02cef1d93993661e20615a5e"
-  integrity sha512-GJsaog6rb7acS2511MLoH9yxjuuFOWdliBRFMo0Prly/rhCn4JtMlL93AcfnKrcNJ7pxZNHWW8hs+40MhIh1Rg==
+"@thorswap-lib/toolbox-cosmos@1.0.0-development.116":
+  version "1.0.0-development.116"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/toolbox-cosmos/-/toolbox-cosmos-1.0.0-development.116.tgz#36297f5b71dc26bc690ca0e072df357470d08ef2"
+  integrity sha512-Hofe1O67+6q+ub8PUDi87VwwN4MYnmkY6L3OC+YcrG61iJHvUTucKDVMjfhcboX9Q/FKjw5igNqLlLVMuwspoQ==
   dependencies:
     "@cosmjs/amino" "0.30.1"
     "@cosmjs/crypto" "0.30.1"
@@ -2697,7 +2697,7 @@
     "@cosmjs/proto-signing" "0.30.1"
     "@cosmjs/stargate" "0.30.1"
     "@thorswap-lib/helpers" "0.0.0-development.88"
-    "@thorswap-lib/swapkit-api" "0.1.0-development.19"
+    "@thorswap-lib/swapkit-api" "0.1.0-development.20"
     "@thorswap-lib/swapkit-entities" "1.0.0-development.96"
     "@thorswap-lib/types" "1.0.0-development.89"
     base64-js "1.5.1"
@@ -2749,20 +2749,20 @@
     ecpair "2.0.1"
     tiny-secp256k1 "1.1.6"
 
-"@thorswap-lib/trezor@1.0.0-development.31":
-  version "1.0.0-development.31"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/trezor/-/trezor-1.0.0-development.31.tgz#95e5c38c0c0d18c0585e482fc555991c0c6b1713"
-  integrity sha512-DIyjmQV7ya+mngUyqQm5RBSdBg1mf8/CcC+hC4jMwKRs3N/UTHdBccDKqTaqxtA4juymx5cFQ+h0Fyo+JqIAYQ==
+"@thorswap-lib/trezor@1.0.0-development.32":
+  version "1.0.0-development.32"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/trezor/-/trezor-1.0.0-development.32.tgz#55645f091e42032f7853c1e2ef95bf16b58a39bc"
+  integrity sha512-ccpN0F7FZ1zo3ocpXOL2eSLpzzzu4nmdnI04W++2cL+D9Iuzo8FrTR+Wm4ZBNYMwcopOv2ZkaJKpmVEMEJC3aQ==
   dependencies:
     "@thorswap-lib/helpers" "0.0.0-development.88"
     "@thorswap-lib/swapkit-entities" "1.0.0-development.96"
     "@thorswap-lib/types" "1.0.0-development.89"
     "@trezor/connect-web" "9.0.11"
 
-"@thorswap-lib/trustwallet@1.0.0-development.164":
-  version "1.0.0-development.164"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/trustwallet/-/trustwallet-1.0.0-development.164.tgz#f554fb95f5dc905803495308fcbdeaf68e537bd0"
-  integrity sha512-eSqESYnSI16GvYSg74d48ujJOsjJ52SfsTy72wN7dA3eYw0p1b4m6UokQdtK13L/El6zVtetG5FSpSnjnHAjfQ==
+"@thorswap-lib/trustwallet@1.0.0-development.165":
+  version "1.0.0-development.165"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/trustwallet/-/trustwallet-1.0.0-development.165.tgz#24e1a94be8737194d79ed50d601b63bfba354f64"
+  integrity sha512-aIRtQHY/ltaqGXuwpKv9K29p7dVmiFueL7ZSa+9Nxn3bvzOAHnPSuiBrkjTQCwvIJE54JwpA6eqV3Egdu3gFAA==
   dependencies:
     "@thorswap-lib/helpers" "0.0.0-development.88"
     "@thorswap-lib/types" "1.0.0-development.89"
@@ -2787,10 +2787,10 @@
     "@walletconnect/web3-provider" "1.8.0"
     web3modal "1.9.12"
 
-"@thorswap-lib/xdefi@1.0.0-development.14":
-  version "1.0.0-development.14"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xdefi/-/xdefi-1.0.0-development.14.tgz#81a5c82767189e9062a55a683f2949ffda816f67"
-  integrity sha512-9Kd8bjLMHXNss6CUbVftDAaCB22TrT5XStV2AL0adLGs5CI3xwJllDwS8BJdU0rU4Dkw/QDlltGy2f3bafM8eA==
+"@thorswap-lib/xdefi@1.0.0-development.15":
+  version "1.0.0-development.15"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xdefi/-/xdefi-1.0.0-development.15.tgz#769e7242cd68564128770a2d613023355060f955"
+  integrity sha512-E5a9zHSFidLm+D9BY1+ampoGpmu4iiMXsRpzJAMSYl+Rc1wU2ismY0gZIXl1G7rsLA9VcN3L+DGso36VPSA2dQ==
   dependencies:
     "@thorswap-lib/types" "1.0.0-development.89"
 
