@@ -9,7 +9,6 @@ const CHAINS_WITH_CUSTOM_DERIVATION_PATH = [
   Chain.Avalanche,
   Chain.BinanceSmartChain,
   Chain.Bitcoin,
-  Chain.BitcoinCash,
   Chain.Litecoin,
 ];
 
@@ -30,9 +29,8 @@ const useLedgerTypes = (chain: Chain) => {
   const types = useMemo(() => {
     switch (chain) {
       case Chain.Bitcoin:
-      case Chain.BitcoinCash:
       case Chain.Litecoin: {
-        const chainId = chain === Chain.Bitcoin ? 0 : chain === Chain.BitcoinCash ? 145 : 2;
+        const chainId = chain === Chain.Bitcoin ? 0 : 2;
 
         return utxoLedgerTypes(chainId);
       }

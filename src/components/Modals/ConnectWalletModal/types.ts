@@ -86,7 +86,13 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.Ledger]: AllChainsSupported,
   [WalletType.MetaMask]: EVMChainsSupported,
   [WalletType.Phrase]: AllChainsSupported,
-  [WalletType.Trezor]: [...EVMChainsSupported, Chain.Bitcoin, Chain.Doge, Chain.Litecoin],
+  [WalletType.Trezor]: [
+    ...EVMChainsSupported,
+    Chain.Bitcoin,
+    Chain.Doge,
+    Chain.Litecoin,
+    Chain.BitcoinCash,
+  ],
   [WalletType.TrustWalletExtension]: EVMChainsSupported,
   [WalletType.TrustWallet]: [
     Chain.THORChain,
