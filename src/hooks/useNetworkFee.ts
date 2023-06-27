@@ -5,14 +5,13 @@ import {
   AssetEntity,
   getSignatureAssetFor,
   Pool,
-  Price,
 } from '@thorswap-lib/swapkit-core';
 import { BaseDecimal, Chain, FeeOption } from '@thorswap-lib/types';
 import BigNumber from 'bignumber.js';
 import { isAVAXAsset, isBTCAsset, isETHAsset, USDAsset } from 'helpers/assets';
 import { parseAssetToToken } from 'helpers/parseHelpers';
 import { useTokenPrices } from 'hooks/useTokenPrices';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useApp } from 'store/app/hooks';
 import { useGetGasPriceRatesQuery } from 'store/thorswap/api';
 import { GasPriceInfo } from 'store/thorswap/types';
@@ -130,7 +129,7 @@ export const useNetworkFee = ({
   const outputGasAsset = getGasFeeAssetForAsset(outputAsset);
 
   const { data: tokenPrices, isLoading: tokenPricesLoading } = useTokenPrices(
-    [inputGasAsset, outputGasAsset].filter(Boolean) as AssetEntity[],
+    [inputGasAsset, outputGasAsset, inputAsset, outputAsset].filter(Boolean) as AssetEntity[],
   );
 
   const { data: gasPriceRates, isLoading: priceRatesLoading } = useGetGasPriceRatesQuery();
@@ -148,29 +147,57 @@ export const useNetworkFee = ({
   const inputFee = useAssetNetworkFee({ asset: inputGasAsset, type, chainInfo: inputChainInfo });
   const outputFee = useAssetNetworkFee({ asset: outputGasAsset, type, chainInfo: outputChainInfo });
 
+  const findTokenPrice = useCallback(
+    (asset: AssetEntity) =>
+      tokenPrices?.find(({ identifier }) => identifier === parseAssetToToken(asset)?.identifier)
+        ?.price_usd || 0,
+    [tokenPrices],
+  );
+
+  const { outputGasAssetUSDPrice, inputGasAssetUSDPrice, inputAssetUSDPrice, outputAssetUSDPrice } =
+    useMemo(
+      () => ({
+        inputAssetUSDPrice: findTokenPrice(inputAsset),
+        outputAssetUSDPrice: outputAsset ? findTokenPrice(outputAsset) : 0,
+        inputGasAssetUSDPrice: findTokenPrice(inputGasAsset),
+        outputGasAssetUSDPrice: findTokenPrice(outputGasAsset),
+      }),
+      [findTokenPrice, inputAsset, inputGasAsset, outputAsset, outputGasAsset],
+    );
+
   const feeInUSD = useMemo(() => {
-    if (!inputGasAsset) {
-      return new Price({ baseAsset: inputAsset, unitPrice: new BigNumber(0) }).toCurrencyFormat(2);
-    }
+    const inputFeePrice = new BigNumber(inputGasAssetUSDPrice).multipliedBy(
+      inputFee.amount.assetAmount,
+    );
 
-    const inputUSDPrice =
-      tokenPrices?.find(
-        ({ identifier }) => identifier === parseAssetToToken(inputGasAsset)?.identifier,
-      )?.price_usd || 0;
-    const inputFeePrice = new BigNumber(inputUSDPrice).multipliedBy(inputFee.amount.assetAmount);
+    const outputFeePrice = new BigNumber(outputGasAssetUSDPrice).multipliedBy(
+      outputFee.amount.assetAmount,
+    );
 
-    if (!outputGasAsset) return `$${inputFeePrice.toFixed(2)}`;
+    return outputGasAsset && inputGasAsset
+      ? `$${inputFeePrice.plus(outputFeePrice).toFixed(2)}`
+      : inputGasAsset
+      ? `$${inputFeePrice.toFixed(2)}`
+      : '';
+  }, [
+    inputFee.amount.assetAmount,
+    inputGasAsset,
+    inputGasAssetUSDPrice,
+    outputFee.amount.assetAmount,
+    outputGasAsset,
+    outputGasAssetUSDPrice,
+  ]);
 
-    const outputUSDPrice =
-      tokenPrices?.find(
-        ({ identifier }) => identifier === parseAssetToToken(outputGasAsset)?.identifier,
-      )?.price_usd || 0;
-    const outputFeePrice = new BigNumber(outputUSDPrice).multipliedBy(outputFee.amount.assetAmount);
-
-    return `$${inputFeePrice.plus(outputFeePrice).toFixed(2)}`;
-  }, [inputAsset, inputFee, inputGasAsset, outputFee, outputGasAsset, tokenPrices]);
-
-  return { inputFee, outputFee, feeInUSD, isLoading: priceRatesLoading || tokenPricesLoading };
+  return {
+    inputFee,
+    outputFee,
+    feeInUSD,
+    isLoading: priceRatesLoading || tokenPricesLoading,
+    inputAssetUSDPrice,
+    outputAssetUSDPrice,
+    inputGasAssetUSDPrice,
+    outputGasAssetUSDPrice,
+  };
 };
 
 export const getSumAmountInUSD = (

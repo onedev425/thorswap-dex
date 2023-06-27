@@ -1,6 +1,7 @@
 import { Spinner, Text } from '@chakra-ui/react';
 import { Amount, AssetEntity, Price } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
+import BigNumber from 'bignumber.js';
 import { SwitchMenu } from 'components/AppPopoverMenu/components/SwitchMenu';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Button, Icon, Tooltip } from 'components/Atomic';
@@ -25,7 +26,6 @@ import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getSendRoute } from 'settings/router';
-import { useMidgard } from 'store/midgard/hooks';
 import { useWallet } from 'store/wallet/hooks';
 import { CustomSend } from 'views/Send/components/CustomSend';
 import { useCustomSend } from 'views/Send/hooks/useCustomSend';
@@ -48,9 +48,9 @@ const Send = () => {
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
 
   const { wallet, setIsConnectModalOpen } = useWallet();
-  const { pools } = useMidgard();
+
   const { getMaxBalance } = useBalance();
-  const { inputFee, feeInUSD, isLoading } = useNetworkFee({
+  const { inputAssetUSDPrice, inputFee, feeInUSD, isLoading } = useNetworkFee({
     type: 'transfer',
     inputAsset: sendAsset,
   });
@@ -102,13 +102,11 @@ const Send = () => {
   }, [TNS, TNSAddress]);
 
   useEffect(() => {
-    if (customTxEnabled) {
-      setSendAsset(RUNEAsset);
-    }
-  }, [customTxEnabled]);
-
-  useEffect(() => {
     const getSendAsset = async () => {
+      if (customTxEnabled) {
+        return setSendAsset(RUNEAsset);
+      }
+
       if (!assetParam) {
         setSendAsset(RUNEAsset);
       } else {
@@ -126,7 +124,7 @@ const Send = () => {
     };
 
     getSendAsset();
-  }, [assetParam]);
+  }, [assetParam, customTxEnabled]);
 
   const isWalletConnected = useMemo(
     () => sendAsset && hasWalletConnected({ wallet, inputAssets: [sendAsset] }),
@@ -136,16 +134,6 @@ const Send = () => {
   const walletAssets = useMemo(() => getWalletAssets(wallet), [wallet]);
 
   const assetInputList = useAssetsWithBalance(walletAssets);
-
-  const assetPriceInUSD = useMemo(
-    () =>
-      new Price({
-        baseAsset: sendAsset,
-        pools,
-        priceAmount: sendAmount,
-      }),
-    [sendAsset, sendAmount, pools],
-  );
 
   const handleSelectAsset = useCallback(
     (selected: AssetEntity) => {
@@ -199,9 +187,13 @@ const Send = () => {
       asset: sendAsset,
       value: sendAmount,
       balance: isWalletConnected ? maxSpendableBalance : undefined,
-      usdPrice: assetPriceInUSD,
+      usdPrice: new Price({
+        baseAsset: sendAsset,
+        priceAmount: sendAmount,
+        unitPrice: new BigNumber(inputAssetUSDPrice),
+      }),
     }),
-    [sendAsset, sendAmount, maxSpendableBalance, assetPriceInUSD, isWalletConnected],
+    [sendAsset, sendAmount, isWalletConnected, maxSpendableBalance, inputAssetUSDPrice],
   );
 
   const summary = useMemo(

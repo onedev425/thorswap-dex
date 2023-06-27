@@ -30,13 +30,14 @@ export const AssetInput = ({
   ...rest
 }: AssetInputProps) => {
   const formatPrice = useFormatPrice();
+
   const {
     asset,
-    value = Amount.fromAssetAmount(0, asset.decimal),
-    usdPrice,
     balance,
     loading,
     priceLoading,
+    usdPrice,
+    value = Amount.fromAssetAmount(0, asset.decimal),
   } = selectedAsset;
 
   const localPriceLoading = useMemo(
