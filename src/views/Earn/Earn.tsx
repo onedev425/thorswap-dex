@@ -246,6 +246,13 @@ const Earn = () => {
                       ? `${currentAsset?.apr} ${t('common.apr').toUpperCase()}`
                       : ''}
                   </Text>
+
+                  <Tooltip
+                    content={t('views.savings.aprTooltip', { asset: asset.name })}
+                    place="bottom"
+                  >
+                    <Icon className="ml-1" color="primaryBtn" name="infoCircle" size={24} />
+                  </Tooltip>
                 </Box>
               </Box>
 
@@ -259,10 +266,7 @@ const Earn = () => {
                   </Link>
                 </Text>
 
-                <Tooltip
-                  content={t('views.savings.tooltipDescription', { asset: asset.name })}
-                  place="bottom"
-                >
+                <Tooltip content={t('views.savings.tooltipDescription')} place="bottom">
                   <Icon color="primaryBtn" name="infoCircle" size={24} />
                 </Tooltip>
               </Box>

@@ -3,7 +3,7 @@ import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetSelectProps } from 'components/AssetSelect/types';
 import { useAssetSelect } from 'components/AssetSelect/useAssetSelect';
-import { Box, Icon } from 'components/Atomic';
+import { Box, Icon, Tooltip } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
@@ -40,6 +40,12 @@ export const EarnAssetSelectList = ({
       )}
       flex={1}
     >
+      <Box className="w-full -mt-2 mb-2 pr-3.5" flex={1} justify="end">
+        <Tooltip content={t('views.savings.aprTooltip')} place="bottom">
+          <Icon className="ml-1" color="primaryBtn" name="infoCircle" size={24} />
+        </Tooltip>
+      </Box>
+
       {filteredAssets.length ? (
         <Box className="!overflow-x-clip flex-col overflow-y-auto gap-1.5 w-full h-full">
           {filteredAssets.map((item) => (

@@ -11,7 +11,7 @@ export const useAssetsWithApr = (assets: Asset[]) => {
 
   useEffect(() => {
     const getPools = async () => {
-      const res = await midgardSdk.getPools();
+      const res = await midgardSdk.getPools(undefined, '7d');
       setPools(res as unknown as MidgardEarnPoolType[]);
     };
 
