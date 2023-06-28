@@ -9,6 +9,7 @@ export enum WalletType {
   MetaMask = 'MetaMask',
   Phrase = 'Phrase',
   Trezor = 'Trezor',
+  // TODO: Remove when trustwallet is removed from SK
   TrustWallet = 'TrustWallet',
   Walletconnect = 'Walletconnect',
   TrustWalletExtension = 'TrustWalletExtension',
@@ -25,6 +26,7 @@ export const WalletNameByWalletType: Record<WalletType, string> = {
   [WalletType.MetaMask]: 'MetaMask',
   [WalletType.Phrase]: 'Phrase',
   [WalletType.Trezor]: 'Trezor',
+  // TODO: Remove when trustwallet is removed from SK
   [WalletType.TrustWallet]: 'TrustWallet',
   [WalletType.TrustWalletExtension]: 'TrustWallet Extension',
   [WalletType.CoinbaseExtension]: 'Coinbase Extension',
@@ -41,6 +43,7 @@ export const WalletOptionByWalletType: Record<WalletType, WalletOption> = {
   [WalletType.MetaMask]: WalletOption.METAMASK,
   [WalletType.Phrase]: WalletOption.KEYSTORE,
   [WalletType.Trezor]: WalletOption.TREZOR,
+  // TODO: Remove when trustwallet is removed from SK
   [WalletType.TrustWallet]: WalletOption.TRUSTWALLET,
   [WalletType.TrustWalletExtension]: WalletOption.TRUSTWALLET_WEB,
   [WalletType.CoinbaseExtension]: WalletOption.COINBASE_WEB,
@@ -54,6 +57,7 @@ export const WalletNameByWalletOption: Record<WalletOption, string> = {
   [WalletOption.LEDGER]: WalletType.Ledger,
   [WalletOption.METAMASK]: WalletType.MetaMask,
   [WalletOption.TREZOR]: WalletType.Trezor,
+  // TODO: Remove when trustwallet is removed from SK
   [WalletOption.TRUSTWALLET]: WalletType.TrustWallet,
   [WalletOption.TRUSTWALLET_WEB]: 'Trustwallet Web',
   [WalletOption.WALLETCONNECT]: WalletType.Walletconnect,
@@ -94,12 +98,8 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
     Chain.BitcoinCash,
   ],
   [WalletType.TrustWalletExtension]: EVMChainsSupported,
-  [WalletType.TrustWallet]: [
-    Chain.THORChain,
-    Chain.Ethereum,
-    Chain.Binance,
-    // Chain.BinanceSmartChain,
-  ],
+  // TODO: Remove when trustwallet is removed from SK
+  [WalletType.TrustWallet]: [],
   [WalletType.Xdefi]: AllChainsSupported,
-  [WalletType.Walletconnect]: [Chain.Ethereum],
+  [WalletType.Walletconnect]: [Chain.Ethereum, Chain.Avalanche],
 };

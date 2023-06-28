@@ -47,11 +47,6 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
               label: t('views.walletModal.walletConnect'),
             },
             {
-              type: WalletType.TrustWallet,
-              icon: 'trustWallet',
-              label: t('views.walletModal.trustWallet'),
-            },
-            {
               visible: isMdActive,
               type: WalletType.TrustWalletExtension,
               icon: 'trustWalletWhite',
@@ -155,7 +150,6 @@ export const useHandleWalletConnect = ({
     connectKeplr,
     connectLedger,
     connectTrezor,
-    connectTrustWallet,
     connectWalletconnect,
     connectEVMWalletExtension,
     connectXdefiWallet,
@@ -177,8 +171,6 @@ export const useHandleWalletConnect = ({
 
       try {
         switch (selectedWalletType) {
-          case WalletType.TrustWallet:
-            return connectTrustWallet(selectedChains);
           case WalletType.Xdefi:
             return connectXdefiWallet(selectedChains);
           case WalletType.Ledger:
@@ -212,7 +204,6 @@ export const useHandleWalletConnect = ({
       connectKeplr,
       connectLedger,
       connectTrezor,
-      connectTrustWallet,
       connectWalletconnect,
       connectXdefiWallet,
       derivationPathType,
