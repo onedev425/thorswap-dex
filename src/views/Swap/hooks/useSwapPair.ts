@@ -1,7 +1,7 @@
 import { Amount, AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { Pair } from 'views/Swap/types';
 
 const getSwapPair = (pair: string) => {
@@ -17,20 +17,24 @@ const getSwapPair = (pair: string) => {
 };
 
 export const useSwapPair = () => {
+  const [searchParams] = useSearchParams();
+
+  const { pair } = useParams<{ pair: string }>();
   const [swapPair, setSwapPair] = useState<Pair>({
     inputAsset: getSignatureAssetFor(Chain.Ethereum),
-    outputAsset: getSignatureAssetFor('ETH_THOR'),
+    outputAsset: getSignatureAssetFor(Chain.Bitcoin),
   });
 
   const [inputAmount, setInputAmount] = useState(
-    Amount.fromAssetAmount(0, swapPair.inputAsset.decimal),
+    Amount.fromAssetAmount(
+      parseFloat(searchParams.get('sellAmount') || '0'),
+      swapPair.inputAsset.decimal,
+    ),
   );
 
   const [outputAmount, setOutputAmount] = useState(
     Amount.fromAssetAmount(0, swapPair.outputAsset.decimal),
   );
-
-  const { pair } = useParams<{ pair: string }>();
 
   const getPair = useCallback(async () => {
     if (!pair) return;
