@@ -38,6 +38,7 @@ export const AssetInput = ({
     priceLoading,
     usdPrice,
     value = Amount.fromAssetAmount(0, asset.decimal),
+    logoURI,
   } = selectedAsset;
 
   const localPriceLoading = useMemo(
@@ -64,10 +65,11 @@ export const AssetInput = ({
   const assetSelectProps = useMemo(
     () => ({
       ...rest,
+      logoURI,
       onSelect: rest.onAssetChange as (asset: AssetEntity) => void,
       showAssetType: true,
     }),
-    [rest],
+    [logoURI, rest],
   );
 
   const inputStyle = useMemo(() => {

@@ -5,15 +5,13 @@ import { FallbackIcon } from 'components/AssetIcon/FallbackIcon';
 import { Box } from 'components/Atomic';
 import { RUNEAsset } from 'helpers/assets';
 import { tokenLogoURL } from 'helpers/logoURL';
-import { memo, useMemo, useState } from 'react';
+import { memo, useMemo } from 'react';
 
 import { genericBgClasses } from '../constants';
 
 import { ChainIcon, FORCE_ICON_CHAINS } from './ChainIcon';
 import { AssetIconProps, iconSizes } from './types';
 import { getSecondaryIconPlacementStyle } from './utils';
-
-const brokenAssetIcons = new Set<string>();
 
 const AssetIconComponent = ({
   shadowPosition = 'corner',
@@ -50,7 +48,6 @@ const AssetIconComponent = ({
     const iconSize = typeof size === 'number' ? size : iconSizes[size];
     return { iconSize, secondaryIconSize: iconSize * 0.52 };
   }, [size]);
-  const [fallback, setFallback] = useState(brokenAssetIcons.has(iconUrl));
 
   const style = useMemo(() => ({ width: iconSize, height: iconSize }), [iconSize]);
   const badgeStyle = useMemo(
@@ -95,7 +92,7 @@ const AssetIconComponent = ({
         />
       )}
 
-      {!fallback && iconUrl ? (
+      {iconUrl ? (
         <Box
           center
           className={classNames(
@@ -107,10 +104,6 @@ const AssetIconComponent = ({
           <img
             alt={symbol}
             className="absolute inset-0 transition-all rounded-full"
-            onError={() => {
-              brokenAssetIcons.add(iconUrl);
-              setFallback(true);
-            }}
             src={iconUrl}
             style={style}
           />

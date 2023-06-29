@@ -9,6 +9,7 @@ export type AssetInputType = {
   value?: Amount;
   loading?: boolean;
   priceLoading?: boolean;
+  logoURI?: string;
 };
 
 export type AssetInputProps = {

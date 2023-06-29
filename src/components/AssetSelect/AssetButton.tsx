@@ -11,6 +11,7 @@ type Props = {
   asset: AssetEntity;
   withChevron?: boolean;
   showAssetType?: boolean;
+  logoURI?: string;
 };
 
 export function AssetButton({
@@ -20,6 +21,7 @@ export function AssetButton({
   withChevron,
   showAssetType,
   onClick,
+  logoURI,
 }: Props) {
   return (
     <Button
@@ -27,7 +29,7 @@ export function AssetButton({
         className,
         '!rounded-full !h-10 !hover:bg-light-gray-primary border !border-solid !border-opacity-40 border-dark-gray-primary !hover:bg-dark-gray-primary',
       )}
-      leftIcon={<AssetIcon asset={asset} size={28} />}
+      leftIcon={<AssetIcon asset={asset} logoURI={logoURI} size={28} />}
       onClick={onClick}
       pl={withChevron ? '22px' : 1}
       pr={withChevron ? '22px' : 4}

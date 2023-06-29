@@ -9,14 +9,22 @@ type Props = {
   onClick?: () => void;
   selected?: Maybe<AssetEntity>;
   showAssetType?: boolean;
+  logoURI?: string;
 };
 
-export const AssetSelectButton = ({ className, onClick, selected, showAssetType }: Props) => {
+export const AssetSelectButton = ({
+  logoURI,
+  className,
+  onClick,
+  selected,
+  showAssetType,
+}: Props) => {
   if (selected) {
     return (
       <AssetButton
         asset={selected}
         className={className}
+        logoURI={logoURI}
         onClick={onClick}
         showAssetType={showAssetType}
         withChevron={Boolean(onClick)}

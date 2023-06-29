@@ -58,6 +58,16 @@ const SwapView = () => {
 
   const { tokens } = useTokenList();
 
+  const [inputToken, outputToken] = useMemo(
+    () => [
+      tokens.find(({ identifier }) => identifier === `${inputAsset.L1Chain}.${inputAsset.symbol}`),
+      tokens.find(
+        ({ identifier }) => identifier === `${outputAsset.L1Chain}.${outputAsset.symbol}`,
+      ),
+    ],
+    [inputAsset.L1Chain, inputAsset.symbol, outputAsset.L1Chain, outputAsset.symbol, tokens],
+  );
+
   useEffect(() => {
     import('services/swapKit')
       .then(({ getSwapKitClient }) => getSwapKitClient())
@@ -68,12 +78,6 @@ const SwapView = () => {
   }, [inputAsset.L1Chain, outputAsset, wallet]);
 
   useEffect(() => {
-    const inputToken = tokens.find(
-      ({ identifier }) => identifier === `${inputAsset.L1Chain}.${inputAsset.ticker}`,
-    );
-    const outputToken = tokens.find(
-      ({ identifier }) => identifier === `${outputAsset.L1Chain}.${outputAsset.ticker}`,
-    );
     const inputDecimal =
       isETHAsset(inputAsset) || isAVAXAsset(inputAsset) ? BaseDecimal.ETH : inputToken?.decimals;
     const outputDecimal =
@@ -83,7 +87,7 @@ const SwapView = () => {
       inputAsset.setDecimal(inputDecimal);
       outputAsset.setDecimal(outputDecimal);
     }
-  }, [inputAsset, outputAsset, tokens]);
+  }, [inputAsset, inputToken?.decimals, outputAsset, outputToken?.decimals, tokens]);
 
   const ethAddr = useMemo(() => wallet?.ETH?.address, [wallet]);
   const VTHORBalance = useVTHORBalance(ethAddr);
@@ -140,23 +144,32 @@ const SwapView = () => {
   const inputAssetProps = useMemo(
     () => ({
       asset: inputAsset,
+      logoURI: inputToken?.logoURI,
       value: inputAmount,
       balance: inputAssetBalance,
       usdPrice: inputUSDPrice,
       priceLoading: isPriceLoading,
     }),
-    [inputAsset, inputAmount, inputAssetBalance, inputUSDPrice, isPriceLoading],
+    [
+      inputAsset,
+      inputToken?.logoURI,
+      inputAmount,
+      inputAssetBalance,
+      inputUSDPrice,
+      isPriceLoading,
+    ],
   );
 
   const outputAssetProps = useMemo(
     () => ({
       asset: outputAsset,
+      logoURI: outputToken?.logoURI,
       value: outputAmount,
       usdPrice: outputUSDPrice,
       loading: isFetching,
       priceLoading: isPriceLoading || isFetching,
     }),
-    [outputAsset, outputAmount, outputUSDPrice, isFetching, isPriceLoading],
+    [outputAsset, outputToken?.logoURI, outputAmount, outputUSDPrice, isFetching, isPriceLoading],
   );
 
   const { fees, contract: contractAddress } = selectedRoute || {};

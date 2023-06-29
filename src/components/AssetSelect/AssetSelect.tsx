@@ -12,6 +12,7 @@ type Props = {
   className?: string;
   showAssetType?: boolean;
   AssetListComponent?: (props: AssetSelectProps) => JSX.Element;
+  logoURI?: string;
 } & AssetSelectProps;
 
 export const AssetSelect = ({
@@ -19,6 +20,7 @@ export const AssetSelect = ({
   className,
   showAssetType,
   AssetListComponent,
+  logoURI,
   ...restProps
 }: Props) => {
   const [isOpened, setIsOpened] = useState(false);
@@ -30,6 +32,7 @@ export const AssetSelect = ({
     <>
       <AssetSelectButton
         className={className}
+        logoURI={logoURI}
         onClick={() => {
           setIsOpened(true);
           setManageTokenListIsOpened(false);
