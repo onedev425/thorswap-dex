@@ -124,9 +124,26 @@ export const thorswapApi = createApi({
       query: () => `${baseUrl}/resource-worker/gasHistory/getAll`,
       keepUnusedDataFor: 60,
     }),
+
     getThornamesByAddress: build.query<IThornameForAddressResponse, IThornameForAddressParams>({
       query: ({ address, chain }) => {
         return `${baseUrl}/aggregator/thorname/rlookup?address=${address}&chain=${chain}`;
+      },
+    }),
+
+    getWithdrawLPMemo: build.query<
+      any,
+      {
+        withdrawType: 'asset' | 'rune' | 'sym';
+        percent: string;
+        asset: string;
+        positionType: 'sym_rune' | 'sym_asset' | 'sym' | 'asset' | 'single_sided';
+      }
+    >({
+      query: (params) => {
+        const queryParams = new URLSearchParams(params);
+
+        return `/aggregator/liquidity/withdraw?${queryParams.toString()}`;
       },
     }),
   }),
@@ -145,4 +162,5 @@ export const {
   useGetGasPriceRatesQuery,
   useGetGasHistoryQuery,
   useGetThornamesByAddressQuery,
+  useGetWithdrawLPMemoQuery,
 } = thorswapApi;

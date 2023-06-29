@@ -40,7 +40,7 @@ export const Liquidity = () => {
 
   const {
     data: lpMemberData,
-    isLoading: isLoadingLiquidities,
+    isFetching: isLiquiditiesFetching,
     refetch,
   } = useGetFullMemberQuery(walletAddresses, {
     skip: !walletAddresses.length || isWalletLoading,
@@ -82,7 +82,7 @@ export const Liquidity = () => {
                   Test Modal
                 </Button>
               )}
-              <ReloadButton loading={isWalletLoading || isLoadingLiquidities} onLoad={refetch} />
+              <ReloadButton loading={isWalletLoading || isLiquiditiesFetching} onLoad={refetch} />
             </>
           }
           title={t('common.liquidityPosition')}

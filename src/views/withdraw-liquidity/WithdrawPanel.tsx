@@ -290,7 +290,9 @@ export const WithdrawPanel = ({
     ) {
       withdrawArray.push({
         asset: getSignatureAssetFor(Chain.THORChain),
-        value: `${runeAmount.toSignificant(6)} RUNE (${runePrice?.toFixed(2)})`,
+        value: `${runeAmount.toSignificant(6)} RUNE ($${(
+          (runePrice || 0) * runeAmount.assetAmount.toNumber()
+        )?.toFixed(2)})`,
       });
     }
 
@@ -300,7 +302,9 @@ export const WithdrawPanel = ({
     ) {
       withdrawArray.push({
         asset: poolAsset,
-        value: `${assetAmount.toSignificant(6)} ${poolAsset.ticker} (${assetPrice?.toFixed(2)})`,
+        value: `${assetAmount.toSignificant(6)} ${poolAsset.ticker} ($${(
+          (assetPrice || 0) * assetAmount.assetAmount.toNumber()
+        )?.toFixed(2)})`,
       });
     }
 
