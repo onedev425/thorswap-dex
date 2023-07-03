@@ -357,16 +357,18 @@ export const TxLegPreview = ({
           </Flex>
         </Flex>
         <Flex justify={horizontalView ? 'center' : 'end'} position="relative" w="full">
-          <Link href={transactionUrl} target="_blank" zIndex={1}>
-            <Button
-              rightIcon={<Icon name="external" size={16} />}
-              size="xs"
-              sx={{ w: 'full' }}
-              variant="borderlessTint"
-            >
-              {t('txManager.viewTx')}
-            </Button>
-          </Link>
+          {transactionUrl && (
+            <Link href={transactionUrl} target="_blank" zIndex={1}>
+              <Button
+                rightIcon={<Icon name="external" size={16} />}
+                size="xs"
+                sx={{ w: 'full' }}
+                variant="borderlessTint"
+              >
+                {t('txManager.viewTx')}
+              </Button>
+            </Link>
+          )}
           {!isLast && (
             <Flex
               align="center"
