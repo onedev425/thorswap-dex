@@ -21,12 +21,16 @@ type DirectionType = 'inbound' | 'outbound' | 'transfer';
 const getTxSizeByAsset = (asset: AssetEntity): number => {
   switch (asset.L1Chain) {
     case Chain.Avalanche:
+    case Chain.BinanceSmartChain:
     case Chain.Ethereum:
       return 80000;
     case Chain.BitcoinCash:
       return 1500;
+    case Chain.Bitcoin:
     case Chain.Litecoin:
-      return 250;
+      return 300;
+    case Chain.Doge:
+      return 450;
     default:
       return 1;
   }
