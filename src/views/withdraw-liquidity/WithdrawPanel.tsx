@@ -22,7 +22,7 @@ import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { PanelView } from 'components/PanelView';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
-import { isETHAsset, RUNEAsset } from 'helpers/assets';
+import { RUNEAsset } from 'helpers/assets';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { parseAssetToToken } from 'helpers/parseHelpers';
 import { hasWalletConnected } from 'helpers/wallet';
@@ -248,19 +248,12 @@ export const WithdrawPanel = ({
   }, [wallet, runeAmount, poolAsset, assetAmount, withdrawTo, appDispatch, percent, withdrawFrom]);
 
   const handleWithdrawLiquidity = useCallback(() => {
-    if (isETHAsset(poolAsset)) {
-      return showInfoToast(
-        'notification.cannotWithdrawFromSP',
-        t('notification.cannotWithdrawFromSPDesc'),
-      );
-    }
-
     if (wallet) {
       setVisibleConfirmModal(true);
     } else {
       showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
     }
-  }, [poolAsset, wallet]);
+  }, [wallet]);
 
   const title = useMemo(
     () => `${t('common.withdraw')} ${poolAsset.ticker} ${t('common.liquidity')}`,

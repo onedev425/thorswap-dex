@@ -5,7 +5,6 @@ import {
   Amount,
   AssetAmount,
   AssetEntity,
-  getEstimatedPoolShare,
   getLiquiditySlippage,
   getMinAmountByChain,
   getSignatureAssetFor,
@@ -66,6 +65,45 @@ const getInboundData = () => {
   return getRequest<InboundAddressesItem[]>(`${THORNODE_URL}/inbound_addresses`);
 };
 
+const getEstimatedPoolShareAfterAdd = ({
+  runeDepth,
+  poolUnits,
+  assetDepth,
+  liquidityUnits,
+  runeAmount,
+  assetAmount,
+}: {
+  poolUnits: string;
+  liquidityUnits: string;
+  runeAmount: string;
+  assetAmount: string;
+  runeDepth: string;
+  assetDepth: string;
+}) => {
+  const R = Amount.fromMidgard(runeDepth);
+  const A = Amount.fromMidgard(assetDepth);
+  const P = Amount.fromMidgard(poolUnits);
+  const poolLiquidityUnits = Amount.fromMidgard(liquidityUnits);
+  const runeAddAmount = Amount.fromMidgard(runeAmount);
+  const assetAddAmount = Amount.fromMidgard(assetAmount);
+
+  // liquidityUnits = P * (r*A + a*R + 2*r*a) / (r*A + a*R + 2*R*A)
+  const rA = runeAddAmount.mul(A);
+  const aR = assetAddAmount.mul(R);
+  const ra = runeAddAmount.mul(assetAddAmount);
+  const RA = R.mul(A);
+  const numerator = P.mul(rA.add(aR.add(ra.mul(2))));
+  const denominator = rA.add(aR.add(RA.mul(2)));
+  const diffAfterAdd = numerator.div(denominator);
+  const estimatedLiquidityUnits = poolLiquidityUnits.mul(diffAfterAdd);
+
+  if (diffAfterAdd.gt(0)) {
+    return estimatedLiquidityUnits.div(P).assetAmount.toNumber();
+  }
+
+  return 0;
+};
+
 export const useAddLiquidity = ({
   onAddLiquidity,
   skipWalletCheck,
@@ -120,8 +158,8 @@ export const useAddLiquidity = ({
 
   const liquidityParams = useMemo(
     () => ({
-      runeAmount: runeAmount.toString(),
-      assetAmount: assetAmount.toString(),
+      runeAmount: runeAmount.assetAmount.toString(),
+      assetAmount: assetAmount.assetAmount.toString(),
       runeDepth: pool?.detail.runeDepth ?? '0',
       assetDepth: pool?.detail.assetDepth ?? '0',
       liquidityUnits: pool?.detail.liquidityUnits ?? '0',
@@ -143,7 +181,7 @@ export const useAddLiquidity = ({
   );
 
   const poolShareEst = useMemo(
-    () => parseToPercent(getEstimatedPoolShare(liquidityParams)),
+    () => parseToPercent(getEstimatedPoolShareAfterAdd(liquidityParams)),
     [liquidityParams],
   );
 

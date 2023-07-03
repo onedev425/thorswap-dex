@@ -1,11 +1,11 @@
 import { Text } from '@chakra-ui/react';
 import { FullMemberPool } from '@thorswap-lib/midgard-sdk';
 import {
+  Amount,
   AssetEntity,
   getAssetShare,
   getAsymmetricAssetShare,
   getAsymmetricRuneShare,
-  getEstimatedPoolShare,
   getRuneShare,
 } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
@@ -32,6 +32,19 @@ type LiquidityCardProps = FullMemberPool & {
   poolAssetDepth?: string;
   poolRuneDepth?: string;
   hardCapReached?: boolean;
+};
+
+const getEstimatedPoolShare = ({
+  poolUnits,
+  liquidityUnits,
+}: {
+  poolUnits: string;
+  liquidityUnits: string;
+}) => {
+  const P = Amount.fromMidgard(poolUnits);
+  const poolLiquidityUnits = Amount.fromMidgard(liquidityUnits);
+
+  return poolLiquidityUnits.div(P).assetAmount.toNumber();
 };
 
 export const LiquidityCard = ({
@@ -74,6 +87,7 @@ export const LiquidityCard = ({
   const { runeShare, assetShare, poolShare } = useMemo(() => {
     const assetParams = { liquidityUnits: sharedUnits, poolUnits, assetDepth: poolAssetDepth };
     const runeParams = { liquidityUnits: sharedUnits, poolUnits, runeDepth: poolRuneDepth };
+
     const runeShare =
       shareType === PoolShareType.SYM
         ? getRuneShare(runeParams)
@@ -82,14 +96,7 @@ export const LiquidityCard = ({
       shareType === PoolShareType.SYM
         ? getAssetShare(assetParams)
         : getAsymmetricAssetShare(assetParams);
-    const poolShare = getEstimatedPoolShare({
-      assetDepth: poolAssetDepth,
-      runeDepth: poolRuneDepth,
-      runeAmount: '0',
-      assetAmount: '0',
-      liquidityUnits: sharedUnits,
-      poolUnits,
-    });
+    const poolShare = getEstimatedPoolShare({ liquidityUnits: sharedUnits, poolUnits });
 
     return {
       runeShare: runeShare.toSignificant(6),
