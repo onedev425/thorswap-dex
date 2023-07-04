@@ -52,93 +52,35 @@ export const isPendingLP = (data: MemberPool): boolean => {
 };
 
 export const getChainMemberDetails = ({
-  chain,
   memPools,
   chainMemberDetails, // previous chain member details
 }: {
-  chain: Chain | undefined;
   memPools: MemberPool[];
   chainMemberDetails: ChainMemberDetails;
 }): ChainMemberDetails => {
-  // get sym and rune asym share from memPools fetched with thorchain address
+  memPools.forEach((memPool: MemberPool) => {
+    const { pool, runeAdded, assetAdded, runePending, assetPending } = memPool;
 
-  if (chain === Chain.THORChain) {
-    memPools.forEach((memPool: MemberPool) => {
-      const { pool, runeAdded, assetAdded, runePending } = memPool;
+    const poolChain = pool.split('.')[0] as Chain;
+    const chainMemberData = chainMemberDetails?.[poolChain] ?? {};
+    const poolMemberData = chainMemberData?.[pool] ?? {};
+    const isPending = Number(runePending) > 0 || Number(assetPending) > 0;
+    const isAssetAdded = Number(assetAdded) > 0;
+    const isRuneAdded = Number(runeAdded) > 0;
 
-      const poolChain = pool.split('.')[0] as Chain;
-      let chainMemberData = chainMemberDetails?.[poolChain] ?? {};
-      let poolMemberData = chainMemberData?.[pool] ?? {};
-
-      // get rune asymm share & sym share
-      if (Number(assetAdded) === 0 && Number(runeAdded) > 0) {
-        if (Number(runePending) === 0) {
-          poolMemberData = {
-            ...poolMemberData,
-            runeAsym: memPool,
-          };
-        } else {
-          // if assetAdded = 0 && runePending > 0, it's pending Sym LP
-          // sym share
-          poolMemberData = {
-            ...poolMemberData,
-            sym: memPool,
-          };
-        }
-      } else if (Number(runeAdded) > 0 && Number(assetAdded) > 0) {
-        // sym share
-        poolMemberData = {
-          ...poolMemberData,
-          sym: memPool,
-        };
-      }
-
-      chainMemberData = {
-        ...chainMemberData,
-        [pool]: poolMemberData,
-      };
-
-      chainMemberDetails[poolChain] = chainMemberData;
-    });
-  }
-
-  // get sym and asset asym share
-  if (chain !== Chain.THORChain) {
-    memPools.forEach((memPool: MemberPool) => {
-      const { runePending, pool, runeAdded, assetAdded, assetPending } = memPool;
-
-      const poolChain = pool.split('.')[0] as Chain;
-      let chainMemberData = chainMemberDetails?.[poolChain] ?? {};
-
-      let poolMemberData = chainMemberData?.[pool] ?? {};
-
-      // check asset asymm share
-      if ((Number(runeAdded) === 0 && Number(assetAdded) > 0) || Number(runePending) > 0) {
-        // if there's no pending Asset, it's "Asset Asym" position
-        if (Number(assetPending) === 0) {
-          poolMemberData = {
-            ...poolMemberData,
-            assetAsym: memPool,
-          };
-        } else {
-          // if there is any pending Asset, it's "Asset + RUNE sym LP"
-          // scenario is
-          // Asset Sym deposit tx went through but Rune Sym deposit is not complete
-          // Therefore, 'assetAdded' > 0, 'assetPending' > 0
-          poolMemberData = {
-            ...poolMemberData,
-            sym: memPool,
-          };
-        }
-
-        chainMemberData = {
-          ...chainMemberData,
-          [pool]: poolMemberData,
-        };
-        chainMemberDetails[poolChain] = chainMemberData;
-      }
-    });
-  }
+    chainMemberDetails[poolChain] = {
+      ...chainMemberData,
+      [pool]: {
+        ...poolMemberData,
+        ...(isPending && { pending: memPool }),
+        ...(isAssetAdded && !isRuneAdded
+          ? { assetAsym: memPool }
+          : !isAssetAdded && isRuneAdded
+          ? { assetAsym: memPool }
+          : { sym: memPool }),
+      },
+    };
+  });
 
   return chainMemberDetails;
 };

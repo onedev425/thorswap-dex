@@ -1,7 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { FullMemberPool, MemberPool } from '@thorswap-lib/midgard-sdk';
 import { AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
 import {
   checkPendingLP,
   getAddedAndWithdrawn,
@@ -157,7 +156,6 @@ const midgardSlice = createSlice({
         } = meta;
 
         const fetchedChainMemberDetails = getChainMemberDetails({
-          chain,
           memPools: payload.pools,
           chainMemberDetails: state.chainMemberDetails,
         });
@@ -201,7 +199,6 @@ const midgardSlice = createSlice({
         const fetchedChainMemberDetails = getChainMemberDetails({
           memPools: memberPools,
           chainMemberDetails: state.chainMemberDetails,
-          chain: undefined,
         });
 
         memberPools.forEach((memPool) => {
@@ -248,20 +245,17 @@ const midgardSlice = createSlice({
       .addCase(
         midgardActions.reloadPoolMemberDetailByChain.fulfilled,
         (state, { meta, payload: { runeMemberData, assetMemberData } }) => {
-          const { chain } = meta.arg;
           const { pools: runeMemberDetails } = runeMemberData;
           const { pools: assetMemberDetails } = assetMemberData;
 
           // add rune asymm
           const fetchedChainMemberDetails1 = getChainMemberDetails({
-            chain: Chain.THORChain,
             memPools: runeMemberDetails,
             chainMemberDetails: state.chainMemberDetails,
           });
 
           // add sym, asset asymm
           const fetchedChainMemberDetails2 = getChainMemberDetails({
-            chain,
             memPools: assetMemberDetails,
             chainMemberDetails: fetchedChainMemberDetails1,
           });
@@ -270,36 +264,29 @@ const midgardSlice = createSlice({
 
           state.chainMemberDetailsLoading = {
             ...state.chainMemberDetailsLoading,
-            [chain]: false,
+            [meta.arg.chain]: false,
           };
         },
       )
       .addCase(midgardActions.reloadPoolMemberDetailByChain.rejected, (state, { meta }) => {
-        const { chain } = meta.arg;
-
         state.chainMemberDetailsLoading = {
           ...state.chainMemberDetailsLoading,
-          [chain]: false,
+          [meta.arg.chain]: false,
         };
       })
       .addCase(midgardActions.reloadPoolMemberDetailByAssetChain.pending, (state, { meta }) => {
-        const { chain } = meta.arg;
-
         state.chainMemberDetailsLoading = {
           ...state.chainMemberDetailsLoading,
-          [chain]: true,
+          [meta.arg.chain]: true,
         };
       })
       .addCase(
         midgardActions.reloadPoolMemberDetailByAssetChain.fulfilled,
         (state, { meta, payload: { assetMemberData } }) => {
-          const { chain } = meta.arg;
-
           const { pools: assetMemberDetails } = assetMemberData;
 
           // add sym, asset asymm
           const fetchedChainMemberDetails2 = getChainMemberDetails({
-            chain,
             memPools: assetMemberDetails,
             chainMemberDetails: state.chainMemberDetails,
           });
@@ -308,7 +295,7 @@ const midgardSlice = createSlice({
 
           state.chainMemberDetailsLoading = {
             ...state.chainMemberDetailsLoading,
-            [chain]: false,
+            [meta.arg.chain]: false,
           };
         },
       )

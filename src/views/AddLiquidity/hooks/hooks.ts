@@ -229,6 +229,18 @@ export const useAddLiquidity = ({
         : assetAmount,
   });
 
+  const minRuneAmount: Amount = useMemo(
+    () => getMinAmountByChain(Chain.THORChain as Chain).amount,
+    [],
+  );
+  const minAssetAmount: Amount = useMemo(() => {
+    if (isGasAsset(poolAsset)) {
+      return getMinAmountByChain(poolAsset.chain);
+    }
+
+    return Amount.fromAssetAmount(0, 8);
+  }, [poolAsset]);
+
   const { maxSymAssetAmount, maxSymRuneAmount } = useMemo(() => {
     if (!pool) {
       return {
@@ -242,6 +254,8 @@ export const useAddLiquidity = ({
         runeAmount: maxRuneBalance,
         assetAmount: Amount.fromMidgard(poolMemberDetail?.assetPending),
         pool,
+        minAssetAmount,
+        minRuneAmount,
       });
     }
 
@@ -250,6 +264,8 @@ export const useAddLiquidity = ({
         runeAmount: Amount.fromMidgard(poolMemberDetail?.runePending),
         assetAmount: maxPoolAssetBalance,
         pool,
+        minAssetAmount,
+        minRuneAmount,
       });
     }
 
@@ -257,8 +273,19 @@ export const useAddLiquidity = ({
       runeAmount: maxRuneBalance,
       assetAmount: maxPoolAssetBalance,
       pool,
+      minAssetAmount,
+      minRuneAmount,
     });
-  }, [pool, maxRuneBalance, maxPoolAssetBalance, isAssetPending, poolMemberDetail, isRunePending]);
+  }, [
+    pool,
+    isAssetPending,
+    poolMemberDetail,
+    isRunePending,
+    maxRuneBalance,
+    maxPoolAssetBalance,
+    minAssetAmount,
+    minRuneAmount,
+  ]);
 
   const handleSelectLiquidityType = useCallback(
     (type: LiquidityTypeOption) => {
@@ -569,18 +596,6 @@ export const useAddLiquidity = ({
     ];
   }, [liquidityType, poolAsset, assetAmount, runeAmount]);
 
-  const minRuneAmount: Amount = useMemo(
-    () => getMinAmountByChain(Chain.THORChain as Chain).amount,
-    [],
-  );
-  const minAssetAmount: Amount = useMemo(() => {
-    if (isGasAsset(poolAsset)) {
-      return getMinAmountByChain(poolAsset.chain);
-    }
-
-    return Amount.fromAssetAmount(0, 8);
-  }, [poolAsset]);
-
   const isValidDeposit: {
     valid: boolean;
     msg?: string;
@@ -596,7 +611,7 @@ export const useAddLiquidity = ({
     // 2. rune-asset sym
 
     if (liquidityType === LiquidityTypeOption.SYMMETRICAL) {
-      if (!runeAmount.gt(minRuneAmount) || !assetAmount.gt(minAssetAmount)) {
+      if (!runeAmount.gte(minRuneAmount) || !assetAmount.gte(minAssetAmount)) {
         return {
           valid: false,
           msg: t('notification.invalidAmount'),
@@ -615,7 +630,7 @@ export const useAddLiquidity = ({
     }
 
     if (liquidityType === LiquidityTypeOption.ASSET) {
-      if (!assetAmount.gt(minAssetAmount)) {
+      if (!assetAmount.gte(minAssetAmount)) {
         return {
           valid: false,
           msg: t('notification.insufficientAmount'),
@@ -624,7 +639,7 @@ export const useAddLiquidity = ({
     }
 
     if (liquidityType === LiquidityTypeOption.RUNE) {
-      if (!runeAmount.gt(minRuneAmount)) {
+      if (!runeAmount.gte(minRuneAmount)) {
         return {
           valid: false,
           msg: t('notification.insufficientAmount'),

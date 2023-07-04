@@ -5,24 +5,30 @@ export const getMaxSymAmounts = ({
   assetAmount,
   runeAmount,
   pool,
+  minAssetAmount,
+  minRuneAmount,
 }: {
   assetAmount: Amount;
   runeAmount: Amount;
   pool: Pool;
+  minAssetAmount: Amount;
+  minRuneAmount: Amount;
 }) => {
   const symAssetAmount = runeAmount.mul(pool.runePriceInAsset);
 
   if (symAssetAmount.gt(assetAmount)) {
-    const maxSymAssetAmount = assetAmount;
-    const maxSymRuneAmount = maxSymAssetAmount.mul(pool.assetPriceInRune);
+    const maxSymAssetAmount = assetAmount.lte(minAssetAmount) ? minAssetAmount : assetAmount;
+    const maxSymRuneAmount = maxSymAssetAmount.mul(pool.assetPriceInRune).lte(minRuneAmount)
+      ? minRuneAmount
+      : maxSymAssetAmount.mul(pool.assetPriceInRune);
 
     return {
       maxSymAssetAmount,
       maxSymRuneAmount,
     };
   }
-  const maxSymAssetAmount = symAssetAmount;
-  const maxSymRuneAmount = runeAmount;
+  const maxSymAssetAmount = symAssetAmount.lte(minAssetAmount) ? minAssetAmount : symAssetAmount;
+  const maxSymRuneAmount = runeAmount.lte(minRuneAmount) ? minRuneAmount : runeAmount;
 
   return {
     maxSymAssetAmount,
