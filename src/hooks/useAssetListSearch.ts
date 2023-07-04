@@ -1,3 +1,4 @@
+import { SUPPORTED_CHAINS } from '@thorswap-lib/types';
 import { AssetSelectType } from 'components/AssetSelect/types';
 import Fuse from 'fuse.js';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -69,7 +70,13 @@ export const useAssetListSearch = (assetList: AssetSelectType[]) => {
       return bFeatured ? 1 : aFeatured ? -1 : b.balance.gt(a.balance) ? 1 : -1;
     });
 
-    return uniqBy(sortedAssets, ({ asset }) => asset.toString());
+    const uniqueAssets = uniqBy(sortedAssets, ({ asset }) => asset.toString());
+
+    const supportedAssets = uniqueAssets.filter(({ asset }) =>
+      SUPPORTED_CHAINS.includes(asset.chain),
+    );
+
+    return supportedAssets;
   }, [assetList, isFeatured, isFrequent, query]);
 
   const assetInputProps = useMemo(
