@@ -1,8 +1,8 @@
-import { SUPPORTED_CHAINS } from '@thorswap-lib/types';
+import { Chain, SUPPORTED_CHAINS } from '@thorswap-lib/types';
 import { AssetSelectType } from 'components/AssetSelect/types';
 import Fuse from 'fuse.js';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useAssets } from 'store/assets/hooks';
+import { SORTED_CHAINS } from 'settings/chain';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';
 
 const options: Fuse.IFuseOptions<AssetSelectType> = {
@@ -33,7 +33,6 @@ const uniqBy = <T>(arr: T[], predicate: (item: T) => boolean | string) => {
 };
 
 export const useAssetListSearch = (assetList: AssetSelectType[]) => {
-  const { isFeatured, isFrequent } = useAssets();
   const { isLoading } = useTokenList();
   const fuse = useRef<Fuse<AssetSelectType>>(new Fuse([], options));
   const [query, setQuery] = useState('');
@@ -49,35 +48,23 @@ export const useAssetListSearch = (assetList: AssetSelectType[]) => {
         : assetList;
 
     const sortedAssets = searchedAssets.concat().sort((a, b) => {
-      const aFeatured = isFeatured(a);
-      const aFrequent = isFrequent(a);
-      const bFeatured = isFeatured(b);
-
-      if (!a.balance && !b.balance) {
-        if (a.asset.type === 'Native') return -1;
-        if (b.asset.type === 'Native') return 1;
-        if (aFeatured || (aFrequent && !bFeatured)) {
-          return -1;
-        }
-        const mcDiff = (b?.cg?.market_cap || 0) - (a?.cg?.market_cap || 0);
-
-        return mcDiff;
+      if (a.balance || b.balance) {
+        return a.balance ? (b?.balance?.gt(a.balance) ? 1 : -1) : 0;
+      } else {
+        return SORTED_CHAINS.indexOf(a.asset.chain) - SORTED_CHAINS.indexOf(b.asset.chain);
       }
-
-      if (!a.balance) return 1;
-      if (!b.balance) return -1;
-
-      return bFeatured ? 1 : aFeatured ? -1 : b.balance.gt(a.balance) ? 1 : -1;
     });
 
     const uniqueAssets = uniqBy(sortedAssets, ({ asset }) => asset.toString());
 
-    const supportedAssets = uniqueAssets.filter(({ asset }) =>
-      SUPPORTED_CHAINS.includes(asset.chain),
+    const supportedAssets = uniqueAssets.filter(
+      ({ asset }) =>
+        SUPPORTED_CHAINS.includes(asset.chain) &&
+        !(asset.chain === Chain.Avalanche && asset.symbol.includes('THOR-')),
     );
 
     return supportedAssets;
-  }, [assetList, isFeatured, isFrequent, query]);
+  }, [assetList, query]);
 
   const assetInputProps = useMemo(
     () => ({
