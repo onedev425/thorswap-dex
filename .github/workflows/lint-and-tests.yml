@@ -1,10 +1,6 @@
 name: Lint & Unit tests
 
-on:
-  push:
-    branches-ignore:
-      - 'stagenet'
-      - 'main'
+on: push
 
 concurrency:
   group: lint-${{ github.workflow }}-${{ github.ref }}

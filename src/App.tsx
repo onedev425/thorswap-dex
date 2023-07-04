@@ -23,7 +23,7 @@ const checkOrigin = () => {
   const [, site, dns] = window.location.host.split('.');
 
   return (
-    ['localhost', '.thorswap.finance', '.on.fleek.', '.ipns.', '.ipfs.'].some((s) =>
+    ['localhost', 'thors-wap', '.thorswap.finance', '.ipns.', '.ipfs.'].some((s) =>
       window.location.host.includes(s),
     ) ||
     !window.location.href.includes('.') ||

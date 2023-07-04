@@ -2,10 +2,12 @@ name: Vercel Production Deployment
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
 on:
   push:
     branches:
       - main
+
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
@@ -50,4 +52,4 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          args: "Deployed ✅ - https://app.thorswap.finance\nEnvironment: mainnet\nAuthor: ${{ github.actor }}"
+          args: "Vercel Deployment ✅ - https://app.thorswap.finance\nEnvironment: mainnet\nAuthor: ${{ github.actor }}"
