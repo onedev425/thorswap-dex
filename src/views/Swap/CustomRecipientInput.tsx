@@ -36,10 +36,10 @@ export const CustomRecipientInput = memo(
       data: thornamesData,
       isLoading: thornameForAddressLoading,
       error,
-    } = useGetThornamesByAddressQuery({
-      address: recipient.toLowerCase(),
-      chain: outputAssetL1Chain,
-    });
+    } = useGetThornamesByAddressQuery(
+      { address: recipient.toLowerCase(), chain: outputAssetL1Chain },
+      { skip: !recipient || !outputAssetL1Chain },
+    );
 
     const thornameForAddress = useMemo(() => {
       if (!thornamesData || error) return null;
