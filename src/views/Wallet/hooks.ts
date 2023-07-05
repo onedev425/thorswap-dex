@@ -97,7 +97,13 @@ export const useAccountData = (chain: Chain) => {
 };
 
 export const useChartData = (asset: AssetEntity, sparkline?: string) => {
-  const prices = useMemo(() => JSON.parse(sparkline || '[]') as number[], [sparkline]);
+  const prices = useMemo(
+    () =>
+      typeof sparkline === 'string'
+        ? (JSON.parse(sparkline || '[]') as number[])
+        : (sparkline as unknown as number[]),
+    [sparkline],
+  );
 
   const chartData = useMemo(
     () => ({ label: `${asset.ticker} Price`, values: prices.slice(-64) }),
