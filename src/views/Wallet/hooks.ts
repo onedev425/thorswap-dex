@@ -100,8 +100,8 @@ export const useChartData = (asset: AssetEntity, sparkline?: string) => {
   const prices = useMemo(
     () =>
       typeof sparkline === 'string'
-        ? (JSON.parse(sparkline || '[]') as number[])
-        : (sparkline as unknown as number[]),
+        ? (JSON.parse(sparkline) as number[])
+        : (sparkline as unknown as number[]) || [],
     [sparkline],
   );
 
