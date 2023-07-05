@@ -1,43 +1,16 @@
-import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { SUPPORTED_CHAINS } from '@thorswap-lib/types';
 import { Box } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
-import { useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
-import { useAppDispatch } from 'store/store';
-import { useWallet } from 'store/wallet/hooks';
 import { AccountType } from 'views/Wallet/AccountType';
 import { SearchAndFilters } from 'views/Wallet/SearchAndFilters';
 
 const Wallet = () => {
-  const dispatch = useAppDispatch();
   const { walletViewMode, setWalletViewMode } = useApp();
-  const { getCoingeckoData, geckoData } = useWallet();
 
   const [keyword, setKeyword] = useState('');
   const [onlyConnected, setOnlyConnected] = useState(false);
-
-  const filteredChains = useMemo(
-    () =>
-      SUPPORTED_CHAINS.filter((chain) => {
-        const { ticker } = getSignatureAssetFor(chain);
-        return !geckoData?.[ticker];
-      }),
-    [geckoData],
-  );
-
-  const sigSymbols = useMemo(
-    () => filteredChains.map((chain) => getSignatureAssetFor(chain).ticker),
-    [filteredChains],
-  );
-
-  useEffect(() => {
-    if (sigSymbols.length > 0) {
-      dispatch(getCoingeckoData(sigSymbols));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sigSymbols.length]);
 
   return (
     <Box col className="w-full">

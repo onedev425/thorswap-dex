@@ -9,9 +9,7 @@ import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';
 import { borderHoverHighlightClass } from 'components/constants';
 import { Scrollbar } from 'components/Scrollbar';
 import { formatPrice } from 'helpers/formatPrice';
-import { parseAssetToToken } from 'helpers/parseHelpers';
-import { useTokenPrices } from 'hooks/useTokenPrices';
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getSendRoute, getSwapRoute } from 'settings/router';
@@ -38,19 +36,16 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
   const navigate = useNavigate();
 
   const {
-    activeAsset24hChange,
-    activeAssetPrice,
-    balance,
+    sigAssetPriceInfo,
+    accountBalance,
     chainAddress,
     chainInfo,
-    geckoData,
+    priceData,
     setIsConnectModalOpen,
     disconnectWalletByChain,
     chainWallet,
   } = useAccountData(chain);
 
-  const chainAssets = useMemo(() => chainInfo.map(({ asset }) => asset), [chainInfo]);
-  const { data } = useTokenPrices(chainAssets);
   const { isLoading, handleRefreshChain } = useWalletChainActions(chain);
   const sigAsset = getSignatureAssetFor(chain);
 
@@ -61,8 +56,6 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
       setIsConnectModalOpen(true);
     }
   }, [chain, chainAddress, disconnectWalletByChain, setIsConnectModalOpen]);
-
-  const accountBalance = formatPrice(balance);
 
   return (
     <Card className={classNames('overflow-hidden', borderHoverHighlightClass)}>
@@ -122,20 +115,26 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
         <Box center col className="mt-2">
           <Box alignCenter flex={1} justify="between">
             <Text fontWeight="semibold" textStyle="h3">
-              {formatPrice(activeAssetPrice)}
+              {formatPrice(sigAssetPriceInfo?.price_usd)}
             </Text>
           </Box>
 
           <Text
             fontWeight="semibold"
             textStyle="caption"
-            variant={activeAsset24hChange >= 0 ? 'green' : 'red'}
+            variant={
+              (sigAssetPriceInfo?.cg?.price_change_percentage_24h_usd || 0) >= 0 ? 'green' : 'red'
+            }
           >
-            {activeAsset24hChange.toFixed(2)}%
+            {sigAssetPriceInfo?.cg?.price_change_percentage_24h_usd?.toFixed(2)}%
           </Text>
         </Box>
 
-        <AssetChart asset={sigAsset} mode={ViewMode.CARD} />
+        <AssetChart
+          asset={sigAsset}
+          mode={ViewMode.CARD}
+          sparkline={sigAssetPriceInfo?.cg?.sparkline_in_7d}
+        />
 
         <Box
           center
@@ -175,18 +174,7 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
             <Box col className="!-mb-6" flex={1}>
               <Scrollbar>
                 {chainInfo.map((info) => (
-                  <ChainInfo
-                    geckoData={geckoData}
-                    info={info}
-                    key={info.asset.ticker}
-                    tokenListData={
-                      data
-                        ? data.find(
-                            (elem) => elem.identifier === parseAssetToToken(info.asset)?.identifier,
-                          )
-                        : undefined
-                    }
-                  />
+                  <ChainInfo info={info} key={info.asset.ticker} priceData={priceData} />
                 ))}
               </Scrollbar>
             </Box>

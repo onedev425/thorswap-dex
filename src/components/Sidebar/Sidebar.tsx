@@ -41,10 +41,8 @@ export const Sidebar = ({ sx, collapsed = false, toggle, onNavItemClick }: Sideb
 
   const [runePrice, thorPrice] = useMemo(
     () => [
-      data?.find(({ identifier }) => identifier === parseAssetToToken(RUNEAsset).identifier)
-        ?.price_usd,
-      data?.find(({ identifier }) => identifier === parseAssetToToken(THORAsset).identifier)
-        ?.price_usd,
+      data[parseAssetToToken(RUNEAsset).identifier as string]?.price_usd,
+      data[parseAssetToToken(THORAsset).identifier as string]?.price_usd,
     ],
     [data],
   );

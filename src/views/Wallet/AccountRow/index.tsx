@@ -2,9 +2,7 @@ import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box, Card } from 'components/Atomic';
 import { borderHoverHighlightClass } from 'components/constants';
-import { formatPrice } from 'helpers/formatPrice';
-import { memo, useCallback, useEffect, useMemo } from 'react';
-import { getGeckoData } from 'services/coingecko';
+import { memo, useCallback } from 'react';
 import { ConnectionActions } from 'views/Wallet/components/ConnectionActions';
 import { CopyAddress } from 'views/Wallet/components/CopyAddress';
 import { HeaderChainInfo } from 'views/Wallet/components/HeaderChainInfo';
@@ -21,22 +19,14 @@ type Props = {
 
 export const AccountRow = memo(({ thornames, chain }: Props) => {
   const {
-    balance,
+    accountBalance,
     chainAddress,
     chainInfo,
+    priceData,
     setIsConnectModalOpen,
     disconnectWalletByChain,
     chainWallet,
   } = useAccountData(chain);
-
-  const chainAssets = useMemo(() => {
-    return chainInfo.map((elem) => elem.asset.name);
-  }, [chainInfo]);
-
-  useEffect(() => {
-    getGeckoData(chainAssets);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chainAssets.length]);
 
   const { isLoading, handleRefreshChain } = useWalletChainActions(chain);
 
@@ -47,8 +37,6 @@ export const AccountRow = memo(({ thornames, chain }: Props) => {
       setIsConnectModalOpen(true);
     }
   }, [chain, chainAddress, disconnectWalletByChain, setIsConnectModalOpen]);
-
-  const accountBalance = formatPrice(balance);
 
   return (
     <Card className={classNames('overflow-hidden', borderHoverHighlightClass)}>
@@ -79,7 +67,12 @@ export const AccountRow = memo(({ thornames, chain }: Props) => {
           />
         </Box>
 
-        <ChainInfoTable chain={chain} chainAddress={chainAddress} chainInfo={chainInfo} />
+        <ChainInfoTable
+          chain={chain}
+          chainAddress={chainAddress}
+          chainInfo={chainInfo}
+          priceData={priceData}
+        />
       </Box>
     </Card>
   );

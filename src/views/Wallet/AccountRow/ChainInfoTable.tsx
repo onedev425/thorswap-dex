@@ -2,34 +2,20 @@ import { Amount, AssetAmount, getSignatureAssetFor } from '@thorswap-lib/swapkit
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Table } from 'components/Atomic';
 import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { t } from 'services/i18n';
-import { useAppDispatch } from 'store/store';
-import { getCoingeckoData } from 'store/wallet/actions';
-import { useWallet } from 'store/wallet/hooks';
+import { GetTokenPriceResponseItem } from 'store/thorswap/types';
 
 import { useColumns } from './useColumns';
 
 type Props = {
   chainInfo: AssetAmount[];
   chain: Chain;
+  priceData: Record<string, GetTokenPriceResponseItem>;
   chainAddress: string;
 };
 
-export const ChainInfoTable = memo(({ chainInfo, chain, chainAddress }: Props) => {
-  const dispatch = useAppDispatch();
-  const { wallet, geckoData, geckoDataLoading } = useWallet();
-  const chainWalletBalances = wallet?.[chain]?.balance || [];
-
-  useEffect(() => {
-    chainWalletBalances.forEach(({ asset: { symbol } }) => {
-      if (!geckoData?.[symbol] && !geckoDataLoading[symbol]) {
-        dispatch(getCoingeckoData([symbol]));
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chainWalletBalances]);
-
+export const ChainInfoTable = memo(({ priceData, chainInfo, chain, chainAddress }: Props) => {
   const [showAllTokens, setShowAllTokens] = useState(false);
   const sigAsset = getSignatureAssetFor(chain);
 
@@ -42,7 +28,7 @@ export const ChainInfoTable = memo(({ chainInfo, chain, chainAddress }: Props) =
     setShowAllTokens((v) => !v);
   }, []);
 
-  const columns = useColumns(chainAddress, chain);
+  const columns = useColumns(chainAddress, chain, priceData);
   const tableData = showAllTokens ? [sigAssetAmount, ...altAssets] : [sigAssetAmount];
 
   return (

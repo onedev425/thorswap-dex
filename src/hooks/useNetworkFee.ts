@@ -153,8 +153,7 @@ export const useNetworkFee = ({
 
   const findTokenPrice = useCallback(
     (asset: AssetEntity) =>
-      tokenPrices?.find(({ identifier }) => identifier === parseAssetToToken(asset)?.identifier)
-        ?.price_usd || 0,
+      tokenPrices[parseAssetToToken(asset)?.identifier as string]?.price_usd || 0,
     [tokenPrices],
   );
 

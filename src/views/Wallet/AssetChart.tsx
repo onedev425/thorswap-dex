@@ -9,10 +9,11 @@ import { useChartData } from 'views/Wallet/hooks';
 type Props = {
   asset: AssetEntity;
   mode: ViewMode;
+  sparkline?: string;
 };
 
-export const AssetChart = memo(({ asset, mode }: Props) => {
-  const { label, values } = useChartData(asset);
+export const AssetChart = memo(({ asset, mode, sparkline }: Props) => {
+  const { label, values } = useChartData(asset, sparkline);
 
   return (
     <Box

@@ -2,7 +2,6 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { AssetAmount, Wallet } from '@thorswap-lib/swapkit-core';
 import { Chain, Keystore } from '@thorswap-lib/types';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
-import { GeckoData } from 'store/wallet/types';
 
 import * as walletActions from './actions';
 
@@ -28,8 +27,6 @@ const initialState = {
   oldBalance: initialWallet as Record<Chain, AssetAmount[] | null>,
   walletLoading: false,
   chainWalletLoading: initialWallet as Record<Chain, boolean | null>,
-  geckoData: {} as Record<string, GeckoData>,
-  geckoDataLoading: {} as Record<string, boolean>,
   hiddenAssets: (getFromStorage('hiddenAssets') || {}) as Record<Chain, string[]>,
 };
 
@@ -119,27 +116,7 @@ const walletSlice = createSlice({
       })
       .addCase(walletActions.getWalletByChain.rejected, (state, { meta: { arg: chain } }) => {
         state.chainWalletLoading[chain] = false;
-      })
-      .addCase(
-        walletActions.getCoingeckoData.pending,
-        (state, { meta: { arg: pendingSymbols } }) => {
-          pendingSymbols.forEach((symbol) => (state.geckoDataLoading[symbol] = true));
-        },
-      )
-      .addCase(
-        walletActions.getCoingeckoData.fulfilled,
-        (state, { payload: { data: geckoInfo }, meta: { arg: pendingSymbols } }) => {
-          pendingSymbols.forEach((symbol) => (state.geckoDataLoading[symbol] = false));
-
-          geckoInfo.forEach(({ symbol, geckoData }) => (state.geckoData[symbol] = geckoData));
-        },
-      )
-      .addCase(
-        walletActions.getCoingeckoData.rejected,
-        (state, { meta: { arg: pendingSymbols } }) => {
-          pendingSymbols.forEach((symbol) => (state.geckoDataLoading[symbol] = true));
-        },
-      );
+      });
   },
 });
 

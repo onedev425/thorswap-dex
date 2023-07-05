@@ -144,12 +144,8 @@ export const WithdrawPanel = ({
 
   const [runePrice, assetPrice] = useMemo(
     () => [
-      tokenPricesData?.find(
-        ({ identifier }) => identifier === parseAssetToToken(RUNEAsset).identifier,
-      )?.price_usd,
-      tokenPricesData?.find(
-        ({ identifier }) => identifier === parseAssetToToken(poolAsset).identifier,
-      )?.price_usd,
+      tokenPricesData[parseAssetToToken(RUNEAsset).identifier as string]?.price_usd,
+      tokenPricesData[parseAssetToToken(poolAsset).identifier as string]?.price_usd,
     ],
     [tokenPricesData, poolAsset],
   );

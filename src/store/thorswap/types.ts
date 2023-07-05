@@ -77,7 +77,9 @@ export type GetTokenPriceIdentifiers = {
   identifier?: string;
 };
 export type GetTokenListOptions = {
-  includeMetadata?: boolean;
+  metadata?: boolean;
+  lookup?: boolean;
+  sparkline?: boolean;
 };
 
 export type GetTokenPriceParams = {
@@ -85,22 +87,21 @@ export type GetTokenPriceParams = {
   options?: GetTokenListOptions;
 };
 
-export type CoingGecko = {
-  id?: string;
-  name?: string;
-  market_cap?: number;
-  total_volume?: number;
-  price_change_24h_usd?: number;
-  price_change_percentage_24h_usd?: number;
-  timestamp?: number;
-};
-
-export type GetTokenPriceResponseOject = GetTokenPriceIdentifiers & {
+export type GetTokenPriceResponseItem = GetTokenPriceIdentifiers & {
   price_usd: number;
-  cg?: CoingGecko;
+  cg?: {
+    id?: string;
+    name?: string;
+    market_cap?: number;
+    total_volume?: number;
+    price_change_24h_usd?: number;
+    price_change_percentage_24h_usd?: number;
+    sparkline_in_7d?: string;
+    timestamp?: number;
+  };
 };
 
-export type GetTokenPriceResponse = GetTokenPriceResponseOject[];
+export type GetTokenPriceResponse = GetTokenPriceResponseItem[];
 
 export type GetProvidersResponse = {
   nbTokens: number;

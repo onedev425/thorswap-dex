@@ -76,14 +76,29 @@ export const useSwapTokenPrices = ({
 
 export const useTokenPrices = (
   assets?: Asset[],
-  { pollingInterval }: { pollingInterval?: number } = {},
+  {
+    pollingInterval,
+    lookup,
+    sparkline,
+  }: { pollingInterval?: number; sparkline?: boolean; lookup?: boolean } = {},
 ) => {
   const tokens = useMemo(() => assets?.map(parseAssetToToken) || [], [assets]);
 
   const { data, refetch, isLoading, isFetching } = useGetTokenCachedPricesQuery(
-    { tokens, options: { includeMetadata: true } },
+    { tokens, options: { metadata: true, sparkline, lookup } },
     { skip: !tokens.length, pollingInterval },
   );
 
-  return { data, refetch, isLoading: isLoading || isFetching } as const;
+  const tokenPricesPerIdentifier = useMemo(() => {
+    if (!data) return {};
+
+    return data.reduce((acc, { identifier, ...rest }) => {
+      if (!identifier) return acc;
+
+      acc[identifier] = rest;
+      return acc;
+    }, {} as Record<string, GetTokenPriceResponse[number]>);
+  }, [data]);
+
+  return { data: tokenPricesPerIdentifier, refetch, isLoading: isLoading || isFetching } as const;
 };

@@ -20,7 +20,7 @@ import {
   IThornameForAddressResponse,
 } from './types';
 
-const baseUrl = IS_DEV_API ? 'https://dev-api.thorswap.net' : 'https://api.thorswap.net';
+const baseUrl = !IS_DEV_API ? 'https://dev-api.thorswap.net' : 'https://api.thorswap.net';
 
 export const thorswapApi = createApi({
   reducerPath: 'thorswap',
@@ -75,14 +75,19 @@ export const thorswapApi = createApi({
     getTokenCachedPrices: build.query<GetTokenPriceResponse, GetTokenPriceParams>({
       query: ({ tokens, options = {} }) => {
         const body = new URLSearchParams();
-        tokens.forEach((token) => body.append('tokens', JSON.stringify(token)));
+        tokens
+          .filter(
+            (token, index, sourceArr) =>
+              sourceArr.findIndex((t) => t?.identifier === token.identifier) === index,
+          )
+          .forEach((token) => body.append('tokens', JSON.stringify(token)));
 
-        if (options.includeMetadata) {
-          body.append('metadata', 'true');
-        }
+        if (options.metadata) body.append('metadata', 'true');
+        if (options.lookup) body.append('lookup', 'true');
+        if (options.sparkline) body.append('sparkline', 'true');
         return {
           method: 'POST',
-          url: '/tokenlist/cached-price',
+          url: `/tokenlist/cached-price`,
           body,
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         };

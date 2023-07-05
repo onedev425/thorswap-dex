@@ -84,7 +84,7 @@ export const CompletedTransaction = memo(
     useCallback(() => {
       const finished = ['mined', 'error', 'refund'].includes(status);
       if (!finished) return;
-      
+
       if (wallet?.[inChain]) {
         refreshWalletByChain(inChain);
       }

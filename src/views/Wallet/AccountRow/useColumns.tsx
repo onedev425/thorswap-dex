@@ -9,20 +9,19 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getSendRoute, getSwapRoute } from 'settings/router';
-import { useMidgard } from 'store/midgard/hooks';
-import { useWallet } from 'store/wallet/hooks';
+import { GetTokenPriceResponseItem } from 'store/thorswap/types';
 import { ViewMode } from 'types/app';
 import { AssetChart } from 'views/Wallet/AssetChart';
 import { ShowQrCode } from 'views/Wallet/components/ShowQrCode';
 
-export const useColumns = (chainAddress: string, chain: Chain) => {
+export const useColumns = (
+  chainAddress: string,
+  chain: Chain,
+  priceData: Record<string, GetTokenPriceResponseItem>,
+) => {
   const formatPrice = useFormatPrice();
   const navigate = useNavigate();
-  const { stats } = useMidgard();
-  const { geckoData } = useWallet();
   const { isLgActive } = useWindowSize();
-
-  const runePrice = stats?.runePriceUSD;
 
   const columns = useMemo(
     () => [
@@ -62,10 +61,7 @@ export const useColumns = (chainAddress: string, chain: Chain) => {
         Header: () => t('common.usdPrice'),
         align: 'right',
         minScreenSize: BreakPoint.md,
-        accessor: ({ asset: { symbol } }: AssetAmount) =>
-          symbol === 'RUNE'
-            ? `$${parseFloat(runePrice || '').toFixed(2)}`
-            : geckoData[symbol]?.current_price || 0,
+        accessor: ({ asset }: AssetAmount) => priceData[asset.toString()]?.price_usd || 0,
         Cell: ({ cell: { value } }: { cell: { value: string } }) => (
           <Text fontWeight="bold">{formatPrice(value)}</Text>
         ),
@@ -76,7 +72,7 @@ export const useColumns = (chainAddress: string, chain: Chain) => {
         Header: () => '24h%',
         align: 'right',
         accessor: (row: AssetAmount) =>
-          geckoData[row.asset.symbol]?.price_change_percentage_24h || 0,
+          priceData[row.asset.toString()]?.cg?.price_change_percentage_24h_usd || 0,
         minScreenSize: BreakPoint.md,
         Cell: ({ cell: { value } }: { cell: { value: number } }) => (
           <Text fontWeight="bold" variant={value >= 0 ? 'green' : 'red'}>
@@ -91,9 +87,13 @@ export const useColumns = (chainAddress: string, chain: Chain) => {
         minScreenSize: BreakPoint.lg,
         align: 'center',
         disableSortBy: true,
-        accessor: (row: AssetAmount) => row.asset,
+        accessor: ({ asset }: AssetAmount) => asset,
         Cell: ({ cell: { value } }: { cell: { value: AssetEntity } }) => (
-          <AssetChart asset={value} mode={ViewMode.LIST} />
+          <AssetChart
+            asset={value}
+            mode={ViewMode.LIST}
+            sparkline={priceData[value.toString()]?.cg?.sparkline_in_7d}
+          />
         ),
       },
       {
@@ -163,7 +163,7 @@ export const useColumns = (chainAddress: string, chain: Chain) => {
         ),
       },
     ],
-    [chainAddress, runePrice, geckoData, formatPrice, isLgActive, chain, navigate],
+    [chainAddress, priceData, formatPrice, isLgActive, chain, navigate],
   );
 
   return columns;

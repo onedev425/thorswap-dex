@@ -63,13 +63,13 @@ export const AccountType = memo(({ onlyConnected, keyword }: Props) => {
           walletViewMode === ViewMode.CARD,
       })}
     >
-      {filteredChains.map((chain) =>
-        walletViewMode === ViewMode.CARD ? (
+      {filteredChains.map((chain) => {
+        return walletViewMode === ViewMode.CARD ? (
           <AccountCard chain={chain} key={chain} thornames={getThornames(chain)} />
         ) : (
           <AccountRow chain={chain} key={chain} thornames={getThornames(chain)} />
-        ),
-      )}
+        );
+      })}
     </Box>
   );
 });

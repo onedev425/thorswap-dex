@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Chain } from '@thorswap-lib/types';
-import { getGeckoData } from 'services/coingecko';
 
 export const getWalletByChain = createAsyncThunk(
   'midgard/getWalletByChain',
@@ -11,8 +10,4 @@ export const getWalletByChain = createAsyncThunk(
 
     return { chain, data };
   },
-);
-
-export const getCoingeckoData = createAsyncThunk('coingecko/coinInfo', (symbols: string[]) =>
-  getGeckoData(symbols),
 );

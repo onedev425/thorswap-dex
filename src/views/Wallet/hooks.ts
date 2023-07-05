@@ -1,10 +1,9 @@
 import { Amount, AssetAmount, AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
-import { BigNumber } from 'bignumber.js';
+import { formatPrice } from 'helpers/formatPrice';
+import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useMemo } from 'react';
-import { useMidgard } from 'store/midgard/hooks';
 import { useWallet } from 'store/wallet/hooks';
-import { GeckoData } from 'store/wallet/types';
 
 const emptyWallet = {
   [Chain.Avalanche]: null,
@@ -19,23 +18,9 @@ const emptyWallet = {
   [Chain.THORChain]: null,
 };
 
-const getBalanceByChain = (balance: AssetAmount[], geckoData: Record<string, GeckoData>) => {
-  if (!balance?.length) return 0;
-  let total = new BigNumber(0);
-
-  balance.forEach(({ asset, amount }) => {
-    const usdPrice = geckoData?.[asset.symbol]?.current_price || 0;
-    total = total.plus(amount.assetAmount.multipliedBy(usdPrice)) || 0;
-  });
-
-  return total.toNumber();
-};
-
 export const useAccountData = (chain: Chain) => {
   const sigAsset = getSignatureAssetFor(chain);
-  const { stats } = useMidgard();
   const {
-    geckoData,
     wallet: reduxWallet,
     chainWalletLoading,
     setIsConnectModalOpen,
@@ -47,13 +32,6 @@ export const useAccountData = (chain: Chain) => {
     balance: [] as AssetAmount[],
     address: '',
   };
-  const { price_change_percentage_24h: price24hChangePercent, current_price: currentPrice } =
-    geckoData[sigAsset.symbol] || {
-      price_change_percentage_24h: 0,
-      current_price: 0,
-    };
-
-  const runePrice = stats?.runePriceUSD;
 
   const chainInfo = useMemo(() => {
     const info: AssetAmount[] = (walletBalance as AssetAmount[]).reduce((acc, item) => {
@@ -73,59 +51,56 @@ export const useAccountData = (chain: Chain) => {
     return info;
   }, [walletBalance, chainAddress, sigAsset]);
 
+  const { data: priceData } = useTokenPrices([sigAsset, ...chainInfo.map((item) => item.asset)], {
+    sparkline: true,
+    lookup: true,
+  });
+
+  const balance = useMemo(() => {
+    if (Object.keys(priceData).length === 0) return 0;
+
+    return chainInfo.reduce((acc, item) => {
+      const itemPrice = priceData[item.asset.toString()]?.price_usd || 0;
+      const itemValue = itemPrice * item.amount.assetAmount.toNumber();
+      return (acc += itemValue);
+    }, 0);
+  }, [chainInfo, priceData]);
+
+  const accountBalance = formatPrice(balance);
+
   const data = useMemo(
     () => ({
-      activeAsset24hChange: price24hChangePercent,
-      activeAssetPrice: sigAsset.isRUNE() && runePrice ? parseFloat(runePrice) : currentPrice,
-      balance: getBalanceByChain(walletBalance, geckoData),
+      sigAssetPriceInfo: priceData[sigAsset.toString()],
+      accountBalance,
       chainAddress,
       chainInfo,
+      priceData,
       chainWallet,
       chainWalletLoading,
       disconnectWalletByChain,
-      geckoData,
       setIsConnectModalOpen,
     }),
     [
+      accountBalance,
       chainAddress,
       chainInfo,
       chainWallet,
       chainWalletLoading,
-      currentPrice,
       disconnectWalletByChain,
-      geckoData,
-      price24hChangePercent,
-      runePrice,
+      priceData,
       setIsConnectModalOpen,
       sigAsset,
-      walletBalance,
     ],
   );
 
   return data;
 };
 
-export const useChartData = (asset: AssetEntity) => {
-  const { stats } = useMidgard();
-  const { geckoData } = useWallet();
-
-  const runePrice = stats?.runePriceUSD;
-
-  const prices = useMemo(() => {
-    const priceData = geckoData[asset.symbol]?.sparkline_in_7d?.price || [];
-
-    if (asset.isRUNE() && runePrice) {
-      return [...priceData, parseFloat(runePrice)];
-    }
-
-    return priceData;
-  }, [runePrice, geckoData, asset]);
+export const useChartData = (asset: AssetEntity, sparkline?: string) => {
+  const prices = useMemo(() => JSON.parse(sparkline || '[]') as number[], [sparkline]);
 
   const chartData = useMemo(
-    () => ({
-      label: `${asset.symbol} Price`,
-      values: prices.slice(-64),
-    }),
+    () => ({ label: `${asset.ticker} Price`, values: prices.slice(-64) }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [prices.length],
   );
