@@ -1,4 +1,10 @@
-import { Chain, EVMWalletOptions, Keystore, WalletOption } from '@thorswap-lib/types';
+import {
+  Chain,
+  DerivationPathArray,
+  EVMWalletOptions,
+  Keystore,
+  WalletOption,
+} from '@thorswap-lib/types';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { chainName } from 'helpers/chainName';
 import { useCallback } from 'react';
@@ -65,21 +71,15 @@ export const useWallet = () => {
   );
 
   const connectLedger = useCallback(
-    async (
-      chain: Chain,
-      index: number,
-      type?: 'nativeSegwitMiddleAccount' | 'segwit' | 'legacy' | 'ledgerLive',
-    ) => {
+    async (chain: Chain, derivationPath: DerivationPathArray, index: number) => {
       const options = { chain: chainName(chain), index };
 
-      const { getDerivationPathFor } = await import('@thorswap-lib/ledger');
       const { connectLedger: swapKitConnectLedger } = await (
         await import('services/swapKit')
       ).getSwapKitClient();
 
       try {
         showInfoToast(t('notification.connectingLedger', options));
-        const derivationPath = getDerivationPathFor({ chain, index, type });
         await swapKitConnectLedger(chain, derivationPath);
 
         dispatch(walletActions.getWalletByChain(chain as Chain));
@@ -93,21 +93,15 @@ export const useWallet = () => {
   );
 
   const connectTrezor = useCallback(
-    async (
-      chain: Chain,
-      index: number,
-      type?: 'nativeSegwitMiddleAccount' | 'segwit' | 'legacy' | 'ledgerLive',
-    ) => {
+    async (chain: Chain, derivationPath: DerivationPathArray, index: number) => {
       const options = { chain: chainName(chain), index };
 
-      const { getDerivationPathFor } = await import('@thorswap-lib/ledger');
       const { connectTrezor: swapKitConnectTrezor } = await (
         await import('services/swapKit')
       ).getSwapKitClient();
 
       try {
         showInfoToast(t('notification.connectingTrezor', options));
-        const derivationPath = getDerivationPathFor({ chain, index, type });
         await swapKitConnectTrezor(chain, derivationPath);
 
         dispatch(walletActions.getWalletByChain(chain as Chain));

@@ -1,5 +1,13 @@
 import { Text } from '@chakra-ui/react';
-import { Chain, Keystore, SUPPORTED_CHAINS } from '@thorswap-lib/types';
+import { derivationPathToString } from '@thorswap-lib/helpers';
+import { getDerivationPathFor } from '@thorswap-lib/ledger';
+import {
+  Chain,
+  DerivationPath,
+  DerivationPathArray,
+  Keystore,
+  SUPPORTED_CHAINS,
+} from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box, Button, Modal, Tooltip } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
@@ -12,6 +20,7 @@ import useWindowSize from 'hooks/useWindowSize';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { IS_PROD } from 'settings/config';
+import { useApp } from 'store/app/hooks';
 import { useWallet } from 'store/wallet/hooks';
 import { DerivationPathType } from 'store/wallet/types';
 
@@ -29,12 +38,14 @@ import { availableChainsByWallet, WalletType } from './types';
 import WalletOption from './WalletOption';
 
 const ConnectWalletModal = () => {
+  const { customDerivationVisible } = useApp();
   const { isMdActive } = useWindowSize();
   const { unlockWallet, isWalletLoading, setIsConnectModalOpen, isConnectModalOpen, wallet } =
     useWallet();
   const [selectedChains, setSelectedChains] = useState<Chain[]>([]);
   const [selectedWalletType, setSelectedWalletType] = useState<WalletType>();
   const [ledgerIndex, setLedgerIndex] = useState(0);
+  const [customDerivationPath, setCustomDerivationPath] = useState("m/0'/0'/0'/0/0");
   const [loading, setLoading] = useState(false);
   const [derivationPathType, setDerivationPathType] = useState<DerivationPathType>();
   const [customFlow, setCustomFlow] = useState(false);
@@ -53,6 +64,34 @@ const ConnectWalletModal = () => {
     setSaveWallet(value);
     saveInStorage({ key: 'restorePreviousWallet', value });
   }, []);
+
+  // TODO remove when this is moved to swapkit
+  const derivationPathToNumbers = (path: string): DerivationPathArray => {
+    // The derivation path is expected to start with "m" followed by
+    // a series of child indexes separated by slashes ("/").
+    // For example: "m/44'/0'/0'/0/0"
+    if (!path.startsWith('m')) {
+      throw new Error('Derivation path should start with "m"');
+    }
+
+    const result = path
+      // Removes the "m/" at the beginning
+      .replace('m/', '')
+      // Removes the "'" characters
+      .replaceAll("'", '')
+      // Splits the path into an array of indexes
+      .split('/')
+      // Parses each index into a number
+      .map((part) => {
+        const index = Number(part);
+        if (isNaN(index)) {
+          throw new Error(`Invalid number in derivation path: ${part}`);
+        }
+        return index;
+      });
+
+    return result as DerivationPathArray;
+  };
 
   const clearState = useCallback(
     (closeModal = true) => {
@@ -140,7 +179,12 @@ const ConnectWalletModal = () => {
 
     try {
       clearState();
-      await handleConnectWallet();
+      await handleConnectWallet({
+        derivationPath: derivationPathToNumbers(customDerivationPath),
+        ledgerIndex,
+        walletType: selectedWalletType,
+        chains: selectedChains,
+      });
       addReconnectionOnAccountsChanged();
     } catch (error) {
       console.error(error);
@@ -149,7 +193,10 @@ const ConnectWalletModal = () => {
   }, [
     addReconnectionOnAccountsChanged,
     clearState,
+    customDerivationPath,
     handleConnectWallet,
+    ledgerIndex,
+    selectedChains,
     selectedWalletType,
     setIsConnectModalOpen,
   ]);
@@ -184,6 +231,20 @@ const ConnectWalletModal = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setCustomDerivationPath(DerivationPath[selectedChains[0]] + '/0');
+  }, [selectedChains]);
+
+  useEffect(() => {
+    const derivationPath = getDerivationPathFor({
+      chain: selectedChains[0] || Chain.Ethereum,
+      index: ledgerIndex || 0,
+      type: derivationPathType,
+    });
+
+    setCustomDerivationPath('m/' + derivationPathToString(derivationPath));
+  }, [derivationPathType, ledgerIndex, selectedChains]);
 
   const oneTimeWalletType = [
     WalletType.CreateKeystore,
@@ -370,27 +431,43 @@ const ConnectWalletModal = () => {
               </Box>
 
               {(selectedWalletType === WalletType.Ledger ||
-                selectedWalletType === WalletType.Trezor) && (
-                <Box center>
+                selectedWalletType === WalletType.Trezor) &&
+                !customDerivationVisible && (
+                  <Box center>
+                    <Box alignCenter className="pt-2 mx-6 gap-x-2" flex={1} justify="between">
+                      <Text>{t('common.index')}:</Text>
+                      <Input
+                        stretch
+                        border="rounded"
+                        onChange={(e) => setLedgerIndex(parseInt(e.target.value))}
+                        type="number"
+                        value={ledgerIndex}
+                      />
+                    </Box>
+
+                    <DerivationPathDropdown
+                      chain={selectedChains[0]}
+                      derivationPathType={derivationPathType}
+                      ledgerIndex={ledgerIndex}
+                      setDerivationPathType={setDerivationPathType}
+                    />
+                  </Box>
+                )}
+
+              {(selectedWalletType === WalletType.Ledger ||
+                selectedWalletType === WalletType.Trezor) &&
+                customDerivationVisible && (
                   <Box alignCenter className="pt-2 mx-6 gap-x-2" flex={1} justify="between">
-                    <Text>{t('common.index')}:</Text>
+                    <Text>{t('common.derivationPath')}:</Text>
                     <Input
                       stretch
                       border="rounded"
-                      onChange={(e) => setLedgerIndex(parseInt(e.target.value))}
-                      type="number"
-                      value={ledgerIndex}
+                      onChange={(e) => setCustomDerivationPath(e.target.value)}
+                      type="text"
+                      value={customDerivationPath}
                     />
                   </Box>
-
-                  <DerivationPathDropdown
-                    chain={selectedChains[0]}
-                    derivationPathType={derivationPathType}
-                    ledgerIndex={ledgerIndex}
-                    setDerivationPathType={setDerivationPathType}
-                  />
-                </Box>
-              )}
+                )}
 
               {!customFlow && (
                 <Box col className="pt-2 mb-8" flex={1} justify="end">

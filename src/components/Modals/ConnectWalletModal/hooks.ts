@@ -1,4 +1,5 @@
-import { Chain, EVMWalletOptions, WalletOption } from '@thorswap-lib/types';
+import { getDerivationPathFor } from '@thorswap-lib/ledger';
+import { Chain, DerivationPathArray, EVMWalletOptions, WalletOption } from '@thorswap-lib/types';
 import { IconName } from 'components/Atomic';
 import { showErrorToast } from 'components/Toast';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
@@ -135,6 +136,7 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
 
 export type HandleWalletConnectParams = {
   walletType?: WalletType;
+  derivationPath?: DerivationPathArray;
   ledgerIndex: number;
   chains?: Chain[];
   derivationPathType?: 'nativeSegwitMiddleAccount' | 'segwit' | 'legacy' | 'ledgerLive';
@@ -160,6 +162,13 @@ export const useHandleWalletConnect = ({
       const selectedChains = params?.chains || chains;
       const selectedWalletType = params?.walletType || walletType;
       const type = params?.derivationPathType || derivationPathType;
+      const derivationPath =
+        params?.derivationPath ||
+        (getDerivationPathFor({
+          chain: selectedChains?.[0] || Chain.THORChain,
+          type,
+          index: ledgerIndex,
+        }) as DerivationPathArray);
       if (!selectedChains || !selectedWalletType) return;
 
       if (getFromStorage('restorePreviousWallet')) {
@@ -174,7 +183,7 @@ export const useHandleWalletConnect = ({
           case WalletType.Xdefi:
             return connectXdefiWallet(selectedChains);
           case WalletType.Ledger:
-            return connectLedger(selectedChains[0], ledgerIndex, type);
+            return connectLedger(selectedChains[0], derivationPath, ledgerIndex);
           case WalletType.Brave:
           case WalletType.MetaMask:
           case WalletType.TrustWalletExtension:
@@ -186,7 +195,7 @@ export const useHandleWalletConnect = ({
           case WalletType.Keplr:
             return connectKeplr();
           case WalletType.Trezor:
-            return connectTrezor(selectedChains[0], ledgerIndex, type);
+            return connectTrezor(selectedChains[0], derivationPath, ledgerIndex);
           case WalletType.Walletconnect:
             return connectWalletconnect(selectedChains);
           default:

@@ -258,8 +258,14 @@ const useThousandSeparatorMenu = (onBack: () => void) => {
 };
 
 const useProModeSettings = () => {
-  const { setMultisigShowStatus, multisigVisible, customSendVisible, setCustomSendShowStatus } =
-    useApp();
+  const {
+    setMultisigShowStatus,
+    multisigVisible,
+    customSendVisible,
+    setCustomSendShowStatus,
+    customDerivationVisible,
+    setCustomDerivationShowStatus,
+  } = useApp();
   const menu: MenuItemType[] = [
     {
       label: t('appMenu.showMultisig'),
@@ -270,6 +276,11 @@ const useProModeSettings = () => {
       label: t('appMenu.showCustomSend'),
       status: customSendVisible,
       onClick: () => setCustomSendShowStatus(!customSendVisible),
+    },
+    {
+      label: t('appMenu.showCustomDerivation'),
+      status: customDerivationVisible,
+      onClick: () => setCustomDerivationShowStatus(!customDerivationVisible),
     },
   ];
 

@@ -25,6 +25,7 @@ export interface State {
   hideStats: boolean;
   multisigVisible: boolean;
   customSendVisible: boolean;
+  customDerivationVisible: boolean;
   hideCharts: boolean;
   arePoolsHidden: boolean;
   dismissedAnnList: string[];

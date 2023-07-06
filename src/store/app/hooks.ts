@@ -118,6 +118,13 @@ export const useApp = () => {
     [dispatch],
   );
 
+  const setCustomDerivationShowStatus = useCallback(
+    (isShown: boolean) => {
+      dispatch(actions.setCustomDerivationShowStatus(isShown));
+    },
+    [dispatch],
+  );
+
   const setChartsShowStatus = useCallback(
     (areChartsShown: boolean) => {
       dispatch(actions.setChartsShowStatus(areChartsShown));
@@ -215,6 +222,7 @@ export const useApp = () => {
     setAnnSeenList,
     setMultisigShowStatus,
     setCustomSendShowStatus,
+    setCustomDerivationShowStatus,
     setCollapsedSidebarGroups,
     toggleAnalytics,
   };
