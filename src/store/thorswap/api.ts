@@ -20,7 +20,7 @@ import {
   IThornameForAddressResponse,
 } from './types';
 
-const baseUrl = !IS_DEV_API ? 'https://dev-api.thorswap.net' : 'https://api.thorswap.net';
+const baseUrl = IS_DEV_API ? 'https://dev-api.thorswap.net' : 'https://api.thorswap.net';
 
 export const thorswapApi = createApi({
   reducerPath: 'thorswap',
