@@ -32,6 +32,10 @@ const uniqBy = <T>(arr: T[], predicate: (item: T) => boolean | string) => {
   ];
 };
 
+const SUPPORTED_ASSET_CHAINS = SUPPORTED_CHAINS.filter(
+  (chain) => ![Chain.BinanceSmartChain].includes(chain),
+);
+
 export const useAssetListSearch = (assetList: AssetSelectType[]) => {
   const { isLoading } = useTokenList();
   const fuse = useRef<Fuse<AssetSelectType>>(new Fuse([], options));
@@ -59,7 +63,7 @@ export const useAssetListSearch = (assetList: AssetSelectType[]) => {
 
     const supportedAssets = uniqueAssets.filter(
       ({ asset }) =>
-        SUPPORTED_CHAINS.includes(asset.chain) &&
+        SUPPORTED_ASSET_CHAINS.includes(asset.chain) &&
         !(asset.chain === Chain.Avalanche && asset.symbol.includes('THOR-')),
     );
 
