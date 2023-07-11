@@ -31,7 +31,7 @@ export const sortAmounts = (a: Amount | string, b: Amount | string) => {
     const bValue = parseFloat((b as string).replaceAll(' ', '').replace('%', ''));
     return bValue - aValue;
   } else {
-    return b.gt(a) ? 1 : -1;
+    return a.gt(b) ? 1 : -1;
   }
 };
 
