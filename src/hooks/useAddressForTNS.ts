@@ -4,9 +4,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { useLazyGetTNSDetailQuery } from 'store/midgard/api';
 import { THORNameEntry } from 'types/app';
 
-export const useAddressForTNS = (address: string) => {
-  const debouncedAddress = useDebouncedValue(address, 1200);
+export const useAddressForTNS = (thornameOrAddress: string) => {
+  const debouncedAddress = useDebouncedValue(thornameOrAddress, 1000);
   const [loading, setLoading] = useState(false);
+  const [validThorname, setValidThorname] = useState('');
   const [TNS, setTNS] =
     useState<
       Maybe<{ entries?: THORNameEntry[]; owner?: string; expire?: string; thorname: string }>
@@ -52,10 +53,11 @@ export const useAddressForTNS = (address: string) => {
   }, [debouncedAddress, getTNSDetail, lookupForTNS]);
 
   useEffect(() => {
-    if (validateTHORName(address)) {
+    if (validateTHORName(thornameOrAddress)) {
       setLoading(true);
+      setValidThorname(thornameOrAddress);
     }
-  }, [address]);
+  }, [thornameOrAddress]);
 
-  return { loading, TNS, setTNS };
+  return { loading, TNS, setTNS, validThorname };
 };

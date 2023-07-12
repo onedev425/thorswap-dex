@@ -6,6 +6,7 @@ import { PanelInput } from 'components/PanelInput';
 import { showInfoToast } from 'components/Toast';
 import copy from 'copy-to-clipboard';
 import { useAddressForTNS } from 'hooks/useAddressForTNS';
+import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { ChangeEvent, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
@@ -24,7 +25,7 @@ export const CustomRecipientInput = memo(
     const [thorname, setThorname] = useState('');
     const [disabled, setDisabled] = useState(false);
 
-    const { loading, TNS, setTNS } = useAddressForTNS(recipient);
+    const { loading, TNS, setTNS, validThorname } = useAddressForTNS(recipient);
 
     const TNSAddress = useMemo(
       () =>
@@ -32,23 +33,27 @@ export const CustomRecipientInput = memo(
       [TNS, outputAssetL1Chain],
     );
 
+    const debouncedParams = useDebouncedValue(
+      useMemo(
+        () => ({ address: recipient.toLowerCase(), chain: outputAssetL1Chain }),
+        [outputAssetL1Chain, recipient],
+      ),
+      500,
+    );
+
     const {
       data: thornamesData,
       isLoading: thornameForAddressLoading,
       error,
-    } = useGetThornamesByAddressQuery(
-      { address: recipient.toLowerCase(), chain: outputAssetL1Chain },
-      { skip: !recipient || !outputAssetL1Chain },
-    );
+    } = useGetThornamesByAddressQuery(debouncedParams, { skip: !recipient || !outputAssetL1Chain });
 
     const thornameForAddress = useMemo(() => {
       if (!thornamesData || error) return null;
       const { result } = thornamesData;
-      if (result?.length > 0) {
-        return result[0];
-      }
-      return null;
-    }, [thornamesData, error]);
+
+      if (!result?.length) return null;
+      return result.find((tns) => tns === validThorname);
+    }, [thornamesData, error, validThorname]);
 
     const toggleDisabled = useCallback(() => setDisabled((d) => !d), []);
 
@@ -103,7 +108,7 @@ export const CustomRecipientInput = memo(
             </Box>
           </Box>
         }
-        value={thornameForAddress ? thornameForAddress : recipient}
+        value={thornameForAddress || recipient}
       />
     );
   },
