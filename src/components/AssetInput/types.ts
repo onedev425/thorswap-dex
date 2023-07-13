@@ -13,6 +13,7 @@ export type AssetInputType = {
 };
 
 export type AssetInputProps = {
+  title?: string;
   hideZeroPrice?: boolean;
   AssetListComponent?: (props: AssetSelectProps) => JSX.Element;
   isLoading?: boolean;

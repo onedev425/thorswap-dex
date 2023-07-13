@@ -10,7 +10,7 @@ import { InfoTable } from 'components/InfoTable';
 import { LiquidityType } from 'components/LiquidityType/LiquidityType';
 import { LPTypeSelector } from 'components/LPTypeSelector';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
-import { WithdrawPercent } from 'components/WithdrawPercent';
+import { PercentageSlider } from 'components/PercentageSlider';
 import { RUNEAsset } from 'helpers/assets';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
@@ -76,9 +76,10 @@ export const TxWithdraw = () => {
           <Icon color="white" name="arrowDown" size={20} />
         </div>
 
-        <WithdrawPercent
+        <PercentageSlider
           onChange={handleChangePercent}
           percent={Amount.fromNormalAmount(percent)}
+          title={t('common.withdrawPercent')}
         />
 
         <HighlightCard className="min-h-[107px] p-4 flex-col md:flex-row items-end md:items-center gap-2">

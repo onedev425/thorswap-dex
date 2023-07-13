@@ -13,6 +13,7 @@ import { Box, Card, Icon, Link, Tooltip } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { InfoTable } from 'components/InfoTable';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
+import { PercentageSlider } from 'components/PercentageSlider';
 import { TabsSelect } from 'components/TabsSelect';
 import { WithdrawPercent } from 'components/WithdrawPercent';
 import { SAVERS_MEDIUM } from 'config/constants';
@@ -296,9 +297,10 @@ const Earn = () => {
                       />
 
                       {tab === EarnTab.Withdraw && (
-                        <WithdrawPercent
+                        <PercentageSlider
                           onChange={handlePercentWithdrawChange}
                           percent={withdrawPercent}
+                          title={t('common.withdrawPercent')}
                         />
                       )}
 

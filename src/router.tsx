@@ -10,6 +10,7 @@ import { ROUTES } from 'settings/router';
 const Swap = lazy(() => import('views/Swap'));
 const WalletBalance = lazy(() => import('views/WalletBalance'));
 const Earn = lazy(() => import('views/Earn'));
+const Lending = lazy(() => import('views/Lending'));
 const Multisig = lazy(() => import('views/Multisig/Multisig'));
 const TxBuilder = lazy(() => import('views/Multisig/TxBuilder/TxBuilder'));
 const TxCreate = lazy(() => import('views/Multisig/TxCreate/TxCreate'));
@@ -48,6 +49,7 @@ const routes: RouteType = [
   { path: ROUTES.AddLiquidityPool, element: AddLiquidity },
   { path: ROUTES.CreateLiquidity, element: CreateLiquidity },
   { path: ROUTES.Earn, element: Earn },
+  { path: ROUTES.Lending, element: Lending },
   { path: ROUTES.Home, element: Home },
   { path: ROUTES.LegacyStake, element: LegacyStake },
   { path: ROUTES.Kyber, element: Swap },

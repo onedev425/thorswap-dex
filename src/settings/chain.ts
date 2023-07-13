@@ -25,3 +25,5 @@ export const SORTED_EARN_ASSETS = [
   getSignatureAssetFor(Chain.BitcoinCash),
   getSignatureAssetFor(Chain.Litecoin),
 ];
+
+export const SORTED_LENDING_COLLATERAL_ASSETS = SORTED_EARN_ASSETS;

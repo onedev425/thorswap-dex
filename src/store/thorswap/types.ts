@@ -270,3 +270,12 @@ export interface IThornameForAddressParams {
   address: string;
   chain: string;
 }
+export type LoansResponse = {
+  owner: string;
+  asset: string;
+  debt_up: string;
+  debt_down: string;
+  collateral_up: string;
+  collateral_down: string;
+  last_open_height: number;
+};

@@ -51,6 +51,10 @@ export const transactionTitle = (type: TransactionType): string => {
       return t('txManager.deposit');
     case TransactionType.TC_SEND:
       return t('txManager.send');
+    case TransactionType.TC_LENDING_OPEN:
+      return t('txManager.openLoan');
+    case TransactionType.TC_LENDING_CLOSE:
+      return t('txManager.closeLoan');
     case TransactionType.TC_SWITCH:
       return t('txManager.switch');
     case TransactionType.TC_TNS_UPDATE:

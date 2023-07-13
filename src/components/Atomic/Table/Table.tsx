@@ -22,6 +22,7 @@ export type TableProps = {
   initialSort?: InitialTableSort;
   hasShadow?: boolean;
   onRowClick?: (row: TableRowType) => void;
+  stretch?: boolean;
 };
 
 export const Table = ({
@@ -32,6 +33,7 @@ export const Table = ({
   initialSort,
   hasShadow = true,
   onRowClick,
+  stretch,
 }: TableProps) => {
   const { isSizeActive } = useWindowSize();
   const sortBy = useMemo(() => initialSort, [initialSort]);
@@ -80,7 +82,10 @@ export const Table = ({
   }
 
   return (
-    <table {...tableProps} className="relative border-separate border-spacing-y-1">
+    <table
+      {...tableProps}
+      className={classNames('relative border-separate border-spacing-y-1', { 'w-full': stretch })}
+    >
       <thead>
         {headerGroups.map((headerGroup: TableHeaderGroupType) => (
           <TableHeaderGroup headerGroup={headerGroup} key={headerGroup.getHeaderGroupProps().key} />

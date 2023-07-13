@@ -27,6 +27,7 @@ export const AssetInput = ({
   maxButtonLabel,
   poolAsset,
   showSecondaryChainSelector,
+  title,
   ...rest
 }: AssetInputProps) => {
   const formatPrice = useFormatPrice();
@@ -88,12 +89,23 @@ export const AssetInput = ({
 
   return (
     <HighlightCard className={classNames('min-h-[70px] text-2 !gap-1 !justify-start', className)}>
+      {title && (
+        <Box alignCenter className="pl-4 md:pl-0 pt-2 md:pt-0" justify="between">
+          <Box center className="gap-x-2">
+            <Text fontWeight="normal" textStyle="caption">
+              {title}
+            </Text>
+          </Box>
+        </Box>
+      )}
+
       <Box
         alignCenter
         className={classNames('pl-4 md:pl-0', className, {
           'flex-col md:flex-row': showSecondaryChainSelector,
           'flex-row': !showSecondaryChainSelector,
         })}
+        justify="between"
       >
         {loading ? (
           <div className="flex w-full">

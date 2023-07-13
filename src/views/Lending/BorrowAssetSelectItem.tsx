@@ -32,7 +32,6 @@ export const EarnAssetSelectItem = memo(
           <Box center className="gap-x-2">
             <AssetIcon asset={asset} logoURI={logoURI} size={34} />
           </Box>
-
           <Box col flex={1}>
             <Box alignCenter justify="between">
               <Text fontWeight="medium" textStyle="body">
@@ -68,6 +67,13 @@ export const EarnAssetSelectItem = memo(
             )}
 
             {typeof filled !== 'undefined' && (
+              // <Typography
+              //   color="secondary"
+              //   // color={getFilledColor(filled)}
+              //   variant="caption"
+              // >
+              //   {getFormattedPercent(filled) || 'N/A'}
+              // </Typography>
               <Tooltip content={`${t('common.filled')}: ${getFormattedPercent(filled) || 'N/A'}`}>
                 <Flex position="relative">
                   <CircularProgress

@@ -2981,12 +2981,12 @@
     "@walletconnect/web3-provider" "1.8.0"
     web3modal "1.9.12"
 
-"@thorswap-lib/xdefi@1.0.0-development.17":
-  version "1.0.0-development.17"
-  resolved "https://registry.npmjs.org/@thorswap-lib/xdefi/-/xdefi-1.0.0-development.17.tgz#99938248ac8a4f082c713b59f4e7911d0030328d"
-  integrity sha512-oQB1CODWWrlT5fr5omD3ZAM1Af471srgAVlTUJsDWViCD/BVQumPYjAd/GmSWbplbYRRdwn4OYNxPyKzkbSeIQ==
+"@thorswap-lib/xdefi@1.0.0-development.9":
+  version "1.0.0-development.9"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xdefi/-/xdefi-1.0.0-development.9.tgz#4ca2f86fa8f03160e04f1e20f00d7f36e77047f2"
+  integrity sha512-8MRVcOzk3lYlOjb3Rkd+6mWg7L28JFtO1gWsFmRBi+VFtqMj1Z9gsxC5Ye2kbEnNGzc8sKJVy6LELisYQOAt1w==
   dependencies:
-    "@thorswap-lib/types" "1.0.0-development.90"
+    "@thorswap-lib/types" "1.0.0-development.86"
 
 "@trezor/analytics@1.0.3":
   version "1.0.3"

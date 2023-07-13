@@ -73,6 +73,7 @@ import {
   FiRefreshCw,
   FiX,
 } from 'react-icons/fi';
+import { GiReceiveMoney } from 'react-icons/gi';
 import { GoBook, GoSettings } from 'react-icons/go';
 import { HiEyeOff, HiOutlineChartPie, HiOutlineCog, HiOutlineDocumentText } from 'react-icons/hi';
 import { ImBlocked } from 'react-icons/im';
@@ -241,6 +242,7 @@ const Icons = {
   timerCountdown: RxCountdownTimer,
   shareUrl: MdIosShare,
   plane: BsAirplane,
+  lending: GiReceiveMoney,
   ...SvgIcons,
 } as const;
 

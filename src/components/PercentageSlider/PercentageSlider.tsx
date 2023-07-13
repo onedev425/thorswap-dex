@@ -1,18 +1,27 @@
 import { Text } from '@chakra-ui/react';
 import { Amount } from '@thorswap-lib/swapkit-core';
-import { Box, Button, Range } from 'components/Atomic';
+import classNames from 'classnames';
+import { MaxPopover } from 'components/AssetInput/MaxPopover';
+import { Box, Range } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { InputAmount } from 'components/InputAmount';
-import { getAmountFromString } from 'components/InputAmount/utils';
 import { useCallback } from 'react';
-import { t } from 'services/i18n';
 
 type Props = {
+  title: string;
   onChange: (val: Amount) => void;
   percent: Amount;
+  highlightDisabled?: boolean;
+  className?: string;
 };
 
-export const WithdrawPercent = ({ onChange, percent }: Props) => {
+export const PercentageSlider = ({
+  onChange,
+  percent,
+  title,
+  highlightDisabled,
+  className,
+}: Props) => {
   const handlePercentChange = useCallback(
     (value: Amount) => {
       const val = value.gt(100) ? Amount.fromNormalAmount(100) : value;
@@ -27,12 +36,16 @@ export const WithdrawPercent = ({ onChange, percent }: Props) => {
 
   return (
     <HighlightCard
-      className="min-h-[107px] p-4 !mb-1 flex-row items-center justify-start"
+      className={classNames(
+        'min-h-[50px] p-4 !mb-1 flex-row items-center justify-start',
+        className,
+      )}
+      disabled={highlightDisabled}
       onClick={focus}
     >
       <Box className="w-full row-span-1 flex-row">
         <Box alignCenter className="flex-1 items-center">
-          <Text className="inline-flex">{`${t('common.withdrawPercent')}:`}</Text>
+          <Text className="inline-flex">{`${title}:`}</Text>
         </Box>
 
         <Box alignCenter className="flex-1">
@@ -58,16 +71,7 @@ export const WithdrawPercent = ({ onChange, percent }: Props) => {
           <Range amountValue={percent} onAmountChange={handleRange} />
         </Box>
 
-        <Box center row className="flex-auto">
-          <Button
-            className="!h-5 !px-1.5"
-            onClick={() => handlePercentChange(getAmountFromString('100', 0) as Amount)}
-            textTransform="uppercase"
-            variant="outlineSecondary"
-          >
-            {t('common.max')}
-          </Button>
-        </Box>
+        <MaxPopover onChange={(v) => handlePercentChange(Amount.fromNormalAmount(v * 100))} />
       </Box>
     </HighlightCard>
   );

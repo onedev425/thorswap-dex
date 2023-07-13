@@ -3,7 +3,7 @@ import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { Box, Icon } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
-import { WithdrawPercent } from 'components/WithdrawPercent';
+import { PercentageSlider } from 'components/PercentageSlider';
 import { RUNEAsset } from 'helpers/assets';
 import { memo } from 'react';
 import { t } from 'services/i18n';
@@ -33,7 +33,11 @@ export const AssetInputs = memo(
           <Icon color="white" name="arrowDown" size={20} />
         </div>
 
-        <WithdrawPercent onChange={onPercentChange} percent={percent} />
+        <PercentageSlider
+          onChange={onPercentChange}
+          percent={percent}
+          title={t('common.withdrawPercent')}
+        />
 
         <HighlightCard className="min-h-[107px] p-4 flex-col md:flex-row items-end md:items-center gap-2">
           <Box>

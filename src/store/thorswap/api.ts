@@ -72,6 +72,22 @@ export const thorswapApi = createApi({
       },
     }),
 
+    getBorrow: build.query<any, any>({
+      query: ({ assetIn, assetOut, amount, senderAddress, recipientAddress }) => {
+        const queryParams = new URLSearchParams({
+          assetIn,
+          assetOut,
+          amount,
+          senderAddress,
+          recipientAddress,
+          affiliateAddress: '',
+          affiliateBasisPoints: '',
+        });
+
+        return `/aggregator/lending/borrow?${queryParams.toString()}`;
+      },
+    }),
+
     getTokenCachedPrices: build.query<GetTokenPriceResponse, GetTokenPriceParams>({
       query: ({ tokens, options = {} }) => {
         const body = new URLSearchParams();
@@ -163,6 +179,7 @@ export const {
   useGetAirdropVerifyQuery,
   useGetIsWhitelistedQuery,
   useGetMerkleProofQuery,
+  useGetBorrowQuery,
   useGetAnnouncementsQuery,
   useGetGasPriceRatesQuery,
   useGetGasHistoryQuery,
