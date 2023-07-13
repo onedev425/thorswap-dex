@@ -16,7 +16,7 @@ import { VestingType } from 'helpers/assets';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { toOptionalFixed } from 'helpers/number';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { fromWei, toWei, toWeiFromString } from 'services/contract';
+import { fromWei, toWeiFromString } from 'services/contract';
 import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
 import { ConfirmVThorButton } from 'views/StakeVThor/ConfirmVThorButton';
@@ -86,7 +86,7 @@ const StakeVThor = () => {
       );
       setOutputAmount(expectedOutput);
     } else {
-      const expectedOutput = previewRedeem(BigNumber.from(toWeiFromString(maxAmountBN.toString())));
+      const expectedOutput = previewRedeem(toWeiFromString(maxAmountBN.toString()));
       setOutputAmount(expectedOutput);
     }
   }, [action, thorBalBn, vthorBalBn, previewDeposit, previewRedeem]);
@@ -95,7 +95,7 @@ const StakeVThor = () => {
     (amount: Amount, targetAction?: StakeActions) => {
       const stakeAction = targetAction || action;
       setInputAmount(amount);
-      const amountBN = BigNumber.from(toWei(amount.assetAmount.toNumber()));
+      const amountBN = toWeiFromString(amount.assetAmount.toFixed());
       const expectedOutput =
         stakeAction === StakeActions.Deposit ? previewDeposit(amountBN) : previewRedeem(amountBN);
 
@@ -107,7 +107,7 @@ const StakeVThor = () => {
   const handleAction = useCallback(() => {
     if (!ethAddress) return;
 
-    const amount = toWei(inputAmount.assetAmount.toString());
+    const amount = toWeiFromString(inputAmount.assetAmount.toFixed());
     const thorAction = action === StakeActions.Deposit ? stakeThor : unstakeThor;
     thorAction(amount, ethAddress);
   }, [action, ethAddress, inputAmount.assetAmount, stakeThor, unstakeThor]);
@@ -293,6 +293,7 @@ const StakeVThor = () => {
           emptyInput={inputAmount.lte(0)}
           ethAddress={ethAddress}
           handleVthorAction={handleVthorAction}
+          inputAmount={inputAmount}
           setIsConnectModalOpen={setIsConnectModalOpen}
         />
       </Card>

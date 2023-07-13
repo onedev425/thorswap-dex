@@ -1,3 +1,6 @@
+import { MaxInt256 } from '@ethersproject/constants';
+import { parseUnits } from '@ethersproject/units';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button } from 'components/Atomic';
 import { getV2Address } from 'helpers/assets';
@@ -14,12 +17,20 @@ type Props = {
   action: StakeActions;
   handleVthorAction: () => void;
   emptyInput: boolean;
+  inputAmount: Amount;
   setIsConnectModalOpen: (isOpen: boolean) => void;
   ethAddress?: string;
 };
 
 export const ConfirmVThorButton = memo(
-  ({ action, handleVthorAction, ethAddress, setIsConnectModalOpen, emptyInput }: Props) => {
+  ({
+    action,
+    handleVthorAction,
+    ethAddress,
+    setIsConnectModalOpen,
+    emptyInput,
+    inputAmount,
+  }: Props) => {
     const { wallet } = useWallet();
     const [isApproved, setIsApproved] = useState(false);
     const { vthorBalance, approveTHOR } = useVthorUtil();
@@ -33,10 +44,11 @@ export const ConfirmVThorButton = memo(
         from: wallet?.ETH?.address,
         spenderAddress: getV2Address(VestingType.VTHOR),
         assetAddress: getV2Address(VestingType.THOR),
+        amount: parseUnits(inputAmount.assetAmount.toFixed(), 18) || MaxInt256,
       });
 
       setIsApproved(!!isApproved);
-    }, [wallet?.ETH?.address]);
+    }, [wallet?.ETH?.address, inputAmount]);
 
     useEffect(() => {
       checkOnApprove();

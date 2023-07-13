@@ -219,6 +219,7 @@ export const useAddLiquidity = ({
     asset: poolAsset,
     contract,
     force: true,
+    amount: assetAmount.gt(0) ? assetAmount : undefined,
   });
 
   const poolAssetPriceInUSD = usePoolAssetPriceInUsd({

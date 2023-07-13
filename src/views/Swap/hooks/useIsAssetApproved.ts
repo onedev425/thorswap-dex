@@ -23,7 +23,7 @@ const checkAssetApprove = async ({ contract, asset, amount }: Params) => {
     ? isAssetApprovedForContract(
         asset,
         contract,
-        amount ? baseAmount(Math.ceil(amount.assetAmount.toNumber() || 0)) : undefined,
+        amount ? baseAmount(amount.assetAmount.toFixed() || '0') : undefined,
       )
     : isAssetApproved(asset));
 };
@@ -98,7 +98,7 @@ const useApproveResult = ({
   return { isApproved, isLoading };
 };
 
-export const useIsAssetApproved = ({ force, contract, asset }: Params) => {
+export const useIsAssetApproved = ({ force, contract, asset, amount }: Params) => {
   const { wallet } = useWallet();
   const { numberOfPendingApprovals } = useTransactionsState();
   const walletAddress = useMemo(() => wallet?.[asset.L1Chain]?.address, [asset.L1Chain, wallet]);
@@ -119,6 +119,7 @@ export const useIsAssetApproved = ({ force, contract, asset }: Params) => {
     skip: typeof force === 'boolean' ? !force : false,
     asset,
     contract: possibleApprove ? contract : undefined,
+    amount,
   });
 
   return {

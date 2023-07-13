@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import { BigNumber } from '@ethersproject/bignumber';
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Box, Button, Modal } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
 import { Input } from 'components/Input';
@@ -53,6 +53,7 @@ export const StakeConfirmModal = ({
   const { isApproved } = useIsAssetApproved({
     asset: lpAsset,
     contract: getContractAddress(contractType).address,
+    amount: amount.gt(0) ? Amount.fromBaseAmount(amount.toString(), lpAsset.decimal) : undefined,
   });
 
   const actionLabel = t(actionNameKey[type]);

@@ -98,6 +98,7 @@ export const getEtherscanContract = (contractType: ContractType) => {
 export const getCustomContract = (contractAddr: string, abi?: ContractInterface) => {
   const address = getAddress(contractAddr.toLowerCase());
 
+  // @ts-ignore TODO: remove after package version issue is fixed
   return new Contract(address, abi ? abi : ERC20ABI, getProvider(Chain.Ethereum));
 };
 
