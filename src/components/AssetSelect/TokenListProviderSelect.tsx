@@ -9,6 +9,8 @@ import { t } from 'services/i18n';
 import { useGetProvidersQuery } from 'store/thorswap/api';
 import { DISABLED_TOKENLIST_PROVIDERS } from 'views/Swap/hooks/useTokenList';
 
+const PROD_DISABLED_PROVIDERS = ['Stargatearb', 'Pancakeswap', 'Pancakeswapeth'];
+
 export const TokenListProviderSelect = ({ onSelect, onClose, assets }: AssetSelectProps) => {
   const { data, isLoading } = useGetProvidersQuery();
 
@@ -18,23 +20,20 @@ export const TokenListProviderSelect = ({ onSelect, onClose, assets }: AssetSele
     assets,
   });
 
-  const sortedProviders = useMemo(
-    () =>
-      data
-        ? data
-            .concat()
-            .sort((a, b) => {
-              const aDisabled = disabledTokenLists.includes(a.provider);
-              const bDisabled = disabledTokenLists.includes(b.provider);
+  const sortedProviders = useMemo(() => {
+    const providers =
+      data?.filter(({ provider }) => !PROD_DISABLED_PROVIDERS.includes(provider)) || [];
 
-              return aDisabled === bDisabled ? b.nbTokens - a.nbTokens : aDisabled ? 1 : -1;
-            })
-            .filter(({ provider }) => !DISABLED_TOKENLIST_PROVIDERS.includes(provider))
-        : //
-          [],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data],
-  );
+    return providers
+      .concat()
+      .sort((a, b) => {
+        const aDisabled = disabledTokenLists.includes(a.provider);
+        const bDisabled = disabledTokenLists.includes(b.provider);
+
+        return aDisabled === bDisabled ? b.nbTokens - a.nbTokens : aDisabled ? 1 : -1;
+      })
+      .filter(({ provider }) => !DISABLED_TOKENLIST_PROVIDERS.includes(provider));
+  }, [data, disabledTokenLists]);
 
   return (
     <div
