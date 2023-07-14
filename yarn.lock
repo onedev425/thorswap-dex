@@ -2949,6 +2949,11 @@
     "@thorswap-lib/types" "1.0.0-development.90"
     "@trezor/connect-web" "9.0.11"
 
+"@thorswap-lib/types@1.0.0-development.86":
+  version "1.0.0-development.86"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/types/-/types-1.0.0-development.86.tgz#ff23f0b57da52c40873597a1ad1498638d3dd444"
+  integrity sha512-PrIZBUOZ9jD1fy2IbcbgzbhtD9yyCcy4apmaiWd3rbhbXLRSK9NcX4tYlPA4hVwRMC3CWTsGHe9aI6EebvZe9Q==
+
 "@thorswap-lib/types@1.0.0-development.89":
   version "1.0.0-development.89"
   resolved "https://registry.yarnpkg.com/@thorswap-lib/types/-/types-1.0.0-development.89.tgz#93a9171d0f13b3a7d7a5c095df99cc7f2da5815d"

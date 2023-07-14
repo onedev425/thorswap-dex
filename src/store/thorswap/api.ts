@@ -112,7 +112,7 @@ export const thorswapApi = createApi({
 
     getTxnStatus: build.query<GetTxnStatusResponse, GetTxnStatusParams>({
       query: ({ txid, type, from }) => {
-        const queryParams = new URLSearchParams({ txid });
+        const queryParams = new URLSearchParams({ txid, isStreamingSwap: 'true' });
         if (from) queryParams.append('from', from);
         if (type) queryParams.append('type', type);
 

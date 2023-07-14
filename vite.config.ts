@@ -64,6 +64,7 @@ export default defineConfig({
       // '@thorswap-lib/toolbox-utxo': resolve(__dirname, 'src/u'),
       // '@thorswap-lib/web-extensions': resolve(__dirname, 'src/w'),
       // '@thorswap-lib/walletconnect': resolve(__dirname, 'src/wc'),
+      // '@thorswap-lib/xdefi': resolve(__dirname, 'src/x'),
     },
   },
   build: {
