@@ -33,7 +33,6 @@ import { ApproveModal } from './ApproveModal';
 import { AssetInputs } from './AssetInputs';
 import { ConfirmSwapModal } from './ConfirmSwapModal';
 import { CustomRecipientInput } from './CustomRecipientInput';
-import { useIsAssetApproved } from './hooks/useIsAssetApproved';
 import { useSwap } from './hooks/useSwap';
 import { useSwapApprove } from './hooks/useSwapApprove';
 import { useSwapPair } from './hooks/useSwapPair';
@@ -192,12 +191,6 @@ const SwapView = () => {
     [quoteMode, contractAddress],
   );
 
-  const { isApproved, isLoading: isApproveAssetLoading } = useIsAssetApproved({
-    force: true,
-    asset: inputAsset,
-    contract,
-    amount: inputAmount,
-  });
   const handleApprove = useSwapApprove({ contract, inputAsset });
 
   const feeAssets = useMemo(
@@ -410,9 +403,9 @@ const SwapView = () => {
             inputAmount={inputAmount}
             inputAsset={inputAsset}
             invalidSwap={invalidSwap}
-            isApproved={isApproved}
+            isApproved={selectedRoute?.isApproved}
             isInputWalletConnected={isInputWalletConnected}
-            isLoading={isFetching || isPriceLoading || isApproveAssetLoading}
+            isLoading={isFetching || isPriceLoading}
             outputAsset={outputAsset}
             recipient={recipient}
             setVisibleApproveModal={setVisibleApproveModal}
