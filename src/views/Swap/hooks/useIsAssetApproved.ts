@@ -23,7 +23,7 @@ const checkAssetApprove = async ({ contract, asset, amount }: Params) => {
     ? isAssetApprovedForContract(
         asset,
         contract,
-        amount ? baseAmount(amount.assetAmount.toFixed() || '0') : undefined,
+        amount ? baseAmount(amount.baseAmount.toFixed() || '0') : undefined,
       )
     : isAssetApproved(asset));
 };
