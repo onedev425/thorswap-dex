@@ -103,5 +103,5 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   // TODO: Remove when trustwallet is removed from SK
   [WalletType.TrustWallet]: [],
   [WalletType.Xdefi]: AllChainsSupported,
-  [WalletType.Walletconnect]: [Chain.Ethereum, Chain.Avalanche],
+  [WalletType.Walletconnect]: [Chain.Ethereum, Chain.Avalanche, Chain.THORChain],
 };
