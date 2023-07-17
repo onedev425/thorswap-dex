@@ -2773,6 +2773,13 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.16.tgz#c65271f77bfcc75d7a272ecc67553d5d95fac07b"
   integrity sha512-j+yb5QjAfgknurpoRXZ0t/xWoeDXNEQEMv/a5OU4rBab3HGhXbfs4Nu5Ip+nrfeDWLa0oRMeAp4TpUnBA4pAxQ==
 
+"@thorswap-lib/okx@1.0.0-development.1":
+  version "1.0.0-development.1"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/okx/-/okx-1.0.0-development.1.tgz#978ede298a7e22f9d4bdd52933728990542a7af3"
+  integrity sha512-F2Lj8V2Vr56+/kpReTi3HGMZ0D6h71v280wuVg74TNO0EVRdxIyZtUIaxC6gsLM9zUCiyH5KQFspiTnCbJrVxA==
+  dependencies:
+    "@thorswap-lib/types" "1.0.0-development.95"
+
 "@thorswap-lib/swapkit-api@0.1.0-development.27":
   version "0.1.0-development.27"
   resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-api/-/swapkit-api-0.1.0-development.27.tgz#f77aa4926bd49bec21f97095175a0b51d6ac474d"

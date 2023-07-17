@@ -14,6 +14,7 @@ import {
   ChainStatusAnnouncements,
 } from 'store/externalConfig/types';
 import { useWallet } from 'store/wallet/hooks';
+import { SUPPORTED_CHAINS } from 'settings/chain';
 
 const REFRESH_INTERVAL = 1000 * 50 * 5; //5min
 const sortOrder = {

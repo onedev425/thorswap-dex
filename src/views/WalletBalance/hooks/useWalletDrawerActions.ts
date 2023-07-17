@@ -2,6 +2,7 @@ import { useWalletDrawer } from 'hooks/useWalletDrawer';
 import { useState } from 'react';
 import { SUPPORTED_CHAINS } from 'settings/chain';
 import { useWallet } from 'store/wallet/hooks';
+import { SUPPORTED_CHAINS } from 'settings/chain';
 
 export const useWalletDrawerActions = () => {
   const { setIsConnectModalOpen, disconnectWallet, wallet, refreshWalletByChain, isWalletLoading } =
