@@ -5,12 +5,15 @@ export const blockReward: Record<Chain, number> = {
   [Chain.Bitcoin]: 6.25,
   [Chain.BitcoinCash]: 6.25,
   [Chain.Litecoin]: 12.5,
-  [Chain.Doge]: 10000,
+  [Chain.Dogecoin]: 10000,
   [Chain.Ethereum]: 3,
   [Chain.Binance]: 0,
   [Chain.THORChain]: 0,
   [Chain.Avalanche]: 0,
   [Chain.Cosmos]: 0,
+  [Chain.Optimism]: 0,
+  [Chain.Arbitrum]: 0,
+  [Chain.Polygon]: 0,
   [Chain.BinanceSmartChain]: 0,
 };
 
@@ -19,12 +22,15 @@ export const blockTime: Record<Chain, number> = {
   [Chain.Bitcoin]: 600,
   [Chain.BitcoinCash]: 600,
   [Chain.Litecoin]: 150,
-  [Chain.Doge]: 60,
+  [Chain.Dogecoin]: 60,
   [Chain.Ethereum]: 15,
   [Chain.Binance]: 0,
   [Chain.THORChain]: 0,
   [Chain.Avalanche]: 0,
   [Chain.Cosmos]: 0,
+  [Chain.Optimism]: 0,
+  [Chain.Arbitrum]: 0,
+  [Chain.Polygon]: 0,
   [Chain.BinanceSmartChain]: 0,
 };
 

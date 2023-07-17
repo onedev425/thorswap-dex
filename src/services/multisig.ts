@@ -117,7 +117,7 @@ const buildTransferTx = async (
     memo,
     fromAddress: _multisigAddress,
     toAddress: recipient,
-    chainId: ChainId.Thorchain,
+    chainId: ChainId.THORChain,
     assetDenom: getThorchainDenom(asset),
     nodeUrl: getTcNodeUrl(),
     assetAmount: baseAmount(amount.baseAmount.toNumber(), asset.decimal),
@@ -168,7 +168,7 @@ const buildDepositTx = async (
       coins: [{ asset: assetObj, amount: amount.baseAmount.toString() }],
     },
     nodeUrl: getTcNodeUrl(),
-    chainId: ChainId.Thorchain,
+    chainId: ChainId.THORChain,
   });
 
   const account = await (await getThorchainToolbox()).getAccount(_multisigAddress);

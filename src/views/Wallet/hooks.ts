@@ -12,7 +12,7 @@ const emptyWallet = {
   [Chain.BitcoinCash]: null,
   [Chain.Bitcoin]: null,
   [Chain.Cosmos]: null,
-  [Chain.Doge]: null,
+  [Chain.Dogecoin]: null,
   [Chain.Ethereum]: null,
   [Chain.Litecoin]: null,
   [Chain.THORChain]: null,

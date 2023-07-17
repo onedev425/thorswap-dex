@@ -43,7 +43,7 @@ export const useMimir = () => {
     [Chain.Binance]: isBNBChainHalted,
     [Chain.Bitcoin]: isBTCChainHalted,
     [Chain.Cosmos]: isGAIAChainHalted,
-    [Chain.Doge]: isDOGEChainHalted,
+    [Chain.Dogecoin]: isDOGEChainHalted,
     [Chain.Ethereum]: isETHChainHalted,
     [Chain.Litecoin]: isLTCChainHalted,
     [Chain.THORChain]: isTHORChainHalted,
@@ -58,7 +58,7 @@ export const useMimir = () => {
     [Chain.Binance]: isEntryPaused('HALTBNBTRADING'),
     [Chain.Bitcoin]: isEntryPaused('HALTBTCTRADING'),
     [Chain.Cosmos]: isEntryPaused('HALTGAIATRADING'),
-    [Chain.Doge]: isEntryPaused('HALTDOGETRADING'),
+    [Chain.Dogecoin]: isEntryPaused('HALTDOGETRADING'),
     [Chain.Ethereum]: isEntryPaused('HALTETHTRADING'),
     [Chain.Litecoin]: isEntryPaused('HALTLTCTRADING'),
   };
@@ -73,7 +73,7 @@ export const useMimir = () => {
     [Chain.Binance]: isEntryPaused('PAUSELPBNB'),
     [Chain.BitcoinCash]: isEntryPaused('PAUSELPBCH'),
     [Chain.Bitcoin]: isEntryPaused('PAUSELPBTC'),
-    [Chain.Doge]: isEntryPaused('PAUSELPDOGE'),
+    [Chain.Dogecoin]: isEntryPaused('PAUSELPDOGE'),
     [Chain.Ethereum]: isEntryPaused('PAUSELPETH'),
     [Chain.Litecoin]: isEntryPaused('PAUSELPLTC'),
   };

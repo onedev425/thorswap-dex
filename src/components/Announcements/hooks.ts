@@ -1,4 +1,4 @@
-import { Chain, SUPPORTED_CHAINS } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import hmacSHA512 from 'crypto-js/hmac-sha512';
 import { chainName } from 'helpers/chainName';
 import { useMimir } from 'hooks/useMimir';
@@ -13,6 +13,7 @@ import {
   ChainStatusAnnouncements,
 } from 'store/externalConfig/types';
 import { useWallet } from 'store/wallet/hooks';
+import { SUPPORTED_CHAINS } from 'settings/chain';
 
 const REFRESH_INTERVAL = 1000 * 50 * 5; //5min
 const sortOrder = {

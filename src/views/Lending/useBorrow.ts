@@ -43,7 +43,7 @@ export const useBorrow = ({
       return;
     }
     setPreviousErrorId('');
-  }, [error, amount, assetIn, assetOut, errorId]);
+  }, [error, amount, assetIn, assetOut, errorId, previousErrorId]);
 
   useEffect(() => {
     setExpectedOutput(Amount.fromAssetAmount(data?.expectedOutput || 0, 8));

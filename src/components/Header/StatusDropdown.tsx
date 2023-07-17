@@ -60,7 +60,7 @@ export const StatusDropdown = memo(() => {
       { label: chainName(Chain.Ethereum, true), value: isETHChainHalted },
       { label: chainName(Chain.Bitcoin, true), value: isBTCChainHalted },
       { label: chainName(Chain.Litecoin, true), value: isLTCChainHalted },
-      { label: chainName(Chain.Doge, true), value: isDOGEChainHalted },
+      { label: chainName(Chain.Dogecoin, true), value: isDOGEChainHalted },
       { label: chainName(Chain.BitcoinCash, true), value: isBCHChainHalted },
       { label: chainName(Chain.Avalanche, true), value: isAVAXChainHalted },
     ],

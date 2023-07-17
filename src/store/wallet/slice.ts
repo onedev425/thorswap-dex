@@ -13,7 +13,7 @@ const initialWallet = {
   [Chain.Avalanche]: null,
   [Chain.Litecoin]: null,
   [Chain.BitcoinCash]: null,
-  [Chain.Doge]: null,
+  [Chain.Dogecoin]: null,
   [Chain.Cosmos]: null,
 };
 

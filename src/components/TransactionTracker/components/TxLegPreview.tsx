@@ -75,9 +75,12 @@ const colorSchemeForChain = {
   [Chain.Bitcoin]: 'orange',
   [Chain.BitcoinCash]: 'greenLight',
   [Chain.Cosmos]: 'cyan',
-  [Chain.Doge]: 'yellow',
+  [Chain.Dogecoin]: 'yellow',
   [Chain.Ethereum]: 'purple',
   [Chain.Litecoin]: 'blue',
+  [Chain.Arbitrum]: 'blue',
+  [Chain.Optimism]: 'red',
+  [Chain.Polygon]: 'purple',
   [Chain.THORChain]: 'green',
 };
 

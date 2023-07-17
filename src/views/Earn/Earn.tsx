@@ -15,7 +15,6 @@ import { InfoTable } from 'components/InfoTable';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { PercentageSlider } from 'components/PercentageSlider';
 import { TabsSelect } from 'components/TabsSelect';
-import { WithdrawPercent } from 'components/WithdrawPercent';
 import { SAVERS_MEDIUM } from 'config/constants';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';

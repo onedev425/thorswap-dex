@@ -18,8 +18,8 @@ export const chainName = (chain: string, full?: boolean) => {
       return full ? 'Ethereum' : Chain.Ethereum;
     case Chain.Litecoin:
       return full ? 'Litecoin' : Chain.Litecoin;
-    case Chain.Doge:
-      return full ? 'Dogecoin' : Chain.Doge;
+    case Chain.Dogecoin:
+      return full ? 'Dogecoin' : Chain.Dogecoin;
 
     default:
       return chain;

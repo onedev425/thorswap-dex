@@ -1,7 +1,7 @@
-import { SUPPORTED_CHAINS } from '@thorswap-lib/types';
 import { useWalletDrawer } from 'hooks/useWalletDrawer';
 import { useState } from 'react';
 import { useWallet } from 'store/wallet/hooks';
+import { SUPPORTED_CHAINS } from 'settings/chain';
 
 export const useWalletDrawerActions = () => {
   const { setIsConnectModalOpen, disconnectWallet, wallet, refreshWalletByChain, isWalletLoading } =

@@ -304,7 +304,7 @@ const SwapView = () => {
   const tokenOutputWarning = useMemo(() => isAvaxTHOR || isEthRUNE, [isAvaxTHOR, isEthRUNE]);
   const noPriceProtection = useMemo(
     () =>
-      [Chain.Litecoin, Chain.Doge, Chain.BitcoinCash].includes(inputAsset.L1Chain) &&
+      [Chain.Litecoin, Chain.Dogecoin, Chain.BitcoinCash].includes(inputAsset.L1Chain) &&
       wallet?.[inputAsset.L1Chain]?.walletType === WalletOption.LEDGER,
     [inputAsset.L1Chain, wallet],
   );

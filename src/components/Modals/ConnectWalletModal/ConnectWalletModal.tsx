@@ -6,13 +6,13 @@ import {
   DerivationPath,
   DerivationPathArray,
   Keystore,
-  SUPPORTED_CHAINS,
 } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box, Button, Modal, Tooltip } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoTip } from 'components/InfoTip';
 import { Input } from 'components/Input';
+import { SUPPORTED_CHAINS } from 'settings/chain';
 import { DerivationPathDropdown } from 'components/Modals/ConnectWalletModal/DerivationPathsDropdown';
 import { showErrorToast } from 'components/Toast';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
@@ -252,7 +252,6 @@ const ConnectWalletModal = () => {
     WalletType.Phrase,
     WalletType.Ledger,
     WalletType.Trezor,
-    WalletType.TrustWallet,
     WalletType.Walletconnect,
   ].includes(selectedWalletType || WalletType.Keystore);
 

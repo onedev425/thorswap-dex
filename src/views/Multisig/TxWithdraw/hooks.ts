@@ -5,9 +5,8 @@ import {
   getMemoFor,
   getMinAmountByChain,
   getSignatureAssetFor,
-  MemoType,
 } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { Chain, MemoType } from '@thorswap-lib/types';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useCallback, useEffect, useMemo, useState } from 'react';

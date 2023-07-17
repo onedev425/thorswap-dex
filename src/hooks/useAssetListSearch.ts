@@ -1,9 +1,10 @@
-import { Chain, SUPPORTED_CHAINS } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { AssetSelectType } from 'components/AssetSelect/types';
 import Fuse from 'fuse.js';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { SORTED_CHAINS } from 'settings/chain';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';
+import { SUPPORTED_CHAINS } from 'settings/chain'; 
 
 const options: Fuse.IFuseOptions<AssetSelectType> = {
   keys: [
@@ -55,6 +56,8 @@ export const useAssetListSearch = (assetList: AssetSelectType[]) => {
       if (a.balance || b.balance) {
         return a.balance ? (b?.balance?.gt(a.balance) ? 1 : -1) : 0;
       } else {
+        // TODO - remove TS ignore once new chains have been added
+        // @ts-expect-error
         return SORTED_CHAINS.indexOf(a.asset.chain) - SORTED_CHAINS.indexOf(b.asset.chain);
       }
     });

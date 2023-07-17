@@ -10,8 +10,6 @@ export enum WalletType {
   MetaMask = 'MetaMask',
   Phrase = 'Phrase',
   Trezor = 'Trezor',
-  // TODO: Remove when trustwallet is removed from SK
-  TrustWallet = 'TrustWallet',
   Walletconnect = 'Walletconnect',
   TrustWalletExtension = 'TrustWalletExtension',
   CoinbaseExtension = 'CoinbaseExtension',
@@ -27,8 +25,6 @@ export const WalletNameByWalletType: Record<WalletType, string> = {
   [WalletType.MetaMask]: 'MetaMask',
   [WalletType.Phrase]: 'Phrase',
   [WalletType.Trezor]: 'Trezor',
-  // TODO: Remove when trustwallet is removed from SK
-  [WalletType.TrustWallet]: 'TrustWallet',
   [WalletType.TrustWalletExtension]: 'TrustWallet Extension',
   [WalletType.CoinbaseExtension]: 'Coinbase Extension',
   [WalletType.Xdefi]: 'Xdefi',
@@ -44,8 +40,6 @@ export const WalletOptionByWalletType: Record<WalletType, WalletOption> = {
   [WalletType.MetaMask]: WalletOption.METAMASK,
   [WalletType.Phrase]: WalletOption.KEYSTORE,
   [WalletType.Trezor]: WalletOption.TREZOR,
-  // TODO: Remove when trustwallet is removed from SK
-  [WalletType.TrustWallet]: WalletOption.TRUSTWALLET,
   [WalletType.TrustWalletExtension]: WalletOption.TRUSTWALLET_WEB,
   [WalletType.CoinbaseExtension]: WalletOption.COINBASE_WEB,
   [WalletType.Xdefi]: WalletOption.XDEFI,
@@ -58,8 +52,6 @@ export const WalletNameByWalletOption: Record<WalletOption, string> = {
   [WalletOption.LEDGER]: WalletType.Ledger,
   [WalletOption.METAMASK]: WalletType.MetaMask,
   [WalletOption.TREZOR]: WalletType.Trezor,
-  // TODO: Remove when trustwallet is removed from SK
-  [WalletOption.TRUSTWALLET]: WalletType.TrustWallet,
   [WalletOption.TRUSTWALLET_WEB]: 'Trustwallet Web',
   [WalletOption.WALLETCONNECT]: WalletType.Walletconnect,
   [WalletOption.COINBASE_WEB]: 'Coinbase Extension',
@@ -75,7 +67,7 @@ const AllChainsSupported = [
   Chain.Bitcoin,
   Chain.BitcoinCash,
   Chain.Cosmos,
-  Chain.Doge,
+  Chain.Dogecoin,
   Chain.Ethereum,
   Chain.Litecoin,
   Chain.THORChain,
@@ -95,13 +87,11 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.Trezor]: [
     ...EVMChainsSupported,
     Chain.Bitcoin,
-    Chain.Doge,
+    Chain.Dogecoin,
     Chain.Litecoin,
     Chain.BitcoinCash,
   ],
   [WalletType.TrustWalletExtension]: EVMChainsSupported,
-  // TODO: Remove when trustwallet is removed from SK
-  [WalletType.TrustWallet]: [],
   [WalletType.Xdefi]: AllChainsSupported,
   [WalletType.Walletconnect]: [Chain.Ethereum, Chain.Avalanche, Chain.THORChain],
 };

@@ -32,7 +32,6 @@ export const getSwapKitClient = async () => {
       stagenet: IS_STAGENET,
     },
     wallets: [
-      // @ts-expect-error
       keystoreWallet,
       ledgerWallet,
       trezorWallet,
