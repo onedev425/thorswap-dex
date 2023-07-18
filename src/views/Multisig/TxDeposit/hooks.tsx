@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
-import { MemoType } from '@thorswap-lib/types';
 import { AddLiquidityParams, AssetEntity, getMemoFor } from '@thorswap-lib/swapkit-core';
+import { MemoType } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
 import { InfoRowConfig } from 'components/InfoRow/types';

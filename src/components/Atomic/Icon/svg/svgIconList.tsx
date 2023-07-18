@@ -51,6 +51,7 @@ import { ReactComponent as Ledger } from './ledger.svg';
 import { ReactComponent as Lightning } from './lightningThorswap.svg';
 import { ReactComponent as Metamask } from './metamask.svg';
 import { ReactComponent as Moon } from './moon.svg';
+import { ReactComponent as Okx } from './Okx.svg';
 import { ReactComponent as Receive } from './receive.svg';
 import { ReactComponent as Router } from './router.svg';
 import { ReactComponent as Settings } from './settings.svg';
@@ -110,6 +111,7 @@ export const Svgs = {
   lightning: Lightning,
   metamask: Metamask,
   moon: Moon,
+  okx: Okx,
   receive: Receive,
   router: Router,
   settings: Settings,

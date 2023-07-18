@@ -5,6 +5,7 @@ import { useMimir } from 'hooks/useMimir';
 import { StatusType, useNetwork } from 'hooks/useNetwork';
 import { useCallback, useEffect, useMemo } from 'react';
 import { t } from 'services/i18n';
+import { SUPPORTED_CHAINS } from 'settings/chain';
 import { useApp } from 'store/app/hooks';
 import { useExternalConfig } from 'store/externalConfig/hooks';
 import {
@@ -13,7 +14,6 @@ import {
   ChainStatusAnnouncements,
 } from 'store/externalConfig/types';
 import { useWallet } from 'store/wallet/hooks';
-import { SUPPORTED_CHAINS } from 'settings/chain';
 
 const REFRESH_INTERVAL = 1000 * 50 * 5; //5min
 const sortOrder = {

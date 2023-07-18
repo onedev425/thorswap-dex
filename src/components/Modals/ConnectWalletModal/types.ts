@@ -14,6 +14,7 @@ export enum WalletType {
   TrustWalletExtension = 'TrustWalletExtension',
   CoinbaseExtension = 'CoinbaseExtension',
   Xdefi = 'Xdefi',
+  Okx = 'Okx',
 }
 
 export const WalletNameByWalletType: Record<WalletType, string> = {
@@ -29,6 +30,7 @@ export const WalletNameByWalletType: Record<WalletType, string> = {
   [WalletType.CoinbaseExtension]: 'Coinbase Extension',
   [WalletType.Xdefi]: 'Xdefi',
   [WalletType.Walletconnect]: 'Walletconnect',
+  [WalletType.Okx]: 'Okx',
 };
 
 export const WalletOptionByWalletType: Record<WalletType, WalletOption> = {
@@ -44,6 +46,7 @@ export const WalletOptionByWalletType: Record<WalletType, WalletOption> = {
   [WalletType.CoinbaseExtension]: WalletOption.COINBASE_WEB,
   [WalletType.Xdefi]: WalletOption.XDEFI,
   [WalletType.Walletconnect]: WalletOption.WALLETCONNECT,
+  [WalletType.Okx]: WalletOption.OKX,
 };
 
 export const WalletNameByWalletOption: Record<WalletOption, string> = {
@@ -57,6 +60,7 @@ export const WalletNameByWalletOption: Record<WalletOption, string> = {
   [WalletOption.COINBASE_WEB]: 'Coinbase Extension',
   [WalletOption.XDEFI]: WalletType.Xdefi,
   [WalletOption.KEYSTORE]: WalletType.Keystore,
+  [WalletOption.OKX]: WalletType.Okx,
 };
 
 const BETA_CHAINS = IS_BETA || IS_DEV_API || IS_LOCAL ? [Chain.BinanceSmartChain] : [];
@@ -94,4 +98,5 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.TrustWalletExtension]: EVMChainsSupported,
   [WalletType.Xdefi]: AllChainsSupported,
   [WalletType.Walletconnect]: [Chain.Ethereum, Chain.Avalanche, Chain.THORChain],
+  [WalletType.Okx]: [],
 };

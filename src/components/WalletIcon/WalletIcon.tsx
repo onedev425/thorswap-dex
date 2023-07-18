@@ -24,6 +24,7 @@ const walletIcons: Record<WalletOption, IconName> = {
   [WalletOption.TREZOR]: 'trezor',
   [WalletOption.XDEFI]: 'xdefi',
   [WalletOption.KEPLR]: 'keplr',
+  [WalletOption.OKX]: 'okx',
 };
 
 export const WalletIcon = ({ className, walletType, size, tooltipDisabled, onClick }: Props) => {

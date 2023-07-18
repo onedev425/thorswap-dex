@@ -1,24 +1,19 @@
 import { Text } from '@chakra-ui/react';
 import { derivationPathToString } from '@thorswap-lib/helpers';
 import { getDerivationPathFor } from '@thorswap-lib/ledger';
-import {
-  Chain,
-  DerivationPath,
-  DerivationPathArray,
-  Keystore,
-} from '@thorswap-lib/types';
+import { Chain, DerivationPath, DerivationPathArray, Keystore } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box, Button, Modal, Tooltip } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoTip } from 'components/InfoTip';
 import { Input } from 'components/Input';
-import { SUPPORTED_CHAINS } from 'settings/chain';
 import { DerivationPathDropdown } from 'components/Modals/ConnectWalletModal/DerivationPathsDropdown';
 import { showErrorToast } from 'components/Toast';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import useWindowSize from 'hooks/useWindowSize';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
+import { SUPPORTED_CHAINS } from 'settings/chain';
 import { IS_PROD } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 import { useWallet } from 'store/wallet/hooks';

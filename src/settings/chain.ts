@@ -11,7 +11,7 @@ export const SUPPORTED_CHAINS = [
   Chain.Cosmos,
   Chain.Dogecoin,
   Chain.BitcoinCash,
-  Chain.Litecoin
+  Chain.Litecoin,
 ];
 
 export const SORTED_CHAINS = [
