@@ -166,7 +166,6 @@
       "chainHalted": "%{chain} Łańcuch jest tymczasowo zatrzymany na THORChain. Wszystkie wymiany i LP są obecnie niedostępne.",
       "chainLPHalted": "Handel na sieci %{chain} jest tymczasowo niedostępny.",
       "chainTradeHalted": "Dodawanie i wyciąganie na sieci %{chain} jest tymczasowo niedostępny.",
-      "oldRune": "Wykryliśmy przestarzałą wersję RUNE w Twoim portfelu. Starszy RUNE został aktywowany i powinieneś go natychmiast zaktualizować, traci on wartość z każdym blokiem.",
       "outboundQueue": "THORChain doświadcza obecnie ciężkiej kolejki wychodzącej (%{outboundQueue}). Przetwarzanie swapów może potrwać dłużej niż zwykle, FUNDUSZE SĄ BEZPIECZNE 🙏",
       "thorChainHalted": "THORChain jest tymczasowo niedostępny podczas konserwacji. Wszystkie akcje są obecnie wyłączone.",
       "thorChainLPHalted": "Dodawanie i wycofywanie płynności jest tymczasowo wyłączone. THORChain jest tymczasowo niedostępny podczas konserwacji. Wszystkie akcje są obecnie wyłączone.",

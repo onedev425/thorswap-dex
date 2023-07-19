@@ -166,7 +166,6 @@
       "chainHalted": "%{chain} Chain est temporairement arrêtée sur THORChain. Toutes opérations sont maintenant indisponibles.",
       "chainLPHalted": "Les échanges sur %{chain} Chain sont présentement indisponible.",
       "chainTradeHalted": "Ajouter et retirer sur %{chain} Chain est temporairement indisiponible. ",
-      "oldRune": "Nous avons détecté une version obsolète de RUNE dans votre portefeuille. L'ancien killswitch RUNE a été activé et vous devez le mettre à niveau immédiatement, il perd de la valeur à chaque bloc.",
       "outboundQueue": "THORChain connaît actuellement une file d'attente sortante importante (%{outboundQueue}). Le traitement des échanges pourrait prendre plus de temps que d'habitude, LES FONDS SONT SÛRS 🙏",
       "thorChainHalted": "THORChain est temporairement indisponible durant une maintenance planifiée. Toutes les actions sont présentement désactivées.",
       "thorChainLPHalted": "L'ajout et le retrait de liquidité sont présentement indisponible sur THORChain.",

@@ -18,7 +18,7 @@ import { MouseEventHandler, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { SORTED_CHAINS } from 'settings/chain';
-import { getSendRoute, getSwapRoute, ROUTES } from 'settings/router';
+import { getSendRoute, getSwapRoute } from 'settings/router';
 import { useAppDispatch } from 'store/store';
 import { useWallet } from 'store/wallet/hooks';
 import { actions } from 'store/wallet/slice';
@@ -52,12 +52,6 @@ const WalletBalanceList = () => {
     [appDispatch],
   );
 
-  const isOldRune = useCallback(
-    (asset: AssetEntity) =>
-      asset.ticker === 'RUNE' && (asset.chain === Chain.Binance || asset.chain === Chain.Ethereum),
-    [],
-  );
-
   const renderBalance = useCallback(
     (chain: Chain, balance: AssetAmount[]) => {
       const sigBalance = new AssetAmount(getSignatureAssetFor(chain), Amount.fromNormalAmount(0));
@@ -85,15 +79,6 @@ const WalletBalanceList = () => {
             </Box>
 
             <Box row className="space-x-1">
-              {isOldRune(data.asset) && (
-                <Button
-                  className="px-3 hover:bg-transparent dark:hover:bg-transparent"
-                  leftIcon={<Icon color="primaryBtn" name="switch" size={16} />}
-                  onClick={handleNavigate(ROUTES.UpgradeRune)}
-                  variant="tint"
-                />
-              )}
-
               {!isGasAsset(data.asset) && (
                 <Button
                   className="px-3 hover:bg-transparent dark:hover:bg-transparent"
@@ -115,7 +100,7 @@ const WalletBalanceList = () => {
         </div>
       ));
     },
-    [handleNavigate, hideAsset, isOldRune],
+    [handleNavigate, hideAsset],
   );
 
   const renderChainBalance = useCallback(

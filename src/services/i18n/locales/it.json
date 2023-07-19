@@ -166,7 +166,6 @@
       "chainHalted": "%{chain} Chain è temporaneamente interrotta su THORChain. Tutte le azioni di trading e LP non sono attualmente disponibili",
       "chainLPHalted": "Il trading su %{chain} Chain è temporaneamente non disponibile.",
       "chainTradeHalted": "L'aggiunta e il prelievo su %{chain} Chain sono temporaneamente non disponibili.",
-      "oldRune": "Abbiamo rilevato una versione deprecata di RUNE nel tuo portafoglio. Il killswitch RUNE legacy è stato attivato e dovresti aggiornarlo immediatamente, perché sta perdendo valore a ogni blocco.",
       "outboundQueue": "THORChain sta sperimentando una forte coda in uscita (%{outboundQueue}). Gli swap potrebbero richiedere più tempo del solito per essere processati, I FONDI SONO SICURI 🙏",
       "thorChainHalted": "THORChain è temporaneamente non disponibile durante la manutenzione. Tutte le azioni sono attualmente disabilitate.",
       "thorChainLPHalted": "L'aggiunta e il prelievo di liquidità sono temporaneamente disabilitati su THORChain.",

@@ -26,7 +26,6 @@ const Send = lazy(() => import('views/Send'));
 const LegacyStake = lazy(() => import('views/LegacyStake'));
 const StakeVThor = lazy(() => import('views/StakeVThor'));
 const Thorname = lazy(() => import('views/Thorname'));
-const UpgradeRune = lazy(() => import('views/UpgradeRune'));
 const Vesting = lazy(() => import('views/Vesting'));
 const Airdrop = lazy(() => import('views/Airdrop'));
 const Wallet = lazy(() => import('views/Wallet'));
@@ -76,7 +75,6 @@ const routes: RouteType = [
   { path: ROUTES.TxCreatePool, element: TxCreate },
   { path: ROUTES.TxImport, element: TxImport },
   { path: ROUTES.TxMultisig, element: TxMultisig },
-  { path: ROUTES.UpgradeRune, element: UpgradeRune },
   { path: ROUTES.Vesting, element: Vesting },
   { path: ROUTES.Airdrop, element: Airdrop },
   { path: ROUTES.Wallet, element: Wallet },

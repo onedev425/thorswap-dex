@@ -166,7 +166,6 @@
       "chainHalted": "La cadena %{chain} está temporalmente desactivada en THORChain. Todos los intercambios y las acciones relativas a la liquidez están desactivadas.",
       "chainLPHalted": "Los intercambios en la cadena %{chain} no están disponibles temporalmente.",
       "chainTradeHalted": "La adición y  el retiro de liquidez en la cadena %{chain} están temporalmente no disponibles.",
-      "oldRune": "Hemos detectado una versión obsoleta de RUNE en tu cartera. El killswitch RUNE obsoleto ha sido activado y deberías actualizarlo inmediatamente, está perdiendo valor con cada bloque.",
       "outboundQueue": "THORChain está experimentando actualmente una cola de salida pesada (%{outboundQueue}). Los intercambios podrían tardar más de lo habitual en procesarse, los fondos están a salvo 🙏",
       "thorChainHalted": "THORChain está temporalmente fuera de servicio por mantenimiento. Todas las acciones están desactivadas.",
       "thorChainLPHalted": "La adición y  el retiro de liquidez están temporalmente deshabilitados en THORChain.",

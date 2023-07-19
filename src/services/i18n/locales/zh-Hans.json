@@ -166,7 +166,6 @@
       "chainHalted": "%{chain} 链在THORChain上已暂时中止。临时禁用所有的兑换交易和LP服务。",
       "chainLPHalted": "%{chain} 链暂时中止兑换交易。",
       "chainTradeHalted": "%{chain} 链暂时中止添加和提取流动性。",
-      "oldRune": "我们在你的钱包中检测到一个过时的RUNE版本。传统的RUNE杀戮开关已经被激活，你应该立即升级它，它的价值正在随着每一个区块流失。",
       "outboundQueue": "THORChain目前正在经历大量的出站队列（%{outboundQueue}）。交换可能需要比平时更长的时间来处理，资金是安全的🙏",
       "thorChainHalted": "THORChain正在进行维护，在此期间将暂停所有的相关服务。",
       "thorChainLPHalted": "THORChain 已暂时中止添加和提取流动性。",

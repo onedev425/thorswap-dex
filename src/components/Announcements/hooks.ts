@@ -13,8 +13,6 @@ import {
   AnnouncementType,
   ChainStatusAnnouncements,
 } from 'store/externalConfig/types';
-import { useWallet } from 'store/wallet/hooks';
-import { SUPPORTED_CHAINS } from 'settings/chain';
 
 const REFRESH_INTERVAL = 1000 * 50 * 5; //5min
 const sortOrder = {
@@ -57,34 +55,10 @@ export const useAnnouncementsList = () => {
     isLoaded: isMimirLoaded,
   } = useMimir();
 
-  const { wallet } = useWallet();
-
-  const oldRuneAvailableAnn = useMemo(() => {
-    if (!wallet?.ETH?.balance && !wallet?.BNB?.balance) return [];
-    const ethBalances = wallet.ETH?.balance || [];
-    const bnbBalances = wallet.BNB?.balance || [];
-    const hasRuneInBalances = [...ethBalances, ...bnbBalances].find(
-      ({ asset: { chain, ticker } }) =>
-        ticker === 'RUNE' && (chain === Chain.Binance || chain === Chain.Ethereum),
-    );
-
-    return hasRuneInBalances
-      ? [
-          {
-            key: `${new Date().getTime()}-old-rune`,
-            message: t('components.announcements.oldRune'),
-            type: AnnouncementType.Error,
-            link: { url: '/upgrade', name: 'Upgrade now →' },
-          },
-        ]
-      : [];
-  }, [wallet?.BNB?.balance, wallet?.ETH?.balance]);
-
   const announcements = useMemo(
     () =>
       [
         ...storedAnnouncements.manual,
-        ...oldRuneAvailableAnn,
         ...(isTradingGloballyDisabled
           ? [
               {
@@ -108,7 +82,6 @@ export const useAnnouncementsList = () => {
       isChainPauseLP,
       isChainTradingHalted,
       isTradingGloballyDisabled,
-      oldRuneAvailableAnn,
       outboundQueue,
       outboundQueueLevel,
       storedAnnouncements.chainStatus,

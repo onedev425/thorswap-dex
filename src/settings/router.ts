@@ -21,7 +21,6 @@ export enum ROUTES {
   Swap = '/swap',
   SwapPair = '/swap/:pair',
   Thorname = '/thorname',
-  UpgradeRune = '/upgrade',
   Vesting = '/vesting',
   Airdrop = '/airdrop',
   Wallet = '/wallet',

@@ -4,7 +4,6 @@ import Fuse from 'fuse.js';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { SORTED_CHAINS, SUPPORTED_CHAINS } from 'settings/chain';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';
-import { SUPPORTED_CHAINS } from 'settings/chain'; 
 
 const options: Fuse.IFuseOptions<AssetSelectType> = {
   keys: [

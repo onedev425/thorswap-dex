@@ -166,7 +166,6 @@
       "chainHalted": " THORChainにおいて %{chain} チェーンが一時的に停止しています。現在、すべての取引とLPアクションが利用できない状態です",
       "chainLPHalted": "Adding and withdrawing on %{chain} Chain are temporarily unavailable.",
       "chainTradeHalted": " %{chain} チェーンへの追加と引き出しは、一時的に利用できません。",
-      "oldRune": "あなたのウォレットに非推奨のバージョンのRUNEが検出されました。レガシーRUNEのキルスイッチが作動しましたので、すぐにアップグレードしてください。ブロックごとに価値が下がっています。",
       "outboundQueue": "THORChainは現在、重いアウトバウンドキュー(%{outboundQueue})が発生しています。スワップは通常より処理に時間がかかる可能性があります、FUNDS ARE SAFE ᙏ。",
       "thorChainHalted": "THORChainはメンテナンスのため、一時的にご利用いただけません。現在、すべてのアクションが無効になっています。",
       "thorChainLPHalted": "THORChainでは、流動性の追加と引き出しが一時的に無効になっています。",

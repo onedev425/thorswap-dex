@@ -166,7 +166,6 @@
       "chainHalted": "%{chain} tijdelijk stopgezet op THORChain. Al het handelen, toevoegen en verwijderen is niet beschikbaar.",
       "chainLPHalted": "Handel voor %{chain} tijdelijk niet beschikbaar.",
       "chainTradeHalted": "Toevoegen en verwijderen van liquiditeit op %{chain} is tijdelijk niet beschikbaar.",
-      "oldRune": "We hebben een verouderde versie van RUNE in uw portefeuille ontdekt. De legacy RUNE killswitch is geactiveerd en u moet het onmiddellijk upgraden, het verliest waarde met elk blok.",
       "outboundQueue": "THORChain heeft momenteel last van een zware uitgaande wachtrij (%{outboundQueue}). Het verwerken van swaps kan langer duren dan normaal, FUNDS ARE SAFE 🙏",
       "thorChainHalted": "THORChain is tijdelijk niet beschikbaar vanwege onderhoud. ",
       "thorChainLPHalted": "Toevoegen en verwijderen van liquiditeit is tijdelijk stopgezet op THORChain.",

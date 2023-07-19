@@ -166,7 +166,6 @@
       "chainHalted": "%{chain} cadeia é temporariamente suspensa em THORChain. Todas as acções comerciais e LP estão actualmente indisponíveis",
       "chainLPHalted": "Adição e retirada em %{chain} A cadeia está temporariamente indisponível.",
       "chainTradeHalted": "Negociação em %{chain} A cadeia está temporariamente indisponível.",
-      "oldRune": "Detectámos uma versão depreciada de RUNE na sua carteira. O legado RUNE killwitch foi activado e deverá actualizá-lo imediatamente, está a perder valor com cada bloco.",
       "outboundQueue": "THORChain está actualmente a passar por uma pesada fila de saída (%{outboundQueue}). As trocas podem demorar mais tempo do que o habitual para processar, FUNDOS SÃO SEGUROS 🙏",
       "thorChainHalted": "THORChain está temporariamente indisponível enquanto em manutenção. Todas as acções estão actualmente desactivadas.",
       "thorChainLPHalted": "A adição e a retirada de liquidez são temporariamente desactivadas em THORChain.",

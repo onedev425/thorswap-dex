@@ -172,7 +172,6 @@
       "chainHalted": "%{chain} Chain is temporarily halted on THORChain. All trading and LP actions are currently unavailable",
       "chainLPHalted": "Adding and withdrawing on %{chain} Chain are temporarily unavailable.",
       "chainTradeHalted": "Trading on %{chain} Chain is temporarily unavailable.",
-      "oldRune": "We've detected a deprecated version of RUNE in your wallet. The legacy RUNE killswitch has been activated and you should upgrade it immediately, it is losing value with every block.",
       "outboundQueue": "THORChain is currently experiencing heavy outbound queue (%{outboundQueue}). Swaps could take longer than usual to process.",
       "thorChainHalted": "THORChain is temporarily unavailable while undergoing maintenance.",
       "thorChainLPHalted": "Adding and withdrawing liquidity are temporarily disabled on THORChain.",
