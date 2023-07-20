@@ -98,5 +98,11 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.TrustWalletExtension]: EVMChainsSupported,
   [WalletType.Xdefi]: AllChainsSupported,
   [WalletType.Walletconnect]: [Chain.Ethereum, Chain.Avalanche, Chain.THORChain],
-  [WalletType.Okx]: [],
+  [WalletType.Okx]: [
+    Chain.Avalanche,
+    Chain.BinanceSmartChain,
+    Chain.Bitcoin,
+    Chain.Ethereum,
+    Chain.Cosmos,
+  ],
 };

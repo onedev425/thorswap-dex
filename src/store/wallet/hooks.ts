@@ -215,6 +215,17 @@ export const useWallet = () => {
     [disconnectWallet, setWallets],
   );
 
+  const connectOkx = useCallback(
+    async (chains: Chain[]) => {
+      const { connectOkx } = await (await import('services/swapKit')).getSwapKitClient();
+
+      await connectOkx(chains);
+
+      setWallets(chains);
+    },
+    [setWallets],
+  );
+
   const setIsConnectModalOpen = useCallback(
     (visible: boolean) => {
       dispatch(actions.setIsConnectModalOpen(visible));
@@ -244,6 +255,7 @@ export const useWallet = () => {
     connectEVMWalletExtension,
     connectMetamask,
     connectKeplr,
+    connectOkx,
     connectWalletconnect,
     connectLedger,
     connectTrezor,

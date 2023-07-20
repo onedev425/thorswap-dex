@@ -20,6 +20,7 @@ export const getSwapKitClient = async () => {
   const { xdefiWallet } = await import('@thorswap-lib/xdefi');
   const { keplrWallet } = await import('@thorswap-lib/keplr');
   const { evmWallet } = await import('@thorswap-lib/evm-web3-wallets');
+  const { okxWallet } = await import('@thorswap-lib/okx');
 
   const core = new SwapKitCore({ stagenet: IS_STAGENET });
 
@@ -32,12 +33,14 @@ export const getSwapKitClient = async () => {
       stagenet: IS_STAGENET,
     },
     wallets: [
-      keystoreWallet,
-      ledgerWallet,
-      trezorWallet,
-      walletconnectWallet,
       evmWallet,
       keplrWallet,
+      keystoreWallet,
+      ledgerWallet,
+      // @ts-expect-error update swapkit-core types
+      okxWallet,
+      trezorWallet,
+      walletconnectWallet,
       xdefiWallet,
     ],
   });

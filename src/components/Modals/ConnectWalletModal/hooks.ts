@@ -105,6 +105,16 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
                 : '',
             },
             {
+              // @ts-ignore TODO: remove after finding solution for window sharing with swapkit
+              disabled: !window.okxwallet,
+              icon: 'okx' as IconName,
+              type: WalletType.Okx,
+              visible: isMdActive,
+              label: t('views.walletModal.okxWallet'),
+              // @ts-ignore
+              tooltip: window.okxwallet ? '' : t('views.walletModal.installOkxWallet'),
+            },
+            {
               icon: 'keplr',
               label: t('views.walletModal.keplr'),
               type: WalletType.Keplr,
@@ -160,6 +170,7 @@ export const useHandleWalletConnect = ({
     connectWalletconnect,
     connectEVMWalletExtension,
     connectXdefiWallet,
+    connectOkx,
   } = useWallet();
 
   const handleConnectWallet = useCallback(
@@ -203,6 +214,8 @@ export const useHandleWalletConnect = ({
             return connectTrezor(selectedChains[0], derivationPath, ledgerIndex);
           case WalletType.Walletconnect:
             return connectWalletconnect(selectedChains);
+          case WalletType.Okx:
+            return connectOkx(selectedChains);
           default:
             console.error(selectedWalletType);
             return null;
@@ -217,6 +230,7 @@ export const useHandleWalletConnect = ({
       connectEVMWalletExtension,
       connectKeplr,
       connectLedger,
+      connectOkx,
       connectTrezor,
       connectWalletconnect,
       connectXdefiWallet,
@@ -277,6 +291,12 @@ export const useHandleWalletTypeSelect = ({
     window.open('https://www.coinbase.com/wallet/articles/getting-started-extension');
   }, []);
 
+  const handleOkxWallet = useCallback(async () => {
+    // @ts-expect-error
+    if (window.okxwallet) return true;
+    window.open('https://www.okx.com/web3');
+  }, []);
+
   const getChainsToSelect = useCallback(
     (chains: Chain[], walletType: WalletType, nextWalletType?: WalletType) => {
       if (!nextWalletType) {
@@ -331,12 +351,21 @@ export const useHandleWalletTypeSelect = ({
           return handleTrustWalletExtension();
         case WalletType.CoinbaseExtension:
           return handleCoinbaseExtension();
+        case WalletType.Okx:
+          return handleOkxWallet();
 
         default:
           return true;
       }
     },
-    [handleXdefi, handleMetamask, handleKeplr, handleTrustWalletExtension, handleCoinbaseExtension],
+    [
+      handleXdefi,
+      handleMetamask,
+      handleKeplr,
+      handleTrustWalletExtension,
+      handleCoinbaseExtension,
+      handleOkxWallet,
+    ],
   );
 
   const handleWalletTypeSelect = useCallback(
