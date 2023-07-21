@@ -48,7 +48,7 @@
     "@thorswap-lib/trezor": "1.0.0-development.42",
     "@thorswap-lib/types": "1.0.0-development.95",
     "@thorswap-lib/walletconnect": "2.0.0-development.7",
-    "@thorswap-lib/okx": "1.0.0-development.3",
+    "@thorswap-lib/okx": "1.0.0-development.7",
     "@thorswap-lib/xdefi": "1.0.0-development.27",
     "base64-js": "1.5.1",
     "bignumber.js": "9.1.1",

@@ -2021,7 +2021,7 @@
 
 "@ledgerhq/cryptoassets@^9.8.0", "@ledgerhq/cryptoassets@^9.9.0":
   version "9.9.0"
-  resolved "https://registry.npmjs.org/@ledgerhq/cryptoassets/-/cryptoassets-9.9.0.tgz#ec3265f5555fc64e260d5cda599a3c3e09e93cf5"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/cryptoassets/-/cryptoassets-9.9.0.tgz#ec3265f5555fc64e260d5cda599a3c3e09e93cf5"
   integrity sha512-6EHeYQ29Dmxu9MJda4RSkK3mJHYEdSZazLIzEEl5rkO8IFRE3K1n5swYRpFud0hBr0SIzllxjAzBO3wA3R+vUg==
   dependencies:
     invariant "2"
@@ -2048,7 +2048,7 @@
 
 "@ledgerhq/devices@^8.0.3":
   version "8.0.3"
-  resolved "https://registry.npmjs.org/@ledgerhq/devices/-/devices-8.0.3.tgz#bca76789b9dec2353ea8b089f7bd183ed3047afd"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/devices/-/devices-8.0.3.tgz#bca76789b9dec2353ea8b089f7bd183ed3047afd"
   integrity sha512-Q7/vqkGELSBuwFafFoTqlHIRyOjw8JqbSgiQwe2R38xN0RKtKIh+5E6UfMKyoExiq+SrQg0IC8P2LS+XdjOHLw==
   dependencies:
     "@ledgerhq/errors" "^6.12.6"
@@ -2072,7 +2072,7 @@
 
 "@ledgerhq/errors@6.12.7", "@ledgerhq/errors@^6.12.7":
   version "6.12.7"
-  resolved "https://registry.npmjs.org/@ledgerhq/errors/-/errors-6.12.7.tgz#c7b630488d5713bc7b1e1682d6ab5d08918c69f1"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/errors/-/errors-6.12.7.tgz#c7b630488d5713bc7b1e1682d6ab5d08918c69f1"
   integrity sha512-1BpjzFErPK7qPFx0oItcX0mNLJMplVAm2Dpl5urZlubewnTyyw5sahIBjU+8LLCWJ2eGEh/0wyvh0jMtR0n2Mg==
 
 "@ledgerhq/errors@^6.12.4":
@@ -2082,7 +2082,7 @@
 
 "@ledgerhq/errors@^6.12.6":
   version "6.12.6"
-  resolved "https://registry.npmjs.org/@ledgerhq/errors/-/errors-6.12.6.tgz#f89c82c91c2930f34bc3e0d86a27ec7b6e6e4f5f"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/errors/-/errors-6.12.6.tgz#f89c82c91c2930f34bc3e0d86a27ec7b6e6e4f5f"
   integrity sha512-D+r2B09vaRO06wfGoss+rNgwqWSoK0bCtsaJWzlD2hv1zxTtucqVtSztbRFypIqxWTCb3ix5Nh2dWHEJVTp2Xw==
 
 "@ledgerhq/hw-app-btc@8.1.1":
@@ -2167,7 +2167,7 @@
 
 "@ledgerhq/hw-transport@^6.28.4":
   version "6.28.4"
-  resolved "https://registry.npmjs.org/@ledgerhq/hw-transport/-/hw-transport-6.28.4.tgz#c2fc5bff4fca71ac44f069b775d33d0b1b5d9000"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport/-/hw-transport-6.28.4.tgz#c2fc5bff4fca71ac44f069b775d33d0b1b5d9000"
   integrity sha512-fB2H92YQjidmae2GFCmOGPwkZWk0lvTu0tlLlzfiY0wRheAG+DEgjnqhdU8wmydkPLIj0WUjRgldtnJtg/a2iQ==
   dependencies:
     "@ledgerhq/devices" "^8.0.3"
@@ -2181,7 +2181,7 @@
 
 "@ledgerhq/types-live@^6.36.0":
   version "6.36.0"
-  resolved "https://registry.npmjs.org/@ledgerhq/types-live/-/types-live-6.36.0.tgz#479d74b8ed431f204c2375b8d60935ee54221e65"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/types-live/-/types-live-6.36.0.tgz#479d74b8ed431f204c2375b8d60935ee54221e65"
   integrity sha512-bXh8bcjk3aTypDBi9Okkt3NAih8fISzU6gFB2UK+I0Ida/gls8x0H/wI4DmO02Lrqx04GcAOCZ5ty1/VVNYtAA==
   dependencies:
     bignumber.js "^9.1.0"
@@ -2773,10 +2773,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.16.tgz#c65271f77bfcc75d7a272ecc67553d5d95fac07b"
   integrity sha512-j+yb5QjAfgknurpoRXZ0t/xWoeDXNEQEMv/a5OU4rBab3HGhXbfs4Nu5Ip+nrfeDWLa0oRMeAp4TpUnBA4pAxQ==
 
-"@thorswap-lib/okx@1.0.0-development.3":
-  version "1.0.0-development.3"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/okx/-/okx-1.0.0-development.3.tgz#9b3bc81eabaa2012eb1a703057d122c16d92805b"
-  integrity sha512-6fOmFNx291nZwruJIUNV7R+JrPf4JsTSFH1dg2apGd6lzYrUK+DIt1cHEpKYEvpBuD1FQHCIxtsuR/e8gYcCNg==
+"@thorswap-lib/okx@1.0.0-development.7":
+  version "1.0.0-development.7"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/okx/-/okx-1.0.0-development.7.tgz#9352f65d6646d40ecbaea477963712eb762d0f54"
+  integrity sha512-LZJ9WYxQ1Hj69fh6vWiruWj5bRbR79IjIhIBg4uE40u/WIspkNREH5cIdPSCyMqdFHgPyZDJ4hcx+aluyX/cRA==
   dependencies:
     "@thorswap-lib/helpers" "0.0.0-development.96"
     "@thorswap-lib/types" "1.0.0-development.95"
@@ -5110,7 +5110,7 @@ ecurve@^1.0.0:
 
 eip55@^2.1.1:
   version "2.1.1"
-  resolved "https://registry.npmjs.org/eip55/-/eip55-2.1.1.tgz#28b743c4701ac3c811b1e9fe67e39cf1d0781b96"
+  resolved "https://registry.yarnpkg.com/eip55/-/eip55-2.1.1.tgz#28b743c4701ac3c811b1e9fe67e39cf1d0781b96"
   integrity sha512-WcagVAmNu2Ww2cDUfzuWVntYwFxbvZ5MvIyLZpMjTTkjD6sCvkGOiS86jTppzu9/gWsc8isLHAeMBWK02OnZmA==
   dependencies:
     keccak "^3.0.3"
@@ -6717,7 +6717,7 @@ jsprim@^2.0.2:
 
 keccak@^3.0.1, keccak@^3.0.3:
   version "3.0.3"
-  resolved "https://registry.npmjs.org/keccak/-/keccak-3.0.3.tgz#4bc35ad917be1ef54ff246f904c2bbbf9ac61276"
+  resolved "https://registry.yarnpkg.com/keccak/-/keccak-3.0.3.tgz#4bc35ad917be1ef54ff246f904c2bbbf9ac61276"
   integrity sha512-JZrLIAJWuZxKbCilMpNz5Vj7Vtb4scDG3dMXLOsbzBmQGyjwE61BbW7bJkfKKCShXiQZt3T6sBgALRtmd+nZaQ==
   dependencies:
     node-addon-api "^2.0.0"
