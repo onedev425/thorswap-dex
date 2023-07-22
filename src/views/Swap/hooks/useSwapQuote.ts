@@ -72,7 +72,7 @@ export const useSwapQuote = ({
           const isApproved = await checkApprove({
             amount: inputAmount,
             asset: inputAsset,
-            contract: route.allowanceTarget || route.targetAddress,
+            contract: route.allowanceTarget || route.approvalTarget || route.targetAddress,
           });
 
           return { ...route, isApproved };

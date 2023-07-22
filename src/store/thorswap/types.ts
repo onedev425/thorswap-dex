@@ -192,6 +192,7 @@ export type GetTokensQuoteResponse = {
       };
       contract: string;
       allowanceTarget: string;
+      approvalTarget: string;
       contractMethod: string;
       contractInfo: string;
       index: number;
