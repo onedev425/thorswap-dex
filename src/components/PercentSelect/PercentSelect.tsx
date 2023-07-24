@@ -11,13 +11,7 @@ export const PercentSelect = ({ options, onSelect }: Props) => {
   return (
     <Box className="gap-2 flex-1">
       {options.map((o) => (
-        <Button
-          stretch
-          className="h-[35px]"
-          key={`${o}`}
-          onClick={() => onSelect(o)}
-          variant="tint"
-        >
+        <Button stretch className="h-[35px]" key={o} onClick={() => onSelect(o)} variant="tint">
           {o}%
         </Button>
       ))}

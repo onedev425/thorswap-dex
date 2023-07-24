@@ -28,7 +28,10 @@ export const useAssetsWithApr = (assets: Asset[]) => {
 
       const assetDepthAmount = Amount.fromMidgard(pool.assetDepth);
       const saverCap = Amount.fromNormalAmount(synthCap).mul(assetDepthAmount);
-      const filled = Amount.fromMidgard(pool?.synthSupply).div(saverCap).mul(100).toFixedDecimal(2);
+      const filled = Amount.fromMidgard(pool?.synthSupply)
+        .div(saverCap)
+        .mul(100)
+        .toFixedDecimal(2);
 
       return {
         asset,

@@ -157,8 +157,8 @@ export const getAssetBalance = (asset: AssetEntity, wallet: Wallet) => {
 
   if (asset.L1Chain in wallet) {
     const chainWallet = wallet?.[asset.L1Chain as Chain];
-    const walletBalanceItem = chainWallet?.balance.find((assetData) =>
-      assetData?.asset?.eq?.(asset),
+    const walletBalanceItem = chainWallet?.balance.find(
+      (assetData) => assetData?.asset?.eq?.(asset),
     );
 
     return walletBalanceItem

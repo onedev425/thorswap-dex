@@ -54,10 +54,7 @@ const Airdrop = () => {
                 label={t('views.airdrop.stakingAPY')}
                 value={`${vthorApr === 0 ? '-' : vthorApr.toFixed(1)}%`}
               />
-              <InfoRow
-                label={t('views.airdrop.vTHORRatio')}
-                value={`${getRate(true).toFixed(2)}`}
-              />
+              <InfoRow label={t('views.airdrop.vTHORRatio')} value={getRate(true).toFixed(2)} />
               <InfoRow
                 label={t('views.airdrop.vTHORAfterStaking')}
                 value={

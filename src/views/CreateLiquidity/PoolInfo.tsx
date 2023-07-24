@@ -53,7 +53,7 @@ export const PoolInfo = ({ poolAsset, runeAsset, poolShare, assetUSDPrice, rate 
           <Text fontWeight="semibold" textStyle="caption" variant="secondary">
             {t('views.addLiquidity.shareOfPool')}
           </Text>
-          <Text textStyle="h4">{`${poolShare || 'N/A'}`}</Text>
+          <Text textStyle="h4">{poolShare || 'N/A'}</Text>
         </Box>
       </Box>
     </Collapse>

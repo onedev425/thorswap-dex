@@ -69,4 +69,4 @@ export const getChartOptions = ({ formatter, hideLabel, hasGrid, unit = '$' }: P
         },
       },
     },
-  } as const);
+  }) as const;

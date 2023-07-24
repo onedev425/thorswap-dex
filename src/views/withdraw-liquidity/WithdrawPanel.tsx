@@ -309,9 +309,8 @@ export const WithdrawPanel = ({
     } else if (lpType === PoolShareType.RUNE_ASYM) {
       queryParams = `${Chain.THORChain.toLowerCase()}=${wallet[Chain.THORChain]?.address}`;
     } else if (lpType === PoolShareType.SYM) {
-      queryParams = `${Chain.THORChain.toLowerCase()}=${
-        wallet[Chain.THORChain]?.address
-      }&${poolAsset.chain.toLowerCase()}=${wallet[poolAsset.chain]?.address}`;
+      queryParams = `${Chain.THORChain.toLowerCase()}=${wallet[Chain.THORChain]
+        ?.address}&${poolAsset.chain.toLowerCase()}=${wallet[poolAsset.chain]?.address}`;
     }
     return `${lpRoute}?${queryParams}`;
   }, [lpType, poolAsset, wallet]);

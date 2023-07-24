@@ -20,7 +20,7 @@ export const Box = forwardRef<HTMLDivElement, BoxProps>(
     },
     ref,
   ) => {
-    const styles = useMemo(() => ({ ...(style || {}), flex } as CSSProperties), [flex, style]);
+    const styles = useMemo(() => ({ ...(style || {}), flex }) as CSSProperties, [flex, style]);
 
     return (
       <div

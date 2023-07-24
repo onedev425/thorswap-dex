@@ -101,10 +101,10 @@ export const useAirdrop = () => {
           type: TransactionType.ETH_STATUS,
           label: `
             ${t('txManager.claim')} ${
-            airdropAction === AirdropType.CLAIM
-              ? AIRDROP_THOR_AMOUNT
-              : (AIRDROP_THOR_AMOUNT * getRate()).toFixed(2)
-          } ${airdropAssets[airdropAction].name}`,
+              airdropAction === AirdropType.CLAIM
+                ? AIRDROP_THOR_AMOUNT
+                : (AIRDROP_THOR_AMOUNT * getRate()).toFixed(2)
+            } ${airdropAssets[airdropAction].name}`,
         }),
       );
 

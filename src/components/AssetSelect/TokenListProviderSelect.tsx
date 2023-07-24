@@ -75,7 +75,7 @@ export const TokenListProviderSelect = ({ onSelect, onClose, assets }: AssetSele
                   variant={provider ? 'primaryBtn' : 'secondary'}
                 >
                   {nbTokens} {t('common.tokens')}{' '}
-                  {`${version ? `| v${version.major}.${version.minor}.${version.patch}` : ''}`}
+                  {version ? `| v${version.major}.${version.minor}.${version.patch}` : ''}
                 </Text>
               </Box>
 

@@ -41,7 +41,7 @@ export const useConfirmInfoItems = ({
     },
     {
       label: t('views.wallet.slip'),
-      value: <InfoWithTooltip tooltip={t('views.wallet.slippageTooltip')} value={`${slippage}`} />,
+      value: <InfoWithTooltip tooltip={t('views.wallet.slippageTooltip')} value={slippage} />,
     },
     {
       label: t('views.wallet.minReceived'),
@@ -49,7 +49,7 @@ export const useConfirmInfoItems = ({
     },
     {
       label: t('views.wallet.totalFee'),
-      value: <InfoWithTooltip tooltip={t('views.wallet.totalFeeTooltip')} value={`${totalFee}`} />,
+      value: <InfoWithTooltip tooltip={t('views.wallet.totalFeeTooltip')} value={totalFee} />,
     },
     {
       label: t('views.wallet.estimatedTime'),

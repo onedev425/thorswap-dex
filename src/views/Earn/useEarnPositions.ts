@@ -73,13 +73,16 @@ export const useSaverPositions = () => {
     const response = await getSaverPools();
     setThornodePools(response);
 
-    const availability = response.reduce((acc, pool) => {
-      if (!pool.asset.includes('-')) {
-        const [chain] = pool.asset.split('.');
-        acc[chain as Chain] = pool.synth_mint_paused;
-      }
-      return acc;
-    }, {} as Record<Chain, boolean>);
+    const availability = response.reduce(
+      (acc, pool) => {
+        if (!pool.asset.includes('-')) {
+          const [chain] = pool.asset.split('.');
+          acc[chain as Chain] = pool.synth_mint_paused;
+        }
+        return acc;
+      },
+      {} as Record<Chain, boolean>,
+    );
     setSynthAvailability(availability);
   }, []);
 

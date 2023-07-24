@@ -182,8 +182,9 @@ const IconComponents = Icons.reduce(
 
 const ImageIcon =
   (src: any) =>
-  ({ size, ...rest }: CustomIconProps) =>
-    <img src={src} style={{ width: size, height: size }} {...rest} />;
+  ({ size, ...rest }: CustomIconProps) => (
+    <img src={src} style={{ width: size, height: size }} {...rest} />
+  );
 
 IconComponents.brave = ImageIcon(Brave);
 IconComponents.spain = ImageIcon(Spain);

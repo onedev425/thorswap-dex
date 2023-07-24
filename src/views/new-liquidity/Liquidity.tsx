@@ -56,12 +56,15 @@ export const Liquidity = () => {
 
   const LPPerChain = useMemo(
     () =>
-      lpMemberData?.reduce((acc, item) => {
-        const [chain] = item.pool.split('.') as [Chain, string];
-        acc[chain] = [...(acc[chain] || []), item];
+      lpMemberData?.reduce(
+        (acc, item) => {
+          const [chain] = item.pool.split('.') as [Chain, string];
+          acc[chain] = [...(acc[chain] || []), item];
 
-        return acc;
-      }, {} as { [key in Chain]?: FullMemberPool[] }) ?? {},
+          return acc;
+        },
+        {} as { [key in Chain]?: FullMemberPool[] },
+      ) ?? {},
     [lpMemberData],
   );
 

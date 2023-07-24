@@ -92,12 +92,15 @@ export const useTokenPrices = (
   const tokenPricesPerIdentifier = useMemo(() => {
     if (!data) return {};
 
-    return data.reduce((acc, { identifier, ...rest }) => {
-      if (!identifier) return acc;
+    return data.reduce(
+      (acc, { identifier, ...rest }) => {
+        if (!identifier) return acc;
 
-      acc[identifier] = rest;
-      return acc;
-    }, {} as Record<string, GetTokenPriceResponse[number]>);
+        acc[identifier] = rest;
+        return acc;
+      },
+      {} as Record<string, GetTokenPriceResponse[number]>,
+    );
   }, [data]);
 
   return { data: tokenPricesPerIdentifier, refetch, isLoading: isLoading || isFetching } as const;

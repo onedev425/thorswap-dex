@@ -79,7 +79,7 @@ module.exports = {
         'asset-select': '#202a3d',
         'layout-primary': '#F7F8FA',
         'bg-primary': '#F0F1F3',
-        'bg-stagenet': '#c8fff0',
+        'bg-stagenet': '#46b2a72f',
         'bg-secondary': '#FCFCFC',
         'border-primary': '#afb6cc',
         'gray-light': '#E5E5E5',
