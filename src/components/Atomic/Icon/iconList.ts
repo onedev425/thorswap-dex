@@ -33,6 +33,7 @@ import {
 } from 'react-icons/bi';
 import {
   BsAirplane,
+  BsCoin,
   BsCurrencyDollar,
   BsDiscord,
   BsEmojiSmile,
@@ -243,6 +244,7 @@ const Icons = {
   shareUrl: MdIosShare,
   plane: BsAirplane,
   lending: GiReceiveMoney,
+  coin: BsCoin,
   ...SvgIcons,
 } as const;
 

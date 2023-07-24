@@ -26,6 +26,7 @@ import { FeeModal } from 'views/Swap/FeeModal';
 import { useKyberSwap } from 'views/Swap/hooks/useKyberSwap';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';
 import RUNEInfoContent from 'views/Swap/RUNEInfoContent';
+import { SwapOptimimizeSection } from 'views/Swap/SwapOptimimizeSection';
 import THORInfoContent from 'views/Swap/THORInfoContent';
 
 import { ApproveModal } from './ApproveModal';
@@ -108,6 +109,9 @@ const SwapView = () => {
     selectedRoute,
     setSwapRoute,
     quoteId,
+    streamSwap,
+    toggleStreamSwap,
+    canStreamSwap,
   } = useSwapQuote({
     affiliateBasisPoints,
     inputAmount,
@@ -258,6 +262,7 @@ const SwapView = () => {
     recipient,
     route: selectedRoute as unknown as QuoteRoute,
     quoteId,
+    streamSwap,
   });
 
   const slippage = useSlippage(inputUSDPrice, outputUSDPrice);
@@ -348,6 +353,14 @@ const SwapView = () => {
             outputAssetL1Chain={outputAsset.L1Chain}
             recipient={recipient}
             setRecipient={setRecipient}
+          />
+
+          <SwapOptimimizeSection
+            canStreamSwap={canStreamSwap}
+            outputAsset={outputAsset}
+            route={selectedRoute}
+            streamSwap={streamSwap}
+            toggleStreamSwap={toggleStreamSwap}
           />
 
           <SwapInfo

@@ -4,6 +4,7 @@ env:
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -47,9 +48,22 @@ jobs:
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
 
+      - name: Deploy to Vercel
+        id: vercel
+        run: |
+          npm install --global vercel@latest
+          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --token=${{ secrets.VERCEL_TOKEN }}
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} | tee vercel-deploy.log
+          echo "vercel_url=$(cat vercel-deploy.log)" >> "$GITHUB_OUTPUT"
+
       - name: Discord Notification
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        uses: Ilshidur/action-discord@master
+        uses: sarisia/actions-status-discord@v1
         with:
-          args: "Vercel Deployment ✅ - https://app.thorswap.finance\nEnvironment: mainnet\nAuthor: ${{ github.actor }}"
+          avatar_url: https://raw.githubusercontent.com/github/explore/3c66f1237835e0b877190fbea528d0ebece7bccf/topics/vercel/vercel.png
+          color: 0x238636
+          description: "Prod Deployment"
+          status: success
+          url: 'https://app.thorswap.finance'
+          username: Vercel Preview Deployment
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}

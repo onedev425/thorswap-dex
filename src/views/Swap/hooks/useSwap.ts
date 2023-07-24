@@ -20,6 +20,7 @@ type SwapParams = {
   outputAsset: AssetEntity;
   outputAmount: Amount;
   quoteId?: string;
+  streamSwap?: boolean;
 };
 
 const quoteModeToTransactionType = {
@@ -42,6 +43,7 @@ export const useSwap = ({
   outputAmount,
   route,
   quoteId,
+  streamSwap,
 }: SwapParams) => {
   const appDispatch = useAppDispatch();
   const { feeOptionType } = useApp();
@@ -81,13 +83,20 @@ export const useSwap = ({
               decimalSeparator: '.',
             }),
             recipient: swapRecipient || from,
+            streamingSwap: streamSwap,
           }),
         );
+
+        // TODO: move this part to swapkit to recognize quoteRoute properly
+        const swapRoute = { ...route };
+        if (streamSwap && swapRoute.calldata.memoStreamingSwap) {
+          swapRoute.calldata.memo = swapRoute.calldata.memoStreamingSwap;
+        }
 
         try {
           const timestamp = new Date();
           const txid = await swap({
-            route,
+            route: swapRoute,
             feeOptionKey: feeOptionType,
             recipient: swapRecipient,
           });
@@ -129,10 +138,11 @@ export const useSwap = ({
     outputAmount,
     outputAsset.name,
     outputAsset.L1Chain,
+    recipient,
     appDispatch,
     quoteId,
+    streamSwap,
     feeOptionType,
-    recipient,
   ]);
 
   return handleSwap;

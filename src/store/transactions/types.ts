@@ -93,6 +93,7 @@ export type PendingTransactionType = {
   sellAmountNormalized?: string;
   status?: TransactionStatus;
   recipient?: string;
+  streamingSwap?: boolean;
 };
 
 export type CompletedTransactionType = PendingTransactionType & {

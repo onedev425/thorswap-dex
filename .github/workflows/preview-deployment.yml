@@ -4,10 +4,8 @@ env:
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 on:
+  workflow_dispatch:
   push:
-    branches:
-      - develop
-  pull_request:
     branches-ignore:
       - main
 
@@ -41,18 +39,29 @@ jobs:
           # Feature envs
           # GIT_VITE_ETHPLORER_API_KEY: feature/foo
 
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy to Vercel
+        id: vercel
+        run: |
+          npm install --global vercel@latest
+          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --token=${{ secrets.VERCEL_TOKEN }}
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} | tee vercel-deploy.log
+          echo "vercel_url=$(cat vercel-deploy.log)" >> "$GITHUB_OUTPUT"
+          if [[ $(cat vercel-deploy.log) == *"thorswap.finance"* ]]; then
+            echo "color=0x4DBAD6" >> "$GITHUB_OUTPUT"
+          else
+            echo "color=0xFFB359" >> "$GITHUB_OUTPUT"
+          fi
 
-      # - name: Discord Preview Notification
-      #   env:
-      #     DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-      #   uses: Ilshidur/action-discord@master
-      #   with:
-      #     args: "Deployed ✅ - https://app.thorswap.finance\nEnvironment: mainnet\nAuthor: ${{ github.actor }}"
+      - name: Discord Notification
+        if: always()
+        uses: sarisia/actions-status-discord@v1
+        with:
+          avatar_url: https://raw.githubusercontent.com/github/explore/3c66f1237835e0b877190fbea528d0ebece7bccf/topics/vercel/vercel.png
+          color: ${{ steps.vercel.outputs.color }}
+          description: "Preview Deployment\nAuthor: ${{ github.actor }}\nBranch: ${{ github.ref }}\nPassword: #betterthancex"
+          status: ${{ job.status }}
+          title: "Deployment link: ${{ steps.vercel.outputs.vercel_url }}"
+          url: ${{ steps.vercel.outputs.vercel_url }}
+          username: Vercel Preview Deployment
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}

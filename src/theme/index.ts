@@ -108,6 +108,10 @@ export const theme = extendTheme({
         default: colors.light.bgSecondary,
         _dark: colors.dark.bgSecondary,
       },
+      bgTertiary: {
+        default: colors.light.grayLight,
+        _dark: colors.dark.grayLight,
+      },
       grayPrimary: {
         default: colors.light.grayPrimary,
         _dark: colors.dark.grayPrimary,
@@ -162,9 +166,33 @@ export const theme = extendTheme({
             bgColor: 'bgSecondary',
           },
         }),
+        filledContainerTertiary: () => ({
+          container: {
+            padding: 4,
+            bgColor: 'bgTertiary',
+          },
+        }),
         filled: () => ({
           container: {
             bgColor: 'bgPrimary',
+            _hover: {
+              bgColor: 'tintHoverPrimary',
+              borderColor: 'grayPrimary',
+            },
+          },
+        }),
+        filledSecondary: () => ({
+          container: {
+            bgColor: 'bgSecondary',
+            _hover: {
+              bgColor: 'tintHoverPrimary',
+              borderColor: 'grayPrimary',
+            },
+          },
+        }),
+        filledTertiary: () => ({
+          container: {
+            bgColor: 'bgTertiary',
             _hover: {
               bgColor: 'tintHoverPrimary',
               borderColor: 'grayPrimary',

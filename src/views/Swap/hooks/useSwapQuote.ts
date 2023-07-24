@@ -30,6 +30,7 @@ export const useSwapQuote = ({
   const [swapQuote, setSwapRoute] = useState<RouteWithApproveType>();
   const { slippageTolerance } = useApp();
   const [routes, setRoutes] = useState<RouteWithApproveType[]>([]);
+  const [streamSwap, setStreamSwap] = useState(false);
 
   const params = useMemo(
     () => ({
@@ -122,10 +123,14 @@ export const useSwapQuote = ({
   const outputAmount: Amount = useMemo(
     () =>
       Amount.fromAssetAmount(
-        selectedRoute && !inputAmount.eq(0) ? selectedRoute.expectedOutput : 0,
+        selectedRoute && !inputAmount.eq(0)
+          ? streamSwap && selectedRoute.streamingSwap?.expectedOutput
+            ? selectedRoute.streamingSwap?.expectedOutput
+            : selectedRoute.expectedOutput
+          : 0,
         outputAsset.decimal,
       ),
-    [selectedRoute, outputAsset, inputAmount],
+    [selectedRoute, inputAmount, streamSwap, outputAsset.decimal],
   );
 
   const minReceive: Amount = useMemo(
@@ -147,6 +152,22 @@ export const useSwapQuote = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error, routes]);
 
+  const toggleStreamSwap = useCallback(
+    (enabled: boolean) => {
+      if (enabled && selectedRoute?.calldata?.memoStreamingSwap) {
+        setStreamSwap(true);
+        return;
+      }
+
+      setStreamSwap(false);
+    },
+    [selectedRoute?.calldata?.memoStreamingSwap],
+  );
+
+  useEffect(() => {
+    toggleStreamSwap(streamSwap);
+  }, [selectedRoute, streamSwap, toggleStreamSwap]);
+
   return {
     estimatedTime: selectedRoute?.estimatedTime,
     isFetching: approvalsLoading || isLoading || isFetching,
@@ -157,5 +178,8 @@ export const useSwapQuote = ({
     selectedRoute,
     setSwapRoute,
     quoteId: data?.quoteId,
+    streamSwap,
+    toggleStreamSwap,
+    canStreamSwap: !!selectedRoute?.calldata?.memoStreamingSwap,
   };
 };

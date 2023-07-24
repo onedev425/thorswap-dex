@@ -1,6 +1,8 @@
 const isEnv = (env: string = '', urlMatch: string) =>
   env === 'true' || window.location.href.includes(urlMatch);
-export const IS_DEV_API = isEnv(import.meta.env.VITE_DEV_API, 'dev');
+export const IS_DEV_API =
+  isEnv(import.meta.env.VITE_DEV_API, 'dev') ||
+  isEnv(import.meta.env.VITE_DEV_API, '"-thorswap.vercel.app"');
 export const IS_LOCAL = import.meta.env.MODE === 'development';
 export const IS_STAGENET = isEnv(import.meta.env.VITE_STAGENET, 'stagenet');
 export const IS_BETA = isEnv(import.meta.env.VITE_BETA, 'beta');

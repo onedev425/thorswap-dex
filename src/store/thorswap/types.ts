@@ -186,6 +186,7 @@ export type GetTokensQuoteResponse = {
         amountOut: string;
         amountOutMin: string;
         memo: string;
+        memoStreamingSwap: string;
         expiration: number;
         tcVault: string;
         tcRouter: string;
@@ -197,6 +198,14 @@ export type GetTokensQuoteResponse = {
       contractInfo: string;
       index: number;
       estimatedTime: number;
+      streamingSwap: {
+        expectedOutput: string;
+        expectedOutputMaxSlippage: string;
+        expectedOutputUSD: string;
+        expectedOutputMaxSlippageUSD: string;
+        estimatedTime: number;
+        fees: QuoteRoute['fees'];
+      };
     },
   ];
 };
@@ -216,6 +225,7 @@ export type GetTxnStatusDetailsParams = {
     startTimestamp?: number;
     fromAddress: string;
     toAddress: string;
+    isStreamingSwap?: boolean;
   };
 };
 

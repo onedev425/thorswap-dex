@@ -21,6 +21,7 @@ export const useAdvancedTracker = (tx: PendingTransactionType | null) => {
     timestamp,
     from,
     recipient,
+    streamingSwap,
   } = tx || {};
 
   const hasDetailsParams = txid && route && quoteId;
@@ -39,6 +40,7 @@ export const useAdvancedTracker = (tx: PendingTransactionType | null) => {
             startTimestamp: timestamp ? new Date(timestamp).getTime() : Date.now(),
             fromAddress: from || '',
             toAddress: recipient || '',
+            isStreamingSwap: !!streamingSwap,
           },
         };
 

@@ -38,6 +38,7 @@ export const colors = {
     typoGray: '#e2ebfb',
     grayPrimary: '#7C859F',
     textGreenLight: '#6a8e8b',
+    grayLight: '#E5E5E5',
   },
   dark: {
     textPrimary: '#E2EBFB',
@@ -49,6 +50,7 @@ export const colors = {
     typoGray: '#75849d',
     grayPrimary: '#75849D',
     textGreenLight: '#6a8e8b',
+    grayLight: '#2E3C56',
   },
   alpha: {
     btnPrimary: '#4DBAD6AA',
