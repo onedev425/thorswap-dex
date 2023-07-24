@@ -10,7 +10,7 @@ import { useCheckHardCap } from 'hooks/useCheckHardCap';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { t } from 'services/i18n';
-import { IS_PROD } from 'settings/config';
+import { IS_PROTECTED } from 'settings/config';
 import { getAddLiquidityRoute, ROUTES } from 'settings/router';
 import { useGetFullMemberQuery } from 'store/midgard/api';
 import { useWallet } from 'store/wallet/hooks';
@@ -72,7 +72,7 @@ export const Liquidity = () => {
         <ViewHeader
           actionsComponent={
             <>
-              {!IS_PROD && (
+              {IS_PROTECTED && (
                 <Button
                   className="mr-4"
                   onClick={() => setIsTestModalVisible(true)}
@@ -142,7 +142,7 @@ export const Liquidity = () => {
         ))}
       </Box>
 
-      {!IS_PROD && (
+      {IS_PROTECTED && (
         <Modal
           isOpened={isTestModalVisible}
           onClose={() => setIsTestModalVisible(false)}

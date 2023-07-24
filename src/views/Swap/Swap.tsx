@@ -18,7 +18,7 @@ import { useSwapTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { IS_DEV_API, IS_PROD } from 'settings/config';
+import { IS_PROTECTED } from 'settings/config';
 import { getKyberSwapRoute, getSwapRoute } from 'settings/router';
 import { useApp } from 'store/app/hooks';
 import { useWallet } from 'store/wallet/hooks';
@@ -92,7 +92,7 @@ const SwapView = () => {
   const VTHORBalance = useVTHORBalance(ethAddr);
 
   const affiliateBasisPoints = useMemo(() => {
-    if ((!IS_PROD && !IS_DEV_API) || VTHORBalance >= 500_000) return '0';
+    if (IS_PROTECTED || VTHORBalance >= 500_000) return '0';
     if (VTHORBalance >= 100_000) return '10';
     if (VTHORBalance >= 10_000) return '15';
     if (VTHORBalance >= 1_000) return '25';

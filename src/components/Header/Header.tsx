@@ -11,7 +11,7 @@ import { useWalletDrawer } from 'hooks/useWalletDrawer';
 import useWindowSize from 'hooks/useWindowSize';
 import { memo, useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
-import { IS_PROD, TEST_ENVIRONMENT_NAME } from 'settings/config';
+import { IS_PROTECTED, TEST_ENVIRONMENT_NAME } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 import { useWallet } from 'store/wallet/hooks';
 import { ThemeType } from 'types/app';
@@ -38,7 +38,7 @@ export const Header = memo(({ openMenu }: Props) => {
 
   return (
     <header className="mb-5 min-h-[70px]">
-      {!IS_PROD && (
+      {IS_PROTECTED && (
         <Box
           _dark={{ borderColor: 'brand.cyan', bgColor: 'transparent' }}
           bg="white"

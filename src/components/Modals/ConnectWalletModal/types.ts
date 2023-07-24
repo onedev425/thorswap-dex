@@ -1,5 +1,5 @@
 import { Chain, WalletOption } from '@thorswap-lib/types';
-import { IS_BETA, IS_DEV_API, IS_LOCAL } from 'settings/config';
+import { IS_PROTECTED } from 'settings/config';
 
 export enum WalletType {
   Brave = 'Brave',
@@ -63,7 +63,7 @@ export const WalletNameByWalletOption: Record<WalletOption, string> = {
   [WalletOption.OKX]: WalletType.Okx,
 };
 
-const BETA_CHAINS = IS_BETA || IS_DEV_API || IS_LOCAL ? [Chain.BinanceSmartChain] : [];
+const BETA_CHAINS = IS_PROTECTED ? [Chain.BinanceSmartChain] : [];
 
 const AllChainsSupported = [
   Chain.Avalanche,
