@@ -7,7 +7,6 @@ import { easeInOutTransition } from 'components/constants';
 import { InfoTip } from 'components/InfoTip';
 import { PanelView } from 'components/PanelView';
 import { SwapRouter } from 'components/SwapRouter';
-import { AVAX_AGG_PROXY_ADDRESS, ETH_AGG_PROXY_ADDRESS } from 'config/constants';
 import { isAVAXAsset, isETHAsset } from 'helpers/assets';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { hasWalletConnected } from 'helpers/wallet';
@@ -171,7 +170,7 @@ const SwapView = () => {
     [outputAsset, outputToken?.logoURI, outputAmount, outputUSDPrice, isFetching, isPriceLoading],
   );
 
-  const { fees, contract: contractAddress } = selectedRoute || {};
+  const { fees, approvalTarget, allowanceTarget, targetAddress } = selectedRoute || {};
   const quoteMode = useMemo(
     () => (selectedRoute?.meta?.quoteMode || '') as QuoteMode,
     [selectedRoute?.meta?.quoteMode],
@@ -179,19 +178,10 @@ const SwapView = () => {
 
   const { firstNetworkFee, affiliateFee, networkFee, totalFee } = useRouteFees(fees);
 
-  const contract = useMemo(
-    () =>
-      [QuoteMode.ETH_TO_ETH, QuoteMode.AVAX_TO_AVAX].includes(quoteMode)
-        ? contractAddress
-        : [QuoteMode.AVAX_TO_ETH, QuoteMode.AVAX_TO_TC_SUPPORTED].includes(quoteMode)
-        ? AVAX_AGG_PROXY_ADDRESS
-        : [QuoteMode.ETH_TO_AVAX, QuoteMode.ETH_TO_TC_SUPPORTED].includes(quoteMode)
-        ? ETH_AGG_PROXY_ADDRESS
-        : undefined,
-    [quoteMode, contractAddress],
-  );
-
-  const handleApprove = useSwapApprove({ contract, inputAsset });
+  const handleApprove = useSwapApprove({
+    contract: approvalTarget || allowanceTarget || targetAddress,
+    inputAsset,
+  });
 
   const feeAssets = useMemo(
     () =>
