@@ -22,7 +22,7 @@ export const SwapOptimimizeSection = ({
   outputAsset,
 }: Props) => {
   const estimatedTime = route?.estimatedTime ? route.estimatedTime * 1000 : 0;
-  const estimatedTimeStreamingSwap = route?.streamingSwap.estimatedTime
+  const estimatedTimeStreamingSwap = route?.streamingSwap?.estimatedTime
     ? route.streamingSwap.estimatedTime * 1000
     : 0;
   const timeDiff = estimatedTimeStreamingSwap ? estimatedTimeStreamingSwap - estimatedTime : 0;

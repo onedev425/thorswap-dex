@@ -38,6 +38,10 @@ jobs:
 
           # Feature envs
           # GIT_VITE_ETHPLORER_API_KEY: feature/foo
+      - name: Get Branch Name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
 
       - name: Deploy to Vercel
         id: vercel
@@ -46,11 +50,13 @@ jobs:
           vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
           vercel build --token=${{ secrets.VERCEL_TOKEN }}
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} | tee vercel-deploy.log
-          echo "vercel_url=$(cat vercel-deploy.log)" >> "$GITHUB_OUTPUT"
-          if [[ $(cat vercel-deploy.log) == *"thorswap.finance"* ]]; then
+
+          if [[ ${{ steps.extract_branch.outputs.branch }} == "develop" ]]; then
             echo "color=0x4DBAD6" >> "$GITHUB_OUTPUT"
+            echo "vercel_url=https://beta.thorswap.finance" >> "$GITHUB_OUTPUT"
           else
             echo "color=0xFFB359" >> "$GITHUB_OUTPUT"
+            echo "vercel_url=$(cat vercel-deploy.log)" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Discord Notification

@@ -7,10 +7,8 @@ import { HoverIcon } from 'components/HoverIcon';
 import { GasPriceIndicator } from 'components/SwapRouter/GasPriceIndicator';
 import { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useFormatPrice } from 'helpers/formatPrice';
-import { parseToPercent } from 'helpers/parseHelpers';
 import React, { memo, useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
-import { useApp } from 'store/app/hooks';
 
 import { ProviderLogos } from './ProviderLogos';
 import { RouteGraphModal } from './RouteGraphModal';
@@ -18,7 +16,6 @@ import { RouteGraphModal } from './RouteGraphModal';
 type Props = RouteWithApproveType & {
   outputAssetDecimal: number;
   unitPrice: BigNumber;
-  slippage: number;
   assetTicker: string;
 };
 
@@ -32,12 +29,10 @@ export const SelectedRoute = memo(
     path,
     providers,
     isApproved,
-    slippage,
     assetTicker,
     fees,
   }: Props) => {
     const [isOpened, setIsOpened] = useState(false);
-    const { slippageTolerance } = useApp();
     const formatPrice = useFormatPrice();
 
     const expectedAssetOutput = useMemo(
@@ -53,8 +48,6 @@ export const SelectedRoute = memo(
       () => formatPrice(unitPrice.multipliedBy(expectedOutput).toNumber()),
       [expectedOutput, formatPrice, unitPrice],
     );
-
-    const slippageInfo = slippage > 0 ? `-${parseToPercent(slippage)}` : '';
 
     const openSwapGraph = useCallback((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       event.stopPropagation();
@@ -102,14 +95,6 @@ export const SelectedRoute = memo(
 
               <Box alignCenter className="gap-x-1">
                 <GasPriceIndicator fees={fees} />
-                {slippageInfo && (
-                  <Text
-                    textStyle="caption"
-                    variant={slippage > slippageTolerance ? 'red' : 'green'}
-                  >
-                    ({slippageInfo})
-                  </Text>
-                )}
                 <Text variant="secondary">{expectedPriceOutput}</Text>
               </Box>
             </Box>

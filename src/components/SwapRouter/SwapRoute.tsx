@@ -17,7 +17,6 @@ import { ProviderLogos } from './ProviderLogos';
 type Props = RouteWithApproveType & {
   selected?: boolean;
   onClick: () => void;
-  selectedQuoteDiff: number;
   outputAsset: AssetEntity;
   unitPrice: BigNumber;
 };
@@ -27,7 +26,6 @@ export const SwapRoute = memo(
     expectedOutput,
     onClick,
     isApproved,
-    selectedQuoteDiff,
     outputAsset,
     unitPrice,
     path,
@@ -90,15 +88,7 @@ export const SwapRoute = memo(
 
                 <Box alignCenter className="gap-x-1" justify="end">
                   <GasPriceIndicator fees={fees} size="sm" />
-                  {Number.isFinite(selectedQuoteDiff) && selectedQuoteDiff !== 0 && (
-                    <Text
-                      className="!text-[10px] text-right"
-                      textStyle="caption-xs"
-                      variant={selectedQuoteDiff >= 0 ? 'green' : 'red'}
-                    >
-                      ({selectedQuoteDiff.toFixed(2)}%)
-                    </Text>
-                  )}
+
                   <Text className="text-right" variant="secondary">
                     {expectedOutputPrice}
                   </Text>
