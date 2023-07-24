@@ -7,6 +7,12 @@ export const IS_LOCAL = import.meta.env.MODE === 'development';
 export const IS_STAGENET = isEnv(import.meta.env.VITE_STAGENET, 'stagenet');
 export const IS_BETA = isEnv(import.meta.env.VITE_BETA, 'beta');
 export const IS_PROD = isEnv(import.meta.env.VITE_PROD, 'app.thorswap.finance');
+
+/**
+ * Used for protected deployments under password
+ */
+export const IS_PROTECTED = IS_BETA || IS_LOCAL || IS_DEV_API;
+
 export const THORNODE_URL = 'https://thornode.thorswap.net/thorchain';
 
 const MIDGARD_DEV_API = 'https://midgard-stage-a.thorswap.net';
