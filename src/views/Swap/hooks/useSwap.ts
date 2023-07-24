@@ -88,7 +88,7 @@ export const useSwap = ({
         );
 
         // TODO: move this part to swapkit to recognize quoteRoute properly
-        const swapRoute = { ...route };
+        const swapRoute = { ...route, calldata: { ...route.calldata } };
         if (streamSwap && swapRoute.calldata.memoStreamingSwap) {
           swapRoute.calldata.memo = swapRoute.calldata.memoStreamingSwap;
         }

@@ -46,8 +46,6 @@ export const SwapOptimimizeSection = ({
 
   const formatPrice = useFormatPrice();
 
-  if (!route || !canStreamSwap) return null;
-
   return (
     <Flex animateOpacity as={Collapse} in={canStreamSwap} w="100%">
       <Card gap={2} p={3} sx={{ w: 'full', borderRadius: 16 }} variant="filledContainerTertiary">

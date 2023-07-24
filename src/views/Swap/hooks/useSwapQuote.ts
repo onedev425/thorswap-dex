@@ -181,6 +181,6 @@ export const useSwapQuote = ({
     quoteId: data?.quoteId,
     streamSwap,
     toggleStreamSwap,
-    canStreamSwap: !IS_PROTECTED && !!selectedRoute?.calldata?.memoStreamingSwap,
+    canStreamSwap: IS_PROTECTED && !!selectedRoute?.calldata?.memoStreamingSwap,
   };
 };
