@@ -12,11 +12,10 @@ type Props = {
   setSwapRoute: (route: RouteWithApproveType) => void;
   selectedRoute?: RouteWithApproveType;
   outputUSDPrice: Price;
-  slippage: number;
 };
 
 export const SwapRouter = memo(
-  ({ setSwapRoute, selectedRoute, outputUSDPrice, outputAsset, routes, slippage }: Props) => (
+  ({ setSwapRoute, selectedRoute, outputUSDPrice, outputAsset, routes }: Props) => (
     <Box className="self-stretch transition-max-height duration-300">
       {selectedRoute && (
         <Collapse
@@ -27,7 +26,6 @@ export const SwapRouter = memo(
               {...selectedRoute}
               assetTicker={outputAsset.ticker}
               outputAssetDecimal={outputAsset.decimal}
-              slippage={slippage}
               unitPrice={outputUSDPrice.unitPrice}
             />
           }

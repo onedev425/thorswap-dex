@@ -398,7 +398,6 @@ const SwapView = () => {
             routes={!isKyberSwapPage ? routes : kyberRoutes}
             selectedRoute={!isKyberSwapPage ? selectedRoute : kyberRoutes[0]}
             setSwapRoute={setSwapRoute}
-            slippage={slippage}
           />
 
           <SwapSubmitButton
