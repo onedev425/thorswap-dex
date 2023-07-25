@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { THORSWAP_AFFILIATE_ADDRESS } from 'config/constants';
-import { IS_DEV_API } from 'settings/config';
+import { IS_DEV_API, IS_STAGENET } from 'settings/config';
 import { AnnouncementsData } from 'store/externalConfig/types';
 
 import {
@@ -18,9 +18,11 @@ import {
   GetTxnStatusResponse,
   IThornameForAddressParams,
   IThornameForAddressResponse,
+  LoansResponse,
 } from './types';
 
-const baseUrl = IS_DEV_API ? 'https://dev-api.thorswap.net' : 'https://api.thorswap.net';
+const baseUrl =
+  IS_DEV_API || IS_STAGENET ? 'https://dev-api.thorswap.net' : 'https://api.thorswap.net';
 
 export const thorswapApi = createApi({
   reducerPath: 'thorswap',
@@ -146,6 +148,11 @@ export const thorswapApi = createApi({
       keepUnusedDataFor: 60,
     }),
 
+    getLoans: build.query<LoansResponse, { asset: string; address: string }>({
+      query: ({ asset, address }) =>
+        `${baseUrl}/aggregator/lending/loans?asset=${asset}&address=${address}`,
+    }),
+
     getThornamesByAddress: build.query<IThornameForAddressResponse, IThornameForAddressParams>({
       query: ({ address, chain }) => {
         return `${baseUrl}/aggregator/thorname/rlookup?address=${address}&chain=${chain}`;
@@ -176,6 +183,7 @@ export const {
   useGetProvidersQuery,
   useGetTokenCachedPricesQuery,
   useGetTokensQuoteQuery,
+  useLazyGetLoansQuery,
   useGetAirdropVerifyQuery,
   useGetIsWhitelistedQuery,
   useGetMerkleProofQuery,

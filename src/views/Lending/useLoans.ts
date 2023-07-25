@@ -3,7 +3,7 @@ import { Chain } from '@thorswap-lib/types';
 import { useCallback, useState } from 'react';
 import { SORTED_LENDING_COLLATERAL_ASSETS } from 'settings/chain';
 import { useMidgard } from 'store/midgard/hooks';
-import { getLoans } from 'store/thorswap/actions';
+import { useLazyGetLoansQuery } from 'store/thorswap/api';
 import { useWallet } from 'store/wallet/hooks';
 
 import { LoanPosition } from './types';
@@ -12,22 +12,22 @@ export const useLoans = () => {
   const { wallet, isWalletLoading } = useWallet();
   const { pools } = useMidgard();
   const [loans, setLoans] = useState<Partial<Record<Chain, LoanPosition>>>({});
+  const [fetchLoans] = useLazyGetLoansQuery();
+
   const getLoanPosition = useCallback(
     async (asset: Asset) => {
       const address = wallet?.[asset.L1Chain]?.address || '';
       if (address) {
-        const { collateral_up, collateral_down, debt_down, debt_up } = await getLoans({
+        const { data } = await fetchLoans({
           asset: `${asset.chain}.${asset.ticker}`,
           address,
         });
-        const collateralUp = Amount.fromMidgard(collateral_up);
 
-        const collateralDown = Amount.fromMidgard(collateral_down);
-
+        const collateralUp = Amount.fromMidgard(data?.collateral_up);
+        const collateralDown = Amount.fromMidgard(data?.collateral_down);
         const collateralRemaining = collateralUp.sub(collateralDown);
-        const debtDown = Amount.fromMidgard(debt_down);
-        const debtUp = Amount.fromMidgard(debt_up);
-        const ltv = 0;
+        const debtDown = Amount.fromMidgard(data?.debt_down);
+        const debtUp = Amount.fromMidgard(data?.debt_up);
 
         return collateralRemaining.gt(0)
           ? ({
@@ -37,14 +37,14 @@ export const useLoans = () => {
               collateralRemaining,
               debtDown,
               debtUp,
-              ltv,
+              ltv: 0,
             } as LoanPosition)
           : null;
       }
 
       return null;
     },
-    [wallet],
+    [fetchLoans, wallet],
   );
 
   const refreshLoans = useCallback(async () => {
