@@ -28,6 +28,7 @@ const initialState = {
   walletLoading: false,
   chainWalletLoading: initialWallet as Record<Chain, boolean | null>,
   hiddenAssets: (getFromStorage('hiddenAssets') || {}) as Record<Chain, string[]>,
+  hasVestingAlloc: false,
 };
 
 const walletSlice = createSlice({
@@ -40,6 +41,7 @@ const walletSlice = createSlice({
       state.keystore = null;
       state.wallet = initialWallet as Wallet;
       state.walletLoading = false;
+      state.hasVestingAlloc = false;
     },
     addAssetToHidden: (
       state,
@@ -82,6 +84,9 @@ const walletSlice = createSlice({
     },
     setIsConnectModalOpen: (state, action: PayloadAction<boolean>) => {
       state.isConnectModalOpen = action.payload;
+    },
+    setHasVestingAlloc: (state, action: PayloadAction<boolean>) => {
+      state.hasVestingAlloc = action.payload;
     },
   },
   extraReducers: (builder) => {

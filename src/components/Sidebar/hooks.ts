@@ -1,6 +1,6 @@
 import { SidebarItemProps, SidebarWidgetOption } from 'components/Sidebar/types';
 import { hasConnectedWallet } from 'helpers/wallet';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { t } from 'services/i18n';
 import { IS_PROD } from 'settings/config';
 import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/router';
@@ -9,29 +9,23 @@ import { useWallet } from 'store/wallet/hooks';
 import { useVesting } from 'views/Vesting/hooks';
 
 export const useSidebarOptions = () => {
-  const { hasVestingAlloc } = useVesting({ fetchVestingStatus: true });
-  const { wallet } = useWallet();
+  const { checkAlloc } = useVesting({ onlyCheckAlloc: true });
+  const { wallet, hasVestingAlloc } = useWallet();
   const { multisigVisible } = useApp();
 
   const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
+
+  useEffect(() => {
+    checkAlloc();
+  }, [checkAlloc]);
 
   const multisigMenu: SidebarItemProps = useMemo(() => {
     return {
       iconName: 'wallet',
       label: t('appMenu.thorSafe'),
       children: [
-        {
-          beta: true,
-          iconName: 'wallet',
-          href: ROUTES.Multisig,
-          label: t('appMenu.multisig'),
-        },
-        {
-          beta: true,
-          iconName: 'send',
-          href: ROUTES.TxBuilder,
-          label: t('appMenu.transaction'),
-        },
+        { beta: true, iconName: 'wallet', href: ROUTES.Multisig, label: t('appMenu.multisig') },
+        { beta: true, iconName: 'send', href: ROUTES.TxBuilder, label: t('appMenu.transaction') },
       ],
     };
   }, []);
