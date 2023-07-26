@@ -338,6 +338,11 @@
     "onlyPending": "Show pending only",
     "openLoan": "Open Loan",
     "prevTx": "Previous transaction",
+    "progressStatus": {
+      "notStarted": "Not started",
+      "refunded": "Refunded",
+      "success": "Completed"
+    },
     "provider": "Provider",
     "receive": "Receive",
     "receiveAmountNativeRune": "Receive %{amount} Native RUNE",
@@ -364,6 +369,7 @@
     "stakeAssetFailed": "Stake %{amount} %{asset} failed",
     "stakedAsset": "Staked %{amount} %{asset}",
     "started": "Started",
+    "streamingSwapDetails": "Streaming swap progress",
     "submitWithdrawTx": "Submit Withdraw TX",
     "success": "Success",
     "swap": "Swap",
@@ -400,13 +406,7 @@
     "withdraw": "Withdraw",
     "withdrawAmountAsset": "Withdraw %{amount} %{asset}",
     "withdrawAmountFailed": "Withdraw %{amount} %{asset} failed",
-    "withdrawnAmountAsset": "Withdrew %{amount} %{asset}",
-    "streamingSwapDetails": "Streaming swap progress",
-    "progressStatus": {
-      "notStarted": "Not started",
-      "refunded": "Refunded",
-      "success": "Completed"
-    }
+    "withdrawnAmountAsset": "Withdrew %{amount} %{asset}"
   },
   "validation": {
     "invalidPassword": "Invalid Password"
@@ -870,17 +870,22 @@
       "networkFeeTooltip": "Network fee used to pay for transactions. Click to see more details.",
       "onService": "on %{serviceName}",
       "priceImpact": "Price Impact",
+      "priceOptimized": "Price Optimized",
       "priceProtectionUnavailable": "(!) Slip Protection Unavailable for this Transaction",
       "priceProtectionUnavailableDesc": "Due to limitations with the Ledger %{chain} app, price protection is not available for this trade. You may lose funds. If you choose to continue, THORSwap is not responsible for lost funds.",
       "routeContractApproved": "Contract for this route swap has been approved.",
       "slippage": "Slippage",
       "slippageTolerance": "Slippage Tolerance",
-      "smallSwapDisclaimer": "Swaps under $500 USD do not have price protection on the Thorchain part of the swap and will be executed at market rate.",
+      "smallSwapDisclaimer": "Swaps under $500 USD do not have price protection on the THORChain part of the swap and will be executed at market rate.",
+      "streamingSwapAvailable": "Streaming swap available",
+      "streamingSwapWarning": "Streaming swap warning",
+      "streamingSwapWarningDescription": "Swaps are executed at market prices.",
       "swapAssets": "Swap assets rates",
       "swapPath": "Swap Graph explanation which pools are used to route the trade.",
       "tabsCommon": "Common",
       "tabsFeatured": "Featured",
       "tabsFrequent": "Frequent",
+      "timeOptimized": "Time Optimized",
       "tnsAddressNotValid": "TNS Address is not valid",
       "totalFee": "Total Fee",
       "totalFeeTooltip": "Total Fee for Swap.",

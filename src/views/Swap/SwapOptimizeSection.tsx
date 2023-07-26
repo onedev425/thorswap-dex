@@ -1,10 +1,12 @@
 import { Card, Collapse, Flex, Text } from '@chakra-ui/react';
 import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Icon, Tooltip } from 'components/Atomic';
+import { InfoTip } from 'components/InfoTip';
 import { RouteWithApproveType } from 'components/SwapRouter/types';
 import { formatDuration } from 'components/TransactionTracker/helpers';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { useMemo } from 'react';
+import { t } from 'services/i18n';
 
 type Props = {
   streamSwap: boolean;
@@ -14,7 +16,7 @@ type Props = {
   outputAsset: AssetEntity | undefined;
 };
 
-export const SwapOptimimizeSection = ({
+export const SwapOptimizeSection = ({
   streamSwap = false,
   toggleStreamSwap,
   canStreamSwap,
@@ -51,13 +53,14 @@ export const SwapOptimimizeSection = ({
       <Card gap={2} p={3} sx={{ w: 'full', borderRadius: 16 }} variant="filledContainerTertiary">
         <Flex>
           <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
-            Swap optimization available
+            {t('views.swap.streamingSwapAvailable')}
           </Text>
 
           <Tooltip content="Optimization tooltip" place="bottom">
             <Icon className="ml-1" color="secondary" name="infoCircle" size={18} />
           </Tooltip>
         </Flex>
+
         <Flex gap={1}>
           <Card
             borderColor={!streamSwap ? 'brand.alpha.btnPrimary' : undefined}
@@ -70,9 +73,10 @@ export const SwapOptimimizeSection = ({
           >
             <Flex direction="column">
               <Flex align="center" gap={1} justify="space-between">
-                <Text textStyle="caption-xs">Time optimized</Text>
+                <Text textStyle="caption-xs">{t('views.swap.timeOptimized')}</Text>
                 <Icon color="secondaryBtn" name="timer" size={22} />
               </Flex>
+
               <Flex gap={1}>
                 <Flex direction="column" mt={0.5}>
                   <Flex gap={1}>
@@ -83,6 +87,7 @@ export const SwapOptimimizeSection = ({
                       ({formatDuration(timeDiff, { approx: true })} faster)
                     </Text>
                   </Flex>
+
                   <Text textStyle="caption-xs">
                     {outputAmount.toSignificant(6)} {outputAsset?.ticker || ''}
                   </Text>
@@ -90,6 +95,7 @@ export const SwapOptimimizeSection = ({
               </Flex>
             </Flex>
           </Card>
+
           <Card
             borderColor={streamSwap ? 'brand.btnPrimary' : undefined}
             flex={1}
@@ -101,9 +107,10 @@ export const SwapOptimimizeSection = ({
           >
             <Flex direction="column">
               <Flex align="center" gap={1} justify="space-between">
-                <Text textStyle="caption-xs">Price optimized</Text>
+                <Text textStyle="caption-xs">{t('views.swap.priceOptimized')}</Text>
                 <Icon color="yellow" name="coin" size={20} />
               </Flex>
+
               <Flex gap={1}>
                 <Flex direction="column" mt={0.5}>
                   <Flex gap={1}>
@@ -111,6 +118,7 @@ export const SwapOptimimizeSection = ({
                       {formatDuration(estimatedTimeStreamingSwap, { approx: true })}
                     </Text>
                   </Flex>
+
                   <Flex gap={1}>
                     <Text textStyle="caption-xs">
                       {outputAmountStreamingSwap.toSignificant(6)} {outputAsset?.symbol || ''}
@@ -124,6 +132,15 @@ export const SwapOptimimizeSection = ({
             </Flex>
           </Card>
         </Flex>
+
+        {streamSwap && (
+          <InfoTip
+            content={t('views.swap.streamingSwapWarningDescription')}
+            contentClassName="!py-0 w-full"
+            title={t('views.swap.streamingSwapWarning')}
+            type="warn"
+          />
+        )}
       </Card>
     </Flex>
   );

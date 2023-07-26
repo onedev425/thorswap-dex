@@ -26,7 +26,7 @@ import { FeeModal } from 'views/Swap/FeeModal';
 import { useKyberSwap } from 'views/Swap/hooks/useKyberSwap';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';
 import RUNEInfoContent from 'views/Swap/RUNEInfoContent';
-import { SwapOptimimizeSection } from 'views/Swap/SwapOptimimizeSection';
+import { SwapOptimizeSection } from 'views/Swap/SwapOptimizeSection';
 import THORInfoContent from 'views/Swap/THORInfoContent';
 
 import { ApproveModal } from './ApproveModal';
@@ -372,7 +372,7 @@ const SwapView = () => {
             setRecipient={setRecipient}
           />
 
-          <SwapOptimimizeSection
+          <SwapOptimizeSection
             canStreamSwap={canStreamSwap}
             outputAsset={outputAsset}
             route={selectedRoute}
