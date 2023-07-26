@@ -5,11 +5,11 @@ import { memo } from 'react';
 import { t } from 'services/i18n';
 
 export const TxStreamingSwapDetails = memo(
-  ({ streamingSwapDetails }: { streamingSwapDetails: StreamingSwapDetails }) => {
-    if (!streamingSwapDetails) return null;
-
-    const { completed, progress, total } = streamingSwapDetails;
-
+  ({
+    streamingSwapDetails: { completed, progress, total },
+  }: {
+    streamingSwapDetails: StreamingSwapDetails;
+  }) => {
     return (
       <Flex direction="column">
         <Flex align="center" justify="space-between">

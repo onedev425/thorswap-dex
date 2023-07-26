@@ -1,4 +1,3 @@
-import { Price } from '@thorswap-lib/swapkit-core';
 import { AssetInputType } from 'components/AssetInput/types';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { RouteWithApproveType } from 'components/SwapRouter/types';
@@ -21,7 +20,7 @@ type Props = {
   handleSwap: () => Promise<void>;
   totalFee: string;
   visible: boolean;
-  inputUSDPrice: Price;
+  inputUSDPrice: number;
   selectedRoute: RouteWithApproveType;
 };
 
@@ -46,9 +45,7 @@ export const ConfirmSwapModal = memo(
     const { asset: inputAsset } = inputAssetProps;
 
     const showSmallSwapWarning = useMemo(
-      () =>
-        parseFloat(inputUSDPrice.toAbbreviateRaw()) <= 500 &&
-        selectedRoute?.providers.includes('THORCHAIN'),
+      () => inputUSDPrice <= 500 && selectedRoute?.providers.includes('THORCHAIN'),
       [inputUSDPrice, selectedRoute],
     );
 

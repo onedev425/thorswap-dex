@@ -149,7 +149,7 @@ const SwapView = () => {
   });
 
   const {
-    prices: { inputUSDPrice, outputUSDPrice },
+    prices: { inputUSDPrice, inputUnitPrice, outputUSDPrice },
     isLoading: isPriceLoading,
     refetch: refetchPrice,
   } = useSwapTokenPrices({ inputAmount, inputAsset, outputAmount, outputAsset });
@@ -437,7 +437,7 @@ const SwapView = () => {
             feeAssets={feeAssets}
             handleSwap={handleSwap}
             inputAssetProps={inputAssetProps}
-            inputUSDPrice={inputUSDPrice}
+            inputUSDPrice={inputUSDPrice.assetAmount.toNumber() * inputUnitPrice}
             minReceive={minReceiveInfo}
             outputAssetProps={outputAssetProps}
             recipient={recipient}

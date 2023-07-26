@@ -66,6 +66,7 @@ export const TxDetailsInfo = ({ txDetails, isCompleted, totalTimeLeft }: Props) 
       {streamingSwapDetails && (
         <TxStreamingSwapDetails streamingSwapDetails={streamingSwapDetails} />
       )}
+
       <InfoRow
         label={t('views.thorname.status')}
         size="md"
