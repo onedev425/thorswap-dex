@@ -155,20 +155,13 @@ export const useSwapQuote = ({
   }, [error, routes]);
 
   const toggleStreamSwap = useCallback(
-    (enabled: boolean) => {
-      if (enabled && selectedRoute?.calldata?.memoStreamingSwap) {
-        setStreamSwap(true);
-        return;
-      }
-
-      setStreamSwap(false);
-    },
+    (enabled: boolean) => setStreamSwap(enabled && !!selectedRoute?.calldata?.memoStreamingSwap),
     [selectedRoute?.calldata?.memoStreamingSwap],
   );
 
   useEffect(() => {
-    toggleStreamSwap(streamSwap);
-  }, [selectedRoute, streamSwap, toggleStreamSwap]);
+    setStreamSwap(!!selectedRoute?.calldata?.memoStreamingSwap);
+  }, [selectedRoute, toggleStreamSwap]);
 
   return {
     estimatedTime: selectedRoute?.estimatedTime,

@@ -1,7 +1,6 @@
 import { Card, Collapse, Flex, Text } from '@chakra-ui/react';
 import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Icon, Tooltip } from 'components/Atomic';
-import { InfoTip } from 'components/InfoTip';
 import { RouteWithApproveType } from 'components/SwapRouter/types';
 import { formatDuration } from 'components/TransactionTracker/helpers';
 import { useFormatPrice } from 'helpers/formatPrice';
@@ -17,7 +16,7 @@ type Props = {
 };
 
 export const SwapOptimizeSection = ({
-  streamSwap = false,
+  streamSwap,
   toggleStreamSwap,
   canStreamSwap,
   route,
@@ -132,15 +131,6 @@ export const SwapOptimizeSection = ({
             </Flex>
           </Card>
         </Flex>
-
-        {streamSwap && (
-          <InfoTip
-            content={t('views.swap.streamingSwapWarningDescription')}
-            contentClassName="!py-0 w-full"
-            title={t('views.swap.streamingSwapWarning')}
-            type="warn"
-          />
-        )}
       </Card>
     </Flex>
   );
