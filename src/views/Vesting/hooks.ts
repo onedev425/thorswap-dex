@@ -149,6 +149,8 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
 
   const handleClaim = useCallback(
     async ({ vestingAction, amount }: { vestingAction: VestingType; amount: Amount }) => {
+      if (amount.lte(0)) return;
+
       setIsLoading(true);
       const id = v4();
 
