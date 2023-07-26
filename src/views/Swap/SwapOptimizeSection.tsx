@@ -62,40 +62,6 @@ export const SwapOptimizeSection = ({
 
         <Flex gap={1}>
           <Card
-            borderColor={!streamSwap ? 'brand.alpha.btnPrimary' : undefined}
-            flex={1}
-            onClick={() => toggleStreamSwap(false)}
-            px={2}
-            py={1}
-            sx={{ cursor: 'pointer' }}
-            variant="filledTertiary"
-          >
-            <Flex direction="column">
-              <Flex align="center" gap={1} justify="space-between">
-                <Text textStyle="caption-xs">{t('views.swap.timeOptimized')}</Text>
-                <Icon color="secondaryBtn" name="timer" size={22} />
-              </Flex>
-
-              <Flex gap={1}>
-                <Flex direction="column" mt={0.5}>
-                  <Flex gap={1}>
-                    <Text fontWeight="normal" textStyle="caption-xs">
-                      {formatDuration(estimatedTime, { approx: true })}
-                    </Text>
-                    <Text color="brand.green" fontWeight="normal" textStyle="caption-xs">
-                      ({formatDuration(timeDiff, { approx: true })} faster)
-                    </Text>
-                  </Flex>
-
-                  <Text textStyle="caption-xs">
-                    {outputAmount.toSignificant(6)} {outputAsset?.ticker || ''}
-                  </Text>
-                </Flex>
-              </Flex>
-            </Flex>
-          </Card>
-
-          <Card
             borderColor={streamSwap ? 'brand.btnPrimary' : undefined}
             flex={1}
             onClick={() => toggleStreamSwap(true)}
@@ -126,6 +92,40 @@ export const SwapOptimizeSection = ({
                       (+{formatPrice(priceUSDDiff)})
                     </Text>
                   </Flex>
+                </Flex>
+              </Flex>
+            </Flex>
+          </Card>
+
+          <Card
+            borderColor={!streamSwap ? 'brand.alpha.btnPrimary' : undefined}
+            flex={1}
+            onClick={() => toggleStreamSwap(false)}
+            px={2}
+            py={1}
+            sx={{ cursor: 'pointer' }}
+            variant="filledTertiary"
+          >
+            <Flex direction="column">
+              <Flex align="center" gap={1} justify="space-between">
+                <Text textStyle="caption-xs">{t('views.swap.timeOptimized')}</Text>
+                <Icon color="secondaryBtn" name="timer" size={22} />
+              </Flex>
+
+              <Flex gap={1}>
+                <Flex direction="column" mt={0.5}>
+                  <Flex gap={1}>
+                    <Text fontWeight="normal" textStyle="caption-xs">
+                      {formatDuration(estimatedTime, { approx: true })}
+                    </Text>
+                    <Text color="brand.green" fontWeight="normal" textStyle="caption-xs">
+                      ({formatDuration(timeDiff, { approx: true })} faster)
+                    </Text>
+                  </Flex>
+
+                  <Text textStyle="caption-xs">
+                    {outputAmount.toSignificant(6)} {outputAsset?.ticker || ''}
+                  </Text>
                 </Flex>
               </Flex>
             </Flex>
