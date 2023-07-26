@@ -106,7 +106,6 @@ export const useSwap = ({
           } else {
             appDispatch(completeTransaction({ id, status: 'error' }));
             showErrorToast(t('notification.submitFail'), JSON.stringify(txid));
-            if (typeof txid === 'object') console.info(txid);
           }
         } catch (error: any) {
           console.error(error);

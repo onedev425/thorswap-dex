@@ -28,21 +28,18 @@ export const useAdvancedTracker = (tx: PendingTransactionType | null) => {
   const canFetchDetails = hasDetailsParams || (txid && !!details);
   const skipFetchingDetails = completed || !canFetchDetails;
 
-  const detailsParams: GetTxnStatusDetailsParams | GetTxnStatusDetailsUpdateParams =
-    details && txid
-      ? { hash: txid }
-      : {
-          txn: {
-            hash: txid || '',
-            quoteId: quoteId || '',
-            route,
-            sellAmount: sellAmountNormalized || '0',
-            startTimestamp: timestamp ? new Date(timestamp).getTime() : Date.now(),
-            fromAddress: from || '',
-            toAddress: recipient || '',
-            isStreamingSwap: !!streamingSwap,
-          },
-        };
+  const detailsParams: GetTxnStatusDetailsParams | GetTxnStatusDetailsUpdateParams = {
+    txn: {
+      hash: txid || '',
+      quoteId: quoteId || '',
+      route,
+      sellAmount: sellAmountNormalized || '0',
+      startTimestamp: timestamp ? new Date(timestamp).getTime() : Date.now(),
+      fromAddress: from || '',
+      toAddress: recipient || '',
+      isStreamingSwap: !!streamingSwap,
+    },
+  };
 
   const { data } = useTransactionDetails(detailsParams, skipFetchingDetails);
 

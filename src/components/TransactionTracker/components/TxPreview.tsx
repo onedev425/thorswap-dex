@@ -24,9 +24,7 @@ export const TxPreview = ({ txDetails, isCompleted }: Props) => {
     (legsLength === 2 && isLargerThan505) ||
     (legsLength === 3 && isLargerThan840);
 
-  if (!txDetails) {
-    return null;
-  }
+  if (!txDetails) return null;
 
   return (
     <Flex direction="column" flex={1} justifyContent="flex-start" px={3}>

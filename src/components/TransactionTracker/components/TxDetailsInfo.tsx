@@ -1,17 +1,19 @@
 import { Flex, Text } from '@chakra-ui/react';
+import { TxTrackerDetails } from '@thorswap-lib/swapkit-api';
 import { Amount } from '@thorswap-lib/swapkit-core';
 import { Button, Icon } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { showSuccessToast } from 'components/Toast';
 import { TxDetailsStatusInfo } from 'components/TransactionTracker/components/TxDetailsStatusInfo';
+import { TxStreamingSwapDetails } from 'components/TransactionTracker/components/TxStreamingSwapDetails';
 import { formatDuration, getTxDuration, getTxState } from 'components/TransactionTracker/helpers';
 import copy from 'copy-to-clipboard';
 import { getTickerFromIdentifier } from 'helpers/logoURL';
 import { shortenAddress } from 'helpers/shortenAddress';
 import { useCounter } from 'hooks/useCountdown';
+import { useMemo } from 'react';
 import { t } from 'services/i18n';
-import { TxTrackerDetails } from 'store/transactions/types';
 
 type Props = {
   txDetails: TxTrackerDetails;
@@ -23,6 +25,14 @@ export const TxDetailsInfo = ({ txDetails, isCompleted, totalTimeLeft }: Props) 
   const txCounter = useCounter({
     startTimestamp: isCompleted ? null : txDetails.legs?.[0]?.startTimestamp,
   });
+
+  const streamingSwapDetails = useMemo(() => {
+    if (!txDetails?.isStreamingSwap) return null;
+
+    const legWithDetails = txDetails.legs?.find((leg) => leg.streamingSwapDetails);
+
+    return legWithDetails?.streamingSwapDetails || null;
+  }, [txDetails.isStreamingSwap, txDetails.legs]);
 
   if (!txDetails) return null;
 
@@ -53,6 +63,9 @@ export const TxDetailsInfo = ({ txDetails, isCompleted, totalTimeLeft }: Props) 
 
   return (
     <Flex direction="column" mt={{ base: 2, lg: 6 }} w="full">
+      {streamingSwapDetails && (
+        <TxStreamingSwapDetails streamingSwapDetails={streamingSwapDetails} />
+      )}
       <InfoRow
         label={t('views.thorname.status')}
         size="md"

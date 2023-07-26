@@ -13,8 +13,8 @@ rl.question('Enter password: ', (answer) => {
                    .update(answer)
                    .digest('hex');
 
-  console.log("Here is your next password which you have to replace in `src/index.jsx`");
-  console.log(`\x1b[32m\x1b[1m${hash.slice(-10)}\x1b[0m`);
+  console.info("Here is your next password which you have to replace in `src/index.jsx`");
+  console.info(`\x1b[32m\x1b[1m${hash.slice(-10)}\x1b[0m`);
 
   rl.close();
 });

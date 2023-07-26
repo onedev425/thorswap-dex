@@ -1,0 +1,37 @@
+import { Flex, Text } from '@chakra-ui/react';
+import { StreamingSwapDetails } from '@thorswap-lib/swapkit-api';
+import { TxStreamingSwapProgress } from 'components/TransactionTracker/components/TxStreamingSwapProgress';
+import { memo } from 'react';
+import { t } from 'services/i18n';
+
+export const TxStreamingSwapDetails = memo(
+  ({ streamingSwapDetails }: { streamingSwapDetails: StreamingSwapDetails }) => {
+    if (!streamingSwapDetails) return null;
+
+    const { completed, progress, total } = streamingSwapDetails;
+
+    return (
+      <Flex direction="column">
+        <Flex align="center" justify="space-between">
+          <Text fontWeight="medium" textStyle="caption" variant="secondary">
+            {t('txManager.streamingSwapDetails')}
+          </Text>
+
+          {total && (
+            <Flex>
+              <Text fontWeight="medium" textStyle="caption-xs" variant="primary">
+                {t('txManager.completed')} {completed || 0} / {total}
+              </Text>
+            </Flex>
+          )}
+        </Flex>
+
+        <Flex flex={1} justify="flex-end">
+          <TxStreamingSwapProgress progress={progress} total={total} />
+        </Flex>
+
+        <Flex borderBottom="1px solid" borderColor="textSecondary" mt={2} opacity={0.2} w="full" />
+      </Flex>
+    );
+  },
+);

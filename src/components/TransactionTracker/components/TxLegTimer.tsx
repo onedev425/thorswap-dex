@@ -20,7 +20,7 @@ export const TxLegTimer = ({ leg, isTxFinished, timeLeft }: Props) => {
   const duration = startTimestamp && endTimestamp ? endTimestamp - startTimestamp : null;
   const timeLabel = useMemo(() => {
     if (timedOut) {
-      return 'Unknown...';
+      return 'Unknown';
     }
 
     if (!startTimestamp && estimatedDuration) {
@@ -28,11 +28,11 @@ export const TxLegTimer = ({ leg, isTxFinished, timeLeft }: Props) => {
     }
 
     if (typeof timeLeft !== 'number') {
-      return 'Estimating...';
+      return t('txManager.txEstimating');
     }
 
     if (timeLeft < 1000) {
-      return 'Finishing...';
+      return t('txManager.txFinishing');
     }
 
     return formatDuration(timeLeft);

@@ -400,7 +400,13 @@
     "withdraw": "Withdraw",
     "withdrawAmountAsset": "Withdraw %{amount} %{asset}",
     "withdrawAmountFailed": "Withdraw %{amount} %{asset} failed",
-    "withdrawnAmountAsset": "Withdrew %{amount} %{asset}"
+    "withdrawnAmountAsset": "Withdrew %{amount} %{asset}",
+    "streamingSwapDetails": "Streaming swap progress",
+    "progressStatus": {
+      "notStarted": "Not started",
+      "refunded": "Refunded",
+      "success": "Completed"
+    }
   },
   "validation": {
     "invalidPassword": "Invalid Password"
