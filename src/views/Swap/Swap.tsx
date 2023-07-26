@@ -1,6 +1,6 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { QuoteRoute } from '@thorswap-lib/swapkit-api';
-import { AssetEntity, getSignatureAssetFor, QuoteMode } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetEntity, getSignatureAssetFor, QuoteMode } from '@thorswap-lib/swapkit-core';
 import { BaseDecimal, Chain, WalletOption } from '@thorswap-lib/types';
 import { Analysis } from 'components/Analysis/Analysis';
 import { easeInOutTransition } from 'components/constants';
@@ -44,7 +44,8 @@ import { SwapSubmitButton } from './SwapSubmitButton';
 const SwapView = () => {
   const navigate = useNavigate();
   const { getMaxBalance } = useBalance();
-  const { inputAmount, setInputAmount, inputAsset, outputAsset } = useSwapPair();
+  const { inputAmountAssetString, setInputAmountAssetString, inputAsset, outputAsset } =
+    useSwapPair();
   const { wallet, keystore } = useWallet();
   const { analyticsVisible, toggleAnalytics } = useApp();
 
@@ -59,12 +60,26 @@ const SwapView = () => {
 
   const [inputToken, outputToken] = useMemo(
     () => [
-      tokens.find(({ identifier }) => identifier === `${inputAsset.L1Chain}.${inputAsset.symbol}`),
       tokens.find(
-        ({ identifier }) => identifier === `${outputAsset.L1Chain}.${outputAsset.symbol}`,
+        ({ identifier }) =>
+          identifier.toUpperCase() === `${inputAsset.L1Chain}.${inputAsset.symbol}`.toUpperCase(),
+      ),
+      tokens.find(
+        ({ identifier }) =>
+          identifier.toUpperCase() === `${outputAsset.L1Chain}.${outputAsset.symbol}`.toUpperCase(),
       ),
     ],
     [inputAsset.L1Chain, inputAsset.symbol, outputAsset.L1Chain, outputAsset.symbol, tokens],
+  );
+
+  const inputAmount = useMemo(
+    () => Amount.fromAssetAmount(inputAmountAssetString, inputAsset.decimal),
+    [inputAsset, inputAmountAssetString],
+  );
+
+  const setInputAmount = useCallback(
+    (value: Amount) => setInputAmountAssetString(value.assetAmount.toString()),
+    [setInputAmountAssetString],
   );
 
   useEffect(() => {

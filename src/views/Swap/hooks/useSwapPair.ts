@@ -25,11 +25,8 @@ export const useSwapPair = () => {
     outputAsset: getSignatureAssetFor(Chain.Bitcoin),
   });
 
-  const [inputAmount, setInputAmount] = useState(
-    Amount.fromAssetAmount(
-      parseFloat(searchParams.get('sellAmount') || '0'),
-      swapPair.inputAsset.decimal,
-    ),
+  const [inputAmountAssetString, setInputAmountAssetString] = useState(
+    searchParams.get('sellAmount') || '0',
   );
 
   const [outputAmount, setOutputAmount] = useState(
@@ -42,7 +39,7 @@ export const useSwapPair = () => {
     const swapPairData = getSwapPair(pair);
 
     if (swapPairData) {
-      setInputAmount(new Amount(inputAmount.assetAmount, 1, swapPairData.inputAsset.decimal));
+      setInputAmountAssetString(inputAmountAssetString);
       setSwapPair(swapPairData);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,5 +49,11 @@ export const useSwapPair = () => {
     getPair();
   }, [getPair]);
 
-  return { ...swapPair, inputAmount, setInputAmount, outputAmount, setOutputAmount };
+  return {
+    ...swapPair,
+    inputAmountAssetString,
+    setInputAmountAssetString,
+    outputAmount,
+    setOutputAmount,
+  };
 };
