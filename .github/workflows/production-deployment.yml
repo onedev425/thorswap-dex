@@ -65,5 +65,5 @@ jobs:
           description: "Prod Deployment"
           status: success
           url: 'https://app.thorswap.finance'
-          username: Vercel Preview Deployment
+          username: Production Deployment
           webhook: ${{ secrets.DISCORD_WEBHOOK }}

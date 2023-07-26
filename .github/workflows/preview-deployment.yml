@@ -69,5 +69,5 @@ jobs:
           status: ${{ job.status }}
           title: "Deployment link: ${{ steps.vercel.outputs.vercel_url }}"
           url: ${{ steps.vercel.outputs.vercel_url }}
-          username: Vercel Preview Deployment
+          username: Preview Deployment
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
