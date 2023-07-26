@@ -3,7 +3,6 @@ import { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { getOutOfPocketFee } from 'hooks/useRouteFees';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { IS_PROD } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 import { useGetTokensQuoteQuery } from 'store/thorswap/api';
 import { GetTokensQuoteResponse } from 'store/thorswap/types';
@@ -181,6 +180,6 @@ export const useSwapQuote = ({
     quoteId: data?.quoteId,
     streamSwap,
     toggleStreamSwap,
-    canStreamSwap: !IS_PROD && !!selectedRoute?.calldata?.memoStreamingSwap,
+    canStreamSwap: !!selectedRoute?.calldata?.memoStreamingSwap,
   };
 };
