@@ -18,6 +18,7 @@ type Props = {
   totalFee: string;
   affiliateFee: string;
   feeAssets: string;
+  swapMemo: string;
   showSmallSwapWarning: boolean;
 };
 
@@ -32,6 +33,7 @@ export const ConfirmContent = memo(
     totalFee,
     affiliateFee,
     feeAssets,
+    swapMemo,
     showSmallSwapWarning,
   }: Props) => {
     return (
@@ -123,6 +125,25 @@ export const ConfirmContent = memo(
             </Box>
           </Box>
 
+          {swapMemo?.length > 0 && (
+            <>
+              <Box className="px-4">
+                <Box className="w-full h-[1px] bg-light-border-primary dark:bg-dark-border-primary my-2" />
+              </Box>
+
+              <Box row className="w-full">
+                <Box center col className="flex-1 gap-y-2 px-4 w-[100%]">
+                  <Text fontWeight="medium" textStyle="caption" variant="secondary">
+                    {t('common.memo')}
+                  </Text>
+                  <Text maxWidth="full" textStyle="caption">
+                    {swapMemo}
+                  </Text>
+                </Box>
+              </Box>
+            </>
+          )}
+
           {!showSmallSwapWarning && (
             <>
               <Box className="px-4">
@@ -139,6 +160,7 @@ export const ConfirmContent = memo(
             </>
           )}
         </Box>
+
         {showSmallSwapWarning && (
           <Box row className="w-full my-2 px-4">
             <Icon className="inline" color="orange" name="infoCircle" size={26} />{' '}

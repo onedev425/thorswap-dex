@@ -2,6 +2,7 @@ import { Price } from '@thorswap-lib/swapkit-core';
 import { AssetInputType } from 'components/AssetInput/types';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { RouteWithApproveType } from 'components/SwapRouter/types';
+import { shortenAddress } from 'helpers/shortenAddress';
 import { memo, useCallback, useMemo } from 'react';
 
 import { ConfirmContent } from './ConfirmContent';
@@ -11,6 +12,7 @@ type Props = {
   affiliateFee: string;
   feeAssets: string;
   inputAssetProps: AssetInputType;
+  streamSwap: boolean;
   minReceive: string;
   outputAssetProps: AssetInputType;
   recipient: string;
@@ -37,6 +39,7 @@ export const ConfirmSwapModal = memo(
     slippageInfo,
     totalFee,
     visible,
+    streamSwap,
     inputUSDPrice,
     selectedRoute,
   }: Props) => {
@@ -48,6 +51,17 @@ export const ConfirmSwapModal = memo(
         selectedRoute?.providers.includes('THORCHAIN'),
       [inputUSDPrice, selectedRoute],
     );
+
+    const memo = useMemo(() => {
+      if (!selectedRoute) return '';
+      // @ts-expect-error wrong typing on calldata
+      const { memoStreamingSwap, memo, tcMemo } = selectedRoute.calldata;
+
+      return shortenAddress(
+        streamSwap && memoStreamingSwap ? memoStreamingSwap : memo || tcMemo,
+        20,
+      );
+    }, [selectedRoute, streamSwap]);
 
     const handleConfirm = useCallback(async () => {
       setVisible(false);
@@ -77,6 +91,7 @@ export const ConfirmSwapModal = memo(
           recipient={recipient}
           showSmallSwapWarning={showSmallSwapWarning}
           slippageInfo={slippageInfo}
+          swapMemo={memo}
           totalFee={totalFee}
         />
       </ConfirmModal>

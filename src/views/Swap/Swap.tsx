@@ -444,6 +444,7 @@ const SwapView = () => {
             selectedRoute={selectedRoute}
             setVisible={setVisibleConfirmModal}
             slippageInfo={slippage.toFixed(3)}
+            streamSwap={streamSwap}
             totalFee={formatPrice(totalFee)}
             visible={visibleConfirmModal}
           />
