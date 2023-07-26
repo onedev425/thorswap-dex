@@ -114,6 +114,13 @@ const SwapView = () => {
     return '30';
   }, [VTHORBalance]);
 
+  const noPriceProtection = useMemo(
+    () =>
+      [Chain.Litecoin, Chain.Dogecoin, Chain.BitcoinCash].includes(inputAsset.L1Chain) &&
+      wallet?.[inputAsset.L1Chain]?.walletType === WalletOption.LEDGER,
+    [inputAsset.L1Chain, wallet],
+  );
+
   const {
     estimatedTime,
     isFetching,
@@ -128,6 +135,7 @@ const SwapView = () => {
     toggleStreamSwap,
     canStreamSwap,
   } = useSwapQuote({
+    noPriceProtection,
     affiliateBasisPoints,
     inputAmount,
     inputAsset,
@@ -312,12 +320,6 @@ const SwapView = () => {
     [outputAsset],
   );
   const tokenOutputWarning = useMemo(() => isAvaxTHOR || isEthRUNE, [isAvaxTHOR, isEthRUNE]);
-  const noPriceProtection = useMemo(
-    () =>
-      [Chain.Litecoin, Chain.Dogecoin, Chain.BitcoinCash].includes(inputAsset.L1Chain) &&
-      wallet?.[inputAsset.L1Chain]?.walletType === WalletOption.LEDGER,
-    [inputAsset.L1Chain, wallet],
-  );
 
   const tokenOutputContent = useMemo(() => {
     if (isAvaxTHOR) {

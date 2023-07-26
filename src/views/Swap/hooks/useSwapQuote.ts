@@ -12,6 +12,7 @@ type Params = {
   affiliateBasisPoints: string;
   inputAmount: Amount;
   inputAsset: AssetEntity;
+  noPriceProtection: boolean;
   outputAsset: AssetEntity;
   recipientAddress?: string;
   senderAddress?: string;
@@ -19,6 +20,7 @@ type Params = {
 };
 
 export const useSwapQuote = ({
+  noPriceProtection,
   affiliateBasisPoints,
   inputAmount,
   inputAsset,
@@ -180,6 +182,6 @@ export const useSwapQuote = ({
     quoteId: data?.quoteId,
     streamSwap,
     toggleStreamSwap,
-    canStreamSwap: !!selectedRoute?.calldata?.memoStreamingSwap,
+    canStreamSwap: !noPriceProtection && !!selectedRoute?.calldata?.memoStreamingSwap,
   };
 };
