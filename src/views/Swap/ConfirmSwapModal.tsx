@@ -55,7 +55,7 @@ export const ConfirmSwapModal = memo(
       const { memoStreamingSwap, memo, tcMemo } = selectedRoute.calldata;
 
       return shortenAddress(
-        streamSwap && memoStreamingSwap ? memoStreamingSwap : memo || tcMemo,
+        (streamSwap && memoStreamingSwap ? memoStreamingSwap : memo || tcMemo) || '',
         20,
       );
     }, [selectedRoute, streamSwap]);

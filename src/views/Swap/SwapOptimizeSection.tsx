@@ -86,7 +86,7 @@ export const SwapOptimizeSection = ({
 
                   <Flex gap={1}>
                     <Text textStyle="caption-xs">
-                      {outputAmountStreamingSwap.toSignificant(6)} {outputAsset?.symbol || ''}
+                      {outputAmountStreamingSwap.toSignificant(6)} {outputAsset?.name || ''}
                     </Text>
                     <Text color="brand.green" fontWeight="normal" textStyle="caption-xs">
                       (+{formatPrice(priceUSDDiff)})
@@ -124,7 +124,7 @@ export const SwapOptimizeSection = ({
                   </Flex>
 
                   <Text textStyle="caption-xs">
-                    {outputAmount.toSignificant(6)} {outputAsset?.ticker || ''}
+                    {outputAmount.toSignificant(6)} {outputAsset?.name || ''}
                   </Text>
                 </Flex>
               </Flex>
