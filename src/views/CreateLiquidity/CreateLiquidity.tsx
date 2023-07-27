@@ -46,7 +46,7 @@ import { useConfirmInfoItems } from './useConfirmInfoItems';
 
 export const CreateLiquidity = () => {
   const appDispatch = useAppDispatch();
-  const { pools } = useAppSelector(({ midgard }) => midgard);
+  const pools = useAppSelector(({ midgard }) => midgard.pools);
   const { wallet, setIsConnectModalOpen } = useWallet();
   const [inputAssets, setInputAssets] = useState<Asset[]>([]);
   const ethWhitelist = useTokenAddresses('Thorchain-supported-ERC20');

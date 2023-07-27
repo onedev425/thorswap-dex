@@ -9,7 +9,7 @@ type FormValues = {
 };
 
 export const useImportSignatureForm = (onSubmit: (val: Signer) => void) => {
-  const { members } = useAppSelector((state) => state.multisig);
+  const members = useAppSelector(({ multisig }) => multisig.members);
 
   const membersOptions = useMemo(
     () =>

@@ -15,7 +15,7 @@ export const SelectSignersStep = () => {
   const navigate = useNavigate();
   const { signers, toggleAllSigners, toggleSigner } = useTxCreate();
   const [infoVisible, setInfoVisible] = useState(true);
-  const { treshold, members } = useAppSelector((state) => state.multisig);
+  const { treshold, members } = useAppSelector(({ multisig }) => multisig);
   const isValid = signers?.length >= treshold;
 
   const isSelected = useCallback(

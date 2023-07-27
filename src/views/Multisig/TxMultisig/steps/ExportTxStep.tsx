@@ -16,7 +16,7 @@ type Props = {
 };
 
 export const ExportTxStep = ({ exportTxData, signatures }: Props) => {
-  const { members } = useAppSelector((state) => state.multisig);
+  const members = useAppSelector(({ multisig }) => multisig.members);
   const fileNameSuffix = useMemo(() => {
     if (!signatures?.length) {
       return 'unsigned';

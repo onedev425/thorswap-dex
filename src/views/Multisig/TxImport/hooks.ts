@@ -11,7 +11,7 @@ export const useTxImportForm = () => {
   const [importedTx, setImportedTx] = useState<ImportedMultisigTx | null>(null);
   const { importTx } = useMultisig();
   const navigate = useNavigate();
-  const { treshold } = useAppSelector((state) => state.multisig);
+  const treshold = useAppSelector(({ multisig }) => multisig.treshold);
 
   const parseData = useCallback(
     async (data: ImportedMultisigTx) => {

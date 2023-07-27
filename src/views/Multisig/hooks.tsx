@@ -22,7 +22,7 @@ import { useGetGasPriceRatesQuery } from 'store/thorswap/api';
 
 export const useMultisigWalletInfo = () => {
   const { runeBalance, loadingBalances } = useMultissigAssets();
-  const { address, treshold } = useAppSelector((state) => state.multisig);
+  const { address, treshold } = useAppSelector(({ multisig }) => multisig);
 
   const { shortAddress, handleCopyAddress } = useAddressUtils(address);
   const formattedRune = `${formatPrice(runeBalance?.amount || 0, {
@@ -70,7 +70,7 @@ export const useMultissigAssets = () => {
   const { data: gasPriceRates } = useGetGasPriceRatesQuery();
   const { loadBalances } = useMultisig();
   const [runeBalance, setRuneBalance] = useState<AssetAmount | null>(null);
-  const { balances, loadingBalances } = useAppSelector((state) => state.multisig);
+  const { balances, loadingBalances } = useAppSelector(({ multisig }) => multisig);
   const { feeOptionType } = useAppSelector(({ app: { feeOptionType }, wallet: { wallet } }) => ({
     wallet,
     feeOptionType,
@@ -143,7 +143,7 @@ export const useMultissigAssets = () => {
 
 export const useMultisigWallet = () => {
   const { loadBalances } = useMultisig();
-  const { address, balances } = useAppSelector((state) => state.multisig);
+  const { address, balances } = useAppSelector(({ multisig }) => multisig);
 
   useEffect(() => {
     loadBalances();
@@ -167,7 +167,7 @@ export const useMultisigWallet = () => {
 };
 
 export const useMultisigProtectedRoute = () => {
-  const { address } = useAppSelector((state) => state.multisig);
+  const address = useAppSelector(({ multisig }) => multisig.address);
   const navigate = useNavigate();
 
   if (!address) {

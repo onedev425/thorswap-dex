@@ -6,7 +6,7 @@ import { useAppSelector } from 'store/store';
 
 export const RefreshButton = () => {
   const { loadBalances } = useMultisig();
-  const loadingBalances = useAppSelector((state) => !!state.multisig.loadingBalances);
+  const loadingBalances = useAppSelector(({ multisig }) => !!multisig.loadingBalances);
 
   return (
     <Tooltip className="h-fit" content={t('common.refresh')}>

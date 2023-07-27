@@ -2830,10 +2830,10 @@
   dependencies:
     "@thorswap-lib/types" "1.0.0-development.95"
 
-"@thorswap-lib/keystore@1.0.0-development.198":
-  version "1.0.0-development.198"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/keystore/-/keystore-1.0.0-development.198.tgz#cdc8fd1e42651f7f3fd21e87904c0194f2b6fd7e"
-  integrity sha512-yysHuIk8mhCm6mzxYFRCLQgz82FI/JCmAAMrNKPO3q09a/lZyMiWhWGP/C+GrYZ3VLldw7AkBzGjWVuyBKclvA==
+"@thorswap-lib/keystore@1.0.0-development.199":
+  version "1.0.0-development.199"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/keystore/-/keystore-1.0.0-development.199.tgz#052feafbbfb9eee2d3619c39f8a958698dccba06"
+  integrity sha512-wKSKzwazUgQThMOsuKYwKX37bW9Dren9YL9t7xINjfys7M3HY0nFmevAl+c5IylhlHGoeuiNI9b8tVdolkQfNQ==
   dependencies:
     "@ethersproject/hdnode" "5.7.0"
     "@ethersproject/wallet" "5.7.0"
@@ -2844,10 +2844,10 @@
     long "4.0.0"
     uuid "9.0.0"
 
-"@thorswap-lib/ledger@1.0.0-development.217":
-  version "1.0.0-development.217"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/ledger/-/ledger-1.0.0-development.217.tgz#72927885560461ff3caae1c42196da88ea19a1ee"
-  integrity sha512-epSzzYxypSB6dlP5ADGCFhD9Ows/73GKqpTE3ZO8z/DmWbItuQrvhALuIpCl0rS0K2Q+xrcARUfbd8/fpAimBQ==
+"@thorswap-lib/ledger@1.0.0-development.218":
+  version "1.0.0-development.218"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/ledger/-/ledger-1.0.0-development.218.tgz#76cea6cd6028048b8d521b35058605a3d32551bb"
+  integrity sha512-9Nk56Mu50BUqSKEhI/s1CtM4OD0vIdpJ9yztAc9XfXYwKaiSWu2ZLvng6Oc3sx4C4AB+ajw+4Mf1SWzTOlQ64Q==
   dependencies:
     "@cosmjs/amino" "0.31.0"
     "@cosmjs/crypto" "0.31.0"

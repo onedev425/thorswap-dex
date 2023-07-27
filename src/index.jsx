@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { ColorModeScript } from '@chakra-ui/react';
 import hmacSHA512 from 'crypto-js/hmac-sha512';
-import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import './index.css';
@@ -13,10 +12,10 @@ const container = document.getElementById('root');
 const root = createRoot(container);
 const renderApp = () => {
   root.render(
-    <StrictMode>
+    <>
       <ColorModeScript />
       <App />
-    </StrictMode>
+    </>
   );
 };
 

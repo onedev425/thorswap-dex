@@ -1,7 +1,6 @@
 import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
-import { getOutOfPocketFee } from 'hooks/useRouteFees';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useApp } from 'store/app/hooks';
 import { useGetTokensQuoteQuery } from 'store/thorswap/api';
@@ -86,22 +85,9 @@ export const useSwapQuote = ({
         const sortedRoutes = routesWithApprove
           .filter(Boolean)
           .concat()
-          .sort((a, b) => {
-            const approveStatusDiff = Number(b.isApproved) - Number(a.isApproved);
-
-            const aUSDPrice = a.streamingSwap?.expectedOutputUSD || a.expectedOutputUSD;
-            const bUSDPrice = b.streamingSwap?.expectedOutputUSD || b.expectedOutputUSD;
-
-            if (!approveStatusDiff) {
-              const aAfterFee = Number(aUSDPrice) - getOutOfPocketFee(a.fees);
-              const bAfterFee = Number(bUSDPrice) - getOutOfPocketFee(b.fees);
-              const valueDiff = bAfterFee - aAfterFee;
-
-              return valueDiff || (b.optimal ? 1 : -1);
-            }
-
-            return approveStatusDiff;
-          }) as RouteWithApproveType[];
+          .sort(
+            (a, b) => Number(b.isApproved) - Number(a.isApproved) || (b.optimal ? 1 : -1),
+          ) as RouteWithApproveType[];
 
         setRoutes(sortedRoutes);
       } finally {

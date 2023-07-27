@@ -6,17 +6,15 @@ import { useAppDispatch, useAppSelector } from 'store/store';
 
 export const useMidgard = () => {
   const dispatch = useAppDispatch();
-  const { midgardState, wallet } = useAppSelector(({ midgard, wallet }) => ({
-    midgardState: midgard,
-    wallet: wallet.wallet,
-  }));
+  const midgard = useAppSelector(({ midgard }) => midgard);
+  const wallet = useAppSelector(({ wallet }) => wallet.wallet);
 
   const isGlobalHistoryLoading = useMemo(
     () =>
-      midgardState.earningsHistoryLoading ||
-      midgardState.swapHistoryLoading ||
-      midgardState.liquidityHistoryLoading,
-    [midgardState],
+      midgard.earningsHistoryLoading ||
+      midgard.swapHistoryLoading ||
+      midgard.liquidityHistoryLoading,
+    [midgard],
   );
 
   const getPendingDepositByChain = useCallback(
@@ -25,7 +23,7 @@ export const useMidgard = () => {
 
       const thorchainAddress = wallet?.[Chain.THORChain]?.address;
       if (thorchainAddress) {
-        midgardState.pools.forEach((pool) => {
+        midgard.pools.forEach((pool) => {
           if (pool.asset.chain === chain) {
             dispatch(
               actions.getLiquidityProviderData({
@@ -37,7 +35,7 @@ export const useMidgard = () => {
         });
       }
     },
-    [dispatch, midgardState.pools, wallet],
+    [dispatch, midgard.pools, wallet],
   );
 
   /**
@@ -105,10 +103,10 @@ export const useMidgard = () => {
 
   const synthAssets = useMemo(
     () =>
-      midgardState.pools
+      midgard.pools
         .filter(({ detail }) => detail.status.toLowerCase() === 'available')
         .map(({ asset: { chain, symbol } }) => new AssetEntity(chain, symbol, true)),
-    [midgardState.pools],
+    [midgard.pools],
   );
 
   const getLpDetails = useCallback(
@@ -142,7 +140,7 @@ export const useMidgard = () => {
     }
   }, [getMemberDetailsByChain, loadFullMemberDetails, wallet]);
 
-  const { poolNamesByChain, lpAddedAndWithdraw, lpDetailLoading } = midgardState;
+  const { poolNamesByChain, lpAddedAndWithdraw, lpDetailLoading } = midgard;
 
   const getAllLpDetails = useCallback(async () => {
     if (!wallet) return;
@@ -160,7 +158,7 @@ export const useMidgard = () => {
   }, [getLpDetails, lpAddedAndWithdraw, lpDetailLoading, poolNamesByChain, wallet]);
 
   return {
-    ...midgardState,
+    ...midgard,
     actions,
     getAllMemberDetails,
     getNodes,

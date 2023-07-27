@@ -16,10 +16,8 @@ import { MultisigMember, MultisigWallet } from 'store/multisig/types';
 import { useAppDispatch, useAppSelector } from 'store/store';
 
 export const useMultisig = () => {
-  const { address, members, treshold } = useAppSelector((state) => state.multisig);
-
-  const { wallet, privateKey, publicKey } = useAppSelector((state) => state.wallet);
-
+  const { address, members, treshold } = useAppSelector(({ multisig }) => multisig);
+  const { wallet, privateKey, publicKey } = useAppSelector(({ wallet }) => wallet);
   const dispatch = useAppDispatch();
 
   const multisigActions = useMemo(

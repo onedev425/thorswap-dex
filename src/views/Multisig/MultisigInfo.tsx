@@ -17,7 +17,7 @@ import { useMultisigWalletInfo } from 'views/Multisig/hooks';
 export const MultisigInfo = () => {
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
   const info = useMultisigWalletInfo();
-  const { loadingBalances, name, address } = useAppSelector((state) => state.multisig);
+  const { loadingBalances, name, address } = useAppSelector(({ multisig }) => multisig);
   const { loadBalances, clearMultisigWallet } = useMultisig();
   const [accountUrl, setAccountUrl] = useState('');
 

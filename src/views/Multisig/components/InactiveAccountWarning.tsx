@@ -10,7 +10,7 @@ import { useAppSelector } from 'store/store';
 import { useMultissigAssets } from 'views/Multisig/hooks';
 
 export const InactiveAccountWarning = () => {
-  const { address } = useAppSelector((state) => state.multisig);
+  const address = useAppSelector(({ multisig }) => multisig.address);
   const { runeBalance } = useMultissigAssets();
   const { isMultsigActivated } = useMultisig();
   const [isVisible, setIsVisible] = useState(false);

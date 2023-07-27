@@ -37,7 +37,7 @@ export const useTxCreate = () => {
 export const TxCreateProvider = ({ children }: Props) => {
   const { loadBalances } = useMultisig();
   const [signers, setSigners] = useState<MultisigMember[]>([]);
-  const { members } = useAppSelector((state) => state.multisig);
+  const members = useAppSelector(({ multisig }) => multisig.members);
 
   const toggleSigner = useCallback((signer: MultisigMember) => {
     setSigners((v) => {

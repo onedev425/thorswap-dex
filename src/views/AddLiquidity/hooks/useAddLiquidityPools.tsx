@@ -12,7 +12,7 @@ type Props = {
 };
 
 export const useAddLiquidityPools = ({ assetRouteGetter = getAddLiquidityRoute }: Props = {}) => {
-  const { pools, poolLoading } = useAppSelector(({ midgard }) => midgard);
+  const pools = useAppSelector(({ midgard }) => midgard.pools);
   const { getAllMemberDetails } = useMidgard();
   const navigate = useNavigate();
 
@@ -49,14 +49,14 @@ export const useAddLiquidityPools = ({ assetRouteGetter = getAddLiquidityRoute }
   }, [assetParam]);
 
   useEffect(() => {
-    if (!poolLoading && pools.length && poolAsset) {
+    if (pools.length && poolAsset) {
       const assetPool = pools.find(
         ({ asset: { chain, ticker } }) => chain === poolAsset.chain && ticker === poolAsset.ticker,
       );
 
       setPool(assetPool);
     }
-  }, [pools, poolLoading, poolAsset]);
+  }, [pools, poolAsset]);
 
   const handleSelectPoolAsset = useCallback(
     (poolAssetData: Asset) => {

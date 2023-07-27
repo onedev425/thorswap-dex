@@ -10,7 +10,7 @@ import { useAppSelector } from 'store/store';
 import { MultisigExport } from 'views/Multisig/components/MultisigExport/MultisigExport';
 
 export const ExportWalletStep = () => {
-  const { address } = useAppSelector((state) => state.multisig);
+  const address = useAppSelector(({ multisig }) => multisig.address);
   const { handleCopyAddress } = useAddressUtils(address);
 
   return (

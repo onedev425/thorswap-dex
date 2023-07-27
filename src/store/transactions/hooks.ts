@@ -8,7 +8,7 @@ import {
 import { isTxCompleted, isTxPending } from 'store/transactions/utils';
 
 export const useTransactionsState = () => {
-  const transactions = useAppSelector((state) => state.transactions);
+  const transactions = useAppSelector(({ transactions }) => transactions);
   const sortedTransactions = useMemo(
     () =>
       transactions

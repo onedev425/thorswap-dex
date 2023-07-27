@@ -8,7 +8,7 @@ import { MultisigImportTile } from 'views/Multisig/MultisigImport/MultisigImport
 import { MultisigInfo } from 'views/Multisig/MultisigInfo';
 
 const Multisig = () => {
-  const hasWallet = useAppSelector((state) => !!state.multisig.address);
+  const hasWallet = useAppSelector(({ multisig }) => !!multisig.address);
 
   return hasWallet ? (
     <MultisigInfo />

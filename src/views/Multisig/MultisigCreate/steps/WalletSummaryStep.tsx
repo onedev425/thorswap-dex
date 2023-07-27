@@ -12,7 +12,7 @@ import { useMultisigWalletInfo } from 'views/Multisig/hooks';
 
 export const WalletSummaryStep = () => {
   const navigate = useNavigate();
-  const { address } = useAppSelector((state) => state.multisig);
+  const address = useAppSelector(({ multisig }) => multisig.address);
   const { handleCopyAddress } = useAddressUtils(address);
   const info = useMultisigWalletInfo();
 

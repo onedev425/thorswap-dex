@@ -35,8 +35,25 @@ const PromoBannerSlider = () => {
 
   const promoItems = useMemo(
     () => [
+      // {
+      //   key: 'promo-1',
+      //   message: (
+      //     <Text textStyle="caption-xs">
+      //       Streaming Swaps are here!{' '}
+      //       <Text className="inline px-0.5" decoration="underline" textStyle="caption-xs">
+      //         Check out the article to learn more
+      //       </Text>
+      //     </Text>
+      //   ),
+      //   onClick: () =>
+      //     window.open(
+      //       'TODO',
+      //       '_blank',
+      //       'noopener,noreferrer',
+      //     ),
+      // },
       {
-        key: 'promo-2',
+        key: 'promo-thor',
         message: (
           <Text textStyle="caption-xs">
             Stake

@@ -11,7 +11,7 @@ import { useMultisigWalletInfo } from 'views/Multisig/hooks';
 
 const TxBuilder = () => {
   const info = useMultisigWalletInfo();
-  const hasConnectedMultisig = useAppSelector((state) => !!state.multisig.address);
+  const hasConnectedMultisig = useAppSelector(({ multisig }) => !!multisig.address);
 
   return (
     <PanelView

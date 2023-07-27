@@ -8,10 +8,8 @@ import { useGetGasPriceRatesQuery } from 'store/thorswap/api';
 
 export const useBalance = (skipFees?: boolean) => {
   const { data: gasPriceRates } = useGetGasPriceRatesQuery(undefined, { skip: skipFees });
-
-  const { feeOptionType, wallet } = useAppSelector(
-    ({ app: { feeOptionType }, wallet: { wallet } }) => ({ wallet, feeOptionType }),
-  );
+  const feeOptionType = useAppSelector(({ app: { feeOptionType } }) => feeOptionType);
+  const wallet = useAppSelector(({ wallet }) => wallet.wallet);
 
   const isWalletAssetConnected = useCallback(
     (asset: AssetEntity) => !!wallet?.[asset.L1Chain as Chain],

@@ -7,7 +7,7 @@ import { useAppSelector } from 'store/store';
 const MULTISIG_FILE_NAME = 'thorsafe';
 
 export const useMultisigExport = () => {
-  const { members, treshold, address, name } = useAppSelector((state) => state.multisig);
+  const { members, treshold, address, name } = useAppSelector(({ multisig }) => multisig);
   const fileSuffix = name || 'wallet';
 
   const hasWallet = !!address;

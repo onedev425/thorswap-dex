@@ -23,7 +23,7 @@ export const useTxWithdraw = () => {
   const { createDepositTx } = useMultisig();
   const { signers } = useTxCreate();
   const navigate = useNavigate();
-  const { pools } = useAppSelector(({ midgard }) => midgard);
+  const pools = useAppSelector(({ midgard }) => midgard.pools);
   const poolAssets = useMemo(() => {
     return pools.map((poolData) => poolData.asset);
   }, [pools]);
