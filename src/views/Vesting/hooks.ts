@@ -1,5 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { Amount } from '@thorswap-lib/swapkit-core';
+import { getProvider } from '@thorswap-lib/toolbox-evm';
 import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import dayjs from 'dayjs';
@@ -46,6 +47,7 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
   const [isLoading, setIsLoading] = useState(false);
   const { numberOfPendingApprovals } = useTransactionsState();
   const ethAddress = useMemo(() => wallet.ETH?.address, [wallet.ETH?.address]);
+  const ethProvider = useMemo(() => getProvider(Chain.Ethereum), []);
 
   const checkAlloc = useCallback(async () => {
     const skClient = await getSwapKitClient();
@@ -58,6 +60,7 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
       const { abi: vthorVesting, address: vthorAddress } = contractConfig['vthor_vesting'];
 
       await skClient.connectedWallets.ETH?.call({
+        callProvider: ethProvider,
         abi: thorVesting,
         contractAddress: thorAddress,
         funcName: 'claimableAmount',
@@ -68,6 +71,7 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
       );
 
       await skClient.connectedWallets.ETH?.call({
+        callProvider: ethProvider,
         abi: vthorVesting,
         contractAddress: vthorAddress,
         funcName: 'claimableAmount',
@@ -81,7 +85,7 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
     } finally {
       contractCallInProgress = false;
     }
-  }, [appDispatch, ethAddress]);
+  }, [appDispatch, ethAddress, ethProvider]);
 
   const getContractVestingInfo = useCallback(
     async (vestingType: VestingType) => {
@@ -98,12 +102,14 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
         cliff,
         initialRelease,
       ] = ((await skClient.connectedWallets.ETH?.call({
+        callProvider: ethProvider,
         abi,
         contractAddress: address,
         funcName: 'vestingSchedule',
         funcParams: [ethAddress, {}],
       })) || []) as [BigNumber, BigNumber, number, number, number, BigNumber];
       const claimableAmount = (await skClient.connectedWallets.ETH?.call({
+        callProvider: ethProvider,
         abi,
         contractAddress: address,
         funcName: 'claimableAmount',
