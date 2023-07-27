@@ -151,7 +151,6 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
         [VestingType.THOR]: await getContractVestingInfo(VestingType.THOR),
         [VestingType.VTHOR]: await getContractVestingInfo(VestingType.VTHOR),
       });
-      console.timeEnd('loadVestingInfo');
     } catch (error) {
       console.error(error);
     } finally {

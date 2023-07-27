@@ -85,9 +85,13 @@ export const useSwapQuote = ({
         const sortedRoutes = routesWithApprove
           .filter(Boolean)
           .concat()
-          .sort(
-            (a, b) => Number(b.isApproved) - Number(a.isApproved) || (b.optimal ? 1 : -1),
-          ) as RouteWithApproveType[];
+          .sort((a, b) => {
+            const approveDiff = Number(b.isApproved) - Number(a.isApproved);
+            if (approveDiff !== 0) return approveDiff;
+            if (b.optimal && !a.optimal) return 1;
+            if (!b.optimal && a.optimal) return -1;
+            return 0;
+          }) as RouteWithApproveType[];
 
         setRoutes(sortedRoutes);
       } finally {
