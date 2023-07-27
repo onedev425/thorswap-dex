@@ -24,6 +24,7 @@ type Props = RouteWithApproveType & {
 export const SwapRoute = memo(
   ({
     expectedOutput,
+    streamingSwap,
     onClick,
     isApproved,
     outputAsset,
@@ -36,9 +37,14 @@ export const SwapRoute = memo(
     const formatPrice = useFormatPrice();
     const [, address] = outputAsset.symbol.split('-');
 
+    const outputValue = useMemo(
+      () => streamingSwap?.expectedOutput || expectedOutput,
+      [expectedOutput, streamingSwap?.expectedOutput],
+    );
+
     const routeOutput = useMemo(
-      () => new Amount(new BigNumber(expectedOutput), AmountType.ASSET_AMOUNT, outputAsset.decimal),
-      [expectedOutput, outputAsset.decimal],
+      () => new Amount(new BigNumber(outputValue), AmountType.ASSET_AMOUNT, outputAsset.decimal),
+      [outputValue, outputAsset.decimal],
     );
 
     const logoURI = tokenLogoURL({
@@ -56,8 +62,8 @@ export const SwapRoute = memo(
     }, [path]);
 
     const expectedOutputPrice = useMemo(
-      () => formatPrice(unitPrice.multipliedBy(expectedOutput).toNumber()),
-      [expectedOutput, formatPrice, unitPrice],
+      () => formatPrice(unitPrice.multipliedBy(outputValue).toNumber()),
+      [outputValue, formatPrice, unitPrice],
     );
 
     return (

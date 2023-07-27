@@ -22,6 +22,7 @@ type Props = RouteWithApproveType & {
 export const SelectedRoute = memo(
   ({
     expectedOutput,
+    streamingSwap,
     swaps,
     outputAssetDecimal,
     unitPrice,
@@ -34,19 +35,23 @@ export const SelectedRoute = memo(
   }: Props) => {
     const [isOpened, setIsOpened] = useState(false);
     const formatPrice = useFormatPrice();
+    const outputValue = useMemo(
+      () => streamingSwap?.expectedOutput || expectedOutput,
+      [expectedOutput, streamingSwap?.expectedOutput],
+    );
 
     const expectedAssetOutput = useMemo(
       () =>
         formatPrice(
-          new Amount(new BigNumber(expectedOutput), AmountType.ASSET_AMOUNT, outputAssetDecimal),
+          new Amount(new BigNumber(outputValue), AmountType.ASSET_AMOUNT, outputAssetDecimal),
           { prefix: '' },
         ),
-      [expectedOutput, formatPrice, outputAssetDecimal],
+      [formatPrice, outputAssetDecimal, outputValue],
     );
 
     const expectedPriceOutput = useMemo(
-      () => formatPrice(unitPrice.multipliedBy(expectedOutput).toNumber()),
-      [expectedOutput, formatPrice, unitPrice],
+      () => formatPrice(unitPrice.multipliedBy(outputValue).toNumber()),
+      [outputValue, formatPrice, unitPrice],
     );
 
     const openSwapGraph = useCallback((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

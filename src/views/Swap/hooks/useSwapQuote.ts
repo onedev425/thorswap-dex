@@ -89,9 +89,12 @@ export const useSwapQuote = ({
           .sort((a, b) => {
             const approveStatusDiff = Number(b.isApproved) - Number(a.isApproved);
 
+            const aUSDPrice = a.streamingSwap?.expectedOutputUSD || a.expectedOutputUSD;
+            const bUSDPrice = b.streamingSwap?.expectedOutputUSD || b.expectedOutputUSD;
+
             if (!approveStatusDiff) {
-              const aAfterFee = Number(a.expectedOutputUSD) - getOutOfPocketFee(a.fees);
-              const bAfterFee = Number(b.expectedOutputUSD) - getOutOfPocketFee(b.fees);
+              const aAfterFee = Number(aUSDPrice) - getOutOfPocketFee(a.fees);
+              const bAfterFee = Number(bUSDPrice) - getOutOfPocketFee(b.fees);
               const valueDiff = bAfterFee - aAfterFee;
 
               return valueDiff || (b.optimal ? 1 : -1);

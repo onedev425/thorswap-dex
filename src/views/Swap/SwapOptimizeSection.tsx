@@ -22,11 +22,9 @@ export const SwapOptimizeSection = ({
   route,
   outputAsset,
 }: Props) => {
-  const estimatedTime = route?.estimatedTime ? route.estimatedTime * 1000 : 0;
-  const estimatedTimeStreamingSwap = route?.streamingSwap?.estimatedTime
-    ? route.streamingSwap.estimatedTime * 1000
-    : 0;
-  const timeDiff = estimatedTimeStreamingSwap ? estimatedTimeStreamingSwap - estimatedTime : 0;
+  const estimatedTime = (route?.estimatedTime || 0) * 1000;
+  const estimatedTimeStreamingSwap = (route?.streamingSwap?.estimatedTime || 0) * 1000;
+  const timeDiff = estimatedTimeStreamingSwap - estimatedTime || 0;
   const priceUSDDiff = route?.streamingSwap?.expectedOutputUSD
     ? Number(route.streamingSwap.expectedOutputUSD) - Number(route.expectedOutputUSD)
     : 0;
