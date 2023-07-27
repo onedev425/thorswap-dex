@@ -9,7 +9,7 @@ import { PercentSelect } from 'components/PercentSelect/PercentSelect';
 import { TabsSelect } from 'components/TabsSelect';
 import { ViewHeader } from 'components/ViewHeader';
 import { toOptionalFixed } from 'helpers/number';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
 import { useVesting } from 'views/Vesting/hooks';
@@ -17,11 +17,10 @@ import { useVesting } from 'views/Vesting/hooks';
 import { VestingType } from './types';
 
 const Vesting = () => {
-  const { wallet, setIsConnectModalOpen } = useWallet();
-  const ethAddr = useMemo(() => wallet.ETH?.address, [wallet]);
+  const { setIsConnectModalOpen } = useWallet();
   const [vestingTab, setVestingTab] = useState(VestingType.THOR);
   const [amount, setAmount] = useState(Amount.fromNormalAmount(0));
-  const { vestingInfo, isLoading, loadVestingInfo, handleClaim } = useVesting();
+  const { ethAddress, vestingInfo, isLoading, loadVestingInfo, handleClaim } = useVesting();
   const {
     vestingPeriod,
     totalClaimedAmount,
@@ -50,7 +49,7 @@ const Vesting = () => {
       header={
         <ViewHeader
           actionsComponent={
-            ethAddr && (
+            ethAddress && (
               <HoverIcon iconName="refresh" onClick={loadVestingInfo} size={18} spin={isLoading} />
             )
           }
@@ -92,7 +91,7 @@ const Vesting = () => {
           value={toOptionalFixed(claimableAmount)}
         />
 
-        {ethAddr && (
+        {ethAddress && (
           <>
             <Box alignCenter row className="!mt-6" justify="between">
               <Text className="pr-4 min-w-fit">{t('views.vesting.claimAmount')}</Text>
@@ -111,7 +110,7 @@ const Vesting = () => {
           </>
         )}
 
-        {ethAddr ? (
+        {ethAddress ? (
           <Button
             stretch
             className="mt-4"

@@ -76,6 +76,8 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
         (amount) =>
           fromWei(amount as BigNumber) > 0 && appDispatch(actions.setHasVestingAlloc(true)),
       );
+    } catch (error) {
+      console.error(error);
     } finally {
       contractCallInProgress = false;
     }
@@ -84,7 +86,6 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
   const getContractVestingInfo = useCallback(
     async (vestingType: VestingType) => {
       const skClient = await getSwapKitClient();
-      const ethAddress = skClient.getAddress(Chain.Ethereum);
       if (!ethAddress) return defaultVestingInfo;
       const contractType = vestingType === VestingType.THOR ? 'vesting' : 'vthor_vesting';
       const { abi, address } = contractConfig[contractType];
@@ -109,27 +110,25 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
         funcParams: [ethAddress, {}],
       })) as BigNumber;
 
-      appDispatch(
-        actions.setHasVestingAlloc(
-          fromWei(totalVestedAmount) > 0 ||
-            fromWei(totalClaimedAmount) > 0 ||
-            fromWei(claimableAmount) > 0,
-        ),
-      );
+      const totalVested = fromWei(totalVestedAmount || '0');
+      const totalClaimed = fromWei(totalClaimedAmount || '0');
+      const claimable = fromWei(claimableAmount || '0');
+      const hasAlloc = totalVested > 0 || totalClaimed > 0 || claimable > 0;
+
+      appDispatch(actions.setHasVestingAlloc(hasAlloc));
 
       return {
-        totalVestedAmount: fromWei(totalVestedAmount).toString(),
-        totalClaimedAmount: fromWei(totalClaimedAmount),
+        totalVestedAmount: totalVested.toString(),
+        totalClaimedAmount: totalClaimed,
         startTime: dayjs.unix(startTime).format('YYYY-MM-DD HH:MM:ss'),
         vestingPeriod: dayjs.duration(vestingPeriod * 1000).asDays() / 365,
         cliff: dayjs.duration(cliff * 1000).asDays() / 30,
-        initialRelease: fromWei(initialRelease).toString(),
-        claimableAmount: fromWei(claimableAmount),
-        hasAlloc:
-          BigNumber.from(totalVestedAmount).gt(0) || BigNumber.from(totalClaimedAmount).gt(0),
+        initialRelease: fromWei(initialRelease || '0').toString(),
+        claimableAmount: fromWei(claimableAmount || '0'),
+        hasAlloc,
       };
     },
-    [appDispatch],
+    [ethAddress, appDispatch],
   );
 
   const loadVestingInfo = useCallback(async () => {
@@ -141,6 +140,8 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
         [VestingType.THOR]: await getContractVestingInfo(VestingType.THOR),
         [VestingType.VTHOR]: await getContractVestingInfo(VestingType.VTHOR),
       });
+    } catch (error) {
+      console.error(error);
     } finally {
       contractCallInProgress = false;
       setIsLoading(false);
@@ -194,5 +195,5 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
     }
   }, [checkAlloc, loadVestingInfo, numberOfPendingApprovals, onlyCheckAlloc]);
 
-  return { checkAlloc, isLoading, vestingInfo, loadVestingInfo, handleClaim };
+  return { checkAlloc, isLoading, vestingInfo, loadVestingInfo, ethAddress, handleClaim };
 };
