@@ -109,7 +109,7 @@ export const useSwapQuote = ({
     setApprovalsLoading(true);
   }, [checkApprove, data?.routes, inputAmount, inputAsset, setSortedRoutes]);
 
-  const selectedRoute = useMemo(
+  const selectedRoute: RouteWithApproveType | undefined = useMemo(
     () =>
       (error || isLoading || inputAmount.assetAmount.isZero() ? undefined : swapQuote) || routes[0],
     [error, inputAmount.assetAmount, isLoading, routes, swapQuote],
@@ -138,7 +138,7 @@ export const useSwapQuote = ({
       ),
     [
       streamSwap,
-      selectedRoute.streamingSwap?.expectedOutputMaxSlippage,
+      selectedRoute?.streamingSwap?.expectedOutputMaxSlippage,
       selectedRoute?.expectedOutputMaxSlippage,
       outputAsset.decimal,
     ],

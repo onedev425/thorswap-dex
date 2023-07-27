@@ -143,7 +143,7 @@ export const TxLegPreview = ({
           borderRadius={4}
           flexDirection="column"
           gap={1.5}
-          maxW={horizontalView ? '130px' : 'none'}
+          maxW={horizontalView ? '160px' : 'none'}
           minW={horizontalView ? '110px' : 'none'}
           opacity={status === null ? 0.6 : 1}
           overflow="hidden"
@@ -208,13 +208,12 @@ export const TxLegPreview = ({
             <Text fontWeight="light" textAlign="center" textStyle="caption-xs">
               {leg.chain || 'unknown'}
             </Text>
+
             {leg && (
               <Flex>
                 {leg.chain ? (
                   <AssetIcon
-                    logoURI={tokenLogoURL({
-                      identifier: getChainIdentifier(leg.chain),
-                    })}
+                    logoURI={tokenLogoURL({ identifier: getChainIdentifier(leg.chain) })}
                     size={18}
                     ticker={leg.chain}
                   />
@@ -270,7 +269,7 @@ export const TxLegPreview = ({
               <Flex align="center" direction="column" gap={horizontalView ? 1 : 0}>
                 {leg.fromAmount ? (
                   <Text fontSize="10px" lineHeight="12px" textStyle="caption-xs">
-                    {Amount.fromAssetAmount(leg.fromAmount.replace(',', ''), 6).toSignificant(3)}
+                    {Amount.fromNormalAmount(leg.fromAmount).toSignificant(6)}
                   </Text>
                 ) : (
                   <Icon spin className="self-center" name="loader" size={12} />
@@ -281,50 +280,49 @@ export const TxLegPreview = ({
                 </Text>
               </Flex>
               <AssetIcon
-                logoURI={`${leg.fromAssetImage}` || '??'}
+                logoURI={leg.fromAssetImage || '??'}
                 size={horizontalView ? 30 : 22}
                 ticker={fromAssetTicker}
               />
             </Flex>
-            {!isTransfer && (
-              <Flex alignItems="center" flex={1} justify="center">
-                <Text textAlign="center" textStyle="subtitle2">
-                  →
-                </Text>
-              </Flex>
-            )}
-            {!isTransfer && (
-              <Flex
-                align="center"
-                direction={horizontalView ? 'column' : 'row'}
-                flex={4}
-                gap={1}
-                justifyContent="start"
-              >
-                <AssetIcon
-                  logoURI={`${leg.toAssetImage}` || '??'}
-                  size={horizontalView ? 30 : 22}
-                  ticker={toAssetTicker}
-                />
-                <Flex align="center" direction="column" gap={horizontalView ? 1 : 0}>
-                  {leg.toAmount || status === 'refund' ? (
-                    <Text fontSize="10px" lineHeight="12px" textStyle="caption-xs">
-                      {Amount.fromAssetAmount(
-                        (leg.toAmount || '0').replace(',', ''),
-                        6,
-                      ).toSignificant(3)}
-                    </Text>
-                  ) : (
-                    <Icon spin name="loader" size={14} />
-                  )}
 
-                  <Text fontSize="10px" lineHeight="12px">
-                    {toAssetTicker}
+            {!isTransfer && (
+              <>
+                <Flex alignItems="center" flex={1} justify="center">
+                  <Text textAlign="center" textStyle="subtitle2">
+                    →
                   </Text>
                 </Flex>
-              </Flex>
+                <Flex
+                  align="center"
+                  direction={horizontalView ? 'column' : 'row'}
+                  flex={4}
+                  gap={1}
+                  justifyContent="start"
+                >
+                  <AssetIcon
+                    logoURI={leg.toAssetImage || '??'}
+                    size={horizontalView ? 30 : 22}
+                    ticker={toAssetTicker}
+                  />
+                  <Flex align="center" direction="column" gap={horizontalView ? 1 : 0}>
+                    {leg.toAmount || status === 'refund' ? (
+                      <Text fontSize="10px" lineHeight="12px" textStyle="caption-xs">
+                        {Amount.fromNormalAmount(leg.toAmount || '0').toSignificant(6)}
+                      </Text>
+                    ) : (
+                      <Icon spin name="loader" size={14} />
+                    )}
+
+                    <Text fontSize="10px" lineHeight="12px">
+                      {toAssetTicker}
+                    </Text>
+                  </Flex>
+                </Flex>
+              </>
             )}
           </Flex>
+
           <Flex
             align="center"
             direction="row"
@@ -342,9 +340,7 @@ export const TxLegPreview = ({
               <Flex>
                 {leg.chain ? (
                   <AssetIcon
-                    logoURI={tokenLogoURL({
-                      identifier: getChainIdentifier(leg.chain),
-                    })}
+                    logoURI={tokenLogoURL({ identifier: getChainIdentifier(leg.chain) })}
                     size={22}
                     ticker={leg.chain}
                   />
@@ -359,6 +355,7 @@ export const TxLegPreview = ({
             )}
           </Flex>
         </Flex>
+
         <Flex justify={horizontalView ? 'center' : 'end'} position="relative" w="full">
           {transactionUrl && (
             <Link href={transactionUrl} target="_blank" zIndex={1}>
@@ -387,6 +384,7 @@ export const TxLegPreview = ({
           )}
         </Flex>
       </Flex>
+
       <Box display={horizontalView ? 'flex' : 'none'}>
         {!isLast && (
           <TxLegProvider horizontalView={horizontalView} isTransfer={isTransfer} leg={leg} />
