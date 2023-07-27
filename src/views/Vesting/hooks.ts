@@ -113,7 +113,6 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
         abi,
         contractAddress: address,
         funcName: 'vestingSchedule',
-        funcParams: [ethAddress, {}],
       })) || []) as [BigNumber, BigNumber, number, number, number, BigNumber];
       const claimableAmount = (await skClient.connectedWallets.ETH?.call({
         ...callParams,

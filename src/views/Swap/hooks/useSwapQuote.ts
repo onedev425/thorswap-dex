@@ -131,10 +131,17 @@ export const useSwapQuote = ({
   const minReceive: Amount = useMemo(
     () =>
       Amount.fromAssetAmount(
-        selectedRoute ? selectedRoute.expectedOutputMaxSlippage : 0,
+        (streamSwap && selectedRoute?.streamingSwap?.expectedOutputMaxSlippage) ||
+          selectedRoute?.expectedOutputMaxSlippage ||
+          0,
         outputAsset.decimal,
       ),
-    [selectedRoute, outputAsset],
+    [
+      streamSwap,
+      selectedRoute.streamingSwap?.expectedOutputMaxSlippage,
+      selectedRoute?.expectedOutputMaxSlippage,
+      outputAsset.decimal,
+    ],
   );
 
   useEffect(() => {
