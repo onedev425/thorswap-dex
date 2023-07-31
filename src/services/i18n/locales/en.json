@@ -20,7 +20,6 @@
     "showCustomDerivation": "Set Custom Derivation",
     "showCustomSend": "Show Send Custom Tx",
     "showMultisig": "Show Multi-sig Wallet",
-    "showPools": "Show Featured Pools",
     "showStats": "Show Global Stats",
     "theme": "App Theme",
     "themeDesc": "Theme for the app",
@@ -447,7 +446,6 @@
       "chart_volume": "Volume",
       "chart_withdraw": "Withdraw",
       "description": "Statistics for THORChain token pools",
-      "featuredPools": "Featured Pools",
       "title": "THORChain pool statistics"
     },
     "lending": {

@@ -288,14 +288,7 @@ const useProModeSettings = () => {
 };
 
 const useCompositionSettingsMenu = () => {
-  const {
-    setStatsShowStatus,
-    hideStats,
-    setChartsShowStatus,
-    hideCharts,
-    setPoolsShowStatus,
-    arePoolsHidden,
-  } = useApp();
+  const { setStatsShowStatus, hideStats, setChartsShowStatus, hideCharts } = useApp();
 
   const menu: MenuItemType[] = [
     {
@@ -307,11 +300,6 @@ const useCompositionSettingsMenu = () => {
       label: t('appMenu.showCharts'),
       status: !hideCharts,
       onClick: () => setChartsShowStatus(!hideCharts),
-    },
-    {
-      label: t('appMenu.showPools'),
-      status: !arePoolsHidden,
-      onClick: () => setPoolsShowStatus(!arePoolsHidden),
     },
   ];
 

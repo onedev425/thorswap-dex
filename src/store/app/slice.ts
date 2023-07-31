@@ -18,7 +18,6 @@ const initialState: State = {
   customSendVisible: getFromStorage('customSendVisible') as boolean,
   customDerivationVisible: getFromStorage('customDerivationVisible') as boolean,
   hideCharts: getFromStorage('chartsHidden') as boolean,
-  arePoolsHidden: getFromStorage('poolsHidden') as boolean,
   dismissedAnnList: getFromStorage('dismissedAnnList') as string[],
   seenAnnList: getFromStorage('seenAnnList') as string[],
   collapsedSidebarGroups: getFromStorage('collapsedSidebarGroups') as string[],
@@ -147,10 +146,6 @@ const appSlice = createSlice({
     setAnnSeenList(state, action: PayloadAction<string[]>) {
       state.seenAnnList = action.payload;
       saveInStorage({ key: 'seenAnnList', value: action.payload });
-    },
-    setPoolsShowStatus(state, action: PayloadAction<boolean>) {
-      state.arePoolsHidden = action.payload;
-      saveInStorage({ key: 'poolsHidden', value: action.payload });
     },
     toggleSidebarCollapse(state, action: PayloadAction<boolean>) {
       state.isSidebarCollapsed = action.payload;

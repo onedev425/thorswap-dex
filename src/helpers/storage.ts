@@ -25,7 +25,6 @@ type StorageType = {
   multisigVisible: boolean;
   multisigWallet: MultisigWallet | null;
   nodeWatchList: string[];
-  poolsHidden: boolean;
   previousWallet: null | HandleWalletConnectParams;
   readStatus: boolean;
   restorePreviousWallet: boolean;
@@ -77,7 +76,6 @@ type StoragePayload =
         | 'chartsHidden'
         | 'customRecipientMode'
         | 'expertMode'
-        | 'poolsHidden'
         | 'readStatus'
         | 'sidebarCollapsed'
         | 'analyticsVisible'
@@ -103,7 +101,6 @@ const defaultValues: StorageType = {
   multisigVisible: true,
   customSendVisible: false,
   customDerivationVisible: false,
-  poolsHidden: false,
   readStatus: false,
   restorePreviousWallet: false,
   sidebarCollapsed: false,
@@ -158,7 +155,6 @@ export const saveInStorage = ({ key, value }: StoragePayload) => {
     case 'multisigVisible':
     case 'customSendVisible':
     case 'customDerivationVisible':
-    case 'poolsHidden':
     case 'readStatus':
     case 'restorePreviousWallet':
     case 'sidebarCollapsed':
@@ -206,7 +202,6 @@ export const getFromStorage = (key: keyof StorageType): StorageType[keyof Storag
     case 'multisigVisible':
     case 'customSendVisible':
     case 'customDerivationVisible':
-    case 'poolsHidden':
     case 'readStatus':
     case 'restorePreviousWallet':
     case 'sidebarCollapsed':

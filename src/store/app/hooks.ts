@@ -132,13 +132,6 @@ export const useApp = () => {
     [dispatch],
   );
 
-  const setPoolsShowStatus = useCallback(
-    (arePoolsShown: boolean) => {
-      dispatch(actions.setPoolsShowStatus(arePoolsShown));
-    },
-    [dispatch],
-  );
-
   const setAnnDismissedList = useCallback(
     (dismissedAnnList: string[]) => {
       dispatch(actions.setAnnDismissedList(dismissedAnnList));
@@ -217,7 +210,6 @@ export const useApp = () => {
     toggleSidebarCollapse,
     setStatsShowStatus,
     setChartsShowStatus,
-    setPoolsShowStatus,
     setAnnDismissedList,
     setAnnSeenList,
     setMultisigShowStatus,
