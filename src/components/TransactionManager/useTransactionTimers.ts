@@ -1,5 +1,5 @@
 import { getTxState } from 'components/TransactionTracker/helpers';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { TxTrackerLeg } from 'store/transactions/types';
 
 type LegTimer = { timeLeft: number | null; isCompleted: boolean };
@@ -9,7 +9,11 @@ export const useTransactionTimers = (
   legs: TxTrackerLeg[],
   { isTxFinished, estimatedDuration }: Params,
 ) => {
-  const getLegsState = useCallback(() => {
+  const [refreshCounter, setRefreshCounter] = useState(1);
+
+  const legsTimers = useMemo(() => {
+    if (!legs.length || !refreshCounter) return [];
+
     const now = Date.now();
     const legsState: LegTimer[] = legs.map((leg) => {
       const { completed } = getTxState(leg.status);
@@ -31,8 +35,7 @@ export const useTransactionTimers = (
     });
 
     return legsState;
-  }, [legs]);
-  const [legsTimers, setLegTimers] = useState<LegTimer[]>(getLegsState);
+  }, [legs, refreshCounter]);
 
   const canUseLegsDuration = useMemo(() => {
     return legs.length && legs.every((leg) => typeof leg.estimatedDuration !== 'undefined');
@@ -61,26 +64,29 @@ export const useTransactionTimers = (
   }, [canUseLegsDuration, estimatedDuration, isTxFinished, legsTimers]);
 
   useEffect(() => {
-    setLegTimers(getLegsState());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     if (
+      !refreshCounter ||
       totalTimeLeft === null ||
       totalTimeLeft < 1000 ||
       isTxFinished ||
-      legsTimers.every((leg) => leg.timeLeft === 0)
+      legsTimers.every((leg) => Number(leg.timeLeft) < 1000)
     ) {
       return;
     }
 
-    const intervalId = setInterval(() => {
-      setLegTimers(getLegsState());
+    // recalculating state every second
+    const timeoutId = setTimeout(() => {
+      setRefreshCounter((v) => v + 1);
     }, 1000);
 
-    return () => clearInterval(intervalId);
-  }, [getLegsState, isTxFinished, legsTimers, totalTimeLeft]);
+    return () => clearTimeout(timeoutId);
+  }, [isTxFinished, legsTimers, refreshCounter, totalTimeLeft]);
+
+  useEffect(() => {
+    if (!refreshCounter) {
+      setRefreshCounter(1);
+    }
+  }, [refreshCounter]);
 
   return { legsTimers, totalTimeLeft };
 };

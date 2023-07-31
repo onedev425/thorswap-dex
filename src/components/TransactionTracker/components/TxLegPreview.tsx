@@ -356,7 +356,7 @@ export const TxLegPreview = ({
           </Flex>
         </Flex>
 
-        <Flex justify={horizontalView ? 'center' : 'end'} position="relative" w="full">
+        <Flex justify={horizontalView ? 'center' : 'end'} minH="28px" position="relative" w="full">
           {transactionUrl && (
             <Link href={transactionUrl} target="_blank" zIndex={1}>
               <Button

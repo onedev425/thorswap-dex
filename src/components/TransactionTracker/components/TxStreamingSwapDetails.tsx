@@ -26,7 +26,7 @@ export const TxStreamingSwapDetails = memo(
           )}
         </Flex>
 
-        <Flex flex={1} justify="flex-end">
+        <Flex flex={1} justify="flex-end" mt={1}>
           <TxStreamingSwapProgress progress={progress} total={total} />
         </Flex>
 

@@ -94,7 +94,6 @@ export const useSwap = ({
         }
 
         try {
-          const timestamp = new Date();
           const txid = await swap({
             route: swapRoute,
             feeOptionKey: feeOptionType,
@@ -102,6 +101,7 @@ export const useSwap = ({
           });
 
           if (typeof txid === 'string') {
+            const timestamp = new Date();
             appDispatch(updateTransaction({ id, txid, quoteId, route, timestamp }));
           } else {
             appDispatch(completeTransaction({ id, status: 'error' }));
