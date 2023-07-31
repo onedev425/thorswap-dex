@@ -24,7 +24,7 @@ export const midgardApi = createApi({
       keepUnusedDataFor: 300,
     }),
     getMonthlyTradeVolume: build.query<MidgardTradeHistory, void>({
-      query: () => '/history/ts-swaps?interval=month&count=1&unique=true',
+      query: () => 'https://mu.thorswap.net/ts-swaps?interval=month&count=1&unique=true',
     }),
     getTNSByOwnerAddress: build.query<string[], string>({
       query: (address) => `/thorname/owner/${address}`,
