@@ -147,6 +147,14 @@ const Staking = () => {
     [inputAmount, onAmountChange],
   );
 
+  const disabledButton = useMemo(() => {
+    return (
+      inputAmount.lte(0) ||
+      (action === StakeActions.Deposit && thorBalBn.lte(0)) ||
+      (action === StakeActions.Unstake && vthorBalBn.lte(0))
+    );
+  }, [action, inputAmount, thorBalBn, vthorBalBn]);
+
   return (
     <Box col className="self-center w-full max-w-[480px] mt-2">
       <Helmet
@@ -293,7 +301,7 @@ const Staking = () => {
 
         <ConfirmVThorButton
           action={action}
-          emptyInput={inputAmount.lte(0)}
+          disabledButton={disabledButton}
           ethAddress={ethAddress}
           handleVthorAction={handleVthorAction}
           inputAmount={inputAmount}

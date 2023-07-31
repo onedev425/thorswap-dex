@@ -5,7 +5,6 @@ import { Chain } from '@thorswap-lib/types';
 import { Box, Button } from 'components/Atomic';
 import { stakingV2Addr } from 'helpers/assets';
 import { memo, useCallback, useEffect, useState } from 'react';
-import { fromWei } from 'services/contract';
 import { t } from 'services/i18n';
 import { getSwapKitClient } from 'services/swapKit';
 import { VestingType } from 'views/Vesting/types';
@@ -15,7 +14,7 @@ import { StakeActions, useVthorUtil } from './hooks';
 type Props = {
   action: StakeActions;
   handleVthorAction: () => void;
-  emptyInput: boolean;
+  disabledButton: boolean;
   inputAmount: Amount;
   setIsConnectModalOpen: (isOpen: boolean) => void;
   ethAddress?: string;
@@ -27,11 +26,11 @@ export const ConfirmVThorButton = memo(
     handleVthorAction,
     ethAddress,
     setIsConnectModalOpen,
-    emptyInput,
+    disabledButton,
     inputAmount,
   }: Props) => {
     const [isApproved, setIsApproved] = useState(false);
-    const { vthorBalance, approveTHOR } = useVthorUtil();
+    const { approveTHOR } = useVthorUtil();
 
     const checkOnApprove = useCallback(async () => {
       const skClient = await getSwapKitClient();
@@ -61,7 +60,7 @@ export const ConfirmVThorButton = memo(
                 {isApproved ? (
                   <Button
                     stretch
-                    disabled={emptyInput}
+                    disabled={disabledButton}
                     onClick={handleVthorAction}
                     size="lg"
                     variant="fancy"
@@ -77,7 +76,7 @@ export const ConfirmVThorButton = memo(
             ) : (
               <Button
                 stretch
-                disabled={emptyInput || fromWei(vthorBalance) === 0}
+                disabled={disabledButton}
                 onClick={handleVthorAction}
                 size="lg"
                 variant="fancy"
