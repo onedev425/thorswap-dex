@@ -12,6 +12,7 @@ type Props = {
   disabled?: boolean;
   isOpen?: boolean;
   stretch?: boolean;
+  onClick?: () => void;
 } & ({ iconName: IconName; children?: undefined } | PropsWithChildren<{ iconName?: undefined }>);
 
 const TOOLTIP_ICON = 14;
@@ -25,6 +26,7 @@ export const Tooltip = ({
   disabled = false,
   isOpen,
   stretch,
+  onClick,
 }: Props) => {
   const { isMdActive } = useWindowSize();
 
@@ -66,7 +68,13 @@ export const Tooltip = ({
       p={0}
       placement={place}
     >
-      <div className={classNames({ 'w-full': stretch })}>
+      <div
+        className={classNames({ 'cursor-pointer': onClick, 'w-full': stretch })}
+        onClick={(e) => {
+          e.stopPropagation();
+          onClick?.();
+        }}
+      >
         {children || <Icon color="secondary" name={iconName as IconName} size={TOOLTIP_ICON} />}
       </div>
     </CustomizeTooltip>

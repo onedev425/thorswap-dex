@@ -21,3 +21,4 @@ export const YIELD_BEARING_YOUTUBE = 'https://www.youtube.com/watch?v=Up2-arSzH5
 export const SAVERS_MEDIUM = `https://medium.com/thorchain/thorchain-savers-vaults-fc3f086b4057`;
 export const INTRODUCTION_TO_LUVI_URL =
   'https://medium.com/thorchain/introduction-to-luvi-and-midgard-apr-calculation-update-cf15e743276d';
+export const STREAMING_SWAPS_URL = 'https://docs.thorswap.finance/thorswap/thorswap/streaming-swaps';

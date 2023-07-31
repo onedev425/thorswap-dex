@@ -47,7 +47,7 @@ export const THORYIELD_STATS_ROUTE = 'https://app.thoryield.com/stats';
 const getAssetRoute = (route: ROUTES, asset?: Asset) =>
   `${route}${asset ? `/${asset.toURLEncoded()}` : ''}`;
 
-const navigateToExternalLink = (url: string) => {
+export const navigateToExternalLink = (url: string) => {
   window.open(url, '_blank noreferrer noopener');
 };
 

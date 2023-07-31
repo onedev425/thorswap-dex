@@ -3,9 +3,11 @@ import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Icon, Tooltip } from 'components/Atomic';
 import { RouteWithApproveType } from 'components/SwapRouter/types';
 import { formatDuration } from 'components/TransactionTracker/helpers';
+import { STREAMING_SWAPS_URL } from 'config/constants';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
+import { navigateToExternalLink } from 'settings/router';
 
 type Props = {
   streamSwap: boolean;
@@ -50,10 +52,14 @@ export const SwapOptimizeSection = ({
       <Card gap={2} p={3} sx={{ w: 'full', borderRadius: 16 }} variant="filledContainerTertiary">
         <Flex>
           <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
-            {t('views.swap.streamingSwapAvailable')}
+            {t('views.swap.priceOptimizationAvailable')}
           </Text>
 
-          <Tooltip content="Optimization tooltip" place="bottom">
+          <Tooltip
+            content={t('views.swap.priceOptimizationInfo')}
+            onClick={() => navigateToExternalLink(STREAMING_SWAPS_URL)}
+            place="bottom"
+          >
             <Icon className="ml-1" color="secondary" name="infoCircle" size={18} />
           </Tooltip>
         </Flex>
