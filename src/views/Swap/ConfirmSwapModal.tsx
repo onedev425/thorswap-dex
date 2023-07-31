@@ -88,6 +88,7 @@ export const ConfirmSwapModal = memo(
           recipient={recipient}
           showSmallSwapWarning={showSmallSwapWarning}
           slippageInfo={slippageInfo}
+          streamSwap={streamSwap}
           swapMemo={memo}
           totalFee={totalFee}
         />
