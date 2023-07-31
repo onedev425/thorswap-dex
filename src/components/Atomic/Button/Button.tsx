@@ -85,7 +85,6 @@ export const Button = ({
       place={tooltipPlacement}
       stretch={stretch}
     >
-      {/* @ts-ignore */}
       <ChakraButton
         {...props}
         iconSpacing={iconSpacing}

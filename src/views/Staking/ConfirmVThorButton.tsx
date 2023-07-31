@@ -3,15 +3,14 @@ import { parseUnits } from '@ethersproject/units';
 import { Amount } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button } from 'components/Atomic';
-import { getV2Address } from 'helpers/assets';
+import { stakingV2Addr } from 'helpers/assets';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { fromWei } from 'services/contract';
 import { t } from 'services/i18n';
 import { getSwapKitClient } from 'services/swapKit';
-import { useWallet } from 'store/wallet/hooks';
-import { StakeActions } from 'views/StakeVThor/types';
-import { useVthorUtil } from 'views/StakeVThor/useVthorUtil';
 import { VestingType } from 'views/Vesting/types';
+
+import { StakeActions, useVthorUtil } from './hooks';
 
 type Props = {
   action: StakeActions;
@@ -31,24 +30,23 @@ export const ConfirmVThorButton = memo(
     emptyInput,
     inputAmount,
   }: Props) => {
-    const { wallet } = useWallet();
     const [isApproved, setIsApproved] = useState(false);
     const { vthorBalance, approveTHOR } = useVthorUtil();
 
     const checkOnApprove = useCallback(async () => {
       const skClient = await getSwapKitClient();
       const ethWalletMethods = skClient.connectedWallets[Chain.Ethereum];
-      if (!ethWalletMethods || !wallet?.ETH?.address) return;
+      if (!ethWalletMethods || !ethAddress) return;
 
       const isApproved = await ethWalletMethods?.isApproved?.({
-        from: wallet?.ETH?.address,
-        spenderAddress: getV2Address(VestingType.VTHOR),
-        assetAddress: getV2Address(VestingType.THOR),
+        from: ethAddress,
+        spenderAddress: stakingV2Addr[VestingType.VTHOR],
+        assetAddress: stakingV2Addr[VestingType.THOR],
         amount: parseUnits(inputAmount.assetAmount.toFixed(), 18) || MaxInt256,
       });
 
       setIsApproved(!!isApproved);
-    }, [wallet?.ETH?.address, inputAmount]);
+    }, [ethAddress, inputAmount]);
 
     useEffect(() => {
       checkOnApprove();

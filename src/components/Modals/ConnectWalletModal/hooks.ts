@@ -57,10 +57,8 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
               type: WalletType.MetaMask,
               icon: 'metamask',
               disabled:
-                // @ts-ignore TODO: remove after finding solution for new chains
                 getETHDefaultWallet() !== WalletOption.METAMASK || isDetected(WalletOption.BRAVE),
               label: t('views.walletModal.metaMask'),
-              // @ts-ignore TODO: remove after finding solution for new chains
               tooltip: isDetected(WalletOption.BRAVE)
                 ? t('views.walletModal.disableBraveWallet')
                 : getETHDefaultWallet() !== WalletOption.METAMASK
@@ -70,13 +68,11 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
                 : '',
             },
             {
-              // @ts-ignore TODO: remove after finding solution for new chains
               disabled: !isDetected(WalletOption.COINBASE_WEB),
               icon: 'coinbaseWallet' as IconName,
               type: WalletType.CoinbaseExtension,
               visible: isMdActive,
               label: t('views.walletModal.coinbaseWalletWeb'),
-              // @ts-ignore TODO: remove after finding solution for new chains
               tooltip: isDetected(WalletOption.BRAVE)
                 ? t('views.walletModal.disableDefaultWallet', {
                     wallet: WalletNameByWalletOption[getETHDefaultWallet()],
@@ -91,13 +87,12 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
             },
             {
               disabled:
-                // @ts-ignore TODO: remove after finding solution for new chains
                 !isDetected(WalletOption.BRAVE) || getETHDefaultWallet() !== WalletOption.BRAVE,
               icon: 'brave' as IconName,
               type: WalletType.Brave,
               visible: isMdActive,
               label: t('views.walletModal.braveWallet'),
-              // @ts-ignore
+              // @ts-expect-error
               tooltip: !(navigator.brave && (await navigator.brave.isBrave()))
                 ? t('views.walletModal.installBraveBrowser')
                 : getETHDefaultWallet() !== WalletOption.BRAVE
@@ -105,13 +100,13 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
                 : '',
             },
             {
-              // @ts-ignore TODO: remove after finding solution for window sharing with swapkit
+              // @ts-expect-error TODO: remove after finding solution for window sharing with swapkit
               disabled: !window.okxwallet,
               icon: 'okx' as IconName,
               type: WalletType.Okx,
               visible: isMdActive,
               label: t('views.walletModal.okxWallet'),
-              // @ts-ignore
+              // @ts-expect-error
               tooltip: window.okxwallet ? '' : t('views.walletModal.installOkxWallet'),
             },
             {

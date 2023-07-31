@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import { BigNumber } from '@ethersproject/bignumber';
-import { Amount } from '@thorswap-lib/swapkit-core';
+import { Amount, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { WalletOption } from '@thorswap-lib/types';
 import BN from 'bignumber.js';
 import classNames from 'classnames';
@@ -12,22 +12,27 @@ import { HighlightCard } from 'components/HighlightCard';
 import { InputAmount } from 'components/InputAmount';
 import { TabsSelect } from 'components/TabsSelect';
 import { ViewHeader } from 'components/ViewHeader';
-import { VestingType } from 'helpers/assets';
+import { stakingV2Addr, VestingType } from 'helpers/assets';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { toOptionalFixed } from 'helpers/number';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { fromWei, toWeiFromString } from 'services/contract';
+import { fromWei, getCustomContract, toWeiFromString } from 'services/contract';
 import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
-import { ConfirmVThorButton } from 'views/StakeVThor/ConfirmVThorButton';
-import { ConfirmVThorModal } from 'views/StakeVThor/ConfirmVThorModal';
-import { StakeActions, vThorAssets } from 'views/StakeVThor/types';
-import { useVthorUtil } from 'views/StakeVThor/useVthorUtil';
-import { VThorInfo } from 'views/StakeVThor/VThorInfo';
 
-import { getTokenBalance } from './utils';
+import { ConfirmVThorButton } from './ConfirmVThorButton';
+import { ConfirmVThorModal } from './ConfirmVThorModal';
+import { StakeActions, useVthorUtil } from './hooks';
+import { VThorInfo } from './VThorInfo';
 
-const StakeVThor = () => {
+const getTokenBalance = async (contractType: VestingType, ethAddr: string) => {
+  const contract = getCustomContract(stakingV2Addr[contractType]);
+  const tokenBalance = await contract.balanceOf(ethAddr);
+
+  return tokenBalance;
+};
+
+const Staking = () => {
   const tabs = [
     { label: t('views.stakingVThor.stakeVThor'), value: StakeActions.Deposit },
     { label: t('views.stakingVThor.unstake'), value: StakeActions.Unstake },
@@ -44,6 +49,12 @@ const StakeVThor = () => {
   const formatter = useFormatPrice({ prefix: '' });
   const { getRateString, previewDeposit, previewRedeem, stakeThor, unstakeThor } = useVthorUtil();
   const { wallet, setIsConnectModalOpen } = useWallet();
+  const isDeposit = useMemo(() => action === StakeActions.Deposit, [action]);
+
+  const stakingAsset = useMemo(
+    () => getSignatureAssetFor(isDeposit ? 'ETH_THOR' : 'ETH_VTHOR'),
+    [isDeposit],
+  );
 
   const { walletType: ethWalletType, address: ethAddress } = useMemo(
     () => wallet?.ETH || { walletType: undefined, address: undefined },
@@ -72,15 +83,13 @@ const StakeVThor = () => {
 
   const handleMaxClick = useCallback(() => {
     const maxAmountBN = Amount.fromBaseAmount(
-      action === StakeActions.Deposit
-        ? new BN(thorBalBn.toString())
-        : new BN(vthorBalBn.toString()),
+      isDeposit ? new BN(thorBalBn.toString()) : new BN(vthorBalBn.toString()),
       18,
     ).assetAmount;
 
     setInputAmount(Amount.fromAssetAmount(new BN(maxAmountBN.toString()), 18));
 
-    if (action === StakeActions.Deposit) {
+    if (isDeposit) {
       const expectedOutput = previewDeposit(
         BigNumber.from(toWeiFromString(maxAmountBN.toString())),
       );
@@ -89,28 +98,29 @@ const StakeVThor = () => {
       const expectedOutput = previewRedeem(toWeiFromString(maxAmountBN.toString()));
       setOutputAmount(expectedOutput);
     }
-  }, [action, thorBalBn, vthorBalBn, previewDeposit, previewRedeem]);
+  }, [isDeposit, thorBalBn, vthorBalBn, previewDeposit, previewRedeem]);
 
   const onAmountChange = useCallback(
     (amount: Amount, targetAction?: StakeActions) => {
-      const stakeAction = targetAction || action;
       setInputAmount(amount);
       const amountBN = toWeiFromString(amount.assetAmount.toFixed());
       const expectedOutput =
-        stakeAction === StakeActions.Deposit ? previewDeposit(amountBN) : previewRedeem(amountBN);
+        targetAction === StakeActions.Deposit || isDeposit
+          ? previewDeposit(amountBN)
+          : previewRedeem(amountBN);
 
       setOutputAmount(expectedOutput);
     },
-    [action, previewDeposit, previewRedeem],
+    [isDeposit, previewDeposit, previewRedeem],
   );
 
   const handleAction = useCallback(() => {
     if (!ethAddress) return;
 
     const amount = toWeiFromString(inputAmount.assetAmount.toFixed());
-    const thorAction = action === StakeActions.Deposit ? stakeThor : unstakeThor;
+    const thorAction = isDeposit ? stakeThor : unstakeThor;
     thorAction(amount, ethAddress);
-  }, [action, ethAddress, inputAmount.assetAmount, stakeThor, unstakeThor]);
+  }, [ethAddress, inputAmount.assetAmount, isDeposit, stakeThor, unstakeThor]);
 
   const handleVthorAction = useCallback(() => {
     if (ethWalletType === WalletOption.KEYSTORE) {
@@ -127,6 +137,15 @@ const StakeVThor = () => {
   const closeModal = useCallback(() => {
     setModalOpened(false);
   }, []);
+
+  const handleTabChange = useCallback(
+    (val: string) => {
+      setAction(val as StakeActions);
+      setReverted(val !== StakeActions.Deposit);
+      onAmountChange(inputAmount, val as StakeActions);
+    },
+    [inputAmount, onAmountChange],
+  );
 
   return (
     <Box col className="self-center w-full max-w-[480px] mt-2">
@@ -148,7 +167,7 @@ const StakeVThor = () => {
         </Tooltip>
       </Box>
 
-      <VThorInfo ethAddress={ethAddress} />
+      <VThorInfo ethAddress={ethAddress} walletType={ethWalletType} />
 
       <Card
         stretch
@@ -156,16 +175,9 @@ const StakeVThor = () => {
         size="lg"
       >
         <Box className="self-stretch">
-          <TabsSelect
-            onChange={(val: string) => {
-              setAction(val as StakeActions);
-              setReverted(val !== StakeActions.Deposit);
-              onAmountChange(inputAmount, val as StakeActions);
-            }}
-            tabs={tabs}
-            value={action}
-          />
+          <TabsSelect onChange={handleTabChange} tabs={tabs} value={action} />
         </Box>
+
         <Box className="relative self-stretch">
           <Box
             center
@@ -178,7 +190,7 @@ const StakeVThor = () => {
           >
             <Icon
               className={classNames('p-1 transition-all', {
-                '-scale-x-100': action === StakeActions.Deposit,
+                '-scale-x-100': isDeposit,
               })}
               color="white"
               name="arrowDown"
@@ -198,7 +210,7 @@ const StakeVThor = () => {
                   <Box center row className="gap-1 pr-2 md:pr-0">
                     <Text fontWeight="medium" variant="secondary">
                       {t('common.balance')}:{' '}
-                      {action === StakeActions.Deposit
+                      {isDeposit
                         ? toOptionalFixed(fromWei(thorBalBn))
                         : toOptionalFixed(fromWei(vthorBalBn))}
                     </Text>
@@ -227,15 +239,14 @@ const StakeVThor = () => {
                 </Box>
 
                 <Box center className="gap-3">
-                  <Text textStyle="subtitle2">
-                    {action === StakeActions.Deposit ? 'THOR' : 'vTHOR'}
-                  </Text>
-                  <AssetIcon asset={vThorAssets[action]} size={34} />
+                  <Text textStyle="subtitle2">{stakingAsset.name}</Text>
+                  <AssetIcon asset={stakingAsset} size={34} />
                 </Box>
               </Box>
             </Box>
           </HighlightCard>
         </Box>
+
         <Card className="!bg-light-bg-primary dark:!bg-dark-gray-light !rounded-2xl self-stretch !py-3 gap-2 justify-between md:px-6">
           <Box col className="self-stretch flex-1 md:pl-0">
             <Box className="gap-3 self-stretch !mb-3">
@@ -252,21 +263,13 @@ const StakeVThor = () => {
               </Box>
 
               <Box center className="gap-3">
-                <Text textStyle="subtitle2">
-                  {action === StakeActions.Deposit ? 'vTHOR' : 'THOR'}
-                </Text>
-                <AssetIcon
-                  asset={
-                    action === StakeActions.Deposit
-                      ? vThorAssets[StakeActions.Unstake]
-                      : vThorAssets[StakeActions.Deposit]
-                  }
-                  size={34}
-                />
+                <Text textStyle="subtitle2">{isDeposit ? 'vTHOR' : 'THOR'}</Text>
+                <AssetIcon asset={stakingAsset} size={34} />
               </Box>
             </Box>
           </Box>
         </Card>
+
         <Card className="self-stretch align-center !bg-light-bg-primary dark:!bg-dark-gray-light !rounded-2xl !py-2.5">
           <Box alignCenter className="flex-1 gap-2" justify="between">
             <Box center className="gap-2">
@@ -299,15 +302,15 @@ const StakeVThor = () => {
       </Card>
 
       <ConfirmVThorModal
-        action={action}
         closeModal={closeModal}
         handleAction={handleAction}
         inputAmount={inputAmount}
         isOpened={isModalOpened}
         outputAmount={outputAmount}
+        stakingAsset={stakingAsset}
       />
     </Box>
   );
 };
 
-export default StakeVThor;
+export default Staking;

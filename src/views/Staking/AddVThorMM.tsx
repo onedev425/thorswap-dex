@@ -2,16 +2,19 @@ import { BaseDecimal, WalletOption } from '@thorswap-lib/types';
 import { Button, Icon } from 'components/Atomic';
 import { stakingV2Addr } from 'helpers/assets';
 import { getCustomIconImageUrl } from 'helpers/logoURL';
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import { t } from 'services/i18n';
-import { useWallet } from 'store/wallet/hooks';
 
-export const AddVThorMM = memo(() => {
-  const { wallet } = useWallet();
-  const addVTHOR = async () => {
+type Props = {
+  walletType?: WalletOption;
+};
+
+export const AddVThorMM = memo(({ walletType }: Props) => {
+  const addVTHOR = useCallback(async () => {
+    // TODO: Use provider from currently connected wallet
     const provider =
       // @ts-expect-error window types
-      wallet?.ETH?.walletType === WalletOption.XDEFI ? window.xfi?.ethereum : window.ethereum;
+      walletType === WalletOption.XDEFI ? window.xfi?.ethereum : window.ethereum;
 
     await provider?.request({
       method: 'wallet_watchAsset',
@@ -25,7 +28,7 @@ export const AddVThorMM = memo(() => {
         },
       },
     });
-  };
+  }, [walletType]);
 
   return (
     <Button

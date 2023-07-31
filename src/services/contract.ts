@@ -65,19 +65,6 @@ export const contractConfig: Record<ContractType, { address: string; abi: any }>
   },
 };
 
-export const lpContractConfig: Record<LPContractType, { tokenAddr: string; stakingAddr: string }> =
-  {
-    [LPContractType.THOR]: {
-      tokenAddr: '0xa5f2211B9b8170F694421f2046281775E8468044',
-      stakingAddr: '0x6755630c583f12fFBD10568EB633c0319dB34922',
-    },
-    [LPContractType.THOR_ETH]: {
-      // SUSHI SLP Address
-      tokenAddr: '0x3D3F13F2529eC3C84B2940155EffBf9b39a8f3Ec',
-      stakingAddr: '0xae1Fc3947Ee83aeb3b7fEC237BCC1D194C88BC24',
-    },
-  };
-
 export const fromWei = (amountInWei: BigNumber) => {
   return parseFloat(formatUnits(amountInWei, 'ether'));
 };
@@ -98,21 +85,10 @@ export const getEtherscanContract = (contractType: ContractType) => {
 export const getCustomContract = (contractAddr: string, abi?: ContractInterface) => {
   const address = getAddress(contractAddr.toLowerCase());
 
-  // @ts-ignore TODO: remove after package version issue is fixed
   return new Contract(address, abi ? abi : ERC20ABI, getProvider(Chain.Ethereum));
 };
 
-export const getLPContractAddress = (contractType: LPContractType) =>
-  lpContractConfig[contractType].tokenAddr.toLowerCase();
-
 export const getContractAddress = (contractType: ContractType) => contractConfig[contractType];
-
-export const getLpTokenBalance = async (contractType: LPContractType) => {
-  const { tokenAddr, stakingAddr } = lpContractConfig[contractType];
-
-  const tokenContract = getCustomContract(tokenAddr);
-  return await tokenContract.balanceOf(stakingAddr);
-};
 
 export const getBlockRewards = async () => {
   let blockReward = parseFloat(
@@ -137,15 +113,12 @@ export const triggerContractCall = async (
 
   const { address, abi } = contractConfig[contractType];
 
-  //@ts-ignore
   const populatedTransaction = await ethWalletMethods.createContractTxObject({
     contractAddress: address,
     abi,
     funcName,
-    //@ts-ignore
-    funcParams: [...funcParams, { from: await ethWalletMethods.getAddress() }],
+    funcParams: [...funcParams, { from: ethWalletMethods.getAddress() }],
   });
 
-  //@ts-ignore
   return ethWalletMethods.sendTransaction(populatedTransaction, FeeOption.Fast);
 };

@@ -1,4 +1,5 @@
 import { Text } from '@chakra-ui/react';
+import { WalletOption } from '@thorswap-lib/types';
 import { Box, Icon, Link, Tooltip } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoTip } from 'components/InfoTip';
@@ -9,25 +10,25 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import { fromWei } from 'services/contract';
 import { t } from 'services/i18n';
 import { ROUTES } from 'settings/router';
-import { useV1ThorStakeInfo } from 'views/LegacyStake/hooks';
-import { AddVThorMM } from 'views/StakeVThor/AddVThorMM';
-import { useVthorUtil } from 'views/StakeVThor/useVthorUtil';
+
+import { AddVThorMM } from './AddVThorMM';
+import { useV1ThorStakeInfo, useVthorUtil } from './hooks';
 
 type Props = {
   ethAddress?: string;
+  walletType?: WalletOption;
 };
 
-export const VThorInfo = memo(({ ethAddress }: Props) => {
+export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
   const [isFetching, setIsFetching] = useState(false);
   const [isStakeInfoOpen, setStakeInfoOpen] = useState(true);
   const [vthorApr, setVthorApr] = useState(0);
   const { thorStaked, vthorBalance, handleRefresh, thorRedeemable } = useVthorUtil();
   const formatPrice = useFormatPrice({ prefix: '' });
-  const { hasStakedV1Thor } = useV1ThorStakeInfo();
+  const { hasStakedV1Thor } = useV1ThorStakeInfo(ethAddress);
 
   const handleStatsRefresh = useCallback(() => {
     setIsFetching(true);
-
     handleRefresh();
 
     setTimeout(() => setIsFetching(false), 1000);
@@ -86,7 +87,7 @@ export const VThorInfo = memo(({ ethAddress }: Props) => {
             </Text>
 
             <Box alignCenter row className="gap-2">
-              <AddVThorMM />
+              <AddVThorMM walletType={walletType} />
               <HoverIcon iconName="refresh" onClick={handleStatsRefresh} spin={isFetching} />
             </Box>
           </Box>

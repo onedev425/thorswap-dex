@@ -1,9 +1,17 @@
 import { BigNumber } from '@ethersproject/bignumber';
+import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { showErrorToast } from 'components/Toast';
-import { getV2Address, getV2Asset, VestingType } from 'helpers/assets';
+import { stakingV2Addr, VestingType } from 'helpers/assets';
 import { toOptionalFixed } from 'helpers/number';
 import { useCallback, useEffect, useState } from 'react';
-import { ContractType, fromWei, triggerContractCall } from 'services/contract';
+import {
+  contractConfig,
+  ContractType,
+  fromWei,
+  getCustomContract,
+  getEtherscanContract,
+  triggerContractCall,
+} from 'services/contract';
 import { t } from 'services/i18n';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
@@ -11,7 +19,49 @@ import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 
-import { getStakedThorAmount, getVthorState } from './utils';
+export enum StakeActions {
+  Unstake = 'unstake',
+  Deposit = 'deposit',
+}
+
+export const useV1ThorStakeInfo = (ethAddress?: string) => {
+  const [stakedThorAmount, setStakedThorAmount] = useState<null | BigNumber>(null);
+
+  const getStakedThorAmount = useCallback(async () => {
+    if (ethAddress) {
+      // V1 $thor stake
+      const stakingContract = getEtherscanContract(ContractType.STAKING_THOR);
+      const { amount } = await stakingContract.userInfo(0, ethAddress);
+
+      setStakedThorAmount(amount as BigNumber);
+    }
+  }, [ethAddress]);
+
+  useEffect(() => {
+    getStakedThorAmount();
+  }, [getStakedThorAmount]);
+
+  const hasStakedV1Thor = !!stakedThorAmount && BigNumber.from(stakedThorAmount).gt(0);
+
+  return { stakedThorAmount, hasStakedV1Thor };
+};
+
+const getStakedThorAmount = async () => {
+  const contract = getCustomContract(stakingV2Addr[VestingType.THOR]);
+  const stakedThorAmount = await contract.balanceOf(stakingV2Addr[VestingType.VTHOR]);
+
+  return stakedThorAmount;
+};
+
+export const getVthorState = async (methodName: string, args?: FixMe[]) => {
+  const contract = getCustomContract(
+    contractConfig[ContractType.VTHOR].address,
+    contractConfig[ContractType.VTHOR].abi,
+  );
+  const resp = await contract[methodName](...(args ?? []));
+
+  return resp;
+};
 
 export const useVthorUtil = () => {
   const appDispatch = useAppDispatch();
@@ -68,7 +118,7 @@ export const useVthorUtil = () => {
   const approveTHOR = useCallback(async () => {
     if (!ethAddr) return;
 
-    const thorAsset = getV2Asset(VestingType.THOR);
+    const thorAsset = getSignatureAssetFor('ETH_THOR');
     const id = v4();
 
     appDispatch(
@@ -84,10 +134,7 @@ export const useVthorUtil = () => {
     const { approveAssetForContract } = await (await import('services/swapKit')).getSwapKitClient();
 
     try {
-      const txid = await approveAssetForContract(
-        getV2Asset(VestingType.THOR),
-        getV2Address(VestingType.VTHOR),
-      );
+      const txid = await approveAssetForContract(thorAsset, stakingV2Addr[VestingType.VTHOR]);
 
       if (typeof txid === 'string') {
         appDispatch(updateTransaction({ id, txid }));
@@ -159,13 +206,13 @@ export const useVthorUtil = () => {
       const amount = Number(fromWei(stakeAmount).toFixed(4));
       if (amount === 0) return;
 
-      const thorAsset = getV2Asset(VestingType.THOR);
       const id = v4();
+      const thorAsset = getSignatureAssetFor('ETH_THOR');
       appDispatch(
         addTransaction({
           id,
           from: ethAddr,
-          label: `${t('txManager.stake')} ${amount / 1} ${thorAsset.name}`,
+          label: `${t('txManager.stake')} ${amount} ${thorAsset.name}`,
           inChain: thorAsset.L1Chain,
           type: TransactionType.ETH_STATUS,
         }),
@@ -175,6 +222,7 @@ export const useVthorUtil = () => {
 
       let hash;
       try {
+        // TODO: rewrite to call from swapkit
         hash = (await triggerContractCall(ContractType.VTHOR, 'deposit', [
           stakeAmount,
           receiverAddr,
@@ -193,7 +241,7 @@ export const useVthorUtil = () => {
 
   const unstakeThor = useCallback(
     async (unstakeAmount: BigNumber, receiverAddr: string) => {
-      const vthorAsset = getV2Asset(VestingType.VTHOR);
+      const vthorAsset = getSignatureAssetFor('ETH_VTHOR');
       const amount = Number(fromWei(unstakeAmount).toFixed(4)) / 1;
 
       const id = v4();

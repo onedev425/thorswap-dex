@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { fromWei } from 'services/contract';
-import { getVthorState } from 'views/StakeVThor/utils';
+import { getVthorState } from 'views/Staking/hooks';
 
 export const useVTHORBalance = (address?: string) => {
   const [VTHORBalance, setVTHORBalance] = useState(0);

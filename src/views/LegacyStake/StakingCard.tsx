@@ -16,8 +16,6 @@ import {
   fromWei,
   getCustomContract,
   getEtherscanContract,
-  getLPContractAddress,
-  getLpTokenBalance,
   LPContractType,
   triggerContractCall,
 } from 'services/contract';
@@ -29,7 +27,7 @@ import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 
 import { StakeConfirmModal } from './components/StakeConfirmModal';
-import { useStakingModal } from './hooks';
+import { getLPContractAddress, getLpTokenBalance, useStakingModal } from './hooks';
 import { FarmActionType } from './types';
 
 type Props = {

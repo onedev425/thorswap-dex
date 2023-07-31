@@ -1,15 +1,14 @@
 import { Text } from '@chakra-ui/react';
-import { Amount } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Icon } from 'components/Atomic';
 import { ChainBadge } from 'components/ChainBadge';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { toOptionalFixed } from 'helpers/number';
 import { useCallback } from 'react';
-import { StakeActions, vThorAssets } from 'views/StakeVThor/types';
 
 type Props = {
-  action: StakeActions;
+  stakingAsset: AssetEntity;
   isOpened: boolean;
   closeModal: () => void;
   handleAction: () => void;
@@ -20,13 +19,11 @@ type Props = {
 export const ConfirmVThorModal = ({
   inputAmount,
   outputAmount,
-  action,
+  stakingAsset,
   handleAction,
   closeModal,
   isOpened,
 }: Props) => {
-  const asset = action === StakeActions.Deposit ? vThorAssets.unstake : vThorAssets.deposit;
-
   const handleConfirm = useCallback(() => {
     closeModal();
     handleAction();
@@ -34,7 +31,7 @@ export const ConfirmVThorModal = ({
 
   return (
     <ConfirmModal
-      inputAssets={[vThorAssets[action]]}
+      inputAssets={[stakingAsset]}
       isOpened={isOpened}
       onClose={closeModal}
       onConfirm={handleConfirm}
@@ -42,25 +39,25 @@ export const ConfirmVThorModal = ({
       <Box className="w-full">
         <Box alignCenter row className="w-full" justify="between">
           <Box center col className="flex-1 p-4 rounded-2xl">
-            <AssetIcon asset={vThorAssets[action]} />
+            <AssetIcon asset={stakingAsset} />
             <Box center className="pt-2">
-              <ChainBadge asset={vThorAssets[action]} />
+              <ChainBadge asset={stakingAsset} />
             </Box>
             <Box center className="w-full">
               <Text fontWeight="medium" textStyle="caption">
-                {toOptionalFixed(inputAmount.assetAmount.toNumber())} {vThorAssets[action].ticker}
+                {toOptionalFixed(inputAmount.assetAmount.toNumber())} {stakingAsset.ticker}
               </Text>
             </Box>
           </Box>
           <Icon className="mx-2 -rotate-90" name="arrowDown" />
           <Box center col className="flex-1 p-4 rounded-2xl">
-            <AssetIcon asset={asset} />
+            <AssetIcon asset={stakingAsset} />
             <Box center className="pt-2">
-              <ChainBadge asset={asset} />
+              <ChainBadge asset={stakingAsset} />
             </Box>
             <Box center className="w-full">
               <Text fontWeight="medium" textStyle="caption">
-                {toOptionalFixed(outputAmount)} {asset.ticker}
+                {toOptionalFixed(outputAmount)} {stakingAsset.ticker}
               </Text>
             </Box>
           </Box>

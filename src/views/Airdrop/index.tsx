@@ -4,14 +4,23 @@ import { InfoRow } from 'components/InfoRow';
 import { PanelView } from 'components/PanelView';
 import { TabsSelect } from 'components/TabsSelect';
 import { ViewHeader } from 'components/ViewHeader';
+import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { AirdropBanner } from 'views/Airdrop/components/AirdropBanner';
-import { useVthorUtil } from 'views/StakeVThor/useVthorUtil';
+import { useVthorUtil } from 'views/Staking/hooks';
 
 import { useAirdrop } from './hooks';
-import { airdropTabs, AirdropType } from './types';
+import { AirdropType } from './types';
 
 const Airdrop = () => {
+  const airdropTabs = useMemo(
+    () => [
+      { label: t('views.airdrop.claimAndStake'), value: AirdropType.CLAIM_AND_STAKE },
+      { label: t('views.airdrop.claim'), value: AirdropType.CLAIM },
+    ],
+    [],
+  );
+
   const {
     isWhitelisted,
     handleClaim,

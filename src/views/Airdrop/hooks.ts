@@ -1,3 +1,4 @@
+import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { fetchVthorApr } from 'helpers/staking';
@@ -15,10 +16,10 @@ import { addTransaction, completeTransaction, updateTransaction } from 'store/tr
 import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
-import { useVthorUtil } from 'views/StakeVThor/useVthorUtil';
+import { useVthorUtil } from 'views/Staking/hooks';
 
 import { AIRDROP_THOR_AMOUNT } from './constants';
-import { airdropAssets, AirdropType } from './types';
+import { AirdropType } from './types';
 
 export const useAirdrop = () => {
   const appDispatch = useAppDispatch();
@@ -92,6 +93,10 @@ export const useAirdrop = () => {
         return;
       }
 
+      const aidropAsset = getSignatureAssetFor(
+        airdropAction === AirdropType.CLAIM ? 'ETH_THOR' : 'ETH_VTHOR',
+      );
+
       const id = v4();
 
       appDispatch(
@@ -104,7 +109,7 @@ export const useAirdrop = () => {
               airdropAction === AirdropType.CLAIM
                 ? AIRDROP_THOR_AMOUNT
                 : (AIRDROP_THOR_AMOUNT * getRate()).toFixed(2)
-            } ${airdropAssets[airdropAction].name}`,
+            } ${aidropAsset.name}`,
         }),
       );
 

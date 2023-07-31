@@ -24,7 +24,7 @@ const NodeManager = lazy(() => import('views/Nodes/NodeManager'));
 const Nodes = lazy(() => import('views/Nodes'));
 const Send = lazy(() => import('views/Send'));
 const LegacyStake = lazy(() => import('views/LegacyStake'));
-const StakeVThor = lazy(() => import('views/StakeVThor'));
+const Staking = lazy(() => import('views/Staking'));
 const Thorname = lazy(() => import('views/Thorname'));
 const Vesting = lazy(() => import('views/Vesting'));
 const Airdrop = lazy(() => import('views/Airdrop'));
@@ -66,7 +66,7 @@ const routes: RouteType = [
   { path: ROUTES.OnRamp, element: OnRamp },
   { path: ROUTES.Send, element: Send },
   { path: ROUTES.SendAsset, element: Send },
-  { path: ROUTES.Stake, element: StakeVThor },
+  { path: ROUTES.Stake, element: Staking },
   { path: ROUTES.Swap, element: Swap },
   { path: ROUTES.SwapPair, element: Swap },
   { path: ROUTES.Thorname, element: Thorname },
