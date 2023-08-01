@@ -1,5 +1,7 @@
+import { baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { getTokenAddress } from '@thorswap-lib/toolbox-evm';
+import { AmountWithBaseDenom, Chain, EVMChain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
@@ -12,6 +14,13 @@ import { v4 } from 'uuid';
 type Params = {
   inputAsset: AssetEntity;
   contract?: string;
+};
+
+const UINT96_MAX = '79228162514264337593543950335';
+
+// Assets have different max approval amount than standard ERC20
+const ContractMaxApprovalAmount: Record<string, AmountWithBaseDenom> = {
+  '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984': baseAmount(UINT96_MAX),
 };
 
 export const useSwapApprove = ({ inputAsset, contract }: Params) => {
@@ -45,8 +54,13 @@ export const useSwapApprove = ({ inputAsset, contract }: Params) => {
       ).getSwapKitClient();
 
       try {
+        const tokenAddress = getTokenAddress(inputAsset, inputAsset.L1Chain as EVMChain);
         const txid = await (contract
-          ? approveAssetForContract(inputAsset, contract)
+          ? approveAssetForContract(
+              inputAsset,
+              contract,
+              tokenAddress ? ContractMaxApprovalAmount[tokenAddress.toLowerCase()] : undefined,
+            )
           : approveAsset(inputAsset));
 
         if (typeof txid === 'string') {
