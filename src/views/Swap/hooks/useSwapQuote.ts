@@ -124,8 +124,8 @@ export const useSwapQuote = ({
     () =>
       Amount.fromAssetAmount(
         selectedRoute && !inputAmount.eq(0)
-          ? streamSwap && selectedRoute.streamingSwap?.expectedOutput
-            ? selectedRoute.streamingSwap?.expectedOutput
+          ? streamSwap && selectedRoute?.streamingSwap?.expectedOutput
+            ? selectedRoute.streamingSwap.expectedOutput
             : selectedRoute.expectedOutput
           : 0,
         outputAsset.decimal,
@@ -150,7 +150,7 @@ export const useSwapQuote = ({
   );
 
   const selectedRouteFees = useMemo(() => {
-    if (streamSwap && selectedRoute.streamingSwap?.fees) {
+    if (streamSwap && selectedRoute?.streamingSwap?.fees) {
       return selectedRoute?.fees
         ? { ...selectedRoute.fees, ...selectedRoute.streamingSwap.fees }
         : selectedRoute.streamingSwap.fees;
