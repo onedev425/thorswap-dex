@@ -70,10 +70,7 @@ export const Tooltip = ({
     >
       <div
         className={classNames({ 'cursor-pointer': onClick, 'w-full': stretch })}
-        onClick={(e) => {
-          e.stopPropagation();
-          onClick?.();
-        }}
+        onClick={() => onClick?.()}
       >
         {children || <Icon color="secondary" name={iconName as IconName} size={TOOLTIP_ICON} />}
       </div>
