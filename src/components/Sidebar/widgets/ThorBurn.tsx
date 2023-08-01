@@ -29,8 +29,8 @@ export const ThorBurn = ({ collapsed }: { collapsed?: boolean }) => {
   const [showAnimation, setShowAnimation] = useState(false);
 
   useEffect(() => {
-    if (data) {
-      const volume = Amount.fromMidgard(data?.intervals[0].totalVolume);
+    if (data?.intervals?.[0]) {
+      const volume = Amount.fromMidgard(data.intervals[0].totalVolume);
       setTotalVolume(volume);
     }
   }, [data]);
