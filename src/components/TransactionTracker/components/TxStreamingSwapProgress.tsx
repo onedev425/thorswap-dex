@@ -22,7 +22,7 @@ export const TxStreamingSwapProgress = memo(
     const maxSpacing = total && total >= 30 ? 0.5 : 1;
     if (!progress && !total) return null;
 
-    const items = Array.from({ length: 50 || 0 }, (_, i) => i);
+    const items = Array.from({ length: total || 0 }, (_, i) => i);
     const statusLabels: Record<StreamingSwapProgressStatus, string> = {
       [StreamingSwapProgressStatus.NOT_STARTED]: t('txManager.progressStatus.notStarted'),
       [StreamingSwapProgressStatus.SUCCESS]: t('txManager.progressStatus.success'),
