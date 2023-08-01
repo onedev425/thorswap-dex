@@ -17,6 +17,7 @@ type Props = RouteWithApproveType & {
   outputAssetDecimal: number;
   unitPrice: BigNumber;
   assetTicker: string;
+  streamSwap?: boolean;
 };
 
 export const SelectedRoute = memo(
@@ -32,12 +33,13 @@ export const SelectedRoute = memo(
     isApproved,
     assetTicker,
     fees,
+    streamSwap,
   }: Props) => {
     const [isOpened, setIsOpened] = useState(false);
     const formatPrice = useFormatPrice();
     const outputValue = useMemo(
-      () => streamingSwap?.expectedOutput || expectedOutput,
-      [expectedOutput, streamingSwap?.expectedOutput],
+      () => (streamSwap && streamingSwap?.expectedOutput) || expectedOutput,
+      [expectedOutput, streamSwap, streamingSwap?.expectedOutput],
     );
 
     const expectedAssetOutput = useMemo(

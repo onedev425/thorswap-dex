@@ -115,6 +115,11 @@ export const useSwapQuote = ({
     [error, inputAmount.assetAmount, isLoading, routes, swapQuote],
   );
 
+  const canStreamSwap = useMemo(
+    () => !noPriceProtection && !!selectedRoute?.calldata?.memoStreamingSwap,
+    [noPriceProtection, selectedRoute?.calldata?.memoStreamingSwap],
+  );
+
   const outputAmount: Amount = useMemo(
     () =>
       Amount.fromAssetAmount(
@@ -144,6 +149,16 @@ export const useSwapQuote = ({
     ],
   );
 
+  const selectedRouteFees = useMemo(() => {
+    if (streamSwap && selectedRoute.streamingSwap?.fees) {
+      return selectedRoute?.fees
+        ? { ...selectedRoute.fees, ...selectedRoute.streamingSwap.fees }
+        : selectedRoute.streamingSwap.fees;
+    }
+
+    return selectedRoute?.fees;
+  }, [selectedRoute?.fees, selectedRoute?.streamingSwap?.fees, streamSwap]);
+
   useEffect(() => {
     if (!error) {
       const route = routes.find(
@@ -155,13 +170,14 @@ export const useSwapQuote = ({
   }, [error, routes]);
 
   const toggleStreamSwap = useCallback(
-    (enabled: boolean) => setStreamSwap(enabled && !!selectedRoute?.calldata?.memoStreamingSwap),
-    [selectedRoute?.calldata?.memoStreamingSwap],
+    (enabled: boolean) => setStreamSwap(enabled && !!canStreamSwap),
+    [canStreamSwap],
   );
 
   useEffect(() => {
-    setStreamSwap(!!selectedRoute?.calldata?.memoStreamingSwap);
-  }, [selectedRoute, toggleStreamSwap]);
+    // reset stream swap state only when path changed
+    toggleStreamSwap(!!selectedRoute?.path);
+  }, [selectedRoute?.path, toggleStreamSwap]);
 
   return {
     estimatedTime: selectedRoute?.estimatedTime,
@@ -175,6 +191,7 @@ export const useSwapQuote = ({
     quoteId: data?.quoteId,
     streamSwap,
     toggleStreamSwap,
-    canStreamSwap: !noPriceProtection && !!selectedRoute?.calldata?.memoStreamingSwap,
+    canStreamSwap,
+    selectedRouteFees,
   };
 };

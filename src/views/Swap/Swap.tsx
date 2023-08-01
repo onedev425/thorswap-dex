@@ -134,6 +134,7 @@ const SwapView = () => {
     streamSwap,
     toggleStreamSwap,
     canStreamSwap,
+    selectedRouteFees: fees,
   } = useSwapQuote({
     noPriceProtection,
     affiliateBasisPoints,
@@ -197,7 +198,8 @@ const SwapView = () => {
     [outputAsset, outputToken?.logoURI, outputAmount, outputUSDPrice, isFetching, isPriceLoading],
   );
 
-  const { fees, approvalTarget, allowanceTarget, targetAddress } = selectedRoute || {};
+  const { approvalTarget, allowanceTarget, targetAddress } = selectedRoute || {};
+
   const quoteMode = useMemo(
     () => (selectedRoute?.meta?.quoteMode || '') as QuoteMode,
     [selectedRoute?.meta?.quoteMode],
@@ -415,6 +417,7 @@ const SwapView = () => {
             routes={!isKyberSwapPage ? routes : kyberRoutes}
             selectedRoute={!isKyberSwapPage ? selectedRoute : kyberRoutes[0]}
             setSwapRoute={setSwapRoute}
+            streamSwap={streamSwap}
           />
 
           <SwapSubmitButton

@@ -198,7 +198,7 @@ export type GetTokensQuoteResponse = {
       contractInfo: string;
       index: number;
       estimatedTime: number;
-      streamingSwap: {
+      streamingSwap?: {
         expectedOutput: string;
         expectedOutputMaxSlippage: string;
         expectedOutputUSD: string;

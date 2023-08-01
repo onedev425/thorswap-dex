@@ -19,6 +19,7 @@ type Props = RouteWithApproveType & {
   onClick: () => void;
   outputAsset: AssetEntity;
   unitPrice: BigNumber;
+  streamSwap?: boolean;
 };
 
 export const SwapRoute = memo(
@@ -33,13 +34,14 @@ export const SwapRoute = memo(
     providers,
     selected,
     fees,
+    streamSwap,
   }: Props) => {
     const formatPrice = useFormatPrice();
     const [, address] = outputAsset.symbol.split('-');
 
     const outputValue = useMemo(
-      () => streamingSwap?.expectedOutput || expectedOutput,
-      [expectedOutput, streamingSwap?.expectedOutput],
+      () => (streamSwap && streamingSwap?.expectedOutput) || expectedOutput,
+      [expectedOutput, streamSwap, streamingSwap?.expectedOutput],
     );
 
     const routeOutput = useMemo(
