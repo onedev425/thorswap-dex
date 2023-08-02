@@ -2,18 +2,13 @@
 
 import { Amount } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
-import { useGlobalStats } from 'hooks/useGlobalStats';
 import { useMemo } from 'react';
 import { useMidgard } from 'store/midgard/hooks';
 import { MimirData } from 'store/midgard/types';
 
 export const useMimir = () => {
   const { networkData, mimir, mimirLoaded } = useMidgard();
-  const { totalActiveBond } = useGlobalStats();
 
-  // const maxLiquidityRuneMimir = mimir?.MAXIMUMLIQUIDITYRUNE
-  // const maxLiquidityRune = Amount.fromMidgard(maxLiquidityRuneMimir)
-  const maxLiquidityRune = totalActiveBond;
   const totalPooledRune = Amount.fromMidgard(networkData?.totalPooledRune);
 
   const isEntryPaused = (entry: keyof MimirData) => {
@@ -84,18 +79,6 @@ export const useMimir = () => {
     return isChainPauseLP?.[key] ?? false;
   };
 
-  const isFundsCapReached: boolean = useMemo(() => {
-    if (maxLiquidityRune.lte(0)) return false;
-
-    return maxLiquidityRune.lte(totalPooledRune);
-  }, [totalPooledRune, maxLiquidityRune]);
-
-  const capPercent = useMemo(() => {
-    if (maxLiquidityRune.lte(0)) return 'N/A';
-
-    return `${totalPooledRune.div(maxLiquidityRune).mul(100).toFixed(1)}%`;
-  }, [totalPooledRune, maxLiquidityRune]);
-
   const maxSynthPerAssetDepth = useMemo(
     () => (mimir?.MAXSYNTHPERPOOLDEPTH === -1 ? 0 : mimir?.MAXSYNTHPERPOOLDEPTH ?? 0),
     [mimir?.MAXSYNTHPERPOOLDEPTH],
@@ -104,7 +87,6 @@ export const useMimir = () => {
   const synthCap = 2 * ((mimir.MAXSYNTHPERPOOLDEPTH || 0) / 10000);
 
   return {
-    capPercent,
     isBCHChainHalted,
     isBNBChainHalted,
     isBTCChainHalted,
@@ -115,13 +97,11 @@ export const useMimir = () => {
     isChainTradingHalted,
     isDOGEChainHalted,
     isETHChainHalted,
-    isFundsCapReached,
     isAVAXChainHalted,
     isGAIAChainHalted,
     isLTCChainHalted,
     isPauseLP,
     isTHORChainHalted,
-    maxLiquidityRune,
     maxSynthPerAssetDepth,
     totalPooledRune,
     isLoaded: mimirLoaded,

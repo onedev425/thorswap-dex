@@ -10,9 +10,7 @@ export const GlobalStats = memo(() => {
   const { hideStats } = useApp();
   const statsData = useGlobalStatsData();
 
-  if (hideStats) {
-    return null;
-  }
+  if (hideStats) return null;
 
   return (
     <Box col>
@@ -20,7 +18,7 @@ export const GlobalStats = memo(() => {
         <Text textStyle="h3">THORChain Stats</Text>
       </Box>
 
-      <StatsList scrollable list={statsData} />
+      <StatsList scrollable itemWidth={230} list={statsData} />
     </Box>
   );
 });

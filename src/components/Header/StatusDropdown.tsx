@@ -2,6 +2,7 @@ import { Text } from '@chakra-ui/react';
 import { Chain } from '@thorswap-lib/types';
 import { Box, DropdownMenu } from 'components/Atomic';
 import { chainName } from 'helpers/chainName';
+import { useHardCapPercentage } from 'hooks/useCheckHardCap';
 import { useMimir } from 'hooks/useMimir';
 import { StatusType, useNetwork } from 'hooks/useNetwork';
 import { memo, useMemo } from 'react';
@@ -26,15 +27,14 @@ const getHostnameFromUrl = (u: string): string | null => {
 
 export const StatusDropdown = memo(() => {
   const { statusType, outboundQueue, outboundQueueLevel } = useNetwork();
+  const hardCapPercentage = useHardCapPercentage();
   const {
-    capPercent,
     isBCHChainHalted,
     isBNBChainHalted,
     // isBSCChainHalted,
     isBTCChainHalted,
     isDOGEChainHalted,
     isETHChainHalted,
-    isFundsCapReached,
     isAVAXChainHalted,
     isGAIAChainHalted,
     isLTCChainHalted,
@@ -45,11 +45,13 @@ export const StatusDropdown = memo(() => {
   // Midgard IP on devnet OR on test|chaos|mainnet
   const midgardUrl = getHostnameFromUrl(MIDGARD_URL) || '';
 
-  const liquidityCapLabel = useMemo(() => {
-    if (!capPercent) return t('components.statusDropdown.capAvailable');
-    if (isFundsCapReached) return `${t('components.statusDropdown.capLimit')} (${capPercent})`;
-    return `${t('components.statusDropdown.capAvailable')} (${capPercent})`;
-  }, [isFundsCapReached, capPercent]);
+  const liquidityCapLabel = useMemo(
+    () =>
+      hardCapPercentage >= 100
+        ? `${t('components.statusDropdown.capLimit')} (${hardCapPercentage.toFixed(2)}%)`
+        : `${t('components.statusDropdown.capAvailable')} (${hardCapPercentage.toFixed(2)}%)`,
+    [hardCapPercentage],
+  );
 
   const chainsData = useMemo(
     () => [
@@ -87,7 +89,7 @@ export const StatusDropdown = memo(() => {
       {
         label: t('components.statusDropdown.liqCap'),
         value: liquidityCapLabel,
-        statusType: isFundsCapReached ? StatusType.Slow : StatusType.Good,
+        statusType: hardCapPercentage >= 100 ? StatusType.Slow : StatusType.Good,
       },
       ...chainsData.map(({ label, value }) => ({
         label,
@@ -112,7 +114,7 @@ export const StatusDropdown = memo(() => {
       outboundQueueLevel,
       statusType,
       liquidityCapLabel,
-      isFundsCapReached,
+      hardCapPercentage,
       chainsData,
       midgardUrl,
     ],

@@ -12,7 +12,7 @@ export const useGlobalStatsData = () => {
   const { tvlInRune, totalActiveBond, liquidityAPYLabel, totalVolume, volume24h, networkData } =
     useGlobalStats();
 
-  const { totalPooledRune, maxLiquidityRune } = useMimir();
+  const { totalPooledRune } = useMimir();
 
   const bondingAPYLabel = parseToPercent(networkData?.bondingAPY);
 
@@ -64,7 +64,7 @@ export const useGlobalStatsData = () => {
         iconName: 'chartArea2',
         color: 'pink',
         label: t('views.stats.totalRUNE'),
-        value: `${totalPooledRune.toAbbreviate(2)} / ${maxLiquidityRune.toAbbreviate(2)}`,
+        value: `${totalPooledRune.toAbbreviate(1)} / ${totalActiveBond.toAbbreviate(1)}`,
         tooltip: t('views.stats.totalRUNETooltip'),
       },
       {
@@ -78,11 +78,10 @@ export const useGlobalStatsData = () => {
     volume24h,
     liquidityAPYLabel,
     totalVolume,
-    maxLiquidityRune,
+    totalActiveBond,
     totalPooledRune,
     networkData,
     tvlInRune,
-    totalActiveBond,
     bondingAPYLabel,
     runeToCurrency,
   ]);

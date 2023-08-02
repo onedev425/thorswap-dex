@@ -23,6 +23,7 @@ import {
   hasWalletConnected,
 } from 'helpers/wallet';
 import { useBalance } from 'hooks/useBalance';
+import { useCheckHardCap } from 'hooks/useCheckHardCap';
 import { useMimir } from 'hooks/useMimir';
 import { getSumAmountInUSD, useNetworkFee } from 'hooks/useNetworkFee';
 import { useSwapTokenPrices } from 'hooks/useTokenPrices';
@@ -53,6 +54,7 @@ export const CreateLiquidity = () => {
   const avaxWhitelist = useTokenAddresses('tc-whitelisted-avax-pools');
   const bscWhitelist = useTokenAddresses('tc-whitelisted-bsc-pools');
   const { tokens } = useTokenList();
+  const hardCapReached = useCheckHardCap();
 
   const handleInputAssetUpdate = useCallback(() => {
     if (hasConnectedWallet(wallet) && (ethWhitelist.length > 0 || avaxWhitelist.length > 0)) {
@@ -80,7 +82,7 @@ export const CreateLiquidity = () => {
   );
 
   const { getMaxBalance, isWalletAssetConnected } = useBalance();
-  const { isFundsCapReached, isChainPauseLPAction } = useMimir();
+  const { isChainPauseLPAction } = useMimir();
   const { getChainDepositLPPaused } = useExternalConfig();
   const isLPActionPaused: boolean = useMemo(() => {
     return (
@@ -287,15 +289,8 @@ export const CreateLiquidity = () => {
       return showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
     }
 
-    if (isFundsCapReached) {
-      return showInfoToast(
-        t('notification.fundsCapReached'),
-        t('notification.fundsCapReachedDesc'),
-      );
-    }
-
     setVisibleConfirmModal(true);
-  }, [isWalletConnected, isFundsCapReached]);
+  }, [isWalletConnected]);
 
   const handleApprove = useCallback(() => {
     if (wallet) {
@@ -470,7 +465,15 @@ export const CreateLiquidity = () => {
 
       {isApproveRequired && (
         <Box className="w-full pt-5">
-          <Button stretch loading={isLoading} onClick={handleApprove} size="lg" variant="fancy">
+          <Button
+            stretch
+            error={hardCapReached}
+            loading={isLoading}
+            onClick={handleApprove}
+            size="lg"
+            tooltip={hardCapReached ? t('views.liquidity.hardCapReachedTooltip') : undefined}
+            variant="fancy"
+          >
             {t('common.approve')}
           </Button>
         </Box>
@@ -481,9 +484,10 @@ export const CreateLiquidity = () => {
           <Button
             stretch
             disabled={!isValidDeposit.valid}
-            error={!isValidDeposit.valid}
+            error={!isValidDeposit.valid || hardCapReached}
             onClick={handleCreateLiquidity}
             size="lg"
+            tooltip={hardCapReached ? t('views.liquidity.hardCapReachedTooltip') : undefined}
             variant="fancy"
           >
             {btnLabel}

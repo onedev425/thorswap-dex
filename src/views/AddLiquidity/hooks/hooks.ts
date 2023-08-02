@@ -21,7 +21,6 @@ import { RUNEAsset, USDAsset } from 'helpers/assets';
 import { getEstimatedTxTime } from 'helpers/getEstimatedTxTime';
 import { parseToPercent } from 'helpers/parseHelpers';
 import { hasWalletConnected } from 'helpers/wallet';
-import { useMimir } from 'hooks/useMimir';
 import { getSumAmountInUSD, useNetworkFee } from 'hooks/useNetworkFee';
 import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
 import { useRunePrice } from 'hooks/useRuneToCurrency';
@@ -127,7 +126,6 @@ export const useAddLiquidity = ({
     maxPoolAssetBalance,
   } = depositAssetsBalance;
   const { setIsConnectModalOpen } = useWallet();
-  const { isFundsCapReached } = useMimir();
   const { isLPActionPaused } = useAddLiquidityUtils({ poolAsset });
   const { memberData, currentAssetHaveLP, poolMemberDetail, isRunePending, isAssetPending } =
     useChainMember({
@@ -521,15 +519,8 @@ export const useAddLiquidity = ({
       return showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
     }
 
-    if (isFundsCapReached && !skipWalletCheck) {
-      return showInfoToast(
-        t('notification.fundsCapReached'),
-        t('notification.fundsCapReachedDesc'),
-      );
-    }
-
     setVisibleConfirmModal(true);
-  }, [isWalletConnected, skipWalletCheck, isFundsCapReached]);
+  }, [isWalletConnected, skipWalletCheck]);
 
   const handleApprove = useCallback(() => {
     if (wallet) {

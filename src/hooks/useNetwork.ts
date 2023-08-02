@@ -1,9 +1,7 @@
 import { Amount } from '@thorswap-lib/swapkit-core';
+import { useCheckHardCap } from 'hooks/useCheckHardCap';
 import { useCallback } from 'react';
-import { t } from 'services/i18n';
 import { useMidgard } from 'store/midgard/hooks';
-
-import { useMimir } from './useMimir';
 
 const QUEUE_BUSY_LEVEL = 30;
 const QUEUE_SLOW_LEVEL = 10;
@@ -17,7 +15,7 @@ export enum StatusType {
 
 export const useNetwork = () => {
   const { networkData, queue } = useMidgard();
-  const { isFundsCapReached, maxLiquidityRune } = useMimir();
+  const hardCapReached = useCheckHardCap();
 
   const outboundQueue = Number(queue?.outbound ?? 0);
 
@@ -31,19 +29,10 @@ export const useNetwork = () => {
 
   const totalPooledRune = Amount.fromMidgard(networkData?.totalPooledRune ?? 0);
 
-  const globalRunePooledStatus = maxLiquidityRune.gt(0)
-    ? `${totalPooledRune.toAbbreviate(2)} / ${maxLiquidityRune.toAbbreviate(2)} ${t(
-        'notification.runePooled',
-      )}`
-    : `${totalPooledRune.toAbbreviate(2)} ${t('notification.runePooled')}`;
-
   return {
-    globalRunePooledStatus,
-    isValidFundCaps: !isFundsCapReached,
-    maxLiquidityRune,
     outboundQueue,
     outboundQueueLevel,
-    statusType: isFundsCapReached ? StatusType.Slow : outboundQueueLevel,
+    statusType: hardCapReached ? StatusType.Slow : outboundQueueLevel,
     totalPooledRune,
   };
 };
