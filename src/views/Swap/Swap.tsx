@@ -422,7 +422,6 @@ const SwapView = () => {
           />
 
           <SwapSubmitButton
-            quoteError={!!error}
             hasQuote={!!selectedRoute}
             inputAmount={inputAmount}
             inputAsset={inputAsset}
@@ -431,6 +430,7 @@ const SwapView = () => {
             isInputWalletConnected={isInputWalletConnected}
             isLoading={isFetching || isPriceLoading}
             outputAsset={outputAsset}
+            quoteError={!!error}
             recipient={recipient}
             setVisibleApproveModal={setVisibleApproveModal}
             setVisibleConfirmModal={setVisibleConfirmModal}

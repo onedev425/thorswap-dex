@@ -148,7 +148,7 @@ const Staking = () => {
   );
 
   const disabledButton = useMemo(() => {
-    const inputValue = inputAmount.assetAmount.toNumber() ** (10 ** 18);
+    const inputValue = inputAmount.assetAmount.toNumber();
     const thorBalance = fromWei(thorBalBn);
     const vthorBalance = fromWei(vthorBalBn);
 
