@@ -21,7 +21,7 @@ type Props = {
   totalFee: string;
   visible: boolean;
   inputUSDPrice: number;
-  selectedRoute: RouteWithApproveType;
+  selectedRoute?: RouteWithApproveType;
 };
 
 export const ConfirmSwapModal = memo(
@@ -45,7 +45,7 @@ export const ConfirmSwapModal = memo(
     const { asset: inputAsset } = inputAssetProps;
 
     const showSmallSwapWarning = useMemo(
-      () => inputUSDPrice <= 500 && selectedRoute?.providers.includes('THORCHAIN'),
+      () => inputUSDPrice <= 500 && !!selectedRoute?.providers.includes('THORCHAIN'),
       [inputUSDPrice, selectedRoute],
     );
 

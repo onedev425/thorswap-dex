@@ -1,7 +1,7 @@
 import { QuoteRoute } from '@thorswap-lib/swapkit-api';
 import { useMemo } from 'react';
 
-export const useRouteFees = (routeFees: QuoteRoute['fees']) => {
+export const useRouteFees = (routeFees?: QuoteRoute['fees']) => {
   const data = useMemo(() => {
     const emptyData = {
       outOfPocketFee: 0,

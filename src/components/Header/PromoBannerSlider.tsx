@@ -39,10 +39,7 @@ const PromoBannerSlider = () => {
         key: 'promo-1',
         message: (
           <Text textStyle="caption-xs">
-            Streaming Swaps are live! Use for max capital efficiency!{' '}
-            <Text className="inline px-0.5" decoration="underline" textStyle="caption-xs">
-              Learn more →
-            </Text>
+            Streaming Swap is here! Learn how to price optimize today →
           </Text>
         ),
         onClick: () =>

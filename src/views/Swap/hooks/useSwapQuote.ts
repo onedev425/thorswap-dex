@@ -111,7 +111,7 @@ export const useSwapQuote = ({
 
   const selectedRoute: RouteWithApproveType | undefined = useMemo(
     () =>
-      (error || isLoading || inputAmount.assetAmount.isZero() ? undefined : swapQuote) || routes[0],
+      error || isLoading || inputAmount.assetAmount.isZero() ? undefined : swapQuote || routes[0],
     [error, inputAmount.assetAmount, isLoading, routes, swapQuote],
   );
 
@@ -162,7 +162,7 @@ export const useSwapQuote = ({
   useEffect(() => {
     if (!error) {
       const route = routes.find(
-        (r) => JSON.stringify(r.providers) === JSON.stringify(selectedRoute.providers),
+        (r) => JSON.stringify(r.providers) === JSON.stringify(selectedRoute?.providers),
       );
       setSwapRoute(route || routes[0]);
     }
@@ -180,6 +180,7 @@ export const useSwapQuote = ({
   }, [selectedRoute?.path, toggleStreamSwap]);
 
   return {
+    error,
     estimatedTime: selectedRoute?.estimatedTime,
     isFetching: approvalsLoading || isLoading || isFetching,
     minReceive,

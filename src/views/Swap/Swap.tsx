@@ -128,6 +128,7 @@ const SwapView = () => {
     outputAmount,
     refetch: refetchQuote,
     routes,
+    error,
     selectedRoute,
     setSwapRoute,
     quoteId,
@@ -421,11 +422,12 @@ const SwapView = () => {
           />
 
           <SwapSubmitButton
+            quoteError={!!error}
             hasQuote={!!selectedRoute}
             inputAmount={inputAmount}
             inputAsset={inputAsset}
             invalidSwap={invalidSwap}
-            isApproved={selectedRoute?.isApproved}
+            isApproved={!!selectedRoute?.isApproved}
             isInputWalletConnected={isInputWalletConnected}
             isLoading={isFetching || isPriceLoading}
             outputAsset={outputAsset}

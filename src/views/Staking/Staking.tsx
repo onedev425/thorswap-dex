@@ -148,16 +148,16 @@ const Staking = () => {
   );
 
   const disabledButton = useMemo(() => {
-    const inputValue = Math.floor(inputAmount.assetAmount.toNumber());
-    const invalidDeposit =
-      action === StakeActions.Deposit &&
-      (thorBalBn.lte(inputValue) || inputAmount.gt(fromWei(thorBalBn)));
-    const invalidUnstake =
-      action === StakeActions.Unstake &&
-      (vthorBalBn.lte(inputValue) || inputAmount.gt(fromWei(vthorBalBn)));
+    const inputValue = inputAmount.assetAmount.toNumber() ** (10 ** 18);
+    const thorBalance = fromWei(thorBalBn);
+    const vthorBalance = fromWei(vthorBalBn);
 
-    return inputAmount.lte(0) || invalidDeposit || invalidUnstake;
-  }, [action, inputAmount, thorBalBn, vthorBalBn]);
+    return (
+      inputValue <= 0 ||
+      (isDeposit && inputValue > thorBalance) ||
+      (!isDeposit && inputValue > vthorBalance)
+    );
+  }, [inputAmount.assetAmount, isDeposit, thorBalBn, vthorBalBn]);
 
   return (
     <Box col className="self-center w-full max-w-[480px] mt-2">

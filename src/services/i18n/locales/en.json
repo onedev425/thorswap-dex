@@ -866,6 +866,7 @@
       "low": "low",
       "minReceivedAfterSlip": "Minimum received after slippage (%{slippage})",
       "networkFeeTooltip": "Network fee used to pay for transactions. Click to see more details.",
+      "noValidQuote": "No valid quote found",
       "onService": "on %{serviceName}",
       "priceImpact": "Price Impact",
       "priceOptimizationAvailable": "Price Optimization available",

@@ -20,6 +20,7 @@ type Props = {
   isApproved: boolean | null;
   isInputWalletConnected: boolean;
   isLoading: boolean;
+  quoteError: boolean;
   outputAsset: AssetEntity;
   recipient: string | null;
   setVisibleApproveModal: (visible: boolean) => void;
@@ -28,6 +29,7 @@ type Props = {
 
 export const SwapSubmitButton = ({
   hasQuote,
+  quoteError,
   invalidSwap,
   inputAmount,
   inputAsset,
@@ -122,16 +124,14 @@ export const SwapSubmitButton = ({
   );
 
   const btnLabel = useMemo(() => {
-    if (isTradingHalted) {
-      return t('notification.swapNotAvailable');
-    }
-
+    if (isTradingHalted) return t('notification.swapNotAvailable');
+    if (quoteError) return t('views.swap.noValidQuote');
     if (inputAsset.isSynth && outputAsset.isSynth) return t('common.swap');
     if (inputAsset.isSynth) return t('txManager.redeem');
     if (outputAsset.isSynth) return t('txManager.mint');
 
     return t('common.swap');
-  }, [isTradingHalted, inputAsset.isSynth, outputAsset.isSynth]);
+  }, [isTradingHalted, quoteError, inputAsset.isSynth, outputAsset.isSynth]);
 
   const isApproveRequired = useMemo(
     () => isInputWalletConnected && isApproved === false,
@@ -156,7 +156,7 @@ export const SwapSubmitButton = ({
             ? t('views.swap.connectOrFillRecipient')
             : t('common.connectWallet')}
         </Button>
-      ) : isApproveRequired ? (
+      ) : isApproveRequired && !quoteError ? (
         <Button
           stretch
           error={!hasQuote}
