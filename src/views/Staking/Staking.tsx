@@ -148,11 +148,15 @@ const Staking = () => {
   );
 
   const disabledButton = useMemo(() => {
-    return (
-      inputAmount.lte(0) ||
-      (action === StakeActions.Deposit && thorBalBn.lte(0)) ||
-      (action === StakeActions.Unstake && vthorBalBn.lte(0))
-    );
+    const inputValue = Math.floor(inputAmount.assetAmount.toNumber());
+    const invalidDeposit =
+      action === StakeActions.Deposit &&
+      (thorBalBn.lte(inputValue) || inputAmount.gt(fromWei(thorBalBn)));
+    const invalidUnstake =
+      action === StakeActions.Unstake &&
+      (vthorBalBn.lte(inputValue) || inputAmount.gt(fromWei(vthorBalBn)));
+
+    return inputAmount.lte(0) || invalidDeposit || invalidUnstake;
   }, [action, inputAmount, thorBalBn, vthorBalBn]);
 
   return (

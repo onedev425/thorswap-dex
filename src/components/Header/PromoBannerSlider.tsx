@@ -35,23 +35,23 @@ const PromoBannerSlider = () => {
 
   const promoItems = useMemo(
     () => [
-      // {
-      //   key: 'promo-1',
-      //   message: (
-      //     <Text textStyle="caption-xs">
-      //       Streaming Swaps are here!{' '}
-      //       <Text className="inline px-0.5" decoration="underline" textStyle="caption-xs">
-      //         Check out the article to learn more
-      //       </Text>
-      //     </Text>
-      //   ),
-      //   onClick: () =>
-      //     window.open(
-      //       'TODO',
-      //       '_blank',
-      //       'noopener,noreferrer',
-      //     ),
-      // },
+      {
+        key: 'promo-1',
+        message: (
+          <Text textStyle="caption-xs">
+            Streaming Swaps are live! Use for max capital efficiency!{' '}
+            <Text className="inline px-0.5" decoration="underline" textStyle="caption-xs">
+              Learn more →
+            </Text>
+          </Text>
+        ),
+        onClick: () =>
+          window.open(
+            'https://thorswap.medium.com/introducing-streaming-swaps-a-defi-game-changer-ba02afd148e3',
+            '_blank',
+            'noopener,noreferrer',
+          ),
+      },
       {
         key: 'promo-thor',
         message: (
