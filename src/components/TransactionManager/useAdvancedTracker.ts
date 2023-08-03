@@ -1,9 +1,10 @@
 import { getSimpleTxStatus } from 'components/TransactionManager/helpers';
+import { useCompleteTransaction } from 'components/TransactionManager/useCompleteTransaction';
 import { useEffect, useMemo, useState } from 'react';
 import { useAppDispatch } from 'store/store';
 import { useGetTxnStatusDetailsQuery } from 'store/thorswap/api';
 import { GetTxnStatusDetailsParams, GetTxnStatusDetailsUpdateParams } from 'store/thorswap/types';
-import { completeTransaction, updateTransaction } from 'store/transactions/slice';
+import { updateTransaction } from 'store/transactions/slice';
 import { PendingTransactionType } from 'store/transactions/types';
 
 export const useAdvancedTracker = (tx: PendingTransactionType | null) => {
@@ -27,6 +28,7 @@ export const useAdvancedTracker = (tx: PendingTransactionType | null) => {
   const hasDetailsParams = txid && route && quoteId;
   const canFetchDetails = hasDetailsParams || (txid && !!details);
   const skipFetchingDetails = completed || !canFetchDetails;
+  const { onCompleteTransaction } = useCompleteTransaction(tx);
 
   const detailsParams: GetTxnStatusDetailsParams | GetTxnStatusDetailsUpdateParams = {
     txn: {
@@ -50,16 +52,14 @@ export const useAdvancedTracker = (tx: PendingTransactionType | null) => {
     const status = getSimpleTxStatus(data.status);
 
     if (transactionCompleted) {
-      if (id) {
-        appDispatch(completeTransaction({ id, status, details: data.result }));
-      }
+      onCompleteTransaction({ status, details: data.result });
     } else {
       if (id) {
         const txDetails = data.result;
         appDispatch(updateTransaction({ id, details: txDetails }));
       }
     }
-  }, [appDispatch, data, id]);
+  }, [appDispatch, data, id, onCompleteTransaction]);
 
   return tx ? { type, label, details, txUrl: '' } : null;
 };

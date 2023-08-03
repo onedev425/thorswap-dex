@@ -1,14 +1,15 @@
 import { cutTxPrefix } from 'components/TransactionManager/helpers';
+import { useCompleteTransaction } from 'components/TransactionManager/useCompleteTransaction';
 import { useTxUrl } from 'hooks/useTxUrl';
 import { useEffect, useMemo } from 'react';
 import { useAppDispatch } from 'store/store';
 import { useGetTxnStatusQuery } from 'store/thorswap/api';
-import { completeTransaction } from 'store/transactions/slice';
 import { PendingTransactionType, TransactionType } from 'store/transactions/types';
 
 export const useSimpleTracker = (tx: PendingTransactionType | null) => {
   const appDispatch = useAppDispatch();
   const { id, inChain, txid, type, label, from } = tx || {};
+  const { onCompleteTransaction } = useCompleteTransaction(tx);
 
   const params = useMemo(() => {
     if (!txid || !type) return { txid: '' };
@@ -46,11 +47,9 @@ export const useSimpleTracker = (tx: PendingTransactionType | null) => {
     const status = data?.status || 'mined';
 
     if (transactionCompleted || (instantComplete && txUrl)) {
-      if (id) {
-        appDispatch(completeTransaction({ id, status, result: data?.result }));
-      }
+      onCompleteTransaction({ status, result: data?.result });
     }
-  }, [appDispatch, data, id, txUrl, txid, type]);
+  }, [appDispatch, data, id, onCompleteTransaction, txUrl, txid, type]);
 
   return tx ? { type, label, txUrl, details: null } : null;
 };
