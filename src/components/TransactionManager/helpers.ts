@@ -1,5 +1,6 @@
 import { AssetAmount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { BaseDecimal, Chain } from '@thorswap-lib/types';
+import { TxStatus } from '@thorswap-lib/swapkit-api';
 import { useCallback, useState } from 'react';
 import { getCustomContract } from 'services/contract';
 import { t } from 'services/i18n';
@@ -7,7 +8,6 @@ import { TxnResult } from 'store/thorswap/types';
 import {
   TransactionStatus,
   TransactionType,
-  TxStatus,
   TxTrackerDetails,
 } from 'store/transactions/types';
 

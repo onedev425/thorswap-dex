@@ -31,21 +31,13 @@ export const useWallet = () => {
 
   const unlockWallet = useCallback(
     async (keystore: Keystore, phrase: string, chains: Chain[]) => {
-      const { ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
       const { connectKeystore } = await (await import('services/swapKit')).getSwapKitClient();
 
       await connectKeystore(chains, phrase);
-      const thorchainToolbox = ThorchainToolbox({});
-      const thorchainPrivateKey = chains.includes(Chain.THORChain)
-        ? thorchainToolbox.createKeyPair(phrase)
-        : undefined;
-      const thorchainPublicKey = thorchainPrivateKey?.pubKey();
       dispatch(
         actions.connectKeystore({
           keystore,
           phrase,
-          privateKey: thorchainPrivateKey,
-          publicKey: thorchainPublicKey,
         }),
       );
       setWallets(chains);

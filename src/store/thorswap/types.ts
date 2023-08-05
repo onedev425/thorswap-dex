@@ -1,8 +1,7 @@
-import { QuoteRoute } from '@thorswap-lib/swapkit-api';
+import { QuoteRoute, TxStatus } from '@thorswap-lib/swapkit-api';
 import {
   TransactionStatus,
   TransactionType,
-  TxStatus,
   TxTrackerDetails,
 } from 'store/transactions/types';
 

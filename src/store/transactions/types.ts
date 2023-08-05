@@ -1,4 +1,4 @@
-import { QuoteRoute } from '@thorswap-lib/swapkit-api';
+import { QuoteRoute, TxStatus } from '@thorswap-lib/swapkit-api';
 import { Chain } from '@thorswap-lib/types';
 import { TxnResult } from 'store/thorswap/types';
 
@@ -106,19 +106,6 @@ export type CompletedTransactionType = PendingTransactionType & {
 };
 
 export type TransactionsState = (PendingTransactionType | CompletedTransactionType)[];
-
-export enum TxStatus {
-  PENDING = 'pending',
-  SUCCESS = 'success',
-  CANCELLED = 'cancelled',
-  REFUNDED = 'refunded',
-  REPLACED = 'replaced',
-  ERROR = 'error',
-  UNKNOWN = 'unknown',
-  NOT_STARTED = 'not_started',
-  NOT_FOUND = 'not_found',
-  RETRIES_EXCEEDED = 'retries_exceeded',
-}
 
 export type TxTrackerLeg = {
   hash?: string;

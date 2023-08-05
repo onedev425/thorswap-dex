@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { Amount } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
+import { TxStatus } from '@thorswap-lib/swapkit-api';
 import { AssetIcon } from 'components/AssetIcon';
 import { FallbackIcon } from 'components/AssetIcon/FallbackIcon';
 import { Button, Icon, Tooltip } from 'components/Atomic';
@@ -26,7 +27,6 @@ import { t } from 'services/i18n';
 import {
   TransactionStatus,
   TransactionType,
-  TxStatus,
   TxTrackerLeg,
 } from 'store/transactions/types';
 

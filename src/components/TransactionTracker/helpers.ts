@@ -1,7 +1,8 @@
 import { getSimpleTxStatus } from 'components/TransactionManager/helpers';
 import dayjs from 'dayjs';
 import { t } from 'services/i18n';
-import { TransactionStatus, TxStatus, TxTrackerLeg } from 'store/transactions/types';
+import { TransactionStatus, TxTrackerLeg } from 'store/transactions/types';
+import { TxStatus } from '@thorswap-lib/swapkit-api';
 
 export const getTxDisplayStatus = (status?: TxStatus) => {
   return status ? getSimpleTxStatus(status) : 'unknown';
