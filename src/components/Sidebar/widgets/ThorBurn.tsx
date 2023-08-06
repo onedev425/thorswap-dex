@@ -19,7 +19,7 @@ const colorBurn = keyframes`
   }
 `;
 
-const TARGET_AMOUNT = Amount.fromNormalAmount(8000000); // 8M RUNE
+const TARGET_AMOUNT = Amount.fromNormalAmount(9000000); // 8M RUNE
 const currentMonth = dayjs().format('MMMM');
 const INFO_ARTICLE_URL = 'https://twitter.com/THORSwap/status/1653655296336879618';
 
