@@ -47,7 +47,6 @@ import {
   BsSearch,
   BsTelegram,
   BsTrash,
-  BsTwitter,
   BsYoutube,
 } from 'react-icons/bs';
 import { CgArrowsExchangeAltV, CgEye, CgMenu } from 'react-icons/cg';
@@ -228,7 +227,6 @@ const Icons = {
   switch: AiOutlineSwap,
   telegram: BsTelegram,
   trash: BsTrash,
-  twitter: BsTwitter,
   unlock: MdOutlineLockOpen,
   valid: IoCheckmarkCircleOutline,
   wallet: IoWalletOutline,

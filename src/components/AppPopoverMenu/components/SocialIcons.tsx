@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { Box, Icon, Link, Tooltip } from 'components/Atomic';
+import { useTheme } from 'components/Theme/ThemeContext';
 import {
   DISCORD_URL,
   MEDIUM_URL,
@@ -7,7 +8,7 @@ import {
   THORCHADS_MERCH_URL,
   THORSWAP_DOCUMENTATION_URL,
   THORSWAP_YOUTUBE_URL,
-  TWITTER_URL,
+  X_URL,
 } from 'config/constants';
 import { memo } from 'react';
 import { t } from 'services/i18n';
@@ -15,6 +16,8 @@ import { t } from 'services/i18n';
 const commonClasses = 'p-2.5 rounded-2xl transform ';
 
 export const SocialIcons = memo(() => {
+  const { isLight } = useTheme();
+
   return (
     <Box center className="flex-1 gap-2 flex-wrap">
       <Tooltip content={t('common.documentation')} place="bottom">
@@ -39,14 +42,14 @@ export const SocialIcons = memo(() => {
           />
         </Link>
       </Tooltip>
-      <Tooltip content="Twitter" place="bottom">
-        <Link to={TWITTER_URL}>
+      <Tooltip content="X" place="bottom">
+        <Link to={X_URL}>
           <Icon
             className={classNames(
               commonClasses,
-              'hover:bg-twitter-blue fill-twitter-blue hover:fill-white',
+              'dark:hover:bg-dark-bg-primary hover:bg-white dark:fill-white fill-dark-bg-primary',
             )}
-            name="twitter"
+            name={isLight ? 'xLogoLight' : 'xLogo'}
           />
         </Link>
       </Tooltip>

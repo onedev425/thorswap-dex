@@ -75,6 +75,8 @@ import { ReactComponent as VThor } from './vthor.svg';
 import { ReactComponent as WalletConnect } from './walletConnect.svg';
 import { ReactComponent as Watch } from './watch.svg';
 import { ReactComponent as XDefi } from './xdefi.svg';
+import { ReactComponent as XLogo } from './xLogo.svg';
+import { ReactComponent as XLogoLight } from './xLogoLight.svg';
 
 export type SvgIconName = keyof typeof Svgs;
 
@@ -154,6 +156,9 @@ export const Svgs = {
   coinbaseWallet: CoinbaseWallet,
   trustWalletWhite: TrustWalletWhite,
   usa: USA,
+
+  xLogo: XLogo,
+  xLogoLight: XLogoLight,
 
   // png only for typings
   spain: Spain,
