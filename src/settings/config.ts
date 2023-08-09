@@ -6,7 +6,7 @@ export const IS_DEV_API =
 export const IS_LOCAL = import.meta.env.MODE === 'development';
 export const IS_STAGENET = isEnv(import.meta.env.VITE_STAGENET, 'stagenet');
 export const IS_BETA = isEnv(import.meta.env.VITE_BETA, 'beta');
-export const IS_LEDGER_LIVE = isEnv(import.meta.env.VITE_LEDGER_LIVE, 'ledgerlive') || true;
+export const IS_LEDGER_LIVE = isEnv(import.meta.env.VITE_LEDGER_LIVE, 'ledgerlive');
 export const IS_PROD = isEnv(import.meta.env.VITE_PROD, 'app.thorswap.finance');
 
 /**
