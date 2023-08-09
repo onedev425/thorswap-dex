@@ -22,10 +22,29 @@ yarn start
 yarn start:stagenet
 ```
 
+- Start server with for ledger live development
+
+Enable developer mode in ledger live
+<https://developers.ledger.com/docs/live-app/developer-mode/>
+
+```sh
+yarn start:ledger
+```
+
+Go to settings -> Developer -> Add local app -> select the manifest json of this project
+
 - Test production build locally
 
 ```sh
 yarn build; yarn preview
+```
+
+- Test ledger production build locally
+
+Change manifest json to use port 4173 instead of 5173
+
+```sh
+yarn build:ledger; yarn preview:ledger
 ```
 
 - Linting

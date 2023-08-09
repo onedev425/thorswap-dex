@@ -5,6 +5,7 @@ import { PasswordInput } from 'components/PasswordInput';
 import { isKeystoreSignRequired } from 'helpers/wallet';
 import { KeyboardEventHandler, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
+import { IS_LEDGER_LIVE } from 'settings/config';
 import { useWallet } from 'store/wallet/hooks';
 
 type Props = {
@@ -113,7 +114,7 @@ export const ConfirmModal = ({
 
   return (
     <Modal isOpened={isOpened} onClose={handleCancel} title={t('common.confirm')}>
-      <Box col className="gap-y-4 md:!min-w-[350px]">
+      <Box col className={'gap-y-4 md:!min-w-[350px]' + IS_LEDGER_LIVE ? ' min-w-[350px]' : ''}>
         {children && <div>{children}</div>}
 
         {isKeystoreSigningRequired && (

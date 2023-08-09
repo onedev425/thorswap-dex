@@ -24,7 +24,7 @@ export const useSimpleTracker = (tx: PendingTransactionType | null) => {
         TransactionType.SWAP_TC_TO_ETH,
       ].includes(type);
 
-    const evmTx = txid.startsWith('0x') ? txid : `0x${txid}`;
+    const evmTx = txid?.startsWith?.('0x') ? txid : `0x${txid}`;
 
     return {
       from,

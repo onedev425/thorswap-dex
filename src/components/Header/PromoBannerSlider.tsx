@@ -62,6 +62,23 @@ const PromoBannerSlider = () => {
         ),
         onClick: () => navigate(ROUTES.Stake),
       },
+      {
+        key: 'promo-3',
+        message: (
+          <Text textStyle="caption-xs">
+            Monthly Burn Challenge is live!{' '}
+            <Text className="inline px-0.5" decoration="underline" textStyle="caption-xs">
+              Learn more
+            </Text>
+          </Text>
+        ),
+        onClick: () =>
+          window.open(
+            'https://twitter.com/THORSwap/status/1653655296336879618',
+            '_blank',
+            'noopener,noreferrer',
+          ),
+      },
     ],
     [navigate],
   );

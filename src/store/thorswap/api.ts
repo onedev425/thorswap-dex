@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { THORSWAP_AFFILIATE_ADDRESS } from 'config/constants';
-import { IS_DEV_API, IS_STAGENET } from 'settings/config';
+import { THORSWAP_AFFILIATE_ADDRESS, THORSWAP_AFFILIATE_ADDRESS_LL } from 'config/constants';
+import { IS_DEV_API, IS_LEDGER_LIVE, IS_STAGENET } from 'settings/config';
 import { AnnouncementsData } from 'store/externalConfig/types';
 
 import {
@@ -37,7 +37,10 @@ export const thorswapApi = createApi({
 
         if (affiliateBasisPoints) {
           queryParams.append('affiliateBasisPoints', affiliateBasisPoints);
-          queryParams.append('affiliateAddress', THORSWAP_AFFILIATE_ADDRESS);
+          queryParams.append(
+            'affiliateAddress',
+            IS_LEDGER_LIVE ? THORSWAP_AFFILIATE_ADDRESS_LL : THORSWAP_AFFILIATE_ADDRESS,
+          );
         }
 
         queryParams.append('isAffiliateFeeFlat', 'true');

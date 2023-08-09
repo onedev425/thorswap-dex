@@ -4,12 +4,15 @@ import { showErrorToast } from 'components/Toast';
 import { translateErrorMsg } from 'helpers/error';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
+import { IS_LEDGER_LIVE } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
+
+import { ledgerLiveSwap } from '../../../../ledgerLive/wallet/swap';
 
 type SwapParams = {
   route?: ToDo;
@@ -69,6 +72,8 @@ export const useSwap = ({
           ? recipient
           : '';
 
+        const swapMethod = IS_LEDGER_LIVE ? ledgerLiveSwap : swap;
+
         appDispatch(
           addTransaction({
             id,
@@ -94,10 +99,11 @@ export const useSwap = ({
         }
 
         try {
-          const txid = await swap({
+          const txid = await swapMethod({
             route: swapRoute,
             feeOptionKey: feeOptionType,
             recipient: swapRecipient,
+            wallet,
           });
 
           if (typeof txid === 'string') {

@@ -17,6 +17,7 @@ export const THORSWAP_MULTI_SIG =
   'https://docs.thorswap.finance/thorswap/thorswap-products/thorswap/thorsafe';
 
 export const THORSWAP_AFFILIATE_ADDRESS = 't';
+export const THORSWAP_AFFILIATE_ADDRESS_LL = 'tl';
 export const YIELD_BEARING_YOUTUBE = 'https://www.youtube.com/watch?v=Up2-arSzH5k';
 export const SAVERS_MEDIUM = `https://medium.com/thorchain/thorchain-savers-vaults-fc3f086b4057`;
 export const INTRODUCTION_TO_LUVI_URL =

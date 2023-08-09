@@ -3,15 +3,30 @@ import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetInput } from 'components/AssetInput';
 import { AssetInputType } from 'components/AssetInput/types';
-import { Box, Icon } from 'components/Atomic';
+import { Box, Icon, Tooltip } from 'components/Atomic';
 import { isAVAXAsset, isETHAsset } from 'helpers/assets';
 import { useAssetListSearch } from 'hooks/useAssetListSearch';
 import { memo, useCallback, useMemo, useState } from 'react';
+import { t } from 'services/i18n';
+import { IS_LEDGER_LIVE } from 'settings/config';
 import { Token } from 'store/thorswap/types';
 import { useTokenAddresses } from 'views/Swap/hooks/useTokenAddresses';
 
+import {
+  isLedgerLiveSupportedInputAsset,
+  isLedgerLiveSupportedOutputAsset,
+} from '../../../ledgerLive/wallet/LedgerLive';
+
 import { useAssetsWithBalanceFromTokens } from './hooks/useAssetsWithBalanceFromTokens';
 
+const ConditionalWrapper = ({ children, condition }: { children: any; condition: boolean }) =>
+  IS_LEDGER_LIVE && condition ? (
+    <Tooltip className="mb-5" content={t('components.assetSelect.ledgerLiveSwitchNotSupported')}>
+      {children}
+    </Tooltip>
+  ) : (
+    children
+  );
 type Props = {
   onSwitchPair: (unsupported?: boolean) => void;
   onInputAssetChange: (asset: Asset) => void;
@@ -36,6 +51,10 @@ export const AssetInputs = memo(
 
     const thorchainERC20SupportedAddresses = useTokenAddresses('Thorchain-supported-ERC20');
     const thorchainAvaxSupportedAddresses = useTokenAddresses('Thorchain-supported-ARC20');
+
+    const isAssetSwitchPossible = useMemo(() => {
+      return isLedgerLiveSupportedInputAsset(outputAsset);
+    }, [outputAsset]);
 
     const handleAssetSwap = useCallback(() => {
       const inputAddress = inputAsset.asset.symbol.split('-')[1]?.toLowerCase();
@@ -101,24 +120,36 @@ export const AssetInputs = memo(
           center
           className={classNames(
             'absolute -mt-0.5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-            'p-1 md:p-2 rounded-xl md:rounded-[18px] cursor-pointer',
-            'border-10 border-solid bg-blue dark:border-dark-border-primary border-transparent hover:brightness-125 transition',
           )}
-          onClick={handleAssetSwap}
         >
-          <Icon
-            className={classNames('p-1 transition-all', {
-              '-scale-x-100': iconRotate,
-            })}
-            color="white"
-            name="arrowDown"
-            size={20}
-          />
+          <ConditionalWrapper condition={!isAssetSwitchPossible}>
+            <Box
+              center
+              className={classNames(
+                isAssetSwitchPossible
+                  ? 'cursor-pointer hover:brightness-125'
+                  : 'cursor-not-allowed brightness-75 hover:brightness-100',
+                'absolute -mt-0.5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+                'p-1 md:p-2 rounded-xl md:rounded-[18px]',
+                'border-10 border-solid bg-blue dark:border-dark-border-primary border-transparent transition',
+              )}
+              onClick={isAssetSwitchPossible ? handleAssetSwap : undefined}
+            >
+              <Icon
+                className={classNames('p-1 transition-all', {
+                  '-scale-x-100': iconRotate,
+                })}
+                color="white"
+                name="arrowDown"
+                size={20}
+              />
+            </Box>
+          </ConditionalWrapper>
         </Box>
 
         <AssetInput
           {...assetInputProps}
-          assets={assets}
+          assets={assets.filter(isLedgerLiveSupportedInputAsset)}
           className="!mb-1 flex-1 h-[111px]"
           onAssetChange={onInputAssetChange}
           onValueChange={onInputAmountChange}
@@ -129,7 +160,9 @@ export const AssetInputs = memo(
           className="h-[111px]"
           {...assetInputProps}
           hideMaxButton
-          assets={outputAssets}
+          assets={
+            !IS_LEDGER_LIVE ? outputAssets : outputAssets.filter(isLedgerLiveSupportedOutputAsset)
+          }
           onAssetChange={onOutputAssetChange}
           selectedAsset={outputAsset}
         />

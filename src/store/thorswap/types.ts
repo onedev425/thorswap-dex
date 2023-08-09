@@ -1,9 +1,5 @@
 import { QuoteRoute, TxStatus } from '@thorswap-lib/swapkit-api';
-import {
-  TransactionStatus,
-  TransactionType,
-  TxTrackerDetails,
-} from 'store/transactions/types';
+import { TransactionStatus, TransactionType, TxTrackerDetails } from 'store/transactions/types';
 
 type LiquidityTxResult<T extends TransactionType> = {
   type: T;

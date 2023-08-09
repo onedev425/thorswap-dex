@@ -5,6 +5,7 @@ import { Box, Button, Card, Icon, Switch, Tooltip } from 'components/Atomic';
 import { Input } from 'components/Input';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
+import { IS_LEDGER_LIVE } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 
 import { slippageOptions } from './settingOptions';
@@ -136,24 +137,25 @@ export const GlobalSettings = ({ transactionMode }: Props) => {
                 unselectedText="OFF"
               />
             </Box>
+            {!IS_LEDGER_LIVE && (
+              <Box alignCenter justify="between">
+                <Box alignCenter className="space-x-2">
+                  <Text textStyle="caption-xs" variant="secondary">
+                    {t('views.setting.customRecipientMode')}
+                  </Text>
+                  <Tooltip content={t('common.customRecipientTooltip')} place="top">
+                    <Icon color="secondary" name="questionCircle" size={16} />
+                  </Tooltip>
+                </Box>
 
-            <Box alignCenter justify="between">
-              <Box alignCenter className="space-x-2">
-                <Text textStyle="caption-xs" variant="secondary">
-                  {t('views.setting.customRecipientMode')}
-                </Text>
-                <Tooltip content={t('common.customRecipientTooltip')} place="top">
-                  <Icon color="secondary" name="questionCircle" size={16} />
-                </Tooltip>
+                <Switch
+                  checked={customRecipientMode}
+                  onChange={() => setCustomRecipientMode(!customRecipientMode)}
+                  selectedText="ON"
+                  unselectedText="OFF"
+                />
               </Box>
-
-              <Switch
-                checked={customRecipientMode}
-                onChange={() => setCustomRecipientMode(!customRecipientMode)}
-                selectedText="ON"
-                unselectedText="OFF"
-              />
-            </Box>
+            )}
 
             {/* <Box alignCenter justify="between">
           <Box className="space-x-2">

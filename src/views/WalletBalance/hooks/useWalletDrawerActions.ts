@@ -1,17 +1,24 @@
 import { useWalletDrawer } from 'hooks/useWalletDrawer';
 import { useState } from 'react';
 import { SUPPORTED_CHAINS } from 'settings/chain';
+import { IS_LEDGER_LIVE } from 'settings/config';
 import { useWallet } from 'store/wallet/hooks';
 
 export const useWalletDrawerActions = () => {
-  const { setIsConnectModalOpen, disconnectWallet, wallet, refreshWalletByChain, isWalletLoading } =
-    useWallet();
+  const {
+    setIsConnectModalOpen,
+    disconnectWallet,
+    wallet,
+    refreshWalletByChain,
+    isWalletLoading,
+    connectLedgerLiveWallet,
+  } = useWallet();
   const { close } = useWalletDrawer();
   const [isDisconnectModalOpened, setIsDisconnectModalOpened] = useState(false);
 
   const handleAddConnectWallet = () => {
     close();
-    setIsConnectModalOpen(true);
+    IS_LEDGER_LIVE ? connectLedgerLiveWallet() : setIsConnectModalOpen(true);
   };
 
   const onConfirmDisconnect = () => {

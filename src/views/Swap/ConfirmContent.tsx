@@ -1,4 +1,6 @@
 import { Flex, Text } from '@chakra-ui/react';
+import { hexlify } from '@ethersproject/bytes';
+import { toUtf8Bytes } from '@ethersproject/strings';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { AssetInputType } from 'components/AssetInput/types';
@@ -167,6 +169,21 @@ export const ConfirmContent = memo(
                     </Text>
                     <Text maxWidth="full" textStyle="caption">
                       {swapMemo}
+                    </Text>
+                  </Box>
+                </Box>
+
+                <Box className="px-4">
+                  <Box className="w-full h-[1px] bg-light-border-primary dark:bg-dark-border-primary my-2" />
+                </Box>
+
+                <Box row className="w-full">
+                  <Box center col className="flex-1 gap-y-2 px-4 w-[100%]">
+                    <Text fontWeight="medium" textStyle="caption" variant="secondary">
+                      {t('common.memoHex')}
+                    </Text>
+                    <Text maxWidth="100%" textStyle="caption">
+                      {hexlify(toUtf8Bytes(swapMemo))}
                     </Text>
                   </Box>
                 </Box>

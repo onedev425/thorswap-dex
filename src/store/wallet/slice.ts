@@ -17,13 +17,17 @@ const initialWallet = {
   [Chain.Cosmos]: null,
 };
 
+type LedgerLiveWallet = Wallet & {
+  walletMethods?: any;
+};
+
 const initialState = {
   phrase: '',
   privateKey: undefined as any,
   publicKey: undefined as any,
   isConnectModalOpen: false,
   keystore: null as Keystore | null,
-  wallet: initialWallet as Wallet,
+  wallet: initialWallet as Wallet | LedgerLiveWallet,
   oldBalance: initialWallet as Record<Chain, AssetAmount[] | null>,
   walletLoading: false,
   chainWalletLoading: initialWallet as Record<Chain, boolean | null>,
@@ -121,7 +125,85 @@ const walletSlice = createSlice({
       })
       .addCase(walletActions.getWalletByChain.rejected, (state, { meta: { arg: chain } }) => {
         state.chainWalletLoading[chain] = false;
-      });
+      })
+      .addCase(
+        walletActions.setLedgerLiveWalletByChain.pending,
+        (
+          state,
+          {
+            meta: {
+              arg: { chain },
+            },
+          },
+        ) => {
+          state.chainWalletLoading[chain] = true;
+        },
+      )
+      .addCase(
+        walletActions.setLedgerLiveWalletByChain.fulfilled,
+        (state, { payload: { chain, wallet } }) => {
+          state.chainWalletLoading[chain] = false;
+          if (!wallet?.address || !wallet?.balance) {
+            state.wallet[chain] = null;
+          } else {
+            state.oldBalance[chain] = wallet.balance;
+            const balance =
+              wallet?.balance?.filter(
+                ({ asset }) =>
+                  !state.hiddenAssets[chain]?.includes(asset.toString()) &&
+                  /**
+                   * Filter out assets with invalid symbols or scam tokens with symbols like ' ', '/', '.'
+                   */
+                  !(!asset.symbol || [' ', '/', '.'].some((c) => asset.symbol.includes(c))),
+              ) || null;
+
+            state.wallet[chain] = { ...wallet, balance };
+          }
+        },
+      )
+      .addCase(
+        walletActions.setLedgerLiveWalletByChain.rejected,
+        (
+          state,
+          {
+            meta: {
+              arg: { chain },
+            },
+          },
+        ) => {
+          state.chainWalletLoading[chain] = false;
+        },
+      )
+      .addCase(walletActions.updateLedgerLiveBalance.pending, (state, { meta: { arg: chain } }) => {
+        state.chainWalletLoading[chain] = true;
+      })
+      .addCase(
+        walletActions.updateLedgerLiveBalance.fulfilled,
+        (state, { payload: { chain, balance } }) => {
+          state.chainWalletLoading[chain] = false;
+          state.oldBalance[chain] = balance;
+
+          //@ts-expect-error
+          state.wallet[chain] = {
+            ...state.wallet[chain],
+            balance:
+              balance?.filter(
+                ({ asset }) =>
+                  !state.hiddenAssets[chain]?.includes(asset.toString()) &&
+                  /**
+                   * Filter out assets with invalid symbols or scam tokens with symbols like ' ', '/', '.'
+                   */
+                  !(!asset.symbol || [' ', '/', '.'].some((c) => asset.symbol.includes(c))),
+              ) || null,
+          };
+        },
+      )
+      .addCase(
+        walletActions.updateLedgerLiveBalance.rejected,
+        (state, { meta: { arg: chain } }) => {
+          state.chainWalletLoading[chain] = false;
+        },
+      );
   },
 });
 

@@ -51,7 +51,7 @@ export const useTransactionTimers = (
     }
 
     return legsTimers.reduce<number | null>((acc, legState) => {
-      if (legState.isCompleted) {
+      if (legState.isCompleted && legState.timeLeft === 0) {
         return acc;
       }
 

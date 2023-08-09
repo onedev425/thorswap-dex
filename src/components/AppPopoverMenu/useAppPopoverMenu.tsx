@@ -7,6 +7,7 @@ import { useTheme } from 'components/Theme/ThemeContext';
 import { USDAsset } from 'helpers/assets';
 import { useMemo, useState } from 'react';
 import { changeAppLanguage, FLAG_ICONS, LANGUAGE_NAMES, t } from 'services/i18n';
+import { IS_LEDGER_LIVE } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 import { SUPPORTED_LANGUAGES, SupportedLanguages, ThemeType, ThousandSeparator } from 'types/app';
 
@@ -87,14 +88,16 @@ const useMainMenu = (setMenuType: (val: MenuType) => void) => {
       icon: isLight ? 'sun' : 'moon',
       onClick: () => setMenuType('theme'),
     },
-    {
-      label: LANGUAGE_NAMES[language],
-      desc: t('appMenu.languageDesc'),
-      onClick: () => setMenuType('language'),
-      icon: 'languageLetters',
-      hasSubmenu: true,
-      value: language,
-    },
+    IS_LEDGER_LIVE
+      ? undefined
+      : {
+          label: LANGUAGE_NAMES[language],
+          desc: t('appMenu.languageDesc'),
+          onClick: () => setMenuType('language'),
+          icon: 'languageLetters',
+          hasSubmenu: true,
+          value: language,
+        },
     {
       label: getSeparatorLabel(thousandSeparator),
       desc: t('appMenu.separatorDesc'),
@@ -103,30 +106,36 @@ const useMainMenu = (setMenuType: (val: MenuType) => void) => {
       hasSubmenu: true,
       value: thousandSeparator,
     },
-    {
-      label: currencyAsset?.ticker || t('appMenu.currency'),
-      desc: t('appMenu.currencyDesc'),
-      onClick: () => setMenuType('currency'),
-      icon: 'dollarOutlined',
-      iconComponent:
-        !currencyAsset || currencyAsset?.name === 'USD' ? null : (
-          <AssetIcon asset={currencyAsset} size={25} />
-        ),
-      hasSubmenu: true,
-      value: baseCurrency,
-    },
-    {
-      label: t('appMenu.proMode'),
-      desc: t('appMenu.proModeSettings'),
-      onClick: () => setMenuType('proMode'),
-      icon: 'rocket',
-    },
-    {
-      label: t('appMenu.settings'),
-      desc: t('appMenu.customize'),
-      onClick: () => setMenuType('settings'),
-      icon: 'multiSettings',
-    },
+    IS_LEDGER_LIVE
+      ? undefined
+      : {
+          label: currencyAsset?.ticker || t('appMenu.currency'),
+          desc: t('appMenu.currencyDesc'),
+          onClick: () => setMenuType('currency'),
+          icon: 'dollarOutlined',
+          iconComponent:
+            !currencyAsset || currencyAsset?.name === 'USD' ? null : (
+              <AssetIcon asset={currencyAsset} size={25} />
+            ),
+          hasSubmenu: true,
+          value: baseCurrency,
+        },
+    IS_LEDGER_LIVE
+      ? undefined
+      : {
+          label: t('appMenu.proMode'),
+          desc: t('appMenu.proModeSettings'),
+          onClick: () => setMenuType('proMode'),
+          icon: 'rocket',
+        },
+    IS_LEDGER_LIVE
+      ? undefined
+      : {
+          label: t('appMenu.settings'),
+          desc: t('appMenu.customize'),
+          onClick: () => setMenuType('settings'),
+          icon: 'multiSettings',
+        },
   ].filter((i) => !!i) as MenuItemType[];
 
   return mainMenu;

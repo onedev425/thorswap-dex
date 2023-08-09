@@ -9,6 +9,7 @@ import { useFormatPrice } from 'helpers/formatPrice';
 import { parseToPercent } from 'helpers/parseHelpers';
 import { MouseEventHandler, useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
+import { IS_LEDGER_LIVE } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 
 type Props = {
@@ -121,18 +122,20 @@ export const SwapInfo = ({
               <Text fontWeight="medium" textStyle="caption" variant="secondary">
                 {t('views.wallet.networkFee')}
               </Text>
-              <Box center>
-                <Text
-                  className="italic underline"
-                  fontWeight="normal"
-                  textStyle="caption-xs"
-                  variant="secondary"
-                >
-                  details
-                </Text>
+              {!IS_LEDGER_LIVE && (
+                <Box center>
+                  <Text
+                    className="italic underline"
+                    fontWeight="normal"
+                    textStyle="caption-xs"
+                    variant="secondary"
+                  >
+                    details
+                  </Text>
 
-                <Icon className="mx-1" color="secondary" name="eye" size={16} />
-              </Box>
+                  <Icon className="mx-1" color="secondary" name="eye" size={16} />
+                </Box>
+              )}
             </Box>
           ),
           onClick: openFeeModal,

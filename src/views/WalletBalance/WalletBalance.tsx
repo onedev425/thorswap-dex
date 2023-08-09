@@ -18,10 +18,13 @@ import { MouseEventHandler, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { SORTED_CHAINS } from 'settings/chain';
+import { IS_LEDGER_LIVE } from 'settings/config';
 import { getSendRoute, getSwapRoute } from 'settings/router';
 import { useAppDispatch } from 'store/store';
 import { useWallet } from 'store/wallet/hooks';
 import { actions } from 'store/wallet/slice';
+
+import { isLedgerLiveSupportedInputAsset } from '../../../ledgerLive/wallet/LedgerLive';
 
 import { ChainHeader } from './ChainHeader';
 import { WalletDrawer } from './WalletDrawer';
@@ -58,12 +61,20 @@ const WalletBalanceList = () => {
       const walletBalance = [...balance, ...(balance.length === 0 ? [sigBalance] : [])];
 
       return walletBalance.map((data: AssetAmount) => (
-        <div key={data.asset.symbol} onClick={handleNavigate(getSwapRoute(data.asset))}>
+        <div
+          key={data.asset.symbol}
+          onClick={
+            !IS_LEDGER_LIVE || isLedgerLiveSupportedInputAsset(data)
+              ? handleNavigate(getSwapRoute(data.asset))
+              : undefined
+          }
+        >
           <Box
             alignCenter
             className={classNames(
-              'p-4 cursor-pointer bg-light-bg-secondary dark:bg-dark-bg-secondary !bg-opacity-80',
-              baseBgHoverClass,
+              'p-4 bg-light-bg-secondary dark:bg-dark-bg-secondary !bg-opacity-80',
+              `${!IS_LEDGER_LIVE || isLedgerLiveSupportedInputAsset(data) ? 'cursor-pointer' : ''}`,
+              !IS_LEDGER_LIVE || isLedgerLiveSupportedInputAsset(data) ? baseBgHoverClass : '',
             )}
             justify="between"
           >
@@ -88,13 +99,15 @@ const WalletBalanceList = () => {
                   variant="tint"
                 />
               )}
-              <Button
-                className="px-3 hover:bg-transparent dark:hover:bg-transparent"
-                leftIcon={<Icon color="primaryBtn" name="send" size={16} />}
-                onClick={handleNavigate(getSendRoute(data.asset))}
-                tooltip={t('common.send')}
-                variant="tint"
-              />
+              {!IS_LEDGER_LIVE && (
+                <Button
+                  className="px-3 hover:bg-transparent dark:hover:bg-transparent"
+                  leftIcon={<Icon color="primaryBtn" name="send" size={16} />}
+                  onClick={handleNavigate(getSendRoute(data.asset))}
+                  tooltip={t('common.send')}
+                  variant="tint"
+                />
+              )}
             </Box>
           </Box>
         </div>
@@ -107,7 +120,6 @@ const WalletBalanceList = () => {
     (chain: Chain, chainBalance: ChainWallet) => {
       const { address, balance } = chainBalance;
       const { walletType } = chainBalance;
-
       return (
         <Box col className="mt-2" key={chain.toString()}>
           <ChainHeader
@@ -138,7 +150,7 @@ const WalletBalanceList = () => {
   );
 };
 
-const WalletBalance = () => {
+export const WalletBalance = () => {
   const { wallet } = useWallet();
 
   if (!wallet) return null;
@@ -149,5 +161,3 @@ const WalletBalance = () => {
     </WalletDrawer>
   );
 };
-
-export default WalletBalance;

@@ -1,7 +1,7 @@
 import { QueryStatus } from '@reduxjs/toolkit/query';
 import { Chain } from '@thorswap-lib/types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { IS_PROD } from 'settings/config';
+import { IS_LEDGER_LIVE, IS_PROD } from 'settings/config';
 import { useLazyGetTokenListQuery } from 'store/static/api';
 import { useAppSelector } from 'store/store';
 import { useGetProvidersQuery } from 'store/thorswap/api';
@@ -10,7 +10,11 @@ import { Token } from 'store/thorswap/types';
 /**
  * Leave this as easy to navigate and clear as possible.
  */
-export const DISABLED_TOKENLIST_PROVIDERS: string[] = IS_PROD ? [] : [];
+export const DISABLED_TOKENLIST_PROVIDERS = IS_PROD
+  ? []
+  : IS_LEDGER_LIVE
+  ? ['Stargatearb', 'Pancakeswap', 'Pancakeswapeth', 'Traderjoe', 'Pangolin']
+  : [];
 
 export const useTokenList = () => {
   const [tokens, setTokens] = useState<Token[]>([]);
@@ -22,7 +26,6 @@ export const useTokenList = () => {
 
   const providers = useMemo(() => {
     if (!providersData) return [];
-
     return providersData
       .map(({ provider }) => provider)
       .filter((p) => ![...disabledProviders, ...DISABLED_TOKENLIST_PROVIDERS].includes(p));

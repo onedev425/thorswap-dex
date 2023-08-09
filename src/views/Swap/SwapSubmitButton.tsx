@@ -7,6 +7,7 @@ import { useCheckExchangeBNB } from 'hooks/useCheckExchangeBNB';
 import { useMimir } from 'hooks/useMimir';
 import { useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
+import { IS_LEDGER_LIVE } from 'settings/config';
 import { useExternalConfig } from 'store/externalConfig/hooks';
 import { useMidgard } from 'store/midgard/hooks';
 import { useTransactionsState } from 'store/transactions/hooks';
@@ -19,6 +20,7 @@ type Props = {
   inputAsset: AssetEntity;
   isApproved: boolean | null;
   isInputWalletConnected: boolean;
+  isOutputWalletConnected: boolean;
   isLoading: boolean;
   quoteError: boolean;
   outputAsset: AssetEntity;
@@ -35,13 +37,14 @@ export const SwapSubmitButton = ({
   inputAsset,
   isApproved,
   isInputWalletConnected,
+  isOutputWalletConnected,
   isLoading,
   outputAsset,
   recipient,
   setVisibleApproveModal,
   setVisibleConfirmModal,
 }: Props) => {
-  const { wallet, setIsConnectModalOpen } = useWallet();
+  const { wallet, setIsConnectModalOpen, connectLedgerLiveWallet } = useWallet();
   const { pools } = useMidgard();
   const { maxSynthPerAssetDepth } = useMimir();
   const { getChainTradingPaused } = useExternalConfig();
@@ -138,11 +141,6 @@ export const SwapSubmitButton = ({
     [isInputWalletConnected, isApproved],
   );
 
-  const isOutputWalletConnected = useMemo(
-    () => outputAsset && hasWalletConnected({ wallet, inputAssets: [outputAsset] }),
-    [wallet, outputAsset],
-  );
-
   const isWalletRequired = useMemo(
     () => !isInputWalletConnected || !(isOutputWalletConnected || recipient),
     [isInputWalletConnected, isOutputWalletConnected, recipient],
@@ -151,8 +149,17 @@ export const SwapSubmitButton = ({
   return (
     <Box className="w-full pt-5 gap-x-2">
       {isWalletRequired ? (
-        <Button stretch onClick={() => setIsConnectModalOpen(true)} size="lg" variant="fancy">
-          {isInputWalletConnected
+        <Button
+          stretch
+          onClick={() =>
+            !IS_LEDGER_LIVE
+              ? setIsConnectModalOpen(true)
+              : connectLedgerLiveWallet(isInputWalletConnected ? [outputAsset.L1Chain] : undefined)
+          }
+          size="lg"
+          variant="fancy"
+        >
+          {isInputWalletConnected && !IS_LEDGER_LIVE
             ? t('views.swap.connectOrFillRecipient')
             : t('common.connectWallet')}
         </Button>

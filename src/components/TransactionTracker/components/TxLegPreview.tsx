@@ -8,9 +8,9 @@ import {
   shouldForwardProp,
   Text,
 } from '@chakra-ui/react';
+import { TxStatus, TxTrackerDetails } from '@thorswap-lib/swapkit-api';
 import { Amount } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
-import { TxStatus } from '@thorswap-lib/swapkit-api';
 import { AssetIcon } from 'components/AssetIcon';
 import { FallbackIcon } from 'components/AssetIcon/FallbackIcon';
 import { Button, Icon, Tooltip } from 'components/Atomic';
@@ -24,11 +24,7 @@ import { getTickerFromIdentifier, tokenLogoURL } from 'helpers/logoURL';
 import { useTxUrl } from 'hooks/useTxUrl';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
-import {
-  TransactionStatus,
-  TransactionType,
-  TxTrackerLeg,
-} from 'store/transactions/types';
+import { TransactionStatus, TransactionType, TxTrackerLeg } from 'store/transactions/types';
 
 type Props = {
   leg: TxTrackerLeg;
@@ -38,6 +34,7 @@ type Props = {
   txStatus?: TxStatus;
   legTimeLeft?: number | null;
   horizontalView?: boolean;
+  txDetails: TxTrackerDetails;
 };
 
 const AnimatedBox = chakra(motion.div, {
@@ -92,12 +89,22 @@ export const TxLegPreview = ({
   txStatus,
   legTimeLeft,
   horizontalView,
+  txDetails,
 }: Props) => {
   const { finished: isTxFinished } = getTxState(txStatus);
 
+  const isRuneLastLeg = isLast && leg.chain === Chain.THORChain;
+
+  const invalidRuneTxHash =
+    isRuneLastLeg &&
+    leg.hash === '0000000000000000000000000000000000000000000000000000000000000000';
+
   const inAssetIdentifier = leg.fromAsset;
   const outAssetIdentifier = leg.toAsset;
-  const transactionUrl = useTxUrl({ txHash: leg?.hash || '', chain: leg.chain });
+  const transactionUrl = useTxUrl({
+    txHash: (invalidRuneTxHash ? txDetails.legs[currentLegIndex - 1].hash : leg?.hash) || '',
+    chain: leg.chain,
+  });
   const fromAssetTicker = getTickerFromIdentifier(inAssetIdentifier || '') || '??';
   const toAssetTicker = getTickerFromIdentifier(outAssetIdentifier || '') || '??';
 
@@ -165,7 +172,7 @@ export const TxLegPreview = ({
               right={0}
               sx={{ pointerEvents: 'none' }}
               top={0}
-              //@ts-ignore
+              // @ts-expect-error
               transition={{
                 duration: 2.5,
                 ease: 'easeInOut',

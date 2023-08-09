@@ -2,6 +2,7 @@ import { Amount, AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit
 import { Chain } from '@thorswap-lib/types';
 import { useCallback, useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
+import { IS_LEDGER_LIVE } from 'settings/config';
 import { Pair } from 'views/Swap/types';
 
 const getSwapPair = (pair: string) => {
@@ -21,8 +22,8 @@ export const useSwapPair = () => {
 
   const { pair } = useParams<{ pair: string }>();
   const [swapPair, setSwapPair] = useState<Pair>({
-    inputAsset: getSignatureAssetFor(Chain.Ethereum),
-    outputAsset: getSignatureAssetFor(Chain.Bitcoin),
+    inputAsset: getSignatureAssetFor(IS_LEDGER_LIVE ? Chain.Bitcoin : Chain.Ethereum),
+    outputAsset: getSignatureAssetFor(IS_LEDGER_LIVE ? Chain.Ethereum : 'ETH_THOR'),
   });
 
   const [inputAmountAssetString, setInputAmountAssetString] = useState(

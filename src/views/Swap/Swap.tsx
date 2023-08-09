@@ -18,7 +18,7 @@ import { useSwapTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { IS_PROTECTED } from 'settings/config';
+import { IS_LEDGER_LIVE, IS_PROTECTED } from 'settings/config';
 import { getKyberSwapRoute, getSwapRoute } from 'settings/router';
 import { useApp } from 'store/app/hooks';
 import { useWallet } from 'store/wallet/hooks';
@@ -90,6 +90,11 @@ const SwapView = () => {
   );
 
   useEffect(() => {
+    if (IS_LEDGER_LIVE) {
+      setRecipient(wallet[outputAsset.L1Chain]?.address || '');
+      setSender(wallet[inputAsset.L1Chain]?.address || '');
+      return;
+    }
     import('services/swapKit')
       .then(({ getSwapKitClient }) => getSwapKitClient())
       .then(({ getAddress }) => {
@@ -114,6 +119,7 @@ const SwapView = () => {
   const VTHORBalance = useVTHORBalance(ethAddr);
 
   const affiliateBasisPoints = useMemo(() => {
+    if (IS_LEDGER_LIVE) return '50';
     if (IS_PROTECTED || VTHORBalance >= 500_000) return '0';
     if (VTHORBalance >= 100_000) return '10';
     if (VTHORBalance >= 10_000) return '15';
@@ -265,7 +271,7 @@ const SwapView = () => {
       const maxNewInputBalance = getMaxBalance(outputAsset);
       setInputAmount(outputAmount.gt(maxNewInputBalance) ? maxNewInputBalance : outputAmount);
       const defaultAsset = isETHAsset(outputAsset)
-        ? getSignatureAssetFor('ETH_THOR')
+        ? getSignatureAssetFor(!IS_LEDGER_LIVE ? 'ETH_THOR' : Chain.Bitcoin)
         : getSignatureAssetFor(Chain.Ethereum);
       const output = unsupportedOutput ? defaultAsset : inputAsset;
       const route = isKyberSwapPage
@@ -379,12 +385,14 @@ const SwapView = () => {
             tokens={tokens}
           />
 
-          <CustomRecipientInput
-            isOutputWalletConnected={isOutputWalletConnected}
-            outputAssetL1Chain={outputAsset.L1Chain}
-            recipient={recipient}
-            setRecipient={setRecipient}
-          />
+          {!IS_LEDGER_LIVE && (
+            <CustomRecipientInput
+              isOutputWalletConnected={isOutputWalletConnected}
+              outputAssetL1Chain={outputAsset.L1Chain}
+              recipient={recipient}
+              setRecipient={setRecipient}
+            />
+          )}
 
           <SwapOptimizeSection
             canStreamSwap={canStreamSwap}
@@ -440,6 +448,7 @@ const SwapView = () => {
             isApproved={!!selectedRoute?.isApproved}
             isInputWalletConnected={isInputWalletConnected}
             isLoading={isFetching || isPriceLoading}
+            isOutputWalletConnected={isOutputWalletConnected}
             outputAsset={outputAsset}
             quoteError={!!error}
             recipient={recipient}

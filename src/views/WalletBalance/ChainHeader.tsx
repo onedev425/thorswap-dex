@@ -8,6 +8,7 @@ import { WalletIcon } from 'components/WalletIcon/WalletIcon';
 import { chainName } from 'helpers/chainName';
 import { useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
+import { IS_LEDGER_LIVE } from 'settings/config';
 import { WalletHeaderActions } from 'views/Wallet/components/WalletHeaderActions';
 import { useWalletChainActions } from 'views/Wallet/hooks';
 
@@ -38,7 +39,7 @@ export const ChainHeader = ({
     }
     const { getAddress } = await (await import('services/swapKit')).getSwapKitClient();
 
-    if (walletType === WalletOption.LEDGER) {
+    if (walletType === WalletOption.LEDGER && !IS_LEDGER_LIVE) {
       showInfoToast(t('notification.verifyLedgerAddy'), getAddress(chain), { duration: 20 * 1000 });
     }
   }, [walletType, chain]);
@@ -47,7 +48,7 @@ export const ChainHeader = ({
     if (walletType === WalletOption.KEYSTORE) {
       return t('views.walletModal.viewPhrase');
     }
-    if (walletType === WalletOption.LEDGER) {
+    if (walletType === WalletOption.LEDGER && !IS_LEDGER_LIVE) {
       return t('views.walletModal.verifyAddress');
     }
 

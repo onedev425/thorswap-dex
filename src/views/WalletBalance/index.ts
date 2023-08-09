@@ -1,1 +1,2 @@
-export { default } from './WalletBalance';
+import { WalletBalance } from './WalletBalance';
+export default WalletBalance;

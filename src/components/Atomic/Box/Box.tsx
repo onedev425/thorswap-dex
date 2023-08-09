@@ -1,8 +1,9 @@
+import { ChakraProps } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { alignClasses, BoxProps, justifyClasses } from 'components/Atomic/Box/types';
 import { CSSProperties, forwardRef, useMemo } from 'react';
 
-export const Box = forwardRef<HTMLDivElement, BoxProps>(
+export const Box = forwardRef<HTMLDivElement, ChakraProps & BoxProps>(
   (
     {
       className,
@@ -16,6 +17,7 @@ export const Box = forwardRef<HTMLDivElement, BoxProps>(
       row,
       flex,
       style,
+      color,
       ...rest
     },
     ref,
@@ -37,6 +39,7 @@ export const Box = forwardRef<HTMLDivElement, BoxProps>(
           justify && justifyClasses[justify],
           className,
         )}
+        color={color as string}
         ref={ref}
         style={styles}
       >

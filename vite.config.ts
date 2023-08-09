@@ -1,32 +1,38 @@
-import nodePolyfills from 'rollup-plugin-polyfill-node'
-import react from '@vitejs/plugin-react'
-import svgr from 'vite-plugin-svgr'
-import rewriteAll from 'vite-plugin-rewrite-all'
-import { resolve } from 'path'
-import removeConsole from 'vite-plugin-remove-console'
-import { visualizer } from "rollup-plugin-visualizer";
-import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react';
+import { resolve } from 'path';
+import nodePolyfills from 'rollup-plugin-polyfill-node';
+import { visualizer } from 'rollup-plugin-visualizer';
+import { defineConfig } from 'vite';
+import removeConsole from 'vite-plugin-remove-console';
+import rewriteAll from 'vite-plugin-rewrite-all';
+import svgr from 'vite-plugin-svgr';
 
-const withSourcemap = process.env.SOURCEMAP === 'true'
-const analyze = process.env.ANALYZE_BUNDLE === 'true'
-const sourcemap= withSourcemap || analyze
+const withSourcemap = process.env.SOURCEMAP === 'true';
+const analyze = process.env.ANALYZE_BUNDLE === 'true';
+const sourcemap = withSourcemap || analyze;
 
 const plugins = [
   react(),
   rewriteAll(),
   svgr({ svgrOptions: { icon: true } }),
   removeConsole(),
-]
-  .concat(
-    analyze
-      ? [visualizer({ open: true, sourcemap: true, template: process.env.TEMPLATE as 'treemap' || 'treemap' })]
-      : []
-  )
+].concat(
+  analyze
+    ? [
+        visualizer({
+          open: true,
+          sourcemap: true,
+          template: (process.env.TEMPLATE as 'treemap') || 'treemap',
+        }),
+      ]
+    : [],
+);
 
 export default defineConfig({
+  root: '',
   define: {
     'process.env': {},
-    'process.version': JSON.stringify('v16.0.0'),
+    'process.version': JSON.stringify('v18.0.0'),
   },
   plugins,
   resolve: {
@@ -72,7 +78,6 @@ export default defineConfig({
     reportCompressedSize: true,
     sourcemap,
     rollupOptions: {
-      maxParallelFileOps: 20,
       plugins: [nodePolyfills({ sourceMap: sourcemap })],
       output: {
         sourcemap,
@@ -87,7 +92,7 @@ export default defineConfig({
     esbuildOptions: {
       target: 'es2020',
       define: { global: 'globalThis' },
+      reserveProps: /(BigInteger|ECPair|Point)/,
     },
   },
-})
-
+});

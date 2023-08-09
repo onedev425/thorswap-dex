@@ -10,6 +10,7 @@ import useWindowSize from 'hooks/useWindowSize';
 import { useCallback, useRef } from 'react';
 import { FixedSizeList as List } from 'react-window';
 import { t } from 'services/i18n';
+import { IS_LEDGER_LIVE } from 'settings/config';
 
 import { AssetSelectItem } from './AssetSelectItem';
 import { AssetSelectProps } from './types';
@@ -80,34 +81,33 @@ export const AssetSelectList = ({
           genericBgClasses.secondary,
         )}
       >
-        {!noFilters && (
-          <>
-            <Input
-              autoFocus
-              stretch
-              border="rounded"
-              className="!text-md p-1.5 flex-1 border"
-              containerClassName="bg-light-gray-light dark:bg-dark-gray-light !bg-opacity-80"
-              onChange={handleQueryChange}
-              placeholder={t('components.assetSelect.searchTokenName')}
-              suffix={
-                query ? (
-                  <Icon color="secondary" name="close" onClick={() => handleQueryChange()} />
-                ) : (
-                  ''
-                )
-              }
-              value={query}
-            />
-
+        <>
+          <Input
+            autoFocus
+            stretch
+            border="rounded"
+            className="!text-md p-1.5 flex-1 border"
+            containerClassName="bg-light-gray-light dark:bg-dark-gray-light !bg-opacity-80"
+            onChange={handleQueryChange}
+            placeholder={t('components.assetSelect.searchTokenName')}
+            suffix={
+              query ? (
+                <Icon color="secondary" name="close" onClick={() => handleQueryChange()} />
+              ) : (
+                ''
+              )
+            }
+            value={query}
+          />
+          {!noFilters && !IS_LEDGER_LIVE && (
             <TabsSelect
               buttonStyle={{ px: 2 }}
               onChange={setTypeFilterOption}
               tabs={assetFilterTypes}
               value={typeFilter}
             />
-          </>
-        )}
+          )}
+        </>
       </Box>
 
       <Box
@@ -121,7 +121,7 @@ export const AssetSelectList = ({
         {filteredAssets.length ? (
           <List
             className="!overflow-x-clip overflow-y-auto"
-            height={isLgActive ? 410 : 1000}
+            height={!IS_LEDGER_LIVE ? (isLgActive ? 410 : 1000) : 721}
             itemCount={filteredAssets.length || 1}
             itemSize={ASSET_ITEM_HEIGHT}
             ref={listRef}

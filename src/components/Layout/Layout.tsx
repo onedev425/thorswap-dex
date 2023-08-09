@@ -5,7 +5,7 @@ import { ConnectWalletModal } from 'components/Modals/ConnectWalletModal';
 import { Scrollbar } from 'components/Scrollbar';
 import { Sidebar } from 'components/Sidebar';
 import { PropsWithChildren, useCallback, useState } from 'react';
-import { IS_STAGENET } from 'settings/config';
+import { IS_LEDGER_LIVE, IS_STAGENET } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 
 import { NavDrawer } from './NavDrawer';
@@ -34,25 +34,27 @@ export const Layout = ({ children }: PropsWithChildren<{}>) => {
       }
     >
       <Box col className="min-h-screen my-0 px-[calc(50%-720px)]" flex={1}>
-        <aside className="fixed hidden md:block">
-          <Sidebar collapsed={isSidebarCollapsed} toggle={toggleSidebar} />
-        </aside>
-
-        <aside className="md:hidden">
-          <NavDrawer hideMenu={hideMenu} isVisible={isMenuVisible} />
-        </aside>
-
+        {!IS_LEDGER_LIVE && (
+          <>
+            <aside className="fixed hidden md:block">
+              <Sidebar collapsed={isSidebarCollapsed} toggle={toggleSidebar} />
+            </aside>
+            <aside className="md:hidden">
+              <NavDrawer hideMenu={hideMenu} isVisible={isMenuVisible} />
+            </aside>
+          </>
+        )}
         <main
           className={classNames(
-            'flex flex-col md:max-w-[calc(100%-148px)] mx-3 md:px-10 py-5 ease-in-out transition-[margin]',
+            'flex flex-col mx-3 md:px-10 py-5 ease-in-out transition-[margin]',
             isSidebarCollapsed ? 'md:ml-24' : 'md:ml-48',
+            IS_LEDGER_LIVE ? '!ml-3' : 'md:max-w-[calc(100%-148px)]',
           )}
         >
           <Header openMenu={openMenu} />
           {children}
         </main>
-
-        <ConnectWalletModal />
+        {!IS_LEDGER_LIVE && <ConnectWalletModal />}
       </Box>
     </Scrollbar>
   );

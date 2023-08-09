@@ -12,10 +12,11 @@ import { TransactionContainer } from 'components/TransactionManager/TransactionC
 import { useTransactionsModal } from 'components/TransactionTracker/useTransactionsModal';
 import { ElementRef, memo, useCallback, useEffect, useRef, useState } from 'react';
 import { t } from 'services/i18n';
+import { IS_LEDGER_LIVE } from 'settings/config';
 import { useAppDispatch } from 'store/store';
 import { useTransactionsState } from 'store/transactions/hooks';
 import { clearTransactions } from 'store/transactions/slice';
-import { getWalletByChain } from 'store/wallet/actions';
+import { getWalletByChain, updateLedgerLiveBalance } from 'store/wallet/actions';
 
 import { OpenButton } from './OpenButton';
 
@@ -72,7 +73,9 @@ export const TransactionManager = memo(() => {
     }, [] as Chain[]);
 
     for (const chain of chainsToUpdate) {
-      appDispatch(getWalletByChain(chain as Chain));
+      !IS_LEDGER_LIVE
+        ? appDispatch(getWalletByChain(chain))
+        : appDispatch(updateLedgerLiveBalance(chain));
     }
   }, [appDispatch, completed]);
 

@@ -10,22 +10,34 @@ import { chainName } from 'helpers/chainName';
 import { useCallback } from 'react';
 import { batch } from 'react-redux';
 import { t } from 'services/i18n';
+import { ledgerLive } from 'services/ledgerLive';
+import { IS_LEDGER_LIVE } from 'settings/config';
 import { actions as midgardActions } from 'store/midgard/slice';
 import { useAppDispatch, useAppSelector } from 'store/store';
+
+import {
+  connectLedgerLive,
+  LedgerLiveChain,
+  mapLedgerChainToChain,
+} from '../../../ledgerLive/wallet/LedgerLive';
 
 import * as walletActions from './actions';
 import { actions } from './slice';
 
 export const useWallet = () => {
   const dispatch = useAppDispatch();
-  const walletState = useAppSelector(({ wallet }) => wallet);
+  const wallet = useAppSelector(({ wallet }) => wallet);
 
   const isWalletLoading =
-    walletState.walletLoading ||
-    Object.values(walletState.chainWalletLoading).some((loading) => loading);
+    wallet.walletLoading || Object.values(wallet.chainWalletLoading).some((loading) => loading);
 
   const setWallets = useCallback(
-    (chains: Chain[]) => chains.forEach((chain) => dispatch(walletActions.getWalletByChain(chain))),
+    (chains: Chain[]) =>
+      chains.forEach((chain) => {
+        !IS_LEDGER_LIVE
+          ? dispatch(walletActions.getWalletByChain(chain))
+          : dispatch(walletActions.updateLedgerLiveBalance(chain));
+      }),
     [dispatch],
   );
 
@@ -80,6 +92,21 @@ export const useWallet = () => {
         console.error(error);
         showErrorToast(t('notification.ledgerFailed', options));
       }
+    },
+    [dispatch],
+  );
+
+  const connectLedgerLiveWallet = useCallback(
+    async (chains?: Chain[]) => {
+      const account = await ledgerLive().requestAccount(chains);
+      const chain = mapLedgerChainToChain(account.currency as LedgerLiveChain);
+
+      dispatch(
+        walletActions.setLedgerLiveWalletByChain({
+          chain,
+          promise: connectLedgerLive(chain, account),
+        }),
+      );
     },
     [dispatch],
   );
@@ -227,30 +254,33 @@ export const useWallet = () => {
 
   const refreshWalletByChain = useCallback(
     (chain: Chain) => {
-      dispatch(walletActions.getWalletByChain(chain));
+      !IS_LEDGER_LIVE
+        ? dispatch(walletActions.getWalletByChain(chain))
+        : dispatch(walletActions.updateLedgerLiveBalance(chain));
     },
     [dispatch],
   );
 
   return {
-    ...walletState,
+    ...wallet,
     ...walletActions,
-    isWalletLoading,
-    unlockWallet,
-    setIsConnectModalOpen,
-    disconnectWallet,
-    disconnectWalletByChain,
-    connectXdefiWallet,
     connectBraveWallet,
-    connectTrustWalletExtension,
     connectCoinbaseWalletExtension,
     connectEVMWalletExtension,
-    connectMetamask,
     connectKeplr,
-    connectOkx,
-    connectWalletconnect,
     connectLedger,
+    connectLedgerLiveWallet,
+    connectMetamask,
+    connectOkx,
     connectTrezor,
+    connectTrustWalletExtension,
+    connectWalletconnect,
+    connectXdefiWallet,
+    disconnectWallet,
+    disconnectWalletByChain,
+    isWalletLoading,
     refreshWalletByChain,
+    setIsConnectModalOpen,
+    unlockWallet,
   };
 };
