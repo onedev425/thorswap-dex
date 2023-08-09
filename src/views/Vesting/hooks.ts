@@ -50,10 +50,9 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
   const ethProvider = useMemo(() => getProvider(Chain.Ethereum), []);
 
   const checkAlloc = useCallback(async () => {
-    const skClient = await getSwapKitClient();
-    if (!ethAddress) return appDispatch(actions.setHasVestingAlloc(false));
-    if (contractCallInProgress) return;
+    if (!ethAddress || contractCallInProgress) return;
 
+    const skClient = await getSwapKitClient();
     try {
       contractCallInProgress = true;
       const { abi: thorVesting, address: thorAddress } = contractConfig['vesting'];
