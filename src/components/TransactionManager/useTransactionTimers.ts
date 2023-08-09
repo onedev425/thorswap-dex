@@ -22,6 +22,11 @@ export const useTransactionTimers = (
         return { timeLeft: 0, isCompleted: true };
       }
 
+      if (leg.estimatedEndTimestamp) {
+        const timeLeft = leg.estimatedEndTimestamp - now;
+        return { timeLeft: timeLeft < 1000 ? 0 : timeLeft, isCompleted: completed };
+      }
+
       if (leg.estimatedDuration && !leg.startTimestamp) {
         return { timeLeft: leg.estimatedDuration, isCompleted: completed };
       }

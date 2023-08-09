@@ -374,6 +374,7 @@
     "stakedAsset": "Staked %{amount} %{asset}",
     "started": "Started",
     "streamingSwapDetails": "Streaming swap progress",
+    "streaming": "Streaming",
     "submitWithdrawTx": "Submit Withdraw TX",
     "success": "Success",
     "swap": "Swap",

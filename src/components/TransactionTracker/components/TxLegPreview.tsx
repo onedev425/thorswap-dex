@@ -109,6 +109,7 @@ export const TxLegPreview = ({
   const toAssetTicker = getTickerFromIdentifier(outAssetIdentifier || '') || '??';
 
   const isTransfer = !leg.provider && leg.fromAsset === leg.toAsset;
+  const isStreamming = leg.status === TxStatus.STREAMING;
 
   const status = useMemo(() => {
     if (!isTxFinished && currentLegIndex === index) {
@@ -128,19 +129,19 @@ export const TxLegPreview = ({
 
   const { badgeLabel, badgeColorScheme } = useMemo(
     () => ({
-      badgeLabel: leg.txnType
-        ? t(
-            `txManager.txBadge.${getLabelForType({
-              fromAsset: fromAssetTicker,
-              toAsset: toAssetTicker,
-              type: leg.txnType,
-              provider: leg.provider,
-            })}`,
-          )
+      badgeLabel: isStreamming
+        ? t('txManager.streaming')
+        : leg.txnType
+        ? getLabelForType({
+            fromAsset: fromAssetTicker,
+            toAsset: toAssetTicker,
+            type: leg.txnType,
+            provider: leg.provider,
+          })
         : undefined,
       badgeColorScheme: colorSchemeForChain[leg.chain],
     }),
-    [fromAssetTicker, leg.chain, leg.provider, leg.txnType, toAssetTicker],
+    [fromAssetTicker, isStreamming, leg.chain, leg.provider, leg.txnType, toAssetTicker],
   );
 
   return (

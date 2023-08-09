@@ -1,4 +1,5 @@
 import { Text } from '@chakra-ui/react';
+import { TxStatus } from '@thorswap-lib/swapkit-api';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { getEstimatedTxDuration } from 'components/TransactionManager/helpers';
 import { TransactionStatusIcon } from 'components/TransactionManager/TransactionStatusIcon';
@@ -21,6 +22,7 @@ export const TxDetailsStatusInfo = ({ txDetails, totalTimeLeft }: Props) => {
   const { status } = txDetails;
   const { finished, timedOut } = getTxState(status);
   const txStatus = getTxDisplayStatus(status);
+  const isStreaming = status === TxStatus.STREAMING;
 
   if (timedOut) {
     return (
@@ -38,7 +40,7 @@ export const TxDetailsStatusInfo = ({ txDetails, totalTimeLeft }: Props) => {
   return (
     <>
       <Text color={getTxStatusColor(txStatus)} textStyle="caption-xs" textTransform="uppercase">
-        {getTxStatusLabel(txStatus)}
+        {isStreaming ? t('txManager.streaming') : getTxStatusLabel(txStatus)}
       </Text>
       {finished ? (
         <TransactionStatusIcon size={18} status={txStatus} />
