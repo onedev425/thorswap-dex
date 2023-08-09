@@ -243,7 +243,11 @@ const SwapView = () => {
         setInputAmount(inputAmount.gt(maxNewInputBalance) ? maxNewInputBalance : inputAmount);
       }
 
-      navigate(!isKyberSwapPage ? getSwapRoute(input, output) : getKyberSwapRoute(input, output));
+      const route = isKyberSwapPage
+        ? getKyberSwapRoute(input, output)
+        : getSwapRoute(input, output);
+
+      navigate(`${route}?sellAmount=${inputAmount.assetAmount.toString()}`);
     },
     [
       getMaxBalance,
@@ -264,11 +268,11 @@ const SwapView = () => {
         ? getSignatureAssetFor('ETH_THOR')
         : getSignatureAssetFor(Chain.Ethereum);
       const output = unsupportedOutput ? defaultAsset : inputAsset;
-      navigate(
-        !isKyberSwapPage
-          ? getSwapRoute(outputAsset, output)
-          : getKyberSwapRoute(outputAsset, output),
-      );
+      const route = isKyberSwapPage
+        ? getKyberSwapRoute(outputAsset, output)
+        : getSwapRoute(outputAsset, output);
+
+      navigate(`${route}?sellAmount=${outputAmount.assetAmount.toString()}`);
     },
     [
       getMaxBalance,
