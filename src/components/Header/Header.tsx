@@ -1,4 +1,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
+import LogoTsDark from 'assets/images/header_logo_black.png';
+import LogoTsWhite from 'assets/images/header_logo_white.png';
+import Logo from 'assets/images/logo.png';
 import { AnnouncementsPopover } from 'components/Announcements/AnnouncementsPopover/AnnouncementsPopover';
 import { AppPopoverMenu } from 'components/AppPopoverMenu';
 import { Button, Icon } from 'components/Atomic';
@@ -11,7 +14,7 @@ import { useWalletDrawer } from 'hooks/useWalletDrawer';
 import useWindowSize from 'hooks/useWindowSize';
 import { memo, useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
-import { IS_PROTECTED, TEST_ENVIRONMENT_NAME } from 'settings/config';
+import { IS_LEDGER_LIVE, IS_PROTECTED, TEST_ENVIRONMENT_NAME } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 import { useWallet } from 'store/wallet/hooks';
 import { ThemeType } from 'types/app';
@@ -58,31 +61,57 @@ export const Header = memo(({ openMenu }: Props) => {
       )}
 
       <Flex flex={1} justify="between">
-        <Flex flex={1} gap={2} mr={2} mt="auto" shrink={0}>
-          <Button
-            className="flex !p-1"
-            display={{ md: 'none' }}
-            leftIcon={<Icon name="menu" size={isMdActive ? 24 : 20} />}
-            onClick={openMenu}
-            variant="borderlessPrimary"
-          />
+        {IS_LEDGER_LIVE ? (
+          <>
+            <Flex className={IS_LEDGER_LIVE && isMdActive ? 'flex' : 'hidden md:flex'} flex={1}>
+              <StatusDropdown />
+            </Flex>
 
-          <Box
-            bottom={4}
-            display={{ base: 'none', md: 'flex' }}
-            position="fixed"
-            right={4}
-            zIndex={50}
-          >
-            <StatusDropdown />
-          </Box>
-        </Flex>
+            <Flex className={!isMdActive ? 'justify-start' : 'justify-center'} flex={1}>
+              <div className="min-w-[48px] h-10 transition-colors cursor-pointer">
+                <div className="rounded-full bg-cyan bg-opacity-30 absolute w-16 h-16 transition-all -translate-x-2 -translate-y-2 blur-[30px] dark:blur-md -z-10" />
+                <img
+                  alt="Logo"
+                  className={'dark:hidden h-10' + (!isMdActive ? ' ml-4' : '')}
+                  src={isMdActive ? LogoTsDark : Logo}
+                />
+                <img
+                  alt="Logo"
+                  className={'hidden dark:block h-10' + (!isMdActive ? ' ml-4' : '')}
+                  src={isMdActive ? LogoTsWhite : Logo}
+                />
+              </div>
+            </Flex>
+          </>
+        ) : (
+          <>
+            <Flex flex={1} gap={2} mr={2} mt="auto" shrink={0}>
+              <Button
+                className="flex !p-1"
+                display={{ md: 'none' }}
+                leftIcon={<Icon name="menu" size={isMdActive ? 24 : 20} />}
+                onClick={openMenu}
+                variant="borderlessPrimary"
+              />
 
-        <Flex flex={3} justify="center">
-          <Box display={{ base: 'none', xl: 'flex' }} mx="auto" w="500px">
-            <PromoBannerSlider />
-          </Box>
-        </Flex>
+              <Box
+                bottom={4}
+                display={{ base: 'none', md: 'flex' }}
+                position="fixed"
+                right={4}
+                zIndex={50}
+              >
+                <StatusDropdown />
+              </Box>
+            </Flex>
+
+            <Flex flex={3} justify="center">
+              <Box display={{ base: 'none', xl: 'flex' }} mx="auto" w="500px">
+                <PromoBannerSlider />
+              </Box>
+            </Flex>
+          </>
+        )}
 
         <Flex flex={1} gap={1} justify="end">
           <Button

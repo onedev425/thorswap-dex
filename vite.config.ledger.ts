@@ -31,7 +31,9 @@ const plugins = [
 export default defineConfig({
   root: 'ledgerLive',
   define: {
-    'process.env': {},
+    'process.env': {
+      VITE_LEDGER_LIVE: 'true',
+    },
     'process.version': JSON.stringify('v18.0.0'),
   },
   plugins,

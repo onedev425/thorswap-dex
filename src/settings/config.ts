@@ -1,13 +1,17 @@
-const isEnv = (env: string = '', urlMatch: string) =>
-  env === 'true' || window.location.href.includes(urlMatch);
-export const IS_DEV_API =
-  isEnv(import.meta.env.VITE_DEV_API, 'dev') ||
-  isEnv(import.meta.env.VITE_DEV_API, '"-thorswap.vercel.app"');
+const isEnv = (env: string = '', urlMatch: string) => {
+  const envValue = import.meta.env[env] || process.env[env];
+
+  return envValue === 'true' || window.location.href.includes(urlMatch);
+};
+
 export const IS_LOCAL = import.meta.env.MODE === 'development';
-export const IS_STAGENET = isEnv(import.meta.env.VITE_STAGENET, 'stagenet');
-export const IS_BETA = isEnv(import.meta.env.VITE_BETA, 'beta');
-export const IS_LEDGER_LIVE = isEnv(import.meta.env.VITE_LEDGER_LIVE, 'ledgerlive');
-export const IS_PROD = isEnv(import.meta.env.VITE_PROD, 'app.thorswap.finance');
+
+export const IS_DEV_API =
+  isEnv('VITE_DEV_API', 'dev') || isEnv('VITE_DEV_API', '"-thorswap.vercel.app"');
+export const IS_STAGENET = isEnv('VITE_STAGENET', 'stagenet');
+export const IS_BETA = isEnv('VITE_BETA', 'beta');
+export const IS_LEDGER_LIVE = isEnv('VITE_LEDGER_LIVE', 'ledgerlive');
+export const IS_PROD = isEnv('VITE_PROD', 'app.thorswap.finance');
 
 /**
  * Used for protected deployments under password
