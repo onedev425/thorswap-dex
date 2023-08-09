@@ -16,7 +16,7 @@ import { useRouteFees } from 'hooks/useRouteFees';
 import { useSlippage } from 'hooks/useSlippage';
 import { useSwapTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { IS_PROTECTED } from 'settings/config';
 import { getKyberSwapRoute, getSwapRoute } from 'settings/router';
@@ -43,6 +43,7 @@ import { SwapSubmitButton } from './SwapSubmitButton';
 
 const SwapView = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { getMaxBalance } = useBalance();
   const { inputAmountAssetString, setInputAmountAssetString, inputAsset, outputAsset } =
     useSwapPair();
@@ -78,8 +79,14 @@ const SwapView = () => {
   );
 
   const setInputAmount = useCallback(
-    (value: Amount) => setInputAmountAssetString(value.assetAmount.toString()),
-    [setInputAmountAssetString],
+    (value: Amount) => {
+      const assetAmountString = value.assetAmount.toString();
+      const assetRoutePath = location.pathname.split('?')[0];
+
+      navigate(`${assetRoutePath}?sellAmount=${assetAmountString}`);
+      setInputAmountAssetString(assetAmountString);
+    },
+    [location.pathname, navigate, setInputAmountAssetString],
   );
 
   useEffect(() => {
