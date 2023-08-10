@@ -1,5 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import classNames from 'classnames';
 import { Box, Button, Modal } from 'components/Atomic';
 import { PasswordInput } from 'components/PasswordInput';
 import { isKeystoreSignRequired } from 'helpers/wallet';
@@ -114,11 +115,14 @@ export const ConfirmModal = ({
 
   return (
     <Modal isOpened={isOpened} onClose={handleCancel} title={t('common.confirm')}>
-      <Box col className={'gap-y-4 md:!min-w-[350px]' + IS_LEDGER_LIVE ? ' min-w-[350px]' : ''}>
+      <Box
+        col
+        className={classNames('gap-y-4 md:min-w-[350px]', { 'min-w-[350px]': IS_LEDGER_LIVE })}
+      >
         {children && <div>{children}</div>}
 
         {isKeystoreSigningRequired && (
-          <>
+          <Box py={2}>
             <PasswordInput
               onChange={({ target }) => setPassword(target.value)}
               onKeyDown={onPasswordKeyDown}
@@ -130,7 +134,7 @@ export const ConfirmModal = ({
                 {t('views.walletModal.wrongPassword')}
               </Text>
             )}
-          </>
+          </Box>
         )}
 
         <Button

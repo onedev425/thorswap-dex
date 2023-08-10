@@ -82,7 +82,7 @@ const colorSchemeForChain = {
 };
 
 export const TxLegPreview = ({
-  leg,
+  leg = {} as TxTrackerLeg,
   isLast,
   index,
   currentLegIndex,
