@@ -1,29 +1,46 @@
-import { Amount, AssetEntity as Asset, Price } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useMemo } from 'react';
-import { useMidgard } from 'store/midgard/hooks';
+import { useGetRepayValueQuery } from 'store/thorswap/api';
+import { useWallet } from 'store/wallet/hooks';
 
 export const usePercentageDebtValue = ({
   asset,
+  collateralAsset,
   percentage,
-  totalAmount,
 }: {
   asset: Asset;
+  collateralAsset: Asset;
   totalAmount: Amount;
   percentage: Amount;
 }) => {
-  const { pools } = useMidgard();
-  const usdValue = totalAmount.mul(percentage).div(100);
+  const { wallet } = useWallet();
+  const debouncedPercentage = useDebouncedValue(percentage, 500);
 
-  const assetPrice = useMemo(
-    () =>
-      new Price({
-        baseAsset: asset,
-        pools,
-      }),
-    [asset, pools],
+  const collateralAddress = useMemo(
+    () => wallet?.[collateralAsset.L1Chain]?.address || '',
+    [wallet, collateralAsset.L1Chain],
   );
 
-  const assetAmount = usdValue.div(assetPrice.unitPrice);
+  const senderAddress = useMemo(
+    () => wallet?.[asset.L1Chain]?.address || '',
+    [wallet, asset.L1Chain],
+  );
 
-  return assetAmount;
+  const { data, isLoading } = useGetRepayValueQuery(
+    {
+      senderAddress,
+      collateralAddress,
+      amountPercentage: debouncedPercentage.toFixed(),
+      collateralAsset: `${collateralAsset.chain}.${collateralAsset.chain}`,
+      assetIn: `${asset.chain}.${asset.chain}`,
+    },
+    { skip: !debouncedPercentage.toFixed() },
+  );
+
+  const repayAssetAmount = data
+    ? Amount.fromAssetAmount(data.repayAssetAmount, 8)
+    : Amount.fromAssetAmount(0, 8);
+
+  return { isLoading, repayAssetAmount };
 };

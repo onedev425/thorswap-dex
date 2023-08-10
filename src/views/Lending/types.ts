@@ -2,11 +2,12 @@ import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 
 export type LoanPosition = {
   asset: AssetEntity;
-  collateralUp: Amount;
-  collateralDown: Amount;
-  collateralRemaining: Amount;
-  debtDown: Amount;
-  debtUp: Amount;
+  collateralCurrent: Amount;
+  collateralDeposited: Amount;
+  collateralWithdrawn: Amount;
+  debtIssued: Amount;
+  debtRepaid: Amount;
+  debtCurrent: Amount;
   ltv: number;
 };
 

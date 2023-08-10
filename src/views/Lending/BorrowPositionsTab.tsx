@@ -1,6 +1,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Button, Icon } from 'components/Atomic';
+import { ReloadButton } from 'components/ReloadButton';
 import { hasConnectedWallet } from 'helpers/wallet';
 import { useEffect, useMemo } from 'react';
 import { t } from 'services/i18n';
@@ -17,7 +18,7 @@ type Props = {
 };
 export const BorrowPositionsTab = ({ setTab, setViewTab, setCollateralAsset }: Props) => {
   const { wallet, setIsConnectModalOpen } = useWallet();
-  const { refreshLoans, totalBorrowed, totalCollateral, loansData } = useLoans();
+  const { refreshLoans, totalBorrowed, totalCollateral, loansData, isLoading } = useLoans();
   const isWalletConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
 
   const setBorrowTab = () => {
@@ -28,12 +29,12 @@ export const BorrowPositionsTab = ({ setTab, setViewTab, setCollateralAsset }: P
   const infoFields = [
     {
       header: t('views.lending.collateralValue'),
-      value: `$${totalCollateral}` || '$0',
+      value: typeof totalCollateral === 'number' ? `$${totalCollateral}` : '-',
       tooltipText: 'Fair market value of the assets used to secure a loan',
     },
     {
       header: t('views.lending.debtValue'),
-      value: `$${totalBorrowed.toFixed(2)}`,
+      value: totalBorrowed ? `$${totalBorrowed.toFixed(2)}` : '-',
       tooltipText: 'Value of borrowed assets',
     },
   ];
@@ -47,10 +48,12 @@ export const BorrowPositionsTab = ({ setTab, setViewTab, setCollateralAsset }: P
       {isWalletConnected ? (
         <Flex direction="column" gap={3} mt={6}>
           <Flex flex={2} justifyContent="space-between" w="full">
-            <Flex alignItems="center" flex={1}>
+            <Flex alignItems="center" flex={1} justifyContent="space-between">
               <Text ml={3} mr={2} textStyle="h3">
                 {t('views.lending.myLoans')}
               </Text>
+
+              <ReloadButton loading={isLoading} onLoad={refreshLoans} size={16} />
             </Flex>
           </Flex>
           <Flex
@@ -74,19 +77,19 @@ export const BorrowPositionsTab = ({ setTab, setViewTab, setCollateralAsset }: P
             {loansData.length ? (
               loansData.map((loan) => (
                 <LoanInfoRow
-                  asset={loan.asset}
-                  collateralDown={loan.collateralDown}
-                  collateralUp={loan.collateralUp}
-                  debtDown={loan.debtDown}
-                  debtUp={loan.debtUp}
                   key={loan.asset.name}
+                  loan={loan}
                   setBorrowTab={setBorrowTab}
                   setCollateralAsset={setCollateralAsset}
                 />
               ))
             ) : (
               <Flex justify="center" w="full">
-                <Icon spin name="loader" size={32} />
+                {isLoading ? (
+                  <Icon spin name="loader" size={32} />
+                ) : (
+                  <Text>No open loans to display</Text>
+                )}
               </Flex>
             )}
           </Flex>

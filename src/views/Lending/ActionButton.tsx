@@ -9,16 +9,18 @@ type Props = {
   setIsConnectModalOpen: (isOpen: boolean) => void;
   address?: string;
   label: string;
+  hasError?: boolean;
 };
 
 export const ActionButton = memo(
-  ({ loading, label, disabled, handleSubmit, address, setIsConnectModalOpen }: Props) => (
+  ({ loading, label, disabled, handleSubmit, address, setIsConnectModalOpen, hasError }: Props) => (
     <Box className="self-stretch pt-5">
       {address ? (
         <Box className="w-full">
           <Button
             stretch
             disabled={disabled}
+            error={hasError}
             loading={loading}
             onClick={handleSubmit}
             size="lg"

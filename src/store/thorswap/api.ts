@@ -93,6 +93,22 @@ export const thorswapApi = createApi({
       },
     }),
 
+    getRepayValue: build.query<{ repayAssetAmount: string }, any>({
+      query: ({ assetIn, collateralAsset, amountPercentage, senderAddress, collateralAddress }) => {
+        const queryParams = new URLSearchParams({
+          assetIn,
+          collateralAsset,
+          amountPercentage,
+          senderAddress,
+          collateralAddress,
+          affiliateAddress: '',
+          affiliateBasisPoints: '',
+        });
+
+        return `/aggregator/lending/repay?${queryParams.toString()}`;
+      },
+    }),
+
     getTokenCachedPrices: build.query<GetTokenPriceResponse, GetTokenPriceParams>({
       query: ({ tokens, options = {} }) => {
         const body = new URLSearchParams();
@@ -177,6 +193,10 @@ export const thorswapApi = createApi({
         return `/aggregator/liquidity/withdraw?${queryParams.toString()}`;
       },
     }),
+
+    getLendingAssets: build.query<string[], void>({
+      query: () => `${baseUrl}/aggregator/lending/assets`,
+    }),
   }),
 });
 
@@ -191,9 +211,11 @@ export const {
   useGetIsWhitelistedQuery,
   useGetMerkleProofQuery,
   useGetBorrowQuery,
+  useGetRepayValueQuery,
   useGetAnnouncementsQuery,
   useGetGasPriceRatesQuery,
   useGetGasHistoryQuery,
   useGetThornamesByAddressQuery,
   useGetWithdrawLPMemoQuery,
+  useGetLendingAssetsQuery,
 } = thorswapApi;

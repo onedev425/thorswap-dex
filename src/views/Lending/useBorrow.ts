@@ -1,5 +1,6 @@
 import { Amount } from '@thorswap-lib/swapkit-core';
 import { showErrorToast } from 'components/Toast';
+import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useEffect, useState } from 'react';
 import { t } from 'services/i18n';
 import { useGetBorrowQuery } from 'store/thorswap/api';
@@ -19,31 +20,29 @@ export const useBorrow = ({
   assetOut,
   amount,
 }: UseBorrowProps) => {
+  const debouncedAmount = useDebouncedValue(amount);
   const [expectedOutput, setExpectedOutput] = useState(Amount.fromAssetAmount(0, 8));
   const [expectedOutputMaxSlippage, setExpectedOutputMaxSlippage] = useState(
     Amount.fromAssetAmount(0, 8),
   );
   const [memo, setMemo] = useState('');
-  const [previousErrorId, setPreviousErrorId] = useState('');
 
-  const { currentData: data, error } = useGetBorrowQuery({
-    assetIn,
-    assetOut,
-    amount,
-    senderAddress,
-    recipientAddress,
-  });
-
-  const errorId = assetIn + assetOut;
+  const { currentData: data, error } = useGetBorrowQuery(
+    {
+      assetIn,
+      assetOut,
+      amount: debouncedAmount,
+      senderAddress,
+      recipientAddress,
+    },
+    { skip: !debouncedAmount },
+  );
 
   useEffect(() => {
-    if (error && amount && previousErrorId !== errorId) {
-      setPreviousErrorId(assetIn + assetOut);
+    if (error) {
       showErrorToast(t('views.lending.repayError'));
-      return;
     }
-    setPreviousErrorId('');
-  }, [error, amount, assetIn, assetOut, errorId, previousErrorId]);
+  }, [error]);
 
   useEffect(() => {
     setExpectedOutput(Amount.fromAssetAmount(data?.expectedOutput || 0, 8));
@@ -61,5 +60,6 @@ export const useBorrow = ({
     memo,
     expectedOutput,
     expectedOutputMaxSlippage,
+    hasError: !!error,
   };
 };

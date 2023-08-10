@@ -2,16 +2,17 @@ import { SidebarItemProps, SidebarWidgetOption } from 'components/Sidebar/types'
 import { hasConnectedWallet } from 'helpers/wallet';
 import { useEffect, useMemo } from 'react';
 import { t } from 'services/i18n';
-import { IS_PROD } from 'settings/config';
 import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/router';
 import { useApp } from 'store/app/hooks';
 import { useWallet } from 'store/wallet/hooks';
+import { useLendingAssets } from 'views/Lending/useLendingAssets';
 import { useVesting } from 'views/Vesting/hooks';
 
 export const useSidebarOptions = () => {
   const { checkAlloc } = useVesting({ onlyCheckAlloc: true });
   const { wallet, hasVestingAlloc } = useWallet();
   const { multisigVisible } = useApp();
+  const { hasLendingAssets } = useLendingAssets();
 
   const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
 
@@ -64,7 +65,7 @@ export const useSidebarOptions = () => {
     ],
   };
 
-  if (!IS_PROD) {
+  if (hasLendingAssets) {
     stickyMenu.children.push({
       iconName: 'lending',
       href: ROUTES.Lending,

@@ -279,9 +279,11 @@ export interface IThornameForAddressParams {
 export type LoansResponse = {
   owner: string;
   asset: string;
-  debt_up: string;
-  debt_down: string;
-  collateral_up: string;
-  collateral_down: string;
+  debt_issued: string;
+  debt_repaid: string;
+  debt_current: string;
+  collateral_current: string;
+  collateral_deposited: string;
+  collateral_withdrawn: string;
   last_open_height: number;
 };

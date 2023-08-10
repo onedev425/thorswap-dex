@@ -1,5 +1,4 @@
 import { Amount, AssetEntity as Asset, Price } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
 import { useCallback, useState } from 'react';
 import { SORTED_LENDING_COLLATERAL_ASSETS } from 'settings/chain';
 import { useMidgard } from 'store/midgard/hooks';
@@ -11,8 +10,9 @@ import { LoanPosition } from './types';
 export const useLoans = () => {
   const { wallet, isWalletLoading } = useWallet();
   const { pools } = useMidgard();
-  const [loans, setLoans] = useState<Partial<Record<Chain, LoanPosition>>>({});
+  const [loans, setLoans] = useState<LoanPosition[] | null>(null);
   const [fetchLoans] = useLazyGetLoansQuery();
+  const [isLoading, setIsLoading] = useState(false);
 
   const getLoanPosition = useCallback(
     async (asset: Asset) => {
@@ -23,20 +23,22 @@ export const useLoans = () => {
           address,
         });
 
-        const collateralUp = Amount.fromMidgard(data?.collateral_up);
-        const collateralDown = Amount.fromMidgard(data?.collateral_down);
-        const collateralRemaining = collateralUp.sub(collateralDown);
-        const debtDown = Amount.fromMidgard(data?.debt_down);
-        const debtUp = Amount.fromMidgard(data?.debt_up);
+        const collateralDeposited = Amount.fromMidgard(data?.collateral_deposited);
+        const collateralWithdrawn = Amount.fromMidgard(data?.collateral_withdrawn);
+        const collateralCurrent = Amount.fromMidgard(data?.collateral_current);
+        const debtIssued = Amount.fromMidgard(data?.debt_issued);
+        const debtRepaid = Amount.fromMidgard(data?.debt_repaid);
+        const debtCurrent = Amount.fromMidgard(data?.debt_current);
 
-        return collateralRemaining.gt(0)
+        return collateralCurrent.gt(0)
           ? ({
               asset,
-              collateralUp,
-              collateralDown,
-              collateralRemaining,
-              debtDown,
-              debtUp,
+              collateralCurrent,
+              collateralDeposited,
+              collateralWithdrawn,
+              debtCurrent,
+              debtIssued,
+              debtRepaid,
               ltv: 0,
             } as LoanPosition)
           : null;
@@ -50,42 +52,47 @@ export const useLoans = () => {
   const refreshLoans = useCallback(async () => {
     if (isWalletLoading) return;
 
-    let loans: Partial<Record<Chain, LoanPosition>> = {};
-    for (let asset of SORTED_LENDING_COLLATERAL_ASSETS) {
-      const result = await getLoanPosition(asset);
-      if (result !== null) {
-        loans[asset.chain] = result;
-      }
-    }
+    setIsLoading(true);
 
-    setLoans(loans);
+    const promises = SORTED_LENDING_COLLATERAL_ASSETS.map(getLoanPosition);
+    const res = await Promise.allSettled(promises);
+
+    const loadedLoans = res.reduce((acc, result) => {
+      if ('value' in result && result.value !== null) {
+        return [...acc, result.value];
+      }
+
+      return acc;
+    }, [] as LoanPosition[]);
+
+    setLoans(loadedLoans);
+    setIsLoading(false);
   }, [getLoanPosition, isWalletLoading]);
 
-  const totalCollateral = Object.values(loans).reduce(
+  const totalCollateral = loans?.reduce(
     (sum, obj) =>
       sum +
       parseFloat(
         new Price({
           baseAsset: obj.asset,
           pools,
-          priceAmount: obj.collateralUp.sub(obj.collateralDown),
+          priceAmount: obj.collateralCurrent,
         }).toFixedRaw(2),
       ),
     0,
   );
 
-  const totalBorrowed = Object.values(loans).reduce(
-    (sum, obj) => sum.add(obj.debtUp).sub(obj.debtDown),
+  const totalBorrowed = loans?.reduce(
+    (sum, obj) => sum.add(obj.debtCurrent),
     Amount.fromMidgard(0),
   );
-
-  const loansData: LoanPosition[] = Object.entries(loans).map(([_, values]) => values);
 
   return {
     refreshLoans,
     loans,
     totalCollateral,
     totalBorrowed,
-    loansData,
+    loansData: loans || [],
+    isLoading,
   };
 };

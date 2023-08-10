@@ -6,57 +6,50 @@ import { AssetIcon } from 'components/AssetIcon';
 import { AssetInput } from 'components/AssetInput';
 import { Button, Icon } from 'components/Atomic';
 import { PercentageSlider } from 'components/PercentageSlider';
-import { RUNEAsset } from 'helpers/assets';
+import { BTCAsset } from 'helpers/assets';
+import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
 import { useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
-import { useMidgard } from 'store/midgard/hooks';
 import { useWallet } from 'store/wallet/hooks';
 import { LendingConfirmModal } from 'views/Lending/LendingConfirmModal';
+import { LoanPosition } from 'views/Lending/types';
+import { useLendingAssets } from 'views/Lending/useLendingAssets';
 import { useLoanRepay } from 'views/Lending/useLoanRepay';
 import { usePercentageDebtValue } from 'views/Lending/usePercentageDebtValue';
 
 type Props = {
-  asset: AssetEntity;
-  debtUp: Amount;
-  debtDown: Amount;
-  collateralUp: Amount;
-  collateralDown: Amount;
+  loan: LoanPosition;
   setBorrowTab: () => void;
   setCollateralAsset: (value: AssetEntity) => void;
 };
 
-export const LoanInfoRow = ({
-  asset,
-  debtUp,
-  debtDown,
-  collateralUp,
-  collateralDown,
-  setBorrowTab,
-  setCollateralAsset,
-}: Props) => {
+export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) => {
   const [show, setShow] = useState(false);
   const [sliderValue, setSliderValue] = useState(new Amount(0, AmountType.ASSET_AMOUNT, 2));
-  const [repayAsset, setRepayAsset] = useState(RUNEAsset);
+  const [repayAsset, setRepayAsset] = useState(BTCAsset);
   const { getMaxBalance } = useBalance();
   const { wallet } = useWallet();
 
+  const { lendingAssets } = useLendingAssets();
+  const listAssets = useAssetsWithBalance(lendingAssets);
+
+  const { collateralCurrent, debtCurrent, asset } = loan;
+
   const handleToggle = () => setShow(!show);
-  const debt = debtUp.sub(debtDown);
-  const collateral = collateralUp.sub(collateralDown).toSignificant(4);
-  const { pools } = useMidgard();
+
   const collateralUsd = usePoolAssetPriceInUsd({
     asset,
-    amount: collateralUp.sub(collateralDown),
+    amount: collateralCurrent,
   }).toCurrencyFormat(2);
-  const repayAssetAmount = usePercentageDebtValue({
+  const { repayAssetAmount } = usePercentageDebtValue({
     asset: repayAsset,
+    collateralAsset: asset,
     percentage: sliderValue,
-    totalAmount: debt,
+    totalAmount: debtCurrent,
   });
 
-  const repayAssetsList = useMemo(() => pools.map(({ asset }) => ({ asset })), [pools]);
   const repayAddress = useMemo(
     () => wallet?.[repayAsset.L1Chain]?.address || '',
     [wallet, repayAsset.L1Chain],
@@ -112,12 +105,12 @@ export const LoanInfoRow = ({
               <AssetIcon asset={getSignatureAssetFor(asset.symbol as Chain)} size={36} />
             </Flex>
             <Flex align="end" direction="column" flex={1} justify="center">
-              <Text textAlign="end">{`${collateral} ${asset.symbol}`}</Text>
+              <Text textAlign="end">{`${collateralCurrent.toSignificant(4)} ${asset.symbol}`}</Text>
               <Text textAlign="end">{collateralUsd}</Text>
             </Flex>
             <Flex align="end" direction="column" flex={1} justify="center">
-              <Text textAlign="end">{`${debt.toFixed(2)} TOR`}</Text>
-              <Text textAlign="end">{`$${debt.toFixed(2)}`}</Text>
+              <Text textAlign="end">{`${debtCurrent.toFixed(2)} TOR`}</Text>
+              <Text textAlign="end">{`$${debtCurrent.toFixed(2)}`}</Text>
             </Flex>
             <Flex align="end" direction="column" flex={1} justify="center">
               <Text>{t('views.lending.ltv')}</Text>
@@ -197,7 +190,7 @@ export const LoanInfoRow = ({
                 <AssetInput
                   disabled
                   noFilters
-                  assets={repayAssetsList}
+                  assets={listAssets}
                   className="mb-2"
                   onAssetChange={setRepayAsset}
                   poolAsset={selectedRepayAsset}

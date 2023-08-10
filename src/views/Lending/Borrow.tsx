@@ -12,12 +12,12 @@ import { useMimir } from 'hooks/useMimir';
 import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
 import { useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
-import { SORTED_EARN_ASSETS } from 'settings/chain';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
+import { useLendingAssets } from 'views/Lending/useLendingAssets';
 
 import { ActionButton } from './ActionButton';
 import { BorrowPositionsTab } from './BorrowPositionsTab';
@@ -27,9 +27,8 @@ import { useBorrow } from './useBorrow';
 
 const Borrow = () => {
   const appDispatch = useAppDispatch();
-  const balanceAssets = useAssetsWithBalance(SORTED_EARN_ASSETS);
-
-  const listAssets = useMemo(() => balanceAssets.map((asset) => ({ ...asset })), [balanceAssets]);
+  const { lendingAssets } = useLendingAssets();
+  const listAssets = useAssetsWithBalance(lendingAssets);
 
   const { getMaxBalance } = useBalance();
   const { isChainHalted } = useMimir();
@@ -56,6 +55,7 @@ const Borrow = () => {
     expectedOutput,
     expectedOutputMaxSlippage: slippage,
     memo,
+    hasError,
   } = useBorrow({
     senderAddress: collateralAddress,
     recipientAddress: borrowAddress,
@@ -245,6 +245,7 @@ const Borrow = () => {
                         address={collateralAddress}
                         disabled={buttonDisabled}
                         handleSubmit={() => setIsConfirmOpen(true)}
+                        hasError={!amount || hasError}
                         label={tabLabel}
                         setIsConnectModalOpen={setIsConnectModalOpen}
                       />
