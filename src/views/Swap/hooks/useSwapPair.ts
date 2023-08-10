@@ -23,7 +23,7 @@ export const useSwapPair = () => {
   const { pair } = useParams<{ pair: string }>();
   const [swapPair, setSwapPair] = useState<Pair>({
     inputAsset: getSignatureAssetFor(IS_LEDGER_LIVE ? Chain.Bitcoin : Chain.Ethereum),
-    outputAsset: getSignatureAssetFor(IS_LEDGER_LIVE ? Chain.Ethereum : 'ETH_THOR'),
+    outputAsset: getSignatureAssetFor(IS_LEDGER_LIVE ? Chain.Ethereum : Chain.Bitcoin),
   });
 
   const [inputAmountAssetString, setInputAmountAssetString] = useState(
