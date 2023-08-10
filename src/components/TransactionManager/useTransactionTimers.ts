@@ -14,29 +14,10 @@ export const useTransactionTimers = (
   const legsTimers = useMemo(() => {
     if (!legs.length || !refreshCounter) return [];
 
-    const now = Date.now();
     const legsState: LegTimer[] = legs.map((leg) => {
       const { completed } = getTxState(leg.status);
 
-      if (leg.endTimestamp || completed) {
-        return { timeLeft: 0, isCompleted: true };
-      }
-
-      if (leg.estimatedEndTimestamp) {
-        const timeLeft = leg.estimatedEndTimestamp - now;
-        return { timeLeft: timeLeft < 1000 ? 0 : timeLeft, isCompleted: completed };
-      }
-
-      if (leg.estimatedDuration && !leg.startTimestamp) {
-        return { timeLeft: leg.estimatedDuration, isCompleted: completed };
-      }
-
-      if (leg.startTimestamp && leg.estimatedDuration) {
-        const timeLeft = leg.startTimestamp + leg.estimatedDuration - now;
-        return { timeLeft: timeLeft < 1000 ? 0 : timeLeft, isCompleted: completed };
-      }
-
-      return { timeLeft: null, isCompleted: completed };
+      return { timeLeft: completed ? 0 : getLegTimeLeft(leg), isCompleted: completed };
     });
 
     return legsState;
@@ -95,3 +76,29 @@ export const useTransactionTimers = (
 
   return { legsTimers, totalTimeLeft };
 };
+
+function getLegTimeLeft(leg: TxTrackerLeg) {
+  const now = Date.now();
+
+  // leg finished
+  if (leg.endTimestamp) {
+    return 0;
+  }
+
+  // leg not started - whole estimated duration is left, unknown otherwise
+  if (!leg.startTimestamp) {
+    return leg.estimatedDuration || null;
+  }
+
+  // leg started - count based on estimatedEndTimestamp
+  if (leg.estimatedEndTimestamp) {
+    return leg.estimatedEndTimestamp - now;
+  }
+
+  // estimatedDuration as a fallback
+  if (leg.estimatedDuration) {
+    return leg.startTimestamp + leg.estimatedDuration - now;
+  }
+
+  return null;
+}

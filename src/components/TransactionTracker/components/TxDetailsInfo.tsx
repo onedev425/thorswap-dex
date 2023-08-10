@@ -121,7 +121,7 @@ export const TxDetailsInfo = ({ txDetails, isCompleted, totalTimeLeft }: Props) 
                     value={
                       <Text
                         fontWeight="semibold"
-                        minW="45px"
+                        minW="75px"
                         textStyle="caption-xs"
                         whiteSpace="nowrap"
                       >
