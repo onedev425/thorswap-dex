@@ -94,7 +94,6 @@ export const TxLegPreview = ({
   const { finished: isTxFinished } = getTxState(txStatus);
 
   const isRuneLastLeg = isLast && leg.chain === Chain.THORChain;
-
   const invalidRuneTxHash =
     isRuneLastLeg &&
     leg.hash === '0000000000000000000000000000000000000000000000000000000000000000';
@@ -102,7 +101,9 @@ export const TxLegPreview = ({
   const inAssetIdentifier = leg.fromAsset;
   const outAssetIdentifier = leg.toAsset;
   const transactionUrl = useTxUrl({
-    txHash: (invalidRuneTxHash ? txDetails.legs[currentLegIndex - 1].hash : leg?.hash) || '',
+    txHash:
+      (invalidRuneTxHash ? txDetails.legs[Math.max(currentLegIndex - 1, 0)]?.hash : leg?.hash) ||
+      '',
     chain: leg.chain,
   });
   const fromAssetTicker = getTickerFromIdentifier(inAssetIdentifier || '') || '??';
