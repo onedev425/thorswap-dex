@@ -24,11 +24,12 @@ type Props = {
   outputUSDPrice: Price;
   setFeeModalOpened: (isOpened: boolean) => void;
   showTransactionFeeSelect?: boolean;
+  whaleDiscount: boolean;
+  vTHORDiscount: boolean;
 };
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
 
 const feeOptions = [FeeOption.Average, FeeOption.Fast, FeeOption.Fastest];
-const DEFAULT_AFFILIATE = 30;
 
 export const SwapInfo = ({
   affiliateBasisPoints,
@@ -42,6 +43,8 @@ export const SwapInfo = ({
   outputUSDPrice,
   setFeeModalOpened,
   showTransactionFeeSelect,
+  whaleDiscount,
+  vTHORDiscount,
 }: Props) => {
   const { feeOptionType, setFeeOptionType } = useApp();
   const formatPrice = useFormatPrice();
@@ -80,6 +83,13 @@ export const SwapInfo = ({
 
   const activeFeeIndex =
     feeOptionLabels.findIndex((o) => o.includes(t(`common.fee${capitalize(feeOptionType)}`))) || 0;
+
+  const discountLabel = useMemo(() => {
+    if (whaleDiscount && vTHORDiscount) return 'vTHOR + 🐳 Whale';
+    if (whaleDiscount) return '🐳 Whale';
+    if (vTHORDiscount) return 'vTHOR';
+    return '';
+  }, [vTHORDiscount, whaleDiscount]);
 
   const rows = useMemo(
     () =>
@@ -163,9 +173,9 @@ export const SwapInfo = ({
               }
               value={
                 <Box center row className="gap-1">
-                  {affiliateBasisPoints !== DEFAULT_AFFILIATE && (
+                  {discountLabel && (
                     <Text textStyle="caption-xs" variant="secondary">
-                      vTHOR {t('views.swap.discountApplied')}
+                      {discountLabel} {t('views.swap.discountApplied')}
                     </Text>
                   )}
 
@@ -186,6 +196,7 @@ export const SwapInfo = ({
       activeFeeIndex,
       affiliateBasisPoints,
       affiliateFee,
+      discountLabel,
       expectedOutput,
       feeOptionLabels,
       formatPrice,

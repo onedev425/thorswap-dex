@@ -168,6 +168,7 @@ const SwapView = () => {
     toggleStreamSwap,
     canStreamSwap,
     selectedRouteFees: fees,
+    vTHORDiscount,
   } = useSwapQuote({
     inputUSDValue,
     ethAddress,
@@ -438,6 +439,8 @@ const SwapView = () => {
             outputUSDPrice={outputUSDPrice}
             setFeeModalOpened={setFeeModalOpened}
             showTransactionFeeSelect={showTransactionFeeSelect}
+            vTHORDiscount={vTHORDiscount}
+            whaleDiscount={inputUSDValue >= 1_000_000}
           />
 
           {tokenOutputWarning && (

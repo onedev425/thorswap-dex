@@ -202,6 +202,7 @@ export const useSwapQuote = ({
 
   return {
     affiliateBasisPoints,
+    vTHORDiscount: !IS_LEDGER_LIVE && VTHORBalance >= 1_000,
     error,
     estimatedTime: selectedRoute?.estimatedTime,
     isFetching: approvalsLoading || isLoading || isFetching,
