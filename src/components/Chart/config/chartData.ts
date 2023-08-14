@@ -21,17 +21,34 @@ const darkStrokeColors = [
 ];
 
 // TODO: Unify and refactor those getters
-const getDataForBarChart = (data: DataPoint[], dataLabels: string[]): BarChartType => {
+const getDataForBarChart = (
+  data: DataPoint[],
+  dataLabels: string[],
+  dataInProgress?: boolean,
+): BarChartType => {
   return {
     labels: dataLabels,
     datasets: [
       {
         label: '',
         data: data,
-        backgroundColor: getColor(
-          [colors.barChartGradientColor1, colors.barChartGradientColor2],
-          'background',
-        ),
+        // TODO: remove ts-ignore and fix the cause.
+        // @ts-ignore
+        backgroundColor: dataInProgress
+          ? (ctx) => {
+              return data.map((_elem, index) => {
+                if (index === data.length - 1)
+                  return getColor(
+                    [colors.barChartGradientColor3, colors.barChartGradientColor4],
+                    'background',
+                  )(ctx);
+                return getColor(
+                  [colors.barChartGradientColor1, colors.barChartGradientColor2],
+                  'background',
+                )(ctx);
+              });
+            }
+          : getColor([colors.barChartGradientColor1, colors.barChartGradientColor2], 'background'),
         borderWidth: 0,
         borderRadius: 0,
         borderSkipped: false,
@@ -150,6 +167,7 @@ export const getChartData = <T extends ChartType>(
   dataLabels: string[],
   dataValues: number[],
   isLight: boolean,
+  dataInProgress?: boolean,
 ) => {
   const data = dataLabels.map((label, index) => ({
     x: label,
@@ -158,7 +176,7 @@ export const getChartData = <T extends ChartType>(
 
   switch (type) {
     case ChartType.Bar:
-      return getDataForBarChart(data, dataLabels);
+      return getDataForBarChart(data, dataLabels, dataInProgress);
     case ChartType.Area:
       return getDataForAreaChart(data, dataLabels, isLight);
     case ChartType.Line:

@@ -45,4 +45,6 @@ export type ChartProps = {
   selectedIndex: string;
   title: string;
   abbreviateValues?: boolean;
+  beginAt?: number;
+  dataInProgress?: boolean;
 };

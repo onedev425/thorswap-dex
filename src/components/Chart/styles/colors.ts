@@ -16,6 +16,8 @@ export const LightStrokeColor1 = '#39BBF3';
 // Colors used in the Bar Chart Component
 export const barChartGradientColor1 = '#348CF4';
 export const barChartGradientColor2 = '#4DBAD6';
+export const barChartGradientColor3 = '#5cd29c';
+export const barChartGradientColor4 = '#a7d25c';
 export const barChartTicksColor = '#75849d';
 
 // Colors used in the Area Chart Component
@@ -42,3 +44,5 @@ export const curvedLineChartGradientColor2 = 'rgba(52, 140, 243, 0.3)';
 export const curvedLineChartBorderColor = '#39BBF3';
 export const curvedLineChartPointHoverBackgroundColor = '#39BBF3';
 export const curvedLineChartPointHoverBorderColor = '#E2EBFB';
+
+export const Black = '#000000';

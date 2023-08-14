@@ -7,6 +7,7 @@ type Params = {
   hasGrid: boolean;
   unit?: string;
   formatter?: (value: number) => string;
+  beginAt?: number;
 };
 
 const parseTooltipLabel =
@@ -19,7 +20,7 @@ const parseTooltipLabel =
       ? formatter(parseFloat(`${formattedValue}`.replace(/[^0-9.]/g, '')))
       : `${unit}${formattedValue}`;
 
-export const getChartOptions = ({ formatter, hideLabel, hasGrid, unit = '$' }: Params) =>
+export const getChartOptions = ({ formatter, hideLabel, hasGrid, unit = '$', beginAt }: Params) =>
   ({
     animation: false,
     maintainAspectRatio: false,
@@ -67,6 +68,7 @@ export const getChartOptions = ({ formatter, hideLabel, hasGrid, unit = '$' }: P
           },
           display: hideLabel ? false : true,
         },
+        min: beginAt,
       },
     },
   }) as const;

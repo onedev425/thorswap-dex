@@ -17,6 +17,8 @@ type Params = {
   hasGrid: boolean;
   chartTimeFrame: ChartTimeFrame;
   abbreviateValues?: boolean;
+  beginAt?: number;
+  dataInProgress?: boolean;
 };
 
 export const useChartData = ({
@@ -26,6 +28,8 @@ export const useChartData = ({
   selectedIndex,
   chartTimeFrame,
   abbreviateValues,
+  beginAt,
+  dataInProgress,
 }: Params) => {
   const { isMdActive } = useWindowSize();
   const { themeType } = useApp();
@@ -51,9 +55,15 @@ export const useChartData = ({
 
     return {
       chartValues: values,
-      parsedChartData: getChartData(type, labels, values, themeType === ThemeType.Light),
+      parsedChartData: getChartData(
+        type,
+        labels,
+        values,
+        themeType === ThemeType.Light,
+        dataInProgress,
+      ),
     };
-  }, [slicedByTime, themeType, type]);
+  }, [dataInProgress, slicedByTime, themeType, type]);
 
   return {
     isChartLoading: loading,
@@ -63,6 +73,7 @@ export const useChartData = ({
       hideLabel,
       hasGrid,
       unit,
+      beginAt,
     }),
     parsedChartData,
     selectedChartType: type,

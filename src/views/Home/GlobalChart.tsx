@@ -28,6 +28,7 @@ export const GlobalChart = memo(() => {
       <Box className="w-full" flex={1}>
         <Chart
           abbreviateValues
+          dataInProgress
           chartData={volumeChartData}
           chartIndexes={volumeChartIndexes}
           selectChart={setVolumeChartIndex}
@@ -39,6 +40,7 @@ export const GlobalChart = memo(() => {
       <Box className="w-full" flex={1}>
         <Chart
           abbreviateValues
+          beginAt={0}
           chartData={liquidityChartData}
           chartIndexes={liquidityChartIndexes}
           previewChartType={ChartType.CurvedLine}

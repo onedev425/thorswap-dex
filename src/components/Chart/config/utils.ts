@@ -1,4 +1,5 @@
 import { Chart } from 'chart.js';
+import { Black } from 'components/Chart/styles/colors';
 import dayjs from 'dayjs';
 
 type ColorType = 'background' | 'stroke';
@@ -11,7 +12,7 @@ const getGradientInstance = (gradientColors: string[], colorType: ColorType) => 
   const getGradient = (
     ctx: CanvasRenderingContext2D,
     chartArea: { right: number; left: number; bottom: number; top: number },
-  ) => {
+  ): CanvasGradient => {
     const chartWidth = chartArea.right - chartArea.left;
     const chartHeight = chartArea.bottom - chartArea.top;
     if (!gradient || width !== chartWidth || height !== chartHeight) {
@@ -45,6 +46,7 @@ export const getColor = (gradientColors: string[], colorType: ColorType) => {
     if (chartArea) {
       return getGradientInstance(gradientColors, colorType)(ctx, chartArea);
     }
+    return getGradientInstance([Black], colorType)(ctx, { right: 0, left: 0, bottom: 0, top: 0 });
   };
 };
 
