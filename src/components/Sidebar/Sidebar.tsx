@@ -37,7 +37,7 @@ export const Sidebar = ({ sx, collapsed = false, toggle, onNavItemClick }: Sideb
   }px)`;
   const mobileScrollbarHeight = `calc(98% - ${stickyMenuHeight}px)`;
 
-  const { data, isLoading } = useTokenPrices(SIDEBAR_ASSETS, { pollingInterval: 60000 });
+  const { data, isLoading } = useTokenPrices(SIDEBAR_ASSETS, { pollingInterval: 300000 });
 
   const [runePrice, thorPrice] = useMemo(
     () => [

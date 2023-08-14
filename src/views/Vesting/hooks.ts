@@ -32,6 +32,7 @@ const defaultVestingInfo = {
   cliff: 0,
   initialRelease: '-',
   claimableAmount: 0,
+  hasAlloc: false,
 };
 const initialVestingInfo = {
   [VestingType.THOR]: defaultVestingInfo,
@@ -90,8 +91,9 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
 
   const getContractVestingInfo = useCallback(
     async (vestingType: VestingType) => {
-      const skClient = await getSwapKitClient();
       if (!ethAddress) return defaultVestingInfo;
+
+      const skClient = await getSwapKitClient();
       const contractType = vestingType === VestingType.THOR ? 'vesting' : 'vthor_vesting';
       const { abi, address } = contractConfig[contractType];
       const callParams = {
@@ -125,8 +127,6 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
       const claimable = fromWei(claimableAmount || '0');
       const hasAlloc = totalVested > 0 || totalClaimed > 0 || claimable > 0;
 
-      appDispatch(actions.setHasVestingAlloc(hasAlloc));
-
       return {
         totalVestedAmount: totalVested.toString(),
         totalClaimedAmount: totalClaimed,
@@ -138,23 +138,28 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
         hasAlloc,
       };
     },
-    [ethAddress, ethProvider, appDispatch],
+    [ethAddress, ethProvider],
   );
 
   const loadVestingInfo = useCallback(async () => {
     setIsLoading(true);
 
     try {
+      const thorVestingInfo = await getContractVestingInfo(VestingType.THOR);
+      const vthorVestingInfo = await getContractVestingInfo(VestingType.VTHOR);
+      const hasAlloc = thorVestingInfo.hasAlloc || vthorVestingInfo.hasAlloc;
+      appDispatch(actions.setHasVestingAlloc(hasAlloc));
+
       setVestingInfo({
-        [VestingType.THOR]: await getContractVestingInfo(VestingType.THOR),
-        [VestingType.VTHOR]: await getContractVestingInfo(VestingType.VTHOR),
+        [VestingType.THOR]: thorVestingInfo,
+        [VestingType.VTHOR]: vthorVestingInfo,
       });
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);
     }
-  }, [getContractVestingInfo]);
+  }, [appDispatch, getContractVestingInfo]);
 
   const handleClaim = useCallback(
     async ({ vestingAction, amount }: { vestingAction: VestingType; amount: Amount }) => {
