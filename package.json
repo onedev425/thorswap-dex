@@ -16,8 +16,7 @@
     "e2e": "yarn cypress run",
     "e2e:open": "yarn cypress open",
     "typescript": "tsc --noEmit",
-    "e2e:record": "npx @cypress/chrome-recorder",
-    "upgrade:sdk": "yarn upgrade --pattern \"@thorswap-lib/*\""
+    "e2e:record": "npx @cypress/chrome-recorder"
   },
   "dependencies": {
     "@chakra-ui/react": "2.8.0",
@@ -47,7 +46,7 @@
     "@thorswap-lib/midgard-sdk": "0.1.16",
     "@thorswap-lib/okx": "1.0.0-development.24",
     "@thorswap-lib/swapkit-api": "0.1.0-development.39",
-    "@thorswap-lib/swapkit-core": "1.0.0-development.198",
+    "@thorswap-lib/swapkit-core": "1.0.0-development.199",
     "@thorswap-lib/toolbox-cosmos": "1.0.0-development.142",
     "@thorswap-lib/toolbox-evm": "1.0.0-development.155",
     "@thorswap-lib/toolbox-utxo": "1.0.0-development.132",

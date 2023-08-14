@@ -39,7 +39,7 @@ const quoteModeToTransactionType = {
 } as const;
 
 export const useSwap = ({
-  recipient,
+  recipient = '',
   inputAsset,
   inputAmount,
   outputAsset,
@@ -68,9 +68,10 @@ export const useSwap = ({
           await import('services/swapKit')
         ).getSwapKitClient();
 
-        const swapRecipient = validateAddress({ chain: outputAsset.L1Chain, address: recipient })
-          ? recipient
-          : '';
+        const validAddress = validateAddress({ chain: outputAsset.L1Chain, address: recipient });
+        if (typeof validAddress === 'boolean' && !validAddress) {
+          throw new Error('Invalid recipient address');
+        }
 
         const swapMethod = IS_LEDGER_LIVE ? ledgerLiveSwap : swap;
 
@@ -87,7 +88,7 @@ export const useSwap = ({
               groupSeparator: '',
               decimalSeparator: '.',
             }),
-            recipient: swapRecipient || from,
+            recipient: recipient || from,
             streamingSwap: streamSwap,
           }),
         );
@@ -102,7 +103,7 @@ export const useSwap = ({
           const txid = await swapMethod({
             route: swapRoute,
             feeOptionKey: feeOptionType,
-            recipient: swapRecipient,
+            recipient,
             wallet,
           });
 
