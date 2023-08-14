@@ -52,7 +52,10 @@ export const ConfirmSwapModal = memo(
       if (!selectedRoute) return '';
       // @ts-expect-error wrong typing on calldata
       const { memoStreamingSwap, memo, tcMemo } = selectedRoute.calldata;
-      return streamSwap && memoStreamingSwap ? memoStreamingSwap : memo || tcMemo;
+
+      return (
+        (streamSwap && memoStreamingSwap ? memoStreamingSwap : memo || (tcMemo as string)) || ''
+      );
     }, [selectedRoute, streamSwap]);
 
     const handleConfirm = useCallback(async () => {
