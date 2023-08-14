@@ -85,8 +85,8 @@ export const SwapInfo = ({
     feeOptionLabels.findIndex((o) => o.includes(t(`common.fee${capitalize(feeOptionType)}`))) || 0;
 
   const discountLabel = useMemo(() => {
-    if (whaleDiscount && vTHORDiscount) return 'vTHOR + 🐳 Whale';
-    if (whaleDiscount) return '🐳 Whale';
+    if (whaleDiscount && vTHORDiscount) return 'vTHOR + 🐳 Whale 50% Off';
+    if (whaleDiscount) return '🐳 Whale 50% Off';
     if (vTHORDiscount) return 'vTHOR';
     return '';
   }, [vTHORDiscount, whaleDiscount]);
@@ -174,9 +174,14 @@ export const SwapInfo = ({
               value={
                 <Box center row className="gap-1">
                   {discountLabel && (
-                    <Text textStyle="caption-xs" variant="secondary">
-                      {discountLabel} {t('views.swap.discountApplied')}
-                    </Text>
+                    <Box row className="gap-1">
+                      <Text fontWeight="bold" textStyle="caption-xs" variant="green">
+                        {discountLabel}
+                      </Text>
+                      <Text textStyle="caption-xs" variant="secondary">
+                        {t('views.swap.discountApplied')}
+                      </Text>
+                    </Box>
                   )}
 
                   {affiliateFee ? (

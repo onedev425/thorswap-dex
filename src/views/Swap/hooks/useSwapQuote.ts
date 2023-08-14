@@ -51,7 +51,7 @@ export const useSwapQuote = ({
 
     if (inputUSDValue >= 1_000_000) basisPoints /= 2;
 
-    return `${basisPoints}`;
+    return `${Math.floor(basisPoints)}`;
   }, [VTHORBalance, inputUSDValue]);
 
   const params = useMemo(
