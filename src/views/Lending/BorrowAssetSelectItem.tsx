@@ -1,11 +1,10 @@
-import { CircularProgress, Flex, Spinner, Text } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
 import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Tooltip } from 'components/Atomic';
+import { Box, Icon, Tooltip } from 'components/Atomic';
 import { memo } from 'react';
 import { t } from 'services/i18n';
-import { getFormattedPercent } from 'views/Earn/utils';
 
 import { AssetSelectType } from '../../components/AssetSelect/types';
 
@@ -14,8 +13,8 @@ type Props = AssetSelectType & {
   isSelected?: boolean;
 };
 
-export const EarnAssetSelectItem = memo(
-  ({ asset, logoURI, select, apr, filled, isSelected, balance }: Props) => {
+export const BorrowAssetSelectItem = memo(
+  ({ asset, logoURI, select, extraInfo, isSelected, balance }: Props) => {
     return (
       <Box
         alignCenter
@@ -39,23 +38,24 @@ export const EarnAssetSelectItem = memo(
               </Text>
             </Box>
             <Box row className="gap-x-2 justify-between pr-2">
-              <Box center className="gap-1">
-                <Text
-                  fontWeight="light"
-                  textStyle="caption"
-                  textTransform="uppercase"
-                  variant="secondary"
-                >
-                  {t('common.APR')}
-                </Text>
-                {typeof apr !== 'undefined' ? (
-                  <Text textStyle="caption" variant="primaryBtn">
-                    {apr ? apr : 'N/A'}
+              <Tooltip content={t('views.lending.collateralizationRatio')}>
+                <Box center className="gap-1">
+                  <Text
+                    fontWeight="light"
+                    textStyle="caption"
+                    textTransform="uppercase"
+                    variant="secondary"
+                  >
+                    {t('views.lending.cr')}
                   </Text>
-                ) : (
-                  <Spinner size="xs" />
-                )}
-              </Box>
+
+                  <Text textStyle="caption" variant="primaryBtn">
+                    {extraInfo ? `${extraInfo}%` : 'N/A'}
+                  </Text>
+
+                  <Icon color="secondary" name="infoCircle" size={14} />
+                </Box>
+              </Tooltip>
             </Box>
           </Box>
 
@@ -64,44 +64,6 @@ export const EarnAssetSelectItem = memo(
               <Text fontWeight="medium" textStyle="caption-xs" variant="secondary">
                 {balance.toSignificant(6)}
               </Text>
-            )}
-
-            {typeof filled !== 'undefined' && (
-              // <Typography
-              //   color="secondary"
-              //   // color={getFilledColor(filled)}
-              //   variant="caption"
-              // >
-              //   {getFormattedPercent(filled) || 'N/A'}
-              // </Typography>
-              <Tooltip content={`${t('common.filled')}: ${getFormattedPercent(filled) || 'N/A'}`}>
-                <Flex position="relative">
-                  <CircularProgress
-                    color="brand.btnPrimary"
-                    size="35px"
-                    trackColor="borderPrimary"
-                    value={filled}
-                  />
-                  <Flex
-                    alignItems="center"
-                    bottom={0}
-                    justifyContent="center"
-                    left={0}
-                    position="absolute"
-                    right={0}
-                    top={0}
-                  >
-                    <Text
-                      className={classNames('text-[10px]', { 'text-[9px]': filled >= 100 })}
-                      fontWeight="semibold"
-                      textStyle="caption-xs"
-                      variant="secondary"
-                    >
-                      {Math.floor(filled)}%
-                    </Text>
-                  </Flex>
-                </Flex>
-              </Tooltip>
             )}
           </Box>
         </Box>

@@ -1,9 +1,9 @@
 import { Amount } from '@thorswap-lib/swapkit-core';
 import { showErrorToast } from 'components/Toast';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
-import { useGetBorrowQuery } from 'store/thorswap/api';
+import { useGetBorrowQuoteQuery } from 'store/thorswap/api';
 
 interface UseBorrowProps {
   recipientAddress: string;
@@ -21,17 +21,13 @@ export const useBorrow = ({
   amount,
 }: UseBorrowProps) => {
   const debouncedAmount = useDebouncedValue(amount);
-  const [expectedOutput, setExpectedOutput] = useState(Amount.fromAssetAmount(0, 8));
-  const [expectedOutputMaxSlippage, setExpectedOutputMaxSlippage] = useState(
-    Amount.fromAssetAmount(0, 8),
-  );
   const [memo, setMemo] = useState('');
 
-  const { currentData: data, error } = useGetBorrowQuery(
+  const { currentData: data, error } = useGetBorrowQuoteQuery(
     {
       assetIn,
       assetOut,
-      amount: debouncedAmount,
+      amount: debouncedAmount.toString(),
       senderAddress,
       recipientAddress,
     },
@@ -44,13 +40,17 @@ export const useBorrow = ({
     }
   }, [error]);
 
-  useEffect(() => {
-    setExpectedOutput(Amount.fromAssetAmount(data?.expectedOutput || 0, 8));
-  }, [setExpectedOutput, data?.expectedOutput]);
+  const expectedOutput = useMemo(() => {
+    return Amount.fromAssetAmount(data?.expectedOutputMaxSlippage || 0, 8);
+  }, [data?.expectedOutputMaxSlippage]);
 
-  useEffect(() => {
-    setExpectedOutputMaxSlippage(Amount.fromAssetAmount(data?.expectedOutputMaxSlippage || 0, 8));
-  }, [setExpectedOutput, data?.expectedOutputMaxSlippage]);
+  const expectedOutputMaxSlippage = useMemo(() => {
+    return Amount.fromAssetAmount(data?.expectedOutputMaxSlippage || 0, 8);
+  }, [data?.expectedOutputMaxSlippage]);
+
+  const expectedDebt = useMemo(() => {
+    return Amount.fromAssetAmount(data?.expectedDebtIssued || 0, 8);
+  }, [data?.expectedDebtIssued]);
 
   useEffect(() => {
     setMemo(data?.memo || '');
@@ -58,8 +58,10 @@ export const useBorrow = ({
 
   return {
     memo,
+    expectedDebt,
     expectedOutput,
     expectedOutputMaxSlippage,
     hasError: !!error,
+    borrowQuote: data,
   };
 };

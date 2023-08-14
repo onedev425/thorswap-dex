@@ -108,7 +108,9 @@ export const useSwap = ({
 
           if (typeof txid === 'string') {
             const timestamp = new Date();
-            appDispatch(updateTransaction({ id, txid, quoteId, route, timestamp }));
+            appDispatch(
+              updateTransaction({ id, txid, quoteId, route, timestamp, advancedTracker: true }),
+            );
           } else {
             appDispatch(completeTransaction({ id, status: 'error' }));
             showErrorToast(t('notification.submitFail'), JSON.stringify(txid));

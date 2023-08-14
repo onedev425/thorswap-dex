@@ -7,7 +7,7 @@ import { Box, Icon } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
-import { EarnAssetSelectItem } from 'views/Lending/BorrowAssetSelectItem';
+import { BorrowAssetSelectItem } from 'views/Lending/BorrowAssetSelectItem';
 
 export const BorrowAssetSelectList = ({
   assets,
@@ -40,18 +40,21 @@ export const BorrowAssetSelectList = ({
       )}
       flex={1}
     >
-      <Box
-        className={classNames('gap-8', 'self-stretch flex-1 justify-end mr-1', { 'px-1.5': true })}
+      <Text
+        fontWeight="medium"
+        mb={2}
+        ml={2}
+        textStyle="caption"
+        textTransform="none"
+        variant="secondary"
       >
-        <Text fontWeight="medium" textStyle="caption" textTransform="none" variant="secondary">
-          Filled
-        </Text>
-      </Box>
+        {t('views.lending.selectCollateralAsset')}
+      </Text>
 
       {filteredAssets.length ? (
         <Box className="!overflow-x-clip flex-col overflow-y-auto gap-1.5 w-full h-full">
           {filteredAssets.map((item) => (
-            <EarnAssetSelectItem
+            <BorrowAssetSelectItem
               {...item}
               isSelected={selectedAsset?.eq(item.asset)}
               key={`${item.asset.symbol}${item.asset.type}`}

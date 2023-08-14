@@ -18,7 +18,9 @@ export const IS_PROD = isEnv('VITE_PROD', 'app.thorswap.finance');
  */
 export const IS_PROTECTED = IS_BETA || IS_LOCAL || IS_DEV_API;
 
-export const THORNODE_URL = 'https://thornode.thorswap.net/thorchain';
+export const THORNODE_URL = IS_STAGENET
+  ? 'https://stagenet-thornode.ninerealms.com/thorchain'
+  : 'https://thornode.thorswap.net/thorchain';
 
 const MIDGARD_DEV_API = 'https://midgard-stage-a.thorswap.net';
 const MIDGARD_MAINNET_API = 'https://midgard.thorswap.net';

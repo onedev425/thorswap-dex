@@ -21,4 +21,5 @@ export type AssetSelectType = Pick<Token, 'logoURI' | 'cg'> & {
   provider?: string;
   identifier?: string;
   balance?: Amount;
+  extraInfo?: string | number;
 };

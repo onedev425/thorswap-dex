@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Button, Icon } from 'components/Atomic';
 import { ReloadButton } from 'components/ReloadButton';
 import { hasConnectedWallet } from 'helpers/wallet';
@@ -8,17 +8,31 @@ import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
 import { LoanInfoCard } from 'views/Lending/LoanInfoCard';
 import { LoanInfoRow } from 'views/Lending/LoanInfoRow';
-import { LendingTab, LendingViewTab } from 'views/Lending/types';
-import { useLoans } from 'views/Lending/useLoans';
+import { LendingTab, LendingViewTab, LoanPosition } from 'views/Lending/types';
 
 type Props = {
   setTab: (value: LendingTab) => void;
   setViewTab: (value: LendingViewTab) => void;
   setCollateralAsset: (value: AssetEntity) => void;
+  refreshLoans: () => void;
+  totalBorrowed?: Amount;
+  totalCollateral?: number;
+  loans: LoanPosition[];
+  isLoading: boolean;
 };
-export const BorrowPositionsTab = ({ setTab, setViewTab, setCollateralAsset }: Props) => {
+
+export const BorrowPositionsTab = ({
+  setTab,
+  setViewTab,
+  setCollateralAsset,
+  refreshLoans,
+  totalBorrowed,
+  totalCollateral,
+  loans,
+  isLoading,
+}: Props) => {
   const { wallet, setIsConnectModalOpen } = useWallet();
-  const { refreshLoans, totalBorrowed, totalCollateral, loansData, isLoading } = useLoans();
+
   const isWalletConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
 
   const setBorrowTab = () => {
@@ -74,8 +88,8 @@ export const BorrowPositionsTab = ({ setTab, setViewTab, setCollateralAsset }: P
             ))}
           </Flex>
           <Flex direction="column" justify="center" mt={8}>
-            {loansData.length ? (
-              loansData.map((loan) => (
+            {loans.length ? (
+              loans.map((loan) => (
                 <LoanInfoRow
                   key={loan.asset.name}
                   loan={loan}

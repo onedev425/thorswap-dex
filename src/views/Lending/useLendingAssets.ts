@@ -1,5 +1,5 @@
 import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useGetLendingAssetsQuery } from 'store/thorswap/api';
 
 export function useLendingAssets() {
@@ -12,8 +12,14 @@ export function useLendingAssets() {
       .filter((a): a is Asset => a !== null);
   }, [data]);
 
+  // TODO - CR FROM API
+  const getAssetCR = useCallback((_asset: Asset) => {
+    return 15;
+  }, []);
+
   return {
     hasLendingAssets: !!data?.length,
     lendingAssets,
+    getAssetCR,
   };
 }

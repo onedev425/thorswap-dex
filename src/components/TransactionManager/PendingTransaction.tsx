@@ -11,11 +11,16 @@ import { memo } from 'react';
 import { PendingTransactionType } from 'store/transactions/types';
 
 export const PendingTransaction = memo((pendingTx: PendingTransactionType) => {
-  const { quoteId, route, txid, details: txDetails } = pendingTx;
+  const { quoteId, route, txid, details: txDetails, advancedTracker } = pendingTx;
+  // keep it backward compatible with old cached txs
   const hasDetailsParams = (txid && route && quoteId) || txDetails;
 
-  const simpleTrackerData = useSimpleTracker(hasDetailsParams ? null : pendingTx);
-  const advancedTrackerData = useAdvancedTracker(!hasDetailsParams ? null : pendingTx);
+  const simpleTrackerData = useSimpleTracker(
+    hasDetailsParams || advancedTracker ? null : pendingTx,
+  );
+  const advancedTrackerData = useAdvancedTracker(
+    !hasDetailsParams && !advancedTracker ? null : pendingTx,
+  );
   const { totalTimeLeft } = useTransactionTimers(txDetails?.legs || [], { isTxFinished: false });
   const txData = simpleTrackerData || advancedTrackerData || pendingTx;
 

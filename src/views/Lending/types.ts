@@ -8,7 +8,7 @@ export type LoanPosition = {
   debtIssued: Amount;
   debtRepaid: Amount;
   debtCurrent: Amount;
-  ltv: number;
+  lastOpenHeight: number;
 };
 
 export enum LendingTab {

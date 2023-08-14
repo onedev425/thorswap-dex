@@ -1,5 +1,9 @@
-import { QuoteRoute, TxStatus } from '@thorswap-lib/swapkit-api';
-import { TransactionStatus, TransactionType, TxTrackerDetails } from 'store/transactions/types';
+import { QuoteRoute, TxStatus, TxTrackerDetails } from '@thorswap-lib/swapkit-api';
+import {
+  InitialTrackerPayload,
+  TransactionStatus,
+  TransactionType,
+} from 'store/transactions/types';
 
 type LiquidityTxResult<T extends TransactionType> = {
   type: T;
@@ -228,6 +232,11 @@ export type GetTxnStatusDetailsUpdateParams = {
   hash: string;
 };
 
+export type GetAdvancedTrackerStatusPayload =
+  | GetTxnStatusDetailsUpdateParams
+  | GetTxnStatusDetailsParams
+  | InitialTrackerPayload;
+
 export type GetTxnStatusDetailsResponse = {
   result: TxTrackerDetails;
   done: boolean;
@@ -286,4 +295,43 @@ export type LoansResponse = {
   collateral_deposited: string;
   collateral_withdrawn: string;
   last_open_height: number;
+};
+
+export type LendingStatusResponse = {
+  paused: boolean;
+  maturity: number;
+};
+
+export type BorrowQuoteParams = {
+  assetIn: string;
+  assetOut: string;
+  amount: string;
+  senderAddress: string;
+  recipientAddress: string;
+};
+
+export type BorrowQuoteResponse = {
+  fromAsset: string;
+  toAsset: string;
+  amountIn: string;
+  amountOut: string;
+  amountOutMin: string;
+  swaps: QuoteRoute['swaps'];
+  fromAddress: string;
+  targetAddress: string;
+  recipientAddress: string;
+  memo: string;
+  route: {
+    meta: {
+      // FIXED NESTING
+      thornodeMeta: {
+        inboundConfirmationSeconds: number;
+        outboundDelay: number;
+      };
+    };
+  };
+
+  expectedOutput: string;
+  expectedOutputMaxSlippage: string;
+  expectedDebtIssued: string;
 };

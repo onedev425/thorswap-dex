@@ -1,6 +1,6 @@
-import { QuoteRoute, TxStatus } from '@thorswap-lib/swapkit-api';
+import { QuoteRoute, TxStatus, TxTrackerDetails } from '@thorswap-lib/swapkit-api';
 import { Chain } from '@thorswap-lib/types';
-import { TxnResult } from 'store/thorswap/types';
+import { BorrowQuoteResponse, TxnResult } from 'store/thorswap/types';
 
 export type TransactionStatus = 'error' | 'mined' | 'refund' | 'pending' | 'unknown' | 'notStarted';
 
@@ -73,6 +73,8 @@ export enum TransactionType {
   TRANSFER_FROM_TC = 'TRANSFER:OUT',
   // Unsupported
   UNSUPPORTED = 'UNSUPPORTED',
+  // Lending
+  TC_LENDING = 'TC:LENDING',
 }
 
 export type PendingTransactionType = {
@@ -94,6 +96,8 @@ export type PendingTransactionType = {
   status?: TransactionStatus;
   recipient?: string;
   streamingSwap?: boolean;
+  advancedTracker?: boolean;
+  initialPayload?: InitialTrackerPayload;
 };
 
 export type CompletedTransactionType = PendingTransactionType & {
@@ -131,12 +135,10 @@ export type TxTrackerLeg = {
   opaque?: any;
 };
 
-export interface TxTrackerDetails {
-  quoteId: string;
-  firstTransactionHash: string;
-  currentLegIndex: number;
-  legs: TxTrackerLeg[];
-  status?: TxStatus;
-  startTimestamp?: number | null;
-  estimatedDuration?: number | null;
-}
+export type TrackerLendingPayload = {
+  isLending: true;
+  txHash: string;
+} & BorrowQuoteResponse;
+
+// Initial tracker payload for txns other than swaps
+export type InitialTrackerPayload = TrackerLendingPayload;

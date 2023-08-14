@@ -1,8 +1,8 @@
 import { Flex, useMediaQuery } from '@chakra-ui/react';
+import { TxTrackerDetails } from '@thorswap-lib/swapkit-api';
 import { useTransactionTimers } from 'components/TransactionManager/useTransactionTimers';
 import { TxDetailsInfo } from 'components/TransactionTracker/components/TxDetailsInfo';
 import { TxLegPreview } from 'components/TransactionTracker/components/TxLegPreview';
-import { TxTrackerDetails } from 'store/transactions/types';
 
 type Props = {
   txDetails: TxTrackerDetails;

@@ -69,13 +69,30 @@ export const getDurationFormat = (durationMs: number, config?: DurationFormatCon
   return config?.noUnits ? 'HH:mm:ss' : 'HH[h] mm[m] ss[s]';
 };
 
+export const getDaysRestDurationFormat = (config?: DurationFormatConfig) => {
+  if (config?.approx) {
+    return config?.noUnits ? 'HH' : 'HH[h]';
+  }
+
+  return config?.noUnits ? 'HH:mm' : 'HH[h] mm[m]';
+};
+
 export const formatDuration = (
   durationMs: number,
   config?: { noUnits?: boolean; approx?: boolean },
 ) => {
-  let format = getDurationFormat(durationMs, config);
+  const days = Math.floor(durationMs / 86400000);
+  const rest = durationMs % 86400000;
 
-  return dayjs.duration(durationMs, 'ms').format(format);
+  if (days > 0) {
+    const daysFormat = days > 1 ? t('common.days') : t('common.day');
+    const daysLabel = days > 0 ? `${days} ${daysFormat} ` : '';
+
+    return `${daysLabel} ${dayjs.duration(rest, 'ms').format(getDaysRestDurationFormat(config))}`;
+  }
+
+  const format = getDurationFormat(durationMs, config);
+  return dayjs.duration(rest, 'ms').format(format);
 };
 
 export const getTxDuration = (legs: TxTrackerLeg[]) => {

@@ -3,7 +3,7 @@ import { useCompleteTransaction } from 'components/TransactionManager/useComplet
 import { useEffect, useMemo, useState } from 'react';
 import { useAppDispatch } from 'store/store';
 import { useGetTxnStatusDetailsQuery } from 'store/thorswap/api';
-import { GetTxnStatusDetailsParams, GetTxnStatusDetailsUpdateParams } from 'store/thorswap/types';
+import { GetAdvancedTrackerStatusPayload } from 'store/thorswap/types';
 import { updateTransaction } from 'store/transactions/slice';
 import { PendingTransactionType } from 'store/transactions/types';
 
@@ -23,17 +23,18 @@ export const useAdvancedTracker = (tx: PendingTransactionType | null) => {
     from,
     recipient,
     streamingSwap,
+    initialPayload,
   } = tx || {};
 
-  const hasDetailsParams = txid && route && quoteId;
+  const hasDetailsParams = (txid && route && quoteId) || initialPayload;
   const canFetchDetails = hasDetailsParams || (txid && !!details);
   const skipFetchingDetails = completed || !canFetchDetails;
   const { onCompleteTransaction } = useCompleteTransaction(tx);
 
-  const detailsParams: GetTxnStatusDetailsParams | GetTxnStatusDetailsUpdateParams =
+  const detailsParams: GetAdvancedTrackerStatusPayload =
     details && txid
       ? { hash: txid }
-      : {
+      : initialPayload || {
           txn: {
             hash: txid || '',
             quoteId: quoteId || '',
@@ -67,10 +68,7 @@ export const useAdvancedTracker = (tx: PendingTransactionType | null) => {
   return tx ? { type, label, details, txUrl: '' } : null;
 };
 
-export const useTransactionDetails = (
-  params: GetTxnStatusDetailsParams | GetTxnStatusDetailsUpdateParams,
-  skip?: boolean,
-) => {
+export const useTransactionDetails = (params: GetAdvancedTrackerStatusPayload, skip?: boolean) => {
   const [isCompleted, setIsCompleted] = useState(false);
 
   const {

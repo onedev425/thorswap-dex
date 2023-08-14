@@ -27,7 +27,7 @@ export const usePercentageDebtValue = ({
     [wallet, asset.L1Chain],
   );
 
-  const { data, isLoading } = useGetRepayValueQuery(
+  const { data, isFetching: isLoading } = useGetRepayValueQuery(
     {
       senderAddress,
       collateralAddress,

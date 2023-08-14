@@ -4,6 +4,9 @@ import { IS_DEV_API, IS_LEDGER_LIVE, IS_STAGENET } from 'settings/config';
 import { AnnouncementsData } from 'store/externalConfig/types';
 
 import {
+  BorrowQuoteParams,
+  BorrowQuoteResponse,
+  GetAdvancedTrackerStatusPayload,
   getGasHistoryResponse,
   GetGasPriceRatesResponse,
   GetProvidersResponse,
@@ -11,13 +14,12 @@ import {
   GetTokenPriceResponse,
   GetTokensQuoteParams,
   GetTokensQuoteResponse,
-  GetTxnStatusDetailsParams,
   GetTxnStatusDetailsResponse,
-  GetTxnStatusDetailsUpdateParams,
   GetTxnStatusParams,
   GetTxnStatusResponse,
   IThornameForAddressParams,
   IThornameForAddressResponse,
+  LendingStatusResponse,
   LoansResponse,
 } from './types';
 
@@ -77,7 +79,7 @@ export const thorswapApi = createApi({
       },
     }),
 
-    getBorrow: build.query<any, any>({
+    getBorrowQuote: build.query<BorrowQuoteResponse, BorrowQuoteParams>({
       query: ({ assetIn, assetOut, amount, senderAddress, recipientAddress }) => {
         const queryParams = new URLSearchParams({
           assetIn,
@@ -141,10 +143,7 @@ export const thorswapApi = createApi({
       },
     }),
 
-    getTxnStatusDetails: build.query<
-      GetTxnStatusDetailsResponse,
-      GetTxnStatusDetailsParams | GetTxnStatusDetailsUpdateParams
-    >({
+    getTxnStatusDetails: build.query<GetTxnStatusDetailsResponse, GetAdvancedTrackerStatusPayload>({
       query: (body) => ({
         method: 'POST',
         url: `${baseUrl}/apiusage/v2/txn`,
@@ -197,6 +196,9 @@ export const thorswapApi = createApi({
     getLendingAssets: build.query<string[], void>({
       query: () => `${baseUrl}/aggregator/lending/assets`,
     }),
+    getLendingStatus: build.query<LendingStatusResponse, void>({
+      query: () => `${baseUrl}/aggregator/lending/status`,
+    }),
   }),
 });
 
@@ -210,7 +212,7 @@ export const {
   useGetAirdropVerifyQuery,
   useGetIsWhitelistedQuery,
   useGetMerkleProofQuery,
-  useGetBorrowQuery,
+  useGetBorrowQuoteQuery,
   useGetRepayValueQuery,
   useGetAnnouncementsQuery,
   useGetGasPriceRatesQuery,
@@ -218,4 +220,5 @@ export const {
   useGetThornamesByAddressQuery,
   useGetWithdrawLPMemoQuery,
   useGetLendingAssetsQuery,
+  useGetLendingStatusQuery,
 } = thorswapApi;

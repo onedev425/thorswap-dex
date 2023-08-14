@@ -1,23 +1,38 @@
-import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
+import { Flex, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
 import { Amount, AssetAmount, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
+import { Announcement } from 'components/Announcements/Announcement/Announcement';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Card, Icon, Tooltip } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { InfoTable } from 'components/InfoTable';
+import { InfoWithTooltip } from 'components/InfoWithTooltip';
+import dayjs from 'dayjs';
+import { useFormatPrice } from 'helpers/formatPrice';
+import { useAssetListSearch } from 'hooks/useAssetListSearch';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { useMimir } from 'hooks/useMimir';
 import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
+import { useTCBlockTimer } from 'hooks/useTCBlockTimer';
 import { useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
+import { AnnouncementType } from 'store/externalConfig/types';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
+import { BorrowAssetSelectList } from 'views/Lending/BorrowAssetSelectList';
 import { useLendingAssets } from 'views/Lending/useLendingAssets';
+import { useLendingStatus } from 'views/Lending/useLendingStatus';
+import { useLoans } from 'views/Lending/useLoans';
+import { VirtualDepthInfo } from 'views/Lending/VirtualDepthInfo';
+import { useAssetsWithBalanceFromTokens } from 'views/Swap/hooks/useAssetsWithBalanceFromTokens';
+import { useTokenList } from 'views/Swap/hooks/useTokenList';
+
+import { isLedgerLiveSupportedInputAsset } from '../../../ledgerLive/wallet/LedgerLive';
 
 import { ActionButton } from './ActionButton';
 import { BorrowPositionsTab } from './BorrowPositionsTab';
@@ -25,10 +40,22 @@ import { LendingConfirmModal } from './LendingConfirmModal';
 import { LendingTab, LendingViewTab } from './types';
 import { useBorrow } from './useBorrow';
 
+// TODO - load from api
+export const MATURITY_BLOCKS = 432000;
+
 const Borrow = () => {
   const appDispatch = useAppDispatch();
-  const { lendingAssets } = useLendingAssets();
-  const listAssets = useAssetsWithBalance(lendingAssets);
+  const { lendingAssets, getAssetCR } = useLendingAssets();
+  const assetsWithBalance = useAssetsWithBalance(lendingAssets);
+  const listAssets = useMemo(
+    () => assetsWithBalance.map((asset) => ({ ...asset, extraInfo: getAssetCR(asset.asset) })),
+    [assetsWithBalance, getAssetCR],
+  );
+
+  // output assets
+  const { tokens } = useTokenList();
+  const outputAssetList = useAssetsWithBalanceFromTokens(tokens);
+  const { assetInputProps, assets: outputAssets } = useAssetListSearch(outputAssetList);
 
   const { getMaxBalance } = useBalance();
   const { isChainHalted } = useMimir();
@@ -41,6 +68,12 @@ const Borrow = () => {
   const [viewTab, setViewTab] = useState(LendingViewTab.Borrow);
   const collateralUsdPrice = usePoolAssetPriceInUsd({ asset: collateralAsset, amount });
   const isBorrow = tab === LendingTab.Borrow;
+  const formatPrice = useFormatPrice();
+
+  const { refreshLoans, totalBorrowed, totalCollateral, loansData, isLoading } = useLoans();
+  const { lendingStatus } = useLendingStatus();
+
+  const { estimateTimeFromBlocks } = useTCBlockTimer();
 
   const collateralAddress = useMemo(
     () => wallet?.[collateralAsset.L1Chain]?.address || '',
@@ -52,10 +85,12 @@ const Borrow = () => {
   );
 
   const {
+    expectedDebt,
     expectedOutput,
     expectedOutputMaxSlippage: slippage,
     memo,
     hasError,
+    borrowQuote,
   } = useBorrow({
     senderAddress: collateralAddress,
     recipientAddress: borrowAddress,
@@ -112,21 +147,47 @@ const Borrow = () => {
       try {
         const txid = await handleSwapkitAction();
         setAmount(Amount.fromAssetAmount(0, 8));
-        if (txid) appDispatch(updateTransaction({ id, txid }));
+        if (txid)
+          appDispatch(
+            updateTransaction({
+              id,
+              txid,
+              advancedTracker: true,
+              initialPayload: borrowQuote
+                ? { isLending: true, txHash: txid, ...borrowQuote }
+                : undefined,
+              type: TransactionType.TC_LENDING,
+            }),
+          );
       } catch (error) {
         console.error(error);
         appDispatch(completeTransaction({ id, status: 'error' }));
       }
     },
-    [appDispatch, collateralAsset.L1Chain, collateralAsset.name, handleSwapkitAction, isBorrow],
+    [
+      appDispatch,
+      borrowQuote,
+      collateralAsset.L1Chain,
+      collateralAsset.name,
+      handleSwapkitAction,
+      isBorrow,
+    ],
   );
 
   const buttonDisabled = useMemo(
     () =>
+      lendingStatus?.paused ||
       amount.lte(Amount.fromAssetAmount(0, 8)) ||
       (isBorrow && collaterallBalance && amount.gt(collaterallBalance)) ||
       isChainHalted[collateralAsset.L1Chain],
-    [amount, collateralAsset.L1Chain, collaterallBalance, isChainHalted, isBorrow],
+    [
+      lendingStatus?.paused,
+      amount,
+      isBorrow,
+      collaterallBalance,
+      isChainHalted,
+      collateralAsset.L1Chain,
+    ],
   );
 
   const tabLabel = tab === LendingTab.Borrow ? t('common.borrow') : t('common.repay');
@@ -149,21 +210,40 @@ const Borrow = () => {
     [borrowAsset, expectedOutput, borrowBalance, borrowUsdPrice],
   );
 
-  const summary = useMemo(
-    () => [
-      {
-        label: t('common.slippage'),
-        value: (
-          <Box center>
-            <Text textStyle="caption">
-              {`${slippage ? slippage?.toSignificant(6) : 0} ${collateralAsset.name}`}
-            </Text>
-          </Box>
-        ),
-      },
-    ],
-    [slippage, collateralAsset.name],
-  );
+  const summary = [
+    {
+      label: t('views.lending.expectedDebt'),
+      value: `${formatPrice(expectedDebt.gt(0) ? expectedDebt : 0)}`,
+    },
+    {
+      label: t('common.slippage'),
+      value: `${slippage ? slippage?.toSignificant(6) : 0} ${collateralAsset.name}`,
+    },
+    {
+      label: t('views.lending.repayMaturity'),
+      value: (
+        <Box center>
+          <InfoWithTooltip
+            tooltip={t('views.lending.maturityDescription')}
+            value={
+              <Text textStyle="caption">
+                {dayjs.duration(estimateTimeFromBlocks(MATURITY_BLOCKS)).asDays()}{' '}
+                {t('views.savings.days')}
+              </Text>
+            }
+          />
+        </Box>
+      ),
+    },
+    {
+      label: t('views.swap.exchangeFee'),
+      value: (
+        <Text textStyle="caption" variant="green">
+          FREE
+        </Text>
+      ),
+    },
+  ];
 
   return (
     <Box col className="w-full max-w-[880px] flex self-center gap-3 mt-2">
@@ -172,6 +252,13 @@ const Borrow = () => {
         keywords="Borrow, Lending, THORSwap, APY, Native assets"
         title={t('views.lending.borrow')}
       />
+
+      {lendingStatus?.paused && (
+        <Announcement
+          announcement={{ type: AnnouncementType.Error, message: t('views.lending.lendingPaused') }}
+          showClose={false}
+        />
+      )}
 
       <Tabs index={viewTab} onChange={setViewTab}>
         <TabList>
@@ -216,40 +303,61 @@ const Borrow = () => {
                     className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-2 space-y-1 shadow-lg md:w-full md:h-auto"
                     size="lg"
                   >
-                    <Box col className="self-stretch gap-2">
-                      <AssetInput
-                        noFilters
-                        assets={listAssets}
-                        className="flex-1"
-                        onAssetChange={setCollateralAsset}
-                        onValueChange={setAmount}
-                        poolAsset={selectedCollateralAsset}
-                        selectedAsset={selectedCollateralAsset}
-                        title={t('views.lending.collateralToDeposit')}
-                      />
+                    <Flex direction="column" gap={2}>
+                      <Flex direction="column">
+                        <Flex
+                          alignItems="center"
+                          direction="row"
+                          justifyContent="space-between"
+                          mr={2}
+                        >
+                          <Text mb={1} ml={5} textStyle="caption">
+                            {t('views.lending.collateralToDeposit')}
+                          </Text>
+                          <Flex mb={1}>
+                            <VirtualDepthInfo depth={80} />
+                          </Flex>
+                        </Flex>
+                        <AssetInput
+                          noFilters
+                          AssetListComponent={BorrowAssetSelectList}
+                          assets={listAssets}
+                          className="flex-1 !py-1"
+                          onAssetChange={setCollateralAsset}
+                          onValueChange={setAmount}
+                          poolAsset={selectedCollateralAsset}
+                          selectedAsset={selectedCollateralAsset}
+                        />
+                      </Flex>
 
-                      <AssetInput
-                        disabled
-                        noFilters
-                        assets={listAssets}
-                        className="flex-1"
-                        onAssetChange={setBorrowAsset}
-                        poolAsset={selectedBorrowAsset}
-                        selectedAsset={selectedBorrowAsset}
-                        title={t('views.lending.borrowAmount')}
-                      />
+                      <Flex direction="column">
+                        <Text mb={1} ml={5} textStyle="caption">
+                          {t('views.lending.borrowAmount')}
+                        </Text>
+                        <AssetInput
+                          {...assetInputProps}
+                          disabled
+                          assets={outputAssets.filter(isLedgerLiveSupportedInputAsset)}
+                          className="flex-1 !py-1"
+                          onAssetChange={setBorrowAsset}
+                          poolAsset={selectedBorrowAsset}
+                          selectedAsset={selectedBorrowAsset}
+                        />
+                      </Flex>
 
-                      <InfoTable horizontalInset items={summary} />
+                      <Flex mt={2}>
+                        <InfoTable horizontalInset items={summary} size="sm" />
+                      </Flex>
 
                       <ActionButton
                         address={collateralAddress}
                         disabled={buttonDisabled}
                         handleSubmit={() => setIsConfirmOpen(true)}
-                        hasError={!amount || hasError}
+                        hasError={!amount || hasError || lendingStatus?.paused}
                         label={tabLabel}
                         setIsConnectModalOpen={setIsConnectModalOpen}
                       />
-                    </Box>
+                    </Flex>
                   </Card>
 
                   <LendingConfirmModal
@@ -267,9 +375,14 @@ const Borrow = () => {
           </TabPanel>
           <TabPanel>
             <BorrowPositionsTab
+              isLoading={isLoading}
+              loans={loansData}
+              refreshLoans={refreshLoans}
               setCollateralAsset={setCollateralAsset}
               setTab={setTab}
               setViewTab={setViewTab}
+              totalBorrowed={totalBorrowed}
+              totalCollateral={totalCollateral}
             />
           </TabPanel>
         </TabPanels>

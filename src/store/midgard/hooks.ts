@@ -157,6 +157,8 @@ export const useMidgard = () => {
     });
   }, [getLpDetails, lpAddedAndWithdraw, lpDetailLoading, poolNamesByChain, wallet]);
 
+  const tcLastBlock: number | null = midgard?.lastBlock?.[0]?.thorchain || null;
+
   return {
     ...midgard,
     actions,
@@ -166,5 +168,6 @@ export const useMidgard = () => {
     loadMemberDetailsByChain,
     synthAssets,
     getAllLpDetails,
+    tcLastBlock,
   };
 };

@@ -15,7 +15,7 @@ export const useLoans = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const getLoanPosition = useCallback(
-    async (asset: Asset) => {
+    async (asset: Asset): Promise<LoanPosition | null> => {
       const address = wallet?.[asset.L1Chain]?.address || '';
       if (address) {
         const { data } = await fetchLoans({
@@ -31,7 +31,7 @@ export const useLoans = () => {
         const debtCurrent = Amount.fromMidgard(data?.debt_current);
 
         return collateralCurrent.gt(0)
-          ? ({
+          ? {
               asset,
               collateralCurrent,
               collateralDeposited,
@@ -39,8 +39,8 @@ export const useLoans = () => {
               debtCurrent,
               debtIssued,
               debtRepaid,
-              ltv: 0,
-            } as LoanPosition)
+              lastOpenHeight: data?.last_open_height || 0,
+            }
           : null;
       }
 

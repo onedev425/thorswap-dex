@@ -1,4 +1,5 @@
 import { CircularProgress, Flex, Text } from '@chakra-ui/react';
+import { TxTrackerDetails } from '@thorswap-lib/swapkit-api';
 import { Card } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { useTransactionDetails } from 'components/TransactionManager/useAdvancedTracker';
@@ -7,7 +8,6 @@ import { ViewHeader } from 'components/ViewHeader';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { TxTrackerDetails } from 'store/transactions/types';
 
 const Transaction = () => {
   const { txid = '' } = useParams<{
@@ -25,7 +25,7 @@ const Transaction = () => {
 
   useEffect(() => {
     if (data) {
-      setTx(data.result);
+      setTx(data.result as TxTrackerDetails);
     }
   }, [data]);
 

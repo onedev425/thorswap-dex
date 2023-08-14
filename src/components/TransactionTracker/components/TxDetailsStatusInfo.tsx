@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { TxStatus } from '@thorswap-lib/swapkit-api';
+import { TxStatus, TxTrackerDetails } from '@thorswap-lib/swapkit-api';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { getEstimatedTxDuration } from 'components/TransactionManager/helpers';
 import { TransactionStatusIcon } from 'components/TransactionManager/TransactionStatusIcon';
@@ -11,7 +11,6 @@ import {
 } from 'components/TransactionTracker/helpers';
 import { CircularCountdown } from 'components/TxTracker/components/CircularCountdown';
 import { t } from 'services/i18n';
-import { TxTrackerDetails } from 'store/transactions/types';
 
 type Props = {
   txDetails: TxTrackerDetails;

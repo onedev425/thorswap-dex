@@ -3,17 +3,24 @@ import { Amount, AmountType, AssetEntity, getSignatureAssetFor } from '@thorswap
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
-import { AssetInput } from 'components/AssetInput';
+import { AssetSelect } from 'components/AssetSelect';
+import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton';
 import { Button, Icon } from 'components/Atomic';
+import { InfoWithTooltip } from 'components/InfoWithTooltip';
+import { InputAmount } from 'components/InputAmount';
 import { PercentageSlider } from 'components/PercentageSlider';
+import { formatDuration } from 'components/TransactionTracker/helpers';
 import { BTCAsset } from 'helpers/assets';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
+import { useTCBlockTimer } from 'hooks/useTCBlockTimer';
 import { useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
+import { MATURITY_BLOCKS } from 'views/Lending/Borrow';
 import { LendingConfirmModal } from 'views/Lending/LendingConfirmModal';
+import { LoanInfoRowCell } from 'views/Lending/LoanInfoRowCell';
 import { LoanPosition } from 'views/Lending/types';
 import { useLendingAssets } from 'views/Lending/useLendingAssets';
 import { useLoanRepay } from 'views/Lending/useLoanRepay';
@@ -43,7 +50,7 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
     asset,
     amount: collateralCurrent,
   }).toCurrencyFormat(2);
-  const { repayAssetAmount } = usePercentageDebtValue({
+  const { repayAssetAmount, isLoading } = usePercentageDebtValue({
     asset: repayAsset,
     collateralAsset: asset,
     percentage: sliderValue,
@@ -87,6 +94,8 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
     onSuccess,
   });
 
+  const { getBlockTimeDifference } = useTCBlockTimer();
+
   return (
     <Flex
       alignSelf="stretch"
@@ -99,23 +108,30 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
         className="!rounded-3xl flex-col flex !gap-0 !px-3 !py-3"
         variant="filledContainerSecondary"
       >
-        <Flex direction={{ base: 'column', md: 'row' }} flex={4}>
+        <Flex direction={{ base: 'column', lg: 'row' }} flex={4} gap={1}>
           <Flex flex={5}>
-            <Flex align="center" flex={1}>
+            <Flex align="center">
               <AssetIcon asset={getSignatureAssetFor(asset.symbol as Chain)} size={36} />
             </Flex>
-            <Flex align="end" direction="column" flex={1} justify="center">
+            <LoanInfoRowCell>
               <Text textAlign="end">{`${collateralCurrent.toSignificant(4)} ${asset.symbol}`}</Text>
               <Text textAlign="end">{collateralUsd}</Text>
-            </Flex>
-            <Flex align="end" direction="column" flex={1} justify="center">
+            </LoanInfoRowCell>
+            <LoanInfoRowCell>
               <Text textAlign="end">{`${debtCurrent.toFixed(2)} TOR`}</Text>
               <Text textAlign="end">{`$${debtCurrent.toFixed(2)}`}</Text>
-            </Flex>
-            <Flex align="end" direction="column" flex={1} justify="center">
-              <Text>{t('views.lending.ltv')}</Text>
-              <Text>0%</Text>
-            </Flex>
+            </LoanInfoRowCell>
+            <LoanInfoRowCell>
+              <InfoWithTooltip
+                tooltip={t('views.lending.maturityDescription')}
+                value={t('views.lending.maturity')}
+              />
+              <Text>
+                {formatDuration(getBlockTimeDifference(loan.lastOpenHeight + MATURITY_BLOCKS), {
+                  approx: true,
+                })}
+              </Text>
+            </LoanInfoRowCell>
           </Flex>
           <Flex
             align="center"
@@ -171,36 +187,95 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
           </Flex>
         </Flex>
         <Collapse in={show}>
-          <Flex align="center" justify="center" w="full">
+          <Flex align="center" flex={1} justify="center" w="full">
             <Card
               bg="borderPrimary"
               borderRadius="3xl"
               mt={{ base: 2, md: 4 }}
               variant="filledContainerPrimary"
+              w="full"
             >
               <Flex align="center" direction="column" display="flex" flex={1} justify="center">
-                <PercentageSlider
-                  highlightDisabled
-                  className="!p-0"
-                  onChange={(v) => setSliderValue(v)}
-                  percent={sliderValue}
-                  title={t('views.lending.repayPercent')}
-                />
+                <Flex
+                  alignSelf="stretch"
+                  direction={{ base: 'column', lg: 'row' }}
+                  flex={1}
+                  gap={{ base: 4, lg: 8 }}
+                >
+                  <Flex direction="column" flex={1}>
+                    <Flex alignItems="center" justifyContent="space-between">
+                      <Text textStyle="caption">{t('views.lending.repayAsset')}:</Text>
+                      <AssetSelect
+                        showAssetType
+                        assets={listAssets}
+                        onSelect={setRepayAsset as (asset: AssetEntity) => void}
+                        selected={selectedRepayAsset.asset}
+                      />
+                    </Flex>
+                    <PercentageSlider
+                      highlightDisabled
+                      className="!p-0"
+                      onChange={(v) => setSliderValue(v)}
+                      percent={sliderValue}
+                      slideClassName="!pb-0"
+                      title={t('views.lending.repayPercent')}
+                    />
+                  </Flex>
 
-                <AssetInput
-                  disabled
-                  noFilters
-                  assets={listAssets}
-                  className="mb-2"
-                  onAssetChange={setRepayAsset}
-                  poolAsset={selectedRepayAsset}
-                  selectedAsset={selectedRepayAsset}
-                  title={t('views.lending.repayAmount')}
-                />
+                  <Flex direction="column" flex={1}>
+                    <Flex alignItems="center" minH="40px">
+                      <Text textStyle="caption">{t('views.lending.repayAmount')}:</Text>
+                    </Flex>
+
+                    <Flex>
+                      <Flex flex={1} justifyContent="space-between">
+                        {isLoading ? (
+                          <Flex alignItems="center" minH="44px">
+                            <Icon spin color="primary" name="loader" size={22} />
+                          </Flex>
+                        ) : (
+                          <InputAmount
+                            disabled
+                            amountValue={repayAssetAmount}
+                            className="!text-2xl  pt-[1.5px] md:!w-full"
+                          />
+                        )}
+                      </Flex>
+
+                      <AssetSelectButton
+                        showAssetType
+                        className="cursor-default p-2"
+                        selected={selectedRepayAsset.asset}
+                      />
+                    </Flex>
+
+                    <Flex mt={3}>
+                      <Flex flex={1} justifyContent="space-between">
+                        {isLoading ? (
+                          <Flex alignItems="center" minH="21px">
+                            <Icon spin color="secondary" name="loader" size={16} />
+                          </Flex>
+                        ) : (
+                          <Text variant="secondary">
+                            {selectedRepayAsset.usdPrice.toCurrencyFormat(2)}
+                          </Text>
+                        )}
+
+                        <Flex mr={4}>
+                          <Text variant="secondary">
+                            {t('common.balance')}:{' '}
+                            {selectedRepayAsset.balance?.toSignificant(6) || '0'}
+                          </Text>
+                        </Flex>
+                      </Flex>
+                    </Flex>
+                  </Flex>
+                </Flex>
                 <Button
                   stretch
                   disabled={!canRepay}
                   error={!canRepay}
+                  mt={6}
                   onClick={(e) => {
                     e.stopPropagation();
                     openRepayConfirm();

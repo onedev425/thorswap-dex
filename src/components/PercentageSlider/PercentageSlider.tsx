@@ -13,6 +13,7 @@ type Props = {
   percent: Amount;
   highlightDisabled?: boolean;
   className?: string;
+  slideClassName?: string;
 };
 
 export const PercentageSlider = ({
@@ -21,6 +22,7 @@ export const PercentageSlider = ({
   title,
   highlightDisabled,
   className,
+  slideClassName,
 }: Props) => {
   const handlePercentChange = useCallback(
     (value: Amount) => {
@@ -45,7 +47,7 @@ export const PercentageSlider = ({
     >
       <Box className="w-full row-span-1 flex-row">
         <Box alignCenter className="flex-1 items-center">
-          <Text className="inline-flex">{`${title}:`}</Text>
+          <Text className="inline-flex" textStyle="caption">{`${title}:`}</Text>
         </Box>
 
         <Box alignCenter className="flex-1">
@@ -65,7 +67,10 @@ export const PercentageSlider = ({
       <Box
         alignCenter
         row
-        className="flex-row pb-8 row-span-1 w-full sm:items-start md:items-center gap-x-6"
+        className={classNames(
+          'flex-row pb-8 row-span-1 w-full sm:items-start md:items-center gap-x-6',
+          slideClassName,
+        )}
       >
         <Box className="w-11/12">
           <Range amountValue={percent} onAmountChange={handleRange} />
