@@ -4,10 +4,10 @@ import { toUtf8Bytes } from '@ethersproject/strings';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { AssetInputType } from 'components/AssetInput/types';
-import { Box, Icon } from 'components/Atomic';
+import { Box, Icon, Tooltip } from 'components/Atomic';
 import { ChainBadge } from 'components/ChainBadge';
 import { shortenAddress } from 'helpers/shortenAddress';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { t } from 'services/i18n';
 
 type Props = {
@@ -40,6 +40,8 @@ export const ConfirmContent = memo(
     swapMemo,
     showSmallSwapWarning,
   }: Props) => {
+    const memoHex = useMemo(() => hexlify(toUtf8Bytes(swapMemo)), [swapMemo]);
+
     return (
       <>
         {streamSwap && (
@@ -167,9 +169,11 @@ export const ConfirmContent = memo(
                     <Text fontWeight="medium" textStyle="caption" variant="secondary">
                       {t('common.memo')}
                     </Text>
-                    <Text maxWidth="full" textStyle="caption">
-                      {swapMemo}
-                    </Text>
+                    <Tooltip content={swapMemo}>
+                      <Text maxWidth="full" textStyle="caption">
+                        {shortenAddress(swapMemo, 20)}
+                      </Text>
+                    </Tooltip>
                   </Box>
                 </Box>
 
@@ -182,9 +186,11 @@ export const ConfirmContent = memo(
                     <Text fontWeight="medium" textStyle="caption" variant="secondary">
                       {t('common.memoHex')}
                     </Text>
-                    <Text maxWidth="100%" textStyle="caption">
-                      {hexlify(toUtf8Bytes(swapMemo))}
-                    </Text>
+                    <Tooltip content={memoHex}>
+                      <Text maxWidth="100%" textStyle="caption">
+                        {shortenAddress(memoHex, 20)}
+                      </Text>
+                    </Tooltip>
                   </Box>
                 </Box>
               </>

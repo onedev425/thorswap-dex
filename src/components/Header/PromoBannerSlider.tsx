@@ -1,8 +1,10 @@
 import { SlideFade, Text } from '@chakra-ui/react';
+import classNames from 'classnames';
 import { Announcement } from 'components/Announcements/Announcement/Announcement';
 import { Box } from 'components/Atomic';
 import { memo, ReactNode, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { IS_LEDGER_LIVE } from 'settings/config';
 import { ROUTES } from 'settings/router';
 
 const PromoBanner = ({
@@ -60,7 +62,10 @@ const PromoBannerSlider = () => {
             to receive real-yield rewards and trading fee discounts.
           </Text>
         ),
-        onClick: () => navigate(ROUTES.Stake),
+        onClick: () =>
+          IS_LEDGER_LIVE
+            ? window.open('https://app.thorswap.finance/stake', '_blank', 'noopener,noreferrer')
+            : navigate(ROUTES.Stake),
       },
       {
         key: 'promo-3',
@@ -92,7 +97,10 @@ const PromoBannerSlider = () => {
   }, [promoItems.length]);
 
   return (
-    <Box className="justify-center xl:justify-start xl:absolute" flex={1}>
+    <Box
+      className={classNames('justify-center', !IS_LEDGER_LIVE && 'xl:justify-start xl:absolute')}
+      flex={1}
+    >
       {promoItems.map(({ key, message, onClick }, index) => (
         <PromoBanner active={index === activeIndex} key={key} message={message} onClick={onClick} />
       ))}

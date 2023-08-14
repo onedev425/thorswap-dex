@@ -1,7 +1,6 @@
 import { AssetInputType } from 'components/AssetInput/types';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { RouteWithApproveType } from 'components/SwapRouter/types';
-import { shortenAddress } from 'helpers/shortenAddress';
 import { memo, useCallback, useMemo } from 'react';
 
 import { ConfirmContent } from './ConfirmContent';
@@ -53,11 +52,7 @@ export const ConfirmSwapModal = memo(
       if (!selectedRoute) return '';
       // @ts-expect-error wrong typing on calldata
       const { memoStreamingSwap, memo, tcMemo } = selectedRoute.calldata;
-
-      return shortenAddress(
-        (streamSwap && memoStreamingSwap ? memoStreamingSwap : memo || tcMemo) || '',
-        20,
-      );
+      return streamSwap && memoStreamingSwap ? memoStreamingSwap : memo || tcMemo;
     }, [selectedRoute, streamSwap]);
 
     const handleConfirm = useCallback(async () => {

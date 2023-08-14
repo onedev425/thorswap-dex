@@ -25,7 +25,7 @@ type Props = {
 
 export const Header = memo(({ openMenu }: Props) => {
   const { themeType } = useApp();
-  const { isWalletLoading, wallet, setIsConnectModalOpen } = useWallet();
+  const { isWalletLoading, wallet, setIsConnectModalOpen, connectLedgerLiveWallet } = useWallet();
   const { setIsDrawerVisible } = useWalletDrawer();
   const { isMdActive } = useWindowSize();
 
@@ -33,11 +33,11 @@ export const Header = memo(({ openMenu }: Props) => {
 
   const handleClickWalletBtn = useCallback(() => {
     if (!isConnected) {
-      setIsConnectModalOpen(true);
+      !IS_LEDGER_LIVE ? setIsConnectModalOpen(true) : connectLedgerLiveWallet();
     } else {
       setIsDrawerVisible(true);
     }
-  }, [isConnected, setIsConnectModalOpen, setIsDrawerVisible]);
+  }, [isConnected, setIsConnectModalOpen, setIsDrawerVisible, connectLedgerLiveWallet]);
 
   return (
     <header className="mb-5 min-h-[70px]">
@@ -67,17 +67,13 @@ export const Header = memo(({ openMenu }: Props) => {
               <StatusDropdown />
             </Flex>
 
-            <Flex className={!isMdActive ? 'justify-start' : 'justify-center'} flex={1}>
+            <Flex className="justify-center" flex={1}>
               <div className="min-w-[48px] h-10 transition-colors cursor-pointer">
                 <div className="rounded-full bg-cyan bg-opacity-30 absolute w-16 h-16 transition-all -translate-x-2 -translate-y-2 blur-[30px] dark:blur-md -z-10" />
+                <img alt="Logo" className="dark:hidden h-10" src={isMdActive ? LogoTsDark : Logo} />
                 <img
                   alt="Logo"
-                  className={'dark:hidden h-10' + (!isMdActive ? ' ml-4' : '')}
-                  src={isMdActive ? LogoTsDark : Logo}
-                />
-                <img
-                  alt="Logo"
-                  className={'hidden dark:block h-10' + (!isMdActive ? ' ml-4' : '')}
+                  className="hidden dark:block h-10"
                   src={isMdActive ? LogoTsWhite : Logo}
                 />
               </div>
@@ -137,7 +133,7 @@ export const Header = memo(({ openMenu }: Props) => {
         </Flex>
       </Flex>
 
-      <Box display={{ xl: 'none' }} pt={3}>
+      <Box display={{ xl: IS_LEDGER_LIVE ? '' : 'none' }} pt={3}>
         <PromoBannerSlider />
       </Box>
     </header>
