@@ -1,6 +1,6 @@
 {
   "name": "thorswap-dex-app",
-  "version": "2.9.2",
+  "version": "2.9.5",
   "private": true,
   "scripts": {
     "start": "vite",
