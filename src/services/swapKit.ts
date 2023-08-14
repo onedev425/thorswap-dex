@@ -37,7 +37,6 @@ export const getSwapKitClient = async () => {
       keplrWallet,
       keystoreWallet,
       ledgerWallet,
-      // @ts-expect-error update swapkit-core types
       okxWallet,
       trezorWallet,
       walletconnectWallet,
