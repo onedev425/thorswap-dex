@@ -48,7 +48,6 @@ export const useSidebarOptions = () => {
       label: t('components.sidebar.thor'),
       children: [
         { iconName: 'vthor', href: ROUTES.Stake, label: t('components.sidebar.staking') },
-        { iconName: 'plane', href: ROUTES.Airdrop, label: t('components.sidebar.airdrop') },
         ...vestingItems,
       ],
       widgets: [SidebarWidgetOption.ThorBurn],

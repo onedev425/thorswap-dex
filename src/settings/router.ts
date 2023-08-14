@@ -22,7 +22,6 @@ export enum ROUTES {
   SwapPair = '/swap/:pair',
   Thorname = '/thorname',
   Vesting = '/vesting',
-  Airdrop = '/airdrop',
   Wallet = '/wallet',
   WithdrawLiquidity = '/withdraw',
   WithdrawLiquidityPool = '/withdraw/:assetParam',

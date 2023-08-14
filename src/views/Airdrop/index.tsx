@@ -6,7 +6,6 @@ import { TabsSelect } from 'components/TabsSelect';
 import { ViewHeader } from 'components/ViewHeader';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
-import { AirdropBanner } from 'views/Airdrop/components/AirdropBanner';
 import { useVthorUtil } from 'views/Staking/hooks';
 
 import { useAirdrop } from './hooks';
@@ -40,8 +39,6 @@ const Airdrop = () => {
 
   return (
     <Flex direction="column" gap={5}>
-      <AirdropBanner />
-
       <PanelView header={<ViewHeader title="Airdrop" />} title={t('views.airdrop.airdrop')}>
         <Box className="self-stretch">
           <TabsSelect

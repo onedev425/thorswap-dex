@@ -27,7 +27,6 @@ const LegacyStake = lazy(() => import('views/LegacyStake'));
 const Staking = lazy(() => import('views/Staking'));
 const Thorname = lazy(() => import('views/Thorname'));
 const Vesting = lazy(() => import('views/Vesting'));
-const Airdrop = lazy(() => import('views/Airdrop'));
 const Wallet = lazy(() => import('views/Wallet'));
 const OnRamp = lazy(() => import('views/OnRamp'));
 const MultisigCreate = lazy(() => import('views/Multisig/MultisigCreate/MultisigCreate'));
@@ -76,7 +75,6 @@ const routes: RouteType = [
   { path: ROUTES.TxImport, element: TxImport },
   { path: ROUTES.TxMultisig, element: TxMultisig },
   { path: ROUTES.Vesting, element: Vesting },
-  { path: ROUTES.Airdrop, element: Airdrop },
   { path: ROUTES.Wallet, element: Wallet },
   { path: ROUTES.WithdrawLiquidity, element: WithdrawLiquidity },
   { path: ROUTES.WithdrawLiquidityPool, element: WithdrawLiquidity },
