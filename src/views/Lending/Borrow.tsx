@@ -4,7 +4,7 @@ import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Announcement } from 'components/Announcements/Announcement/Announcement';
 import { AssetInput } from 'components/AssetInput';
-import { Box, Card, Icon, Tooltip } from 'components/Atomic';
+import { Box, Card, Link } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { InfoTable } from 'components/InfoTable';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
@@ -28,7 +28,7 @@ import { BorrowAssetSelectList } from 'views/Lending/BorrowAssetSelectList';
 import { useLendingAssets } from 'views/Lending/useLendingAssets';
 import { useLendingStatus } from 'views/Lending/useLendingStatus';
 import { useLoans } from 'views/Lending/useLoans';
-import { VirtualDepthInfo } from 'views/Lending/VirtualDepthInfo';
+import { VirtualDepthSlippageInfo } from 'views/Lending/VirtualDepthSippageInfo';
 import { useAssetsWithBalanceFromTokens } from 'views/Swap/hooks/useAssetsWithBalanceFromTokens';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';
 
@@ -40,6 +40,7 @@ import { LendingConfirmModal } from './LendingConfirmModal';
 import { LendingTab, LendingViewTab } from './types';
 import { useBorrow } from './useBorrow';
 
+export const LENDING_DOCS = 'https://docs.thorchain.org/thorchain-finance/lending';
 // TODO - load from api
 export const MATURITY_BLOCKS = 432000;
 
@@ -217,7 +218,7 @@ const Borrow = () => {
     },
     {
       label: t('common.slippage'),
-      value: `${slippage ? slippage?.toSignificant(6) : 0} ${collateralAsset.name}`,
+      value: <VirtualDepthSlippageInfo asset={collateralAsset} depth={70} slippage={slippage} />,
     },
     {
       label: t('views.lending.repayMaturity'),
@@ -267,35 +268,40 @@ const Borrow = () => {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <Box col className="gap-3">
+            <Flex direction="column" gap={3} maxWidth="480px" mx="auto">
               <Box className="flex w-full justify-between">
                 <Box alignCenter>
                   <Text className="ml-3 mr-2" textStyle="h3">
                     {t('views.lending.header', { asset: borrowAsset.name })}
                   </Text>
-
-                  <Tooltip
-                    content={t('views.lending.tooltipDescription', { asset: collateralAsset.name })}
-                    place="bottom"
-                  >
-                    <Icon color="primaryBtn" name="infoCircle" size={24} />
-                  </Tooltip>
                 </Box>
               </Box>
 
-              <Box alignCenter className="px-3 gap-3">
-                <Text fontWeight="medium" textStyle="caption" variant="secondary">
+              <Flex alignItems="center" direction="row" flexWrap="wrap" gap={1} px={3}>
+                <Text fontWeight="medium" noOfLines={1} textStyle="body" variant="secondary">
                   {t('views.lending.description', {
                     asset: collateralAsset.name,
                     borrowAsset: borrowAsset.name,
                   })}
-                  {/* <Link className="text-twitter-blue cursor-pointer" to={SAVERS_MEDIUM}>
-                    <Text fontWeight="medium" textStyle="caption" variant="blue">
-                      {`${t('common.learnMore')} →`}
-                    </Text>
-                  </Link> */}
                 </Text>
-              </Box>
+                <Text
+                  fontWeight="medium"
+                  noOfLines={1}
+                  sx={{ fontWeight: 'bold', fontStyle: 'italic' }}
+                  textStyle="body"
+                  variant="primary"
+                >
+                  {t('views.lending.liquidationDisclaimer', {
+                    asset: collateralAsset.name,
+                    borrowAsset: borrowAsset.name,
+                  })}
+                </Text>
+                <Link className="text-twitter-blue cursor-pointer" to={LENDING_DOCS}>
+                  <Text fontWeight="medium" noOfLines={1} textStyle="caption" variant="blue">
+                    {`${t('common.learnMore')} →`}
+                  </Text>
+                </Link>
+              </Flex>
 
               <Box row className="justify-center gap-5">
                 <Box col className={classNames('flex h-full')}>
@@ -314,9 +320,6 @@ const Borrow = () => {
                           <Text mb={1} ml={5} textStyle="caption">
                             {t('views.lending.collateralToDeposit')}
                           </Text>
-                          <Flex mb={1}>
-                            <VirtualDepthInfo depth={80} />
-                          </Flex>
                         </Flex>
                         <AssetInput
                           noFilters
@@ -371,7 +374,7 @@ const Borrow = () => {
                   />
                 </Box>
               </Box>
-            </Box>
+            </Flex>
           </TabPanel>
           <TabPanel>
             <BorrowPositionsTab
