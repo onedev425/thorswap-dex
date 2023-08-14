@@ -76,7 +76,7 @@ export const Sidebar = ({ sx, collapsed = false, toggle, onNavItemClick }: Sideb
         mb={2}
         minW="48px"
         mt={4}
-        onClick={() => navigate(ROUTES.Home)}
+        onClick={() => navigate(ROUTES.Swap)}
         px={5}
       >
         <img alt="Logo" className="dark:hidden" src={collapsed ? Logo : LogoTsDark} />
