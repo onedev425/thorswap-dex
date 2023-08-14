@@ -1,7 +1,14 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { QuoteRoute } from '@thorswap-lib/swapkit-api';
-import { Amount, AssetEntity, getSignatureAssetFor, QuoteMode } from '@thorswap-lib/swapkit-core';
+import {
+  Amount,
+  AssetEntity,
+  getSignatureAssetFor,
+  Price,
+  QuoteMode,
+} from '@thorswap-lib/swapkit-core';
 import { BaseDecimal, Chain, WalletOption } from '@thorswap-lib/types';
+import BigNumber from 'bignumber.js';
 import { Analysis } from 'components/Analysis/Analysis';
 import { easeInOutTransition } from 'components/constants';
 import { InfoTip } from 'components/InfoTip';
@@ -11,14 +18,13 @@ import { isAVAXAsset, isETHAsset } from 'helpers/assets';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { hasWalletConnected } from 'helpers/wallet';
 import { useBalance } from 'hooks/useBalance';
-import { useVTHORBalance } from 'hooks/useHasVTHOR';
 import { useRouteFees } from 'hooks/useRouteFees';
 import { useSlippage } from 'hooks/useSlippage';
-import { useSwapTokenPrices } from 'hooks/useTokenPrices';
+import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { IS_LEDGER_LIVE, IS_PROTECTED } from 'settings/config';
+import { IS_LEDGER_LIVE } from 'settings/config';
 import { getKyberSwapRoute, getSwapRoute } from 'settings/router';
 import { useApp } from 'store/app/hooks';
 import { useWallet } from 'store/wallet/hooks';
@@ -56,6 +62,7 @@ const SwapView = () => {
   const [visibleApproveModal, setVisibleApproveModal] = useState(false);
   const [feeModalOpened, setFeeModalOpened] = useState(false);
   const formatPrice = useFormatPrice({ groupSize: 0 });
+  const ethAddress = useMemo(() => wallet?.ETH?.address, [wallet]);
 
   const { tokens } = useTokenList();
 
@@ -115,18 +122,6 @@ const SwapView = () => {
     }
   }, [inputAsset, inputToken?.decimals, outputAsset, outputToken?.decimals, tokens]);
 
-  const ethAddr = useMemo(() => wallet?.ETH?.address, [wallet]);
-  const VTHORBalance = useVTHORBalance(ethAddr);
-
-  const affiliateBasisPoints = useMemo(() => {
-    if (IS_LEDGER_LIVE) return '50';
-    if (IS_PROTECTED || VTHORBalance >= 500_000) return '0';
-    if (VTHORBalance >= 100_000) return '10';
-    if (VTHORBalance >= 10_000) return '15';
-    if (VTHORBalance >= 1_000) return '25';
-    return '30';
-  }, [VTHORBalance]);
-
   const noPriceProtection = useMemo(
     () =>
       [Chain.Litecoin, Chain.Dogecoin, Chain.BitcoinCash].includes(inputAsset.L1Chain) &&
@@ -135,6 +130,30 @@ const SwapView = () => {
   );
 
   const {
+    data: pricesData,
+    refetch: refetchPrice,
+    isLoading: isPriceLoading,
+  } = useTokenPrices([inputAsset, outputAsset]);
+
+  const { inputUSDValue, inputUSDPrice, outputUnitPrice, inputUnitPrice } = useMemo(() => {
+    const inputUnitPrice = pricesData?.[inputAsset.toString()]?.price_usd || 0;
+    const outputUnitPrice = pricesData?.[outputAsset.toString()]?.price_usd || 0;
+    const inputUSDPrice = new Price({
+      baseAsset: inputAsset,
+      unitPrice: new BigNumber(inputUnitPrice),
+      priceAmount: inputAmount,
+    });
+
+    return {
+      inputUnitPrice,
+      outputUnitPrice,
+      inputUSDPrice,
+      inputUSDValue: inputUSDPrice.price.toNumber(),
+    };
+  }, [pricesData, inputAsset, inputAmount, outputAsset]);
+
+  const {
+    affiliateBasisPoints,
     estimatedTime,
     isFetching,
     minReceive,
@@ -150,8 +169,9 @@ const SwapView = () => {
     canStreamSwap,
     selectedRouteFees: fees,
   } = useSwapQuote({
+    inputUSDValue,
+    ethAddress,
     noPriceProtection,
-    affiliateBasisPoints,
     inputAmount,
     inputAsset,
     outputAsset,
@@ -163,11 +183,15 @@ const SwapView = () => {
     routes,
   });
 
-  const {
-    prices: { inputUSDPrice, inputUnitPrice, outputUSDPrice },
-    isLoading: isPriceLoading,
-    refetch: refetchPrice,
-  } = useSwapTokenPrices({ inputAmount, inputAsset, outputAmount, outputAsset });
+  const outputUSDPrice = useMemo(
+    () =>
+      new Price({
+        baseAsset: outputAsset,
+        unitPrice: new BigNumber(outputUnitPrice),
+        priceAmount: outputAmount,
+      }),
+    [outputAsset, outputUnitPrice, outputAmount],
+  );
 
   const isInputWalletConnected = useMemo(
     () => inputAsset && hasWalletConnected({ wallet, inputAssets: [inputAsset] }),

@@ -5,8 +5,10 @@ import {
   getMinAmountByChain,
   getSignatureAssetFor,
   isGasAsset,
+  Price,
 } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
+import BigNumber from 'bignumber.js';
 import { Box, Button } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { InfoTable } from 'components/InfoTable';
@@ -26,7 +28,7 @@ import { useBalance } from 'hooks/useBalance';
 import { useCheckHardCap } from 'hooks/useCheckHardCap';
 import { useMimir } from 'hooks/useMimir';
 import { getSumAmountInUSD, useNetworkFee } from 'hooks/useNetworkFee';
-import { useSwapTokenPrices } from 'hooks/useTokenPrices';
+import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useExternalConfig } from 'store/externalConfig/hooks';
@@ -95,10 +97,11 @@ export const CreateLiquidity = () => {
 
   const [visibleConfirmModal, setVisibleConfirmModal] = useState(false);
   const [visibleApproveModal, setVisibleApproveModal] = useState(false);
+  const runeAsset = getSignatureAssetFor(Chain.THORChain);
 
   const { inputFee: inboundAssetFee, outputFee: inboundRuneFee } = useNetworkFee({
     inputAsset: poolAsset,
-    outputAsset: getSignatureAssetFor(Chain.THORChain),
+    outputAsset: runeAsset,
   });
 
   const isWalletConnected = useMemo(
@@ -114,19 +117,29 @@ export const CreateLiquidity = () => {
     amount: assetAmount.gt(0) ? assetAmount : undefined,
   });
 
-  const {
-    prices: {
-      inputUnitPrice: assetUnitPrice,
-      outputUnitPrice: runeUnitPrice,
-      inputUSDPrice: assetUSDPrice,
-      outputUSDPrice: runeUSDPrice,
-    },
-  } = useSwapTokenPrices({
-    inputAmount: assetAmount,
-    inputAsset: poolAsset,
-    outputAmount: runeAmount,
-    outputAsset: getSignatureAssetFor(Chain.THORChain),
-  });
+  const { data: pricesData } = useTokenPrices([poolAsset, runeAsset]);
+
+  const { assetUnitPrice, runeUnitPrice, assetUSDPrice, runeUSDPrice } = useMemo(() => {
+    const assetUnitPrice = pricesData?.[poolAsset.toString()]?.price_usd || 0;
+    const runeUnitPrice = pricesData?.[runeAsset.toString()]?.price_usd || 0;
+    const assetUSDPrice = new Price({
+      baseAsset: poolAsset,
+      unitPrice: new BigNumber(assetUnitPrice),
+      priceAmount: assetAmount,
+    });
+    const runeUSDPrice = new Price({
+      baseAsset: runeAsset,
+      unitPrice: new BigNumber(runeUnitPrice),
+      priceAmount: runeAmount,
+    });
+
+    return {
+      assetUnitPrice,
+      runeUnitPrice,
+      assetUSDPrice,
+      runeUSDPrice,
+    };
+  }, [pricesData, poolAsset, runeAsset, assetAmount, runeAmount]);
 
   const price: Amount = useMemo(
     () => (assetAmount.eq(0) ? Amount.fromAssetAmount(0, 8) : runeAmount.div(assetAmount)),

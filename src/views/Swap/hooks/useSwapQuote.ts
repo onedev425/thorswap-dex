@@ -1,37 +1,58 @@
 import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
+import { useVTHORBalance } from 'hooks/useHasVTHOR';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { IS_BETA, IS_LEDGER_LIVE, IS_LOCAL } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 import { useGetTokensQuoteQuery } from 'store/thorswap/api';
 import { GetTokensQuoteResponse } from 'store/thorswap/types';
 import { useAssetApprovalCheck } from 'views/Swap/hooks/useIsAssetApproved';
 
 type Params = {
-  affiliateBasisPoints: string;
   inputAmount: Amount;
   inputAsset: AssetEntity;
   noPriceProtection: boolean;
+  ethAddress?: string;
   outputAsset: AssetEntity;
   recipientAddress?: string;
   senderAddress?: string;
   skipAffiliate?: boolean;
+  inputUSDValue: number;
 };
 
 export const useSwapQuote = ({
+  ethAddress,
   noPriceProtection,
-  affiliateBasisPoints,
   inputAmount,
   inputAsset,
   outputAsset,
   recipientAddress,
   senderAddress,
+  inputUSDValue,
 }: Params) => {
   const [approvalsLoading, setApprovalsLoading] = useState<boolean>(false);
   const [swapQuote, setSwapRoute] = useState<RouteWithApproveType>();
   const { slippageTolerance } = useApp();
   const [routes, setRoutes] = useState<RouteWithApproveType[]>([]);
   const [streamSwap, setStreamSwap] = useState(false);
+  const VTHORBalance = useVTHORBalance(ethAddress);
+
+  const affiliateBasisPoints = useMemo(() => {
+    let basisPoints = 30;
+
+    if (VTHORBalance >= 1_000) basisPoints = 25;
+    if (VTHORBalance >= 10_000) basisPoints = 15;
+    if (VTHORBalance >= 100_000) basisPoints = 10;
+    if (VTHORBalance >= 500_000) basisPoints = 0;
+
+    if (IS_LEDGER_LIVE) basisPoints = 50;
+    if (IS_BETA || IS_LOCAL) basisPoints = 0;
+
+    if (inputUSDValue >= 1_000_000) basisPoints /= 2;
+
+    return `${basisPoints}`;
+  }, [VTHORBalance, inputUSDValue]);
 
   const params = useMemo(
     () => ({
@@ -180,6 +201,7 @@ export const useSwapQuote = ({
   }, [selectedRoute?.path, toggleStreamSwap]);
 
   return {
+    affiliateBasisPoints,
     error,
     estimatedTime: selectedRoute?.estimatedTime,
     isFetching: approvalsLoading || isLoading || isFetching,
