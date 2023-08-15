@@ -6,7 +6,6 @@ import { InfoRow } from 'components/InfoRow';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
-import { SaverQuoteResponse } from 'views/Earn/types';
 
 type Props = {
   asset: AssetEntity;
@@ -15,9 +14,10 @@ type Props = {
   isOpened: boolean;
   onConfirm: (expectedAmount: string) => void;
   tabLabel: string;
-  saverQuote?: SaverQuoteResponse;
+  outboundDelay?: number;
   slippage?: Amount;
   expectedOutputAmount?: Amount;
+  expectedAmountOut?: string;
   networkFee: Amount;
   timeToBreakEvenInfo: React.ReactNode;
 };
@@ -29,23 +29,23 @@ export const EarnConfirmModal = ({
   asset,
   amount,
   tabLabel,
-  saverQuote,
+  outboundDelay,
+  expectedAmountOut,
   slippage,
   expectedOutputAmount,
   networkFee,
   timeToBreakEvenInfo,
 }: Props) => {
   const estimatedTime = useMemo(() => {
-    if (!saverQuote?.outbound_delay_seconds) return undefined;
-    const seconds = saverQuote.outbound_delay_seconds;
-    const minutes = Math.floor(seconds / 60);
+    if (!outboundDelay) return undefined;
+    const minutes = Math.floor(outboundDelay / 60);
     const hours = Math.floor(minutes / 60);
     const hoursString = hours > 0 ? `${hours}h ` : '';
     const minutesString = minutes > 0 ? `${minutes % 60}m ` : '';
-    const secondsString = seconds % 60 > 0 ? ` ${seconds % 60}s` : '';
+    const secondsString = outboundDelay % 60 > 0 ? ` ${outboundDelay % 60}s` : '';
 
     return `${hoursString}${minutesString}${secondsString}`;
-  }, [saverQuote?.outbound_delay_seconds]);
+  }, [outboundDelay]);
 
   const txInfos = [
     { label: t('common.action'), value: tabLabel },
@@ -78,7 +78,7 @@ export const EarnConfirmModal = ({
 
   return (
     <ConfirmModal
-      buttonDisabled={!parseInt(saverQuote?.expected_amount_out || '0')}
+      buttonDisabled={!parseInt(expectedAmountOut || '0')}
       inputAssets={[asset]}
       isOpened={isOpened}
       onClose={onClose}

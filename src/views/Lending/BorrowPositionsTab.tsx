@@ -2,6 +2,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Button, Icon } from 'components/Atomic';
 import { ReloadButton } from 'components/ReloadButton';
+import { useFormatPrice } from 'helpers/formatPrice';
 import { hasConnectedWallet } from 'helpers/wallet';
 import { useEffect, useMemo } from 'react';
 import { t } from 'services/i18n';
@@ -31,6 +32,7 @@ export const BorrowPositionsTab = ({
   loans,
   isLoading,
 }: Props) => {
+  const formatPrice = useFormatPrice();
   const { wallet, setIsConnectModalOpen } = useWallet();
 
   const isWalletConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
@@ -40,18 +42,21 @@ export const BorrowPositionsTab = ({
     setViewTab(LendingViewTab.Borrow);
   };
 
-  const infoFields = [
-    {
-      header: t('views.lending.collateralValue'),
-      value: typeof totalCollateral === 'number' ? `$${totalCollateral}` : '-',
-      tooltipText: 'Fair market value of the assets used to secure a loan',
-    },
-    {
-      header: t('views.lending.debtValue'),
-      value: totalBorrowed ? `$${totalBorrowed.toFixed(2)}` : '-',
-      tooltipText: 'Value of borrowed assets',
-    },
-  ];
+  const infoFields = useMemo(
+    () => [
+      {
+        header: t('views.lending.collateralValue'),
+        value: typeof totalCollateral === 'number' ? formatPrice(totalCollateral) : '-',
+        tooltipText: 'Fair market value of the assets used to secure a loan',
+      },
+      {
+        header: t('views.lending.debtValue'),
+        value: totalBorrowed ? formatPrice(totalBorrowed) : '-',
+        tooltipText: 'Value of borrowed assets',
+      },
+    ],
+    [formatPrice, totalBorrowed, totalCollateral],
+  );
 
   useEffect(() => {
     refreshLoans();
@@ -75,7 +80,7 @@ export const BorrowPositionsTab = ({
             flex={2}
             gap={8}
             justifyContent="space-between"
-            mt={8}
+            mt={4}
             w="full"
           >
             {infoFields.map((field) => (
@@ -87,7 +92,7 @@ export const BorrowPositionsTab = ({
               />
             ))}
           </Flex>
-          <Flex direction="column" justify="center" mt={8}>
+          <Flex direction="column" gap={2} justify="center" mt={6}>
             {loans.length ? (
               loans.map((loan) => (
                 <LoanInfoRow

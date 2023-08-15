@@ -19,6 +19,7 @@ import {
   GetTxnStatusResponse,
   IThornameForAddressParams,
   IThornameForAddressResponse,
+  LendingAssetResponse,
   LendingStatusResponse,
   LoansResponse,
 } from './types';
@@ -80,15 +81,18 @@ export const thorswapApi = createApi({
     }),
 
     getBorrowQuote: build.query<BorrowQuoteResponse, BorrowQuoteParams>({
-      query: ({ assetIn, assetOut, amount, senderAddress, recipientAddress }) => {
+      query: ({ assetIn, assetOut, slippage, amount, senderAddress, recipientAddress }) => {
         const queryParams = new URLSearchParams({
           assetIn,
           assetOut,
           amount,
           senderAddress,
           recipientAddress,
-          affiliateAddress: '',
-          affiliateBasisPoints: '',
+          slippage,
+          affiliateBasisPoints: '0',
+          affiliateAddress: IS_LEDGER_LIVE
+            ? THORSWAP_AFFILIATE_ADDRESS_LL
+            : THORSWAP_AFFILIATE_ADDRESS,
         });
 
         return `/aggregator/lending/borrow?${queryParams.toString()}`;
@@ -103,8 +107,10 @@ export const thorswapApi = createApi({
           amountPercentage,
           senderAddress,
           collateralAddress,
-          affiliateAddress: '',
-          affiliateBasisPoints: '',
+          affiliateBasisPoints: '0',
+          affiliateAddress: IS_LEDGER_LIVE
+            ? THORSWAP_AFFILIATE_ADDRESS_LL
+            : THORSWAP_AFFILIATE_ADDRESS,
         });
 
         return `/aggregator/lending/repay?${queryParams.toString()}`;
@@ -193,7 +199,7 @@ export const thorswapApi = createApi({
       },
     }),
 
-    getLendingAssets: build.query<string[], void>({
+    getLendingAssets: build.query<LendingAssetResponse[], void>({
       query: () => `${baseUrl}/aggregator/lending/assets`,
     }),
     getLendingStatus: build.query<LendingStatusResponse, void>({

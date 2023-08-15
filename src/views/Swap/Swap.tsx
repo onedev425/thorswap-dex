@@ -458,6 +458,10 @@ const SwapView = () => {
             />
           )}
 
+          {streamSwap && (
+            <InfoTip className="!mt-2" title={t('views.swap.streamingSwapWarning')} type="warn" />
+          )}
+
           <SwapRouter
             outputAsset={outputAsset}
             outputUSDPrice={outputUSDPrice}

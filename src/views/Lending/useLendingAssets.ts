@@ -1,25 +1,31 @@
-import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import { useCallback, useMemo } from 'react';
+import { AssetEntity as Asset, Chain } from '@thorswap-lib/swapkit-core';
+import { useBalance } from 'hooks/useBalance';
+import { useMemo } from 'react';
 import { useGetLendingAssetsQuery } from 'store/thorswap/api';
+import { LendingAsset } from 'views/Lending/types';
 
 export function useLendingAssets() {
   const { data } = useGetLendingAssetsQuery();
+  const { getMaxBalance, isWalletConnected } = useBalance();
 
-  const lendingAssets = useMemo(() => {
+  const lendingAssets: LendingAsset[] = useMemo(() => {
     if (!data) return [];
     return data
-      .map((assetStr) => Asset.fromAssetString(assetStr))
-      .filter((a): a is Asset => a !== null);
-  }, [data]);
+      .map((assetRes) => {
+        const asset = Asset.fromAssetString(assetRes.asset) as Asset;
 
-  // TODO - CR FROM API
-  const getAssetCR = useCallback((_asset: Asset) => {
-    return 15;
-  }, []);
+        return {
+          ...assetRes,
+          asset,
+          derivedDepthPercentage: Number(assetRes.derivedDepthPercentage),
+          balance: isWalletConnected(asset.L1Chain as Chain) ? getMaxBalance(asset) : undefined,
+          extraInfo: assetRes.loanCr,
+          filled: assetRes.filledPercentage ? Number(assetRes.filledPercentage) : undefined,
+          lendingAvailable: assetRes.lendingAvailable,
+        };
+      })
+      .filter((asset) => asset.lendingAvailable);
+  }, [data, getMaxBalance, isWalletConnected]);
 
-  return {
-    hasLendingAssets: !!data?.length,
-    lendingAssets,
-    getAssetCR,
-  };
+  return lendingAssets;
 }

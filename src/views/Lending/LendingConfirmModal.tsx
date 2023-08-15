@@ -6,7 +6,6 @@ import { InfoRow } from 'components/InfoRow';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
-import { SaverQuoteResponse } from 'views/Earn/types';
 
 type Props = {
   asset: AssetEntity;
@@ -15,8 +14,12 @@ type Props = {
   isOpened: boolean;
   onConfirm: (expectedAmount: string) => void;
   tabLabel: string;
-  saverQuote?: SaverQuoteResponse;
+  estimatedTime?: number;
   expectedOutputAmount?: Amount;
+  expectedOutputMaxSlippage?: Amount;
+  expectedDebtInfo?: string;
+  collateralAmount?: Amount;
+  collateralAsset?: AssetEntity;
   networkFee?: Amount;
 };
 
@@ -27,38 +30,80 @@ export const LendingConfirmModal = ({
   asset,
   amount,
   tabLabel,
-  saverQuote,
+  estimatedTime,
   expectedOutputAmount,
+  expectedOutputMaxSlippage,
+  collateralAmount,
+  collateralAsset,
   networkFee,
+  expectedDebtInfo,
 }: Props) => {
-  const estimatedTime = useMemo(() => {
-    if (!saverQuote?.outbound_delay_seconds) return undefined;
-    const seconds = saverQuote.outbound_delay_seconds;
-    const minutes = Math.floor(seconds / 60);
+  const timeLabel = useMemo(() => {
+    if (!estimatedTime) return undefined;
+    const minutes = Math.floor(estimatedTime / 60);
     const hours = Math.floor(minutes / 60);
     const hoursString = hours > 0 ? `${hours}h ` : '';
     const minutesString = minutes > 0 ? `${minutes % 60}m ` : '';
-    const secondsString = seconds % 60 > 0 ? ` ${seconds % 60}s` : '';
+    const secondsString = estimatedTime % 60 > 0 ? ` ${estimatedTime % 60}s` : '';
 
     return `${hoursString}${minutesString}${secondsString}`;
-  }, [saverQuote?.outbound_delay_seconds]);
+  }, [estimatedTime]);
 
-  const txInfos = [
-    { label: t('common.action'), value: tabLabel },
-    { label: t('common.asset'), value: `${asset.name}`, icon: asset },
+  const txInfos = useMemo(
+    () => [
+      { label: t('common.action'), value: tabLabel },
+      { label: t('common.asset'), value: `${asset.name}`, icon: asset },
+      { label: t('views.wallet.estimatedTime'), value: timeLabel || 'N/A' },
+      {
+        label: tabLabel,
+        value: expectedOutputAmount ? (
+          `${expectedOutputAmount.toSignificant(6)} ${asset.name}`
+        ) : networkFee?.gte(amount) ? (
+          t('views.savings.notEnoughForOutboundFee')
+        ) : (
+          <Icon spin color="primary" name="loader" size={24} />
+        ),
+      },
+    ],
+    [amount, asset, timeLabel, expectedOutputAmount, networkFee, tabLabel],
+  );
 
-    { label: t('views.wallet.estimatedTime'), value: estimatedTime || 'N/A' },
-    {
-      label: tabLabel,
-      value: expectedOutputAmount ? (
-        `${expectedOutputAmount.toSignificant(6)} ${asset.name}`
-      ) : networkFee?.gte(amount) ? (
-        t('views.savings.notEnoughForOutboundFee')
-      ) : (
-        <Icon spin color="primary" name="loader" size={24} />
-      ),
-    },
-  ];
+  const borrowInfo = useMemo(
+    () => [
+      {
+        label: t('common.minReceived'),
+        value: expectedOutputMaxSlippage ? (
+          `${expectedOutputMaxSlippage?.toSignificant(6)} ${asset.name}`
+        ) : (
+          <Icon spin color="primary" name="loader" size={24} />
+        ),
+      },
+      {
+        label: t('views.lending.collateralValue'),
+        value:
+          collateralAmount && collateralAsset ? (
+            `${collateralAmount.toSignificant(6)} ${collateralAsset.name}`
+          ) : (
+            <Icon spin color="primary" name="loader" size={24} />
+          ),
+      },
+      {
+        label: t('views.lending.expectedDebt'),
+        value: expectedDebtInfo ? (
+          expectedDebtInfo
+        ) : (
+          <Icon spin color="primary" name="loader" size={24} />
+        ),
+      },
+    ],
+    [asset.name, collateralAmount, collateralAsset, expectedDebtInfo, expectedOutputMaxSlippage],
+  );
+
+  const infoRows = useMemo(() => {
+    if (expectedOutputMaxSlippage && expectedDebtInfo) return txInfos.concat(borrowInfo);
+
+    return txInfos;
+  }, [borrowInfo, expectedDebtInfo, expectedOutputMaxSlippage, txInfos]);
 
   return (
     <ConfirmModal
@@ -68,7 +113,7 @@ export const LendingConfirmModal = ({
       onConfirm={() => onConfirm(expectedOutputAmount?.toSignificant(6) || '0')}
     >
       <Box col className="mb-5">
-        {txInfos.map(({ label, value, icon }) => (
+        {infoRows.map(({ label, value, icon }) => (
           <InfoRow
             key={label}
             label={label}

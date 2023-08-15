@@ -137,7 +137,7 @@ export type TxTrackerLeg = {
 
 export type TrackerLendingPayload = {
   isLending: true;
-  txHash: string;
+  fromAddress: string;
 } & BorrowQuoteResponse;
 
 // Initial tracker payload for txns other than swaps

@@ -331,12 +331,13 @@ const Earn = () => {
                   <EarnConfirmModal
                     amount={amount}
                     asset={asset}
+                    expectedAmountOut={saverQuote?.expected_amount_out}
                     expectedOutputAmount={expectedOutputAmount}
                     isOpened={isConfirmOpen}
                     networkFee={networkFee}
                     onClose={() => setIsConfirmOpen(false)}
                     onConfirm={handleEarnSubmit}
-                    saverQuote={saverQuote}
+                    outboundDelay={saverQuote?.outbound_delay_seconds || 0}
                     slippage={slippage}
                     tabLabel={tabLabel}
                     timeToBreakEvenInfo={timeToBreakEvenInfo}

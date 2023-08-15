@@ -31,19 +31,23 @@ export const useAdvancedTracker = (tx: PendingTransactionType | null) => {
   const skipFetchingDetails = completed || !canFetchDetails;
   const { onCompleteTransaction } = useCompleteTransaction(tx);
 
+  const txnPayload = initialPayload || {
+    quoteId: quoteId || '',
+    route,
+    sellAmount: sellAmountNormalized || '0',
+    fromAddress: from || '',
+    toAddress: recipient || '',
+    isStreamingSwap: !!streamingSwap,
+  };
+
   const detailsParams: GetAdvancedTrackerStatusPayload =
     details && txid
       ? { hash: txid }
-      : initialPayload || {
+      : {
           txn: {
             hash: txid || '',
-            quoteId: quoteId || '',
-            route,
-            sellAmount: sellAmountNormalized || '0',
             startTimestamp: timestamp ? new Date(timestamp).getTime() : Date.now(),
-            fromAddress: from || '',
-            toAddress: recipient || '',
-            isStreamingSwap: !!streamingSwap,
+            ...txnPayload,
           },
         };
 
@@ -86,7 +90,11 @@ export const useTransactionDetails = (params: GetAdvancedTrackerStatusPayload, s
     : null;
 
   const data = useMemo(() => {
-    if (resData?.result?.legs && !resData.result.legs[0].startTimestamp) {
+    if (
+      resData?.result?.legs &&
+      !resData.result.legs[0].startTimestamp &&
+      resData.result.startTimestamp
+    ) {
       resData.result.legs[0].startTimestamp = resData.result.startTimestamp;
     }
 

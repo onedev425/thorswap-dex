@@ -36,7 +36,10 @@ const SUPPORTED_ASSET_CHAINS = SUPPORTED_CHAINS.filter(
   (chain) => ![Chain.BinanceSmartChain].includes(chain),
 );
 
-export const useAssetListSearch = (assetList: AssetSelectType[]) => {
+export const useAssetListSearch = (
+  assetList: AssetSelectType[],
+  { thorchainPriority }: { thorchainPriority?: boolean } = {},
+) => {
   const { isLoading } = useTokenList();
   const fuse = useRef<Fuse<AssetSelectType>>(new Fuse([], options));
   const [query, setQuery] = useState('');
@@ -52,10 +55,24 @@ export const useAssetListSearch = (assetList: AssetSelectType[]) => {
         : assetList;
 
     const sortedAssets = searchedAssets.concat().sort((a, b) => {
+      const aProvider = a.provider?.toLowerCase();
+      const bProvider = b.provider?.toLowerCase();
+      if (thorchainPriority && (aProvider || bProvider)) {
+        return b.asset.type === 'Native'
+          ? a.asset.type === 'Native'
+            ? // TODO - remove TS ignore once new chains are supported
+              // @ts-expect-error
+              SORTED_CHAINS.indexOf(a.asset.chain) - SORTED_CHAINS.indexOf(b.asset.chain)
+            : 1
+          : a.asset.type === 'Native'
+          ? -1
+          : 0;
+      }
+
       if (a.balance || b.balance) {
         return a.balance ? (b?.balance?.gt(a.balance) ? 1 : -1) : 0;
       } else {
-        // TODO - remove TS ignore once new chains have been added
+        // TODO - remove TS ignore once new chains are supported
         // @ts-expect-error
         return SORTED_CHAINS.indexOf(a.asset.chain) - SORTED_CHAINS.indexOf(b.asset.chain);
       }
@@ -70,7 +87,7 @@ export const useAssetListSearch = (assetList: AssetSelectType[]) => {
     );
 
     return supportedAssets;
-  }, [assetList, query]);
+  }, [assetList, query, thorchainPriority]);
 
   const assetInputProps = useMemo(
     () => ({

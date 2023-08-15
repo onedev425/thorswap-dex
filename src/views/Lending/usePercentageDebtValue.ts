@@ -1,5 +1,4 @@
 import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useMemo } from 'react';
 import { useGetRepayValueQuery } from 'store/thorswap/api';
 import { useWallet } from 'store/wallet/hooks';
@@ -8,14 +7,15 @@ export const usePercentageDebtValue = ({
   asset,
   collateralAsset,
   percentage,
+  hasLoanMatured,
 }: {
   asset: Asset;
   collateralAsset: Asset;
   totalAmount: Amount;
   percentage: Amount;
+  hasLoanMatured: boolean;
 }) => {
   const { wallet } = useWallet();
-  const debouncedPercentage = useDebouncedValue(percentage, 500);
 
   const collateralAddress = useMemo(
     () => wallet?.[collateralAsset.L1Chain]?.address || '',
@@ -31,11 +31,11 @@ export const usePercentageDebtValue = ({
     {
       senderAddress,
       collateralAddress,
-      amountPercentage: debouncedPercentage.toFixed(),
+      amountPercentage: percentage.toFixed(),
       collateralAsset: `${collateralAsset.chain}.${collateralAsset.chain}`,
       assetIn: `${asset.chain}.${asset.chain}`,
     },
-    { skip: !debouncedPercentage.toFixed() },
+    { skip: !percentage.toFixed() || !hasLoanMatured },
   );
 
   const repayAssetAmount = data

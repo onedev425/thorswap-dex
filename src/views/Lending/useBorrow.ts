@@ -11,6 +11,7 @@ interface UseBorrowProps {
   assetIn: string;
   assetOut: string;
   amount: number;
+  slippage: number;
 }
 
 export const useBorrow = ({
@@ -19,8 +20,10 @@ export const useBorrow = ({
   assetIn,
   assetOut,
   amount,
+  slippage,
 }: UseBorrowProps) => {
   const debouncedAmount = useDebouncedValue(amount);
+  const debouncedSlippage = useDebouncedValue(slippage);
   const [memo, setMemo] = useState('');
 
   const { currentData: data, error } = useGetBorrowQuoteQuery(
@@ -28,6 +31,7 @@ export const useBorrow = ({
       assetIn,
       assetOut,
       amount: debouncedAmount.toString(),
+      slippage: debouncedSlippage.toString(),
       senderAddress,
       recipientAddress,
     },
@@ -41,27 +45,37 @@ export const useBorrow = ({
   }, [error]);
 
   const expectedOutput = useMemo(() => {
-    return Amount.fromAssetAmount(data?.expectedOutputMaxSlippage || 0, 8);
-  }, [data?.expectedOutputMaxSlippage]);
+    return Amount.fromNormalAmount(data?.expectedOutput || 0);
+  }, [data?.expectedOutput]);
 
   const expectedOutputMaxSlippage = useMemo(() => {
-    return Amount.fromAssetAmount(data?.expectedOutputMaxSlippage || 0, 8);
+    return Amount.fromNormalAmount(data?.expectedOutputMaxSlippage || 0);
   }, [data?.expectedOutputMaxSlippage]);
 
   const expectedDebt = useMemo(() => {
-    return Amount.fromAssetAmount(data?.expectedDebtIssued || 0, 8);
+    return Amount.fromNormalAmount(data?.expectedDebtIssued || 0);
   }, [data?.expectedDebtIssued]);
+
+  const slippageAmount = useMemo(() => {
+    return expectedOutput.sub(expectedOutputMaxSlippage);
+  }, [expectedOutput, expectedOutputMaxSlippage]);
+
+  const collateralAmount = useMemo(() => {
+    return Amount.fromNormalAmount(data?.expectedCollateralDeposited || 0);
+  }, [data?.expectedCollateralDeposited]);
 
   useEffect(() => {
     setMemo(data?.memo || '');
   }, [setMemo, data?.memo]);
 
   return {
+    collateralAmount,
     memo,
     expectedDebt,
     expectedOutput,
     expectedOutputMaxSlippage,
     hasError: !!error,
     borrowQuote: data,
+    slippageAmount,
   };
 };

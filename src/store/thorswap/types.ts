@@ -216,16 +216,18 @@ export type GetTxnStatusParams = {
 };
 
 export type GetTxnStatusDetailsParams = {
-  txn: {
-    hash: string;
-    quoteId: string;
-    sellAmount: string;
-    route?: QuoteRoute;
-    startTimestamp?: number;
-    fromAddress: string;
-    toAddress: string;
-    isStreamingSwap?: boolean;
-  };
+  txn:
+    | {
+        hash: string;
+        quoteId: string;
+        sellAmount: string;
+        route?: QuoteRoute;
+        startTimestamp?: number;
+        fromAddress: string;
+        toAddress: string;
+        isStreamingSwap?: boolean;
+      }
+    | InitialTrackerPayload;
 };
 
 export type GetTxnStatusDetailsUpdateParams = {
@@ -234,8 +236,7 @@ export type GetTxnStatusDetailsUpdateParams = {
 
 export type GetAdvancedTrackerStatusPayload =
   | GetTxnStatusDetailsUpdateParams
-  | GetTxnStatusDetailsParams
-  | InitialTrackerPayload;
+  | GetTxnStatusDetailsParams;
 
 export type GetTxnStatusDetailsResponse = {
   result: TxTrackerDetails;
@@ -305,6 +306,7 @@ export type LendingStatusResponse = {
 export type BorrowQuoteParams = {
   assetIn: string;
   assetOut: string;
+  slippage: string;
   amount: string;
   senderAddress: string;
   recipientAddress: string;
@@ -317,7 +319,6 @@ export type BorrowQuoteResponse = {
   amountOut: string;
   amountOutMin: string;
   swaps: QuoteRoute['swaps'];
-  fromAddress: string;
   targetAddress: string;
   recipientAddress: string;
   memo: string;
@@ -331,7 +332,22 @@ export type BorrowQuoteResponse = {
     };
   };
 
+  estimatedTime: number;
+  complete: boolean;
+  expectedCollateralDeposited: string;
   expectedOutput: string;
   expectedOutputMaxSlippage: string;
   expectedDebtIssued: string;
+};
+
+export type LendingAssetResponse = {
+  asset: string;
+  assetDepthAssetAmount: string;
+  runeDepthAssetAmount: string;
+  loanCr: string;
+  loanStatus: 'GREEN' | 'YELLOW' | 'RED';
+  loanCollateral: string;
+  derivedDepthPercentage: string;
+  filledPercentage: string;
+  lendingAvailable: boolean;
 };

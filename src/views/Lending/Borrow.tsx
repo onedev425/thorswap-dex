@@ -1,17 +1,18 @@
 import { Flex, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
-import { Amount, AssetAmount, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetAmount, AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Announcement } from 'components/Announcements/Announcement/Announcement';
 import { AssetInput } from 'components/AssetInput';
-import { Box, Card, Link } from 'components/Atomic';
+import { Box, Button, Card, Link } from 'components/Atomic';
+import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { Helmet } from 'components/Helmet';
 import { InfoTable } from 'components/InfoTable';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
+import { Input } from 'components/Input';
 import dayjs from 'dayjs';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { useAssetListSearch } from 'hooks/useAssetListSearch';
-import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { useMimir } from 'hooks/useMimir';
 import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
@@ -41,29 +42,42 @@ import { LendingTab, LendingViewTab } from './types';
 import { useBorrow } from './useBorrow';
 
 export const LENDING_DOCS = 'https://docs.thorchain.org/thorchain-finance/lending';
+const ETH_USDC_IDENTIFIER = 'ETH.USDC-0XA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48';
 // TODO - load from api
 export const MATURITY_BLOCKS = 432000;
 
+export const slippageOptions = [
+  { value: 1, text: '1%' },
+  { value: 3, text: '3%' },
+  { value: 5, text: '5%' },
+  { value: 10, text: '10%' },
+];
+
 const Borrow = () => {
   const appDispatch = useAppDispatch();
-  const { lendingAssets, getAssetCR } = useLendingAssets();
-  const assetsWithBalance = useAssetsWithBalance(lendingAssets);
-  const listAssets = useMemo(
-    () => assetsWithBalance.map((asset) => ({ ...asset, extraInfo: getAssetCR(asset.asset) })),
-    [assetsWithBalance, getAssetCR],
-  );
+  const lendingAssets = useLendingAssets();
+  const { getMaxBalance } = useBalance();
+  const { isChainHalted } = useMimir();
+  const { wallet, setIsConnectModalOpen } = useWallet();
 
   // output assets
   const { tokens } = useTokenList();
   const outputAssetList = useAssetsWithBalanceFromTokens(tokens);
-  const { assetInputProps, assets: outputAssets } = useAssetListSearch(outputAssetList);
+  const { assetInputProps, assets: outputAssets } = useAssetListSearch(outputAssetList, {
+    thorchainPriority: true,
+  });
 
-  const { getMaxBalance } = useBalance();
-  const { isChainHalted } = useMimir();
-  const { wallet, setIsConnectModalOpen } = useWallet();
+  const [slippage, setSlippage] = useState(10);
   const [amount, setAmount] = useState(Amount.fromAssetAmount(0, 8));
   const [collateralAsset, setCollateralAsset] = useState(getSignatureAssetFor(Chain.Bitcoin));
-  const [borrowAsset, setBorrowAsset] = useState(getSignatureAssetFor(Chain.Bitcoin));
+  const [borrowAsset, setBorrowAsset] = useState(
+    AssetEntity.fromAssetString(ETH_USDC_IDENTIFIER) as AssetEntity,
+  );
+
+  const collateralLendingAsset = useMemo(() => {
+    return lendingAssets.find((asset) => asset.asset.eq(collateralAsset));
+  }, [collateralAsset, lendingAssets]);
+
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [tab, setTab] = useState(LendingTab.Borrow);
   const [viewTab, setViewTab] = useState(LendingViewTab.Borrow);
@@ -88,29 +102,37 @@ const Borrow = () => {
   const {
     expectedDebt,
     expectedOutput,
-    expectedOutputMaxSlippage: slippage,
+    expectedOutputMaxSlippage,
+    slippageAmount,
     memo,
     hasError,
     borrowQuote,
+    collateralAmount,
   } = useBorrow({
+    slippage,
     senderAddress: collateralAddress,
     recipientAddress: borrowAddress,
     amount: amount.assetAmount.toNumber(),
-    assetIn: `${collateralAsset.chain}.${collateralAsset.chain}`,
-    assetOut: `${borrowAsset.chain}.${borrowAsset.chain}`,
+    assetIn: collateralAsset.toString(),
+    assetOut: borrowAsset.toString(),
   });
   const borrowUsdPrice = usePoolAssetPriceInUsd({
     asset: borrowAsset,
     amount: expectedOutput,
   });
 
-  const collaterallBalance = useMemo(
+  const collateralBalance = useMemo(
     () => (collateralAddress ? getMaxBalance(collateralAsset) : undefined),
     [collateralAddress, collateralAsset, getMaxBalance],
   );
   const borrowBalance = useMemo(
     () => (borrowAddress ? getMaxBalance(borrowAsset) : undefined),
     [borrowAddress, borrowAsset, getMaxBalance],
+  );
+
+  const expectedDebtInfo = useMemo(
+    () => formatPrice(expectedDebt.gt(0) ? expectedDebt : 0),
+    [expectedDebt, formatPrice],
   );
 
   const handleSwapkitAction = useCallback(async () => {
@@ -140,7 +162,7 @@ const Borrow = () => {
             asset: collateralAsset.name,
             amount: expectedAmount,
           }),
-          type: isBorrow ? TransactionType.TC_SAVINGS_ADD : TransactionType.TC_SAVINGS_WITHDRAW,
+          type: isBorrow ? TransactionType.TC_LENDING_OPEN : TransactionType.TC_LENDING_CLOSE,
           inChain: collateralAsset.L1Chain,
         }),
       );
@@ -155,7 +177,7 @@ const Borrow = () => {
               txid,
               advancedTracker: true,
               initialPayload: borrowQuote
-                ? { isLending: true, txHash: txid, ...borrowQuote }
+                ? { isLending: true, ...borrowQuote, fromAddress: collateralAddress }
                 : undefined,
               type: TransactionType.TC_LENDING,
             }),
@@ -168,6 +190,7 @@ const Borrow = () => {
     [
       appDispatch,
       borrowQuote,
+      collateralAddress,
       collateralAsset.L1Chain,
       collateralAsset.name,
       handleSwapkitAction,
@@ -179,13 +202,13 @@ const Borrow = () => {
     () =>
       lendingStatus?.paused ||
       amount.lte(Amount.fromAssetAmount(0, 8)) ||
-      (isBorrow && collaterallBalance && amount.gt(collaterallBalance)) ||
+      (isBorrow && collateralBalance && amount.gt(collateralBalance)) ||
       isChainHalted[collateralAsset.L1Chain],
     [
       lendingStatus?.paused,
       amount,
       isBorrow,
-      collaterallBalance,
+      collateralBalance,
       isChainHalted,
       collateralAsset.L1Chain,
     ],
@@ -196,10 +219,10 @@ const Borrow = () => {
     () => ({
       asset: collateralAsset,
       value: amount,
-      balance: collaterallBalance,
+      balance: collateralBalance,
       usdPrice: collateralUsdPrice,
     }),
-    [collateralAsset, amount, collaterallBalance, collateralUsdPrice],
+    [collateralAsset, amount, collateralBalance, collateralUsdPrice],
   );
   const selectedBorrowAsset = useMemo(
     () => ({
@@ -211,40 +234,59 @@ const Borrow = () => {
     [borrowAsset, expectedOutput, borrowBalance, borrowUsdPrice],
   );
 
-  const summary = [
-    {
-      label: t('views.lending.expectedDebt'),
-      value: `${formatPrice(expectedDebt.gt(0) ? expectedDebt : 0)}`,
-    },
-    {
-      label: t('common.slippage'),
-      value: <VirtualDepthSlippageInfo asset={collateralAsset} depth={70} slippage={slippage} />,
-    },
-    {
-      label: t('views.lending.repayMaturity'),
-      value: (
-        <Box center>
-          <InfoWithTooltip
-            tooltip={t('views.lending.maturityDescription')}
-            value={
-              <Text textStyle="caption">
-                {dayjs.duration(estimateTimeFromBlocks(MATURITY_BLOCKS)).asDays()}{' '}
-                {t('views.savings.days')}
-              </Text>
-            }
+  const maturityDays = useMemo(
+    () => dayjs.duration(estimateTimeFromBlocks(MATURITY_BLOCKS)).asDays(),
+    [estimateTimeFromBlocks],
+  );
+
+  const summary = useMemo(
+    () => [
+      {
+        label: t('views.lending.expectedDebt'),
+        value: `${expectedDebtInfo}`,
+      },
+      {
+        label: t('common.slippage'),
+        value: (
+          <VirtualDepthSlippageInfo
+            asset={collateralAsset}
+            depth={collateralLendingAsset?.derivedDepthPercentage || 0}
+            slippage={slippageAmount}
           />
-        </Box>
-      ),
-    },
-    {
-      label: t('views.swap.exchangeFee'),
-      value: (
-        <Text textStyle="caption" variant="green">
-          FREE
-        </Text>
-      ),
-    },
-  ];
+        ),
+      },
+      {
+        label: t('views.lending.repayMaturity'),
+        value: (
+          <Box center>
+            <InfoWithTooltip
+              tooltip={t('views.lending.maturityDescription', { days: maturityDays })}
+              value={
+                <Text textStyle="caption">
+                  {maturityDays} {t('views.savings.days')}
+                </Text>
+              }
+            />
+          </Box>
+        ),
+      },
+      {
+        label: t('views.lending.lendingFee'),
+        value: (
+          <Text textStyle="caption" variant="green">
+            FREE
+          </Text>
+        ),
+      },
+    ],
+    [
+      collateralAsset,
+      collateralLendingAsset?.derivedDepthPercentage,
+      expectedDebtInfo,
+      maturityDays,
+      slippageAmount,
+    ],
+  );
 
   return (
     <Box col className="w-full max-w-[880px] flex self-center gap-3 mt-2">
@@ -266,6 +308,7 @@ const Borrow = () => {
           <Tab>{t('views.lending.borrow')}</Tab>
           <Tab>{t('views.lending.myLoans')}</Tab>
         </TabList>
+
         <TabPanels>
           <TabPanel>
             <Flex direction="column" gap={3} maxWidth="480px" mx="auto">
@@ -277,30 +320,57 @@ const Borrow = () => {
                 </Box>
               </Box>
 
-              <Flex alignItems="center" direction="row" flexWrap="wrap" gap={1} px={3}>
-                <Text fontWeight="medium" noOfLines={1} textStyle="body" variant="secondary">
-                  {t('views.lending.description', {
-                    asset: collateralAsset.name,
-                    borrowAsset: borrowAsset.name,
-                  })}
-                </Text>
-                <Text
-                  fontWeight="medium"
-                  noOfLines={1}
-                  sx={{ fontWeight: 'bold', fontStyle: 'italic' }}
-                  textStyle="body"
-                  variant="primary"
-                >
-                  {t('views.lending.liquidationDisclaimer', {
-                    asset: collateralAsset.name,
-                    borrowAsset: borrowAsset.name,
-                  })}
-                </Text>
-                <Link className="text-twitter-blue cursor-pointer" to={LENDING_DOCS}>
-                  <Text fontWeight="medium" noOfLines={1} textStyle="caption" variant="blue">
-                    {`${t('common.learnMore')} →`}
+              <Flex direction="row" justify="space-between">
+                <Flex alignItems="center" direction="row" flexWrap="wrap" gap={1} px={3}>
+                  <Text fontWeight="medium" noOfLines={1} textStyle="body" variant="primary">
+                    {t('views.lending.liquidationDisclaimer', {
+                      asset: collateralAsset.name,
+                      borrowAsset: borrowAsset.name,
+                    })}
                   </Text>
-                </Link>
+                  <Link className="text-twitter-blue cursor-pointer" to={LENDING_DOCS}>
+                    <Text fontWeight="medium" noOfLines={1} textStyle="caption" variant="blue">
+                      {`${t('common.learnMore')} →`}
+                    </Text>
+                  </Link>
+                </Flex>
+
+                <GlobalSettingsPopover>
+                  <Box>
+                    <Text textStyle="caption">{t('views.swap.transactionSettings')}</Text>
+                  </Box>
+
+                  <Box className="space-x-2">
+                    <Text textStyle="caption-xs" variant="secondary">
+                      {t('views.swap.slippageTolerance')}
+                    </Text>
+                  </Box>
+
+                  <Box alignCenter className="w-full space-x-2">
+                    <Input
+                      stretch
+                      border="rounded"
+                      className="text-right"
+                      containerClassName="bg-light-gray-light dark:bg-dark-gray-light bg-opacity-40"
+                      onChange={(e) => setSlippage(Number(e.target.value))}
+                      placeholder={t('common.percentage')}
+                      symbol="%"
+                      type="number"
+                      value={slippage}
+                    />
+
+                    {slippageOptions.map(({ value, text }) => (
+                      <Button
+                        key={value}
+                        onClick={() => setSlippage(value)}
+                        size="sm"
+                        variant={slippage === value ? 'primary' : 'outlineTint'}
+                      >
+                        <Text textStyle="caption-xs">{text}</Text>
+                      </Button>
+                    ))}
+                  </Box>
+                </GlobalSettingsPopover>
               </Flex>
 
               <Box row className="justify-center gap-5">
@@ -318,13 +388,14 @@ const Borrow = () => {
                           mr={2}
                         >
                           <Text mb={1} ml={5} textStyle="caption">
-                            {t('views.lending.collateralToDeposit')}
+                            {t('views.lending.collateral')}
                           </Text>
                         </Flex>
+
                         <AssetInput
                           noFilters
                           AssetListComponent={BorrowAssetSelectList}
-                          assets={listAssets}
+                          assets={lendingAssets}
                           className="flex-1 !py-1"
                           onAssetChange={setCollateralAsset}
                           onValueChange={setAmount}
@@ -335,8 +406,9 @@ const Borrow = () => {
 
                       <Flex direction="column">
                         <Text mb={1} ml={5} textStyle="caption">
-                          {t('views.lending.borrowAmount')}
+                          {t('views.lending.borrow')}
                         </Text>
+
                         <AssetInput
                           {...assetInputProps}
                           disabled
@@ -365,8 +437,13 @@ const Borrow = () => {
 
                   <LendingConfirmModal
                     amount={amount}
-                    asset={collateralAsset}
+                    asset={borrowAsset}
+                    collateralAmount={collateralAmount}
+                    collateralAsset={collateralAsset}
+                    estimatedTime={borrowQuote?.estimatedTime}
+                    expectedDebtInfo={expectedDebtInfo}
                     expectedOutputAmount={expectedOutput}
+                    expectedOutputMaxSlippage={expectedOutputMaxSlippage}
                     isOpened={isConfirmOpen}
                     onClose={() => setIsConfirmOpen(false)}
                     onConfirm={handleBorrowSubmit}
@@ -376,6 +453,7 @@ const Borrow = () => {
               </Box>
             </Flex>
           </TabPanel>
+
           <TabPanel>
             <BorrowPositionsTab
               isLoading={isLoading}

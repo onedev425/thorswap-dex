@@ -1,7 +1,7 @@
 import { Text } from '@chakra-ui/react';
 import { FeeOption } from '@thorswap-lib/types';
 import classNames from 'classnames';
-import { Box, Button, Card, Icon, Switch, Tooltip } from 'components/Atomic';
+import { Box, Button, Icon, Switch, Tooltip } from 'components/Atomic';
 import { Input } from 'components/Input';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
@@ -48,116 +48,115 @@ export const GlobalSettings = ({ transactionMode }: Props) => {
   );
 
   return (
-    <Card withBorder className="w-[350px] px-8 py-6 shadow-2xl">
-      <Box col className="w-full gap-4">
-        <Box>
-          <Text textStyle="caption">{t('views.swap.transactionSettings')}</Text>
-        </Box>
-        <Box className="space-x-2">
-          <Text textStyle="caption-xs" variant="secondary">
-            {t('views.swap.slippageTolerance')}
-          </Text>
-          <Tooltip content={t('common.slippageTooltip')} place="top">
-            <Icon color="secondary" name="questionCircle" size={16} />
-          </Tooltip>
-        </Box>
+    <>
+      <Box>
+        <Text textStyle="caption">{t('views.swap.transactionSettings')}</Text>
+      </Box>
+      <Box className="space-x-2">
+        <Text textStyle="caption-xs" variant="secondary">
+          {t('views.swap.slippageTolerance')}
+        </Text>
+        <Tooltip content={t('common.slippageTooltip')} place="top">
+          <Icon color="secondary" name="questionCircle" size={16} />
+        </Tooltip>
+      </Box>
 
-        <Box alignCenter className="w-full space-x-2">
-          <Input
-            stretch
-            border="rounded"
-            className="text-right"
-            containerClassName="bg-light-gray-light dark:bg-dark-gray-light bg-opacity-40"
-            onChange={(e) => setSlippage(Number(e.target.value))}
-            placeholder={t('common.percentage')}
-            symbol="%"
-            type="number"
-            value={slippageTolerance}
-          />
+      <Box alignCenter className="w-full space-x-2">
+        <Input
+          stretch
+          border="rounded"
+          className="text-right"
+          containerClassName="bg-light-gray-light dark:bg-dark-gray-light bg-opacity-40"
+          onChange={(e) => setSlippage(Number(e.target.value))}
+          placeholder={t('common.percentage')}
+          symbol="%"
+          type="number"
+          value={slippageTolerance}
+        />
 
-          {slippageOptions.map((option) => (
-            <Button
-              key={option.key}
-              onClick={() => setSlippage(option.value)}
-              size="sm"
-              variant={slippageTolerance === option.value ? 'primary' : 'outlineTint'}
-            >
-              <Text textStyle="caption-xs">{option.text}</Text>
-            </Button>
-          ))}
-        </Box>
+        {slippageOptions.map((option) => (
+          <Button
+            key={option.key}
+            onClick={() => setSlippage(option.value)}
+            size="sm"
+            variant={slippageTolerance === option.value ? 'primary' : 'outlineTint'}
+          >
+            <Text textStyle="caption-xs">{option.text}</Text>
+          </Button>
+        ))}
+      </Box>
 
-        <Box className="space-x-2">
-          <Text textStyle="caption-xs" variant="secondary">
-            {t('common.transactionFee')}
-          </Text>
-          <Tooltip content={t('common.txFeeTooltip')} place="top">
-            <Icon color="secondary" name="questionCircle" size={16} />
-          </Tooltip>
-        </Box>
+      <Box className="space-x-2">
+        <Text textStyle="caption-xs" variant="secondary">
+          {t('common.transactionFee')}
+        </Text>
+        <Tooltip content={t('common.txFeeTooltip')} place="top">
+          <Icon color="secondary" name="questionCircle" size={16} />
+        </Tooltip>
+      </Box>
 
-        <Box
-          alignCenter
-          className={classNames('w-full space-x-2', {
-            'pb-6': transactionMode,
-          })}
-        >
-          {feeOptions.map((feeOption) => (
-            <Button
-              key={feeOption.key}
-              onClick={() => setFeeOptionType(feeOption.type)}
-              size="sm"
-              variant={feeOptionType === feeOption.type ? 'primary' : 'outlineTint'}
-            >
-              <Text textStyle="caption-xs">{feeOption.text}</Text>
-            </Button>
-          ))}
-        </Box>
+      <Box
+        alignCenter
+        className={classNames('w-full space-x-2', {
+          'pb-6': transactionMode,
+        })}
+      >
+        {feeOptions.map((feeOption) => (
+          <Button
+            key={feeOption.key}
+            onClick={() => setFeeOptionType(feeOption.type)}
+            size="sm"
+            variant={feeOptionType === feeOption.type ? 'primary' : 'outlineTint'}
+          >
+            <Text textStyle="caption-xs">{feeOption.text}</Text>
+          </Button>
+        ))}
+      </Box>
 
-        {transactionMode && (
-          <>
-            <Box>
-              <Text textStyle="caption">{t('views.setting.transactionMode')}</Text>
+      {transactionMode && (
+        <>
+          <Box>
+            <Text textStyle="caption">{t('views.setting.transactionMode')}</Text>
+          </Box>
+
+          <Box alignCenter justify="between">
+            <Box alignCenter className="space-x-2">
+              <Text textStyle="caption-xs" variant="secondary">
+                {t('views.swap.expertMode')}
+              </Text>
+              <Tooltip content={t('common.expertModeTooltip')} place="top">
+                <Icon color="secondary" name="questionCircle" size={16} />
+              </Tooltip>
             </Box>
 
+            <Switch
+              checked={expertMode}
+              onChange={() => setExpertMode(!expertMode)}
+              selectedText="ON"
+              unselectedText="OFF"
+            />
+          </Box>
+          {!IS_LEDGER_LIVE && (
             <Box alignCenter justify="between">
               <Box alignCenter className="space-x-2">
                 <Text textStyle="caption-xs" variant="secondary">
-                  {t('views.swap.expertMode')}
+                  {t('views.setting.customRecipientMode')}
                 </Text>
-                <Tooltip content={t('common.expertModeTooltip')} place="top">
+                <Tooltip content={t('common.customRecipientTooltip')} place="top">
                   <Icon color="secondary" name="questionCircle" size={16} />
                 </Tooltip>
               </Box>
 
               <Switch
-                checked={expertMode}
-                onChange={() => setExpertMode(!expertMode)}
+                checked={customRecipientMode}
+                onChange={() => setCustomRecipientMode(!customRecipientMode)}
                 selectedText="ON"
                 unselectedText="OFF"
               />
             </Box>
-            {!IS_LEDGER_LIVE && (
-              <Box alignCenter justify="between">
-                <Box alignCenter className="space-x-2">
-                  <Text textStyle="caption-xs" variant="secondary">
-                    {t('views.setting.customRecipientMode')}
-                  </Text>
-                  <Tooltip content={t('common.customRecipientTooltip')} place="top">
-                    <Icon color="secondary" name="questionCircle" size={16} />
-                  </Tooltip>
-                </Box>
+          )}
 
-                <Switch
-                  checked={customRecipientMode}
-                  onChange={() => setCustomRecipientMode(!customRecipientMode)}
-                  selectedText="ON"
-                  unselectedText="OFF"
-                />
-              </Box>
-            )}
-
-            {/* <Box alignCenter justify="between">
+          {/* <Box alignCenter justify="between">
           <Box className="space-x-2">
             <Typography variant="caption-xs" color="secondary">
               {t('views.swap.autoRouterApi')}
@@ -173,9 +172,8 @@ export const GlobalSettings = ({ transactionMode }: Props) => {
             />
           </Box>
         </Box> */}
-          </>
-        )}
-      </Box>
-    </Card>
+        </>
+      )}
+    </>
   );
 };

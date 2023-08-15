@@ -18,13 +18,13 @@ export const SORTED_CHAINS = [
   Chain.THORChain,
   Chain.Bitcoin,
   Chain.Ethereum,
-  Chain.Binance,
-  Chain.BinanceSmartChain,
   Chain.Avalanche,
-  Chain.Dogecoin,
-  Chain.BitcoinCash,
+  Chain.Binance,
   Chain.Litecoin,
   Chain.Cosmos,
+  Chain.BitcoinCash,
+  Chain.Dogecoin,
+  Chain.BinanceSmartChain,
 ] as const;
 
 export const SORTED_EARN_ASSETS = [

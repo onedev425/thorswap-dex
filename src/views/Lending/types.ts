@@ -1,4 +1,5 @@
 import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import { AssetSelectType } from 'components/AssetSelect/types';
 
 export type LoanPosition = {
   asset: AssetEntity;
@@ -27,3 +28,14 @@ export type SaverQuoteResponse = {
   slippage_bps: number;
   outbound_delay_seconds: number;
 };
+
+export type LendingAsset = {
+  asset: AssetEntity;
+  assetDepthAssetAmount: string;
+  runeDepthAssetAmount: string;
+  loanCr: string;
+  loanStatus: 'GREEN' | 'YELLOW' | 'RED';
+  loanCollateral: string;
+  derivedDepthPercentage: number;
+  lendingAvailable: boolean;
+} & AssetSelectType;

@@ -9,13 +9,14 @@ import { Button, Icon } from 'components/Atomic';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { InputAmount } from 'components/InputAmount';
 import { PercentageSlider } from 'components/PercentageSlider';
+import { showErrorToast } from 'components/Toast';
 import { formatDuration } from 'components/TransactionTracker/helpers';
 import { BTCAsset } from 'helpers/assets';
-import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
+import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
 import { useTCBlockTimer } from 'hooks/useTCBlockTimer';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
 import { MATURITY_BLOCKS } from 'views/Lending/Borrow';
@@ -38,10 +39,12 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
   const [repayAsset, setRepayAsset] = useState(BTCAsset);
   const { getMaxBalance } = useBalance();
   const { wallet } = useWallet();
+  const debouncedPercentage = useDebouncedValue(sliderValue, 500);
 
-  const { lendingAssets } = useLendingAssets();
-  const listAssets = useAssetsWithBalance(lendingAssets);
-
+  const { getBlockTimeDifference } = useTCBlockTimer();
+  const missingTimeToRepayInMS = getBlockTimeDifference(loan.lastOpenHeight + MATURITY_BLOCKS);
+  const hasLoanMatured = missingTimeToRepayInMS <= 0;
+  const lendingAssets = useLendingAssets();
   const { collateralCurrent, debtCurrent, asset } = loan;
 
   const handleToggle = () => setShow(!show);
@@ -50,11 +53,13 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
     asset,
     amount: collateralCurrent,
   }).toCurrencyFormat(2);
+
   const { repayAssetAmount, isLoading } = usePercentageDebtValue({
     asset: repayAsset,
     collateralAsset: asset,
-    percentage: sliderValue,
+    percentage: debouncedPercentage,
     totalAmount: debtCurrent,
+    hasLoanMatured,
   });
 
   const repayAddress = useMemo(
@@ -78,11 +83,12 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
   );
 
   const canRepay = useMemo(() => {
+    if (!hasLoanMatured) return false;
     if (repayAssetAmount.lte(0)) return false;
     if (repayBalance?.lt(repayAssetAmount)) return false;
 
     return true;
-  }, [repayAssetAmount, repayBalance]);
+  }, [repayAssetAmount, repayBalance, hasLoanMatured]);
 
   const onSuccess = useCallback(() => {
     setSliderValue(new Amount(0, AmountType.ASSET_AMOUNT, 2));
@@ -94,7 +100,13 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
     onSuccess,
   });
 
-  const { getBlockTimeDifference } = useTCBlockTimer();
+  useEffect(() => {
+    if (!hasLoanMatured && debouncedPercentage.gt(0)) {
+      showErrorToast(t('views.lending.maturityError'));
+    }
+  }, [debouncedPercentage, hasLoanMatured]);
+
+  const timeLeft = formatDuration(missingTimeToRepayInMS, { approx: true });
 
   return (
     <Flex
@@ -123,13 +135,17 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
             </LoanInfoRowCell>
             <LoanInfoRowCell>
               <InfoWithTooltip
-                tooltip={t('views.lending.maturityDescription')}
+                tooltip={
+                  hasLoanMatured
+                    ? ''
+                    : t('views.lending.maturityDescription', {
+                        days: Math.floor(missingTimeToRepayInMS / 86400000),
+                      })
+                }
                 value={t('views.lending.maturity')}
               />
-              <Text>
-                {formatDuration(getBlockTimeDifference(loan.lastOpenHeight + MATURITY_BLOCKS), {
-                  approx: true,
-                })}
+              <Text variant={hasLoanMatured ? 'green' : 'primary'}>
+                {hasLoanMatured ? t('views.lending.repayAvailable') : timeLeft}
               </Text>
             </LoanInfoRowCell>
           </Flex>
@@ -207,7 +223,7 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
                       <Text textStyle="caption">{t('views.lending.repayAsset')}:</Text>
                       <AssetSelect
                         showAssetType
-                        assets={listAssets}
+                        assets={lendingAssets}
                         onSelect={setRepayAsset as (asset: AssetEntity) => void}
                         selected={selectedRepayAsset.asset}
                       />

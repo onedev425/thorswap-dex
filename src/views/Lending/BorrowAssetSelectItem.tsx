@@ -1,10 +1,11 @@
-import { Text } from '@chakra-ui/react';
+import { CircularProgress, Flex, Text } from '@chakra-ui/react';
 import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Icon, Tooltip } from 'components/Atomic';
 import { memo } from 'react';
 import { t } from 'services/i18n';
+import { getFormattedPercent } from 'views/Earn/utils';
 
 import { AssetSelectType } from '../../components/AssetSelect/types';
 
@@ -14,7 +15,7 @@ type Props = AssetSelectType & {
 };
 
 export const BorrowAssetSelectItem = memo(
-  ({ asset, logoURI, select, extraInfo, isSelected, balance }: Props) => {
+  ({ asset, logoURI, select, extraInfo, isSelected, balance, filled }: Props) => {
     return (
       <Box
         alignCenter
@@ -46,7 +47,7 @@ export const BorrowAssetSelectItem = memo(
                     textTransform="uppercase"
                     variant="secondary"
                   >
-                    {t('views.lending.cr')}
+                    CR
                   </Text>
 
                   <Text textStyle="caption" variant="primaryBtn">
@@ -66,6 +67,37 @@ export const BorrowAssetSelectItem = memo(
               </Text>
             )}
           </Box>
+
+          {typeof filled !== 'undefined' && (
+            <Tooltip content={`${t('common.filled')}: ${getFormattedPercent(filled) || 'N/A'}`}>
+              <Flex position="relative">
+                <CircularProgress
+                  color="brand.btnPrimary"
+                  size="35px"
+                  trackColor="borderPrimary"
+                  value={filled}
+                />
+                <Flex
+                  alignItems="center"
+                  bottom={0}
+                  justifyContent="center"
+                  left={0}
+                  position="absolute"
+                  right={0}
+                  top={0}
+                >
+                  <Text
+                    className={classNames('text-[10px]', { 'text-[9px]': filled >= 100 })}
+                    fontWeight="semibold"
+                    textStyle="caption-xs"
+                    variant="secondary"
+                  >
+                    {Math.floor(filled)}%
+                  </Text>
+                </Flex>
+              </Flex>
+            </Tooltip>
+          )}
         </Box>
       </Box>
     );
