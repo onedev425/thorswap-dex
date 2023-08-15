@@ -50,9 +50,16 @@ export const LendingConfirmModal = ({
   }, [estimatedTime]);
 
   const txInfos = useMemo(
+    () =>
+      [
+        { label: t('common.action'), value: tabLabel },
+        { label: t('common.asset'), value: `${asset.name}`, icon: asset },
+      ] as { label: string; value: string | JSX.Element; icon?: AssetEntity }[],
+    [asset, tabLabel],
+  );
+
+  const repayInfo = useMemo(
     () => [
-      { label: t('common.action'), value: tabLabel },
-      { label: t('common.asset'), value: `${asset.name}`, icon: asset },
       { label: t('views.wallet.estimatedTime'), value: timeLabel || 'N/A' },
       {
         label: tabLabel,
@@ -65,11 +72,27 @@ export const LendingConfirmModal = ({
         ),
       },
     ],
-    [amount, asset, timeLabel, expectedOutputAmount, networkFee, tabLabel],
+    [amount, asset, expectedOutputAmount, networkFee, tabLabel, timeLabel],
   );
 
   const borrowInfo = useMemo(
     () => [
+      {
+        label: t('views.lending.collateral'),
+        value: `${collateralAsset?.name}`,
+        icon: collateralAsset,
+      },
+      { label: t('views.wallet.estimatedTime'), value: timeLabel || 'N/A' },
+      {
+        label: tabLabel,
+        value: expectedOutputAmount ? (
+          `${expectedOutputAmount.toSignificant(6)} ${asset.name}`
+        ) : networkFee?.gte(amount) ? (
+          t('views.savings.notEnoughForOutboundFee')
+        ) : (
+          <Icon spin color="primary" name="loader" size={24} />
+        ),
+      },
       {
         label: t('common.minReceived'),
         value: expectedOutputMaxSlippage ? (
@@ -96,14 +119,24 @@ export const LendingConfirmModal = ({
         ),
       },
     ],
-    [asset.name, collateralAmount, collateralAsset, expectedDebtInfo, expectedOutputMaxSlippage],
+    [
+      amount,
+      asset,
+      collateralAmount,
+      collateralAsset,
+      expectedDebtInfo,
+      expectedOutputAmount,
+      expectedOutputMaxSlippage,
+      networkFee,
+      tabLabel,
+      timeLabel,
+    ],
   );
 
-  const infoRows = useMemo(() => {
-    if (expectedOutputMaxSlippage && expectedDebtInfo) return txInfos.concat(borrowInfo);
-
-    return txInfos;
-  }, [borrowInfo, expectedDebtInfo, expectedOutputMaxSlippage, txInfos]);
+  const infoRows = useMemo(
+    () => (expectedDebtInfo ? txInfos.concat(borrowInfo) : txInfos.concat(repayInfo)),
+    [borrowInfo, expectedDebtInfo, repayInfo, txInfos],
+  );
 
   return (
     <ConfirmModal

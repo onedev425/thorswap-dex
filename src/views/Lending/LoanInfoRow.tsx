@@ -306,6 +306,7 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
           </Flex>
         </Collapse>
       </Card>
+
       <LendingConfirmModal
         amount={repayAssetAmount}
         asset={repayAsset}
