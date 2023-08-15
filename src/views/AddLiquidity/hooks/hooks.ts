@@ -667,10 +667,13 @@ export const useAddLiquidity = ({
       asset: poolAsset,
       balance: poolAssetBalance,
       usdPrice: poolAssetPriceInUSD,
-      value:
-        isAssetPending && poolMemberDetail
+      value: Amount.fromAssetAmount(
+        (isAssetPending && poolMemberDetail
           ? Amount.fromMidgard(poolMemberDetail.assetPending)
-          : assetAmount,
+          : assetAmount
+        ).assetAmount.toString(),
+        poolAsset.decimal,
+      ),
     }),
     [
       poolAsset,
