@@ -2,7 +2,6 @@ import { SidebarItemProps, SidebarWidgetOption } from 'components/Sidebar/types'
 import { hasConnectedWallet } from 'helpers/wallet';
 import { useEffect, useMemo } from 'react';
 import { t } from 'services/i18n';
-import { IS_PROD } from 'settings/config';
 import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/router';
 import { useApp } from 'store/app/hooks';
 import { useWallet } from 'store/wallet/hooks';
@@ -60,16 +59,9 @@ export const useSidebarOptions = () => {
     children: [
       { iconName: 'swap', href: ROUTES.Swap, label: t('components.sidebar.swap') },
       { iconName: 'piggyBank', href: ROUTES.Earn, label: t('components.sidebar.earn') },
+      { iconName: 'lending', href: ROUTES.Lending, label: t('components.sidebar.lending') },
     ],
   };
-
-  if (!IS_PROD) {
-    stickyMenu.children.push({
-      iconName: 'lending',
-      href: ROUTES.Lending,
-      label: t('components.sidebar.lending'),
-    });
-  }
 
   const sidebarOptions = useMemo(() => {
     const walletItems: SidebarItemProps[] = [
