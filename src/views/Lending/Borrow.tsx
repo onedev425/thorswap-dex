@@ -246,7 +246,7 @@ const Borrow = () => {
         value: `${expectedDebtInfo}`,
       },
       {
-        label: t('common.slippage'),
+        label: t('views.lending.depositFee'),
         value: (
           <VirtualDepthSlippageInfo
             asset={collateralAsset}

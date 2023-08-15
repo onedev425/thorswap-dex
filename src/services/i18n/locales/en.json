@@ -468,15 +468,11 @@
       "confirmRepay": "Confirm Repay",
       "debt": "Debt",
       "debtValue": "Debt Value",
+      "depositFee": "Deposit fee",
       "deposited": "Deposited",
       "expectedDebt": "Expected debt",
       "header": "Open a loan.",
       "lendingFee": "Lending fee",
-      "lendingFees": {
-        "high": "Lending fees are very high. It might be lower later.",
-        "low": "Lending fees are currently low.",
-        "medium": "Lending fees are high. It might be lower later.'"
-      },
       "lendingPaused": "Lending is currently paused",
       "liquidationDisclaimer": "0% interest, no liquidations or expiration.",
       "loanMax": "Loan max",
@@ -493,6 +489,11 @@
       "repayMaturity": "Minimum Loan Term",
       "repayPercent": "Repay Percent",
       "selectCollateralAsset": "Select collateral asset to deposit",
+      "slippage": {
+        "high": "Slippage is very high. It might be lower later.",
+        "low": "Slippage is currently low.",
+        "medium": "Slippage is high. It might be lower later.'"
+      },
       "tooltipDescription": "Deposit native assets as collateral and borrow other assets with THORSwap LENDING"
     },
     "liquidity": {

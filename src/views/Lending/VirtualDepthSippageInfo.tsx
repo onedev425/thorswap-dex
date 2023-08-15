@@ -30,12 +30,12 @@ function getSlippageState(depth: number) {
   }
 
   if (depth > 85) {
-    return { color: 'brand.green', tooltip: t('views.lending.lendingFees.low') };
+    return { color: 'brand.green', tooltip: t('views.lending.slippage.low') };
   }
 
   if (depth > 70) {
-    return { color: 'brand.yellow', tooltip: t('views.lending.lendingFees.medium') };
+    return { color: 'brand.yellow', tooltip: t('views.lending.slippage.medium') };
   }
 
-  return { color: 'brand.red', tooltip: t('views.lending.lendingFees.high') };
+  return { color: 'brand.red', tooltip: t('views.lending.slippage.high') };
 }
