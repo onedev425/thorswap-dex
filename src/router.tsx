@@ -5,6 +5,7 @@ import { Layout } from 'components/Layout';
 import { ToastPortal } from 'components/Toast';
 import { lazy, memo, Suspense } from 'react';
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
+import { IS_PROD } from 'settings/config';
 import { ROUTES } from 'settings/router';
 
 const Swap = lazy(() => import('views/Swap'));
@@ -47,7 +48,6 @@ const routes: RouteType = [
   { path: ROUTES.AddLiquidityPool, element: AddLiquidity },
   { path: ROUTES.CreateLiquidity, element: CreateLiquidity },
   { path: ROUTES.Earn, element: Earn },
-  { path: ROUTES.Lending, element: Lending },
   { path: ROUTES.Home, element: Home },
   { path: ROUTES.LegacyStake, element: LegacyStake },
   { path: ROUTES.Kyber, element: Swap },
@@ -79,7 +79,7 @@ const routes: RouteType = [
   { path: ROUTES.WithdrawLiquidity, element: WithdrawLiquidity },
   { path: ROUTES.WithdrawLiquidityPool, element: WithdrawLiquidity },
   { path: ROUTES.Transaction, element: Transaction },
-];
+].concat(IS_PROD ? [] : [{ path: ROUTES.Lending, element: Lending }]);
 
 export const PublicRoutes = memo(() => {
   return (
