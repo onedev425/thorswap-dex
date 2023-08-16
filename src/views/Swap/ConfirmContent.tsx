@@ -6,6 +6,7 @@ import { AssetIcon } from 'components/AssetIcon';
 import { AssetInputType } from 'components/AssetInput/types';
 import { Box, Icon, Tooltip } from 'components/Atomic';
 import { ChainBadge } from 'components/ChainBadge';
+import { InfoTip } from 'components/InfoTip';
 import { shortenAddress } from 'helpers/shortenAddress';
 import { memo, useMemo } from 'react';
 import { t } from 'services/i18n';
@@ -214,12 +215,7 @@ export const ConfirmContent = memo(
           </Box>
 
           {streamSwap && (
-            <Box row className="w-full my-3 px-4">
-              <Icon className="inline" color="orange" name="infoCircle" size={26} />{' '}
-              <Text className="ml-2" fontWeight="medium" textStyle="caption">
-                {t('views.swap.streamSwapDisclaimer')}
-              </Text>
-            </Box>
+            <InfoTip className="mt-4" title={t('views.swap.streamSwapDisclaimer')} type="warn" />
           )}
 
           {showSmallSwapWarning && (
