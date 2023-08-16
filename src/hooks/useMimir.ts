@@ -20,7 +20,10 @@ export const useMimir = () => {
   };
 
   // halt status
-  const isGlobalHalted = isEntryPaused('HALTCHAINGLOBAL');
+  const isTradingHalted = isEntryPaused('HALTTRADING');
+  const isLPPaused = isEntryPaused('PAUSELP');
+  const isSigningHalted = isEntryPaused('HALTSIGNING');
+  const isGlobalHalted = isEntryPaused('HALTCHAINGLOBAL') || isSigningHalted;
   const isAVAXChainHalted = isEntryPaused('HALTAVAXCHAIN');
   const isGAIAChainHalted = isEntryPaused('HALTGAIACHAIN');
   const isTHORChainHalted = isEntryPaused('HALTTHORCHAIN');
@@ -48,33 +51,33 @@ export const useMimir = () => {
   const isChainTradingHalted: {
     [key: string]: boolean;
   } = {
-    [Chain.Avalanche]: isEntryPaused('HALTAVAXTRADING'),
-    [Chain.BitcoinCash]: isEntryPaused('HALTBCHTRADING'),
-    [Chain.Binance]: isEntryPaused('HALTBNBTRADING'),
-    [Chain.Bitcoin]: isEntryPaused('HALTBTCTRADING'),
-    [Chain.Cosmos]: isEntryPaused('HALTGAIATRADING'),
-    [Chain.Dogecoin]: isEntryPaused('HALTDOGETRADING'),
-    [Chain.Ethereum]: isEntryPaused('HALTETHTRADING'),
-    [Chain.Litecoin]: isEntryPaused('HALTLTCTRADING'),
+    [Chain.Avalanche]: isTradingHalted || isEntryPaused('HALTAVAXTRADING'),
+    [Chain.Binance]: isTradingHalted || isEntryPaused('HALTBNBTRADING'),
+    [Chain.BitcoinCash]: isTradingHalted || isEntryPaused('HALTBCHTRADING'),
+    [Chain.Bitcoin]: isTradingHalted || isEntryPaused('HALTBTCTRADING'),
+    [Chain.Cosmos]: isTradingHalted || isEntryPaused('HALTGAIATRADING'),
+    [Chain.Dogecoin]: isTradingHalted || isEntryPaused('HALTDOGETRADING'),
+    [Chain.Ethereum]: isTradingHalted || isEntryPaused('HALTETHTRADING'),
+    [Chain.Litecoin]: isTradingHalted || isEntryPaused('HALTLTCTRADING'),
   };
 
   // pause LP
 
-  const isPauseLP = mimir?.PAUSELP === 1;
   const isChainPauseLP: {
     [key: string]: boolean;
   } = {
-    [Chain.Avalanche]: isEntryPaused('PAUSELPAVAX'),
-    [Chain.Binance]: isEntryPaused('PAUSELPBNB'),
-    [Chain.BitcoinCash]: isEntryPaused('PAUSELPBCH'),
-    [Chain.Bitcoin]: isEntryPaused('PAUSELPBTC'),
-    [Chain.Dogecoin]: isEntryPaused('PAUSELPDOGE'),
-    [Chain.Ethereum]: isEntryPaused('PAUSELPETH'),
-    [Chain.Litecoin]: isEntryPaused('PAUSELPLTC'),
+    [Chain.Avalanche]: isLPPaused || isEntryPaused('PAUSELPAVAX'),
+    [Chain.Binance]: isLPPaused || isEntryPaused('PAUSELPBNB'),
+    [Chain.BitcoinCash]: isLPPaused || isEntryPaused('PAUSELPBCH'),
+    [Chain.Bitcoin]: isLPPaused || isEntryPaused('PAUSELPBTC'),
+    [Chain.Cosmos]: isLPPaused || isEntryPaused('HALTGAIATRADING'),
+    [Chain.Dogecoin]: isLPPaused || isEntryPaused('PAUSELPDOGE'),
+    [Chain.Ethereum]: isLPPaused || isEntryPaused('PAUSELPETH'),
+    [Chain.Litecoin]: isLPPaused || isEntryPaused('PAUSELPLTC'),
   };
 
   const isChainPauseLPAction = (key: string) => {
-    if (isPauseLP) return true;
+    if (isLPPaused) return true;
 
     return isChainPauseLP?.[key] ?? false;
   };
@@ -95,12 +98,13 @@ export const useMimir = () => {
     isChainPauseLP,
     isChainPauseLPAction,
     isChainTradingHalted,
+    isTradingHalted,
     isDOGEChainHalted,
     isETHChainHalted,
     isAVAXChainHalted,
     isGAIAChainHalted,
     isLTCChainHalted,
-    isPauseLP,
+    isLPPaused,
     isTHORChainHalted,
     maxSynthPerAssetDepth,
     totalPooledRune,
