@@ -2,6 +2,7 @@ import { Pool } from '@thorswap-lib/swapkit-core';
 import { Box, Icon, Table, TableRowType } from 'components/Atomic';
 import { useCallback } from 'react';
 import { navigateToPoolDetail } from 'settings/router';
+import { PoolCategoryOption } from 'views/Home/types';
 
 import { usePoolColumns } from './usePoolColumns';
 
@@ -9,14 +10,15 @@ const initialSort = [{ id: 'liquidity', desc: true }];
 
 type Props = {
   data: Pool[];
+  poolCategory: PoolCategoryOption;
 };
 
-export const PoolTable = ({ data }: Props) => {
+export const PoolTable = ({ data, poolCategory }: Props) => {
   const navigateToPoolInfo = useCallback(({ original }: TableRowType) => {
     navigateToPoolDetail(original.asset);
   }, []);
 
-  const columns = usePoolColumns();
+  const columns = usePoolColumns(poolCategory);
 
   return (
     <Box col center={!data.length}>

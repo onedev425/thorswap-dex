@@ -28,7 +28,8 @@ export const useTxSend = () => {
   const [recipientAddress, setRecipientAddress] = useState('');
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
 
-  const { pools } = useMidgard();
+  const { pools: periodPools } = useMidgard();
+  const pools = periodPools['7d'];
 
   const assetPriceInUSD = useMemo(
     () =>

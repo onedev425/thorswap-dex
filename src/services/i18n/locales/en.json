@@ -31,6 +31,7 @@
   "common": {
     "24Volume": "Volume 24H",
     "APR": "APR",
+	"saversApr": "Savers APR",
     "APRPeriod": "APR (Period)",
     "APY": "APY",
     "THORSwap": "THORSwap",
@@ -94,6 +95,7 @@
     "liquidity": "Liquidity",
     "liquidityAPY": "Liquidity APY",
     "liquidityPools": "Liquidity Pools",
+	"pools": "Pools",
     "liquidityPosition": "My Liquidity Position",
     "liquidityProvider": "Liquidity Provider Rewards",
     "loading": "Loading...",

@@ -238,8 +238,14 @@ export type LpDetailCalculationResult = {
   [key: string]: LpDetailCalculatedAddedAndWithdrawn;
 };
 
+export type PoolPeriodsUsedForApiCall = '7d' | '180d';
+
+export type PoolsRecords = {
+  [key in PoolPeriodsUsedForApiCall]: Pool[];
+};
+
 export interface State {
-  pools: Pool[];
+  pools: PoolsRecords;
   poolLoading: boolean;
   chainMemberDetails: ChainMemberDetails;
   chainMemberDetailsLoading: ChainMemberDetailsLoading;
@@ -291,13 +297,6 @@ export type ThornodePoolType = {
   synth_mint_paused: boolean;
   synth_supply: string;
   synth_units: string;
-};
-
-export type MidgardEarnPoolType = {
-  asset: string;
-  saversAPR: string;
-  synthSupply: string;
-  assetDepth: string;
 };
 
 export type MidgardTradeHistoryDetails = {

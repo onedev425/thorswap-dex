@@ -21,7 +21,9 @@ type Props = {
 };
 
 export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
-  const { pools } = useMidgard();
+  const { pools: poolPeriods } = useMidgard();
+  const pools = poolPeriods['180d'];
+
   const { networkFee } = useEarnCalculations({
     asset: position.asset,
     amount: position.amount,

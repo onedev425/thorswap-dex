@@ -13,22 +13,89 @@ import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getAddLiquidityRoute, getSwapRoute } from 'settings/router';
 import { useMidgard } from 'store/midgard/hooks';
+import { PoolCategoryOption } from 'views/Home/types';
 
-type TimePeriods = {
+export type TimePeriods = {
   '180d': string;
+  '7d': string;
 };
 
 const timePeriods: TimePeriods = {
   '180d': '180 days',
+  '7d': '7 days',
 };
 
-export const usePoolColumns = () => {
+export const usePoolColumns = (poolCategory: PoolCategoryOption) => {
   const navigate = useNavigate();
   const { poolLoading } = useMidgard();
   const runeToCurrency = useRuneToCurrency();
 
-  const columns = useMemo(
-    () => [
+  const columns = useMemo(() => {
+    const apr =
+      poolCategory === PoolCategoryOption.Savers
+        ? {
+            id: 'saversApr',
+            Header: (): string => t('common.saversApr'),
+            accessor: (row: Pool) => parseToPercent(row.detail.saversAPR),
+            align: 'right',
+            Cell: ({ cell: { value } }: { cell: { value: string } }) =>
+              poolLoading ? (
+                <Box justify="end">
+                  <Icon spin name="loader" size={16} />
+                </Box>
+              ) : (
+                value
+              ),
+            sortType: getAmountColumnSorter('saversApr'),
+            toolTip: (
+              <Tooltip content={t('views.home.aprExplanation')} place="bottom">
+                <Link
+                  href={INTRODUCTION_TO_LUVI_URL}
+                  onClick={(e) => e.stopPropagation()}
+                  target="_blank"
+                  zIndex={1}
+                >
+                  <Icon
+                    className="p-1 absolute top-1.5 text-xs rounded-lg transform mx-1 hover:bg-btn-primary fill-btn-primary hover:fill-white"
+                    name="question"
+                    size={16}
+                  />
+                </Link>
+              </Tooltip>
+            ),
+          }
+        : {
+            id: 'apr',
+            Header: (): string => t('common.APR'),
+            accessor: (row: Pool) => parseToPercent(row.detail.annualPercentageRate),
+            align: 'right',
+            Cell: ({ cell: { value } }: { cell: { value: string } }) =>
+              poolLoading ? (
+                <Box justify="end">
+                  <Icon spin name="loader" size={16} />
+                </Box>
+              ) : (
+                value
+              ),
+            sortType: getAmountColumnSorter('apr'),
+            toolTip: (
+              <Tooltip content={t('views.home.aprExplanation')} place="bottom">
+                <Link
+                  href={INTRODUCTION_TO_LUVI_URL}
+                  onClick={(e) => e.stopPropagation()}
+                  target="_blank"
+                  zIndex={1}
+                >
+                  <Icon
+                    className="p-1 absolute top-1.5 text-xs rounded-lg transform mx-1 hover:bg-btn-primary fill-btn-primary hover:fill-white"
+                    name="question"
+                    size={16}
+                  />
+                </Link>
+              </Tooltip>
+            ),
+          };
+    const columns = [
       {
         id: 'pool',
         Header: (): string => t('common.pool'),
@@ -67,37 +134,7 @@ export const usePoolColumns = () => {
         minScreenSize: BreakPoint.lg,
         sortType: getAmountColumnSorter('volume24h'),
       },
-      {
-        id: 'apr',
-        Header: (): string => t('common.APR'),
-        accessor: (row: Pool) => parseToPercent(row.detail.annualPercentageRate),
-        align: 'right',
-        Cell: ({ cell: { value } }: { cell: { value: string } }) =>
-          poolLoading ? (
-            <Box justify="end">
-              <Icon spin name="loader" size={16} />
-            </Box>
-          ) : (
-            value
-          ),
-        sortType: getAmountColumnSorter('apr'),
-        toolTip: (
-          <Tooltip content={t('views.home.aprExplanation')} place="bottom">
-            <Link
-              href={INTRODUCTION_TO_LUVI_URL}
-              onClick={(e) => e.stopPropagation()}
-              target="_blank"
-              zIndex={1}
-            >
-              <Icon
-                className="p-1 absolute top-1.5 text-xs rounded-lg transform mx-1 hover:bg-btn-primary fill-btn-primary hover:fill-white"
-                name="question"
-                size={16}
-              />
-            </Link>
-          </Tooltip>
-        ),
-      },
+      apr,
       {
         id: 'aprPeriod',
         Header: () => t('common.APRPeriod'),
@@ -140,9 +177,10 @@ export const usePoolColumns = () => {
         disableSortBy: true,
         minScreenSize: BreakPoint.md,
       },
-    ],
-    [navigate, poolLoading, runeToCurrency],
-  );
+    ];
+
+    return columns;
+  }, [navigate, poolCategory, poolLoading, runeToCurrency]);
 
   return columns;
 };

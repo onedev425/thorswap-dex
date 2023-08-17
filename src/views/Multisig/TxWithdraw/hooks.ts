@@ -23,7 +23,8 @@ export const useTxWithdraw = () => {
   const { createDepositTx } = useMultisig();
   const { signers } = useTxCreate();
   const navigate = useNavigate();
-  const pools = useAppSelector(({ midgard }) => midgard.pools);
+  const poolsPeriod = useAppSelector(({ midgard }) => midgard.pools);
+  const pools = poolsPeriod['180d'];
   const poolAssets = useMemo(() => {
     return pools.map((poolData) => poolData.asset);
   }, [pools]);

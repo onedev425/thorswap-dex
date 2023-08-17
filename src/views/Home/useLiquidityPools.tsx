@@ -2,21 +2,39 @@ import { chainName } from 'helpers/chainName';
 import { useMemo } from 'react';
 import { useMidgard } from 'store/midgard/hooks';
 
-import { poolStatusOptions, PoolTypeOption, poolTypeOptions } from './types';
+import {
+  PoolCategoryOption,
+  poolCategoryOptions,
+  poolStatusOptions,
+  PoolTypeOption,
+  poolTypeOptions,
+} from './types';
 
 type Params = {
   keyword: string;
   selectedPoolType: number;
   selectedPoolStatus: number;
+  selectedPoolsCategory: number;
 };
-export const useLiquidityPools = ({ selectedPoolStatus, selectedPoolType, keyword }: Params) => {
+export const useLiquidityPools = ({
+  selectedPoolStatus,
+  selectedPoolType,
+  keyword,
+  selectedPoolsCategory,
+}: Params) => {
   const { pools } = useMidgard();
+  const pools180D = pools['180d'];
+  const pools7D = pools['7d'];
+
+  const selectedPoolsCategoryValue = poolCategoryOptions[selectedPoolsCategory];
+
+  const poolsToUse = selectedPoolsCategoryValue === PoolCategoryOption.Savers ? pools7D : pools180D;
 
   const poolsByStatus = useMemo(() => {
     const selectedPoolStatusValue = poolStatusOptions[selectedPoolStatus].toLowerCase();
 
-    return pools.filter(({ detail }) => detail.status === selectedPoolStatusValue);
-  }, [pools, selectedPoolStatus]);
+    return poolsToUse.filter(({ detail }) => detail.status === selectedPoolStatusValue);
+  }, [poolsToUse, selectedPoolStatus]);
 
   const filteredPools = useMemo(() => {
     // filter by pool asset type
@@ -42,9 +60,16 @@ export const useLiquidityPools = ({ selectedPoolStatus, selectedPoolType, keywor
         );
       });
     }
+    if (selectedPoolsCategoryValue === PoolCategoryOption.Savers) {
+      return poolsByType.filter(({ detail }) => {
+        // TODO - this is a hack to filter out pools that are not savers, also need to add these to PoolDetail (Swapkit-entities)
+        // @ts-ignore
+        return detail.saversDepth !== '0' && detail.saversUnits !== '0';
+      });
+    }
 
     return poolsByType;
-  }, [selectedPoolType, poolsByStatus, keyword]);
+  }, [selectedPoolType, selectedPoolsCategoryValue, poolsByStatus, keyword]);
 
   return { filteredPools };
 };

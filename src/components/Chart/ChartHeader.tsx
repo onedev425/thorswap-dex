@@ -12,8 +12,6 @@ type Props = {
 export const ChartHeader = memo(({ values, title }: Props) => {
   const runeToCurrency = useRuneToCurrency();
   const lastValue = values?.[values?.length - 1] ?? 0;
-  const changePercentage =
-    values.length >= 2 ? (lastValue / values[values.length - 2]) * 100 - 100 : 0;
 
   const formattedValue = runeToCurrency(Amount.fromNormalAmount(lastValue));
 
@@ -23,19 +21,6 @@ export const ChartHeader = memo(({ values, title }: Props) => {
         {title}
 
         <span className="text-blue dark:text-btn-primary">{` ${formattedValue} `}</span>
-
-        <Text
-          as="span"
-          className="mb-1"
-          fontWeight="semibold"
-          variant={changePercentage >= 0 ? 'green' : 'red'}
-        >
-          ({changePercentage >= 0 ? '+' : '-'}
-          {changePercentage
-            ? `${Math.abs(changePercentage).toFixed(2)}%`
-            : `$${Math.abs(changePercentage).toFixed(2)}`}
-          )
-        </Text>
       </Text>
     </Box>
   );

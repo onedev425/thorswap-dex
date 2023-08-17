@@ -1,34 +1,24 @@
 import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { useMimir } from 'hooks/useMimir';
-import { useEffect, useState } from 'react';
-import { midgardSdk } from 'services/midgard';
-import { MidgardEarnPoolType } from 'store/midgard/types';
+import { useMidgard } from 'store/midgard/hooks';
 import { getFormattedPercent, getSaverPoolNameForAsset } from 'views/Earn/utils';
 
 export const useAssetsWithApr = (assets: Asset[]) => {
-  const [pools, setPools] = useState<MidgardEarnPoolType[]>([]);
+  const { pools: periodPools } = useMidgard();
+  const pools = periodPools['7d'];
   const { synthCap } = useMimir();
-
-  useEffect(() => {
-    const getPools = async () => {
-      const res = await midgardSdk.getPools(undefined, '7d');
-      setPools(res as unknown as MidgardEarnPoolType[]);
-    };
-
-    getPools();
-  }, []);
 
   const assetsWithAPR = assets.map((asset) => {
     const pool = pools.find(
-      (pool) => pool.asset.toLowerCase() === getSaverPoolNameForAsset(asset).toLowerCase(),
+      (pool) => pool.detail.asset.toLowerCase() === getSaverPoolNameForAsset(asset).toLowerCase(),
     );
 
     if (pool) {
-      const apr = Number(pool?.saversAPR || 0) * 100;
+      const apr = Number(pool.detail.saversAPR || 0) * 100;
 
-      const assetDepthAmount = Amount.fromMidgard(pool.assetDepth);
+      const assetDepthAmount = Amount.fromMidgard(pool.detail.assetDepth);
       const saverCap = Amount.fromNormalAmount(synthCap).mul(assetDepthAmount);
-      const filled = Amount.fromMidgard(pool?.synthSupply)
+      const filled = Amount.fromMidgard(pool.detail.synthSupply)
         .div(saverCap)
         .mul(100)
         .toFixedDecimal(2);

@@ -20,7 +20,8 @@ export const useTxDepositCustom = () => {
   const [memo, setMemo] = useState('');
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
 
-  const { pools } = useMidgard();
+  const { pools: periodPools } = useMidgard();
+  const pools = periodPools['7d'];
 
   const assetPriceInUSD = useMemo(
     () =>

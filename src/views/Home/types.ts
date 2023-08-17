@@ -5,6 +5,13 @@ export enum PoolTypeOption {
   BEP2 = 'BEP2',
 }
 
+export enum PoolCategoryOption {
+  Savers = 'Savers',
+  All = 'All',
+}
+
+export const poolCategoryOptions = [PoolCategoryOption.Savers, PoolCategoryOption.All];
+
 export const poolTypeOptions = [
   PoolTypeOption.All,
   PoolTypeOption.Native,

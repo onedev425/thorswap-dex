@@ -6,19 +6,21 @@ import { ChangeEvent, memo, useCallback, useState } from 'react';
 import { t } from 'services/i18n';
 
 import { PoolTable } from './PoolTable';
-import { poolStatusOptions, poolTypeOptions } from './types';
+import { poolCategoryOptions, poolStatusOptions, poolTypeOptions } from './types';
 import { useLiquidityPools } from './useLiquidityPools';
 
 export const PoolListView = memo(() => {
   const [keyword, setKeyword] = useState('');
   const [selectedPoolType, setSelectedPoolType] = useState(0);
   const [selectedPoolStatus, setSelectedPoolStatus] = useState(0);
+  const [selectedPoolsCategory, setSelectedPoolsCategory] = useState(0);
   const { isMdActive } = useWindowSize();
 
   const { filteredPools } = useLiquidityPools({
     keyword,
     selectedPoolType,
     selectedPoolStatus,
+    selectedPoolsCategory,
   });
 
   const handleChangeKeyword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +31,7 @@ export const PoolListView = memo(() => {
     <Box col>
       {isMdActive && (
         <Box col className="gap-8">
-          <Text textStyle="h3">{t('common.liquidityPools')}</Text>
+          <Text textStyle="h3">{t('common.pools')}</Text>
 
           <Box alignCenter className="flex-wrap gap-2 lg:flex-row" justify="between">
             <Box className="w-fit">
@@ -44,6 +46,11 @@ export const PoolListView = memo(() => {
 
             <Box className="justify-end w-fit gap-x-6">
               <Select
+                activeIndex={selectedPoolsCategory}
+                onChange={setSelectedPoolsCategory}
+                options={poolCategoryOptions}
+              />
+              <Select
                 activeIndex={selectedPoolType}
                 onChange={setSelectedPoolType}
                 options={poolTypeOptions}
@@ -56,7 +63,10 @@ export const PoolListView = memo(() => {
             </Box>
           </Box>
 
-          <PoolTable data={filteredPools} />
+          <PoolTable
+            data={filteredPools}
+            poolCategory={poolCategoryOptions[selectedPoolsCategory]}
+          />
         </Box>
       )}
     </Box>

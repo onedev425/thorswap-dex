@@ -12,7 +12,8 @@ type Props = {
 };
 
 export const useAddLiquidityPools = ({ assetRouteGetter = getAddLiquidityRoute }: Props = {}) => {
-  const pools = useAppSelector(({ midgard }) => midgard.pools);
+  const poolsPeriods = useAppSelector(({ midgard }) => midgard.pools);
+  const pools = poolsPeriods['180d'];
   const { getAllMemberDetails } = useMidgard();
   const navigate = useNavigate();
 

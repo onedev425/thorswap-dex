@@ -14,7 +14,8 @@ const getAPY = (blockReward: number, totalAmount: number) => {
 };
 
 export const useThorAPR = () => {
-  const { pools } = useMidgard();
+  const { pools: poolPeriods } = useMidgard();
+  const pools = poolPeriods['180d'];
 
   const thorPool = useMemo(() => poolByAsset(getSignatureAssetFor('ETH_THOR'), pools), [pools]);
   const thorDepth = useMemo(

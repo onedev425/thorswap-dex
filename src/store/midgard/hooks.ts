@@ -23,7 +23,7 @@ export const useMidgard = () => {
 
       const thorchainAddress = wallet?.[Chain.THORChain]?.address;
       if (thorchainAddress) {
-        midgard.pools.forEach((pool) => {
+        midgard.pools['180d'].forEach((pool) => {
           if (pool.asset.chain === chain) {
             dispatch(
               actions.getLiquidityProviderData({
@@ -103,7 +103,7 @@ export const useMidgard = () => {
 
   const synthAssets = useMemo(
     () =>
-      midgard.pools
+      midgard.pools['180d']
         .filter(({ detail }) => detail.status.toLowerCase() === 'available')
         .map(({ asset: { chain, symbol } }) => new AssetEntity(chain, symbol, true)),
     [midgard.pools],

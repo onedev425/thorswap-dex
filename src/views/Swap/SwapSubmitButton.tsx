@@ -45,7 +45,8 @@ export const SwapSubmitButton = ({
   setVisibleConfirmModal,
 }: Props) => {
   const { wallet, setIsConnectModalOpen, connectLedgerLiveWallet } = useWallet();
-  const { pools } = useMidgard();
+  const { pools: periodPools } = useMidgard();
+  const pools = periodPools['7d'];
   const { maxSynthPerAssetDepth } = useMimir();
   const { getChainTradingPaused } = useExternalConfig();
   const { numberOfPendingApprovals } = useTransactionsState();

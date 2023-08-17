@@ -43,7 +43,8 @@ export const useRunePrice = (pool?: Pool) => {
 
 export const useRuneToCurrency = (abbreviate: boolean = true) => {
   const { baseCurrency } = useApp();
-  const { pools } = useMidgard();
+  const { pools: poolRecords } = useMidgard();
+  const pools = poolRecords['180d'];
 
   const formatter = useCallback(
     (value: number) => (abbreviate ? toAbbreviate(value) : value),
@@ -81,7 +82,8 @@ export const useRuneToCurrency = (abbreviate: boolean = true) => {
 
 export const useRuneAtTimeToCurrency = (abbreviate: boolean = true) => {
   const { baseCurrency } = useApp();
-  const { pools } = useMidgard();
+  const { pools: poolPeriods } = useMidgard();
+  const pools = poolPeriods['180d'];
 
   const formatter = useCallback(
     (value: number) => (abbreviate ? toAbbreviate(value) : value),

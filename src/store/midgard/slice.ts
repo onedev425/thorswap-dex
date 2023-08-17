@@ -10,10 +10,13 @@ import {
 } from 'store/midgard/utils';
 
 import * as midgardActions from './actions';
-import { MimirData, State } from './types';
+import { MimirData, PoolPeriodsUsedForApiCall, State } from './types';
 
 const initialState: State = {
-  pools: [],
+  pools: {
+    '180d': [],
+    '7d': [],
+  },
   poolLoading: false,
   chainMemberDetails: {},
   chainMemberDetailsLoading: {},
@@ -71,14 +74,10 @@ const midgardSlice = createSlice({
         state.poolLoading = true;
       })
       .addCase(midgardActions.getPools.fulfilled, (state, { payload, meta }) => {
-        const period = meta.arg as string;
-        state.pools = payload
+        const period = meta.arg as PoolPeriodsUsedForApiCall;
+        state.pools[period] = payload
           .map((pool) => ({
             ...pool,
-            annualPercentageRate:
-              pool.annualPercentageRate === '+Inf' || pool.annualPercentageRate === 'NaN'
-                ? '0'
-                : pool.annualPercentageRate,
             apyPeriod: period,
           }))
           // @ts-expect-error
