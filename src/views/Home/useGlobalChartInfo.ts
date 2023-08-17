@@ -1,7 +1,7 @@
 import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import BigNumber from 'bignumber.js';
 import { ChartData, ChartDetail, ChartType } from 'components/Chart/types';
-import { useRuneToCurrency } from 'hooks/useRuneToCurrency';
+import { useRuneAtTimeToCurrency, useRuneToCurrency } from 'hooks/useRuneToCurrency';
 import { useCallback, useMemo } from 'react';
 import { useApp } from 'store/app/hooks';
 import { useMidgard } from 'store/midgard/hooks';
@@ -15,10 +15,16 @@ import {
 
 export const useGlobalChartInfo = () => {
   const runeToCurrency = useRuneToCurrency(false);
+  const runeToCurrencyAtTime = useRuneAtTimeToCurrency(false);
 
   const formatFromRune = useCallback(
     (value: string) => runeToCurrency(Amount.fromMidgard(value)),
     [runeToCurrency],
+  );
+  const formatFromRuneAtTime = useCallback(
+    (value: string, runePrice: string) =>
+      runeToCurrencyAtTime(Amount.fromMidgard(value), runePrice),
+    [runeToCurrencyAtTime],
   );
 
   const { baseCurrency } = useApp();
@@ -135,26 +141,29 @@ export const useGlobalChartInfo = () => {
     const bondingEarnings: ChartDetail[] = [];
 
     earningsData.forEach((data, index) => {
-      // don't include historical data for the last day
-      if (index === earningsData.length - 1) {
-        return;
-      }
-
       const time = Number(data?.startTime ?? 0);
-
       // Wed Sep 15 2021 00:00:00 GMT+0000 (https://www.unixtimestamp.com)
       if (time < 1631664000) return;
 
       const tvlValue = tvlData[index];
+      const liquidityPooled = formatFromRuneAtTime(
+        tvlValue?.totalValuePooled,
+        tvlValue?.runePriceUSD,
+      );
+
+      parseInt(tvlValue?.totalValuePooled) > 0 && liquidity.push({ time, value: liquidityPooled });
+
+      // don't include historical data for the last day for swaps
+      if (index === earningsData.length - 1) {
+        return;
+      }
 
       // HOTFIX: ignore liquidity value if it's less than zero
       // should be removed when it gets fixed on midgard side
 
-      const liquidityPooled = formatFromRune(tvlValue?.totalValuePooled);
       const bondingValue = formatFromRune(data?.bondingEarnings);
       const liquidityValue = formatFromRune(data?.liquidityEarnings);
 
-      parseInt(tvlValue?.totalValuePooled) > 0 && liquidity.push({ time, value: liquidityPooled });
       bondingEarnings.push({ time, value: bondingValue });
       liquidityEarning.push({ time, value: liquidityValue });
     });

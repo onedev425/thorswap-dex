@@ -1,5 +1,5 @@
 import { Amount, AssetEntity, Pool, Price } from '@thorswap-lib/swapkit-core';
-import { poolByAsset, RUNEAsset } from 'helpers/assets';
+import { poolByAsset, RUNEAsset, USDAsset } from 'helpers/assets';
 import { useCallback } from 'react';
 import { useApp } from 'store/app/hooks';
 import { useMidgard } from 'store/midgard/hooks';
@@ -77,4 +77,43 @@ export const useRuneToCurrency = (abbreviate: boolean = true) => {
   );
 
   return runeToCurrency;
+};
+
+export const useRuneAtTimeToCurrency = (abbreviate: boolean = true) => {
+  const { baseCurrency } = useApp();
+  const { pools } = useMidgard();
+
+  const formatter = useCallback(
+    (value: number) => (abbreviate ? toAbbreviate(value) : value),
+    [abbreviate],
+  );
+
+  const runeToCurrencyAtTime = useCallback(
+    (runeAmount: Amount, runePriceStr: string) => {
+      const runePrice = formatAssetToNumber(Amount.fromAssetAmount(runePriceStr, USDAsset.decimal));
+
+      const isUSD = baseCurrency.includes('USD');
+      const quoteAsset = AssetEntity.fromAssetString(baseCurrency);
+
+      if (!quoteAsset) return `$0.00`;
+
+      const pool = poolByAsset(quoteAsset, pools) || pools[0];
+      const runeAmountNumber = formatAssetToNumber(runeAmount);
+
+      if (!pool || runeAmountNumber === 0) return `$0.00`;
+      if (baseCurrency.includes('RUNE')) return `ᚱ ${formatter(runeAmountNumber)}`;
+
+      const runeValue = runeAmountNumber * runePrice;
+
+      if (isUSD) return `$${formatter(runeValue)}`;
+
+      const assetUSDPrice = formatAssetToNumber(pool.assetUSDPrice);
+      const assetValue = runeValue / assetUSDPrice;
+
+      return `${quoteAsset.ticker} ${formatter(assetValue)}`;
+    },
+    [baseCurrency, formatter, pools],
+  );
+
+  return runeToCurrencyAtTime;
 };
