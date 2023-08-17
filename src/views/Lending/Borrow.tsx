@@ -197,16 +197,17 @@ const Borrow = () => {
   const buttonDisabled = useMemo(
     () =>
       lendingStatus?.paused ||
-      amount.lte(Amount.fromAssetAmount(0, 8)) ||
+      amount.lte(Amount.fromAssetAmount(0, collateralAsset.decimal)) ||
       (isBorrow && collateralBalance && amount.gt(collateralBalance)) ||
       isChainHalted[collateralAsset.L1Chain],
     [
       lendingStatus?.paused,
       amount,
+      collateralAsset.decimal,
+      collateralAsset.L1Chain,
       isBorrow,
       collateralBalance,
       isChainHalted,
-      collateralAsset.L1Chain,
     ],
   );
 
