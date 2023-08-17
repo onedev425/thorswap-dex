@@ -68,8 +68,8 @@ const Borrow = () => {
   });
 
   const [slippage, setSlippage] = useState(10);
-  const [amount, setAmount] = useState(Amount.fromAssetAmount(0, 8));
   const [collateralAsset, setCollateralAsset] = useState(getSignatureAssetFor(Chain.Bitcoin));
+  const [amount, setAmount] = useState(Amount.fromAssetAmount(0, collateralAsset.decimal));
   const [borrowAsset, setBorrowAsset] = useState(
     AssetEntity.fromAssetString(ETH_USDC_IDENTIFIER) as AssetEntity,
   );
@@ -137,17 +137,12 @@ const Borrow = () => {
 
   const handleSwapkitAction = useCallback(async () => {
     const { openLoan, closeLoan } = await (await import('services/swapKit')).getSwapKitClient();
+    const params = {
+      assetAmount: new AssetAmount(collateralAsset, amount),
+      assetTicker: `${borrowAsset.getAssetObj().chain}.${borrowAsset.getAssetObj().ticker}`,
+    };
 
-    return isBorrow
-      ? openLoan({
-          assetAmount: new AssetAmount(collateralAsset, amount),
-          assetTicker: `${borrowAsset.getAssetObj().chain}.${borrowAsset.getAssetObj().ticker}`,
-          memo,
-        })
-      : closeLoan({
-          assetAmount: new AssetAmount(collateralAsset, amount),
-          assetTicker: `${borrowAsset.getAssetObj().chain}.${borrowAsset.getAssetObj().ticker}`,
-        });
+    return isBorrow ? openLoan({ ...params, memo }) : closeLoan(params);
   }, [amount, collateralAsset, isBorrow, borrowAsset, memo]);
 
   const handleBorrowSubmit = useCallback(
@@ -169,7 +164,7 @@ const Borrow = () => {
 
       try {
         const txid = await handleSwapkitAction();
-        setAmount(Amount.fromAssetAmount(0, 8));
+        setAmount(Amount.fromAssetAmount(0, collateralAsset.decimal));
         if (txid)
           appDispatch(
             updateTransaction({
@@ -192,6 +187,7 @@ const Borrow = () => {
       borrowQuote,
       collateralAddress,
       collateralAsset.L1Chain,
+      collateralAsset.decimal,
       collateralAsset.name,
       handleSwapkitAction,
       isBorrow,
@@ -286,6 +282,17 @@ const Borrow = () => {
       maturityDays,
       slippageAmount,
     ],
+  );
+
+  const handleAmountChange = useCallback(
+    (amount: Amount) => {
+      /**
+       * NOTE: This will only work for signature assets for which we specify decimal by hand in SwapKit
+       *      For other assets, we need to get decimal from the API / Contract
+       */
+      setAmount(Amount.fromAssetAmount(amount.assetAmount, collateralAsset.decimal));
+    },
+    [collateralAsset.decimal],
   );
 
   return (
@@ -398,7 +405,7 @@ const Borrow = () => {
                           assets={lendingAssets}
                           className="flex-1 !py-1"
                           onAssetChange={setCollateralAsset}
-                          onValueChange={setAmount}
+                          onValueChange={handleAmountChange}
                           poolAsset={selectedCollateralAsset}
                           selectedAsset={selectedCollateralAsset}
                         />
