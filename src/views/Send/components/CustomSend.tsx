@@ -18,8 +18,8 @@ type Props = {
 };
 
 export const CustomSend = ({ memo, setMemo }: Props) => {
-  const { pools: poolsPeriods } = useMidgard();
-  const pools = poolsPeriods['180d'];
+  const { getPoolsFromState } = useMidgard();
+  const pools = getPoolsFromState();
   const [memoType] = useState(MemoType.deposit);
   const [outputAsset, setOutputAsset] = useState(RUNEAsset);
 

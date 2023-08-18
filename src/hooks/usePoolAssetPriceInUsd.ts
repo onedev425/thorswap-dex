@@ -3,8 +3,8 @@ import { useMemo } from 'react';
 import { useMidgard } from 'store/midgard/hooks';
 
 export const usePoolAssetPriceInUsd = ({ asset, amount }: { asset: Asset; amount: Amount }) => {
-  const { pools: periodPools } = useMidgard();
-  const pools = periodPools['7d'];
+  const { getPoolsFromState } = useMidgard();
+  const pools = getPoolsFromState();
 
   const poolAssetPriceInUSD = useMemo(
     () =>

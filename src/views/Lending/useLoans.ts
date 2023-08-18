@@ -9,8 +9,9 @@ import { LoanPosition } from './types';
 
 export const useLoans = () => {
   const { wallet, isWalletLoading } = useWallet();
-  const { pools: periodPools } = useMidgard();
-  const pools = periodPools['7d'];
+  const { getPoolsFromState } = useMidgard();
+  const pools = getPoolsFromState();
+
   const [loans, setLoans] = useState<LoanPosition[] | null>(null);
   const [fetchLoans] = useLazyGetLoansQuery();
   const [isLoading, setIsLoading] = useState(false);

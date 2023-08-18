@@ -4,8 +4,8 @@ import { useMidgard } from 'store/midgard/hooks';
 import { getFormattedPercent, getSaverPoolNameForAsset } from 'views/Earn/utils';
 
 export const useAssetsWithApr = (assets: Asset[]) => {
-  const { pools: periodPools } = useMidgard();
-  const pools = periodPools['7d'];
+  const { getPoolsFromState } = useMidgard();
+  const pools = getPoolsFromState();
 
   const { synthCap } = useMimir();
 

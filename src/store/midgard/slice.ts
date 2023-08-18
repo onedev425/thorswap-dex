@@ -14,8 +14,7 @@ import { MimirData, PoolPeriodsUsedForApiCall, State } from './types';
 
 const initialState: State = {
   pools: {
-    '180d': [],
-    '7d': [],
+    '30d': [],
   },
   poolLoading: false,
   chainMemberDetails: {},

@@ -10,8 +10,8 @@ const RUNE_FEE = '0.02';
 
 export const useCustomSend = () => {
   const { customSendVisible } = useApp();
-  const { pools: periodPools } = useMidgard();
-  const pools = periodPools['7d'];
+  const { getPoolsFromState } = useMidgard();
+  const pools = getPoolsFromState();
   const [customMemo, setCustomMemo] = useState('');
   const [customTxEnabled, setCustomTxEnabled] = useState(false);
   const customFeeRune = useMemo(() => Amount.fromAssetAmount(RUNE_FEE, RUNEAsset.decimal), []);

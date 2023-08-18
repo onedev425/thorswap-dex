@@ -5,15 +5,15 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getAddLiquidityRoute } from 'settings/router';
 import { useMidgard } from 'store/midgard/hooks';
-import { useAppSelector } from 'store/store';
 
 type Props = {
   assetRouteGetter?: (asset: Asset) => string;
 };
 
 export const useAddLiquidityPools = ({ assetRouteGetter = getAddLiquidityRoute }: Props = {}) => {
-  const poolsPeriods = useAppSelector(({ midgard }) => midgard.pools);
-  const pools = poolsPeriods['180d'];
+  const { getPoolsFromState } = useMidgard();
+  const pools = getPoolsFromState();
+
   const { getAllMemberDetails } = useMidgard();
   const navigate = useNavigate();
 

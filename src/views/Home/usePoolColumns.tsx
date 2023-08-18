@@ -16,13 +16,11 @@ import { useMidgard } from 'store/midgard/hooks';
 import { PoolCategoryOption } from 'views/Home/types';
 
 export type TimePeriods = {
-  '180d': string;
-  '7d': string;
+  '30d': string;
 };
 
 const timePeriods: TimePeriods = {
-  '180d': '180 days',
-  '7d': '7 days',
+  '30d': '30 days',
 };
 
 export const usePoolColumns = (poolCategory: PoolCategoryOption) => {

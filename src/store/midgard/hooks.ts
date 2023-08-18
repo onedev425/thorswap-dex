@@ -1,7 +1,8 @@
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { useCallback, useMemo } from 'react';
 import * as actions from 'store/midgard/actions';
+import { PoolPeriodsUsedForApiCall } from 'store/midgard/types';
 import { useAppDispatch, useAppSelector } from 'store/store';
 
 export const useMidgard = () => {
@@ -17,13 +18,20 @@ export const useMidgard = () => {
     [midgard],
   );
 
+  const getPoolsFromState = useCallback(
+    (period?: PoolPeriodsUsedForApiCall): Pool[] => {
+      return midgard.pools[period || '30d'];
+    },
+    [midgard.pools],
+  );
+
   const getPendingDepositByChain = useCallback(
     (chain: Chain) => {
       if (!wallet) return;
 
       const thorchainAddress = wallet?.[Chain.THORChain]?.address;
       if (thorchainAddress) {
-        midgard.pools['180d'].forEach((pool) => {
+        getPoolsFromState().forEach((pool) => {
           if (pool.asset.chain === chain) {
             dispatch(
               actions.getLiquidityProviderData({
@@ -35,7 +43,7 @@ export const useMidgard = () => {
         });
       }
     },
-    [dispatch, midgard.pools, wallet],
+    [dispatch, getPoolsFromState, wallet],
   );
 
   /**
@@ -103,10 +111,10 @@ export const useMidgard = () => {
 
   const synthAssets = useMemo(
     () =>
-      midgard.pools['180d']
+      getPoolsFromState()
         .filter(({ detail }) => detail.status.toLowerCase() === 'available')
         .map(({ asset: { chain, symbol } }) => new AssetEntity(chain, symbol, true)),
-    [midgard.pools],
+    [getPoolsFromState],
   );
 
   const getLpDetails = useCallback(
@@ -169,5 +177,6 @@ export const useMidgard = () => {
     synthAssets,
     getAllLpDetails,
     tcLastBlock,
+    getPoolsFromState,
   };
 };

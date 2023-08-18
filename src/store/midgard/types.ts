@@ -238,7 +238,7 @@ export type LpDetailCalculationResult = {
   [key: string]: LpDetailCalculatedAddedAndWithdrawn;
 };
 
-export type PoolPeriodsUsedForApiCall = '7d' | '180d';
+export type PoolPeriodsUsedForApiCall = '30d';
 
 export type PoolsRecords = {
   [key in PoolPeriodsUsedForApiCall]: Pool[];

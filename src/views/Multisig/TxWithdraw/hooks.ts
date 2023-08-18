@@ -12,9 +12,9 @@ import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getMultisigTxCreateRoute, ROUTES } from 'settings/router';
+import { useMidgard } from 'store/midgard/hooks';
 import { LiquidityTypeOption, PoolShareType } from 'store/midgard/types';
 import { useMultisig } from 'store/multisig/hooks';
-import { useAppSelector } from 'store/store';
 import { useTxCreate } from 'views/Multisig/TxCreate/TxCreateContext';
 
 const SHARE_TYPES: PoolShareType[] = [PoolShareType.SYM, PoolShareType.RUNE_ASYM];
@@ -23,8 +23,8 @@ export const useTxWithdraw = () => {
   const { createDepositTx } = useMultisig();
   const { signers } = useTxCreate();
   const navigate = useNavigate();
-  const poolsPeriod = useAppSelector(({ midgard }) => midgard.pools);
-  const pools = poolsPeriod['180d'];
+  const { getPoolsFromState } = useMidgard();
+  const pools = getPoolsFromState();
   const poolAssets = useMemo(() => {
     return pools.map((poolData) => poolData.asset);
   }, [pools]);

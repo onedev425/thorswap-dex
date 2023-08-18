@@ -44,8 +44,7 @@ export const useGlobalRefresh = () => {
       appDispatch(getQueue());
     });
 
-    await appDispatch(getPools('7d'));
-    await appDispatch(getPools('180d'));
+    await appDispatch(getPools('30d'));
 
     isLoading.current = false;
   }, [appDispatch]);

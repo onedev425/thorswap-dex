@@ -51,8 +51,8 @@ export const DoughnutChart = ({
 }: Props) => {
   const chartRef = useRef<ChartJSOrUndefined<'doughnut', any, any>>(null);
   const [chartHovered, setChartHovered] = useState<number | null>(null);
-  const { pools: poolPeriods } = useMidgard();
-  const pools = poolPeriods['180d'];
+  const { getPoolsFromState } = useMidgard();
+  const pools = getPoolsFromState();
 
   const isEarned = selectedIndex === ShareChartIndex.Earned;
 

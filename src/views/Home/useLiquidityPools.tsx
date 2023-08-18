@@ -2,52 +2,35 @@ import { chainName } from 'helpers/chainName';
 import { useMemo } from 'react';
 import { useMidgard } from 'store/midgard/hooks';
 
-import {
-  PoolCategoryOption,
-  poolCategoryOptions,
-  poolStatusOptions,
-  PoolTypeOption,
-  poolTypeOptions,
-} from './types';
+import { PoolCategoryOption, poolCategoryOptions, poolStatusOptions } from './types';
 
 type Params = {
   keyword: string;
-  selectedPoolType: number;
-  selectedPoolStatus: number;
   selectedPoolsCategory: number;
 };
-export const useLiquidityPools = ({
-  selectedPoolStatus,
-  selectedPoolType,
-  keyword,
-  selectedPoolsCategory,
-}: Params) => {
-  const { pools } = useMidgard();
-  const pools180D = pools['180d'];
-  const pools7D = pools['7d'];
+export const useLiquidityPools = ({ keyword, selectedPoolsCategory }: Params) => {
+  const { getPoolsFromState } = useMidgard();
+  const poolsToUse = getPoolsFromState();
 
   const selectedPoolsCategoryValue = poolCategoryOptions[selectedPoolsCategory];
 
-  const poolsToUse = selectedPoolsCategoryValue === PoolCategoryOption.Savers ? pools7D : pools180D;
-
   const poolsByStatus = useMemo(() => {
-    const selectedPoolStatusValue = poolStatusOptions[selectedPoolStatus].toLowerCase();
+    const selectedPoolStatusValue = poolStatusOptions[0].toLowerCase();
 
     return poolsToUse.filter(({ detail }) => detail.status === selectedPoolStatusValue);
-  }, [poolsToUse, selectedPoolStatus]);
+  }, [poolsToUse]);
 
   const filteredPools = useMemo(() => {
-    // filter by pool asset type
-    const selectedPoolTypeValue = poolTypeOptions[selectedPoolType];
-
-    const poolsByType =
-      selectedPoolTypeValue !== PoolTypeOption.All
-        ? poolsByStatus.filter((pool) => pool.asset.type === selectedPoolTypeValue)
+    const poolsByCategory =
+      selectedPoolsCategoryValue === PoolCategoryOption.Savers
+        ? poolsByStatus.filter(
+            ({ detail }) => detail.saversDepth !== '0' && detail.saversUnits !== '0',
+          )
         : poolsByStatus;
 
     // filter by keyword
     if (keyword) {
-      return poolsByType.filter(({ asset }) => {
+      return poolsByCategory.filter(({ asset }) => {
         const poolStr = asset.toString().toLowerCase();
         const chainStr = chainName(asset.chain, true).toLowerCase();
         const assetType = asset.type.toLowerCase();
@@ -60,16 +43,9 @@ export const useLiquidityPools = ({
         );
       });
     }
-    if (selectedPoolsCategoryValue === PoolCategoryOption.Savers) {
-      return poolsByType.filter(({ detail }) => {
-        // TODO - this is a hack to filter out pools that are not savers, also need to add these to PoolDetail (Swapkit-entities)
-        // @ts-ignore
-        return detail.saversDepth !== '0' && detail.saversUnits !== '0';
-      });
-    }
 
-    return poolsByType;
-  }, [selectedPoolType, selectedPoolsCategoryValue, poolsByStatus, keyword]);
+    return poolsByCategory;
+  }, [selectedPoolsCategoryValue, poolsByStatus, keyword]);
 
   return { filteredPools };
 };

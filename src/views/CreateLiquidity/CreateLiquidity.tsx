@@ -32,8 +32,9 @@ import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useExternalConfig } from 'store/externalConfig/hooks';
+import { useMidgard } from 'store/midgard/hooks';
 import { LiquidityTypeOption } from 'store/midgard/types';
-import { useAppDispatch, useAppSelector } from 'store/store';
+import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
@@ -49,8 +50,8 @@ import { useConfirmInfoItems } from './useConfirmInfoItems';
 
 export const CreateLiquidity = () => {
   const appDispatch = useAppDispatch();
-  const poolsPeriods = useAppSelector(({ midgard }) => midgard.pools);
-  const pools = poolsPeriods['180d'];
+  const { getPoolsFromState } = useMidgard();
+  const pools = getPoolsFromState();
 
   const { wallet, setIsConnectModalOpen } = useWallet();
   const [inputAssets, setInputAssets] = useState<Asset[]>([]);

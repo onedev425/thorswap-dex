@@ -6,20 +6,16 @@ import { ChangeEvent, memo, useCallback, useState } from 'react';
 import { t } from 'services/i18n';
 
 import { PoolTable } from './PoolTable';
-import { poolCategoryOptions, poolStatusOptions, poolTypeOptions } from './types';
+import { poolCategoryOptions } from './types';
 import { useLiquidityPools } from './useLiquidityPools';
 
 export const PoolListView = memo(() => {
   const [keyword, setKeyword] = useState('');
-  const [selectedPoolType, setSelectedPoolType] = useState(0);
-  const [selectedPoolStatus, setSelectedPoolStatus] = useState(0);
   const [selectedPoolsCategory, setSelectedPoolsCategory] = useState(0);
   const { isMdActive } = useWindowSize();
 
   const { filteredPools } = useLiquidityPools({
     keyword,
-    selectedPoolType,
-    selectedPoolStatus,
     selectedPoolsCategory,
   });
 
@@ -49,16 +45,6 @@ export const PoolListView = memo(() => {
                 activeIndex={selectedPoolsCategory}
                 onChange={setSelectedPoolsCategory}
                 options={poolCategoryOptions}
-              />
-              <Select
-                activeIndex={selectedPoolType}
-                onChange={setSelectedPoolType}
-                options={poolTypeOptions}
-              />
-              <Select
-                activeIndex={selectedPoolStatus}
-                onChange={setSelectedPoolStatus}
-                options={poolStatusOptions}
               />
             </Box>
           </Box>
