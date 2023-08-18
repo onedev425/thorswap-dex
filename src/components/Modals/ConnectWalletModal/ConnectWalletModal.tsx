@@ -258,16 +258,35 @@ const ConnectWalletModal = () => {
     [selectedChains],
   );
 
+  const walletWarning = useMemo(() => {
+    switch (selectedWalletType) {
+      case WalletType.Ledger:
+        return {
+          title: t('views.walletModal.ledgerWalletWarningTitle'),
+          content: t('views.walletModal.ledgerWalletWarning'),
+        };
+      case WalletType.Okx:
+        return selectedChains.includes(Chain.Bitcoin)
+          ? {
+              title: t('views.walletModal.okxWalletWarningTitle'),
+              content: t('views.walletModal.okxWalletWarning'),
+            }
+          : undefined;
+      default:
+        return;
+    }
+  }, [selectedWalletType, selectedChains]);
+
   return (
     <Modal
       HeaderComponent={
         <Box className="pb-2">
-          {selectedWalletType === WalletType.Ledger && (
+          {walletWarning && (
             <InfoTip
               className="m-auto !pt-2 !pb-1 !px-2"
-              content="Make sure your Ledger is unlocked and you have opened the app you would like to connect before proceeding"
+              content={walletWarning.content}
               contentClassName="py-0"
-              title="Unlock Ledger and open App"
+              title={walletWarning.title}
               type="warn"
             />
           )}

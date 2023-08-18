@@ -1072,6 +1072,10 @@
       "viewPhrase": "View Phrase",
       "walletConnect": "WalletConnect",
       "walletSaveInfo": "Your wallet settings will be saved in browser. We do not store anything secure, just selected configuration. It will be saved until manual disconnect",
+      "okxWalletWarningTitle": "Set correct Bitcoin address format",
+      "okxWalletWarning": "Please ensure that your Okx wallet is configured to the 'Native Segwit' setting for your Bitcoin address. THORChain does not support Taproot at the moment.",
+      "ledgerWalletWarningTitle": "Unlock Ledger and open App",
+      "ledgerWalletWarning": "Please make sure your Ledger is unlocked and you have opened the app you would like to connect before proceeding",
       "wrongPassword": "Password is wrong",
       "xdefi": "XDEFI"
     }
