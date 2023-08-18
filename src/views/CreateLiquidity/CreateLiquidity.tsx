@@ -211,7 +211,10 @@ export const CreateLiquidity = () => {
     setVisibleConfirmModal(false);
     if (wallet) {
       const runeAssetAmount = new AssetAmount(getSignatureAssetFor(Chain.THORChain), runeAmount);
-      const poolAssetAmount = new AssetAmount(poolAsset, assetAmount);
+      const poolAssetAmount = new AssetAmount(
+        poolAsset,
+        Amount.fromAssetAmount(assetAmount.assetAmount.toString(), poolAsset.decimal),
+      );
       const runeId = v4();
       const assetId = v4();
 

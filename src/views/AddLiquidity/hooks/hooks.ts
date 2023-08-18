@@ -358,7 +358,10 @@ export const useAddLiquidity = ({
           : undefined;
       const poolAssetAmount =
         liquidityType !== LiquidityTypeOption.RUNE
-          ? new AssetAmount(poolAsset, assetAmount)
+          ? new AssetAmount(
+              poolAsset,
+              Amount.fromAssetAmount(assetAmount.assetAmount.toString(), poolAsset.decimal),
+            )
           : undefined;
 
       onAddLiquidity({
@@ -379,7 +382,10 @@ export const useAddLiquidity = ({
           : undefined;
       const poolAssetAmount =
         liquidityType !== LiquidityTypeOption.RUNE
-          ? new AssetAmount(poolAsset, assetAmount)
+          ? new AssetAmount(
+              poolAsset,
+              Amount.fromAssetAmount(assetAmount.assetAmount.toString(), poolAsset.decimal),
+            )
           : undefined;
 
       const runeId = v4();
