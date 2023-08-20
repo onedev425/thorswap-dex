@@ -20,7 +20,10 @@ export function useLendingAssets() {
           asset,
           derivedDepthPercentage: Number(assetRes.derivedDepthPercentage),
           balance: isWalletConnected(asset.L1Chain as Chain) ? getMaxBalance(asset) : undefined,
-          extraInfo: assetRes.ltvPercentage,
+          extraInfo:
+            assetRes.ltvPercentage && assetRes.ltvPercentage !== 'NaN'
+              ? `${assetRes.ltvPercentage}%`
+              : undefined,
           filled: assetRes.filledPercentage ? Number(assetRes.filledPercentage) : undefined,
           lendingAvailable: assetRes.lendingAvailable,
           ltvPercentage: assetRes.ltvPercentage,
