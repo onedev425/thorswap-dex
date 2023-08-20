@@ -142,7 +142,7 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
                         days: Math.floor(missingTimeToRepayInMS / 86400000),
                       })
                 }
-                value={t('views.lending.maturity')}
+                value={t('views.lending.unlock')}
               />
               <Text variant={hasLoanMatured ? 'green' : 'primary'}>
                 {hasLoanMatured ? t('views.lending.repayAvailable') : timeLeft}

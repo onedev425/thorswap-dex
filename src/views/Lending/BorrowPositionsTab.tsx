@@ -45,12 +45,12 @@ export const BorrowPositionsTab = ({
   const infoFields = useMemo(
     () => [
       {
-        header: t('views.lending.collateralValue'),
+        header: t('views.lending.totalCollateralValue'),
         value: typeof totalCollateral === 'number' ? formatPrice(totalCollateral) : '-',
         tooltipText: 'Fair market value of the assets used to secure a loan',
       },
       {
-        header: t('views.lending.debtValue'),
+        header: t('views.lending.totalDebtValue'),
         value: totalBorrowed ? formatPrice(totalBorrowed) : '-',
         tooltipText: 'Value of borrowed assets',
       },

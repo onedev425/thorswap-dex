@@ -30,6 +30,7 @@ export type AssetInputProps = {
   selectedAsset: AssetInputType;
   warning?: string;
   noFilters?: boolean;
+  displayAssetTypeComponent?: React.ReactNode;
 } & (
   | {
       assets: AssetSelectType[];

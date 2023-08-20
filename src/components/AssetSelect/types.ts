@@ -10,6 +10,7 @@ export type AssetSelectProps = {
   onClose?: () => void;
   openManageTokenList?: () => void;
   noFilters?: boolean;
+  assetTypeComponent?: React.ReactNode;
 };
 
 export type AssetSelectType = Pick<Token, 'logoURI' | 'cg'> & {

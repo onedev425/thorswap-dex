@@ -6,18 +6,23 @@ import { t } from 'services/i18n';
 type Props = {
   depth: number | string;
   slippage?: Amount;
+  slippageUsd?: Amount;
   asset: AssetEntity;
 };
 
-export const VirtualDepthSlippageInfo = ({ depth, slippage, asset }: Props) => {
+export const VirtualDepthSlippageInfo = ({ depth, slippage, slippageUsd, asset }: Props) => {
   const slippageState = getSlippageState(Number(depth));
-
   return (
     <Tooltip content={slippageState.tooltip}>
       <Flex alignItems="center" gap={2}>
         <Text color={slippageState.color} textStyle="caption">
           {slippage ? slippage?.toSignificant(6) : 0} {asset.name}
         </Text>
+        {slippageUsd && slippageUsd.gt(0) && (
+          <Text color="textSecondary" fontWeight="semibold" textStyle="caption">
+            (${slippageUsd?.toFixed(2)})
+          </Text>
+        )}
         <Icon color="secondary" name="infoCircle" size={20} />
       </Flex>
     </Tooltip>

@@ -8,7 +8,7 @@ import {
   shouldForwardProp,
   Text,
 } from '@chakra-ui/react';
-import { TxStatus, TxTrackerDetails } from '@thorswap-lib/swapkit-api';
+import { TxStatus } from '@thorswap-lib/swapkit-api';
 import { Amount } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
@@ -18,6 +18,7 @@ import { getSimpleTxStatus } from 'components/TransactionManager/helpers';
 import { TxLegProvider } from 'components/TransactionTracker/components/TxLegProvider';
 import { TxLegTimer } from 'components/TransactionTracker/components/TxLegTimer';
 import { getTxState, getTxStatusColor } from 'components/TransactionTracker/helpers';
+import { useTxTrackerDetails } from 'components/TransactionTracker/TxTrackerDetailsContext';
 import { isValidMotionProp, motion } from 'framer-motion';
 import { getChainIdentifier } from 'helpers/chains';
 import { getTickerFromIdentifier, tokenLogoURL } from 'helpers/logoURL';
@@ -34,7 +35,6 @@ type Props = {
   txStatus?: TxStatus;
   legTimeLeft?: number | null;
   horizontalView?: boolean;
-  txDetails: TxTrackerDetails;
 };
 
 const AnimatedBox = chakra(motion.div, {
@@ -89,8 +89,8 @@ export const TxLegPreview = ({
   txStatus,
   legTimeLeft,
   horizontalView,
-  txDetails,
 }: Props) => {
+  const { txDetails } = useTxTrackerDetails();
   const { finished: isTxFinished } = getTxState(txStatus);
 
   const isRuneLastLeg = isLast && leg.chain === Chain.THORChain;
@@ -102,7 +102,7 @@ export const TxLegPreview = ({
   const outAssetIdentifier = leg.toAsset;
   const transactionUrl = useTxUrl({
     txHash:
-      (invalidRuneTxHash ? txDetails.legs[Math.max(currentLegIndex - 1, 0)]?.hash : leg?.hash) ||
+      (invalidRuneTxHash ? txDetails?.legs[Math.max(currentLegIndex - 1, 0)]?.hash : leg?.hash) ||
       '',
     chain: leg.chain,
   });

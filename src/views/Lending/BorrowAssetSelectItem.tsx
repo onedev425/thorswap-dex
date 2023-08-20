@@ -16,17 +16,22 @@ type Props = AssetSelectType & {
 
 export const BorrowAssetSelectItem = memo(
   ({ asset, logoURI, select, extraInfo, isSelected, balance, filled }: Props) => {
+    const isLimitReached = Number(extraInfo) >= 100;
+
     return (
       <Box
         alignCenter
         className={classNames(
-          'dark:bg-dark-dark-gray bg-btn-light-tint z-0 lig rounded-3xl p-2 hover:duration-150 transition cursor-pointer  dark:hover:bg-dark-border-primary hover:bg-btn-light-tint-active border border-transparent',
+          'dark:bg-dark-dark-gray bg-btn-light-tint z-0 lig rounded-3xl p-2 hover:duration-150 transition dark:hover:bg-dark-border-primary hover:bg-btn-light-tint-active border border-transparent',
           {
             'brightness-90 dark:brightness-110 dark:!bg-dark-border-primary !bg-btn-light-tint-active border-btn-primary':
               isSelected,
           },
+          isLimitReached ? 'cursor-not-allowed' : 'cursor-pointer',
         )}
-        onClick={() => select(asset)}
+        onClick={() => {
+          !isLimitReached && select(asset);
+        }}
       >
         <Box className="gap-x-3 pl-2" flex={1}>
           <Box center className="gap-x-2">
@@ -39,7 +44,7 @@ export const BorrowAssetSelectItem = memo(
               </Text>
             </Box>
             <Box row className="gap-x-2 justify-between pr-2">
-              <Tooltip content={t('views.lending.collateralizationRatio')}>
+              <Tooltip content={t('views.lending.ltvRatio')}>
                 <Box center className="gap-1">
                   <Text
                     fontWeight="light"
@@ -47,7 +52,7 @@ export const BorrowAssetSelectItem = memo(
                     textTransform="uppercase"
                     variant="secondary"
                   >
-                    CR
+                    LTV
                   </Text>
 
                   <Text textStyle="caption" variant="primaryBtn">
@@ -68,11 +73,19 @@ export const BorrowAssetSelectItem = memo(
             )}
           </Box>
 
+          {isLimitReached && (
+            <Box center>
+              <Text color="brand.red" textStyle="caption-xs">
+                {t('views.lending.capReached')}
+              </Text>
+            </Box>
+          )}
+
           {typeof filled !== 'undefined' && (
             <Tooltip content={`${t('common.filled')}: ${getFormattedPercent(filled) || 'N/A'}`}>
               <Flex position="relative">
                 <CircularProgress
-                  color="brand.btnPrimary"
+                  color={isLimitReached ? 'brand.red' : 'brand.btnPrimary'}
                   size="35px"
                   trackColor="borderPrimary"
                   value={filled}

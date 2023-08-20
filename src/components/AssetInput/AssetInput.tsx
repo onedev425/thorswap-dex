@@ -28,6 +28,7 @@ export const AssetInput = ({
   poolAsset,
   showSecondaryChainSelector,
   title,
+  displayAssetTypeComponent,
   ...rest
 }: AssetInputProps) => {
   const formatPrice = useFormatPrice();
@@ -149,6 +150,7 @@ export const AssetInput = ({
         ) : (
           <AssetSelect
             {...assetSelectProps}
+            assetTypeComponent={displayAssetTypeComponent}
             className="m-2 md:m-0"
             selected={selectedAsset?.asset}
           />

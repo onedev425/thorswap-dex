@@ -21,6 +21,7 @@ export const AssetSelect = ({
   showAssetType,
   AssetListComponent,
   logoURI,
+  assetTypeComponent,
   ...restProps
 }: Props) => {
   const [isOpened, setIsOpened] = useState(false);
@@ -31,6 +32,7 @@ export const AssetSelect = ({
   return (
     <>
       <AssetSelectButton
+        assetTypeComponent={assetTypeComponent}
         className={className}
         logoURI={logoURI}
         onClick={() => {

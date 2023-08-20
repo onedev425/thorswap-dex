@@ -10,6 +10,7 @@ export type LoanPosition = {
   debtRepaid: Amount;
   debtCurrent: Amount;
   lastOpenHeight: number;
+  ltvPercentage?: string;
 };
 
 export enum LendingTab {
@@ -38,4 +39,5 @@ export type LendingAsset = {
   loanCollateral: string;
   derivedDepthPercentage: number;
   lendingAvailable: boolean;
+  ltvPercentage: string;
 } & AssetSelectType;

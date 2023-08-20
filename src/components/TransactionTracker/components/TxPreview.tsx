@@ -39,7 +39,6 @@ export const TxPreview = ({ txDetails, isCompleted }: Props) => {
               key={`${leg.hash}${leg.txnType}`}
               leg={leg}
               legTimeLeft={legsTimers[index]?.timeLeft}
-              txDetails={txDetails}
               txStatus={txDetails.status}
             />
           ))}

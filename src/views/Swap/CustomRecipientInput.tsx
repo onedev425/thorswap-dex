@@ -1,5 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import { Chain } from '@thorswap-lib/types';
+import classNames from 'classnames';
 import { Box } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { PanelInput } from 'components/PanelInput';
@@ -91,7 +92,7 @@ export const CustomRecipientInput = memo(
     return (
       <PanelInput
         stretch
-        className="transition-all"
+        className={classNames('transition-all flex-1 !py-2')}
         disabled={disabled}
         loading={loading || thornameForAddressLoading}
         onChange={handleChangeRecipient}

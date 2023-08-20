@@ -25,12 +25,21 @@ export const useLoans = () => {
           address,
         });
 
-        const collateralDeposited = Amount.fromMidgard(data?.collateral_deposited);
-        const collateralWithdrawn = Amount.fromMidgard(data?.collateral_withdrawn);
-        const collateralCurrent = Amount.fromMidgard(data?.collateral_current);
-        const debtIssued = Amount.fromMidgard(data?.debt_issued);
-        const debtRepaid = Amount.fromMidgard(data?.debt_repaid);
-        const debtCurrent = Amount.fromMidgard(data?.debt_current);
+        const collateralDeposited = Amount.fromAssetAmount(
+          data?.collateralDeposited || '0',
+          asset.decimal,
+        );
+        const collateralWithdrawn = Amount.fromAssetAmount(
+          data?.collateralWithdrawn || '0',
+          asset.decimal,
+        );
+        const collateralCurrent = Amount.fromAssetAmount(
+          data?.collateralCurrent || '0',
+          asset.decimal,
+        );
+        const debtIssued = Amount.fromAssetAmount(data?.debtIssued || '0', 8);
+        const debtRepaid = Amount.fromAssetAmount(data?.debtRepaid || '0', 8);
+        const debtCurrent = Amount.fromAssetAmount(data?.debtCurrent || '0', 8);
 
         return collateralCurrent.gt(0)
           ? {
@@ -41,7 +50,8 @@ export const useLoans = () => {
               debtCurrent,
               debtIssued,
               debtRepaid,
-              lastOpenHeight: data?.last_open_height || 0,
+              lastOpenHeight: data?.lastOpenHeight || 0,
+              ltvPercentage: data?.ltvPercentage,
             }
           : null;
       }

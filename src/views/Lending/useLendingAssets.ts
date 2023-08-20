@@ -19,9 +19,10 @@ export function useLendingAssets() {
           asset,
           derivedDepthPercentage: Number(assetRes.derivedDepthPercentage),
           balance: isWalletConnected(asset.L1Chain as Chain) ? getMaxBalance(asset) : undefined,
-          extraInfo: assetRes.loanCr,
+          extraInfo: assetRes.ltvPercentage,
           filled: assetRes.filledPercentage ? Number(assetRes.filledPercentage) : undefined,
           lendingAvailable: assetRes.lendingAvailable,
+          ltvPercentage: assetRes.ltvPercentage,
         };
       })
       .filter((asset) => asset.lendingAvailable);

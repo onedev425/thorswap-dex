@@ -17,7 +17,7 @@ import { useBalance } from 'hooks/useBalance';
 import { useMimir } from 'hooks/useMimir';
 import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
 import { useTCBlockTimer } from 'hooks/useTCBlockTimer';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { AnnouncementType } from 'store/externalConfig/types';
 import { useAppDispatch } from 'store/store';
@@ -30,6 +30,7 @@ import { useLendingAssets } from 'views/Lending/useLendingAssets';
 import { useLendingStatus } from 'views/Lending/useLendingStatus';
 import { useLoans } from 'views/Lending/useLoans';
 import { VirtualDepthSlippageInfo } from 'views/Lending/VirtualDepthSippageInfo';
+import { CustomRecipientInput } from 'views/Swap/CustomRecipientInput';
 import { useAssetsWithBalanceFromTokens } from 'views/Swap/hooks/useAssetsWithBalanceFromTokens';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';
 
@@ -73,6 +74,7 @@ const Borrow = () => {
   const [borrowAsset, setBorrowAsset] = useState(
     AssetEntity.fromAssetString(ETH_USDC_IDENTIFIER) as AssetEntity,
   );
+  const [recipient, setRecipient] = useState('');
 
   const collateralLendingAsset = useMemo(() => {
     return lendingAssets.find((asset) => asset.asset.eq(collateralAsset));
@@ -99,6 +101,10 @@ const Borrow = () => {
     [wallet, borrowAsset.L1Chain],
   );
 
+  useEffect(() => {
+    setRecipient(borrowAddress || '');
+  }, [borrowAddress]);
+
   const {
     expectedDebt,
     expectedOutput,
@@ -108,13 +114,14 @@ const Borrow = () => {
     hasError,
     borrowQuote,
     collateralAmount,
+    slippageAmountUsd,
   } = useBorrow({
     slippage,
     senderAddress: collateralAddress,
-    recipientAddress: borrowAddress,
+    recipientAddress: recipient,
     amount: amount.assetAmount.toNumber(),
-    assetIn: collateralAsset.toString(),
-    assetOut: borrowAsset.toString(),
+    assetIn: collateralAsset,
+    assetOut: borrowAsset,
   });
   const borrowUsdPrice = usePoolAssetPriceInUsd({
     asset: borrowAsset,
@@ -136,14 +143,22 @@ const Borrow = () => {
   );
 
   const handleSwapkitAction = useCallback(async () => {
-    const { openLoan, closeLoan } = await (await import('services/swapKit')).getSwapKitClient();
+    const { openLoan, closeLoan, validateAddress } = await (
+      await import('services/swapKit')
+    ).getSwapKitClient();
+
+    const validAddress = validateAddress({ chain: borrowAsset.L1Chain, address: recipient });
+    if (typeof validAddress === 'boolean' && !validAddress) {
+      throw new Error('Invalid recipient address');
+    }
+
     const params = {
       assetAmount: new AssetAmount(collateralAsset, amount),
       assetTicker: `${borrowAsset.getAssetObj().chain}.${borrowAsset.getAssetObj().ticker}`,
     };
 
     return isBorrow ? openLoan({ ...params, memo }) : closeLoan(params);
-  }, [amount, collateralAsset, isBorrow, borrowAsset, memo]);
+  }, [borrowAsset, recipient, collateralAsset, amount, isBorrow, memo]);
 
   const handleBorrowSubmit = useCallback(
     async (expectedAmount: string) => {
@@ -170,6 +185,7 @@ const Borrow = () => {
             updateTransaction({
               id,
               txid,
+              timestamp: new Date(),
               advancedTracker: true,
               initialPayload: borrowQuote
                 ? { isLending: true, ...borrowQuote, fromAddress: collateralAddress }
@@ -196,11 +212,13 @@ const Borrow = () => {
 
   const buttonDisabled = useMemo(
     () =>
+      !recipient ||
       lendingStatus?.paused ||
       amount.lte(Amount.fromAssetAmount(0, collateralAsset.decimal)) ||
       (isBorrow && collateralBalance && amount.gt(collateralBalance)) ||
       isChainHalted[collateralAsset.L1Chain],
     [
+      recipient,
       lendingStatus?.paused,
       amount,
       collateralAsset.decimal,
@@ -211,7 +229,7 @@ const Borrow = () => {
     ],
   );
 
-  const tabLabel = tab === LendingTab.Borrow ? t('common.borrow') : t('common.repay');
+  const tabLabel = tab === LendingTab.Borrow ? t('common.borrow') : t('pcommon.repay');
   const selectedCollateralAsset = useMemo(
     () => ({
       asset: collateralAsset,
@@ -231,6 +249,18 @@ const Borrow = () => {
     [borrowAsset, expectedOutput, borrowBalance, borrowUsdPrice],
   );
 
+  const buttonLabel = useMemo(() => {
+    if (!recipient) {
+      return t('views.swap.connectOrFillRecipient');
+    }
+
+    if (!borrowQuote) {
+      return t('views.swap.noValidQuote');
+    }
+
+    return tabLabel;
+  }, [borrowQuote, recipient, tabLabel]);
+
   const maturityDays = useMemo(
     () => dayjs.duration(estimateTimeFromBlocks(MATURITY_BLOCKS)).asDays(),
     [estimateTimeFromBlocks],
@@ -246,9 +276,10 @@ const Borrow = () => {
         label: t('views.lending.depositFee'),
         value: (
           <VirtualDepthSlippageInfo
-            asset={collateralAsset}
+            asset={borrowAsset}
             depth={collateralLendingAsset?.derivedDepthPercentage || 0}
             slippage={slippageAmount}
+            slippageUsd={slippageAmountUsd}
           />
         ),
       },
@@ -277,11 +308,12 @@ const Borrow = () => {
       },
     ],
     [
-      collateralAsset,
+      borrowAsset,
       collateralLendingAsset?.derivedDepthPercentage,
       expectedDebtInfo,
       maturityDays,
       slippageAmount,
+      slippageAmountUsd,
     ],
   );
 
@@ -384,7 +416,7 @@ const Borrow = () => {
               <Box row className="justify-center gap-5">
                 <Box col className={classNames('flex h-full')}>
                   <Card
-                    className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-2 space-y-1 shadow-lg md:w-full md:h-auto"
+                    className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-2 space-y-1 shadow-lg md:w-full md:h-auto max-w-[440px]"
                     size="lg"
                   >
                     <Flex direction="column" gap={2}>
@@ -405,6 +437,24 @@ const Borrow = () => {
                           AssetListComponent={BorrowAssetSelectList}
                           assets={lendingAssets}
                           className="flex-1 !py-1"
+                          displayAssetTypeComponent={
+                            <Box center className="gap-1">
+                              <Text
+                                fontWeight="light"
+                                textStyle="caption"
+                                textTransform="uppercase"
+                                variant="secondary"
+                              >
+                                LTV
+                              </Text>
+
+                              <Text textStyle="caption" variant="primaryBtn">
+                                {collateralLendingAsset?.ltvPercentage
+                                  ? `${collateralLendingAsset.ltvPercentage}%`
+                                  : 'N/A'}
+                              </Text>
+                            </Box>
+                          }
                           onAssetChange={setCollateralAsset}
                           onValueChange={handleAmountChange}
                           poolAsset={selectedCollateralAsset}
@@ -426,6 +476,17 @@ const Borrow = () => {
                           poolAsset={selectedBorrowAsset}
                           selectedAsset={selectedBorrowAsset}
                         />
+
+                        {!!collateralAddress && (
+                          <Flex alignContent="stretch" flex={1} mt={1}>
+                            <CustomRecipientInput
+                              isOutputWalletConnected={!!borrowAddress}
+                              outputAssetL1Chain={borrowAsset.L1Chain}
+                              recipient={recipient}
+                              setRecipient={setRecipient}
+                            />
+                          </Flex>
+                        )}
                       </Flex>
 
                       <Flex mt={2}>
@@ -437,7 +498,7 @@ const Borrow = () => {
                         disabled={buttonDisabled}
                         handleSubmit={() => setIsConfirmOpen(true)}
                         hasError={!amount || hasError || lendingStatus?.paused}
-                        label={tabLabel}
+                        label={buttonLabel}
                         setIsConnectModalOpen={setIsConnectModalOpen}
                       />
                     </Flex>

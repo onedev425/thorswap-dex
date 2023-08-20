@@ -466,14 +466,16 @@
       "collateral": "Collateral",
       "collateralToDeposit": "Deposit Collateral",
       "collateralValue": "Collateral Value",
+      "totalCollateralValue": "Total Collateral Value",
       "collateralizationRatio": "Collateralization Ratio",
       "confirmRepay": "Confirm Repay",
       "debt": "Debt",
       "debtValue": "Debt Value",
+      "totalDebtValue": "Total Debt Value",
       "depositFee": "Deposit fee",
       "deposited": "Deposited",
       "expectedDebt": "Expected debt",
-      "header": "Open a loan.",
+      "header": "Open Loan",
       "lendingFee": "Lending fee",
       "lendingPaused": "Lending is currently paused",
       "liquidationDisclaimer": "0% interest, no liquidations or expiration.",
@@ -481,7 +483,7 @@
       "maturity": "Loan Term",
       "maturityDescription": "Repayment allowed after %{days} days",
       "maturityError": "Minimum loan term has not been reached",
-      "myLoans": "My Loans",
+      "myLoans": "Balances",
       "poolDepth": "Pool Depth",
       "repay": "Repay",
       "repayAmount": "Repay Amount",
@@ -496,7 +498,10 @@
         "low": "Slippage is currently low.",
         "medium": "Slippage is high. It might be lower later.'"
       },
-      "tooltipDescription": "Deposit native assets as collateral and borrow other assets with THORSwap LENDING"
+      "tooltipDescription": "Deposit native assets as collateral and borrow other assets with THORSwap LENDING",
+      "ltvRatio": "Loan to Value Ratio",
+      "capReached": "Cap reached",
+      "unlock": "Unlock"
     },
     "liquidity": {
       "ILPTooltip": "If you have ILP for you liquidity position it will be added to withdrawn amount.",

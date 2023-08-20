@@ -100,7 +100,7 @@ export const PanelInput = ({
               {...inputProps}
               stretch
               className={classNames('!font-medium flex-1', fontSizeClass)}
-              containerClassName={classNames('pt-2 pb-0 flex-1', {
+              containerClassName={classNames('pt-1 pb-0 flex-1', {
                 'flex-1': !!suffix,
               })}
               onBlur={onBlur}

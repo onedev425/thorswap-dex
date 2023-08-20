@@ -10,6 +10,7 @@ type Props = {
   selected?: Maybe<AssetEntity>;
   showAssetType?: boolean;
   logoURI?: string;
+  assetTypeComponent?: React.ReactNode;
 };
 
 export const AssetSelectButton = ({
@@ -18,11 +19,13 @@ export const AssetSelectButton = ({
   onClick,
   selected,
   showAssetType,
+  assetTypeComponent,
 }: Props) => {
   if (selected) {
     return (
       <AssetButton
         asset={selected}
+        assetTypeComponent={assetTypeComponent}
         className={className}
         logoURI={logoURI}
         onClick={onClick}

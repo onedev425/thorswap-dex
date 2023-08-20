@@ -12,6 +12,7 @@ type Props = {
   withChevron?: boolean;
   showAssetType?: boolean;
   logoURI?: string;
+  assetTypeComponent?: React.ReactNode;
 };
 
 export function AssetButton({
@@ -20,6 +21,7 @@ export function AssetButton({
   size = 'md',
   withChevron,
   showAssetType,
+  assetTypeComponent,
   onClick,
   logoURI,
 }: Props) {
@@ -27,37 +29,40 @@ export function AssetButton({
     <Button
       className={classNames(
         className,
-        '!rounded-full !h-10 !hover:bg-light-gray-primary border !border-solid !border-opacity-40 border-dark-gray-primary !hover:bg-dark-gray-primary',
+        '!rounded-full !h-10 !hover:bg-light-gray-primary border !border-solid !border-opacity-40 border-dark-gray-primary !hover:bg-dark-gray-primary inline-flex !min-w-fit !ps-0 !pe-0 px-0',
       )}
-      leftIcon={<AssetIcon asset={asset} logoURI={logoURI} size={28} />}
       onClick={onClick}
-      pl={withChevron ? '22px' : 1}
-      pr={withChevron ? '22px' : 4}
-      rightIcon={withChevron ? <Icon color="primary" name="chevronDown" /> : undefined}
       size={size}
       textTransform="uppercase"
       variant="tint"
     >
-      <Box col className="text-left">
-        <Text
-          className="!leading-5"
-          fontWeight="medium"
-          textStyle="subtitle2"
-          textTransform="uppercase"
-        >
-          {asset.ticker}
-        </Text>
-        {showAssetType && (
+      <Box center className="gap-2.5 mx-1">
+        <AssetIcon asset={asset} logoURI={logoURI} size={28} />
+        <Box col className="text-left">
           <Text
-            className="!leading-4"
-            fontWeight="normal"
-            textStyle="caption-xs"
+            className="!leading-5"
+            fontWeight="medium"
+            textStyle="subtitle2"
             textTransform="uppercase"
-            variant={asset.isSynth ? 'primaryBtn' : 'secondary'}
           >
-            {asset.type}
+            {asset.ticker}
           </Text>
-        )}
+          {showAssetType &&
+            (assetTypeComponent ? (
+              assetTypeComponent
+            ) : (
+              <Text
+                className="!leading-4"
+                fontWeight="normal"
+                textStyle="caption-xs"
+                textTransform="uppercase"
+                variant={asset.isSynth ? 'primaryBtn' : 'secondary'}
+              >
+                {asset.type}
+              </Text>
+            ))}
+        </Box>
+        {withChevron && <Icon color="primary" name="chevronDown" />}
       </Box>
     </Button>
   );

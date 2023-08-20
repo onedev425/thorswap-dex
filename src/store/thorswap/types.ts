@@ -289,13 +289,14 @@ export interface IThornameForAddressParams {
 export type LoansResponse = {
   owner: string;
   asset: string;
-  debt_issued: string;
-  debt_repaid: string;
-  debt_current: string;
-  collateral_current: string;
-  collateral_deposited: string;
-  collateral_withdrawn: string;
-  last_open_height: number;
+  debtIssued: string;
+  debtRepaid: string;
+  debtCurrent: string;
+  collateralCurrent: string;
+  collateralDeposited: string;
+  collateralWithdrawn: string;
+  lastOpenHeight: number;
+  ltvPercentage: string;
 };
 
 export type LendingStatusResponse = {
@@ -338,6 +339,8 @@ export type BorrowQuoteResponse = {
   expectedOutput: string;
   expectedOutputMaxSlippage: string;
   expectedDebtIssued: string;
+  expectedOutputMaxSlippageUSD: string;
+  expectedOutputUSD: string;
 };
 
 export type LendingAssetResponse = {
@@ -350,4 +353,5 @@ export type LendingAssetResponse = {
   derivedDepthPercentage: string;
   filledPercentage: string;
   lendingAvailable: boolean;
+  ltvPercentage: string;
 };
