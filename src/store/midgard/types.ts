@@ -167,6 +167,7 @@ export type MimirData = {
   TXOUTDELAYRATE: number;
   VIRTUALMULTSYNTHS: number;
   YGGFUNDRETRY: number;
+  PAUSELOANS: number;
 };
 
 export type ShareType = 'sym' | 'runeAsym' | 'assetAsym';

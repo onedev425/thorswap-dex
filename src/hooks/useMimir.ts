@@ -89,6 +89,10 @@ export const useMimir = () => {
 
   const synthCap = 2 * ((mimir.MAXSYNTHPERPOOLDEPTH || 0) / 10000);
 
+  // Pause loans
+  const isLendingPaused =
+    !mimir || typeof mimir.PAUSELOANS !== 'number' ? false : mimir.PAUSELOANS > 0;
+
   return {
     isBCHChainHalted,
     isBNBChainHalted,
@@ -110,5 +114,6 @@ export const useMimir = () => {
     totalPooledRune,
     isLoaded: mimirLoaded,
     synthCap,
+    isLendingPaused,
   };
 };

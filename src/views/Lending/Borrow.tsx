@@ -27,7 +27,6 @@ import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 import { BorrowAssetSelectList } from 'views/Lending/BorrowAssetSelectList';
 import { useLendingAssets } from 'views/Lending/useLendingAssets';
-import { useLendingStatus } from 'views/Lending/useLendingStatus';
 import { useLoans } from 'views/Lending/useLoans';
 import { VirtualDepthSlippageInfo } from 'views/Lending/VirtualDepthSippageInfo';
 import { CustomRecipientInput } from 'views/Swap/CustomRecipientInput';
@@ -60,6 +59,7 @@ const Borrow = () => {
   const { getMaxBalance } = useBalance();
   const { isChainHalted } = useMimir();
   const { wallet, setIsConnectModalOpen } = useWallet();
+  const { isLendingPaused } = useMimir();
 
   // output assets
   const { tokens } = useTokenList();
@@ -88,7 +88,6 @@ const Borrow = () => {
   const formatPrice = useFormatPrice();
 
   const { refreshLoans, totalBorrowed, totalCollateral, loansData, isLoading } = useLoans();
-  const { lendingStatus } = useLendingStatus();
 
   const { estimateTimeFromBlocks } = useTCBlockTimer();
 
@@ -213,13 +212,13 @@ const Borrow = () => {
   const buttonDisabled = useMemo(
     () =>
       !recipient ||
-      lendingStatus?.paused ||
+      isLendingPaused ||
       amount.lte(Amount.fromAssetAmount(0, collateralAsset.decimal)) ||
       (isBorrow && collateralBalance && amount.gt(collateralBalance)) ||
       isChainHalted[collateralAsset.L1Chain],
     [
       recipient,
-      lendingStatus?.paused,
+      isLendingPaused,
       amount,
       collateralAsset.decimal,
       collateralAsset.L1Chain,
@@ -336,7 +335,7 @@ const Borrow = () => {
         title={t('views.lending.borrow')}
       />
 
-      {lendingStatus?.paused && (
+      {isLendingPaused && (
         <Announcement
           announcement={{ type: AnnouncementType.Error, message: t('views.lending.lendingPaused') }}
           showClose={false}
@@ -497,7 +496,7 @@ const Borrow = () => {
                         address={collateralAddress}
                         disabled={buttonDisabled}
                         handleSubmit={() => setIsConfirmOpen(true)}
-                        hasError={!amount || hasError || lendingStatus?.paused}
+                        hasError={!amount || hasError || isLendingPaused}
                         label={buttonLabel}
                         setIsConnectModalOpen={setIsConnectModalOpen}
                       />
