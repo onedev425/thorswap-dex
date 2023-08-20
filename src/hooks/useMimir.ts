@@ -91,7 +91,7 @@ export const useMimir = () => {
 
   // Pause loans
   const isLendingPaused =
-    !mimir || typeof mimir.PAUSELOANS !== 'number' ? false : mimir.PAUSELOANS > 0;
+    !mimir || typeof mimir.PAUSELOANS !== 'number' ? true : mimir.PAUSELOANS > 0;
 
   return {
     isBCHChainHalted,
