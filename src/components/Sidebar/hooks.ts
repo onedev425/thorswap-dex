@@ -5,15 +5,12 @@ import { t } from 'services/i18n';
 import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/router';
 import { useApp } from 'store/app/hooks';
 import { useWallet } from 'store/wallet/hooks';
-import { useLendingAssets } from 'views/Lending/useLendingAssets';
 import { useVesting } from 'views/Vesting/hooks';
 
 export const useSidebarOptions = () => {
   const { checkAlloc } = useVesting({ onlyCheckAlloc: true });
   const { wallet, hasVestingAlloc } = useWallet();
   const { multisigVisible } = useApp();
-  const lendingAssets = useLendingAssets();
-  const isLendingAvailable = useMemo(() => lendingAssets.length > 0, [lendingAssets]);
 
   const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
 
@@ -59,15 +56,11 @@ export const useSidebarOptions = () => {
     // Leave it for key
     label: ' ',
     hasBackground: true,
-    // @ts-expect-error
     children: [
       { iconName: 'swap', href: ROUTES.Swap, label: t('components.sidebar.swap') },
       { iconName: 'piggyBank', href: ROUTES.Earn, label: t('components.sidebar.earn') },
-    ].concat(
-      isLendingAvailable
-        ? [{ iconName: 'lending', href: ROUTES.Lending, label: t('components.sidebar.lending') }]
-        : [],
-    ),
+      { iconName: 'lending', href: ROUTES.Lending, label: t('components.sidebar.lending') },
+    ],
   };
 
   const sidebarOptions = useMemo(() => {
