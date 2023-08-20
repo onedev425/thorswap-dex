@@ -184,6 +184,7 @@ export const isBTCAsset = ({ ticker, L1Chain }: AssetEntity) =>
 
 export const RUNEAsset = getSignatureAssetFor(Chain.THORChain);
 export const BTCAsset = getSignatureAssetFor(Chain.Bitcoin);
+export const ETHAsset = getSignatureAssetFor(Chain.Ethereum);
 export const THORAsset = getSignatureAssetFor('ETH_THOR');
 export const USDAsset = new AssetEntity(Chain.THORChain, 'USD', false, 'USD');
 

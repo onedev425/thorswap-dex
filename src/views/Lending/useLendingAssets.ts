@@ -1,4 +1,5 @@
-import { AssetEntity as Asset, Chain } from '@thorswap-lib/swapkit-core';
+import { Chain } from '@thorswap-lib/swapkit-core';
+import { BTCAsset, ETHAsset } from 'helpers/assets';
 import { useBalance } from 'hooks/useBalance';
 import { useMemo } from 'react';
 import { useGetLendingAssetsQuery } from 'store/thorswap/api';
@@ -12,7 +13,7 @@ export function useLendingAssets() {
     if (!data) return [];
     return data
       .map((assetRes) => {
-        const asset = Asset.fromAssetString(assetRes.asset) as Asset;
+        const asset = assetRes.asset.includes('ETH') ? ETHAsset : BTCAsset;
 
         return {
           ...assetRes,
