@@ -271,7 +271,10 @@ const Earn = () => {
                   </Link>
                 </Text>
 
-                <Tooltip content={t('views.savings.tooltipDescription')} place="bottom">
+                <Tooltip
+                  content={t('views.savings.tooltipDescription', { asset: asset.name })}
+                  place="bottom"
+                >
                   <Icon color="primaryBtn" name="infoCircle" size={24} />
                 </Tooltip>
               </Box>
