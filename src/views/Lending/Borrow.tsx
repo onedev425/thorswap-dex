@@ -63,7 +63,7 @@ const Borrow = () => {
 
   // output assets
   const { tokens } = useTokenList();
-  const outputAssetList = useAssetsWithBalanceFromTokens(tokens);
+  const outputAssetList = useAssetsWithBalanceFromTokens(tokens, true);
   const { assetInputProps, assets: outputAssets } = useAssetListSearch(outputAssetList, {
     thorchainPriority: true,
   });

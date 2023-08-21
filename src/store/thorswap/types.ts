@@ -70,6 +70,7 @@ export type Token = {
   price_usd?: number;
   provider: string;
   ticker: string;
+  tokenlist?: string;
 };
 
 export type GetTokenPriceIdentifiers = {
