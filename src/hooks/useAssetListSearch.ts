@@ -78,7 +78,7 @@ export const useAssetListSearch = (
       }
     });
 
-    const uniqueAssets = uniqBy(sortedAssets, ({ asset }) => asset.toString());
+    const uniqueAssets: AssetSelectType[] = uniqBy(sortedAssets, ({ asset }) => asset.toString());
 
     const supportedAssets = uniqueAssets.filter(
       ({ asset }) =>

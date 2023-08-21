@@ -1,6 +1,6 @@
 import { Flex, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
 import { Amount, AssetAmount, AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { Chain, UTXOChainList } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Announcement } from 'components/Announcements/Announcement/Announcement';
 import { AssetInput } from 'components/AssetInput';
@@ -69,12 +69,18 @@ const Borrow = () => {
   });
 
   const [slippage, setSlippage] = useState(10);
-  const [collateralAsset, setCollateralAsset] = useState(getSignatureAssetFor(Chain.Bitcoin));
+  const [collateralAsset, setCollateralAsset] = useState(getSignatureAssetFor(Chain.Ethereum));
   const [amount, setAmount] = useState(Amount.fromAssetAmount(0, collateralAsset.decimal));
   const [borrowAsset, setBorrowAsset] = useState(
     AssetEntity.fromAssetString(ETH_USDC_IDENTIFIER) as AssetEntity,
   );
   const [recipient, setRecipient] = useState('');
+
+  useEffect(() => {
+    if (UTXOChainList.includes(collateralAsset.chain) && borrowAsset.type !== 'Native') {
+      setBorrowAsset(getSignatureAssetFor(Chain.Ethereum));
+    }
+  }, [collateralAsset, borrowAsset]);
 
   const collateralLendingAsset = useMemo(() => {
     return lendingAssets.find((asset) => asset.asset.eq(collateralAsset));
@@ -469,7 +475,14 @@ const Borrow = () => {
                         <AssetInput
                           {...assetInputProps}
                           disabled
-                          assets={outputAssets.filter(isLedgerLiveSupportedInputAsset)}
+                          assets={outputAssets
+                            .filter(isLedgerLiveSupportedInputAsset)
+                            // FIlter out UTXO because TC does not support shorthand assets yet
+                            .filter(
+                              (outputAsset) =>
+                                !UTXOChainList.includes(collateralAsset.chain) ||
+                                outputAsset.asset.type === 'Native',
+                            )}
                           className="flex-1 !py-1"
                           onAssetChange={setBorrowAsset}
                           poolAsset={selectedBorrowAsset}
