@@ -120,6 +120,7 @@ const Borrow = () => {
     borrowQuote,
     collateralAmount,
     slippageAmountUsd,
+    isFetching,
   } = useBorrow({
     slippage,
     senderAddress: collateralAddress,
@@ -512,6 +513,7 @@ const Borrow = () => {
                         handleSubmit={() => setIsConfirmOpen(true)}
                         hasError={!amount || hasError || isLendingPaused}
                         label={buttonLabel}
+                        loading={isFetching}
                         setIsConnectModalOpen={setIsConnectModalOpen}
                       />
                     </Flex>

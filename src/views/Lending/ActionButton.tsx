@@ -30,7 +30,13 @@ export const ActionButton = memo(
           </Button>
         </Box>
       ) : (
-        <Button stretch onClick={() => setIsConnectModalOpen(true)} size="lg" variant="fancy">
+        <Button
+          stretch
+          loading={loading}
+          onClick={() => setIsConnectModalOpen(true)}
+          size="lg"
+          variant="fancy"
+        >
           {t('common.connectWallet')}
         </Button>
       )}

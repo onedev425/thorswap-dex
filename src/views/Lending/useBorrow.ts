@@ -24,7 +24,11 @@ export const useBorrow = ({
   const debouncedSlippage = useDebouncedValue(slippage);
   const [memo, setMemo] = useState('');
 
-  const { currentData: data, error } = useGetBorrowQuoteQuery(
+  const {
+    currentData: data,
+    error,
+    isFetching,
+  } = useGetBorrowQuoteQuery(
     {
       assetIn: assetIn.toString(),
       assetOut: assetOut.toString(),
@@ -76,5 +80,6 @@ export const useBorrow = ({
     borrowQuote: data,
     slippageAmount,
     slippageAmountUsd,
+    isFetching,
   };
 };
