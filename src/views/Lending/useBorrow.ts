@@ -32,7 +32,7 @@ export const useBorrow = ({
     {
       assetIn: assetIn.toString(),
       assetOut: assetOut.toString(),
-      amount: debouncedAmount.toString(),
+      amount: parseFloat(debouncedAmount.toString()).toFixed(8),
       slippage: debouncedSlippage.toString(),
       senderAddress,
       recipientAddress,
