@@ -56,7 +56,7 @@ export const BorrowAssetSelectItem = memo(
                   </Text>
 
                   <Text textStyle="caption" variant="primaryBtn">
-                    {extraInfo ? `${extraInfo}%` : 'N/A'}
+                    {extraInfo || 'N/A'}
                   </Text>
 
                   <Icon color="secondary" name="infoCircle" size={14} />
