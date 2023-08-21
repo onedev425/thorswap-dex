@@ -138,8 +138,8 @@ export const SwapSubmitButton = ({
   }, [isTradingHalted, quoteError, inputAsset.isSynth, outputAsset.isSynth]);
 
   const isApproveRequired = useMemo(
-    () => isInputWalletConnected && isApproved === false,
-    [isInputWalletConnected, isApproved],
+    () => hasQuote && isInputWalletConnected && isApproved === false,
+    [hasQuote, isInputWalletConnected, isApproved],
   );
 
   const isWalletRequired = useMemo(
@@ -167,7 +167,6 @@ export const SwapSubmitButton = ({
       ) : isApproveRequired && !quoteError ? (
         <Button
           stretch
-          error={!hasQuote}
           loading={!!numberOfPendingApprovals || isLoading}
           onClick={handleApprove}
           size="lg"

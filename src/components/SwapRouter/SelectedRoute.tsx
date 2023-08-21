@@ -85,7 +85,7 @@ export const SelectedRoute = memo(
         <Box col className="pl-4 py-1">
           <Box justify="between">
             <Box className="py-2">
-              <ProviderLogos providers={providers} size={32} />
+              <ProviderLogos className="pb-3" providers={providers} size={32} />
 
               {isApproved && (
                 <Box className={providers.length > 1 ? 'ml-12' : 'ml-2'}>

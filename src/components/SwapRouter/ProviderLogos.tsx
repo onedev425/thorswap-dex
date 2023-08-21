@@ -1,10 +1,11 @@
-import { Text } from '@chakra-ui/react';
+import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box } from 'components/Atomic';
+import { Box, Tooltip } from 'components/Atomic';
 import { providerLogoURL } from 'helpers/logoURL';
-import { Fragment, memo, useCallback, useMemo } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 
 type Props = {
+  className?: string;
   providers: string[];
   size?: number;
 };
@@ -38,54 +39,36 @@ export const normalizedProviderName = {
   'WOOFI-AVAX': 'WOOFI',
 };
 
-export const ProviderLogos = memo(({ size = 24, providers }: Props) => {
+export const ProviderLogos = memo(({ className, size = 24, providers }: Props) => {
   const uniswapBadge = useCallback(
     (provider: string) => (provider.toLowerCase().includes('uniswap') ? provider.slice(-2) : ''),
     [],
   );
 
-  const arrowStyle = useMemo(
-    () => ({
-      fontSize: size * 0.7,
-      marginTop: size / 5,
-    }),
-    [size],
-  );
-  const providerStyle = useMemo(() => ({ fontSize: size / 3 }), [size]);
   const shortenProviders = useMemo(() => providers.map((p) => p.split('-')[0]), [providers]);
 
   return (
-    <Box row className="px-1 max-w-[100px]" flex={1} justify="between">
-      {shortenProviders.map((provider, index, array) => {
+    <Box row className="px-1 max-w-[100px]" flex={1} flexDirection="row-reverse" justify="between">
+      {shortenProviders.map((provider, index) => {
         const providerDisplayName = normalizedProviderName[provider as 'THORCHAIN'] || provider;
+        const firstItem = index === 0;
 
         return (
-          <Fragment key={provider}>
-            <Box center col>
+          <Box
+            className={classNames(className, {
+              'z-10': firstItem,
+              '-z-0 -ml-2': !firstItem,
+            })}
+            key={provider}
+          >
+            <Tooltip content={providerDisplayName}>
               <AssetIcon
                 badge={uniswapBadge(provider)}
                 logoURI={providerLogoURL(provider)}
                 size={size}
               />
-
-              <Text
-                className="text-center"
-                style={{
-                  ...providerStyle,
-                  fontSize:
-                    providerDisplayName.length > 8
-                      ? providerStyle.fontSize * 0.9
-                      : providerStyle.fontSize,
-                }}
-                textStyle="caption-xs"
-                variant="secondary"
-              >
-                {providerDisplayName}
-              </Text>
-            </Box>
-
-            <Text style={arrowStyle}>{index !== array.length - 1 && '→'}</Text>
-          </Fragment>
+            </Tooltip>
+          </Box>
         );
       })}
     </Box>
