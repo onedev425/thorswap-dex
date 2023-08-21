@@ -1,6 +1,6 @@
 export enum PoolCategoryOption {
   Savers = 'Savers',
-  All = 'All',
+  All = 'Liquidity Pools',
 }
 
 export const poolCategoryOptions = [PoolCategoryOption.Savers, PoolCategoryOption.All];

@@ -1,8 +1,8 @@
 import { Text } from '@chakra-ui/react';
 import { Amount } from '@thorswap-lib/swapkit-core';
 import { Box } from 'components/Atomic';
-import { useRuneToCurrency } from 'hooks/useRuneToCurrency';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
+import { useApp } from 'store/app/hooks';
 
 type Props = {
   title: string;
@@ -10,10 +10,15 @@ type Props = {
 };
 
 export const ChartHeader = memo(({ values, title }: Props) => {
-  const runeToCurrency = useRuneToCurrency();
   const lastValue = values?.[values?.length - 1] ?? 0;
+  const { baseCurrency } = useApp();
 
-  const formattedValue = runeToCurrency(Amount.fromNormalAmount(lastValue));
+  const formattedValue = useMemo(() => {
+    const amountObj = Amount.fromNormalAmount(lastValue).toAbbreviate(2);
+    if (baseCurrency.includes('USD')) return `$ ${amountObj}`;
+    if (baseCurrency.includes('RUNE')) return `ᚱ ${amountObj}`;
+    return `${amountObj} ${baseCurrency}`;
+  }, [baseCurrency, lastValue]);
 
   return (
     <Box alignCenter className="lg:flex-row" justify="start">
