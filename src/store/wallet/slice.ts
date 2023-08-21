@@ -102,25 +102,19 @@ const walletSlice = createSlice({
         state.chainWalletLoading[chain] = false;
         if (!data?.address || !data?.balance) {
           state.wallet[chain] = null;
-        } else {
+        } else if (data?.address && data?.balance && data?.walletType) {
           state.oldBalance[chain] = data.balance;
-          const balance =
-            data?.balance?.filter(
-              ({ asset }) =>
-                !state.hiddenAssets[chain]?.includes(asset.toString()) &&
-                /**
-                 * Filter out assets with invalid symbols or scam tokens with symbols like ' ', '/', '.'
-                 */
-                !(
-                  !asset.symbol ||
-                  [' ', '/', ...(asset.L1Chain !== Chain.Avalanche ? ['.'] : [])].some((c) =>
-                    asset.symbol.includes(c),
-                  )
-                ),
-            ) || null;
+          const balance = data.balance.filter(
+            ({ asset }) =>
+              !state.hiddenAssets[chain]?.includes(asset.toString()) &&
+              !(!asset.symbol || [' ', '/'].some((c) => asset.symbol.includes(c))),
+          );
 
-          // @ts-expect-error
-          state.wallet[chain] = { ...data, balance };
+          state.wallet[chain] = {
+            walletType: data.walletType,
+            address: data.address,
+            balance,
+          };
         }
       })
       .addCase(walletActions.getWalletByChain.rejected, (state, { meta: { arg: chain } }) => {

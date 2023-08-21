@@ -20,7 +20,7 @@ export const CountDownIndicator = memo(
     const { themeType } = useApp();
     const { refetch: refetchGasHistory } = useGetGasHistoryQuery();
     const playing = useRef(false);
-    const interval = useRef<NodeJS.Timer>(setTimeout(() => {}, 0));
+    const interval = useRef<NodeJS.Timeout>(setTimeout(() => {}, 0));
     const lightTheme = themeType === ThemeType.Light;
     const trailColor = lightTheme ? '#E6E9F5' : '#273855';
     const strokeColor = lightTheme ? '#7C859F' : '#75849D';

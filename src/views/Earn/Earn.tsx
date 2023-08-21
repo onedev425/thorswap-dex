@@ -131,12 +131,12 @@ const Earn = () => {
     ).getSwapKitClient();
 
     return isDeposit
-      ? addSavings(
-          new AssetAmount(
+      ? addSavings({
+          assetAmount: new AssetAmount(
             asset,
             Amount.fromAssetAmount(amount.assetAmount.toString(), asset.decimal),
           ),
-        )
+        })
       : withdrawSavings({ asset, percent: withdrawPercent });
   }, [amount, asset, isDeposit, withdrawPercent]);
 
