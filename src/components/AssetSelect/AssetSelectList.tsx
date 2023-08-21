@@ -7,7 +7,7 @@ import { genericBgClasses } from 'components/constants';
 import { Input } from 'components/Input';
 import { TabsSelect } from 'components/TabsSelect';
 import useWindowSize from 'hooks/useWindowSize';
-import { useCallback, useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { FixedSizeList as List } from 'react-window';
 import { t } from 'services/i18n';
 import { IS_LEDGER_LIVE } from 'settings/config';
@@ -35,6 +35,12 @@ export const AssetSelectList = ({
     onSelect,
     onClose,
   });
+
+  const synthsEnabled = useMemo(
+    () => assets && assets.some((asset) => asset.asset.type === 'Synth'),
+    [assets],
+  );
+
   const assetFilterTypes = useAssetFilterTypes();
 
   const handleSelect = useCallback(
@@ -103,7 +109,9 @@ export const AssetSelectList = ({
             <TabsSelect
               buttonStyle={{ px: 2 }}
               onChange={setTypeFilterOption}
-              tabs={assetFilterTypes}
+              tabs={assetFilterTypes.filter(
+                (assetFilterType) => synthsEnabled || assetFilterType.value !== 'synth',
+              )}
               value={typeFilter}
             />
           )}

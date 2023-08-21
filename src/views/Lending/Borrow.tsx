@@ -482,7 +482,8 @@ const Borrow = () => {
                               (outputAsset) =>
                                 !UTXOChainList.includes(collateralAsset.chain) ||
                                 outputAsset.asset.type === 'Native',
-                            )}
+                            )
+                            .filter((outputAsset) => outputAsset.asset.type !== 'Synth')}
                           className="flex-1 !py-1"
                           onAssetChange={setBorrowAsset}
                           poolAsset={selectedBorrowAsset}
