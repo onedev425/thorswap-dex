@@ -33,7 +33,7 @@ export const useBorrow = ({
       senderAddress,
       recipientAddress,
     },
-    { skip: !debouncedAmount },
+    { skip: !debouncedAmount, refetchOnMountOrArgChange: true },
   );
 
   const expectedOutput = useMemo(() => {

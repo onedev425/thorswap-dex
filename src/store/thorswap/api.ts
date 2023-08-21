@@ -97,6 +97,7 @@ export const thorswapApi = createApi({
 
         return `/aggregator/lending/borrow?${queryParams.toString()}`;
       },
+      keepUnusedDataFor: 0,
     }),
 
     getRepayValue: build.query<{ repayAssetAmount: string }, any>({

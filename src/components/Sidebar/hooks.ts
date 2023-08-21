@@ -59,7 +59,12 @@ export const useSidebarOptions = () => {
     children: [
       { iconName: 'swap', href: ROUTES.Swap, label: t('components.sidebar.swap') },
       { iconName: 'piggyBank', href: ROUTES.Earn, label: t('components.sidebar.earn') },
-      { iconName: 'lending', href: ROUTES.Lending, label: t('components.sidebar.lending') },
+      {
+        iconName: 'lending',
+        href: ROUTES.Lending,
+        label: t('components.sidebar.lending'),
+        beta: true,
+      },
     ],
   };
 
