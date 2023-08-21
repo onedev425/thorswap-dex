@@ -56,11 +56,7 @@ export const SwapRoute = memo(
 
     const shortPath = useMemo(() => {
       const pathParts = path.split(' -> ')?.map((part) => part.split('-')?.[0]);
-      const [step1, step2, ...rest] = pathParts;
-
-      return rest.length > 1
-        ? `${step1} → ${step2} ... ${rest[rest.length - 1]}`
-        : pathParts.join(' → ');
+      return `${pathParts[0]} → ${pathParts[pathParts.length - 1]}`;
     }, [path]);
 
     const expectedOutputPrice = useMemo(
