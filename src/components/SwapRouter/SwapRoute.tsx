@@ -71,16 +71,14 @@ export const SwapRoute = memo(
     return (
       <HighlightCard className="!px-3 !py-1.5 !gap-0" isFocused={selected} onClick={onClick}>
         <Box justify="between">
-          <Box className="py-2">
+          <Box alignCenter className="py-2">
             <ProviderLogos providers={providers} />
             {isApproved && (
-              <Box className={providers.length > 1 ? 'ml-6' : ''}>
-                <HoverIcon
-                  iconName="approved"
-                  size={18}
-                  tooltip={t('views.swap.routeContractApproved')}
-                />
-              </Box>
+              <HoverIcon
+                iconName="approved"
+                size={18}
+                tooltip={t('views.swap.routeContractApproved')}
+              />
             )}
           </Box>
 

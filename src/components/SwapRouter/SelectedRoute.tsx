@@ -84,14 +84,10 @@ export const SelectedRoute = memo(
 
         <Box col className="pl-4 py-1">
           <Box justify="between">
-            <Box className="py-2">
-              <ProviderLogos className="pb-3" providers={providers} size={32} />
+            <Box className="pt-3">
+              <ProviderLogos className="pb-3" providers={providers} size={30} />
 
-              {isApproved && (
-                <Box className={providers.length > 1 ? 'ml-12' : 'ml-2'}>
-                  <HoverIcon iconName="approved" size={22} />
-                </Box>
-              )}
+              {isApproved && <HoverIcon iconName="approved" size={22} />}
             </Box>
 
             <Box col className="pr-2" justify="end">
