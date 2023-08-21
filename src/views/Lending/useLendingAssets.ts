@@ -22,7 +22,7 @@ export function useLendingAssets() {
           balance: isWalletConnected(asset.L1Chain as Chain) ? getMaxBalance(asset) : undefined,
           extraInfo:
             assetRes.ltvPercentage && assetRes.ltvPercentage !== 'NaN'
-              ? `${assetRes.ltvPercentage}%`
+              ? assetRes.ltvPercentage
               : undefined,
           filled: assetRes.filledPercentage ? Number(assetRes.filledPercentage) : undefined,
           lendingAvailable: assetRes.lendingAvailable,

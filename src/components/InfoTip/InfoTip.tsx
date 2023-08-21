@@ -7,7 +7,7 @@ import { ReactNode } from 'react';
 
 type Props = {
   className?: string;
-  title?: string;
+  title?: string | ReactNode;
   content?: string | ReactNode;
   children?: ReactNode;
   onClose?: () => void;
@@ -51,7 +51,7 @@ export const InfoTip = ({
             <Box>
               {icons[type]}
 
-              <Text className="mx-2">{title}</Text>
+              {typeof title === 'string' ? <Text className="mx-2">{title}</Text> : title}
             </Box>
           )}
 

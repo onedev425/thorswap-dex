@@ -1,8 +1,9 @@
 import { Text } from '@chakra-ui/react';
 import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Icon } from 'components/Atomic';
+import { Box, Icon, Link } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
+import { InfoTip } from 'components/InfoTip';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
@@ -22,6 +23,8 @@ type Props = {
   collateralAsset?: AssetEntity;
   networkFee?: Amount;
 };
+
+const LENDING_DOCS = 'https://twitter.com/THORChain/status/1693423215580958884';
 
 export const LendingConfirmModal = ({
   isOpened,
@@ -158,6 +161,23 @@ export const LendingConfirmModal = ({
             }
           />
         ))}
+
+        <InfoTip
+          className="mt-4"
+          title={
+            <>
+              <Text mx={2}>
+                {t('views.lending.experimentalDisclaimer')}{' '}
+                <Link className="text-twitter-blue cursor-pointer" to={LENDING_DOCS}>
+                  <Text fontWeight="medium" noOfLines={1} variant="blue">
+                    {t('views.lending.riskDisclaimer')} →
+                  </Text>
+                </Link>
+              </Text>
+            </>
+          }
+          type="warn"
+        />
       </Box>
     </ConfirmModal>
   );

@@ -501,7 +501,10 @@
       "tooltipDescription": "Deposit native assets as collateral and borrow other assets with THORSwap LENDING",
       "ltvRatio": "Loan to Value Ratio",
       "capReached": "Cap reached",
-      "unlock": "Unlock"
+      "unlock": "Unlock",
+      "experimentalDisclaimer": "Lending feature is experimental.",
+      "riskDisclaimer": " Understand the risks",
+      "crRatio": "Collateralization Ratio: %{cr}%"
     },
     "liquidity": {
       "ILPTooltip": "If you have ILP for you liquidity position it will be added to withdrawn amount.",

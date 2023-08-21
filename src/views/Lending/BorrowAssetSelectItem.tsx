@@ -16,7 +16,8 @@ type Props = AssetSelectType & {
 
 export const BorrowAssetSelectItem = memo(
   ({ asset, logoURI, select, extraInfo, isSelected, balance, filled }: Props) => {
-    const isLimitReached = Number(extraInfo) >= 100;
+    const isLimitReached = Number(filled) >= 100;
+    const cr = ((100 / Number(extraInfo)) * 100).toFixed(2);
 
     return (
       <Box
@@ -44,7 +45,7 @@ export const BorrowAssetSelectItem = memo(
               </Text>
             </Box>
             <Box row className="gap-x-2 justify-between pr-2">
-              <Tooltip content={t('views.lending.ltvRatio')}>
+              <Tooltip content={cr ? t('views.lending.crRatio', { cr }) : ''}>
                 <Box center className="gap-1">
                   <Text
                     fontWeight="light"
@@ -56,7 +57,7 @@ export const BorrowAssetSelectItem = memo(
                   </Text>
 
                   <Text textStyle="caption" variant="primaryBtn">
-                    {extraInfo || 'N/A'}
+                    {extraInfo ? `${extraInfo}%` : 'N/A'}
                   </Text>
 
                   <Icon color="secondary" name="infoCircle" size={14} />
