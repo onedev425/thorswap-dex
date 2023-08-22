@@ -1,8 +1,8 @@
 import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { SORTED_EARN_ASSETS } from 'settings/chain';
 import { getSaverData, getSaverPools } from 'store/midgard/actions';
+import { useMidgard } from 'store/midgard/hooks';
 import { ThornodePoolType } from 'store/midgard/types';
 import { useWallet } from 'store/wallet/hooks';
 import { SaverPosition } from 'views/Earn/types';
@@ -11,6 +11,8 @@ import { getSaverPoolNameForAsset } from 'views/Earn/utils';
 export const useSaverPositions = () => {
   const { wallet, isWalletLoading } = useWallet();
   const [positions, setPositions] = useState<SaverPosition[]>([]);
+  const { getPoolsFromState } = useMidgard();
+  const pools = getPoolsFromState();
   const [synthAvailability, setSynthAvailability] = useState<Record<Chain, boolean>>();
   const [thornodePools, setThornodePools] = useState<ThornodePoolType[]>([]);
 
@@ -58,11 +60,15 @@ export const useSaverPositions = () => {
   const refreshPositions = useCallback(async () => {
     if (isWalletLoading) return;
 
-    const promises = SORTED_EARN_ASSETS.map(getSaverPosition);
+    const saversAssets = pools
+      .filter((pool) => pool.detail.saversDepth !== '0' && pool.detail.saversDepth !== '0')
+      .map((pool) => pool.asset);
+
+    const promises = saversAssets.map(getSaverPosition);
 
     const pos = await Promise.all(promises);
     setPositions(pos.filter(Boolean) as SaverPosition[]);
-  }, [getSaverPosition, isWalletLoading]);
+  }, [getSaverPosition, isWalletLoading, pools]);
 
   const getPosition = useCallback(
     (asset: Asset) => saverPositions.find((item) => item.asset.eq(asset)),

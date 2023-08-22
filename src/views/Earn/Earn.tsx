@@ -24,7 +24,6 @@ import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
 import useWindowSize from 'hooks/useWindowSize';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
-import { SORTED_EARN_ASSETS } from 'settings/chain';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
@@ -42,8 +41,8 @@ import { useSaverPositions } from './useEarnPositions';
 
 const Earn = () => {
   const appDispatch = useAppDispatch();
-  const aprAssets = useAssetsWithApr(SORTED_EARN_ASSETS);
-  const balanceAssets = useAssetsWithBalance(SORTED_EARN_ASSETS);
+  const aprAssets = useAssetsWithApr();
+  const balanceAssets = useAssetsWithBalance();
   const hardCapReached = useCheckHardCap();
 
   const listAssets = useMemo(
