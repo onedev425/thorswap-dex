@@ -94,12 +94,17 @@ export const transactionBorderColors: Record<TransactionStatus, string> = {
 };
 
 export const cutTxPrefix = (tx = '', prefix = '0x') => {
-  const isHex = tx.startsWith(prefix);
-  const isUpperHex = tx.startsWith(prefix.toUpperCase());
+  /**
+   * Temporary fix to figure out dev quotes
+   */
+  const stringTx = String(tx);
 
-  if (isHex) return tx.slice(prefix.length);
-  if (isUpperHex) return tx.toLowerCase().slice(prefix.length).toUpperCase();
-  return tx;
+  const isHex = stringTx.startsWith(prefix);
+  const isUpperHex = stringTx.startsWith(prefix.toUpperCase());
+
+  if (isHex) return stringTx.slice(prefix.length);
+  if (isUpperHex) return stringTx.toLowerCase().slice(prefix.length).toUpperCase();
+  return stringTx;
 };
 
 export const useTxLabelUpdate = ({
