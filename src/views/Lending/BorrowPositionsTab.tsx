@@ -1,5 +1,6 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import BigNumber from 'bignumber.js';
 import { Button, Icon } from 'components/Atomic';
 import { ReloadButton } from 'components/ReloadButton';
 import { useFormatPrice } from 'helpers/formatPrice';
@@ -17,7 +18,7 @@ type Props = {
   setCollateralAsset: (value: AssetEntity) => void;
   refreshLoans: () => void;
   totalBorrowed?: Amount;
-  totalCollateral?: number;
+  totalCollateral?: BigNumber;
   loans: LoanPosition[];
   isLoading: boolean;
 };
@@ -46,12 +47,12 @@ export const BorrowPositionsTab = ({
     () => [
       {
         header: t('views.lending.totalCollateralValue'),
-        value: typeof totalCollateral === 'number' ? formatPrice(totalCollateral) : '-',
+        value: totalCollateral?.gt(0) ? formatPrice(totalCollateral.toNumber()) : '-',
         tooltipText: 'Fair market value of the assets used to secure a loan',
       },
       {
         header: t('views.lending.totalDebtValue'),
-        value: totalBorrowed ? formatPrice(totalBorrowed) : '-',
+        value: totalBorrowed?.gt(0) ? formatPrice(totalBorrowed) : '-',
         tooltipText: 'Value of borrowed assets',
       },
     ],

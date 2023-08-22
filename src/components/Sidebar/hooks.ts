@@ -62,7 +62,7 @@ export const useSidebarOptions = () => {
       {
         iconName: 'lending',
         href: ROUTES.Lending,
-        label: t('components.sidebar.lending'),
+        label: t('components.sidebar.borrow'),
         beta: true,
       },
     ],

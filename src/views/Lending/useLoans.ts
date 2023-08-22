@@ -1,4 +1,5 @@
 import { Amount, AssetEntity as Asset, Price } from '@thorswap-lib/swapkit-core';
+import BigNumber from 'bignumber.js';
 import { useCallback, useState } from 'react';
 import { SORTED_LENDING_COLLATERAL_ASSETS } from 'settings/chain';
 import { useMidgard } from 'store/midgard/hooks';
@@ -83,15 +84,14 @@ export const useLoans = () => {
 
   const totalCollateral = loans?.reduce(
     (sum, obj) =>
-      sum +
-      parseFloat(
+      sum.plus(
         new Price({
           baseAsset: obj.asset,
           pools,
           priceAmount: obj.collateralCurrent,
-        }).toFixedRaw(2),
+        }).price,
       ),
-    0,
+    BigNumber(0),
   );
 
   const totalBorrowed = loans?.reduce(

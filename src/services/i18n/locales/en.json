@@ -206,7 +206,7 @@
       "earn": "Earn",
       "expand": "Expand",
       "joinDiscord": "Join Discord Server",
-      "lending": "Lending",
+      "borrow": "Borrow",
       "liquidity": "Liquidity",
       "pool": "Pool",
       "send": "Send",
@@ -472,7 +472,7 @@
       "debt": "Debt",
       "debtValue": "Debt Value",
       "totalDebtValue": "Total Debt Value",
-      "depositFee": "Deposit fee",
+      "borrowFee": "Borrow fee",
       "deposited": "Deposited",
       "expectedDebt": "Expected debt",
       "header": "Open Loan",
@@ -496,7 +496,7 @@
       "slippage": {
         "high": "Slippage is very high. It might be lower later.",
         "low": "Slippage is currently low.",
-        "medium": "Slippage is high. It might be lower later.'"
+        "medium": "Slippage is high. It might be lower later."
       },
       "tooltipDescription": "Deposit native assets as collateral and borrow other assets with THORSwap LENDING",
       "ltvRatio": "Loan to Value Ratio",

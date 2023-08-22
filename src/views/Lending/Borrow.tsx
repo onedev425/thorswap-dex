@@ -114,13 +114,12 @@ const Borrow = () => {
     expectedDebt,
     expectedOutput,
     expectedOutputMaxSlippage,
-    slippageAmount,
     memo,
     hasError,
     borrowQuote,
     collateralAmount,
-    slippageAmountUsd,
     isFetching,
+    totalFeeUsd,
   } = useBorrow({
     slippage,
     senderAddress: collateralAddress,
@@ -279,13 +278,11 @@ const Borrow = () => {
         value: `${expectedDebtInfo}`,
       },
       {
-        label: t('views.lending.depositFee'),
+        label: t('views.lending.borrowFee'),
         value: (
           <VirtualDepthSlippageInfo
-            asset={borrowAsset}
             depth={collateralLendingAsset?.derivedDepthPercentage || 0}
-            slippage={slippageAmount}
-            slippageUsd={slippageAmountUsd}
+            totalFeeUsd={totalFeeUsd}
           />
         ),
       },
@@ -313,14 +310,7 @@ const Borrow = () => {
         ),
       },
     ],
-    [
-      borrowAsset,
-      collateralLendingAsset?.derivedDepthPercentage,
-      expectedDebtInfo,
-      maturityDays,
-      slippageAmount,
-      slippageAmountUsd,
-    ],
+    [collateralLendingAsset?.derivedDepthPercentage, expectedDebtInfo, maturityDays, totalFeeUsd],
   );
 
   const handleAmountChange = useCallback(

@@ -333,6 +333,7 @@ export type BorrowQuoteResponse = {
       };
     };
   };
+  fees: QuoteRoute['fees'];
 
   estimatedTime: number;
   complete: boolean;

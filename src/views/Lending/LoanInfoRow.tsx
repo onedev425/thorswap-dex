@@ -130,7 +130,9 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
               <Text textAlign="end">{collateralUsd}</Text>
             </LoanInfoRowCell>
             <LoanInfoRowCell>
-              <Text textAlign="end">{`${debtCurrent.toFixed(2)} TOR`}</Text>
+              <Text fontWeight="semibold" textAlign="end" textStyle="caption">
+                {t('views.lending.debt')}
+              </Text>
               <Text textAlign="end">{`$${debtCurrent.toFixed(2)}`}</Text>
             </LoanInfoRowCell>
             <LoanInfoRowCell>

@@ -66,6 +66,13 @@ export const useBorrow = ({
     return Amount.fromAssetAmount(data?.expectedCollateralDeposited || 0, assetIn.decimal);
   }, [assetIn.decimal, data?.expectedCollateralDeposited]);
 
+  const totalFeeUsd = useMemo(() => {
+    const fees = data?.fees.THOR;
+    const outboundFees = fees?.find((fee) => fee.type === 'outbound');
+
+    return Amount.fromAssetAmount(outboundFees?.totalFeeUSD || 0, 8);
+  }, [data?.fees.THOR]);
+
   useEffect(() => {
     setMemo(data?.memo || '');
   }, [setMemo, data?.memo]);
@@ -80,6 +87,7 @@ export const useBorrow = ({
     borrowQuote: data,
     slippageAmount,
     slippageAmountUsd,
+    totalFeeUsd,
     isFetching,
   };
 };

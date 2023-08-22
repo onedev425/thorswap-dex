@@ -1,28 +1,25 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { Icon, Tooltip } from 'components/Atomic';
+import { useFormatPrice } from 'helpers/formatPrice';
 import { t } from 'services/i18n';
 
 type Props = {
   depth: number | string;
-  slippage?: Amount;
-  slippageUsd?: Amount;
-  asset: AssetEntity;
+  totalFeeUsd?: Amount;
 };
 
-export const VirtualDepthSlippageInfo = ({ depth, slippage, slippageUsd, asset }: Props) => {
+export const VirtualDepthSlippageInfo = ({ depth, totalFeeUsd }: Props) => {
   const slippageState = getSlippageState(Number(depth));
+  const formatPrice = useFormatPrice();
+
   return (
     <Tooltip content={slippageState.tooltip}>
       <Flex alignItems="center" gap={2}>
         <Text color={slippageState.color} textStyle="caption">
-          {slippage ? slippage?.toSignificant(6) : 0} {asset.name}
+          {formatPrice(totalFeeUsd || 0)}
         </Text>
-        {slippageUsd && slippageUsd.gt(0) && (
-          <Text color="textSecondary" fontWeight="semibold" textStyle="caption">
-            (${slippageUsd?.toFixed(2)})
-          </Text>
-        )}
+
         <Icon color="secondary" name="infoCircle" size={20} />
       </Flex>
     </Tooltip>
