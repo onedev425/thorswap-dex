@@ -1,8 +1,7 @@
-import { Amount, AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
+import { Amount, Pool } from '@thorswap-lib/swapkit-core';
 import { Asset, Chain } from '@thorswap-lib/types';
 import { useBalance } from 'hooks/useBalance';
 import { useMemo } from 'react';
-import { IS_PROD } from 'settings/config';
 import { useMidgard } from 'store/midgard/hooks';
 
 export const useAssetsWithBalance = (assets?: Asset[]) => {
@@ -28,24 +27,11 @@ export const useAssetsWithBalance = (assets?: Asset[]) => {
         : undefined,
     }));
 
-    const avaxUsdc = AssetEntity.fromAssetString(
-      'AVAX.USDC-0XB97EF9EF8734C71904D8002F8B6BC66DD9C48A6E',
-    );
-    const ethUsdc = AssetEntity.fromAssetString(
-      'ETH.USDC-0XA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48',
-    );
-    const ethUsdt = AssetEntity.fromAssetString(
-      'ETH.USDT-0XDAC17F958D2EE523A2206206994597C13D831EC7',
-    );
-
     // filter pools by provided assets
     if (assetsMap.length > 0) {
       return balancePools.filter((pool) => assetsMap.includes(pool.asset.symbol));
     }
-    return balancePools.concat(
-      // @ts-expect-error
-      IS_PROD ? [] : [{ asset: avaxUsdc }, { asset: ethUsdc }, { asset: ethUsdt }],
-    );
+    return balancePools;
   }, [assets, getMaxBalance, isWalletConnected, pools]);
 
   return assetsWithBalance;
