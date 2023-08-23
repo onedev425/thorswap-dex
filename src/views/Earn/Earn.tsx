@@ -51,7 +51,15 @@ const Earn = () => {
   const hardCapReached = useCheckHardCap();
 
   const listAssets = useMemo(
-    () => balanceAssets.map((asset, i) => ({ ...asset, ...aprAssets[i] })),
+    () =>
+      balanceAssets.map((ba) => {
+        const aprAsset = aprAssets.find(({ asset: { name } }) => name === ba?.asset.name);
+
+        return {
+          ...aprAsset,
+          ...ba,
+        };
+      }),
     [aprAssets, balanceAssets],
   );
 
@@ -97,7 +105,7 @@ const Earn = () => {
     () => listAssets.find(({ asset: { name } }) => name === asset.name),
     [asset.name, listAssets],
   );
-
+  console.log('🔥ca', currentAsset?.balance?.toFixed(2));
   const { slippage, saverQuote, expectedOutputAmount, networkFee, daysToBreakEven } =
     useEarnCalculations({
       isDeposit,
