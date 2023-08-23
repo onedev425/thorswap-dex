@@ -15,8 +15,8 @@ export const useAssetsWithBalance = (assets?: Asset[]) => {
     const filteredPools = pools
       .filter((pool) => pool.detail.saversDepth !== '0')
       .sort((a, b) => {
-        return Amount.fromNormalAmount(b.detail.saversAPR)
-          .sub(Amount.fromNormalAmount(a.detail.saversAPR))
+        return Amount.fromNormalAmount(b.detail.runeDepth)
+          .sub(Amount.fromNormalAmount(a.detail.runeDepth))
           .assetAmount.toNumber();
       });
     // filter pools with respect to user balance

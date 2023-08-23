@@ -105,7 +105,7 @@ const Earn = () => {
     () => listAssets.find(({ asset: { name } }) => name === asset.name),
     [asset.name, listAssets],
   );
-  console.log('🔥ca', currentAsset?.balance?.toFixed(2));
+
   const { slippage, saverQuote, expectedOutputAmount, networkFee, daysToBreakEven } =
     useEarnCalculations({
       isDeposit,
