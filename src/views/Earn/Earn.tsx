@@ -9,13 +9,14 @@ import {
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetInput } from 'components/AssetInput';
-import { Box, Card, Icon, Link, Tooltip } from 'components/Atomic';
+import { Box, Button, Card, Icon, Link, Tooltip } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { InfoTable } from 'components/InfoTable';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { PercentageSlider } from 'components/PercentageSlider';
 import { TabsSelect } from 'components/TabsSelect';
 import { SAVERS_MEDIUM } from 'config/constants';
+import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { useCheckHardCap } from 'hooks/useCheckHardCap';
@@ -24,6 +25,7 @@ import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
 import useWindowSize from 'hooks/useWindowSize';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
+import { getInboundData } from 'store/midgard/actions';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
@@ -34,6 +36,9 @@ import { EarnConfirmModal } from 'views/Earn/EarnConfirmModal';
 import { EarnPositionsTab } from 'views/Earn/EarnPositionsTab';
 import { useAssetsWithApr } from 'views/Earn/useAssetsWithApr';
 import { useEarnCalculations } from 'views/Earn/useEarnCalculations';
+import { ApproveModal } from 'views/Swap/ApproveModal';
+import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
+import { useSwapApprove } from 'views/Swap/hooks/useSwapApprove';
 
 import { EarnButton } from './EarnButton';
 import { EarnTab, EarnViewTab } from './types';
@@ -54,15 +59,39 @@ const Earn = () => {
   const { isChainHalted } = useMimir();
   const { positions, refreshPositions, getPosition, synthAvailability } = useSaverPositions();
   const { wallet, setIsConnectModalOpen } = useWallet();
+  const [contract, setContract] = useState('');
   const [amount, setAmount] = useState(Amount.fromAssetAmount(0, 8));
   const [asset, setAsset] = useState(getSignatureAssetFor(Chain.Bitcoin));
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [visibleApproveModal, setVisibleApproveModal] = useState(false);
   const [tab, setTab] = useState(EarnTab.Deposit);
   const [viewTab, setViewTab] = useState(EarnViewTab.Earn);
   const [withdrawPercent, setWithdrawPercent] = useState(new Amount(0, AmountType.ASSET_AMOUNT, 2));
   const [availableToWithdraw, setAvailableToWithdraw] = useState(Amount.fromAssetAmount(0, 8));
   const usdPrice = usePoolAssetPriceInUsd({ asset, amount });
   const isDeposit = tab === EarnTab.Deposit;
+
+  const getContractAddress = useCallback(async (chain: Chain) => {
+    const inboundData = (await getInboundData()) || [];
+    const { router, halted } = inboundData.find((item) => item.chain === chain) || {};
+
+    if (halted || !router) {
+      throw new Error('Trading & LP is temporarily halted, please try again later.');
+    }
+
+    setContract(router);
+  }, []);
+
+  useEffect(() => {
+    getContractAddress(asset.L1Chain);
+  }, [getContractAddress, asset.L1Chain]);
+
+  const { isApproved, isLoading } = useIsAssetApproved({
+    asset,
+    contract,
+    force: true,
+    amount: amount.gt(0) ? amount : undefined,
+  });
 
   const currentAsset = useMemo(
     () => listAssets.find(({ asset: { name } }) => name === asset.name),
@@ -115,6 +144,8 @@ const Earn = () => {
     [address, availableToWithdraw],
   );
 
+  const handleApprove = useSwapApprove({ inputAsset: asset, contract });
+
   useEffect(() => {
     const pos = getPosition(asset);
     setAvailableToWithdraw(pos?.amount || Amount.fromAssetAmount(0, 8));
@@ -123,6 +154,20 @@ const Earn = () => {
   useEffect(() => {
     refreshPositions();
   }, [asset, refreshPositions]);
+
+  useEffect(() => {
+    const setAssetDecimals = async () => {
+      if (asset) {
+        const assetDecimal = await getEVMDecimal(asset);
+        if (!assetDecimal || asset.decimal === assetDecimal) return;
+
+        asset.setDecimal(assetDecimal);
+        setAsset(asset);
+      }
+    };
+
+    setAssetDecimals();
+  }, [asset]);
 
   const handleSwapkitAction = useCallback(async () => {
     const { addSavings, withdrawSavings } = await (
@@ -324,16 +369,44 @@ const Earn = () => {
 
                       <InfoTable horizontalInset items={summary} />
 
-                      <EarnButton
-                        address={address}
-                        disabled={buttonDisabled}
-                        handleSubmit={() => setIsConfirmOpen(true)}
-                        hardCapReached={tab === EarnTab.Deposit && hardCapReached}
-                        label={tabLabel}
-                        setIsConnectModalOpen={setIsConnectModalOpen}
-                      />
+                      {!isApproved ? (
+                        <Box className="w-full pt-5">
+                          <Button
+                            stretch
+                            error={hardCapReached}
+                            loading={isLoading}
+                            onClick={() => setVisibleApproveModal(true)}
+                            size="lg"
+                            tooltip={
+                              hardCapReached
+                                ? t('views.liquidity.hardCapReachedTooltip')
+                                : undefined
+                            }
+                            variant="fancy"
+                          >
+                            {t('common.approve')}
+                          </Button>
+                        </Box>
+                      ) : (
+                        <EarnButton
+                          address={address}
+                          disabled={buttonDisabled}
+                          handleSubmit={() => setIsConfirmOpen(true)}
+                          hardCapReached={tab === EarnTab.Deposit && hardCapReached}
+                          label={tabLabel}
+                          setIsConnectModalOpen={setIsConnectModalOpen}
+                        />
+                      )}
                     </Box>
                   </Card>
+
+                  <ApproveModal
+                    handleApprove={handleApprove}
+                    inputAmount={amount}
+                    inputAsset={asset}
+                    setVisible={setVisibleApproveModal}
+                    visible={visibleApproveModal}
+                  />
 
                   <EarnConfirmModal
                     amount={amount}

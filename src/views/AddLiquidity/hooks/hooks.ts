@@ -1,5 +1,3 @@
-import { getRequest } from '@thorswap-lib/helpers';
-import { InboundAddressesItem } from '@thorswap-lib/midgard-sdk';
 import {
   AddLiquidityParams,
   Amount,
@@ -26,8 +24,8 @@ import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
 import { useRunePrice } from 'hooks/useRuneToCurrency';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
-import { THORNODE_URL } from 'settings/config';
 import { useApp } from 'store/app/hooks';
+import { getInboundData } from 'store/midgard/actions';
 import { LiquidityTypeOption } from 'store/midgard/types';
 import { isPendingLP } from 'store/midgard/utils';
 import { useAppDispatch } from 'store/store';
@@ -58,11 +56,6 @@ type Props = {
 };
 
 const runeAsset = getSignatureAssetFor(Chain.THORChain);
-
-// TEMPORARY SOLUTION
-const getInboundData = () => {
-  return getRequest<InboundAddressesItem[]>(`${THORNODE_URL}/inbound_addresses`);
-};
 
 const getEstimatedPoolShareAfterAdd = ({
   runeDepth,

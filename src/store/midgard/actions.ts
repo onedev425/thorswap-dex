@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getRequest } from '@thorswap-lib/helpers';
-import { PoolPeriods } from '@thorswap-lib/midgard-sdk';
+import { InboundAddressesItem, PoolPeriods } from '@thorswap-lib/midgard-sdk';
 import { Chain } from '@thorswap-lib/types';
 import dayjs from 'dayjs';
 import { midgardSdk } from 'services/midgard';
@@ -126,6 +126,9 @@ export const getLiquidityProviderData = createAsyncThunk(
   ({ address, asset }: { asset: string; address: string }) =>
     getRequest<LiquidityProvider>(`${THORNODE_URL}/pool/${asset}/liquidity_provider/${address}`),
 );
+
+export const getInboundData = () =>
+  getRequest<InboundAddressesItem[]>(`${THORNODE_URL}/inbound_addresses`);
 
 export const getSaverData = ({ asset, address }: { asset: string; address: string }) =>
   getRequest<SaverProvider>(`${THORNODE_URL}/pool/${asset}/saver/${address}`);

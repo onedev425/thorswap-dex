@@ -9,7 +9,7 @@ type Props = {
   setVisible: (visible: boolean) => void;
   inputAsset: Asset;
   inputAmount: Amount;
-  totalFee: string;
+  totalFee?: string;
   handleApprove: () => Promise<void>;
 };
 
