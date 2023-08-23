@@ -1,6 +1,7 @@
 import { Text } from '@chakra-ui/react';
 import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
+import { AssetFilterOptionType } from 'components/AssetSelect/assetTypes';
 import { useAssetFilterTypes } from 'components/AssetSelect/useAssetFilterTypes';
 import { Box, Icon } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
@@ -30,7 +31,7 @@ export const AssetSelectList = ({
 }: AssetSelectProps) => {
   const listRef = useRef<List<NotWorth>>(null);
   const { isLgActive } = useWindowSize();
-  const { filteredAssets, select, typeFilter, setTypeFilterOption } = useAssetSelect({
+  const { filteredAssets, select, typeFilter, setTypeFilter } = useAssetSelect({
     assets,
     onSelect,
     onClose,
@@ -108,7 +109,7 @@ export const AssetSelectList = ({
           {!noFilters && !IS_LEDGER_LIVE && (
             <TabsSelect
               buttonStyle={{ px: 2 }}
-              onChange={setTypeFilterOption}
+              onChange={(value) => setTypeFilter(value as AssetFilterOptionType)}
               tabs={assetFilterTypes.filter(
                 (assetFilterType) => synthsEnabled || assetFilterType.value !== 'synth',
               )}
