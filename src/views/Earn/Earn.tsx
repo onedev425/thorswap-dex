@@ -369,7 +369,7 @@ const Earn = () => {
 
                       <InfoTable horizontalInset items={summary} />
 
-                      {!isApproved ? (
+                      {!buttonDisabled && !isApproved ? (
                         <Box className="w-full pt-5">
                           <Button
                             stretch
