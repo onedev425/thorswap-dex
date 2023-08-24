@@ -4,7 +4,6 @@ import { Contract, type ContractInterface } from '@ethersproject/contracts';
 import { formatEther, formatUnits, parseUnits } from '@ethersproject/units';
 import { getProvider } from '@thorswap-lib/toolbox-evm';
 import { Chain, FeeOption } from '@thorswap-lib/types';
-import { getSwapKitClient } from 'services/swapKit';
 
 import Airdrop from './abi/Airdrop.json';
 import ERC20ABI from './abi/ERC20.json';
@@ -108,7 +107,8 @@ export const triggerContractCall = async (
   funcName: string,
   funcParams: ToDo[],
 ) => {
-  const ethWalletMethods = (await getSwapKitClient()).connectedWallets[Chain.Ethereum];
+  const { connectedWallets } = await (await import('services/swapKit')).getSwapKitClient();
+  const ethWalletMethods = connectedWallets[Chain.Ethereum];
   if (!ethWalletMethods) throw new Error('No ETH wallet connected');
 
   const { address, abi } = contractConfig[contractType];

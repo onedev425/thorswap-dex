@@ -50,10 +50,12 @@ const useApproveResult = ({
   const [isLoading, setIsLoading] = useState(false);
   const cacheKey = useMemo(() => `${asset.symbol}-${contract || 'all'}`, [asset.symbol, contract]);
 
+  const currentParams = useRef<Params>({ asset, amount, contract });
+
   const debouncedCheckAssetApprove = useRef(
     debounce(
-      async (params: Params) => {
-        const isApproved = await checkAssetApprove(params);
+      async () => {
+        const isApproved = await checkAssetApprove(currentParams.current);
         setApproved(isApproved);
       },
       1000,
@@ -68,11 +70,8 @@ const useApproveResult = ({
     }
 
     try {
-      await debouncedCheckAssetApprove.current({
-        amount,
-        asset,
-        contract,
-      });
+      currentParams.current = { asset, amount, contract };
+      await debouncedCheckAssetApprove.current();
     } finally {
       prevNumberOfPendingApprovals = numberOfPendingApprovals;
       setIsLoading(false);

@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "vite",
+    "start:ssl": "SSL=true vite --https",
     "start:stagenet": "yarn start --mode=stagenet",
     "start:ledger": "yarn start --config ./vite.config.ledger.ts",
     "build": "NODE_OPTIONS=--max_old_space_size=32768 vite build",
@@ -118,6 +119,7 @@
     "@typescript-eslint/eslint-plugin": "6.4.0",
     "@typescript-eslint/parser": "6.4.0",
     "@vitejs/plugin-react": "4.0.4",
+    "@vitejs/plugin-basic-ssl": "1.0.1",
     "autoprefixer": "10.4.15",
     "cypress": "12.17.4",
     "eslint": "8.47.0",

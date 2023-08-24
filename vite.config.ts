@@ -6,9 +6,11 @@ import { defineConfig } from 'vite';
 import removeConsole from 'vite-plugin-remove-console';
 import rewriteAll from 'vite-plugin-rewrite-all';
 import svgr from 'vite-plugin-svgr';
+import basicSsl from '@vitejs/plugin-basic-ssl'
 
 const withSourcemap = process.env.SOURCEMAP === 'true';
 const analyze = process.env.ANALYZE_BUNDLE === 'true';
+const ssl = process.env.SSL === 'true';
 const sourcemap = withSourcemap || analyze;
 
 const plugins = [
@@ -26,7 +28,9 @@ const plugins = [
         }),
       ]
     : [],
-);
+).concat(
+  ssl ? [basicSsl()] : [],
+)
 
 export default defineConfig({
   root: '',

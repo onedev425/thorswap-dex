@@ -6,7 +6,6 @@ import { Box, Button } from 'components/Atomic';
 import { stakingV2Addr } from 'helpers/assets';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { t } from 'services/i18n';
-import { getSwapKitClient } from 'services/swapKit';
 import { VestingType } from 'views/Vesting/types';
 
 import { StakeActions, useVthorUtil } from './hooks';
@@ -33,8 +32,8 @@ export const ConfirmVThorButton = memo(
     const { approveTHOR } = useVthorUtil();
 
     const checkOnApprove = useCallback(async () => {
-      const skClient = await getSwapKitClient();
-      const ethWalletMethods = skClient.connectedWallets[Chain.Ethereum];
+      const { connectedWallets } = await (await import('services/swapKit')).getSwapKitClient();
+      const ethWalletMethods = connectedWallets[Chain.Ethereum];
       if (!ethWalletMethods || !ethAddress) return;
 
       const isApproved = await ethWalletMethods?.isApproved?.({

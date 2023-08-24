@@ -14,7 +14,6 @@ import {
   triggerContractCall,
 } from 'services/contract';
 import { t } from 'services/i18n';
-import { getSwapKitClient } from 'services/swapKit';
 import { useAppDispatch } from 'store/store';
 import { useTransactionsState } from 'store/transactions/hooks';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
@@ -53,7 +52,7 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
   const checkAlloc = useCallback(async () => {
     if (!ethAddress || contractCallInProgress) return;
 
-    const skClient = await getSwapKitClient();
+    const { connectedWallets } = await (await import('services/swapKit')).getSwapKitClient();
     try {
       contractCallInProgress = true;
       const { abi: thorVesting, address: thorAddress } = contractConfig['vesting'];
@@ -65,7 +64,7 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
         funcName: 'claimableAmount',
       };
 
-      await skClient.connectedWallets.ETH?.call({
+      await connectedWallets.ETH?.call({
         ...callParams,
         abi: thorVesting,
         contractAddress: thorAddress,
@@ -74,7 +73,7 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
           fromWei(amount as BigNumber) > 0 && appDispatch(actions.setHasVestingAlloc(true)),
       );
 
-      await skClient.connectedWallets.ETH?.call({
+      await connectedWallets.ETH?.call({
         ...callParams,
         abi: vthorVesting,
         contractAddress: vthorAddress,
@@ -93,7 +92,7 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
     async (vestingType: VestingType) => {
       if (!ethAddress) return defaultVestingInfo;
 
-      const skClient = await getSwapKitClient();
+      const { connectedWallets } = await (await import('services/swapKit')).getSwapKitClient();
       const contractType = vestingType === VestingType.THOR ? 'vesting' : 'vthor_vesting';
       const { abi, address } = contractConfig[contractType];
       const callParams = {
@@ -109,13 +108,13 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
         vestingPeriod,
         cliff,
         initialRelease,
-      ] = ((await skClient.connectedWallets.ETH?.call({
+      ] = ((await connectedWallets.ETH?.call({
         ...callParams,
         abi,
         contractAddress: address,
         funcName: 'vestingSchedule',
       })) || []) as [BigNumber, BigNumber, number, number, number, BigNumber];
-      const claimableAmount = (await skClient.connectedWallets.ETH?.call({
+      const claimableAmount = (await connectedWallets.ETH?.call({
         ...callParams,
         abi,
         contractAddress: address,
