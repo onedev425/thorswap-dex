@@ -50,7 +50,7 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
         <InfoWithTooltip
           icon="usdCircle"
           tooltip={`$${amountUsd(position.depositAmount).toFixedRaw(2)}`}
-          value={`${position.depositAmount.toSignificant(6)} ${position.asset.symbol}`}
+          value={`${position.depositAmount.toSignificant(6)} ${position.asset.name}`}
         />
       ),
     },
@@ -60,7 +60,7 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
         <InfoWithTooltip
           icon="usdCircle"
           tooltip={`$${amountUsd(position.amount).toFixedRaw(2)}`}
-          value={`${position?.amount?.toSignificant(6)} ${position.asset.symbol}`}
+          value={`${position?.amount?.toSignificant(6)} ${position.asset.name}`}
         />
       ) : (
         <PositionTooSmallInfo />
@@ -73,7 +73,7 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
           <InfoWithTooltip
             icon="usdCircle"
             tooltip={`$${amountUsd(position.earnedAmount).toFixedRaw(2)}`}
-            value={`${position?.earnedAmount?.toSignificant(6)} ${position.asset.symbol}`}
+            value={`${position?.earnedAmount?.toSignificant(6)} ${position.asset.name}`}
           />
         ) : (
           <PositionTooSmallInfo />
