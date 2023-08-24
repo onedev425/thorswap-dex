@@ -1,7 +1,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import BigNumber from 'bignumber.js';
-import { Button, Icon } from 'components/Atomic';
+import { Button, Icon, Tooltip } from 'components/Atomic';
 import { ReloadButton } from 'components/ReloadButton';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { hasConnectedWallet } from 'helpers/wallet';
@@ -94,6 +94,40 @@ export const BorrowPositionsTab = ({
             ))}
           </Flex>
           <Flex direction="column" gap={2} justify="center" mt={6}>
+            {loans.length && (
+              <Flex direction="row" px="12px">
+                <Flex direction="row" flex={1} gap={2}>
+                  <Flex flex={5}>
+                    <Flex flex={1}>
+                      <Text color="secondary" ml={3} textStyle="caption">
+                        {t('views.lending.collateral')}
+                      </Text>
+                    </Flex>
+                    <Flex flex={1}>
+                      <Text color="secondary" textStyle="caption">
+                        {t('views.lending.debt')}
+                      </Text>
+                    </Flex>
+                    <Flex flex={1}>
+                      <Tooltip content={t('views.lending.unlockDescription')}>
+                        <Flex align="center" flex={1} gap={1}>
+                          <Text color="secondary" textStyle="caption">
+                            {t('views.lending.unlock')}
+                          </Text>
+                          <Icon color="secondary" name="infoCircle" size={14} />
+                        </Flex>
+                      </Tooltip>
+                    </Flex>
+                  </Flex>
+                  <Flex display={{ lg: 'flex', base: 'none' }} flex={3} pl="32px">
+                    <Text color="secondary" textStyle="caption">
+                      {t('views.lending.actions')}
+                    </Text>
+                  </Flex>
+                </Flex>
+              </Flex>
+            )}
+
             {loans.length ? (
               loans.map((loan) => (
                 <LoanInfoRow

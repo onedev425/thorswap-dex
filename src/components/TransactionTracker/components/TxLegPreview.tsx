@@ -19,6 +19,7 @@ import { TxLegProvider } from 'components/TransactionTracker/components/TxLegPro
 import { TxLegTimer } from 'components/TransactionTracker/components/TxLegTimer';
 import { getTxState, getTxStatusColor } from 'components/TransactionTracker/helpers';
 import { useTxTrackerDetails } from 'components/TransactionTracker/TxTrackerDetailsContext';
+import { TrackerTxDisplayType } from 'components/TransactionTracker/types';
 import { isValidMotionProp, motion } from 'framer-motion';
 import { getChainIdentifier } from 'helpers/chains';
 import { getTickerFromIdentifier, tokenLogoURL } from 'helpers/logoURL';
@@ -46,12 +47,26 @@ const getLabelForType = ({
   fromAsset,
   toAsset,
   provider,
+  index,
+  txDisplayType,
 }: {
   type?: TransactionType;
   fromAsset: string;
   toAsset: string;
   provider?: string;
+  index: number;
+  txDisplayType?: TrackerTxDisplayType;
 }) => {
+  if (txDisplayType === TrackerTxDisplayType.LENDING) {
+    if (index === 0) {
+      return t('txManager.transferCollateral');
+    }
+
+    if (index === 1) {
+      return t('txManager.lending');
+    }
+  }
+
   if (!type) return;
   if (type.includes('SWAP'))
     return `${t(`txManager.txBadge.swap`, { fromAsset, toAsset })}${
@@ -63,6 +78,28 @@ const getLabelForType = ({
     return t(`txManager.txBadge.toTCRouter`, { asset: fromAsset });
 
   return t(`txManager.txBadge.transfer`, { asset: fromAsset });
+};
+
+const getBadge = ({
+  isTransfer,
+  txDisplayType,
+  index,
+}: {
+  isTransfer: boolean;
+  index: number;
+  txDisplayType?: TrackerTxDisplayType;
+}) => {
+  if (txDisplayType === TrackerTxDisplayType.LENDING) {
+    if (index === 0) {
+      return t('txManager.collateral');
+    }
+
+    if (index === 1) {
+      return t('txManager.loan');
+    }
+  }
+
+  return isTransfer ? t('txManager.transfer') : t('txManager.swap');
 };
 
 const colorSchemeForChain = {
@@ -90,7 +127,7 @@ export const TxLegPreview = ({
   legTimeLeft,
   horizontalView,
 }: Props) => {
-  const { txDetails } = useTxTrackerDetails();
+  const { txDetails, txDisplayType } = useTxTrackerDetails();
   const { finished: isTxFinished } = getTxState(txStatus);
 
   const isRuneLastLeg = isLast && leg.chain === Chain.THORChain;
@@ -138,11 +175,22 @@ export const TxLegPreview = ({
             toAsset: toAssetTicker,
             type: leg.txnType,
             provider: leg.provider,
+            index,
+            txDisplayType,
           })
         : undefined,
       badgeColorScheme: colorSchemeForChain[leg.chain],
     }),
-    [fromAssetTicker, isStreamming, leg.chain, leg.provider, leg.txnType, toAssetTicker],
+    [
+      fromAssetTicker,
+      index,
+      isStreamming,
+      leg.chain,
+      leg.provider,
+      leg.txnType,
+      toAssetTicker,
+      txDisplayType,
+    ],
   );
 
   return (
@@ -248,7 +296,7 @@ export const TxLegPreview = ({
           >
             <Tooltip content={badgeLabel}>
               <Badge colorScheme={badgeColorScheme} fontSize="10" variant="outline">
-                {isTransfer ? t('txManager.transfer') : t('txManager.swap')}
+                {getBadge({ isTransfer, index, txDisplayType })}
               </Badge>
             </Tooltip>
           </Flex>
@@ -262,7 +310,7 @@ export const TxLegPreview = ({
           >
             <Tooltip content={badgeLabel}>
               <Badge colorScheme={badgeColorScheme} fontSize="10" variant="outline">
-                {isTransfer ? t('txManager.transfer') : t('txManager.swap')}
+                {getBadge({ isTransfer, index, txDisplayType })}
               </Badge>
             </Tooltip>
           </Flex>

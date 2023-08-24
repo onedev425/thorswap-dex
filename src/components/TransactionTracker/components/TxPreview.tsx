@@ -44,11 +44,7 @@ export const TxPreview = ({ txDetails, isCompleted }: Props) => {
           ))}
       </Flex>
 
-      <TxDetailsInfo
-        isCompleted={isCompleted}
-        totalTimeLeft={totalTimeLeft}
-        txDetails={txDetails}
-      />
+      <TxDetailsInfo isCompleted={isCompleted} totalTimeLeft={totalTimeLeft} />
     </Flex>
   );
 };

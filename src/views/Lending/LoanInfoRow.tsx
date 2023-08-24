@@ -6,7 +6,6 @@ import { AssetIcon } from 'components/AssetIcon';
 import { AssetSelect } from 'components/AssetSelect';
 import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton';
 import { Button, Icon } from 'components/Atomic';
-import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { InputAmount } from 'components/InputAmount';
 import { PercentageSlider } from 'components/PercentageSlider';
 import { showErrorToast } from 'components/Toast';
@@ -120,32 +119,24 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
         className="!rounded-3xl flex-col flex !gap-0 !px-3 !py-3"
         variant="filledContainerSecondary"
       >
-        <Flex direction={{ base: 'column', lg: 'row' }} flex={4} gap={1}>
+        <Flex direction={{ base: 'column', lg: 'row' }} flex={4} gap={2}>
           <Flex flex={5}>
-            <Flex align="center">
-              <AssetIcon asset={getSignatureAssetFor(asset.symbol as Chain)} size={36} />
-            </Flex>
             <LoanInfoRowCell>
-              <Text textAlign="end">{`${collateralCurrent.toSignificant(4)} ${asset.symbol}`}</Text>
-              <Text textAlign="end">{collateralUsd}</Text>
+              <Flex gap={1}>
+                <Flex align="center">
+                  <AssetIcon asset={getSignatureAssetFor(asset.symbol as Chain)} size={36} />
+                </Flex>
+
+                <Flex direction="column">
+                  <Text>{`${collateralCurrent.toSignificant(4)} ${asset.symbol}`}</Text>
+                  <Text>{collateralUsd}</Text>
+                </Flex>
+              </Flex>
             </LoanInfoRowCell>
             <LoanInfoRowCell>
-              <Text fontWeight="semibold" textAlign="end" textStyle="caption">
-                {t('views.lending.debt')}
-              </Text>
               <Text textAlign="end">{`$${debtCurrent.toFixed(2)}`}</Text>
             </LoanInfoRowCell>
             <LoanInfoRowCell>
-              <InfoWithTooltip
-                tooltip={
-                  hasLoanMatured
-                    ? ''
-                    : t('views.lending.maturityDescription', {
-                        days: Math.floor(missingTimeToRepayInMS / 86400000),
-                      })
-                }
-                value={t('views.lending.unlock')}
-              />
               <Text variant={hasLoanMatured ? 'green' : 'primary'}>
                 {hasLoanMatured ? t('views.lending.repayAvailable') : timeLeft}
               </Text>
@@ -154,7 +145,7 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
           <Flex
             align="center"
             direction="row"
-            flex={{ md: 2, lg: 3, xl: 4 }}
+            flex={{ md: 2, lg: 3, xl: 3 }}
             gap={2}
             justify="end"
             mt={{ base: 2, md: 0 }}

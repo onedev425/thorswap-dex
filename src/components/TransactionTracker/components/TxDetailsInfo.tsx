@@ -1,5 +1,4 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { TxTrackerDetails } from '@thorswap-lib/swapkit-api';
 import { Amount } from '@thorswap-lib/swapkit-core';
 import { Button, Icon } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
@@ -8,6 +7,8 @@ import { showSuccessToast } from 'components/Toast';
 import { TxDetailsStatusInfo } from 'components/TransactionTracker/components/TxDetailsStatusInfo';
 import { TxStreamingSwapDetails } from 'components/TransactionTracker/components/TxStreamingSwapDetails';
 import { formatDuration, getTxDuration, getTxState } from 'components/TransactionTracker/helpers';
+import { useTxTrackerDetails } from 'components/TransactionTracker/TxTrackerDetailsContext';
+import { TrackerTxDisplayType } from 'components/TransactionTracker/types';
 import copy from 'copy-to-clipboard';
 import { getTickerFromIdentifier } from 'helpers/logoURL';
 import { shortenAddress } from 'helpers/shortenAddress';
@@ -16,14 +17,14 @@ import { useMemo } from 'react';
 import { t } from 'services/i18n';
 
 type Props = {
-  txDetails: TxTrackerDetails;
   isCompleted: boolean;
   totalTimeLeft: number | null;
 };
 
-export const TxDetailsInfo = ({ txDetails, isCompleted, totalTimeLeft }: Props) => {
+export const TxDetailsInfo = ({ isCompleted, totalTimeLeft }: Props) => {
+  const { txDetails, txDisplayType } = useTxTrackerDetails();
   const txCounter = useCounter({
-    startTimestamp: isCompleted ? null : txDetails.legs?.[0]?.startTimestamp,
+    startTimestamp: isCompleted ? null : txDetails?.legs?.[0]?.startTimestamp,
   });
 
   const streamingSwapDetails = useMemo(() => {
@@ -32,7 +33,12 @@ export const TxDetailsInfo = ({ txDetails, isCompleted, totalTimeLeft }: Props) 
     const legWithDetails = txDetails.legs?.find((leg) => leg.streamingSwapDetails);
 
     return legWithDetails?.streamingSwapDetails || null;
-  }, [txDetails.isStreamingSwap, txDetails.legs]);
+  }, [txDetails?.isStreamingSwap, txDetails?.legs]);
+
+  const swapLabel = useMemo(() => {
+    if (txDisplayType === TrackerTxDisplayType.SWAP) return t('txManager.swap');
+    if (txDisplayType === TrackerTxDisplayType.LENDING) return t('txManager.lending');
+  }, [txDisplayType]);
 
   if (!txDetails) return null;
 
@@ -58,7 +64,7 @@ export const TxDetailsInfo = ({ txDetails, isCompleted, totalTimeLeft }: Props) 
       )}`) ||
     '';
 
-  const swapLabel = `${firstLegInfo}${lastLegInfo ? ` -> ${lastLegInfo}` : ''}`;
+  const swapLabelValue = `${firstLegInfo}${lastLegInfo ? ` -> ${lastLegInfo}` : ''}`;
   const txUrl = `${window.location.origin}/tx/${firstTransactionHash}`;
 
   return (
@@ -77,7 +83,7 @@ export const TxDetailsInfo = ({ txDetails, isCompleted, totalTimeLeft }: Props) 
         }
       />
 
-      {swapLabel && <InfoRow label={t('txManager.swap')} size="md" value={swapLabel} />}
+      {swapLabelValue && <InfoRow label={swapLabel} size="md" value={swapLabelValue} />}
 
       {legs.length > 0 && (
         <InfoRow

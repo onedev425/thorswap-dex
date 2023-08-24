@@ -416,7 +416,10 @@
     "withdraw": "Withdraw",
     "withdrawAmountAsset": "Withdraw %{amount} %{asset}",
     "withdrawAmountFailed": "Withdraw %{amount} %{asset} failed",
-    "withdrawnAmountAsset": "Withdrew %{amount} %{asset}"
+    "withdrawnAmountAsset": "Withdrew %{amount} %{asset}",
+    "collateral": "Collateral",
+    "lending": "Lending",
+    "transferCollateral": "Transfer Collateral"
   },
   "validation": {
     "invalidPassword": "Invalid Password"
@@ -504,7 +507,9 @@
       "unlock": "Unlock",
       "experimentalDisclaimer": "Lending feature is experimental.",
       "riskDisclaimer": " Understand the risks",
-      "crRatio": "Collateralization Ratio: %{cr}%"
+      "crRatio": "Collateralization Ratio: %{cr}%",
+      "actions": "Actions",
+      "unlockDescription": "Minimum time after which you can repay your loan"
     },
     "liquidity": {
       "ILPTooltip": "If you have ILP for you liquidity position it will be added to withdrawn amount.",
