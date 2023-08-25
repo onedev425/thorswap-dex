@@ -22,10 +22,10 @@ import { useBalance } from 'hooks/useBalance';
 import { useCheckHardCap } from 'hooks/useCheckHardCap';
 import { useMimir } from 'hooks/useMimir';
 import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
+import { useTCApprove } from 'hooks/useTCApprove';
 import useWindowSize from 'hooks/useWindowSize';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
-import { getInboundData } from 'store/midgard/actions';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
@@ -38,7 +38,6 @@ import { useAssetsWithApr } from 'views/Earn/useAssetsWithApr';
 import { useEarnCalculations } from 'views/Earn/useEarnCalculations';
 import { ApproveModal } from 'views/Swap/ApproveModal';
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
-import { useSwapApprove } from 'views/Swap/hooks/useSwapApprove';
 
 import { EarnButton } from './EarnButton';
 import { EarnTab, EarnViewTab } from './types';
@@ -67,7 +66,6 @@ const Earn = () => {
   const { isChainHalted } = useMimir();
   const { positions, refreshPositions, getPosition, synthAvailability } = useSaverPositions();
   const { wallet, setIsConnectModalOpen } = useWallet();
-  const [contract, setContract] = useState('');
   const [amount, setAmount] = useState(Amount.fromAssetAmount(0, 8));
   const [asset, setAsset] = useState(getSignatureAssetFor(Chain.Bitcoin));
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
@@ -79,27 +77,13 @@ const Earn = () => {
   const usdPrice = usePoolAssetPriceInUsd({ asset, amount });
   const isDeposit = tab === EarnTab.Deposit;
 
-  const getContractAddress = useCallback(async (chain: Chain) => {
-    const inboundData = (await getInboundData()) || [];
-    const { router, halted } = inboundData.find((item) => item.chain === chain) || {};
-
-    if (halted || !router) {
-      throw new Error('Trading & LP is temporarily halted, please try again later.');
-    }
-
-    setContract(router);
-  }, []);
-
-  useEffect(() => {
-    getContractAddress(asset.L1Chain);
-  }, [getContractAddress, asset.L1Chain]);
-
   const { isApproved, isLoading } = useIsAssetApproved({
     asset,
-    contract,
     force: true,
     amount: amount.gt(0) ? amount : undefined,
   });
+
+  const handleApprove = useTCApprove({ asset });
 
   const currentAsset = useMemo(
     () => listAssets.find(({ asset: { name } }) => name === asset.name),
@@ -151,8 +135,6 @@ const Earn = () => {
     },
     [address, availableToWithdraw],
   );
-
-  const handleApprove = useSwapApprove({ inputAsset: asset, contract });
 
   useEffect(() => {
     const pos = getPosition(asset);

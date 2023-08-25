@@ -19,13 +19,15 @@ const checkAssetApprove = async ({ contract, asset, amount }: Params) => {
     await import('services/swapKit')
   ).getSwapKitClient();
 
-  return await (contract
+  const approve = await (contract
     ? isAssetApprovedForContract(
         asset,
         contract,
         amount ? baseAmount(amount.baseAmount.toFixed() || '0') : undefined,
       )
     : isAssetApproved(asset));
+
+  return approve;
 };
 
 let prevNumberOfPendingApprovals = 0;
@@ -48,25 +50,26 @@ const useApproveResult = ({
 }) => {
   const [isApproved, setApproved] = useState(isGasAsset(asset) || !isWalletConnected);
   const [isLoading, setIsLoading] = useState(false);
-  const cacheKey = useMemo(() => `${asset.symbol}-${contract || 'all'}`, [asset.symbol, contract]);
-
+  const cacheKey = useRef(`${asset.symbol}-${contract || 'all'}`);
   const currentParams = useRef<Params>({ asset, amount, contract });
 
   const debouncedCheckAssetApprove = useRef(
     debounce(
       async () => {
         const isApproved = await checkAssetApprove(currentParams.current);
+        console.info({ isApproved, params: currentParams.current });
         setApproved(isApproved);
       },
-      1000,
+      500,
       { leading: true, trailing: false },
     ),
   );
 
   const checkApproved = useCallback(async () => {
-    if (cachedResults[cacheKey]) {
+    const cacheValue = cachedResults[cacheKey.current];
+    if (cacheValue) {
       setIsLoading(false);
-      return setApproved(cachedResults[cacheKey]);
+      return setApproved(cacheValue);
     }
 
     try {
@@ -88,11 +91,12 @@ const useApproveResult = ({
        * and rpc returns the old state. This will cause the UI to show the
        * approve button again.
        */
-      const timeoutDuration = prevNumberOfPendingApprovals > numberOfPendingApprovals ? 15000 : 0;
+      const timeoutDuration = prevNumberOfPendingApprovals > numberOfPendingApprovals ? 10000 : 0;
 
+      cacheKey.current = `${asset.symbol}-${contract || 'all'}`;
       setTimeout(() => checkApproved(), timeoutDuration);
     }
-  }, [checkApproved, isWalletConnected, numberOfPendingApprovals, skip]);
+  }, [asset.symbol, checkApproved, contract, isWalletConnected, numberOfPendingApprovals, skip]);
 
   return { isApproved, isLoading };
 };
