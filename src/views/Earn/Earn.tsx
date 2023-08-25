@@ -116,14 +116,12 @@ const Earn = () => {
   const depositAsset = useCallback((asset: AssetEntity) => {
     setViewTab(EarnViewTab.Earn);
     setTab(EarnTab.Deposit);
-    setAmount(Amount.fromAssetAmount(0, 8));
     setAsset(asset);
   }, []);
 
   const withdrawAsset = useCallback((asset: AssetEntity) => {
     setViewTab(EarnViewTab.Earn);
     setTab(EarnTab.Withdraw);
-    setAmount(Amount.fromAssetAmount(0, 8));
     setAsset(asset);
   }, []);
 
@@ -160,6 +158,11 @@ const Earn = () => {
 
     setAssetDecimals();
   }, [asset]);
+
+  const handleAssetChange = useCallback((asset: AssetEntity) => {
+    setAsset(asset);
+    setAmount(Amount.fromAssetAmount(0, asset.decimal));
+  }, []);
 
   const handleSwapkitAction = useCallback(async () => {
     const { addSavings, withdrawSavings } = await (
@@ -320,7 +323,7 @@ const Earn = () => {
                   <Box className="w-9/12">
                     <EarnAssetSelectList
                       assets={listAssets}
-                      onSelect={setAsset}
+                      onSelect={handleAssetChange}
                       selectedAsset={asset}
                     />
                   </Box>
@@ -353,7 +356,7 @@ const Earn = () => {
                         assets={listAssets}
                         className="flex-1"
                         disabled={tab === EarnTab.Withdraw}
-                        onAssetChange={setAsset}
+                        onAssetChange={handleAssetChange}
                         onValueChange={setAmount}
                         poolAsset={selectedAsset}
                         selectedAsset={selectedAsset}
