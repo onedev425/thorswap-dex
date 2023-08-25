@@ -143,7 +143,6 @@ export const useThornameLookup = (owner?: string) => {
       const isRegister = details?.owner !== owner;
 
       dispatch({ type: 'setLoading', payload: true });
-
       const amount = isRegister ? getTHORNameCost(years) : years;
       const prefix = isRegister ? t('txManager.registerThorname') : t('txManager.updateThorname');
 
@@ -169,7 +168,10 @@ export const useThornameLookup = (owner?: string) => {
       const { registerThorname } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
-        const txid = await registerThorname(registerParams, Amount.fromNormalAmount(amount));
+        const txid = await registerThorname(
+          registerParams,
+          Amount.fromAssetAmount(amount, RUNEAsset.decimal),
+        );
 
         if (txid) {
           appDispatch(updateTransaction({ id, txid }));
