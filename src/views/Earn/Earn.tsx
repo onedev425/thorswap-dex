@@ -116,12 +116,14 @@ const Earn = () => {
   const depositAsset = useCallback((asset: AssetEntity) => {
     setViewTab(EarnViewTab.Earn);
     setTab(EarnTab.Deposit);
+    setAmount(Amount.fromAssetAmount(0, 8));
     setAsset(asset);
   }, []);
 
   const withdrawAsset = useCallback((asset: AssetEntity) => {
     setViewTab(EarnViewTab.Earn);
     setTab(EarnTab.Withdraw);
+    setAmount(Amount.fromAssetAmount(0, 8));
     setAsset(asset);
   }, []);
 
