@@ -412,7 +412,6 @@ const SwapView = () => {
 
           {!IS_LEDGER_LIVE && (
             <CustomRecipientInput
-              isOutputWalletConnected={isOutputWalletConnected}
               outputAssetL1Chain={outputAsset.L1Chain}
               recipient={recipient}
               setRecipient={setRecipient}
