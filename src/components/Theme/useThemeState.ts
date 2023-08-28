@@ -1,5 +1,4 @@
 import { useColorMode } from '@chakra-ui/react';
-import { ThemeMode } from 'components/Theme/types';
 import { useCallback, useEffect, useState } from 'react';
 import { useApp } from 'store/app/hooks';
 import { ThemeType } from 'types/app';
@@ -8,22 +7,16 @@ export const useThemeState = () => {
   const { themeType } = useApp();
   const { setColorMode } = useColorMode();
 
-  const getThemeMode = (type: ThemeType) => {
-    const isDark =
-      type === ThemeType.Dark ||
-      (type === ThemeType.Auto && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    return isDark ? ThemeMode.Dark : ThemeMode.Light;
-  };
-  const [activeTheme, setActiveTheme] = useState<ThemeMode | null>(null);
+  const [activeTheme, setActiveTheme] = useState(ThemeType.Dark);
 
   const activateTheme = useCallback(
-    (updatedTheme: ThemeMode) => {
+    (updatedTheme: ThemeType) => {
       setColorMode(updatedTheme);
 
-      if (updatedTheme === ThemeMode.Light) {
-        document.documentElement.classList.remove(ThemeMode.Dark);
-      } else if (!document.documentElement.classList.contains(ThemeMode.Dark)) {
-        document.documentElement.classList.add(ThemeMode.Dark);
+      if (updatedTheme === ThemeType.Light) {
+        document.documentElement.classList.remove(ThemeType.Dark);
+      } else if (!document.documentElement.classList.contains(ThemeType.Dark)) {
+        document.documentElement.classList.add(ThemeType.Dark);
       }
 
       document.documentElement.dataset.theme = updatedTheme;
@@ -33,8 +26,8 @@ export const useThemeState = () => {
   );
 
   useEffect(() => {
-    activateTheme(getThemeMode(themeType));
+    activateTheme(themeType);
   }, [activateTheme, themeType]);
 
-  return { theme: activeTheme, isLight: activeTheme === ThemeMode.Light };
+  return { theme: activeTheme, isLight: activeTheme === ThemeType.Light };
 };

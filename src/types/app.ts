@@ -16,7 +16,6 @@ export type ColorType =
 export enum ThemeType {
   Dark = 'dark',
   Light = 'light',
-  Auto = 'auto',
 }
 
 export enum ThousandSeparator {

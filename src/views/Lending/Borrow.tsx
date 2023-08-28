@@ -484,7 +484,6 @@ const Borrow = () => {
                         {!!collateralAddress && (
                           <Flex alignContent="stretch" flex={1} mt={1}>
                             <CustomRecipientInput
-                              isOutputWalletConnected={!!borrowAddress}
                               outputAssetL1Chain={borrowAsset.L1Chain}
                               recipient={recipient}
                               setRecipient={setRecipient}

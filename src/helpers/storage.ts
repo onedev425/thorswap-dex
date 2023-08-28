@@ -126,7 +126,7 @@ const defaultValues: StorageType = {
   baseCurrency: USDAsset.toString(),
   language: 'en',
   slippageTolerance: '3',
-  themeType: ThemeType.Auto,
+  themeType: ThemeType.Dark,
   thousandSeparator: ThousandSeparator.Comma,
   transactionDeadline: '30',
   walletViewMode: ViewMode.CARD,

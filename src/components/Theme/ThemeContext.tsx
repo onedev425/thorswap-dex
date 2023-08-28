@@ -1,18 +1,18 @@
-import { ThemeMode } from 'components/Theme/types';
 import { useThemeState } from 'components/Theme/useThemeState';
 import { createContext, ReactNode, useContext } from 'react';
+import { ThemeType } from 'types/app';
 
 type Props = {
   children: ReactNode;
 };
 
 export type ThemeContextType = {
-  theme: ThemeMode | null;
+  theme: ThemeType;
   isLight: boolean;
 };
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: null,
+  theme: ThemeType.Dark,
   isLight: false,
 } as ThemeContextType);
 

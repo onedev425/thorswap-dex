@@ -222,12 +222,6 @@ const useThemeMenu = (onBack: () => void) => {
       onClick: () => onThemeClick(ThemeType.Dark),
       isSelected: isThemeSelected(ThemeType.Dark),
     },
-    {
-      icon: 'auto',
-      label: t('appMenu.automaticTheme'),
-      onClick: () => onThemeClick(ThemeType.Auto),
-      isSelected: isThemeSelected(ThemeType.Auto),
-    },
   ];
 
   return menu;
@@ -317,8 +311,6 @@ const useCompositionSettingsMenu = () => {
 
 const getThemeLabel = (val: ThemeType) => {
   switch (val) {
-    case ThemeType.Auto:
-      return t('appMenu.automaticTheme');
     case ThemeType.Dark:
       return t('appMenu.darkTheme');
     case ThemeType.Light:
