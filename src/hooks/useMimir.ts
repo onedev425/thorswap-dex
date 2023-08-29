@@ -25,7 +25,8 @@ export const useMimir = () => {
   const isSigningHalted = isEntryPaused('HALTSIGNING');
   const isGlobalHalted = isEntryPaused('HALTCHAINGLOBAL') || isSigningHalted;
   const isAVAXChainHalted = isEntryPaused('HALTAVAXCHAIN');
-  const isGAIAChainHalted = isEntryPaused('HALTGAIACHAIN');
+  const isGAIAChainHalted =
+    isEntryPaused('HALTGAIACHAIN') || isEntryPaused('SOLVENCYHALTGAIACHAIN');
   const isTHORChainHalted = isEntryPaused('HALTTHORCHAIN');
   const isBTCChainHalted = isEntryPaused('HALTBTCCHAIN');
   const isETHChainHalted = isEntryPaused('HALTETHCHAIN') || isEntryPaused('SOLVENCYHALTETHCHAIN');
