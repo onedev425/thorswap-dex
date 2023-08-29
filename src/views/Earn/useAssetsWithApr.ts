@@ -6,7 +6,7 @@ import { getFormattedPercent } from 'views/Earn/utils';
 
 export const useAssetsWithApr = () => {
   const { getPoolsFromState } = useMidgard();
-  const pools = getPoolsFromState();
+  const pools = getPoolsFromState('7d');
 
   const { synthCap } = useMimir();
 
