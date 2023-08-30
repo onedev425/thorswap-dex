@@ -56,6 +56,7 @@ const Earn = () => {
           ({ asset: { name, chain } }) => name === ba?.asset.name && chain === ba?.asset.chain,
         );
 
+        getEVMDecimal(ba.asset).then((res) => ba.asset.setDecimal(res));
         return {
           ...aprAsset,
           ...ba,
