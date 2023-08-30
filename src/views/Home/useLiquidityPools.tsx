@@ -10,7 +10,7 @@ type Params = {
 };
 export const useLiquidityPools = ({ keyword, selectedPoolsCategory }: Params) => {
   const { getPoolsFromState } = useMidgard();
-  const poolsToUse = getPoolsFromState();
+  const poolsToUse = selectedPoolsCategory === 0 ? getPoolsFromState('7d') : getPoolsFromState();
 
   const selectedPoolsCategoryValue = poolCategoryOptions[selectedPoolsCategory];
 

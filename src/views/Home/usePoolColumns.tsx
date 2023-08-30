@@ -17,10 +17,12 @@ import { PoolCategoryOption } from 'views/Home/types';
 
 export type TimePeriods = {
   '30d': string;
+  '7d': string;
 };
 
 const timePeriods: TimePeriods = {
   '30d': '30 days',
+  '7d': '7 days',
 };
 
 export const usePoolColumns = (poolCategory: PoolCategoryOption) => {
