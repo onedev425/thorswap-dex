@@ -50,7 +50,7 @@ export const useGlobalStatsData = () => {
         iconName: 'history',
         color: 'yellow',
         label: t('views.stats.24Volume'),
-        value: volume24h ? runeToCurrency(Amount.fromMidgard(volume24h || 0)) : '-',
+        value: volume24h ? Amount.fromMidgard(volume24h || 0).toAbbreviate(2) : '-',
         tooltip: t('views.stats.24VolumeTooltip'),
       },
       {

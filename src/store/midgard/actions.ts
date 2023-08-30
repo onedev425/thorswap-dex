@@ -78,19 +78,18 @@ export const getLpDetails = createAsyncThunk(
 );
 // get 24h volume
 export const getVolume24h = createAsyncThunk('midgard/getVolume24h', async () => {
-  const { intervals: swapIntervals } = await midgardSdk.getSwapHistory({
-    query: { interval: 'day', count: 2 },
+  const { meta: swapsMeta } = await midgardSdk.getSwapHistory({
+    query: { interval: 'hour', count: 24 },
   });
 
-  const { intervals: liquidityIntervals } = await midgardSdk.getLiquidityHistory({
-    query: { interval: 'day', count: 2 },
+  const { meta: liquidityMeta } = await midgardSdk.getLiquidityHistory({
+    query: { interval: 'hour', count: 24 },
   });
 
-  // swap + add + withdraw
   const volume24h =
-    Number(swapIntervals[0].totalVolume) +
-    Number(liquidityIntervals[0].addLiquidityVolume) +
-    Number(liquidityIntervals[0].withdrawVolume);
+    Number(swapsMeta.totalVolumeUsd) +
+    Number(liquidityMeta.addLiquidityVolume) +
+    Number(liquidityMeta.withdrawVolume);
 
   return volume24h;
 });

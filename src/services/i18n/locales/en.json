@@ -847,7 +847,7 @@
     },
     "stats": {
       "24Volume": "24H Volume",
-      "24VolumeTooltip": "24H Volume for Swap, Add, Withdraw.",
+      "24VolumeTooltip": "Last 24H Volume for Swap, Add, Withdraw.",
       "blockRewards": "Block Rewards",
       "bondAPY": "Bonding APY",
       "circulatingSupply": "Circulating Supply",
@@ -878,7 +878,7 @@
       "totalTx": "Total Tx",
       "totalVolume": "Total Volume",
       "totalVolumeTooltip": "Total Trade Volume in the network.",
-      "tvlTooltip": "Total Value Locked amount in the network (Total Liquidity + Total Node Bond).",
+      "tvlTooltip": "Total Value Locked in the network (Includes all Liquidity, Active Bond, and Standby Bond).",
       "upgradedRune": "Upgraded RUNE",
       "usage": "Usage",
       "users": "Users",
