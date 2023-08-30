@@ -52,7 +52,9 @@ const Earn = () => {
   const listAssets = useMemo(
     () =>
       balanceAssets.map((ba) => {
-        const aprAsset = aprAssets.find(({ asset: { name } }) => name === ba?.asset.name);
+        const aprAsset = aprAssets.find(
+          ({ asset: { name, chain } }) => name === ba?.asset.name && chain === ba?.asset.chain,
+        );
 
         return {
           ...aprAsset,
