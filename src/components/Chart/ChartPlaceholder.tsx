@@ -27,7 +27,7 @@ export const ChartPlaceholder = memo(({ previewChartType, options }: Props) => {
         previewChartType,
         randomData.labels,
         randomData.values,
-        themeType === ThemeType.Light || true,
+        themeType === ThemeType.Light,
       ),
     [previewChartType, themeType],
   );

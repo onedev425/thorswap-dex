@@ -19,7 +19,9 @@ const checkAssetApprove = async ({ contract, asset, amount }: Params) => {
     await import('services/swapKit')
   ).getSwapKitClient();
 
-  const approveAmount = amount ? baseAmount(amount.baseAmount.toFixed() || '0') : undefined;
+  const approveAmount = amount
+    ? baseAmount(amount.baseAmount.toFixed() || '0', asset.decimal)
+    : undefined;
 
   return contract
     ? isAssetApprovedForContract(asset, contract, approveAmount)
