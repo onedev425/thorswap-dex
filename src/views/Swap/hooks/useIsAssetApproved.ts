@@ -19,15 +19,11 @@ const checkAssetApprove = async ({ contract, asset, amount }: Params) => {
     await import('services/swapKit')
   ).getSwapKitClient();
 
-  const approve = await (contract
-    ? isAssetApprovedForContract(
-        asset,
-        contract,
-        amount ? baseAmount(amount.baseAmount.toFixed() || '0') : undefined,
-      )
-    : isAssetApproved(asset));
+  const approveAmount = amount ? baseAmount(amount.baseAmount.toFixed() || '0') : undefined;
 
-  return approve;
+  return contract
+    ? isAssetApprovedForContract(asset, contract, approveAmount)
+    : isAssetApproved(asset, approveAmount);
 };
 
 let prevNumberOfPendingApprovals = 0;
