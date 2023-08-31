@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { THORSWAP_AFFILIATE_ADDRESS, THORSWAP_AFFILIATE_ADDRESS_LL } from 'config/constants';
-import { IS_DEV_API, IS_LEDGER_LIVE, IS_STAGENET } from 'settings/config';
+import { IS_LEDGER_LIVE } from 'settings/config';
 import { AnnouncementsData } from 'store/externalConfig/types';
+import { getBaseUrl } from 'store/thorswap/getBaseUrl';
 
 import {
   BorrowQuoteParams,
@@ -24,8 +25,7 @@ import {
   LoansResponse,
 } from './types';
 
-const baseUrl =
-  IS_DEV_API || IS_STAGENET ? 'https://dev-api.thorswap.net' : 'https://api.thorswap.net';
+const baseUrl = getBaseUrl();
 
 export const thorswapApi = createApi({
   reducerPath: 'thorswap',
@@ -146,14 +146,14 @@ export const thorswapApi = createApi({
         if (from) queryParams.append('from', from);
         if (type) queryParams.append('type', type);
 
-        return `/apiusage/txn?${queryParams.toString()}`;
+        return `/tracker/txn?${queryParams.toString()}`;
       },
     }),
 
     getTxnStatusDetails: build.query<GetTxnStatusDetailsResponse, GetAdvancedTrackerStatusPayload>({
       query: (body) => ({
         method: 'POST',
-        url: `${baseUrl}/apiusage/v2/txn`,
+        url: `${baseUrl}/tracker/v2/txn`,
         body: JSON.stringify(body),
         headers: { 'Content-Type': 'application/json' },
       }),
