@@ -9,23 +9,22 @@ import i18n, {
 import { initReactI18next } from 'react-i18next';
 import { SupportedLanguages } from 'types/app';
 
-import de from './locales/de.json';
-import en from './locales/en.json';
-import es from './locales/es.json';
-import fr from './locales/fr.json';
-import hi from './locales/hi.json';
-import it from './locales/it.json';
-import jp from './locales/ja-JP.json';
-import km from './locales/km.json';
-import ko from './locales/ko.json';
-import nl from './locales/nl-NL.json';
-import pl from './locales/pl.json';
-import pt from './locales/pt.json';
-import ptBR from './locales/pt-BR.json';
-import ru from './locales/ru.json';
-import ur from './locales/ur.json';
-import zhHans from './locales/zh-Hans.json';
-import zhHant from './locales/zh-Hant.json';
+import de from './locales/de_DE.json';
+import en from './locales/en_GB.json';
+import es from './locales/es_ES.json';
+import fr from './locales/fr_FR.json';
+import hi from './locales/hi_IN.json';
+import it from './locales/it_IT.json';
+import jp from './locales/ja_JP.json';
+import km from './locales/km_KH.json';
+import ko from './locales/ko_KR.json';
+import nl from './locales/nl_NL.json';
+import pl from './locales/pl_PL.json';
+import ptBR from './locales/pt_BR.json';
+import pt from './locales/pt_PT.json';
+import ru from './locales/ru_RU.json';
+import zhHant from './locales/zh_CN.json';
+import zhHans from './locales/zh_TW.json';
 
 const parseMissingKeyHandler = (key: string) => key.split('.').pop();
 
@@ -46,7 +45,6 @@ const resources: Record<SupportedLanguages, Resource> = {
   pl: { translation: pl },
   pt: { translation: pt },
   ru: { translation: ru },
-  ur: { translation: ur },
 };
 
 initializeI18n(initReactI18next).init({

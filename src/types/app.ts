@@ -43,7 +43,6 @@ export const SUPPORTED_LANGUAGES = [
   'jp',
   'km',
   'ko',
-  'ur',
   'ru',
   'zh-Hans',
   'zh-Hant',
