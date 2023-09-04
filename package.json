@@ -50,7 +50,7 @@
     "@thorswap-lib/swapkit-core": "1.0.0-development.206",
     "@thorswap-lib/toolbox-cosmos": "1.0.0-development.145",
     "@thorswap-lib/toolbox-evm": "1.0.0-development.157",
-    "@thorswap-lib/toolbox-utxo": "1.0.0-development.134",
+    "@thorswap-lib/toolbox-utxo": "1.0.0-development.138",
     "@thorswap-lib/trezor": "1.0.0-development.59",
     "@thorswap-lib/types": "1.0.0-development.100",
     "@thorswap-lib/walletconnect": "2.0.0-development.32",

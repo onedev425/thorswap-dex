@@ -32,7 +32,9 @@ export const WithdrawLiquidity = () => {
 
   const { data: lpMemberData, isLoading: lpMemberLoading } = useGetFullMemberQuery(
     walletAddresses,
-    { skip: !walletAddresses.length || isWalletLoading },
+    {
+      skip: !walletAddresses.length || isWalletLoading,
+    },
   );
 
   const [poolAsset, positions] = useMemo(() => {

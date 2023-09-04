@@ -3,7 +3,6 @@ import { FullMemberPool, MemberPool } from '@thorswap-lib/midgard-sdk';
 import { AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
 import {
   checkPendingLP,
-  getAddedAndWithdrawn,
   getChainMemberDetails,
   mergePendingLP,
   removePendingLP,
@@ -20,14 +19,10 @@ const initialState: State = {
   poolLoading: false,
   chainMemberDetails: {},
   chainMemberDetailsLoading: {},
-  stats: null,
   networkData: null,
-  constants: null,
   queue: null,
   poolStats: null,
   poolStatsLoading: false,
-  depthHistory: null,
-  depthHistoryLoading: false,
   earningsHistory: null,
   earningsHistoryLoading: false,
   tvlHistory: null,
@@ -48,10 +43,7 @@ const initialState: State = {
   approveStatus: {},
   pendingLP: {},
   pendingLPLoading: false,
-  lpAddedAndWithdraw: {},
   poolNamesByChain: {},
-  lpDetailLoading: {},
-  fullMemberDetailsLoading: false,
 };
 
 const midgardSlice = createSlice({
@@ -98,42 +90,6 @@ const midgardSlice = createSlice({
       })
       .addCase(midgardActions.getNodes.rejected, (state) => {
         state.nodeLoading = false;
-      })
-      .addCase(midgardActions.getLpDetails.pending, (state, { meta }) => {
-        const { pool } = meta.arg;
-
-        state.lpDetailLoading = {
-          ...state.lpDetailLoading,
-          [pool]: true,
-        };
-      })
-      .addCase(midgardActions.getLpDetails.fulfilled, (state, { meta, payload }) => {
-        const { pool } = meta.arg;
-
-        const addedAndWithdrawn = getAddedAndWithdrawn(payload);
-
-        state.lpAddedAndWithdraw = {
-          ...state.lpAddedAndWithdraw,
-          ...addedAndWithdrawn,
-        };
-        state.lpDetailLoading = {
-          ...state.lpDetailLoading,
-          [pool]: false,
-        };
-      })
-      .addCase(midgardActions.getLpDetails.rejected, (state, { meta }) => {
-        const { pool } = meta.arg;
-        state.lpAddedAndWithdraw = {
-          ...state.lpAddedAndWithdraw,
-          [pool]: {
-            added: { rune: '0', asset: '0' },
-            withdrawn: { rune: '0', asset: '0' },
-          },
-        };
-        state.lpDetailLoading = {
-          ...state.lpDetailLoading,
-          [pool]: false,
-        };
       })
       // used for getting all pool share data
       .addCase(midgardActions.getPoolMemberDetailByChain.pending, (state, { meta }) => {
@@ -185,9 +141,6 @@ const midgardSlice = createSlice({
           [chain]: false,
         };
       })
-      .addCase(midgardActions.getFullMemberDetail.pending, (state) => {
-        state.fullMemberDetailsLoading = true;
-      })
       .addCase(midgardActions.getFullMemberDetail.fulfilled, (state, { payload }) => {
         if (!payload) return;
 
@@ -221,11 +174,6 @@ const midgardSlice = createSlice({
 
           state.poolNamesByChain[chain] = poolNamesByChain;
         });
-
-        state.fullMemberDetailsLoading = false;
-      })
-      .addCase(midgardActions.getFullMemberDetail.rejected, (state) => {
-        state.fullMemberDetailsLoading = false;
       })
       // used for getting pool share for a specific chain
       .addCase(midgardActions.reloadPoolMemberDetailByChain.pending, (state, { meta }) => {
@@ -343,9 +291,6 @@ const midgardSlice = createSlice({
       })
       .addCase(midgardActions.getLiquidityProviderData.rejected, (state) => {
         state.pendingLPLoading = false;
-      })
-      .addCase(midgardActions.getStats.fulfilled, (state, { payload }) => {
-        state.stats = payload;
       })
       .addCase(midgardActions.getNetworkData.fulfilled, (state, { payload }) => {
         state.networkData = payload;

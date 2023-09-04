@@ -1,14 +1,8 @@
-import { LpDetail, MemberPool, StakeDetail, WithdrawDetail } from '@thorswap-lib/midgard-sdk';
+import { MemberPool } from '@thorswap-lib/midgard-sdk';
 import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
-import { BigNumber } from 'bignumber.js';
 
-import {
-  ChainMemberDetails,
-  LiquidityProvider,
-  LpDetailCalculationResult,
-  PoolMemberData,
-} from './types';
+import { ChainMemberDetails, LiquidityProvider, PoolMemberData } from './types';
 
 export const hasPendingLP = (data: ChainMemberDetails | undefined): boolean => {
   if (!data) return false;
@@ -162,42 +156,4 @@ export const removePendingLP = ({
   }
 
   return chainMemberDetails;
-};
-
-export const getAddedAndWithdrawn = (lpDetails: LpDetail[]): LpDetailCalculationResult => {
-  const baseNumber = Math.pow(10, 8); // 1e8
-  const calculated: LpDetailCalculationResult = {};
-
-  lpDetails.forEach(({ stakeDetail, withdrawDetail, pool }: LpDetail) => {
-    const totalAdded = stakeDetail.reduce(
-      (total: { rune: number; asset: number }, staked: StakeDetail) => {
-        const assetAdded = new BigNumber(staked.assetAmount).div(baseNumber);
-
-        const runeAdded = new BigNumber(staked.runeAmount).div(baseNumber);
-
-        return {
-          asset: total.asset + assetAdded.toNumber(),
-          rune: total.rune + runeAdded.toNumber(),
-        };
-      },
-      { rune: 0, asset: 0 },
-    );
-
-    const totalWithdrawn = withdrawDetail.reduce(
-      (total: { rune: number; asset: number }, withdrawn: WithdrawDetail) => {
-        const assetWithdrawn = new BigNumber(withdrawn.assetAmount).div(baseNumber);
-
-        const runeWithdrawn = new BigNumber(withdrawn.runeAmount).div(baseNumber);
-
-        return {
-          asset: total.asset + assetWithdrawn.toNumber(),
-          rune: total.rune + runeWithdrawn.toNumber(),
-        };
-      },
-      { rune: 0, asset: 0 },
-    );
-    calculated[pool] = { added: totalAdded, withdrawn: totalWithdrawn };
-  });
-
-  return calculated;
 };

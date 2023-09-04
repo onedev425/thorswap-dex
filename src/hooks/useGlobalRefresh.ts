@@ -10,7 +10,6 @@ import {
   getNetworkData,
   getPools,
   getQueue,
-  getStats,
   getSwapHistory,
   getTVLHistory,
   getVolume24h,
@@ -37,7 +36,6 @@ export const useGlobalRefresh = () => {
     isLoading.current = true;
     batch(() => {
       appDispatch(getVolume24h());
-      appDispatch(getStats());
       appDispatch(getNetworkData());
       appDispatch(getLastblock());
       appDispatch(getMimir());
@@ -56,7 +54,6 @@ export const useGlobalRefresh = () => {
         loadInitialData();
       } else {
         appDispatch(getMimir());
-        appDispatch(getStats());
       }
     },
     [loadInitialData, appDispatch],

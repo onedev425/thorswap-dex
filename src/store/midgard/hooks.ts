@@ -46,40 +46,6 @@ export const useMidgard = () => {
     [dispatch, getPoolsFromState, wallet],
   );
 
-  /**
-   * reload pool member details for a specific chain
-   * 1. fetch pool member data for chain wallet addr (asset asymm share, symm share)
-   * 2. fetch pool member data for thorchain wallet addr (rune asymm share)
-   */
-  const loadMemberDetailsByChain = useCallback(
-    (chain: Chain) => {
-      if (!wallet) return;
-
-      const assetChainAddress = wallet?.[chain]?.address;
-      const thorchainAddress = wallet?.[Chain.THORChain]?.address;
-
-      if (assetChainAddress && thorchainAddress) {
-        dispatch(
-          actions.reloadPoolMemberDetailByChain({
-            chain,
-            thorchainAddress,
-            assetChainAddress,
-          }),
-        );
-      } else if (assetChainAddress) {
-        dispatch(
-          actions.reloadPoolMemberDetailByAssetChain({
-            chain,
-            assetChainAddress,
-          }),
-        );
-      }
-      // load pending deposit
-      getPendingDepositByChain(chain);
-    },
-    [dispatch, wallet, getPendingDepositByChain],
-  );
-
   const loadFullMemberDetails = useCallback(
     async (addresses: string[]) => {
       await dispatch(actions.getFullMemberDetail(addresses));
@@ -117,17 +83,6 @@ export const useMidgard = () => {
     [getPoolsFromState],
   );
 
-  const getLpDetails = useCallback(
-    async (chain: Chain, pool: string) => {
-      const chainWalletAddr = wallet?.[chain]?.address;
-
-      if (chainWalletAddr) {
-        dispatch(actions.getLpDetails({ address: chainWalletAddr, pool: pool }));
-      }
-    },
-    [dispatch, wallet],
-  );
-
   // get pool member details for all chains
   const getAllMemberDetails = useCallback(async () => {
     if (!wallet) return;
@@ -148,23 +103,6 @@ export const useMidgard = () => {
     }
   }, [getMemberDetailsByChain, loadFullMemberDetails, wallet]);
 
-  const { poolNamesByChain, lpAddedAndWithdraw, lpDetailLoading } = midgard;
-
-  const getAllLpDetails = useCallback(async () => {
-    if (!wallet) return;
-
-    Object.keys(wallet).forEach((chain) => {
-      if (!poolNamesByChain[chain]) return;
-      poolNamesByChain[chain].forEach((poolName: string) => {
-        if (lpAddedAndWithdraw[poolName] || lpDetailLoading[poolName]) {
-          return;
-        }
-
-        getLpDetails(chain as Chain, poolName);
-      });
-    });
-  }, [getLpDetails, lpAddedAndWithdraw, lpDetailLoading, poolNamesByChain, wallet]);
-
   const tcLastBlock: number | null = midgard?.lastBlock?.[0]?.thorchain || null;
 
   return {
@@ -173,9 +111,7 @@ export const useMidgard = () => {
     getAllMemberDetails,
     getNodes,
     isGlobalHistoryLoading,
-    loadMemberDetailsByChain,
     synthAssets,
-    getAllLpDetails,
     tcLastBlock,
     getPoolsFromState,
   };

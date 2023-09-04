@@ -1,6 +1,7 @@
 import type { Network as MidgardNetwork } from '@thorswap-lib/midgard-sdk';
 import { Amount } from '@thorswap-lib/swapkit-core';
 import { parseToPercent } from 'helpers/parseHelpers';
+import { useGetStatsQuery } from 'store/midgard/api';
 import { useMidgard } from 'store/midgard/hooks';
 
 const getTotalBond = (networkData: MidgardNetwork | null) => {
@@ -28,7 +29,8 @@ const getTotalActiveBond = (networkData: MidgardNetwork | null) =>
   Amount.fromMidgard(networkData?.bondMetrics.totalActiveBond);
 
 export const useGlobalStats = () => {
-  const { stats, networkData, volume24h } = useMidgard();
+  const { data: stats } = useGetStatsQuery();
+  const { networkData, volume24h } = useMidgard();
 
   const totalBond = getTotalBond(networkData);
   const tvlInRune = getTVL(networkData);

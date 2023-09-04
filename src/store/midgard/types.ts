@@ -1,8 +1,6 @@
 import {
   Action,
   Coin,
-  Constants,
-  DepthHistory,
   EarningsHistory,
   LastblockItem,
   LiquidityHistory,
@@ -10,7 +8,6 @@ import {
   Network,
   PoolStatsDetail,
   Queue,
-  StatsData,
   SwapHistory,
   THORNode,
   TVLHistory,
@@ -223,22 +220,6 @@ export type PendingLP = Record<string, LiquidityProvider>;
 
 export type PoolNamesByChain = Record<string, string[]>;
 
-export type LpDetailLoading = Record<string, boolean>;
-
-export type AddedAndWithdrawn = {
-  rune: string | number;
-  asset: string | number;
-};
-
-export type LpDetailCalculatedAddedAndWithdrawn = {
-  added: AddedAndWithdrawn;
-  withdrawn: AddedAndWithdrawn;
-};
-
-export type LpDetailCalculationResult = {
-  [key: string]: LpDetailCalculatedAddedAndWithdrawn;
-};
-
 export type PoolPeriodsUsedForApiCall = '30d' | '7d';
 
 export type PoolsRecords = {
@@ -250,11 +231,8 @@ export interface State {
   poolLoading: boolean;
   chainMemberDetails: ChainMemberDetails;
   chainMemberDetailsLoading: ChainMemberDetailsLoading;
-  fullMemberDetailsLoading: boolean;
   poolStats: PoolStatsDetail | null;
   poolStatsLoading: boolean;
-  depthHistory: DepthHistory | null;
-  depthHistoryLoading: boolean;
   earningsHistory: EarningsHistory | null;
   earningsHistoryLoading: boolean;
   tvlHistory: TVLHistory | null;
@@ -265,9 +243,7 @@ export interface State {
   liquidityHistory: LiquidityHistory | null;
   liquidityGlobalHistory: LiquidityHistory | null;
   liquidityHistoryLoading: boolean;
-  stats: StatsData | null;
   networkData: Network | null;
-  constants: Constants | null;
   queue: Queue | null;
   mimirLoading: boolean;
   mimirLoaded: boolean;
@@ -280,8 +256,6 @@ export interface State {
   pendingLP: PendingLP;
   pendingLPLoading: boolean;
   poolNamesByChain: PoolNamesByChain;
-  lpDetailLoading: LpDetailLoading;
-  lpAddedAndWithdraw: LpDetailCalculationResult;
 }
 
 export type ThornodePoolType = {

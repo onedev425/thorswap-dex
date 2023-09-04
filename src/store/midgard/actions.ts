@@ -26,7 +26,6 @@ export const getNetworkData = createAsyncThunk('midgard/getNetworkData', midgard
 export const getLastblock = createAsyncThunk('midgard/getLastblock', () =>
   getRequest<any>(`${THORNODE_URL}/lastblock`),
 );
-export const getStats = createAsyncThunk('midgard/getStats', midgardSdk.getStats);
 export const getQueue = createAsyncThunk('midgard/getQueue', () =>
   getRequest<any>(`${THORNODE_URL}/queue`),
 );

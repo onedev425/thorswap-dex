@@ -19,7 +19,7 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getAddLiquidityRoute, getWithdrawRoute } from 'settings/router';
-import { LpDetailCalculationResult, PoolShareType } from 'store/midgard/types';
+import { PoolShareType } from 'store/midgard/types';
 
 import { LiquidityInfo } from './LiquidityInfo';
 
@@ -31,7 +31,7 @@ type LiquidityCardProps = {
   runePending: string;
   shareType: PoolShareType;
   withFooter?: boolean;
-  lpAddedAndWithdraw?: LpDetailCalculationResult;
+  lpAddedAndWithdraw?: ToDo;
 };
 
 export const LiquidityCard = ({

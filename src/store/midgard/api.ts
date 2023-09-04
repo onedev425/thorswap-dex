@@ -8,6 +8,8 @@ import {
 import { MIDGARD_URL } from 'settings/config';
 import { MidgardTradeHistory } from 'store/midgard/types';
 
+const microgardUrl = 'https://mu.thorswap.net';
+
 export const midgardApi = createApi({
   reducerPath: 'midgardApi',
   baseQuery: fetchBaseQuery({
@@ -16,16 +18,21 @@ export const midgardApi = createApi({
   }),
   endpoints: (build) => ({
     getFullMember: build.query<FullMemberPool[], string[]>({
-      query: (addresses) => `/full_member?address=${addresses.join(',')}`,
+      query: (addresses) => `${microgardUrl}/fullmember?address=${addresses.join(',')}`,
       keepUnusedDataFor: 10,
     }),
     getPools: build.query<PoolDetail[], PoolPeriods | void>({
       query: (period) => `/pools${period ? `?period=${period}` : ''}`,
       keepUnusedDataFor: 300,
     }),
-    getMonthlyTradeVolume: build.query<MidgardTradeHistory, void>({
-      query: () => 'https://mu.thorswap.net/ts-swaps?interval=month&count=1&unique=true',
+    getStats: build.query<any, void>({
+      query: () => '/stats',
+      keepUnusedDataFor: 300,
     }),
+    getMonthlyTradeVolume: build.query<MidgardTradeHistory, void>({
+      query: () => `${microgardUrl}/ts-swaps?interval=month&count=1&unique=true`,
+    }),
+
     getTNSByOwnerAddress: build.query<string[], string>({
       query: (address) => `/thorname/owner/${address}`,
     }),
@@ -36,10 +43,11 @@ export const midgardApi = createApi({
 });
 
 export const {
-  useGetTNSDetailQuery,
-  useLazyGetTNSDetailQuery,
-  useGetTNSByOwnerAddressQuery,
-  useGetMonthlyTradeVolumeQuery,
   useGetFullMemberQuery,
+  useGetMonthlyTradeVolumeQuery,
   useGetPoolsQuery,
+  useGetTNSByOwnerAddressQuery,
+  useGetTNSDetailQuery,
+  useGetStatsQuery,
+  useLazyGetTNSDetailQuery,
 } = midgardApi;
