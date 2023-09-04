@@ -7,7 +7,6 @@ import { HoverIcon } from 'components/HoverIcon';
 import { getAmountFromString } from 'components/InputAmount/utils';
 import { useTheme } from 'components/Theme/ThemeContext';
 import { useFormatPrice } from 'helpers/formatPrice';
-import useWindowSize from 'hooks/useWindowSize';
 import { memo, MouseEventHandler, useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
 import {
@@ -29,7 +28,6 @@ export const AssetSelectItem = memo(
   ({ asset, logoURI, style, provider, balance, select, value, cg, price, identifier }: Props) => {
     const { isLight } = useTheme();
     const formatPrice = useFormatPrice();
-    const { isMdActive } = useWindowSize();
     const address = asset.symbol.split('-')[1];
     const assetChain = provider?.toLowerCase() === 'thorchain' ? Chain.THORChain : asset.chain;
 
@@ -49,8 +47,6 @@ export const AssetSelectItem = memo(
       },
       [address, asset, assetChain],
     );
-
-    const showInfoButton = useMemo(() => isMdActive && !!provider, [isMdActive, provider]);
 
     const serviceName = useMemo(() => {
       switch (assetChain) {
@@ -125,21 +121,21 @@ export const AssetSelectItem = memo(
               </Text>
 
               <Box className="opacity-40 group-hover:opacity-100 transition">
-                {showInfoButton && (
-                  <Tooltip
-                    content={`${t('views.swap.check', {
-                      checkType,
-                    })} ${t('views.swap.onService', {
-                      serviceName,
-                    })}`}
-                  >
-                    <HoverIcon
-                      iconName={tokenInfoIcon}
-                      onClick={navigateToTokenContract}
-                      size={16}
-                    />
-                  </Tooltip>
-                )}
+                <Tooltip
+                  content={`${t('views.swap.check', {
+                    checkType,
+                  })} ${t('views.swap.onService', {
+                    serviceName,
+                  })}${
+                    checkType === 'address'
+                      ? `, ${t('views.swap.contractAddress', {
+                          contractAddress: address,
+                        })}`
+                      : ''
+                  }`}
+                >
+                  <HoverIcon iconName={tokenInfoIcon} onClick={navigateToTokenContract} size={16} />
+                </Tooltip>
               </Box>
             </Box>
 

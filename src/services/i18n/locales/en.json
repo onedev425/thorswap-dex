@@ -910,6 +910,7 @@
       "networkFeeTooltip": "Network fee used to pay for transactions. Click to see more details.",
       "noValidQuote": "No valid quote found",
       "onService": "on %{serviceName}",
+      "contractAddress": "CA: %{contractAddress}",
       "priceImpact": "Price Impact",
       "priceOptimizationAvailable": "Price Optimization available",
       "priceOptimizationInfo": "THORChain Streaming Swap automatically splits the quote into smaller sub-swaps executed over a longer period of time, delivering better rates. Completes as a single transaction. Click to learn more.",
