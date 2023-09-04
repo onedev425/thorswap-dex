@@ -16,7 +16,6 @@ export const FLAG_ICONS: Record<SupportedLanguages, string> = {
   pl: 'poland',
   pt: 'portugal',
   ru: 'russia',
-  ur: 'pakistan',
   jp: 'japan',
 };
 
@@ -36,6 +35,5 @@ export const LANGUAGE_NAMES: Record<SupportedLanguages, string> = {
   pl: 'Polski (POL)',
   pt: 'Português (POR)',
   ru: 'Русский (RUS)',
-  ur: 'اردو (URD)',
   jp: '日本語 (JPN)',
 };
