@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Link } from 'components/Atomic';
 import { RUNEAsset } from 'helpers/assets';
 import { getSwapRoute } from 'settings/router';

@@ -30,7 +30,7 @@ export const useV1ThorStakeInfo = (ethAddress?: string) => {
   const getStakedThorAmount = useCallback(async () => {
     if (ethAddress) {
       // V1 $thor stake
-      const stakingContract = getEtherscanContract(ContractType.STAKING_THOR);
+      const stakingContract = await getEtherscanContract(ContractType.STAKING_THOR);
       const { amount } = await stakingContract.userInfo(0, ethAddress);
 
       setStakedThorAmount(amount as BigNumber);
@@ -47,14 +47,14 @@ export const useV1ThorStakeInfo = (ethAddress?: string) => {
 };
 
 const getStakedThorAmount = async () => {
-  const contract = getCustomContract(stakingV2Addr[VestingType.THOR]);
+  const contract = await getCustomContract(stakingV2Addr[VestingType.THOR]);
   const stakedThorAmount = await contract.balanceOf(stakingV2Addr[VestingType.VTHOR]);
 
   return stakedThorAmount;
 };
 
 export const getVthorState = async (methodName: string, args?: FixMe[]) => {
-  const contract = getCustomContract(
+  const contract = await getCustomContract(
     contractConfig[ContractType.VTHOR].address,
     contractConfig[ContractType.VTHOR].abi,
   );
@@ -222,7 +222,7 @@ export const useVthorUtil = () => {
 
       let hash;
       try {
-        // TODO: rewrite to call from swapkit
+        // TODO(@Chillios): rewrite to call from swapkit
         hash = (await triggerContractCall(ContractType.VTHOR, 'deposit', [
           stakeAmount,
           receiverAddr,

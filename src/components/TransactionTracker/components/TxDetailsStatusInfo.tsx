@@ -1,5 +1,6 @@
 import { Text } from '@chakra-ui/react';
-import { TxStatus, TxTrackerDetails } from '@thorswap-lib/swapkit-api';
+import type { TxTrackerDetails } from '@thorswap-lib/swapkit-api';
+import { TxStatus } from '@thorswap-lib/swapkit-api';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { getEstimatedTxDuration } from 'components/TransactionManager/helpers';
 import { TransactionStatusIcon } from 'components/TransactionManager/TransactionStatusIcon';

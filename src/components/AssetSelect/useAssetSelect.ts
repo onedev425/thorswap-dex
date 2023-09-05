@@ -1,6 +1,7 @@
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { AssetFilterOptionType, assetFilterTypes } from 'components/AssetSelect/assetTypes';
-import { AssetSelectProps } from 'components/AssetSelect/types';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetFilterOptionType } from 'components/AssetSelect/assetTypes';
+import { assetFilterTypes } from 'components/AssetSelect/assetTypes';
+import type { AssetSelectProps } from 'components/AssetSelect/types';
 import { useCallback, useMemo, useState } from 'react';
 import { useAssets } from 'store/assets/hooks';
 import { useAppSelector } from 'store/store';

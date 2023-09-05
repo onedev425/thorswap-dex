@@ -1,4 +1,4 @@
-import { AssetSelectType } from 'components/AssetSelect/types';
+import type { AssetSelectType } from 'components/AssetSelect/types';
 import { useCallback } from 'react';
 import { actions } from 'store/assets/slice';
 import { useAppDispatch, useAppSelector } from 'store/store';

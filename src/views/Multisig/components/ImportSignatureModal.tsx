@@ -1,10 +1,10 @@
+import type { Signer } from '@thorswap-lib/toolbox-cosmos';
 import classNames from 'classnames';
 import { Box, Button, DropdownMenu, Modal } from 'components/Atomic';
 import { useButtonClasses } from 'components/Atomic/Button/useButtonClasses';
 import { FieldLabel } from 'components/Form';
 import { Controller } from 'react-hook-form';
 import { t } from 'services/i18n';
-import { Signer } from 'services/multisig';
 import { useImportSignatureForm } from 'views/Multisig/components/hooks';
 import { TextareaPaste } from 'views/Multisig/components/TextareaPaste';
 

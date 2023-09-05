@@ -1,11 +1,6 @@
 import { gasFeeMultiplier } from '@thorswap-lib/helpers';
-import {
-  Amount,
-  AssetAmount,
-  AssetEntity,
-  getSignatureAssetFor,
-  Pool,
-} from '@thorswap-lib/swapkit-core';
+import type { AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetAmount, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { BaseDecimal, Chain, FeeOption } from '@thorswap-lib/types';
 import BigNumber from 'bignumber.js';
 import { isAVAXAsset, isBTCAsset, isETHAsset, USDAsset } from 'helpers/assets';
@@ -14,7 +9,7 @@ import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useMemo } from 'react';
 import { useApp } from 'store/app/hooks';
 import { useGetGasPriceRatesQuery } from 'store/thorswap/api';
-import { GasPriceInfo } from 'store/thorswap/types';
+import type { GasPriceInfo } from 'store/thorswap/types';
 
 type DirectionType = 'inbound' | 'outbound' | 'transfer';
 

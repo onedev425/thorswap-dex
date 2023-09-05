@@ -5,7 +5,7 @@ import { AssetSelect } from 'components/AssetSelect';
 import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton';
 import { Box, Button, Icon } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
-import { InfoRowConfig } from 'components/InfoRow/types';
+import type { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
 import { LiquidityType } from 'components/LiquidityType/LiquidityType';
 import { LPTypeSelector } from 'components/LPTypeSelector';

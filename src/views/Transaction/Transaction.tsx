@@ -1,5 +1,5 @@
 import { CircularProgress, Flex, Text } from '@chakra-ui/react';
-import { TxTrackerDetails } from '@thorswap-lib/swapkit-api';
+import type { TxTrackerDetails } from '@thorswap-lib/swapkit-api';
 import { Card } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { useTransactionDetails } from 'components/TransactionManager/useAdvancedTracker';

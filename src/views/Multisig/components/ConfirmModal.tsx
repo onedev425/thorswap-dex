@@ -1,5 +1,6 @@
 import { Box, Button, Modal } from 'components/Atomic';
-import { ReactNode, useCallback, useEffect } from 'react';
+import type { ReactNode } from 'react';
+import { useCallback, useEffect } from 'react';
 import { t } from 'services/i18n';
 
 type Props = {

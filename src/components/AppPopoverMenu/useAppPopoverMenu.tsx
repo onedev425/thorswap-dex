@@ -1,15 +1,17 @@
-import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
-import { MenuItemType } from 'components/AppPopoverMenu/types';
+import type { MenuItemType } from 'components/AppPopoverMenu/types';
 import { AssetIcon } from 'components/AssetIcon';
-import { IconName } from 'components/Atomic';
+import type { IconName } from 'components/Atomic';
 import { useTheme } from 'components/Theme/ThemeContext';
 import { USDAsset } from 'helpers/assets';
 import { useMemo, useState } from 'react';
 import { changeAppLanguage, FLAG_ICONS, LANGUAGE_NAMES, t } from 'services/i18n';
 import { IS_LEDGER_LIVE } from 'settings/config';
 import { useApp } from 'store/app/hooks';
-import { SUPPORTED_LANGUAGES, SupportedLanguages, ThemeType, ThousandSeparator } from 'types/app';
+import type { SupportedLanguages } from 'types/app';
+import { SUPPORTED_LANGUAGES, ThemeType, ThousandSeparator } from 'types/app';
 
 type MenuType =
   | 'main'
@@ -134,7 +136,7 @@ const useMainMenu = (setMenuType: (val: MenuType) => void) => {
           label: t('appMenu.settings'),
           desc: t('appMenu.customize'),
           onClick: () => setMenuType('settings'),
-          icon: 'multiSettings',
+          icon: 'settings',
         },
   ].filter((i) => !!i) as MenuItemType[];
 

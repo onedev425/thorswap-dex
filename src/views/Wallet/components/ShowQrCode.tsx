@@ -1,9 +1,10 @@
-import { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
 import { Box } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { QRCodeModal } from 'components/Modals/QRCodeModal';
 import { chainName } from 'helpers/chainName';
-import { ReactNode, useCallback, useState } from 'react';
+import type { ReactNode } from 'react';
+import { useCallback, useState } from 'react';
 import { t } from 'services/i18n';
 
 type Props = {

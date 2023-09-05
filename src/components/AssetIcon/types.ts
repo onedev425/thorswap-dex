@@ -1,6 +1,6 @@
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { IconColor } from 'components/Atomic';
-import { ColorType } from 'types/app';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { IconColor } from 'components/Atomic';
+import type { ColorType } from 'types/app';
 
 export const iconSizes = {
   large: 72,

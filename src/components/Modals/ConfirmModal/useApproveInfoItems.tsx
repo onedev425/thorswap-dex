@@ -1,4 +1,4 @@
-import { InfoRowConfig } from 'components/InfoRow/types';
+import type { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';

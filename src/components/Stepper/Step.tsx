@@ -5,7 +5,7 @@ import { maxHeightTransitionClass } from 'components/Atomic/Collapse/Collapse';
 import { genericBgClasses } from 'components/constants';
 import { HighlightCard } from 'components/HighlightCard';
 import { HoverIcon } from 'components/HoverIcon';
-import { StepType } from 'components/Stepper/types';
+import type { StepType } from 'components/Stepper/types';
 
 type Props = {
   step: StepType;

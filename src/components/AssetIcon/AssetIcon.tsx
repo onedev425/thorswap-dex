@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { FallbackIcon } from 'components/AssetIcon/FallbackIcon';
 import { Box } from 'components/Atomic';
@@ -10,7 +10,8 @@ import { memo, useMemo } from 'react';
 import { genericBgClasses } from '../constants';
 
 import { ChainIcon, FORCE_ICON_CHAINS } from './ChainIcon';
-import { AssetIconProps, iconSizes } from './types';
+import type { AssetIconProps } from './types';
+import { iconSizes } from './types';
 import { getSecondaryIconPlacementStyle } from './utils';
 
 const AssetIconComponent = ({

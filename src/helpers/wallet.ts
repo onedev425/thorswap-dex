@@ -1,4 +1,5 @@
-import { Amount, AssetAmount, AssetEntity, Pool, Wallet } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity, Pool, Wallet } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetAmount } from '@thorswap-lib/swapkit-core';
 import { Chain, WalletOption } from '@thorswap-lib/types';
 
 export const isTokenWhitelisted = (asset: AssetEntity, whitelistedAddresses: string[]) => {
@@ -49,7 +50,7 @@ export const getInputAssetsForCreate = ({
   pools,
   ethWhitelist,
   avaxWhitelist,
-  //TODO remove initial value after release
+  //TODO (BSC): Remove initial value after release
   bscWhitelist = [],
 }: {
   wallet: Wallet | null;

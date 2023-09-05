@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { AssetInputType } from 'components/AssetInput/types';
+import type { AssetInputType } from 'components/AssetInput/types';
 import { Box, Collapse, Icon } from 'components/Atomic';
 import { t } from 'services/i18n';
 

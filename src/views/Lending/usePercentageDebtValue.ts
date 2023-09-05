@@ -1,4 +1,5 @@
-import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { useMemo } from 'react';
 import { useGetRepayValueQuery } from 'store/thorswap/api';
 import { useWallet } from 'store/wallet/hooks';

@@ -1,7 +1,9 @@
 import classNames from 'classnames';
-import { Box, Icon, IconColor, IconName, Link, Tooltip } from 'components/Atomic';
+import type { IconColor, IconName } from 'components/Atomic';
+import { Box, Icon, Link, Tooltip } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
-import { memo, MouseEventHandler } from 'react';
+import type { MouseEventHandler } from 'react';
+import { memo } from 'react';
 
 type Props = {
   className?: string;

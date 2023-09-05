@@ -1,6 +1,6 @@
 import { MaxInt256 } from '@ethersproject/constants';
 import { parseUnits } from '@ethersproject/units';
-import { Amount } from '@thorswap-lib/swapkit-core';
+import type { Amount } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button } from 'components/Atomic';
 import { stakingV2Addr } from 'helpers/assets';

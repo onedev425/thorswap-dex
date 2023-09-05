@@ -120,14 +120,11 @@ export const useTxWithdraw = () => {
       basisPoints: new Amount(percent, AmountType.ASSET_AMOUNT, 2).mul(100).assetAmount.toNumber(),
     });
 
-    const tx = await createDepositTx(
-      {
-        memo,
-        amount: getMinAmountByChain(Chain.THORChain).amount,
-        asset: getSignatureAssetFor(Chain.THORChain),
-      },
-      signers,
-    );
+    const tx = await createDepositTx({
+      memo,
+      amount: getMinAmountByChain(Chain.THORChain).amount,
+      asset: getSignatureAssetFor(Chain.THORChain),
+    });
 
     if (tx) {
       navigate(ROUTES.TxMultisig, {

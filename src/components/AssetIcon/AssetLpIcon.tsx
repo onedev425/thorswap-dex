@@ -1,7 +1,8 @@
 import classNames from 'classnames';
 
 import { AssetIcon } from './AssetIcon';
-import { AssetLpIconProps, iconSizes } from './types';
+import type { AssetLpIconProps } from './types';
+import { iconSizes } from './types';
 
 export const AssetLpIcon = ({
   asset1,

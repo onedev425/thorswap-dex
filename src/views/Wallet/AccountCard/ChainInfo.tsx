@@ -1,10 +1,10 @@
 import { Text } from '@chakra-ui/react';
-import { AssetAmount } from '@thorswap-lib/swapkit-core';
+import type { AssetAmount } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
 import { formatPrice } from 'helpers/formatPrice';
 import { memo, useMemo } from 'react';
-import { GetTokenPriceResponseItem } from 'store/thorswap/types';
+import type { GetTokenPriceResponseItem } from 'store/thorswap/types';
 
 type Props = {
   info: AssetAmount;

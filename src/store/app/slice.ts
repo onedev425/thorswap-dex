@@ -1,10 +1,10 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { FeeOption } from '@thorswap-lib/types';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
-import { SupportedLanguages, ThemeType, ThousandSeparator, ViewMode } from 'types/app';
+import type { SupportedLanguages, ThemeType, ThousandSeparator, ViewMode } from 'types/app';
 
-import { State } from './types';
+import type { State } from './types';
 
 const initialState: State = {
   customRecipientMode: getFromStorage('customRecipientMode') as boolean,

@@ -1,5 +1,5 @@
-import { FeeOption } from '@thorswap-lib/types';
-import { SupportedLanguages, ThemeType, ThousandSeparator, ViewMode } from 'types/app';
+import type { FeeOption } from '@thorswap-lib/types';
+import type { SupportedLanguages, ThemeType, ThousandSeparator, ViewMode } from 'types/app';
 
 export interface State {
   isAnnOpen: boolean;

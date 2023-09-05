@@ -1,8 +1,8 @@
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton';
 import { AssetSelectList } from 'components/AssetSelect/AssetSelectList';
 import { TokenListProviderSelect } from 'components/AssetSelect/TokenListProviderSelect';
-import { AssetSelectProps } from 'components/AssetSelect/types';
+import type { AssetSelectProps } from 'components/AssetSelect/types';
 import { Box, Modal } from 'components/Atomic';
 import { useState } from 'react';
 import { t } from 'services/i18n';

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useGetTNSByOwnerAddressQuery, useLazyGetTNSDetailQuery } from 'store/midgard/api';
 import { useAppSelector } from 'store/store';
-import { THORNameEntry } from 'types/app';
+import type { THORNameEntry } from 'types/app';
 
 export const useFetchThornames = () => {
   const fetching = useRef(false);

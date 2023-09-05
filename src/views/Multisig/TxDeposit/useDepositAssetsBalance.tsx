@@ -1,8 +1,9 @@
-import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { RUNEAsset } from 'helpers/assets';
 import { useMemo } from 'react';
 import { useMultisig } from 'store/multisig/hooks';
-import { DepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance';
+import type { DepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance';
 import { useMultissigAssets } from 'views/Multisig/hooks';
 
 type Props = {

@@ -53,8 +53,3 @@ yarn build:ledger; yarn preview:ledger
 yarn lint && yarn typescript
 ```
 
-- Testing
-
-```sh
-TODO: Add and integrate [vitest](https://vitest.dev/)
-```

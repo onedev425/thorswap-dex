@@ -1,5 +1,6 @@
-import { MemberPool } from '@thorswap-lib/midgard-sdk';
-import { Amount, AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
+import type { MemberPool } from '@thorswap-lib/midgard-sdk';
+import type { AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { useCallback, useEffect, useMemo } from 'react';
 import * as actions from 'store/midgard/actions';

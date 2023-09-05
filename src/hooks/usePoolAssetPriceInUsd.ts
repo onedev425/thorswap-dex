@@ -1,4 +1,5 @@
-import { Amount, AssetEntity as Asset, Price } from '@thorswap-lib/swapkit-core';
+import type { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import { Price } from '@thorswap-lib/swapkit-core';
 import { useMemo } from 'react';
 import { useMidgard } from 'store/midgard/hooks';
 

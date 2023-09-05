@@ -1,5 +1,6 @@
 import { Input } from 'components/Input';
-import { ChangeEventHandler, KeyboardEventHandler, memo } from 'react';
+import type { ChangeEventHandler, KeyboardEventHandler } from 'react';
+import { memo } from 'react';
 import { t } from 'services/i18n';
 
 type Props = {

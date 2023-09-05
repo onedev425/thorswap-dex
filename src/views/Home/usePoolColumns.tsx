@@ -1,5 +1,6 @@
 import { Link, Text } from '@chakra-ui/react';
-import { Amount, AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import { getAmountColumnSorter, sortPoolColumn } from 'components/Atomic/Table/utils';

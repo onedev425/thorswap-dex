@@ -1,7 +1,7 @@
 import { Text } from '@chakra-ui/react';
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
-import { AssetFilterOptionType } from 'components/AssetSelect/assetTypes';
+import type { AssetFilterOptionType } from 'components/AssetSelect/assetTypes';
 import { useAssetFilterTypes } from 'components/AssetSelect/useAssetFilterTypes';
 import { Box, Icon } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
@@ -14,7 +14,7 @@ import { t } from 'services/i18n';
 import { IS_LEDGER_LIVE } from 'settings/config';
 
 import { AssetSelectItem } from './AssetSelectItem';
-import { AssetSelectProps } from './types';
+import type { AssetSelectProps } from './types';
 import { useAssetSelect } from './useAssetSelect';
 
 const ASSET_ITEM_HEIGHT = 52;

@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { AssetAmount, Wallet } from '@thorswap-lib/swapkit-core';
-import { Chain, Keystore } from '@thorswap-lib/types';
+import type { AssetAmount, Wallet } from '@thorswap-lib/swapkit-core';
+import type { Keystore } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 
 import * as walletActions from './actions';
@@ -23,8 +24,7 @@ type LedgerLiveWallet = Wallet & {
 
 const initialState = {
   phrase: '',
-  privateKey: undefined as any,
-  publicKey: undefined as any,
+  pubKey: '',
   isConnectModalOpen: false,
   keystore: null as Keystore | null,
   wallet: initialWallet as Wallet | LedgerLiveWallet,
@@ -78,13 +78,12 @@ const walletSlice = createSlice({
     connectKeystore: (
       state,
       {
-        payload: { phrase, keystore, privateKey, publicKey },
-      }: PayloadAction<{ keystore: Keystore; phrase: string; privateKey?: any; publicKey?: any }>,
+        payload: { phrase, keystore, pubKey },
+      }: PayloadAction<{ keystore: Keystore; phrase: string; pubKey: string }>,
     ) => {
       state.phrase = phrase;
       state.keystore = keystore;
-      state.privateKey = privateKey;
-      state.publicKey = publicKey;
+      state.pubKey = pubKey;
     },
     setIsConnectModalOpen: (state, action: PayloadAction<boolean>) => {
       state.isConnectModalOpen = action.payload;

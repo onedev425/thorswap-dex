@@ -1,5 +1,6 @@
 import { WalletOption } from '@thorswap-lib/types';
-import { Box, Icon, IconName, Tooltip } from 'components/Atomic';
+import type { IconName } from 'components/Atomic';
+import { Box, Icon, Tooltip } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { WalletNameByWalletOption } from 'components/Modals/ConnectWalletModal/types';
 import { t } from 'services/i18n';

@@ -111,9 +111,9 @@ export const MultisigModal = ({ isOpen, onCancel = () => {} }: Props): JSX.Eleme
                     border="rounded"
                     className="py-1 min-w-[25px] text-right"
                     containerClassName={classNames({
-                      '!border-red': !!errors.treshold,
+                      '!border-red': !!errors.threshold,
                     })}
-                    {...formFields.treshold}
+                    {...formFields.threshold}
                   />
 
                   <Text className="whitespace-nowrap" textStyle="caption">

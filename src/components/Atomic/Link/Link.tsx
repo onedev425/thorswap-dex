@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { Box } from 'components/Atomic/Box/Box';
-import { memo, MouseEventHandler, ReactNode } from 'react';
+import type { MouseEventHandler, ReactNode } from 'react';
+import { memo } from 'react';
 import { NavLink } from 'react-router-dom';
 
 type LinkProps = {

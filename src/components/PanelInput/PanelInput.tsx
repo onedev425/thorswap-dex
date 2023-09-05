@@ -5,8 +5,9 @@ import { maxHeightTransitionClass } from 'components/Atomic/Collapse/Collapse';
 import { borderHighlightClass } from 'components/constants';
 import { Input } from 'components/Input';
 import { useInputFocusState } from 'components/Input/hooks/useInputFocusState';
-import { InputProps } from 'components/Input/types';
-import { ReactNode, useEffect, useMemo } from 'react';
+import type { InputProps } from 'components/Input/types';
+import type { ReactNode } from 'react';
+import { useEffect, useMemo } from 'react';
 
 type Props = Omit<InputProps, 'title'> & {
   loading?: boolean;

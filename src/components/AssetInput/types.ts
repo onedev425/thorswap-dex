@@ -1,5 +1,5 @@
-import { Amount, AssetEntity, Price } from '@thorswap-lib/swapkit-core';
-import { AssetSelectProps, AssetSelectType } from 'components/AssetSelect/types';
+import type { Amount, AssetEntity, Price } from '@thorswap-lib/swapkit-core';
+import type { AssetSelectProps, AssetSelectType } from 'components/AssetSelect/types';
 
 export type AssetInputType = {
   asset: AssetEntity;

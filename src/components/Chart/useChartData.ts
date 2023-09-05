@@ -8,7 +8,8 @@ import { abbreviateNumber } from './../../helpers/number';
 import { getChartData } from './config/chartData';
 import { getChartOptions } from './config/chartOptions';
 import { parseChartData } from './config/utils';
-import { ChartData, ChartTimeFrame, ChartType } from './types';
+import type { ChartData } from './types';
+import { ChartTimeFrame, ChartType } from './types';
 
 type Params = {
   chartData: ChartData;

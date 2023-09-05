@@ -1,4 +1,5 @@
-import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button } from 'components/Atomic';
 import { showErrorToast, showInfoToast } from 'components/Toast';

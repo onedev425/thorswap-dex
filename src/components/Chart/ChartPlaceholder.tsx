@@ -7,9 +7,10 @@ import { useApp } from 'store/app/hooks';
 import { ThemeType } from 'types/app';
 
 import { getChartData } from './config/chartData';
-import { getChartOptions } from './config/chartOptions';
+import type { getChartOptions } from './config/chartOptions';
 import { getRandomChartData } from './config/utils';
-import { BarChartType, ChartType, LineChartType } from './types';
+import type { BarChartType, LineChartType } from './types';
+import { ChartType } from './types';
 
 type Props = {
   previewChartType: ChartType;

@@ -4,7 +4,7 @@ import { Box, Card } from 'components/Atomic';
 import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';
 import { forwardRef, useImperativeHandle } from 'react';
 
-import { CollapseProps } from './types';
+import type { CollapseProps } from './types';
 import { useCollapse } from './useCollapse';
 
 export const maxHeightTransitionClass =

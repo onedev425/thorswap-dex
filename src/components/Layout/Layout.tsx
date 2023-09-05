@@ -4,7 +4,8 @@ import { Header } from 'components/Header';
 import { ConnectWalletModal } from 'components/Modals/ConnectWalletModal';
 import { Scrollbar } from 'components/Scrollbar';
 import { Sidebar } from 'components/Sidebar';
-import { PropsWithChildren, useCallback, useState } from 'react';
+import type { PropsWithChildren } from 'react';
+import { useCallback, useState } from 'react';
 import { IS_LEDGER_LIVE, IS_STAGENET } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 

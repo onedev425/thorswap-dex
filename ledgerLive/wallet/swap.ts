@@ -1,6 +1,7 @@
 import { baseAmount, getRequest } from '@thorswap-lib/helpers';
-import { AssetEntity, QuoteMode, SwapParams } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import type { SwapParams } from '@thorswap-lib/swapkit-core';
+import { AssetEntity, QuoteMode } from '@thorswap-lib/swapkit-core';
+import type { Chain } from '@thorswap-lib/types';
 
 const getInboundData = () => {
   return getRequest<any>(`https://thornode.thorswap.net/thorchain/inbound_addresses`);

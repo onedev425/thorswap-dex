@@ -1,10 +1,10 @@
-import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Box } from 'components/Atomic';
 import { TabsSelect } from 'components/TabsSelect';
 import { useCallback, useMemo } from 'react';
 import { PoolShareType } from 'store/midgard/types';
 
-import { LPTypeSelectorProps } from './types';
+import type { LPTypeSelectorProps } from './types';
 
 const getOptionsProp = (types: PoolShareType[], asset: Asset) => {
   const options: { label: string; value: string }[] = [];

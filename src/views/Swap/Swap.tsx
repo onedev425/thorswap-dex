@@ -1,12 +1,7 @@
 import { Box, Flex } from '@chakra-ui/react';
-import { QuoteRoute } from '@thorswap-lib/swapkit-api';
-import {
-  Amount,
-  AssetEntity,
-  getSignatureAssetFor,
-  Price,
-  QuoteMode,
-} from '@thorswap-lib/swapkit-core';
+import type { QuoteRoute } from '@thorswap-lib/swapkit-api';
+import type { AssetEntity, QuoteMode } from '@thorswap-lib/swapkit-core';
+import { Amount, getSignatureAssetFor, Price } from '@thorswap-lib/swapkit-core';
 import { BaseDecimal, Chain, WalletOption } from '@thorswap-lib/types';
 import BigNumber from 'bignumber.js';
 import { Analysis } from 'components/Analysis/Analysis';

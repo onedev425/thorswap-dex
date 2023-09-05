@@ -5,9 +5,11 @@ import { ChainIcon } from 'components/AssetIcon/ChainIcon';
 import { Box, Link } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
 import { HoverIcon } from 'components/HoverIcon';
-import { memo, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import { memo } from 'react';
 import { t } from 'services/i18n';
-import { AnnouncementItem, AnnouncementType } from 'store/externalConfig/types';
+import type { AnnouncementItem } from 'store/externalConfig/types';
+import { AnnouncementType } from 'store/externalConfig/types';
 
 type AnnouncementProps = {
   onClick?: () => void;

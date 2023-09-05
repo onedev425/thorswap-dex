@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { FullMemberPool } from '@thorswap-lib/midgard-sdk';
+import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
 import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';

@@ -1,4 +1,5 @@
-import { Amount, AssetEntity, isGasAsset } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount, isGasAsset } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { getAssetBalance } from 'helpers/wallet';
 import { getMultiplierForAsset, getNetworkFee, parseFeeToAssetAmount } from 'hooks/useNetworkFee';

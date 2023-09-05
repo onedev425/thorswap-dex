@@ -1,4 +1,4 @@
-import { ChangeEventHandler } from 'react';
+import type { ChangeEventHandler } from 'react';
 
 export type SwitchProps = {
   className?: string;

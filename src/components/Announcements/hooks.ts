@@ -8,11 +8,8 @@ import { t } from 'services/i18n';
 import { SUPPORTED_CHAINS } from 'settings/chain';
 import { useApp } from 'store/app/hooks';
 import { useExternalConfig } from 'store/externalConfig/hooks';
-import {
-  AnnouncementItem,
-  AnnouncementType,
-  ChainStatusAnnouncements,
-} from 'store/externalConfig/types';
+import type { AnnouncementItem, ChainStatusAnnouncements } from 'store/externalConfig/types';
+import { AnnouncementType } from 'store/externalConfig/types';
 
 const REFRESH_INTERVAL = 1000 * 50 * 5; //5min
 const sortOrder = {

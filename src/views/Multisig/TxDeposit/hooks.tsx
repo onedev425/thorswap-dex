@@ -1,9 +1,10 @@
 import { Text } from '@chakra-ui/react';
-import { AddLiquidityParams, AssetEntity, getMemoFor } from '@thorswap-lib/swapkit-core';
+import type { AddLiquidityParams, AssetEntity } from '@thorswap-lib/swapkit-core';
+import { getMemoFor } from '@thorswap-lib/swapkit-core';
 import { MemoType } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
-import { InfoRowConfig } from 'components/InfoRow/types';
+import type { InfoRowConfig } from 'components/InfoRow/types';
 import { RUNEAsset } from 'helpers/assets';
 import { useLiquidityType } from 'hooks/useLiquidityType';
 import { useCallback, useMemo } from 'react';
@@ -36,19 +37,15 @@ export const useTxDeposit = (assetSideAddress: string) => {
 
   const onAddLiquidity = async ({ runeAmount, pool }: AddLiquidityParams) => {
     if (runeAmount?.gt(0)) {
-      const tx = await createDepositTx(
-        {
-          memo: getMemoFor(MemoType.DEPOSIT, {
-            chain: pool.asset.chain,
-            symbol: pool.asset.symbol,
-            address:
-              liquidityType === LiquidityTypeOption.SYMMETRICAL ? assetSideAddress : undefined,
-          }),
-          amount: runeAmount.amount,
-          asset: runeAmount.asset,
-        },
-        signers,
-      );
+      const tx = await createDepositTx({
+        memo: getMemoFor(MemoType.DEPOSIT, {
+          chain: pool.asset.chain,
+          symbol: pool.asset.symbol,
+          address: liquidityType === LiquidityTypeOption.SYMMETRICAL ? assetSideAddress : undefined,
+        }),
+        amount: runeAmount.amount,
+        asset: runeAmount.asset,
+      });
 
       if (tx) {
         navigate(ROUTES.TxMultisig, {

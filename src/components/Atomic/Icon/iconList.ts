@@ -71,10 +71,11 @@ import {
   FiPlus,
   FiPlusCircle,
   FiRefreshCw,
+  FiSettings,
   FiX,
 } from 'react-icons/fi';
 import { GiReceiveMoney } from 'react-icons/gi';
-import { GoBook, GoSettings } from 'react-icons/go';
+import { GoBook } from 'react-icons/go';
 import { HiEyeOff, HiOutlineChartPie, HiOutlineCog, HiOutlineDocumentText } from 'react-icons/hi';
 import { ImBlocked } from 'react-icons/im';
 import {
@@ -198,7 +199,7 @@ const Icons = {
   menu: CgMenu,
   menuFold: AiOutlineMenuFold,
   minusCircle: FiMinusCircle,
-  multiSettings: GoSettings,
+  multiSettings: FiSettings,
   node: VscSymbolMethod,
   paste: BiPaste,
   percent: AiOutlinePercentage,

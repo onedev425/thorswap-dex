@@ -1,7 +1,8 @@
 import { showSuccessToast } from 'components/Toast';
 import copy from 'copy-to-clipboard';
 import { useCallback, useEffect, useState } from 'react';
-import { FieldValues, useForm } from 'react-hook-form';
+import type { FieldValues } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
 

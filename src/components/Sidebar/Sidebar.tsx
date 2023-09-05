@@ -19,7 +19,7 @@ import { t } from 'services/i18n';
 import { ROUTES } from 'settings/router';
 
 import { SidebarItems } from './SidebarItems';
-import { SidebarProps } from './types';
+import type { SidebarProps } from './types';
 
 const noScrollHeight = 238;
 const toggleHeight = 50;

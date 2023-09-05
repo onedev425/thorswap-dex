@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';
 import { borderHoverHighlightClass } from 'components/constants';
-import { CardStyleType } from 'components/HighlightCard/types';
-import { ReactNode } from 'react';
+import type { CardStyleType } from 'components/HighlightCard/types';
+import type { ReactNode } from 'react';
 
 type Props = {
   className?: string;

@@ -1,5 +1,5 @@
-import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import { PoolShareType } from 'store/midgard/types';
+import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { PoolShareType } from 'store/midgard/types';
 
 export type LPTypeSelectorProps = {
   poolAsset: Asset;

@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';
 

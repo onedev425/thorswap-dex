@@ -10,7 +10,7 @@ import { TxSend } from 'views/Multisig/TxSend/TxSend';
 import { TxTypeSelect } from 'views/Multisig/TxTypeSelect';
 import { TxWithdraw } from 'views/Multisig/TxWithdraw/TxWithdraw';
 
-export const TxDetailsStep = () => {
+export const TxDetails = () => {
   const [txType, setTxType] = useState(MultisigTxType.send);
 
   return (

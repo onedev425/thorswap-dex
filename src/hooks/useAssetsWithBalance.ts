@@ -1,5 +1,6 @@
-import { Amount, Pool } from '@thorswap-lib/swapkit-core';
-import { Asset, Chain } from '@thorswap-lib/types';
+import type { Pool } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
+import type { Asset, Chain } from '@thorswap-lib/types';
 import { useBalance } from 'hooks/useBalance';
 import { useMemo } from 'react';
 import { useMidgard } from 'store/midgard/hooks';

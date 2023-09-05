@@ -1,13 +1,14 @@
 import { Text } from '@chakra-ui/react';
-import { Price } from '@thorswap-lib/swapkit-core';
+import type { Price } from '@thorswap-lib/swapkit-core';
 import { FeeOption } from '@thorswap-lib/types';
 import { Box, Button, Collapse, Icon, Select } from 'components/Atomic';
-import { InfoRowConfig } from 'components/InfoRow/types';
+import type { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { parseToPercent } from 'helpers/parseHelpers';
-import { MouseEventHandler, useCallback, useMemo, useState } from 'react';
+import type { MouseEventHandler } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { IS_LEDGER_LIVE } from 'settings/config';
 import { useApp } from 'store/app/hooks';

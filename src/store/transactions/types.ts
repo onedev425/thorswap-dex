@@ -1,6 +1,6 @@
-import { QuoteRoute, TxStatus, TxTrackerDetails } from '@thorswap-lib/swapkit-api';
-import { Chain } from '@thorswap-lib/types';
-import { BorrowQuoteResponse, TxnResult } from 'store/thorswap/types';
+import type { QuoteRoute, TxStatus, TxTrackerDetails } from '@thorswap-lib/swapkit-api';
+import type { Chain } from '@thorswap-lib/types';
+import type { BorrowQuoteResponse, TxnResult } from 'store/thorswap/types';
 
 export type TransactionStatus = 'error' | 'mined' | 'refund' | 'pending' | 'unknown' | 'notStarted';
 

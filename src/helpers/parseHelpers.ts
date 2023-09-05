@@ -1,5 +1,5 @@
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { GetTokenPriceIdentifiers } from 'store/thorswap/types';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { GetTokenPriceIdentifiers } from 'store/thorswap/types';
 
 export const parseAssetToToken = ({
   isSynth,

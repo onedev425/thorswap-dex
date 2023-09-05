@@ -3,9 +3,9 @@ import { useCompleteTransaction } from 'components/TransactionManager/useComplet
 import { useEffect, useMemo, useState } from 'react';
 import { useAppDispatch } from 'store/store';
 import { useGetTxnStatusDetailsQuery } from 'store/thorswap/api';
-import { GetAdvancedTrackerStatusPayload } from 'store/thorswap/types';
+import type { GetAdvancedTrackerStatusPayload } from 'store/thorswap/types';
 import { updateTransaction } from 'store/transactions/slice';
-import { PendingTransactionType } from 'store/transactions/types';
+import type { PendingTransactionType } from 'store/transactions/types';
 
 export const useAdvancedTracker = (tx: PendingTransactionType | null) => {
   const appDispatch = useAppDispatch();

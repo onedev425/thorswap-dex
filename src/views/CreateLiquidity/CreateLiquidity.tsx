@@ -1,7 +1,7 @@
+import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import {
   Amount,
   AssetAmount,
-  AssetEntity as Asset,
   getMinAmountByChain,
   getSignatureAssetFor,
   isGasAsset,

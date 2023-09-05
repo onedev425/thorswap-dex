@@ -1,4 +1,4 @@
-import { Element } from 'chart.js';
+import type { Element } from 'chart.js';
 import * as styles from 'components/Chart/styles/styles';
 
 export const getChartOptions = (

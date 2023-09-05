@@ -1,4 +1,4 @@
-import { AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
 import { getInputAssetsForAdd, hasConnectedWallet } from 'helpers/wallet';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useMemo } from 'react';

@@ -1,13 +1,6 @@
-import { StepType } from 'components/Stepper/types';
-import {
-  createContext,
-  ReactNode,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import type { StepType } from 'components/Stepper/types';
+import type { ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 type Props = {
   children: ReactNode;

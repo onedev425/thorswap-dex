@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { MenuItemType } from 'components/AppPopoverMenu/types';
+import type { MenuItemType } from 'components/AppPopoverMenu/types';
 import { Box, SwitchToggle } from 'components/Atomic';
 
 type Props = {

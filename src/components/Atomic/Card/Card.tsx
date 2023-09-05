@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { baseBorderClass } from 'components/constants';
 
-import { CardProps, CardSize } from './types';
+import type { CardProps, CardSize } from './types';
 
 const sizeVariants: Record<CardSize, string> = {
   sm: 'p-2 rounded-2xl',

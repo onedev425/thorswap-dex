@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Card, useCollapse } from 'components/Atomic';

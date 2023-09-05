@@ -1,6 +1,6 @@
-import { SystemStyleObject } from '@chakra-ui/react';
-import { IconName, TextTransform } from 'components/Atomic';
-import { MouseEventHandler } from 'react';
+import type { SystemStyleObject } from '@chakra-ui/react';
+import type { IconName, TextTransform } from 'components/Atomic';
+import type { MouseEventHandler } from 'react';
 
 export type SidebarVariant = 'primary' | 'secondary';
 

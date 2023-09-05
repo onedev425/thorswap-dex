@@ -1,4 +1,4 @@
-import { Chart } from 'chart.js';
+import type { Chart } from 'chart.js';
 
 type ColorType = 'background' | 'stroke';
 

@@ -1,5 +1,6 @@
 import { useThemeState } from 'components/Theme/useThemeState';
-import { createContext, ReactNode, useContext } from 'react';
+import type { ReactNode } from 'react';
+import { createContext, useContext } from 'react';
 import { ThemeType } from 'types/app';
 
 type Props = {

@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import {
+import type {
   FullMemberPool,
   PoolDetail,
   PoolPeriods,
   THORNameDetails,
 } from '@thorswap-lib/midgard-sdk';
 import { MIDGARD_URL } from 'settings/config';
-import { MidgardTradeHistory } from 'store/midgard/types';
+import type { MidgardTradeHistory } from 'store/midgard/types';
 
 const microgardUrl = 'https://mu.thorswap.net';
 

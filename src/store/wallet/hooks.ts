@@ -1,10 +1,5 @@
-import {
-  Chain,
-  DerivationPathArray,
-  EVMWalletOptions,
-  Keystore,
-  WalletOption,
-} from '@thorswap-lib/types';
+import type { DerivationPathArray, EVMWalletOptions, Keystore } from '@thorswap-lib/types';
+import { Chain, WalletOption } from '@thorswap-lib/types';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { chainName } from 'helpers/chainName';
 import { useCallback } from 'react';
@@ -16,11 +11,8 @@ import { IS_LEDGER_LIVE } from 'settings/config';
 import { actions as midgardActions } from 'store/midgard/slice';
 import { useAppDispatch, useAppSelector } from 'store/store';
 
-import {
-  connectLedgerLive,
-  LedgerLiveChain,
-  mapLedgerChainToChain,
-} from '../../../ledgerLive/wallet/LedgerLive';
+import type { LedgerLiveChain } from '../../../ledgerLive/wallet/LedgerLive';
+import { connectLedgerLive, mapLedgerChainToChain } from '../../../ledgerLive/wallet/LedgerLive';
 
 import * as walletActions from './actions';
 import { actions } from './slice';
@@ -45,6 +37,10 @@ export const useWallet = () => {
   const unlockWallet = useCallback(
     async (keystore: Keystore, phrase: string, chains: Chain[]) => {
       const { connectKeystore } = await (await import('services/swapKit')).getSwapKitClient();
+      const { ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const thorchainToolbox = ThorchainToolbox({});
+      const pubKey = await thorchainToolbox.getPubKeyFromMnemonic(phrase);
+
       captureEvent('connect_wallet', { type: WalletOption.KEYSTORE, chains });
 
       await connectKeystore(chains, phrase);
@@ -52,6 +48,7 @@ export const useWallet = () => {
         actions.connectKeystore({
           keystore,
           phrase,
+          pubKey,
         }),
       );
       setWallets(chains);

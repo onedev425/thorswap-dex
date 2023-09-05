@@ -1,4 +1,4 @@
-import { GetTokensQuoteResponse } from 'store/thorswap/types';
+import type { GetTokensQuoteResponse } from 'store/thorswap/types';
 
 export type RouteAssetType = { identifier: string; logoURL: string };
 export type SwapPartsType = {

@@ -1,5 +1,5 @@
 import { TransactionType } from '@thorswap-lib/swapkit-api';
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { t } from 'i18next';

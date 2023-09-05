@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { FullMemberPool } from '@thorswap-lib/midgard-sdk';
+import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Icon, Link } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';

@@ -1,11 +1,12 @@
 import { Text } from '@chakra-ui/react';
+import type { Signer } from '@thorswap-lib/toolbox-cosmos';
 import { Box, Button, Icon } from 'components/Atomic';
 import { StepActions } from 'components/Stepper';
 import { showErrorToast } from 'components/Toast';
 import { downloadAsFile } from 'helpers/download';
 import { useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
-import { ImportedMultisigTx, Signer } from 'services/multisig';
+import type { ImportedMultisigTx } from 'services/multisig';
 import { useAppSelector } from 'store/store';
 
 const MULTISIG_FILE_NAME = 'thorsafetx';

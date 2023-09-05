@@ -1,9 +1,10 @@
 import { Text } from '@chakra-ui/react';
-import { Keystore } from '@thorswap-lib/types';
+import type { Keystore } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import { Input } from 'components/Input';
-import { ChangeEvent, useCallback, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { useCallback, useState } from 'react';
 import { FilePicker } from 'react-file-picker';
 import { t } from 'services/i18n';
 

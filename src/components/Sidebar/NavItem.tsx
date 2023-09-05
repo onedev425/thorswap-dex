@@ -2,10 +2,12 @@ import { Box, Flex, ListItem, Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { Icon, Link, Tooltip } from 'components/Atomic';
 import { easeInOutTransition } from 'components/constants';
-import { memo, MouseEventHandler, useCallback } from 'react';
+import type { MouseEventHandler } from 'react';
+import { memo, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { iconClasses, NavItemProps } from './types';
+import type { NavItemProps } from './types';
+import { iconClasses } from './types';
 
 export const NavItem = memo(
   ({

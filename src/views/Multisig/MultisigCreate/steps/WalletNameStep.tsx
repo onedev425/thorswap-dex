@@ -2,7 +2,7 @@ import { Text } from '@chakra-ui/react';
 import { Box } from 'components/Atomic';
 import { TextField } from 'components/Form';
 import { StepActions } from 'components/Stepper';
-import { UseFormRegisterReturn } from 'react-hook-form';
+import type { UseFormRegisterReturn } from 'react-hook-form';
 import { t } from 'services/i18n';
 
 type Props = {

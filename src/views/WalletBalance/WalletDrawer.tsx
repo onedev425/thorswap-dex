@@ -1,7 +1,7 @@
 import { Drawer, DrawerBody, DrawerContent, DrawerOverlay } from '@chakra-ui/react';
 import { useWalletDrawer } from 'hooks/useWalletDrawer';
 import useWindowSize from 'hooks/useWindowSize';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 type Props = {
   children: ReactNode;

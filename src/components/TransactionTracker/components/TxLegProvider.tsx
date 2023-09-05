@@ -3,7 +3,7 @@ import { AssetIcon } from 'components/AssetIcon';
 import { Icon, Tooltip } from 'components/Atomic';
 import { providerLogoURL } from 'helpers/logoURL';
 import { t } from 'services/i18n';
-import { TxTrackerLeg } from 'store/transactions/types';
+import type { TxTrackerLeg } from 'store/transactions/types';
 
 type Props = {
   leg: TxTrackerLeg;

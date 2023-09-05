@@ -1,6 +1,6 @@
-import { AssetInputType } from 'components/AssetInput/types';
+import type { AssetInputType } from 'components/AssetInput/types';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
-import { RouteWithApproveType } from 'components/SwapRouter/types';
+import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { memo, useCallback, useMemo } from 'react';
 
 import { ConfirmContent } from './ConfirmContent';

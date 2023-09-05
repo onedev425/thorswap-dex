@@ -1,9 +1,10 @@
-import { Chain, Keystore } from '@thorswap-lib/types';
-import { HandleWalletConnectParams } from 'components/Modals/ConnectWalletModal/hooks';
+import type { Chain, Keystore } from '@thorswap-lib/types';
+import type { HandleWalletConnectParams } from 'components/Modals/ConnectWalletModal/hooks';
 import { USDAsset } from 'helpers/assets';
-import { MultisigWallet } from 'store/multisig/types';
-import { TransactionsState } from 'store/transactions/types';
-import { SupportedLanguages, ThemeType, ThousandSeparator, ViewMode } from 'types/app';
+import type { MultisigWallet } from 'store/multisig/types';
+import type { TransactionsState } from 'store/transactions/types';
+import type { SupportedLanguages } from 'types/app';
+import { ThemeType, ThousandSeparator, ViewMode } from 'types/app';
 
 type StorageType = {
   annViewStatus: boolean;

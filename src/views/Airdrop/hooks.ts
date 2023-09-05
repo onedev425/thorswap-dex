@@ -69,7 +69,7 @@ export const useAirdrop = () => {
   }, [getVthorAPR]);
 
   const fetchClaimed = useCallback(async () => {
-    const airdropContract = getEtherscanContract(contractType);
+    const airdropContract = await getEtherscanContract(contractType);
     const hasClaimed = await airdropContract.claimed(ethAddr);
 
     setClaimed(hasClaimed);

@@ -1,5 +1,5 @@
-import { AssetInputType } from 'components/AssetInput/types';
-import { InfoRowConfig } from 'components/InfoRow/types';
+import type { AssetInputType } from 'components/AssetInput/types';
+import type { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { shortenAddress } from 'helpers/shortenAddress';
 import { t } from 'services/i18n';

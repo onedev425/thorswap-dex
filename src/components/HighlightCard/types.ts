@@ -1,4 +1,4 @@
-import { TypographyColorType } from 'components/Atomic/Typography/types';
+import type { TypographyColorType } from 'components/Atomic/Typography/types';
 
 export type CardStyleType = 'primary' | 'info' | 'warn' | 'success';
 

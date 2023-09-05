@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from 'settings/router';
 import { useMultisig } from 'store/multisig/hooks';
 import { useTxCreate } from 'views/Multisig/TxCreate/TxCreateContext';
-import { BondActionType, HandleBondAction } from 'views/Nodes/types';
+import type { HandleBondAction } from 'views/Nodes/types';
+import { BondActionType } from 'views/Nodes/types';
 
 import { getBondMemo } from './utils';
 
@@ -23,17 +24,14 @@ export const useTxBond = () => {
 
       const memo = getBondMemo(type, nodeAddress, amount);
 
-      const tx = await createDepositTx(
-        {
-          memo,
-          amount:
-            type === BondActionType.Bond && amount
-              ? amount
-              : getMinAmountByChain(Chain.THORChain).amount,
-          asset: getSignatureAssetFor(Chain.THORChain),
-        },
-        signers,
-      );
+      const tx = await createDepositTx({
+        memo,
+        amount:
+          type === BondActionType.Bond && amount
+            ? amount
+            : getMinAmountByChain(Chain.THORChain).amount,
+        asset: getSignatureAssetFor(Chain.THORChain),
+      });
 
       if (tx) {
         navigate(ROUTES.TxMultisig, {

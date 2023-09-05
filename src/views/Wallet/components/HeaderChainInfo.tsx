@@ -1,6 +1,7 @@
 import { Text } from '@chakra-ui/react';
-import { ChainWallet } from '@thorswap-lib/swapkit-core';
-import { Chain, WalletOption } from '@thorswap-lib/types';
+import type { ChainWallet } from '@thorswap-lib/swapkit-core';
+import type { Chain } from '@thorswap-lib/types';
+import { WalletOption } from '@thorswap-lib/types';
 import { Box } from 'components/Atomic';
 import { PhraseModal } from 'components/Modals/PhraseModal';
 import { showInfoToast } from 'components/Toast';

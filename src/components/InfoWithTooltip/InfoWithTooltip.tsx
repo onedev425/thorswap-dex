@@ -1,7 +1,9 @@
 import { Text } from '@chakra-ui/react';
-import { Box, Icon, IconName, Tooltip } from 'components/Atomic';
+import type { IconName } from 'components/Atomic';
+import { Box, Icon, Tooltip } from 'components/Atomic';
 import { baseTextHoverClass } from 'components/constants';
-import { memo, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import { memo } from 'react';
 
 type Props = {
   value: string | ReactNode;

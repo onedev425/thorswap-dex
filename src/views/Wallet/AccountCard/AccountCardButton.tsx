@@ -1,6 +1,7 @@
 import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Button, Icon, IconName } from 'components/Atomic';
+import type { IconName } from 'components/Atomic';
+import { Box, Button, Icon } from 'components/Atomic';
 import { memo } from 'react';
 
 type Props = {

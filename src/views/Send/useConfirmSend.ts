@@ -1,4 +1,4 @@
-import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { showErrorToast } from 'components/Toast';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';

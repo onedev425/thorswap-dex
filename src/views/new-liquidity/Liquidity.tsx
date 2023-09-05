@@ -1,4 +1,4 @@
-import { FullMemberPool } from '@thorswap-lib/midgard-sdk';
+import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Icon, Modal } from 'components/Atomic';
 import { InfoTip } from 'components/InfoTip';

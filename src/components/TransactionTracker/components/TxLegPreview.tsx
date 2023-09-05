@@ -26,7 +26,8 @@ import { getTickerFromIdentifier, tokenLogoURL } from 'helpers/logoURL';
 import { useTxUrl } from 'hooks/useTxUrl';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
-import { TransactionStatus, TransactionType, TxTrackerLeg } from 'store/transactions/types';
+import type { TransactionStatus, TxTrackerLeg } from 'store/transactions/types';
+import { TransactionType } from 'store/transactions/types';
 
 type Props = {
   leg: TxTrackerLeg;

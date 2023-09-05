@@ -1,11 +1,13 @@
-import { TxStatus, TxTrackerDetails } from '@thorswap-lib/swapkit-api';
+import type { TxTrackerDetails } from '@thorswap-lib/swapkit-api';
+import { TxStatus } from '@thorswap-lib/swapkit-api';
 import { AssetAmount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { BaseDecimal, Chain } from '@thorswap-lib/types';
 import { useCallback, useState } from 'react';
 import { getCustomContract } from 'services/contract';
 import { t } from 'services/i18n';
-import { TxnResult } from 'store/thorswap/types';
-import { TransactionStatus, TransactionType } from 'store/transactions/types';
+import type { TxnResult } from 'store/thorswap/types';
+import type { TransactionStatus } from 'store/transactions/types';
+import { TransactionType } from 'store/transactions/types';
 
 const getTcPart = ({
   asset: assetString,
@@ -29,7 +31,7 @@ const getTcPart = ({
 
 const getEthPart = async ({ asset, amount }: { asset: string; amount: string }) => {
   try {
-    const contract = getCustomContract(asset);
+    const contract = await getCustomContract(asset);
     const name = await contract.symbol();
     const decimals = await contract.decimals();
 

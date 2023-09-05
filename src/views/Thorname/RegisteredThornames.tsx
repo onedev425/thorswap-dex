@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
 import { ChainIcon } from 'components/AssetIcon/ChainIcon';
 import { Box, Collapse, Tooltip } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';

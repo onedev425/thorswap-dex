@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Box, Icon } from 'components/Atomic';
 import { DoughnutChart } from 'components/Chart/DoughnutChart/DoughnutChart';
 import { HighlightCard } from 'components/HighlightCard';
@@ -8,7 +8,7 @@ import { useCallback, useState } from 'react';
 import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
 import { EarnPosition } from 'views/Earn/EarnPosition';
-import { SaverPosition } from 'views/Earn/types';
+import type { SaverPosition } from 'views/Earn/types';
 import { ShareChartIndex, sharesChartIndexes } from 'views/Home/types';
 
 type Props = {

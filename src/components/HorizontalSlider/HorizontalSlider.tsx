@@ -2,7 +2,8 @@ import 'swiper/css';
 
 import classNames from 'classnames';
 import { Box, Button, Icon } from 'components/Atomic';
-import { Children, PropsWithChildren, useCallback, useEffect, useState } from 'react';
+import type { PropsWithChildren } from 'react';
+import { Children, useCallback, useEffect, useState } from 'react';
 import SwiperCore, { Mousewheel, Navigation } from 'swiper';
 // Issue related to this was closed without any notice
 // https://github.com/nolimits4web/swiper/issues/5058

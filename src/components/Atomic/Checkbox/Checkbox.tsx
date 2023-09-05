@@ -1,7 +1,8 @@
 import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { Box, Icon } from 'components/Atomic';
-import { ReactNode, useCallback } from 'react';
+import type { ReactNode } from 'react';
+import { useCallback } from 'react';
 
 type Props = {
   value: boolean;

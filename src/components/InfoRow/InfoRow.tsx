@@ -1,7 +1,7 @@
 import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';
-import { InfoRowProps } from 'components/InfoRow/types';
+import type { InfoRowProps } from 'components/InfoRow/types';
 
 const labelVariant = {
   sm: 'caption-xs',

@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
-import { InfoRowConfig, InfoRowSize } from 'components/InfoRow/types';
+import type { InfoRowConfig, InfoRowSize } from 'components/InfoRow/types';
 import { memo } from 'react';
 
 type InfoTableProps = {

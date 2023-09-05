@@ -1,7 +1,7 @@
 import { Text } from '@chakra-ui/react';
 import { derivationPathToString } from '@thorswap-lib/helpers';
-import { getDerivationPathFor } from '@thorswap-lib/ledger';
-import { Chain, DerivationPath, DerivationPathArray, Keystore } from '@thorswap-lib/types';
+import type { DerivationPathArray, Keystore } from '@thorswap-lib/types';
+import { Chain, DerivationPath } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box, Button, Modal, Tooltip } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
@@ -17,17 +17,13 @@ import { SUPPORTED_CHAINS } from 'settings/chain';
 import { IS_PROD } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 import { useWallet } from 'store/wallet/hooks';
-import { DerivationPathType } from 'store/wallet/types';
+import type { DerivationPathType } from 'store/wallet/types';
 
 import ChainItem from './ChainItem';
 import { ConnectKeystoreView } from './ConnectKeystore';
 import { CreateKeystoreView } from './CreateKeystore';
-import {
-  HandleWalletConnectParams,
-  useHandleWalletConnect,
-  useHandleWalletTypeSelect,
-  useWalletOptions,
-} from './hooks';
+import type { HandleWalletConnectParams } from './hooks';
+import { useHandleWalletConnect, useHandleWalletTypeSelect, useWalletOptions } from './hooks';
 import { PhraseView } from './Phrase';
 import { availableChainsByWallet, WalletType } from './types';
 import WalletOption from './WalletOption';
@@ -60,7 +56,7 @@ const ConnectWalletModal = () => {
     saveInStorage({ key: 'restorePreviousWallet', value });
   }, []);
 
-  // TODO remove when this is moved to swapkit
+  // TODO (@Towan) remove when this is moved to swapkit
   const derivationPathToNumbers = (path: string): DerivationPathArray => {
     // The derivation path is expected to start with "m" followed by
     // a series of child indexes separated by slashes ("/").
@@ -231,7 +227,9 @@ const ConnectWalletModal = () => {
     setCustomDerivationPath(DerivationPath[selectedChains[0]] + '/0');
   }, [selectedChains]);
 
-  useEffect(() => {
+  const handleCustomPathSet = useCallback(async () => {
+    const { getDerivationPathFor } = await import('@thorswap-lib/ledger');
+
     const derivationPath = getDerivationPathFor({
       chain: selectedChains[0] || Chain.Ethereum,
       index: ledgerIndex || 0,
@@ -240,6 +238,10 @@ const ConnectWalletModal = () => {
 
     setCustomDerivationPath('m/' + derivationPathToString(derivationPath));
   }, [derivationPathType, ledgerIndex, selectedChains]);
+
+  useEffect(() => {
+    handleCustomPathSet();
+  }, [handleCustomPathSet]);
 
   const oneTimeWalletType = [
     WalletType.CreateKeystore,

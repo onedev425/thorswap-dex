@@ -1,20 +1,15 @@
 import { Text } from '@chakra-ui/react';
-import {
-  Amount,
-  AssetAmount,
-  AssetEntity,
-  ChainWallet,
-  getSignatureAssetFor,
-  isGasAsset,
-} from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import type { AssetEntity, ChainWallet } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetAmount, getSignatureAssetFor, isGasAsset } from '@thorswap-lib/swapkit-core';
+import type { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon } from 'components/Atomic';
 import { baseBgHoverClass } from 'components/constants';
 import { Scrollbar } from 'components/Scrollbar';
 import { useWalletDrawer } from 'hooks/useWalletDrawer';
-import { MouseEventHandler, useCallback } from 'react';
+import type { MouseEventHandler } from 'react';
+import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { SORTED_CHAINS } from 'settings/chain';

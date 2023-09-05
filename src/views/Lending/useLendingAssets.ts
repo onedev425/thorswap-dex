@@ -1,9 +1,9 @@
-import { Chain } from '@thorswap-lib/swapkit-core';
+import type { Chain } from '@thorswap-lib/swapkit-core';
 import { BTCAsset, ETHAsset } from 'helpers/assets';
 import { useBalance } from 'hooks/useBalance';
 import { useMemo } from 'react';
 import { useGetLendingAssetsQuery } from 'store/thorswap/api';
-import { LendingAsset } from 'views/Lending/types';
+import type { LendingAsset } from 'views/Lending/types';
 
 export function useLendingAssets() {
   const { data } = useGetLendingAssetsQuery();

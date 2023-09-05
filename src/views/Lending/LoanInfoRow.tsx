@@ -1,6 +1,7 @@
 import { Card, Collapse, Flex, Text } from '@chakra-ui/react';
-import { Amount, AmountType, AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount, AmountType, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
+import type { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { AssetSelect } from 'components/AssetSelect';
@@ -21,7 +22,7 @@ import { useWallet } from 'store/wallet/hooks';
 import { MATURITY_BLOCKS } from 'views/Lending/Borrow';
 import { LendingConfirmModal } from 'views/Lending/LendingConfirmModal';
 import { LoanInfoRowCell } from 'views/Lending/LoanInfoRowCell';
-import { LoanPosition } from 'views/Lending/types';
+import type { LoanPosition } from 'views/Lending/types';
 import { useLendingAssets } from 'views/Lending/useLendingAssets';
 import { useLoanRepay } from 'views/Lending/useLoanRepay';
 import { usePercentageDebtValue } from 'views/Lending/usePercentageDebtValue';

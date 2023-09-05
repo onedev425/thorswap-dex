@@ -2,7 +2,8 @@ import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { genericBgClasses } from 'components/constants';
 
-import { columnAlignClasses, TableCellType } from './types';
+import type { TableCellType } from './types';
+import { columnAlignClasses } from './types';
 
 type Props = {
   cell: TableCellType;

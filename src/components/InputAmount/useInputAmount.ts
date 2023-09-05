@@ -1,8 +1,9 @@
-import { Amount } from '@thorswap-lib/swapkit-core';
-import { AmountProps } from 'components/InputAmount/types';
+import type { Amount } from '@thorswap-lib/swapkit-core';
+import type { AmountProps } from 'components/InputAmount/types';
 import { getAmountFromString } from 'components/InputAmount/utils';
 import { useFormatPrice } from 'helpers/formatPrice';
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export const useInputAmount = ({ amountValue, onAmountChange }: AmountProps) => {
   const { decimal } = amountValue;

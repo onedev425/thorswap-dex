@@ -1,27 +1,32 @@
+import type { Signer } from '@thorswap-lib/toolbox-cosmos';
 import { showErrorToast } from 'components/Toast';
 import { useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
-import { ImportedMultisigTx, MultisigTx, Signer } from 'services/multisig';
+import type { ImportedMultisigTx, MultisigTx } from 'services/multisig';
 import { useMultisig } from 'store/multisig/hooks';
-import { MultisigMember } from 'store/multisig/types';
+import type { MultisigMember } from 'store/multisig/types';
+import { useAppSelector } from 'store/store';
 
 export type ScreenState = {
   tx: MultisigTx;
-  signers: MultisigMember[];
+  members: MultisigMember[];
   signatures?: Signer[];
+  threshold: number;
 };
 
 export const useTxData = (state: ScreenState | null) => {
   const { signTx, broadcastTx, walletPubKey } = useMultisig();
+  const { members, threshold } = useAppSelector(({ multisig }) => multisig);
   const txData = useMemo(() => state?.tx || null, [state?.tx]);
-  const requiredSigners = useMemo(() => state?.signers || [], [state?.signers]);
+  const requiredSigners = useMemo(() => state?.members || [], [state?.members]);
 
   const [signatures, setSignatures] = useState<Signer[]>(state?.signatures || []);
   const [broadcastedTxHash, setBroadcastedTxHash] = useState('');
   const [isBroadcasting, setIsBroadcasting] = useState(false);
+  const [bodyBytes, setBodyBytes] = useState<number[]>([]);
 
   const txBodyStr = JSON.stringify(txData, null, 2) || '';
-  const canBroadcast = signatures.length >= requiredSigners.length;
+  const canBroadcast = signatures.length >= threshold;
 
   const connectedSignature = useMemo(() => {
     if (!walletPubKey) {
@@ -38,10 +43,12 @@ export const useTxData = (state: ScreenState | null) => {
 
     return {
       txBody: txData,
-      signers: requiredSigners,
+      members,
+      threshold,
       signatures,
+      bodyBytes,
     };
-  }, [requiredSigners, signatures, txData]);
+  }, [signatures, txData, bodyBytes, members, threshold]);
 
   const addSigner = useCallback((signer: Signer) => {
     setSignatures((prev) => {
@@ -59,17 +66,20 @@ export const useTxData = (state: ScreenState | null) => {
   }, []);
 
   const sign = useCallback(async () => {
-    if (!walletPubKey || !requiredSigners.find((s) => s.pubKey === walletPubKey)) {
+    if (!walletPubKey) {
       return showErrorToast(t('views.multisig.incorrectSigner'));
     }
 
-    const signature = await signTx(JSON.stringify(txData));
-    if (signature === undefined) throw Error(`Unable to sign: ${JSON.stringify(txData)}`);
+    const signatureResult = await signTx(JSON.stringify(txData));
 
+    if (signatureResult === undefined) throw Error(`Unable to sign: ${JSON.stringify(txData)}`);
+
+    const { signature, bodyBytes } = signatureResult;
     addSigner({ pubKey: walletPubKey, signature });
-  }, [addSigner, walletPubKey, requiredSigners, signTx, txData]);
+    setBodyBytes(Array.from(bodyBytes));
+  }, [addSigner, walletPubKey, signTx, txData]);
 
-  // TODO - get recipient and amount from tx
+  // TODO (@0xGeneral) - get recipient and amount from tx
   const txInfo = useMemo(
     () => [
       { label: t('common.amount'), value: 'test amount' },
@@ -80,13 +90,13 @@ export const useTxData = (state: ScreenState | null) => {
 
   const handleBroadcast = useCallback(async () => {
     setIsBroadcasting(true);
-    const txHash = await broadcastTx(JSON.stringify(txData), signatures);
+    const txHash = await broadcastTx(JSON.stringify(txData), signatures, threshold, bodyBytes);
     setIsBroadcasting(false);
     if (txHash) {
       setBroadcastedTxHash(txHash);
-      // TODO - Add tx to TxManager
+      // TODO (@0xGeneral) - Add tx to TxManager
     }
-  }, [broadcastTx, signatures, txData]);
+  }, [broadcastTx, signatures, txData, threshold, bodyBytes]);
 
   const hasMemberSignature = useCallback(
     (signer: MultisigMember) => {

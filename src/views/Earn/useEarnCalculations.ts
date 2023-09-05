@@ -1,11 +1,12 @@
-import { Amount, AmountType, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import { Amount, AmountType } from '@thorswap-lib/swapkit-core';
 import { BaseDecimal } from '@thorswap-lib/types';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useNetworkFee } from 'hooks/useNetworkFee';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getSaverQuote } from 'store/midgard/actions';
 import { useWallet } from 'store/wallet/hooks';
-import { SaverQuoteResponse } from 'views/Earn/types';
+import type { SaverQuoteResponse } from 'views/Earn/types';
 
 type Props = {
   isDeposit: boolean;

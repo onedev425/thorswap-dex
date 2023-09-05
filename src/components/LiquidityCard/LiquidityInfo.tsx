@@ -1,11 +1,12 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
-import { InfoRowConfig } from 'components/InfoRow/types';
+import type { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
 import { RUNEAsset } from 'helpers/assets';
-import { memo, RefObject, useMemo } from 'react';
+import type { RefObject } from 'react';
+import { memo, useMemo } from 'react';
 import { t } from 'services/i18n';
 import { PoolShareType } from 'store/midgard/types';
 

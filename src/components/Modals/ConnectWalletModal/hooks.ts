@@ -1,6 +1,6 @@
-import { getDerivationPathFor } from '@thorswap-lib/ledger';
-import { Chain, DerivationPathArray, EVMWalletOptions, WalletOption } from '@thorswap-lib/types';
-import { IconName } from 'components/Atomic';
+import type { DerivationPathArray, EVMWalletOptions } from '@thorswap-lib/types';
+import { Chain, WalletOption } from '@thorswap-lib/types';
+import type { IconName } from 'components/Atomic';
 import { showErrorToast } from 'components/Toast';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import { useCallback, useEffect, useState } from 'react';
@@ -101,13 +101,11 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
                 : '',
             },
             {
-              // @ts-expect-error TODO: remove after finding solution for window sharing with swapkit
               disabled: !window.okxwallet,
               icon: 'okx' as IconName,
               type: WalletType.Okx,
               visible: isMdActive,
               label: t('views.walletModal.okxWallet'),
-              // @ts-expect-error
               tooltip: window.okxwallet ? '' : t('views.walletModal.installOkxWallet'),
             },
             {
@@ -170,7 +168,9 @@ export const useHandleWalletConnect = ({
   } = useWallet();
 
   const handleConnectWallet = useCallback(
-    (params?: HandleWalletConnectParams) => {
+    async (params?: HandleWalletConnectParams) => {
+      const { getDerivationPathFor } = await import('@thorswap-lib/ledger');
+
       const selectedChains = params?.chains || chains;
       const selectedWalletType = params?.walletType || walletType;
       const type = params?.derivationPathType || derivationPathType;
@@ -258,46 +258,72 @@ type HandleWalletTypeSelectParams = {
   selectedChains: Chain[];
 };
 
+const WalletTypeToOption: Record<WalletType, WalletOption> = {
+  [WalletType.MetaMask]: WalletOption.METAMASK,
+  [WalletType.TrustWalletExtension]: WalletOption.TRUSTWALLET_WEB,
+  [WalletType.CoinbaseExtension]: WalletOption.COINBASE_WEB,
+  [WalletType.Brave]: WalletOption.BRAVE,
+  [WalletType.Xdefi]: WalletOption.XDEFI,
+  [WalletType.Okx]: WalletOption.OKX,
+  [WalletType.Keplr]: WalletOption.KEPLR,
+  [WalletType.Walletconnect]: WalletOption.WALLETCONNECT,
+  [WalletType.Ledger]: WalletOption.LEDGER,
+  [WalletType.Trezor]: WalletOption.TREZOR,
+  [WalletType.CreateKeystore]: WalletOption.KEYSTORE,
+  [WalletType.Keystore]: WalletOption.KEYSTORE,
+  [WalletType.Phrase]: WalletOption.KEYSTORE,
+};
+
 export const useHandleWalletTypeSelect = ({
   setSelectedWalletType,
   setSelectedChains,
   selectedChains,
 }: HandleWalletTypeSelectParams) => {
-  const handleXdefi = useCallback(async () => {
-    const { xdefiWallet } = await import('@thorswap-lib/xdefi');
-    if (xdefiWallet.isDetected(WalletOption.XDEFI)) return true;
-    window.open('https://xdefi.io');
+  const handleEVMWallet = useCallback(async (walletType: WalletType) => {
+    const { isDetected } = await import('@thorswap-lib/toolbox-evm');
+    if (isDetected(WalletTypeToOption[walletType])) return true;
+
+    switch (walletType) {
+      case WalletType.MetaMask:
+        return window.open('https://metamask.io');
+      case WalletType.TrustWalletExtension:
+        return window.open('https://trustwallet.com/browser-extension/');
+      case WalletType.CoinbaseExtension:
+        return window.open('https://www.coinbase.com/wallet/articles/getting-started-extension');
+      case WalletType.Xdefi:
+        return window.open('https://xdefi.io');
+      case WalletType.Brave:
+        return window.open('brave://wallet/');
+    }
   }, []);
 
-  const handleMetamask = useCallback(async () => {
-    const { evmWallet } = await import('@thorswap-lib/evm-web3-wallets');
-    if (evmWallet.isDetected(WalletOption.METAMASK)) return true;
-    window.open('https://metamask.io');
+  const handleWindowWallet = useCallback(async (windowPath: 'keplr' | 'okxwallet') => {
+    if (window[windowPath]) return true;
+
+    switch (windowPath) {
+      case 'okxwallet':
+        return window.open('https://www.okx.com/web3');
+      case 'keplr':
+        return window.open('https://keplr.app');
+    }
   }, []);
 
-  const handleKeplr = useCallback(async () => {
-    const { keplrWallet } = await import('@thorswap-lib/keplr');
-    if (keplrWallet.isDetected()) return true;
-    window.open('https://keplr.app');
-  }, []);
+  const connectSelectedWallet = useCallback(
+    (selectedWallet: WalletType) => {
+      switch (selectedWallet) {
+        case WalletType.Xdefi:
+          return handleEVMWallet(selectedWallet);
+        case WalletType.Keplr:
+          return handleWindowWallet('keplr');
+        case WalletType.Okx:
+          return handleWindowWallet('okxwallet');
 
-  const handleTrustWalletExtension = useCallback(async () => {
-    const { evmWallet } = await import('@thorswap-lib/evm-web3-wallets');
-    if (evmWallet.isDetected(WalletOption.TRUSTWALLET_WEB)) return true;
-    window.open('https://trustwallet.com/browser-extension/');
-  }, []);
-
-  const handleCoinbaseExtension = useCallback(async () => {
-    const { evmWallet } = await import('@thorswap-lib/evm-web3-wallets');
-    if (evmWallet.isDetected(WalletOption.COINBASE_WEB)) return true;
-    window.open('https://www.coinbase.com/wallet/articles/getting-started-extension');
-  }, []);
-
-  const handleOkxWallet = useCallback(async () => {
-    // @ts-expect-error
-    if (window.okxwallet) return true;
-    window.open('https://www.okx.com/web3');
-  }, []);
+        default:
+          return true;
+      }
+    },
+    [handleEVMWallet, handleWindowWallet],
+  );
 
   const getChainsToSelect = useCallback(
     (chains: Chain[], walletType: WalletType, nextWalletType?: WalletType) => {
@@ -338,36 +364,6 @@ export const useHandleWalletTypeSelect = ({
       });
     },
     [getChainsToSelect, setSelectedChains, setSelectedWalletType],
-  );
-
-  const connectSelectedWallet = useCallback(
-    (selectedWallet: WalletType) => {
-      switch (selectedWallet) {
-        case WalletType.Xdefi:
-          return handleXdefi();
-        case WalletType.MetaMask:
-          return handleMetamask();
-        case WalletType.Keplr:
-          return handleKeplr();
-        case WalletType.TrustWalletExtension:
-          return handleTrustWalletExtension();
-        case WalletType.CoinbaseExtension:
-          return handleCoinbaseExtension();
-        case WalletType.Okx:
-          return handleOkxWallet();
-
-        default:
-          return true;
-      }
-    },
-    [
-      handleXdefi,
-      handleMetamask,
-      handleKeplr,
-      handleTrustWalletExtension,
-      handleCoinbaseExtension,
-      handleOkxWallet,
-    ],
   );
 
   const handleWalletTypeSelect = useCallback(

@@ -1,5 +1,6 @@
 import { Text } from '@chakra-ui/react';
-import { Chain, WalletOption } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
+import { WalletOption } from '@thorswap-lib/types';
 import { Box, Tooltip } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { PhraseModal } from 'components/Modals/PhraseModal';

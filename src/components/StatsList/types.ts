@@ -1,5 +1,5 @@
-import { IconName } from 'components/Atomic';
-import { ColorType } from 'types/app';
+import type { IconName } from 'components/Atomic';
+import type { ColorType } from 'types/app';
 
 export type StatsType = {
   color: ColorType;

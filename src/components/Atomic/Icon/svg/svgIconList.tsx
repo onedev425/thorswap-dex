@@ -8,7 +8,7 @@ import { ReactComponent as Dogecoin } from 'assets/images/svg/dogecoin.svg';
 import { ReactComponent as Ethereum } from 'assets/images/svg/ethereum.svg';
 import { ReactComponent as Litecoin } from 'assets/images/svg/litecoin.svg';
 import { ReactComponent as Thorchain } from 'assets/images/svg/thorchain.svg';
-import { FunctionComponent, MouseEventHandler, SVGProps } from 'react';
+import type { FunctionComponent, MouseEventHandler, SVGProps } from 'react';
 
 import { ReactComponent as App } from './app.svg';
 import { ReactComponent as Binance3d } from './binance.svg';

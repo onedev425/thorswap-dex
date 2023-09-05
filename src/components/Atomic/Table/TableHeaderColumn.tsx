@@ -3,7 +3,8 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { SortIndicator } from './SortIndicator';
-import { columnAlignClasses, SortType, TableHeaderGroupType } from './types';
+import type { TableHeaderGroupType } from './types';
+import { columnAlignClasses, SortType } from './types';
 
 type Props = {
   column: TableHeaderGroupType & { toolTip?: React.ReactNode };

@@ -1,7 +1,7 @@
-import { TypographyVariant } from 'components/Atomic';
+import type { TypographyVariant } from 'components/Atomic';
 import { useMemo } from 'react';
 
-import { ButtonSizes, ButtonVariants } from './types';
+import type { ButtonSizes, ButtonVariants } from './types';
 
 const buttonClasses: Record<ButtonSizes, string> = {
   lg: 'h-14 px-7 rounded-full',

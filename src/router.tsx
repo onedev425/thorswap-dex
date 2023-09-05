@@ -81,6 +81,13 @@ const routes: RouteType = [
   { path: ROUTES.WithdrawLiquidityPool, element: WithdrawLiquidity },
 ];
 
+declare global {
+  interface Window {
+    keplr: any;
+    okxwallet: any;
+  }
+}
+
 export const PublicRoutes = memo(() => {
   return (
     <Router>

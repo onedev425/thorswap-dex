@@ -1,9 +1,10 @@
 import { Text, Tooltip as CustomizeTooltip } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Icon, IconName } from 'components/Atomic';
-import { TooltipPlacement } from 'components/Atomic/Tooltip/types';
+import type { IconName } from 'components/Atomic';
+import { Icon } from 'components/Atomic';
+import type { TooltipPlacement } from 'components/Atomic/Tooltip/types';
 import useWindowSize from 'hooks/useWindowSize';
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 
 type Props = {
   place?: TooltipPlacement;

@@ -1,6 +1,6 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
-import BigNumber from 'bignumber.js';
+import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type BigNumber from 'bignumber.js';
 import { Button, Icon, Tooltip } from 'components/Atomic';
 import { ReloadButton } from 'components/ReloadButton';
 import { useFormatPrice } from 'helpers/formatPrice';
@@ -10,7 +10,8 @@ import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
 import { LoanInfoCard } from 'views/Lending/LoanInfoCard';
 import { LoanInfoRow } from 'views/Lending/LoanInfoRow';
-import { LendingTab, LendingViewTab, LoanPosition } from 'views/Lending/types';
+import type { LoanPosition } from 'views/Lending/types';
+import { LendingTab, LendingViewTab } from 'views/Lending/types';
 
 type Props = {
   setTab: (value: LendingTab) => void;

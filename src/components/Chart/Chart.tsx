@@ -8,7 +8,8 @@ import { memo, useMemo, useState } from 'react';
 import { Bar, Line } from 'react-chartjs-2';
 import { t } from 'services/i18n';
 
-import { BarChartType, ChartProps, ChartTimeFrame, ChartType, LineChartType } from './types';
+import type { BarChartType, ChartProps, LineChartType } from './types';
+import { ChartTimeFrame, ChartType } from './types';
 
 export const Chart = memo(
   ({

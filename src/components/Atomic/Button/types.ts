@@ -1,7 +1,7 @@
-import { TextTransform } from 'components/Atomic';
-import { TooltipPlacement } from 'components/Atomic/Tooltip/types';
-import { ButtonHTMLAttributes, DetailedHTMLProps, MouseEventHandler, ReactNode } from 'react';
-import { ColorType } from 'types/app';
+import type { TextTransform } from 'components/Atomic';
+import type { TooltipPlacement } from 'components/Atomic/Tooltip/types';
+import type { ButtonHTMLAttributes, DetailedHTMLProps, MouseEventHandler, ReactNode } from 'react';
+import type { ColorType } from 'types/app';
 
 export type ButtonTypes = 'default' | 'outline' | 'borderless';
 export type ButtonSizes = 'xs' | 'sm' | 'md' | 'lg';

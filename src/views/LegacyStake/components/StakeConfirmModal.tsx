@@ -1,13 +1,15 @@
 import { Text } from '@chakra-ui/react';
 import { BigNumber } from '@ethersproject/bignumber';
-import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { Box, Button, Modal } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
 import { Input } from 'components/Input';
 import { PercentSelect } from 'components/PercentSelect/PercentSelect';
 import { showErrorToast } from 'components/Toast';
 import { useCallback, useEffect, useState } from 'react';
-import { ContractType, fromWei, getContractAddress, toWei } from 'services/contract';
+import type { ContractType } from 'services/contract';
+import { fromWei, getContractAddress, toWei } from 'services/contract';
 import { t } from 'services/i18n';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';

@@ -1,60 +1,54 @@
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { ImportedMultisigTx } from 'services/multisig';
+import type { ImportedMultisigTx } from 'services/multisig';
 import { ROUTES } from 'settings/router';
-import { useMultisig } from 'store/multisig/hooks';
-import { useAppSelector } from 'store/store';
 
 export const useTxImportForm = () => {
   const [fileError, setFileError] = useState('');
   const [importedTx, setImportedTx] = useState<ImportedMultisigTx | null>(null);
-  const { importTx } = useMultisig();
   const navigate = useNavigate();
-  const treshold = useAppSelector(({ multisig }) => multisig.treshold);
 
-  const parseData = useCallback(
-    async (data: ImportedMultisigTx) => {
-      const tx = await importTx(JSON.stringify(data.txBody));
+  const parseData = useCallback(async (data: ImportedMultisigTx) => {
+    const tx = data.txBody;
 
-      if (!tx) {
-        throw Error(t('views.multisig.invalidTxBody'));
-      }
+    if (!tx) {
+      throw Error(t('views.multisig.invalidTxBody'));
+    }
 
-      if (
-        !data.signers ||
-        !Array.isArray(data.signers) ||
-        data.signers.length < treshold ||
-        data.signers.some((s) => !s.pubKey)
-      ) {
-        throw Error(t('views.multisig.incorrectSigners'));
-      }
+    if (
+      !data.members ||
+      !Array.isArray(data.members) ||
+      data.members.length < data.threshold ||
+      data.members.some((m) => !m.pubKey)
+    ) {
+      throw Error(t('views.multisig.incorrectSigners'));
+    }
 
-      if (
-        data.signatures &&
-        (!Array.isArray(data.signatures) || data.signatures.some((s) => !s.pubKey))
-      ) {
-        throw Error(t('views.multisig.invalidSignatures'));
-      }
+    if (
+      data.signatures &&
+      (!Array.isArray(data.signatures) || data.signatures.some((s) => !s.pubKey))
+    ) {
+      throw Error(t('views.multisig.invalidSignatures'));
+    }
 
-      const parsedData: ImportedMultisigTx = {
-        txBody: data.txBody,
-        signers: data.signers.map((m) => ({
+    const parsedData: ImportedMultisigTx = {
+      threshold: data.threshold,
+      txBody: data.txBody,
+      members: data.members.map((m) => ({
+        pubKey: m.pubKey,
+        name: m.name || '',
+      })),
+      signatures: data.signatures
+        .map((m) => ({
           pubKey: m.pubKey,
-          name: m.name || '',
-        })),
-        signatures: data.signatures
-          .map((m) => ({
-            pubKey: m.pubKey,
-            signature: m.signature || '',
-          }))
-          .filter((s) => s.signature),
-      };
+          signature: m.signature || '',
+        }))
+        .filter((s) => s.signature),
+    };
 
-      return parsedData;
-    },
-    [importTx, treshold],
-  );
+    return parsedData;
+  }, []);
 
   const onChangeFile = useCallback(
     (file: Blob) => {
@@ -92,9 +86,9 @@ export const useTxImportForm = () => {
       return;
     }
 
-    const { txBody, signatures, signers } = importedTx;
+    const { txBody, signatures, members, threshold } = importedTx;
     navigate(ROUTES.TxMultisig, {
-      state: { tx: txBody, signers, signatures },
+      state: { tx: txBody, members, threshold, signatures },
     });
   }, [importedTx, navigate]);
 

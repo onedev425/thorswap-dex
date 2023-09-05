@@ -1,4 +1,5 @@
-import { Amount, getMemoFor } from '@thorswap-lib/swapkit-core';
+import type { Amount } from '@thorswap-lib/swapkit-core';
+import { getMemoFor } from '@thorswap-lib/swapkit-core';
 import { MemoType } from '@thorswap-lib/types';
 import { BondActionType } from 'views/Nodes/types';
 

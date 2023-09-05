@@ -4,7 +4,7 @@ import { HoverIcon } from 'components/HoverIcon';
 import { InfoTip } from 'components/InfoTip';
 import { memo } from 'react';
 import { t } from 'services/i18n';
-import { SaverProvider } from 'store/midgard/types';
+import type { SaverProvider } from 'store/midgard/types';
 
 type Props = {
   address: string;

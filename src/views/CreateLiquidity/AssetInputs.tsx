@@ -1,8 +1,8 @@
-import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetInput } from 'components/AssetInput';
-import { AssetInputType } from 'components/AssetInput/types';
-import { AssetSelectType } from 'components/AssetSelect/types';
+import type { AssetInputType } from 'components/AssetInput/types';
+import type { AssetSelectType } from 'components/AssetSelect/types';
 import { Box, Icon } from 'components/Atomic';
 import { RUNEAsset } from 'helpers/assets';
 import { useAssetListSearch } from 'hooks/useAssetListSearch';

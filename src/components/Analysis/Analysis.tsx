@@ -1,5 +1,6 @@
 import { Box } from '@chakra-ui/react';
-import { Chain, ChainToChainId } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
+import { ChainToChainId } from '@thorswap-lib/types';
 import { AnalysisModal } from 'components/Analysis/AnalysisModal';
 import { AnalysisSidebar } from 'components/Analysis/AnalysisSidebar';
 import { gasState } from 'components/Analysis/helpers';

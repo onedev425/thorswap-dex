@@ -1,11 +1,11 @@
 import { Text } from '@chakra-ui/react';
+import type { Signer } from '@thorswap-lib/toolbox-cosmos';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button } from 'components/Atomic';
 import { StepActions } from 'components/Stepper';
 import { useStepper } from 'components/Stepper/StepperContext';
 import { useCallback, useEffect } from 'react';
 import { t } from 'services/i18n';
-import { Signer } from 'services/multisig';
 import { useWallet } from 'store/wallet/hooks';
 import { CurrentSignerItem } from 'views/Multisig/components/CurrentSignerItem';
 

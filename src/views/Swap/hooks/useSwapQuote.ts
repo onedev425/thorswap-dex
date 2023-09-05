@@ -1,12 +1,13 @@
-import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
-import { RouteWithApproveType } from 'components/SwapRouter/types';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
+import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useVTHORBalance } from 'hooks/useHasVTHOR';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { IS_BETA, IS_LEDGER_LIVE, IS_LOCAL } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 import { useGetTokensQuoteQuery } from 'store/thorswap/api';
-import { GetTokensQuoteResponse } from 'store/thorswap/types';
+import type { GetTokensQuoteResponse } from 'store/thorswap/types';
 import { useAssetApprovalCheck } from 'views/Swap/hooks/useIsAssetApproved';
 
 type Params = {

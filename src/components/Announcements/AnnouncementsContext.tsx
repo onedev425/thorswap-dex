@@ -1,6 +1,7 @@
 import { useAnnouncementsList } from 'components/Announcements/hooks';
-import { AnnouncementsState } from 'components/Announcements/types';
-import { createContext, ReactNode, useContext, useEffect, useMemo } from 'react';
+import type { AnnouncementsState } from 'components/Announcements/types';
+import type { ReactNode } from 'react';
+import { createContext, useContext, useEffect, useMemo } from 'react';
 import { useApp } from 'store/app/hooks';
 
 const AnnouncementsContext = createContext<AnnouncementsState>({

@@ -1,65 +1,71 @@
 import { getFromStorage } from 'helpers/storage';
-import i18n, {
-  changeLanguage,
-  Resource,
-  t as translate,
-  TOptions,
-  use as initializeI18n,
-} from 'i18next';
+import type { TOptions } from 'i18next';
+import i18n, { changeLanguage, t as translate, use as initializeI18n } from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import { SupportedLanguages } from 'types/app';
+import type { SupportedLanguages } from 'types/app';
 
-import de from './locales/de_DE.json';
-import en from './locales/en_GB.json';
-import es from './locales/es_ES.json';
-import fr from './locales/fr_FR.json';
-import hi from './locales/hi_IN.json';
-import it from './locales/it_IT.json';
-import jp from './locales/ja_JP.json';
-import km from './locales/km_KH.json';
-import ko from './locales/ko_KR.json';
-import nl from './locales/nl_NL.json';
-import pl from './locales/pl_PL.json';
-import ptBR from './locales/pt_BR.json';
-import pt from './locales/pt_PT.json';
-import ru from './locales/ru_RU.json';
-import zhHant from './locales/zh_CN.json';
-import zhHans from './locales/zh_TW.json';
+import type en from './locales/en_GB.json';
 
 const parseMissingKeyHandler = (key: string) => key.split('.').pop();
-
-const resources: Record<SupportedLanguages, Resource> = {
-  'nl-NL': { translation: nl },
-  'pt-BR': { translation: ptBR },
-  'zh-Hans': { translation: zhHans },
-  'zh-Hant': { translation: zhHant },
-  de: { translation: de },
-  en: { translation: en },
-  es: { translation: es },
-  fr: { translation: fr },
-  hi: { translation: hi },
-  it: { translation: it },
-  jp: { translation: jp },
-  km: { translation: km },
-  ko: { translation: ko },
-  pl: { translation: pl },
-  pt: { translation: pt },
-  ru: { translation: ru },
+const loadResources = async (language: SupportedLanguages) => {
+  switch (language) {
+    case 'nl-NL':
+      return import('./locales/nl_NL.json');
+    case 'pt-BR':
+      return import('./locales/pt_BR.json');
+    case 'zh-Hans':
+      return import('./locales/zh_CN.json');
+    case 'zh-Hant':
+      return import('./locales/zh_TW.json');
+    case 'de':
+      return import('./locales/de_DE.json');
+    case 'en':
+      return import('./locales/en_GB.json');
+    case 'es':
+      return import('./locales/es_ES.json');
+    case 'fr':
+      return import('./locales/fr_FR.json');
+    case 'hi':
+      return import('./locales/hi_IN.json');
+    case 'it':
+      return import('./locales/it_IT.json');
+    case 'jp':
+      return import('./locales/ja_JP.json');
+    case 'km':
+      return import('./locales/km_KH.json');
+    case 'ko':
+      return import('./locales/ko_KR.json');
+    case 'pl':
+      return import('./locales/pl_PL.json');
+    case 'pt':
+      return import('./locales/pt_PT.json');
+    case 'ru':
+      return import('./locales/ru_RU.json');
+    default:
+      return import('./locales/en_GB.json');
+  }
 };
 
-initializeI18n(initReactI18next).init({
-  debug: false,
-  resources,
-  lng: getFromStorage('language') as SupportedLanguages,
-  fallbackLng: 'en',
-  parseMissingKeyHandler,
-  returnEmptyString: false,
-  interpolation: {
-    escapeValue: false, // react already safes from xss
-    prefix: '%{',
-    suffix: '}',
-  },
-});
+const loadI18n = async () => {
+  const lng = getFromStorage('language') as SupportedLanguages;
+  const resource = await loadResources(lng);
+
+  initializeI18n(initReactI18next).init({
+    debug: false,
+    resources: { [lng]: { translation: resource } },
+    lng,
+    fallbackLng: 'en',
+    parseMissingKeyHandler,
+    returnEmptyString: false,
+    interpolation: {
+      escapeValue: false, // react already safes from xss
+      prefix: '%{',
+      suffix: '}',
+    },
+  });
+};
+
+loadI18n();
 
 type PathImpl<T, K extends keyof T> = K extends string
   ? T[K] extends Record<string, NotWorth>
@@ -76,6 +82,8 @@ export const t = <T>(key: Path<DefaultDictionary> | T, params?: TOptions, option
   translate(key as string, params as ToDo, options); /* i18next-extract-disable-line */
 
 export const currentLocale = () => i18n.languages[0];
-export const changeAppLanguage = (language: SupportedLanguages) => {
+export const changeAppLanguage = async (language: SupportedLanguages) => {
+  const resource = await loadResources(language);
+  i18n.addResourceBundle(language, 'translation', resource, true, true);
   changeLanguage(language);
 };

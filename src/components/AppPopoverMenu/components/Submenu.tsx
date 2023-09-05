@@ -1,4 +1,4 @@
-import { MenuItemType } from 'components/AppPopoverMenu/types';
+import type { MenuItemType } from 'components/AppPopoverMenu/types';
 import { Box } from 'components/Atomic';
 
 import { MenuItem } from './MenuItem';

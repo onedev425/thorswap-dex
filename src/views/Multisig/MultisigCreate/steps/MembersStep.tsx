@@ -6,9 +6,9 @@ import { HoverIcon } from 'components/HoverIcon';
 import { Input } from 'components/Input';
 import { StepActions } from 'components/Stepper';
 import { useStepper } from 'components/Stepper/StepperContext';
-import { DeepRequired, FieldErrorsImpl, UseFormRegister } from 'react-hook-form';
+import type { DeepRequired, FieldErrorsImpl, UseFormRegister } from 'react-hook-form';
 import { t } from 'services/i18n';
-import {
+import type {
   MultisigFormFields,
   MultisigFormValues,
   SubmitMultisigForm,
@@ -130,9 +130,9 @@ export const MembersStep = ({
             border="rounded"
             className="py-1 min-w-[25px] text-right"
             containerClassName={classNames({
-              '!border-red': !!errors.treshold,
+              '!border-red': !!errors.threshold,
             })}
-            {...formFields.treshold}
+            {...formFields.threshold}
           />
 
           <Text className="whitespace-nowrap" textStyle="caption">

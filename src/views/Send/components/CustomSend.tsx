@@ -3,7 +3,8 @@ import { AssetSelect } from 'components/AssetSelect';
 import { Box } from 'components/Atomic';
 import { PanelInput } from 'components/PanelInput';
 import { RUNEAsset } from 'helpers/assets';
-import { ChangeEvent, useCallback, useMemo, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useMidgard } from 'store/midgard/hooks';
 

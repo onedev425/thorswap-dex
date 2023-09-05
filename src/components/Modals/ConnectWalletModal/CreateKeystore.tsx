@@ -1,10 +1,11 @@
 import { Text } from '@chakra-ui/react';
-import { Keystore } from '@thorswap-lib/types';
+import type { Keystore } from '@thorswap-lib/types';
 import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { Input } from 'components/Input';
 import { downloadAsFile } from 'helpers/download';
-import { ChangeEvent, useCallback, useMemo, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 
 type Props = {

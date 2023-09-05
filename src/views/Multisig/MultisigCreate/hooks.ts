@@ -3,8 +3,8 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import { t } from 'services/i18n';
 import { multisig } from 'services/multisig';
 import { useMultisig } from 'store/multisig/hooks';
-import { MultisigMember } from 'store/multisig/types';
-import { MultisigFormFields, MultisigFormValues } from 'views/Multisig/MultisigCreate/types';
+import type { MultisigMember } from 'store/multisig/types';
+import type { MultisigFormFields, MultisigFormValues } from 'views/Multisig/MultisigCreate/types';
 
 export const MIN_MEMBERS = 2;
 
@@ -32,7 +32,7 @@ export const useMultisigForm = ({ pubKey }: Props = {}) => {
         { name: '', pubKey: '' },
         { name: '', pubKey: '' },
       ],
-      treshold: 2,
+      threshold: 2,
     },
   });
 
@@ -46,15 +46,15 @@ export const useMultisigForm = ({ pubKey }: Props = {}) => {
   });
 
   const nameField = register('name');
-  const tresholdField = register('treshold', {
+  const tresholdField = register('threshold', {
     validate: (v) => v <= membersFields.length,
   });
 
   const [walletAddress, setWalletAddress] = useState('');
 
   const generateMultisigAddress = useCallback(
-    async (members: MultisigMember[], treshold: number) => {
-      const address = await multisig.createMultisigWallet(members, treshold);
+    async (members: MultisigMember[], threshold: number) => {
+      const address = await multisig.createMultisigWallet(members, threshold);
       setWalletAddress(address || '');
 
       return address;
@@ -76,7 +76,7 @@ export const useMultisigForm = ({ pubKey }: Props = {}) => {
     const subscription = watch(async (values) => {
       const address = await generateMultisigAddress(
         values.members as MultisigMember[],
-        values.treshold as number,
+        values.threshold as number,
       );
 
       if (address) clearErrors('signatureValidation');
@@ -88,7 +88,7 @@ export const useMultisigForm = ({ pubKey }: Props = {}) => {
   const handleConfirm = useCallback(
     async (values: MultisigFormValues, onSubmit?: () => void) => {
       const address =
-        walletAddress || (await generateMultisigAddress(values.members, values.treshold));
+        walletAddress || (await generateMultisigAddress(values.members, values.threshold));
 
       if (!address) {
         setError('signatureValidation', {
@@ -102,7 +102,7 @@ export const useMultisigForm = ({ pubKey }: Props = {}) => {
       addMultisigWallet({
         name: values.name,
         members: values.members,
-        treshold: values.treshold,
+        threshold: values.threshold,
         address,
       });
 
@@ -119,7 +119,7 @@ export const useMultisigForm = ({ pubKey }: Props = {}) => {
     () => ({
       name: nameField,
       members: membersFields,
-      treshold: tresholdField,
+      threshold: tresholdField,
     }),
     [membersFields, nameField, tresholdField],
   );

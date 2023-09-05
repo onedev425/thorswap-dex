@@ -1,7 +1,7 @@
 import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 
-import { SwitchProps } from './types';
+import type { SwitchProps } from './types';
 
 export const Switch = ({
   className = '',

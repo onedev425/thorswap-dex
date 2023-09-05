@@ -1,8 +1,8 @@
 import { Text } from '@chakra-ui/react';
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
-import { InfoRowConfig } from 'components/InfoRow/types';
+import type { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { t } from 'services/i18n';
 

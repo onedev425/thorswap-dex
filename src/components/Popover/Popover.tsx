@@ -1,7 +1,8 @@
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';
 import useOnClickOutside from 'hooks/useClickOutside';
-import { forwardRef, ReactNode, useCallback, useImperativeHandle, useRef, useState } from 'react';
+import type { ReactNode } from 'react';
+import { forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react';
 import { usePopper } from 'react-popper';
 
 interface PopoverProps {

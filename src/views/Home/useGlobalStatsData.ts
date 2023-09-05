@@ -1,5 +1,5 @@
 import { Amount } from '@thorswap-lib/swapkit-core';
-import { StatsType } from 'components/StatsList/types';
+import type { StatsType } from 'components/StatsList/types';
 import { parseToPercent } from 'helpers/parseHelpers';
 import { useGlobalStats } from 'hooks/useGlobalStats';
 import { useMimir } from 'hooks/useMimir';

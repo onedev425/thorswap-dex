@@ -1,8 +1,8 @@
 import { Text } from '@chakra-ui/react';
-import { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
 import { ChainIcon } from 'components/AssetIcon/ChainIcon';
 import { Box, DropdownMenu } from 'components/Atomic';
-import { DropdownMenuItem } from 'components/Atomic/Dropdown/types';
+import type { DropdownMenuItem } from 'components/Atomic/Dropdown/types';
 import { chainName } from 'helpers/chainName';
 import { SORTED_CHAINS } from 'settings/chain';
 

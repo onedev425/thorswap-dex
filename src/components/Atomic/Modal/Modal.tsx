@@ -1,14 +1,14 @@
+import type { SystemStyleObject } from '@chakra-ui/react';
 import {
   Modal as CustomModal,
   ModalBody,
   ModalContent,
   ModalOverlay,
-  SystemStyleObject,
   Text,
 } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { Box, Card, Icon } from 'components/Atomic';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 type Props = {
   HeaderComponent?: ReactNode;

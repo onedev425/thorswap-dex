@@ -1,7 +1,7 @@
 import { Card, Flex, Text } from '@chakra-ui/react';
 import { transactionTitle } from 'components/TransactionManager/helpers';
 import { TransactionStatusIcon } from 'components/TransactionManager/TransactionStatusIcon';
-import { CompletedTransactionType, PendingTransactionType } from 'store/transactions/types';
+import type { CompletedTransactionType, PendingTransactionType } from 'store/transactions/types';
 
 type Props = {
   item: CompletedTransactionType | PendingTransactionType;

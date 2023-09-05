@@ -1,5 +1,5 @@
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';
 import { chainName } from 'helpers/chainName';

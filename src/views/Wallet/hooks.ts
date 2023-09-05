@@ -1,4 +1,5 @@
-import { Amount, AssetAmount, AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetAmount, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { formatPrice } from 'helpers/formatPrice';
 import { useTokenPrices } from 'hooks/useTokenPrices';

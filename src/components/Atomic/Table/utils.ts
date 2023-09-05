@@ -1,6 +1,6 @@
-import { Amount, Pool } from '@thorswap-lib/swapkit-core';
-import { TableData } from 'components/Atomic';
-import { Row } from 'react-table';
+import type { Amount, Pool } from '@thorswap-lib/swapkit-core';
+import type { TableData } from 'components/Atomic';
+import type { Row } from 'react-table';
 
 export const getAmountColumnSorter = (fieldName: string) => {
   return (rowA: Row<TableData>, rowB: Row<TableData>) =>

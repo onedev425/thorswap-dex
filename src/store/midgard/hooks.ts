@@ -1,8 +1,9 @@
-import { AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
+import type { Pool } from '@thorswap-lib/swapkit-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { useCallback, useMemo } from 'react';
 import * as actions from 'store/midgard/actions';
-import { PoolPeriodsUsedForApiCall } from 'store/midgard/types';
+import type { PoolPeriodsUsedForApiCall } from 'store/midgard/types';
 import { useAppDispatch, useAppSelector } from 'store/store';
 
 export const useMidgard = () => {

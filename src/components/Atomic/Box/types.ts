@@ -1,4 +1,4 @@
-import { CSSProperties, PropsWithChildren } from 'react';
+import type { CSSProperties, PropsWithChildren } from 'react';
 
 export type CustomAlignType = 'start' | 'end' | 'stretch' | 'baseline';
 

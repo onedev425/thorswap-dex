@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import { BigNumber } from '@ethersproject/bignumber';
-import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon, AssetLpIcon } from 'components/AssetIcon';
@@ -11,12 +11,12 @@ import { InfoRow } from 'components/InfoRow';
 import { shortenAddress } from 'helpers/shortenAddress';
 import { getAPR } from 'helpers/staking';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { LPContractType } from 'services/contract';
 import {
   ContractType,
   fromWei,
   getCustomContract,
   getEtherscanContract,
-  LPContractType,
   triggerContractCall,
 } from 'services/contract';
 import { t } from 'services/i18n';
@@ -55,7 +55,6 @@ export const StakingCard = ({
 }: Props) => {
   const appDispatch = useAppDispatch();
   const { wallet, setIsConnectModalOpen } = useWallet();
-  // TODO: Refactor to useReducer
   const [isFetching, setIsFetching] = useState(false);
   const [aprRate, setAPRRate] = useState<number>();
   const [lpTokenBal, setLpTokenBal] = useState(0);
@@ -83,7 +82,7 @@ export const StakingCard = ({
 
     if (wallet?.ETH?.address) {
       const ethereumAddr = wallet.ETH.address;
-      const lpContract = getCustomContract(stakingToken);
+      const lpContract = await getCustomContract(stakingToken);
 
       const lpTokenBalance = await lpContract.balanceOf(ethereumAddr);
 
@@ -91,7 +90,7 @@ export const StakingCard = ({
       setLpTokenBalBn(lpTokenBalance);
 
       try {
-        const stakingContract = getEtherscanContract(contractType);
+        const stakingContract = await getEtherscanContract(contractType);
 
         const { amount } = await stakingContract.userInfo(0, ethereumAddr);
 
@@ -116,7 +115,7 @@ export const StakingCard = ({
   }, [ethAddr, getPoolUserInfo]);
 
   const getBlockReward = useCallback(async () => {
-    const stakingContract = getEtherscanContract(contractType);
+    const stakingContract = await getEtherscanContract(contractType);
     const blockReward = await stakingContract.blockReward();
 
     return blockReward;

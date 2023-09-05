@@ -3,7 +3,11 @@ import { Icon } from 'components/Atomic';
 import { easeInOutTransition } from 'components/constants';
 import { NavItem } from 'components/Sidebar/NavItem';
 import { SidebarWidgets } from 'components/Sidebar/SidebarWidgets';
-import { SidebarItemProps, SidebarVariant, SidebarWidgetOption } from 'components/Sidebar/types';
+import type {
+  SidebarItemProps,
+  SidebarVariant,
+  SidebarWidgetOption,
+} from 'components/Sidebar/types';
 import { Fragment, memo, useCallback } from 'react';
 import { useApp } from 'store/app/hooks';
 

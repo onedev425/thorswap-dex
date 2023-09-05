@@ -1,12 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getRequest } from '@thorswap-lib/helpers';
-import { InboundAddressesItem, PoolPeriods } from '@thorswap-lib/midgard-sdk';
-import { Chain } from '@thorswap-lib/types';
+import type { InboundAddressesItem, PoolPeriods } from '@thorswap-lib/midgard-sdk';
+import type { Chain } from '@thorswap-lib/types';
 import dayjs from 'dayjs';
 import { midgardSdk } from 'services/midgard';
 import { THORNODE_URL } from 'settings/config';
 
-import { LiquidityProvider, SaverProvider, ThornodePoolType } from './types';
+import type { LiquidityProvider, SaverProvider, ThornodePoolType } from './types';
 
 export const getThornameExpireDate = ({
   expire,

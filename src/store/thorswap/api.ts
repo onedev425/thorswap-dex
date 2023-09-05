@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { THORSWAP_AFFILIATE_ADDRESS, THORSWAP_AFFILIATE_ADDRESS_LL } from 'config/constants';
 import { IS_LEDGER_LIVE } from 'settings/config';
-import { AnnouncementsData } from 'store/externalConfig/types';
+import type { AnnouncementsData } from 'store/externalConfig/types';
 import { getBaseUrl } from 'store/thorswap/getBaseUrl';
 
-import {
+import type {
   BorrowQuoteParams,
   BorrowQuoteResponse,
   GetAdvancedTrackerStatusPayload,

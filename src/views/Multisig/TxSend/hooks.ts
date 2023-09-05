@@ -3,7 +3,8 @@ import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { RUNEAsset } from 'helpers/assets';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getMultisigTxCreateRoute, ROUTES } from 'settings/router';
@@ -107,15 +108,12 @@ export const useTxSend = () => {
   }, []);
 
   const handleCreateTx = async () => {
-    const tx = await createTransferTx(
-      {
-        recipient: recipientAddress,
-        memo,
-        asset: sendAsset,
-        amount: sendAmount,
-      },
-      signers,
-    );
+    const tx = await createTransferTx({
+      recipient: recipientAddress,
+      memo,
+      asset: sendAsset,
+      amount: sendAmount,
+    });
 
     if (tx) {
       navigate(ROUTES.TxMultisig, {

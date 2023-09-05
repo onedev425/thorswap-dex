@@ -5,7 +5,7 @@ import { FieldLabel } from 'components/Form';
 import { Input } from 'components/Input';
 import { useInputFocusState } from 'components/Input/hooks/useInputFocusState';
 import { memo } from 'react';
-import { UseFormRegisterReturn } from 'react-hook-form';
+import type { UseFormRegisterReturn } from 'react-hook-form';
 
 type Props = {
   label?: string;

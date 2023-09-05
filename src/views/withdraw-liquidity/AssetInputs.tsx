@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { Box, Icon } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';

@@ -1,6 +1,7 @@
 import { Box, Card } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
-import { memo, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import { memo } from 'react';
 
 export type Props = {
   title: string;

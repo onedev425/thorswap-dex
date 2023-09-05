@@ -1,4 +1,4 @@
-import { Amount, Pool } from '@thorswap-lib/swapkit-core';
+import type { Amount, Pool } from '@thorswap-lib/swapkit-core';
 import { LiquidityTypeOption, PoolShareType } from 'store/midgard/types';
 
 export const getMaxSymAmounts = ({

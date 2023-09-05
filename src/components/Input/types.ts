@@ -1,5 +1,5 @@
-import { IconName } from 'components/Atomic';
-import { DetailedHTMLProps, InputHTMLAttributes, ReactNode } from 'react';
+import type { IconName } from 'components/Atomic';
+import type { DetailedHTMLProps, InputHTMLAttributes, ReactNode } from 'react';
 
 export type InputProps = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,

@@ -1,7 +1,7 @@
 import { Box, Button, Card, Icon } from 'components/Atomic';
 import { GlobalSettings } from 'components/GlobalSettings';
 import { Popover } from 'components/Popover';
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 import { t } from 'services/i18n';
 
 type Props = PropsWithChildren<{

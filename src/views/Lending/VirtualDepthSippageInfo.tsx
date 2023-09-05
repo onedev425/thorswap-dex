@@ -1,5 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { Amount } from '@thorswap-lib/swapkit-core';
+import type { Amount } from '@thorswap-lib/swapkit-core';
 import { Icon, Tooltip } from 'components/Atomic';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { t } from 'services/i18n';

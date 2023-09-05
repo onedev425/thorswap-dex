@@ -1,13 +1,15 @@
 import { Text } from '@chakra-ui/react';
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, IconName, Tooltip } from 'components/Atomic';
+import type { IconName } from 'components/Atomic';
+import { Box, Tooltip } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { getAmountFromString } from 'components/InputAmount/utils';
 import { useTheme } from 'components/Theme/ThemeContext';
 import { useFormatPrice } from 'helpers/formatPrice';
-import { memo, MouseEventHandler, useCallback, useMemo } from 'react';
+import type { MouseEventHandler } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
 import {
   navigateToBscscanAddress,
@@ -17,7 +19,7 @@ import {
 } from 'settings/router';
 
 import { FeaturedAssetIcon } from './FeaturedAssetIcon';
-import { AssetSelectType } from './types';
+import type { AssetSelectType } from './types';
 
 type Props = AssetSelectType & {
   select: (asset: AssetEntity) => void;

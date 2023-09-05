@@ -1,5 +1,6 @@
 import { Text } from '@chakra-ui/react';
-import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Link } from 'components/Atomic';
 import { getSwapRoute } from 'settings/router';
 

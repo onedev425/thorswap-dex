@@ -1,6 +1,7 @@
-import { Icon, IconColor, IconName } from 'components/Atomic';
+import type { IconColor, IconName } from 'components/Atomic';
+import { Icon } from 'components/Atomic';
 import { memo, useMemo } from 'react';
-import { TransactionStatus } from 'store/transactions/types';
+import type { TransactionStatus } from 'store/transactions/types';
 
 type Props = {
   size?: number;

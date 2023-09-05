@@ -1,15 +1,11 @@
-import { Box, Button as ChakraButton, ButtonProps, ResponsiveValue, Text } from '@chakra-ui/react';
-import { Icon, TextTransform, Tooltip } from 'components/Atomic';
-import { ButtonSizes } from 'components/Atomic/Button/types';
-import { TooltipPlacement } from 'components/Atomic/Tooltip/types';
-import {
-  MouseEvent,
-  MouseEventHandler,
-  ReactElement,
-  ReactNode,
-  useLayoutEffect,
-  useRef,
-} from 'react';
+import type { ButtonProps, ResponsiveValue } from '@chakra-ui/react';
+import { Box, Button as ChakraButton, Text } from '@chakra-ui/react';
+import type { TextTransform } from 'components/Atomic';
+import { Icon, Tooltip } from 'components/Atomic';
+import type { ButtonSizes } from 'components/Atomic/Button/types';
+import type { TooltipPlacement } from 'components/Atomic/Tooltip/types';
+import type { MouseEvent, MouseEventHandler, ReactElement, ReactNode } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 
 type Props = {
   children?: ReactNode;

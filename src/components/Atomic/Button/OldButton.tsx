@@ -1,9 +1,10 @@
 import classNames from 'classnames';
 import { Icon, Typography } from 'components/Atomic';
 import { Tooltip } from 'components/Atomic/Tooltip/Tooltip';
-import { MouseEvent, useLayoutEffect, useRef } from 'react';
+import type { MouseEvent } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 
-import { ButtonProps } from './types';
+import type { ButtonProps } from './types';
 import { useButtonClasses } from './useButtonClasses';
 
 export const OldButton = ({

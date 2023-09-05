@@ -1,15 +1,15 @@
-import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetInput } from 'components/AssetInput';
-import { AssetInputType } from 'components/AssetInput/types';
+import type { AssetInputType } from 'components/AssetInput/types';
 import { Box, Icon, Tooltip } from 'components/Atomic';
 import { isAVAXAsset, isETHAsset } from 'helpers/assets';
 import { useAssetListSearch } from 'hooks/useAssetListSearch';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { IS_LEDGER_LIVE } from 'settings/config';
-import { Token } from 'store/thorswap/types';
+import type { Token } from 'store/thorswap/types';
 import { useTokenAddresses } from 'views/Swap/hooks/useTokenAddresses';
 
 import {

@@ -1,6 +1,5 @@
-import { BigNumber } from '@ethersproject/bignumber';
-import { Amount } from '@thorswap-lib/swapkit-core';
-import { getProvider } from '@thorswap-lib/toolbox-evm';
+import type { BigNumber } from '@ethersproject/bignumber';
+import type { Amount } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import dayjs from 'dayjs';
@@ -47,18 +46,18 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
   const [isLoading, setIsLoading] = useState(false);
   const { numberOfPendingApprovals } = useTransactionsState();
   const ethAddress = useMemo(() => wallet.ETH?.address, [wallet.ETH?.address]);
-  const ethProvider = useMemo(() => getProvider(Chain.Ethereum), []);
 
   const checkAlloc = useCallback(async () => {
     if (!ethAddress || contractCallInProgress) return;
 
     const { connectedWallets } = await (await import('services/swapKit')).getSwapKitClient();
+    const { getProvider } = await import('@thorswap-lib/toolbox-evm');
     try {
       contractCallInProgress = true;
       const { abi: thorVesting, address: thorAddress } = contractConfig['vesting'];
       const { abi: vthorVesting, address: vthorAddress } = contractConfig['vthor_vesting'];
       const callParams = {
-        callProvider: ethProvider,
+        callProvider: getProvider(Chain.Ethereum),
         funcParams: [ethAddress, {}],
         from: ethAddress,
         funcName: 'claimableAmount',
@@ -86,17 +85,18 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
     } finally {
       contractCallInProgress = false;
     }
-  }, [appDispatch, ethAddress, ethProvider]);
+  }, [appDispatch, ethAddress]);
 
   const getContractVestingInfo = useCallback(
     async (vestingType: VestingType) => {
       if (!ethAddress) return defaultVestingInfo;
 
       const { connectedWallets } = await (await import('services/swapKit')).getSwapKitClient();
+      const { getProvider } = await import('@thorswap-lib/toolbox-evm');
       const contractType = vestingType === VestingType.THOR ? 'vesting' : 'vthor_vesting';
       const { abi, address } = contractConfig[contractType];
       const callParams = {
-        callProvider: ethProvider,
+        callProvider: getProvider(Chain.Ethereum),
         from: ethAddress,
         funcParams: [ethAddress, {}],
       };
@@ -137,7 +137,7 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
         hasAlloc,
       };
     },
-    [ethAddress, ethProvider],
+    [ethAddress],
   );
 
   const loadVestingInfo = useCallback(async () => {

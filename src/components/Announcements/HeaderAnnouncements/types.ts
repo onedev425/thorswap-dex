@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
-import { AnnouncementItem } from 'store/externalConfig/types';
+import type { ReactNode } from 'react';
+import type { AnnouncementItem } from 'store/externalConfig/types';
 
 export type AnnouncementProps = {
   announcement: AnnouncementItem;

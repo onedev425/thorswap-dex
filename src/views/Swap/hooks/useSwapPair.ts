@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { captureEvent } from 'services/postHog';
 import { IS_LEDGER_LIVE } from 'settings/config';
-import { Pair } from 'views/Swap/types';
+import type { Pair } from 'views/Swap/types';
 
 const getSwapPair = (pair: string) => {
   const [input, output] = (pair || '').split('_');

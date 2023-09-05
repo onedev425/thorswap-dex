@@ -1,5 +1,5 @@
-import { IconName } from 'components/Atomic';
-import { ReactNode } from 'react';
+import type { IconName } from 'components/Atomic';
+import type { ReactNode } from 'react';
 
 export type CollapseProps = {
   title: string | ReactNode;

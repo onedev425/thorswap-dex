@@ -1,4 +1,5 @@
-import { SidebarItemProps, SidebarWidgetOption } from 'components/Sidebar/types';
+import type { SidebarItemProps } from 'components/Sidebar/types';
+import { SidebarWidgetOption } from 'components/Sidebar/types';
 import { hasConnectedWallet } from 'helpers/wallet';
 import { useEffect, useMemo } from 'react';
 import { t } from 'services/i18n';

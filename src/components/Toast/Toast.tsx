@@ -1,8 +1,10 @@
 import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { Box, Icon } from 'components/Atomic';
-import React, { ReactNode } from 'react';
-import { toast, ToastBar, Toaster, ToastOptions } from 'react-hot-toast';
+import type { ReactNode } from 'react';
+import React from 'react';
+import type { ToastOptions } from 'react-hot-toast';
+import { toast, ToastBar, Toaster } from 'react-hot-toast';
 
 export enum ToastType {
   Info = 'info',

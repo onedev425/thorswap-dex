@@ -1,8 +1,9 @@
 import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { Box, Icon } from 'components/Atomic';
-import { InputProps } from 'components/Input/types';
-import { forwardRef, RefObject, useRef } from 'react';
+import type { InputProps } from 'components/Input/types';
+import type { RefObject } from 'react';
+import { forwardRef, useRef } from 'react';
 
 const DEFAULT_ICON_SIZE = 16;
 

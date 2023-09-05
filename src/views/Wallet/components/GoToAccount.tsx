@@ -1,4 +1,4 @@
-import { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
 import { HoverIcon } from 'components/HoverIcon';
 import { useEffect, useState } from 'react';
 import { t } from 'services/i18n';

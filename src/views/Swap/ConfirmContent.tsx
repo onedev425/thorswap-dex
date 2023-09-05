@@ -3,7 +3,7 @@ import { hexlify } from '@ethersproject/bytes';
 import { toUtf8Bytes } from '@ethersproject/strings';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
-import { AssetInputType } from 'components/AssetInput/types';
+import type { AssetInputType } from 'components/AssetInput/types';
 import { Box, Icon, Tooltip } from 'components/Atomic';
 import { ChainBadge } from 'components/ChainBadge';
 import { InfoTip } from 'components/InfoTip';

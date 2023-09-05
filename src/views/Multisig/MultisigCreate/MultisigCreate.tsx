@@ -2,7 +2,7 @@ import { Box } from 'components/Atomic';
 import { PanelView } from 'components/PanelView';
 import { Stepper } from 'components/Stepper';
 import { StepperProvider } from 'components/Stepper/StepperContext';
-import { StepType } from 'components/Stepper/types';
+import type { StepType } from 'components/Stepper/types';
 import { ViewHeader } from 'components/ViewHeader';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';

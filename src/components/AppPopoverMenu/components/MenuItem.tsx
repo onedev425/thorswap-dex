@@ -1,10 +1,11 @@
 import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Icon, IconName, Link } from 'components/Atomic';
+import type { IconName } from 'components/Atomic';
+import { Box, Icon, Link } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
 import { useMemo } from 'react';
 
-import { MenuItemType } from '../types';
+import type { MenuItemType } from '../types';
 
 export const MenuItem = ({
   onClick,

@@ -1,4 +1,4 @@
-import { AnnouncementItem } from 'store/externalConfig/types';
+import type { AnnouncementItem } from 'store/externalConfig/types';
 
 export type AnnouncementsState = {
   all: AnnouncementItem[];

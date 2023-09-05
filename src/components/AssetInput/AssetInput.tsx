@@ -1,5 +1,6 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { MaxPopover } from 'components/AssetInput/MaxPopover';
 import { AssetSelect } from 'components/AssetSelect';
@@ -11,7 +12,7 @@ import { useFormatPrice } from 'helpers/formatPrice';
 import { useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
 
-import { AssetInputProps } from './types';
+import type { AssetInputProps } from './types';
 
 export const AssetInput = ({
   hideZeroPrice,

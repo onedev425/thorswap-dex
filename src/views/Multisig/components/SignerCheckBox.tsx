@@ -6,7 +6,7 @@ import {
   borderHoverHighlightClass,
   genericBgClasses,
 } from 'components/constants';
-import { MultisigMember } from 'store/multisig/types';
+import type { MultisigMember } from 'store/multisig/types';
 
 type Props = {
   signer: MultisigMember;

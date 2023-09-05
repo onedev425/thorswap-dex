@@ -1,7 +1,7 @@
 import { Text } from '@chakra-ui/react';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
-import { SwapGraphType } from 'components/SwapRouter/types';
+import type { SwapGraphType } from 'components/SwapRouter/types';
 import { memo } from 'react';
 
 import { SwapPart } from './SwapPart';

@@ -1,5 +1,5 @@
 import { TableHeaderColumn } from './TableHeaderColumn';
-import { TableHeaderGroupType } from './types';
+import type { TableHeaderGroupType } from './types';
 
 type Props = {
   headerGroup: TableHeaderGroupType;

@@ -8,7 +8,8 @@ import { RUNEAsset } from 'helpers/assets';
 import { useState } from 'react';
 import { t } from 'services/i18n';
 import { useNodeManager } from 'views/Nodes/hooks/hooks';
-import { BondActionType, NodeManagePanelProps } from 'views/Nodes/types';
+import type { NodeManagePanelProps } from 'views/Nodes/types';
+import { BondActionType } from 'views/Nodes/types';
 
 export const NodeManagePanel = ({
   address,

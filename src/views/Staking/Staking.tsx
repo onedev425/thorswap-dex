@@ -26,7 +26,7 @@ import { StakeActions, useVthorUtil } from './hooks';
 import { VThorInfo } from './VThorInfo';
 
 const getTokenBalance = async (contractType: VestingType, ethAddr: string) => {
-  const contract = getCustomContract(stakingV2Addr[contractType]);
+  const contract = await getCustomContract(stakingV2Addr[contractType]);
   const tokenBalance = await contract.balanceOf(ethAddr);
 
   return tokenBalance;

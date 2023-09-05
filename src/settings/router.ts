@@ -1,4 +1,5 @@
-import { AssetEntity as Asset, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { isETHAsset } from 'helpers/assets';
 

@@ -1,4 +1,4 @@
-import { Amount } from '@thorswap-lib/swapkit-core';
+import type { Amount } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 
 export const blockReward: Record<Chain, number> = {

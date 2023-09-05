@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { Box, Button } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { GasPriceIndicator } from 'components/SwapRouter/GasPriceIndicator';
-import { RouteWithApproveType } from 'components/SwapRouter/types';
+import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useFormatPrice } from 'helpers/formatPrice';
 import React, { memo, useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';

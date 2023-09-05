@@ -1,5 +1,5 @@
 import { Chain } from '@thorswap-lib/types';
-import { AssetSelectType } from 'components/AssetSelect/types';
+import type { AssetSelectType } from 'components/AssetSelect/types';
 import Fuse from 'fuse.js';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { SORTED_CHAINS, SUPPORTED_CHAINS } from 'settings/chain';
@@ -60,8 +60,7 @@ export const useAssetListSearch = (
       if (thorchainPriority && (aProvider || bProvider)) {
         return b.asset.type === 'Native'
           ? a.asset.type === 'Native'
-            ? // TODO - remove TS ignore once new chains are supported
-              // @ts-expect-error
+            ? // @ts-expect-error Check on all supported chains
               SORTED_CHAINS.indexOf(a.asset.chain) - SORTED_CHAINS.indexOf(b.asset.chain)
             : 1
           : a.asset.type === 'Native'
@@ -72,8 +71,7 @@ export const useAssetListSearch = (
       if (a.balance || b.balance) {
         return a.balance ? (b?.balance?.gt(a.balance) ? 1 : -1) : 0;
       } else {
-        // TODO - remove TS ignore once new chains are supported
-        // @ts-expect-error
+        // @ts-expect-error Check on all supported chains
         return SORTED_CHAINS.indexOf(a.asset.chain) - SORTED_CHAINS.indexOf(b.asset.chain);
       }
     });

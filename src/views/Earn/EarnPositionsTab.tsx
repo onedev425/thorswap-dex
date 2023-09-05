@@ -1,11 +1,11 @@
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Box, Button } from 'components/Atomic';
 import { hasConnectedWallet } from 'helpers/wallet';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
 import { EarnPositions } from 'views/Earn/EarnPositions';
-import { SaverPosition } from 'views/Earn/types';
+import type { SaverPosition } from 'views/Earn/types';
 
 type Props = {
   onWithdraw: (asset: AssetEntity) => void;

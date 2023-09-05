@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';
-import { memo, PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
+import { memo } from 'react';
 
 type Props = PropsWithChildren<{ className?: string }>;
 

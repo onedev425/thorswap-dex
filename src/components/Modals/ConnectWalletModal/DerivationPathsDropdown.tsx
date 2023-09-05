@@ -2,7 +2,7 @@ import { Text } from '@chakra-ui/react';
 import { Chain } from '@thorswap-lib/types';
 import { Box, DropdownMenu } from 'components/Atomic';
 import { useMemo } from 'react';
-import { DerivationPathType } from 'store/wallet/types';
+import type { DerivationPathType } from 'store/wallet/types';
 
 const CHAINS_WITH_CUSTOM_DERIVATION_PATH = [
   Chain.Ethereum,

@@ -1,4 +1,5 @@
-import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { RUNEAsset } from 'helpers/assets';
 import { getAssetBalance } from 'helpers/wallet';
 import { useBalance } from 'hooks/useBalance';

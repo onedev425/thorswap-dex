@@ -1,5 +1,6 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { Amount, Price } from '@thorswap-lib/swapkit-core';
+import type { Amount } from '@thorswap-lib/swapkit-core';
+import { Price } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { ChartTypeSelect } from 'components/Chart/ChartTypeSelect';
 import {
@@ -14,9 +15,9 @@ import {
 } from 'components/Chart/styles/colors';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
-import { ChartJSOrUndefined } from 'react-chartjs-2/dist/types';
+import type { ChartJSOrUndefined } from 'react-chartjs-2/dist/types';
 import { useMidgard } from 'store/midgard/hooks';
-import { SaverPosition } from 'views/Earn/types';
+import type { SaverPosition } from 'views/Earn/types';
 import { ShareChartIndex } from 'views/Home/types';
 
 import { colors } from '../../../theme/colors';

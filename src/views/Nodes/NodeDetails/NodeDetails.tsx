@@ -1,4 +1,4 @@
-import { THORNode } from '@thorswap-lib/midgard-sdk';
+import type { THORNode } from '@thorswap-lib/midgard-sdk';
 import classNames from 'classnames';
 import { Box, Button, useCollapse } from 'components/Atomic';
 import { maxHeightTransitionClass } from 'components/Atomic/Collapse/Collapse';

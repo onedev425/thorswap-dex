@@ -1,9 +1,10 @@
 import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Icon, IconName } from 'components/Atomic';
+import type { IconName } from 'components/Atomic';
+import { Box, Icon } from 'components/Atomic';
 import { memo, useCallback } from 'react';
 
-import { WalletType } from './types';
+import type { WalletType } from './types';
 
 type Props = {
   label: string;

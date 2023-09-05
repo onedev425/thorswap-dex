@@ -1,10 +1,7 @@
 import { useMemo } from 'react';
 import { useAppSelector } from 'store/store';
-import {
-  CompletedTransactionType,
-  PendingTransactionType,
-  TransactionType,
-} from 'store/transactions/types';
+import type { CompletedTransactionType, PendingTransactionType } from 'store/transactions/types';
+import { TransactionType } from 'store/transactions/types';
 import { isTxCompleted, isTxPending } from 'store/transactions/utils';
 
 export const useTransactionsState = () => {

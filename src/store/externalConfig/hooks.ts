@@ -1,4 +1,4 @@
-import { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
 import { useCallback, useMemo } from 'react';
 import { useGetAnnouncementsQuery } from 'store/thorswap/api';
 

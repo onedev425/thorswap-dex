@@ -1,17 +1,18 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { Amount, AssetEntity as Asset, Price } from '@thorswap-lib/swapkit-core';
+import type { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import { Price } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
-import { InfoRowConfig } from 'components/InfoRow/types';
+import type { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
 import { useMidgard } from 'store/midgard/hooks';
 import { PositionTooSmallInfo } from 'views/Earn/PositionTooSmallInfo';
-import { SaverPosition } from 'views/Earn/types';
+import type { SaverPosition } from 'views/Earn/types';
 import { useEarnCalculations } from 'views/Earn/useEarnCalculations';
 
 type Props = {

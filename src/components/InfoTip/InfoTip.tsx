@@ -2,8 +2,9 @@ import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { Box, Icon } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
-import { cardFontColors, CardStyleType } from 'components/HighlightCard/types';
-import { ReactNode } from 'react';
+import type { CardStyleType } from 'components/HighlightCard/types';
+import { cardFontColors } from 'components/HighlightCard/types';
+import type { ReactNode } from 'react';
 
 type Props = {
   className?: string;

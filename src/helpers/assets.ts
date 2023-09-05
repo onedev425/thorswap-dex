@@ -1,4 +1,5 @@
-import { AssetEntity, getSignatureAssetFor, Pool } from '@thorswap-lib/swapkit-core';
+import type { Pool } from '@thorswap-lib/swapkit-core';
+import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { BaseDecimal, Chain } from '@thorswap-lib/types';
 
 export enum VestingType {

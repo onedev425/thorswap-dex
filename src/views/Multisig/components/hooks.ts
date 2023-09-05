@@ -1,6 +1,6 @@
+import type { Signer } from '@thorswap-lib/toolbox-cosmos';
 import { useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { Signer } from 'services/multisig';
 import { useAppSelector } from 'store/store';
 
 type FormValues = {
@@ -37,7 +37,7 @@ export const useImportSignatureForm = (onSubmit: (val: Signer) => void) => {
 
   const handleConfirm = useCallback(
     async (values: FormValues) => {
-      // TODO: Import signature - check if signature is correct?
+      // TODO (@0xGeneral): Import signature - check if signature is correct?
 
       onSubmit({ pubKey: values.memberPubKey, signature: values.signature });
       reset();

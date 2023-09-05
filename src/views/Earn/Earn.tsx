@@ -1,11 +1,6 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
-import {
-  Amount,
-  AmountType,
-  AssetAmount,
-  AssetEntity,
-  getSignatureAssetFor,
-} from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount, AmountType, AssetAmount, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetInput } from 'components/AssetInput';
@@ -119,11 +114,13 @@ const Earn = () => {
   const depositAsset = useCallback((asset: AssetEntity) => {
     switchTab(EarnTab.Deposit);
     setAsset(asset);
+    setAmount(Amount.fromAssetAmount(0, asset.decimal));
   }, []);
 
   const withdrawAsset = useCallback((asset: AssetEntity) => {
     switchTab(EarnTab.Withdraw);
     setAsset(asset);
+    setAmount(Amount.fromAssetAmount(0, asset.decimal));
   }, []);
 
   const switchTab = useCallback((tab: EarnTab) => {

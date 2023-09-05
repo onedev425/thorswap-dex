@@ -1,4 +1,5 @@
-import { Amount, AssetEntity as Asset, Price } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import { Amount, Price } from '@thorswap-lib/swapkit-core';
 import BigNumber from 'bignumber.js';
 import { useCallback, useState } from 'react';
 import { SORTED_LENDING_COLLATERAL_ASSETS } from 'settings/chain';
@@ -6,7 +7,7 @@ import { useMidgard } from 'store/midgard/hooks';
 import { useLazyGetLoansQuery } from 'store/thorswap/api';
 import { useWallet } from 'store/wallet/hooks';
 
-import { LoanPosition } from './types';
+import type { LoanPosition } from './types';
 
 export const useLoans = () => {
   const { wallet, isWalletLoading } = useWallet();

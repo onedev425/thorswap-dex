@@ -1,7 +1,9 @@
-import { ChakraProps } from '@chakra-ui/react';
+import type { ChakraProps } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { alignClasses, BoxProps, justifyClasses } from 'components/Atomic/Box/types';
-import { CSSProperties, forwardRef, useMemo } from 'react';
+import type { BoxProps } from 'components/Atomic/Box/types';
+import { alignClasses, justifyClasses } from 'components/Atomic/Box/types';
+import type { CSSProperties } from 'react';
+import { forwardRef, useMemo } from 'react';
 
 export const Box = forwardRef<HTMLDivElement, ChakraProps & BoxProps>(
   (

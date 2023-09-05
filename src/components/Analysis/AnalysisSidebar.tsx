@@ -1,4 +1,5 @@
-import { Box, Flex, SystemStyleObject, Text } from '@chakra-ui/react';
+import type { SystemStyleObject } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { AnalysisPlaceholder } from 'components/Analysis/AnalysisPlaceholder';
 import { Icon } from 'components/Atomic';
 import { ChartPreview } from 'components/ChartPreview';

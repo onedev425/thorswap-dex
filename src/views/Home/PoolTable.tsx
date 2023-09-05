@@ -1,8 +1,9 @@
-import { Pool } from '@thorswap-lib/swapkit-core';
-import { Box, Icon, Table, TableRowType } from 'components/Atomic';
+import type { Pool } from '@thorswap-lib/swapkit-core';
+import type { TableRowType } from 'components/Atomic';
+import { Box, Icon, Table } from 'components/Atomic';
 import { useCallback } from 'react';
 import { navigateToPoolDetail } from 'settings/router';
-import { PoolCategoryOption } from 'views/Home/types';
+import type { PoolCategoryOption } from 'views/Home/types';
 
 import { usePoolColumns } from './usePoolColumns';
 
@@ -25,7 +26,7 @@ export const PoolTable = ({ data, poolCategory }: Props) => {
       {data.length ? (
         <Table
           sortable
-          // @ts-expect-error TODO: Overall typing for `react-table` is broken on our side
+          // @ts-expect-error Overall typing for `react-table` is broken
           columns={columns}
           data={data}
           initialSort={initialSort}

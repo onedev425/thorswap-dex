@@ -1,4 +1,4 @@
-import { RouteWithApproveType } from 'components/SwapRouter/types';
+import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 

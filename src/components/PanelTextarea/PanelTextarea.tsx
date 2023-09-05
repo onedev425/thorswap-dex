@@ -2,14 +2,8 @@ import classNames from 'classnames';
 import { Box } from 'components/Atomic';
 import { borderHighlightClass } from 'components/constants';
 import { CustomResizer } from 'components/PanelTextarea/CustomResizer';
-import {
-  DetailedHTMLProps,
-  forwardRef,
-  InputHTMLAttributes,
-  useCallback,
-  useRef,
-  useState,
-} from 'react';
+import type { DetailedHTMLProps, InputHTMLAttributes } from 'react';
+import { forwardRef, useCallback, useRef, useState } from 'react';
 
 export type TextAreaProps = DetailedHTMLProps<
   InputHTMLAttributes<HTMLTextAreaElement>,

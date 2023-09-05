@@ -1,7 +1,7 @@
 import { Text } from '@chakra-ui/react';
 import { Button, Card } from 'components/Atomic';
 import { Popover } from 'components/Popover';
-import { ForwarderProps } from 'components/Popover/Popover';
+import type { ForwarderProps } from 'components/Popover/Popover';
 import { useCallback, useRef } from 'react';
 import { t } from 'services/i18n';
 

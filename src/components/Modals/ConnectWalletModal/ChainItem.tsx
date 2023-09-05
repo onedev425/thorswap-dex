@@ -1,4 +1,4 @@
-import { Chain, WalletOption } from '@thorswap-lib/types';
+import type { Chain, WalletOption } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { ChainIcon } from 'components/AssetIcon/ChainIcon';
 import { Box, Icon, Tooltip } from 'components/Atomic';
@@ -8,7 +8,7 @@ import useWindowSize from 'hooks/useWindowSize';
 import { memo } from 'react';
 import { t } from 'services/i18n';
 
-import { WalletType } from './types';
+import type { WalletType } from './types';
 
 type Props = {
   disabled?: boolean;

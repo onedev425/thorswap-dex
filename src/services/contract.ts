@@ -2,7 +2,6 @@ import { getAddress } from '@ethersproject/address';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Contract, type ContractInterface } from '@ethersproject/contracts';
 import { formatEther, formatUnits, parseUnits } from '@ethersproject/units';
-import { getProvider } from '@thorswap-lib/toolbox-evm';
 import { Chain, FeeOption } from '@thorswap-lib/types';
 
 import Airdrop from './abi/Airdrop.json';
@@ -81,7 +80,8 @@ export const getEtherscanContract = (contractType: ContractType) => {
   return getCustomContract(address, abi);
 };
 
-export const getCustomContract = (contractAddr: string, abi?: ContractInterface) => {
+export const getCustomContract = async (contractAddr: string, abi?: ContractInterface) => {
+  const { getProvider } = await import('@thorswap-lib/toolbox-evm');
   const address = getAddress(contractAddr.toLowerCase());
 
   return new Contract(address, abi ? abi : ERC20ABI, getProvider(Chain.Ethereum));
@@ -91,7 +91,9 @@ export const getContractAddress = (contractType: ContractType) => contractConfig
 
 export const getBlockRewards = async () => {
   let blockReward = parseFloat(
-    formatEther(await getEtherscanContract(ContractType.REWARDS_PER_BLOCK).rewardPerBlock()),
+    formatEther(
+      await (await getEtherscanContract(ContractType.REWARDS_PER_BLOCK)).rewardPerBlock(),
+    ),
   );
 
   return blockReward;

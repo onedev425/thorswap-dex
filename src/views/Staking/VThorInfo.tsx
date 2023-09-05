@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { WalletOption } from '@thorswap-lib/types';
+import type { WalletOption } from '@thorswap-lib/types';
 import { Box, Icon, Link, Tooltip } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoTip } from 'components/InfoTip';

@@ -1,5 +1,5 @@
-import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Token } from 'store/thorswap/types';
+import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { Token } from 'store/thorswap/types';
 
 export type AssetSelectProps = {
   assets?: AssetSelectType[];

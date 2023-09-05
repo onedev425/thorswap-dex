@@ -1,4 +1,5 @@
-import { AssetEntity as Asset, getSignatureAssetFor, Pool } from '@thorswap-lib/swapkit-core';
+import type { Pool } from '@thorswap-lib/swapkit-core';
+import { AssetEntity as Asset, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { useCallback, useEffect, useMemo, useState } from 'react';

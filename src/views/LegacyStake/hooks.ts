@@ -8,7 +8,7 @@ import {
 } from 'services/contract';
 import { useWallet } from 'store/wallet/hooks';
 
-import { FarmActionType } from './types';
+import type { FarmActionType } from './types';
 
 const lpContractConfig: Record<LPContractType, { tokenAddr: string; stakingAddr: string }> = {
   [LPContractType.THOR]: {
@@ -28,7 +28,7 @@ export const getLPContractAddress = (contractType: LPContractType) =>
 export const getLpTokenBalance = async (contractType: LPContractType) => {
   const { tokenAddr, stakingAddr } = lpContractConfig[contractType];
 
-  const tokenContract = getCustomContract(tokenAddr);
+  const tokenContract = await getCustomContract(tokenAddr);
   return await tokenContract.balanceOf(stakingAddr);
 };
 
@@ -58,7 +58,7 @@ export const useV1ThorStakeInfo = () => {
       const ethereumAddr = wallet.ETH.address;
 
       // V1 $thor stake
-      const stakingContract = getEtherscanContract(ContractType.STAKING_THOR);
+      const stakingContract = await getEtherscanContract(ContractType.STAKING_THOR);
       const { amount } = await stakingContract.userInfo(0, ethereumAddr);
 
       setStakedThorAmount(amount as BigNumber);

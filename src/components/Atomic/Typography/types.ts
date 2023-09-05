@@ -1,5 +1,5 @@
-import { ReactHTML, ReactNode } from 'react';
-import { ColorType } from 'types/app';
+import type { ReactHTML, ReactNode } from 'react';
+import type { ColorType } from 'types/app';
 
 export type TypographyColorType = ColorType | 'primaryBtn' | 'secondaryBtn';
 

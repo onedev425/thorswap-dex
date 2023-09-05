@@ -1,28 +1,24 @@
 import { VoidSigner } from '@ethersproject/abstract-signer';
-import {
+import type {
   Account,
   BitcoinTransaction,
   CosmosTransaction,
   EthereumTransaction,
-  FAMILIES,
   Transaction,
-  WalletAPIClient,
-  WindowMessageTransport,
 } from '@ledgerhq/wallet-api-client';
+import { FAMILIES, WalletAPIClient, WindowMessageTransport } from '@ledgerhq/wallet-api-client';
 import { baseAmount } from '@thorswap-lib/helpers';
-import { Amount, AmountType, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-core';
-import { AssetAtom, GaiaToolbox } from '@thorswap-lib/toolbox-cosmos';
-import { ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
 import {
-  BCHToolbox,
-  BTCToolbox,
-  DOGEToolbox,
-  LTCToolbox,
-  UTXOTransferParams,
-} from '@thorswap-lib/toolbox-utxo';
-import { Chain, WalletOption } from '@thorswap-lib/types';
-import BigNumberJS from 'bignumber.js';
-import { AssetInputType } from 'components/AssetInput/types';
+  Amount,
+  AmountType,
+  AssetAmount,
+  AssetEntity,
+  getSignatureAssetFor,
+} from '@thorswap-lib/swapkit-core';
+import type { UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
+import { Chain, FeeOption, WalletOption } from '@thorswap-lib/types';
+import { BigNumber as BigNumberJS } from 'bignumber.js';
+import type { AssetInputType } from 'components/AssetInput/types';
 import { isBTCAsset } from 'helpers/assets';
 import { ledgerLive } from 'services/ledgerLive';
 import { IS_LEDGER_LIVE } from 'settings/config';
@@ -101,17 +97,17 @@ export const mapLedgerChainToChain = (chain: LedgerLiveChain) => {
 export const mapLedgerCurrencyToAsset = (currency: string) => {
   switch (currency) {
     case 'ethereum':
-      return new AssetEntity(Chain.Ethereum, 'ETH');
+      return getSignatureAssetFor(Chain.Ethereum);
     case 'cosmos':
-      return AssetAtom;
+      return getSignatureAssetFor(Chain.Cosmos);
     case 'bitcoin':
-      return new AssetEntity(Chain.Bitcoin, 'BTC');
+      return getSignatureAssetFor(Chain.Bitcoin);
     case 'litecoin':
-      return new AssetEntity(Chain.Litecoin, 'LTC');
+      return getSignatureAssetFor(Chain.Litecoin);
     case 'dogecoin':
-      return new AssetEntity(Chain.Dogecoin, 'DOGE');
+      return getSignatureAssetFor(Chain.Dogecoin);
     case 'bitcoin_cash':
-      return new AssetEntity(Chain.BitcoinCash, 'BCH');
+      return getSignatureAssetFor(Chain.BitcoinCash);
     default:
       throw new Error('Unsupported currency');
   }
@@ -215,6 +211,8 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
       const getAddress = () => ledgerLiveAccount.address;
 
       const ledgerLiveClient = new EthereumLedgerLive();
+      const { getProvider, ETHToolbox } = await import('@thorswap-lib/toolbox-evm');
+
       const provider = getProvider(Chain.Ethereum);
 
       const toolbox = ETHToolbox({
@@ -258,7 +256,7 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
     }
 
     case Chain.Cosmos: {
-      const asset = AssetAtom;
+      const { GaiaToolbox } = await import('@thorswap-lib/toolbox-cosmos');
       const ledgerLiveClient = new CosmosLedgerLive();
       const toolbox = GaiaToolbox();
 
@@ -270,7 +268,7 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         )?.balance;
         return [
           {
-            asset,
+            asset: getSignatureAssetFor(Chain.Cosmos),
             amount: baseAmount(balance?.toString() || '0', 6),
           },
         ];
@@ -315,15 +313,11 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
     case Chain.BitcoinCash:
     case Chain.Dogecoin:
     case Chain.Bitcoin: {
-      const asset =
-        chain === Chain.Bitcoin
-          ? new AssetEntity(Chain.Bitcoin, 'BTC')
-          : chain === Chain.Litecoin
-          ? new AssetEntity(Chain.Litecoin, 'LTC')
-          : chain === Chain.BitcoinCash
-          ? new AssetEntity(Chain.BitcoinCash, 'BCH')
-          : new AssetEntity(Chain.Dogecoin, 'DOGE');
+      const asset = getSignatureAssetFor(chain);
       const ledgerLiveClient = new BitcoinLedgerLive();
+      const { BTCToolbox, LTCToolbox, BCHToolbox, DOGEToolbox } = await import(
+        '@thorswap-lib/toolbox-utxo'
+      );
       const toolbox =
         chain === Chain.Bitcoin
           ? BTCToolbox({})
@@ -360,12 +354,12 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
 
       const transfer = async ({ asset, memo, amount, recipient, feeRate }: UTXOTransferParams) => {
         if (!asset) throw new Error('invalid asset');
-
+        const gasPrice = (await toolbox.getFeeRates())[FeeOption.Average];
         const signedTx = await ledgerLiveClient?.signTransaction(ledgerLiveAccount.id, {
           recipient,
           opReturnData: Buffer.from(memo || ''),
           amount: new BigNumberJS(amount.amount().toNumber()),
-          feePerByte: feeRate ? new BigNumberJS(feeRate) : undefined,
+          feePerByte: feeRate ? new BigNumberJS(Math.max(feeRate, gasPrice)) : undefined,
           family: LEDGER_LIVE_FAMILIES[0],
         });
 

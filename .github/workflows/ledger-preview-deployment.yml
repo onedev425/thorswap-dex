@@ -3,6 +3,10 @@ env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_LEDGER_PROJECT_ID }}
 
+concurrency:
+  group: ledger-preview-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   workflow_dispatch:
   push:
@@ -11,6 +15,8 @@ on:
 
 jobs:
   Deploy-Preview:
+    # commit starts with [ledger-live]
+    if: contains(github.event.head_commit.message, '[ledger-live]')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

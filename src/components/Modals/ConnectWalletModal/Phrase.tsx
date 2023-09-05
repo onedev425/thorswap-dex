@@ -3,7 +3,8 @@ import { Box, Button, Icon } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { Input } from 'components/Input';
 import { downloadAsFile } from 'helpers/download';
-import { ChangeEvent, useCallback, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { useCallback, useState } from 'react';
 import { t } from 'services/i18n';
 
 export const PhraseView = () => {

@@ -2,13 +2,13 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 
 import * as multisigActions from './actions';
-import { MultisigWallet, State } from './types';
+import type { MultisigWallet, State } from './types';
 
 const EMPTY_STATE = {
   address: '',
   name: '',
   members: [],
-  treshold: 2,
+  threshold: 2,
   balances: [],
   loadingBalances: false,
 };

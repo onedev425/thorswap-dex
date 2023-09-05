@@ -1,14 +1,7 @@
-import {
-  createContext,
-  ReactNode,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import type { ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTransactionsState } from 'store/transactions/hooks';
-import { CompletedTransactionType, PendingTransactionType } from 'store/transactions/types';
+import type { CompletedTransactionType, PendingTransactionType } from 'store/transactions/types';
 import { findTxIndexById } from 'store/transactions/utils';
 
 type WalletDrawerContextType = {

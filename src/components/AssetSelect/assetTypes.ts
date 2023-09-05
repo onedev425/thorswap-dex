@@ -1,4 +1,5 @@
-import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 
 export type AssetFilterOptionType =

@@ -2,7 +2,8 @@ import { Text } from '@chakra-ui/react';
 import { Box, Select } from 'components/Atomic';
 import { Input } from 'components/Input';
 import useWindowSize from 'hooks/useWindowSize';
-import { ChangeEvent, memo, useCallback, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { t } from 'services/i18n';
 
 import { PoolTable } from './PoolTable';

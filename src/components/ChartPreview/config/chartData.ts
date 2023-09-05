@@ -1,5 +1,5 @@
 import * as colors from '../styles/colors';
-import { CurvedLineChartType } from '../types';
+import type { CurvedLineChartType } from '../types';
 
 import { getColor } from './utils';
 

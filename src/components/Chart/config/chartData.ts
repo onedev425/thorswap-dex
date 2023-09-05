@@ -1,12 +1,12 @@
 import * as colors from 'components/Chart/styles/colors';
-import {
+import type {
   AreaChartType,
   BarChartType,
-  ChartType,
   CurvedLineChartType,
   DataPoint,
   LineChartType,
 } from 'components/Chart/types';
+import { ChartType } from 'components/Chart/types';
 
 import { getColor } from './utils';
 
@@ -20,7 +20,6 @@ const darkStrokeColors = [
   colors.StrokeColor5,
 ];
 
-// TODO: Unify and refactor those getters
 const getDataForBarChart = (
   data: DataPoint[],
   dataLabels: string[],
@@ -32,8 +31,7 @@ const getDataForBarChart = (
       {
         label: '',
         data: data,
-        // TODO: remove ts-ignore and fix the cause.
-        // @ts-ignore
+        // @ts-expect-error // TODO @(Faizan)
         backgroundColor: dataInProgress
           ? (ctx) => {
               return data.map((_elem, index) => {

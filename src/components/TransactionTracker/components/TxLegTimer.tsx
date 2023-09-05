@@ -3,7 +3,7 @@ import { Icon, Tooltip } from 'components/Atomic';
 import { formatDuration, getTxState } from 'components/TransactionTracker/helpers';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
-import { TxTrackerLeg } from 'store/transactions/types';
+import type { TxTrackerLeg } from 'store/transactions/types';
 
 type Props = {
   leg: TxTrackerLeg;

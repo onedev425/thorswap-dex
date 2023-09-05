@@ -1,5 +1,5 @@
-import { AssetEntity as Asset, Pool } from '@thorswap-lib/swapkit-core';
-import { ColorType } from 'types/app';
+import type { AssetEntity as Asset, Pool } from '@thorswap-lib/swapkit-core';
+import type { ColorType } from 'types/app';
 
 export const getSaverPoolNameForAsset = (asset: Asset) => {
   return `${asset.chain}.${asset.symbol}`;

@@ -1,6 +1,6 @@
 import { getTxState } from 'components/TransactionTracker/helpers';
 import { useEffect, useMemo, useState } from 'react';
-import { TxTrackerLeg } from 'store/transactions/types';
+import type { TxTrackerLeg } from 'store/transactions/types';
 
 type LegTimer = { timeLeft: number | null; isCompleted: boolean };
 type Params = { isTxFinished: boolean; estimatedDuration?: number | null };

@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { MenuItemType } from 'components/AppPopoverMenu/types';
+import type { MenuItemType } from 'components/AppPopoverMenu/types';
 import { Box, Icon } from 'components/Atomic';
 
 type Props = {

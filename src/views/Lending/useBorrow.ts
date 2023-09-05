@@ -1,4 +1,5 @@
-import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useEffect, useMemo, useState } from 'react';
 import { useGetBorrowQuoteQuery } from 'store/thorswap/api';

@@ -5,8 +5,9 @@ import { Box, Icon, Link } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { TxDetailsButton } from 'components/TransactionManager/TxDetailsButton';
 import { memo, useCallback, useEffect, useState } from 'react';
-import { TxnResult } from 'store/thorswap/types';
-import { CompletedTransactionType, TransactionType } from 'store/transactions/types';
+import type { TxnResult } from 'store/thorswap/types';
+import type { CompletedTransactionType } from 'store/transactions/types';
+import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 
 import { cutTxPrefix, transactionTitle, useTxLabelUpdate } from './helpers';

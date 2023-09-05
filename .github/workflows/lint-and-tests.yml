@@ -1,9 +1,9 @@
 name: Lint & Unit tests
 
-on: push
+on: [workflow_dispatch, pull_request]
 
 concurrency:
-  group: lint-${{ github.workflow }}-${{ github.ref }}
+  group: lint-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:

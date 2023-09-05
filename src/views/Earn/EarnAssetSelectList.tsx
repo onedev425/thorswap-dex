@@ -1,7 +1,7 @@
 import { Text } from '@chakra-ui/react';
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
-import { AssetSelectProps } from 'components/AssetSelect/types';
+import type { AssetSelectProps } from 'components/AssetSelect/types';
 import { useAssetSelect } from 'components/AssetSelect/useAssetSelect';
 import { Box, Icon, Tooltip } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';

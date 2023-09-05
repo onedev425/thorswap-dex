@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
@@ -8,7 +8,8 @@ import { showInfoToast } from 'components/Toast';
 import copy from 'copy-to-clipboard';
 import { useAddressForTNS } from 'hooks/useAddressForTNS';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
-import { ChangeEvent, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
 import { useGetThornamesByAddressQuery } from 'store/thorswap/api';

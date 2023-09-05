@@ -1,4 +1,5 @@
-import { PlacementWithLogical, Text } from '@chakra-ui/react';
+import type { PlacementWithLogical } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { Box, Button, DropdownMenu } from 'components/Atomic';
 import { useCallback, useMemo } from 'react';

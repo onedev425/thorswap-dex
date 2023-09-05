@@ -1,12 +1,13 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, AmountType, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount, AmountType } from '@thorswap-lib/swapkit-core';
 import BigNumber from 'bignumber.js';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { HoverIcon } from 'components/HoverIcon';
 import { GasPriceIndicator } from 'components/SwapRouter/GasPriceIndicator';
-import { RouteWithApproveType } from 'components/SwapRouter/types';
+import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { tokenLogoURL } from 'helpers/logoURL';
 import { memo, useMemo } from 'react';

@@ -1,6 +1,6 @@
-import { AssetEntity as Asset, Price } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity as Asset, Price } from '@thorswap-lib/swapkit-core';
 import { Box, Collapse } from 'components/Atomic';
-import { RouteWithApproveType } from 'components/SwapRouter/types';
+import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { memo } from 'react';
 
 import { SelectedRoute } from './SelectedRoute';

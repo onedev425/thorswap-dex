@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { MouseEventHandler } from 'react';
+import type { MouseEventHandler } from 'react';
 
 import IconList from './iconList';
 

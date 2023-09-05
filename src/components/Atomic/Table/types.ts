@@ -1,5 +1,5 @@
-import { BreakPoint } from 'hooks/useWindowSize';
-import { Cell, Column, HeaderGroup, Row } from 'react-table';
+import type { BreakPoint } from 'hooks/useWindowSize';
+import type { Cell, Column, HeaderGroup, Row } from 'react-table';
 
 export type TableData = Record<string, FixMe>;
 export type TableColumns = Column<TableData>[];

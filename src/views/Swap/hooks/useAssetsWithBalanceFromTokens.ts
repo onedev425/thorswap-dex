@@ -1,9 +1,11 @@
-import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Chain, EVMChain } from '@thorswap-lib/types';
+import type { Amount } from '@thorswap-lib/swapkit-core';
+import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { EVMChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { useBalance } from 'hooks/useBalance';
 import { useCallback, useMemo } from 'react';
 import { useMidgard } from 'store/midgard/hooks';
-import { Token } from 'store/thorswap/types';
+import type { Token } from 'store/thorswap/types';
 
 export const useAssetsWithBalanceFromTokens = (tokens: Token[], thorchainOnly?: boolean) => {
   const { synthAssets } = useMidgard();

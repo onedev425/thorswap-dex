@@ -1,5 +1,6 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, Pool } from '@thorswap-lib/swapkit-core';
+import type { Pool } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
@@ -10,7 +11,7 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getAddLiquidityRoute, getSwapRoute } from 'settings/router';
-import { ColorType } from 'types/app';
+import type { ColorType } from 'types/app';
 
 type PoolCardProps = {
   pool: Pool;

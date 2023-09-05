@@ -1,5 +1,5 @@
-import { Amount } from '@thorswap-lib/swapkit-core';
-import { InputProps } from 'components/Input/types';
+import type { Amount } from '@thorswap-lib/swapkit-core';
+import type { InputProps } from 'components/Input/types';
 
 export type AmountProps = {
   amountValue: Amount;

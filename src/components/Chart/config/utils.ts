@@ -1,4 +1,4 @@
-import { Chart } from 'chart.js';
+import type { Chart } from 'chart.js';
 import { Black } from 'components/Chart/styles/colors';
 import dayjs from 'dayjs';
 

@@ -1,4 +1,5 @@
-import { Amount, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import { AssetAmount } from '@thorswap-lib/swapkit-core';
 import { useCallback, useState } from 'react';
 import { t } from 'services/i18n';
 import { useAppDispatch } from 'store/store';

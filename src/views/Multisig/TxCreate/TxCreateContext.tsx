@@ -1,15 +1,8 @@
-import {
-  createContext,
-  ReactNode,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import type { ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useMultisig } from 'store/multisig/hooks';
-import { MultisigMember } from 'store/multisig/types';
+import type { MultisigMember } from 'store/multisig/types';
 import { useAppSelector } from 'store/store';
 
 type Props = {

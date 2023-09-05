@@ -1,4 +1,4 @@
-import { SecondaryIconPlacement } from './types';
+import type { SecondaryIconPlacement } from './types';
 
 export const getSecondaryIconPlacementStyle = (placement: SecondaryIconPlacement, size: number) => {
   const offset = size * 0.3;

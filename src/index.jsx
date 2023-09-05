@@ -9,6 +9,7 @@ import './index.css';
 import { App } from './App';
 import { IS_LOCAL, IS_PROD, IS_STAGENET } from './settings/config'
 
+
 const container = document.getElementById('root');
 const root = createRoot(container);
 const renderApp = () => {

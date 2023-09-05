@@ -1,7 +1,8 @@
-import { SystemStyleObject, Text, useTheme } from '@chakra-ui/react';
+import type { SystemStyleObject } from '@chakra-ui/react';
+import { Text, useTheme } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { Box, Button } from 'components/Atomic';
-import { TabSelectType } from 'components/TabsSelect/types';
+import type { TabSelectType } from 'components/TabsSelect/types';
 import { memo } from 'react';
 
 type Props = {

@@ -1,11 +1,11 @@
 import { Text } from '@chakra-ui/react';
+import type { Pool } from '@thorswap-lib/swapkit-core';
 import {
   Amount,
   getAssetShare,
   getAsymmetricAssetShare,
   getAsymmetricRuneShare,
   getRuneShare,
-  Pool,
 } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon';

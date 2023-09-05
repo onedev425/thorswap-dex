@@ -1,5 +1,6 @@
 import { baseAmount } from '@thorswap-lib/helpers';
-import { Amount, AssetEntity, isGasAsset } from '@thorswap-lib/swapkit-core';
+import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import { isGasAsset } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { isAVAXAsset, isBSCAsset, isETHAsset } from 'helpers/assets';
 import debounce from 'lodash.debounce';

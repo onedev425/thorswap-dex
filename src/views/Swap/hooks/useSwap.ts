@@ -1,5 +1,7 @@
-import { Amount, AssetEntity, QuoteMode } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import type { QuoteRoute } from '@thorswap-lib/swapkit-api';
+import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import { QuoteMode } from '@thorswap-lib/swapkit-core';
+import type { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { translateErrorMsg } from 'helpers/error';
 import { useCallback } from 'react';
@@ -15,7 +17,7 @@ import { v4 } from 'uuid';
 import { ledgerLiveSwap } from '../../../../ledgerLive/wallet/swap';
 
 type SwapParams = {
-  route?: ToDo;
+  route?: QuoteRoute;
   quoteMode: QuoteMode;
   recipient: string;
   inputAsset: AssetEntity;
@@ -93,7 +95,7 @@ export const useSwap = ({
           }),
         );
 
-        // TODO: move this part to swapkit to recognize quoteRoute properly
+        // TODO (@Chillios): move this part to swapkit to recognize quoteRoute properly
         const swapRoute = { ...route, calldata: { ...route.calldata } };
         if (streamSwap && swapRoute.calldata.memoStreamingSwap) {
           swapRoute.calldata.memo = swapRoute.calldata.memoStreamingSwap;

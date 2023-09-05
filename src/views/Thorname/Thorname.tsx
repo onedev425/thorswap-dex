@@ -14,7 +14,8 @@ import { ViewHeader } from 'components/ViewHeader';
 import { RUNEAsset } from 'helpers/assets';
 import { shortenAddress } from 'helpers/shortenAddress';
 import { isKeystoreSignRequired } from 'helpers/wallet';
-import { KeyboardEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import type { KeyboardEvent } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
 

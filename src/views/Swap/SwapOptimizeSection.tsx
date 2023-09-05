@@ -1,7 +1,8 @@
 import { Card, Collapse, Flex, Text } from '@chakra-ui/react';
-import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { Icon, Tooltip } from 'components/Atomic';
-import { RouteWithApproveType } from 'components/SwapRouter/types';
+import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { formatDuration } from 'components/TransactionTracker/helpers';
 import { STREAMING_SWAPS_URL } from 'config/constants';
 import { useFormatPrice } from 'helpers/formatPrice';

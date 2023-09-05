@@ -1,4 +1,4 @@
-import { ChartData as ReactChartData } from 'chart.js';
+import type { ChartData as ReactChartData } from 'chart.js';
 
 export type ChartDetail = { value: string; time: number };
 

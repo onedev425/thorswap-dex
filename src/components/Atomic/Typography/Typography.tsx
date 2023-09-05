@@ -1,9 +1,9 @@
 import classNames from 'classnames';
 
+import type { Props } from './types';
 import {
   colorClasses,
   defaultWeightClasses,
-  Props,
   transformClasses,
   variantClasses,
   weightClasses,

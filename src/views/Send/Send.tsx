@@ -22,7 +22,8 @@ import { useAddressForTNS } from 'hooks/useAddressForTNS';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { useNetworkFee } from 'hooks/useNetworkFee';
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getSendRoute } from 'settings/router';
@@ -33,7 +34,6 @@ import { useConfirmSend } from 'views/Send/useConfirmSend';
 
 const mayaRouterAddress = '0xe9495f24fF1E8DD8E803B6717Fb9264683CdD7bC';
 
-// TODO: refactor useReducer
 const Send = () => {
   const navigate = useNavigate();
   const { assetParam } = useParams<{ assetParam: string }>();

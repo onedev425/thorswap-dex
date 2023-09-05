@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import type { Amount, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon } from 'components/Atomic';
 import { useFormatPrice } from 'helpers/formatPrice';
@@ -9,7 +9,7 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getSendRoute, getSwapRoute } from 'settings/router';
-import { GetTokenPriceResponseItem } from 'store/thorswap/types';
+import type { GetTokenPriceResponseItem } from 'store/thorswap/types';
 import { ViewMode } from 'types/app';
 import { AssetChart } from 'views/Wallet/AssetChart';
 import { ShowQrCode } from 'views/Wallet/components/ShowQrCode';

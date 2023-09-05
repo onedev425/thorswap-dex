@@ -1,4 +1,4 @@
-import { Price } from '@thorswap-lib/swapkit-core';
+import type { Price } from '@thorswap-lib/swapkit-core';
 import { useMemo } from 'react';
 
 export const useSlippage = (input: Price, output: Price | string) => {

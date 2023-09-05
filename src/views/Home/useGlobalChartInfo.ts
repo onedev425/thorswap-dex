@@ -1,6 +1,7 @@
 import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import BigNumber from 'bignumber.js';
-import { ChartData, ChartDetail, ChartType } from 'components/Chart/types';
+import type { ChartData, ChartDetail } from 'components/Chart/types';
+import { ChartType } from 'components/Chart/types';
 import { useRuneAtTimeToCurrency, useRuneToCurrency } from 'hooks/useRuneToCurrency';
 import { useCallback, useMemo } from 'react';
 import { useApp } from 'store/app/hooks';

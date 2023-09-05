@@ -1,10 +1,12 @@
-import { Menu, MenuButton, MenuItem, MenuList, PlacementWithLogical, Text } from '@chakra-ui/react';
+import type { PlacementWithLogical } from '@chakra-ui/react';
+import { Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { Icon, Tooltip } from 'components/Atomic';
 import { baseHoverClass, genericBgClasses } from 'components/constants';
-import { ReactNode, useState } from 'react';
+import type { ReactNode } from 'react';
+import { useState } from 'react';
 
-import { DropdownMenuItem, DropdownOptions } from './types';
+import type { DropdownMenuItem, DropdownOptions } from './types';
 
 type DropdownMenuProps = {
   buttonClassName?: string;

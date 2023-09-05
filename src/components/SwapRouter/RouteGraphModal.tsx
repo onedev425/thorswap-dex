@@ -1,7 +1,7 @@
 import { Text } from '@chakra-ui/react';
-import { QuoteRoute } from '@thorswap-lib/swapkit-api';
+import type { QuoteRoute } from '@thorswap-lib/swapkit-api';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Modal } from 'components/Atomic';
 import { SwapGraph } from 'components/SwapRouter/SwapGraph';
@@ -11,7 +11,7 @@ import { Fragment, memo, useMemo } from 'react';
 import { t } from 'services/i18n';
 
 import { normalizedProviderName } from './ProviderLogos';
-import { SwapGraphType } from './types';
+import type { SwapGraphType } from './types';
 
 type QuoteSwaps = QuoteRoute['swaps'];
 

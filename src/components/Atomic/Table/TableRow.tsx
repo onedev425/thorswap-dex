@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 
 import { TableCell } from './TableCell';
-import { TableCellType, TableRowType } from './types';
+import type { TableCellType, TableRowType } from './types';
 
 type Props = {
   row: TableRowType;

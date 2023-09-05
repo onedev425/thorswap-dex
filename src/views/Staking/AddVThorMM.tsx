@@ -11,7 +11,6 @@ type Props = {
 
 export const AddVThorMM = memo(({ walletType }: Props) => {
   const addVTHOR = useCallback(async () => {
-    // TODO: Use provider from currently connected wallet
     const provider =
       // @ts-expect-error window types
       walletType === WalletOption.XDEFI ? window.xfi?.ethereum : window.ethereum;

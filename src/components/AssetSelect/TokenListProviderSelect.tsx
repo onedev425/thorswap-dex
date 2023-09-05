@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { AssetSelectProps } from 'components/AssetSelect/types';
+import type { AssetSelectProps } from 'components/AssetSelect/types';
 import { useAssetSelect } from 'components/AssetSelect/useAssetSelect';
 import { Box, Icon, Switch } from 'components/Atomic';
 import { genericBgClasses, styledScrollbarClass } from 'components/constants';

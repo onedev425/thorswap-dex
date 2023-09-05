@@ -1,4 +1,4 @@
-import { TooltipCallbacks } from 'chart.js';
+import type { TooltipCallbacks } from 'chart.js';
 import * as styles from 'components/Chart/styles/styles';
 
 type Params = {

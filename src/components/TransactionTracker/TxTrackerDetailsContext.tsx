@@ -1,6 +1,8 @@
-import { TransactionType, TxTrackerDetails } from '@thorswap-lib/swapkit-api';
+import type { TxTrackerDetails } from '@thorswap-lib/swapkit-api';
+import { TransactionType } from '@thorswap-lib/swapkit-api';
 import { TrackerTxDisplayType } from 'components/TransactionTracker/types';
-import { createContext, ReactNode, useContext, useMemo } from 'react';
+import type { ReactNode } from 'react';
+import { createContext, useContext, useMemo } from 'react';
 
 type TxTrackerDetailsState = {
   txDetails: TxTrackerDetails | undefined | null;
@@ -24,7 +26,7 @@ export const TxTrackerDetailsProvider = ({ children, txDetails }: Props) => {
     if (!txDetails) return;
 
     if (txDetails.legs?.find((leg) => leg.txnType === TransactionType.TC_LENDING)) {
-      // TODO: separate borrow and repay
+      // TODO (@Epicode): separate borrow and repay
       return TrackerTxDisplayType.LENDING;
     }
 

@@ -1,17 +1,17 @@
 import { Text } from '@chakra-ui/react';
 import { getTHORNameCost } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { ChainIcon } from 'components/AssetIcon/ChainIcon';
 import { Box, Button, Icon, Tooltip } from 'components/Atomic';
-import { InfoRowConfig } from 'components/InfoRow/types';
+import type { InfoRowConfig } from 'components/InfoRow/types';
 import { RUNEAsset } from 'helpers/assets';
 import { shortenAddress } from 'helpers/shortenAddress';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { getThornameExpireDate } from 'store/midgard/actions';
 import { useMidgard } from 'store/midgard/hooks';
-import { THORNameDetails } from 'types/app';
+import type { THORNameDetails } from 'types/app';
 
 type Params = {
   available: boolean;

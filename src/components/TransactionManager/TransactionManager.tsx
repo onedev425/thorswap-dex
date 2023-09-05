@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
 import { Box, Button, Card, Icon, SwitchToggle, Tooltip } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { Confirm } from 'components/Modals/Confirm';
@@ -10,7 +10,8 @@ import { transactionBorderColors } from 'components/TransactionManager/helpers';
 import { PendingTransaction } from 'components/TransactionManager/PendingTransaction';
 import { TransactionContainer } from 'components/TransactionManager/TransactionContainer';
 import { useTransactionsModal } from 'components/TransactionTracker/useTransactionsModal';
-import { ElementRef, memo, useCallback, useEffect, useRef, useState } from 'react';
+import type { ElementRef } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { t } from 'services/i18n';
 import { IS_LEDGER_LIVE } from 'settings/config';
 import { useAppDispatch } from 'store/store';

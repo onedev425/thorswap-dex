@@ -1,15 +1,12 @@
+import type { AddLiquidityParams, AssetEntity, Pool, Wallet } from '@thorswap-lib/swapkit-core';
 import {
-  AddLiquidityParams,
   Amount,
   AssetAmount,
-  AssetEntity,
   getLiquiditySlippage,
   getMinAmountByChain,
   getSignatureAssetFor,
   isGasAsset,
-  Pool,
   Price,
-  Wallet,
 } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import BigNumber from 'bignumber.js';
@@ -35,7 +32,7 @@ import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 import { useAddLiquidityUtils } from 'views/AddLiquidity/hooks/useAddLiquidityUtils';
 import { useChainMember } from 'views/AddLiquidity/hooks/useChainMember';
-import { DepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance';
+import type { DepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance';
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 
 import { getMaxSymAmounts } from '../utils';

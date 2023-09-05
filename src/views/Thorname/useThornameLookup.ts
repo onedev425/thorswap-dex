@@ -10,7 +10,7 @@ import { useLazyGetTNSDetailQuery } from 'store/midgard/api';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
-import { THORNameDetails } from 'types/app';
+import type { THORNameDetails } from 'types/app';
 import { v4 } from 'uuid';
 
 type Actions =

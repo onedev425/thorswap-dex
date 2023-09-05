@@ -1,10 +1,10 @@
 import { Amount, AssetAmount, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
 import { Box, Button, Table } from 'components/Atomic';
 import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';
 import { memo, useCallback, useState } from 'react';
 import { t } from 'services/i18n';
-import { GetTokenPriceResponseItem } from 'store/thorswap/types';
+import type { GetTokenPriceResponseItem } from 'store/thorswap/types';
 
 import { useColumns } from './useColumns';
 
@@ -34,7 +34,7 @@ export const ChainInfoTable = memo(({ priceData, chainInfo, chain, chainAddress 
   return (
     <Box col className="transition-all">
       <Table
-        // @ts-expect-error TODO: Overall typing for `react-table` is broken on our side
+        // @ts-expect-error Overall typing for `react-table` is broken
         columns={columns}
         data={tableData}
         hasShadow={false}

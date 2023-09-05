@@ -1,6 +1,6 @@
 import { Amount } from '@thorswap-lib/swapkit-core';
 import { StatsList } from 'components/StatsList';
-import { StatsType } from 'components/StatsList/types';
+import type { StatsType } from 'components/StatsList/types';
 import { useGlobalStats } from 'hooks/useGlobalStats';
 import { useRuneToCurrency } from 'hooks/useRuneToCurrency';
 import { useMemo } from 'react';

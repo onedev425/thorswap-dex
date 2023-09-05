@@ -1,11 +1,5 @@
-import {
-  Amount,
-  AssetAmount,
-  AssetEntity as Asset,
-  getSignatureAssetFor,
-  isGasAsset,
-  Wallet,
-} from '@thorswap-lib/swapkit-core';
+import type { AssetAmount, AssetEntity as Asset, Wallet } from '@thorswap-lib/swapkit-core';
+import { Amount, getSignatureAssetFor, isGasAsset } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Button, Icon } from 'components/Atomic';
 import { formatPrice } from 'helpers/formatPrice';
@@ -22,7 +16,7 @@ import { useGetGasPriceRatesQuery } from 'store/thorswap/api';
 
 export const useMultisigWalletInfo = () => {
   const { runeBalance, loadingBalances } = useMultissigAssets();
-  const { address, treshold } = useAppSelector(({ multisig }) => multisig);
+  const { address, threshold } = useAppSelector(({ multisig }) => multisig);
 
   const { shortAddress, handleCopyAddress } = useAddressUtils(address);
   const formattedRune = `${formatPrice(runeBalance?.amount || 0, {
@@ -60,7 +54,7 @@ export const useMultisigWalletInfo = () => {
       label: t('views.multisig.runeBalance'),
       value: runeValue,
     },
-    { label: t('views.multisig.threshold'), value: treshold },
+    { label: t('views.multisig.threshold'), value: threshold },
   ];
 
   return info;

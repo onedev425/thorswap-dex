@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { Box, Button, Icon } from 'components/Atomic';
 import { FieldLabel } from 'components/Form';
 import { PanelTextarea } from 'components/PanelTextarea';
-import { TextAreaProps } from 'components/PanelTextarea/PanelTextarea';
+import type { TextAreaProps } from 'components/PanelTextarea/PanelTextarea';
 import { forwardRef } from 'react';
 import { t } from 'services/i18n';
 

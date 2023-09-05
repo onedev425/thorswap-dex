@@ -1,10 +1,10 @@
 import { Text } from '@chakra-ui/react';
-import { QuoteRoute } from '@thorswap-lib/swapkit-api';
+import type { QuoteRoute } from '@thorswap-lib/swapkit-api';
 import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Modal } from 'components/Atomic';
-import { InfoRowConfig } from 'components/InfoRow/types';
+import type { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { memo, useEffect, useMemo } from 'react';

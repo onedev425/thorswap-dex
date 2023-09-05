@@ -1,7 +1,7 @@
 import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 import { getIntFromName, rainbowStop } from './utils';
 

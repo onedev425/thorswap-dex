@@ -1,8 +1,10 @@
 import { Text } from '@chakra-ui/react';
-import { Box, Button, Link, Select, Table, TableRowType } from 'components/Atomic';
+import type { TableRowType } from 'components/Atomic';
+import { Box, Button, Link, Select, Table } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { Input } from 'components/Input';
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getNodeDetailRoute } from 'settings/router';
@@ -74,7 +76,7 @@ const Nodes = () => {
           </Text>
           <Table
             sortable
-            // @ts-expect-error TODO: Overall typing for `react-table` is broken on our side
+            // @ts-expect-error Overall typing for `react-table` is broken
             columns={columns}
             data={watchListData}
             initialSort={initialSort}
@@ -116,7 +118,7 @@ const Nodes = () => {
       </Box>
       <Table
         sortable
-        // @ts-expect-error TODO: Overall typing for `react-table` is broken on our side
+        // @ts-expect-error Overall typing for `react-table` is broken
         columns={columns}
         data={filteredNodes}
         initialSort={initialSort}

@@ -1,4 +1,5 @@
-import { Amount, AssetEntity, Pool, Price } from '@thorswap-lib/swapkit-core';
+import type { Pool } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetEntity, Price } from '@thorswap-lib/swapkit-core';
 import { poolByAsset, RUNEAsset, USDAsset } from 'helpers/assets';
 import { useCallback } from 'react';
 import { useApp } from 'store/app/hooks';

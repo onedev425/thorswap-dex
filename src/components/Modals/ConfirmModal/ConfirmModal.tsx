@@ -1,10 +1,11 @@
 import { Text } from '@chakra-ui/react';
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { Box, Button, Modal } from 'components/Atomic';
 import { PasswordInput } from 'components/PasswordInput';
 import { isKeystoreSignRequired } from 'helpers/wallet';
-import { KeyboardEventHandler, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import type { KeyboardEventHandler, ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { IS_LEDGER_LIVE } from 'settings/config';
 import { useWallet } from 'store/wallet/hooks';

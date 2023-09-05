@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { FullMemberPool, MemberPool } from '@thorswap-lib/midgard-sdk';
+import type { FullMemberPool, MemberPool } from '@thorswap-lib/midgard-sdk';
 import { AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
 import {
   checkPendingLP,
@@ -9,7 +9,7 @@ import {
 } from 'store/midgard/utils';
 
 import * as midgardActions from './actions';
-import { MimirData, PoolPeriodsUsedForApiCall, State } from './types';
+import type { MimirData, PoolPeriodsUsedForApiCall, State } from './types';
 
 const initialState: State = {
   pools: {

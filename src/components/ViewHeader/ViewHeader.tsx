@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import { Box, Icon } from 'components/Atomic';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {

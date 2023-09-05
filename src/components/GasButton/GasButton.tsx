@@ -1,10 +1,11 @@
-import { Chain, ChainToChainId } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
+import { ChainToChainId } from '@thorswap-lib/types';
 import { gasState } from 'components/Analysis/helpers';
 import { Button, Icon } from 'components/Atomic';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { useGetGasHistoryQuery } from 'store/thorswap/api';
-import { ColorType } from 'types/app';
+import type { ColorType } from 'types/app';
 
 type Props = {
   isSidebarVisible: boolean;

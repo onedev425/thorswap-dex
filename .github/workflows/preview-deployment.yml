@@ -3,9 +3,16 @@ env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
+concurrency:
+  group: preview-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   workflow_dispatch:
   push:
+    branches:
+      - develop
+  pull_request:
     branches-ignore:
       - main
 

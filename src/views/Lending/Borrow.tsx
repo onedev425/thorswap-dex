@@ -43,7 +43,6 @@ import { useBorrow } from './useBorrow';
 
 export const LENDING_DOCS = 'https://docs.thorchain.org/thorchain-finance/lending';
 const ETH_USDC_IDENTIFIER = 'ETH.USDC-0XA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48';
-// TODO - load from api
 export const MATURITY_BLOCKS = 432000;
 
 export const slippageOptions = [

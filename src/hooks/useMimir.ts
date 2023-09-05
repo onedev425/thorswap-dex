@@ -4,7 +4,7 @@ import { Amount } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { useMemo } from 'react';
 import { useMidgard } from 'store/midgard/hooks';
-import { MimirData } from 'store/midgard/types';
+import type { MimirData } from 'store/midgard/types';
 
 export const useMimir = () => {
   const { networkData, mimir, mimirLoaded } = useMidgard();

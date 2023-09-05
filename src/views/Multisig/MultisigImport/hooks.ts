@@ -3,10 +3,10 @@ import { useCallback, useState } from 'react';
 import { t } from 'services/i18n';
 import { multisig } from 'services/multisig';
 import { useMultisig } from 'store/multisig/hooks';
-import { MultisigMember } from 'store/multisig/types';
+import type { MultisigMember } from 'store/multisig/types';
 
 type WalletData = {
-  treshold: number;
+  threshold: number;
   members: MultisigMember[];
 };
 
@@ -25,13 +25,13 @@ export const useMultisigImport = ({ onSuccess }: Props) => {
       throw Error('Incorrect wallet members');
     }
 
-    const treshold = Number(data.treshold);
-    if (!treshold || treshold > data.members.length) {
-      throw Error('Incorrect treshold');
+    const threshold = Number(data.threshold);
+    if (!threshold || threshold > data.members.length) {
+      throw Error('Incorrect threshold');
     }
 
     const parsedData: WalletData = {
-      treshold,
+      threshold,
       members: data.members.map((m) => ({
         pubKey: m.pubKey,
         name: m.name || '',
@@ -77,14 +77,14 @@ export const useMultisigImport = ({ onSuccess }: Props) => {
     }
 
     try {
-      const { members, treshold } = walletData;
-      const address = await multisig.createMultisigWallet(members, treshold);
+      const { members, threshold } = walletData;
+      const address = await multisig.createMultisigWallet(members, threshold);
 
       if (!address) {
         throw Error('Incorrect wallet data');
       }
 
-      addMultisigWallet({ members, treshold, address, name });
+      addMultisigWallet({ members, threshold, address, name });
       onSuccess();
     } catch (error: NotWorth) {
       console.error(error);

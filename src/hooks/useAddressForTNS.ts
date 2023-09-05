@@ -2,7 +2,7 @@ import { validateTHORName } from '@thorswap-lib/swapkit-core';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useCallback, useEffect, useState } from 'react';
 import { useLazyGetTNSDetailQuery } from 'store/midgard/api';
-import { THORNameEntry } from 'types/app';
+import type { THORNameEntry } from 'types/app';
 
 export const useAddressForTNS = (thornameOrAddress: string) => {
   const debouncedAddress = useDebouncedValue(thornameOrAddress, 1000);

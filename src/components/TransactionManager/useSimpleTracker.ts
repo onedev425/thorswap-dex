@@ -4,7 +4,8 @@ import { useTxUrl } from 'hooks/useTxUrl';
 import { useEffect, useMemo } from 'react';
 import { useAppDispatch } from 'store/store';
 import { useGetTxnStatusQuery } from 'store/thorswap/api';
-import { PendingTransactionType, TransactionType } from 'store/transactions/types';
+import type { PendingTransactionType } from 'store/transactions/types';
+import { TransactionType } from 'store/transactions/types';
 
 export const useSimpleTracker = (tx: PendingTransactionType | null) => {
   const appDispatch = useAppDispatch();

@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { AssetButton } from 'components/AssetSelect/AssetButton';
 import { Box } from 'components/Atomic';
 

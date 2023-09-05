@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { THORNode } from '@thorswap-lib/midgard-sdk';
+import type { THORNode } from '@thorswap-lib/midgard-sdk';
 import { Amount } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Icon, Link } from 'components/Atomic';
@@ -12,7 +12,8 @@ import { useBalance } from 'hooks/useBalance';
 import useWindowSize from 'hooks/useWindowSize';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useWallet } from 'store/wallet/hooks';
-import { BondActionType, NodeManagePanelProps } from 'views/Nodes/types';
+import type { NodeManagePanelProps } from 'views/Nodes/types';
+import { BondActionType } from 'views/Nodes/types';
 
 import { shortenAddress } from '../../../helpers/shortenAddress';
 import { t } from '../../../services/i18n';

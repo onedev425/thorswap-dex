@@ -1,4 +1,5 @@
-import { ReactNode, useCallback, useMemo } from 'react';
+import type { ReactNode } from 'react';
+import { useCallback, useMemo } from 'react';
 import Scrollbars from 'react-custom-scrollbars-2';
 
 import { useTheme } from '../Theme/ThemeContext';

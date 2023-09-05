@@ -1,10 +1,10 @@
 import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import { FeeOption } from '@thorswap-lib/types';
+import type { FeeOption } from '@thorswap-lib/types';
 import { USDAsset } from 'helpers/assets';
 import { useCallback } from 'react';
 import { actions } from 'store/app/slice';
 import { useAppDispatch, useAppSelector } from 'store/store';
-import { SupportedLanguages, ThemeType, ThousandSeparator, ViewMode } from 'types/app';
+import type { SupportedLanguages, ThemeType, ThousandSeparator, ViewMode } from 'types/app';
 
 export const useApp = () => {
   const dispatch = useAppDispatch();

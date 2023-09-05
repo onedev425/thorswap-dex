@@ -3,14 +3,16 @@ import { Box, Collapse } from 'components/Atomic';
 import { PanelView } from 'components/PanelView';
 import { Stepper } from 'components/Stepper';
 import { StepperProvider } from 'components/Stepper/StepperContext';
-import { StepType } from 'components/Stepper/types';
+import type { StepType } from 'components/Stepper/types';
 import { ViewHeader } from 'components/ViewHeader';
 import { useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { t } from 'services/i18n';
 import { ROUTES } from 'settings/router';
+import { useAppSelector } from 'store/store';
 import { SignerCheckBox } from 'views/Multisig/components/SignerCheckBox';
-import { ScreenState, useTxData } from 'views/Multisig/TxMultisig/hooks';
+import type { ScreenState } from 'views/Multisig/TxMultisig/hooks';
+import { useTxData } from 'views/Multisig/TxMultisig/hooks';
 import { BroadcastTxStep } from 'views/Multisig/TxMultisig/steps/BroadcastTxStep';
 import { ExportTxStep } from 'views/Multisig/TxMultisig/steps/ExportTxStep';
 import { SignTxStep } from 'views/Multisig/TxMultisig/steps/SignTxStep';
@@ -32,6 +34,7 @@ const TxMultisig = () => {
     connectedSignature,
     exportTxData,
   } = useTxData(state as ScreenState | null);
+  const { threshold } = useAppSelector(({ multisig }) => multisig);
 
   useEffect(() => {
     if (!state) {
@@ -100,7 +103,7 @@ const TxMultisig = () => {
                     of
                   </Text>
                   <Text textStyle="subtitle1" variant="primaryBtn">
-                    {requiredSigners.length}
+                    {threshold}
                   </Text>
                 </Box>
               }

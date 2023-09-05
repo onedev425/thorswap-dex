@@ -1,8 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Amount, AmountType, AssetAmount } from '@thorswap-lib/swapkit-core';
-import { Balance, Chain, WalletOption } from '@thorswap-lib/types';
+import type { Balance, WalletOption } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 
-import { getAssetForBalance, LedgerAccount } from '../../../ledgerLive/wallet/LedgerLive';
+import type { LedgerAccount } from '../../../ledgerLive/wallet/LedgerLive';
+import { getAssetForBalance } from '../../../ledgerLive/wallet/LedgerLive';
 
 export const getWalletByChain = createAsyncThunk(
   'midgard/getWalletByChain',

@@ -1,5 +1,5 @@
 // https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react-table#configuration-using-declaration-merging
-import {
+import type {
   UseColumnOrderInstanceProps,
   UseColumnOrderState,
   UseExpandedHooks,

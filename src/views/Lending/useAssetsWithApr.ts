@@ -1,4 +1,5 @@
-import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { useMimir } from 'hooks/useMimir';
 import { useMidgard } from 'store/midgard/hooks';
 import { getFormattedPercent, getSaverPoolNameForAsset } from 'views/Earn/utils';

@@ -4,7 +4,8 @@ import { Box, Card, Icon, Tooltip } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
 import { memo } from 'react';
 
-import { statsBgClasses, StatsType } from './types';
+import type { StatsType } from './types';
+import { statsBgClasses } from './types';
 
 export const Stats = memo(({ tooltip, color, iconName, label, value }: StatsType) => {
   return (

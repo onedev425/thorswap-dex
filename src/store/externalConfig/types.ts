@@ -1,5 +1,5 @@
-import { Chain } from '@thorswap-lib/types';
-import { ReactNode } from 'react';
+import type { Chain } from '@thorswap-lib/types';
+import type { ReactNode } from 'react';
 
 export enum AnnouncementType {
   Primary = 'primary',

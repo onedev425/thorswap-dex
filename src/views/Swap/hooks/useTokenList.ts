@@ -5,7 +5,7 @@ import { IS_LEDGER_LIVE, IS_PROD } from 'settings/config';
 import { useLazyGetTokenListQuery } from 'store/static/api';
 import { useAppSelector } from 'store/store';
 import { useGetProvidersQuery } from 'store/thorswap/api';
-import { Token } from 'store/thorswap/types';
+import type { Token } from 'store/thorswap/types';
 
 /**
  * Leave this as easy to navigate and clear as possible.
@@ -45,7 +45,7 @@ export const useTokenList = () => {
             : ([...acc, ...data.tokens] as Token[]),
         [] as Token[],
       )
-      //TODO remove after BSC release
+      // TODO (BSC): Remove this filter after release
       .filter((token) => (IS_PROD && token.chain !== Chain.BinanceSmartChain) || !IS_PROD);
 
     setTokens(tokens);

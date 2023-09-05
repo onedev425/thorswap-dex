@@ -1,11 +1,11 @@
 import { Text } from '@chakra-ui/react';
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
 import { memo } from 'react';
 
-import { AssetSelectType } from '../../components/AssetSelect/types';
+import type { AssetSelectType } from '../../components/AssetSelect/types';
 
 type Props = AssetSelectType & {
   select: (asset: AssetEntity) => void;

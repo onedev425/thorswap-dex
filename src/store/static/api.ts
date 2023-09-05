@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IS_DEV_API } from 'settings/config';
-import { GetProviderTokensParams } from 'store/thorswap/types';
+import type { GetProviderTokensParams } from 'store/thorswap/types';
 
 /**
  * This is not proper way of having 2 urls but API can't make it one endpoint under different base urls

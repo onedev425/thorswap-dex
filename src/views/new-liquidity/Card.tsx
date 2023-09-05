@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { FullMemberPool } from '@thorswap-lib/midgard-sdk';
+import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
 import {
   Amount,
   AssetEntity,

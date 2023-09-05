@@ -1,7 +1,7 @@
 import { baseAmount } from '@thorswap-lib/helpers';
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { getTokenAddress } from '@thorswap-lib/toolbox-evm';
-import { AmountWithBaseDenom, Chain, EVMChain } from '@thorswap-lib/types';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AmountWithBaseDenom, EVMChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
@@ -54,6 +54,7 @@ export const useSwapApprove = ({ inputAsset, contract }: Params) => {
       ).getSwapKitClient();
 
       try {
+        const { getTokenAddress } = await import('@thorswap-lib/toolbox-evm');
         const tokenAddress = getTokenAddress(inputAsset, inputAsset.L1Chain as EVMChain);
         const txid = await (contract
           ? approveAssetForContract(

@@ -1,8 +1,8 @@
-import { MemberPool } from '@thorswap-lib/midgard-sdk';
+import type { MemberPool } from '@thorswap-lib/midgard-sdk';
 import { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
 
-import { ChainMemberDetails, LiquidityProvider, PoolMemberData } from './types';
+import type { ChainMemberDetails, LiquidityProvider, PoolMemberData } from './types';
 
 export const hasPendingLP = (data: ChainMemberDetails | undefined): boolean => {
   if (!data) return false;

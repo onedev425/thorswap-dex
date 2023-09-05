@@ -1,5 +1,5 @@
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { Chain } from '@thorswap-lib/types';
 import { useMimir } from 'hooks/useMimir';
 import { useMemo } from 'react';
 import { useExternalConfig } from 'store/externalConfig/hooks';

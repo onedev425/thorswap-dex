@@ -1,9 +1,9 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { FullMemberPool } from '@thorswap-lib/midgard-sdk';
+import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
 import {
   Amount,
   AmountType,
-  AssetEntity,
   getAsymmetricAssetWithdrawAmount,
   getAsymmetricRuneWithdrawAmount,
   getSignatureAssetFor,

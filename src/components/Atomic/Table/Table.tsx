@@ -6,7 +6,7 @@ import { useSortBy, useTable } from 'react-table';
 
 import { TableHeaderGroup } from './TableHeaderGroup';
 import { TableRows } from './TableRows';
-import {
+import type {
   InitialTableSort,
   TableColumnsConfig,
   TableData,

@@ -1,4 +1,4 @@
-import { SupportedLanguages } from 'types/app';
+import type { SupportedLanguages } from 'types/app';
 
 export const FLAG_ICONS: Record<SupportedLanguages, string> = {
   'nl-NL': 'netherlands',

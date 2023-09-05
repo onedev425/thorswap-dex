@@ -8,7 +8,7 @@ import { useSimpleTracker } from 'components/TransactionManager/useSimpleTracker
 import { useTransactionTimers } from 'components/TransactionManager/useTransactionTimers';
 import { CircularCountdown } from 'components/TxTracker/components/CircularCountdown';
 import { memo } from 'react';
-import { PendingTransactionType } from 'store/transactions/types';
+import type { PendingTransactionType } from 'store/transactions/types';
 
 export const PendingTransaction = memo((pendingTx: PendingTransactionType) => {
   const { quoteId, route, txid, details: txDetails, advancedTracker } = pendingTx;
