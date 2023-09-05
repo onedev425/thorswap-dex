@@ -51,8 +51,11 @@ const Staking = () => {
   const { wallet, setIsConnectModalOpen } = useWallet();
   const isDeposit = useMemo(() => action === StakeActions.Deposit, [action]);
 
-  const stakingAsset = useMemo(
-    () => getSignatureAssetFor(isDeposit ? 'ETH_THOR' : 'ETH_VTHOR'),
+  const [stakingAsset, outputAsset] = useMemo(
+    () => [
+      getSignatureAssetFor(isDeposit ? 'ETH_THOR' : 'ETH_VTHOR'),
+      getSignatureAssetFor(isDeposit ? 'ETH_VTHOR' : 'ETH_THOR'),
+    ],
     [isDeposit],
   );
 
@@ -275,8 +278,8 @@ const Staking = () => {
               </Box>
 
               <Box center className="gap-3">
-                <Text textStyle="subtitle2">{isDeposit ? 'vTHOR' : 'THOR'}</Text>
-                <AssetIcon asset={stakingAsset} size={34} />
+                <Text textStyle="subtitle2">{outputAsset.name}</Text>
+                <AssetIcon asset={outputAsset} size={34} />
               </Box>
             </Box>
           </Box>
