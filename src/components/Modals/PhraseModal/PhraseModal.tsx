@@ -34,7 +34,7 @@ export const PhraseModal = ({ isOpen, onCancel = () => {} }: PhraseModalProps): 
             </Box>
             <Box
               className={classNames(
-                'grid p-2.5 rounded-2xl grid-cols-4',
+                'ph-no-capture grid p-2.5 rounded-2xl grid-cols-4',
                 genericBgClasses.primary,
                 borderHoverHighlightClass,
               )}

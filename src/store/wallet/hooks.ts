@@ -11,6 +11,7 @@ import { useCallback } from 'react';
 import { batch } from 'react-redux';
 import { t } from 'services/i18n';
 import { ledgerLive } from 'services/ledgerLive';
+import { captureEvent } from 'services/postHog';
 import { IS_LEDGER_LIVE } from 'settings/config';
 import { actions as midgardActions } from 'store/midgard/slice';
 import { useAppDispatch, useAppSelector } from 'store/store';
@@ -44,6 +45,7 @@ export const useWallet = () => {
   const unlockWallet = useCallback(
     async (keystore: Keystore, phrase: string, chains: Chain[]) => {
       const { connectKeystore } = await (await import('services/swapKit')).getSwapKitClient();
+      captureEvent('connect_wallet', { type: WalletOption.KEYSTORE, chains });
 
       await connectKeystore(chains, phrase);
       dispatch(

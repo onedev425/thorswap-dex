@@ -326,12 +326,12 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
       const ledgerLiveClient = new BitcoinLedgerLive();
       const toolbox =
         chain === Chain.Bitcoin
-          ? BTCToolbox('')
+          ? BTCToolbox({})
           : chain === Chain.Litecoin
-          ? LTCToolbox('')
+          ? LTCToolbox({})
           : chain === Chain.BitcoinCash
-          ? BCHToolbox('')
-          : DOGEToolbox('');
+          ? BCHToolbox({})
+          : DOGEToolbox({});
 
       const getAddress = () => ledgerLiveAccount.address;
 
@@ -360,12 +360,12 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
 
       const transfer = async ({ asset, memo, amount, recipient, feeRate }: UTXOTransferParams) => {
         if (!asset) throw new Error('invalid asset');
-        const gasPrice = await toolbox.getSuggestedFeeRate();
+
         const signedTx = await ledgerLiveClient?.signTransaction(ledgerLiveAccount.id, {
           recipient,
           opReturnData: Buffer.from(memo || ''),
           amount: new BigNumberJS(amount.amount().toNumber()),
-          feePerByte: feeRate ? new BigNumberJS(Math.max(feeRate, gasPrice)) : undefined,
+          feePerByte: feeRate ? new BigNumberJS(feeRate) : undefined,
           family: LEDGER_LIVE_FAMILIES[0],
         });
 

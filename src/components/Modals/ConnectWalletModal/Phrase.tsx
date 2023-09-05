@@ -67,7 +67,7 @@ export const PhraseView = () => {
           {t('views.walletModal.enterSeed')}
         </Text>
       </Box>
-      <Box className="w-full">
+      <Box className="ph-no-capture w-full">
         <Input
           stretch
           border="rounded"

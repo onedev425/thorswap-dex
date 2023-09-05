@@ -5,6 +5,7 @@ import { showErrorToast } from 'components/Toast';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import { useCallback, useEffect, useState } from 'react';
 import { t } from 'services/i18n';
+import { captureEvent } from 'services/postHog';
 import { useWallet } from 'store/wallet/hooks';
 
 import {
@@ -188,6 +189,12 @@ export const useHandleWalletConnect = ({
           value: { walletType: selectedWalletType, chains: selectedChains, ledgerIndex },
         });
       }
+
+      captureEvent('connect_wallet', {
+        type: selectedWalletType,
+        chains: selectedChains,
+        info: { derivationPath, ledgerIndex },
+      });
 
       try {
         switch (selectedWalletType) {

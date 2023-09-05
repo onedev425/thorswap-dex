@@ -73,7 +73,7 @@ export const ChainHeader = ({
         </Text>
       </Box>
 
-      <Box alignCenter>
+      <Box alignCenter className="ph-no-capture">
         <WalletHeaderActions address={address} chain={chain} />
         <HoverIcon
           color="orange"

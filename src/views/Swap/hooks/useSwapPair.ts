@@ -2,6 +2,7 @@ import { Amount, AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit
 import { Chain } from '@thorswap-lib/types';
 import { useCallback, useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
+import { captureEvent } from 'services/postHog';
 import { IS_LEDGER_LIVE } from 'settings/config';
 import { Pair } from 'views/Swap/types';
 
@@ -41,6 +42,11 @@ export const useSwapPair = () => {
 
     if (swapPairData) {
       setInputAmountAssetString(inputAmountAssetString);
+      captureEvent('swapPair', {
+        inputAsset: swapPairData.inputAsset.toString(),
+        outputAsset: swapPairData.outputAsset.toString(),
+      });
+
       setSwapPair(swapPairData);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

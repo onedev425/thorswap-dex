@@ -21,7 +21,7 @@ jobs:
           token: ${{ secrets.VERCEL_TOKEN }}
           teamId: ${{ secrets.VERCEL_ORG_ID }}
           projectName: ledger-live
-          envVariableKeys: VITE_BLOCKCHAIR_API_KEY,VITE_COVALENT_API_KEY,VITE_ETHPLORER_API_KEY,VITE_WALLETCONNECT_PROJECT_ID
+          envVariableKeys: VITE_BLOCKCHAIR_API_KEY,VITE_COVALENT_API_KEY,VITE_ETHPLORER_API_KEY,VITE_POSTHOG_API_KEY,VITE_WALLETCONNECT_PROJECT_ID
         env:
           VITE_BLOCKCHAIR_API_KEY: ${{ secrets.VITE_BLOCKCHAIR_API_KEY }}
           TARGET_VITE_BLOCKCHAIR_API_KEY: production,preview,development
@@ -32,9 +32,13 @@ jobs:
           VITE_ETHPLORER_API_KEY: ${{ secrets.VITE_ETHPLORER_API_KEY }}
           TARGET_VITE_ETHPLORER_API_KEY: production,preview,development
           TYPE_VITE_ETHPLORER_API_KEY: encrypted
+          VITE_POSTHOG_API_KEY: ${{ secrets.VITE_POSTHOG_API_KEY }}
+          TARGET_VITE_POSTHOG_API_KEY: production,preview,development
+          TYPE_VITE_POSTHOG_API_KEY: encrypted
           VITE_WALLETCONNECT_PROJECT_ID: ${{ secrets.VITE_WALLETCONNECT_PROJECT_ID }}
           TARGET_VITE_WALLETCONNECT_PROJECT_ID: production,preview,development
           TYPE_VITE_WALLETCONNECT_PROJECT_ID: encrypted
+
 
       - name: Get Branch Name
         shell: bash
