@@ -117,15 +117,19 @@ const Earn = () => {
   );
 
   const depositAsset = useCallback((asset: AssetEntity) => {
-    setViewTab(EarnViewTab.Earn);
-    setTab(EarnTab.Deposit);
+    switchTab(EarnTab.Deposit);
     setAsset(asset);
   }, []);
 
   const withdrawAsset = useCallback((asset: AssetEntity) => {
-    setViewTab(EarnViewTab.Earn);
-    setTab(EarnTab.Withdraw);
+    switchTab(EarnTab.Withdraw);
     setAsset(asset);
+  }, []);
+
+  const switchTab = useCallback((tab: EarnTab) => {
+    setViewTab(EarnViewTab.Earn);
+    setTab(tab);
+    setAmount(Amount.fromAssetAmount(0, asset.decimal));
   }, []);
 
   const handlePercentWithdrawChange = useCallback(
@@ -340,7 +344,7 @@ const Earn = () => {
                   >
                     <Box col className="self-stretch gap-2">
                       <TabsSelect
-                        onChange={(value) => setTab(value as EarnTab)}
+                        onChange={(value) => switchTab(value as EarnTab)}
                         tabs={tabs}
                         value={tab}
                       />
@@ -367,7 +371,7 @@ const Earn = () => {
 
                       <InfoTable horizontalInset items={summary} />
 
-                      {!buttonDisabled && !isApproved ? (
+                      {!buttonDisabled && !isApproved && isDeposit ? (
                         <Box className="w-full pt-5">
                           <Button
                             stretch
