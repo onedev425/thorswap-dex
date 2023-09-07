@@ -2808,10 +2808,10 @@
     envalid "^7.3.1"
     node-fetch "2"
 
-"@thorswap-lib/evm-web3-wallets@1.0.0-development.40":
-  version "1.0.0-development.40"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/evm-web3-wallets/-/evm-web3-wallets-1.0.0-development.40.tgz#b505bda553a3cd9f5bfa1586e68091e1a8f59af2"
-  integrity sha512-udahIpnNV2ou8qhgnNPWvnO0qs1+jgor5GCdK9mK8R09uJxGbjkcVsf30w6dd0fUV2U62iBAqmzd2sb7tDW2yw==
+"@thorswap-lib/evm-web3-wallets@1.0.0-development.41":
+  version "1.0.0-development.41"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/evm-web3-wallets/-/evm-web3-wallets-1.0.0-development.41.tgz#475c5c432e3c1beb9fad85c23c2056c50acd6453"
+  integrity sha512-Vej8jPHRplxiN428TVGqvT0lqF0hNyVSWfZPGe1E/sge5UcT7TsEKc70CG+OOKmXKG43vgP5ovY8uCINclVkRQ==
   dependencies:
     "@thorswap-lib/types" "1.0.0-development.103"
 
@@ -2838,10 +2838,10 @@
   dependencies:
     "@thorswap-lib/types" "1.0.0-development.103"
 
-"@thorswap-lib/keystore@1.0.0-development.222":
-  version "1.0.0-development.222"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/keystore/-/keystore-1.0.0-development.222.tgz#5827742580c3beb743a32cc6b118bda9e2891633"
-  integrity sha512-HizoBzMMLuf9t5OpL12vri5mVLE+cldfzOL2rVwF5FjMIt5kAdkwonNJVqBwFQPXgzYz/pX5ZL6SOngJlmaF9w==
+"@thorswap-lib/keystore@1.0.0-development.223":
+  version "1.0.0-development.223"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/keystore/-/keystore-1.0.0-development.223.tgz#ddf640057d23c599517a298f775545ac4372b048"
+  integrity sha512-WkfLMT+puO4LE/Jp8uUaw0lh011hgldCuumCnMXHV7L8pyCoWYSNglnoo1OJ1VeymTLxtOGeKhzpn2njmmzPdQ==
   dependencies:
     "@ethersproject/hdnode" "5.7.0"
     "@ethersproject/wallet" "5.7.0"
@@ -2852,10 +2852,10 @@
     long "4.0.0"
     uuid "9.0.0"
 
-"@thorswap-lib/ledger@1.0.0-development.242":
-  version "1.0.0-development.242"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/ledger/-/ledger-1.0.0-development.242.tgz#c8654abc5480763ce38e95e09a810ccdbe2bb02b"
-  integrity sha512-GyxNS42hwcxsbDHl50t3KeRKCO1mzsfxkJfCUsbLyyGReoq50wAYyD6JvDyMETmiHGaW4c24icZHZl4eSuV6nA==
+"@thorswap-lib/ledger@1.0.0-development.243":
+  version "1.0.0-development.243"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/ledger/-/ledger-1.0.0-development.243.tgz#53e10e019bac2d84bf6c7206eaa0958514459a85"
+  integrity sha512-EVgfCd3nYYoMXORcJ48ae9Wm308A/0y4hq0eeSev2sRsK+5k39Sl+T2ueVZ+J5EHQQbAnvg/hHth7+fRmRyndQ==
   dependencies:
     "@ledgerhq/devices" "8.0.7"
     "@ledgerhq/errors" "6.14.0"
@@ -2874,10 +2874,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/midgard-sdk/-/midgard-sdk-0.1.16.tgz#c65271f77bfcc75d7a272ecc67553d5d95fac07b"
   integrity sha512-j+yb5QjAfgknurpoRXZ0t/xWoeDXNEQEMv/a5OU4rBab3HGhXbfs4Nu5Ip+nrfeDWLa0oRMeAp4TpUnBA4pAxQ==
 
-"@thorswap-lib/okx@1.0.0-development.37":
-  version "1.0.0-development.37"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/okx/-/okx-1.0.0-development.37.tgz#9bfc26c8fa3eeba05f283cde281ce63369b0cfe5"
-  integrity sha512-aTWUf+Ogtkw8rITqA0WajV92VJmUnMft+kHeRywjKLV5ctN3PqIrxdUQT56FQEIoNkHlwk0s2Zf6sqFfXFJR+A==
+"@thorswap-lib/okx@1.0.0-development.38":
+  version "1.0.0-development.38"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/okx/-/okx-1.0.0-development.38.tgz#af492e44d3d2605b7b03623ed3f6df664e0d9de8"
+  integrity sha512-BBzWbL17BrI3/n6j4OUSehBFgqGDOnJzq3JWgRPjvoMQ1n42iNyXzIODciM4KtR7AS4+N3nmltPzqSfD3maANQ==
   dependencies:
     "@thorswap-lib/helpers" "0.0.0-development.109"
     "@thorswap-lib/types" "1.0.0-development.103"
@@ -2945,10 +2945,10 @@
     protocol-buffers-encodings "1.2.0"
     tiny-secp256k1 "1.1.6"
 
-"@thorswap-lib/toolbox-evm@1.0.0-development.162":
-  version "1.0.0-development.162"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/toolbox-evm/-/toolbox-evm-1.0.0-development.162.tgz#6725c893d1e209373166fc8119873ec3f2c4120b"
-  integrity sha512-Kh9XMiVTRTwlKAj7riKeqyt/rynCiBx1NAILp3UgBOxljySyQNTVA3yu3gl2RGDHSS2zP5C+nghk1dWZjX9mcA==
+"@thorswap-lib/toolbox-evm@1.0.0-development.163":
+  version "1.0.0-development.163"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/toolbox-evm/-/toolbox-evm-1.0.0-development.163.tgz#64fe5ffb211d190c4bbeee05ee342df498de2d4c"
+  integrity sha512-eGhRjNPDyCrq48TSdaOR5F/BAiANZlqu/XesFlqQo2lCPj3ktsfWE2eIzHnyouor9kyCx6c9FLkWA5uwhkivRA==
   dependencies:
     "@ethersproject/abstract-provider" "5.7.0"
     "@ethersproject/abstract-signer" "5.7.0"
