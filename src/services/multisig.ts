@@ -130,7 +130,7 @@ const broadcastMultisigTx = async (
   return toolbox.broadcastMultisigTx(tx, signers, threshold, bodyBytes);
 };
 
-const loadMultisigBalances = async (): Promise<AssetAmount[]> =>
+const loadMultisigBalances = async () =>
   _multisigAddress ? (await getThorchainToolbox()).loadAddressBalances(_multisigAddress) : [];
 
 const getAssetBalance = (asset: Asset, balances: AssetAmount[]): AssetAmount => {

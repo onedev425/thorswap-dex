@@ -111,23 +111,32 @@ const Earn = () => {
     [],
   );
 
-  const depositAsset = useCallback((asset: AssetEntity) => {
-    switchTab(EarnTab.Deposit);
-    setAsset(asset);
-    setAmount(Amount.fromAssetAmount(0, asset.decimal));
-  }, []);
+  const switchTab = useCallback(
+    (tab: EarnTab) => {
+      setViewTab(EarnViewTab.Earn);
+      setTab(tab);
+      setAmount(Amount.fromAssetAmount(0, asset.decimal));
+    },
+    [asset.decimal],
+  );
 
-  const withdrawAsset = useCallback((asset: AssetEntity) => {
-    switchTab(EarnTab.Withdraw);
-    setAsset(asset);
-    setAmount(Amount.fromAssetAmount(0, asset.decimal));
-  }, []);
+  const depositAsset = useCallback(
+    (asset: AssetEntity) => {
+      switchTab(EarnTab.Deposit);
+      setAsset(asset);
+      setAmount(Amount.fromAssetAmount(0, asset.decimal));
+    },
+    [switchTab],
+  );
 
-  const switchTab = useCallback((tab: EarnTab) => {
-    setViewTab(EarnViewTab.Earn);
-    setTab(tab);
-    setAmount(Amount.fromAssetAmount(0, asset.decimal));
-  }, []);
+  const withdrawAsset = useCallback(
+    (asset: AssetEntity) => {
+      switchTab(EarnTab.Withdraw);
+      setAsset(asset);
+      setAmount(Amount.fromAssetAmount(0, asset.decimal));
+    },
+    [switchTab],
+  );
 
   const handlePercentWithdrawChange = useCallback(
     (amount: Amount) => {
