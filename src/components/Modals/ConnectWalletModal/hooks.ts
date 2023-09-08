@@ -49,6 +49,16 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
               label: t('views.walletModal.walletConnect'),
             },
             {
+              type: WalletType.TrustWallet,
+              icon: 'trustWallet',
+              label: t('views.walletModal.trustWallet'),
+            },
+            {
+              type: WalletType.Rainbow,
+              icon: 'rainbow',
+              label: t('views.walletModal.rainbow'),
+            },
+            {
               visible: isMdActive,
               type: WalletType.TrustWalletExtension,
               icon: 'trustWalletWhite',
@@ -214,6 +224,8 @@ export const useHandleWalletConnect = ({
             return connectKeplr();
           case WalletType.Trezor:
             return connectTrezor(selectedChains[0], derivationPath, ledgerIndex);
+          case WalletType.Rainbow:
+          case WalletType.TrustWallet:
           case WalletType.Walletconnect:
             return connectWalletconnect(selectedChains);
           case WalletType.Okx:
@@ -259,19 +271,21 @@ type HandleWalletTypeSelectParams = {
 };
 
 const WalletTypeToOption: Record<WalletType, WalletOption> = {
-  [WalletType.MetaMask]: WalletOption.METAMASK,
-  [WalletType.TrustWalletExtension]: WalletOption.TRUSTWALLET_WEB,
-  [WalletType.CoinbaseExtension]: WalletOption.COINBASE_WEB,
   [WalletType.Brave]: WalletOption.BRAVE,
-  [WalletType.Xdefi]: WalletOption.XDEFI,
-  [WalletType.Okx]: WalletOption.OKX,
-  [WalletType.Keplr]: WalletOption.KEPLR,
-  [WalletType.Walletconnect]: WalletOption.WALLETCONNECT,
-  [WalletType.Ledger]: WalletOption.LEDGER,
-  [WalletType.Trezor]: WalletOption.TREZOR,
+  [WalletType.CoinbaseExtension]: WalletOption.COINBASE_WEB,
   [WalletType.CreateKeystore]: WalletOption.KEYSTORE,
+  [WalletType.Keplr]: WalletOption.KEPLR,
   [WalletType.Keystore]: WalletOption.KEYSTORE,
+  [WalletType.Ledger]: WalletOption.LEDGER,
+  [WalletType.MetaMask]: WalletOption.METAMASK,
+  [WalletType.Okx]: WalletOption.OKX,
   [WalletType.Phrase]: WalletOption.KEYSTORE,
+  [WalletType.Rainbow]: WalletOption.WALLETCONNECT,
+  [WalletType.Trezor]: WalletOption.TREZOR,
+  [WalletType.TrustWallet]: WalletOption.WALLETCONNECT,
+  [WalletType.TrustWalletExtension]: WalletOption.TRUSTWALLET_WEB,
+  [WalletType.Walletconnect]: WalletOption.WALLETCONNECT,
+  [WalletType.Xdefi]: WalletOption.XDEFI,
 };
 
 export const useHandleWalletTypeSelect = ({

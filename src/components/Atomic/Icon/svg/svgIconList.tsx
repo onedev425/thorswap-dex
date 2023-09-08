@@ -52,6 +52,7 @@ import { ReactComponent as Lightning } from './lightningThorswap.svg';
 import { ReactComponent as Metamask } from './metamask.svg';
 import { ReactComponent as Moon } from './moon.svg';
 import { ReactComponent as Okx } from './Okx.svg';
+import { ReactComponent as Rainbow } from './rainbow.svg';
 import { ReactComponent as Receive } from './receive.svg';
 import { ReactComponent as Router } from './router.svg';
 import { ReactComponent as Settings } from './settings.svg';
@@ -151,6 +152,7 @@ export const Svgs = {
   portugal: Portugal,
   russia: Russia,
   saudi: Saudi,
+  rainbow: Rainbow,
   snowtrace: Snowtrace,
   trustWallet: TrustWallet,
   coinbaseWallet: CoinbaseWallet,
