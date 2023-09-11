@@ -50,7 +50,6 @@ export const getInputAssetsForCreate = ({
   pools,
   ethWhitelist,
   avaxWhitelist,
-  //TODO (BSC): Remove initial value after release
   bscWhitelist = [],
 }: {
   wallet: Wallet | null;

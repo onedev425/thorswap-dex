@@ -45,7 +45,7 @@
     "@thorswap-lib/ledger": "1.0.0-development.250",
     "@thorswap-lib/midgard-sdk": "0.1.16",
     "@thorswap-lib/okx": "1.0.0-development.40",
-    "@thorswap-lib/swapkit-api": "0.1.0-development.42",
+    "@thorswap-lib/swapkit-api": "0.0.0-nightly-20230904215030",
     "@thorswap-lib/swapkit-core": "1.0.0-development.211",
     "@thorswap-lib/toolbox-cosmos": "1.0.0-development.156",
     "@thorswap-lib/toolbox-evm": "1.0.0-development.163",

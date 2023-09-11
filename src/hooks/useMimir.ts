@@ -34,6 +34,8 @@ export const useMimir = () => {
   const isLTCChainHalted = isEntryPaused('HALTLTCCHAIN');
   const isBCHChainHalted = isEntryPaused('HALTBCHCHAIN') || isEntryPaused('SOLVENCYHALTBCHCHAIN');
   const isDOGEChainHalted = isEntryPaused('HALTDOGECHAIN');
+  // @ts-expect-error
+  const isBSCChainHalted = isEntryPaused('HALTBSCCHAIN');
   const isChainHalted: {
     [key: string]: boolean;
   } = {
@@ -41,6 +43,7 @@ export const useMimir = () => {
     [Chain.BitcoinCash]: isBCHChainHalted,
     [Chain.Binance]: isBNBChainHalted,
     [Chain.Bitcoin]: isBTCChainHalted,
+    [Chain.BinanceSmartChain]: isBSCChainHalted,
     [Chain.Cosmos]: isGAIAChainHalted,
     [Chain.Dogecoin]: isDOGEChainHalted,
     [Chain.Ethereum]: isETHChainHalted,
@@ -56,6 +59,8 @@ export const useMimir = () => {
     [Chain.Binance]: isTradingHalted || isEntryPaused('HALTBNBTRADING'),
     [Chain.BitcoinCash]: isTradingHalted || isEntryPaused('HALTBCHTRADING'),
     [Chain.Bitcoin]: isTradingHalted || isEntryPaused('HALTBTCTRADING'),
+    // @ts-expect-error
+    [Chain.BinanceSmartChain]: isTradingHalted || isEntryPaused('HALTBSCTRADING'),
     [Chain.Cosmos]: isTradingHalted || isEntryPaused('HALTGAIATRADING'),
     [Chain.Dogecoin]: isTradingHalted || isEntryPaused('HALTDOGETRADING'),
     [Chain.Ethereum]: isTradingHalted || isEntryPaused('HALTETHTRADING'),
@@ -71,7 +76,9 @@ export const useMimir = () => {
     [Chain.Binance]: isLPPaused || isEntryPaused('PAUSELPBNB'),
     [Chain.BitcoinCash]: isLPPaused || isEntryPaused('PAUSELPBCH'),
     [Chain.Bitcoin]: isLPPaused || isEntryPaused('PAUSELPBTC'),
-    [Chain.Cosmos]: isLPPaused || isEntryPaused('HALTGAIATRADING'),
+    // @ts-expect-error
+    [Chain.BinanceSmartChain]: isLPPaused || isEntryPaused('PAUSELPBSC'),
+    [Chain.Cosmos]: isLPPaused || isEntryPaused('PAUSELPGAIA'),
     [Chain.Dogecoin]: isLPPaused || isEntryPaused('PAUSELPDOGE'),
     [Chain.Ethereum]: isLPPaused || isEntryPaused('PAUSELPETH'),
     [Chain.Litecoin]: isLPPaused || isEntryPaused('PAUSELPLTC'),
@@ -98,6 +105,7 @@ export const useMimir = () => {
     isBCHChainHalted,
     isBNBChainHalted,
     isBTCChainHalted,
+    isBSCChainHalted,
     isGlobalHalted,
     isChainHalted,
     isChainPauseLP,
