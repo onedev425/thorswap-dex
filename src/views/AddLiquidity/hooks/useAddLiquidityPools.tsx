@@ -24,7 +24,10 @@ export const useAddLiquidityPools = ({ assetRouteGetter = getAddLiquidityRoute }
   const [poolAsset, setPoolAsset] = useState<Asset>(getSignatureAssetFor(Chain.Bitcoin));
   const [pool, setPool] = useState<Pool>();
 
-  const poolAssets = useMemo(() => pools.map((poolData) => poolData.asset), [pools]);
+  const poolAssets = useMemo(
+    () => pools.filter((a) => a.detail.status === 'available').map((poolData) => poolData.asset),
+    [pools],
+  );
 
   useEffect(() => {
     getAllMemberDetails();

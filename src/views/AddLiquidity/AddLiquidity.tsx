@@ -9,17 +9,16 @@ import { PanelView } from 'components/PanelView';
 import { ViewHeader } from 'components/ViewHeader';
 import { ADD_LIQUIDITY_GUIDE_URL } from 'config/constants';
 import { RUNEAsset } from 'helpers/assets';
+import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useCheckHardCap } from 'hooks/useCheckHardCap';
 import { useLiquidityType } from 'hooks/useLiquidityType';
+import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { LiquidityTypeOption } from 'store/midgard/types';
 import { useWallet } from 'store/wallet/hooks';
 import { useAddLiquidity } from 'views/AddLiquidity/hooks/hooks';
 import { useAddLiquidityPools } from 'views/AddLiquidity/hooks/useAddLiquidityPools';
-import { useAssetsList } from 'views/AddLiquidity/hooks/useAssetsList';
 import { useDepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance';
-import { useAssetsWithBalanceFromTokens } from 'views/Swap/hooks/useAssetsWithBalanceFromTokens';
-import { useTokenList } from 'views/Swap/hooks/useTokenList';
 
 import { AssetInputs } from './AssetInputs';
 import { PoolInfo } from './PoolInfo';
@@ -28,15 +27,21 @@ import { liquidityToPoolShareType } from './utils';
 export const AddLiquidity = () => {
   const { liquidityType, setLiquidityType } = useLiquidityType();
   const { poolAssets, pools, pool, poolAsset, handleSelectPoolAsset } = useAddLiquidityPools();
-  const poolAssetList = useAssetsList({ liquidityType, poolAssets, pools });
   const { wallet } = useWallet();
   const depositAssetsBalance = useDepositAssetsBalance({ poolAsset });
-  const { tokens } = useTokenList();
   const hardCapReached = useCheckHardCap();
+  const assetsWithBalances = useAssetsWithBalance(poolAssets);
 
-  const assetSelectList = useAssetsWithBalanceFromTokens(tokens);
-  const filteredAssets = assetSelectList.filter((x) =>
-    poolAssetList.some((asset) => asset.asset.eq(x.asset)),
+  const assetSelectList = useMemo(
+    () =>
+      poolAssets
+        .map(
+          (asset) =>
+            assetsWithBalances.find((a) => a.asset.eq(asset)) || { asset, balance: undefined },
+        )
+        // type === 'Native' should be first
+        .sort((a, b) => Number(b.asset.type === 'Native') - Number(a.asset.type === 'Native')),
+    [assetsWithBalances, poolAssets],
   );
 
   const {
@@ -115,7 +120,7 @@ export const AddLiquidity = () => {
         onPoolChange={handleSelectPoolAsset}
         onRuneAmountChange={handleChangeRuneAmount}
         poolAsset={poolAssetInput}
-        poolAssetList={filteredAssets}
+        poolAssetList={assetSelectList}
         runeAsset={runeAssetInput}
       />
 

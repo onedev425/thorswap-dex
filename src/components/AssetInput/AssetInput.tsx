@@ -136,14 +136,15 @@ export const AssetInput = ({
           <Box className="w-full" justify="end">
             <AssetSelectButton
               showAssetType
-              className="pr-3 m-2 md:m-1"
+              className="!pr-2 !py-1 m-2 md:m-0"
               selected={selectedAsset?.asset}
             />
+
             {showSecondaryChainSelector && (
               <AssetSelect
                 {...assetSelectProps}
                 showAssetType
-                className="pr-3 m-2 md:m-1"
+                className="pr-3 m-2 md:m-0 md:ml-2"
                 selected={poolAsset?.asset}
               />
             )}

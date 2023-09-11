@@ -2616,10 +2616,10 @@
     long "4.0.0"
     uuid "9.0.0"
 
-"@thorswap-lib/ledger@1.0.0-development.249":
-  version "1.0.0-development.249"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/ledger/-/ledger-1.0.0-development.249.tgz#d24269e90d77a4945fa3427251ffc7324aa68b00"
-  integrity sha512-JDMsMHXow2e3qOSjy/VR2pi1LjSEKETIYSROEydADfrqdCLDjX7Wzah7oEX5iDePsRSyXC5eOViRe6r3sIKMLA==
+"@thorswap-lib/ledger@1.0.0-development.250":
+  version "1.0.0-development.250"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/ledger/-/ledger-1.0.0-development.250.tgz#61c4131b53d9312eec1af290a9904e983230ce3b"
+  integrity sha512-wfvjl0wllfK66dlkhfxl7TdIAZD6/lVL8od/l45zuCHqX0Nw28tEWWmfc59qUDAyFjEpvCY+GrlrtKhBV0JWQA==
   dependencies:
     "@ledgerhq/devices" "8.0.7"
     "@ledgerhq/errors" "6.14.0"
@@ -2755,10 +2755,10 @@
   resolved "https://registry.yarnpkg.com/@thorswap-lib/types/-/types-1.0.0-development.103.tgz#61a1bf22f7fddc6efdb0a022c5294b4f13e84db3"
   integrity sha512-4aHAHlIR0kavToDWC8Kon6YE8OkWn5T+MdgUIs7cJsGYy8TsMKSTi6Ys8koC4R9VgQsviKRN/kxx5UkH0+JZZw==
 
-"@thorswap-lib/walletconnect@2.0.0-development.47":
-  version "2.0.0-development.47"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/walletconnect/-/walletconnect-2.0.0-development.47.tgz#bc626e18cce9ce485cd7812d25c8cb5b9bcbe8bf"
-  integrity sha512-fy+8UovdlUwpif78TPd9G906dXmTON0i2saT7qD5GuB96SqGicSjO/6+Ir8vbXArEz51e/N/sd5XYp6lHxWguA==
+"@thorswap-lib/walletconnect@2.0.0-development.48":
+  version "2.0.0-development.48"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/walletconnect/-/walletconnect-2.0.0-development.48.tgz#8588a87de716da7ccf882a85d46a0f8eaf9971b2"
+  integrity sha512-04XwxqgU5yVutCy0q+TF0XZObZ3c8R7qjtiuePf4i2kresYeyjUdh2rro1P5jvFpNZAxoKhCcU9rWrYnEP42cA==
   dependencies:
     "@thorswap-lib/types" "1.0.0-development.103"
     "@walletconnect/modal-sign-html" "^2.6.1"
