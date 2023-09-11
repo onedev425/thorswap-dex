@@ -9,8 +9,11 @@ import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useGlobalRefresh } from 'hooks/useGlobalRefresh';
+import type { PropsWithChildren } from 'react';
+import { Component } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider as ReduxProvider } from 'react-redux';
+import { IS_LOCAL, IS_PROD } from 'settings/config';
 import { store as reduxStore } from 'store/store';
 
 import DrawerProvider from './hooks/useWalletDrawer';
@@ -48,20 +51,66 @@ const MainApp = () => {
   );
 };
 
+class ErrorBoundary extends Component<PropsWithChildren<{}>, { hasError: boolean }> {
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  constructor(props: any) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  componentDidCatch(error: any) {
+    const retryCount = parseInt(localStorage.getItem('errorRetryCount') || '0');
+    const [errorName, errorMessage] = error.toString().split(': ');
+
+    const typeError = errorName === 'TypeError';
+    if (typeError || retryCount < 2) return;
+    localStorage.setItem('errorRetryCount', `${retryCount + 1}`);
+
+    const importedModuleNotFound = errorMessage?.includes('Failed to fetch imported module');
+    const importedDynamicModuleNotFound = errorMessage?.includes(
+      'Failed to fetch dynamically imported module',
+    );
+
+    if (!IS_PROD && !IS_LOCAL && (importedModuleNotFound || importedDynamicModuleNotFound)) {
+      alert(
+        'Developer here! We just released new version which deprecates old version of page :(\n Your page has been reloaded to get new version. Sorry for inconvenience!',
+      );
+      return window.location.reload();
+    }
+
+    localStorage.removeItem('errorRetryCount');
+    // Example "componentStack":
+    //   in ComponentThatThrows (created by App)
+    //   in ErrorBoundary (created by App)
+    //   in div (created by App)
+    //   in App
+    // Log error to Sentry
+  }
+
+  render() {
+    return this.state.hasError ? null : this.props.children;
+  }
+}
+
 export const App = () => {
   if (!checkOrigin()) return null;
 
   return (
-    <ChakraThemeProvider>
-      <HelmetProvider>
-        <ReduxProvider store={reduxStore}>
-          <ThemeProvider>
-            <AnnouncementsProvider>
-              <MainApp />
-            </AnnouncementsProvider>
-          </ThemeProvider>
-        </ReduxProvider>
-      </HelmetProvider>
-    </ChakraThemeProvider>
+    <ErrorBoundary>
+      <ChakraThemeProvider>
+        <HelmetProvider>
+          <ReduxProvider store={reduxStore}>
+            <ThemeProvider>
+              <AnnouncementsProvider>
+                <MainApp />
+              </AnnouncementsProvider>
+            </ThemeProvider>
+          </ReduxProvider>
+        </HelmetProvider>
+      </ChakraThemeProvider>
+    </ErrorBoundary>
   );
 };
