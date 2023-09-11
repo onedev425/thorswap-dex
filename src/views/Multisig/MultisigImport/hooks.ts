@@ -32,42 +32,30 @@ export const useMultisigImport = ({ onSuccess }: Props) => {
 
     const parsedData: WalletData = {
       threshold,
-      members: data.members.map((m) => ({
-        pubKey: m.pubKey,
-        name: m.name || '',
-      })),
+      members: data.members.map(({ pubKey, name = '' }) => ({ pubKey, name })),
     };
 
     return parsedData;
   }, []);
 
   const onChangeFile = useCallback(
-    (file: Blob) => {
-      const reader = new FileReader();
-      const onLoadHandler = () => {
-        try {
-          setFileError('');
-          const rawData = JSON.parse(reader.result as string);
-          const data = parseData(rawData);
-          setWalletData(data);
-        } catch (error: NotWorth) {
-          console.error(error);
-          setFileError(t('views.multisig.jsonError'));
-          setWalletData(null);
-        }
-      };
-
-      reader.addEventListener('load', onLoadHandler);
-      reader.readAsText(file);
-      return () => {
-        reader.removeEventListener('load', onLoadHandler);
-      };
+    (fileContent: string) => {
+      try {
+        const rawData = JSON.parse(fileContent as string);
+        const data = parseData(rawData);
+        setFileError('');
+        setWalletData(data);
+      } catch (error: NotWorth) {
+        console.error(error);
+        setFileError(t('views.multisig.jsonError'));
+        setWalletData(null);
+      }
     },
     [parseData],
   );
 
-  const onError = useCallback((error: Error) => {
-    setFileError(`${t('views.multisig.selectingKeyError')}: ${error}`);
+  const onError = useCallback((errorName: string) => {
+    setFileError(`${t('views.multisig.selectingKeyError')}: ${errorName}`);
     setWalletData(null);
   }, []);
 

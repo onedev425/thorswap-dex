@@ -51,33 +51,24 @@ export const useTxImportForm = () => {
   }, []);
 
   const onChangeFile = useCallback(
-    (file: Blob) => {
-      const reader = new FileReader();
-      const onLoadHandler = async () => {
-        try {
-          setFileError('');
-          const rawData = JSON.parse(reader.result as string);
-          const data = await parseData(rawData);
+    async (fileContent: string) => {
+      try {
+        setFileError('');
+        const rawData = JSON.parse(fileContent);
+        const data = await parseData(rawData);
 
-          setImportedTx(data);
-        } catch (error: NotWorth) {
-          console.error(error);
-          setFileError(t('views.multisig.jsonError'));
-          setImportedTx(null);
-        }
-      };
-
-      reader.addEventListener('load', onLoadHandler);
-      reader.readAsText(file);
-      return () => {
-        reader.removeEventListener('load', onLoadHandler);
-      };
+        setImportedTx(data);
+      } catch (error: NotWorth) {
+        console.error(error);
+        setFileError(t('views.multisig.jsonError'));
+        setImportedTx(null);
+      }
     },
     [parseData],
   );
 
-  const onError = useCallback((error: Error) => {
-    setFileError(`${t('views.multisig.selectingKeyError')}: ${error}`);
+  const onError = useCallback((errorName: string) => {
+    setFileError(`${t('views.multisig.selectingKeyError')}: ${errorName}`);
     setImportedTx(null);
   }, []);
 

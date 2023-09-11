@@ -1,4 +1,6 @@
 /public
+dist/*
+ledgerLive/dist
 *.css
 *.json
 vite.config.ts

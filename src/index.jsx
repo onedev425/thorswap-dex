@@ -22,7 +22,7 @@ Sentry.init({
   tracePropagationTargets: ["localhost", /^https:\/\/\*\.thorswap\.net/],
 
   environment: IS_PROD ? 'production' : IS_BETA ? 'beta' : IS_STAGENET ? 'stagenet' : IS_DEV_API ? 'dev-api' : 'development',
-  debug: !IS_PROD,
+  debug: false,
 });
 
 

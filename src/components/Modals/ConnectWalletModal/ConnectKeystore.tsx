@@ -4,9 +4,9 @@ import classNames from 'classnames';
 import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import { Input } from 'components/Input';
 import type { ChangeEvent } from 'react';
-import { useCallback, useState } from 'react';
-import { FilePicker } from 'react-file-picker';
+import { useCallback, useEffect, useState } from 'react';
 import { t } from 'services/i18n';
+import { useFilePicker } from 'use-file-picker';
 
 type Props = {
   loading?: boolean;
@@ -15,37 +15,28 @@ type Props = {
 };
 
 export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => {
+  const {
+    openFilePicker,
+    filesContent: [{ content } = { content: '' }],
+    loading: filesLoading,
+  } = useFilePicker({ accept: '.txt' });
   const [keystore, setKeystore] = useState<Keystore>();
   const [password, setPassword] = useState<string>('');
   const [invalidStatus, setInvalidStatus] = useState(false);
   const [keystoreError, setKeystoreError] = useState('');
   const [processing, setProcessing] = useState(false);
 
-  const onChangeFile = useCallback((file: Blob) => {
-    const reader = new FileReader();
-    const onLoadHandler = () => {
-      try {
-        const key = JSON.parse(reader.result as string);
-        if (!('version' in key) || !('crypto' in key)) {
-          setKeystoreError(t('views.walletModal.keystoreError'));
-        } else {
-          setKeystoreError('');
-          setKeystore(key);
-        }
-      } catch {
-        setKeystoreError(t('views.walletModal.jsonError'));
+  useEffect(() => {
+    if (content) {
+      const key = JSON.parse(content as string);
+      if (!('version' in key) || !('crypto' in key)) {
+        setKeystoreError(t('views.walletModal.keystoreError'));
+      } else {
+        setKeystoreError('');
+        setKeystore(key);
       }
-    };
-    reader.addEventListener('load', onLoadHandler);
-    reader.readAsText(file);
-    return () => {
-      reader.removeEventListener('load', onLoadHandler);
-    };
-  }, []);
-
-  const onErrorFile = useCallback((error: Error) => {
-    setKeystoreError(`${t('views.walletModal.selectingKeyError')} ${error}`);
-  }, []);
+    }
+  }, [content]);
 
   const unlockKeystore = useCallback(async () => {
     if (keystore) {
@@ -89,25 +80,24 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
       <Text className="mb-2" fontWeight="semibold" textStyle="subtitle2">
         {t('views.walletModal.selectKeystore')}
       </Text>
-      <FilePicker onChange={onChangeFile} onError={onErrorFile}>
-        <Box
-          alignCenter
-          className="h-10 px-3 border border-solid cursor-pointer rounded-2xl border-light-border-primary dark:border-dark-border-primary hover:border-light-typo-gray dark:hover:border-dark-typo-gray"
+      <Box
+        alignCenter
+        className="h-10 px-3 border border-solid cursor-pointer rounded-2xl border-light-border-primary dark:border-dark-border-primary hover:border-light-typo-gray dark:hover:border-dark-typo-gray"
+        onClick={openFilePicker}
+      >
+        {!keystore && !keystoreError && <Icon name="upload" size={18} />}
+        {keystore && !keystoreError && <Icon color="green" name="valid" size={18} />}
+        {keystoreError && <Icon color="red" name="invalid" size={18} />}
+        <Text
+          className={classNames('!text-[11px] opacity-80 ml-2', {
+            'opacity-100': keystore && !keystoreError,
+          })}
+          fontWeight="semibold"
+          textStyle="caption-xs"
         >
-          {!keystore && !keystoreError && <Icon name="upload" size={18} />}
-          {keystore && !keystoreError && <Icon color="green" name="valid" size={18} />}
-          {keystoreError && <Icon color="red" name="invalid" size={18} />}
-          <Text
-            className={classNames('!text-[11px] opacity-80 ml-2', {
-              'opacity-100': keystore && !keystoreError,
-            })}
-            fontWeight="semibold"
-            textStyle="caption-xs"
-          >
-            {t('views.walletModal.chooseKeystore')}
-          </Text>
-        </Box>
-      </FilePicker>
+          {t('views.walletModal.chooseKeystore')}
+        </Text>
+      </Box>
 
       <Text className="mt-2 ml-3" fontWeight="normal" textStyle="caption" variant="red">
         {keystoreError ? t('views.walletModal.invalidKeystore') : ''}
@@ -133,6 +123,7 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
           value={password}
         />
       </Box>
+
       {invalidStatus && (
         <Text className="mt-2 ml-3" textStyle="caption" variant="orange">
           {t('views.walletModal.wrongPassword')}
@@ -143,7 +134,7 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
         <Button
           className="flex-1 group"
           disabled={!ready}
-          loading={processing || loading}
+          loading={processing || filesLoading || loading}
           onClick={unlockKeystore}
           rightIcon={<Icon className="transition group-hover:text-white" name="unlock" size={18} />}
           size="sm"

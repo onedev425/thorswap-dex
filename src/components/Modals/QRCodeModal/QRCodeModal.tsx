@@ -3,8 +3,8 @@ import Logo from 'assets/images/logo.png';
 import { Box, Icon, Modal, Tooltip } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { useAddressUtils } from 'hooks/useAddressUtils';
-import QRCode from 'qrcode-react';
 import { useEffect, useState } from 'react';
+import { QRCode } from 'react-qrcode-logo';
 import { t } from 'services/i18n';
 
 type Props = {
@@ -35,7 +35,7 @@ export const QRCodeModal = ({ title, address, onCancel, chain }: Props) => {
       <Box center col>
         <Text textStyle="subtitle2">{chain}</Text>
         <Box className="gap-3 p-2 bg-white rounded-xl mt-4">
-          <QRCode logo={Logo} logoWidth={64} size={256} value={address} />
+          <QRCode logoHeight={64} logoImage={Logo} logoWidth={64} size={256} value={address} />
         </Box>
         <Box alignCenter className="space-x-2 mt-3">
           <Text>{address}</Text>

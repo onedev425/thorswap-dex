@@ -226,7 +226,6 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         const signedTx = await ledgerLiveClient?.signTransaction(ledgerLiveAccount.id, {
           recipient: unsignedTx.to,
           data: Buffer.from(unsignedTx.data?.substring(2) || '', 'hex'),
-          // @ts-expect-error Types mismatch - will go away on SwapKitNumber
           amount: new BigNumberJS(unsignedTx.value || 0),
           family: LEDGER_LIVE_FAMILIES[1],
         });
@@ -239,7 +238,6 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         const signedTx = await ledgerLiveClient?.signTransaction(ledgerLiveAccount.id, {
           recipient,
           data: Buffer.from(memo || ''),
-          // @ts-expect-error Types mismatch - will go away on SwapKitNumber
           amount: new BigNumberJS(amount.amount().toString()),
           family: LEDGER_LIVE_FAMILIES[1],
         });
@@ -280,7 +278,6 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         const signedTx = await ledgerLiveClient?.signTransaction(ledgerLiveAccount.id, {
           family: LEDGER_LIVE_FAMILIES[5],
           recipient: unsignedTx.to,
-          // @ts-expect-error Types mismatch - will go away on SwapKitNumber
           amount: new BigNumberJS(unsignedTx.value || 0),
           memo: unsignedTx.memo || '',
           mode: 'send',
@@ -294,7 +291,6 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         const signedTx = await ledgerLiveClient?.signTransaction(ledgerLiveAccount.id, {
           family: LEDGER_LIVE_FAMILIES[5],
           recipient,
-          // @ts-expect-error Types mismatch - will go away on SwapKitNumber
           amount: new BigNumberJS(amount.amount().toNumber()),
           memo,
           mode: 'send',
@@ -349,7 +345,6 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         const signedTx = await ledgerLiveClient?.signTransaction(ledgerLiveAccount.id, {
           recipient: unsignedTx.to,
           opReturnData: Buffer.from(unsignedTx.memo || ''),
-          // @ts-expect-error Types mismatch - will go away on SwapKitNumber
           amount: new BigNumberJS(unsignedTx.value || 0),
           family: LEDGER_LIVE_FAMILIES[0],
         });
@@ -363,9 +358,7 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         const signedTx = await ledgerLiveClient?.signTransaction(ledgerLiveAccount.id, {
           recipient,
           opReturnData: Buffer.from(memo || ''),
-          // @ts-expect-error Types mismatch - will go away on SwapKitNumber
           amount: new BigNumberJS(amount.amount().toNumber()),
-          // @ts-expect-error Types mismatch - will go away on SwapKitNumber
           feePerByte: feeRate ? new BigNumberJS(Math.max(feeRate, gasPrice)) : undefined,
           family: LEDGER_LIVE_FAMILIES[0],
         });
