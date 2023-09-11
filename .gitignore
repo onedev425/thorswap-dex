@@ -37,3 +37,6 @@ cypress/videos
 pre-commit
 prepare-commit-msg
 .vercel
+
+# Sentry Auth Token
+.env.sentry-build-plugin

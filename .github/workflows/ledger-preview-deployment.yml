@@ -2,6 +2,7 @@ name: Vercel Ledger Preview Deployment
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_LEDGER_PROJECT_ID }}
+  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
 concurrency:
   group: ledger-preview-${{ github.ref }}
@@ -44,7 +45,6 @@ jobs:
           VITE_WALLETCONNECT_PROJECT_ID: ${{ secrets.VITE_WALLETCONNECT_PROJECT_ID }}
           TARGET_VITE_WALLETCONNECT_PROJECT_ID: production,preview,development
           TYPE_VITE_WALLETCONNECT_PROJECT_ID: encrypted
-
 
       - name: Get Branch Name
         shell: bash

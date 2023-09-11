@@ -6,31 +6,40 @@ import { defineConfig } from 'vite';
 import removeConsole from 'vite-plugin-remove-console';
 import rewriteAll from 'vite-plugin-rewrite-all';
 import svgr from 'vite-plugin-svgr';
-import basicSsl from '@vitejs/plugin-basic-ssl'
+import basicSsl from '@vitejs/plugin-basic-ssl';
+import { sentryVitePlugin } from '@sentry/vite-plugin';
 
 const withSourcemap = process.env.SOURCEMAP === 'true';
 const analyze = process.env.ANALYZE_BUNDLE === 'true';
 const ssl = process.env.SSL === 'true';
 const sourcemap = withSourcemap || analyze;
+const sentryAuthToken = process.env.SENTRY_AUTH_TOKEN;
 
-const plugins = [
-  react(),
-  rewriteAll(),
-  svgr({ svgrOptions: { icon: true } }),
-  removeConsole(),
-].concat(
-  analyze
-    ? [
-        visualizer({
-          open: true,
-          sourcemap: true,
-          template: (process.env.TEMPLATE as 'treemap') || 'treemap',
-        }),
-      ]
-    : [],
-).concat(
-  ssl ? [basicSsl()] : [],
-)
+const plugins = [react(), rewriteAll(), svgr({ svgrOptions: { icon: true } }), removeConsole()]
+  .concat(
+    analyze
+      ? [
+          visualizer({
+            open: true,
+            sourcemap: true,
+            template: (process.env.TEMPLATE as 'treemap') || 'treemap',
+          }),
+        ]
+      : [],
+  )
+  .concat(ssl ? [basicSsl()] : [])
+  .concat(
+    sentryAuthToken
+      ? [
+          sentryVitePlugin({
+            telemetry: false,
+            authToken: sentryAuthToken,
+            org: 'thorswap-dex',
+            project: 'dex',
+          }),
+        ]
+      : [],
+  );
 
 export default defineConfig({
   root: '',

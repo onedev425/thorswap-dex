@@ -1,3 +1,4 @@
+import { captureException, withProfiler } from '@sentry/react';
 import { AnnouncementsProvider } from 'components/Announcements/AnnouncementsContext';
 import { Box } from 'components/Atomic';
 import { ChakraThemeProvider } from 'components/Theme/ChakraThemeProvider';
@@ -61,18 +62,20 @@ class ErrorBoundary extends Component<PropsWithChildren<{}>, { hasError: boolean
     this.state = { hasError: false };
   }
 
-  componentDidCatch(error: any) {
+  componentDidCatch(error: any, info: any) {
     const retryCount = parseInt(localStorage.getItem('errorRetryCount') || '0');
-    const [errorName, errorMessage] = error.toString().split(': ');
+    const errorName = error.toString();
+    const errorMessage = error?.message;
 
-    const typeError = errorName === 'TypeError';
-    if (typeError || retryCount < 2) return;
+    if (retryCount < 2) return;
     localStorage.setItem('errorRetryCount', `${retryCount + 1}`);
 
-    const importedModuleNotFound = errorMessage?.includes('Failed to fetch imported module');
-    const importedDynamicModuleNotFound = errorMessage?.includes(
-      'Failed to fetch dynamically imported module',
-    );
+    const importedModuleNotFound =
+      errorMessage?.includes('Failed to load module script') ||
+      errorName?.includes('Failed to load module script');
+    const importedDynamicModuleNotFound =
+      errorMessage?.includes('Failed to fetch dynamically imported module') ||
+      errorName?.includes('Failed to fetch dynamically imported module');
 
     if (!IS_PROD && !IS_LOCAL && (importedModuleNotFound || importedDynamicModuleNotFound)) {
       alert(
@@ -87,7 +90,7 @@ class ErrorBoundary extends Component<PropsWithChildren<{}>, { hasError: boolean
     //   in ErrorBoundary (created by App)
     //   in div (created by App)
     //   in App
-    // Log error to Sentry
+    captureException(error, info);
   }
 
   render() {
@@ -95,7 +98,7 @@ class ErrorBoundary extends Component<PropsWithChildren<{}>, { hasError: boolean
   }
 }
 
-export const App = () => {
+const AppProviders = () => {
   if (!checkOrigin()) return null;
 
   return (
@@ -114,3 +117,5 @@ export const App = () => {
     </ErrorBoundary>
   );
 };
+
+export const App = withProfiler(AppProviders);
