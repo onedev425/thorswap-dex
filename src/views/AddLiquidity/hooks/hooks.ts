@@ -57,6 +57,11 @@ type Props = {
 
 const runeAsset = getSignatureAssetFor(Chain.THORChain);
 
+const toRuneAmount = (amount: Amount) => Amount.fromAssetAmount(amount.assetAmount.toString(), 8);
+
+const toAssetAmount = (amount: Amount, asset: AssetEntity) =>
+  Amount.fromAssetAmount(amount.assetAmount.toString(), asset.decimal);
+
 const getEstimatedPoolShareAfterAdd = ({
   runeDepth,
   poolUnits,
@@ -295,51 +300,51 @@ export const useAddLiquidity = ({
   const handleChangeAssetAmount = useCallback(
     (amount: Amount) => {
       if (!pool) {
-        setAssetAmount(amount);
+        setAssetAmount(toAssetAmount(amount, poolAsset));
         return;
       }
 
       const maxAmount = isSymDeposit ? maxSymAssetAmount : maxPoolAssetBalance;
 
       if (amount.gt(maxAmount) && !skipWalletCheck) {
-        setAssetAmount(maxAmount);
+        setAssetAmount(toAssetAmount(maxAmount, poolAsset));
 
         if (isSymDeposit) {
-          setRuneAmount(maxAmount.mul(pool.assetPriceInRune));
+          setRuneAmount(toRuneAmount(maxAmount.mul(pool.assetPriceInRune)));
         }
       } else {
-        setAssetAmount(amount);
+        setAssetAmount(toAssetAmount(amount, poolAsset));
 
         if (isSymDeposit) {
-          setRuneAmount(amount.mul(pool.assetPriceInRune));
+          setRuneAmount(toRuneAmount(amount.mul(pool.assetPriceInRune)));
         }
       }
     },
-    [pool, skipWalletCheck, isSymDeposit, maxSymAssetAmount, maxPoolAssetBalance],
+    [pool, skipWalletCheck, isSymDeposit, maxSymAssetAmount, maxPoolAssetBalance, poolAsset],
   );
 
   const handleChangeRuneAmount = useCallback(
     (amount: Amount) => {
       if (!pool) {
-        setRuneAmount(amount);
+        setRuneAmount(toRuneAmount(amount));
         return;
       }
 
       const maxAmount = isSymDeposit ? maxSymRuneAmount : maxRuneBalance;
       if (amount.gt(maxAmount) && !skipWalletCheck) {
-        setRuneAmount(maxAmount);
+        setRuneAmount(toRuneAmount(maxAmount));
 
         if (isSymDeposit) {
-          setAssetAmount(maxAmount.mul(pool.runePriceInAsset));
+          setAssetAmount(toAssetAmount(maxAmount.mul(pool.runePriceInAsset), poolAsset));
         }
       } else {
-        setRuneAmount(amount);
+        setRuneAmount(toRuneAmount(amount));
         if (isSymDeposit) {
-          setAssetAmount(amount.mul(pool.runePriceInAsset));
+          setAssetAmount(toAssetAmount(amount.mul(pool.runePriceInAsset), poolAsset));
         }
       }
     },
-    [pool, skipWalletCheck, isSymDeposit, maxSymRuneAmount, maxRuneBalance],
+    [pool, skipWalletCheck, isSymDeposit, maxSymRuneAmount, maxRuneBalance, poolAsset],
   );
 
   const handleConfirmAdd = useCallback(async () => {
