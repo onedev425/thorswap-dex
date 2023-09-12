@@ -163,6 +163,40 @@ export const useNetworkFee = ({
       [findTokenPrice, inputAsset, inputGasAsset, outputAsset, outputGasAsset],
     );
 
+  // TODO @towan deal with outbound fees
+  const outboundFeeInInputAsset = useMemo(() => {
+    if (!inputAssetUSDPrice)
+      return new AssetAmount(inputAsset, Amount.fromAssetAmount(0, inputAsset.decimal));
+    const outboundFee = new BigNumber(inputGasAssetUSDPrice).multipliedBy(
+      outputFee.amount.assetAmount,
+    );
+
+    return new AssetAmount(
+      inputAsset,
+      Amount.fromAssetAmount(
+        new BigNumber(outboundFee.lt('1') ? '1' : outboundFee).div(inputAssetUSDPrice).toString(),
+        inputAsset.decimal,
+      ),
+    );
+  }, [inputAsset, inputAssetUSDPrice, inputGasAssetUSDPrice, outputFee.amount.assetAmount]);
+
+  // TODO @towan deal with inbound fees
+  const inboundFeeInInputAsset = useMemo(() => {
+    if (!inputAssetUSDPrice)
+      return new AssetAmount(inputAsset, Amount.fromAssetAmount(0, inputAsset.decimal));
+
+    return new AssetAmount(
+      inputAsset,
+      Amount.fromAssetAmount(
+        new BigNumber(inputGasAssetUSDPrice)
+          .multipliedBy(inputFee.amount.assetAmount)
+          .div(inputAssetUSDPrice)
+          .toString(),
+        inputAsset.decimal,
+      ),
+    );
+  }, [inputAsset, inputAssetUSDPrice, inputFee.amount.assetAmount, inputGasAssetUSDPrice]);
+
   const feeInUSD = useMemo(() => {
     const inputFeePrice = new BigNumber(inputGasAssetUSDPrice).multipliedBy(
       inputFee.amount.assetAmount,
@@ -190,6 +224,8 @@ export const useNetworkFee = ({
     inputFee,
     outputFee,
     feeInUSD,
+    outboundFeeInInputAsset,
+    inboundFeeInInputAsset,
     isLoading: priceRatesLoading || tokenPricesLoading,
     inputAssetUSDPrice,
     outputAssetUSDPrice,

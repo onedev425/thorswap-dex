@@ -1,4 +1,4 @@
-import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Amount, AmountType } from '@thorswap-lib/swapkit-core';
 import { BaseDecimal } from '@thorswap-lib/types';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
@@ -10,7 +10,7 @@ import type { SaverQuoteResponse } from 'views/Earn/types';
 
 type Props = {
   isDeposit: boolean;
-  asset: Asset;
+  asset: AssetEntity;
   withdrawPercent?: Amount;
   amount: Amount;
   apr?: number;
@@ -20,12 +20,17 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount,
   const [saverQuote, setSaverQuoteData] = useState<SaverQuoteResponse>();
   const { wallet } = useWallet();
 
-  const debouncedAmount = useDebouncedValue(amount);
+  const assetAmount = useMemo(
+    () => Amount.fromAssetAmount(amount.assetAmount.toString(), asset.decimal),
+    [amount.assetAmount, asset.decimal],
+  );
+
+  const debouncedAmount = useDebouncedValue(assetAmount);
   const debouncedWithdrawPercent = useDebouncedValue(withdrawPercent);
   const address = useMemo(() => wallet?.[asset.L1Chain]?.address || '', [wallet, asset.L1Chain]);
 
   const getConfirmData = useCallback(async () => {
-    if (!debouncedAmount?.assetAmount) {
+    if (!debouncedAmount?.assetAmount?.gt(0)) {
       return;
     }
 
@@ -62,9 +67,20 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount,
     [saverQuote?.expected_amount_out],
   );
 
-  const slippage = expectedOutputAmount?.mul(saverQuote?.slippage_bps || 0).div(10000);
+  const slippage = expectedOutputAmount
+    ? Amount.fromAssetAmount(
+        expectedOutputAmount
+          .mul(saverQuote?.slippage_bps || 0)
+          .div(10000)
+          .assetAmount.toString(),
+        asset.decimal,
+      )
+    : undefined;
 
-  const { inputFee } = useNetworkFee({ inputAsset: asset });
+  const { outboundFeeInInputAsset, inputFee } = useNetworkFee({
+    inputAsset: asset,
+    outputAsset: asset,
+  });
 
   const daysToBreakEven = useMemo(() => {
     const daysAmount = slippage?.div(expectedOutputAmount?.mul(apr || 0).div(365) || 0);
@@ -76,7 +92,7 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount,
     getConfirmData,
     saverQuote,
     expectedOutputAmount,
-    networkFee: inputFee,
+    networkFee: isDeposit ? inputFee : outboundFeeInInputAsset,
     daysToBreakEven,
   };
 };

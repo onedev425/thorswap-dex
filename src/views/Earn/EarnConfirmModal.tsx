@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { Amount, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Icon } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
@@ -18,7 +18,7 @@ type Props = {
   slippage?: Amount;
   expectedOutputAmount?: Amount;
   expectedAmountOut?: string;
-  networkFee: Amount;
+  networkFee: AssetAmount;
   timeToBreakEvenInfo: React.ReactNode;
 };
 
@@ -54,7 +54,7 @@ export const EarnConfirmModal = ({
     { label: t('views.wallet.estimatedTime'), value: estimatedTime || 'N/A' },
     {
       label: t('views.wallet.networkFee'),
-      value: `${networkFee.toSignificant(6)} ${asset.name}`,
+      value: `${networkFee.toSignificant(6)} ${networkFee.asset.name}`,
     },
     {
       label: t('common.slippage'),
