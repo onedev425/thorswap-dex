@@ -197,7 +197,7 @@ export const ConfirmContent = memo(
               </>
             )}
 
-            {!showSmallSwapWarning && (
+            {!streamSwap && !showSmallSwapWarning && (
               <>
                 <Box className="px-4">
                   <Box className="w-full h-[1px] bg-light-border-primary dark:bg-dark-border-primary my-2" />
