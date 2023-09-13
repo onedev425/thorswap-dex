@@ -18,10 +18,11 @@ type Props = {
   recipient: string;
   setRecipient: (recipient: string) => void;
   outputAssetL1Chain: Chain;
+  isOutputWalletConnected: boolean;
 };
 
 export const CustomRecipientInput = memo(
-  ({ recipient, setRecipient, outputAssetL1Chain }: Props) => {
+  ({ recipient, setRecipient, outputAssetL1Chain, isOutputWalletConnected }: Props) => {
     const { customRecipientMode } = useApp();
     const [thorname, setThorname] = useState('');
     const [disabled, setDisabled] = useState(false);
@@ -87,7 +88,7 @@ export const CustomRecipientInput = memo(
       [TNSAddress, outputAssetL1Chain, thorname],
     );
 
-    if (!customRecipientMode) return null;
+    if (isOutputWalletConnected && !customRecipientMode) return null;
 
     return (
       <PanelInput
