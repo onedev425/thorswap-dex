@@ -81,7 +81,7 @@ class ErrorBoundary extends Component<PropsWithChildren<{}>, { hasError: boolean
       alert(
         'Developer here! We just released new version which deprecates old version of page :(\n Your page has been reloaded to get new version. Sorry for inconvenience!',
       );
-      return setTimeout(() => window.location.replace(window.location.href), 2000);
+      return setTimeout(() => window.location.reload(), 2000);
     }
 
     localStorage.removeItem('errorRetryCount');

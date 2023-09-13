@@ -2743,10 +2743,10 @@
     long "4.0.0"
     uuid "9.0.0"
 
-"@thorswap-lib/ledger@1.0.0-development.251":
-  version "1.0.0-development.251"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/ledger/-/ledger-1.0.0-development.251.tgz#f382081f6290ef21571cb4c509a366f0b678eb5e"
-  integrity sha512-ski/1jW1/N1vhnLB7jlLNWrmhhTOAdIlWuJiWw+cY5P4OoSV64zhjgnPVh9Q0yv9MNHjj4E3RyPIQ73J0TL5kA==
+"@thorswap-lib/ledger@1.0.0-development.252":
+  version "1.0.0-development.252"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/ledger/-/ledger-1.0.0-development.252.tgz#27af2f2f097171e40981c24c8caf1370d69077ec"
+  integrity sha512-nMuKEIFahTX0tt8H0p9AI1/7yQCNqJQ192/u0+UqYhDcbfXwQinlBPYBIQb3/e7nY0H/lat/m+T5UbWLnw+N5g==
   dependencies:
     "@ledgerhq/devices" "8.0.7"
     "@ledgerhq/errors" "6.14.0"
