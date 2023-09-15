@@ -114,7 +114,9 @@ const Send = () => {
 
         if (assetEntity) {
           const assetDecimals = await getEVMDecimal(assetEntity);
-          assetEntity.setDecimal(assetDecimals);
+          if (assetDecimals) {
+            assetEntity.setDecimal(assetDecimals);
+          }
           setSendAmount(Amount.fromAssetAmount(0, assetEntity.decimal));
           setSendAsset(assetEntity);
         } else {
