@@ -2,7 +2,6 @@ import { Text } from '@chakra-ui/react';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Amount, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { WalletOption } from '@thorswap-lib/types';
-import BN from 'bignumber.js';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Card, Icon, Tooltip } from 'components/Atomic';
@@ -16,7 +15,7 @@ import { stakingV2Addr, VestingType } from 'helpers/assets';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { toOptionalFixed } from 'helpers/number';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { fromWei, getCustomContract, toWeiFromString } from 'services/contract';
+import { fromWei, getCustomContract } from 'services/contract';
 import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
 
@@ -85,20 +84,18 @@ const Staking = () => {
   }, [ethAddress, getTokenInfo]);
 
   const handleMaxClick = useCallback(() => {
-    const maxAmountBN = Amount.fromBaseAmount(
-      isDeposit ? new BN(thorBalBn.toString()) : new BN(vthorBalBn.toString()),
+    const maxAmount = Amount.fromBaseAmount(
+      isDeposit ? thorBalBn.toString() : vthorBalBn.toString(),
       18,
-    ).assetAmount;
+    );
 
-    setInputAmount(Amount.fromAssetAmount(new BN(maxAmountBN.toString()), 18));
+    setInputAmount(maxAmount);
 
     if (isDeposit) {
-      const expectedOutput = previewDeposit(
-        BigNumber.from(toWeiFromString(maxAmountBN.toString())),
-      );
+      const expectedOutput = previewDeposit(BigNumber.from(maxAmount.baseAmount.toString()));
       setOutputAmount(expectedOutput);
     } else {
-      const expectedOutput = previewRedeem(toWeiFromString(maxAmountBN.toString()));
+      const expectedOutput = previewRedeem(BigNumber.from(maxAmount.baseAmount.toString()));
       setOutputAmount(expectedOutput);
     }
   }, [isDeposit, thorBalBn, vthorBalBn, previewDeposit, previewRedeem]);
@@ -106,7 +103,7 @@ const Staking = () => {
   const onAmountChange = useCallback(
     (amount: Amount, targetAction?: StakeActions) => {
       setInputAmount(amount);
-      const amountBN = toWeiFromString(amount.assetAmount.toFixed());
+      const amountBN = BigNumber.from(amount.baseAmount.toString());
       const expectedOutput =
         targetAction === StakeActions.Deposit || isDeposit
           ? previewDeposit(amountBN)
@@ -120,10 +117,10 @@ const Staking = () => {
   const handleAction = useCallback(() => {
     if (!ethAddress) return;
 
-    const amount = toWeiFromString(inputAmount.assetAmount.toFixed());
+    const amount = BigNumber.from(inputAmount.baseAmount.toString());
     const thorAction = isDeposit ? stakeThor : unstakeThor;
     thorAction(amount, ethAddress);
-  }, [ethAddress, inputAmount.assetAmount, isDeposit, stakeThor, unstakeThor]);
+  }, [ethAddress, inputAmount.baseAmount, isDeposit, stakeThor, unstakeThor]);
 
   const handleVthorAction = useCallback(() => {
     if (ethWalletType === WalletOption.KEYSTORE) {
