@@ -23,6 +23,7 @@ type Props = {
   minReceive: string;
   minReceiveSlippage: number;
   outputUSDPrice: Price;
+  streamSwap: boolean;
   setFeeModalOpened: (isOpened: boolean) => void;
   showTransactionFeeSelect?: boolean;
   whaleDiscount: boolean;
@@ -39,6 +40,7 @@ export const SwapInfo = ({
   networkFee,
   inputUSDPrice,
   isLoading,
+  streamSwap,
   minReceive,
   minReceiveSlippage,
   outputUSDPrice,
@@ -104,14 +106,19 @@ export const SwapInfo = ({
             />
           ),
         },
-        {
-          label: t('views.swap.minReceivedAfterSlip', {
-            slippage: minReceiveSlippage > 0 ? parseToPercent(minReceiveSlippage) : '-',
-          }),
-          value: (
-            <InfoWithTooltip tooltip={t('views.wallet.minReceivedTooltip')} value={minReceive} />
-          ),
-        },
+        !streamSwap
+          ? {
+              label: t('views.swap.minReceivedAfterSlip', {
+                slippage: minReceiveSlippage > 0 ? parseToPercent(minReceiveSlippage) : '-',
+              }),
+              value: (
+                <InfoWithTooltip
+                  tooltip={t('views.wallet.minReceivedTooltip')}
+                  value={minReceive}
+                />
+              ),
+            }
+          : null,
         showTransactionFeeSelect
           ? {
               key: 'keystoreFee',

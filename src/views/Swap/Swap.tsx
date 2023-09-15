@@ -434,6 +434,7 @@ const SwapView = () => {
             outputUSDPrice={outputUSDPrice}
             setFeeModalOpened={setFeeModalOpened}
             showTransactionFeeSelect={showTransactionFeeSelect}
+            streamSwap={streamSwap}
             vTHORDiscount={vTHORDiscount}
             whaleDiscount={inputUSDValue >= 1_000_000}
           />
