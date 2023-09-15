@@ -55,6 +55,8 @@ export const useMultisigImport = ({ onSuccess }: Props) => {
   );
 
   const onError = useCallback((errorName: string) => {
+    if (!errorName) return;
+
     setFileError(`${t('views.multisig.selectingKeyError')}: ${errorName}`);
     setWalletData(null);
   }, []);

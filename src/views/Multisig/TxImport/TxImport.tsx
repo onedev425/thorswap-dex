@@ -19,7 +19,7 @@ const TxImport = () => {
     filesContent: [{ content } = { content: '' }],
     loading: filesLoading,
     errors: fileErrors,
-  } = useFilePicker({ accept: '.txt' });
+  } = useFilePicker({ accept: ['.txt', '.json'] });
 
   useEffect(() => {
     if (content) {

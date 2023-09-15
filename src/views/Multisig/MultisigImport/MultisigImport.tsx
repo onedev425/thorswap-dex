@@ -19,7 +19,7 @@ const MultisigImport = () => {
     filesContent: [{ content } = { content: '' }],
     loading: filesLoading,
     errors: fileErrors,
-  } = useFilePicker({ accept: '.json' });
+  } = useFilePicker({ accept: ['.txt', '.json'] });
 
   const onSuccess = useCallback(() => navigate(ROUTES.Multisig), [navigate]);
   const {
