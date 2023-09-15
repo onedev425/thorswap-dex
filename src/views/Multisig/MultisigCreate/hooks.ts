@@ -74,8 +74,24 @@ export const useMultisigForm = ({ pubKey }: Props = {}) => {
 
   useEffect(() => {
     const subscription = watch(async (values) => {
+      const { ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const toolbox = await ThorchainToolbox({});
+      const members = await Promise.all(values.members?.map(async (member) => {
+        if (!member) return member;
+
+        const isThorchainAddress = await toolbox.validateAddress(member.pubKey || '');
+        if (isThorchainAddress) {
+          const account = await toolbox.getAccount(member.pubKey!);
+          return {
+            ...member,
+            pubKey: account?.pubkey?.value as string
+          };
+        } else {
+          return member;
+        }
+      }) || []);
       const address = await generateMultisigAddress(
-        values.members as MultisigMember[],
+        members as MultisigMember[],
         values.threshold as number,
       );
 
