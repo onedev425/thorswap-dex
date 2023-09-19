@@ -1,8 +1,8 @@
-import type { Pool } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity, Pool } from '@thorswap-lib/swapkit-core';
 import { Amount } from '@thorswap-lib/swapkit-core';
-import type { Asset, Chain } from '@thorswap-lib/types';
+import type { Asset } from '@thorswap-lib/types';
 import { useBalance } from 'hooks/useBalance';
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useMidgard } from 'store/midgard/hooks';
 
 export const useAssetsWithBalance = (assets?: Asset[]) => {
@@ -10,7 +10,11 @@ export const useAssetsWithBalance = (assets?: Asset[]) => {
   const { getPoolsFromState } = useMidgard();
   const pools = getPoolsFromState();
 
-  const assetsWithBalance = useMemo(() => {
+  const [assetsWithBalance, setAssetsWithBalance] = useState<
+    { asset: AssetEntity; balance: Amount | undefined }[]
+  >([]);
+
+  useEffect(() => {
     const assetsMap = assets?.map((asset) => asset.symbol) || [];
     // filter pools for savers and sort by APR
     const filteredPools = pools
@@ -21,18 +25,21 @@ export const useAssetsWithBalance = (assets?: Asset[]) => {
           .assetAmount.toNumber();
       });
     // filter pools with respect to user balance
-    const balancePools = filteredPools.map((pool: Pool) => ({
-      asset: pool.asset,
-      balance: isWalletConnected(pool.asset.L1Chain as Chain)
-        ? getMaxBalance(pool.asset)
-        : undefined,
-    }));
-
-    // filter pools by provided assets
-    if (assetsMap.length > 0) {
-      return balancePools.filter((pool) => assetsMap.includes(pool.asset.symbol));
-    }
-    return balancePools;
+    Promise.all(
+      filteredPools.map((pool: Pool) =>
+        getMaxBalance(pool.asset, true).then((balance) => ({
+          asset: pool.asset,
+          balance,
+        })),
+      ),
+    ).then((balancePools) => {
+      // filter pools by provided assets
+      if (assetsMap.length > 0) {
+        setAssetsWithBalance(balancePools.filter((pool) => assetsMap.includes(pool.asset.symbol)));
+        return;
+      }
+      setAssetsWithBalance(balancePools);
+    });
   }, [assets, getMaxBalance, isWalletConnected, pools]);
 
   return assetsWithBalance;

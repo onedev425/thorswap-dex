@@ -219,6 +219,7 @@ export const SwapInfo = ({
       openFeeModal,
       setFeeOptionType,
       showTransactionFeeSelect,
+      streamSwap,
     ],
   );
 

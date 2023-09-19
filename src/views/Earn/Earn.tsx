@@ -25,6 +25,7 @@ import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
+import { zeroAmount } from 'types/app';
 import { v4 } from 'uuid';
 import { EarnAssetSelectList } from 'views/Earn/EarnAssetSelectList';
 import { EarnConfirmModal } from 'views/Earn/EarnConfirmModal';
@@ -64,14 +65,15 @@ const Earn = () => {
   const { isChainHalted } = useMimir();
   const { positions, refreshPositions, getPosition, synthAvailability } = useSaverPositions();
   const { wallet, setIsConnectModalOpen } = useWallet();
-  const [amount, setAmount] = useState(Amount.fromAssetAmount(0, 8));
+  const [amount, setAmount] = useState(zeroAmount);
   const [asset, setAsset] = useState(getSignatureAssetFor(Chain.Bitcoin));
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [visibleApproveModal, setVisibleApproveModal] = useState(false);
   const [tab, setTab] = useState(EarnTab.Deposit);
   const [viewTab, setViewTab] = useState(EarnViewTab.Earn);
   const [withdrawPercent, setWithdrawPercent] = useState(new Amount(0, AmountType.ASSET_AMOUNT, 2));
-  const [availableToWithdraw, setAvailableToWithdraw] = useState(Amount.fromAssetAmount(0, 8));
+  const [availableToWithdraw, setAvailableToWithdraw] = useState(zeroAmount);
+  const [balance, setBalance] = useState<Amount | undefined>();
   const usdPrice = usePoolAssetPriceInUsd({ asset, amount });
   const isDeposit = tab === EarnTab.Deposit;
 
@@ -99,10 +101,13 @@ const Earn = () => {
   const { isLgActive } = useWindowSize();
 
   const address = useMemo(() => wallet?.[asset.L1Chain]?.address || '', [wallet, asset.L1Chain]);
-  const balance = useMemo(
-    () => (address ? getMaxBalance(asset) : undefined),
-    [address, asset, getMaxBalance],
-  );
+
+  useEffect(() => {
+    address
+      ? getMaxBalance(asset).then((maxBalance) => setBalance(maxBalance))
+      : setBalance(undefined);
+  }, [asset, getMaxBalance, address]);
+
   const tabs = useMemo(
     () => [
       { label: t('common.deposit'), value: EarnTab.Deposit },

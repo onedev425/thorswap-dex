@@ -1,3 +1,5 @@
+import { Amount } from '@thorswap-lib/swapkit-core';
+
 export type ColorType =
   | 'primary'
   | 'secondary'
@@ -60,3 +62,5 @@ export type THORNameDetails = {
   owner: string;
   expire: string;
 };
+
+export const zeroAmount = Amount.fromBaseAmount(0, 8);

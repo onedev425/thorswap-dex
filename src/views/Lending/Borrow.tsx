@@ -75,6 +75,9 @@ const Borrow = () => {
   );
   const [recipient, setRecipient] = useState('');
 
+  const [collateralBalance, setCollateralBalance] = useState<Amount | undefined>();
+  const [borrowBalance, setBorrowBalance] = useState<Amount | undefined>();
+
   useEffect(() => {
     if (UTXOChainList.includes(collateralAsset.chain) && borrowAsset.type !== 'Native') {
       setBorrowAsset(getSignatureAssetFor(Chain.Ethereum));
@@ -132,14 +135,17 @@ const Borrow = () => {
     amount: expectedOutput,
   });
 
-  const collateralBalance = useMemo(
-    () => (collateralAddress ? getMaxBalance(collateralAsset) : undefined),
-    [collateralAddress, collateralAsset, getMaxBalance],
-  );
-  const borrowBalance = useMemo(
-    () => (borrowAddress ? getMaxBalance(borrowAsset) : undefined),
-    [borrowAddress, borrowAsset, getMaxBalance],
-  );
+  useEffect(() => {
+    collateralAddress
+      ? getMaxBalance(collateralAsset).then((maxBalance) => setCollateralBalance(maxBalance))
+      : setCollateralBalance(undefined);
+  }, [collateralAddress, collateralAsset, getMaxBalance]);
+
+  useEffect(() => {
+    borrowAddress
+      ? getMaxBalance(borrowAsset).then((maxBalance) => setBorrowBalance(maxBalance))
+      : setBorrowBalance(undefined);
+  }, [borrowAddress, borrowAsset, getMaxBalance]);
 
   const expectedDebtInfo = useMemo(
     () => formatPrice(expectedDebt.gt(0) ? expectedDebt : 0),

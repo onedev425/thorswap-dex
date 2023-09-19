@@ -37,6 +37,7 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
   const [show, setShow] = useState(false);
   const [sliderValue, setSliderValue] = useState(new Amount(0, AmountType.ASSET_AMOUNT, 2));
   const [repayAsset, setRepayAsset] = useState(BTCAsset);
+  const [repayBalance, setRepayBalance] = useState<Amount | undefined>();
   const { getMaxBalance } = useBalance();
   const { wallet } = useWallet();
   const debouncedPercentage = useDebouncedValue(sliderValue, 500);
@@ -68,10 +69,12 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
   );
   const repayUsdPrice = usePoolAssetPriceInUsd({ asset: repayAsset, amount: repayAssetAmount });
 
-  const repayBalance = useMemo(
-    () => (repayAddress ? getMaxBalance(repayAsset) : undefined),
-    [repayAddress, repayAsset, getMaxBalance],
-  );
+  useEffect(() => {
+    repayAddress
+      ? getMaxBalance(repayAsset).then((maxBalance) => setRepayBalance(maxBalance))
+      : setRepayBalance(undefined);
+  }, [repayAddress, repayAsset, getMaxBalance]);
+
   const selectedRepayAsset = useMemo(
     () => ({
       asset: repayAsset,

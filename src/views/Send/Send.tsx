@@ -28,6 +28,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getSendRoute } from 'settings/router';
 import { useWallet } from 'store/wallet/hooks';
+import { zeroAmount } from 'types/app';
 import { CustomSend } from 'views/Send/components/CustomSend';
 import { useCustomSend } from 'views/Send/hooks/useCustomSend';
 import { useConfirmSend } from 'views/Send/useConfirmSend';
@@ -40,7 +41,8 @@ const Send = () => {
   const [searchParams] = useSearchParams();
 
   const [sendAsset, setSendAsset] = useState(RUNEAsset);
-  const [sendAmount, setSendAmount] = useState(Amount.fromAssetAmount(0, 8));
+  const [sendAmount, setSendAmount] = useState(zeroAmount);
+  const [maxSpendableBalance, setMaxSpendableBalance] = useState(zeroAmount);
 
   const [memo, setMemo] = useState('');
   const [recipientAddress, setRecipientAddress] = useState(searchParams.get('recipient') || '');
@@ -81,10 +83,10 @@ const Send = () => {
     customTxEnabled,
   });
 
-  const maxSpendableBalance: Amount = useMemo(
-    () => getMaxBalance(sendAsset),
-    [sendAsset, getMaxBalance],
-  );
+  useEffect(() => {
+    setMaxSpendableBalance(zeroAmount);
+    getMaxBalance(sendAsset).then((maxBalance) => setMaxSpendableBalance(maxBalance || zeroAmount));
+  }, [getMaxBalance, sendAsset]);
 
   const { loading, TNS } = useAddressForTNS(recipientAddress);
 

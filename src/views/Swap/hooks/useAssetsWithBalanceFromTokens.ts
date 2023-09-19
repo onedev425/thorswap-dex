@@ -3,41 +3,60 @@ import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import type { EVMChain } from '@thorswap-lib/types';
 import { Chain } from '@thorswap-lib/types';
 import { useBalance } from 'hooks/useBalance';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useMidgard } from 'store/midgard/hooks';
 import type { Token } from 'store/thorswap/types';
+import { zeroAmount } from 'types/app';
 
 export const useAssetsWithBalanceFromTokens = (tokens: Token[], thorchainOnly?: boolean) => {
   const { synthAssets } = useMidgard();
   const { getMaxBalance, isWalletConnected } = useBalance();
 
+  const [assetsWithBalance, setAssetsWithBalance] = useState<
+    {
+      asset: AssetEntity;
+      identifier: string;
+      balance?: Amount;
+    }[]
+  >([]);
+
+  const [synthAssetsWithBalance, setSynthAssetsWithBalance] = useState<
+    {
+      asset: AssetEntity;
+      provider: string;
+      identifier: string;
+      balance: Amount | undefined;
+    }[]
+  >([]);
+
   const getBalance = useCallback(
-    (asset: AssetEntity) => {
-      const maxBalance = getMaxBalance(asset);
+    async (asset: AssetEntity) => {
+      const maxBalance = (await getMaxBalance(asset, true)) || zeroAmount;
 
       return isWalletConnected(asset.L1Chain as Chain) && maxBalance.gt(0) ? maxBalance : undefined;
     },
     [getMaxBalance, isWalletConnected],
   );
 
-  const synthAssetsWithBalance = useMemo(
-    () =>
-      synthAssets.map((asset) => ({
-        asset,
-        provider: 'Thorchain',
-        identifier: asset.symbol,
-        balance: getBalance(asset),
-      })),
-    [getBalance, synthAssets],
-  );
+  useEffect(() => {
+    Promise.all(
+      synthAssets.map((asset) => {
+        return getBalance(asset).then((balance) => ({
+          asset,
+          provider: 'Thorchain',
+          identifier: asset.symbol,
+          balance,
+        }));
+      }),
+    ).then((assets) => setSynthAssetsWithBalance(assets));
+  }, [getBalance, synthAssets]);
 
-  const assetsWithBalance = useMemo(() => {
+  useEffect(() => {
     const filteredTokens = thorchainOnly
       ? tokens.filter((t) => t?.tokenlist?.toLowerCase() === 'thorchain')
       : tokens;
-
-    return filteredTokens
-      .map(({ identifier, address, chain, ...rest }: Token) => {
+    Promise.all(
+      filteredTokens.map(({ identifier, address, chain, ...rest }: Token) => {
         try {
           const assetChain = (chain || identifier.split('.')[0]) as EVMChain;
           const [id] = identifier.split('-');
@@ -50,14 +69,22 @@ export const useAssetsWithBalanceFromTokens = (tokens: Token[], thorchainOnly?: 
           );
 
           if (!asset) return null;
-
-          return { asset, balance: getBalance(asset), identifier, ...rest };
+          return getBalance(asset).then((balance) => ({
+            asset,
+            balance,
+            identifier,
+            ...rest,
+          }));
         } catch (error: NotWorth) {
           console.error(error);
           return null;
         }
-      })
-      .filter(Boolean) as { asset: AssetEntity; balance?: Amount; identifier: string }[];
+      }),
+    ).then((assets) =>
+      setAssetsWithBalance(
+        assets.filter(Boolean) as { asset: AssetEntity; balance?: Amount; identifier: string }[],
+      ),
+    );
   }, [thorchainOnly, tokens, getBalance]);
 
   const assets = useMemo(

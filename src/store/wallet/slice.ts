@@ -47,6 +47,10 @@ const walletSlice = createSlice({
       state.walletLoading = false;
       state.hasVestingAlloc = false;
     },
+    // updateMaxSendableBalanceForAddress: (
+    //   state,
+    //   { payload: { address, chain } }: PayloadAction<{ chain: Chain; address: string }>,
+    // ) => {},
     addAssetToHidden: (
       state,
       { payload: { address, chain } }: PayloadAction<{ chain: Chain; address: string }>,

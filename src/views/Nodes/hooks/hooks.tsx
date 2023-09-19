@@ -12,6 +12,7 @@ import { useBalance } from 'hooks/useBalance';
 import useWindowSize from 'hooks/useWindowSize';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useWallet } from 'store/wallet/hooks';
+import { zeroAmount } from 'types/app';
 import type { NodeManagePanelProps } from 'views/Nodes/types';
 import { BondActionType } from 'views/Nodes/types';
 
@@ -163,6 +164,8 @@ export const useNodeManager = ({
   handleBondAction,
   skipWalletCheck,
 }: NodeManagePanelProps) => {
+  const [maxInputBalance, setMaxInputBalance] = useState<Amount>();
+
   const tabs = useMemo(
     () =>
       Object.values(BondActionType).map((type) => ({
@@ -198,7 +201,11 @@ export const useNodeManager = ({
 
   const { getMaxBalance } = useBalance();
 
-  const maxInputBalance: Amount = useMemo(() => getMaxBalance(RUNEAsset), [getMaxBalance]);
+  useEffect(() => {
+    getMaxBalance(RUNEAsset).then((runeMaxBalance) =>
+      setMaxInputBalance(runeMaxBalance || zeroAmount),
+    );
+  }, [getMaxBalance]);
 
   const [tab, setTab] = useState(tabs[0]);
 

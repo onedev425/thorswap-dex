@@ -13,6 +13,7 @@ on:
   push:
     branches:
       - develop
+      - stagenet
   pull_request:
     branches-ignore:
       - main
@@ -22,6 +23,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        # Feature envs
+        # GIT_VITE_ETHPLORER_API_KEY: feature/foo
+      - name: Get Branch Name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
 
       - name: Set Env Vars on Vercel Project
         uses: dkershner6/vercel-set-env-action@49249df836477f28dda1ee275d3c04c136b722a3
@@ -46,13 +53,9 @@ jobs:
           VITE_POSTHOG_API_KEY: ${{ secrets.VITE_POSTHOG_API_KEY }}
           TARGET_VITE_POSTHOG_API_KEY: production,preview,development
           TYPE_VITE_POSTHOG_API_KEY: encrypted
-
-          # Feature envs
-          # GIT_VITE_ETHPLORER_API_KEY: feature/foo
-      - name: Get Branch Name
-        shell: bash
-        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-        id: extract_branch
+          VITE_STAGENET: ${{ steps.extract_branch.outputs.branch }} == 'stagenet'
+          TARGET_VITE_STAGENET: preview,development
+          TYPE_VITE_STAGENET: encrypted
 
       - name: Deploy to Vercel
         id: vercel

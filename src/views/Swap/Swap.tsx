@@ -23,6 +23,7 @@ import { IS_LEDGER_LIVE } from 'settings/config';
 import { getKyberSwapRoute, getSwapRoute } from 'settings/router';
 import { useApp } from 'store/app/hooks';
 import { useWallet } from 'store/wallet/hooks';
+import { zeroAmount } from 'types/app';
 import { FeeModal } from 'views/Swap/FeeModal';
 import { useKyberSwap } from 'views/Swap/hooks/useKyberSwap';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';
@@ -50,6 +51,9 @@ const SwapView = () => {
     useSwapPair();
   const { wallet, keystore } = useWallet();
   const { analyticsVisible, toggleAnalytics } = useApp();
+
+  const [maxNewInputBalance, setMaxNewInputBalance] = useState(zeroAmount);
+  const [maxInputBalance, setMaxInputBalance] = useState(zeroAmount);
 
   const [recipient, setRecipient] = useState('');
   const [sender, setSender] = useState('');
@@ -194,7 +198,10 @@ const SwapView = () => {
     [wallet, inputAsset],
   );
 
-  const maxInputBalance = useMemo(() => getMaxBalance(inputAsset), [inputAsset, getMaxBalance]);
+  useEffect(() => {
+    setMaxInputBalance(zeroAmount);
+    getMaxBalance(inputAsset).then((maxBalance) => setMaxInputBalance(maxBalance || zeroAmount));
+  }, [inputAsset, getMaxBalance]);
 
   const inputAssetBalance = useMemo(
     () => (isInputWalletConnected ? maxInputBalance : undefined),
@@ -259,13 +266,13 @@ const SwapView = () => {
   );
 
   const handleSelectAsset = useCallback(
-    (type: 'input' | 'output') => (asset: AssetEntity) => {
+    (type: 'input' | 'output') => async (asset: AssetEntity) => {
       const isInput = type === 'input';
       const input = !isInput ? (asset.eq(inputAsset) ? outputAsset : inputAsset) : asset;
       const output = isInput ? (asset.eq(outputAsset) ? inputAsset : outputAsset) : asset;
 
       if (isInput) {
-        const maxNewInputBalance = getMaxBalance(asset);
+        const maxNewInputBalance = (await getMaxBalance(asset)) || zeroAmount;
         setInputAmount(inputAmount.gt(maxNewInputBalance) ? maxNewInputBalance : inputAmount);
       }
 
@@ -288,8 +295,9 @@ const SwapView = () => {
 
   const handleSwitchPair = useCallback(
     (unsupportedOutput?: boolean) => {
-      const maxNewInputBalance = getMaxBalance(outputAsset);
-      setInputAmount(outputAmount.gt(maxNewInputBalance) ? maxNewInputBalance : outputAmount);
+      setMaxNewInputBalance(
+        outputAmount.gt(maxNewInputBalance) ? maxNewInputBalance : outputAmount,
+      );
       const defaultAsset = isETHAsset(outputAsset)
         ? getSignatureAssetFor(!IS_LEDGER_LIVE ? 'ETH_THOR' : Chain.Bitcoin)
         : getSignatureAssetFor(Chain.Ethereum);
@@ -300,15 +308,7 @@ const SwapView = () => {
 
       navigate(`${route}?sellAmount=${outputAmount.assetAmount.toString()}`);
     },
-    [
-      getMaxBalance,
-      outputAsset,
-      setInputAmount,
-      outputAmount,
-      navigate,
-      inputAsset,
-      isKyberSwapPage,
-    ],
+    [outputAmount, maxNewInputBalance, outputAsset, inputAsset, isKyberSwapPage, navigate],
   );
 
   const refetchData = useCallback(() => {

@@ -38,6 +38,7 @@ import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
+import { zeroAmount } from 'types/app';
 import { v4 } from 'uuid';
 import { useAssetsWithBalanceFromTokens } from 'views/Swap/hooks/useAssetsWithBalanceFromTokens';
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
@@ -102,6 +103,10 @@ export const CreateLiquidity = () => {
   const [visibleApproveModal, setVisibleApproveModal] = useState(false);
   const runeAsset = getSignatureAssetFor(Chain.THORChain);
 
+  const [maxPoolAssetBalance, setMaxPoolAssetBalance] = useState(zeroAmount);
+
+  const [maxRuneBalance, setMaxRuneBalance] = useState(zeroAmount);
+
   const { inputFee: inboundAssetFee, outputFee: inboundRuneFee } = useNetworkFee({
     inputAsset: poolAsset,
     outputAsset: runeAsset,
@@ -154,10 +159,17 @@ export const CreateLiquidity = () => {
     [poolAsset, wallet],
   );
 
-  const maxPoolAssetBalance: Amount = useMemo(
-    () => getMaxBalance(poolAsset),
-    [poolAsset, getMaxBalance],
-  );
+  useEffect(() => {
+    getMaxBalance(poolAsset).then((assetMaxBalance) =>
+      setMaxPoolAssetBalance(assetMaxBalance || zeroAmount),
+    );
+  }, [poolAsset, getMaxBalance]);
+
+  useEffect(() => {
+    getMaxBalance(runeAsset).then((runeMaxBalance) =>
+      setMaxRuneBalance(runeMaxBalance || zeroAmount),
+    );
+  }, [getMaxBalance, runeAsset]);
 
   const runeBalance: Amount = useMemo(
     () =>
@@ -165,11 +177,6 @@ export const CreateLiquidity = () => {
         ? getAssetBalance(getSignatureAssetFor(Chain.THORChain), wallet).amount
         : Amount.fromAssetAmount(10 ** 3, 8),
     [wallet],
-  );
-
-  const maxRuneBalance: Amount = useMemo(
-    () => getMaxBalance(getSignatureAssetFor(Chain.THORChain)),
-    [getMaxBalance],
   );
 
   const handleSelectPoolAsset = useCallback((poolAssetData: Asset) => {

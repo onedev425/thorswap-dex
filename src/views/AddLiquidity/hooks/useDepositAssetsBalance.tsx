@@ -3,8 +3,9 @@ import { Amount } from '@thorswap-lib/swapkit-core';
 import { RUNEAsset } from 'helpers/assets';
 import { getAssetBalance } from 'helpers/wallet';
 import { useBalance } from 'hooks/useBalance';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useWallet } from 'store/wallet/hooks';
+import { zeroAmount } from 'types/app';
 
 type Props = {
   poolAsset: Asset;
@@ -22,6 +23,10 @@ export const useDepositAssetsBalance = ({ poolAsset }: Props): DepositAssetsBala
   const { getMaxBalance, isWalletAssetConnected } = useBalance();
   const { wallet } = useWallet();
 
+  const [maxPoolAssetBalance, setMaxPoolAssetBalance] = useState(zeroAmount);
+
+  const [maxRuneBalance, setMaxRuneBalance] = useState(zeroAmount);
+
   const poolAssetBalance: Amount = useMemo(() => {
     if (wallet) {
       return getAssetBalance(poolAsset, wallet).amount;
@@ -31,10 +36,17 @@ export const useDepositAssetsBalance = ({ poolAsset }: Props): DepositAssetsBala
     return Amount.fromAssetAmount(10 ** 3, 8);
   }, [poolAsset, wallet]);
 
-  const maxPoolAssetBalance: Amount = useMemo(
-    () => getMaxBalance(poolAsset),
-    [poolAsset, getMaxBalance],
-  );
+  useEffect(() => {
+    getMaxBalance(poolAsset).then((assetMaxBalance) =>
+      setMaxPoolAssetBalance(assetMaxBalance || zeroAmount),
+    );
+  }, [poolAsset, getMaxBalance]);
+
+  useEffect(() => {
+    getMaxBalance(RUNEAsset).then((runeMaxBalance) =>
+      setMaxRuneBalance(runeMaxBalance || zeroAmount),
+    );
+  }, [getMaxBalance]);
 
   const runeBalance: Amount = useMemo(() => {
     if (wallet) {
@@ -44,8 +56,6 @@ export const useDepositAssetsBalance = ({ poolAsset }: Props): DepositAssetsBala
     // allow max amount if wallet is not connected
     return Amount.fromAssetAmount(10 ** 3, 8);
   }, [wallet]);
-
-  const maxRuneBalance: Amount = useMemo(() => getMaxBalance(RUNEAsset), [getMaxBalance]);
 
   return {
     isWalletAssetConnected,
