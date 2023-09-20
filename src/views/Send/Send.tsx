@@ -19,7 +19,6 @@ import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { shortenAddress } from 'helpers/shortenAddress';
 import { getWalletAssets, hasWalletConnected } from 'helpers/wallet';
 import { useAddressForTNS } from 'hooks/useAddressForTNS';
-import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { useNetworkFee } from 'hooks/useNetworkFee';
 import type { ChangeEvent } from 'react';
@@ -137,7 +136,21 @@ const Send = () => {
 
   const walletAssets = useMemo(() => getWalletAssets(wallet), [wallet]);
 
-  const assetInputList = useAssetsWithBalance(walletAssets);
+  const [assetInputList, setAssetInputList] = useState<{
+    asset: AssetEntity;
+    balance: Amount;
+  }[]>([]);
+
+  useEffect(() => {
+    Promise.all(walletAssets.map(asset =>
+      getMaxBalance(asset, true).then(balance => ({
+        asset,
+        balance
+      }))
+    )).then(balances => {
+      setAssetInputList(balances);
+    });
+  }, [walletAssets]);
 
   const handleSelectAsset = useCallback(
     (selected: AssetEntity) => {
