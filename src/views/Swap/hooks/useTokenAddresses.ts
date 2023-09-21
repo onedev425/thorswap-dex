@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { useGetTokenListQuery } from 'store/static/api';
 
 type TokenLists =
-  | 'Thorchain-supported-ERC20'
-  | 'Thorchain-supported-ARC20'
+  | 'Thorchain-supported-erc20'
+  | 'Thorchain-supported-arc20'
+  | 'Thorchain-supported-bsc20'
   | 'tc-whitelisted-avax-pools'
   | 'tc-whitelisted-bsc-pools';
 

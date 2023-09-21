@@ -56,7 +56,7 @@ export const CreateLiquidity = () => {
 
   const { wallet, setIsConnectModalOpen } = useWallet();
   const [inputAssets, setInputAssets] = useState<Asset[]>([]);
-  const ethWhitelist = useTokenAddresses('Thorchain-supported-ERC20');
+  const ethWhitelist = useTokenAddresses('Thorchain-supported-erc20');
   const avaxWhitelist = useTokenAddresses('tc-whitelisted-avax-pools');
   const bscWhitelist = useTokenAddresses('tc-whitelisted-bsc-pools');
   const { tokens } = useTokenList();

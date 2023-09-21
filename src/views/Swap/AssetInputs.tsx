@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { AssetInput } from 'components/AssetInput';
 import type { AssetInputType } from 'components/AssetInput/types';
 import { Box, Icon, Tooltip } from 'components/Atomic';
-import { isAVAXAsset, isETHAsset } from 'helpers/assets';
+import { isAVAXAsset, isBSCAsset, isETHAsset } from 'helpers/assets';
 import { useAssetListSearch } from 'hooks/useAssetListSearch';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
@@ -49,8 +49,9 @@ export const AssetInputs = memo(
   }: Props) => {
     const [iconRotate, setIconRotate] = useState(false);
 
-    const thorchainERC20SupportedAddresses = useTokenAddresses('Thorchain-supported-ERC20');
-    const thorchainAvaxSupportedAddresses = useTokenAddresses('Thorchain-supported-ARC20');
+    const thorchainERC20SupportedAddresses = useTokenAddresses('Thorchain-supported-erc20');
+    const thorchainAvaxSupportedAddresses = useTokenAddresses('Thorchain-supported-arc20');
+    const thorchainBscSupportedAddresses = useTokenAddresses('Thorchain-supported-bsc20');
 
     const isAssetSwitchPossible = useMemo(() => {
       return isLedgerLiveSupportedInputAsset(outputAsset);
@@ -68,13 +69,19 @@ export const AssetInputs = memo(
         !isAVAXAsset(inputAsset.asset) &&
         !thorchainAvaxSupportedAddresses.includes(inputAddress);
 
-      onSwitchPair(unsupportedEthOutput || unsupportedAvaxOutput);
+      const unsupportedBscOutput =
+        inputAsset.asset.L1Chain === Chain.BinanceSmartChain &&
+        !isBSCAsset(inputAsset.asset) &&
+        !thorchainBscSupportedAddresses.includes(inputAddress);
+
+      onSwitchPair(unsupportedEthOutput || unsupportedAvaxOutput || unsupportedBscOutput);
       setIconRotate((rotate) => !rotate);
     }, [
       inputAsset.asset,
       onSwitchPair,
       thorchainAvaxSupportedAddresses,
       thorchainERC20SupportedAddresses,
+      thorchainBscSupportedAddresses,
     ]);
 
     const assetList = useAssetsWithBalanceFromTokens(tokens);
