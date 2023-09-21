@@ -21,7 +21,7 @@ const checkAssetApprove = async ({ contract, asset, amount }: Params) => {
   ).getSwapKitClient();
 
   const approveAmount = amount
-    ? baseAmount(amount.baseAmount.toFixed() || '0', asset.decimal)
+    ? baseAmount(amount.baseAmount.toString(10) || '0', asset.decimal)
     : undefined;
 
   return contract

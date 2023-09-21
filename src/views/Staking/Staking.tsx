@@ -107,7 +107,7 @@ const Staking = () => {
   const handleAction = useCallback(() => {
     if (!ethAddress) return;
 
-    const amount = BigNumber.from(inputAmount.baseAmount.toString());
+    const amount = BigNumber.from(inputAmount.baseAmount.toString(10));
     const thorAction = isDeposit ? stakeThor : unstakeThor;
     thorAction(amount, ethAddress);
   }, [ethAddress, inputAmount.baseAmount, isDeposit, stakeThor, unstakeThor]);
