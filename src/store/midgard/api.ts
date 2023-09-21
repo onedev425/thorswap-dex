@@ -36,7 +36,7 @@ export const midgardApi = createApi({
       keepUnusedDataFor: 3600,
     }),
     getFullMember: build.query<FullMemberPool[], string[]>({
-      query: (addresses) => `${microgardUrl}/fullmember?address=${addresses.join(',')}`,
+      query: (addresses) => `/full_member?address=${addresses.join(',')}`,
       keepUnusedDataFor: 10,
     }),
     getPools: build.query<PoolDetail[], PoolPeriods | void>({
