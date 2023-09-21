@@ -78,13 +78,11 @@ export const useAssetFilterTypes = () => {
     }
   };
 
-  const filterTypes = assetFilterTypes
-    .filter((assetFilterType) => assetFilterType.value !== 'bep20')
-    .map((filterType) => ({
-      value: filterType.value,
-      label: getTypeLabel(filterType),
-      tooltip: filterType.tooltip,
-    }));
+  const filterTypes = assetFilterTypes.map((filterType) => ({
+    value: filterType.value,
+    label: getTypeLabel(filterType),
+    tooltip: filterType.tooltip,
+  }));
 
   return filterTypes;
 };

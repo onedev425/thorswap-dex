@@ -84,7 +84,7 @@ export const AssetSelectList = ({
       <Box
         col
         className={classNames(
-          'px-4 py-6 pb-3 lg:p-10 lg:pb-6 rounded-t-box-lg gap-2',
+          'px-4 py-6 pb-3 lg:p-6 lg:pb-6 rounded-t-box-lg gap-2',
           genericBgClasses.secondary,
         )}
       >

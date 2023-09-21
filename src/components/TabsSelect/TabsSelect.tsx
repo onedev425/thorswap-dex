@@ -39,7 +39,7 @@ export const TabsSelect = memo(
         >
           <Box
             className={classNames('flex-wrap self-stretch', {
-              'gap-1': !tabWidth,
+              'gap-0': !tabWidth,
             })}
             flex={1}
             justify="between"
