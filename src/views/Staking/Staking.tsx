@@ -40,7 +40,7 @@ const Staking = () => {
   const [action, setAction] = useState(StakeActions.Deposit);
   const [thorBalBn, setThorBalBn] = useState(BigNumber.from(0));
   const [vthorBalBn, setVthorBalBn] = useState(BigNumber.from(0));
-  const [inputAmount, setInputAmount] = useState(Amount.fromAssetAmount(0, 3));
+  const [inputAmount, setInputAmount] = useState(Amount.fromAssetAmount(0, BaseDecimal.ETH));
   const [outputAmount, setOutputAmount] = useState(0);
   const [isReverted, setReverted] = useState(true);
   const [isModalOpened, setModalOpened] = useState(false);
@@ -93,7 +93,7 @@ const Staking = () => {
   const onAmountChange = useCallback(
     (amount: Amount, targetAction?: StakeActions) => {
       setInputAmount(amount);
-      const amountBN = BigNumber.from(amount.baseAmount.toString());
+      const amountBN = BigNumber.from(amount.baseAmount.toString(10));
       const expectedOutput =
         targetAction === StakeActions.Deposit || isDeposit
           ? previewDeposit(amountBN)
