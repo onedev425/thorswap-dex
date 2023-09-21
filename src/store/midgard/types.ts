@@ -266,7 +266,6 @@ export interface State {
   mimirLoading: boolean;
   mimirLoaded: boolean;
   mimir: MimirData;
-  volume24h: number | null;
   lastBlock: LastblockItem[];
   nodes: THORNode[];
   nodeLoading: boolean;

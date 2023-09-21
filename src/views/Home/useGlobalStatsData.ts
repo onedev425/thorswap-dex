@@ -6,11 +6,30 @@ import { useMimir } from 'hooks/useMimir';
 import { useRuneToCurrency } from 'hooks/useRuneToCurrency';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
+import { useGetHistoryLiquidityChangesQuery, useGetHistorySwapsQuery } from 'store/midgard/api';
 
 export const useGlobalStatsData = () => {
   const runeToCurrency = useRuneToCurrency();
-  const { tvlInRune, totalActiveBond, liquidityAPYLabel, totalVolume, volume24h, networkData } =
+  const { tvlInRune, totalActiveBond, liquidityAPYLabel, totalVolume, networkData } =
     useGlobalStats();
+
+  const { data: swapsData } = useGetHistorySwapsQuery({ interval: 'hour', count: 24 });
+  const { data: liquidityData } = useGetHistoryLiquidityChangesQuery({
+    count: 24,
+    interval: 'hour',
+  });
+
+  const volume24h = useMemo(() => {
+    const swapVolume = Amount.fromMidgard(swapsData?.meta?.totalVolumeUsd);
+    const addVolume = Amount.fromMidgard(liquidityData?.meta?.addLiquidityVolume);
+    const withdrawVolume = Amount.fromMidgard(liquidityData?.meta?.withdrawVolume);
+
+    return swapVolume.add(addVolume).add(withdrawVolume).toAbbreviate(2);
+  }, [
+    liquidityData?.meta?.addLiquidityVolume,
+    liquidityData?.meta?.withdrawVolume,
+    swapsData?.meta?.totalVolumeUsd,
+  ]);
 
   const { totalPooledRune } = useMimir();
 
@@ -50,7 +69,7 @@ export const useGlobalStatsData = () => {
         iconName: 'history',
         color: 'yellow',
         label: t('views.stats.24Volume'),
-        value: volume24h ? Amount.fromMidgard(volume24h || 0).toAbbreviate(2) : '-',
+        value: volume24h,
         tooltip: t('views.stats.24VolumeTooltip'),
       },
       {

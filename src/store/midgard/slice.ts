@@ -36,7 +36,6 @@ const initialState: State = {
   mimirLoading: false,
   mimirLoaded: false,
   mimir: {} as MimirData,
-  volume24h: null,
   lastBlock: [],
   nodes: [],
   nodeLoading: false,
@@ -267,24 +266,20 @@ const midgardSlice = createSlice({
             ...state.pendingLP,
           };
 
-          // merge pending LP to liquidity data
           const chainMemberDetails = mergePendingLP({
             pendingLP: payload,
             chainMemberDetails: state.chainMemberDetails,
           });
 
-          // update with merged member details
           state.chainMemberDetails = chainMemberDetails;
         } else {
           delete state.pendingLP?.[asset];
 
-          // merge pending LP to liquidity data
           const chainMemberDetails = removePendingLP({
             asset,
             chainMemberDetails: state.chainMemberDetails,
           });
 
-          // update with merged member details
           state.chainMemberDetails = chainMemberDetails;
         }
         state.pendingLPLoading = false;
@@ -301,7 +296,6 @@ const midgardSlice = createSlice({
       .addCase(midgardActions.getQueue.fulfilled, (state, { payload }) => {
         state.queue = payload;
       })
-      // get earnings history
       .addCase(midgardActions.getEarningsHistory.pending, (state) => {
         state.earningsHistoryLoading = true;
       })
@@ -312,7 +306,6 @@ const midgardSlice = createSlice({
       .addCase(midgardActions.getEarningsHistory.rejected, (state) => {
         state.earningsHistoryLoading = true;
       })
-      // get tvl history
       .addCase(midgardActions.getTVLHistory.pending, (state) => {
         state.tvlHistoryLoading = true;
       })
@@ -339,7 +332,6 @@ const midgardSlice = createSlice({
       .addCase(midgardActions.getSwapHistory.rejected, (state) => {
         state.swapHistoryLoading = true;
       })
-      // get liquidity history
       .addCase(midgardActions.getLiquidityHistory.pending, (state) => {
         state.liquidityHistoryLoading = true;
       })
@@ -355,11 +347,6 @@ const midgardSlice = createSlice({
       .addCase(midgardActions.getLiquidityHistory.rejected, (state) => {
         state.liquidityHistoryLoading = true;
       })
-      // get tx
-      .addCase(midgardActions.getVolume24h.fulfilled, (state, { payload }) => {
-        state.volume24h = payload;
-      })
-      // get thorchain mimir
       .addCase(midgardActions.getMimir.pending, (state) => {
         state.mimirLoading = true;
       })

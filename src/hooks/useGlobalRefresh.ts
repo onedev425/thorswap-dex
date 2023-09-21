@@ -12,7 +12,6 @@ import {
   getQueue,
   getSwapHistory,
   getTVLHistory,
-  getVolume24h,
 } from 'store/midgard/actions';
 import { useAppDispatch } from 'store/store';
 
@@ -35,7 +34,6 @@ export const useGlobalRefresh = () => {
     if (isLoading.current) return;
     isLoading.current = true;
     batch(() => {
-      appDispatch(getVolume24h());
       appDispatch(getNetworkData());
       appDispatch(getLastblock());
       appDispatch(getMimir());

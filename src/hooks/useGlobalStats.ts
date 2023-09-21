@@ -30,7 +30,7 @@ const getTotalActiveBond = (networkData: MidgardNetwork | null) =>
 
 export const useGlobalStats = () => {
   const { data: stats } = useGetStatsQuery();
-  const { networkData, volume24h } = useMidgard();
+  const { networkData } = useMidgard();
 
   const totalBond = getTotalBond(networkData);
   const tvlInRune = getTVL(networkData);
@@ -61,7 +61,6 @@ export const useGlobalStats = () => {
     addLiquidityVolume,
     withdrawVolume,
     totalVolume,
-    volume24h,
     networkData,
     bondingAPYLabel,
     totalTx,

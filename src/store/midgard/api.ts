@@ -10,6 +10,8 @@ import type { MidgardTradeHistory } from 'store/midgard/types';
 
 const microgardUrl = 'https://mu.thorswap.net';
 
+type HistoryParams = void | { interval?: 'day' | 'hour'; count?: number };
+
 export const midgardApi = createApi({
   reducerPath: 'midgardApi',
   baseQuery: fetchBaseQuery({
@@ -27,13 +29,15 @@ export const midgardApi = createApi({
       query: () => '/history/tvl?interval=day&count=100',
       keepUnusedDataFor: 3600,
     }),
-    getHistorySwaps: build.query<any, void>({
-      query: () => '/history/swaps?interval=day&count=100',
+    getHistorySwaps: build.query<any, HistoryParams>({
       keepUnusedDataFor: 3600,
+      query: ({ interval = 'day', count = 100 } = {}) =>
+        `${microgardUrl}/swaps?interval=${interval}&count=${count}`,
     }),
-    getHistoryLiquidityChanges: build.query<any, void>({
-      query: () => '/history/liquidity_changes?interval=day&count=100',
+    getHistoryLiquidityChanges: build.query<any, HistoryParams>({
       keepUnusedDataFor: 3600,
+      query: ({ interval = 'day', count = 100 } = {}) =>
+        `${microgardUrl}/history/liquidity_changes?interval=${interval}&count=${count}`,
     }),
     getFullMember: build.query<FullMemberPool[], string[]>({
       query: (addresses) => `/full_member?address=${addresses.join(',')}`,
@@ -59,10 +63,12 @@ export const midgardApi = createApi({
 
 export const {
   useGetFullMemberQuery,
+  useGetHistoryLiquidityChangesQuery,
+  useGetHistorySwapsQuery,
   useGetMonthlyTradeVolumeQuery,
   useGetPoolsQuery,
+  useGetStatsQuery,
   useGetTNSByOwnerAddressQuery,
   useGetTNSDetailQuery,
-  useGetStatsQuery,
   useLazyGetTNSDetailQuery,
 } = midgardApi;
