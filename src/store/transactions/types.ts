@@ -1,6 +1,6 @@
 import type { QuoteRoute, TxStatus, TxTrackerDetails } from '@thorswap-lib/swapkit-api';
 import type { Chain } from '@thorswap-lib/types';
-import type { BorrowQuoteResponse, TxnResult } from 'store/thorswap/types';
+import type { BorrowQuoteResponse, RepayQuoteResponse, TxnResult } from 'store/thorswap/types';
 
 export type TransactionStatus = 'error' | 'mined' | 'refund' | 'pending' | 'unknown' | 'notStarted';
 
@@ -138,7 +138,7 @@ export type TxTrackerLeg = {
 export type TrackerLendingPayload = {
   isLending: true;
   fromAddress: string;
-} & BorrowQuoteResponse;
+} & (BorrowQuoteResponse | RepayQuoteResponse);
 
 // Initial tracker payload for txns other than swaps
 export type InitialTrackerPayload = TrackerLendingPayload;

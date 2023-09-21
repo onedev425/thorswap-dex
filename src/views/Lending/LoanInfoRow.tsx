@@ -55,7 +55,7 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
     amount: collateralCurrent,
   }).toCurrencyFormat(2);
 
-  const { repayAssetAmount, isLoading } = usePercentageDebtValue({
+  const { repayAssetAmount, isLoading, repayQuote } = usePercentageDebtValue({
     asset: repayAsset,
     collateralAsset: asset,
     percentage: debouncedPercentage,
@@ -99,8 +99,10 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
 
   const { openRepayConfirm, handleRepay, isConfirmOpen, closeRepayConfirm } = useLoanRepay({
     repayAsset,
+    collateralAsset: asset,
     amount: repayAssetAmount,
     onSuccess,
+    repayQuote,
   });
 
   useEffect(() => {

@@ -1,6 +1,7 @@
 import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Amount } from '@thorswap-lib/swapkit-core';
-import { useMemo } from 'react';
+import { getEVMDecimal } from 'helpers/getEVMDecimal';
+import { useEffect, useMemo, useState } from 'react';
 import { useGetRepayValueQuery } from 'store/thorswap/api';
 import { useWallet } from 'store/wallet/hooks';
 
@@ -8,7 +9,6 @@ export const usePercentageDebtValue = ({
   asset,
   collateralAsset,
   percentage,
-  hasLoanMatured,
 }: {
   asset: Asset;
   collateralAsset: Asset;
@@ -17,6 +17,7 @@ export const usePercentageDebtValue = ({
   hasLoanMatured: boolean;
 }) => {
   const { wallet } = useWallet();
+  const [repayAssetAmount, setRepayAssetAmount] = useState(Amount.fromAssetAmount(0, 8));
 
   const collateralAddress = useMemo(
     () => wallet?.[collateralAsset.L1Chain]?.address || '',
@@ -34,14 +35,28 @@ export const usePercentageDebtValue = ({
       collateralAddress,
       amountPercentage: percentage.toFixed(),
       collateralAsset: `${collateralAsset.chain}.${collateralAsset.chain}`,
-      assetIn: `${asset.chain}.${asset.chain}`,
+      repayAsset: `${asset.chain}.${asset.chain}`,
     },
-    { skip: !percentage.toFixed() || !hasLoanMatured },
+    { skip: !percentage.toFixed() },
   );
 
-  const repayAssetAmount = data
-    ? Amount.fromAssetAmount(data.repayAssetAmount, 8)
-    : Amount.fromAssetAmount(0, 8);
+  useEffect(() => {
+    const getRepatAssetAmount = async () => {
+      if (!data) {
+        return Amount.fromAssetAmount(0, 8);
+      }
 
-  return { isLoading, repayAssetAmount };
+      const assetDecimals = await getEVMDecimal(asset);
+      const repayAssetAmount = Amount.fromAssetAmount(
+        data.repayAssetAmount,
+        assetDecimals || asset.decimal,
+      );
+
+      setRepayAssetAmount(repayAssetAmount);
+    };
+
+    getRepatAssetAmount();
+  }, [asset, data]);
+
+  return { isLoading, repayAssetAmount, repayQuote: data };
 };

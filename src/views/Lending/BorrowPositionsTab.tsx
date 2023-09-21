@@ -95,7 +95,7 @@ export const BorrowPositionsTab = ({
             ))}
           </Flex>
           <Flex direction="column" gap={2} justify="center" mt={6}>
-            {loans.length && (
+            {!!loans.length && (
               <Flex direction="row" px="12px">
                 <Flex direction="row" flex={1} gap={2}>
                   <Flex flex={5}>

@@ -314,6 +314,14 @@ export type BorrowQuoteParams = {
   recipientAddress: string;
 };
 
+export type RepayQuoteParams = {
+  senderAddress: string;
+  collateralAddress: string;
+  amountPercentage: string;
+  collateralAsset: string;
+  repayAsset: string;
+};
+
 export type BorrowQuoteResponse = {
   fromAsset: string;
   toAsset: string;
@@ -343,6 +351,29 @@ export type BorrowQuoteResponse = {
   expectedDebtIssued: string;
   expectedOutputMaxSlippageUSD: string;
   expectedOutputUSD: string;
+};
+
+export type RepayQuoteResponse = {
+  inboundAddress: string;
+  inboundConfirmationBlocks: number;
+  inboundConfirmationSeconds: number;
+  outboundDelayBlocks: number;
+  outboundDelaySeconds: number;
+  fees: {
+    asset: string;
+    liquidity: string;
+    totalBps: number;
+  };
+  expiry: number;
+  warning?: string;
+  notes?: string;
+  dustThreshold: string;
+  memo: string;
+  expectedAmountOut: string;
+  expectedCollateralWithdrawn: string;
+  expectedDebtRepaid: string;
+  collateralCurrent: string;
+  repayAssetAmount: string;
 };
 
 export type LendingAssetResponse = {

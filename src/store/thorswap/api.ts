@@ -23,6 +23,8 @@ import type {
   LendingAssetResponse,
   LendingStatusResponse,
   LoansResponse,
+  RepayQuoteParams,
+  RepayQuoteResponse,
 } from './types';
 
 const baseUrl = getBaseUrl();
@@ -100,10 +102,16 @@ export const thorswapApi = createApi({
       keepUnusedDataFor: 0,
     }),
 
-    getRepayValue: build.query<{ repayAssetAmount: string }, any>({
-      query: ({ assetIn, collateralAsset, amountPercentage, senderAddress, collateralAddress }) => {
+    getRepayValue: build.query<RepayQuoteResponse, RepayQuoteParams>({
+      query: ({
+        repayAsset,
+        collateralAsset,
+        amountPercentage,
+        senderAddress,
+        collateralAddress,
+      }) => {
         const queryParams = new URLSearchParams({
-          assetIn,
+          repayAsset,
           collateralAsset,
           amountPercentage,
           senderAddress,
