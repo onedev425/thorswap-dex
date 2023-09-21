@@ -2911,10 +2911,10 @@
     "@thorswap-lib/types" "1.0.0-development.106"
     "@walletconnect/modal-sign-html" "^2.6.1"
 
-"@thorswap-lib/xdefi@1.0.0-development.71":
-  version "1.0.0-development.71"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/xdefi/-/xdefi-1.0.0-development.71.tgz#0dee11cf69957131f209ccaaff6e9b442ac061ac"
-  integrity sha512-1mSMiq57P3/F8OuGfl9TpK+EB9fXQHxzFa6RZc34CoDGUElh8kHDapR2AF9wXw615S/13yafnH4kuCTxRcCVeA==
+"@thorswap-lib/xdefi@1.0.0-development.72":
+  version "1.0.0-development.72"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/xdefi/-/xdefi-1.0.0-development.72.tgz#ba6bf8d33efe88f90504f711ca1cb17dd3c26627"
+  integrity sha512-jcnBeBvgJdd8aA2UohYBLClfdLGr4PK0+Zjhx7SRcAi49e7UbpP2U8fUjYelDPEqo518w0Wi6iLEvc7bFeEehA==
   dependencies:
     "@thorswap-lib/types" "1.0.0-development.106"
 
