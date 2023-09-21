@@ -17,19 +17,19 @@ export const SORTED_CHAINS = [
   Chain.THORChain,
   Chain.Bitcoin,
   Chain.Ethereum,
+  Chain.BinanceSmartChain,
   Chain.Avalanche,
-  Chain.Binance,
   Chain.Litecoin,
   Chain.Cosmos,
   Chain.BitcoinCash,
   Chain.Dogecoin,
-  Chain.BinanceSmartChain,
+  Chain.Binance,
 ] as const;
 
 export const SORTED_LENDING_COLLATERAL_ASSETS = [
   getSignatureAssetFor(Chain.Bitcoin),
   getSignatureAssetFor(Chain.Ethereum),
-  // getSignatureAssetFor(Chain.BinanceSmartChain),
+  getSignatureAssetFor(Chain.BinanceSmartChain),
   getSignatureAssetFor(Chain.Binance),
   getSignatureAssetFor(Chain.Avalanche),
   getSignatureAssetFor(Chain.Cosmos),
