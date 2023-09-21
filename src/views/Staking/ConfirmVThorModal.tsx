@@ -9,6 +9,7 @@ import { useCallback } from 'react';
 
 type Props = {
   stakingAsset: AssetEntity;
+  outputAsset: AssetEntity;
   isOpened: boolean;
   closeModal: () => void;
   handleAction: () => void;
@@ -23,6 +24,7 @@ export const ConfirmVThorModal = ({
   handleAction,
   closeModal,
   isOpened,
+  outputAsset,
 }: Props) => {
   const handleConfirm = useCallback(() => {
     closeModal();
@@ -51,13 +53,13 @@ export const ConfirmVThorModal = ({
           </Box>
           <Icon className="mx-2 -rotate-90" name="arrowDown" />
           <Box center col className="flex-1 p-4 rounded-2xl">
-            <AssetIcon asset={stakingAsset} />
+            <AssetIcon asset={outputAsset} />
             <Box center className="pt-2">
-              <ChainBadge asset={stakingAsset} />
+              <ChainBadge asset={outputAsset} />
             </Box>
             <Box center className="w-full">
               <Text fontWeight="medium" textStyle="caption">
-                {toOptionalFixed(outputAmount)} {stakingAsset.ticker}
+                {toOptionalFixed(outputAmount)} {outputAsset.ticker}
               </Text>
             </Box>
           </Box>

@@ -1,7 +1,7 @@
 import { Text } from '@chakra-ui/react';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Amount, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { WalletOption } from '@thorswap-lib/types';
+import { BaseDecimal, WalletOption } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Card, Icon, Tooltip } from 'components/Atomic';
@@ -84,20 +84,10 @@ const Staking = () => {
   }, [ethAddress, getTokenInfo]);
 
   const handleMaxClick = useCallback(() => {
-    const maxAmount = Amount.fromBaseAmount(
-      isDeposit ? thorBalBn.toString() : vthorBalBn.toString(),
-      18,
-    );
+    const maxAmount = isDeposit ? thorBalBn : vthorBalBn;
 
-    setInputAmount(maxAmount);
-
-    if (isDeposit) {
-      const expectedOutput = previewDeposit(BigNumber.from(maxAmount.baseAmount.toString()));
-      setOutputAmount(expectedOutput);
-    } else {
-      const expectedOutput = previewRedeem(BigNumber.from(maxAmount.baseAmount.toString()));
-      setOutputAmount(expectedOutput);
-    }
+    setInputAmount(Amount.fromBaseAmount(maxAmount.toString(), BaseDecimal.ETH));
+    setOutputAmount(isDeposit ? previewDeposit(maxAmount) : previewRedeem(maxAmount));
   }, [isDeposit, thorBalBn, vthorBalBn, previewDeposit, previewRedeem]);
 
   const onAmountChange = useCallback(
@@ -319,6 +309,7 @@ const Staking = () => {
         inputAmount={inputAmount}
         isOpened={isModalOpened}
         outputAmount={outputAmount}
+        outputAsset={outputAsset}
         stakingAsset={stakingAsset}
       />
     </Box>
