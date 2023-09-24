@@ -1,7 +1,7 @@
 import type { QuoteRoute } from '@thorswap-lib/swapkit-api';
 import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
-import { QuoteMode } from '@thorswap-lib/swapkit-core';
 import type { Chain } from '@thorswap-lib/types';
+import { QuoteMode } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { translateErrorMsg } from 'helpers/error';
 import { useCallback } from 'react';
@@ -30,12 +30,19 @@ type SwapParams = {
 
 const quoteModeToTransactionType = {
   [QuoteMode.AVAX_TO_AVAX]: TransactionType.SWAP_AVAX_TO_AVAX,
+  [QuoteMode.AVAX_TO_BSC]: TransactionType.SWAP_AVAX_TO_TC,
   [QuoteMode.AVAX_TO_ETH]: TransactionType.SWAP_AVAX_TO_TC,
   [QuoteMode.AVAX_TO_TC_SUPPORTED]: TransactionType.SWAP_AVAX_TO_TC,
+  [QuoteMode.BSC_TO_AVAX]: TransactionType.BSC_TRANSFER_TO_TC,
+  [QuoteMode.BSC_TO_BSC]: TransactionType.SWAP_BSC_TO_BSC,
+  [QuoteMode.BSC_TO_ETH]: TransactionType.SWAP_BSC_TO_ETH,
+  [QuoteMode.BSC_TO_TC_SUPPORTED]: TransactionType.SWAP_BSC_TO_TC,
   [QuoteMode.ETH_TO_AVAX]: TransactionType.SWAP_ETH_TO_AVAX,
+  [QuoteMode.ETH_TO_BSC]: TransactionType.SWAP_ETH_TO_TC,
   [QuoteMode.ETH_TO_ETH]: TransactionType.SWAP_ETH_TO_ETH,
   [QuoteMode.ETH_TO_TC_SUPPORTED]: TransactionType.SWAP_ETH_TO_TC,
   [QuoteMode.TC_SUPPORTED_TO_AVAX]: TransactionType.SWAP_TC_TO_AVAX,
+  [QuoteMode.TC_SUPPORTED_TO_BSC]: TransactionType.SWAP_TC_TO_BSC,
   [QuoteMode.TC_SUPPORTED_TO_ETH]: TransactionType.SWAP_TC_TO_ETH,
   [QuoteMode.TC_SUPPORTED_TO_TC_SUPPORTED]: TransactionType.SWAP_TC_TO_TC,
 } as const;

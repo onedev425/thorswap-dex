@@ -73,11 +73,13 @@ export const transactionTitle = (type: TransactionType): string => {
 
     case TransactionType.AVAX_APPROVAL:
     case TransactionType.ETH_APPROVAL:
+    case TransactionType.BSC_APPROVAL:
       return t('txManager.approve');
 
     case TransactionType.TC_STATUS:
     case TransactionType.AVAX_STATUS:
     case TransactionType.ETH_STATUS:
+    case TransactionType.BSC_STATUS:
     case TransactionType.UNSUPPORTED:
       return t('appMenu.transaction');
 
