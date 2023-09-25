@@ -29,24 +29,30 @@ export const usePercentageDebtValue = ({
     [wallet, asset.L1Chain],
   );
 
-  const { data, isFetching: isLoading } = useGetRepayValueQuery(
+  const {
+    data,
+    isFetching: isLoading,
+    error,
+  } = useGetRepayValueQuery(
     {
       senderAddress,
       collateralAddress,
       amountPercentage: percentage.toFixed(),
-      collateralAsset: `${collateralAsset.chain}.${collateralAsset.chain}`,
-      repayAsset: `${asset.chain}.${asset.chain}`,
+      collateralAsset: collateralAsset.toString(),
+      repayAsset: asset.toString(),
     },
     { skip: !percentage.toFixed() },
   );
 
   useEffect(() => {
-    const getRepatAssetAmount = async () => {
-      if (!data) {
-        return Amount.fromAssetAmount(0, 8);
+    const getRepayAssetAmount = async () => {
+      if (!data || error) {
+        return setRepayAssetAmount(Amount.fromAssetAmount(0, 8));
       }
 
       const assetDecimals = await getEVMDecimal(asset);
+      asset.setDecimal(assetDecimals);
+
       const repayAssetAmount = Amount.fromAssetAmount(
         data.repayAssetAmount,
         assetDecimals || asset.decimal,
@@ -55,8 +61,8 @@ export const usePercentageDebtValue = ({
       setRepayAssetAmount(repayAssetAmount);
     };
 
-    getRepatAssetAmount();
-  }, [asset, data]);
+    getRepayAssetAmount();
+  }, [asset, data, error]);
 
   return { isLoading, repayAssetAmount, repayQuote: data };
 };

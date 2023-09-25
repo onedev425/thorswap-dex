@@ -1,6 +1,5 @@
 import { Card, Collapse, Flex, Text } from '@chakra-ui/react';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Amount, AmountType, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
+import { Amount, AmountType, AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import type { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
@@ -11,7 +10,7 @@ import { InputAmount } from 'components/InputAmount';
 import { PercentageSlider } from 'components/PercentageSlider';
 import { showErrorToast } from 'components/Toast';
 import { formatDuration } from 'components/TransactionTracker/helpers';
-import { BTCAsset } from 'helpers/assets';
+import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
@@ -19,11 +18,10 @@ import { useTCBlockTimer } from 'hooks/useTCBlockTimer';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
-import { MATURITY_BLOCKS } from 'views/Lending/Borrow';
+import { ETH_USDC_IDENTIFIER, MATURITY_BLOCKS } from 'views/Lending/Borrow';
 import { LendingConfirmModal } from 'views/Lending/LendingConfirmModal';
 import { LoanInfoRowCell } from 'views/Lending/LoanInfoRowCell';
 import type { LoanPosition } from 'views/Lending/types';
-import { useLendingAssets } from 'views/Lending/useLendingAssets';
 import { useLoanRepay } from 'views/Lending/useLoanRepay';
 import { usePercentageDebtValue } from 'views/Lending/usePercentageDebtValue';
 
@@ -36,16 +34,18 @@ type Props = {
 export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) => {
   const [show, setShow] = useState(false);
   const [sliderValue, setSliderValue] = useState(new Amount(0, AmountType.ASSET_AMOUNT, 2));
-  const [repayAsset, setRepayAsset] = useState(BTCAsset);
+  const [repayAsset, setRepayAsset] = useState(
+    AssetEntity.fromAssetString(ETH_USDC_IDENTIFIER) as AssetEntity,
+  );
   const [repayBalance, setRepayBalance] = useState<Amount | undefined>();
   const { getMaxBalance } = useBalance();
-  const { wallet } = useWallet();
+  const { wallet, setIsConnectModalOpen } = useWallet();
   const debouncedPercentage = useDebouncedValue(sliderValue, 500);
 
   const { getBlockTimeDifference } = useTCBlockTimer();
   const missingTimeToRepayInMS = getBlockTimeDifference(loan.lastOpenHeight + MATURITY_BLOCKS);
   const hasLoanMatured = missingTimeToRepayInMS <= 0;
-  const lendingAssets = useLendingAssets();
+  const repayAssets = useAssetsWithBalance();
   const { collateralCurrent, debtCurrent, asset } = loan;
 
   const handleToggle = () => setShow(!show);
@@ -222,7 +222,7 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
                       <Text textStyle="caption">{t('views.lending.repayAsset')}:</Text>
                       <AssetSelect
                         showAssetType
-                        assets={lendingAssets}
+                        assets={repayAssets}
                         onSelect={setRepayAsset as (asset: AssetEntity) => void}
                         selected={selectedRepayAsset.asset}
                       />
@@ -293,12 +293,17 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
                   mt={6}
                   onClick={(e) => {
                     e.stopPropagation();
+                    if (!repayAddress) {
+                      setIsConnectModalOpen(true);
+                      return;
+                    }
+
                     openRepayConfirm();
                   }}
                   size="md"
                   variant="fancy"
                 >
-                  {t('views.lending.repay')}
+                  {repayAddress ? t('views.lending.repay') : t('common.connectWallet')}
                 </Button>
               </Flex>
             </Card>
