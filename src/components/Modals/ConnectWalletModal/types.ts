@@ -1,5 +1,4 @@
 import { Chain, WalletOption } from '@thorswap-lib/types';
-import { IS_PROTECTED, IS_STAGENET } from 'settings/config';
 
 export enum WalletType {
   Brave = 'Brave',
@@ -69,11 +68,10 @@ export const WalletNameByWalletOption: Record<WalletOption, string> = {
   [WalletOption.OKX]: WalletType.Okx,
 };
 
-const BETA_CHAINS = IS_PROTECTED || IS_STAGENET ? [Chain.BinanceSmartChain] : [];
-
 const AllChainsSupported = [
   Chain.Avalanche,
   Chain.Binance,
+  Chain.BinanceSmartChain,
   Chain.Bitcoin,
   Chain.BitcoinCash,
   Chain.Cosmos,
@@ -81,10 +79,9 @@ const AllChainsSupported = [
   Chain.Ethereum,
   Chain.Litecoin,
   Chain.THORChain,
-].concat(BETA_CHAINS) as Chain[];
+] as Chain[];
 
-const EVMChainsSupported = [Chain.Ethereum, Chain.Avalanche].concat(BETA_CHAINS) as Chain[];
-
+const EVMChainsSupported = [Chain.Ethereum, Chain.BinanceSmartChain, Chain.Avalanche];
 export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.Brave]: EVMChainsSupported,
   [WalletType.CoinbaseExtension]: EVMChainsSupported,
@@ -102,11 +99,20 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
     Chain.Litecoin,
     Chain.BitcoinCash,
   ],
-  [WalletType.TrustWallet]: [Chain.Avalanche, Chain.Ethereum, Chain.THORChain, ...BETA_CHAINS],
+  [WalletType.TrustWallet]: [
+    Chain.Avalanche,
+    Chain.Ethereum,
+    Chain.THORChain,
+    Chain.BinanceSmartChain,
+  ],
   [WalletType.TrustWalletExtension]: EVMChainsSupported,
   [WalletType.Xdefi]: AllChainsSupported,
-  [WalletType.Walletconnect]: [Chain.Ethereum, Chain.Avalanche, ...BETA_CHAINS],
-  [WalletType.Okx]: [Chain.Avalanche, Chain.Bitcoin, Chain.Ethereum, Chain.Cosmos].concat(
-    BETA_CHAINS,
-  ),
+  [WalletType.Walletconnect]: [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain],
+  [WalletType.Okx]: [
+    Chain.Avalanche,
+    Chain.Bitcoin,
+    Chain.Ethereum,
+    Chain.Cosmos,
+    Chain.BinanceSmartChain,
+  ],
 };
