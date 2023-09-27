@@ -79,14 +79,6 @@ export const SwapInfo = ({
 
   const ratePrice = `($${formatPrice(first.unitPrice.toFixed(2))})`;
 
-  const feeOptionLabels = useMemo(
-    () => feeOptions.map((feeOption) => t(`common.fee${capitalize(feeOption)}`)),
-    [],
-  );
-
-  const activeFeeIndex =
-    feeOptionLabels.findIndex((o) => o.includes(t(`common.fee${capitalize(feeOptionType)}`))) || 0;
-
   const discountLabel = useMemo(() => {
     if (whaleDiscount && vTHORDiscount) return 'vTHOR + 🐳 Whale 50% Off';
     if (whaleDiscount) return '🐳 Whale 50% Off';
@@ -125,10 +117,10 @@ export const SwapInfo = ({
               label: t('common.transactionFee'),
               value: (
                 <Select
-                  activeIndex={activeFeeIndex}
+                  activeIndex={feeOptions.indexOf(feeOptionType)}
                   dropdownPlacement="bottom-end"
                   onChange={(index) => setFeeOptionType(feeOptions[index])}
-                  options={feeOptionLabels}
+                  options={feeOptions.map(capitalize)}
                   size="sm"
                 />
               ),
@@ -206,12 +198,11 @@ export const SwapInfo = ({
         },
       ].filter(Boolean) as InfoRowConfig[],
     [
-      activeFeeIndex,
       affiliateBasisPoints,
       affiliateFee,
       discountLabel,
       expectedOutput,
-      feeOptionLabels,
+      feeOptionType,
       formatPrice,
       minReceive,
       minReceiveSlippage,
