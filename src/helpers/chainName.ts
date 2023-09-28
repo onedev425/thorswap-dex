@@ -9,7 +9,9 @@ export const chainName = (chain: string, full?: boolean) => {
     case Chain.Avalanche:
       return full ? 'Avalanche' : Chain.Avalanche;
     case Chain.Binance:
-      return full ? 'Binance' : Chain.Binance;
+      return full ? 'BNB Beacon Chain' : Chain.Binance;
+    case Chain.BinanceSmartChain:
+      return full ? 'BNB Smart Chain' : Chain.BinanceSmartChain;
     case Chain.BitcoinCash:
       return full ? 'Bitcoin Cash' : Chain.BitcoinCash;
     case Chain.Bitcoin:

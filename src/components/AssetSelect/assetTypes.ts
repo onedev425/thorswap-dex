@@ -43,7 +43,7 @@ export const assetFilterTypes: AssetFilterType[] = [
   {
     value: 'bep20',
     label: 'BEP20',
-    tooltip: 'Binance Smart Chain (BEP20)',
+    tooltip: 'BNB Smart Chain (BEP20)',
     chainAsset: getSignatureAssetFor(Chain.BinanceSmartChain),
   },
 ];

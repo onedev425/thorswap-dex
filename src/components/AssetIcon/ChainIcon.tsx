@@ -1,4 +1,4 @@
-import { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon/AssetIcon';
 import { Box } from 'components/Atomic';
@@ -13,7 +13,7 @@ type ChainIconProps = {
   style?: React.CSSProperties;
 };
 
-export const FORCE_ICON_CHAINS = [Chain.BinanceSmartChain, Chain.Binance];
+export const FORCE_ICON_CHAINS = [];
 
 const Icon = ({ withoutBackground = false, chain, style, size = 16 }: ChainIconProps) => {
   const logoURI = useMemo(() => tokenLogoURL({ identifier: getChainIdentifier(chain) }), [chain]);
