@@ -59,9 +59,8 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
 
   return (
     <Card className={classNames('overflow-hidden', borderHoverHighlightClass)}>
-      <Box col className="w-full min-w-fit">
+      <Box col className="w-full">
         <Box
-          alignCenter
           row
           className="pb-4 border-0 border-b-2 border-solid border-light-gray-light dark:border-dark-border-primary"
           justify="between"

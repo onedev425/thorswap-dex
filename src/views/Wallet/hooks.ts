@@ -63,7 +63,8 @@ export const useAccountData = (chain: Chain) => {
     return chainInfo.reduce((acc, item) => {
       const itemPrice = priceData[item.asset.toString()]?.price_usd || 0;
       const itemValue = itemPrice * item.amount.assetAmount.toNumber();
-      return (acc += itemValue);
+      const addition = Number.isNaN(itemValue) ? 0 : itemValue;
+      return (acc += addition);
     }, 0);
   }, [chainInfo, priceData]);
 
