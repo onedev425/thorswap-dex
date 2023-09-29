@@ -16,7 +16,10 @@ type ChainIconProps = {
 export const FORCE_ICON_CHAINS = [];
 
 const Icon = ({ withoutBackground = false, chain, style, size = 16 }: ChainIconProps) => {
-  const logoURI = useMemo(() => tokenLogoURL({ identifier: getChainIdentifier(chain) }), [chain]);
+  const logoURI = useMemo(
+    () => tokenLogoURL({ identifier: getChainIdentifier(chain), isChainBadge: true }),
+    [chain],
+  );
 
   return (
     <Box

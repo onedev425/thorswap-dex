@@ -61,10 +61,16 @@ export const getTickerFromIdentifier = (identifier: string) => {
 export const tokenLogoURL = ({
   address,
   identifier,
+  isChainBadge,
 }: {
   address?: string;
   identifier: string;
+  isChainBadge?: boolean;
 }): string => {
+  if (isChainBadge && identifier === 'BNB.BNB') {
+    return `https://static.thorswap.net/token-list/images/bnb.png`;
+  }
+
   const [chain, ...possibleTicker] = identifier?.split('-')?.[0]?.split('.') || [];
   const ticker = possibleTicker.join('.');
 
