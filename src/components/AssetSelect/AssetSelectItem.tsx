@@ -18,7 +18,6 @@ import {
   navigateToSnowtraceAddress,
 } from 'settings/router';
 
-import { FeaturedAssetIcon } from './FeaturedAssetIcon';
 import type { AssetSelectType } from './types';
 
 type Props = AssetSelectType & {
@@ -27,7 +26,7 @@ type Props = AssetSelectType & {
 };
 
 export const AssetSelectItem = memo(
-  ({ asset, logoURI, style, provider, balance, select, value, cg, price, identifier }: Props) => {
+  ({ asset, logoURI, style, provider, balance, select, value, cg, price }: Props) => {
     const { isLight } = useTheme();
     const formatPrice = useFormatPrice();
     const address = asset.symbol.split('-')[1];
@@ -103,8 +102,7 @@ export const AssetSelectItem = memo(
         style={style}
       >
         <Box className="gap-x-3 pl-2" flex={1}>
-          <Box center className="gap-x-2">
-            <FeaturedAssetIcon assetString={`${asset?.symbol}-${identifier}`} />
+          <Box center className="pl-6">
             <AssetIcon asset={asset} logoURI={logoURI} size={30} />
           </Box>
 
