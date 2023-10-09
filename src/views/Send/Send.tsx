@@ -136,21 +136,25 @@ const Send = () => {
 
   const walletAssets = useMemo(() => getWalletAssets(wallet), [wallet]);
 
-  const [assetInputList, setAssetInputList] = useState<{
-    asset: AssetEntity;
-    balance: Amount;
-  }[]>([]);
+  const [assetInputList, setAssetInputList] = useState<
+    {
+      asset: AssetEntity;
+      balance: Amount;
+    }[]
+  >([]);
 
   useEffect(() => {
-    Promise.all(walletAssets.map(asset =>
-      getMaxBalance(asset, true).then(balance => ({
-        asset,
-        balance
-      }))
-    )).then(balances => {
+    Promise.all(
+      walletAssets.map((asset) =>
+        getMaxBalance(asset, true).then((balance) => ({
+          asset,
+          balance,
+        })),
+      ),
+    ).then((balances) => {
       setAssetInputList(balances);
     });
-  }, [walletAssets]);
+  }, [walletAssets, getMaxBalance]);
 
   const handleSelectAsset = useCallback(
     (selected: AssetEntity) => {

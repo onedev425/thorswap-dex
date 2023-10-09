@@ -7,6 +7,7 @@ import { getBaseUrl } from 'store/thorswap/getBaseUrl';
 import type {
   BorrowQuoteParams,
   BorrowQuoteResponse,
+  GetAddressVerifyQuoteParams,
   GetAdvancedTrackerStatusPayload,
   getGasHistoryResponse,
   GetGasPriceRatesResponse,
@@ -72,6 +73,13 @@ export const thorswapApi = createApi({
 
         return `/aggregator/airdrop/isWhitelisted?${queryParams.toString()}`;
       },
+    }),
+
+    getAddressVerify: build.query<boolean, GetAddressVerifyQuoteParams>({
+      query: ({ addresses = [], chains = [] }) =>
+        `/aggregator/utils/screening?addresses=${addresses
+          .filter((address) => address !== '')
+          .join(',')}&${chains.join(',')}`,
     }),
 
     getMerkleProof: build.query<any, any>({
@@ -226,6 +234,7 @@ export const {
   useLazyGetLoansQuery,
   useGetAirdropVerifyQuery,
   useGetIsWhitelistedQuery,
+  useGetAddressVerifyQuery,
   useGetMerkleProofQuery,
   useGetBorrowQuoteQuery,
   useGetRepayValueQuery,

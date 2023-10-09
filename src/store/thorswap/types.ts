@@ -138,6 +138,11 @@ export type GetTokensQuoteParams = {
   slippage: string;
 };
 
+export type GetAddressVerifyQuoteParams = {
+  addresses: string[];
+  chains: string[];
+};
+
 export type GetAirdropVerifyParams = {
   address: string;
 };

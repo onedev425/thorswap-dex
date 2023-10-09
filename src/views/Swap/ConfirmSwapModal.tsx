@@ -1,7 +1,10 @@
+import type { Chain } from '@thorswap-lib/types';
 import type { AssetInputType } from 'components/AssetInput/types';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { memo, useCallback, useMemo } from 'react';
+import { useGetAddressVerifyQuery } from 'store/thorswap/api';
+import { useWallet } from 'store/wallet/hooks';
 
 import { ConfirmContent } from './ConfirmContent';
 
@@ -41,11 +44,25 @@ export const ConfirmSwapModal = memo(
     inputUSDPrice,
     selectedRoute,
   }: Props) => {
+    const { wallet } = useWallet();
     const { asset: inputAsset } = inputAssetProps;
+    const { asset: outputAsset } = outputAssetProps;
+
+    const from = useMemo(
+      () => wallet?.[inputAsset.L1Chain as Chain]?.address || '',
+      [wallet, inputAsset.L1Chain],
+    );
 
     const showSmallSwapWarning = useMemo(
       () => inputUSDPrice <= 500 && !!selectedRoute?.providers.includes('THORCHAIN'),
       [inputUSDPrice, selectedRoute],
+    );
+
+    const addresses = useMemo(() => [from, recipient], [from, recipient]);
+
+    const { currentData: addressesVerified } = useGetAddressVerifyQuery(
+      { addresses, chains: [inputAsset.L1Chain, outputAsset.L1Chain] },
+      { refetchOnMountOrArgChange: true, skip: !addresses.length },
     );
 
     const memo = useMemo(() => {
@@ -71,6 +88,7 @@ export const ConfirmSwapModal = memo(
 
     return (
       <ConfirmModal
+        buttonDisabled={!addressesVerified}
         inputAssets={[inputAsset]}
         isOpened={visible}
         onClose={() => setVisible(false)}

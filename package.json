@@ -5,13 +5,11 @@
   "scripts": {
     "start": "vite",
     "start:ssl": "SSL=true vite --https",
-    "start:stagenet": "yarn start --mode=stagenet",
     "start:ledger": "yarn start --config ./vite.config.ledger.ts",
     "build": "NODE_OPTIONS=--max_old_space_size=32768 vite build",
     "build:ledger": "NODE_OPTIONS=--max_old_space_size=32768 vite build --config ./vite.config.ledger.ts",
     "preview": "vite preview",
     "lint": "eslint ./src ./ledgerLive --fix",
-    "lint:fix": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json,css}' && yarn lint --fix",
     "postinstall": "patch-package",
     "generate:pagePassword": "node ./scripts/generatePagePassword.js",
     "e2e": "yarn cypress run",
