@@ -1,9 +1,9 @@
-import { Text } from '@chakra-ui/react';
+import { Link, Text } from '@chakra-ui/react';
 import { derivationPathToString } from '@thorswap-lib/helpers';
 import type { DerivationPathArray, Keystore } from '@thorswap-lib/types';
 import { Chain, DerivationPath } from '@thorswap-lib/types';
 import classNames from 'classnames';
-import { Box, Button, Modal, Tooltip } from 'components/Atomic';
+import { Box, Button, Checkbox, Modal, Tooltip } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoTip } from 'components/InfoTip';
 import { Input } from 'components/Input';
@@ -37,6 +37,7 @@ const ConnectWalletModal = () => {
   const [ledgerIndex, setLedgerIndex] = useState(0);
   const [customDerivationPath, setCustomDerivationPath] = useState("m/0'/0'/0'/0/0");
   const [loading, setLoading] = useState(false);
+  const [tos, setTos] = useState(false);
   const [derivationPathType, setDerivationPathType] = useState<DerivationPathType>();
   const [customFlow, setCustomFlow] = useState(false);
   const [saveWallet, setSaveWallet] = useState(getFromStorage('restorePreviousWallet') as boolean);
@@ -481,11 +482,27 @@ const ConnectWalletModal = () => {
                   </Box>
                 )}
 
+              <Checkbox
+                className="py-1"
+                label={
+                  <Box alignCenter>
+                    <Text>
+                      {'I agree to the '}
+                      <Link isExternal href="/tos">
+                        Terms of Service
+                      </Link>
+                    </Text>
+                  </Box>
+                }
+                onValueChange={setTos}
+                value={tos}
+              />
+
               {!customFlow && (
                 <Box col className="pt-2 mb-8" flex={1} justify="end">
                   <Button
                     alignSelf="center"
-                    disabled={!selectedWalletType || !selectedChains.length}
+                    disabled={!tos || !selectedWalletType || !selectedChains.length}
                     loading={loading}
                     onClick={connectWallet}
                     size="md"

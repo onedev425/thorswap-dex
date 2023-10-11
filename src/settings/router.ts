@@ -29,6 +29,7 @@ export enum ROUTES {
   Multisig = '/thorsafe',
   MultisigConnect = '/thorsafe/connect',
   MultisigCreate = '/thorsafe/create',
+  ToS = '/tos',
   TxBuilder = '/txbuilder',
   TxCreate = '/txcreate',
   TxCreatePool = '/txcreate/:assetParam',

@@ -6,6 +6,7 @@ import { ToastPortal } from 'components/Toast';
 import { lazy, memo, Suspense } from 'react';
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import { ROUTES } from 'settings/router';
+import { ToSView } from 'views/ToS';
 
 const Swap = lazy(() => import('views/Swap'));
 const WalletBalance = lazy(() => import('views/WalletBalance'));
@@ -76,6 +77,7 @@ const routes: RouteType = [
   { path: ROUTES.TxImport, element: TxImport },
   { path: ROUTES.TxMultisig, element: TxMultisig },
   { path: ROUTES.Vesting, element: Vesting },
+  { path: ROUTES.ToS, element: ToSView },
   { path: ROUTES.Wallet, element: Wallet },
   { path: ROUTES.WithdrawLiquidity, element: WithdrawLiquidity },
   { path: ROUTES.WithdrawLiquidityPool, element: WithdrawLiquidity },
