@@ -101,6 +101,7 @@ import {
 } from 'react-icons/md';
 import {
   RiCheckboxMultipleLine,
+  RiFileList3Fill,
   RiSave2Fill,
   RiSave2Line,
   RiShareBoxLine,
@@ -212,6 +213,7 @@ const Icons = {
   refresh: FiRefreshCw,
   revert: BiUndo,
   rocket: IoRocketOutline,
+  rules: RiFileList3Fill,
   save: RiSave2Line,
   saveFill: RiSave2Fill,
   search: BsSearch,
