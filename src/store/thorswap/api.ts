@@ -77,7 +77,7 @@ export const thorswapApi = createApi({
 
     getAddressVerify: build.query<boolean, GetAddressVerifyQuoteParams>({
       query: ({ addresses = [], chains = [] }) =>
-        `/aggregator/utils/screening?addresses=${addresses
+        `/aggregator/utils/confirm?addresses=${addresses
           .filter((address) => address !== '')
           .join(',')}&${chains.join(',')}`,
     }),
