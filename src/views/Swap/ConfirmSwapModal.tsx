@@ -2,7 +2,7 @@ import type { Chain } from '@thorswap-lib/types';
 import type { AssetInputType } from 'components/AssetInput/types';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { useLazyGetAddressVerifyQuery } from 'store/thorswap/api';
 import { useWallet } from 'store/wallet/hooks';
 
@@ -44,11 +44,12 @@ export const ConfirmSwapModal = memo(
     inputUSDPrice,
     selectedRoute,
   }: Props) => {
+    const [addressesVerified, setAddressesVerified] = useState(true);
     const { wallet } = useWallet();
     const { asset: inputAsset } = inputAssetProps;
     const { asset: outputAsset } = outputAssetProps;
 
-    const [fetchAddressVerify, { data: addressesVerified }] = useLazyGetAddressVerifyQuery();
+    const [fetchAddressVerify] = useLazyGetAddressVerifyQuery();
 
     const from = useMemo(
       () => wallet?.[inputAsset.L1Chain as Chain]?.address || '',
@@ -81,6 +82,8 @@ export const ConfirmSwapModal = memo(
       if (data) {
         setVisible(false);
         handleSwap();
+      } else {
+        setAddressesVerified(false);
       }
     }, [
       setVisible,
