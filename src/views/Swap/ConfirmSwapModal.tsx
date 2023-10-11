@@ -3,7 +3,7 @@ import type { AssetInputType } from 'components/AssetInput/types';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { memo, useCallback, useMemo } from 'react';
-import { useGetAddressVerifyQuery } from 'store/thorswap/api';
+import { useLazyGetAddressVerifyQuery } from 'store/thorswap/api';
 import { useWallet } from 'store/wallet/hooks';
 
 import { ConfirmContent } from './ConfirmContent';
@@ -48,6 +48,8 @@ export const ConfirmSwapModal = memo(
     const { asset: inputAsset } = inputAssetProps;
     const { asset: outputAsset } = outputAssetProps;
 
+    const [fetchAddressVerify, { data: addressesVerified }] = useLazyGetAddressVerifyQuery();
+
     const from = useMemo(
       () => wallet?.[inputAsset.L1Chain as Chain]?.address || '',
       [wallet, inputAsset.L1Chain],
@@ -60,11 +62,6 @@ export const ConfirmSwapModal = memo(
 
     const addresses = useMemo(() => [from, recipient], [from, recipient]);
 
-    const { currentData: addressesVerified } = useGetAddressVerifyQuery(
-      { addresses, chains: [inputAsset.L1Chain, outputAsset.L1Chain] },
-      { refetchOnMountOrArgChange: true, skip: !addresses.length },
-    );
-
     const memo = useMemo(() => {
       if (!selectedRoute) return '';
       // @ts-expect-error wrong typing on calldata
@@ -76,9 +73,23 @@ export const ConfirmSwapModal = memo(
     }, [selectedRoute, streamSwap]);
 
     const handleConfirm = useCallback(async () => {
-      setVisible(false);
-      handleSwap();
-    }, [setVisible, handleSwap]);
+      const { data } = await fetchAddressVerify({
+        addresses,
+        chains: [inputAsset.L1Chain, outputAsset.L1Chain],
+      });
+
+      if (data) {
+        setVisible(false);
+        handleSwap();
+      }
+    }, [
+      setVisible,
+      handleSwap,
+      addresses,
+      fetchAddressVerify,
+      inputAsset.L1Chain,
+      outputAsset.L1Chain,
+    ]);
 
     const estimatedInfo = useMemo(() => {
       if (!estimatedTime) return '<5s';

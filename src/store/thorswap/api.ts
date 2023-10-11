@@ -234,7 +234,7 @@ export const {
   useLazyGetLoansQuery,
   useGetAirdropVerifyQuery,
   useGetIsWhitelistedQuery,
-  useGetAddressVerifyQuery,
+  useLazyGetAddressVerifyQuery,
   useGetMerkleProofQuery,
   useGetBorrowQuoteQuery,
   useGetRepayValueQuery,
