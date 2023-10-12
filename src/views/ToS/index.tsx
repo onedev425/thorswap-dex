@@ -36,7 +36,7 @@ THORSwap shall have the right at any time to change or discontinue any aspect or
 
 THORSwap may charge a fee with respect to certain transactions submitted using the Site or Services. The fee, if any, for a transaction is displayed on the Site prior to entering into the transaction. Any such fees are denominated in the destination token, and are automatically included in your transaction bundle when using the Services. To learn more about how to reduce your trading fees, see [[https://docs.thorswap.finance/thorswap/thor/about/vthor](https://docs.thorswap.finance/thorswap/thor/about/vthor) and [https://docs.thorswap.finance/thorswap/thor/about/thor-utility](https://docs.thorswap.finance/thorswap/thor/about/thor-utility)].
 
-THORSwap may change its fee structure at any time, for any reason. [An up-to-date list of our fee schedule can be found at [insert hyperlink].] Note that THORSwap is not responsible for any applicable gas or network transaction fees charged by the underlying network or blockchain.
+THORSwap may change its fee structure at any time, for any reason. [An up-to-date list of our fee schedule can be found at [https://docs.thorswap.finance/thorswap/thorswap/fees].] Note that THORSwap is not responsible for any applicable gas or network transaction fees charged by the underlying network or blockchain.
 
 # **THORSwap's Role**
 
