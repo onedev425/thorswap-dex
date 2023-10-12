@@ -68,6 +68,13 @@ export const SupportModal = ({ isOpen, onCancel = () => {} }: Props): JSX.Elemen
             <Icon className="fill-white" name="survey" />
           </Box>
         </Link>
+
+        <Link external to="/tos">
+          <Box alignCenter className={classNames(commonClasses, 'bg-chain-thor')} justify="between">
+            <Text className="!text-white">Terms Of Service</Text>
+            <Icon className="fill-white" name="rules" />
+          </Box>
+        </Link>
       </Box>
     </Modal>
   );

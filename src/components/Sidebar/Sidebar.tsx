@@ -82,7 +82,7 @@ export const Sidebar = ({ sx, collapsed = false, toggle, onNavItemClick }: Sideb
         <img alt="Logo" className="dark:hidden" src={collapsed ? Logo : LogoTsDark} />
         <img alt="Logo" className="hidden dark:block" src={collapsed ? Logo : LogoTsWhite} />{' '}
       </Box>
-      <Box h="calc(100vh - 200px)" w="full">
+      <Box h="calc(100vh - 182px)" w="full">
         <SidebarItems
           collapsed={collapsed}
           onItemClick={onNavItemClick}
@@ -108,19 +108,6 @@ export const Sidebar = ({ sx, collapsed = false, toggle, onNavItemClick }: Sideb
         p={0}
         w="full"
       >
-        <NavItem
-          collapsed={collapsed}
-          href="/tos"
-          iconName="rules"
-          label="Terms of Service"
-          onClick={(e) => {
-            e.preventDefault();
-            navigate('/tos');
-          }}
-          onItemClickCb={onNavItemClick}
-          sx={{ mx: 1, mb: 2 }}
-        />
-
         <NavItem
           collapsed={collapsed}
           href="/"
