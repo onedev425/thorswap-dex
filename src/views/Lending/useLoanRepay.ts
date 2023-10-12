@@ -52,10 +52,10 @@ export function useLoanRepay({
 
       try {
         const txid = await closeLoan({
+          memo: repayQuote ? repayQuote.memo : undefined,
           assetAmount: new AssetAmount(repayAsset, amount),
-          assetTicker: `${repayAsset.chain}.${repayAsset.ticker}`,
+          assetTicker: `${collateralAsset.chain}.${collateralAsset.ticker}`,
         });
-        // setAmount(Amount.fromAssetAmount(0, 8));
         onSuccess?.();
         if (txid)
           appDispatch(
@@ -75,7 +75,16 @@ export function useLoanRepay({
         appDispatch(completeTransaction({ id, status: 'error' }));
       }
     },
-    [appDispatch, repayAsset, amount, onSuccess, repayQuote, collateralAddress],
+    [
+      appDispatch,
+      repayAsset,
+      repayQuote,
+      amount,
+      collateralAsset.chain,
+      collateralAsset.ticker,
+      onSuccess,
+      collateralAddress,
+    ],
   );
 
   const openRepayConfirm = useCallback(() => {
