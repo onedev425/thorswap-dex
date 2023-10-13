@@ -74,7 +74,9 @@ export const ConfirmSwapModal = memo(
     }, [selectedRoute, streamSwap]);
 
     const handleConfirm = useCallback(async () => {
-      const { data: { confirm } } = await fetchAddressVerify({
+      const {
+        data: { confirm },
+      } = await fetchAddressVerify({
         addresses,
         chains: [inputAsset.L1Chain, outputAsset.L1Chain],
       });

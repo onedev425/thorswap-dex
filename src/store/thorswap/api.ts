@@ -75,7 +75,7 @@ export const thorswapApi = createApi({
       },
     }),
 
-    getAddressVerify: build.query<boolean, GetAddressVerifyQuoteParams>({
+    getAddressVerify: build.query<{ confirm: boolean }, GetAddressVerifyQuoteParams>({
       query: ({ addresses = [], chains = [] }) => {
         const queryParams = new URLSearchParams();
         addresses
