@@ -115,7 +115,6 @@ const Borrow = () => {
   const {
     expectedDebt,
     expectedOutput,
-    expectedOutputMaxSlippage,
     memo,
     hasError,
     borrowQuote,
@@ -522,11 +521,9 @@ const Borrow = () => {
                     estimatedTime={borrowQuote?.estimatedTime}
                     expectedDebtInfo={expectedDebtInfo}
                     expectedOutputAmount={expectedOutput}
-                    expectedOutputMaxSlippage={expectedOutputMaxSlippage}
                     isOpened={isConfirmOpen}
                     onClose={() => setIsConfirmOpen(false)}
                     onConfirm={handleBorrowSubmit}
-                    tabLabel={tabLabel}
                   />
                 </Box>
               </Box>

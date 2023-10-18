@@ -14,10 +14,8 @@ type Props = {
   onClose: () => void;
   isOpened: boolean;
   onConfirm: (expectedAmount: string) => void;
-  tabLabel: string;
   estimatedTime?: number;
   expectedOutputAmount?: Amount;
-  expectedOutputMaxSlippage?: Amount;
   expectedDebtInfo?: string;
   collateralAmount: Amount;
   collateralAsset: AssetEntity;
@@ -34,12 +32,10 @@ export const BorrowConfirmModal = ({
   amount,
   estimatedTime,
   expectedOutputAmount,
-  expectedOutputMaxSlippage,
   collateralAmount,
   collateralAsset,
   networkFee,
   expectedDebtInfo,
-  tabLabel,
 }: Props) => {
   const timeLabel = useMemo(() => {
     if (!estimatedTime) return undefined;
