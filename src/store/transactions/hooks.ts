@@ -1,11 +1,14 @@
-import { useMemo } from 'react';
-import { useAppSelector } from 'store/store';
+import { useEffect, useMemo } from 'react';
+import { useAppDispatch, useAppSelector } from 'store/store';
+import { updateTransaction } from 'store/transactions/slice';
 import type { CompletedTransactionType, PendingTransactionType } from 'store/transactions/types';
 import { TransactionType } from 'store/transactions/types';
 import { isTxCompleted, isTxPending } from 'store/transactions/utils';
 
 export const useTransactionsState = () => {
   const transactions = useAppSelector(({ transactions }) => transactions);
+  const appDispatch = useAppDispatch();
+
   const sortedTransactions = useMemo(
     () =>
       transactions
@@ -42,6 +45,15 @@ export const useTransactionsState = () => {
       ).length,
     [pending],
   );
+
+  useEffect(() => {
+    // timestamp older than 24h - complete and do not process anymore
+    pending.forEach((tx) => {
+      if (new Date(tx.timestamp).getTime() < new Date(Date.now() - 86400000).getTime()) {
+        appDispatch(updateTransaction({ id: tx.id, status: 'unknown', completed: true }));
+      }
+    });
+  }, [appDispatch, pending]);
 
   return {
     transactions: sortedTransactions,
