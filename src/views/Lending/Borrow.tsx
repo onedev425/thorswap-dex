@@ -26,6 +26,7 @@ import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 import { BorrowAssetSelectList } from 'views/Lending/BorrowAssetSelectList';
+import { BorrowConfirmModal } from 'views/Lending/BorrowConfirmModal';
 import { useLendingAssets } from 'views/Lending/useLendingAssets';
 import { useLoans } from 'views/Lending/useLoans';
 import { VirtualDepthSlippageInfo } from 'views/Lending/VirtualDepthSippageInfo';
@@ -37,7 +38,6 @@ import { isLedgerLiveSupportedInputAsset } from '../../../ledgerLive/wallet/Ledg
 
 import { ActionButton } from './ActionButton';
 import { BorrowPositionsTab } from './BorrowPositionsTab';
-import { LendingConfirmModal } from './LendingConfirmModal';
 import { LendingTab, LendingViewTab } from './types';
 import { useBorrow } from './useBorrow';
 
@@ -514,7 +514,7 @@ const Borrow = () => {
                     </Flex>
                   </Card>
 
-                  <LendingConfirmModal
+                  <BorrowConfirmModal
                     amount={amount}
                     asset={borrowAsset}
                     collateralAmount={collateralAmount}
