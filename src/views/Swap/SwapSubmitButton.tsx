@@ -1,16 +1,13 @@
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Amount } from '@thorswap-lib/swapkit-core';
+import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Box, Button } from 'components/Atomic';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { hasWalletConnected } from 'helpers/wallet';
 import { useCheckExchangeBNB } from 'hooks/useCheckExchangeBNB';
-import { useMimir } from 'hooks/useMimir';
 import { useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
 import { IS_LEDGER_LIVE } from 'settings/config';
 import { useExternalConfig } from 'store/externalConfig/hooks';
-import { useMidgard } from 'store/midgard/hooks';
 import { useTransactionsState } from 'store/transactions/hooks';
 import { useWallet } from 'store/wallet/hooks';
 
@@ -46,34 +43,15 @@ export const SwapSubmitButton = ({
   setVisibleConfirmModal,
 }: Props) => {
   const { wallet, setIsConnectModalOpen, connectLedgerLiveWallet } = useWallet();
-  const { getPoolsFromState } = useMidgard();
-  const pools = getPoolsFromState();
-  const { maxSynthPerAssetDepth } = useMimir();
   const { getChainTradingPaused } = useExternalConfig();
   const { numberOfPendingApprovals } = useTransactionsState();
 
-  const isSynthMintable = useMemo((): boolean => {
-    if (!outputAsset.isSynth || !pools?.length) return true;
-    const { assetDepth, synthSupply } =
-      pools?.find((p) => p.asset.symbol === outputAsset.symbol)?.detail || {};
-
-    const assetDepthAmount = Amount.fromMidgard(assetDepth);
-    const synthSupplyAmount = Amount.fromMidgard(synthSupply);
-
-    if (assetDepthAmount.eq(0) || maxSynthPerAssetDepth === 0) return true;
-
-    return synthSupplyAmount
-      .div(assetDepthAmount)
-      .assetAmount.isLessThan(maxSynthPerAssetDepth / 10000);
-  }, [maxSynthPerAssetDepth, outputAsset.isSynth, outputAsset.symbol, pools]);
-
-  const isTradingHalted: boolean = useMemo(() => {
-    return (
+  const isTradingHalted: boolean = useMemo(
+    () =>
       getChainTradingPaused(inputAsset.L1Chain as Chain) ||
-      getChainTradingPaused(outputAsset.L1Chain as Chain) ||
-      !isSynthMintable
-    );
-  }, [getChainTradingPaused, inputAsset.L1Chain, isSynthMintable, outputAsset.L1Chain]);
+      getChainTradingPaused(outputAsset.L1Chain as Chain),
+    [getChainTradingPaused, inputAsset.L1Chain, outputAsset.L1Chain],
+  );
 
   const walletConnected = useMemo(
     () => hasWalletConnected({ wallet, inputAssets: [inputAsset] }),
