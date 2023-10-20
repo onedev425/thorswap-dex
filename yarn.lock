@@ -2738,13 +2738,13 @@
     "@thorswap-lib/swapkit-entities" "1.0.0-development.123"
     "@thorswap-lib/types" "1.0.0-development.108"
 
-"@thorswap-lib/helpers@0.0.0-nightly-20231020175003":
-  version "0.0.0-nightly-20231020175003"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/helpers/-/helpers-0.0.0-nightly-20231020175003.tgz#767a6569826c396c1cd37f6ba5f51c36f617ce2d"
-  integrity sha512-9v142cXUHAYZhhj2vfBT1mktpmwt0XzpxsF/oHvZ/eOa3c9Avkq6UBONKBe+CMF8v0Uvo+FMxbe0oraQX3wx4g==
+"@thorswap-lib/helpers@0.0.0-nightly-20231020185439":
+  version "0.0.0-nightly-20231020185439"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/helpers/-/helpers-0.0.0-nightly-20231020185439.tgz#c159af7e5c4f0bfc06e39953cc7f63adf9da6311"
+  integrity sha512-u6PE0xlDakheiVlFvJbrSIlOjMZFCom/y92JyR1jbIhdLuD8kkoXqMzPWIMcitcNTkKRYtSv412wpyDc7ULD4w==
   dependencies:
-    "@thorswap-lib/swapkit-entities" "0.0.0-nightly-20231020175003"
-    "@thorswap-lib/types" "0.0.0-nightly-20231020175003"
+    "@thorswap-lib/swapkit-entities" "0.0.0-nightly-20231020185439"
+    "@thorswap-lib/types" "0.0.0-nightly-20231020185439"
 
 "@thorswap-lib/keplr@1.0.0-development.62":
   version "1.0.0-development.62"
@@ -2811,24 +2811,24 @@
   dependencies:
     "@thorswap-lib/types" "1.0.0-development.108"
 
-"@thorswap-lib/swapkit-core@0.0.0-nightly-20231020175003":
-  version "0.0.0-nightly-20231020175003"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-core/-/swapkit-core-0.0.0-nightly-20231020175003.tgz#dcabf41bf52fcb08f4fa006d414fbce2bd3b1217"
-  integrity sha512-5YK+2tN/lr45aBMk6tzsMl2sRgWOXGPN/hHk9PXv0ZfeZlhTcCdW8l2Ut6IUfIn4tTVOlDvkvAbu45fq4f0/jA==
+"@thorswap-lib/swapkit-core@0.0.0-nightly-20231020185439":
+  version "0.0.0-nightly-20231020185439"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-core/-/swapkit-core-0.0.0-nightly-20231020185439.tgz#835b13fef5d66399c3779a71de0757543f5adadf"
+  integrity sha512-SqoiUQB9zR+uF5aCQ1YxlnXNXU4wnf8PT45ktj0IDskhKnJr9QqoEo7ZxOWsFUDhU03AL//9ATGx9zWonEOLDA==
   dependencies:
     "@ethersproject/bytes" "5.7.0"
     "@ethersproject/units" "5.7.0"
-    "@thorswap-lib/helpers" "0.0.0-nightly-20231020175003"
-    "@thorswap-lib/swapkit-entities" "0.0.0-nightly-20231020175003"
-    "@thorswap-lib/types" "0.0.0-nightly-20231020175003"
+    "@thorswap-lib/helpers" "0.0.0-nightly-20231020185439"
+    "@thorswap-lib/swapkit-entities" "0.0.0-nightly-20231020185439"
+    "@thorswap-lib/types" "0.0.0-nightly-20231020185439"
     bignumber.js "9.1.2"
 
-"@thorswap-lib/swapkit-entities@0.0.0-nightly-20231020175003":
-  version "0.0.0-nightly-20231020175003"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-entities/-/swapkit-entities-0.0.0-nightly-20231020175003.tgz#2f042d9dc0a108afb426484ba2907f03059e6298"
-  integrity sha512-gdbNsuXAoiNuxL86nTPG24il9mhOxOlIKhXV0BRI3oaYXm+QMeoG7vu9EkM1OKboNXGleQa6T84y0L5gY48uNQ==
+"@thorswap-lib/swapkit-entities@0.0.0-nightly-20231020185439":
+  version "0.0.0-nightly-20231020185439"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-entities/-/swapkit-entities-0.0.0-nightly-20231020185439.tgz#93ee26faec330e160488fc83c8975adef72711ca"
+  integrity sha512-wlgDE7uOCNQnfjgrN1GUVvEkRm+RSdI81a65UDGryyqGfj3/AqDaa5YudATzDpoNGNM+BeNnUhwfadf/MCV+8A==
   dependencies:
-    "@thorswap-lib/types" "0.0.0-nightly-20231020175003"
+    "@thorswap-lib/types" "0.0.0-nightly-20231020185439"
     tiny-invariant "1.3.1"
 
 "@thorswap-lib/swapkit-entities@1.0.0-development.117":
@@ -2932,10 +2932,10 @@
     "@thorswap-lib/types" "1.0.0-development.108"
     "@trezor/connect-web" "9.1.1"
 
-"@thorswap-lib/types@0.0.0-nightly-20231020175003":
-  version "0.0.0-nightly-20231020175003"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/types/-/types-0.0.0-nightly-20231020175003.tgz#84642e9dd775b4d8a9fde0b69a7855fb67c3c7eb"
-  integrity sha512-NLgUKO1fqj6YSUjK1/DLxe0BT0gpIVlk+1c2heft3NA+fnIZzAnfNLQvW00niM2iSXD8o8v8qp/eNl2BIqblqw==
+"@thorswap-lib/types@0.0.0-nightly-20231020185439":
+  version "0.0.0-nightly-20231020185439"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/types/-/types-0.0.0-nightly-20231020185439.tgz#b7c7e0c40b5af9ab2a54f0bcb28e1cafdec702c8"
+  integrity sha512-qV3uXxYPfiYBTsG+r3ZpaKjUoBfk4/5xn6XdlYxYj3jskK38cwZDMdiSvYptgBfmR2RD+dR/aMrsP/R1RJh8LA==
 
 "@thorswap-lib/types@1.0.0-development.103":
   version "1.0.0-development.103"
