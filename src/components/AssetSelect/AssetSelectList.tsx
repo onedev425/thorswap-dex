@@ -8,7 +8,7 @@ import { genericBgClasses } from 'components/constants';
 import { Input } from 'components/Input';
 import { TabsSelect } from 'components/TabsSelect';
 import useWindowSize from 'hooks/useWindowSize';
-import { useCallback, useMemo, useRef } from 'react';
+import { Fragment, useCallback, useMemo, useRef } from 'react';
 import { FixedSizeList as List } from 'react-window';
 import { t } from 'services/i18n';
 import { IS_LEDGER_LIVE } from 'settings/config';
@@ -52,11 +52,11 @@ export const AssetSelectList = ({
     [select, setQuery],
   );
 
-  const Item = useCallback(
+  const renderItem = useCallback(
     ({ index, style }: { index: number; style: NotWorth }) => {
       const item = filteredAssets[index];
 
-      if (!item) return null;
+      if (!item) return <Fragment key={`empty-${index}`} />;
 
       return (
         <AssetSelectItem
@@ -136,7 +136,8 @@ export const AssetSelectList = ({
             ref={listRef}
             width="100%"
           >
-            {Item}
+            {/* @ts-expect-error */}
+            {renderItem}
           </List>
         ) : (
           <Box justifyCenter className="pt-4" flex={1}>

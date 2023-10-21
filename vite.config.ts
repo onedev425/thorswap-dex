@@ -15,7 +15,7 @@ const ssl = process.env.SSL === 'true';
 const sourcemap = withSourcemap || analyze;
 const sentryAuthToken = process.env.SENTRY_AUTH_TOKEN;
 
-const plugins = [react(), rewriteAll(), svgr({ svgrOptions: { icon: true } }), removeConsole()]
+const plugins: any[] = [react(), rewriteAll(), svgr({ svgrOptions: { icon: true } }), removeConsole()]
   .concat(
     analyze
       ? [
