@@ -9,6 +9,7 @@ import { easeInOutTransition } from 'components/constants';
 import { InfoTip } from 'components/InfoTip';
 import { PanelView } from 'components/PanelView';
 import { SwapRouter } from 'components/SwapRouter';
+import { TxOptimizeSection } from 'components/TxOptimize/TxOptimizeSection';
 import { isAVAXAsset, isETHAsset } from 'helpers/assets';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { hasWalletConnected } from 'helpers/wallet';
@@ -28,7 +29,6 @@ import { FeeModal } from 'views/Swap/FeeModal';
 import { useKyberSwap } from 'views/Swap/hooks/useKyberSwap';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';
 import RUNEInfoContent from 'views/Swap/RUNEInfoContent';
-import { SwapOptimizeSection } from 'views/Swap/SwapOptimizeSection';
 import THORInfoContent from 'views/Swap/THORInfoContent';
 
 import { ApproveModal } from './ApproveModal';
@@ -414,12 +414,12 @@ const SwapView = () => {
             />
           )}
 
-          <SwapOptimizeSection
-            canStreamSwap={canStreamSwap}
+          <TxOptimizeSection
+            canStream={canStreamSwap}
             outputAsset={outputAsset}
-            route={selectedRoute}
-            streamSwap={streamSwap}
-            toggleStreamSwap={toggleStreamSwap}
+            quote={selectedRoute}
+            stream={streamSwap}
+            toggleStream={toggleStreamSwap}
           />
 
           <SwapInfo

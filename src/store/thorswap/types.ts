@@ -337,6 +337,7 @@ export type BorrowQuoteResponse = {
   targetAddress: string;
   recipientAddress: string;
   memo: string;
+  memoStreamingSwap?: string;
   route: {
     meta: {
       // FIXED NESTING

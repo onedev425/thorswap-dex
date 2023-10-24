@@ -10,6 +10,7 @@ import { Helmet } from 'components/Helmet';
 import { InfoTable } from 'components/InfoTable';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { Input } from 'components/Input';
+import { TxOptimizeSection } from 'components/TxOptimize/TxOptimizeSection';
 import dayjs from 'dayjs';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { useAssetListSearch } from 'hooks/useAssetListSearch';
@@ -115,6 +116,9 @@ const Borrow = () => {
     collateralAmount,
     isFetching,
     totalFeeUsd,
+    stream,
+    canStream,
+    toggleStream,
   } = useBorrow({
     slippage,
     senderAddress: collateralAddress,
@@ -456,7 +460,7 @@ const Borrow = () => {
                         />
                       </Flex>
 
-                      <Flex direction="column">
+                      <Flex direction="column" mb={2}>
                         <Text mb={1} ml={5} textStyle="caption">
                           {t('views.lending.borrow')}
                         </Text>
@@ -485,9 +489,15 @@ const Borrow = () => {
                         )}
                       </Flex>
 
-                      <Flex mt={2}>
-                        <InfoTable horizontalInset items={summary} size="sm" />
-                      </Flex>
+                      <TxOptimizeSection
+                        canStream={canStream}
+                        outputAsset={borrowAsset}
+                        quote={borrowQuote}
+                        stream={stream}
+                        toggleStream={toggleStream}
+                      />
+
+                      <InfoTable horizontalInset items={summary} size="sm" />
 
                       <ActionButton
                         address={collateralAddress}
