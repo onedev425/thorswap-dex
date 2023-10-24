@@ -1,6 +1,6 @@
 import { Flex, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
 import { Amount, AssetAmount, AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { Chain, UTXOChainList } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 import classNames from 'classnames';
 import { Announcement } from 'components/Announcements/Announcement/Announcement';
 import { AssetInput } from 'components/AssetInput';
@@ -77,12 +77,6 @@ const Borrow = () => {
 
   const [collateralBalance, setCollateralBalance] = useState<Amount | undefined>();
   const [borrowBalance, setBorrowBalance] = useState<Amount | undefined>();
-
-  useEffect(() => {
-    if (UTXOChainList.includes(collateralAsset.chain) && borrowAsset.type !== 'Native') {
-      setBorrowAsset(getSignatureAssetFor(Chain.Ethereum));
-    }
-  }, [collateralAsset, borrowAsset]);
 
   const collateralLendingAsset = useMemo(() => {
     return lendingAssets.find((asset) => asset.asset.eq(collateralAsset));
@@ -472,12 +466,6 @@ const Borrow = () => {
                           disabled
                           assets={outputAssets
                             .filter(isLedgerLiveSupportedInputAsset)
-                            // FIlter out UTXO because TC does not support shorthand assets yet
-                            .filter(
-                              (outputAsset) =>
-                                !UTXOChainList.includes(collateralAsset.chain) ||
-                                outputAsset.asset.type === 'Native',
-                            )
                             .filter((outputAsset) => outputAsset.asset.type !== 'Synth')}
                           className="flex-1 !py-1"
                           onAssetChange={setBorrowAsset}
