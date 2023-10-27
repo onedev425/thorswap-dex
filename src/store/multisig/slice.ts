@@ -43,7 +43,6 @@ const multisigSlice = createSlice({
         state.loadingBalances = false;
       })
       .addCase(multisigActions.loadMultisigBalances.fulfilled, (state, { payload }) => {
-        // @ts-expect-error will be removed
         state.balances = payload;
         state.loadingBalances = false;
       });

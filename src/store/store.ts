@@ -9,7 +9,6 @@ import assetsReducer from './assets/slice';
 import midgardReducer from './midgard/slice';
 import multisigReducer from './multisig/slice';
 import { staticApi } from './static/api';
-import { swapKitDashboard } from './swapKitDashboard/api';
 import { thorswapApi } from './thorswap/api';
 import transactionsReducer from './transactions/slice';
 import walletReducer from './wallet/slice';
@@ -19,7 +18,6 @@ const devTools = import.meta.env.DEV;
 const rootReducer = combineReducers({
   [midgardApi.reducerPath]: midgardApi.reducer,
   [staticApi.reducerPath]: staticApi.reducer,
-  [swapKitDashboard.reducerPath]: swapKitDashboard.reducer,
   [thorswapApi.reducerPath]: thorswapApi.reducer,
 
   app: appReducer,
@@ -37,7 +35,6 @@ const store = configureStore({
     getDefaultMiddleware({ serializableCheck: false }).concat([
       midgardApi.middleware,
       staticApi.middleware,
-      swapKitDashboard.middleware,
       thorswapApi.middleware,
     ]),
 });

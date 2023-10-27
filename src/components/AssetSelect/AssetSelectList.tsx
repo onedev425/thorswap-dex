@@ -136,7 +136,6 @@ export const AssetSelectList = ({
             ref={listRef}
             width="100%"
           >
-            {/* @ts-expect-error */}
             {renderItem}
           </List>
         ) : (
