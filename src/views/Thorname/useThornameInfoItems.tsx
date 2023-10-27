@@ -28,13 +28,13 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
 
   const commonColumns = useMemo(
     () => [
-      !details && { 
+      !details && {
         label: t('components.sidebar.thorname'),
         value: (
-          <div className='flex'>
-            {thorname} <CopyValue value={thorname} type='icon' />
+          <div className="flex">
+            {thorname} <CopyValue type="icon" value={thorname} />
           </div>
-        )
+        ),
       },
       {
         label: t('views.thorname.status'),

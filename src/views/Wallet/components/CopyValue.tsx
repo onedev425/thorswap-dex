@@ -15,12 +15,7 @@ export const CopyValue = ({ type = 'icon', value }: Props) => {
 
   if (type === 'icon') {
     return (
-      <HoverIcon
-        iconName="copy"
-        onClick={handleCopyValue}
-        size={16}
-        tooltip={t('common.copy')}
-      />
+      <HoverIcon iconName="copy" onClick={handleCopyValue} size={16} tooltip={t('common.copy')} />
     );
   }
 
