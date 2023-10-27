@@ -67,15 +67,7 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount,
     [saverQuote?.expected_amount_out],
   );
 
-  const slippage = expectedOutputAmount
-    ? Amount.fromAssetAmount(
-        expectedOutputAmount
-          .mul(saverQuote?.slippage_bps || 0)
-          .div(10000)
-          .assetAmount.toString(),
-        asset.decimal,
-      )
-    : undefined;
+  const slippage = Amount.fromBaseAmount(saverQuote?.fees?.total || '0', BaseDecimal.THOR);
 
   const { outboundFeeInInputAsset, inputFee } = useNetworkFee({
     inputAsset: asset,

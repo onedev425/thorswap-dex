@@ -23,7 +23,7 @@ export enum EarnViewTab {
 
 export type SaverQuoteResponse = {
   expected_amount_out: string;
-  fees: { affiliate: string; asset: string; outbound: string };
+  fees: { total: string; affiliate: string; asset: string; outbound: string };
   slippage_bps: number;
   outbound_delay_seconds: number;
 };
