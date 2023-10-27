@@ -12,6 +12,7 @@ import { t } from 'services/i18n';
 import { getThornameExpireDate } from 'store/midgard/actions';
 import { useMidgard } from 'store/midgard/hooks';
 import type { THORNameDetails } from 'types/app';
+import { CopyValue } from 'views/Wallet/components/CopyValue';
 
 type Params = {
   available: boolean;
@@ -27,7 +28,14 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
 
   const commonColumns = useMemo(
     () => [
-      !details && { label: t('components.sidebar.thorname'), value: thorname },
+      !details && { 
+        label: t('components.sidebar.thorname'),
+        value: (
+          <div className='flex'>
+            {thorname} <CopyValue value={thorname} type='icon' />
+          </div>
+        )
+      },
       {
         label: t('views.thorname.status'),
         value: (
