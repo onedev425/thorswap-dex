@@ -1,3 +1,4 @@
+import { baseAmount } from '@thorswap-lib/helpers';
 import type { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Amount, isGasAsset } from '@thorswap-lib/swapkit-core';
 import type { UTXOEstimateFeeParams } from '@thorswap-lib/toolbox-utxo';
@@ -78,14 +79,21 @@ export const useBalance = (skipFees?: boolean) => {
       }
 
       const client = await getSwapKitClient();
-      const baseAmountString = await client.estimateMaxSendableAmount({
-        chain: L1Chain,
-        params: {
-          from,
-          recipients: 1,
-          memo: '56bytelongtestmemo-0000000000000000000000000000000000000',
-        } as UTXOEstimateFeeParams,
-      });
+      const baseAmountString = IS_LEDGER_LIVE
+        ? baseAmount(
+            wallet[L1Chain]?.balance
+              .find((balance) => balance.asset.shallowEq(asset))
+              ?.amount.baseAmount.toString(),
+            asset.decimal,
+          )
+        : await client.estimateMaxSendableAmount({
+            chain: L1Chain,
+            params: {
+              from,
+              recipients: 1,
+              memo: '56bytelongtestmemo-0000000000000000000000000000000000000',
+            } as UTXOEstimateFeeParams,
+          });
 
       const maxSpendableAmount = Amount.fromBaseAmount(baseAmountString.amount().toString(), 8);
       return maxSpendableAmount.gt(0) ? maxSpendableAmount : zeroAmount;

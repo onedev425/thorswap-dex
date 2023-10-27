@@ -99,11 +99,10 @@ export const useWallet = () => {
     async (chains?: Chain[]) => {
       const account = await ledgerLive().requestAccount(chains);
       const chain = mapLedgerChainToChain(account.currency as LedgerLiveChain);
-
+      const wallet = await connectLedgerLive(chain, account);
       dispatch(
         walletActions.setLedgerLiveWalletByChain({
-          chain,
-          promise: connectLedgerLive(chain, account),
+          ...wallet,
         }),
       );
     },

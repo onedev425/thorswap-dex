@@ -109,12 +109,12 @@ export const SwapSubmitButton = ({
   const btnLabel = useMemo(() => {
     if (isTradingHalted) return t('notification.swapNotAvailable');
     if (quoteError) return t('views.swap.noValidQuote');
-    if (inputAsset.isSynth && outputAsset.isSynth) return t('common.swap');
+    if ((inputAsset.isSynth && outputAsset.isSynth) || isSwapValid) return t('common.swap');
     if (inputAsset.isSynth) return t('txManager.redeem');
     if (outputAsset.isSynth) return t('txManager.mint');
 
     return t('common.swap');
-  }, [isTradingHalted, quoteError, inputAsset.isSynth, outputAsset.isSynth]);
+  }, [isTradingHalted, quoteError, inputAsset.isSynth, outputAsset.isSynth, isSwapValid]);
 
   const isApproveRequired = useMemo(
     () => hasQuote && isInputWalletConnected && isApproved === false,

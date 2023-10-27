@@ -20,18 +20,15 @@ export const setLedgerLiveWalletByChain = createAsyncThunk(
   'ledgerLive/setLedgerLiveWalletByChain',
   async (data: {
     chain: Chain;
-    promise: Promise<{
-      chain: Chain;
-      wallet: {
-        address: string;
-        balance: AssetAmount[];
-        walletType: WalletOption;
-        ledgerLiveAccount: LedgerAccount;
-        walletMethods: any;
-      };
-    }>;
+    wallet: {
+      address: string;
+      balance: AssetAmount[];
+      walletType: WalletOption;
+      ledgerLiveAccount: LedgerAccount;
+      walletMethods: any;
+    };
   }) => {
-    return { chain: data.chain, wallet: (await data.promise).wallet };
+    return { chain: data.chain, wallet: data.wallet };
   },
 );
 

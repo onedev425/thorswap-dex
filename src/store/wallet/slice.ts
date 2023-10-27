@@ -18,7 +18,7 @@ const initialWallet = {
   [Chain.Cosmos]: null,
 };
 
-type LedgerLiveWallet = Wallet & {
+export type LedgerLiveWallet = Wallet & {
   walletMethods?: any;
 };
 
