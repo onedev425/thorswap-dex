@@ -37,7 +37,9 @@ export enum ROUTES {
   TxMultisig = '/txthorsafe',
   OnRamp = '/onramp',
   Earn = '/earn',
+  EarnAsset = '/earn/:asset',
   Lending = '/lending',
+  LendingAsset = '/lending/:asset',
   Transaction = '/tx/:txid',
 }
 

@@ -1,7 +1,6 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
 import type { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Amount, AmountType, AssetAmount, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { Amount, AmountType, AssetAmount } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Button, Card, Icon, Link, Tooltip } from 'components/Atomic';
@@ -16,11 +15,13 @@ import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { useCheckHardCap } from 'hooks/useCheckHardCap';
 import { useMimir } from 'hooks/useMimir';
+import { useRouteAssetParams } from 'hooks/useRouteAssetParams';
 import { useTCApprove } from 'hooks/useTCApprove';
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import useWindowSize from 'hooks/useWindowSize';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
+import { ROUTES } from 'settings/router';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
@@ -45,8 +46,8 @@ const Earn = () => {
   const balanceAssets = useAssetsWithBalance();
   const hardCapReached = useCheckHardCap();
 
-  const [amount, setAmount] = useState(zeroAmount);
-  const [asset, setAsset] = useState(getSignatureAssetFor(Chain.Bitcoin));
+  const { asset, setAsset, amount, setAmount } = useRouteAssetParams(ROUTES.Earn);
+
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [visibleApproveModal, setVisibleApproveModal] = useState(false);
   const [tab, setTab] = useState(EarnTab.Deposit);
@@ -124,7 +125,7 @@ const Earn = () => {
       setTab(tab);
       setAmount(Amount.fromAssetAmount(0, asset.decimal));
     },
-    [asset.decimal],
+    [asset.decimal, setAmount],
   );
 
   const depositAsset = useCallback(
@@ -133,7 +134,7 @@ const Earn = () => {
       setAsset(asset);
       setAmount(Amount.fromAssetAmount(0, asset.decimal));
     },
-    [switchTab],
+    [setAmount, setAsset, switchTab],
   );
 
   const withdrawAsset = useCallback(
@@ -142,7 +143,7 @@ const Earn = () => {
       setAsset(asset);
       setAmount(Amount.fromAssetAmount(0, asset.decimal));
     },
-    [switchTab],
+    [setAmount, setAsset, switchTab],
   );
 
   const handlePercentWithdrawChange = useCallback(
@@ -153,7 +154,7 @@ const Earn = () => {
         setAmount(availableToWithdraw.mul(amount.div(100)));
       }
     },
-    [address, availableToWithdraw],
+    [address, availableToWithdraw, setAmount],
   );
 
   useEffect(() => {
@@ -177,12 +178,15 @@ const Earn = () => {
     };
 
     setAssetDecimals();
-  }, [asset]);
+  }, [asset, setAsset]);
 
-  const handleAssetChange = useCallback((asset: AssetEntity) => {
-    setAsset(asset);
-    setAmount(Amount.fromAssetAmount(0, asset.decimal));
-  }, []);
+  const handleAssetChange = useCallback(
+    (asset: AssetEntity) => {
+      setAsset(asset);
+      setAmount(Amount.fromAssetAmount(0, asset.decimal));
+    },
+    [setAmount, setAsset],
+  );
 
   const handleSwapkitAction = useCallback(async () => {
     const { addSavings, withdrawSavings } = await (
@@ -226,7 +230,7 @@ const Earn = () => {
         appDispatch(completeTransaction({ id, status: 'error' }));
       }
     },
-    [appDispatch, asset.L1Chain, asset.name, handleSwapkitAction, isDeposit],
+    [appDispatch, asset.L1Chain, asset.name, handleSwapkitAction, isDeposit, setAmount],
   );
 
   const isSynthInCapacity = useMemo(

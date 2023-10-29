@@ -1,6 +1,5 @@
 import { Flex, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
-import { Amount, AssetAmount, AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { Amount, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { Announcement } from 'components/Announcements/Announcement/Announcement';
 import { AssetInput } from 'components/AssetInput';
@@ -12,14 +11,17 @@ import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { Input } from 'components/Input';
 import { TxOptimizeSection } from 'components/TxOptimize/TxOptimizeSection';
 import dayjs from 'dayjs';
+import { ETHAsset } from 'helpers/assets';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { useAssetListSearch } from 'hooks/useAssetListSearch';
 import { useBalance } from 'hooks/useBalance';
 import { useMimir } from 'hooks/useMimir';
+import { useRouteAssetParams } from 'hooks/useRouteAssetParams';
 import { useTCBlockTimer } from 'hooks/useTCBlockTimer';
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
+import { ROUTES } from 'settings/router';
 import { AnnouncementType } from 'store/externalConfig/types';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
@@ -69,8 +71,13 @@ const Borrow = () => {
   });
 
   const [slippage, setSlippage] = useState(10);
-  const [collateralAsset, setCollateralAsset] = useState(getSignatureAssetFor(Chain.Ethereum));
-  const [amount, setAmount] = useState(Amount.fromAssetAmount(0, collateralAsset.decimal));
+
+  const {
+    asset: collateralAsset,
+    setAsset: setCollateralAsset,
+    amount,
+    setAmount,
+  } = useRouteAssetParams(ROUTES.Lending, ETHAsset);
   const [borrowAsset, setBorrowAsset] = useState(
     AssetEntity.fromAssetString(ETH_USDC_IDENTIFIER) as AssetEntity,
   );
@@ -224,6 +231,7 @@ const Borrow = () => {
       collateralAsset.decimal,
       collateralAsset.name,
       handleSwapkitAction,
+      setAmount,
     ],
   );
 
@@ -332,7 +340,7 @@ const Borrow = () => {
        */
       setAmount(Amount.fromAssetAmount(amount.assetAmount, collateralAsset.decimal));
     },
-    [collateralAsset.decimal],
+    [collateralAsset.decimal, setAmount],
   );
 
   return (
