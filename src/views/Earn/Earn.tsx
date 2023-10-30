@@ -311,7 +311,8 @@ const Earn = () => {
 
                   <Tooltip
                     content={t('views.savings.aprTooltip', { asset: asset.name })}
-                    place="bottom">
+                    place="bottom"
+                  >
                     <Icon className="ml-1" color="primaryBtn" name="infoCircle" size={24} />
                   </Tooltip>
                 </Box>
@@ -329,7 +330,8 @@ const Earn = () => {
 
                 <Tooltip
                   content={t('views.savings.tooltipDescription', { asset: asset.name })}
-                  place="bottom">
+                  place="bottom"
+                >
                   <Icon color="primaryBtn" name="infoCircle" size={24} />
                 </Tooltip>
               </Box>
@@ -349,7 +351,8 @@ const Earn = () => {
                   <Card
                     stretch
                     className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-2 space-y-1 shadow-lg md:w-full md:h-auto"
-                    size="lg">
+                    size="lg"
+                  >
                     <Box col className="self-stretch gap-2">
                       <TabsSelect
                         onChange={(value) => switchTab(value as EarnTab)}
@@ -392,7 +395,8 @@ const Earn = () => {
                                 ? t('views.liquidity.hardCapReachedTooltip')
                                 : undefined
                             }
-                            variant="fancy">
+                            variant="fancy"
+                          >
                             {t('common.approve')}
                           </Button>
                         </Box>
