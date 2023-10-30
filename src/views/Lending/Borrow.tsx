@@ -18,6 +18,7 @@ import { useBalance } from 'hooks/useBalance';
 import { useMimir } from 'hooks/useMimir';
 import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
 import { useTCBlockTimer } from 'hooks/useTCBlockTimer';
+import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { AnnouncementType } from 'store/externalConfig/types';
@@ -86,8 +87,13 @@ const Borrow = () => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [tab, setTab] = useState(LendingTab.Borrow);
   const [viewTab, setViewTab] = useState(LendingViewTab.Borrow);
-  const collateralUsdPrice = usePoolAssetPriceInUsd({ asset: collateralAsset, amount });
-  const isBorrow = tab === LendingTab.Borrow;
+  const { data: tokenPricesData } = useTokenPrices([collateralAsset, borrowAsset]);
+  const collateralUsdPrice = useMemo(() => {
+    const price = tokenPricesData[collateralAsset.symbol]?.price_usd || 0;
+
+    return price * amount.assetAmount.toNumber();
+  }, [amount.assetAmount, collateralAsset.symbol, tokenPricesData]);
+
   const formatPrice = useFormatPrice();
 
   const { refreshLoans, totalBorrowed, totalCollateral, loansData, isLoading } = useLoans();
@@ -110,7 +116,6 @@ const Borrow = () => {
   const {
     expectedDebt,
     expectedOutput,
-    memo,
     hasError,
     borrowQuote,
     collateralAmount,
@@ -150,7 +155,7 @@ const Borrow = () => {
   );
 
   const handleSwapkitAction = useCallback(async () => {
-    const { openLoan, closeLoan, validateAddress } = await (
+    const { openLoan, validateAddress } = await (
       await import('services/swapKit')
     ).getSwapKitClient();
 
@@ -159,13 +164,19 @@ const Borrow = () => {
       throw new Error('Invalid recipient address');
     }
 
+    if (!borrowQuote) {
+      throw new Error('Invalid lending quote');
+    }
+
     const params = {
       assetAmount: new AssetAmount(collateralAsset, amount),
       assetTicker: `${borrowAsset.getAssetObj().chain}.${borrowAsset.getAssetObj().ticker}`,
     };
 
-    return isBorrow ? openLoan({ ...params, memo }) : closeLoan(params);
-  }, [borrowAsset, recipient, collateralAsset, amount, isBorrow, memo]);
+    const memo = stream ? borrowQuote.calldata.memoStreamingSwap : borrowQuote.calldata.memo;
+
+    return openLoan({ ...params, memo });
+  }, [amount, borrowAsset, borrowQuote, collateralAsset, recipient, stream]);
 
   const handleBorrowSubmit = useCallback(
     async (expectedAmount: string) => {
@@ -175,11 +186,11 @@ const Borrow = () => {
       appDispatch(
         addTransaction({
           id,
-          label: t(isBorrow ? 'txManager.openLoan' : 'txManager.closeLoan', {
+          label: t('txManager.openLoan', {
             asset: collateralAsset.name,
             amount: expectedAmount,
           }),
-          type: isBorrow ? TransactionType.TC_LENDING_OPEN : TransactionType.TC_LENDING_CLOSE,
+          type: TransactionType.TC_LENDING_OPEN,
           inChain: collateralAsset.L1Chain,
         }),
       );
@@ -213,7 +224,6 @@ const Borrow = () => {
       collateralAsset.decimal,
       collateralAsset.name,
       handleSwapkitAction,
-      isBorrow,
     ],
   );
 
@@ -222,7 +232,7 @@ const Borrow = () => {
       !recipient ||
       isLendingPaused ||
       amount.lte(Amount.fromAssetAmount(0, collateralAsset.decimal)) ||
-      (isBorrow && collateralBalance && amount.gt(collateralBalance)) ||
+      (collateralBalance && amount.gt(collateralBalance)) ||
       isChainHalted[collateralAsset.L1Chain],
     [
       recipient,
@@ -230,7 +240,6 @@ const Borrow = () => {
       amount,
       collateralAsset.decimal,
       collateralAsset.L1Chain,
-      isBorrow,
       collateralBalance,
       isChainHalted,
     ],

@@ -1,7 +1,7 @@
 import type { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Amount } from '@thorswap-lib/swapkit-core';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useGetBorrowQuoteQuery } from 'store/thorswap/api';
 
 interface UseBorrowProps {
@@ -23,7 +23,6 @@ export const useBorrow = ({
 }: UseBorrowProps) => {
   const debouncedAmount = useDebouncedValue(amount);
   const debouncedSlippage = useDebouncedValue(slippage);
-  const [memo, setMemo] = useState('');
   const [stream, setStream] = useState(false);
 
   const {
@@ -42,44 +41,51 @@ export const useBorrow = ({
     { skip: !debouncedAmount, refetchOnMountOrArgChange: true },
   );
 
+  const borrowData = useMemo(() => {
+    if (stream && data?.streamingSwap) {
+      return data.streamingSwap;
+    }
+
+    return data;
+  }, [data, stream]);
+
   const expectedOutput = useMemo(() => {
-    return Amount.fromAssetAmount(data?.expectedOutput || 0, assetOut.decimal);
-  }, [assetOut.decimal, data?.expectedOutput]);
+    return Amount.fromAssetAmount(borrowData?.expectedOutput || 0, assetOut.decimal);
+  }, [assetOut.decimal, borrowData?.expectedOutput]);
 
   const expectedOutputMaxSlippage = useMemo(() => {
-    return Amount.fromAssetAmount(data?.expectedOutputMaxSlippage || 0, assetOut.decimal);
-  }, [assetOut.decimal, data?.expectedOutputMaxSlippage]);
+    return Amount.fromAssetAmount(borrowData?.expectedOutputMaxSlippage || 0, assetOut.decimal);
+  }, [assetOut.decimal, borrowData?.expectedOutputMaxSlippage]);
 
   const expectedDebt = useMemo(() => {
-    return Amount.fromAssetAmount(data?.expectedDebtIssued || 0, 8);
-  }, [data?.expectedDebtIssued]);
+    return Amount.fromAssetAmount(borrowData?.expectedDebtIssued || 0, 8);
+  }, [borrowData?.expectedDebtIssued]);
 
   const slippageAmount = useMemo(() => {
     return expectedOutput.sub(expectedOutputMaxSlippage);
   }, [expectedOutput, expectedOutputMaxSlippage]);
 
   const slippageAmountUsd = useMemo(() => {
-    return Amount.fromAssetAmount(data?.expectedOutputUSD || 0, 8).sub(
-      Amount.fromAssetAmount(data?.expectedOutputMaxSlippageUSD || 0, 8),
+    return Amount.fromAssetAmount(borrowData?.expectedOutputUSD || 0, 8).sub(
+      Amount.fromAssetAmount(borrowData?.expectedOutputMaxSlippageUSD || 0, 8),
     );
-  }, [data?.expectedOutputMaxSlippageUSD, data?.expectedOutputUSD]);
+  }, [borrowData?.expectedOutputMaxSlippageUSD, borrowData?.expectedOutputUSD]);
 
   const collateralAmount = useMemo(() => {
-    return Amount.fromAssetAmount(data?.expectedCollateralDeposited || 0, assetIn.decimal);
-  }, [assetIn.decimal, data?.expectedCollateralDeposited]);
+    return Amount.fromAssetAmount(borrowData?.expectedCollateralDeposited || 0, assetIn.decimal);
+  }, [assetIn.decimal, borrowData?.expectedCollateralDeposited]);
 
   const totalFeeUsd = useMemo(() => {
-    const fees = data?.fees.THOR;
+    const fees = borrowData?.fees.THOR;
     const outboundFees = fees?.find((fee) => fee.type === 'outbound');
 
     return Amount.fromAssetAmount(outboundFees?.totalFeeUSD || 0, 8);
-  }, [data?.fees.THOR]);
+  }, [borrowData?.fees.THOR]);
 
-  useEffect(() => {
-    setMemo(data?.memo || '');
-  }, [setMemo, data?.memo]);
-
-  const canStream = useMemo(() => !!data?.memoStreamingSwap, [data?.memoStreamingSwap]);
+  const canStream = useMemo(
+    () => !!data?.calldata.memoStreamingSwap,
+    [data?.calldata?.memoStreamingSwap],
+  );
 
   const toggleStream = useCallback(
     (enabled: boolean) => setStream(enabled && !!canStream),
@@ -88,7 +94,6 @@ export const useBorrow = ({
 
   return {
     collateralAmount,
-    memo,
     expectedDebt,
     expectedOutput,
     expectedOutputMaxSlippage,

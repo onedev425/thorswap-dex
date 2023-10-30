@@ -310,6 +310,28 @@ export type LendingStatusResponse = {
   maturity: number;
 };
 
+type LendingCalldata = {
+  amountIn: string;
+  amountOutMin: string;
+  fromAsset: string;
+  memo: string;
+  memoStreamingSwap?: string;
+  recipientAddress: string;
+  toAddress: string;
+  token: string;
+};
+
+type LendingStreamingSwap = {
+  estimatedTime: number;
+  fees: QuoteRoute['fees'];
+  expectedDebtIssued: string;
+  expectedCollateralDeposited: string;
+  expectedOutput: string;
+  expectedOutputMaxSlippage: string;
+  expectedOutputUSD: string;
+  expectedOutputMaxSlippageUSD: string;
+};
+
 export type BorrowQuoteParams = {
   assetIn: string;
   assetOut: string;
@@ -337,7 +359,6 @@ export type BorrowQuoteResponse = {
   targetAddress: string;
   recipientAddress: string;
   memo: string;
-  memoStreamingSwap?: string;
   route: {
     meta: {
       // FIXED NESTING
@@ -357,6 +378,8 @@ export type BorrowQuoteResponse = {
   expectedDebtIssued: string;
   expectedOutputMaxSlippageUSD: string;
   expectedOutputUSD: string;
+  calldata: LendingCalldata;
+  streamingSwap?: LendingStreamingSwap;
 };
 
 export type RepayQuoteResponse = {
@@ -380,6 +403,8 @@ export type RepayQuoteResponse = {
   expectedDebtRepaid: string;
   collateralCurrent: string;
   repayAssetAmount: string;
+  calldata: LendingCalldata;
+  streamingSwap?: LendingStreamingSwap;
 };
 
 export type LendingAssetResponse = {
