@@ -2,7 +2,7 @@ import { Text } from '@chakra-ui/react';
 import type { AssetAmount } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
-import { formatPrice } from 'helpers/formatPrice';
+import { useFormatPrice } from 'helpers/formatPrice';
 import { memo, useMemo } from 'react';
 import type { GetTokenPriceResponseItem } from 'store/thorswap/types';
 
@@ -12,6 +12,8 @@ type Props = {
 };
 
 export const ChainInfo = memo(({ info: { asset, assetAmount }, priceData }: Props) => {
+  const formatPrice = useFormatPrice();
+
   const { currentPrice, priceChangePercentage24h } = useMemo(() => {
     const { price_usd, cg } = priceData?.[asset.toString()] || {};
 

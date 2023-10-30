@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useMidgard } from 'store/midgard/hooks';
+import { useGetNetworkQuery } from 'store/midgard/api';
 
 export const useCheckHardCap = () => {
   const hardCapPercentage = useHardCapPercentage();
@@ -7,7 +7,7 @@ export const useCheckHardCap = () => {
 };
 
 export const useHardCapPercentage = () => {
-  const { networkData } = useMidgard();
+  const { data: networkData } = useGetNetworkQuery();
 
   return useMemo(() => {
     const activeBonds = networkData?.activeBonds;

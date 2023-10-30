@@ -9,7 +9,6 @@ import { HmacSHA512 } from 'crypto-js';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { useGlobalRefresh } from 'hooks/useGlobalRefresh';
 import type { PropsWithChildren } from 'react';
 import { Component } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
@@ -37,8 +36,6 @@ const checkOrigin = () => {
 };
 
 const MainApp = () => {
-  useGlobalRefresh();
-
   return (
     <Box className="overflow-x-hidden" flex={1}>
       <DrawerProvider>

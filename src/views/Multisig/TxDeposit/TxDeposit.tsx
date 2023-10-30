@@ -14,27 +14,27 @@ import { useTxDeposit } from 'views/Multisig/TxDeposit/hooks';
 export const TxDeposit = () => {
   const [assetSideAddress, setassetSideAddress] = useState('');
   const {
-    poolAsset,
-    liquidityType,
-    handleSelectLiquidityType,
-    poolAssetInput,
-    runeAssetInput,
-    poolAssetList,
+    addLiquiditySlip,
+    confirmInfo,
+    feeInUSD,
+    handleAddLiquidity,
     handleChangeAssetAmount,
     handleChangeRuneAmount,
+    handleConfirmAdd,
+    handleSelectLiquidityType,
     handleSelectPoolAsset,
     isAssetPending,
     isRunePending,
-    totalFeeInUSD,
-    addLiquiditySlip,
-    poolShareEst,
-    pool,
     isValidDeposit,
-    handleAddLiquidity,
-    visibleConfirmModal,
-    handleConfirmAdd,
+    liquidityType,
+    poolAsset,
+    poolAssetInput,
+    poolAssetList,
+    poolShareEst,
+    runeAssetInput,
     setVisibleConfirmModal,
-    confirmInfo,
+    visibleConfirmModal,
+    rate,
   } = useTxDeposit(assetSideAddress);
 
   return (
@@ -74,10 +74,10 @@ export const TxDeposit = () => {
       />
 
       <PoolInfo
-        fee={totalFeeInUSD}
+        fee={feeInUSD}
         poolShare={poolShareEst}
         poolTicker={poolAssetInput.asset.ticker}
-        rate={pool?.assetPriceInRune?.toSignificant(6) ?? null}
+        rate={rate.toFixed(6)}
         runeTicker={runeAssetInput.asset.ticker}
         slippage={addLiquiditySlip}
       />

@@ -18,45 +18,6 @@ import { BondActionType } from 'views/Nodes/types';
 
 import { shortenAddress } from '../../../helpers/shortenAddress';
 import { t } from '../../../services/i18n';
-import { useApp } from '../../../store/app/hooks';
-import { useMidgard } from '../../../store/midgard/hooks';
-
-export const useNodeDetailInfo = (nodeAddress: string | undefined) => {
-  const { nodes, getNodes, nodeLoading } = useMidgard();
-  const { nodeWatchList, setWatchList } = useApp();
-
-  useEffect(() => {
-    if (nodes.length === 0) {
-      getNodes();
-    }
-  }, [getNodes, nodes.length]);
-
-  const nodeInfo = useMemo(() => {
-    if (nodeLoading) return null;
-    const activeNode = nodes.find((item) => item.node_address === nodeAddress);
-
-    return activeNode || null;
-  }, [nodeAddress, nodeLoading, nodes]);
-
-  const isFavorite = useMemo(() => {
-    return nodeWatchList.includes(nodeAddress || '#');
-  }, [nodeAddress, nodeWatchList]);
-
-  const handleAddToWatchList = useCallback(
-    (address: string) => {
-      const isSelected = nodeWatchList.includes(address);
-      if (!isSelected) {
-        setWatchList([address, ...nodeWatchList]);
-      } else {
-        const newList = nodeWatchList.filter((addr) => addr !== address);
-        setWatchList(newList);
-      }
-    },
-    [setWatchList, nodeWatchList],
-  );
-
-  return { nodeInfo, nodeLoading, isFavorite, handleAddToWatchList };
-};
 
 export const useNodeStats = (nodeInfo: THORNode) => {
   const { isMdActive } = useWindowSize();

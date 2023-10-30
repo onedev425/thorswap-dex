@@ -16,8 +16,8 @@ import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { useCheckHardCap } from 'hooks/useCheckHardCap';
 import { useMimir } from 'hooks/useMimir';
-import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
 import { useTCApprove } from 'hooks/useTCApprove';
+import { useTokenPrices } from 'hooks/useTokenPrices';
 import useWindowSize from 'hooks/useWindowSize';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
@@ -45,26 +45,6 @@ const Earn = () => {
   const balanceAssets = useAssetsWithBalance();
   const hardCapReached = useCheckHardCap();
 
-  const listAssets = useMemo(
-    () =>
-      balanceAssets.map((ba) => {
-        const aprAsset = aprAssets.find(
-          ({ asset: { name, chain } }) => name === ba?.asset.name && chain === ba?.asset.chain,
-        );
-
-        getEVMDecimal(ba.asset).then((res) => ba.asset.setDecimal(res));
-        return {
-          ...aprAsset,
-          ...ba,
-        };
-      }),
-    [aprAssets, balanceAssets],
-  );
-
-  const { getMaxBalance } = useBalance();
-  const { isChainHalted } = useMimir();
-  const { positions, refreshPositions, getPosition, synthAvailability } = useSaverPositions();
-  const { wallet, setIsConnectModalOpen } = useWallet();
   const [amount, setAmount] = useState(zeroAmount);
   const [asset, setAsset] = useState(getSignatureAssetFor(Chain.Bitcoin));
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
@@ -74,8 +54,30 @@ const Earn = () => {
   const [withdrawPercent, setWithdrawPercent] = useState(new Amount(0, AmountType.ASSET_AMOUNT, 2));
   const [availableToWithdraw, setAvailableToWithdraw] = useState(zeroAmount);
   const [balance, setBalance] = useState<Amount | undefined>();
-  const usdPrice = usePoolAssetPriceInUsd({ asset, amount });
+
+  const listAssets = useMemo(
+    () =>
+      balanceAssets.map((ba) => {
+        const aprAsset = aprAssets.find(({ asset }) => ba.asset.toString() === asset.toString());
+
+        getEVMDecimal(ba.asset).then((res) => ba.asset.setDecimal(res));
+        return { ...aprAsset, ...ba };
+      }),
+    [aprAssets, balanceAssets],
+  );
+
   const isDeposit = tab === EarnTab.Deposit;
+  const { getMaxBalance } = useBalance();
+  const { isChainHalted } = useMimir();
+  const { positions, refreshPositions, getPosition, synthAvailability } = useSaverPositions();
+  const { wallet, setIsConnectModalOpen } = useWallet();
+
+  const { data: tokenPricesData } = useTokenPrices([asset]);
+  const usdPrice = useMemo(() => {
+    const price = tokenPricesData[asset.toString()]?.price_usd || 0;
+
+    return price * amount.assetAmount.toNumber();
+  }, [amount.assetAmount, asset, tokenPricesData]);
 
   const { isApproved, isLoading } = useIsAssetApproved({
     asset,

@@ -1,6 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react';
 import type { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import { Price } from '@thorswap-lib/swapkit-core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button } from 'components/Atomic';
@@ -10,7 +9,6 @@ import { InfoTable } from 'components/InfoTable';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
-import { useMidgard } from 'store/midgard/hooks';
 import { PositionTooSmallInfo } from 'views/Earn/PositionTooSmallInfo';
 import type { SaverPosition } from 'views/Earn/types';
 import { useEarnCalculations } from 'views/Earn/useEarnCalculations';
@@ -19,12 +17,10 @@ type Props = {
   position: SaverPosition;
   withdraw: (asset: Asset) => void;
   deposit: (asset: Asset) => void;
+  assetPriceUSD: number;
 };
 
-export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
-  const { getPoolsFromState } = useMidgard();
-  const pools = getPoolsFromState();
-
+export const EarnPosition = ({ assetPriceUSD, position, withdraw, deposit }: Props) => {
   const { networkFee } = useEarnCalculations({
     asset: position.asset,
     amount: position.amount,
@@ -34,14 +30,8 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
   const positionTooSmall = networkFee.gte(position?.amount);
 
   const amountUsd = useCallback(
-    (amount: Amount) => {
-      return new Price({
-        baseAsset: position.asset,
-        pools,
-        priceAmount: amount,
-      });
-    },
-    [pools, position.asset],
+    (amount: Amount) => `$${(assetPriceUSD * amount.assetAmount.toNumber()).toFixed(2)}`,
+    [assetPriceUSD],
   );
 
   const infoFields: InfoRowConfig[] = [
@@ -50,7 +40,7 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
       value: (
         <InfoWithTooltip
           icon="usdCircle"
-          tooltip={`$${amountUsd(position.depositAmount).toFixedRaw(2)}`}
+          tooltip={amountUsd(position.depositAmount)}
           value={`${position.depositAmount.toSignificant(6)} ${position.asset.name}`}
         />
       ),
@@ -60,7 +50,7 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
       value: !positionTooSmall ? (
         <InfoWithTooltip
           icon="usdCircle"
-          tooltip={`$${amountUsd(position.amount).toFixedRaw(2)}`}
+          tooltip={amountUsd(position.amount)}
           value={`${position?.amount?.toSignificant(6)} ${position.asset.name}`}
         />
       ) : (
@@ -73,7 +63,7 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
         position?.earnedAmount && !positionTooSmall ? (
           <InfoWithTooltip
             icon="usdCircle"
-            tooltip={`$${amountUsd(position.earnedAmount).toFixedRaw(2)}`}
+            tooltip={amountUsd(position.earnedAmount)}
             value={`${position?.earnedAmount?.toSignificant(6)} ${position.asset.name}`}
           />
         ) : (
@@ -103,7 +93,7 @@ export const EarnPosition = ({ position, withdraw, deposit }: Props) => {
                   {position.amount?.toSignificant(6) || 'n/a'} {position.asset.name}
                 </Text>
                 <Text>&nbsp;</Text>
-                <Text fontWeight="light">{`($${amountUsd(position.amount).toFixedRaw(2)})`}</Text>
+                <Text fontWeight="light">{`(${amountUsd(position.amount)})`}</Text>
               </Flex>
             ) : (
               <PositionTooSmallInfo />

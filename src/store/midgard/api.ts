@@ -1,74 +1,113 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import type { FullMemberPool, ProxiedNode, THORNameDetails } from '@thorswap-lib/midgard-sdk';
+import { MIDGARD_URL, THORNODE_URL } from 'settings/config';
+
 import type {
-  FullMemberPool,
+  HistoryParams,
+  MidgardTradeHistory,
+  MimirData,
+  NetworkResponse,
   PoolDetail,
-  PoolPeriods,
-  THORNameDetails,
-} from '@thorswap-lib/midgard-sdk';
-import { MIDGARD_URL } from 'settings/config';
-import type { MidgardTradeHistory } from 'store/midgard/types';
+  PoolsPeriod,
+  SwapHistoryResponse,
+} from './types';
 
 const microgardUrl = 'https://mu.thorswap.net';
-
-type HistoryParams = void | { interval?: 'day' | 'hour'; count?: number };
 
 export const midgardApi = createApi({
   reducerPath: 'midgardApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${MIDGARD_URL}/v2`,
+    baseUrl: microgardUrl,
+    headers: { referer: 'https://app.thorswap.finance' },
     mode: 'cors',
   }),
   endpoints: (build) => ({
-    getStats: build.query<any, void>({ query: () => '/stats', keepUnusedDataFor: 300 }),
-    getNetwork: build.query<any, void>({ query: () => '/network', keepUnusedDataFor: 300 }),
-    getHistoryEarnings: build.query<any, void>({
-      query: () => '/history/earnings?interval=day&count=100',
+    getStats: build.query<any, void>({
       keepUnusedDataFor: 3600,
+      query: () => `/stats`,
     }),
-    getHistoryTvl: build.query<any, void>({
-      query: () => '/history/tvl?interval=day&count=100',
+    getNetwork: build.query<NetworkResponse, void>({
       keepUnusedDataFor: 3600,
+      query: () => `${MIDGARD_URL}/v2/network`,
     }),
-    getHistorySwaps: build.query<any, HistoryParams>({
+    getHistoryEarnings: build.query<any, HistoryParams>({
       keepUnusedDataFor: 3600,
       query: ({ interval = 'day', count = 100 } = {}) =>
-        `${microgardUrl}/swaps?interval=${interval}&count=${count}`,
+        `${MIDGARD_URL}/v2/history/earnings?interval=${interval}&count=${count}`,
+    }),
+    getHistoryTvl: build.query<any, HistoryParams>({
+      keepUnusedDataFor: 3600,
+      query: ({ interval = 'day', count = 100 } = {}) =>
+        `${MIDGARD_URL}/v2/history/tvl?interval=${interval}&count=${count}`,
+    }),
+    getHistorySwaps: build.query<SwapHistoryResponse, HistoryParams>({
+      keepUnusedDataFor: 3600,
+      query: ({ interval = 'day', count = 100 } = {}) =>
+        `/swaps?interval=${interval}&count=${count}`,
     }),
     getHistoryLiquidityChanges: build.query<any, HistoryParams>({
       keepUnusedDataFor: 3600,
       query: ({ interval = 'day', count = 100 } = {}) =>
-        `${microgardUrl}/history/liquidity_changes?interval=${interval}&count=${count}`,
+        `${MIDGARD_URL}/v2/history/liquidity_changes?interval=${interval}&count=${count}`,
     }),
     getFullMember: build.query<FullMemberPool[], string[]>({
-      query: (addresses) => `/full_member?address=${addresses.join(',')}`,
       keepUnusedDataFor: 10,
-    }),
-    getPools: build.query<PoolDetail[], PoolPeriods | void>({
-      query: (period) => `/pools${period ? `?period=${period}` : ''}`,
-      keepUnusedDataFor: 60,
+      query: (addresses) => `/fullmember?address=${addresses.join(',')}`,
     }),
     getMonthlyTradeVolume: build.query<MidgardTradeHistory, void>({
-      query: () => `${microgardUrl}/ts-swaps?interval=month&count=1&unique=true`,
       keepUnusedDataFor: 300,
+      query: () => '/ts-swaps?interval=month&count=1&unique=true',
+    }),
+    getPools: build.query<PoolDetail[], PoolsPeriod | void>({
+      keepUnusedDataFor: 60,
+      query: (period = '30d') => `/pools?period=${period}`,
     }),
 
     getTNSByOwnerAddress: build.query<string[], string>({
-      query: (address) => `/thorname/owner/${address}`,
+      query: (address) => `${MIDGARD_URL}/v2/thorname/owner/${address}`,
     }),
     getTNSDetail: build.query<THORNameDetails, string>({
-      query: (thorname) => `/thorname/lookup/${thorname}`,
+      query: (thorname) => `${MIDGARD_URL}/v2/thorname/lookup/${thorname}`,
+    }),
+
+    /**
+     * THORNODE API
+     */
+    getLastblock: build.query<any, void>({
+      query: () => `${THORNODE_URL}/lastblock`,
+      keepUnusedDataFor: 6,
+    }),
+    getQueue: build.query<any, void>({
+      query: () => `${THORNODE_URL}/queue`,
+      keepUnusedDataFor: 60,
+    }),
+    getMimir: build.query<MimirData, void>({
+      query: () => `${THORNODE_URL}/mimir`,
+      keepUnusedDataFor: 60,
+    }),
+    getNodes: build.query<ProxiedNode[], void>({
+      query: () => `${THORNODE_URL}/nodes`,
+      keepUnusedDataFor: 3600,
     }),
   }),
 });
 
 export const {
   useGetFullMemberQuery,
+  useGetHistoryEarningsQuery,
   useGetHistoryLiquidityChangesQuery,
   useGetHistorySwapsQuery,
+  useGetHistoryTvlQuery,
   useGetMonthlyTradeVolumeQuery,
+  useGetNetworkQuery,
   useGetPoolsQuery,
   useGetStatsQuery,
   useGetTNSByOwnerAddressQuery,
   useGetTNSDetailQuery,
   useLazyGetTNSDetailQuery,
+
+  useGetLastblockQuery,
+  useGetMimirQuery,
+  useGetNodesQuery,
+  useGetQueueQuery,
 } = midgardApi;

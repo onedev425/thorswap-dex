@@ -4,11 +4,11 @@ import { Box, Button, Link, Select, Table } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { Input } from 'components/Input';
 import type { ChangeEvent } from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getNodeDetailRoute } from 'settings/router';
-import { useMidgard } from 'store/midgard/hooks';
+import { useGetNodesQuery } from 'store/midgard/api';
 import { useNodesColumns } from 'views/Nodes/hooks/useNodesColumns';
 
 import { useApp } from '../../store/app/hooks';
@@ -19,16 +19,14 @@ import { nodeStatusOptions } from './types';
 const initialSort = [{ id: 'Bond', desc: true }];
 
 const Nodes = () => {
-  const { getNodes, nodes, nodeLoading } = useMidgard();
+  const navigate = useNavigate();
   const { nodeWatchList } = useApp();
   const [nodeStatusType, setNodeStatusType] = useState(0);
   const [keyword, setKeyword] = useState('');
-  const navigate = useNavigate();
-  const columns = useNodesColumns();
+  const { data, refetch, isLoading, isFetching } = useGetNodesQuery();
 
-  useEffect(() => {
-    getNodes();
-  }, [getNodes]);
+  const columns = useNodesColumns(refetch);
+  const nodes = useMemo(() => data || [], [data]);
 
   const handleChangeKeyword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
@@ -36,7 +34,7 @@ const Nodes = () => {
 
   const watchListData = useMemo(
     () => nodes.filter((node) => nodeWatchList.includes(node.node_address)),
-    [nodes, nodeWatchList],
+    [nodeWatchList, nodes],
   );
 
   const filteredNodes = useMemo(() => {
@@ -80,7 +78,7 @@ const Nodes = () => {
             columns={columns}
             data={watchListData}
             initialSort={initialSort}
-            loading={nodeLoading}
+            loading={isLoading || isFetching}
             onRowClick={onRowClick}
           />
         </Box>
@@ -122,7 +120,7 @@ const Nodes = () => {
         columns={columns}
         data={filteredNodes}
         initialSort={initialSort}
-        loading={nodeLoading}
+        loading={isLoading || isFetching}
         onRowClick={onRowClick}
       />
     </Box>

@@ -13,8 +13,9 @@ import { formatDuration } from 'components/TransactionTracker/helpers';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
-import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
 import { useTCBlockTimer } from 'hooks/useTCBlockTimer';
+import { useTokenPrices } from 'hooks/useTokenPrices';
+import type { MouseEventHandler } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
@@ -31,30 +32,37 @@ type Props = {
   setCollateralAsset: (value: AssetEntity) => void;
 };
 
-export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) => {
+export const LoanInfoRow = ({
+  loan: { collateralCurrent, debtCurrent, asset, lastOpenHeight },
+  setBorrowTab,
+  setCollateralAsset,
+}: Props) => {
   const [show, setShow] = useState(false);
   const [sliderValue, setSliderValue] = useState(new Amount(0, AmountType.ASSET_AMOUNT, 2));
+  const [repayBalance, setRepayBalance] = useState<Amount | undefined>();
   const [repayAsset, setRepayAsset] = useState(
     AssetEntity.fromAssetString(ETH_USDC_IDENTIFIER) as AssetEntity,
   );
-  const [repayBalance, setRepayBalance] = useState<Amount | undefined>();
-  const { getMaxBalance } = useBalance();
-  const { wallet, setIsConnectModalOpen } = useWallet();
-  const debouncedPercentage = useDebouncedValue(sliderValue, 500);
 
   const { getBlockTimeDifference } = useTCBlockTimer();
-  const missingTimeToRepayInMS = getBlockTimeDifference(loan.lastOpenHeight + MATURITY_BLOCKS);
-  const hasLoanMatured = missingTimeToRepayInMS <= 0;
+  const { getMaxBalance } = useBalance();
+  const { wallet, setIsConnectModalOpen } = useWallet();
   const repayAssets = useAssetsWithBalance();
-  const { collateralCurrent, debtCurrent, asset } = loan;
+  const { data: tokenPricesData } = useTokenPrices([asset, repayAsset]);
 
-  const handleToggle = () => setShow(!show);
+  const handleToggle: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
+    e.stopPropagation();
+    setShow((v) => !v);
+  }, []);
 
-  const collateralUsd = usePoolAssetPriceInUsd({
-    asset,
-    amount: collateralCurrent,
-  }).toCurrencyFormat(2);
+  const debouncedPercentage = useDebouncedValue(sliderValue, 500);
+  const missingTimeToRepayInMS = getBlockTimeDifference(lastOpenHeight + MATURITY_BLOCKS);
+  const repayAddress = useMemo(
+    () => wallet?.[repayAsset.L1Chain]?.address || '',
+    [wallet, repayAsset.L1Chain],
+  );
 
+  const hasLoanMatured = missingTimeToRepayInMS <= 0;
   const { repayAssetAmount, isLoading, repayQuote } = usePercentageDebtValue({
     asset: repayAsset,
     collateralAsset: asset,
@@ -63,11 +71,17 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
     hasLoanMatured,
   });
 
-  const repayAddress = useMemo(
-    () => wallet?.[repayAsset.L1Chain]?.address || '',
-    [wallet, repayAsset.L1Chain],
-  );
-  const repayUsdPrice = usePoolAssetPriceInUsd({ asset: repayAsset, amount: repayAssetAmount });
+  const collateralUsd = useMemo(() => {
+    const price = tokenPricesData[asset.symbol]?.price_usd || 0;
+
+    return price * collateralCurrent.assetAmount.toNumber();
+  }, [asset.symbol, collateralCurrent.assetAmount, tokenPricesData]);
+
+  const repayUsd = useMemo(() => {
+    const price = tokenPricesData[repayAsset.symbol]?.price_usd || 0;
+
+    return price * repayAssetAmount.assetAmount.toNumber();
+  }, [repayAsset.symbol, repayAssetAmount.assetAmount, tokenPricesData]);
 
   useEffect(() => {
     repayAddress
@@ -80,9 +94,9 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
       asset: repayAsset,
       value: repayAssetAmount,
       balance: repayBalance,
-      usdPrice: repayUsdPrice,
+      usdPrice: repayUsd,
     }),
-    [repayAsset, repayAssetAmount, repayBalance, repayUsdPrice],
+    [repayAsset, repayAssetAmount, repayBalance, repayUsd],
   );
 
   const canRepay = useMemo(() => {
@@ -171,10 +185,7 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
 
             <Button
               flex={1}
-              onClick={(e) => {
-                e.stopPropagation();
-                handleToggle();
-              }}
+              onClick={handleToggle}
               rightIcon={
                 <Icon
                   className={classNames({
@@ -271,9 +282,7 @@ export const LoanInfoRow = ({ loan, setBorrowTab, setCollateralAsset }: Props) =
                             <Icon spin color="secondary" name="loader" size={16} />
                           </Flex>
                         ) : (
-                          <Text variant="secondary">
-                            {selectedRepayAsset.usdPrice.toCurrencyFormat(2)}
-                          </Text>
+                          <Text variant="secondary">{selectedRepayAsset.usdPrice.toFixed(2)}</Text>
                         )}
 
                         <Flex mr={4}>

@@ -89,13 +89,13 @@ export const DropdownMenu = ({
             p={0}
             rootProps={{ className: 'z-50 w-full' }}
           >
-            {menuItems.map(({ value, Component, className, disabled, label }) => (
+            {menuItems.map(({ value, Component, className, disabled, label }, index) => (
               <MenuItem
                 as="div"
                 bg="none"
                 className={className}
                 disabled={disabled}
-                key={value}
+                key={`${value}-${label || index}`}
                 onClick={() => onChange(value)}
                 p={0}
                 value={value}

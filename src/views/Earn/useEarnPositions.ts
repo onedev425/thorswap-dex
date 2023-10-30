@@ -1,9 +1,9 @@
-import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import { Amount } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import type { Chain } from '@thorswap-lib/types';
+import { usePools } from 'hooks/usePools';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getSaverData, getSaverPools } from 'store/midgard/actions';
-import { useMidgard } from 'store/midgard/hooks';
 import type { ThornodePoolType } from 'store/midgard/types';
 import { useWallet } from 'store/wallet/hooks';
 import type { SaverPosition } from 'views/Earn/types';
@@ -12,8 +12,8 @@ import { getSaverPoolNameForAsset } from 'views/Earn/utils';
 export const useSaverPositions = () => {
   const { wallet, isWalletLoading } = useWallet();
   const [positions, setPositions] = useState<SaverPosition[]>([]);
-  const { getPoolsFromState } = useMidgard();
-  const pools = getPoolsFromState();
+  const { pools } = usePools();
+
   const [synthAvailability, setSynthAvailability] = useState<Record<Chain, boolean>>();
   const [thornodePools, setThornodePools] = useState<ThornodePoolType[]>([]);
 
@@ -61,9 +61,10 @@ export const useSaverPositions = () => {
   const refreshPositions = useCallback(async () => {
     if (isWalletLoading) return;
 
-    const saversAssets = pools
-      .filter((pool) => pool.detail.saversDepth !== '0' && pool.detail.saversDepth !== '0')
-      .map((pool) => pool.asset);
+    const saversAssets =
+      pools
+        ?.filter((pool) => pool.saversDepth !== '0')
+        .map((pool) => Asset.fromAssetString(pool.asset) as AssetEntity) || [];
 
     const promises = saversAssets.map(getSaverPosition);
 

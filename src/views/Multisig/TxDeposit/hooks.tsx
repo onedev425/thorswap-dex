@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { AddLiquidityParams, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { getMemoFor } from '@thorswap-lib/swapkit-core';
 import { MemoType } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
@@ -7,6 +7,7 @@ import { Box } from 'components/Atomic';
 import type { InfoRowConfig } from 'components/InfoRow/types';
 import { RUNEAsset } from 'helpers/assets';
 import { useLiquidityType } from 'hooks/useLiquidityType';
+import { usePools } from 'hooks/usePools';
 import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
@@ -24,33 +25,36 @@ export const useTxDeposit = (assetSideAddress: string) => {
   const { signers } = useTxCreate();
   const { wallet } = useMultisigWallet();
   const assetRouteGetter = useCallback((asset: AssetEntity) => getMultisigTxCreateRoute(asset), []);
+  const { poolAssets } = usePools();
 
   const { liquidityType, setLiquidityType } = useLiquidityType();
-  const { poolAssets, pools, pool, poolAsset, handleSelectPoolAsset } = useAddLiquidityPools({
-    assetRouteGetter,
-  });
+  const { poolAsset, handleSelectPoolAsset } = useAddLiquidityPools({ assetRouteGetter });
   const depositAssetsBalance = useDepositAssetsBalance({ poolAsset });
 
   const poolAssetList = useAssetsList({ poolAssets });
   const navigate = useNavigate();
   const { createDepositTx } = useMultisig();
 
-  const onAddLiquidity = async ({ runeAmount, pool }: AddLiquidityParams) => {
+  const onAddLiquidity = async ({
+    runeAmount,
+    poolAsset,
+  }: {
+    runeAmount: AssetAmount;
+    poolAsset: AssetEntity;
+  }) => {
     if (runeAmount?.gt(0)) {
       const tx = await createDepositTx({
-        memo: getMemoFor(MemoType.DEPOSIT, {
-          chain: pool.asset.chain,
-          symbol: pool.asset.symbol,
-          address: liquidityType === LiquidityTypeOption.SYMMETRICAL ? assetSideAddress : undefined,
-        }),
         amount: runeAmount.amount,
         asset: runeAmount.asset,
+        memo: getMemoFor(MemoType.DEPOSIT, {
+          chain: poolAsset.chain,
+          symbol: poolAsset.symbol,
+          address: liquidityType === LiquidityTypeOption.SYMMETRICAL ? assetSideAddress : undefined,
+        }),
       });
 
       if (tx) {
-        navigate(ROUTES.TxMultisig, {
-          state: { tx, signers },
-        });
+        navigate(ROUTES.TxMultisig, { state: { tx, signers } });
       }
     }
   };
@@ -61,9 +65,6 @@ export const useTxDeposit = (assetSideAddress: string) => {
     liquidityType,
     setLiquidityType,
     poolAsset,
-    poolAssets,
-    pools,
-    pool,
     depositAssetsBalance,
     wallet,
   });
@@ -97,12 +98,12 @@ export const useTxDeposit = (assetSideAddress: string) => {
       ),
     });
 
-    if (pool) {
+    if (poolAsset) {
       info.push({
         label: t('common.memo'),
         value: getMemoFor(MemoType.DEPOSIT, {
-          chain: pool.asset.chain,
-          symbol: pool.asset.symbol,
+          chain: poolAsset.chain,
+          symbol: poolAsset.symbol,
           address: liquidityType === LiquidityTypeOption.SYMMETRICAL ? assetSideAddress : undefined,
         }),
       });
@@ -115,7 +116,7 @@ export const useTxDeposit = (assetSideAddress: string) => {
     addLiquidity.runeAssetInput.value,
     assetSideAddress,
     liquidityType,
-    pool,
+    poolAsset,
   ]);
 
   return {
@@ -123,7 +124,6 @@ export const useTxDeposit = (assetSideAddress: string) => {
     handleSelectPoolAsset,
     poolAssetList,
     liquidityType,
-    pool,
     poolAsset,
     confirmInfo,
   };

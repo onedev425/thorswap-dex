@@ -18,8 +18,6 @@ type Props = {
   shareType: PoolShareType;
   asset: AssetEntity;
   lastAddedDate: string;
-  runeWithdrawn: Amount;
-  assetWithdrawn: Amount;
   runePending: Amount;
   assetPending: Amount;
   maxHeightStyle: { maxHeight: string; overflow: string };
@@ -36,8 +34,6 @@ export const LiquidityInfo = memo(
     poolShare,
     runeShare,
     shareType,
-    runeWithdrawn,
-    assetWithdrawn,
     runePending,
     assetPending,
     tickerPending,
@@ -45,14 +41,6 @@ export const LiquidityInfo = memo(
     const summary = useMemo(() => {
       const infoFields: InfoRowConfig[] = [
         { label: t('views.liquidity.poolShare'), value: poolShare === '0 %' ? '~0 %' : poolShare },
-        {
-          label: t('views.liquidity.runeWithdrawn'),
-          value: runeWithdrawn.toSignificant(6),
-        },
-        {
-          label: t('views.liquidity.assetWithdrawn'),
-          value: assetWithdrawn.toSignificant(6),
-        },
       ];
 
       if (runePending.gt(0)) {
@@ -108,8 +96,6 @@ export const LiquidityInfo = memo(
       shareType,
       runePending,
       assetPending,
-      runeWithdrawn,
-      assetWithdrawn,
     ]);
 
     const poolAssetsInfo = useMemo(() => {

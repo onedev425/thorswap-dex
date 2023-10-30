@@ -8,7 +8,7 @@ import { maxHeightTransitionClass } from 'components/Atomic/Collapse/Collapse';
 import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';
 import { borderHoverHighlightClass } from 'components/constants';
 import { Scrollbar } from 'components/Scrollbar';
-import { formatPrice } from 'helpers/formatPrice';
+import { useFormatPrice } from 'helpers/formatPrice';
 import { memo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
@@ -33,6 +33,7 @@ type Props = {
 
 export const AccountCard = memo(({ thornames, chain }: Props) => {
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse();
+  const formatPrice = useFormatPrice();
   const navigate = useNavigate();
 
   const {

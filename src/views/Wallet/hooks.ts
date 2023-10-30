@@ -1,7 +1,7 @@
 import type { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Amount, AssetAmount, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
-import { formatPrice } from 'helpers/formatPrice';
+import { useFormatPrice } from 'helpers/formatPrice';
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useMemo } from 'react';
 import { useWallet } from 'store/wallet/hooks';
@@ -21,6 +21,8 @@ const emptyWallet = {
 
 export const useAccountData = (chain: Chain) => {
   const sigAsset = getSignatureAssetFor(chain);
+  const formatPrice = useFormatPrice();
+
   const {
     wallet: reduxWallet,
     chainWalletLoading,

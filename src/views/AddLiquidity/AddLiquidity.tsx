@@ -12,9 +12,10 @@ import { RUNEAsset } from 'helpers/assets';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useCheckHardCap } from 'hooks/useCheckHardCap';
 import { useLiquidityType } from 'hooks/useLiquidityType';
+import { usePools } from 'hooks/usePools';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
-import { LiquidityTypeOption } from 'store/midgard/types';
+import { LiquidityTypeOption, PoolShareType } from 'store/midgard/types';
 import { useWallet } from 'store/wallet/hooks';
 import { useAddLiquidity } from 'views/AddLiquidity/hooks/hooks';
 import { useAddLiquidityPools } from 'views/AddLiquidity/hooks/useAddLiquidityPools';
@@ -22,15 +23,26 @@ import { useDepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAsse
 
 import { AssetInputs } from './AssetInputs';
 import { PoolInfo } from './PoolInfo';
-import { liquidityToPoolShareType } from './utils';
+
+const liquidityToPoolShareType = (type: LiquidityTypeOption): PoolShareType => {
+  if (type === LiquidityTypeOption.ASSET) return PoolShareType.ASSET_ASYM;
+  if (type === LiquidityTypeOption.RUNE) return PoolShareType.RUNE_ASYM;
+  return PoolShareType.SYM;
+};
 
 export const AddLiquidity = () => {
   const { liquidityType, setLiquidityType } = useLiquidityType();
-  const { poolAssets, pools, pool, poolAsset, handleSelectPoolAsset } = useAddLiquidityPools();
+  const { poolAsset, handleSelectPoolAsset } = useAddLiquidityPools();
   const { wallet } = useWallet();
+  const { pools, poolAssets } = usePools();
   const depositAssetsBalance = useDepositAssetsBalance({ poolAsset });
   const hardCapReached = useCheckHardCap();
   const assetsWithBalances = useAssetsWithBalance(poolAssets);
+
+  const pool = useMemo(
+    () => pools.find((p) => p.asset === poolAsset.toString()) || pools[0],
+    [pools, poolAsset],
+  );
 
   const assetSelectList = useMemo(
     () =>
@@ -45,49 +57,46 @@ export const AddLiquidity = () => {
   );
 
   const {
-    handleSelectLiquidityType,
-    poolAssetInput,
-    runeAssetInput,
+    addLiquiditySlip,
+    approveConfirmInfo,
+    asymmTipVisible,
+    btnLabel,
+    confirmInfo,
+    depositAssets,
+    handleAddLiquidity,
+    handleApprove,
     handleChangeAssetAmount,
     handleChangeRuneAmount,
-    isAssetPending,
-    isRunePending,
-    totalFeeInUSD,
-    addLiquiditySlip,
-    poolShareEst,
-    poolMemberDetail,
-    asymmTipVisible,
-    setAsymmTipVisible,
-    isApproveRequired,
-    handleApprove,
-    isAssetApproveLoading,
-    isDepositAvailable,
-    isValidDeposit,
-    handleAddLiquidity,
-    btnLabel,
-    isWalletConnected,
-    setIsConnectModalOpen,
-    depositAssets,
-    visibleConfirmModal,
     handleConfirmAdd,
-    setVisibleConfirmModal,
-    confirmInfo,
-    visibleApproveModal,
-    setVisibleApproveModal,
     handleConfirmApprove,
-    approveConfirmInfo,
+    handleSelectLiquidityType,
+    isApproveRequired,
+    isAssetApproveLoading,
+    isAssetPending,
+    isDepositAvailable,
+    isRunePending,
+    isValidDeposit,
+    isWalletConnected,
+    poolAssetInput,
+    lpMemberData,
+    poolShareEst,
+    rate,
+    runeAssetInput,
+    setAsymmTipVisible,
+    setIsConnectModalOpen,
+    setVisibleApproveModal,
+    setVisibleConfirmModal,
+    feeInUSD,
+    visibleApproveModal,
+    visibleConfirmModal,
   } = useAddLiquidity({
-    liquidityType,
-    setLiquidityType,
-    pool,
-    pools,
-    poolAsset,
-    poolAssets,
     depositAssetsBalance,
+    liquidityType,
+    poolAsset,
+    poolData: pool,
+    setLiquidityType,
     wallet,
   });
-
-  const isPoolStaged = pool?.detail.status === 'staged';
 
   return (
     <PanelView
@@ -104,7 +113,7 @@ export const AddLiquidity = () => {
       <LiquidityType
         onChange={handleSelectLiquidityType}
         options={
-          isPoolStaged
+          pool?.status === 'staged'
             ? [LiquidityTypeOption.SYMMETRICAL]
             : [LiquidityTypeOption.ASSET, LiquidityTypeOption.SYMMETRICAL, LiquidityTypeOption.RUNE]
         }
@@ -125,18 +134,18 @@ export const AddLiquidity = () => {
       />
 
       <PoolInfo
-        fee={totalFeeInUSD}
+        fee={feeInUSD}
         poolShare={poolShareEst}
         poolTicker={poolAssetInput.asset.ticker}
-        rate={pool?.assetPriceInRune?.toSignificant(6) ?? null}
+        rate={rate.toFixed(4)}
         runeTicker={runeAssetInput.asset.ticker}
         slippage={addLiquiditySlip}
       />
 
-      {poolMemberDetail && pool && (
+      {lpMemberData && pool && (
         <LiquidityCard
-          {...poolMemberDetail}
-          pool={pool}
+          {...lpMemberData}
+          poolDetail={pool}
           shareType={liquidityToPoolShareType(liquidityType)}
         />
       )}

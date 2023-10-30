@@ -9,11 +9,11 @@ type Props = {
 export const MainMenu = ({ items }: Props) => {
   return (
     <Box className="grid grid-cols-2 gap-1 mt-3">
-      {items.map((item) => (
+      {items.map((item, index) => (
         <Box
           col
           className="p-4 cursor-pointer rounded-2xl bg-light-bg-primary dark:bg-dark-gray-light hover:brightness-95 dark:hover:brightness-125 transition-colors"
-          key={item.label}
+          key={item.label || index}
           onClick={item.onClick}
         >
           <Box row justify="between">

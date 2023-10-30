@@ -83,12 +83,12 @@ const formatter = ({
   }
 };
 
-export const formatPrice = (amount: Value, options?: FormatOptions) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const format = useFormat(options);
+// export const formatPrice = (amount: Value, options?: FormatOptions) => {
+//   // eslint-disable-next-line react-hooks/rules-of-hooks
+//   const format = useFormat(options);
 
-  return formatter({ amount, format });
-};
+//   return formatter({ amount, format });
+// };
 
 export const useFormatPrice = (options?: FormatOptions) => {
   const format = useFormat(options);

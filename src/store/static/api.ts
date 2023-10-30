@@ -13,6 +13,7 @@ export const staticApi = createApi({
   reducerPath: 'static',
   keepUnusedDataFor: 3600,
   baseQuery: fetchBaseQuery({
+    headers: { referer: 'https://app.thorswap.finance' },
     baseUrl: '',
     mode: 'cors',
   }),

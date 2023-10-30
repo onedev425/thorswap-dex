@@ -2,7 +2,7 @@ import type { AssetAmount, AssetEntity as Asset, Wallet } from '@thorswap-lib/sw
 import { Amount, getSignatureAssetFor, isGasAsset } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { Button, Icon } from 'components/Atomic';
-import { formatPrice } from 'helpers/formatPrice';
+import { useFormatPrice } from 'helpers/formatPrice';
 import { useAddressUtils } from 'hooks/useAddressUtils';
 import { getMultiplierForAsset, getNetworkFee, parseFeeToAssetAmount } from 'hooks/useNetworkFee';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -17,6 +17,7 @@ import { useGetGasPriceRatesQuery } from 'store/thorswap/api';
 export const useMultisigWalletInfo = () => {
   const { runeBalance, loadingBalances } = useMultissigAssets();
   const { address, threshold } = useAppSelector(({ multisig }) => multisig);
+  const formatPrice = useFormatPrice();
 
   const { shortAddress, handleCopyAddress } = useAddressUtils(address);
   const formattedRune = `${formatPrice(runeBalance?.amount || 0, {

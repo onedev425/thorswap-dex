@@ -1,14 +1,14 @@
-import { Amount, AssetEntity as Asset, Price } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { showErrorToast } from 'components/Toast';
 import { RUNEAsset } from 'helpers/assets';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';
+import { useTokenPrices } from 'hooks/useTokenPrices';
 import type { ChangeEvent } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getMultisigTxCreateRoute, ROUTES } from 'settings/router';
-import { useMidgard } from 'store/midgard/hooks';
 import { useMultisig } from 'store/multisig/hooks';
 import { useMultissigAssets } from 'views/Multisig/hooks';
 import { useTxCreate } from 'views/Multisig/TxCreate/TxCreateContext';
@@ -29,17 +29,10 @@ export const useTxSend = () => {
   const [recipientAddress, setRecipientAddress] = useState('');
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
 
-  const { getPoolsFromState } = useMidgard();
-  const pools = getPoolsFromState();
-
+  const { data } = useTokenPrices([sendAsset]);
   const assetPriceInUSD = useMemo(
-    () =>
-      new Price({
-        baseAsset: sendAsset,
-        pools,
-        priceAmount: sendAmount,
-      }),
-    [sendAsset, sendAmount, pools],
+    () => data[sendAsset.ticker]?.price_usd || 0 * sendAmount.assetAmount.toNumber(),
+    [data, sendAmount.assetAmount, sendAsset.ticker],
   );
 
   const maxSpendableBalance: Amount = useMemo(

@@ -7,7 +7,6 @@ import { TransactionsModalProvider } from 'components/TransactionTracker/useTran
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { useGlobalRefresh } from 'hooks/useGlobalRefresh';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider as ReduxProvider } from 'react-redux';
 import { store as reduxStore } from 'store/store';
@@ -20,8 +19,6 @@ dayjs.extend(duration);
 dayjs.extend(relativeTime);
 
 const MainApp = () => {
-  useGlobalRefresh();
-
   return (
     <Box className="overflow-x-hidden" flex={1}>
       <DrawerProvider>

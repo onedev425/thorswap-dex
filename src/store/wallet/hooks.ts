@@ -8,7 +8,6 @@ import { t } from 'services/i18n';
 import { ledgerLive } from 'services/ledgerLive';
 import { captureEvent } from 'services/postHog';
 import { IS_LEDGER_LIVE } from 'settings/config';
-import { actions as midgardActions } from 'store/midgard/slice';
 import { useAppDispatch, useAppSelector } from 'store/store';
 
 import type { LedgerLiveChain } from '../../../ledgerLive/wallet/LedgerLive';
@@ -59,7 +58,6 @@ export const useWallet = () => {
   const disconnectWallet = useCallback(() => {
     batch(() => {
       dispatch(actions.disconnect());
-      dispatch(midgardActions.resetChainMemberDetails());
     });
   }, [dispatch]);
 
@@ -67,7 +65,6 @@ export const useWallet = () => {
     (chain: Chain) => {
       batch(() => {
         dispatch(actions.disconnectByChain(chain));
-        dispatch(midgardActions.resetChainMemberDetail(chain));
       });
     },
     [dispatch],

@@ -1,7 +1,6 @@
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { poolByAsset } from 'helpers/assets';
+import { usePools } from 'hooks/usePools';
 import { useMemo } from 'react';
-import { useMidgard } from 'store/midgard/hooks';
 
 const BLOCKS_PER_DAY = 6432;
 
@@ -14,17 +13,18 @@ const getAPY = (blockReward: number, totalAmount: number) => {
 };
 
 export const useThorAPR = () => {
-  const { getPoolsFromState } = useMidgard();
-  const pools = getPoolsFromState();
+  const { pools } = usePools();
 
-  const thorPool = useMemo(() => poolByAsset(getSignatureAssetFor('ETH_THOR'), pools), [pools]);
-  const thorDepth = useMemo(
-    () => (thorPool?.assetDepth.assetAmount.toNumber() ?? 0) * 2,
-    [thorPool],
-  );
+  const thorPool = useMemo(() => {
+    const thorAsset = getSignatureAssetFor('ETH_THOR');
 
+    return pools?.find(({ asset }) => thorAsset.toString() === asset);
+  }, [pools]);
+
+  const thorDepth = useMemo(() => parseFloat(thorPool?.assetDepth ?? '0') * 2, [thorPool]);
   const apy = useMemo(() => Number(thorDepth ? getAPY(0, thorDepth).toFixed(2) : 0), [thorDepth]);
-  const thorchainAPY = Number(thorPool?.detail?.poolAPY ?? 0) * 100;
+
+  const thorchainAPY = Number(thorPool?.poolAPY ?? 0) * 100;
 
   return (apy + thorchainAPY).toFixed(2);
 };

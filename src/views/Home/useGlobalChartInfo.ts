@@ -5,7 +5,12 @@ import { ChartType } from 'components/Chart/types';
 import { useRuneAtTimeToCurrency, useRuneToCurrency } from 'hooks/useRuneToCurrency';
 import { useCallback, useMemo } from 'react';
 import { useApp } from 'store/app/hooks';
-import { useMidgard } from 'store/midgard/hooks';
+import {
+  useGetHistoryEarningsQuery,
+  useGetHistoryLiquidityChangesQuery,
+  useGetHistorySwapsQuery,
+  useGetHistoryTvlQuery,
+} from 'store/midgard/api';
 
 import {
   LiquidityChartIndex,
@@ -29,13 +34,10 @@ export const useGlobalChartInfo = () => {
   );
 
   const { baseCurrency } = useApp();
-  const {
-    isGlobalHistoryLoading,
-    earningsHistory,
-    swapGlobalHistory,
-    liquidityGlobalHistory,
-    tvlHistory,
-  } = useMidgard();
+  const { isLoading: isGlobalHistoryLoading, data: swapGlobalHistory } = useGetHistorySwapsQuery();
+  const { data: liquidityHistory } = useGetHistoryLiquidityChangesQuery();
+  const { data: earningsHistory } = useGetHistoryEarningsQuery();
+  const { data: tvlHistory } = useGetHistoryTvlQuery();
 
   const chartValueUnit = useMemo(() => {
     const baseCurrencyAsset = AssetEntity.fromAssetString(baseCurrency);
@@ -56,12 +58,12 @@ export const useGlobalChartInfo = () => {
   }, []);
 
   const volumeChartData: ChartData = useMemo(() => {
-    if (isGlobalHistoryLoading || !swapGlobalHistory || !liquidityGlobalHistory) {
+    if (isGlobalHistoryLoading || !swapGlobalHistory || !liquidityHistory) {
       return initialChartData;
     }
 
     const swapData = swapGlobalHistory.intervals || [];
-    const liquidityData = liquidityGlobalHistory.intervals || [];
+    const liquidityData = liquidityHistory.intervals || [];
 
     const totalVolume: ChartDetail[] = [];
     const swapVolume: ChartDetail[] = [];
@@ -122,7 +124,7 @@ export const useGlobalChartInfo = () => {
   }, [
     isGlobalHistoryLoading,
     swapGlobalHistory,
-    liquidityGlobalHistory,
+    liquidityHistory,
     chartValueUnit,
     initialChartData,
     formatFromRune,
@@ -130,7 +132,7 @@ export const useGlobalChartInfo = () => {
   ]);
 
   const liquidityChartData: ChartData = useMemo(() => {
-    if (isGlobalHistoryLoading || !earningsHistory || !liquidityGlobalHistory) {
+    if (isGlobalHistoryLoading || !earningsHistory) {
       return initialChartData;
     }
 
@@ -141,6 +143,7 @@ export const useGlobalChartInfo = () => {
     const liquidity: ChartDetail[] = [];
     const bondingEarnings: ChartDetail[] = [];
 
+    // @ts-expect-error
     earningsData.forEach((data, index) => {
       const time = Number(data?.startTime ?? 0);
       // Wed Sep 15 2021 00:00:00 GMT+0000 (https://www.unixtimestamp.com)
@@ -186,7 +189,6 @@ export const useGlobalChartInfo = () => {
   }, [
     isGlobalHistoryLoading,
     earningsHistory,
-    liquidityGlobalHistory,
     tvlHistory?.intervals,
     chartValueUnit,
     initialChartData,

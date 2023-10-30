@@ -1,9 +1,8 @@
 import { Box, Flex } from '@chakra-ui/react';
 import type { QuoteRoute } from '@thorswap-lib/swapkit-api';
 import type { AssetEntity, QuoteMode } from '@thorswap-lib/swapkit-core';
-import { Amount, getSignatureAssetFor, Price } from '@thorswap-lib/swapkit-core';
+import { Amount, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
 import { BaseDecimal, Chain, WalletOption } from '@thorswap-lib/types';
-import BigNumber from 'bignumber.js';
 import { Analysis } from 'components/Analysis/Analysis';
 import { easeInOutTransition } from 'components/constants';
 import { InfoTip } from 'components/InfoTip';
@@ -15,7 +14,6 @@ import { useFormatPrice } from 'helpers/formatPrice';
 import { hasWalletConnected } from 'helpers/wallet';
 import { useBalance } from 'hooks/useBalance';
 import { useRouteFees } from 'hooks/useRouteFees';
-import { useSlippage } from 'hooks/useSlippage';
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -134,22 +132,16 @@ const SwapView = () => {
     isLoading: isPriceLoading,
   } = useTokenPrices([inputAsset, outputAsset]);
 
-  const { inputUSDValue, inputUSDPrice, outputUnitPrice, inputUnitPrice } = useMemo(() => {
+  const { inputUSDPrice, inputUnitPrice, outputUnitPrice } = useMemo(() => {
     const inputUnitPrice = pricesData?.[inputAsset.toString()]?.price_usd || 0;
     const outputUnitPrice = pricesData?.[outputAsset.toString()]?.price_usd || 0;
-    const inputUSDPrice = new Price({
-      baseAsset: inputAsset,
-      unitPrice: new BigNumber(inputUnitPrice),
-      priceAmount: inputAmount,
-    });
 
     return {
-      inputUnitPrice,
       outputUnitPrice,
-      inputUSDPrice,
-      inputUSDValue: inputUSDPrice.price.toNumber(),
+      inputUnitPrice,
+      inputUSDPrice: inputUnitPrice * inputAmount.assetAmount.toNumber(),
     };
-  }, [pricesData, inputAsset, inputAmount, outputAsset]);
+  }, [pricesData, inputAsset, outputAsset, inputAmount]);
 
   const {
     affiliateBasisPoints,
@@ -169,7 +161,7 @@ const SwapView = () => {
     selectedRouteFees: fees,
     vTHORDiscount,
   } = useSwapQuote({
-    inputUSDValue,
+    inputUSDPrice,
     ethAddress,
     noPriceProtection,
     inputAmount,
@@ -179,18 +171,11 @@ const SwapView = () => {
     recipientAddress: recipient,
   });
 
-  const { isKyberSwapPage, kyberRoutes } = useKyberSwap({
-    routes,
-  });
+  const { isKyberSwapPage, kyberRoutes } = useKyberSwap({ routes });
 
   const outputUSDPrice = useMemo(
-    () =>
-      new Price({
-        baseAsset: outputAsset,
-        unitPrice: new BigNumber(outputUnitPrice),
-        priceAmount: outputAmount,
-      }),
-    [outputAsset, outputUnitPrice, outputAmount],
+    () => outputUnitPrice * outputAmount.assetAmount.toNumber(),
+    [outputUnitPrice, outputAmount],
   );
 
   const isInputWalletConnected = useMemo(
@@ -328,12 +313,9 @@ const SwapView = () => {
     streamSwap,
   });
 
-  const slippage = useSlippage(inputUSDPrice, outputUSDPrice);
-
-  const minReceiveSlippage = useSlippage(
-    inputUSDPrice,
-    formatPrice(minReceive.mul(outputUSDPrice.unitPrice), { prefix: '' }),
-  );
+  const slippage = (inputUSDPrice - outputUSDPrice) / inputUSDPrice;
+  const minReceiveSlippage =
+    (inputUSDPrice - minReceive.assetAmount.toNumber() * outputUnitPrice) / inputUSDPrice;
 
   const minReceiveInfo = useMemo(
     () =>
@@ -425,18 +407,19 @@ const SwapView = () => {
           <SwapInfo
             affiliateBasisPoints={Number(affiliateBasisPoints)}
             affiliateFee={affiliateFee}
+            assets={[inputAsset.ticker, outputAsset.ticker]}
             expectedOutput={`${outputAmount?.toSignificant(6)} ${outputAsset.name.toUpperCase()}`}
-            inputUSDPrice={inputUSDPrice}
+            inputUnitPrice={inputUnitPrice}
             isLoading={isPriceLoading}
             minReceive={minReceiveInfo}
             minReceiveSlippage={minReceiveSlippage}
             networkFee={networkFee}
-            outputUSDPrice={outputUSDPrice}
+            outputUnitPrice={outputUnitPrice}
             setFeeModalOpened={setFeeModalOpened}
             showTransactionFeeSelect={showTransactionFeeSelect}
             streamSwap={streamSwap}
             vTHORDiscount={vTHORDiscount}
-            whaleDiscount={inputUSDValue >= 1_000_000}
+            whaleDiscount={inputUSDPrice >= 1_000_000}
           />
 
           {tokenOutputWarning && (
@@ -456,7 +439,7 @@ const SwapView = () => {
 
           <SwapRouter
             outputAsset={outputAsset}
-            outputUSDPrice={outputUSDPrice}
+            outputUnitPrice={outputUnitPrice}
             routes={!isKyberSwapPage ? routes : kyberRoutes}
             selectedRoute={!isKyberSwapPage ? selectedRoute : kyberRoutes[0]}
             setSwapRoute={setSwapRoute}
@@ -485,7 +468,7 @@ const SwapView = () => {
             feeAssets={feeAssets}
             handleSwap={handleSwap}
             inputAssetProps={inputAssetProps}
-            inputUSDPrice={inputUSDPrice.assetAmount.toNumber() * inputUnitPrice}
+            inputUSDPrice={inputUSDPrice}
             minReceive={minReceiveInfo}
             outputAssetProps={outputAssetProps}
             recipient={recipient}

@@ -1,7 +1,6 @@
 import { Spinner, Text } from '@chakra-ui/react';
-import { Amount, AssetEntity, Price } from '@thorswap-lib/swapkit-core';
+import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
-import BigNumber from 'bignumber.js';
 import { SwitchMenu } from 'components/AppPopoverMenu/components/SwitchMenu';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Button, Icon, Tooltip } from 'components/Atomic';
@@ -154,7 +153,7 @@ const Send = () => {
     ).then((balances) => {
       setAssetInputList(balances);
     });
-  }, [walletAssets, getMaxBalance]);
+  }, [getMaxBalance, walletAssets]);
 
   const handleSelectAsset = useCallback(
     (selected: AssetEntity) => {
@@ -208,11 +207,7 @@ const Send = () => {
       asset: sendAsset,
       value: sendAmount,
       balance: isWalletConnected ? maxSpendableBalance : undefined,
-      usdPrice: new Price({
-        baseAsset: sendAsset,
-        priceAmount: sendAmount,
-        unitPrice: new BigNumber(inputAssetUSDPrice),
-      }),
+      usdPrice: sendAmount.assetAmount.toNumber() * inputAssetUSDPrice,
     }),
     [sendAsset, sendAmount, isWalletConnected, maxSpendableBalance, inputAssetUSDPrice],
   );

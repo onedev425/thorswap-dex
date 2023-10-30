@@ -16,7 +16,6 @@ import { useFormatPrice } from 'helpers/formatPrice';
 import { useAssetListSearch } from 'hooks/useAssetListSearch';
 import { useBalance } from 'hooks/useBalance';
 import { useMimir } from 'hooks/useMimir';
-import { usePoolAssetPriceInUsd } from 'hooks/usePoolAssetPriceInUsd';
 import { useTCBlockTimer } from 'hooks/useTCBlockTimer';
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -132,10 +131,12 @@ const Borrow = () => {
     assetIn: collateralAsset,
     assetOut: borrowAsset,
   });
-  const borrowUsdPrice = usePoolAssetPriceInUsd({
-    asset: borrowAsset,
-    amount: expectedOutput,
-  });
+
+  const borrowUsdPrice = useMemo(() => {
+    const price = tokenPricesData[borrowAsset.symbol]?.price_usd || 0;
+
+    return price * expectedOutput.assetAmount.toNumber();
+  }, [borrowAsset.symbol, expectedOutput.assetAmount, tokenPricesData]);
 
   useEffect(() => {
     collateralAddress

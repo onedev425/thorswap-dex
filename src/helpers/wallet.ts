@@ -45,57 +45,6 @@ export const getInputAssetsForAdd = ({
   return assets;
 };
 
-export const getInputAssetsForCreate = ({
-  wallet,
-  pools,
-  ethWhitelist,
-  avaxWhitelist,
-  bscWhitelist = [],
-}: {
-  wallet: Wallet | null;
-  pools: Pool[];
-  ethWhitelist: string[];
-  avaxWhitelist: string[];
-  bscWhitelist: string[];
-}) => {
-  const assets: AssetEntity[] = [];
-  const poolAssets = pools.map((pool) => pool.asset);
-
-  if (!wallet) return poolAssets;
-  if (pools.length === 0) return [];
-
-  for (const chain of Object.keys(wallet)) {
-    const chainWallet = wallet[chain as Chain];
-    const balances = chainWallet?.balance || [];
-    if (Chain.THORChain !== chain) {
-      for (const balance of balances) {
-        // 1. if non-pool asset exists
-        // 2. asset shouldn't be THORChain asset
-        if (
-          !poolAssets.find((poolAsset) => poolAsset.eq(balance.asset)) &&
-          balance.asset.chain !== Chain.THORChain
-        ) {
-          // if erc20 token is whitelisted for THORChain
-          const whitelist =
-            balance.asset.L1Chain === Chain.Ethereum
-              ? ethWhitelist
-              : balance.asset.L1Chain === Chain.Avalanche
-              ? avaxWhitelist
-              : balance.asset.L1Chain === Chain.BinanceSmartChain
-              ? bscWhitelist
-              : [];
-
-          if (isTokenWhitelisted(balance.asset, whitelist)) {
-            assets.push(balance.asset);
-          }
-        }
-      }
-    }
-  }
-
-  return assets;
-};
-
 export const getRuneToUpgrade = (wallet: Wallet | null): AssetEntity[] | null => {
   if (!wallet) return null;
   const runeToUpgrade = [];

@@ -1,14 +1,12 @@
-import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { AssetEntity as Asset, AssetEntity } from '@thorswap-lib/swapkit-core';
 import {
   Amount,
   AssetAmount,
   getMinAmountByChain,
   getSignatureAssetFor,
   isGasAsset,
-  Price,
 } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
-import BigNumber from 'bignumber.js';
 import { Box, Button } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { InfoTable } from 'components/InfoTable';
@@ -17,22 +15,23 @@ import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveIn
 import { PanelView } from 'components/PanelView';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
+import { useFormatPrice } from 'helpers/formatPrice';
 import { getEstimatedTxTime } from 'helpers/getEstimatedTxTime';
 import {
   getAssetBalance,
-  getInputAssetsForCreate,
   hasConnectedWallet,
   hasWalletConnected,
+  isTokenWhitelisted,
 } from 'helpers/wallet';
 import { useBalance } from 'hooks/useBalance';
 import { useCheckHardCap } from 'hooks/useCheckHardCap';
 import { useMimir } from 'hooks/useMimir';
-import { getSumAmountInUSD, useNetworkFee } from 'hooks/useNetworkFee';
+import { useNetworkFee } from 'hooks/useNetworkFee';
+import { usePools } from 'hooks/usePools';
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useExternalConfig } from 'store/externalConfig/hooks';
-import { useMidgard } from 'store/midgard/hooks';
 import { LiquidityTypeOption } from 'store/midgard/types';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
@@ -51,33 +50,65 @@ import { useConfirmInfoItems } from './useConfirmInfoItems';
 
 export const CreateLiquidity = () => {
   const appDispatch = useAppDispatch();
-  const { getPoolsFromState } = useMidgard();
-  const pools = getPoolsFromState();
+  const [inputAssets, setInputAssets] = useState<Asset[]>([]);
 
   const { wallet, setIsConnectModalOpen } = useWallet();
-  const [inputAssets, setInputAssets] = useState<Asset[]>([]);
+  const { poolAssets } = usePools();
   const ethWhitelist = useTokenAddresses('Thorchain-supported-erc20');
   const avaxWhitelist = useTokenAddresses('tc-whitelisted-avax-pools');
   const bscWhitelist = useTokenAddresses('tc-whitelisted-bsc-pools');
   const { tokens } = useTokenList();
   const hardCapReached = useCheckHardCap();
+  const formatPrice = useFormatPrice();
+
+  const createInputAssets = useMemo(() => {
+    const assets: AssetEntity[] = [];
+
+    if (!wallet) return poolAssets;
+    if (poolAssets.length === 0) return [];
+
+    for (const chain of Object.keys(wallet)) {
+      const chainWallet = wallet[chain as Chain];
+      const balances = chainWallet?.balance || [];
+      if (Chain.THORChain !== chain) {
+        for (const balance of balances) {
+          // 1. if non-pool asset exists
+          // 2. asset shouldn't be THORChain asset
+          if (
+            !poolAssets.find((poolAsset) => poolAsset.eq(balance.asset)) &&
+            balance.asset.chain !== Chain.THORChain
+          ) {
+            // if erc20 token is whitelisted for THORChain
+            const whitelist =
+              balance.asset.L1Chain === Chain.Ethereum
+                ? ethWhitelist
+                : balance.asset.L1Chain === Chain.Avalanche
+                ? avaxWhitelist
+                : balance.asset.L1Chain === Chain.BinanceSmartChain
+                ? bscWhitelist
+                : [];
+
+            if (isTokenWhitelisted(balance.asset, whitelist)) {
+              assets.push(balance.asset);
+            }
+          }
+        }
+      }
+    }
+
+    return assets;
+  }, [avaxWhitelist, bscWhitelist, ethWhitelist, poolAssets, wallet]);
 
   const handleInputAssetUpdate = useCallback(() => {
-    if (hasConnectedWallet(wallet) && (ethWhitelist.length > 0 || avaxWhitelist.length > 0)) {
-      const assets = getInputAssetsForCreate({
-        ethWhitelist,
-        avaxWhitelist,
-        bscWhitelist,
-        wallet,
-        pools,
-      });
-      const assetsToSet = assets.filter((asset) => asset.ticker !== 'RUNE' && !asset.isSynth) || [];
+    if (hasConnectedWallet(wallet)) {
+      const assetsToSet =
+        createInputAssets.filter((asset) => asset.ticker !== 'RUNE' && !asset.isSynth) || [];
 
       setInputAssets(assetsToSet);
     } else {
       setInputAssets([]);
     }
-  }, [avaxWhitelist, bscWhitelist, ethWhitelist, pools, wallet]);
+  }, [createInputAssets, wallet]);
 
   useEffect(() => {
     handleInputAssetUpdate();
@@ -107,7 +138,11 @@ export const CreateLiquidity = () => {
 
   const [maxRuneBalance, setMaxRuneBalance] = useState(zeroAmount);
 
-  const { inputFee: inboundAssetFee, outputFee: inboundRuneFee } = useNetworkFee({
+  const {
+    feeInUSD,
+    inputFee: inboundAssetFee,
+    outputFee: inboundRuneFee,
+  } = useNetworkFee({
     inputAsset: poolAsset,
     outputAsset: runeAsset,
   });
@@ -130,22 +165,12 @@ export const CreateLiquidity = () => {
   const { assetUnitPrice, runeUnitPrice, assetUSDPrice, runeUSDPrice } = useMemo(() => {
     const assetUnitPrice = pricesData?.[poolAsset.toString()]?.price_usd || 0;
     const runeUnitPrice = pricesData?.[runeAsset.toString()]?.price_usd || 0;
-    const assetUSDPrice = new Price({
-      baseAsset: poolAsset,
-      unitPrice: new BigNumber(assetUnitPrice),
-      priceAmount: assetAmount,
-    });
-    const runeUSDPrice = new Price({
-      baseAsset: runeAsset,
-      unitPrice: new BigNumber(runeUnitPrice),
-      priceAmount: runeAmount,
-    });
 
     return {
       assetUnitPrice,
       runeUnitPrice,
-      assetUSDPrice,
-      runeUSDPrice,
+      assetUSDPrice: assetAmount.assetAmount.toNumber() * assetUnitPrice,
+      runeUSDPrice: runeAmount.assetAmount.toNumber() * runeUnitPrice,
     };
   }, [pricesData, poolAsset, runeAsset, assetAmount, runeAmount]);
 
@@ -326,11 +351,6 @@ export const CreateLiquidity = () => {
     }
   }, [wallet]);
 
-  const totalFeeInUSD = useMemo(() => {
-    const totalFee = getSumAmountInUSD(inboundRuneFee, inboundAssetFee, pools);
-    return `$${totalFee}`;
-  }, [inboundRuneFee, inboundAssetFee, pools]);
-
   const depositAssets: Asset[] = useMemo(
     () => [poolAsset, getSignatureAssetFor(Chain.THORChain)],
     [poolAsset],
@@ -441,7 +461,7 @@ export const CreateLiquidity = () => {
     poolShare: '100%',
     slippage: 'N/A',
     estimatedTime,
-    totalFee: totalFeeInUSD,
+    totalFee: feeInUSD,
     fees: [
       { chain: poolAsset.L1Chain, fee: inboundAssetFee.toCurrencyFormat() },
       { chain: Chain.THORChain, fee: inboundRuneFee.toCurrencyFormat() },
@@ -482,7 +502,7 @@ export const CreateLiquidity = () => {
       />
 
       <PoolInfo
-        assetUSDPrice={assetUSDPrice.toCurrencyFormat(3)}
+        assetUSDPrice={formatPrice(assetUSDPrice)}
         poolAsset={poolAssetInput}
         poolShare="100%"
         rate={price.toSignificant(6)}

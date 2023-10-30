@@ -9,10 +9,8 @@ import { BreakPoint } from 'hooks/useWindowSize';
 import { useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
-import { useMidgard } from 'store/midgard/hooks';
 
-export const useNodesColumns = () => {
-  const { getNodes } = useMidgard();
+export const useNodesColumns = (refetch: () => void) => {
   const { setWatchList, nodeWatchList } = useApp();
 
   const handleAddToWatchList = useCallback(
@@ -37,7 +35,7 @@ export const useNodesColumns = () => {
             className="group-hover:text-dark-typo-primary"
             color="secondary"
             iconName="refresh"
-            onClick={getNodes}
+            onClick={refetch}
             size={12}
           />
         ),
@@ -134,7 +132,7 @@ export const useNodesColumns = () => {
         sortType: getAmountColumnSorter('ActiveBlock'),
       },
     ],
-    [nodeWatchList, handleAddToWatchList, getNodes],
+    [refetch, nodeWatchList, handleAddToWatchList],
   );
   return columns;
 };

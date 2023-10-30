@@ -1,12 +1,12 @@
-import { Amount, Price } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import { showErrorToast } from 'components/Toast';
 import { RUNEAsset } from 'helpers/assets';
+import { useTokenPrices } from 'hooks/useTokenPrices';
 import type { ChangeEvent } from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { ROUTES } from 'settings/router';
-import { useMidgard } from 'store/midgard/hooks';
 import { useMultisig } from 'store/multisig/hooks';
 import { useMultissigAssets } from 'views/Multisig/hooks';
 import { useTxCreate } from 'views/Multisig/TxCreate/TxCreateContext';
@@ -21,17 +21,10 @@ export const useTxDepositCustom = () => {
   const [memo, setMemo] = useState('');
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
 
-  const { getPoolsFromState } = useMidgard();
-  const pools = getPoolsFromState();
-
+  const { data } = useTokenPrices([RUNEAsset]);
   const assetPriceInUSD = useMemo(
-    () =>
-      new Price({
-        baseAsset: RUNEAsset,
-        pools,
-        priceAmount: depositAmount,
-      }),
-    [depositAmount, pools],
+    () => data[RUNEAsset.ticker]?.price_usd || 0 * depositAmount.assetAmount.toNumber(),
+    [data, depositAmount.assetAmount],
   );
 
   const maxSpendableBalance: Amount = useMemo(() => getMaxBalance(RUNEAsset), [getMaxBalance]);

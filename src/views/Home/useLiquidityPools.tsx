@@ -1,6 +1,5 @@
-import { chainName } from 'helpers/chainName';
+import { usePools } from 'hooks/usePools';
 import { useMemo } from 'react';
-import { useMidgard } from 'store/midgard/hooks';
 
 import { PoolCategoryOption, poolCategoryOptions, poolStatusOptions } from './types';
 
@@ -9,22 +8,21 @@ type Params = {
   selectedPoolsCategory: number;
 };
 export const useLiquidityPools = ({ keyword, selectedPoolsCategory }: Params) => {
-  const { getPoolsFromState } = useMidgard();
-  const poolsToUse = selectedPoolsCategory === 0 ? getPoolsFromState('7d') : getPoolsFromState();
+  const { pools } = usePools(selectedPoolsCategory === 0 ? '7d' : '30d');
 
   const selectedPoolsCategoryValue = poolCategoryOptions[selectedPoolsCategory];
 
   const poolsByStatus = useMemo(() => {
     const selectedPoolStatusValue = poolStatusOptions[0].toLowerCase();
 
-    return poolsToUse.filter(({ detail }) => detail.status === selectedPoolStatusValue);
-  }, [poolsToUse]);
+    return pools?.filter(({ status }) => status === selectedPoolStatusValue) || [];
+  }, [pools]);
 
   const filteredPools = useMemo(() => {
     const poolsByCategory =
       selectedPoolsCategoryValue === PoolCategoryOption.Savers
         ? poolsByStatus.filter(
-            ({ detail }) => detail.saversDepth !== '0' && detail.saversUnits !== '0',
+            ({ saversDepth, saversUnits }) => saversDepth !== '0' && saversUnits !== '0',
           )
         : poolsByStatus;
 
@@ -32,15 +30,9 @@ export const useLiquidityPools = ({ keyword, selectedPoolsCategory }: Params) =>
     if (keyword) {
       return poolsByCategory.filter(({ asset }) => {
         const poolStr = asset.toString().toLowerCase();
-        const chainStr = chainName(asset.chain, true).toLowerCase();
-        const assetType = asset.type.toLowerCase();
         const keywordStr = keyword.toLowerCase();
 
-        return (
-          poolStr.includes(keywordStr) ||
-          chainStr.includes(keywordStr) ||
-          assetType.includes(keywordStr)
-        );
+        return poolStr.includes(keywordStr);
       });
     }
 

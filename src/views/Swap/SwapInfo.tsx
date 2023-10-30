@@ -1,5 +1,4 @@
 import { Text } from '@chakra-ui/react';
-import type { Price } from '@thorswap-lib/swapkit-core';
 import { FeeOption } from '@thorswap-lib/types';
 import { Box, Button, Collapse, Icon, Select } from 'components/Atomic';
 import type { InfoRowConfig } from 'components/InfoRow/types';
@@ -18,16 +17,17 @@ type Props = {
   expectedOutput?: string;
   affiliateFee: number;
   networkFee: number;
-  inputUSDPrice: Price;
+  inputUnitPrice: number;
   isLoading: boolean;
   minReceive: string;
   minReceiveSlippage: number;
-  outputUSDPrice: Price;
+  outputUnitPrice: number;
   streamSwap: boolean;
   setFeeModalOpened: (isOpened: boolean) => void;
   showTransactionFeeSelect?: boolean;
   whaleDiscount: boolean;
   vTHORDiscount: boolean;
+  assets: [string, string];
 };
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
 
@@ -35,19 +35,20 @@ const feeOptions = [FeeOption.Average, FeeOption.Fast, FeeOption.Fastest];
 
 export const SwapInfo = ({
   affiliateBasisPoints,
+  assets: [inputAsset, outputAsset],
   expectedOutput,
   affiliateFee,
   networkFee,
-  inputUSDPrice,
   isLoading,
   streamSwap,
   minReceive,
   minReceiveSlippage,
-  outputUSDPrice,
   setFeeModalOpened,
   showTransactionFeeSelect,
   whaleDiscount,
   vTHORDiscount,
+  inputUnitPrice,
+  outputUnitPrice,
 }: Props) => {
   const { feeOptionType, setFeeOptionType } = useApp();
   const formatPrice = useFormatPrice();
@@ -58,26 +59,23 @@ export const SwapInfo = ({
     e.stopPropagation();
   }, []);
 
-  const [first, second] = reverted
-    ? [outputUSDPrice, inputUSDPrice]
-    : [inputUSDPrice, outputUSDPrice];
+  const { rateDesc, ratePrice } = useMemo(() => {
+    const [first, second] = [inputUnitPrice, outputUnitPrice].sort(() => (reverted ? 1 : -1));
+    const [firstAsset, secondAsset] = [inputAsset, outputAsset].sort(() => (reverted ? 1 : -1));
+    const rate = first / second;
+    const decimals = rate > 1000 ? 4 : rate > 1 ? 5 : 8;
 
-  const rateDesc = useMemo(() => {
-    const rate = first.unitPrice.dividedBy(second.unitPrice);
-    const decimals = rate.gte(1000) ? 4 : rate.gte(1) ? 5 : 8;
-
-    return rate.gt(0)
-      ? `1 ${first.baseAsset.ticker} = ${rate.toFixed(decimals)} ${second.baseAsset.ticker}`
-      : '-';
-  }, [first.baseAsset.ticker, first.unitPrice, second.baseAsset.ticker, second.unitPrice]);
+    return {
+      rateDesc: rate > 0 ? `1 ${firstAsset} = ${rate.toFixed(decimals)} ${secondAsset}` : '-',
+      ratePrice: `($${formatPrice(inputUnitPrice)})`,
+    };
+  }, [formatPrice, inputAsset, inputUnitPrice, outputAsset, outputUnitPrice, reverted]);
 
   const openFeeModal = useCallback(() => {
     if (networkFee + affiliateFee <= 0) return;
 
     setFeeModalOpened(true);
   }, [networkFee, affiliateFee, setFeeModalOpened]);
-
-  const ratePrice = `($${formatPrice(first.unitPrice.toFixed(2))})`;
 
   const discountLabel = useMemo(() => {
     if (whaleDiscount && vTHORDiscount) return 'vTHOR + 🐳 Whale 50% Off';

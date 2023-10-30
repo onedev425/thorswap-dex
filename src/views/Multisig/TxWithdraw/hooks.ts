@@ -9,10 +9,10 @@ import {
 import { Chain, MemoType } from '@thorswap-lib/types';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
+import { usePools } from 'hooks/usePools';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getMultisigTxCreateRoute, ROUTES } from 'settings/router';
-import { useMidgard } from 'store/midgard/hooks';
 import { LiquidityTypeOption, PoolShareType } from 'store/midgard/types';
 import { useMultisig } from 'store/multisig/hooks';
 import { useTxCreate } from 'views/Multisig/TxCreate/TxCreateContext';
@@ -23,11 +23,8 @@ export const useTxWithdraw = () => {
   const { createDepositTx } = useMultisig();
   const { signers } = useTxCreate();
   const navigate = useNavigate();
-  const { getPoolsFromState } = useMidgard();
-  const pools = getPoolsFromState();
-  const poolAssets = useMemo(() => {
-    return pools.map((poolData) => poolData.asset);
-  }, [pools]);
+  const { poolAssets } = usePools();
+
   const poolAssetList = useAssetsWithBalance(poolAssets);
   const [poolAsset, setPoolAsset] = useState<Asset>(getSignatureAssetFor(Chain.Bitcoin));
   const [lpType, setLPType] = useState(SHARE_TYPES[0]);

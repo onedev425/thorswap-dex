@@ -1,9 +1,9 @@
 import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import { Amount, Price } from '@thorswap-lib/swapkit-core';
+import { Amount } from '@thorswap-lib/swapkit-core';
 import BigNumber from 'bignumber.js';
-import { useCallback, useState } from 'react';
+import { useTokenPrices } from 'hooks/useTokenPrices';
+import { useCallback, useMemo, useState } from 'react';
 import { SORTED_LENDING_COLLATERAL_ASSETS } from 'settings/chain';
-import { useMidgard } from 'store/midgard/hooks';
 import { useLazyGetLoansQuery } from 'store/thorswap/api';
 import { useWallet } from 'store/wallet/hooks';
 
@@ -11,12 +11,27 @@ import type { LoanPosition } from './types';
 
 export const useLoans = () => {
   const { wallet, isWalletLoading } = useWallet();
-  const { getPoolsFromState } = useMidgard();
-  const pools = getPoolsFromState();
 
   const [loans, setLoans] = useState<LoanPosition[] | null>(null);
   const [fetchLoans] = useLazyGetLoansQuery();
   const [isLoading, setIsLoading] = useState(false);
+
+  const loansAssets = useMemo(() => loans?.map((loan) => loan.asset) || [], [loans]);
+  const { isLoading: tokenPricesLoading, data: tokenPrices } = useTokenPrices(loansAssets);
+
+  const totalCollateral = useMemo(() => {
+    if (tokenPricesLoading) return BigNumber(0);
+
+    return loans?.reduce(
+      (sum, { asset, collateralCurrent }) =>
+        sum.plus(
+          BigNumber(
+            tokenPrices[asset.toString()]?.price_usd * collateralCurrent.assetAmount.toNumber(),
+          ),
+        ),
+      BigNumber(0),
+    );
+  }, [loans, tokenPrices, tokenPricesLoading]);
 
   const getLoanPosition = useCallback(
     async (asset: Asset): Promise<LoanPosition | null> => {
@@ -82,18 +97,6 @@ export const useLoans = () => {
     setLoans(loadedLoans);
     setIsLoading(false);
   }, [getLoanPosition, isWalletLoading]);
-
-  const totalCollateral = loans?.reduce(
-    (sum, obj) =>
-      sum.plus(
-        new Price({
-          baseAsset: obj.asset,
-          pools,
-          priceAmount: obj.collateralCurrent,
-        }).price,
-      ),
-    BigNumber(0),
-  );
 
   const totalBorrowed = loans?.reduce(
     (sum, obj) => sum.add(obj.debtCurrent),

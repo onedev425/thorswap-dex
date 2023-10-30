@@ -1,8 +1,8 @@
-import type { Pool } from '@thorswap-lib/swapkit-core';
 import type { TableRowType } from 'components/Atomic';
 import { Box, Icon, Table } from 'components/Atomic';
 import { useCallback } from 'react';
 import { navigateToPoolDetail } from 'settings/router';
+import type { PoolDetail } from 'store/midgard/types';
 import type { PoolCategoryOption } from 'views/Home/types';
 
 import { usePoolColumns } from './usePoolColumns';
@@ -10,7 +10,7 @@ import { usePoolColumns } from './usePoolColumns';
 const initialSort = [{ id: 'liquidity', desc: true }];
 
 type Props = {
-  data: Pool[];
+  data: PoolDetail[];
   poolCategory: PoolCategoryOption;
 };
 

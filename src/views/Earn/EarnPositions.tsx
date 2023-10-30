@@ -4,6 +4,7 @@ import { Box, Icon } from 'components/Atomic';
 import { DoughnutChart } from 'components/Chart/DoughnutChart/DoughnutChart';
 import { HighlightCard } from 'components/HighlightCard';
 import { ReloadButton } from 'components/ReloadButton';
+import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useState } from 'react';
 import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
@@ -29,6 +30,8 @@ export const EarnPositions = ({ positions, refresh, withdrawAsset, depositAsset 
     setTimeout(() => setIsLoading(false), 500);
   }, [refresh]);
 
+  const { data: tokenPrices } = useTokenPrices(positions.map((position) => position.asset));
+
   return (
     <Box center col className="w-full">
       <Box col className="max-w-[480px] w-full gap-1">
@@ -52,6 +55,7 @@ export const EarnPositions = ({ positions, refresh, withdrawAsset, depositAsset 
         {positions.length ? (
           positions.map((position) => (
             <EarnPosition
+              assetPriceUSD={tokenPrices?.[position.asset.toString()]?.price_usd || 0}
               deposit={depositAsset}
               key={position.asset.toString()}
               position={position}

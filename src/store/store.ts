@@ -6,7 +6,6 @@ import { midgardApi } from 'store/midgard/api';
 
 import appReducer from './app/slice';
 import assetsReducer from './assets/slice';
-import midgardReducer from './midgard/slice';
 import multisigReducer from './multisig/slice';
 import { staticApi } from './static/api';
 import { thorswapApi } from './thorswap/api';
@@ -22,7 +21,6 @@ const rootReducer = combineReducers({
 
   app: appReducer,
   assets: assetsReducer,
-  midgard: midgardReducer,
   multisig: multisigReducer,
   transactions: transactionsReducer,
   wallet: walletReducer,

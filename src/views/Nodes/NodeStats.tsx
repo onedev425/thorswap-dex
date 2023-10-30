@@ -5,12 +5,12 @@ import { useGlobalStats } from 'hooks/useGlobalStats';
 import { useRuneToCurrency } from 'hooks/useRuneToCurrency';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
+import { useGetNetworkQuery } from 'store/midgard/api';
 
 export const NodeStats = () => {
   const runeToCurrency = useRuneToCurrency();
-
-  const { networkData, totalBond, totalActiveBond, totalStandbyBond, bondingAPYLabel } =
-    useGlobalStats();
+  const { data: networkData } = useGetNetworkQuery();
+  const { totalBond, totalActiveBond, totalStandbyBond, bondingAPYLabel } = useGlobalStats();
 
   const statsData: StatsType[] = useMemo(
     () => [

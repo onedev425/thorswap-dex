@@ -1,10 +1,9 @@
-import type { Network as MidgardNetwork } from '@thorswap-lib/midgard-sdk';
 import { Amount } from '@thorswap-lib/swapkit-core';
 import { parseToPercent } from 'helpers/parseHelpers';
-import { useGetStatsQuery } from 'store/midgard/api';
-import { useMidgard } from 'store/midgard/hooks';
+import { useGetNetworkQuery, useGetStatsQuery } from 'store/midgard/api';
+import type { NetworkResponse } from 'store/midgard/types';
 
-const getTotalBond = (networkData: MidgardNetwork | null) => {
+const getTotalBond = (networkData?: NetworkResponse) => {
   // totalActiveBond + totalStandbyBond
   const totalActiveBond = Amount.fromMidgard(networkData?.bondMetrics.totalActiveBond);
   const totalStandbyBond = Amount.fromMidgard(networkData?.bondMetrics.totalStandbyBond);
@@ -12,7 +11,7 @@ const getTotalBond = (networkData: MidgardNetwork | null) => {
   return totalActiveBond.add(totalStandbyBond);
 };
 
-const getTVL = (networkData: MidgardNetwork | null) => {
+const getTVL = (networkData?: NetworkResponse) => {
   // totalActiveBond + totalStandbyBond + Total Liquidity
 
   const totalActiveBond = Amount.fromMidgard(networkData?.bondMetrics.totalActiveBond);
@@ -22,15 +21,15 @@ const getTVL = (networkData: MidgardNetwork | null) => {
   return totalActiveBond.add(totalStandbyBond).add(totalLiquidity);
 };
 
-const getTotalStandbyBond = (networkData: MidgardNetwork | null) =>
+const getTotalStandbyBond = (networkData?: NetworkResponse) =>
   Amount.fromMidgard(networkData?.bondMetrics.totalStandbyBond);
 
-const getTotalActiveBond = (networkData: MidgardNetwork | null) =>
+const getTotalActiveBond = (networkData?: NetworkResponse) =>
   Amount.fromMidgard(networkData?.bondMetrics.totalActiveBond);
 
 export const useGlobalStats = () => {
   const { data: stats } = useGetStatsQuery();
-  const { networkData } = useMidgard();
+  const { data: networkData } = useGetNetworkQuery();
 
   const totalBond = getTotalBond(networkData);
   const tvlInRune = getTVL(networkData);

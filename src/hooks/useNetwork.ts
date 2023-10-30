@@ -1,7 +1,7 @@
 import { Amount } from '@thorswap-lib/swapkit-core';
 import { useCheckHardCap } from 'hooks/useCheckHardCap';
 import { useCallback } from 'react';
-import { useMidgard } from 'store/midgard/hooks';
+import { useGetNetworkQuery, useGetQueueQuery } from 'store/midgard/api';
 
 const QUEUE_BUSY_LEVEL = 30;
 const QUEUE_SLOW_LEVEL = 10;
@@ -14,10 +14,11 @@ export enum StatusType {
 }
 
 export const useNetwork = () => {
-  const { networkData, queue } = useMidgard();
+  const { data: networkData } = useGetNetworkQuery(undefined, { pollingInterval: 60000 });
+  const { data: queueData } = useGetQueueQuery(undefined, { pollingInterval: 60000 });
   const hardCapReached = useCheckHardCap();
 
-  const outboundQueue = Number(queue?.outbound ?? 0);
+  const outboundQueue = Number(queueData?.outbound ?? 0);
 
   const getQueueLevel = useCallback((queueValue: number) => {
     if (queueValue > QUEUE_BUSY_LEVEL) return StatusType.Busy;

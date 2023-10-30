@@ -39,7 +39,7 @@ export const AssetInput = ({
     balance,
     loading,
     priceLoading,
-    usdPrice,
+    usdPrice = 0,
     value = Amount.fromAssetAmount(0, asset.decimal),
     logoURI,
   } = selectedAsset;
@@ -50,11 +50,8 @@ export const AssetInput = ({
   );
 
   const assetPriceInUSD = useMemo(
-    () =>
-      (hideZeroPrice && usdPrice?.lt(1)) || !usdPrice?.gte(-1)
-        ? null
-        : usdPrice?.toCurrencyFormat(2),
-    [hideZeroPrice, usdPrice],
+    () => (hideZeroPrice && usdPrice > 1 ? null : formatPrice(usdPrice)),
+    [formatPrice, hideZeroPrice, usdPrice],
   );
 
   const handlePercentageClick = useCallback(

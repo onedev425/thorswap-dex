@@ -1,10 +1,11 @@
 import { useCallback } from 'react';
-import { useMidgard } from 'store/midgard/hooks';
+import { useGetLastblockQuery } from 'store/midgard/api';
 
 const TC_BLOCK_TIME = 6000; // 6 seconds avg
 
 export function useTCBlockTimer() {
-  const { tcLastBlock } = useMidgard();
+  const { data: lastBlock } = useGetLastblockQuery();
+  const tcLastBlock = lastBlock?.[0]?.thorchain;
 
   const getBlockTimeDifference = useCallback(
     (blockHeight: number) => {

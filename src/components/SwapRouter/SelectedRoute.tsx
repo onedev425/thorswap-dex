@@ -15,7 +15,7 @@ import { RouteGraphModal } from './RouteGraphModal';
 
 type Props = RouteWithApproveType & {
   outputAssetDecimal: number;
-  unitPrice: BigNumber;
+  unitPrice: number;
   assetTicker: string;
   streamSwap?: boolean;
 };
@@ -38,7 +38,7 @@ export const SelectedRoute = memo(
     const [isOpened, setIsOpened] = useState(false);
     const formatPrice = useFormatPrice();
     const outputValue = useMemo(
-      () => (streamSwap && streamingSwap?.expectedOutput) || expectedOutput,
+      () => parseFloat((streamSwap && streamingSwap?.expectedOutput) || expectedOutput),
       [expectedOutput, streamSwap, streamingSwap?.expectedOutput],
     );
 
@@ -52,7 +52,7 @@ export const SelectedRoute = memo(
     );
 
     const expectedPriceOutput = useMemo(
-      () => formatPrice(unitPrice.multipliedBy(outputValue).toNumber()),
+      () => formatPrice(unitPrice * outputValue),
       [outputValue, formatPrice, unitPrice],
     );
 

@@ -34,6 +34,7 @@ export const thorswapApi = createApi({
   reducerPath: 'thorswap',
   baseQuery: fetchBaseQuery({
     baseUrl,
+    headers: { referer: 'https://app.thorswap.finance' },
     mode: 'cors',
   }),
   endpoints: (build) => ({
@@ -162,6 +163,7 @@ export const thorswapApi = createApi({
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         };
       },
+      keepUnusedDataFor: 60,
     }),
 
     getTxnStatus: build.query<GetTxnStatusResponse, GetTxnStatusParams>({

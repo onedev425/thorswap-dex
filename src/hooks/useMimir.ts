@@ -3,11 +3,13 @@
 import { Amount } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { useMemo } from 'react';
-import { useMidgard } from 'store/midgard/hooks';
+import { useGetMimirQuery, useGetNetworkQuery } from 'store/midgard/api';
 import type { MimirData } from 'store/midgard/types';
 
 export const useMimir = () => {
-  const { networkData, mimir, mimirLoaded } = useMidgard();
+  const { data } = useGetMimirQuery(undefined, { pollingInterval: 60000 });
+  const { data: networkData } = useGetNetworkQuery(undefined, { pollingInterval: 60000 });
+  const mimir = useMemo(() => data || ({} as MimirData), [data]);
 
   const totalPooledRune = Amount.fromMidgard(networkData?.totalPooledRune);
 
@@ -95,11 +97,8 @@ export const useMimir = () => {
     [mimir?.MAXSYNTHPERPOOLDEPTH],
   );
 
-  const synthCap = 2 * ((mimir.MAXSYNTHPERPOOLDEPTH || 0) / 10000);
-
-  // Pause loans
-  const isLendingPaused =
-    !mimir || typeof mimir.PAUSELOANS !== 'number' ? true : mimir.PAUSELOANS > 0;
+  const synthCap = 2 * ((mimir?.MAXSYNTHPERPOOLDEPTH || 0) / 10000);
+  const isLendingPaused = typeof mimir?.PAUSELOANS !== 'number' ? true : mimir?.PAUSELOANS > 0;
 
   return {
     isBCHChainHalted,
@@ -121,7 +120,6 @@ export const useMimir = () => {
     isTHORChainHalted,
     maxSynthPerAssetDepth,
     totalPooledRune,
-    isLoaded: mimirLoaded,
     synthCap,
     isLendingPaused,
   };

@@ -11,7 +11,7 @@ import { useFetchThornames } from 'hooks/useFetchThornames';
 import { memo } from 'react';
 import { t } from 'services/i18n';
 import { getThornameExpireDate } from 'store/midgard/actions';
-import { useMidgard } from 'store/midgard/hooks';
+import { useGetLastblockQuery } from 'store/midgard/api';
 
 type Props = {
   editThorname: (thorname: string) => void;
@@ -19,7 +19,7 @@ type Props = {
 
 export const RegisteredThornames = memo(({ editThorname }: Props) => {
   const thornames = useFetchThornames();
-  const { lastBlock } = useMidgard();
+  const { data: lastBlock } = useGetLastblockQuery();
 
   if (!thornames?.length) return null;
 

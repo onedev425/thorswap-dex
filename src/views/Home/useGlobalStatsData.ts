@@ -6,13 +6,17 @@ import { useMimir } from 'hooks/useMimir';
 import { useRuneToCurrency } from 'hooks/useRuneToCurrency';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
-import { useGetHistoryLiquidityChangesQuery, useGetHistorySwapsQuery } from 'store/midgard/api';
+import {
+  useGetHistoryLiquidityChangesQuery,
+  useGetHistorySwapsQuery,
+  useGetNetworkQuery,
+} from 'store/midgard/api';
 
 export const useGlobalStatsData = () => {
   const runeToCurrency = useRuneToCurrency();
-  const { tvlInRune, totalActiveBond, liquidityAPYLabel, totalVolume, networkData } =
-    useGlobalStats();
+  const { tvlInRune, totalActiveBond, liquidityAPYLabel, totalVolume } = useGlobalStats();
 
+  const { data: networkData } = useGetNetworkQuery();
   const { data: swapsData } = useGetHistorySwapsQuery({ interval: 'hour', count: 24 });
   const { data: liquidityData } = useGetHistoryLiquidityChangesQuery({
     count: 24,

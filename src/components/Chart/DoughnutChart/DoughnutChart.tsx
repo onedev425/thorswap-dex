@@ -1,6 +1,4 @@
 import { Flex, Text } from '@chakra-ui/react';
-import type { Amount } from '@thorswap-lib/swapkit-core';
-import { Price } from '@thorswap-lib/swapkit-core';
 import { AssetIcon } from 'components/AssetIcon';
 import { ChartTypeSelect } from 'components/Chart/ChartTypeSelect';
 import {
@@ -13,10 +11,10 @@ import {
   StrokeColor9,
   StrokeColor10,
 } from 'components/Chart/styles/colors';
+import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import type { ChartJSOrUndefined } from 'react-chartjs-2/dist/types';
-import { useMidgard } from 'store/midgard/hooks';
 import type { SaverPosition } from 'views/Earn/types';
 import { ShareChartIndex } from 'views/Home/types';
 
@@ -52,31 +50,9 @@ export const DoughnutChart = ({
 }: Props) => {
   const chartRef = useRef<ChartJSOrUndefined<'doughnut', any, any>>(null);
   const [chartHovered, setChartHovered] = useState<number | null>(null);
-  const { getPoolsFromState } = useMidgard();
-  const pools = getPoolsFromState();
-
+  const assets = useMemo(() => data.map(({ asset }) => asset), [data]);
+  const { data: tokenPricesData } = useTokenPrices(assets);
   const isEarned = selectedIndex === ShareChartIndex.Earned;
-
-  const totalUsd = useCallback(
-    (position: SaverPosition) =>
-      new Price({
-        baseAsset: position.asset,
-        pools,
-        priceAmount: position.amount,
-      }),
-    [pools],
-  );
-
-  const earnedUsd = useCallback(
-    (position: SaverPosition) => {
-      return new Price({
-        baseAsset: position.asset,
-        pools,
-        priceAmount: position.earnedAmount as Amount,
-      });
-    },
-    [pools],
-  );
 
   const onLegendHover = useCallback((index: number | null) => {
     const activeElement = index === null ? [] : [{ datasetIndex: 0, index }];
@@ -113,23 +89,28 @@ export const DoughnutChart = ({
     [chartHovered, unit],
   );
 
-  const chartData = useMemo(
-    () => ({
+  const chartData = useMemo(() => {
+    const usdPrices = data.map(({ asset, amount, earnedAmount }) => {
+      const assetAmount = isEarned
+        ? amount.assetAmount.toNumber()
+        : earnedAmount?.assetAmount.toNumber() || 0;
+
+      return (tokenPricesData[asset.toString()]?.price_usd || 0) * assetAmount;
+    });
+
+    return {
       labels: data.map((position) => position.asset.name),
       datasets: [
         {
           label: isEarned ? 'Earned' : 'Total',
-          data: isEarned
-            ? data.map((position) => earnedUsd(position).toFixedRaw(2))
-            : data.map((position) => totalUsd(position).toFixedRaw(2)),
+          data: usdPrices,
           backgroundColor: chartColors.map((color) => color + '50'),
           borderColor: chartColors,
           borderWidth: 1,
         },
       ],
-    }),
-    [data, earnedUsd, isEarned, totalUsd],
-  );
+    };
+  }, [data, isEarned, tokenPricesData]);
 
   return (
     <Flex direction="column" p={2} w="full">

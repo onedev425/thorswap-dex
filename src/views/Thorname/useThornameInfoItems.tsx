@@ -10,7 +10,7 @@ import { shortenAddress } from 'helpers/shortenAddress';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { getThornameExpireDate } from 'store/midgard/actions';
-import { useMidgard } from 'store/midgard/hooks';
+import { useGetLastblockQuery } from 'store/midgard/api';
 import type { THORNameDetails } from 'types/app';
 import { CopyValue } from 'views/Wallet/components/CopyValue';
 
@@ -23,7 +23,7 @@ type Params = {
 };
 
 export const useThornameInfoItems = ({ thorname, details, available, years, setYears }: Params) => {
-  const { lastBlock } = useMidgard();
+  const { data: lastBlock } = useGetLastblockQuery();
   const isAvailable = !details || available;
 
   const commonColumns = useMemo(

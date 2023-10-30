@@ -6,7 +6,6 @@ import { AnnouncementsPopover } from 'components/Announcements/AnnouncementsPopo
 import { AppPopoverMenu } from 'components/AppPopoverMenu';
 import { Button, Icon } from 'components/Atomic';
 import { easeInOutTransition } from 'components/constants';
-import PromoBannerSlider from 'components/Header/PromoBannerSlider';
 import { StatusDropdown } from 'components/Header/StatusDropdown';
 import { TransactionManager } from 'components/TransactionManager';
 import { hasConnectedWallet } from 'helpers/wallet';
@@ -80,33 +79,25 @@ export const Header = memo(({ openMenu }: Props) => {
             </Flex>
           </>
         ) : (
-          <>
-            <Flex flex={1} gap={2} mr={2} mt="auto" shrink={0}>
-              <Button
-                className="flex !p-1"
-                display={{ md: 'none' }}
-                leftIcon={<Icon name="menu" size={isMdActive ? 24 : 20} />}
-                onClick={openMenu}
-                variant="borderlessPrimary"
-              />
+          <Flex flex={1} gap={2} mr={2} mt="auto" shrink={0}>
+            <Button
+              className="flex !p-1"
+              display={{ md: 'none' }}
+              leftIcon={<Icon name="menu" size={isMdActive ? 24 : 20} />}
+              onClick={openMenu}
+              variant="borderlessPrimary"
+            />
 
-              <Box
-                bottom={4}
-                display={{ base: 'none', md: 'flex' }}
-                position="fixed"
-                right={4}
-                zIndex={50}
-              >
-                <StatusDropdown />
-              </Box>
-            </Flex>
-
-            <Flex flex={3} justify="center">
-              <Box display={{ base: 'none', xl: 'flex' }} mx="auto" w="500px">
-                <PromoBannerSlider />
-              </Box>
-            </Flex>
-          </>
+            <Box
+              bottom={4}
+              display={{ base: 'none', md: 'flex' }}
+              position="fixed"
+              right={4}
+              zIndex={50}
+            >
+              <StatusDropdown />
+            </Box>
+          </Flex>
         )}
 
         <Flex flex={1} gap={1} justify="end">
@@ -132,10 +123,6 @@ export const Header = memo(({ openMenu }: Props) => {
           <TransactionManager />
         </Flex>
       </Flex>
-
-      <Box display={{ xl: IS_LEDGER_LIVE ? '' : 'none' }} pt={3}>
-        <PromoBannerSlider />
-      </Box>
     </header>
   );
 });

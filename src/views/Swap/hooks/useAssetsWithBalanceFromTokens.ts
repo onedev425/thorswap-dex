@@ -3,14 +3,14 @@ import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import type { EVMChain } from '@thorswap-lib/types';
 import { Chain } from '@thorswap-lib/types';
 import { useBalance } from 'hooks/useBalance';
+import { usePools } from 'hooks/usePools';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useMidgard } from 'store/midgard/hooks';
 import type { Token } from 'store/thorswap/types';
 import { zeroAmount } from 'types/app';
 
 export const useAssetsWithBalanceFromTokens = (tokens: Token[], thorchainOnly?: boolean) => {
-  const { synthAssets } = useMidgard();
   const { getMaxBalance, isWalletConnected } = useBalance();
+  const { synthAssets } = usePools();
 
   const [assetsWithBalance, setAssetsWithBalance] = useState<
     {

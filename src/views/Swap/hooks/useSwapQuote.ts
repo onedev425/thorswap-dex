@@ -19,7 +19,7 @@ type Params = {
   recipientAddress?: string;
   senderAddress?: string;
   skipAffiliate?: boolean;
-  inputUSDValue: number;
+  inputUSDPrice: number;
 };
 
 export const useSwapQuote = ({
@@ -30,7 +30,7 @@ export const useSwapQuote = ({
   outputAsset,
   recipientAddress,
   senderAddress,
-  inputUSDValue,
+  inputUSDPrice,
 }: Params) => {
   const [approvalsLoading, setApprovalsLoading] = useState<boolean>(false);
   const [swapQuote, setSwapRoute] = useState<RouteWithApproveType>();
@@ -50,10 +50,10 @@ export const useSwapQuote = ({
     if (IS_LEDGER_LIVE) basisPoints = 50;
     if (IS_BETA || IS_LOCAL) basisPoints = 0;
 
-    if (inputUSDValue >= 1_000_000) basisPoints /= 2;
+    if (inputUSDPrice >= 1_000_000) basisPoints /= 2;
 
     return `${Math.floor(basisPoints)}`;
-  }, [VTHORBalance, inputUSDValue]);
+  }, [VTHORBalance, inputUSDPrice]);
 
   const params = useMemo(
     () => ({
