@@ -171,11 +171,10 @@ const Borrow = () => {
     const params = {
       assetAmount: new AssetAmount(collateralAsset, amount),
       assetTicker: `${borrowAsset.getAssetObj().chain}.${borrowAsset.getAssetObj().ticker}`,
+      memo: stream ? borrowQuote.calldata.memoStreamingSwap : borrowQuote.calldata.memo,
     };
 
-    const memo = stream ? borrowQuote.calldata.memoStreamingSwap : borrowQuote.calldata.memo;
-
-    return openLoan({ ...params, memo });
+    return openLoan({ ...params });
   }, [amount, borrowAsset, borrowQuote, collateralAsset, recipient, stream]);
 
   const handleBorrowSubmit = useCallback(

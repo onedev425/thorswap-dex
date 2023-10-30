@@ -1,7 +1,7 @@
 import type { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Amount } from '@thorswap-lib/swapkit-core';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useGetBorrowQuoteQuery } from 'store/thorswap/api';
 
 interface UseBorrowProps {
@@ -91,6 +91,10 @@ export const useBorrow = ({
     (enabled: boolean) => setStream(enabled && !!canStream),
     [canStream],
   );
+
+  useEffect(() => {
+    toggleStream(!!assetIn.toString() && !!data?.streamingSwap);
+  }, [assetIn, data?.streamingSwap, toggleStream]);
 
   return {
     collateralAmount,
