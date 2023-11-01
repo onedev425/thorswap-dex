@@ -35,9 +35,11 @@ const Thorname = () => {
     registerThornameAddress,
     lookupForTNS,
     setChain,
-    setThorname,
+    setSearchedThorname,
+    setCurrentThorname,
     setYears,
-    thorname,
+    currentThorname,
+    searchedThorname,
     years,
   } = useThornameLookup(thorAddress);
   const [validAddress, setValidAddress] = useState(false);
@@ -58,7 +60,7 @@ const Thorname = () => {
   const { data: thornameInfoItems } = useThornameInfoItems({
     years,
     setYears,
-    thorname,
+    thorname: searchedThorname,
     details,
     available,
   });
@@ -69,8 +71,10 @@ const Thorname = () => {
   );
 
   const disabled = useMemo(
-    () => thorname.length === 0 || unavailableForPurchase || (!!address && !validAddress),
-    [address, thorname.length, unavailableForPurchase, validAddress],
+    () =>
+      (currentThorname.length === 0 || unavailableForPurchase || (!!address && !validAddress)) &&
+      (currentThorname === searchedThorname || currentThorname.length === 0),
+    [address, currentThorname, searchedThorname, unavailableForPurchase, validAddress],
   );
 
   const registeredChains = useMemo(
@@ -78,11 +82,12 @@ const Thorname = () => {
     [details],
   );
 
-  const handleSubmit = useCallback(async () => {
+  const handleAction = useCallback(() => {
     if (disabled) return;
-    if (!(details || available)) {
+    setSearchedThorname(currentThorname);
+    if (!(details || available) || currentThorname !== searchedThorname) {
       setStep(1);
-      return lookupForTNS();
+      return lookupForTNS(currentThorname);
     }
 
     if (thorAddress && address && validAddress) {
@@ -92,39 +97,48 @@ const Thorname = () => {
     }
   }, [
     disabled,
+    setSearchedThorname,
+    currentThorname,
+    searchedThorname,
     details,
     available,
+    setStep,
+    lookupForTNS,
     thorAddress,
     address,
     validAddress,
-    lookupForTNS,
     registerThornameAddress,
     setIsConnectModalOpen,
   ]);
 
+  const handleSubmit = useCallback(() => {
+    handleAction();
+  }, [handleAction]);
+
   const handleEnterKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      if (disabled) return;
-
       if (event.key === 'Enter') {
-        setStep(1);
-        lookupForTNS();
+        handleAction();
       }
     },
-    [lookupForTNS, disabled],
+    [handleAction],
   );
 
   const handleChainChange = useCallback((chain: string) => setChain(chain as Chain), [setChain]);
 
   const editThorname = useCallback(
     (thorname: string) => {
-      setThorname(thorname);
+      setCurrentThorname(thorname);
+      setSearchedThorname(thorname);
       lookupForTNS(thorname);
     },
-    [lookupForTNS, setThorname],
+    [lookupForTNS, setSearchedThorname, setCurrentThorname],
   );
 
   const buttonLabel = useMemo(() => {
+    if (currentThorname !== searchedThorname && searchedThorname !== '') {
+      return t('common.refresh');
+    }
     if (unavailableForPurchase) {
       return t('views.thorname.unavailableForPurchase');
     }
@@ -138,7 +152,14 @@ const Thorname = () => {
     }
 
     return t('views.wallet.search');
-  }, [unavailableForPurchase, available, thorAddress, registeredChains.length]);
+  }, [
+    unavailableForPurchase,
+    available,
+    thorAddress,
+    registeredChains.length,
+    currentThorname,
+    searchedThorname,
+  ]);
 
   const onTransfer = useCallback(async () => {
     const { validateAddress } = await (await import('services/swapKit')).getSwapKitClient();
@@ -175,7 +196,8 @@ const Thorname = () => {
   }, [address, chain]);
 
   const handleResetThorname = () => {
-    setThorname('');
+    setSearchedThorname('');
+    setCurrentThorname('');
     setStep(0);
   };
   return (
@@ -205,13 +227,13 @@ const Thorname = () => {
         border="rounded"
         className="!text-md p-1.5 flex-1 border"
         containerClassName="bg-light-gray-light dark:bg-dark-gray-light !bg-opacity-80"
-        disabled={!!details}
-        onChange={(e) => setThorname(e.target.value)}
-        onClick={handleResetThorname}
+        onChange={(e) => setCurrentThorname(e.target.value)}
         onKeyDown={handleEnterKeyDown}
         placeholder={t('views.thorname.checkNameAvailability')}
-        suffix={thorname && <Icon color="secondary" name="close" onClick={handleResetThorname} />}
-        value={thorname}
+        suffix={
+          currentThorname && <Icon color="secondary" name="close" onClick={handleResetThorname} />
+        }
+        value={currentThorname}
       />
       {available && details && (
         <HighlightCard className="!mt-2 !p-0 w-full">
@@ -224,7 +246,7 @@ const Thorname = () => {
                   {t('components.sidebar.thorname')}
                 </Text>
                 <Text className="text-right" fontWeight="semibold" variant="primary">
-                  {thorname}
+                  {searchedThorname}
                 </Text>
               </Box>
             }
@@ -286,7 +308,12 @@ const Thorname = () => {
           error={!!details && available && !validAddress}
           loading={isWalletLoading || loading}
           onClick={() => {
-            if (step === 1 && thorAddress && isKeystoreSigningRequired) {
+            if (
+              step === 1 &&
+              thorAddress &&
+              isKeystoreSigningRequired &&
+              searchedThorname === currentThorname
+            ) {
               setIsOpened(true);
             } else {
               handleSubmit();
@@ -312,7 +339,7 @@ const Thorname = () => {
       >
         {details ? (
           <Box col>
-            <InfoRow label="THORName" value={thorname} />
+            <InfoRow label="THORName" value={searchedThorname} />
             <InfoRow
               capitalizeLabel
               label={t('view.thorname.cost')}
@@ -328,7 +355,7 @@ const Thorname = () => {
           </Box>
         ) : (
           <Box col>
-            <InfoRow label="THORName" value={thorname} />
+            <InfoRow label="THORName" value={searchedThorname} />
             <InfoRow
               capitalizeLabel
               label={t('view.thorname.cost')}
@@ -353,7 +380,7 @@ const Thorname = () => {
         }}
       >
         <Box col>
-          <InfoRow label="THORName" value={thorname} />
+          <InfoRow label="THORName" value={searchedThorname} />
           <InfoRow
             capitalizeLabel
             label={t('common.transferAddress')}

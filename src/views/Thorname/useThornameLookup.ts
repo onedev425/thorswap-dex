@@ -14,7 +14,8 @@ import type { THORNameDetails } from 'types/app';
 import { v4 } from 'uuid';
 
 type Actions =
-  | { type: 'setThorname'; payload: string }
+  | { type: 'setSearchedThorname'; payload: string }
+  | { type: 'setCurrentThorname'; payload: string }
   | { type: 'setAvailable' | 'setLoading'; payload: boolean }
   | {
       type: 'setDetails';
@@ -28,7 +29,8 @@ const initialState = {
   chain: Chain.THORChain as Chain,
   details: null as Maybe<THORNameDetails>,
   loading: false,
-  thorname: '',
+  searchedThorname: '',
+  currentThorname: '',
   years: 1,
 };
 
@@ -41,18 +43,20 @@ const reducer = (state: typeof initialState, { type, payload }: Actions) => {
     case 'setAvailable':
       return { ...state, loading: false, available: payload };
 
-    case 'setThorname': {
+    case 'setSearchedThorname': {
       const hasPayload = payload.length >= 1;
 
       return {
         ...(hasPayload ? state : initialState),
-        thorname: hasPayload
+        searchedThorname: hasPayload
           ? validateTHORName(payload)
             ? payload.toLowerCase()
-            : state.thorname
+            : state.searchedThorname
           : '',
       };
     }
+    case 'setCurrentThorname':
+      return { ...state, currentThorname: payload };
 
     case 'setDetails':
       return {
@@ -77,10 +81,10 @@ const reducer = (state: typeof initialState, { type, payload }: Actions) => {
 export const useThornameLookup = (owner?: string) => {
   const appDispatch = useAppDispatch();
   const prevOwner = usePrevious(owner);
-  const [{ available, chain, details, loading, thorname, years }, dispatch] = useReducer(
-    reducer,
-    initialState,
-  );
+  const [
+    { available, chain, details, loading, searchedThorname, currentThorname, years },
+    dispatch,
+  ] = useReducer(reducer, initialState);
 
   const [getTNSDetail] = useLazyGetTNSDetailQuery();
 
@@ -88,8 +92,12 @@ export const useThornameLookup = (owner?: string) => {
     dispatch({ type: 'setChain', payload: chain });
   }, []);
 
-  const setThorname = useCallback((name: string) => {
-    dispatch({ type: 'setThorname', payload: name });
+  const setSearchedThorname = useCallback((name: string) => {
+    dispatch({ type: 'setSearchedThorname', payload: name });
+  }, []);
+
+  const setCurrentThorname = useCallback((payload: string) => {
+    dispatch({ type: 'setCurrentThorname', payload });
   }, []);
 
   const setYears = useCallback((years: number) => {
@@ -98,7 +106,7 @@ export const useThornameLookup = (owner?: string) => {
 
   const loadDetails = useCallback(
     async (providedThorname?: string) => {
-      const { data: details } = await getTNSDetail(providedThorname || thorname);
+      const { data: details } = await getTNSDetail(providedThorname || searchedThorname);
       const payload =
         !details || typeof details === 'boolean'
           ? { details: null, available: true }
@@ -108,7 +116,7 @@ export const useThornameLookup = (owner?: string) => {
         payload,
       });
     },
-    [getTNSDetail, owner, thorname],
+    [getTNSDetail, owner, searchedThorname],
   );
 
   const lookupForTNS = useCallback(
@@ -135,7 +143,7 @@ export const useThornameLookup = (owner?: string) => {
 
   const registerThornameAddress = useCallback(
     async (address: string, newOwner?: string) => {
-      if (!validateTHORName(thorname)) {
+      if (!validateTHORName(searchedThorname)) {
         return showErrorToast(t('notification.invalidTHORName'));
       }
 
@@ -146,9 +154,9 @@ export const useThornameLookup = (owner?: string) => {
       const amount = isRegister ? getTHORNameCost(years) : years;
       const prefix = isRegister ? t('txManager.registerThorname') : t('txManager.updateThorname');
 
-      let label = `${prefix} ${thorname} - ${amount} ${RUNEAsset.name}`;
+      let label = `${prefix} ${searchedThorname} - ${amount} ${RUNEAsset.name}`;
       if (details?.owner && isTransfer) {
-        label = `${t('common.transfer')} ${thorname} - ${shortenAddress(newOwner, 6, 8)}`;
+        label = `${t('common.transfer')} ${searchedThorname} - ${shortenAddress(newOwner, 6, 8)}`;
       }
       const id = v4();
 
@@ -162,8 +170,13 @@ export const useThornameLookup = (owner?: string) => {
       );
 
       const registerParams = isTransfer
-        ? { address: newOwner, owner: newOwner || owner, name: thorname, chain: Chain.THORChain }
-        : { address, owner: owner, name: thorname, chain };
+        ? {
+            address: newOwner,
+            owner: newOwner || owner,
+            name: searchedThorname,
+            chain: Chain.THORChain,
+          }
+        : { address, owner: owner, name: searchedThorname, chain };
 
       const { registerThorname } = await (await import('services/swapKit')).getSwapKitClient();
 
@@ -185,11 +198,11 @@ export const useThornameLookup = (owner?: string) => {
         setTimeout(loadDetails, 5000);
       }
     },
-    [thorname, details?.owner, owner, years, appDispatch, chain, loadDetails],
+    [searchedThorname, details?.owner, owner, years, appDispatch, chain, loadDetails],
   );
 
   useEffect(() => {
-    if (thorname && owner !== prevOwner) {
+    if (searchedThorname && owner !== prevOwner) {
       lookupForTNS();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -200,13 +213,15 @@ export const useThornameLookup = (owner?: string) => {
     chain,
     details,
     loading,
-    thorname,
+    searchedThorname,
+    currentThorname,
     years,
 
     lookupForTNS,
     registerThornameAddress,
     setChain,
-    setThorname,
+    setSearchedThorname,
+    setCurrentThorname,
     setYears,
   };
 };
