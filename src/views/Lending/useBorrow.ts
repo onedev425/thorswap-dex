@@ -1,7 +1,8 @@
 import type { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Amount } from '@thorswap-lib/swapkit-core';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useStreamTxToggle } from 'hooks/useStreamTxToggle';
+import { useEffect, useMemo } from 'react';
 import { useGetBorrowQuoteQuery } from 'store/thorswap/api';
 
 interface UseBorrowProps {
@@ -23,7 +24,6 @@ export const useBorrow = ({
 }: UseBorrowProps) => {
   const debouncedAmount = useDebouncedValue(amount);
   const debouncedSlippage = useDebouncedValue(slippage);
-  const [stream, setStream] = useState(false);
 
   const {
     currentData: data,
@@ -39,6 +39,10 @@ export const useBorrow = ({
       recipientAddress,
     },
     { skip: !debouncedAmount, refetchOnMountOrArgChange: true },
+  );
+
+  const { canStream, toggleStream, stream } = useStreamTxToggle(
+    data?.streamingSwap?.memo || data?.calldata?.memo,
   );
 
   const borrowData = useMemo(() => {
@@ -81,16 +85,6 @@ export const useBorrow = ({
 
     return Amount.fromAssetAmount(outboundFees?.totalFeeUSD || 0, 8);
   }, [borrowData?.fees.THOR]);
-
-  const canStream = useMemo(
-    () => !!data?.calldata.memoStreamingSwap,
-    [data?.calldata?.memoStreamingSwap],
-  );
-
-  const toggleStream = useCallback(
-    (enabled: boolean) => setStream(enabled && !!canStream),
-    [canStream],
-  );
 
   useEffect(() => {
     toggleStream(!!assetIn.toString() && !!data?.streamingSwap);

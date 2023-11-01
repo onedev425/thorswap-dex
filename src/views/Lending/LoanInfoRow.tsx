@@ -10,6 +10,7 @@ import { InputAmount } from 'components/InputAmount';
 import { PercentageSlider } from 'components/PercentageSlider';
 import { showErrorToast } from 'components/Toast';
 import { formatDuration } from 'components/TransactionTracker/helpers';
+import { TxOptimizeSection } from 'components/TxOptimize/TxOptimizeSection';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
@@ -24,7 +25,7 @@ import { LendingConfirmModal } from 'views/Lending/LendingConfirmModal';
 import { LoanInfoRowCell } from 'views/Lending/LoanInfoRowCell';
 import type { LoanPosition } from 'views/Lending/types';
 import { useLoanRepay } from 'views/Lending/useLoanRepay';
-import { usePercentageDebtValue } from 'views/Lending/usePercentageDebtValue';
+import { useRepay } from 'views/Lending/useRepay';
 
 type Props = {
   loan: LoanPosition;
@@ -38,7 +39,7 @@ export const LoanInfoRow = ({
   setCollateralAsset,
 }: Props) => {
   const [show, setShow] = useState(false);
-  const [sliderValue, setSliderValue] = useState(new Amount(0, AmountType.ASSET_AMOUNT, 2));
+  const [sliderValue, setSliderValue] = useState(new Amount(100, AmountType.ASSET_AMOUNT, 2));
   const [repayBalance, setRepayBalance] = useState<Amount | undefined>();
   const [repayAsset, setRepayAsset] = useState(
     AssetEntity.fromAssetString(ETH_USDC_IDENTIFIER) as AssetEntity,
@@ -63,7 +64,15 @@ export const LoanInfoRow = ({
   );
 
   const hasLoanMatured = missingTimeToRepayInMS <= 0;
-  const { repayAssetAmount, isLoading, repayQuote } = usePercentageDebtValue({
+  const {
+    repayAssetAmount,
+    isLoading,
+    repayQuote,
+    stream,
+    canStream,
+    toggleStream,
+    repayOptimizeQuoteDetails,
+  } = useRepay({
     asset: repayAsset,
     collateralAsset: asset,
     percentage: debouncedPercentage,
@@ -117,6 +126,7 @@ export const LoanInfoRow = ({
     amount: repayAssetAmount,
     onSuccess,
     repayQuote,
+    stream,
   });
 
   useEffect(() => {
@@ -245,6 +255,15 @@ export const LoanInfoRow = ({
                       percent={sliderValue}
                       slideClassName="!pb-0"
                       title={t('views.lending.repayPercent')}
+                    />
+
+                    <TxOptimizeSection
+                      canStream={canStream}
+                      outputAsset={selectedRepayAsset.asset}
+                      quote={repayOptimizeQuoteDetails}
+                      stream={stream}
+                      title={t('views.lending.txOptimizeTitle')}
+                      toggleStream={toggleStream}
                     />
                   </Flex>
 

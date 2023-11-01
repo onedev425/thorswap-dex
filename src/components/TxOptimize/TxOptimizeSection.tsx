@@ -8,13 +8,16 @@ import { useFormatPrice } from 'helpers/formatPrice';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { navigateToExternalLink } from 'settings/router';
-import type { GetTokensQuoteResponse } from 'store/thorswap/types';
 
 type OptimizeQuote = {
-  estimatedTime: number;
+  estimatedTime?: number;
   expectedOutput: string;
   expectedOutputUSD: string;
-  streamingSwap?: GetTokensQuoteResponse['routes'][number]['streamingSwap'];
+  streamingSwap?: {
+    estimatedTime?: number;
+    expectedOutput: string;
+    expectedOutputUSD: string;
+  };
 };
 
 type Props = {
@@ -23,6 +26,8 @@ type Props = {
   canStream: boolean;
   outputAsset: AssetEntity | undefined;
   quote?: OptimizeQuote;
+  invertedPriceDiff?: boolean;
+  title?: string;
 };
 
 export const TxOptimizeSection = ({
@@ -31,13 +36,22 @@ export const TxOptimizeSection = ({
   canStream,
   outputAsset,
   quote,
+  invertedPriceDiff,
+  title,
 }: Props) => {
   const estimatedTime = (quote?.estimatedTime || 0) * 1000;
   const estimatedTimeStreamingSwap = (quote?.streamingSwap?.estimatedTime || 0) * 1000;
-  const timeDiff = estimatedTimeStreamingSwap - estimatedTime || 0;
+  const timeDiff =
+    estimatedTimeStreamingSwap && estimatedTime ? estimatedTimeStreamingSwap - estimatedTime : 0;
   const priceUSDDiff = quote?.streamingSwap?.expectedOutputUSD
     ? Number(quote.streamingSwap.expectedOutputUSD) - Number(quote.expectedOutputUSD)
     : 0;
+
+  const invertedPriceUSDDiff = quote?.streamingSwap?.expectedOutputUSD
+    ? Number(quote.expectedOutputUSD) - Number(quote.streamingSwap.expectedOutputUSD)
+    : 0;
+
+  const displayPriceUSDDiff = invertedPriceDiff ? invertedPriceUSDDiff : priceUSDDiff;
 
   const outputAmount: Amount = useMemo(
     () => Amount.fromAssetAmount(quote?.expectedOutput || '0', outputAsset?.decimal || 0),
@@ -60,7 +74,7 @@ export const TxOptimizeSection = ({
       <Card gap={2} p={3} sx={{ w: 'full', borderRadius: 16 }} variant="filledContainerTertiary">
         <Flex>
           <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
-            {t('views.swap.priceOptimizationAvailable')}
+            {title || t('views.swap.priceOptimizationAvailable')}
           </Text>
 
           <Tooltip
@@ -91,8 +105,14 @@ export const TxOptimizeSection = ({
               <Flex gap={1}>
                 <Flex direction="column" mt={0.5}>
                   <Flex gap={1}>
-                    <Text fontWeight="normal" textStyle="caption-xs">
-                      {formatDuration(estimatedTimeStreamingSwap, { approx: true })}
+                    <Text
+                      fontWeight="normal"
+                      opacity={estimatedTimeStreamingSwap ? 1 : 0.5}
+                      textStyle="caption-xs"
+                    >
+                      {estimatedTimeStreamingSwap
+                        ? formatDuration(estimatedTimeStreamingSwap, { approx: true })
+                        : 'Time: N/A'}
                     </Text>
                   </Flex>
 
@@ -101,7 +121,7 @@ export const TxOptimizeSection = ({
                       {outputAmountStreamingSwap.toSignificant(6)} {outputAsset?.name || ''}
                     </Text>
                     <Text color="brand.green" fontWeight="normal" textStyle="caption-xs">
-                      (+{formatPrice(priceUSDDiff)})
+                      (+{formatPrice(displayPriceUSDDiff)})
                     </Text>
                   </Flex>
                 </Flex>
@@ -127,12 +147,20 @@ export const TxOptimizeSection = ({
               <Flex gap={1}>
                 <Flex direction="column" mt={0.5}>
                   <Flex gap={1}>
-                    <Text fontWeight="normal" textStyle="caption-xs">
-                      {formatDuration(estimatedTime, { approx: true })}
+                    <Text
+                      fontWeight="normal"
+                      opacity={estimatedTime ? 1 : 0.5}
+                      textStyle="caption-xs"
+                    >
+                      {estimatedTime
+                        ? formatDuration(estimatedTime, { approx: true })
+                        : 'Time: N/A'}
                     </Text>
-                    <Text color="brand.green" fontWeight="normal" textStyle="caption-xs">
-                      ({formatDuration(timeDiff, { approx: true })} faster)
-                    </Text>
+                    {!!timeDiff && (
+                      <Text color="brand.green" fontWeight="normal" textStyle="caption-xs">
+                        ({formatDuration(timeDiff, { approx: true })} faster)
+                      </Text>
+                    )}
                   </Flex>
 
                   <Text textStyle="caption-xs">

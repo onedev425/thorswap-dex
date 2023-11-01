@@ -15,12 +15,14 @@ export function useLoanRepay({
   amount,
   onSuccess,
   repayQuote,
+  stream,
 }: {
   repayAsset: AssetEntity;
   collateralAsset: AssetEntity;
   amount: Amount;
   onSuccess?: () => void;
   repayQuote?: RepayQuoteResponse;
+  stream?: boolean;
 }) {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const appDispatch = useAppDispatch();
@@ -52,7 +54,7 @@ export function useLoanRepay({
 
       try {
         const txid = await closeLoan({
-          memo: repayQuote ? repayQuote.memo : undefined,
+          memo: stream ? repayQuote?.streamingSwap?.memo : repayQuote?.memo,
           assetAmount: new AssetAmount(repayAsset, amount),
           assetTicker: `${collateralAsset.chain}.${collateralAsset.ticker}`,
         });
@@ -78,6 +80,7 @@ export function useLoanRepay({
     [
       appDispatch,
       repayAsset,
+      stream,
       repayQuote,
       amount,
       collateralAsset.chain,

@@ -511,7 +511,8 @@
       "totalDebtValue": "Total Debt Value",
       "unlock": "Unlock",
       "unlockDescription": "Minimum time after which you can repay your loan",
-      "colalteralAfterSlippage": "Collateral after slippage"
+      "colalteralAfterSlippage": "Collateral after slippage",
+      "txOptimizeTitle": "Estimated price optimization"
     },
     "liquidity": {
       "ILPTooltip": "If you have ILP for you liquidity position it will be added to withdrawn amount.",

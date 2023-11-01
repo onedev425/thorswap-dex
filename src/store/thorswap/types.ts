@@ -310,7 +310,7 @@ export type LendingStatusResponse = {
   maturity: number;
 };
 
-type LendingCalldata = {
+type BorrowCalldata = {
   amountIn: string;
   amountOutMin: string;
   fromAsset: string;
@@ -321,7 +321,7 @@ type LendingCalldata = {
   token: string;
 };
 
-type LendingStreamingSwap = {
+type BorrowStreamingSwap = {
   estimatedTime: number;
   fees: QuoteRoute['fees'];
   expectedDebtIssued: string;
@@ -330,6 +330,7 @@ type LendingStreamingSwap = {
   expectedOutputMaxSlippage: string;
   expectedOutputUSD: string;
   expectedOutputMaxSlippageUSD: string;
+  memo: string;
 };
 
 export type BorrowQuoteParams = {
@@ -378,8 +379,24 @@ export type BorrowQuoteResponse = {
   expectedDebtIssued: string;
   expectedOutputMaxSlippageUSD: string;
   expectedOutputUSD: string;
-  calldata: LendingCalldata;
-  streamingSwap?: LendingStreamingSwap;
+  calldata: BorrowCalldata;
+  streamingSwap?: BorrowStreamingSwap;
+};
+
+export type RepayStreamingSwap = {
+  inboundAddress: string;
+  outboundDelayBlocks: number;
+  outboundDelaySeconds: number;
+  fees: QuoteRoute['fees'];
+  router: string;
+  expiry: number;
+  memo: string;
+  expectedAmountOut: string;
+  expectedCollateralWithdrawn: string;
+  expectedDebtRepaid: string;
+  repayAssetAmount: string;
+  repayAssetAmountUSD: string;
+  estimatedTime?: number;
 };
 
 export type RepayQuoteResponse = {
@@ -403,8 +420,9 @@ export type RepayQuoteResponse = {
   expectedDebtRepaid: string;
   collateralCurrent: string;
   repayAssetAmount: string;
-  calldata: LendingCalldata;
-  streamingSwap?: LendingStreamingSwap;
+  repayAssetAmountUSD: string;
+  streamingSwap?: RepayStreamingSwap;
+  estimatedTime?: number;
 };
 
 export type LendingAssetResponse = {

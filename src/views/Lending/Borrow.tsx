@@ -179,7 +179,9 @@ const Borrow = () => {
     const params = {
       assetAmount: new AssetAmount(collateralAsset, amount),
       assetTicker: `${borrowAsset.getAssetObj().chain}.${borrowAsset.getAssetObj().ticker}`,
-      memo: stream ? borrowQuote.calldata.memoStreamingSwap : borrowQuote.calldata.memo,
+      memo: stream
+        ? borrowQuote.streamingSwap?.memo || borrowQuote.calldata?.memoStreamingSwap
+        : borrowQuote.memo,
     };
 
     return openLoan({ ...params });
@@ -511,6 +513,7 @@ const Borrow = () => {
                         outputAsset={borrowAsset}
                         quote={borrowQuote}
                         stream={stream}
+                        title={t('views.lending.txOptimizeTitle')}
                         toggleStream={toggleStream}
                       />
 
