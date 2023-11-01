@@ -244,14 +244,22 @@ export const useAddLiquidity = ({
   });
 
   const poolAssetPriceInUSD = useMemo(() => {
-    const price = tokenPricesData[poolAsset.symbol]?.price_usd || 0;
+    const price =
+      Number(poolData?.assetPriceUSD) || tokenPricesData[poolAsset.symbol]?.price_usd || 0;
     const amount =
       (isAssetPending &&
         Amount.fromMidgard(lpMemberData?.assetPending || '0').assetAmount.toNumber()) ||
       assetAmount.assetAmount.toNumber();
 
     return price * amount;
-  }, [assetAmount.assetAmount, isAssetPending, poolAsset.symbol, lpMemberData, tokenPricesData]);
+  }, [
+    poolData,
+    tokenPricesData,
+    poolAsset.symbol,
+    isAssetPending,
+    lpMemberData?.assetPending,
+    assetAmount.assetAmount,
+  ]);
 
   const minRuneAmount: Amount = useMemo(
     () => getMinAmountByChain(Chain.THORChain as Chain).amount,
@@ -673,7 +681,7 @@ export const useAddLiquidity = ({
   const runeAssetInput = useMemo(() => {
     const value =
       isRunePending && lpMemberData ? Amount.fromMidgard(lpMemberData.runePending) : runeAmount;
-    const runePrice = tokenPricesData[RUNEAsset.symbol]?.price_usd || 0;
+    const runePrice = tokenPricesData[`${RUNEAsset.chain}.${RUNEAsset.symbol}`]?.price_usd || 0;
 
     return {
       asset: RUNEAsset,

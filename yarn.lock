@@ -2722,6 +2722,14 @@
     "@thorswap-lib/swapkit-entities" "0.0.0-nightly-20231026112503"
     "@thorswap-lib/types" "0.0.0-nightly-20231026112503"
 
+"@thorswap-lib/helpers@0.0.0-nightly-20231101092322":
+  version "0.0.0-nightly-20231101092322"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/helpers/-/helpers-0.0.0-nightly-20231101092322.tgz#ee3fe63b277fa71fcbfcdd0151fcdf2cc7b7daf9"
+  integrity sha512-9u7MExx39//sfRr8XWtwTGTSeWBQFV4vrmKjChXhIj86KnEyBzHwyJRwZ0yeCgQyguB3G4jr6WULA2j0ZNKUzw==
+  dependencies:
+    "@thorswap-lib/swapkit-entities" "0.0.0-nightly-20231101092322"
+    "@thorswap-lib/types" "0.0.0-nightly-20231101092322"
+
 "@thorswap-lib/keplr@0.0.0-nightly-20231026112503":
   version "0.0.0-nightly-20231026112503"
   resolved "https://registry.yarnpkg.com/@thorswap-lib/keplr/-/keplr-0.0.0-nightly-20231026112503.tgz#157c816c5548d5ed28baaf8d0b48556163dbf903"
@@ -2780,16 +2788,16 @@
   dependencies:
     "@thorswap-lib/types" "0.0.0-nightly-20231026112503"
 
-"@thorswap-lib/swapkit-core@0.0.0-nightly-20231026112503":
-  version "0.0.0-nightly-20231026112503"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-core/-/swapkit-core-0.0.0-nightly-20231026112503.tgz#172574bd8b94c49cf6920ad06d85da2076a9e038"
-  integrity sha512-/3sjRJ1FKG5rGbiJwa1nUCfeeB8rEToH+ITcCLhu+IxnN1t9MgD1KdZsAwdN+9dHmw/m3Ps/Ion+y9VU2G6dDw==
+"@thorswap-lib/swapkit-core@0.0.0-nightly-20231101092322":
+  version "0.0.0-nightly-20231101092322"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-core/-/swapkit-core-0.0.0-nightly-20231101092322.tgz#52340323e9d517795bd2afd596b1c6c50fa31d4b"
+  integrity sha512-KpHtyVIcnjFW64J2OsSForCzlcqenccSVFoe5XHktOkkp2EymVjcYE/hLl9GvnuvQU1PLFrmk9OxdrrsoKoO3A==
   dependencies:
     "@ethersproject/bytes" "5.7.0"
     "@ethersproject/units" "5.7.0"
-    "@thorswap-lib/helpers" "0.0.0-nightly-20231026112503"
-    "@thorswap-lib/swapkit-entities" "0.0.0-nightly-20231026112503"
-    "@thorswap-lib/types" "0.0.0-nightly-20231026112503"
+    "@thorswap-lib/helpers" "0.0.0-nightly-20231101092322"
+    "@thorswap-lib/swapkit-entities" "0.0.0-nightly-20231101092322"
+    "@thorswap-lib/types" "0.0.0-nightly-20231101092322"
     bignumber.js "9.1.2"
 
 "@thorswap-lib/swapkit-entities@0.0.0-nightly-20231026112503":
@@ -2798,6 +2806,14 @@
   integrity sha512-9mWYYYcP5g5kxJ66RPTg5OEyUwC5gw1/nvVkIyh6jJxqdPGmYGLoUw/n0NyypLtW0+uYQz1tuDjcIDf7wEIMCA==
   dependencies:
     "@thorswap-lib/types" "0.0.0-nightly-20231026112503"
+    tiny-invariant "1.3.1"
+
+"@thorswap-lib/swapkit-entities@0.0.0-nightly-20231101092322":
+  version "0.0.0-nightly-20231101092322"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/swapkit-entities/-/swapkit-entities-0.0.0-nightly-20231101092322.tgz#0babde9ca55a72f269e4e0e793d5ddc212ec9973"
+  integrity sha512-SUSkFuWQmB8JSdH+lq7kBVObnSNpruKzjwZ3ZLVGfFhK35RgydWZH+hudhifYgE9G6Kea1imczBiWf4/8OLJ+A==
+  dependencies:
+    "@thorswap-lib/types" "0.0.0-nightly-20231101092322"
     tiny-invariant "1.3.1"
 
 "@thorswap-lib/toolbox-cosmos@0.0.0-nightly-20231026112503":
@@ -2848,19 +2864,19 @@
     "@thorswap-lib/swapkit-entities" "0.0.0-nightly-20231026112503"
     "@thorswap-lib/types" "0.0.0-nightly-20231026112503"
 
-"@thorswap-lib/toolbox-utxo@0.0.0-nightly-20231026112503":
-  version "0.0.0-nightly-20231026112503"
-  resolved "https://registry.yarnpkg.com/@thorswap-lib/toolbox-utxo/-/toolbox-utxo-0.0.0-nightly-20231026112503.tgz#e5eaa35b705db520794cd40c5b34e83953d5631f"
-  integrity sha512-LudmO1mZY4qRejcc7LEZAje6HXC8Qxb0n02hkdT9Z4xjnOg51mHuzypDGr/PkktRl4/qsfO8LWn1i422lGkGTA==
+"@thorswap-lib/toolbox-utxo@0.0.0-nightly-20231101092322":
+  version "0.0.0-nightly-20231101092322"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/toolbox-utxo/-/toolbox-utxo-0.0.0-nightly-20231101092322.tgz#f22028a1e42db4dcbb183ed001669346963a9336"
+  integrity sha512-X2S7q1t0VGNHZbmjIy2GXvjUMLy4qG2MM0nrmaJeTtEqq2pBH2y7ZSc+7dFvtwlK4ui4X26NPy9wNsieGlB1LA==
   dependencies:
     "@ethersproject/bignumber" "5.7.0"
     "@ethersproject/units" "5.7.0"
     "@psf/bitcoincashjs-lib" "4.0.3"
     "@scure/bip32" "1.3.2"
     "@scure/bip39" "1.2.1"
-    "@thorswap-lib/helpers" "0.0.0-nightly-20231026112503"
-    "@thorswap-lib/swapkit-entities" "0.0.0-nightly-20231026112503"
-    "@thorswap-lib/types" "0.0.0-nightly-20231026112503"
+    "@thorswap-lib/helpers" "0.0.0-nightly-20231101092322"
+    "@thorswap-lib/swapkit-entities" "0.0.0-nightly-20231101092322"
+    "@thorswap-lib/types" "0.0.0-nightly-20231101092322"
     bchaddrjs "0.5.2"
     bitcoinjs-lib "5.2.0"
     coininfo "5.2.1"
@@ -2881,6 +2897,11 @@
   version "0.0.0-nightly-20231026112503"
   resolved "https://registry.yarnpkg.com/@thorswap-lib/types/-/types-0.0.0-nightly-20231026112503.tgz#80b1e116ed3df8b6a85548fff090499265fcf101"
   integrity sha512-jWUSI2JuR1m+48vzEHhyw2udyXaen1+UfFVRjOolDEkQM69NvdXnf4fV3+5NL5KpGovWh/hwgVh/EI0rU3wbJg==
+
+"@thorswap-lib/types@0.0.0-nightly-20231101092322":
+  version "0.0.0-nightly-20231101092322"
+  resolved "https://registry.yarnpkg.com/@thorswap-lib/types/-/types-0.0.0-nightly-20231101092322.tgz#95ad0b8049a339461b7ecec4999c7770230bc891"
+  integrity sha512-i8IltAAaR07f32D6E3YwgSR2wYo9OI0dw4HGOEGzmVlkYy3yRJojNBUz32PnZ147IKCHQYGgWhUxFbXvYt1RTw==
 
 "@thorswap-lib/walletconnect@0.0.0-nightly-20231026112503":
   version "0.0.0-nightly-20231026112503"
