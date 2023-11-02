@@ -52,7 +52,7 @@ export const midgardApi = createApi({
     }),
     getFullMember: build.query<FullMemberPool[], string[]>({
       keepUnusedDataFor: 10,
-      query: (addresses) => `/fullmember?address=${addresses.join(',')}`,
+      query: (addresses) => `${MIDGARD_URL}/v2/full_member?address=${addresses.join(',')}`,
     }),
     getMonthlyTradeVolume: build.query<MidgardTradeHistory, void>({
       keepUnusedDataFor: 300,

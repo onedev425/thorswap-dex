@@ -192,9 +192,9 @@ export const useAddLiquidity = ({
   );
 
   const runePriceInAsset =
-    parseInt(poolData?.runeDepth || '0') / parseInt(poolData?.assetDepth || '0');
-  const assetPriceInRune =
     parseInt(poolData?.assetDepth || '0') / parseInt(poolData?.runeDepth || '0');
+  const assetPriceInRune =
+    parseInt(poolData?.runeDepth || '0') / parseInt(poolData?.assetDepth || '0');
 
   const addLiquiditySlip = useMemo(
     () => getLiquiditySlippage(liquidityParams).toFixed(2),

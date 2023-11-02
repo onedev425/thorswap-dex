@@ -56,7 +56,6 @@ const useApproveResult = ({
     debounce(
       async () => {
         const isApproved = await checkAssetApprove(currentParams.current);
-        console.info({ isApproved, params: currentParams.current });
         setApproved(isApproved);
       },
       500,

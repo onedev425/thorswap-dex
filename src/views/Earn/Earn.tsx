@@ -75,10 +75,10 @@ const Earn = () => {
 
   const { data: tokenPricesData } = useTokenPrices([asset]);
   const usdPrice = useMemo(() => {
-    const price = tokenPricesData[asset.symbol]?.price_usd || 0;
+    const price = tokenPricesData[asset.toString()]?.price_usd || 0;
 
     return price * amount.assetAmount.toNumber();
-  }, [amount.assetAmount, asset.symbol, tokenPricesData]);
+  }, [amount.assetAmount, asset, tokenPricesData]);
 
   const { isApproved, isLoading } = useIsAssetApproved({
     asset,

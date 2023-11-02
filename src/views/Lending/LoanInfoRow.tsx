@@ -81,7 +81,7 @@ export const LoanInfoRow = ({
   });
 
   const collateralUsd = useMemo(() => {
-    const price = tokenPricesData[asset.symbol]?.price_usd || 0;
+    const price = tokenPricesData[asset.toString()]?.price_usd || 0;
 
     return price * collateralCurrent.assetAmount.toNumber();
   }, [asset.symbol, collateralCurrent.assetAmount, tokenPricesData]);

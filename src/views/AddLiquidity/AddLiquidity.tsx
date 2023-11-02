@@ -98,6 +98,8 @@ export const AddLiquidity = () => {
     wallet,
   });
 
+  const hasLP = useMemo(() => !!Object.keys(lpMemberData || {}).length, [lpMemberData]);
+
   return (
     <PanelView
       description={t('views.addLiquidity.description')}
@@ -142,7 +144,7 @@ export const AddLiquidity = () => {
         slippage={addLiquiditySlip}
       />
 
-      {lpMemberData && pool && (
+      {hasLP && pool && (
         <LiquidityCard
           {...lpMemberData}
           poolDetail={pool}
