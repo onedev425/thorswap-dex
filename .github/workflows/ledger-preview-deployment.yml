@@ -74,7 +74,7 @@ jobs:
           noprefix: ${{ job.status == 'success' }}
           avatar_url: https://raw.githubusercontent.com/github/explore/3c66f1237835e0b877190fbea528d0ebece7bccf/topics/vercel/vercel.png
           color: ${{ steps.vercel.outputs.color }}
-          description: "Ledger Preview Deployment\nPassword: #betterthancex"
+          description: "Ledger Preview Deployment\nPassword: #cexisworse"
           status: ${{ job.status }}
           title: "Link - ${{ steps.vercel.outputs.vercel_url }}"
           url: ${{ steps.vercel.outputs.vercel_url }}

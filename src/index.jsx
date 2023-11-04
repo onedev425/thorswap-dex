@@ -53,7 +53,7 @@ const checkAppRender = () => {
     /**
      * Replace with new password hash generated from command line.
      */
-    const currentPasswordHash = '64127a68bc';
+    const currentPasswordHash = '8d2cd907fb';
     if (decodedPass === currentPasswordHash) {
       renderApp();
     } else {
