@@ -149,7 +149,7 @@ export const useAddLiquidity = ({
   } = depositAssetsBalance;
   const { setIsConnectModalOpen } = useWallet();
   const { isLPActionPaused } = useAddLiquidityUtils({ poolAsset });
-  const { lpMemberData, isAssetPending, isRunePending } = useLPMemberData(poolAsset.symbol);
+  const { lpMemberData, isAssetPending, isRunePending } = useLPMemberData(poolAsset.toString());
 
   const isSymDeposit = useMemo(
     () => liquidityType === LiquidityTypeOption.SYMMETRICAL && !expertMode,
