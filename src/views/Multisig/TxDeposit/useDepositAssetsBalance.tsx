@@ -3,11 +3,12 @@ import { Amount } from '@thorswap-lib/swapkit-core';
 import { RUNEAsset } from 'helpers/assets';
 import { useMemo } from 'react';
 import { useMultisig } from 'store/multisig/hooks';
+import { zeroAmount } from 'types/app';
 import type { DepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance';
 import { useMultissigAssets } from 'views/Multisig/hooks';
 
 type Props = {
-  poolAsset: Asset;
+  poolAsset: Asset | undefined;
 };
 
 export const useDepositAssetsBalance = ({ poolAsset }: Props): DepositAssetsBalance => {
@@ -15,7 +16,7 @@ export const useDepositAssetsBalance = ({ poolAsset }: Props): DepositAssetsBala
   const { getAssetBalance, getMaxBalance } = useMultissigAssets();
 
   const poolAssetBalance: Amount = useMemo(() => {
-    if (isConnected) {
+    if (isConnected && poolAsset) {
       return getAssetBalance(poolAsset).amount;
     }
 
@@ -24,7 +25,7 @@ export const useDepositAssetsBalance = ({ poolAsset }: Props): DepositAssetsBala
   }, [isConnected, getAssetBalance, poolAsset]);
 
   const maxPoolAssetBalance: Amount = useMemo(
-    () => getMaxBalance(poolAsset),
+    () => (poolAsset ? getMaxBalance(poolAsset) : zeroAmount),
     [poolAsset, getMaxBalance],
   );
 

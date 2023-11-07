@@ -5,7 +5,7 @@ import { MemoType } from '@thorswap-lib/types';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
 import type { InfoRowConfig } from 'components/InfoRow/types';
-import { RUNEAsset } from 'helpers/assets';
+import { BTCAsset, RUNEAsset } from 'helpers/assets';
 import { useLiquidityType } from 'hooks/useLiquidityType';
 import { usePools } from 'hooks/usePools';
 import { useCallback, useMemo } from 'react';
@@ -64,7 +64,7 @@ export const useTxDeposit = (assetSideAddress: string) => {
     skipWalletCheck: true,
     liquidityType,
     setLiquidityType,
-    poolAsset,
+    poolAsset: poolAsset || BTCAsset,
     depositAssetsBalance,
     wallet,
   });

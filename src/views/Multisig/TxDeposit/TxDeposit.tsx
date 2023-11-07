@@ -39,13 +39,15 @@ export const TxDeposit = () => {
 
   return (
     <Box col flex={1}>
-      <LiquidityType
-        onChange={handleSelectLiquidityType}
-        options={[LiquidityTypeOption.SYMMETRICAL, LiquidityTypeOption.RUNE]}
-        poolAsset={poolAsset}
-        selected={liquidityType}
-        tabsCount={2}
-      />
+      {poolAsset && (
+        <LiquidityType
+          onChange={handleSelectLiquidityType}
+          options={[LiquidityTypeOption.SYMMETRICAL, LiquidityTypeOption.RUNE]}
+          poolAsset={poolAsset}
+          selected={liquidityType}
+          tabsCount={2}
+        />
+      )}
 
       <Box className="pb-1" flex={1} />
 
