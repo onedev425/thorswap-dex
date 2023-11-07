@@ -345,7 +345,6 @@ export const useAddLiquidity = ({
       }
 
       const maxAmount = isSymDeposit ? maxSymAssetAmount : maxPoolAssetBalance;
-
       if (amount.gt(maxAmount) && !skipWalletCheck) {
         setAssetAmount(toAssetAmount(maxAmount, poolAsset));
 
@@ -620,9 +619,12 @@ export const useAddLiquidity = ({
         };
       }
 
-      if (lpMemberData && !!lpMemberData.assetPending && !!lpMemberData.runePending) {
+      if (
+        lpMemberData &&
+        !!(Number(lpMemberData.assetPending) || Number(lpMemberData.runePending))
+      ) {
         // if runeAsym or assetAsym already exist, cannot deposit symmetrically
-        if (lpMemberData.runeAdded) {
+        if (Number(lpMemberData.runeAdded) && !Number(lpMemberData.assetAdded)) {
           return { valid: false, msg: t('notification.alreadyHaveRune') };
         }
       }

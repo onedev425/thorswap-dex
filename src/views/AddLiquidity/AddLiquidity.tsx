@@ -8,7 +8,7 @@ import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { PanelView } from 'components/PanelView';
 import { ViewHeader } from 'components/ViewHeader';
 import { ADD_LIQUIDITY_GUIDE_URL } from 'config/constants';
-import { RUNEAsset } from 'helpers/assets';
+import { BTCAsset, RUNEAsset } from 'helpers/assets';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useCheckHardCap } from 'hooks/useCheckHardCap';
 import { useLiquidityType } from 'hooks/useLiquidityType';
@@ -40,7 +40,7 @@ export const AddLiquidity = () => {
   const assetsWithBalances = useAssetsWithBalance(poolAssets);
 
   const pool = useMemo(
-    () => pools.find((p) => p.asset === poolAsset.toString()) || pools[0],
+    () => pools.find((p) => p.asset === poolAsset?.toString()) || pools[0],
     [pools, poolAsset],
   );
 
@@ -92,7 +92,7 @@ export const AddLiquidity = () => {
   } = useAddLiquidity({
     depositAssetsBalance,
     liquidityType,
-    poolAsset,
+    poolAsset: poolAsset || BTCAsset,
     poolData: pool,
     setLiquidityType,
     wallet,
@@ -112,16 +112,22 @@ export const AddLiquidity = () => {
       keywords=" LP, Liquidity provider, THORSwap, THORChain, DEFI, DEX"
       title={t('views.addLiquidity.title')}
     >
-      <LiquidityType
-        onChange={handleSelectLiquidityType}
-        options={
-          pool?.status === 'staged'
-            ? [LiquidityTypeOption.SYMMETRICAL]
-            : [LiquidityTypeOption.ASSET, LiquidityTypeOption.SYMMETRICAL, LiquidityTypeOption.RUNE]
-        }
-        poolAsset={poolAsset}
-        selected={liquidityType}
-      />
+      {poolAsset && (
+        <LiquidityType
+          onChange={handleSelectLiquidityType}
+          options={
+            pool?.status === 'staged'
+              ? [LiquidityTypeOption.SYMMETRICAL]
+              : [
+                  LiquidityTypeOption.ASSET,
+                  LiquidityTypeOption.SYMMETRICAL,
+                  LiquidityTypeOption.RUNE,
+                ]
+          }
+          poolAsset={poolAsset}
+          selected={liquidityType}
+        />
+      )}
 
       <AssetInputs
         isAssetPending={isAssetPending}
@@ -153,7 +159,8 @@ export const AddLiquidity = () => {
       )}
 
       {[LiquidityTypeOption.ASSET, LiquidityTypeOption.RUNE].includes(liquidityType) &&
-        asymmTipVisible && (
+        asymmTipVisible &&
+        poolAsset && (
           <InfoTip
             content={
               <>
@@ -225,14 +232,16 @@ export const AddLiquidity = () => {
         <InfoTable items={confirmInfo} />
       </ConfirmModal>
 
-      <ConfirmModal
-        inputAssets={[poolAsset]}
-        isOpened={visibleApproveModal}
-        onClose={() => setVisibleApproveModal(false)}
-        onConfirm={handleConfirmApprove}
-      >
-        <InfoTable items={approveConfirmInfo} />
-      </ConfirmModal>
+      {poolAsset && (
+        <ConfirmModal
+          inputAssets={[poolAsset]}
+          isOpened={visibleApproveModal}
+          onClose={() => setVisibleApproveModal(false)}
+          onConfirm={handleConfirmApprove}
+        >
+          <InfoTable items={approveConfirmInfo} />
+        </ConfirmModal>
+      )}
     </PanelView>
   );
 };

@@ -8,7 +8,7 @@ import { useWallet } from 'store/wallet/hooks';
 import { zeroAmount } from 'types/app';
 
 type Props = {
-  poolAsset: Asset;
+  poolAsset: Asset | undefined;
 };
 
 export type DepositAssetsBalance = {
@@ -28,7 +28,7 @@ export const useDepositAssetsBalance = ({ poolAsset }: Props): DepositAssetsBala
   const [maxRuneBalance, setMaxRuneBalance] = useState(zeroAmount);
 
   const poolAssetBalance: Amount = useMemo(() => {
-    if (wallet) {
+    if (poolAsset && wallet) {
       return getAssetBalance(poolAsset, wallet).amount;
     }
 
@@ -37,9 +37,10 @@ export const useDepositAssetsBalance = ({ poolAsset }: Props): DepositAssetsBala
   }, [poolAsset, wallet]);
 
   useEffect(() => {
-    getMaxBalance(poolAsset).then((assetMaxBalance) =>
-      setMaxPoolAssetBalance(assetMaxBalance || zeroAmount),
-    );
+    if (poolAsset)
+      getMaxBalance(poolAsset).then((assetMaxBalance) => {
+        setMaxPoolAssetBalance(assetMaxBalance || zeroAmount);
+      });
   }, [poolAsset, getMaxBalance]);
 
   useEffect(() => {

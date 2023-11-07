@@ -66,7 +66,7 @@ export const LiquidityCard = ({
   }, [assetDepth, liquidityUnits, shareType, sharedUnits]);
 
   const isPendingLP = useMemo(
-    () => !!(Number(runePending) > 0 || Number(assetPending)),
+    () => !!(Number(runePending) || Number(assetPending)),
     [runePending, assetPending],
   );
 

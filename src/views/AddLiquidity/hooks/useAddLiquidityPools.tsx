@@ -1,5 +1,4 @@
-import { AssetEntity as Asset, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -12,10 +11,10 @@ type Props = {
 export const useAddLiquidityPools = ({ assetRouteGetter = getAddLiquidityRoute }: Props = {}) => {
   const navigate = useNavigate();
 
-  const { assetParam = getSignatureAssetFor(Chain.Bitcoin).toString() } = useParams<{
+  const { assetParam } = useParams<{
     assetParam: string;
   }>();
-  const [poolAsset, setPoolAsset] = useState<Asset>(getSignatureAssetFor(Chain.Bitcoin));
+  const [poolAsset, setPoolAsset] = useState<Asset>();
 
   useEffect(() => {
     const getAssetEntity = async () => {
