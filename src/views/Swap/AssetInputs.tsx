@@ -96,7 +96,10 @@ export const AssetInputs = memo(
         (inputAsset.asset.L1Chain === Chain.Avalanche &&
           outputAsset.asset.L1Chain === Chain.Avalanche) ||
         (inputAsset.asset.L1Chain === Chain.BinanceSmartChain &&
-          outputAsset.asset.L1Chain === Chain.BinanceSmartChain)
+          outputAsset.asset.L1Chain === Chain.BinanceSmartChain) ||
+        isETHAsset(inputAsset.asset) ||
+        isAVAXAsset(inputAsset.asset) ||
+        isBSCAsset(inputAsset.asset)
       ) {
         return assets;
       }
@@ -115,7 +118,7 @@ export const AssetInputs = memo(
       return thorchainSupported;
     }, [
       assets,
-      inputAsset.asset.L1Chain,
+      inputAsset,
       outputAsset.asset.L1Chain,
       thorchainAvaxSupportedAddresses,
       thorchainERC20SupportedAddresses,
