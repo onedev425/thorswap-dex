@@ -12,6 +12,7 @@ const options: Fuse.IFuseOptions<AssetSelectType> = {
     { name: 'asset.type', weight: 0.1 },
     { name: 'cg.name', weight: 0.1 },
     { name: 'cg.id', weight: 0.01 },
+    { name: 'asset.symbol', weight: 0.01 },
   ],
   isCaseSensitive: false,
   minMatchCharLength: 1,
