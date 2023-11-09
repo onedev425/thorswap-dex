@@ -15,10 +15,7 @@ export const PoolListView = memo(() => {
   const [selectedPoolsCategory, setSelectedPoolsCategory] = useState(0);
   const { isMdActive } = useWindowSize();
 
-  const { filteredPools } = useLiquidityPools({
-    keyword,
-    selectedPoolsCategory,
-  });
+  const { filteredPools } = useLiquidityPools({ keyword, selectedPoolsCategory });
 
   const handleChangeKeyword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);

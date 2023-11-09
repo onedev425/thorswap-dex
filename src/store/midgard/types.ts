@@ -311,7 +311,6 @@ export type PoolDetail = {
   assetPrice: string;
   assetPriceUSD: string;
   liquidityUnits: string;
-  nativeDecimal: string;
   poolAPY: string;
   runeDepth: string;
   saversAPR: string;

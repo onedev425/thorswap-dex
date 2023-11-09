@@ -109,8 +109,8 @@ export const usePoolColumns = (poolCategory: PoolCategoryOption) => {
       {
         id: 'price',
         Header: () => t('common.usdPrice'),
-        accessor: (row: PoolDetail) =>
-          Amount.fromAssetAmount(row.assetPriceUSD, parseInt(row.nativeDecimal)),
+        // Use static decimal as backend returns `-1` for some pools
+        accessor: (row: PoolDetail) => Amount.fromAssetAmount(row.assetPriceUSD, 8),
         align: 'right',
         Cell: ({ cell: { value } }: { cell: { value: Amount } }) => formatPrice(value),
         sortType: getAmountColumnSorter('price'),
