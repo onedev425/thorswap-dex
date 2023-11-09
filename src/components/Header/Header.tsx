@@ -31,12 +31,19 @@ export const Header = memo(({ openMenu }: Props) => {
   const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
 
   const handleClickWalletBtn = useCallback(() => {
+    if (isWalletLoading) return;
     if (!isConnected) {
       !IS_LEDGER_LIVE ? setIsConnectModalOpen(true) : connectLedgerLiveWallet();
     } else {
       setIsDrawerVisible(true);
     }
-  }, [isConnected, setIsConnectModalOpen, setIsDrawerVisible, connectLedgerLiveWallet]);
+  }, [
+    isConnected,
+    isWalletLoading,
+    setIsConnectModalOpen,
+    connectLedgerLiveWallet,
+    setIsDrawerVisible,
+  ]);
 
   return (
     <header className="mb-5 min-h-[70px]">

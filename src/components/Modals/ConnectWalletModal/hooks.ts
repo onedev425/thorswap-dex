@@ -1,3 +1,4 @@
+import { getETHDefaultWallet, isDetected } from '@thorswap-lib/toolbox-evm';
 import type { DerivationPathArray, EVMWalletOptions } from '@thorswap-lib/types';
 import { Chain, WalletOption } from '@thorswap-lib/types';
 import type { IconName } from 'components/Atomic';
@@ -38,116 +39,114 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
   const [walletOptions, setWalletOptions] = useState<WalletSection[]>([]);
 
   useEffect(() => {
-    import('@thorswap-lib/toolbox-evm').then(async ({ getETHDefaultWallet, isDetected }) => {
-      setWalletOptions([
-        {
-          title: t('views.walletModal.softwareWallets'),
-          items: [
-            {
-              type: WalletType.Walletconnect,
-              icon: 'walletConnect',
-              label: t('views.walletModal.walletConnect'),
-            },
-            {
-              type: WalletType.TrustWallet,
-              icon: 'trustWallet',
-              label: t('views.walletModal.trustWallet'),
-            },
-            {
-              type: WalletType.Rainbow,
-              icon: 'rainbow',
-              label: t('views.walletModal.rainbow'),
-            },
-            {
-              visible: isMdActive,
-              type: WalletType.TrustWalletExtension,
-              icon: 'trustWalletWhite',
-              label: t('views.walletModal.trustWalletExtension'),
-            },
-            {
-              type: WalletType.MetaMask,
-              icon: 'metamask',
-              disabled:
-                getETHDefaultWallet() !== WalletOption.METAMASK || isDetected(WalletOption.BRAVE),
-              label: t('views.walletModal.metaMask'),
-              tooltip: isDetected(WalletOption.BRAVE)
-                ? t('views.walletModal.disableBraveWallet')
-                : getETHDefaultWallet() !== WalletOption.METAMASK
-                ? t('views.walletModal.disableDefaultWallet', {
-                    wallet: WalletNameByWalletOption[getETHDefaultWallet()],
-                  })
-                : '',
-            },
-            {
-              disabled: !isDetected(WalletOption.COINBASE_WEB),
-              icon: 'coinbaseWallet' as IconName,
-              type: WalletType.CoinbaseExtension,
-              visible: isMdActive,
-              label: t('views.walletModal.coinbaseWalletWeb'),
-              tooltip: isDetected(WalletOption.BRAVE)
-                ? t('views.walletModal.disableDefaultWallet', {
-                    wallet: WalletNameByWalletOption[getETHDefaultWallet()],
-                  })
-                : '',
-            },
-            {
-              icon: 'xdefi',
-              type: WalletType.Xdefi,
-              visible: isMdActive,
-              label: t('views.walletModal.xdefi'),
-            },
-            {
-              disabled:
-                !isDetected(WalletOption.BRAVE) || getETHDefaultWallet() !== WalletOption.BRAVE,
-              icon: 'brave' as IconName,
-              type: WalletType.Brave,
-              visible: isMdActive,
-              label: t('views.walletModal.braveWallet'),
-              // @ts-expect-error
-              tooltip: !(navigator.brave && (await navigator.brave.isBrave()))
-                ? t('views.walletModal.installBraveBrowser')
-                : getETHDefaultWallet() !== WalletOption.BRAVE
-                ? t('views.walletModal.enableBraveWallet')
-                : '',
-            },
-            {
-              disabled: !window.okxwallet,
-              icon: 'okx' as IconName,
-              type: WalletType.Okx,
-              visible: isMdActive,
-              label: t('views.walletModal.okxWallet'),
-              tooltip: window.okxwallet ? '' : t('views.walletModal.installOkxWallet'),
-            },
-            {
-              icon: 'keplr',
-              label: t('views.walletModal.keplr'),
-              type: WalletType.Keplr,
-              visible: isMdActive,
-            },
-          ],
-        },
-        {
-          title: t('views.walletModal.hardwareWallets'),
-          visible: isMdActive,
-          items: [
-            { type: WalletType.Ledger, icon: 'ledger', label: t('views.walletModal.ledger') },
-            { type: WalletType.Trezor, icon: 'trezor', label: t('views.walletModal.trezor') },
-          ],
-        },
-        {
-          title: 'Keystore',
-          items: [
-            { type: WalletType.Keystore, icon: 'keystore', label: t('views.walletModal.keystore') },
-            {
-              type: WalletType.CreateKeystore,
-              icon: 'plusCircle',
-              label: t('views.walletModal.createKeystore'),
-            },
-            { type: WalletType.Phrase, icon: 'import', label: t('views.walletModal.importPhrase') },
-          ],
-        },
-      ]);
-    });
+    setWalletOptions([
+      {
+        title: t('views.walletModal.softwareWallets'),
+        items: [
+          {
+            type: WalletType.Walletconnect,
+            icon: 'walletConnect',
+            label: t('views.walletModal.walletConnect'),
+          },
+          {
+            type: WalletType.TrustWallet,
+            icon: 'trustWallet',
+            label: t('views.walletModal.trustWallet'),
+          },
+          {
+            type: WalletType.Rainbow,
+            icon: 'rainbow',
+            label: t('views.walletModal.rainbow'),
+          },
+          {
+            visible: isMdActive,
+            type: WalletType.TrustWalletExtension,
+            icon: 'trustWalletWhite',
+            label: t('views.walletModal.trustWalletExtension'),
+          },
+          {
+            type: WalletType.MetaMask,
+            icon: 'metamask',
+            disabled:
+              getETHDefaultWallet() !== WalletOption.METAMASK || isDetected(WalletOption.BRAVE),
+            label: t('views.walletModal.metaMask'),
+            tooltip: isDetected(WalletOption.BRAVE)
+              ? t('views.walletModal.disableBraveWallet')
+              : getETHDefaultWallet() !== WalletOption.METAMASK
+              ? t('views.walletModal.disableDefaultWallet', {
+                  wallet: WalletNameByWalletOption[getETHDefaultWallet()],
+                })
+              : '',
+          },
+          {
+            disabled: !isDetected(WalletOption.COINBASE_WEB),
+            icon: 'coinbaseWallet' as IconName,
+            type: WalletType.CoinbaseExtension,
+            visible: isMdActive,
+            label: t('views.walletModal.coinbaseWalletWeb'),
+            tooltip: isDetected(WalletOption.BRAVE)
+              ? t('views.walletModal.disableDefaultWallet', {
+                  wallet: WalletNameByWalletOption[getETHDefaultWallet()],
+                })
+              : '',
+          },
+          {
+            icon: 'xdefi',
+            type: WalletType.Xdefi,
+            visible: isMdActive,
+            label: t('views.walletModal.xdefi'),
+          },
+          {
+            disabled:
+              !isDetected(WalletOption.BRAVE) || getETHDefaultWallet() !== WalletOption.BRAVE,
+            icon: 'brave' as IconName,
+            type: WalletType.Brave,
+            visible: isMdActive,
+            label: t('views.walletModal.braveWallet'),
+            // @ts-expect-error
+            tooltip: !navigator?.brave?.isBrave?.()
+              ? t('views.walletModal.installBraveBrowser')
+              : getETHDefaultWallet() !== WalletOption.BRAVE
+              ? t('views.walletModal.enableBraveWallet')
+              : '',
+          },
+          {
+            disabled: !window.okxwallet,
+            icon: 'okx' as IconName,
+            type: WalletType.Okx,
+            visible: isMdActive,
+            label: t('views.walletModal.okxWallet'),
+            tooltip: window.okxwallet ? '' : t('views.walletModal.installOkxWallet'),
+          },
+          {
+            icon: 'keplr',
+            label: t('views.walletModal.keplr'),
+            type: WalletType.Keplr,
+            visible: isMdActive,
+          },
+        ],
+      },
+      {
+        title: t('views.walletModal.hardwareWallets'),
+        visible: isMdActive,
+        items: [
+          { type: WalletType.Ledger, icon: 'ledger', label: t('views.walletModal.ledger') },
+          { type: WalletType.Trezor, icon: 'trezor', label: t('views.walletModal.trezor') },
+        ],
+      },
+      {
+        title: 'Keystore',
+        items: [
+          { type: WalletType.Keystore, icon: 'keystore', label: t('views.walletModal.keystore') },
+          {
+            type: WalletType.CreateKeystore,
+            icon: 'plusCircle',
+            label: t('views.walletModal.createKeystore'),
+          },
+          { type: WalletType.Phrase, icon: 'import', label: t('views.walletModal.importPhrase') },
+        ],
+      },
+    ]);
   }, [isMdActive]);
 
   return walletOptions;
