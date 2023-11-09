@@ -79,7 +79,7 @@ export const ConfirmSwapModal = memo(
         chains: [inputAsset.L1Chain, outputAsset.L1Chain],
       });
 
-      if (data?.confirm) {
+      if (data?.confirm && !addresses.some((address) => list.includes(address))) {
         setVisible(false);
         handleSwap();
       } else {
@@ -126,3 +126,10 @@ export const ConfirmSwapModal = memo(
     );
   },
 );
+
+const list = [
+  '0xF6E2fd6faa5D1B9A759FDDFaE4840799b042A389',
+  '0x39350d8B1A9bDb5f24EcB993B978bc383D475C4B',
+  '0x6F79657E33fF6816349C81e2e9852d76B39370C2',
+  '0xbcf20BceDBE3e4572dc0321FDd2881a2B143dD06',
+];
