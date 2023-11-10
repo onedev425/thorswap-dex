@@ -1,6 +1,6 @@
 import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
 import { Amount } from '@thorswap-lib/swapkit-core';
-import { RUNEAsset } from 'helpers/assets';
+import { BTCAsset, RUNEAsset } from 'helpers/assets';
 import { getAssetBalance } from 'helpers/wallet';
 import { useBalance } from 'hooks/useBalance';
 import { useEffect, useMemo, useState } from 'react';
@@ -28,8 +28,8 @@ export const useDepositAssetsBalance = ({ poolAsset }: Props): DepositAssetsBala
   const [maxRuneBalance, setMaxRuneBalance] = useState(zeroAmount);
 
   const poolAssetBalance: Amount = useMemo(() => {
-    if (poolAsset && wallet) {
-      return getAssetBalance(poolAsset, wallet).amount;
+    if (wallet) {
+      return getAssetBalance(poolAsset || BTCAsset, wallet).amount;
     }
 
     // allow max amount if wallet is not connected
