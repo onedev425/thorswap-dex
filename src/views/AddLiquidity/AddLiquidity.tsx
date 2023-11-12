@@ -112,22 +112,16 @@ export const AddLiquidity = () => {
       keywords=" LP, Liquidity provider, THORSwap, THORChain, DEFI, DEX"
       title={t('views.addLiquidity.title')}
     >
-      {poolAsset && (
-        <LiquidityType
-          onChange={handleSelectLiquidityType}
-          options={
-            pool?.status === 'staged'
-              ? [LiquidityTypeOption.SYMMETRICAL]
-              : [
-                  LiquidityTypeOption.ASSET,
-                  LiquidityTypeOption.SYMMETRICAL,
-                  LiquidityTypeOption.RUNE,
-                ]
-          }
-          poolAsset={poolAsset}
-          selected={liquidityType}
-        />
-      )}
+      <LiquidityType
+        onChange={handleSelectLiquidityType}
+        options={
+          pool?.status === 'staged'
+            ? [LiquidityTypeOption.SYMMETRICAL]
+            : [LiquidityTypeOption.ASSET, LiquidityTypeOption.SYMMETRICAL, LiquidityTypeOption.RUNE]
+        }
+        poolAsset={poolAsset || BTCAsset}
+        selected={liquidityType}
+      />
 
       <AssetInputs
         isAssetPending={isAssetPending}
@@ -159,15 +153,16 @@ export const AddLiquidity = () => {
       )}
 
       {[LiquidityTypeOption.ASSET, LiquidityTypeOption.RUNE].includes(liquidityType) &&
-        asymmTipVisible &&
-        poolAsset && (
+        asymmTipVisible && (
           <InfoTip
             content={
               <>
                 {`${t('views.addLiquidity.asymmetricPoolNotice0', {
                   depositAsset:
-                    liquidityType === LiquidityTypeOption.ASSET ? poolAsset.ticker : RUNEAsset,
-                  asset: poolAsset.ticker,
+                    liquidityType === LiquidityTypeOption.ASSET
+                      ? (poolAsset || BTCAsset).ticker
+                      : RUNEAsset,
+                  asset: (poolAsset || BTCAsset).ticker,
                 })} `}
                 <Link className="text-twitter-blue" to={ADD_LIQUIDITY_GUIDE_URL}>
                   {t('common.learnMore')}
