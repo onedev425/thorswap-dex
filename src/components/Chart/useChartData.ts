@@ -7,7 +7,6 @@ import { ThemeType } from 'types/app';
 import { abbreviateNumber } from './../../helpers/number';
 import { getChartData } from './config/chartData';
 import { getChartOptions } from './config/chartOptions';
-import { parseChartData } from './config/utils';
 import type { ChartData } from './types';
 import { ChartTimeFrame, ChartType } from './types';
 
@@ -52,7 +51,17 @@ export const useChartData = ({
   );
 
   const { parsedChartData, chartValues } = useMemo(() => {
-    const { labels, values } = parseChartData(slicedByTime);
+    const { values, labels } = slicedByTime.reduce(
+      (acc, item) => {
+        acc.values.push(item.value);
+        acc.labels.push(item.time);
+        return acc;
+      },
+      {
+        values: [] as number[],
+        labels: [] as string[],
+      },
+    );
 
     return {
       chartValues: values,

@@ -1,6 +1,6 @@
 import type { ChartData as ReactChartData } from 'chart.js';
 
-export type ChartDetail = { value: string; time: number };
+export type ChartDetail = { value: number; time: string };
 
 export type DataPoint = { x: string; y: number };
 

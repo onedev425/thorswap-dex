@@ -196,5 +196,5 @@ export const useGlobalChartInfo = () => {
     formatFromRuneAtTime,
   ]);
 
-  return { unit: chartValueUnit, volumeChartData, liquidityChartData };
+  return { unit: chartValueUnit, liquidityChartData };
 };

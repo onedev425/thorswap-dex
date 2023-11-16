@@ -61,17 +61,4 @@ export const generateRandomTimeSeries = (minValue: number, maxValue: number) => 
   return { labels, values };
 };
 
-export const parseChartData = (chartData: { value: string; time: number }[]) =>
-  chartData.reduce(
-    (acc, { time, value }) => {
-      const amount = value.split(' ')[1] || value;
-      const parsedValue = Number(amount.replace('$', '').split(',').join(''));
-
-      acc.labels.push(dayjs.unix(time).format('MMM DD'));
-      acc.values.push(parsedValue);
-      return acc;
-    },
-    { labels: [] as string[], values: [] as number[] },
-  );
-
 export const getRandomChartData = () => generateRandomTimeSeries(0, 100);
