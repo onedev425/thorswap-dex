@@ -6,7 +6,7 @@ import { useApp } from 'store/app/hooks';
 
 import { useGlobalStatsData } from './useGlobalStatsData';
 
-export const GlobalStats = memo(() => {
+const GlobalStatsComponent = () => {
   const { hideStats } = useApp();
   const statsData = useGlobalStatsData();
 
@@ -21,4 +21,6 @@ export const GlobalStats = memo(() => {
       <StatsList scrollable itemWidth={230} list={statsData} />
     </Box>
   );
-});
+};
+
+export const GlobalStats = memo(GlobalStatsComponent);

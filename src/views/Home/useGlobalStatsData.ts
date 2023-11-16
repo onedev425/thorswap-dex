@@ -37,7 +37,7 @@ export const useGlobalStatsData = () => {
       decimal: 8,
     });
 
-    return swapVolume.add(addVolume).add(withdrawVolume).toAbbreviation();
+    return swapVolume.add(addVolume, withdrawVolume).div(1e8).toAbbreviation();
   }, [
     liquidityData?.meta?.addLiquidityVolume,
     liquidityData?.meta?.withdrawVolume,
@@ -48,8 +48,8 @@ export const useGlobalStatsData = () => {
 
   const bondingAPYLabel = parseToPercent(networkData?.bondingAPY);
 
-  const statsData: StatsType[] = useMemo(() => {
-    return [
+  const statsData: StatsType[] = useMemo(
+    () => [
       {
         iconName: 'lockFill',
         color: 'yellow',
@@ -61,7 +61,7 @@ export const useGlobalStatsData = () => {
         iconName: 'chartArea',
         color: 'purple',
         label: t('views.stats.totalLiq'),
-        value: runeToCurrency(networkData?.totalPooledRune || '0'),
+        value: runeToCurrency(`${(parseInt(networkData?.totalPooledRune || '0') / 1e8) * 2}`),
         tooltip: t('views.stats.totalLiqTooltip'),
       },
       {
@@ -75,7 +75,7 @@ export const useGlobalStatsData = () => {
         iconName: 'barchart',
         color: 'blueLight',
         label: t('views.stats.totalVolume'),
-        value: runeToCurrency(totalVolume.getValue('string')),
+        value: `$${new SwapKitNumber(totalVolume).toAbbreviation()}`,
         tooltip: t('views.stats.totalVolumeTooltip'),
       },
       {
@@ -105,18 +105,19 @@ export const useGlobalStatsData = () => {
         label: t('views.stats.bondAPY'),
         value: bondingAPYLabel,
       },
-    ];
-  }, [
-    volume24h,
-    liquidityAPYLabel,
-    totalVolume,
-    totalActiveBond,
-    totalPooledRune,
-    networkData,
-    tvlInRune,
-    bondingAPYLabel,
-    runeToCurrency,
-  ]);
+    ],
+    [
+      volume24h,
+      liquidityAPYLabel,
+      totalVolume,
+      totalActiveBond,
+      totalPooledRune,
+      networkData,
+      tvlInRune,
+      bondingAPYLabel,
+      runeToCurrency,
+    ],
+  );
 
   return statsData;
 };

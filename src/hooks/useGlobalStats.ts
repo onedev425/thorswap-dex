@@ -1,7 +1,8 @@
 import { SwapKitNumber } from '@swapkit/core';
 import { parseToPercent } from 'helpers/parseHelpers';
-import { useGetNetworkQuery, useGetStatsQuery } from 'store/midgard/api';
+import { useGetHistorySwapsQuery, useGetNetworkQuery, useGetStatsQuery } from 'store/midgard/api';
 import type { NetworkResponse } from 'store/midgard/types';
+import { parseBaseValueToNumber } from 'views/Home/GlobalChart';
 
 const getTotalBond = (networkData?: NetworkResponse) => {
   // totalActiveBond + totalStandbyBond
@@ -44,6 +45,7 @@ const getTotalActiveBond = (networkData?: NetworkResponse) =>
 export const useGlobalStats = () => {
   const { data: stats } = useGetStatsQuery();
   const { data: networkData } = useGetNetworkQuery();
+  const { data: swapGlobalHistory } = useGetHistorySwapsQuery();
 
   const totalBond = getTotalBond(networkData);
   const tvlInRune = getTVL(networkData);
@@ -53,15 +55,11 @@ export const useGlobalStats = () => {
   const bondingAPYLabel = parseToPercent(networkData?.bondingAPY ?? 0);
   const liquidityAPYLabel = parseToPercent(networkData?.liquidityAPY ?? 0);
 
-  const swapVolume = SwapKitNumber.fromBigInt(stats?.swapVolume || 0);
-  const addLiquidityVolume = SwapKitNumber.fromBigInt(stats?.addLiquidityVolume || 0);
-  const withdrawVolume = SwapKitNumber.fromBigInt(stats?.withdrawVolume || 0);
-
   const swapCount = new SwapKitNumber(stats?.swapCount || 0);
   const addLiquidityCount = new SwapKitNumber(stats?.addLiquidityCount || 0);
   const withdrawCount = new SwapKitNumber(stats?.withdrawCount || 0);
 
-  const totalVolume = swapVolume.add(addLiquidityVolume).add(withdrawVolume);
+  const totalVolume = parseBaseValueToNumber(swapGlobalHistory?.meta.totalVolumeUsd);
   const totalTx = swapCount.add(addLiquidityCount).add(withdrawCount);
 
   return {
@@ -70,9 +68,6 @@ export const useGlobalStats = () => {
     totalActiveBond,
     totalStandbyBond,
     liquidityAPYLabel,
-    swapVolume,
-    addLiquidityVolume,
-    withdrawVolume,
     totalVolume,
     networkData,
     bondingAPYLabel,

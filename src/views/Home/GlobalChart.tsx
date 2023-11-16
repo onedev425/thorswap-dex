@@ -21,7 +21,7 @@ import {
   volumeChartIndexes,
 } from './types';
 
-const parseBaseValueToNumber = (value: string = '0') => parseInt(value) / 1e8;
+export const parseBaseValueToNumber = (value: string = '0') => parseInt(value) / 1e8;
 
 export const GlobalChart = memo(() => {
   const { baseCurrency, hideCharts } = useApp();
