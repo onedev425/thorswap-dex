@@ -20,17 +20,10 @@ export type TimePeriods = {
   '7d': string;
 };
 
-// const timePeriods: TimePeriods = {
-//   '30d': '30 days',
-//   '7d': '7 days',
-// };
-
 export const usePoolColumns = (poolCategory: PoolCategoryOption) => {
   const navigate = useNavigate();
   const runeToCurrency = useRuneToCurrency();
-  const formatPrice = useFormatPrice({
-    prefix: '$',
-  });
+  const formatPrice = useFormatPrice({ prefix: '$' });
 
   const columns = useMemo(() => {
     const apr =
