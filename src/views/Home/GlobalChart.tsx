@@ -81,7 +81,7 @@ export const GlobalChart = memo(() => {
       swapVolume.push({ time, value: totalValue });
       lpAddVolume.push({ time, value: lpAddValue });
       lpWithdrawVolume.push({ time, value: lpWithdrawValue });
-      totalVolume.push({ time, value: totalValue + lpAddValue + lpWithdrawValue });
+      totalVolume.push({ time, value: totalValue + lpAddValue + lpWithdrawValue + synthValue });
     });
 
     return {

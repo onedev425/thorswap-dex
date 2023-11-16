@@ -28,6 +28,7 @@ export enum LiquidityChartIndex {
 export const volumeChartIndexes = [
   VolumeChartIndex.Total,
   VolumeChartIndex.Swap,
+  VolumeChartIndex.Synth,
   VolumeChartIndex.Add,
   VolumeChartIndex.Withdraw,
 ];
