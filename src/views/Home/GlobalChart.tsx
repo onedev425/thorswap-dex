@@ -1,4 +1,3 @@
-import { Chain } from '@swapkit/core';
 import { Box } from 'components/Atomic';
 import { Chart } from 'components/Chart';
 import type { ChartData, ChartDetail } from 'components/Chart/types';
@@ -24,7 +23,7 @@ import {
 export const parseBaseValueToNumber = (value: string = '0') => parseInt(value) / 1e8;
 
 export const GlobalChart = memo(() => {
-  const { baseCurrency, hideCharts } = useApp();
+  const { hideCharts } = useApp();
 
   const { isLoading: swapGlobalLoading, data: swapGlobalHistory } = useGetHistorySwapsQuery();
   const { isLoading: liquidityLoading, data: liquidityHistory } =
@@ -46,15 +45,6 @@ export const GlobalChart = memo(() => {
     LiquidityChartIndex.Liquidity,
   );
 
-  const chartValueUnit = useMemo(() => {
-    const [chain, ticker] = baseCurrency?.split('.');
-
-    if (!chain || chain === Chain.THORChain) return 'ᚱ';
-    if (ticker === 'USD') return '$';
-
-    return ticker;
-  }, [baseCurrency]);
-
   const volumeChartData = useMemo(() => {
     if (swapGlobalLoading || liquidityLoading) return initialChartData;
 
@@ -72,8 +62,9 @@ export const GlobalChart = memo(() => {
       const lpAddValue = parseBaseValueToNumber(addLiquidityVolume);
       const lpWithdrawValue = parseBaseValueToNumber(withdrawVolume);
       const synthValue =
-        parseBaseValueToNumber(item.synthMintVolume) +
-        parseBaseValueToNumber(item.synthRedeemVolume);
+        (parseBaseValueToNumber(item.synthMintVolume) +
+          parseBaseValueToNumber(item.synthRedeemVolume)) *
+        parseFloat(item.runePriceUSD);
       const totalValue = parseBaseValueToNumber(item.totalVolumeUsd);
       const time = dayjs.unix(parseInt(item.startTime)).format('MMM DD');
 
@@ -85,34 +76,13 @@ export const GlobalChart = memo(() => {
     });
 
     return {
-      [VolumeChartIndex.Total]: {
-        values: totalVolume,
-        unit: chartValueUnit,
-        type: ChartType.Bar,
-      },
-      [VolumeChartIndex.Swap]: {
-        values: swapVolume,
-        unit: chartValueUnit,
-        type: ChartType.Bar,
-      },
-      [VolumeChartIndex.Add]: {
-        values: lpAddVolume,
-        unit: chartValueUnit,
-        type: ChartType.Bar,
-      },
-      [VolumeChartIndex.Synth]: {
-        values: synthsVolume,
-        unit: chartValueUnit,
-        type: ChartType.Bar,
-      },
-      [VolumeChartIndex.Withdraw]: {
-        values: lpWithdrawVolume,
-        unit: chartValueUnit,
-        type: ChartType.Bar,
-      },
+      [VolumeChartIndex.Total]: { values: totalVolume, unit: '$', type: ChartType.Bar },
+      [VolumeChartIndex.Swap]: { values: swapVolume, unit: '$', type: ChartType.Bar },
+      [VolumeChartIndex.Add]: { values: lpAddVolume, unit: '$', type: ChartType.Bar },
+      [VolumeChartIndex.Synth]: { values: synthsVolume, unit: '$', type: ChartType.Bar },
+      [VolumeChartIndex.Withdraw]: { values: lpWithdrawVolume, unit: '$', type: ChartType.Bar },
     };
   }, [
-    chartValueUnit,
     initialChartData,
     liquidityHistory?.intervals,
     liquidityLoading,
@@ -148,18 +118,9 @@ export const GlobalChart = memo(() => {
     });
 
     return {
-      [LiquidityChartIndex.Liquidity]: {
-        values: liquidity,
-        unit: chartValueUnit,
-      },
-      [LiquidityChartIndex.LpEarning]: {
-        values: liquidityEarning,
-        unit: chartValueUnit,
-      },
-      [LiquidityChartIndex.BondEarning]: {
-        values: bondingEarnings,
-        unit: chartValueUnit,
-      },
+      [LiquidityChartIndex.Liquidity]: { values: liquidity, unit: '$' },
+      [LiquidityChartIndex.LpEarning]: { values: liquidityEarning, unit: '$' },
+      [LiquidityChartIndex.BondEarning]: { values: bondingEarnings, unit: '$' },
     };
   }, [
     tvlLoading,
@@ -167,7 +128,6 @@ export const GlobalChart = memo(() => {
     initialChartData,
     earningsHistory?.intervals,
     tvlHistory?.intervals,
-    chartValueUnit,
   ]);
 
   if (hideCharts) return null;

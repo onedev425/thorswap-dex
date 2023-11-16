@@ -2,7 +2,6 @@ import { Text } from '@chakra-ui/react';
 import { SwapKitNumber } from '@swapkit/core';
 import { Box } from 'components/Atomic';
 import { memo, useMemo } from 'react';
-import { useApp } from 'store/app/hooks';
 
 type Props = {
   title: string;
@@ -11,14 +10,11 @@ type Props = {
 
 export const ChartHeader = memo(({ values, title }: Props) => {
   const lastValue = values?.[values?.length - 1] || 0;
-  const { baseCurrency } = useApp();
 
   const formattedValue = useMemo(() => {
     const amountObj = new SwapKitNumber(lastValue).toAbbreviation(2);
-    if (baseCurrency.includes('USD')) return `$ ${amountObj}`;
-    if (baseCurrency.includes('RUNE')) return `ᚱ ${amountObj}`;
-    return `${amountObj} ${baseCurrency}`;
-  }, [baseCurrency, lastValue]);
+    return `$ ${amountObj}`;
+  }, [lastValue]);
 
   return (
     <Box alignCenter className="lg:flex-row" justify="start">

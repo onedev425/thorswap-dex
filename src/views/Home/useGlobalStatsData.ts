@@ -11,38 +11,38 @@ import {
   useGetHistorySwapsQuery,
   useGetNetworkQuery,
 } from 'store/midgard/api';
+import { parseBaseValueToNumber } from 'views/Home/GlobalChart';
 
 export const useGlobalStatsData = () => {
   const runeToCurrency = useRuneToCurrency();
   const { tvlInRune, totalActiveBond, liquidityAPYLabel, totalVolume } = useGlobalStats();
 
   const { data: networkData } = useGetNetworkQuery();
-  const { data: swapsData } = useGetHistorySwapsQuery({ interval: 'hour', count: 24 });
+  const { data: swapsData } = useGetHistorySwapsQuery({ interval: 'day', count: 1 });
   const { data: liquidityData } = useGetHistoryLiquidityChangesQuery({
-    count: 24,
-    interval: 'hour',
+    count: 1,
+    interval: 'day',
   });
 
   const volume24h = useMemo(() => {
-    const swapVolume = new SwapKitNumber({
-      value: swapsData?.meta?.totalVolumeUsd || '0',
-      decimal: 8,
-    });
-    const addVolume = new SwapKitNumber({
-      value: liquidityData?.meta?.addLiquidityVolume || '0',
-      decimal: 8,
-    });
-    const withdrawVolume = new SwapKitNumber({
-      value: liquidityData?.meta?.withdrawVolume || '0',
-      decimal: 8,
-    });
+    if (!swapsData || !liquidityData) return '$0';
+    const { totalVolumeUsd, synthMintVolume, synthRedeemVolume, runePriceUSD } =
+      swapsData.intervals[0];
+    const { addLiquidityVolume, withdrawVolume } = liquidityData.intervals[0];
+    const runePrice = parseFloat(runePriceUSD);
 
-    return swapVolume.add(addVolume, withdrawVolume).div(1e8).toAbbreviation();
-  }, [
-    liquidityData?.meta?.addLiquidityVolume,
-    liquidityData?.meta?.withdrawVolume,
-    swapsData?.meta?.totalVolumeUsd,
-  ]);
+    const synthVolume =
+      (parseBaseValueToNumber(synthMintVolume) + parseBaseValueToNumber(synthRedeemVolume)) *
+      runePrice;
+
+    const lpVolume =
+      parseBaseValueToNumber(addLiquidityVolume) +
+      parseBaseValueToNumber(withdrawVolume) * runePrice;
+
+    const totalVolume = parseBaseValueToNumber(totalVolumeUsd);
+
+    return `$${new SwapKitNumber(synthVolume + lpVolume + totalVolume).toAbbreviation()}`;
+  }, [liquidityData, swapsData]);
 
   const { totalPooledRune } = useMimir();
 
