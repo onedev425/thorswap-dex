@@ -249,6 +249,39 @@ export type NetworkResponse = {
   totalReserve: string;
 };
 
+export type LiquidityHistoryResponse = {
+  intervals: {
+    addAssetLiquidityVolume: string;
+    addLiquidityCount: string;
+    addLiquidityVolume: string;
+    addRuneLiquidityVolume: string;
+    endTime: string;
+    impermanentLossProtectionPaid: string;
+    net: string;
+    runePriceUSD: string;
+    startTime: string;
+    withdrawAssetVolume: string;
+    withdrawCount: string;
+    withdrawRuneVolume: string;
+    withdrawVolume: string;
+  }[];
+  meta: {
+    addAssetLiquidityVolume: string;
+    addLiquidityCount: string;
+    addLiquidityVolume: string;
+    addRuneLiquidityVolume: string;
+    endTime: string;
+    impermanentLossProtectionPaid: string;
+    net: string;
+    runePriceUSD: string;
+    startTime: string;
+    withdrawAssetVolume: string;
+    withdrawCount: string;
+    withdrawRuneVolume: string;
+    withdrawVolume: string;
+  };
+};
+
 export type SwapHistoryResponse = {
   intervals: {
     averageSlip: string;

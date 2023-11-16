@@ -4,6 +4,7 @@ import { Box, Icon, Tooltip } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { WalletNameByWalletOption } from 'components/Modals/ConnectWalletModal/types';
 import { t } from 'services/i18n';
+import { IS_LEDGER_LIVE } from 'settings/config';
 
 type Props = {
   className?: string;
@@ -32,8 +33,10 @@ export const WalletIcon = ({ className, walletType, size, tooltipDisabled, onCli
   const tooltipContent =
     walletType === WalletOption.KEYSTORE
       ? t('views.walletModal.viewPhrase')
+      : walletType === WalletOption.LEDGER && !IS_LEDGER_LIVE
+      ? t('views.walletModal.verifyAddress')
       : t('views.wallet.walletTypeConnected', {
-          walletType: walletType ? WalletNameByWalletOption[walletType] : 'This should not happen',
+          walletType: walletType ? WalletNameByWalletOption[walletType] : t('common.connected'),
         });
 
   return (

@@ -1,13 +1,13 @@
 import { Text } from '@chakra-ui/react';
 import type { Chain } from '@thorswap-lib/types';
 import { WalletOption } from '@thorswap-lib/types';
-import { Box, Tooltip } from 'components/Atomic';
+import { Box } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { PhraseModal } from 'components/Modals/PhraseModal';
 import { showInfoToast } from 'components/Toast';
 import { WalletIcon } from 'components/WalletIcon/WalletIcon';
 import { chainName } from 'helpers/chainName';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { t } from 'services/i18n';
 import { IS_LEDGER_LIVE } from 'settings/config';
 import { WalletHeaderActions } from 'views/Wallet/components/WalletHeaderActions';
@@ -45,17 +45,6 @@ export const ChainHeader = ({
     }
   }, [walletType, chain]);
 
-  const walletTooltip = useMemo(() => {
-    if (walletType === WalletOption.KEYSTORE) {
-      return t('views.walletModal.viewPhrase');
-    }
-    if (walletType === WalletOption.LEDGER && !IS_LEDGER_LIVE) {
-      return t('views.walletModal.verifyAddress');
-    }
-
-    return `${walletType} ${t('common.connected')}`;
-  }, [walletType]);
-
   return (
     <Box className="px-2 py-1 bg-btn-light-tint dark:bg-btn-dark-tint" justify="between">
       <Box alignCenter>
@@ -66,9 +55,9 @@ export const ChainHeader = ({
           spin={walletLoading}
           tooltip={t('common.refresh')}
         />
-        <Tooltip content={walletTooltip}>
-          <WalletIcon onClick={handleClickWalletIcon} size={16} walletType={walletType} />
-        </Tooltip>
+
+        <WalletIcon onClick={handleClickWalletIcon} size={16} walletType={walletType} />
+
         <Text className="ml-1" textStyle="caption">
           {chainName(chain, true)}
         </Text>

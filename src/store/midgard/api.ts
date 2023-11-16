@@ -4,6 +4,7 @@ import { MIDGARD_URL, THORNODE_URL } from 'settings/config';
 
 import type {
   HistoryParams,
+  LiquidityHistoryResponse,
   MidgardTradeHistory,
   MimirData,
   NetworkResponse,
@@ -45,7 +46,7 @@ export const midgardApi = createApi({
       query: ({ interval = 'day', count = 100 } = {}) =>
         `/swaps?interval=${interval}&count=${count}`,
     }),
-    getHistoryLiquidityChanges: build.query<any, HistoryParams>({
+    getHistoryLiquidityChanges: build.query<LiquidityHistoryResponse, HistoryParams>({
       keepUnusedDataFor: 3600,
       query: ({ interval = 'day', count = 100 } = {}) =>
         `${MIDGARD_URL}/v2/history/liquidity_changes?interval=${interval}&count=${count}`,
