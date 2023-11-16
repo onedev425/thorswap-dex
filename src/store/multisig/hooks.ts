@@ -1,6 +1,6 @@
-import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import type { Signer } from '@thorswap-lib/toolbox-cosmos';
-import { Chain } from '@thorswap-lib/types';
+import type { AssetValue } from '@swapkit/core';
+import { Chain } from '@swapkit/core';
+import type { Signer } from '@swapkit/toolbox-cosmos';
 import { showErrorToast } from 'components/Toast';
 import { useCallback, useMemo } from 'react';
 import type { MultisigDepositTxParams, MultisigTransferTxParams } from 'services/multisig';
@@ -114,9 +114,9 @@ export const useMultisig = () => {
   }, [initMultisigWallet]);
 
   const isWalletAssetConnected = useCallback(
-    (asset: Asset) => {
+    (asset: AssetValue) => {
       if (!address) return false;
-      return asset.L1Chain === Chain.THORChain;
+      return asset.chain === Chain.THORChain;
     },
     [address],
   );

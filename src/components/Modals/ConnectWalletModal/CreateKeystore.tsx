@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { Keystore } from '@thorswap-lib/types';
+import type { Keystore } from '@swapkit/wallet-keystore';
 import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { Input } from 'components/Input';
@@ -43,10 +43,10 @@ export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
 
   const handleCreate = useCallback(async () => {
     if (ready) {
-      const { validatePhrase } = await import('@thorswap-lib/toolbox-utxo');
+      const { validatePhrase } = await import('@swapkit/toolbox-utxo');
 
       setProcessing(true);
-      const { generatePhrase, encryptToKeyStore } = await import('@thorswap-lib/keystore');
+      const { generatePhrase, encryptToKeyStore } = await import('@swapkit/wallet-keystore');
 
       try {
         const phrase = generatePhrase();

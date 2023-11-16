@@ -1,7 +1,6 @@
 import { Text } from '@chakra-ui/react';
+import { AssetValue, Chain } from '@swapkit/core';
 import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
-import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { PanelView } from 'components/PanelView';
 import { ViewHeader } from 'components/ViewHeader';
@@ -16,7 +15,7 @@ import { WithdrawPanel } from './WithdrawPanel';
 
 export const WithdrawLiquidity = () => {
   const { wallet, isWalletLoading } = useWallet();
-  const { assetParam = getSignatureAssetFor(Chain.Bitcoin).toString() } = useParams<{
+  const { assetParam = AssetValue.fromChainOrSignature(Chain.Bitcoin).toString() } = useParams<{
     assetParam: string;
   }>();
   const walletAddresses = useMemo(
@@ -39,12 +38,12 @@ export const WithdrawLiquidity = () => {
 
   const [poolAsset, positions] = useMemo(() => {
     if (lpMemberLoading || !lpMemberData) return [];
-    const poolDataPositions = lpMemberData.filter((a) => a.pool === assetParam);
+    const poolDataPositions = lpMemberData.filter((a) => a.pool === assetParam.toUpperCase());
 
     if (!poolDataPositions) return [];
     const [{ pool }] = poolDataPositions;
 
-    return [AssetEntity.fromAssetString(pool), poolDataPositions];
+    return [AssetValue.fromStringSync(pool), poolDataPositions];
   }, [assetParam, lpMemberData, lpMemberLoading]);
 
   const shares = useMemo(() => {

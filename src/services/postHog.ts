@@ -5,6 +5,7 @@ const posthogKey = import.meta.env.VITE_POSTHOG_API_KEY || process.env.VITE_POST
 const posthogEnabled = posthogKey && (IS_PROD || IS_BETA);
 
 const initPosthog = () => {
+  if (!posthogEnabled) return;
   posthog.init(posthogKey, {
     api_host: 'https://eu.posthog.com',
     autocapture: false,
@@ -14,7 +15,7 @@ const initPosthog = () => {
     disable_cookie: true,
   });
 
-  if (posthogEnabled) posthog.startSessionRecording();
+  posthog.startSessionRecording();
 };
 
 initPosthog();

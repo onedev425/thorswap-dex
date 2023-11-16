@@ -1,6 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount, AmountType } from '@thorswap-lib/swapkit-core';
-import BigNumber from 'bignumber.js';
+import { SwapKitNumber } from '@swapkit/core';
 import classNames from 'classnames';
 import { Box, Button } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
@@ -43,11 +42,7 @@ export const SelectedRoute = memo(
     );
 
     const expectedAssetOutput = useMemo(
-      () =>
-        formatPrice(
-          new Amount(new BigNumber(outputValue), AmountType.ASSET_AMOUNT, outputAssetDecimal),
-          { prefix: '' },
-        ),
+      () => formatPrice(new SwapKitNumber({ value: outputValue, decimal: outputAssetDecimal })),
       [formatPrice, outputAssetDecimal, outputValue],
     );
 

@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@swapkit/core';
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
@@ -17,12 +17,12 @@ import { useGetThornamesByAddressQuery } from 'store/thorswap/api';
 type Props = {
   recipient: string;
   setRecipient: (recipient: string) => void;
-  outputAssetL1Chain: Chain;
+  outputAssetchain: Chain;
   isOutputWalletConnected: boolean;
 };
 
 export const CustomRecipientInput = memo(
-  ({ recipient, setRecipient, outputAssetL1Chain, isOutputWalletConnected }: Props) => {
+  ({ recipient, setRecipient, outputAssetchain, isOutputWalletConnected }: Props) => {
     const { customRecipientMode } = useApp();
     const [thorname, setThorname] = useState('');
     const [disabled, setDisabled] = useState(false);
@@ -31,14 +31,14 @@ export const CustomRecipientInput = memo(
 
     const TNSAddress = useMemo(
       () =>
-        TNS?.entries ? TNS.entries.find(({ chain }) => chain === outputAssetL1Chain)?.address : '',
-      [TNS, outputAssetL1Chain],
+        TNS?.entries ? TNS.entries.find(({ chain }) => chain === outputAssetchain)?.address : '',
+      [TNS, outputAssetchain],
     );
 
     const debouncedParams = useDebouncedValue(
       useMemo(
-        () => ({ address: recipient.toLowerCase(), chain: outputAssetL1Chain }),
-        [outputAssetL1Chain, recipient],
+        () => ({ address: recipient.toLowerCase(), chain: outputAssetchain }),
+        [outputAssetchain, recipient],
       ),
       500,
     );
@@ -85,9 +85,9 @@ export const CustomRecipientInput = memo(
     const recipientTitle = useMemo(
       () =>
         TNSAddress && thorname
-          ? `${t('common.recipientAddress')} - ${thorname}.${outputAssetL1Chain}`
+          ? `${t('common.recipientAddress')} - ${thorname}.${outputAssetchain}`
           : t('common.recipientAddress'),
-      [TNSAddress, outputAssetL1Chain, thorname],
+      [TNSAddress, outputAssetchain, thorname],
     );
 
     if (isOutputWalletConnected && !customRecipientMode) return null;

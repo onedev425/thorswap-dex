@@ -1,4 +1,4 @@
-import { Amount } from '@thorswap-lib/swapkit-core';
+import { SwapKitNumber } from '@swapkit/core';
 import type { StatsType } from 'components/StatsList/types';
 import { parseToPercent } from 'helpers/parseHelpers';
 import { useGlobalStats } from 'hooks/useGlobalStats';
@@ -24,11 +24,20 @@ export const useGlobalStatsData = () => {
   });
 
   const volume24h = useMemo(() => {
-    const swapVolume = Amount.fromMidgard(swapsData?.meta?.totalVolumeUsd);
-    const addVolume = Amount.fromMidgard(liquidityData?.meta?.addLiquidityVolume);
-    const withdrawVolume = Amount.fromMidgard(liquidityData?.meta?.withdrawVolume);
+    const swapVolume = new SwapKitNumber({
+      value: swapsData?.meta?.totalVolumeUsd || '0',
+      decimal: 8,
+    });
+    const addVolume = new SwapKitNumber({
+      value: liquidityData?.meta?.addLiquidityVolume || '0',
+      decimal: 8,
+    });
+    const withdrawVolume = new SwapKitNumber({
+      value: liquidityData?.meta?.withdrawVolume || '0',
+      decimal: 8,
+    });
 
-    return swapVolume.add(addVolume).add(withdrawVolume).toAbbreviate(2);
+    return swapVolume.add(addVolume).add(withdrawVolume).toAbbreviation();
   }, [
     liquidityData?.meta?.addLiquidityVolume,
     liquidityData?.meta?.withdrawVolume,
@@ -45,28 +54,28 @@ export const useGlobalStatsData = () => {
         iconName: 'lockFill',
         color: 'yellow',
         label: 'TVL',
-        value: runeToCurrency(tvlInRune),
+        value: runeToCurrency(tvlInRune.getValue('string')),
         tooltip: t('views.stats.tvlTooltip'),
       },
       {
         iconName: 'chartArea',
         color: 'purple',
         label: t('views.stats.totalLiq'),
-        value: runeToCurrency(Amount.fromMidgard(networkData?.totalPooledRune).mul(2)),
+        value: runeToCurrency(networkData?.totalPooledRune || '0'),
         tooltip: t('views.stats.totalLiqTooltip'),
       },
       {
         iconName: 'chartCandle',
         color: 'pink',
         label: t('views.stats.totalBond'),
-        value: `${runeToCurrency(totalActiveBond)}`,
+        value: runeToCurrency(totalActiveBond.getValue('string')),
         tooltip: t('views.stats.totalBondTooltip'),
       },
       {
         iconName: 'barchart',
         color: 'blueLight',
         label: t('views.stats.totalVolume'),
-        value: runeToCurrency(totalVolume),
+        value: runeToCurrency(totalVolume.getValue('string')),
         tooltip: t('views.stats.totalVolumeTooltip'),
       },
       {
@@ -87,7 +96,7 @@ export const useGlobalStatsData = () => {
         iconName: 'chartArea2',
         color: 'pink',
         label: t('views.stats.totalRUNE'),
-        value: `${totalPooledRune.toAbbreviate(1)} / ${totalActiveBond.toAbbreviate(1)}`,
+        value: `${totalPooledRune.toAbbreviation(1)} / ${totalActiveBond.toAbbreviation(1)}`,
         tooltip: t('views.stats.totalRUNETooltip'),
       },
       {

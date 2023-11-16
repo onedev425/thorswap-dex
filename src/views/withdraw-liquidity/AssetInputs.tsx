@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue, SwapKitNumber } from '@swapkit/core';
 import classNames from 'classnames';
 import { Box, Icon } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
@@ -12,11 +12,11 @@ import { LiquidityTypeOption } from 'store/midgard/types';
 import { AssetAmountBox } from './AssetAmountBox';
 
 type Props = {
-  poolAsset: AssetEntity;
-  percent: Amount;
-  runeAmount: Amount;
-  assetAmount: Amount;
-  onPercentChange: (value: Amount) => void;
+  poolAsset: AssetValue;
+  percent: SwapKitNumber;
+  runeAmount: SwapKitNumber;
+  assetAmount: SwapKitNumber;
+  onPercentChange: (value: SwapKitNumber) => void;
   liquidityType: LiquidityTypeOption;
 };
 
@@ -51,7 +51,7 @@ export const AssetInputs = memo(
               })}
               flex={liquidityType === LiquidityTypeOption.RUNE ? 0 : 1}
             >
-              <AssetAmountBox stretch amount={assetAmount.toSignificant(6)} asset={poolAsset} />
+              <AssetAmountBox stretch assetValue={poolAsset.set(assetAmount)} />
             </Box>
 
             <Box
@@ -60,7 +60,7 @@ export const AssetInputs = memo(
               })}
               flex={liquidityType === LiquidityTypeOption.ASSET ? 0 : 1}
             >
-              <AssetAmountBox stretch amount={runeAmount.toSignificant(6)} asset={RUNEAsset} />
+              <AssetAmountBox stretch assetValue={RUNEAsset.set(runeAmount)} />
             </Box>
           </Box>
         </HighlightCard>

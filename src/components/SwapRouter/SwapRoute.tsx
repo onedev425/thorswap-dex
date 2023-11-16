@@ -1,7 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Amount, AmountType } from '@thorswap-lib/swapkit-core';
-import BigNumber from 'bignumber.js';
+import { type AssetValue, SwapKitNumber } from '@swapkit/core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
@@ -18,7 +16,7 @@ import { ProviderLogos } from './ProviderLogos';
 type Props = RouteWithApproveType & {
   selected?: boolean;
   onClick: () => void;
-  outputAsset: AssetEntity;
+  outputAsset: AssetValue;
   unitPrice: number;
   streamSwap?: boolean;
 };
@@ -46,13 +44,13 @@ export const SwapRoute = memo(
     );
 
     const routeOutput = useMemo(
-      () => new Amount(new BigNumber(outputValue), AmountType.ASSET_AMOUNT, outputAsset.decimal),
+      () => new SwapKitNumber({ value: outputValue, decimal: outputAsset.decimal }),
       [outputValue, outputAsset.decimal],
     );
 
     const logoURI = tokenLogoURL({
       address,
-      identifier: `${outputAsset.L1Chain}.${outputAsset.ticker}`,
+      identifier: `${outputAsset.chain}.${outputAsset.ticker}`,
     });
 
     const shortPath = useMemo(() => {

@@ -1,6 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
-import type BigNumber from 'bignumber.js';
+import type { AssetValue, SwapKitNumber } from '@swapkit/core';
 import { Button, Icon, Tooltip } from 'components/Atomic';
 import { ReloadButton } from 'components/ReloadButton';
 import { useFormatPrice } from 'helpers/formatPrice';
@@ -16,10 +15,10 @@ import { LendingTab, LendingViewTab } from 'views/Lending/types';
 type Props = {
   setTab: (value: LendingTab) => void;
   setViewTab: (value: LendingViewTab) => void;
-  setCollateralAsset: (value: AssetEntity) => void;
+  setCollateralAsset: (value: AssetValue) => void;
   refreshLoans: () => void;
-  totalBorrowed?: Amount;
-  totalCollateral?: BigNumber;
+  totalBorrowed?: SwapKitNumber;
+  totalCollateral?: SwapKitNumber;
   loans: LoanPosition[];
   isLoading: boolean;
 };
@@ -48,7 +47,7 @@ export const BorrowPositionsTab = ({
     () => [
       {
         header: t('views.lending.totalCollateralValue'),
-        value: totalCollateral?.gt(0) ? formatPrice(totalCollateral.toNumber()) : '-',
+        value: totalCollateral?.gt(0) ? formatPrice(totalCollateral.toFixed(2)) : '-',
         tooltipText: 'Fair market value of the assets used to secure a loan',
       },
       {
@@ -132,7 +131,7 @@ export const BorrowPositionsTab = ({
             {loans.length ? (
               loans.map((loan) => (
                 <LoanInfoRow
-                  key={loan.asset.name}
+                  key={loan.asset.ticker}
                   loan={loan}
                   setBorrowTab={setBorrowTab}
                   setCollateralAsset={setCollateralAsset}

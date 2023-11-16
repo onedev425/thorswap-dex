@@ -1,14 +1,14 @@
-import type { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { AssetValue, SwapKitNumber } from '@swapkit/core';
 import type { SaverProvider, ThornodePoolType } from 'store/midgard/types';
 
 export type SaverPosition = {
-  asset: Asset;
+  asset: AssetValue;
   provider: SaverProvider;
-  units: Amount;
-  amount: Amount;
+  units: SwapKitNumber;
+  amount: SwapKitNumber;
   pool: ThornodePoolType;
-  depositAmount: Amount;
-  earnedAmount: Amount | null;
+  depositAmount: SwapKitNumber;
+  earnedAmount: SwapKitNumber | null;
 };
 
 export enum EarnTab {

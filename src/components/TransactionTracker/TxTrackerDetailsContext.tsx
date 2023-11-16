@@ -1,5 +1,5 @@
-import type { TxTrackerDetails } from '@thorswap-lib/swapkit-api';
-import { TransactionType } from '@thorswap-lib/swapkit-api';
+import type { TxTrackerDetails } from '@swapkit/api';
+import { TransactionType } from '@swapkit/api';
 import { TrackerTxDisplayType } from 'components/TransactionTracker/types';
 import type { ReactNode } from 'react';
 import { createContext, useContext, useMemo } from 'react';

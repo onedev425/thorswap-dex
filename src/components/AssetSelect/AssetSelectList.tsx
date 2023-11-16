@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import classNames from 'classnames';
 import type { AssetFilterOptionType } from 'components/AssetSelect/assetTypes';
 import { useAssetFilterTypes } from 'components/AssetSelect/useAssetFilterTypes';
@@ -8,7 +8,7 @@ import { genericBgClasses } from 'components/constants';
 import { Input } from 'components/Input';
 import { TabsSelect } from 'components/TabsSelect';
 import useWindowSize from 'hooks/useWindowSize';
-import { Fragment, useCallback, useMemo, useRef } from 'react';
+import { Fragment, memo, useCallback, useMemo, useRef } from 'react';
 import { FixedSizeList as List } from 'react-window';
 import { t } from 'services/i18n';
 import { IS_LEDGER_LIVE } from 'settings/config';
@@ -19,7 +19,7 @@ import { useAssetSelect } from './useAssetSelect';
 
 const ASSET_ITEM_HEIGHT = 52;
 
-export const AssetSelectList = ({
+const SelectList = ({
   assets,
   onSelect,
   onClose,
@@ -45,7 +45,7 @@ export const AssetSelectList = ({
   const assetFilterTypes = useAssetFilterTypes();
 
   const handleSelect = useCallback(
-    (asset: AssetEntity) => {
+    (asset: AssetValue) => {
       select(asset);
       setTimeout(() => setQuery?.(''), 500);
     },
@@ -170,3 +170,5 @@ export const AssetSelectList = ({
     </Box>
   );
 };
+
+export const AssetSelectList = memo(SelectList);

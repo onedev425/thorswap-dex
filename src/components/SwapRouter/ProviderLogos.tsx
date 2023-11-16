@@ -1,3 +1,4 @@
+import { Flex } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Tooltip } from 'components/Atomic';
@@ -48,7 +49,7 @@ export const ProviderLogos = memo(({ className, size = 24, providers }: Props) =
   const shortenProviders = useMemo(() => providers.map((p) => p.split('-')[0]), [providers]);
 
   return (
-    <Box row className="px-1 max-w-[100px]" flex={1} flexDirection="row-reverse" justify="between">
+    <Flex className="px-1 max-w-[100px]" flex={1} flexDirection="row-reverse" justify="between">
       {shortenProviders.map((provider, index) => {
         const providerDisplayName = normalizedProviderName[provider as 'THORCHAIN'] || provider;
         const firstItem = index === 0;
@@ -71,6 +72,6 @@ export const ProviderLogos = memo(({ className, size = 24, providers }: Props) =
           </Box>
         );
       })}
-    </Box>
+    </Flex>
   );
 });

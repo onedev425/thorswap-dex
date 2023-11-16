@@ -1,6 +1,4 @@
-import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { AssetValue, Chain } from '@swapkit/core';
 import { isETHAsset } from 'helpers/assets';
 
 export enum ROUTES {
@@ -47,53 +45,53 @@ export const THORYIELD_ROUTE = 'https://app.thoryield.com';
 export const THORYIELD_LP_PATH = 'accounts';
 export const THORYIELD_STATS_ROUTE = 'https://app.thoryield.com/stats';
 
-const getAssetRoute = (route: ROUTES, asset?: Asset) =>
-  `${route}${asset ? `/${asset.toURLEncoded()}` : ''}`;
+const getAssetRoute = (route: ROUTES, asset?: AssetValue) =>
+  `${route}${asset ? `/${asset.toString()}` : ''}`;
 
 export const navigateToExternalLink = (url: string) => {
   window.open(url, '_blank noreferrer noopener');
 };
 
-export const getAddLiquidityRoute = (asset?: Asset) => {
+export const getAddLiquidityRoute = (asset?: AssetValue) => {
   return getAssetRoute(ROUTES.AddLiquidity, asset);
 };
 
-export const getWithdrawRoute = (asset?: Asset) => {
+export const getWithdrawRoute = (asset?: AssetValue) => {
   return getAssetRoute(ROUTES.WithdrawLiquidity, asset);
 };
 
-export const getSendRoute = (asset?: Asset, recipient?: string) => {
+export const getSendRoute = (asset?: AssetValue, recipient?: string) => {
   const route = getAssetRoute(ROUTES.Send, asset);
   const query = recipient ? `?recipient=${recipient}` : '';
   return `${route}${query}`;
 };
 
-export const getMultisigTxCreateRoute = (asset?: Asset) => {
+export const getMultisigTxCreateRoute = (asset?: AssetValue) => {
   return getAssetRoute(ROUTES.TxCreate, asset);
 };
 
 export const getSwapRoute = (
-  input: Asset,
-  output: Asset = getSignatureAssetFor(Chain.Ethereum),
+  input: AssetValue,
+  output: AssetValue = AssetValue.fromChainOrSignature(Chain.Ethereum),
 ) => {
   const outputAsset =
-    isETHAsset(input) && isETHAsset(output) ? getSignatureAssetFor('ETH_THOR') : output;
+    isETHAsset(input) && isETHAsset(output) ? AssetValue.fromChainOrSignature('ETH.THOR') : output;
 
-  return `${ROUTES.Swap}/${input.toURLEncoded()}_${outputAsset.toURLEncoded()}`;
+  return `${ROUTES.Swap}/${input.toString()}_${outputAsset.toString()}`;
 };
 
 export const getKyberSwapRoute = (
-  input: Asset,
-  output: Asset = getSignatureAssetFor(Chain.Ethereum),
+  input: AssetValue,
+  output: AssetValue = AssetValue.fromChainOrSignature(Chain.Ethereum),
 ) => {
   const outputAsset =
-    isETHAsset(input) && isETHAsset(output) ? getSignatureAssetFor('ETH_THOR') : output;
+    isETHAsset(input) && isETHAsset(output) ? AssetValue.fromChainOrSignature('ETH.THOR') : output;
 
-  return `${ROUTES.Kyber}/${input.toURLEncoded()}_${outputAsset.toURLEncoded()}`;
+  return `${ROUTES.Kyber}/${input.toString()}_${outputAsset.toString()}`;
 };
 
-export const navigateToPoolDetail = (asset: Asset) => {
-  navigateToExternalLink(`${THORYIELD_ROUTE}/token/${asset.toURLEncoded()}`);
+export const navigateToPoolDetail = (asset: AssetValue) => {
+  navigateToExternalLink(`${THORYIELD_ROUTE}/token/${asset.toString()}`);
 };
 
 export const navigateToEtherScanAddress = (address: string) => {

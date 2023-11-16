@@ -1,8 +1,7 @@
-import { MaxInt256 } from '@ethersproject/constants';
-import { parseUnits } from '@ethersproject/units';
-import type { Amount } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import type { AssetValue } from '@swapkit/core';
+import { Chain } from '@swapkit/core';
 import { Box, Button } from 'components/Atomic';
+import { MaxInt256 } from 'ethers';
 import { stakingV2Addr } from 'helpers/assets';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { t } from 'services/i18n';
@@ -12,21 +11,21 @@ import { StakeActions, useVthorUtil } from './hooks';
 
 type Props = {
   action: StakeActions;
-  handleVthorAction: () => void;
+  assetValue: AssetValue;
   disabledButton: boolean;
-  inputAmount: Amount;
-  setIsConnectModalOpen: (isOpen: boolean) => void;
   ethAddress?: string;
+  handleVthorAction: () => void;
+  setIsConnectModalOpen: (isOpen: boolean) => void;
 };
 
 export const ConfirmVThorButton = memo(
   ({
     action,
-    handleVthorAction,
-    ethAddress,
-    setIsConnectModalOpen,
+    assetValue,
     disabledButton,
-    inputAmount,
+    ethAddress,
+    handleVthorAction,
+    setIsConnectModalOpen,
   }: Props) => {
     const [isApproved, setIsApproved] = useState(false);
     const { approveTHOR } = useVthorUtil();
@@ -40,11 +39,11 @@ export const ConfirmVThorButton = memo(
         from: ethAddress,
         spenderAddress: stakingV2Addr[VestingType.VTHOR],
         assetAddress: stakingV2Addr[VestingType.THOR],
-        amount: parseUnits(inputAmount.assetAmount.toFixed(), 18) || MaxInt256,
+        amount: assetValue.bigIntValue || MaxInt256,
       });
 
       setIsApproved(!!isApproved);
-    }, [ethAddress, inputAmount]);
+    }, [assetValue.bigIntValue, ethAddress]);
 
     useEffect(() => {
       checkOnApprove();

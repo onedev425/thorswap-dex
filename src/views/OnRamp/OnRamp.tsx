@@ -1,4 +1,4 @@
-// import { Chain } from '@thorswap-lib/types';
+// import { Chain } from '@swapkit/core';
 // import { Box } from 'components/Atomic';
 // import { Helmet } from 'components/Helmet';
 // import { useDebouncedValue } from 'hooks/useDebouncedValue';

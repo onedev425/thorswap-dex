@@ -1,4 +1,4 @@
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import type { AssetFilterOptionType } from 'components/AssetSelect/assetTypes';
 import { assetFilterTypes } from 'components/AssetSelect/assetTypes';
 import type { AssetSelectProps } from 'components/AssetSelect/types';
@@ -41,7 +41,7 @@ export function useAssetSelect({
   }, [onClose]);
 
   const select = useCallback(
-    (asset: AssetEntity) => {
+    (asset: AssetValue) => {
       onSelect(asset);
       close();
     },

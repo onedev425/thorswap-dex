@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import { FeeOption } from '@thorswap-lib/types';
+import type { AssetValue } from '@swapkit/core';
+import { FeeOption } from '@swapkit/core';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import type { SupportedLanguages, ThemeType, ThousandSeparator, ViewMode } from 'types/app';
 
@@ -44,7 +44,7 @@ const appSlice = createSlice({
       saveInStorage({ key: 'themeType', value: payload });
     },
 
-    setBaseCurrency(state, action: PayloadAction<Asset>) {
+    setBaseCurrency(state, action: PayloadAction<AssetValue>) {
       const assetString = action.payload.toString();
       state.baseCurrency = assetString;
 

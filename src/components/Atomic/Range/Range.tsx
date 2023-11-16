@@ -1,4 +1,4 @@
-import type { Amount } from '@thorswap-lib/swapkit-core';
+import type { SwapKitNumber } from '@swapkit/core';
 import classNames from 'classnames';
 import { useInputAmount } from 'components/InputAmount/useInputAmount';
 import { useTheme } from 'components/Theme/ThemeContext';
@@ -7,8 +7,8 @@ import { useRef } from 'react';
 import './Range.css';
 
 type Props = {
-  onAmountChange: (e: Amount) => void;
-  amountValue: Amount;
+  onAmountChange: (e: SwapKitNumber) => void;
+  amountValue: SwapKitNumber;
 };
 
 const Range = ({ onAmountChange, amountValue }: Props) => {

@@ -1,11 +1,11 @@
-import { getRequest } from '@thorswap-lib/helpers';
+import { RequestClient } from '@swapkit/core';
 import { getBlockRewards } from 'services/contract';
 
-const BLOCKS_PER_YEAR = 6432 * 365;
+export const BLOCKS_PER_YEAR = 6432 * 365;
 
 const getThorBuyback = async () => {
   try {
-    const data = await getRequest<
+    const data = await RequestClient.get<
       [{ DATE: string; AFF_ADDRESS: string; AFF_FEE_EARNED_THOR: number }]
     >(
       'https://api.flipsidecrypto.com/api/v2/queries/9daa6cd4-8e78-4432-bdd7-a5f0fc480229/data/latest',
@@ -21,13 +21,6 @@ const getThorBuyback = async () => {
     console.error(error);
     return 0;
   }
-};
-
-// APR = (dailyBlockRewards / totalAmount) * 365
-export const getAPR = (blockReward: number, totalAmount: number) => {
-  if (totalAmount === 0) return Number.MAX_SAFE_INTEGER;
-
-  return ((blockReward * BLOCKS_PER_YEAR) / totalAmount) * 100;
 };
 
 export const fetchVthorApr = async (tvl: number) => {

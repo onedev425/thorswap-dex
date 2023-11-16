@@ -1,9 +1,8 @@
-import type { Amount } from '@thorswap-lib/swapkit-core';
-import { getMemoFor } from '@thorswap-lib/swapkit-core';
-import { MemoType } from '@thorswap-lib/types';
+import type { AssetValue } from '@swapkit/core';
+import { getMemoFor, MemoType } from '@swapkit/core';
 import { BondActionType } from 'views/Nodes/types';
 
-export const getBondMemo = (type: BondActionType, address: string, amount?: Amount) => {
+export const getBondMemo = (type: BondActionType, address: string, amount?: AssetValue) => {
   switch (type) {
     case BondActionType.Bond:
       return getMemoFor(MemoType.BOND, { address });
@@ -12,7 +11,7 @@ export const getBondMemo = (type: BondActionType, address: string, amount?: Amou
         // Non-null assertions are forbidden
         throw new Error('Amount not provided');
       }
-      return getMemoFor(MemoType.UNBOND, { address, unbondAmount: amount.baseAmount.toNumber() });
+      return getMemoFor(MemoType.UNBOND, { address, unbondAmount: amount.getBaseValue('number') });
 
     case BondActionType.Leave:
       return getMemoFor(MemoType.LEAVE, { address });

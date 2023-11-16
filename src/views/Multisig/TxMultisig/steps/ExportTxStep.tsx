@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { Signer } from '@thorswap-lib/toolbox-cosmos';
+import type { Signer } from '@swapkit/toolbox-cosmos';
 import { Box, Button, Icon } from 'components/Atomic';
 import { StepActions } from 'components/Stepper';
 import { showErrorToast } from 'components/Toast';

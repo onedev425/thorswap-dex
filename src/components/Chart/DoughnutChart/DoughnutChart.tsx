@@ -92,14 +92,14 @@ export const DoughnutChart = ({
   const chartData = useMemo(() => {
     const usdPrices = data.map(({ asset, amount, earnedAmount }) => {
       const assetAmount = isEarned
-        ? amount.assetAmount.toNumber()
-        : earnedAmount?.assetAmount.toNumber() || 0;
+        ? amount.getValue('number')
+        : earnedAmount?.getValue('number') || 0;
 
       return (tokenPricesData[asset.toString()]?.price_usd || 0) * assetAmount;
     });
 
     return {
-      labels: data.map((position) => position.asset.name),
+      labels: data.map((position) => position.asset.ticker),
       datasets: [
         {
           label: isEarned ? 'Earned' : 'Total',
@@ -148,7 +148,7 @@ export const DoughnutChart = ({
                 display="flex"
                 gap={2}
                 justify="space-between"
-                key={`${share.amount?.toFixed()}-${share.earnedAmount?.toFixed()}`}
+                key={`${share.amount.getValue('string')}-${share.earnedAmount?.getValue('string')}`}
                 onMouseEnter={() => onLegendHover(data.indexOf(share))}
                 onMouseLeave={() => onLegendHover(null)}
                 p={1}
@@ -156,7 +156,7 @@ export const DoughnutChart = ({
               >
                 <Flex gap={1}>
                   <Text>{selectedShare?.toSignificant(6)}</Text>
-                  <Text>{share.asset.name}</Text>
+                  <Text>{share.asset.ticker}</Text>
                 </Flex>
                 <AssetIcon asset={share.asset} size={28} />
               </Flex>

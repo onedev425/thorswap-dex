@@ -1,5 +1,4 @@
-import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import { Amount } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import { BTCAsset, RUNEAsset } from 'helpers/assets';
 import { getAssetBalance } from 'helpers/wallet';
 import { useBalance } from 'hooks/useBalance';
@@ -8,32 +7,31 @@ import { useWallet } from 'store/wallet/hooks';
 import { zeroAmount } from 'types/app';
 
 type Props = {
-  poolAsset: Asset | undefined;
+  poolAsset: AssetValue | undefined;
 };
 
 export type DepositAssetsBalance = {
-  isWalletAssetConnected: (asset: Asset) => boolean;
-  poolAssetBalance: Amount;
-  maxPoolAssetBalance: Amount;
-  runeBalance: Amount;
-  maxRuneBalance: Amount;
+  isWalletAssetConnected: (asset: AssetValue) => boolean;
+  poolAssetBalance?: AssetValue;
+  maxPoolAssetBalance?: AssetValue;
+  runeBalance: AssetValue;
+  maxRuneBalance: AssetValue;
 };
 
 export const useDepositAssetsBalance = ({ poolAsset }: Props): DepositAssetsBalance => {
   const { getMaxBalance, isWalletAssetConnected } = useBalance();
   const { wallet } = useWallet();
 
-  const [maxPoolAssetBalance, setMaxPoolAssetBalance] = useState(zeroAmount);
+  const [maxPoolAssetBalance, setMaxPoolAssetBalance] = useState(poolAsset?.set(0));
+  const [maxRuneBalance, setMaxRuneBalance] = useState(RUNEAsset.set(0));
 
-  const [maxRuneBalance, setMaxRuneBalance] = useState(zeroAmount);
-
-  const poolAssetBalance: Amount = useMemo(() => {
+  const poolAssetBalance = useMemo(() => {
     if (wallet) {
-      return getAssetBalance(poolAsset || BTCAsset, wallet).amount;
+      return getAssetBalance(poolAsset || BTCAsset, wallet);
     }
 
     // allow max amount if wallet is not connected
-    return Amount.fromAssetAmount(10 ** 3, 8);
+    return poolAsset?.set(10 ** 9);
   }, [poolAsset, wallet]);
 
   useEffect(() => {
@@ -49,13 +47,13 @@ export const useDepositAssetsBalance = ({ poolAsset }: Props): DepositAssetsBala
     );
   }, [getMaxBalance]);
 
-  const runeBalance: Amount = useMemo(() => {
+  const runeBalance = useMemo(() => {
     if (wallet) {
-      return getAssetBalance(RUNEAsset, wallet).amount;
+      return getAssetBalance(RUNEAsset, wallet);
     }
 
     // allow max amount if wallet is not connected
-    return Amount.fromAssetAmount(10 ** 3, 8);
+    return RUNEAsset.set(10 ** 9);
   }, [wallet]);
 
   return {

@@ -1,4 +1,4 @@
-import type { Signer } from '@thorswap-lib/toolbox-cosmos';
+import type { Signer } from '@swapkit/toolbox-cosmos';
 import { useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAppSelector } from 'store/store';

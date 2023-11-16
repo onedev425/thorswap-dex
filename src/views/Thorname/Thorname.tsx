@@ -1,6 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { getTHORNameCost } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { Chain, getTHORNameCost } from '@swapkit/core';
 import { Box, Button, Collapse, Icon, Tooltip } from 'components/Atomic';
 import { FieldLabel } from 'components/Form';
 import { HighlightCard } from 'components/HighlightCard';

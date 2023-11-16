@@ -1,6 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { AssetValue, Chain } from '@swapkit/core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import type { AssetFilterType } from 'components/AssetSelect/assetTypes';
@@ -38,7 +37,7 @@ export const useAssetFilterTypes = () => {
       case 'avax': {
         return (
           <FilterTypeLabel
-            icon={<AssetIcon asset={getSignatureAssetFor(Chain.Avalanche)} size={20} />}
+            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Avalanche)} size={20} />}
             label="AVAX"
           />
         );
@@ -46,7 +45,7 @@ export const useAssetFilterTypes = () => {
       case 'erc20': {
         return (
           <FilterTypeLabel
-            icon={<AssetIcon asset={getSignatureAssetFor(Chain.Ethereum)} size={20} />}
+            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Ethereum)} size={20} />}
             label="ETH"
           />
         );
@@ -54,7 +53,7 @@ export const useAssetFilterTypes = () => {
       case 'bep2': {
         return (
           <FilterTypeLabel
-            icon={<AssetIcon asset={getSignatureAssetFor(Chain.Binance)} size={20} />}
+            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Binance)} size={20} />}
             label="BNB"
           />
         );
@@ -64,7 +63,7 @@ export const useAssetFilterTypes = () => {
           <FilterTypeLabel
             icon={
               <AssetIcon
-                asset={getSignatureAssetFor(Chain.BinanceSmartChain)}
+                asset={AssetValue.fromChainOrSignature(Chain.BinanceSmartChain)}
                 logoURI={tokenLogoURL({ identifier: getChainIdentifier(Chain.BinanceSmartChain) })}
                 size={20}
               />

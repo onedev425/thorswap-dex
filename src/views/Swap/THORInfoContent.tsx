@@ -1,16 +1,15 @@
 import { Text } from '@chakra-ui/react';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
+import { AssetValue } from '@swapkit/core';
 import { Link } from 'components/Atomic';
 import { getSwapRoute } from 'settings/router';
 
-const THORInfoContent = ({ inputAsset }: { inputAsset: AssetEntity }) => (
+const THORInfoContent = ({ inputAsset }: { inputAsset: AssetValue }) => (
   <>
     <Text textStyle="caption" variant="yellow">
       {`Are you looking for THORSwap's protocol token `}
       <Link
         className="text-twitter-blue"
-        to={getSwapRoute(inputAsset, getSignatureAssetFor('ETH_THOR'))}
+        to={getSwapRoute(inputAsset, AssetValue.fromChainOrSignature('ETH.THOR'))}
       >
         $THOR (Ethereum ERC-20)?
       </Link>

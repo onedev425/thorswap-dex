@@ -1,1 +1,0 @@
-export const AIRDROP_THOR_AMOUNT = 2000;

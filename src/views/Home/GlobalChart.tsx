@@ -1,4 +1,4 @@
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { Chain } from '@swapkit/core';
 import { Box } from 'components/Atomic';
 import { Chart } from 'components/Chart';
 import type { ChartData, ChartDetail } from 'components/Chart/types';
@@ -47,12 +47,12 @@ export const GlobalChart = memo(() => {
   );
 
   const chartValueUnit = useMemo(() => {
-    const baseCurrencyAsset = AssetEntity.fromAssetString(baseCurrency);
+    const [chain, ticker] = baseCurrency?.split('.');
 
-    if (!baseCurrencyAsset || baseCurrencyAsset?.isRUNE()) return 'ᚱ';
-    if (baseCurrencyAsset?.ticker === 'USD') return '$';
+    if (!chain || chain === Chain.THORChain) return 'ᚱ';
+    if (ticker === 'USD') return '$';
 
-    return baseCurrencyAsset.ticker;
+    return ticker;
   }, [baseCurrency]);
 
   const volumeChartData = useMemo(() => {

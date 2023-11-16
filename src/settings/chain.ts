@@ -1,5 +1,4 @@
-import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { AssetValue, Chain } from '@swapkit/core';
 export const SUPPORTED_CHAINS = [
   Chain.THORChain,
   Chain.Avalanche,
@@ -27,13 +26,13 @@ export const SORTED_CHAINS = [
 ] as const;
 
 export const SORTED_LENDING_COLLATERAL_ASSETS = [
-  getSignatureAssetFor(Chain.Bitcoin),
-  getSignatureAssetFor(Chain.Ethereum),
-  getSignatureAssetFor(Chain.BinanceSmartChain),
-  getSignatureAssetFor(Chain.Binance),
-  getSignatureAssetFor(Chain.Avalanche),
-  getSignatureAssetFor(Chain.Cosmos),
-  getSignatureAssetFor(Chain.Dogecoin),
-  getSignatureAssetFor(Chain.BitcoinCash),
-  getSignatureAssetFor(Chain.Litecoin),
+  AssetValue.fromChainOrSignature(Chain.Bitcoin),
+  AssetValue.fromChainOrSignature(Chain.Ethereum),
+  AssetValue.fromChainOrSignature(Chain.BinanceSmartChain),
+  AssetValue.fromChainOrSignature(Chain.Binance),
+  AssetValue.fromChainOrSignature(Chain.Avalanche),
+  AssetValue.fromChainOrSignature(Chain.Cosmos),
+  AssetValue.fromChainOrSignature(Chain.Dogecoin),
+  AssetValue.fromChainOrSignature(Chain.BitcoinCash),
+  AssetValue.fromChainOrSignature(Chain.Litecoin),
 ];

@@ -1,4 +1,4 @@
-import { BaseDecimal, WalletOption } from '@thorswap-lib/types';
+import { BaseDecimal, WalletOption } from '@swapkit/core';
 import { Button, Icon } from 'components/Atomic';
 import { stakingV2Addr } from 'helpers/assets';
 import { getCustomIconImageUrl } from 'helpers/logoURL';

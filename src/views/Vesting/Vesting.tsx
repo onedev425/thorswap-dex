@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount } from '@thorswap-lib/swapkit-core';
+import { SwapKitNumber } from '@swapkit/core';
 import { Box, Button } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoRow } from 'components/InfoRow';
@@ -8,7 +8,6 @@ import { PanelView } from 'components/PanelView';
 import { PercentSelect } from 'components/PercentSelect/PercentSelect';
 import { TabsSelect } from 'components/TabsSelect';
 import { ViewHeader } from 'components/ViewHeader';
-import { toOptionalFixed } from 'helpers/number';
 import { useCallback, useState } from 'react';
 import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
@@ -19,7 +18,7 @@ import { VestingType } from './types';
 const Vesting = () => {
   const { setIsConnectModalOpen } = useWallet();
   const [vestingTab, setVestingTab] = useState(VestingType.THOR);
-  const [amount, setAmount] = useState(Amount.fromNormalAmount(0));
+  const [amount, setAmount] = useState(new SwapKitNumber({ value: 0, decimal: 1 }));
   const { ethAddress, vestingInfo, isLoading, loadVestingInfo, handleClaim } = useVesting();
   const {
     vestingPeriod,
@@ -31,15 +30,20 @@ const Vesting = () => {
   } = vestingInfo[vestingTab];
 
   const handleChangeTokenAmount = useCallback(
-    (amount: Amount) => {
-      setAmount(amount.gt(claimableAmount) ? Amount.fromNormalAmount(claimableAmount) : amount);
+    (amount: SwapKitNumber) => {
+      setAmount(amount.gt(claimableAmount) ? claimableAmount : amount);
     },
     [claimableAmount],
   );
 
   const handleChangePercent = useCallback(
     (percent: number) => {
-      setAmount(Amount.fromNormalAmount((claimableAmount * percent) / 100));
+      setAmount(
+        new SwapKitNumber({
+          value: (claimableAmount.getValue('number') * percent) / 100,
+          decimal: 1,
+        }),
+      );
     },
     [claimableAmount],
   );
@@ -72,7 +76,7 @@ const Vesting = () => {
         <InfoRow label={t('views.vesting.totalVested')} value={totalVestedAmount} />
         <InfoRow
           label={t('views.vesting.totalClaimed')}
-          value={toOptionalFixed(totalClaimedAmount)}
+          value={totalClaimedAmount.toSignificant(10)}
         />
         <InfoRow
           label={t('views.vesting.vestingStartTime')}
@@ -88,7 +92,7 @@ const Vesting = () => {
         />
         <InfoRow
           label={t('views.vesting.claimableAmount')}
-          value={toOptionalFixed(claimableAmount)}
+          value={claimableAmount.toSignificant(10)}
         />
 
         {ethAddress && (

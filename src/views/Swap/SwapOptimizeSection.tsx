@@ -1,6 +1,5 @@
 import { Card, Collapse, Flex, Text } from '@chakra-ui/react';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Amount } from '@thorswap-lib/swapkit-core';
+import { type AssetValue, SwapKitNumber } from '@swapkit/core';
 import { Icon, Tooltip } from 'components/Atomic';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { formatDuration } from 'components/TransactionTracker/helpers';
@@ -15,7 +14,7 @@ type Props = {
   toggleStreamSwap: (enabled: boolean) => void;
   canStreamSwap: boolean;
   route: RouteWithApproveType | undefined;
-  outputAsset: AssetEntity | undefined;
+  outputAsset: AssetValue | undefined;
 };
 
 export const SwapOptimizeSection = ({
@@ -32,17 +31,21 @@ export const SwapOptimizeSection = ({
     ? Number(route.streamingSwap.expectedOutputUSD) - Number(route.expectedOutputUSD)
     : 0;
 
-  const outputAmount: Amount = useMemo(
-    () => Amount.fromAssetAmount(route?.expectedOutput || '0', outputAsset?.decimal || 0),
+  const outputAmount = useMemo(
+    () =>
+      new SwapKitNumber({
+        value: route?.expectedOutput || '0',
+        decimal: outputAsset?.decimal || 0,
+      }),
     [outputAsset?.decimal, route?.expectedOutput],
   );
 
-  const outputAmountStreamingSwap: Amount = useMemo(
+  const outputAmountStreamingSwap = useMemo(
     () =>
-      Amount.fromAssetAmount(
-        route?.streamingSwap?.expectedOutput || '0',
-        outputAsset?.decimal || 0,
-      ),
+      new SwapKitNumber({
+        value: route?.streamingSwap?.expectedOutput || '0',
+        decimal: outputAsset?.decimal || 0,
+      }),
     [outputAsset?.decimal, route?.streamingSwap?.expectedOutput],
   );
 
@@ -91,7 +94,7 @@ export const SwapOptimizeSection = ({
 
                   <Flex gap={1}>
                     <Text textStyle="caption-xs">
-                      {outputAmountStreamingSwap.toSignificant(6)} {outputAsset?.name || ''}
+                      {outputAmountStreamingSwap.toSignificant(6)} {outputAsset?.ticker || ''}
                     </Text>
                     <Text color="brand.green" fontWeight="normal" textStyle="caption-xs">
                       (+{formatPrice(priceUSDDiff)})
@@ -129,7 +132,7 @@ export const SwapOptimizeSection = ({
                   </Flex>
 
                   <Text textStyle="caption-xs">
-                    {outputAmount.toSignificant(6)} {outputAsset?.name || ''}
+                    {outputAmount.toSignificant(6)} {outputAsset?.ticker || ''}
                   </Text>
                 </Flex>
               </Flex>

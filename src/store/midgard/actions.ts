@@ -1,4 +1,4 @@
-import { getRequest } from '@thorswap-lib/helpers';
+import { RequestClient } from '@swapkit/core';
 import type { InboundAddressesItem } from '@thorswap-lib/midgard-sdk';
 import dayjs from 'dayjs';
 import { THORNODE_URL } from 'settings/config';
@@ -20,10 +20,10 @@ export const getThornameExpireDate = ({
 };
 
 export const getInboundData = () =>
-  getRequest<InboundAddressesItem[]>(`${THORNODE_URL}/inbound_addresses`);
+  RequestClient.get<InboundAddressesItem[]>(`${THORNODE_URL}/inbound_addresses`);
 
 export const getSaverData = ({ asset, address }: { asset: string; address: string }) =>
-  getRequest<SaverProvider>(`${THORNODE_URL}/pool/${asset}/saver/${address}`);
+  RequestClient.get<SaverProvider>(`${THORNODE_URL}/pool/${asset}/saver/${address}`);
 
 export const getSaverQuote = ({
   type,
@@ -34,6 +34,7 @@ export const getSaverQuote = ({
   amount?: string;
   address?: string;
   withdraw_bps?: string;
-}) => getRequest(`${THORNODE_URL}/quote/saver/${type}?${new URLSearchParams(rest).toString()}`);
+}) =>
+  RequestClient.get(`${THORNODE_URL}/quote/saver/${type}?${new URLSearchParams(rest).toString()}`);
 
-export const getSaverPools = () => getRequest<ThornodePoolType[]>(`${THORNODE_URL}/pools`);
+export const getSaverPools = () => RequestClient.get<ThornodePoolType[]>(`${THORNODE_URL}/pools`);

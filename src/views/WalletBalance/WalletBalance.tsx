@@ -1,7 +1,6 @@
 import { Text } from '@chakra-ui/react';
-import type { AssetEntity, ChainWallet } from '@thorswap-lib/swapkit-core';
-import { Amount, AssetAmount, getSignatureAssetFor, isGasAsset } from '@thorswap-lib/swapkit-core';
-import type { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@swapkit/core';
+import { AssetValue, isGasAsset, WalletOption } from '@swapkit/core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon } from 'components/Atomic';
@@ -9,7 +8,7 @@ import { baseBgHoverClass } from 'components/constants';
 import { Scrollbar } from 'components/Scrollbar';
 import { useWalletDrawer } from 'hooks/useWalletDrawer';
 import type { MouseEventHandler } from 'react';
-import { useCallback } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { SORTED_CHAINS } from 'settings/chain';
@@ -25,11 +24,23 @@ import { ChainHeader } from './ChainHeader';
 import { WalletDrawer } from './WalletDrawer';
 import { WalletHeader } from './WalletHeader';
 
-const WalletBalanceList = () => {
+type ChainBalanceProps = {
+  chain: Chain;
+  address: string;
+  loading: boolean;
+  walletType: WalletOption;
+  balance: AssetValue[];
+};
+
+const ChainBalance = memo(({ chain, address, loading, walletType, balance }: ChainBalanceProps) => {
   const navigate = useNavigate();
-  const { chainWalletLoading, wallet } = useWallet();
   const { close } = useWalletDrawer();
   const appDispatch = useAppDispatch();
+
+  const walletBalance = useMemo(
+    () => [...balance, ...(balance.length === 0 ? [AssetValue.fromChainOrSignature(chain)] : [])],
+    [balance, chain],
+  );
 
   const handleNavigate = useCallback(
     (route: string): MouseEventHandler<HTMLDivElement | HTMLButtonElement> =>
@@ -42,25 +53,29 @@ const WalletBalanceList = () => {
   );
 
   const hideAsset = useCallback(
-    (chain: Chain, asset: AssetEntity): MouseEventHandler<HTMLDivElement | HTMLButtonElement> =>
+    (chain: Chain, assetValue: AssetValue): MouseEventHandler<HTMLDivElement | HTMLButtonElement> =>
       (event) => {
         event.stopPropagation();
-        appDispatch(actions.addAssetToHidden({ chain, address: asset.toString() }));
+        appDispatch(actions.addAssetToHidden({ chain, address: assetValue.toString() }));
       },
     [appDispatch],
   );
 
-  const renderBalance = useCallback(
-    (chain: Chain, balance: AssetAmount[]) => {
-      const sigBalance = new AssetAmount(getSignatureAssetFor(chain), Amount.fromNormalAmount(0));
-      const walletBalance = [...balance, ...(balance.length === 0 ? [sigBalance] : [])];
+  return (
+    <Box col className="mt-2" key={chain.toString()}>
+      <ChainHeader
+        address={address}
+        chain={chain}
+        walletLoading={loading}
+        walletType={walletType}
+      />
 
-      return walletBalance.map((data: AssetAmount) => (
+      {walletBalance.map((assetValue) => (
         <div
-          key={data.asset.symbol}
+          key={assetValue.symbol}
           onClick={
-            !IS_LEDGER_LIVE || isLedgerLiveSupportedInputAsset(data)
-              ? handleNavigate(getSwapRoute(data.asset))
+            !IS_LEDGER_LIVE || isLedgerLiveSupportedInputAsset(assetValue)
+              ? handleNavigate(getSwapRoute(assetValue))
               : undefined
           }
         >
@@ -68,28 +83,34 @@ const WalletBalanceList = () => {
             alignCenter
             className={classNames(
               'p-4 bg-light-bg-secondary dark:bg-dark-bg-secondary !bg-opacity-80',
-              `${!IS_LEDGER_LIVE || isLedgerLiveSupportedInputAsset(data) ? 'cursor-pointer' : ''}`,
-              !IS_LEDGER_LIVE || isLedgerLiveSupportedInputAsset(data) ? baseBgHoverClass : '',
+              `${
+                !IS_LEDGER_LIVE || isLedgerLiveSupportedInputAsset(assetValue)
+                  ? 'cursor-pointer'
+                  : ''
+              }`,
+              !IS_LEDGER_LIVE || isLedgerLiveSupportedInputAsset(assetValue)
+                ? baseBgHoverClass
+                : '',
             )}
             justify="between"
           >
             <Box alignCenter row className="flex-1">
-              <AssetIcon asset={data.asset} size={36} />
+              <AssetIcon asset={assetValue} size={36} />
               <Box col className="pl-2 w-[80px]">
-                <Text>{data.asset.ticker}</Text>
+                <Text>{assetValue.ticker}</Text>
                 <Text fontWeight="medium" textStyle="caption-xs" variant="secondary">
-                  {data.asset.type}
+                  {assetValue.type}
                 </Text>
               </Box>
-              <Text variant="primary">{data.amount.toSignificant(6)}</Text>
+              <Text variant="primary">{assetValue.toSignificant(6)}</Text>
             </Box>
 
             <Box row className="space-x-1">
-              {!isGasAsset(data.asset) && (
+              {!isGasAsset(assetValue) && (
                 <Button
                   className="px-3 hover:bg-transparent dark:hover:bg-transparent"
                   leftIcon={<Icon color="primaryBtn" name="eyeSlash" size={16} />}
-                  onClick={hideAsset(chain, data.asset)}
+                  onClick={hideAsset(chain, assetValue)}
                   tooltip={t('common.hide')}
                   variant="tint"
                 />
@@ -98,7 +119,7 @@ const WalletBalanceList = () => {
                 <Button
                   className="px-3 hover:bg-transparent dark:hover:bg-transparent"
                   leftIcon={<Icon color="primaryBtn" name="send" size={16} />}
-                  onClick={handleNavigate(getSendRoute(data.asset))}
+                  onClick={handleNavigate(getSendRoute(assetValue))}
                   tooltip={t('common.send')}
                   variant="tint"
                 />
@@ -106,53 +127,38 @@ const WalletBalanceList = () => {
             </Box>
           </Box>
         </div>
-      ));
-    },
-    [handleNavigate, hideAsset],
+      ))}
+    </Box>
   );
-
-  const renderChainBalance = useCallback(
-    (chain: Chain, chainBalance: ChainWallet) => {
-      const { address, balance } = chainBalance;
-      const { walletType } = chainBalance;
-      return (
-        <Box col className="mt-2" key={chain.toString()}>
-          <ChainHeader
-            address={address}
-            chain={chain}
-            walletLoading={!!chainWalletLoading?.[chain]}
-            walletType={walletType}
-          />
-          {renderBalance(chain, balance)}
-        </Box>
-      );
-    },
-    [chainWalletLoading, renderBalance],
-  );
-
-  return (
-    <Scrollbar>
-      <WalletHeader />
-      <Box col>
-        {SORTED_CHAINS.map((chain) => {
-          const chainBalance = wallet?.[chain as Chain];
-          if (!chainBalance) return null;
-
-          return renderChainBalance(chain as Chain, chainBalance);
-        })}
-      </Box>
-    </Scrollbar>
-  );
-};
+});
 
 export const WalletBalance = () => {
-  const { wallet } = useWallet();
+  const { chainWalletLoading, wallet } = useWallet();
 
-  if (!wallet) return null;
+  const isWalletConnected = useMemo(
+    () => SORTED_CHAINS.some((chain) => wallet?.[chain as Chain]),
+    [wallet],
+  );
+
+  if (!isWalletConnected) return null;
 
   return (
     <WalletDrawer>
-      <WalletBalanceList />
+      <Scrollbar>
+        <WalletHeader />
+        <Box col>
+          {SORTED_CHAINS.map((chain) => (
+            <ChainBalance
+              address={wallet?.[chain]?.address ?? ''}
+              balance={wallet?.[chain]?.balance ?? []}
+              chain={chain}
+              key={chain}
+              loading={!!chainWalletLoading[chain]}
+              walletType={wallet?.[chain]?.walletType ?? WalletOption.KEYSTORE}
+            />
+          ))}
+        </Box>
+      </Scrollbar>
     </WalletDrawer>
   );
 };

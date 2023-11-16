@@ -74,7 +74,7 @@ export const useMultisigForm = ({ pubKey }: Props = {}) => {
 
   useEffect(() => {
     const subscription = watch(async (values) => {
-      const { ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const { ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
       const toolbox = await ThorchainToolbox({});
       const members = await Promise.all(
         values.members?.map(async (member) => {

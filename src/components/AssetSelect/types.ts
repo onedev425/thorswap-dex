@@ -1,4 +1,4 @@
-import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import type { Token } from 'store/thorswap/types';
 
 export type AssetSelectProps = {
@@ -6,7 +6,7 @@ export type AssetSelectProps = {
   isLoading?: boolean;
   query?: string;
   setQuery?: (query: string) => void;
-  onSelect: (asset: AssetEntity) => void;
+  onSelect: (asset: AssetValue) => void;
   onClose?: () => void;
   openManageTokenList?: () => void;
   noFilters?: boolean;
@@ -14,13 +14,13 @@ export type AssetSelectProps = {
 };
 
 export type AssetSelectType = Pick<Token, 'logoURI' | 'cg'> & {
-  asset: AssetEntity;
+  asset: AssetValue;
   apr?: string;
   filled?: number;
-  value?: Amount;
+  value?: AssetValue;
   price?: number;
   provider?: string;
   identifier?: string;
-  balance?: Amount;
+  balance?: AssetValue;
   extraInfo?: string | number;
 };

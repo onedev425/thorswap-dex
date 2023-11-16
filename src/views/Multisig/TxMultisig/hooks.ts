@@ -1,4 +1,4 @@
-import type { Signer } from '@thorswap-lib/toolbox-cosmos';
+import type { Signer } from '@swapkit/toolbox-cosmos';
 import { showErrorToast } from 'components/Toast';
 import { useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';

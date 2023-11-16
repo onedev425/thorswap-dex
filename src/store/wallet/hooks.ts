@@ -1,5 +1,6 @@
-import type { DerivationPathArray, EVMWalletOptions, Keystore } from '@thorswap-lib/types';
-import { Chain, WalletOption } from '@thorswap-lib/types';
+import type { DerivationPathArray, EVMWalletOptions } from '@swapkit/core';
+import { Chain, WalletOption } from '@swapkit/core';
+import type { Keystore } from '@swapkit/wallet-keystore';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { chainName } from 'helpers/chainName';
 import { useCallback } from 'react';
@@ -36,7 +37,7 @@ export const useWallet = () => {
   const unlockWallet = useCallback(
     async (keystore: Keystore, phrase: string, chains: Chain[]) => {
       const { connectKeystore } = await (await import('services/swapKit')).getSwapKitClient();
-      const { ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const { ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
       const thorchainToolbox = ThorchainToolbox({});
       const pubKey = await thorchainToolbox.getPubKeyFromMnemonic(phrase);
 
@@ -211,7 +212,7 @@ export const useWallet = () => {
       await import('services/swapKit')
     ).getSwapKitClient();
 
-    await swapKitConnectKeplr();
+    await swapKitConnectKeplr(Chain.Cosmos);
 
     setWallets([Chain.Cosmos]);
   }, [setWallets]);

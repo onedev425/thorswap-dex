@@ -1,4 +1,4 @@
-import { Amount } from '@thorswap-lib/swapkit-core';
+import { SwapKitNumber } from '@swapkit/core';
 
 export type ColorType =
   | 'primary'
@@ -63,4 +63,4 @@ export type THORNameDetails = {
   expire: string;
 };
 
-export const zeroAmount = Amount.fromBaseAmount(0, 8);
+export const zeroAmount = new SwapKitNumber(0);

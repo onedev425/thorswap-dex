@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount } from '@thorswap-lib/swapkit-core';
+import { SwapKitNumber } from '@swapkit/core';
 import classNames from 'classnames';
 import { MaxPopover } from 'components/AssetInput/MaxPopover';
 import { Box, Range } from 'components/Atomic';
@@ -9,8 +9,8 @@ import { useCallback } from 'react';
 
 type Props = {
   title: string;
-  onChange: (val: Amount) => void;
-  percent: Amount;
+  onChange: (val: SwapKitNumber) => void;
+  percent: SwapKitNumber;
   highlightDisabled?: boolean;
   className?: string;
   slideClassName?: string;
@@ -25,14 +25,14 @@ export const PercentageSlider = ({
   slideClassName,
 }: Props) => {
   const handlePercentChange = useCallback(
-    (value: Amount) => {
-      const val = value.gt(100) ? Amount.fromNormalAmount(100) : value;
+    (value: SwapKitNumber) => {
+      const val = value.gt(100) ? new SwapKitNumber(100) : value;
       onChange(val);
     },
     [onChange],
   );
 
-  const handleRange = (value: Amount) => {
+  const handleRange = (value: SwapKitNumber) => {
     handlePercentChange(value);
   };
 
@@ -76,7 +76,7 @@ export const PercentageSlider = ({
           <Range amountValue={percent} onAmountChange={handleRange} />
         </Box>
 
-        <MaxPopover onChange={(v) => handlePercentChange(Amount.fromNormalAmount(v * 100))} />
+        <MaxPopover onChange={(v) => handlePercentChange(new SwapKitNumber(v * 100))} />
       </Box>
     </HighlightCard>
   );

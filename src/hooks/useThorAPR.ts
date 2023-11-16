@@ -1,4 +1,4 @@
-import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
+import { AssetValue } from '@swapkit/core';
 import { usePools } from 'hooks/usePools';
 import { useMemo } from 'react';
 
@@ -16,7 +16,7 @@ export const useThorAPR = () => {
   const { pools } = usePools();
 
   const thorPool = useMemo(() => {
-    const thorAsset = getSignatureAssetFor('ETH_THOR');
+    const thorAsset = AssetValue.fromChainOrSignature('ETH.THOR');
 
     return pools?.find(({ asset }) => thorAsset.toString() === asset);
   }, [pools]);

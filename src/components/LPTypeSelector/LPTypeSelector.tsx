@@ -1,4 +1,4 @@
-import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import { Box } from 'components/Atomic';
 import { TabsSelect } from 'components/TabsSelect';
 import { useCallback, useMemo } from 'react';
@@ -6,7 +6,7 @@ import { PoolShareType } from 'store/midgard/types';
 
 import type { LPTypeSelectorProps } from './types';
 
-const getOptionsProp = (types: PoolShareType[], asset: Asset) => {
+const getOptionsProp = (types: PoolShareType[], asset: AssetValue) => {
   const options: { label: string; value: string }[] = [];
   if (types.includes(PoolShareType.ASSET_ASYM)) {
     options.push({

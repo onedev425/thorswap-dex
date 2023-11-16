@@ -1,4 +1,4 @@
-import type { Signer } from '@thorswap-lib/toolbox-cosmos';
+import type { Signer } from '@swapkit/toolbox-cosmos';
 import classNames from 'classnames';
 import { Box, Button, DropdownMenu, Modal } from 'components/Atomic';
 import { useButtonClasses } from 'components/Atomic/Button/useButtonClasses';

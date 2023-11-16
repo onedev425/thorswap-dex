@@ -1,4 +1,4 @@
-import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import { Box, Collapse } from 'components/Atomic';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { memo } from 'react';
@@ -8,7 +8,7 @@ import { SwapRoute } from './SwapRoute';
 
 type Props = {
   routes: RouteWithApproveType[];
-  outputAsset: Asset;
+  outputAsset: AssetValue;
   setSwapRoute: (route: RouteWithApproveType) => void;
   selectedRoute?: RouteWithApproveType;
   outputUnitPrice: number;
@@ -26,7 +26,7 @@ export const SwapRouter = memo(
             <SelectedRoute
               {...selectedRoute}
               assetTicker={outputAsset.ticker}
-              outputAssetDecimal={outputAsset.decimal}
+              outputAssetDecimal={outputAsset.decimal || 8}
               streamSwap={streamSwap}
               unitPrice={outputUnitPrice}
             />

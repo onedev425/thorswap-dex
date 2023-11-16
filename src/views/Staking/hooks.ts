@@ -1,13 +1,10 @@
-import { BigNumber } from '@ethersproject/bignumber';
-import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
+import { AssetValue, BaseDecimal, SwapKitNumber } from '@swapkit/core';
 import { showErrorToast } from 'components/Toast';
 import { stakingV2Addr, VestingType } from 'helpers/assets';
-import { toOptionalFixed } from 'helpers/number';
 import { useCallback, useEffect, useState } from 'react';
 import {
   contractConfig,
   ContractType,
-  fromWei,
   getCustomContract,
   getEtherscanContract,
   triggerContractCall,
@@ -25,15 +22,16 @@ export enum StakeActions {
 }
 
 export const useV1ThorStakeInfo = (ethAddress?: string) => {
-  const [stakedThorAmount, setStakedThorAmount] = useState<null | BigNumber>(null);
+  const [stakedThorAmount, setStakedThorAmount] = useState(
+    new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
+  );
 
   const getStakedThorAmount = useCallback(async () => {
     if (ethAddress) {
       // V1 $thor stake
       const stakingContract = await getEtherscanContract(ContractType.STAKING_THOR);
       const { amount } = await stakingContract.userInfo(0, ethAddress);
-
-      setStakedThorAmount(amount as BigNumber);
+      setStakedThorAmount(SwapKitNumber.fromBigInt(amount, BaseDecimal.ETH));
     }
   }, [ethAddress]);
 
@@ -41,100 +39,103 @@ export const useV1ThorStakeInfo = (ethAddress?: string) => {
     getStakedThorAmount();
   }, [getStakedThorAmount]);
 
-  const hasStakedV1Thor = !!stakedThorAmount && BigNumber.from(stakedThorAmount).gt(0);
-
-  return { stakedThorAmount, hasStakedV1Thor };
+  return { stakedThorAmount, hasStakedV1Thor: stakedThorAmount.gt(0) };
 };
 
 const getStakedThorAmount = async () => {
   const contract = await getCustomContract(stakingV2Addr[VestingType.THOR]);
   const stakedThorAmount = await contract.balanceOf(stakingV2Addr[VestingType.VTHOR]);
 
-  return stakedThorAmount;
+  return SwapKitNumber.fromBigInt(stakedThorAmount, 18);
 };
 
 export const getVthorState = async (methodName: string, args?: FixMe[]) => {
-  const contract = await getCustomContract(
-    contractConfig[ContractType.VTHOR].address,
-    contractConfig[ContractType.VTHOR].abi,
-  );
-  const resp = await contract[methodName](...(args ?? []));
+  try {
+    const contract = await getCustomContract(
+      contractConfig[ContractType.VTHOR].address,
+      contractConfig[ContractType.VTHOR].abi,
+    );
+    const value = (await contract[methodName](...(args ?? []))) || 0;
 
-  return resp;
+    return SwapKitNumber.fromBigInt(value, BaseDecimal.ETH);
+  } catch (_) {
+    return new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH });
+  }
 };
 
 export const useVthorUtil = () => {
   const appDispatch = useAppDispatch();
-  const [thorStaked, setThorStaked] = useState(BigNumber.from(0));
-  const [vthorTS, setVthorTS] = useState(BigNumber.from(0));
-  const [thorRedeemable, setTHORRedeemable] = useState(0);
-  const [vthorBalance, setVthorBalance] = useState(BigNumber.from(0));
+  const [thorStaked, setThorStaked] = useState(
+    new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
+  );
+  const [vthorTS, setVthorTS] = useState(new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }));
+  const [thorRedeemable, setTHORRedeemable] = useState(
+    new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
+  );
+  const [vthorBalance, setVthorBalance] = useState(
+    new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
+  );
 
   const { wallet } = useWallet();
 
   const ethAddr = wallet?.ETH?.address;
 
   const getThorStakedInfo = useCallback(async () => {
-    const res = await getStakedThorAmount().catch(() => BigNumber.from(0));
+    const res = await getStakedThorAmount().catch(
+      () => new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
+    );
 
     setThorStaked(res);
   }, []);
 
   const getVthorTS = useCallback(async () => {
-    const res = await getVthorState('totalSupply').catch(() => BigNumber.from(0));
+    const res = await getVthorState('totalSupply');
     setVthorTS(res);
   }, []);
 
   const getRate = useCallback(
-    (isReverted = false) => {
-      const thorStakedNum = fromWei(thorStaked);
-      const vthorTSNum = fromWei(vthorTS);
-
-      if (isReverted) {
-        return vthorTSNum === 0 ? 1 : thorStakedNum / vthorTSNum;
-      } else {
-        return thorStakedNum === 0 ? 1 : vthorTSNum / thorStakedNum;
-      }
-    },
+    (isReverted = false) =>
+      isReverted
+        ? vthorTS.eqValue(0)
+          ? new SwapKitNumber(1)
+          : thorStaked.div(vthorTS)
+        : thorStaked.eqValue(0)
+        ? new SwapKitNumber(1)
+        : vthorTS.div(thorStaked),
     [thorStaked, vthorTS],
   );
 
   const getRateString = useCallback(
     (isReverted = false) => {
-      const thorStakedNum = fromWei(thorStaked);
-      const vthorTSNum = fromWei(vthorTS);
+      const rate = getRate(isReverted);
 
-      const rate = toOptionalFixed(getRate(isReverted));
-
-      if (!isReverted) {
-        return thorStakedNum === 0 ? '1 THOR = 1 vTHOR' : `1 THOR = ${rate} vTHOR`;
-      }
-
-      return vthorTSNum === 0 ? '1 vTHOR = 1 THOR' : `1 vTHOR = ${rate} THOR`;
+      return isReverted
+        ? `1 vTHOR = ${rate.toSignificant(4)} THOR`
+        : `1 THOR = ${rate.toSignificant(4)} vTHOR`;
     },
-    [thorStaked, vthorTS, getRate],
+    [getRate],
   );
 
   const approveTHOR = useCallback(async () => {
     if (!ethAddr) return;
 
-    const thorAsset = getSignatureAssetFor('ETH_THOR');
+    const thorAsset = AssetValue.fromChainOrSignature('ETH.THOR');
     const id = v4();
 
     appDispatch(
       addTransaction({
         id,
         from: ethAddr,
-        label: `${t('txManager.approve')} ${thorAsset.name}`,
-        inChain: thorAsset.L1Chain,
+        label: `${t('txManager.approve')} ${thorAsset.ticker}`,
+        inChain: thorAsset.chain,
         type: TransactionType.ETH_APPROVAL,
       }),
     );
 
-    const { approveAssetForContract } = await (await import('services/swapKit')).getSwapKitClient();
+    const { approveAssetValue } = await (await import('services/swapKit')).getSwapKitClient();
 
     try {
-      const txid = await approveAssetForContract(thorAsset, stakingV2Addr[VestingType.VTHOR]);
+      const txid = await approveAssetValue(thorAsset, stakingV2Addr[VestingType.VTHOR]);
 
       if (typeof txid === 'string') {
         appDispatch(updateTransaction({ id, txid }));
@@ -147,50 +148,42 @@ export const useVthorUtil = () => {
   }, [ethAddr, appDispatch]);
 
   const previewDeposit = useCallback(
-    (inputAmount: BigNumber) => {
-      const supply = fromWei(vthorTS);
-
-      return supply === 0
-        ? fromWei(inputAmount)
-        : fromWei(inputAmount.mul(vthorTS).div(thorStaked));
-    },
+    (inputAmount: SwapKitNumber) =>
+      vthorTS.eq(0)
+        ? inputAmount.toSignificant(6)
+        : inputAmount.mul(thorStaked).div(vthorTS).toSignificant(6),
     [thorStaked, vthorTS],
   );
 
   const previewRedeem = useCallback(
-    (inputAmount: BigNumber) => {
-      const supply = fromWei(vthorTS);
-
-      return supply === 0
-        ? fromWei(inputAmount)
-        : fromWei(inputAmount.mul(thorStaked).div(vthorTS));
-    },
+    (inputAmount: SwapKitNumber) =>
+      vthorTS.eq(0)
+        ? inputAmount.toSignificant(6)
+        : inputAmount.mul(thorStaked).div(vthorTS).toSignificant(6),
     [thorStaked, vthorTS],
   );
 
   const getVthorBalance = useCallback(async () => {
     if (!ethAddr) {
-      setVthorBalance(BigNumber.from(0));
+      setVthorBalance(new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }));
       return;
     }
 
-    const res = await getVthorState('balanceOf', [ethAddr]).catch(() =>
-      setVthorBalance(BigNumber.from(0)),
-    );
+    const res = await getVthorState('balanceOf', [ethAddr]);
 
     setVthorBalance(res);
   }, [ethAddr]);
 
   const getTHORRedeemable = useCallback(async () => {
     if (!ethAddr) {
-      setTHORRedeemable(0);
+      setTHORRedeemable(new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }));
       return;
     }
 
-    const vThorBal = await getVthorState('balanceOf', [ethAddr]).catch(() => setTHORRedeemable(0));
-    const res = await getVthorState('previewRedeem', [vThorBal]).catch(() => setTHORRedeemable(0));
+    const vThorBal = await getVthorState('balanceOf', [ethAddr]);
+    const res = await getVthorState('previewRedeem', [vThorBal]);
 
-    return setTHORRedeemable(fromWei(res));
+    return setTHORRedeemable(res);
   }, [ethAddr]);
 
   const handleRefresh = useCallback(() => {
@@ -202,18 +195,17 @@ export const useVthorUtil = () => {
   }, [getThorStakedInfo, getVthorTS, getTHORRedeemable, ethAddr, getVthorBalance]);
 
   const stakeThor = useCallback(
-    async (stakeAmount: BigNumber, receiverAddr: string) => {
-      const amount = Number(fromWei(stakeAmount).toFixed(4));
-      if (amount === 0) return;
+    async (stakeAmount: SwapKitNumber, receiverAddr: string) => {
+      if (stakeAmount.eq(0)) return;
 
       const id = v4();
-      const thorAsset = getSignatureAssetFor('ETH_THOR');
+      const thorAsset = AssetValue.fromChainOrSignature('ETH.THOR', stakeAmount.getValue('string'));
       appDispatch(
         addTransaction({
           id,
           from: ethAddr,
-          label: `${t('txManager.stake')} ${amount} ${thorAsset.name}`,
-          inChain: thorAsset.L1Chain,
+          label: `${t('txManager.stake')} ${stakeAmount.toSignificant(6)} ${thorAsset.ticker}`,
+          inChain: thorAsset.chain,
           type: TransactionType.ETH_STATUS,
         }),
       );
@@ -224,7 +216,7 @@ export const useVthorUtil = () => {
       try {
         // TODO(@Chillios): rewrite to call from swapkit
         hash = (await triggerContractCall(ContractType.VTHOR, 'deposit', [
-          stakeAmount,
+          stakeAmount.getBaseValue('bigint'),
           receiverAddr,
         ])) as string;
       } catch (error: any) {
@@ -240,17 +232,19 @@ export const useVthorUtil = () => {
   );
 
   const unstakeThor = useCallback(
-    async (unstakeAmount: BigNumber, receiverAddr: string) => {
-      const vthorAsset = getSignatureAssetFor('ETH_VTHOR');
-      const amount = Number(fromWei(unstakeAmount).toFixed(4)) / 1;
+    async (unstakeAmount: SwapKitNumber, receiverAddr: string) => {
+      const vthorAsset = AssetValue.fromChainOrSignature(
+        'ETH.vTHOR',
+        unstakeAmount.getValue('string'),
+      );
 
       const id = v4();
       appDispatch(
         addTransaction({
           id,
           from: ethAddr,
-          label: `${t('txManager.unstake')} ${amount} ${vthorAsset.name}`,
-          inChain: vthorAsset.L1Chain,
+          label: `${t('txManager.unstake')} ${unstakeAmount.toSignificant(4)} ${vthorAsset.ticker}`,
+          inChain: vthorAsset.chain,
           type: TransactionType.ETH_STATUS,
         }),
       );
@@ -258,7 +252,7 @@ export const useVthorUtil = () => {
       let hash;
       try {
         hash = (await triggerContractCall(ContractType.VTHOR, 'redeem', [
-          unstakeAmount,
+          unstakeAmount.getBaseValue('bigint'),
           receiverAddr,
           receiverAddr,
         ])) as string;

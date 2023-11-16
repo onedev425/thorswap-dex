@@ -1,4 +1,4 @@
-import { Chain } from '@thorswap-lib/types';
+import { Chain } from '@swapkit/core';
 import hmacSHA512 from 'crypto-js/hmac-sha512';
 import { chainName } from 'helpers/chainName';
 import { useMimir } from 'hooks/useMimir';

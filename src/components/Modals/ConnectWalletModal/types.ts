@@ -1,4 +1,4 @@
-import { Chain, WalletOption } from '@thorswap-lib/types';
+import { Chain, WalletOption } from '@swapkit/core';
 
 export enum WalletType {
   Brave = 'Brave',

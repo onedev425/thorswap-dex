@@ -1,5 +1,5 @@
 import { Box, Flex } from '@chakra-ui/react';
-import { StreamingSwapProgressStatus } from '@thorswap-lib/swapkit-api';
+import { StreamingSwapProgressStatus } from '@swapkit/api';
 import { Tooltip } from 'components/Atomic';
 import { memo } from 'react';
 import { t } from 'services/i18n';

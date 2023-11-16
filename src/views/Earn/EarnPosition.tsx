@@ -1,5 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react';
-import type { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { AssetValue, SwapKitNumber } from '@swapkit/core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button } from 'components/Atomic';
@@ -7,70 +7,59 @@ import { HighlightCard } from 'components/HighlightCard';
 import type { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
-import { PositionTooSmallInfo } from 'views/Earn/PositionTooSmallInfo';
+import { zeroAmount } from 'types/app';
 import type { SaverPosition } from 'views/Earn/types';
-import { useEarnCalculations } from 'views/Earn/useEarnCalculations';
 
 type Props = {
   position: SaverPosition;
-  withdraw: (asset: Asset) => void;
-  deposit: (asset: Asset) => void;
+  withdraw: (asset: AssetValue) => void;
+  deposit: (asset: AssetValue) => void;
   assetPriceUSD: number;
 };
 
 export const EarnPosition = ({ assetPriceUSD, position, withdraw, deposit }: Props) => {
-  const { networkFee } = useEarnCalculations({
-    asset: position.asset,
-    amount: position.amount,
-    isDeposit: false,
-  });
-
-  const positionTooSmall = networkFee.gte(position?.amount);
-
   const amountUsd = useCallback(
-    (amount: Amount) => `$${(assetPriceUSD * amount.assetAmount.toNumber()).toFixed(2)}`,
+    (amount: SwapKitNumber) => `$${(assetPriceUSD * amount.getValue('number')).toFixed(2)}`,
     [assetPriceUSD],
   );
 
-  const infoFields: InfoRowConfig[] = [
-    {
-      label: 'Amount Deposited',
-      value: (
-        <InfoWithTooltip
-          icon="usdCircle"
-          tooltip={amountUsd(position.depositAmount)}
-          value={`${position.depositAmount.toSignificant(6)} ${position.asset.name}`}
-        />
-      ),
-    },
-    {
-      label: 'Amount Redeemable',
-      value: !positionTooSmall ? (
-        <InfoWithTooltip
-          icon="usdCircle"
-          tooltip={amountUsd(position.amount)}
-          value={`${position?.amount?.toSignificant(6)} ${position.asset.name}`}
-        />
-      ) : (
-        <PositionTooSmallInfo />
-      ),
-    },
-    {
-      label: 'Total Earned',
-      value:
-        position?.earnedAmount && !positionTooSmall ? (
+  const infoFields: InfoRowConfig[] = useMemo(
+    () => [
+      {
+        label: 'Amount Deposited',
+        value: (
           <InfoWithTooltip
             icon="usdCircle"
-            tooltip={amountUsd(position.earnedAmount)}
-            value={`${position?.earnedAmount?.toSignificant(6)} ${position.asset.name}`}
+            tooltip={amountUsd(position.depositAmount)}
+            value={`${position.depositAmount.toSignificant(6)} ${position.asset.ticker}`}
           />
-        ) : (
-          <PositionTooSmallInfo />
         ),
-    },
-  ];
+      },
+      {
+        label: 'Amount Redeemable',
+        value: (
+          <InfoWithTooltip
+            icon="usdCircle"
+            tooltip={amountUsd(position.amount)}
+            value={`${position?.amount?.toSignificant(6)} ${position.asset.ticker}`}
+          />
+        ),
+      },
+      {
+        label: 'Total Earned',
+        value: (
+          <InfoWithTooltip
+            icon="usdCircle"
+            tooltip={amountUsd(position.earnedAmount || zeroAmount)}
+            value={`${position?.earnedAmount?.toSignificant(6)} ${position.asset.ticker}`}
+          />
+        ),
+      },
+    ],
+    [amountUsd, position],
+  );
 
   return (
     <Box col justifyCenter className="self-stretch" key={position.asset.toString()}>
@@ -83,21 +72,17 @@ export const EarnPosition = ({ assetPriceUSD, position, withdraw, deposit }: Pro
               </Box>
 
               <Text className={classNames('mx-1 md:mx-3 !transition-all')} fontWeight="semibold">
-                {position.asset.name}
+                {position.asset.ticker}
               </Text>
             </Box>
 
-            {!positionTooSmall ? (
-              <Flex>
-                <Text fontWeight="bold">
-                  {position.amount?.toSignificant(6) || 'n/a'} {position.asset.name}
-                </Text>
-                <Text>&nbsp;</Text>
-                <Text fontWeight="light">{`(${amountUsd(position.amount)})`}</Text>
-              </Flex>
-            ) : (
-              <PositionTooSmallInfo />
-            )}
+            <Flex>
+              <Text fontWeight="bold">
+                {position.amount?.toSignificant(6)} {position.asset.ticker}
+              </Text>
+              <Text>&nbsp;</Text>
+              <Text fontWeight="light">{`(${amountUsd(position.amount)})`}</Text>
+            </Flex>
           </Box>
         </Box>
 
@@ -108,9 +93,7 @@ export const EarnPosition = ({ assetPriceUSD, position, withdraw, deposit }: Pro
             <Button
               stretch
               className="!h-[32px]"
-              onClick={() => {
-                deposit(position.asset);
-              }}
+              onClick={() => deposit(position.asset)}
               variant="primary"
             >
               {t('views.liquidity.addButton')}
@@ -119,9 +102,7 @@ export const EarnPosition = ({ assetPriceUSD, position, withdraw, deposit }: Pro
             <Button
               stretch
               className="md:min-w-[100px] !h-[32px]"
-              onClick={() => {
-                withdraw(position.asset);
-              }}
+              onClick={() => withdraw(position.asset)}
               variant="outlineSecondary"
             >
               {t('common.withdraw')}

@@ -1,13 +1,12 @@
 import { Text } from '@chakra-ui/react';
-import type { Chain } from '@thorswap-lib/types';
-import { WalletOption } from '@thorswap-lib/types';
+import { type Chain, WalletOption } from '@swapkit/core';
 import { Box } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { PhraseModal } from 'components/Modals/PhraseModal';
 import { showInfoToast } from 'components/Toast';
 import { WalletIcon } from 'components/WalletIcon/WalletIcon';
 import { chainName } from 'helpers/chainName';
-import { useCallback, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { t } from 'services/i18n';
 import { IS_LEDGER_LIVE } from 'settings/config';
 import { WalletHeaderActions } from 'views/Wallet/components/WalletHeaderActions';
@@ -20,61 +19,59 @@ export type ChainHeaderProps = {
   walletType: WalletOption;
 };
 
-export const ChainHeader = ({
-  chain,
-  address,
-  walletType,
-  walletLoading = false,
-}: ChainHeaderProps) => {
-  const { handleRefreshChain, handleWalletDisconnect } = useWalletChainActions(chain);
+export const ChainHeader = memo(
+  ({ chain, address, walletType, walletLoading = false }: ChainHeaderProps) => {
+    const { handleRefreshChain, handleWalletDisconnect } = useWalletChainActions(chain);
+    const [isPhraseModalVisible, setIsPhraseModalVisible] = useState(false);
 
-  const [isPhraseModalVisible, setIsPhraseModalVisible] = useState(false);
+    const handleClosePhraseModal = useCallback(() => {
+      setIsPhraseModalVisible(false);
+    }, []);
 
-  const handleClosePhraseModal = () => {
-    setIsPhraseModalVisible(false);
-  };
+    const handleClickWalletIcon = useCallback(async () => {
+      if (walletType === WalletOption.KEYSTORE) {
+        setIsPhraseModalVisible(true);
+      }
+      const { getAddress } = await (await import('services/swapKit')).getSwapKitClient();
 
-  const handleClickWalletIcon = useCallback(async () => {
-    if (walletType === WalletOption.KEYSTORE) {
-      setIsPhraseModalVisible(true);
-    }
-    const { getAddress } = await (await import('services/swapKit')).getSwapKitClient();
+      if (walletType === WalletOption.LEDGER && !IS_LEDGER_LIVE) {
+        showInfoToast(t('notification.verifyLedgerAddy'), getAddress(chain), {
+          duration: 20 * 1000,
+        });
+      }
+    }, [walletType, chain]);
 
-    if (walletType === WalletOption.LEDGER && !IS_LEDGER_LIVE) {
-      showInfoToast(t('notification.verifyLedgerAddy'), getAddress(chain), { duration: 20 * 1000 });
-    }
-  }, [walletType, chain]);
+    return (
+      <Box className="px-2 py-1 bg-btn-light-tint dark:bg-btn-dark-tint" justify="between">
+        <Box alignCenter>
+          <HoverIcon
+            iconName="refresh"
+            onClick={handleRefreshChain}
+            size={16}
+            spin={walletLoading}
+            tooltip={t('common.refresh')}
+          />
 
-  return (
-    <Box className="px-2 py-1 bg-btn-light-tint dark:bg-btn-dark-tint" justify="between">
-      <Box alignCenter>
-        <HoverIcon
-          iconName="refresh"
-          onClick={handleRefreshChain}
-          size={16}
-          spin={walletLoading}
-          tooltip={t('common.refresh')}
-        />
+          <WalletIcon onClick={handleClickWalletIcon} size={16} walletType={walletType} />
 
-        <WalletIcon onClick={handleClickWalletIcon} size={16} walletType={walletType} />
+          <Text className="ml-1" textStyle="caption">
+            {chainName(chain, true)}
+          </Text>
+        </Box>
 
-        <Text className="ml-1" textStyle="caption">
-          {chainName(chain, true)}
-        </Text>
+        <Box alignCenter className="ph-no-capture">
+          <WalletHeaderActions address={address} chain={chain} />
+          <HoverIcon
+            color="orange"
+            iconName="disconnect"
+            onClick={handleWalletDisconnect}
+            size={16}
+            tooltip={t('common.disconnect')}
+          />
+        </Box>
+
+        <PhraseModal isOpen={isPhraseModalVisible} onCancel={handleClosePhraseModal} />
       </Box>
-
-      <Box alignCenter className="ph-no-capture">
-        <WalletHeaderActions address={address} chain={chain} />
-        <HoverIcon
-          color="orange"
-          iconName="disconnect"
-          onClick={handleWalletDisconnect}
-          size={16}
-          tooltip={t('common.disconnect')}
-        />
-      </Box>
-
-      <PhraseModal isOpen={isPhraseModalVisible} onCancel={handleClosePhraseModal} />
-    </Box>
-  );
-};
+    );
+  },
+);

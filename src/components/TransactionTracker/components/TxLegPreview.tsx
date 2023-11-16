@@ -8,9 +8,8 @@ import {
   shouldForwardProp,
   Text,
 } from '@chakra-ui/react';
-import { TxStatus } from '@thorswap-lib/swapkit-api';
-import { Amount } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { TxStatus } from '@swapkit/api';
+import { Chain, SwapKitNumber } from '@swapkit/core';
 import { AssetIcon } from 'components/AssetIcon';
 import { FallbackIcon } from 'components/AssetIcon/FallbackIcon';
 import { Button, Icon, Tooltip } from 'components/Atomic';
@@ -117,6 +116,8 @@ const colorSchemeForChain = {
   [Chain.Optimism]: 'red',
   [Chain.Polygon]: 'purple',
   [Chain.THORChain]: 'green',
+  [Chain.Maya]: 'green',
+  [Chain.Kujira]: 'green',
 };
 
 export const TxLegPreview = ({
@@ -327,7 +328,7 @@ export const TxLegPreview = ({
               <Flex align="center" direction="column" gap={horizontalView ? 1 : 0}>
                 {leg.fromAmount ? (
                   <Text fontSize="10px" lineHeight="12px" textStyle="caption-xs">
-                    {Amount.fromNormalAmount(leg.fromAmount).toSignificant(6)}
+                    {new SwapKitNumber(leg.fromAmount).toSignificant(6)}
                   </Text>
                 ) : (
                   <Icon spin className="self-center" name="loader" size={12} />
@@ -366,7 +367,7 @@ export const TxLegPreview = ({
                   <Flex align="center" direction="column" gap={horizontalView ? 1 : 0}>
                     {leg.toAmount || status === 'refund' ? (
                       <Text fontSize="10px" lineHeight="12px" textStyle="caption-xs">
-                        {Amount.fromNormalAmount(leg.toAmount || '0').toSignificant(6)}
+                        {new SwapKitNumber(leg.toAmount || '0').toSignificant(6)}
                       </Text>
                     ) : (
                       <Icon spin name="loader" size={14} />

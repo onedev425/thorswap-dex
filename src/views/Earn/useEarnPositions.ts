@@ -1,6 +1,5 @@
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import type { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@swapkit/core';
+import { AssetValue, SwapKitNumber } from '@swapkit/core';
 import { usePools } from 'hooks/usePools';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getSaverData, getSaverPools } from 'store/midgard/actions';
@@ -26,8 +25,8 @@ export const useSaverPositions = () => {
       );
       if (!saverPool) return p;
 
-      const saverDepth = Amount.fromMidgard(saverPool.savers_depth);
-      const saverUnits = Amount.fromMidgard(saverPool.savers_units);
+      const saverDepth = SwapKitNumber.fromBigInt(BigInt(saverPool.savers_depth), 8);
+      const saverUnits = SwapKitNumber.fromBigInt(BigInt(saverPool.savers_units), 8);
 
       // position amount = (saverUnits / totalSaverUnits) * saverDepth
       const amount = p.units.div(saverUnits).mul(saverDepth);
@@ -42,12 +41,12 @@ export const useSaverPositions = () => {
   }, [positions, thornodePools]);
 
   const getSaverPosition = useCallback(
-    async (asset: Asset) => {
-      const address = wallet?.[asset.L1Chain]?.address || '';
+    async (asset: AssetValue) => {
+      const address = wallet?.[asset.chain]?.address || '';
       if (address) {
-        const response = await getSaverData({ asset: asset.toString().toLowerCase(), address });
-        const units = Amount.fromMidgard(response.units);
-        const depositAmount = Amount.fromMidgard(response.asset_deposit_value);
+        const response = await getSaverData({ asset: asset.toString(), address });
+        const units = SwapKitNumber.fromBigInt(BigInt(response.units), 8);
+        const depositAmount = SwapKitNumber.fromBigInt(BigInt(response.asset_deposit_value), 8);
 
         // amount will be filled be updated with correct value when pools are loaded
         return units.gt(0)
@@ -64,7 +63,7 @@ export const useSaverPositions = () => {
     const saversAssets =
       pools
         ?.filter((pool) => pool.saversDepth !== '0')
-        .map((pool) => Asset.fromAssetString(pool.asset) as AssetEntity) || [];
+        .map((pool) => AssetValue.fromStringSync(pool.asset)!) || [];
 
     const promises = saversAssets.map(getSaverPosition);
 
@@ -73,7 +72,7 @@ export const useSaverPositions = () => {
   }, [getSaverPosition, isWalletLoading, pools]);
 
   const getPosition = useCallback(
-    (asset: Asset) => saverPositions.find((item) => item.asset.eq(asset)),
+    (asset: AssetValue) => saverPositions.find((item) => item.asset.eq(asset)),
     [saverPositions],
   );
 

@@ -1,12 +1,11 @@
-import type { AssetEntity, Wallet } from '@thorswap-lib/swapkit-core';
+import type { AssetValue, Wallet } from '@swapkit/core';
 import {
-  Amount,
-  AssetAmount,
+  Chain,
   getLiquiditySlippage,
   getMinAmountByChain,
   isGasAsset,
-} from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+  SwapKitNumber,
+} from '@swapkit/core';
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { RUNEAsset } from 'helpers/assets';
@@ -14,11 +13,13 @@ import { getEstimatedTxTime } from 'helpers/getEstimatedTxTime';
 import { parseToPercent } from 'helpers/parseHelpers';
 import { hasWalletConnected } from 'helpers/wallet';
 import { useLPMemberData } from 'hooks/useLiquidityData';
+import { useMimir } from 'hooks/useMimir';
 import { useNetworkFee } from 'hooks/useNetworkFee';
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
+import { useExternalConfig } from 'store/externalConfig/hooks';
 import { getInboundData } from 'store/midgard/actions';
 import type { PoolDetail } from 'store/midgard/types';
 import { LiquidityTypeOption } from 'store/midgard/types';
@@ -27,7 +28,6 @@ import { addTransaction, completeTransaction, updateTransaction } from 'store/tr
 import { TransactionType } from 'store/transactions/types';
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
-import { useAddLiquidityUtils } from 'views/AddLiquidity/hooks/useAddLiquidityUtils';
 import type { DepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance';
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 
@@ -36,18 +36,23 @@ import { useConfirmInfoItems } from './useConfirmInfoItems';
 type Props = {
   depositAssetsBalance: DepositAssetsBalance;
   liquidityType: LiquidityTypeOption;
-  onAddLiquidity?: (params: { runeAmount: AssetAmount; poolAsset: AssetEntity }) => void;
-  poolAsset: AssetEntity;
+  onAddLiquidity?: (params: { runeAmount: AssetValue; poolAsset: AssetValue }) => void;
+  poolAsset: AssetValue;
   poolData?: PoolDetail;
   setLiquidityType: (option: LiquidityTypeOption) => void;
   skipWalletCheck?: boolean;
   wallet: Wallet | null;
 };
 
-const toRuneAmount = (amount: Amount) => Amount.fromAssetAmount(amount.assetAmount.toString(), 8);
-
-const toAssetAmount = (amount: Amount, asset: AssetEntity) =>
-  Amount.fromAssetAmount(amount.assetAmount.toString(), asset.decimal);
+const getEstimatedPoolShareForPoolDepth = ({
+  depth,
+  poolUnits,
+  liquidityUnits,
+}: {
+  poolUnits: string;
+  liquidityUnits: string;
+  depth: string;
+}) => new SwapKitNumber(depth).mul(liquidityUnits).div(poolUnits).getValue('string');
 
 const getEstimatedPoolShareAfterAdd = ({
   runeDepth,
@@ -64,12 +69,14 @@ const getEstimatedPoolShareAfterAdd = ({
   runeDepth: string;
   assetDepth: string;
 }) => {
-  const R = Amount.fromMidgard(runeDepth);
-  const A = Amount.fromMidgard(assetDepth);
-  const P = Amount.fromMidgard(poolUnits);
-  const poolLiquidityUnits = Amount.fromMidgard(liquidityUnits);
-  const runeAddAmount = Amount.fromMidgard(runeAmount);
-  const assetAddAmount = Amount.fromMidgard(assetAmount);
+  if (runeAmount === '0' && assetAmount === '0') return 0;
+
+  const R = new SwapKitNumber({ value: runeDepth, decimal: 8 });
+  const A = new SwapKitNumber({ value: assetDepth, decimal: 8 });
+  const P = new SwapKitNumber({ value: poolUnits, decimal: 8 });
+  const poolLiquidityUnits = new SwapKitNumber({ value: liquidityUnits, decimal: 8 });
+  const runeAddAmount = new SwapKitNumber({ value: runeAmount, decimal: 8 });
+  const assetAddAmount = new SwapKitNumber({ value: assetAmount, decimal: 8 });
 
   // liquidityUnits = P * (r*A + a*R + 2*r*a) / (r*A + a*R + 2*R*A)
   const rA = runeAddAmount.mul(A);
@@ -78,11 +85,11 @@ const getEstimatedPoolShareAfterAdd = ({
   const RA = R.mul(A);
   const numerator = P.mul(rA.add(aR.add(ra.mul(2))));
   const denominator = rA.add(aR.add(RA.mul(2)));
-  const diffAfterAdd = numerator.div(denominator);
+  const diffAfterAdd = numerator.div(denominator || 1);
   const estimatedLiquidityUnits = poolLiquidityUnits.mul(diffAfterAdd);
 
   if (diffAfterAdd.gt(0)) {
-    return estimatedLiquidityUnits.div(P).assetAmount.toNumber();
+    return estimatedLiquidityUnits.div(P || 1).getValue('number');
   }
 
   return 0;
@@ -96,12 +103,12 @@ const getMaxSymAmounts = ({
   minAssetAmount,
   minRuneAmount,
 }: {
-  assetAmount: Amount;
-  runeAmount: Amount;
+  assetAmount: AssetValue | SwapKitNumber;
+  runeAmount: AssetValue | SwapKitNumber;
   runePriceInAsset: number;
   assetPriceInRune: number;
-  minAssetAmount: Amount;
-  minRuneAmount: Amount;
+  minAssetAmount: SwapKitNumber | AssetValue;
+  minRuneAmount: SwapKitNumber | AssetValue;
 }) => {
   const symAssetAmount = runeAmount.mul(runePriceInAsset);
 
@@ -137,6 +144,9 @@ export const useAddLiquidity = ({
 }: Props) => {
   const appDispatch = useAppDispatch();
   const { expertMode } = useApp();
+  const { setIsConnectModalOpen } = useWallet();
+  const { isChainPauseLPAction } = useMimir();
+  const { getChainDepositLPPaused } = useExternalConfig();
   const [contract, setContract] = useState<string | undefined>();
   const { data: tokenPricesData } = useTokenPrices([RUNEAsset, poolAsset]);
 
@@ -147,8 +157,11 @@ export const useAddLiquidity = ({
     poolAssetBalance,
     maxPoolAssetBalance,
   } = depositAssetsBalance;
-  const { setIsConnectModalOpen } = useWallet();
-  const { isLPActionPaused } = useAddLiquidityUtils({ poolAsset });
+
+  const isLPActionPaused = useMemo(() => {
+    return isChainPauseLPAction(poolAsset.chain) || getChainDepositLPPaused(poolAsset.chain);
+  }, [isChainPauseLPAction, poolAsset.chain, getChainDepositLPPaused]);
+
   const { lpMemberData, isAssetPending, isRunePending } = useLPMemberData(poolAsset.toString());
 
   const isSymDeposit = useMemo(
@@ -156,8 +169,8 @@ export const useAddLiquidity = ({
     [liquidityType, expertMode],
   );
 
-  const [assetAmount, setAssetAmount] = useState<Amount>(Amount.fromAssetAmount(0, 8));
-  const [runeAmount, setRuneAmount] = useState<Amount>(Amount.fromAssetAmount(0, 8));
+  const [assetAmount, setAssetAmount] = useState(new SwapKitNumber({ value: 0, decimal: 8 }));
+  const [runeAmount, setRuneAmount] = useState(new SwapKitNumber({ value: 0, decimal: 8 }));
 
   const [visibleConfirmModal, setVisibleConfirmModal] = useState(false);
   const [visibleApproveModal, setVisibleApproveModal] = useState(false);
@@ -174,20 +187,20 @@ export const useAddLiquidity = ({
 
   const liquidityParams = useMemo(
     () => ({
-      runeAmount: runeAmount.assetAmount.toString(),
-      assetAmount: assetAmount.assetAmount.toString(),
+      runeAmount: runeAmount.getValue('string'),
+      assetAmount: assetAmount.getValue('string'),
       runeDepth: poolData?.runeDepth ?? '0',
       assetDepth: poolData?.assetDepth ?? '0',
       liquidityUnits: poolData?.liquidityUnits ?? '0',
       poolUnits: poolData?.units ?? '0',
     }),
     [
-      assetAmount.assetAmount,
+      assetAmount,
       poolData?.assetDepth,
       poolData?.liquidityUnits,
       poolData?.runeDepth,
       poolData?.units,
-      runeAmount.assetAmount,
+      runeAmount,
     ],
   );
 
@@ -237,54 +250,44 @@ export const useAddLiquidity = ({
   }, [getContractAddress, poolAsset.chain]);
 
   const { isApproved, isLoading } = useIsAssetApproved({
-    asset: poolAsset,
+    assetValue: poolAsset.set(assetAmount),
     contract,
     force: true,
-    amount: assetAmount.gt(0) ? assetAmount : undefined,
   });
 
+  const poolString = useMemo(() => poolAsset.toString(), [poolAsset]);
+
   const poolAssetPriceInUSD = useMemo(() => {
-    const price =
-      Number(poolData?.assetPriceUSD) || tokenPricesData[poolAsset.symbol]?.price_usd || 0;
+    const price = tokenPricesData[poolString]?.price_usd || 0;
     const amount =
       (isAssetPending &&
-        Amount.fromMidgard(lpMemberData?.assetPending || '0').assetAmount.toNumber()) ||
-      assetAmount.assetAmount.toNumber();
+        SwapKitNumber.fromBigInt(BigInt(lpMemberData?.assetPending || '0')).getValue('number')) ||
+      assetAmount.getValue('number');
 
     return price * amount;
-  }, [
-    poolData,
-    tokenPricesData,
-    poolAsset.symbol,
-    isAssetPending,
-    lpMemberData?.assetPending,
-    assetAmount.assetAmount,
-  ]);
+  }, [tokenPricesData, poolString, isAssetPending, lpMemberData?.assetPending, assetAmount]);
 
-  const minRuneAmount: Amount = useMemo(
-    () => getMinAmountByChain(Chain.THORChain as Chain).amount,
-    [],
-  );
-  const minAssetAmount: Amount = useMemo(() => {
+  const minRuneAmount = useMemo(() => getMinAmountByChain(Chain.THORChain as Chain), []);
+  const minAssetAmount = useMemo(() => {
     if (isGasAsset(poolAsset)) {
       return getMinAmountByChain(poolAsset.chain);
     }
 
-    return Amount.fromAssetAmount(0, 8);
+    return new SwapKitNumber({ value: 0, decimal: 8 });
   }, [poolAsset]);
 
   const { maxSymAssetAmount, maxSymRuneAmount } = useMemo(() => {
     if (!poolData) {
       return {
-        maxSymAssetAmount: Amount.fromAssetAmount(0, 8),
-        maxSymRuneAmount: Amount.fromAssetAmount(0, 8),
+        maxSymAssetAmount: new SwapKitNumber({ value: 0, decimal: 8 }),
+        maxSymRuneAmount: new SwapKitNumber({ value: 0, decimal: 8 }),
       };
     }
 
     if (isAssetPending && lpMemberData) {
       return getMaxSymAmounts({
         runeAmount: maxRuneBalance,
-        assetAmount: Amount.fromMidgard(lpMemberData?.assetPending),
+        assetAmount: SwapKitNumber.fromBigInt(BigInt(lpMemberData.assetPending), 8),
         runePriceInAsset,
         assetPriceInRune,
         minAssetAmount,
@@ -292,9 +295,9 @@ export const useAddLiquidity = ({
       });
     }
 
-    if (isRunePending && lpMemberData) {
+    if (maxPoolAssetBalance && isRunePending && lpMemberData) {
       return getMaxSymAmounts({
-        runeAmount: Amount.fromMidgard(lpMemberData?.runePending),
+        runeAmount: SwapKitNumber.fromBigInt(BigInt(lpMemberData.runePending), 8),
         assetAmount: maxPoolAssetBalance,
         runePriceInAsset,
         assetPriceInRune,
@@ -304,8 +307,8 @@ export const useAddLiquidity = ({
     }
 
     return getMaxSymAmounts({
-      runeAmount: maxRuneBalance,
-      assetAmount: maxPoolAssetBalance,
+      runeAmount: maxRuneBalance || SwapKitNumber.fromBigInt(BigInt(0), 8),
+      assetAmount: maxPoolAssetBalance || SwapKitNumber.fromBigInt(BigInt(0), 8),
       runePriceInAsset,
       assetPriceInRune,
       minAssetAmount,
@@ -327,9 +330,9 @@ export const useAddLiquidity = ({
   const handleSelectLiquidityType = useCallback(
     (type: LiquidityTypeOption) => {
       if (type === LiquidityTypeOption.ASSET) {
-        setRuneAmount(Amount.fromAssetAmount(0, 8));
+        setRuneAmount(new SwapKitNumber({ value: 0, decimal: 8 }));
       } else if (type === LiquidityTypeOption.RUNE) {
-        setAssetAmount(Amount.fromAssetAmount(0, 8));
+        setAssetAmount(new SwapKitNumber({ value: 0, decimal: 8 }));
       }
 
       setLiquidityType(type);
@@ -338,24 +341,29 @@ export const useAddLiquidity = ({
   );
 
   const handleChangeAssetAmount = useCallback(
-    (amount: Amount) => {
+    (amount: SwapKitNumber) => {
       if (!poolData) {
-        setAssetAmount(toAssetAmount(amount, poolAsset));
+        setAssetAmount(amount);
         return;
       }
 
       const maxAmount = isSymDeposit ? maxSymAssetAmount : maxPoolAssetBalance;
-      if (amount.gt(maxAmount) && !skipWalletCheck) {
-        setAssetAmount(toAssetAmount(maxAmount, poolAsset));
+      if (maxAmount && amount.gt(maxAmount) && !skipWalletCheck) {
+        setAssetAmount(new SwapKitNumber({ value: maxAmount.getValue('string'), decimal: 8 }));
 
         if (isSymDeposit) {
-          setRuneAmount(toRuneAmount(maxAmount.mul(assetPriceInRune)));
+          setRuneAmount(
+            new SwapKitNumber({
+              value: maxAmount.mul(assetPriceInRune).getValue('string'),
+              decimal: 8,
+            }),
+          );
         }
       } else {
-        setAssetAmount(toAssetAmount(amount, poolAsset));
+        setAssetAmount(amount);
 
         if (isSymDeposit) {
-          setRuneAmount(toRuneAmount(amount.mul(assetPriceInRune)));
+          setRuneAmount(amount.mul(assetPriceInRune));
         }
       }
     },
@@ -365,64 +373,52 @@ export const useAddLiquidity = ({
       maxSymAssetAmount,
       maxPoolAssetBalance,
       skipWalletCheck,
-      poolAsset,
       assetPriceInRune,
     ],
   );
 
   const handleChangeRuneAmount = useCallback(
-    (amount: Amount) => {
+    (amount: SwapKitNumber) => {
       if (!poolData) {
-        setRuneAmount(toRuneAmount(amount));
+        setRuneAmount(amount);
         return;
       }
 
       const maxAmount = isSymDeposit ? maxSymRuneAmount : maxRuneBalance;
       if (amount.gt(maxAmount) && !skipWalletCheck) {
-        setRuneAmount(toRuneAmount(maxAmount));
+        setRuneAmount(new SwapKitNumber({ value: maxAmount.getValue('string'), decimal: 8 }));
 
         if (isSymDeposit) {
-          setAssetAmount(toAssetAmount(maxAmount.mul(runePriceInAsset), poolAsset));
+          setAssetAmount(
+            new SwapKitNumber({
+              value: maxAmount.mul(runePriceInAsset).getValue('string'),
+              decimal: 8,
+            }),
+          );
         }
       } else {
-        setRuneAmount(toRuneAmount(amount));
+        setRuneAmount(amount);
         if (isSymDeposit) {
-          setAssetAmount(toAssetAmount(amount.mul(runePriceInAsset), poolAsset));
+          setAssetAmount(amount.mul(runePriceInAsset));
         }
       }
     },
-    [
-      poolData,
-      isSymDeposit,
-      maxSymRuneAmount,
-      maxRuneBalance,
-      skipWalletCheck,
-      runePriceInAsset,
-      poolAsset,
-    ],
+    [poolData, isSymDeposit, maxSymRuneAmount, maxRuneBalance, skipWalletCheck, runePriceInAsset],
   );
 
   const handleConfirmAdd = useCallback(async () => {
     setVisibleConfirmModal(false);
     if (onAddLiquidity && poolAsset && liquidityType !== LiquidityTypeOption.ASSET) {
-      const runeAssetAmount = new AssetAmount(RUNEAsset, runeAmount);
-      onAddLiquidity({ poolAsset, runeAmount: runeAssetAmount });
+      onAddLiquidity({ poolAsset, runeAmount: RUNEAsset.set(runeAmount) });
 
       return;
     }
 
     if (wallet && poolData) {
       const runeAssetAmount =
-        liquidityType !== LiquidityTypeOption.ASSET
-          ? new AssetAmount(RUNEAsset, runeAmount)
-          : undefined;
+        liquidityType !== LiquidityTypeOption.ASSET ? RUNEAsset.set(runeAmount) : undefined;
       const poolAssetAmount =
-        liquidityType !== LiquidityTypeOption.RUNE
-          ? new AssetAmount(
-              poolAsset,
-              Amount.fromAssetAmount(assetAmount.assetAmount.toString(), poolAsset.decimal),
-            )
-          : undefined;
+        liquidityType !== LiquidityTypeOption.RUNE ? poolAsset.set(assetAmount) : undefined;
 
       const runeId = v4();
       const assetId = v4();
@@ -432,7 +428,7 @@ export const useAddLiquidity = ({
           addTransaction({
             id: runeId,
             label: t('txManager.addAmountAsset', {
-              asset: RUNEAsset.name,
+              asset: RUNEAsset.ticker,
               amount: runeAmount.toSignificant(6),
             }),
             type: TransactionType.TC_LP_ADD,
@@ -446,11 +442,11 @@ export const useAddLiquidity = ({
           addTransaction({
             id: assetId,
             label: t('txManager.addAmountAsset', {
-              asset: poolAsset.name,
+              asset: poolAsset.ticker,
               amount: assetAmount.toSignificant(6),
             }),
             type: TransactionType.TC_LP_ADD,
-            inChain: poolAsset.L1Chain,
+            inChain: poolAsset.chain,
           }),
         );
       }
@@ -527,7 +523,7 @@ export const useAddLiquidity = ({
     if (isWalletAssetConnected(poolAsset)) {
       const id = v4();
       const type =
-        poolAsset.L1Chain === Chain.Ethereum
+        poolAsset.chain === Chain.Ethereum
           ? TransactionType.ETH_APPROVAL
           : TransactionType.AVAX_APPROVAL;
 
@@ -535,15 +531,15 @@ export const useAddLiquidity = ({
         addTransaction({
           id,
           type,
-          label: `${t('txManager.approve')} ${poolAsset.name}`,
-          inChain: poolAsset.L1Chain,
+          label: `${t('txManager.approve')} ${poolAsset.ticker}`,
+          inChain: poolAsset.chain,
         }),
       );
 
-      const { approveAsset } = await (await import('services/swapKit')).getSwapKitClient();
+      const { approveAssetValue } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
-        const txid = await approveAsset(poolAsset);
+        const txid = await approveAssetValue(poolAsset);
 
         if (typeof txid === 'string') {
           appDispatch(updateTransaction({ id, txid }));
@@ -573,7 +569,7 @@ export const useAddLiquidity = ({
     }
   }, [wallet]);
 
-  const depositAssets: AssetEntity[] = useMemo(() => {
+  const depositAssets = useMemo(() => {
     if (liquidityType === LiquidityTypeOption.RUNE) {
       return [RUNEAsset];
     }
@@ -600,10 +596,7 @@ export const useAddLiquidity = ({
     ];
   }, [liquidityType, poolAsset, assetAmount, runeAmount]);
 
-  const isValidDeposit: {
-    valid: boolean;
-    msg?: string;
-  } = useMemo(() => {
+  const isValidDeposit = useMemo(() => {
     if (isLPActionPaused) {
       return { valid: false, msg: t('notification.notAvailableDeposit') };
     }
@@ -669,26 +662,26 @@ export const useAddLiquidity = ({
       asset: poolAsset,
       balance: poolAssetBalance,
       usdPrice: poolAssetPriceInUSD,
-      value: Amount.fromAssetAmount(
-        (isAssetPending && lpMemberData
-          ? Amount.fromMidgard(lpMemberData.assetPending)
-          : assetAmount
-        ).assetAmount.toString(),
-        poolAsset.decimal,
-      ),
+      value:
+        isAssetPending && lpMemberData
+          ? SwapKitNumber.fromBigInt(BigInt(lpMemberData.assetPending), poolAsset.decimal)
+          : assetAmount,
     }),
     [poolAsset, poolAssetBalance, poolAssetPriceInUSD, isAssetPending, lpMemberData, assetAmount],
   );
 
   const runeAssetInput = useMemo(() => {
     const value =
-      isRunePending && lpMemberData ? Amount.fromMidgard(lpMemberData.runePending) : runeAmount;
-    const runePrice = tokenPricesData[`${RUNEAsset.chain}.${RUNEAsset.symbol}`]?.price_usd || 0;
+      isRunePending && lpMemberData
+        ? SwapKitNumber.fromBigInt(BigInt(lpMemberData.runePending), 8)
+        : runeAmount;
+    // This might not be correct
+    const runePrice = tokenPricesData[RUNEAsset.toString(true)]?.price_usd || 0;
 
     return {
       asset: RUNEAsset,
       balance: runeBalance,
-      usdPrice: runePrice * value.assetAmount.toNumber(),
+      usdPrice: runePrice * value.getValue('number'),
       value,
     };
   }, [isRunePending, lpMemberData, runeAmount, runeBalance, tokenPricesData]);
@@ -719,15 +712,17 @@ export const useAddLiquidity = ({
     estimatedTime,
     totalFee: feeInUSD,
     fees: [
-      { chain: poolAsset.L1Chain, fee: inboundAssetFee.toCurrencyFormat() },
-      { chain: Chain.THORChain, fee: inboundRuneFee.toCurrencyFormat() },
+      // TODO make sure this works
+      { chain: poolAsset.chain, fee: inboundAssetFee.toSignificant() },
+      { chain: Chain.THORChain, fee: inboundRuneFee.toSignificant() },
     ],
   });
 
   const approveConfirmInfo = useApproveInfoItems({
-    assetName: poolAsset.name,
+    assetName: poolAsset.ticker,
     assetValue: assetAmount.toSignificant(6),
-    fee: inboundAssetFee.toCurrencyFormat(),
+    // TODO make sure this works
+    fee: inboundAssetFee.toSignificant(),
   });
 
   const isDepositAvailable = useMemo(
@@ -736,11 +731,11 @@ export const useAddLiquidity = ({
   );
 
   const rate = useMemo(() => {
-    const runePrice = tokenPricesData[RUNEAsset.symbol]?.price_usd || 0;
-    const assetPrice = tokenPricesData[poolAsset.symbol]?.price_usd || 0;
+    const runePrice = tokenPricesData[RUNEAsset.toString()]?.price_usd || 0;
+    const assetPrice = tokenPricesData[poolString]?.price_usd || 0;
 
     return runePrice / assetPrice;
-  }, [poolAsset.symbol, tokenPricesData]);
+  }, [poolString, tokenPricesData]);
 
   return {
     addLiquiditySlip,
@@ -776,5 +771,6 @@ export const useAddLiquidity = ({
     feeInUSD,
     visibleApproveModal,
     visibleConfirmModal,
+    getEstimatedPoolShareForPoolDepth,
   };
 };

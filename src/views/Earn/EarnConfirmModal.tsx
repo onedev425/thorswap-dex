@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { Amount, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue, SwapKitNumber } from '@swapkit/core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Icon } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
@@ -8,17 +8,17 @@ import { useMemo } from 'react';
 import { t } from 'services/i18n';
 
 type Props = {
-  asset: AssetEntity;
-  amount: Amount;
+  asset: AssetValue;
+  amount: SwapKitNumber;
   onClose: () => void;
   isOpened: boolean;
   onConfirm: (expectedAmount: string) => void;
   tabLabel: string;
   outboundDelay?: number;
-  slippage?: Amount;
-  expectedOutputAmount?: Amount;
+  slippage?: SwapKitNumber;
+  expectedOutputAmount?: SwapKitNumber;
   expectedAmountOut?: string;
-  networkFee: AssetAmount;
+  networkFee: AssetValue;
   timeToBreakEvenInfo: React.ReactNode;
 };
 
@@ -49,21 +49,21 @@ export const EarnConfirmModal = ({
 
   const txInfos = [
     { label: t('common.action'), value: tabLabel },
-    { label: t('common.asset'), value: `${asset.name}`, icon: asset },
+    { label: t('common.asset'), value: `${asset.ticker}`, icon: asset },
 
     { label: t('views.wallet.estimatedTime'), value: estimatedTime || 'N/A' },
     {
       label: t('views.wallet.networkFee'),
-      value: `${networkFee.toSignificant(6)} ${networkFee.asset.name}`,
+      value: `${networkFee.toSignificant(6)} ${networkFee.ticker}`,
     },
     {
       label: t('common.slippage'),
-      value: `${slippage?.toSignificant(6) || 0} ${asset.name}`,
+      value: `${slippage?.toSignificant(6) || 0} ${asset.ticker}`,
     },
     {
       label: tabLabel,
       value: expectedOutputAmount ? (
-        `${expectedOutputAmount.toSignificant(6)} ${asset.name}`
+        `${expectedOutputAmount.toSignificant(6)} ${asset.ticker}`
       ) : networkFee.gte(amount) ? (
         t('views.savings.notEnoughForOutboundFee')
       ) : (

@@ -1,8 +1,7 @@
 import { Box, Flex } from '@chakra-ui/react';
-import type { QuoteRoute } from '@thorswap-lib/swapkit-api';
-import type { AssetEntity, QuoteMode } from '@thorswap-lib/swapkit-core';
-import { Amount, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { BaseDecimal, Chain, WalletOption } from '@thorswap-lib/types';
+import type { QuoteRoute } from '@swapkit/api';
+import type { QuoteMode } from '@swapkit/core';
+import { AssetValue, BaseDecimal, Chain, SwapKitNumber, WalletOption } from '@swapkit/core';
 import { Analysis } from 'components/Analysis/Analysis';
 import { easeInOutTransition } from 'components/constants';
 import { InfoTip } from 'components/InfoTip';
@@ -16,8 +15,9 @@ import { useBalance } from 'hooks/useBalance';
 import { useRouteFees } from 'hooks/useRouteFees';
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { t } from 'services/i18n';
+import { captureEvent } from 'services/postHog';
 import { IS_LEDGER_LIVE } from 'settings/config';
 import { getKyberSwapRoute, getSwapRoute } from 'settings/router';
 import { useApp } from 'store/app/hooks';
@@ -35,30 +35,54 @@ import { ConfirmSwapModal } from './ConfirmSwapModal';
 import { CustomRecipientInput } from './CustomRecipientInput';
 import { useSwap } from './hooks/useSwap';
 import { useSwapApprove } from './hooks/useSwapApprove';
-import { useSwapPair } from './hooks/useSwapPair';
 import { useSwapQuote } from './hooks/useSwapQuote';
 import { SwapHeader } from './SwapHeader';
 import { SwapInfo } from './SwapInfo';
 import { SwapSubmitButton } from './SwapSubmitButton';
 
+const baseInput = AssetValue.fromChainOrSignature(IS_LEDGER_LIVE ? Chain.Bitcoin : Chain.Ethereum);
+const baseOutput = AssetValue.fromChainOrSignature(IS_LEDGER_LIVE ? Chain.Ethereum : Chain.Bitcoin);
+
 const SwapView = () => {
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
   const { getMaxBalance } = useBalance();
-  const { inputAmountAssetString, setInputAmountAssetString, inputAsset, outputAsset } =
-    useSwapPair();
   const { wallet, keystore } = useWallet();
   const { analyticsVisible, toggleAnalytics } = useApp();
+  const { pair } = useParams<{ pair: string }>();
+  const [inputString, outputString] = useMemo(() => (pair || '').split('_'), [pair]);
+
+  const input = useMemo(() => {
+    if (!pair || !inputString) return baseInput;
+
+    return AssetValue.fromStringSync(inputString) || baseInput;
+  }, [inputString, pair]);
+
+  const output = useMemo(() => {
+    if (!pair || !outputString) return baseOutput;
+
+    return AssetValue.fromStringSync(outputString) || baseOutput;
+  }, [outputString, pair]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const inputAsset = useMemo(() => input, [input.toString()]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const outputAsset = useMemo(() => output, [output.toString()]);
+
+  useEffect(() => {
+    captureEvent('swapPair', { sell: inputAsset.toString(), buy: outputAsset.toString() });
+  }, [inputAsset, outputAsset]);
 
   const [maxNewInputBalance, setMaxNewInputBalance] = useState(zeroAmount);
-  const [maxInputBalance, setMaxInputBalance] = useState(zeroAmount);
+  const [maxInputBalance, setMaxInputBalance] = useState<AssetValue | undefined>(input.set(0));
 
   const [recipient, setRecipient] = useState('');
   const [sender, setSender] = useState('');
   const [visibleConfirmModal, setVisibleConfirmModal] = useState(false);
   const [visibleApproveModal, setVisibleApproveModal] = useState(false);
   const [feeModalOpened, setFeeModalOpened] = useState(false);
-  const formatPrice = useFormatPrice({ groupSize: 0 });
+  const formatPrice = useFormatPrice();
   const ethAddress = useMemo(() => wallet?.ETH?.address, [wallet]);
 
   const { tokens } = useTokenList();
@@ -67,45 +91,48 @@ const SwapView = () => {
     () => [
       tokens.find(
         ({ identifier }) =>
-          identifier.toUpperCase() === `${inputAsset.L1Chain}.${inputAsset.symbol}`.toUpperCase(),
+          identifier.toUpperCase() === `${inputAsset.chain}.${inputAsset.symbol}`.toUpperCase(),
       ),
       tokens.find(
         ({ identifier }) =>
-          identifier.toUpperCase() === `${outputAsset.L1Chain}.${outputAsset.symbol}`.toUpperCase(),
+          identifier.toUpperCase() === `${outputAsset.chain}.${outputAsset.symbol}`.toUpperCase(),
       ),
     ],
-    [inputAsset.L1Chain, inputAsset.symbol, outputAsset.L1Chain, outputAsset.symbol, tokens],
+    [inputAsset.chain, inputAsset.symbol, outputAsset.chain, outputAsset.symbol, tokens],
   );
 
   const inputAmount = useMemo(
-    () => Amount.fromAssetAmount(inputAmountAssetString, inputAsset.decimal),
-    [inputAsset, inputAmountAssetString],
+    () =>
+      new SwapKitNumber({
+        value: searchParams.get('sellAmount') || '0',
+        decimal: inputAsset.decimal,
+      }),
+    [inputAsset.decimal, searchParams],
   );
 
   const setInputAmount = useCallback(
-    (value: Amount) => {
-      const assetAmountString = value.assetAmount.toString();
+    (value: SwapKitNumber) => {
+      const assetAmountString = value.getValue('string');
       const assetRoutePath = location.pathname.split('?')[0];
 
       navigate(`${assetRoutePath}?sellAmount=${assetAmountString}`);
-      setInputAmountAssetString(assetAmountString);
     },
-    [location.pathname, navigate, setInputAmountAssetString],
+    [location.pathname, navigate],
   );
 
   useEffect(() => {
     if (IS_LEDGER_LIVE) {
-      setRecipient(wallet[outputAsset.L1Chain]?.address || '');
-      setSender(wallet[inputAsset.L1Chain]?.address || '');
+      setRecipient(wallet[outputAsset.chain]?.address || '');
+      setSender(wallet[inputAsset.chain]?.address || '');
       return;
     }
     import('services/swapKit')
       .then(({ getSwapKitClient }) => getSwapKitClient())
       .then(({ getAddress }) => {
-        setRecipient(getAddress(outputAsset.L1Chain) || '');
-        setSender(getAddress(inputAsset.L1Chain) || '');
+        setRecipient(getAddress(outputAsset.chain) || '');
+        setSender(getAddress(inputAsset.chain) || '');
       });
-  }, [inputAsset.L1Chain, outputAsset, wallet]);
+  }, [inputAsset.chain, outputAsset, wallet]);
 
   useEffect(() => {
     const inputDecimal =
@@ -114,16 +141,16 @@ const SwapView = () => {
       isETHAsset(outputAsset) || isAVAXAsset(outputAsset) ? BaseDecimal.ETH : outputToken?.decimals;
 
     if (tokens.length) {
-      inputAsset.setDecimal(inputDecimal);
-      outputAsset.setDecimal(outputDecimal);
+      inputAsset.decimal = inputDecimal;
+      outputAsset.decimal = outputDecimal;
     }
   }, [inputAsset, inputToken?.decimals, outputAsset, outputToken?.decimals, tokens]);
 
   const noPriceProtection = useMemo(
     () =>
-      [Chain.Litecoin, Chain.Dogecoin, Chain.BitcoinCash].includes(inputAsset.L1Chain) &&
-      wallet?.[inputAsset.L1Chain]?.walletType === WalletOption.LEDGER,
-    [inputAsset.L1Chain, wallet],
+      [Chain.Litecoin, Chain.Dogecoin, Chain.BitcoinCash].includes(inputAsset.chain) &&
+      wallet?.[inputAsset.chain]?.walletType === WalletOption.LEDGER,
+    [inputAsset.chain, wallet],
   );
 
   const {
@@ -139,7 +166,7 @@ const SwapView = () => {
     return {
       outputUnitPrice,
       inputUnitPrice,
-      inputUSDPrice: inputUnitPrice * inputAmount.assetAmount.toNumber(),
+      inputUSDPrice: inputUnitPrice * inputAmount.getValue('number'),
     };
   }, [pricesData, inputAsset, outputAsset, inputAmount]);
 
@@ -164,8 +191,7 @@ const SwapView = () => {
     inputUSDPrice,
     ethAddress,
     noPriceProtection,
-    inputAmount,
-    inputAsset,
+    inputAsset: inputAsset.set(inputAmount.getValue('string')),
     outputAsset,
     senderAddress: sender,
     recipientAddress: recipient,
@@ -174,7 +200,7 @@ const SwapView = () => {
   const { isKyberSwapPage, kyberRoutes } = useKyberSwap({ routes });
 
   const outputUSDPrice = useMemo(
-    () => outputUnitPrice * outputAmount.assetAmount.toNumber(),
+    () => outputUnitPrice * outputAmount.getValue('number'),
     [outputUnitPrice, outputAmount],
   );
 
@@ -182,11 +208,6 @@ const SwapView = () => {
     () => inputAsset && hasWalletConnected({ wallet, inputAssets: [inputAsset] }),
     [wallet, inputAsset],
   );
-
-  useEffect(() => {
-    setMaxInputBalance(zeroAmount);
-    getMaxBalance(inputAsset).then((maxBalance) => setMaxInputBalance(maxBalance || zeroAmount));
-  }, [inputAsset, getMaxBalance]);
 
   const inputAssetBalance = useMemo(
     () => (isInputWalletConnected ? maxInputBalance : undefined),
@@ -251,21 +272,28 @@ const SwapView = () => {
   );
 
   const handleSelectAsset = useCallback(
-    (type: 'input' | 'output') => async (asset: AssetEntity) => {
+    (type: 'input' | 'output') => async (asset: AssetValue) => {
       const isInput = type === 'input';
       const input = !isInput ? (asset.eq(inputAsset) ? outputAsset : inputAsset) : asset;
       const output = isInput ? (asset.eq(outputAsset) ? inputAsset : outputAsset) : asset;
 
       if (isInput) {
         const maxNewInputBalance = (await getMaxBalance(asset)) || zeroAmount;
-        setInputAmount(inputAmount.gt(maxNewInputBalance) ? maxNewInputBalance : inputAmount);
+        setInputAmount(
+          inputAmount.gt(maxNewInputBalance)
+            ? new SwapKitNumber({
+                value: maxNewInputBalance.getValue('string'),
+                decimal: maxNewInputBalance.decimal,
+              })
+            : inputAmount,
+        );
       }
 
       const route = isKyberSwapPage
         ? getKyberSwapRoute(input, output)
         : getSwapRoute(input, output);
 
-      navigate(`${route}?sellAmount=${inputAmount.assetAmount.toString()}`);
+      navigate(`${route}?sellAmount=${inputAmount.getValue('string')}`);
     },
     [
       getMaxBalance,
@@ -284,14 +312,14 @@ const SwapView = () => {
         outputAmount.gt(maxNewInputBalance) ? maxNewInputBalance : outputAmount,
       );
       const defaultAsset = isETHAsset(outputAsset)
-        ? getSignatureAssetFor(!IS_LEDGER_LIVE ? 'ETH_THOR' : Chain.Bitcoin)
-        : getSignatureAssetFor(Chain.Ethereum);
+        ? AssetValue.fromChainOrSignature(!IS_LEDGER_LIVE ? 'ETH.THOR' : Chain.Bitcoin)
+        : AssetValue.fromChainOrSignature(Chain.Ethereum);
       const output = unsupportedOutput ? defaultAsset : inputAsset;
       const route = isKyberSwapPage
         ? getKyberSwapRoute(outputAsset, output)
         : getSwapRoute(outputAsset, output);
 
-      navigate(`${route}?sellAmount=${outputAmount.assetAmount.toString()}`);
+      navigate(`${route}?sellAmount=${outputAmount.getValue('string')}`);
     },
     [outputAmount, maxNewInputBalance, outputAsset, inputAsset, isKyberSwapPage, navigate],
   );
@@ -302,10 +330,8 @@ const SwapView = () => {
   }, [refetchPrice, refetchQuote]);
 
   const handleSwap = useSwap({
-    inputAmount,
-    inputAsset,
-    outputAmount,
-    outputAsset,
+    inputAsset: inputAsset.set(inputAmount),
+    outputAsset: outputAsset.set(outputAmount),
     quoteMode,
     recipient,
     route: selectedRoute as unknown as QuoteRoute,
@@ -313,14 +339,21 @@ const SwapView = () => {
     streamSwap,
   });
 
+  useEffect(() => {
+    setMaxInputBalance(undefined);
+    getMaxBalance(inputAsset).then((maxBalance) => setMaxInputBalance(maxBalance));
+  }, [inputAsset, getMaxBalance]);
+
   const slippage = (inputUSDPrice - outputUSDPrice) / inputUSDPrice;
   const minReceiveSlippage =
-    (inputUSDPrice - minReceive.assetAmount.toNumber() * outputUnitPrice) / inputUSDPrice;
+    (inputUSDPrice - minReceive.getValue('number') * outputUnitPrice) / inputUSDPrice;
 
   const minReceiveInfo = useMemo(
     () =>
-      minReceive.gte(0) ? `${minReceive.toSignificant(6)} ${outputAsset.name.toUpperCase()}` : '-',
-    [minReceive, outputAsset.name],
+      minReceive.gte(0)
+        ? `${minReceive.toSignificant(6)} ${outputAsset.ticker.toUpperCase()}`
+        : '-',
+    [minReceive, outputAsset.ticker],
   );
 
   const isOutputWalletConnected = useMemo(
@@ -329,8 +362,8 @@ const SwapView = () => {
   );
 
   const showTransactionFeeSelect = useMemo(
-    () => isInputWalletConnected && inputAsset.L1Chain === Chain.Ethereum && !!keystore,
-    [inputAsset.L1Chain, isInputWalletConnected, keystore],
+    () => isInputWalletConnected && inputAsset.chain === Chain.Ethereum && !!keystore,
+    [inputAsset.chain, isInputWalletConnected, keystore],
   );
 
   const isAvaxTHOR = useMemo(
@@ -354,34 +387,42 @@ const SwapView = () => {
   }, [inputAsset, isAvaxTHOR, isEthRUNE]);
 
   const invalidSwap = useMemo(
-    () => inputAmount.gt(maxInputBalance),
+    () => (maxInputBalance ? inputAmount.gt(maxInputBalance) : false),
     [inputAmount, maxInputBalance],
   );
+
+  const assetTickers = useMemo(
+    () => [inputAsset.ticker, outputAsset.ticker] as [string, string],
+    [inputAsset.ticker, outputAsset.ticker],
+  );
+
+  const onInputAmountChange = useCallback(() => handleSelectAsset('input'), [handleSelectAsset]);
+  const onOutputAmountChange = useCallback(() => handleSelectAsset('output'), [handleSelectAsset]);
 
   return (
     <Flex alignSelf="center" gap={3} mt={2} w="full">
       <Box m="auto" transition={easeInOutTransition}>
         <PanelView
           description={t('views.swap.description', {
-            inputAsset: inputAsset.name.toUpperCase(),
-            outputAsset: outputAsset.name.toUpperCase(),
+            inputAsset: inputAsset.ticker.toUpperCase(),
+            outputAsset: outputAsset.ticker.toUpperCase(),
           })}
           header={
             <SwapHeader
-              inputAssetChain={inputAsset.L1Chain}
+              inputAssetChain={inputAsset.chain}
               isSidebarVisible={analyticsVisible}
               refetchData={!selectedRoute || isFetching || isPriceLoading ? undefined : refetchData}
               toggleSidebar={() => toggleAnalytics(!analyticsVisible)}
             />
           }
-          keywords={`${inputAsset.name}, ${outputAsset.name}, SWAP, THORSwap, THORChain, DEX, DeFi`}
-          title={`${t('common.swap')} ${inputAsset.name} to ${outputAsset.name}`}
+          keywords={`${inputAsset.ticker}, ${outputAsset.ticker}, SWAP, THORSwap, THORChain, DEX, DeFi`}
+          title={`${t('common.swap')} ${inputAsset.ticker} to ${outputAsset.ticker}`}
         >
           <AssetInputs
             inputAsset={inputAssetProps}
             onInputAmountChange={setInputAmount}
-            onInputAssetChange={handleSelectAsset('input')}
-            onOutputAssetChange={handleSelectAsset('output')}
+            onInputAssetChange={onInputAmountChange()}
+            onOutputAssetChange={onOutputAmountChange()}
             onSwitchPair={handleSwitchPair}
             outputAsset={outputAssetProps}
             tokens={tokens}
@@ -390,7 +431,7 @@ const SwapView = () => {
           {!IS_LEDGER_LIVE && (
             <CustomRecipientInput
               isOutputWalletConnected={isOutputWalletConnected}
-              outputAssetL1Chain={outputAsset.L1Chain}
+              outputAssetchain={outputAsset.chain}
               recipient={recipient}
               setRecipient={setRecipient}
             />
@@ -407,8 +448,8 @@ const SwapView = () => {
           <SwapInfo
             affiliateBasisPoints={Number(affiliateBasisPoints)}
             affiliateFee={affiliateFee}
-            assets={[inputAsset.ticker, outputAsset.ticker]}
-            expectedOutput={`${outputAmount?.toSignificant(6)} ${outputAsset.name.toUpperCase()}`}
+            assets={assetTickers}
+            expectedOutput={`${outputAmount?.toSignificant(6)} ${outputAsset.ticker.toUpperCase()}`}
             inputUnitPrice={inputUnitPrice}
             isLoading={isPriceLoading}
             minReceive={minReceiveInfo}
@@ -430,7 +471,7 @@ const SwapView = () => {
             <InfoTip
               className="!mt-2"
               content={t('views.swap.priceProtectionUnavailableDesc', {
-                chain: inputAsset.L1Chain,
+                chain: inputAsset.chain,
               })}
               title={t('views.swap.priceProtectionUnavailable')}
               type="warn"
@@ -482,7 +523,6 @@ const SwapView = () => {
 
           <ApproveModal
             handleApprove={handleApprove}
-            inputAmount={inputAmount}
             inputAsset={inputAsset}
             setVisible={setVisibleApproveModal}
             totalFee={formatPrice(firstNetworkFee)}
@@ -500,7 +540,7 @@ const SwapView = () => {
 
       <Analysis
         analyticsVisible={analyticsVisible}
-        inputAssetChain={inputAsset.L1Chain}
+        inputAssetChain={inputAsset.chain}
         toggleAnalytics={toggleAnalytics}
       />
     </Flex>

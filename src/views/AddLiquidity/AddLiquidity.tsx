@@ -1,3 +1,4 @@
+import { SwapKitNumber } from '@swapkit/core';
 import { Box, Button, Icon, Link } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { InfoTable } from 'components/InfoTable';
@@ -40,7 +41,8 @@ export const AddLiquidity = () => {
   const assetsWithBalances = useAssetsWithBalance(poolAssets);
 
   const pool = useMemo(
-    () => pools.find((p) => p.asset === poolAsset?.toString()) || pools[0],
+    () =>
+      pools.find((p) => p.asset === (poolAsset || BTCAsset).toString().toUpperCase()) || pools[0],
     [pools, poolAsset],
   );
 
@@ -139,7 +141,7 @@ export const AddLiquidity = () => {
         fee={feeInUSD}
         poolShare={poolShareEst}
         poolTicker={poolAssetInput.asset.ticker}
-        rate={rate.toFixed(4)}
+        rate={new SwapKitNumber(rate || 0).toSignificant(6) || null}
         runeTicker={runeAssetInput.asset.ticker}
         slippage={addLiquiditySlip}
       />
@@ -227,7 +229,7 @@ export const AddLiquidity = () => {
         <InfoTable items={confirmInfo} />
       </ConfirmModal>
 
-      {poolAsset && (
+      {poolAsset && poolAsset.lt(0) && (
         <ConfirmModal
           inputAssets={[poolAsset]}
           isOpened={visibleApproveModal}

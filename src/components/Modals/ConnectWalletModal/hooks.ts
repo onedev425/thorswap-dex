@@ -1,6 +1,6 @@
-import { getETHDefaultWallet, isDetected } from '@thorswap-lib/toolbox-evm';
-import type { DerivationPathArray, EVMWalletOptions } from '@thorswap-lib/types';
-import { Chain, WalletOption } from '@thorswap-lib/types';
+import type { DerivationPathArray, EVMWalletOptions } from '@swapkit/core';
+import { Chain, WalletOption } from '@swapkit/core';
+import { getETHDefaultWallet, isDetected } from '@swapkit/toolbox-evm';
 import type { IconName } from 'components/Atomic';
 import { showErrorToast } from 'components/Toast';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
@@ -178,7 +178,7 @@ export const useHandleWalletConnect = ({
 
   const handleConnectWallet = useCallback(
     async (params?: HandleWalletConnectParams) => {
-      const { getDerivationPathFor } = await import('@thorswap-lib/ledger');
+      const { getDerivationPathFor } = await import('@swapkit/wallet-ledger');
 
       const selectedChains = params?.chains || chains;
       const selectedWalletType = params?.walletType || walletType;
@@ -254,7 +254,7 @@ export const useHandleWalletConnect = ({
   );
 
   const addReconnectionOnAccountsChanged = useCallback(async () => {
-    const { addAccountsChangedCallback } = await import('@thorswap-lib/toolbox-evm');
+    const { addAccountsChangedCallback } = await import('@swapkit/toolbox-evm');
     addAccountsChangedCallback(() => {
       handleConnectWallet();
     });
@@ -293,7 +293,7 @@ export const useHandleWalletTypeSelect = ({
   selectedChains,
 }: HandleWalletTypeSelectParams) => {
   const handleEVMWallet = useCallback(async (walletType: WalletType) => {
-    const { isDetected } = await import('@thorswap-lib/toolbox-evm');
+    const { isDetected } = await import('@swapkit/toolbox-evm');
     if (isDetected(WalletTypeToOption[walletType])) return true;
 
     switch (walletType) {

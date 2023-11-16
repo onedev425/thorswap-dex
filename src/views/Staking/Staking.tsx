@@ -1,7 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { BigNumber } from '@ethersproject/bignumber';
-import { Amount, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { BaseDecimal, WalletOption } from '@thorswap-lib/types';
+import { AssetValue, BaseDecimal, SwapKitNumber, WalletOption } from '@swapkit/core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Card, Icon, Tooltip } from 'components/Atomic';
@@ -13,9 +11,8 @@ import { TabsSelect } from 'components/TabsSelect';
 import { ViewHeader } from 'components/ViewHeader';
 import { stakingV2Addr, VestingType } from 'helpers/assets';
 import { useFormatPrice } from 'helpers/formatPrice';
-import { toOptionalFixed } from 'helpers/number';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { fromWei, getCustomContract } from 'services/contract';
+import { getCustomContract } from 'services/contract';
 import { t } from 'services/i18n';
 import { useWallet } from 'store/wallet/hooks';
 
@@ -25,10 +22,14 @@ import { StakeActions, useVthorUtil } from './hooks';
 import { VThorInfo } from './VThorInfo';
 
 const getTokenBalance = async (contractType: VestingType, ethAddr: string) => {
-  const contract = await getCustomContract(stakingV2Addr[contractType]);
-  const tokenBalance = await contract.balanceOf(ethAddr);
+  try {
+    const contract = await getCustomContract(stakingV2Addr[contractType]);
+    const value = await contract.balanceOf(ethAddr);
 
-  return tokenBalance;
+    return SwapKitNumber.fromBigInt(value, BaseDecimal.ETH);
+  } catch (_) {
+    return new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH });
+  }
 };
 
 const Staking = () => {
@@ -38,10 +39,16 @@ const Staking = () => {
   ];
 
   const [action, setAction] = useState(StakeActions.Deposit);
-  const [thorBalBn, setThorBalBn] = useState(BigNumber.from(0));
-  const [vthorBalBn, setVthorBalBn] = useState(BigNumber.from(0));
-  const [inputAmount, setInputAmount] = useState(Amount.fromAssetAmount(0, BaseDecimal.ETH));
-  const [outputAmount, setOutputAmount] = useState(0);
+  const [thorBalBn, setThorBalBn] = useState(
+    new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
+  );
+  const [vthorBalBn, setVthorBalBn] = useState(
+    new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
+  );
+  const [inputAmount, setInputAmount] = useState(
+    new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
+  );
+  const [outputAmount, setOutputAmount] = useState('0');
   const [isReverted, setReverted] = useState(true);
   const [isModalOpened, setModalOpened] = useState(false);
 
@@ -52,8 +59,8 @@ const Staking = () => {
 
   const [stakingAsset, outputAsset] = useMemo(
     () => [
-      getSignatureAssetFor(isDeposit ? 'ETH_THOR' : 'ETH_VTHOR'),
-      getSignatureAssetFor(isDeposit ? 'ETH_VTHOR' : 'ETH_THOR'),
+      AssetValue.fromChainOrSignature(isDeposit ? 'ETH.THOR' : 'ETH.vTHOR'),
+      AssetValue.fromChainOrSignature(isDeposit ? 'ETH.vTHOR' : 'ETH.THOR'),
     ],
     [isDeposit],
   );
@@ -64,40 +71,39 @@ const Staking = () => {
   );
 
   const getTokenInfo = useCallback(
-    async (contractType: VestingType, address: string, setBalance: (num: BigNumber) => void) => {
-      const tokenBalance = await getTokenBalance(contractType, address).catch(() =>
-        BigNumber.from(0),
-      );
-      setBalance(tokenBalance);
+    async (contractType: VestingType, address: string, type: 'thor' | 'vthor') => {
+      const tokenBalance = await getTokenBalance(contractType, address);
+
+      type === 'thor' ? setThorBalBn(tokenBalance) : setVthorBalBn(tokenBalance);
     },
     [],
   );
 
   useEffect(() => {
     if (ethAddress) {
-      getTokenInfo(VestingType.THOR, ethAddress, setThorBalBn);
-      getTokenInfo(VestingType.VTHOR, ethAddress, setVthorBalBn);
+      getTokenInfo(VestingType.THOR, ethAddress, 'thor');
+      getTokenInfo(VestingType.VTHOR, ethAddress, 'vthor');
     } else {
-      setThorBalBn(BigNumber.from(0));
-      setVthorBalBn(BigNumber.from(0));
+      setThorBalBn(new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }));
+      setVthorBalBn(new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }));
     }
   }, [ethAddress, getTokenInfo]);
 
   const handleMaxClick = useCallback(() => {
     const maxAmount = isDeposit ? thorBalBn : vthorBalBn;
 
-    setInputAmount(Amount.fromBaseAmount(maxAmount.toString(), BaseDecimal.ETH));
+    setInputAmount(maxAmount);
     setOutputAmount(isDeposit ? previewDeposit(maxAmount) : previewRedeem(maxAmount));
   }, [isDeposit, thorBalBn, vthorBalBn, previewDeposit, previewRedeem]);
 
   const onAmountChange = useCallback(
-    (amount: Amount, targetAction?: StakeActions) => {
+    (amount: SwapKitNumber, targetAction?: StakeActions) => {
       setInputAmount(amount);
-      const amountBN = BigNumber.from(amount.baseAmount.toString(10));
+
       const expectedOutput =
         targetAction === StakeActions.Deposit || isDeposit
-          ? previewDeposit(amountBN)
-          : previewRedeem(amountBN);
+          ? previewDeposit(amount)
+          : previewRedeem(amount);
 
       setOutputAmount(expectedOutput);
     },
@@ -107,10 +113,9 @@ const Staking = () => {
   const handleAction = useCallback(() => {
     if (!ethAddress) return;
 
-    const amount = BigNumber.from(inputAmount.baseAmount.toString(10));
     const thorAction = isDeposit ? stakeThor : unstakeThor;
-    thorAction(amount, ethAddress);
-  }, [ethAddress, inputAmount.baseAmount, isDeposit, stakeThor, unstakeThor]);
+    thorAction(inputAmount, ethAddress);
+  }, [ethAddress, inputAmount, isDeposit, stakeThor, unstakeThor]);
 
   const handleVthorAction = useCallback(() => {
     if (ethWalletType === WalletOption.KEYSTORE) {
@@ -137,17 +142,13 @@ const Staking = () => {
     [inputAmount, onAmountChange],
   );
 
-  const disabledButton = useMemo(() => {
-    const inputValue = inputAmount.assetAmount.toNumber();
-    const thorBalance = fromWei(thorBalBn);
-    const vthorBalance = fromWei(vthorBalBn);
-
-    return (
-      inputValue <= 0 ||
-      (isDeposit && inputValue > thorBalance) ||
-      (!isDeposit && inputValue > vthorBalance)
-    );
-  }, [inputAmount.assetAmount, isDeposit, thorBalBn, vthorBalBn]);
+  const disabledButton = useMemo(
+    () =>
+      inputAmount.lte(0) ||
+      (isDeposit && inputAmount.gt(thorBalBn)) ||
+      (!isDeposit && inputAmount.gt(vthorBalBn)),
+    [inputAmount, isDeposit, thorBalBn, vthorBalBn],
+  );
 
   return (
     <Box col className="self-center w-full max-w-[480px] mt-2">
@@ -212,9 +213,7 @@ const Staking = () => {
                   <Box center row className="gap-1 pr-2 md:pr-0">
                     <Text fontWeight="medium" variant="secondary">
                       {t('common.balance')}:{' '}
-                      {isDeposit
-                        ? toOptionalFixed(fromWei(thorBalBn))
-                        : toOptionalFixed(fromWei(vthorBalBn))}
+                      {isDeposit ? thorBalBn.toSignificant(6) : vthorBalBn.toSignificant(6)}
                     </Text>
 
                     <Button
@@ -241,7 +240,7 @@ const Staking = () => {
                 </Box>
 
                 <Box center className="gap-3">
-                  <Text textStyle="subtitle2">{stakingAsset.name}</Text>
+                  <Text textStyle="subtitle2">{stakingAsset.ticker}</Text>
                   <AssetIcon asset={stakingAsset} size={34} />
                 </Box>
               </Box>
@@ -260,12 +259,12 @@ const Staking = () => {
             <Box className="self-stretch flex-1">
               <Box flex={1}>
                 <Text className="-ml-1 !text-2xl text-left flex-1" fontWeight="normal">
-                  {formatter(toOptionalFixed(outputAmount))}
+                  {formatter(outputAmount)}
                 </Text>
               </Box>
 
               <Box center className="gap-3">
-                <Text textStyle="subtitle2">{outputAsset.name}</Text>
+                <Text textStyle="subtitle2">{outputAsset.ticker}</Text>
                 <AssetIcon asset={outputAsset} size={34} />
               </Box>
             </Box>
@@ -295,10 +294,10 @@ const Staking = () => {
 
         <ConfirmVThorButton
           action={action}
+          assetValue={stakingAsset.add(inputAmount)}
           disabledButton={disabledButton}
           ethAddress={ethAddress}
           handleVthorAction={handleVthorAction}
-          inputAmount={inputAmount}
           setIsConnectModalOpen={setIsConnectModalOpen}
         />
       </Card>
@@ -306,11 +305,10 @@ const Staking = () => {
       <ConfirmVThorModal
         closeModal={closeModal}
         handleAction={handleAction}
-        inputAmount={inputAmount}
         isOpened={isModalOpened}
         outputAmount={outputAmount}
         outputAsset={outputAsset}
-        stakingAsset={stakingAsset}
+        stakingAsset={stakingAsset.add(inputAmount)}
       />
     </Box>
   );

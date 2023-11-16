@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { FeeOption } from '@thorswap-lib/types';
+import { FeeOption } from '@swapkit/core';
 import classNames from 'classnames';
 import { Box, Button, Icon, Switch, Tooltip } from 'components/Atomic';
 import { Input } from 'components/Input';

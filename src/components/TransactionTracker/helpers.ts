@@ -1,4 +1,4 @@
-import { TxStatus } from '@thorswap-lib/swapkit-api';
+import { TxStatus } from '@swapkit/api';
 import { getSimpleTxStatus } from 'components/TransactionManager/helpers';
 import dayjs from 'dayjs';
 import { t } from 'services/i18n';

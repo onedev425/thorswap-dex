@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
@@ -8,7 +8,7 @@ import { memo } from 'react';
 import type { AssetSelectType } from '../../components/AssetSelect/types';
 
 type Props = AssetSelectType & {
-  select: (asset: AssetEntity) => void;
+  select: (asset: AssetValue) => void;
   isSelected?: boolean;
 };
 

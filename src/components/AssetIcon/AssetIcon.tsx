@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@swapkit/core';
 import classNames from 'classnames';
 import { FallbackIcon } from 'components/AssetIcon/FallbackIcon';
 import { Box } from 'components/Atomic';
@@ -148,15 +148,15 @@ export const AssetIcon = memo(
     ticker,
   }: AssetIconProps) => {
     const {
-      symbol,
       type,
-      isSynth,
+      isSynthetic: isSynth,
       ticker: assetTicker,
       chain,
+      symbol,
     } = useMemo(() => asset || RUNEAsset, [asset]);
+    const address = symbol.slice(symbol.indexOf('-') + 1).toLowerCase();
 
-    const address = symbol.slice(assetTicker.length + 1).toLowerCase();
-    const identifier = `${chain}.${assetTicker}`;
+    const identifier = `${isSynth ? symbol.split('/')[0] : chain}.${assetTicker}`;
 
     const iconUrl = logoURI || tokenLogoURL({ address, identifier });
 

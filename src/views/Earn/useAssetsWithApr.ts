@@ -1,4 +1,4 @@
-import { Amount } from '@thorswap-lib/swapkit-core';
+import { SwapKitNumber } from '@swapkit/core';
 import { useMimir } from 'hooks/useMimir';
 import { usePools } from 'hooks/usePools';
 import { useMemo } from 'react';
@@ -15,13 +15,10 @@ export const useAssetsWithApr = () => {
     return filteredPools
       .map((pool) => {
         const apr = Number(pool.saversAPR || 0) * 100;
-
-        const assetDepthAmount = Amount.fromMidgard(pool.assetDepth);
-        const saverCap = Amount.fromNormalAmount(synthCap).mul(assetDepthAmount);
-        const filled = Amount.fromMidgard(pool.synthSupply)
-          .div(saverCap)
-          .mul(100)
-          .toFixedDecimal(2);
+        const assetDepthAmount = SwapKitNumber.fromBigInt(BigInt(pool.assetDepth), 8);
+        const saverCap = assetDepthAmount.mul(synthCap);
+        const synthSupply = SwapKitNumber.fromBigInt(BigInt(pool.synthSupply), 8);
+        const filled = Number(synthSupply.div(saverCap).mul(100).toFixed(2));
 
         return {
           apr: getFormattedPercent(apr),

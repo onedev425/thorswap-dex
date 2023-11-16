@@ -27,12 +27,12 @@ export const useConfirmInfoItems = ({
   const confirmInfoItems: InfoRowConfig[] = [
     {
       label: t('common.send'),
-      value: `${inputAsset.value?.toSignificant(6)} ${inputAsset.asset.name.toUpperCase()}`,
+      value: `${inputAsset.value?.toSignificant(6)} ${inputAsset.asset.ticker.toUpperCase()}`,
     },
     {
       label: t('common.receive'),
 
-      value: `${outputAsset.value?.toSignificant(6)} ${outputAsset.asset.name.toUpperCase()}`,
+      value: `${outputAsset.value?.toSignificant(6)} ${outputAsset.asset.ticker.toUpperCase()}`,
     },
     {
       label: t('common.recipientAddress'),

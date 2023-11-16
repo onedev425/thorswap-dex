@@ -1,13 +1,12 @@
 import { Text } from '@chakra-ui/react';
-import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
 import {
-  Amount,
-  AssetEntity,
-  getAssetShare,
+  AssetValue,
+  BaseDecimal,
   getAsymmetricAssetShare,
   getAsymmetricRuneShare,
-  getRuneShare,
-} from '@thorswap-lib/swapkit-core';
+  SwapKitNumber,
+} from '@swapkit/core';
+import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
 import classNames from 'classnames';
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon';
 import { Box, Button, Icon, Tooltip, useCollapse } from 'components/Atomic';
@@ -34,17 +33,17 @@ type LiquidityCardProps = FullMemberPool & {
   hardCapReached?: boolean;
 };
 
-const getEstimatedPoolShare = ({
+const getBasePoolShare = ({
   poolUnits,
   liquidityUnits,
 }: {
   poolUnits: string;
   liquidityUnits: string;
 }) => {
-  const P = Amount.fromMidgard(poolUnits);
-  const poolLiquidityUnits = Amount.fromMidgard(liquidityUnits);
+  const P = SwapKitNumber.fromBigInt(BigInt(poolUnits), 8);
+  const poolLiquidityUnits = SwapKitNumber.fromBigInt(BigInt(liquidityUnits));
 
-  return poolLiquidityUnits.div(P).assetAmount.toNumber();
+  return poolLiquidityUnits.div(P).getValue('number');
 };
 
 export const LiquidityCard = ({
@@ -66,7 +65,7 @@ export const LiquidityCard = ({
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse();
   const { isMdActive } = useWindowSize();
   const poolTicker = useMemo(() => getTickerFromIdentifier(pool), [pool]);
-  const poolAsset = useMemo(() => AssetEntity.fromAssetString(pool) as AssetEntity, [pool]);
+  const poolAsset = useMemo(() => AssetValue.fromStringSync(pool) as AssetValue, [pool]);
 
   const pendingTicker = useMemo(() => {
     if (Number(runePending) > 0) return RUNEAsset.ticker;
@@ -85,22 +84,36 @@ export const LiquidityCard = ({
   }, [poolTicker, shareType]);
 
   const { runeShare, assetShare, poolShare } = useMemo(() => {
-    const assetParams = { liquidityUnits: sharedUnits, poolUnits, assetDepth: poolAssetDepth };
-    const runeParams = { liquidityUnits: sharedUnits, poolUnits, runeDepth: poolRuneDepth };
+    const params = {
+      liquidityUnits: sharedUnits,
+      poolUnits,
+      runeDepth: poolRuneDepth,
+      assetDepth: poolAssetDepth,
+    };
+
+    const runeAmount = getAsymmetricRuneShare(params).getValue('string');
+    const assetAmount = getAsymmetricAssetShare(params).getValue('string');
 
     const runeShare =
       shareType === PoolShareType.SYM
-        ? getRuneShare(runeParams)
-        : getAsymmetricRuneShare(runeParams);
+        ? SwapKitNumber.fromBigInt(BigInt(params.runeDepth), BaseDecimal.THOR)
+            .mul(params.liquidityUnits)
+            .div(poolUnits)
+            .getValue('string')
+        : runeAmount;
     const assetShare =
       shareType === PoolShareType.SYM
-        ? getAssetShare(assetParams)
-        : getAsymmetricAssetShare(assetParams);
-    const poolShare = getEstimatedPoolShare({ liquidityUnits: sharedUnits, poolUnits });
+        ? SwapKitNumber.fromBigInt(BigInt(params.assetDepth), BaseDecimal.THOR)
+            .mul(params.liquidityUnits)
+            .div(poolUnits)
+            .getValue('string')
+        : assetAmount;
+    const poolShare = getBasePoolShare({ liquidityUnits: sharedUnits, poolUnits });
 
     return {
-      runeShare: runeShare.toSignificant(6),
-      assetShare: assetShare.toSignificant(6),
+      //TODO this might not work
+      runeShare: new SwapKitNumber(runeShare).toSignificant(6),
+      assetShare: new SwapKitNumber(assetShare).toSignificant(6),
       poolShare: poolShare > 0.0001 ? `${parseToPercent(poolShare, 5)}` : '~0%',
     };
   }, [poolAssetDepth, poolRuneDepth, poolUnits, shareType, sharedUnits]);

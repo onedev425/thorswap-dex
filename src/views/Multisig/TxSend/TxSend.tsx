@@ -30,11 +30,11 @@ export const TxSend = () => {
     () => [
       {
         label: t('common.send'),
-        value: `${sendAmount?.toSignificant(6)} ${sendAsset.name}`,
+        value: `${sendAmount?.toSignificant(6)} ${sendAsset.ticker}`,
       },
       { label: t('common.recipient'), value: recipientAddress },
     ],
-    [recipientAddress, sendAmount, sendAsset.name],
+    [recipientAddress, sendAmount, sendAsset.ticker],
   );
 
   return (
@@ -51,7 +51,7 @@ export const TxSend = () => {
       <PanelInput
         onChange={handleChangeRecipient}
         placeholder={`${
-          assetInput.asset.isSynth ? RUNEAsset.network : assetInput.asset.network
+          assetInput.asset.isSynthetic ? RUNEAsset.chain : assetInput.asset.chain
         } ${t('common.address')}`}
         title={t('common.recipientAddress')}
         value={recipientAddress}

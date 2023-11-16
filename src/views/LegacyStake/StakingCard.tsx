@@ -1,7 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { BigNumber } from '@ethersproject/bignumber';
-import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { type AssetValue, BaseDecimal, Chain, SwapKitNumber } from '@swapkit/core';
 import classNames from 'classnames';
 import { AssetIcon, AssetLpIcon } from 'components/AssetIcon';
 import { Box, Button, Card, Icon, Link } from 'components/Atomic';
@@ -9,12 +7,11 @@ import { borderHoverHighlightClass } from 'components/constants';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoRow } from 'components/InfoRow';
 import { shortenAddress } from 'helpers/shortenAddress';
-import { getAPR } from 'helpers/staking';
+import { BLOCKS_PER_YEAR } from 'helpers/staking';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { LPContractType } from 'services/contract';
 import {
   ContractType,
-  fromWei,
   getCustomContract,
   getEtherscanContract,
   triggerContractCall,
@@ -36,8 +33,8 @@ type Props = {
   stakingToken: string;
   stakeAddr: string; // Staking Contract address
   withdrawOnly?: boolean;
-  assets: Asset[];
-  lpAsset: Asset;
+  assets: AssetValue[];
+  lpAsset: AssetValue;
   contractType: ContractType;
   lpContractType: LPContractType;
 };
@@ -57,12 +54,15 @@ export const StakingCard = ({
   const { wallet, setIsConnectModalOpen } = useWallet();
   const [isFetching, setIsFetching] = useState(false);
   const [aprRate, setAPRRate] = useState<number>();
-  const [lpTokenBal, setLpTokenBal] = useState(0);
-  const [lpTokenBalBn, setLpTokenBalBn] = useState(BigNumber.from(0));
-  const [stakedAmount, setStakedAmount] = useState(0);
-  const [stakedAmountBn, setStakedAmountBn] = useState(BigNumber.from(0));
-  const [pendingRewardDebt, setPendingRewardDebt] = useState(0);
-  const [pendingRewardDebtBn, setPendingRewardDebtBn] = useState(BigNumber.from(0));
+  const [lpTokenBal, setLpTokenBal] = useState(
+    new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
+  );
+  const [stakedAmount, setStakedAmount] = useState(
+    new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
+  );
+  const [pendingRewardDebt, setPendingRewardDebt] = useState(
+    new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
+  );
   const [{ stakingTokenUrl, stakeAddrUrl }, setUrls] = useState({
     stakingTokenUrl: '',
     stakeAddrUrl: '',
@@ -86,8 +86,7 @@ export const StakingCard = ({
 
       const lpTokenBalance = await lpContract.balanceOf(ethereumAddr);
 
-      setLpTokenBal(fromWei(lpTokenBalance));
-      setLpTokenBalBn(lpTokenBalance);
+      setLpTokenBal(new SwapKitNumber({ decimal: BaseDecimal.ETH, value: lpTokenBalance }));
 
       try {
         const stakingContract = await getEtherscanContract(contractType);
@@ -96,10 +95,8 @@ export const StakingCard = ({
 
         const pendingReward = await stakingContract.pendingRewards(0, ethereumAddr);
 
-        setStakedAmount(fromWei(amount));
-        setStakedAmountBn(amount);
-        setPendingRewardDebt(fromWei(pendingReward));
-        setPendingRewardDebtBn(pendingReward);
+        setStakedAmount(new SwapKitNumber({ decimal: BaseDecimal.ETH, value: amount }));
+        setPendingRewardDebt(new SwapKitNumber({ decimal: BaseDecimal.ETH, value: pendingReward }));
       } catch (error: NotWorth) {
         console.error(error);
       }
@@ -114,11 +111,17 @@ export const StakingCard = ({
     }
   }, [ethAddr, getPoolUserInfo]);
 
+  const getAPR = useCallback((blockReward: number, totalAmount: number) => {
+    if (totalAmount === 0) return Number.MAX_SAFE_INTEGER;
+
+    return ((blockReward * BLOCKS_PER_YEAR) / totalAmount) * 100;
+  }, []);
+
   const getBlockReward = useCallback(async () => {
     const stakingContract = await getEtherscanContract(contractType);
     const blockReward = await stakingContract.blockReward();
 
-    return blockReward;
+    return new SwapKitNumber({ value: blockReward, decimal: BaseDecimal.ETH });
   }, [contractType]);
 
   const getAPRRate = useCallback(async () => {
@@ -128,7 +131,7 @@ export const StakingCard = ({
       if (contractType === ContractType.STAKING_THOR) {
         const tokenBalance = await getLpTokenBalance(lpContractType);
 
-        const apr = getAPR(fromWei(blockReward), fromWei(tokenBalance));
+        const apr = getAPR(blockReward.getValue('number'), tokenBalance.getValue('number'));
         setAPRRate(apr);
       } else {
         const {
@@ -154,17 +157,18 @@ export const StakingCard = ({
         const thorReserve = parseFloat(pair.reserve0);
         const thorPrice = reserveUSD / 2 / thorReserve;
 
-        const stakedLpSupplyBn = await getLpTokenBalance(lpContractType);
-        const stakedLpSupply = fromWei(stakedLpSupplyBn);
-        const totalLPAmountUSD = stakedLpSupply * lpUnitPrice;
+        const stakedLpSupply = await getLpTokenBalance(lpContractType);
 
-        const apr = getAPR(fromWei(blockReward) * thorPrice, totalLPAmountUSD);
+        const apr = getAPR(
+          blockReward.getValue('number') * thorPrice,
+          stakedLpSupply.getValue('number') * lpUnitPrice,
+        );
         setAPRRate(apr);
       }
     } catch (error: NotWorth) {
       console.error(error);
     }
-  }, [contractType, lpContractType, getBlockReward]);
+  }, [getBlockReward, contractType, lpContractType, getAPR]);
 
   const [methodName, txType] = useMemo(() => {
     switch (modalType) {
@@ -180,12 +184,12 @@ export const StakingCard = ({
   }, [modalType]);
 
   const handleStakingAction = useCallback(
-    async (tokenAmount: BigNumber) => {
+    async (tokenAmount: SwapKitNumber) => {
       closeConfirm();
       if (!methodName || !ethAddr || !txType) return;
 
       const id = v4();
-      const label = `${t(`common.${txType}`)} ${fromWei(tokenAmount)} ${lpAsset.name}`;
+      const label = `${t(`common.${txType}`)} ${tokenAmount.toSignificant(6)} ${lpAsset.ticker}`;
 
       appDispatch(
         addTransaction({ id, from: ethAddr, inChain: Chain.Ethereum, type: txType, label }),
@@ -211,12 +215,9 @@ export const StakingCard = ({
     if (ethAddr) {
       getPoolUserInfo();
     } else {
-      setStakedAmount(0);
-      setStakedAmountBn(BigNumber.from(0));
-      setPendingRewardDebt(0);
-      setPendingRewardDebtBn(BigNumber.from(0));
-      setLpTokenBal(0);
-      setLpTokenBalBn(BigNumber.from(0));
+      setStakedAmount(new SwapKitNumber({ decimal: BaseDecimal.ETH, value: 0 }));
+      setPendingRewardDebt(new SwapKitNumber({ decimal: BaseDecimal.ETH, value: 0 }));
+      setLpTokenBal(new SwapKitNumber({ decimal: BaseDecimal.ETH, value: 0 }));
     }
   }, [ethAddr, getPoolUserInfo]);
 
@@ -344,12 +345,12 @@ export const StakingCard = ({
             <InfoRow
               label={t('views.staking.tokenStaked')}
               size="md"
-              value={ethAddr ? stakedAmount.toFixed(4) : 'N/A'}
+              value={ethAddr ? stakedAmount.toSignificant(4) : 'N/A'}
             />
             <InfoRow
               label={t('views.staking.claimable')}
               size="md"
-              value={ethAddr ? pendingRewardDebt.toFixed(2) : 'N/A'}
+              value={ethAddr ? pendingRewardDebt.toSignificant(4) : 'N/A'}
             />
           </Box>
 
@@ -400,14 +401,14 @@ export const StakingCard = ({
       </Box>
 
       <StakeConfirmModal
-        claimableAmount={pendingRewardDebtBn}
+        claimableAmount={pendingRewardDebt}
         contractType={contractType}
         isOpened={isModalOpened}
         lpAsset={lpAsset}
         onCancel={closeConfirm}
         onConfirm={handleStakingAction}
-        stakedAmount={stakedAmountBn}
-        tokenBalance={lpTokenBalBn}
+        stakedAmount={stakedAmount}
+        tokenBalance={lpTokenBal}
         type={modalType || FarmActionType.CLAIM}
       />
     </Box>

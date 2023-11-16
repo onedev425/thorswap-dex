@@ -1,4 +1,4 @@
-import type { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@swapkit/core';
 import type { AssetInputType } from 'components/AssetInput/types';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
@@ -52,8 +52,8 @@ export const ConfirmSwapModal = memo(
     const [fetchAddressVerify] = useLazyGetAddressVerifyQuery();
 
     const from = useMemo(
-      () => wallet?.[inputAsset.L1Chain as Chain]?.address || '',
-      [wallet, inputAsset.L1Chain],
+      () => wallet?.[inputAsset.chain as Chain]?.address || '',
+      [wallet, inputAsset.chain],
     );
 
     const showSmallSwapWarning = useMemo(
@@ -76,7 +76,7 @@ export const ConfirmSwapModal = memo(
     const handleConfirm = useCallback(async () => {
       const { data } = await fetchAddressVerify({
         addresses,
-        chains: [inputAsset.L1Chain, outputAsset.L1Chain],
+        chains: [inputAsset.chain, outputAsset.chain],
       });
 
       if (data?.confirm && !addresses.some((address) => list.includes(address))) {
@@ -90,8 +90,8 @@ export const ConfirmSwapModal = memo(
       handleSwap,
       addresses,
       fetchAddressVerify,
-      inputAsset.L1Chain,
-      outputAsset.L1Chain,
+      inputAsset.chain,
+      outputAsset.chain,
     ]);
 
     const estimatedInfo = useMemo(() => {

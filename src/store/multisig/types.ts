@@ -1,4 +1,4 @@
-import type { AssetAmount } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 
 export type MultisigMember = { name: string; pubKey: string };
 
@@ -10,6 +10,6 @@ export type MultisigWallet = {
 };
 
 export type State = MultisigWallet & {
-  balances: AssetAmount[];
+  balances: AssetValue[];
   loadingBalances: boolean;
 };

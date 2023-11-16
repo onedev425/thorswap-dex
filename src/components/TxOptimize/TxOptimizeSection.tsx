@@ -1,6 +1,5 @@
 import { Card, Collapse, Flex, Text } from '@chakra-ui/react';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Amount } from '@thorswap-lib/swapkit-core';
+import { type AssetValue, SwapKitNumber } from '@swapkit/core';
 import { Icon, Tooltip } from 'components/Atomic';
 import { formatDuration } from 'components/TransactionTracker/helpers';
 import { STREAMING_SWAPS_URL } from 'config/constants';
@@ -24,7 +23,7 @@ type Props = {
   stream: boolean;
   toggleStream: (enabled: boolean) => void;
   canStream: boolean;
-  outputAsset: AssetEntity | undefined;
+  outputAsset: AssetValue | undefined;
   quote?: OptimizeQuote;
   invertedPriceDiff?: boolean;
   title?: string;
@@ -53,17 +52,21 @@ export const TxOptimizeSection = ({
 
   const displayPriceUSDDiff = invertedPriceDiff ? invertedPriceUSDDiff : priceUSDDiff;
 
-  const outputAmount: Amount = useMemo(
-    () => Amount.fromAssetAmount(quote?.expectedOutput || '0', outputAsset?.decimal || 0),
+  const outputAmount = useMemo(
+    () =>
+      new SwapKitNumber({
+        value: quote?.expectedOutput || '0',
+        decimal: outputAsset?.decimal || 0,
+      }),
     [outputAsset?.decimal, quote?.expectedOutput],
   );
 
-  const outputAmountStreamingSwap: Amount = useMemo(
+  const outputAmountStreamingSwap = useMemo(
     () =>
-      Amount.fromAssetAmount(
-        quote?.streamingSwap?.expectedOutput || '0',
-        outputAsset?.decimal || 0,
-      ),
+      new SwapKitNumber({
+        value: quote?.streamingSwap?.expectedOutput || '0',
+        decimal: outputAsset?.decimal || 0,
+      }),
     [outputAsset?.decimal, quote?.streamingSwap?.expectedOutput],
   );
 
@@ -118,7 +121,7 @@ export const TxOptimizeSection = ({
 
                   <Flex gap={1}>
                     <Text textStyle="caption-xs">
-                      {outputAmountStreamingSwap.toSignificant(6)} {outputAsset?.name || ''}
+                      {outputAmountStreamingSwap.toSignificant(6)} {outputAsset?.ticker || ''}
                     </Text>
                     <Text color="brand.green" fontWeight="normal" textStyle="caption-xs">
                       (+{formatPrice(displayPriceUSDDiff)})
@@ -164,7 +167,7 @@ export const TxOptimizeSection = ({
                   </Flex>
 
                   <Text textStyle="caption-xs">
-                    {outputAmount.toSignificant(6)} {outputAsset?.name || ''}
+                    {outputAmount.toSignificant(6)} {outputAsset?.ticker || ''}
                   </Text>
                 </Flex>
               </Flex>

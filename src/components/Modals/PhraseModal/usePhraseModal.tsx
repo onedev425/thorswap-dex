@@ -33,7 +33,7 @@ export const usePhraseModal = (isOpen: boolean) => {
     async ({ password }: FieldValues) => {
       if (!keystore) return;
 
-      const { decryptFromKeystore } = await import('@thorswap-lib/keystore');
+      const { decryptFromKeystore } = await import('@swapkit/wallet-keystore');
 
       try {
         const decodedPhrase = await decryptFromKeystore(keystore, password);

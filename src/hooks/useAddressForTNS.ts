@@ -1,4 +1,4 @@
-import { validateTHORName } from '@thorswap-lib/swapkit-core';
+import { validateTHORName } from '@swapkit/core';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useCallback, useEffect, useState } from 'react';
 import { useLazyGetTNSDetailQuery } from 'store/midgard/api';

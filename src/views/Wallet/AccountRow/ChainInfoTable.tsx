@@ -1,5 +1,5 @@
-import { Amount, AssetAmount, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import type { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@swapkit/core';
+import { AssetValue } from '@swapkit/core';
 import { Box, Button, Table } from 'components/Atomic';
 import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';
 import { memo, useCallback, useState } from 'react';
@@ -9,7 +9,7 @@ import type { GetTokenPriceResponseItem } from 'store/thorswap/types';
 import { useColumns } from './useColumns';
 
 type Props = {
-  chainInfo: AssetAmount[];
+  chainInfo: AssetValue[];
   chain: Chain;
   priceData: Record<string, GetTokenPriceResponseItem>;
   chainAddress: string;
@@ -17,12 +17,12 @@ type Props = {
 
 export const ChainInfoTable = memo(({ priceData, chainInfo, chain, chainAddress }: Props) => {
   const [showAllTokens, setShowAllTokens] = useState(false);
-  const sigAsset = getSignatureAssetFor(chain);
+  const sigAsset = AssetValue.fromChainOrSignature(chain);
 
-  const altAssets = chainInfo.filter((item) => !item.asset.eq(sigAsset));
+  const altAssets = chainInfo.filter((item) => !item.eq(sigAsset));
   const sigAssetAmount =
-    chainInfo.find((item) => item.asset.eq(sigAsset)) ||
-    new AssetAmount(sigAsset, Amount.fromNormalAmount(0));
+    chainInfo.find((item) => item.eq(sigAsset)) ||
+    AssetValue.fromChainOrSignature(sigAsset.chain, 0);
 
   const handleToggleTokens = useCallback(() => {
     setShowAllTokens((v) => !v);

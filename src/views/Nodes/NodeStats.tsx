@@ -1,4 +1,4 @@
-import { Amount } from '@thorswap-lib/swapkit-core';
+import { SwapKitNumber } from '@swapkit/core';
 import { StatsList } from 'components/StatsList';
 import type { StatsType } from 'components/StatsList/types';
 import { useGlobalStats } from 'hooks/useGlobalStats';
@@ -18,21 +18,25 @@ export const NodeStats = () => {
         iconName: 'chartPie',
         color: 'yellow',
         label: t('views.nodes.totalBond'),
-        value: `${runeToCurrency(totalBond)} (${totalBond.toAbbreviate(1)} ᚱ)`,
+        value: `${runeToCurrency(totalBond.getValue('string'))} (${totalBond.toAbbreviation(1)} ᚱ)`,
         tooltip: t('views.nodes.detail.totalBond'),
       },
       {
         iconName: 'lightning',
         color: 'pink',
         label: t('views.nodes.detail.activeBond'),
-        value: `${runeToCurrency(totalActiveBond)} (${totalActiveBond.toAbbreviate(1)} ᚱ)`,
+        value: `${runeToCurrency(
+          totalActiveBond.getValue('string'),
+        )} (${totalActiveBond.toAbbreviation(1)} ᚱ)`,
         tooltip: t('views.nodes.detail.activeBondTooltip'),
       },
       {
         iconName: 'wifi',
         color: 'red',
         label: t('views.nodes.detail.standbyBond'),
-        value: `${runeToCurrency(totalStandbyBond)} (${totalStandbyBond.toAbbreviate(1)} ᚱ)`,
+        value: `${runeToCurrency(
+          totalStandbyBond.getValue('string'),
+        )} (${totalStandbyBond.toAbbreviation(1)} ᚱ)`,
         tooltip: t('views.nodes.detail.standbyBondTooltip'),
       },
       {
@@ -46,14 +50,19 @@ export const NodeStats = () => {
         color: 'green',
         label: t('views.nodes.detail.dailyBondRewards'),
         value: `${runeToCurrency(
-          Amount.fromMidgard(networkData?.blockRewards?.bondReward).mul(14400),
+          new SwapKitNumber({
+            value: networkData?.blockRewards?.bondReward || '0',
+            decimal: 8,
+          })
+            .mul(14400)
+            .getValue('string'),
         )} `,
       },
       {
         iconName: 'fire',
         color: 'blueLight',
         label: t('views.nodes.detail.nextChurnHeight'),
-        value: Amount.fromNormalAmount(networkData?.nextChurnHeight).toFixed(1),
+        value: new SwapKitNumber(networkData?.nextChurnHeight || 0).getValue('number').toFixed(1),
       },
     ],
     [runeToCurrency, totalBond, totalActiveBond, totalStandbyBond, bondingAPYLabel, networkData],

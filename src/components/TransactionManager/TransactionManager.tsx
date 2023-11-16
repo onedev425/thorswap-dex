@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@swapkit/core';
 import { Box, Button, Card, Icon, SwitchToggle, Tooltip } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { Confirm } from 'components/Modals/Confirm';

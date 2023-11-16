@@ -1,17 +1,9 @@
-import type { BigNumber } from '@ethersproject/bignumber';
-import type { Amount } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { BaseDecimal, Chain, SwapKitNumber } from '@swapkit/core';
 import { showErrorToast } from 'components/Toast';
 import dayjs from 'dayjs';
 import { toOptionalFixed } from 'helpers/number';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import {
-  contractConfig,
-  ContractType,
-  fromWei,
-  toWei,
-  triggerContractCall,
-} from 'services/contract';
+import { contractConfig, ContractType, triggerContractCall } from 'services/contract';
 import { t } from 'services/i18n';
 import { useAppDispatch } from 'store/store';
 import { useTransactionsState } from 'store/transactions/hooks';
@@ -24,12 +16,12 @@ import { VestingType } from 'views/Vesting/types';
 
 const defaultVestingInfo = {
   totalVestedAmount: 'N/A',
-  totalClaimedAmount: 0,
+  totalClaimedAmount: new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
   startTime: '-',
   vestingPeriod: 0,
   cliff: 0,
   initialRelease: '-',
-  claimableAmount: 0,
+  claimableAmount: new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
   hasAlloc: false,
 };
 const initialVestingInfo = {
@@ -51,7 +43,7 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
     if (!ethAddress || contractCallInProgress) return;
 
     const { connectedWallets } = await (await import('services/swapKit')).getSwapKitClient();
-    const { getProvider } = await import('@thorswap-lib/toolbox-evm');
+    const { getProvider } = await import('@swapkit/toolbox-evm');
     try {
       contractCallInProgress = true;
       const { abi: thorVesting, address: thorAddress } = contractConfig['vesting'];
@@ -67,19 +59,19 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
         ...callParams,
         abi: thorVesting,
         contractAddress: thorAddress,
-      }).then(
-        (amount) =>
-          fromWei(amount as BigNumber) > 0 && appDispatch(actions.setHasVestingAlloc(true)),
-      );
+      }).then((amount) => {
+        const hasVesting = (typeof amount === 'bigint' && amount > 0) || amount?.toString() !== '0';
+        appDispatch(actions.setHasVestingAlloc(hasVesting));
+      });
 
       await connectedWallets.ETH?.call({
         ...callParams,
         abi: vthorVesting,
         contractAddress: vthorAddress,
-      }).then(
-        (amount) =>
-          fromWei(amount as BigNumber) > 0 && appDispatch(actions.setHasVestingAlloc(true)),
-      );
+      }).then((amount) => {
+        const hasVesting = (typeof amount === 'bigint' && amount > 0) || amount?.toString() !== '0';
+        appDispatch(actions.setHasVestingAlloc(hasVesting));
+      });
     } catch (error) {
       console.error(error);
     } finally {
@@ -92,7 +84,7 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
       if (!ethAddress) return defaultVestingInfo;
 
       const { connectedWallets } = await (await import('services/swapKit')).getSwapKitClient();
-      const { getProvider } = await import('@thorswap-lib/toolbox-evm');
+      const { getProvider } = await import('@swapkit/toolbox-evm');
       const contractType = vestingType === VestingType.THOR ? 'vesting' : 'vthor_vesting';
       const { abi, address } = contractConfig[contractType];
       const callParams = {
@@ -108,23 +100,34 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
         vestingPeriod,
         cliff,
         initialRelease,
-      ] = ((await connectedWallets.ETH?.call({
-        ...callParams,
-        abi,
-        contractAddress: address,
-        funcName: 'vestingSchedule',
-      })) || []) as [BigNumber, BigNumber, number, number, number, BigNumber];
+      ] =
+        (await connectedWallets.ETH?.call({
+          ...callParams,
+          abi,
+          contractAddress: address,
+          funcName: 'vestingSchedule',
+        })) || ([] as any);
+
       const claimableAmount = (await connectedWallets.ETH?.call({
         ...callParams,
         abi,
         contractAddress: address,
         funcName: 'claimableAmount',
-      })) as BigNumber;
+      })) as bigint;
 
-      const totalVested = fromWei(totalVestedAmount || '0');
-      const totalClaimed = fromWei(totalClaimedAmount || '0');
-      const claimable = fromWei(claimableAmount || '0');
-      const hasAlloc = totalVested > 0 || totalClaimed > 0 || claimable > 0;
+      const totalVested = new SwapKitNumber({
+        value: totalVestedAmount?.toString() || '0',
+        decimal: BaseDecimal.ETH,
+      });
+      const totalClaimed = new SwapKitNumber({
+        value: totalClaimedAmount?.toString() || '0',
+        decimal: BaseDecimal.ETH,
+      });
+      const claimable = new SwapKitNumber({
+        value: claimableAmount?.toString() || '0',
+        decimal: BaseDecimal.ETH,
+      });
+      const hasAlloc = totalVested.gt(0) || totalClaimed.gt(0) || claimable.gt(0);
 
       return {
         totalVestedAmount: totalVested.toString(),
@@ -132,8 +135,8 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
         startTime: dayjs.unix(startTime).format('YYYY-MM-DD HH:MM:ss'),
         vestingPeriod: dayjs.duration(vestingPeriod * 1000).asDays() / 365,
         cliff: dayjs.duration(cliff * 1000).asDays() / 30,
-        initialRelease: fromWei(initialRelease || '0').toString(),
-        claimableAmount: fromWei(claimableAmount || '0'),
+        initialRelease: (initialRelease || '0').toString(),
+        claimableAmount: claimable,
         hasAlloc,
       };
     },
@@ -161,14 +164,14 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
   }, [appDispatch, getContractVestingInfo]);
 
   const handleClaim = useCallback(
-    async ({ vestingAction, amount }: { vestingAction: VestingType; amount: Amount }) => {
+    async ({ vestingAction, amount }: { vestingAction: VestingType; amount: SwapKitNumber }) => {
       if (amount.lte(0)) return;
 
       setIsLoading(true);
       const id = v4();
 
       try {
-        const currentClaimableAmount = toWei(amount.assetAmount.toNumber());
+        const currentClaimableAmount = amount.getValue('number');
 
         appDispatch(
           addTransaction({
@@ -176,7 +179,7 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
             inChain: Chain.Ethereum,
             type: TransactionType.ETH_STATUS,
             label: `${t('txManager.claim')} ${toOptionalFixed(
-              fromWei(currentClaimableAmount),
+              currentClaimableAmount,
             )} ${vestingAction}`,
           }),
         );

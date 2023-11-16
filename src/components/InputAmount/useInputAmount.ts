@@ -1,4 +1,4 @@
-import type { Amount } from '@thorswap-lib/swapkit-core';
+import { BaseDecimal, type SwapKitNumber } from '@swapkit/core';
 import type { AmountProps } from 'components/InputAmount/types';
 import { getAmountFromString } from 'components/InputAmount/utils';
 import { useFormatPrice } from 'helpers/formatPrice';
@@ -15,7 +15,7 @@ export const useInputAmount = ({ amountValue, onAmountChange }: AmountProps) => 
   const [rawValue, setRawValue] = useState(inputValue ? formatPrice(inputValue) : '');
 
   const handleRawValueChange = useCallback(
-    (amount: Amount | string) => {
+    (amount: SwapKitNumber | string) => {
       setRawValue(formatPrice(amount));
     },
     [formatPrice],
@@ -23,7 +23,7 @@ export const useInputAmount = ({ amountValue, onAmountChange }: AmountProps) => 
 
   const onChange = useCallback(
     ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-      const newValue = getAmountFromString(value, decimal);
+      const newValue = getAmountFromString(value, decimal || BaseDecimal.THOR);
 
       // if value is a valid number, trigger onChange
       if (newValue) {

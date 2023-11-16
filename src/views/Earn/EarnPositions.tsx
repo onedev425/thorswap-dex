@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import { Box, Icon } from 'components/Atomic';
 import { DoughnutChart } from 'components/Chart/DoughnutChart/DoughnutChart';
 import { HighlightCard } from 'components/HighlightCard';
@@ -15,8 +15,8 @@ import { ShareChartIndex, sharesChartIndexes } from 'views/Home/types';
 type Props = {
   positions: SaverPosition[];
   refresh: () => void;
-  withdrawAsset: (asset: AssetEntity) => void;
-  depositAsset: (asset: AssetEntity) => void;
+  withdrawAsset: (asset: AssetValue) => void;
+  depositAsset: (asset: AssetValue) => void;
 };
 
 export const EarnPositions = ({ positions, refresh, withdrawAsset, depositAsset }: Props) => {

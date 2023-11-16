@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { FeeOption } from '@thorswap-lib/types';
+import { FeeOption } from '@swapkit/core';
 import { Box, Button, Collapse, Icon, Select } from 'components/Atomic';
 import type { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
@@ -67,7 +67,7 @@ export const SwapInfo = ({
 
     return {
       rateDesc: rate > 0 ? `1 ${firstAsset} = ${rate.toFixed(decimals)} ${secondAsset}` : '-',
-      ratePrice: `($${formatPrice(inputUnitPrice)})`,
+      ratePrice: `(${formatPrice(inputUnitPrice)})`,
     };
   }, [formatPrice, inputAsset, inputUnitPrice, outputAsset, outputUnitPrice, reverted]);
 

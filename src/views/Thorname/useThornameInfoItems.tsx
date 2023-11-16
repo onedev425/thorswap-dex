@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
-import { getTHORNameCost } from '@thorswap-lib/swapkit-core';
-import type { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@swapkit/core';
+import { getTHORNameCost } from '@swapkit/core';
 import { AssetIcon } from 'components/AssetIcon';
 import { ChainIcon } from 'components/AssetIcon/ChainIcon';
 import { Box, Button, Icon, Tooltip } from 'components/Atomic';

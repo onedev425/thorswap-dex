@@ -1,4 +1,5 @@
-import type { Chain, Keystore } from '@thorswap-lib/types';
+import type { Chain } from '@swapkit/core';
+import type { Keystore } from '@swapkit/wallet-keystore';
 import type { HandleWalletConnectParams } from 'components/Modals/ConnectWalletModal/hooks';
 import { USDAsset } from 'helpers/assets';
 import type { MultisigWallet } from 'store/multisig/types';

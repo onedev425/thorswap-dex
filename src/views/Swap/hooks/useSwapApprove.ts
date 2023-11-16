@@ -1,7 +1,4 @@
-import { baseAmount } from '@thorswap-lib/helpers';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
-import type { AmountWithBaseDenom, EVMChain } from '@thorswap-lib/types';
-import { Chain } from '@thorswap-lib/types';
+import { type AssetValue, Chain } from '@swapkit/core';
 import { showErrorToast } from 'components/Toast';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
@@ -12,15 +9,8 @@ import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 
 type Params = {
-  inputAsset: AssetEntity;
+  inputAsset: AssetValue;
   contract?: string;
-};
-
-const UINT96_MAX = '79228162514264337593543950335';
-
-// Assets have different max approval amount than standard ERC20
-const ContractMaxApprovalAmount: Record<string, AmountWithBaseDenom> = {
-  '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984': baseAmount(UINT96_MAX),
 };
 
 export const useSwapApprove = ({ inputAsset, contract }: Params) => {
@@ -28,10 +18,10 @@ export const useSwapApprove = ({ inputAsset, contract }: Params) => {
   const { wallet } = useWallet();
 
   const handleApprove = useCallback(async () => {
-    const from = wallet?.[inputAsset.L1Chain as Chain]?.address;
+    const from = wallet?.[inputAsset.chain as Chain]?.address;
     if (from) {
       const id = v4();
-      const inChain = inputAsset.L1Chain;
+      const inChain = inputAsset.chain;
       const type =
         inChain === Chain.Ethereum
           ? TransactionType.ETH_APPROVAL
@@ -45,24 +35,14 @@ export const useSwapApprove = ({ inputAsset, contract }: Params) => {
           from,
           inChain,
           type,
-          label: `${t('txManager.approve')} ${inputAsset.name}`,
+          label: `${t('txManager.approve')} ${inputAsset.ticker}`,
         }),
       );
 
-      const { approveAssetForContract, approveAsset } = await (
-        await import('services/swapKit')
-      ).getSwapKitClient();
+      const { approveAssetValue } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
-        const { getTokenAddress } = await import('@thorswap-lib/toolbox-evm');
-        const tokenAddress = getTokenAddress(inputAsset, inputAsset.L1Chain as EVMChain);
-        const txid = await (contract
-          ? approveAssetForContract(
-              inputAsset,
-              contract,
-              tokenAddress ? ContractMaxApprovalAmount[tokenAddress.toLowerCase()] : undefined,
-            )
-          : approveAsset(inputAsset));
+        const txid = await approveAssetValue(inputAsset, contract);
 
         if (typeof txid === 'string') {
           appDispatch(updateTransaction({ id, txid }));

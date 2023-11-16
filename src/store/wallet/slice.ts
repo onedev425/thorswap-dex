@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { AssetAmount, Wallet } from '@thorswap-lib/swapkit-core';
-import type { Keystore } from '@thorswap-lib/types';
-import { Chain } from '@thorswap-lib/types';
+import type { AssetValue, Wallet } from '@swapkit/core';
+import { Chain } from '@swapkit/core';
+import type { Keystore } from '@swapkit/wallet-keystore';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 
 import * as walletActions from './actions';
@@ -28,7 +28,7 @@ const initialState = {
   isConnectModalOpen: false,
   keystore: null as Keystore | null,
   wallet: initialWallet as Wallet | LedgerLiveWallet,
-  oldBalance: initialWallet as Record<Chain, AssetAmount[] | null>,
+  oldBalance: initialWallet as Record<Chain, AssetValue[] | null>,
   walletLoading: false,
   chainWalletLoading: initialWallet as Record<Chain, boolean | null>,
   hiddenAssets: (getFromStorage('hiddenAssets') || {}) as Record<Chain, string[]>,
@@ -57,10 +57,10 @@ const walletSlice = createSlice({
     ) => {
       state.hiddenAssets[chain] = [...new Set([...(state.hiddenAssets[chain] || []), address])];
 
-      if (state.wallet?.[chain]?.balance) {
+      if (state?.wallet?.[chain]?.balance) {
         // @ts-expect-error
         state.wallet[chain].balance = state.wallet[chain]?.balance.filter(
-          ({ asset }) => asset.toString() !== address,
+          (assetValue) => assetValue.toString() !== address,
         );
       }
 
@@ -108,9 +108,9 @@ const walletSlice = createSlice({
         } else if (data?.address && data?.balance && data?.walletType) {
           state.oldBalance[chain] = data.balance;
           const balance = data.balance.filter(
-            ({ asset }) =>
-              !state.hiddenAssets[chain]?.includes(asset.toString()) &&
-              !(!asset.symbol || [' ', '/'].some((c) => asset.symbol.includes(c))),
+            (assetValue) =>
+              !state.hiddenAssets[chain]?.includes(assetValue.toString()) &&
+              !(!assetValue.symbol || [' ', '/'].some((c) => assetValue.symbol.includes(c))),
           );
 
           state.wallet[chain] = {
@@ -146,12 +146,14 @@ const walletSlice = createSlice({
             state.oldBalance[chain] = wallet.balance;
             const balance =
               wallet?.balance?.filter(
-                ({ asset }) =>
-                  !state.hiddenAssets[chain]?.includes(asset.toString()) &&
+                (assetValue) =>
+                  !state.hiddenAssets[chain]?.includes(assetValue.toString()) &&
                   /**
                    * Filter out assets with invalid symbols or scam tokens with symbols like ' ', '/', '.'
                    */
-                  !(!asset.symbol || [' ', '/', '.'].some((c) => asset.symbol.includes(c))),
+                  !(
+                    !assetValue.symbol || [' ', '/', '.'].some((c) => assetValue.symbol.includes(c))
+                  ),
               ) || null;
 
             state.wallet[chain] = { ...wallet, balance };
@@ -185,7 +187,7 @@ const walletSlice = createSlice({
             ...state.wallet[chain],
             balance:
               balance?.filter(
-                ({ asset }) =>
+                (asset) =>
                   !state.hiddenAssets[chain]?.includes(asset.toString()) &&
                   /**
                    * Filter out assets with invalid symbols or scam tokens with symbols like ' ', '/', '.'

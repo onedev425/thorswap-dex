@@ -1,6 +1,5 @@
-import type { AssetAmount, AssetEntity as Asset, Wallet } from '@thorswap-lib/swapkit-core';
-import { Amount, getSignatureAssetFor, isGasAsset } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import type { Wallet } from '@swapkit/core';
+import { AssetValue, Chain } from '@swapkit/core';
 import { Button, Icon } from 'components/Atomic';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { useAddressUtils } from 'hooks/useAddressUtils';
@@ -20,9 +19,9 @@ export const useMultisigWalletInfo = () => {
   const formatPrice = useFormatPrice();
 
   const { shortAddress, handleCopyAddress } = useAddressUtils(address);
-  const formattedRune = `${formatPrice(runeBalance?.amount || 0, {
+  const formattedRune = `${formatPrice(runeBalance || 0, {
     prefix: '',
-  })} ${getSignatureAssetFor(Chain.THORChain).ticker}`;
+  })} ${AssetValue.fromChainOrSignature(Chain.THORChain).ticker}`;
 
   const runeValue = useMemo(() => {
     if (runeBalance) {
@@ -64,7 +63,7 @@ export const useMultisigWalletInfo = () => {
 export const useMultissigAssets = () => {
   const { data: gasPriceRates } = useGetGasPriceRatesQuery();
   const { loadBalances } = useMultisig();
-  const [runeBalance, setRuneBalance] = useState<AssetAmount | null>(null);
+  const [runeBalance, setRuneBalance] = useState<AssetValue | null>(null);
   const { balances, loadingBalances } = useAppSelector(({ multisig }) => multisig);
   const { feeOptionType } = useAppSelector(({ app: { feeOptionType }, wallet: { wallet } }) => ({
     wallet,
@@ -76,18 +75,18 @@ export const useMultissigAssets = () => {
   }, [loadBalances]);
 
   useEffect(() => {
-    const balance = multisig.getAssetBalance(getSignatureAssetFor(Chain.THORChain), balances);
+    const balance = multisig.getAssetBalance(
+      AssetValue.fromChainOrSignature(Chain.THORChain),
+      balances,
+    );
     setRuneBalance(balance);
   }, [balances]);
 
-  const assetsWithBalance = balances.map((a) => ({
-    asset: a.asset,
-    balance: a.amount,
-  }));
+  const assetsWithBalance = balances.map((balance) => ({ balance, asset: balance }));
 
   const getMaxBalance = useCallback(
-    (asset: Asset): Amount => {
-      const chainInfo = gasPriceRates?.find((gasRate) => gasRate.asset.includes(asset.L1Chain));
+    (asset: AssetValue) => {
+      const chainInfo = gasPriceRates?.find((gasRate) => gasRate.asset.includes(asset.chain));
       const gasRate = getNetworkFee({
         gasPrice: chainInfo?.gasAsset || 0,
         feeOptionType,
@@ -96,7 +95,7 @@ export const useMultissigAssets = () => {
 
       const networkFee = parseFeeToAssetAmount({ gasRate, asset });
 
-      const balance = multisig.getAssetBalance(asset, balances).amount;
+      const balance = multisig.getAssetBalance(asset, balances) as AssetValue;
 
       /**
        * if asset is used for gas, subtract the inbound gas fee from input amount
@@ -104,25 +103,23 @@ export const useMultissigAssets = () => {
        * Calc: max spendable amount = balance amount - 2 x gas fee(if send asset equals to gas asset)
        */
 
-      const maxSpendableAmount = isGasAsset(asset) ? balance.sub(networkFee) : balance;
+      const maxSpendableAmount = asset.isGasAsset ? balance.sub(networkFee) : balance;
 
-      return maxSpendableAmount.gt(0)
-        ? maxSpendableAmount
-        : Amount.fromAssetAmount(0, asset.decimal);
+      return maxSpendableAmount.gt(0) ? maxSpendableAmount : balance.mul(0);
     },
     [balances, feeOptionType, gasPriceRates],
   );
 
   const getBalanceForAssets = useCallback(
-    (assets: Asset[]) =>
-      assets.map((asset: Asset) => ({
+    (assets: AssetValue[]) =>
+      assets.map((asset: AssetValue) => ({
         asset,
         balance: multisig.hasAsset(asset, balances) ? getMaxBalance(asset) : undefined,
       })),
     [balances, getMaxBalance],
   );
 
-  const getAssetBalance = (asset: Asset) => {
+  const getAssetBalance = (asset: AssetValue) => {
     return multisig.getAssetBalance(asset, balances);
   };
 

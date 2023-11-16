@@ -1,13 +1,12 @@
 import { Text } from '@chakra-ui/react';
-import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
 import {
-  Amount,
-  AssetEntity,
-  getAssetShare,
+  AssetValue,
+  BaseDecimal,
   getAsymmetricAssetShare,
   getAsymmetricRuneShare,
-  getRuneShare,
-} from '@thorswap-lib/swapkit-core';
+  SwapKitNumber,
+} from '@swapkit/core';
+import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
 import classNames from 'classnames';
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon';
 import { Box, Button, Icon, Tooltip, useCollapse } from 'components/Atomic';
@@ -34,36 +33,51 @@ type LiquidityCardProps = FullMemberPool & {
 export const LiquidityCard = ({
   assetPending,
   dateLastAdded,
-  poolDetail: { asset: poolAssetString, liquidityUnits, runeDepth, assetDepth },
+  poolDetail: { asset: poolAssetString, runeDepth, assetDepth, units },
   runePending,
   shareType,
   sharedUnits,
   withFooter,
 }: LiquidityCardProps) => {
   const navigate = useNavigate();
-  const poolAsset = AssetEntity.fromAssetString(poolAssetString) as AssetEntity;
+  const poolAsset = AssetValue.fromStringSync(poolAssetString) as AssetValue;
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse();
   const { isMdActive } = useWindowSize();
 
   const poolShare = useMemo(
-    () =>
-      parseToPercent(Amount.fromMidgard(liquidityUnits).div(sharedUnits).assetAmount.toNumber()),
-    [liquidityUnits, sharedUnits],
+    () => parseToPercent(new SwapKitNumber(sharedUnits).div(units).getValue('string')),
+    [units, sharedUnits],
   );
 
-  const runeShare = useMemo(() => {
-    const params = { liquidityUnits, poolUnits: sharedUnits, runeDepth };
-    return shareType === PoolShareType.RUNE_ASYM
-      ? getAsymmetricRuneShare(params)
-      : getRuneShare(params);
-  }, [liquidityUnits, sharedUnits, runeDepth, shareType]);
+  //TODO no idea here
+  const [runeShare, assetShare] = useMemo(() => {
+    const isAsset = shareType === PoolShareType.ASSET_ASYM;
+    const isRune = shareType === PoolShareType.RUNE_ASYM;
+    const params = {
+      liquidityUnits: sharedUnits,
+      poolUnits: units,
+      assetDepth,
+      runeDepth,
+    };
 
-  const assetShare = useMemo(() => {
-    const params = { liquidityUnits, poolUnits: sharedUnits, assetDepth };
-    return shareType === PoolShareType.ASSET_ASYM
-      ? getAsymmetricAssetShare(params)
-      : getAssetShare(params);
-  }, [assetDepth, liquidityUnits, shareType, sharedUnits]);
+    if (!isAsset && !isRune) {
+      return [
+        SwapKitNumber.fromBigInt(BigInt(params.runeDepth), BaseDecimal.THOR)
+          .mul(sharedUnits)
+          .div(units),
+        SwapKitNumber.fromBigInt(BigInt(params.assetDepth), BaseDecimal.THOR)
+          .mul(sharedUnits)
+          .div(units),
+      ];
+    }
+
+    const assetAmount = getAsymmetricAssetShare(params).getValue('string');
+    const runeAmount = getAsymmetricRuneShare(params).getValue('string');
+
+    return isRune
+      ? [new SwapKitNumber(runeAmount), new SwapKitNumber(0)]
+      : [new SwapKitNumber(0), new SwapKitNumber(assetAmount)];
+  }, [units, sharedUnits, runeDepth, assetDepth, shareType]);
 
   const isPendingLP = useMemo(
     () => !!(Number(runePending) || Number(assetPending)),
@@ -147,13 +161,13 @@ export const LiquidityCard = ({
 
         <LiquidityInfo
           asset={poolAsset}
-          assetPending={Amount.fromMidgard(assetPending)}
+          assetPending={SwapKitNumber.fromBigInt(BigInt(assetPending), 8)}
           assetShare={assetShare}
           contentRef={contentRef}
           lastAddedDate={dayjs.unix(Number(dateLastAdded)).format('YYYY-MM-DD')}
           maxHeightStyle={maxHeightStyle}
           poolShare={poolShare}
-          runePending={Amount.fromMidgard(runePending)}
+          runePending={SwapKitNumber.fromBigInt(BigInt(runePending), 8)}
           runeShare={runeShare}
           shareType={shareType}
           tickerPending={tickerPending}

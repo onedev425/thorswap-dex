@@ -1,5 +1,4 @@
-import { Amount, getTHORNameCost, validateTHORName } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { AssetValue, Chain, getTHORNameCost, validateTHORName } from '@swapkit/core';
 import { showErrorToast } from 'components/Toast';
 import { RUNEAsset } from 'helpers/assets';
 import { shortenAddress } from 'helpers/shortenAddress';
@@ -154,7 +153,7 @@ export const useThornameLookup = (owner?: string) => {
       const amount = isRegister ? getTHORNameCost(years) : years;
       const prefix = isRegister ? t('txManager.registerThorname') : t('txManager.updateThorname');
 
-      let label = `${prefix} ${searchedThorname} - ${amount} ${RUNEAsset.name}`;
+      let label = `${prefix} ${searchedThorname} - ${amount} ${RUNEAsset.ticker}`;
       if (details?.owner && isTransfer) {
         label = `${t('common.transfer')} ${searchedThorname} - ${shortenAddress(newOwner, 6, 8)}`;
       }
@@ -181,10 +180,10 @@ export const useThornameLookup = (owner?: string) => {
       const { registerThorname } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
-        const txid = await registerThorname(
-          registerParams,
-          Amount.fromAssetAmount(amount, RUNEAsset.decimal),
-        );
+        const txid = await registerThorname({
+          assetValue: AssetValue.fromChainOrSignature(Chain.THORChain, amount),
+          ...registerParams,
+        });
 
         if (txid) {
           appDispatch(updateTransaction({ id, txid }));

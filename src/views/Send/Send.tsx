@@ -1,6 +1,5 @@
 import { Spinner, Text } from '@chakra-ui/react';
-import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { AssetValue, Chain, SwapKitNumber } from '@swapkit/core';
 import { SwitchMenu } from 'components/AppPopoverMenu/components/SwitchMenu';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Button, Icon, Tooltip } from 'components/Atomic';
@@ -40,7 +39,9 @@ const Send = () => {
 
   const [sendAsset, setSendAsset] = useState(RUNEAsset);
   const [sendAmount, setSendAmount] = useState(zeroAmount);
-  const [maxSpendableBalance, setMaxSpendableBalance] = useState(zeroAmount);
+  const [maxSpendableBalance, setMaxSpendableBalance] = useState<AssetValue | undefined>(
+    sendAsset.set(0),
+  );
 
   const [memo, setMemo] = useState('');
   const [recipientAddress, setRecipientAddress] = useState(searchParams.get('recipient') || '');
@@ -68,7 +69,7 @@ const Send = () => {
 
   const txRecipient = customTxEnabled ? customRecipient : recipientAddress;
   const txMemo = customTxEnabled ? customMemo : memo;
-  const txFee = customTxEnabled ? customFeeRune : inputFee.toCurrencyFormat();
+  const txFee = customTxEnabled ? customFeeRune : inputFee.getValue('string');
   const txFeeUsd = customTxEnabled ? customFeeUsd : feeInUSD;
 
   const handleConfirmSend = useConfirmSend({
@@ -82,16 +83,15 @@ const Send = () => {
   });
 
   useEffect(() => {
-    setMaxSpendableBalance(zeroAmount);
-    getMaxBalance(sendAsset).then((maxBalance) => setMaxSpendableBalance(maxBalance || zeroAmount));
+    setMaxSpendableBalance(undefined);
+    getMaxBalance(sendAsset).then((maxBalance) => setMaxSpendableBalance(maxBalance));
   }, [getMaxBalance, sendAsset]);
 
   const { loading, TNS } = useAddressForTNS(recipientAddress);
 
   const TNSAddress = useMemo(
-    () =>
-      TNS?.entries ? TNS.entries.find(({ chain }) => chain === sendAsset.L1Chain)?.address : '',
-    [TNS, sendAsset.L1Chain],
+    () => (TNS?.entries ? TNS.entries.find(({ chain }) => chain === sendAsset.chain)?.address : ''),
+    [TNS, sendAsset.chain],
   );
 
   useEffect(() => {
@@ -110,14 +110,14 @@ const Send = () => {
       if (!assetParam) {
         setSendAsset(RUNEAsset);
       } else {
-        const assetEntity = AssetEntity.decodeFromURL(assetParam);
+        const assetEntity = AssetValue.fromStringSync(assetParam);
 
         if (assetEntity) {
           const assetDecimals = await getEVMDecimal(assetEntity);
           if (assetDecimals) {
-            assetEntity.setDecimal(assetDecimals);
+            assetEntity.decimal = assetDecimals;
           }
-          setSendAmount(Amount.fromAssetAmount(0, assetEntity.decimal));
+          setSendAmount(zeroAmount);
           setSendAsset(assetEntity);
         } else {
           setSendAsset(RUNEAsset);
@@ -137,8 +137,7 @@ const Send = () => {
 
   const [assetInputList, setAssetInputList] = useState<
     {
-      asset: AssetEntity;
-      balance: Amount;
+      asset: AssetValue;
     }[]
   >([]);
 
@@ -156,7 +155,7 @@ const Send = () => {
   }, [getMaxBalance, walletAssets]);
 
   const handleSelectAsset = useCallback(
-    (selected: AssetEntity) => {
+    (selected: AssetValue) => {
       setRecipientAddress('');
       navigate(getSendRoute(selected));
     },
@@ -165,14 +164,21 @@ const Send = () => {
 
   const isMayaRouter = useMemo(
     () =>
-      sendAsset.L1Chain === Chain.Ethereum &&
+      sendAsset.chain === Chain.Ethereum &&
       recipientAddress.toLocaleLowerCase() === mayaRouterAddress.toLocaleLowerCase(),
     [sendAsset, recipientAddress],
   );
 
   const handleChangeSendAmount = useCallback(
-    (amount: Amount) =>
-      setSendAmount(amount.gt(maxSpendableBalance) ? maxSpendableBalance : amount),
+    (amount: SwapKitNumber) =>
+      setSendAmount(
+        maxSpendableBalance && amount.gt(maxSpendableBalance)
+          ? new SwapKitNumber({
+              value: maxSpendableBalance.getValue('string'),
+              decimal: maxSpendableBalance.decimal,
+            })
+          : amount,
+      ),
     [maxSpendableBalance],
   );
 
@@ -195,19 +201,19 @@ const Send = () => {
   const handleSend = useCallback(async () => {
     const { validateAddress } = await (await import('services/swapKit')).getSwapKitClient();
 
-    if (!customTxEnabled && !validateAddress({ chain: sendAsset.L1Chain, address: txRecipient })) {
-      showErrorToast(t('notification.invalidL1ChainAddy', { chain: sendAsset.L1Chain }));
+    if (!customTxEnabled && !validateAddress({ chain: sendAsset.chain, address: txRecipient })) {
+      showErrorToast(t('notification.invalidchainAddy', { chain: sendAsset.chain }));
     } else {
       setIsOpenConfirmModal(true);
     }
-  }, [customTxEnabled, sendAsset.L1Chain, txRecipient]);
+  }, [customTxEnabled, sendAsset.chain, txRecipient]);
 
   const assetInput = useMemo(
     () => ({
       asset: sendAsset,
       value: sendAmount,
       balance: isWalletConnected ? maxSpendableBalance : undefined,
-      usdPrice: sendAmount.assetAmount.toNumber() * inputAssetUSDPrice,
+      usdPrice: sendAmount.getValue('number') * inputAssetUSDPrice,
     }),
     [sendAsset, sendAmount, isWalletConnected, maxSpendableBalance, inputAssetUSDPrice],
   );
@@ -235,7 +241,7 @@ const Send = () => {
     () => [
       {
         label: t('common.send'),
-        value: `${sendAmount?.toSignificant(6)} ${sendAsset.name}`,
+        value: `${sendAmount?.toSignificant(6)} ${sendAsset.assetValue}`,
       },
       {
         label: t('common.recipient'),
@@ -254,15 +260,15 @@ const Send = () => {
         ),
       },
     ],
-    [sendAmount, sendAsset.name, customTxEnabled, txRecipient, txMemo, txFee, txFeeUsd],
+    [sendAmount, sendAsset.assetValue, customTxEnabled, txRecipient, txMemo, txFee, txFeeUsd],
   );
 
   const recipientTitle = useMemo(
     () =>
       `${t('common.recipientAddress')}${
-        TNSAddress && thorname ? ` - ${thorname}.${sendAsset.L1Chain}` : ''
+        TNSAddress && thorname ? ` - ${thorname}.${sendAsset.chain}` : ''
       }`,
-    [TNSAddress, sendAsset.L1Chain, thorname],
+    [TNSAddress, sendAsset.chain, thorname],
   );
 
   return (
@@ -306,9 +312,9 @@ const Send = () => {
             loading={loading}
             onChange={handleChangeRecipient}
             placeholder={`THORName / ${
-              assetInput.asset.isSynth || assetInput.asset.isRUNE()
-                ? RUNEAsset.network
-                : chainName(assetInput.asset.L1Chain)
+              assetInput.asset.isSynthetic || assetInput.asset.chain === Chain.THORChain
+                ? RUNEAsset.chain
+                : chainName(assetInput.asset.chain)
             } ${t('common.address')}`}
             title={recipientTitle}
             value={recipientAddress}

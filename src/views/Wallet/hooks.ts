@@ -1,6 +1,4 @@
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Amount, AssetAmount, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { AssetValue, Chain } from '@swapkit/core';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useMemo } from 'react';
@@ -20,7 +18,7 @@ const emptyWallet = {
 };
 
 export const useAccountData = (chain: Chain) => {
-  const sigAsset = getSignatureAssetFor(chain);
+  const sigAsset = AssetValue.fromChainOrSignature(chain);
   const formatPrice = useFormatPrice();
 
   const {
@@ -32,20 +30,20 @@ export const useAccountData = (chain: Chain) => {
   const wallet = reduxWallet || emptyWallet;
   const chainWallet = wallet[chain];
   const { balance: walletBalance, address: chainAddress } = chainWallet || {
-    balance: [] as AssetAmount[],
+    balance: [],
     address: '',
   };
 
   const chainInfo = useMemo(() => {
-    const info: AssetAmount[] = (walletBalance as AssetAmount[]).reduce((acc, item) => {
-      if (item.asset.eq(sigAsset)) {
+    const info = walletBalance.reduce((acc, item) => {
+      if (item.eq(sigAsset)) {
         acc.unshift(item);
       } else {
         acc.push(item);
       }
 
-      return acc as AssetAmount[];
-    }, [] as AssetAmount[]);
+      return acc;
+    }, [] as AssetValue[]);
 
     if (chainAddress && !info.length) {
       info.push(getNoBalanceAsset(sigAsset));
@@ -54,7 +52,7 @@ export const useAccountData = (chain: Chain) => {
     return info;
   }, [walletBalance, chainAddress, sigAsset]);
 
-  const { data: priceData } = useTokenPrices([sigAsset, ...chainInfo.map((item) => item.asset)], {
+  const { data: priceData } = useTokenPrices([sigAsset, ...chainInfo], {
     sparkline: true,
     lookup: true,
   });
@@ -63,8 +61,8 @@ export const useAccountData = (chain: Chain) => {
     if (Object.keys(priceData).length === 0) return 0;
 
     return chainInfo.reduce((acc, item) => {
-      const itemPrice = priceData[item.asset.toString()]?.price_usd || 0;
-      const itemValue = itemPrice * item.amount.assetAmount.toNumber();
+      const itemPrice = priceData[item.toString()]?.price_usd || 0;
+      const itemValue = itemPrice * item.getValue('number');
       const addition = Number.isNaN(itemValue) ? 0 : itemValue;
       return (acc += addition);
     }, 0);
@@ -100,7 +98,7 @@ export const useAccountData = (chain: Chain) => {
   return data;
 };
 
-export const useChartData = (asset: AssetEntity, sparkline?: string) => {
+export const useChartData = (asset: AssetValue, sparkline?: string) => {
   const prices = useMemo(
     () =>
       typeof sparkline === 'string'
@@ -119,15 +117,13 @@ export const useChartData = (asset: AssetEntity, sparkline?: string) => {
 };
 
 export const useWalletChainActions = (chain: Chain) => {
-  const { wallet, refreshWalletByChain, disconnectWalletByChain, chainWalletLoading } = useWallet();
+  const { refreshWalletByChain, disconnectWalletByChain, chainWalletLoading } = useWallet();
 
   const isLoading = chainWalletLoading?.[chain];
 
   const handleRefreshChain = useCallback(() => {
-    if (wallet?.[chain]) {
-      refreshWalletByChain(chain);
-    }
-  }, [chain, refreshWalletByChain, wallet]);
+    refreshWalletByChain(chain);
+  }, [chain, refreshWalletByChain]);
 
   const handleWalletDisconnect = useCallback(() => {
     disconnectWalletByChain(chain);
@@ -136,6 +132,6 @@ export const useWalletChainActions = (chain: Chain) => {
   return { handleRefreshChain, handleWalletDisconnect, isLoading };
 };
 
-const getNoBalanceAsset = (asset: AssetEntity): AssetAmount => {
-  return new AssetAmount(asset, Amount.fromNormalAmount(0));
+const getNoBalanceAsset = (asset: AssetValue) => {
+  return AssetValue.fromChainOrSignature(asset.chain, 0);
 };

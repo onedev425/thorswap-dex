@@ -1,4 +1,4 @@
-import type { QuoteRoute, TxStatus, TxTrackerDetails } from '@thorswap-lib/swapkit-api';
+import type { QuoteRoute, TxStatus, TxTrackerDetails } from '@swapkit/api';
 import type {
   InitialTrackerPayload,
   TransactionStatus,

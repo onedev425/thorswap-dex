@@ -1,13 +1,12 @@
-import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import type BigNumber from 'bignumber.js';
+import type { AssetValue } from '@swapkit/core';
 import { parseAssetToToken } from 'helpers/parseHelpers';
 import { useMemo } from 'react';
 import { useGetTokenCachedPricesQuery } from 'store/thorswap/api';
 import type { GetTokenPriceResponse } from 'store/thorswap/types';
-export type TokenParam = { asset: Asset; amount: BigNumber };
+export type TokenParam = { assetValue: AssetValue };
 
 export const useTokenPrices = (
-  assets?: Asset[],
+  assets?: AssetValue[],
   {
     pollingInterval,
     lookup,

@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon/AssetIcon';
 import { Box } from 'components/Atomic';
@@ -8,12 +8,13 @@ import { memo } from 'react';
 
 type Props = {
   className?: string;
-  asset: AssetEntity;
-  amount: string;
+  assetValue: AssetValue;
   stretch?: boolean;
 };
 
-const AmountBox = ({ className, asset, amount, stretch }: Props) => {
+const AmountBox = ({ className, assetValue, stretch }: Props) => {
+  const [amount = '-', ticker] = assetValue.toSignificant(6).split(' ');
+
   return (
     <Box
       alignCenter
@@ -24,12 +25,12 @@ const AmountBox = ({ className, asset, amount, stretch }: Props) => {
         className,
       )}
     >
-      <AssetIcon asset={asset} />
+      <AssetIcon asset={assetValue} />
 
       <Box col className="ml-3">
-        <Text>{amount || '-'}</Text>
+        <Text>{amount}</Text>
         <Text fontWeight="normal" variant="secondary">
-          {asset.ticker}
+          {ticker}
         </Text>
       </Box>
     </Box>

@@ -1,4 +1,4 @@
-import type { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { AssetValue, SwapKitNumber } from '@swapkit/core';
 import { showErrorToast } from 'components/Toast';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
@@ -8,8 +8,8 @@ import { TransactionType } from 'store/transactions/types';
 import { v4 } from 'uuid';
 
 type Params = {
-  sendAsset: Asset;
-  sendAmount: Amount;
+  sendAsset: AssetValue;
+  sendAmount: SwapKitNumber;
   recipientAddress: string;
   memo: string;
   setIsOpenConfirmModal: (isOpen: boolean) => void;
@@ -33,13 +33,13 @@ export const useConfirmSend = ({
 
     if (sendAsset) {
       const id = v4();
-      const label = `${t('txManager.send')} ${sendAmount.toSignificant(6)} ${sendAsset.name}`;
+      const label = `${t('txManager.send')} ${sendAmount.toSignificant(6)} ${sendAsset.ticker}`;
 
       appDispatch(
         addTransaction({
           id,
           from: recipient,
-          inChain: sendAsset.L1Chain,
+          inChain: sendAsset.chain,
           type: customTxEnabled ? TransactionType.TC_DEPOSIT : TransactionType.TC_SEND,
           label,
         }),
@@ -49,15 +49,13 @@ export const useConfirmSend = ({
       try {
         const txid = customTxEnabled
           ? await deposit({
-              // @ts-expect-error
-              assetAmount: { asset: sendAsset, amount: sendAmount },
+              assetValue: sendAsset.set(sendAmount),
               recipient,
               memo,
               from,
             })
           : await transfer({
-              // @ts-expect-error
-              assetAmount: { asset: sendAsset, amount: sendAmount },
+              assetValue: sendAsset.set(sendAmount),
               recipient,
               memo,
               from,

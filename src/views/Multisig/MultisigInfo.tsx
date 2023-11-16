@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Chain } from '@thorswap-lib/types';
+import { Chain } from '@swapkit/core';
 import { Box, Button, Icon, Link } from 'components/Atomic';
 import { InfoTable } from 'components/InfoTable';
 import { Confirm } from 'components/Modals/Confirm';

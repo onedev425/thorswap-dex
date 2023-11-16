@@ -1,24 +1,21 @@
 import { Text } from '@chakra-ui/react';
-import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Icon } from 'components/Atomic';
 import { ChainBadge } from 'components/ChainBadge';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
-import { toOptionalFixed } from 'helpers/number';
 import { useCallback } from 'react';
 
 type Props = {
-  stakingAsset: AssetEntity;
-  outputAsset: AssetEntity;
+  stakingAsset: AssetValue;
+  outputAsset: AssetValue;
   isOpened: boolean;
   closeModal: () => void;
   handleAction: () => void;
-  inputAmount: Amount;
-  outputAmount: number;
+  outputAmount: string;
 };
 
 export const ConfirmVThorModal = ({
-  inputAmount,
   outputAmount,
   stakingAsset,
   handleAction,
@@ -47,11 +44,13 @@ export const ConfirmVThorModal = ({
             </Box>
             <Box center className="w-full">
               <Text fontWeight="medium" textStyle="caption">
-                {toOptionalFixed(inputAmount.assetAmount.toNumber())} {stakingAsset.ticker}
+                {stakingAsset.toSignificant(6)} {stakingAsset.ticker}
               </Text>
             </Box>
           </Box>
+
           <Icon className="mx-2 -rotate-90" name="arrowDown" />
+
           <Box center col className="flex-1 p-4 rounded-2xl">
             <AssetIcon asset={outputAsset} />
             <Box center className="pt-2">
@@ -59,7 +58,7 @@ export const ConfirmVThorModal = ({
             </Box>
             <Box center className="w-full">
               <Text fontWeight="medium" textStyle="caption">
-                {toOptionalFixed(outputAmount)} {outputAsset.ticker}
+                {outputAmount} {outputAsset.ticker}
               </Text>
             </Box>
           </Box>

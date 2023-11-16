@@ -1,7 +1,7 @@
 import { Link, Text } from '@chakra-ui/react';
-import { derivationPathToString } from '@thorswap-lib/helpers';
-import type { DerivationPathArray, Keystore } from '@thorswap-lib/types';
-import { Chain, DerivationPath } from '@thorswap-lib/types';
+import type { DerivationPathArray } from '@swapkit/core';
+import { Chain, DerivationPath, derivationPathToString } from '@swapkit/core';
+import type { Keystore } from '@swapkit/wallet-keystore';
 import classNames from 'classnames';
 import { Box, Button, Checkbox, Modal, Tooltip } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
@@ -228,7 +228,7 @@ const ConnectWalletModal = () => {
   }, [selectedChains]);
 
   const handleCustomPathSet = useCallback(async () => {
-    const { getDerivationPathFor } = await import('@thorswap-lib/ledger');
+    const { getDerivationPathFor } = await import('@swapkit/wallet-ledger');
 
     const derivationPath = getDerivationPathFor({
       chain: selectedChains[0] || Chain.Ethereum,

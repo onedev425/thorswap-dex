@@ -1,11 +1,10 @@
-import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import { getEVMDecimal } from 'helpers/getEVMDecimal';
+import { AssetValue, Chain } from '@swapkit/core';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getAddLiquidityRoute } from 'settings/router';
 
 type Props = {
-  assetRouteGetter?: (asset: Asset) => string;
+  assetRouteGetter?: (asset: AssetValue) => string;
 };
 
 export const useAddLiquidityPools = ({ assetRouteGetter = getAddLiquidityRoute }: Props = {}) => {
@@ -14,30 +13,23 @@ export const useAddLiquidityPools = ({ assetRouteGetter = getAddLiquidityRoute }
   const { assetParam } = useParams<{
     assetParam: string;
   }>();
-  const [poolAsset, setPoolAsset] = useState<Asset>();
+  const [poolAsset, setPoolAsset] = useState<AssetValue>();
 
   useEffect(() => {
     const getAssetEntity = async () => {
-      if (!assetParam) {
-        return;
-      }
+      if (!assetParam) return;
 
-      const assetEntity = Asset.decodeFromURL(assetParam);
+      const assetEntity =
+        AssetValue.fromStringSync(assetParam) || AssetValue.fromChainOrSignature(Chain.Bitcoin);
 
-      if (assetEntity) {
-        if (assetEntity.isRUNE()) return;
-        const assetDecimals = await getEVMDecimal(assetEntity);
-        await assetEntity.setDecimal(assetDecimals);
-
-        setPoolAsset(assetEntity);
-      }
+      setPoolAsset(assetEntity);
     };
 
     getAssetEntity();
   }, [assetParam]);
 
   const handleSelectPoolAsset = useCallback(
-    (poolAssetData: Asset) => {
+    (poolAssetData: AssetValue) => {
       navigate(assetRouteGetter(poolAssetData));
     },
     [assetRouteGetter, navigate],

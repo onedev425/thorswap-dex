@@ -1,4 +1,4 @@
-import type { FeeOption } from '@thorswap-lib/types';
+import type { FeeOption } from '@swapkit/core';
 import type { SupportedLanguages, ThemeType, ThousandSeparator, ViewMode } from 'types/app';
 
 export interface State {

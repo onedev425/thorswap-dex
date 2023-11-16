@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { Keystore } from '@thorswap-lib/types';
+import type { Keystore } from '@swapkit/wallet-keystore';
 import classNames from 'classnames';
 import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import { Input } from 'components/Input';
@@ -41,7 +41,7 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
   const unlockKeystore = useCallback(async () => {
     if (keystore) {
       setProcessing(true);
-      const { decryptFromKeystore } = await import('@thorswap-lib/keystore');
+      const { decryptFromKeystore } = await import('@swapkit/wallet-keystore');
 
       try {
         const phrase = await decryptFromKeystore(keystore, password);

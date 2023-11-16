@@ -1,3 +1,4 @@
+import { AssetValue } from '@swapkit/core';
 import { Box } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { t } from 'services/i18n';
@@ -13,7 +14,14 @@ const Stake = () => {
       <Box className="gap-2.5 flex-wrap justify-center">
         {farmData.map(
           ({ lpToken, ...rest }) =>
-            lpToken && <StakingCard {...rest} key={lpToken} stakingToken={lpToken} />,
+            lpToken && (
+              <StakingCard
+                {...rest}
+                key={lpToken}
+                lpAsset={AssetValue.fromStringSync(lpToken) as AssetValue}
+                stakingToken={lpToken}
+              />
+            ),
         )}
 
         <ThorchainLPCard />

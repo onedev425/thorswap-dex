@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue, SwapKitNumber } from '@swapkit/core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
 import type { InfoRowConfig } from 'components/InfoRow/types';
@@ -11,15 +11,15 @@ import { t } from 'services/i18n';
 import { PoolShareType } from 'store/midgard/types';
 
 type Props = {
-  assetShare: Amount;
-  runeShare: Amount;
+  assetShare: SwapKitNumber;
+  runeShare: SwapKitNumber;
   poolShare: string;
   contentRef: RefObject<HTMLDivElement>;
   shareType: PoolShareType;
-  asset: AssetEntity;
+  asset: AssetValue;
   lastAddedDate: string;
-  runePending: Amount;
-  assetPending: Amount;
+  runePending: SwapKitNumber;
+  assetPending: SwapKitNumber;
   maxHeightStyle: { maxHeight: string; overflow: string };
   tickerPending?: string;
 };
@@ -74,7 +74,7 @@ export const LiquidityInfo = memo(
           label: `${RUNEAsset.symbol} ${t('views.liquidity.share')}`,
           value: (
             <Box center className="gap-2">
-              <Text>{`${runeShare.toFixed(4)} ${RUNEAsset.symbol}`}</Text>
+              <Text>{`${runeShare.toSignificant(4)} ${RUNEAsset.symbol}`}</Text>
               <AssetIcon asset={RUNEAsset} size={24} />
             </Box>
           ),

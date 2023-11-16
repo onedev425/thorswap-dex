@@ -1,6 +1,4 @@
-import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import { Amount } from '@thorswap-lib/swapkit-core';
-import BigNumber from 'bignumber.js';
+import { AssetValue, SwapKitNumber } from '@swapkit/core';
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useMemo, useState } from 'react';
 import { SORTED_LENDING_COLLATERAL_ASSETS } from 'settings/chain';
@@ -20,45 +18,41 @@ export const useLoans = () => {
   const { isLoading: tokenPricesLoading, data: tokenPrices } = useTokenPrices(loansAssets);
 
   const totalCollateral = useMemo(() => {
-    if (tokenPricesLoading) return BigNumber(0);
+    if (tokenPricesLoading) return new SwapKitNumber(0);
 
     return loans?.reduce(
       (sum, { asset, collateralCurrent }) =>
-        sum.plus(
-          BigNumber(
-            tokenPrices[asset.toString()]?.price_usd * collateralCurrent.assetAmount.toNumber(),
-          ),
-        ),
-      BigNumber(0),
+        sum.add(tokenPrices[asset.toString()]?.price_usd * Number(collateralCurrent.toFixed(2))),
+      new SwapKitNumber(0),
     );
   }, [loans, tokenPrices, tokenPricesLoading]);
 
   const getLoanPosition = useCallback(
-    async (asset: Asset): Promise<LoanPosition | null> => {
-      const address = wallet?.[asset.L1Chain]?.address || '';
+    async (asset: AssetValue): Promise<LoanPosition | null> => {
+      const address = wallet?.[asset.chain]?.address || '';
       if (address) {
         const { data } = await fetchLoans({
           asset: `${asset.chain}.${asset.ticker}`,
           address,
         });
 
-        const collateralDeposited = Amount.fromAssetAmount(
+        const collateralDeposited = AssetValue.fromStringSync(
+          asset.toString(),
           data?.collateralDeposited || '0',
-          asset.decimal,
-        );
-        const collateralWithdrawn = Amount.fromAssetAmount(
+        )!;
+        const collateralWithdrawn = AssetValue.fromStringSync(
+          asset.toString(),
           data?.collateralWithdrawn || '0',
-          asset.decimal,
-        );
-        const collateralCurrent = Amount.fromAssetAmount(
+        )!;
+        const collateralCurrent = AssetValue.fromStringSync(
+          asset.toString(),
           data?.collateralCurrent || '0',
-          asset.decimal,
-        );
-        const debtIssued = Amount.fromAssetAmount(data?.debtIssued || '0', 8);
-        const debtRepaid = Amount.fromAssetAmount(data?.debtRepaid || '0', 8);
-        const debtCurrent = Amount.fromAssetAmount(data?.debtCurrent || '0', 8);
+        )!;
+        const debtIssued = new SwapKitNumber({ value: data?.debtIssued || '0', decimal: 8 });
+        const debtRepaid = new SwapKitNumber({ value: data?.debtRepaid || '0', decimal: 8 });
+        const debtCurrent = new SwapKitNumber({ value: data?.debtCurrent || '0', decimal: 8 });
 
-        return collateralCurrent.gt(0)
+        return debtCurrent
           ? {
               asset,
               collateralCurrent,
@@ -100,7 +94,7 @@ export const useLoans = () => {
 
   const totalBorrowed = loans?.reduce(
     (sum, obj) => sum.add(obj.debtCurrent),
-    Amount.fromMidgard(0),
+    SwapKitNumber.fromBigInt(0n, 8),
   );
 
   return {

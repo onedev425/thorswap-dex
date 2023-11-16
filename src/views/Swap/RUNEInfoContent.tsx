@@ -1,10 +1,10 @@
 import { Text } from '@chakra-ui/react';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import { Link } from 'components/Atomic';
 import { RUNEAsset } from 'helpers/assets';
 import { getSwapRoute } from 'settings/router';
 
-const RUNEInfoContent = ({ inputAsset }: { inputAsset: AssetEntity }) => (
+const RUNEInfoContent = ({ inputAsset }: { inputAsset: AssetValue }) => (
   <>
     <Text textStyle="caption" variant="yellow">
       {`Are you looking for native token `}

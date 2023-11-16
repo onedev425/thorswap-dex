@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import type { AssetValue } from '@swapkit/core';
+import { Chain } from '@swapkit/core';
 import { AssetIcon } from 'components/AssetIcon';
 import type { IconName } from 'components/Atomic';
 import { Box, Tooltip } from 'components/Atomic';
@@ -21,7 +21,7 @@ import {
 import type { AssetSelectType } from './types';
 
 type Props = AssetSelectType & {
-  select: (asset: AssetEntity) => void;
+  select: (asset: AssetValue) => void;
   style: NotWorth;
 };
 
@@ -63,15 +63,16 @@ export const AssetSelectItem = memo(
     }, [assetChain]);
 
     const description = useMemo(() => {
-      if (asset.isSynth) return `${asset.type}`;
+      if (asset.isSynthetic) return `${asset.type}`;
 
       const marketCap =
-        cg?.market_cap && getAmountFromString(`${cg.market_cap}`, asset.decimal)?.toAbbreviate(2);
+        cg?.market_cap &&
+        getAmountFromString(`${cg.market_cap}`, asset.decimal || 8)?.toAbbreviation(2);
 
       return `${asset.type}${marketCap ? ` - MC: ${marketCap}` : ''}${
         price ? `, ${formatPrice(price)}` : ''
       }`;
-    }, [asset.decimal, asset.isSynth, asset.type, cg?.market_cap, formatPrice, price]);
+    }, [asset.decimal, asset.isSynthetic, asset.type, cg?.market_cap, formatPrice, price]);
 
     const tokenInfoIcon: IconName = useMemo(() => {
       switch (assetChain) {
@@ -144,7 +145,7 @@ export const AssetSelectItem = memo(
               fontWeight="light"
               textStyle="caption-xs"
               textTransform="uppercase"
-              variant={asset.isSynth ? 'primaryBtn' : 'secondary'}
+              variant={asset.isSynthetic ? 'primaryBtn' : 'secondary'}
             >
               {description}
             </Text>

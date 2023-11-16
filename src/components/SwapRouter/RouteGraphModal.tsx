@@ -1,7 +1,6 @@
 import { Text } from '@chakra-ui/react';
-import type { QuoteRoute } from '@thorswap-lib/swapkit-api';
-import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import type { Chain } from '@thorswap-lib/types';
+import type { QuoteRoute } from '@swapkit/api';
+import { AssetValue, Chain } from '@swapkit/core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Modal } from 'components/Atomic';
 import { SwapGraph } from 'components/SwapRouter/SwapGraph';
@@ -31,7 +30,9 @@ export const RouteGraphModal = memo(({ isOpened, onClose, swaps }: Props) => {
     () =>
       Object.entries(swaps).reduce((acc, [chain, value]) => {
         const name = chainName(chain, true);
-        const chainAsset = getSignatureAssetFor(chain as Chain);
+        const chainAsset = AssetValue.fromChainOrSignature(
+          chain === 'THORCHAIN' ? Chain.THORChain : (chain as Chain),
+        );
         const chainSwaps = (value as QuoteSwaps[string]).map((swapParts) =>
           // @ts-expect-error
           swapParts.map(({ from, to, parts, fromTokenAddress, toTokenAddress }) => ({

@@ -1,4 +1,4 @@
-import { BigNumber } from '@ethersproject/bignumber';
+import { BaseDecimal, SwapKitNumber } from '@swapkit/core';
 import { useCallback, useEffect, useState } from 'react';
 import {
   ContractType,
@@ -29,7 +29,9 @@ export const getLpTokenBalance = async (contractType: LPContractType) => {
   const { tokenAddr, stakingAddr } = lpContractConfig[contractType];
 
   const tokenContract = await getCustomContract(tokenAddr);
-  return await tokenContract.balanceOf(stakingAddr);
+  const tokenBalance = await tokenContract.balanceOf(stakingAddr);
+
+  return new SwapKitNumber({ value: tokenBalance, decimal: BaseDecimal.ETH });
 };
 
 export const useStakingModal = () => {
@@ -51,7 +53,9 @@ export const useStakingModal = () => {
 
 export const useV1ThorStakeInfo = () => {
   const { wallet } = useWallet();
-  const [stakedThorAmount, setStakedThorAmount] = useState<null | BigNumber>(null);
+  const [stakedThorAmount, setStakedThorAmount] = useState(
+    new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
+  );
 
   const getStakedThorAmount = useCallback(async () => {
     if (wallet?.ETH?.address) {
@@ -61,7 +65,12 @@ export const useV1ThorStakeInfo = () => {
       const stakingContract = await getEtherscanContract(ContractType.STAKING_THOR);
       const { amount } = await stakingContract.userInfo(0, ethereumAddr);
 
-      setStakedThorAmount(amount as BigNumber);
+      setStakedThorAmount(
+        new SwapKitNumber({
+          value: typeof amount === 'string' ? amount : amount?.toString(),
+          decimal: BaseDecimal.ETH,
+        }),
+      );
     }
   }, [wallet]);
 
@@ -69,7 +78,7 @@ export const useV1ThorStakeInfo = () => {
     getStakedThorAmount();
   }, [getStakedThorAmount]);
 
-  const hasStakedV1Thor = !!stakedThorAmount && BigNumber.from(stakedThorAmount).gt(0);
+  const hasStakedV1Thor = stakedThorAmount.gt(0);
 
   return { stakedThorAmount, hasStakedV1Thor };
 };

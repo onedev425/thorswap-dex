@@ -1,4 +1,4 @@
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import type { IconColor } from 'components/Atomic';
 import type { ColorType } from 'types/app';
 
@@ -19,8 +19,8 @@ type AssetStyleType = {
 };
 
 export type AssetIconProps = (
-  | { asset: AssetEntity; logoURI?: string }
-  | { logoURI: string; asset?: AssetEntity }
+  | { asset: AssetValue; logoURI?: string }
+  | { logoURI: string; asset?: AssetValue }
 ) & {
   badge?: string;
   hasChainIcon?: boolean;
@@ -32,8 +32,8 @@ export type AssetIconProps = (
 } & AssetStyleType;
 
 export type AssetLpIconProps = {
-  asset1: AssetEntity;
-  asset2: AssetEntity;
+  asset1: AssetValue;
+  asset2: AssetValue;
   inline?: boolean;
   hasShadow?: boolean;
 } & AssetStyleType;

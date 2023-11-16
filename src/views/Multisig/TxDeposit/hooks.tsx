@@ -1,11 +1,11 @@
 import { Text } from '@chakra-ui/react';
-import type { AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-core';
-import { getMemoFor } from '@thorswap-lib/swapkit-core';
-import { MemoType } from '@thorswap-lib/types';
+import type { AssetValue } from '@swapkit/core';
+import { getMemoFor, MemoType } from '@swapkit/core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
 import type { InfoRowConfig } from 'components/InfoRow/types';
 import { BTCAsset, RUNEAsset } from 'helpers/assets';
+import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useLiquidityType } from 'hooks/useLiquidityType';
 import { usePools } from 'hooks/usePools';
 import { useCallback, useMemo } from 'react';
@@ -18,20 +18,19 @@ import { useAddLiquidity } from 'views/AddLiquidity/hooks/hooks';
 import { useAddLiquidityPools } from 'views/AddLiquidity/hooks/useAddLiquidityPools';
 import { useMultisigWallet } from 'views/Multisig/hooks';
 import { useTxCreate } from 'views/Multisig/TxCreate/TxCreateContext';
-import { useAssetsList } from 'views/Multisig/TxDeposit/useAssetsList';
 import { useDepositAssetsBalance } from 'views/Multisig/TxDeposit/useDepositAssetsBalance';
 
 export const useTxDeposit = (assetSideAddress: string) => {
   const { signers } = useTxCreate();
   const { wallet } = useMultisigWallet();
-  const assetRouteGetter = useCallback((asset: AssetEntity) => getMultisigTxCreateRoute(asset), []);
+  const assetRouteGetter = useCallback((asset: AssetValue) => getMultisigTxCreateRoute(asset), []);
   const { poolAssets } = usePools();
 
   const { liquidityType, setLiquidityType } = useLiquidityType();
   const { poolAsset, handleSelectPoolAsset } = useAddLiquidityPools({ assetRouteGetter });
   const depositAssetsBalance = useDepositAssetsBalance({ poolAsset });
 
-  const poolAssetList = useAssetsList({ poolAssets });
+  const poolAssetList = useAssetsWithBalance(poolAssets);
   const navigate = useNavigate();
   const { createDepositTx } = useMultisig();
 
@@ -39,13 +38,12 @@ export const useTxDeposit = (assetSideAddress: string) => {
     runeAmount,
     poolAsset,
   }: {
-    runeAmount: AssetAmount;
-    poolAsset: AssetEntity;
+    runeAmount: AssetValue;
+    poolAsset: AssetValue;
   }) => {
     if (runeAmount?.gt(0)) {
       const tx = await createDepositTx({
-        amount: runeAmount.amount,
-        asset: runeAmount.asset,
+        assetValue: runeAmount,
         memo: getMemoFor(MemoType.DEPOSIT, {
           chain: poolAsset.chain,
           symbol: poolAsset.symbol,

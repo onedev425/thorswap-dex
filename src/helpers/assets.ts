@@ -1,6 +1,5 @@
-import type { Pool } from '@thorswap-lib/swapkit-core';
-import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { BaseDecimal, Chain } from '@thorswap-lib/types';
+import { AssetValue, BaseDecimal, Chain } from '@swapkit/core';
+import type { Pool } from 'legacyTypes/pool';
 
 export enum VestingType {
   THOR = 'THOR',
@@ -171,23 +170,29 @@ export const bepIconMapping = {
   ZEBI: 'ZEBI-84F',
 };
 
-export const poolByAsset = (asset: AssetEntity, pools: Pool[]) =>
-  pools.find((pool) => asset.shallowEq(pool.asset));
+// TODO: @Chillios what about Pool?
+export const poolByAsset = (asset: AssetValue, pools: Pool[]) =>
+  pools.find((pool) => asset.eq(pool.asset));
 
-export const isETHAsset = ({ ticker, L1Chain }: AssetEntity) =>
-  ticker === 'ETH' && L1Chain === Chain.Ethereum;
-export const isAVAXAsset = ({ ticker, L1Chain }: AssetEntity) =>
-  ticker === 'AVAX' && L1Chain === Chain.Avalanche;
-export const isBSCAsset = ({ ticker, L1Chain }: AssetEntity) =>
-  ticker === 'BNB' && L1Chain === Chain.BinanceSmartChain;
-export const isBTCAsset = ({ ticker, L1Chain }: AssetEntity) =>
-  ticker === 'BTC' && L1Chain === Chain.Bitcoin;
+export const isETHAsset = ({ ticker, chain }: AssetValue) =>
+  ticker === 'ETH' && chain === Chain.Ethereum;
+export const isAVAXAsset = ({ ticker, chain }: AssetValue) =>
+  ticker === 'AVAX' && chain === Chain.Avalanche;
+export const isBSCAsset = ({ ticker, chain }: AssetValue) =>
+  ticker === 'BNB' && chain === Chain.BinanceSmartChain;
+export const isBTCAsset = ({ ticker, chain }: AssetValue) =>
+  ticker === 'BTC' && chain === Chain.Bitcoin;
 
-export const RUNEAsset = getSignatureAssetFor(Chain.THORChain);
-export const BTCAsset = getSignatureAssetFor(Chain.Bitcoin);
-export const ETHAsset = getSignatureAssetFor(Chain.Ethereum);
-export const THORAsset = getSignatureAssetFor('ETH_THOR');
-export const USDAsset = new AssetEntity(Chain.THORChain, 'USD', false, 'USD');
+export const RUNEAsset = AssetValue.fromChainOrSignature(Chain.THORChain);
+export const BTCAsset = AssetValue.fromChainOrSignature(Chain.Bitcoin);
+export const ETHAsset = AssetValue.fromChainOrSignature(Chain.Ethereum);
+export const THORAsset = AssetValue.fromChainOrSignature('ETH.THOR');
+export const USDAsset = new AssetValue({
+  chain: Chain.THORChain,
+  symbol: 'USD',
+  value: 0,
+  decimal: 8,
+});
 
 export const unitToValue = (
   unit: string | number,

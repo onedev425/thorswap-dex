@@ -1,5 +1,4 @@
-import { getMinAmountByChain, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { Chain, getMinAmountByChain } from '@swapkit/core';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from 'settings/router';
@@ -26,11 +25,8 @@ export const useTxBond = () => {
 
       const tx = await createDepositTx({
         memo,
-        amount:
-          type === BondActionType.Bond && amount
-            ? amount
-            : getMinAmountByChain(Chain.THORChain).amount,
-        asset: getSignatureAssetFor(Chain.THORChain),
+        assetValue:
+          type === BondActionType.Bond && amount ? amount : getMinAmountByChain(Chain.THORChain),
       });
 
       if (tx) {

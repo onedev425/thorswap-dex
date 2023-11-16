@@ -1,5 +1,5 @@
-import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
-import { AssetAmount } from '@thorswap-lib/swapkit-core';
+import type { SwapKitNumber } from '@swapkit/core';
+import { AssetValue } from '@swapkit/core';
 import { useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useAppDispatch } from 'store/store';
@@ -17,9 +17,9 @@ export function useLoanRepay({
   repayQuote,
   stream,
 }: {
-  repayAsset: AssetEntity;
-  collateralAsset: AssetEntity;
-  amount: Amount;
+  repayAsset: AssetValue;
+  collateralAsset: AssetValue;
+  amount: SwapKitNumber;
   onSuccess?: () => void;
   repayQuote?: RepayQuoteResponse;
   stream?: boolean;
@@ -29,13 +29,13 @@ export function useLoanRepay({
   const { wallet } = useWallet();
 
   const collateralAddress = useMemo(
-    () => wallet?.[collateralAsset.L1Chain]?.address || '',
-    [wallet, collateralAsset.L1Chain],
+    () => wallet?.[collateralAsset.chain]?.address || '',
+    [wallet, collateralAsset.chain],
   );
 
   const handleRepay = useCallback(
     async (expectedAmount: string) => {
-      const { closeLoan } = await (await import('services/swapKit')).getSwapKitClient();
+      const { loan } = await (await import('services/swapKit')).getSwapKitClient();
       setIsConfirmOpen(false);
 
       const id = v4();
@@ -44,19 +44,23 @@ export function useLoanRepay({
         addTransaction({
           id,
           label: t('txManager.closeLoan', {
-            asset: repayAsset.name,
+            asset: repayAsset.ticker,
             amount: expectedAmount,
           }),
           type: TransactionType.TC_LENDING_CLOSE,
-          inChain: repayAsset.L1Chain,
+          inChain: repayAsset.chain,
         }),
       );
 
       try {
-        const txid = await closeLoan({
+        const txid = await loan({
+          type: 'close',
           memo: stream ? repayQuote?.streamingSwap?.memo : repayQuote?.memo,
-          assetAmount: new AssetAmount(repayAsset, amount),
-          assetTicker: `${collateralAsset.chain}.${collateralAsset.ticker}`,
+          assetValue: AssetValue.fromStringSync(
+            repayAsset.toString(),
+            repayAsset.getValue('string'),
+          )!.add(amount),
+          minAmount: AssetValue.fromStringSync(repayAsset.toString(), expectedAmount)!,
         });
         onSuccess?.();
         if (txid)
@@ -77,17 +81,7 @@ export function useLoanRepay({
         appDispatch(completeTransaction({ id, status: 'error' }));
       }
     },
-    [
-      appDispatch,
-      repayAsset,
-      stream,
-      repayQuote,
-      amount,
-      collateralAsset.chain,
-      collateralAsset.ticker,
-      onSuccess,
-      collateralAddress,
-    ],
+    [appDispatch, repayAsset, stream, repayQuote, amount, onSuccess, collateralAddress],
   );
 
   const openRepayConfirm = useCallback(() => {

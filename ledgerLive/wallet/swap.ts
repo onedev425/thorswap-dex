@@ -1,10 +1,8 @@
-import { baseAmount, getRequest } from '@thorswap-lib/helpers';
-import type { SwapParams } from '@thorswap-lib/swapkit-core';
-import { AssetEntity, QuoteMode } from '@thorswap-lib/swapkit-core';
-import type { Chain } from '@thorswap-lib/types';
+import type { Chain, SwapParams } from '@swapkit/core';
+import { AssetValue, QuoteMode, RequestClient } from '@swapkit/core';
 
 const getInboundData = () => {
-  return getRequest<any>(`https://thornode.thorswap.net/thorchain/inbound_addresses`);
+  return RequestClient.get<any>(`https://thornode.thorswap.net/thorchain/inbound_addresses`);
 };
 
 export const getInboundFeeDataForChain = async (chain: Chain) => {
@@ -29,13 +27,16 @@ export const ledgerLiveSwap = async ({
     case QuoteMode.ETH_TO_TC_SUPPORTED:
     case QuoteMode.TC_SUPPORTED_TO_ETH: {
       const { fromAsset, amountIn, memo } = route.calldata;
-      const asset = AssetEntity.fromAssetString(fromAsset);
-      if (!asset) throw new Error('Asset not recognised');
+      const assetValue = await AssetValue.fromIdentifier(
+        fromAsset as `${Chain}.${string}`,
+        amountIn,
+      );
+      if (!assetValue) throw new Error('Asset not recognised');
 
       const replacedMemo = memo.replace('{recipientAddress}', recipient);
 
       const inboundData = await getInboundData();
-      const chainAddressData = inboundData.find((item: any) => item.chain === asset.chain);
+      const chainAddressData = inboundData.find((item: any) => item.chain === assetValue.chain);
 
       if (!chainAddressData) throw new Error('pool address not found');
       if (chainAddressData?.halted) {
@@ -44,20 +45,26 @@ export const ledgerLiveSwap = async ({
 
       const { address: inboundAddress } = chainAddressData;
 
-      const chain = asset.L1Chain;
+      const chain = assetValue.chain;
 
-      const walletInstance = wallet[asset.chain].walletMethods;
+      const walletInstance = wallet[assetValue.chain].walletMethods;
 
       if (!walletInstance) throw new Error(`Chain ${chain} is not connected`);
 
-      const params = {
+      const params:
+        | {
+            assetValue: AssetValue;
+            memo: string;
+            recipient: string;
+          }
+        | any = {
         recipient: inboundAddress,
         // router: route.contract,
         memo: replacedMemo,
         feeOptionKey,
         from: walletInstance.getAddress(),
-        amount: baseAmount(amountIn, asset.decimal),
-        asset,
+        //TODO - fix this typing
+        assetValue,
         feeRate: parseInt(chainAddressData.gas_rate),
       };
 

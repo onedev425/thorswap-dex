@@ -1,14 +1,14 @@
-import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue, SwapKitNumber } from '@swapkit/core';
 import type { AssetSelectType } from 'components/AssetSelect/types';
 
 export type LoanPosition = {
-  asset: AssetEntity;
-  collateralCurrent: Amount;
-  collateralDeposited: Amount;
-  collateralWithdrawn: Amount;
-  debtIssued: Amount;
-  debtRepaid: Amount;
-  debtCurrent: Amount;
+  asset: AssetValue;
+  collateralCurrent: AssetValue;
+  collateralDeposited: AssetValue;
+  collateralWithdrawn: AssetValue;
+  debtIssued: SwapKitNumber;
+  debtRepaid: SwapKitNumber;
+  debtCurrent: SwapKitNumber;
   lastOpenHeight: number;
   ltvPercentage?: string;
 };
@@ -31,7 +31,7 @@ export type SaverQuoteResponse = {
 };
 
 export type LendingAsset = {
-  asset: AssetEntity;
+  asset: AssetValue;
   assetDepthAssetAmount: string;
   runeDepthAssetAmount: string;
   loanCr: string;

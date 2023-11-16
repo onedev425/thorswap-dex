@@ -1,6 +1,5 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Amount, AmountType, AssetAmount } from '@thorswap-lib/swapkit-core';
+import { AssetValue, SwapKitNumber } from '@swapkit/core';
 import classNames from 'classnames';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Button, Card, Icon, Link, Tooltip } from 'components/Atomic';
@@ -45,6 +44,10 @@ const Earn = () => {
   const aprAssets = useAssetsWithApr();
   const balanceAssets = useAssetsWithBalance();
   const hardCapReached = useCheckHardCap();
+  const { getMaxBalance } = useBalance();
+  const { isChainHalted } = useMimir();
+  const { positions, refreshPositions, getPosition, synthAvailability } = useSaverPositions();
+  const { wallet, setIsConnectModalOpen } = useWallet();
 
   const { asset, setAsset, amount, setAmount } = useRouteAssetParams(ROUTES.Earn);
 
@@ -52,45 +55,42 @@ const Earn = () => {
   const [visibleApproveModal, setVisibleApproveModal] = useState(false);
   const [tab, setTab] = useState(EarnTab.Deposit);
   const [viewTab, setViewTab] = useState(EarnViewTab.Earn);
-  const [withdrawPercent, setWithdrawPercent] = useState(new Amount(0, AmountType.ASSET_AMOUNT, 2));
+  const [withdrawPercent, setWithdrawPercent] = useState(
+    new SwapKitNumber({ decimal: 2, value: 0 }),
+  );
   const [availableToWithdraw, setAvailableToWithdraw] = useState(zeroAmount);
-  const [balance, setBalance] = useState<Amount | undefined>();
+  const [balance, setBalance] = useState<AssetValue | undefined>();
 
   const listAssets = useMemo(
     () =>
       balanceAssets.map((ba) => {
-        const aprAsset = aprAssets.find(({ asset }) => ba.asset.toString() === asset.toString());
+        const aprAsset = aprAssets.find(
+          ({ asset }) => ba.asset.toString().toLowerCase() === asset.toLowerCase(),
+        );
 
-        getEVMDecimal(ba.asset).then((res) => ba.asset.setDecimal(res));
         return { ...aprAsset, ...ba };
       }),
     [aprAssets, balanceAssets],
   );
 
   const isDeposit = tab === EarnTab.Deposit;
-  const { getMaxBalance } = useBalance();
-  const { isChainHalted } = useMimir();
-  const { positions, refreshPositions, getPosition, synthAvailability } = useSaverPositions();
-  const { wallet, setIsConnectModalOpen } = useWallet();
-
   const { data: tokenPricesData } = useTokenPrices([asset]);
   const usdPrice = useMemo(() => {
-    const price = tokenPricesData[asset.toString()]?.price_usd || 0;
+    const price = tokenPricesData[asset.toString(true)]?.price_usd || 0;
 
-    return price * amount.assetAmount.toNumber();
-  }, [amount.assetAmount, asset, tokenPricesData]);
+    return price * amount.getValue('number');
+  }, [amount, asset, tokenPricesData]);
 
   const { isApproved, isLoading } = useIsAssetApproved({
-    asset,
+    assetValue: asset,
     force: true,
-    amount: amount.gt(0) ? amount : undefined,
   });
 
   const handleApprove = useTCApprove({ asset });
 
   const currentAsset = useMemo(
-    () => listAssets.find(({ asset: { name } }) => name === asset.name),
-    [asset.name, listAssets],
+    () => listAssets.find(({ asset: { ticker } }) => ticker === asset.ticker),
+    [asset.ticker, listAssets],
   );
 
   const { slippage, saverQuote, expectedOutputAmount, networkFee, daysToBreakEven } =
@@ -103,7 +103,7 @@ const Earn = () => {
     });
   const { isLgActive } = useWindowSize();
 
-  const address = useMemo(() => wallet?.[asset.L1Chain]?.address || '', [wallet, asset.L1Chain]);
+  const address = useMemo(() => wallet?.[asset.chain]?.address || '', [wallet, asset.chain]);
 
   useEffect(() => {
     address
@@ -123,31 +123,31 @@ const Earn = () => {
     (tab: EarnTab) => {
       setViewTab(EarnViewTab.Earn);
       setTab(tab);
-      setAmount(Amount.fromAssetAmount(0, asset.decimal));
+      setAmount(new SwapKitNumber({ value: 0, decimal: asset.decimal }));
     },
     [asset.decimal, setAmount],
   );
 
   const depositAsset = useCallback(
-    (asset: AssetEntity) => {
+    (asset: AssetValue) => {
       switchTab(EarnTab.Deposit);
       setAsset(asset);
-      setAmount(Amount.fromAssetAmount(0, asset.decimal));
+      setAmount(new SwapKitNumber({ value: 0, decimal: asset.decimal }));
     },
     [setAmount, setAsset, switchTab],
   );
 
   const withdrawAsset = useCallback(
-    (asset: AssetEntity) => {
+    (asset: AssetValue) => {
       switchTab(EarnTab.Withdraw);
       setAsset(asset);
-      setAmount(Amount.fromAssetAmount(0, asset.decimal));
+      setAmount(new SwapKitNumber({ value: 0, decimal: asset.decimal }));
     },
     [setAmount, setAsset, switchTab],
   );
 
   const handlePercentWithdrawChange = useCallback(
-    (amount: Amount) => {
+    (amount: SwapKitNumber) => {
       setWithdrawPercent(amount);
 
       if (address) {
@@ -159,7 +159,7 @@ const Earn = () => {
 
   useEffect(() => {
     const pos = getPosition(asset);
-    setAvailableToWithdraw(pos?.amount || Amount.fromAssetAmount(0, 8));
+    setAvailableToWithdraw(pos?.amount || new SwapKitNumber({ value: 0, decimal: 8 }));
   }, [asset, getPosition, positions]);
 
   useEffect(() => {
@@ -172,7 +172,7 @@ const Earn = () => {
         const assetDecimal = await getEVMDecimal(asset);
         if (!assetDecimal || asset.decimal === assetDecimal) return;
 
-        asset.setDecimal(assetDecimal);
+        asset.decimal = assetDecimal;
         setAsset(asset);
       }
     };
@@ -181,26 +181,25 @@ const Earn = () => {
   }, [asset, setAsset]);
 
   const handleAssetChange = useCallback(
-    (asset: AssetEntity) => {
+    (asset: AssetValue) => {
       setAsset(asset);
-      setAmount(Amount.fromAssetAmount(0, asset.decimal));
+      setAmount(new SwapKitNumber({ value: 0, decimal: asset.decimal }));
     },
-    [setAmount, setAsset],
+    [setAsset, setAmount],
   );
 
   const handleSwapkitAction = useCallback(async () => {
-    const { addSavings, withdrawSavings } = await (
-      await import('services/swapKit')
-    ).getSwapKitClient();
+    const { savings } = await (await import('services/swapKit')).getSwapKitClient();
+    const percent = withdrawPercent.getValue('number');
+    const params = isDeposit
+      ? { assetValue: asset.set(amount), type: 'add' as const }
+      : {
+          assetValue: AssetValue.fromChainOrSignature(asset.chain),
+          type: 'withdraw' as const,
+          percent,
+        };
 
-    return isDeposit
-      ? addSavings({
-          assetAmount: new AssetAmount(
-            asset,
-            Amount.fromAssetAmount(amount.assetAmount.toString(), asset.decimal),
-          ),
-        })
-      : withdrawSavings({ asset, percent: withdrawPercent });
+    return savings(params);
   }, [amount, asset, isDeposit, withdrawPercent]);
 
   const handleEarnSubmit = useCallback(
@@ -213,42 +212,47 @@ const Earn = () => {
         addTransaction({
           id,
           label: t(isDeposit ? 'txManager.addAmountAsset' : 'txManager.withdrawAmountAsset', {
-            asset: asset.name,
+            asset: asset.ticker,
             amount: expectedAmount,
           }),
           type: isDeposit ? TransactionType.TC_SAVINGS_ADD : TransactionType.TC_SAVINGS_WITHDRAW,
-          inChain: asset.L1Chain,
+          inChain: asset.chain,
         }),
       );
 
       try {
         const txid = await handleSwapkitAction();
-        setAmount(Amount.fromAssetAmount(0, 8));
+        setAmount(new SwapKitNumber({ value: 0, decimal: 8 }));
         if (txid) appDispatch(updateTransaction({ id, txid }));
       } catch (error) {
         console.error(error);
         appDispatch(completeTransaction({ id, status: 'error' }));
       }
     },
-    [appDispatch, asset.L1Chain, asset.name, handleSwapkitAction, isDeposit, setAmount],
+    [appDispatch, asset.chain, asset.ticker, handleSwapkitAction, isDeposit, setAmount],
   );
 
   const isSynthInCapacity = useMemo(
-    () => !synthAvailability?.[asset.L1Chain] && (currentAsset?.filled || 0) < 99.5,
-    [asset.L1Chain, currentAsset?.filled, synthAvailability],
+    () => !synthAvailability?.[asset.chain] && (currentAsset?.filled || 0) < 99.5,
+    [asset.chain, currentAsset?.filled, synthAvailability],
   );
 
   const buttonDisabled = useMemo(
     () =>
-      amount.lte(Amount.fromAssetAmount(0, 8)) ||
+      amount.lte(new SwapKitNumber({ value: 0, decimal: 8 })) ||
       (isDeposit && ((balance && amount.gt(balance)) || !isSynthInCapacity)) ||
-      isChainHalted[asset.L1Chain],
-    [amount, asset.L1Chain, balance, isChainHalted, isDeposit, isSynthInCapacity],
+      isChainHalted[asset.chain],
+    [amount, asset.chain, balance, isChainHalted, isDeposit, isSynthInCapacity],
   );
 
   const tabLabel = tab === EarnTab.Deposit ? t('common.deposit') : t('common.withdraw');
   const selectedAsset = useMemo(
-    () => ({ asset, value: amount, balance, usdPrice }),
+    () => ({
+      asset,
+      value: amount,
+      balance,
+      usdPrice,
+    }),
     [asset, amount, balance, usdPrice],
   );
 
@@ -275,7 +279,7 @@ const Earn = () => {
         value: (
           <Box center>
             <Text textStyle="caption">
-              {`${slippage ? slippage?.toSignificant(6) : 0} ${asset.name}`}
+              {`${slippage ? slippage?.toSignificant(6) : 0} ${asset.ticker}`}
             </Text>
           </Box>
         ),
@@ -285,7 +289,7 @@ const Earn = () => {
         value: timeToBreakEvenInfo,
       },
     ],
-    [slippage, asset.name, timeToBreakEvenInfo],
+    [slippage, asset.ticker, timeToBreakEvenInfo],
   );
 
   return (
@@ -307,7 +311,7 @@ const Earn = () => {
               <Box className="flex w-full justify-between">
                 <Box alignCenter>
                   <Text className="ml-3 mr-2" textStyle="h3">
-                    {t('views.savings.earn')} {asset.name}
+                    {t('views.savings.earn')} {asset.ticker}
                   </Text>
                   <Text textStyle="h3" variant="primaryBtn">
                     {currentAsset?.apr
@@ -316,7 +320,7 @@ const Earn = () => {
                   </Text>
 
                   <Tooltip
-                    content={t('views.savings.aprTooltip', { asset: asset.name })}
+                    content={t('views.savings.aprTooltip', { asset: asset.ticker })}
                     place="bottom"
                   >
                     <Icon className="ml-1" color="primaryBtn" name="infoCircle" size={24} />
@@ -326,7 +330,7 @@ const Earn = () => {
 
               <Box alignCenter className="px-3" justify="between">
                 <Text fontWeight="medium" textStyle="caption" variant="secondary">
-                  {t('views.savings.description', { asset: asset.name })}
+                  {t('views.savings.description', { asset: asset.ticker })}
                   <Link className="text-twitter-blue cursor-pointer" to={SAVERS_MEDIUM}>
                     <Text fontWeight="medium" textStyle="caption" variant="blue">
                       {`${t('common.learnMore')} →`}
@@ -335,7 +339,7 @@ const Earn = () => {
                 </Text>
 
                 <Tooltip
-                  content={t('views.savings.tooltipDescription', { asset: asset.name })}
+                  content={t('views.savings.tooltipDescription', { asset: asset.ticker })}
                   place="bottom"
                 >
                   <Icon color="primaryBtn" name="infoCircle" size={24} />
@@ -421,7 +425,6 @@ const Earn = () => {
 
                   <ApproveModal
                     handleApprove={handleApprove}
-                    inputAmount={amount}
                     inputAsset={asset}
                     setVisible={setVisibleApproveModal}
                     visible={visibleApproveModal}
@@ -445,6 +448,7 @@ const Earn = () => {
               </Box>
             </Box>
           </TabPanel>
+
           <TabPanel>
             <EarnPositionsTab
               onDeposit={depositAsset}

@@ -1,4 +1,4 @@
-import { Chain } from '@thorswap-lib/types';
+import { Chain } from '@swapkit/core';
 import { useEffect, useState } from 'react';
 
 const checkIfExchangeBNBAddress = async (address: string) => {
@@ -10,7 +10,7 @@ const checkIfExchangeBNBAddress = async (address: string) => {
     return false;
   }
 
-  const { BinanceToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+  const { BinanceToolbox } = await import('@swapkit/toolbox-cosmos');
   const binanceToolbox = BinanceToolbox({});
   const { flags } = await binanceToolbox.getAccount(address);
 

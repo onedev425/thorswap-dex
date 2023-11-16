@@ -1,4 +1,4 @@
-import { Chain } from '@thorswap-lib/types';
+import { Chain } from '@swapkit/core';
 
 export const chainName = (chain: string, full?: boolean) => {
   switch (chain) {

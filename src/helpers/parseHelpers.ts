@@ -1,12 +1,12 @@
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import type { GetTokenPriceIdentifiers } from 'store/thorswap/types';
 
 export const parseAssetToToken = ({
-  isSynth,
+  isSynthetic,
   symbol,
   chain,
-}: AssetEntity): GetTokenPriceIdentifiers => ({
-  identifier: `${chain}${isSynth ? '/' : '.'}${symbol}`,
+}: AssetValue): GetTokenPriceIdentifiers => ({
+  identifier: `${chain}${isSynthetic ? '/' : '.'}${symbol}`,
 });
 
 export const parseToPercent = (basis: number | string = 0, decimals: number = 2) =>

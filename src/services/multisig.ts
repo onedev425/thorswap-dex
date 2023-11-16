@@ -1,24 +1,16 @@
-import { baseAmount } from '@thorswap-lib/helpers';
-import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import { Amount, AssetAmount } from '@thorswap-lib/swapkit-core';
-import type {
-  MultisigThresholdPubkey,
-  Signer,
-  ThorchainToolbox,
-} from '@thorswap-lib/toolbox-cosmos';
+import type { AssetValue } from '@swapkit/core';
+import type { MultisigThresholdPubkey, Signer, ThorchainToolbox } from '@swapkit/toolbox-cosmos';
 import type { MultisigMember } from 'store/multisig/types';
 
 export type MultisigTransferTxParams = {
   recipient: string;
   memo: string;
-  asset: Asset;
-  amount: Amount;
+  assetValue: AssetValue;
 };
 
 export type MultisigDepositTxParams = {
   memo: string;
-  asset: Asset;
-  amount: Amount;
+  assetValue: AssetValue;
 };
 
 export type TxAmount = {
@@ -54,7 +46,7 @@ let _multisigAddress: string | null = null;
 export const getMultisigAddress = () => _multisigAddress;
 
 export const getThorchainToolbox = async () => {
-  const { ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+  const { ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
 
   return (_thorchainToolbox ||= ThorchainToolbox({}));
 };
@@ -79,36 +71,32 @@ export const clearMultisigWallet = () => {
   _multisigAddress = null;
 };
 
-const buildTransferTx = async ({ recipient, memo, asset, amount }: MultisigTransferTxParams) => {
+const buildTransferTx = async ({ recipient, memo, assetValue }: MultisigTransferTxParams) => {
   if (!_multisigAddress || !_multisigPubKey) {
     throw new Error('Multisig wallet is not imported');
   }
-  const { getThorchainDenom, buildTransferTx: buildThorchainTransferTx } = await import(
-    '@thorswap-lib/toolbox-cosmos'
-  );
+  const { buildTransferTx: buildThorchainTransferTx } = await import('@swapkit/toolbox-cosmos');
 
   const transferTx = await buildThorchainTransferTx({
     memo,
     fromAddress: _multisigAddress,
     toAddress: recipient,
-    assetDenom: getThorchainDenom(asset),
-    assetAmount: baseAmount(amount.baseAmount.toNumber(), asset.decimal),
+    assetValue,
   });
 
   return transferTx;
 };
 
-const buildDepositTx = async ({ memo, asset, amount }: MultisigDepositTxParams) => {
+const buildDepositTx = async ({ memo, assetValue }: MultisigDepositTxParams) => {
   if (!_multisigAddress || !_multisigPubKey) {
     throw new Error('Multisig wallet is not imported');
   }
-  const { buildDepositTx: buildThorchainDepositTx } = await import('@thorswap-lib/toolbox-cosmos');
+  const { buildDepositTx: buildThorchainDepositTx } = await import('@swapkit/toolbox-cosmos');
 
   const depositTx = await buildThorchainDepositTx({
     signer: _multisigAddress,
     memo,
-    asset,
-    assetAmount: baseAmount(amount.baseAmount.toNumber(), asset.decimal),
+    assetValue,
   });
 
   return depositTx;
@@ -133,14 +121,14 @@ const broadcastMultisigTx = async (
 const loadMultisigBalances = async () =>
   _multisigAddress ? (await getThorchainToolbox()).loadAddressBalances(_multisigAddress) : [];
 
-const getAssetBalance = (asset: Asset, balances: AssetAmount[]): AssetAmount => {
-  const assetBalance = balances.find((data: AssetAmount) => data.asset.eq(asset));
+const getAssetBalance = (asset: AssetValue, balances: AssetValue[]) => {
+  const assetBalance = balances.find((balance) => balance.eq(asset));
 
-  return assetBalance || new AssetAmount(asset, Amount.fromAssetAmount(0, asset.decimal));
+  return assetBalance || asset.set(0);
 };
 
-const hasAsset = (asset: Asset, balances: AssetAmount[]): boolean => {
-  const assetBalance = balances.find((data: AssetAmount) => data.asset.eq(asset));
+const hasAsset = (asset: AssetValue, balances: AssetValue[]): boolean => {
+  const assetBalance = balances.find((balance: AssetValue) => balance.eq(asset));
 
   return !!assetBalance;
 };

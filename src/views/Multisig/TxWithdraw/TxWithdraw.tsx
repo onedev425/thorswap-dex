@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Amount } from '@thorswap-lib/swapkit-core';
+import { SwapKitNumber } from '@swapkit/core';
 import classNames from 'classnames';
 import { AssetSelect } from 'components/AssetSelect';
 import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton';
@@ -78,7 +78,7 @@ export const TxWithdraw = () => {
 
         <PercentageSlider
           onChange={handleChangePercent}
-          percent={Amount.fromNormalAmount(percent)}
+          percent={new SwapKitNumber(percent)}
           title={t('common.withdrawPercent')}
         />
 

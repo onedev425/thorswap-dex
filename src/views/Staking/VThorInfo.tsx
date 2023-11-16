@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { WalletOption } from '@thorswap-lib/types';
+import type { WalletOption } from '@swapkit/core';
 import { Box, Icon, Link, Tooltip } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoTip } from 'components/InfoTip';
@@ -7,7 +7,6 @@ import { useFormatPrice } from 'helpers/formatPrice';
 import { toOptionalFixed } from 'helpers/number';
 import { fetchVthorApr } from 'helpers/staking';
 import { memo, useCallback, useEffect, useState } from 'react';
-import { fromWei } from 'services/contract';
 import { t } from 'services/i18n';
 import { ROUTES } from 'settings/router';
 
@@ -26,7 +25,6 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
   const { thorStaked, vthorBalance, handleRefresh, thorRedeemable } = useVthorUtil();
   const formatPrice = useFormatPrice({ prefix: '' });
   const { hasStakedV1Thor } = useV1ThorStakeInfo(ethAddress);
-
   const handleStatsRefresh = useCallback(() => {
     setIsFetching(true);
     handleRefresh();
@@ -35,11 +33,9 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
   }, [handleRefresh]);
 
   const getVthorAPR = useCallback(async () => {
-    const stakedAmount = fromWei(thorStaked);
-
-    if (stakedAmount > 0) {
+    if (thorStaked && thorStaked.gt(0)) {
       try {
-        const apr = await fetchVthorApr(stakedAmount);
+        const apr = await fetchVthorApr(thorStaked.getValue('number'));
         setVthorApr(apr);
       } catch (error: NotWorth) {
         console.error(error);
@@ -129,7 +125,7 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
               </Text>
             </Box>
             <Text fontWeight="medium" textStyle="subtitle2">
-              {ethAddress ? formatPrice(fromWei(vthorBalance)) : '-'}
+              {ethAddress ? formatPrice(vthorBalance) : '-'}
             </Text>
           </Box>
         </Box>

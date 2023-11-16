@@ -1,8 +1,5 @@
-import { baseAmount } from '@thorswap-lib/helpers';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Amount, isGasAsset } from '@thorswap-lib/swapkit-core';
-import type { UTXOEstimateFeeParams } from '@thorswap-lib/toolbox-utxo';
-import { Chain, UTXOChainList } from '@thorswap-lib/types';
+import type { AssetValue, UTXOChain } from '@swapkit/core';
+import { Chain, isGasAsset, UTXOChainList } from '@swapkit/core';
 import { getAssetBalance } from 'helpers/wallet';
 import { getMultiplierForAsset, getNetworkFee, parseFeeToAssetAmount } from 'hooks/useNetworkFee';
 import { useCallback } from 'react';
@@ -11,7 +8,6 @@ import { IS_LEDGER_LIVE } from 'settings/config';
 import { useAppDispatch, useAppSelector } from 'store/store';
 import { useGetGasPriceRatesQuery } from 'store/thorswap/api';
 import * as walletActions from 'store/wallet/actions';
-import { zeroAmount } from 'types/app';
 
 import { getInboundFeeDataForChain } from '../../ledgerLive/wallet/swap';
 
@@ -29,24 +25,24 @@ export const useBalance = (skipFees?: boolean) => {
   );
 
   const isWalletAssetConnected = useCallback(
-    (asset: AssetEntity) => !!wallet?.[asset.L1Chain as Chain],
+    (asset: AssetValue) => !!wallet?.[asset.chain as Chain],
     [wallet],
   );
 
   const isWalletConnected = useCallback((chain: Chain) => !!wallet?.[chain], [wallet]);
 
   const getMaxBalance = useCallback(
-    async (asset: AssetEntity, withoutFees = skipFees) => {
-      const { L1Chain, decimal } = asset;
-      const chainWallet = wallet?.[L1Chain as Chain];
-      if (!chainWallet) return Amount.fromBaseAmount(0, decimal);
-      const from = chainWallet.address;
-      const chainInfo = gasPriceRates?.find(({ asset }) => asset.includes(L1Chain));
-      if (withoutFees) {
-        return getAssetBalance(asset, wallet).amount;
-      }
-      if (IS_LEDGER_LIVE && L1Chain === Chain.Bitcoin)
-        getInboundFeeDataForChain(L1Chain).then((gasPrice) => {
+    async (asset: AssetValue, withoutFees = skipFees): Promise<AssetValue> => {
+      if (withoutFees) return getAssetBalance(asset, wallet);
+
+      const { chain } = asset;
+      const chainWallet = wallet?.[chain as Chain];
+      if (!chainWallet) return asset.mul(0);
+
+      const chainInfo = gasPriceRates?.find(({ asset }) => asset.includes(chain));
+
+      if (IS_LEDGER_LIVE && chain === Chain.Bitcoin)
+        getInboundFeeDataForChain(chain).then((gasPrice) => {
           const gasRate = getNetworkFee({
             gasPrice: gasPrice / 1e8,
             feeOptionType,
@@ -54,11 +50,11 @@ export const useBalance = (skipFees?: boolean) => {
           });
           const networkFee = parseFeeToAssetAmount({ gasRate, asset });
 
-          const { amount } = getAssetBalance(asset, wallet);
+          const balance = getAssetBalance(asset, wallet);
 
-          const maxSpendableAmount = isGasAsset(asset) ? amount.sub(networkFee) : amount;
+          const maxSpendableAmount = isGasAsset(balance) ? balance.sub(networkFee) : balance;
 
-          return maxSpendableAmount.gt(0) ? maxSpendableAmount : Amount.fromAssetAmount(0, decimal);
+          return maxSpendableAmount.gt(0) ? maxSpendableAmount : (balance.set(0) as AssetValue);
         });
 
       const gasRate = getNetworkFee({
@@ -66,37 +62,45 @@ export const useBalance = (skipFees?: boolean) => {
         feeOptionType,
         multiplier: getMultiplierForAsset(asset),
       });
-      const { amount } = getAssetBalance(asset, wallet);
-      if (amount.baseAmount.eq(0)) return Amount.fromAssetAmount(0, decimal);
+      const balance = getAssetBalance(asset, wallet);
+      if (balance.eqValue(0)) return balance;
 
-      //   const networkFee = parseFeeToAssetAmount({ gasRate, asset });
-      if (!UTXOChainList.includes(L1Chain)) {
-        const networkFee = parseFeeToAssetAmount({ gasRate, asset });
+      if (!UTXOChainList.includes(chain as UTXOChain)) {
+        const maxSpendableAmount = isGasAsset(asset)
+          ? balance.sub(parseFeeToAssetAmount({ gasRate, asset }))
+          : balance;
 
-        const maxSpendableAmount = isGasAsset(asset) ? amount.sub(networkFee) : amount;
-
-        return maxSpendableAmount.gt(0) ? maxSpendableAmount : Amount.fromAssetAmount(0, decimal);
+        return maxSpendableAmount.gt(0) ? maxSpendableAmount : maxSpendableAmount.set(0);
       }
 
       const client = await getSwapKitClient();
-      const baseAmountString = IS_LEDGER_LIVE
-        ? baseAmount(
-            wallet[L1Chain]?.balance
-              .find((balance) => balance.asset.shallowEq(asset))
-              ?.amount.baseAmount.toString(),
-            asset.decimal,
-          )
+
+      const maxSpendableAmount = IS_LEDGER_LIVE
+        ? (wallet[chain]?.balance.find((balance) => balance.eq(asset)) as AssetValue) ||
+          asset.set(0)
         : await client.estimateMaxSendableAmount({
-            chain: L1Chain,
-            params: {
-              from,
-              recipients: 1,
-              memo: '56bytelongtestmemo-0000000000000000000000000000000000000',
-            } as UTXOEstimateFeeParams,
+            chain: chain,
+            params: { from: chainWallet.address, recipient: '', assetValue: asset },
           });
 
-      const maxSpendableAmount = Amount.fromBaseAmount(baseAmountString.amount().toString(), 8);
-      return maxSpendableAmount.gt(0) ? maxSpendableAmount : zeroAmount;
+      // TODO remove after LL is tested
+      //   const baseAmountString = IS_LEDGER_LIVE
+      //     ? baseAmount(
+      //         wallet[L1Chain]?.balance
+      //           .find((balance) => balance.asset.shallowEq(asset))
+      //           ?.amount.baseAmount.toString(),
+      //         asset.decimal,
+      //       )
+      //     : await client.estimateMaxSendableAmount({
+      //         chain: L1Chain,
+      //         params: {
+      //           from,
+      //           recipients: 1,
+      //           memo: '56bytelongtestmemo-0000000000000000000000000000000000000',
+      //         } as UTXOEstimateFeeParams,
+      //       });
+
+      return maxSpendableAmount.gt(0) ? maxSpendableAmount : asset.set(0);
     },
     [skipFees, wallet, gasPriceRates, feeOptionType],
   );

@@ -1,11 +1,11 @@
 import { Text } from '@chakra-ui/react';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import { AssetButton } from 'components/AssetSelect/AssetButton';
 import { Box } from 'components/Atomic';
 
 type Props = {
-  assets: AssetEntity[];
-  onSelect: (val: AssetEntity) => void;
+  assets: AssetValue[];
+  onSelect: (val: AssetValue) => void;
   emptyTitle?: string;
 };
 

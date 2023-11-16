@@ -1,4 +1,5 @@
 import { captureException, withProfiler } from '@sentry/react';
+import { AssetValue } from '@swapkit/core';
 import { AnnouncementsProvider } from 'components/Announcements/AnnouncementsContext';
 import { Box } from 'components/Atomic';
 import { ChakraThemeProvider } from 'components/Theme/ChakraThemeProvider';
@@ -10,7 +11,7 @@ import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import type { PropsWithChildren } from 'react';
-import { Component } from 'react';
+import { Component, useEffect, useState } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider as ReduxProvider } from 'react-redux';
 import { IS_LOCAL, IS_PROD } from 'settings/config';
@@ -96,8 +97,20 @@ class ErrorBoundary extends Component<PropsWithChildren<{}>, { hasError: boolean
 }
 
 const AppProviders = () => {
-  if (!checkOrigin()) return null;
+  const [assetsLoaded, setAssetLoaded] = useState(false);
 
+  useEffect(() => {
+    loadAssets();
+  }, []);
+
+  const loadAssets = () =>
+    AssetValue.loadStaticAssets().then(({ ok }) => {
+      console.log('loadAssets', ok);
+      setAssetLoaded(ok);
+    });
+
+  if (!checkOrigin()) return null;
+  if (!assetsLoaded) return null;
   return (
     <ErrorBoundary>
       <ChakraThemeProvider>

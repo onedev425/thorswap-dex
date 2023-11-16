@@ -1,5 +1,5 @@
 import { Link, Text } from '@chakra-ui/react';
-import { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import { AssetValue, SwapKitNumber } from '@swapkit/core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import { getAmountColumnSorter, sortPoolColumn } from 'components/Atomic/Table/utils';
@@ -28,7 +28,9 @@ export type TimePeriods = {
 export const usePoolColumns = (poolCategory: PoolCategoryOption) => {
   const navigate = useNavigate();
   const runeToCurrency = useRuneToCurrency();
-  const formatPrice = useFormatPrice();
+  const formatPrice = useFormatPrice({
+    prefix: '$',
+  });
 
   const columns = useMemo(() => {
     const apr =
@@ -99,9 +101,9 @@ export const usePoolColumns = (poolCategory: PoolCategoryOption) => {
         sortType: sortPoolColumn,
         Cell: ({ cell: { value } }: { cell: { value: PoolDetail } }) => (
           <div className="flex flex-row items-center">
-            <AssetIcon asset={AssetEntity.fromAssetString(value.asset) as AssetEntity} size={40} />
+            <AssetIcon asset={AssetValue.fromStringSync(value.asset) as AssetValue} size={40} />
             <Text className="hidden pl-4 h4 md:block">
-              {AssetEntity.fromAssetString(value.asset)?.ticker}
+              {AssetValue.fromStringSync(value.asset)?.ticker}
             </Text>
           </div>
         ),
@@ -109,26 +111,27 @@ export const usePoolColumns = (poolCategory: PoolCategoryOption) => {
       {
         id: 'price',
         Header: () => t('common.usdPrice'),
-        // Use static decimal as backend returns `-1` for some pools
-        accessor: (row: PoolDetail) => Amount.fromAssetAmount(row.assetPriceUSD, 8),
+        accessor: (row: PoolDetail) => row.assetPriceUSD,
         align: 'right',
-        Cell: ({ cell: { value } }: { cell: { value: Amount } }) => formatPrice(value),
+        Cell: ({ cell: { value } }: { cell: { value: string } }) => formatPrice(value),
         sortType: getAmountColumnSorter('price'),
       },
       {
         id: 'liquidity',
         Header: () => t('common.liquidity'),
-        accessor: (row: PoolDetail) => Amount.fromMidgard(row.runeDepth).mul(2),
+        accessor: (row: PoolDetail) => SwapKitNumber.fromBigInt(BigInt(row.runeDepth), 8).mul(2),
         align: 'right',
-        Cell: ({ cell: { value } }: { cell: { value: Amount } }) => runeToCurrency(value),
+        Cell: ({ cell: { value } }: { cell: { value: SwapKitNumber } }) =>
+          runeToCurrency(value.getValue('string')),
         sortType: getAmountColumnSorter('liquidity'),
       },
       {
         id: 'volume24h',
         Header: () => t('common.24Volume'),
-        accessor: (row: PoolDetail) => Amount.fromMidgard(row.volume24h),
+        accessor: (row: PoolDetail) => SwapKitNumber.fromBigInt(BigInt(row.volume24h), 8),
         align: 'right',
-        Cell: ({ cell: { value } }: { cell: { value: Amount } }) => runeToCurrency(value),
+        Cell: ({ cell: { value } }: { cell: { value: SwapKitNumber } }) =>
+          runeToCurrency(value.getValue('string')),
         minScreenSize: BreakPoint.lg,
         sortType: getAmountColumnSorter('volume24h'),
       },
@@ -149,8 +152,8 @@ export const usePoolColumns = (poolCategory: PoolCategoryOption) => {
       {
         id: 'action',
         Header: () => t('common.action'),
-        accessor: (row: PoolDetail) => row.asset,
-        Cell: ({ cell: { value } }: { cell: { value: AssetEntity } }) => (
+        accessor: (row: PoolDetail) => AssetValue.fromStringSync(row.asset),
+        Cell: ({ cell: { value } }: { cell: { value: AssetValue } }) => (
           <Box row className="gap-2" justify="end">
             <Button
               onClick={(e) => {

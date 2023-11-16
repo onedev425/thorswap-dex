@@ -1,4 +1,4 @@
-import type { Amount } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 
 export enum NodeStatus {
   Active = 'Active',
@@ -17,7 +17,7 @@ export enum BondActionType {
 export type BondActionParams = {
   type: BondActionType;
   nodeAddress: string;
-  amount?: Amount;
+  amount?: AssetValue;
 };
 
 export type HandleBondAction = (params: BondActionParams) => void;

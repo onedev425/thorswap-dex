@@ -1,12 +1,12 @@
 import { Flex, Text } from '@chakra-ui/react';
-import type { Amount } from '@thorswap-lib/swapkit-core';
+import type { SwapKitNumber } from '@swapkit/core';
 import { Icon, Tooltip } from 'components/Atomic';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { t } from 'services/i18n';
 
 type Props = {
   depth: number | string;
-  totalFeeUsd?: Amount;
+  totalFeeUsd?: SwapKitNumber;
 };
 
 export const VirtualDepthSlippageInfo = ({ depth, totalFeeUsd }: Props) => {

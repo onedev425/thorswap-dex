@@ -1,7 +1,6 @@
 import { Text } from '@chakra-ui/react';
+import { AssetValue, Chain, SwapKitNumber } from '@swapkit/core';
 import type { THORNode } from '@thorswap-lib/midgard-sdk';
-import { Amount } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Icon, Link } from 'components/Atomic';
 import { useInputAmount } from 'components/InputAmount/useInputAmount';
 import { showErrorToast, showInfoToast, showSuccessToast } from 'components/Toast';
@@ -12,7 +11,6 @@ import { useBalance } from 'hooks/useBalance';
 import useWindowSize from 'hooks/useWindowSize';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useWallet } from 'store/wallet/hooks';
-import { zeroAmount } from 'types/app';
 import type { NodeManagePanelProps } from 'views/Nodes/types';
 import { BondActionType } from 'views/Nodes/types';
 
@@ -80,12 +78,12 @@ export const useNodeStats = (nodeInfo: THORNode) => {
     {
       key: 'bond',
       label: t('views.nodes.bond'),
-      value: Amount.fromMidgard(nodeInfo.total_bond).toFixed(1),
+      value: new SwapKitNumber({ value: nodeInfo.total_bond, decimal: 8 }).toFixed(1),
     },
     {
       key: 'current_award',
       label: t('views.nodes.currentReward'),
-      value: Amount.fromMidgard(nodeInfo.current_award).toFixed(1),
+      value: new SwapKitNumber({ value: nodeInfo.current_award, decimal: 8 }).toFixed(1),
     },
     {
       key: 'slash_points',
@@ -95,7 +93,7 @@ export const useNodeStats = (nodeInfo: THORNode) => {
     {
       key: 'active_block_height',
       label: t('views.nodes.activeBlock'),
-      value: `${Amount.fromNormalAmount(nodeInfo.active_block_height).toFixed(1)}`,
+      value: new SwapKitNumber(nodeInfo.active_block_height).toFixed(1),
     },
     {
       key: 'requested_to_leave',
@@ -125,7 +123,7 @@ export const useNodeManager = ({
   handleBondAction,
   skipWalletCheck,
 }: NodeManagePanelProps) => {
-  const [maxInputBalance, setMaxInputBalance] = useState<Amount>();
+  const [maxInputBalance, setMaxInputBalance] = useState<AssetValue>();
 
   const tabs = useMemo(
     () =>
@@ -143,10 +141,11 @@ export const useNodeManager = ({
     [tabs],
   );
 
-  const [amount, setAmount] = useState(Amount.fromBaseAmount(0, RUNEAsset.decimal));
+  const [amount, setAmount] = useState(AssetValue.fromChainOrSignature(Chain.THORChain, 0));
   const { rawValue, onChange: onAmountChange } = useInputAmount({
-    amountValue: amount,
-    onAmountChange: setAmount,
+    amountValue: new SwapKitNumber({ value: amount.getValue('number'), decimal: amount.decimal }),
+    onAmountChange: (skNumber) =>
+      setAmount(AssetValue.fromChainOrSignature(Chain.THORChain, skNumber.getValue('number'))),
   });
   const { wallet, setIsConnectModalOpen } = useWallet();
 
@@ -163,9 +162,7 @@ export const useNodeManager = ({
   const { getMaxBalance } = useBalance();
 
   useEffect(() => {
-    getMaxBalance(RUNEAsset).then((runeMaxBalance) =>
-      setMaxInputBalance(runeMaxBalance || zeroAmount),
-    );
+    getMaxBalance(RUNEAsset).then((runeMaxBalance) => setMaxInputBalance(runeMaxBalance));
   }, [getMaxBalance]);
 
   const [tab, setTab] = useState(tabs[0]);
@@ -175,7 +172,7 @@ export const useNodeManager = ({
    * 2. check if node address matches to wallet address
    */
   const handleComplete = useCallback(async () => {
-    const { validateAddress, bond, leave, unbond } = await (
+    const { validateAddress, nodeAction } = await (
       await import('services/swapKit')
     ).getSwapKitClient();
 
@@ -210,7 +207,11 @@ export const useNodeManager = ({
     try {
       if (tab.value === BondActionType.Bond) {
         // bond action
-        const txURL = await bond(address || '', amount);
+        const txURL = await nodeAction({
+          address: address || '',
+          type: 'bond',
+          assetValue: amount,
+        });
         showSuccessToast(
           t('views.nodes.detail.ViewBondTx'),
           <Box className="align-center py-2">
@@ -225,7 +226,11 @@ export const useNodeManager = ({
           </Box>,
         );
       } else if (tab.value === BondActionType.Unbond) {
-        const txURL = await unbond(address || '', amount.assetAmount.toNumber());
+        const txURL = await nodeAction({
+          address: address || '',
+          type: 'unbond',
+          assetValue: amount,
+        });
         showSuccessToast(
           t('views.nodes.detail.ViewUnBondTx'),
           <>
@@ -240,7 +245,7 @@ export const useNodeManager = ({
           </>,
         );
       } else {
-        const txURL = await leave(address || '');
+        const txURL = await nodeAction({ address: address || '', type: 'leave' });
         showSuccessToast(
           t('views.nodes.detail.ViewLeaveTx'),
           <>

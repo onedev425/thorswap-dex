@@ -1,5 +1,5 @@
-import { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import type { FeeOption } from '@thorswap-lib/types';
+import type { FeeOption } from '@swapkit/core';
+import { AssetValue } from '@swapkit/core';
 import { USDAsset } from 'helpers/assets';
 import { useCallback } from 'react';
 import { actions } from 'store/app/slice';
@@ -17,10 +17,10 @@ export const useApp = () => {
     [dispatch],
   );
 
-  const baseCurrencyAsset = Asset.fromAssetString(appState.baseCurrency) || USDAsset;
+  const baseCurrencyAsset = AssetValue.fromStringSync(appState.baseCurrency) || USDAsset;
 
   const setBaseCurrency = useCallback(
-    (baseAsset: Asset) => {
+    (baseAsset: AssetValue) => {
       dispatch(actions.setBaseCurrency(baseAsset));
     },
     [dispatch],

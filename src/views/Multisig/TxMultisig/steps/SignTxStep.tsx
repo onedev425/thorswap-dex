@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
-import type { Signer } from '@thorswap-lib/toolbox-cosmos';
-import { Chain } from '@thorswap-lib/types';
+import { Chain } from '@swapkit/core';
+import type { Signer } from '@swapkit/toolbox-cosmos';
 import { Box, Button } from 'components/Atomic';
 import { StepActions } from 'components/Stepper';
 import { useStepper } from 'components/Stepper/StepperContext';

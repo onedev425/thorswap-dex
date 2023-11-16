@@ -1,7 +1,6 @@
 // https://docs.thorchain.org/how-it-works/governance#mimir
 
-import { Amount } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { Chain, SwapKitNumber } from '@swapkit/core';
 import { useMemo } from 'react';
 import { useGetMimirQuery, useGetNetworkQuery } from 'store/midgard/api';
 import type { MimirData } from 'store/midgard/types';
@@ -11,7 +10,7 @@ export const useMimir = () => {
   const { data: networkData } = useGetNetworkQuery(undefined, { pollingInterval: 60000 });
   const mimir = useMemo(() => data || ({} as MimirData), [data]);
 
-  const totalPooledRune = Amount.fromMidgard(networkData?.totalPooledRune);
+  const totalPooledRune = SwapKitNumber.fromBigInt(BigInt(networkData?.totalPooledRune || 0), 8);
 
   const isEntryPaused = (entry: keyof MimirData) => {
     if (!mimir || typeof mimir[entry] !== 'number') {

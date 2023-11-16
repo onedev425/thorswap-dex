@@ -1,15 +1,13 @@
 import { Flex, Text } from '@chakra-ui/react';
-import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
 import {
-  Amount,
-  AmountType,
+  AssetValue,
+  Chain,
   getAsymmetricAssetWithdrawAmount,
   getAsymmetricRuneWithdrawAmount,
-  getSignatureAssetFor,
   getSymmetricWithdraw,
-} from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+  SwapKitNumber,
+} from '@swapkit/core';
+import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon, Link } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
@@ -23,7 +21,6 @@ import { PanelView } from 'components/PanelView';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
 import { RUNEAsset } from 'helpers/assets';
-import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { parseAssetToToken } from 'helpers/parseHelpers';
 import { hasWalletConnected } from 'helpers/wallet';
 import { useMimir } from 'hooks/useMimir';
@@ -57,7 +54,7 @@ export const WithdrawPanel = ({
         poolRuneDepth?: string;
       })
   >;
-  poolAsset: AssetEntity;
+  poolAsset: AssetValue;
 }) => {
   const navigate = useNavigate();
   const appDispatch = useAppDispatch();
@@ -91,7 +88,9 @@ export const WithdrawPanel = ({
 
   const isWalletConnected = useMemo(() => {
     const inputAsset =
-      lpType === PoolShareType.ASSET_ASYM ? poolAsset : getSignatureAssetFor(Chain.THORChain);
+      lpType === PoolShareType.ASSET_ASYM
+        ? poolAsset
+        : AssetValue.fromChainOrSignature(Chain.THORChain);
 
     return hasWalletConnected({ wallet, inputAssets: [inputAsset] });
   }, [lpType, poolAsset, wallet]);
@@ -103,7 +102,10 @@ export const WithdrawPanel = ({
 
   const { runeAmount, assetAmount } = useMemo(() => {
     if (!poolData) {
-      return { runeAmount: Amount.fromMidgard(0), assetAmount: Amount.fromMidgard(0) };
+      return {
+        runeAmount: new SwapKitNumber(0),
+        assetAmount: new SwapKitNumber(0),
+      };
     }
 
     const { assetPending, runePending, sharedUnits, poolUnits, poolAssetDepth, poolRuneDepth } =
@@ -111,8 +113,8 @@ export const WithdrawPanel = ({
 
     if (lpType === PoolShareType.PENDING) {
       return {
-        runeAmount: Amount.fromMidgard(runePending).mul(percent / 100),
-        assetAmount: Amount.fromMidgard(assetPending).mul(percent / 100),
+        runeAmount: SwapKitNumber.fromBigInt(BigInt(runePending), 8).mul(percent / 100),
+        assetAmount: SwapKitNumber.fromBigInt(BigInt(assetPending), 8).mul(percent / 100),
       };
     }
 
@@ -130,11 +132,11 @@ export const WithdrawPanel = ({
           runeAmount:
             withdrawType === LiquidityTypeOption.RUNE
               ? getAsymmetricRuneWithdrawAmount(params)
-              : Amount.fromMidgard(0),
+              : SwapKitNumber.fromBigInt(0n, 8),
           assetAmount:
             withdrawType === LiquidityTypeOption.ASSET
               ? getAsymmetricAssetWithdrawAmount(params)
-              : Amount.fromMidgard(0),
+              : SwapKitNumber.fromBigInt(0n, 8),
         };
   }, [lpType, poolData, percent, withdrawType]);
 
@@ -161,7 +163,7 @@ export const WithdrawPanel = ({
     }
   }, []);
 
-  const handleChangePercent = useCallback((p: Amount) => {
+  const handleChangePercent = useCallback((p: SwapKitNumber) => {
     setPercent(Number(p.toFixed(2)));
   }, []);
 
@@ -197,19 +199,11 @@ export const WithdrawPanel = ({
 
     if (!wallet) return;
 
-    if (!poolAsset.isRUNE()) {
-      const assetDecimals = await getEVMDecimal(poolAsset);
-      poolAsset.setDecimal(assetDecimals);
-    }
-
-    const runeObject = {
-      asset: getSignatureAssetFor(Chain.THORChain).name,
-      amount: runeAmount.toSignificant(6),
-    };
-    const assetObject = {
-      asset: poolAsset.name,
-      amount: assetAmount.toSignificant(6),
-    };
+    const runeObject = AssetValue.fromChainOrSignature(
+      Chain.THORChain,
+      runeAmount.getValue('string'),
+    );
+    const assetObject = poolAsset.add(assetAmount);
     const withdrawChain = withdrawTo === 'asset' ? poolAsset.chain : Chain.THORChain;
     const outAssets =
       withdrawTo === 'sym'
@@ -218,7 +212,9 @@ export const WithdrawPanel = ({
         ? [runeObject]
         : [assetObject];
 
-    const label = outAssets.map(({ asset, amount }) => `${amount} ${asset}`).join(' & ');
+    const label = outAssets
+      .map((outAsset) => `${outAsset.toSignificant(6)} ${outAsset.ticker}`)
+      .join(' & ');
 
     const id = v4();
     appDispatch(
@@ -228,8 +224,8 @@ export const WithdrawPanel = ({
 
     try {
       const txid = await withdraw({
-        asset: poolAsset,
-        percent: new Amount(percent, AmountType.ASSET_AMOUNT, 2),
+        assetValue: poolAsset,
+        percent: new SwapKitNumber({ value: percent, decimal: 2 }).getValue('number'),
         from: withdrawFrom,
         to: withdrawTo,
       });
@@ -278,9 +274,9 @@ export const WithdrawPanel = ({
       withdrawType === LiquidityTypeOption.RUNE
     ) {
       withdrawArray.push({
-        asset: getSignatureAssetFor(Chain.THORChain),
+        asset: AssetValue.fromChainOrSignature(Chain.THORChain),
         value: `${runeAmount.toSignificant(6)} RUNE ($${(
-          (runePrice || 0) * runeAmount.assetAmount.toNumber()
+          (runePrice || 0) * runeAmount.getValue('number')
         )?.toFixed(2)})`,
       });
     }
@@ -292,7 +288,7 @@ export const WithdrawPanel = ({
       withdrawArray.push({
         asset: poolAsset,
         value: `${assetAmount.toSignificant(6)} ${poolAsset.ticker} ($${(
-          (assetPrice || 0) * assetAmount.assetAmount.toNumber()
+          (assetPrice || 0) * assetAmount.getValue('number')
         )?.toFixed(2)})`,
       });
     }
@@ -408,7 +404,7 @@ export const WithdrawPanel = ({
         assetAmount={assetAmount}
         liquidityType={withdrawType}
         onPercentChange={handleChangePercent}
-        percent={Amount.fromNormalAmount(percent)}
+        percent={new SwapKitNumber(percent)}
         poolAsset={poolAsset}
         runeAmount={runeAmount}
       />
@@ -453,7 +449,7 @@ export const WithdrawPanel = ({
         inputAssets={[
           withdrawType === LiquidityTypeOption.ASSET
             ? poolAsset
-            : getSignatureAssetFor(Chain.THORChain),
+            : AssetValue.fromChainOrSignature(Chain.THORChain),
         ]}
         isOpened={visibleConfirmModal}
         onClose={() => setVisibleConfirmModal(false)}

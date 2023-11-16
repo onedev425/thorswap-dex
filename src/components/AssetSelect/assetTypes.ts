@@ -1,6 +1,4 @@
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { AssetValue, Chain } from '@swapkit/core';
 
 export type AssetFilterOptionType =
   | 'all'
@@ -15,7 +13,7 @@ export type AssetFilterType = {
   value: AssetFilterOptionType;
   label: string;
   tooltip?: string;
-  chainAsset?: AssetEntity;
+  chainAsset?: AssetValue;
 };
 
 export const assetFilterTypes: AssetFilterType[] = [
@@ -26,24 +24,24 @@ export const assetFilterTypes: AssetFilterType[] = [
     value: 'erc20',
     label: 'ERC20',
     tooltip: 'Ethereum Mainnet (ERC-20)',
-    chainAsset: getSignatureAssetFor(Chain.Ethereum),
+    chainAsset: AssetValue.fromChainOrSignature(Chain.Ethereum),
   },
   {
     value: 'avax',
     label: 'ERC20',
     tooltip: 'Avalanche C-Chain (ERC-20)',
-    chainAsset: getSignatureAssetFor(Chain.Avalanche),
+    chainAsset: AssetValue.fromChainOrSignature(Chain.Avalanche),
   },
   {
     value: 'bep2',
     label: 'BEP2',
     tooltip: 'BNB Beacon Chain (BEP2)',
-    chainAsset: getSignatureAssetFor(Chain.Binance),
+    chainAsset: AssetValue.fromChainOrSignature(Chain.Binance),
   },
   {
     value: 'bep20',
     label: 'BEP20',
     tooltip: 'BNB Smart Chain (BEP20)',
-    chainAsset: getSignatureAssetFor(Chain.BinanceSmartChain),
+    chainAsset: AssetValue.fromChainOrSignature(Chain.BinanceSmartChain),
   },
 ];

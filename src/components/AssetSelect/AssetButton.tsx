@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon/AssetIcon';
 import { Box, Button, Icon } from 'components/Atomic';
@@ -8,7 +8,7 @@ type Props = {
   className?: string;
   size?: 'sm' | 'md';
   onClick?: () => void;
-  asset: AssetEntity;
+  asset: AssetValue;
   withChevron?: boolean;
   showAssetType?: boolean;
   logoURI?: string;
@@ -56,7 +56,7 @@ export function AssetButton({
                 fontWeight="normal"
                 textStyle="caption-xs"
                 textTransform="uppercase"
-                variant={asset.isSynth ? 'primaryBtn' : 'secondary'}
+                variant={asset.isSynthetic ? 'primaryBtn' : 'secondary'}
               >
                 {asset.type}
               </Text>

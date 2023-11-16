@@ -40,7 +40,7 @@ export const useChartData = ({
     unit,
     values: selectedChartValues = [],
   } = chartData?.[selectedIndex] || {};
-  const formatPrice = useFormatPrice({ prefix: unit });
+  const formatPrice = useFormatPrice({ prefix: unit || '' });
   const formatter = abbreviateValues
     ? (value: number) => `${unit}${abbreviateNumber(value)}`
     : formatPrice;

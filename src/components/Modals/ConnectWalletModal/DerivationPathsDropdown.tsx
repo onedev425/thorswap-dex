@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { Chain } from '@thorswap-lib/types';
+import { Chain } from '@swapkit/core';
 import { Box, DropdownMenu } from 'components/Atomic';
 import { useMemo } from 'react';
 import type { DerivationPathType } from 'store/wallet/types';

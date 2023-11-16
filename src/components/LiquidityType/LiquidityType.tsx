@@ -1,4 +1,4 @@
-import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import { Box } from 'components/Atomic';
 import { TabsSelect } from 'components/TabsSelect';
 import { RUNEAsset } from 'helpers/assets';
@@ -6,7 +6,7 @@ import { useCallback, useMemo } from 'react';
 import { LiquidityTypeOption } from 'store/midgard/types';
 
 type LiquidityTypeProps = {
-  poolAsset: Asset;
+  poolAsset: AssetValue;
   onChange: (val: LiquidityTypeOption) => void;
   selected: LiquidityTypeOption;
   options: LiquidityTypeOption[];
@@ -47,7 +47,7 @@ export const LiquidityType = ({
   );
 };
 
-const getOptionsProp = (types: LiquidityTypeOption[], asset: Asset) => {
+const getOptionsProp = (types: LiquidityTypeOption[], asset: AssetValue) => {
   const options: { value: string; label: string }[] = [];
   if (types.includes(LiquidityTypeOption.ASSET)) {
     options.push({ value: LiquidityTypeOption.ASSET, label: asset.ticker });

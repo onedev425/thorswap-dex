@@ -1,6 +1,5 @@
 import { Card, Collapse, Flex, Text } from '@chakra-ui/react';
-import { Amount, AmountType, AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import type { Chain } from '@thorswap-lib/types';
+import { AssetValue, SwapKitNumber } from '@swapkit/core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { AssetSelect } from 'components/AssetSelect';
@@ -30,7 +29,7 @@ import { useRepay } from 'views/Lending/useRepay';
 type Props = {
   loan: LoanPosition;
   setBorrowTab: () => void;
-  setCollateralAsset: (value: AssetEntity) => void;
+  setCollateralAsset: (value: AssetValue) => void;
 };
 
 export const LoanInfoRow = ({
@@ -39,11 +38,9 @@ export const LoanInfoRow = ({
   setCollateralAsset,
 }: Props) => {
   const [show, setShow] = useState(false);
-  const [sliderValue, setSliderValue] = useState(new Amount(100, AmountType.ASSET_AMOUNT, 2));
-  const [repayBalance, setRepayBalance] = useState<Amount | undefined>();
-  const [repayAsset, setRepayAsset] = useState(
-    AssetEntity.fromAssetString(ETH_USDC_IDENTIFIER) as AssetEntity,
-  );
+  const [sliderValue, setSliderValue] = useState(new SwapKitNumber({ decimal: 2, value: 0 }));
+  const [repayBalance, setRepayBalance] = useState<AssetValue>();
+  const [repayAsset, setRepayAsset] = useState(AssetValue.fromIdentifierSync(ETH_USDC_IDENTIFIER));
 
   const { getBlockTimeDifference } = useTCBlockTimer();
   const { getMaxBalance } = useBalance();
@@ -59,8 +56,8 @@ export const LoanInfoRow = ({
   const debouncedPercentage = useDebouncedValue(sliderValue, 500);
   const missingTimeToRepayInMS = getBlockTimeDifference(lastOpenHeight + MATURITY_BLOCKS);
   const repayAddress = useMemo(
-    () => wallet?.[repayAsset.L1Chain]?.address || '',
-    [wallet, repayAsset.L1Chain],
+    () => wallet?.[repayAsset.chain]?.address || '',
+    [wallet, repayAsset.chain],
   );
 
   const hasLoanMatured = missingTimeToRepayInMS <= 0;
@@ -83,14 +80,15 @@ export const LoanInfoRow = ({
   const collateralUsd = useMemo(() => {
     const price = tokenPricesData[asset.toString()]?.price_usd || 0;
 
-    return price * collateralCurrent.assetAmount.toNumber();
-  }, [asset.symbol, collateralCurrent.assetAmount, tokenPricesData]);
+    return price * Number(collateralCurrent.toFixed(2));
+  }, [asset, collateralCurrent, tokenPricesData]);
 
+  const repayAssetString = useMemo(() => repayAsset.toString(), [repayAsset]);
   const repayUsd = useMemo(() => {
-    const price = tokenPricesData[repayAsset.symbol]?.price_usd || 0;
+    const price = tokenPricesData[repayAssetString]?.price_usd || 0;
 
-    return price * repayAssetAmount.assetAmount.toNumber();
-  }, [repayAsset.symbol, repayAssetAmount.assetAmount, tokenPricesData]);
+    return price * Number(repayAssetAmount.toFixed(2));
+  }, [repayAssetAmount, repayAssetString, tokenPricesData]);
 
   useEffect(() => {
     repayAddress
@@ -117,7 +115,7 @@ export const LoanInfoRow = ({
   }, [repayAssetAmount, repayBalance, hasLoanMatured]);
 
   const onSuccess = useCallback(() => {
-    setSliderValue(new Amount(0, AmountType.ASSET_AMOUNT, 2));
+    setSliderValue(new SwapKitNumber({ decimal: 2, value: 0 }));
   }, []);
 
   const { openRepayConfirm, handleRepay, isConfirmOpen, closeRepayConfirm } = useLoanRepay({
@@ -154,7 +152,7 @@ export const LoanInfoRow = ({
             <LoanInfoRowCell>
               <Flex gap={1}>
                 <Flex align="center">
-                  <AssetIcon asset={getSignatureAssetFor(asset.symbol as Chain)} size={36} />
+                  <AssetIcon asset={asset} size={36} />
                 </Flex>
 
                 <Flex direction="column">
@@ -244,14 +242,14 @@ export const LoanInfoRow = ({
                       <AssetSelect
                         showAssetType
                         assets={repayAssets}
-                        onSelect={setRepayAsset as (asset: AssetEntity) => void}
+                        onSelect={setRepayAsset as (asset: AssetValue) => void}
                         selected={selectedRepayAsset.asset}
                       />
                     </Flex>
                     <PercentageSlider
                       highlightDisabled
                       className="!p-0"
-                      onChange={(v) => setSliderValue(v)}
+                      onChange={setSliderValue}
                       percent={sliderValue}
                       slideClassName="!pb-0"
                       title={t('views.lending.repayPercent')}

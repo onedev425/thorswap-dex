@@ -1,6 +1,5 @@
-import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import { Amount } from '@thorswap-lib/swapkit-core';
-import { getEVMDecimal } from 'helpers/getEVMDecimal';
+import type { AssetValue } from '@swapkit/core';
+import { SwapKitNumber } from '@swapkit/core';
 import { useStreamTxToggle } from 'hooks/useStreamTxToggle';
 import { useEffect, useMemo, useState } from 'react';
 import { useGetRepayValueQuery } from 'store/thorswap/api';
@@ -11,24 +10,23 @@ export const useRepay = ({
   collateralAsset,
   percentage,
 }: {
-  asset: Asset;
-  collateralAsset: Asset;
-  totalAmount: Amount;
-  percentage: Amount;
+  asset: AssetValue;
+  collateralAsset: AssetValue;
+  totalAmount: SwapKitNumber;
+  percentage: SwapKitNumber;
   hasLoanMatured: boolean;
 }) => {
   const { wallet } = useWallet();
-  const [repayAssetAmount, setRepayAssetAmount] = useState(Amount.fromAssetAmount(0, 8));
+  const [repayAssetAmount, setRepayAssetAmount] = useState(
+    new SwapKitNumber({ value: 0, decimal: 8 }),
+  );
 
   const collateralAddress = useMemo(
-    () => wallet?.[collateralAsset.L1Chain]?.address || '',
-    [wallet, collateralAsset.L1Chain],
+    () => wallet?.[collateralAsset.chain]?.address || '',
+    [wallet, collateralAsset.chain],
   );
 
-  const senderAddress = useMemo(
-    () => wallet?.[asset.L1Chain]?.address || '',
-    [wallet, asset.L1Chain],
-  );
+  const senderAddress = useMemo(() => wallet?.[asset.chain]?.address || '', [wallet, asset.chain]);
 
   const {
     data,
@@ -58,16 +56,13 @@ export const useRepay = ({
   useEffect(() => {
     const getRepayAssetAmount = async () => {
       if (!repayData || error) {
-        return setRepayAssetAmount(Amount.fromAssetAmount(0, 8));
+        return setRepayAssetAmount(new SwapKitNumber({ value: 0, decimal: 8 }));
       }
 
-      const assetDecimals = await getEVMDecimal(asset);
-      asset.setDecimal(assetDecimals);
-
-      const repayAssetAmount = Amount.fromAssetAmount(
-        repayData.repayAssetAmount,
-        assetDecimals || asset.decimal,
-      );
+      const repayAssetAmount = new SwapKitNumber({
+        value: repayData.repayAssetAmount,
+        decimal: asset.decimal,
+      });
 
       setRepayAssetAmount(repayAssetAmount);
     };

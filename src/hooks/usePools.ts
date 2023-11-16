@@ -1,5 +1,4 @@
-import type { Chain } from '@thorswap-lib/swapkit-core';
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import { AssetValue } from '@swapkit/core';
 import { useMemo } from 'react';
 import { useGetPoolsQuery } from 'store/midgard/api';
 import type { PoolsPeriod } from 'store/midgard/types';
@@ -14,12 +13,12 @@ export const usePools = (period?: PoolsPeriod) => {
         .reduce(
           (acc, { asset }) => {
             const [chain, symbol] = asset.split('.');
-            acc[0].push(new AssetEntity(chain as Chain, symbol));
-            acc[1].push(new AssetEntity(chain as Chain, symbol, true));
+            acc[0].push(AssetValue.fromStringSync(asset) as AssetValue);
+            acc[1].push(AssetValue.fromStringSync(`${chain}/${symbol}`) as AssetValue);
 
             return acc;
           },
-          [[], []] as [AssetEntity[], AssetEntity[]],
+          [[], []] as [AssetValue[], AssetValue[]],
         ) ?? [[], []],
     [pools],
   );

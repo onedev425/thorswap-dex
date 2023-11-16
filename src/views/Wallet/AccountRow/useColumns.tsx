@@ -1,6 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { Amount, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-core';
-import type { Chain } from '@thorswap-lib/types';
+import type { AssetValue, Chain, SwapKitNumber } from '@swapkit/core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon } from 'components/Atomic';
 import { useFormatPrice } from 'helpers/formatPrice';
@@ -29,8 +28,8 @@ export const useColumns = (
         id: 'asset',
         Header: () => t('common.asset'),
         disableSortBy: true,
-        accessor: (row: AssetAmount) => row.asset,
-        Cell: ({ cell: { value } }: { cell: { value: AssetEntity } }) => (
+        accessor: (row: AssetValue) => row,
+        Cell: ({ cell: { value } }: { cell: { value: AssetValue } }) => (
           <AssetIcon asset={value} hasChainIcon={false} size={40} />
         ),
       },
@@ -39,10 +38,10 @@ export const useColumns = (
         Header: () => '',
         disableSortBy: true,
         minScreenSize: BreakPoint.md,
-        accessor: (row: AssetAmount) => row.asset,
-        Cell: ({ cell: { value } }: { cell: { value: AssetEntity } }) => (
+        accessor: (row: AssetValue) => row,
+        Cell: ({ cell: { value } }: { cell: { value: AssetValue } }) => (
           <Box col className="pl-4" justify="between">
-            <Text>{value.name}</Text>
+            <Text>{value.ticker}</Text>
             <Text variant="secondary">{value.type}</Text>
           </Box>
         ),
@@ -51,7 +50,7 @@ export const useColumns = (
         id: 'amount',
         Header: () => t('common.amount'),
         align: 'right',
-        accessor: (row: Amount) => row.assetAmount.toFixed(2),
+        accessor: (row: SwapKitNumber) => row.toFixed(2),
         Cell: ({ cell: { value } }: { cell: { value: String } }) => (
           <Text fontWeight="bold">{chainAddress ? value : '-'}</Text>
         ),
@@ -61,7 +60,7 @@ export const useColumns = (
         Header: () => t('common.usdPrice'),
         align: 'right',
         minScreenSize: BreakPoint.md,
-        accessor: ({ asset }: AssetAmount) => priceData[asset.toString()]?.price_usd || 0,
+        accessor: (asset: AssetValue) => priceData[asset.toString()]?.price_usd || 0,
         Cell: ({ cell: { value } }: { cell: { value: string } }) => (
           <Text fontWeight="bold">{formatPrice(value)}</Text>
         ),
@@ -71,8 +70,8 @@ export const useColumns = (
         id: 'price24h',
         Header: () => '24h%',
         align: 'right',
-        accessor: (row: AssetAmount) =>
-          priceData[row.asset.toString()]?.cg?.price_change_percentage_24h_usd || 0,
+        accessor: (row: AssetValue) =>
+          priceData[row.toString()]?.cg?.price_change_percentage_24h_usd || 0,
         minScreenSize: BreakPoint.md,
         Cell: ({ cell: { value } }: { cell: { value: number } }) => (
           <Text fontWeight="bold" variant={value >= 0 ? 'green' : 'red'}>
@@ -87,8 +86,8 @@ export const useColumns = (
         minScreenSize: BreakPoint.lg,
         align: 'center',
         disableSortBy: true,
-        accessor: ({ asset }: AssetAmount) => asset,
-        Cell: ({ cell: { value } }: { cell: { value: AssetEntity } }) => (
+        accessor: (asset: AssetValue) => asset,
+        Cell: ({ cell: { value } }: { cell: { value: AssetValue } }) => (
           <AssetChart
             asset={value}
             mode={ViewMode.LIST}
@@ -97,12 +96,12 @@ export const useColumns = (
         ),
       },
       {
-        accessor: (row: AssetAmount) => row.asset,
+        accessor: (row: AssetValue) => row,
         id: 'actions',
         Header: () => '',
         align: 'right',
         disableSortBy: true,
-        Cell: ({ cell: { value } }: { cell: { value: AssetEntity } }) => (
+        Cell: ({ cell: { value } }: { cell: { value: AssetValue } }) => (
           <Box row className="gap-2" justify="end">
             <Button
               leftIcon={

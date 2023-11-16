@@ -1,4 +1,4 @@
-import { Amount } from '@thorswap-lib/swapkit-core';
+import { AssetValue, Chain } from '@swapkit/core';
 import { useCheckHardCap } from 'hooks/useCheckHardCap';
 import { useCallback } from 'react';
 import { useGetNetworkQuery, useGetQueueQuery } from 'store/midgard/api';
@@ -28,7 +28,10 @@ export const useNetwork = () => {
 
   const outboundQueueLevel = getQueueLevel(outboundQueue);
 
-  const totalPooledRune = Amount.fromMidgard(networkData?.totalPooledRune ?? 0);
+  const totalPooledRune = AssetValue.fromChainOrSignature(
+    Chain.THORChain,
+    BigInt(networkData?.totalPooledRune ?? 0),
+  );
 
   return {
     outboundQueue,

@@ -1,8 +1,5 @@
-import { baseAmount } from '@thorswap-lib/helpers';
-import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
-import { isGasAsset } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
-import { isAVAXAsset, isBSCAsset, isETHAsset } from 'helpers/assets';
+import type { AssetValue } from '@swapkit/core';
+import { Chain } from '@swapkit/core';
 import debounce from 'lodash.debounce';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTransactionsState } from 'store/transactions/hooks';
@@ -10,23 +7,14 @@ import { useWallet } from 'store/wallet/hooks';
 
 type Params = {
   force?: boolean;
-  asset: AssetEntity;
+  assetValue: AssetValue;
   contract?: string;
-  amount?: Amount;
 };
 
-const checkAssetApprove = async ({ contract, asset, amount }: Params) => {
-  const { isAssetApprovedForContract, isAssetApproved } = await (
-    await import('services/swapKit')
-  ).getSwapKitClient();
+export const checkAssetApprove = async ({ contract, assetValue }: Params) => {
+  const { isAssetValueApproved } = await (await import('services/swapKit')).getSwapKitClient();
 
-  const approveAmount = amount
-    ? baseAmount(amount.baseAmount.toString(10) || '0', asset.decimal)
-    : undefined;
-
-  return contract
-    ? isAssetApprovedForContract(asset, contract, approveAmount)
-    : isAssetApproved(asset, approveAmount);
+  return isAssetValueApproved(assetValue, contract);
 };
 
 let prevNumberOfPendingApprovals = 0;
@@ -35,22 +23,20 @@ let cachedResults: Record<string, boolean> = {};
 const useApproveResult = ({
   isWalletConnected,
   numberOfPendingApprovals,
-  asset,
-  amount,
+  assetValue,
   contract,
   skip,
 }: {
   isWalletConnected: boolean;
   numberOfPendingApprovals: number;
-  asset: AssetEntity;
-  amount?: Amount;
+  assetValue: AssetValue;
   contract?: string;
   skip: boolean;
 }) => {
-  const [isApproved, setApproved] = useState(isGasAsset(asset) || !isWalletConnected);
+  const [isApproved, setApproved] = useState(assetValue.isGasAsset || !isWalletConnected);
   const [isLoading, setIsLoading] = useState(false);
-  const cacheKey = useRef(`${asset.symbol}-${contract || 'all'}`);
-  const currentParams = useRef<Params>({ asset, amount, contract });
+  const cacheKey = useRef(`${assetValue.toString()}-${contract || 'all'}`);
+  const currentParams = useRef<Params>({ assetValue, contract });
 
   const debouncedCheckAssetApprove = useRef(
     debounce(
@@ -71,13 +57,13 @@ const useApproveResult = ({
     }
 
     try {
-      currentParams.current = { asset, amount, contract };
+      currentParams.current = { assetValue, contract };
       await debouncedCheckAssetApprove.current();
     } finally {
       prevNumberOfPendingApprovals = numberOfPendingApprovals;
       setIsLoading(false);
     }
-  }, [asset, cacheKey, contract, numberOfPendingApprovals, amount]);
+  }, [assetValue, contract, numberOfPendingApprovals]);
 
   useEffect(() => {
     if (skip || !isWalletConnected) {
@@ -91,36 +77,35 @@ const useApproveResult = ({
        */
       const timeoutDuration = prevNumberOfPendingApprovals > numberOfPendingApprovals ? 10000 : 0;
 
-      cacheKey.current = `${asset.symbol}-${contract || 'all'}`;
+      cacheKey.current = `${assetValue.toString()}-${contract || 'all'}`;
       setTimeout(() => checkApproved(), timeoutDuration);
     }
-  }, [asset.symbol, checkApproved, contract, isWalletConnected, numberOfPendingApprovals, skip]);
+  }, [assetValue, checkApproved, contract, isWalletConnected, numberOfPendingApprovals, skip]);
 
   return { isApproved, isLoading };
 };
 
-export const useIsAssetApproved = ({ force, contract, asset, amount }: Params) => {
+export const useIsAssetApproved = ({ force, contract, assetValue }: Params) => {
   const { wallet } = useWallet();
   const { numberOfPendingApprovals } = useTransactionsState();
-  const walletAddress = useMemo(() => wallet?.[asset.L1Chain]?.address, [asset.L1Chain, wallet]);
+  const walletAddress = useMemo(
+    () => wallet?.[assetValue.chain]?.address,
+    [assetValue.chain, wallet],
+  );
 
   const possibleApprove = useMemo(
     () =>
-      !isETHAsset(asset) &&
-      !isAVAXAsset(asset) &&
-      !isBSCAsset(asset) &&
-      [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(asset.L1Chain),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [asset, contract],
+      !assetValue.isGasAsset ||
+      [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(assetValue.chain),
+    [assetValue.chain, assetValue.isGasAsset],
   );
 
   const { isApproved, isLoading } = useApproveResult({
     isWalletConnected: !!walletAddress,
     numberOfPendingApprovals,
     skip: typeof force === 'boolean' ? !force : false,
-    asset,
+    assetValue,
     contract: possibleApprove ? contract : undefined,
-    amount,
   });
 
   return {
@@ -128,18 +113,4 @@ export const useIsAssetApproved = ({ force, contract, asset, amount }: Params) =
     isWalletConnected: !!walletAddress,
     isLoading: isLoading || numberOfPendingApprovals > 0,
   };
-};
-
-export const useAssetApprovalCheck = () => {
-  const { wallet } = useWallet();
-
-  const handleApprove = useCallback(
-    ({ asset, contract, amount }: { amount?: Amount; asset: AssetEntity; contract?: string }) =>
-      wallet?.[asset.L1Chain]?.address
-        ? checkAssetApprove({ asset, contract, amount })
-        : Promise.resolve(false),
-    [wallet],
-  );
-
-  return handleApprove;
 };

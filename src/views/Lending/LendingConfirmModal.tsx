@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue, SwapKitNumber } from '@swapkit/core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Icon, Link } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
@@ -9,19 +9,19 @@ import { useMemo } from 'react';
 import { t } from 'services/i18n';
 
 type Props = {
-  asset: AssetEntity;
-  amount: Amount;
+  asset: AssetValue;
+  amount: SwapKitNumber;
   onClose: () => void;
   isOpened: boolean;
   onConfirm: (expectedAmount: string) => void;
   tabLabel: string;
   estimatedTime?: number;
-  expectedOutputAmount?: Amount;
-  expectedOutputMaxSlippage?: Amount;
+  expectedOutputAmount?: SwapKitNumber;
+  expectedOutputMaxSlippage?: SwapKitNumber;
   expectedDebtInfo?: string;
-  collateralAmount?: Amount;
-  collateralAsset?: AssetEntity;
-  networkFee?: Amount;
+  collateralAmount?: SwapKitNumber;
+  collateralAsset?: AssetValue;
+  networkFee?: SwapKitNumber;
 };
 
 const LENDING_DOCS = 'https://twitter.com/THORChain/status/1693423215580958884';
@@ -56,8 +56,8 @@ export const LendingConfirmModal = ({
     () =>
       [
         { label: t('common.action'), value: tabLabel },
-        { label: t('common.asset'), value: `${asset.name}`, icon: asset },
-      ] as { label: string; value: string | JSX.Element; icon?: AssetEntity }[],
+        { label: t('common.asset'), value: `${asset.ticker}`, icon: asset },
+      ] as { label: string; value: string | JSX.Element; icon?: AssetValue }[],
     [asset, tabLabel],
   );
 
@@ -67,7 +67,7 @@ export const LendingConfirmModal = ({
       {
         label: tabLabel,
         value: expectedOutputAmount ? (
-          `${expectedOutputAmount.toSignificant(6)} ${asset.name}`
+          `${expectedOutputAmount.toSignificant(6)} ${asset.ticker}`
         ) : networkFee?.gte(amount) ? (
           t('views.savings.notEnoughForOutboundFee')
         ) : (
@@ -82,14 +82,14 @@ export const LendingConfirmModal = ({
     () => [
       {
         label: t('views.lending.collateral'),
-        value: `${collateralAsset?.name}`,
+        value: `${collateralAsset?.ticker}`,
         icon: collateralAsset,
       },
       { label: t('views.wallet.estimatedTime'), value: timeLabel || 'N/A' },
       {
         label: tabLabel,
         value: expectedOutputAmount ? (
-          `${expectedOutputAmount.toSignificant(6)} ${asset.name}`
+          `${expectedOutputAmount.toSignificant(6)} ${asset.ticker}`
         ) : networkFee?.gte(amount) ? (
           t('views.savings.notEnoughForOutboundFee')
         ) : (
@@ -99,7 +99,7 @@ export const LendingConfirmModal = ({
       {
         label: t('common.minReceived'),
         value: expectedOutputMaxSlippage ? (
-          `${expectedOutputMaxSlippage?.toSignificant(6)} ${asset.name}`
+          `${expectedOutputMaxSlippage?.toSignificant(6)} ${asset.ticker}`
         ) : (
           <Icon spin color="primary" name="loader" size={24} />
         ),
@@ -108,7 +108,7 @@ export const LendingConfirmModal = ({
         label: t('views.lending.collateralValue'),
         value:
           collateralAmount && collateralAsset ? (
-            `${collateralAmount.toSignificant(6)} ${collateralAsset.name}`
+            `${collateralAmount.toSignificant(6)} ${collateralAsset.ticker}`
           ) : (
             <Icon spin color="primary" name="loader" size={24} />
           ),

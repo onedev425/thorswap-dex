@@ -1,10 +1,10 @@
-import type { Amount, Pool } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import type { TableData } from 'components/Atomic';
 import type { Row } from 'react-table';
 
 export const getAmountColumnSorter = (fieldName: string) => {
   return (rowA: Row<TableData>, rowB: Row<TableData>) =>
-    sortAmounts(rowA.values[fieldName] as Amount, rowB.values[fieldName] as Amount);
+    sortAmounts(rowA.values[fieldName] as AssetValue, rowB.values[fieldName] as AssetValue);
 };
 
 export const getNumberColumnSorter = (fieldName: string) => {
@@ -25,7 +25,7 @@ export const sortStrings = (a: string, b: string) => {
   return `${a}`.localeCompare(`${b}`);
 };
 
-export const sortAmounts = (a: Amount | string, b: Amount | string) => {
+export const sortAmounts = (a: AssetValue | string, b: AssetValue | string) => {
   if (typeof a === 'string' || typeof b === 'string') {
     const aValue = parseFloat((a as string).replaceAll(' ', '').replace('%', ''));
     const bValue = parseFloat((b as string).replaceAll(' ', '').replace('%', ''));
@@ -36,8 +36,5 @@ export const sortAmounts = (a: Amount | string, b: Amount | string) => {
 };
 
 export const sortPoolColumn = (rowA: Row<TableData>, rowB: Row<TableData>) => {
-  const a: Pool = rowA.values.pool;
-  const b: Pool = rowB.values.pool;
-
-  return sortStrings(a.asset.ticker, b.asset.ticker);
+  return sortStrings(rowA.values.pool.asset.ticker, rowB.values.pool.asset.ticker);
 };

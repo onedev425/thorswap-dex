@@ -28,8 +28,8 @@ export const PhraseView = () => {
   const handleBackupKeystore = useCallback(async () => {
     if (phrase && password) {
       setProcessing(true);
-      const { validatePhrase } = await import('@thorswap-lib/toolbox-utxo');
-      const { encryptToKeyStore } = await import('@thorswap-lib/keystore');
+      const { validatePhrase } = await import('@swapkit/toolbox-utxo');
+      const { encryptToKeyStore } = await import('@swapkit/wallet-keystore');
 
       try {
         const isValidPhrase = validatePhrase(phrase);

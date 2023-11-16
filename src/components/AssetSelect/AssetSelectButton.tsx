@@ -1,4 +1,4 @@
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import classNames from 'classnames';
 import { AssetButton } from 'components/AssetSelect/AssetButton';
 import { Button, Icon } from 'components/Atomic';
@@ -7,7 +7,7 @@ import { t } from 'services/i18n';
 type Props = {
   className?: string;
   onClick?: () => void;
-  selected?: Maybe<AssetEntity>;
+  selected?: Maybe<AssetValue>;
   showAssetType?: boolean;
   logoURI?: string;
   assetTypeComponent?: React.ReactNode;

@@ -1,7 +1,7 @@
-import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 
 export type AssetDataType = {
-  asset: Asset;
+  asset: AssetValue;
   assetName: string;
   amount: string;
 };

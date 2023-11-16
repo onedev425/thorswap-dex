@@ -1,6 +1,6 @@
-import { TransactionType } from '@thorswap-lib/swapkit-api';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { TransactionType } from '@swapkit/api';
+import type { AssetValue } from '@swapkit/core';
+import { Chain } from '@swapkit/core';
 import { showErrorToast } from 'components/Toast';
 import { t } from 'i18next';
 import { useCallback, useMemo } from 'react';
@@ -9,15 +9,15 @@ import { addTransaction, completeTransaction, updateTransaction } from 'store/tr
 import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 
-export const useTCApprove = ({ asset }: { asset: AssetEntity }) => {
+export const useTCApprove = ({ asset }: { asset: AssetValue }) => {
   const { wallet } = useWallet();
   const appDispatch = useAppDispatch();
-  const from = useMemo(() => wallet?.[asset.L1Chain as Chain]?.address, [wallet, asset.L1Chain]);
+  const from = useMemo(() => wallet?.[asset.chain as Chain]?.address, [wallet, asset.chain]);
 
   const handleApprove = useCallback(async () => {
     if (from) {
       const id = v4();
-      const inChain = asset.L1Chain;
+      const inChain = asset.chain;
       const type =
         inChain === Chain.Ethereum
           ? TransactionType.ETH_APPROVAL
@@ -31,14 +31,14 @@ export const useTCApprove = ({ asset }: { asset: AssetEntity }) => {
           from,
           inChain,
           type,
-          label: `${t('txManager.approve')} ${asset.name}`,
+          label: `${t('txManager.approve')} ${asset.ticker}`,
         }),
       );
 
-      const { approveAsset } = await (await import('services/swapKit')).getSwapKitClient();
+      const { approveAssetValue } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
-        const txid = await approveAsset(asset);
+        const txid = await approveAssetValue(asset);
 
         if (typeof txid === 'string') {
           appDispatch(updateTransaction({ id, txid }));

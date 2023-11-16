@@ -1,8 +1,6 @@
-import { getAddress } from '@ethersproject/address';
-import { BigNumber } from '@ethersproject/bignumber';
-import { Contract, type ContractInterface } from '@ethersproject/contracts';
-import { formatEther, formatUnits, parseUnits } from '@ethersproject/units';
-import { Chain, FeeOption } from '@thorswap-lib/types';
+import { Chain, FeeOption } from '@swapkit/core';
+import type { InterfaceAbi } from 'ethers';
+import { Contract, formatEther, getAddress } from 'ethers';
 
 import Airdrop from './abi/Airdrop.json';
 import ERC20ABI from './abi/ERC20.json';
@@ -63,28 +61,16 @@ export const contractConfig: Record<ContractType, { address: string; abi: any }>
   },
 };
 
-export const fromWei = (amountInWei: BigNumber) => {
-  return parseFloat(formatUnits(amountInWei, 'ether'));
-};
-
-export const toWei = (amount: number | string) => {
-  return parseUnits(amount.toString(), 'ether');
-};
-
-export const toWeiFromString = (amount: string) => {
-  return parseUnits(amount, 'ether');
-};
-
 export const getEtherscanContract = (contractType: ContractType) => {
   const { abi, address } = contractConfig[contractType];
   return getCustomContract(address, abi);
 };
 
-export const getCustomContract = async (contractAddr: string, abi?: ContractInterface) => {
-  const { getProvider } = await import('@thorswap-lib/toolbox-evm');
+export const getCustomContract = async (contractAddr: string, abi?: InterfaceAbi) => {
+  const { getProvider } = await import('@swapkit/toolbox-evm');
   const address = getAddress(contractAddr.toLowerCase());
 
-  return new Contract(address, abi ? abi : ERC20ABI, getProvider(Chain.Ethereum));
+  return new Contract(address, abi || ERC20ABI, getProvider(Chain.Ethereum));
 };
 
 export const getContractAddress = (contractType: ContractType) => contractConfig[contractType];
@@ -97,11 +83,6 @@ export const getBlockRewards = async () => {
   );
 
   return blockReward;
-};
-
-// add 20%
-export const calculateGasMargin = (value: BigNumber) => {
-  return value.mul(BigNumber.from(10000 + 2000)).div(BigNumber.from(10000));
 };
 
 export const triggerContractCall = async (

@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@swapkit/core';
 import { ChainIcon } from 'components/AssetIcon/ChainIcon';
 import { Box, DropdownMenu } from 'components/Atomic';
 import type { DropdownMenuItem } from 'components/Atomic/Dropdown/types';

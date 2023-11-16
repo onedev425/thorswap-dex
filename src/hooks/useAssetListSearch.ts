@@ -1,4 +1,4 @@
-import { Chain } from '@thorswap-lib/types';
+import { Chain } from '@swapkit/core';
 import type { AssetSelectType } from 'components/AssetSelect/types';
 import Fuse from 'fuse.js';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -54,22 +54,19 @@ export const useAssetListSearch = (
     const sortedAssets = searchedAssets.concat().sort((a, b) => {
       const aProvider = a.provider?.toLowerCase();
       const bProvider = b.provider?.toLowerCase();
+      const aChain = a.asset.chain;
+      const bChain = b.asset.chain;
+
       if (thorchainPriority && (aProvider || bProvider)) {
-        return b.asset.type === 'Native'
-          ? a.asset.type === 'Native'
-            ? // @ts-expect-error Check on all supported chains
-              SORTED_CHAINS.indexOf(a.asset.chain) - SORTED_CHAINS.indexOf(b.asset.chain)
-            : 1
-          : a.asset.type === 'Native'
-          ? -1
-          : 0;
+        // @ts-expect-error Check on all supported chains
+        return SORTED_CHAINS.indexOf(aChain) - SORTED_CHAINS.indexOf(bChain) || 0;
       }
 
       if (a.balance || b.balance) {
         return a.balance ? (b?.balance?.gt(a.balance) ? 1 : -1) : 0;
       } else {
         // @ts-expect-error Check on all supported chains
-        return SORTED_CHAINS.indexOf(a.asset.chain) - SORTED_CHAINS.indexOf(b.asset.chain);
+        return SORTED_CHAINS.indexOf(aChain) - SORTED_CHAINS.indexOf(bChain);
       }
     });
 
@@ -84,14 +81,7 @@ export const useAssetListSearch = (
     return supportedAssets;
   }, [assetList, query, thorchainPriority]);
 
-  const assetInputProps = useMemo(
-    () => ({
-      isLoading: isLoading,
-      query,
-      setQuery,
-    }),
-    [query, isLoading],
-  );
+  const assetInputProps = useMemo(() => ({ isLoading, query, setQuery }), [query, isLoading]);
 
   return { assets, assetInputProps };
 };

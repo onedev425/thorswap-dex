@@ -1,13 +1,12 @@
 import {
-  Amount,
-  AmountType,
-  AssetEntity as Asset,
+  AssetValue,
+  Chain,
   getMemoFor,
   getMinAmountByChain,
-  getSignatureAssetFor,
-} from '@thorswap-lib/swapkit-core';
-import { Chain, MemoType } from '@thorswap-lib/types';
-import { getEVMDecimal } from 'helpers/getEVMDecimal';
+  MemoType,
+  SwapKitNumber,
+} from '@swapkit/core';
+import { RUNEAsset } from 'helpers/assets';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { usePools } from 'hooks/usePools';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -26,7 +25,9 @@ export const useTxWithdraw = () => {
   const { poolAssets } = usePools();
 
   const poolAssetList = useAssetsWithBalance(poolAssets);
-  const [poolAsset, setPoolAsset] = useState<Asset>(getSignatureAssetFor(Chain.Bitcoin));
+  const [poolAsset, setPoolAsset] = useState<AssetValue>(
+    AssetValue.fromChainOrSignature(Chain.Bitcoin),
+  );
   const [lpType, setLPType] = useState(SHARE_TYPES[0]);
   const defaultWithdrawType = useMemo(() => {
     switch (lpType) {
@@ -40,7 +41,7 @@ export const useTxWithdraw = () => {
   const [withdrawType, setWithdrawType] = useState(defaultWithdrawType);
   const [percent, setPercent] = useState(0);
 
-  const { assetParam = getSignatureAssetFor(Chain.Bitcoin).toString() } = useParams<{
+  const { assetParam = AssetValue.fromChainOrSignature(Chain.Bitcoin).toString() } = useParams<{
     assetParam: string;
   }>();
 
@@ -55,7 +56,7 @@ export const useTxWithdraw = () => {
       return poolAsset;
     }
 
-    return getSignatureAssetFor(Chain.THORChain);
+    return AssetValue.fromChainOrSignature(Chain.THORChain);
   }, [withdrawType, poolAsset]);
 
   const isValid = percent > 0;
@@ -66,13 +67,10 @@ export const useTxWithdraw = () => {
         return;
       }
 
-      const assetEntity = Asset.decodeFromURL(assetParam);
+      const assetEntity = await AssetValue.fromString(assetParam);
 
       if (assetEntity) {
-        if (assetEntity.isRUNE()) return;
-        const assetDecimals = await getEVMDecimal(assetEntity);
-
-        await assetEntity.setDecimal(assetDecimals);
+        if (assetEntity.eq(RUNEAsset)) return;
         setPoolAsset(assetEntity);
       }
     };
@@ -81,7 +79,7 @@ export const useTxWithdraw = () => {
   }, [assetParam]);
 
   const handleSelectPoolAsset = useCallback(
-    (poolAssetData: Asset) => {
+    (poolAssetData: AssetValue) => {
       navigate(getMultisigTxCreateRoute(poolAssetData));
     },
     [navigate],
@@ -98,8 +96,8 @@ export const useTxWithdraw = () => {
     }
   }, []);
 
-  const handleChangePercent = useCallback((p: Amount) => {
-    setPercent(Number(p.toFixed(2)));
+  const handleChangePercent = useCallback((p: SwapKitNumber) => {
+    setPercent(Number(p.toSignificant(2)));
   }, []);
 
   const handleConfirmWithdraw = async () => {
@@ -108,19 +106,18 @@ export const useTxWithdraw = () => {
     const { chain, symbol, ticker } =
       lpType === PoolShareType.RUNE_ASYM || withdrawType === LiquidityTypeOption.RUNE
         ? poolAsset
-        : getSignatureAssetFor(Chain.THORChain);
+        : AssetValue.fromChainOrSignature(Chain.THORChain);
 
     const memo = getMemoFor(MemoType.WITHDRAW, {
       chain,
       symbol,
       ticker,
-      basisPoints: new Amount(percent, AmountType.ASSET_AMOUNT, 2).mul(100).assetAmount.toNumber(),
+      basisPoints: new SwapKitNumber({ value: percent, decimal: 2 }).mul(100).getValue('number'),
     });
 
     const tx = await createDepositTx({
       memo,
-      amount: getMinAmountByChain(Chain.THORChain).amount,
-      asset: getSignatureAssetFor(Chain.THORChain),
+      assetValue: getMinAmountByChain(Chain.THORChain),
     });
 
     if (tx) {

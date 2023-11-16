@@ -1,18 +1,19 @@
+import { BaseDecimal, SwapKitNumber } from '@swapkit/core';
 import { useCallback, useEffect, useState } from 'react';
-import { fromWei } from 'services/contract';
 import { getVthorState } from 'views/Staking/hooks';
 
 export const useVTHORBalance = (address?: string) => {
-  const [VTHORBalance, setVTHORBalance] = useState(0);
+  const [VTHORBalance, setVTHORBalance] = useState(
+    new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
+  );
   const getVTHORBalance = useCallback(async () => {
-    if (!address) return setVTHORBalance(0);
+    if (!address) return setVTHORBalance(new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }));
 
     try {
-      const vTHORBalance = fromWei(await getVthorState('balanceOf', [address]));
+      const vTHORBalance = await getVthorState('balanceOf', [address]);
       setVTHORBalance(vTHORBalance);
     } catch (error: NotWorth) {
       console.error(error);
-      setVTHORBalance(0);
     }
   }, [address]);
 

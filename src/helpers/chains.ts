@@ -1,4 +1,4 @@
-import { Chain } from '@thorswap-lib/types';
+import { Chain } from '@swapkit/core';
 import { SORTED_CHAINS } from 'settings/chain';
 
 export const sortChains = (chains: string[]) => {

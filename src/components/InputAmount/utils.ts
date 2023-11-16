@@ -1,7 +1,6 @@
-import { Amount } from '@thorswap-lib/swapkit-core';
-import BigNumber from 'bignumber.js';
+import { SwapKitNumber } from '@swapkit/core';
 
-export const getAmountFromString = (value: string, decimal: number): Amount | null => {
+export const getAmountFromString = (value: string, decimal: number): SwapKitNumber | null => {
   const trim = value.replace(/[, ]+/g, '').trim();
 
   if (trim !== '' && trim[trim.length - 1] === '.' && trim.split('.').length <= 2) {
@@ -12,9 +11,5 @@ export const getAmountFromString = (value: string, decimal: number): Amount | nu
     return null;
   }
 
-  const bn = new BigNumber(trim);
-
-  if (bn.isNaN()) return Amount.fromAssetAmount(0, decimal);
-
-  return Amount.fromAssetAmount(bn, decimal);
+  return new SwapKitNumber({ value: isNaN(Number(trim)) ? 0 : trim, decimal });
 };

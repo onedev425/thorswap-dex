@@ -1,8 +1,6 @@
-import { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { AssetValue, Chain, SwapKitNumber } from '@swapkit/core';
 import { showErrorToast } from 'components/Toast';
 import { RUNEAsset } from 'helpers/assets';
-import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import type { ChangeEvent } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -21,9 +19,11 @@ export const useTxSend = () => {
   const { assetParam } = useParams<{ assetParam: string }>();
   const navigate = useNavigate();
 
-  const [sendAsset, setSendAsset] = useState<Asset>(RUNEAsset);
+  const [sendAsset, setSendAsset] = useState<AssetValue>(RUNEAsset);
 
-  const [sendAmount, setSendAmount] = useState<Amount>(Amount.fromAssetAmount(0, 8));
+  const [sendAmount, setSendAmount] = useState<SwapKitNumber>(
+    new SwapKitNumber({ value: 0, decimal: 8 }),
+  );
 
   const [memo, setMemo] = useState('');
   const [recipientAddress, setRecipientAddress] = useState('');
@@ -31,14 +31,11 @@ export const useTxSend = () => {
 
   const { data } = useTokenPrices([sendAsset]);
   const assetPriceInUSD = useMemo(
-    () => data[sendAsset.ticker]?.price_usd || 0 * sendAmount.assetAmount.toNumber(),
-    [data, sendAmount.assetAmount, sendAsset.ticker],
+    () => data[sendAsset.ticker]?.price_usd || 0 * Number(sendAmount.getValue('string')),
+    [data, sendAmount, sendAsset.ticker],
   );
 
-  const maxSpendableBalance: Amount = useMemo(
-    () => getMaxBalance(sendAsset),
-    [sendAsset, getMaxBalance],
-  );
+  const maxSpendableBalance = useMemo(() => getMaxBalance(sendAsset), [sendAsset, getMaxBalance]);
 
   const assetInput = useMemo(
     () => ({
@@ -55,12 +52,9 @@ export const useTxSend = () => {
       if (!assetParam) {
         setSendAsset(RUNEAsset);
       } else {
-        const assetEntity = Asset.decodeFromURL(assetParam);
+        const assetEntity = await AssetValue.fromString(assetParam);
 
         if (assetEntity) {
-          const assetDecimals = await getEVMDecimal(assetEntity);
-
-          await assetEntity.setDecimal(assetDecimals);
           setSendAsset(assetEntity);
         } else {
           setSendAsset(RUNEAsset);
@@ -72,7 +66,7 @@ export const useTxSend = () => {
   }, [assetParam]);
 
   const handleSelectAsset = useCallback(
-    (selected: Asset) => {
+    (selected: AssetValue) => {
       setRecipientAddress('');
       navigate(getMultisigTxCreateRoute(selected));
     },
@@ -80,8 +74,15 @@ export const useTxSend = () => {
   );
 
   const handleChangeSendAmount = useCallback(
-    (amount: Amount) =>
-      setSendAmount(amount.gt(maxSpendableBalance) ? maxSpendableBalance : amount),
+    (amount: SwapKitNumber) =>
+      setSendAmount(
+        amount.gt(maxSpendableBalance.getValue('string'))
+          ? new SwapKitNumber({
+              value: maxSpendableBalance.getValue('string'),
+              decimal: maxSpendableBalance.decimal,
+            })
+          : amount,
+      ),
     [maxSpendableBalance],
   );
 
@@ -104,8 +105,7 @@ export const useTxSend = () => {
     const tx = await createTransferTx({
       recipient: recipientAddress,
       memo,
-      asset: sendAsset,
-      amount: sendAmount,
+      assetValue: sendAsset.mul(0).add(sendAmount),
     });
 
     if (tx) {
@@ -119,7 +119,7 @@ export const useTxSend = () => {
     const { validateAddress } = await (await import('services/swapKit')).getSwapKitClient();
 
     if (!validateAddress({ chain: Chain.THORChain, address: recipientAddress })) {
-      showErrorToast(t('notification.invalidL1ChainAddy', { chain: Chain.THORChain }));
+      showErrorToast(t('notification.invalidchainAddy', { chain: Chain.THORChain }));
     } else {
       setIsOpenConfirmModal(true);
     }

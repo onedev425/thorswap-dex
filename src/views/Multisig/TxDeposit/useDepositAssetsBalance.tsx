@@ -1,44 +1,44 @@
-import type { AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import { Amount } from '@thorswap-lib/swapkit-core';
+import { AssetValue, Chain } from '@swapkit/core';
 import { RUNEAsset } from 'helpers/assets';
 import { useMemo } from 'react';
 import { useMultisig } from 'store/multisig/hooks';
-import { zeroAmount } from 'types/app';
-import type { DepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance';
 import { useMultissigAssets } from 'views/Multisig/hooks';
 
 type Props = {
-  poolAsset: Asset | undefined;
+  poolAsset: AssetValue | undefined;
 };
 
-export const useDepositAssetsBalance = ({ poolAsset }: Props): DepositAssetsBalance => {
+export const useDepositAssetsBalance = ({ poolAsset }: Props) => {
   const { isConnected, isWalletAssetConnected } = useMultisig();
   const { getAssetBalance, getMaxBalance } = useMultissigAssets();
 
-  const poolAssetBalance: Amount = useMemo(() => {
+  const poolAssetBalance = useMemo(() => {
     if (isConnected && poolAsset) {
-      return getAssetBalance(poolAsset).amount;
+      return getAssetBalance(poolAsset);
     }
 
-    // allow max amount if wallet is not connected
-    return Amount.fromAssetAmount(10 ** 3, 8);
+    // TODO test allow max amount if wallet is not connected
+    return poolAsset ? AssetValue.fromStringSync(poolAsset.toString(), 10 ** 3) : RUNEAsset;
   }, [isConnected, getAssetBalance, poolAsset]);
 
-  const maxPoolAssetBalance: Amount = useMemo(
-    () => (poolAsset ? getMaxBalance(poolAsset) : zeroAmount),
+  const maxPoolAssetBalance = useMemo(
+    () =>
+      poolAsset
+        ? getMaxBalance(poolAsset)
+        : new AssetValue({ value: 0, decimal: 8, chain: Chain.THORChain, symbol: 'RUNE' }),
     [poolAsset, getMaxBalance],
   );
 
-  const runeBalance: Amount = useMemo(() => {
+  const runeBalance = useMemo(() => {
     if (isConnected) {
-      return getAssetBalance(RUNEAsset).amount;
+      return getAssetBalance(RUNEAsset);
     }
 
     // allow max amount if wallet is not connected
-    return Amount.fromAssetAmount(10 ** 3, 8);
+    return AssetValue.fromChainOrSignature(Chain.THORChain, 10 ** 3);
   }, [getAssetBalance, isConnected]);
 
-  const maxRuneBalance: Amount = useMemo(() => getMaxBalance(RUNEAsset), [getMaxBalance]);
+  const maxRuneBalance = useMemo(() => getMaxBalance(RUNEAsset), [getMaxBalance]);
 
   return {
     isWalletAssetConnected,

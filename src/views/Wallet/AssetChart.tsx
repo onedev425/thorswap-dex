@@ -1,4 +1,4 @@
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';
 import { ChartPreview } from 'components/ChartPreview/ChartPreview';
@@ -7,7 +7,7 @@ import { ViewMode } from 'types/app';
 import { useChartData } from 'views/Wallet/hooks';
 
 type Props = {
-  asset: AssetEntity;
+  asset: AssetValue;
   mode: ViewMode;
   sparkline?: string;
 };

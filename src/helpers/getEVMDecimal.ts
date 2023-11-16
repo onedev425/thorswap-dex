@@ -1,4 +1,4 @@
-import { BaseDecimal, Chain, erc20ABI } from '@thorswap-lib/types';
+import { BaseDecimal, Chain, erc20ABI } from '@swapkit/core';
 import { getCustomContract } from 'services/contract';
 
 type GetDecimalParams = { symbol: string; ticker: string };
@@ -36,11 +36,8 @@ const getBscAssetDecimal = async ({ symbol }: GetDecimalParams) => {
   // return contractDecimals.toNumber() as number;
 };
 
-export const getEVMDecimal = async ({
-  L1Chain,
-  ...asset
-}: GetDecimalParams & { L1Chain: Chain }) => {
-  switch (L1Chain) {
+export const getEVMDecimal = async ({ chain, ...asset }: GetDecimalParams & { chain: Chain }) => {
+  switch (chain) {
     case Chain.Ethereum:
       return getEthereumAssetDecimal(asset);
     case Chain.Avalanche:

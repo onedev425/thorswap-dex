@@ -1,4 +1,4 @@
-import type { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import { InfoTable } from 'components/InfoTable';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems';
@@ -7,14 +7,13 @@ import { memo, useCallback } from 'react';
 type Props = {
   visible: boolean;
   setVisible: (visible: boolean) => void;
-  inputAsset: Asset;
-  inputAmount: Amount;
+  inputAsset: AssetValue;
   totalFee?: string;
   handleApprove: () => Promise<void>;
 };
 
 export const ApproveModal = memo(
-  ({ inputAsset, handleApprove, setVisible, totalFee, visible, inputAmount }: Props) => {
+  ({ inputAsset, handleApprove, setVisible, totalFee, visible }: Props) => {
     const handleConfirmApprove = useCallback(() => {
       setVisible(false);
 
@@ -22,8 +21,8 @@ export const ApproveModal = memo(
     }, [handleApprove, setVisible]);
 
     const approveConfirmInfo = useApproveInfoItems({
-      assetName: inputAsset.name,
-      assetValue: inputAmount.toSignificant(6),
+      assetName: inputAsset.ticker,
+      assetValue: inputAsset.toString(),
       fee: totalFee,
     });
 

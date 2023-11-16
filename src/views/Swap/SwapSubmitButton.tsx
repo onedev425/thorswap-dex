@@ -1,5 +1,5 @@
-import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import type { AssetValue, SwapKitNumber } from '@swapkit/core';
+import { Chain } from '@swapkit/core';
 import { Box, Button } from 'components/Atomic';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { hasWalletConnected } from 'helpers/wallet';
@@ -14,14 +14,14 @@ import { useWallet } from 'store/wallet/hooks';
 type Props = {
   hasQuote: boolean;
   invalidSwap: boolean;
-  inputAmount: Amount;
-  inputAsset: AssetEntity;
+  inputAmount: SwapKitNumber;
+  inputAsset: AssetValue;
   isApproved: boolean | null;
   isInputWalletConnected: boolean;
   isOutputWalletConnected: boolean;
   isLoading: boolean;
   quoteError: boolean;
-  outputAsset: AssetEntity;
+  outputAsset: AssetValue;
   recipient: string | null;
   setVisibleApproveModal: (visible: boolean) => void;
   setVisibleConfirmModal: (visible: boolean) => void;
@@ -48,9 +48,9 @@ export const SwapSubmitButton = ({
 
   const isTradingHalted: boolean = useMemo(
     () =>
-      getChainTradingPaused(inputAsset.L1Chain as Chain) ||
-      getChainTradingPaused(outputAsset.L1Chain as Chain),
-    [getChainTradingPaused, inputAsset.L1Chain, outputAsset.L1Chain],
+      getChainTradingPaused(inputAsset.chain as Chain) ||
+      getChainTradingPaused(outputAsset.chain as Chain),
+    [getChainTradingPaused, inputAsset.chain, outputAsset.chain],
   );
 
   const walletConnected = useMemo(
@@ -59,7 +59,7 @@ export const SwapSubmitButton = ({
   );
 
   const { isExchangeBNBAddress } = useCheckExchangeBNB(
-    outputAsset.L1Chain === Chain.Binance ? recipient : null,
+    outputAsset.chain === Chain.Binance ? recipient : null,
   );
 
   const isValidAddress = useCallback(async () => {
@@ -67,7 +67,7 @@ export const SwapSubmitButton = ({
       if (!recipient) return true;
       const { validateAddress } = await (await import('services/swapKit')).getSwapKitClient();
 
-      const validated = validateAddress({ chain: outputAsset.L1Chain, address: recipient });
+      const validated = validateAddress({ chain: outputAsset.chain, address: recipient });
 
       return typeof validated === 'undefined' ? true : validated;
     } catch (error: NotWorth) {
@@ -109,12 +109,12 @@ export const SwapSubmitButton = ({
   const btnLabel = useMemo(() => {
     if (isTradingHalted) return t('notification.swapNotAvailable');
     if (quoteError) return t('views.swap.noValidQuote');
-    if ((inputAsset.isSynth && outputAsset.isSynth) || isSwapValid) return t('common.swap');
-    if (inputAsset.isSynth) return t('txManager.redeem');
-    if (outputAsset.isSynth) return t('txManager.mint');
+    if ((inputAsset.isSynthetic && outputAsset.isSynthetic) || isSwapValid) return t('common.swap');
+    if (inputAsset.isSynthetic) return t('txManager.redeem');
+    if (outputAsset.isSynthetic) return t('txManager.mint');
 
     return t('common.swap');
-  }, [isTradingHalted, quoteError, inputAsset.isSynth, outputAsset.isSynth, isSwapValid]);
+  }, [isTradingHalted, quoteError, inputAsset.isSynthetic, outputAsset.isSynthetic, isSwapValid]);
 
   const isApproveRequired = useMemo(
     () => hasQuote && isInputWalletConnected && isApproved === false,
@@ -134,7 +134,7 @@ export const SwapSubmitButton = ({
           onClick={() =>
             !IS_LEDGER_LIVE
               ? setIsConnectModalOpen(true)
-              : connectLedgerLiveWallet(isInputWalletConnected ? [outputAsset.L1Chain] : undefined)
+              : connectLedgerLiveWallet(isInputWalletConnected ? [outputAsset.chain] : undefined)
           }
           size="lg"
           variant="fancy"

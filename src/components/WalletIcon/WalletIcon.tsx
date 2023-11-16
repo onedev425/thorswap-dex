@@ -1,4 +1,4 @@
-import { WalletOption } from '@thorswap-lib/types';
+import { WalletOption } from '@swapkit/core';
 import type { IconName } from 'components/Atomic';
 import { Box, Icon, Tooltip } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';

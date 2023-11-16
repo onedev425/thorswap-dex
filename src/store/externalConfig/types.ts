@@ -1,4 +1,4 @@
-import type { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@swapkit/core';
 import type { ReactNode } from 'react';
 
 export enum AnnouncementType {

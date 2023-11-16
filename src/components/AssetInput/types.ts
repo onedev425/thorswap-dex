@@ -1,12 +1,13 @@
-import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue, SwapKitNumber } from '@swapkit/core';
 import type { AssetSelectProps, AssetSelectType } from 'components/AssetSelect/types';
 
 export type AssetInputType = {
-  asset: AssetEntity;
+  asset: AssetValue;
   apr?: string;
   usdPrice?: number;
-  balance?: Amount;
-  value?: Amount;
+  balance?: AssetValue;
+  // TODO: What this?
+  value?: SwapKitNumber;
   loading?: boolean;
   priceLoading?: boolean;
   logoURI?: string;
@@ -24,7 +25,7 @@ export type AssetInputProps = {
   hideMaxButton?: boolean;
   inputClassName?: string;
   maxButtonLabel?: string;
-  onValueChange?: (assetValue: Amount) => void;
+  onValueChange?: (assetValue: SwapKitNumber) => void;
   isPriceLoading?: boolean;
   secondaryLabel?: string;
   selectedAsset: AssetInputType;
@@ -34,14 +35,14 @@ export type AssetInputProps = {
 } & (
   | {
       assets: AssetSelectType[];
-      onAssetChange: (asset: AssetEntity) => void;
+      onAssetChange: (asset: AssetValue) => void;
       poolAsset?: undefined;
       showSecondaryChainSelector?: undefined;
       singleAsset?: undefined;
     }
   | {
       assets: AssetSelectType[];
-      onAssetChange: (asset: AssetEntity) => void;
+      onAssetChange: (asset: AssetValue) => void;
       poolAsset: AssetInputType;
       singleAsset?: true;
       showSecondaryChainSelector?: boolean;

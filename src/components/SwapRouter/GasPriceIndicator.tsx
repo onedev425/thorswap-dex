@@ -1,7 +1,6 @@
 import { Text } from '@chakra-ui/react';
-import type { QuoteRoute } from '@thorswap-lib/swapkit-api';
-import { formatBigNumber } from '@thorswap-lib/swapkit-core';
-import BigNumber from 'bignumber.js';
+import type { QuoteRoute } from '@swapkit/api';
+import { SwapKitNumber } from '@swapkit/core';
 import { Box, Icon, Tooltip } from 'components/Atomic';
 import { useRouteFees } from 'hooks/useRouteFees';
 import { memo, useMemo } from 'react';
@@ -21,10 +20,10 @@ export const GasPriceIndicator = memo(({ fees, size = 'md' }: Props) => {
   return (
     <Tooltip>
       <Box center>
-        <Text textStyle="caption-xs" variant="secondaryBtn">{`$${formatBigNumber(
-          BigNumber(outOfPocketFee),
-          2,
-        )}`}</Text>
+        <Text textStyle="caption-xs" variant="secondaryBtn">{`$${new SwapKitNumber({
+          value: outOfPocketFee,
+          decimal: 2,
+        }).toFixed(2)}`}</Text>
         <Icon className="pl-0.5" color="secondaryBtn" name="gas" size={iconSize} />
       </Box>
     </Tooltip>

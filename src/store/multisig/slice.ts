@@ -1,5 +1,4 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { AssetAmount } from '@thorswap-lib/swapkit-core';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 
 import * as multisigActions from './actions';
@@ -44,7 +43,7 @@ const multisigSlice = createSlice({
         state.loadingBalances = false;
       })
       .addCase(multisigActions.loadMultisigBalances.fulfilled, (state, { payload }) => {
-        state.balances = payload as AssetAmount[];
+        state.balances = payload;
         state.loadingBalances = false;
       });
   },

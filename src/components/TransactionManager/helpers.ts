@@ -1,7 +1,6 @@
-import type { TxTrackerDetails } from '@thorswap-lib/swapkit-api';
-import { TxStatus } from '@thorswap-lib/swapkit-api';
-import { AssetAmount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
-import { BaseDecimal, Chain } from '@thorswap-lib/types';
+import type { TxTrackerDetails } from '@swapkit/api';
+import { TxStatus } from '@swapkit/api';
+import { AssetValue, BaseDecimal, Chain } from '@swapkit/core';
 import { useCallback, useState } from 'react';
 import { getCustomContract } from 'services/contract';
 import { t } from 'services/i18n';
@@ -19,11 +18,11 @@ const getTcPart = ({
   amount: string;
 }) => {
   try {
-    const assetAmount = AssetAmount.fromBaseAmount(amount, decimal);
-    const asset = Asset.fromAssetString(assetString);
-    return asset?.L1Chain === Chain.Avalanche
-      ? asset?.name
-      : `${assetAmount.toSignificant(6)} ${asset?.name}`;
+    const assetAmount = AssetValue.fromBigInt(BigInt(amount), decimal);
+    const asset = AssetValue.fromStringSync(assetString);
+    return asset?.chain === Chain.Avalanche
+      ? asset?.ticker
+      : `${assetAmount.toSignificant(6)} ${asset?.ticker}`;
   } catch {
     return '';
   }
@@ -35,7 +34,10 @@ const getEthPart = async ({ asset, amount }: { asset: string; amount: string }) 
     const name = await contract.symbol();
     const decimals = await contract.decimals();
 
-    const assetAmount = AssetAmount.fromBaseAmount(amount, decimals.toNumber() || BaseDecimal.ETH);
+    const assetAmount = AssetValue.fromBigInt(
+      BigInt(amount),
+      decimals.toNumber() || BaseDecimal.ETH,
+    );
 
     return `${assetAmount.toSignificant(6)} ${name}`;
   } catch {

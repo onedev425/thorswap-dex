@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
 import { InfoTable } from 'components/InfoTable';
@@ -10,7 +10,7 @@ import { t } from 'services/i18n';
 import { PoolShareType } from 'store/midgard/types';
 
 type Props = {
-  asset: AssetEntity;
+  asset: AssetValue;
   assetPending: string;
   assetShare: string;
   assetWithdrawn: string;

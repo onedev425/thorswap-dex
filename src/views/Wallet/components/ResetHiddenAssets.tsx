@@ -1,4 +1,4 @@
-import type { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@swapkit/core';
 import { HoverIcon } from 'components/HoverIcon';
 import { t } from 'i18next';
 import { useCallback } from 'react';

@@ -1,4 +1,4 @@
-import { Amount } from '@thorswap-lib/swapkit-core';
+import { AssetValue, Chain, SwapKitNumber } from '@swapkit/core';
 import { showErrorToast } from 'components/Toast';
 import { RUNEAsset } from 'helpers/assets';
 import { useTokenPrices } from 'hooks/useTokenPrices';
@@ -16,18 +16,20 @@ export const useTxDepositCustom = () => {
   const navigate = useNavigate();
   const { getMaxBalance } = useMultissigAssets();
 
-  const [depositAmount, setDepositAmount] = useState<Amount>(Amount.fromAssetAmount(0, 8));
+  const [depositAmount, setDepositAmount] = useState<SwapKitNumber>(
+    new SwapKitNumber({ value: 0, decimal: 8 }),
+  );
 
   const [memo, setMemo] = useState('');
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
 
   const { data } = useTokenPrices([RUNEAsset]);
   const assetPriceInUSD = useMemo(
-    () => data[RUNEAsset.ticker]?.price_usd || 0 * depositAmount.assetAmount.toNumber(),
-    [data, depositAmount.assetAmount],
+    () => data[RUNEAsset.ticker]?.price_usd || 0 * depositAmount.getValue('number'),
+    [data, depositAmount],
   );
 
-  const maxSpendableBalance: Amount = useMemo(() => getMaxBalance(RUNEAsset), [getMaxBalance]);
+  const maxSpendableBalance = useMemo(() => getMaxBalance(RUNEAsset), [getMaxBalance]);
 
   const assetInput = useMemo(
     () => ({
@@ -40,8 +42,15 @@ export const useTxDepositCustom = () => {
   );
 
   const handleChangeDepositAmount = useCallback(
-    (amount: Amount) =>
-      setDepositAmount(amount.gt(maxSpendableBalance) ? maxSpendableBalance : amount),
+    (assetValue: SwapKitNumber) =>
+      setDepositAmount(
+        assetValue.gt(maxSpendableBalance.getValue('string'))
+          ? new SwapKitNumber({
+              value: maxSpendableBalance.getValue('string'),
+              decimal: maxSpendableBalance.decimal,
+            })
+          : assetValue,
+      ),
     [maxSpendableBalance],
   );
 
@@ -58,8 +67,10 @@ export const useTxDepositCustom = () => {
   const handleCreateTx = async () => {
     const tx = await createDepositTx({
       memo,
-      asset: RUNEAsset,
-      amount: depositAmount,
+      assetValue: AssetValue.fromChainOrSignature(
+        Chain.THORChain,
+        depositAmount.getValue('string'),
+      ),
     });
 
     if (tx) {

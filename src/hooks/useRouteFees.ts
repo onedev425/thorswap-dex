@@ -1,4 +1,4 @@
-import type { QuoteRoute } from '@thorswap-lib/swapkit-api';
+import type { QuoteRoute } from '@swapkit/api';
 import { useMemo } from 'react';
 
 export const useRouteFees = (routeFees?: QuoteRoute['fees']) => {

@@ -1,5 +1,5 @@
+import { Chain } from '@swapkit/core';
 import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
-import { Chain } from '@thorswap-lib/types';
 import { useMemo } from 'react';
 import { useGetFullMemberQuery } from 'store/midgard/api';
 import { useWallet } from 'store/wallet/hooks';

@@ -1,5 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react';
-import type { StreamingSwapDetails } from '@thorswap-lib/swapkit-api';
+import type { StreamingSwapDetails } from '@swapkit/api';
 import { TxStreamingSwapProgress } from 'components/TransactionTracker/components/TxStreamingSwapProgress';
 import { memo } from 'react';
 import { t } from 'services/i18n';

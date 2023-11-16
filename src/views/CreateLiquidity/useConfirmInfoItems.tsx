@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box } from 'components/Atomic';
 import type { InfoRowConfig } from 'components/InfoRow/types';
@@ -7,7 +7,7 @@ import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { t } from 'services/i18n';
 
 type Params = {
-  assets: { asset: AssetEntity; value: string }[];
+  assets: { asset: AssetValue; value: string }[];
   fees: { chain: string; fee: string }[];
   totalFee: string | null;
   poolShare: string | null;

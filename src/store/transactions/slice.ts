@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { TxTrackerDetails } from '@thorswap-lib/swapkit-api';
+import type { TxTrackerDetails } from '@swapkit/api';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import type { TxnResult } from 'store/thorswap/types';
 import { filterInitialTransactions, findTxIndexById } from 'store/transactions/utils';

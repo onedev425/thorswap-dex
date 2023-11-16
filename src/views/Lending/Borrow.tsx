@@ -1,5 +1,5 @@
 import { Flex, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
-import { Amount, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import { AssetValue, SwapKitNumber } from '@swapkit/core';
 import classNames from 'classnames';
 import { Announcement } from 'components/Announcements/Announcement/Announcement';
 import { AssetInput } from 'components/AssetInput';
@@ -78,13 +78,14 @@ const Borrow = () => {
     amount,
     setAmount,
   } = useRouteAssetParams(ROUTES.Lending, ETHAsset);
+
   const [borrowAsset, setBorrowAsset] = useState(
-    AssetEntity.fromAssetString(ETH_USDC_IDENTIFIER) as AssetEntity,
+    AssetValue.fromIdentifierSync(ETH_USDC_IDENTIFIER),
   );
   const [recipient, setRecipient] = useState('');
 
-  const [collateralBalance, setCollateralBalance] = useState<Amount | undefined>();
-  const [borrowBalance, setBorrowBalance] = useState<Amount | undefined>();
+  const [collateralBalance, setCollateralBalance] = useState<AssetValue | undefined>();
+  const [borrowBalance, setBorrowBalance] = useState<AssetValue | undefined>();
 
   const collateralLendingAsset = useMemo(() => {
     return lendingAssets.find((asset) => asset.asset.eq(collateralAsset));
@@ -95,10 +96,10 @@ const Borrow = () => {
   const [viewTab, setViewTab] = useState(LendingViewTab.Borrow);
   const { data: tokenPricesData } = useTokenPrices([collateralAsset, borrowAsset]);
   const collateralUsdPrice = useMemo(() => {
-    const price = tokenPricesData[collateralAsset.symbol]?.price_usd || 0;
+    const price = tokenPricesData[collateralAsset.toString()]?.price_usd || 0;
 
-    return price * amount.assetAmount.toNumber();
-  }, [amount.assetAmount, collateralAsset.symbol, tokenPricesData]);
+    return price * Number(amount.toFixed(2));
+  }, [amount, collateralAsset, tokenPricesData]);
 
   const formatPrice = useFormatPrice();
 
@@ -107,12 +108,12 @@ const Borrow = () => {
   const { estimateTimeFromBlocks } = useTCBlockTimer();
 
   const collateralAddress = useMemo(
-    () => wallet?.[collateralAsset.L1Chain]?.address || '',
-    [wallet, collateralAsset.L1Chain],
+    () => wallet?.[collateralAsset.chain]?.address || '',
+    [wallet, collateralAsset.chain],
   );
   const borrowAddress = useMemo(
-    () => wallet?.[borrowAsset.L1Chain]?.address || '',
-    [wallet, borrowAsset.L1Chain],
+    () => wallet?.[borrowAsset.chain]?.address || '',
+    [wallet, borrowAsset.chain],
   );
 
   useEffect(() => {
@@ -130,20 +131,21 @@ const Borrow = () => {
     stream,
     canStream,
     toggleStream,
+    expectedOutputAssetValue,
   } = useBorrow({
     slippage,
     senderAddress: collateralAddress,
     recipientAddress: recipient,
-    amount: amount.assetAmount.toNumber(),
+    amount,
     assetIn: collateralAsset,
     assetOut: borrowAsset,
   });
 
   const borrowUsdPrice = useMemo(() => {
-    const price = tokenPricesData[borrowAsset.symbol]?.price_usd || 0;
+    const price = tokenPricesData[borrowAsset.toString()]?.price_usd || 0;
 
-    return price * expectedOutput.assetAmount.toNumber();
-  }, [borrowAsset.symbol, expectedOutput.assetAmount, tokenPricesData]);
+    return price * Number(expectedOutput.toFixed(2)) || 0;
+  }, [borrowAsset, expectedOutput, tokenPricesData]);
 
   useEffect(() => {
     collateralAddress
@@ -163,11 +165,9 @@ const Borrow = () => {
   );
 
   const handleSwapkitAction = useCallback(async () => {
-    const { openLoan, validateAddress } = await (
-      await import('services/swapKit')
-    ).getSwapKitClient();
+    const { loan, validateAddress } = await (await import('services/swapKit')).getSwapKitClient();
 
-    const validAddress = validateAddress({ chain: borrowAsset.L1Chain, address: recipient });
+    const validAddress = validateAddress({ chain: borrowAsset.chain, address: recipient });
     if (typeof validAddress === 'boolean' && !validAddress) {
       throw new Error('Invalid recipient address');
     }
@@ -176,17 +176,15 @@ const Borrow = () => {
       throw new Error('Invalid lending quote');
     }
 
-    const params = {
-      assetAmount: new AssetAmount(collateralAsset, amount),
-      assetTicker: `${borrowAsset.getAssetObj().chain}.${borrowAsset.getAssetObj().ticker}`,
+    return loan({
+      type: 'open',
+      assetValue: collateralAsset.add(amount),
+      minAmount: borrowAsset.add(expectedOutput),
       memo: stream
         ? borrowQuote.streamingSwap?.memo || borrowQuote.calldata?.memoStreamingSwap
         : borrowQuote.memo,
-    };
-
-    return openLoan({ ...params });
-  }, [amount, borrowAsset, borrowQuote, collateralAsset, recipient, stream]);
-
+    });
+  }, [amount, borrowAsset, borrowQuote, collateralAsset, expectedOutput, recipient, stream]);
   const handleBorrowSubmit = useCallback(
     async (expectedAmount: string) => {
       setIsConfirmOpen(false);
@@ -196,17 +194,17 @@ const Borrow = () => {
         addTransaction({
           id,
           label: t('txManager.openLoan', {
-            asset: collateralAsset.name,
+            asset: collateralAsset.ticker,
             amount: expectedAmount,
           }),
           type: TransactionType.TC_LENDING_OPEN,
-          inChain: collateralAsset.L1Chain,
+          inChain: collateralAsset.chain,
         }),
       );
 
       try {
         const txid = await handleSwapkitAction();
-        setAmount(Amount.fromAssetAmount(0, collateralAsset.decimal));
+        setAmount(new SwapKitNumber({ value: 0, decimal: collateralAsset.decimal }));
         if (txid)
           appDispatch(
             updateTransaction({
@@ -229,9 +227,9 @@ const Borrow = () => {
       appDispatch,
       borrowQuote,
       collateralAddress,
-      collateralAsset.L1Chain,
+      collateralAsset.chain,
       collateralAsset.decimal,
-      collateralAsset.name,
+      collateralAsset.ticker,
       handleSwapkitAction,
       setAmount,
     ],
@@ -241,18 +239,10 @@ const Borrow = () => {
     () =>
       !recipient ||
       isLendingPaused ||
-      amount.lte(Amount.fromAssetAmount(0, collateralAsset.decimal)) ||
+      amount.lte(0) ||
       (collateralBalance && amount.gt(collateralBalance)) ||
-      isChainHalted[collateralAsset.L1Chain],
-    [
-      recipient,
-      isLendingPaused,
-      amount,
-      collateralAsset.decimal,
-      collateralAsset.L1Chain,
-      collateralBalance,
-      isChainHalted,
-    ],
+      isChainHalted[collateralAsset.chain],
+    [recipient, isLendingPaused, amount, collateralAsset.chain, collateralBalance, isChainHalted],
   );
 
   const tabLabel = tab === LendingTab.Borrow ? t('common.borrow') : t('pcommon.repay');
@@ -267,12 +257,12 @@ const Borrow = () => {
   );
   const selectedBorrowAsset = useMemo(
     () => ({
-      asset: borrowAsset,
+      asset: expectedOutputAssetValue ? expectedOutputAssetValue : borrowAsset,
       value: expectedOutput,
       balance: borrowBalance,
       usdPrice: borrowUsdPrice,
     }),
-    [borrowAsset, expectedOutput, borrowBalance, borrowUsdPrice],
+    [expectedOutputAssetValue, borrowAsset, expectedOutput, borrowBalance, borrowUsdPrice],
   );
 
   const buttonLabel = useMemo(() => {
@@ -335,14 +325,14 @@ const Borrow = () => {
   );
 
   const handleAmountChange = useCallback(
-    (amount: Amount) => {
+    (updatedAmount: SwapKitNumber) => {
       /**
        * NOTE: This will only work for signature assets for which we specify decimal by hand in SwapKit
        *      For other assets, we need to get decimal from the API / Contract
        */
-      setAmount(Amount.fromAssetAmount(amount.assetAmount, collateralAsset.decimal));
+      setAmount(updatedAmount);
     },
-    [collateralAsset.decimal, setAmount],
+    [setAmount],
   );
 
   return (
@@ -372,7 +362,7 @@ const Borrow = () => {
               <Box className="flex w-full justify-between">
                 <Box alignCenter>
                   <Text className="ml-3 mr-2" textStyle="h3">
-                    {t('views.lending.header', { asset: borrowAsset.name })}
+                    {t('views.lending.header', { asset: borrowAsset.ticker })}
                   </Text>
                 </Box>
               </Box>
@@ -381,8 +371,8 @@ const Borrow = () => {
                 <Flex alignItems="center" direction="row" flexWrap="wrap" gap={1} px={3}>
                   <Text fontWeight="medium" noOfLines={1} textStyle="body" variant="primary">
                     {t('views.lending.liquidationDisclaimer', {
-                      asset: collateralAsset.name,
-                      borrowAsset: borrowAsset.name,
+                      asset: collateralAsset.ticker,
+                      borrowAsset: borrowAsset.ticker,
                     })}
                   </Text>
                   <Link className="text-twitter-blue cursor-pointer" to={LENDING_DOCS}>
@@ -488,7 +478,7 @@ const Borrow = () => {
                           {...assetInputProps}
                           disabled
                           assets={outputAssets
-                            .filter(isLedgerLiveSupportedInputAsset)
+                            .filter((asset) => isLedgerLiveSupportedInputAsset(asset.asset))
                             .filter((outputAsset) => outputAsset.asset.type !== 'Synth')}
                           className="flex-1 !py-1"
                           onAssetChange={setBorrowAsset}
@@ -500,7 +490,7 @@ const Borrow = () => {
                           <Flex alignContent="stretch" flex={1} mt={1}>
                             <CustomRecipientInput
                               isOutputWalletConnected={!!borrowAddress}
-                              outputAssetL1Chain={borrowAsset.L1Chain}
+                              outputAssetchain={borrowAsset.chain}
                               recipient={recipient}
                               setRecipient={setRecipient}
                             />

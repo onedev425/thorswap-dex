@@ -26,7 +26,7 @@ export const TxDepositCustom = () => {
     () => [
       {
         label: t('common.deposit'),
-        value: `${depositAmount?.toSignificant(6)} ${RUNEAsset.name}`,
+        value: `${depositAmount?.toSignificant(6)} ${RUNEAsset.ticker}`,
       },
       { label: t('common.memo'), value: memo.length < 30 ? memo : shortenAddress(memo, 14) },
     ],

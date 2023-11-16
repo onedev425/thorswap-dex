@@ -1,4 +1,3 @@
-import { VoidSigner } from '@ethersproject/abstract-signer';
 import type {
   Account,
   BitcoinTransaction,
@@ -7,34 +6,17 @@ import type {
   Transaction,
 } from '@ledgerhq/wallet-api-client';
 import { FAMILIES, WalletAPIClient, WindowMessageTransport } from '@ledgerhq/wallet-api-client';
-import { baseAmount } from '@thorswap-lib/helpers';
-import {
-  Amount,
-  AmountType,
-  AssetAmount,
-  AssetEntity,
-  getSignatureAssetFor,
-} from '@thorswap-lib/swapkit-core';
-import type { UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
-import { Chain, FeeOption, WalletOption } from '@thorswap-lib/types';
+import { AssetValue, Chain, FeeOption, WalletOption } from '@swapkit/core';
+import type { UTXOTransferParams } from '@swapkit/toolbox-utxo';
 import { BigNumber as BigNumberJS } from 'bignumber.js';
-import type { AssetInputType } from 'components/AssetInput/types';
 import { isBTCAsset } from 'helpers/assets';
 import { ledgerLive } from 'services/ledgerLive';
 import { IS_LEDGER_LIVE } from 'settings/config';
 
-export type LedgerAccount = Account & { multichainBalance?: AssetAmount[] };
+export type LedgerAccount = Account & { multichainBalance?: AssetValue[] };
 
 export type LedgerLiveTransaction = Transaction;
 export const LEDGER_LIVE_FAMILIES = FAMILIES;
-
-export const getAssetForBalance = ({ symbol, chain }: { symbol: string; chain: string }) => {
-  const isSynth = symbol.includes('/');
-  const assetChain = (isSynth ? symbol.split('/')?.[0] : chain)?.toUpperCase() as Chain;
-  const assetSymbol = (isSynth ? symbol.split('/')?.[1] : symbol)?.toUpperCase();
-
-  return new AssetEntity(assetChain, assetSymbol, isSynth);
-};
 
 export const enum LedgerLiveChain {
   BTC = 'bitcoin',
@@ -97,35 +79,35 @@ export const mapLedgerChainToChain = (chain: LedgerLiveChain) => {
 export const mapLedgerCurrencyToAsset = (currency: string) => {
   switch (currency) {
     case 'ethereum':
-      return getSignatureAssetFor(Chain.Ethereum);
+      return AssetValue.fromChainOrSignature(Chain.Ethereum);
     case 'cosmos':
-      return getSignatureAssetFor(Chain.Cosmos);
+      return AssetValue.fromChainOrSignature(Chain.Cosmos);
     case 'bitcoin':
-      return getSignatureAssetFor(Chain.Bitcoin);
+      return AssetValue.fromChainOrSignature(Chain.Bitcoin);
     case 'litecoin':
-      return getSignatureAssetFor(Chain.Litecoin);
+      return AssetValue.fromChainOrSignature(Chain.Litecoin);
     case 'dogecoin':
-      return getSignatureAssetFor(Chain.Dogecoin);
+      return AssetValue.fromChainOrSignature(Chain.Dogecoin);
     case 'bitcoin_cash':
-      return getSignatureAssetFor(Chain.BitcoinCash);
+      return AssetValue.fromChainOrSignature(Chain.BitcoinCash);
     default:
       throw new Error('Unsupported currency');
   }
 };
 
-export const isLedgerLiveSupportedOutputAsset = (assetInput: AssetInputType) =>
+export const isLedgerLiveSupportedOutputAsset = (assetInput: AssetValue) =>
   !IS_LEDGER_LIVE ||
-  isBTCAsset(assetInput.asset) ||
-  (assetInput.asset.chain === Chain.Ethereum && !assetInput.asset.isSynth) ||
-  (assetInput.asset.chain === Chain.BitcoinCash && !assetInput.asset.isSynth) ||
-  (assetInput.asset.chain === Chain.Dogecoin && !assetInput.asset.isSynth) ||
-  (assetInput.asset.chain === Chain.Litecoin && !assetInput.asset.isSynth) ||
-  (assetInput.asset.chain === Chain.Cosmos && !assetInput.asset.isSynth);
+  isBTCAsset(assetInput) ||
+  (assetInput.chain === Chain.Ethereum && !assetInput.isSynthetic) ||
+  (assetInput.chain === Chain.BitcoinCash && !assetInput.isSynthetic) ||
+  (assetInput.chain === Chain.Dogecoin && !assetInput.isSynthetic) ||
+  (assetInput.chain === Chain.Litecoin && !assetInput.isSynthetic) ||
+  (assetInput.chain === Chain.Cosmos && !assetInput.isSynthetic);
 
-export const isLedgerLiveSupportedInputAsset = (assetInput: AssetInputType) =>
+export const isLedgerLiveSupportedInputAsset = (assetInput: AssetValue) =>
   !IS_LEDGER_LIVE ||
-  isBTCAsset(assetInput.asset) ||
-  (assetInput.asset.chain === Chain.Cosmos && !assetInput.asset.isSynth);
+  isBTCAsset(assetInput) ||
+  (assetInput.chain === Chain.Cosmos && !assetInput.isSynthetic);
 
 export class LedgerLive {
   private transport;
@@ -175,14 +157,7 @@ export const connectLedgerLive = async (chain: Chain, ledgerLiveAccount: LedgerA
   if (!(chain in LEDGER_LIVE_SUPPORTED_CHAINS)) {
     const walletMethods = await getWalletMethods(chain, ledgerLiveAccount);
     if (!walletMethods) throw new Error(`Ledger connect is not supported for ${chain} chain`);
-    const balances = (await walletMethods.getBalance(ledgerLiveAccount.address)) ?? [];
-    const balance = balances.map(
-      ({ amount, asset }) =>
-        new AssetAmount(
-          getAssetForBalance(asset),
-          new Amount(amount.amount().toString() || '0', AmountType.BASE_AMOUNT, amount.decimal),
-        ),
-    );
+    const balance = (await walletMethods.getBalance(ledgerLiveAccount.address)) ?? [];
 
     return {
       chain,
@@ -211,7 +186,8 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
       const getAddress = () => ledgerLiveAccount.address;
 
       const ledgerLiveClient = new EthereumLedgerLive();
-      const { getProvider, ETHToolbox } = await import('@thorswap-lib/toolbox-evm');
+      const { getProvider, ETHToolbox } = await import('@swapkit/toolbox-evm');
+      const { VoidSigner } = await import('ethers');
 
       const provider = getProvider(Chain.Ethereum);
 
@@ -233,12 +209,21 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         return signedTx;
       };
 
-      const transfer = async ({ asset, memo, amount, recipient }: any) => {
-        if (!asset) throw new Error('invalid asset');
+      const transfer = async ({
+        assetValue,
+        memo,
+        recipient,
+      }: {
+        //TODO - use typing from SK if possible - check other transfer methods as well
+        assetValue: AssetValue;
+        memo: string;
+        recipient: string;
+      }) => {
+        if (!assetValue) throw new Error('invalid asset');
         const signedTx = await ledgerLiveClient?.signTransaction(ledgerLiveAccount.id, {
           recipient,
           data: Buffer.from(memo || ''),
-          amount: new BigNumberJS(amount.amount().toString()),
+          amount: new BigNumberJS(assetValue.getBaseValue('string')),
           family: LEDGER_LIVE_FAMILIES[1],
         });
 
@@ -256,7 +241,7 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
     }
 
     case Chain.Cosmos: {
-      const { GaiaToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const { GaiaToolbox } = await import('@swapkit/toolbox-cosmos');
       const ledgerLiveClient = new CosmosLedgerLive();
       const toolbox = GaiaToolbox();
 
@@ -266,12 +251,8 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         const balance = (await ledgerLive().listAccounts(chain)).find(
           (account) => account.id === ledgerLiveAccount.id,
         )?.balance;
-        return [
-          {
-            asset: getSignatureAssetFor(Chain.Cosmos),
-            amount: baseAmount(balance?.toString() || '0', 6),
-          },
-        ];
+
+        return [AssetValue.fromChainOrSignature(Chain.Cosmos, balance?.toString(10) || 0)];
       };
 
       const sendTransaction = async (unsignedTx: any) => {
@@ -286,12 +267,20 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         return signedTx;
       };
 
-      const transfer = async ({ asset, memo, amount, recipient }: any) => {
-        if (!asset) throw new Error('invalid asset');
+      const transfer = async ({
+        assetValue,
+        memo,
+        recipient,
+      }: {
+        assetValue: AssetValue;
+        memo: string;
+        recipient: string;
+      }) => {
+        if (!assetValue) throw new Error('invalid asset');
         const signedTx = await ledgerLiveClient?.signTransaction(ledgerLiveAccount.id, {
           family: LEDGER_LIVE_FAMILIES[5],
           recipient,
-          amount: new BigNumberJS(amount.amount().toNumber()),
+          amount: new BigNumberJS(assetValue.getBaseValue('string')),
           memo,
           mode: 'send',
         });
@@ -313,10 +302,9 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
     case Chain.BitcoinCash:
     case Chain.Dogecoin:
     case Chain.Bitcoin: {
-      const asset = getSignatureAssetFor(chain);
       const ledgerLiveClient = new BitcoinLedgerLive();
       const { BTCToolbox, LTCToolbox, BCHToolbox, DOGEToolbox } = await import(
-        '@thorswap-lib/toolbox-utxo'
+        '@swapkit/toolbox-utxo'
       );
       const toolbox =
         chain === Chain.Bitcoin
@@ -333,12 +321,8 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         const balance = (await ledgerLive().listAccounts(chain)).find(
           (account) => account.id === ledgerLiveAccount.id,
         )?.balance;
-        return [
-          {
-            asset,
-            amount: baseAmount(balance?.toString() || '0', asset.decimal),
-          },
-        ];
+
+        return [AssetValue.fromChainOrSignature(chain, balance?.toString(10) || '0')];
       };
 
       const sendTransaction = async (unsignedTx: any) => {
@@ -352,13 +336,13 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         return signedTx;
       };
 
-      const transfer = async ({ asset, memo, amount, recipient, feeRate }: UTXOTransferParams) => {
-        if (!asset) throw new Error('invalid asset');
+      const transfer = async ({ assetValue, memo, recipient, feeRate }: UTXOTransferParams) => {
+        if (!assetValue) throw new Error('invalid asset');
         const gasPrice = (await toolbox.getFeeRates())[FeeOption.Average];
         const signedTx = await ledgerLiveClient?.signTransaction(ledgerLiveAccount.id, {
           recipient,
           opReturnData: Buffer.from(memo || ''),
-          amount: new BigNumberJS(amount.amount().toNumber()),
+          amount: new BigNumberJS(assetValue.getBaseValue('string')),
           feePerByte: feeRate ? new BigNumberJS(Math.max(feeRate, gasPrice)) : undefined,
           family: LEDGER_LIVE_FAMILIES[0],
         });

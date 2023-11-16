@@ -1,5 +1,5 @@
-import type { Chain } from '@thorswap-lib/types';
-import { ChainToChainId } from '@thorswap-lib/types';
+import type { Chain } from '@swapkit/core';
+import { ChainToChainId } from '@swapkit/core';
 import { gasState } from 'components/Analysis/helpers';
 import { Button, Icon } from 'components/Atomic';
 import { useMemo } from 'react';

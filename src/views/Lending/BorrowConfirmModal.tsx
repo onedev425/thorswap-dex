@@ -1,5 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react';
-import type { Amount, AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue, SwapKitNumber } from '@swapkit/core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Icon, Link } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
@@ -9,17 +9,17 @@ import { useMemo } from 'react';
 import { t } from 'services/i18n';
 
 type Props = {
-  asset: AssetEntity;
-  amount: Amount;
+  asset: AssetValue;
+  amount: SwapKitNumber;
   onClose: () => void;
   isOpened: boolean;
   onConfirm: (expectedAmount: string) => void;
   estimatedTime?: number;
-  expectedOutputAmount?: Amount;
+  expectedOutputAmount?: SwapKitNumber;
   expectedDebtInfo?: string;
-  collateralAmount: Amount;
-  collateralAsset: AssetEntity;
-  networkFee?: Amount;
+  collateralAmount: SwapKitNumber;
+  collateralAsset: AssetValue;
+  networkFee?: SwapKitNumber;
 };
 
 const LENDING_DOCS = 'https://twitter.com/THORChain/status/1693423215580958884';
@@ -63,7 +63,7 @@ export const BorrowConfirmModal = ({
                 {t('views.views.lending.borrow')}
               </Text>
               <Flex align="center" gap={0.5}>
-                <Text textStyle="caption">{asset.name}</Text>
+                <Text textStyle="caption">{asset.ticker}</Text>
                 <AssetIcon asset={asset} size={22} />
               </Flex>
 
@@ -71,7 +71,7 @@ export const BorrowConfirmModal = ({
                 <Text fontWeight="light" mx={1}>
                   for
                 </Text>
-                <Text textStyle="caption">{collateralAsset.name}</Text>
+                <Text textStyle="caption">{collateralAsset.ticker}</Text>
                 <AssetIcon asset={collateralAsset} size={22} />
               </Flex>
             </Flex>
@@ -86,7 +86,7 @@ export const BorrowConfirmModal = ({
           value={
             <Flex align="center" gap={0.5}>
               <Text textStyle="caption">
-                {amount.toSignificant(6)} {collateralAsset.name}
+                {amount.toSignificant(6)} {collateralAsset.ticker}
               </Text>
               <AssetIcon asset={collateralAsset} size={22} />
             </Flex>
@@ -99,7 +99,7 @@ export const BorrowConfirmModal = ({
           showBorder={false}
           value={
             <Text textStyle="caption">
-              {amount.sub(collateralAmount).toSignificant(6)} {collateralAsset.name}
+              {amount.sub(collateralAmount).toSignificant(6)} {collateralAsset.ticker}
             </Text>
           }
         />
@@ -109,7 +109,7 @@ export const BorrowConfirmModal = ({
           label={t('views.lending.colalteralAfterSlippage')}
           value={
             <Text textStyle="caption">
-              {collateralAmount.toSignificant(6)} {collateralAsset.name}
+              {collateralAmount.toSignificant(6)} {collateralAsset.ticker}
             </Text>
           }
         />
@@ -122,7 +122,7 @@ export const BorrowConfirmModal = ({
             <Flex align="center" gap={1}>
               <Text textStyle="caption">
                 {expectedOutputAmount ? (
-                  `${expectedOutputAmount.toSignificant(6)} ${asset.name}`
+                  `${expectedOutputAmount.toSignificant(6)} ${asset.ticker}`
                 ) : networkFee?.gte(amount) ? (
                   t('views.savings.notEnoughForOutboundFee')
                 ) : (

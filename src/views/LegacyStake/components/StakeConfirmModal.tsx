@@ -1,7 +1,6 @@
 import { Text } from '@chakra-ui/react';
-import { BigNumber } from '@ethersproject/bignumber';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Amount } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
+import { SwapKitNumber } from '@swapkit/core';
 import { Box, Button, Modal } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
 import { Input } from 'components/Input';
@@ -9,7 +8,7 @@ import { PercentSelect } from 'components/PercentSelect/PercentSelect';
 import { showErrorToast } from 'components/Toast';
 import { useCallback, useEffect, useState } from 'react';
 import type { ContractType } from 'services/contract';
-import { fromWei, getContractAddress, toWei } from 'services/contract';
+import { getContractAddress } from 'services/contract';
 import { t } from 'services/i18n';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
@@ -29,12 +28,12 @@ const actionNameKey: Record<FarmActionType, string> = {
 type Props = {
   isOpened: boolean;
   type: FarmActionType;
-  tokenBalance: BigNumber;
-  stakedAmount: BigNumber;
-  claimableAmount: BigNumber;
-  lpAsset: AssetEntity;
+  tokenBalance: SwapKitNumber;
+  stakedAmount: SwapKitNumber;
+  claimableAmount: SwapKitNumber;
+  lpAsset: AssetValue;
   contractType: ContractType;
-  onConfirm: (tokenAmount: BigNumber) => void;
+  onConfirm: (tokenAmount: SwapKitNumber) => void;
   onCancel: () => void;
 };
 
@@ -49,13 +48,12 @@ export const StakeConfirmModal = ({
   onConfirm,
   onCancel,
 }: Props) => {
-  const appDispatch = useAppDispatch();
-  const [amount, setAmount] = useState<BigNumber>(BigNumber.from(0));
   const { wallet } = useWallet();
+  const appDispatch = useAppDispatch();
+  const [amount, setAmount] = useState(new SwapKitNumber({ value: 0, decimal: lpAsset.decimal }));
   const { isApproved } = useIsAssetApproved({
-    asset: lpAsset,
+    assetValue: lpAsset.add(amount),
     contract: getContractAddress(contractType).address,
-    amount: amount.gt(0) ? Amount.fromBaseAmount(amount.toString(), lpAsset.decimal) : undefined,
   });
 
   const actionLabel = t(actionNameKey[type]);
@@ -74,10 +72,12 @@ export const StakeConfirmModal = ({
     [type, tokenBalance, claimableAmount, stakedAmount],
   );
 
-  const onAmountUpdate = useCallback((val: string) => {
-    // logic to update amount
-    setAmount(toWei(BigNumber.from(val).toNumber()));
-  }, []);
+  const onAmountUpdate = useCallback(
+    (value: string) => {
+      setAmount(new SwapKitNumber({ value, decimal: lpAsset.decimal }));
+    },
+    [lpAsset.decimal],
+  );
 
   const onPercentSelect = useCallback(
     (val: number) => {
@@ -99,21 +99,16 @@ export const StakeConfirmModal = ({
       appDispatch(
         addTransaction({
           id,
-          label: `${t('txManager.approve')} ${lpAsset.name}`,
-          inChain: lpAsset.L1Chain,
+          label: `${t('txManager.approve')} ${lpAsset.ticker}`,
+          inChain: lpAsset.chain,
           type: TransactionType.ETH_APPROVAL,
         }),
       );
 
-      const { approveAssetForContract } = await (
-        await import('services/swapKit')
-      ).getSwapKitClient();
+      const { approveAssetValue } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
-        const txid = await approveAssetForContract(
-          lpAsset,
-          getContractAddress(contractType).address,
-        );
+        const txid = await approveAssetValue(lpAsset, getContractAddress(contractType).address);
 
         if (typeof txid === 'string') {
           appDispatch(updateTransaction({ id, txid }));
@@ -135,16 +130,13 @@ export const StakeConfirmModal = ({
       <Box col className="w-full md:w-atuo md:!min-w-[350px]" flex={1}>
         <InfoRow
           label={t('views.staking.tokenBalance')}
-          value={fromWei(tokenBalance).toLocaleString() || 'N/A'}
+          value={tokenBalance.toSignificant(4) || 'N/A'}
         />
         <InfoRow
           label={t('views.staking.tokenStaked')}
-          value={fromWei(stakedAmount).toString() || 'N/A'}
+          value={stakedAmount.toSignificant(4) || 'N/A'}
         />
-        <InfoRow
-          label={t('views.staking.claimable')}
-          value={fromWei(claimableAmount).toFixed(2) || 'N/A'}
-        />
+        <InfoRow label={t('views.staking.claimable')} value={claimableAmount.toFixed(2) || 'N/A'} />
 
         {!isClaim && (
           <>
@@ -158,7 +150,7 @@ export const StakeConfirmModal = ({
                 border="rounded"
                 className="text-right"
                 onChange={(e) => onAmountUpdate(e.target.value)}
-                value={fromWei(amount).toString()}
+                value={amount.toString()}
               />
             </Box>
 

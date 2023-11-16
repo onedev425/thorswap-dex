@@ -1,5 +1,5 @@
 import { Box, Flex, keyframes, Link, Progress, ScaleFade, Text } from '@chakra-ui/react';
-import { Amount } from '@thorswap-lib/swapkit-core';
+import { SwapKitNumber } from '@swapkit/core';
 import { Icon, Tooltip } from 'components/Atomic';
 import { baseTextHoverClass } from 'components/constants';
 import { Fire } from 'components/Fire/Fire';
@@ -19,24 +19,24 @@ const colorBurn = keyframes`
   }
 `;
 
-const TARGET_AMOUNT = Amount.fromNormalAmount(12000000);
+const TARGET_AMOUNT = new SwapKitNumber({ value: 12000000, decimal: 8 });
 const currentMonth = dayjs().format('MMMM');
 const INFO_ARTICLE_URL = 'https://twitter.com/THORSwap/status/1653655296336879618';
 
 export const ThorBurn = ({ collapsed }: { collapsed?: boolean }) => {
-  const [totalVolume, setTotalVolume] = useState(Amount.fromMidgard(0));
+  const [totalVolume, setTotalVolume] = useState(SwapKitNumber.fromBigInt(0n));
   const { data } = useGetMonthlyTradeVolumeQuery();
   const [showAnimation, setShowAnimation] = useState(false);
 
   useEffect(() => {
     if (data?.intervals?.[0]) {
-      const volume = Amount.fromMidgard(data.intervals[0].totalVolume);
+      const volume = SwapKitNumber.fromBigInt(BigInt(data.intervals[0].totalVolume));
       setTotalVolume(volume);
     }
   }, [data]);
 
   const filledPercentRaw = useMemo(() => {
-    const percentString = totalVolume.div(TARGET_AMOUNT).mul(100).toFixedDecimal(2);
+    const percentString = totalVolume.div(TARGET_AMOUNT).mul(100).toFixed(2);
 
     return Math.round(Number(percentString) || 0);
   }, [totalVolume]);
@@ -47,9 +47,9 @@ export const ThorBurn = ({ collapsed }: { collapsed?: boolean }) => {
 
   const triggerReached = useMemo(() => filledPercent >= 100, [filledPercent]);
 
-  const tooltipContent = `${currentMonth} burn trade volume:\n${totalVolume.toAbbreviate(
+  const tooltipContent = `${currentMonth} burn trade volume:\n${totalVolume.toAbbreviation(
     2,
-  )} RUNE out of ${TARGET_AMOUNT.toAbbreviate(0)} RUNE`;
+  )} RUNE out of ${TARGET_AMOUNT.toAbbreviation(0)} RUNE`;
 
   useEffect(() => {
     if (triggerReached) {

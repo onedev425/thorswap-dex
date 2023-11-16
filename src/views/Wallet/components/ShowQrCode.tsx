@@ -1,4 +1,4 @@
-import type { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@swapkit/core';
 import { Box } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { QRCodeModal } from 'components/Modals/QRCodeModal';

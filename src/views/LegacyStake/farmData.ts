@@ -1,9 +1,8 @@
-import { AssetEntity as Asset, getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { AssetValue, Chain } from '@swapkit/core';
 import { RUNEAsset } from 'helpers/assets';
 import { ContractType, LPContractType } from 'services/contract';
 
-export const tokenAddr = {
+export const tokenAddress = {
   THOR: '0xa5f2211B9b8170F694421f2046281775E8468044',
   ETH_THOR: '0x3D3F13F2529eC3C84B2940155EffBf9b39a8f3Ec',
   THOR_STAKE: '0x6755630c583f12fFBD10568EB633c0319dB34922',
@@ -13,33 +12,33 @@ export const tokenAddr = {
 export const farmData = [
   {
     farmName: '$THOR Staking',
-    assets: [new Asset(Chain.Ethereum, `THOR-${tokenAddr.THOR}`)],
-    lpAsset: new Asset(Chain.Ethereum, `THOR-${tokenAddr.THOR}`),
-    lpToken: tokenAddr.THOR,
+    assets: [AssetValue.fromChainOrSignature('ETH.THOR')],
+    lpAsset: AssetValue.fromChainOrSignature('ETH.THOR'),
+    lpToken: tokenAddress.THOR,
     contractType: ContractType.STAKING_THOR,
     lpContractType: LPContractType.THOR,
-    stakeAddr: tokenAddr.THOR_STAKE,
+    stakeAddr: tokenAddress.THOR_STAKE,
     exchange: 'THORSwap',
   },
   {
     farmName: 'ETH-THOR LP',
     assets: [
-      getSignatureAssetFor(Chain.Ethereum),
-      new Asset(Chain.Ethereum, `THOR-${tokenAddr.THOR}`),
+      AssetValue.fromChainOrSignature(Chain.Ethereum),
+      AssetValue.fromChainOrSignature('ETH.THOR'),
     ],
-    lpAsset: new Asset(Chain.Ethereum, `SLP-${tokenAddr.ETH_THOR}`),
-    lpToken: tokenAddr.ETH_THOR,
+    lpAsset: AssetValue.fromStringSync(`ETH.SLP-${tokenAddress.ETH_THOR}`),
+    lpToken: tokenAddress.ETH_THOR,
     contractType: ContractType.STAKING_SUSHI_WETH,
     lpContractType: LPContractType.THOR_ETH,
-    stakeAddr: tokenAddr.SUSHI_STAKE,
+    stakeAddr: tokenAddress.SUSHI_STAKE,
     exchange: 'SushiSwap',
   },
 ];
 
 export const tcFarmData = {
   farmName: 'RUNE-THOR',
-  assets: [new Asset(Chain.Ethereum, `THOR-${tokenAddr.THOR}`), RUNEAsset],
-  lpToken: tokenAddr.THOR,
+  assets: [AssetValue.fromChainOrSignature('ETH.THOR'), RUNEAsset],
+  lpToken: tokenAddress.THOR,
   contractType: ContractType.STAKING_THOR,
   exchange: 'THORSwap',
 };

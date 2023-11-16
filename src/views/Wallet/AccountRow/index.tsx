@@ -1,4 +1,4 @@
-import type { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@swapkit/core';
 import classNames from 'classnames';
 import { Box, Card } from 'components/Atomic';
 import { borderHoverHighlightClass } from 'components/constants';

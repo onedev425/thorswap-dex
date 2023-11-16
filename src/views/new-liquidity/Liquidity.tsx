@@ -1,5 +1,5 @@
+import { Chain } from '@swapkit/core';
 import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
-import { Chain } from '@thorswap-lib/types';
 import { Box, Button, Icon, Modal } from 'components/Atomic';
 import { InfoTip } from 'components/InfoTip';
 import { Input } from 'components/Input';

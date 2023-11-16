@@ -1,4 +1,4 @@
-import type { Amount, AssetEntity as Asset } from '@thorswap-lib/swapkit-core';
+import type { AssetValue, SwapKitNumber } from '@swapkit/core';
 import classNames from 'classnames';
 import { AssetInput } from 'components/AssetInput';
 import type { AssetInputType } from 'components/AssetInput/types';
@@ -11,9 +11,9 @@ import { t } from 'services/i18n';
 import { LiquidityTypeOption } from 'store/midgard/types';
 
 type Props = {
-  onPoolChange: (asset: Asset) => void;
-  onAssetAmountChange: (value: Amount) => void;
-  onRuneAmountChange: (value: Amount) => void;
+  onPoolChange: (asset: AssetValue) => void;
+  onAssetAmountChange: (value: SwapKitNumber) => void;
+  onRuneAmountChange: (value: SwapKitNumber) => void;
   poolAsset: AssetInputType;
   runeAsset: AssetInputType;
   poolAssetList: AssetSelectType[];

@@ -1,5 +1,5 @@
-import type { Chain } from '@thorswap-lib/swapkit-core';
-import { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { Chain } from '@swapkit/core';
+import { AssetValue } from '@swapkit/core';
 import { useBalance } from 'hooks/useBalance';
 import { useEffect, useState } from 'react';
 import { useGetLendingAssetsQuery } from 'store/thorswap/api';
@@ -16,15 +16,13 @@ export function useLendingAssets() {
 
     Promise.all(
       data.map(async (assetRes) => {
-        const asset = AssetEntity.fromAssetString(assetRes.asset) as AssetEntity;
+        const asset = AssetValue.fromStringSync(assetRes.asset)!;
 
         return {
           ...assetRes,
           asset,
           derivedDepthPercentage: Number(assetRes.derivedDepthPercentage),
-          balance: isWalletConnected(asset.L1Chain as Chain)
-            ? await getMaxBalance(asset)
-            : undefined,
+          balance: isWalletConnected(asset.chain as Chain) ? await getMaxBalance(asset) : undefined,
           extraInfo:
             assetRes.ltvPercentage && assetRes.ltvPercentage !== 'NaN'
               ? assetRes.ltvPercentage

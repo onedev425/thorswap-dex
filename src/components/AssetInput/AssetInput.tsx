@@ -1,6 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Amount } from '@thorswap-lib/swapkit-core';
+import { type AssetValue, SwapKitNumber } from '@swapkit/core';
 import classNames from 'classnames';
 import { MaxPopover } from 'components/AssetInput/MaxPopover';
 import { AssetSelect } from 'components/AssetSelect';
@@ -32,48 +31,42 @@ export const AssetInput = ({
   displayAssetTypeComponent,
   ...rest
 }: AssetInputProps) => {
-  const formatPrice = useFormatPrice();
+  const formatPrice = useFormatPrice({ prefix: '$' });
 
-  const {
-    asset,
-    balance,
-    loading,
-    priceLoading,
-    usdPrice = 0,
-    value = Amount.fromAssetAmount(0, asset.decimal),
-    logoURI,
-  } = selectedAsset;
+  const { asset, balance, loading, priceLoading, usdPrice, logoURI, value } = selectedAsset;
 
   const localPriceLoading = useMemo(
     () => (typeof priceLoading === 'boolean' ? priceLoading : loading),
     [priceLoading, loading],
   );
 
-  const assetPriceInUSD = useMemo(
-    () => (hideZeroPrice && usdPrice > 1 ? null : formatPrice(usdPrice)),
-    [formatPrice, hideZeroPrice, usdPrice],
-  );
+  const assetPriceInUSD = useMemo(() => {
+    const price = usdPrice || 0;
+
+    return hideZeroPrice && price > 1 ? null : formatPrice(price);
+  }, [formatPrice, hideZeroPrice, usdPrice]);
 
   const handlePercentageClick = useCallback(
     (maxValue = 1) => {
-      const maxBalance = (balance || Amount.fromAssetAmount(0, asset.decimal)).mul(maxValue);
-      onValueChange?.(maxBalance);
+      // TODO: will this work? talking about asset here
+      const maxBalance = (balance || asset).mul(maxValue);
+      onValueChange?.(new SwapKitNumber(maxBalance));
     },
-    [asset.decimal, balance, onValueChange],
+    [asset, balance, onValueChange],
   );
 
   const assetSelectProps = useMemo(
     () => ({
       ...rest,
       logoURI,
-      onSelect: rest.onAssetChange as (asset: AssetEntity) => void,
+      onSelect: rest.onAssetChange as (asset: AssetValue) => void,
       showAssetType: true,
     }),
     [logoURI, rest],
   );
 
   const inputStyle = useMemo(() => {
-    const rawValue = formatPrice(value);
+    const rawValue = formatPrice(asset);
     const fontSize =
       rawValue.length > 30
         ? '1rem'
@@ -84,7 +77,7 @@ export const AssetInput = ({
         : '1.5rem';
 
     return { fontSize, lineHeight: '2rem' };
-  }, [formatPrice, value]);
+  }, [formatPrice, asset]);
 
   return (
     <HighlightCard className={classNames('min-h-[70px] text-2 !gap-1 !justify-start', className)}>
@@ -113,7 +106,7 @@ export const AssetInput = ({
         ) : (
           <InputAmount
             stretch
-            amountValue={value}
+            amountValue={value || new SwapKitNumber(0)}
             className={classNames('-ml-1 font-normal text-left', inputClassName)}
             containerClassName="!py-0"
             customPrefix={

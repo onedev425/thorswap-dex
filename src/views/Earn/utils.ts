@@ -1,11 +1,13 @@
-import type { AssetEntity as Asset, Pool } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
+import type { Pool } from 'legacyTypes/pool';
 import type { ColorType } from 'types/app';
 
-export const getSaverPoolNameForAsset = (asset: Asset) => {
+export const getSaverPoolNameForAsset = (asset: AssetValue) => {
   return `${asset.chain}.${asset.symbol}`;
 };
 
-export const getSaverPool = (asset: Asset, pools: Pool[]) => {
+// TODO Pool
+export const getSaverPool = (asset: AssetValue, pools: Pool[]) => {
   return pools.find(
     (pool) => pool.detail.asset.toLowerCase() === getSaverPoolNameForAsset(asset).toLowerCase(),
   );

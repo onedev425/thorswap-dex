@@ -1,56 +1,61 @@
 import { Text } from '@chakra-ui/react';
-import type { Pool } from '@thorswap-lib/swapkit-core';
-import { Amount } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { AssetValue, Chain } from '@swapkit/core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Card } from 'components/Atomic';
 import { parseToPercent } from 'helpers/parseHelpers';
 import { useRuneToCurrency } from 'hooks/useRuneToCurrency';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getAddLiquidityRoute, getSwapRoute } from 'settings/router';
 import type { ColorType } from 'types/app';
 
 type PoolCardProps = {
-  pool: Pool;
   color: ColorType;
+  assetString: string;
+  poolAPY: number;
+  runeDepth: string;
 };
 
-export const PoolCard = ({ pool, color }: PoolCardProps) => {
+export const PoolCard = ({ assetString, poolAPY, runeDepth, color }: PoolCardProps) => {
   const navigate = useNavigate();
   const runeToCurrency = useRuneToCurrency();
 
+  const poolAsset = useMemo(
+    () => AssetValue.fromStringSync(assetString) as AssetValue,
+    [assetString],
+  );
+
   const handleSwapNavigate = useCallback(() => {
-    navigate(getSwapRoute(pool.asset));
-  }, [navigate, pool.asset]);
+    navigate(getSwapRoute(poolAsset));
+  }, [navigate, poolAsset]);
 
   const handleAddLiquidityNavigate = useCallback(() => {
-    navigate(getAddLiquidityRoute(pool.asset));
-  }, [navigate, pool.asset]);
+    navigate(getAddLiquidityRoute(poolAsset));
+  }, [navigate, poolAsset]);
 
   return (
     <Card stretch className="flex-col min-w-fit max-w-[288px]">
       <Box className="px-6 pt-6" justify="between">
         <Box col>
           <Text className="mb-4" fontWeight="bold" textStyle="h2" textTransform="uppercase">
-            {pool.asset.ticker}
+            {poolAsset.ticker}
           </Text>
 
           <Text className="mb-2" fontWeight="semibold" variant="secondary">
-            {runeToCurrency(Amount.fromMidgard(pool.detail.runeDepth).mul(2))}
+            {runeToCurrency(runeDepth)}
           </Text>
 
           <Text fontWeight="semibold" variant="green">
-            {`${t('common.APR')}: ${parseToPercent(pool.detail.poolAPY)}`}
+            {`${t('common.APR')}: ${parseToPercent(poolAPY)}`}
           </Text>
         </Box>
 
         <AssetIcon
-          asset={pool.asset}
+          asset={poolAsset}
           hasChainIcon={[Chain.Avalanche, Chain.Ethereum, Chain.BinanceSmartChain].includes(
-            pool.asset.L1Chain,
+            poolAsset.chain,
           )}
           size={110}
         />

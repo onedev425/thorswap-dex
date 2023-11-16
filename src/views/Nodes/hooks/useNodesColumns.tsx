@@ -1,5 +1,5 @@
+import { SwapKitNumber } from '@swapkit/core';
 import type { THORNode } from '@thorswap-lib/midgard-sdk';
-import { Amount } from '@thorswap-lib/swapkit-core';
 import { Button, Icon, Tooltip } from 'components/Atomic';
 import { getAmountColumnSorter } from 'components/Atomic/Table/utils';
 import { HoverIcon } from 'components/HoverIcon';
@@ -103,31 +103,31 @@ export const useNodesColumns = (refetch: () => void) => {
       {
         id: 'Rewards',
         Header: () => t('views.nodes.rewards'),
-        accessor: (row: THORNode) => Amount.fromMidgard(row.current_award),
-        Cell: ({ cell: { value } }: { cell: { value: Amount } }) => value.toFixed(1),
+        accessor: (row: THORNode) => new SwapKitNumber({ value: row.current_award, decimal: 8 }),
+        Cell: ({ cell: { value } }: { cell: { value: SwapKitNumber } }) => value.toFixed(1),
         minScreenSize: BreakPoint.md,
         sortType: getAmountColumnSorter('Rewards'),
       },
       {
         id: 'Slash',
         Header: () => t('views.nodes.slash'),
-        accessor: (row: THORNode) => Amount.fromNormalAmount(row.slash_points),
-        Cell: ({ cell: { value } }: { cell: { value: Amount } }) => value.toFixed(1),
+        accessor: (row: THORNode) => new SwapKitNumber(row.slash_points),
+        Cell: ({ cell: { value } }: { cell: { value: SwapKitNumber } }) => value.toFixed(1),
         minScreenSize: BreakPoint.md,
         sortType: getAmountColumnSorter('Slash'),
       },
       {
         id: 'Bond',
         Header: (() => t('views.nodes.bond')) as () => string,
-        accessor: (row: THORNode) => Amount.fromMidgard(row.total_bond),
-        Cell: ({ cell: { value } }: { cell: { value: Amount } }) => value.toFixed(1),
+        accessor: (row: THORNode) => new SwapKitNumber({ value: row.total_bond, decimal: 8 }),
+        Cell: ({ cell: { value } }: { cell: { value: SwapKitNumber } }) => value.toFixed(1),
         sortType: getAmountColumnSorter('Bond'),
       },
       {
         id: 'ActiveBlock',
         Header: () => 'Active Block',
-        accessor: (row: THORNode) => Amount.fromNormalAmount(row.active_block_height),
-        Cell: ({ cell: { value } }: { cell: { value: Amount } }) => value.toFixed(1),
+        accessor: (row: THORNode) => new SwapKitNumber(row.active_block_height),
+        Cell: ({ cell: { value } }: { cell: { value: SwapKitNumber } }) => value.toFixed(1),
         minScreenSize: BreakPoint.md,
         sortType: getAmountColumnSorter('ActiveBlock'),
       },

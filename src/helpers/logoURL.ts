@@ -1,4 +1,4 @@
-import { Chain } from '@thorswap-lib/types';
+import { Chain } from '@swapkit/core';
 import { bepIconMapping } from 'helpers/assets';
 
 export const getCustomIconImageUrl = (name: 'rune' | 'vthor', type: 'png' | 'svg') =>
@@ -78,10 +78,10 @@ export const tokenLogoURL = ({
     return `https://static.thorswap.net/token-list/images/${identifier.toLowerCase()}.png`;
   }
 
-  if (['VTHOR', 'RUNE'].includes(ticker)) {
+  if (['vTHOR', 'RUNE'].includes(ticker)) {
     return getCustomIconImageUrl(
       ticker.toLowerCase() as 'vthor',
-      ticker === 'VTHOR' ? 'png' : 'svg',
+      ticker === 'vTHOR' ? 'png' : 'svg',
     );
   }
   const logoSymbol = bepIconMapping[ticker as 'TWT'] || ticker;

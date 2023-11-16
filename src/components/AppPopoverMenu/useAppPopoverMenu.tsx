@@ -1,6 +1,4 @@
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { getSignatureAssetFor } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
+import { AssetValue, Chain } from '@swapkit/core';
 import type { MenuItemType } from 'components/AppPopoverMenu/types';
 import { AssetIcon } from 'components/AssetIcon';
 import type { IconName } from 'components/Atomic';
@@ -77,10 +75,11 @@ const useMainMenu = (setMenuType: (val: MenuType) => void) => {
 
   const currencyAsset = useMemo(() => {
     if (baseCurrency.includes('USD')) return USDAsset;
-    if (baseCurrency.includes(Chain.Bitcoin)) return getSignatureAssetFor(Chain.Bitcoin);
-    if (baseCurrency.includes(Chain.Ethereum)) return getSignatureAssetFor(Chain.Ethereum);
+    if (baseCurrency.includes(Chain.Bitcoin)) return AssetValue.fromChainOrSignature(Chain.Bitcoin);
+    if (baseCurrency.includes(Chain.Ethereum))
+      return AssetValue.fromChainOrSignature(Chain.Ethereum);
 
-    return getSignatureAssetFor(Chain.THORChain);
+    return AssetValue.fromChainOrSignature(Chain.THORChain);
   }, [baseCurrency]);
 
   const mainMenu: MenuItemType[] = [
@@ -116,7 +115,7 @@ const useMainMenu = (setMenuType: (val: MenuType) => void) => {
           onClick: () => setMenuType('currency'),
           icon: 'dollarOutlined',
           iconComponent:
-            !currencyAsset || currencyAsset?.name === 'USD' ? null : (
+            !currencyAsset || currencyAsset?.ticker === 'USD' ? null : (
               <AssetIcon asset={currencyAsset} size={25} />
             ),
           hasSubmenu: true,
@@ -166,11 +165,11 @@ const useLanguageMenu = (onBack: () => void) => {
 
 const useCurrencyMenu = (onBack: () => void) => {
   const { baseCurrency, setBaseCurrency } = useApp();
-  const onCurrencyClick = (val: AssetEntity) => {
+  const onCurrencyClick = (val: AssetValue) => {
     onBack();
     setBaseCurrency(val);
   };
-  const isCurrencySelected = (val: AssetEntity) => val.toString() === baseCurrency;
+  const isCurrencySelected = (val: AssetValue) => val.toString() === baseCurrency;
 
   const currencyMenu: MenuItemType[] = [
     {
@@ -182,20 +181,20 @@ const useCurrencyMenu = (onBack: () => void) => {
     {
       label: 'RUNE',
       icon: 'thor',
-      onClick: () => onCurrencyClick(getSignatureAssetFor(Chain.THORChain)),
-      isSelected: isCurrencySelected(getSignatureAssetFor(Chain.THORChain)),
+      onClick: () => onCurrencyClick(AssetValue.fromChainOrSignature(Chain.THORChain)),
+      isSelected: isCurrencySelected(AssetValue.fromChainOrSignature(Chain.THORChain)),
     },
     {
       label: 'BTC',
       icon: 'btc',
-      onClick: () => onCurrencyClick(getSignatureAssetFor(Chain.Bitcoin)),
-      isSelected: isCurrencySelected(getSignatureAssetFor(Chain.Bitcoin)),
+      onClick: () => onCurrencyClick(AssetValue.fromChainOrSignature(Chain.Bitcoin)),
+      isSelected: isCurrencySelected(AssetValue.fromChainOrSignature(Chain.Bitcoin)),
     },
     {
       label: 'ETH',
       icon: 'eth',
-      onClick: () => onCurrencyClick(getSignatureAssetFor(Chain.Ethereum)),
-      isSelected: isCurrencySelected(getSignatureAssetFor(Chain.Ethereum)),
+      onClick: () => onCurrencyClick(AssetValue.fromChainOrSignature(Chain.Ethereum)),
+      isSelected: isCurrencySelected(AssetValue.fromChainOrSignature(Chain.Ethereum)),
     },
   ];
 

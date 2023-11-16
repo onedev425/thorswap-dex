@@ -1,4 +1,4 @@
-import type { TxTrackerDetails } from '@thorswap-lib/swapkit-api';
+import type { TxTrackerDetails } from '@swapkit/api';
 import { useCallback } from 'react';
 import { useAppDispatch } from 'store/store';
 import type { TxnResult } from 'store/thorswap/types';

@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
+import type { AssetValue } from '@swapkit/core';
 import classNames from 'classnames';
 import { Box, Button, Modal } from 'components/Atomic';
 import { PasswordInput } from 'components/PasswordInput';
@@ -11,7 +11,7 @@ import { IS_LEDGER_LIVE } from 'settings/config';
 import { useWallet } from 'store/wallet/hooks';
 
 type Props = {
-  inputAssets: AssetEntity[];
+  inputAssets: AssetValue[];
   isOpened: boolean;
   onClose: () => void;
   onConfirm: () => void;
@@ -80,7 +80,7 @@ export const ConfirmModal = ({
   }, [onClose]);
 
   const handleClickConfirm = useCallback(async () => {
-    const { decryptFromKeystore } = await import('@thorswap-lib/keystore');
+    const { decryptFromKeystore } = await import('@swapkit/wallet-keystore');
     if (!isKeystoreSigningRequired) {
       return handleProceed();
     }

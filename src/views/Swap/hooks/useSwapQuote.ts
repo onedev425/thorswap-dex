@@ -1,21 +1,18 @@
-import type { AssetEntity } from '@thorswap-lib/swapkit-core';
-import { Amount } from '@thorswap-lib/swapkit-core';
+import { type AssetValue, SwapKitNumber } from '@swapkit/core';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
-import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useVTHORBalance } from 'hooks/useHasVTHOR';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { IS_BETA, IS_LEDGER_LIVE, IS_LOCAL } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 import { useGetTokensQuoteQuery } from 'store/thorswap/api';
 import type { GetTokensQuoteResponse } from 'store/thorswap/types';
-import { useAssetApprovalCheck } from 'views/Swap/hooks/useIsAssetApproved';
+import { checkAssetApprove } from 'views/Swap/hooks/useIsAssetApproved';
 
 type Params = {
-  inputAmount: Amount;
-  inputAsset: AssetEntity;
+  inputAsset: AssetValue;
   noPriceProtection: boolean;
   ethAddress?: string;
-  outputAsset: AssetEntity;
+  outputAsset: AssetValue;
   recipientAddress?: string;
   senderAddress?: string;
   skipAffiliate?: boolean;
@@ -25,16 +22,15 @@ type Params = {
 export const useSwapQuote = ({
   ethAddress,
   noPriceProtection,
-  inputAmount,
   inputAsset,
   outputAsset,
   recipientAddress,
   senderAddress,
   inputUSDPrice,
 }: Params) => {
+  const { slippageTolerance } = useApp();
   const [approvalsLoading, setApprovalsLoading] = useState<boolean>(false);
   const [swapQuote, setSwapRoute] = useState<RouteWithApproveType>();
-  const { slippageTolerance } = useApp();
   const [routes, setRoutes] = useState<RouteWithApproveType[]>([]);
   const [streamSwap, setStreamSwap] = useState(false);
   const VTHORBalance = useVTHORBalance(ethAddress);
@@ -42,10 +38,10 @@ export const useSwapQuote = ({
   const affiliateBasisPoints = useMemo(() => {
     let basisPoints = 30;
 
-    if (VTHORBalance >= 1_000) basisPoints = 25;
-    if (VTHORBalance >= 10_000) basisPoints = 15;
-    if (VTHORBalance >= 100_000) basisPoints = 10;
-    if (VTHORBalance >= 500_000) basisPoints = 0;
+    if (VTHORBalance.gte(1_000)) basisPoints = 25;
+    if (VTHORBalance.gte(10_000)) basisPoints = 15;
+    if (VTHORBalance.gte(100_000)) basisPoints = 10;
+    if (VTHORBalance.gte(500_000)) basisPoints = 0;
 
     if (IS_LEDGER_LIVE) basisPoints = 50;
     if (IS_BETA || IS_LOCAL) basisPoints = 0;
@@ -61,7 +57,7 @@ export const useSwapQuote = ({
       sellAsset: inputAsset.toString(),
       buyAsset: outputAsset.toString(),
       slippage: slippageTolerance.toString(),
-      sellAmount: inputAmount.assetAmount.toString(),
+      sellAmount: inputAsset.getValue('string'),
       senderAddress,
       recipientAddress,
     }),
@@ -70,14 +66,10 @@ export const useSwapQuote = ({
       inputAsset,
       outputAsset,
       slippageTolerance,
-      inputAmount.assetAmount,
       senderAddress,
       recipientAddress,
     ],
   );
-
-  const tokenQuoteParams = useDebouncedValue(params, 300);
-  const checkApprove = useAssetApprovalCheck();
 
   const {
     refetch,
@@ -85,17 +77,16 @@ export const useSwapQuote = ({
     isLoading,
     currentData: data,
     isFetching,
-  } = useGetTokensQuoteQuery(tokenQuoteParams, {
-    skip: tokenQuoteParams.sellAmount === '0' || inputAmount.assetAmount.isZero(),
+  } = useGetTokensQuoteQuery(params, {
+    skip: params.sellAmount === '0' || inputAsset.lte(0),
   });
 
   const setSortedRoutes = useCallback(
     async (routes: GetTokensQuoteResponse['routes']) => {
       try {
         const routesWithApprovePromise = routes.map(async (route) => {
-          const isApproved = await checkApprove({
-            amount: inputAmount,
-            asset: inputAsset,
+          const isApproved = await checkAssetApprove({
+            assetValue: inputAsset,
             contract: route.approvalTarget || route.allowanceTarget || route.targetAddress,
           });
 
@@ -120,21 +111,26 @@ export const useSwapQuote = ({
         setApprovalsLoading(false);
       }
     },
-    [checkApprove, inputAmount, inputAsset],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [inputAsset.toString()],
   );
 
+  const isInputZero = useMemo(() => inputAsset.lte(0), [inputAsset]);
+
   useEffect(() => {
-    if (!data?.routes || inputAmount.lte(0)) return setRoutes([]);
+    if (!data?.routes || isInputZero) return setRoutes([]);
 
     setSortedRoutes(data.routes);
 
     setApprovalsLoading(true);
-  }, [checkApprove, data?.routes, inputAmount, inputAsset, setSortedRoutes]);
+  }, [data?.routes, isInputZero, setSortedRoutes]);
 
   const selectedRoute: RouteWithApproveType | undefined = useMemo(
     () =>
-      error || isLoading || inputAmount.assetAmount.isZero() ? undefined : swapQuote || routes[0],
-    [error, inputAmount.assetAmount, isLoading, routes, swapQuote],
+      error || isLoading || inputAsset.getValue('number') === 0
+        ? undefined
+        : swapQuote || routes[0],
+    [error, inputAsset, isLoading, routes, swapQuote],
   );
 
   const canStreamSwap = useMemo(
@@ -142,27 +138,29 @@ export const useSwapQuote = ({
     [noPriceProtection, selectedRoute?.calldata?.memoStreamingSwap],
   );
 
-  const outputAmount: Amount = useMemo(
+  const outputAmount = useMemo(
     () =>
-      Amount.fromAssetAmount(
-        selectedRoute && !inputAmount.eq(0)
-          ? streamSwap && selectedRoute?.streamingSwap?.expectedOutput
-            ? selectedRoute.streamingSwap.expectedOutput
-            : selectedRoute.expectedOutput
-          : 0,
-        outputAsset.decimal,
-      ),
-    [selectedRoute, inputAmount, streamSwap, outputAsset.decimal],
+      new SwapKitNumber({
+        value:
+          selectedRoute && !(inputAsset.getValue('number') === 0)
+            ? streamSwap && selectedRoute?.streamingSwap?.expectedOutput
+              ? selectedRoute.streamingSwap.expectedOutput
+              : selectedRoute.expectedOutput
+            : 0,
+        decimal: outputAsset.decimal,
+      }),
+    [selectedRoute, inputAsset, streamSwap, outputAsset.decimal],
   );
 
-  const minReceive: Amount = useMemo(
+  const minReceive = useMemo(
     () =>
-      Amount.fromAssetAmount(
-        (streamSwap && selectedRoute?.streamingSwap?.expectedOutputMaxSlippage) ||
+      new SwapKitNumber({
+        value:
+          (streamSwap && selectedRoute?.streamingSwap?.expectedOutputMaxSlippage) ||
           selectedRoute?.expectedOutputMaxSlippage ||
           0,
-        outputAsset.decimal,
-      ),
+        decimal: outputAsset.decimal,
+      }),
     [
       streamSwap,
       selectedRoute?.streamingSwap?.expectedOutputMaxSlippage,
@@ -203,7 +201,7 @@ export const useSwapQuote = ({
 
   return {
     affiliateBasisPoints,
-    vTHORDiscount: !IS_LEDGER_LIVE && VTHORBalance >= 1_000,
+    vTHORDiscount: !IS_LEDGER_LIVE && VTHORBalance.gte(1_000),
     error,
     estimatedTime: selectedRoute?.estimatedTime,
     isFetching: approvalsLoading || isLoading || isFetching,

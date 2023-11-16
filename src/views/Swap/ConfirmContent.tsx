@@ -1,12 +1,11 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { hexlify } from '@ethersproject/bytes';
-import { toUtf8Bytes } from '@ethersproject/strings';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import type { AssetInputType } from 'components/AssetInput/types';
 import { Box, Icon, Tooltip } from 'components/Atomic';
 import { ChainBadge } from 'components/ChainBadge';
 import { InfoTip } from 'components/InfoTip';
+import { hexlify, toUtf8Bytes } from 'ethers';
 import { shortenAddress } from 'helpers/shortenAddress';
 import { memo, useMemo } from 'react';
 import { t } from 'services/i18n';
