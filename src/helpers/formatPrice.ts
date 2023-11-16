@@ -32,11 +32,14 @@ const formatter = ({
   format?: FormatOptions;
   decimals?: number;
 }) => {
+  if (amount && typeof amount === 'object') {
+    amount = amount.getValue('string');
+    if (!amount) return '0';
+  }
+
   const numOfDecimals = decimals || getNumberOfDecimals(amount);
 
-  if (amount && typeof amount === 'object') {
-    return amount.toSignificant(6);
-  } else if (amount && typeof amount === 'string') {
+  if (amount && typeof amount === 'string') {
     return amount.startsWith('0.')
       ? amount
       : `${format?.prefix || ''}${new SwapKitNumber(amount).toFixed(numOfDecimals)}`;
