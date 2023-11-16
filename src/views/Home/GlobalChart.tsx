@@ -1,7 +1,7 @@
 import { AssetEntity } from '@thorswap-lib/swapkit-core';
 import { Box } from 'components/Atomic';
 import { Chart } from 'components/Chart';
-import type { ChartDetail } from 'components/Chart/types';
+import type { ChartData, ChartDetail } from 'components/Chart/types';
 import { ChartType } from 'components/Chart/types';
 import dayjs from 'dayjs';
 import { memo, useMemo, useState } from 'react';
@@ -20,12 +20,10 @@ import {
   VolumeChartIndex,
   volumeChartIndexes,
 } from './types';
-import { useGlobalChartInfo } from './useGlobalChartInfo';
 
 const parseBaseValueToNumber = (value: string = '0') => parseInt(value) / 1e8;
 
 export const GlobalChart = memo(() => {
-  const { liquidityChartData } = useGlobalChartInfo();
   const { baseCurrency, hideCharts } = useApp();
 
   const { isLoading: swapGlobalLoading, data: swapGlobalHistory } = useGetHistorySwapsQuery();
@@ -33,6 +31,15 @@ export const GlobalChart = memo(() => {
     useGetHistoryLiquidityChangesQuery();
   const { isLoading: earningsLoading, data: earningsHistory } = useGetHistoryEarningsQuery();
   const { isLoading: tvlLoading, data: tvlHistory } = useGetHistoryTvlQuery();
+
+  const initialChartData = useMemo(() => {
+    const defaultData = { values: [], loading: true };
+
+    return [...volumeChartIndexes, ...liquidityChartIndexes].reduce((acc, chartIndex) => {
+      acc[chartIndex] = defaultData;
+      return acc;
+    }, {} as ChartData);
+  }, []);
 
   const [volumeChartIndex, setVolumeChartIndex] = useState<string>(VolumeChartIndex.Total);
   const [liquidityChartIndex, setLiquidityChartIndex] = useState<string>(
@@ -49,6 +56,8 @@ export const GlobalChart = memo(() => {
   }, [baseCurrency]);
 
   const volumeChartData = useMemo(() => {
+    if (swapGlobalLoading || liquidityLoading) return initialChartData;
+
     const swapIntervals = swapGlobalHistory?.intervals || [];
     const liquidityIntervals = liquidityHistory?.intervals;
 
@@ -102,7 +111,64 @@ export const GlobalChart = memo(() => {
         type: ChartType.Bar,
       },
     };
-  }, [chartValueUnit, liquidityHistory?.intervals, swapGlobalHistory?.intervals]);
+  }, [
+    chartValueUnit,
+    initialChartData,
+    liquidityHistory?.intervals,
+    liquidityLoading,
+    swapGlobalHistory?.intervals,
+    swapGlobalLoading,
+  ]);
+
+  const liquidityChartData = useMemo(() => {
+    if (tvlLoading || earningsLoading) return initialChartData;
+
+    const earningsData = earningsHistory.intervals || [];
+    const tvlData = tvlHistory?.intervals || [];
+
+    const liquidityEarning: ChartDetail[] = [];
+    const liquidity: ChartDetail[] = [];
+    const bondingEarnings: ChartDetail[] = [];
+
+    // @ts-expect-error
+    earningsData.forEach((item, index) => {
+      const time = dayjs.unix(parseInt(item.startTime)).format('MMM DD');
+      // // Wed Sep 15 2021 00:00:00 GMT+0000 (https://www.unixtimestamp.com)
+      // if (time < 1631664000) return;
+
+      const tvlValue = tvlData[index];
+      const runeUSDPrice = parseFloat(tvlValue?.runePriceUSD);
+      const liquidityPooled = parseBaseValueToNumber(tvlValue?.totalValuePooled) * runeUSDPrice;
+      const bondingValue = parseBaseValueToNumber(item?.bondingEarnings) * runeUSDPrice;
+      const liquidityValue = parseBaseValueToNumber(item?.liquidityEarnings) * runeUSDPrice;
+
+      liquidity.push({ time, value: liquidityPooled });
+      bondingEarnings.push({ time, value: bondingValue });
+      liquidityEarning.push({ time, value: liquidityValue });
+    });
+
+    return {
+      [LiquidityChartIndex.Liquidity]: {
+        values: liquidity,
+        unit: chartValueUnit,
+      },
+      [LiquidityChartIndex.LpEarning]: {
+        values: liquidityEarning,
+        unit: chartValueUnit,
+      },
+      [LiquidityChartIndex.BondEarning]: {
+        values: bondingEarnings,
+        unit: chartValueUnit,
+      },
+    };
+  }, [
+    tvlLoading,
+    earningsLoading,
+    initialChartData,
+    earningsHistory?.intervals,
+    tvlHistory?.intervals,
+    chartValueUnit,
+  ]);
 
   if (hideCharts) return null;
 
