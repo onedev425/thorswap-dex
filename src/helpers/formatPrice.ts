@@ -32,19 +32,17 @@ const formatter = ({
   format?: FormatOptions;
   decimals?: number;
 }) => {
-  if (amount && typeof amount === 'object') {
-    amount = amount.getValue('string');
-    if (!amount) return '0';
-  }
+  const parsedAmount = typeof amount === 'object' ? amount.getValue('string') : amount;
+  if (!parsedAmount) return '0';
 
-  const numOfDecimals = decimals || getNumberOfDecimals(amount);
+  const numOfDecimals = decimals || getNumberOfDecimals(parsedAmount);
 
-  if (amount && typeof amount === 'string') {
-    return amount.startsWith('0.')
-      ? amount
-      : `${format?.prefix || ''}${new SwapKitNumber(amount).toFixed(numOfDecimals)}`;
+  if (parsedAmount && typeof parsedAmount === 'string') {
+    return parsedAmount.startsWith('0.')
+      ? parsedAmount
+      : `${format?.prefix || ''}${new SwapKitNumber(parsedAmount).toFixed(numOfDecimals)}`;
   } else {
-    const skNumber = new SwapKitNumber(amount);
+    const skNumber = new SwapKitNumber(parsedAmount);
     return skNumber.gt(0) ? `${format?.prefix || ''}${skNumber.toFixed(numOfDecimals)}` : '0';
   }
 };
