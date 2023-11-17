@@ -85,10 +85,12 @@ export const useSwapQuote = ({
     async (routes: GetTokensQuoteResponse['routes']) => {
       try {
         const routesWithApprovePromise = routes.map(async (route) => {
-          const isApproved = await checkAssetApprove({
-            assetValue: inputAsset,
-            contract: route.approvalTarget || route.allowanceTarget || route.targetAddress,
-          });
+          const isApproved = senderAddress
+            ? await checkAssetApprove({
+                assetValue: inputAsset,
+                contract: route.approvalTarget || route.allowanceTarget || route.targetAddress,
+              })
+            : true;
 
           return { ...route, isApproved };
         });

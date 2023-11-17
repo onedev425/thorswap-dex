@@ -3,6 +3,7 @@ import { Chain, WalletOption } from '@swapkit/core';
 import type { Keystore } from '@swapkit/wallet-keystore';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { chainName } from 'helpers/chainName';
+import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useCallback } from 'react';
 import { batch } from 'react-redux';
 import { t } from 'services/i18n';
@@ -19,10 +20,20 @@ import { actions } from './slice';
 
 export const useWallet = () => {
   const dispatch = useAppDispatch();
-  const wallet = useAppSelector(({ wallet }) => wallet);
+  const {
+    hasVestingAlloc,
+    hiddenAssets,
+    keystore,
+    phrase,
+    pubKey,
+    wallet,
+    walletLoading,
+    chainWalletLoading,
+    isConnectModalOpen,
+  } = useAppSelector(({ wallet }) => wallet);
 
   const isWalletLoading =
-    wallet.walletLoading || Object.values(wallet.chainWalletLoading).some((loading) => loading);
+    walletLoading || Object.values(chainWalletLoading).some((loading) => loading);
 
   const setWallets = useCallback(
     (chains: Chain[]) =>
@@ -257,9 +268,19 @@ export const useWallet = () => {
     [dispatch],
   );
 
+  const walletState = useDebouncedValue(wallet, 1000, { leading: false, trailing: true });
+  const hiddenAssetsState = useDebouncedValue(hiddenAssets, 500);
+
   return {
-    ...wallet,
     ...walletActions,
+    chainWalletLoading,
+    wallet: walletState,
+    hiddenAssets: hiddenAssetsState,
+    hasVestingAlloc,
+    isConnectModalOpen,
+    pubKey,
+    keystore,
+    phrase,
     connectBraveWallet,
     connectCoinbaseWalletExtension,
     connectEVMWalletExtension,
