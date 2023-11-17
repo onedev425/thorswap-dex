@@ -38,9 +38,7 @@ const formatter = ({
   const numOfDecimals = decimals || getNumberOfDecimals(parsedAmount);
 
   if (parsedAmount && typeof parsedAmount === 'string') {
-    return parsedAmount.startsWith('0.') && parsedAmount.length < 3
-      ? parsedAmount
-      : `${format?.prefix || ''}${new SwapKitNumber(parsedAmount).toFixed(numOfDecimals)}`;
+    return parsedAmount;
   } else {
     const skNumber = new SwapKitNumber(parsedAmount);
     return skNumber.gt(0) ? `${format?.prefix || ''}${skNumber.toFixed(numOfDecimals)}` : '0';
