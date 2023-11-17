@@ -8,7 +8,7 @@ export const getWalletByChain = createAsyncThunk(
   'midgard/getWalletByChain',
   async (chain: Chain) => {
     const { getWalletByChain } = await (await import('services/swapKit')).getSwapKitClient();
-    const data = await getWalletByChain(chain);
+    const data = await getWalletByChain(chain, true);
 
     return { chain, data };
   },
