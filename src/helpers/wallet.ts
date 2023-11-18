@@ -1,5 +1,5 @@
-import type { Wallet } from '@swapkit/core';
-import { AssetValue, Chain, WalletOption } from '@swapkit/core';
+import type { AssetValue, Wallet } from '@swapkit/core';
+import { Chain, WalletOption } from '@swapkit/core';
 import type { Pool } from 'legacyTypes/pool';
 
 export const isTokenWhitelisted = (asset: AssetValue, whitelistedAddresses: string[]) => {
@@ -98,16 +98,14 @@ export const getWalletAssets = (wallet: Wallet | null) => {
 };
 
 export const getAssetBalance = (asset: AssetValue, wallet: Wallet) => {
-  const emptyAmount = AssetValue.fromStringSync(`${asset.chain}.${asset.symbol}`, 0)!;
-
   if (asset.chain in wallet) {
     const chainWallet = wallet?.[asset.chain];
     const walletBalanceItem = chainWallet?.balance.find((assetData) => assetData?.eq?.(asset));
 
-    return walletBalanceItem || emptyAmount;
+    return walletBalanceItem || asset;
   }
 
-  return emptyAmount;
+  return asset;
 };
 
 export const hasConnectedWallet = (wallet: Wallet | null) => {
