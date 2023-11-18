@@ -30,8 +30,30 @@
     <link rel="stylesheet" href="/style.css" />
 
     <script type="module">
+      /**
+       * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt#use_within_json
+       */
+      BigInt.prototype.toJSON = function () {
+        return `${this.toString()}n`
+      };
+
+      const primaryParse = JSON.parse;
+      JSON.parse = (text) =>
+        primaryParse(text, (_key, value) => {
+          try {
+            if (typeof value === 'string' && value.startsWith(endsWith('n'))) {
+              return BigInt(value.slice(0, -1))
+            }
+          } catch (_) {
+            // ignore
+          }
+
+          return value
+        });
+
       import { Buffer } from 'buffer'
       window.Buffer = Buffer
+
     </script>
 
     <title>THORSwap - Decentralised Exchange (DEX) powered by THORChain</title>

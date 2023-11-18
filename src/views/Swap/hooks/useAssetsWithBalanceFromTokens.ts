@@ -31,7 +31,9 @@ export const useAssetsWithBalanceFromTokens = (tokens: Token[], thorchainOnly?: 
     async (asset: AssetValue) => {
       const maxBalance = (await getMaxBalance(asset, true)) || zeroAmount;
 
-      return isWalletConnected(asset.chain as Chain) && maxBalance.gt(0) ? maxBalance : undefined;
+      return isWalletConnected(asset.chain as Chain) && maxBalance.bigIntValue > 0n
+        ? maxBalance
+        : undefined;
     },
     [getMaxBalance, isWalletConnected],
   );

@@ -1,21 +1,15 @@
 {
-  "name": "thorswap-dex-app",
-  "version": "2.13.0",
-  "private": true,
-  "scripts": {
-    "start": "vite",
-    "start:ssl": "SSL=true vite --https",
-    "start:ledger": "yarn start --config ./vite.config.ledger.ts",
-    "build": "NODE_OPTIONS=--max_old_space_size=32768 vite build",
-    "build:ledger": "NODE_OPTIONS=--max_old_space_size=32768 vite build --config ./vite.config.ledger.ts",
-    "preview": "vite preview",
-    "lint": "eslint ./src ./ledgerLive --fix",
-    "postinstall": "patch-package",
-    "generate:pagePassword": "node ./scripts/generatePagePassword.js",
-    "e2e": "yarn cypress run",
-    "e2e:open": "yarn cypress open",
-    "typescript": "tsc --noEmit",
-    "e2e:record": "npx @cypress/chrome-recorder"
+  "browserslist": {
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ],
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ]
   },
   "dependencies": {
     "@chakra-ui/react": "2.8.1",
@@ -28,20 +22,20 @@
     "@reduxjs/toolkit": "1.9.6",
     "@sentry/react": "7.72.0",
     "@sentry/vite-plugin": "2.7.1",
-    "@swapkit/api": "1.0.0-rc.8",
-    "@swapkit/core": "1.0.0-rc.31",
-    "@swapkit/tokens": "1.0.0-rc.8",
-    "@swapkit/toolbox-cosmos": "1.0.0-rc.27",
-    "@swapkit/toolbox-evm": "1.0.0-rc.27",
-    "@swapkit/toolbox-utxo": "1.0.0-rc.26",
-    "@swapkit/wallet-evm-extensions": "1.0.0-rc.27",
-    "@swapkit/wallet-keplr": "1.0.0-rc.27",
-    "@swapkit/wallet-keystore": "1.0.0-rc.32",
-    "@swapkit/wallet-ledger": "1.0.0-rc.30",
-    "@swapkit/wallet-okx": "1.0.0-rc.30",
-    "@swapkit/wallet-trezor": "1.0.0-rc.28",
-    "@swapkit/wallet-wc": "1.0.0-rc.29",
-    "@swapkit/wallet-xdefi": "1.0.0-rc.30",
+    "@swapkit/api": "1.0.0-rc.9",
+    "@swapkit/core": "1.0.0-rc.33",
+    "@swapkit/tokens": "1.0.0-rc.9",
+    "@swapkit/toolbox-cosmos": "1.0.0-rc.29",
+    "@swapkit/toolbox-evm": "1.0.0-rc.29",
+    "@swapkit/toolbox-utxo": "1.0.0-rc.28",
+    "@swapkit/wallet-evm-extensions": "1.0.0-rc.29",
+    "@swapkit/wallet-keplr": "1.0.0-rc.29",
+    "@swapkit/wallet-keystore": "1.0.0-rc.34",
+    "@swapkit/wallet-ledger": "1.0.0-rc.32",
+    "@swapkit/wallet-okx": "1.0.0-rc.32",
+    "@swapkit/wallet-trezor": "1.0.0-rc.30",
+    "@swapkit/wallet-wc": "1.0.0-rc.31",
+    "@swapkit/wallet-xdefi": "1.0.0-rc.32",
     "@tanstack/react-query": "4.35.0",
     "@thorswap-lib/midgard-sdk": "0.1.16",
     "bignumber.js": "9.1.2",
@@ -132,19 +126,25 @@
     "vite-plugin-rewrite-all": "1.0.1",
     "vite-plugin-svgr": "3.2.0"
   },
+  "name": "thorswap-dex-app",
+  "private": true,
   "resolutions": {
     "readable-stream": "4.2.0"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "scripts": {
+    "build": "NODE_OPTIONS=--max_old_space_size=32768 vite build",
+    "build:ledger": "NODE_OPTIONS=--max_old_space_size=32768 vite build --config ./vite.config.ledger.ts",
+    "e2e": "yarn cypress run",
+    "e2e:open": "yarn cypress open",
+    "e2e:record": "npx @cypress/chrome-recorder",
+    "generate:pagePassword": "node ./scripts/generatePagePassword.js",
+    "lint": "eslint ./src ./ledgerLive --fix",
+    "postinstall": "patch-package",
+    "preview": "vite preview",
+    "start": "vite",
+    "start:ledger": "yarn start --config ./vite.config.ledger.ts",
+    "start:ssl": "SSL=true vite --https",
+    "typescript": "tsc --noEmit"
+  },
+  "version": "2.13.0"
 }

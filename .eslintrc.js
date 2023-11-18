@@ -1,10 +1,13 @@
 module.exports = {
   env: {
-    "cypress/globals": true,
+    'cypress/globals': true,
     browser: true,
     es6: true,
     jest: true,
     node: true,
+  },
+  globals: {
+    BigInt: false,
   },
   settings: {
     react: {
@@ -30,26 +33,17 @@ module.exports = {
       rules: {
         '@typescript-eslint/adjacent-overload-signatures': 'error',
         '@typescript-eslint/array-type': 'error',
-        '@typescript-eslint/consistent-type-assertions': [
-          'error',
-          { assertionStyle: 'as' },
-        ],
+        '@typescript-eslint/consistent-type-assertions': ['error', { assertionStyle: 'as' }],
         '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
         '@typescript-eslint/member-delimiter-style': 'error',
         '@typescript-eslint/no-array-constructor': 'error',
         '@typescript-eslint/no-dynamic-delete': 'error',
-        '@typescript-eslint/no-empty-interface': [
-          'error',
-          { allowSingleExtends: true },
-        ],
+        '@typescript-eslint/no-empty-interface': ['error', { allowSingleExtends: true }],
         '@typescript-eslint/no-extra-non-null-assertion': 'error',
         '@typescript-eslint/no-extraneous-class': 'error',
         '@typescript-eslint/no-misused-new': 'error',
         '@typescript-eslint/no-namespace': 'error',
-        '@typescript-eslint/no-unused-vars': [
-          'error',
-          { argsIgnorePattern: '^_' },
-        ],
+        '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
         '@typescript-eslint/no-use-before-define': [
           'error',
           {
@@ -91,10 +85,7 @@ module.exports = {
       env: { node: true },
       rules: {
         'import/no-commonjs': 'off',
-        'import/no-extraneous-dependencies': [
-          'error',
-          { devDependencies: true },
-        ],
+        'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
       },
     },
   ],
@@ -177,10 +168,7 @@ module.exports = {
     'no-unsafe-negation': 'error',
     'no-unused-labels': 'error',
     'no-unused-vars': 'error',
-    'no-use-before-define': [
-      'error',
-      { functions: false, classes: false, variables: false },
-    ],
+    'no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
     'no-useless-computed-key': 'error',
     'no-useless-concat': 'error',
     'no-useless-constructor': 'error',
@@ -284,11 +272,11 @@ module.exports = {
       },
     ],
 
-    "cypress/no-assigning-return-values": "error",
-    "cypress/no-unnecessary-waiting": "error",
-    "cypress/assertion-before-screenshot": "warn",
-    "cypress/no-force": "warn",
-    "cypress/no-async-tests": "error",
-    "cypress/no-pause": "error"
+    'cypress/no-assigning-return-values': 'error',
+    'cypress/no-unnecessary-waiting': 'error',
+    'cypress/assertion-before-screenshot': 'warn',
+    'cypress/no-force': 'warn',
+    'cypress/no-async-tests': 'error',
+    'cypress/no-pause': 'error',
   },
-}
+};

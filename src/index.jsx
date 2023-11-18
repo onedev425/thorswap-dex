@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { ColorModeScript } from '@chakra-ui/react';
-import * as Sentry from "@sentry/react";
+import * as Sentry from '@sentry/react';
 import hmacSHA512 from 'crypto-js/hmac-sha512';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -8,31 +8,26 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 
 import { App } from './App';
-import { IS_BETA, IS_DEV_API, IS_LOCAL, IS_PROD, IS_STAGENET } from './settings/config'
-
-
-/**
- * Oh boy... hack for redux `JSON.stringify` internal call
- */
-// eslint-disable-next-line no-undef
-BigInt.prototype.toJSON = function() { return this.toString() }
-
+import { IS_BETA, IS_DEV_API, IS_LOCAL, IS_PROD, IS_STAGENET } from './settings/config';
 
 Sentry.init({
-  dsn: "https://1f5f80292ace104d2e844cba267a8abb@o4505861490868224.ingest.sentry.io/4505861499781120",
-  tracePropagationTargets: ["api.thorswap.net", "mu.thorswap.net"],
+  dsn: 'https://1f5f80292ace104d2e844cba267a8abb@o4505861490868224.ingest.sentry.io/4505861499781120',
+  tracePropagationTargets: ['api.thorswap.net', 'mu.thorswap.net'],
   tracesSampleRate: IS_LOCAL ? 1.0 : 0.05,
   replaysSessionSampleRate: IS_LOCAL ? 1.0 : 0.05,
-  environment: IS_PROD ? 'production' : IS_BETA ? 'beta' : IS_STAGENET ? 'stagenet' : IS_DEV_API ? 'dev-api' : 'development',
+  environment: IS_PROD
+    ? 'production'
+    : IS_BETA
+    ? 'beta'
+    : IS_STAGENET
+    ? 'stagenet'
+    : IS_DEV_API
+    ? 'dev-api'
+    : 'development',
   debug: false,
-  integrations: [
-    new Sentry.Replay(),
-  ],
-  denyUrls: [
-    /eu\.posthog\.com/i,
-  ],
+  integrations: [new Sentry.Replay()],
+  denyUrls: [/eu\.posthog\.com/i],
 });
-
 
 const container = document.getElementById('root');
 const root = createRoot(container);

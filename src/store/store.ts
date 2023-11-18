@@ -32,8 +32,8 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }).concat([
       midgardApi.middleware,
-      staticApi.middleware,
       thorswapApi.middleware,
+      staticApi.middleware,
     ]),
 });
 

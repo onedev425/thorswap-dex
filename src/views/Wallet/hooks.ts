@@ -4,7 +4,7 @@ import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useMemo } from 'react';
 import { useWallet } from 'store/wallet/hooks';
 
-const emptyWallet = {
+export const emptyWallet = {
   [Chain.Avalanche]: null,
   [Chain.Binance]: null,
   [Chain.BinanceSmartChain]: null,

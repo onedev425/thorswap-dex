@@ -147,16 +147,18 @@ export const WalletBalance = () => {
       <Scrollbar>
         <WalletHeader />
         <Box col>
-          {SORTED_CHAINS.map((chain) => (
-            <ChainBalance
-              address={wallet?.[chain]?.address ?? ''}
-              balance={wallet?.[chain]?.balance ?? []}
-              chain={chain}
-              key={chain}
-              loading={!!chainWalletLoading[chain]}
-              walletType={wallet?.[chain]?.walletType ?? WalletOption.KEYSTORE}
-            />
-          ))}
+          {SORTED_CHAINS.map((chain) =>
+            wallet?.[chain]?.address ? (
+              <ChainBalance
+                address={wallet?.[chain]?.address ?? ''}
+                balance={wallet?.[chain]?.balance ?? []}
+                chain={chain}
+                key={chain}
+                loading={!!chainWalletLoading[chain]}
+                walletType={wallet?.[chain]?.walletType ?? WalletOption.KEYSTORE}
+              />
+            ) : null,
+          )}
         </Box>
       </Scrollbar>
     </WalletDrawer>

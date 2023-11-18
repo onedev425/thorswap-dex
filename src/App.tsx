@@ -16,6 +16,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Provider as ReduxProvider } from 'react-redux';
 import { IS_LOCAL, IS_PROD } from 'settings/config';
 import { store as reduxStore } from 'store/store';
+import { WalletProvider } from 'views/Wallet/WalletProvider';
 
 import DrawerProvider from './hooks/useWalletDrawer';
 import { PublicRoutes } from './router';
@@ -69,8 +70,8 @@ class ErrorBoundary extends Component<PropsWithChildren<{}>, { hasError: boolean
     localStorage.setItem('errorRetryCount', `${retryCount + 1}`);
 
     const importedModuleNotFound =
-      errorMessage?.includes('Failed to load module script') ||
-      errorName?.includes('Failed to load module script');
+      errorMessage?.includes('Failed to load module') ||
+      errorName?.includes('Failed to load module');
     const importedDynamicModuleNotFound =
       errorMessage?.includes('Failed to fetch dynamically imported module') ||
       errorName?.includes('Failed to fetch dynamically imported module');
@@ -111,17 +112,20 @@ const AppProviders = () => {
 
   if (!checkOrigin()) return null;
   if (!assetsLoaded) return null;
+
   return (
     <ErrorBoundary>
       <ChakraThemeProvider>
         <HelmetProvider>
-          <ReduxProvider store={reduxStore}>
-            <ThemeProvider>
-              <AnnouncementsProvider>
-                <MainApp />
-              </AnnouncementsProvider>
-            </ThemeProvider>
-          </ReduxProvider>
+          <WalletProvider>
+            <ReduxProvider store={reduxStore}>
+              <ThemeProvider>
+                <AnnouncementsProvider>
+                  <MainApp />
+                </AnnouncementsProvider>
+              </ThemeProvider>
+            </ReduxProvider>
+          </WalletProvider>
         </HelmetProvider>
       </ChakraThemeProvider>
     </ErrorBoundary>
