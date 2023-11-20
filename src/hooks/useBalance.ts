@@ -4,7 +4,6 @@ import { useWallet } from 'context/wallet/hooks';
 import { getAssetBalance } from 'helpers/wallet';
 import { getMultiplierForAsset, getNetworkFee, parseFeeToAssetAmount } from 'hooks/useNetworkFee';
 import { useCallback } from 'react';
-import { getSwapKitClient } from 'services/swapKit';
 import { IS_LEDGER_LIVE } from 'settings/config';
 import { useAppSelector } from 'store/store';
 import { useGetGasPriceRatesQuery } from 'store/thorswap/api';
@@ -63,14 +62,9 @@ export const useBalance = (skipFees?: boolean) => {
         return maxSpendableAmount.gt(0) ? maxSpendableAmount : maxSpendableAmount.set(0);
       }
 
-      const client = await getSwapKitClient();
-
       const maxSpendableAmount = IS_LEDGER_LIVE
         ? (chainWallet?.balance.find((balance) => balance.eq(asset)) as AssetValue) || asset.set(0)
-        : await client.estimateMaxSendableAmount({
-            chain: chain,
-            params: { from: chainWallet.address, recipient: '', assetValue: asset },
-          });
+        : balance;
 
       // TODO remove after LL is tested
       //   const baseAmountString = IS_LEDGER_LIVE
