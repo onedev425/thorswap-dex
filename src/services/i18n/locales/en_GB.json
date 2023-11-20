@@ -449,7 +449,7 @@
       "vTHORRatio": "vTHOR Ratio"
     },
     "home": {
-      "aprExplanation": "Based on LUVI metrics, past performance is not an exact projection of future yield. Click on ? to learn more.",
+      "aprExplanation": "Based on 30 day average LUVI metrics, past performance is not an exact project of future yield. Click on ? to learn more.",
       "chart_add": "Add",
       "chart_bondEarning": "Bond Earning",
       "chart_earned": "Earned",
