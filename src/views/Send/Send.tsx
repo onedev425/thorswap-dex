@@ -129,7 +129,7 @@ const Send = () => {
 
   const isWalletConnected = useMemo(
     () => sendAsset && !!getWallet(sendAsset.chain),
-    [wallet, sendAsset],
+    [sendAsset, getWallet],
   );
 
   const walletAssets = useMemo(() => {

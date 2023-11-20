@@ -10,6 +10,7 @@ import { checkAssetApprove } from 'views/Swap/hooks/useIsAssetApproved';
 
 type Params = {
   inputAsset: AssetValue;
+  inputAmount: SwapKitNumber;
   noPriceProtection: boolean;
   ethAddress?: string;
   outputAsset: AssetValue;
@@ -23,6 +24,7 @@ export const useSwapQuote = ({
   ethAddress,
   noPriceProtection,
   inputAsset,
+  inputAmount,
   outputAsset,
   recipientAddress,
   senderAddress,
@@ -57,7 +59,7 @@ export const useSwapQuote = ({
       sellAsset: inputAsset.toString(),
       buyAsset: outputAsset.toString(),
       slippage: slippageTolerance.toString(),
-      sellAmount: inputAsset.getValue('string'),
+      sellAmount: inputAmount.getValue('string'),
       senderAddress,
       recipientAddress,
     }),
@@ -66,6 +68,7 @@ export const useSwapQuote = ({
       inputAsset,
       outputAsset,
       slippageTolerance,
+      inputAmount,
       senderAddress,
       recipientAddress,
     ],
@@ -78,7 +81,7 @@ export const useSwapQuote = ({
     currentData: data,
     isFetching,
   } = useGetTokensQuoteQuery(params, {
-    skip: params.sellAmount === '0' || inputAsset.lte(0),
+    skip: params.sellAmount === '0' || inputAmount.lte(0),
   });
 
   const setSortedRoutes = useCallback(
@@ -87,7 +90,7 @@ export const useSwapQuote = ({
         const routesWithApprovePromise = routes.map(async (route) => {
           const isApproved = senderAddress
             ? await checkAssetApprove({
-                assetValue: inputAsset,
+                assetValue: inputAsset.mul(0).add(inputAmount),
                 contract: route.approvalTarget || route.allowanceTarget || route.targetAddress,
               })
             : true;
@@ -117,7 +120,7 @@ export const useSwapQuote = ({
     [inputAsset.toString()],
   );
 
-  const isInputZero = useMemo(() => inputAsset.lte(0), [inputAsset]);
+  const isInputZero = useMemo(() => inputAmount.lte(0), [inputAmount]);
 
   useEffect(() => {
     if (!data?.routes || isInputZero) return setRoutes([]);
@@ -129,10 +132,10 @@ export const useSwapQuote = ({
 
   const selectedRoute: RouteWithApproveType | undefined = useMemo(
     () =>
-      error || isLoading || inputAsset.getValue('number') === 0
+      error || isLoading || inputAmount.getValue('number') === 0
         ? undefined
         : swapQuote || routes[0],
-    [error, inputAsset, isLoading, routes, swapQuote],
+    [error, inputAmount, isLoading, routes, swapQuote],
   );
 
   const canStreamSwap = useMemo(
@@ -140,19 +143,16 @@ export const useSwapQuote = ({
     [noPriceProtection, selectedRoute?.calldata?.memoStreamingSwap],
   );
 
-  const outputAmount = useMemo(
-    () =>
-      new SwapKitNumber({
-        value:
-          selectedRoute && !(inputAsset.getValue('number') === 0)
-            ? streamSwap && selectedRoute?.streamingSwap?.expectedOutput
-              ? selectedRoute.streamingSwap.expectedOutput
-              : selectedRoute.expectedOutput
-            : 0,
-        decimal: outputAsset.decimal,
-      }),
-    [selectedRoute, inputAsset, streamSwap, outputAsset.decimal],
-  );
+  const outputAmount = useMemo(() => {
+    const value =
+      selectedRoute && !(inputAmount.getValue('number') === 0)
+        ? streamSwap && selectedRoute?.streamingSwap?.expectedOutput
+          ? selectedRoute.streamingSwap.expectedOutput
+          : selectedRoute.expectedOutput
+        : 0;
+
+    return new SwapKitNumber({ value, decimal: outputAsset.decimal });
+  }, [selectedRoute, inputAmount, streamSwap, outputAsset.decimal]);
 
   const minReceive = useMemo(
     () =>

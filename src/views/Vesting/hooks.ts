@@ -119,23 +119,23 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
       const totalVested = new SwapKitNumber({
         value: totalVestedAmount?.toString() || '0',
         decimal: BaseDecimal.ETH,
-      });
+      }).div(10 ** BaseDecimal.ETH);
       const totalClaimed = new SwapKitNumber({
         value: totalClaimedAmount?.toString() || '0',
         decimal: BaseDecimal.ETH,
-      });
+      }).div(10 ** BaseDecimal.ETH);
       const claimable = new SwapKitNumber({
         value: claimableAmount?.toString() || '0',
         decimal: BaseDecimal.ETH,
-      });
+      }).div(10 ** BaseDecimal.ETH);
       const hasAlloc = totalVested.gt(0) || totalClaimed.gt(0) || claimable.gt(0);
 
       return {
-        totalVestedAmount: totalVested.toString(),
+        totalVestedAmount: totalVested.getValue('number'),
         totalClaimedAmount: totalClaimed,
-        startTime: dayjs.unix(startTime).format('YYYY-MM-DD HH:MM:ss'),
-        vestingPeriod: dayjs.duration(vestingPeriod * 1000).asDays() / 365,
-        cliff: dayjs.duration(cliff * 1000).asDays() / 30,
+        startTime: dayjs.unix(startTime.toString()).format('YYYY-MM-DD HH:MM:ss'),
+        vestingPeriod: dayjs.duration(vestingPeriod.toString() * 1000).asDays() / 365,
+        cliff: dayjs.duration(cliff.toString() * 1000).asDays() / 30,
         initialRelease: (initialRelease || '0').toString(),
         claimableAmount: claimable,
         hasAlloc,
