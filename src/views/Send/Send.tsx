@@ -14,7 +14,6 @@ import { ViewHeader } from 'components/ViewHeader';
 import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import { RUNEAsset } from 'helpers/assets';
 import { chainName } from 'helpers/chainName';
-import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { shortenAddress } from 'helpers/shortenAddress';
 import { useAddressForTNS } from 'hooks/useAddressForTNS';
 import { useBalance } from 'hooks/useBalance';
@@ -24,7 +23,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getSendRoute } from 'settings/router';
-import { zeroAmount } from 'types/app';
 import { CustomSend } from 'views/Send/components/CustomSend';
 import { useCustomSend } from 'views/Send/hooks/useCustomSend';
 import { useConfirmSend } from 'views/Send/useConfirmSend';
@@ -37,7 +35,8 @@ const Send = () => {
   const [searchParams] = useSearchParams();
 
   const [sendAsset, setSendAsset] = useState(RUNEAsset);
-  const [sendAmount, setSendAmount] = useState(zeroAmount);
+  const [sendAmount, setSendAmount] = useState('0');
+
   const [maxSpendableBalance, setMaxSpendableBalance] = useState<AssetValue | undefined>(
     sendAsset.set(0),
   );
@@ -73,8 +72,8 @@ const Send = () => {
 
   const handleConfirmSend = useConfirmSend({
     setIsOpenConfirmModal,
-    sendAmount,
     sendAsset,
+    sendAmount,
     recipientAddress: txRecipient,
     memo: txMemo,
     from: wallet ? getWalletAddress(sendAsset.chain) : undefined,
@@ -112,11 +111,6 @@ const Send = () => {
         const assetEntity = AssetValue.fromStringSync(assetParam);
 
         if (assetEntity) {
-          const assetDecimals = await getEVMDecimal(assetEntity);
-          if (assetDecimals) {
-            assetEntity.decimal = assetDecimals;
-          }
-          setSendAmount(zeroAmount);
           setSendAsset(assetEntity);
         } else {
           setSendAsset(RUNEAsset);
@@ -125,7 +119,7 @@ const Send = () => {
     };
 
     getSendAsset();
-  }, [assetParam, customTxEnabled]);
+  }, [assetParam, customTxEnabled, sendAsset]);
 
   const isWalletConnected = useMemo(
     () => sendAsset && !!getWallet(sendAsset.chain),
@@ -183,13 +177,16 @@ const Send = () => {
 
   const handleChangeSendAmount = useCallback(
     (amount: SwapKitNumber) =>
+      //   setSendAsset(
+      //     maxSpendableBalance && amount.gt(maxSpendableBalance)
+      //       ? sendAsset.set(maxSpendableBalance.getValue('string'))
+      //       : sendAsset.set(amount.getValue('string')),
+      //   ),
+
       setSendAmount(
         maxSpendableBalance && amount.gt(maxSpendableBalance)
-          ? new SwapKitNumber({
-              value: maxSpendableBalance.getValue('string'),
-              decimal: maxSpendableBalance.decimal,
-            })
-          : amount,
+          ? maxSpendableBalance.getValue('string')
+          : amount.getValue('string'),
       ),
     [maxSpendableBalance],
   );
@@ -223,11 +220,11 @@ const Send = () => {
   const assetInput = useMemo(
     () => ({
       asset: sendAsset,
-      value: sendAmount,
+      value: new SwapKitNumber({ value: sendAmount, decimal: sendAsset.decimal }),
       balance: isWalletConnected ? maxSpendableBalance : undefined,
-      usdPrice: sendAmount.getValue('number') * inputAssetUSDPrice,
+      usdPrice: sendAsset.getValue('number') * inputAssetUSDPrice,
     }),
-    [sendAsset, sendAmount, isWalletConnected, maxSpendableBalance, inputAssetUSDPrice],
+    [sendAmount, sendAsset, isWalletConnected, maxSpendableBalance, inputAssetUSDPrice],
   );
 
   const summary = useMemo(
@@ -253,7 +250,7 @@ const Send = () => {
     () => [
       {
         label: t('common.send'),
-        value: `${sendAmount?.toSignificant(6)} ${sendAsset.toString(true)}`,
+        value: `${sendAsset?.toSignificant(6)} ${sendAsset.toString(true)}`,
       },
       {
         label: t('common.recipient'),
@@ -272,7 +269,7 @@ const Send = () => {
         ),
       },
     ],
-    [sendAmount, sendAsset, customTxEnabled, txRecipient, txMemo, txFee, txFeeUsd],
+    [sendAsset, customTxEnabled, txRecipient, txMemo, txFee, txFeeUsd],
   );
 
   const recipientTitle = useMemo(

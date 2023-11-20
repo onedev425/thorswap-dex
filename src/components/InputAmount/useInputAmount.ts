@@ -27,7 +27,7 @@ export const useInputAmount = ({ amountValue, onAmountChange }: AmountProps) => 
 
       // if value is a valid number, trigger onChange
       if (newValue) {
-        handleRawValueChange(value ? newValue : '');
+        handleRawValueChange(newValue);
         onAmountChange?.(newValue);
       } else {
         // if value is not a valid number, update raw input value

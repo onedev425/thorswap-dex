@@ -1,4 +1,4 @@
-import type { AssetValue, SwapKitNumber } from '@swapkit/core';
+import type { AssetValue } from '@swapkit/core';
 import { showErrorToast } from 'components/Toast';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
@@ -9,7 +9,7 @@ import { v4 } from 'uuid';
 
 type Params = {
   sendAsset: AssetValue;
-  sendAmount: SwapKitNumber;
+  sendAmount: string;
   recipientAddress: string;
   memo: string;
   setIsOpenConfirmModal: (isOpen: boolean) => void;
@@ -30,10 +30,9 @@ export const useConfirmSend = ({
 
   const handleConfirmSend = useCallback(async () => {
     setIsOpenConfirmModal(false);
-
-    if (sendAsset) {
+    if (sendAsset && sendAmount) {
       const id = v4();
-      const label = `${t('txManager.send')} ${sendAmount.toSignificant(6)} ${sendAsset.ticker}`;
+      const label = `${t('txManager.send')} ${sendAsset.toSignificant(6)} ${sendAsset.ticker}`;
 
       appDispatch(
         addTransaction({
@@ -55,7 +54,7 @@ export const useConfirmSend = ({
               from,
             })
           : await transfer({
-              assetValue: sendAsset.set(sendAmount),
+              assetValue: sendAsset,
               recipient,
               memo,
               from,
@@ -73,12 +72,12 @@ export const useConfirmSend = ({
   }, [
     setIsOpenConfirmModal,
     sendAsset,
-    sendAmount,
     appDispatch,
     recipient,
     memo,
     from,
     customTxEnabled,
+    sendAmount,
   ]);
 
   return handleConfirmSend;
