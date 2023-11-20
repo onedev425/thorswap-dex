@@ -1,5 +1,7 @@
 import { BaseDecimal, Chain, SwapKitNumber } from '@swapkit/core';
 import { showErrorToast } from 'components/Toast';
+import { useWallet } from 'context/wallet/hooks';
+import { useWalletDispatch } from 'context/wallet/WalletProvider';
 import dayjs from 'dayjs';
 import { toOptionalFixed } from 'helpers/number';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -9,8 +11,6 @@ import { useAppDispatch } from 'store/store';
 import { useTransactionsState } from 'store/transactions/hooks';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
-import { useWallet } from 'store/wallet/hooks';
-import { actions } from 'store/wallet/slice';
 import { v4 } from 'uuid';
 import { VestingType } from 'views/Vesting/types';
 
@@ -32,12 +32,13 @@ const initialVestingInfo = {
 let contractCallInProgress = false;
 
 export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}) => {
-  const { wallet } = useWallet();
+  const { getWalletAddress } = useWallet();
   const appDispatch = useAppDispatch();
+  const walletDispatch = useWalletDispatch();
   const [vestingInfo, setVestingInfo] = useState(initialVestingInfo);
   const [isLoading, setIsLoading] = useState(false);
   const { numberOfPendingApprovals } = useTransactionsState();
-  const ethAddress = useMemo(() => wallet.ETH?.address, [wallet.ETH?.address]);
+  const ethAddress = useMemo(() => getWalletAddress(Chain.Ethereum), [getWalletAddress]);
 
   const checkAlloc = useCallback(async () => {
     if (!ethAddress || contractCallInProgress) return;
@@ -61,7 +62,7 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
         contractAddress: thorAddress,
       }).then((amount) => {
         const hasVesting = (typeof amount === 'bigint' && amount > 0) || amount?.toString() !== '0';
-        appDispatch(actions.setHasVestingAlloc(hasVesting));
+        walletDispatch({ type: 'setHasVestingAlloc', payload: hasVesting });
       });
 
       await connectedWallets.ETH?.call({
@@ -70,14 +71,14 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
         contractAddress: vthorAddress,
       }).then((amount) => {
         const hasVesting = (typeof amount === 'bigint' && amount > 0) || amount?.toString() !== '0';
-        appDispatch(actions.setHasVestingAlloc(hasVesting));
+        walletDispatch({ type: 'setHasVestingAlloc', payload: hasVesting });
       });
     } catch (error) {
       console.error(error);
     } finally {
       contractCallInProgress = false;
     }
-  }, [appDispatch, ethAddress]);
+  }, [ethAddress, walletDispatch]);
 
   const getContractVestingInfo = useCallback(
     async (vestingType: VestingType) => {
@@ -149,8 +150,10 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
     try {
       const thorVestingInfo = await getContractVestingInfo(VestingType.THOR);
       const vthorVestingInfo = await getContractVestingInfo(VestingType.VTHOR);
-      const hasAlloc = thorVestingInfo.hasAlloc || vthorVestingInfo.hasAlloc;
-      appDispatch(actions.setHasVestingAlloc(hasAlloc));
+      walletDispatch({
+        type: 'setHasVestingAlloc',
+        payload: thorVestingInfo.hasAlloc || vthorVestingInfo.hasAlloc,
+      });
 
       setVestingInfo({
         [VestingType.THOR]: thorVestingInfo,
@@ -161,7 +164,7 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
     } finally {
       setIsLoading(false);
     }
-  }, [appDispatch, getContractVestingInfo]);
+  }, [getContractVestingInfo, walletDispatch]);
 
   const handleClaim = useCallback(
     async ({ vestingAction, amount }: { vestingAction: VestingType; amount: SwapKitNumber }) => {

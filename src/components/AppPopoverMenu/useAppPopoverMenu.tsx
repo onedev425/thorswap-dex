@@ -2,7 +2,7 @@ import { AssetValue, Chain } from '@swapkit/core';
 import type { MenuItemType } from 'components/AppPopoverMenu/types';
 import { AssetIcon } from 'components/AssetIcon';
 import type { IconName } from 'components/Atomic';
-import { useTheme } from 'components/Theme/ThemeContext';
+import { useTheme } from 'context/theme/ThemeContext';
 import { USDAsset } from 'helpers/assets';
 import { useMemo, useState } from 'react';
 import { changeAppLanguage, FLAG_ICONS, LANGUAGE_NAMES, t } from 'services/i18n';

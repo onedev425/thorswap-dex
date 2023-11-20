@@ -10,13 +10,12 @@ import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { PanelView } from 'components/PanelView';
 import { showErrorToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
+import { useKeystore, useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import { RUNEAsset } from 'helpers/assets';
 import { shortenAddress } from 'helpers/shortenAddress';
-import { isKeystoreSignRequired } from 'helpers/wallet';
 import type { KeyboardEvent } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
-import { useWallet } from 'store/wallet/hooks';
 
 import { ChainDropdown } from './ChainDropdown';
 import { RegisteredThornames } from './RegisteredThornames';
@@ -24,8 +23,10 @@ import { useThornameInfoItems } from './useThornameInfoItems';
 import { useThornameLookup } from './useThornameLookup';
 
 const Thorname = () => {
-  const { isWalletLoading, wallet, setIsConnectModalOpen } = useWallet();
-  const thorAddress = wallet?.THOR?.address;
+  const { setIsConnectModalOpen } = useWalletConnectModal();
+  const { isWalletLoading, getWalletAddress } = useWallet();
+  const { signingRequired } = useKeystore();
+  const thorAddress = getWalletAddress(Chain.THORChain);
   const {
     available,
     chain,
@@ -49,12 +50,9 @@ const Thorname = () => {
   const [isOpenedTransfer, setIsOpenedTransfer] = useState(false);
 
   const [step, setStep] = useState(0);
-  const chainWalletAddress = wallet?.[chain]?.address;
+  const chainWalletAddress = getWalletAddress(chain);
 
-  const isKeystoreSigningRequired = useMemo(
-    () => isKeystoreSignRequired({ wallet, inputAssets: [RUNEAsset] }),
-    [wallet],
-  );
+  const isKeystoreSigningRequired = useMemo(() => signingRequired([RUNEAsset]), [signingRequired]);
 
   const { data: thornameInfoItems } = useThornameInfoItems({
     years,

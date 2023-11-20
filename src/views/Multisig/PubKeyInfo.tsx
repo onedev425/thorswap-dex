@@ -6,20 +6,20 @@ import { FieldLabel } from 'components/Form';
 import { HighlightCard } from 'components/HighlightCard';
 import { InfoTip } from 'components/InfoTip';
 import { showSuccessToast } from 'components/Toast';
+import { useWalletConnectModal } from 'context/wallet/hooks';
 import copy from 'copy-to-clipboard';
 import { useState } from 'react';
 import { t } from 'services/i18n';
 import { useMultisig } from 'store/multisig/hooks';
-import { useWallet } from 'store/wallet/hooks';
 import { MultisigModal } from 'views/Multisig/MultisigModal/MultisigModal';
 
 export const PubKeyInfo = () => {
   const [isMultisigModalOpened, setMultisigModalOpened] = useState(false);
-  const { setIsConnectModalOpen } = useWallet();
-  const { walletPubKey } = useMultisig();
+  const { setIsConnectModalOpen } = useWalletConnectModal();
+  const { pubKey } = useMultisig();
 
   const handleCopyPubKey = () => {
-    copy(walletPubKey);
+    copy(pubKey);
     showSuccessToast(t('views.multisig.pubKeyCopied'));
   };
 
@@ -34,7 +34,7 @@ export const PubKeyInfo = () => {
             {t('views.multisig.connectThorchainWallet')}
           </Text>
           <Box align="end" flex={1}>
-            {!walletPubKey ? (
+            {!pubKey ? (
               <Button stretch onClick={() => setIsConnectModalOpen(true)} variant="primary">
                 {/* {t('views.multisig.multisigModalTitle')} */}
                 {t('common.connectWallet')}
@@ -56,7 +56,7 @@ export const PubKeyInfo = () => {
                           textStyle="caption"
                           variant="secondary"
                         >
-                          {walletPubKey}
+                          {pubKey}
                         </Text>
                         <div>
                           <Icon className="pl-2" name="copy" size={16} />

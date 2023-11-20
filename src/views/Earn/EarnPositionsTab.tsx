@@ -1,9 +1,7 @@
 import type { AssetValue } from '@swapkit/core';
 import { Box, Button } from 'components/Atomic';
-import { hasConnectedWallet } from 'helpers/wallet';
-import { useMemo } from 'react';
+import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import { t } from 'services/i18n';
-import { useWallet } from 'store/wallet/hooks';
 import { EarnPositions } from 'views/Earn/EarnPositions';
 import type { SaverPosition } from 'views/Earn/types';
 
@@ -15,12 +13,12 @@ type Props = {
 };
 
 export const EarnPositionsTab = ({ onWithdraw, onDeposit, positions, refreshPositions }: Props) => {
-  const { wallet, setIsConnectModalOpen } = useWallet();
-  const isWalletConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
+  const { setIsConnectModalOpen } = useWalletConnectModal();
+  const { hasWallet } = useWallet();
 
   return (
     <Box className="w-full self-stretch">
-      {isWalletConnected ? (
+      {hasWallet ? (
         <EarnPositions
           depositAsset={onDeposit}
           positions={positions}

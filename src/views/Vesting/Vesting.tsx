@@ -8,15 +8,15 @@ import { PanelView } from 'components/PanelView';
 import { PercentSelect } from 'components/PercentSelect/PercentSelect';
 import { TabsSelect } from 'components/TabsSelect';
 import { ViewHeader } from 'components/ViewHeader';
+import { useWalletConnectModal } from 'context/wallet/hooks';
 import { useCallback, useState } from 'react';
 import { t } from 'services/i18n';
-import { useWallet } from 'store/wallet/hooks';
 import { useVesting } from 'views/Vesting/hooks';
 
 import { VestingType } from './types';
 
 const Vesting = () => {
-  const { setIsConnectModalOpen } = useWallet();
+  const { setIsConnectModalOpen } = useWalletConnectModal();
   const [vestingTab, setVestingTab] = useState(VestingType.THOR);
   const [amount, setAmount] = useState(new SwapKitNumber({ value: 0, decimal: 1 }));
   const { ethAddress, vestingInfo, isLoading, loadVestingInfo, handleClaim } = useVesting();

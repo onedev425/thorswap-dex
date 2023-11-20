@@ -1,15 +1,15 @@
 import type { Chain } from '@swapkit/core';
 import { AssetValue, SwapKitNumber } from '@swapkit/core';
+import { useWallet } from 'context/wallet/hooks';
 import { usePools } from 'hooks/usePools';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getSaverData, getSaverPools } from 'store/midgard/actions';
 import type { ThornodePoolType } from 'store/midgard/types';
-import { useWallet } from 'store/wallet/hooks';
 import type { SaverPosition } from 'views/Earn/types';
 import { getSaverPoolNameForAsset } from 'views/Earn/utils';
 
 export const useSaverPositions = () => {
-  const { wallet, isWalletLoading } = useWallet();
+  const { getWalletAddress, isWalletLoading } = useWallet();
   const [positions, setPositions] = useState<SaverPosition[]>([]);
   const { pools } = usePools();
 
@@ -42,7 +42,7 @@ export const useSaverPositions = () => {
 
   const getSaverPosition = useCallback(
     async (asset: AssetValue) => {
-      const address = wallet?.[asset.chain]?.address || '';
+      const address = getWalletAddress(asset.chain);
       if (address) {
         const response = await getSaverData({ asset: asset.toString(), address });
         const units = SwapKitNumber.fromBigInt(BigInt(response.units), 8);
@@ -54,7 +54,7 @@ export const useSaverPositions = () => {
           : null;
       }
     },
-    [wallet],
+    [getWalletAddress],
   );
 
   const refreshPositions = useCallback(async () => {

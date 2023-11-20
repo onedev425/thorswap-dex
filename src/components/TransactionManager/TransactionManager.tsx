@@ -9,7 +9,8 @@ import { CompletedTransaction } from 'components/TransactionManager/CompletedTra
 import { transactionBorderColors } from 'components/TransactionManager/helpers';
 import { PendingTransaction } from 'components/TransactionManager/PendingTransaction';
 import { TransactionContainer } from 'components/TransactionManager/TransactionContainer';
-import { useTransactionsModal } from 'components/TransactionTracker/useTransactionsModal';
+import { useTransactionsModal } from 'context/txManager/useTransactionsModal';
+import { useLedgerLive, useWalletBalance } from 'context/wallet/hooks';
 import type { ElementRef } from 'react';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { t } from 'services/i18n';
@@ -17,7 +18,6 @@ import { IS_LEDGER_LIVE } from 'settings/config';
 import { useAppDispatch } from 'store/store';
 import { useTransactionsState } from 'store/transactions/hooks';
 import { clearTransactions } from 'store/transactions/slice';
-import { getWalletByChain, updateLedgerLiveBalance } from 'store/wallet/actions';
 
 import { OpenButton } from './OpenButton';
 
@@ -30,6 +30,8 @@ export const TransactionManager = memo(() => {
   const { pending, completed, transactions } = useTransactionsState();
   const prevTxLength = useRef(transactions.length);
   const { open: openModal } = useTransactionsModal();
+  const { getWalletByChain } = useWalletBalance();
+  const { updateLedgerLiveBalance } = useLedgerLive();
 
   const [confirmClearOpened, setConfirmClearOpened] = useState(false);
 
@@ -74,11 +76,9 @@ export const TransactionManager = memo(() => {
     }, [] as Chain[]);
 
     for (const chain of chainsToUpdate) {
-      !IS_LEDGER_LIVE
-        ? appDispatch(getWalletByChain(chain))
-        : appDispatch(updateLedgerLiveBalance(chain));
+      !IS_LEDGER_LIVE ? getWalletByChain(chain) : updateLedgerLiveBalance(chain);
     }
-  }, [appDispatch, completed]);
+  }, [completed, getWalletByChain, updateLedgerLiveBalance]);
 
   return (
     <Popover

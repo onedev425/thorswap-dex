@@ -1,19 +1,16 @@
 import type { SidebarItemProps } from 'components/Sidebar/types';
 import { SidebarWidgetOption } from 'components/Sidebar/types';
-import { hasConnectedWallet } from 'helpers/wallet';
+import { useWallet } from 'context/wallet/hooks';
 import { useEffect, useMemo } from 'react';
 import { t } from 'services/i18n';
 import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/router';
 import { useApp } from 'store/app/hooks';
-import { useWallet } from 'store/wallet/hooks';
 import { useVesting } from 'views/Vesting/hooks';
 
 export const useSidebarOptions = () => {
   const { checkAlloc } = useVesting({ onlyCheckAlloc: true });
-  const { wallet, hasVestingAlloc } = useWallet();
+  const { hasWallet, hasVestingAlloc } = useWallet();
   const { multisigVisible } = useApp();
-
-  const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
 
   useEffect(() => {
     checkAlloc();
@@ -32,7 +29,7 @@ export const useSidebarOptions = () => {
 
   const thorMenu: SidebarItemProps = useMemo(() => {
     const vestingItems: SidebarItemProps[] =
-      isConnected && hasVestingAlloc
+      hasWallet && hasVestingAlloc
         ? [
             {
               iconName: 'chartPieOutline',
@@ -51,7 +48,7 @@ export const useSidebarOptions = () => {
       ],
       widgets: [SidebarWidgetOption.ThorBurn],
     };
-  }, [isConnected, hasVestingAlloc]);
+  }, [hasWallet, hasVestingAlloc]);
 
   const stickyMenu: SidebarItemProps = {
     // Leave it for key

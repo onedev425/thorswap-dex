@@ -6,6 +6,7 @@ import { Input } from 'components/Input';
 import { PanelView } from 'components/PanelView';
 import { ReloadButton } from 'components/ReloadButton';
 import { ViewHeader } from 'components/ViewHeader';
+import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import { useCheckHardCap } from 'hooks/useCheckHardCap';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -13,12 +14,12 @@ import { t } from 'services/i18n';
 import { IS_PROTECTED } from 'settings/config';
 import { getAddLiquidityRoute, ROUTES } from 'settings/router';
 import { useGetFullMemberQuery } from 'store/midgard/api';
-import { useWallet } from 'store/wallet/hooks';
 import { ChainLiquidityPanel } from 'views/new-liquidity/ChainLiquidityPanel';
 
 export const Liquidity = () => {
   const navigate = useNavigate();
-  const { wallet, isWalletLoading, setIsConnectModalOpen } = useWallet();
+  const { setIsConnectModalOpen } = useWalletConnectModal();
+  const { walletAddresses: connectedAddresses, isWalletLoading } = useWallet();
   const hardCapReached = useCheckHardCap();
   const [tipVisible, setTipVisible] = useState(true);
   const [isTestModalVisible, setIsTestModalVisible] = useState(false);
@@ -27,15 +28,8 @@ export const Liquidity = () => {
 
   const walletAddresses = useMemo(
     () =>
-      Object.values(testAddresses).length > 0
-        ? Object.values(testAddresses)
-        : (Object.keys(wallet)
-            .map((chain) => {
-              const address = wallet?.[chain as Chain]?.address;
-              return chain === Chain.Ethereum ? address?.toLowerCase() : address;
-            })
-            .filter((address) => !!address) as string[]),
-    [testAddresses, wallet],
+      Object.values(testAddresses).length > 0 ? Object.values(testAddresses) : connectedAddresses,
+    [connectedAddresses, testAddresses],
   );
 
   const {

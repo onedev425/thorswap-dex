@@ -65,10 +65,7 @@ export const useMultissigAssets = () => {
   const { loadBalances } = useMultisig();
   const [runeBalance, setRuneBalance] = useState<AssetValue | null>(null);
   const { balances, loadingBalances } = useAppSelector(({ multisig }) => multisig);
-  const { feeOptionType } = useAppSelector(({ app: { feeOptionType }, wallet: { wallet } }) => ({
-    wallet,
-    feeOptionType,
-  }));
+  const feeOptionType = useAppSelector(({ app }) => app.feeOptionType);
 
   useEffect(() => {
     loadBalances();

@@ -1,11 +1,12 @@
 import { captureException, withProfiler } from '@sentry/react';
 import { AssetValue } from '@swapkit/core';
-import { AnnouncementsProvider } from 'components/Announcements/AnnouncementsContext';
 import { Box } from 'components/Atomic';
-import { ChakraThemeProvider } from 'components/Theme/ChakraThemeProvider';
-import { ThemeProvider } from 'components/Theme/ThemeContext';
 import { TransactionTrackerModal } from 'components/TransactionTracker/TransactionTrackerModal';
-import { TransactionsModalProvider } from 'components/TransactionTracker/useTransactionsModal';
+import { AnnouncementsProvider } from 'context/announcements/AnnouncementsContext';
+import { ChakraThemeProvider } from 'context/theme/ChakraThemeProvider';
+import { ThemeProvider } from 'context/theme/ThemeContext';
+import { TransactionsModalProvider } from 'context/txManager/useTransactionsModal';
+import { WalletProvider } from 'context/wallet/WalletProvider';
 import { HmacSHA512 } from 'crypto-js';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
@@ -16,7 +17,6 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Provider as ReduxProvider } from 'react-redux';
 import { IS_LOCAL, IS_PROD } from 'settings/config';
 import { store as reduxStore } from 'store/store';
-import { WalletProvider } from 'views/Wallet/WalletProvider';
 
 import DrawerProvider from './hooks/useWalletDrawer';
 import { PublicRoutes } from './router';

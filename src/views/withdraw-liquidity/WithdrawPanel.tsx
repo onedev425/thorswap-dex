@@ -20,9 +20,9 @@ import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { PanelView } from 'components/PanelView';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
+import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import { RUNEAsset } from 'helpers/assets';
 import { parseAssetToToken } from 'helpers/parseHelpers';
-import { hasWalletConnected } from 'helpers/wallet';
 import { useMimir } from 'hooks/useMimir';
 import { useNetworkFee } from 'hooks/useNetworkFee';
 import { useTokenPrices } from 'hooks/useTokenPrices';
@@ -35,7 +35,6 @@ import { LiquidityTypeOption, PoolShareType } from 'store/midgard/types';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
-import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 
 import { AssetInputs } from './AssetInputs';
@@ -58,7 +57,9 @@ export const WithdrawPanel = ({
 }) => {
   const navigate = useNavigate();
   const appDispatch = useAppDispatch();
-  const { wallet, setIsConnectModalOpen } = useWallet();
+  const { setIsConnectModalOpen } = useWalletConnectModal();
+  const { hasWallet, getWalletAddress } = useWallet();
+
   const { isChainPauseLPAction } = useMimir();
   const { getChainWithdrawLPPaused } = useExternalConfig();
 
@@ -92,8 +93,8 @@ export const WithdrawPanel = ({
         ? poolAsset
         : AssetValue.fromChainOrSignature(Chain.THORChain);
 
-    return hasWalletConnected({ wallet, inputAssets: [inputAsset] });
-  }, [lpType, poolAsset, wallet]);
+    return !!getWalletAddress(inputAsset.chain);
+  }, [getWalletAddress, lpType, poolAsset]);
 
   const { feeInUSD } = useNetworkFee({
     inputAsset: withdrawType === LiquidityTypeOption.ASSET ? poolAsset : RUNEAsset,
@@ -197,7 +198,7 @@ export const WithdrawPanel = ({
   const handleConfirmWithdraw = useCallback(async () => {
     setVisibleConfirmModal(false);
 
-    if (!wallet) return;
+    if (!hasWallet) return;
 
     const runeObject = AssetValue.fromChainOrSignature(
       Chain.THORChain,
@@ -237,15 +238,24 @@ export const WithdrawPanel = ({
       appDispatch(completeTransaction({ id, status: 'error' }));
       showErrorToast(t('notification.submitFail'), message);
     }
-  }, [wallet, runeAmount, poolAsset, assetAmount, withdrawTo, appDispatch, percent, withdrawFrom]);
+  }, [
+    hasWallet,
+    runeAmount,
+    poolAsset,
+    assetAmount,
+    withdrawTo,
+    appDispatch,
+    percent,
+    withdrawFrom,
+  ]);
 
   const handleWithdrawLiquidity = useCallback(() => {
-    if (wallet) {
+    if (hasWallet) {
       setVisibleConfirmModal(true);
     } else {
       showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
     }
-  }, [wallet]);
+  }, [hasWallet]);
 
   const title = useMemo(
     () => `${t('common.withdraw')} ${poolAsset.ticker} ${t('common.liquidity')}`,
@@ -297,19 +307,19 @@ export const WithdrawPanel = ({
   }, [withdrawType, runeAmount, runePrice, poolAsset, assetAmount, assetPrice]);
 
   const lpLink: string = useMemo((): string => {
-    if (!wallet) return '';
     const lpRoute = getThorYieldLPInfoBaseRoute();
     let queryParams = '';
     if (lpType === PoolShareType.ASSET_ASYM) {
-      queryParams = `${poolAsset.chain.toLowerCase()}=${wallet[poolAsset.chain]?.address}`;
+      queryParams = `${poolAsset.chain.toLowerCase()}=${getWalletAddress(poolAsset.chain)}`;
     } else if (lpType === PoolShareType.RUNE_ASYM) {
-      queryParams = `${Chain.THORChain.toLowerCase()}=${wallet[Chain.THORChain]?.address}`;
+      queryParams = `${Chain.THORChain.toLowerCase()}=${getWalletAddress(Chain.THORChain)}`;
     } else if (lpType === PoolShareType.SYM) {
-      queryParams = `${Chain.THORChain.toLowerCase()}=${wallet[Chain.THORChain]
-        ?.address}&${poolAsset.chain.toLowerCase()}=${wallet[poolAsset.chain]?.address}`;
+      queryParams = `${Chain.THORChain.toLowerCase()}=${getWalletAddress(
+        Chain.THORChain,
+      )}&${poolAsset.chain.toLowerCase()}=${getWalletAddress(poolAsset.chain)}`;
     }
     return `${lpRoute}?${queryParams}`;
-  }, [lpType, poolAsset, wallet]);
+  }, [getWalletAddress, lpType, poolAsset.chain]);
 
   const warningWithPendingWithdraw = useMemo(
     () => !!shares.pending && Object.keys(shares).length > 1,

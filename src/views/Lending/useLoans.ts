@@ -1,14 +1,14 @@
 import { AssetValue, SwapKitNumber } from '@swapkit/core';
+import { useWallet } from 'context/wallet/hooks';
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useMemo, useState } from 'react';
 import { SORTED_LENDING_COLLATERAL_ASSETS } from 'settings/chain';
 import { useLazyGetLoansQuery } from 'store/thorswap/api';
-import { useWallet } from 'store/wallet/hooks';
 
 import type { LoanPosition } from './types';
 
 export const useLoans = () => {
-  const { wallet, isWalletLoading } = useWallet();
+  const { getWalletAddress, isWalletLoading } = useWallet();
 
   const [loans, setLoans] = useState<LoanPosition[] | null>(null);
   const [fetchLoans] = useLazyGetLoansQuery();
@@ -29,7 +29,7 @@ export const useLoans = () => {
 
   const getLoanPosition = useCallback(
     async (asset: AssetValue): Promise<LoanPosition | null> => {
-      const address = wallet?.[asset.chain]?.address || '';
+      const address = getWalletAddress(asset.chain);
       if (address) {
         const { data } = await fetchLoans({
           asset: `${asset.chain}.${asset.ticker}`,
@@ -69,7 +69,7 @@ export const useLoans = () => {
 
       return null;
     },
-    [fetchLoans, wallet],
+    [fetchLoans, getWalletAddress],
   );
 
   const refreshLoans = useCallback(async () => {

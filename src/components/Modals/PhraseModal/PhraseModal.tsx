@@ -4,9 +4,9 @@ import { Box, Button, Icon, Modal } from 'components/Atomic';
 import { borderHoverHighlightClass, genericBgClasses } from 'components/constants';
 import { Input } from 'components/Input';
 import { usePhraseModal } from 'components/Modals/PhraseModal/usePhraseModal';
+import { useKeystore } from 'context/wallet/hooks';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
-import { useWallet } from 'store/wallet/hooks';
 
 export type PhraseModalProps = {
   isOpen: boolean;
@@ -14,7 +14,7 @@ export type PhraseModalProps = {
 };
 
 export const PhraseModal = ({ isOpen, onCancel = () => {} }: PhraseModalProps): JSX.Element => {
-  const { phrase } = useWallet();
+  const { phrase } = useKeystore();
   const { showPhrase, submit, passwordField, errors, handleCopyPhrase } = usePhraseModal(isOpen);
   const phrases = useMemo(() => (isOpen ? phrase.split(' ') : []), [isOpen, phrase]);
 

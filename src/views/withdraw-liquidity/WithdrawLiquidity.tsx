@@ -4,30 +4,21 @@ import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { PanelView } from 'components/PanelView';
 import { ViewHeader } from 'components/ViewHeader';
+import { useWallet } from 'context/wallet/hooks';
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { useGetFullMemberQuery } from 'store/midgard/api';
 import { PoolShareType } from 'store/midgard/types';
-import { useWallet } from 'store/wallet/hooks';
 
 import { WithdrawPanel } from './WithdrawPanel';
 
 export const WithdrawLiquidity = () => {
-  const { wallet, isWalletLoading } = useWallet();
+  const { walletAddresses, isWalletLoading } = useWallet();
+
   const { assetParam = AssetValue.fromChainOrSignature(Chain.Bitcoin).toString() } = useParams<{
     assetParam: string;
   }>();
-  const walletAddresses = useMemo(
-    () =>
-      Object.keys(wallet)
-        .map((chain) => {
-          const address = wallet?.[chain as Chain]?.address;
-          return chain === Chain.Ethereum ? address?.toLowerCase() : address;
-        })
-        .filter((address) => !!address) as string[],
-    [wallet],
-  );
 
   const { data: lpMemberData, isLoading: lpMemberLoading } = useGetFullMemberQuery(
     walletAddresses,

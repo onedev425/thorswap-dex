@@ -11,11 +11,11 @@ import { PanelInput } from 'components/PanelInput';
 import { PanelView } from 'components/PanelView';
 import { showErrorToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
+import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import { RUNEAsset } from 'helpers/assets';
 import { chainName } from 'helpers/chainName';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { shortenAddress } from 'helpers/shortenAddress';
-import { getWalletAssets, hasWalletConnected } from 'helpers/wallet';
 import { useAddressForTNS } from 'hooks/useAddressForTNS';
 import { useBalance } from 'hooks/useBalance';
 import { useNetworkFee } from 'hooks/useNetworkFee';
@@ -24,7 +24,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getSendRoute } from 'settings/router';
-import { useWallet } from 'store/wallet/hooks';
 import { zeroAmount } from 'types/app';
 import { CustomSend } from 'views/Send/components/CustomSend';
 import { useCustomSend } from 'views/Send/hooks/useCustomSend';
@@ -47,8 +46,8 @@ const Send = () => {
   const [recipientAddress, setRecipientAddress] = useState(searchParams.get('recipient') || '');
   const [thorname, setThorname] = useState('');
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
-
-  const { wallet, setIsConnectModalOpen } = useWallet();
+  const { wallet, getWallet, getWalletAddress } = useWallet();
+  const { setIsConnectModalOpen } = useWalletConnectModal();
 
   const { getMaxBalance } = useBalance();
   const { inputAssetUSDPrice, inputFee, feeInUSD, isLoading } = useNetworkFee({
@@ -78,7 +77,7 @@ const Send = () => {
     sendAsset,
     recipientAddress: txRecipient,
     memo: txMemo,
-    from: wallet ? wallet[sendAsset.chain]?.address : undefined,
+    from: wallet ? getWalletAddress(sendAsset.chain) : undefined,
     customTxEnabled,
   });
 
@@ -129,11 +128,24 @@ const Send = () => {
   }, [assetParam, customTxEnabled]);
 
   const isWalletConnected = useMemo(
-    () => sendAsset && hasWalletConnected({ wallet, inputAssets: [sendAsset] }),
+    () => sendAsset && !!getWallet(sendAsset.chain),
     [wallet, sendAsset],
   );
 
-  const walletAssets = useMemo(() => getWalletAssets(wallet), [wallet]);
+  const walletAssets = useMemo(() => {
+    const assets: AssetValue[] = [];
+
+    if (!wallet) return assets;
+
+    Object.keys(wallet).forEach((chain) => {
+      const chainWallet = wallet[chain as keyof typeof wallet];
+      chainWallet?.balance.forEach((data) => {
+        assets.push(data);
+      });
+    });
+
+    return assets;
+  }, [wallet]);
 
   const [assetInputList, setAssetInputList] = useState<
     {
@@ -241,7 +253,7 @@ const Send = () => {
     () => [
       {
         label: t('common.send'),
-        value: `${sendAmount?.toSignificant(6)} ${sendAsset.assetValue}`,
+        value: `${sendAmount?.toSignificant(6)} ${sendAsset.toString(true)}`,
       },
       {
         label: t('common.recipient'),
@@ -260,7 +272,7 @@ const Send = () => {
         ),
       },
     ],
-    [sendAmount, sendAsset.assetValue, customTxEnabled, txRecipient, txMemo, txFee, txFeeUsd],
+    [sendAmount, sendAsset, customTxEnabled, txRecipient, txMemo, txFee, txFeeUsd],
   );
 
   const recipientTitle = useMemo(

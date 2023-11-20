@@ -1,9 +1,9 @@
 import { type AssetValue, BaseDecimal, SwapKitNumber } from '@swapkit/core';
+import { useWallet } from 'context/wallet/hooks';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useNetworkFee } from 'hooks/useNetworkFee';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getSaverQuote } from 'store/midgard/actions';
-import { useWallet } from 'store/wallet/hooks';
 import type { SaverQuoteResponse } from 'views/Earn/types';
 
 type Props = {
@@ -16,7 +16,7 @@ type Props = {
 
 export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount, apr }: Props) => {
   const [saverQuote, setSaverQuoteData] = useState<SaverQuoteResponse>();
-  const { wallet } = useWallet();
+  const { getWalletAddress } = useWallet();
 
   const assetAmount = useMemo(
     () => new SwapKitNumber({ value: amount.getValue('number'), decimal: asset.decimal }),
@@ -25,7 +25,7 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount,
 
   const debouncedAmount = useDebouncedValue(assetAmount);
   const debouncedWithdrawPercent = useDebouncedValue(withdrawPercent);
-  const address = useMemo(() => wallet?.[asset.chain]?.address || '', [wallet, asset.chain]);
+  const address = useMemo(() => getWalletAddress(asset.chain), [getWalletAddress, asset.chain]);
 
   const getConfirmData = useCallback(async () => {
     if (!asset.decimal || !debouncedAmount?.gt(0)) {

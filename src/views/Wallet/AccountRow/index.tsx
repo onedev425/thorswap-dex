@@ -2,6 +2,7 @@ import type { Chain } from '@swapkit/core';
 import classNames from 'classnames';
 import { Box, Card } from 'components/Atomic';
 import { borderHoverHighlightClass } from 'components/constants';
+import { useWalletDispatch } from 'context/wallet/WalletProvider';
 import { memo, useCallback } from 'react';
 import { ConnectionActions } from 'views/Wallet/components/ConnectionActions';
 import { CopyAddress } from 'views/Wallet/components/CopyAddress';
@@ -18,25 +19,26 @@ type Props = {
 };
 
 export const AccountRow = memo(({ thornames, chain }: Props) => {
+  const walletDispatch = useWalletDispatch();
   const {
+    chainWalletLoading,
     accountBalance,
     chainAddress,
     chainInfo,
     priceData,
     setIsConnectModalOpen,
-    disconnectWalletByChain,
     chainWallet,
   } = useAccountData(chain);
 
-  const { isLoading, handleRefreshChain } = useWalletChainActions(chain);
+  const { handleRefreshChain } = useWalletChainActions(chain);
 
   const toggleConnect = useCallback(() => {
     if (chainAddress) {
-      disconnectWalletByChain(chain);
+      walletDispatch({ type: 'disconnectByChain', payload: chain });
     } else {
       setIsConnectModalOpen(true);
     }
-  }, [chain, chainAddress, disconnectWalletByChain, setIsConnectModalOpen]);
+  }, [chain, chainAddress, setIsConnectModalOpen, walletDispatch]);
 
   return (
     <Card className={classNames('overflow-hidden', borderHoverHighlightClass)}>
@@ -62,7 +64,7 @@ export const AccountRow = memo(({ thornames, chain }: Props) => {
           <ConnectionActions
             handleRefreshChain={handleRefreshChain}
             isConnected={!!chainAddress}
-            isLoading={!!isLoading}
+            isLoading={chainWalletLoading}
             toggleConnect={toggleConnect}
           />
         </Box>

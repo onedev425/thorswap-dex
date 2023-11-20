@@ -1,24 +1,24 @@
 import { Text } from '@chakra-ui/react';
-import { AssetValue } from '@swapkit/core';
+import { AssetValue, Chain } from '@swapkit/core';
 import classNames from 'classnames';
 import { AssetLpIcon } from 'components/AssetIcon';
 import { Box, Button, Card, Link } from 'components/Atomic';
 import { borderHoverHighlightClass } from 'components/constants';
+import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import { useThorAPR } from 'hooks/useThorAPR';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { getAddLiquidityRoute, getWithdrawRoute } from 'settings/router';
-import { useWallet } from 'store/wallet/hooks';
 
 import { tcFarmData } from './farmData';
 
 export const ThorchainLPCard = () => {
-  const { wallet, setIsConnectModalOpen } = useWallet();
+  const { setIsConnectModalOpen } = useWalletConnectModal();
+  const { getWalletAddress } = useWallet();
+  const ethAddr = useMemo(() => getWalletAddress(Chain.Ethereum), [getWalletAddress]);
+  const withdrawRouter = getWithdrawRoute(AssetValue.fromChainOrSignature('ETH.THOR'));
   const thorAPR = useThorAPR();
   const liquidityRouter = getAddLiquidityRoute(AssetValue.fromChainOrSignature('ETH.THOR'));
-  const withdrawRouter = getWithdrawRoute(AssetValue.fromChainOrSignature('ETH.THOR'));
-
-  const ethAddr = useMemo(() => wallet?.ETH?.address, [wallet]);
 
   return (
     <Box col className="flex-1 !min-w-[360px] lg:!max-w-[50%]">

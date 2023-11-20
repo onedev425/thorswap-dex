@@ -1,7 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { Button, Icon } from 'components/Atomic';
 import { Confirm } from 'components/Modals/Confirm';
-import { useTransactionsModal } from 'components/TransactionTracker/useTransactionsModal';
+import { useTransactionsModal } from 'context/txManager/useTransactionsModal';
 import { useCallback, useState } from 'react';
 import { t } from 'services/i18n';
 import { useAppDispatch } from 'store/store';

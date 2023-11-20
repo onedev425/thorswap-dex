@@ -9,6 +9,7 @@ import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { PercentageSlider } from 'components/PercentageSlider';
 import { TabsSelect } from 'components/TabsSelect';
 import { SAVERS_MEDIUM } from 'config/constants';
+import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
@@ -24,7 +25,6 @@ import { ROUTES } from 'settings/router';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
-import { useWallet } from 'store/wallet/hooks';
 import { zeroAmount } from 'types/app';
 import { v4 } from 'uuid';
 import { EarnAssetSelectList } from 'views/Earn/EarnAssetSelectList';
@@ -47,7 +47,8 @@ const Earn = () => {
   const { getMaxBalance } = useBalance();
   const { isChainHalted } = useMimir();
   const { positions, refreshPositions, getPosition, synthAvailability } = useSaverPositions();
-  const { wallet, setIsConnectModalOpen } = useWallet();
+  const { setIsConnectModalOpen } = useWalletConnectModal();
+  const { getWalletAddress } = useWallet();
 
   const { asset, setAsset, amount, setAmount } = useRouteAssetParams(ROUTES.Earn);
 
@@ -103,7 +104,7 @@ const Earn = () => {
     });
   const { isLgActive } = useWindowSize();
 
-  const address = useMemo(() => wallet?.[asset.chain]?.address || '', [wallet, asset.chain]);
+  const address = useMemo(() => getWalletAddress(asset.chain), [getWalletAddress, asset.chain]);
 
   useEffect(() => {
     address

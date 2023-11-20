@@ -6,6 +6,8 @@ import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon } from 'components/Atomic';
 import { baseBgHoverClass } from 'components/constants';
 import { Scrollbar } from 'components/Scrollbar';
+import { useWallet } from 'context/wallet/hooks';
+import { useWalletDispatch } from 'context/wallet/WalletProvider';
 import { useWalletDrawer } from 'hooks/useWalletDrawer';
 import type { MouseEventHandler } from 'react';
 import { memo, useCallback, useMemo } from 'react';
@@ -14,9 +16,6 @@ import { t } from 'services/i18n';
 import { SORTED_CHAINS } from 'settings/chain';
 import { IS_LEDGER_LIVE } from 'settings/config';
 import { getSendRoute, getSwapRoute } from 'settings/router';
-import { useAppDispatch } from 'store/store';
-import { useWallet } from 'store/wallet/hooks';
-import { actions } from 'store/wallet/slice';
 
 import { isLedgerLiveSupportedInputAsset } from '../../../ledgerLive/wallet/LedgerLive';
 
@@ -35,7 +34,7 @@ type ChainBalanceProps = {
 const ChainBalance = memo(({ chain, address, loading, walletType, balance }: ChainBalanceProps) => {
   const navigate = useNavigate();
   const { close } = useWalletDrawer();
-  const appDispatch = useAppDispatch();
+  const walletDispatch = useWalletDispatch();
 
   const walletBalance = useMemo(
     () => [...balance, ...(balance.length === 0 ? [AssetValue.fromChainOrSignature(chain)] : [])],
@@ -56,9 +55,9 @@ const ChainBalance = memo(({ chain, address, loading, walletType, balance }: Cha
     (chain: Chain, assetValue: AssetValue): MouseEventHandler<HTMLDivElement | HTMLButtonElement> =>
       (event) => {
         event.stopPropagation();
-        appDispatch(actions.addAssetToHidden({ chain, address: assetValue.toString() }));
+        walletDispatch({ type: 'hideAsset', payload: { chain, address: assetValue.toString() } });
       },
-    [appDispatch],
+    [walletDispatch],
   );
 
   return (
@@ -133,14 +132,9 @@ const ChainBalance = memo(({ chain, address, loading, walletType, balance }: Cha
 });
 
 export const WalletBalance = () => {
-  const { chainWalletLoading, wallet } = useWallet();
+  const { chainLoading, hasWallet, wallet } = useWallet();
 
-  const isWalletConnected = useMemo(
-    () => SORTED_CHAINS.some((chain) => wallet?.[chain as Chain]),
-    [wallet],
-  );
-
-  if (!isWalletConnected) return null;
+  if (!hasWallet) return null;
 
   return (
     <WalletDrawer>
@@ -154,7 +148,7 @@ export const WalletBalance = () => {
                 balance={wallet?.[chain]?.balance ?? []}
                 chain={chain}
                 key={chain}
-                loading={!!chainWalletLoading[chain]}
+                loading={!!chainLoading[chain]}
                 walletType={wallet?.[chain]?.walletType ?? WalletOption.KEYSTORE}
               />
             ) : null,

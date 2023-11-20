@@ -4,13 +4,12 @@ import type { THORNode } from '@thorswap-lib/midgard-sdk';
 import { Box, Button, Icon, Link } from 'components/Atomic';
 import { useInputAmount } from 'components/InputAmount/useInputAmount';
 import { showErrorToast, showInfoToast, showSuccessToast } from 'components/Toast';
+import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import copy from 'copy-to-clipboard';
 import { RUNEAsset } from 'helpers/assets';
-import { hasConnectedWallet, hasWalletConnected } from 'helpers/wallet';
 import { useBalance } from 'hooks/useBalance';
 import useWindowSize from 'hooks/useWindowSize';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useWallet } from 'store/wallet/hooks';
 import type { NodeManagePanelProps } from 'views/Nodes/types';
 import { BondActionType } from 'views/Nodes/types';
 
@@ -123,6 +122,8 @@ export const useNodeManager = ({
   handleBondAction,
   skipWalletCheck,
 }: NodeManagePanelProps) => {
+  const { setIsConnectModalOpen } = useWalletConnectModal();
+  const { getWallet, hasWallet } = useWallet();
   const [maxInputBalance, setMaxInputBalance] = useState<AssetValue>();
 
   const tabs = useMemo(
@@ -147,17 +148,13 @@ export const useNodeManager = ({
     onAmountChange: (skNumber) =>
       setAmount(AssetValue.fromChainOrSignature(Chain.THORChain, skNumber.getValue('number'))),
   });
-  const { wallet, setIsConnectModalOpen } = useWallet();
 
   const isWalletConnected = useMemo(
-    () => skipWalletCheck || hasConnectedWallet(wallet),
-    [skipWalletCheck, wallet],
+    () => skipWalletCheck || hasWallet,
+    [hasWallet, skipWalletCheck],
   );
 
-  const thorWalletConnected = useMemo(
-    () => hasWalletConnected({ wallet, inputAssets: [RUNEAsset] }),
-    [wallet],
-  );
+  const thorWalletConnected = useMemo(() => getWallet(RUNEAsset.chain), [getWallet]);
 
   const { getMaxBalance } = useBalance();
 

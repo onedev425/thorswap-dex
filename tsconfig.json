@@ -32,7 +32,8 @@
       "services/*": ["services/*"],
       "settings/*": ["settings/*"],
       "types/*": ["types/*"],
-      "views/*": ["views/*"]
+      "views/*": ["views/*"],
+      "context/*": ["context/*"],
     }
   },
 }

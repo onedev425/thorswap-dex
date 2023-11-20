@@ -64,7 +64,7 @@ export const useTxDeposit = (assetSideAddress: string) => {
     setLiquidityType,
     poolAsset: poolAsset || BTCAsset,
     depositAssetsBalance,
-    wallet,
+    wallet: wallet ? wallet : undefined,
   });
 
   const confirmInfo = useMemo(() => {

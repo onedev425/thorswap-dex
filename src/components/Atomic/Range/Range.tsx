@@ -1,7 +1,7 @@
 import type { SwapKitNumber } from '@swapkit/core';
 import classNames from 'classnames';
 import { useInputAmount } from 'components/InputAmount/useInputAmount';
-import { useTheme } from 'components/Theme/ThemeContext';
+import { useTheme } from 'context/theme/ThemeContext';
 import { useRef } from 'react';
 
 import './Range.css';

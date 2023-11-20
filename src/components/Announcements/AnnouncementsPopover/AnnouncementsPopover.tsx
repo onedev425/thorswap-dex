@@ -1,10 +1,10 @@
 import { Text } from '@chakra-ui/react';
 import { Announcement } from 'components/Announcements/Announcement/Announcement';
-import { useAnnouncements } from 'components/Announcements/AnnouncementsContext';
 import { useSeenAnnouncements } from 'components/Announcements/hooks';
 import { Box, Button, Card, Icon } from 'components/Atomic';
 import { Popover } from 'components/Popover';
 import { Scrollbar } from 'components/Scrollbar';
+import { useAnnouncements } from 'context/announcements/AnnouncementsContext';
 import useWindowSize from 'hooks/useWindowSize';
 import { t } from 'services/i18n';
 

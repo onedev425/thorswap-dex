@@ -3,12 +3,11 @@ import type { AssetValue } from '@swapkit/core';
 import classNames from 'classnames';
 import { Box, Button, Modal } from 'components/Atomic';
 import { PasswordInput } from 'components/PasswordInput';
-import { isKeystoreSignRequired } from 'helpers/wallet';
+import { useKeystore } from 'context/wallet/hooks';
 import type { KeyboardEventHandler, ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { IS_LEDGER_LIVE } from 'settings/config';
-import { useWallet } from 'store/wallet/hooks';
 
 type Props = {
   inputAssets: AssetValue[];
@@ -29,7 +28,7 @@ export const ConfirmModal = ({
   onClose,
   onConfirm,
 }: Props) => {
-  const { keystore, phrase, wallet } = useWallet();
+  const { keystore, signingRequired, phrase } = useKeystore();
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [validating, setValidating] = useState(false);
 
@@ -37,8 +36,8 @@ export const ConfirmModal = ({
 
   // check if keystore wallet is connected for input assets
   const isKeystoreSigningRequired = useMemo(
-    () => isKeystoreSignRequired({ wallet, inputAssets }),
-    [wallet, inputAssets],
+    () => signingRequired(inputAssets),
+    [inputAssets, signingRequired],
   );
 
   useEffect(() => {

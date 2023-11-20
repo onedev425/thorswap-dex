@@ -2,6 +2,7 @@ import type { QuoteRoute } from '@swapkit/api';
 import type { AssetValue } from '@swapkit/core';
 import { QuoteMode } from '@swapkit/core';
 import { showErrorToast } from 'components/Toast';
+import { useWallet } from 'context/wallet/hooks';
 import { translateErrorMsg } from 'helpers/error';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
@@ -10,7 +11,6 @@ import { useApp } from 'store/app/hooks';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
-import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 
 import { ledgerLiveSwap } from '../../../../ledgerLive/wallet/swap';
@@ -60,8 +60,9 @@ export const useSwap = ({
     const id = v4();
 
     try {
-      if (wallet && route) {
-        const from = wallet?.[inputAsset.chain]?.address;
+      // @ts-expect-error
+      const from = wallet?.[inputAsset.chain]?.address;
+      if (!from && route) {
         if (!from) throw new Error('No address found');
 
         const label = `${inputAsset.toSignificant(6)} ${
@@ -129,8 +130,8 @@ export const useSwap = ({
     }
   }, [
     wallet,
-    route,
     inputAsset,
+    route,
     outputAsset,
     recipient,
     appDispatch,

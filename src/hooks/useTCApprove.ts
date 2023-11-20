@@ -2,17 +2,17 @@ import { TransactionType } from '@swapkit/api';
 import type { AssetValue } from '@swapkit/core';
 import { Chain } from '@swapkit/core';
 import { showErrorToast } from 'components/Toast';
+import { useWallet } from 'context/wallet/hooks';
 import { t } from 'i18next';
 import { useCallback, useMemo } from 'react';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
-import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 
 export const useTCApprove = ({ asset }: { asset: AssetValue }) => {
-  const { wallet } = useWallet();
+  const { getWalletAddress } = useWallet();
   const appDispatch = useAppDispatch();
-  const from = useMemo(() => wallet?.[asset.chain as Chain]?.address, [wallet, asset.chain]);
+  const from = useMemo(() => getWalletAddress(asset.chain), [asset.chain, getWalletAddress]);
 
   const handleApprove = useCallback(async () => {
     if (from) {

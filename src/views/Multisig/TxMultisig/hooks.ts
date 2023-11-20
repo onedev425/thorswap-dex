@@ -15,7 +15,7 @@ export type ScreenState = {
 };
 
 export const useTxData = (state: ScreenState | null) => {
-  const { signTx, broadcastTx, walletPubKey } = useMultisig();
+  const { signTx, broadcastTx, pubKey } = useMultisig();
   const { members, threshold } = useAppSelector(({ multisig }) => multisig);
   const txData = useMemo(() => state?.tx || null, [state?.tx]);
   const requiredSigners = useMemo(() => state?.members || [], [state?.members]);
@@ -29,12 +29,12 @@ export const useTxData = (state: ScreenState | null) => {
   const canBroadcast = signatures.length >= threshold;
 
   const connectedSignature = useMemo(() => {
-    if (!walletPubKey) {
+    if (!pubKey) {
       return null;
     }
 
-    return signatures.find((s) => s.pubKey === walletPubKey) || null;
-  }, [walletPubKey, signatures]);
+    return signatures.find((s) => s.pubKey === pubKey) || null;
+  }, [pubKey, signatures]);
 
   const exportTxData: ImportedMultisigTx | null = useMemo(() => {
     if (!txData) {
@@ -66,7 +66,7 @@ export const useTxData = (state: ScreenState | null) => {
   }, []);
 
   const sign = useCallback(async () => {
-    if (!walletPubKey) {
+    if (!pubKey) {
       return showErrorToast(t('views.multisig.incorrectSigner'));
     }
 
@@ -75,9 +75,9 @@ export const useTxData = (state: ScreenState | null) => {
     if (signatureResult === undefined) throw Error(`Unable to sign: ${JSON.stringify(txData)}`);
 
     const { signature, bodyBytes } = signatureResult;
-    addSigner({ pubKey: walletPubKey, signature });
+    addSigner({ pubKey: pubKey, signature });
     setBodyBytes(Array.from(bodyBytes));
-  }, [addSigner, walletPubKey, signTx, txData]);
+  }, [addSigner, pubKey, signTx, txData]);
 
   // TODO (@0xGeneral) - get recipient and amount from tx
   const txInfo = useMemo(

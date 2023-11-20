@@ -4,11 +4,11 @@ import classNames from 'classnames';
 import { Box, Icon, Link } from 'components/Atomic';
 import { baseHoverClass } from 'components/constants';
 import { TxDetailsButton } from 'components/TransactionManager/TxDetailsButton';
+import { useWalletBalance } from 'context/wallet/hooks';
 import { memo, useCallback, useEffect, useState } from 'react';
 import type { TxnResult } from 'store/thorswap/types';
 import type { CompletedTransactionType } from 'store/transactions/types';
 import { TransactionType } from 'store/transactions/types';
-import { useWallet } from 'store/wallet/hooks';
 
 import { cutTxPrefix, transactionTitle, useTxLabelUpdate } from './helpers';
 import { TransactionStatusIcon } from './TransactionStatusIcon';
@@ -18,7 +18,7 @@ export const CompletedTransaction = memo(
     const [transactionLabel, setTransactionLabel] = useState(label);
     const [{ txUrl, secondTxUrl }, setTxUrls] = useState({ txUrl: '', secondTxUrl: '' });
 
-    const { wallet, refreshWalletByChain } = useWallet();
+    const { reloadAllWallets } = useWalletBalance();
 
     const { handleLabelUpdate, isLoading } = useTxLabelUpdate({ result, setTransactionLabel });
 
@@ -86,13 +86,8 @@ export const CompletedTransaction = memo(
       const finished = ['mined', 'error', 'refund'].includes(status);
       if (!finished) return;
 
-      if (wallet?.[inChain]) {
-        refreshWalletByChain(inChain);
-      }
-      if (outChain && wallet?.[outChain]) {
-        refreshWalletByChain(outChain);
-      }
-    }, [status, wallet, inChain, outChain, refreshWalletByChain]);
+      reloadAllWallets([inChain, outChain]);
+    }, [status, reloadAllWallets, inChain, outChain]);
 
     return (
       <Box alignCenter flex={1} justify="between">

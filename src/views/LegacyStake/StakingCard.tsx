@@ -6,6 +6,7 @@ import { Box, Button, Card, Icon, Link } from 'components/Atomic';
 import { borderHoverHighlightClass } from 'components/constants';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoRow } from 'components/InfoRow';
+import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import { shortenAddress } from 'helpers/shortenAddress';
 import { BLOCKS_PER_YEAR } from 'helpers/staking';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -20,7 +21,6 @@ import { t } from 'services/i18n';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
-import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 
 import { StakeConfirmModal } from './components/StakeConfirmModal';
@@ -51,7 +51,9 @@ export const StakingCard = ({
   withdrawOnly,
 }: Props) => {
   const appDispatch = useAppDispatch();
-  const { wallet, setIsConnectModalOpen } = useWallet();
+  const { setIsConnectModalOpen } = useWalletConnectModal();
+  const { getWalletAddress } = useWallet();
+  const ethAddr = useMemo(() => getWalletAddress(Chain.Ethereum), [getWalletAddress]);
   const [isFetching, setIsFetching] = useState(false);
   const [aprRate, setAPRRate] = useState<number>();
   const [lpTokenBal, setLpTokenBal] = useState(
@@ -75,25 +77,22 @@ export const StakingCard = ({
     type: modalType,
   } = useStakingModal();
 
-  const ethAddr = useMemo(() => wallet?.ETH?.address, [wallet]);
-
   const getPoolUserInfo = useCallback(async () => {
     setIsFetching(true);
 
-    if (wallet?.ETH?.address) {
-      const ethereumAddr = wallet.ETH.address;
+    if (ethAddr) {
       const lpContract = await getCustomContract(stakingToken);
 
-      const lpTokenBalance = await lpContract.balanceOf(ethereumAddr);
+      const lpTokenBalance = await lpContract.balanceOf(ethAddr);
 
       setLpTokenBal(new SwapKitNumber({ decimal: BaseDecimal.ETH, value: lpTokenBalance }));
 
       try {
         const stakingContract = await getEtherscanContract(contractType);
 
-        const { amount } = await stakingContract.userInfo(0, ethereumAddr);
+        const { amount } = await stakingContract.userInfo(0, ethAddr);
 
-        const pendingReward = await stakingContract.pendingRewards(0, ethereumAddr);
+        const pendingReward = await stakingContract.pendingRewards(0, ethAddr);
 
         setStakedAmount(new SwapKitNumber({ decimal: BaseDecimal.ETH, value: amount }));
         setPendingRewardDebt(new SwapKitNumber({ decimal: BaseDecimal.ETH, value: pendingReward }));
@@ -103,7 +102,7 @@ export const StakingCard = ({
     }
 
     setIsFetching(false);
-  }, [contractType, stakingToken, wallet]);
+  }, [contractType, ethAddr, stakingToken]);
 
   const handleRefresh = useCallback(() => {
     if (ethAddr) {

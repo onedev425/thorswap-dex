@@ -1,5 +1,6 @@
 import type { AssetValue, Wallet } from '@swapkit/core';
 import { Chain, WalletOption } from '@swapkit/core';
+import type { ChainWalletWithLedger, initialWallet } from 'context/wallet/WalletProvider';
 import type { Pool } from 'legacyTypes/pool';
 
 export const isTokenWhitelisted = (asset: AssetValue, whitelistedAddresses: string[]) => {
@@ -68,12 +69,13 @@ export const isKeystoreSignRequired = ({
   wallet,
   inputAssets,
 }: {
-  wallet: Wallet | null;
+  wallet: ChainWalletWithLedger;
   inputAssets: AssetValue[];
 }): boolean => {
   if (!wallet) return false;
   let needSignIn = false;
   for (const asset of inputAssets) {
+    // @ts-expect-error
     if (wallet?.[asset.chain]?.walletType === WalletOption.KEYSTORE) {
       needSignIn = true;
     }
@@ -82,24 +84,9 @@ export const isKeystoreSignRequired = ({
   return needSignIn;
 };
 
-export const getWalletAssets = (wallet: Wallet | null) => {
-  const assets: AssetValue[] = [];
-
-  if (!wallet) return assets;
-
-  Object.keys(wallet).forEach((chain) => {
-    const chainWallet = wallet[chain as Chain];
-    chainWallet?.balance.forEach((data) => {
-      assets.push(data);
-    });
-  });
-
-  return assets;
-};
-
-export const getAssetBalance = (asset: AssetValue, wallet: Wallet) => {
+export const getAssetBalance = (asset: AssetValue, wallet: typeof initialWallet) => {
   if (asset.chain in wallet) {
-    const chainWallet = wallet?.[asset.chain];
+    const chainWallet = wallet?.[asset.chain as keyof typeof wallet];
     const walletBalanceItem = chainWallet?.balance.find((assetData) => assetData?.eq?.(asset));
 
     return walletBalanceItem || asset;

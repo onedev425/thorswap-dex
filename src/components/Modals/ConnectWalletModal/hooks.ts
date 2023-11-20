@@ -3,11 +3,11 @@ import { Chain, WalletOption } from '@swapkit/core';
 import { getETHDefaultWallet, isDetected } from '@swapkit/toolbox-evm';
 import type { IconName } from 'components/Atomic';
 import { showErrorToast } from 'components/Toast';
+import { useConnectWallet } from 'context/wallet/hooks';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import { useCallback, useEffect, useState } from 'react';
 import { t } from 'services/i18n';
 import { captureEvent } from 'services/postHog';
-import { useWallet } from 'store/wallet/hooks';
 
 import {
   availableChainsByWallet,
@@ -25,15 +25,17 @@ type WalletItem = {
   tooltip?: string;
 };
 
+type UseWalletOptionsParams = {
+  isMdActive: boolean;
+};
+
 export type WalletSection = {
   title: string;
   visible?: boolean;
   items: WalletItem[];
 };
 
-type UseWalletOptionsParams = {
-  isMdActive: boolean;
-};
+export type DerivationPathType = 'nativeSegwitMiddleAccount' | 'segwit' | 'legacy' | 'ledgerLive';
 
 export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
   const [walletOptions, setWalletOptions] = useState<WalletSection[]>([]);
@@ -157,7 +159,7 @@ export type HandleWalletConnectParams = {
   derivationPath?: DerivationPathArray;
   ledgerIndex: number;
   chains?: Chain[];
-  derivationPathType?: 'nativeSegwitMiddleAccount' | 'segwit' | 'legacy' | 'ledgerLive';
+  derivationPathType?: DerivationPathType;
 };
 
 export const useHandleWalletConnect = ({
@@ -174,7 +176,7 @@ export const useHandleWalletConnect = ({
     connectEVMWalletExtension,
     connectXdefiWallet,
     connectOkx,
-  } = useWallet();
+  } = useConnectWallet();
 
   const handleConnectWallet = useCallback(
     async (params?: HandleWalletConnectParams) => {
@@ -207,10 +209,17 @@ export const useHandleWalletConnect = ({
 
       try {
         switch (selectedWalletType) {
-          case WalletType.Xdefi:
-            return connectXdefiWallet(selectedChains);
           case WalletType.Ledger:
             return connectLedger(selectedChains[0], derivationPath, ledgerIndex);
+          case WalletType.Trezor:
+            return connectTrezor(selectedChains[0], derivationPath, ledgerIndex);
+          case WalletType.Xdefi:
+            return connectXdefiWallet(selectedChains);
+          case WalletType.Keplr:
+            return connectKeplr();
+          case WalletType.Okx:
+            return connectOkx(selectedChains);
+
           case WalletType.Brave:
           case WalletType.MetaMask:
           case WalletType.TrustWalletExtension:
@@ -219,16 +228,12 @@ export const useHandleWalletConnect = ({
               selectedChains,
               WalletOptionByWalletType[selectedWalletType] as EVMWalletOptions,
             );
-          case WalletType.Keplr:
-            return connectKeplr();
-          case WalletType.Trezor:
-            return connectTrezor(selectedChains[0], derivationPath, ledgerIndex);
+
           case WalletType.Rainbow:
           case WalletType.TrustWallet:
           case WalletType.Walletconnect:
             return connectWalletconnect(selectedChains);
-          case WalletType.Okx:
-            return connectOkx(selectedChains);
+
           default:
             console.error(selectedWalletType);
             return null;

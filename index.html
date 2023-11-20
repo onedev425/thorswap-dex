@@ -36,8 +36,8 @@
       BigInt.prototype.toJSON = function () {
         return `${this.toString()}n`
       };
-
       const primaryParse = JSON.parse;
+
       JSON.parse = (text) =>
         primaryParse(text, (_key, value) => {
           try {

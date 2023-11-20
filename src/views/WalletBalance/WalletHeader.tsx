@@ -2,10 +2,12 @@ import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { Box, Button, Icon } from 'components/Atomic';
 import { Confirm } from 'components/Modals/Confirm';
+import { useWallet } from 'context/wallet/hooks';
 import { t } from 'services/i18n';
 import { useWalletDrawerActions } from 'views/WalletBalance/hooks/useWalletDrawerActions';
 
 export const WalletHeader = () => {
+  const { isWalletLoading } = useWallet();
   const {
     handleAddConnectWallet,
     handleRefresh,
@@ -13,7 +15,6 @@ export const WalletHeader = () => {
     openDisconnectConfirmModal,
     onCancelDisconnect,
     onConfirmDisconnect,
-    isRefreshing,
   } = useWalletDrawerActions();
 
   return (
@@ -24,7 +25,7 @@ export const WalletHeader = () => {
           className="px-3"
           leftIcon={
             <Icon
-              className={classNames({ '!animate-spin': isRefreshing })}
+              className={classNames({ '!animate-spin': isWalletLoading })}
               color="primaryBtn"
               name="refresh"
               size={16}

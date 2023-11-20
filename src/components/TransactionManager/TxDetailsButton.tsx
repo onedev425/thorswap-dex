@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { Button, Icon } from 'components/Atomic';
-import { useTransactionsModal } from 'components/TransactionTracker/useTransactionsModal';
+import { useTransactionsModal } from 'context/txManager/useTransactionsModal';
 import { t } from 'services/i18n';
 
 type Props = {

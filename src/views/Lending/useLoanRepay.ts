@@ -1,12 +1,12 @@
 import type { SwapKitNumber } from '@swapkit/core';
 import { AssetValue } from '@swapkit/core';
+import { useWallet } from 'context/wallet/hooks';
 import { useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useAppDispatch } from 'store/store';
 import type { RepayQuoteResponse } from 'store/thorswap/types';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
-import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 
 export function useLoanRepay({
@@ -26,11 +26,11 @@ export function useLoanRepay({
 }) {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const appDispatch = useAppDispatch();
-  const { wallet } = useWallet();
+  const { getWalletAddress } = useWallet();
 
   const collateralAddress = useMemo(
-    () => wallet?.[collateralAsset.chain]?.address || '',
-    [wallet, collateralAsset.chain],
+    () => getWalletAddress(collateralAsset.chain),
+    [getWalletAddress, collateralAsset.chain],
   );
 
   const handleRepay = useCallback(

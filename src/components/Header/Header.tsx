@@ -8,14 +8,13 @@ import { Button, Icon } from 'components/Atomic';
 import { easeInOutTransition } from 'components/constants';
 import { StatusDropdown } from 'components/Header/StatusDropdown';
 import { TransactionManager } from 'components/TransactionManager';
-import { hasConnectedWallet } from 'helpers/wallet';
+import { useConnectWallet, useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import { useWalletDrawer } from 'hooks/useWalletDrawer';
 import useWindowSize from 'hooks/useWindowSize';
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback } from 'react';
 import { t } from 'services/i18n';
 import { IS_LEDGER_LIVE, IS_PROTECTED, TEST_ENVIRONMENT_NAME } from 'settings/config';
 import { useApp } from 'store/app/hooks';
-import { useWallet } from 'store/wallet/hooks';
 import { ThemeType } from 'types/app';
 
 type Props = {
@@ -24,22 +23,22 @@ type Props = {
 
 export const Header = memo(({ openMenu }: Props) => {
   const { themeType } = useApp();
-  const { isWalletLoading, wallet, setIsConnectModalOpen, connectLedgerLiveWallet } = useWallet();
+  const { isWalletLoading, hasWallet } = useWallet();
+  const { setIsConnectModalOpen } = useWalletConnectModal();
+  const { connectLedgerLiveWallet } = useConnectWallet();
   const { setIsDrawerVisible } = useWalletDrawer();
   const { isMdActive } = useWindowSize();
 
-  const isConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
-
   const handleClickWalletBtn = useCallback(() => {
     if (isWalletLoading) return;
-    if (!isConnected) {
+    if (!hasWallet) {
       !IS_LEDGER_LIVE ? setIsConnectModalOpen(true) : connectLedgerLiveWallet();
     } else {
       setIsDrawerVisible(true);
     }
   }, [
-    isConnected,
     isWalletLoading,
+    hasWallet,
     setIsConnectModalOpen,
     connectLedgerLiveWallet,
     setIsDrawerVisible,
@@ -118,7 +117,7 @@ export const Header = memo(({ openMenu }: Props) => {
               <Flex gap={1} justify="center">
                 {t('common.loading')} <Icon spin color="primary" name="loader" size={20} />
               </Flex>
-            ) : isConnected ? (
+            ) : hasWallet ? (
               t('common.wallet')
             ) : (
               t('common.connect')

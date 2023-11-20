@@ -9,7 +9,7 @@ import { TxList } from 'components/TransactionTracker/components/TxList';
 import { TxPreview } from 'components/TransactionTracker/components/TxPreview';
 import { getTxStatusColor, getTxStatusLabel } from 'components/TransactionTracker/helpers';
 import { TxTrackerDetailsProvider } from 'components/TransactionTracker/TxTrackerDetailsContext';
-import { useTransactionsModal } from 'components/TransactionTracker/useTransactionsModal';
+import { useTransactionsModal } from 'context/txManager/useTransactionsModal';
 import { memo } from 'react';
 import { t } from 'services/i18n';
 

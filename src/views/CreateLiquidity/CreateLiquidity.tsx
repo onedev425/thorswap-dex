@@ -7,15 +7,11 @@ import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveIn
 import { PanelView } from 'components/PanelView';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
+import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import { RUNEAsset } from 'helpers/assets';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { getEstimatedTxTime } from 'helpers/getEstimatedTxTime';
-import {
-  getAssetBalance,
-  hasConnectedWallet,
-  hasWalletConnected,
-  isTokenWhitelisted,
-} from 'helpers/wallet';
+import { getAssetBalance, isTokenWhitelisted } from 'helpers/wallet';
 import { useBalance } from 'hooks/useBalance';
 import { useCheckHardCap } from 'hooks/useCheckHardCap';
 import { useMimir } from 'hooks/useMimir';
@@ -29,7 +25,6 @@ import { LiquidityTypeOption } from 'store/midgard/types';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
-import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 import { useAssetsWithBalanceFromTokens } from 'views/Swap/hooks/useAssetsWithBalanceFromTokens';
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
@@ -43,8 +38,8 @@ import { useConfirmInfoItems } from './useConfirmInfoItems';
 export const CreateLiquidity = () => {
   const appDispatch = useAppDispatch();
   const [inputAssets, setInputAssets] = useState<AssetValue[]>([]);
-
-  const { wallet, setIsConnectModalOpen } = useWallet();
+  const { setIsConnectModalOpen } = useWalletConnectModal();
+  const { hasWallet, wallet, getWallet } = useWallet();
   const { poolAssets } = usePools();
   const ethWhitelist = useTokenAddresses('Thorchain-supported-erc20');
   const avaxWhitelist = useTokenAddresses('tc-whitelisted-avax-pools');
@@ -56,11 +51,11 @@ export const CreateLiquidity = () => {
   const createInputAssets = useMemo(() => {
     const assets: AssetValue[] = [];
 
-    if (!wallet) return poolAssets;
+    if (!hasWallet) return poolAssets;
     if (poolAssets.length === 0) return [];
 
     for (const chain of Object.keys(wallet)) {
-      const chainWallet = wallet[chain as Chain];
+      const chainWallet = getWallet(chain as Chain);
       const balances = chainWallet?.balance || [];
       if (Chain.THORChain !== chain) {
         for (const balance of balances) {
@@ -89,10 +84,10 @@ export const CreateLiquidity = () => {
     }
 
     return assets;
-  }, [avaxWhitelist, bscWhitelist, ethWhitelist, poolAssets, wallet]);
+  }, [avaxWhitelist, bscWhitelist, ethWhitelist, getWallet, hasWallet, poolAssets, wallet]);
 
   const handleInputAssetUpdate = useCallback(() => {
-    if (hasConnectedWallet(wallet)) {
+    if (hasWallet) {
       const assetsToSet =
         createInputAssets.filter((asset) => asset.ticker !== 'RUNE' && !asset.isSynthetic) || [];
 
@@ -100,7 +95,7 @@ export const CreateLiquidity = () => {
     } else {
       setInputAssets([]);
     }
-  }, [createInputAssets, wallet]);
+  }, [createInputAssets, hasWallet]);
 
   useEffect(() => {
     handleInputAssetUpdate();
@@ -136,11 +131,13 @@ export const CreateLiquidity = () => {
     outputAsset: RUNEAsset,
   });
 
+  const isInputWalletConnected = useMemo(
+    () => !!getWallet(poolAsset.chain),
+    [poolAsset, getWallet],
+  );
   const isWalletConnected = useMemo(
-    () =>
-      hasWalletConnected({ wallet, inputAssets: [poolAsset] }) &&
-      hasWalletConnected({ wallet, inputAssets: [RUNEAsset] }),
-    [wallet, poolAsset],
+    () => isInputWalletConnected && !!getWallet(Chain.THORChain),
+    [isInputWalletConnected, getWallet],
   );
 
   const { isApproved, isLoading } = useIsAssetApproved({
@@ -399,11 +396,6 @@ export const CreateLiquidity = () => {
 
     return { valid: true };
   }, [isLPActionPaused, runeAmount, assetAmount, minRuneAmount, minAssetAmount, inputAssets]);
-
-  const isInputWalletConnected = useMemo(
-    () => poolAsset && hasWalletConnected({ wallet, inputAssets: [poolAsset] }),
-    [wallet, poolAsset],
-  );
 
   const isApproveRequired = useMemo(
     () => isInputWalletConnected && isApproved === false,

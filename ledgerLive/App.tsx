@@ -1,9 +1,9 @@
-import { AnnouncementsProvider } from 'components/Announcements/AnnouncementsContext';
 import { Box } from 'components/Atomic';
-import { ChakraThemeProvider } from 'components/Theme/ChakraThemeProvider';
-import { ThemeProvider } from 'components/Theme/ThemeContext';
 import { TransactionTrackerModal } from 'components/TransactionTracker/TransactionTrackerModal';
-import { TransactionsModalProvider } from 'components/TransactionTracker/useTransactionsModal';
+import { AnnouncementsProvider } from 'context/announcements/AnnouncementsContext';
+import { ChakraThemeProvider } from 'context/theme/ChakraThemeProvider';
+import { ThemeProvider } from 'context/theme/ThemeContext';
+import { TransactionsModalProvider } from 'context/txManager/useTransactionsModal';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';

@@ -17,7 +17,6 @@ import { usePools } from 'hooks/usePools';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { LiquidityTypeOption, PoolShareType } from 'store/midgard/types';
-import { useWallet } from 'store/wallet/hooks';
 import { useAddLiquidity } from 'views/AddLiquidity/hooks/hooks';
 import { useAddLiquidityPools } from 'views/AddLiquidity/hooks/useAddLiquidityPools';
 import { useDepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance';
@@ -34,7 +33,6 @@ const liquidityToPoolShareType = (type: LiquidityTypeOption): PoolShareType => {
 export const AddLiquidity = () => {
   const { liquidityType, setLiquidityType } = useLiquidityType();
   const { poolAsset, handleSelectPoolAsset } = useAddLiquidityPools();
-  const { wallet } = useWallet();
   const { pools, poolAssets } = usePools();
   const depositAssetsBalance = useDepositAssetsBalance({ poolAsset });
   const hardCapReached = useCheckHardCap();
@@ -97,7 +95,6 @@ export const AddLiquidity = () => {
     poolAsset: poolAsset || BTCAsset,
     poolData: pool,
     setLiquidityType,
-    wallet,
   });
 
   const hasLP = useMemo(() => !!Object.keys(lpMemberData || {}).length, [lpMemberData]);

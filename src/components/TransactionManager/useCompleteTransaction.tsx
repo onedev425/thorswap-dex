@@ -1,24 +1,19 @@
 import type { TxTrackerDetails } from '@swapkit/api';
+import { useWalletBalance } from 'context/wallet/hooks';
 import { useCallback } from 'react';
 import { useAppDispatch } from 'store/store';
 import type { TxnResult } from 'store/thorswap/types';
 import { completeTransaction } from 'store/transactions/slice';
 import type { PendingTransactionType, TransactionStatus } from 'store/transactions/types';
-import { useWallet } from 'store/wallet/hooks';
 
 export const useCompleteTransaction = (tx: PendingTransactionType | null) => {
   const appDispatch = useAppDispatch();
-  const { wallet, refreshWalletByChain } = useWallet();
+  const { reloadAllWallets } = useWalletBalance();
   const { inChain, outChain } = tx || {};
 
   const refreshTxWallets = useCallback(() => {
-    if (inChain && wallet?.[inChain]) {
-      refreshWalletByChain(inChain);
-    }
-    if (outChain && outChain && wallet?.[outChain]) {
-      refreshWalletByChain(outChain);
-    }
-  }, [inChain, outChain, refreshWalletByChain, wallet]);
+    reloadAllWallets([inChain, outChain]);
+  }, [inChain, outChain, reloadAllWallets]);
 
   const onCompleteTransaction = useCallback(
     ({

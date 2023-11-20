@@ -6,11 +6,11 @@ import { FieldLabel } from 'components/Form';
 import { HighlightCard } from 'components/HighlightCard';
 import { StepActions } from 'components/Stepper';
 import { showSuccessToast } from 'components/Toast';
+import { useWalletConnectModal } from 'context/wallet/hooks';
 import copy from 'copy-to-clipboard';
 import { useNavigate } from 'react-router';
 import { t } from 'services/i18n';
 import { ROUTES } from 'settings/router';
-import { useWallet } from 'store/wallet/hooks';
 
 type Props = {
   pubKey: string;
@@ -18,7 +18,7 @@ type Props = {
 
 export const PubKeyStep = ({ pubKey }: Props) => {
   const navigate = useNavigate();
-  const { setIsConnectModalOpen } = useWallet();
+  const { setIsConnectModalOpen } = useWalletConnectModal();
 
   const handleCopyPubKey = () => {
     copy(pubKey);

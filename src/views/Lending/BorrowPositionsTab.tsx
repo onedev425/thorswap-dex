@@ -2,11 +2,10 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import type { AssetValue, SwapKitNumber } from '@swapkit/core';
 import { Button, Icon, Tooltip } from 'components/Atomic';
 import { ReloadButton } from 'components/ReloadButton';
+import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import { useFormatPrice } from 'helpers/formatPrice';
-import { hasConnectedWallet } from 'helpers/wallet';
 import { useEffect, useMemo } from 'react';
 import { t } from 'services/i18n';
-import { useWallet } from 'store/wallet/hooks';
 import { LoanInfoCard } from 'views/Lending/LoanInfoCard';
 import { LoanInfoRow } from 'views/Lending/LoanInfoRow';
 import type { LoanPosition } from 'views/Lending/types';
@@ -34,9 +33,8 @@ export const BorrowPositionsTab = ({
   isLoading,
 }: Props) => {
   const formatPrice = useFormatPrice();
-  const { wallet, setIsConnectModalOpen } = useWallet();
-
-  const isWalletConnected = useMemo(() => hasConnectedWallet(wallet), [wallet]);
+  const { setIsConnectModalOpen } = useWalletConnectModal();
+  const { hasWallet } = useWallet();
 
   const setBorrowTab = () => {
     setTab(LendingTab.Borrow);
@@ -61,11 +59,11 @@ export const BorrowPositionsTab = ({
 
   useEffect(() => {
     refreshLoans();
-  }, [refreshLoans, wallet]);
+  }, [refreshLoans]);
 
   return (
     <Box alignSelf="stretch" w="full">
-      {isWalletConnected ? (
+      {hasWallet ? (
         <Flex direction="column" gap={3} mt={6}>
           <Flex flex={2} justifyContent="space-between" w="full">
             <Flex alignItems="center" flex={1} justifyContent="space-between">

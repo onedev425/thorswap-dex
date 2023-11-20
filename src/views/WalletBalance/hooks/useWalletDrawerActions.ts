@@ -1,49 +1,41 @@
+import { useConnectWallet, useWalletBalance, useWalletConnectModal } from 'context/wallet/hooks';
+import { useWalletDispatch } from 'context/wallet/WalletProvider';
 import { useWalletDrawer } from 'hooks/useWalletDrawer';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { SUPPORTED_CHAINS } from 'settings/chain';
 import { IS_LEDGER_LIVE } from 'settings/config';
-import { useWallet } from 'store/wallet/hooks';
 
 export const useWalletDrawerActions = () => {
-  const {
-    setIsConnectModalOpen,
-    disconnectWallet,
-    wallet,
-    refreshWalletByChain,
-    isWalletLoading,
-    connectLedgerLiveWallet,
-  } = useWallet();
+  const walletDispatch = useWalletDispatch();
+  const { connectLedgerLiveWallet } = useConnectWallet();
+  const { setIsConnectModalOpen } = useWalletConnectModal();
+  const { getWalletByChain } = useWalletBalance();
   const { close } = useWalletDrawer();
+
   const [isDisconnectModalOpened, setIsDisconnectModalOpened] = useState(false);
 
-  const handleAddConnectWallet = () => {
+  const handleAddConnectWallet = useCallback(() => {
     close();
     IS_LEDGER_LIVE ? connectLedgerLiveWallet() : setIsConnectModalOpen(true);
-  };
+  }, [close, connectLedgerLiveWallet, setIsConnectModalOpen]);
 
-  const onConfirmDisconnect = () => {
+  const onConfirmDisconnect = useCallback(() => {
     close();
-    disconnectWallet();
+    walletDispatch({ type: 'disconnect', payload: undefined });
     setIsDisconnectModalOpened(false);
-  };
+  }, [close, walletDispatch]);
 
-  const onCancelDisconnect = () => {
+  const onCancelDisconnect = useCallback(() => {
     setIsDisconnectModalOpened(false);
-  };
+  }, []);
 
-  const openDisconnectConfirmModal = () => {
+  const openDisconnectConfirmModal = useCallback(() => {
     setIsDisconnectModalOpened(true);
-  };
+  }, []);
 
-  const handleRefresh = () => {
-    if (wallet) {
-      SUPPORTED_CHAINS.forEach((chain) => {
-        if (wallet[chain]) {
-          refreshWalletByChain(chain);
-        }
-      });
-    }
-  };
+  const handleRefresh = useCallback(() => {
+    SUPPORTED_CHAINS.forEach((chain) => getWalletByChain(chain));
+  }, [getWalletByChain]);
 
   return {
     handleAddConnectWallet,
@@ -52,6 +44,5 @@ export const useWalletDrawerActions = () => {
     openDisconnectConfirmModal,
     onCancelDisconnect,
     onConfirmDisconnect,
-    isRefreshing: isWalletLoading,
   };
 };

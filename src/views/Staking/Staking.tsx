@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { AssetValue, BaseDecimal, SwapKitNumber, WalletOption } from '@swapkit/core';
+import { AssetValue, BaseDecimal, Chain, SwapKitNumber, WalletOption } from '@swapkit/core';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Card, Icon, Tooltip } from 'components/Atomic';
@@ -9,12 +9,12 @@ import { HighlightCard } from 'components/HighlightCard';
 import { InputAmount } from 'components/InputAmount';
 import { TabsSelect } from 'components/TabsSelect';
 import { ViewHeader } from 'components/ViewHeader';
+import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import { stakingV2Addr, VestingType } from 'helpers/assets';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getCustomContract } from 'services/contract';
 import { t } from 'services/i18n';
-import { useWallet } from 'store/wallet/hooks';
 
 import { ConfirmVThorButton } from './ConfirmVThorButton';
 import { ConfirmVThorModal } from './ConfirmVThorModal';
@@ -54,7 +54,8 @@ const Staking = () => {
 
   const formatter = useFormatPrice({ prefix: '' });
   const { getRateString, previewDeposit, previewRedeem, stakeThor, unstakeThor } = useVthorUtil();
-  const { wallet, setIsConnectModalOpen } = useWallet();
+  const { setIsConnectModalOpen } = useWalletConnectModal();
+  const { getWallet } = useWallet();
   const isDeposit = useMemo(() => action === StakeActions.Deposit, [action]);
 
   const [stakingAsset, outputAsset] = useMemo(
@@ -66,8 +67,8 @@ const Staking = () => {
   );
 
   const { walletType: ethWalletType, address: ethAddress } = useMemo(
-    () => wallet?.ETH || { walletType: undefined, address: undefined },
-    [wallet?.ETH],
+    () => getWallet(Chain.Ethereum) || { walletType: undefined, address: undefined },
+    [getWallet],
   );
 
   const getTokenInfo = useCallback(

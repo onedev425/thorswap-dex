@@ -2,12 +2,12 @@ import type { Chain } from '@swapkit/core';
 import { AssetValue } from '@swapkit/core';
 import classNames from 'classnames';
 import { Box } from 'components/Atomic';
+import { useWallet } from 'context/wallet/hooks';
 import { chainName } from 'helpers/chainName';
 import { useFetchThornames } from 'hooks/useFetchThornames';
 import { memo, useCallback, useMemo } from 'react';
 import { SORTED_CHAINS } from 'settings/chain';
 import { useApp } from 'store/app/hooks';
-import { useWallet } from 'store/wallet/hooks';
 import { ViewMode } from 'types/app';
 import { AccountRow } from 'views/Wallet/AccountRow';
 
@@ -19,7 +19,7 @@ type Props = {
 };
 
 export const AccountType = memo(({ onlyConnected, keyword }: Props) => {
-  const { wallet } = useWallet();
+  const { getWalletAddress } = useWallet();
   const { walletViewMode } = useApp();
   const registeredThornames = useFetchThornames();
 
@@ -35,14 +35,14 @@ export const AccountType = memo(({ onlyConnected, keyword }: Props) => {
           chainName(chain, true).toLowerCase(),
         ].some((item) => item.includes(lowerKeyword));
 
-        return isSupported && (onlyConnected ? !!wallet?.[chain]?.address : true);
+        return isSupported && (onlyConnected ? !!getWalletAddress(chain) : true);
       }) as Chain[],
-    [keyword, onlyConnected, wallet],
+    [getWalletAddress, keyword, onlyConnected],
   );
 
   const getThornames = useCallback(
     (chain: Chain) => {
-      const { address } = wallet?.[chain] || {};
+      const address = getWalletAddress(chain);
       if (!(registeredThornames && address)) return [];
 
       return registeredThornames.reduce((acc, { entries = [], thorname }) => {
@@ -51,7 +51,7 @@ export const AccountType = memo(({ onlyConnected, keyword }: Props) => {
         return acc;
       }, [] as string[]);
     },
-    [registeredThornames, wallet],
+    [getWalletAddress, registeredThornames],
   );
 
   return (

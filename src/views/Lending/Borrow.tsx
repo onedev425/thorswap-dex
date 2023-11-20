@@ -10,6 +10,7 @@ import { InfoTable } from 'components/InfoTable';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { Input } from 'components/Input';
 import { TxOptimizeSection } from 'components/TxOptimize/TxOptimizeSection';
+import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import dayjs from 'dayjs';
 import { ETHAsset } from 'helpers/assets';
 import { useFormatPrice } from 'helpers/formatPrice';
@@ -26,7 +27,6 @@ import { AnnouncementType } from 'store/externalConfig/types';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
-import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 import { BorrowAssetSelectList } from 'views/Lending/BorrowAssetSelectList';
 import { BorrowConfirmModal } from 'views/Lending/BorrowConfirmModal';
@@ -60,7 +60,9 @@ const Borrow = () => {
   const lendingAssets = useLendingAssets();
   const { getMaxBalance } = useBalance();
   const { isChainHalted } = useMimir();
-  const { wallet, setIsConnectModalOpen } = useWallet();
+  const { setIsConnectModalOpen } = useWalletConnectModal();
+  const { getWalletAddress } = useWallet();
+
   const { isLendingPaused } = useMimir();
 
   // output assets
@@ -108,12 +110,12 @@ const Borrow = () => {
   const { estimateTimeFromBlocks } = useTCBlockTimer();
 
   const collateralAddress = useMemo(
-    () => wallet?.[collateralAsset.chain]?.address || '',
-    [wallet, collateralAsset.chain],
+    () => getWalletAddress(collateralAsset.chain),
+    [getWalletAddress, collateralAsset.chain],
   );
   const borrowAddress = useMemo(
-    () => wallet?.[borrowAsset.chain]?.address || '',
-    [wallet, borrowAsset.chain],
+    () => getWalletAddress(borrowAsset.chain),
+    [getWalletAddress, borrowAsset.chain],
   );
 
   useEffect(() => {

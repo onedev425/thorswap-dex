@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import { Box, Icon, Link, Tooltip } from 'components/Atomic';
-import { useTheme } from 'components/Theme/ThemeContext';
 import {
   DISCORD_URL,
   MEDIUM_URL,
@@ -10,6 +9,7 @@ import {
   THORSWAP_YOUTUBE_URL,
   X_URL,
 } from 'config/constants';
+import { useTheme } from 'context/theme/ThemeContext';
 import { memo } from 'react';
 import { t } from 'services/i18n';
 

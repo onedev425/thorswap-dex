@@ -1,4 +1,5 @@
 import { BaseDecimal, SwapKitNumber } from '@swapkit/core';
+import { useWallet } from 'context/wallet/hooks';
 import { useCallback, useEffect, useState } from 'react';
 import {
   ContractType,
@@ -6,7 +7,6 @@ import {
   getEtherscanContract,
   LPContractType,
 } from 'services/contract';
-import { useWallet } from 'store/wallet/hooks';
 
 import type { FarmActionType } from './types';
 

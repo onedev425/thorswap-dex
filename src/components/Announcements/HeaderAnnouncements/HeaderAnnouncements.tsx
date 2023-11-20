@@ -1,7 +1,7 @@
 import { Announcement } from 'components/Announcements/Announcement/Announcement';
-import { useAnnouncements } from 'components/Announcements/AnnouncementsContext';
 import { Box } from 'components/Atomic';
 import { HorizontalSlider } from 'components/HorizontalSlider';
+import { useAnnouncements } from 'context/announcements/AnnouncementsContext';
 import useWindowSize from 'hooks/useWindowSize';
 
 export const HeaderAnnouncements = () => {

@@ -1,11 +1,11 @@
 import { type AssetValue, Chain } from '@swapkit/core';
 import { showErrorToast } from 'components/Toast';
+import { useWallet } from 'context/wallet/hooks';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
-import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 
 type Params = {
@@ -15,10 +15,10 @@ type Params = {
 
 export const useSwapApprove = ({ inputAsset, contract }: Params) => {
   const appDispatch = useAppDispatch();
-  const { wallet } = useWallet();
+  const { getWalletAddress } = useWallet();
 
   const handleApprove = useCallback(async () => {
-    const from = wallet?.[inputAsset.chain as Chain]?.address;
+    const from = getWalletAddress(inputAsset.chain);
     if (from) {
       const id = v4();
       const inChain = inputAsset.chain;
@@ -53,7 +53,7 @@ export const useSwapApprove = ({ inputAsset, contract }: Params) => {
         showErrorToast(t('notification.approveFailed'));
       }
     }
-  }, [wallet, inputAsset, appDispatch, contract]);
+  }, [getWalletAddress, inputAsset, appDispatch, contract]);
 
   return handleApprove;
 };

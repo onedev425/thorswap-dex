@@ -6,6 +6,7 @@ import { InfoRow } from 'components/InfoRow';
 import { Input } from 'components/Input';
 import { PercentSelect } from 'components/PercentSelect/PercentSelect';
 import { showErrorToast } from 'components/Toast';
+import { useWallet } from 'context/wallet/hooks';
 import { useCallback, useEffect, useState } from 'react';
 import type { ContractType } from 'services/contract';
 import { getContractAddress } from 'services/contract';
@@ -13,7 +14,6 @@ import { t } from 'services/i18n';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
-import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 
@@ -48,7 +48,7 @@ export const StakeConfirmModal = ({
   onConfirm,
   onCancel,
 }: Props) => {
-  const { wallet } = useWallet();
+  const { hasWallet } = useWallet();
   const appDispatch = useAppDispatch();
   const [amount, setAmount] = useState(new SwapKitNumber({ value: 0, decimal: lpAsset.decimal }));
   const { isApproved } = useIsAssetApproved({
@@ -93,7 +93,7 @@ export const StakeConfirmModal = ({
   }, [amount, onCancel, onConfirm]);
 
   const handleConfirmApprove = useCallback(async () => {
-    if (wallet) {
+    if (hasWallet) {
       onCancel();
       const id = v4();
       appDispatch(
@@ -119,7 +119,7 @@ export const StakeConfirmModal = ({
         showErrorToast(t('notification.approveFailed'));
       }
     }
-  }, [wallet, onCancel, lpAsset, appDispatch, contractType]);
+  }, [hasWallet, onCancel, appDispatch, lpAsset, contractType]);
 
   useEffect(() => {
     handleChangeAmount(100);
@@ -161,7 +161,7 @@ export const StakeConfirmModal = ({
         )}
 
         <Box className="gap-3 !mt-8">
-          {type === FarmActionType.DEPOSIT && isApproved === false && wallet && (
+          {type === FarmActionType.DEPOSIT && isApproved === false && hasWallet && (
             <Button stretch onClick={handleConfirmApprove} variant="fancy">
               {t('txManager.approve')}
             </Button>

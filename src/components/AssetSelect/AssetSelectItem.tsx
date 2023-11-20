@@ -6,7 +6,7 @@ import type { IconName } from 'components/Atomic';
 import { Box, Tooltip } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { getAmountFromString } from 'components/InputAmount/utils';
-import { useTheme } from 'components/Theme/ThemeContext';
+import { useTheme } from 'context/theme/ThemeContext';
 import { useFormatPrice } from 'helpers/formatPrice';
 import type { MouseEventHandler } from 'react';
 import { memo, useCallback, useMemo } from 'react';

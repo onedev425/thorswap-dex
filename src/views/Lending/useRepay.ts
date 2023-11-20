@@ -1,9 +1,9 @@
 import type { AssetValue } from '@swapkit/core';
 import { SwapKitNumber } from '@swapkit/core';
+import { useWallet } from 'context/wallet/hooks';
 import { useStreamTxToggle } from 'hooks/useStreamTxToggle';
 import { useEffect, useMemo, useState } from 'react';
 import { useGetRepayValueQuery } from 'store/thorswap/api';
-import { useWallet } from 'store/wallet/hooks';
 
 export const useRepay = ({
   asset,
@@ -16,17 +16,19 @@ export const useRepay = ({
   percentage: SwapKitNumber;
   hasLoanMatured: boolean;
 }) => {
-  const { wallet } = useWallet();
+  const { getWalletAddress } = useWallet();
   const [repayAssetAmount, setRepayAssetAmount] = useState(
     new SwapKitNumber({ value: 0, decimal: 8 }),
   );
-
   const collateralAddress = useMemo(
-    () => wallet?.[collateralAsset.chain]?.address || '',
-    [wallet, collateralAsset.chain],
+    () => getWalletAddress(collateralAsset.chain),
+    [getWalletAddress, collateralAsset.chain],
   );
 
-  const senderAddress = useMemo(() => wallet?.[asset.chain]?.address || '', [wallet, asset.chain]);
+  const senderAddress = useMemo(
+    () => getWalletAddress(asset.chain),
+    [getWalletAddress, asset.chain],
+  );
 
   const {
     data,

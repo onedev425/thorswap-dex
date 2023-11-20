@@ -1,22 +1,19 @@
 import type { Chain } from '@swapkit/core';
 import { HoverIcon } from 'components/HoverIcon';
+import { useWalletContext } from 'context/wallet/WalletProvider';
 import { t } from 'i18next';
 import { useCallback } from 'react';
-import { useAppDispatch } from 'store/store';
-import { useWallet } from 'store/wallet/hooks';
-import { actions } from 'store/wallet/slice';
 
 type Props = {
   chain: Chain;
 };
 
 export const ResetHiddenAssets = ({ chain }: Props) => {
-  const { hiddenAssets } = useWallet();
-  const appDispatch = useAppDispatch();
+  const [{ hiddenAssets }, walletDispatch] = useWalletContext();
 
   const handleResetHiddenAssets = useCallback(() => {
-    appDispatch(actions.clearChainHiddenAssets(chain));
-  }, [appDispatch, chain]);
+    walletDispatch({ type: 'restoreHiddenAssets', payload: chain });
+  }, [chain, walletDispatch]);
 
   if (!hiddenAssets[chain]) return null;
 

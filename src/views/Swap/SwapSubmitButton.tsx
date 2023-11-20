@@ -2,14 +2,13 @@ import type { AssetValue, SwapKitNumber } from '@swapkit/core';
 import { Chain } from '@swapkit/core';
 import { Box, Button } from 'components/Atomic';
 import { showErrorToast, showInfoToast } from 'components/Toast';
-import { hasWalletConnected } from 'helpers/wallet';
+import { useConnectWallet, useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import { useCheckExchangeBNB } from 'hooks/useCheckExchangeBNB';
 import { useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
 import { IS_LEDGER_LIVE } from 'settings/config';
 import { useExternalConfig } from 'store/externalConfig/hooks';
 import { useTransactionsState } from 'store/transactions/hooks';
-import { useWallet } from 'store/wallet/hooks';
 
 type Props = {
   hasQuote: boolean;
@@ -42,7 +41,9 @@ export const SwapSubmitButton = ({
   setVisibleApproveModal,
   setVisibleConfirmModal,
 }: Props) => {
-  const { wallet, setIsConnectModalOpen, connectLedgerLiveWallet } = useWallet();
+  const { setIsConnectModalOpen } = useWalletConnectModal();
+  const { getWallet } = useWallet();
+  const { connectLedgerLiveWallet } = useConnectWallet();
   const { getChainTradingPaused } = useExternalConfig();
   const { numberOfPendingApprovals } = useTransactionsState();
 
@@ -54,8 +55,8 @@ export const SwapSubmitButton = ({
   );
 
   const walletConnected = useMemo(
-    () => hasWalletConnected({ wallet, inputAssets: [inputAsset] }),
-    [wallet, inputAsset],
+    () => !!getWallet(inputAsset.chain),
+    [getWallet, inputAsset.chain],
   );
 
   const { isExchangeBNBAddress } = useCheckExchangeBNB(

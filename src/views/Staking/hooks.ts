@@ -1,7 +1,8 @@
-import { AssetValue, BaseDecimal, SwapKitNumber } from '@swapkit/core';
+import { AssetValue, BaseDecimal, Chain, SwapKitNumber } from '@swapkit/core';
 import { showErrorToast } from 'components/Toast';
+import { useWallet } from 'context/wallet/hooks';
 import { stakingV2Addr, VestingType } from 'helpers/assets';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   contractConfig,
   ContractType,
@@ -13,7 +14,6 @@ import { t } from 'services/i18n';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
-import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 
 export enum StakeActions {
@@ -76,9 +76,8 @@ export const useVthorUtil = () => {
     new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
   );
 
-  const { wallet } = useWallet();
-
-  const ethAddr = wallet?.ETH?.address;
+  const { getWalletAddress } = useWallet();
+  const ethAddr = useMemo(() => getWalletAddress(Chain.Ethereum), [getWalletAddress]);
 
   const getThorStakedInfo = useCallback(async () => {
     const res = await getStakedThorAmount().catch(

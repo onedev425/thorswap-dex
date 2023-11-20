@@ -9,19 +9,18 @@ import { InfoTip } from 'components/InfoTip';
 import { Input } from 'components/Input';
 import { DerivationPathDropdown } from 'components/Modals/ConnectWalletModal/DerivationPathsDropdown';
 import { showErrorToast } from 'components/Toast';
+import { useConnectWallet, useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import useWindowSize from 'hooks/useWindowSize';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { SUPPORTED_CHAINS } from 'settings/chain';
 import { useApp } from 'store/app/hooks';
-import { useWallet } from 'store/wallet/hooks';
-import type { DerivationPathType } from 'store/wallet/types';
 
 import ChainItem from './ChainItem';
 import { ConnectKeystoreView } from './ConnectKeystore';
 import { CreateKeystoreView } from './CreateKeystore';
-import type { HandleWalletConnectParams } from './hooks';
+import type { DerivationPathType, HandleWalletConnectParams } from './hooks';
 import { useHandleWalletConnect, useHandleWalletTypeSelect, useWalletOptions } from './hooks';
 import { PhraseView } from './Phrase';
 import { availableChainsByWallet, WalletType } from './types';
@@ -30,8 +29,10 @@ import WalletOption from './WalletOption';
 const ConnectWalletModal = () => {
   const { customDerivationVisible } = useApp();
   const { isMdActive } = useWindowSize();
-  const { unlockWallet, isWalletLoading, setIsConnectModalOpen, isConnectModalOpen, wallet } =
-    useWallet();
+  const { getWallet, isWalletLoading } = useWallet();
+  const { unlockKeystore } = useConnectWallet();
+  const { setIsConnectModalOpen, isConnectModalOpen } = useWalletConnectModal();
+
   const [selectedChains, setSelectedChains] = useState<Chain[]>([]);
   const [selectedWalletType, setSelectedWalletType] = useState<WalletType>();
   const [ledgerIndex, setLedgerIndex] = useState(0);
@@ -148,10 +149,10 @@ const ConnectWalletModal = () => {
 
   const handleConnect = useCallback(
     async (keystore: Keystore, phrase: string) => {
-      await unlockWallet(keystore, phrase, selectedChains);
+      await unlockKeystore(keystore, phrase, selectedChains);
       clearState();
     },
-    [unlockWallet, selectedChains, clearState],
+    [unlockKeystore, selectedChains, clearState],
   );
 
   const connectWallet = useCallback(async () => {
@@ -202,13 +203,13 @@ const ConnectWalletModal = () => {
     () => [
       ...new Set(
         SUPPORTED_CHAINS.reduce((acc, chain) => {
-          const { walletType } = wallet?.[chain] || {};
+          const walletType = getWallet(chain)?.walletType;
           if (walletType) acc.push(walletType.toLowerCase());
           return acc;
         }, [] as string[]),
       ),
     ],
-    [wallet],
+    [getWallet],
   );
 
   useEffect(() => {
@@ -377,7 +378,7 @@ const ConnectWalletModal = () => {
                     onClick={selectChain}
                     selected={selectedChains.includes(chain)}
                     selectedWalletType={selectedWalletType}
-                    walletType={wallet?.[chain]?.walletType}
+                    walletType={getWallet(chain)?.walletType}
                   />
                 ))}
               </Box>

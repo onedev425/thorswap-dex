@@ -2,6 +2,7 @@ import type { AssetValue } from '@swapkit/core';
 import { Chain } from '@swapkit/core';
 import type { Signer } from '@swapkit/toolbox-cosmos';
 import { showErrorToast } from 'components/Toast';
+import { useKeystore } from 'context/wallet/hooks';
 import { useCallback, useMemo } from 'react';
 import type { MultisigDepositTxParams, MultisigTransferTxParams } from 'services/multisig';
 import { getMultisigAddress, multisig } from 'services/multisig';
@@ -9,12 +10,10 @@ import { loadMultisigBalances } from 'store/multisig/actions';
 import { actions } from 'store/multisig/slice';
 import type { MultisigWallet } from 'store/multisig/types';
 import { useAppDispatch, useAppSelector } from 'store/store';
-import { useWallet } from 'store/wallet/hooks';
 
 export const useMultisig = () => {
   const { address, members, threshold } = useAppSelector(({ multisig }) => multisig);
-  const { wallet, pubKey } = useAppSelector(({ wallet }) => wallet);
-  const { phrase } = useWallet();
+  const { pubKey, phrase } = useKeystore();
   const dispatch = useAppDispatch();
 
   const multisigActions = useMemo(
@@ -121,12 +120,6 @@ export const useMultisig = () => {
     [address],
   );
 
-  const walletPubKey = useMemo(
-    () => pubKey,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [members, wallet?.THOR?.address],
-  );
-
   return {
     ...multisigActions,
     initMultisigWallet,
@@ -137,7 +130,7 @@ export const useMultisig = () => {
     loadBalances,
     isMultsigActivated,
     isWalletAssetConnected,
-    walletPubKey,
+    pubKey,
     isConnected: !!address,
   };
 };

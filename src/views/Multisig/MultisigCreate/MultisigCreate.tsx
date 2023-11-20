@@ -15,7 +15,7 @@ import { WalletNameStep } from 'views/Multisig/MultisigCreate/steps/WalletNameSt
 import { WalletSummaryStep } from 'views/Multisig/MultisigCreate/steps/WalletSummaryStep';
 
 const MultisigCreate = () => {
-  const { walletPubKey: pubKey } = useMultisig();
+  const { pubKey } = useMultisig();
 
   const { formFields, submit, errors, register, addMember, removeMember, isRequiredMember } =
     useMultisigForm({ pubKey });

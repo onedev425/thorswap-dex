@@ -1,56 +1,37 @@
-import { AssetValue, Chain } from '@swapkit/core';
+import type { Chain } from '@swapkit/core';
+import { AssetValue } from '@swapkit/core';
+import { useWallet, useWalletBalance, useWalletConnectModal } from 'context/wallet/hooks';
+import { useWalletDispatch } from 'context/wallet/WalletProvider';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useMemo } from 'react';
-import { useWallet } from 'store/wallet/hooks';
-
-export const emptyWallet = {
-  [Chain.Avalanche]: null,
-  [Chain.Binance]: null,
-  [Chain.BinanceSmartChain]: null,
-  [Chain.BitcoinCash]: null,
-  [Chain.Bitcoin]: null,
-  [Chain.Cosmos]: null,
-  [Chain.Dogecoin]: null,
-  [Chain.Ethereum]: null,
-  [Chain.Litecoin]: null,
-  [Chain.THORChain]: null,
-};
 
 export const useAccountData = (chain: Chain) => {
   const sigAsset = AssetValue.fromChainOrSignature(chain);
   const formatPrice = useFormatPrice();
+  const { wallet, getWalletAddress, chainLoading } = useWallet();
+  const { setIsConnectModalOpen } = useWalletConnectModal();
 
-  const {
-    wallet: reduxWallet,
-    chainWalletLoading,
-    setIsConnectModalOpen,
-    disconnectWalletByChain,
-  } = useWallet();
-  const wallet = reduxWallet || emptyWallet;
-  const chainWallet = wallet[chain];
-  const { balance: walletBalance, address: chainAddress } = chainWallet || {
-    balance: [],
-    address: '',
-  };
+  const chainWallet = useMemo(() => wallet[chain as keyof typeof wallet], [chain, wallet]);
 
   const chainInfo = useMemo(() => {
-    const info = walletBalance.reduce((acc, item) => {
-      if (item.eq(sigAsset)) {
-        acc.unshift(item);
-      } else {
-        acc.push(item);
-      }
+    const info =
+      chainWallet?.balance.reduce((acc, item) => {
+        if (item.eq(sigAsset)) {
+          acc.unshift(item);
+        } else {
+          acc.push(item);
+        }
 
-      return acc;
-    }, [] as AssetValue[]);
+        return acc;
+      }, [] as AssetValue[]) || [];
 
-    if (chainAddress && !info.length) {
+    if (chainWallet?.balance?.length === 0) {
       info.push(getNoBalanceAsset(sigAsset));
     }
 
     return info;
-  }, [walletBalance, chainAddress, sigAsset]);
+  }, [chainWallet?.balance, sigAsset]);
 
   const { data: priceData } = useTokenPrices([sigAsset, ...chainInfo], {
     sparkline: true,
@@ -74,21 +55,20 @@ export const useAccountData = (chain: Chain) => {
     () => ({
       sigAssetPriceInfo: priceData[sigAsset.toString()],
       accountBalance,
-      chainAddress,
+      chainAddress: getWalletAddress(chain),
       chainInfo,
       priceData,
       chainWallet,
-      chainWalletLoading,
-      disconnectWalletByChain,
+      chainWalletLoading: chainLoading[chain as keyof typeof chainLoading],
       setIsConnectModalOpen,
     }),
     [
       accountBalance,
-      chainAddress,
+      chain,
       chainInfo,
+      chainLoading,
       chainWallet,
-      chainWalletLoading,
-      disconnectWalletByChain,
+      getWalletAddress,
       priceData,
       setIsConnectModalOpen,
       sigAsset,
@@ -117,19 +97,18 @@ export const useChartData = (asset: AssetValue, sparkline?: string) => {
 };
 
 export const useWalletChainActions = (chain: Chain) => {
-  const { refreshWalletByChain, disconnectWalletByChain, chainWalletLoading } = useWallet();
-
-  const isLoading = chainWalletLoading?.[chain];
+  const walletDispatch = useWalletDispatch();
+  const { getWalletByChain } = useWalletBalance();
 
   const handleRefreshChain = useCallback(() => {
-    refreshWalletByChain(chain);
-  }, [chain, refreshWalletByChain]);
+    getWalletByChain(chain);
+  }, [chain, getWalletByChain]);
 
   const handleWalletDisconnect = useCallback(() => {
-    disconnectWalletByChain(chain);
-  }, [chain, disconnectWalletByChain]);
+    walletDispatch({ type: 'disconnectByChain', payload: chain });
+  }, [chain, walletDispatch]);
 
-  return { handleRefreshChain, handleWalletDisconnect, isLoading };
+  return { handleRefreshChain, handleWalletDisconnect };
 };
 
 const getNoBalanceAsset = (asset: AssetValue) => {

@@ -2,7 +2,8 @@ import { Text } from '@chakra-ui/react';
 import { Chain } from '@swapkit/core';
 import { Box, DropdownMenu } from 'components/Atomic';
 import { useMemo } from 'react';
-import type { DerivationPathType } from 'store/wallet/types';
+
+import type { DerivationPathType } from './hooks';
 
 const CHAINS_WITH_CUSTOM_DERIVATION_PATH = [
   Chain.Ethereum,

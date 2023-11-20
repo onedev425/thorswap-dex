@@ -8,9 +8,9 @@ import { InfoTip } from 'components/InfoTip';
 import { PanelView } from 'components/PanelView';
 import { SwapRouter } from 'components/SwapRouter';
 import { TxOptimizeSection } from 'components/TxOptimize/TxOptimizeSection';
+import { useKeystore, useWallet } from 'context/wallet/hooks';
 import { isAVAXAsset, isETHAsset } from 'helpers/assets';
 import { useFormatPrice } from 'helpers/formatPrice';
-import { hasWalletConnected } from 'helpers/wallet';
 import { useBalance } from 'hooks/useBalance';
 import { useRouteFees } from 'hooks/useRouteFees';
 import { useTokenPrices } from 'hooks/useTokenPrices';
@@ -21,7 +21,6 @@ import { captureEvent } from 'services/postHog';
 import { IS_LEDGER_LIVE } from 'settings/config';
 import { getKyberSwapRoute, getSwapRoute } from 'settings/router';
 import { useApp } from 'store/app/hooks';
-import { useWallet } from 'store/wallet/hooks';
 import { zeroAmount } from 'types/app';
 import { FeeModal } from 'views/Swap/FeeModal';
 import { useKyberSwap } from 'views/Swap/hooks/useKyberSwap';
@@ -48,7 +47,9 @@ const SwapView = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { getMaxBalance } = useBalance();
-  const { wallet, keystore } = useWallet();
+  const { keystore } = useKeystore();
+  const { getWallet, getWalletAddress } = useWallet();
+
   const { analyticsVisible, toggleAnalytics } = useApp();
   const { pair } = useParams<{ pair: string }>();
   const [inputString, outputString] = useMemo(() => (pair || '').split('_'), [pair]);
@@ -83,7 +84,7 @@ const SwapView = () => {
   const [visibleApproveModal, setVisibleApproveModal] = useState(false);
   const [feeModalOpened, setFeeModalOpened] = useState(false);
   const formatPrice = useFormatPrice();
-  const ethAddress = useMemo(() => wallet?.ETH?.address, [wallet]);
+  const ethAddress = useMemo(() => getWalletAddress(Chain.Ethereum), [getWalletAddress]);
 
   const { tokens } = useTokenList();
 
@@ -122,8 +123,8 @@ const SwapView = () => {
 
   useEffect(() => {
     if (IS_LEDGER_LIVE) {
-      setRecipient(wallet[outputAsset.chain]?.address || '');
-      setSender(wallet[inputAsset.chain]?.address || '');
+      setRecipient(getWalletAddress(outputAsset.chain));
+      setSender(getWalletAddress(inputAsset.chain));
       return;
     }
     import('services/swapKit')
@@ -132,7 +133,7 @@ const SwapView = () => {
         setRecipient(getAddress(outputAsset.chain) || '');
         setSender(getAddress(inputAsset.chain) || '');
       });
-  }, [inputAsset.chain, outputAsset, wallet]);
+  }, [getWalletAddress, inputAsset.chain, outputAsset]);
 
   useEffect(() => {
     const inputDecimal =
@@ -149,8 +150,8 @@ const SwapView = () => {
   const noPriceProtection = useMemo(
     () =>
       [Chain.Litecoin, Chain.Dogecoin, Chain.BitcoinCash].includes(inputAsset.chain) &&
-      wallet?.[inputAsset.chain]?.walletType === WalletOption.LEDGER,
-    [inputAsset.chain, wallet],
+      getWallet(inputAsset.chain)?.walletType === WalletOption.LEDGER,
+    [getWallet, inputAsset.chain],
   );
 
   const {
@@ -205,8 +206,8 @@ const SwapView = () => {
   );
 
   const isInputWalletConnected = useMemo(
-    () => inputAsset && hasWalletConnected({ wallet, inputAssets: [inputAsset] }),
-    [wallet, inputAsset],
+    () => !!getWallet(inputAsset.chain),
+    [getWallet, inputAsset.chain],
   );
 
   const inputAssetBalance = useMemo(
@@ -357,8 +358,8 @@ const SwapView = () => {
   );
 
   const isOutputWalletConnected = useMemo(
-    () => outputAsset && hasWalletConnected({ wallet, inputAssets: [outputAsset] }),
-    [wallet, outputAsset],
+    () => !!getWallet(outputAsset.chain),
+    [getWallet, outputAsset.chain],
   );
 
   const showTransactionFeeSelect = useMemo(

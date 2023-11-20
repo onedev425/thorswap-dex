@@ -1,9 +1,9 @@
 import type { AssetValue } from '@swapkit/core';
 import { Chain } from '@swapkit/core';
+import { useWallet } from 'context/wallet/hooks';
 import debounce from 'lodash.debounce';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTransactionsState } from 'store/transactions/hooks';
-import { useWallet } from 'store/wallet/hooks';
 
 type Params = {
   force?: boolean;
@@ -86,11 +86,12 @@ const useApproveResult = ({
 };
 
 export const useIsAssetApproved = ({ force, contract, assetValue }: Params) => {
-  const { wallet } = useWallet();
+  const { getWalletAddress } = useWallet();
   const { numberOfPendingApprovals } = useTransactionsState();
   const walletAddress = useMemo(
-    () => wallet?.[assetValue.chain]?.address,
-    [assetValue.chain, wallet],
+    () => getWalletAddress(assetValue.chain as Chain),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [assetValue.chain],
   );
 
   const possibleApprove = useMemo(

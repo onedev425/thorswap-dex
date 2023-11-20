@@ -10,7 +10,6 @@ import multisigReducer from './multisig/slice';
 import { staticApi } from './static/api';
 import { thorswapApi } from './thorswap/api';
 import transactionsReducer from './transactions/slice';
-import walletReducer from './wallet/slice';
 
 const devTools = import.meta.env.DEV;
 
@@ -23,7 +22,7 @@ const rootReducer = combineReducers({
   assets: assetsReducer,
   multisig: multisigReducer,
   transactions: transactionsReducer,
-  wallet: walletReducer,
+  // wallet: walletReducer,
 });
 
 const store = configureStore({

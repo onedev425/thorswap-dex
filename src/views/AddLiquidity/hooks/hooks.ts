@@ -8,10 +8,10 @@ import {
 } from '@swapkit/core';
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems';
 import { showErrorToast, showInfoToast } from 'components/Toast';
+import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import { RUNEAsset } from 'helpers/assets';
 import { getEstimatedTxTime } from 'helpers/getEstimatedTxTime';
 import { parseToPercent } from 'helpers/parseHelpers';
-import { hasWalletConnected } from 'helpers/wallet';
 import { useLPMemberData } from 'hooks/useLiquidityData';
 import { useMimir } from 'hooks/useMimir';
 import { useNetworkFee } from 'hooks/useNetworkFee';
@@ -26,7 +26,6 @@ import { LiquidityTypeOption } from 'store/midgard/types';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
-import { useWallet } from 'store/wallet/hooks';
 import { v4 } from 'uuid';
 import type { DepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance';
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
@@ -41,7 +40,7 @@ type Props = {
   poolData?: PoolDetail;
   setLiquidityType: (option: LiquidityTypeOption) => void;
   skipWalletCheck?: boolean;
-  wallet: Wallet | null;
+  wallet?: Wallet | null;
 };
 
 const getEstimatedPoolShareForPoolDepth = ({
@@ -142,9 +141,10 @@ export const useAddLiquidity = ({
   depositAssetsBalance,
   wallet,
 }: Props) => {
+  const { hasWallet, getWallet } = useWallet();
   const appDispatch = useAppDispatch();
   const { expertMode } = useApp();
-  const { setIsConnectModalOpen } = useWallet();
+  const { setIsConnectModalOpen } = useWalletConnectModal();
   const { isChainPauseLPAction } = useMimir();
   const { getChainDepositLPPaused } = useExternalConfig();
   const [contract, setContract] = useState<string | undefined>();
@@ -157,6 +157,11 @@ export const useAddLiquidity = ({
     poolAssetBalance,
     maxPoolAssetBalance,
   } = depositAssetsBalance;
+
+  const getChainWallet = useCallback(
+    (chain: Chain) => getWallet(chain) || wallet?.[chain],
+    [getWallet, wallet],
+  );
 
   const isLPActionPaused = useMemo(() => {
     return isChainPauseLPAction(poolAsset.chain) || getChainDepositLPPaused(poolAsset.chain);
@@ -220,19 +225,14 @@ export const useAddLiquidity = ({
   );
 
   const isWalletConnected = useMemo(() => {
-    if (liquidityType === LiquidityTypeOption.ASSET) {
-      return hasWalletConnected({ wallet, inputAssets: [poolAsset] });
-    }
-    if (liquidityType === LiquidityTypeOption.RUNE) {
-      return hasWalletConnected({ wallet, inputAssets: [RUNEAsset] });
-    }
+    const poolChainConnected = !!getChainWallet(poolAsset.chain);
+    const runeChainConnected = !!getChainWallet(RUNEAsset.chain);
+    if (liquidityType === LiquidityTypeOption.ASSET) return poolChainConnected;
+    if (liquidityType === LiquidityTypeOption.RUNE) return runeChainConnected;
 
     // symm
-    return (
-      hasWalletConnected({ wallet, inputAssets: [poolAsset] }) &&
-      hasWalletConnected({ wallet, inputAssets: [RUNEAsset] })
-    );
-  }, [wallet, poolAsset, liquidityType]);
+    return poolChainConnected && runeChainConnected;
+  }, [getChainWallet, poolAsset.chain, liquidityType]);
 
   const getContractAddress = useCallback(async (chain: Chain) => {
     const inboundData = (await getInboundData()) || [];
@@ -414,7 +414,7 @@ export const useAddLiquidity = ({
       return;
     }
 
-    if (wallet && poolData) {
+    if (hasWallet && poolData) {
       const runeAssetAmount =
         liquidityType !== LiquidityTypeOption.ASSET ? RUNEAsset.set(runeAmount) : undefined;
       const poolAssetAmount =
@@ -505,15 +505,15 @@ export const useAddLiquidity = ({
   }, [
     onAddLiquidity,
     poolAsset,
-    wallet,
-    poolData,
     liquidityType,
+    hasWallet,
+    poolData,
     runeAmount,
     assetAmount,
-    lpMemberData?.runeAddress,
-    lpMemberData?.assetAddress,
     isRunePending,
     isAssetPending,
+    lpMemberData?.runeAddress,
+    lpMemberData?.assetAddress,
     appDispatch,
   ]);
 
@@ -562,12 +562,12 @@ export const useAddLiquidity = ({
   }, [isWalletConnected, skipWalletCheck]);
 
   const handleApprove = useCallback(() => {
-    if (wallet) {
+    if (hasWallet) {
       setVisibleApproveModal(true);
     } else {
       showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
     }
-  }, [wallet]);
+  }, [hasWallet]);
 
   const depositAssets = useMemo(() => {
     if (liquidityType === LiquidityTypeOption.RUNE) {
@@ -646,15 +646,12 @@ export const useAddLiquidity = ({
     minAssetAmount,
   ]);
 
-  const isInputWalletConnected = useMemo(
-    () => poolAsset && hasWalletConnected({ wallet, inputAssets: [poolAsset] }),
-    [wallet, poolAsset],
-  );
-
   const isApproveRequired = useMemo(
     () =>
-      isInputWalletConnected && isApproved === false && liquidityType !== LiquidityTypeOption.RUNE,
-    [isInputWalletConnected, isApproved, liquidityType],
+      !!getChainWallet(poolAsset.chain) &&
+      isApproved === false &&
+      liquidityType !== LiquidityTypeOption.RUNE,
+    [getChainWallet, isApproved, liquidityType, poolAsset.chain],
   );
 
   const poolAssetInput = useMemo(

@@ -1,10 +1,9 @@
-import type { Chain } from '@swapkit/core';
 import type { AssetInputType } from 'components/AssetInput/types';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
+import { useWallet } from 'context/wallet/hooks';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { useLazyGetAddressVerifyQuery } from 'store/thorswap/api';
-import { useWallet } from 'store/wallet/hooks';
 
 import { ConfirmContent } from './ConfirmContent';
 
@@ -45,15 +44,15 @@ export const ConfirmSwapModal = memo(
     selectedRoute,
   }: Props) => {
     const [addressesVerified, setAddressesVerified] = useState(true);
-    const { wallet } = useWallet();
+    const { getWalletAddress } = useWallet();
     const { asset: inputAsset } = inputAssetProps;
     const { asset: outputAsset } = outputAssetProps;
 
     const [fetchAddressVerify] = useLazyGetAddressVerifyQuery();
 
     const from = useMemo(
-      () => wallet?.[inputAsset.chain as Chain]?.address || '',
-      [wallet, inputAsset.chain],
+      () => getWalletAddress(inputAsset.chain),
+      [getWalletAddress, inputAsset.chain],
     );
 
     const showSmallSwapWarning = useMemo(

@@ -1,14 +1,14 @@
 import { showSuccessToast } from 'components/Toast';
+import { useKeystore } from 'context/wallet/hooks';
 import copy from 'copy-to-clipboard';
 import { useCallback, useEffect, useState } from 'react';
 import type { FieldValues } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { t } from 'services/i18n';
-import { useWallet } from 'store/wallet/hooks';
 
 // TODO(@Chillios)
 export const usePhraseModal = (isOpen: boolean) => {
-  const { keystore, phrase } = useWallet();
+  const { keystore, phrase } = useKeystore();
   const {
     register,
     reset,

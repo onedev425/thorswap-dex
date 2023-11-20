@@ -4,9 +4,9 @@ import type { Signer } from '@swapkit/toolbox-cosmos';
 import { Box, Button } from 'components/Atomic';
 import { StepActions } from 'components/Stepper';
 import { useStepper } from 'components/Stepper/StepperContext';
+import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import { useCallback, useEffect } from 'react';
 import { t } from 'services/i18n';
-import { useWallet } from 'store/wallet/hooks';
 import { CurrentSignerItem } from 'views/Multisig/components/CurrentSignerItem';
 
 type Props = {
@@ -15,11 +15,12 @@ type Props = {
 };
 
 export function SignTxStep({ handleSign, connectedSignature }: Props) {
-  const { wallet, setIsConnectModalOpen } = useWallet();
+  const { setIsConnectModalOpen } = useWalletConnectModal();
+  const { getWalletAddress } = useWallet();
   const { nextStep } = useStepper();
   // const [isImportModalOpened, setIsImportModalOpened] = useState(false)
 
-  const connectedWalletAddress = wallet?.[Chain.THORChain]?.address || '';
+  const connectedWalletAddress = getWalletAddress(Chain.THORChain);
 
   const handleSignClick = useCallback(() => {
     if (!connectedWalletAddress) {

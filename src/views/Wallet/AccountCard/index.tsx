@@ -8,6 +8,7 @@ import { maxHeightTransitionClass } from 'components/Atomic/Collapse/Collapse';
 import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';
 import { borderHoverHighlightClass } from 'components/constants';
 import { Scrollbar } from 'components/Scrollbar';
+import { useWalletDispatch } from 'context/wallet/WalletProvider';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { memo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -35,6 +36,7 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse();
   const formatPrice = useFormatPrice();
   const navigate = useNavigate();
+  const walletDispatch = useWalletDispatch();
 
   const {
     sigAssetPriceInfo,
@@ -43,20 +45,20 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
     chainInfo,
     priceData,
     setIsConnectModalOpen,
-    disconnectWalletByChain,
     chainWallet,
+    chainWalletLoading,
   } = useAccountData(chain);
 
-  const { isLoading, handleRefreshChain } = useWalletChainActions(chain);
+  const { handleRefreshChain } = useWalletChainActions(chain);
   const sigAsset = AssetValue.fromChainOrSignature(chain);
 
   const toggleConnect = useCallback(() => {
     if (chainAddress) {
-      disconnectWalletByChain(chain);
+      walletDispatch({ type: 'disconnectByChain', payload: chain });
     } else {
       setIsConnectModalOpen(true);
     }
-  }, [chain, chainAddress, disconnectWalletByChain, setIsConnectModalOpen]);
+  }, [chain, chainAddress, setIsConnectModalOpen, walletDispatch]);
 
   return (
     <Card className={classNames('overflow-hidden', borderHoverHighlightClass)}>
@@ -71,7 +73,7 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
           <ConnectionActions
             handleRefreshChain={handleRefreshChain}
             isConnected={!!chainAddress}
-            isLoading={!!isLoading}
+            isLoading={!!chainWalletLoading}
             toggleConnect={toggleConnect}
           />
         </Box>

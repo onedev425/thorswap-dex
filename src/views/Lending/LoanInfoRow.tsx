@@ -10,6 +10,7 @@ import { PercentageSlider } from 'components/PercentageSlider';
 import { showErrorToast } from 'components/Toast';
 import { formatDuration } from 'components/TransactionTracker/helpers';
 import { TxOptimizeSection } from 'components/TxOptimize/TxOptimizeSection';
+import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
@@ -18,7 +19,6 @@ import { useTokenPrices } from 'hooks/useTokenPrices';
 import type { MouseEventHandler } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
-import { useWallet } from 'store/wallet/hooks';
 import { ETH_USDC_IDENTIFIER, MATURITY_BLOCKS } from 'views/Lending/Borrow';
 import { LendingConfirmModal } from 'views/Lending/LendingConfirmModal';
 import { LoanInfoRowCell } from 'views/Lending/LoanInfoRowCell';
@@ -44,7 +44,8 @@ export const LoanInfoRow = ({
 
   const { getBlockTimeDifference } = useTCBlockTimer();
   const { getMaxBalance } = useBalance();
-  const { wallet, setIsConnectModalOpen } = useWallet();
+  const { setIsConnectModalOpen } = useWalletConnectModal();
+  const { getWalletAddress } = useWallet();
   const repayAssets = useAssetsWithBalance();
   const { data: tokenPricesData } = useTokenPrices([asset, repayAsset]);
 
@@ -56,8 +57,8 @@ export const LoanInfoRow = ({
   const debouncedPercentage = useDebouncedValue(sliderValue, 500);
   const missingTimeToRepayInMS = getBlockTimeDifference(lastOpenHeight + MATURITY_BLOCKS);
   const repayAddress = useMemo(
-    () => wallet?.[repayAsset.chain]?.address || '',
-    [wallet, repayAsset.chain],
+    () => getWalletAddress(repayAsset.chain),
+    [getWalletAddress, repayAsset.chain],
   );
 
   const hasLoanMatured = missingTimeToRepayInMS <= 0;

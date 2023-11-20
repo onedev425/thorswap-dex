@@ -1,28 +1,21 @@
-import { Chain } from '@swapkit/core';
+import type { Chain } from '@swapkit/core';
 import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
+import { useWallet } from 'context/wallet/hooks';
 import { useMemo } from 'react';
 import { useGetFullMemberQuery } from 'store/midgard/api';
-import { useWallet } from 'store/wallet/hooks';
 
 export const useLiquidityData = ({
   testAddresses,
 }: {
   testAddresses?: { [key in Chain]: string };
 } = {}) => {
-  const { wallet, isWalletLoading } = useWallet();
+  const { walletAddresses: connectedAddresses, isWalletLoading } = useWallet();
+
   const walletAddresses = useMemo(() => {
     const priorityAddresses = Object.values(testAddresses || {});
 
-    return priorityAddresses.length > 0
-      ? priorityAddresses
-      : (Object.keys(wallet)
-
-          .map((chain) => {
-            const address = wallet?.[chain as Chain]?.address;
-            return chain === Chain.Ethereum ? address?.toLowerCase() : address;
-          })
-          .filter((address) => !!address) as string[]);
-  }, [testAddresses, wallet]);
+    return priorityAddresses.length > 0 ? priorityAddresses : connectedAddresses;
+  }, [connectedAddresses, testAddresses]);
 
   const { data, isFetching, isLoading, refetch } = useGetFullMemberQuery(walletAddresses, {
     skip: !walletAddresses.length || isWalletLoading,

@@ -1,4 +1,4 @@
-import { useThemeState } from 'components/Theme/useThemeState';
+import { useThemeState } from 'context/theme/useThemeState';
 import type { ReactNode } from 'react';
 import { createContext, useContext } from 'react';
 import { ThemeType } from 'types/app';

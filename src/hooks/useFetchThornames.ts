@@ -1,6 +1,7 @@
+import { Chain } from '@swapkit/core';
+import { useWallet } from 'context/wallet/hooks';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useGetTNSByOwnerAddressQuery, useLazyGetTNSDetailQuery } from 'store/midgard/api';
-import { useAppSelector } from 'store/store';
 import type { THORNameEntry } from 'types/app';
 
 export const useFetchThornames = () => {
@@ -8,8 +9,8 @@ export const useFetchThornames = () => {
   const [registeredThornames, setRegisteredThornames] = useState<
     null | { entries?: THORNameEntry[]; owner?: string; expire?: string; thorname: string }[]
   >(null);
-
-  const thorAddress = useAppSelector(({ wallet }) => wallet?.wallet?.THOR?.address || '');
+  const { getWalletAddress } = useWallet();
+  const thorAddress = getWalletAddress(Chain.THORChain);
 
   const { data: thornames } = useGetTNSByOwnerAddressQuery(thorAddress);
   const [getTNSDetail] = useLazyGetTNSDetailQuery();
