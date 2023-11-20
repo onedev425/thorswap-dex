@@ -1,4 +1,4 @@
-import { AssetValue, Chain, FeeOption, gasFeeMultiplier } from '@swapkit/core';
+import { AssetValue, Chain, FeeOption, gasFeeMultiplier, SwapKitNumber } from '@swapkit/core';
 import { isAVAXAsset, isBTCAsset, isETHAsset } from 'helpers/assets';
 import { parseAssetToToken } from 'helpers/parseHelpers';
 import { useTokenPrices } from 'hooks/useTokenPrices';
@@ -72,7 +72,7 @@ export const getNetworkFee = ({
   gasPrice *
   getTypeMultiplier({ direction, multiplier: multiplier || gasFeeMultiplier[feeOptionType] });
 
-export const useAssetNetworkFee = ({
+const useAssetNetworkFee = ({
   asset,
   type = 'transfer',
   chainInfo,
@@ -91,7 +91,7 @@ export const useAssetNetworkFee = ({
       direction: type === 'inbound' ? 'inbound' : 'transfer',
     });
 
-    return parseFeeToAssetAmount({ gasRate, asset });
+    return gasRate * getTxSizeByAsset(asset);
   }, [asset, chainInfo, feeOptionType, type]);
 
   return assetNetworkFee;
@@ -123,8 +123,25 @@ export const useNetworkFee = ({
     return [inputChainInfo, outputChainInfo];
   }, [gasPriceRates, inputGasAsset?.chain, outputGasAsset?.chain]);
 
-  const inputFee = useAssetNetworkFee({ asset: inputGasAsset, type, chainInfo: inputChainInfo });
-  const outputFee = useAssetNetworkFee({ asset: outputGasAsset, type, chainInfo: outputChainInfo });
+  const inputFeeInAsset = useAssetNetworkFee({
+    asset: inputGasAsset,
+    type,
+    chainInfo: inputChainInfo,
+  });
+  const outputFeeInAsset = useAssetNetworkFee({
+    asset: outputGasAsset,
+    type,
+    chainInfo: outputChainInfo,
+  });
+
+  const inputFee = useMemo(
+    () => inputGasAsset.set(inputFeeInAsset),
+    [inputFeeInAsset, inputGasAsset],
+  );
+  const outputFee = useMemo(
+    () => outputGasAsset.set(outputFeeInAsset),
+    [outputFeeInAsset, outputGasAsset],
+  );
 
   const findTokenPrice = useCallback(
     (asset: AssetValue) =>
@@ -144,23 +161,13 @@ export const useNetworkFee = ({
     );
 
   const feeInUSD = useMemo(() => {
-    const inputFeePrice = inputFee.mul(inputGasAssetUSDPrice);
+    const inputFeePrice = inputFee.getValue('number') * inputGasAssetUSDPrice;
+    const outputFeePrice = outputFee.getValue('number') * outputGasAssetUSDPrice;
 
-    const outputFeePrice = outputFee.mul(outputAssetUSDPrice);
-
-    return outputGasAsset && inputGasAsset
-      ? `$${inputFeePrice.add(outputFeePrice).toFixed(2)}`
-      : inputGasAsset
-      ? `$${inputFeePrice.toFixed(2)}`
-      : '';
-  }, [
-    inputFee,
-    inputGasAsset,
-    inputGasAssetUSDPrice,
-    outputAssetUSDPrice,
-    outputFee,
-    outputGasAsset,
-  ]);
+    return new SwapKitNumber(
+      inputFee.eq(outputFee) ? inputFeePrice : inputFeePrice + outputFeePrice,
+    ).toCurrency();
+  }, [inputFee, inputGasAssetUSDPrice, outputFee, outputGasAssetUSDPrice]);
 
   return {
     inputFee,

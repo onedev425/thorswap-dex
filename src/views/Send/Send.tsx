@@ -67,8 +67,10 @@ const Send = () => {
 
   const txRecipient = customTxEnabled ? customRecipient : recipientAddress;
   const txMemo = customTxEnabled ? customMemo : memo;
-  const txFee = customTxEnabled ? customFeeRune : inputFee.getValue('string');
   const txFeeUsd = customTxEnabled ? customFeeUsd : feeInUSD;
+  const txFee = customTxEnabled
+    ? customFeeRune
+    : `${inputFee.getValue('string')} ${inputFee.ticker}`;
 
   const handleConfirmSend = useConfirmSend({
     setIsOpenConfirmModal,
@@ -176,18 +178,13 @@ const Send = () => {
   );
 
   const handleChangeSendAmount = useCallback(
-    (amount: SwapKitNumber) =>
-      //   setSendAsset(
-      //     maxSpendableBalance && amount.gt(maxSpendableBalance)
-      //       ? sendAsset.set(maxSpendableBalance.getValue('string'))
-      //       : sendAsset.set(amount.getValue('string')),
-      //   ),
-
+    (amount: SwapKitNumber) => {
       setSendAmount(
         maxSpendableBalance && amount.gt(maxSpendableBalance)
           ? maxSpendableBalance.getValue('string')
           : amount.getValue('string'),
-      ),
+      );
+    },
     [maxSpendableBalance],
   );
 
@@ -222,9 +219,9 @@ const Send = () => {
       asset: sendAsset,
       value: new SwapKitNumber({ value: sendAmount, decimal: sendAsset.decimal }),
       balance: isWalletConnected ? maxSpendableBalance : undefined,
-      usdPrice: sendAsset.getValue('number') * inputAssetUSDPrice,
+      usdPrice: parseFloat(sendAmount) * inputAssetUSDPrice,
     }),
-    [sendAmount, sendAsset, isWalletConnected, maxSpendableBalance, inputAssetUSDPrice],
+    [inputAssetUSDPrice, isWalletConnected, maxSpendableBalance, sendAmount, sendAsset],
   );
 
   const summary = useMemo(

@@ -43,7 +43,7 @@ export const AssetInput = ({
   const assetPriceInUSD = useMemo(() => {
     const price = usdPrice || 0;
 
-    return hideZeroPrice && price > 1 ? null : formatPrice(price);
+    return hideZeroPrice && price <= 1 ? null : formatPrice(price);
   }, [formatPrice, hideZeroPrice, usdPrice]);
 
   const handlePercentageClick = useCallback(
