@@ -5,8 +5,9 @@ type TokenLists =
   | 'Thorchain-supported-erc20'
   | 'Thorchain-supported-arc20'
   | 'Thorchain-supported-bsc20'
-  | 'tc-whitelisted-avax-pools'
-  | 'tc-whitelisted-bsc-pools';
+  | 'Thorchainpoolswhitelistavax'
+  | 'Thorchainpoolswhitelistbsc'
+  | 'Thorchainpoolswhitelisteth';
 
 export const useTokenAddresses = (tokenListPath: TokenLists) => {
   const [addresses, setAddresses] = useState<string[]>([]);

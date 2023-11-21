@@ -41,9 +41,9 @@ export const CreateLiquidity = () => {
   const { setIsConnectModalOpen } = useWalletConnectModal();
   const { hasWallet, wallet, getWallet } = useWallet();
   const { poolAssets } = usePools();
-  const ethWhitelist = useTokenAddresses('Thorchain-supported-erc20');
-  const avaxWhitelist = useTokenAddresses('tc-whitelisted-avax-pools');
-  const bscWhitelist = useTokenAddresses('tc-whitelisted-bsc-pools');
+  const ethWhitelist = useTokenAddresses('Thorchainpoolswhitelisteth');
+  const avaxWhitelist = useTokenAddresses('Thorchainpoolswhitelistavax');
+  const bscWhitelist = useTokenAddresses('Thorchainpoolswhitelistbsc');
   const { tokens } = useTokenList();
   const hardCapReached = useCheckHardCap();
   const formatPrice = useFormatPrice();

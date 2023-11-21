@@ -1,8 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { THORSWAP_AFFILIATE_ADDRESS, THORSWAP_AFFILIATE_ADDRESS_LL } from 'config/constants';
-import { IS_LEDGER_LIVE } from 'settings/config';
+import { IS_DEV_API, IS_LEDGER_LIVE, IS_STAGENET } from 'settings/config';
 import type { AnnouncementsData } from 'store/externalConfig/types';
-import { getBaseUrl } from 'store/thorswap/getBaseUrl';
 
 import type {
   BorrowQuoteParams,
@@ -28,7 +27,11 @@ import type {
   RepayQuoteResponse,
 } from './types';
 
-const baseUrl = getBaseUrl();
+const baseUrl = IS_STAGENET
+  ? 'https://api-stagenet.thorswap.net'
+  : IS_DEV_API
+  ? 'https://dev-api.thorswap.net'
+  : 'https://api.thorswap.net';
 
 export const thorswapApi = createApi({
   reducerPath: 'thorswap',
