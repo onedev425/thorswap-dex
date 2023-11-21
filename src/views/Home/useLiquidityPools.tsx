@@ -1,3 +1,4 @@
+import type { PoolPeriods } from '@thorswap-lib/midgard-sdk';
 import { usePools } from 'hooks/usePools';
 import { useMemo } from 'react';
 
@@ -6,9 +7,10 @@ import { PoolCategoryOption, poolCategoryOptions, poolStatusOptions } from './ty
 type Params = {
   keyword: string;
   selectedPoolsCategory: number;
+  period: PoolPeriods;
 };
-export const useLiquidityPools = ({ keyword, selectedPoolsCategory }: Params) => {
-  const { pools } = usePools(selectedPoolsCategory === 0 ? '7d' : '30d');
+export const useLiquidityPools = ({ keyword, selectedPoolsCategory, period }: Params) => {
+  const { pools } = usePools(period);
 
   const selectedPoolsCategoryValue = poolCategoryOptions[selectedPoolsCategory];
 

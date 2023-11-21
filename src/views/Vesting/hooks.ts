@@ -56,13 +56,15 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
         funcName: 'claimableAmount',
       };
 
+      let hasVestingAlloc = false;
+
       await connectedWallets.ETH?.call({
         ...callParams,
         abi: thorVesting,
         contractAddress: thorAddress,
       }).then((amount) => {
         const hasVesting = (typeof amount === 'bigint' && amount > 0) || amount?.toString() !== '0';
-        walletDispatch({ type: 'setHasVestingAlloc', payload: hasVesting });
+        hasVesting && (hasVestingAlloc = true);
       });
 
       await connectedWallets.ETH?.call({
@@ -71,8 +73,10 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
         contractAddress: vthorAddress,
       }).then((amount) => {
         const hasVesting = (typeof amount === 'bigint' && amount > 0) || amount?.toString() !== '0';
-        walletDispatch({ type: 'setHasVestingAlloc', payload: hasVesting });
+        hasVesting && (hasVestingAlloc = true);
       });
+
+      walletDispatch({ type: 'setHasVestingAlloc', payload: hasVestingAlloc });
     } catch (error) {
       console.error(error);
     } finally {
@@ -131,7 +135,7 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
       const hasAlloc = totalVested.gt(0) || totalClaimed.gt(0) || claimable.gt(0);
 
       return {
-        totalVestedAmount: totalVested.getValue('number'),
+        totalVestedAmount: totalVested.getValue('string'),
         totalClaimedAmount: totalClaimed,
         startTime: dayjs.unix(startTime.toString()).format('YYYY-MM-DD HH:MM:ss'),
         vestingPeriod: dayjs.duration(vestingPeriod.toString() * 1000).asDays() / 365,

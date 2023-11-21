@@ -1,5 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { FullMemberPool, ProxiedNode, THORNameDetails } from '@thorswap-lib/midgard-sdk';
+import type {
+  FullMemberPool,
+  PoolPeriods,
+  ProxiedNode,
+  THORNameDetails,
+} from '@thorswap-lib/midgard-sdk';
 import { MIDGARD_URL, THORNODE_URL } from 'settings/config';
 
 import type {
@@ -9,7 +14,6 @@ import type {
   MimirData,
   NetworkResponse,
   PoolDetail,
-  PoolsPeriod,
   SwapHistoryResponse,
 } from './types';
 
@@ -59,7 +63,7 @@ export const midgardApi = createApi({
       keepUnusedDataFor: 300,
       query: () => '/ts-swaps?interval=month&count=1&unique=true',
     }),
-    getPools: build.query<PoolDetail[], PoolsPeriod | void>({
+    getPools: build.query<PoolDetail[], PoolPeriods | void>({
       keepUnusedDataFor: 60,
       query: (period = '30d') => `/pools?period=${period}`,
     }),

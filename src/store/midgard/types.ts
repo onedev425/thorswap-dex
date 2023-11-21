@@ -159,8 +159,6 @@ export type SaverProvider = {
 
 export type PendingLP = Record<string, LiquidityProvider>;
 
-export type PoolsPeriod = '24h' | '7d' | '30d' | '60d' | '90d' | '180d';
-
 export type ThornodePoolType = {
   LP_units: string;
   asset: string;

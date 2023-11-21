@@ -12,6 +12,7 @@ type Props = {
   size?: 'md' | 'sm';
   disableDropdown?: boolean;
   dropdownPlacement?: PlacementWithLogical;
+  forceDropdown?: boolean;
 };
 
 export const Select = ({
@@ -21,6 +22,7 @@ export const Select = ({
   activeIndex = 0,
   onChange,
   dropdownPlacement,
+  forceDropdown,
   size = 'md',
 }: Props) => {
   const onHandleChange = useCallback(
@@ -43,7 +45,13 @@ export const Select = ({
 
   return (
     <>
-      <Box className={classNames('gap-2', { 'hidden md:flex': !disableDropdown }, className)}>
+      <Box
+        className={classNames(
+          'gap-2',
+          { 'hidden ': !disableDropdown, 'md:flex': !disableDropdown && !forceDropdown },
+          className,
+        )}
+      >
         {options.map((option, index) => (
           <Button
             className={classNames('w-21', size === 'md' ? 'h-10' : 'h-8', {
@@ -64,7 +72,12 @@ export const Select = ({
         ))}
       </Box>
 
-      <Box className={disableDropdown ? 'hidden' : 'md:hidden'}>
+      <Box
+        className={classNames(
+          { hidden: disableDropdown },
+          { 'inline-block': forceDropdown, 'md:hidden': !disableDropdown && !forceDropdown },
+        )}
+      >
         <DropdownMenu
           menuItems={dropdownOptions}
           onChange={onDropdownChange}
