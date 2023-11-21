@@ -1039,7 +1039,7 @@
       "enableBraveWallet": "Enable Brave Wallet:\nSettings > Default Ethereum wallet > Brave Wallet",
       "enterKeystorePassword": "Confirm keystore password",
       "enterPassword": "Enter Password",
-      "enterSeed": "Please Enter 12 words Seed Phrase",
+      "enterSeed": "Please Enter Your Seed Phrase",
       "hardwareWallets": "Hardware Wallets",
       "importPhrase": "Import Phrase",
       "inputPassword": "Input Password",
