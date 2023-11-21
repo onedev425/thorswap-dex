@@ -64,10 +64,11 @@ export const SwapInfo = ({
     const [firstAsset, secondAsset] = [inputAsset, outputAsset].sort(() => (reverted ? 1 : -1));
     const rate = first / second;
     const decimals = rate > 1000 ? 4 : rate > 1 ? 5 : 8;
+    const price = reverted ? outputUnitPrice : inputUnitPrice;
 
     return {
       rateDesc: rate > 0 ? `1 ${firstAsset} = ${rate.toFixed(decimals)} ${secondAsset}` : '-',
-      ratePrice: `(${formatPrice(inputUnitPrice)})`,
+      ratePrice: `($${formatPrice(price)})`,
     };
   }, [formatPrice, inputAsset, inputUnitPrice, outputAsset, outputUnitPrice, reverted]);
 
