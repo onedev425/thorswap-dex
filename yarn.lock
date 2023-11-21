@@ -2714,10 +2714,10 @@
     "@swapkit/types" "1.0.0-rc.10"
     ky "1.1.3"
 
-"@swapkit/core@1.0.0-rc.34":
-  version "1.0.0-rc.34"
-  resolved "https://registry.yarnpkg.com/@swapkit/core/-/core-1.0.0-rc.34.tgz#70b2179b2046dfd9c23cb6fc903e8b70dc176e71"
-  integrity sha512-b0L2rhBe9JW4NIhTcAeQVwfqOMqw9YxIfY0OKhaTCRaW8rHiKItSedZnWPiyPRiHpEpsekYARF2XjMfrLNwgjw==
+"@swapkit/core@1.0.0-rc.35":
+  version "1.0.0-rc.35"
+  resolved "https://registry.yarnpkg.com/@swapkit/core/-/core-1.0.0-rc.35.tgz#107264974f0836adad5aff4d75c98cad913aa3a0"
+  integrity sha512-EFkcc3Kodh3u3NkP9ol4W1Ah6H+o/SyuNVaupLxmxw0jbIhT7v8eHEjHGMI69OApYUHMV5QM27kJWpeL0N/TfA==
   dependencies:
     "@swapkit/helpers" "1.0.0-rc.28"
     "@swapkit/types" "1.0.0-rc.10"
@@ -2765,10 +2765,10 @@
     "@swapkit/types" "1.0.0-rc.10"
     ethers "6.7.1"
 
-"@swapkit/toolbox-utxo@1.0.0-rc.29":
-  version "1.0.0-rc.29"
-  resolved "https://registry.yarnpkg.com/@swapkit/toolbox-utxo/-/toolbox-utxo-1.0.0-rc.29.tgz#ce001667d9d5212384f8b39301e8e213120265a7"
-  integrity sha512-fZQvnjea7Ii/5iDvho7xo1CMgcYPnEAE05rzjXfeXv10vCZKKSxQh3pP8dtYgcDr5/8zkAzun36ar9sM9C/rkQ==
+"@swapkit/toolbox-utxo@1.0.0-rc.30":
+  version "1.0.0-rc.30"
+  resolved "https://registry.yarnpkg.com/@swapkit/toolbox-utxo/-/toolbox-utxo-1.0.0-rc.30.tgz#fc5083ce4017bd1c446dce94f90a5bcfbd32bdf3"
+  integrity sha512-B80mBM2z/BbXQ/kvlD+91Oz7dyaDlq0h90GF5AXNunoh/ZaFOYLo5PH8+HqPYNhbqD5z7wpZAoz+HIAe3DQCdg==
   dependencies:
     "@psf/bitcoincashjs-lib" "4.0.3"
     "@scure/bip32" "1.3.2"
@@ -2799,20 +2799,20 @@
   dependencies:
     "@swapkit/types" "1.0.0-rc.10"
 
-"@swapkit/wallet-keystore@1.0.0-rc.35":
-  version "1.0.0-rc.35"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-keystore/-/wallet-keystore-1.0.0-rc.35.tgz#25798ec046d516e9ca8e1cf94123209a19ad8f2c"
-  integrity sha512-WVsbb8m16aVME11NZhMoYpaYRpJ8frkJIZf09C1+8cKLv7rNrNP1dokPoiqeKu5VBGqkOXtVPeyfOQRTmYh3gQ==
+"@swapkit/wallet-keystore@1.0.0-rc.36":
+  version "1.0.0-rc.36"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-keystore/-/wallet-keystore-1.0.0-rc.36.tgz#7330b6096d5bce455e48702836e6c52e90f54b66"
+  integrity sha512-eOyC2e4XFE/OMIYDSBdyjY6LLFJqdmr/i2Rk9Pf6c8pLjn4jRIr2xioKz+bllTy7M9NpZy4lmeblsE2swqR4nw==
   dependencies:
     "@swapkit/types" "1.0.0-rc.10"
     blakejs "1.2.1"
     crypto-js "4.2.0"
     uuid "9.0.0"
 
-"@swapkit/wallet-ledger@1.0.0-rc.33":
-  version "1.0.0-rc.33"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-ledger/-/wallet-ledger-1.0.0-rc.33.tgz#194f0bfcee247de588870124fe9e17c4a7529086"
-  integrity sha512-v7hwI3ZkgZUx+S/ir6bjPPylVJEnSdNyrNmDjmzxX5OyVxd2Gh61HZQ0Yzb9mr+f6kRoyl2p/3hx3kglpVNYcw==
+"@swapkit/wallet-ledger@1.0.0-rc.34":
+  version "1.0.0-rc.34"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-ledger/-/wallet-ledger-1.0.0-rc.34.tgz#6547858ec0f9956d1df6bd6e20850eb32838d96f"
+  integrity sha512-rpSQrJnzg8UdDGTabFdcO0kd+Ux0jAsWL7ByGnkKuvdXp1EAHTm0wUS+LR6T3NMfCdrYY2ToRLYk0ZrsBIO1MQ==
   dependencies:
     "@ledgerhq/devices" "8.0.7"
     "@ledgerhq/errors" "6.14.0"
@@ -2824,17 +2824,17 @@
     "@swapkit/types" "1.0.0-rc.10"
     ripemd160 "2.0.2"
 
-"@swapkit/wallet-okx@1.0.0-rc.33":
-  version "1.0.0-rc.33"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-okx/-/wallet-okx-1.0.0-rc.33.tgz#146ed81463601a419a03168d7670cf42835f7841"
-  integrity sha512-xdTctaSVZc0k3dNlbNk7Y+VGn2M1wl5EWe2t4Rv+sEZUKK+VQOgVuQnNTJ7an/pwoAYhSQRKOQs8HqQnUXNWxg==
+"@swapkit/wallet-okx@1.0.0-rc.34":
+  version "1.0.0-rc.34"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-okx/-/wallet-okx-1.0.0-rc.34.tgz#58486272140ac9fc80edd9840624a0fd922feeb8"
+  integrity sha512-Ob14KeZ18kU8YC+iMfFPY5DAvK7Cw490j+cGUAUUFSR9OTE1Ehm+2RcyFzJ0K6cDJy6I+gJBswS/LVZzEHAoVw==
   dependencies:
     "@swapkit/types" "1.0.0-rc.10"
 
-"@swapkit/wallet-trezor@1.0.0-rc.31":
-  version "1.0.0-rc.31"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-trezor/-/wallet-trezor-1.0.0-rc.31.tgz#67b26ed22488e0e364d833e43f3aaa9a0b0f6346"
-  integrity sha512-sockjMGO/IqkLgtgsNw5ca65JqrmPtgZfFcNmDVsd1cH82yXH5j7ljLTQEg8Mdd4qFpU2/VQhZSnP2ThsFXlzg==
+"@swapkit/wallet-trezor@1.0.0-rc.32":
+  version "1.0.0-rc.32"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-trezor/-/wallet-trezor-1.0.0-rc.32.tgz#7d3cc9ccaaa5d470bbb0f7e3b99c6aef460eaa18"
+  integrity sha512-HdBQ9zX1l2IfWTu1J+EIlI46qmCZU2FeKwOt7yBgUdKfRzm4GmRH3339hd0AF7K7aCAOasoryjGZBqHI6061kg==
   dependencies:
     "@swapkit/types" "1.0.0-rc.10"
     "@trezor/connect-web" "9.1.2"
@@ -2847,10 +2847,10 @@
     "@swapkit/types" "1.0.0-rc.10"
     "@walletconnect/modal-sign-html" "^2.6.1"
 
-"@swapkit/wallet-xdefi@1.0.0-rc.33":
-  version "1.0.0-rc.33"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-xdefi/-/wallet-xdefi-1.0.0-rc.33.tgz#83e6084ee2a4c178a20bf4ae9a4a2da0a716aab5"
-  integrity sha512-vi9pcxNEEbgjSdpbnKt8ylKS7JgnyOyYYEVSZmbydBAaQ5GZiyQFYRwdJ5o5lxGNVdHnd8nbIy2bCiENgvAb9A==
+"@swapkit/wallet-xdefi@1.0.0-rc.34":
+  version "1.0.0-rc.34"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-xdefi/-/wallet-xdefi-1.0.0-rc.34.tgz#5aca2baba7f82c1180b9efaaee912cb45d00c7c1"
+  integrity sha512-o3Bs8L3+FItchjTi4lQQerKzsDsjkSjN0CvmF1SNPQPqRjZX/k/5hMumoih2fdUrSzXhxd8LBIlYuuH86ghKVw==
   dependencies:
     "@swapkit/types" "1.0.0-rc.10"
 

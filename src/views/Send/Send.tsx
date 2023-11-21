@@ -121,7 +121,7 @@ const Send = () => {
     };
 
     getSendAsset();
-  }, [assetParam, customTxEnabled, sendAsset]);
+  }, [assetParam, customTxEnabled]);
 
   const isWalletConnected = useMemo(
     () => sendAsset && !!getWallet(sendAsset.chain),
