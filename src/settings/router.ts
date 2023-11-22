@@ -77,7 +77,9 @@ export const getSwapRoute = (
   const outputAsset =
     isETHAsset(input) && isETHAsset(output) ? AssetValue.fromChainOrSignature('ETH.THOR') : output;
 
-  return `${ROUTES.Swap}/${input.toString()}_${outputAsset.toString()}`;
+  const assetUrl = `${input.toString()}_${outputAsset.toString()}`.replace(/\//g, '.');
+
+  return `${ROUTES.Swap}/${assetUrl}`;
 };
 
 export const getKyberSwapRoute = (
@@ -87,7 +89,9 @@ export const getKyberSwapRoute = (
   const outputAsset =
     isETHAsset(input) && isETHAsset(output) ? AssetValue.fromChainOrSignature('ETH.THOR') : output;
 
-  return `${ROUTES.Kyber}/${input.toString()}_${outputAsset.toString()}`;
+  const assetUrl = `${input.toString()}_${outputAsset.toString()}`.replace(/\//g, '.');
+
+  return `${ROUTES.Kyber}/${assetUrl}`;
 };
 
 export const navigateToPoolDetail = (asset: AssetValue) => {

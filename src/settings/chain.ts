@@ -23,7 +23,7 @@ export const SORTED_CHAINS = [
   Chain.BitcoinCash,
   Chain.Dogecoin,
   Chain.Binance,
-] as const;
+] as Chain[];
 
 export const SORTED_LENDING_COLLATERAL_ASSETS = [
   AssetValue.fromChainOrSignature(Chain.Bitcoin),

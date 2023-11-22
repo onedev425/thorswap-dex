@@ -138,7 +138,7 @@ export const AddLiquidity = () => {
         fee={feeInUSD}
         poolShare={poolShareEst}
         poolTicker={poolAssetInput.asset.ticker}
-        rate={new SwapKitNumber(rate || 0).toSignificant(6) || null}
+        rate={new SwapKitNumber(rate).toSignificant(6) || null}
         runeTicker={runeAssetInput.asset.ticker}
         slippage={addLiquiditySlip}
       />

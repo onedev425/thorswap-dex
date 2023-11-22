@@ -47,7 +47,7 @@ const AssetIconComponent = ({
 }) => {
   const { iconSize, secondaryIconSize } = useMemo(() => {
     const iconSize = typeof size === 'number' ? size : iconSizes[size];
-    return { iconSize, secondaryIconSize: iconSize * 0.52 };
+    return { iconSize, secondaryIconSize: iconSize * 0.75 };
   }, [size]);
 
   const style = useMemo(() => ({ width: iconSize, height: iconSize }), [iconSize]);
@@ -149,26 +149,29 @@ export const AssetIcon = memo(
   }: AssetIconProps) => {
     const {
       type,
-      isSynthetic: isSynth,
+      isSynthetic,
       ticker: assetTicker,
       chain,
       symbol,
     } = useMemo(() => asset || RUNEAsset, [asset]);
     const address = symbol.slice(symbol.indexOf('-') + 1).toLowerCase();
-
-    const identifier = `${isSynth ? symbol.split('/')[0] : chain}.${assetTicker}`;
-
+    const identifier = `${isSynthetic ? symbol.split('/')[0] : chain}.${assetTicker}`;
     const iconUrl = logoURI || tokenLogoURL({ address, identifier });
+
+    const assetChain = useMemo(
+      () => (isSynthetic ? symbol.split('/')[0] : chain) as Chain,
+      [chain, isSynthetic, symbol],
+    );
 
     return (
       <AssetIconMemo
         badge={badge}
         bgColor={bgColor}
-        chain={chain}
+        chain={assetChain}
         className={className}
         hasShadow={hasShadow}
         iconUrl={iconUrl}
-        isSynth={isSynth}
+        isSynth={isSynthetic}
         secondaryIconPlacement={secondaryIconPlacement}
         showChainIcon={hasChainIcon && type !== 'Native'}
         size={size}

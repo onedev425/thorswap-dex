@@ -1,4 +1,4 @@
-import { Chain } from '@swapkit/core';
+import { Chain, isGasAsset } from '@swapkit/core';
 import { bepIconMapping } from 'helpers/assets';
 
 export const getCustomIconImageUrl = (name: 'rune' | 'vthor', type: 'png' | 'svg') =>
@@ -74,8 +74,11 @@ export const tokenLogoURL = ({
   const [chain, ...possibleTicker] = identifier?.split('-')?.[0]?.split('.') || [];
   const ticker = possibleTicker.join('.');
 
-  if (chain === ticker || (chain === 'BSC' && ticker === 'BNB')) {
-    return `https://static.thorswap.net/token-list/images/${identifier.toLowerCase()}.png`;
+  const gasAsset = isGasAsset({ chain: chain as Chain, symbol: ticker });
+
+  if (gasAsset) {
+    const gasTokenPath = `${chain}.${ticker}`.toLowerCase();
+    return `https://static.thorswap.net/token-list/images/${gasTokenPath}.png`;
   }
 
   if (['vTHOR', 'RUNE'].includes(ticker)) {

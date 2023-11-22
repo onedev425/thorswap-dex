@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Tooltip } from 'components/Atomic';
 import { providerLogoURL } from 'helpers/logoURL';
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 
 type Props = {
   className?: string;
@@ -41,11 +41,6 @@ export const normalizedProviderName = {
 };
 
 export const ProviderLogos = memo(({ className, size = 24, providers }: Props) => {
-  const uniswapBadge = useCallback(
-    (provider: string) => (provider.toLowerCase().includes('uniswap') ? provider.slice(-2) : ''),
-    [],
-  );
-
   const shortenProviders = useMemo(() => providers.map((p) => p.split('-')[0]), [providers]);
 
   return (
@@ -63,11 +58,7 @@ export const ProviderLogos = memo(({ className, size = 24, providers }: Props) =
             key={provider}
           >
             <Tooltip content={providerDisplayName}>
-              <AssetIcon
-                badge={uniswapBadge(provider)}
-                logoURI={providerLogoURL(provider)}
-                size={size}
-              />
+              <AssetIcon logoURI={providerLogoURL(provider)} size={size} />
             </Tooltip>
           </Box>
         );

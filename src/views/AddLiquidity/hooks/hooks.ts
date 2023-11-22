@@ -729,9 +729,10 @@ export const useAddLiquidity = ({
 
   const rate = useMemo(() => {
     const runePrice = tokenPricesData[RUNEAsset.toString()]?.price_usd || 0;
-    const assetPrice = tokenPricesData[poolString]?.price_usd || 0;
+    const assetPrice = tokenPricesData[poolString]?.price_usd || 0.001;
+    const priceRate = runePrice / assetPrice;
 
-    return runePrice / assetPrice;
+    return Number.isNaN(priceRate) ? 0 : priceRate;
   }, [poolString, tokenPricesData]);
 
   return {

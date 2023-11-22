@@ -8,11 +8,10 @@ import { useTokenList } from 'views/Swap/hooks/useTokenList';
 const options: Fuse.IFuseOptions<AssetSelectType> = {
   keys: [
     { name: 'asset.ticker', weight: 1 },
-    { name: 'asset.name', weight: 0.5 },
+    { name: 'asset.symbol', weight: 0.5 },
     { name: 'asset.type', weight: 0.1 },
     { name: 'cg.name', weight: 0.1 },
     { name: 'cg.id', weight: 0.01 },
-    { name: 'asset.symbol', weight: 0.01 },
   ],
   isCaseSensitive: false,
   minMatchCharLength: 1,
@@ -54,19 +53,21 @@ export const useAssetListSearch = (
     const sortedAssets = searchedAssets.concat().sort((a, b) => {
       const aProvider = a.provider?.toLowerCase();
       const bProvider = b.provider?.toLowerCase();
-      const aChain = a.asset.chain;
-      const bChain = b.asset.chain;
+      const aAsset = a.asset;
+      const bAsset = b.asset;
 
       if (thorchainPriority && (aProvider || bProvider)) {
-        // @ts-expect-error Check on all supported chains
-        return SORTED_CHAINS.indexOf(aChain) - SORTED_CHAINS.indexOf(bChain) || 0;
+        return SORTED_CHAINS.indexOf(aAsset.chain) - SORTED_CHAINS.indexOf(bAsset.chain) || 0;
       }
 
       if (a.balance || b.balance) {
         return a.balance ? (b?.balance?.gt(a.balance) ? 1 : -1) : 0;
+      } else if (aAsset.isSynthetic || bAsset.isSynthetic) {
+        return query ? 0 : aAsset.isSynthetic ? (bAsset.isSynthetic ? 0 : 1) : -1;
       } else {
-        // @ts-expect-error Check on all supported chains
-        return SORTED_CHAINS.indexOf(aChain) - SORTED_CHAINS.indexOf(bChain);
+        return query
+          ? 0
+          : SORTED_CHAINS.indexOf(aAsset.chain) - SORTED_CHAINS.indexOf(bAsset.chain);
       }
     });
 

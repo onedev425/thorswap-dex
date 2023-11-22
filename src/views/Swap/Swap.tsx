@@ -57,13 +57,21 @@ const SwapView = () => {
   const input = useMemo(() => {
     if (!pair || !inputString) return baseInput;
 
-    return AssetValue.fromStringSync(inputString) || baseInput;
+    const [chain, synthChain, symbol] = inputString.split('.');
+    const isSynth = chain === Chain.THORChain && symbol;
+    const assetString = isSynth ? `${chain}.${synthChain}/${symbol}` : inputString;
+
+    return AssetValue.fromStringSync(assetString) || baseInput;
   }, [inputString, pair]);
 
   const output = useMemo(() => {
     if (!pair || !outputString) return baseOutput;
 
-    return AssetValue.fromStringSync(outputString) || baseOutput;
+    const [chain, synthChain, symbol] = outputString.split('.');
+    const isSynth = chain === Chain.THORChain && symbol;
+    const assetString = isSynth ? `${chain}.${synthChain}/${symbol}` : outputString;
+
+    return AssetValue.fromStringSync(assetString) || baseOutput;
   }, [outputString, pair]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps

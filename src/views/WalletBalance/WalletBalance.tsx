@@ -141,18 +141,20 @@ export const WalletBalance = () => {
       <Scrollbar>
         <WalletHeader />
         <Box col>
-          {SORTED_CHAINS.map((chain) =>
-            wallet?.[chain]?.address ? (
+          {SORTED_CHAINS.map((chain) => {
+            const chainWallet = wallet?.[chain as keyof typeof wallet];
+
+            return chainWallet?.address ? (
               <ChainBalance
-                address={wallet?.[chain]?.address ?? ''}
-                balance={wallet?.[chain]?.balance ?? []}
+                address={chainWallet?.address ?? ''}
+                balance={chainWallet?.balance ?? []}
                 chain={chain}
                 key={chain}
-                loading={!!chainLoading[chain]}
-                walletType={wallet?.[chain]?.walletType ?? WalletOption.KEYSTORE}
+                loading={!!chainLoading[chain as keyof typeof chainLoading]}
+                walletType={chainWallet?.walletType ?? WalletOption.KEYSTORE}
               />
-            ) : null,
-          )}
+            ) : null;
+          })}
         </Box>
       </Scrollbar>
     </WalletDrawer>

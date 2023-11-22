@@ -30,6 +30,7 @@ const SelectList = ({
   noFilters,
 }: AssetSelectProps) => {
   const listRef = useRef<List<NotWorth>>(null);
+  const assetFilterTypes = useAssetFilterTypes();
   const { isLgActive } = useWindowSize();
   const { filteredAssets, select, typeFilter, setTypeFilter } = useAssetSelect({
     assets,
@@ -41,8 +42,6 @@ const SelectList = ({
     () => assets && assets.some((asset) => asset.asset.type === 'Synth'),
     [assets],
   );
-
-  const assetFilterTypes = useAssetFilterTypes();
 
   const handleSelect = useCallback(
     (asset: AssetValue) => {
