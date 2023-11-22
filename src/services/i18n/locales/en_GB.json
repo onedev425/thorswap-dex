@@ -462,7 +462,8 @@
       "chart_volume": "Volume",
       "chart_withdraw": "Withdraw",
       "description": "Statistics for THORChain token pools",
-      "title": "THORChain pool statistics"
+      "title": "THORChain pool statistics",
+	  "aprPeriodRange": "Select APR Period"
     },
     "lending": {
       "actions": "Actions",

@@ -13,12 +13,10 @@ import { t } from 'services/i18n';
 import { getAddLiquidityRoute, getSwapRoute } from 'settings/router';
 import type { PoolDetail } from 'store/midgard/types';
 
-export type TimePeriods = {
-  '30d': string;
-  '7d': string;
-};
-
-export const usePoolColumns = () => {
+interface IProps {
+  poolsLoading: boolean;
+}
+export const usePoolColumns = ({ poolsLoading }: IProps) => {
   const navigate = useNavigate();
   const runeToCurrency = useRuneToCurrency();
   const columns = useMemo(() => {
@@ -71,7 +69,16 @@ export const usePoolColumns = () => {
         accessor: (row: PoolDetail) => row.saversAPR,
         align: 'right',
         Cell: ({ cell: { value } }: { cell: { value: string } }) =>
-          value === '0' ? 'N/A' : parseToPercent(value),
+          poolsLoading || !value ? (
+            <Box justify="end">
+              <Icon spin name="loader" size={16} />
+            </Box>
+          ) : value === '0' ? (
+            'N/A'
+          ) : (
+            parseToPercent(value)
+          ),
+
         sortType: getAmountColumnSorter('saversApr'),
         toolTip: (
           <Tooltip content={t('views.home.aprExplanation')} place="bottom">
@@ -96,10 +103,12 @@ export const usePoolColumns = () => {
         accessor: (row: PoolDetail) => parseToPercent(row.annualPercentageRate),
         align: 'right',
         Cell: ({ cell: { value } }: { cell: { value: string } }) =>
-          value || (
+          poolsLoading || !value ? (
             <Box justify="end">
               <Icon spin name="loader" size={16} />
             </Box>
+          ) : (
+            value
           ),
         sortType: getAmountColumnSorter('apr'),
         toolTip: (
@@ -151,7 +160,7 @@ export const usePoolColumns = () => {
     ];
 
     return columns;
-  }, [navigate, runeToCurrency]);
+  }, [navigate, runeToCurrency, poolsLoading]);
 
   return columns;
 };

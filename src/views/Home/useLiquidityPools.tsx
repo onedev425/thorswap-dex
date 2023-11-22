@@ -9,7 +9,7 @@ type Params = {
   period: PoolPeriods;
 };
 export const useLiquidityPools = ({ keyword, period }: Params) => {
-  const { pools } = usePools(period);
+  const { pools, poolsLoading } = usePools(period);
 
   const poolsByStatus = useMemo(() => {
     const selectedPoolStatusValue = poolStatusOptions[0].toLowerCase();
@@ -31,5 +31,5 @@ export const useLiquidityPools = ({ keyword, period }: Params) => {
     return poolsByStatus;
   }, [poolsByStatus, keyword]);
 
-  return { filteredPools };
+  return { filteredPools, poolsLoading };
 };

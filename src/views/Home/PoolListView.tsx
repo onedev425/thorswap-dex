@@ -28,7 +28,7 @@ export const PoolListView = memo(() => {
   const [selectedTimePeriod, setSelectedTimePeriod] = useState(0);
   const { isMdActive } = useWindowSize();
 
-  const { filteredPools } = useLiquidityPools({
+  const { filteredPools, poolsLoading } = useLiquidityPools({
     keyword,
     period: POOLS_TIME_PERIODS_OPTIONS[selectedTimePeriod] as unknown as PoolPeriods,
   });
@@ -52,6 +52,12 @@ export const PoolListView = memo(() => {
                 placeholder="Search"
                 value={keyword}
               />
+            </Box>
+            <Box className="w-fit gap-2">
+              <Text className="pt-2" textStyle="p">
+                {t('views.home.aprPeriodRange')}
+              </Text>
+
               <Select
                 forceDropdown
                 activeIndex={selectedTimePeriod}
@@ -63,7 +69,7 @@ export const PoolListView = memo(() => {
             </Box>
           </Box>
 
-          <PoolTable data={filteredPools} />
+          <PoolTable data={filteredPools} poolsLoading={poolsLoading} />
         </Box>
       )}
     </Box>

@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { useGetPoolsQuery } from 'store/midgard/api';
 
 export const usePools = (period?: PoolPeriods) => {
-  const { data: pools = [], isLoading: poolsLoading } = useGetPoolsQuery(period);
+  const { data: pools = [], isFetching: poolsLoading } = useGetPoolsQuery(period);
 
   const [poolAssets, synthAssets] = useMemo(
     () =>

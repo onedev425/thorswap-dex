@@ -10,14 +10,15 @@ const initialSort = [{ id: 'liquidity', desc: true }];
 
 type Props = {
   data: PoolDetail[];
+  poolsLoading: boolean;
 };
 
-export const PoolTable = ({ data }: Props) => {
+export const PoolTable = ({ data, poolsLoading }: Props) => {
   const navigateToPoolInfo = useCallback(({ original }: TableRowType) => {
     navigateToPoolDetail(original.asset);
   }, []);
 
-  const columns = usePoolColumns();
+  const columns = usePoolColumns({ poolsLoading });
 
   return (
     <Box col center={!data.length}>
