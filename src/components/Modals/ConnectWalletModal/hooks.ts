@@ -37,6 +37,16 @@ export type WalletSection = {
 
 export type DerivationPathType = 'nativeSegwitMiddleAccount' | 'segwit' | 'legacy' | 'ledgerLive';
 
+const okxWalletEnabled = () => {
+  const ua = navigator.userAgent;
+  const isIOS = /iphone|ipad|ipod|ios/i.test(ua);
+  const isAndroid = /android|XiaoMi|MiuiBrowser/i.test(ua);
+  const isMobile = isIOS || isAndroid;
+  const isOKApp = /OKApp/i.test(ua);
+
+  return window.okxwallet || (isMobile && isOKApp);
+};
+
 export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
   const [walletOptions, setWalletOptions] = useState<WalletSection[]>([]);
 
@@ -113,10 +123,9 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
               : '',
           },
           {
-            disabled: !window.okxwallet,
+            disabled: !okxWalletEnabled(),
             icon: 'okx' as IconName,
             type: WalletType.Okx,
-            visible: isMdActive,
             label: t('views.walletModal.okxWallet'),
             tooltip: window.okxwallet ? '' : t('views.walletModal.installOkxWallet'),
           },
