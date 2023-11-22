@@ -17,10 +17,9 @@ export const useAddLiquidityPools = ({ assetRouteGetter = getAddLiquidityRoute }
 
   useEffect(() => {
     const getAssetEntity = async () => {
-      if (!assetParam) return;
-
       const assetEntity =
-        AssetValue.fromStringSync(assetParam) || AssetValue.fromChainOrSignature(Chain.Bitcoin);
+        AssetValue.fromStringSync(assetParam || '') ||
+        AssetValue.fromChainOrSignature(Chain.Bitcoin);
 
       setPoolAsset(assetEntity);
     };

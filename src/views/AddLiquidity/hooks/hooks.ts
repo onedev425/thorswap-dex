@@ -1,11 +1,5 @@
 import type { AssetValue, Wallet } from '@swapkit/core';
-import {
-  Chain,
-  getLiquiditySlippage,
-  getMinAmountByChain,
-  isGasAsset,
-  SwapKitNumber,
-} from '@swapkit/core';
+import { BaseDecimal, Chain, getMinAmountByChain, isGasAsset, SwapKitNumber } from '@swapkit/core';
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
@@ -43,6 +37,9 @@ type Props = {
   wallet?: Wallet | null;
 };
 
+const toTCSwapKitNumber = (value: string) =>
+  SwapKitNumber.fromBigInt(BigInt(value), BaseDecimal.THOR);
+
 const getEstimatedPoolShareForPoolDepth = ({
   depth,
   poolUnits,
@@ -52,6 +49,32 @@ const getEstimatedPoolShareForPoolDepth = ({
   liquidityUnits: string;
   depth: string;
 }) => new SwapKitNumber(depth).mul(liquidityUnits).div(poolUnits).getValue('string');
+
+const getLiquiditySlippage = ({
+  runeAmount,
+  assetAmount,
+  runeDepth,
+  assetDepth,
+}: {
+  runeAmount: string;
+  assetAmount: string;
+  runeDepth: string;
+  assetDepth: string;
+}) => {
+  if (runeAmount === '0' || assetAmount === '0' || runeDepth === '0' || assetDepth === '0')
+    return 0;
+  // formula: (t * R - T * r)/ (T*r + R*T)
+  const R = toTCSwapKitNumber(runeDepth);
+  const T = toTCSwapKitNumber(assetDepth);
+  const assetAddAmount = new SwapKitNumber(assetAmount);
+  const runeAddAmount = new SwapKitNumber(runeAmount);
+
+  const numerator = assetAddAmount.mul(R).sub(T.mul(runeAddAmount));
+  const denominator = T.mul(runeAddAmount).add(R.mul(T));
+
+  // set absolute value of percent, no negative allowed
+  return Math.abs(numerator.div(denominator).getBaseValue('number'));
+};
 
 const getEstimatedPoolShareAfterAdd = ({
   runeDepth,
@@ -117,18 +140,13 @@ const getMaxSymAmounts = ({
       ? minRuneAmount
       : maxSymAssetAmount.mul(assetPriceInRune);
 
-    return {
-      maxSymAssetAmount,
-      maxSymRuneAmount,
-    };
+    return { maxSymAssetAmount, maxSymRuneAmount };
   }
+
   const maxSymAssetAmount = symAssetAmount.lte(minAssetAmount) ? minAssetAmount : symAssetAmount;
   const maxSymRuneAmount = runeAmount.lte(minRuneAmount) ? minRuneAmount : runeAmount;
 
-  return {
-    maxSymAssetAmount,
-    maxSymRuneAmount,
-  };
+  return { maxSymAssetAmount, maxSymRuneAmount };
 };
 
 export const useAddLiquidity = ({
@@ -348,6 +366,7 @@ export const useAddLiquidity = ({
       }
 
       const maxAmount = isSymDeposit ? maxSymAssetAmount : maxPoolAssetBalance;
+
       if (maxAmount && amount.gt(maxAmount) && !skipWalletCheck) {
         setAssetAmount(new SwapKitNumber({ value: maxAmount.getValue('string'), decimal: 8 }));
 
@@ -385,7 +404,7 @@ export const useAddLiquidity = ({
       }
 
       const maxAmount = isSymDeposit ? maxSymRuneAmount : maxRuneBalance;
-      if (amount.gt(maxAmount) && !skipWalletCheck) {
+      if (maxAmount && amount.gt(maxAmount) && !skipWalletCheck) {
         setRuneAmount(new SwapKitNumber({ value: maxAmount.getValue('string'), decimal: 8 }));
 
         if (isSymDeposit) {
