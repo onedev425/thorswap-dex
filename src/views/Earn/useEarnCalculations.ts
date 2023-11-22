@@ -70,10 +70,13 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount,
   const { inputFee } = useNetworkFee({ inputAsset: asset, outputAsset: asset });
 
   const daysToBreakEven = useMemo(() => {
-    const divider = expectedOutputAmount?.mul(apr || 0).div(365) || 0;
-    const daysAmount = divider?.gt(0) ? slippage?.div(divider) : 0;
-    return Math.round(Number(daysAmount?.toFixed(2)));
-  }, [apr, expectedOutputAmount, slippage]);
+    const yearlyEarn = expectedOutputAmount.mul(apr || 0);
+    const dailyEarn = yearlyEarn.mul(1 / 365);
+    const amountToBreakEven = slippage.add(inputFee);
+    const daysAmount = dailyEarn.gt(0) ? amountToBreakEven.div(dailyEarn) : 0;
+
+    return Math.round(Number(daysAmount.toFixed(2)));
+  }, [apr, expectedOutputAmount, inputFee, slippage]);
 
   return {
     slippage,
