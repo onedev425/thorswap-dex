@@ -39,7 +39,6 @@ export const AddLiquidity = () => {
   const assetsWithBalances = useAssetsWithBalance();
 
   const pool = useMemo(() => {
-    debugger;
     return (
       pools.find((p) => p.asset === (poolAsset || BTCAsset).toString().toUpperCase()) || pools[0]
     );
