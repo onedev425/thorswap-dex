@@ -7,7 +7,6 @@ import type { InfoRowConfig } from 'components/InfoRow/types';
 import { BTCAsset, RUNEAsset } from 'helpers/assets';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useLiquidityType } from 'hooks/useLiquidityType';
-import { usePools } from 'hooks/usePools';
 import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
@@ -24,13 +23,12 @@ export const useTxDeposit = (assetSideAddress: string) => {
   const { signers } = useTxCreate();
   const { wallet } = useMultisigWallet();
   const assetRouteGetter = useCallback((asset: AssetValue) => getMultisigTxCreateRoute(asset), []);
-  const { poolAssets } = usePools();
 
   const { liquidityType, setLiquidityType } = useLiquidityType();
   const { poolAsset, handleSelectPoolAsset } = useAddLiquidityPools({ assetRouteGetter });
   const depositAssetsBalance = useDepositAssetsBalance({ poolAsset });
 
-  const poolAssetList = useAssetsWithBalance(poolAssets);
+  const poolAssetList = useAssetsWithBalance();
   const navigate = useNavigate();
   const { createDepositTx } = useMultisig();
 

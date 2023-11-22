@@ -36,7 +36,7 @@ export const AddLiquidity = () => {
   const { pools, poolAssets } = usePools();
   const depositAssetsBalance = useDepositAssetsBalance({ poolAsset });
   const hardCapReached = useCheckHardCap();
-  const assetsWithBalances = useAssetsWithBalance(poolAssets);
+  const assetsWithBalances = useAssetsWithBalance();
 
   const pool = useMemo(
     () =>

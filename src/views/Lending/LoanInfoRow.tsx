@@ -46,7 +46,7 @@ export const LoanInfoRow = ({
   const { getMaxBalance } = useBalance();
   const { setIsConnectModalOpen } = useWalletConnectModal();
   const { getWalletAddress } = useWallet();
-  const repayAssets = useAssetsWithBalance();
+  const repayAssets = useAssetsWithBalance({ includeRune: true });
   const { data: tokenPricesData } = useTokenPrices([asset, repayAsset]);
 
   const handleToggle: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {

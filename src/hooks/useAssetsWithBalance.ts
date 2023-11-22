@@ -1,10 +1,16 @@
 import type { Asset } from '@swapkit/core';
 import { AssetValue, SwapKitNumber } from '@swapkit/core';
+import { RUNEAsset } from 'helpers/assets';
 import { useBalance } from 'hooks/useBalance';
 import { usePools } from 'hooks/usePools';
 import { useEffect, useState } from 'react';
 
-export const useAssetsWithBalance = (assets?: Asset[]) => {
+type Props = {
+  includeRune?: boolean;
+  assets?: Asset[];
+};
+
+export const useAssetsWithBalance = ({ assets, includeRune }: Props = {}) => {
   const { getMaxBalance, isWalletConnected } = useBalance();
   const { pools } = usePools();
 
@@ -23,20 +29,26 @@ export const useAssetsWithBalance = (assets?: Asset[]) => {
             .getValue('number');
         }) || [];
 
-    Promise.all(
-      filteredPools.map((pool) => {
-        const asset = AssetValue.fromStringSync(pool.asset)!;
+    const assetPromises = filteredPools.map((pool) => {
+      const asset = AssetValue.fromStringSync(pool.asset)!;
 
-        return getMaxBalance(asset, true).then((balance) => ({ asset, balance }));
-      }),
-    ).then((balancePools) =>
+      return getMaxBalance(asset, true).then((balance) => ({ asset, balance }));
+    });
+
+    if (includeRune) {
+      assetPromises.unshift(
+        getMaxBalance(RUNEAsset, true).then((balance) => ({ asset: RUNEAsset, balance })),
+      );
+    }
+
+    Promise.all(assetPromises).then((balancePools) =>
       setAssetsWithBalance(
         assetsMap.length > 0
           ? balancePools.filter((pool) => assetsMap.includes(pool.asset.symbol))
           : balancePools,
       ),
     );
-  }, [assets, getMaxBalance, isWalletConnected, pools]);
+  }, [assets, getMaxBalance, includeRune, isWalletConnected, pools]);
 
   return assetsWithBalance;
 };

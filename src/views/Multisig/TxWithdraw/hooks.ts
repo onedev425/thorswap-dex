@@ -8,7 +8,6 @@ import {
 } from '@swapkit/core';
 import { RUNEAsset } from 'helpers/assets';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
-import { usePools } from 'hooks/usePools';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getMultisigTxCreateRoute, ROUTES } from 'settings/router';
@@ -22,9 +21,8 @@ export const useTxWithdraw = () => {
   const { createDepositTx } = useMultisig();
   const { signers } = useTxCreate();
   const navigate = useNavigate();
-  const { poolAssets } = usePools();
 
-  const poolAssetList = useAssetsWithBalance(poolAssets);
+  const poolAssetList = useAssetsWithBalance();
   const [poolAsset, setPoolAsset] = useState<AssetValue>(
     AssetValue.fromChainOrSignature(Chain.Bitcoin),
   );
