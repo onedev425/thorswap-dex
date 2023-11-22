@@ -60,8 +60,7 @@ export const useSwap = ({
     const id = v4();
 
     try {
-      // @ts-expect-error
-      const from = wallet?.[inputAsset.chain]?.address;
+      const from = wallet?.[inputAsset.chain as keyof typeof wallet]?.address;
       if (!from && route) {
         if (!from) throw new Error('No address found');
 

@@ -77,7 +77,7 @@ export const DoughnutChart = ({
           titleFont: { size: 14 },
           titleSpacing: 8,
           callbacks: {
-            label: (context: any) => `${context.dataset.label} ${context.raw} ${unit}`,
+            label: (context: any) => `${context.formattedValue} ${unit}`,
           },
         },
       },
@@ -131,6 +131,7 @@ export const DoughnutChart = ({
           {data.map((share, index) => {
             const selectedShare = isEarned ? share.earnedAmount : share.amount;
             const hovered = chartHovered === index;
+
             return (
               <Flex
                 _dark={{

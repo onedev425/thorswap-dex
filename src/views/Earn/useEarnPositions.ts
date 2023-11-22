@@ -6,7 +6,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getSaverData, getSaverPools } from 'store/midgard/actions';
 import type { ThornodePoolType } from 'store/midgard/types';
 import type { SaverPosition } from 'views/Earn/types';
-import { getSaverPoolNameForAsset } from 'views/Earn/utils';
 
 export const useSaverPositions = () => {
   const { getWalletAddress, isWalletLoading } = useWallet();
@@ -21,8 +20,9 @@ export const useSaverPositions = () => {
 
     return positions.map((p) => {
       const saverPool = thornodePools.find(
-        ({ asset }) => asset === getSaverPoolNameForAsset(p.asset),
+        ({ asset }) => asset === p.asset.toString().toUpperCase(),
       );
+
       if (!saverPool) return p;
 
       const saverDepth = SwapKitNumber.fromBigInt(BigInt(saverPool.savers_depth), 8);
@@ -30,6 +30,7 @@ export const useSaverPositions = () => {
 
       // position amount = (saverUnits / totalSaverUnits) * saverDepth
       const amount = p.units.div(saverUnits).mul(saverDepth);
+
       return {
         ...p,
         saverPool,

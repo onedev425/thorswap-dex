@@ -52,6 +52,7 @@ export const EarnPositions = ({ positions, refresh, withdrawAsset, depositAsset 
             </HighlightCard>
           </>
         )}
+
         {positions.length ? (
           positions.map((position) => (
             <EarnPosition

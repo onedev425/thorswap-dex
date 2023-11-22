@@ -478,11 +478,10 @@ export const useAddLiquidity = ({
         ...addresses,
       };
 
-      const { addLiquidity } = await (await import('services/swapKit')).getSwapKitClient();
+      const { addLiquidityPart } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
-        // @ts-expect-error remove this when swapkit is updated
-        const { runeTx, assetTx } = await addLiquidity(params);
+        const { runeTx, assetTx } = await addLiquidityPart(params);
 
         if (runeTx !== 'failed') {
           appDispatch(updateTransaction({ id: runeId, txid: runeTx }));

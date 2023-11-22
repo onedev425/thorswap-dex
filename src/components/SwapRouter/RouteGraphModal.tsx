@@ -34,7 +34,7 @@ export const RouteGraphModal = memo(({ isOpened, onClose, swaps }: Props) => {
           chain === 'THORCHAIN' ? Chain.THORChain : (chain as Chain),
         );
         const chainSwaps = (value as QuoteSwaps[string]).map((swapParts) =>
-          // @ts-expect-error
+          // @ts-expect-error - missing in type
           swapParts.map(({ from, to, parts, fromTokenAddress, toTokenAddress }) => ({
             fromAsset: parseToSwapItem({ address: fromTokenAddress, identifier: from }),
             toAsset: parseToSwapItem({ address: toTokenAddress, identifier: to }),

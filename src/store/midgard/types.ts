@@ -21,6 +21,9 @@ export type MimirData = {
   HALTBNBTRADING: number;
   HALTBTCCHAIN: number;
   HALTBTCTRADING: number;
+  HALTBSCCHAIN: number;
+  HALTBSCTRADING: number;
+  PAUSELPBSC: number;
   HALTCHAINGLOBAL: number;
   HALTCHURNING: number;
   HALTDOGECHAIN: number;

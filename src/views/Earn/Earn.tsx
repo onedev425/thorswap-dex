@@ -306,6 +306,7 @@ const Earn = () => {
           <Tab>{t('views.savings.earn')}</Tab>
           <Tab>{t('views.savings.myPositions')}</Tab>
         </TabList>
+
         <TabPanels>
           <TabPanel>
             <Box col className="gap-3">
