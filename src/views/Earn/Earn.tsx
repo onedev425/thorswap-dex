@@ -77,7 +77,7 @@ const Earn = () => {
   const isDeposit = tab === EarnTab.Deposit;
   const { data: tokenPricesData } = useTokenPrices([asset]);
   const usdPrice = useMemo(() => {
-    const price = tokenPricesData[asset.toString(true)]?.price_usd || 0;
+    const price = tokenPricesData[asset.toString()]?.price_usd || 0;
 
     return price * amount.getValue('number');
   }, [amount, asset, tokenPricesData]);
@@ -193,7 +193,7 @@ const Earn = () => {
     const { savings } = await (await import('services/swapKit')).getSwapKitClient();
     const percent = withdrawPercent.getValue('number');
     const params = isDeposit
-      ? { assetValue: asset.set(amount), type: 'add' as const }
+      ? { assetValue: asset.set(amount.getValue('string')), type: 'add' as const }
       : {
           assetValue: AssetValue.fromChainOrSignature(asset.chain),
           type: 'withdraw' as const,

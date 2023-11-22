@@ -142,15 +142,15 @@ export const CreateLiquidity = () => {
 
   const { isApproved, isLoading } = useIsAssetApproved({
     force: true,
-    assetValue: poolAsset.set(assetAmount || 0),
+    assetValue: poolAsset.set(assetAmount?.getValue('string') || 0),
   });
 
   const { data: pricesData } = useTokenPrices([poolAsset, RUNEAsset]);
 
   const { assetUnitPrice, runeUnitPrice, assetUSDPrice, runeUSDPrice } = useMemo(() => {
     // TODO this might be wrong
-    const assetUnitPrice = pricesData?.[poolAsset.toString(true)]?.price_usd || 0;
-    const runeUnitPrice = pricesData?.[RUNEAsset.toString(true)]?.price_usd || 0;
+    const assetUnitPrice = pricesData?.[poolAsset.toString()]?.price_usd || 0;
+    const runeUnitPrice = pricesData?.[RUNEAsset.toString()]?.price_usd || 0;
 
     return {
       assetUnitPrice,
@@ -197,7 +197,7 @@ export const CreateLiquidity = () => {
       const baseAssetAmount =
         maxPoolAssetBalance && amount.gt(maxPoolAssetBalance)
           ? maxPoolAssetBalance
-          : (poolAsset.set(amount) as AssetValue);
+          : (poolAsset.set(amount.getValue('string')) as AssetValue);
       const baseRuneAmount = baseAssetAmount.mul(assetUnitPrice).div(runeUnitPrice);
       const exceedsRuneAmount = maxRuneBalance && baseRuneAmount.gt(maxRuneBalance);
 
@@ -241,8 +241,8 @@ export const CreateLiquidity = () => {
   const handleConfirmAdd = useCallback(async () => {
     setVisibleConfirmModal(false);
     if (wallet) {
-      const runeAssetAmount = RUNEAsset.set(runeAmount) as AssetValue;
-      const poolAssetAmount = poolAsset.set(assetAmount || 0) as AssetValue;
+      const runeAssetAmount = RUNEAsset.set(runeAmount.getValue('string')) as AssetValue;
+      const poolAssetAmount = poolAsset.set(assetAmount?.getValue('string') || 0) as AssetValue;
       const runeId = v4();
       const assetId = v4();
 

@@ -75,7 +75,7 @@ export default defineConfig({
        * To operate locally on external libraries you can copy paste their `/src`
        * file and use like below:
        */
-      // '@swapkit/wallet-xdefi': resolve(__dirname, 'src/x'),
+      // '@swapkit/core': resolve(__dirname, 'src/c'),
     },
   },
   build: {

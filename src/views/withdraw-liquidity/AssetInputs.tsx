@@ -51,7 +51,7 @@ export const AssetInputs = memo(
               })}
               flex={liquidityType === LiquidityTypeOption.RUNE ? 0 : 1}
             >
-              <AssetAmountBox stretch assetValue={poolAsset.set(assetAmount)} />
+              <AssetAmountBox stretch assetValue={poolAsset.set(assetAmount.getValue('string'))} />
             </Box>
 
             <Box
@@ -60,7 +60,7 @@ export const AssetInputs = memo(
               })}
               flex={liquidityType === LiquidityTypeOption.ASSET ? 0 : 1}
             >
-              <AssetAmountBox stretch assetValue={RUNEAsset.set(runeAmount)} />
+              <AssetAmountBox stretch assetValue={RUNEAsset.set(runeAmount.getValue('string'))} />
             </Box>
           </Box>
         </HighlightCard>

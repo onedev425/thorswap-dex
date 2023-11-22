@@ -132,18 +132,28 @@ const getMaxSymAmounts = ({
   minAssetAmount: SwapKitNumber | AssetValue;
   minRuneAmount: SwapKitNumber | AssetValue;
 }) => {
-  const symAssetAmount = runeAmount.mul(runePriceInAsset);
+  const calcSymmAmount = runeAmount.mul(runePriceInAsset);
 
-  if (symAssetAmount.gt(assetAmount)) {
-    const maxSymAssetAmount = assetAmount.lte(minAssetAmount) ? minAssetAmount : assetAmount;
-    const maxSymRuneAmount = maxSymAssetAmount.mul(assetPriceInRune).lte(minRuneAmount)
-      ? minRuneAmount
-      : maxSymAssetAmount.mul(assetPriceInRune);
+  if (calcSymmAmount.gt(assetAmount)) {
+    const symAssetAmount = assetAmount.lte(minAssetAmount) ? minAssetAmount : assetAmount;
+    const symRuneAmount = runeAmount.lte(minRuneAmount) ? minRuneAmount : runeAmount;
 
-    return { maxSymAssetAmount, maxSymRuneAmount };
+    const maxRuneAmount = Math.min(
+      symAssetAmount.set(symAssetAmount.getValue('number') / runePriceInAsset).getValue('number'),
+      runeAmount.getValue('number'),
+    );
+    const maxAssetAmount = Math.min(
+      symRuneAmount.set(symRuneAmount.getValue('number') / assetPriceInRune).getValue('number'),
+      assetAmount.getValue('number'),
+    );
+
+    return {
+      maxSymAssetAmount: symAssetAmount.set(maxAssetAmount),
+      maxSymRuneAmount: assetAmount.set(maxRuneAmount),
+    };
   }
 
-  const maxSymAssetAmount = symAssetAmount.lte(minAssetAmount) ? minAssetAmount : symAssetAmount;
+  const maxSymAssetAmount = calcSymmAmount.lte(minAssetAmount) ? minAssetAmount : calcSymmAmount;
   const maxSymRuneAmount = runeAmount.lte(minRuneAmount) ? minRuneAmount : runeAmount;
 
   return { maxSymAssetAmount, maxSymRuneAmount };
@@ -268,7 +278,7 @@ export const useAddLiquidity = ({
   }, [getContractAddress, poolAsset.chain]);
 
   const { isApproved, isLoading } = useIsAssetApproved({
-    assetValue: poolAsset.set(assetAmount),
+    assetValue: poolAsset.set(assetAmount.getValue('string')),
     contract,
     force: true,
   });
@@ -382,7 +392,12 @@ export const useAddLiquidity = ({
         setAssetAmount(amount);
 
         if (isSymDeposit) {
-          setRuneAmount(amount.mul(assetPriceInRune));
+          setRuneAmount(
+            new SwapKitNumber({
+              value: amount.mul(assetPriceInRune).getValue('string'),
+              decimal: 8,
+            }),
+          );
         }
       }
     },
@@ -402,8 +417,8 @@ export const useAddLiquidity = ({
         setRuneAmount(amount);
         return;
       }
-
       const maxAmount = isSymDeposit ? maxSymRuneAmount : maxRuneBalance;
+
       if (maxAmount && amount.gt(maxAmount) && !skipWalletCheck) {
         setRuneAmount(new SwapKitNumber({ value: maxAmount.getValue('string'), decimal: 8 }));
 
@@ -428,16 +443,20 @@ export const useAddLiquidity = ({
   const handleConfirmAdd = useCallback(async () => {
     setVisibleConfirmModal(false);
     if (onAddLiquidity && poolAsset && liquidityType !== LiquidityTypeOption.ASSET) {
-      onAddLiquidity({ poolAsset, runeAmount: RUNEAsset.set(runeAmount) });
+      onAddLiquidity({ poolAsset, runeAmount: RUNEAsset.set(runeAmount.getValue('string')) });
 
       return;
     }
 
     if (hasWallet && poolData) {
       const runeAssetAmount =
-        liquidityType !== LiquidityTypeOption.ASSET ? RUNEAsset.set(runeAmount) : undefined;
+        liquidityType !== LiquidityTypeOption.ASSET
+          ? RUNEAsset.set(runeAmount.getValue('string'))
+          : undefined;
       const poolAssetAmount =
-        liquidityType !== LiquidityTypeOption.RUNE ? poolAsset.set(assetAmount) : undefined;
+        liquidityType !== LiquidityTypeOption.RUNE
+          ? poolAsset.set(assetAmount.getValue('string'))
+          : undefined;
 
       const runeId = v4();
       const assetId = v4();
@@ -489,8 +508,8 @@ export const useAddLiquidity = ({
           : ('rune' as const);
 
       const params = {
-        runeAssetValue: RUNEAsset.set(runeAmount),
-        assetValue: poolAsset.set(assetAmount),
+        runeAssetValue: RUNEAsset.set(runeAmount.getValue('string')),
+        assetValue: poolAsset.set(assetAmount.getValue('string')),
         isPendingSymmAsset,
         mode,
         poolIdentifier: '',
@@ -691,7 +710,7 @@ export const useAddLiquidity = ({
         ? SwapKitNumber.fromBigInt(BigInt(lpMemberData.runePending), 8)
         : runeAmount;
     // This might not be correct
-    const runePrice = tokenPricesData[RUNEAsset.toString(true)]?.price_usd || 0;
+    const runePrice = tokenPricesData[RUNEAsset.toString()]?.price_usd || 0;
 
     return {
       asset: RUNEAsset,
@@ -760,6 +779,8 @@ export const useAddLiquidity = ({
     btnLabel,
     confirmInfo,
     depositAssets,
+    feeInUSD,
+    getEstimatedPoolShareForPoolDepth,
     handleAddLiquidity,
     handleApprove,
     handleChangeAssetAmount,
@@ -784,9 +805,7 @@ export const useAddLiquidity = ({
     setVisibleApproveModal,
     setVisibleConfirmModal,
     title,
-    feeInUSD,
     visibleApproveModal,
     visibleConfirmModal,
-    getEstimatedPoolShareForPoolDepth,
   };
 };
