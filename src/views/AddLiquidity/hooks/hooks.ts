@@ -470,18 +470,18 @@ export const useAddLiquidity = ({
           : ('rune' as const);
 
       const params = {
-        pool: { asset: poolAsset },
-        runeAmount: isRunePending ? undefined : runeAssetAmount,
-        assetAmount: isAssetPending ? undefined : poolAssetAmount,
+        runeAssetValue: RUNEAsset.set(runeAmount),
+        assetValue: poolAsset.set(assetAmount),
         isPendingSymmAsset,
         mode,
+        poolIdentifier: '',
         ...addresses,
       };
 
-      const { addLiquidityPart } = await (await import('services/swapKit')).getSwapKitClient();
+      const { addLiquidity } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
-        const { runeTx, assetTx } = await addLiquidityPart(params);
+        const { runeTx, assetTx } = await addLiquidity(params);
 
         if (runeTx !== 'failed') {
           appDispatch(updateTransaction({ id: runeId, txid: runeTx }));
