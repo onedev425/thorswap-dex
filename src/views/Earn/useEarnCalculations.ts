@@ -71,7 +71,7 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount,
 
   const daysToBreakEven = useMemo(() => {
     const divider = expectedOutputAmount?.mul(apr || 0).div(365) || 0;
-    const daysAmount = divider ? slippage?.div(divider) : 0;
+    const daysAmount = divider?.gt(0) ? slippage?.div(divider) : 0;
     return Math.round(Number(daysAmount?.toFixed(2)));
   }, [apr, expectedOutputAmount, slippage]);
 
