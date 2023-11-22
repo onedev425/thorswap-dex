@@ -1,4 +1,4 @@
-import type { AssetValue } from '@swapkit/core';
+import { type AssetValue, Chain } from '@swapkit/core';
 import { useWallet } from 'context/wallet/hooks';
 import { BTCAsset, RUNEAsset } from 'helpers/assets';
 import { getAssetBalance } from 'helpers/wallet';
@@ -22,16 +22,16 @@ export const useDepositAssetsBalance = ({ poolAsset }: Props): DepositAssetsBala
   const { getMaxBalance, isWalletAssetConnected } = useBalance();
   const { wallet } = useWallet();
 
-  const [maxPoolAssetBalance, setMaxPoolAssetBalance] = useState(poolAsset?.set(0));
-  const [maxRuneBalance, setMaxRuneBalance] = useState(RUNEAsset.set(0));
+  const [poolAssetBalance, setMaxPoolAssetBalance] = useState(poolAsset?.set(0));
+  const [runeBalance, setMaxRuneBalance] = useState(RUNEAsset.set(0));
 
-  const poolAssetBalance = useMemo(() => {
-    if (wallet) {
+  const maxPoolAssetBalance = useMemo(() => {
+    //@ts-expect-error
+    if (wallet[poolAsset?.chain || BTCAsset.chain]) {
       return getAssetBalance(poolAsset || BTCAsset, wallet);
     }
-
     // allow max amount if wallet is not connected
-    return poolAsset?.set(10 ** 9);
+    return (poolAsset || BTCAsset).set(10 ** 9);
   }, [poolAsset, wallet]);
 
   useEffect(() => {
@@ -47,8 +47,8 @@ export const useDepositAssetsBalance = ({ poolAsset }: Props): DepositAssetsBala
     );
   }, [getMaxBalance]);
 
-  const runeBalance = useMemo(() => {
-    if (wallet) {
+  const maxRuneBalance = useMemo(() => {
+    if (wallet[Chain.THORChain]) {
       return getAssetBalance(RUNEAsset, wallet);
     }
 

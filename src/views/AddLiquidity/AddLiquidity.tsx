@@ -38,11 +38,12 @@ export const AddLiquidity = () => {
   const hardCapReached = useCheckHardCap();
   const assetsWithBalances = useAssetsWithBalance();
 
-  const pool = useMemo(
-    () =>
-      pools.find((p) => p.asset === (poolAsset || BTCAsset).toString().toUpperCase()) || pools[0],
-    [pools, poolAsset],
-  );
+  const pool = useMemo(() => {
+    debugger;
+    return (
+      pools.find((p) => p.asset === (poolAsset || BTCAsset).toString().toUpperCase()) || pools[0]
+    );
+  }, [pools, poolAsset]);
 
   const assetSelectList = useMemo(
     () =>

@@ -66,19 +66,17 @@ const getLiquiditySlippage = ({
   // formula: (t * R - T * r)/ (T*r + R*T)
   const R = toTCSwapKitNumber(runeDepth);
   const T = toTCSwapKitNumber(assetDepth);
-  const assetAddAmount = new SwapKitNumber(assetAmount);
-  const runeAddAmount = new SwapKitNumber(runeAmount);
+  const assetAddAmount = new SwapKitNumber({ value: assetAmount, decimal: 8 }).mul(10 ** 8);
+  const runeAddAmount = new SwapKitNumber(runeAmount).mul(10 ** 8);
 
   const numerator = assetAddAmount.mul(R).sub(T.mul(runeAddAmount));
   const denominator = T.mul(runeAddAmount).add(R.mul(T));
-
   // set absolute value of percent, no negative allowed
   return Math.abs(numerator.div(denominator).getBaseValue('number'));
 };
 
 const getEstimatedPoolShareAfterAdd = ({
   runeDepth,
-  poolUnits,
   assetDepth,
   liquidityUnits,
   runeAmount,
@@ -95,10 +93,9 @@ const getEstimatedPoolShareAfterAdd = ({
 
   const R = new SwapKitNumber({ value: runeDepth, decimal: 8 });
   const A = new SwapKitNumber({ value: assetDepth, decimal: 8 });
-  const P = new SwapKitNumber({ value: poolUnits, decimal: 8 });
-  const poolLiquidityUnits = new SwapKitNumber({ value: liquidityUnits, decimal: 8 });
-  const runeAddAmount = new SwapKitNumber({ value: runeAmount, decimal: 8 });
-  const assetAddAmount = new SwapKitNumber({ value: assetAmount, decimal: 8 });
+  const P = new SwapKitNumber({ value: liquidityUnits, decimal: 8 });
+  const runeAddAmount = new SwapKitNumber(runeAmount).mul(10 ** 8);
+  const assetAddAmount = new SwapKitNumber(assetAmount).mul(10 ** 8);
 
   // liquidityUnits = P * (r*A + a*R + 2*r*a) / (r*A + a*R + 2*R*A)
   const rA = runeAddAmount.mul(A);
@@ -108,10 +105,9 @@ const getEstimatedPoolShareAfterAdd = ({
   const numerator = P.mul(rA.add(aR.add(ra.mul(2))));
   const denominator = rA.add(aR.add(RA.mul(2)));
   const diffAfterAdd = numerator.div(denominator || 1);
-  const estimatedLiquidityUnits = poolLiquidityUnits.mul(diffAfterAdd);
 
   if (diffAfterAdd.gt(0)) {
-    return estimatedLiquidityUnits.div(P || 1).getValue('number');
+    return diffAfterAdd.div(P || 1).getValue('number');
   }
 
   return 0;

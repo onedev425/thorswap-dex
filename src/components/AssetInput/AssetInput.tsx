@@ -8,7 +8,8 @@ import { Box, Icon, Tooltip } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { InputAmount } from 'components/InputAmount';
 import { useFormatPrice } from 'helpers/formatPrice';
-import { useCallback, useMemo } from 'react';
+import { useBalance } from 'hooks/useBalance';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 
 import type { AssetInputProps } from './types';
@@ -32,8 +33,15 @@ export const AssetInput = ({
   ...rest
 }: AssetInputProps) => {
   const formatPrice = useFormatPrice({ prefix: '$' });
+  const [walletBalance, setWalletBalance] = useState<AssetValue>();
 
   const { asset, balance, loading, priceLoading, usdPrice, logoURI, value } = selectedAsset;
+
+  const { getMaxBalance } = useBalance();
+
+  useEffect(() => {
+    getMaxBalance(asset).then((maxBalance) => setWalletBalance(maxBalance));
+  }, [asset, getMaxBalance]);
 
   const localPriceLoading = useMemo(
     () => (typeof priceLoading === 'boolean' ? priceLoading : loading),
@@ -161,13 +169,13 @@ export const AssetInput = ({
         </Box>
 
         <Box center row className="gap-1 pb-2 pr-2 md:pr-0">
-          {balance && (
+          {balance && walletBalance && (
             <Text fontWeight="medium" variant="secondary">
-              {t('common.balance')}: {balance?.toSignificant(6) || '0'}
+              {t('common.balance')}: {walletBalance?.toSignificant(6) || '0'}
             </Text>
           )}
 
-          {(balance || !hideMaxButton) && !disabled && (
+          {((balance && walletBalance) || !hideMaxButton) && !disabled && (
             <MaxPopover
               disabled={!balance}
               maxButtonLabel={maxButtonLabel}
