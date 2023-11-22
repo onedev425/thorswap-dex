@@ -762,9 +762,6 @@
       "version": "Version",
       "watchList": "Favoris"
     },
-    "onRamp": {
-      "title": "Rampe d'accès Fiat"
-    },
     "pendingLiquidity": {
       "addToComplete": "Ajouter à compléter",
       "assetTicker": "RUNE",

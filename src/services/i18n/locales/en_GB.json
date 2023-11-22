@@ -755,9 +755,6 @@
       "version": "Version",
       "watchList": "Watch List"
     },
-    "onRamp": {
-      "title": "Fiat onramp"
-    },
     "pendingLiquidity": {
       "addToComplete": "Add to complete",
       "assetTicker": "RUNE",

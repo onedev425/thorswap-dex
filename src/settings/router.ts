@@ -33,7 +33,6 @@ export enum ROUTES {
   TxCreatePool = '/txcreate/:assetParam',
   TxImport = '/tximport',
   TxMultisig = '/txthorsafe',
-  OnRamp = '/onramp',
   Earn = '/earn',
   EarnAsset = '/earn/:asset',
   Lending = '/lending',

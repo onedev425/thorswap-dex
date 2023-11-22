@@ -762,9 +762,6 @@
       "version": "Version",
       "watchList": "ウォッチリスト"
     },
-    "onRamp": {
-      "title": "フィアット・オンランプ"
-    },
     "pendingLiquidity": {
       "addToComplete": "コンプリートに追加",
       "assetTicker": "RUNE",

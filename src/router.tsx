@@ -29,7 +29,6 @@ const Staking = lazy(() => import('views/Staking'));
 const Thorname = lazy(() => import('views/Thorname'));
 const Vesting = lazy(() => import('views/Vesting'));
 const Wallet = lazy(() => import('views/Wallet'));
-const OnRamp = lazy(() => import('views/OnRamp'));
 const MultisigCreate = lazy(() => import('views/Multisig/MultisigCreate/MultisigCreate'));
 const MultisigImport = lazy(() => import('views/Multisig/MultisigImport/MultisigImport'));
 const Transaction = lazy(() => import('views/Transaction/Transaction'));
@@ -65,7 +64,6 @@ const routes: RouteType = [
   { path: ROUTES.NodeManager, element: NodeManager },
   { path: ROUTES.Nodes, element: Nodes },
   { path: ROUTES.Nodes, element: Nodes },
-  { path: ROUTES.OnRamp, element: OnRamp },
   { path: ROUTES.Send, element: Send },
   { path: ROUTES.SendAsset, element: Send },
   { path: ROUTES.Stake, element: Staking },

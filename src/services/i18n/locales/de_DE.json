@@ -762,9 +762,6 @@
       "version": "Version",
       "watchList": "Watchlist"
     },
-    "onRamp": {
-      "title": "Fiat-Rampe"
-    },
     "pendingLiquidity": {
       "addToComplete": "Zur Vervollständigung hinzufügen",
       "assetTicker": "RUNE",
