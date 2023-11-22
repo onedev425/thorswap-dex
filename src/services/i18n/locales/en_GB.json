@@ -916,6 +916,7 @@
       "priceProtectionUnavailableDesc": "Due to limitations with the Ledger %{chain} app, price protection is not available for this trade. You may lose funds. If you choose to continue, THORSwap is not responsible for lost funds.",
       "routeContractApproved": "Contract for this route swap has been approved.",
       "slippage": "Slippage",
+      "slippageConfirmationWarning": "Slippage tolerance is too low, you may not get the best price. Are you sure you want to continue?",
       "slippageTolerance": "Slippage Tolerance",
       "smallSwapDisclaimer": "Swaps under $500 USD do not have price protection on the THORChain part of the swap and will be executed at market rate.",
       "streamSwapDisclaimer": "Price-optimized swaps (streaming swaps) are executed at market rate",

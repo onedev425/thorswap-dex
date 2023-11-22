@@ -3,6 +3,7 @@ import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useWallet } from 'context/wallet/hooks';
 import { memo, useCallback, useMemo, useState } from 'react';
+import { useAppSelector } from 'store/store';
 import { useLazyGetAddressVerifyQuery } from 'store/thorswap/api';
 
 import { ConfirmContent } from './ConfirmContent';
@@ -17,7 +18,7 @@ type Props = {
   outputAssetProps: AssetInputType;
   recipient: string;
   setVisible: (visible: boolean) => void;
-  slippageInfo: string;
+  slippage: number;
   handleSwap: () => Promise<void>;
   totalFee: string;
   visible: boolean;
@@ -36,19 +37,26 @@ export const ConfirmSwapModal = memo(
     outputAssetProps,
     recipient,
     setVisible,
-    slippageInfo,
+    slippage,
     totalFee,
     visible,
     streamSwap,
     inputUSDPrice,
     selectedRoute,
   }: Props) => {
-    const [addressesVerified, setAddressesVerified] = useState(true);
+    const [fetchAddressVerify] = useLazyGetAddressVerifyQuery();
     const { getWalletAddress } = useWallet();
+
+    const [addressesVerified, setAddressesVerified] = useState(true);
+    const slippageTolerance = useAppSelector(({ app }) => app.slippageTolerance);
+    const slipHigherThanTolerance = useMemo(
+      () => slippage * 100 > slippageTolerance,
+      [slippage, slippageTolerance],
+    );
+    const [confirmedSlippage, setConfirmedSlippage] = useState(false);
+
     const { asset: inputAsset } = inputAssetProps;
     const { asset: outputAsset } = outputAssetProps;
-
-    const [fetchAddressVerify] = useLazyGetAddressVerifyQuery();
 
     const from = useMemo(
       () => getWalletAddress(inputAsset.chain),
@@ -101,7 +109,7 @@ export const ConfirmSwapModal = memo(
 
     return (
       <ConfirmModal
-        buttonDisabled={!addressesVerified}
+        buttonDisabled={!addressesVerified || (slipHigherThanTolerance && !confirmedSlippage)}
         inputAssets={[inputAsset]}
         isOpened={visible}
         onClose={() => setVisible(false)}
@@ -109,14 +117,17 @@ export const ConfirmSwapModal = memo(
       >
         <ConfirmContent
           affiliateFee={affiliateFee}
+          confirmedSlippage={confirmedSlippage}
           estimatedTime={estimatedInfo}
           feeAssets={feeAssets}
           inputAsset={inputAssetProps}
           minReceive={minReceive}
           outputAsset={outputAssetProps}
           recipient={recipient}
+          setConfirmedSlippage={setConfirmedSlippage}
           showSmallSwapWarning={showSmallSwapWarning}
-          slippageInfo={slippageInfo}
+          slipHigherThanTolerance={slipHigherThanTolerance}
+          slippage={slippage}
           streamSwap={streamSwap}
           swapMemo={memo}
           totalFee={totalFee}

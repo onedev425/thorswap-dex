@@ -2,10 +2,11 @@ import { Flex, Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { AssetIcon } from 'components/AssetIcon';
 import type { AssetInputType } from 'components/AssetInput/types';
-import { Box, Icon, Tooltip } from 'components/Atomic';
+import { Box, Checkbox, Icon, Tooltip } from 'components/Atomic';
 import { ChainBadge } from 'components/ChainBadge';
 import { InfoTip } from 'components/InfoTip';
 import { hexlify, toUtf8Bytes } from 'ethers';
+import { parseToPercent } from 'helpers/parseHelpers';
 import { shortenAddress } from 'helpers/shortenAddress';
 import { memo, useMemo } from 'react';
 import { t } from 'services/i18n';
@@ -15,7 +16,7 @@ type Props = {
   outputAsset: AssetInputType;
   recipient: string;
   estimatedTime: string;
-  slippageInfo: string;
+  slippage: number;
   minReceive: string;
   totalFee: string;
   affiliateFee: string;
@@ -23,15 +24,21 @@ type Props = {
   swapMemo: string;
   streamSwap: boolean;
   showSmallSwapWarning: boolean;
+  slipHigherThanTolerance: boolean;
+  setConfirmedSlippage: (value: boolean) => void;
+  confirmedSlippage: boolean;
 };
 
 export const ConfirmContent = memo(
   ({
+    setConfirmedSlippage,
+    slipHigherThanTolerance,
+    confirmedSlippage,
     inputAsset,
     outputAsset,
     recipient,
     estimatedTime,
-    slippageInfo,
+    slippage,
     minReceive,
     totalFee,
     streamSwap,
@@ -119,7 +126,9 @@ export const ConfirmContent = memo(
                 <Text fontWeight="medium" textStyle="caption" variant="secondary">
                   {t('common.slippage')}
                 </Text>
-                <Text textStyle="caption">{slippageInfo}</Text>
+                <Text color={slipHigherThanTolerance ? 'red' : ''} textStyle="caption">
+                  {parseToPercent(slippage)}
+                </Text>
               </Box>
             </Box>
 
@@ -212,6 +221,19 @@ export const ConfirmContent = memo(
               </>
             )}
           </Box>
+
+          {slipHigherThanTolerance && (
+            <Checkbox
+              className="pt-4 pb-2"
+              label={
+                <Box alignCenter>
+                  <Text>{t('views.swap.slippageConfirmationWarning')}</Text>
+                </Box>
+              }
+              onValueChange={setConfirmedSlippage}
+              value={confirmedSlippage}
+            />
+          )}
 
           {streamSwap && (
             <InfoTip className="mt-4" title={t('views.swap.streamSwapDisclaimer')} type="warn" />
