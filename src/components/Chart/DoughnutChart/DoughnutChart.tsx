@@ -92,8 +92,8 @@ export const DoughnutChart = ({
   const chartData = useMemo(() => {
     const usdPrices = data.map(({ asset, amount, earnedAmount }) => {
       const assetAmount = isEarned
-        ? amount.getValue('number')
-        : earnedAmount?.getValue('number') || 0;
+        ? earnedAmount?.getValue('number') || 0
+        : amount.getValue('number');
 
       return (tokenPricesData[asset.toString()]?.price_usd || 0) * assetAmount;
     });

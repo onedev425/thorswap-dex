@@ -481,6 +481,7 @@ export const useAddLiquidity = ({
       const { addLiquidityPart } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
+        // @ts-expect-error
         const { runeTx, assetTx } = await addLiquidityPart(params);
 
         if (runeTx !== 'failed') {
