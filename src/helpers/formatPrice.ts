@@ -41,7 +41,7 @@ const formatter = ({
     return parsedAmount;
   } else {
     const skNumber = new SwapKitNumber(parsedAmount);
-    return skNumber.gt(0) ? `${format?.prefix || ''}${skNumber.toFixed(numOfDecimals)}` : '0';
+    return skNumber.toCurrency('$', { decimal: numOfDecimals });
   }
 };
 

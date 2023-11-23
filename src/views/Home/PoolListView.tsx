@@ -25,7 +25,7 @@ const POOLS_TIME_PERIODS_OPTIONS_LABELS = [
 
 export const PoolListView = memo(() => {
   const [keyword, setKeyword] = useState('');
-  const [selectedTimePeriod, setSelectedTimePeriod] = useState(0);
+  const [selectedTimePeriod, setSelectedTimePeriod] = useState(4);
   const { isMdActive } = useWindowSize();
 
   const { filteredPools, poolsLoading } = useLiquidityPools({
