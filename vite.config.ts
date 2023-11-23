@@ -73,7 +73,7 @@ export default defineConfig({
 
       /**
        * To operate locally on external libraries you can copy paste their `/src`
-       * file and use like below:
+       * file and use like below and run yarn start --force
        */
       // '@swapkit/core': resolve(__dirname, 'src/c'),
     },

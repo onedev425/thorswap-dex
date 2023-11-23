@@ -10,7 +10,7 @@ import { useLPMemberData } from 'hooks/useLiquidityData';
 import { useMimir } from 'hooks/useMimir';
 import { useNetworkFee } from 'hooks/useNetworkFee';
 import { useTokenPrices } from 'hooks/useTokenPrices';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
 import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
 import { useExternalConfig } from 'store/externalConfig/hooks';
@@ -155,6 +155,46 @@ const getMaxSymAmounts = ({
   return { maxSymAssetAmount, maxSymRuneAmount };
 };
 
+type Actions =
+  | { type: 'setLpProgressModal'; payload: boolean }
+  | { type: 'setContract'; payload: string }
+  | {
+      type: 'setLPProgressState';
+      payload: {
+        assetAddress?: string;
+        poolAddress: string;
+        poolAssetValue?: AssetValue;
+        runeAddress?: string;
+        runeAssetValue?: AssetValue;
+      };
+    };
+
+const initialState = {
+  assetAddress: '',
+  contract: '',
+  lpProgressModal: false,
+  poolAddress: '',
+  poolAssetValue: undefined as AssetValue | undefined,
+  runeAddress: '',
+  runeAssetValue: undefined as AssetValue | undefined,
+};
+
+const reducer = (state: typeof initialState, { type, payload }: Actions) => {
+  switch (type) {
+    case 'setLpProgressModal':
+      return { ...state, lpProgressModal: payload };
+
+    case 'setContract':
+      return { ...state, contract: payload };
+
+    case 'setLPProgressState':
+      return { ...state, ...payload, lpProgressModal: true };
+
+    default:
+      return state;
+  }
+};
+
 export const useAddLiquidity = ({
   onAddLiquidity,
   skipWalletCheck,
@@ -171,8 +211,8 @@ export const useAddLiquidity = ({
   const { setIsConnectModalOpen } = useWalletConnectModal();
   const { isChainPauseLPAction } = useMimir();
   const { getChainDepositLPPaused } = useExternalConfig();
-  const [contract, setContract] = useState<string | undefined>();
   const { data: tokenPricesData } = useTokenPrices([RUNEAsset, poolAsset]);
+  const [state, reducerDispatch] = useReducer(reducer, initialState);
 
   const {
     isWalletAssetConnected,
@@ -266,7 +306,7 @@ export const useAddLiquidity = ({
       throw new Error('Trading & LP is temporarily halted, please try again later.');
     }
 
-    setContract(router);
+    reducerDispatch({ type: 'setContract', payload: router || '' });
   }, []);
 
   useEffect(() => {
@@ -275,7 +315,7 @@ export const useAddLiquidity = ({
 
   const { isApproved, isLoading } = useIsAssetApproved({
     assetValue: poolAsset.set(assetAmount.getValue('string')),
-    contract,
+    contract: state.contract,
     force: true,
   });
 
@@ -500,8 +540,8 @@ export const useAddLiquidity = ({
         liquidityType === LiquidityTypeOption.SYMMETRICAL
           ? ('sym' as const)
           : liquidityType === LiquidityTypeOption.ASSET
-          ? ('asset' as const)
-          : ('rune' as const);
+            ? ('asset' as const)
+            : ('rune' as const);
 
       const params = {
         runeAssetValue: RUNEAsset.set(runeAmount.getValue('string')),
@@ -548,6 +588,43 @@ export const useAddLiquidity = ({
     lpMemberData?.runeAddress,
     lpMemberData?.assetAddress,
     appDispatch,
+  ]);
+
+  const handleConfirmProgressModal = useCallback(async () => {
+    setVisibleConfirmModal(false);
+
+    if (hasWallet && poolData) {
+      const runeAssetValue =
+        liquidityType !== LiquidityTypeOption.ASSET && !isRunePending
+          ? RUNEAsset.set(runeAmount.getValue('string'))
+          : undefined;
+      const poolAssetValue =
+        liquidityType !== LiquidityTypeOption.RUNE && !isAssetPending
+          ? poolAsset.set(assetAmount.getValue('string'))
+          : undefined;
+
+      const { getAddress } = await (await import('services/swapKit')).getSwapKitClient();
+
+      reducerDispatch({
+        type: 'setLPProgressState',
+        payload: {
+          runeAssetValue,
+          poolAssetValue,
+          poolAddress: poolAsset.toString(),
+          runeAddress: getAddress(Chain.THORChain),
+          assetAddress: getAddress(poolAsset.chain),
+        },
+      });
+    }
+  }, [
+    hasWallet,
+    poolData,
+    liquidityType,
+    isAssetPending,
+    runeAmount,
+    isRunePending,
+    poolAsset,
+    assetAmount,
   ]);
 
   const handleConfirmApprove = useCallback(async () => {
@@ -768,7 +845,13 @@ export const useAddLiquidity = ({
     return Number.isNaN(priceRate) ? 0 : priceRate;
   }, [poolString, tokenPricesData]);
 
+  const setLpProgressModal = useCallback(
+    (value: boolean) => reducerDispatch({ type: 'setLpProgressModal', payload: value }),
+    [reducerDispatch],
+  );
+
   return {
+    ...state,
     addLiquiditySlip,
     approveConfirmInfo,
     asymmTipVisible,
@@ -782,6 +865,7 @@ export const useAddLiquidity = ({
     handleChangeAssetAmount,
     handleChangeRuneAmount,
     handleConfirmAdd,
+    handleConfirmProgressModal,
     handleConfirmApprove,
     handleSelectLiquidityType,
     isApproveRequired,
@@ -798,6 +882,7 @@ export const useAddLiquidity = ({
     runeAssetInput,
     setAsymmTipVisible,
     setIsConnectModalOpen,
+    setLpProgressModal,
     setVisibleApproveModal,
     setVisibleConfirmModal,
     title,

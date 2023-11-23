@@ -3,7 +3,7 @@ import { AssetValue, SwapKitNumber } from '@swapkit/core';
 import { RUNEAsset } from 'helpers/assets';
 import { useBalance } from 'hooks/useBalance';
 import { usePools } from 'hooks/usePools';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type Props = {
   includeRune?: boolean;
@@ -11,6 +11,7 @@ type Props = {
 };
 
 export const useAssetsWithBalance = ({ assets, includeRune }: Props = {}) => {
+  const loading = useRef(false);
   const { getMaxBalance, isWalletConnected } = useBalance();
   const { pools } = usePools();
 
@@ -41,13 +42,17 @@ export const useAssetsWithBalance = ({ assets, includeRune }: Props = {}) => {
       );
     }
 
-    Promise.all(assetPromises).then((balancePools) =>
+    if (loading.current) return;
+    loading.current = true;
+    Promise.all(assetPromises).then((balancePools) => {
       setAssetsWithBalance(
         assetsMap.length > 0
           ? balancePools.filter((pool) => assetsMap.includes(pool.asset.symbol))
           : balancePools,
-      ),
-    );
+      );
+
+      loading.current = true;
+    });
   }, [assets, getMaxBalance, includeRune, isWalletConnected, pools]);
 
   return assetsWithBalance;

@@ -47,8 +47,10 @@
     "balance": "Balance",
     "borrow": "Borrow",
     "cancel": "Cancel",
+    "changeWallet": "Change Wallet",
     "claim": "Claim",
     "clearHistory": "Clear History",
+    "close": "Close",
     "comingSoon": "Coming Soon",
     "confirm": "Confirm",
     "connect": "Connect",
@@ -427,10 +429,15 @@
   },
   "views": {
     "addLiquidity": {
+      "addAssetLabel": "Add %{asset}",
+      "addAssetStatusLabel": "Add %{asset} TX Status",
       "asymmetricPoolNotice": "Your assets will be Rebalanced upon entering the pool. This means you will have 50:50 exposure to both RUNE and your ASSET.",
       "asymmetricPoolNotice0": "Your %{depositAsset} will be rebalanced upon entering the pool. This means you will have 50:50 exposure to both RUNE and %{asset}.",
       "asymmetricPoolTip": "You are about to deposit to a pool asymmetrically.",
       "description": "Provide native liquidity to THORChain ",
+      "lpProgressModalDescription": "You are about to add liquidity to a pool.\nThis process may involve two transactions. You can change your wallet in middle of the process. Please make sure you have enough balance to cover the transaction fee.\nThis process may take from few minutes to few hours depending on the network congestion.",
+      "lpProgressModalTitle": "Adding Liquidity",
+      "pendingAssetLabel": "Pending %{asset}",
       "pricesAndPoolShare": "Prices and Pool Share",
       "shareOfPool": "Share of Pool",
       "title": "Provide liquidity to THORChain"
@@ -450,6 +457,7 @@
     },
     "home": {
       "aprExplanation": "Based on 30 day average LUVI metrics, past performance is not an exact project of future yield. Click on ? to learn more.",
+      "aprPeriodRange": "Select APR Period",
       "chart_add": "Add",
       "chart_bondEarning": "Bond Earning",
       "chart_earned": "Earned",
@@ -462,8 +470,7 @@
       "chart_volume": "Volume",
       "chart_withdraw": "Withdraw",
       "description": "Statistics for THORChain token pools",
-      "title": "THORChain pool statistics",
-	  "aprPeriodRange": "Select APR Period"
+      "title": "THORChain pool statistics"
     },
     "lending": {
       "actions": "Actions",

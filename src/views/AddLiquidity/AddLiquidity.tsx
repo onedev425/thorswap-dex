@@ -17,6 +17,7 @@ import { usePools } from 'hooks/usePools';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { LiquidityTypeOption, PoolShareType } from 'store/midgard/types';
+import { AddLPProgressModal } from 'views/AddLiquidity/AddLPProgressModal';
 import { useAddLiquidity } from 'views/AddLiquidity/hooks/hooks';
 import { useAddLiquidityPools } from 'views/AddLiquidity/hooks/useAddLiquidityPools';
 import { useDepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance';
@@ -59,15 +60,17 @@ export const AddLiquidity = () => {
   const {
     addLiquiditySlip,
     approveConfirmInfo,
+    assetAddress,
     asymmTipVisible,
     btnLabel,
     confirmInfo,
     depositAssets,
+    feeInUSD,
     handleAddLiquidity,
     handleApprove,
     handleChangeAssetAmount,
     handleChangeRuneAmount,
-    handleConfirmAdd,
+    handleConfirmProgressModal,
     handleConfirmApprove,
     handleSelectLiquidityType,
     isApproveRequired,
@@ -77,16 +80,21 @@ export const AddLiquidity = () => {
     isRunePending,
     isValidDeposit,
     isWalletConnected,
-    poolAssetInput,
     lpMemberData,
+    lpProgressModal,
+    poolAddress,
+    poolAssetInput,
+    poolAssetValue,
     poolShareEst,
     rate,
+    runeAddress,
     runeAssetInput,
+    runeAssetValue,
     setAsymmTipVisible,
     setIsConnectModalOpen,
+    setLpProgressModal,
     setVisibleApproveModal,
     setVisibleConfirmModal,
-    feeInUSD,
     visibleApproveModal,
     visibleConfirmModal,
   } = useAddLiquidity({
@@ -221,7 +229,7 @@ export const AddLiquidity = () => {
         inputAssets={depositAssets}
         isOpened={visibleConfirmModal}
         onClose={() => setVisibleConfirmModal(false)}
-        onConfirm={handleConfirmAdd}
+        onConfirm={handleConfirmProgressModal}
       >
         <InfoTable items={confirmInfo} />
       </ConfirmModal>
@@ -235,6 +243,18 @@ export const AddLiquidity = () => {
         >
           <InfoTable items={approveConfirmInfo} />
         </ConfirmModal>
+      )}
+
+      {lpProgressModal && (
+        <AddLPProgressModal
+          assetAddress={assetAddress}
+          isOpened={lpProgressModal}
+          onClose={() => setLpProgressModal(false)}
+          poolAddress={poolAddress}
+          poolAssetValue={poolAssetValue}
+          runeAddress={runeAddress}
+          runeAssetValue={runeAssetValue}
+        />
       )}
     </PanelView>
   );

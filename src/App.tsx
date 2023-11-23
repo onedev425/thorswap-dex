@@ -106,7 +106,6 @@ const AppProviders = () => {
 
   const loadAssets = () =>
     AssetValue.loadStaticAssets().then(({ ok }) => {
-      console.log('loadAssets', ok);
       setAssetLoaded(ok);
     });
 

@@ -61,7 +61,8 @@ export const useSwap = ({
 
     try {
       const from = wallet?.[inputAsset.chain as keyof typeof wallet]?.address;
-      if (!from && route) {
+
+      if (route) {
         if (!from) throw new Error('No address found');
 
         const label = `${inputAsset.toSignificant(6)} ${
