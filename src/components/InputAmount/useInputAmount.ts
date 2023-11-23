@@ -9,9 +9,7 @@ export const useInputAmount = ({ amountValue, onAmountChange }: AmountProps) => 
   const { decimal } = amountValue;
   const inputValue = useMemo(() => (amountValue?.gt(0) ? amountValue : undefined), [amountValue]);
 
-  const formatPriceOptions = useMemo(() => ({ decimals: decimal, prefix: '' }), [decimal]);
-
-  const formatPrice = useFormatPrice(formatPriceOptions);
+  const formatPrice = useFormatPrice(decimal, '');
   const [rawValue, setRawValue] = useState(inputValue ? formatPrice(inputValue) : '');
 
   const handleRawValueChange = useCallback(

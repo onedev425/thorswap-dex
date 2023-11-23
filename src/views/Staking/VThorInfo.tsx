@@ -23,7 +23,7 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
   const [isStakeInfoOpen, setStakeInfoOpen] = useState(true);
   const [vthorApr, setVthorApr] = useState(0);
   const { thorStaked, vthorBalance, handleRefresh, thorRedeemable } = useVthorUtil();
-  const formatPrice = useFormatPrice({ prefix: '' });
+  const formatPrice = useFormatPrice();
   const { hasStakedV1Thor } = useV1ThorStakeInfo(ethAddress);
   const handleStatsRefresh = useCallback(() => {
     setIsFetching(true);

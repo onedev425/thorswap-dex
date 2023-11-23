@@ -32,7 +32,7 @@ export const AssetInput = ({
   displayAssetTypeComponent,
   ...rest
 }: AssetInputProps) => {
-  const formatPrice = useFormatPrice({ prefix: '$' });
+  const formatPrice = useFormatPrice();
   const [walletBalance, setWalletBalance] = useState<AssetValue>();
 
   const { asset, balance, loading, priceLoading, usdPrice, logoURI, value } = selectedAsset;

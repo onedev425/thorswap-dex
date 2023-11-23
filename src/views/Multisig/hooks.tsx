@@ -16,12 +16,12 @@ import { useGetGasPriceRatesQuery } from 'store/thorswap/api';
 export const useMultisigWalletInfo = () => {
   const { runeBalance, loadingBalances } = useMultissigAssets();
   const { address, threshold } = useAppSelector(({ multisig }) => multisig);
-  const formatPrice = useFormatPrice();
+  const formatPrice = useFormatPrice(2, '');
 
   const { shortAddress, handleCopyAddress } = useAddressUtils(address);
-  const formattedRune = `${formatPrice(runeBalance || 0, {
-    prefix: '',
-  })} ${AssetValue.fromChainOrSignature(Chain.THORChain).ticker}`;
+  const formattedRune = `${formatPrice(runeBalance || 0)} ${
+    AssetValue.fromChainOrSignature(Chain.THORChain).ticker
+  }`;
 
   const runeValue = useMemo(() => {
     if (runeBalance) {

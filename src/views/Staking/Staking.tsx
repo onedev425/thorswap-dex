@@ -52,7 +52,7 @@ const Staking = () => {
   const [isReverted, setReverted] = useState(true);
   const [isModalOpened, setModalOpened] = useState(false);
 
-  const formatter = useFormatPrice({ prefix: '' });
+  const formatter = useFormatPrice();
   const { getRateString, previewDeposit, previewRedeem, stakeThor, unstakeThor } = useVthorUtil();
   const { setIsConnectModalOpen } = useWalletConnectModal();
   const { getWallet } = useWallet();

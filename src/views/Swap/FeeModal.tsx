@@ -20,7 +20,7 @@ type Props = {
 };
 
 export const FeeModal = memo(({ totalFee, fees, isOpened, onClose }: Props) => {
-  const formatPrice = useFormatPrice();
+  const formatPrice = useFormatPrice(2, '');
   const rows: InfoRowConfig[] = useMemo(() => {
     if (!fees) return [];
 
@@ -67,7 +67,7 @@ export const FeeModal = memo(({ totalFee, fees, isOpened, onClose }: Props) => {
                   </Text>
                   <AssetIcon asset={feeAsset} size={14} />
                   <Text textStyle="caption-xs" variant="secondary">
-                    {formatPrice(networkFee, { prefix: '' })})
+                    {formatPrice(networkFee)})
                   </Text>
                 </>
               )}

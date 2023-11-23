@@ -3,8 +3,6 @@ import { useCallback } from 'react';
 
 type Value = AssetValue | SwapKitNumber | number | string;
 
-type FormatOptions = { prefix: string; decimals?: number };
-
 const getNumberOfDecimals = (amount: Value) => {
   if (!amount) return 2;
   const price =
@@ -25,11 +23,11 @@ const getNumberOfDecimals = (amount: Value) => {
 
 const formatter = ({
   amount,
-  format,
   decimals,
+  prefix,
 }: {
+  prefix?: string;
   amount: Value;
-  format?: FormatOptions;
   decimals?: number;
 }) => {
   const parsedAmount = typeof amount === 'object' ? amount.getValue('string') : amount;
@@ -41,17 +39,17 @@ const formatter = ({
     return parsedAmount;
   } else {
     const skNumber = new SwapKitNumber(parsedAmount);
-    return skNumber.toCurrency('$', { decimal: numOfDecimals });
+    return skNumber.toCurrency(prefix || '$', { decimal: numOfDecimals });
   }
 };
 
-export const useFormatPrice = (options?: FormatOptions) =>
+export const useFormatPrice = (decimals?: number, prefix?: string) =>
   useCallback(
-    (amount: Value, format?: FormatOptions) =>
+    (amount: Value) =>
       formatter({
         amount,
-        format: format || options,
-        decimals: options?.decimals || (amount instanceof AssetValue ? amount.decimal : undefined),
+        prefix,
+        decimals: decimals || (amount instanceof AssetValue ? amount.decimal : undefined),
       }),
-    [options],
+    [decimals, prefix],
   );

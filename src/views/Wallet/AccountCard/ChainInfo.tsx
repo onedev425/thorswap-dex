@@ -12,7 +12,7 @@ type Props = {
 };
 
 export const ChainInfo = memo(({ assetValue, priceData }: Props) => {
-  const formatPrice = useFormatPrice();
+  const formatPrice = useFormatPrice(2, '');
 
   const { currentPrice, priceChangePercentage24h } = useMemo(() => {
     const { price_usd, cg } = priceData?.[assetValue.toString()] || {};
@@ -24,9 +24,9 @@ export const ChainInfo = memo(({ assetValue, priceData }: Props) => {
   }, [assetValue, priceData]);
 
   const assetNumberValue = assetValue.getValue('number');
-  const value = `${formatPrice(assetNumberValue, {
-    prefix: '',
-  })} (${formatPrice(assetNumberValue * currentPrice)})`;
+  const value = `${formatPrice(assetNumberValue)} (${formatPrice(
+    assetNumberValue * currentPrice,
+  )})`;
 
   return (
     <Box
